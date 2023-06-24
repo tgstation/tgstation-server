@@ -87,7 +87,6 @@ Setup</h1>
 <h2><a class="anchor" id="autotoc_md3"></a>
 Pre-Requisites</h2>
 <ul>
-<li><a href="https://dotnet.microsoft.com/download/dotnet/6.0">ASP .NET Core Runtime (&gt;= v6.0)</a> (Choose the option to <code>Run Server Apps</code> for your system) If you plan to install tgstation-server as a Windows service, you should also ensure that your .NET Framework runtime version is &gt;= v4.7.2 (Download can be found on same page). Ensure that the <code>dotnet</code> executable file is in your system's <code>PATH</code> variable (or that of the user's that will be running the server).</li>
 <li>A <a href="https://downloads.mariadb.org/">MariaDB</a>, MySQL, <a href="https://www.postgresql.org/download/">PostgresSQL</a>, or <a href="https://www.microsoft.com/en-us/download/details.aspx?id=55994">Microsoft SQL Server</a> database engine is required</li>
 </ul>
 <h2><a class="anchor" id="autotoc_md4"></a>
@@ -95,6 +94,7 @@ Installation</h2>
 <p >Follow the instructions for your OS below.</p>
 <h3><a class="anchor" id="autotoc_md5"></a>
 Windows</h3>
+<p >Download and install the <a href="https://dotnet.microsoft.com/download/dotnet/6.0">ASP .NET Core Runtime (&gt;= v6.0)</a> (Choose the option to <code>Run Server Apps</code> for your system). If you plan to install tgstation-server as a Windows service, you should also ensure that your .NET Framework runtime version is &gt;= v4.7.2 (Most modern systems have it by default. Download can be found on same page). Ensure that the <code>dotnet</code> executable file is in your system's <code>PATH</code> variable (or that of the user's that will be running the server), you can test this by opening a command prompt and running <code>dotnet --list-runtimes</code>.</p>
 <p ><a href="https://github.com/tgstation/tgstation-server/releases/latest">Download the latest release .zip</a>. You probably want the <code>ServerService</code> package. Choose <code>ServerConsole</code> if you prefer not to use the Windows service.</p>
 <p >Extract the .zip file to where you want the server to run from. Note the account running the server must have write and delete access to the <code>lib</code> subdirectory.</p>
 <p >If you wish to install the TGS as a service, run <code>Tgstation.Server.Host.Service.exe</code>. It should prompt you to install it. Click <code>Yes</code> and accept a potential UAC elevation prompt and the setup wizard should run.</p>
@@ -105,14 +105,16 @@ Linux</h3>
 <p >Installing natively is the recommended way to run tgstation-server on Linux.</p>
 <h4><a class="anchor" id="autotoc_md7"></a>
 Ubuntu</h4>
-<p >Install TGS and all it's dependencies via our apt repository with this one-liner:</p>
+<p >Install TGS and all it's dependencies via our apt repository, interactively configure it, and start the service with this one-liner:</p>
 <div class="fragment"><div class="line">sudo dpkg --add-architecture i386 \</div>
 <div class="line">&amp;&amp; sudo apt update \</div>
 <div class="line">&amp;&amp; sudo apt install -y software-properties-common \</div>
 <div class="line">&amp;&amp; sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv B6FD15EE7ED77676EAEAF910EEEDC8280A307527 \</div>
 <div class="line">&amp;&amp; sudo add-apt-repository -y &quot;deb https://tgstation.github.io/tgstation-ppa/debian unstable main&quot; \</div>
 <div class="line">&amp;&amp; sudo apt update \</div>
-<div class="line">&amp;&amp; sudo apt install -y tgstation-server</div>
+<div class="line">&amp;&amp; sudo apt install -y tgstation-server \</div>
+<div class="line">&amp;&amp; sudo tgs-configure \</div>
+<div class="line">&amp;&amp; sudo systemctl start tgstation-server</div>
 </div><!-- fragment --><h4><a class="anchor" id="autotoc_md8"></a>
 Debian</h4>
 <p >The <code>aspnetcore-runtime-6.0</code> package isn't yet available on mainline Debian and must be <a href="https://learn.microsoft.com/en-us/dotnet/core/install/linux-debian">installed from Microsoft</a> first. Use the following one-liner to add their packages repository.</p>

@@ -1,4 +1,5 @@
 <map id="Tgstation.Server.Host.Watchdog.Watchdog.RunAsync" name="Tgstation.Server.Host.Watchdog.Watchdog.RunAsync">
-<area shape="rect" id="node1" title="Run the IWatchdog. A Task representing the running operation." alt="" coords="5,5,217,45"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog.html#a8d0f1fffc5a866c3d542d2e1c106fbb4" title="Gets the path to the dotnet executable." alt="" coords="265,5,477,45"/>
+<area shape="rect" id="node1" title="Run the IWatchdog. A Task representing the running operation." alt="" coords="5,37,217,77"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_signal_checker.html#ad5d5015515a0c07d9dd2760e47357f5b" title="Forwards certain signals to a given childPid ." alt="" coords="265,5,477,45"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog.html#a8d0f1fffc5a866c3d542d2e1c106fbb4" title="Gets the path to the dotnet executable." alt="" coords="265,69,477,109"/>
 </map>

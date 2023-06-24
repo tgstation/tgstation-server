@@ -998,37 +998,40 @@ $(function() {
 <div class="line"><a id="l01050" name="l01050"></a><span class="lineno"> 1050</span>                    {</div>
 <div class="line"><a id="l01051" name="l01051"></a><span class="lineno"> 1051</span>                        var bytes = await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_setup_1_1_setup_wizard.html#a184ae525a19269b209054ffbd5da0dae">ioManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ac922bdac0d00614949510725420ddd4e">ReadAllBytes</a>(userConfigFileName, cancellationToken);</div>
 <div class="line"><a id="l01052" name="l01052"></a><span class="lineno"> 1052</span>                        var contents = Encoding.UTF8.GetString(bytes);</div>
-<div class="line"><a id="l01053" name="l01053"></a><span class="lineno"> 1053</span>                        var existingConfigIsEmpty = String.IsNullOrWhiteSpace(contents) || contents.Trim() == <span class="stringliteral">&quot;{}&quot;</span>;</div>
-<div class="line"><a id="l01054" name="l01054"></a><span class="lineno"> 1054</span>                        shouldRunBasedOnAutodetect = existingConfigIsEmpty;</div>
-<div class="line"><a id="l01055" name="l01055"></a><span class="lineno"> 1055</span>                    }</div>
-<div class="line"><a id="l01056" name="l01056"></a><span class="lineno"> 1056</span>                    <span class="keywordflow">else</span></div>
-<div class="line"><a id="l01057" name="l01057"></a><span class="lineno"> 1057</span>                        shouldRunBasedOnAutodetect = <span class="keyword">true</span>;</div>
-<div class="line"><a id="l01058" name="l01058"></a><span class="lineno"> 1058</span> </div>
-<div class="line"><a id="l01059" name="l01059"></a><span class="lineno"> 1059</span>                    <span class="keywordflow">if</span> (!shouldRunBasedOnAutodetect)</div>
-<div class="line"><a id="l01060" name="l01060"></a><span class="lineno"> 1060</span>                    {</div>
-<div class="line"><a id="l01061" name="l01061"></a><span class="lineno"> 1061</span>                        <span class="keywordflow">if</span> (forceRun)</div>
-<div class="line"><a id="l01062" name="l01062"></a><span class="lineno"> 1062</span>                        {</div>
-<div class="line"><a id="l01063" name="l01063"></a><span class="lineno"> 1063</span>                            await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_setup_1_1_setup_wizard.html#aadeb44bb71d804e15c6a6bd0c3131bd7">console</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_console.html#af9dd7697e9f6a0f4a62567e28cd6c470">WriteAsync</a>(String.Format(CultureInfo.InvariantCulture, <span class="stringliteral">&quot;The configuration settings are requesting the setup wizard be run, but you already appear to have a configuration file ({0})!&quot;</span>, userConfigFileName), <span class="keyword">true</span>, cancellationToken);</div>
-<div class="line"><a id="l01064" name="l01064"></a><span class="lineno"> 1064</span> </div>
-<div class="line"><a id="l01065" name="l01065"></a><span class="lineno"> 1065</span>                            forceRun = await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_setup_1_1_setup_wizard.html#a9cdbbb0a183071a732a73e338a122cd0">PromptYesNo</a>(<span class="stringliteral">&quot;Continue running setup wizard? (y/n): &quot;</span>, cancellationToken);</div>
-<div class="line"><a id="l01066" name="l01066"></a><span class="lineno"> 1066</span>                        }</div>
+<div class="line"><a id="l01053" name="l01053"></a><span class="lineno"> 1053</span>                        var lines = contents.Split(<span class="charliteral">&#39;\n&#39;</span>, StringSplitOptions.RemoveEmptyEntries);</div>
+<div class="line"><a id="l01054" name="l01054"></a><span class="lineno"> 1054</span>                        var existingConfigIsEmpty = lines</div>
+<div class="line"><a id="l01055" name="l01055"></a><span class="lineno"> 1055</span>                            .Select(line =&gt; line.Trim())</div>
+<div class="line"><a id="l01056" name="l01056"></a><span class="lineno"> 1056</span>                            .All(line =&gt; line[0] == <span class="charliteral">&#39;#&#39;</span> || line == <span class="stringliteral">&quot;{}&quot;</span> || line.Length == 0);</div>
+<div class="line"><a id="l01057" name="l01057"></a><span class="lineno"> 1057</span>                        shouldRunBasedOnAutodetect = existingConfigIsEmpty;</div>
+<div class="line"><a id="l01058" name="l01058"></a><span class="lineno"> 1058</span>                    }</div>
+<div class="line"><a id="l01059" name="l01059"></a><span class="lineno"> 1059</span>                    <span class="keywordflow">else</span></div>
+<div class="line"><a id="l01060" name="l01060"></a><span class="lineno"> 1060</span>                        shouldRunBasedOnAutodetect = <span class="keyword">true</span>;</div>
+<div class="line"><a id="l01061" name="l01061"></a><span class="lineno"> 1061</span> </div>
+<div class="line"><a id="l01062" name="l01062"></a><span class="lineno"> 1062</span>                    <span class="keywordflow">if</span> (!shouldRunBasedOnAutodetect)</div>
+<div class="line"><a id="l01063" name="l01063"></a><span class="lineno"> 1063</span>                    {</div>
+<div class="line"><a id="l01064" name="l01064"></a><span class="lineno"> 1064</span>                        <span class="keywordflow">if</span> (forceRun)</div>
+<div class="line"><a id="l01065" name="l01065"></a><span class="lineno"> 1065</span>                        {</div>
+<div class="line"><a id="l01066" name="l01066"></a><span class="lineno"> 1066</span>                            await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_setup_1_1_setup_wizard.html#aadeb44bb71d804e15c6a6bd0c3131bd7">console</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_console.html#af9dd7697e9f6a0f4a62567e28cd6c470">WriteAsync</a>(String.Format(CultureInfo.InvariantCulture, <span class="stringliteral">&quot;The configuration settings are requesting the setup wizard be run, but you already appear to have a configuration file ({0})!&quot;</span>, userConfigFileName), <span class="keyword">true</span>, cancellationToken);</div>
 <div class="line"><a id="l01067" name="l01067"></a><span class="lineno"> 1067</span> </div>
-<div class="line"><a id="l01068" name="l01068"></a><span class="lineno"> 1068</span>                        <span class="keywordflow">if</span> (!forceRun)</div>
-<div class="line"><a id="l01069" name="l01069"></a><span class="lineno"> 1069</span>                            <span class="keywordflow">return</span>;</div>
-<div class="line"><a id="l01070" name="l01070"></a><span class="lineno"> 1070</span>                    }</div>
-<div class="line"><a id="l01071" name="l01071"></a><span class="lineno"> 1071</span> </div>
-<div class="line"><a id="l01072" name="l01072"></a><span class="lineno"> 1072</span>                    <span class="comment">// flush the logs to prevent console conflicts</span></div>
-<div class="line"><a id="l01073" name="l01073"></a><span class="lineno"> 1073</span>                    await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_setup_1_1_setup_wizard.html#ae12ec09822e867ea3dd0f99e7357f329">asyncDelayer</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_async_delayer.html#aeb604334bd297d47506dc23e0d115977">Delay</a>(TimeSpan.FromSeconds(1), cancellationToken);</div>
+<div class="line"><a id="l01068" name="l01068"></a><span class="lineno"> 1068</span>                            forceRun = await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_setup_1_1_setup_wizard.html#a9cdbbb0a183071a732a73e338a122cd0">PromptYesNo</a>(<span class="stringliteral">&quot;Continue running setup wizard? (y/n): &quot;</span>, cancellationToken);</div>
+<div class="line"><a id="l01069" name="l01069"></a><span class="lineno"> 1069</span>                        }</div>
+<div class="line"><a id="l01070" name="l01070"></a><span class="lineno"> 1070</span> </div>
+<div class="line"><a id="l01071" name="l01071"></a><span class="lineno"> 1071</span>                        <span class="keywordflow">if</span> (!forceRun)</div>
+<div class="line"><a id="l01072" name="l01072"></a><span class="lineno"> 1072</span>                            <span class="keywordflow">return</span>;</div>
+<div class="line"><a id="l01073" name="l01073"></a><span class="lineno"> 1073</span>                    }</div>
 <div class="line"><a id="l01074" name="l01074"></a><span class="lineno"> 1074</span> </div>
-<div class="line"><a id="l01075" name="l01075"></a><span class="lineno"> 1075</span>                    await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_setup_1_1_setup_wizard.html#af95450fea6b5b6d723d91198b7b41d8e">RunWizard</a>(userConfigFileName, cancellationToken);</div>
-<div class="line"><a id="l01076" name="l01076"></a><span class="lineno"> 1076</span>                }</div>
-<div class="line"><a id="l01077" name="l01077"></a><span class="lineno"> 1077</span>                <span class="keywordflow">finally</span></div>
-<div class="line"><a id="l01078" name="l01078"></a><span class="lineno"> 1078</span>                {</div>
-<div class="line"><a id="l01079" name="l01079"></a><span class="lineno"> 1079</span>                    await finalTask;</div>
-<div class="line"><a id="l01080" name="l01080"></a><span class="lineno"> 1080</span>                }</div>
-<div class="line"><a id="l01081" name="l01081"></a><span class="lineno"> 1081</span>        }</div>
-<div class="line"><a id="l01082" name="l01082"></a><span class="lineno"> 1082</span>    }</div>
-<div class="line"><a id="l01083" name="l01083"></a><span class="lineno"> 1083</span>}</div>
+<div class="line"><a id="l01075" name="l01075"></a><span class="lineno"> 1075</span>                    <span class="comment">// flush the logs to prevent console conflicts</span></div>
+<div class="line"><a id="l01076" name="l01076"></a><span class="lineno"> 1076</span>                    await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_setup_1_1_setup_wizard.html#ae12ec09822e867ea3dd0f99e7357f329">asyncDelayer</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_async_delayer.html#aeb604334bd297d47506dc23e0d115977">Delay</a>(TimeSpan.FromSeconds(1), cancellationToken);</div>
+<div class="line"><a id="l01077" name="l01077"></a><span class="lineno"> 1077</span> </div>
+<div class="line"><a id="l01078" name="l01078"></a><span class="lineno"> 1078</span>                    await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_setup_1_1_setup_wizard.html#af95450fea6b5b6d723d91198b7b41d8e">RunWizard</a>(userConfigFileName, cancellationToken);</div>
+<div class="line"><a id="l01079" name="l01079"></a><span class="lineno"> 1079</span>                }</div>
+<div class="line"><a id="l01080" name="l01080"></a><span class="lineno"> 1080</span>                <span class="keywordflow">finally</span></div>
+<div class="line"><a id="l01081" name="l01081"></a><span class="lineno"> 1081</span>                {</div>
+<div class="line"><a id="l01082" name="l01082"></a><span class="lineno"> 1082</span>                    await finalTask;</div>
+<div class="line"><a id="l01083" name="l01083"></a><span class="lineno"> 1083</span>                }</div>
+<div class="line"><a id="l01084" name="l01084"></a><span class="lineno"> 1084</span>        }</div>
+<div class="line"><a id="l01085" name="l01085"></a><span class="lineno"> 1085</span>    }</div>
+<div class="line"><a id="l01086" name="l01086"></a><span class="lineno"> 1086</span>}</div>
 <div class="ttc" id="aclass_i_hosted_service_html"><div class="ttname"><a href="class_i_hosted_service.html">IHostedService</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_control_panel_configuration_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_control_panel_configuration.html">Tgstation.Server.Host.Configuration.ControlPanelConfiguration</a></div><div class="ttdoc">Configuration options for the web control panel.</div><div class="ttdef"><b>Definition:</b> <a href="_control_panel_configuration_8cs_source.html#l00008">ControlPanelConfiguration.cs:9</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_control_panel_configuration_html_adbbc553f0fd0f2eb4a69a8361c5a9c80"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_control_panel_configuration.html#adbbc553f0fd0f2eb4a69a8361c5a9c80">Tgstation.Server.Host.Configuration.ControlPanelConfiguration.Section</a></div><div class="ttdeci">const string Section</div><div class="ttdoc">The key for the Microsoft.Extensions.Configuration.IConfigurationSection the ControlPanelConfiguratio...</div><div class="ttdef"><b>Definition:</b> <a href="_control_panel_configuration_8cs_source.html#l00013">ControlPanelConfiguration.cs:13</a></div></div>
