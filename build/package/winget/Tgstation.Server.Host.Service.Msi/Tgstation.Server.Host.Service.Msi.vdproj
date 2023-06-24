@@ -307,17 +307,6 @@
                 {
                 }
             }
-            "{1525181F-901A-416C-8A58-119130FE478E}:_D53B13F517CB437C874C9E216C3F8F5F"
-            {
-            "Name" = "8:#1937"
-            "AlwaysCreate" = "11:FALSE"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Property" = "8:CommonFiles64Folder"
-                "Folders"
-                {
-                }
-            }
             "{994432C3-9487-495D-8656-3E829A8DBDDE}:_EB2DCEE6D3F74230A9827AC9B6F47F53"
             {
             "DefaultLocation" = "8:[TARGETDIR]"
