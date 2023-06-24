@@ -92,58 +92,6 @@ namespace Tgstation.Server.Host.Service
 		static Task<int> Main(string[] args) => CommandLineApplication.ExecuteAsync<Program>(args);
 
 		/// <summary>
-		/// Attempt to install the TGS Service.
-		/// </summary>
-		void RunServiceInstall()
-		{
-			// First check if the service already exists
-			if (Force || Environment.UserInteractive)
-				foreach (ServiceController sc in ServiceController.GetServices())
-					if (sc.ServiceName == "tgstation-server" || sc.ServiceName == "tgstation-server-4")
-					{
-						DialogResult result = !Force
-							? MessageBox.Show($"You already have another TGS service installed ({sc.ServiceName}). Would you like to uninstall it now? Pressing \"No\" will cancel this install.", "TGS Service", MessageBoxButtons.YesNo)
-							: DialogResult.Yes;
-						if (result != DialogResult.Yes)
-							return; // is this needed after exit?
-
-						// Stop it first to give it some cleanup time
-						if (sc.Status == ServiceControllerStatus.Running)
-						{
-							sc.Stop();
-							sc.WaitForStatus(ServiceControllerStatus.Stopped);
-						}
-
-						// And remove it
-						using var serviceInstaller = new ServiceInstaller();
-						serviceInstaller.Context = new InstallContext($"old-{sc.ServiceName}-uninstall.log", null);
-
-						if (Silent)
-							serviceInstaller.Context.Parameters["LogToConsole"] = false.ToString();
-
-						serviceInstaller.ServiceName = sc.ServiceName;
-						serviceInstaller.Uninstall(null);
-					}
-
-			using var processInstaller = new ServiceProcessInstaller();
-			using var installer = new ServiceInstaller();
-			processInstaller.Account = ServiceAccount.LocalSystem;
-
-			installer.Context = new InstallContext("tgs-install.log", new string[] { String.Format(CultureInfo.InvariantCulture, "/assemblypath={0}", Assembly.GetEntryAssembly().Location) });
-			if (Silent)
-				installer.Context.Parameters["LogToConsole"] = false.ToString();
-			installer.Description = "tgstation-server running as a windows service";
-			installer.DisplayName = "tgstation-server";
-			installer.StartType = ServiceStartMode.Automatic;
-			installer.ServicesDependedOn = new string[] { "Tcpip", "Dhcp", "Dnscache" };
-			installer.ServiceName = ServerService.Name;
-			installer.Parent = processInstaller;
-
-			var state = new ListDictionary();
-			installer.Install(state);
-		}
-
-		/// <summary>
 		/// Command line handler, always runs.
 		/// </summary>
 		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
@@ -206,6 +154,58 @@ namespace Tgstation.Server.Host.Service
 
 			if (Configure)
 				await RunConfigure(CancellationToken.None); // DCT: None available
+		}
+
+		/// <summary>
+		/// Attempt to install the TGS Service.
+		/// </summary>
+		void RunServiceInstall()
+		{
+			// First check if the service already exists
+			if (Force || Environment.UserInteractive)
+				foreach (ServiceController sc in ServiceController.GetServices())
+					if (sc.ServiceName == "tgstation-server" || sc.ServiceName == "tgstation-server-4")
+					{
+						DialogResult result = !Force
+							? MessageBox.Show($"You already have another TGS service installed ({sc.ServiceName}). Would you like to uninstall it now? Pressing \"No\" will cancel this install.", "TGS Service", MessageBoxButtons.YesNo)
+							: DialogResult.Yes;
+						if (result != DialogResult.Yes)
+							return; // is this needed after exit?
+
+						// Stop it first to give it some cleanup time
+						if (sc.Status == ServiceControllerStatus.Running)
+						{
+							sc.Stop();
+							sc.WaitForStatus(ServiceControllerStatus.Stopped);
+						}
+
+						// And remove it
+						using var serviceInstaller = new ServiceInstaller();
+						serviceInstaller.Context = new InstallContext($"old-{sc.ServiceName}-uninstall.log", null);
+
+						if (Silent)
+							serviceInstaller.Context.Parameters["LogToConsole"] = false.ToString();
+
+						serviceInstaller.ServiceName = sc.ServiceName;
+						serviceInstaller.Uninstall(null);
+					}
+
+			using var processInstaller = new ServiceProcessInstaller();
+			using var installer = new ServiceInstaller();
+			processInstaller.Account = ServiceAccount.LocalSystem;
+
+			installer.Context = new InstallContext("tgs-install.log", new string[] { String.Format(CultureInfo.InvariantCulture, "/assemblypath={0}", Assembly.GetEntryAssembly().Location) });
+			if (Silent)
+				installer.Context.Parameters["LogToConsole"] = false.ToString();
+			installer.Description = "tgstation-server running as a windows service";
+			installer.DisplayName = "tgstation-server";
+			installer.StartType = ServiceStartMode.Automatic;
+			installer.ServicesDependedOn = new string[] { "Tcpip", "Dhcp", "Dnscache" };
+			installer.ServiceName = ServerService.Name;
+			installer.Parent = processInstaller;
+
+			var state = new ListDictionary();
+			installer.Install(state);
 		}
 
 		/// <summary>
