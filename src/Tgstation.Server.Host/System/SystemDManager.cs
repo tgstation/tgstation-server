@@ -177,18 +177,29 @@ namespace Tgstation.Server.Host.System
 					return;
 				}
 
-				logger.LogDebug("Starting watchdog loop with interval of {usec}us", watchdogUsec);
-
 				var microseconds = UInt64.Parse(watchdogUsec, CultureInfo.InvariantCulture);
-				var milliseconds = (int)(microseconds / 1000);
-				if (milliseconds == 0)
-					milliseconds = 1;
+				var timeoutIntervalMillis = (int)(microseconds / 1000);
 
+				logger.LogDebug("Starting watchdog loop with interval of {timeoutInterval}ms", timeoutIntervalMillis);
+
+				var timeoutInterval = TimeSpan.FromMilliseconds(timeoutIntervalMillis);
+				var nextExpectedTimeout = DateTimeOffset.UtcNow + timeoutInterval;
+				var timeToNextExpectedTimeout = nextExpectedTimeout - DateTimeOffset.UtcNow;
 				while (!cancellationToken.IsCancellationRequested)
 				{
-					await Task.Delay(milliseconds, cancellationToken);
+					var delayInterval = timeToNextExpectedTimeout / 2;
+					await Task.Delay(delayInterval, cancellationToken);
 
-					SendSDNotify(SDNotifyWatchdog);
+					var notifySuccess = SendSDNotify(SDNotifyWatchdog);
+
+					var now = DateTimeOffset.UtcNow;
+					if (notifySuccess)
+						nextExpectedTimeout = now + timeoutInterval;
+
+					timeToNextExpectedTimeout = nextExpectedTimeout - now;
+
+					if (!notifySuccess)
+						logger.LogWarning("Missed systemd heartbeat! Expected timeout in {timeoutMs}ms...", timeToNextExpectedTimeout.TotalMilliseconds);
 				}
 			}
 			catch (OperationCanceledException ex)
