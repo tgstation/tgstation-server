@@ -343,7 +343,7 @@
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:TRUE"
-        "ProductVersion" = "8:22.47.5"
+        "ProductVersion" = "8:0.22.475"
         "Manufacturer" = "8:tgstation"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
