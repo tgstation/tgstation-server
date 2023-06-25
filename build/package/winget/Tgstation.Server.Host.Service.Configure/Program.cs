@@ -4,7 +4,6 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading;
-using System.Threading.Tasks;
 
 using var process = new Process();
 
@@ -64,22 +63,31 @@ if (uninstall)
 		true);
 }
 
-if(shortcut && process.ExitCode == 0)
+if ((shortcut || (interactive && !uninstall)) && process.ExitCode == 0)
 {
-	Console.WriteLine();
-	Console.Write("tgstation-server is now configured. Would you like to (re)start the service? (Y/n): ");
-	var keyInfo = Console.ReadKey();
-	Console.WriteLine();
-	if (keyInfo.Key == ConsoleKey.Y || keyInfo.Key == ConsoleKey.Enter)
+	var startServer = interactive;
+	if (shortcut)
 	{
-		using (var stopService = new Process())
+		Console.WriteLine();
+		Console.Write("tgstation-server is now configured. Would you like to (re)start the service? (Y/n): ");
+		var keyInfo = Console.ReadKey();
+		Console.WriteLine();
+		if (keyInfo.Key == ConsoleKey.Y || keyInfo.Key == ConsoleKey.Enter)
 		{
-			stopService.StartInfo.FileName = "sc";
-			stopService.StartInfo.Arguments = "stop tgstation-server";
-			stopService.Start();
-			await stopService.WaitForExitAsync(CancellationToken.None); // DCT: None available
-		}
+			using (var stopService = new Process())
+			{
+				stopService.StartInfo.FileName = "sc";
+				stopService.StartInfo.Arguments = "stop tgstation-server";
+				stopService.Start();
+				await stopService.WaitForExitAsync(CancellationToken.None); // DCT: None available
+			}
 
+			startServer = true;
+		}
+	}
+
+	if (startServer)
+	{
 		using var startService = new Process();
 		startService.StartInfo.FileName = "sc";
 		startService.StartInfo.Arguments = "start tgstation-server";
@@ -87,9 +95,12 @@ if(shortcut && process.ExitCode == 0)
 		await startService.WaitForExitAsync(CancellationToken.None); // DCT: None available
 	}
 
-	Console.WriteLine("Press any key to exit this program...");
-	Console.ReadKey();
-	Console.WriteLine();
+	if (shortcut)
+	{
+		Console.WriteLine("Press any key to exit this program...");
+		Console.ReadKey();
+		Console.WriteLine();
+	}
 }
 
 // returning non-zero can make the installation uninstallable, no thanks
