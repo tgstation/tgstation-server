@@ -1,6 +1,6 @@
 $currentCommit=git rev-parse HEAD
 
-Remove-Item -Recurse -Force packaging
+Remove-Item -Recurse -Force -ErrorAction SilentlyContinue packaging
 
 git worktree remove -f packaging
 
