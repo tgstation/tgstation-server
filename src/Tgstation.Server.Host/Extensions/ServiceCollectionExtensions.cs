@@ -105,7 +105,6 @@ namespace Tgstation.Server.Host.Extensions
 
 			serviceCollection.AddSingleton<IGitHubClientFactory, GitHubClientFactory>();
 			serviceCollection.AddSingleton(typeof(IGitHubServiceFactory), gitHubServiceFactoryType);
-			serviceCollection.AddSingleton(x => x.GetRequiredService<IGitHubServiceFactory>().CreateService());
 
 			return serviceCollection;
 		}
