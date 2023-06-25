@@ -45,10 +45,10 @@ namespace Tgstation.Server.Host.Service
 		public bool Detach { get; }
 
 		/// <summary>
-		/// The --resume or -r option.
+		/// The --restart or -r option.
 		/// </summary>
 		[Option(ShortName = "r")]
-		public bool Resume { get; }
+		public bool Restart { get; }
 
 		/// <summary>
 		/// The --install or -i option.
@@ -145,7 +145,9 @@ namespace Tgstation.Server.Host.Service
 			if (Configure)
 				await RunConfigure(CancellationToken.None); // DCT: None available
 
+			bool stopped = false;
 			if (Uninstall)
+			{
 				using (var installer = new ServiceInstaller())
 				{
 					installer.Context = new InstallContext("tgs-uninstall.log", null);
@@ -156,10 +158,11 @@ namespace Tgstation.Server.Host.Service
 					installer.Uninstall(null);
 				}
 
-			if (Install)
-			{
-				RunServiceInstall();
+				stopped = true;
 			}
+
+			if (Install)
+				stopped |= RunServiceInstall();
 
 			if (standardRun)
 			{
@@ -167,10 +170,13 @@ namespace Tgstation.Server.Host.Service
 				ServiceBase.Run(service);
 			}
 
-			if (Resume)
+			if (Restart)
 				foreach (ServiceController sc in ServiceController.GetServices())
 					if (sc.ServiceName == ServerService.Name)
 					{
+						if (!stopped)
+							RestartService(sc);
+
 						sc.Start();
 						break;
 					}
@@ -195,18 +201,7 @@ namespace Tgstation.Server.Host.Service
 							return false; // is this needed after exit?
 
 						// Stop it first to give it some cleanup time
-						if (sc.Status == ServiceControllerStatus.Running)
-						{
-							if (Detach)
-								sc.ExecuteCommand(
-									ServerService.GetCommand(
-										PipeCommands.CommandDetachingShutdown)
-									.Value);
-							else
-								sc.Stop();
-
-							sc.WaitForStatus(ServiceControllerStatus.Stopped);
-						}
+						RestartService(sc);
 
 						// And remove it
 						using var serviceInstaller = new ServiceInstaller();
@@ -239,6 +234,26 @@ namespace Tgstation.Server.Host.Service
 			installer.Install(state);
 
 			return serviceStopped;
+		}
+
+		/// <summary>
+		/// Restarts a service using a given <paramref name="serviceController"/>.
+		/// </summary>
+		/// <param name="serviceController">The <see cref="ServiceController"/> for the service to restart.</param>
+		void RestartService(ServiceController serviceController)
+		{
+			if (serviceController.Status != ServiceControllerStatus.Running)
+				return;
+
+			if (Detach)
+				serviceController.ExecuteCommand(
+					ServerService.GetCommand(
+						PipeCommands.CommandDetachingShutdown)
+					.Value);
+			else
+				serviceController.Stop();
+
+			serviceController.WaitForStatus(ServiceControllerStatus.Stopped);
 		}
 
 		/// <summary>
