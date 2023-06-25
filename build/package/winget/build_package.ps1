@@ -24,4 +24,4 @@ $devVersion = '0.22.475'
 # We make _some_ assumptions
 DevEnv installer.sln /Project Tgstation.Server.Host.Service.Msi/Tgstation.Server.Host.Service.Msi.vdproj /build Release
 
-cd ..
+cd ../../../..
