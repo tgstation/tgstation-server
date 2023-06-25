@@ -262,6 +262,17 @@
         }
         "Folder"
         {
+            "{1525181F-901A-416C-8A58-119130FE478E}:_758C42B61089428A950F84AD33260664"
+            {
+            "Name" = "8:#1921"
+            "AlwaysCreate" = "11:FALSE"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Property" = "8:StartMenuFolder"
+                "Folders"
+                {
+                }
+            }
             "{3C67513D-01DD-4637-8A68-80971EB9504F}:_B28C4FD80D0245E08AEDCFEECACB6493"
             {
             "DefaultLocation" = "8:[ProgramFilesFolder][Manufacturer]\\[ProductName]"
@@ -456,6 +467,20 @@
         }
         "Shortcut"
         {
+            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_8033129B5D1D4BB0904586D539B32765"
+            {
+            "Name" = "8:Configure and Restart tgstation-server"
+            "Arguments" = "8:42069"
+            "Description" = "8:Runs the TGS setup wizard and optionally restarts the Windows service"
+            "ShowCmd" = "3:1"
+            "IconIndex" = "3:32512"
+            "Transitive" = "11:FALSE"
+            "Target" = "8:_E9F7402DCE77463F9B7319647D3C16F2"
+            "Folder" = "8:_758C42B61089428A950F84AD33260664"
+            "WorkingFolder" = "8:_B28C4FD80D0245E08AEDCFEECACB6493"
+            "Icon" = "8:_E9F7402DCE77463F9B7319647D3C16F2"
+            "Feature" = "8:"
+            }
             "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_86C54A96871E40B6B517685DB09F223A"
             {
             "Name" = "8:Configure and Restart tgstation-server"
