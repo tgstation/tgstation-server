@@ -951,11 +951,6 @@ jobs:
     runs-on: windows-latest
     if: "!(cancelled() || failure()) && needs.start-ci-run-gate.result == 'success'"
     steps:
-    - name: Setup dotnet
-      uses: actions/setup-dotnet@v2
-      with:
-        dotnet-version: ${{ env.TGS_DOTNET_VERSION }}
-
     - name: Setup VS Dev Environment
       uses: seanmiddleditch/gha-setup-vsdevenv@v4
 
