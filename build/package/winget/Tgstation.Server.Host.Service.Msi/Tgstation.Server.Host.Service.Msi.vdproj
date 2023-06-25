@@ -33,18 +33,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_4F14AB1FF9E24F9EBCC13DECAD76B526"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_8F775F391C394240882C33EF95C853E3"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_B0A2BC595A554F188D336702686A821E"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -58,6 +46,12 @@
         "Entry"
         {
         "MsmKey" = "8:_E9F7402DCE77463F9B7319647D3C16F2"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_F78AE830495A499099776F774CAB3D6D"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -176,46 +170,6 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_4F14AB1FF9E24F9EBCC13DECAD76B526"
-            {
-            "SourcePath" = "8:..\\install_banner.jpg"
-            "TargetName" = "8:install_banner.jpg"
-            "Tag" = "8:"
-            "Folder" = "8:_EB2DCEE6D3F74230A9827AC9B6F47F53"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_8F775F391C394240882C33EF95C853E3"
-            {
-            "SourcePath" = "8:..\\install_banner.jpg"
-            "TargetName" = "8:install_banner.jpg"
-            "Tag" = "8:"
-            "Folder" = "8:_EB2DCEE6D3F74230A9827AC9B6F47F53"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:TRUE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_B0A2BC595A554F188D336702686A821E"
             {
             "SourcePath" = "8:..\\..\\..\\..\\LICENSE"
@@ -253,6 +207,26 @@
             "PackageAs" = "3:1"
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_F78AE830495A499099776F774CAB3D6D"
+            {
+            "SourcePath" = "8:..\\install_banner.jpg"
+            "TargetName" = "8:install_banner.jpg"
+            "Tag" = "8:"
+            "Folder" = "8:_EB2DCEE6D3F74230A9827AC9B6F47F53"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:TRUE"
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
@@ -346,15 +320,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:tgstation-server"
-        "ProductCode" = "8:{D24887FA-3228-4509-B5F3-4E07E349F278}"
-        "PackageCode" = "8:{300FB19F-E886-410D-8281-F0EB723E07D7}"
+        "ProductCode" = "8:{879A86CB-D12C-4D31-9386-0D5CE8C53FC4}"
+        "PackageCode" = "8:{D078B8A7-E5C3-48EE-85B0-56C355FCBB43}"
         "UpgradeCode" = "8:{151FE9F8-72CF-48D5-8E55-B7FB6BA9693E}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:TRUE"
-        "ProductVersion" = "8:0.22.475"
+        "ProductVersion" = "8:5.12.6"
         "Manufacturer" = "8:tgstation"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
@@ -529,7 +503,7 @@
                             "ContextData" = "8:Bitmap"
                             "Attributes" = "3:4"
                             "Setting" = "3:2"
-                            "Value" = "8:_8F775F391C394240882C33EF95C853E3"
+                            "Value" = "8:_F78AE830495A499099776F774CAB3D6D"
                             "UsePlugInResources" = "11:TRUE"
                             }
                         }
@@ -561,7 +535,7 @@
                             "ContextData" = "8:Bitmap"
                             "Attributes" = "3:4"
                             "Setting" = "3:2"
-                            "Value" = "8:_8F775F391C394240882C33EF95C853E3"
+                            "Value" = "8:_F78AE830495A499099776F774CAB3D6D"
                             "UsePlugInResources" = "11:TRUE"
                             }
                         }
@@ -584,7 +558,7 @@
                             "ContextData" = "8:Bitmap"
                             "Attributes" = "3:4"
                             "Setting" = "3:2"
-                            "Value" = "8:_8F775F391C394240882C33EF95C853E3"
+                            "Value" = "8:_F78AE830495A499099776F774CAB3D6D"
                             "UsePlugInResources" = "11:TRUE"
                             }
                             "CopyrightWarning"
@@ -633,7 +607,7 @@
                             "ContextData" = "8:Bitmap"
                             "Attributes" = "3:4"
                             "Setting" = "3:2"
-                            "Value" = "8:_8F775F391C394240882C33EF95C853E3"
+                            "Value" = "8:_F78AE830495A499099776F774CAB3D6D"
                             "UsePlugInResources" = "11:TRUE"
                             }
                             "InstallAllUsersVisible"
@@ -678,7 +652,7 @@
                             "ContextData" = "8:Bitmap"
                             "Attributes" = "3:4"
                             "Setting" = "3:2"
-                            "Value" = "8:_8F775F391C394240882C33EF95C853E3"
+                            "Value" = "8:_F78AE830495A499099776F774CAB3D6D"
                             "UsePlugInResources" = "11:TRUE"
                             }
                             "ShowProgress"
@@ -723,7 +697,7 @@
                             "ContextData" = "8:Bitmap"
                             "Attributes" = "3:4"
                             "Setting" = "3:2"
-                            "Value" = "8:_8F775F391C394240882C33EF95C853E3"
+                            "Value" = "8:_F78AE830495A499099776F774CAB3D6D"
                             "UsePlugInResources" = "11:TRUE"
                             }
                         }
@@ -746,7 +720,7 @@
                             "ContextData" = "8:Bitmap"
                             "Attributes" = "3:4"
                             "Setting" = "3:2"
-                            "Value" = "8:_8F775F391C394240882C33EF95C853E3"
+                            "Value" = "8:_F78AE830495A499099776F774CAB3D6D"
                             "UsePlugInResources" = "11:TRUE"
                             }
                         }
@@ -769,7 +743,7 @@
                             "ContextData" = "8:Bitmap"
                             "Attributes" = "3:4"
                             "Setting" = "3:2"
-                            "Value" = "8:_8F775F391C394240882C33EF95C853E3"
+                            "Value" = "8:_F78AE830495A499099776F774CAB3D6D"
                             "UsePlugInResources" = "11:TRUE"
                             }
                             "CopyrightWarning"
@@ -827,7 +801,7 @@
                             "ContextData" = "8:Bitmap"
                             "Attributes" = "3:4"
                             "Setting" = "3:2"
-                            "Value" = "8:_8F775F391C394240882C33EF95C853E3"
+                            "Value" = "8:_F78AE830495A499099776F774CAB3D6D"
                             "UsePlugInResources" = "11:TRUE"
                             }
                             "UpdateText"
@@ -878,7 +852,7 @@
                             "ContextData" = "8:Bitmap"
                             "Attributes" = "3:4"
                             "Setting" = "3:2"
-                            "Value" = "8:_8F775F391C394240882C33EF95C853E3"
+                            "Value" = "8:_F78AE830495A499099776F774CAB3D6D"
                             "UsePlugInResources" = "11:TRUE"
                             }
                             "ShowProgress"
@@ -1020,7 +994,7 @@
             }
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_E9F7402DCE77463F9B7319647D3C16F2"
             {
-            "SourcePath" = "8:..\\Tgstation.Server.Host.Service.Configure\\obj\\Release\\net6.0\\apphost.exe"
+            "SourcePath" = "8:..\\Tgstation.Server.Host.Service.Configure\\obj\\Release\\net6.0-windows\\apphost.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_B28C4FD80D0245E08AEDCFEECACB6493"
