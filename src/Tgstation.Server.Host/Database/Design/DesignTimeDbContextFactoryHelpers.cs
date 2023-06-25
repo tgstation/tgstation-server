@@ -26,7 +26,6 @@ namespace Tgstation.Server.Host.Database.Design
 		{
 			var dbConfig = new DatabaseConfiguration
 			{
-				DesignTime = true,
 				DatabaseType = databaseType,
 				ConnectionString = connectionString,
 				ServerVersion = serverVersion,

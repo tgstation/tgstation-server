@@ -12,11 +12,11 @@ namespace Tgstation.Server.Host.Database.Design
 		/// <inheritdoc />
 		public SqliteDatabaseContext CreateDbContext(string[] args)
 		{
-			SqliteDatabaseContext.DesignTime = true;
 			return new SqliteDatabaseContext(
 				DesignTimeDbContextFactoryHelpers.CreateDatabaseContextOptions<SqliteDatabaseContext>(
 					DatabaseType.Sqlite,
-					"Data Source=tgs_design.sqlite3;Mode=ReadWriteCreate"));
+					"Data Source=tgs_design.sqlite3;Mode=ReadWriteCreate"),
+				true);
 		}
 	}
 }
