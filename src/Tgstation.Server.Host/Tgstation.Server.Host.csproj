@@ -13,7 +13,7 @@
     <NpmInstallStampFile>ClientApp/node_modules/.install-stamp</NpmInstallStampFile>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <DockerfileContext>..\..</DockerfileContext>
-    <ApplicationManifest>../../build/manifest.xml</ApplicationManifest>
+    <ApplicationManifest>../../build/uac_elevation_manifest.xml</ApplicationManifest>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)'=='Release'">
@@ -142,7 +142,7 @@
     <None Include="ClientApp\**\*.json" />
     <ClientApp Include="ClientApp\src\**\*;ClientApp\public\**\*;ClientApp\tsconfig.json;ClientApp\package.json;ClientApp\package-lock.json" />
     <AdditionalFiles Include="../../build/stylecop.json" />
-    <AdditionalFiles Include="../../build/manifest.xml" />
+    <AdditionalFiles Include="../../build/uac_elevation_manifest.xml" />
   </ItemGroup>
 
   <ItemGroup>

@@ -4,11 +4,11 @@
     <OutputType>Exe</OutputType>
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
-    <ApplicationManifest>../../../manifest.xml</ApplicationManifest>
+    <ApplicationManifest>../../../uac_elevation_manifest.xml</ApplicationManifest>
     <ApplicationIcon>../../../tgs.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
-    <AdditionalFiles Include="../../../manifest.xml" />
+    <AdditionalFiles Include="../../../uac_elevation_manifest.xml" />
   </ItemGroup>
 </Project>
