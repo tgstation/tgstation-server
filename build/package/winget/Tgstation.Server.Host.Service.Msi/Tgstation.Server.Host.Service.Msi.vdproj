@@ -336,7 +336,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:tgstation-server"
         "ProductCode" = "8:{D24887FA-3228-4509-B5F3-4E07E349F278}"
-        "PackageCode" = "8:{7B5CC9A0-D69D-41A1-956E-B9B3788ED3DC}"
+        "PackageCode" = "8:{300FB19F-E886-410D-8281-F0EB723E07D7}"
         "UpgradeCode" = "8:{151FE9F8-72CF-48D5-8E55-B7FB6BA9693E}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
@@ -458,16 +458,16 @@
         {
             "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_86C54A96871E40B6B517685DB09F223A"
             {
-            "Name" = "8:Configure and Start tgstation-server"
+            "Name" = "8:Configure and Restart tgstation-server"
             "Arguments" = "8:42069 "
             "Description" = "8:Runs the TGS setup wizard and optionally restarts the Windows service"
             "ShowCmd" = "3:1"
-            "IconIndex" = "3:0"
+            "IconIndex" = "3:32512"
             "Transitive" = "11:FALSE"
             "Target" = "8:_E9F7402DCE77463F9B7319647D3C16F2"
             "Folder" = "8:_BD1E6451115645479FB57AD1F0BB6A8B"
             "WorkingFolder" = "8:_B28C4FD80D0245E08AEDCFEECACB6493"
-            "Icon" = "8:"
+            "Icon" = "8:_E9F7402DCE77463F9B7319647D3C16F2"
             "Feature" = "8:"
             }
         }
