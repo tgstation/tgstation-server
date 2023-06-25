@@ -959,6 +959,17 @@ jobs:
       shell: powershell
       run: build/package/winget/build_package.ps1
 
+    - name: Test Installation # Sanity checks the .deps.json exists, which the installation is broken without
+      shell: powershell       # If it's missing, I found that <PrivateAssets> in <PackageReference> elements were the problem
+      run: |
+        $file = "packaging/build/package/winget/Tgstation.Server.Host.Service.Msi/Release/tgstation-server.msi"
+        $log = "install.log"
+        $procMain = Start-Process "msiexec" "/i `"$file`" /qn /l*! `"$log`"" -NoNewWindow -PassThru
+        $procLog = Start-Process "powershell" "Get-Content -Path `"$log`" -Wait" -NoNewWindow -PassThru
+        $procMain.WaitForExit()
+        $procLog.Kill()
+        Get-Content C:/Program Files (x86)/tgstation/tgstation-server/lib/Default/Tgstation.Server.Host.deps.json
+
     - name: Upload .msi
       uses: actions/upload-artifact@v3
       with:
