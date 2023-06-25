@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Security.AccessControl;
 using System.Threading;
+using System.Windows.Forms;
 
 using var process = new Process();
 
@@ -44,22 +45,18 @@ var uninstall = args
 
 var shortcut = uiLevel == 42069;
 
-bool startService;
+bool restartService;
 if (shortcut)
 {
-	Console.WriteLine();
-	Console.WriteLine("This program will configure tgstation-server. Would you like to restart the service after doing so?");
-	Console.Write("A restart is required to apply changes. It will not kill your DreamDaemon instances provided you are running a version >=5.13.0 (Y/n): ");
-	var keyInfo = Console.ReadKey();
-	startService = keyInfo.Key == ConsoleKey.Enter || keyInfo.Key == ConsoleKey.Y;
-	Console.WriteLine();
+	var result = MessageBox.Show($"This program will configure tgstation-server. Would you like to restart the service after doing so?{Environment.NewLine}{Environment.NewLine}A restart is required to apply changes. It will not kill your DreamDaemon instances provided you are running a version >=5.13.0 (Always true if you've never downgraded)", "Restart TGS After Configuring?", MessageBoxButtons.YesNo);
+	restartService = result == DialogResult.Yes;
 }
 else
-	startService = interactive;
+	restartService = interactive;
 
 process.StartInfo.Arguments = uninstall
 	? "-u"
-	: $"-i -f -x{(startService ? " -r" : String.Empty)}{((interactive || shortcut) ? " -c" : String.Empty)}{(silent ? " -s" : String.Empty)}";
+	: $"-i -f -x{(restartService ? " -r" : String.Empty)}{((interactive || shortcut) ? " -c" : String.Empty)}{(silent ? " -s" : String.Empty)}";
 
 process.Start();
 
@@ -89,13 +86,6 @@ if ((shortcut || (interactive && !uninstall)) && process.ExitCode == 0)
 	fs.AddAccessRule(new FileSystemAccessRule("NT AUTHORITY\\SYSTEM", FileSystemRights.Read, AccessControlType.Allow));
 
 	fileInfo.SetAccessControl(fs);
-}
-
-if (shortcut)
-{
-	Console.WriteLine("Press any key to exit this program...");
-	Console.ReadKey();
-	Console.WriteLine();
 }
 
 // returning non-zero can make the installation uninstallable, no thanks

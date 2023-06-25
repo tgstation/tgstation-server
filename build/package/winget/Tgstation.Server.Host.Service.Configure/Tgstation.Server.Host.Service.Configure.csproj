@@ -1,8 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <OutputType>Exe</OutputType>
+    <OutputType>WinExe</OutputType>
     <TargetFramework>net6.0-windows</TargetFramework>
+    <UseWindowsForms>true</UseWindowsForms>
     <Nullable>enable</Nullable>
     <ApplicationManifest>../../../uac_elevation_manifest.xml</ApplicationManifest>
     <ApplicationIcon>../../../tgs.ico</ApplicationIcon>
@@ -11,4 +12,5 @@
   <ItemGroup>
     <AdditionalFiles Include="../../../uac_elevation_manifest.xml" />
   </ItemGroup>
+
 </Project>
