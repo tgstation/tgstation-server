@@ -15,6 +15,9 @@ namespace Tgstation.Server.Host.Setup
 		public IPlatformIdentifier PlatformIdentifier { get; }
 
 		/// <inheritdoc />
+		public ILogger<TLoggerType> Logger { get; }
+
+		/// <inheritdoc />
 		public GeneralConfiguration GeneralConfiguration => generalConfigurationOptions.Value;
 
 		/// <inheritdoc />
@@ -27,7 +30,7 @@ namespace Tgstation.Server.Host.Setup
 		public FileLoggingConfiguration FileLoggingConfiguration => fileLoggingConfigurationOptions.Value;
 
 		/// <inheritdoc />
-		public ILogger<TLoggerType> Logger { get; }
+		public InternalConfiguration InternalConfiguration => internalConfigurationOptions.Value;
 
 		/// <inheritdoc />
 		public ElasticsearchConfiguration ElasticsearchConfiguration => elasticsearchConfigurationOptions.Value;
@@ -58,6 +61,11 @@ namespace Tgstation.Server.Host.Setup
 		readonly IOptions<ElasticsearchConfiguration> elasticsearchConfigurationOptions;
 
 		/// <summary>
+		/// Backing <see cref="IOptions{TOptions}"/> for <see cref="InternalConfiguration"/>.
+		/// </summary>
+		readonly IOptions<InternalConfiguration> internalConfigurationOptions;
+
+		/// <summary>
 		/// Initializes a new instance of the <see cref="PostSetupServices{TLoggerType}"/> class.
 		/// </summary>
 		/// <param name="platformIdentifier">The value of <see cref="PlatformIdentifier"/>.</param>
@@ -67,6 +75,7 @@ namespace Tgstation.Server.Host.Setup
 		/// <param name="securityConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="SecurityConfiguration"/>.</param>
 		/// <param name="fileLoggingConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="FileLoggingConfiguration"/>.</param>
 		/// <param name="elasticsearchConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="ElasticsearchConfiguration"/>.</param>
+		/// <param name="internalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="InternalConfiguration"/>.</param>
 		public PostSetupServices(
 			IPlatformIdentifier platformIdentifier,
 			ILoggerFactory loggerFactory,
@@ -74,7 +83,8 @@ namespace Tgstation.Server.Host.Setup
 			IOptions<DatabaseConfiguration> databaseConfigurationOptions,
 			IOptions<SecurityConfiguration> securityConfigurationOptions,
 			IOptions<FileLoggingConfiguration> fileLoggingConfigurationOptions,
-			IOptions<ElasticsearchConfiguration> elasticsearchConfigurationOptions)
+			IOptions<ElasticsearchConfiguration> elasticsearchConfigurationOptions,
+			IOptions<InternalConfiguration> internalConfigurationOptions)
 		{
 			PlatformIdentifier = platformIdentifier ?? throw new ArgumentNullException(nameof(platformIdentifier));
 			ArgumentNullException.ThrowIfNull(loggerFactory);
@@ -85,6 +95,7 @@ namespace Tgstation.Server.Host.Setup
 			this.securityConfigurationOptions = securityConfigurationOptions ?? throw new ArgumentNullException(nameof(securityConfigurationOptions));
 			this.fileLoggingConfigurationOptions = fileLoggingConfigurationOptions ?? throw new ArgumentNullException(nameof(fileLoggingConfigurationOptions));
 			this.elasticsearchConfigurationOptions = elasticsearchConfigurationOptions ?? throw new ArgumentNullException(nameof(elasticsearchConfigurationOptions));
+			this.internalConfigurationOptions = internalConfigurationOptions ?? throw new ArgumentNullException(nameof(internalConfigurationOptions));
 		}
 	}
 }

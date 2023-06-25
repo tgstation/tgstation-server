@@ -2,7 +2,6 @@
 using System.Diagnostics;
 using System.Globalization;
 
-using Elastic.CommonSchema.Serilog;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -110,7 +109,7 @@ namespace Tgstation.Server.Host.Extensions
 		}
 
 		/// <summary>
-		/// Add an additional <see cref="ILoggerProvider"/> to <see cref="IServiceCollection"/>s that call <see cref="SetupLogging(IServiceCollection, Action{LoggerConfiguration}, Action{LoggerSinkConfiguration}, ElasticsearchConfiguration)"/>.
+		/// Add an additional <see cref="ILoggerProvider"/> to <see cref="IServiceCollection"/>s that call <see cref="SetupLogging(IServiceCollection, Action{LoggerConfiguration}, Action{LoggerSinkConfiguration}, ElasticsearchSinkOptions, InternalConfiguration, FileLoggingConfiguration)"/>.
 		/// </summary>
 		/// <typeparam name="TLoggerProvider">The <see cref="Type"/> of <see cref="ILoggerProvider"/> to add.</typeparam>
 		public static void UseAdditionalLoggerProvider<TLoggerProvider>() where TLoggerProvider : class, ILoggerProvider
@@ -164,14 +163,22 @@ namespace Tgstation.Server.Host.Extensions
 		/// <param name="serviceCollection">The <see cref="IServiceCollection"/> to configure.</param>
 		/// <param name="configurationAction">Additional configuration for a given <see cref="LoggerConfiguration"/>.</param>
 		/// <param name="sinkConfigurationAction">Additional configuration for a given <see cref="LoggerSinkConfiguration"/>.</param>
-		/// <param name="elasticsearchConfiguration">Configuration for a given <see cref="ElasticsearchConfiguration"/>.</param>
+		/// <param name="elasticsearchSinkOptions">The <see cref="ElasticsearchSinkOptions"/> to use, if any.</param>
+		/// <param name="internalConfiguration">The active <see cref="InternalConfiguration"/>, if any.</param>
+		/// <param name="fileLoggingConfiguration">The active <see cref="FileLoggingConfiguration"/>, if any. Must be set if <paramref name="internalConfiguration"/> is passed in.</param>
 		/// <returns>The updated <paramref name="serviceCollection"/>.</returns>
 		public static IServiceCollection SetupLogging(
 			this IServiceCollection serviceCollection,
 			Action<LoggerConfiguration> configurationAction,
 			Action<LoggerSinkConfiguration> sinkConfigurationAction = null,
-			ElasticsearchConfiguration elasticsearchConfiguration = null)
-			=> serviceCollection.AddLogging(builder =>
+			ElasticsearchSinkOptions elasticsearchSinkOptions = null,
+			InternalConfiguration internalConfiguration = null,
+			FileLoggingConfiguration fileLoggingConfiguration = null)
+		{
+			if (internalConfiguration != null)
+				ArgumentNullException.ThrowIfNull(fileLoggingConfiguration);
+
+			return serviceCollection.AddLogging(builder =>
 			{
 				builder.ClearProviders();
 
@@ -189,29 +196,14 @@ namespace Tgstation.Server.Host.Extensions
 						var template = "[{Timestamp:HH:mm:ss}] {Level:w3}: {SourceContext:l} ("
 								+ SerilogContextHelper.Template
 								+ "){NewLine}    {Message:lj}{NewLine}{Exception}";
-						sinkConfiguration.Console(outputTemplate: template, formatProvider: CultureInfo.InvariantCulture);
+
+						if (!((internalConfiguration?.UsingSystemD ?? false) && fileLoggingConfiguration.Disable))
+							sinkConfiguration.Console(outputTemplate: template, formatProvider: CultureInfo.InvariantCulture);
 						sinkConfigurationAction?.Invoke(sinkConfiguration);
 					});
 
-				if (elasticsearchConfiguration != null)
-				{
-					if (elasticsearchConfiguration.Enable)
-					{
-						if (elasticsearchConfiguration.Host == null)
-							throw new InvalidOperationException("Elasticsearch endpoint is null!");
-
-						configuration.WriteTo.Elasticsearch(new ElasticsearchSinkOptions(new Uri(elasticsearchConfiguration.Host))
-						{
-							// Yes I know this means they cannot use a self signed cert unless they also have authentication, but lets be real here
-							// No one is going to be doing one of thsoe but not the other
-							ModifyConnectionSettings = x => (!string.IsNullOrEmpty(elasticsearchConfiguration.Username) && !string.IsNullOrEmpty(elasticsearchConfiguration.Password)) ? x.BasicAuthentication(elasticsearchConfiguration.Username, elasticsearchConfiguration.Password).ServerCertificateValidationCallback((o, certificate, arg3, arg4) => { return true; }) : null,
-							CustomFormatter = new EcsTextFormatter(),
-							AutoRegisterTemplate = true,
-							AutoRegisterTemplateVersion = AutoRegisterTemplateVersion.ESv7,
-							IndexFormat = "tgs-logs",
-						});
-					}
-				}
+				if (elasticsearchSinkOptions != null)
+					configuration.WriteTo.Elasticsearch(elasticsearchSinkOptions);
 
 				builder.AddSerilog(configuration.CreateLogger(), true);
 
@@ -221,6 +213,7 @@ namespace Tgstation.Server.Host.Extensions
 				if (additionalLoggerProvider != null)
 					builder.Services.TryAddEnumerable(additionalLoggerProvider);
 			});
+		}
 
 		/// <summary>
 		/// Set the modifiable services to their default types.

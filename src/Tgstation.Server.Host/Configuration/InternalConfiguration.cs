@@ -14,5 +14,10 @@
 		/// The name of the pipe opened by the host watchdog, if any.
 		/// </summary>
 		public string CommandPipe { get; set; }
+
+		/// <summary>
+		/// If the server is running under SystemD.
+		/// </summary>
+		public bool UsingSystemD { get; set; }
 	}
 }

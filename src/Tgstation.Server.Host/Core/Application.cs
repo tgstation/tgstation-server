@@ -6,6 +6,8 @@ using System.Linq;
 
 using Cyberboss.AspNetCore.AsyncInitializer;
 
+using Elastic.CommonSchema.Serilog;
+
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Cors.Infrastructure;
@@ -23,6 +25,7 @@ using Newtonsoft.Json;
 using Serilog;
 using Serilog.Events;
 using Serilog.Formatting.Display;
+using Serilog.Sinks.Elasticsearch;
 
 using Tgstation.Server.Api;
 using Tgstation.Server.Common.Http;
@@ -132,7 +135,6 @@ namespace Tgstation.Server.Host.Core
 			services.UseStandardConfig<ControlPanelConfiguration>(Configuration);
 			services.UseStandardConfig<SwarmConfiguration>(Configuration);
 			services.UseStandardConfig<SessionConfiguration>(Configuration);
-			services.UseStandardConfig<InternalConfiguration>(Configuration);
 
 			// enable options which give us config reloading
 			services.AddOptions();
@@ -155,6 +157,7 @@ namespace Tgstation.Server.Host.Core
 				};
 
 			var microsoftEventLevel = ConvertSeriLogLevel(postSetupServices.FileLoggingConfiguration.MicrosoftLogLevel);
+			var elasticsearchConfiguration = postSetupServices.ElasticsearchConfiguration;
 			services.SetupLogging(
 				config =>
 				{
@@ -192,7 +195,18 @@ namespace Tgstation.Server.Host.Core
 						rollingInterval: RollingInterval.Day,
 						rollOnFileSizeLimit: true);
 				},
-				postSetupServices.ElasticsearchConfiguration);
+				elasticsearchConfiguration.Enable
+					? new ElasticsearchSinkOptions(new Uri(elasticsearchConfiguration.Host ?? throw new InvalidOperationException()))
+					{
+						// Yes I know this means they cannot use a self signed cert unless they also have authentication, but lets be real here
+						// No one is going to be doing one of thsoe but not the other
+						ModifyConnectionSettings = connectionConfigration => (!string.IsNullOrEmpty(elasticsearchConfiguration.Username) && !string.IsNullOrEmpty(elasticsearchConfiguration.Password)) ? connectionConfigration.BasicAuthentication(elasticsearchConfiguration.Username, elasticsearchConfiguration.Password).ServerCertificateValidationCallback((o, certificate, arg3, arg4) => { return true; }) : null,
+						CustomFormatter = new EcsTextFormatter(),
+						AutoRegisterTemplate = true,
+						AutoRegisterTemplateVersion = AutoRegisterTemplateVersion.ESv7,
+						IndexFormat = "tgs-logs",
+					}
+					: null);
 
 			// configure bearer token validation
 			services
