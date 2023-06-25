@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net6.0-windows</TargetFramework>
     <Nullable>enable</Nullable>
     <ApplicationManifest>../../../uac_elevation_manifest.xml</ApplicationManifest>
     <ApplicationIcon>../../../tgs.ico</ApplicationIcon>
