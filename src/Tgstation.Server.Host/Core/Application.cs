@@ -132,6 +132,7 @@ namespace Tgstation.Server.Host.Core
 			services.UseStandardConfig<ControlPanelConfiguration>(Configuration);
 			services.UseStandardConfig<SwarmConfiguration>(Configuration);
 			services.UseStandardConfig<SessionConfiguration>(Configuration);
+			services.UseStandardConfig<InternalConfiguration>(Configuration);
 
 			// enable options which give us config reloading
 			services.AddOptions();
@@ -335,10 +336,8 @@ namespace Tgstation.Server.Host.Core
 				services.AddSingleton(x => new Lazy<IProcessExecutor>(() => x.GetRequiredService<IProcessExecutor>(), true));
 				services.AddSingleton<INetworkPromptReaper, PosixNetworkPromptReaper>();
 
-				services.AddSingleton<IHostedService, PosixSignalHandler>();
-
-				services.AddSingleton<SystemDManager>();
-				services.AddSingleton<IHostedService>(x => x.GetRequiredService<SystemDManager>());
+				services.AddHostedService<PosixSignalHandler>();
+				services.AddHostedService<SystemDManager>();
 			}
 
 			// configure file transfer services
@@ -368,10 +367,11 @@ namespace Tgstation.Server.Host.Core
 			// configure misc services
 			services.AddSingleton<IProcessExecutor, ProcessExecutor>();
 			services.AddSingleton<ISynchronousIOManager, SynchronousIOManager>();
-			services.AddFileDownloader();
 			services.AddSingleton<IServerPortProvider, ServerPortProivder>();
 			services.AddSingleton<ITopicClientFactory, TopicClientFactory>();
+			services.AddHostedService<CommandPipeReader>();
 
+			services.AddFileDownloader();
 			services.AddGitHub();
 
 			// configure root services

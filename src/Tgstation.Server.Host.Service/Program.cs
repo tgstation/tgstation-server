@@ -15,6 +15,7 @@ using McMaster.Extensions.CommandLineUtils;
 
 using Microsoft.Extensions.Logging;
 
+using Tgstation.Server.Host.Common;
 using Tgstation.Server.Host.Watchdog;
 
 namespace Tgstation.Server.Host.Service
@@ -36,6 +37,18 @@ namespace Tgstation.Server.Host.Service
 		/// </summary>
 		[Option(ShortName = "u")]
 		public bool Uninstall { get; }
+
+		/// <summary>
+		/// The --detach or -x option. Valid only with <see cref="Install"/>.
+		/// </summary>
+		[Option(ShortName = "x")]
+		public bool Detach { get; }
+
+		/// <summary>
+		/// The --resume or -r option.
+		/// </summary>
+		[Option(ShortName = "r")]
+		public bool Resume { get; }
 
 		/// <summary>
 		/// The --install or -i option.
@@ -97,9 +110,11 @@ namespace Tgstation.Server.Host.Service
 		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
 		public async Task OnExecuteAsync()
 		{
+			var standardRun = !Install && !Uninstall && !Configure;
+
 			if (Environment.UserInteractive)
 			{
-				if (!Install && !Uninstall && !Configure)
+				if (standardRun)
 				{
 					var result = MessageBox.Show("You are running the TGS windows service executable directly. It should only be run by the service control manager. Would you like to install and configure the service in this location?", "TGS Service", MessageBoxButtons.YesNo);
 					if (result != DialogResult.Yes)
@@ -112,12 +127,13 @@ namespace Tgstation.Server.Host.Service
 				{
 					// try to restart as admin
 					// its windows, first arg is .exe name guaranteed
-					var exe = Environment.GetCommandLineArgs().First();
+					var args = Environment.GetCommandLineArgs();
+					var exe = args.First();
 					var startInfo = new ProcessStartInfo
 					{
 						UseShellExecute = true,
 						Verb = "runas",
-						Arguments = $"{(Install ? "-i" : Uninstall ? "-u" : String.Empty)} {(Configure ? "-c" : String.Empty)} {(Force ? "-f" : String.Empty)}",
+						Arguments = String.Join(" ", args.Skip(1)),
 						FileName = exe,
 						WorkingDirectory = Environment.CurrentDirectory,
 					};
@@ -126,17 +142,10 @@ namespace Tgstation.Server.Host.Service
 				}
 			}
 
-			if (Install)
-			{
-				if (Uninstall)
-					return; // oh no, it's retarded...
+			if (Configure)
+				await RunConfigure(CancellationToken.None); // DCT: None available
 
-				RunServiceInstall();
-
-				if (Configure && !Silent)
-					Console.WriteLine("For this first run we'll launch the console runner so you may use the setup wizard.");
-			}
-			else if (Uninstall)
+			if (Uninstall)
 				using (var installer = new ServiceInstaller())
 				{
 					installer.Context = new InstallContext("tgs-uninstall.log", null);
@@ -146,36 +155,56 @@ namespace Tgstation.Server.Host.Service
 					installer.ServiceName = ServerService.Name;
 					installer.Uninstall(null);
 				}
-			else if (!Configure)
+
+			if (Install)
+			{
+				RunServiceInstall();
+			}
+
+			if (standardRun)
 			{
 				using var service = new ServerService(WatchdogFactory, Trace ? LogLevel.Trace : Debug ? LogLevel.Debug : LogLevel.Information);
 				ServiceBase.Run(service);
 			}
 
-			if (Configure)
-				await RunConfigure(CancellationToken.None); // DCT: None available
+			if (Resume)
+				foreach (ServiceController sc in ServiceController.GetServices())
+					if (sc.ServiceName == ServerService.Name)
+					{
+						sc.Start();
+						break;
+					}
 		}
 
 		/// <summary>
 		/// Attempt to install the TGS Service.
 		/// </summary>
-		void RunServiceInstall()
+		/// <returns><see langword="true"/> if the service was stopped or detached as a result, <see langword="false"/> otherwise.</returns>
+		bool RunServiceInstall()
 		{
 			// First check if the service already exists
+			bool serviceStopped = false;
 			if (Force || Environment.UserInteractive)
 				foreach (ServiceController sc in ServiceController.GetServices())
-					if (sc.ServiceName == "tgstation-server" || sc.ServiceName == "tgstation-server-4")
+					if (sc.ServiceName == ServerService.Name || sc.ServiceName == "tgstation-server-4")
 					{
 						DialogResult result = !Force
 							? MessageBox.Show($"You already have another TGS service installed ({sc.ServiceName}). Would you like to uninstall it now? Pressing \"No\" will cancel this install.", "TGS Service", MessageBoxButtons.YesNo)
 							: DialogResult.Yes;
 						if (result != DialogResult.Yes)
-							return; // is this needed after exit?
+							return false; // is this needed after exit?
 
 						// Stop it first to give it some cleanup time
 						if (sc.Status == ServiceControllerStatus.Running)
 						{
-							sc.Stop();
+							if (Detach)
+								sc.ExecuteCommand(
+									ServerService.GetCommand(
+										PipeCommands.CommandDetachingShutdown)
+									.Value);
+							else
+								sc.Stop();
+
 							sc.WaitForStatus(ServiceControllerStatus.Stopped);
 						}
 
@@ -188,6 +217,8 @@ namespace Tgstation.Server.Host.Service
 
 						serviceInstaller.ServiceName = sc.ServiceName;
 						serviceInstaller.Uninstall(null);
+
+						serviceStopped = true;
 					}
 
 			using var processInstaller = new ServiceProcessInstaller();
@@ -198,7 +229,7 @@ namespace Tgstation.Server.Host.Service
 			if (Silent)
 				installer.Context.Parameters["LogToConsole"] = false.ToString();
 			installer.Description = "tgstation-server running as a windows service";
-			installer.DisplayName = "tgstation-server";
+			installer.DisplayName = ServerService.Name;
 			installer.StartType = ServiceStartMode.Automatic;
 			installer.ServicesDependedOn = new string[] { "Tcpip", "Dhcp", "Dnscache" };
 			installer.ServiceName = ServerService.Name;
@@ -206,6 +237,8 @@ namespace Tgstation.Server.Host.Service
 
 			var state = new ListDictionary();
 			installer.Install(state);
+
+			return serviceStopped;
 		}
 
 		/// <summary>
@@ -220,8 +253,9 @@ namespace Tgstation.Server.Host.Service
 				if (!Silent)
 					builder.AddConsole();
 			});
-			await WatchdogFactory.CreateWatchdog(loggerFactory)
-				.RunAsync(true, Array.Empty<string>(), cancellationToken);
+
+			var watchdog = WatchdogFactory.CreateWatchdog(new NoopSignalChecker(), loggerFactory);
+			await watchdog.RunAsync(true, Array.Empty<string>(), cancellationToken);
 		}
 	}
 }

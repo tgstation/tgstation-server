@@ -13,7 +13,7 @@ var installDir = Path.GetDirectoryName(
 
 process.StartInfo.WorkingDirectory = installDir;
 process.StartInfo.FileName = Path.Combine(
-	process.StartInfo.WorkingDirectory,
+	installDir,
 	"Tgstation.Server.Host.Service.exe");
 
 /*
@@ -44,11 +44,22 @@ var uninstall = args
 
 var shortcut = uiLevel == 42069;
 
+bool startService;
+if (shortcut)
+{
+	Console.WriteLine();
+	Console.WriteLine("This program will configure tgstation-server. Would you like to restart the service after doing so?");
+	Console.Write("A restart is required to apply changes. It will not kill your DreamDaemon instances provided you are running a version >=5.13.0 (Y/n): ");
+	var keyInfo = Console.ReadKey();
+	startService = keyInfo.Key == ConsoleKey.Enter || keyInfo.Key == ConsoleKey.Y;
+	Console.WriteLine();
+}
+else
+	startService = interactive;
+
 process.StartInfo.Arguments = uninstall
 	? "-u"
-	: shortcut
-		? "-c"
-		: $"-i -f {(interactive ? "-c" : String.Empty)} {(silent ? "-s" : String.Empty)}";
+	: $"-i -f -x{(startService ? " -r" : String.Empty)}{((interactive || shortcut) ? " -c" : String.Empty)}{(silent ? " -s" : String.Empty)}";
 
 process.Start();
 
@@ -65,7 +76,7 @@ if (uninstall)
 if ((shortcut || (interactive && !uninstall)) && process.ExitCode == 0)
 {
 	// try and lockdown the appsettings file
-	var fileInfo = new FileInfo("appsettings.Production.yml");
+	var fileInfo = new FileInfo(Path.Combine(installDir, "appsettings.Production.yml"));
 
 	//get security access
 	FileSecurity fs = fileInfo.GetAccessControl();
@@ -75,46 +86,16 @@ if ((shortcut || (interactive && !uninstall)) && process.ExitCode == 0)
 
 	// Explicitly grant admins and SYSTEM
 	fs.AddAccessRule(new FileSystemAccessRule("Administrators", FileSystemRights.FullControl, AccessControlType.Allow));
-	fs.AddAccessRule(new FileSystemAccessRule("SYSTEM", FileSystemRights.Read, AccessControlType.Allow));
+	fs.AddAccessRule(new FileSystemAccessRule("NT AUTHORITY\\SYSTEM", FileSystemRights.Read, AccessControlType.Allow));
 
 	fileInfo.SetAccessControl(fs);
+}
 
-	var startServer = interactive;
-	if (shortcut)
-	{
-		Console.WriteLine();
-		Console.Write("tgstation-server is now configured. Would you like to (re)start the service? (Y/n): ");
-		var keyInfo = Console.ReadKey();
-		Console.WriteLine();
-		if (keyInfo.Key == ConsoleKey.Y || keyInfo.Key == ConsoleKey.Enter)
-		{
-			using (var stopService = new Process())
-			{
-				stopService.StartInfo.FileName = "sc";
-				stopService.StartInfo.Arguments = "stop tgstation-server";
-				stopService.Start();
-				await stopService.WaitForExitAsync(CancellationToken.None); // DCT: None available
-			}
-
-			startServer = true;
-		}
-	}
-
-	if (startServer)
-	{
-		using var startService = new Process();
-		startService.StartInfo.FileName = "sc";
-		startService.StartInfo.Arguments = "start tgstation-server";
-		startService.Start();
-		await startService.WaitForExitAsync(CancellationToken.None); // DCT: None available
-	}
-
-	if (shortcut)
-	{
-		Console.WriteLine("Press any key to exit this program...");
-		Console.ReadKey();
-		Console.WriteLine();
-	}
+if (shortcut)
+{
+	Console.WriteLine("Press any key to exit this program...");
+	Console.ReadKey();
+	Console.WriteLine();
 }
 
 // returning non-zero can make the installation uninstallable, no thanks

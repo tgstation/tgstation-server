@@ -20,6 +20,11 @@ namespace Tgstation.Server.Host.Watchdog
 	sealed class Watchdog : IWatchdog
 	{
 		/// <summary>
+		/// The <see cref="ISignalChecker"/> for the <see cref="Watchdog"/>.
+		/// </summary>
+		readonly ISignalChecker signalChecker;
+
+		/// <summary>
 		/// The <see cref="ILogger"/> for the <see cref="Watchdog"/>.
 		/// </summary>
 		readonly ILogger<Watchdog> logger;
@@ -27,16 +32,18 @@ namespace Tgstation.Server.Host.Watchdog
 		/// <summary>
 		/// Initializes a new instance of the <see cref="Watchdog"/> class.
 		/// </summary>
+		/// <param name="signalChecker">The value of <see cref="signalChecker"/>.</param>
 		/// <param name="logger">The value of <see cref="logger"/>.</param>
-		public Watchdog(ILogger<Watchdog> logger)
+		public Watchdog(ISignalChecker signalChecker, ILogger<Watchdog> logger)
 		{
+			this.signalChecker = signalChecker ?? throw new ArgumentNullException(nameof(signalChecker));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 		}
 
 		/// <inheritdoc />
 #pragma warning disable CA1502 // TODO: Decomplexify
 #pragma warning disable CA1506
-		public async Task RunAsync(bool runConfigure, string[] args, CancellationToken cancellationToken)
+		public async Task<bool> RunAsync(bool runConfigure, string[] args, CancellationToken cancellationToken)
 		{
 			logger.LogInformation("Host watchdog starting...");
 			int currentProcessId;
@@ -52,7 +59,7 @@ namespace Tgstation.Server.Host.Watchdog
 				if (dotnetPath == default)
 				{
 					logger.LogCritical("Unable to locate dotnet executable in PATH! Please ensure the .NET Core runtime is installed and is in your PATH!");
-					return;
+					return false;
 				}
 
 				logger.LogInformation("Detected dotnet executable at {dotnetPath}", dotnetPath);
@@ -93,13 +100,13 @@ namespace Tgstation.Server.Host.Watchdog
 				if (assemblyPath.Contains("\""))
 				{
 					logger.LogCritical("Running from paths with \"'s in the name is not supported!");
-					return;
+					return false;
 				}
 
 				if (!File.Exists(assemblyPath))
 				{
 					logger.LogCritical("Unable to locate host assembly!");
-					return;
+					return false;
 				}
 
 				var watchdogVersion = executingAssembly.GetName().Version.ToString();
@@ -148,8 +155,15 @@ namespace Tgstation.Server.Host.Watchdog
 							var killedHostProcess = false;
 							try
 							{
-								process.Start();
-								var childPid = process.Id;
+								var processTask = tcs.Task;
+								(int, Task) StartProcess(string additionalArg)
+								{
+									if (additionalArg != null)
+										process.StartInfo.Arguments += $" {additionalArg}";
+
+									process.Start();
+									return (process.Id, processTask);
+								}
 
 								using (var processCts = new CancellationTokenSource())
 								using (processCts.Token.Register(() => tcs.TrySetResult(null)))
@@ -176,12 +190,9 @@ namespace Tgstation.Server.Host.Watchdog
 									}
 								}))
 								{
-									var processTask = tcs.Task;
 									using var cts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
 
-									var checkerTask = isWindows
-										? Task.CompletedTask
-										: SignalChecker.CheckSignals(logger, childPid, cts.Token);
+									var checkerTask = signalChecker.CheckSignals(StartProcess, cts.Token);
 									try
 									{
 										await processTask;
@@ -228,14 +239,14 @@ namespace Tgstation.Server.Host.Watchdog
 
 							if (runConfigure)
 							{
-								logger.LogInformation("Exiting due to configuration check...");
-								return;
+								logger.LogInformation("Exiting due to configure intent...");
+								return true;
 							}
 
 							switch ((HostExitCode)process.ExitCode)
 							{
 								case HostExitCode.CompleteExecution:
-									return;
+									return true;
 								case HostExitCode.RestartRequested:
 									if (!cancellationToken.IsCancellationRequested)
 										logger.LogInformation("Watchdog will restart host..."); // just a restart
@@ -331,11 +342,14 @@ namespace Tgstation.Server.Host.Watchdog
 			catch (Exception ex)
 			{
 				logger.LogCritical(ex, "Host watchdog error!");
+				return false;
 			}
 			finally
 			{
 				logger.LogInformation("Host watchdog exiting...");
 			}
+
+			return true;
 		}
 #pragma warning restore CA1502
 #pragma warning restore CA1506

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Globalization;
+using System.IO;
+using System.IO.Pipes;
 using System.ServiceProcess;
 using System.Threading;
 using System.Threading.Tasks;
@@ -8,6 +9,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.EventLog;
 
+using Tgstation.Server.Host.Common;
 using Tgstation.Server.Host.Watchdog;
 
 namespace Tgstation.Server.Host.Service
@@ -15,7 +17,7 @@ namespace Tgstation.Server.Host.Service
 	/// <summary>
 	/// Represents a <see cref="IWatchdog"/> as a <see cref="ServiceBase"/>.
 	/// </summary>
-	sealed class ServerService : ServiceBase
+	sealed class ServerService : ServiceBase, ISignalChecker
 	{
 		/// <summary>
 		/// The canonical windows service name.
@@ -33,12 +35,17 @@ namespace Tgstation.Server.Host.Service
 		readonly LogLevel minimumLogLevel;
 
 		/// <summary>
-		/// The <see cref="ILoggerFactory"/> used by the service.
+		/// The <see cref="ILoggerFactory"/> used by the <see cref="ServerService"/>.
 		/// </summary>
 		ILoggerFactory loggerFactory;
 
 		/// <summary>
-		/// The <see cref="Task"/> that represents the running service.
+		/// The <see cref="ILogger"/> for the <see cref="ServerService"/>.
+		/// </summary>
+		ILogger<ServerService> logger;
+
+		/// <summary>
+		/// The <see cref="Task"/> that represents the running <see cref="ServerService"/>.
 		/// </summary>
 		Task watchdogTask;
 
@@ -46,6 +53,25 @@ namespace Tgstation.Server.Host.Service
 		/// The <see cref="cancellationTokenSource"/> for the <see cref="ServerService"/>.
 		/// </summary>
 		CancellationTokenSource cancellationTokenSource;
+
+		/// <summary>
+		/// The <see cref="AnonymousPipeServerStream"/> the server process is using.
+		/// </summary>
+		AnonymousPipeServerStream pipeServer;
+
+		/// <summary>
+		/// Gets the <see cref="int"/> value of a given <paramref name="command"/>.
+		/// </summary>
+		/// <param name="command">The <see cref="PipeCommands"/>.</param>
+		/// <returns>The <see cref="int"/> value of the command or <see langword="null"/> if it was unrecognized.</returns>
+		public static int? GetCommand(string command)
+			=> command switch
+			{
+				PipeCommands.CommandStop => 128, // Windows only allows commands 128-256: https://stackoverflow.com/a/62858106
+				PipeCommands.CommandGracefulShutdown => 129,
+				PipeCommands.CommandDetachingShutdown => 130,
+				_ => null,
+			};
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="ServerService"/> class.
@@ -60,11 +86,44 @@ namespace Tgstation.Server.Host.Service
 		}
 
 		/// <inheritdoc />
+		public async Task CheckSignals(Func<string, (int, Task)> startChildAndGetPid, CancellationToken cancellationToken)
+		{
+			using (pipeServer = new AnonymousPipeServerStream(PipeDirection.Out, HandleInheritability.Inheritable))
+			{
+				var (_, lifetimeTask) = startChildAndGetPid($"--Internal:CommandPipe={pipeServer.GetClientHandleAsString()}");
+				pipeServer.DisposeLocalCopyOfClientHandle();
+				await lifetimeTask;
+			}
+		}
+
+		/// <inheritdoc />
 		protected override void Dispose(bool disposing)
 		{
-			loggerFactory?.Dispose();
-			cancellationTokenSource?.Dispose();
+			if (disposing)
+			{
+				loggerFactory?.Dispose();
+				cancellationTokenSource?.Dispose();
+				pipeServer?.Dispose();
+			}
+
 			base.Dispose(disposing);
+		}
+
+		/// <inheritdoc />
+		protected override void OnCustomCommand(int command)
+		{
+			var commandsToCheck = PipeCommands.AllCommands;
+			foreach (var stringCommand in commandsToCheck)
+			{
+				var commandId = GetCommand(stringCommand);
+				if (command == commandId)
+				{
+					SendCommandToUpdatePath(stringCommand);
+					return;
+				}
+			}
+
+			logger.LogWarning("Received unknown service command: {command}", command);
 		}
 
 		/// <inheritdoc />
@@ -79,9 +138,11 @@ namespace Tgstation.Server.Host.Service
 					SourceName = EventLog.Source,
 					Filter = (message, logLevel) => logLevel >= minimumLogLevel,
 				}));
+
+				logger = loggerFactory.CreateLogger<ServerService>();
 			}
 
-			var watchdog = watchdogFactory.CreateWatchdog(loggerFactory);
+			var watchdog = watchdogFactory.CreateWatchdog(this, loggerFactory);
 
 			cancellationTokenSource?.Dispose();
 			cancellationTokenSource = new CancellationTokenSource();
@@ -105,24 +166,50 @@ namespace Tgstation.Server.Host.Service
 		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
 		async Task RunWatchdog(IWatchdog watchdog, string[] args, CancellationToken cancellationToken)
 		{
-			await watchdog.RunAsync(false, args, cancellationTokenSource.Token);
+			await watchdog.RunAsync(false, args, cancellationToken);
 
-			void StopServiceAsync()
+			async void StopServiceAsync()
 			{
 				try
 				{
-					Task.Run(Stop, cancellationToken);
+					await Task.Run(Stop, cancellationToken); // DCT intentional
 				}
-				catch (OperationCanceledException)
+				catch (OperationCanceledException ex)
 				{
+					logger.LogTrace(ex, "Stopping service cancelled!");
 				}
-				catch (Exception e)
+				catch (Exception ex)
 				{
-					EventLog.WriteEntry(String.Format(CultureInfo.InvariantCulture, "Error stopping service! Exception: {0}", e));
+					logger.LogError(ex, "Error stopping service!");
 				}
 			}
 
 			StopServiceAsync();
+		}
+
+		/// <summary>
+		/// Sends a command to the main server process.
+		/// </summary>
+		/// <param name="command">One of the <see cref="PipeCommands"/>.</param>
+		void SendCommandToUpdatePath(string command)
+		{
+			var localPipeServer = pipeServer;
+			if (localPipeServer == null)
+			{
+				logger.LogWarning("Unable to send command \"{command}\" to main server process. Is the service running?", command);
+				return;
+			}
+
+			logger.LogDebug("Send command: {command}", command);
+			try
+			{
+				using var streamWriter = new StreamWriter(localPipeServer);
+				streamWriter.WriteLine(command);
+			}
+			catch (Exception ex)
+			{
+				logger.LogError(ex, "Error attempting to send command \"{command}\"", command);
+			}
 		}
 	}
 }
