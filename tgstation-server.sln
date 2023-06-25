@@ -30,7 +30,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{6FF654E6
 		build\coverlet.runsettings = build\coverlet.runsettings
 		build\Dockerfile = build\Dockerfile
 		build\GenerateMigrations.sh = build\GenerateMigrations.sh
-		build\uac_elevation_manifest.xml = build\uac_elevation_manifest.xml
 		build\NugetCommon.props = build\NugetCommon.props
 		build\OpenApiValidationSettings.json = build\OpenApiValidationSettings.json
 		build\stylecop.json = build\stylecop.json
@@ -38,6 +37,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{6FF654E6
 		build\tgs.ico = build\tgs.ico
 		build\tgs.png = build\tgs.png
 		build\tgstation-server.service = build\tgstation-server.service
+		build\uac_elevation_manifest.xml = build\uac_elevation_manifest.xml
 		build\Version.props = build\Version.props
 	EndProjectSection
 EndProject
@@ -240,9 +240,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "winget", "winget", "{506B90
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tgstation.Server.Host.Service.Configure", "build\package\winget\Tgstation.Server.Host.Service.Configure\Tgstation.Server.Host.Service.Configure.csproj", "{6CC73878-8C37-4ACC-ADAA-A60EBDBC2315}"
-	ProjectSection(ProjectDependencies) = postProject
-		{29927416-3B78-49A7-A560-5CCAA638B6B4} = {29927416-3B78-49A7-A560-5CCAA638B6B4}
-	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "manifest", "manifest", "{3F141E03-6ABB-46A8-AA24-1B4B6814E58F}"
 	ProjectSection(SolutionItems) = preProject
