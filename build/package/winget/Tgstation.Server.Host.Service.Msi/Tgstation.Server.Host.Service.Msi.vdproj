@@ -249,7 +249,7 @@
             }
             "{3C67513D-01DD-4637-8A68-80971EB9504F}:_B28C4FD80D0245E08AEDCFEECACB6493"
             {
-            "DefaultLocation" = "8:[ProgramFilesFolder][Manufacturer]\\[ProductName]"
+            "DefaultLocation" = "8:[ProgramFilesFolder][ProductName]"
             "Name" = "8:#1925"
             "AlwaysCreate" = "11:FALSE"
             "Condition" = "8:"
@@ -320,7 +320,7 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:tgstation-server"
-        "ProductCode" = "8:{879A86CB-D12C-4D31-9386-0D5CE8C53FC4}"
+        "ProductCode" = "8:{D24887FA-3228-4509-B5F3-4E07E349F278}"
         "PackageCode" = "8:{D078B8A7-E5C3-48EE-85B0-56C355FCBB43}"
         "UpgradeCode" = "8:{151FE9F8-72CF-48D5-8E55-B7FB6BA9693E}"
         "AspNetVersion" = "8:4.0.30319.0"
@@ -328,7 +328,7 @@
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:TRUE"
-        "ProductVersion" = "8:5.12.6"
+        "ProductVersion" = "8:0.22.475"
         "Manufacturer" = "8:tgstation"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
