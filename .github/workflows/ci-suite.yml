@@ -918,6 +918,24 @@ jobs:
         gpg --verify tgstation-server_${{ env.TGS_VERSION }}-1_amd64.changes
         gpg --verify tgstation-server_${{ env.TGS_VERSION }}-1_amd64.buildinfo
 
+    - name: Test Install and Uninstall
+      run: |
+        sudo dpkg --add-architecture i386
+        sudo apt-get update
+        sudo apt-get install -y tgstation-server_${{ env.TGS_VERSION }}-1_amd64.deb
+        systemctl status tgstation-server
+        sudo ls -al /etc/tgstation-server
+        sudo cat /etc/tgstation-server/appsettings.Production.yml
+        sudo cat /opt/tgstation-server/appsettings.Production.yml
+        cat /opt/tgstation-server/appsettings.yml
+        cat /opt/tgstation-server/lib/Default/Tgstation.Server.Host.deps.json
+        cat /usr/bin/tgs-configure
+        sudo apt-get remove -y tgstation-server
+        if [[ -d "/opt/tgstation-server" ]]; then
+          ls -al /opt/tgstation-server
+          exit 1
+        fi
+
     - name: Create Packaging Archive
       run: tar cfJ tgstation-server-v${{ env.TGS_VERSION }}.debian.packaging.tar.xz tgstation-server_*
 
