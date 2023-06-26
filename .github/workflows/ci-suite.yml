@@ -1397,7 +1397,7 @@ jobs:
       uses: Cyberboss/InstallWinget@v1
 
     - name: Install wingetcreate
-      run: winget install wingetcreate
+      run: winget install wingetcreate --disable-interactivity --accept-source-agreements
 
     - name: Checkout
       uses: actions/checkout@v3
