@@ -14,7 +14,8 @@ Installers:
   - interactive
   - silent
   ProductCode: '{D24887FA-3228-4509-B5F3-4E07E349F278}'
-  RequireExplicitUpgrade: false
+  RequireExplicitUpgrade: true
+  UpgradeBehavior: uninstallPrevious
   UnsupportedOSArchitectures:
   - arm
   - arm64
