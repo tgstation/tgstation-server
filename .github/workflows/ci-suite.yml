@@ -1040,9 +1040,42 @@ jobs:
         name: packaging-windows
         path: packaging/build/package/winget/Tgstation.Server.Host.Service.Msi/Release/tgstation-server.msi
 
+  check-winget-pr-template:
+    name: Check winget-pkgs Pull Request Template is up to date
+    needs: start-ci-run-gate
+    runs-on: ubuntu-latest
+    steps:
+    - name: Setup dotnet
+      uses: actions/setup-dotnet@v2
+      with:
+        dotnet-version: ${{ env.TGS_DOTNET_VERSION }}
+
+    - name: Retrieve winget-pkgs PULL_REQUEST_TEMPLATE commit history from GitHub API
+      id: get-json
+      run: |
+        echo "commits-response=$(curl -L -u "${{ vars.DEV_PUSH_USERNAME }}:${{ secrets.DEV_PUSH_TOKEN }}" -H "Accept: application/vnd.github.everest-preview+json" -H "Content-Type: application/json" https://api.github.com/repos/microsoft/winget-pkgs/commits?path=.github/PULL_REQUEST_TEMPLATE.md)" >> $GITHUB_OUTPUT
+
+    - name: Output Latest SHA for winget-pkgs PULL_REQUEST_TEMPLATE
+      id: get-sha
+      run: |
+        echo "pr_template_sha=$(echo ${{ steps.get-json.outputs.commits-response[0].sha }})" >> $GITHUB_OUTPUT
+
+    - name: Checkout (Branch)
+      uses: actions/checkout@v3
+      if: github.event_name == 'push' || github.event_name == 'schedule'
+
+    - name: Checkout (PR Merge)
+      uses: actions/checkout@v3
+      if: github.event_name != 'push' && github.event_name != 'schedule'
+      with:
+        ref: "refs/pull/${{ github.event.number }}/merge"
+
+    - name: Run ReleaseNotes Check
+      run: dotnet run -c Release --project tools/ReleaseNotes --winget-template-check ${{ steps.get-sha.outputs.pr_template_sha }}
+
   deployment-gate:
     name: Deployment Gate
-    needs: [ dox-build, docker-build, build-deb, validate-openapi-spec, upload-code-coverage, build-msi ]
+    needs: [ dox-build, docker-build, build-deb, validate-openapi-spec, upload-code-coverage, build-msi, check-winget-pr-template ]
     runs-on: ubuntu-latest
     if: "!(cancelled() || failure()) && needs.dox-build.result == 'success' && needs.docker-build.result == 'success' && needs.build-deb.result == 'success' && needs.build-msi.result == 'success' && needs.validate-openapi-spec.result == 'success' && needs.upload-code-coverage.result == 'success' && github.event_name == 'push'"
     steps:
