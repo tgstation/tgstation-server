@@ -967,7 +967,7 @@ jobs:
       run: ./DisableOutOfProcBuild.exe
 
     - name: Install winget
-      uses: Cyberboss/InstallWinget@v1
+      uses: Cyberboss/install-winget@v1
 
     - name: Checkout (Branch)
       uses: actions/checkout@v3
@@ -1394,7 +1394,7 @@ jobs:
         dotnet-version: ${{ env.TGS_DOTNET_VERSION }}
 
     - name: Install winget
-      uses: Cyberboss/InstallWinget@v1
+      uses: Cyberboss/install-winget@v1
 
     - name: Install wingetcreate
       run: winget install wingetcreate --disable-interactivity --accept-source-agreements
