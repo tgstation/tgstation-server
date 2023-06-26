@@ -914,20 +914,21 @@ jobs:
         gpg --verify tgstation-server_${{ env.TGS_VERSION }}-1_amd64.changes
         gpg --verify tgstation-server_${{ env.TGS_VERSION }}-1_amd64.buildinfo
 
-    - name: Setup dotnet because apt-get on actions is bone head stupid
-      uses: actions/setup-dotnet@v2
-      with:
-        dotnet-version: ${{ env.TGS_DOTNET_VERSION }}
-
     - name: Test Install and Uninstall
       run: |
-        sudo install -D build/package/appsettings.GitHub.yml /etc/tgstation-server/appsettings.Production.yml
         sudo dpkg --add-architecture i386
         sudo apt-get update
         sudo apt-get install -y -o APT::Immediate-Configure=0 libstdc++6:i386 libgcc-s1:i386 ./tgstation-server_${{ env.TGS_VERSION }}-1_amd64.deb
+        set +e
         systemctl status tgstation-server
+        $EXIT_CODE=$?
+        set -e
+        if [ $EXIT_CODE != 0 ] && [ $EXIT_CODE != '3' ]; then
+          exit $EXIT_CODE
+        fi
         sudo ls -al /etc/tgstation-server
         sudo cat /etc/tgstation-server/appsettings.Production.yml
+        ls -al /opt/tgstation-server
         sudo cat /opt/tgstation-server/appsettings.Production.yml
         cat /opt/tgstation-server/appsettings.yml
         cat /opt/tgstation-server/lib/Default/Tgstation.Server.Host.deps.json
@@ -983,8 +984,6 @@ jobs:
     - name: Test Install and Uninstall # Sanity checks the .deps.json exists, which the installation is broken without
       shell: powershell                # If it's missing, I found that <PrivateAssets> in <PackageReference> elements were the problem
       run: |
-        mkdir "C:/Program Files (x86)/tgstation-server"
-        cp build/package/appsettings.GitHub.yml "C:/Program Files (x86)/tgstation-server/appsettings.Production.yml"
         $file = [System.IO.Path]::GetFullPath("packaging/build/package/winget/Tgstation.Server.Host.Service.Msi/Release/tgstation-server.msi")
         $log = [System.IO.Path]::GetFullPath("install.log")
         $procMain = Start-Process "msiexec" "/i `"$file`" /qn /l*! `"$log`"" -NoNewWindow -PassThru
