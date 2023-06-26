@@ -22,10 +22,20 @@ namespace Tgstation.Server.Host.Database
 		/// Initializes a new instance of the <see cref="SqliteDatabaseContext"/> class.
 		/// </summary>
 		/// <param name="dbContextOptions">The <see cref="DbContextOptions{TContext}"/> for the <see cref="DatabaseContext"/>.</param>
-		/// <param name="designTime">The value of <see cref="designTime"/>.</param>
 		public SqliteDatabaseContext(
+			DbContextOptions<SqliteDatabaseContext> dbContextOptions)
+			: this(dbContextOptions, false)
+		{
+		}
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="SqliteDatabaseContext"/> class.
+		/// </summary>
+		/// <param name="dbContextOptions">The <see cref="DbContextOptions{TContext}"/> for the <see cref="DatabaseContext"/>.</param>
+		/// <param name="designTime">The value of <see cref="designTime"/>.</param>
+		internal SqliteDatabaseContext(
 			DbContextOptions<SqliteDatabaseContext> dbContextOptions,
-			bool designTime = false)
+			bool designTime)
 			: base(dbContextOptions)
 		{
 			this.designTime = designTime;
