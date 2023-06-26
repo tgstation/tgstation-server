@@ -994,7 +994,7 @@ jobs:
         if (Test-Path -Path $log -PathType Leaf) {
           Get-Content $log
         }
-        $service=Get-Service -Name tgstation-server
+        $service=Get-Service -Name tgstation-server -ErrorAction SilentlyContinue
         if ($service.Length -eq 0) {
           exit 3
         }
