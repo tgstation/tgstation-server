@@ -1058,6 +1058,7 @@ jobs:
   check-winget-pr-template:
     name: Check winget-pkgs Pull Request Template is up to date
     needs: start-ci-run-gate
+    if: "!(cancelled() || failure()) && needs.start-ci-run-gate.result == 'success'"
     runs-on: ubuntu-latest
     steps:
     - name: Setup dotnet
