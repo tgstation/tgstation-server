@@ -267,7 +267,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		}
 
 		/// <inheritdoc />
-		public async Task<MessageContent> HandleChatCommand(string commandName, string arguments, ChatUser sender, CancellationToken cancellationToken)
+		public async ValueTask<MessageContent> HandleChatCommand(string commandName, string arguments, ChatUser sender, CancellationToken cancellationToken)
 		{
 			using (await SemaphoreSlimContext.Lock(synchronizationSemaphore, cancellationToken))
 			{

@@ -47,7 +47,7 @@ namespace Tgstation.Server.Host.Components.Chat.Commands
 		}
 
 		/// <inheritdoc />
-		public async Task<MessageContent> Invoke(string arguments, ChatUser user, CancellationToken cancellationToken)
+		public async ValueTask<MessageContent> Invoke(string arguments, ChatUser user, CancellationToken cancellationToken)
 		{
 			string result;
 			if (arguments.Split(' ').Any(x => x.ToUpperInvariant() == "--REPO"))
