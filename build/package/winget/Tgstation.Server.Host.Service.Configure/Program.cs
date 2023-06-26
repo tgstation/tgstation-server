@@ -55,7 +55,7 @@ else
 	restartService = interactive;
 
 process.StartInfo.Arguments = uninstall
-	? "-u"
+	? $"-u{(silent ? " -s" : String.Empty)}"
 	: $"-i -f -x{(restartService ? " -r" : String.Empty)}{((interactive || shortcut) ? " -c" : String.Empty)}{(silent ? " -s" : String.Empty)}";
 
 process.Start();
