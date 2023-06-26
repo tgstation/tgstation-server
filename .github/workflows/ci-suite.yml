@@ -978,16 +978,12 @@ jobs:
         $file = [System.IO.Path]::GetFullPath("packaging/build/package/winget/Tgstation.Server.Host.Service.Msi/Release/tgstation-server.msi")
         $log = [System.IO.Path]::GetFullPath("install.log")
         $procMain = Start-Process "msiexec" "/i `"$file`" /qn /l*! `"$log`"" -NoNewWindow -PassThru
-        $procLog = Start-Process "powershell" "Get-Content -Path `"$log`" -Wait" -NoNewWindow -PassThru
         $procMain.WaitForExit()
-        $procLog.Kill()
         Get-Content C:/Program Files (x86)/tgstation/tgstation-server/lib/Default/Tgstation.Server.Host.deps.json
         Get-Service -Name tgstation-server -ErrorAction SilentlyContinue
         $log = [System.IO.Path]::GetFullPath("uninstall.log")
         $procMain = Start-Process "msiexec" "/u `"$file`" /qn /l*! `"$log`"" -NoNewWindow -PassThru
-        $procLog = Start-Process "powershell" "Get-Content -Path `"$log`" -Wait" -NoNewWindow -PassThru
         $procMain.WaitForExit()
-        $procLog.Kill()
         $service=Get-Service -Name tgstation-server -ErrorAction SilentlyContinue
         if ($service.Length -gt 0) {
           echo $service
