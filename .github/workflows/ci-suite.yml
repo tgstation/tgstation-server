@@ -968,7 +968,7 @@ jobs:
       with:
         ref: "refs/pull/${{ github.event.number }}/merge"
 
-    - name: Build .vdproj
+    - name: Execute Build Script
       shell: powershell
       run: build/package/winget/build_package.ps1
 
