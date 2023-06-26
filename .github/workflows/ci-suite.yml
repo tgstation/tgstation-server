@@ -966,7 +966,7 @@ jobs:
 
     - name: Execute Build Script
       shell: powershell
-      run: build/package/winget/build_package.ps1
+      run: build/package/winget/build_msi.ps1
 
     - name: Test Install and Uninstall # Sanity checks the .deps.json exists, which the installation is broken without
       shell: powershell                # If it's missing, I found that <PrivateAssets> in <PackageReference> elements were the problem
