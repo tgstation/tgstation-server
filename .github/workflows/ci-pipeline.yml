@@ -1453,6 +1453,9 @@ jobs:
     - name: Install wingetcreate
       run: winget install wingetcreate --disable-interactivity --accept-source-agreements
 
+    - name: Enable LocalManifestFiles
+      run: winget settings --enable LocalManifestFiles
+
     - name: Checkout
       uses: actions/checkout@v3
 
