@@ -1158,8 +1158,7 @@ namespace Tgstation.Server.Host.Swarm
 		/// <returns><see langword="true"/> the result of the call to <see cref="TaskCompletionSource{TResult}.TrySetResult(TResult)"/>.</returns>
 		bool TriggerHealthCheck()
 		{
-			var currentTcs = forceHealthCheckTcs;
-			forceHealthCheckTcs = new TaskCompletionSource();
+			var currentTcs = Interlocked.Exchange(ref forceHealthCheckTcs, new TaskCompletionSource());
 			return currentTcs.TrySetResult();
 		}
 
