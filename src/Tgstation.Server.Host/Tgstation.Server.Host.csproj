@@ -14,9 +14,10 @@
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <DockerfileContext>..\..</DockerfileContext>
     <ApplicationManifest>../../build/uac_elevation_manifest.xml</ApplicationManifest>
+    <Configurations>Debug;Release;Installer</Configurations>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)'=='Release'">
+  <PropertyGroup Condition="'$(Configuration)'!='Debug'">
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <WarningsAsErrors />
   </PropertyGroup>
@@ -112,10 +113,6 @@
     <PackageReference Include="Serilog.Sinks.Elasticsearch" Version="9.0.3" />
     <!-- Usage: File logging plugin -->
     <PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
-    <!-- Usage: Linting -->
-    <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
     <!-- Usage: OpenAPI spec generator -->
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
     <!-- Usage: Newtonsoft.Json plugin for OpenAPI spec generator -->
@@ -130,6 +127,14 @@
     <PackageReference Include="System.Management" Version="7.0.2" />
     <!-- Usage: .DeleteAsync() support for IQueryable<T>s -->
     <PackageReference Include="Z.EntityFramework.Plus.EFCore" Version="7.22.3" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(Configuration)'!='Installer'">
+    <!-- Usage: Linting -->
+    <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
   </ItemGroup>
 
   <ItemGroup>
