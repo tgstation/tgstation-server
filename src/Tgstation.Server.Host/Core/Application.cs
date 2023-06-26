@@ -206,7 +206,9 @@ namespace Tgstation.Server.Host.Core
 						AutoRegisterTemplateVersion = AutoRegisterTemplateVersion.ESv7,
 						IndexFormat = "tgs-logs",
 					}
-					: null);
+					: null,
+				postSetupServices.InternalConfiguration,
+				postSetupServices.FileLoggingConfiguration);
 
 			// configure bearer token validation
 			services
@@ -351,8 +353,10 @@ namespace Tgstation.Server.Host.Core
 				services.AddSingleton<INetworkPromptReaper, PosixNetworkPromptReaper>();
 
 				services.AddHostedService<PosixSignalHandler>();
-				services.AddHostedService<SystemDManager>();
 			}
+
+			if (postSetupServices.InternalConfiguration.UsingSystemD)
+				services.AddHostedService<SystemDManager>();
 
 			// configure file transfer services
 			services.AddSingleton<FileTransferService>();

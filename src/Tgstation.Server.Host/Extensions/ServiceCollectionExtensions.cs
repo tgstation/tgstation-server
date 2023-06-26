@@ -197,7 +197,7 @@ namespace Tgstation.Server.Host.Extensions
 								+ SerilogContextHelper.Template
 								+ "){NewLine}    {Message:lj}{NewLine}{Exception}";
 
-						if (!((internalConfiguration?.UsingSystemD ?? false) && fileLoggingConfiguration.Disable))
+						if (!((internalConfiguration?.UsingSystemD ?? false) && !fileLoggingConfiguration.Disable))
 							sinkConfiguration.Console(outputTemplate: template, formatProvider: CultureInfo.InvariantCulture);
 						sinkConfigurationAction?.Invoke(sinkConfiguration);
 					});
