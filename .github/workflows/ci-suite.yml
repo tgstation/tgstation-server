@@ -885,8 +885,9 @@ jobs:
     steps:
     - name: Import GPG Key
       run: |
+        sudo dpkg --add-architecture i386
         sudo apt-get update
-        sudo apt-get install -y gnupg2
+        sudo apt-get install -y -o APT::Immediate-Configure=0 libstdc++6:i386 libgcc-s1:i386 gnupg2
         echo "${{ secrets.PACKAGING_PRIVATE_KEY }}" > private.pgp
         echo ${{ secrets.PACKAGING_PRIVATE_KEY_PASSPHRASE }} | gpg --batch --yes --passphrase-fd 0 --import private.pgp
         rm private.pgp
@@ -914,18 +915,9 @@ jobs:
         gpg --verify tgstation-server_${{ env.TGS_VERSION }}-1_amd64.changes
         gpg --verify tgstation-server_${{ env.TGS_VERSION }}-1_amd64.buildinfo
 
-    - name: Test Install and Uninstall
+    - name: Test Install
       run: |
-        sudo dpkg --add-architecture i386
-        sudo apt-get update
-        sudo apt-get install -y -o APT::Immediate-Configure=0 libstdc++6:i386 libgcc-s1:i386 ./tgstation-server_${{ env.TGS_VERSION }}-1_amd64.deb
-        set +e
-        systemctl status tgstation-server
-        $EXIT_CODE=$?
-        set -e
-        if [ $EXIT_CODE != 0 ] && [ $EXIT_CODE != '3' ]; then
-          exit $EXIT_CODE
-        fi
+        sudo apt-get install -y ./tgstation-server_${{ env.TGS_VERSION }}-1_amd64.deb
         sudo ls -al /etc/tgstation-server
         sudo cat /etc/tgstation-server/appsettings.Production.yml
         ls -al /opt/tgstation-server
@@ -933,10 +925,23 @@ jobs:
         cat /opt/tgstation-server/appsettings.yml
         cat /opt/tgstation-server/lib/Default/Tgstation.Server.Host.deps.json
         cat /usr/bin/tgs-configure
+
+    - name: Test Service
+      run: |
+        set +e
+        systemctl status tgstation-server
+        $EXIT_CODE=$?
+        set -e
+        if [ $EXIT_CODE != 0 ] && [ $EXIT_CODE != '3' ]; then
+          exit $EXIT_CODE
+        fi
+
+    - name: Test Uninstall
+      run: |
         sudo apt-get remove -y tgstation-server
         if [[ -d "/opt/tgstation-server" ]]; then
           ls -al /opt/tgstation-server
-          exit 1
+          exit 2
         fi
 
     - name: Create Packaging Archive
@@ -981,33 +986,52 @@ jobs:
       shell: powershell
       run: build/package/winget/build_msi.ps1
 
-    - name: Test Install and Uninstall # Sanity checks the .deps.json exists, which the installation is broken without
-      shell: powershell                # If it's missing, I found that <PrivateAssets> in <PackageReference> elements were the problem
+    - name: Test Install # Sanity checks the .deps.json exists, which the installation is broken without
+      shell: powershell  # If it's missing, I found that <PrivateAssets> in <PackageReference> elements were the problem
       run: |
         $file = [System.IO.Path]::GetFullPath("packaging/build/package/winget/Tgstation.Server.Host.Service.Msi/Release/tgstation-server.msi")
         $log = [System.IO.Path]::GetFullPath("install.log")
-        $procMain = Start-Process "msiexec" "/i `"$file`" /qn /l*! `"$log`"" -NoNewWindow -PassThru
+        $procMain = Start-Process "msiexec" "/i `"$file`" /qn /l*! `"$log`"" -NoNewWindow -PassThru -Wait
         $procMain.WaitForExit()
-        if (-Not (Test-Path -Path "C:/Program Files (x86)/tgstation-server/lib/Default/Tgstation.Server.Host.deps.json" -PathType Leaf)) {
-          exit 2
-        }
         if (Test-Path -Path $log -PathType Leaf) {
           Get-Content $log
         }
+        $installCode = $procMain.ExitCode
+        if($installCode -ne 0) {
+          Write-Host "ERROR INSTALLER EXIT CODE $installCode"
+          exit 3
+        }
+        if (-Not (Test-Path -Path "C:/Program Files (x86)/tgstation-server/lib/Default/Tgstation.Server.Host.deps.json" -PathType Leaf)) {
+          exit 2
+        }
+
+    - name: Test Service
+      shell: powershell
+      run: |
         $service=Get-Service -Name tgstation-server -ErrorAction SilentlyContinue
         if ($service.Length -eq 0) {
           exit 3
         }
+
+    - name: Test Uninstall # Sanity checks the .deps.json exists, which the installation is broken without
+      shell: powershell  # If it's missing, I found that <PrivateAssets> in <PackageReference> elements were the problem
+      run: |
+        $file = [System.IO.Path]::GetFullPath("packaging/build/package/winget/Tgstation.Server.Host.Service.Msi/Release/tgstation-server.msi")
         $log = [System.IO.Path]::GetFullPath("uninstall.log")
-        $procMain = Start-Process "msiexec" "/u `"$file`" /qn /l*! `"$log`"" -NoNewWindow -PassThru
+        $procMain = Start-Process "msiexec" "/u `"$file`" /qn /l*! `"$log`"" -NoNewWindow -PassThru -Wait
         $procMain.WaitForExit()
         if (Test-Path -Path $log -PathType Leaf) {
           Get-Content $log
         }
+        $installCode = $procMain.ExitCode
+        if($installCode -ne 0) {
+          Write-Host "ERROR INSTALLER EXIT CODE $installCode"
+          exit 3
+        }
         $service=Get-Service -Name tgstation-server -ErrorAction SilentlyContinue
         if ($service.Length -gt 0) {
           echo $service
-          exit 1
+          exit 2
         }
 
     - name: Upload .msi
