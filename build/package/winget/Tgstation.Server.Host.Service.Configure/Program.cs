@@ -66,27 +66,28 @@ foreach (var installLogFile in Directory.EnumerateFiles(installDir, "*.log"))
 	File.Delete(installLogFile);
 
 if (uninstall)
+{
 	Directory.Delete(
 		Path.Combine(installDir, "lib"),
 		true);
 
-if ((shortcut || (interactive && !uninstall)) && process.ExitCode == 0)
-{
-	// try and lockdown the appsettings file
-	var fileInfo = new FileInfo(Path.Combine(installDir, "appsettings.Production.yml"));
-
-	//get security access
-	FileSecurity fs = fileInfo.GetAccessControl();
-
-	//remove inherited access
-	fs.SetAccessRuleProtection(true, false);
-
-	// Explicitly grant admins and SYSTEM
-	fs.AddAccessRule(new FileSystemAccessRule("Administrators", FileSystemRights.FullControl, AccessControlType.Allow));
-	fs.AddAccessRule(new FileSystemAccessRule("NT AUTHORITY\\SYSTEM", FileSystemRights.Read, AccessControlType.Allow));
-
-	fileInfo.SetAccessControl(fs);
+	// returning non-zero can make the installation uninstallable, no thanks
+	return 0;
 }
 
-// returning non-zero can make the installation uninstallable, no thanks
-return uninstall ? 0 : process.ExitCode;
+// try and lockdown the appsettings file
+var fileInfo = new FileInfo(Path.Combine(installDir, "appsettings.Production.yml"));
+
+//get security access
+FileSecurity fs = fileInfo.GetAccessControl();
+
+//remove inherited access
+fs.SetAccessRuleProtection(true, false);
+
+// Explicitly grant admins and SYSTEM
+fs.AddAccessRule(new FileSystemAccessRule("Administrators", FileSystemRights.FullControl, AccessControlType.Allow));
+fs.AddAccessRule(new FileSystemAccessRule("NT AUTHORITY\\SYSTEM", FileSystemRights.Read, AccessControlType.Allow));
+
+fileInfo.SetAccessControl(fs);
+
+return process.ExitCode;
