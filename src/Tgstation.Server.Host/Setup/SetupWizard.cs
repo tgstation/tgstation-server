@@ -32,7 +32,7 @@ using YamlDotNet.Serialization;
 namespace Tgstation.Server.Host.Setup
 {
 	/// <inheritdoc />
-	sealed class SetupWizard : IHostedService
+	sealed class SetupWizard : BackgroundService
 	{
 		/// <summary>
 		/// The <see cref="IIOManager"/> for the <see cref="SetupWizard"/>.
@@ -129,14 +129,11 @@ namespace Tgstation.Server.Host.Setup
 		}
 
 		/// <inheritdoc />
-		public async Task StartAsync(CancellationToken cancellationToken)
+		protected override async Task ExecuteAsync(CancellationToken cancellationToken)
 		{
 			await CheckRunWizard(cancellationToken);
 			applicationLifetime.StopApplication();
 		}
-
-		/// <inheritdoc />
-		public Task StopAsync(CancellationToken cancellationToken) => Task.CompletedTask;
 
 		/// <summary>
 		/// A prompt for a yes or no value.
@@ -493,7 +490,7 @@ namespace Tgstation.Server.Host.Setup
 				bool useWinAuth;
 				if (databaseConfiguration.DatabaseType == DatabaseType.SqlServer && platformIdentifier.IsWindows)
 				{
-					var defaultResponse = serverAddressEntry.AddressList.Any(IPAddress.IsLoopback)
+					var defaultResponse = serverAddressEntry?.AddressList.Any(IPAddress.IsLoopback) ?? false
 						? (bool?)true
 						: null;
 					useWinAuth = await PromptYesNo("Use Windows Authentication?", defaultResponse, cancellationToken);

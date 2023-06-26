@@ -91,13 +91,13 @@ namespace Tgstation.Server.Host.Setup.Tests
 			mockPlatformIdentifier.SetupGet(x => x.IsWindows).Returns(true).Verifiable();
 			mockAsyncDelayer.Setup(x => x.Delay(It.IsAny<TimeSpan>(), It.IsAny<CancellationToken>())).Returns(Task.CompletedTask).Verifiable();
 
-			await wizard.StartAsync(default);
+			await RunWizard();
 
 			testGeneralConfig.SetupWizardMode = SetupWizardMode.Force;
-			await Assert.ThrowsExceptionAsync<InvalidOperationException>(() => wizard.StartAsync(default));
+			await Assert.ThrowsExceptionAsync<InvalidOperationException>(() => RunWizard());
 
 			testGeneralConfig.SetupWizardMode = SetupWizardMode.Only;
-			await Assert.ThrowsExceptionAsync<InvalidOperationException>(() => wizard.StartAsync(default));
+			await Assert.ThrowsExceptionAsync<InvalidOperationException>(() => RunWizard());
 
 			mockConsole.SetupGet(x => x.Available).Returns(true).Verifiable();
 			mockIOManager.Setup(x => x.FileExists(It.IsNotNull<string>(), It.IsAny<CancellationToken>())).Returns(Task.FromResult(true)).Verifiable();
@@ -279,13 +279,20 @@ namespace Tgstation.Server.Host.Setup.Tests
 				.Returns(Task.CompletedTask)
 				.Verifiable();
 
-			await wizard.StartAsync(default);
+			async Task RunWizard()
+			{
+				await wizard.StartAsync(default);
+				await wizard.ExecuteTask;
+				await wizard.StopAsync(default);
+			}
+
+			await RunWizard();
 			//first real run
-			await wizard.StartAsync(default);
+			await RunWizard();
 
 			//second run
 			mockIOManager.Setup(x => x.ReadAllBytes(It.IsNotNull<string>(), It.IsAny<CancellationToken>())).Returns(Task.FromResult(Encoding.UTF8.GetBytes(String.Empty))).Verifiable();
-			await wizard.StartAsync(default);
+			await RunWizard();
 
 			//third run
 			testGeneralConfig.SetupWizardMode = SetupWizardMode.Autodetect;
@@ -309,7 +316,7 @@ namespace Tgstation.Server.Host.Setup.Tests
 				return Task.CompletedTask;
 			}).Verifiable();
 
-			await Assert.ThrowsExceptionAsync<OperationCanceledException>(() => wizard.StartAsync(default));
+			await Assert.ThrowsExceptionAsync<OperationCanceledException>(() => RunWizard());
 
 			Assert.AreEqual(finalInputSequence.Count, inputPos);
 			mockFailCommand.VerifyAll();
