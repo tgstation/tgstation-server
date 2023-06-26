@@ -875,14 +875,10 @@ jobs:
         fail_ci_if_error: true
 
   build-deb:
-    name: Build .deb Package
+    name: Build .deb Package # Can't do i386 due to https://github.com/dotnet/core/issues/4595
     needs: start-ci-run-gate
     runs-on: ubuntu-latest
     if: "!(cancelled() || failure()) && needs.start-ci-run-gate.result == 'success'"
-    strategy:
-      fail-fast: false
-      matrix:
-        arch: [ 'amd64' ] # Can't do i386 due to https://github.com/dotnet/core/issues/4595
     steps:
     - name: Import GPG Key
       run: |
