@@ -56,5 +56,38 @@ namespace Tgstation.Server.Host.Extensions
 
 			return await task;
 		}
+
+		/// <summary>
+		/// Create a <see cref="ValueTask"/> that can be awaited while respecting a given <paramref name="cancellationToken"/>.
+		/// </summary>
+		/// <param name="task">The <see cref="ValueTask"/> to add cancel support to.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
+		public static async ValueTask WithToken(this ValueTask task, CancellationToken cancellationToken)
+		{
+			var cancelTcs = new TaskCompletionSource();
+			using (cancellationToken.Register(() => cancelTcs.SetCanceled()))
+				await Task.WhenAny(task.AsTask(), cancelTcs.Task);
+
+			cancellationToken.ThrowIfCancellationRequested();
+			await task;
+		}
+
+		/// <summary>
+		/// Create a <see cref="ValueTask{TResult}"/> that can be awaited while respecting a given <paramref name="cancellationToken"/>.
+		/// </summary>
+		/// <typeparam name="T">The result <see cref="Type"/> of the <paramref name="task"/>.</typeparam>
+		/// <param name="task">The <see cref="ValueTask{TResult}"/> to add cancel support to.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the result of <paramref name="task"/>.</returns>
+		public static async ValueTask<T> WithToken<T>(this ValueTask<T> task, CancellationToken cancellationToken)
+		{
+			var cancelTcs = new TaskCompletionSource();
+			using (cancellationToken.Register(() => cancelTcs.SetCanceled()))
+				await Task.WhenAny(task.AsTask(), cancelTcs.Task);
+
+			cancellationToken.ThrowIfCancellationRequested();
+			return await task;
+		}
 	}
 }
