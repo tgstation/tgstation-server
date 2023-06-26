@@ -1,0 +1,3 @@
+Database:
+  DatabaseType: Sqlite
+  ConnectionString: Data Source=/tgs.sqlite3;Mode=ReadWriteCreate

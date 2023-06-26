@@ -203,6 +203,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tgstation.Server.Common", "
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "package", "package", "{2648A85F-61AE-428E-95E1-66D06C7A3768}"
 	ProjectSection(SolutionItems) = preProject
+		build\package\appsettings.GitHub.yml = build\package\appsettings.GitHub.yml
 		build\package\appsettings.Initial.yml = build\package\appsettings.Initial.yml
 	EndProjectSection
 EndProject
@@ -234,8 +235,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "upstream", "upstream", "{B4
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "winget", "winget", "{506B9092-AF88-4DA2-84FD-C11646B695B0}"
 	ProjectSection(SolutionItems) = preProject
-		build\package\winget\installer.sln = build\package\winget\installer.sln
 		build\package\winget\build_msi.ps1 = build\package\winget\build_msi.ps1
+		build\package\winget\installer.sln = build\package\winget\installer.sln
 		build\package\winget\install_banner.jpg = build\package\winget\install_banner.jpg
 		build\package\winget\push_manifest.ps1 = build\package\winget\push_manifest.ps1
 	EndProjectSection

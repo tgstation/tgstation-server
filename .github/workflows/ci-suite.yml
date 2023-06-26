@@ -916,6 +916,7 @@ jobs:
 
     - name: Test Install and Uninstall
       run: |
+        sudo install -D build/package/appsettings.GitHub.yml /etc/tgstation-server/appsettings.Production.yml
         sudo dpkg --add-architecture i386
         sudo apt-get update
         sudo apt-get install -y -o APT::Immediate-Configure=0 libstdc++6:i386 libgcc-s1:i386 ./tgstation-server_${{ env.TGS_VERSION }}-1_amd64.deb
@@ -993,12 +994,14 @@ jobs:
     - name: Test Install and Uninstall # Sanity checks the .deps.json exists, which the installation is broken without
       shell: powershell                # If it's missing, I found that <PrivateAssets> in <PackageReference> elements were the problem
       run: |
+        mkdir "C:/Program Files (x86)/tgstation-server"
+        cp build/package/appsettings.GitHub.yml "C:/Program Files (x86)/tgstation-server/appsettings.Production.yml"
         $file = [System.IO.Path]::GetFullPath("packaging/build/package/winget/Tgstation.Server.Host.Service.Msi/Release/tgstation-server.msi")
         $log = [System.IO.Path]::GetFullPath("install.log")
         $procMain = Start-Process "msiexec" "/i `"$file`" /qn /l*! `"$log`"" -NoNewWindow -PassThru
         $procMain.WaitForExit()
         Get-Content "C:/Program Files (x86)/tgstation-server/lib/Default/Tgstation.Server.Host.deps.json"
-        Get-Service -Name tgstation-server -ErrorAction SilentlyContinue
+        Get-Service -Name tgstation-server
         $log = [System.IO.Path]::GetFullPath("uninstall.log")
         $procMain = Start-Process "msiexec" "/u `"$file`" /qn /l*! `"$log`"" -NoNewWindow -PassThru
         $procMain.WaitForExit()
