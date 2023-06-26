@@ -10,6 +10,8 @@ git worktree add -f packaging $currentCommit
 cd packaging
 Remove-Item -Recurse -Force .git
 
+dotnet restore
+
 [XML]$versionXML = Get-Content build/Version.props
 $tgsVersion = $versionXML.Project.PropertyGroup.TgsCoreVersion
 
