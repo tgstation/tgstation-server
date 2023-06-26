@@ -1008,7 +1008,7 @@ jobs:
       run: |
         $file = [System.IO.Path]::GetFullPath("packaging/build/package/winget/Tgstation.Server.Host.Service.Msi/Release/tgstation-server.msi")
         $log = [System.IO.Path]::GetFullPath("install.log")
-        Start-Process "msiexec" "/i `"$file`" /qn /l*! `"$log`"" -NoNewWindow -PassThru -Wait
+        $procMain = Start-Process "msiexec" "/i `"$file`" /qn /l*! `"$log`"" -NoNewWindow -PassThru -Wait
         if (Test-Path -Path $log -PathType Leaf) {
           Get-Content $log
         }
@@ -1034,7 +1034,7 @@ jobs:
       run: |
         $file = [System.IO.Path]::GetFullPath("packaging/build/package/winget/Tgstation.Server.Host.Service.Msi/Release/tgstation-server.msi")
         $log = [System.IO.Path]::GetFullPath("uninstall.log")
-        Start-Process "msiexec" "/x `"$file`" /qn /l*! `"$log`"" -NoNewWindow -PassThru -Wait
+        $procMain = Start-Process "msiexec" "/x `"$file`" /qn /l*! `"$log`"" -NoNewWindow -PassThru -Wait
         if (Test-Path -Path $log -PathType Leaf) {
           Get-Content $log
         }
