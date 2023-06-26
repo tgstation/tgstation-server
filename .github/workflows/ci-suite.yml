@@ -954,17 +954,24 @@ jobs:
       working-directory: C:/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE/CommonExtensions/Microsoft/VSI/DisableOutOfProcBuild
       run: ./DisableOutOfProcBuild.exe
 
-    - name: Install winget
-      shell: powershell
+    - name: Install winget # Hacked together https://github.com/microsoft/winget-cli/issues/1861#issuecomment-1352784247
+      shell: powershell    # https://github.com/microsoft/winget-cli/issues/700#issuecomment-874084714
       run: |
+        Invoke-WebRequest -Uri https://www.nuget.org/api/v2/package/Microsoft.UI.Xaml/2.7.3 -OutFile .\microsoft.ui.xaml.2.7.3.zip
+        Expand-Archive .\microsoft.ui.xaml.2.7.3.zip
+        Add-AppxPackage .\microsoft.ui.xaml.2.7.3\tools\AppX\x64\Release\Microsoft.UI.Xaml.2.7.appx
         $progressPreference = 'silentlyContinue'
-        $latestWingetMsixBundleUri = $(Invoke-RestMethod https://api.github.com/repos/microsoft/winget-cli/releases/latest).assets.browser_download_url | Where-Object {$_.EndsWith(".msixbundle")}
+        $wingetReleaseAssets = $latestWingetMsixBundleUri = $(Invoke-RestMethod https://api.github.com/repos/microsoft/winget-cli/releases/latest).assets
+        $latestWingetMsixBundleUri = $wingetReleaseAssets.browser_download_url | Where-Object {$_.EndsWith(".msixbundle")}
         $latestWingetMsixBundle = $latestWingetMsixBundleUri.Split("/")[-1]
+        $latestWingetLicenseXmlUri = $wingetReleaseAssets.browser_download_url | Where-Object {$_.EndsWith("License1.xml")}
+        $latestWingetLicenseXml = $latestWingetLicenseXmlUri.Split("/")[-1]
         Write-Information "Downloading winget to artifacts directory..."
         Invoke-WebRequest -Uri $latestWingetMsixBundleUri -OutFile "./$latestWingetMsixBundle"
         Invoke-WebRequest -Uri https://aka.ms/Microsoft.VCLibs.x64.14.00.Desktop.appx -OutFile Microsoft.VCLibs.x64.14.00.Desktop.appx
+        Invoke-WebRequest -Uri $latestWingetLicenseXmlUri -OutFile "./$latestWingetLicenseXml"
         Add-AppxPackage Microsoft.VCLibs.x64.14.00.Desktop.appx
-        Add-AppxPackage $latestWingetMsixBundle
+        Add-AppxProvisionedPackage -Online -PackagePath ./$latestWingetMsixBundle -LicensePath ./$latestWingetLicenseXml
 
     - name: Checkout (Branch)
       uses: actions/checkout@v3
@@ -1360,17 +1367,24 @@ jobs:
       with:
         dotnet-version: ${{ env.TGS_DOTNET_VERSION }}
 
-    - name: Install winget
-      shell: powershell
+    - name: Install winget # Hacked together https://github.com/microsoft/winget-cli/issues/1861#issuecomment-1352784247
+      shell: powershell    # https://github.com/microsoft/winget-cli/issues/700#issuecomment-874084714
       run: |
+        Invoke-WebRequest -Uri https://www.nuget.org/api/v2/package/Microsoft.UI.Xaml/2.7.3 -OutFile .\microsoft.ui.xaml.2.7.3.zip
+        Expand-Archive .\microsoft.ui.xaml.2.7.3.zip
+        Add-AppxPackage .\microsoft.ui.xaml.2.7.3\tools\AppX\x64\Release\Microsoft.UI.Xaml.2.7.appx
         $progressPreference = 'silentlyContinue'
-        $latestWingetMsixBundleUri = $(Invoke-RestMethod https://api.github.com/repos/microsoft/winget-cli/releases/latest).assets.browser_download_url | Where-Object {$_.EndsWith(".msixbundle")}
+        $wingetReleaseAssets = $latestWingetMsixBundleUri = $(Invoke-RestMethod https://api.github.com/repos/microsoft/winget-cli/releases/latest).assets
+        $latestWingetMsixBundleUri = $wingetReleaseAssets.browser_download_url | Where-Object {$_.EndsWith(".msixbundle")}
         $latestWingetMsixBundle = $latestWingetMsixBundleUri.Split("/")[-1]
+        $latestWingetLicenseXmlUri = $wingetReleaseAssets.browser_download_url | Where-Object {$_.EndsWith("License1.xml")}
+        $latestWingetLicenseXml = $latestWingetLicenseXmlUri.Split("/")[-1]
         Write-Information "Downloading winget to artifacts directory..."
         Invoke-WebRequest -Uri $latestWingetMsixBundleUri -OutFile "./$latestWingetMsixBundle"
         Invoke-WebRequest -Uri https://aka.ms/Microsoft.VCLibs.x64.14.00.Desktop.appx -OutFile Microsoft.VCLibs.x64.14.00.Desktop.appx
+        Invoke-WebRequest -Uri $latestWingetLicenseXmlUri -OutFile "./$latestWingetLicenseXml"
         Add-AppxPackage Microsoft.VCLibs.x64.14.00.Desktop.appx
-        Add-AppxPackage $latestWingetMsixBundle
+        Add-AppxProvisionedPackage -Online -PackagePath ./$latestWingetMsixBundle -LicensePath ./$latestWingetLicenseXml
 
     - name: Install wingetcreate
       run: winget install wingetcreate
