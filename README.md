@@ -36,7 +36,7 @@ You should also ensure that your .NET Framework runtime version is >= v4.7.2. Mo
 
 ##### winget
 
-If you have [winget]() installed. You can easily install the latest version of tgstation-server (provided Microsoft has approved the most recent package manifest).
+If you have [winget](https://github.com/microsoft/winget-cli) installed. You can easily install the latest version of tgstation-server (provided Microsoft has approved the most recent package manifest).
 
 Simply run the following command:
 ```sh
@@ -50,7 +50,7 @@ winget install tgstation-server --silent
 
 You won't be prompted to run the setup wizard. However, you can do so immediately after via the shortcut placed on your desktop.
 
-NOTE: 
+NOTE:
 
 `winget` should, theoretically, install the ASP .NET Core 6.0 Runtime as a pre-reqiusite. At the time of this writing, this functionality is untested (TODO). If the runtime isn't automatically installed for you, see above or below for steps on how to download and install it manually.
 
