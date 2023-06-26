@@ -456,7 +456,7 @@ namespace Tgstation.Server.Host.Core
 
 			// 503 requests made while the application is starting
 			applicationBuilder.UseAsyncInitialization<IInstanceManager>(
-				(instanceManager, cancellationToken) => instanceManager.Ready.WithToken(cancellationToken));
+				(instanceManager, cancellationToken) => instanceManager.Ready.WaitAsync(cancellationToken));
 
 			if (generalConfiguration.HostApiDocumentation)
 			{

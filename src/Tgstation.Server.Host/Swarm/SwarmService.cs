@@ -282,7 +282,7 @@ namespace Tgstation.Server.Host.Swarm
 				? asyncDelayer.Delay(
 					TimeSpan.FromMinutes(SwarmConstants.UpdateCommitTimeoutMinutes),
 					cancellationToken)
-				: Extensions.TaskExtensions.InfiniteTask.WithToken(cancellationToken);
+				: Extensions.TaskExtensions.InfiniteTask.WaitAsync(cancellationToken);
 
 			var commitTask = Task.WhenAny(localUpdateOperation.CommitGate, timeoutTask);
 

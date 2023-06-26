@@ -779,7 +779,7 @@ namespace Tgstation.Server.Host.Components.Session
 						}
 
 						Interlocked.Exchange(ref rebootTcs, new TaskCompletionSource()).SetResult();
-						await RebootGate.WithToken(cancellationToken);
+						await RebootGate.WaitAsync(cancellationToken);
 					}
 					finally
 					{

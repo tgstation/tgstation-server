@@ -1303,7 +1303,7 @@ namespace Tgstation.Server.Tests.Live
 				serverCts.Cancel();
 				try
 				{
-					await serverTask.WithToken(hardCancellationToken);
+					await serverTask.WaitAsync(hardCancellationToken);
 				}
 				catch (OperationCanceledException) { }
 

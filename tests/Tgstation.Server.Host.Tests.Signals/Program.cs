@@ -40,17 +40,17 @@ namespace Tgstation.Server.Host.Tests.Signals
 			Assert.IsFalse(tcs.Task.IsCompleted);
 
 			using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(5));
-			await signalHandler.StopAsync(default).WithToken(cts.Token);
+			await signalHandler.StopAsync(default).WaitAsync(cts.Token);
 			Assert.IsFalse(tcs.Task.IsCompleted);
 
 			using var signalHandler2 = new PosixSignalHandler(mockServerControl.Object, mockAsyncDelayer.Object, Mock.Of<ILogger<PosixSignalHandler>>());
 			await signalHandler2.StartAsync(default);
 
 			using var cts2 = new CancellationTokenSource(TimeSpan.FromSeconds(20));
-			await tcs.Task.WithToken(cts2.Token);
+			await tcs.Task.WaitAsync(cts2.Token);
 
 			using var cts3 = new CancellationTokenSource(TimeSpan.FromSeconds(5));
-			await signalHandler2.StopAsync(default).WithToken(cts3.Token);
+			await signalHandler2.StopAsync(default).WaitAsync(cts3.Token);
 		}
 	}
 }

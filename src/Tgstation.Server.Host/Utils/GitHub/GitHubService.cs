@@ -65,7 +65,7 @@ namespace Tgstation.Server.Host.Utils.GitHub
 					{
 						RedirectUri = oAuthConfiguration.RedirectUrl,
 					})
-				.WithToken(cancellationToken);
+				.WaitAsync(cancellationToken);
 
 			var token = response.AccessToken;
 			return token;
@@ -79,7 +79,7 @@ namespace Tgstation.Server.Host.Utils.GitHub
 				.Repository
 				.Release
 					.GetAll(updatesConfiguration.GitHubRepositoryId)
-					.WithToken(cancellationToken);
+					.WaitAsync(cancellationToken);
 
 			logger.LogTrace("{totalReleases} total releases", allReleases.Count);
 			var releases = allReleases
@@ -123,7 +123,7 @@ namespace Tgstation.Server.Host.Utils.GitHub
 			var repository = await gitHubClient
 				.Repository
 					.Get(updatesConfiguration.GitHubRepositoryId)
-					.WithToken(cancellationToken);
+					.WaitAsync(cancellationToken);
 
 			var repoUrl = new Uri(repository.HtmlUrl);
 			logger.LogTrace("Maps to {repostioryUrl}", repoUrl);
@@ -136,7 +136,7 @@ namespace Tgstation.Server.Host.Utils.GitHub
 		{
 			logger.LogTrace("CreateOAuthAccessToken");
 
-			var userDetails = await gitHubClient.User.Current().WithToken(cancellationToken);
+			var userDetails = await gitHubClient.User.Current().WaitAsync(cancellationToken);
 			return userDetails.Id;
 		}
 
@@ -159,7 +159,7 @@ namespace Tgstation.Server.Host.Utils.GitHub
 					repoName,
 					issueNumber,
 					comment)
-				.WithToken(cancellationToken);
+				.WaitAsync(cancellationToken);
 		}
 
 		/// <inheritdoc />
@@ -176,7 +176,7 @@ namespace Tgstation.Server.Host.Utils.GitHub
 				.Get(
 					repoOwner,
 					repoName)
-				.WithToken(cancellationToken);
+				.WaitAsync(cancellationToken);
 
 			return repo.Id;
 		}
@@ -199,7 +199,7 @@ namespace Tgstation.Server.Host.Utils.GitHub
 					repoOwner,
 					repoName,
 					newDeployment)
-				.WithToken(cancellationToken);
+				.WaitAsync(cancellationToken);
 
 			return deployment.Id;
 		}
@@ -223,7 +223,7 @@ namespace Tgstation.Server.Host.Utils.GitHub
 					repoName,
 					deploymentId,
 					newDeploymentStatus)
-				.WithToken(cancellationToken);
+				.WaitAsync(cancellationToken);
 		}
 
 		/// <inheritdoc />
@@ -240,7 +240,7 @@ namespace Tgstation.Server.Host.Utils.GitHub
 					repoId,
 					deploymentId,
 					newDeploymentStatus)
-				.WithToken(cancellationToken);
+				.WaitAsync(cancellationToken);
 		}
 
 		/// <inheritdoc />
@@ -258,7 +258,7 @@ namespace Tgstation.Server.Host.Utils.GitHub
 					repoOwner,
 					repoName,
 					pullRequestNumber)
-				.WithToken(cancellationToken);
+				.WaitAsync(cancellationToken);
 		}
 	}
 }

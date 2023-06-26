@@ -258,7 +258,7 @@ namespace Tgstation.Server.Host.Transfer
 				var expireAt = DateTimeOffset.UtcNow + TimeSpan.FromMinutes(TicketValidityMinutes);
 				try
 				{
-					await oldExpireTask.WithToken(disposeCts.Token);
+					await oldExpireTask.WaitAsync(disposeCts.Token);
 
 					var now = DateTimeOffset.UtcNow;
 					if (now < expireAt)

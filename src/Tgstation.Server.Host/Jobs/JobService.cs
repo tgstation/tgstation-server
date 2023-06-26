@@ -265,7 +265,7 @@ namespace Tgstation.Server.Host.Jobs
 			}
 
 			if (noMoreJobsShouldStart && !handler.Started)
-				await Extensions.TaskExtensions.InfiniteTask.WithToken(cancellationToken);
+				await Extensions.TaskExtensions.InfiniteTask.WaitAsync(cancellationToken);
 
 			Task cancelTask = null;
 			using (jobCancellationToken.Register(() => cancelTask = CancelJob(job, canceller, true, cancellationToken)))
@@ -320,7 +320,7 @@ namespace Tgstation.Server.Host.Jobs
 								}
 						}
 
-						var instanceCoreProvider = await activationTcs.Task.WithToken(cancellationToken);
+						var instanceCoreProvider = await activationTcs.Task.WaitAsync(cancellationToken);
 
 						logger.LogTrace("Starting job...");
 						await operation(

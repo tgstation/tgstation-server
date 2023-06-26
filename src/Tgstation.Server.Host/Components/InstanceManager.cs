@@ -323,7 +323,7 @@ namespace Tgstation.Server.Host.Components
 
 				try
 				{
-					await container.OnZeroReferences.WithToken(cancellationToken);
+					await container.OnZeroReferences.WaitAsync(cancellationToken);
 
 					// we are the one responsible for cancelling his jobs
 					var tasks = new List<Task>();

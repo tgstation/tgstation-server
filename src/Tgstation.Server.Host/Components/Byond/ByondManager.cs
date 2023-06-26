@@ -235,7 +235,7 @@ namespace Tgstation.Server.Host.Components.Byond
 				await Task.WhenAny(
 					containerTask,
 					activeVersionUpdate)
-					.WithToken(cancellationToken);
+					.WaitAsync(cancellationToken);
 
 				if (containerTask.IsCompleted)
 					logger.LogTrace("All BYOND locks for {version} are gone", version);
@@ -455,7 +455,7 @@ namespace Tgstation.Server.Host.Components.Byond
 					if (neededForLock && !installation.InstallationTask.IsCompleted)
 						logger.LogWarning("The required BYOND version ({version}) is not readily available! We will have to wait for it to install.", version);
 
-					await installation.InstallationTask.WithToken(cancellationToken);
+					await installation.InstallationTask.WaitAsync(cancellationToken);
 					return installLock;
 				}
 

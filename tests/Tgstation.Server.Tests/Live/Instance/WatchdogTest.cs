@@ -590,7 +590,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 				var bridgeTestTopicResult = await TopicClient.SendTopic(IPAddress.Loopback, "tgs_integration_test_tactics2=1", TestLiveServer.DDPort, cancellationToken);
 				Assert.AreEqual("ack2", bridgeTestTopicResult.StringData);
 
-				await bridgeTestsTcs.Task.WithToken(cancellationToken);
+				await bridgeTestsTcs.Task.WaitAsync(cancellationToken);
 			}
 
 			BridgeController.LogContent = true;

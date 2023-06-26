@@ -59,7 +59,7 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 					.GetAsync(
 						$"{repository.RemoteRepositoryOwner}/{repository.RemoteRepositoryName}",
 						x.TestMerge.Number)
-					.WithToken(cancellationToken));
+					.WaitAsync(cancellationToken));
 			try
 			{
 				await Task.WhenAll(tasks);
@@ -138,7 +138,7 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 					$"{remoteRepositoryOwner}/{remoteRepositoryName}",
 					testMergeNumber,
 					new CreateMergeRequestNoteRequest(comment))
-				.WithToken(cancellationToken);
+				.WaitAsync(cancellationToken);
 		}
 
 		/// <inheritdoc />

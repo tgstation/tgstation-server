@@ -102,7 +102,7 @@ namespace Tgstation.Server.Host.IO
 			cancellationToken,
 			DefaultIOManager.BlockingTaskCreationOptions,
 			TaskScheduler.Current)
-			.WithToken(cancellationToken);
+			.WaitAsync(cancellationToken);
 
 		/// <inheritdoc />
 		public Task WriteAsync(string text, bool newLine, CancellationToken cancellationToken) => Task.Factory.StartNew(

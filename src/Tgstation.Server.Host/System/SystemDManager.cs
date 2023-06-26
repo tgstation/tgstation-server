@@ -128,7 +128,7 @@ namespace Tgstation.Server.Host.System
 
 			try
 			{
-				await instanceManager.Ready.WithToken(cancellationToken);
+				await instanceManager.Ready.WaitAsync(cancellationToken);
 				CheckReady();
 
 				var watchdogUsec = Environment.GetEnvironmentVariable("WATCHDOG_USEC");
