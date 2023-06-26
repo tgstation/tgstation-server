@@ -26,14 +26,6 @@ Follow the instructions for your OS below.
 
 #### Windows
 
-##### Installer
-
-If you don't have it installed already, download and install the [ASP .NET Core Runtime (>= v6.0)](https://dotnet.microsoft.com/download/dotnet/6.0). Ensure that the `dotnet` executable file is in your system's `PATH` variable (or that of the user's that will be running the server). You can test this by opening a command prompt and running `dotnet --list-runtimes`.
-
-You should also ensure that your .NET Framework runtime version is >= v4.7.2. Most modern systems have it by default so this isn't much of a concern. If, somehow, you don't have it installed, it can be downloaded [here](https://dotnet.microsoft.com/en-us/download/dotnet-framework/net472).
-
-[Download the latest release .msi](https://github.com/tgstation/tgstation-server/releases/latest). Executing it will take you through the process of installing and configuring your server.
-
 ##### winget
 
 If you have [winget](https://github.com/microsoft/winget-cli) installed. You can easily install the latest version of tgstation-server (provided Microsoft has approved the most recent package manifest).
@@ -52,7 +44,15 @@ You won't be prompted to run the setup wizard. However, you can do so immediatel
 
 NOTE:
 
-`winget` should, theoretically, install the ASP .NET Core 6.0 Runtime as a pre-reqiusite. At the time of this writing, this functionality is untested (TODO). If the runtime isn't automatically installed for you, see above or below for steps on how to download and install it manually.
+`winget` should, theoretically, install the ASP .NET Core 6.0 Runtime as a pre-reqiusite. At the time of this writing, this functionality is untested (TODO). If the runtime isn't automatically installed for you, see below for steps on how to download and install it manually.
+
+##### Installer
+
+If you don't have it installed already, download and install the [ASP .NET Core Runtime (>= v6.0)](https://dotnet.microsoft.com/download/dotnet/6.0). Ensure that the `dotnet` executable file is in your system's `PATH` variable (or that of the user's that will be running the server). You can test this by opening a command prompt and running `dotnet --list-runtimes`.
+
+You should also ensure that your .NET Framework runtime version is >= v4.7.2. Most modern systems have it by default so this isn't much of a concern. If, somehow, you don't have it installed, it can be downloaded [here](https://dotnet.microsoft.com/en-us/download/dotnet-framework/net472).
+
+[Download the latest release .msi](https://github.com/tgstation/tgstation-server/releases/latest). Executing it will take you through the process of installing and configuring your server.
 
 ##### Manual
 
