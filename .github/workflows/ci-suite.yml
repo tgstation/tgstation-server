@@ -954,6 +954,18 @@ jobs:
       working-directory: C:/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE/CommonExtensions/Microsoft/VSI/DisableOutOfProcBuild
       run: ./DisableOutOfProcBuild.exe
 
+    - name: Install winget
+      shell: powershell
+      run: |
+        $progressPreference = 'silentlyContinue'
+        $latestWingetMsixBundleUri = $(Invoke-RestMethod https://api.github.com/repos/microsoft/winget-cli/releases/latest).assets.browser_download_url | Where-Object {$_.EndsWith(".msixbundle")}
+        $latestWingetMsixBundle = $latestWingetMsixBundleUri.Split("/")[-1]
+        Write-Information "Downloading winget to artifacts directory..."
+        Invoke-WebRequest -Uri $latestWingetMsixBundleUri -OutFile "./$latestWingetMsixBundle"
+        Invoke-WebRequest -Uri https://aka.ms/Microsoft.VCLibs.x64.14.00.Desktop.appx -OutFile Microsoft.VCLibs.x64.14.00.Desktop.appx
+        Add-AppxPackage Microsoft.VCLibs.x64.14.00.Desktop.appx
+        Add-AppxPackage $latestWingetMsixBundle
+
     - name: Checkout (Branch)
       uses: actions/checkout@v3
       if: github.event_name == 'push' || github.event_name == 'schedule'
@@ -1347,6 +1359,18 @@ jobs:
       uses: actions/setup-dotnet@v2
       with:
         dotnet-version: ${{ env.TGS_DOTNET_VERSION }}
+
+    - name: Install winget
+      shell: powershell
+      run: |
+        $progressPreference = 'silentlyContinue'
+        $latestWingetMsixBundleUri = $(Invoke-RestMethod https://api.github.com/repos/microsoft/winget-cli/releases/latest).assets.browser_download_url | Where-Object {$_.EndsWith(".msixbundle")}
+        $latestWingetMsixBundle = $latestWingetMsixBundleUri.Split("/")[-1]
+        Write-Information "Downloading winget to artifacts directory..."
+        Invoke-WebRequest -Uri $latestWingetMsixBundleUri -OutFile "./$latestWingetMsixBundle"
+        Invoke-WebRequest -Uri https://aka.ms/Microsoft.VCLibs.x64.14.00.Desktop.appx -OutFile Microsoft.VCLibs.x64.14.00.Desktop.appx
+        Add-AppxPackage Microsoft.VCLibs.x64.14.00.Desktop.appx
+        Add-AppxPackage $latestWingetMsixBundle
 
     - name: Install wingetcreate
       run: winget install wingetcreate
