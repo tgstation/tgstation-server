@@ -348,22 +348,13 @@ namespace Tgstation.Server.Host.Setup
 			{
 				await console.WriteAsync(String.Empty, true, cancellationToken);
 				await console.WriteAsync(
-					"NOTE: It is HIGHLY reccommended that TGS runs on a complete relational database, specfically *NOT* Sqlite.",
+					"NOTE: If you are serious about hosting public servers, it is HIGHLY reccommended that TGS runs on a database *OTHER THAN* Sqlite.",
 					true,
 					cancellationToken);
 				await console.WriteAsync(
-					"Sqlite, by nature cannot perform several DDL operations. Because of this future compatiblility cannot be guaranteed.",
+					"It is, however, the easiest option to get started with and will pose few if any problems in a single user scenario.",
 					true,
 					cancellationToken);
-				await console.WriteAsync(
-					"This means that you may not be able to update to the next minor version of TGS without a clean re-installation!",
-					true,
-					cancellationToken);
-				await console.WriteAsync(
-					"Please consider taking the time to set up a relational database if this is meant to be a long-standing server.",
-					true,
-					cancellationToken);
-				await console.WriteAsync(String.Empty, true, cancellationToken);
 
 				await asyncDelayer.Delay(TimeSpan.FromSeconds(3), cancellationToken);
 			}

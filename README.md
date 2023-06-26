@@ -18,7 +18,25 @@ Older server versions can be found in the V# branches of this repository. Note t
 
 ### Pre-Requisites
 
-- A [MariaDB](https://downloads.mariadb.org/), MySQL, [PostgresSQL](https://www.postgresql.org/download/), or [Microsoft SQL Server](https://www.microsoft.com/en-us/download/details.aspx?id=55994) database engine is required
+tgstation-server needs a relational database to store it's data.
+
+If you're just a hobbyist server host, you can probably get away with using SQLite for this. SQLite is bundled with TGS and simply requires you to specify where on your machine you want to store the data.
+
+_HOWEVER_
+
+SQLite is not a battle-ready relational database. It doesn't scale well for any use case. TGS *strongly* recommends you use one of its supported standalone databases. Setting one of these up is more involved but worth the effort.
+
+The supported standalone databases are:
+
+- [MariaDB](https://downloads.mariadb.org/) _- NOTE: If you plan on hosting SpaceStation 13, this is the database most codebases support, making it an ideal choice_
+- [PostgresSQL](https://www.postgresql.org/download/)
+- [Microsoft SQL Server](https://www.microsoft.com/en-us/download/details.aspx?id=55994)
+- MySQL
+
+TGS will require either:
+- No pre-existing database WITH schema creation permissions.
+or
+- Exclusive access to a database schema that TGS has full control over.
 
 ### Installation
 
