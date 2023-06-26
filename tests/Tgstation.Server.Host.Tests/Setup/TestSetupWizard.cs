@@ -152,14 +152,14 @@ namespace Tgstation.Server.Host.Setup.Tests
 				"666",
 				"FakeDBType",
 				nameof(DatabaseType.SqlServer),
-				"this isn't validated",
+				"localhost",
 				"nor is this",
 				"no",
 				//test winauth
 				"yes",
 				//sql server will always fail so reconfigure with maria
 				nameof(DatabaseType.MariaDB),
-				"bleh",
+				"127.0.0.1",
 				"blah",
 				"NO",
 				"user",
@@ -187,7 +187,7 @@ namespace Tgstation.Server.Host.Setup.Tests
 				String.Empty,
 				//test MySQL errors
 				nameof(DatabaseType.MySql),
-				String.Empty,
+				"::1",
 				String.Empty,
 				"DbName",
 				"n",
