@@ -2,7 +2,9 @@
 using System.Diagnostics;
 using System.IO;
 using System.IO.Pipes;
+using System.Linq;
 using System.ServiceProcess;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -203,7 +205,17 @@ namespace Tgstation.Server.Host.Service
 			logger.LogDebug("Send command: {command}", command);
 			try
 			{
-				using var streamWriter = new StreamWriter(localPipeServer);
+				var encoding = Encoding.UTF8;
+				using var streamWriter = new StreamWriter(
+					localPipeServer,
+					encoding,
+					PipeCommands
+						.AllCommands
+						.Select(
+							command => encoding.GetByteCount(
+								command + Environment.NewLine))
+						.Max(),
+					true);
 				streamWriter.WriteLine(command);
 			}
 			catch (Exception ex)

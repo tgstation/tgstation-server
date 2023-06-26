@@ -84,7 +84,7 @@ namespace Tgstation.Server.Host.Core
 							await serverControl.GracefulShutdown(true);
 							break;
 						case null:
-							logger.LogDebug("Read null from pipe");
+							logger.LogError("Read null from pipe!");
 							return;
 						default:
 							logger?.LogWarning("Unrecognized pipe command: {command}", line);
