@@ -1066,15 +1066,11 @@ jobs:
       with:
         dotnet-version: ${{ env.TGS_DOTNET_VERSION }}
 
-    - name: Retrieve winget-pkgs PULL_REQUEST_TEMPLATE commit history from GitHub API
-      id: get-json
-      run: |
-        echo "commits-response=$(curl -L -u "${{ vars.DEV_PUSH_USERNAME }}:${{ secrets.DEV_PUSH_TOKEN }}" -H "Accept: application/vnd.github.everest-preview+json" -H "Content-Type: application/json" https://api.github.com/repos/microsoft/winget-pkgs/commits?path=.github/PULL_REQUEST_TEMPLATE.md)" >> $GITHUB_OUTPUT
-
-    - name: Output Latest SHA for winget-pkgs PULL_REQUEST_TEMPLATE
+    - name: Retrieve Latest winget-pkgs PULL_REQUEST_TEMPLATE commit SHA from GitHub API
       id: get-sha
       run: |
-        echo "pr_template_sha=$(echo ${{ steps.get-json.outputs.commits-response[0].sha }})" >> $GITHUB_OUTPUT
+        curl -L -u "${{ vars.DEV_PUSH_USERNAME }}:${{ secrets.DEV_PUSH_TOKEN }}" -H "Accept: application/vnd.github.everest-preview+json" -H "Content-Type: application/json" -o commits.json https://api.github.com/repos/microsoft/winget-pkgs/commits?path=.github/PULL_REQUEST_TEMPLATE.md
+        echo "pr_template_sha=$(cat commits.json | jq '.[0].sha')" >> $GITHUB_OUTPUT
 
     - name: Checkout (Branch)
       uses: actions/checkout@v3
@@ -1438,7 +1434,7 @@ jobs:
 
     - name: Trigger tgstation-ppa workflow
       run: |
-        curl -XPOST -u "${{ vars.DEV_PUSH_USERNAME }}:${{ secrets.DEV_PUSH_TOKEN }}" -H "Accept: application/vnd.github.everest-preview+json" -H "Content-Type: application/json" https://api.github.com/repos/tgstation/tgstation-ppa/actions/workflows/add_tgs_version.yml/dispatches --data '{"ref":"main","inputs":{"tgs_semver": "${{ env.TGS_VERSION }}"}}'
+        curl -XPOST -u "${{ vars.DEV_PUSH_USERNAME }}:${{ secrets.DEV_PUSH_TOKEN }}" -H "Accept: application/vnd.github.everest-preview+json" -H "Content-Type: application/json" https://api.github.com/repos/tgstation/tgstation-ppa/actions/workflows/add_tgs_version.yml/dispatches --data '{"ref":"main","inputs":{"tgs_semver": "${{ env.TGS_VERSION }}"}
 
   deploy-winget:
     name: Deploy TGS (winget)
