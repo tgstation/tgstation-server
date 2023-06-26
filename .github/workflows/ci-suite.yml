@@ -1386,7 +1386,7 @@ jobs:
     name: Deploy TGS (winget)
     needs: deploy-tgs
     if: "!(cancelled() || failure()) && needs.deploy-tgs.result == 'success'"
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     steps:
     - name: Setup dotnet
       uses: actions/setup-dotnet@v2
