@@ -919,7 +919,7 @@ jobs:
         sudo install -D build/package/appsettings.GitHub.yml /etc/tgstation-server/appsettings.Production.yml
         sudo dpkg --add-architecture i386
         sudo apt-get update
-        sudo apt-get install -y -o APT::Immediate-Configure=0 libstdc++6:i386 libgcc-s1:i386 ./tgstation-server_${{ env.TGS_VERSION }}-1_amd64.deb
+        sudo apt-get install -y -o APT::Immediate-Configure=0 libstdc++6:i386 libgcc-s1:i386 aspnetcore-runtime-6.0 gcc-multilib libsystemd0 ./tgstation-server_${{ env.TGS_VERSION }}-1_amd64.deb
         systemctl status tgstation-server
         sudo ls -al /etc/tgstation-server
         sudo cat /etc/tgstation-server/appsettings.Production.yml
@@ -984,7 +984,9 @@ jobs:
         $log = [System.IO.Path]::GetFullPath("install.log")
         $procMain = Start-Process "msiexec" "/i `"$file`" /qn /l*! `"$log`"" -NoNewWindow -PassThru
         $procMain.WaitForExit()
-        Get-Content "C:/Program Files (x86)/tgstation-server/lib/Default/Tgstation.Server.Host.deps.json"
+        if (-Not (Test-Path -Path "C:/Program Files (x86)/tgstation-server/lib/Default/Tgstation.Server.Host.deps.json" -PathType Leaf)) {
+          exit 2
+        }
         Get-Service -Name tgstation-server
         $log = [System.IO.Path]::GetFullPath("uninstall.log")
         $procMain = Start-Process "msiexec" "/u `"$file`" /qn /l*! `"$log`"" -NoNewWindow -PassThru
