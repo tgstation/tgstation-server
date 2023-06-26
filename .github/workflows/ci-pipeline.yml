@@ -1,4 +1,21 @@
-name: 'CI'
+# THE MAIN BIG CHUNGUS
+# Does CI on push/PR/cron. Deployments on push when triggered
+# - Validates Documentation
+# - Builds C# and DMAPI
+# - Tests everything on massive matrix
+# - Packages
+# - Tests package installs/services/uninstalls
+# - Properly versions everything based on build/Version.props
+# - Checks commit tags for deployment intents
+# - Deploys DreamMaker API zip [DMDeploy] (dev/master)
+# - Deploys Nuget Packages [NugetDeploy] (dev/master)
+# - Deploys HTTP API swagger.json [APIDeploy] (dev/master)
+# - Deploys tgstation-server [TGSDeploy] (master)
+#   - GitHub Releases: https://github.com/tgstation/tgstation-server/releases
+#   - Docker: https://hub.docker.com/r/tgstation/server
+#   - apt repo: https://github.com/tgstation/tgstation-ppa
+#   - winget: https://github.com/microsoft/winget-pkgs/tree/master/manifests/t/Tgstation/Server
+name: 'CI Pipeline'
 
 on:
   schedule:
