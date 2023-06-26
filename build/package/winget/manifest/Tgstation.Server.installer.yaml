@@ -2,14 +2,14 @@
 # yaml-language-server: $schema=https://aka.ms/winget-manifest.installer.1.4.0.schema.json
 
 PackageIdentifier: Tgstation.Server
-PackageVersion: 0.0.0 # Set before publish by wingetcreate
+PackageVersion: 0.22.475 # Set before publish by push_manifest.ps1
 Installers:
-- InstallerUrl: https://github.com/tgstation/tgstation-server/releases/download/tgstation-server-v0.0.0/tgstation-server.msi # Set before publish by wingetcreate
+- InstallerUrl: https://github.com/tgstation/tgstation-server/releases/download/tgstation-server-v0.22.475/tgstation-server.msi # Set before publish by push_manifest.ps1
   InstallerLocale: en-US
   Architecture: x86
   InstallerType: msi
   Scope: machine
-  InstallerSha256: F749672C1BDBAC8CD8AEF7352B97E54C21CF389D798D0ED245CA75EC72521460
+  InstallerSha256: F749672C1BDBAC8CD8AEF7352B97E54C21CF389D798D0ED245CA75EC72521460 # Set before publish by push_manifest.ps1
   InstallModes:
   - interactive
   - silent
@@ -19,7 +19,6 @@ Installers:
   UnsupportedOSArchitectures:
   - arm
   - arm64
-  ElevationRequirement: elevationRequired
   Dependencies:
     PackageDependencies:
     - PackageIdentifier: Microsoft.DotNet.AspNetCore.6

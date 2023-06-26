@@ -21,6 +21,9 @@ env:
   TGS_DOTNET_VERSION: 6.0.x
   TGS_TEST_GITHUB_TOKEN: ${{ secrets.LIVE_TESTS_TOKEN }}
   TGS_RELEASE_NOTES_TOKEN: ${{ secrets.DEV_PUSH_TOKEN }}
+  WINGET_PUSH_TOKEN: ${{ secrets.DEV_PUSH_TOKEN }}
+  PACKAGING_KEYGRIP: ${{ vars.PACKAGING_KEYGRIP }}
+  PACKAGING_PRIVATE_KEY_PASSPHRASE: ${{ secrets.PACKAGING_PRIVATE_KEY_PASSPHRASE }}
   CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
 concurrency:
@@ -899,9 +902,6 @@ jobs:
         ref: "refs/pull/${{ github.event.number }}/merge"
 
     - name: Execute Build Script
-      env:
-         PACKAGING_KEYGRIP: ${{ vars.PACKAGING_KEYGRIP }}
-         PACKAGING_PRIVATE_KEY_PASSPHRASE: ${{ secrets.PACKAGING_PRIVATE_KEY_PASSPHRASE }}
       run: sudo -E build/package/deb/build_package.sh
 
     - name: Parse TGS version
@@ -963,6 +963,9 @@ jobs:
       if: github.event_name != 'push' && github.event_name != 'schedule'
       with:
         ref: "refs/pull/${{ github.event.number }}/merge"
+
+    - name: Validate winget Manifest
+      run: winget validate --manifest build/package/winget/manifest
 
     - name: Execute Build Script
       shell: powershell
@@ -1333,3 +1336,36 @@ jobs:
     - name: Trigger tgstation-ppa workflow
       run: |
         curl -XPOST -u "${{ vars.DEV_PUSH_USERNAME }}:${{ secrets.DEV_PUSH_TOKEN }}" -H "Accept: application/vnd.github.everest-preview+json" -H "Content-Type: application/json" https://api.github.com/repos/tgstation/tgstation-ppa/actions/workflows/add_tgs_version.yml/dispatches --data '{"ref":"main","inputs":{"tgs_semver": "${{ env.TGS_VERSION }}"}}'
+
+  deploy-winget:
+    name: Deploy TGS (winget)
+    needs: deploy-tgs
+    if: "!(cancelled() || failure()) && needs.deploy-tgs.result == 'success'"
+    runs-on: ubuntu-latest
+    steps:
+    - name: Setup dotnet
+      uses: actions/setup-dotnet@v2
+      with:
+        dotnet-version: ${{ env.TGS_DOTNET_VERSION }}
+
+    - name: Install wingetcreate
+      run: winget install wingetcreate
+
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    - name: Build ReleaseNotes
+      run: dotnet build -c Release --project tools/ReleaseNotes
+
+    - name: Retrieve .msi
+      uses: actions/download-artifact@v3
+      with:
+        name: packaging-windows
+        path: packaging-windows
+
+    - name: Execute Push Script
+      shell: powershell
+      run: build/package/winget/push_manifest.ps1 -MsiPath packaging-windows/tgstation-server.msi
+
+    - name: Run ReleaseNotes with --link-winget
+      run: dotnet run -c Release --project tools/ReleaseNotes --link-winget ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}

@@ -237,6 +237,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "winget", "winget", "{506B90
 		build\package\winget\installer.sln = build\package\winget\installer.sln
 		build\package\winget\build_msi.ps1 = build\package\winget\build_msi.ps1
 		build\package\winget\install_banner.jpg = build\package\winget\install_banner.jpg
+		build\package\winget\push_manifest.ps1 = build\package\winget\push_manifest.ps1
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "manifest", "manifest", "{3F141E03-6ABB-46A8-AA24-1B4B6814E58F}"
