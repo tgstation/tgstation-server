@@ -978,7 +978,7 @@ jobs:
         $log = [System.IO.Path]::GetFullPath("install.log")
         $procMain = Start-Process "msiexec" "/i `"$file`" /qn /l*! `"$log`"" -NoNewWindow -PassThru
         $procMain.WaitForExit()
-        Get-Content "C:/Program Files (x86)/tgstation/tgstation-server/lib/Default/Tgstation.Server.Host.deps.json"
+        Get-Content "C:/Program Files (x86)/tgstation-server/lib/Default/Tgstation.Server.Host.deps.json"
         Get-Service -Name tgstation-server -ErrorAction SilentlyContinue
         $log = [System.IO.Path]::GetFullPath("uninstall.log")
         $procMain = Start-Process "msiexec" "/u `"$file`" /qn /l*! `"$log`"" -NoNewWindow -PassThru
