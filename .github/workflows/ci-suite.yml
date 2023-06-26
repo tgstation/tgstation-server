@@ -918,11 +918,11 @@ jobs:
         gpg --verify tgstation-server_${{ env.TGS_VERSION }}-1_amd64.changes
         gpg --verify tgstation-server_${{ env.TGS_VERSION }}-1_amd64.buildinfo
 
-    - name: Test Install and Uninstall
+    - name: Test Install and Uninstall # Has to use `apt` on install because apt-get doesn't do the dependencies
       run: |
         sudo dpkg --add-architecture i386
         sudo apt-get update
-        sudo apt-get install -y ./tgstation-server_${{ env.TGS_VERSION }}-1_amd64.deb
+        sudo apt install -y ./tgstation-server_${{ env.TGS_VERSION }}-1_amd64.deb
         systemctl status tgstation-server
         sudo ls -al /etc/tgstation-server
         sudo cat /etc/tgstation-server/appsettings.Production.yml
