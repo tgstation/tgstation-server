@@ -987,10 +987,19 @@ jobs:
         if (-Not (Test-Path -Path "C:/Program Files (x86)/tgstation-server/lib/Default/Tgstation.Server.Host.deps.json" -PathType Leaf)) {
           exit 2
         }
-        Get-Service -Name tgstation-server
+        if (Test-Path -Path $log -PathType Leaf) {
+          Get-Content $log
+        }
+        $service=Get-Service -Name tgstation-server
+        if ($service.Length -eq 0) {
+          exit 3
+        }
         $log = [System.IO.Path]::GetFullPath("uninstall.log")
         $procMain = Start-Process "msiexec" "/u `"$file`" /qn /l*! `"$log`"" -NoNewWindow -PassThru
         $procMain.WaitForExit()
+        if (Test-Path -Path $log -PathType Leaf) {
+          Get-Content $log
+        }
         $service=Get-Service -Name tgstation-server -ErrorAction SilentlyContinue
         if ($service.Length -gt 0) {
           echo $service
