@@ -536,7 +536,7 @@ namespace Tgstation.Server.Host.Components.Chat
 		}
 
 		/// <inheritdoc />
-		public Task HandleRestart(Version updateVersion, bool gracefulShutdown, CancellationToken cancellationToken)
+		public ValueTask HandleRestart(Version updateVersion, bool gracefulShutdown, CancellationToken cancellationToken)
 		{
 			var message =
 				updateVersion == null
@@ -1001,7 +1001,7 @@ namespace Tgstation.Server.Host.Components.Chat
 		/// <param name="message">The <see cref="MessageContent"/> to send.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		Task SendMessage(IEnumerable<ulong> channelIds, Message replyTo, MessageContent message, CancellationToken cancellationToken)
+		ValueTask SendMessage(IEnumerable<ulong> channelIds, Message replyTo, MessageContent message, CancellationToken cancellationToken)
 		{
 			var channelIdsList = channelIds.ToList();
 
@@ -1012,7 +1012,7 @@ namespace Tgstation.Server.Host.Components.Chat
 				String.Join(", ", channelIdsList));
 
 			if (!channelIdsList.Any())
-				return Task.CompletedTask;
+				return ValueTask.CompletedTask;
 
 			return ValueTaskExtensions.WhenAll(
 				channelIdsList.Select(x =>
@@ -1027,8 +1027,7 @@ namespace Tgstation.Server.Host.Components.Chat
 							return ValueTask.CompletedTask;
 					return provider.SendMessage(replyTo, message, channelMapping.ProviderChannelId, cancellationToken);
 				}),
-				channelIdsList.Count)
-				.AsTask();
+				channelIdsList.Count);
 		}
 
 		/// <summary>

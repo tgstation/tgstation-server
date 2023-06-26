@@ -402,7 +402,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		}
 
 		/// <inheritdoc />
-		public async Task HandleRestart(Version updateVersion, bool gracefulShutdown, CancellationToken cancellationToken)
+		public async ValueTask HandleRestart(Version updateVersion, bool gracefulShutdown, CancellationToken cancellationToken)
 		{
 			if (gracefulShutdown)
 			{
