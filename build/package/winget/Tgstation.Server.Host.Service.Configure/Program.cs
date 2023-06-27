@@ -10,7 +10,8 @@ using System.Windows.Forms;
 using var process = new Process();
 
 var installDir = Path.GetDirectoryName(
-	Assembly.GetExecutingAssembly().Location)!;
+	Path.GetDirectoryName(
+		Assembly.GetExecutingAssembly().Location))!;
 
 process.StartInfo.WorkingDirectory = installDir;
 process.StartInfo.FileName = Path.Combine(

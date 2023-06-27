@@ -257,6 +257,17 @@
             "Property" = "8:TARGETDIR"
                 "Folders"
                 {
+                    "{9EF0B969-E518-4E46-987F-47570745A589}:_0CFAD254CCC645209154DD4D85649AEA"
+                    {
+                    "Name" = "8:configure"
+                    "AlwaysCreate" = "11:FALSE"
+                    "Condition" = "8:"
+                    "Transitive" = "11:FALSE"
+                    "Property" = "8:_21324B7571BE4E9E8B14F4D2BD470581"
+                        "Folders"
+                        {
+                        }
+                    }
                     "{9EF0B969-E518-4E46-987F-47570745A589}:_D8FD06A5721D4746BD1D087E6329F3CF"
                     {
                     "Name" = "8:lib"
@@ -880,7 +891,7 @@
         {
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_11E0E9B45549402D92B039FCCD0783B8"
             {
-            "SourcePath" = "8:..\\..\\..\\..\\src\\Tgstation.Server.Host\\obj\\Release\\net6.0\\apphost.exe"
+            "SourcePath" = "8:..\\..\\..\\..\\src\\Tgstation.Server.Host\\obj\\Installer\\net6.0\\apphost.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_44E17B6EBB30432E9D4FBB976D7E029A"
@@ -994,10 +1005,10 @@
             }
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_E9F7402DCE77463F9B7319647D3C16F2"
             {
-            "SourcePath" = "8:..\\Tgstation.Server.Host.Service.Configure\\obj\\Release\\net6.0-windows\\apphost.exe"
+            "SourcePath" = "8:..\\Tgstation.Server.Host.Service.Configure\\obj\\Release\\net6.0-windows\\win-x86\\apphost.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
-            "Folder" = "8:_B28C4FD80D0245E08AEDCFEECACB6493"
+            "Folder" = "8:_0CFAD254CCC645209154DD4D85649AEA"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
