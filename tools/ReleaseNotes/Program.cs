@@ -547,7 +547,7 @@ The user account that created this pull request is available to correct any issu
 
 			var userPrsOnWingetRepo = await client.Search.SearchIssues(new SearchIssuesRequest
 			{
-				Author = clientUser.Name,
+				Author = clientUser.Login,
 				Is = new List<IssueIsQualifier> { IssueIsQualifier.PullRequest },
 				State = ItemState.Open,
 				Repos = new RepositoryCollection
@@ -563,7 +563,7 @@ The user account that created this pull request is available to correct any issu
 				return 31;
 			}
 
-			await client.Issue.Update(prToModify.Repository.Id, prToModify.Number, new IssueUpdate
+			await client.Issue.Update("microsoft", "winget-pkgs", prToModify.Number, new IssueUpdate
 			{
 				Body = prBody,
 			});
