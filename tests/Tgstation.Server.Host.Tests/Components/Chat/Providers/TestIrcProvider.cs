@@ -52,7 +52,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers.Tests
 			await new IrcProvider(mockJobManager.Object, mockAsyncDelayer.Object, mockLogger.Object, mockAss.Object, mockBot).DisposeAsync();
 		}
 
-		static Task InvokeConnect(IProvider provider, CancellationToken cancellationToken = default) => (Task)provider.GetType().GetMethod("Connect", BindingFlags.Instance | BindingFlags.NonPublic).Invoke(provider, new object[] { cancellationToken });
+		static ValueTask InvokeConnect(IProvider provider, CancellationToken cancellationToken = default) => (ValueTask)provider.GetType().GetMethod("Connect", BindingFlags.Instance | BindingFlags.NonPublic).Invoke(provider, new object[] { cancellationToken });
 
 		[TestMethod]
 		public async Task TestConnectAndDisconnect()

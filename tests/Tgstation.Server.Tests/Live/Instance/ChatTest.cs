@@ -253,7 +253,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 			Assert.AreEqual(2, activeBots.Count);
 
-			await ValueTaskExtensions.WhenAll(activeBots.Select(bot => chatClient.Delete(bot, cancellationToken)), activeBots.Count);
+			await ValueTaskExtensions.WhenAll(activeBots.Select(bot => chatClient.Delete(bot, cancellationToken)));
 
 			var nowBots = await chatClient.List(null, cancellationToken);
 			Assert.AreEqual(0, nowBots.Count);

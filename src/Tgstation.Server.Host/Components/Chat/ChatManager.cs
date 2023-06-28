@@ -417,8 +417,7 @@ namespace Tgstation.Server.Host.Components.Chat
 					callbacks.Select(
 						x => x(
 							errorMessage,
-							dreamMakerOutput)),
-					callbacks.Count);
+							dreamMakerOutput)));
 			}
 
 			return (errorMessage, dreamMakerOutput) => AddMessageTask(CollateTasks(errorMessage, dreamMakerOutput));
@@ -1026,8 +1025,7 @@ namespace Tgstation.Server.Host.Components.Chat
 						if (!providers.TryGetValue(channelMapping.ProviderId, out provider))
 							return ValueTask.CompletedTask;
 					return provider.SendMessage(replyTo, message, channelMapping.ProviderChannelId, cancellationToken);
-				}),
-				channelIdsList.Count);
+				}));
 		}
 
 		/// <summary>

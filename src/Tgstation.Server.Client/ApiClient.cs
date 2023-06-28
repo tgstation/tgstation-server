@@ -317,7 +317,7 @@ namespace Tgstation.Server.Client
 					if (fileDownload)
 						request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(MediaTypeNames.Application.Octet));
 
-					await ValueTaskExtensions.WhenAll(requestLoggers.Select(x => x.LogRequest(request, cancellationToken)), requestLoggers.Count).ConfigureAwait(false);
+					await ValueTaskExtensions.WhenAll(requestLoggers.Select(x => x.LogRequest(request, cancellationToken))).ConfigureAwait(false);
 
 					response = await httpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
 				}
@@ -330,7 +330,7 @@ namespace Tgstation.Server.Client
 
 			try
 			{
-				await ValueTaskExtensions.WhenAll(requestLoggers.Select(x => x.LogResponse(response, cancellationToken)), requestLoggers.Count).ConfigureAwait(false);
+				await ValueTaskExtensions.WhenAll(requestLoggers.Select(x => x.LogResponse(response, cancellationToken))).ConfigureAwait(false);
 
 				// just stream
 				if (fileDownload && response.IsSuccessStatusCode)

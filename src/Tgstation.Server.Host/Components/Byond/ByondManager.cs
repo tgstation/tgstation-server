@@ -369,14 +369,12 @@ namespace Tgstation.Server.Host.Components.Byond
 
 			await ValueTaskExtensions.WhenAll(
 				directories
-					.Select(ReadVersion),
-				directories.Count);
+					.Select(ReadVersion));
 
 			logger.LogTrace("Upgrading BYOND installations...");
 			await ValueTaskExtensions.WhenAll(
 				installedVersionPaths
-					.Select(kvp => byondInstaller.UpgradeInstallation(kvp.Value, kvp.Key, cancellationToken)),
-				installedVersionPaths.Count);
+					.Select(kvp => byondInstaller.UpgradeInstallation(kvp.Value, kvp.Key, cancellationToken)));
 
 			var activeVersionBytes = await activeVersionBytesTask;
 			if (activeVersionBytes != null)

@@ -63,7 +63,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers.Tests
 			await new DiscordProvider(mockJobManager, mockDel, mockLogger, mockAss, bot).DisposeAsync();
 		}
 
-		static Task InvokeConnect(IProvider provider, CancellationToken cancellationToken = default) => (Task)provider.GetType().GetMethod("Connect", BindingFlags.Instance | BindingFlags.NonPublic).Invoke(provider, new object[] { cancellationToken });
+		static ValueTask InvokeConnect(IProvider provider, CancellationToken cancellationToken = default) => (ValueTask)provider.GetType().GetMethod("Connect", BindingFlags.Instance | BindingFlags.NonPublic).Invoke(provider, new object[] { cancellationToken });
 
 		[TestMethod]
 		public async Task TestConnectWithFakeTokenFails()
@@ -74,7 +74,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers.Tests
 				ReconnectionInterval = 1,
 				ConnectionString = "asdf"
 			});
-			await Assert.ThrowsExceptionAsync<JobException>(() => InvokeConnect(provider));
+			await Assert.ThrowsExceptionAsync<JobException>(async () => await InvokeConnect(provider));
 			Assert.IsFalse(provider.Connected);
 		}
 
