@@ -10,6 +10,7 @@
     <EnableNETAnalyzers>true</EnableNETAnalyzers>
     <CodeAnalysisRuleSet>../../build/analyzers.ruleset</CodeAnalysisRuleSet>
     <DocumentationFile>bin/$(Configuration)/$(TargetFramework)/$(AssemblyName).xml</DocumentationFile>
+    <ApplicationManifest>../../build/uac_elevation_manifest.xml</ApplicationManifest>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
@@ -48,5 +49,6 @@
 
   <ItemGroup>
     <AdditionalFiles Include="../../build/stylecop.json" />
+    <AdditionalFiles Include="../../build/uac_elevation_manifest.xml" />
   </ItemGroup>
 </Project>
