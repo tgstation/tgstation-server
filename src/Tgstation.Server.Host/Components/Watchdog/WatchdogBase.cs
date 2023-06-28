@@ -402,15 +402,15 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		}
 
 		/// <inheritdoc />
-		public async ValueTask HandleRestart(Version updateVersion, bool gracefulShutdown, CancellationToken cancellationToken)
+		public async ValueTask HandleRestart(Version updateVersion, bool handlerMayDelayShutdownWithExtremelyLongRunningTasks, CancellationToken cancellationToken)
 		{
-			if (gracefulShutdown)
+			if (handlerMayDelayShutdownWithExtremelyLongRunningTasks)
 			{
 				await Terminate(true, cancellationToken);
 
 				if (Status != WatchdogStatus.Offline)
 				{
-					Logger.LogTrace("Waiting for server to gracefully shut down.");
+					Logger.LogDebug("Waiting for server to gracefully shut down.");
 					await monitorTask.WithToken(cancellationToken);
 				}
 				else
@@ -449,7 +449,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		}
 
 		/// <inheritdoc />
-		async Task IEventConsumer.HandleEvent(EventType eventType, IEnumerable<string> parameters, CancellationToken cancellationToken)
+		async Task IEventConsumer.HandleEvent(EventType eventType, IEnumerable<string> parameters, bool deploymentPipeline, CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(parameters);
 
@@ -509,7 +509,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 						? "Launching..."
 						: "Reattaching..."); // simple announce
 				if (reattachInfo == null)
-					eventTask = HandleEvent(EventType.WatchdogLaunch, Enumerable.Empty<string>(), false, cancellationToken);
+					eventTask = HandleEventImpl(EventType.WatchdogLaunch, Enumerable.Empty<string>(), false, cancellationToken);
 			}
 
 			// since neither server is running, this is safe to do
@@ -693,13 +693,13 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <param name="relayToSession">If the event should be sent to DreamDaemon.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		protected async Task HandleEvent(EventType eventType, IEnumerable<string> parameters, bool relayToSession, CancellationToken cancellationToken)
+		protected async Task HandleEventImpl(EventType eventType, IEnumerable<string> parameters, bool relayToSession, CancellationToken cancellationToken)
 		{
 			try
 			{
-				var sessionEventTask = relayToSession ? ((IEventConsumer)this).HandleEvent(eventType, parameters, cancellationToken) : Task.CompletedTask;
+				var sessionEventTask = relayToSession ? ((IEventConsumer)this).HandleEvent(eventType, parameters, false, cancellationToken) : Task.CompletedTask;
 				await Task.WhenAll(
-					eventConsumer.HandleEvent(eventType, parameters, cancellationToken),
+					eventConsumer.HandleEvent(eventType, parameters, false, cancellationToken),
 					sessionEventTask);
 			}
 			catch (JobException ex)
@@ -803,7 +803,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				for (ulong iteration = 1; nextAction != MonitorAction.Exit; ++iteration)
 					using (LogContext.PushProperty(SerilogContextHelper.WatchdogMonitorIterationContextProperty, iteration))
 					{
-						TaskCompletionSource nextMonitorWakeupTcs = new TaskCompletionSource();
+						var nextMonitorWakeupTcs = new TaskCompletionSource();
 						try
 						{
 							Logger.LogTrace("Iteration {iteration} of monitor loop", iteration);
@@ -862,20 +862,17 @@ namespace Tgstation.Server.Host.Components.Watchdog
 									cancellationToken);
 
 							// cancel waiting if requested
-							var cancelTcs = new TaskCompletionSource();
 							var toWaitOn = Task.WhenAny(
 								activeServerLifetime,
 								activeServerReboot,
 								activeServerStartup,
 								healthCheck,
 								newDmbAvailable,
-								cancelTcs.Task,
 								activeLaunchParametersChanged,
 								serverPrimed);
 
 							// wait for something to happen
-							using (cancellationToken.Register(() => cancelTcs.SetCanceled()))
-								await toWaitOn;
+							await toWaitOn.WithToken(cancellationToken);
 
 							cancellationToken.ThrowIfCancellationRequested();
 							Logger.LogTrace("Monitor activated");
@@ -1008,7 +1005,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				return;
 			if (!graceful)
 			{
-				var eventTask = HandleEvent(
+				var eventTask = HandleEventImpl(
 					releaseServers
 						? EventType.WatchdogDetach
 						: EventType.WatchdogShutdown,

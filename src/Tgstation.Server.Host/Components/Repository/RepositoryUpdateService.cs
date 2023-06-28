@@ -152,11 +152,10 @@ namespace Tgstation.Server.Host.Components.Repository
 			CancellationToken cancellationToken)
 #pragma warning restore CA1502, CA1506
 		{
-			var repoManager = instance.RepositoryManager;
-			using var repo = await repoManager.LoadRepository(cancellationToken);
-			if (repo == null)
-				throw new JobException(ErrorCode.RepoMissing);
+			_ = job; // shuts up an IDE warning
 
+			var repoManager = instance.RepositoryManager;
+			using var repo = await repoManager.LoadRepository(cancellationToken) ?? throw new JobException(ErrorCode.RepoMissing);
 			var modelHasShaOrReference = model.CheckoutSha != null || model.Reference != null;
 
 			var startReference = repo.Reference;
@@ -252,11 +251,21 @@ namespace Tgstation.Server.Host.Components.Repository
 				{
 					if (!repo.Tracking)
 						throw new JobException(ErrorCode.RepoReferenceRequired);
-					await repo.FetchOrigin(currentModel.AccessUser, currentModel.AccessToken, NextProgressReporter("Fetch Origin"), cancellationToken);
+					await repo.FetchOrigin(
+						NextProgressReporter("Fetch Origin"),
+						currentModel.AccessUser,
+						currentModel.AccessToken,
+						false,
+						cancellationToken);
 
 					if (!modelHasShaOrReference)
 					{
-						var fastForward = await repo.MergeOrigin(committerName, currentModel.CommitterEmail, NextProgressReporter("Merge Origin"), cancellationToken);
+						var fastForward = await repo.MergeOrigin(
+							NextProgressReporter("Merge Origin"),
+							committerName,
+							currentModel.CommitterEmail,
+							false,
+							cancellationToken);
 						if (!fastForward.HasValue)
 							throw new JobException(ErrorCode.RepoMergeConflict);
 						lastRevisionInfo.OriginCommitSha = await repo.GetOriginSha(cancellationToken);
@@ -264,12 +273,13 @@ namespace Tgstation.Server.Host.Components.Repository
 						if (fastForward.Value)
 						{
 							await repo.Sychronize(
+								NextProgressReporter("Sychronize"),
 								currentModel.AccessUser,
 								currentModel.AccessToken,
 								currentModel.CommitterName,
 								currentModel.CommitterEmail,
-								NextProgressReporter("Sychronize"),
 								true,
+								false,
 								cancellationToken);
 							postUpdateSha = repo.Head;
 						}
@@ -315,18 +325,20 @@ namespace Tgstation.Server.Host.Components.Repository
 						if (!repo.Tracking)
 							throw new JobException(ErrorCode.RepoReferenceNotTracking);
 						await repo.ResetToOrigin(
+							NextProgressReporter("Reset to Origin"),
 							currentModel.AccessUser,
 							currentModel.AccessToken,
 							updateSubmodules,
-							NextProgressReporter("Reset to Origin"),
+							false,
 							cancellationToken);
 						await repo.Sychronize(
+							NextProgressReporter("Synchronize"),
 							currentModel.AccessUser,
 							currentModel.AccessToken,
 							currentModel.CommitterName,
 							currentModel.CommitterEmail,
-							NextProgressReporter("Synchronize"),
 							true,
+							false,
 							cancellationToken);
 						await CallLoadRevInfo();
 
@@ -473,7 +485,7 @@ namespace Tgstation.Server.Host.Components.Repository
 					if (revInfoWereLookingFor != null)
 					{
 						// goteem
-						logger.LogDebug("Reusing existing SHA {0}...", revInfoWereLookingFor.CommitSha);
+						logger.LogDebug("Reusing existing SHA {sha}...", revInfoWereLookingFor.CommitSha);
 						await repo.ResetToSha(revInfoWereLookingFor.CommitSha, NextProgressReporter($"Reset to {revInfoWereLookingFor.CommitSha[..7]}"), cancellationToken);
 						lastRevisionInfo = revInfoWereLookingFor;
 					}
@@ -535,11 +547,12 @@ namespace Tgstation.Server.Host.Components.Repository
 				if (currentModel.PushTestMergeCommits.Value && (startSha != currentHead || (postUpdateSha != null && postUpdateSha != currentHead)))
 				{
 					await repo.Sychronize(
+						NextProgressReporter("Synchronize"),
 						currentModel.AccessUser,
 						currentModel.AccessToken,
 						currentModel.CommitterName,
 						currentModel.CommitterEmail,
-						NextProgressReporter("Synchronize"),
+						false,
 						false,
 						cancellationToken);
 					await UpdateRevInfo();

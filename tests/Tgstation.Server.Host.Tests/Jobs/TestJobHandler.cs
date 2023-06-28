@@ -41,7 +41,7 @@ namespace Tgstation.Server.Host.Jobs.Tests
 				using var handler = new JobHandler(TestJob);
 				await Assert.ThrowsExceptionAsync<InvalidOperationException>(() => handler.Wait(cts.Token));
 				handler.Start();
-				await Assert.ThrowsExceptionAsync<OperationCanceledException>(() => handler.Wait(cts.Token));
+				await Assert.ThrowsExceptionAsync<TaskCanceledException>(() => handler.Wait(cts.Token));
 				tcs.SetResult();
 				await handler.Wait(default);
 			}

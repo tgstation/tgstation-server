@@ -83,31 +83,35 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// <summary>
 		/// Fetch commits from the origin repository.
 		/// </summary>
+		/// <param name="progressReporter">The <see cref="JobProgressReporter"/> to report progress of the operation.</param>
 		/// <param name="username">The username to fetch from the origin repository.</param>
 		/// <param name="password">The password to fetch from the origin repository.</param>
-		/// <param name="progressReporter">The <see cref="JobProgressReporter"/> to report progress of the operation.</param>
+		/// <param name="deploymentPipeline">If any events created should be marked as part of the deployment pipeline.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
 		Task FetchOrigin(
+			JobProgressReporter progressReporter,
 			string username,
 			string password,
-			JobProgressReporter progressReporter,
+			bool deploymentPipeline,
 			CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Requires the current HEAD to be a tracked reference. Hard resets the reference to what it tracks on the origin repository.
 		/// </summary>
+		/// <param name="progressReporter">The <see cref="JobProgressReporter"/> to report progress of the operation.</param>
 		/// <param name="username">The username used for fetching from submodule repositories.</param>
 		/// <param name="password">The password used for fetching from submodule repositories.</param>
 		/// <param name="updateSubmodules">If a submodule update should be attempted after the merge.</param>
-		/// <param name="progressReporter">The <see cref="JobProgressReporter"/> to report progress of the operation.</param>
+		/// <param name="deploymentPipeline">If any events created should be marked as part of the deployment pipeline.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the SHA of the new HEAD.</returns>
 		Task ResetToOrigin(
+			JobProgressReporter progressReporter,
 			string username,
 			string password,
 			bool updateSubmodules,
-			JobProgressReporter progressReporter,
+			bool deploymentPipeline,
 			CancellationToken cancellationToken);
 
 		/// <summary>
@@ -122,31 +126,39 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// <summary>
 		/// Requires the current HEAD to be a tracked reference. Merges the reference to what it tracks on the origin repository.
 		/// </summary>
+		/// <param name="progressReporter">The <see cref="JobProgressReporter"/> to report progress of the operation.</param>
 		/// <param name="committerName">The name of the merge committer.</param>
 		/// <param name="committerEmail">The e-mail of the merge committer.</param>
-		/// <param name="progressReporter">The <see cref="JobProgressReporter"/> to report progress of the operation.</param>
+		/// <param name="deploymentPipeline">If any events created should be marked as part of the deployment pipeline.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in a <see cref="Nullable{T}"/> <see cref="bool"/> representing the merge result that is <see langword="true"/> after a fast forward, <see langword="false"/> on a merge or up to date, <see langword="null"/> on a conflict.</returns>
-		Task<bool?> MergeOrigin(string committerName, string committerEmail, JobProgressReporter progressReporter, CancellationToken cancellationToken);
+		Task<bool?> MergeOrigin(
+			JobProgressReporter progressReporter,
+			string committerName,
+			string committerEmail,
+			bool deploymentPipeline,
+			CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Runs the synchronize event script and attempts to push any changes made to the <see cref="IRepository"/> if on a tracked branch.
 		/// </summary>
+		/// <param name="progressReporter">The <see cref="JobProgressReporter"/> to report progress of the operation.</param>
 		/// <param name="username">The username to fetch from the origin repository.</param>
 		/// <param name="password">The password to fetch from the origin repository.</param>
 		/// <param name="committerName">The name of the potential committer.</param>
 		/// <param name="committerEmail">The e-mail of the potential committer.</param>
-		/// <param name="progressReporter">The <see cref="JobProgressReporter"/> to report progress of the operation.</param>
 		/// <param name="synchronizeTrackedBranch">If the synchronizations should be made to the tracked reference as opposed to a temporary branch.</param>
+		/// <param name="deploymentPipeline">If any events created should be marked as part of the deployment pipeline.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in <see langword="true"/> if commits were pushed to the tracked origin reference, <see langword="false"/> otherwise.</returns>
 		Task<bool> Sychronize(
+			JobProgressReporter progressReporter,
 			string username,
 			string password,
 			string committerName,
 			string committerEmail,
-			JobProgressReporter progressReporter,
 			bool synchronizeTrackedBranch,
+			bool deploymentPipeline,
 			CancellationToken cancellationToken);
 
 		/// <summary>

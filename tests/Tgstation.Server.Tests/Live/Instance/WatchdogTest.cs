@@ -96,6 +96,9 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 			await InteropTestsForLongRunningDme(cancellationToken);
 
+			// for the restart staging tests
+			await DeployTestDme("LongRunning/long_running_test", DreamDaemonSecurity.Trusted, true, cancellationToken);
+
 			System.Console.WriteLine("TEST: END WATCHDOG TESTS");
 		}
 
@@ -1030,7 +1033,8 @@ namespace Tgstation.Server.Tests.Live.Instance
 			DisconnectTimeout = TimeSpan.FromSeconds(30)
 		}, loggerFactory.CreateLogger("WatchdogTest.TopicClient"));
 
-		public async Task<DreamDaemonResponse> TellWorldToReboot(CancellationToken cancellationToken)
+		public Task<DreamDaemonResponse> TellWorldToReboot(CancellationToken cancellationToken) => TellWorldToReboot2(instanceClient, cancellationToken);
+		public static async Task<DreamDaemonResponse> TellWorldToReboot2(IInstanceClient instanceClient, CancellationToken cancellationToken)
 		{
 			var daemonStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
 			Assert.IsNotNull(daemonStatus.StagedCompileJob);

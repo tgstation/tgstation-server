@@ -68,7 +68,8 @@ namespace Tgstation.Server.Host.Watchdog
 				{
 					// VS special tactics
 					// just copy the shit where it belongs
-					Directory.Delete(assemblyStoragePath, true);
+					if (Directory.Exists(assemblyStoragePath))
+						Directory.Delete(assemblyStoragePath, true);
 					Directory.CreateDirectory(defaultAssemblyPath);
 
 					var sourcePath = "../../../../Tgstation.Server.Host/bin/Debug/net6.0";
@@ -125,8 +126,8 @@ namespace Tgstation.Server.Host.Watchdog
 
 							if (runConfigure)
 							{
-								logger.LogInformation("Running configuration check and wizard if necessary...");
-								arguments.Add("General:SetupWizardMode=Only");
+								logger.LogInformation("Running configuration check and wizard...");
+								arguments.Add("--General:SetupWizardMode=Only");
 							}
 
 							arguments.AddRange(args);
@@ -148,6 +149,7 @@ namespace Tgstation.Server.Host.Watchdog
 							try
 							{
 								process.Start();
+								var childPid = process.Id;
 
 								using (var processCts = new CancellationTokenSource())
 								using (processCts.Token.Register(() => tcs.TrySetResult(null)))
@@ -173,7 +175,23 @@ namespace Tgstation.Server.Host.Watchdog
 										logger.LogWarning(ex, "Error triggering timeout!");
 									}
 								}))
-									await tcs.Task.ConfigureAwait(false);
+								{
+									var processTask = tcs.Task;
+									using var cts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+
+									var checkerTask = isWindows
+										? Task.CompletedTask
+										: SignalChecker.CheckSignals(logger, childPid, cts.Token);
+									try
+									{
+										await processTask;
+									}
+									finally
+									{
+										cts.Cancel();
+										await checkerTask;
+									}
+								}
 							}
 							catch (InvalidOperationException ex)
 							{
@@ -190,8 +208,19 @@ namespace Tgstation.Server.Host.Watchdog
 										process.WaitForExit();
 									}
 								}
-								catch (InvalidOperationException)
+								catch (InvalidOperationException ex2)
 								{
+									logger.LogWarning(ex2, "Error killing host process!");
+								}
+
+								try
+								{
+									if (File.Exists(updateDirectory))
+										File.Delete(updateDirectory);
+								}
+								catch (Exception ex2)
+								{
+									logger.LogWarning(ex2, "Error deleting comms file!");
 								}
 
 								logger.LogInformation("Host exited!");

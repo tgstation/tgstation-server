@@ -1050,7 +1050,10 @@ namespace Tgstation.Server.Host.Setup
 					{
 						var bytes = await ioManager.ReadAllBytes(userConfigFileName, cancellationToken);
 						var contents = Encoding.UTF8.GetString(bytes);
-						var existingConfigIsEmpty = String.IsNullOrWhiteSpace(contents) || contents.Trim() == "{}";
+						var lines = contents.Split('\n', StringSplitOptions.RemoveEmptyEntries);
+						var existingConfigIsEmpty = lines
+							.Select(line => line.Trim())
+							.All(line => line[0] == '#' || line == "{}" || line.Length == 0);
 						shouldRunBasedOnAutodetect = existingConfigIsEmpty;
 					}
 					else

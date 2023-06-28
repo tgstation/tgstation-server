@@ -112,7 +112,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					var eventType = Server.TerminationWasRequested
 						? EventType.WorldEndProcess
 						: EventType.WatchdogCrash;
-					await HandleEvent(eventType, Enumerable.Empty<string>(), false, cancellationToken);
+					await HandleEventImpl(eventType, Enumerable.Empty<string>(), false, cancellationToken);
 
 					var exitWord = Server.TerminationWasRequested ? "exited" : "crashed";
 					if (Server.RebootState == Session.RebootState.Shutdown)
@@ -143,7 +143,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					gracefulRebootRequired = false;
 					Server.ResetRebootState();
 
-					var eventTask = HandleEvent(EventType.WorldReboot, Enumerable.Empty<string>(), false, cancellationToken);
+					var eventTask = HandleEventImpl(EventType.WorldReboot, Enumerable.Empty<string>(), false, cancellationToken);
 					try
 					{
 						switch (rebootState)
@@ -174,7 +174,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					await HandleNewDmbAvailable(cancellationToken);
 					break;
 				case MonitorActivationReason.ActiveServerPrimed:
-					await HandleEvent(EventType.WorldPrime, Enumerable.Empty<string>(), false, cancellationToken);
+					await HandleEventImpl(EventType.WorldPrime, Enumerable.Empty<string>(), false, cancellationToken);
 					break;
 				case MonitorActivationReason.ActiveServerStartup:
 					break; // unused in BasicWatchdog

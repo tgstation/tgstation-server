@@ -71,7 +71,9 @@ namespace Tgstation.Server.Host.System
 			if (signalCheckerTask != null)
 				throw new InvalidOperationException("Attempted to start PosixSignalHandler twice!");
 
-			signalCheckerTask = SignalChecker();
+			signalCheckerTask = Task.WhenAll(
+				SignalChecker(Signum.SIGUSR1, false),
+				SignalChecker(Signum.SIGUSR2, true));
 
 			return Task.CompletedTask;
 		}
@@ -92,28 +94,30 @@ namespace Tgstation.Server.Host.System
 		/// <summary>
 		/// Thread for listening to signal.
 		/// </summary>
+		/// <param name="signum">The <see cref="Signum"/> to monitor.</param>
+		/// <param name="detach">If the graceful shutdown should detach the watchdog.</param>
 		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		async Task SignalChecker()
+		async Task SignalChecker(Signum signum, bool detach)
 		{
 			try
 			{
 				logger.LogTrace("Started SignalChecker");
 
-				using var unixSignal = new UnixSignal(Signum.SIGUSR1);
+				using var unixSignal = new UnixSignal(signum);
 				if (!unixSignal.IsSet)
 				{
-					logger.LogTrace("Waiting for SIGUSR1...");
+					logger.LogTrace("Waiting for {signum}...", signum);
 					var cancellationToken = cancellationTokenSource.Token;
 					while (!unixSignal.IsSet)
 						await asyncDelayer.Delay(TimeSpan.FromMilliseconds(CheckDelayMs), cancellationToken);
 
-					logger.LogTrace("SIGUSR1 received!");
+					logger.LogTrace("{signum} received!", signum);
 				}
 				else
-					logger.LogDebug("SIGUSR1 has already been sent");
+					logger.LogDebug("{signum} has already been sent", signum);
 
 				logger.LogTrace("Triggering graceful shutdown...");
-				await serverControl.GracefulShutdown();
+				await serverControl.GracefulShutdown(detach);
 			}
 			catch (OperationCanceledException ex)
 			{

@@ -193,7 +193,7 @@ namespace Tgstation.Server.Host
 				if (await updateExecutor.ExecuteUpdate(updatePath, criticalCancellationToken, criticalCancellationToken))
 				{
 					logger.LogTrace("Update complete!");
-					await Restart(newVersion, null, true);
+					await RestartImpl(newVersion, null, true, true);
 				}
 				else if (terminateIfUpdateFails)
 				{
@@ -236,13 +236,13 @@ namespace Tgstation.Server.Host
 		}
 
 		/// <inheritdoc />
-		public Task Restart() => Restart(null, null, true);
+		public Task Restart() => RestartImpl(null, null, true, true);
 
 		/// <inheritdoc />
-		public Task GracefulShutdown() => Restart(null, null, false);
+		public Task GracefulShutdown(bool detach) => RestartImpl(null, null, false, detach);
 
 		/// <inheritdoc />
-		public Task Die(Exception exception) => Restart(null, exception, false);
+		public Task Die(Exception exception) => RestartImpl(null, exception, false, true);
 
 		/// <summary>
 		/// Throws an <see cref="InvalidOperationException"/> if the <see cref="IServerControl"/> cannot be used.
@@ -278,8 +278,9 @@ namespace Tgstation.Server.Host
 		/// <param name="newVersion">The <see cref="Version"/> of any potential updates being applied.</param>
 		/// <param name="exception">The potential value of <see cref="propagatedException"/>.</param>
 		/// <param name="requireWatchdog">If the host watchdog is required for this "restart".</param>
+		/// <param name="completeAsap">If the restart should wait for extremely long running tasks to complete (Like the current DreamDaemon world).</param>
 		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		async Task Restart(Version newVersion, Exception exception, bool requireWatchdog)
+		async Task RestartImpl(Version newVersion, Exception exception, bool requireWatchdog, bool completeAsap)
 		{
 			CheckSanity(requireWatchdog);
 
@@ -288,7 +289,9 @@ namespace Tgstation.Server.Host
 			logger.LogTrace(
 				"Begin {restartType}...",
 				isGracefulShutdown
-					? "graceful shutdown"
+					? completeAsap
+						? "semi-graceful shutdown"
+						: "graceful shutdown"
 					: "restart");
 
 			lock (restartLock)
@@ -305,10 +308,11 @@ namespace Tgstation.Server.Host
 
 			if (exception == null)
 			{
+				var giveHandlersTimeToWaitAround = isGracefulShutdown && !completeAsap;
 				logger.LogInformation("Stopping server...");
 				using var cts = new CancellationTokenSource(
 					TimeSpan.FromMinutes(
-						isGracefulShutdown
+						giveHandlersTimeToWaitAround
 							? generalConfiguration.ShutdownTimeoutMinutes
 							: generalConfiguration.RestartTimeoutMinutes));
 				var cancellationToken = cts.Token;
@@ -319,7 +323,7 @@ namespace Tgstation.Server.Host
 						eventsTask = ValueTaskExtensions.WhenAll(
 							restartHandlers
 								.Select(
-									x => x.HandleRestart(newVersion, isGracefulShutdown, cancellationToken))
+									x => x.HandleRestart(newVersion, giveHandlersTimeToWaitAround, cancellationToken))
 								.ToList());
 
 					logger.LogTrace("Joining restart handlers...");

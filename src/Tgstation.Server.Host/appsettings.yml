@@ -1,59 +1,66 @@
 General:
-  MinimumPasswordLength: 15
-  GitHubAccessToken: null
-  SetupWizardMode: AutoDetect
-  ByondTopicTimeout: 5000
-  RestartTimeoutMinutes: 1
-  ApiPort: 5000
-  UseBasicWatchdog: false
-  UserLimit: 100
-  UserGroupLimit: 25
-  InstanceLimit: 10
-  ValidInstancePaths:
-  HostApiDocumentation: false
-  SkipAddingByondFirewallException: false
-  DeploymentDirectoryCopyTasksPerCore: 100
+# ConfigVersion: # Basic semver. Differs from TGS version to version. See changelog for current version
+  MinimumPasswordLength: 15 # Minimum TGS user password length
+  GitHubAccessToken: # GitHub personal access token with no scopes used to bypass rate-limits
+  SetupWizardMode: AutoDetect # If the interactive TGS setup wizard should run
+  ByondTopicTimeout: 5000 # Timeout for BYOND /world/Topic() calls in milliseconds
+  RestartTimeoutMinutes: 1 # Timeout for server restarts after requested by SIGTERM or the HTTP API
+  ApiPort: 5000 # Port the HTTP API is hosted on
+  UseBasicWatchdog: false # The basic watchdog hard restarts DreamDaemon when /world/proc/TgsReboot() is called in the DMAPI if a new deployment is available
+  UserLimit: 100 # Maximum number of allowed users
+  UserGroupLimit: 25 # Maximum number of allowed groups
+  InstanceLimit: 10 # Maximum number of allowed instances
+  ValidInstancePaths: # An array of directories instances may be created in (either directly or as a subdirectory). null removes the restriction
+  HostApiDocumentation: false # Make HTTP API documentation available at /swagger/v1/swagger.json
+  SkipAddingByondFirewallException: false # Windows Only: Prevent running netsh.exe to add a firewall exception for installed DreamDaemon binaries
+  DeploymentDirectoryCopyTasksPerCore: 100 # Maximum number of concurrent file copy operations PER available CPU core
 Session:
-  HighPriorityLiveDreamDaemon: false
-  LowPriorityDeploymentProcesses: true
+  HighPriorityLiveDreamDaemon: false # If DreamDaemon instances should run as higher priority processes
+  LowPriorityDeploymentProcesses: true # If TGS Deployments should run as lower priority processes
 FileLogging:
-  Directory:
-  Disable: false
-  LogLevel: Debug
-  MicrosoftLogLevel: Warning
+  Directory: # Directory in which log files are stored. Windows default: %PROGRAMDATA%/tgstation-server. Linux default: /var/log/tgstation-server
+  Disable: true # Disable file logging entirely
+  LogLevel: Debug # Level of file logging verbosity. Can be one of Trace, Debug, Information, Warning, Error, or Critical
+  MicrosoftLogLevel: Warning # Level of file logging verbosity from Microsoft dependecies (i.e. webserver, database object relational mapper, etc...). Can be one of Trace, Debug, Information, Warning, Error, or Critical
 Logging:
-  IncludeScopes: false
   Debug:
     LogLevel:
-      Default: Debug
-      Microsoft: Information
+      Default: Debug # Level of debugger logging verbosity. Can be one of Trace, Debug, Information, Warning, Error, or Critical.
+      Microsoft: Information # Level of file logging verbosity from Microsoft dependecies (i.e. webserver, database object relational mapper, etc...). Can be one of Trace, Debug, Information, Warning, Error, or Critical
   Console:
     LogLevel:
-      Default: Trace
-      Microsoft: Warning
+      Default: Trace # Level of stdout logging verbosity. Can be one of Trace, Debug, Information, Warning, Error, or Critical.
+      Microsoft: Warning # Level of stdout verbosity from Microsoft dependecies (i.e. webserver, database object relational mapper, etc...). Can be one of Trace, Debug, Information, Warning, Error, or Critical
 ControlPanel:
-  Enable: false
-  Channel: https://tgstation.github.io/tgstation-server-webpanel/api/${Major}.${Minor}.${Patch}
-  AllowAnyOrigin: false
-  AllowedOrigins: []
-  PublicPath:
+  Enable: false # If the web control panel is hosted alongside the server
+  Channel: https://tgstation.github.io/tgstation-server-webpanel/api/${Major}.${Minor}.${Patch} # Channel for live web control panel updates. The tokens ${Major}, ${Minor}, and ${Patch} are substituted for the version of the HTTP API TGS was built with
+  AllowAnyOrigin: false # Enable the `Access-Control-Allow-Origin: *` header for HTTP responses
+  AllowedOrigins: [] # Explict list of origins for `Access-Control-Allow-Origin:` HTTP header. Ignored if AllowAnyOrigin is true
+  PublicPath: # Used if TGS is not hosted at the website root. If TGS is hosted under `https://domain.com/tgs`, this should be `/tgs`
 Updates:
-  GitHubRepositoryId: 92952846
-  GitTagPrefix: tgstation-server-v
-  UpdatePackageAssetName: ServerUpdatePackage.zip
+  GitHubRepositoryId: 92952846 # GitHub repostiory ID where TGS updates can be found in releases
+  GitTagPrefix: tgstation-server-v # Git tag prefix used for locating server update releases
+  UpdatePackageAssetName: ServerUpdatePackage.zip # Name of the .zip file asset that contains the server update
 Database:
-  DropDatabase: false
-  DatabaseType: SqlServer
-  ResetAdminPassword: false
-  ServerVersion:
-  ConnectionString: Data Source=(local);Initial Catalog=TGS;Integrated Security=True
+  DatabaseType: SqlServer # The database type TGS connects to
+  ServerVersion: # The version of the database being connected to, generally not required to be specified
+  ConnectionString: Data Source=(local);Initial Catalog=TGS;Integrated Security=True # The connection string used to establish the database connection. Format varies for each DatabaseType
+  DropDatabase: false # DANGEROUS! Causes TGS to recreate its database on startup. Must be unset manually
+  ResetAdminPassword: false # DANGEROUS! Causes TGS to reset the `Admin` user password back to its default value on startup. Must be unset manually.
 Security:
-  TokenExpiryMinutes: 15
-  TokenClockSkewMinutes: 1
-  TokenSigningKeyByteAmount: 256
-  CustomTokenSigningKeyBase64:
+  TokenExpiryMinutes: 15 # Length of time in minutes a login session token is valid for
+  TokenClockSkewMinutes: 1 # Clock skew allowance for validating loging tokens
+  TokenSigningKeyByteAmount: 256 # Length of generated token signing key in bytes. Ignored if CustomTokenSigningKeyBase64 is set
+  CustomTokenSigningKeyBase64: #
   OAuth:
-    GitHub:
-    Discord:
-    TGForums:
-    Keycloak:
+#    Example:
+#     RedirectUrl: # Return URL for OAuth handshake. For a server hosted at `https://domain.com/tgs`, this should be in the format `https://domain.com/tgs/app/`
+#     ClientId: # OAuth client ID
+#     ClientSecret: # OAuth client secret
+#     ServerUrl: # Only used by Keycloak and InvisionCommunity. Server URL (Includes Keycloak realm)
+#     UserInformationUrlOverride: # Not supported by GitHub. Overrides the URL TGS uses to retrieve a user's information
+    GitHub: # https://github.com OAuth configuration
+    Discord: # https://discord.com OAuth configuration
+    TGForums: # https://tgstation13.org OAuth configuration
+    Keycloak: # Keycloak OAuth configuration.
+    InvisionCommunity: # Invision Community OAuth configuration.

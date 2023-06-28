@@ -306,9 +306,10 @@ namespace Tgstation.Server.Host.Components
 
 					// the main point of auto update is to pull the remote
 					await repo.FetchOrigin(
+						NextProgressReporter("Fetch Origin"),
 						repositorySettings.AccessUser,
 						repositorySettings.AccessToken,
-						NextProgressReporter("Fetch Origin"),
+						true,
 						cancellationToken);
 
 					var hasDbChanges = false;
@@ -380,9 +381,10 @@ namespace Tgstation.Server.Host.Components
 					await UpdateRevInfo(repo.Head, false, null);
 
 					var result = await repo.MergeOrigin(
+						NextProgressReporter("Merge Origin"),
 						repositorySettings.CommitterName,
 						repositorySettings.CommitterEmail,
-						NextProgressReporter("Merge Origin"),
+						true,
 						cancellationToken);
 
 					var preserveTestMerges = repositorySettings.AutoUpdatesKeepTestMerges.Value;
@@ -428,10 +430,11 @@ namespace Tgstation.Server.Host.Components
 						const string StageName = "Resetting to origin...";
 						logger.LogTrace(StageName);
 						await repo.ResetToOrigin(
+							NextProgressReporter(StageName),
 							repositorySettings.AccessUser,
 							repositorySettings.AccessToken,
 							repositorySettings.UpdateSubmodules.Value,
-							NextProgressReporter(StageName),
+							true,
 							cancellationToken);
 
 						var currentHead = repo.Head;
@@ -451,12 +454,13 @@ namespace Tgstation.Server.Host.Components
 					if (repositorySettings.AutoUpdatesSynchronize.Value && startSha != repo.Head && (shouldSyncTracked || repositorySettings.PushTestMergeCommits.Value))
 					{
 						var pushedOrigin = await repo.Sychronize(
+							NextProgressReporter("Synchronize"),
 							repositorySettings.AccessUser,
 							repositorySettings.AccessToken,
 							repositorySettings.CommitterName,
 							repositorySettings.CommitterEmail,
-							NextProgressReporter("Synchronize"),
 							shouldSyncTracked,
+							true,
 							cancellationToken);
 						var currentHead = repo.Head;
 						if (currentHead != currentRevInfo.CommitSha)
@@ -493,7 +497,7 @@ namespace Tgstation.Server.Host.Components
 				{
 					await asyncDelayer.Delay(TimeSpan.FromMinutes(minutes > Int32.MaxValue ? Int32.MaxValue : minutes), cancellationToken);
 					logger.LogInformation("Beginning auto update...");
-					await eventConsumer.HandleEvent(EventType.InstanceAutoUpdateStart, Enumerable.Empty<string>(), cancellationToken);
+					await eventConsumer.HandleEvent(EventType.InstanceAutoUpdateStart, Enumerable.Empty<string>(), true, cancellationToken);
 					try
 					{
 						var repositoryUpdateJob = new Job

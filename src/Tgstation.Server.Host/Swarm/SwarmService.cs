@@ -704,10 +704,11 @@ namespace Tgstation.Server.Host.Swarm
 					Address = swarmConfiguration.ControllerAddress,
 				});
 
-			return Task.WhenAll(
-				swarmServers
-					.Where(x => !x.Controller)
-					.Select(SendRemoteAbort));
+			lock (swarmServers)
+				return Task.WhenAll(
+					swarmServers
+						.Where(x => !x.Controller)
+						.Select(SendRemoteAbort));
 		}
 
 		/// <summary>

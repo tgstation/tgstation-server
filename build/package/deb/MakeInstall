@@ -1,0 +1,7 @@
+#!/usr/bin/make -f
+
+install:
+		build/package/deb/install_artifacts.sh "$(DESTDIR)"
+		install -D build/package/deb/appsettings.Initial.yml "$(DESTDIR)/etc/tgstation-server/appsettings.Production.yml"
+		install src/Tgstation.Server.Host/appsettings.yml "$(DESTDIR)/etc/tgstation-server/appsettings.ex.yml"
+		install -D build/package/deb/tgs-configure "$(DESTDIR)/usr/bin/tgs-configure"
