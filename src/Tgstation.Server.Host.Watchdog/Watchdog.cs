@@ -81,10 +81,10 @@ namespace Tgstation.Server.Host.Watchdog
 
 					var sourcePath = "../../../../Tgstation.Server.Host/bin/Debug/net6.0";
 					foreach (string dirPath in Directory.GetDirectories(sourcePath, "*", SearchOption.AllDirectories))
-						Directory.CreateDirectory(dirPath.Replace(sourcePath, defaultAssemblyPath));
+						Directory.CreateDirectory(dirPath.Replace(sourcePath, defaultAssemblyPath, StringComparison.Ordinal));
 
 					foreach (string newPath in Directory.GetFiles(sourcePath, "*.*", SearchOption.AllDirectories))
-						File.Copy(newPath, newPath.Replace(sourcePath, defaultAssemblyPath), true);
+						File.Copy(newPath, newPath.Replace(sourcePath, defaultAssemblyPath, StringComparison.Ordinal), true);
 
 					const string AppSettingsYaml = "appsettings.yml";
 					var rootYaml = Path.Combine(rootLocation, AppSettingsYaml);
@@ -97,7 +97,7 @@ namespace Tgstation.Server.Host.Watchdog
 				var assemblyName = String.Join(".", nameof(Tgstation), nameof(Server), nameof(Host), "dll");
 				var assemblyPath = Path.Combine(defaultAssemblyPath, assemblyName);
 
-				if (assemblyPath.Contains("\""))
+				if (assemblyPath.Contains('"', StringComparison.Ordinal))
 				{
 					logger.LogCritical("Running from paths with \"'s in the name is not supported!");
 					return false;

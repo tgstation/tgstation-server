@@ -1,15 +1,10 @@
 ﻿using System;
-using System.Collections.Specialized;
-using System.Configuration.Install;
 using System.Diagnostics;
-using System.Globalization;
-using System.Linq;
+using System.IO;
 using System.Reflection;
-using System.Security.Principal;
 using System.ServiceProcess;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Windows.Forms;
 
 using McMaster.Extensions.CommandLineUtils;
 
@@ -87,22 +82,37 @@ namespace Tgstation.Server.Host.Service
 		public bool Debug { get; set; }
 
 		/// <summary>
-		/// Check if the running user is a system administrator.
-		/// </summary>
-		/// <returns><see langword="true"/> if the running user is a system administrator, <see langword="false"/> otherwise.</returns>
-		static bool IsAdministrator()
-		{
-			var user = WindowsIdentity.GetCurrent();
-			var principal = new WindowsPrincipal(user);
-			return principal.IsInRole(WindowsBuiltInRole.Administrator);
-		}
-
-		/// <summary>
 		/// Entrypoint for the application.
 		/// </summary>
 		/// <param name="args">The application arguments.</param>
 		/// <returns>A <see cref="Task"/> resulting in the <see cref="Program"/>'s exit code.</returns>
 		static Task<int> Main(string[] args) => CommandLineApplication.ExecuteAsync<Program>(args);
+
+		/// <summary>
+		/// Runs sc.exe to either uninstall a given <paramref name="serviceToUninstall"/> or install the running <see cref="ServerService"/>.
+		/// </summary>
+		/// <param name="serviceToUninstall">The name of a service to uninstall.</param>
+		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
+		static async ValueTask InvokeSC(string serviceToUninstall)
+		{
+			using var process = new Process();
+			process.StartInfo.FileName = "C:/Windows/System32/sc.exe";
+
+			var fullPathToAssembly = Path.GetFullPath(
+				Assembly.GetExecutingAssembly().Location);
+
+			var assemblyDirectory = Path.GetDirectoryName(fullPathToAssembly);
+			var assemblyNameWithoutExtension = Path.GetFileNameWithoutExtension(fullPathToAssembly);
+			var exePath = Path.Combine(assemblyDirectory, $"{assemblyNameWithoutExtension}.exe");
+
+			process.StartInfo.Arguments = serviceToUninstall == null
+				? $"create tgstation-server binPath=\"{exePath}\" start=auto depend=Tcpip/Dhcp/Dnscache"
+				: $"delete {serviceToUninstall}";
+
+			process.Start();
+
+			await process.WaitForExitAsync();
+		}
 
 		/// <summary>
 		/// Command line handler, always runs.
@@ -112,34 +122,19 @@ namespace Tgstation.Server.Host.Service
 		{
 			var standardRun = !Install && !Uninstall && !Configure;
 
-			if (Environment.UserInteractive)
+			if (Environment.UserInteractive && standardRun)
 			{
-				if (standardRun)
-				{
-					var result = MessageBox.Show("You are running the TGS windows service executable directly. It should only be run by the service control manager. Would you like to install and configure the service in this location?", "TGS Service", MessageBoxButtons.YesNo);
-					if (result != DialogResult.Yes)
-						return;
-					Install = true;
-					Configure = true;
-				}
+				var result = NativeMethods.MessageBox(
+					default,
+					"You are running the TGS windows service executable directly. It should only be run by the service control manager. Would you like to install and configure the service in this location?",
+					"TGS Service",
+					NativeMethods.MessageBoxButtons.YesNo);
 
-				if (!IsAdministrator())
-				{
-					// try to restart as admin
-					// its windows, first arg is .exe name guaranteed
-					var args = Environment.GetCommandLineArgs();
-					var exe = args.First();
-					var startInfo = new ProcessStartInfo
-					{
-						UseShellExecute = true,
-						Verb = "runas",
-						Arguments = String.Join(" ", args.Skip(1)),
-						FileName = exe,
-						WorkingDirectory = Environment.CurrentDirectory,
-					};
-					using (Process.Start(startInfo))
-						return;
-				}
+				if (result != NativeMethods.DialogResult.Yes)
+					return;
+
+				Install = true;
+				Configure = true;
 			}
 
 			if (Configure)
@@ -148,21 +143,19 @@ namespace Tgstation.Server.Host.Service
 			bool stopped = false;
 			if (Uninstall)
 			{
-				using (var installer = new ServiceInstaller())
-				{
-					installer.Context = new InstallContext("tgs-uninstall.log", null);
-					if (Silent)
-						installer.Context.Parameters["LogToConsole"] = false.ToString();
-
-					installer.ServiceName = ServerService.Name;
-					installer.Uninstall(null);
-				}
+				foreach (ServiceController sc in ServiceController.GetServices())
+					if (sc.ServiceName == ServerService.Name)
+					{
+						RestartService(sc);
+						await InvokeSC(ServerService.Name);
+						break;
+					}
 
 				stopped = true;
 			}
 
 			if (Install)
-				stopped |= RunServiceInstall();
+				stopped |= await RunServiceInstall();
 
 			if (standardRun)
 			{
@@ -185,53 +178,36 @@ namespace Tgstation.Server.Host.Service
 		/// <summary>
 		/// Attempt to install the TGS Service.
 		/// </summary>
-		/// <returns><see langword="true"/> if the service was stopped or detached as a result, <see langword="false"/> otherwise.</returns>
-		bool RunServiceInstall()
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in <see langword="true"/> if the service was stopped or detached as a result, <see langword="false"/> otherwise.</returns>
+		async ValueTask<bool> RunServiceInstall()
 		{
 			// First check if the service already exists
 			bool serviceStopped = false;
 			if (Force || Environment.UserInteractive)
 				foreach (ServiceController sc in ServiceController.GetServices())
-					if (sc.ServiceName == ServerService.Name || sc.ServiceName == "tgstation-server-4")
+				{
+					var serviceName = sc.ServiceName;
+					if (serviceName == ServerService.Name || serviceName == "tgstation-server-4")
 					{
-						DialogResult result = !Force
-							? MessageBox.Show($"You already have another TGS service installed ({sc.ServiceName}). Would you like to uninstall it now? Pressing \"No\" will cancel this install.", "TGS Service", MessageBoxButtons.YesNo)
-							: DialogResult.Yes;
-						if (result != DialogResult.Yes)
+						NativeMethods.DialogResult result = !Force
+							? NativeMethods.MessageBox(
+								default,
+								$"You already have another TGS service installed ({sc.ServiceName}). Would you like to uninstall it now? Pressing \"No\" will cancel this install.",
+								"TGS Service",
+								NativeMethods.MessageBoxButtons.YesNo)
+							: NativeMethods.DialogResult.Yes;
+						if (result != NativeMethods.DialogResult.Yes)
 							return false; // is this needed after exit?
 
 						// Stop it first to give it some cleanup time
 						RestartService(sc);
 
 						// And remove it
-						using var serviceInstaller = new ServiceInstaller();
-						serviceInstaller.Context = new InstallContext($"old-{sc.ServiceName}-uninstall.log", null);
-
-						if (Silent)
-							serviceInstaller.Context.Parameters["LogToConsole"] = false.ToString();
-
-						serviceInstaller.ServiceName = sc.ServiceName;
-						serviceInstaller.Uninstall(null);
-
-						serviceStopped = true;
+						await InvokeSC(sc.ServiceName);
 					}
+				}
 
-			using var processInstaller = new ServiceProcessInstaller();
-			using var installer = new ServiceInstaller();
-			processInstaller.Account = ServiceAccount.LocalSystem;
-
-			installer.Context = new InstallContext("tgs-install.log", new string[] { String.Format(CultureInfo.InvariantCulture, "/assemblypath={0}", Assembly.GetEntryAssembly().Location) });
-			if (Silent)
-				installer.Context.Parameters["LogToConsole"] = false.ToString();
-			installer.Description = "tgstation-server running as a windows service";
-			installer.DisplayName = ServerService.Name;
-			installer.StartType = ServiceStartMode.Automatic;
-			installer.ServicesDependedOn = new string[] { "Tcpip", "Dhcp", "Dnscache" };
-			installer.ServiceName = ServerService.Name;
-			installer.Parent = processInstaller;
-
-			var state = new ListDictionary();
-			installer.Install(state);
+			await InvokeSC(null);
 
 			return serviceStopped;
 		}
@@ -245,15 +221,23 @@ namespace Tgstation.Server.Host.Service
 			if (serviceController.Status != ServiceControllerStatus.Running)
 				return;
 
-			if (Detach)
+			var stop = !Detach;
+			if (!stop)
+			{
 				serviceController.ExecuteCommand(
 					ServerService.GetCommand(
 						PipeCommands.CommandDetachingShutdown)
 					.Value);
-			else
-				serviceController.Stop();
+				serviceController.WaitForStatus(ServiceControllerStatus.Stopped, TimeSpan.FromSeconds(30));
+				if (serviceController.Status != ServiceControllerStatus.Stopped)
+					stop = true;
+			}
 
-			serviceController.WaitForStatus(ServiceControllerStatus.Stopped);
+			if (stop)
+			{
+				serviceController.Stop();
+				serviceController.WaitForStatus(ServiceControllerStatus.Stopped);
+			}
 		}
 
 		/// <summary>

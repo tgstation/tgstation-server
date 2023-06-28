@@ -68,15 +68,11 @@ NOTE:
 
 If you don't have it installed already, download and install the [ASP .NET Core Runtime (>= v6.0)](https://dotnet.microsoft.com/download/dotnet/6.0). Ensure that the `dotnet` executable file is in your system's `PATH` variable (or that of the user's that will be running the server). You can test this by opening a command prompt and running `dotnet --list-runtimes`.
 
-You should also ensure that your .NET Framework runtime version is >= v4.7.2. Most modern systems have it by default so this isn't much of a concern. If, somehow, you don't have it installed, it can be downloaded [here](https://dotnet.microsoft.com/en-us/download/dotnet-framework/net472).
-
 [Download the latest release .msi](https://github.com/tgstation/tgstation-server/releases/latest). Executing it will take you through the process of installing and configuring your server.
 
 ##### Manual
 
 If you don't have it installed already, download and install the [ASP .NET Core Runtime (>= v6.0)](https://dotnet.microsoft.com/download/dotnet/6.0). Ensure that the `dotnet` executable file is in your system's `PATH` variable (or that of the user's that will be running the server). You can test this by opening a command prompt and running `dotnet --list-runtimes`.
-
-You should also ensure that your .NET Framework runtime version is >= v4.7.2. Most modern systems have it by default so this isn't much of a concern. If, somehow, you don't have it installed, it can be downloaded [here](https://dotnet.microsoft.com/en-us/download/dotnet-framework/net472).
 
 [Download the latest release .zip](https://github.com/tgstation/tgstation-server/releases/latest). You probably want the `ServerService` package. Choose `ServerConsole` if you prefer not to use the Windows service.
 

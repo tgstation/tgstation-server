@@ -225,8 +225,8 @@ try
 	Directory.CreateDirectory(tgsInstallPath);
 
 	// ASP.NET 6.0 RUNTIME CHECK
-	Console.WriteLine("Next step, we need to ensure the .NET 4.7.2 and ASP.NET Core 6 runtimes are installed on your machine.");
-	Console.WriteLine("We are assuming you already have .NET 4.7.2 installed if you're running TGS3 and this program. So we're going to download .NET 6 for you.");
+	Console.WriteLine("Next step, we need to ensure the ASP.NET Core 6 runtime is installed on your machine.");
+	Console.WriteLine("We're going to download it for you.");
 	Console.WriteLine("Yes, this program runs .NET 6, but it contains the entire runtime embedded into it. You will need a system-wide install for TGS.");
 
 	var runtimeInstalled = true; // assume for now
