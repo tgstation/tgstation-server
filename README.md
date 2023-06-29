@@ -44,12 +44,29 @@ Follow the instructions for your OS below.
 
 #### Windows
 
-##### winget
+##### winget (Windows 10 or later)
 
-If you have [winget](https://github.com/microsoft/winget-cli) installed. You can easily install the latest version of tgstation-server (provided Microsoft has approved the most recent package manifest).
+[winget](https://github.com/microsoft/winget-cli) installed is the easiest way to install the latest version of tgstation-server (provided Microsoft has approved the most recent package manifest).
 
-Simply run the following commands:
-```sh
+Check if you have `winget` by running the following command.
+```
+winget --version
+```
+
+If it returns an error that means you don't have winget. You can easily install it by running the following powershell commands:
+```
+Invoke-WebRequest -Uri https://www.nuget.org/api/v2/package/Microsoft.UI.Xaml/2.7.3 -OutFile .\microsoft.ui.xaml.2.7.3.zip
+Expand-Archive .\microsoft.ui.xaml.2.7.3.zip
+Add-AppxPackage .\microsoft.ui.xaml.2.7.3\tools\AppX\x64\Release\Microsoft.UI.Xaml.2.7.appx
+Add-AppxPackage -Path "https://aka.ms/Microsoft.VCLibs.x64.14.00.Desktop.appx"
+Add-AppxPackage -Path "https://github.com/microsoft/winget-cli/releases/latest/download/Microsoft.DesktopAppInstaller_8wekyb3d8bbwe.msixbundle"
+Remove-Item .\microsoft.ui.xaml.2.7.3\ -r
+Remove-Item .\microsoft.ui.xaml.2.7.3.zip
+```
+
+Once winget is installed, simply run the following commands, accepting any prompts that may appear:
+
+```ps
 winget install Microsoft.DotNet.HostingBundle.6
 winget install tgstation-server
 ```
