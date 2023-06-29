@@ -53,8 +53,9 @@ Check if you have `winget` by running the following command.
 winget --version
 ```
 
-If it returns an error that means you don't have winget. You can easily install it by running the following powershell commands:
+If it returns an error that means you don't have winget. You can easily install it by running the following Windows Powershell commands:
 ```
+Import-Module Appx
 Invoke-WebRequest -Uri https://www.nuget.org/api/v2/package/Microsoft.UI.Xaml/2.7.3 -OutFile .\microsoft.ui.xaml.2.7.3.zip
 Expand-Archive .\microsoft.ui.xaml.2.7.3.zip
 Add-AppxPackage .\microsoft.ui.xaml.2.7.3\tools\AppX\x64\Release\Microsoft.UI.Xaml.2.7.appx
