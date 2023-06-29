@@ -140,7 +140,7 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 				compileJob.GitHubRepoId = await repositoryIdTask;
 				Logger.LogTrace("Set GitHub ID as {gitHubRepoId}", compileJob.GitHubRepoId);
 			}
-			catch (RateLimitExceededException ex) when (!repositorySettings.CreateGitHubDeployments.Value)
+			catch (Exception ex) when (ex is not OperationCanceledException)
 			{
 				Logger.LogWarning(ex, "Unable to set compile job repository ID!");
 			}
