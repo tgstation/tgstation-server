@@ -123,7 +123,7 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 			CancellationToken cancellationToken) => Task.CompletedTask;
 
 		/// <inheritdoc />
-		protected override Task CommentOnTestMergeSource(
+		protected override async Task CommentOnTestMergeSource(
 			RepositorySettings repositorySettings,
 			string remoteRepositoryOwner,
 			string remoteRepositoryName,
@@ -135,13 +135,20 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 				? new GitLabClient(GitLabRemoteFeatures.GitLabUrl, repositorySettings.AccessToken)
 				: new GitLabClient(GitLabRemoteFeatures.GitLabUrl);
 
-			return client
-				.MergeRequests
-				.CreateNoteAsync(
-					$"{remoteRepositoryOwner}/{remoteRepositoryName}",
-					testMergeNumber,
-					new CreateMergeRequestNoteRequest(comment))
-				.WithToken(cancellationToken);
+			try
+			{
+				await client
+					.MergeRequests
+					.CreateNoteAsync(
+						$"{remoteRepositoryOwner}/{remoteRepositoryName}",
+						testMergeNumber,
+						new CreateMergeRequestNoteRequest(comment))
+					.WithToken(cancellationToken);
+			}
+			catch (Exception ex) when (ex is not OperationCanceledException)
+			{
+				Logger.LogWarning(ex, "Error posting GitHub comment!");
+			}
 		}
 
 		/// <inheritdoc />
