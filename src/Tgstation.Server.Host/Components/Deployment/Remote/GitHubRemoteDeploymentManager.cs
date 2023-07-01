@@ -127,9 +127,9 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 
 					Logger.LogTrace("In-progress deployment status created");
 				}
-				catch (ApiException ex)
+				catch (Exception ex) when (ex is not OperationCanceledException)
 				{
-					Logger.LogWarning(ex, "Unable to create deployment!");
+					Logger.LogWarning(ex, "Unable to create GitHub deployment!");
 				}
 			}
 
@@ -138,7 +138,7 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 				compileJob.GitHubRepoId = await repositoryIdTask;
 				Logger.LogTrace("Set GitHub ID as {gitHubRepoId}", compileJob.GitHubRepoId);
 			}
-			catch (RateLimitExceededException ex) when (!repositorySettings.CreateGitHubDeployments.Value)
+			catch (Exception ex) when (ex is not OperationCanceledException)
 			{
 				Logger.LogWarning(ex, "Unable to set compile job repository ID!");
 			}
@@ -252,9 +252,9 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 			{
 				await gitHubService.CommentOnIssue(remoteRepositoryOwner, remoteRepositoryName, comment, testMergeNumber, cancellationToken);
 			}
-			catch (ApiException e)
+			catch (Exception ex) when (ex is not OperationCanceledException)
 			{
-				Logger.LogWarning(e, "Error posting GitHub comment!");
+				Logger.LogWarning(ex, "Error posting GitHub comment!");
 			}
 		}
 
@@ -336,14 +336,21 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 
 			var gitHubService = gitHubServiceFactory.CreateService(gitHubAccessToken);
 
-			await gitHubService.CreateDeploymentStatus(
-				new NewDeploymentStatus(deploymentState)
-				{
-					Description = description,
-				},
-				compileJob.GitHubRepoId.Value,
-				compileJob.GitHubDeploymentId.Value,
-				cancellationToken);
+			try
+			{
+				await gitHubService.CreateDeploymentStatus(
+					new NewDeploymentStatus(deploymentState)
+					{
+						Description = description,
+					},
+					compileJob.GitHubRepoId.Value,
+					compileJob.GitHubDeploymentId.Value,
+					cancellationToken);
+			}
+			catch (Exception ex) when (ex is not OperationCanceledException)
+			{
+				Logger.LogWarning(ex, "Error updating GitHub deployment!");
+			}
 		}
 	}
 }
