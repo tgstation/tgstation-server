@@ -983,6 +983,8 @@ jobs:
     steps:
     - name: Install winget
       uses: Cyberboss/install-winget@v1
+      with:
+        GITHUB_TOKEN: ${{ env.WINGET_PUSH_TOKEN }}
 
     - name: Setup dotnet
       uses: actions/setup-dotnet@v2
@@ -1497,6 +1499,8 @@ jobs:
 
     - name: Install winget
       uses: Cyberboss/install-winget@v1
+      with:
+        GITHUB_TOKEN: ${{ env.WINGET_PUSH_TOKEN }}
 
     - name: Install wingetcreate
       run: winget install wingetcreate --disable-interactivity --accept-source-agreements
