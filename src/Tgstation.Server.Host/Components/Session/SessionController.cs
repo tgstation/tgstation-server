@@ -21,7 +21,6 @@ using Tgstation.Server.Host.Components.Deployment;
 using Tgstation.Server.Host.Components.Interop;
 using Tgstation.Server.Host.Components.Interop.Bridge;
 using Tgstation.Server.Host.Components.Interop.Topic;
-using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.System;
 using Tgstation.Server.Host.Utils;
 
@@ -82,17 +81,15 @@ namespace Tgstation.Server.Host.Components.Session
 			get => rebootGate;
 			set
 			{
-				var tcs = new TaskCompletionSource();
-				Task toAwait = null;
+				var tcs = new TaskCompletionSource<Task>();
 				async Task Wrap()
 				{
-					await tcs.Task;
+					var toAwait = await tcs.Task;
 					await toAwait;
 					await value;
 				}
 
-				toAwait = Interlocked.Exchange(ref rebootGate, Wrap());
-				tcs.SetResult();
+				tcs.SetResult(Interlocked.Exchange(ref rebootGate, Wrap()));
 			}
 		}
 
