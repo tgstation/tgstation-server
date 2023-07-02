@@ -27,6 +27,7 @@ using Tgstation.Server.Host.Extensions.Converters;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.System;
 using Tgstation.Server.Host.Utils;
+
 using YamlDotNet.Serialization;
 
 namespace Tgstation.Server.Host.Setup
@@ -80,6 +81,11 @@ namespace Tgstation.Server.Host.Setup
 		readonly GeneralConfiguration generalConfiguration;
 
 		/// <summary>
+		/// The <see cref="InternalConfiguration"/> for the <see cref="SetupWizard"/>.
+		/// </summary>
+		readonly InternalConfiguration internalConfiguration;
+
+		/// <summary>
 		/// A <see cref="TaskCompletionSource"/> that will complete when the <see cref="IConfiguration"/> is reloaded.
 		/// </summary>
 		TaskCompletionSource reloadTcs;
@@ -97,6 +103,7 @@ namespace Tgstation.Server.Host.Setup
 		/// <param name="applicationLifetime">The value of <see cref="applicationLifetime"/>.</param>
 		/// <param name="configuration">The <see cref="IConfiguration"/> in use.</param>
 		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="generalConfiguration"/>.</param>
+		/// <param name="internalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="internalConfiguration"/>.</param>
 		public SetupWizard(
 			IIOManager ioManager,
 			IConsole console,
@@ -107,7 +114,8 @@ namespace Tgstation.Server.Host.Setup
 			IAsyncDelayer asyncDelayer,
 			IHostApplicationLifetime applicationLifetime,
 			IConfiguration configuration,
-			IOptions<GeneralConfiguration> generalConfigurationOptions)
+			IOptions<GeneralConfiguration> generalConfigurationOptions,
+			IOptions<InternalConfiguration> internalConfigurationOptions)
 		{
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
 			this.console = console ?? throw new ArgumentNullException(nameof(console));
@@ -120,6 +128,7 @@ namespace Tgstation.Server.Host.Setup
 			ArgumentNullException.ThrowIfNull(configuration);
 
 			generalConfiguration = generalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
+			internalConfiguration = internalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(internalConfigurationOptions));
 
 			configuration
 				.GetReloadToken()
@@ -297,7 +306,13 @@ namespace Tgstation.Server.Host.Setup
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the SQLite database path to store in the configuration.</returns>
 		async Task<string> ValidateNonExistantSqliteDBName(string databaseName, CancellationToken cancellationToken)
 		{
-			var resolvedPath = ioManager.ResolvePath(databaseName);
+			var dbPathIsRooted = Path.IsPathRooted(databaseName);
+			var resolvedPath = ioManager.ResolvePath(
+				dbPathIsRooted
+					? databaseName
+					: ioManager.ConcatPath(
+						internalConfiguration.AppSettingsBasePath,
+						databaseName));
 			try
 			{
 				var directoryName = ioManager.GetDirectoryName(resolvedPath);
@@ -319,9 +334,9 @@ namespace Tgstation.Server.Host.Setup
 				return null;
 			}
 
-			if (!Path.IsPathRooted(databaseName))
+			if (!dbPathIsRooted)
 			{
-				await console.WriteAsync("Note, this relative path (currently) resolves to the following:", true, cancellationToken);
+				await console.WriteAsync("Note, this relative path currently resolves to the following:", true, cancellationToken);
 				await console.WriteAsync(resolvedPath, true, cancellationToken);
 				bool writeResolved = await PromptYesNo(
 					"Would you like to save the relative path in the configuration? If not, the full path will be saved.",
@@ -355,8 +370,6 @@ namespace Tgstation.Server.Host.Setup
 					"It is, however, the easiest option to get started with and will pose few if any problems in a single user scenario.",
 					true,
 					cancellationToken);
-
-				await asyncDelayer.Delay(TimeSpan.FromSeconds(3), cancellationToken);
 			}
 
 			await console.WriteAsync("What SQL database type will you be using?", true, cancellationToken);
@@ -962,7 +975,10 @@ namespace Tgstation.Server.Host.Setup
 
 			try
 			{
-				await ioManager.WriteAllBytes(userConfigFileName, configBytes, cancellationToken);
+				await ioManager.WriteAllBytes(
+					userConfigFileName,
+					configBytes,
+					cancellationToken);
 
 				// Ensure the reload
 				if (generalConfiguration.SetupWizardMode != SetupWizardMode.Only)
@@ -1046,7 +1062,9 @@ namespace Tgstation.Server.Host.Setup
 				return;
 			}
 
-			var userConfigFileName = String.Format(CultureInfo.InvariantCulture, "appsettings.{0}.yml", hostingEnvironment.EnvironmentName);
+			var userConfigFileName = ioManager.ConcatPath(
+				internalConfiguration.AppSettingsBasePath,
+				String.Format(CultureInfo.InvariantCulture, "appsettings.{0}.yml", hostingEnvironment.EnvironmentName));
 
 			async Task HandleSetupCancel()
 			{

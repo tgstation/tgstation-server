@@ -3,7 +3,7 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>$(TgsNetVersion)</TargetFramework>
+    <TargetFramework>$(TgsFrameworkVersion)</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>

@@ -7,13 +7,13 @@ export DH_VERBOSE = 1
 
 override_dh_auto_clean:
 		rm -rf artifacts
-		dotnet clean -c ReleaseNoFramework
+		dotnet clean -c ReleaseNoWindows
 
 override_dh_auto_build:
 		dotnet restore
 		cd src/Tgstation.Server.Host.Console && dotnet publish -c Release -o ../../artifacts
 		cd src/Tgstation.Server.Host && dotnet publish -c Release -o ../../artifacts/lib/Default
-		mv artifacts/lib/Default/appsettings.yml artifacts/appsettings.yml
+		rm artifacts/lib/Default/appsettings.yml
 
 override_dh_auto_install:
 		cp build/package/deb/MakeInstall ./Makefile

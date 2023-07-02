@@ -3,7 +3,7 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>$(TgsNetVersion)</TargetFramework>
+    <TargetFramework>$(TgsFrameworkVersion)</TargetFramework>
     <Version>$(TgsCoreVersion)</Version>
     <UseAppHost>false</UseAppHost>
     <IsPackable>false</IsPackable>

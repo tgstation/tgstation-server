@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="../../../Common.props" />
+
+  <PropertyGroup>
+    <TargetFramework>net2.0</TargetFramework>
+    <Version>$(TgsCoreVersion)</Version>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="WixToolset.Dtf.CustomAction" Version="4.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\src\Tgstation.Server.Host.Common\Tgstation.Server.Host.Common.csproj">
+      <Private>True</Private>
+    </ProjectReference>
+  </ItemGroup>
+  
+  <ItemGroup>
+    <Content Include="CustomAction.config" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="System.ServiceProcess" />
+  </ItemGroup>
+
+</Project>

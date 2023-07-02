@@ -2,7 +2,7 @@
   <Import Project="../../build/Common.props" />
 
   <PropertyGroup>
-    <TargetFramework>$(TgsNetVersion)</TargetFramework>
+    <TargetFramework>$(TgsFrameworkVersion)</TargetFramework>
     <OutputType>Exe</OutputType>
   </PropertyGroup>
 

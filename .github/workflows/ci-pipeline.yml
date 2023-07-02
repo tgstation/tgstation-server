@@ -240,10 +240,10 @@ jobs:
         ref: "refs/pull/${{ github.event.number }}/merge"
 
     - name: Build
-      run: dotnet build -c ${{ matrix.configuration }}NoFramework
+      run: dotnet build -c ${{ matrix.configuration }}NoWindows
 
     - name: Run Unit Tests
-      run: sudo dotnet test --no-build --logger GitHubActions --filter FullyQualifiedName!~TestLiveServer -c ${{ matrix.configuration }}NoFramework --collect:"XPlat Code Coverage" --settings build/coverlet.runsettings --results-directory ./TestResults tgstation-server.sln
+      run: sudo dotnet test --no-build --logger GitHubActions --filter FullyQualifiedName!~TestLiveServer -c ${{ matrix.configuration }}NoWindows --collect:"XPlat Code Coverage" --settings build/coverlet.runsettings --results-directory ./TestResults tgstation-server.sln
 
     - name: Store Code Coverage
       uses: actions/upload-artifact@v3
@@ -562,13 +562,13 @@ jobs:
         ref: "refs/pull/${{ github.event.number }}/merge"
 
     - name: Build
-      run: dotnet build -c ${{ matrix.configuration }}NoFramework tests/Tgstation.Server.Tests/Tgstation.Server.Tests.csproj
+      run: dotnet build -c ${{ matrix.configuration }}NoWindows tests/Tgstation.Server.Tests/Tgstation.Server.Tests.csproj
 
     - name: Run Live Tests
       run: |
         cd tests/Tgstation.Server.Tests
         sleep 10
-        dotnet test -c ${{ matrix.configuration }}NoFramework --filter FullyQualifiedName~TestLiveServer --logger GitHubActions --no-build --collect:"XPlat Code Coverage" --settings ../../build/coverlet.runsettings --results-directory ../../TestResults
+        dotnet test -c ${{ matrix.configuration }}NoWindows --filter FullyQualifiedName~TestLiveServer --logger GitHubActions --no-build --collect:"XPlat Code Coverage" --settings ../../build/coverlet.runsettings --results-directory ../../TestResults
 
     - name: Store Code Coverage
       uses: actions/upload-artifact@v3
@@ -582,14 +582,14 @@ jobs:
         cd src/Tgstation.Server.Host.Console
         dotnet publish -c ${{ matrix.configuration }} -o ../../Artifacts/Console
         cd ../Tgstation.Server.Host
-        dotnet publish -c ${{ matrix.configuration }}NoFramework --no-build -o ../../Artifacts/Console/lib/Default
+        dotnet publish -c ${{ matrix.configuration }}NoWindows --no-build -o ../../Artifacts/Console/lib/Default
         mv ../../Artifacts/Console/lib/Default/appsettings.yml ../../Artifacts/Console/appsettings.yml
 
     - name: Package Server Update Package
       if: ${{ matrix.configuration == 'Release' && matrix.watchdog-type == 'System' && matrix.database-type == 'PostgresSql' }}
       run: |
         cd src/Tgstation.Server.Host
-        dotnet publish -c ${{ matrix.configuration }}NoFramework --no-build -o ../../Artifacts/ServerUpdate
+        dotnet publish -c ${{ matrix.configuration }}NoWindows --no-build -o ../../Artifacts/ServerUpdate
         rm ../../Artifacts/ServerUpdate/appsettings.yml
 
     - name: Store Server Console
@@ -930,27 +930,24 @@ jobs:
 
     - name: Test Install
       run: |
+        sudo mkdir /etc/tgstation-server
+        sudo cp build/package/appsettings.GitHub.yml /etc/tgstation-server/appsettings.Production.yml
         sudo apt-get install -y ./tgstation-server_${{ env.TGS_VERSION }}-1_amd64.deb
         sudo ls -al /etc/tgstation-server
         sudo cat /etc/tgstation-server/appsettings.Production.yml
         ls -al /opt/tgstation-server
-        sudo cat /opt/tgstation-server/appsettings.Production.yml
         cat /opt/tgstation-server/appsettings.yml
         cat /opt/tgstation-server/lib/Default/Tgstation.Server.Host.deps.json
         cat /usr/bin/tgs-configure
 
     - name: Test Service
       run: |
-        set +e
         systemctl status tgstation-server
-        $EXIT_CODE=$?
-        set -e
-        if [ $EXIT_CODE != 0 ] && [ $EXIT_CODE != '3' ]; then
-          exit $EXIT_CODE
-        fi
 
-    - name: Test Uninstall
+    - name: Test Uninstall # Wait 10s for service to initialize
+      shell: bash
       run: |
+        sleep 10
         sudo apt-get remove -y tgstation-server
         if [[ -d "/opt/tgstation-server" ]]; then
           ls -al /opt/tgstation-server
@@ -967,20 +964,18 @@ jobs:
         path: tgstation-server-v${{ env.TGS_VERSION }}.debian.packaging.tar.xz
 
   build-msi:
-    name: Build .msi Package
+    name: Build Windows Installer .exe
     needs: start-ci-run-gate
     runs-on: windows-latest
     if: "!(cancelled() || failure()) && needs.start-ci-run-gate.result == 'success'"
     steps:
-    - name: Setup VS Dev Environment
-      uses: seanmiddleditch/gha-setup-vsdevenv@v4
-
-    - name: Disable Out of Process Building
-      working-directory: C:/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE/CommonExtensions/Microsoft/VSI/DisableOutOfProcBuild
-      run: ./DisableOutOfProcBuild.exe
-
     - name: Install winget
       uses: Cyberboss/install-winget@v1
+
+    - name: Setup dotnet
+      uses: actions/setup-dotnet@v2
+      with:
+        dotnet-version: ${{ env.TGS_DOTNET_VERSION }}
 
     - name: Checkout (Branch)
       uses: actions/checkout@v3
@@ -995,16 +990,27 @@ jobs:
     - name: Validate winget Manifest
       run: winget validate --manifest build/package/winget/manifest
 
-    - name: Execute Build Script
+    - name: Build Service
+      run: dotnet build -c Release src/Tgstation.Server.Host.Service/Tgstation.Server.Host.Service.csproj
+
+    - name: Prepare Artifacts
       shell: powershell
-      run: build/package/winget/build_msi.ps1
+      run: build/package/winget/prepare_installer_input_artifacts.ps1
+
+    - name: Build Installer
+      run: |
+        cd build/package/winget
+        dotnet tool restore
+        dotnet build -c Release Tgstation.Server.Service.Wix.Bundle
 
     - name: Test Install # Sanity checks the .deps.json exists, which the installation is broken without
       shell: powershell  # If it's missing, I found that <PrivateAssets> in <PackageReference> elements were the problem
       run: |
-        $file = [System.IO.Path]::GetFullPath("packaging/build/package/winget/Tgstation.Server.Host.Service.Msi/Release/tgstation-server.msi")
+        mkdir C:/ProgramData/tgstation-server
+        cp build/package/appsettings.GitHub.yml C:/ProgramData/tgstation-server/appsettings.Production.yml
+        $file = [System.IO.Path]::GetFullPath("build/package/winget/Tgstation.Server.Host.Service.Wix.Bundle/bin/x86/Release/tgstation-server-installer.exe")
         $log = [System.IO.Path]::GetFullPath("install.log")
-        $procMain = Start-Process "msiexec" "/i `"$file`" /qn /l*! `"$log`"" -NoNewWindow -PassThru -Wait
+        $procMain = Start-Process "$file" "/install /silent /log `"$log`"" -NoNewWindow -PassThru -Wait
         if (Test-Path -Path $log -PathType Leaf) {
           Get-Content $log
         }
@@ -1016,6 +1022,9 @@ jobs:
         if (-Not (Test-Path -Path "C:/Program Files (x86)/tgstation-server/lib/Default/Tgstation.Server.Host.deps.json" -PathType Leaf)) {
           exit 2
         }
+        if (-Not (Test-Path -Path "C:/ProgramData/tgstation-server/appsettings.Production.json" -PathType Leaf)) {
+          exit 4
+        }
 
     - name: Test Service
       shell: powershell
@@ -1024,13 +1033,16 @@ jobs:
         if ($service.Length -eq 0) {
           exit 3
         }
+        if ($service[0].Status -ne "Running") {
+          exit 4
+        }
 
     - name: Test Uninstall # Sanity checks the .deps.json exists, which the installation is broken without
-      shell: powershell  # If it's missing, I found that <PrivateAssets> in <PackageReference> elements were the problem
+      shell: powershell
       run: |
-        $file = [System.IO.Path]::GetFullPath("packaging/build/package/winget/Tgstation.Server.Host.Service.Msi/Release/tgstation-server.msi")
+        $file = [System.IO.Path]::GetFullPath("build/package/winget/Tgstation.Server.Host.Service.Wix.Bundle/bin/x86/Release/tgstation-server-installer.exe")
         $log = [System.IO.Path]::GetFullPath("uninstall.log")
-        $procMain = Start-Process "msiexec" "/x `"$file`" /qn /l*! `"$log`"" -NoNewWindow -PassThru -Wait
+        $procMain = Start-Process "$file" "/install /silent /log `"$log`"" -NoNewWindow -PassThru -Wait
         if (Test-Path -Path $log -PathType Leaf) {
           Get-Content $log
         }
@@ -1045,11 +1057,11 @@ jobs:
           exit 2
         }
 
-    - name: Upload .msi
+    - name: Upload Installer .exe
       uses: actions/upload-artifact@v3
       with:
         name: packaging-windows
-        path: packaging/build/package/winget/Tgstation.Server.Host.Service.Msi/Release/tgstation-server.msi
+        path: build/package/winget/Tgstation.Server.Host.Service.Wix.Bundle/bin/x86/Release/tgstation-server-installer.exe
 
   check-winget-pr-template:
     name: Check winget-pkgs Pull Request Template is up to date
@@ -1078,8 +1090,11 @@ jobs:
       with:
         ref: "refs/pull/${{ github.event.number }}/merge"
 
+    - name: Build ReleaseNotes
+      run: dotnet build -c Release tools/ReleaseNotes/ReleaseNotes.csproj
+
     - name: Run ReleaseNotes Check
-      run: dotnet run -c Release --project tools/ReleaseNotes --winget-template-check ${{ steps.get-sha.outputs.pr_template_sha }}
+      run: dotnet run -c Release --no-build --project tools/ReleaseNotes --winget-template-check ${{ steps.get-sha.outputs.pr_template_sha }}
 
   ci-completion-gate: # This job exists so there isn't a moving target for branch protections
     name: CI Completion Gate
@@ -1236,8 +1251,11 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v3
 
+    - name: Build ReleaseNotes
+      run: dotnet build -c Release tools/ReleaseNotes/ReleaseNotes.csproj
+
     - name: Run ReleaseNotes with --ensure-release
-      run: dotnet run -c Release --project tools/ReleaseNotes --ensure-release
+      run: dotnet run -c Release --no-build --project tools/ReleaseNotes --ensure-release
 
   deploy-tgs:
     name: Deploy TGS
@@ -1252,6 +1270,9 @@ jobs:
 
     - name: Checkout
       uses: actions/checkout@v3
+
+    - name: Build ReleaseNotes
+      run: dotnet build -c Release tools/ReleaseNotes/ReleaseNotes.csproj
 
     - name: Parse TGS version
       shell: powershell
@@ -1290,7 +1311,7 @@ jobs:
         name: packaging-debian
         path: packaging-debian
 
-    - name: Retrieve .msi
+    - name: Retrieve Installer .exe
       uses: actions/download-artifact@v3
       with:
         name: packaging-windows
@@ -1306,7 +1327,7 @@ jobs:
         &"C:/Program Files/7-Zip/7z.exe" a ServerUpdatePackage.zip ./ServerUpdatePackage/* -tzip
 
     - name: Generate Release Notes
-      run: dotnet run -c Release --project tools/ReleaseNotes ${{ env.TGS_VERSION }}
+      run: dotnet run -c Release --no-build --project tools/ReleaseNotes ${{ env.TGS_VERSION }}
 
     - name: Create GitHub Release
       uses: actions/create-release@v1
@@ -1379,14 +1400,14 @@ jobs:
         asset_name: tgstation-server-v${{ env.TGS_VERSION }}.debian.packaging.tar.xz
         asset_content_type: application/x-tar
 
-    - name: Upload .msi
+    - name: Upload Installer .exe
       uses: actions/upload-release-asset@v1
       env:
         GITHUB_TOKEN: ${{ secrets.DEV_PUSH_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./packaging-windows/tgstation-server.msi
-        asset_name: tgstation-server.msi
+        asset_path: ./packaging-windows/tgstation-server-installer.exe
+        asset_name: tgstation-server-installer.exe
         asset_content_type: application/octet-stream
 
   deploy-docker:
@@ -1458,7 +1479,7 @@ jobs:
     - name: Build ReleaseNotes
       run: dotnet build -c Release tools/ReleaseNotes
 
-    - name: Retrieve .msi
+    - name: Retrieve Installer .exe
       uses: actions/download-artifact@v3
       with:
         name: packaging-windows
@@ -1466,7 +1487,7 @@ jobs:
 
     - name: Execute Push Script
       shell: powershell
-      run: build/package/winget/push_manifest.ps1 -MsiPath packaging-windows/tgstation-server.msi
+      run: build/package/winget/push_manifest.ps1 -InstallerPath packaging-windows/tgstation-server-installer.exe
 
     - name: Run ReleaseNotes with --link-winget
-      run: dotnet run -c Release --project tools/ReleaseNotes --link-winget ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+      run: dotnet run -c Release --no-build --project tools/ReleaseNotes --link-winget ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}

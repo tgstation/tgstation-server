@@ -3,7 +3,7 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>$(TgsNetVersion)-windows</TargetFramework>
+    <TargetFramework>$(TgsFrameworkVersion)-windows</TargetFramework>
     <Version>$(TgsCoreVersion)</Version>
     <EnableNETAnalyzers>true</EnableNETAnalyzers>
     <!-- DO NOT ENABLE THIS, It makes the service require the desktop runtime instead of the ASP NET Core Hosting Bundle -->
@@ -26,6 +26,7 @@
   <ItemGroup>
     <!-- Usage: Command line argument support -->
     <PackageReference Include="McMaster.Extensions.CommandLineUtils" Version="4.0.2" />
+    <PackageReference Include="Microsoft.Extensions.Hosting.WindowsServices" Version="7.0.1" />
     <!-- Usage: Windows event log logging plugin -->
     <PackageReference Include="Microsoft.Extensions.Logging.EventLog" Version="7.0.0" />
     <!-- Usage: Console logging plugin -->
@@ -48,5 +49,5 @@
     <AdditionalFiles Include="../../build/stylecop.json" />
     <AdditionalFiles Include="../../build/uac_elevation_manifest.xml" />
   </ItemGroup>
-  
+
 </Project>

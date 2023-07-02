@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 using McMaster.Extensions.CommandLineUtils;
 
+using Microsoft.Extensions.Hosting.WindowsServices;
 using Microsoft.Extensions.Logging;
 
 using Tgstation.Server.Host.Common;
@@ -30,56 +31,50 @@ namespace Tgstation.Server.Host.Service
 		/// <summary>
 		/// The --uninstall or -u option.
 		/// </summary>
-		[Option(ShortName = "u")]
+		[Option(ShortName = "u", Description = "Uninstalls ANY installed tgstation-server service >=v4.0.0")]
 		public bool Uninstall { get; }
 
 		/// <summary>
 		/// The --detach or -x option. Valid only with <see cref="Install"/>.
 		/// </summary>
-		[Option(ShortName = "x")]
+		[Option(ShortName = "x", Description = "If the service has to stop, detach any running DreamDaemon processes beforehand. Only supported on versions >=5.13.0")]
 		public bool Detach { get; }
 
 		/// <summary>
 		/// The --restart or -r option.
 		/// </summary>
-		[Option(ShortName = "r")]
+		[Option(ShortName = "r", Description = "Stop and restart the tgstation-server service")]
 		public bool Restart { get; }
 
 		/// <summary>
 		/// The --install or -i option.
 		/// </summary>
-		[Option(ShortName = "i")]
+		[Option(ShortName = "i", Description = "Installs this executable as the tgstation-server Windows service")]
 		public bool Install { get; set; }
 
 		/// <summary>
 		/// The --force or -f option.
 		/// </summary>
-		[Option(ShortName = "f")]
+		[Option(ShortName = "f", Description = "Automatically agree to uninstall prompts")]
 		public bool Force { get; set; }
 
 		/// <summary>
 		/// The --silent or -s option.
 		/// </summary>
-		[Option(ShortName = "s")]
+		[Option(ShortName = "s", Description = "Suppresses console output from the host watchdog")]
 		public bool Silent { get; set; }
 
 		/// <summary>
 		/// The --configure or -c option.
 		/// </summary>
-		[Option(ShortName = "c")]
+		[Option(ShortName = "c", Description = "Runs the TGS setup wizard")]
 		public bool Configure { get; set; }
 
 		/// <summary>
-		/// The --trace or -t option. Enables trace logs.
+		/// The --passthroughargs or -p option.
 		/// </summary>
-		[Option(ShortName = "t")]
-		public bool Trace { get; set; }
-
-		/// <summary>
-		/// The --debug or -d option. Enables debug logs.
-		/// </summary>
-		[Option(ShortName = "d")]
-		public bool Debug { get; set; }
+		[Option(ShortName = "p", Description = "Arguments passed to main host process")]
+		public string PassthroughArgs { get; set; }
 
 		/// <summary>
 		/// Entrypoint for the application.
@@ -108,6 +103,7 @@ namespace Tgstation.Server.Host.Service
 			process.StartInfo.Arguments = serviceToUninstall == null
 				? $"create tgstation-server binPath=\"{exePath}\" start=auto depend=Tcpip/Dhcp/Dnscache"
 				: $"delete {serviceToUninstall}";
+			process.StartInfo.CreateNoWindow = false;
 
 			process.Start();
 
@@ -121,35 +117,53 @@ namespace Tgstation.Server.Host.Service
 		public async Task OnExecuteAsync()
 		{
 			var standardRun = !Install && !Uninstall && !Configure;
+			if (standardRun)
+				if (!Silent && !WindowsServiceHelpers.IsWindowsService())
+				{
+#if NET7_0_OR_GREATER
+#error Deprecated functionality, remove
+#endif
+					var result = NativeMethods.MessageBox(
+						default,
+						"You are running the TGS windows service executable directly. It should only be run by the service control manager. Would you like to install and configure the service in this location? (Note: This functionality is deprecated and will be removed in a future version)",
+						"TGS Service",
+						NativeMethods.MessageBoxButtons.YesNo);
 
-			if (Environment.UserInteractive && standardRun)
-			{
-				var result = NativeMethods.MessageBox(
-					default,
-					"You are running the TGS windows service executable directly. It should only be run by the service control manager. Would you like to install and configure the service in this location?",
-					"TGS Service",
-					NativeMethods.MessageBoxButtons.YesNo);
+					if (result != NativeMethods.DialogResult.Yes)
+						return;
 
-				if (result != NativeMethods.DialogResult.Yes)
-					return;
-
-				Install = true;
-				Configure = true;
-			}
+					Install = true;
+					Configure = true;
+				}
+				else
+					using (var service = new ServerService(WatchdogFactory, GetPassthroughArgs(), LogLevel.Trace))
+					{
+						service.Run();
+						return;
+					}
 
 			if (Configure)
-				await RunConfigure(CancellationToken.None); // DCT: None available
+					await RunConfigure(CancellationToken.None); // DCT: None available
 
 			bool stopped = false;
 			if (Uninstall)
 			{
 				foreach (ServiceController sc in ServiceController.GetServices())
-					if (sc.ServiceName == ServerService.Name)
+				{
+					bool match;
+					using (sc)
 					{
-						RestartService(sc);
+						match = sc.ServiceName == ServerService.Name;
+						if (match)
+							RestartService(sc);
+					}
+
+					if (match)
+					{
 						await InvokeSC(ServerService.Name);
 						break;
 					}
+				}
 
 				stopped = true;
 			}
@@ -157,22 +171,17 @@ namespace Tgstation.Server.Host.Service
 			if (Install)
 				stopped |= await RunServiceInstall();
 
-			if (standardRun)
-			{
-				using var service = new ServerService(WatchdogFactory, Trace ? LogLevel.Trace : Debug ? LogLevel.Debug : LogLevel.Information);
-				ServiceBase.Run(service);
-			}
-
 			if (Restart)
 				foreach (ServiceController sc in ServiceController.GetServices())
-					if (sc.ServiceName == ServerService.Name)
-					{
-						if (!stopped)
-							RestartService(sc);
+					using (sc)
+						if (sc.ServiceName == ServerService.Name)
+						{
+							if (!stopped)
+								RestartService(sc);
 
-						sc.Start();
-						break;
-					}
+							sc.Start();
+							break;
+						}
 		}
 
 		/// <summary>
@@ -183,29 +192,30 @@ namespace Tgstation.Server.Host.Service
 		{
 			// First check if the service already exists
 			bool serviceStopped = false;
-			if (Force || Environment.UserInteractive)
+			if (Force || !WindowsServiceHelpers.IsWindowsService())
 				foreach (ServiceController sc in ServiceController.GetServices())
-				{
-					var serviceName = sc.ServiceName;
-					if (serviceName == ServerService.Name || serviceName == "tgstation-server-4")
+					using (sc)
 					{
-						NativeMethods.DialogResult result = !Force
-							? NativeMethods.MessageBox(
-								default,
-								$"You already have another TGS service installed ({sc.ServiceName}). Would you like to uninstall it now? Pressing \"No\" will cancel this install.",
-								"TGS Service",
-								NativeMethods.MessageBoxButtons.YesNo)
-							: NativeMethods.DialogResult.Yes;
-						if (result != NativeMethods.DialogResult.Yes)
-							return false; // is this needed after exit?
+						var serviceName = sc.ServiceName;
+						if (serviceName == ServerService.Name || serviceName == "tgstation-server-4")
+						{
+							NativeMethods.DialogResult result = !Force
+								? NativeMethods.MessageBox(
+									default,
+									$"You already have another TGS service installed ({sc.ServiceName}). Would you like to uninstall it now? Pressing \"No\" will cancel this install.",
+									"TGS Service",
+									NativeMethods.MessageBoxButtons.YesNo)
+								: NativeMethods.DialogResult.Yes;
+							if (result != NativeMethods.DialogResult.Yes)
+								return false; // is this needed after exit?
 
-						// Stop it first to give it some cleanup time
-						RestartService(sc);
+							// Stop it first to give it some cleanup time
+							RestartService(sc);
 
-						// And remove it
-						await InvokeSC(sc.ServiceName);
+							// And remove it
+							await InvokeSC(sc.ServiceName);
+						}
 					}
-				}
 
 			await InvokeSC(null);
 
@@ -225,7 +235,7 @@ namespace Tgstation.Server.Host.Service
 			if (!stop)
 			{
 				serviceController.ExecuteCommand(
-					ServerService.GetCommand(
+					PipeCommands.GetCommandId(
 						PipeCommands.CommandDetachingShutdown)
 					.Value);
 				serviceController.WaitForStatus(ServiceControllerStatus.Stopped, TimeSpan.FromSeconds(30));
@@ -254,7 +264,13 @@ namespace Tgstation.Server.Host.Service
 			});
 
 			var watchdog = WatchdogFactory.CreateWatchdog(new NoopSignalChecker(), loggerFactory);
-			await watchdog.RunAsync(true, Array.Empty<string>(), cancellationToken);
+			await watchdog.RunAsync(true, GetPassthroughArgs(), cancellationToken);
 		}
+
+		/// <summary>
+		/// Format <see cref="PassthroughArgs"/> into an <see cref="Array"/>.
+		/// </summary>
+		/// <returns><see cref="PassthroughArgs"/> formatted as a <see cref="string"/> <see cref="Array"/>.</returns>
+		string[] GetPassthroughArgs() => PassthroughArgs?.Split(' ', StringSplitOptions.RemoveEmptyEntries) ?? Array.Empty<string>();
 	}
 }

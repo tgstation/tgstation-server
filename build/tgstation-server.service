@@ -10,7 +10,7 @@ After=mssql-server.service
 Type=notify-reload
 NotifyAccess=all
 WorkingDirectory=/opt/tgstation-server
-ExecStart=/usr/bin/dotnet Tgstation.Server.Host.Console.dll --General:SetupWizardMode=Never --Internal:UsingSystemD=true
+ExecStart=/usr/bin/dotnet Tgstation.Server.Host.Console.dll --appsettings-base-path=/etc/tgstation-server --General:SetupWizardMode=Never --Internal:UsingSystemD=true
 TimeoutStartSec=600
 Restart=Always
 KillMode=process

@@ -4,18 +4,20 @@
 PackageIdentifier: Tgstation.Server
 PackageVersion: 0.22.475 # Set before publish by push_manifest.ps1
 Installers:
-- InstallerUrl: https://github.com/tgstation/tgstation-server/releases/download/tgstation-server-v0.22.475/tgstation-server.msi # Set before publish by push_manifest.ps1
+- InstallerUrl: https://github.com/tgstation/tgstation-server/releases/download/tgstation-server-v0.22.475/tgstation-server-installer.exe # Set before publish by push_manifest.ps1
   InstallerLocale: en-US
   Architecture: x86
-  InstallerType: msi
+  InstallerType: exe
   Scope: machine
-  InstallerSha256: F749672C1BDBAC8CD8AEF7352B97E54C21CF389D798D0ED245CA75EC72521460 # Set before publish by push_manifest.ps1
+  InstallerSha256: CF0D4D2FD042098D826A226A05A9DAA5C792318CF48FD334F7FC06AF6A8A23B1 # Set before publish by push_manifest.ps1
   InstallModes:
   - interactive
   - silent
+  InstallerSwitches:
+    Silent: /silent
+    SilentWithProgress: /passive
+    Log: /log <LOGPATH>
   ProductCode: '{D24887FA-3228-4509-B5F3-4E07E349F278}'
-  RequireExplicitUpgrade: true
-  UpgradeBehavior: uninstallPrevious
   UnsupportedOSArchitectures:
   - arm
   - arm64

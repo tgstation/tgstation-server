@@ -22,6 +22,7 @@ using Octokit;
 using Tgstation.Server.Api;
 using Tgstation.Server.Client;
 using Tgstation.Server.Common.Http;
+using Tgstation.Server.Host.Common;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Setup;
 
@@ -121,7 +122,7 @@ try
 
 	Console.WriteLine("Checking for TGS3 service...");
 	const string OldServiceName = "TG Station Server";
-	const string NewServiceName = "tgstation-server";
+	const string NewServiceName = Constants.CanonicalPackageName;
 
 	static ServiceController GetTgs3Service(bool checkNewOneIsntInstalled)
 	{
@@ -153,7 +154,7 @@ try
 		return tgs3Service;
 	}
 
-	var tgs3Service = GetTgs3Service(true);
+	using var tgs3Service = GetTgs3Service(true);
 
 	if (tgs3Service.Status != ServiceControllerStatus.Running)
 	{
@@ -439,7 +440,7 @@ try
 		installer.DisplayName = "/tg/station server";
 		installer.StartType = ServiceStartMode.Automatic;
 		installer.ServicesDependedOn = new string[] { "Tcpip", "Dhcp", "Dnscache" };
-		installer.ServiceName = "tgstation-server";
+		installer.ServiceName = NewServiceName;
 		installer.Parent = processInstaller;
 
 		var state = new ListDictionary();
@@ -527,7 +528,6 @@ try
 		managementObject.InvokeMethod("ChangeStartMode", new object[] { "Disabled" });
 	}
 
-	tgs3Service = GetTgs3Service(false);
 	if(tgs3Service.StartType != ServiceStartMode.Disabled)
 		Console.WriteLine("Failed to disable TGS3 service! This isn't critical, however.");
 

@@ -1,5 +1,5 @@
 param(
-    [string]$MsiPath = 'packaging/build/package/winget/Tgstation.Server.Host.Service.Msi/Release/tgstation-server.msi'
+    [string]$MsiPath = 'packaging/build/package/winget/Tgstation.Server.Host.Service.Wix/Release/tgstation-server.msi'
 )
 
 $ErrorActionPreference="Stop"

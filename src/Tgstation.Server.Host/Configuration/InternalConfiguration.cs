@@ -19,5 +19,10 @@
 		/// If the server is running under SystemD.
 		/// </summary>
 		public bool UsingSystemD { get; set; }
+
+		/// <summary>
+		/// The base path for the app settings configuration files.
+		/// </summary>
+		public string AppSettingsBasePath { get; set; }
 	}
 }

@@ -10,6 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
+using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.IO;
@@ -59,14 +60,27 @@ namespace Tgstation.Server.Host
 				args[oldArgs.Length] = "--hostBuilder:reloadConfigOnChange=false";
 			}
 
-			var basePath = IOManager.ResolvePath();
+			const string AppSettings = "appsettings";
+			const string AppSettingsRelocationKey = $"--{AppSettings}-base-path=";
+
+			var appsettingsRelativeBasePathArgument = args.FirstOrDefault(arg => arg.StartsWith(AppSettingsRelocationKey, StringComparison.Ordinal));
+			string basePath;
+			if (appsettingsRelativeBasePathArgument != null)
+				basePath = IOManager.ResolvePath(appsettingsRelativeBasePathArgument[AppSettingsRelocationKey.Length..]);
+			else
+				basePath = IOManager.ResolvePath();
+
+			// this is a massive bloody hack but I don't know a better way to do it
+			// It's needed for the setup wizard
+			Environment.SetEnvironmentVariable($"{InternalConfiguration.Section}__{nameof(InternalConfiguration.AppSettingsBasePath)}", basePath);
+
 			IHostBuilder CreateDefaultBuilder() => Microsoft.Extensions.Hosting.Host.CreateDefaultBuilder(args)
 				.ConfigureAppConfiguration((context, builder) =>
 				{
 					builder.SetBasePath(basePath);
 
-					builder.AddYamlFile("appsettings.yml", optional: true, reloadOnChange: false)
-						.AddYamlFile($"appsettings.{context.HostingEnvironment.EnvironmentName}.yml", optional: true, reloadOnChange: false);
+					builder.AddYamlFile($"{AppSettings}.yml", optional: true, reloadOnChange: false)
+						.AddYamlFile($"{AppSettings}.{context.HostingEnvironment.EnvironmentName}.yml", optional: true, reloadOnChange: false);
 
 					// reorganize the builder so our yaml configs don't override the env/cmdline configs
 					// values obtained via debugger

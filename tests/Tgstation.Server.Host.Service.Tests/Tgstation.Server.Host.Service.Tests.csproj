@@ -2,7 +2,7 @@
   <Import Project="../../build/Common.props" />
 
   <PropertyGroup>
-    <TargetFramework>$(TgsNetVersion)-windows</TargetFramework>
+    <TargetFramework>$(TgsFrameworkVersion)-windows</TargetFramework>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">

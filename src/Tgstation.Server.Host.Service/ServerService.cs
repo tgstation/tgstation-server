@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.IO.Pipes;
@@ -24,7 +25,7 @@ namespace Tgstation.Server.Host.Service
 		/// <summary>
 		/// The canonical windows service name.
 		/// </summary>
-		public const string Name = "tgstation-server";
+		public const string Name = Constants.CanonicalPackageName;
 
 		/// <summary>
 		/// The <see cref="IWatchdog"/> for the <see cref="ServerService"/>.
@@ -32,7 +33,12 @@ namespace Tgstation.Server.Host.Service
 		readonly IWatchdogFactory watchdogFactory;
 
 		/// <summary>
-		/// The minimum <see cref="Microsoft.Extensions.Logging.LogLevel"/> for the <see cref="EventLog"/>.
+		/// The <see cref="Array"/> of command line arguments the service was invoked with.
+		/// </summary>
+		readonly string[] commandLineArguments;
+
+		/// <summary>
+		/// The minimum <see cref="LogLevel"/> for the <see cref="EventLog"/>.
 		/// </summary>
 		readonly LogLevel minimumLogLevel;
 
@@ -62,27 +68,15 @@ namespace Tgstation.Server.Host.Service
 		AnonymousPipeServerStream pipeServer;
 
 		/// <summary>
-		/// Gets the <see cref="int"/> value of a given <paramref name="command"/>.
-		/// </summary>
-		/// <param name="command">The <see cref="PipeCommands"/>.</param>
-		/// <returns>The <see cref="int"/> value of the command or <see langword="null"/> if it was unrecognized.</returns>
-		public static int? GetCommand(string command)
-			=> command switch
-			{
-				PipeCommands.CommandStop => 128, // Windows only allows commands 128-256: https://stackoverflow.com/a/62858106
-				PipeCommands.CommandGracefulShutdown => 129,
-				PipeCommands.CommandDetachingShutdown => 130,
-				_ => null,
-			};
-
-		/// <summary>
 		/// Initializes a new instance of the <see cref="ServerService"/> class.
 		/// </summary>
 		/// <param name="watchdogFactory">The value of <see cref="watchdogFactory"/>.</param>
-		/// <param name="minimumLogLevel">The minimum <see cref="Microsoft.Extensions.Logging.LogLevel"/> to record in the event log.</param>
-		public ServerService(IWatchdogFactory watchdogFactory, LogLevel minimumLogLevel)
+		/// <param name="commandLineArguments">The value of <see cref="commandLineArguments"/>.</param>
+		/// <param name="minimumLogLevel">The minimum <see cref="LogLevel"/> to record in the event log.</param>
+		public ServerService(IWatchdogFactory watchdogFactory, string[] commandLineArguments, LogLevel minimumLogLevel)
 		{
 			this.watchdogFactory = watchdogFactory ?? throw new ArgumentNullException(nameof(watchdogFactory));
+			this.commandLineArguments = commandLineArguments ?? throw new ArgumentNullException(nameof(commandLineArguments));
 			this.minimumLogLevel = minimumLogLevel;
 			ServiceName = Name;
 		}
@@ -97,6 +91,11 @@ namespace Tgstation.Server.Host.Service
 				await lifetimeTask;
 			}
 		}
+
+		/// <summary>
+		/// Executes the <see cref="ServerService"/>.
+		/// </summary>
+		public void Run() => Run(this);
 
 		/// <inheritdoc />
 		protected override void Dispose(bool disposing)
@@ -117,7 +116,7 @@ namespace Tgstation.Server.Host.Service
 			var commandsToCheck = PipeCommands.AllCommands;
 			foreach (var stringCommand in commandsToCheck)
 			{
-				var commandId = GetCommand(stringCommand);
+				var commandId = PipeCommands.GetCommandId(stringCommand);
 				if (command == commandId)
 				{
 					SendCommandToUpdatePath(stringCommand);
@@ -149,7 +148,15 @@ namespace Tgstation.Server.Host.Service
 			cancellationTokenSource?.Dispose();
 			cancellationTokenSource = new CancellationTokenSource();
 
-			watchdogTask = RunWatchdog(watchdog, args, cancellationTokenSource.Token);
+			var newArgs = new List<string>(commandLineArguments.Length + args.Length + 1)
+			{
+				"--General:SetupWizardMode=Never",
+			};
+
+			newArgs.AddRange(commandLineArguments);
+			newArgs.AddRange(args);
+
+			watchdogTask = RunWatchdog(watchdog, newArgs.ToArray(), cancellationTokenSource.Token);
 		}
 
 		/// <inheritdoc />
