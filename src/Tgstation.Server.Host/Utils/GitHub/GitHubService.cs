@@ -9,7 +9,6 @@ using Microsoft.Extensions.Logging;
 using Octokit;
 
 using Tgstation.Server.Host.Configuration;
-using Tgstation.Server.Host.Extensions;
 
 namespace Tgstation.Server.Host.Utils.GitHub
 {
