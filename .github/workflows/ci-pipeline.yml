@@ -1030,9 +1030,9 @@ jobs:
       run: |
         mkdir C:/ProgramData/tgstation-server
         cp build/package/appsettings.GitHub.yml C:/ProgramData/tgstation-server/appsettings.Production.yml
-        $file = [System.IO.Path]::GetFullPath("build/package/winget/Tgstation.Server.Host.Service.Wix.Bundle/bin/x86/Release/tgstation-server-installer.exe")
+        $file = [System.IO.Path]::GetFullPath("build/package/winget/Tgstation.Server.Host.Service.Wix.Bundle/bin/Release/tgstation-server-installer.exe")
         $log = [System.IO.Path]::GetFullPath("install.log")
-        $procMain = Start-Process "$file" "/install /silent /log `"$log`"" -NoNewWindow -PassThru -Wait
+        $procMain = Start-Process -FilePath $file "/install /silent /log `"$log`"" -NoNewWindow -PassThru -Wait
         if (Test-Path -Path $log -PathType Leaf) {
           Get-Content $log
         }
@@ -1062,9 +1062,9 @@ jobs:
     - name: Test Uninstall # Sanity checks the .deps.json exists, which the installation is broken without
       shell: powershell
       run: |
-        $file = [System.IO.Path]::GetFullPath("build/package/winget/Tgstation.Server.Host.Service.Wix.Bundle/bin/x86/Release/tgstation-server-installer.exe")
+        $file = [System.IO.Path]::GetFullPath("build/package/winget/Tgstation.Server.Host.Service.Wix.Bundle/bin/Release/tgstation-server-installer.exe")
         $log = [System.IO.Path]::GetFullPath("uninstall.log")
-        $procMain = Start-Process "$file" "/install /silent /log `"$log`"" -NoNewWindow -PassThru -Wait
+        $procMain = Start-Process -FilePath $file "/install /silent /log `"$log`"" -NoNewWindow -PassThru -Wait
         if (Test-Path -Path $log -PathType Leaf) {
           Get-Content $log
         }
@@ -1083,7 +1083,7 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: packaging-windows
-        path: build/package/winget/Tgstation.Server.Host.Service.Wix.Bundle/bin/x86/Release/tgstation-server-installer.exe
+        path: build/package/winget/Tgstation.Server.Host.Service.Wix.Bundle/bin/Release/tgstation-server-installer.exe
 
   check-winget-pr-template:
     name: Check winget-pkgs Pull Request Template is up to date
