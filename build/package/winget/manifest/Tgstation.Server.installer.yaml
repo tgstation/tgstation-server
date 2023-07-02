@@ -21,6 +21,7 @@ Installers:
   UnsupportedOSArchitectures:
   - arm
   - arm64
+  ElevationRequirement: elevatesSelf
   Dependencies:
     PackageDependencies:
     - PackageIdentifier: Microsoft.DotNet.AspNetCore.6
