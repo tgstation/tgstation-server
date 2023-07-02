@@ -286,10 +286,10 @@ jobs:
       run: dotnet restore
 
     - name: Build
-      run: dotnet build -c ${{ matrix.configuration }}
+      run: dotnet build -c ${{ matrix.configuration }}NoWix
 
     - name: Run Unit Tests
-      run: dotnet test --no-build --logger GitHubActions --filter FullyQualifiedName!~TestLiveServer -c ${{ matrix.configuration }} --collect:"XPlat Code Coverage" --settings build/coverlet.runsettings --results-directory ./TestResults tgstation-server.sln
+      run: dotnet test --no-build --logger GitHubActions --filter FullyQualifiedName!~TestLiveServer -c ${{ matrix.configuration }}NoWix --collect:"XPlat Code Coverage" --settings build/coverlet.runsettings --results-directory ./TestResults tgstation-server.sln
 
     - name: Store Code Coverage
       uses: actions/upload-artifact@v3
