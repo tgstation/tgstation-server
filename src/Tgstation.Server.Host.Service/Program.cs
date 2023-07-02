@@ -120,12 +120,9 @@ namespace Tgstation.Server.Host.Service
 			if (standardRun)
 				if (!Silent && !WindowsServiceHelpers.IsWindowsService())
 				{
-#if NET7_0_OR_GREATER
-#error Deprecated functionality, remove
-#endif
 					var result = NativeMethods.MessageBox(
 						default,
-						"You are running the TGS windows service executable directly. It should only be run by the service control manager. Would you like to install and configure the service in this location? (Note: This functionality is deprecated and will be removed in a future version)",
+						"You are running the TGS windows service executable directly. It should only be run by the service control manager. Would you like to install and configure the service in this location?",
 						"TGS Service",
 						NativeMethods.MessageBoxButtons.YesNo);
 
