@@ -1027,12 +1027,25 @@ jobs:
         cd build/package/winget/Tgstation.Server.Host.Service.Wix.Bundle
         dotnet build -c Release
 
+    - name: Create Test Installer .exe
+      run: cp build/package/winget/Tgstation.Server.Host.Service.Wix.Bundle/bin/Release/tgstation-server-installer.exe test-installer.exe
+
+    - name: Sign Test Installer .exe
+      shell: powershell
+      run: |
+        $pfxBytes = [convert]::FromBase64String("${{ secrets.CODE_SIGNING_BASE64 }}")
+        [IO.File]::WriteAllBytes("tg_codesigning.pfx", $pfxBytes)
+        $certPassword = ConvertTo-SecureString -String "${{ secrets.CODE_SIGNING_PASSWORD }}" -Force -AsPlainText
+        $cert=Import-PfxCertificate -FilePath tg_codesigning.pfx -Cert Cert:\CurrentUser\My -Password $certPassword
+        rm tg_codesigning.pfx
+        Set-AuthenticodeSignature test-installer.exe -Certificate $cert -TimestampServer "http://timestamp.digicert.com"
+
     - name: Test Install # Sanity checks the .deps.json exists, which the installation is broken without
       shell: powershell  # If it's missing, I found that <PrivateAssets> in <PackageReference> elements were the problem
       run: |
         mkdir C:/ProgramData/tgstation-server
         cp build/package/appsettings.GitHub.yml C:/ProgramData/tgstation-server/appsettings.Production.yml
-        $file = [System.IO.Path]::GetFullPath("build/package/winget/Tgstation.Server.Host.Service.Wix.Bundle/bin/Release/tgstation-server-installer.exe")
+        $file = [System.IO.Path]::GetFullPath("test-installer.exe")
         $log = [System.IO.Path]::GetFullPath("install.log")
         $procMain = Start-Process -FilePath $file "/install /silent /log `"$log`"" -NoNewWindow -PassThru -Wait
         if (Test-Path -Path $log -PathType Leaf) {
@@ -1064,7 +1077,7 @@ jobs:
     - name: Test Uninstall # Sanity checks the .deps.json exists, which the installation is broken without
       shell: powershell
       run: |
-        $file = [System.IO.Path]::GetFullPath("build/package/winget/Tgstation.Server.Host.Service.Wix.Bundle/bin/Release/tgstation-server-installer.exe")
+        $file = [System.IO.Path]::GetFullPath("test-installer.exe")
         $log = [System.IO.Path]::GetFullPath("uninstall.log")
         $procMain = Start-Process -FilePath $file "/uninstall /silent /log `"$log`"" -NoNewWindow -PassThru -Wait
         if (Test-Path -Path $log -PathType Leaf) {
@@ -1081,7 +1094,7 @@ jobs:
           exit 2
         }
 
-    - name: Upload Installer .exe
+    - name: Upload Unsigned Installer .exe
       uses: actions/upload-artifact@v3
       with:
         name: packaging-windows
@@ -1357,7 +1370,6 @@ jobs:
         [IO.File]::WriteAllBytes("tg_codesigning.pfx", $pfxBytes)
         $certPassword = ConvertTo-SecureString -String "${{ secrets.CODE_SIGNING_PASSWORD }}" -Force -AsPlainText
         $cert=Import-PfxCertificate -FilePath tg_codesigning.pfx -Cert Cert:\CurrentUser\My -Password $certPassword
-        Import-PfxCertificate -FilePath tg_codesigning.pfx -Cert Cert:\CurrentUser\Root -Password $certPassword
         rm tg_codesigning.pfx
         Set-AuthenticodeSignature packaging-windows/tgstation-server-installer.exe -Certificate $cert -TimestampServer "http://timestamp.digicert.com"
 
