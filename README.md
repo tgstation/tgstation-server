@@ -53,7 +53,7 @@ Check if you have `winget` by running the following command.
 winget --version
 ```
 
-If it returns an error that means you don't have winget. You can easily install it by running the following Windows Powershell commands:
+If it returns an error that means you don't have winget. You can easily install it by running the following commands in an administrative Windows Powershell instance:
 ```
 Import-Module Appx
 Invoke-WebRequest -Uri https://www.nuget.org/api/v2/package/Microsoft.UI.Xaml/2.7.3 -OutFile .\microsoft.ui.xaml.2.7.3.zip
@@ -68,31 +68,22 @@ Remove-Item .\microsoft.ui.xaml.2.7.3.zip
 Once winget is installed, simply run the following commands, accepting any prompts that may appear:
 
 ```ps
-winget install Microsoft.DotNet.HostingBundle.6
 winget install tgstation-server
 ```
 
-You won't be prompted to run the setup wizard. However, you can do so immediately after via the shortcut placed on your desktop.
-
-NOTE:
-
-`winget` should, theoretically, install the ASP .NET Core 6.0 Runtime as a pre-reqiusite. At the time of this writing, this functionality is untested (TODO). If the runtime isn't automatically installed for you, see below for steps on how to download and install it manually.
-
 ##### Installer
 
-If you don't have it installed already, download and install the [ASP .NET Core Runtime Hosting Bundle (>= v6.0)](https://dotnet.microsoft.com/download/dotnet/6.0). Ensure that the `dotnet` executable file is in your system's `PATH` variable (or that of the user's that will be running the server). You can test this by opening a command prompt and running `dotnet --list-runtimes`.
-
-[Download the latest release .msi](https://github.com/tgstation/tgstation-server/releases/latest). Executing it will take you through the process of installing and configuring your server.
+[Download the latest release's tgstation-server-installer.exe](https://github.com/tgstation/tgstation-server/releases/latest). Executing it will take you through the process of installing and configuring your server.
 
 ##### Manual
 
 If you don't have it installed already, download and install the [ASP .NET Core Runtime Hosting Bundle (>= v6.0)](https://dotnet.microsoft.com/download/dotnet/6.0). Ensure that the `dotnet` executable file is in your system's `PATH` variable (or that of the user's that will be running the server). You can test this by opening a command prompt and running `dotnet --list-runtimes`.
 
-[Download the latest release .zip](https://github.com/tgstation/tgstation-server/releases/latest). You probably want the `ServerService` package. Choose `ServerConsole` if you prefer not to use the Windows service.
+[Download the latest release .zip](https://github.com/tgstation/tgstation-server/releases/latest). Typically, you want the `ServerService.zip` package in order to run TGS as a Windows service. Choose `ServerConsole.zip` if you prefer to use a command line daemon.
 
-Extract the .zip file to where you want the server to run from. Note the account running the server must have write and delete access to the `lib` subdirectory.
+Extract the .zip file to where you want the server to run from. Note the account running the server must have write, execute, and delete access to the `lib` subdirectory.
 
-If you wish to install the TGS as a service, run `Tgstation.Server.Host.Service.exe`. It should prompt you to install it. Click `Yes` and accept a potential UAC elevation prompt and the setup wizard should run.
+If you wish to install the TGS as a service, run `Tgstation.Server.Host.Service.exe`. It should prompt you to install it. Click `Yes` and the setup wizard should run.
 
 Should you want a clean start, be sure to first uninstall the service by running `Tgstation.Server.Host.Service.exe -u` from the command line.
 
