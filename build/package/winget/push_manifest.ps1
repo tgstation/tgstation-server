@@ -26,8 +26,13 @@ if (-Not $?) {
     exit $lastexitcode
 }
 
-# I know this is late, but we actually need the package online to install it
+# I know these are late, but we actually need the package online to install it
 winget install -m . -h --disable-interactivity
+if (-Not $?) {
+    exit $lastexitcode
+}
+
+winget uninstall tgstation-server --disable-interactivity
 if (-Not $?) {
     exit $lastexitcode
 }
