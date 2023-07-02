@@ -1502,6 +1502,15 @@ jobs:
     if: "!(cancelled() || failure()) && needs.deploy-tgs.result == 'success'"
     runs-on: windows-latest
     steps:
+    - name: Disable Smart Screen # https://superuser.com/a/1778345
+      shell: powershell
+      run: |
+        Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\System" -Name "EnableSmartScreen" -Type DWord -Value 0
+        if (!(Test-Path "HKLM:\SOFTWARE\Policies\Microsoft\MicrosoftEdge\PhishingFilter")) {
+            New-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\MicrosoftEdge\PhishingFilter" -Force | Out-Null
+        }
+        Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\MicrosoftEdge\PhishingFilter" -Name "EnabledV9" -Type DWord -Value 0
+
     - name: Setup dotnet
       uses: actions/setup-dotnet@v2
       with:
