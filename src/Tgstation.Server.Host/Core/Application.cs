@@ -196,11 +196,21 @@ namespace Tgstation.Server.Host.Core
 						rollOnFileSizeLimit: true);
 				},
 				elasticsearchConfiguration.Enable
-					? new ElasticsearchSinkOptions(new Uri(elasticsearchConfiguration.Host ?? throw new InvalidOperationException()))
+					? new ElasticsearchSinkOptions(
+						new Uri(
+							String.IsNullOrWhiteSpace(elasticsearchConfiguration.Host)
+								? throw new InvalidOperationException($"Missing {ElasticsearchConfiguration.Section}:{nameof(elasticsearchConfiguration.Host)}!")
+								: elasticsearchConfiguration.Host))
 					{
 						// Yes I know this means they cannot use a self signed cert unless they also have authentication, but lets be real here
-						// No one is going to be doing one of thsoe but not the other
-						ModifyConnectionSettings = connectionConfigration => (!string.IsNullOrEmpty(elasticsearchConfiguration.Username) && !string.IsNullOrEmpty(elasticsearchConfiguration.Password)) ? connectionConfigration.BasicAuthentication(elasticsearchConfiguration.Username, elasticsearchConfiguration.Password).ServerCertificateValidationCallback((o, certificate, arg3, arg4) => { return true; }) : null,
+						// No one is going to be doing one of those but not the other
+						ModifyConnectionSettings = connectionConfigration => (!String.IsNullOrWhiteSpace(elasticsearchConfiguration.Username) && !String.IsNullOrWhiteSpace(elasticsearchConfiguration.Password))
+							? connectionConfigration
+								.BasicAuthentication(
+									elasticsearchConfiguration.Username,
+									elasticsearchConfiguration.Password)
+								.ServerCertificateValidationCallback((o, certificate, chain, errors) => true)
+							: null,
 						CustomFormatter = new EcsTextFormatter(),
 						AutoRegisterTemplate = true,
 						AutoRegisterTemplateVersion = AutoRegisterTemplateVersion.ESv7,
