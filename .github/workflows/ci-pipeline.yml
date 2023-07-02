@@ -1046,7 +1046,7 @@ jobs:
         if (-Not (Test-Path -Path "C:/Program Files (x86)/tgstation-server/lib/Default/Tgstation.Server.Host.deps.json" -PathType Leaf)) {
           exit 2
         }
-        if (-Not (Test-Path -Path "C:/ProgramData/tgstation-server/appsettings.Production.json" -PathType Leaf)) {
+        if (-Not (Test-Path -Path "C:/ProgramData/tgstation-server/appsettings.yml" -PathType Leaf)) {
           exit 4
         }
 
