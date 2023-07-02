@@ -935,8 +935,8 @@ jobs:
         sudo apt-get install -y ./tgstation-server_${{ env.TGS_VERSION }}-1_amd64.deb
         sudo ls -al /etc/tgstation-server
         sudo cat /etc/tgstation-server/appsettings.Production.yml
+        sudo cat /etc/tgstation-server/appsettings.yml
         ls -al /opt/tgstation-server
-        cat /opt/tgstation-server/appsettings.yml
         cat /opt/tgstation-server/lib/Default/Tgstation.Server.Host.deps.json
         cat /usr/bin/tgs-configure
 
@@ -989,7 +989,7 @@ jobs:
 
     - name: Validate winget Manifest
       run: winget validate --manifest build/package/winget/manifest
-      
+
     - name: Restore
       run: dotnet restore
 
