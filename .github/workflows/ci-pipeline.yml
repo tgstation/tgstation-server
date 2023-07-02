@@ -989,6 +989,9 @@ jobs:
 
     - name: Validate winget Manifest
       run: winget validate --manifest build/package/winget/manifest
+      
+    - name: Restore
+      run: dotnet restore
 
     - name: Build Service
       run: dotnet build -c Release src/Tgstation.Server.Host.Service/Tgstation.Server.Host.Service.csproj
