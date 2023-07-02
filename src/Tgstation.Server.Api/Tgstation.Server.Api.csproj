@@ -48,4 +48,8 @@
   <ItemGroup>
     <AdditionalFiles Include="../../build/stylecop.json" />
   </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Tgstation.Server.Common\Tgstation.Server.Common.csproj" />
+  </ItemGroup>
 </Project>

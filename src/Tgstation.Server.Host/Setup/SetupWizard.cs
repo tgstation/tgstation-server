@@ -1073,8 +1073,18 @@ namespace Tgstation.Server.Host.Setup
 				await console.WriteAsync("Aborting setup!", true, default);
 			}
 
-			// Link passed cancellationToken with cancel key press
 			Task finalTask = Task.CompletedTask;
+			string originalConsoleTitle = null;
+			void SetConsoleTitle()
+			{
+				if (originalConsoleTitle != null)
+					return;
+
+				originalConsoleTitle = console.Title;
+				console.Title = $"{assemblyInformationProvider.VersionString} Setup Wizard";
+			}
+
+			// Link passed cancellationToken with cancel key press
 			using (var cts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken, console.CancelKeyPress))
 			using ((cancellationToken = cts.Token).Register(() => finalTask = HandleSetupCancel()))
 				try
@@ -1106,6 +1116,7 @@ namespace Tgstation.Server.Host.Setup
 					{
 						if (forceRun)
 						{
+							SetConsoleTitle();
 							await console.WriteAsync(String.Format(CultureInfo.InvariantCulture, "The configuration settings are requesting the setup wizard be run, but you already appear to have a configuration file ({0})!", userConfigFileName), true, cancellationToken);
 
 							forceRun = await PromptYesNo("Continue running setup wizard?", false, cancellationToken);
@@ -1115,6 +1126,8 @@ namespace Tgstation.Server.Host.Setup
 							return;
 					}
 
+					SetConsoleTitle();
+
 					// flush the logs to prevent console conflicts
 					await asyncDelayer.Delay(TimeSpan.FromSeconds(1), cancellationToken);
 
@@ -1123,6 +1136,8 @@ namespace Tgstation.Server.Host.Setup
 				finally
 				{
 					await finalTask;
+					if (originalConsoleTitle != null)
+						console.Title = originalConsoleTitle;
 				}
 		}
 	}

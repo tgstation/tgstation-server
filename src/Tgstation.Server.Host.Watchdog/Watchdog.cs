@@ -10,7 +10,7 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using Microsoft.Extensions.Logging;
-
+using Tgstation.Server.Common.Extensions;
 using Tgstation.Server.Host.Common;
 
 namespace Tgstation.Server.Host.Watchdog
@@ -109,7 +109,7 @@ namespace Tgstation.Server.Host.Watchdog
 					return false;
 				}
 
-				var watchdogVersion = executingAssembly.GetName().Version.ToString();
+				var watchdogVersion = executingAssembly.GetName().Version.Semver().ToString();
 
 				while (!cancellationToken.IsCancellationRequested)
 					using (logger.BeginScope("Host invocation"))

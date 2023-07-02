@@ -9,11 +9,11 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using Moq;
 
-using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Request;
 using Tgstation.Server.Client;
 using Tgstation.Server.Client.Components;
+using Tgstation.Server.Common.Extensions;
 using Tgstation.Server.Host.Components.Byond;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.IO;

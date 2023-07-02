@@ -44,6 +44,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Tgstation.Server.Common\Tgstation.Server.Common.csproj" />
     <ProjectReference Include="..\Tgstation.Server.Host.Common\Tgstation.Server.Host.Common.csproj" />
   </ItemGroup>
 </Project>

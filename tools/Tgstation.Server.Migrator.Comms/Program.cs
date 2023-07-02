@@ -15,6 +15,7 @@ using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Api.Models.Request;
 using Tgstation.Server.Client;
+using Tgstation.Server.Common.Extensions;
 
 static class Program
 {
