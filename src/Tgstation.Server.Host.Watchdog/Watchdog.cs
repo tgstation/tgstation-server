@@ -150,8 +150,6 @@ namespace Tgstation.Server.Host.Watchdog
 							};
 							process.EnableRaisingEvents = true;
 
-							logger.LogInformation("Launching host...");
-
 							var killedHostProcess = false;
 							try
 							{
@@ -160,6 +158,8 @@ namespace Tgstation.Server.Host.Watchdog
 								{
 									if (additionalArg != null)
 										process.StartInfo.Arguments += $" {additionalArg}";
+
+									logger.LogInformation("Launching host with arguments: {arguments}", process.StartInfo.Arguments);
 
 									process.Start();
 									return (process.Id, processTask);
