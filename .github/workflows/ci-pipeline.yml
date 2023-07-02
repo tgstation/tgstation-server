@@ -1066,7 +1066,7 @@ jobs:
       run: |
         $file = [System.IO.Path]::GetFullPath("build/package/winget/Tgstation.Server.Host.Service.Wix.Bundle/bin/Release/tgstation-server-installer.exe")
         $log = [System.IO.Path]::GetFullPath("uninstall.log")
-        $procMain = Start-Process -FilePath $file "/install /silent /log `"$log`"" -NoNewWindow -PassThru -Wait
+        $procMain = Start-Process -FilePath $file "/uninstall /silent /log `"$log`"" -NoNewWindow -PassThru -Wait
         if (Test-Path -Path $log -PathType Leaf) {
           Get-Content $log
         }
