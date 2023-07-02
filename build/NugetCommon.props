@@ -7,6 +7,7 @@
     <Company>/tg/station 13</Company>
     <PackageProjectUrl>https://tgstation.github.io/tgstation-server</PackageProjectUrl>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageIcon>tgs.png</PackageIcon>
     <RepositoryType>Git</RepositoryType>
     <RepositoryUrl>https://github.com/tgstation/tgstation-server</RepositoryUrl>
@@ -17,6 +18,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Include="README.md" Pack="true" PackagePath="" />
     <None Include="../../LICENSE" Pack="true" PackagePath="" />
     <None Include="../../build/tgs.png" Pack="true" PackagePath="" />
   </ItemGroup>
