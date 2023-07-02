@@ -38,6 +38,8 @@ try
     }
 
     mv ../../artifacts/Tgstation.Server.Host.Service/Tgstation.Server.Host.Service.exe ../../artifacts/
-} finally {
+}
+finally
+{
     cd $startDirectory
 }
