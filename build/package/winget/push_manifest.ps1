@@ -27,17 +27,6 @@ try
         exit $lastexitcode
     }
 
-    # I know these are late, but we actually need the package online to install it
-    winget install -m . --accept-package-agreements --disable-interactivity
-    if (-Not $?) {
-        exit $lastexitcode
-    }
-
-    winget uninstall tgstation-server --accept-source-agreements --disable-interactivity
-    if (-Not $?) {
-        exit $lastexitcode
-    }
-
     wingetcreate submit -t $Env:WINGET_PUSH_TOKEN .
     if (-Not $?) {
         exit $lastexitcode
