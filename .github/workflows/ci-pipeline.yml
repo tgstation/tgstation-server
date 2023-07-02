@@ -1015,11 +1015,15 @@ jobs:
       shell: powershell
       run: build/package/winget/prepare_installer_input_artifacts.ps1
 
-    - name: Build Installer
+    - name: Restore Wix dotnet Tool
       run: |
         cd build/package/winget
         dotnet tool restore
-        dotnet build -c Release Tgstation.Server.Service.Wix.Bundle
+
+    - name: Build Installer .exe
+      run: |
+        cd build/package/winget/Tgstation.Server.Host.Service.Wix.Bundle
+        dotnet build -c Release
 
     - name: Test Install # Sanity checks the .deps.json exists, which the installation is broken without
       shell: powershell  # If it's missing, I found that <PrivateAssets> in <PackageReference> elements were the problem
