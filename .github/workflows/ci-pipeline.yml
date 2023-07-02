@@ -239,6 +239,9 @@ jobs:
       with:
         ref: "refs/pull/${{ github.event.number }}/merge"
 
+    - name: Restore
+      run: dotnet restore
+
     - name: Build
       run: dotnet build -c ${{ matrix.configuration }}NoWindows
 
@@ -278,6 +281,9 @@ jobs:
       if: github.event_name != 'push' && github.event_name != 'schedule'
       with:
         ref: "refs/pull/${{ github.event.number }}/merge"
+
+    - name: Restore
+      run: dotnet restore
 
     - name: Build
       run: dotnet build -c ${{ matrix.configuration }}
@@ -398,6 +404,9 @@ jobs:
       if: github.event_name != 'push' && github.event_name != 'schedule'
       with:
         ref: "refs/pull/${{ github.event.number }}/merge"
+
+    - name: Restore
+      run: dotnet restore
 
     - name: Build
       run: dotnet build -c ${{ matrix.configuration }} tests/Tgstation.Server.Tests/Tgstation.Server.Tests.csproj
@@ -560,6 +569,9 @@ jobs:
       if: github.event_name != 'push' && github.event_name != 'schedule'
       with:
         ref: "refs/pull/${{ github.event.number }}/merge"
+
+    - name: Restore
+      run: dotnet restore
 
     - name: Build
       run: dotnet build -c ${{ matrix.configuration }}NoWindows tests/Tgstation.Server.Tests/Tgstation.Server.Tests.csproj
@@ -1093,6 +1105,9 @@ jobs:
       with:
         ref: "refs/pull/${{ github.event.number }}/merge"
 
+    - name: Restore
+      run: dotnet restore
+
     - name: Build ReleaseNotes
       run: dotnet build -c Release tools/ReleaseNotes/ReleaseNotes.csproj
 
@@ -1254,6 +1269,9 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v3
 
+    - name: Restore
+      run: dotnet restore
+
     - name: Build ReleaseNotes
       run: dotnet build -c Release tools/ReleaseNotes/ReleaseNotes.csproj
 
@@ -1273,6 +1291,9 @@ jobs:
 
     - name: Checkout
       uses: actions/checkout@v3
+
+    - name: Restore
+      run: dotnet restore
 
     - name: Build ReleaseNotes
       run: dotnet build -c Release tools/ReleaseNotes/ReleaseNotes.csproj
