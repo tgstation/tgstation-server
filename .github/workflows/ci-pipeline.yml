@@ -1027,16 +1027,6 @@ jobs:
         cd build/package/winget/Tgstation.Server.Host.Service.Wix.Bundle
         dotnet build -c Release
 
-    - name: Sign Installer .exe
-      shell: powershell
-      run: |
-        $pfxBytes = [convert]::FromBase64String("${{ secrets.CODE_SIGNING_BASE64 }}")
-        [IO.File]::WriteAllBytes("tg_codesigning.pfx", $pfxBytes)
-        $certPassword = ConvertTo-SecureString -String "${{ secrets.CODE_SIGNING_PASSWORD }}" -Force -AsPlainText
-        $cert=Import-PfxCertificate -FilePath tg_codesigning.pfx -Cert Cert:\CurrentUser\My -Password $certPassword
-        rm tg_codesigning.pfx
-        Set-AuthenticodeSignature build/package/winget/Tgstation.Server.Host.Service.Wix.Bundle/bin/Release/tgstation-server-installer.exe -Certificate $cert -TimestampServer "http://timestamp.digicert.com"
-
     - name: Test Install # Sanity checks the .deps.json exists, which the installation is broken without
       shell: powershell  # If it's missing, I found that <PrivateAssets> in <PackageReference> elements were the problem
       run: |
@@ -1359,6 +1349,17 @@ jobs:
       with:
         name: packaging-windows
         path: packaging-windows
+
+    - name: Sign Installer .exe
+      shell: powershell
+      run: |
+        $pfxBytes = [convert]::FromBase64String("${{ secrets.CODE_SIGNING_BASE64 }}")
+        [IO.File]::WriteAllBytes("tg_codesigning.pfx", $pfxBytes)
+        $certPassword = ConvertTo-SecureString -String "${{ secrets.CODE_SIGNING_PASSWORD }}" -Force -AsPlainText
+        $cert=Import-PfxCertificate -FilePath tg_codesigning.pfx -Cert Cert:\CurrentUser\My -Password $certPassword
+        Import-PfxCertificate -FilePath tg_codesigning.pfx -Cert Cert:\CurrentUser\Root -Password $certPassword
+        rm tg_codesigning.pfx
+        Set-AuthenticodeSignature packaging-windows/tgstation-server-installer.exe -Certificate $cert -TimestampServer "http://timestamp.digicert.com"
 
     - name: Zip Artifacts
       shell: powershell
