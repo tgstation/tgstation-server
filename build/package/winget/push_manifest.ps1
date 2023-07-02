@@ -1,5 +1,5 @@
 param(
-    [string]$MsiPath = 'packaging/build/package/winget/Tgstation.Server.Host.Service.Wix/Release/tgstation-server.msi'
+    [string]$InstallerPath = 'build/package/winget/Tgstation.Server.Host.Service.Wix.Bundle/x86/Release/tgstation-server-installer.exe'
 )
 
 $ErrorActionPreference="Stop"
@@ -8,11 +8,11 @@ $ErrorActionPreference="Stop"
 
 $tgsVersion = $versionXML.Project.PropertyGroup.TgsCoreVersion
 
-$installerHash = Get-FileHash -Path $MsiPath -ErrorAction Stop # SHA256 is the default
+$installerHash = Get-FileHash -Path $InstallerPath -ErrorAction Stop # SHA256 is the default
 
 cd build/package/winget/manifest
 
-$devHash = 'F749672C1BDBAC8CD8AEF7352B97E54C21CF389D798D0ED245CA75EC72521460'
+$devHash = 'CF0D4D2FD042098D826A226A05A9DAA5C792318CF48FD334F7FC06AF6A8A23B1'
 $devVersion = '0.22.475'
 $devReleaseDate = '2023-06-24'
 $releaseDate = Get-Date -format "yyyy-MM-dd"
