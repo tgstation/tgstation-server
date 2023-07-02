@@ -51,7 +51,7 @@ namespace Tgstation.Server.Api
 		public const string OAuthAuthenticationScheme = "OAuth";
 
 		/// <summary>
-		/// Added to <see cref="MediaTypeNames.Application"/> in netstandard2.1. Can't use because of Tgstation.Server.Migrator.
+		/// Added to <see cref="MediaTypeNames.Application"/> in netstandard2.1. Can't use because of lack of .NET Framework support.
 		/// </summary>
 		public const string ApplicationJsonMime = "application/json";
 
