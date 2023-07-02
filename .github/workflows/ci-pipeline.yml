@@ -1005,6 +1005,9 @@ jobs:
     - name: Restore
       run: dotnet restore
 
+    - name: Build Host
+      run: dotnet build -c Release src/Tgstation.Server.Host/Tgstation.Server.Host.csproj
+
     - name: Build Service
       run: dotnet build -c Release src/Tgstation.Server.Host.Service/Tgstation.Server.Host.Service.csproj
 
