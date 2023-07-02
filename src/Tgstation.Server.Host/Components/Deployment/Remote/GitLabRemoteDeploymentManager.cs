@@ -11,7 +11,6 @@ using GitLabApiClient.Models.Notes.Requests;
 using Microsoft.Extensions.Logging;
 
 using Tgstation.Server.Host.Components.Repository;
-using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.Models;
 
 namespace Tgstation.Server.Host.Components.Deployment.Remote
