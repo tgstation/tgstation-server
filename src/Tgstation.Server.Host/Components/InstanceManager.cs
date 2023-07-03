@@ -477,7 +477,8 @@ namespace Tgstation.Server.Host.Components
 					}
 					finally
 					{
-						console.Title = originalConsoleTitle;
+						if (originalConsoleTitle != null)
+							console.Title = originalConsoleTitle;
 					}
 			}
 			catch (Exception ex)
