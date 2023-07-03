@@ -16,6 +16,7 @@
     <InstallExecuteSequence>
       <Custom Action="DetachStopTgsServiceIfRunningAction" Condition="UPGRADINGPRODUCTCODE OR REINSTALL" Before="StopServices" />
       <Custom Action="RunTgsConfigure" Before="StartServices" Condition="(NOT REMOVE~=&quot;ALL&quot;) AND (NOT PRODUCTIONAPPSETTINGSPRESENT) AND ((WIX_BOOTSTRAPPER_UILEVEL >= 4) OR (UILevel >= 4))" />
+      <StartServices Condition="(NOT REMOVE~=&quot;ALL&quot;) AND ((WIX_BOOTSTRAPPER_UILEVEL >= 4) OR (UILevel >= 4) OR PRODUCTIONAPPSETTINGSPRESENT)"/>
     </InstallExecuteSequence>
 
     <Feature Id="MainServerFeature" AllowAbsent="no" Description="!(loc.MainServerFeatureDescription)">
