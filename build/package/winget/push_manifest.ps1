@@ -1,14 +1,20 @@
-param(
-    [string]$InstallerPath = 'build/package/winget/Tgstation.Server.Host.Service.Wix.Bundle/x86/Release/tgstation-server-installer.exe'
-)
-
 $ErrorActionPreference="Stop"
 
 [XML]$versionXML = Get-Content build/Version.props -ErrorAction Stop
 
 $tgsVersion = $versionXML.Project.PropertyGroup.TgsCoreVersion
 
-$installerHash = Get-FileHash -Path $InstallerPath -ErrorAction Stop # SHA256 is the default
+mkdir artifacts
+$previousProgressPreference = $ProgressPreference
+$ProgressPreference = 'SilentlyContinue'
+try
+{
+    Invoke-WebRequest -Uri "https://github.com/tgstation/tgstation-server/releases/download/tgstation-server-v$tgsVersion/tgstation-server-installer.exe" -OutFile "artifacts/tgstation-server-installer.exe"
+} finally {
+    $ProgressPreference = $previousProgressPreference
+}
+
+$installerHash = Get-FileHash -Path "artifacts/tgstation-server-installer.exe" -ErrorAction Stop # SHA256 is the default
 
 cd build/package/winget/manifest
 try

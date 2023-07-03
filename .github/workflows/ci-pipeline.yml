@@ -1534,15 +1534,9 @@ jobs:
     - name: Build ReleaseNotes
       run: dotnet build -c Release tools/ReleaseNotes
 
-    - name: Retrieve Installer .exe
-      uses: actions/download-artifact@v3
-      with:
-        name: packaging-windows
-        path: packaging-windows
-
     - name: Execute Push Script
       shell: powershell
-      run: build/package/winget/push_manifest.ps1 -InstallerPath packaging-windows/tgstation-server-installer.exe
+      run: build/package/winget/push_manifest.ps1
 
     - name: Run ReleaseNotes with --link-winget
       run: dotnet run -c Release --no-build --project tools/ReleaseNotes --link-winget ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
