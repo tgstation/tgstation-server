@@ -44,6 +44,10 @@ Follow the instructions for your OS below.
 
 #### Windows
 
+###### Note about Digital Signatures
+
+Note that the Windows Service and installer executables requires administrative privileges. These are digitally signed against the Root CA managed by [Jordan Dominion](https://github.com/Cyberboss). Consider installing the certificate into your `Trusted Root Authorities` store for cleaner UAC prompts. The certificate can be downloaded [here](https://file.house/zpFb.cer), please validate the thumbprint is `70176acf7ffa2898fa5b5cd6e38b43b38ea5d07f` before installing.
+
 ##### winget (Windows 10 or later)
 
 [winget](https://github.com/microsoft/winget-cli) installed is the easiest way to install the latest version of tgstation-server (provided Microsoft has approved the most recent package manifest).
