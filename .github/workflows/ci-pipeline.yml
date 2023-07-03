@@ -446,6 +446,21 @@ jobs:
         name: ServerService
         path: Artifacts/Service/
 
+    - name: Install Code Signing Certificate
+      if: ${{ matrix.configuration == 'Release' && matrix.watchdog-type == 'Basic' }}
+      shell: powershell
+      run: |
+        $pfxBytes = [convert]::FromBase64String("${{ secrets.CODE_SIGNING_BASE64 }}")
+        [IO.File]::WriteAllBytes("tg_codesigning.pfx", $pfxBytes)
+        $certPassword = ConvertTo-SecureString -String "${{ secrets.CODE_SIGNING_PASSWORD }}" -Force -AsPlainText
+        Import-PfxCertificate -FilePath tg_codesigning.pfx -Cert Cert:\CurrentUser\My -Password $certPassword
+        rm tg_codesigning.pfx
+
+    - name: Test Sign Service .exe
+      if: ${{ matrix.configuration == 'Release' && matrix.watchdog-type == 'Basic' }}
+      shell: powershell
+      run: Set-AuthenticodeSignature Artifacts/Service/Tgstation.Server.Host.Service.exe -Certificate (Get-ChildItem Cert:\CurrentUser\My | Where-Object { $_.Thumbprint -eq "${{ vars.CODE_SIGNING_THUMBPRINT }}" }) -TimestampServer "http://timestamp.digicert.com"
+
   linux-integration-tests:
     name: Linux Live Tests
     needs: dmapi-build
@@ -1001,6 +1016,11 @@ jobs:
       with:
         ref: "refs/pull/${{ github.event.number }}/merge"
 
+    - name: Restore Wix dotnet Tool
+      run: |
+        cd build/package/winget
+        dotnet tool restore
+
     - name: Validate winget Manifest
       run: winget validate --manifest build/package/winget/manifest
 
@@ -1017,35 +1037,35 @@ jobs:
       shell: powershell
       run: build/package/winget/prepare_installer_input_artifacts.ps1
 
-    - name: Restore Wix dotnet Tool
-      run: |
-        cd build/package/winget
-        dotnet tool restore
-
     - name: Build Installer .exe
       run: |
         cd build/package/winget/Tgstation.Server.Host.Service.Wix.Bundle
         dotnet build -c Release
 
-    - name: Create Test Installer .exe
-      run: cp build/package/winget/Tgstation.Server.Host.Service.Wix.Bundle/bin/Release/tgstation-server-installer.exe test-installer.exe
-
-    - name: Sign Test Installer .exe
+    - name: Install Code Signing Certificate
       shell: powershell
       run: |
         $pfxBytes = [convert]::FromBase64String("${{ secrets.CODE_SIGNING_BASE64 }}")
         [IO.File]::WriteAllBytes("tg_codesigning.pfx", $pfxBytes)
         $certPassword = ConvertTo-SecureString -String "${{ secrets.CODE_SIGNING_PASSWORD }}" -Force -AsPlainText
-        $cert=Import-PfxCertificate -FilePath tg_codesigning.pfx -Cert Cert:\CurrentUser\My -Password $certPassword
+        Import-PfxCertificate -FilePath tg_codesigning.pfx -Cert Cert:\CurrentUser\My -Password $certPassword
         rm tg_codesigning.pfx
-        Set-AuthenticodeSignature test-installer.exe -Certificate $cert -TimestampServer "http://timestamp.digicert.com"
+
+    - name: Sign Installer .exe for Testing # https://wixtoolset.org/docs/tools/signing/
+      shell: powershell
+      run: |
+        cd build/package/winget
+        dotnet wix burn detach Tgstation.Server.Host.Service.Wix.Bundle/bin/Release/tgstation-server-installer.exe -engine burnengine.exe
+        Set-AuthenticodeSignature burnengine.exe -Certificate (Get-ChildItem Cert:\CurrentUser\My | Where-Object { $_.Thumbprint -eq "${{ vars.CODE_SIGNING_THUMBPRINT }}" }) -TimestampServer "http://timestamp.digicert.com"
+        dotnet wix burn reattach Tgstation.Server.Host.Service.Wix.Bundle/bin/Release/tgstation-server-installer.exe -engine burnengine.exe -o test-installer.exe
+        Set-AuthenticodeSignature test-installer.exe -Certificate (Get-ChildItem Cert:\CurrentUser\My | Where-Object { $_.Thumbprint -eq "${{ vars.CODE_SIGNING_THUMBPRINT }}" }) -TimestampServer "http://timestamp.digicert.com"
 
     - name: Test Install # Sanity checks the .deps.json exists, which the installation is broken without
       shell: powershell  # If it's missing, I found that <PrivateAssets> in <PackageReference> elements were the problem
       run: |
         mkdir C:/ProgramData/tgstation-server
         cp build/package/appsettings.GitHub.yml C:/ProgramData/tgstation-server/appsettings.Production.yml
-        $file = [System.IO.Path]::GetFullPath("test-installer.exe")
+        $file = [System.IO.Path]::GetFullPath("build/package/winget/test-installer.exe")
         $log = [System.IO.Path]::GetFullPath("install.log")
         $procMain = Start-Process -FilePath $file "/install /silent /log `"$log`"" -NoNewWindow -PassThru -Wait
         if (Test-Path -Path $log -PathType Leaf) {
@@ -1077,7 +1097,7 @@ jobs:
     - name: Test Uninstall # Sanity checks the .deps.json exists, which the installation is broken without
       shell: powershell
       run: |
-        $file = [System.IO.Path]::GetFullPath("test-installer.exe")
+        $file = [System.IO.Path]::GetFullPath("build/package/winget/test-installer.exe")
         $log = [System.IO.Path]::GetFullPath("uninstall.log")
         $procMain = Start-Process -FilePath $file "/uninstall /silent /log `"$log`"" -NoNewWindow -PassThru -Wait
         if (Test-Path -Path $log -PathType Leaf) {
@@ -1097,7 +1117,7 @@ jobs:
     - name: Upload Unsigned Installer .exe
       uses: actions/upload-artifact@v3
       with:
-        name: packaging-windows
+        name: packaging-preview-windows
         path: build/package/winget/Tgstation.Server.Host.Service.Wix.Bundle/bin/Release/tgstation-server-installer.exe
 
   check-winget-pr-template:
@@ -1317,8 +1337,32 @@ jobs:
     - name: Restore
       run: dotnet restore
 
+    - name: Restore Wix dotnet Tool
+      run: |
+        cd build/package/winget
+        dotnet tool restore
+
     - name: Build ReleaseNotes
       run: dotnet build -c Release tools/ReleaseNotes/ReleaseNotes.csproj
+
+# We need to rebuild the installer.exe so it can be properly signed
+    - name: Restore
+      run: dotnet restore
+
+    - name: Build Host
+      run: dotnet build -c Release src/Tgstation.Server.Host/Tgstation.Server.Host.csproj
+
+    - name: Build Service
+      run: dotnet build -c Release src/Tgstation.Server.Host.Service/Tgstation.Server.Host.Service.csproj
+
+    - name: Prepare Artifacts
+      shell: powershell
+      run: build/package/winget/prepare_installer_input_artifacts.ps1
+
+    - name: Build Installer .exe
+      run: |
+        cd build/package/winget/Tgstation.Server.Host.Service.Wix.Bundle
+        dotnet build -c Release
 
     - name: Parse TGS version
       shell: powershell
@@ -1357,21 +1401,27 @@ jobs:
         name: packaging-debian
         path: packaging-debian
 
-    - name: Retrieve Installer .exe
-      uses: actions/download-artifact@v3
-      with:
-        name: packaging-windows
-        path: packaging-windows
-
-    - name: Sign Installer .exe
+    - name: Install Code Signing Certificate
       shell: powershell
       run: |
         $pfxBytes = [convert]::FromBase64String("${{ secrets.CODE_SIGNING_BASE64 }}")
         [IO.File]::WriteAllBytes("tg_codesigning.pfx", $pfxBytes)
         $certPassword = ConvertTo-SecureString -String "${{ secrets.CODE_SIGNING_PASSWORD }}" -Force -AsPlainText
-        $cert=Import-PfxCertificate -FilePath tg_codesigning.pfx -Cert Cert:\CurrentUser\My -Password $certPassword
+        Import-PfxCertificate -FilePath tg_codesigning.pfx -Cert Cert:\CurrentUser\My -Password $certPassword
         rm tg_codesigning.pfx
-        Set-AuthenticodeSignature packaging-windows/tgstation-server-installer.exe -Certificate $cert -TimestampServer "http://timestamp.digicert.com"
+
+    - name: Sign Installer .exe # https://wixtoolset.org/docs/tools/signing/
+      shell: powershell
+      run: |
+        cd build/package/winget
+        dotnet wix burn detach Tgstation.Server.Host.Service.Wix.Bundle/bin/Release/tgstation-server-installer.exe -engine burnengine.exe
+        Set-AuthenticodeSignature burnengine.exe -Certificate (Get-ChildItem Cert:\CurrentUser\My | Where-Object { $_.Thumbprint -eq "${{ vars.CODE_SIGNING_THUMBPRINT }}" }) -TimestampServer "http://timestamp.digicert.com"
+        dotnet wix burn reattach Tgstation.Server.Host.Service.Wix.Bundle/bin/Release/tgstation-server-installer.exe -engine burnengine.exe -o tgstation-server-installer.exe
+        Set-AuthenticodeSignature tgstation-server-installer.exe -Certificate (Get-ChildItem Cert:\CurrentUser\My | Where-Object { $_.Thumbprint -eq "${{ vars.CODE_SIGNING_THUMBPRINT }}" }) -TimestampServer "http://timestamp.digicert.com"
+
+    - name: Sign Service .exe
+      shell: powershell
+      run: Set-AuthenticodeSignature ServerService/Tgstation.Server.Host.Service.exe -Certificate (Get-ChildItem Cert:\CurrentUser\My | Where-Object { $_.Thumbprint -eq "${{ vars.CODE_SIGNING_THUMBPRINT }}" }) -TimestampServer "http://timestamp.digicert.com"
 
     - name: Zip Artifacts
       shell: powershell
@@ -1462,7 +1512,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.DEV_PUSH_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./packaging-windows/tgstation-server-installer.exe
+        asset_path: ./build/package/winget/tgstation-server-installer.exe
         asset_name: tgstation-server-installer.exe
         asset_content_type: application/octet-stream
 
