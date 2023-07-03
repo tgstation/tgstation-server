@@ -6,8 +6,11 @@
     
     <netfx:DotNetCoreSearch RuntimeType="aspnet" Platform="x64" MajorVersion="$(var.NetMajorVersion)" Variable="AspNetCorex64Status" />
     <netfx:DotNetCoreSearch RuntimeType="aspnet" Platform="x86" MajorVersion="$(var.NetMajorVersion)" Variable="AspNetCorex86Status" />
+    
+    <netfx:DotNetCoreSearch RuntimeType="core" Platform="x64" MajorVersion="$(var.NetMajorVersion)" Variable="NetCorex64Status" />
+    <netfx:DotNetCoreSearch RuntimeType="core" Platform="x86" MajorVersion="$(var.NetMajorVersion)" Variable="NetCorex86Status" />
 
-    <WixVariable Id="AspNetCoreDetectCondition" Value="AspNetCorex64Status OR AspNetCorex86Status" Overridable="yes" />
+    <WixVariable Id="AspNetCoreDetectCondition" Value="(NetCorex64Status AND AspNetCorex64Status) OR (NetCorex86Status AND AspNetCorex86Status)" />
 
     <Chain>
       <ExePackage PerMachine="yes" DetectCondition="!(wix.AspNetCoreDetectCondition)" Vital="yes" Permanent="yes" Protocol="burn" InstallArguments="/install /quiet /norestart /log [HOSTING_BUNDLE_LOG_PATH]" RepairArguments="/repair /quiet /norestart /log [HOSTING_BUNDLE_LOG_PATH]" UninstallArguments="/uninstall /quiet /norestart /log [HOSTING_BUNDLE_LOG_PATH]" Cache="remove" LogPathVariable="HOSTING_BUNDLE_LOG_PATH" RepairCondition="FALSE">

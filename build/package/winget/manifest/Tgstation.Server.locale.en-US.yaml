@@ -2,7 +2,7 @@
 # yaml-language-server: $schema=https://aka.ms/winget-manifest.defaultLocale.1.4.0.schema.json
 
 PackageIdentifier: Tgstation.Server
-PackageVersion: 0.22.475 # Set before publish by push_manifest.ps1
+PackageVersion: 0.22.475 # Do not change. Set before publish by push_manifest.ps1
 PackageLocale: en-US
 Publisher: /tg/station 13
 PublisherUrl: https://github.com/tgstation/tgstation-server
@@ -14,7 +14,7 @@ ShortDescription: A production scale tool for BYOND server management
 Moniker: tgstation-server
 Documentations:
   - DocumentLabel: README.md
-    DocumentUrl: https://github.com/tgstation/tgstation-server/blob/tgstation-server-v0.22.475/README.md
+    DocumentUrl: https://github.com/tgstation/tgstation-server/blob/tgstation-server-v0.22.475/README.md # Do not change. Set before publish by push_manifest.ps1
 ReleaseNotesUrl: https://github.com/tgstation/tgstation-server/releases/tag/tgstation-server-v0.22.475
 PurchaseUrl: https://github.com/sponsors/Cyberboss
 ManifestType: defaultLocale
