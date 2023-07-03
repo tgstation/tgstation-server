@@ -19,6 +19,10 @@ Installers:
   - arm
   - arm64
   ElevationRequirement: elevatesSelf
+  AppsAndFeaturesEntries:
+  - DisplayName: tgstation-server
+    DisplayVersion: 0.22.475 # Do not change. Set before publish by push_manifest.ps1
+    Publisher: /tg/station 13
   Dependencies:
     PackageDependencies:
     - PackageIdentifier: Microsoft.DotNet.AspNetCore.6
