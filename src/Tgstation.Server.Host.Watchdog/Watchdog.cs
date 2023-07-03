@@ -376,7 +376,15 @@ namespace Tgstation.Server.Host.Watchdog
 				};
 			}
 			else
-				enumerator = paths.Select(x => x.Split(':')).SelectMany(x => x);
+				enumerator = paths
+					.Select(x => x.Split(':'))
+					.SelectMany(x => x)
+					.Concat(new List<string>(2)
+					{
+						"/usr/bin",
+						"/usr/share/bin",
+						"/usr/local/share/dotnet",
+					});
 
 			enumerator = enumerator.Select(x => Path.Combine(x, exeName));
 
