@@ -369,7 +369,11 @@ namespace Tgstation.Server.Host.Watchdog
 			if (isWindows)
 			{
 				exeName += ".exe";
-				enumerator = paths;
+				enumerator = new List<string>(paths)
+				{
+					"C:/Program Files/dotnet",
+					"C:/Program Files (x86)/dotnet",
+				};
 			}
 			else
 				enumerator = paths.Select(x => x.Split(':')).SelectMany(x => x);
