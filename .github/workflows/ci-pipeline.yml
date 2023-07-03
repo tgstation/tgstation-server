@@ -70,7 +70,7 @@ jobs:
       run: exit 1
 
   start-ci-run-gate:
-    name: Start CI Run Gate
+    name: CI Start Gate
     needs: security-checkpoint
     runs-on: ubuntu-latest
     if: "!(cancelled() || failure()) && (needs.security-checkpoint.result == 'success' || (needs.security-checkpoint.result == 'skipped' && (github.event_name == 'push' || github.event_name == 'schedule' || (github.event.pull_request.head.repo.id == github.event.pull_request.base.repo.id && github.event_name != 'pull_request_target'))))"
@@ -1166,7 +1166,7 @@ jobs:
       run: exit 0
 
   deployment-gate:
-    name: Deployment Gate
+    name: Deployment Start Gate
     needs: ci-completion-gate
     runs-on: ubuntu-latest
     if: "!(cancelled() || failure()) && needs.ci-completion-gate.result == 'success' && github.event_name == 'push'"
