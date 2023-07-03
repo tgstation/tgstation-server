@@ -71,6 +71,8 @@ Once winget is installed, simply run the following commands, accepting any promp
 winget install tgstation-server
 ```
 
+The required dotnet runtime may be installed as a pre-requisite.
+
 Note: If you use the `-h` or `--disable-interactivity` winget arguments, you will need to either pre-configure TGS or configure and start the `tgstation-server` service after installing. A shortcut will be placed on your desktop and in your start menu to assist with this.
 
 ##### Installer
