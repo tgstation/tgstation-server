@@ -1,4 +1,0 @@
-<map id="Tgstation.Server.Host.Service.Wix.SafeShutdown.InstallationExtensions.DetachStopTgsServiceIfRunning" name="Tgstation.Server.Host.Service.Wix.SafeShutdown.InstallationExtensions.DetachStopTgsServiceIfRunning">
-<area shape="rect" id="node1" title="Attempts to detach stop the existing tgstation&#45;server service if it exists." alt="" coords="5,5,268,60"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_common_1_1_pipe_commands.html#a1b22a865eb929ce8b1fa818b81a015a9" title="Gets the int value of a given command ." alt="" coords="316,13,524,53"/>
-</map>

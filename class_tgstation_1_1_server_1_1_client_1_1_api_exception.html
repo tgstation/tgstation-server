@@ -210,17 +210,17 @@ Properties</h2></td></tr>
 </dl>
 
 <p class="definition">Definition at line <a class="el" href="_api_exception_8cs_source.html#l00034">34</a> of file <a class="el" href="_api_exception_8cs_source.html">ApiException.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   34</span>                                                                                                        : base(</div>
-<div class="line"><span class="lineno">   35</span>            responseMessage,</div>
-<div class="line"><span class="lineno">   36</span>            errorMessage?.Message ?? $<span class="stringliteral">&quot;HTTP {responseMessage?.StatusCode ?? throw new ArgumentNullException(nameof(responseMessage))}. Unknown API error, ErrorMessage payload not present!&quot;</span>)</div>
-<div class="line"><span class="lineno">   37</span>        {</div>
-<div class="line"><span class="lineno">   38</span>            <a class="code hl_property" href="class_tgstation_1_1_server_1_1_client_1_1_api_exception.html#a281531bad45554e8e35c02bd7c43ee38">ServerApiVersion</a> = errorMessage?.ServerApiVersion;</div>
-<div class="line"><span class="lineno">   39</span>            <a class="code hl_property" href="class_tgstation_1_1_server_1_1_client_1_1_api_exception.html#a15ba2ccaacd995deb459ac67b1ebd787">AdditionalServerData</a> = errorMessage?.AdditionalData;</div>
-<div class="line"><span class="lineno">   40</span>            <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">ErrorCode</a> = errorMessage?.ErrorCode;</div>
-<div class="line"><span class="lineno">   41</span>        }</div>
+<div class="fragment"><div class="line"><span class="lineno">   35</span>            : base(</div>
+<div class="line"><span class="lineno">   36</span>                responseMessage,</div>
+<div class="line"><span class="lineno">   37</span>                errorMessage?.Message ?? $<span class="stringliteral">&quot;HTTP {responseMessage?.StatusCode ?? throw new ArgumentNullException(nameof(responseMessage))}. Unknown API error, ErrorMessage payload not present!&quot;</span>)</div>
+<div class="line"><span class="lineno">   38</span>        {</div>
+<div class="line"><span class="lineno">   39</span>            <a class="code hl_property" href="class_tgstation_1_1_server_1_1_client_1_1_api_exception.html#a281531bad45554e8e35c02bd7c43ee38">ServerApiVersion</a> = errorMessage?.ServerApiVersion;</div>
+<div class="line"><span class="lineno">   40</span>            <a class="code hl_property" href="class_tgstation_1_1_server_1_1_client_1_1_api_exception.html#a15ba2ccaacd995deb459ac67b1ebd787">AdditionalServerData</a> = errorMessage?.AdditionalData;</div>
+<div class="line"><span class="lineno">   41</span>            <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">ErrorCode</a> = errorMessage?.ErrorCode;</div>
+<div class="line"><span class="lineno">   42</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_client_1_1_api_exception_html_a15ba2ccaacd995deb459ac67b1ebd787"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_client_1_1_api_exception.html#a15ba2ccaacd995deb459ac67b1ebd787">Tgstation.Server.Client.ApiException.AdditionalServerData</a></div><div class="ttdeci">string? AdditionalServerData</div><div class="ttdoc">Additional error data from the server.</div><div class="ttdef"><b>Definition:</b> <a href="_api_exception_8cs_source.html#l00022">ApiException.cs:22</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_client_1_1_api_exception_html_a281531bad45554e8e35c02bd7c43ee38"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_client_1_1_api_exception.html#a281531bad45554e8e35c02bd7c43ee38">Tgstation.Server.Client.ApiException.ServerApiVersion</a></div><div class="ttdeci">Version? ServerApiVersion</div><div class="ttdoc">The Version of the server's API.</div><div class="ttdef"><b>Definition:</b> <a href="_api_exception_8cs_source.html#l00017">ApiException.cs:17</a></div></div>
-<div class="ttc" id="anamespace_tgstation_1_1_server_1_1_api_1_1_models_html_a1a6adb59dd51244efabf4e548e7075c8"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">Tgstation.Server.Api.Models.ErrorCode</a></div><div class="ttdeci">ErrorCode</div><div class="ttdoc">Types of Response.ErrorMessageResponses that the API may return.</div><div class="ttdef"><b>Definition:</b> <a href="_error_code_8cs_source.html#l00010">ErrorCode.cs:11</a></div></div>
+<div class="ttc" id="anamespace_tgstation_1_1_server_1_1_api_1_1_models_html_a1a6adb59dd51244efabf4e548e7075c8"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">Tgstation.Server.Api.Models.ErrorCode</a></div><div class="ttdeci">ErrorCode</div><div class="ttdoc">Types of Response.ErrorMessageResponses that the API may return.</div><div class="ttdef"><b>Definition:</b> <a href="_error_code_8cs_source.html#l00012">ErrorCode.cs:13</a></div></div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="_error_message_response_8cs_source.html#l00025">Tgstation.Server.Api.Models.Response.ErrorMessageResponse.AdditionalData</a>, <a class="el" href="_api_exception_8cs_source.html#l00022">Tgstation.Server.Client.ApiException.AdditionalServerData</a>, <a class="el" href="_error_message_response_8cs_source.html#l00031">Tgstation.Server.Api.Models.Response.ErrorMessageResponse.ErrorCode</a>, <a class="el" href="_error_message_response_8cs_source.html#l00014">Tgstation.Server.Api.Models.Response.ErrorMessageResponse.ServerApiVersion</a>, and <a class="el" href="_api_exception_8cs_source.html#l00017">Tgstation.Server.Client.ApiException.ServerApiVersion</a>.</p>
 
@@ -269,10 +269,8 @@ Properties</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_api_exception_8cs_source.html#l00048">48</a> of file <a class="el" href="_api_exception_8cs_source.html">ApiException.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   48</span>                                                                                    : base(</div>
-<div class="line"><span class="lineno">   49</span>            responseMessage,</div>
-<div class="line"><span class="lineno">   50</span>            message)</div>
+<p class="definition">Definition at line <a class="el" href="_api_exception_8cs_source.html#l00049">49</a> of file <a class="el" href="_api_exception_8cs_source.html">ApiException.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   50</span>            : base(responseMessage, message)</div>
 <div class="line"><span class="lineno">   51</span>        {</div>
 <div class="line"><span class="lineno">   52</span>        }</div>
 </div><!-- fragment -->
@@ -342,9 +340,9 @@ Properties</h2></td></tr>
 </dl>
 
 <p class="definition">Definition at line <a class="el" href="_api_exception_8cs_source.html#l00065">65</a> of file <a class="el" href="_api_exception_8cs_source.html">ApiException.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   65</span>                                               : base(message)</div>
-<div class="line"><span class="lineno">   66</span>        {</div>
-<div class="line"><span class="lineno">   67</span>        }</div>
+<div class="fragment"><div class="line"><span class="lineno">   66</span>            : base(message)</div>
+<div class="line"><span class="lineno">   67</span>        {</div>
+<div class="line"><span class="lineno">   68</span>        }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -391,10 +389,10 @@ Properties</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_api_exception_8cs_source.html#l00074">74</a> of file <a class="el" href="_api_exception_8cs_source.html">ApiException.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   74</span>                                                                         : base(message, innerException)</div>
-<div class="line"><span class="lineno">   75</span>        {</div>
-<div class="line"><span class="lineno">   76</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_api_exception_8cs_source.html#l00075">75</a> of file <a class="el" href="_api_exception_8cs_source.html">ApiException.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   76</span>            : base(message, innerException)</div>
+<div class="line"><span class="lineno">   77</span>        {</div>
+<div class="line"><span class="lineno">   78</span>        }</div>
 </div><!-- fragment -->
 </div>
 </div>

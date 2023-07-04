@@ -220,7 +220,7 @@ Properties</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p >GitLab <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_git_remote_features.html" title="Provides features for remote git services.">IGitRemoteFeatures</a>.  </p>
 
-<p class="definition">Definition at line <a class="el" href="_git_lab_remote_features_8cs_source.html#l00017">17</a> of file <a class="el" href="_git_lab_remote_features_8cs_source.html">GitLabRemoteFeatures.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_git_lab_remote_features_8cs_source.html#l00016">16</a> of file <a class="el" href="_git_lab_remote_features_8cs_source.html">GitLabRemoteFeatures.cs</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a9d23fd143c7809ce5d3fbf42a4c12432" name="a9d23fd143c7809ce5d3fbf42a4c12432"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a9d23fd143c7809ce5d3fbf42a4c12432">&#9670;&#160;</a></span>GitLabRemoteFeatures()</h2>
@@ -257,18 +257,18 @@ Properties</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_git_lab_remote_features_8cs_source.html#l00045">45</a> of file <a class="el" href="_git_lab_remote_features_8cs_source.html">GitLabRemoteFeatures.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   46</span>            : base(logger, remoteUrl)</div>
-<div class="line"><span class="lineno">   47</span>        {</div>
-<div class="line"><span class="lineno">   48</span>            <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_git_lab_remote_features.html#ad69b6f3453891e60cc4eba2057a633d6">RemoteRepositoryOwner</a> = remoteUrl.Segments[1].TrimEnd(<span class="charliteral">&#39;/&#39;</span>);</div>
-<div class="line"><span class="lineno">   49</span>            <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_git_lab_remote_features.html#ae4e03507e860149e2294891ea1f0e9b2">RemoteRepositoryName</a> = remoteUrl.Segments[2].TrimEnd(<span class="charliteral">&#39;/&#39;</span>);</div>
-<div class="line"><span class="lineno">   50</span>            <span class="keywordflow">if</span> (<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_git_lab_remote_features.html#ae4e03507e860149e2294891ea1f0e9b2">RemoteRepositoryName</a>.EndsWith(<span class="stringliteral">&quot;.git&quot;</span>, StringComparison.OrdinalIgnoreCase))</div>
-<div class="line"><span class="lineno">   51</span>                <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_git_lab_remote_features.html#ae4e03507e860149e2294891ea1f0e9b2">RemoteRepositoryName</a> = <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_git_lab_remote_features.html#ae4e03507e860149e2294891ea1f0e9b2">RemoteRepositoryName</a>[0..^4];</div>
-<div class="line"><span class="lineno">   52</span>        }</div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_git_lab_remote_features_html_ad69b6f3453891e60cc4eba2057a633d6"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_git_lab_remote_features.html#ad69b6f3453891e60cc4eba2057a633d6">Tgstation.Server.Host.Components.Repository.GitLabRemoteFeatures.RemoteRepositoryOwner</a></div><div class="ttdeci">override string RemoteRepositoryOwner</div><div class="ttdoc">If RemoteGitProvider is not RemoteGitProvider.Unknown this will be set with the owner of the reposito...</div><div class="ttdef"><b>Definition:</b> <a href="_git_lab_remote_features_8cs_source.html#l00035">GitLabRemoteFeatures.cs:35</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_git_lab_remote_features_html_ae4e03507e860149e2294891ea1f0e9b2"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_git_lab_remote_features.html#ae4e03507e860149e2294891ea1f0e9b2">Tgstation.Server.Host.Components.Repository.GitLabRemoteFeatures.RemoteRepositoryName</a></div><div class="ttdeci">override string RemoteRepositoryName</div><div class="ttdoc">If RemoteGitProvider is not RemoteGitProvider.Unknown this will be set with the name of the repositor...</div><div class="ttdef"><b>Definition:</b> <a href="_git_lab_remote_features_8cs_source.html#l00038">GitLabRemoteFeatures.cs:38</a></div></div>
+<p class="definition">Definition at line <a class="el" href="_git_lab_remote_features_8cs_source.html#l00044">44</a> of file <a class="el" href="_git_lab_remote_features_8cs_source.html">GitLabRemoteFeatures.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   45</span>            : base(logger, remoteUrl)</div>
+<div class="line"><span class="lineno">   46</span>        {</div>
+<div class="line"><span class="lineno">   47</span>            <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_git_lab_remote_features.html#ad69b6f3453891e60cc4eba2057a633d6">RemoteRepositoryOwner</a> = remoteUrl.Segments[1].TrimEnd(<span class="charliteral">&#39;/&#39;</span>);</div>
+<div class="line"><span class="lineno">   48</span>            <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_git_lab_remote_features.html#ae4e03507e860149e2294891ea1f0e9b2">RemoteRepositoryName</a> = remoteUrl.Segments[2].TrimEnd(<span class="charliteral">&#39;/&#39;</span>);</div>
+<div class="line"><span class="lineno">   49</span>            <span class="keywordflow">if</span> (<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_git_lab_remote_features.html#ae4e03507e860149e2294891ea1f0e9b2">RemoteRepositoryName</a>.EndsWith(<span class="stringliteral">&quot;.git&quot;</span>, StringComparison.OrdinalIgnoreCase))</div>
+<div class="line"><span class="lineno">   50</span>                <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_git_lab_remote_features.html#ae4e03507e860149e2294891ea1f0e9b2">RemoteRepositoryName</a> = <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_git_lab_remote_features.html#ae4e03507e860149e2294891ea1f0e9b2">RemoteRepositoryName</a>[0..^4];</div>
+<div class="line"><span class="lineno">   51</span>        }</div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_git_lab_remote_features_html_ad69b6f3453891e60cc4eba2057a633d6"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_git_lab_remote_features.html#ad69b6f3453891e60cc4eba2057a633d6">Tgstation.Server.Host.Components.Repository.GitLabRemoteFeatures.RemoteRepositoryOwner</a></div><div class="ttdeci">override string RemoteRepositoryOwner</div><div class="ttdoc">If RemoteGitProvider is not RemoteGitProvider.Unknown this will be set with the owner of the reposito...</div><div class="ttdef"><b>Definition:</b> <a href="_git_lab_remote_features_8cs_source.html#l00034">GitLabRemoteFeatures.cs:34</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_git_lab_remote_features_html_ae4e03507e860149e2294891ea1f0e9b2"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_git_lab_remote_features.html#ae4e03507e860149e2294891ea1f0e9b2">Tgstation.Server.Host.Components.Repository.GitLabRemoteFeatures.RemoteRepositoryName</a></div><div class="ttdeci">override string RemoteRepositoryName</div><div class="ttdoc">If RemoteGitProvider is not RemoteGitProvider.Unknown this will be set with the name of the repositor...</div><div class="ttdef"><b>Definition:</b> <a href="_git_lab_remote_features_8cs_source.html#l00037">GitLabRemoteFeatures.cs:37</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_git_lab_remote_features_8cs_source.html#l00038">Tgstation.Server.Host.Components.Repository.GitLabRemoteFeatures.RemoteRepositoryName</a>, and <a class="el" href="_git_lab_remote_features_8cs_source.html#l00035">Tgstation.Server.Host.Components.Repository.GitLabRemoteFeatures.RemoteRepositoryOwner</a>.</p>
+<p class="reference">References <a class="el" href="_git_lab_remote_features_8cs_source.html#l00037">Tgstation.Server.Host.Components.Repository.GitLabRemoteFeatures.RemoteRepositoryName</a>, and <a class="el" href="_git_lab_remote_features_8cs_source.html#l00034">Tgstation.Server.Host.Components.Repository.GitLabRemoteFeatures.RemoteRepositoryOwner</a>.</p>
 
 </div>
 </div>
@@ -326,59 +326,59 @@ Properties</h2></td></tr>
 
 <p>Implements <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_git_remote_features_base.html#a331c0fb9ffdcdd2012f4e456d1369e0d">Tgstation.Server.Host.Components.Repository.GitRemoteFeaturesBase</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_git_lab_remote_features_8cs_source.html#l00055">55</a> of file <a class="el" href="_git_lab_remote_features_8cs_source.html">GitLabRemoteFeatures.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   59</span>        {</div>
-<div class="line"><span class="lineno">   60</span>            var client = repositorySettings.AccessToken != <span class="keyword">null</span></div>
-<div class="line"><span class="lineno">   61</span>                ? <span class="keyword">new</span> GitLabClient(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_git_lab_remote_features.html#a7481da98c65e1f178597a6a61de87ea9">GitLabUrl</a>, repositorySettings.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_repository_settings.html#acc5868ef8bebd88a8caa34c4f8f1fd86">AccessToken</a>)</div>
-<div class="line"><span class="lineno">   62</span>                : new GitLabClient(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_git_lab_remote_features.html#a7481da98c65e1f178597a6a61de87ea9">GitLabUrl</a>);</div>
-<div class="line"><span class="lineno">   63</span> </div>
-<div class="line"><span class="lineno">   64</span>            <span class="keywordflow">try</span></div>
-<div class="line"><span class="lineno">   65</span>            {</div>
-<div class="line"><span class="lineno">   66</span>                var mr = await client</div>
-<div class="line"><span class="lineno">   67</span>                    .MergeRequests</div>
-<div class="line"><span class="lineno">   68</span>                    .GetAsync($<span class="stringliteral">&quot;{RemoteRepositoryOwner}/{RemoteRepositoryName}&quot;</span>, parameters.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_test_merge_parameters.html#a91cb81663a87f96476a47a2628ac1a86">Number</a>)</div>
-<div class="line"><span class="lineno">   69</span>                    .WaitAsync(cancellationToken);</div>
-<div class="line"><span class="lineno">   70</span> </div>
-<div class="line"><span class="lineno">   71</span>                var revisionToUse = parameters.TargetCommitSha == <span class="keyword">null</span></div>
-<div class="line"><span class="lineno">   72</span>                    || mr.Sha.StartsWith(parameters.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_test_merge_parameters.html#a1b7f38a2ee2f645796ffeb89fe51b2ce">TargetCommitSha</a>, StringComparison.OrdinalIgnoreCase)</div>
-<div class="line"><span class="lineno">   73</span>                    ? mr.Sha</div>
-<div class="line"><span class="lineno">   74</span>                    : parameters.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_test_merge_parameters.html#a1b7f38a2ee2f645796ffeb89fe51b2ce">TargetCommitSha</a>;</div>
-<div class="line"><span class="lineno">   75</span> </div>
-<div class="line"><span class="lineno">   76</span>                <span class="keywordflow">return</span> <span class="keyword">new</span> Models.TestMerge</div>
-<div class="line"><span class="lineno">   77</span>                {</div>
-<div class="line"><span class="lineno">   78</span>                    Author = mr.Author.Username,</div>
-<div class="line"><span class="lineno">   79</span>                    BodyAtMerge = mr.Description,</div>
-<div class="line"><span class="lineno">   80</span>                    TitleAtMerge = mr.Title,</div>
-<div class="line"><span class="lineno">   81</span>                    Comment = parameters.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_test_merge_parameters.html#a556ffae15694a68aa1c78f851407eb5b">Comment</a>,</div>
-<div class="line"><span class="lineno">   82</span>                    Number = parameters.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_test_merge_parameters.html#a91cb81663a87f96476a47a2628ac1a86">Number</a>,</div>
-<div class="line"><span class="lineno">   83</span>                    TargetCommitSha = mr.Sha,</div>
-<div class="line"><span class="lineno">   84</span>                    Url = mr.WebUrl,</div>
-<div class="line"><span class="lineno">   85</span>                };</div>
-<div class="line"><span class="lineno">   86</span>            }</div>
-<div class="line"><span class="lineno">   87</span>            <span class="keywordflow">catch</span> (Exception ex)</div>
-<div class="line"><span class="lineno">   88</span>            {</div>
-<div class="line"><span class="lineno">   89</span>                <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_git_remote_features_base.html#aa93edf27d4c5255e22771d14350e6a32">Logger</a>.LogWarning(ex, <span class="stringliteral">&quot;Error retrieving merge request metadata!&quot;</span>);</div>
-<div class="line"><span class="lineno">   90</span> </div>
-<div class="line"><span class="lineno">   91</span>                <span class="keywordflow">return</span> <span class="keyword">new</span> Models.TestMerge</div>
-<div class="line"><span class="lineno">   92</span>                {</div>
-<div class="line"><span class="lineno">   93</span>                    Author = ex.Message,</div>
-<div class="line"><span class="lineno">   94</span>                    BodyAtMerge = ex.Message,</div>
-<div class="line"><span class="lineno">   95</span>                    TitleAtMerge = ex.Message,</div>
-<div class="line"><span class="lineno">   96</span>                    Comment = parameters.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_test_merge_parameters.html#a556ffae15694a68aa1c78f851407eb5b">Comment</a>,</div>
-<div class="line"><span class="lineno">   97</span>                    Number = parameters.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_test_merge_parameters.html#a91cb81663a87f96476a47a2628ac1a86">Number</a>,</div>
-<div class="line"><span class="lineno">   98</span>                    TargetCommitSha = parameters.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_test_merge_parameters.html#a1b7f38a2ee2f645796ffeb89fe51b2ce">TargetCommitSha</a>,</div>
-<div class="line"><span class="lineno">   99</span>                    Url = ex.Message,</div>
-<div class="line"><span class="lineno">  100</span>                };</div>
-<div class="line"><span class="lineno">  101</span>            }</div>
-<div class="line"><span class="lineno">  102</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_git_lab_remote_features_8cs_source.html#l00054">54</a> of file <a class="el" href="_git_lab_remote_features_8cs_source.html">GitLabRemoteFeatures.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   58</span>        {</div>
+<div class="line"><span class="lineno">   59</span>            var client = repositorySettings.AccessToken != <span class="keyword">null</span></div>
+<div class="line"><span class="lineno">   60</span>                ? <span class="keyword">new</span> GitLabClient(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_git_lab_remote_features.html#a7481da98c65e1f178597a6a61de87ea9">GitLabUrl</a>, repositorySettings.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_repository_settings.html#acc5868ef8bebd88a8caa34c4f8f1fd86">AccessToken</a>)</div>
+<div class="line"><span class="lineno">   61</span>                : new GitLabClient(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_git_lab_remote_features.html#a7481da98c65e1f178597a6a61de87ea9">GitLabUrl</a>);</div>
+<div class="line"><span class="lineno">   62</span> </div>
+<div class="line"><span class="lineno">   63</span>            <span class="keywordflow">try</span></div>
+<div class="line"><span class="lineno">   64</span>            {</div>
+<div class="line"><span class="lineno">   65</span>                var mr = await client</div>
+<div class="line"><span class="lineno">   66</span>                    .MergeRequests</div>
+<div class="line"><span class="lineno">   67</span>                    .GetAsync($<span class="stringliteral">&quot;{RemoteRepositoryOwner}/{RemoteRepositoryName}&quot;</span>, parameters.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_test_merge_parameters.html#a91cb81663a87f96476a47a2628ac1a86">Number</a>)</div>
+<div class="line"><span class="lineno">   68</span>                    .WaitAsync(cancellationToken);</div>
+<div class="line"><span class="lineno">   69</span> </div>
+<div class="line"><span class="lineno">   70</span>                var revisionToUse = parameters.TargetCommitSha == <span class="keyword">null</span></div>
+<div class="line"><span class="lineno">   71</span>                    || mr.Sha.StartsWith(parameters.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_test_merge_parameters.html#a1b7f38a2ee2f645796ffeb89fe51b2ce">TargetCommitSha</a>, StringComparison.OrdinalIgnoreCase)</div>
+<div class="line"><span class="lineno">   72</span>                    ? mr.Sha</div>
+<div class="line"><span class="lineno">   73</span>                    : parameters.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_test_merge_parameters.html#a1b7f38a2ee2f645796ffeb89fe51b2ce">TargetCommitSha</a>;</div>
+<div class="line"><span class="lineno">   74</span> </div>
+<div class="line"><span class="lineno">   75</span>                <span class="keywordflow">return</span> <span class="keyword">new</span> Models.TestMerge</div>
+<div class="line"><span class="lineno">   76</span>                {</div>
+<div class="line"><span class="lineno">   77</span>                    Author = mr.Author.Username,</div>
+<div class="line"><span class="lineno">   78</span>                    BodyAtMerge = mr.Description,</div>
+<div class="line"><span class="lineno">   79</span>                    TitleAtMerge = mr.Title,</div>
+<div class="line"><span class="lineno">   80</span>                    Comment = parameters.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_test_merge_parameters.html#a556ffae15694a68aa1c78f851407eb5b">Comment</a>,</div>
+<div class="line"><span class="lineno">   81</span>                    Number = parameters.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_test_merge_parameters.html#a91cb81663a87f96476a47a2628ac1a86">Number</a>,</div>
+<div class="line"><span class="lineno">   82</span>                    TargetCommitSha = mr.Sha,</div>
+<div class="line"><span class="lineno">   83</span>                    Url = mr.WebUrl,</div>
+<div class="line"><span class="lineno">   84</span>                };</div>
+<div class="line"><span class="lineno">   85</span>            }</div>
+<div class="line"><span class="lineno">   86</span>            <span class="keywordflow">catch</span> (Exception ex)</div>
+<div class="line"><span class="lineno">   87</span>            {</div>
+<div class="line"><span class="lineno">   88</span>                <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_git_remote_features_base.html#aa93edf27d4c5255e22771d14350e6a32">Logger</a>.LogWarning(ex, <span class="stringliteral">&quot;Error retrieving merge request metadata!&quot;</span>);</div>
+<div class="line"><span class="lineno">   89</span> </div>
+<div class="line"><span class="lineno">   90</span>                <span class="keywordflow">return</span> <span class="keyword">new</span> Models.TestMerge</div>
+<div class="line"><span class="lineno">   91</span>                {</div>
+<div class="line"><span class="lineno">   92</span>                    Author = ex.Message,</div>
+<div class="line"><span class="lineno">   93</span>                    BodyAtMerge = ex.Message,</div>
+<div class="line"><span class="lineno">   94</span>                    TitleAtMerge = ex.Message,</div>
+<div class="line"><span class="lineno">   95</span>                    Comment = parameters.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_test_merge_parameters.html#a556ffae15694a68aa1c78f851407eb5b">Comment</a>,</div>
+<div class="line"><span class="lineno">   96</span>                    Number = parameters.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_test_merge_parameters.html#a91cb81663a87f96476a47a2628ac1a86">Number</a>,</div>
+<div class="line"><span class="lineno">   97</span>                    TargetCommitSha = parameters.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_test_merge_parameters.html#a1b7f38a2ee2f645796ffeb89fe51b2ce">TargetCommitSha</a>,</div>
+<div class="line"><span class="lineno">   98</span>                    Url = ex.Message,</div>
+<div class="line"><span class="lineno">   99</span>                };</div>
+<div class="line"><span class="lineno">  100</span>            }</div>
+<div class="line"><span class="lineno">  101</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_repository_settings_html_acc5868ef8bebd88a8caa34c4f8f1fd86"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_repository_settings.html#acc5868ef8bebd88a8caa34c4f8f1fd86">Tgstation.Server.Api.Models.Internal.RepositorySettings.AccessToken</a></div><div class="ttdeci">string? AccessToken</div><div class="ttdoc">The token/password to access the git repository with.</div><div class="ttdef"><b>Definition:</b> <a href="_tgstation_8_server_8_api_2_models_2_internal_2_repository_settings_8cs_source.html#l00037">RepositorySettings.cs:37</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_test_merge_parameters_html_a1b7f38a2ee2f645796ffeb89fe51b2ce"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_test_merge_parameters.html#a1b7f38a2ee2f645796ffeb89fe51b2ce">Tgstation.Server.Api.Models.TestMergeParameters.TargetCommitSha</a></div><div class="ttdeci">virtual ? string TargetCommitSha</div><div class="ttdoc">The sha of the test merge revision to merge. If not specified, the latest commit from the source will...</div><div class="ttdef"><b>Definition:</b> <a href="_test_merge_parameters_8cs_source.html#l00020">TestMergeParameters.cs:20</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_test_merge_parameters_html_a556ffae15694a68aa1c78f851407eb5b"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_test_merge_parameters.html#a556ffae15694a68aa1c78f851407eb5b">Tgstation.Server.Api.Models.TestMergeParameters.Comment</a></div><div class="ttdeci">string? Comment</div><div class="ttdoc">Optional comment about the test.</div><div class="ttdef"><b>Definition:</b> <a href="_test_merge_parameters_8cs_source.html#l00027">TestMergeParameters.cs:27</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_test_merge_parameters_html_a91cb81663a87f96476a47a2628ac1a86"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_test_merge_parameters.html#a91cb81663a87f96476a47a2628ac1a86">Tgstation.Server.Api.Models.TestMergeParameters.Number</a></div><div class="ttdeci">int Number</div><div class="ttdoc">The number of the test merge source.</div><div class="ttdef"><b>Definition:</b> <a href="_test_merge_parameters_8cs_source.html#l00013">TestMergeParameters.cs:13</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_git_lab_remote_features_html_a7481da98c65e1f178597a6a61de87ea9"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_git_lab_remote_features.html#a7481da98c65e1f178597a6a61de87ea9">Tgstation.Server.Host.Components.Repository.GitLabRemoteFeatures.GitLabUrl</a></div><div class="ttdeci">const string GitLabUrl</div><div class="ttdoc">Url for main GitLab site.</div><div class="ttdef"><b>Definition:</b> <a href="_git_lab_remote_features_8cs_source.html#l00023">GitLabRemoteFeatures.cs:23</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_git_lab_remote_features_html_a7481da98c65e1f178597a6a61de87ea9"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_git_lab_remote_features.html#a7481da98c65e1f178597a6a61de87ea9">Tgstation.Server.Host.Components.Repository.GitLabRemoteFeatures.GitLabUrl</a></div><div class="ttdeci">const string GitLabUrl</div><div class="ttdoc">Url for main GitLab site.</div><div class="ttdef"><b>Definition:</b> <a href="_git_lab_remote_features_8cs_source.html#l00022">GitLabRemoteFeatures.cs:22</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_git_remote_features_base_html_aa93edf27d4c5255e22771d14350e6a32"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_git_remote_features_base.html#aa93edf27d4c5255e22771d14350e6a32">Tgstation.Server.Host.Components.Repository.GitRemoteFeaturesBase.Logger</a></div><div class="ttdeci">ILogger&lt; GitRemoteFeaturesBase &gt; Logger</div><div class="ttdoc">The ILogger for the GitRemoteFeaturesBase.</div><div class="ttdef"><b>Definition:</b> <a href="_git_remote_features_base_8cs_source.html#l00036">GitRemoteFeaturesBase.cs:36</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_tgstation_8_server_8_api_2_models_2_internal_2_repository_settings_8cs_source.html#l00037">Tgstation.Server.Api.Models.Internal.RepositorySettings.AccessToken</a>, <a class="el" href="_test_merge_model_base_8cs_source.html#l00035">Tgstation.Server.Api.Models.Internal.TestMergeModelBase.Author</a>, <a class="el" href="_test_merge_parameters_8cs_source.html#l00027">Tgstation.Server.Api.Models.TestMergeParameters.Comment</a>, <a class="el" href="_git_lab_remote_features_8cs_source.html#l00023">Tgstation.Server.Host.Components.Repository.GitLabRemoteFeatures.GitLabUrl</a>, <a class="el" href="_git_remote_features_base_8cs_source.html#l00036">Tgstation.Server.Host.Components.Repository.GitRemoteFeaturesBase.Logger</a>, <a class="el" href="_test_merge_parameters_8cs_source.html#l00013">Tgstation.Server.Api.Models.TestMergeParameters.Number</a>, and <a class="el" href="_test_merge_parameters_8cs_source.html#l00020">Tgstation.Server.Api.Models.TestMergeParameters.TargetCommitSha</a>.</p>
+<p class="reference">References <a class="el" href="_tgstation_8_server_8_api_2_models_2_internal_2_repository_settings_8cs_source.html#l00037">Tgstation.Server.Api.Models.Internal.RepositorySettings.AccessToken</a>, <a class="el" href="_test_merge_model_base_8cs_source.html#l00035">Tgstation.Server.Api.Models.Internal.TestMergeModelBase.Author</a>, <a class="el" href="_test_merge_parameters_8cs_source.html#l00027">Tgstation.Server.Api.Models.TestMergeParameters.Comment</a>, <a class="el" href="_git_lab_remote_features_8cs_source.html#l00022">Tgstation.Server.Host.Components.Repository.GitLabRemoteFeatures.GitLabUrl</a>, <a class="el" href="_git_remote_features_base_8cs_source.html#l00036">Tgstation.Server.Host.Components.Repository.GitRemoteFeaturesBase.Logger</a>, <a class="el" href="_test_merge_parameters_8cs_source.html#l00013">Tgstation.Server.Api.Models.TestMergeParameters.Number</a>, and <a class="el" href="_test_merge_parameters_8cs_source.html#l00020">Tgstation.Server.Api.Models.TestMergeParameters.TargetCommitSha</a>.</p>
 
 </div>
 </div>
@@ -406,9 +406,9 @@ Properties</h2></td></tr>
 <p>Url for main GitLab site.  </p>
 <p >Eventually we'll derive this from a repo's origin when someone request custom GitHub/GitLab installation support.</p>
 
-<p class="definition">Definition at line <a class="el" href="_git_lab_remote_features_8cs_source.html#l00023">23</a> of file <a class="el" href="_git_lab_remote_features_8cs_source.html">GitLabRemoteFeatures.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_git_lab_remote_features_8cs_source.html#l00022">22</a> of file <a class="el" href="_git_lab_remote_features_8cs_source.html">GitLabRemoteFeatures.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_git_lab_remote_deployment_manager_8cs_source.html#l00122">Tgstation.Server.Host.Components.Deployment.Remote.GitLabRemoteDeploymentManager.CommentOnTestMergeSource()</a>, <a class="el" href="_git_lab_remote_features_8cs_source.html#l00055">Tgstation.Server.Host.Components.Repository.GitLabRemoteFeatures.GetTestMergeImpl()</a>, and <a class="el" href="_git_lab_remote_deployment_manager_8cs_source.html#l00034">Tgstation.Server.Host.Components.Deployment.Remote.GitLabRemoteDeploymentManager.RemoveMergedTestMerges()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_git_lab_remote_deployment_manager_8cs_source.html#l00122">Tgstation.Server.Host.Components.Deployment.Remote.GitLabRemoteDeploymentManager.CommentOnTestMergeSource()</a>, <a class="el" href="_git_lab_remote_features_8cs_source.html#l00054">Tgstation.Server.Host.Components.Repository.GitLabRemoteFeatures.GetTestMergeImpl()</a>, and <a class="el" href="_git_lab_remote_deployment_manager_8cs_source.html#l00034">Tgstation.Server.Host.Components.Deployment.Remote.GitLabRemoteDeploymentManager.RemoveMergedTestMerges()</a>.</p>
 
 </div>
 </div>
@@ -437,7 +437,7 @@ Properties</h2></td></tr>
 
 <p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_i_git_remote_information.html#a32fb980a5c8ad960b2674e62a06f8724">Tgstation.Server.Api.Models.Internal.IGitRemoteInformation</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_git_lab_remote_features_8cs_source.html#l00032">32</a> of file <a class="el" href="_git_lab_remote_features_8cs_source.html">GitLabRemoteFeatures.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_git_lab_remote_features_8cs_source.html#l00031">31</a> of file <a class="el" href="_git_lab_remote_features_8cs_source.html">GitLabRemoteFeatures.cs</a>.</p>
 
 </div>
 </div>
@@ -465,10 +465,10 @@ Properties</h2></td></tr>
 
 <p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_i_git_remote_information.html#a16b1a16989886b7fe3beab0a46b83a4b">Tgstation.Server.Api.Models.Internal.IGitRemoteInformation</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_git_lab_remote_features_8cs_source.html#l00038">38</a> of file <a class="el" href="_git_lab_remote_features_8cs_source.html">GitLabRemoteFeatures.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   38</span>{ <span class="keyword">get</span>; }</div>
+<p class="definition">Definition at line <a class="el" href="_git_lab_remote_features_8cs_source.html#l00037">37</a> of file <a class="el" href="_git_lab_remote_features_8cs_source.html">GitLabRemoteFeatures.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   37</span>{ <span class="keyword">get</span>; }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_git_lab_remote_features_8cs_source.html#l00045">Tgstation.Server.Host.Components.Repository.GitLabRemoteFeatures.GitLabRemoteFeatures()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_git_lab_remote_features_8cs_source.html#l00044">Tgstation.Server.Host.Components.Repository.GitLabRemoteFeatures.GitLabRemoteFeatures()</a>.</p>
 
 </div>
 </div>
@@ -496,10 +496,10 @@ Properties</h2></td></tr>
 
 <p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_i_git_remote_information.html#a337342e3a22ef245c1744c32ef313ec0">Tgstation.Server.Api.Models.Internal.IGitRemoteInformation</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_git_lab_remote_features_8cs_source.html#l00035">35</a> of file <a class="el" href="_git_lab_remote_features_8cs_source.html">GitLabRemoteFeatures.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   35</span>{ <span class="keyword">get</span>; }</div>
+<p class="definition">Definition at line <a class="el" href="_git_lab_remote_features_8cs_source.html#l00034">34</a> of file <a class="el" href="_git_lab_remote_features_8cs_source.html">GitLabRemoteFeatures.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   34</span>{ <span class="keyword">get</span>; }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_git_lab_remote_features_8cs_source.html#l00045">Tgstation.Server.Host.Components.Repository.GitLabRemoteFeatures.GitLabRemoteFeatures()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_git_lab_remote_features_8cs_source.html#l00044">Tgstation.Server.Host.Components.Repository.GitLabRemoteFeatures.GitLabRemoteFeatures()</a>.</p>
 
 </div>
 </div>
@@ -527,7 +527,7 @@ Properties</h2></td></tr>
 
 <p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_git_remote_features.html#a083368818f73e84db42e1bb7f77a3632">Tgstation.Server.Host.Components.Repository.IGitRemoteFeatures</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_git_lab_remote_features_8cs_source.html#l00029">29</a> of file <a class="el" href="_git_lab_remote_features_8cs_source.html">GitLabRemoteFeatures.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_git_lab_remote_features_8cs_source.html#l00028">28</a> of file <a class="el" href="_git_lab_remote_features_8cs_source.html">GitLabRemoteFeatures.cs</a>.</p>
 
 </div>
 </div>
@@ -555,7 +555,7 @@ Properties</h2></td></tr>
 
 <p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_git_remote_features.html#a508bc021ad54643f298f4163b8e34a89">Tgstation.Server.Host.Components.Repository.IGitRemoteFeatures</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_git_lab_remote_features_8cs_source.html#l00026">26</a> of file <a class="el" href="_git_lab_remote_features_8cs_source.html">GitLabRemoteFeatures.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_git_lab_remote_features_8cs_source.html#l00025">25</a> of file <a class="el" href="_git_lab_remote_features_8cs_source.html">GitLabRemoteFeatures.cs</a>.</p>
 
 </div>
 </div>

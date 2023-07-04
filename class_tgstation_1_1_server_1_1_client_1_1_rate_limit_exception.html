@@ -216,18 +216,18 @@ Additional Inherited Members</h2></td></tr>
 </dl>
 
 <p class="definition">Definition at line <a class="el" href="_rate_limit_exception_8cs_source.html#l00026">26</a> of file <a class="el" href="_rate_limit_exception_8cs_source.html">RateLimitException.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   26</span>                                                                                                           : base(errorMessage, responseMessage)</div>
-<div class="line"><span class="lineno">   27</span>        {</div>
-<div class="line"><span class="lineno">   28</span>            <span class="keywordflow">if</span> (responseMessage == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">   29</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(responseMessage));</div>
-<div class="line"><span class="lineno">   30</span> </div>
-<div class="line"><span class="lineno">   31</span>            <span class="keywordflow">if</span> (!responseMessage.Headers.TryGetValues(HeaderNames.RetryAfter, out var values))</div>
-<div class="line"><span class="lineno">   32</span>                <span class="keywordflow">return</span>;</div>
-<div class="line"><span class="lineno">   33</span> </div>
-<div class="line"><span class="lineno">   34</span>            var secondsString = values.FirstOrDefault();</div>
-<div class="line"><span class="lineno">   35</span>            <span class="keywordflow">if</span> (UInt32.TryParse(secondsString, out var seconds))</div>
-<div class="line"><span class="lineno">   36</span>                <a class="code hl_property" href="class_tgstation_1_1_server_1_1_client_1_1_rate_limit_exception.html#a3a57db9e2ca420da24a144286faf57b0">RetryAfter</a> = DateTimeOffset.UtcNow.AddSeconds(seconds);</div>
-<div class="line"><span class="lineno">   37</span>        }</div>
+<div class="fragment"><div class="line"><span class="lineno">   27</span>            : base(errorMessage, responseMessage)</div>
+<div class="line"><span class="lineno">   28</span>        {</div>
+<div class="line"><span class="lineno">   29</span>            <span class="keywordflow">if</span> (responseMessage == <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">   30</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(responseMessage));</div>
+<div class="line"><span class="lineno">   31</span> </div>
+<div class="line"><span class="lineno">   32</span>            <span class="keywordflow">if</span> (!responseMessage.Headers.TryGetValues(HeaderNames.RetryAfter, out var values))</div>
+<div class="line"><span class="lineno">   33</span>                <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno">   34</span> </div>
+<div class="line"><span class="lineno">   35</span>            var secondsString = values.FirstOrDefault();</div>
+<div class="line"><span class="lineno">   36</span>            <span class="keywordflow">if</span> (UInt32.TryParse(secondsString, out var seconds))</div>
+<div class="line"><span class="lineno">   37</span>                <a class="code hl_property" href="class_tgstation_1_1_server_1_1_client_1_1_rate_limit_exception.html#a3a57db9e2ca420da24a144286faf57b0">RetryAfter</a> = DateTimeOffset.UtcNow.AddSeconds(seconds);</div>
+<div class="line"><span class="lineno">   38</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_client_1_1_rate_limit_exception_html_a3a57db9e2ca420da24a144286faf57b0"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_client_1_1_rate_limit_exception.html#a3a57db9e2ca420da24a144286faf57b0">Tgstation.Server.Client.RateLimitException.RetryAfter</a></div><div class="ttdeci">DateTimeOffset? RetryAfter</div><div class="ttdoc">Gets the DateTimeOffset to try the request again after.</div><div class="ttdef"><b>Definition:</b> <a href="_rate_limit_exception_8cs_source.html#l00019">RateLimitException.cs:19</a></div></div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="_rate_limit_exception_8cs_source.html#l00019">Tgstation.Server.Client.RateLimitException.RetryAfter</a>.</p>
@@ -251,9 +251,9 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Initializes a new instance of the <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_rate_limit_exception.html" title="Occurs when a GitHub rate limit occurs.">RateLimitException</a> class.  </p>
 
-<p class="definition">Definition at line <a class="el" href="_rate_limit_exception_8cs_source.html#l00042">42</a> of file <a class="el" href="_rate_limit_exception_8cs_source.html">RateLimitException.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   43</span>        {</div>
-<div class="line"><span class="lineno">   44</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_rate_limit_exception_8cs_source.html#l00043">43</a> of file <a class="el" href="_rate_limit_exception_8cs_source.html">RateLimitException.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   44</span>        {</div>
+<div class="line"><span class="lineno">   45</span>        }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -281,10 +281,10 @@ Additional Inherited Members</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_rate_limit_exception_8cs_source.html#l00050">50</a> of file <a class="el" href="_rate_limit_exception_8cs_source.html">RateLimitException.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   50</span>                                                  : base(message)</div>
-<div class="line"><span class="lineno">   51</span>        {</div>
-<div class="line"><span class="lineno">   52</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_rate_limit_exception_8cs_source.html#l00051">51</a> of file <a class="el" href="_rate_limit_exception_8cs_source.html">RateLimitException.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   52</span>            : base(message)</div>
+<div class="line"><span class="lineno">   53</span>        {</div>
+<div class="line"><span class="lineno">   54</span>        }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -323,10 +323,10 @@ Additional Inherited Members</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_rate_limit_exception_8cs_source.html#l00059">59</a> of file <a class="el" href="_rate_limit_exception_8cs_source.html">RateLimitException.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   59</span>                                                                            : base(message, innerException)</div>
-<div class="line"><span class="lineno">   60</span>        {</div>
-<div class="line"><span class="lineno">   61</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_rate_limit_exception_8cs_source.html#l00061">61</a> of file <a class="el" href="_rate_limit_exception_8cs_source.html">RateLimitException.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   62</span>            : base(message, innerException)</div>
+<div class="line"><span class="lineno">   63</span>        {</div>
+<div class="line"><span class="lineno">   64</span>        }</div>
 </div><!-- fragment -->
 </div>
 </div>

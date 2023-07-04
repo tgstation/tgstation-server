@@ -198,7 +198,7 @@ Private Attributes</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p class="definition">Definition at line <a class="el" href="_process_executor_8cs_source.html#l00015">15</a> of file <a class="el" href="_process_executor_8cs_source.html">ProcessExecutor.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_process_executor_8cs_source.html#l00014">14</a> of file <a class="el" href="_process_executor_8cs_source.html">ProcessExecutor.cs</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="ad6c3708506c6e2d4e53bfe124228a48e" name="ad6c3708506c6e2d4e53bfe124228a48e"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ad6c3708506c6e2d4e53bfe124228a48e">&#9670;&#160;</a></span>ProcessExecutor()</h2>
@@ -249,19 +249,19 @@ Private Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_process_executor_8cs_source.html#l00044">44</a> of file <a class="el" href="_process_executor_8cs_source.html">ProcessExecutor.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   49</span>        {</div>
-<div class="line"><span class="lineno">   50</span>            this.processFeatures = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#a53a69845e62419a4db84ef86445d1eba">processFeatures</a> ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#a53a69845e62419a4db84ef86445d1eba">processFeatures</a>));</div>
-<div class="line"><span class="lineno">   51</span>            this.ioManager = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#a6c39ac4d0ea053857825a8f874e871b1">ioManager</a> ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#a6c39ac4d0ea053857825a8f874e871b1">ioManager</a>));</div>
-<div class="line"><span class="lineno">   52</span>            this.logger = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#abbe8126c6fb5bff2bab522eef5f9d5c5">logger</a> ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#abbe8126c6fb5bff2bab522eef5f9d5c5">logger</a>));</div>
-<div class="line"><span class="lineno">   53</span>            this.loggerFactory = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#ac04e53e5021bd2665214856f690cccd2">loggerFactory</a> ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#ac04e53e5021bd2665214856f690cccd2">loggerFactory</a>));</div>
-<div class="line"><span class="lineno">   54</span>        }</div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor_html_a53a69845e62419a4db84ef86445d1eba"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#a53a69845e62419a4db84ef86445d1eba">Tgstation.Server.Host.System.ProcessExecutor.processFeatures</a></div><div class="ttdeci">readonly IProcessFeatures processFeatures</div><div class="ttdoc">The IProcessFeatures for the ProcessExecutor.</div><div class="ttdef"><b>Definition:</b> <a href="_process_executor_8cs_source.html#l00020">ProcessExecutor.cs:20</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor_html_a6c39ac4d0ea053857825a8f874e871b1"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#a6c39ac4d0ea053857825a8f874e871b1">Tgstation.Server.Host.System.ProcessExecutor.ioManager</a></div><div class="ttdeci">readonly IIOManager ioManager</div><div class="ttdoc">The IIOManager for the ProcessExecutor.</div><div class="ttdef"><b>Definition:</b> <a href="_process_executor_8cs_source.html#l00025">ProcessExecutor.cs:25</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor_html_abbe8126c6fb5bff2bab522eef5f9d5c5"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#abbe8126c6fb5bff2bab522eef5f9d5c5">Tgstation.Server.Host.System.ProcessExecutor.logger</a></div><div class="ttdeci">readonly ILogger&lt; ProcessExecutor &gt; logger</div><div class="ttdoc">The ILogger for the ProcessExecutor.</div><div class="ttdef"><b>Definition:</b> <a href="_process_executor_8cs_source.html#l00030">ProcessExecutor.cs:30</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor_html_ac04e53e5021bd2665214856f690cccd2"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#ac04e53e5021bd2665214856f690cccd2">Tgstation.Server.Host.System.ProcessExecutor.loggerFactory</a></div><div class="ttdeci">readonly ILoggerFactory loggerFactory</div><div class="ttdoc">The ILoggerFactory for the ProcessExecutor.</div><div class="ttdef"><b>Definition:</b> <a href="_process_executor_8cs_source.html#l00035">ProcessExecutor.cs:35</a></div></div>
+<p class="definition">Definition at line <a class="el" href="_process_executor_8cs_source.html#l00043">43</a> of file <a class="el" href="_process_executor_8cs_source.html">ProcessExecutor.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   48</span>        {</div>
+<div class="line"><span class="lineno">   49</span>            this.processFeatures = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#a53a69845e62419a4db84ef86445d1eba">processFeatures</a> ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#a53a69845e62419a4db84ef86445d1eba">processFeatures</a>));</div>
+<div class="line"><span class="lineno">   50</span>            this.ioManager = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#a6c39ac4d0ea053857825a8f874e871b1">ioManager</a> ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#a6c39ac4d0ea053857825a8f874e871b1">ioManager</a>));</div>
+<div class="line"><span class="lineno">   51</span>            this.logger = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#abbe8126c6fb5bff2bab522eef5f9d5c5">logger</a> ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#abbe8126c6fb5bff2bab522eef5f9d5c5">logger</a>));</div>
+<div class="line"><span class="lineno">   52</span>            this.loggerFactory = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#ac04e53e5021bd2665214856f690cccd2">loggerFactory</a> ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#ac04e53e5021bd2665214856f690cccd2">loggerFactory</a>));</div>
+<div class="line"><span class="lineno">   53</span>        }</div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor_html_a53a69845e62419a4db84ef86445d1eba"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#a53a69845e62419a4db84ef86445d1eba">Tgstation.Server.Host.System.ProcessExecutor.processFeatures</a></div><div class="ttdeci">readonly IProcessFeatures processFeatures</div><div class="ttdoc">The IProcessFeatures for the ProcessExecutor.</div><div class="ttdef"><b>Definition:</b> <a href="_process_executor_8cs_source.html#l00019">ProcessExecutor.cs:19</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor_html_a6c39ac4d0ea053857825a8f874e871b1"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#a6c39ac4d0ea053857825a8f874e871b1">Tgstation.Server.Host.System.ProcessExecutor.ioManager</a></div><div class="ttdeci">readonly IIOManager ioManager</div><div class="ttdoc">The IIOManager for the ProcessExecutor.</div><div class="ttdef"><b>Definition:</b> <a href="_process_executor_8cs_source.html#l00024">ProcessExecutor.cs:24</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor_html_abbe8126c6fb5bff2bab522eef5f9d5c5"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#abbe8126c6fb5bff2bab522eef5f9d5c5">Tgstation.Server.Host.System.ProcessExecutor.logger</a></div><div class="ttdeci">readonly ILogger&lt; ProcessExecutor &gt; logger</div><div class="ttdoc">The ILogger for the ProcessExecutor.</div><div class="ttdef"><b>Definition:</b> <a href="_process_executor_8cs_source.html#l00029">ProcessExecutor.cs:29</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor_html_ac04e53e5021bd2665214856f690cccd2"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#ac04e53e5021bd2665214856f690cccd2">Tgstation.Server.Host.System.ProcessExecutor.loggerFactory</a></div><div class="ttdeci">readonly ILoggerFactory loggerFactory</div><div class="ttdoc">The ILoggerFactory for the ProcessExecutor.</div><div class="ttdef"><b>Definition:</b> <a href="_process_executor_8cs_source.html#l00034">ProcessExecutor.cs:34</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_process_executor_8cs_source.html#l00025">Tgstation.Server.Host.System.ProcessExecutor.ioManager</a>, <a class="el" href="_process_executor_8cs_source.html#l00030">Tgstation.Server.Host.System.ProcessExecutor.logger</a>, <a class="el" href="_process_executor_8cs_source.html#l00035">Tgstation.Server.Host.System.ProcessExecutor.loggerFactory</a>, and <a class="el" href="_process_executor_8cs_source.html#l00020">Tgstation.Server.Host.System.ProcessExecutor.processFeatures</a>.</p>
+<p class="reference">References <a class="el" href="_process_executor_8cs_source.html#l00024">Tgstation.Server.Host.System.ProcessExecutor.ioManager</a>, <a class="el" href="_process_executor_8cs_source.html#l00029">Tgstation.Server.Host.System.ProcessExecutor.logger</a>, <a class="el" href="_process_executor_8cs_source.html#l00034">Tgstation.Server.Host.System.ProcessExecutor.loggerFactory</a>, and <a class="el" href="_process_executor_8cs_source.html#l00019">Tgstation.Server.Host.System.ProcessExecutor.processFeatures</a>.</p>
 
 </div>
 </div>
@@ -310,48 +310,48 @@ Private Attributes</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; that completes with the exit code of the process represented by <em>handle</em> .</dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_process_executor_8cs_source.html#l00199">199</a> of file <a class="el" href="_process_executor_8cs_source.html">ProcessExecutor.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  200</span>        {</div>
-<div class="line"><span class="lineno">  201</span>            handle.EnableRaisingEvents = <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  202</span> </div>
-<div class="line"><span class="lineno">  203</span>            var tcs = <span class="keyword">new</span> TaskCompletionSource&lt;int&gt;();</div>
-<div class="line"><span class="lineno">  204</span>            <span class="keywordtype">void</span> ExitHandler(<span class="keywordtype">object</span> sender, EventArgs args)</div>
-<div class="line"><span class="lineno">  205</span>            {</div>
-<div class="line"><span class="lineno">  206</span>                var <span class="keywordtype">id</span> = idProvider();</div>
-<div class="line"><span class="lineno">  207</span>                <span class="keywordflow">try</span></div>
-<div class="line"><span class="lineno">  208</span>                {</div>
-<div class="line"><span class="lineno">  209</span>                    <span class="keywordflow">try</span></div>
-<div class="line"><span class="lineno">  210</span>                    {</div>
-<div class="line"><span class="lineno">  211</span>                        var exitCode = handle.ExitCode;</div>
-<div class="line"><span class="lineno">  212</span> </div>
-<div class="line"><span class="lineno">  213</span>                        <span class="comment">// Try because this can be invoked twice for weird reasons</span></div>
-<div class="line"><span class="lineno">  214</span>                        <span class="keywordflow">if</span> (tcs.TrySetResult(exitCode))</div>
-<div class="line"><span class="lineno">  215</span>                            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#abbe8126c6fb5bff2bab522eef5f9d5c5">logger</a>.LogTrace(<span class="stringliteral">&quot;PID {pid} termination event completed&quot;</span>, <span class="keywordtype">id</span>);</div>
-<div class="line"><span class="lineno">  216</span>                        <span class="keywordflow">else</span></div>
-<div class="line"><span class="lineno">  217</span>                            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#abbe8126c6fb5bff2bab522eef5f9d5c5">logger</a>.LogTrace(<span class="stringliteral">&quot;Ignoring duplicate PID {pid} termination event&quot;</span>, <span class="keywordtype">id</span>);</div>
-<div class="line"><span class="lineno">  218</span>                    }</div>
-<div class="line"><span class="lineno">  219</span>                    <span class="keywordflow">catch</span> (InvalidOperationException ex)</div>
-<div class="line"><span class="lineno">  220</span>                    {</div>
-<div class="line"><span class="lineno">  221</span>                        <span class="keywordflow">if</span> (!tcs.Task.IsCompleted)</div>
-<div class="line"><span class="lineno">  222</span>                            <span class="keywordflow">throw</span>;</div>
-<div class="line"><span class="lineno">  223</span> </div>
-<div class="line"><span class="lineno">  224</span>                        <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#abbe8126c6fb5bff2bab522eef5f9d5c5">logger</a>.LogTrace(ex, <span class="stringliteral">&quot;Ignoring expected PID {pid} exit handler exception!&quot;</span>, <span class="keywordtype">id</span>);</div>
-<div class="line"><span class="lineno">  225</span>                    }</div>
-<div class="line"><span class="lineno">  226</span>                }</div>
-<div class="line"><span class="lineno">  227</span>                <span class="keywordflow">catch</span> (Exception ex)</div>
-<div class="line"><span class="lineno">  228</span>                {</div>
-<div class="line"><span class="lineno">  229</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#abbe8126c6fb5bff2bab522eef5f9d5c5">logger</a>.LogError(ex, <span class="stringliteral">&quot;PID {pid} exit handler exception!&quot;</span>, <span class="keywordtype">id</span>);</div>
-<div class="line"><span class="lineno">  230</span>                }</div>
-<div class="line"><span class="lineno">  231</span>            }</div>
-<div class="line"><span class="lineno">  232</span> </div>
-<div class="line"><span class="lineno">  233</span>            handle.Exited += ExitHandler;</div>
-<div class="line"><span class="lineno">  234</span> </div>
-<div class="line"><span class="lineno">  235</span>            <span class="keywordflow">return</span> tcs.Task;</div>
-<div class="line"><span class="lineno">  236</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_process_executor_8cs_source.html#l00198">198</a> of file <a class="el" href="_process_executor_8cs_source.html">ProcessExecutor.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  199</span>        {</div>
+<div class="line"><span class="lineno">  200</span>            handle.EnableRaisingEvents = <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  201</span> </div>
+<div class="line"><span class="lineno">  202</span>            var tcs = <span class="keyword">new</span> TaskCompletionSource&lt;int&gt;();</div>
+<div class="line"><span class="lineno">  203</span>            <span class="keywordtype">void</span> ExitHandler(<span class="keywordtype">object</span> sender, EventArgs args)</div>
+<div class="line"><span class="lineno">  204</span>            {</div>
+<div class="line"><span class="lineno">  205</span>                var <span class="keywordtype">id</span> = idProvider();</div>
+<div class="line"><span class="lineno">  206</span>                <span class="keywordflow">try</span></div>
+<div class="line"><span class="lineno">  207</span>                {</div>
+<div class="line"><span class="lineno">  208</span>                    <span class="keywordflow">try</span></div>
+<div class="line"><span class="lineno">  209</span>                    {</div>
+<div class="line"><span class="lineno">  210</span>                        var exitCode = handle.ExitCode;</div>
+<div class="line"><span class="lineno">  211</span> </div>
+<div class="line"><span class="lineno">  212</span>                        <span class="comment">// Try because this can be invoked twice for weird reasons</span></div>
+<div class="line"><span class="lineno">  213</span>                        <span class="keywordflow">if</span> (tcs.TrySetResult(exitCode))</div>
+<div class="line"><span class="lineno">  214</span>                            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#abbe8126c6fb5bff2bab522eef5f9d5c5">logger</a>.LogTrace(<span class="stringliteral">&quot;PID {pid} termination event completed&quot;</span>, <span class="keywordtype">id</span>);</div>
+<div class="line"><span class="lineno">  215</span>                        <span class="keywordflow">else</span></div>
+<div class="line"><span class="lineno">  216</span>                            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#abbe8126c6fb5bff2bab522eef5f9d5c5">logger</a>.LogTrace(<span class="stringliteral">&quot;Ignoring duplicate PID {pid} termination event&quot;</span>, <span class="keywordtype">id</span>);</div>
+<div class="line"><span class="lineno">  217</span>                    }</div>
+<div class="line"><span class="lineno">  218</span>                    <span class="keywordflow">catch</span> (InvalidOperationException ex)</div>
+<div class="line"><span class="lineno">  219</span>                    {</div>
+<div class="line"><span class="lineno">  220</span>                        <span class="keywordflow">if</span> (!tcs.Task.IsCompleted)</div>
+<div class="line"><span class="lineno">  221</span>                            <span class="keywordflow">throw</span>;</div>
+<div class="line"><span class="lineno">  222</span> </div>
+<div class="line"><span class="lineno">  223</span>                        <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#abbe8126c6fb5bff2bab522eef5f9d5c5">logger</a>.LogTrace(ex, <span class="stringliteral">&quot;Ignoring expected PID {pid} exit handler exception!&quot;</span>, <span class="keywordtype">id</span>);</div>
+<div class="line"><span class="lineno">  224</span>                    }</div>
+<div class="line"><span class="lineno">  225</span>                }</div>
+<div class="line"><span class="lineno">  226</span>                <span class="keywordflow">catch</span> (Exception ex)</div>
+<div class="line"><span class="lineno">  227</span>                {</div>
+<div class="line"><span class="lineno">  228</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#abbe8126c6fb5bff2bab522eef5f9d5c5">logger</a>.LogError(ex, <span class="stringliteral">&quot;PID {pid} exit handler exception!&quot;</span>, <span class="keywordtype">id</span>);</div>
+<div class="line"><span class="lineno">  229</span>                }</div>
+<div class="line"><span class="lineno">  230</span>            }</div>
+<div class="line"><span class="lineno">  231</span> </div>
+<div class="line"><span class="lineno">  232</span>            handle.Exited += ExitHandler;</div>
+<div class="line"><span class="lineno">  233</span> </div>
+<div class="line"><span class="lineno">  234</span>            <span class="keywordflow">return</span> tcs.Task;</div>
+<div class="line"><span class="lineno">  235</span>        }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_process_executor_8cs_source.html#l00030">Tgstation.Server.Host.System.ProcessExecutor.logger</a>.</p>
+<p class="reference">References <a class="el" href="_process_executor_8cs_source.html#l00029">Tgstation.Server.Host.System.ProcessExecutor.logger</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_process_executor_8cs_source.html#l00184">Tgstation.Server.Host.System.ProcessExecutor.AttachExitHandlerBeforeLaunch()</a>, and <a class="el" href="_process_executor_8cs_source.html#l00321">Tgstation.Server.Host.System.ProcessExecutor.CreateFromExistingHandle()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_process_executor_8cs_source.html#l00183">Tgstation.Server.Host.System.ProcessExecutor.AttachExitHandlerBeforeLaunch()</a>, and <a class="el" href="_process_executor_8cs_source.html#l00320">Tgstation.Server.Host.System.ProcessExecutor.CreateFromExistingHandle()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -413,19 +413,19 @@ Here is the caller graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The result of the call to AttachExitHandler(global::System.Diagnostics.Process, Func&lt;int&gt;).</dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_process_executor_8cs_source.html#l00184">184</a> of file <a class="el" href="_process_executor_8cs_source.html">ProcessExecutor.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  185</span>        {</div>
-<div class="line"><span class="lineno">  186</span>            var <span class="keywordtype">id</span> = -1;</div>
-<div class="line"><span class="lineno">  187</span>            var result = <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#a00f347706a8767c2ae974f6f3a9f0c7a">AttachExitHandler</a>(handle, () =&gt; <span class="keywordtype">id</span>);</div>
-<div class="line"><span class="lineno">  188</span>            await startupTask;</div>
-<div class="line"><span class="lineno">  189</span>            <span class="keywordtype">id</span> = handle.Id;</div>
-<div class="line"><span class="lineno">  190</span>            <span class="keywordflow">return</span> result;</div>
-<div class="line"><span class="lineno">  191</span>        }</div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor_html_a00f347706a8767c2ae974f6f3a9f0c7a"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#a00f347706a8767c2ae974f6f3a9f0c7a">Tgstation.Server.Host.System.ProcessExecutor.AttachExitHandler</a></div><div class="ttdeci">Task&lt; int &gt; AttachExitHandler(global::System.Diagnostics.Process handle, Func&lt; int &gt; idProvider)</div><div class="ttdoc">Attach an asychronous exit handler to a given process handle .</div><div class="ttdef"><b>Definition:</b> <a href="_process_executor_8cs_source.html#l00199">ProcessExecutor.cs:199</a></div></div>
+<p class="definition">Definition at line <a class="el" href="_process_executor_8cs_source.html#l00183">183</a> of file <a class="el" href="_process_executor_8cs_source.html">ProcessExecutor.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  184</span>        {</div>
+<div class="line"><span class="lineno">  185</span>            var <span class="keywordtype">id</span> = -1;</div>
+<div class="line"><span class="lineno">  186</span>            var result = <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#a00f347706a8767c2ae974f6f3a9f0c7a">AttachExitHandler</a>(handle, () =&gt; <span class="keywordtype">id</span>);</div>
+<div class="line"><span class="lineno">  187</span>            await startupTask;</div>
+<div class="line"><span class="lineno">  188</span>            <span class="keywordtype">id</span> = handle.Id;</div>
+<div class="line"><span class="lineno">  189</span>            <span class="keywordflow">return</span> result;</div>
+<div class="line"><span class="lineno">  190</span>        }</div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor_html_a00f347706a8767c2ae974f6f3a9f0c7a"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#a00f347706a8767c2ae974f6f3a9f0c7a">Tgstation.Server.Host.System.ProcessExecutor.AttachExitHandler</a></div><div class="ttdeci">Task&lt; int &gt; AttachExitHandler(global::System.Diagnostics.Process handle, Func&lt; int &gt; idProvider)</div><div class="ttdoc">Attach an asychronous exit handler to a given process handle .</div><div class="ttdef"><b>Definition:</b> <a href="_process_executor_8cs_source.html#l00198">ProcessExecutor.cs:198</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_process_executor_8cs_source.html#l00199">Tgstation.Server.Host.System.ProcessExecutor.AttachExitHandler()</a>.</p>
+<p class="reference">References <a class="el" href="_process_executor_8cs_source.html#l00198">Tgstation.Server.Host.System.ProcessExecutor.AttachExitHandler()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_process_executor_8cs_source.html#l00083">Tgstation.Server.Host.System.ProcessExecutor.LaunchProcess()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_process_executor_8cs_source.html#l00082">Tgstation.Server.Host.System.ProcessExecutor.LaunchProcess()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -505,80 +505,80 @@ Here is the caller graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in the program's output/error text if <em>fileRedirect</em>  is <code>null</code>, <code>null</code> otherwise.</dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_process_executor_8cs_source.html#l00246">246</a> of file <a class="el" href="_process_executor_8cs_source.html">ProcessExecutor.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  247</span>        {</div>
-<div class="line"><span class="lineno">  248</span>            await startTask;</div>
-<div class="line"><span class="lineno">  249</span> </div>
-<div class="line"><span class="lineno">  250</span>            var pid = handle.Id;</div>
-<div class="line"><span class="lineno">  251</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#abbe8126c6fb5bff2bab522eef5f9d5c5">logger</a>.LogTrace(<span class="stringliteral">&quot;Starting read for PID {pid}...&quot;</span>, pid);</div>
-<div class="line"><span class="lineno">  252</span> </div>
-<div class="line"><span class="lineno">  253</span>            var stdOutHandle = handle.StandardOutput;</div>
-<div class="line"><span class="lineno">  254</span>            var stdErrHandle = handle.StandardError;</div>
-<div class="line"><span class="lineno">  255</span>            Task&lt;string&gt; outputReadTask = <span class="keyword">null</span>, errorReadTask = <span class="keyword">null</span>;</div>
-<div class="line"><span class="lineno">  256</span>            <span class="keywordtype">bool</span> outputOpen = <span class="keyword">true</span>, errorOpen = <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  257</span>            async Task&lt;string&gt; GetNextLine()</div>
-<div class="line"><span class="lineno">  258</span>            {</div>
-<div class="line"><span class="lineno">  259</span>                <span class="keywordflow">if</span> (outputOpen &amp;&amp; outputReadTask == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">  260</span>                    outputReadTask = stdOutHandle.ReadLineAsync();</div>
-<div class="line"><span class="lineno">  261</span> </div>
-<div class="line"><span class="lineno">  262</span>                <span class="keywordflow">if</span> (errorOpen &amp;&amp; errorReadTask == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">  263</span>                    errorReadTask = stdErrHandle.ReadLineAsync();</div>
-<div class="line"><span class="lineno">  264</span> </div>
-<div class="line"><span class="lineno">  265</span>                var completedTask = await Task.WhenAny(outputReadTask ?? errorReadTask, errorReadTask ?? outputReadTask).WaitAsync(disposeToken);</div>
-<div class="line"><span class="lineno">  266</span>                var line = await completedTask;</div>
-<div class="line"><span class="lineno">  267</span>                <span class="keywordflow">if</span> (completedTask == outputReadTask)</div>
-<div class="line"><span class="lineno">  268</span>                {</div>
-<div class="line"><span class="lineno">  269</span>                    outputReadTask = <span class="keyword">null</span>;</div>
-<div class="line"><span class="lineno">  270</span>                    <span class="keywordflow">if</span> (line == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">  271</span>                        outputOpen = <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">  272</span>                }</div>
-<div class="line"><span class="lineno">  273</span>                <span class="keywordflow">else</span></div>
-<div class="line"><span class="lineno">  274</span>                {</div>
-<div class="line"><span class="lineno">  275</span>                    errorReadTask = <span class="keyword">null</span>;</div>
-<div class="line"><span class="lineno">  276</span>                    <span class="keywordflow">if</span> (line == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">  277</span>                        errorOpen = <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">  278</span>                }</div>
-<div class="line"><span class="lineno">  279</span> </div>
-<div class="line"><span class="lineno">  280</span>                <span class="keywordflow">if</span> (line == <span class="keyword">null</span> &amp;&amp; (errorOpen || outputOpen))</div>
-<div class="line"><span class="lineno">  281</span>                    <span class="keywordflow">return</span> await GetNextLine();</div>
-<div class="line"><span class="lineno">  282</span> </div>
-<div class="line"><span class="lineno">  283</span>                <span class="keywordflow">return</span> line;</div>
-<div class="line"><span class="lineno">  284</span>            }</div>
-<div class="line"><span class="lineno">  285</span> </div>
-<div class="line"><span class="lineno">  286</span>            await <span class="keyword">using </span>var fileStream = fileRedirect != <span class="keyword">null</span> ? <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#a6c39ac4d0ea053857825a8f874e871b1">ioManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a98d1ad47e4ba1c1f7407f5dd50a81de8">CreateAsyncSequentialWriteStream</a>(fileRedirect) : <span class="keyword">null</span>;</div>
-<div class="line"><span class="lineno">  287</span>            await <span class="keyword">using </span>var writer = fileStream != <span class="keyword">null</span> ? <span class="keyword">new</span> StreamWriter(fileStream) : null;</div>
-<div class="line"><span class="lineno">  288</span> </div>
-<div class="line"><span class="lineno">  289</span>            <span class="keywordtype">string</span> text;</div>
-<div class="line"><span class="lineno">  290</span>            var stringBuilder = fileStream == <span class="keyword">null</span> ? <span class="keyword">new</span> StringBuilder() : null;</div>
-<div class="line"><span class="lineno">  291</span>            <span class="keywordflow">try</span></div>
-<div class="line"><span class="lineno">  292</span>            {</div>
-<div class="line"><span class="lineno">  293</span>                <span class="keywordflow">while</span> ((text = await GetNextLine()) != <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">  294</span>                {</div>
-<div class="line"><span class="lineno">  295</span>                    <span class="keywordflow">if</span> (fileStream != <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">  296</span>                    {</div>
-<div class="line"><span class="lineno">  297</span>                        await writer.WriteLineAsync(text);</div>
-<div class="line"><span class="lineno">  298</span>                        await writer.FlushAsync();</div>
-<div class="line"><span class="lineno">  299</span>                    }</div>
-<div class="line"><span class="lineno">  300</span>                    <span class="keywordflow">else</span></div>
-<div class="line"><span class="lineno">  301</span>                        stringBuilder.AppendLine(text);</div>
-<div class="line"><span class="lineno">  302</span>                }</div>
-<div class="line"><span class="lineno">  303</span> </div>
-<div class="line"><span class="lineno">  304</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#abbe8126c6fb5bff2bab522eef5f9d5c5">logger</a>.LogTrace(<span class="stringliteral">&quot;Finished read for PID {pid}&quot;</span>, pid);</div>
-<div class="line"><span class="lineno">  305</span>            }</div>
-<div class="line"><span class="lineno">  306</span>            <span class="keywordflow">catch</span> (OperationCanceledException ex)</div>
-<div class="line"><span class="lineno">  307</span>            {</div>
-<div class="line"><span class="lineno">  308</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#abbe8126c6fb5bff2bab522eef5f9d5c5">logger</a>.LogWarning(ex, <span class="stringliteral">&quot;PID {pid} stream reading interrupted!&quot;</span>, pid);</div>
-<div class="line"><span class="lineno">  309</span>                <span class="keywordflow">if</span> (fileStream != <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">  310</span>                    await writer.WriteLineAsync(<span class="stringliteral">&quot;-- Process detached, log truncated. This is likely due a to TGS restart --&quot;</span>);</div>
-<div class="line"><span class="lineno">  311</span>            }</div>
-<div class="line"><span class="lineno">  312</span> </div>
-<div class="line"><span class="lineno">  313</span>            <span class="keywordflow">return</span> stringBuilder?.ToString();</div>
-<div class="line"><span class="lineno">  314</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_process_executor_8cs_source.html#l00245">245</a> of file <a class="el" href="_process_executor_8cs_source.html">ProcessExecutor.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  246</span>        {</div>
+<div class="line"><span class="lineno">  247</span>            await startTask;</div>
+<div class="line"><span class="lineno">  248</span> </div>
+<div class="line"><span class="lineno">  249</span>            var pid = handle.Id;</div>
+<div class="line"><span class="lineno">  250</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#abbe8126c6fb5bff2bab522eef5f9d5c5">logger</a>.LogTrace(<span class="stringliteral">&quot;Starting read for PID {pid}...&quot;</span>, pid);</div>
+<div class="line"><span class="lineno">  251</span> </div>
+<div class="line"><span class="lineno">  252</span>            var stdOutHandle = handle.StandardOutput;</div>
+<div class="line"><span class="lineno">  253</span>            var stdErrHandle = handle.StandardError;</div>
+<div class="line"><span class="lineno">  254</span>            Task&lt;string&gt; outputReadTask = <span class="keyword">null</span>, errorReadTask = <span class="keyword">null</span>;</div>
+<div class="line"><span class="lineno">  255</span>            <span class="keywordtype">bool</span> outputOpen = <span class="keyword">true</span>, errorOpen = <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  256</span>            async Task&lt;string&gt; GetNextLine()</div>
+<div class="line"><span class="lineno">  257</span>            {</div>
+<div class="line"><span class="lineno">  258</span>                <span class="keywordflow">if</span> (outputOpen &amp;&amp; outputReadTask == <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">  259</span>                    outputReadTask = stdOutHandle.ReadLineAsync();</div>
+<div class="line"><span class="lineno">  260</span> </div>
+<div class="line"><span class="lineno">  261</span>                <span class="keywordflow">if</span> (errorOpen &amp;&amp; errorReadTask == <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">  262</span>                    errorReadTask = stdErrHandle.ReadLineAsync();</div>
+<div class="line"><span class="lineno">  263</span> </div>
+<div class="line"><span class="lineno">  264</span>                var completedTask = await Task.WhenAny(outputReadTask ?? errorReadTask, errorReadTask ?? outputReadTask).WaitAsync(disposeToken);</div>
+<div class="line"><span class="lineno">  265</span>                var line = await completedTask;</div>
+<div class="line"><span class="lineno">  266</span>                <span class="keywordflow">if</span> (completedTask == outputReadTask)</div>
+<div class="line"><span class="lineno">  267</span>                {</div>
+<div class="line"><span class="lineno">  268</span>                    outputReadTask = <span class="keyword">null</span>;</div>
+<div class="line"><span class="lineno">  269</span>                    <span class="keywordflow">if</span> (line == <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">  270</span>                        outputOpen = <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  271</span>                }</div>
+<div class="line"><span class="lineno">  272</span>                <span class="keywordflow">else</span></div>
+<div class="line"><span class="lineno">  273</span>                {</div>
+<div class="line"><span class="lineno">  274</span>                    errorReadTask = <span class="keyword">null</span>;</div>
+<div class="line"><span class="lineno">  275</span>                    <span class="keywordflow">if</span> (line == <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">  276</span>                        errorOpen = <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  277</span>                }</div>
+<div class="line"><span class="lineno">  278</span> </div>
+<div class="line"><span class="lineno">  279</span>                <span class="keywordflow">if</span> (line == <span class="keyword">null</span> &amp;&amp; (errorOpen || outputOpen))</div>
+<div class="line"><span class="lineno">  280</span>                    <span class="keywordflow">return</span> await GetNextLine();</div>
+<div class="line"><span class="lineno">  281</span> </div>
+<div class="line"><span class="lineno">  282</span>                <span class="keywordflow">return</span> line;</div>
+<div class="line"><span class="lineno">  283</span>            }</div>
+<div class="line"><span class="lineno">  284</span> </div>
+<div class="line"><span class="lineno">  285</span>            await <span class="keyword">using </span>var fileStream = fileRedirect != <span class="keyword">null</span> ? <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#a6c39ac4d0ea053857825a8f874e871b1">ioManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a98d1ad47e4ba1c1f7407f5dd50a81de8">CreateAsyncSequentialWriteStream</a>(fileRedirect) : <span class="keyword">null</span>;</div>
+<div class="line"><span class="lineno">  286</span>            await <span class="keyword">using </span>var writer = fileStream != <span class="keyword">null</span> ? <span class="keyword">new</span> StreamWriter(fileStream) : null;</div>
+<div class="line"><span class="lineno">  287</span> </div>
+<div class="line"><span class="lineno">  288</span>            <span class="keywordtype">string</span> text;</div>
+<div class="line"><span class="lineno">  289</span>            var stringBuilder = fileStream == <span class="keyword">null</span> ? <span class="keyword">new</span> StringBuilder() : null;</div>
+<div class="line"><span class="lineno">  290</span>            <span class="keywordflow">try</span></div>
+<div class="line"><span class="lineno">  291</span>            {</div>
+<div class="line"><span class="lineno">  292</span>                <span class="keywordflow">while</span> ((text = await GetNextLine()) != <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">  293</span>                {</div>
+<div class="line"><span class="lineno">  294</span>                    <span class="keywordflow">if</span> (fileStream != <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">  295</span>                    {</div>
+<div class="line"><span class="lineno">  296</span>                        await writer.WriteLineAsync(text);</div>
+<div class="line"><span class="lineno">  297</span>                        await writer.FlushAsync();</div>
+<div class="line"><span class="lineno">  298</span>                    }</div>
+<div class="line"><span class="lineno">  299</span>                    <span class="keywordflow">else</span></div>
+<div class="line"><span class="lineno">  300</span>                        stringBuilder.AppendLine(text);</div>
+<div class="line"><span class="lineno">  301</span>                }</div>
+<div class="line"><span class="lineno">  302</span> </div>
+<div class="line"><span class="lineno">  303</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#abbe8126c6fb5bff2bab522eef5f9d5c5">logger</a>.LogTrace(<span class="stringliteral">&quot;Finished read for PID {pid}&quot;</span>, pid);</div>
+<div class="line"><span class="lineno">  304</span>            }</div>
+<div class="line"><span class="lineno">  305</span>            <span class="keywordflow">catch</span> (OperationCanceledException ex)</div>
+<div class="line"><span class="lineno">  306</span>            {</div>
+<div class="line"><span class="lineno">  307</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#abbe8126c6fb5bff2bab522eef5f9d5c5">logger</a>.LogWarning(ex, <span class="stringliteral">&quot;PID {pid} stream reading interrupted!&quot;</span>, pid);</div>
+<div class="line"><span class="lineno">  308</span>                <span class="keywordflow">if</span> (fileStream != <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">  309</span>                    await writer.WriteLineAsync(<span class="stringliteral">&quot;-- Process detached, log truncated. This is likely due a to TGS restart --&quot;</span>);</div>
+<div class="line"><span class="lineno">  310</span>            }</div>
+<div class="line"><span class="lineno">  311</span> </div>
+<div class="line"><span class="lineno">  312</span>            <span class="keywordflow">return</span> stringBuilder?.ToString();</div>
+<div class="line"><span class="lineno">  313</span>        }</div>
 <div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager_html_a98d1ad47e4ba1c1f7407f5dd50a81de8"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a98d1ad47e4ba1c1f7407f5dd50a81de8">Tgstation.Server.Host.IO.IIOManager.CreateAsyncSequentialWriteStream</a></div><div class="ttdeci">FileStream CreateAsyncSequentialWriteStream(string path)</div><div class="ttdoc">Creates an asynchronous FileStream for sequential writing.</div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a98d1ad47e4ba1c1f7407f5dd50a81de8">Tgstation.Server.Host.IO.IIOManager.CreateAsyncSequentialWriteStream()</a>, <a class="el" href="_process_executor_8cs_source.html#l00025">Tgstation.Server.Host.System.ProcessExecutor.ioManager</a>, and <a class="el" href="_process_executor_8cs_source.html#l00030">Tgstation.Server.Host.System.ProcessExecutor.logger</a>.</p>
+<p class="reference">References <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a98d1ad47e4ba1c1f7407f5dd50a81de8">Tgstation.Server.Host.IO.IIOManager.CreateAsyncSequentialWriteStream()</a>, <a class="el" href="_process_executor_8cs_source.html#l00024">Tgstation.Server.Host.System.ProcessExecutor.ioManager</a>, and <a class="el" href="_process_executor_8cs_source.html#l00029">Tgstation.Server.Host.System.ProcessExecutor.logger</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_process_executor_8cs_source.html#l00083">Tgstation.Server.Host.System.ProcessExecutor.LaunchProcess()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_process_executor_8cs_source.html#l00082">Tgstation.Server.Host.System.ProcessExecutor.LaunchProcess()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -633,30 +633,30 @@ Here is the caller graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process.html" title="Abstraction over a global::System.Diagnostics.Process.">IProcess</a> based on <em>handle</em> .</dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_process_executor_8cs_source.html#l00321">321</a> of file <a class="el" href="_process_executor_8cs_source.html">ProcessExecutor.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  322</span>        {</div>
-<div class="line"><span class="lineno">  323</span>            <span class="keywordflow">try</span></div>
-<div class="line"><span class="lineno">  324</span>            {</div>
-<div class="line"><span class="lineno">  325</span>                var pid = handle.Id;</div>
-<div class="line"><span class="lineno">  326</span>                <span class="keywordflow">return</span> <span class="keyword">new</span> Process(</div>
-<div class="line"><span class="lineno">  327</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#a53a69845e62419a4db84ef86445d1eba">processFeatures</a>,</div>
-<div class="line"><span class="lineno">  328</span>                    handle,</div>
-<div class="line"><span class="lineno">  329</span>                    <span class="keyword">null</span>,</div>
-<div class="line"><span class="lineno">  330</span>                    <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#a00f347706a8767c2ae974f6f3a9f0c7a">AttachExitHandler</a>(handle, () =&gt; pid),</div>
-<div class="line"><span class="lineno">  331</span>                    <span class="keyword">null</span>,</div>
-<div class="line"><span class="lineno">  332</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#ac04e53e5021bd2665214856f690cccd2">loggerFactory</a>.CreateLogger&lt;Process&gt;(),</div>
-<div class="line"><span class="lineno">  333</span>                    <span class="keyword">true</span>);</div>
-<div class="line"><span class="lineno">  334</span>            }</div>
-<div class="line"><span class="lineno">  335</span>            <span class="keywordflow">catch</span></div>
-<div class="line"><span class="lineno">  336</span>            {</div>
-<div class="line"><span class="lineno">  337</span>                handle.Dispose();</div>
-<div class="line"><span class="lineno">  338</span>                <span class="keywordflow">throw</span>;</div>
-<div class="line"><span class="lineno">  339</span>            }</div>
-<div class="line"><span class="lineno">  340</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_process_executor_8cs_source.html#l00320">320</a> of file <a class="el" href="_process_executor_8cs_source.html">ProcessExecutor.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  321</span>        {</div>
+<div class="line"><span class="lineno">  322</span>            <span class="keywordflow">try</span></div>
+<div class="line"><span class="lineno">  323</span>            {</div>
+<div class="line"><span class="lineno">  324</span>                var pid = handle.Id;</div>
+<div class="line"><span class="lineno">  325</span>                <span class="keywordflow">return</span> <span class="keyword">new</span> Process(</div>
+<div class="line"><span class="lineno">  326</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#a53a69845e62419a4db84ef86445d1eba">processFeatures</a>,</div>
+<div class="line"><span class="lineno">  327</span>                    handle,</div>
+<div class="line"><span class="lineno">  328</span>                    <span class="keyword">null</span>,</div>
+<div class="line"><span class="lineno">  329</span>                    <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#a00f347706a8767c2ae974f6f3a9f0c7a">AttachExitHandler</a>(handle, () =&gt; pid),</div>
+<div class="line"><span class="lineno">  330</span>                    <span class="keyword">null</span>,</div>
+<div class="line"><span class="lineno">  331</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#ac04e53e5021bd2665214856f690cccd2">loggerFactory</a>.CreateLogger&lt;Process&gt;(),</div>
+<div class="line"><span class="lineno">  332</span>                    <span class="keyword">true</span>);</div>
+<div class="line"><span class="lineno">  333</span>            }</div>
+<div class="line"><span class="lineno">  334</span>            <span class="keywordflow">catch</span></div>
+<div class="line"><span class="lineno">  335</span>            {</div>
+<div class="line"><span class="lineno">  336</span>                handle.Dispose();</div>
+<div class="line"><span class="lineno">  337</span>                <span class="keywordflow">throw</span>;</div>
+<div class="line"><span class="lineno">  338</span>            }</div>
+<div class="line"><span class="lineno">  339</span>        }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_process_executor_8cs_source.html#l00199">Tgstation.Server.Host.System.ProcessExecutor.AttachExitHandler()</a>, <a class="el" href="_i_process_8cs_source.html#l00015">Tgstation.Server.Host.System.IProcess.Id</a>, <a class="el" href="_process_executor_8cs_source.html#l00035">Tgstation.Server.Host.System.ProcessExecutor.loggerFactory</a>, and <a class="el" href="_process_executor_8cs_source.html#l00020">Tgstation.Server.Host.System.ProcessExecutor.processFeatures</a>.</p>
+<p class="reference">References <a class="el" href="_process_executor_8cs_source.html#l00198">Tgstation.Server.Host.System.ProcessExecutor.AttachExitHandler()</a>, <a class="el" href="_i_process_8cs_source.html#l00015">Tgstation.Server.Host.System.IProcess.Id</a>, <a class="el" href="_process_executor_8cs_source.html#l00034">Tgstation.Server.Host.System.ProcessExecutor.loggerFactory</a>, and <a class="el" href="_process_executor_8cs_source.html#l00019">Tgstation.Server.Host.System.ProcessExecutor.processFeatures</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_process_executor_8cs_source.html#l00075">Tgstation.Server.Host.System.ProcessExecutor.GetCurrentProcess()</a>, <a class="el" href="_process_executor_8cs_source.html#l00057">Tgstation.Server.Host.System.ProcessExecutor.GetProcess()</a>, and <a class="el" href="_process_executor_8cs_source.html#l00158">Tgstation.Server.Host.System.ProcessExecutor.GetProcessByName()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_process_executor_8cs_source.html#l00074">Tgstation.Server.Host.System.ProcessExecutor.GetCurrentProcess()</a>, <a class="el" href="_process_executor_8cs_source.html#l00056">Tgstation.Server.Host.System.ProcessExecutor.GetProcess()</a>, and <a class="el" href="_process_executor_8cs_source.html#l00157">Tgstation.Server.Host.System.ProcessExecutor.GetProcessByName()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -700,15 +700,15 @@ Here is the caller graph for this function:</div>
 
 <p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_executor.html#a81eeee7944e490c141d2e7b66f651369">Tgstation.Server.Host.System.IProcessExecutor</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_process_executor_8cs_source.html#l00075">75</a> of file <a class="el" href="_process_executor_8cs_source.html">ProcessExecutor.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   76</span>        {</div>
-<div class="line"><span class="lineno">   77</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#abbe8126c6fb5bff2bab522eef5f9d5c5">logger</a>.LogTrace(<span class="stringliteral">&quot;Getting current process...&quot;</span>);</div>
-<div class="line"><span class="lineno">   78</span>            var handle = global::System.Diagnostics.Process.GetCurrentProcess();</div>
-<div class="line"><span class="lineno">   79</span>            <span class="keywordflow">return</span> <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#ab8ce5d8354aea3fec89a1d7687acb877">CreateFromExistingHandle</a>(handle);</div>
-<div class="line"><span class="lineno">   80</span>        }</div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor_html_ab8ce5d8354aea3fec89a1d7687acb877"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#ab8ce5d8354aea3fec89a1d7687acb877">Tgstation.Server.Host.System.ProcessExecutor.CreateFromExistingHandle</a></div><div class="ttdeci">IProcess CreateFromExistingHandle(global::System.Diagnostics.Process handle)</div><div class="ttdoc">Create a IProcess given an existing handle .</div><div class="ttdef"><b>Definition:</b> <a href="_process_executor_8cs_source.html#l00321">ProcessExecutor.cs:321</a></div></div>
+<p class="definition">Definition at line <a class="el" href="_process_executor_8cs_source.html#l00074">74</a> of file <a class="el" href="_process_executor_8cs_source.html">ProcessExecutor.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   75</span>        {</div>
+<div class="line"><span class="lineno">   76</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#abbe8126c6fb5bff2bab522eef5f9d5c5">logger</a>.LogTrace(<span class="stringliteral">&quot;Getting current process...&quot;</span>);</div>
+<div class="line"><span class="lineno">   77</span>            var handle = global::System.Diagnostics.Process.GetCurrentProcess();</div>
+<div class="line"><span class="lineno">   78</span>            <span class="keywordflow">return</span> <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#ab8ce5d8354aea3fec89a1d7687acb877">CreateFromExistingHandle</a>(handle);</div>
+<div class="line"><span class="lineno">   79</span>        }</div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor_html_ab8ce5d8354aea3fec89a1d7687acb877"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#ab8ce5d8354aea3fec89a1d7687acb877">Tgstation.Server.Host.System.ProcessExecutor.CreateFromExistingHandle</a></div><div class="ttdeci">IProcess CreateFromExistingHandle(global::System.Diagnostics.Process handle)</div><div class="ttdoc">Create a IProcess given an existing handle .</div><div class="ttdef"><b>Definition:</b> <a href="_process_executor_8cs_source.html#l00320">ProcessExecutor.cs:320</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_process_executor_8cs_source.html#l00321">Tgstation.Server.Host.System.ProcessExecutor.CreateFromExistingHandle()</a>, and <a class="el" href="_process_executor_8cs_source.html#l00030">Tgstation.Server.Host.System.ProcessExecutor.logger</a>.</p>
+<p class="reference">References <a class="el" href="_process_executor_8cs_source.html#l00320">Tgstation.Server.Host.System.ProcessExecutor.CreateFromExistingHandle()</a>, and <a class="el" href="_process_executor_8cs_source.html#l00029">Tgstation.Server.Host.System.ProcessExecutor.logger</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -749,24 +749,24 @@ Here is the call graph for this function:</div>
 
 <p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_executor.html#a5618ee521ada90bb15bf3315440898f3">Tgstation.Server.Host.System.IProcessExecutor</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_process_executor_8cs_source.html#l00057">57</a> of file <a class="el" href="_process_executor_8cs_source.html">ProcessExecutor.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   58</span>        {</div>
-<div class="line"><span class="lineno">   59</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#abbe8126c6fb5bff2bab522eef5f9d5c5">logger</a>.LogDebug(<span class="stringliteral">&quot;Attaching to process {pid}...&quot;</span>, <span class="keywordtype">id</span>);</div>
-<div class="line"><span class="lineno">   60</span>            global::System.Diagnostics.Process handle;</div>
-<div class="line"><span class="lineno">   61</span>            <span class="keywordflow">try</span></div>
-<div class="line"><span class="lineno">   62</span>            {</div>
-<div class="line"><span class="lineno">   63</span>                handle = global::System.Diagnostics.Process.GetProcessById(<span class="keywordtype">id</span>);</div>
-<div class="line"><span class="lineno">   64</span>            }</div>
-<div class="line"><span class="lineno">   65</span>            <span class="keywordflow">catch</span> (Exception e)</div>
-<div class="line"><span class="lineno">   66</span>            {</div>
-<div class="line"><span class="lineno">   67</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#abbe8126c6fb5bff2bab522eef5f9d5c5">logger</a>.LogDebug(e, <span class="stringliteral">&quot;Unable to get process {pid}!&quot;</span>, <span class="keywordtype">id</span>);</div>
-<div class="line"><span class="lineno">   68</span>                <span class="keywordflow">return</span> <span class="keyword">null</span>;</div>
-<div class="line"><span class="lineno">   69</span>            }</div>
-<div class="line"><span class="lineno">   70</span> </div>
-<div class="line"><span class="lineno">   71</span>            <span class="keywordflow">return</span> <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#ab8ce5d8354aea3fec89a1d7687acb877">CreateFromExistingHandle</a>(handle);</div>
-<div class="line"><span class="lineno">   72</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_process_executor_8cs_source.html#l00056">56</a> of file <a class="el" href="_process_executor_8cs_source.html">ProcessExecutor.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   57</span>        {</div>
+<div class="line"><span class="lineno">   58</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#abbe8126c6fb5bff2bab522eef5f9d5c5">logger</a>.LogDebug(<span class="stringliteral">&quot;Attaching to process {pid}...&quot;</span>, <span class="keywordtype">id</span>);</div>
+<div class="line"><span class="lineno">   59</span>            global::System.Diagnostics.Process handle;</div>
+<div class="line"><span class="lineno">   60</span>            <span class="keywordflow">try</span></div>
+<div class="line"><span class="lineno">   61</span>            {</div>
+<div class="line"><span class="lineno">   62</span>                handle = global::System.Diagnostics.Process.GetProcessById(<span class="keywordtype">id</span>);</div>
+<div class="line"><span class="lineno">   63</span>            }</div>
+<div class="line"><span class="lineno">   64</span>            <span class="keywordflow">catch</span> (Exception e)</div>
+<div class="line"><span class="lineno">   65</span>            {</div>
+<div class="line"><span class="lineno">   66</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#abbe8126c6fb5bff2bab522eef5f9d5c5">logger</a>.LogDebug(e, <span class="stringliteral">&quot;Unable to get process {pid}!&quot;</span>, <span class="keywordtype">id</span>);</div>
+<div class="line"><span class="lineno">   67</span>                <span class="keywordflow">return</span> <span class="keyword">null</span>;</div>
+<div class="line"><span class="lineno">   68</span>            }</div>
+<div class="line"><span class="lineno">   69</span> </div>
+<div class="line"><span class="lineno">   70</span>            <span class="keywordflow">return</span> <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#ab8ce5d8354aea3fec89a1d7687acb877">CreateFromExistingHandle</a>(handle);</div>
+<div class="line"><span class="lineno">   71</span>        }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_process_executor_8cs_source.html#l00321">Tgstation.Server.Host.System.ProcessExecutor.CreateFromExistingHandle()</a>, and <a class="el" href="_process_executor_8cs_source.html#l00030">Tgstation.Server.Host.System.ProcessExecutor.logger</a>.</p>
+<p class="reference">References <a class="el" href="_process_executor_8cs_source.html#l00320">Tgstation.Server.Host.System.ProcessExecutor.CreateFromExistingHandle()</a>, and <a class="el" href="_process_executor_8cs_source.html#l00029">Tgstation.Server.Host.System.ProcessExecutor.logger</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -807,27 +807,27 @@ Here is the call graph for this function:</div>
 
 <p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_executor.html#a337ac6db6c428317a05fa7fb46e8b72a">Tgstation.Server.Host.System.IProcessExecutor</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_process_executor_8cs_source.html#l00158">158</a> of file <a class="el" href="_process_executor_8cs_source.html">ProcessExecutor.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  159</span>        {</div>
-<div class="line"><span class="lineno">  160</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#abbe8126c6fb5bff2bab522eef5f9d5c5">logger</a>.LogTrace(<span class="stringliteral">&quot;GetProcessByName: {processName}...&quot;</span>, name ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(name)));</div>
-<div class="line"><span class="lineno">  161</span>            var procs = global::System.Diagnostics.Process.GetProcessesByName(name);</div>
-<div class="line"><span class="lineno">  162</span>            global::System.Diagnostics.Process handle = <span class="keyword">null</span>;</div>
-<div class="line"><span class="lineno">  163</span>            <span class="keywordflow">foreach</span> (var proc <span class="keywordflow">in</span> procs)</div>
-<div class="line"><span class="lineno">  164</span>                <span class="keywordflow">if</span> (handle == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">  165</span>                    handle = proc;</div>
-<div class="line"><span class="lineno">  166</span>                <span class="keywordflow">else</span></div>
-<div class="line"><span class="lineno">  167</span>                {</div>
-<div class="line"><span class="lineno">  168</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#abbe8126c6fb5bff2bab522eef5f9d5c5">logger</a>.LogTrace(<span class="stringliteral">&quot;Disposing extra found PID: {pid}...&quot;</span>, proc.Id);</div>
-<div class="line"><span class="lineno">  169</span>                    proc.Dispose();</div>
-<div class="line"><span class="lineno">  170</span>                }</div>
-<div class="line"><span class="lineno">  171</span> </div>
-<div class="line"><span class="lineno">  172</span>            <span class="keywordflow">if</span> (handle == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">  173</span>                <span class="keywordflow">return</span> <span class="keyword">null</span>;</div>
-<div class="line"><span class="lineno">  174</span> </div>
-<div class="line"><span class="lineno">  175</span>            <span class="keywordflow">return</span> <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#ab8ce5d8354aea3fec89a1d7687acb877">CreateFromExistingHandle</a>(handle);</div>
-<div class="line"><span class="lineno">  176</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_process_executor_8cs_source.html#l00157">157</a> of file <a class="el" href="_process_executor_8cs_source.html">ProcessExecutor.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  158</span>        {</div>
+<div class="line"><span class="lineno">  159</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#abbe8126c6fb5bff2bab522eef5f9d5c5">logger</a>.LogTrace(<span class="stringliteral">&quot;GetProcessByName: {processName}...&quot;</span>, name ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(name)));</div>
+<div class="line"><span class="lineno">  160</span>            var procs = global::System.Diagnostics.Process.GetProcessesByName(name);</div>
+<div class="line"><span class="lineno">  161</span>            global::System.Diagnostics.Process handle = <span class="keyword">null</span>;</div>
+<div class="line"><span class="lineno">  162</span>            <span class="keywordflow">foreach</span> (var proc <span class="keywordflow">in</span> procs)</div>
+<div class="line"><span class="lineno">  163</span>                <span class="keywordflow">if</span> (handle == <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">  164</span>                    handle = proc;</div>
+<div class="line"><span class="lineno">  165</span>                <span class="keywordflow">else</span></div>
+<div class="line"><span class="lineno">  166</span>                {</div>
+<div class="line"><span class="lineno">  167</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#abbe8126c6fb5bff2bab522eef5f9d5c5">logger</a>.LogTrace(<span class="stringliteral">&quot;Disposing extra found PID: {pid}...&quot;</span>, proc.Id);</div>
+<div class="line"><span class="lineno">  168</span>                    proc.Dispose();</div>
+<div class="line"><span class="lineno">  169</span>                }</div>
+<div class="line"><span class="lineno">  170</span> </div>
+<div class="line"><span class="lineno">  171</span>            <span class="keywordflow">if</span> (handle == <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">  172</span>                <span class="keywordflow">return</span> <span class="keyword">null</span>;</div>
+<div class="line"><span class="lineno">  173</span> </div>
+<div class="line"><span class="lineno">  174</span>            <span class="keywordflow">return</span> <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#ab8ce5d8354aea3fec89a1d7687acb877">CreateFromExistingHandle</a>(handle);</div>
+<div class="line"><span class="lineno">  175</span>        }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_process_executor_8cs_source.html#l00321">Tgstation.Server.Host.System.ProcessExecutor.CreateFromExistingHandle()</a>, and <a class="el" href="_process_executor_8cs_source.html#l00030">Tgstation.Server.Host.System.ProcessExecutor.logger</a>.</p>
+<p class="reference">References <a class="el" href="_process_executor_8cs_source.html#l00320">Tgstation.Server.Host.System.ProcessExecutor.CreateFromExistingHandle()</a>, and <a class="el" href="_process_executor_8cs_source.html#l00029">Tgstation.Server.Host.System.ProcessExecutor.logger</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -907,77 +907,77 @@ Here is the call graph for this function:</div>
 
 <p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_executor.html#a0179fc566d4995932f66a0480fa34287">Tgstation.Server.Host.System.IProcessExecutor</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_process_executor_8cs_source.html#l00083">83</a> of file <a class="el" href="_process_executor_8cs_source.html">ProcessExecutor.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   90</span>        {</div>
-<div class="line"><span class="lineno">   91</span>            ArgumentNullException.ThrowIfNull(fileName);</div>
-<div class="line"><span class="lineno">   92</span>            ArgumentNullException.ThrowIfNull(workingDirectory);</div>
-<div class="line"><span class="lineno">   93</span>            ArgumentNullException.ThrowIfNull(arguments);</div>
-<div class="line"><span class="lineno">   94</span> </div>
-<div class="line"><span class="lineno">   95</span>            <span class="keywordflow">if</span> (!noShellExecute &amp;&amp; readStandardHandles)</div>
-<div class="line"><span class="lineno">   96</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> InvalidOperationException(<span class="stringliteral">&quot;Requesting output/error reading requires noShellExecute to be true!&quot;</span>);</div>
-<div class="line"><span class="lineno">   97</span> </div>
-<div class="line"><span class="lineno">   98</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#abbe8126c6fb5bff2bab522eef5f9d5c5">logger</a>.LogDebug(</div>
-<div class="line"><span class="lineno">   99</span>                <span class="stringliteral">&quot;{launchType}aunching process in {workingDirectory}: {exe} {arguments}&quot;</span>,</div>
-<div class="line"><span class="lineno">  100</span>                noShellExecute ? <span class="stringliteral">&quot;L&quot;</span> : <span class="stringliteral">&quot;Shell l&quot;</span>,</div>
-<div class="line"><span class="lineno">  101</span>                workingDirectory,</div>
-<div class="line"><span class="lineno">  102</span>                fileName,</div>
-<div class="line"><span class="lineno">  103</span>                arguments);</div>
-<div class="line"><span class="lineno">  104</span>            var handle = <span class="keyword">new</span> global::System.Diagnostics.Process();</div>
-<div class="line"><span class="lineno">  105</span>            <span class="keywordflow">try</span></div>
-<div class="line"><span class="lineno">  106</span>            {</div>
-<div class="line"><span class="lineno">  107</span>                handle.StartInfo.FileName = fileName;</div>
-<div class="line"><span class="lineno">  108</span>                handle.StartInfo.Arguments = arguments;</div>
-<div class="line"><span class="lineno">  109</span>                handle.StartInfo.WorkingDirectory = workingDirectory;</div>
-<div class="line"><span class="lineno">  110</span> </div>
-<div class="line"><span class="lineno">  111</span>                handle.StartInfo.UseShellExecute = !noShellExecute;</div>
-<div class="line"><span class="lineno">  112</span> </div>
-<div class="line"><span class="lineno">  113</span>                var processStartTcs = <span class="keyword">new</span> TaskCompletionSource();</div>
-<div class="line"><span class="lineno">  114</span>                var lifetimeTaskTask = <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#a8f0805d3e78201cfff76a299ecd24432">AttachExitHandlerBeforeLaunch</a>(handle, processStartTcs.Task);</div>
-<div class="line"><span class="lineno">  115</span> </div>
-<div class="line"><span class="lineno">  116</span>                Task&lt;string&gt; readTask = <span class="keyword">null</span>;</div>
-<div class="line"><span class="lineno">  117</span>                CancellationTokenSource disposeCts = <span class="keyword">null</span>;</div>
-<div class="line"><span class="lineno">  118</span>                <span class="keywordflow">if</span> (readStandardHandles)</div>
-<div class="line"><span class="lineno">  119</span>                {</div>
-<div class="line"><span class="lineno">  120</span>                    handle.StartInfo.RedirectStandardOutput = <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  121</span>                    handle.StartInfo.RedirectStandardError = <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  122</span> </div>
-<div class="line"><span class="lineno">  123</span>                    disposeCts = <span class="keyword">new</span> CancellationTokenSource();</div>
-<div class="line"><span class="lineno">  124</span>                    readTask = <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#a5922088172f7f06623d4b09680fe8cdb">ConsumeReaders</a>(handle, processStartTcs.Task, fileRedirect, disposeCts.Token);</div>
-<div class="line"><span class="lineno">  125</span>                }</div>
-<div class="line"><span class="lineno">  126</span> </div>
-<div class="line"><span class="lineno">  127</span>                <span class="keywordflow">try</span></div>
-<div class="line"><span class="lineno">  128</span>                {</div>
-<div class="line"><span class="lineno">  129</span>                    handle.Start();</div>
-<div class="line"><span class="lineno">  130</span> </div>
-<div class="line"><span class="lineno">  131</span>                    processStartTcs.SetResult();</div>
-<div class="line"><span class="lineno">  132</span>                }</div>
-<div class="line"><span class="lineno">  133</span>                <span class="keywordflow">catch</span> (Exception ex)</div>
-<div class="line"><span class="lineno">  134</span>                {</div>
-<div class="line"><span class="lineno">  135</span>                    processStartTcs.SetException(ex);</div>
-<div class="line"><span class="lineno">  136</span>                    <span class="keywordflow">throw</span>;</div>
-<div class="line"><span class="lineno">  137</span>                }</div>
-<div class="line"><span class="lineno">  138</span> </div>
-<div class="line"><span class="lineno">  139</span>                var process = <span class="keyword">new</span> Process(</div>
-<div class="line"><span class="lineno">  140</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#a53a69845e62419a4db84ef86445d1eba">processFeatures</a>,</div>
-<div class="line"><span class="lineno">  141</span>                    handle,</div>
-<div class="line"><span class="lineno">  142</span>                    disposeCts,</div>
-<div class="line"><span class="lineno">  143</span>                    await lifetimeTaskTask, <span class="comment">// won&#39;t block</span></div>
-<div class="line"><span class="lineno">  144</span>                    readTask,</div>
-<div class="line"><span class="lineno">  145</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#ac04e53e5021bd2665214856f690cccd2">loggerFactory</a>.CreateLogger&lt;Process&gt;(),</div>
-<div class="line"><span class="lineno">  146</span>                    <span class="keyword">false</span>);</div>
-<div class="line"><span class="lineno">  147</span> </div>
-<div class="line"><span class="lineno">  148</span>                <span class="keywordflow">return</span> process;</div>
-<div class="line"><span class="lineno">  149</span>            }</div>
-<div class="line"><span class="lineno">  150</span>            <span class="keywordflow">catch</span></div>
-<div class="line"><span class="lineno">  151</span>            {</div>
-<div class="line"><span class="lineno">  152</span>                handle.Dispose();</div>
-<div class="line"><span class="lineno">  153</span>                <span class="keywordflow">throw</span>;</div>
-<div class="line"><span class="lineno">  154</span>            }</div>
-<div class="line"><span class="lineno">  155</span>        }</div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor_html_a5922088172f7f06623d4b09680fe8cdb"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#a5922088172f7f06623d4b09680fe8cdb">Tgstation.Server.Host.System.ProcessExecutor.ConsumeReaders</a></div><div class="ttdeci">async Task&lt; string &gt; ConsumeReaders(global::System.Diagnostics.Process handle, Task startTask, string fileRedirect, CancellationToken disposeToken)</div><div class="ttdoc">Consume the stdout/stderr streams into a Task.</div><div class="ttdef"><b>Definition:</b> <a href="_process_executor_8cs_source.html#l00246">ProcessExecutor.cs:246</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor_html_a8f0805d3e78201cfff76a299ecd24432"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#a8f0805d3e78201cfff76a299ecd24432">Tgstation.Server.Host.System.ProcessExecutor.AttachExitHandlerBeforeLaunch</a></div><div class="ttdeci">async Task&lt; Task&lt; int &gt; &gt; AttachExitHandlerBeforeLaunch(global::System.Diagnostics.Process handle, Task startupTask)</div><div class="ttdoc">Wrapper for AttachExitHandler(global::System.Diagnostics.Process, Func&lt;int&gt;) to safely provide the pr...</div><div class="ttdef"><b>Definition:</b> <a href="_process_executor_8cs_source.html#l00184">ProcessExecutor.cs:184</a></div></div>
+<p class="definition">Definition at line <a class="el" href="_process_executor_8cs_source.html#l00082">82</a> of file <a class="el" href="_process_executor_8cs_source.html">ProcessExecutor.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   89</span>        {</div>
+<div class="line"><span class="lineno">   90</span>            ArgumentNullException.ThrowIfNull(fileName);</div>
+<div class="line"><span class="lineno">   91</span>            ArgumentNullException.ThrowIfNull(workingDirectory);</div>
+<div class="line"><span class="lineno">   92</span>            ArgumentNullException.ThrowIfNull(arguments);</div>
+<div class="line"><span class="lineno">   93</span> </div>
+<div class="line"><span class="lineno">   94</span>            <span class="keywordflow">if</span> (!noShellExecute &amp;&amp; readStandardHandles)</div>
+<div class="line"><span class="lineno">   95</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> InvalidOperationException(<span class="stringliteral">&quot;Requesting output/error reading requires noShellExecute to be true!&quot;</span>);</div>
+<div class="line"><span class="lineno">   96</span> </div>
+<div class="line"><span class="lineno">   97</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#abbe8126c6fb5bff2bab522eef5f9d5c5">logger</a>.LogDebug(</div>
+<div class="line"><span class="lineno">   98</span>                <span class="stringliteral">&quot;{launchType}aunching process in {workingDirectory}: {exe} {arguments}&quot;</span>,</div>
+<div class="line"><span class="lineno">   99</span>                noShellExecute ? <span class="stringliteral">&quot;L&quot;</span> : <span class="stringliteral">&quot;Shell l&quot;</span>,</div>
+<div class="line"><span class="lineno">  100</span>                workingDirectory,</div>
+<div class="line"><span class="lineno">  101</span>                fileName,</div>
+<div class="line"><span class="lineno">  102</span>                arguments);</div>
+<div class="line"><span class="lineno">  103</span>            var handle = <span class="keyword">new</span> global::System.Diagnostics.Process();</div>
+<div class="line"><span class="lineno">  104</span>            <span class="keywordflow">try</span></div>
+<div class="line"><span class="lineno">  105</span>            {</div>
+<div class="line"><span class="lineno">  106</span>                handle.StartInfo.FileName = fileName;</div>
+<div class="line"><span class="lineno">  107</span>                handle.StartInfo.Arguments = arguments;</div>
+<div class="line"><span class="lineno">  108</span>                handle.StartInfo.WorkingDirectory = workingDirectory;</div>
+<div class="line"><span class="lineno">  109</span> </div>
+<div class="line"><span class="lineno">  110</span>                handle.StartInfo.UseShellExecute = !noShellExecute;</div>
+<div class="line"><span class="lineno">  111</span> </div>
+<div class="line"><span class="lineno">  112</span>                var processStartTcs = <span class="keyword">new</span> TaskCompletionSource();</div>
+<div class="line"><span class="lineno">  113</span>                var lifetimeTaskTask = <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#a8f0805d3e78201cfff76a299ecd24432">AttachExitHandlerBeforeLaunch</a>(handle, processStartTcs.Task);</div>
+<div class="line"><span class="lineno">  114</span> </div>
+<div class="line"><span class="lineno">  115</span>                Task&lt;string&gt; readTask = <span class="keyword">null</span>;</div>
+<div class="line"><span class="lineno">  116</span>                CancellationTokenSource disposeCts = <span class="keyword">null</span>;</div>
+<div class="line"><span class="lineno">  117</span>                <span class="keywordflow">if</span> (readStandardHandles)</div>
+<div class="line"><span class="lineno">  118</span>                {</div>
+<div class="line"><span class="lineno">  119</span>                    handle.StartInfo.RedirectStandardOutput = <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  120</span>                    handle.StartInfo.RedirectStandardError = <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  121</span> </div>
+<div class="line"><span class="lineno">  122</span>                    disposeCts = <span class="keyword">new</span> CancellationTokenSource();</div>
+<div class="line"><span class="lineno">  123</span>                    readTask = <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#a5922088172f7f06623d4b09680fe8cdb">ConsumeReaders</a>(handle, processStartTcs.Task, fileRedirect, disposeCts.Token);</div>
+<div class="line"><span class="lineno">  124</span>                }</div>
+<div class="line"><span class="lineno">  125</span> </div>
+<div class="line"><span class="lineno">  126</span>                <span class="keywordflow">try</span></div>
+<div class="line"><span class="lineno">  127</span>                {</div>
+<div class="line"><span class="lineno">  128</span>                    handle.Start();</div>
+<div class="line"><span class="lineno">  129</span> </div>
+<div class="line"><span class="lineno">  130</span>                    processStartTcs.SetResult();</div>
+<div class="line"><span class="lineno">  131</span>                }</div>
+<div class="line"><span class="lineno">  132</span>                <span class="keywordflow">catch</span> (Exception ex)</div>
+<div class="line"><span class="lineno">  133</span>                {</div>
+<div class="line"><span class="lineno">  134</span>                    processStartTcs.SetException(ex);</div>
+<div class="line"><span class="lineno">  135</span>                    <span class="keywordflow">throw</span>;</div>
+<div class="line"><span class="lineno">  136</span>                }</div>
+<div class="line"><span class="lineno">  137</span> </div>
+<div class="line"><span class="lineno">  138</span>                var process = <span class="keyword">new</span> Process(</div>
+<div class="line"><span class="lineno">  139</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#a53a69845e62419a4db84ef86445d1eba">processFeatures</a>,</div>
+<div class="line"><span class="lineno">  140</span>                    handle,</div>
+<div class="line"><span class="lineno">  141</span>                    disposeCts,</div>
+<div class="line"><span class="lineno">  142</span>                    await lifetimeTaskTask, <span class="comment">// won&#39;t block</span></div>
+<div class="line"><span class="lineno">  143</span>                    readTask,</div>
+<div class="line"><span class="lineno">  144</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#ac04e53e5021bd2665214856f690cccd2">loggerFactory</a>.CreateLogger&lt;Process&gt;(),</div>
+<div class="line"><span class="lineno">  145</span>                    <span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  146</span> </div>
+<div class="line"><span class="lineno">  147</span>                <span class="keywordflow">return</span> process;</div>
+<div class="line"><span class="lineno">  148</span>            }</div>
+<div class="line"><span class="lineno">  149</span>            <span class="keywordflow">catch</span></div>
+<div class="line"><span class="lineno">  150</span>            {</div>
+<div class="line"><span class="lineno">  151</span>                handle.Dispose();</div>
+<div class="line"><span class="lineno">  152</span>                <span class="keywordflow">throw</span>;</div>
+<div class="line"><span class="lineno">  153</span>            }</div>
+<div class="line"><span class="lineno">  154</span>        }</div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor_html_a5922088172f7f06623d4b09680fe8cdb"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#a5922088172f7f06623d4b09680fe8cdb">Tgstation.Server.Host.System.ProcessExecutor.ConsumeReaders</a></div><div class="ttdeci">async Task&lt; string &gt; ConsumeReaders(global::System.Diagnostics.Process handle, Task startTask, string fileRedirect, CancellationToken disposeToken)</div><div class="ttdoc">Consume the stdout/stderr streams into a Task.</div><div class="ttdef"><b>Definition:</b> <a href="_process_executor_8cs_source.html#l00245">ProcessExecutor.cs:245</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor_html_a8f0805d3e78201cfff76a299ecd24432"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#a8f0805d3e78201cfff76a299ecd24432">Tgstation.Server.Host.System.ProcessExecutor.AttachExitHandlerBeforeLaunch</a></div><div class="ttdeci">async Task&lt; Task&lt; int &gt; &gt; AttachExitHandlerBeforeLaunch(global::System.Diagnostics.Process handle, Task startupTask)</div><div class="ttdoc">Wrapper for AttachExitHandler(global::System.Diagnostics.Process, Func&lt;int&gt;) to safely provide the pr...</div><div class="ttdef"><b>Definition:</b> <a href="_process_executor_8cs_source.html#l00183">ProcessExecutor.cs:183</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_process_executor_8cs_source.html#l00184">Tgstation.Server.Host.System.ProcessExecutor.AttachExitHandlerBeforeLaunch()</a>, <a class="el" href="_process_executor_8cs_source.html#l00246">Tgstation.Server.Host.System.ProcessExecutor.ConsumeReaders()</a>, <a class="el" href="_process_executor_8cs_source.html#l00030">Tgstation.Server.Host.System.ProcessExecutor.logger</a>, <a class="el" href="_process_executor_8cs_source.html#l00035">Tgstation.Server.Host.System.ProcessExecutor.loggerFactory</a>, and <a class="el" href="_process_executor_8cs_source.html#l00020">Tgstation.Server.Host.System.ProcessExecutor.processFeatures</a>.</p>
+<p class="reference">References <a class="el" href="_process_executor_8cs_source.html#l00183">Tgstation.Server.Host.System.ProcessExecutor.AttachExitHandlerBeforeLaunch()</a>, <a class="el" href="_process_executor_8cs_source.html#l00245">Tgstation.Server.Host.System.ProcessExecutor.ConsumeReaders()</a>, <a class="el" href="_process_executor_8cs_source.html#l00029">Tgstation.Server.Host.System.ProcessExecutor.logger</a>, <a class="el" href="_process_executor_8cs_source.html#l00034">Tgstation.Server.Host.System.ProcessExecutor.loggerFactory</a>, and <a class="el" href="_process_executor_8cs_source.html#l00019">Tgstation.Server.Host.System.ProcessExecutor.processFeatures</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -1016,9 +1016,9 @@ Here is the call graph for this function:</div>
 
 <p>The IIOManager for the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html">ProcessExecutor</a>.  </p>
 
-<p class="definition">Definition at line <a class="el" href="_process_executor_8cs_source.html#l00025">25</a> of file <a class="el" href="_process_executor_8cs_source.html">ProcessExecutor.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_process_executor_8cs_source.html#l00024">24</a> of file <a class="el" href="_process_executor_8cs_source.html">ProcessExecutor.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_process_executor_8cs_source.html#l00246">Tgstation.Server.Host.System.ProcessExecutor.ConsumeReaders()</a>, and <a class="el" href="_process_executor_8cs_source.html#l00044">Tgstation.Server.Host.System.ProcessExecutor.ProcessExecutor()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_process_executor_8cs_source.html#l00245">Tgstation.Server.Host.System.ProcessExecutor.ConsumeReaders()</a>, and <a class="el" href="_process_executor_8cs_source.html#l00043">Tgstation.Server.Host.System.ProcessExecutor.ProcessExecutor()</a>.</p>
 
 </div>
 </div>
@@ -1044,9 +1044,9 @@ Here is the call graph for this function:</div>
 
 <p>The ILogger for the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html">ProcessExecutor</a>.  </p>
 
-<p class="definition">Definition at line <a class="el" href="_process_executor_8cs_source.html#l00030">30</a> of file <a class="el" href="_process_executor_8cs_source.html">ProcessExecutor.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_process_executor_8cs_source.html#l00029">29</a> of file <a class="el" href="_process_executor_8cs_source.html">ProcessExecutor.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_process_executor_8cs_source.html#l00199">Tgstation.Server.Host.System.ProcessExecutor.AttachExitHandler()</a>, <a class="el" href="_process_executor_8cs_source.html#l00246">Tgstation.Server.Host.System.ProcessExecutor.ConsumeReaders()</a>, <a class="el" href="_process_executor_8cs_source.html#l00075">Tgstation.Server.Host.System.ProcessExecutor.GetCurrentProcess()</a>, <a class="el" href="_process_executor_8cs_source.html#l00057">Tgstation.Server.Host.System.ProcessExecutor.GetProcess()</a>, <a class="el" href="_process_executor_8cs_source.html#l00158">Tgstation.Server.Host.System.ProcessExecutor.GetProcessByName()</a>, <a class="el" href="_process_executor_8cs_source.html#l00083">Tgstation.Server.Host.System.ProcessExecutor.LaunchProcess()</a>, and <a class="el" href="_process_executor_8cs_source.html#l00044">Tgstation.Server.Host.System.ProcessExecutor.ProcessExecutor()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_process_executor_8cs_source.html#l00198">Tgstation.Server.Host.System.ProcessExecutor.AttachExitHandler()</a>, <a class="el" href="_process_executor_8cs_source.html#l00245">Tgstation.Server.Host.System.ProcessExecutor.ConsumeReaders()</a>, <a class="el" href="_process_executor_8cs_source.html#l00074">Tgstation.Server.Host.System.ProcessExecutor.GetCurrentProcess()</a>, <a class="el" href="_process_executor_8cs_source.html#l00056">Tgstation.Server.Host.System.ProcessExecutor.GetProcess()</a>, <a class="el" href="_process_executor_8cs_source.html#l00157">Tgstation.Server.Host.System.ProcessExecutor.GetProcessByName()</a>, <a class="el" href="_process_executor_8cs_source.html#l00082">Tgstation.Server.Host.System.ProcessExecutor.LaunchProcess()</a>, and <a class="el" href="_process_executor_8cs_source.html#l00043">Tgstation.Server.Host.System.ProcessExecutor.ProcessExecutor()</a>.</p>
 
 </div>
 </div>
@@ -1072,9 +1072,9 @@ Here is the call graph for this function:</div>
 
 <p>The ILoggerFactory for the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html">ProcessExecutor</a>.  </p>
 
-<p class="definition">Definition at line <a class="el" href="_process_executor_8cs_source.html#l00035">35</a> of file <a class="el" href="_process_executor_8cs_source.html">ProcessExecutor.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_process_executor_8cs_source.html#l00034">34</a> of file <a class="el" href="_process_executor_8cs_source.html">ProcessExecutor.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_process_executor_8cs_source.html#l00321">Tgstation.Server.Host.System.ProcessExecutor.CreateFromExistingHandle()</a>, <a class="el" href="_process_executor_8cs_source.html#l00083">Tgstation.Server.Host.System.ProcessExecutor.LaunchProcess()</a>, and <a class="el" href="_process_executor_8cs_source.html#l00044">Tgstation.Server.Host.System.ProcessExecutor.ProcessExecutor()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_process_executor_8cs_source.html#l00320">Tgstation.Server.Host.System.ProcessExecutor.CreateFromExistingHandle()</a>, <a class="el" href="_process_executor_8cs_source.html#l00082">Tgstation.Server.Host.System.ProcessExecutor.LaunchProcess()</a>, and <a class="el" href="_process_executor_8cs_source.html#l00043">Tgstation.Server.Host.System.ProcessExecutor.ProcessExecutor()</a>.</p>
 
 </div>
 </div>
@@ -1100,9 +1100,9 @@ Here is the call graph for this function:</div>
 
 <p>The <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_features.html" title="Abstraction for suspending and resuming processes.">IProcessFeatures</a> for the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html">ProcessExecutor</a>.  </p>
 
-<p class="definition">Definition at line <a class="el" href="_process_executor_8cs_source.html#l00020">20</a> of file <a class="el" href="_process_executor_8cs_source.html">ProcessExecutor.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_process_executor_8cs_source.html#l00019">19</a> of file <a class="el" href="_process_executor_8cs_source.html">ProcessExecutor.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_process_executor_8cs_source.html#l00321">Tgstation.Server.Host.System.ProcessExecutor.CreateFromExistingHandle()</a>, <a class="el" href="_process_executor_8cs_source.html#l00083">Tgstation.Server.Host.System.ProcessExecutor.LaunchProcess()</a>, and <a class="el" href="_process_executor_8cs_source.html#l00044">Tgstation.Server.Host.System.ProcessExecutor.ProcessExecutor()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_process_executor_8cs_source.html#l00320">Tgstation.Server.Host.System.ProcessExecutor.CreateFromExistingHandle()</a>, <a class="el" href="_process_executor_8cs_source.html#l00082">Tgstation.Server.Host.System.ProcessExecutor.LaunchProcess()</a>, and <a class="el" href="_process_executor_8cs_source.html#l00043">Tgstation.Server.Host.System.ProcessExecutor.ProcessExecutor()</a>.</p>
 
 </div>
 </div>

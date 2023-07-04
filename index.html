@@ -107,7 +107,7 @@ Installation</h2>
 <h3><a class="anchor" id="autotoc_md5"></a>
 Windows</h3>
 <h5>Note about Digital Signatures</h5>
-<p >Note that the Windows Service and installer executables requires administrative privileges. These are digitally signed against the Root CA managed by <a href="https://github.com/Cyberboss">Jordan Dominion</a>. Consider installing the certificate into your <code>Trusted Root Authorities</code> store for cleaner UAC prompts. The certificate can be downloaded <a href="https://file.house/zpFb.cer">here</a>, please validate the thumbprint is <code>70176acf7ffa2898fa5b5cd6e38b43b38ea5d07f</code> before installing.</p>
+<p >Note that the Windows Service and installer executables require administrative privileges. These are digitally signed against the Root CA managed by <a href="https://github.com/Cyberboss">Jordan Dominion</a>. Consider installing the certificate into your <code>Trusted Root Authorities</code> store for cleaner UAC prompts. The certificate can be downloaded <a href="https://file.house/zpFb.cer">here</a>, please validate the thumbprint is <code>70176acf7ffa2898fa5b5cd6e38b43b38ea5d07f</code> before installing. The OCSP server for this is <code><a href="http://ocsp.dextraspace.net">http://ocsp.dextraspace.net</a></code>.</p>
 <h4><a class="anchor" id="autotoc_md6"></a>
 winget (Windows 10 or later)</h4>
 <p ><a href="https://github.com/microsoft/winget-cli">winget</a> installed is the easiest way to install the latest version of tgstation-server (provided Microsoft has approved the most recent package manifest).</p>
@@ -238,12 +238,13 @@ Manual Configuration</h3>
 <div class="line">  Username: youruserhere</div>
 <div class="line">  Password: yourpasshere</div>
 </div><!-- fragment --></li>
-<li><code>Swarm</code>: This section should be left <code>null</code> unless using the server swarm system. If this is to happen, ensure all swarm servers are set to connect to the same database.</li>
-<li><code>Swarm:PrivateKey</code>: Should be a secure string set identically on all swarmed servers.</li>
-<li><code>Swarm:ControllerAddress</code>: Should be set on all swarmed servers that are <b>not</b> the controller server and should be an address the controller server may be reached at.</li>
-<li><code>Swarm:Address</code>: Should be set on all swarmed servers. Should be an address the server can be reached at by other servers in the swarm.</li>
-<li><code>Swarm:Identifier</code> should be set uniquely on all swarmed servers. Used to identify the current server. This is also used to select which instances exist on the current machine and should not be changed post-setup.</li>
-<li><code>Swarm:UpdateRequiredNodeCount</code> should be set to the total number of servers in your swarm, minus the controller. Prevents updates from occurring unless the non-controller server count in the swarm is greater than or equal to this value.</li>
+<li><code>Swarm</code>: This section should be left empty unless using the server swarm system. If this is to happen, ensure all swarm servers are set to connect to the same database.</li>
+<li><code>Swarm:PrivateKey</code>: Must be a secure string set identically on all swarmed servers.</li>
+<li><code>Swarm:ControllerAddress</code>: Must be set on all swarmed servers that are <b>not</b> the controller server and should be an address the controller server may be reached at.</li>
+<li><code>Swarm:Address</code>: Must be set on all swarmed servers. Should be an address the server can be reached at by other servers in the swarm.</li>
+<li><code>Swarm:PublicAddress</code>: Should be set on all swarmed servers. Should be an address the server can be reached at by other servers in the swarm.</li>
+<li><code>Swarm:Identifier</code>: Must be set uniquely on all swarmed servers. Used to identify the current server. This is also used to select which instances exist on the current machine and should not be changed post-setup.</li>
+<li><code>Swarm:UpdateRequiredNodeCount</code>: Should be set to the total number of servers in your swarm minus 1. Prevents updates from occurring unless the non-controller server count in the swarm is greater than or equal to this value.</li>
 <li><code>Security:OAuth:&lt;Provider Name&gt;</code>: Sets the OAuth client ID and secret for a given <code>&lt;Provider Name&gt;</code>. The currently supported providers are <code>Keycloak</code>, <code>GitHub</code>, <code>Discord</code>, <code>InvisionCommunity</code> and <code>TGForums</code>. Setting these fields to <code>null</code> disables logins with the provider, but does not stop users from associating their accounts using the API. Sample Entry: <div class="fragment"><div class="line">Security:</div>
 <div class="line">  OAuth:</div>
 <div class="line">    Keycloak:</div>

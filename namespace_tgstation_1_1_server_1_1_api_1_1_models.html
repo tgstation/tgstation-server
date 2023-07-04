@@ -322,319 +322,319 @@ Enumerations</h2></td></tr>
 <p>Types of <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_error_message_response.html" title="Represents an error message returned by the server.">Response.ErrorMessageResponse</a>s that the API may return.  </p>
 <p >Entries marked with the ObsoleteAttribute are no longer in use but kept for placeholders until they can be recycled in the next major API version.</p>
 
-<p class="definition">Definition at line <a class="el" href="_error_code_8cs_source.html#l00010">10</a> of file <a class="el" href="_error_code_8cs_source.html">ErrorCode.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   11</span>    {</div>
-<div class="line"><span class="lineno">   15</span>        [Description(<span class="stringliteral">&quot;An internal server error occurred!&quot;</span>)]</div>
-<div class="line"><span class="lineno">   16</span>        InternalServerError,</div>
-<div class="line"><span class="lineno">   17</span> </div>
-<div class="line"><span class="lineno">   21</span>        [Description(<span class="stringliteral">&quot;API version mismatch!&quot;</span>)]</div>
-<div class="line"><span class="lineno">   22</span>        ApiMismatch,</div>
-<div class="line"><span class="lineno">   23</span> </div>
-<div class="line"><span class="lineno">   27</span>        [Description(<span class="stringliteral">&quot;The request body was malformed!&quot;</span>)]</div>
-<div class="line"><span class="lineno">   28</span>        ModelValidationFailure,</div>
-<div class="line"><span class="lineno">   29</span> </div>
-<div class="line"><span class="lineno">   33</span>        [Description(<span class="stringliteral">&quot;An IO error occurred during the operation!&quot;</span>)]</div>
-<div class="line"><span class="lineno">   34</span>        IOError,</div>
-<div class="line"><span class="lineno">   35</span> </div>
-<div class="line"><span class="lineno">   39</span>        [Description(<span class="stringliteral">&quot;A header validation error occurred!&quot;</span>)]</div>
-<div class="line"><span class="lineno">   40</span>        BadHeaders,</div>
-<div class="line"><span class="lineno">   41</span> </div>
-<div class="line"><span class="lineno">   45</span>        [Description(<span class="stringliteral">&quot;Cannot generate a bearer token using a bearer token!&quot;</span>)]</div>
-<div class="line"><span class="lineno">   46</span>        TokenWithToken,</div>
-<div class="line"><span class="lineno">   47</span> </div>
-<div class="line"><span class="lineno">   51</span>        [Description(<span class="stringliteral">&quot;The operation could not be performed as it would violate database integrity. Please retry the request, making sure to not duplicate field names with existing entities!&quot;</span>)]</div>
-<div class="line"><span class="lineno">   52</span>        DatabaseIntegrityConflict,</div>
-<div class="line"><span class="lineno">   53</span> </div>
-<div class="line"><span class="lineno">   57</span>        [Description(<span class="stringliteral">&quot;Functionality is unavailable due to a missing host watchdog component! This should NOT be seen in a production environment!&quot;</span>)]</div>
-<div class="line"><span class="lineno">   58</span>        MissingHostWatchdog,</div>
-<div class="line"><span class="lineno">   59</span> </div>
-<div class="line"><span class="lineno">   63</span>        [Description(<span class="stringliteral">&quot;Cannot downgrade to tgstation-server major version &lt;4!&quot;</span>)]</div>
-<div class="line"><span class="lineno">   64</span>        CannotChangeServerSuite,</div>
-<div class="line"><span class="lineno">   65</span> </div>
-<div class="line"><span class="lineno">   69</span>        [Description(<span class="stringliteral">&quot;A required remote API request returned an error!&quot;</span>)]</div>
-<div class="line"><span class="lineno">   70</span>        RemoteApiError,</div>
-<div class="line"><span class="lineno">   71</span> </div>
-<div class="line"><span class="lineno">   75</span>        [Description(<span class="stringliteral">&quot;A server update was requested while another was in progress!&quot;</span>)]</div>
-<div class="line"><span class="lineno">   76</span>        ServerUpdateInProgress,</div>
-<div class="line"><span class="lineno">   77</span> </div>
-<div class="line"><span class="lineno">   81</span>        [Description(<span class="stringliteral">&quot;Can only change the capitalization of a user&#39;s name!&quot;</span>)]</div>
-<div class="line"><span class="lineno">   82</span>        UserNameChange,</div>
-<div class="line"><span class="lineno">   83</span> </div>
-<div class="line"><span class="lineno">   87</span>        [Description(<span class="stringliteral">&quot;Cannot change a user&#39;s systemIdentifier!&quot;</span>)]</div>
-<div class="line"><span class="lineno">   88</span>        UserSidChange,</div>
-<div class="line"><span class="lineno">   89</span> </div>
-<div class="line"><span class="lineno">   93</span>        [Description(<span class="stringliteral">&quot;A user cannot have both a name and systemIdentifier!&quot;</span>)]</div>
-<div class="line"><span class="lineno">   94</span>        UserMismatchNameSid,</div>
-<div class="line"><span class="lineno">   95</span> </div>
-<div class="line"><span class="lineno">   99</span>        [Description(<span class="stringliteral">&quot;A user cannot have both a password and systemIdentifier!&quot;</span>)]</div>
-<div class="line"><span class="lineno">  100</span>        UserMismatchPasswordSid,</div>
-<div class="line"><span class="lineno">  101</span> </div>
-<div class="line"><span class="lineno">  105</span>        [Description(<span class="stringliteral">&quot;The given password is less than the server&#39;s configured minimum password length!&quot;</span>)]</div>
-<div class="line"><span class="lineno">  106</span>        UserPasswordLength,</div>
-<div class="line"><span class="lineno">  107</span> </div>
-<div class="line"><span class="lineno">  111</span>        [Description(<span class="stringliteral">&quot;User names cannot contain the &#39;:&#39; character!&quot;</span>)]</div>
-<div class="line"><span class="lineno">  112</span>        UserColonInName,</div>
-<div class="line"><span class="lineno">  113</span> </div>
-<div class="line"><span class="lineno">  117</span>        [Description(<span class="stringliteral">&quot;User&#39;s name is missing or invalid whitespace!&quot;</span>)]</div>
-<div class="line"><span class="lineno">  118</span>        UserMissingName,</div>
-<div class="line"><span class="lineno">  119</span> </div>
-<div class="line"><span class="lineno">  123</span>        [Description(<span class="stringliteral">&quot;Cannot relocate an instance while it is online!&quot;</span>)]</div>
-<div class="line"><span class="lineno">  124</span>        InstanceRelocateOnline,</div>
-<div class="line"><span class="lineno">  125</span> </div>
-<div class="line"><span class="lineno">  129</span>        [Description(<span class="stringliteral">&quot;The instance cannot be placed at the given path because it is not empty!&quot;</span>)]</div>
-<div class="line"><span class="lineno">  130</span>        InstanceAtExistingPath,</div>
-<div class="line"><span class="lineno">  131</span> </div>
-<div class="line"><span class="lineno">  135</span>        [Description(<span class="stringliteral">&quot;Cannot detach an instance while it is online!&quot;</span>)]</div>
-<div class="line"><span class="lineno">  136</span>        InstanceDetachOnline,</div>
-<div class="line"><span class="lineno">  137</span> </div>
-<div class="line"><span class="lineno">  141</span>        [Description(<span class="stringliteral">&quot;The instance cannot be placed at the given path because it is a child of an existing instance or the server installation directory!&quot;</span>)]</div>
-<div class="line"><span class="lineno">  142</span>        InstanceAtConflictingPath,</div>
-<div class="line"><span class="lineno">  143</span> </div>
-<div class="line"><span class="lineno">  147</span>        [Description(<span class="stringliteral">&quot;The instance cannot be created because the configured limit has been reached!&quot;</span>)]</div>
-<div class="line"><span class="lineno">  148</span>        InstanceLimitReached,</div>
-<div class="line"><span class="lineno">  149</span> </div>
-<div class="line"><span class="lineno">  153</span>        [Description(<span class="stringliteral">&quot;Instance names cannot be whitespace!&quot;</span>)]</div>
-<div class="line"><span class="lineno">  154</span>        InstanceWhitespaceName,</div>
-<div class="line"><span class="lineno">  155</span> </div>
-<div class="line"><span class="lineno">  159</span>        [Description(<span class="stringliteral">&quot;The request path requires the &#39;Instance&#39; header to be set!&quot;</span>)]</div>
-<div class="line"><span class="lineno">  160</span>        InstanceHeaderRequired,</div>
-<div class="line"><span class="lineno">  161</span> </div>
-<div class="line"><span class="lineno">  165</span>        [Description(<span class="stringliteral">&quot;This operation requires POSIX system identities to be implemented. See https://github.com/tgstation/tgstation-server/issues/709 for details.&quot;</span>)]</div>
-<div class="line"><span class="lineno">  166</span>        RequiresPosixSystemIdentity,</div>
-<div class="line"><span class="lineno">  167</span> </div>
-<div class="line"><span class="lineno">  171</span>        [Description(<span class="stringliteral">&quot;This existing file hash does not match, the file has beeen updated!&quot;</span>)]</div>
-<div class="line"><span class="lineno">  172</span>        ConfigurationFileUpdated,</div>
-<div class="line"><span class="lineno">  173</span> </div>
-<div class="line"><span class="lineno">  177</span>        [Description(<span class="stringliteral">&quot;The directory cannot be deleted because it is not empty!&quot;</span>)]</div>
-<div class="line"><span class="lineno">  178</span>        ConfigurationDirectoryNotEmpty,</div>
-<div class="line"><span class="lineno">  179</span> </div>
-<div class="line"><span class="lineno">  183</span>        [Description(<span class="stringliteral">&quot;The server swarm has less than the expected amount of nodes!&quot;</span>)]</div>
-<div class="line"><span class="lineno">  184</span>        SwarmIntegrityCheckFailed,</div>
-<div class="line"><span class="lineno">  185</span> </div>
-<div class="line"><span class="lineno">  189</span>        [Description(<span class="stringliteral">&quot;Either both accessUser and accessToken must be set or neither!&quot;</span>)]</div>
-<div class="line"><span class="lineno">  190</span>        RepoMismatchUserAndAccessToken,</div>
-<div class="line"><span class="lineno">  191</span> </div>
-<div class="line"><span class="lineno">  195</span>        [Description(<span class="stringliteral">&quot;The repository is busy being cloned!&quot;</span>)]</div>
-<div class="line"><span class="lineno">  196</span>        RepoCloning,</div>
-<div class="line"><span class="lineno">  197</span> </div>
-<div class="line"><span class="lineno">  201</span>        [Description(<span class="stringliteral">&quot;The repository is busy with another operation!&quot;</span>)]</div>
-<div class="line"><span class="lineno">  202</span>        RepoBusy,</div>
-<div class="line"><span class="lineno">  203</span> </div>
-<div class="line"><span class="lineno">  207</span>        [Description(<span class="stringliteral">&quot;The repository already exists!&quot;</span>)]</div>
-<div class="line"><span class="lineno">  208</span>        RepoExists,</div>
-<div class="line"><span class="lineno">  209</span> </div>
-<div class="line"><span class="lineno">  213</span>        [Description(<span class="stringliteral">&quot;The repository does not exist and must be cloned!&quot;</span>)]</div>
-<div class="line"><span class="lineno">  214</span>        RepoMissing,</div>
-<div class="line"><span class="lineno">  215</span> </div>
-<div class="line"><span class="lineno">  219</span>        [Description(<span class="stringliteral">&quot;Cannot checkoutSha and set reference at the same time!&quot;</span>)]</div>
-<div class="line"><span class="lineno">  220</span>        RepoMismatchShaAndReference,</div>
-<div class="line"><span class="lineno">  221</span> </div>
-<div class="line"><span class="lineno">  225</span>        [Description(<span class="stringliteral">&quot;Cannot checkoutSha and updateFromOrigin at the same time!&quot;</span>)]</div>
-<div class="line"><span class="lineno">  226</span>        RepoMismatchShaAndUpdate,</div>
-<div class="line"><span class="lineno">  227</span> </div>
-<div class="line"><span class="lineno">  231</span>        [Description(<span class="stringliteral">&quot;Could not delete BYOND version due to it being selected as the instance&#39;s active version.&quot;</span>)]</div>
-<div class="line"><span class="lineno">  232</span>        ByondCannotDeleteActiveVersion,</div>
-<div class="line"><span class="lineno">  233</span> </div>
-<div class="line"><span class="lineno">  237</span>        [Description(<span class="stringliteral">&quot;The same test merge was present more than once or is already merged!&quot;</span>)]</div>
-<div class="line"><span class="lineno">  238</span>        RepoDuplicateTestMerge,</div>
-<div class="line"><span class="lineno">  239</span> </div>
-<div class="line"><span class="lineno">  243</span>        [Description(<span class="stringliteral">&quot;committerName cannot be whitespace!&quot;</span>)]</div>
-<div class="line"><span class="lineno">  244</span>        RepoWhitespaceCommitterName,</div>
-<div class="line"><span class="lineno">  245</span> </div>
-<div class="line"><span class="lineno">  249</span>        [Description(<span class="stringliteral">&quot;committerEmail cannot be whitespace!&quot;</span>)]</div>
-<div class="line"><span class="lineno">  250</span>        RepoWhitespaceCommitterEmail,</div>
-<div class="line"><span class="lineno">  251</span> </div>
-<div class="line"><span class="lineno">  255</span>        [Description(<span class="stringliteral">&quot;Requested pageSize is too large!&quot;</span>)]</div>
-<div class="line"><span class="lineno">  256</span>        ApiPageTooLarge,</div>
-<div class="line"><span class="lineno">  257</span> </div>
-<div class="line"><span class="lineno">  261</span>        [Description(<span class="stringliteral">&quot;Cannot request page or pageSize &lt;= 0.&quot;</span>)]</div>
-<div class="line"><span class="lineno">  262</span>        ApiInvalidPageOrPageSize,</div>
-<div class="line"><span class="lineno">  263</span> </div>
-<div class="line"><span class="lineno">  267</span>        [Description(<span class="stringliteral">&quot;One or more of the channels for one or more of the provided chat bots do not have the correct channel data for their provider!&quot;</span>)]</div>
-<div class="line"><span class="lineno">  268</span>        ChatBotWrongChannelType,</div>
-<div class="line"><span class="lineno">  269</span> </div>
-<div class="line"><span class="lineno">  273</span>        [Description(<span class="stringliteral">&quot;A chat bot&#39;s connection string cannot be whitespace!&quot;</span>)]</div>
-<div class="line"><span class="lineno">  274</span>        ChatBotWhitespaceConnectionString,</div>
-<div class="line"><span class="lineno">  275</span> </div>
-<div class="line"><span class="lineno">  279</span>        [Description(<span class="stringliteral">&quot;A chat bot&#39;s name cannot be whitespace!&quot;</span>)]</div>
-<div class="line"><span class="lineno">  280</span>        ChatBotWhitespaceName,</div>
-<div class="line"><span class="lineno">  281</span> </div>
-<div class="line"><span class="lineno">  285</span>        [Description(<span class="stringliteral">&quot;Missing chat bot provider!&quot;</span>)]</div>
-<div class="line"><span class="lineno">  286</span>        ChatBotProviderMissing,</div>
-<div class="line"><span class="lineno">  287</span> </div>
-<div class="line"><span class="lineno">  291</span>        [Description(<span class="stringliteral">&quot;IO operation could not start contended access to the instance&#39;s configuration directory!&quot;</span>)]</div>
-<div class="line"><span class="lineno">  292</span>        ConfigurationContendedAccess,</div>
-<div class="line"><span class="lineno">  293</span> </div>
-<div class="line"><span class="lineno">  297</span>        [Description(<span class="stringliteral">&quot;Performing this operation would violate the instance&#39;s configured chatBotLimit!&quot;</span>)]</div>
-<div class="line"><span class="lineno">  298</span>        ChatBotMax,</div>
-<div class="line"><span class="lineno">  299</span> </div>
-<div class="line"><span class="lineno">  303</span>        [Description(<span class="stringliteral">&quot;Set amount of chatChannels exceeds the configured channelLimit!&quot;</span>)]</div>
-<div class="line"><span class="lineno">  304</span>        ChatBotMaxChannels,</div>
-<div class="line"><span class="lineno">  305</span> </div>
-<div class="line"><span class="lineno">  309</span>        [Description(<span class="stringliteral">&quot;Unable to start DirectX installer process! Is the server running with admin privileges?&quot;</span>)]</div>
-<div class="line"><span class="lineno">  310</span>        ByondDirectXInstallFail,</div>
-<div class="line"><span class="lineno">  311</span> </div>
-<div class="line"><span class="lineno">  315</span>        [Description(<span class="stringliteral">&quot;Error downloading specified BYOND version!&quot;</span>)]</div>
-<div class="line"><span class="lineno">  316</span>        ByondDownloadFail,</div>
-<div class="line"><span class="lineno">  317</span> </div>
-<div class="line"><span class="lineno">  321</span>        [Description(<span class="stringliteral">&quot;Could not acquire lock on BYOND installation as none exist!&quot;</span>)]</div>
-<div class="line"><span class="lineno">  322</span>        ByondNoVersionsInstalled,</div>
-<div class="line"><span class="lineno">  323</span> </div>
-<div class="line"><span class="lineno">  327</span>        [Description(<span class="stringliteral">&quot;DreamDaemon did not validate the DMAPI! This can occur if your world is encountering runtime errors during startup.&quot;</span>)]</div>
-<div class="line"><span class="lineno">  328</span>        DreamMakerNeverValidated,</div>
-<div class="line"><span class="lineno">  329</span> </div>
-<div class="line"><span class="lineno">  333</span>        [Description(<span class="stringliteral">&quot;The DMAPI sent an invalid validation request!&quot;</span>)]</div>
-<div class="line"><span class="lineno">  334</span>        DreamMakerInvalidValidation,</div>
-<div class="line"><span class="lineno">  335</span> </div>
-<div class="line"><span class="lineno">  339</span>        [Description(<span class="stringliteral">&quot;This user is passwordless and removing their oAuthConnections would leave them with no authentication method!&quot;</span>)]</div>
-<div class="line"><span class="lineno">  340</span>        CannotRemoveLastAuthenticationOption,</div>
-<div class="line"><span class="lineno">  341</span> </div>
-<div class="line"><span class="lineno">  345</span>        [Description(<span class="stringliteral">&quot;No .dme configured and could not automatically detect one!&quot;</span>)]</div>
-<div class="line"><span class="lineno">  346</span>        DreamMakerNoDme,</div>
-<div class="line"><span class="lineno">  347</span> </div>
-<div class="line"><span class="lineno">  351</span>        [Description(<span class="stringliteral">&quot;Could not load configured .dme!&quot;</span>)]</div>
-<div class="line"><span class="lineno">  352</span>        DreamMakerMissingDme,</div>
-<div class="line"><span class="lineno">  353</span> </div>
-<div class="line"><span class="lineno">  357</span>        [Description(<span class="stringliteral">&quot;DreamMaker exited with a non-zero exit code!&quot;</span>)]</div>
-<div class="line"><span class="lineno">  358</span>        DreamMakerExitCode,</div>
-<div class="line"><span class="lineno">  359</span> </div>
-<div class="line"><span class="lineno">  363</span>        [Description(<span class="stringliteral">&quot;There is already a deployment operation in progress!&quot;</span>)]</div>
-<div class="line"><span class="lineno">  364</span>        DreamMakerCompileJobInProgress,</div>
-<div class="line"><span class="lineno">  365</span> </div>
-<div class="line"><span class="lineno">  369</span>        [Description(<span class="stringliteral">&quot;Could not retrieve DreamDaemon settings from the database!&quot;</span>)]</div>
-<div class="line"><span class="lineno">  370</span>        InstanceMissingDreamDaemonSettings,</div>
-<div class="line"><span class="lineno">  371</span> </div>
-<div class="line"><span class="lineno">  375</span>        [Description(<span class="stringliteral">&quot;Could not retrieve DreamMaker settings from the database!&quot;</span>)]</div>
-<div class="line"><span class="lineno">  376</span>        InstanceMissingDreamMakerSettings,</div>
-<div class="line"><span class="lineno">  377</span> </div>
-<div class="line"><span class="lineno">  381</span>        [Description(<span class="stringliteral">&quot;Could not retrieve Repository settings from the database!&quot;</span>)]</div>
-<div class="line"><span class="lineno">  382</span>        InstanceMissingRepositorySettings,</div>
-<div class="line"><span class="lineno">  383</span> </div>
-<div class="line"><span class="lineno">  387</span>        [Description(<span class="stringliteral">&quot;Performing this automatic update as a merge would result in conficts. Aborting!&quot;</span>)]</div>
-<div class="line"><span class="lineno">  388</span>        InstanceUpdateTestMergeConflict,</div>
-<div class="line"><span class="lineno">  389</span> </div>
-<div class="line"><span class="lineno">  393</span>        [Description(<span class="stringliteral">&quot;Git credentials are required for this operation!&quot;</span>)]</div>
-<div class="line"><span class="lineno">  394</span>        RepoCredentialsRequired,</div>
-<div class="line"><span class="lineno">  395</span> </div>
-<div class="line"><span class="lineno">  399</span>        [Description(<span class="stringliteral">&quot;The remote is requesting authentication, but is not allowing credentials to be received!&quot;</span>)]</div>
-<div class="line"><span class="lineno">  400</span>        RepoCannotAuthenticate,</div>
-<div class="line"><span class="lineno">  401</span> </div>
-<div class="line"><span class="lineno">  405</span>        [Description(<span class="stringliteral">&quot;This git operation requires the repository HEAD to currently be on a tracked reference!&quot;</span>)]</div>
-<div class="line"><span class="lineno">  406</span>        RepoReferenceRequired,</div>
-<div class="line"><span class="lineno">  407</span> </div>
-<div class="line"><span class="lineno">  411</span>        [Description(<span class="stringliteral">&quot;The watchdog is already running!&quot;</span>)]</div>
-<div class="line"><span class="lineno">  412</span>        WatchdogRunning,</div>
-<div class="line"><span class="lineno">  413</span> </div>
-<div class="line"><span class="lineno">  417</span>        [Description(<span class="stringliteral">&quot;Cannot launch active compile job as it is missing or corrupted!&quot;</span>)]</div>
-<div class="line"><span class="lineno">  418</span>        WatchdogCompileJobCorrupted,</div>
-<div class="line"><span class="lineno">  419</span> </div>
-<div class="line"><span class="lineno">  423</span>        [Description(<span class="stringliteral">&quot;DreamDaemon failed to start!&quot;</span>)]</div>
-<div class="line"><span class="lineno">  424</span>        WatchdogStartupFailed,</div>
-<div class="line"><span class="lineno">  425</span> </div>
-<div class="line"><span class="lineno">  429</span>        [Description(<span class="stringliteral">&quot;DreamDaemon failed to start within the configured timeout!&quot;</span>)]</div>
-<div class="line"><span class="lineno">  430</span>        WatchdogStartupTimeout,</div>
-<div class="line"><span class="lineno">  431</span> </div>
-<div class="line"><span class="lineno">  435</span>        [Description(<span class="stringliteral">&quot;Test merging with the current remote is not supported!&quot;</span>)]</div>
-<div class="line"><span class="lineno">  436</span>        RepoUnsupportedTestMergeRemote,</div>
-<div class="line"><span class="lineno">  437</span> </div>
-<div class="line"><span class="lineno">  441</span>        [Description(<span class="stringliteral">&quot;The value set for checkoutSha or reference should be in the other field!&quot;</span>)]</div>
-<div class="line"><span class="lineno">  442</span>        RepoSwappedShaOrReference,</div>
-<div class="line"><span class="lineno">  443</span> </div>
-<div class="line"><span class="lineno">  447</span>        [Description(<span class="stringliteral">&quot;A merge conflict occurred while performing the operation!&quot;</span>)]</div>
-<div class="line"><span class="lineno">  448</span>        RepoMergeConflict,</div>
-<div class="line"><span class="lineno">  449</span> </div>
-<div class="line"><span class="lineno">  453</span>        [Description(<span class="stringliteral">&quot;The repository&#39;s current reference is unsuitable for this operation as it does not track a remote reference!&quot;</span>)]</div>
-<div class="line"><span class="lineno">  454</span>        RepoReferenceNotTracking,</div>
-<div class="line"><span class="lineno">  455</span> </div>
-<div class="line"><span class="lineno">  459</span>        [Description(<span class="stringliteral">&quot;Encountered merge conflicts while test merging one or more sources!&quot;</span>)]</div>
-<div class="line"><span class="lineno">  460</span>        RepoTestMergeConflict,</div>
-<div class="line"><span class="lineno">  461</span> </div>
-<div class="line"><span class="lineno">  465</span>        [Description(<span class="stringliteral">&quot;The new instance&#39;s path is not under a white-listed path.&quot;</span>)]</div>
-<div class="line"><span class="lineno">  466</span>        InstanceNotAtWhitelistedPath,</div>
-<div class="line"><span class="lineno">  467</span> </div>
-<div class="line"><span class="lineno">  471</span>        [Description(<span class="stringliteral">&quot;Cannot set both softShutdown and softReboot at once!&quot;</span>)]</div>
-<div class="line"><span class="lineno">  472</span>        DreamDaemonDoubleSoft,</div>
-<div class="line"><span class="lineno">  473</span> </div>
-<div class="line"><span class="lineno">  477</span>        [Description(<span class="stringliteral">&quot;Cannot start DreamDaemon headless with the BYOND pager running!&quot;</span>)]</div>
-<div class="line"><span class="lineno">  478</span>        DeploymentPagerRunning,</div>
-<div class="line"><span class="lineno">  479</span> </div>
-<div class="line"><span class="lineno">  483</span>        [Description(<span class="stringliteral">&quot;Could not bind to requested DreamDaemon port! Is there another service running on that port?&quot;</span>)]</div>
-<div class="line"><span class="lineno">  484</span>        DreamDaemonPortInUse,</div>
-<div class="line"><span class="lineno">  485</span> </div>
-<div class="line"><span class="lineno">  489</span>        [Description(<span class="stringliteral">&quot;The deployment succeeded but one or more notification events failed!&quot;</span>)]</div>
-<div class="line"><span class="lineno">  490</span>        PostDeployFailure,</div>
-<div class="line"><span class="lineno">  491</span> </div>
-<div class="line"><span class="lineno">  495</span>        [Description(<span class="stringliteral">&quot;Cannot restart the watchdog as it is not running!&quot;</span>)]</div>
-<div class="line"><span class="lineno">  496</span>        WatchdogNotRunning,</div>
-<div class="line"><span class="lineno">  497</span> </div>
-<div class="line"><span class="lineno">  501</span>        [Description(<span class="stringliteral">&quot;The requested resource is not currently present, but may have been in the past.&quot;</span>)]</div>
-<div class="line"><span class="lineno">  502</span>        ResourceNotPresent,</div>
-<div class="line"><span class="lineno">  503</span> </div>
-<div class="line"><span class="lineno">  507</span>        [Description(<span class="stringliteral">&quot;The requested resource is not present and never has been.&quot;</span>)]</div>
-<div class="line"><span class="lineno">  508</span>        ResourceNeverPresent,</div>
-<div class="line"><span class="lineno">  509</span> </div>
-<div class="line"><span class="lineno">  513</span>        [Description(<span class="stringliteral">&quot;A required GitHub API call failed due to rate limiting.&quot;</span>)]</div>
-<div class="line"><span class="lineno">  514</span>        GitHubApiRateLimit,</div>
-<div class="line"><span class="lineno">  515</span> </div>
-<div class="line"><span class="lineno">  519</span>        [Description(<span class="stringliteral">&quot;Cannot cancel the job as it is no longer running.&quot;</span>)]</div>
-<div class="line"><span class="lineno">  520</span>        JobStopped,</div>
-<div class="line"><span class="lineno">  521</span> </div>
-<div class="line"><span class="lineno">  525</span>        [Description(<span class="stringliteral">&quot;Attempted to create a process dump but /usr/bin/gcore could not be located!&quot;</span>)]</div>
-<div class="line"><span class="lineno">  526</span>        MissingGCore,</div>
-<div class="line"><span class="lineno">  527</span> </div>
-<div class="line"><span class="lineno">  531</span>        [Description(<span class="stringliteral">&quot;Could not create dump as gcore exited with a non-zero exit code!&quot;</span>)]</div>
-<div class="line"><span class="lineno">  532</span>        GCoreFailure,</div>
-<div class="line"><span class="lineno">  533</span> </div>
-<div class="line"><span class="lineno">  537</span>        [Description(<span class="stringliteral">&quot;Test merging cannot be performed with this remote!&quot;</span>)]</div>
-<div class="line"><span class="lineno">  538</span>        RepoTestMergeInvalidRemote,</div>
-<div class="line"><span class="lineno">  539</span> </div>
-<div class="line"><span class="lineno">  543</span>        [Description(<span class="stringliteral">&quot;Cannot switch to requested custom BYOND version as it is not currently installed.&quot;</span>)]</div>
-<div class="line"><span class="lineno">  544</span>        ByondNonExistentCustomVersion,</div>
-<div class="line"><span class="lineno">  545</span> </div>
-<div class="line"><span class="lineno">  549</span>        [Description(<span class="stringliteral">&quot;Cannot perform this operation as DreamDaemon is not currently running!&quot;</span>)]</div>
-<div class="line"><span class="lineno">  550</span>        DreamDaemonOffline,</div>
-<div class="line"><span class="lineno">  551</span> </div>
-<div class="line"><span class="lineno">  555</span>        [Description(<span class="stringliteral">&quot;The instance associated with the operation is currently offline!&quot;</span>)]</div>
-<div class="line"><span class="lineno">  556</span>        InstanceOffline,</div>
-<div class="line"><span class="lineno">  557</span> </div>
-<div class="line"><span class="lineno">  561</span>        [Description(<span class="stringliteral">&quot;Failed to connect chat bot!&quot;</span>)]</div>
-<div class="line"><span class="lineno">  562</span>        ChatCannotConnectProvider,</div>
-<div class="line"><span class="lineno">  563</span> </div>
-<div class="line"><span class="lineno">  567</span>        [Description(<span class="stringliteral">&quot;Failed to allow DreamDaemon through the Windows firewall!&quot;</span>)]</div>
-<div class="line"><span class="lineno">  568</span>        ByondDreamDaemonFirewallFail,</div>
-<div class="line"><span class="lineno">  569</span> </div>
-<div class="line"><span class="lineno">  573</span>        [Description(<span class="stringliteral">&quot;TGS was unable to find a free port to allocate for the operation!&quot;</span>)]</div>
-<div class="line"><span class="lineno">  574</span>        NoPortsAvailable,</div>
-<div class="line"><span class="lineno">  575</span> </div>
-<div class="line"><span class="lineno">  579</span>        [Description(<span class="stringliteral">&quot;The requested port is either already in use by TGS or could not be allocated!&quot;</span>)]</div>
-<div class="line"><span class="lineno">  580</span>        PortNotAvailable,</div>
-<div class="line"><span class="lineno">  581</span> </div>
-<div class="line"><span class="lineno">  585</span>        [Description(<span class="stringliteral">&quot;The admin user cannot use OAuth connections!&quot;</span>)]</div>
-<div class="line"><span class="lineno">  586</span>        AdminUserCannotOAuth,</div>
-<div class="line"><span class="lineno">  587</span> </div>
-<div class="line"><span class="lineno">  591</span>        [Description(<span class="stringliteral">&quot;The requested OAuth provider is disabled via configuration!&quot;</span>)]</div>
-<div class="line"><span class="lineno">  592</span>        OAuthProviderDisabled,</div>
-<div class="line"><span class="lineno">  593</span> </div>
-<div class="line"><span class="lineno">  597</span>        [Description(<span class="stringliteral">&quot;The job did not receive a required upload before timing out!&quot;</span>)]</div>
-<div class="line"><span class="lineno">  598</span>        FileUploadExpired,</div>
-<div class="line"><span class="lineno">  599</span> </div>
-<div class="line"><span class="lineno">  603</span>        [Description(<span class="stringliteral">&quot;A user may not have both a permissionSet and group!&quot;</span>)]</div>
-<div class="line"><span class="lineno">  604</span>        UserGroupAndPermissionSet,</div>
-<div class="line"><span class="lineno">  605</span> </div>
-<div class="line"><span class="lineno">  609</span>        [Description(<span class="stringliteral">&quot;Cannot delete the user group as it is not empty!&quot;</span>)]</div>
-<div class="line"><span class="lineno">  610</span>        UserGroupNotEmpty,</div>
-<div class="line"><span class="lineno">  611</span> </div>
-<div class="line"><span class="lineno">  615</span>        [Description(<span class="stringliteral">&quot;The user cannot be created because the configured limit has been reached!&quot;</span>)]</div>
-<div class="line"><span class="lineno">  616</span>        UserLimitReached,</div>
-<div class="line"><span class="lineno">  617</span> </div>
-<div class="line"><span class="lineno">  621</span>        [Description(<span class="stringliteral">&quot;The user group cannot be created because the configured limit has been reached!&quot;</span>)]</div>
-<div class="line"><span class="lineno">  622</span>        UserGroupLimitReached,</div>
-<div class="line"><span class="lineno">  623</span> </div>
-<div class="line"><span class="lineno">  627</span>        [Description(<span class="stringliteral">&quot;The deployment took longer than the configured timeout!&quot;</span>)]</div>
-<div class="line"><span class="lineno">  628</span>        DeploymentTimeout,</div>
-<div class="line"><span class="lineno">  629</span> </div>
-<div class="line"><span class="lineno">  630</span>        <span class="comment">// This comment is here to remind you that there is one more unused error code above and you should use it first</span></div>
-<div class="line"><span class="lineno">  631</span>    }</div>
+<p class="definition">Definition at line <a class="el" href="_error_code_8cs_source.html#l00012">12</a> of file <a class="el" href="_error_code_8cs_source.html">ErrorCode.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   13</span>    {</div>
+<div class="line"><span class="lineno">   17</span>        [Description(<span class="stringliteral">&quot;An internal server error occurred!&quot;</span>)]</div>
+<div class="line"><span class="lineno">   18</span>        InternalServerError,</div>
+<div class="line"><span class="lineno">   19</span> </div>
+<div class="line"><span class="lineno">   23</span>        [Description(<span class="stringliteral">&quot;API version mismatch!&quot;</span>)]</div>
+<div class="line"><span class="lineno">   24</span>        ApiMismatch,</div>
+<div class="line"><span class="lineno">   25</span> </div>
+<div class="line"><span class="lineno">   29</span>        [Description(<span class="stringliteral">&quot;The request body was malformed!&quot;</span>)]</div>
+<div class="line"><span class="lineno">   30</span>        ModelValidationFailure,</div>
+<div class="line"><span class="lineno">   31</span> </div>
+<div class="line"><span class="lineno">   35</span>        [Description(<span class="stringliteral">&quot;An IO error occurred during the operation!&quot;</span>)]</div>
+<div class="line"><span class="lineno">   36</span>        IOError,</div>
+<div class="line"><span class="lineno">   37</span> </div>
+<div class="line"><span class="lineno">   41</span>        [Description(<span class="stringliteral">&quot;A header validation error occurred!&quot;</span>)]</div>
+<div class="line"><span class="lineno">   42</span>        BadHeaders,</div>
+<div class="line"><span class="lineno">   43</span> </div>
+<div class="line"><span class="lineno">   47</span>        [Description(<span class="stringliteral">&quot;Cannot generate a bearer token using a bearer token!&quot;</span>)]</div>
+<div class="line"><span class="lineno">   48</span>        TokenWithToken,</div>
+<div class="line"><span class="lineno">   49</span> </div>
+<div class="line"><span class="lineno">   53</span>        [Description(<span class="stringliteral">&quot;The operation could not be performed as it would violate database integrity. Please retry the request, making sure to not duplicate field names with existing entities!&quot;</span>)]</div>
+<div class="line"><span class="lineno">   54</span>        DatabaseIntegrityConflict,</div>
+<div class="line"><span class="lineno">   55</span> </div>
+<div class="line"><span class="lineno">   59</span>        [Description(<span class="stringliteral">&quot;Functionality is unavailable due to a missing host watchdog component! This should NOT be seen in a production environment!&quot;</span>)]</div>
+<div class="line"><span class="lineno">   60</span>        MissingHostWatchdog,</div>
+<div class="line"><span class="lineno">   61</span> </div>
+<div class="line"><span class="lineno">   65</span>        [Description($<span class="stringliteral">&quot;Cannot downgrade to {Constants.CanonicalPackageName} major version &lt;4!&quot;</span>)]</div>
+<div class="line"><span class="lineno">   66</span>        CannotChangeServerSuite,</div>
+<div class="line"><span class="lineno">   67</span> </div>
+<div class="line"><span class="lineno">   71</span>        [Description(<span class="stringliteral">&quot;A required remote API request returned an error!&quot;</span>)]</div>
+<div class="line"><span class="lineno">   72</span>        RemoteApiError,</div>
+<div class="line"><span class="lineno">   73</span> </div>
+<div class="line"><span class="lineno">   77</span>        [Description(<span class="stringliteral">&quot;A server update was requested while another was in progress!&quot;</span>)]</div>
+<div class="line"><span class="lineno">   78</span>        ServerUpdateInProgress,</div>
+<div class="line"><span class="lineno">   79</span> </div>
+<div class="line"><span class="lineno">   83</span>        [Description(<span class="stringliteral">&quot;Can only change the capitalization of a user&#39;s name!&quot;</span>)]</div>
+<div class="line"><span class="lineno">   84</span>        UserNameChange,</div>
+<div class="line"><span class="lineno">   85</span> </div>
+<div class="line"><span class="lineno">   89</span>        [Description(<span class="stringliteral">&quot;Cannot change a user&#39;s systemIdentifier!&quot;</span>)]</div>
+<div class="line"><span class="lineno">   90</span>        UserSidChange,</div>
+<div class="line"><span class="lineno">   91</span> </div>
+<div class="line"><span class="lineno">   95</span>        [Description(<span class="stringliteral">&quot;A user cannot have both a name and systemIdentifier!&quot;</span>)]</div>
+<div class="line"><span class="lineno">   96</span>        UserMismatchNameSid,</div>
+<div class="line"><span class="lineno">   97</span> </div>
+<div class="line"><span class="lineno">  101</span>        [Description(<span class="stringliteral">&quot;A user cannot have both a password and systemIdentifier!&quot;</span>)]</div>
+<div class="line"><span class="lineno">  102</span>        UserMismatchPasswordSid,</div>
+<div class="line"><span class="lineno">  103</span> </div>
+<div class="line"><span class="lineno">  107</span>        [Description(<span class="stringliteral">&quot;The given password is less than the server&#39;s configured minimum password length!&quot;</span>)]</div>
+<div class="line"><span class="lineno">  108</span>        UserPasswordLength,</div>
+<div class="line"><span class="lineno">  109</span> </div>
+<div class="line"><span class="lineno">  113</span>        [Description(<span class="stringliteral">&quot;User names cannot contain the &#39;:&#39; character!&quot;</span>)]</div>
+<div class="line"><span class="lineno">  114</span>        UserColonInName,</div>
+<div class="line"><span class="lineno">  115</span> </div>
+<div class="line"><span class="lineno">  119</span>        [Description(<span class="stringliteral">&quot;User&#39;s name is missing or invalid whitespace!&quot;</span>)]</div>
+<div class="line"><span class="lineno">  120</span>        UserMissingName,</div>
+<div class="line"><span class="lineno">  121</span> </div>
+<div class="line"><span class="lineno">  125</span>        [Description(<span class="stringliteral">&quot;Cannot relocate an instance while it is online!&quot;</span>)]</div>
+<div class="line"><span class="lineno">  126</span>        InstanceRelocateOnline,</div>
+<div class="line"><span class="lineno">  127</span> </div>
+<div class="line"><span class="lineno">  131</span>        [Description(<span class="stringliteral">&quot;The instance cannot be placed at the given path because it is not empty!&quot;</span>)]</div>
+<div class="line"><span class="lineno">  132</span>        InstanceAtExistingPath,</div>
+<div class="line"><span class="lineno">  133</span> </div>
+<div class="line"><span class="lineno">  137</span>        [Description(<span class="stringliteral">&quot;Cannot detach an instance while it is online!&quot;</span>)]</div>
+<div class="line"><span class="lineno">  138</span>        InstanceDetachOnline,</div>
+<div class="line"><span class="lineno">  139</span> </div>
+<div class="line"><span class="lineno">  143</span>        [Description(<span class="stringliteral">&quot;The instance cannot be placed at the given path because it is a child of an existing instance or the server installation directory!&quot;</span>)]</div>
+<div class="line"><span class="lineno">  144</span>        InstanceAtConflictingPath,</div>
+<div class="line"><span class="lineno">  145</span> </div>
+<div class="line"><span class="lineno">  149</span>        [Description(<span class="stringliteral">&quot;The instance cannot be created because the configured limit has been reached!&quot;</span>)]</div>
+<div class="line"><span class="lineno">  150</span>        InstanceLimitReached,</div>
+<div class="line"><span class="lineno">  151</span> </div>
+<div class="line"><span class="lineno">  155</span>        [Description(<span class="stringliteral">&quot;Instance names cannot be whitespace!&quot;</span>)]</div>
+<div class="line"><span class="lineno">  156</span>        InstanceWhitespaceName,</div>
+<div class="line"><span class="lineno">  157</span> </div>
+<div class="line"><span class="lineno">  161</span>        [Description(<span class="stringliteral">&quot;The request path requires the &#39;Instance&#39; header to be set!&quot;</span>)]</div>
+<div class="line"><span class="lineno">  162</span>        InstanceHeaderRequired,</div>
+<div class="line"><span class="lineno">  163</span> </div>
+<div class="line"><span class="lineno">  167</span>        [Description(<span class="stringliteral">&quot;This operation requires POSIX system identities to be implemented. See https://github.com/tgstation/tgstation-server/issues/709 for details.&quot;</span>)]</div>
+<div class="line"><span class="lineno">  168</span>        RequiresPosixSystemIdentity,</div>
+<div class="line"><span class="lineno">  169</span> </div>
+<div class="line"><span class="lineno">  173</span>        [Description(<span class="stringliteral">&quot;This existing file hash does not match, the file has beeen updated!&quot;</span>)]</div>
+<div class="line"><span class="lineno">  174</span>        ConfigurationFileUpdated,</div>
+<div class="line"><span class="lineno">  175</span> </div>
+<div class="line"><span class="lineno">  179</span>        [Description(<span class="stringliteral">&quot;The directory cannot be deleted because it is not empty!&quot;</span>)]</div>
+<div class="line"><span class="lineno">  180</span>        ConfigurationDirectoryNotEmpty,</div>
+<div class="line"><span class="lineno">  181</span> </div>
+<div class="line"><span class="lineno">  185</span>        [Description(<span class="stringliteral">&quot;The server swarm has less than the expected amount of nodes!&quot;</span>)]</div>
+<div class="line"><span class="lineno">  186</span>        SwarmIntegrityCheckFailed,</div>
+<div class="line"><span class="lineno">  187</span> </div>
+<div class="line"><span class="lineno">  191</span>        [Description(<span class="stringliteral">&quot;Either both accessUser and accessToken must be set or neither!&quot;</span>)]</div>
+<div class="line"><span class="lineno">  192</span>        RepoMismatchUserAndAccessToken,</div>
+<div class="line"><span class="lineno">  193</span> </div>
+<div class="line"><span class="lineno">  197</span>        [Description(<span class="stringliteral">&quot;The repository is busy being cloned!&quot;</span>)]</div>
+<div class="line"><span class="lineno">  198</span>        RepoCloning,</div>
+<div class="line"><span class="lineno">  199</span> </div>
+<div class="line"><span class="lineno">  203</span>        [Description(<span class="stringliteral">&quot;The repository is busy with another operation!&quot;</span>)]</div>
+<div class="line"><span class="lineno">  204</span>        RepoBusy,</div>
+<div class="line"><span class="lineno">  205</span> </div>
+<div class="line"><span class="lineno">  209</span>        [Description(<span class="stringliteral">&quot;The repository already exists!&quot;</span>)]</div>
+<div class="line"><span class="lineno">  210</span>        RepoExists,</div>
+<div class="line"><span class="lineno">  211</span> </div>
+<div class="line"><span class="lineno">  215</span>        [Description(<span class="stringliteral">&quot;The repository does not exist and must be cloned!&quot;</span>)]</div>
+<div class="line"><span class="lineno">  216</span>        RepoMissing,</div>
+<div class="line"><span class="lineno">  217</span> </div>
+<div class="line"><span class="lineno">  221</span>        [Description(<span class="stringliteral">&quot;Cannot checkoutSha and set reference at the same time!&quot;</span>)]</div>
+<div class="line"><span class="lineno">  222</span>        RepoMismatchShaAndReference,</div>
+<div class="line"><span class="lineno">  223</span> </div>
+<div class="line"><span class="lineno">  227</span>        [Description(<span class="stringliteral">&quot;Cannot checkoutSha and updateFromOrigin at the same time!&quot;</span>)]</div>
+<div class="line"><span class="lineno">  228</span>        RepoMismatchShaAndUpdate,</div>
+<div class="line"><span class="lineno">  229</span> </div>
+<div class="line"><span class="lineno">  233</span>        [Description(<span class="stringliteral">&quot;Could not delete BYOND version due to it being selected as the instance&#39;s active version.&quot;</span>)]</div>
+<div class="line"><span class="lineno">  234</span>        ByondCannotDeleteActiveVersion,</div>
+<div class="line"><span class="lineno">  235</span> </div>
+<div class="line"><span class="lineno">  239</span>        [Description(<span class="stringliteral">&quot;The same test merge was present more than once or is already merged!&quot;</span>)]</div>
+<div class="line"><span class="lineno">  240</span>        RepoDuplicateTestMerge,</div>
+<div class="line"><span class="lineno">  241</span> </div>
+<div class="line"><span class="lineno">  245</span>        [Description(<span class="stringliteral">&quot;committerName cannot be whitespace!&quot;</span>)]</div>
+<div class="line"><span class="lineno">  246</span>        RepoWhitespaceCommitterName,</div>
+<div class="line"><span class="lineno">  247</span> </div>
+<div class="line"><span class="lineno">  251</span>        [Description(<span class="stringliteral">&quot;committerEmail cannot be whitespace!&quot;</span>)]</div>
+<div class="line"><span class="lineno">  252</span>        RepoWhitespaceCommitterEmail,</div>
+<div class="line"><span class="lineno">  253</span> </div>
+<div class="line"><span class="lineno">  257</span>        [Description(<span class="stringliteral">&quot;Requested pageSize is too large!&quot;</span>)]</div>
+<div class="line"><span class="lineno">  258</span>        ApiPageTooLarge,</div>
+<div class="line"><span class="lineno">  259</span> </div>
+<div class="line"><span class="lineno">  263</span>        [Description(<span class="stringliteral">&quot;Cannot request page or pageSize &lt;= 0.&quot;</span>)]</div>
+<div class="line"><span class="lineno">  264</span>        ApiInvalidPageOrPageSize,</div>
+<div class="line"><span class="lineno">  265</span> </div>
+<div class="line"><span class="lineno">  269</span>        [Description(<span class="stringliteral">&quot;One or more of the channels for one or more of the provided chat bots do not have the correct channel data for their provider!&quot;</span>)]</div>
+<div class="line"><span class="lineno">  270</span>        ChatBotWrongChannelType,</div>
+<div class="line"><span class="lineno">  271</span> </div>
+<div class="line"><span class="lineno">  275</span>        [Description(<span class="stringliteral">&quot;A chat bot&#39;s connection string cannot be whitespace!&quot;</span>)]</div>
+<div class="line"><span class="lineno">  276</span>        ChatBotWhitespaceConnectionString,</div>
+<div class="line"><span class="lineno">  277</span> </div>
+<div class="line"><span class="lineno">  281</span>        [Description(<span class="stringliteral">&quot;A chat bot&#39;s name cannot be whitespace!&quot;</span>)]</div>
+<div class="line"><span class="lineno">  282</span>        ChatBotWhitespaceName,</div>
+<div class="line"><span class="lineno">  283</span> </div>
+<div class="line"><span class="lineno">  287</span>        [Description(<span class="stringliteral">&quot;Missing chat bot provider!&quot;</span>)]</div>
+<div class="line"><span class="lineno">  288</span>        ChatBotProviderMissing,</div>
+<div class="line"><span class="lineno">  289</span> </div>
+<div class="line"><span class="lineno">  293</span>        [Description(<span class="stringliteral">&quot;IO operation could not start contended access to the instance&#39;s configuration directory!&quot;</span>)]</div>
+<div class="line"><span class="lineno">  294</span>        ConfigurationContendedAccess,</div>
+<div class="line"><span class="lineno">  295</span> </div>
+<div class="line"><span class="lineno">  299</span>        [Description(<span class="stringliteral">&quot;Performing this operation would violate the instance&#39;s configured chatBotLimit!&quot;</span>)]</div>
+<div class="line"><span class="lineno">  300</span>        ChatBotMax,</div>
+<div class="line"><span class="lineno">  301</span> </div>
+<div class="line"><span class="lineno">  305</span>        [Description(<span class="stringliteral">&quot;Set amount of chatChannels exceeds the configured channelLimit!&quot;</span>)]</div>
+<div class="line"><span class="lineno">  306</span>        ChatBotMaxChannels,</div>
+<div class="line"><span class="lineno">  307</span> </div>
+<div class="line"><span class="lineno">  311</span>        [Description(<span class="stringliteral">&quot;Unable to start DirectX installer process! Is the server running with admin privileges?&quot;</span>)]</div>
+<div class="line"><span class="lineno">  312</span>        ByondDirectXInstallFail,</div>
+<div class="line"><span class="lineno">  313</span> </div>
+<div class="line"><span class="lineno">  317</span>        [Description(<span class="stringliteral">&quot;Error downloading specified BYOND version!&quot;</span>)]</div>
+<div class="line"><span class="lineno">  318</span>        ByondDownloadFail,</div>
+<div class="line"><span class="lineno">  319</span> </div>
+<div class="line"><span class="lineno">  323</span>        [Description(<span class="stringliteral">&quot;Could not acquire lock on BYOND installation as none exist!&quot;</span>)]</div>
+<div class="line"><span class="lineno">  324</span>        ByondNoVersionsInstalled,</div>
+<div class="line"><span class="lineno">  325</span> </div>
+<div class="line"><span class="lineno">  329</span>        [Description(<span class="stringliteral">&quot;DreamDaemon did not validate the DMAPI! This can occur if your world is encountering runtime errors during startup.&quot;</span>)]</div>
+<div class="line"><span class="lineno">  330</span>        DreamMakerNeverValidated,</div>
+<div class="line"><span class="lineno">  331</span> </div>
+<div class="line"><span class="lineno">  335</span>        [Description(<span class="stringliteral">&quot;The DMAPI sent an invalid validation request!&quot;</span>)]</div>
+<div class="line"><span class="lineno">  336</span>        DreamMakerInvalidValidation,</div>
+<div class="line"><span class="lineno">  337</span> </div>
+<div class="line"><span class="lineno">  341</span>        [Description(<span class="stringliteral">&quot;This user is passwordless and removing their oAuthConnections would leave them with no authentication method!&quot;</span>)]</div>
+<div class="line"><span class="lineno">  342</span>        CannotRemoveLastAuthenticationOption,</div>
+<div class="line"><span class="lineno">  343</span> </div>
+<div class="line"><span class="lineno">  347</span>        [Description(<span class="stringliteral">&quot;No .dme configured and could not automatically detect one!&quot;</span>)]</div>
+<div class="line"><span class="lineno">  348</span>        DreamMakerNoDme,</div>
+<div class="line"><span class="lineno">  349</span> </div>
+<div class="line"><span class="lineno">  353</span>        [Description(<span class="stringliteral">&quot;Could not load configured .dme!&quot;</span>)]</div>
+<div class="line"><span class="lineno">  354</span>        DreamMakerMissingDme,</div>
+<div class="line"><span class="lineno">  355</span> </div>
+<div class="line"><span class="lineno">  359</span>        [Description(<span class="stringliteral">&quot;DreamMaker exited with a non-zero exit code!&quot;</span>)]</div>
+<div class="line"><span class="lineno">  360</span>        DreamMakerExitCode,</div>
+<div class="line"><span class="lineno">  361</span> </div>
+<div class="line"><span class="lineno">  365</span>        [Description(<span class="stringliteral">&quot;There is already a deployment operation in progress!&quot;</span>)]</div>
+<div class="line"><span class="lineno">  366</span>        DreamMakerCompileJobInProgress,</div>
+<div class="line"><span class="lineno">  367</span> </div>
+<div class="line"><span class="lineno">  371</span>        [Description(<span class="stringliteral">&quot;Could not retrieve DreamDaemon settings from the database!&quot;</span>)]</div>
+<div class="line"><span class="lineno">  372</span>        InstanceMissingDreamDaemonSettings,</div>
+<div class="line"><span class="lineno">  373</span> </div>
+<div class="line"><span class="lineno">  377</span>        [Description(<span class="stringliteral">&quot;Could not retrieve DreamMaker settings from the database!&quot;</span>)]</div>
+<div class="line"><span class="lineno">  378</span>        InstanceMissingDreamMakerSettings,</div>
+<div class="line"><span class="lineno">  379</span> </div>
+<div class="line"><span class="lineno">  383</span>        [Description(<span class="stringliteral">&quot;Could not retrieve Repository settings from the database!&quot;</span>)]</div>
+<div class="line"><span class="lineno">  384</span>        InstanceMissingRepositorySettings,</div>
+<div class="line"><span class="lineno">  385</span> </div>
+<div class="line"><span class="lineno">  389</span>        [Description(<span class="stringliteral">&quot;Performing this automatic update as a merge would result in conficts. Aborting!&quot;</span>)]</div>
+<div class="line"><span class="lineno">  390</span>        InstanceUpdateTestMergeConflict,</div>
+<div class="line"><span class="lineno">  391</span> </div>
+<div class="line"><span class="lineno">  395</span>        [Description(<span class="stringliteral">&quot;Git credentials are required for this operation!&quot;</span>)]</div>
+<div class="line"><span class="lineno">  396</span>        RepoCredentialsRequired,</div>
+<div class="line"><span class="lineno">  397</span> </div>
+<div class="line"><span class="lineno">  401</span>        [Description(<span class="stringliteral">&quot;The remote is requesting authentication, but is not allowing credentials to be received!&quot;</span>)]</div>
+<div class="line"><span class="lineno">  402</span>        RepoCannotAuthenticate,</div>
+<div class="line"><span class="lineno">  403</span> </div>
+<div class="line"><span class="lineno">  407</span>        [Description(<span class="stringliteral">&quot;This git operation requires the repository HEAD to currently be on a tracked reference!&quot;</span>)]</div>
+<div class="line"><span class="lineno">  408</span>        RepoReferenceRequired,</div>
+<div class="line"><span class="lineno">  409</span> </div>
+<div class="line"><span class="lineno">  413</span>        [Description(<span class="stringliteral">&quot;The watchdog is already running!&quot;</span>)]</div>
+<div class="line"><span class="lineno">  414</span>        WatchdogRunning,</div>
+<div class="line"><span class="lineno">  415</span> </div>
+<div class="line"><span class="lineno">  419</span>        [Description(<span class="stringliteral">&quot;Cannot launch active compile job as it is missing or corrupted!&quot;</span>)]</div>
+<div class="line"><span class="lineno">  420</span>        WatchdogCompileJobCorrupted,</div>
+<div class="line"><span class="lineno">  421</span> </div>
+<div class="line"><span class="lineno">  425</span>        [Description(<span class="stringliteral">&quot;DreamDaemon failed to start!&quot;</span>)]</div>
+<div class="line"><span class="lineno">  426</span>        WatchdogStartupFailed,</div>
+<div class="line"><span class="lineno">  427</span> </div>
+<div class="line"><span class="lineno">  431</span>        [Description(<span class="stringliteral">&quot;DreamDaemon failed to start within the configured timeout!&quot;</span>)]</div>
+<div class="line"><span class="lineno">  432</span>        WatchdogStartupTimeout,</div>
+<div class="line"><span class="lineno">  433</span> </div>
+<div class="line"><span class="lineno">  437</span>        [Description(<span class="stringliteral">&quot;Test merging with the current remote is not supported!&quot;</span>)]</div>
+<div class="line"><span class="lineno">  438</span>        RepoUnsupportedTestMergeRemote,</div>
+<div class="line"><span class="lineno">  439</span> </div>
+<div class="line"><span class="lineno">  443</span>        [Description(<span class="stringliteral">&quot;The value set for checkoutSha or reference should be in the other field!&quot;</span>)]</div>
+<div class="line"><span class="lineno">  444</span>        RepoSwappedShaOrReference,</div>
+<div class="line"><span class="lineno">  445</span> </div>
+<div class="line"><span class="lineno">  449</span>        [Description(<span class="stringliteral">&quot;A merge conflict occurred while performing the operation!&quot;</span>)]</div>
+<div class="line"><span class="lineno">  450</span>        RepoMergeConflict,</div>
+<div class="line"><span class="lineno">  451</span> </div>
+<div class="line"><span class="lineno">  455</span>        [Description(<span class="stringliteral">&quot;The repository&#39;s current reference is unsuitable for this operation as it does not track a remote reference!&quot;</span>)]</div>
+<div class="line"><span class="lineno">  456</span>        RepoReferenceNotTracking,</div>
+<div class="line"><span class="lineno">  457</span> </div>
+<div class="line"><span class="lineno">  461</span>        [Description(<span class="stringliteral">&quot;Encountered merge conflicts while test merging one or more sources!&quot;</span>)]</div>
+<div class="line"><span class="lineno">  462</span>        RepoTestMergeConflict,</div>
+<div class="line"><span class="lineno">  463</span> </div>
+<div class="line"><span class="lineno">  467</span>        [Description(<span class="stringliteral">&quot;The new instance&#39;s path is not under a white-listed path.&quot;</span>)]</div>
+<div class="line"><span class="lineno">  468</span>        InstanceNotAtWhitelistedPath,</div>
+<div class="line"><span class="lineno">  469</span> </div>
+<div class="line"><span class="lineno">  473</span>        [Description(<span class="stringliteral">&quot;Cannot set both softShutdown and softReboot at once!&quot;</span>)]</div>
+<div class="line"><span class="lineno">  474</span>        DreamDaemonDoubleSoft,</div>
+<div class="line"><span class="lineno">  475</span> </div>
+<div class="line"><span class="lineno">  479</span>        [Description(<span class="stringliteral">&quot;Cannot start DreamDaemon headless with the BYOND pager running!&quot;</span>)]</div>
+<div class="line"><span class="lineno">  480</span>        DeploymentPagerRunning,</div>
+<div class="line"><span class="lineno">  481</span> </div>
+<div class="line"><span class="lineno">  485</span>        [Description(<span class="stringliteral">&quot;Could not bind to requested DreamDaemon port! Is there another service running on that port?&quot;</span>)]</div>
+<div class="line"><span class="lineno">  486</span>        DreamDaemonPortInUse,</div>
+<div class="line"><span class="lineno">  487</span> </div>
+<div class="line"><span class="lineno">  491</span>        [Description(<span class="stringliteral">&quot;The deployment succeeded but one or more notification events failed!&quot;</span>)]</div>
+<div class="line"><span class="lineno">  492</span>        PostDeployFailure,</div>
+<div class="line"><span class="lineno">  493</span> </div>
+<div class="line"><span class="lineno">  497</span>        [Description(<span class="stringliteral">&quot;Cannot restart the watchdog as it is not running!&quot;</span>)]</div>
+<div class="line"><span class="lineno">  498</span>        WatchdogNotRunning,</div>
+<div class="line"><span class="lineno">  499</span> </div>
+<div class="line"><span class="lineno">  503</span>        [Description(<span class="stringliteral">&quot;The requested resource is not currently present, but may have been in the past.&quot;</span>)]</div>
+<div class="line"><span class="lineno">  504</span>        ResourceNotPresent,</div>
+<div class="line"><span class="lineno">  505</span> </div>
+<div class="line"><span class="lineno">  509</span>        [Description(<span class="stringliteral">&quot;The requested resource is not present and never has been.&quot;</span>)]</div>
+<div class="line"><span class="lineno">  510</span>        ResourceNeverPresent,</div>
+<div class="line"><span class="lineno">  511</span> </div>
+<div class="line"><span class="lineno">  515</span>        [Description(<span class="stringliteral">&quot;A required GitHub API call failed due to rate limiting.&quot;</span>)]</div>
+<div class="line"><span class="lineno">  516</span>        GitHubApiRateLimit,</div>
+<div class="line"><span class="lineno">  517</span> </div>
+<div class="line"><span class="lineno">  521</span>        [Description(<span class="stringliteral">&quot;Cannot cancel the job as it is no longer running.&quot;</span>)]</div>
+<div class="line"><span class="lineno">  522</span>        JobStopped,</div>
+<div class="line"><span class="lineno">  523</span> </div>
+<div class="line"><span class="lineno">  527</span>        [Description(<span class="stringliteral">&quot;Attempted to create a process dump but /usr/bin/gcore could not be located!&quot;</span>)]</div>
+<div class="line"><span class="lineno">  528</span>        MissingGCore,</div>
+<div class="line"><span class="lineno">  529</span> </div>
+<div class="line"><span class="lineno">  533</span>        [Description(<span class="stringliteral">&quot;Could not create dump as gcore exited with a non-zero exit code!&quot;</span>)]</div>
+<div class="line"><span class="lineno">  534</span>        GCoreFailure,</div>
+<div class="line"><span class="lineno">  535</span> </div>
+<div class="line"><span class="lineno">  539</span>        [Description(<span class="stringliteral">&quot;Test merging cannot be performed with this remote!&quot;</span>)]</div>
+<div class="line"><span class="lineno">  540</span>        RepoTestMergeInvalidRemote,</div>
+<div class="line"><span class="lineno">  541</span> </div>
+<div class="line"><span class="lineno">  545</span>        [Description(<span class="stringliteral">&quot;Cannot switch to requested custom BYOND version as it is not currently installed.&quot;</span>)]</div>
+<div class="line"><span class="lineno">  546</span>        ByondNonExistentCustomVersion,</div>
+<div class="line"><span class="lineno">  547</span> </div>
+<div class="line"><span class="lineno">  551</span>        [Description(<span class="stringliteral">&quot;Cannot perform this operation as DreamDaemon is not currently running!&quot;</span>)]</div>
+<div class="line"><span class="lineno">  552</span>        DreamDaemonOffline,</div>
+<div class="line"><span class="lineno">  553</span> </div>
+<div class="line"><span class="lineno">  557</span>        [Description(<span class="stringliteral">&quot;The instance associated with the operation is currently offline!&quot;</span>)]</div>
+<div class="line"><span class="lineno">  558</span>        InstanceOffline,</div>
+<div class="line"><span class="lineno">  559</span> </div>
+<div class="line"><span class="lineno">  563</span>        [Description(<span class="stringliteral">&quot;Failed to connect chat bot!&quot;</span>)]</div>
+<div class="line"><span class="lineno">  564</span>        ChatCannotConnectProvider,</div>
+<div class="line"><span class="lineno">  565</span> </div>
+<div class="line"><span class="lineno">  569</span>        [Description(<span class="stringliteral">&quot;Failed to allow DreamDaemon through the Windows firewall!&quot;</span>)]</div>
+<div class="line"><span class="lineno">  570</span>        ByondDreamDaemonFirewallFail,</div>
+<div class="line"><span class="lineno">  571</span> </div>
+<div class="line"><span class="lineno">  575</span>        [Description(<span class="stringliteral">&quot;TGS was unable to find a free port to allocate for the operation!&quot;</span>)]</div>
+<div class="line"><span class="lineno">  576</span>        NoPortsAvailable,</div>
+<div class="line"><span class="lineno">  577</span> </div>
+<div class="line"><span class="lineno">  581</span>        [Description(<span class="stringliteral">&quot;The requested port is either already in use by TGS or could not be allocated!&quot;</span>)]</div>
+<div class="line"><span class="lineno">  582</span>        PortNotAvailable,</div>
+<div class="line"><span class="lineno">  583</span> </div>
+<div class="line"><span class="lineno">  587</span>        [Description(<span class="stringliteral">&quot;The admin user cannot use OAuth connections!&quot;</span>)]</div>
+<div class="line"><span class="lineno">  588</span>        AdminUserCannotOAuth,</div>
+<div class="line"><span class="lineno">  589</span> </div>
+<div class="line"><span class="lineno">  593</span>        [Description(<span class="stringliteral">&quot;The requested OAuth provider is disabled via configuration!&quot;</span>)]</div>
+<div class="line"><span class="lineno">  594</span>        OAuthProviderDisabled,</div>
+<div class="line"><span class="lineno">  595</span> </div>
+<div class="line"><span class="lineno">  599</span>        [Description(<span class="stringliteral">&quot;The job did not receive a required upload before timing out!&quot;</span>)]</div>
+<div class="line"><span class="lineno">  600</span>        FileUploadExpired,</div>
+<div class="line"><span class="lineno">  601</span> </div>
+<div class="line"><span class="lineno">  605</span>        [Description(<span class="stringliteral">&quot;A user may not have both a permissionSet and group!&quot;</span>)]</div>
+<div class="line"><span class="lineno">  606</span>        UserGroupAndPermissionSet,</div>
+<div class="line"><span class="lineno">  607</span> </div>
+<div class="line"><span class="lineno">  611</span>        [Description(<span class="stringliteral">&quot;Cannot delete the user group as it is not empty!&quot;</span>)]</div>
+<div class="line"><span class="lineno">  612</span>        UserGroupNotEmpty,</div>
+<div class="line"><span class="lineno">  613</span> </div>
+<div class="line"><span class="lineno">  617</span>        [Description(<span class="stringliteral">&quot;The user cannot be created because the configured limit has been reached!&quot;</span>)]</div>
+<div class="line"><span class="lineno">  618</span>        UserLimitReached,</div>
+<div class="line"><span class="lineno">  619</span> </div>
+<div class="line"><span class="lineno">  623</span>        [Description(<span class="stringliteral">&quot;The user group cannot be created because the configured limit has been reached!&quot;</span>)]</div>
+<div class="line"><span class="lineno">  624</span>        UserGroupLimitReached,</div>
+<div class="line"><span class="lineno">  625</span> </div>
+<div class="line"><span class="lineno">  629</span>        [Description(<span class="stringliteral">&quot;The deployment took longer than the configured timeout!&quot;</span>)]</div>
+<div class="line"><span class="lineno">  630</span>        DeploymentTimeout,</div>
+<div class="line"><span class="lineno">  631</span> </div>
+<div class="line"><span class="lineno">  632</span>        <span class="comment">// This comment is here to remind you that there is one more unused error code above and you should use it first</span></div>
+<div class="line"><span class="lineno">  633</span>    }</div>
 </div><!-- fragment -->
 </div>
 </div>

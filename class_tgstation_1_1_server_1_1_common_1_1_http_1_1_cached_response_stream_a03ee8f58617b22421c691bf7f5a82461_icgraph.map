@@ -1,6 +1,7 @@
 <map id="Tgstation.Server.Common.Http.CachedResponseStream.Create" name="Tgstation.Server.Common.Http.CachedResponseStream.Create">
-<area shape="rect" id="node1" title="Asyncronously creates a new CachedResponseStream." alt="" coords="567,53,801,93"/>
+<area shape="rect" id="node1" title="Asyncronously creates a new CachedResponseStream." alt="" coords="567,65,801,105"/>
 <area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_request_file_stream_provider.html#a7c0e96de0b1928972f549ab0d2df882f" title="Initiate the download." alt="" coords="296,5,519,60"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_client_1_1_api_client.html#a9b2e49d2ce81d192101014ef95e70c1f" title="Main request method." alt="" coords="329,84,485,139"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_client_1_1_api_client.html#a9b2e49d2ce81d192101014ef95e70c1f" title="Main request method." alt="" coords="329,108,485,163"/>
 <area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_request_file_stream_provider.html#a8ff81109a481a673997fdc2da04d0792" title="Gets the provided Stream. May be called multiple times, though cancelling any may cause all calls to ..." alt="" coords="5,13,248,53"/>
+<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_client_1_1_api_client.html#a02d4288a3e73ebc856ec8eee6a574a88" title="Main request method." alt="" coords="49,108,205,163"/>
 </map>
