@@ -31,6 +31,7 @@ using Tgstation.Server.Api.Models.Response;
 using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Client;
 using Tgstation.Server.Client.Components;
+using Tgstation.Server.Common.Extensions;
 using Tgstation.Server.Host.Components;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Database;
@@ -1303,7 +1304,7 @@ namespace Tgstation.Server.Tests.Live
 				serverCts.Cancel();
 				try
 				{
-					await serverTask.WithToken(hardCancellationToken);
+					await serverTask.WaitAsync(hardCancellationToken);
 				}
 				catch (OperationCanceledException) { }
 

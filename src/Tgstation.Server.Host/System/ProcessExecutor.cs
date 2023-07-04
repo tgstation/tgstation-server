@@ -262,7 +262,7 @@ namespace Tgstation.Server.Host.System
 				if (errorOpen && errorReadTask == null)
 					errorReadTask = stdErrHandle.ReadLineAsync();
 
-				var completedTask = await Task.WhenAny(outputReadTask ?? errorReadTask, errorReadTask ?? outputReadTask).WithToken(disposeToken);
+				var completedTask = await Task.WhenAny(outputReadTask ?? errorReadTask, errorReadTask ?? outputReadTask).WaitAsync(disposeToken);
 				var line = await completedTask;
 				if (completedTask == outputReadTask)
 				{

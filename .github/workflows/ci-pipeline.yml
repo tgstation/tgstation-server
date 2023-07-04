@@ -1,4 +1,21 @@
-name: 'CI'
+# THE MAIN BIG CHUNGUS
+# Does CI on push/PR/cron. Deployments on push when triggered
+# - Validates Documentation
+# - Builds C# and DMAPI
+# - Tests everything on massive matrix
+# - Packages
+# - Tests package installs/services/uninstalls
+# - Properly versions everything based on build/Version.props
+# - Checks commit tags for deployment intents
+# - Deploys DreamMaker API zip [DMDeploy] (dev/master)
+# - Deploys Nuget Packages [NugetDeploy] (dev/master)
+# - Deploys HTTP API swagger.json [APIDeploy] (dev/master)
+# - Deploys tgstation-server [TGSDeploy] (master)
+#   - GitHub Releases: https://github.com/tgstation/tgstation-server/releases
+#   - Docker: https://hub.docker.com/r/tgstation/server
+#   - apt repo: https://github.com/tgstation/tgstation-ppa
+#   - winget: https://github.com/microsoft/winget-pkgs/tree/master/manifests/t/Tgstation/Server
+name: 'CI Pipeline'
 
 on:
   schedule:
@@ -21,6 +38,9 @@ env:
   TGS_DOTNET_VERSION: 6.0.x
   TGS_TEST_GITHUB_TOKEN: ${{ secrets.LIVE_TESTS_TOKEN }}
   TGS_RELEASE_NOTES_TOKEN: ${{ secrets.DEV_PUSH_TOKEN }}
+  WINGET_PUSH_TOKEN: ${{ secrets.DEV_PUSH_TOKEN }}
+  PACKAGING_KEYGRIP: ${{ vars.PACKAGING_KEYGRIP }}
+  PACKAGING_PRIVATE_KEY_PASSPHRASE: ${{ secrets.PACKAGING_PRIVATE_KEY_PASSPHRASE }}
   CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
 concurrency:
@@ -50,7 +70,7 @@ jobs:
       run: exit 1
 
   start-ci-run-gate:
-    name: Start CI Run Gate
+    name: CI Start Gate
     needs: security-checkpoint
     runs-on: ubuntu-latest
     if: "!(cancelled() || failure()) && (needs.security-checkpoint.result == 'success' || (needs.security-checkpoint.result == 'skipped' && (github.event_name == 'push' || github.event_name == 'schedule' || (github.event.pull_request.head.repo.id == github.event.pull_request.base.repo.id && github.event_name != 'pull_request_target'))))"
@@ -219,11 +239,14 @@ jobs:
       with:
         ref: "refs/pull/${{ github.event.number }}/merge"
 
+    - name: Restore
+      run: dotnet restore
+
     - name: Build
-      run: dotnet build -c ${{ matrix.configuration }}NoService
+      run: dotnet build -c ${{ matrix.configuration }}NoWindows
 
     - name: Run Unit Tests
-      run: sudo dotnet test --no-build --logger GitHubActions --filter FullyQualifiedName!~TestLiveServer -c ${{ matrix.configuration }}NoService --collect:"XPlat Code Coverage" --settings build/coverlet.runsettings --results-directory ./TestResults tgstation-server.sln
+      run: sudo dotnet test --no-build --logger GitHubActions --filter FullyQualifiedName!~TestLiveServer -c ${{ matrix.configuration }}NoWindows --collect:"XPlat Code Coverage" --settings build/coverlet.runsettings --results-directory ./TestResults tgstation-server.sln
 
     - name: Store Code Coverage
       uses: actions/upload-artifact@v3
@@ -259,11 +282,14 @@ jobs:
       with:
         ref: "refs/pull/${{ github.event.number }}/merge"
 
+    - name: Restore
+      run: dotnet restore
+
     - name: Build
-      run: dotnet build -c ${{ matrix.configuration }}
+      run: dotnet build -c ${{ matrix.configuration }}NoWix
 
     - name: Run Unit Tests
-      run: dotnet test --no-build --logger GitHubActions --filter FullyQualifiedName!~TestLiveServer -c ${{ matrix.configuration }} --collect:"XPlat Code Coverage" --settings build/coverlet.runsettings --results-directory ./TestResults tgstation-server.sln
+      run: dotnet test --no-build --logger GitHubActions --filter FullyQualifiedName!~TestLiveServer -c ${{ matrix.configuration }}NoWix --collect:"XPlat Code Coverage" --settings build/coverlet.runsettings --results-directory ./TestResults tgstation-server.sln
 
     - name: Store Code Coverage
       uses: actions/upload-artifact@v3
@@ -379,6 +405,9 @@ jobs:
       with:
         ref: "refs/pull/${{ github.event.number }}/merge"
 
+    - name: Restore
+      run: dotnet restore
+
     - name: Build
       run: dotnet build -c ${{ matrix.configuration }} tests/Tgstation.Server.Tests/Tgstation.Server.Tests.csproj
 
@@ -409,7 +438,6 @@ jobs:
         cd ../Tgstation.Server.Host
         dotnet publish -c ${{ matrix.configuration }} --no-build -o ../../Artifacts/Service/lib/Default
         mv ../../Artifacts/Service/lib/Default/appsettings.yml ../../Artifacts/Service/appsettings.yml
-        rm ../../Artifacts/Service/lib/Default/Tgstation.Server.Host.exe
 
     - name: Store Server Service
       if: ${{ matrix.configuration == 'Release' && matrix.watchdog-type == 'Basic' }}
@@ -417,6 +445,21 @@ jobs:
       with:
         name: ServerService
         path: Artifacts/Service/
+
+    - name: Install Code Signing Certificate
+      if: ${{ matrix.configuration == 'Release' && matrix.watchdog-type == 'Basic' }}
+      shell: powershell
+      run: |
+        $pfxBytes = [convert]::FromBase64String("${{ secrets.CODE_SIGNING_BASE64 }}")
+        [IO.File]::WriteAllBytes("tg_codesigning.pfx", $pfxBytes)
+        $certPassword = ConvertTo-SecureString -String "${{ secrets.CODE_SIGNING_PASSWORD }}" -Force -AsPlainText
+        Import-PfxCertificate -FilePath tg_codesigning.pfx -Cert Cert:\CurrentUser\My -Password $certPassword
+        rm tg_codesigning.pfx
+
+    - name: Test Sign Service .exe
+      if: ${{ matrix.configuration == 'Release' && matrix.watchdog-type == 'Basic' }}
+      shell: powershell
+      run: Set-AuthenticodeSignature Artifacts/Service/Tgstation.Server.Host.Service.exe -Certificate (Get-ChildItem Cert:\CurrentUser\My | Where-Object { $_.Thumbprint -eq "${{ vars.CODE_SIGNING_THUMBPRINT }}" }) -TimestampServer "http://timestamp.digicert.com"
 
   linux-integration-tests:
     name: Linux Live Tests
@@ -542,14 +585,17 @@ jobs:
       with:
         ref: "refs/pull/${{ github.event.number }}/merge"
 
+    - name: Restore
+      run: dotnet restore
+
     - name: Build
-      run: dotnet build -c ${{ matrix.configuration }}NoService tests/Tgstation.Server.Tests/Tgstation.Server.Tests.csproj
+      run: dotnet build -c ${{ matrix.configuration }}NoWindows tests/Tgstation.Server.Tests/Tgstation.Server.Tests.csproj
 
     - name: Run Live Tests
       run: |
         cd tests/Tgstation.Server.Tests
         sleep 10
-        dotnet test -c ${{ matrix.configuration }}NoService --filter FullyQualifiedName~TestLiveServer --logger GitHubActions --no-build --collect:"XPlat Code Coverage" --settings ../../build/coverlet.runsettings --results-directory ../../TestResults
+        dotnet test -c ${{ matrix.configuration }}NoWindows --filter FullyQualifiedName~TestLiveServer --logger GitHubActions --no-build --collect:"XPlat Code Coverage" --settings ../../build/coverlet.runsettings --results-directory ../../TestResults
 
     - name: Store Code Coverage
       uses: actions/upload-artifact@v3
@@ -563,18 +609,15 @@ jobs:
         cd src/Tgstation.Server.Host.Console
         dotnet publish -c ${{ matrix.configuration }} -o ../../Artifacts/Console
         cd ../Tgstation.Server.Host
-        dotnet publish -c ${{ matrix.configuration }}NoService --no-build -o ../../Artifacts/Console/lib/Default
+        dotnet publish -c ${{ matrix.configuration }}NoWindows --no-build -o ../../Artifacts/Console/lib/Default
         mv ../../Artifacts/Console/lib/Default/appsettings.yml ../../Artifacts/Console/appsettings.yml
-        rm ../../Artifacts/Console/lib/Default/Tgstation.Server.Host
-        rm ../../Artifacts/Console/Tgstation.Server.Host.Console
 
     - name: Package Server Update Package
       if: ${{ matrix.configuration == 'Release' && matrix.watchdog-type == 'System' && matrix.database-type == 'PostgresSql' }}
       run: |
         cd src/Tgstation.Server.Host
-        dotnet publish -c ${{ matrix.configuration }}NoService --no-build -o ../../Artifacts/ServerUpdate
+        dotnet publish -c ${{ matrix.configuration }}NoWindows --no-build -o ../../Artifacts/ServerUpdate
         rm ../../Artifacts/ServerUpdate/appsettings.yml
-        rm ../../Artifacts/ServerUpdate/Tgstation.Server.Host
 
     - name: Store Server Console
       if: ${{ matrix.configuration == 'Release' && matrix.watchdog-type == 'System' && matrix.database-type == 'MariaDB' }}
@@ -875,30 +918,31 @@ jobs:
         fail_ci_if_error: true
 
   build-deb:
-    name: Build .deb Package
+    name: Build .deb Package # Can't do i386 due to https://github.com/dotnet/core/issues/4595
     needs: start-ci-run-gate
     runs-on: ubuntu-latest
     if: "!(cancelled() || failure()) && needs.start-ci-run-gate.result == 'success'"
-    strategy:
-      fail-fast: false
-      matrix:
-        arch: [ 'amd64' ] # Can't do i386 due to https://github.com/dotnet/core/issues/4595
     steps:
     - name: Import GPG Key
       run: |
+        sudo dpkg --add-architecture i386
         sudo apt-get update
-        sudo apt-get install -y gnupg2
+        sudo apt-get install -y -o APT::Immediate-Configure=0 libstdc++6:i386 libgcc-s1:i386 gnupg2
         echo "${{ secrets.PACKAGING_PRIVATE_KEY }}" > private.pgp
         echo ${{ secrets.PACKAGING_PRIVATE_KEY_PASSPHRASE }} | gpg --batch --yes --passphrase-fd 0 --import private.pgp
         rm private.pgp
 
-    - name: Checkout
+    - name: Checkout (Branch)
       uses: actions/checkout@v3
+      if: github.event_name == 'push' || github.event_name == 'schedule'
+
+    - name: Checkout (PR Merge)
+      uses: actions/checkout@v3
+      if: github.event_name != 'push' && github.event_name != 'schedule'
+      with:
+        ref: "refs/pull/${{ github.event.number }}/merge"
 
     - name: Execute Build Script
-      env:
-         PACKAGING_KEYGRIP: ${{ vars.PACKAGING_KEYGRIP }}
-         PACKAGING_PRIVATE_KEY_PASSPHRASE: ${{ secrets.PACKAGING_PRIVATE_KEY_PASSPHRASE }}
       run: sudo -E build/package/deb/build_package.sh
 
     - name: Parse TGS version
@@ -911,6 +955,32 @@ jobs:
         gpg --verify tgstation-server_${{ env.TGS_VERSION }}-1_amd64.changes
         gpg --verify tgstation-server_${{ env.TGS_VERSION }}-1_amd64.buildinfo
 
+    - name: Test Install
+      run: |
+        sudo mkdir /etc/tgstation-server
+        sudo cp build/package/appsettings.GitHub.yml /etc/tgstation-server/appsettings.Production.yml
+        sudo apt-get install -y ./tgstation-server_${{ env.TGS_VERSION }}-1_amd64.deb
+        sudo ls -al /etc/tgstation-server
+        sudo cat /etc/tgstation-server/appsettings.Production.yml
+        sudo cat /etc/tgstation-server/appsettings.yml
+        ls -al /opt/tgstation-server
+        cat /opt/tgstation-server/lib/Default/Tgstation.Server.Host.deps.json
+        cat /usr/bin/tgs-configure
+
+    - name: Test Service
+      run: |
+        systemctl status tgstation-server
+
+    - name: Test Uninstall # Wait 10s for service to initialize
+      shell: bash
+      run: |
+        sleep 10
+        sudo apt-get remove -y tgstation-server
+        if [[ -d "/opt/tgstation-server" ]]; then
+          ls -al /opt/tgstation-server
+          exit 2
+        fi
+
     - name: Create Packaging Archive
       run: tar cfJ tgstation-server-v${{ env.TGS_VERSION }}.debian.packaging.tar.xz tgstation-server_*
 
@@ -920,11 +990,186 @@ jobs:
         name: packaging-debian
         path: tgstation-server-v${{ env.TGS_VERSION }}.debian.packaging.tar.xz
 
-  deployment-gate:
-    name: Deployment Gate
-    needs: [ dox-build, docker-build, build-deb, validate-openapi-spec, upload-code-coverage ]
+  build-msi:
+    name: Build Windows Installer .exe
+    needs: start-ci-run-gate
+    runs-on: windows-latest
+    if: "!(cancelled() || failure()) && needs.start-ci-run-gate.result == 'success'"
+    steps:
+    - name: Install winget
+      uses: Cyberboss/install-winget@v1
+      with:
+        GITHUB_TOKEN: ${{ env.WINGET_PUSH_TOKEN }}
+
+    - name: Setup dotnet
+      uses: actions/setup-dotnet@v2
+      with:
+        dotnet-version: ${{ env.TGS_DOTNET_VERSION }}
+
+    - name: Checkout (Branch)
+      uses: actions/checkout@v3
+      if: github.event_name == 'push' || github.event_name == 'schedule'
+
+    - name: Checkout (PR Merge)
+      uses: actions/checkout@v3
+      if: github.event_name != 'push' && github.event_name != 'schedule'
+      with:
+        ref: "refs/pull/${{ github.event.number }}/merge"
+
+    - name: Restore Wix dotnet Tool
+      run: |
+        cd build/package/winget
+        dotnet tool restore
+
+    - name: Validate winget Manifest
+      run: winget validate --manifest build/package/winget/manifest
+
+    - name: Restore
+      run: dotnet restore
+
+    - name: Build Host
+      run: dotnet build -c Release src/Tgstation.Server.Host/Tgstation.Server.Host.csproj
+
+    - name: Build Service
+      run: dotnet build -c Release src/Tgstation.Server.Host.Service/Tgstation.Server.Host.Service.csproj
+
+    - name: Prepare Artifacts
+      shell: powershell
+      run: build/package/winget/prepare_installer_input_artifacts.ps1
+
+    - name: Build Installer .exe
+      run: |
+        cd build/package/winget/Tgstation.Server.Host.Service.Wix.Bundle
+        dotnet build -c Release
+
+    - name: Install Code Signing Certificate
+      shell: powershell
+      run: |
+        $pfxBytes = [convert]::FromBase64String("${{ secrets.CODE_SIGNING_BASE64 }}")
+        [IO.File]::WriteAllBytes("tg_codesigning.pfx", $pfxBytes)
+        $certPassword = ConvertTo-SecureString -String "${{ secrets.CODE_SIGNING_PASSWORD }}" -Force -AsPlainText
+        Import-PfxCertificate -FilePath tg_codesigning.pfx -Cert Cert:\CurrentUser\My -Password $certPassword
+        rm tg_codesigning.pfx
+
+    - name: Sign Installer .exe for Testing # https://wixtoolset.org/docs/tools/signing/
+      shell: powershell
+      run: |
+        cd build/package/winget
+        dotnet wix burn detach Tgstation.Server.Host.Service.Wix.Bundle/bin/Release/tgstation-server-installer.exe -engine burnengine.exe
+        Set-AuthenticodeSignature burnengine.exe -Certificate (Get-ChildItem Cert:\CurrentUser\My | Where-Object { $_.Thumbprint -eq "${{ vars.CODE_SIGNING_THUMBPRINT }}" }) -TimestampServer "http://timestamp.digicert.com"
+        dotnet wix burn reattach Tgstation.Server.Host.Service.Wix.Bundle/bin/Release/tgstation-server-installer.exe -engine burnengine.exe -o test-installer.exe
+        Set-AuthenticodeSignature test-installer.exe -Certificate (Get-ChildItem Cert:\CurrentUser\My | Where-Object { $_.Thumbprint -eq "${{ vars.CODE_SIGNING_THUMBPRINT }}" }) -TimestampServer "http://timestamp.digicert.com"
+
+    - name: Test Install # Sanity checks the .deps.json exists, which the installation is broken without
+      shell: powershell  # If it's missing, I found that <PrivateAssets> in <PackageReference> elements were the problem
+      run: |
+        mkdir C:/ProgramData/tgstation-server
+        cp build/package/appsettings.GitHub.yml C:/ProgramData/tgstation-server/appsettings.Production.yml
+        $file = [System.IO.Path]::GetFullPath("build/package/winget/test-installer.exe")
+        $log = [System.IO.Path]::GetFullPath("install.log")
+        $procMain = Start-Process -FilePath $file "/install /silent /log `"$log`"" -NoNewWindow -PassThru -Wait
+        if (Test-Path -Path $log -PathType Leaf) {
+          Get-Content $log
+        }
+        $installCode = $procMain.ExitCode
+        if($installCode -ne 0) {
+          Write-Host "ERROR INSTALLER EXIT CODE $installCode"
+          exit 3
+        }
+        if (-Not (Test-Path -Path "C:/Program Files (x86)/tgstation-server/lib/Default/Tgstation.Server.Host.deps.json" -PathType Leaf)) {
+          exit 2
+        }
+        if (-Not (Test-Path -Path "C:/ProgramData/tgstation-server/appsettings.yml" -PathType Leaf)) {
+          exit 4
+        }
+
+    - name: Test Service
+      shell: powershell
+      run: |
+        $service=Get-Service -Name tgstation-server -ErrorAction SilentlyContinue
+        if ($service.Length -eq 0) {
+          exit 3
+        }
+        if ($service[0].Status -ne "Running") {
+          exit 4
+        }
+
+    - name: Test Uninstall # Sanity checks the .deps.json exists, which the installation is broken without
+      shell: powershell
+      run: |
+        $file = [System.IO.Path]::GetFullPath("build/package/winget/test-installer.exe")
+        $log = [System.IO.Path]::GetFullPath("uninstall.log")
+        $procMain = Start-Process -FilePath $file "/uninstall /silent /log `"$log`"" -NoNewWindow -PassThru -Wait
+        if (Test-Path -Path $log -PathType Leaf) {
+          Get-Content $log
+        }
+        $installCode = $procMain.ExitCode
+        if($installCode -ne 0) {
+          Write-Host "ERROR INSTALLER EXIT CODE $installCode"
+          exit 3
+        }
+        $service=Get-Service -Name tgstation-server -ErrorAction SilentlyContinue
+        if ($service.Length -gt 0) {
+          echo $service
+          exit 2
+        }
+
+    - name: Upload Unsigned Installer .exe
+      uses: actions/upload-artifact@v3
+      with:
+        name: packaging-preview-windows
+        path: build/package/winget/Tgstation.Server.Host.Service.Wix.Bundle/bin/Release/tgstation-server-installer.exe
+
+  check-winget-pr-template:
+    name: Check winget-pkgs Pull Request Template is up to date
+    needs: start-ci-run-gate
+    if: "!(cancelled() || failure()) && needs.start-ci-run-gate.result == 'success'"
     runs-on: ubuntu-latest
-    if: "!(cancelled() || failure()) && needs.dox-build.result == 'success' && needs.docker-build.result == 'success' && needs.build-deb.result == 'success' && needs.validate-openapi-spec.result == 'success' && needs.upload-code-coverage.result == 'success' && github.event_name == 'push'"
+    steps:
+    - name: Setup dotnet
+      uses: actions/setup-dotnet@v2
+      with:
+        dotnet-version: ${{ env.TGS_DOTNET_VERSION }}
+
+    - name: Retrieve Latest winget-pkgs PULL_REQUEST_TEMPLATE commit SHA from GitHub API
+      id: get-sha
+      run: |
+        curl -L -u "${{ vars.DEV_PUSH_USERNAME }}:${{ secrets.DEV_PUSH_TOKEN }}" -H "Accept: application/vnd.github.everest-preview+json" -H "Content-Type: application/json" -o commits.json https://api.github.com/repos/microsoft/winget-pkgs/commits?path=.github/PULL_REQUEST_TEMPLATE.md
+        echo "pr_template_sha=$(cat commits.json | jq '.[0].sha')" >> $GITHUB_OUTPUT
+
+    - name: Checkout (Branch)
+      uses: actions/checkout@v3
+      if: github.event_name == 'push' || github.event_name == 'schedule'
+
+    - name: Checkout (PR Merge)
+      uses: actions/checkout@v3
+      if: github.event_name != 'push' && github.event_name != 'schedule'
+      with:
+        ref: "refs/pull/${{ github.event.number }}/merge"
+
+    - name: Restore
+      run: dotnet restore
+
+    - name: Build ReleaseNotes
+      run: dotnet build -c Release tools/ReleaseNotes/ReleaseNotes.csproj
+
+    - name: Run ReleaseNotes Check
+      run: dotnet run -c Release --no-build --project tools/ReleaseNotes --winget-template-check ${{ steps.get-sha.outputs.pr_template_sha }}
+
+  ci-completion-gate: # This job exists so there isn't a moving target for branch protections
+    name: CI Completion Gate
+    needs: [ dox-build, docker-build, build-deb, build-msi, validate-openapi-spec, upload-code-coverage, check-winget-pr-template ]
+    runs-on: ubuntu-latest
+    if: "!(cancelled() || failure()) && needs.dox-build.result == 'success' && needs.docker-build.result == 'success' && needs.build-deb.result == 'success' && needs.build-msi.result == 'success' && needs.validate-openapi-spec.result == 'success' && needs.upload-code-coverage.result == 'success' && needs.check-winget-pr-template.result == 'success'"
+    steps:
+    - name: GitHub Requires at Least One Step for a Job
+      run: exit 0
+
+  deployment-gate:
+    name: Deployment Start Gate
+    needs: ci-completion-gate
+    runs-on: ubuntu-latest
+    if: "!(cancelled() || failure()) && needs.ci-completion-gate.result == 'success' && github.event_name == 'push'"
     steps:
     - name: GitHub Requires at Least One Step for a Job
       run: exit 0
@@ -1066,8 +1311,14 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v3
 
+    - name: Restore
+      run: dotnet restore
+
+    - name: Build ReleaseNotes
+      run: dotnet build -c Release tools/ReleaseNotes/ReleaseNotes.csproj
+
     - name: Run ReleaseNotes with --ensure-release
-      run: dotnet run -c Release --project tools/ReleaseNotes --ensure-release
+      run: dotnet run -c Release --no-build --project tools/ReleaseNotes --ensure-release
 
   deploy-tgs:
     name: Deploy TGS
@@ -1082,6 +1333,36 @@ jobs:
 
     - name: Checkout
       uses: actions/checkout@v3
+
+    - name: Restore
+      run: dotnet restore
+
+    - name: Restore Wix dotnet Tool
+      run: |
+        cd build/package/winget
+        dotnet tool restore
+
+    - name: Build ReleaseNotes
+      run: dotnet build -c Release tools/ReleaseNotes/ReleaseNotes.csproj
+
+# We need to rebuild the installer.exe so it can be properly signed
+    - name: Restore
+      run: dotnet restore
+
+    - name: Build Host
+      run: dotnet build -c Release src/Tgstation.Server.Host/Tgstation.Server.Host.csproj
+
+    - name: Build Service
+      run: dotnet build -c Release src/Tgstation.Server.Host.Service/Tgstation.Server.Host.Service.csproj
+
+    - name: Prepare Artifacts
+      shell: powershell
+      run: build/package/winget/prepare_installer_input_artifacts.ps1
+
+    - name: Build Installer .exe
+      run: |
+        cd build/package/winget/Tgstation.Server.Host.Service.Wix.Bundle
+        dotnet build -c Release
 
     - name: Parse TGS version
       shell: powershell
@@ -1120,6 +1401,28 @@ jobs:
         name: packaging-debian
         path: packaging-debian
 
+    - name: Install Code Signing Certificate
+      shell: powershell
+      run: |
+        $pfxBytes = [convert]::FromBase64String("${{ secrets.CODE_SIGNING_BASE64 }}")
+        [IO.File]::WriteAllBytes("tg_codesigning.pfx", $pfxBytes)
+        $certPassword = ConvertTo-SecureString -String "${{ secrets.CODE_SIGNING_PASSWORD }}" -Force -AsPlainText
+        Import-PfxCertificate -FilePath tg_codesigning.pfx -Cert Cert:\CurrentUser\My -Password $certPassword
+        rm tg_codesigning.pfx
+
+    - name: Sign Installer .exe # https://wixtoolset.org/docs/tools/signing/
+      shell: powershell
+      run: |
+        cd build/package/winget
+        dotnet wix burn detach Tgstation.Server.Host.Service.Wix.Bundle/bin/Release/tgstation-server-installer.exe -engine burnengine.exe
+        Set-AuthenticodeSignature burnengine.exe -Certificate (Get-ChildItem Cert:\CurrentUser\My | Where-Object { $_.Thumbprint -eq "${{ vars.CODE_SIGNING_THUMBPRINT }}" }) -TimestampServer "http://timestamp.digicert.com"
+        dotnet wix burn reattach Tgstation.Server.Host.Service.Wix.Bundle/bin/Release/tgstation-server-installer.exe -engine burnengine.exe -o tgstation-server-installer.exe
+        Set-AuthenticodeSignature tgstation-server-installer.exe -Certificate (Get-ChildItem Cert:\CurrentUser\My | Where-Object { $_.Thumbprint -eq "${{ vars.CODE_SIGNING_THUMBPRINT }}" }) -TimestampServer "http://timestamp.digicert.com"
+
+    - name: Sign Service .exe
+      shell: powershell
+      run: Set-AuthenticodeSignature ServerService/Tgstation.Server.Host.Service.exe -Certificate (Get-ChildItem Cert:\CurrentUser\My | Where-Object { $_.Thumbprint -eq "${{ vars.CODE_SIGNING_THUMBPRINT }}" }) -TimestampServer "http://timestamp.digicert.com"
+
     - name: Zip Artifacts
       shell: powershell
       run: |
@@ -1130,7 +1433,7 @@ jobs:
         &"C:/Program Files/7-Zip/7z.exe" a ServerUpdatePackage.zip ./ServerUpdatePackage/* -tzip
 
     - name: Generate Release Notes
-      run: dotnet run -c Release --project tools/ReleaseNotes ${{ env.TGS_VERSION }}
+      run: dotnet run -c Release --no-build --project tools/ReleaseNotes ${{ env.TGS_VERSION }}
 
     - name: Create GitHub Release
       uses: actions/create-release@v1
@@ -1203,6 +1506,16 @@ jobs:
         asset_name: tgstation-server-v${{ env.TGS_VERSION }}.debian.packaging.tar.xz
         asset_content_type: application/x-tar
 
+    - name: Upload Installer .exe
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.DEV_PUSH_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./build/package/winget/tgstation-server-installer.exe
+        asset_name: tgstation-server-installer.exe
+        asset_content_type: application/octet-stream
+
   deploy-docker:
     name: Deploy TGS (Docker)
     needs: deploy-tgs
@@ -1244,4 +1557,39 @@ jobs:
 
     - name: Trigger tgstation-ppa workflow
       run: |
-        curl -XPOST -u "${{ vars.DEV_PUSH_USERNAME }}:${{ secrets.DEV_PUSH_TOKEN }}" -H "Accept: application/vnd.github.everest-preview+json" -H "Content-Type: application/json" https://api.github.com/repos/tgstation/tgstation-ppa/actions/workflows/add_tgs_version.yml/dispatches --data '{"ref":"main","inputs":{"tgs_semver": "${{ env.TGS_VERSION }}"}}'
+        curl -XPOST -u "${{ vars.DEV_PUSH_USERNAME }}:${{ secrets.DEV_PUSH_TOKEN }}" -H "Accept: application/vnd.github.everest-preview+json" -H "Content-Type: application/json" https://api.github.com/repos/tgstation/tgstation-ppa/actions/workflows/add_tgs_version.yml/dispatches --data '{"ref":"main","inputs":{"tgs_semver": "${{ env.TGS_VERSION }}"}
+
+  deploy-winget:
+    name: Deploy TGS (winget)
+    needs: deploy-tgs
+    if: "!(cancelled() || failure()) && needs.deploy-tgs.result == 'success'"
+    runs-on: windows-latest
+    steps:
+    - name: Setup dotnet
+      uses: actions/setup-dotnet@v2
+      with:
+        dotnet-version: ${{ env.TGS_DOTNET_VERSION }}
+
+    - name: Install winget
+      uses: Cyberboss/install-winget@v1
+      with:
+        GITHUB_TOKEN: ${{ env.WINGET_PUSH_TOKEN }}
+
+    - name: Install wingetcreate
+      run: winget install wingetcreate --disable-interactivity --accept-source-agreements
+
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    - name: Build ReleaseNotes
+      run: dotnet build -c Release tools/ReleaseNotes
+
+    - name: Execute Push Script
+      shell: powershell
+      run: build/package/winget/push_manifest.ps1
+
+    - name: Run ReleaseNotes with --link-winget
+      shell: powershell
+      run: |
+        Sleep 15
+        dotnet run -c Release --no-build --project tools/ReleaseNotes --link-winget ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}

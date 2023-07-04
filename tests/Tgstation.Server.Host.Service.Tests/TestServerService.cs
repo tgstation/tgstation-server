@@ -19,9 +19,10 @@ namespace Tgstation.Server.Host.Service.Tests
 		[TestMethod]
 		public void TestConstructionAndDisposal()
 		{
-			Assert.ThrowsException<ArgumentNullException>(() => new ServerService(null, default));
+			Assert.ThrowsException<ArgumentNullException>(() => new ServerService(null, null, default));
 			var mockWatchdogFactory = new Mock<IWatchdogFactory>();
-			new ServerService(mockWatchdogFactory.Object, default).Dispose();
+			Assert.ThrowsException<ArgumentNullException>(() => new ServerService(mockWatchdogFactory.Object, null, default));
+			new ServerService(mockWatchdogFactory.Object, Array.Empty<string>(), default).Dispose();
 		}
 
 		[TestMethod]
@@ -34,11 +35,11 @@ namespace Tgstation.Server.Host.Service.Tests
 			var mockWatchdog = new Mock<IWatchdog>();
 			var args = Array.Empty<string>();
 			CancellationToken cancellationToken;
-			mockWatchdog.Setup(x => x.RunAsync(false, args, It.IsAny<CancellationToken>())).Callback((bool x, string[] _, CancellationToken token) => cancellationToken = token).Returns(Task.CompletedTask).Verifiable();
+			mockWatchdog.Setup(x => x.RunAsync(false, It.IsNotNull<string[]>(), It.IsAny<CancellationToken>())).Callback((bool x, string[] _, CancellationToken token) => cancellationToken = token).Returns(Task.FromResult(true)).Verifiable();
 			var mockWatchdogFactory = new Mock<IWatchdogFactory>();
-			mockWatchdogFactory.Setup(x => x.CreateWatchdog(It.IsNotNull<ILoggerFactory>())).Returns(mockWatchdog.Object).Verifiable();
+			mockWatchdogFactory.Setup(x => x.CreateWatchdog(It.IsNotNull<ISignalChecker>(), It.IsNotNull<ILoggerFactory>())).Returns(mockWatchdog.Object).Verifiable();
 
-			using (var service = new ServerService(mockWatchdogFactory.Object, default))
+			using (var service = new ServerService(mockWatchdogFactory.Object, Array.Empty<string>(), default))
 			{
 				onStart.Invoke(service, new object[] { args });
 				onStop.Invoke(service, Array.Empty<object>());

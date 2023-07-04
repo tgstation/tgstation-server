@@ -21,7 +21,9 @@ using Octokit;
 
 using Tgstation.Server.Api;
 using Tgstation.Server.Client;
+using Tgstation.Server.Common.Extensions;
 using Tgstation.Server.Common.Http;
+using Tgstation.Server.Host.Common;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Setup;
 
@@ -121,7 +123,7 @@ try
 
 	Console.WriteLine("Checking for TGS3 service...");
 	const string OldServiceName = "TG Station Server";
-	const string NewServiceName = "tgstation-server";
+	const string NewServiceName = Constants.CanonicalPackageName;
 
 	static ServiceController GetTgs3Service(bool checkNewOneIsntInstalled)
 	{
@@ -153,7 +155,7 @@ try
 		return tgs3Service;
 	}
 
-	var tgs3Service = GetTgs3Service(true);
+	using var tgs3Service = GetTgs3Service(true);
 
 	if (tgs3Service.Status != ServiceControllerStatus.Running)
 	{
@@ -225,8 +227,8 @@ try
 	Directory.CreateDirectory(tgsInstallPath);
 
 	// ASP.NET 6.0 RUNTIME CHECK
-	Console.WriteLine("Next step, we need to ensure the .NET 4.7.2 and ASP.NET Core 6 runtimes are installed on your machine.");
-	Console.WriteLine("We are assuming you already have .NET 4.7.2 installed if you're running TGS3 and this program. So we're going to download .NET 6 for you.");
+	Console.WriteLine("Next step, we need to ensure the ASP.NET Core 6 runtime is installed on your machine.");
+	Console.WriteLine("We're going to download it for you.");
 	Console.WriteLine("Yes, this program runs .NET 6, but it contains the entire runtime embedded into it. You will need a system-wide install for TGS.");
 
 	var runtimeInstalled = true; // assume for now
@@ -439,7 +441,7 @@ try
 		installer.DisplayName = "/tg/station server";
 		installer.StartType = ServiceStartMode.Automatic;
 		installer.ServicesDependedOn = new string[] { "Tcpip", "Dhcp", "Dnscache" };
-		installer.ServiceName = "tgstation-server";
+		installer.ServiceName = NewServiceName;
 		installer.Parent = processInstaller;
 
 		var state = new ListDictionary();
@@ -527,7 +529,6 @@ try
 		managementObject.InvokeMethod("ChangeStartMode", new object[] { "Disabled" });
 	}
 
-	tgs3Service = GetTgs3Service(false);
 	if(tgs3Service.StartType != ServiceStartMode.Disabled)
 		Console.WriteLine("Failed to disable TGS3 service! This isn't critical, however.");
 

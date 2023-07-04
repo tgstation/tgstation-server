@@ -1,3 +1,5 @@
+# Base tgstation-server configuration file
+# You SHOULD NOT edit this file. Instead, make changes in its override file: appsettings.Production.yml
 General:
 # ConfigVersion: # Basic semver. Differs from TGS version to version. See changelog for current version
   MinimumPasswordLength: 15 # Minimum TGS user password length

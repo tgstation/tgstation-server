@@ -12,6 +12,14 @@ indent_size = 4
 indent_style = space
 indent_size = 2
 
+[*.wxs]
+indent_style = space
+indent_size = 2
+
+[*.wixproj]
+indent_style = space
+indent_size = 2
+
 [*.dm]
 indent_style = tab
 indent_size = 4

@@ -17,9 +17,9 @@ namespace Tgstation.Server.Host.Core
 	sealed class ServerUpdater : IServerUpdater, IServerUpdateExecutor
 	{
 		/// <summary>
-		/// The <see cref="IGitHubService"/> for the <see cref="ServerUpdater"/>.
+		/// The <see cref="IGitHubServiceFactory"/> for the <see cref="ServerUpdater"/>.
 		/// </summary>
-		readonly IGitHubService gitHubService;
+		readonly IGitHubServiceFactory gitHubServiceFactory;
 
 		/// <summary>
 		/// The <see cref="IIOManager"/> for the <see cref="ServerUpdater"/>.
@@ -64,7 +64,7 @@ namespace Tgstation.Server.Host.Core
 		/// <summary>
 		/// Initializes a new instance of the <see cref="ServerUpdater"/> class.
 		/// </summary>
-		/// <param name="gitHubService">The value of <see cref="gitHubService"/>.</param>
+		/// <param name="gitHubServiceFactory">The value of <see cref="gitHubServiceFactory"/>.</param>
 		/// <param name="ioManager">The value of <see cref="ioManager"/>.</param>
 		/// <param name="fileDownloader">The value of <see cref="fileDownloader"/>.</param>
 		/// <param name="serverControl">The value of <see cref="serverControl"/>.</param>
@@ -72,7 +72,7 @@ namespace Tgstation.Server.Host.Core
 		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="generalConfiguration"/>.</param>
 		/// <param name="updatesConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="updatesConfiguration"/>.</param>
 		public ServerUpdater(
-			IGitHubService gitHubService,
+			IGitHubServiceFactory gitHubServiceFactory,
 			IIOManager ioManager,
 			IFileDownloader fileDownloader,
 			IServerControl serverControl,
@@ -80,7 +80,7 @@ namespace Tgstation.Server.Host.Core
 			IOptions<GeneralConfiguration> generalConfigurationOptions,
 			IOptions<UpdatesConfiguration> updatesConfigurationOptions)
 		{
-			this.gitHubService = gitHubService ?? throw new ArgumentNullException(nameof(gitHubService));
+			this.gitHubServiceFactory = gitHubServiceFactory ?? throw new ArgumentNullException(nameof(gitHubServiceFactory));
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
 			this.fileDownloader = fileDownloader ?? throw new ArgumentNullException(nameof(fileDownloader));
 			this.serverControl = serverControl ?? throw new ArgumentNullException(nameof(serverControl));
@@ -288,6 +288,7 @@ namespace Tgstation.Server.Host.Core
 				{
 					logger.LogDebug("Looking for GitHub releases version {version}...", newVersion);
 
+					var gitHubService = gitHubServiceFactory.CreateService();
 					var releases = await gitHubService.GetTgsReleases(cancellationToken);
 					foreach (var kvp in releases)
 					{

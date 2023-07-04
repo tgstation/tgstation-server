@@ -6,6 +6,8 @@ using System.Linq;
 
 using Cyberboss.AspNetCore.AsyncInitializer;
 
+using Elastic.CommonSchema.Serilog;
+
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Cors.Infrastructure;
@@ -23,6 +25,7 @@ using Newtonsoft.Json;
 using Serilog;
 using Serilog.Events;
 using Serilog.Formatting.Display;
+using Serilog.Sinks.Elasticsearch;
 
 using Tgstation.Server.Api;
 using Tgstation.Server.Common.Http;
@@ -154,6 +157,7 @@ namespace Tgstation.Server.Host.Core
 				};
 
 			var microsoftEventLevel = ConvertSeriLogLevel(postSetupServices.FileLoggingConfiguration.MicrosoftLogLevel);
+			var elasticsearchConfiguration = postSetupServices.ElasticsearchConfiguration;
 			services.SetupLogging(
 				config =>
 				{
@@ -191,7 +195,30 @@ namespace Tgstation.Server.Host.Core
 						rollingInterval: RollingInterval.Day,
 						rollOnFileSizeLimit: true);
 				},
-				postSetupServices.ElasticsearchConfiguration);
+				elasticsearchConfiguration.Enable
+					? new ElasticsearchSinkOptions(
+						new Uri(
+							String.IsNullOrWhiteSpace(elasticsearchConfiguration.Host)
+								? throw new InvalidOperationException($"Missing {ElasticsearchConfiguration.Section}:{nameof(elasticsearchConfiguration.Host)}!")
+								: elasticsearchConfiguration.Host))
+					{
+						// Yes I know this means they cannot use a self signed cert unless they also have authentication, but lets be real here
+						// No one is going to be doing one of those but not the other
+						ModifyConnectionSettings = connectionConfigration => (!String.IsNullOrWhiteSpace(elasticsearchConfiguration.Username) && !String.IsNullOrWhiteSpace(elasticsearchConfiguration.Password))
+							? connectionConfigration
+								.BasicAuthentication(
+									elasticsearchConfiguration.Username,
+									elasticsearchConfiguration.Password)
+								.ServerCertificateValidationCallback((o, certificate, chain, errors) => true)
+							: null,
+						CustomFormatter = new EcsTextFormatter(),
+						AutoRegisterTemplate = true,
+						AutoRegisterTemplateVersion = AutoRegisterTemplateVersion.ESv7,
+						IndexFormat = "tgs-logs",
+					}
+					: null,
+				postSetupServices.InternalConfiguration,
+				postSetupServices.FileLoggingConfiguration);
 
 			// configure bearer token validation
 			services
@@ -335,11 +362,11 @@ namespace Tgstation.Server.Host.Core
 				services.AddSingleton(x => new Lazy<IProcessExecutor>(() => x.GetRequiredService<IProcessExecutor>(), true));
 				services.AddSingleton<INetworkPromptReaper, PosixNetworkPromptReaper>();
 
-				services.AddSingleton<IHostedService, PosixSignalHandler>();
-
-				services.AddSingleton<SystemDManager>();
-				services.AddSingleton<IHostedService>(x => x.GetRequiredService<SystemDManager>());
+				services.AddHostedService<PosixSignalHandler>();
 			}
+
+			if (postSetupServices.InternalConfiguration.UsingSystemD)
+				services.AddHostedService<SystemDManager>();
 
 			// configure file transfer services
 			services.AddSingleton<FileTransferService>();
@@ -368,10 +395,11 @@ namespace Tgstation.Server.Host.Core
 			// configure misc services
 			services.AddSingleton<IProcessExecutor, ProcessExecutor>();
 			services.AddSingleton<ISynchronousIOManager, SynchronousIOManager>();
-			services.AddFileDownloader();
 			services.AddSingleton<IServerPortProvider, ServerPortProivder>();
 			services.AddSingleton<ITopicClientFactory, TopicClientFactory>();
+			services.AddHostedService<CommandPipeReader>();
 
+			services.AddFileDownloader();
 			services.AddGitHub();
 
 			// configure root services
@@ -438,7 +466,7 @@ namespace Tgstation.Server.Host.Core
 
 			// 503 requests made while the application is starting
 			applicationBuilder.UseAsyncInitialization<IInstanceManager>(
-				(instanceManager, cancellationToken) => instanceManager.Ready.WithToken(cancellationToken));
+				(instanceManager, cancellationToken) => instanceManager.Ready.WaitAsync(cancellationToken));
 
 			if (generalConfiguration.HostApiDocumentation)
 			{

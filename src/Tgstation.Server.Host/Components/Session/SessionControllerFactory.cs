@@ -10,9 +10,9 @@ using Byond.TopicSender;
 
 using Microsoft.Extensions.Logging;
 
-using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Internal;
+using Tgstation.Server.Common.Extensions;
 using Tgstation.Server.Host.Components.Byond;
 using Tgstation.Server.Host.Components.Chat;
 using Tgstation.Server.Host.Components.Deployment;

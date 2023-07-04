@@ -64,7 +64,7 @@ namespace Tgstation.Server.Host.Jobs
 			if (task == null)
 				throw new InvalidOperationException("Job not started!");
 
-			return task.WithToken(cancellationToken);
+			return task.WaitAsync(cancellationToken);
 		}
 
 		/// <summary>

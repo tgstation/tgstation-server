@@ -235,7 +235,7 @@ namespace Tgstation.Server.Host.Components.Byond
 				await Task.WhenAny(
 					containerTask,
 					activeVersionUpdate)
-					.WithToken(cancellationToken);
+					.WaitAsync(cancellationToken);
 
 				if (containerTask.IsCompleted)
 					logger.LogTrace("All BYOND locks for {version} are gone", version);
@@ -302,26 +302,28 @@ namespace Tgstation.Server.Host.Components.Byond
 
 			var activeVersionBytesTask = GetActiveVersion();
 
-			using (await SemaphoreSlimContext.Lock(UserFilesSemaphore, cancellationToken))
-			{
-				// Create local cfg directory in case it doesn't exist
-				var localCfgDirectory = ioManager.ConcatPath(
-						byondInstaller.PathToUserByondFolder,
-						CfgDirectoryName);
-				await ioManager.CreateDirectory(
-					localCfgDirectory,
-					cancellationToken);
-
-				// Delete trusted.txt so it doesn't grow too large
-				var trustedFilePath =
-					ioManager.ConcatPath(
+			var byondDir = byondInstaller.PathToUserByondFolder;
+			if (byondDir != null)
+				using (await SemaphoreSlimContext.Lock(UserFilesSemaphore, cancellationToken))
+				{
+					// Create local cfg directory in case it doesn't exist
+					var localCfgDirectory = ioManager.ConcatPath(
+							byondDir,
+							CfgDirectoryName);
+					await ioManager.CreateDirectory(
 						localCfgDirectory,
-						TrustedDmbFileName);
-				logger.LogTrace("Deleting trusted .dmbs file {trustedFilePath}", trustedFilePath);
-				await ioManager.DeleteFile(
-					trustedFilePath,
-					cancellationToken);
-			}
+						cancellationToken);
+
+					// Delete trusted.txt so it doesn't grow too large
+					var trustedFilePath =
+						ioManager.ConcatPath(
+							localCfgDirectory,
+							TrustedDmbFileName);
+					logger.LogTrace("Deleting trusted .dmbs file {trustedFilePath}", trustedFilePath);
+					await ioManager.DeleteFile(
+						trustedFilePath,
+						cancellationToken);
+				}
 
 			await ioManager.CreateDirectory(DefaultIOManager.CurrentDirectory, cancellationToken);
 			var directories = await ioManager.GetDirectories(DefaultIOManager.CurrentDirectory, cancellationToken);
@@ -453,7 +455,7 @@ namespace Tgstation.Server.Host.Components.Byond
 					if (neededForLock && !installation.InstallationTask.IsCompleted)
 						logger.LogWarning("The required BYOND version ({version}) is not readily available! We will have to wait for it to install.", version);
 
-					await installation.InstallationTask.WithToken(cancellationToken);
+					await installation.InstallationTask.WaitAsync(cancellationToken);
 					return installLock;
 				}
 
@@ -616,8 +618,15 @@ namespace Tgstation.Server.Host.Components.Byond
 		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
 		async Task TrustDmbPath(string fullDmbPath, CancellationToken cancellationToken)
 		{
+			var byondDir = byondInstaller.PathToUserByondFolder;
+			if (String.IsNullOrWhiteSpace(byondDir))
+			{
+				logger.LogTrace("No relevant user BYOND directory to install a \"{fileName}\" in", TrustedDmbFileName);
+				return;
+			}
+
 			var trustedFilePath = ioManager.ConcatPath(
-				byondInstaller.PathToUserByondFolder,
+				byondDir,
 				CfgDirectoryName,
 				TrustedDmbFileName);
 
@@ -633,9 +642,7 @@ namespace Tgstation.Server.Host.Components.Byond
 					trustedFileText = $"{trustedFileText.Trim()}{Environment.NewLine}";
 				}
 				else
-				{
 					trustedFileText = String.Empty;
-				}
 
 				if (trustedFileText.Contains(fullDmbPath, StringComparison.Ordinal))
 					return;

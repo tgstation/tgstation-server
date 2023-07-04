@@ -11,7 +11,6 @@ using GitLabApiClient.Models.Notes.Requests;
 using Microsoft.Extensions.Logging;
 
 using Tgstation.Server.Host.Components.Repository;
-using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.Models;
 
 namespace Tgstation.Server.Host.Components.Deployment.Remote
@@ -59,7 +58,7 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 					.GetAsync(
 						$"{repository.RemoteRepositoryOwner}/{repository.RemoteRepositoryName}",
 						x.TestMerge.Number)
-					.WithToken(cancellationToken));
+					.WaitAsync(cancellationToken));
 			try
 			{
 				await Task.WhenAll(tasks);
@@ -140,7 +139,7 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 						$"{remoteRepositoryOwner}/{remoteRepositoryName}",
 						testMergeNumber,
 						new CreateMergeRequestNoteRequest(comment))
-					.WithToken(cancellationToken);
+					.WaitAsync(cancellationToken);
 			}
 			catch (Exception ex) when (ex is not OperationCanceledException)
 			{

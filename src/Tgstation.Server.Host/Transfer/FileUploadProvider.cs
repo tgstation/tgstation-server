@@ -126,7 +126,7 @@ namespace Tgstation.Server.Host.Transfer
 			{
 				streamTcs.TrySetResult(bufferedStream ?? stream);
 
-				await completionTcs.Task.WithToken(cancellationToken);
+				await completionTcs.Task.WaitAsync(cancellationToken);
 				return errorMessage;
 			}
 		}

@@ -2,7 +2,7 @@
 
 using Newtonsoft.Json;
 
-using Tgstation.Server.Api;
+using Tgstation.Server.Common.Extensions;
 
 using YamlDotNet.Core;
 using YamlDotNet.Core.Events;

@@ -13,6 +13,10 @@
     <TgsInteropVersion>5.6.1</TgsInteropVersion>
     <TgsHostWatchdogVersion>1.3.0</TgsHostWatchdogVersion>
     <TgsContainerScriptVersion>1.2.1</TgsContainerScriptVersion>
-    <TgsMigratorVersion>1.0.1</TgsMigratorVersion>
+    <TgsMigratorVersion>1.0.2</TgsMigratorVersion>
+    <TgsNetMajorVersion>6</TgsNetMajorVersion>
+    <!-- Update this frequently with dotnet runtime patches. MAJOR MUST MATCH ABOVE! -->
+    <!-- You also need to update the .Bundle project's ExePackagePayload hash and file size after changing it -->
+    <TgsRedistUrl>https://dotnetcli.azureedge.net/dotnet/aspnetcore/Runtime/6.0.19/dotnet-hosting-6.0.19-win.exe</TgsRedistUrl>
   </PropertyGroup>
 </Project>

@@ -7,22 +7,33 @@ using Microsoft.Extensions.Logging;
 using Mono.Unix;
 using Mono.Unix.Native;
 
-namespace Tgstation.Server.Host.Watchdog
+using Tgstation.Server.Host.Watchdog;
+
+namespace Tgstation.Server.Host.Console
 {
 	/// <summary>
-	/// Helper for checking POSIX signals.
+	/// <see cref="ISignalChecker"/> for checking POSIX signals.
 	/// </summary>
-	static class SignalChecker
+	sealed class PosixSignalChecker : ISignalChecker
 	{
 		/// <summary>
-		/// Forwards certain signals to a given <paramref name="childPid"/>.
+		/// The <see cref="ILogger"/> for the <see cref="PosixSignalChecker"/>.
 		/// </summary>
-		/// <param name="logger">The <see cref="ILogger"/> to write to.</param>
-		/// <param name="childPid">The <see cref="System.Diagnostics.Process.Id"/> of the process to forward signals to.</param>
-		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		public static async Task CheckSignals(ILogger logger, int childPid, CancellationToken cancellationToken)
+		readonly ILogger<PosixSignalChecker> logger;
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="PosixSignalChecker"/> class.
+		/// </summary>
+		/// <param name="logger">The value of <see cref="logger"/>.</param>
+		public PosixSignalChecker(ILogger<PosixSignalChecker> logger)
 		{
+			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
+		}
+
+		/// <inheritdoc />
+		public async Task CheckSignals(Func<string, (int, Task)> startChild, CancellationToken cancellationToken)
+		{
+			var (childPid, _) = startChild?.Invoke(null) ?? throw new ArgumentNullException(nameof(startChild));
 			var signalTcs = new TaskCompletionSource<Signum>();
 			async Task<Signum?> CheckSignal(Signum signum)
 			{

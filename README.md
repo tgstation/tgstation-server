@@ -18,7 +18,25 @@ Older server versions can be found in the V# branches of this repository. Note t
 
 ### Pre-Requisites
 
-- A [MariaDB](https://downloads.mariadb.org/), MySQL, [PostgresSQL](https://www.postgresql.org/download/), or [Microsoft SQL Server](https://www.microsoft.com/en-us/download/details.aspx?id=55994) database engine is required
+tgstation-server needs a relational database to store it's data.
+
+If you're just a hobbyist server host, you can probably get away with using SQLite for this. SQLite is bundled with TGS and simply requires you to specify where on your machine you want to store the data.
+
+_HOWEVER_
+
+SQLite is not a battle-ready relational database. It doesn't scale well for any use case. TGS *strongly* recommends you use one of its supported standalone databases. Setting one of these up is more involved but worth the effort.
+
+The supported standalone databases are:
+
+- [MariaDB](https://downloads.mariadb.org/) _- NOTE: If you plan on hosting SpaceStation 13, this is the database most codebases support, making it an ideal choice_
+- [PostgresSQL](https://www.postgresql.org/download/)
+- [Microsoft SQL Server](https://www.microsoft.com/en-us/download/details.aspx?id=55994)
+- MySQL
+
+TGS will require either:
+- No pre-existing database WITH schema creation permissions.
+or
+- Exclusive access to a database schema that TGS has full control over.
 
 ### Installation
 
@@ -26,17 +44,60 @@ Follow the instructions for your OS below.
 
 #### Windows
 
-Download and install the [ASP .NET Core Runtime (>= v6.0)](https://dotnet.microsoft.com/download/dotnet/6.0) (Choose the option to `Run Server Apps` for your system). If you plan to install tgstation-server as a Windows service, you should also ensure that your .NET Framework runtime version is >= v4.7.2 (Most modern systems have it by default. Download can be found on same page). Ensure that the `dotnet` executable file is in your system's `PATH` variable (or that of the user's that will be running the server), you can test this by opening a command prompt and running `dotnet --list-runtimes`.
+###### Note about Digital Signatures
 
-[Download the latest release .zip](https://github.com/tgstation/tgstation-server/releases/latest). You probably want the `ServerService` package. Choose `ServerConsole` if you prefer not to use the Windows service.
+Note that the Windows Service and installer executables requires administrative privileges. These are digitally signed against the Root CA managed by [Jordan Dominion](https://github.com/Cyberboss). Consider installing the certificate into your `Trusted Root Authorities` store for cleaner UAC prompts. The certificate can be downloaded [here](https://file.house/zpFb.cer), please validate the thumbprint is `70176acf7ffa2898fa5b5cd6e38b43b38ea5d07f` before installing.
 
-Extract the .zip file to where you want the server to run from. Note the account running the server must have write and delete access to the `lib` subdirectory.
+##### winget (Windows 10 or later)
 
-If you wish to install the TGS as a service, run `Tgstation.Server.Host.Service.exe`. It should prompt you to install it. Click `Yes` and accept a potential UAC elevation prompt and the setup wizard should run.
+[winget](https://github.com/microsoft/winget-cli) installed is the easiest way to install the latest version of tgstation-server (provided Microsoft has approved the most recent package manifest).
+
+Check if you have `winget` by running the following command.
+```
+winget --version
+```
+
+If it returns an error that means you don't have winget. You can easily install it by running the following commands in an administrative Windows Powershell instance:
+```
+Import-Module Appx
+Invoke-WebRequest -Uri https://www.nuget.org/api/v2/package/Microsoft.UI.Xaml/2.7.3 -OutFile .\microsoft.ui.xaml.2.7.3.zip
+Expand-Archive .\microsoft.ui.xaml.2.7.3.zip
+Add-AppxPackage .\microsoft.ui.xaml.2.7.3\tools\AppX\x64\Release\Microsoft.UI.Xaml.2.7.appx
+Add-AppxPackage -Path "https://aka.ms/Microsoft.VCLibs.x64.14.00.Desktop.appx"
+Add-AppxPackage -Path "https://github.com/microsoft/winget-cli/releases/latest/download/Microsoft.DesktopAppInstaller_8wekyb3d8bbwe.msixbundle"
+Remove-Item .\microsoft.ui.xaml.2.7.3\ -r
+Remove-Item .\microsoft.ui.xaml.2.7.3.zip
+```
+
+Once winget is installed, simply run the following commands, accepting any prompts that may appear:
+
+```ps
+winget install tgstation-server
+```
+
+The required dotnet runtime may be installed as a pre-requisite.
+
+Note: If you use the `-h` or `--disable-interactivity` winget arguments, you will need to either pre-configure TGS or configure and start the `tgstation-server` service after installing. A shortcut will be placed on your desktop and in your start menu to assist with this.
+
+##### Installer
+
+[Download the latest release's tgstation-server-installer.exe](https://github.com/tgstation/tgstation-server/releases/latest). Executing it will take you through the process of installing and configuring your server. The required dotnet runtime may be installed as a pre-requisite.
+
+Note: If you use the `/silent` or `/passive` arguments to the installer, you will need to either pre-configure TGS or configure and start the `tgstation-server` service after installing. A shortcut will be placed on your desktop and in your start menu to assist with this.
+
+##### Manual
+
+If you don't have it installed already, download and install the [ASP .NET Core Runtime Hosting Bundle (>= v6.0)](https://dotnet.microsoft.com/download/dotnet/6.0). Ensure that the `dotnet` executable file is in your system's `PATH` variable (or that of the user's that will be running the server). You can test this by opening a command prompt and running `dotnet --list-runtimes`.
+
+[Download the latest release .zip](https://github.com/tgstation/tgstation-server/releases/latest). Typically, you want the `ServerService.zip` package in order to run TGS as a Windows service. Choose `ServerConsole.zip` if you prefer to use a command line daemon.
+
+Extract the .zip file to where you want the server to run from. Note the account running the server must have write, execute, and delete access to the `lib` subdirectory.
+
+If you wish to install the TGS as a service, run `Tgstation.Server.Host.Service.exe`. It should prompt you to install it. Click `Yes` and the setup wizard should run.
 
 Should you want a clean start, be sure to first uninstall the service by running `Tgstation.Server.Host.Service.exe -u` from the command line.
 
-If using the console version, run ./tgs.bat in the root of the installation directory. Ctrl+C will close the server, terminating all live game instances.
+If using the console version, run `./tgs.bat` in the root of the installation directory. Ctrl+C will close the server, terminating all live game instances.
 
 #### Linux
 

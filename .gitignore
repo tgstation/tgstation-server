@@ -5,6 +5,7 @@ _ReSharper.*
 packages/
 artifacts/
 .vs/
+.vscode/
 *.user
 *.suo
 *.userprefs

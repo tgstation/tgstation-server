@@ -2,13 +2,16 @@
   <Import Project="../../build/Common.props" />
 
   <PropertyGroup>
-    <OutputType>Exe</OutputType>
-    <TargetFramework>net472</TargetFramework>
-    <RuntimeIdentifier>win</RuntimeIdentifier>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>$(TgsFrameworkVersion)-windows</TargetFramework>
     <Version>$(TgsCoreVersion)</Version>
     <EnableNETAnalyzers>true</EnableNETAnalyzers>
+    <!-- DO NOT ENABLE THIS, It makes the service require the desktop runtime instead of the ASP NET Core Hosting Bundle -->
+    <UseWindowsForms>false</UseWindowsForms>
     <CodeAnalysisRuleSet>../../build/analyzers.ruleset</CodeAnalysisRuleSet>
     <DocumentationFile>bin/$(Configuration)/$(TargetFramework)/$(RuntimeIdentifier)/$(AssemblyName).xml</DocumentationFile>
+    <ApplicationIcon>../../build/tgs.ico</ApplicationIcon>
+    <ApplicationManifest>../../build/uac_elevation_manifest.xml</ApplicationManifest>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
@@ -23,6 +26,7 @@
   <ItemGroup>
     <!-- Usage: Command line argument support -->
     <PackageReference Include="McMaster.Extensions.CommandLineUtils" Version="4.0.2" />
+    <PackageReference Include="Microsoft.Extensions.Hosting.WindowsServices" Version="7.0.1" />
     <!-- Usage: Windows event log logging plugin -->
     <PackageReference Include="Microsoft.Extensions.Logging.EventLog" Version="7.0.0" />
     <!-- Usage: Console logging plugin -->
@@ -34,6 +38,7 @@
     </PackageReference>
     <!-- Usage: OS identification -->
     <PackageReference Include="System.Runtime.InteropServices" Version="4.3.0" />
+    <PackageReference Include="System.ServiceProcess.ServiceController" Version="7.0.1" />
   </ItemGroup>
 
   <ItemGroup>
@@ -42,11 +47,7 @@
 
   <ItemGroup>
     <AdditionalFiles Include="../../build/stylecop.json" />
+    <AdditionalFiles Include="../../build/uac_elevation_manifest.xml" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Reference Include="System.Configuration.Install" />
-    <Reference Include="System.ServiceProcess" />
-    <Reference Include="System.Windows.Forms" />
-  </ItemGroup>
 </Project>

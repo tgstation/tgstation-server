@@ -1,7 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="../../build/Common.props" />
 
   <PropertyGroup>
-    <TargetFramework>net472</TargetFramework>
+    <TargetFramework>$(TgsFrameworkVersion)-windows</TargetFramework>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
@@ -27,10 +28,6 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\Tgstation.Server.Host.Service\Tgstation.Server.Host.Service.csproj" />
     <ProjectReference Include="..\..\src\Tgstation.Server.Host.Watchdog\Tgstation.Server.Host.Watchdog.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="System.ServiceProcess" />
   </ItemGroup>
 
 </Project>

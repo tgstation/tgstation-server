@@ -75,7 +75,8 @@ namespace Tgstation.Server.Host.Configuration
 				? Directory
 				: ioManager.ConcatPath(
 					directoryToUse,
-					assemblyInformationProvider.VersionPrefix);
+					assemblyInformationProvider.VersionPrefix,
+					"logs");
 		}
 	}
 }

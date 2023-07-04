@@ -2,7 +2,7 @@
   <Import Project="../../build/Common.props" />
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>$(TgsFrameworkVersion)</TargetFramework>
     <DebugType>Full</DebugType>
     <AddSyntheticProjectReferencesForSolutionDependencies>false</AddSyntheticProjectReferencesForSolutionDependencies>
     <Version>$(TgsHostWatchdogVersion)</Version>
@@ -44,6 +44,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Tgstation.Server.Common\Tgstation.Server.Common.csproj" />
     <ProjectReference Include="..\Tgstation.Server.Host.Common\Tgstation.Server.Host.Common.csproj" />
   </ItemGroup>
 </Project>

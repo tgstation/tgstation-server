@@ -5,6 +5,7 @@ using System.Data.SqlClient;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -26,12 +27,13 @@ using Tgstation.Server.Host.Extensions.Converters;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.System;
 using Tgstation.Server.Host.Utils;
+
 using YamlDotNet.Serialization;
 
 namespace Tgstation.Server.Host.Setup
 {
 	/// <inheritdoc />
-	sealed class SetupWizard : IHostedService
+	sealed class SetupWizard : BackgroundService
 	{
 		/// <summary>
 		/// The <see cref="IIOManager"/> for the <see cref="SetupWizard"/>.
@@ -79,6 +81,11 @@ namespace Tgstation.Server.Host.Setup
 		readonly GeneralConfiguration generalConfiguration;
 
 		/// <summary>
+		/// The <see cref="InternalConfiguration"/> for the <see cref="SetupWizard"/>.
+		/// </summary>
+		readonly InternalConfiguration internalConfiguration;
+
+		/// <summary>
 		/// A <see cref="TaskCompletionSource"/> that will complete when the <see cref="IConfiguration"/> is reloaded.
 		/// </summary>
 		TaskCompletionSource reloadTcs;
@@ -96,6 +103,7 @@ namespace Tgstation.Server.Host.Setup
 		/// <param name="applicationLifetime">The value of <see cref="applicationLifetime"/>.</param>
 		/// <param name="configuration">The <see cref="IConfiguration"/> in use.</param>
 		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="generalConfiguration"/>.</param>
+		/// <param name="internalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="internalConfiguration"/>.</param>
 		public SetupWizard(
 			IIOManager ioManager,
 			IConsole console,
@@ -106,7 +114,8 @@ namespace Tgstation.Server.Host.Setup
 			IAsyncDelayer asyncDelayer,
 			IHostApplicationLifetime applicationLifetime,
 			IConfiguration configuration,
-			IOptions<GeneralConfiguration> generalConfigurationOptions)
+			IOptions<GeneralConfiguration> generalConfigurationOptions,
+			IOptions<InternalConfiguration> internalConfigurationOptions)
 		{
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
 			this.console = console ?? throw new ArgumentNullException(nameof(console));
@@ -119,6 +128,7 @@ namespace Tgstation.Server.Host.Setup
 			ArgumentNullException.ThrowIfNull(configuration);
 
 			generalConfiguration = generalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
+			internalConfiguration = internalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(internalConfigurationOptions));
 
 			configuration
 				.GetReloadToken()
@@ -128,32 +138,39 @@ namespace Tgstation.Server.Host.Setup
 		}
 
 		/// <inheritdoc />
-		public async Task StartAsync(CancellationToken cancellationToken)
+		protected override async Task ExecuteAsync(CancellationToken cancellationToken)
 		{
 			await CheckRunWizard(cancellationToken);
 			applicationLifetime.StopApplication();
 		}
 
-		/// <inheritdoc />
-		public Task StopAsync(CancellationToken cancellationToken) => Task.CompletedTask;
-
 		/// <summary>
 		/// A prompt for a yes or no value.
 		/// </summary>
 		/// <param name="question">The question <see cref="string"/>.</param>
+		/// <param name="defaultResponse">The optional default response if the user doesn't enter anything.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task"/> resulting in <see langword="true"/> if the user replied yes, <see langword="false"/> otherwise.</returns>
-		async Task<bool> PromptYesNo(string question, CancellationToken cancellationToken)
+		async Task<bool> PromptYesNo(string question, bool? defaultResponse, CancellationToken cancellationToken)
 		{
 			do
 			{
-				await console.WriteAsync(question, false, cancellationToken);
+				await console.WriteAsync($"{question} ({(defaultResponse == true ? 'Y' : 'y')}/{(defaultResponse == false ? 'N' : 'n')}): ", false, cancellationToken);
 				var responseString = await console.ReadLineAsync(false, cancellationToken);
-				var upperResponse = responseString.ToUpperInvariant();
-				if (upperResponse == "Y" || upperResponse == "YES")
-					return true;
-				else if (upperResponse == "N" || upperResponse == "NO")
-					return false;
+				if (responseString.Length == 0)
+				{
+					if (defaultResponse.HasValue)
+						return defaultResponse.Value;
+				}
+				else
+				{
+					var upperResponse = responseString.ToUpperInvariant();
+					if (upperResponse == "Y" || upperResponse == "YES")
+						return true;
+					else if (upperResponse == "N" || upperResponse == "NO")
+						return false;
+				}
+
 				await console.WriteAsync("Invalid response!", true, cancellationToken);
 			}
 			while (true);
@@ -289,7 +306,13 @@ namespace Tgstation.Server.Host.Setup
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the SQLite database path to store in the configuration.</returns>
 		async Task<string> ValidateNonExistantSqliteDBName(string databaseName, CancellationToken cancellationToken)
 		{
-			var resolvedPath = ioManager.ResolvePath(databaseName);
+			var dbPathIsRooted = Path.IsPathRooted(databaseName);
+			var resolvedPath = ioManager.ResolvePath(
+				dbPathIsRooted
+					? databaseName
+					: ioManager.ConcatPath(
+						internalConfiguration.AppSettingsBasePath,
+						databaseName));
 			try
 			{
 				var directoryName = ioManager.GetDirectoryName(resolvedPath);
@@ -311,12 +334,13 @@ namespace Tgstation.Server.Host.Setup
 				return null;
 			}
 
-			if (!Path.IsPathRooted(databaseName))
+			if (!dbPathIsRooted)
 			{
-				await console.WriteAsync("Note, this relative path (currently) resolves to the following:", true, cancellationToken);
+				await console.WriteAsync("Note, this relative path currently resolves to the following:", true, cancellationToken);
 				await console.WriteAsync(resolvedPath, true, cancellationToken);
 				bool writeResolved = await PromptYesNo(
-					"Would you like to save the relative path in the configuration? If not, the full path will be saved. (y/n): ",
+					"Would you like to save the relative path in the configuration? If not, the full path will be saved.",
+					null,
 					cancellationToken);
 
 				if (writeResolved)
@@ -339,24 +363,13 @@ namespace Tgstation.Server.Host.Setup
 			{
 				await console.WriteAsync(String.Empty, true, cancellationToken);
 				await console.WriteAsync(
-					"NOTE: It is HIGHLY reccommended that TGS runs on a complete relational database, specfically *NOT* Sqlite.",
+					"NOTE: If you are serious about hosting public servers, it is HIGHLY reccommended that TGS runs on a database *OTHER THAN* Sqlite.",
 					true,
 					cancellationToken);
 				await console.WriteAsync(
-					"Sqlite, by nature cannot perform several DDL operations. Because of this future compatiblility cannot be guaranteed.",
+					"It is, however, the easiest option to get started with and will pose few if any problems in a single user scenario.",
 					true,
 					cancellationToken);
-				await console.WriteAsync(
-					"This means that you may not be able to update to the next minor version of TGS without a clean re-installation!",
-					true,
-					cancellationToken);
-				await console.WriteAsync(
-					"Please consider taking the time to set up a relational database if this is meant to be a long-standing server.",
-					true,
-					cancellationToken);
-				await console.WriteAsync(String.Empty, true, cancellationToken);
-
-				await asyncDelayer.Delay(TimeSpan.FromSeconds(3), cancellationToken);
 			}
 
 			await console.WriteAsync("What SQL database type will you be using?", true, cancellationToken);
@@ -405,6 +418,7 @@ namespace Tgstation.Server.Host.Setup
 				ushort? serverPort = null;
 
 				bool isSqliteDB = databaseConfiguration.DatabaseType == DatabaseType.Sqlite;
+				IPHostEntry serverAddressEntry = null;
 				if (!isSqliteDB)
 					do
 					{
@@ -430,7 +444,20 @@ namespace Tgstation.Server.Host.Setup
 							}
 						}
 
-						break;
+						try
+						{
+							if (serverAddress != null)
+							{
+								await console.WriteAsync("Attempting to resolve address...", true, cancellationToken);
+								serverAddressEntry = await Dns.GetHostEntryAsync(serverAddress, cancellationToken);
+							}
+
+							break;
+						}
+						catch (Exception ex)
+						{
+							await console.WriteAsync($"Unable to resolve address: {ex.Message}", true, cancellationToken);
+						}
 					}
 					while (true);
 
@@ -451,7 +478,10 @@ namespace Tgstation.Server.Host.Setup
 								databaseName = await ValidateNonExistantSqliteDBName(databaseName, cancellationToken);
 						}
 						else
-							dbExists = await PromptYesNo("Does this database already exist? If not, we will attempt to CREATE it. (y/n): ", cancellationToken);
+							dbExists = await PromptYesNo(
+								"Does this database already exist? If not, we will attempt to CREATE it.",
+								null,
+								cancellationToken);
 					}
 
 					if (String.IsNullOrWhiteSpace(databaseName))
@@ -463,7 +493,12 @@ namespace Tgstation.Server.Host.Setup
 
 				bool useWinAuth;
 				if (databaseConfiguration.DatabaseType == DatabaseType.SqlServer && platformIdentifier.IsWindows)
-					useWinAuth = await PromptYesNo("Use Windows Authentication? (y/n): ", cancellationToken);
+				{
+					var defaultResponse = serverAddressEntry?.AddressList.Any(IPAddress.IsLoopback) ?? false
+						? (bool?)true
+						: null;
+					useWinAuth = await PromptYesNo("Use Windows Authentication?", defaultResponse, cancellationToken);
+				}
 				else
 					useWinAuth = false;
 
@@ -648,7 +683,7 @@ namespace Tgstation.Server.Host.Setup
 			if (String.IsNullOrWhiteSpace(newGeneralConfiguration.GitHubAccessToken))
 				newGeneralConfiguration.GitHubAccessToken = null;
 
-			newGeneralConfiguration.HostApiDocumentation = await PromptYesNo("Host API Documentation? (y/n): ", cancellationToken);
+			newGeneralConfiguration.HostApiDocumentation = await PromptYesNo("Host API Documentation?", false, cancellationToken);
 
 			return newGeneralConfiguration;
 		}
@@ -662,7 +697,7 @@ namespace Tgstation.Server.Host.Setup
 		{
 			var fileLoggingConfiguration = new FileLoggingConfiguration();
 			await console.WriteAsync(null, true, cancellationToken);
-			fileLoggingConfiguration.Disable = !await PromptYesNo("Enable file logging? (y/n): ", cancellationToken);
+			fileLoggingConfiguration.Disable = !await PromptYesNo("Enable file logging?", true, cancellationToken);
 
 			if (!fileLoggingConfiguration.Disable)
 			{
@@ -747,7 +782,7 @@ namespace Tgstation.Server.Host.Setup
 		{
 			var elasticsearchConfiguration = new ElasticsearchConfiguration();
 			await console.WriteAsync(null, true, cancellationToken);
-			elasticsearchConfiguration.Enable = await PromptYesNo("Enable logging to an external ElasticSearch server? (y/n): ", cancellationToken);
+			elasticsearchConfiguration.Enable = await PromptYesNo("Enable logging to an external ElasticSearch server?", false, cancellationToken);
 
 			if (elasticsearchConfiguration.Enable)
 			{
@@ -797,8 +832,11 @@ namespace Tgstation.Server.Host.Setup
 		{
 			var config = new ControlPanelConfiguration
 			{
-				Enable = await PromptYesNo("Enable the web control panel? (y/n): ", cancellationToken),
-				AllowAnyOrigin = await PromptYesNo("Allow web control panels hosted elsewhere to access the server? (Access-Control-Allow-Origin: *) (y/n): ", cancellationToken),
+				Enable = await PromptYesNo("Enable the web control panel?", true, cancellationToken),
+				AllowAnyOrigin = await PromptYesNo(
+					"Allow web control panels hosted elsewhere to access the server? (Access-Control-Allow-Origin: *)",
+					true,
+					cancellationToken),
 			};
 
 			if (!config.AllowAnyOrigin)
@@ -822,7 +860,7 @@ namespace Tgstation.Server.Host.Setup
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the new <see cref="SwarmConfiguration"/>.</returns>
 		async Task<SwarmConfiguration> ConfigureSwarm(CancellationToken cancellationToken)
 		{
-			var enable = await PromptYesNo("Enable swarm mode? (y/n): ", cancellationToken);
+			var enable = await PromptYesNo("Enable swarm mode?", false, cancellationToken);
 			if (!enable)
 				return null;
 
@@ -860,7 +898,7 @@ namespace Tgstation.Server.Host.Setup
 			}
 			while (String.IsNullOrWhiteSpace(privateKey));
 
-			var controller = await PromptYesNo("Is this server the swarm's controller? (y/n): ", cancellationToken);
+			var controller = await PromptYesNo("Is this server the swarm's controller? (y/n): ", null, cancellationToken);
 			Uri controllerAddress = null;
 			if (!controller)
 				controllerAddress = await ParseAddress("Enter the swarm controller's HTTP(S) address: ");
@@ -937,7 +975,10 @@ namespace Tgstation.Server.Host.Setup
 
 			try
 			{
-				await ioManager.WriteAllBytes(userConfigFileName, configBytes, cancellationToken);
+				await ioManager.WriteAllBytes(
+					userConfigFileName,
+					configBytes,
+					cancellationToken);
 
 				// Ensure the reload
 				if (generalConfiguration.SetupWizardMode != SetupWizardMode.Only)
@@ -1021,7 +1062,9 @@ namespace Tgstation.Server.Host.Setup
 				return;
 			}
 
-			var userConfigFileName = String.Format(CultureInfo.InvariantCulture, "appsettings.{0}.yml", hostingEnvironment.EnvironmentName);
+			var userConfigFileName = ioManager.ConcatPath(
+				internalConfiguration.AppSettingsBasePath,
+				String.Format(CultureInfo.InvariantCulture, "appsettings.{0}.yml", hostingEnvironment.EnvironmentName));
 
 			async Task HandleSetupCancel()
 			{
@@ -1030,8 +1073,18 @@ namespace Tgstation.Server.Host.Setup
 				await console.WriteAsync("Aborting setup!", true, default);
 			}
 
-			// Link passed cancellationToken with cancel key press
 			Task finalTask = Task.CompletedTask;
+			string originalConsoleTitle = null;
+			void SetConsoleTitle()
+			{
+				if (originalConsoleTitle != null)
+					return;
+
+				originalConsoleTitle = console.Title;
+				console.Title = $"{assemblyInformationProvider.VersionString} Setup Wizard";
+			}
+
+			// Link passed cancellationToken with cancel key press
 			using (var cts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken, console.CancelKeyPress))
 			using ((cancellationToken = cts.Token).Register(() => finalTask = HandleSetupCancel()))
 				try
@@ -1063,14 +1116,17 @@ namespace Tgstation.Server.Host.Setup
 					{
 						if (forceRun)
 						{
+							SetConsoleTitle();
 							await console.WriteAsync(String.Format(CultureInfo.InvariantCulture, "The configuration settings are requesting the setup wizard be run, but you already appear to have a configuration file ({0})!", userConfigFileName), true, cancellationToken);
 
-							forceRun = await PromptYesNo("Continue running setup wizard? (y/n): ", cancellationToken);
+							forceRun = await PromptYesNo("Continue running setup wizard?", false, cancellationToken);
 						}
 
 						if (!forceRun)
 							return;
 					}
+
+					SetConsoleTitle();
 
 					// flush the logs to prevent console conflicts
 					await asyncDelayer.Delay(TimeSpan.FromSeconds(1), cancellationToken);
@@ -1080,6 +1136,8 @@ namespace Tgstation.Server.Host.Setup
 				finally
 				{
 					await finalTask;
+					if (originalConsoleTitle != null)
+						console.Title = originalConsoleTitle;
 				}
 		}
 	}

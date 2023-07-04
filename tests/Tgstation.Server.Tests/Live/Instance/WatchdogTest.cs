@@ -24,6 +24,7 @@ using Tgstation.Server.Api.Models.Request;
 using Tgstation.Server.Api.Models.Response;
 using Tgstation.Server.Client;
 using Tgstation.Server.Client.Components;
+using Tgstation.Server.Common.Extensions;
 using Tgstation.Server.Host.Components;
 using Tgstation.Server.Host.Components.Chat;
 using Tgstation.Server.Host.Components.Interop;
@@ -590,7 +591,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 				var bridgeTestTopicResult = await TopicClient.SendTopic(IPAddress.Loopback, "tgs_integration_test_tactics2=1", TestLiveServer.DDPort, cancellationToken);
 				Assert.AreEqual("ack2", bridgeTestTopicResult.StringData);
 
-				await bridgeTestsTcs.Task.WithToken(cancellationToken);
+				await bridgeTestsTcs.Task.WaitAsync(cancellationToken);
 			}
 
 			BridgeController.LogContent = true;

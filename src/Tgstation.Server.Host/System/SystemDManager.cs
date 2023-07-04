@@ -17,7 +17,7 @@ namespace Tgstation.Server.Host.System
 	/// <summary>
 	/// Implements the SystemD notify service protocol.
 	/// </summary>
-	sealed class SystemDManager : IHostedService, IRestartHandler, IDisposable
+	sealed class SystemDManager : BackgroundService, IRestartHandler, IDisposable
 	{
 		/// <summary>
 		/// The sd_notify command for notifying the watchdog we are alive.
@@ -43,16 +43,6 @@ namespace Tgstation.Server.Host.System
 		/// The <see cref="ILogger"/> for the <see cref="SystemDManager"/>.
 		/// </summary>
 		readonly ILogger<SystemDManager> logger;
-
-		/// <summary>
-		/// The <see cref="CancellationTokenSource"/> for <see cref="runTask"/>.
-		/// </summary>
-		readonly CancellationTokenSource watchdogCts;
-
-		/// <summary>
-		/// The main task executing in the <see cref="SystemDManager"/>.
-		/// </summary>
-		Task runTask;
 
 		/// <summary>
 		/// If TGS is going to restart.
@@ -87,22 +77,13 @@ namespace Tgstation.Server.Host.System
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
 			restartRegistration = serverControl.RegisterForRestart(this);
-			try
-			{
-				watchdogCts = new CancellationTokenSource();
-			}
-			catch
-			{
-				restartRegistration.Dispose();
-				throw;
-			}
 		}
 
 		/// <inheritdoc />
-		public void Dispose()
+		public override void Dispose()
 		{
+			base.Dispose();
 			restartRegistration.Dispose();
-			watchdogCts.Dispose();
 		}
 
 		/// <inheritdoc />
@@ -114,36 +95,16 @@ namespace Tgstation.Server.Host.System
 		}
 
 		/// <inheritdoc />
-		public Task StartAsync(CancellationToken cancellationToken)
+		protected override async Task ExecuteAsync(CancellationToken cancellationToken)
 		{
 			if (SendSDNotify(SDNotifyWatchdog))
 			{
-				logger.LogDebug("SystemD detected");
-				runTask = RunAsync(watchdogCts.Token);
-			}
-			else
-			{
 				logger.LogDebug("SystemD not detected");
-				runTask = Task.CompletedTask;
+				return;
 			}
 
-			return Task.CompletedTask;
-		}
+			logger.LogDebug("SystemD detected");
 
-		/// <inheritdoc />
-		public async Task StopAsync(CancellationToken cancellationToken)
-		{
-			watchdogCts.Cancel();
-			await runTask.WithToken(cancellationToken);
-		}
-
-		/// <summary>
-		/// Runs the <see cref="SystemDManager"/>.
-		/// </summary>
-		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		async Task RunAsync(CancellationToken cancellationToken)
-		{
 			if (applicationLifetime.ApplicationStarted.IsCancellationRequested)
 				throw new InvalidOperationException("RunAsync called after application started!");
 
@@ -167,7 +128,7 @@ namespace Tgstation.Server.Host.System
 
 			try
 			{
-				await instanceManager.Ready.WithToken(cancellationToken);
+				await instanceManager.Ready.WaitAsync(cancellationToken);
 				CheckReady();
 
 				var watchdogUsec = Environment.GetEnvironmentVariable("WATCHDOG_USEC");
