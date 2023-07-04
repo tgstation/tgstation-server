@@ -61,6 +61,7 @@ namespace Tgstation.Server.Host.Setup
 			services.UseStandardConfig<SecurityConfiguration>(Configuration);
 			services.UseStandardConfig<FileLoggingConfiguration>(Configuration);
 			services.UseStandardConfig<ElasticsearchConfiguration>(Configuration);
+			services.UseStandardConfig<InternalConfiguration>(Configuration);
 
 			ConfigureHostedService(services);
 		}

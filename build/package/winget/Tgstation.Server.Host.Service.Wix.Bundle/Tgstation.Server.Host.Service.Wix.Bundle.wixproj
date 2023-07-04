@@ -1,0 +1,29 @@
+<Project Sdk="WixToolset.Sdk/4.0.1" xmlns:bal="http://schemas.microsoft.com/wix/BalExtension">
+  <Import Project="../../../Common.props" />
+  <PropertyGroup>
+    <DefineConstants>ProductVersion=$(TgsCoreVersion);NetMajorVersion=$(TgsNetMajorVersion);AspNetRedistUrl=$(TgsRedistUrl)</DefineConstants>
+    <OutputType>Bundle</OutputType>
+    <Platforms>x86</Platforms>
+    <OutputName>tgstation-server-installer</OutputName>
+    <!-- For debugging, this is done externally by CI -->
+    <!--
+    <SignOutput>true</SignOutput>
+    <CertificateThumbprint>A478CB55A37A135913F6C2A19A45FD8E1A9F3633</CertificateThumbprint>
+    -->
+  </PropertyGroup>
+  <Target Name="SignBundleEngine">
+    <Message Importance="high" Text="SignBundleEngine: @(SignBundleEngine)" />
+    <Exec Command='powershell.exe –NonInteractive –ExecutionPolicy Unrestricted –Command "Set-AuthenticodeSignature %(SignBundleEngine.FullPath) -Certificate (Get-ChildItem Cert:\CurrentUser\My | Where-Object { $_.Thumbprint -eq \"$(CertificateThumbprint)\" }) -TimestampServer http://timestamp.digicert.com"' />
+  </Target>
+  <Target Name="SignBundle">
+    <Message Importance="high" Text="SignBundle: @(SignBundle)" />
+    <Exec Command='powershell.exe –NonInteractive –ExecutionPolicy Unrestricted –Command "Set-AuthenticodeSignature %(SignBundle.FullPath) -Certificate (Get-ChildItem Cert:\CurrentUser\My | Where-Object { $_.Thumbprint -eq \"$(CertificateThumbprint)\" }) -TimestampServer http://timestamp.digicert.com"' />
+  </Target>
+  <ItemGroup>
+    <PackageReference Include="WixToolset.Bal.wixext" Version="4.0.1" />
+    <PackageReference Include="WixToolset.Netfx.wixext" Version="4.0.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Tgstation.Server.Host.Service.Wix\Tgstation.Server.Host.Service.Wix.wixproj" />
+  </ItemGroup>
+</Project>

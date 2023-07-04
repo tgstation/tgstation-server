@@ -149,7 +149,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		{
 			while (true)
 			{
-				await nextMessage.Task.WithToken(cancellationToken);
+				await nextMessage.Task.WaitAsync(cancellationToken);
 				lock (messageQueue)
 					if (messageQueue.Count > 0)
 					{

@@ -1,4 +1,4 @@
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System;
@@ -17,9 +17,9 @@ namespace Tgstation.Server.Host.Console.Tests
 		{
 			var mockServer = new Mock<IWatchdog>();
 			var args = Array.Empty<string>();
-			mockServer.Setup(x => x.RunAsync(false, args, It.IsAny<CancellationToken>())).Returns(Task.CompletedTask).Verifiable();
+			mockServer.Setup(x => x.RunAsync(false, args, It.IsAny<CancellationToken>())).Returns(Task.FromResult(true)).Verifiable();
 			var mockServerFactory = new Mock<IWatchdogFactory>();
-			mockServerFactory.Setup(x => x.CreateWatchdog(It.IsAny<ILoggerFactory>())).Returns(mockServer.Object).Verifiable();
+			mockServerFactory.Setup(x => x.CreateWatchdog(It.IsNotNull<ISignalChecker>(), It.IsNotNull<ILoggerFactory>())).Returns(mockServer.Object).Verifiable();
 			Program.WatchdogFactory = mockServerFactory.Object;
 			await Program.Main(args);
 			mockServer.VerifyAll();

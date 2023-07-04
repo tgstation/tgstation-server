@@ -388,7 +388,7 @@ namespace Tgstation.Server.Host.IO
 
 				async Task CopyThisFile()
 				{
-					await subdirCreationTask.WithToken(cancellationToken);
+					await subdirCreationTask.WaitAsync(cancellationToken);
 					using var lockContext = semaphore != null
 						? await SemaphoreSlimContext.Lock(semaphore, cancellationToken)
 						: null;

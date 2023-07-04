@@ -107,7 +107,11 @@ namespace Tgstation.Server.Host.Components.Byond
 			generalConfiguration = generalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
 			sessionConfiguration = sessionConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(sessionConfigurationOptions));
 
-			PathToUserByondFolder = IOManager.ResolvePath(IOManager.ConcatPath(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "BYOND"));
+			var documentsDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+			if (String.IsNullOrWhiteSpace(documentsDirectory))
+				PathToUserByondFolder = null; // happens with the service account
+			else
+				PathToUserByondFolder = IOManager.ResolvePath(IOManager.ConcatPath(documentsDirectory, "BYOND"));
 
 			semaphore = new SemaphoreSlim(1);
 			installedDirectX = false;

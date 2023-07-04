@@ -30,7 +30,7 @@ namespace Tgstation.Server.Tests
 			await using var process = await processExecutor.LaunchProcess("test." + platformIdentifier.ScriptFileExtension, ".", string.Empty, null, true, true);
 			using var cts = new CancellationTokenSource();
 			cts.CancelAfter(3000);
-			var exitCode = await process.Lifetime.WithToken(cts.Token);
+			var exitCode = await process.Lifetime.WaitAsync(cts.Token);
 
 			Assert.AreEqual(0, exitCode);
 			var result = (await process.GetCombinedOutput(default)).Trim();
@@ -59,7 +59,7 @@ namespace Tgstation.Server.Tests
 				{
 					using var cts = new CancellationTokenSource();
 					cts.CancelAfter(3000);
-					var exitCode = await process.Lifetime.WithToken(cts.Token);
+					var exitCode = await process.Lifetime.WaitAsync(cts.Token);
 
 					await process.GetCombinedOutput(cts.Token);
 

@@ -34,9 +34,13 @@ You can of course, as always, ask for help at [#coderbus](irc://irc.rizon.net/co
 
 ### Development Environment
 
-You need the Dotnet 6.0 SDK and npm>=v5.7 (in your PATH) to compile the server. In order to build the service version you also need a .NET 4.7.1 build chain
+You need the .NET 6.0 SDK and npm>=v5.7 (in your PATH) to compile the server.
 
-The recommended IDE is Visual Studio 2019 which has installation options for both of these.
+The recommended IDE is Visual Studio 2022 or VSCode.
+
+In order to build the service version and/or the Windows installer you need a to run on Windows.
+
+In addition, the installer project uses the Wix v4 Toolset which will cause an error on loading the .sln in Visual Studio if the [HeatWave for VS2022 Extension](https://marketplace.visualstudio.com/items?itemName=FireGiant.FireGiantHeatWaveDev17) is not installed.
 
 In order to run the integration tests you must have the following environment variables set. To run them more accurately, include the optional ones.
 - `TGS_TEST_DATABASE_TYPE`: `MySql`, `MariaDB`, `PostgresSql`, or `SqlServer`.
@@ -70,6 +74,8 @@ If you don't plan on deploying TGS, the following secrets can be omitted:
 - Secret `DOCKER_USERNAME`: Login username for Docker image push.
 - Secret `DOCKER_PASSWORD`: Login password for Docker image push.
 - Secret `NUGET_API_KEY`: Nuget.org API Key for client libraries push.
+- Secret `CODE_SIGNING_BASE64`: Base64 string of a .pfx file containing a Windows code-signing certificate.
+- Secret `CODE_SIGNING_PASSWORD`: Password for importing the above .pfx.
 
 ### Know your Code
 
@@ -146,10 +152,13 @@ void Hello()
 {
 	if (!thing1)
 		return;
+
 	if (thing2)
 		return;
+
 	if (thing3 != 30)
 		return;
+
 	do stuff
 }
 ```

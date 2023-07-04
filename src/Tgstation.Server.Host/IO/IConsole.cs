@@ -9,6 +9,11 @@ namespace Tgstation.Server.Host.IO
 	interface IConsole
 	{
 		/// <summary>
+		/// Gets or sets the <see cref="IConsole"/> window's title. Can return <see langword="null"/> if getting the console title is not supported.
+		/// </summary>
+		string Title { get; set; }
+
+		/// <summary>
 		/// If the <see cref="IConsole"/> is visible to the user.
 		/// </summary>
 		bool Available { get; }

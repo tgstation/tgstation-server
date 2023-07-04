@@ -482,7 +482,7 @@ namespace Tgstation.Server.Host.Components.Chat
 			if (waitingForInitialConnection)
 			{
 				logger.LogTrace("Waiting for initial chat bot connections before updating tracking contexts...");
-				await initialProviderConnectionsTask.WithToken(cancellationToken);
+				await initialProviderConnectionsTask.WaitAsync(cancellationToken);
 			}
 
 			List<Task> tasks;
@@ -932,7 +932,7 @@ namespace Tgstation.Server.Host.Components.Chat
 					if (messageTasks.Count == 0)
 					{
 						logger.LogTrace("No providers active, pausing messsage monitoring...");
-						await updatedTask.WithToken(cancellationToken);
+						await updatedTask.WaitAsync(cancellationToken);
 						logger.LogTrace("Resuming message monitoring...");
 						continue;
 					}
@@ -1073,7 +1073,7 @@ namespace Tgstation.Server.Host.Components.Chat
 			{
 				var cancellationToken = handlerCts.Token;
 				if (waitForConnections)
-					await initialProviderConnectionsTask.WithToken(cancellationToken);
+					await initialProviderConnectionsTask.WaitAsync(cancellationToken);
 
 				await SendMessage(
 					channelIdsFactory(),

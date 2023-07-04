@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -9,6 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
+using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.IO;
@@ -48,14 +50,37 @@ namespace Tgstation.Server.Host
 		{
 			ArgumentNullException.ThrowIfNull(args);
 
-			var basePath = IOManager.ResolvePath();
+			// need to shove this arg in to disable config reloading unless a user specifically overrides it
+			if (!args.Any(arg => arg.Contains("hostBuilder:reloadConfigOnChange", StringComparison.OrdinalIgnoreCase))
+				&& String.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("hostBuilder__reloadConfigOnChange")))
+			{
+				var oldArgs = args;
+				args = new string[oldArgs.Length + 1];
+				Array.Copy(oldArgs, args, oldArgs.Length);
+				args[oldArgs.Length] = "--hostBuilder:reloadConfigOnChange=false";
+			}
+
+			const string AppSettings = "appsettings";
+			const string AppSettingsRelocationKey = $"--{AppSettings}-base-path=";
+
+			var appsettingsRelativeBasePathArgument = args.FirstOrDefault(arg => arg.StartsWith(AppSettingsRelocationKey, StringComparison.Ordinal));
+			string basePath;
+			if (appsettingsRelativeBasePathArgument != null)
+				basePath = IOManager.ResolvePath(appsettingsRelativeBasePathArgument[AppSettingsRelocationKey.Length..]);
+			else
+				basePath = IOManager.ResolvePath();
+
+			// this is a massive bloody hack but I don't know a better way to do it
+			// It's needed for the setup wizard
+			Environment.SetEnvironmentVariable($"{InternalConfiguration.Section}__{nameof(InternalConfiguration.AppSettingsBasePath)}", basePath);
+
 			IHostBuilder CreateDefaultBuilder() => Microsoft.Extensions.Hosting.Host.CreateDefaultBuilder(args)
 				.ConfigureAppConfiguration((context, builder) =>
 				{
 					builder.SetBasePath(basePath);
 
-					builder.AddYamlFile("appsettings.yml", optional: true, reloadOnChange: true)
-						.AddYamlFile($"appsettings.{context.HostingEnvironment.EnvironmentName}.yml", optional: true, reloadOnChange: true);
+					builder.AddYamlFile($"{AppSettings}.yml", optional: true, reloadOnChange: false)
+						.AddYamlFile($"{AppSettings}.{context.HostingEnvironment.EnvironmentName}.yml", optional: true, reloadOnChange: false);
 
 					// reorganize the builder so our yaml configs don't override the env/cmdline configs
 					// values obtained via debugger

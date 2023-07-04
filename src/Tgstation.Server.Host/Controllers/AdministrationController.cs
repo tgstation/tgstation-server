@@ -41,9 +41,9 @@ namespace Tgstation.Server.Host.Controllers
 		const string OctokitException = "Bad GitHub API response, check configuration!";
 
 		/// <summary>
-		/// The <see cref="IGitHubService"/> for the <see cref="AdministrationController"/>.
+		/// The <see cref="IGitHubServiceFactory"/> for the <see cref="AdministrationController"/>.
 		/// </summary>
-		readonly IGitHubService gitHubService;
+		readonly IGitHubServiceFactory gitHubServiceFactory;
 
 		/// <summary>
 		/// The <see cref="IServerControl"/> for the <see cref="AdministrationController"/>.
@@ -85,7 +85,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// </summary>
 		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> for the <see cref="ApiController"/>.</param>
 		/// <param name="authenticationContextFactory">The <see cref="IAuthenticationContextFactory"/> for the <see cref="ApiController"/>.</param>
-		/// <param name="gitHubService">The value of <see cref="gitHubService"/>.</param>
+		/// <param name="gitHubServiceFactory">The value of <see cref="gitHubServiceFactory"/>.</param>
 		/// <param name="serverControl">The value of <see cref="serverControl"/>.</param>
 		/// <param name="serverUpdateInitiator">The value of <see cref="serverUpdateInitiator"/>.</param>
 		/// <param name="assemblyInformationProvider">The value of <see cref="assemblyInformationProvider"/>.</param>
@@ -97,7 +97,7 @@ namespace Tgstation.Server.Host.Controllers
 		public AdministrationController(
 			IDatabaseContext databaseContext,
 			IAuthenticationContextFactory authenticationContextFactory,
-			IGitHubService gitHubService,
+			IGitHubServiceFactory gitHubServiceFactory,
 			IServerControl serverControl,
 			IServerUpdateInitiator serverUpdateInitiator,
 			IAssemblyInformationProvider assemblyInformationProvider,
@@ -112,7 +112,7 @@ namespace Tgstation.Server.Host.Controllers
 				logger,
 				true)
 		{
-			this.gitHubService = gitHubService ?? throw new ArgumentNullException(nameof(gitHubService));
+			this.gitHubServiceFactory = gitHubServiceFactory ?? throw new ArgumentNullException(nameof(gitHubServiceFactory));
 			this.serverControl = serverControl ?? throw new ArgumentNullException(nameof(serverControl));
 			this.serverUpdateInitiator = serverUpdateInitiator ?? throw new ArgumentNullException(nameof(serverUpdateInitiator));
 			this.assemblyInformationProvider = assemblyInformationProvider ?? throw new ArgumentNullException(nameof(assemblyInformationProvider));
@@ -143,6 +143,7 @@ namespace Tgstation.Server.Host.Controllers
 				Uri repoUrl = null;
 				try
 				{
+					var gitHubService = gitHubServiceFactory.CreateService();
 					var repositoryUrlTask = gitHubService.GetUpdatesRepositoryUrl(cancellationToken);
 					var releases = await gitHubService.GetTgsReleases(cancellationToken);
 

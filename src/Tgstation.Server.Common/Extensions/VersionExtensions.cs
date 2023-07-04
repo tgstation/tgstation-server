@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Tgstation.Server.Api
+namespace Tgstation.Server.Common.Extensions
 {
 	/// <summary>
 	/// Extensions for the <see cref="Version"/> class.

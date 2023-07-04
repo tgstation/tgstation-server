@@ -2,7 +2,8 @@
 using System.Net.Http.Headers;
 using System.Reflection;
 
-using Tgstation.Server.Api;
+using Tgstation.Server.Common.Extensions;
+using Tgstation.Server.Host.Common;
 
 namespace Tgstation.Server.Host.System
 {
@@ -10,7 +11,7 @@ namespace Tgstation.Server.Host.System
 	sealed class AssemblyInformationProvider : IAssemblyInformationProvider
 	{
 		/// <inheritdoc />
-		public string VersionPrefix => "tgstation-server";
+		public string VersionPrefix => Constants.CanonicalPackageName;
 
 		/// <inheritdoc />
 		public Version Version { get; }

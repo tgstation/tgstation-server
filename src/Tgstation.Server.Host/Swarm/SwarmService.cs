@@ -20,7 +20,6 @@ using Tgstation.Server.Common.Http;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.Database;
-using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.System;
 using Tgstation.Server.Host.Transfer;
@@ -282,7 +281,7 @@ namespace Tgstation.Server.Host.Swarm
 				? asyncDelayer.Delay(
 					TimeSpan.FromMinutes(SwarmConstants.UpdateCommitTimeoutMinutes),
 					cancellationToken)
-				: Extensions.TaskExtensions.InfiniteTask.WithToken(cancellationToken);
+				: Extensions.TaskExtensions.InfiniteTask.WaitAsync(cancellationToken);
 
 			var commitTask = Task.WhenAny(localUpdateOperation.CommitGate, timeoutTask);
 
@@ -1159,8 +1158,7 @@ namespace Tgstation.Server.Host.Swarm
 		/// <returns><see langword="true"/> the result of the call to <see cref="TaskCompletionSource{TResult}.TrySetResult(TResult)"/>.</returns>
 		bool TriggerHealthCheck()
 		{
-			var currentTcs = forceHealthCheckTcs;
-			forceHealthCheckTcs = new TaskCompletionSource();
+			var currentTcs = Interlocked.Exchange(ref forceHealthCheckTcs, new TaskCompletionSource());
 			return currentTcs.TrySetResult();
 		}
 

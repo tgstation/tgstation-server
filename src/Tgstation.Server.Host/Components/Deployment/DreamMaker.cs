@@ -386,7 +386,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 					repoName,
 					cancellationToken);
 
-				var eventTask = eventConsumer.HandleEvent(EventType.DeploymentComplete, Enumerable.Empty<string>(), cancellationToken);
+				var eventTask = eventConsumer.HandleEvent(EventType.DeploymentComplete, Enumerable.Empty<string>(), false, cancellationToken);
 
 				try
 				{
@@ -537,7 +537,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 			{
 				// DCT: Cancellation token is for job, delaying here is fine
 				progressReporter.StageName = "Running CompileCancelled event";
-				await eventConsumer.HandleEvent(EventType.CompileCancelled, Enumerable.Empty<string>(), CancellationToken.None);
+				await eventConsumer.HandleEvent(EventType.CompileCancelled, Enumerable.Empty<string>(), true, CancellationToken.None);
 				throw;
 			}
 			finally
@@ -594,6 +594,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 						repoOrigin.ToString(),
 						$"{byondLock.Version.Major}.{byondLock.Version.Minor}",
 					},
+					true,
 					cancellationToken);
 
 				// determine the dme
@@ -632,6 +633,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 						repoOrigin.ToString(),
 						$"{byondLock.Version.Major}.{byondLock.Version.Minor}",
 					},
+					true,
 					cancellationToken);
 
 				// run compiler
@@ -672,6 +674,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 							exitCode == 0 ? "1" : "0",
 							byondVersion.ToString(),
 						},
+						true,
 						cancellationToken);
 					throw;
 				}
@@ -684,6 +687,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 						resolvedOutputDirectory,
 						byondVersion.ToString(),
 					},
+					true,
 					cancellationToken);
 
 				logger.LogTrace("Applying static game file symlinks...");
@@ -803,10 +807,10 @@ namespace Tgstation.Server.Host.Components.Deployment
 			using (var provider = new TemporaryDmbProvider(ioManager.ResolvePath(job.DirectoryName.ToString()), String.Concat(job.DmeName, DmbExtension), job))
 			await using (var controller = await sessionControllerFactory.LaunchNew(provider, byondLock, launchParameters, true, cancellationToken))
 			{
-				var launchResult = await controller.LaunchResult.WithToken(cancellationToken);
+				var launchResult = await controller.LaunchResult.WaitAsync(cancellationToken);
 
 				if (launchResult.StartupTime.HasValue)
-					await controller.Lifetime.WithToken(cancellationToken);
+					await controller.Lifetime.WaitAsync(cancellationToken);
 
 				if (!controller.Lifetime.IsCompleted)
 					await controller.DisposeAsync();
@@ -958,7 +962,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 				try
 				{
 					// DCT: None available
-					await eventConsumer.HandleEvent(EventType.DeploymentCleanup, new List<string> { jobPath }, CancellationToken.None);
+					await eventConsumer.HandleEvent(EventType.DeploymentCleanup, new List<string> { jobPath }, true, CancellationToken.None);
 					await ioManager.DeleteDirectory(jobPath, CancellationToken.None);
 				}
 				catch (Exception e)

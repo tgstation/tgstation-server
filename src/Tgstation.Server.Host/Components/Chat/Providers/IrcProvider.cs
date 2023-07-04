@@ -377,7 +377,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 					cancellationToken,
 					DefaultIOManager.BlockingTaskCreationOptions,
 					TaskScheduler.Current)
-					.WithToken(cancellationToken);
+					.WaitAsync(cancellationToken);
 
 				cancellationToken.ThrowIfCancellationRequested();
 
@@ -584,7 +584,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			cancellationToken,
 			TaskCreationOptions.None,
 			TaskScheduler.Current)
-			.WithToken(cancellationToken);
+			.WaitAsync(cancellationToken);
 
 		/// <summary>
 		/// Run SASL authentication on <see cref="client"/>.

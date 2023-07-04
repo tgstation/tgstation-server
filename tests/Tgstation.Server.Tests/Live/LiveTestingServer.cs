@@ -110,6 +110,7 @@ namespace Tgstation.Server.Tests.Live
 				String.Format(CultureInfo.InvariantCulture, "General:HostApiDocumentation={0}", DumpOpenApiSpecpath),
 				String.Format(CultureInfo.InvariantCulture, "FileLogging:Directory={0}", Path.Combine(Directory, "Logs")),
 				String.Format(CultureInfo.InvariantCulture, "FileLogging:LogLevel={0}", "Trace"),
+				String.Format(CultureInfo.InvariantCulture, "FileLogging:Disable={0}", false),
 				String.Format(CultureInfo.InvariantCulture, "General:ValidInstancePaths:0={0}", Directory),
 				"General:ByondTopicTimeout=3000",
 				$"Session:HighPriorityLiveDreamDaemon={HighPriorityDreamDaemon}",

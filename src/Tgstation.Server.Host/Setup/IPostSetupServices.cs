@@ -34,6 +34,11 @@ namespace Tgstation.Server.Host.Setup
 		ElasticsearchConfiguration ElasticsearchConfiguration { get; }
 
 		/// <summary>
+		/// The <see cref="Configuration.InternalConfiguration"/>.
+		/// </summary>
+		InternalConfiguration InternalConfiguration { get; }
+
+		/// <summary>
 		/// The <see cref="IPlatformIdentifier"/>.
 		/// </summary>
 		IPlatformIdentifier PlatformIdentifier { get; }

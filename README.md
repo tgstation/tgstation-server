@@ -18,40 +18,138 @@ Older server versions can be found in the V# branches of this repository. Note t
 
 ### Pre-Requisites
 
-- [ASP .NET Core Runtime (>= v6.0)](https://dotnet.microsoft.com/download/dotnet/6.0) (Choose the option to `Run Server Apps` for your system) If you plan to install tgstation-server as a Windows service, you should also ensure that your .NET Framework runtime version is >= v4.7.2 (Download can be found on same page). Ensure that the `dotnet` executable file is in your system's `PATH` variable (or that of the user's that will be running the server).
-- A [MariaDB](https://downloads.mariadb.org/), MySQL, [PostgresSQL](https://www.postgresql.org/download/), or [Microsoft SQL Server](https://www.microsoft.com/en-us/download/details.aspx?id=55994) database engine is required
+tgstation-server needs a relational database to store it's data.
+
+If you're just a hobbyist server host, you can probably get away with using SQLite for this. SQLite is bundled with TGS and simply requires you to specify where on your machine you want to store the data.
+
+_HOWEVER_
+
+SQLite is not a battle-ready relational database. It doesn't scale well for any use case. TGS *strongly* recommends you use one of its supported standalone databases. Setting one of these up is more involved but worth the effort.
+
+The supported standalone databases are:
+
+- [MariaDB](https://downloads.mariadb.org/) _- NOTE: If you plan on hosting SpaceStation 13, this is the database most codebases support, making it an ideal choice_
+- [PostgresSQL](https://www.postgresql.org/download/)
+- [Microsoft SQL Server](https://www.microsoft.com/en-us/download/details.aspx?id=55994)
+- MySQL
+
+TGS will require either:
+- No pre-existing database WITH schema creation permissions.
+or
+- Exclusive access to a database schema that TGS has full control over.
 
 ### Installation
 
-1. [Download the latest release .zip](https://github.com/tgstation/tgstation-server/releases/latest). The `ServerService` package will only work on Windows. Choose `ServerConsole` if that is not your target OS or you prefer not to use the Windows service.
-2. Extract the .zip file to where you want the server to run from. Note the account running the server must have write and delete access to the `lib` subdirectory.
+Follow the instructions for your OS below.
 
 #### Windows
 
-If you wish to install the TGS as a service, run `Tgstation.Server.Host.Service.exe`. It should prompt you to install it. Click `Yes` and accept a potential UAC elevation prompt and the setup wizard should run.
+###### Note about Digital Signatures
+
+Note that the Windows Service and installer executables requires administrative privileges. These are digitally signed against the Root CA managed by [Jordan Dominion](https://github.com/Cyberboss). Consider installing the certificate into your `Trusted Root Authorities` store for cleaner UAC prompts. The certificate can be downloaded [here](https://file.house/zpFb.cer), please validate the thumbprint is `70176acf7ffa2898fa5b5cd6e38b43b38ea5d07f` before installing.
+
+##### winget (Windows 10 or later)
+
+[winget](https://github.com/microsoft/winget-cli) installed is the easiest way to install the latest version of tgstation-server (provided Microsoft has approved the most recent package manifest).
+
+Check if you have `winget` by running the following command.
+```
+winget --version
+```
+
+If it returns an error that means you don't have winget. You can easily install it by running the following commands in an administrative Windows Powershell instance:
+```
+Import-Module Appx
+Invoke-WebRequest -Uri https://www.nuget.org/api/v2/package/Microsoft.UI.Xaml/2.7.3 -OutFile .\microsoft.ui.xaml.2.7.3.zip
+Expand-Archive .\microsoft.ui.xaml.2.7.3.zip
+Add-AppxPackage .\microsoft.ui.xaml.2.7.3\tools\AppX\x64\Release\Microsoft.UI.Xaml.2.7.appx
+Add-AppxPackage -Path "https://aka.ms/Microsoft.VCLibs.x64.14.00.Desktop.appx"
+Add-AppxPackage -Path "https://github.com/microsoft/winget-cli/releases/latest/download/Microsoft.DesktopAppInstaller_8wekyb3d8bbwe.msixbundle"
+Remove-Item .\microsoft.ui.xaml.2.7.3\ -r
+Remove-Item .\microsoft.ui.xaml.2.7.3.zip
+```
+
+Once winget is installed, simply run the following commands, accepting any prompts that may appear:
+
+```ps
+winget install tgstation-server
+```
+
+The required dotnet runtime may be installed as a pre-requisite.
+
+Note: If you use the `-h` or `--disable-interactivity` winget arguments, you will need to either pre-configure TGS or configure and start the `tgstation-server` service after installing. A shortcut will be placed on your desktop and in your start menu to assist with this.
+
+##### Installer
+
+[Download the latest release's tgstation-server-installer.exe](https://github.com/tgstation/tgstation-server/releases/latest). Executing it will take you through the process of installing and configuring your server. The required dotnet runtime may be installed as a pre-requisite.
+
+Note: If you use the `/silent` or `/passive` arguments to the installer, you will need to either pre-configure TGS or configure and start the `tgstation-server` service after installing. A shortcut will be placed on your desktop and in your start menu to assist with this.
+
+##### Manual
+
+If you don't have it installed already, download and install the [ASP .NET Core Runtime Hosting Bundle (>= v6.0)](https://dotnet.microsoft.com/download/dotnet/6.0). Ensure that the `dotnet` executable file is in your system's `PATH` variable (or that of the user's that will be running the server). You can test this by opening a command prompt and running `dotnet --list-runtimes`.
+
+[Download the latest release .zip](https://github.com/tgstation/tgstation-server/releases/latest). Typically, you want the `ServerService.zip` package in order to run TGS as a Windows service. Choose `ServerConsole.zip` if you prefer to use a command line daemon.
+
+Extract the .zip file to where you want the server to run from. Note the account running the server must have write, execute, and delete access to the `lib` subdirectory.
+
+If you wish to install the TGS as a service, run `Tgstation.Server.Host.Service.exe`. It should prompt you to install it. Click `Yes` and the setup wizard should run.
 
 Should you want a clean start, be sure to first uninstall the service by running `Tgstation.Server.Host.Service.exe -u` from the command line.
 
-If using the console version, run ./tgs.bat in the root of the installation directory. Ctrl+C will close the server, terminating all live game instances.
+If using the console version, run `./tgs.bat` in the root of the installation directory. Ctrl+C will close the server, terminating all live game instances.
 
-
-#### Linux (Native)
+#### Linux
 
 Installing natively is the recommended way to run tgstation-server on Linux.
+
+##### Ubuntu
+
+Install TGS and all it's dependencies via our apt repository, interactively configure it, and start the service with this one-liner:
+
+```sh
+sudo dpkg --add-architecture i386 \
+&& sudo apt update \
+&& sudo apt install -y software-properties-common \
+&& sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv B6FD15EE7ED77676EAEAF910EEEDC8280A307527 \
+&& sudo add-apt-repository -y "deb https://tgstation.github.io/tgstation-ppa/debian unstable main" \
+&& sudo apt update \
+&& sudo apt install -y tgstation-server \
+&& sudo tgs-configure \
+&& sudo systemctl start tgstation-server
+```
+
+##### Debian
+
+The `aspnetcore-runtime-6.0` package isn't yet available on mainline Debian and must be [installed from Microsoft](https://learn.microsoft.com/en-us/dotnet/core/install/linux-debian) first. Use the following one-liner to add their packages repository.
+
+```sh
+curl -L https://packages.microsoft.com/config/debian/11/packages-microsoft-prod.deb -o packages-microsoft-prod.deb \
+&& sudo dpkg -i packages-microsoft-prod.deb \
+&& rm packages-microsoft-prod.deb
+```
+
+After that, run the same command as the Ubuntu installation.
+
+_Support for more distros coming soon_
+
+##### Manual
 
 The following dependencies are required.
 
 - aspnetcore-runtime-6.0 (Note, not all supported distros have this package, see the links above for official Microsoft installation instructions)
 - libc6-i386
 - libstdc++6:i386
-- gdb (for using gcore to create core dumps)
 - gcc-multilib (Only on 64-bit systems)
+- gdb (for using gcore to create core dumps)
 
-If you have SystemD, we recommend installing the service unit [here](./build/tgstation-server.service). It assumes TGS is installed into `/opt/tgstation-server` but feel free to adjust it to your needs. Note that the server will need to have it's configuration file setup before running with SystemD.
+[Download the latest release .zip](https://github.com/tgstation/tgstation-server/releases/latest). Choose `ServerConsole`.
+
+If you have SystemD installed, we recommend installing the service unit [here](./build/tgstation-server.service). It assumes TGS is installed into `/opt/tgstation-server` and you will be using the  but feel free to adjust it to your needs. Note that the server will need to have it's configuration file setup before running with SystemD.
 
 Alternatively, to launch the server in the current shell, run `./tgs.sh` in the root of the installation directory. The process will run in a blocking fashion. SIGQUIT will close the server, terminating all live game instances.
 
-#### Docker (Linux)
+##### Docker
 
 tgstation-server supports running in a docker container. The official image repository is located at https://hub.docker.com/r/tgstation/server. It can also be built locally by running `docker build . -f build/Dockerfile -t <your tag name>` in the repository root.
 
@@ -213,11 +311,13 @@ Note that the live detach for DreamDaemon servers is only supported for updates 
 
 For the Windows service version stop the `tgstation-server` service
 
+For the SystemD managed service, use `systemctl stop tgstation-server`. DO NOT USE `systemctl kill` as this can create orphaned processes while leaving TGS running.
+
 For the console version press `Ctrl+C` or send a SIGQUIT to the ORIGINAL dotnet process
 
 For the docker version run `docker stop <your container name>`
 
-### Updating
+### Updating the Game
 
 ## Integrating
 
@@ -371,15 +471,27 @@ Instances can be either part of a swarm or not. Once in the database they cannot
 
 tgstation-server is controlled via a RESTful HTTP json API. Documentation on this API can be found [here](https://tgstation.github.io/tgstation-server/api.html). This section serves to document the concepts of the server. The API is versioned separately from the release version. A specification for it can be found in the api-vX.X.X git releases/tags.
 
-### Updating
+### Updating TGS
 
-TGS can self update without stopping your DreamDaemon servers. Releases made to this repository are bound by a contract that allows changes of the runtime assemblies without stopping your servers. Database migrations are automatically applied as well. Because of this REVERTING TO LOWER VERSIONS IS NOT OFFICIALLY SUPPORTED, do so at your own risk (check changes made to `/src/Tgstation.Server.Host/Models/Migrations`).
+TGS can self update without stopping your DreamDaemon servers. Releases made to this repository are bound by a contract that allows changes of the runtime assemblies without stopping your servers. Database migrations are automatically applied as well. Reverting to lower versions works but only works so far back in time, do so at your own risk (check changes made to `/src/Tgstation.Server.Host/Models/Migrations`).
 
 Major version updates may require additional action on the part of the user (apart from the configuration changes).
 
+#### Linux Notes
+
+If TGS was installed via a package manager, using the TGS self updater will cause the version to change without notifying said package manager. This is not necessarily a problem if you're okay with the deviation.
+
+To avoid this, use the package manager to update TGS. It is just as seamless as the self-updater.
+
+##### apt
+
+```sh
+sudo apt update && sudo apt upgrade -y
+```
+
 #### Notifications
 
-If a server update is available, it will be indicated in the response from the GET /Administration endpoint. For more active notifications, you can subscribe to [this GitHub discussion](https://github.com/tgstation/tgstation-server/discussions/1322).
+If a server update is available, it will be indicated in the response from the GET /Administration endpoint and shown as a green exclamation mark in the webpanel navbar. For more active notifications, you can subscribe to [this GitHub discussion](https://github.com/tgstation/tgstation-server/discussions/1322).
 
 ### Users
 

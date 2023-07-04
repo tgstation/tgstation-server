@@ -377,22 +377,22 @@ namespace Tgstation.Server.Host.Database
 		/// <summary>
 		/// Used by unit tests to remind us to setup the correct MSSQL migration downgrades.
 		/// </summary>
-		internal static readonly Type MSLatestMigration = typeof(MSRenameHeartbeatsToHealthChecks);
+		internal static readonly Type MSLatestMigration = typeof(MSAddMapThreads);
 
 		/// <summary>
 		/// Used by unit tests to remind us to setup the correct MYSQL migration downgrades.
 		/// </summary>
-		internal static readonly Type MYLatestMigration = typeof(MYRenameHeartbeatsToHealthChecks);
+		internal static readonly Type MYLatestMigration = typeof(MYAddMapThreads);
 
 		/// <summary>
 		/// Used by unit tests to remind us to setup the correct PostgresSQL migration downgrades.
 		/// </summary>
-		internal static readonly Type PGLatestMigration = typeof(PGRenameHeartbeatsToHealthChecks);
+		internal static readonly Type PGLatestMigration = typeof(PGAddMapThreads);
 
 		/// <summary>
 		/// Used by unit tests to remind us to setup the correct SQLite migration downgrades.
 		/// </summary>
-		internal static readonly Type SLLatestMigration = typeof(SLRenameHeartbeatsToHealthChecks);
+		internal static readonly Type SLLatestMigration = typeof(SLAddMapThreads);
 
 		/// <inheritdoc />
 #pragma warning disable CA1502 // Cyclomatic complexity

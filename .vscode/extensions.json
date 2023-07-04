@@ -1,9 +1,0 @@
-{
-    "recommendations": [
-        "gbasood.byond-dm-language-support",
-        "ms-vscode.csharp",
-        "k--kato.docomment",
-        "peterjausovec.vscode-docker",
-        "bbenoist.doxygen"
-    ]
-}

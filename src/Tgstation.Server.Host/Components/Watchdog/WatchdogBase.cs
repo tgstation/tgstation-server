@@ -411,7 +411,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				if (Status != WatchdogStatus.Offline)
 				{
 					Logger.LogDebug("Waiting for server to gracefully shut down.");
-					await monitorTask.WithToken(cancellationToken);
+					await monitorTask.WaitAsync(cancellationToken);
 				}
 				else
 					Logger.LogTrace("Graceful shutdown requested but server is already offline.");
@@ -449,7 +449,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		}
 
 		/// <inheritdoc />
-		async Task IEventConsumer.HandleEvent(EventType eventType, IEnumerable<string> parameters, CancellationToken cancellationToken)
+		async Task IEventConsumer.HandleEvent(EventType eventType, IEnumerable<string> parameters, bool deploymentPipeline, CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(parameters);
 
@@ -509,7 +509,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 						? "Launching..."
 						: "Reattaching..."); // simple announce
 				if (reattachInfo == null)
-					eventTask = HandleEvent(EventType.WatchdogLaunch, Enumerable.Empty<string>(), false, cancellationToken);
+					eventTask = HandleEventImpl(EventType.WatchdogLaunch, Enumerable.Empty<string>(), false, cancellationToken);
 			}
 
 			// since neither server is running, this is safe to do
@@ -589,7 +589,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
 		protected async Task CheckLaunchResult(ISessionController controller, string serverName, CancellationToken cancellationToken)
 		{
-			var launchResult = await controller.LaunchResult.WithToken(cancellationToken);
+			var launchResult = await controller.LaunchResult.WaitAsync(cancellationToken);
 
 			// Dead sessions won't trigger this
 			if (launchResult.ExitCode.HasValue) // you killed us ray...
@@ -693,13 +693,13 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <param name="relayToSession">If the event should be sent to DreamDaemon.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		protected async Task HandleEvent(EventType eventType, IEnumerable<string> parameters, bool relayToSession, CancellationToken cancellationToken)
+		protected async Task HandleEventImpl(EventType eventType, IEnumerable<string> parameters, bool relayToSession, CancellationToken cancellationToken)
 		{
 			try
 			{
-				var sessionEventTask = relayToSession ? ((IEventConsumer)this).HandleEvent(eventType, parameters, cancellationToken) : Task.CompletedTask;
+				var sessionEventTask = relayToSession ? ((IEventConsumer)this).HandleEvent(eventType, parameters, false, cancellationToken) : Task.CompletedTask;
 				await Task.WhenAll(
-					eventConsumer.HandleEvent(eventType, parameters, cancellationToken),
+					eventConsumer.HandleEvent(eventType, parameters, false, cancellationToken),
 					sessionEventTask);
 			}
 			catch (JobException ex)
@@ -872,7 +872,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 								serverPrimed);
 
 							// wait for something to happen
-							await toWaitOn.WithToken(cancellationToken);
+							await toWaitOn.WaitAsync(cancellationToken);
 
 							cancellationToken.ThrowIfCancellationRequested();
 							Logger.LogTrace("Monitor activated");
@@ -1005,7 +1005,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				return;
 			if (!graceful)
 			{
-				var eventTask = HandleEvent(
+				var eventTask = HandleEventImpl(
 					releaseServers
 						? EventType.WatchdogDetach
 						: EventType.WatchdogShutdown,

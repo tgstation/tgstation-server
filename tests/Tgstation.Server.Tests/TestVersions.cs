@@ -20,6 +20,7 @@ using Newtonsoft.Json.Linq;
 using Tgstation.Server.Api;
 using Tgstation.Server.Client;
 using Tgstation.Server.Common.Http;
+using Tgstation.Server.Common.Extensions;
 using Tgstation.Server.Host;
 using Tgstation.Server.Host.Components.Byond;
 using Tgstation.Server.Host.Components.Interop;
@@ -422,7 +423,7 @@ namespace Tgstation.Server.Tests
 				await process.Startup;
 
 				using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(10));
-				await process.Lifetime.WithToken(cts.Token);
+				await process.Lifetime.WaitAsync(cts.Token);
 
 				var output = await process.GetCombinedOutput(cts.Token);
 
