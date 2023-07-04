@@ -1,4 +1,4 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_server_factory.html" title="For creating IServers." alt="" coords="5,5,199,45"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_server_factory.html" title="Implementation of IServerFactory." alt="" coords="247,5,436,45"/>
+<area shape="rect" id="node1" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_synchronous_i_o_manager.html" title="For accessing the disk in a synchronous manner." alt="" coords="5,5,173,45"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_synchronous_i_o_manager.html" title=" " alt="" coords="221,5,389,45"/>
 </map>

@@ -575,7 +575,7 @@ Here is the call graph for this function:</div>
 <div class="line"><span class="lineno">  258</span>                var expireAt = DateTimeOffset.UtcNow + TimeSpan.FromMinutes(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_transfer_service.html#a4d32a387874aeea222a5dba31f7617e4">TicketValidityMinutes</a>);</div>
 <div class="line"><span class="lineno">  259</span>                <span class="keywordflow">try</span></div>
 <div class="line"><span class="lineno">  260</span>                {</div>
-<div class="line"><span class="lineno">  261</span>                    await oldExpireTask.WithToken(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_transfer_service.html#aca7837f476e01b115f7a1f2f6ccc555d">disposeCts</a>.Token);</div>
+<div class="line"><span class="lineno">  261</span>                    await oldExpireTask.WaitAsync(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_transfer_service.html#aca7837f476e01b115f7a1f2f6ccc555d">disposeCts</a>.Token);</div>
 <div class="line"><span class="lineno">  262</span> </div>
 <div class="line"><span class="lineno">  263</span>                    var now = DateTimeOffset.UtcNow;</div>
 <div class="line"><span class="lineno">  264</span>                    <span class="keywordflow">if</span> (now &lt; expireAt)</div>

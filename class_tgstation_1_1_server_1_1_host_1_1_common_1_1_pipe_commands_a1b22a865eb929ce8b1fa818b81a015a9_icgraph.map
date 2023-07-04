@@ -1,0 +1,8 @@
+<map id="Tgstation.Server.Host.Common.PipeCommands.GetCommandId" name="Tgstation.Server.Host.Common.PipeCommands.GetCommandId">
+<area shape="rect" id="node1" title="Gets the int value of a given command ." alt="" coords="809,85,1017,125"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_service_1_1_wix_1_1_safe_shutdown_1_1_installation_extensions.html#ae27a78e34cba375164879b8a4c34fec9" title="Attempts to detach stop the existing tgstation&#45;server service if it exists." alt="" coords="499,5,761,60"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service.html#a2f03be0a11f20dffb543831b00498454" title=" " alt="" coords="516,85,744,125"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_service_1_1_program.html#ac56303c99198dff534014e7110fcf9f2" title="Restarts a service using a given serviceController ." alt="" coords="531,149,729,189"/>
+<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_service_1_1_program.html#a86d24d735c64eb7c67a935b809927dd4" title="Command line handler, always runs." alt="" coords="5,149,204,189"/>
+<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_service_1_1_program.html#a7f443fbeb4ae2c9d1802195b7770e42d" title="Attempt to install the TGS Service." alt="" coords="252,177,451,217"/>
+</map>

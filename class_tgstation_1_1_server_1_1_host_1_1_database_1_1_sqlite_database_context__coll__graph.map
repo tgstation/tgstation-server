@@ -1,5 +1,5 @@
 <map id="Tgstation.Server.Host.Database.SqliteDatabaseContext" name="Tgstation.Server.Host.Database.SqliteDatabaseContext">
-<area shape="rect" id="node1" title="DatabaseContext for SQLite." alt="" coords="720,529,929,569"/>
+<area shape="rect" id="node1" title="DatabaseContext for SQLite." alt="" coords="789,561,999,601"/>
 <area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html" title="Backend abstract implementation of IDatabaseContext." alt="" coords="549,537,671,562"/>
 <area shape="rect" id="node3" href="$class_db_context.html" title=" " alt="" coords="111,14,194,39"/>
 <area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context.html" title="Represents the database." alt="" coords="90,63,215,89"/>
@@ -19,4 +19,5 @@
 <area shape="rect" id="node18" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_collection.html" title=" " alt="" coords="41,945,264,985"/>
 <area shape="rect" id="node19" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_collection.html" title=" " alt="" coords="30,1009,275,1049"/>
 <area shape="rect" id="node20" title=" " alt="" coords="85,1097,221,1122"/>
+<area shape="rect" id="node21" title=" " alt="" coords="587,586,633,611"/>
 </map>

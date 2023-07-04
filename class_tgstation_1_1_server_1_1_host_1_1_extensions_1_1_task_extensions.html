@@ -76,7 +76,6 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="summary">
-<a href="#pub-static-methods">Static Public Member Functions</a> &#124;
 <a href="#properties">Properties</a> &#124;
 <a href="#pri-static-attribs">Static Private Attributes</a> &#124;
 <a href="class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_task_extensions-members.html">List of all members</a>  </div>
@@ -96,15 +95,6 @@ Collaboration diagram for Tgstation.Server.Host.Extensions.TaskExtensions:</div>
 </map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
-Static Public Member Functions</h2></td></tr>
-<tr class="memitem:af361129d3382024befd82cd448fa6ed3"><td class="memItemLeft" align="right" valign="top">static Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_task_extensions.html#af361129d3382024befd82cd448fa6ed3">WithToken</a> (this Task task, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:af361129d3382024befd82cd448fa6ed3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a Task that can be awaited while respecting a given <em>cancellationToken</em> .   <a href="class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_task_extensions.html#af361129d3382024befd82cd448fa6ed3">More...</a><br /></td></tr>
-<tr class="separator:af361129d3382024befd82cd448fa6ed3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7e36ac3b8fab17d0791912c443cdda18"><td class="memItemLeft" align="right" valign="top">static async Task&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_task_extensions.html#a7e36ac3b8fab17d0791912c443cdda18">WithToken&lt; T &gt;</a> (this Task&lt; T &gt; task, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a7e36ac3b8fab17d0791912c443cdda18"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a Task&lt;TResult&gt; that can be awaited while respecting a given <em>cancellationToken</em> .   <a href="class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_task_extensions.html#a7e36ac3b8fab17d0791912c443cdda18">More...</a><br /></td></tr>
-<tr class="separator:a7e36ac3b8fab17d0791912c443cdda18"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="properties" name="properties"></a>
 Properties</h2></td></tr>
 <tr class="memitem:a54045a30bd08f0bbf0b5ae73592fd00a"><td class="memItemLeft" align="right" valign="top">static Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_task_extensions.html#a54045a30bd08f0bbf0b5ae73592fd00a">InfiniteTask</a><code> [get]</code></td></tr>
@@ -120,135 +110,8 @@ Static Private Attributes</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p ><a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_extensions.html">Extensions</a> for the Task class.  </p>
 
-<p class="definition">Definition at line <a class="el" href="_task_extensions_8cs_source.html#l00010">10</a> of file <a class="el" href="_task_extensions_8cs_source.html">TaskExtensions.cs</a>.</p>
-</div><h2 class="groupheader">Member Function Documentation</h2>
-<a id="af361129d3382024befd82cd448fa6ed3" name="af361129d3382024befd82cd448fa6ed3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af361129d3382024befd82cd448fa6ed3">&#9670;&#160;</a></span>WithToken()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">static Task Tgstation.Server.Host.Extensions.TaskExtensions.WithToken </td>
-          <td>(</td>
-          <td class="paramtype">this Task&#160;</td>
-          <td class="paramname"><em>task</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">CancellationToken&#160;</td>
-          <td class="paramname"><em>cancellationToken</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Create a Task that can be awaited while respecting a given <em>cancellationToken</em> .  </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">task</td><td>The Task to add cancel support to.</td></tr>
-    <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>A Task representing the running operation.</dd></dl>
-
-<p class="definition">Definition at line <a class="el" href="_task_extensions_8cs_source.html#l00028">28</a> of file <a class="el" href="_task_extensions_8cs_source.html">TaskExtensions.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   29</span>        {</div>
-<div class="line"><span class="lineno">   30</span>            ArgumentNullException.ThrowIfNull(task);</div>
-<div class="line"><span class="lineno">   31</span> </div>
-<div class="line"><span class="lineno">   32</span>            async Task&lt;object&gt; Wrap()</div>
-<div class="line"><span class="lineno">   33</span>            {</div>
-<div class="line"><span class="lineno">   34</span>                await task;</div>
-<div class="line"><span class="lineno">   35</span>                <span class="keywordflow">return</span> <span class="keyword">null</span>;</div>
-<div class="line"><span class="lineno">   36</span>            }</div>
-<div class="line"><span class="lineno">   37</span> </div>
-<div class="line"><span class="lineno">   38</span>            <span class="keywordflow">return</span> Wrap().WithToken(cancellationToken);</div>
-<div class="line"><span class="lineno">   39</span>        }</div>
-</div><!-- fragment -->
-</div>
-</div>
-<a id="a7e36ac3b8fab17d0791912c443cdda18" name="a7e36ac3b8fab17d0791912c443cdda18"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7e36ac3b8fab17d0791912c443cdda18">&#9670;&#160;</a></span>WithToken&lt; T &gt;()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">static async Task&lt; T &gt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_task_extensions.html#af361129d3382024befd82cd448fa6ed3">Tgstation.Server.Host.Extensions.TaskExtensions.WithToken</a>&lt; T &gt; </td>
-          <td>(</td>
-          <td class="paramtype">this Task&lt; T &gt;&#160;</td>
-          <td class="paramname"><em>task</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">CancellationToken&#160;</td>
-          <td class="paramname"><em>cancellationToken</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Create a Task&lt;TResult&gt; that can be awaited while respecting a given <em>cancellationToken</em> .  </p>
-<dl class="tparams"><dt>Template Parameters</dt><dd>
-  <table class="tparams">
-    <tr><td class="paramname">T</td><td>The result Type of the <em>task</em> .</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">task</td><td>The Task&lt;TResult&gt; to add cancel support to.</td></tr>
-    <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in the result of <em>task</em> .</dd></dl>
-
-<p class="definition">Definition at line <a class="el" href="_task_extensions_8cs_source.html#l00048">48</a> of file <a class="el" href="_task_extensions_8cs_source.html">TaskExtensions.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   49</span>        {</div>
-<div class="line"><span class="lineno">   50</span>            ArgumentNullException.ThrowIfNull(task);</div>
-<div class="line"><span class="lineno">   51</span> </div>
-<div class="line"><span class="lineno">   52</span>            var cancelTcs = <span class="keyword">new</span> TaskCompletionSource();</div>
-<div class="line"><span class="lineno">   53</span>            Task completedTask;</div>
-<div class="line"><span class="lineno">   54</span>            <span class="keyword">using</span> (cancellationToken.Register(() =&gt; cancelTcs.SetCanceled(cancellationToken)))</div>
-<div class="line"><span class="lineno">   55</span>                completedTask = await Task.WhenAny(task, cancelTcs.Task);</div>
-<div class="line"><span class="lineno">   56</span> </div>
-<div class="line"><span class="lineno">   57</span>            <span class="keywordflow">if</span> (completedTask != task)</div>
-<div class="line"><span class="lineno">   58</span>                await cancelTcs.Task;</div>
-<div class="line"><span class="lineno">   59</span> </div>
-<div class="line"><span class="lineno">   60</span>            <span class="keywordflow">return</span> await task;</div>
-<div class="line"><span class="lineno">   61</span>        }</div>
-</div><!-- fragment -->
-</div>
-</div>
-<h2 class="groupheader">Member Data Documentation</h2>
+<p class="definition">Definition at line <a class="el" href="_task_extensions_8cs_source.html#l00008">8</a> of file <a class="el" href="_task_extensions_8cs_source.html">TaskExtensions.cs</a>.</p>
+</div><h2 class="groupheader">Member Data Documentation</h2>
 <a id="aad80893fa151204be92be389dcd32e54" name="aad80893fa151204be92be389dcd32e54"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aad80893fa151204be92be389dcd32e54">&#9670;&#160;</a></span>InfiniteTaskCompletionSource</h2>
 
@@ -271,7 +134,7 @@ Static Private Attributes</h2></td></tr>
 
 <p>A TaskCompletionSource that never completes.  </p>
 
-<p class="definition">Definition at line <a class="el" href="_task_extensions_8cs_source.html#l00015">15</a> of file <a class="el" href="_task_extensions_8cs_source.html">TaskExtensions.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_task_extensions_8cs_source.html#l00013">13</a> of file <a class="el" href="_task_extensions_8cs_source.html">TaskExtensions.cs</a>.</p>
 
 </div>
 </div>
@@ -298,7 +161,7 @@ Static Private Attributes</h2></td></tr>
 
 <p>Gets a Task that never completes.  </p>
 
-<p class="definition">Definition at line <a class="el" href="_task_extensions_8cs_source.html#l00020">20</a> of file <a class="el" href="_task_extensions_8cs_source.html">TaskExtensions.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_task_extensions_8cs_source.html#l00018">18</a> of file <a class="el" href="_task_extensions_8cs_source.html">TaskExtensions.cs</a>.</p>
 
 </div>
 </div>

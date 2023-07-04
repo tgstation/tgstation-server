@@ -1,0 +1,4 @@
+<map id="Tgstation.Server.Host.Watchdog.ISignalChecker.CheckSignals" name="Tgstation.Server.Host.Watchdog.ISignalChecker.CheckSignals">
+<area shape="rect" id="node1" title="Relays signals received to the host process." alt="" coords="265,5,477,45"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog.html#ad4a2d4c2f97de9b534c9d1d7b0248cc7" title="Run the IWatchdog. A Task&lt;TResult&gt; resulting in true if there were no errors, false otherwise." alt="" coords="5,5,217,45"/>
+</map>

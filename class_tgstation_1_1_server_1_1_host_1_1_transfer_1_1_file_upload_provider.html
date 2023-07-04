@@ -314,7 +314,7 @@ Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">  126</span>            {</div>
 <div class="line"><span class="lineno">  127</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_upload_provider.html#adda73701fab6e67a512bcb8d802443b2">streamTcs</a>.TrySetResult(bufferedStream ?? stream);</div>
 <div class="line"><span class="lineno">  128</span> </div>
-<div class="line"><span class="lineno">  129</span>                await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_upload_provider.html#ac28a7cc3bcb617e27496478772f1a2fb">completionTcs</a>.Task.WithToken(cancellationToken);</div>
+<div class="line"><span class="lineno">  129</span>                await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_upload_provider.html#ac28a7cc3bcb617e27496478772f1a2fb">completionTcs</a>.Task.WaitAsync(cancellationToken);</div>
 <div class="line"><span class="lineno">  130</span>                <span class="keywordflow">return</span> <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_upload_provider.html#aa574c8b0a37895b05e9d84a606372baa">errorMessage</a>;</div>
 <div class="line"><span class="lineno">  131</span>            }</div>
 <div class="line"><span class="lineno">  132</span>        }</div>

@@ -1130,7 +1130,7 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">  932</span>                    <span class="keywordflow">if</span> (messageTasks.Count == 0)</div>
 <div class="line"><span class="lineno">  933</span>                    {</div>
 <div class="line"><span class="lineno">  934</span>                        <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#abc0dda9d12fd94b299931aaa8d4aa8bd">logger</a>.LogTrace(<span class="stringliteral">&quot;No providers active, pausing messsage monitoring...&quot;</span>);</div>
-<div class="line"><span class="lineno">  935</span>                        await updatedTask.WithToken(cancellationToken);</div>
+<div class="line"><span class="lineno">  935</span>                        await updatedTask.WaitAsync(cancellationToken);</div>
 <div class="line"><span class="lineno">  936</span>                        <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#abc0dda9d12fd94b299931aaa8d4aa8bd">logger</a>.LogTrace(<span class="stringliteral">&quot;Resuming message monitoring...&quot;</span>);</div>
 <div class="line"><span class="lineno">  937</span>                        <span class="keywordflow">continue</span>;</div>
 <div class="line"><span class="lineno">  938</span>                    }</div>
@@ -1787,7 +1787,7 @@ Here is the call graph for this function:</div>
 <div class="line"><span class="lineno"> 1073</span>            {</div>
 <div class="line"><span class="lineno"> 1074</span>                var cancellationToken = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#adc4749cb2a207e472c9fac07cf56e981">handlerCts</a>.Token;</div>
 <div class="line"><span class="lineno"> 1075</span>                <span class="keywordflow">if</span> (waitForConnections)</div>
-<div class="line"><span class="lineno"> 1076</span>                    await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a44b2cf5f8d6c222b4357d158c0e59d65">initialProviderConnectionsTask</a>.WithToken(cancellationToken);</div>
+<div class="line"><span class="lineno"> 1076</span>                    await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a44b2cf5f8d6c222b4357d158c0e59d65">initialProviderConnectionsTask</a>.WaitAsync(cancellationToken);</div>
 <div class="line"><span class="lineno"> 1077</span> </div>
 <div class="line"><span class="lineno"> 1078</span>                await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a4b0757db783ab5cffaa03e43136eecc6">SendMessage</a>(</div>
 <div class="line"><span class="lineno"> 1079</span>                    channelIdsFactory(),</div>
@@ -2270,7 +2270,7 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">  482</span>            <span class="keywordflow">if</span> (waitingForInitialConnection)</div>
 <div class="line"><span class="lineno">  483</span>            {</div>
 <div class="line"><span class="lineno">  484</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#abc0dda9d12fd94b299931aaa8d4aa8bd">logger</a>.LogTrace(<span class="stringliteral">&quot;Waiting for initial chat bot connections before updating tracking contexts...&quot;</span>);</div>
-<div class="line"><span class="lineno">  485</span>                await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a44b2cf5f8d6c222b4357d158c0e59d65">initialProviderConnectionsTask</a>.WithToken(cancellationToken);</div>
+<div class="line"><span class="lineno">  485</span>                await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a44b2cf5f8d6c222b4357d158c0e59d65">initialProviderConnectionsTask</a>.WaitAsync(cancellationToken);</div>
 <div class="line"><span class="lineno">  486</span>            }</div>
 <div class="line"><span class="lineno">  487</span> </div>
 <div class="line"><span class="lineno">  488</span>            List&lt;Task&gt; tasks;</div>

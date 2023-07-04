@@ -1,6 +1,7 @@
 <map id="Tgstation.Server.Host.Core.ServerUpdater.BeginUpdateImpl" name="Tgstation.Server.Host.Core.ServerUpdater.BeginUpdateImpl">
-<area shape="rect" id="node1" title="Start the process of downloading and applying an update to a new server version. Doesn&#39;t perform argu..." alt="" coords="5,69,215,109"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_file_downloader.html#ac81250678243dbd567a9283ea40ee2a7" title="Downloads a file from a given url ." alt="" coords="292,5,488,45"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_service.html#adf55539937d7e422ec825ef4c21e09fa" title="Get all valid TGS Releases from the configured update source." alt="" coords="263,69,517,109"/>
-<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_control.html#ac02011e79f6ed0d6e2c17e8bcd4a79b8" title="Attempt to update with a given updateExecutor ." alt="" coords="292,133,488,173"/>
+<area shape="rect" id="node1" title="Start the process of downloading and applying an update to a new server version. Doesn&#39;t perform argu..." alt="" coords="5,117,215,157"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_service_factory.html#a954fdb0088d42793884fa4b61c75e537" title="Create a IGitHubService." alt="" coords="271,5,509,60"/>
+<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_file_downloader.html#ac81250678243dbd567a9283ea40ee2a7" title="Downloads a file from a given url ." alt="" coords="292,85,488,125"/>
+<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_service.html#adf55539937d7e422ec825ef4c21e09fa" title="Get all valid TGS Releases from the configured update source." alt="" coords="263,149,517,189"/>
+<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_control.html#ac02011e79f6ed0d6e2c17e8bcd4a79b8" title="Attempt to update with a given updateExecutor ." alt="" coords="292,213,488,253"/>
 </map>

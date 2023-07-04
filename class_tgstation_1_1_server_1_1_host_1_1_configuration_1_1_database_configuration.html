@@ -115,9 +115,6 @@ Properties</h2></td></tr>
 <tr class="memitem:a30f47f73075f305073ad72ef3ff44cd4"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_database_configuration.html#a30f47f73075f305073ad72ef3ff44cd4">DropDatabase</a><code> [get, set]</code></td></tr>
 <tr class="memdesc:a30f47f73075f305073ad72ef3ff44cd4"><td class="mdescLeft">&#160;</td><td class="mdescRight">If the database should be deleted on application startup. Should not be used in production!.   <a href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_database_configuration.html#a30f47f73075f305073ad72ef3ff44cd4">More...</a><br /></td></tr>
 <tr class="separator:a30f47f73075f305073ad72ef3ff44cd4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae179f5debc33b39375973abf2d91e99d"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_database_configuration.html#ae179f5debc33b39375973abf2d91e99d">DesignTime</a><code> [get, set]</code></td></tr>
-<tr class="memdesc:ae179f5debc33b39375973abf2d91e99d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Used to indicate that the database is being loaded to generate migrations. Should not be used in production!.   <a href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_database_configuration.html#ae179f5debc33b39375973abf2d91e99d">More...</a><br /></td></tr>
-<tr class="separator:ae179f5debc33b39375973abf2d91e99d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a37d2a2cb232af1fcc3a5ea4139a052e9"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_database_configuration.html#a37d2a2cb232af1fcc3a5ea4139a052e9">ServerVersion</a><code> [get, set]</code></td></tr>
 <tr class="memdesc:a37d2a2cb232af1fcc3a5ea4139a052e9"><td class="mdescLeft">&#160;</td><td class="mdescRight">The string form of the global::System.Version of the target server.   <a href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_database_configuration.html#a37d2a2cb232af1fcc3a5ea4139a052e9">More...</a><br /></td></tr>
 <tr class="separator:a37d2a2cb232af1fcc3a5ea4139a052e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -151,7 +148,7 @@ Properties</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="_database_configuration_8cs_source.html#l00014">14</a> of file <a class="el" href="_database_configuration_8cs_source.html">DatabaseConfiguration.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_setup_wizard_8cs_source.html#l00890">Tgstation.Server.Host.Setup.SetupWizard.SaveConfiguration()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_setup_wizard_8cs_source.html#l00928">Tgstation.Server.Host.Setup.SetupWizard.SaveConfiguration()</a>.</p>
 
 </div>
 </div>
@@ -181,7 +178,7 @@ Properties</h2></td></tr>
 <p class="definition">Definition at line <a class="el" href="_database_configuration_8cs_source.html#l00030">30</a> of file <a class="el" href="_database_configuration_8cs_source.html">DatabaseConfiguration.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   30</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_my_sql_database_context_8cs_source.html#l00034">Tgstation.Server.Host.Database.MySqlDatabaseContext.ConfigureWith()</a>, <a class="el" href="_postgres_sql_database_context_8cs_source.html#l00032">Tgstation.Server.Host.Database.PostgresSqlDatabaseContext.ConfigureWith()</a>, <a class="el" href="_sqlite_database_context_8cs_source.html#l00034">Tgstation.Server.Host.Database.SqliteDatabaseContext.ConfigureWith()</a>, and <a class="el" href="_sql_server_database_context_8cs_source.html#l00028">Tgstation.Server.Host.Database.SqlServerDatabaseContext.ConfigureWith()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_my_sql_database_context_8cs_source.html#l00034">Tgstation.Server.Host.Database.MySqlDatabaseContext.ConfigureWith()</a>, <a class="el" href="_postgres_sql_database_context_8cs_source.html#l00032">Tgstation.Server.Host.Database.PostgresSqlDatabaseContext.ConfigureWith()</a>, <a class="el" href="_sqlite_database_context_8cs_source.html#l00049">Tgstation.Server.Host.Database.SqliteDatabaseContext.ConfigureWith()</a>, and <a class="el" href="_sql_server_database_context_8cs_source.html#l00028">Tgstation.Server.Host.Database.SqlServerDatabaseContext.ConfigureWith()</a>.</p>
 
 </div>
 </div>
@@ -210,36 +207,7 @@ Properties</h2></td></tr>
 <p class="definition">Definition at line <a class="el" href="_database_configuration_8cs_source.html#l00020">20</a> of file <a class="el" href="_database_configuration_8cs_source.html">DatabaseConfiguration.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   20</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_application_8cs_source.html#l00120">Tgstation.Server.Host.Core.Application.ConfigureServices()</a>, <a class="el" href="_my_sql_database_context_8cs_source.html#l00034">Tgstation.Server.Host.Database.MySqlDatabaseContext.ConfigureWith()</a>, <a class="el" href="_postgres_sql_database_context_8cs_source.html#l00032">Tgstation.Server.Host.Database.PostgresSqlDatabaseContext.ConfigureWith()</a>, <a class="el" href="_sqlite_database_context_8cs_source.html#l00034">Tgstation.Server.Host.Database.SqliteDatabaseContext.ConfigureWith()</a>, <a class="el" href="_sql_server_database_context_8cs_source.html#l00028">Tgstation.Server.Host.Database.SqlServerDatabaseContext.ConfigureWith()</a>, <a class="el" href="_database_seeder_8cs_source.html#l00134">Tgstation.Server.Host.Database.DatabaseSeeder.Downgrade()</a>, and <a class="el" href="_setup_wizard_8cs_source.html#l00198">Tgstation.Server.Host.Setup.SetupWizard.TestDatabaseConnection()</a>.</p>
-
-</div>
-</div>
-<a id="ae179f5debc33b39375973abf2d91e99d" name="ae179f5debc33b39375973abf2d91e99d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae179f5debc33b39375973abf2d91e99d">&#9670;&#160;</a></span>DesignTime</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool Tgstation.Server.Host.Configuration.DatabaseConfiguration.DesignTime</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">get</span><span class="mlabel">set</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Used to indicate that the database is being loaded to generate migrations. Should not be used in production!.  </p>
-
-<p class="definition">Definition at line <a class="el" href="_database_configuration_8cs_source.html#l00040">40</a> of file <a class="el" href="_database_configuration_8cs_source.html">DatabaseConfiguration.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   40</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
-</div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_sqlite_database_context_8cs_source.html#l00034">Tgstation.Server.Host.Database.SqliteDatabaseContext.ConfigureWith()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_application_8cs_source.html#l00123">Tgstation.Server.Host.Core.Application.ConfigureServices()</a>, <a class="el" href="_my_sql_database_context_8cs_source.html#l00034">Tgstation.Server.Host.Database.MySqlDatabaseContext.ConfigureWith()</a>, <a class="el" href="_postgres_sql_database_context_8cs_source.html#l00032">Tgstation.Server.Host.Database.PostgresSqlDatabaseContext.ConfigureWith()</a>, <a class="el" href="_sqlite_database_context_8cs_source.html#l00049">Tgstation.Server.Host.Database.SqliteDatabaseContext.ConfigureWith()</a>, <a class="el" href="_sql_server_database_context_8cs_source.html#l00028">Tgstation.Server.Host.Database.SqlServerDatabaseContext.ConfigureWith()</a>, <a class="el" href="_database_seeder_8cs_source.html#l00134">Tgstation.Server.Host.Database.DatabaseSeeder.Downgrade()</a>, and <a class="el" href="_setup_wizard_8cs_source.html#l00215">Tgstation.Server.Host.Setup.SetupWizard.TestDatabaseConnection()</a>.</p>
 
 </div>
 </div>
@@ -323,8 +291,8 @@ Properties</h2></td></tr>
 
 <p>The string form of the global::System.Version of the target server.  </p>
 
-<p class="definition">Definition at line <a class="el" href="_database_configuration_8cs_source.html#l00045">45</a> of file <a class="el" href="_database_configuration_8cs_source.html">DatabaseConfiguration.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   45</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
+<p class="definition">Definition at line <a class="el" href="_database_configuration_8cs_source.html#l00040">40</a> of file <a class="el" href="_database_configuration_8cs_source.html">DatabaseConfiguration.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   40</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
 </div><!-- fragment -->
 <p class="reference">Referenced by <a class="el" href="_my_sql_database_context_8cs_source.html#l00034">Tgstation.Server.Host.Database.MySqlDatabaseContext.ConfigureWith()</a>.</p>
 

@@ -1,5 +1,5 @@
 <map id="IDisposable" name="IDisposable">
-<area shape="rect" id="node1" title=" " alt="" coords="5,941,96,966"/>
+<area shape="rect" id="node1" title=" " alt="" coords="5,909,96,934"/>
 <area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_client_1_1_i_api_client.html" title="Web interface for the API." alt="" coords="179,5,335,45"/>
 <area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_client_1_1_i_server_client.html" title="Main client for communicating with a server." alt="" coords="179,69,335,109"/>
 <area shape="rect" id="node6" href="$interface_tgstation_1_1_server_1_1_common_1_1_http_1_1_i_http_client.html" title="For sending HTTP requests." alt="" coords="170,133,345,173"/>
@@ -21,15 +21,14 @@
 <area shape="rect" id="node36" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context_factory.html" title=" " alt="" coords="157,1157,358,1197"/>
 <area shape="rect" id="node37" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authentication_context.html" title="Represents the currently authenticated Models.User." alt="" coords="157,1221,358,1261"/>
 <area shape="rect" id="node39" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_system_identity.html" title="Represents a user on the current global::System.Runtime.InteropServices.OSPlatform." alt="" coords="157,1285,358,1325"/>
-<area shape="rect" id="node41" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_identity_cache.html" title=" " alt="" coords="157,1349,358,1389"/>
-<area shape="rect" id="node42" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_identity_cache_object.html" title="For keeping a specific ISystemIdentity alive for a period of time." alt="" coords="157,1413,358,1453"/>
-<area shape="rect" id="node43" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html" title="Helps keep servers connected to the same database in sync by coordinating updates." alt="" coords="160,1477,355,1517"/>
-<area shape="rect" id="node44" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_signal_handler.html" title="Handles POSIX signals." alt="" coords="158,1541,357,1581"/>
-<area shape="rect" id="node45" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_program_shutdown_token_source.html" title="Contains a CancellationToken that triggers when the operating system requests the program shuts down." alt="" coords="154,1605,361,1645"/>
-<area shape="rect" id="node46" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_system_d_manager.html" title="Implements the SystemD notify service protocol." alt="" coords="158,1669,357,1709"/>
-<area shape="rect" id="node47" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_network_prompt_reaper.html" title=" " alt="" coords="154,1733,361,1773"/>
-<area shape="rect" id="node48" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_reference_counter.html" title="Class used for counting references with ReferenceCountingContainer&lt;TWrapped, TReference&gt;." alt="" coords="154,1797,361,1837"/>
-<area shape="rect" id="node49" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html" title="Async lock context helper." alt="" coords="167,1861,348,1901"/>
+<area shape="rect" id="node42" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_identity_cache.html" title=" " alt="" coords="157,1349,358,1389"/>
+<area shape="rect" id="node43" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_identity_cache_object.html" title="For keeping a specific ISystemIdentity alive for a period of time." alt="" coords="157,1413,358,1453"/>
+<area shape="rect" id="node44" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html" title="Helps keep servers connected to the same database in sync by coordinating updates." alt="" coords="160,1477,355,1517"/>
+<area shape="rect" id="node45" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_signal_handler.html" title="Handles POSIX signals." alt="" coords="158,1541,357,1581"/>
+<area shape="rect" id="node46" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_program_shutdown_token_source.html" title="Contains a CancellationToken that triggers when the operating system requests the program shuts down." alt="" coords="154,1605,361,1645"/>
+<area shape="rect" id="node47" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_system_d_manager.html" title="Implements the SystemD notify service protocol." alt="" coords="158,1669,357,1709"/>
+<area shape="rect" id="node48" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_reference_counter.html" title="Class used for counting references with ReferenceCountingContainer&lt;TWrapped, TReference&gt;." alt="" coords="154,1733,361,1773"/>
+<area shape="rect" id="node49" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html" title="Async lock context helper." alt="" coords="167,1797,348,1837"/>
 <area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_client_1_1_api_client.html" title=" " alt="" coords="457,5,613,45"/>
 <area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_client_1_1_server_client.html" title=" " alt="" coords="457,69,613,109"/>
 <area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_common_1_1_http_1_1_http_client.html" title=" " alt="" coords="447,133,622,173"/>
@@ -48,4 +47,5 @@
 <area shape="rect" id="node32" href="$class_tgstation_1_1_server_1_1_host_1_1_core_1_1_restart_registration.html" title=" " alt="" coords="444,965,625,1005"/>
 <area shape="rect" id="node38" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html" title=" " alt="" coords="434,1221,635,1261"/>
 <area shape="rect" id="node40" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_posix_system_identity.html" title="ISystemIdentity for POSIX systems." alt="" coords="434,1285,635,1325"/>
+<area shape="rect" id="node41" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_windows_system_identity.html" title="ISystemIdentity for windows systems." alt="" coords="434,1349,635,1389"/>
 </map>

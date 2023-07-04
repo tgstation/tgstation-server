@@ -337,7 +337,7 @@ Properties</h2></td></tr>
 <div class="line"><span class="lineno">   66</span>                var mr = await client</div>
 <div class="line"><span class="lineno">   67</span>                    .MergeRequests</div>
 <div class="line"><span class="lineno">   68</span>                    .GetAsync($<span class="stringliteral">&quot;{RemoteRepositoryOwner}/{RemoteRepositoryName}&quot;</span>, parameters.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_test_merge_parameters.html#a91cb81663a87f96476a47a2628ac1a86">Number</a>)</div>
-<div class="line"><span class="lineno">   69</span>                    .WithToken(cancellationToken);</div>
+<div class="line"><span class="lineno">   69</span>                    .WaitAsync(cancellationToken);</div>
 <div class="line"><span class="lineno">   70</span> </div>
 <div class="line"><span class="lineno">   71</span>                var revisionToUse = parameters.TargetCommitSha == <span class="keyword">null</span></div>
 <div class="line"><span class="lineno">   72</span>                    || mr.Sha.StartsWith(parameters.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_test_merge_parameters.html#a1b7f38a2ee2f645796ffeb89fe51b2ce">TargetCommitSha</a>, StringComparison.OrdinalIgnoreCase)</div>
@@ -408,7 +408,7 @@ Properties</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="_git_lab_remote_features_8cs_source.html#l00023">23</a> of file <a class="el" href="_git_lab_remote_features_8cs_source.html">GitLabRemoteFeatures.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_git_lab_remote_deployment_manager_8cs_source.html#l00123">Tgstation.Server.Host.Components.Deployment.Remote.GitLabRemoteDeploymentManager.CommentOnTestMergeSource()</a>, <a class="el" href="_git_lab_remote_features_8cs_source.html#l00055">Tgstation.Server.Host.Components.Repository.GitLabRemoteFeatures.GetTestMergeImpl()</a>, and <a class="el" href="_git_lab_remote_deployment_manager_8cs_source.html#l00035">Tgstation.Server.Host.Components.Deployment.Remote.GitLabRemoteDeploymentManager.RemoveMergedTestMerges()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_git_lab_remote_deployment_manager_8cs_source.html#l00122">Tgstation.Server.Host.Components.Deployment.Remote.GitLabRemoteDeploymentManager.CommentOnTestMergeSource()</a>, <a class="el" href="_git_lab_remote_features_8cs_source.html#l00055">Tgstation.Server.Host.Components.Repository.GitLabRemoteFeatures.GetTestMergeImpl()</a>, and <a class="el" href="_git_lab_remote_deployment_manager_8cs_source.html#l00034">Tgstation.Server.Host.Components.Deployment.Remote.GitLabRemoteDeploymentManager.RemoveMergedTestMerges()</a>.</p>
 
 </div>
 </div>

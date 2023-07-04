@@ -1,0 +1,4 @@
+<map id="Tgstation.Server.Host.Service.NoopSignalChecker" name="Tgstation.Server.Host.Service.NoopSignalChecker">
+<area shape="rect" id="node1" title="No&#45;op ISignalChecker." alt="" coords="5,79,204,119"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_signal_checker.html" title="For relaying signals received to the host process." alt="" coords="49,5,160,31"/>
+</map>

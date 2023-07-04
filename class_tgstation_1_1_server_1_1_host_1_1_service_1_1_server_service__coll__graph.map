@@ -1,10 +1,13 @@
 <map id="Tgstation.Server.Host.Service.ServerService" name="Tgstation.Server.Host.Service.ServerService">
-<area shape="rect" id="node1" title="Represents a IWatchdog as a ServiceBase." alt="" coords="415,162,613,202"/>
+<area shape="rect" id="node1" title="Represents a IWatchdog as a ServiceBase." alt="" coords="415,237,613,277"/>
 <area shape="rect" id="node2" href="$class_service_base.html" title=" " alt="" coords="63,5,159,31"/>
-<area shape="rect" id="node3" title=" " alt="" coords="84,55,139,80"/>
-<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_watchdog_factory.html" title="Factory for creating IWatchdogs." alt="" coords="5,105,217,145"/>
-<area shape="rect" id="node5" title=" " alt="" coords="48,169,175,195"/>
-<area shape="rect" id="node6" title=" " alt="" coords="57,219,166,244"/>
-<area shape="rect" id="node7" title=" " alt="" coords="86,268,137,293"/>
-<area shape="rect" id="node8" title=" " alt="" coords="26,317,197,343"/>
+<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_signal_checker.html" title="For relaying signals received to the host process." alt="" coords="56,55,167,80"/>
+<area shape="rect" id="node4" title=" " alt="" coords="84,104,139,129"/>
+<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_watchdog_factory.html" title="Factory for creating IWatchdogs." alt="" coords="5,154,217,194"/>
+<area shape="rect" id="node6" title=" " alt="" coords="48,219,175,244"/>
+<area shape="rect" id="node7" title=" " alt="" coords="57,268,166,293"/>
+<area shape="rect" id="node8" title=" " alt="" coords="15,318,208,358"/>
+<area shape="rect" id="node9" title=" " alt="" coords="86,383,137,408"/>
+<area shape="rect" id="node10" title=" " alt="" coords="26,432,197,457"/>
+<area shape="rect" id="node11" title=" " alt="" coords="13,481,209,507"/>
 </map>

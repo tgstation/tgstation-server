@@ -884,7 +884,7 @@ Here is the call graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_watchdog_base_8cs_source.html#l00590">590</a> of file <a class="el" href="_watchdog_base_8cs_source.html">WatchdogBase.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">  591</span>        {</div>
-<div class="line"><span class="lineno">  592</span>            var launchResult = await controller.<a class="code hl_property" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_i_session_controller.html#adca786a78dbcd230b94fcde69e9fc885">LaunchResult</a>.WithToken(cancellationToken);</div>
+<div class="line"><span class="lineno">  592</span>            var launchResult = await controller.<a class="code hl_property" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_i_session_controller.html#adca786a78dbcd230b94fcde69e9fc885">LaunchResult</a>.WaitAsync(cancellationToken);</div>
 <div class="line"><span class="lineno">  593</span> </div>
 <div class="line"><span class="lineno">  594</span>            <span class="comment">// Dead sessions won&#39;t trigger this</span></div>
 <div class="line"><span class="lineno">  595</span>            <span class="keywordflow">if</span> (launchResult.ExitCode.HasValue) <span class="comment">// you killed us ray...</span></div>
@@ -1907,7 +1907,7 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">  411</span>                <span class="keywordflow">if</span> (<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a5fa8be05b0c448ea097a70e5d8708ffb">Status</a> != <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#abcc98739b8feb9dd6744647f287e0683">WatchdogStatus</a>.Offline)</div>
 <div class="line"><span class="lineno">  412</span>                {</div>
 <div class="line"><span class="lineno">  413</span>                    <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a2143ec7079d0ffd42c76f61cf7b71cf6">Logger</a>.LogDebug(<span class="stringliteral">&quot;Waiting for server to gracefully shut down.&quot;</span>);</div>
-<div class="line"><span class="lineno">  414</span>                    await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#abfb7590db69ab59a040c1ac91c671d6d">monitorTask</a>.WithToken(cancellationToken);</div>
+<div class="line"><span class="lineno">  414</span>                    await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#abfb7590db69ab59a040c1ac91c671d6d">monitorTask</a>.WaitAsync(cancellationToken);</div>
 <div class="line"><span class="lineno">  415</span>                }</div>
 <div class="line"><span class="lineno">  416</span>                <span class="keywordflow">else</span></div>
 <div class="line"><span class="lineno">  417</span>                    <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a2143ec7079d0ffd42c76f61cf7b71cf6">Logger</a>.LogTrace(<span class="stringliteral">&quot;Graceful shutdown requested but server is already offline.&quot;</span>);</div>
@@ -2538,7 +2538,7 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">  872</span>                                serverPrimed);</div>
 <div class="line"><span class="lineno">  873</span> </div>
 <div class="line"><span class="lineno">  874</span>                            <span class="comment">// wait for something to happen</span></div>
-<div class="line"><span class="lineno">  875</span>                            await toWaitOn.WithToken(cancellationToken);</div>
+<div class="line"><span class="lineno">  875</span>                            await toWaitOn.WaitAsync(cancellationToken);</div>
 <div class="line"><span class="lineno">  876</span> </div>
 <div class="line"><span class="lineno">  877</span>                            cancellationToken.ThrowIfCancellationRequested();</div>
 <div class="line"><span class="lineno">  878</span>                            <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a2143ec7079d0ffd42c76f61cf7b71cf6">Logger</a>.LogTrace(<span class="stringliteral">&quot;Monitor activated&quot;</span>);</div>

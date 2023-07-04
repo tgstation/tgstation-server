@@ -1,6 +1,6 @@
 <map id="Tgstation.Server.Host.System.SystemDManager" name="Tgstation.Server.Host.System.SystemDManager">
-<area shape="rect" id="node1" title="Implements the SystemD notify service protocol." alt="" coords="609,270,808,310"/>
-<area shape="rect" id="node2" href="$class_i_hosted_service.html" title=" " alt="" coords="265,5,377,31"/>
+<area shape="rect" id="node1" title="Implements the SystemD notify service protocol." alt="" coords="609,213,808,253"/>
+<area shape="rect" id="node2" href="$class_background_service.html" title=" " alt="" coords="253,5,388,31"/>
 <area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_restart_handler.html" title="Handler for server restarts." alt="" coords="264,55,377,80"/>
 <area shape="rect" id="node4" href="$class_i_disposable.html" title=" " alt="" coords="29,123,120,148"/>
 <area shape="rect" id="node10" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_restart_registration.html" title="Represents the lifetime of a IRestartHandler registration." alt="" coords="230,155,411,195"/>
@@ -10,7 +10,5 @@
 <area shape="rect" id="node8" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_operations.html" title="Operations that can be performed on a given Models.Instance." alt="" coords="5,317,144,343"/>
 <area shape="rect" id="node9" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_bridge_1_1_i_bridge_dispatcher.html" title="Handler for BridgeParameters." alt="" coords="12,367,137,392"/>
 <area shape="rect" id="node11" title=" " alt="" coords="193,398,448,438"/>
-<area shape="rect" id="node12" title=" " alt="" coords="235,463,406,488"/>
-<area shape="rect" id="node13" title=" " alt="" coords="295,512,346,537"/>
-<area shape="rect" id="node14" title=" " alt="" coords="297,561,344,587"/>
+<area shape="rect" id="node12" title=" " alt="" coords="297,463,344,488"/>
 </map>

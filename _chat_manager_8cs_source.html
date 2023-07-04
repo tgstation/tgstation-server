@@ -482,7 +482,7 @@ $(function() {
 <div class="line"><a id="l00482" name="l00482"></a><span class="lineno">  482</span>            <span class="keywordflow">if</span> (waitingForInitialConnection)</div>
 <div class="line"><a id="l00483" name="l00483"></a><span class="lineno">  483</span>            {</div>
 <div class="line"><a id="l00484" name="l00484"></a><span class="lineno">  484</span>                logger.LogTrace(<span class="stringliteral">&quot;Waiting for initial chat bot connections before updating tracking contexts...&quot;</span>);</div>
-<div class="line"><a id="l00485" name="l00485"></a><span class="lineno">  485</span>                await initialProviderConnectionsTask.WithToken(cancellationToken);</div>
+<div class="line"><a id="l00485" name="l00485"></a><span class="lineno">  485</span>                await initialProviderConnectionsTask.WaitAsync(cancellationToken);</div>
 <div class="line"><a id="l00486" name="l00486"></a><span class="lineno">  486</span>            }</div>
 <div class="line"><a id="l00487" name="l00487"></a><span class="lineno">  487</span> </div>
 <div class="line"><a id="l00488" name="l00488"></a><span class="lineno">  488</span>            List&lt;Task&gt; tasks;</div>
@@ -903,7 +903,7 @@ $(function() {
 <div class="line"><a id="l00932" name="l00932"></a><span class="lineno">  932</span>                    <span class="keywordflow">if</span> (messageTasks.Count == 0)</div>
 <div class="line"><a id="l00933" name="l00933"></a><span class="lineno">  933</span>                    {</div>
 <div class="line"><a id="l00934" name="l00934"></a><span class="lineno">  934</span>                        logger.LogTrace(<span class="stringliteral">&quot;No providers active, pausing messsage monitoring...&quot;</span>);</div>
-<div class="line"><a id="l00935" name="l00935"></a><span class="lineno">  935</span>                        await updatedTask.WithToken(cancellationToken);</div>
+<div class="line"><a id="l00935" name="l00935"></a><span class="lineno">  935</span>                        await updatedTask.WaitAsync(cancellationToken);</div>
 <div class="line"><a id="l00936" name="l00936"></a><span class="lineno">  936</span>                        logger.LogTrace(<span class="stringliteral">&quot;Resuming message monitoring...&quot;</span>);</div>
 <div class="line"><a id="l00937" name="l00937"></a><span class="lineno">  937</span>                        <span class="keywordflow">continue</span>;</div>
 <div class="line"><a id="l00938" name="l00938"></a><span class="lineno">  938</span>                    }</div>
@@ -1022,7 +1022,7 @@ $(function() {
 <div class="line"><a id="l01073" name="l01073"></a><span class="lineno"> 1073</span>            {</div>
 <div class="line"><a id="l01074" name="l01074"></a><span class="lineno"> 1074</span>                var cancellationToken = handlerCts.Token;</div>
 <div class="line"><a id="l01075" name="l01075"></a><span class="lineno"> 1075</span>                <span class="keywordflow">if</span> (waitForConnections)</div>
-<div class="line"><a id="l01076" name="l01076"></a><span class="lineno"> 1076</span>                    await initialProviderConnectionsTask.WithToken(cancellationToken);</div>
+<div class="line"><a id="l01076" name="l01076"></a><span class="lineno"> 1076</span>                    await initialProviderConnectionsTask.WaitAsync(cancellationToken);</div>
 <div class="line"><a id="l01077" name="l01077"></a><span class="lineno"> 1077</span> </div>
 <div class="line"><a id="l01078" name="l01078"></a><span class="lineno"> 1078</span>                await SendMessage(</div>
 <div class="line"><a id="l01079" name="l01079"></a><span class="lineno"> 1079</span>                    channelIdsFactory(),</div>
@@ -1115,7 +1115,7 @@ $(function() {
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_html"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers.html">Tgstation.Server.Host.Components.Chat.Providers</a></div><div class="ttdef"><b>Definition:</b> <a href="_discord_forwarding_responder_8cs_source.html#l00009">DiscordForwardingResponder.cs:10</a></div></div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_html"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat.html">Tgstation.Server.Host.Components.Chat</a></div><div class="ttdef"><b>Definition:</b> <a href="_channel_mapping_8cs_source.html#l00001">ChannelMapping.cs:2</a></div></div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_html"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop.html">Tgstation.Server.Host.Components.Interop</a></div><div class="ttdef"><b>Definition:</b> <a href="_bridge_command_type_8cs_source.html#l00001">BridgeCommandType.cs:2</a></div></div>
-<div class="ttc" id="anamespace_tgstation_1_1_server_1_1_host_1_1_core_html"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_host_1_1_core.html">Tgstation.Server.Host.Core</a></div><div class="ttdef"><b>Definition:</b> <a href="_application_8cs_source.html#l00054">Application.cs:55</a></div></div>
+<div class="ttc" id="anamespace_tgstation_1_1_server_1_1_host_1_1_core_html"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_host_1_1_core.html">Tgstation.Server.Host.Core</a></div><div class="ttdef"><b>Definition:</b> <a href="_application_8cs_source.html#l00057">Application.cs:58</a></div></div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_host_1_1_extensions_html"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_host_1_1_extensions.html">Tgstation.Server.Host.Extensions</a></div><div class="ttdef"><b>Definition:</b> <a href="_application_builder_extensions_8cs_source.html#l00022">ApplicationBuilderExtensions.cs:23</a></div></div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_host_1_1_utils_html"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_host_1_1_utils.html">Tgstation.Server.Host.Utils</a></div><div class="ttdef"><b>Definition:</b> <a href="_abstract_http_client_factory_8cs_source.html#l00009">AbstractHttpClientFactory.cs:10</a></div></div>
 </div><!-- fragment --></div><!-- contents -->

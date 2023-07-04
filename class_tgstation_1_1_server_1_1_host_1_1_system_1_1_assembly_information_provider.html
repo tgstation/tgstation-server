@@ -152,7 +152,7 @@ Properties</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p class="definition">Definition at line <a class="el" href="_assembly_information_provider_8cs_source.html#l00010">10</a> of file <a class="el" href="_assembly_information_provider_8cs_source.html">AssemblyInformationProvider.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_assembly_information_provider_8cs_source.html#l00011">11</a> of file <a class="el" href="_assembly_information_provider_8cs_source.html">AssemblyInformationProvider.cs</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a5fd81262bcc6aeecc0608b630f96ced4" name="a5fd81262bcc6aeecc0608b630f96ced4"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a5fd81262bcc6aeecc0608b630f96ced4">&#9670;&#160;</a></span>AssemblyInformationProvider()</h2>
@@ -171,21 +171,21 @@ Properties</h2></td></tr>
 
 <p>Initializes a new instance of the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_assembly_information_provider.html">AssemblyInformationProvider</a> class.  </p>
 
-<p class="definition">Definition at line <a class="el" href="_assembly_information_provider_8cs_source.html#l00035">35</a> of file <a class="el" href="_assembly_information_provider_8cs_source.html">AssemblyInformationProvider.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   36</span>        {</div>
-<div class="line"><span class="lineno">   37</span>            Assembly assembly = Assembly.GetExecutingAssembly();</div>
-<div class="line"><span class="lineno">   38</span>            <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_assembly_information_provider.html#a4ee4d18b244ceb1e969256a6de69ee74">Path</a> = assembly.Location;</div>
-<div class="line"><span class="lineno">   39</span>            <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_assembly_information_provider.html#a243bb96f99b715968e25fca18cb9f682">AssemblyName</a> = assembly.GetName();</div>
-<div class="line"><span class="lineno">   40</span>            <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_assembly_information_provider.html#ac1d47d91bd3883e453b23c120d1f0ec9">Version</a> = <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_assembly_information_provider.html#a243bb96f99b715968e25fca18cb9f682">AssemblyName</a>.Version.Semver();</div>
-<div class="line"><span class="lineno">   41</span>            <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_assembly_information_provider.html#ac9a43553319585f54b7a6b69d862250c">VersionString</a> = String.Concat(<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_assembly_information_provider.html#aa4cd077258b22b53d6beaa0d78d70cb4">VersionPrefix</a>, <span class="stringliteral">&quot;-v&quot;</span>, <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_assembly_information_provider.html#ac1d47d91bd3883e453b23c120d1f0ec9">Version</a>);</div>
-<div class="line"><span class="lineno">   42</span>        }</div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_system_1_1_assembly_information_provider_html_a243bb96f99b715968e25fca18cb9f682"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_assembly_information_provider.html#a243bb96f99b715968e25fca18cb9f682">Tgstation.Server.Host.System.AssemblyInformationProvider.AssemblyName</a></div><div class="ttdeci">AssemblyName AssemblyName</div><div class="ttdoc">Gets the global::System.Reflection.AssemblyName.</div><div class="ttdef"><b>Definition:</b> <a href="_assembly_information_provider_8cs_source.html#l00019">AssemblyInformationProvider.cs:19</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_system_1_1_assembly_information_provider_html_a4ee4d18b244ceb1e969256a6de69ee74"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_assembly_information_provider.html#a4ee4d18b244ceb1e969256a6de69ee74">Tgstation.Server.Host.System.AssemblyInformationProvider.Path</a></div><div class="ttdeci">string Path</div><div class="ttdoc">Gets the path to the executing assembly.</div><div class="ttdef"><b>Definition:</b> <a href="_assembly_information_provider_8cs_source.html#l00022">AssemblyInformationProvider.cs:22</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_system_1_1_assembly_information_provider_html_aa4cd077258b22b53d6beaa0d78d70cb4"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_assembly_information_provider.html#aa4cd077258b22b53d6beaa0d78d70cb4">Tgstation.Server.Host.System.AssemblyInformationProvider.VersionPrefix</a></div><div class="ttdeci">string VersionPrefix</div><div class="ttdoc">Prefix to VersionString.</div><div class="ttdef"><b>Definition:</b> <a href="_assembly_information_provider_8cs_source.html#l00013">AssemblyInformationProvider.cs:13</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_system_1_1_assembly_information_provider_html_ac1d47d91bd3883e453b23c120d1f0ec9"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_assembly_information_provider.html#ac1d47d91bd3883e453b23c120d1f0ec9">Tgstation.Server.Host.System.AssemblyInformationProvider.Version</a></div><div class="ttdeci">Version Version</div><div class="ttdoc">The version of the assembly.</div><div class="ttdef"><b>Definition:</b> <a href="_assembly_information_provider_8cs_source.html#l00016">AssemblyInformationProvider.cs:16</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_system_1_1_assembly_information_provider_html_ac9a43553319585f54b7a6b69d862250c"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_assembly_information_provider.html#ac9a43553319585f54b7a6b69d862250c">Tgstation.Server.Host.System.AssemblyInformationProvider.VersionString</a></div><div class="ttdeci">string VersionString</div><div class="ttdoc">A more verbose version of Version.</div><div class="ttdef"><b>Definition:</b> <a href="_assembly_information_provider_8cs_source.html#l00025">AssemblyInformationProvider.cs:25</a></div></div>
+<p class="definition">Definition at line <a class="el" href="_assembly_information_provider_8cs_source.html#l00036">36</a> of file <a class="el" href="_assembly_information_provider_8cs_source.html">AssemblyInformationProvider.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   37</span>        {</div>
+<div class="line"><span class="lineno">   38</span>            Assembly assembly = Assembly.GetExecutingAssembly();</div>
+<div class="line"><span class="lineno">   39</span>            <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_assembly_information_provider.html#a4ee4d18b244ceb1e969256a6de69ee74">Path</a> = assembly.Location;</div>
+<div class="line"><span class="lineno">   40</span>            <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_assembly_information_provider.html#a243bb96f99b715968e25fca18cb9f682">AssemblyName</a> = assembly.GetName();</div>
+<div class="line"><span class="lineno">   41</span>            <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_assembly_information_provider.html#ac1d47d91bd3883e453b23c120d1f0ec9">Version</a> = <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_assembly_information_provider.html#a243bb96f99b715968e25fca18cb9f682">AssemblyName</a>.Version.Semver();</div>
+<div class="line"><span class="lineno">   42</span>            <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_assembly_information_provider.html#ac9a43553319585f54b7a6b69d862250c">VersionString</a> = String.Concat(<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_assembly_information_provider.html#aa4cd077258b22b53d6beaa0d78d70cb4">VersionPrefix</a>, <span class="stringliteral">&quot;-v&quot;</span>, <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_assembly_information_provider.html#ac1d47d91bd3883e453b23c120d1f0ec9">Version</a>);</div>
+<div class="line"><span class="lineno">   43</span>        }</div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_system_1_1_assembly_information_provider_html_a243bb96f99b715968e25fca18cb9f682"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_assembly_information_provider.html#a243bb96f99b715968e25fca18cb9f682">Tgstation.Server.Host.System.AssemblyInformationProvider.AssemblyName</a></div><div class="ttdeci">AssemblyName AssemblyName</div><div class="ttdoc">Gets the global::System.Reflection.AssemblyName.</div><div class="ttdef"><b>Definition:</b> <a href="_assembly_information_provider_8cs_source.html#l00020">AssemblyInformationProvider.cs:20</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_system_1_1_assembly_information_provider_html_a4ee4d18b244ceb1e969256a6de69ee74"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_assembly_information_provider.html#a4ee4d18b244ceb1e969256a6de69ee74">Tgstation.Server.Host.System.AssemblyInformationProvider.Path</a></div><div class="ttdeci">string Path</div><div class="ttdoc">Gets the path to the executing assembly.</div><div class="ttdef"><b>Definition:</b> <a href="_assembly_information_provider_8cs_source.html#l00023">AssemblyInformationProvider.cs:23</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_system_1_1_assembly_information_provider_html_aa4cd077258b22b53d6beaa0d78d70cb4"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_assembly_information_provider.html#aa4cd077258b22b53d6beaa0d78d70cb4">Tgstation.Server.Host.System.AssemblyInformationProvider.VersionPrefix</a></div><div class="ttdeci">string VersionPrefix</div><div class="ttdoc">Prefix to VersionString.</div><div class="ttdef"><b>Definition:</b> <a href="_assembly_information_provider_8cs_source.html#l00014">AssemblyInformationProvider.cs:14</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_system_1_1_assembly_information_provider_html_ac1d47d91bd3883e453b23c120d1f0ec9"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_assembly_information_provider.html#ac1d47d91bd3883e453b23c120d1f0ec9">Tgstation.Server.Host.System.AssemblyInformationProvider.Version</a></div><div class="ttdeci">Version Version</div><div class="ttdoc">The version of the assembly.</div><div class="ttdef"><b>Definition:</b> <a href="_assembly_information_provider_8cs_source.html#l00017">AssemblyInformationProvider.cs:17</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_system_1_1_assembly_information_provider_html_ac9a43553319585f54b7a6b69d862250c"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_assembly_information_provider.html#ac9a43553319585f54b7a6b69d862250c">Tgstation.Server.Host.System.AssemblyInformationProvider.VersionString</a></div><div class="ttdeci">string VersionString</div><div class="ttdoc">A more verbose version of Version.</div><div class="ttdef"><b>Definition:</b> <a href="_assembly_information_provider_8cs_source.html#l00026">AssemblyInformationProvider.cs:26</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_assembly_information_provider_8cs_source.html#l00019">Tgstation.Server.Host.System.AssemblyInformationProvider.AssemblyName</a>, <a class="el" href="_assembly_information_provider_8cs_source.html#l00022">Tgstation.Server.Host.System.AssemblyInformationProvider.Path</a>, <a class="el" href="_assembly_information_provider_8cs_source.html#l00016">Tgstation.Server.Host.System.AssemblyInformationProvider.Version</a>, <a class="el" href="_assembly_information_provider_8cs_source.html#l00013">Tgstation.Server.Host.System.AssemblyInformationProvider.VersionPrefix</a>, and <a class="el" href="_assembly_information_provider_8cs_source.html#l00025">Tgstation.Server.Host.System.AssemblyInformationProvider.VersionString</a>.</p>
+<p class="reference">References <a class="el" href="_assembly_information_provider_8cs_source.html#l00020">Tgstation.Server.Host.System.AssemblyInformationProvider.AssemblyName</a>, <a class="el" href="_assembly_information_provider_8cs_source.html#l00023">Tgstation.Server.Host.System.AssemblyInformationProvider.Path</a>, <a class="el" href="_assembly_information_provider_8cs_source.html#l00017">Tgstation.Server.Host.System.AssemblyInformationProvider.Version</a>, <a class="el" href="_assembly_information_provider_8cs_source.html#l00014">Tgstation.Server.Host.System.AssemblyInformationProvider.VersionPrefix</a>, and <a class="el" href="_assembly_information_provider_8cs_source.html#l00026">Tgstation.Server.Host.System.AssemblyInformationProvider.VersionString</a>.</p>
 
 </div>
 </div>
@@ -214,10 +214,10 @@ Properties</h2></td></tr>
 
 <p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_assembly_information_provider.html#a681c879b4ff73db055cd6fd39cb590b7">Tgstation.Server.Host.System.IAssemblyInformationProvider</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_assembly_information_provider_8cs_source.html#l00019">19</a> of file <a class="el" href="_assembly_information_provider_8cs_source.html">AssemblyInformationProvider.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   19</span>{ <span class="keyword">get</span>; }</div>
+<p class="definition">Definition at line <a class="el" href="_assembly_information_provider_8cs_source.html#l00020">20</a> of file <a class="el" href="_assembly_information_provider_8cs_source.html">AssemblyInformationProvider.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   20</span>{ <span class="keyword">get</span>; }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_assembly_information_provider_8cs_source.html#l00035">Tgstation.Server.Host.System.AssemblyInformationProvider.AssemblyInformationProvider()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_assembly_information_provider_8cs_source.html#l00036">Tgstation.Server.Host.System.AssemblyInformationProvider.AssemblyInformationProvider()</a>.</p>
 
 </div>
 </div>
@@ -245,10 +245,10 @@ Properties</h2></td></tr>
 
 <p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_assembly_information_provider.html#a49dad396bc16dcecc22c246e1706966a">Tgstation.Server.Host.System.IAssemblyInformationProvider</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_assembly_information_provider_8cs_source.html#l00022">22</a> of file <a class="el" href="_assembly_information_provider_8cs_source.html">AssemblyInformationProvider.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   22</span>{ <span class="keyword">get</span>; }</div>
+<p class="definition">Definition at line <a class="el" href="_assembly_information_provider_8cs_source.html#l00023">23</a> of file <a class="el" href="_assembly_information_provider_8cs_source.html">AssemblyInformationProvider.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   23</span>{ <span class="keyword">get</span>; }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_assembly_information_provider_8cs_source.html#l00035">Tgstation.Server.Host.System.AssemblyInformationProvider.AssemblyInformationProvider()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_assembly_information_provider_8cs_source.html#l00036">Tgstation.Server.Host.System.AssemblyInformationProvider.AssemblyInformationProvider()</a>.</p>
 
 </div>
 </div>
@@ -276,7 +276,7 @@ Properties</h2></td></tr>
 
 <p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_assembly_information_provider.html#ac576ee50be1f68ebbaeaa959fa304aa8">Tgstation.Server.Host.System.IAssemblyInformationProvider</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_assembly_information_provider_8cs_source.html#l00028">28</a> of file <a class="el" href="_assembly_information_provider_8cs_source.html">AssemblyInformationProvider.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_assembly_information_provider_8cs_source.html#l00029">29</a> of file <a class="el" href="_assembly_information_provider_8cs_source.html">AssemblyInformationProvider.cs</a>.</p>
 
 </div>
 </div>
@@ -304,10 +304,10 @@ Properties</h2></td></tr>
 
 <p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_assembly_information_provider.html#a600df9ffd79d4f94f59dfefccbcec099">Tgstation.Server.Host.System.IAssemblyInformationProvider</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_assembly_information_provider_8cs_source.html#l00016">16</a> of file <a class="el" href="_assembly_information_provider_8cs_source.html">AssemblyInformationProvider.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   16</span>{ <span class="keyword">get</span>; }</div>
+<p class="definition">Definition at line <a class="el" href="_assembly_information_provider_8cs_source.html#l00017">17</a> of file <a class="el" href="_assembly_information_provider_8cs_source.html">AssemblyInformationProvider.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   17</span>{ <span class="keyword">get</span>; }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_assembly_information_provider_8cs_source.html#l00035">Tgstation.Server.Host.System.AssemblyInformationProvider.AssemblyInformationProvider()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_assembly_information_provider_8cs_source.html#l00036">Tgstation.Server.Host.System.AssemblyInformationProvider.AssemblyInformationProvider()</a>.</p>
 
 </div>
 </div>
@@ -335,9 +335,9 @@ Properties</h2></td></tr>
 
 <p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_assembly_information_provider.html#ab2a2be82555afbf6ffb5b7ae3d90b7f0">Tgstation.Server.Host.System.IAssemblyInformationProvider</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_assembly_information_provider_8cs_source.html#l00013">13</a> of file <a class="el" href="_assembly_information_provider_8cs_source.html">AssemblyInformationProvider.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_assembly_information_provider_8cs_source.html#l00014">14</a> of file <a class="el" href="_assembly_information_provider_8cs_source.html">AssemblyInformationProvider.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_assembly_information_provider_8cs_source.html#l00035">Tgstation.Server.Host.System.AssemblyInformationProvider.AssemblyInformationProvider()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_assembly_information_provider_8cs_source.html#l00036">Tgstation.Server.Host.System.AssemblyInformationProvider.AssemblyInformationProvider()</a>.</p>
 
 </div>
 </div>
@@ -365,10 +365,10 @@ Properties</h2></td></tr>
 
 <p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_assembly_information_provider.html#abd6db0f6e1ea9273baeacaa66ae81fa3">Tgstation.Server.Host.System.IAssemblyInformationProvider</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_assembly_information_provider_8cs_source.html#l00025">25</a> of file <a class="el" href="_assembly_information_provider_8cs_source.html">AssemblyInformationProvider.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   25</span>{ <span class="keyword">get</span>; }</div>
+<p class="definition">Definition at line <a class="el" href="_assembly_information_provider_8cs_source.html#l00026">26</a> of file <a class="el" href="_assembly_information_provider_8cs_source.html">AssemblyInformationProvider.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   26</span>{ <span class="keyword">get</span>; }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_assembly_information_provider_8cs_source.html#l00035">Tgstation.Server.Host.System.AssemblyInformationProvider.AssemblyInformationProvider()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_assembly_information_provider_8cs_source.html#l00036">Tgstation.Server.Host.System.AssemblyInformationProvider.AssemblyInformationProvider()</a>.</p>
 
 </div>
 </div>

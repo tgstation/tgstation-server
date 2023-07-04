@@ -1,5 +1,4 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$interface_tgstation_1_1_server_1_1_host_1_1_models_1_1_i_api_transformable.html" title=" " alt="" coords="5,5,248,60"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_o_auth_connection.html" title=" " alt="" coords="296,49,492,89"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_o_auth_connection.html" title="Represents a valid OAuth connection." alt="" coords="33,85,220,125"/>
+<area shape="rect" id="node1" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_server_factory.html" title="For creating IServers." alt="" coords="5,5,199,45"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_server_factory.html" title="Implementation of IServerFactory." alt="" coords="247,5,436,45"/>
 </map>

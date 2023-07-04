@@ -616,7 +616,7 @@ Here is the call graph for this function:</div>
 <div class="line"><span class="lineno">  320</span>                                }</div>
 <div class="line"><span class="lineno">  321</span>                        }</div>
 <div class="line"><span class="lineno">  322</span> </div>
-<div class="line"><span class="lineno">  323</span>                        var instanceCoreProvider = await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#a65f26f7978af1de33b6339147d243045">activationTcs</a>.Task.WithToken(cancellationToken);</div>
+<div class="line"><span class="lineno">  323</span>                        var instanceCoreProvider = await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#a65f26f7978af1de33b6339147d243045">activationTcs</a>.Task.WaitAsync(cancellationToken);</div>
 <div class="line"><span class="lineno">  324</span> </div>
 <div class="line"><span class="lineno">  325</span>                        <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#a205ac8792aefeda9cd2a532d36b1784c">logger</a>.LogTrace(<span class="stringliteral">&quot;Starting job...&quot;</span>);</div>
 <div class="line"><span class="lineno">  326</span>                        await operation(</div>
@@ -871,7 +871,7 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">  265</span>            }</div>
 <div class="line"><span class="lineno">  266</span> </div>
 <div class="line"><span class="lineno">  267</span>            <span class="keywordflow">if</span> (noMoreJobsShouldStart &amp;&amp; !handler.Started)</div>
-<div class="line"><span class="lineno">  268</span>                await Extensions.TaskExtensions.InfiniteTask.WithToken(cancellationToken);</div>
+<div class="line"><span class="lineno">  268</span>                await Extensions.TaskExtensions.InfiniteTask.WaitAsync(cancellationToken);</div>
 <div class="line"><span class="lineno">  269</span> </div>
 <div class="line"><span class="lineno">  270</span>            Task cancelTask = <span class="keyword">null</span>;</div>
 <div class="line"><span class="lineno">  271</span>            <span class="keyword">using</span> (jobCancellationToken.Register(() =&gt; cancelTask = <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#a9e21547ef3576e2b185d53d2dc025c50">CancelJob</a>(job, canceller, <span class="keyword">true</span>, cancellationToken)))</div>

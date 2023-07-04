@@ -1,0 +1,7 @@
+<map id="Tgstation.Server.Host.Service.Program.RunServiceInstall" name="Tgstation.Server.Host.Service.Program.RunServiceInstall">
+<area shape="rect" id="node1" title="Attempt to install the TGS Service." alt="" coords="5,69,204,109"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_service_1_1_program.html#a1bbcef670d92f99cb2fb39dfd4399ab5" title="Runs sc.exe to either uninstall a given serviceToUninstall &#160;or install the running ServerService." alt="" coords="252,5,451,45"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_service_1_1_native_methods.html#ae07fe7e0f9de11e2406dbcb8d04b6811" title="Displays a modal dialog box that contains a system icon, a set of buttons, and a brief application&#45;sp..." alt="" coords="252,69,451,109"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_service_1_1_program.html#ac56303c99198dff534014e7110fcf9f2" title="Restarts a service using a given serviceController ." alt="" coords="252,133,451,173"/>
+<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_common_1_1_pipe_commands.html#a1b22a865eb929ce8b1fa818b81a015a9" title="Gets the int value of a given command ." alt="" coords="499,133,707,173"/>
+</map>

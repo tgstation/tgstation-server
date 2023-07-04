@@ -96,17 +96,17 @@ Inheritance diagram for Tgstation.Server.Host.Watchdog.IWatchdogFactory:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a4610f9c60c131dab81a56aa23abdfbb8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_watchdog.html">IWatchdog</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_watchdog_factory.html#a4610f9c60c131dab81a56aa23abdfbb8">CreateWatchdog</a> (ILoggerFactory loggerFactory)</td></tr>
-<tr class="memdesc:a4610f9c60c131dab81a56aa23abdfbb8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_watchdog.html" title="The watchdog for a Host.">IWatchdog</a>.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_watchdog_factory.html#a4610f9c60c131dab81a56aa23abdfbb8">More...</a><br /></td></tr>
-<tr class="separator:a4610f9c60c131dab81a56aa23abdfbb8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab2d9fab6dfb0b258003ee1cff20694af"><td class="memItemLeft" align="right" valign="top"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_watchdog.html">IWatchdog</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_watchdog_factory.html#ab2d9fab6dfb0b258003ee1cff20694af">CreateWatchdog</a> (<a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_signal_checker.html">ISignalChecker</a> signalChecker, ILoggerFactory loggerFactory)</td></tr>
+<tr class="memdesc:ab2d9fab6dfb0b258003ee1cff20694af"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_watchdog.html" title="The watchdog for a Host.">IWatchdog</a>.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_watchdog_factory.html#ab2d9fab6dfb0b258003ee1cff20694af">More...</a><br /></td></tr>
+<tr class="separator:ab2d9fab6dfb0b258003ee1cff20694af"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p >Factory for creating <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_watchdog.html" title="The watchdog for a Host.">IWatchdog</a>s.  </p>
 
 <p class="definition">Definition at line <a class="el" href="_tgstation_8_server_8_host_8_watchdog_2_i_watchdog_factory_8cs_source.html#l00008">8</a> of file <a class="el" href="_tgstation_8_server_8_host_8_watchdog_2_i_watchdog_factory_8cs_source.html">IWatchdogFactory.cs</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a id="a4610f9c60c131dab81a56aa23abdfbb8" name="a4610f9c60c131dab81a56aa23abdfbb8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4610f9c60c131dab81a56aa23abdfbb8">&#9670;&#160;</a></span>CreateWatchdog()</h2>
+<a id="ab2d9fab6dfb0b258003ee1cff20694af" name="ab2d9fab6dfb0b258003ee1cff20694af"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab2d9fab6dfb0b258003ee1cff20694af">&#9670;&#160;</a></span>CreateWatchdog()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -114,9 +114,19 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="memname"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_watchdog.html">IWatchdog</a> Tgstation.Server.Host.Watchdog.IWatchdogFactory.CreateWatchdog </td>
           <td>(</td>
-          <td class="paramtype">ILoggerFactory&#160;</td>
-          <td class="paramname"><em>loggerFactory</em></td><td>)</td>
+          <td class="paramtype"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_signal_checker.html">ISignalChecker</a>&#160;</td>
+          <td class="paramname"><em>signalChecker</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">ILoggerFactory&#160;</td>
+          <td class="paramname"><em>loggerFactory</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -124,20 +134,21 @@ Public Member Functions</h2></td></tr>
 <p>Create a <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_watchdog.html" title="The watchdog for a Host.">IWatchdog</a>.  </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
+    <tr><td class="paramname">signalChecker</td><td>The <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_signal_checker.html" title="For relaying signals received to the host process.">ISignalChecker</a> to use for relaying signals.</td></tr>
     <tr><td class="paramname">loggerFactory</td><td>The ILoggerFactory to use for error reporting.</td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A new <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_watchdog.html" title="The watchdog for a Host.">IWatchdog</a>.</dd></dl>
 
-<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog_factory.html#ae25446ee2a7bb19d9208695d18621914">Tgstation.Server.Host.Watchdog.WatchdogFactory</a>.</p>
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog_factory.html#ad1ffef58b23302061a59e4332c031e79">Tgstation.Server.Host.Watchdog.WatchdogFactory</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_server_service_8cs_source.html#l00071">Tgstation.Server.Host.Service.ServerService.OnStart()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_server_service_8cs_source.html#l00131">Tgstation.Server.Host.Service.ServerService.OnStart()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_watchdog_factory_a4610f9c60c131dab81a56aa23abdfbb8_icgraph.png" border="0" usemap="#ainterface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_watchdog_factory_a4610f9c60c131dab81a56aa23abdfbb8_icgraph" alt=""/></div>
-<map name="ainterface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_watchdog_factory_a4610f9c60c131dab81a56aa23abdfbb8_icgraph" id="ainterface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_watchdog_factory_a4610f9c60c131dab81a56aa23abdfbb8_icgraph">
+<div class="center"><img src="interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_watchdog_factory_ab2d9fab6dfb0b258003ee1cff20694af_icgraph.png" border="0" usemap="#ainterface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_watchdog_factory_ab2d9fab6dfb0b258003ee1cff20694af_icgraph" alt=""/></div>
+<map name="ainterface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_watchdog_factory_ab2d9fab6dfb0b258003ee1cff20694af_icgraph" id="ainterface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_watchdog_factory_ab2d9fab6dfb0b258003ee1cff20694af_icgraph">
 <area shape="rect" title="Create a IWatchdog." alt="" coords="252,5,479,45"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service.html#a40bef17d85eb30f2cbad7ed81ef9c774" title=" " alt="" coords="5,5,204,45"/>
 </map>

@@ -1,0 +1,8 @@
+<map id="Tgstation.Server.Host.Core.CommandPipeReader" name="Tgstation.Server.Host.Core.CommandPipeReader">
+<area shape="rect" id="node1" title="Reads from the command pipe opened by the host watchdog." alt="" coords="587,87,768,127"/>
+<area shape="rect" id="node2" href="$class_background_service.html" title=" " alt="" coords="219,5,354,31"/>
+<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_control.html" title="Represents a service that may take an updated Host assembly and run it, stopping the current assembly..." alt="" coords="196,55,377,95"/>
+<area shape="rect" id="node4" title=" " alt="" coords="156,119,417,159"/>
+<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_internal_configuration.html" title="Unstable configuration options used internally by TGS." alt="" coords="172,183,401,223"/>
+<area shape="rect" id="node6" title=" " alt="" coords="5,191,60,216"/>
+</map>

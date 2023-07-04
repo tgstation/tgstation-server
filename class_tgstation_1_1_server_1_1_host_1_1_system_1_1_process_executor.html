@@ -524,7 +524,7 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">  262</span>                <span class="keywordflow">if</span> (errorOpen &amp;&amp; errorReadTask == <span class="keyword">null</span>)</div>
 <div class="line"><span class="lineno">  263</span>                    errorReadTask = stdErrHandle.ReadLineAsync();</div>
 <div class="line"><span class="lineno">  264</span> </div>
-<div class="line"><span class="lineno">  265</span>                var completedTask = await Task.WhenAny(outputReadTask ?? errorReadTask, errorReadTask ?? outputReadTask).WithToken(disposeToken);</div>
+<div class="line"><span class="lineno">  265</span>                var completedTask = await Task.WhenAny(outputReadTask ?? errorReadTask, errorReadTask ?? outputReadTask).WaitAsync(disposeToken);</div>
 <div class="line"><span class="lineno">  266</span>                var line = await completedTask;</div>
 <div class="line"><span class="lineno">  267</span>                <span class="keywordflow">if</span> (completedTask == outputReadTask)</div>
 <div class="line"><span class="lineno">  268</span>                {</div>

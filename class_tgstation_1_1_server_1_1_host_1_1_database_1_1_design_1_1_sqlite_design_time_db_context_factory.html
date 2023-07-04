@@ -133,11 +133,11 @@ Public Member Functions</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="_sqlite_design_time_db_context_factory_8cs_source.html#l00013">13</a> of file <a class="el" href="_sqlite_design_time_db_context_factory_8cs_source.html">SqliteDesignTimeDbContextFactory.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   14</span>        {</div>
-<div class="line"><span class="lineno">   15</span>            SqliteDatabaseContext.DesignTime = <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">   16</span>            <span class="keywordflow">return</span> <span class="keyword">new</span> SqliteDatabaseContext(</div>
-<div class="line"><span class="lineno">   17</span>                DesignTimeDbContextFactoryHelpers.CreateDatabaseContextOptions&lt;SqliteDatabaseContext&gt;(</div>
-<div class="line"><span class="lineno">   18</span>                    <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_host_1_1_configuration.html#acda8f6ee23a9ee8ac298f7b4a7d5617c">DatabaseType</a>.Sqlite,</div>
-<div class="line"><span class="lineno">   19</span>                    <span class="stringliteral">&quot;Data Source=tgs_design.sqlite3;Mode=ReadWriteCreate&quot;</span>));</div>
+<div class="line"><span class="lineno">   15</span>            <span class="keywordflow">return</span> <span class="keyword">new</span> SqliteDatabaseContext(</div>
+<div class="line"><span class="lineno">   16</span>                DesignTimeDbContextFactoryHelpers.CreateDatabaseContextOptions&lt;SqliteDatabaseContext&gt;(</div>
+<div class="line"><span class="lineno">   17</span>                    <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_host_1_1_configuration.html#acda8f6ee23a9ee8ac298f7b4a7d5617c">DatabaseType</a>.Sqlite,</div>
+<div class="line"><span class="lineno">   18</span>                    <span class="stringliteral">&quot;Data Source=tgs_design.sqlite3;Mode=ReadWriteCreate&quot;</span>),</div>
+<div class="line"><span class="lineno">   19</span>                <span class="keyword">true</span>);</div>
 <div class="line"><span class="lineno">   20</span>        }</div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_host_1_1_configuration_html_acda8f6ee23a9ee8ac298f7b4a7d5617c"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_host_1_1_configuration.html#acda8f6ee23a9ee8ac298f7b4a7d5617c">Tgstation.Server.Host.Configuration.DatabaseType</a></div><div class="ttdeci">DatabaseType</div><div class="ttdoc">Type of database to user.</div><div class="ttdef"><b>Definition:</b> <a href="_database_type_8cs_source.html#l00006">DatabaseType.cs:7</a></div></div>
 </div><!-- fragment -->

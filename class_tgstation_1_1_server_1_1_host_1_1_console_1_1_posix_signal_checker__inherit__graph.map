@@ -1,0 +1,4 @@
+<map id="Tgstation.Server.Host.Console.PosixSignalChecker" name="Tgstation.Server.Host.Console.PosixSignalChecker">
+<area shape="rect" id="node1" title="ISignalChecker for checking POSIX signals." alt="" coords="5,79,207,119"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_signal_checker.html" title="For relaying signals received to the host process." alt="" coords="51,5,161,31"/>
+</map>

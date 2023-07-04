@@ -95,21 +95,20 @@ $(function() {
 <div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>        {</div>
 <div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>            var dbConfig = <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_database_configuration.html">DatabaseConfiguration</a></div>
 <div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>            {</div>
-<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>                DesignTime = <span class="keyword">true</span>,</div>
-<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>                <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_host_1_1_configuration.html#acda8f6ee23a9ee8ac298f7b4a7d5617c">DatabaseType</a> = databaseType,</div>
-<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>                ConnectionString = connectionString,</div>
-<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>                ServerVersion = serverVersion,</div>
-<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>            };</div>
-<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span> </div>
-<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>            var optionsFac = <span class="keyword">new</span> DbContextOptionsBuilder&lt;TDatabaseContext&gt;();</div>
-<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>            var configureAction = <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html">DatabaseContext</a>.GetConfigureAction&lt;TDatabaseContext&gt;();</div>
-<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span> </div>
-<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>            configureAction(optionsFac, dbConfig);</div>
-<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span> </div>
-<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>            <span class="keywordflow">return</span> optionsFac.Options;</div>
-<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>        }</div>
-<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>    }</div>
-<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>}</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>                <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_host_1_1_configuration.html#acda8f6ee23a9ee8ac298f7b4a7d5617c">DatabaseType</a> = databaseType,</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>                ConnectionString = connectionString,</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>                ServerVersion = serverVersion,</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>            };</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span> </div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>            var optionsFac = <span class="keyword">new</span> DbContextOptionsBuilder&lt;TDatabaseContext&gt;();</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>            var configureAction = <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html">DatabaseContext</a>.GetConfigureAction&lt;TDatabaseContext&gt;();</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span> </div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>            configureAction(optionsFac, dbConfig);</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span> </div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>            <span class="keywordflow">return</span> optionsFac.Options;</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>        }</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>    }</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>}</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_database_configuration_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_database_configuration.html">Tgstation.Server.Host.Configuration.DatabaseConfiguration</a></div><div class="ttdoc">Configuration options for the Database.DatabaseContext.</div><div class="ttdef"><b>Definition:</b> <a href="_database_configuration_8cs_source.html#l00009">DatabaseConfiguration.cs:10</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html">Tgstation.Server.Host.Database.DatabaseContext</a></div><div class="ttdoc">Backend abstract implementation of IDatabaseContext.</div><div class="ttdef"><b>Definition:</b> <a href="_database_context_8cs_source.html#l00024">DatabaseContext.cs:25</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_database_1_1_design_1_1_design_time_db_context_factory_helpers_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_design_1_1_design_time_db_context_factory_helpers.html">Tgstation.Server.Host.Database.Design.DesignTimeDbContextFactoryHelpers</a></div><div class="ttdoc">Contains helpers for creating design time DatabaseContexts.</div><div class="ttdef"><b>Definition:</b> <a href="_design_time_db_context_factory_helpers_8cs_source.html#l00011">DesignTimeDbContextFactoryHelpers.cs:12</a></div></div>

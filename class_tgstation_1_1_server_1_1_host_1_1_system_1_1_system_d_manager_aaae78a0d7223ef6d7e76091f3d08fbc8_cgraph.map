@@ -1,5 +1,0 @@
-<map id="Tgstation.Server.Host.System.SystemDManager.RunAsync" name="Tgstation.Server.Host.System.SystemDManager.RunAsync">
-<area shape="rect" id="node1" title="Runs the SystemDManager." alt="" coords="5,5,204,45"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_system_d_manager.html#ae11ee32aa27a117987d833967fd14b11" title="Send a sd_notify command ." alt="" coords="252,5,463,45"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_native_methods.html#a491f8c2f0d112b0dc89d1380f1865297" title="See https://www.freedesktop.org/software/systemd/man/sd_notify.html." alt="" coords="511,5,709,45"/>
-</map>

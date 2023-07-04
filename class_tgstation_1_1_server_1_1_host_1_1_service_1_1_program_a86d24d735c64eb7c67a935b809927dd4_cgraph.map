@@ -1,7 +1,12 @@
 <map id="Tgstation.Server.Host.Service.Program.OnExecuteAsync" name="Tgstation.Server.Host.Service.Program.OnExecuteAsync">
-<area shape="rect" id="node1" title="Command line handler, always runs." alt="" coords="5,101,204,141"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog_factory.html#ae25446ee2a7bb19d9208695d18621914" title="Create a IWatchdog. A new IWatchdog." alt="" coords="252,5,475,45"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_service_1_1_program.html#a5c942ce276ce92ca31ecbe9c88f2e982" title="Check if the running user is a system administrator." alt="" coords="264,69,463,109"/>
-<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_watchdog.html#abe13ec45a7d7ba7db422ea661156b697" title="Run the IWatchdog." alt="" coords="257,133,469,173"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_service_1_1_program.html#ae25637d5f1e273ad93fe3ea34ba6a6c2" title="Attempt to install the TGS Service." alt="" coords="264,197,463,237"/>
+<area shape="rect" id="node1" title="Command line handler, always runs." alt="" coords="5,180,204,220"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_service_1_1_program.html#add40bb5ae78d79de2d16d24d873253ac" title="Format PassthroughArgs into an Array." alt="" coords="511,5,709,45"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_service_1_1_program.html#a1bbcef670d92f99cb2fb39dfd4399ab5" title="Runs sc.exe to either uninstall a given serviceToUninstall &#160;or install the running ServerService." alt="" coords="511,197,709,237"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_service_1_1_native_methods.html#ae07fe7e0f9de11e2406dbcb8d04b6811" title="Displays a modal dialog box that contains a system icon, a set of buttons, and a brief application&#45;sp..." alt="" coords="511,261,709,301"/>
+<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_service_1_1_program.html#ac56303c99198dff534014e7110fcf9f2" title="Restarts a service using a given serviceController ." alt="" coords="511,325,709,365"/>
+<area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_host_1_1_service_1_1_program.html#a7a8dfa7b9eb0b6e504af245ddddf0cf4" title="Runs the host application with the setup wizard." alt="" coords="252,81,451,121"/>
+<area shape="rect" id="node10" href="$class_tgstation_1_1_server_1_1_host_1_1_service_1_1_program.html#a7f443fbeb4ae2c9d1802195b7770e42d" title="Attempt to install the TGS Service." alt="" coords="252,208,451,248"/>
+<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_common_1_1_pipe_commands.html#a1b22a865eb929ce8b1fa818b81a015a9" title="Gets the int value of a given command ." alt="" coords="769,325,977,365"/>
+<area shape="rect" id="node8" href="$class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog_factory.html#ad1ffef58b23302061a59e4332c031e79" title="Create a IWatchdog. A new IWatchdog." alt="" coords="499,69,721,109"/>
+<area shape="rect" id="node9" href="$interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_watchdog.html#a0c7358d5daa1a04c517e8a33c1c99de6" title="Run the IWatchdog." alt="" coords="504,133,716,173"/>
 </map>

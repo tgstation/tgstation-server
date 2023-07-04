@@ -25,9 +25,8 @@ var searchData=
   ['jobsclient_22',['JobsClient',['../class_tgstation_1_1_server_1_1_client_1_1_components_1_1_jobs_client.html#a9ffef36f7b69e7c76e31af3958797846',1,'Tgstation.Server.Client.Components.JobsClient.JobsClient()'],['../class_tgstation_1_1_server_1_1_client_1_1_components_1_1_jobs_client.html',1,'Tgstation.Server.Client.Components.JobsClient']]],
   ['jobsclient_2ecs_23',['JobsClient.cs',['../_jobs_client_8cs.html',1,'']]],
   ['jobscollection_24',['jobsCollection',['../class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#a6d6f982a1c3a6966ac31b5ac2d86f3e2',1,'Tgstation::Server::Host::Database::DatabaseContext']]],
-  ['jobservice_25',['JobService',['../class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#a762952812b16768101d0cad4615dcdfe',1,'Tgstation::Server::Host::Jobs::JobService']]],
-  ['jobservice_26',['jobService',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#a4cba827c550b76d41c119b62d25c4668',1,'Tgstation::Server::Host::Components::InstanceManager']]],
-  ['jobservice_27',['JobService',['../class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html',1,'Tgstation::Server::Host::Jobs']]],
-  ['jobservice_2ecs_28',['JobService.cs',['../_job_service_8cs.html',1,'']]],
-  ['jsonconverter_29',['JsonConverter',['../class_json_converter.html',1,'']]]
+  ['jobservice_25',['jobService',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#a4cba827c550b76d41c119b62d25c4668',1,'Tgstation::Server::Host::Components::InstanceManager']]],
+  ['jobservice_26',['JobService',['../class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#a762952812b16768101d0cad4615dcdfe',1,'Tgstation.Server.Host.Jobs.JobService.JobService()'],['../class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html',1,'Tgstation.Server.Host.Jobs.JobService']]],
+  ['jobservice_2ecs_27',['JobService.cs',['../_job_service_8cs.html',1,'']]],
+  ['jsonconverter_28',['JsonConverter',['../class_json_converter.html',1,'']]]
 ];

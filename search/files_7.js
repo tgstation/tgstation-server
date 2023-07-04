@@ -12,6 +12,5 @@ var searchData=
   ['gitlabremotedeploymentmanager_2ecs_9',['GitLabRemoteDeploymentManager.cs',['../_git_lab_remote_deployment_manager_8cs.html',1,'']]],
   ['gitlabremotefeatures_2ecs_10',['GitLabRemoteFeatures.cs',['../_git_lab_remote_features_8cs.html',1,'']]],
   ['gitremotefeaturesbase_2ecs_11',['GitRemoteFeaturesBase.cs',['../_git_remote_features_base_8cs.html',1,'']]],
-  ['gitremotefeaturesfactory_2ecs_12',['GitRemoteFeaturesFactory.cs',['../_git_remote_features_factory_8cs.html',1,'']]],
-  ['globalsuppressions_2ecs_13',['GlobalSuppressions.cs',['../_global_suppressions_8cs.html',1,'']]]
+  ['gitremotefeaturesfactory_2ecs_12',['GitRemoteFeaturesFactory.cs',['../_git_remote_features_factory_8cs.html',1,'']]]
 ];
