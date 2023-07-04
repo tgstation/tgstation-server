@@ -115,7 +115,6 @@ namespace Tgstation.Server.Tests
 				Mock.Of<IIOManager>(),
 				new CachingFileDownloader(Mock.Of<ILogger<CachingFileDownloader>>()),
 				mockGeneralConfigurationOptions.Object,
-				mockSessionConfigurationOptions.Object,
 				Mock.Of<ILogger<WindowsByondInstaller>>());
 
 			const string ArchiveEntryPath = "byond/bin/dd.exe";
@@ -170,7 +169,6 @@ namespace Tgstation.Server.Tests
 					Mock.Of<IIOManager>(),
 					fileDownloader,
 					mockGeneralConfigurationOptions.Object,
-					mockSessionConfigurationOptions.Object,
 					loggerFactory.CreateLogger<WindowsByondInstaller>())
 				: new PosixByondInstaller(
 					Mock.Of<IPostWriteHandler>(),
