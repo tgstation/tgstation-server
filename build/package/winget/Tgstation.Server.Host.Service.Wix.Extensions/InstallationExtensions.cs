@@ -32,17 +32,14 @@
 				// If that dead-ass tool has been removed, feel free to do this
 				const string CanonicalPackageName = "tgstation-server";
 				session.Log($"Searching for {CanonicalPackageName} service...");
-				foreach (var controller in ServiceController.GetServices())
-					if (controller.ServiceName == CanonicalPackageName)
-					{
-						serviceController = controller;
-						break;
-					}
-					else
-						controller.Dispose();
-
-				using (serviceController)
+				try
 				{
+					foreach (var controller in ServiceController.GetServices())
+						if (controller.ServiceName == CanonicalPackageName)
+							serviceController = controller;
+						else
+							controller.Dispose();
+
 					if (serviceController == null || serviceController.Status != ServiceControllerStatus.Running)
 					{
 						session.Log($"{CanonicalPackageName} service not found. Continuing.");
@@ -67,6 +64,10 @@
 					return stopped
 						? ActionResult.Success
 						: ActionResult.NotExecuted;
+				}
+				finally
+				{
+					serviceController?.Dispose();
 				}
 			}
 			catch (Exception ex)

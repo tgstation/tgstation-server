@@ -135,13 +135,12 @@ try
 			if (service == tgs3Service)
 				continue;
 
-			if (checkNewOneIsntInstalled && (service.ServiceName == NewServiceName || service.ServiceName == "tgstation-server-4"))
-			{
-				Console.WriteLine("Detected existing TGS4+ install! Cannot continue. Please uninstall any versions of TGS4+ before continuing.");
-				ExitPause(10);
-			}
-
-			service.Dispose();
+			using (service)
+				if (checkNewOneIsntInstalled && (service.ServiceName == NewServiceName || service.ServiceName == "tgstation-server-4"))
+				{
+					Console.WriteLine("Detected existing TGS4+ install! Cannot continue. Please uninstall any versions of TGS4+ before continuing.");
+					ExitPause(10);
+				}
 		}
 
 		if (checkNewOneIsntInstalled)
@@ -439,7 +438,7 @@ try
 				$"assemblypath={Path.Combine(tgsInstallPath, "Tgstation.Server.Host.Service.exe")}"
 			});
 		installer.Description = "/tg/station 13 server running as a windows service";
-		installer.DisplayName = "/tg/station server";
+		installer.DisplayName = "tgstation-server";
 		installer.StartType = ServiceStartMode.Automatic;
 		installer.ServicesDependedOn = new string[] { "Tcpip", "Dhcp", "Dnscache" };
 		installer.ServiceName = NewServiceName;
