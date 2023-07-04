@@ -74,8 +74,9 @@ If you don't plan on deploying TGS, the following secrets can be omitted:
 - Secret `DOCKER_USERNAME`: Login username for Docker image push.
 - Secret `DOCKER_PASSWORD`: Login password for Docker image push.
 - Secret `NUGET_API_KEY`: Nuget.org API Key for client libraries push.
-- Secret `CODE_SIGNING_BASE64`: Base64 string of a .pfx file containing a Windows code-signing certificate.
+- Secret `CODE_SIGNING_BASE64`: Base64 string of a .pfx file containing an X.509 code-signing certificate.
 - Secret `CODE_SIGNING_PASSWORD`: Password for importing the above .pfx.
+- Variable `CODE_SIGNING_THUMBPRINT`: Thumbprint for the above .pfx
 
 ### Know your Code
 

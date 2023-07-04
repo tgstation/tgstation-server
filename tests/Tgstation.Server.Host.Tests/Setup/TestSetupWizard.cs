@@ -240,7 +240,8 @@ namespace Tgstation.Server.Host.Setup.Tests
 				"node1",
 				"not a url",
 				"net.tcp://notandhttpAddress.com",
-				"http://node1:3400",
+				"http://node1internal:3400",
+				"http://node1public:3400",
 				"privatekey",
 				"n",
 				"http://controller.com",
@@ -274,7 +275,8 @@ namespace Tgstation.Server.Host.Setup.Tests
 				//swarm config
 				"y",
 				"controller",
-				"https://controller.com",
+				"https://controllerinternal.com",
+				"https://controllerpublic.com",
 				"privatekey",
 				"y"
 			};

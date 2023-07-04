@@ -21,6 +21,7 @@ using MySqlConnector;
 
 using Npgsql;
 
+using Tgstation.Server.Common;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.Extensions.Converters;
@@ -874,9 +875,15 @@ namespace Tgstation.Server.Host.Setup
 
 			async Task<Uri> ParseAddress(string question)
 			{
+				var first = true;
 				Uri address;
 				do
 				{
+					if (first)
+						first = false;
+					else
+						await console.WriteAsync("Invalid address!", true, cancellationToken);
+
 					await console.WriteAsync(question, false, cancellationToken);
 					var addressString = await console.ReadLineAsync(false, cancellationToken);
 					if (Uri.TryCreate(addressString, UriKind.Absolute, out address)
@@ -889,7 +896,8 @@ namespace Tgstation.Server.Host.Setup
 				return address;
 			}
 
-			var address = await ParseAddress("Enter this server's HTTP(S) address: ");
+			var address = await ParseAddress("Enter this server's INTERNAL http(s) address: ");
+			var publicAddress = await ParseAddress("Enter this server's PUBLIC https(s) address: ");
 			string privateKey;
 			do
 			{
@@ -906,6 +914,7 @@ namespace Tgstation.Server.Host.Setup
 			return new SwarmConfiguration
 			{
 				Address = address,
+				PublicAddress = publicAddress,
 				ControllerAddress = controllerAddress,
 				Identifier = identifer,
 				PrivateKey = privateKey,
@@ -1012,7 +1021,7 @@ namespace Tgstation.Server.Host.Setup
 		async Task RunWizard(string userConfigFileName, CancellationToken cancellationToken)
 		{
 			// welcome message
-			await console.WriteAsync("Welcome to tgstation-server!", true, cancellationToken);
+			await console.WriteAsync($"Welcome to {Constants.CanonicalPackageName}!", true, cancellationToken);
 			await console.WriteAsync("This wizard will help you configure your server.", true, cancellationToken);
 
 			var hostingPort = await PromptForHostingPort(cancellationToken);

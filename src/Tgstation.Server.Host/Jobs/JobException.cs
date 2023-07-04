@@ -25,7 +25,8 @@ namespace Tgstation.Server.Host.Jobs
 		/// Initializes a new instance of the <see cref="JobException"/> class.
 		/// </summary>
 		/// <param name="message">The message for the <see cref="Exception"/>.</param>
-		public JobException(string message) : base(message)
+		public JobException(string message)
+			: base(message)
 		{
 		}
 
@@ -34,7 +35,8 @@ namespace Tgstation.Server.Host.Jobs
 		/// </summary>
 		/// <param name="message">The message for the <see cref="Exception"/>.</param>
 		/// <param name="innerException">The inner <see cref="Exception"/> for the nase <see cref="Exception"/>.</param>
-		public JobException(string message, Exception innerException) : base(message, innerException)
+		public JobException(string message, Exception innerException)
+			: base(message, innerException)
 		{
 		}
 
@@ -42,7 +44,8 @@ namespace Tgstation.Server.Host.Jobs
 		/// Initializes a new instance of the <see cref="JobException"/> class.
 		/// </summary>
 		/// <param name="errorCode">The associated <see cref="Api.Models.ErrorCode"/>.</param>
-		public JobException(ErrorCode errorCode) : base(errorCode.Describe())
+		public JobException(ErrorCode errorCode)
+			: base(errorCode.Describe())
 		{
 			ErrorCode = errorCode;
 		}
@@ -52,7 +55,8 @@ namespace Tgstation.Server.Host.Jobs
 		/// </summary>
 		/// <param name="errorCode">The associated <see cref="Api.Models.ErrorCode"/>.</param>
 		/// <param name="innerException">The inner <see cref="Exception"/> for the nase <see cref="Exception"/>.</param>
-		public JobException(ErrorCode errorCode, Exception innerException) : base(errorCode.Describe(), innerException)
+		public JobException(ErrorCode errorCode, Exception innerException)
+			: base(errorCode.Describe(), innerException)
 		{
 			ErrorCode = errorCode;
 		}

@@ -9,7 +9,7 @@ using System.Xml.Linq;
 using Octokit;
 using Octokit.GraphQL;
 
-namespace ReleaseNotes
+namespace Tgstation.Server.ReleaseNotes
 {
 	/// <summary>
 	/// Contains the application entrypoint

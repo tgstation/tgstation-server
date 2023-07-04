@@ -19,7 +19,8 @@ namespace Tgstation.Server.Client
 		/// </summary>
 		/// <param name="responseMessage">The <see cref="HttpResponseMessage"/> that generated the <see cref="ClientException"/>.</param>
 		/// <param name="message">The message for the <see cref="Exception"/>.</param>
-		protected ClientException(HttpResponseMessage responseMessage, string message) : base(message)
+		protected ClientException(HttpResponseMessage responseMessage, string message)
+			: base(message)
 		{
 			ResponseMessage = responseMessage ?? throw new ArgumentNullException(nameof(responseMessage));
 		}
@@ -35,7 +36,8 @@ namespace Tgstation.Server.Client
 		/// Initializes a new instance of the <see cref="ClientException"/> class.
 		/// </summary>
 		/// <param name="message">The message for the <see cref="Exception"/>.</param>
-		protected ClientException(string message) : base(message)
+		protected ClientException(string message)
+			: base(message)
 		{
 		}
 
@@ -44,7 +46,8 @@ namespace Tgstation.Server.Client
 		/// </summary>
 		/// <param name="message">The message for the <see cref="Exception"/>.</param>
 		/// <param name="innerException">The inner <see cref="Exception"/> for the base <see cref="Exception"/>.</param>
-		protected ClientException(string message, Exception innerException) : base(message, innerException)
+		protected ClientException(string message, Exception innerException)
+			: base(message, innerException)
 		{
 		}
 	}

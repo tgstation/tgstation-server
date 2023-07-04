@@ -284,7 +284,8 @@ namespace Tgstation.Server.Host.Core
 			services.AddHttpClient();
 			services.AddSingleton<IAbstractHttpClientFactory, AbstractHttpClientFactory>();
 
-			void AddTypedContext<TContext>() where TContext : DatabaseContext
+			void AddTypedContext<TContext>()
+				where TContext : DatabaseContext
 			{
 				var configureAction = DatabaseContext.GetConfigureAction<TContext>();
 

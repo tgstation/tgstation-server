@@ -167,6 +167,7 @@ namespace Tgstation.Server.Tests.Live
 			swarmArgs.Add($"Swarm:PrivateKey={swarmConfiguration.PrivateKey}");
 			swarmArgs.Add($"Swarm:Identifier={swarmConfiguration.Identifier}");
 			swarmArgs.Add($"Swarm:Address={swarmConfiguration.Address}");
+			swarmArgs.Add($"Swarm:PublicAddress={swarmConfiguration.PublicAddress}");
 			if (swarmConfiguration.ControllerAddress != null)
 				swarmArgs.Add($"Swarm:ControllerAddress={swarmConfiguration.ControllerAddress}");
 

@@ -15,7 +15,8 @@ namespace Tgstation.Server.Client
 		/// </summary>
 		/// <param name="errorMessage">The <see cref="ErrorMessageResponse"/> for the <see cref="ApiException"/>.</param>
 		/// <param name="responseMessage">The <see cref="HttpResponseMessage"/> for the <see cref="ClientException"/>.</param>
-		public ConflictException(ErrorMessageResponse? errorMessage, HttpResponseMessage responseMessage) : base(errorMessage, responseMessage)
+		public ConflictException(ErrorMessageResponse? errorMessage, HttpResponseMessage responseMessage)
+			: base(errorMessage, responseMessage)
 		{
 		}
 
@@ -30,7 +31,8 @@ namespace Tgstation.Server.Client
 		/// Initializes a new instance of the <see cref="ConflictException"/> class.
 		/// </summary>
 		/// <param name="message">The message for the <see cref="Exception"/>.</param>
-		public ConflictException(string message) : base(message)
+		public ConflictException(string message)
+			: base(message)
 		{
 		}
 
@@ -39,7 +41,8 @@ namespace Tgstation.Server.Client
 		/// </summary>
 		/// <param name="message">The message for the <see cref="Exception"/>.</param>
 		/// <param name="innerException">The inner <see cref="Exception"/> for the base <see cref="Exception"/>.</param>
-		public ConflictException(string message, Exception innerException) : base(message, innerException)
+		public ConflictException(string message, Exception innerException)
+			: base(message, innerException)
 		{
 		}
 	}

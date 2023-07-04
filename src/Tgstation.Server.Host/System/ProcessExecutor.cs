@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 
 using Microsoft.Extensions.Logging;
 
-using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.IO;
 
 namespace Tgstation.Server.Host.System

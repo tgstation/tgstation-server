@@ -37,7 +37,8 @@ namespace Tgstation.Server.Host.Components.Interop.Bridge
 		/// </summary>
 		/// <param name="testMerge">The <see cref="Models.TestMerge"/> to build from.</param>
 		/// <param name="revision">The value of <see cref="Revision"/>.</param>
-		public TestMergeInformation(Models.TestMerge testMerge, RevisionInformation revision) : base(testMerge)
+		public TestMergeInformation(Models.TestMerge testMerge, RevisionInformation revision)
+			: base(testMerge)
 		{
 			TimeMerged = testMerge?.MergedAt.Ticks.ToString(CultureInfo.InvariantCulture) ?? throw new ArgumentNullException(nameof(testMerge));
 			Revision = revision ?? throw new ArgumentNullException(nameof(revision));

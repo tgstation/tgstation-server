@@ -32,7 +32,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{6FF654E6
 		build\GenerateMigrations.sh = build\GenerateMigrations.sh
 		build\NugetCommon.props = build\NugetCommon.props
 		build\OpenApiValidationSettings.json = build\OpenApiValidationSettings.json
+		build\SrcCommon.props = build\SrcCommon.props
 		build\stylecop.json = build\stylecop.json
+		build\TestCommon.props = build\TestCommon.props
 		build\tgs.docker.sh = build\tgs.docker.sh
 		build\tgs.ico = build\tgs.ico
 		build\tgs.png = build\tgs.png
@@ -129,8 +131,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{E821
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tgstation.Server.Tests", "tests\Tgstation.Server.Tests\Tgstation.Server.Tests.csproj", "{09056964-1C74-445A-96EC-33F6DFC07916}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ReleaseNotes", "tools\ReleaseNotes\ReleaseNotes.csproj", "{5CB51532-55F0-4255-B6E5-69ED5CCD14CD}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".vscode", ".vscode", "{14B3FF87-5600-4981-B40C-9CC838964645}"
 	ProjectSection(SolutionItems) = preProject
@@ -251,6 +251,8 @@ EndProject
 Project("{B7DD6F7E-DEF8-4E67-B5B7-07EF123DB6F0}") = "Tgstation.Server.Host.Service.Wix", "build\package\winget\Tgstation.Server.Host.Service.Wix\Tgstation.Server.Host.Service.Wix.wixproj", "{82996E9D-5E63-4CC5-8179-612C71B4F56C}"
 EndProject
 Project("{B7DD6F7E-DEF8-4E67-B5B7-07EF123DB6F0}") = "Tgstation.Server.Host.Service.Wix.Bundle", "build\package\winget\Tgstation.Server.Host.Service.Wix.Bundle\Tgstation.Server.Host.Service.Wix.Bundle.wixproj", "{9E66C6F1-E235-4979-83B5-C2B3FDAD6E01}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tgstation.Server.ReleaseNotes", "tools\Tgstation.Server.ReleaseNotes\Tgstation.Server.ReleaseNotes.csproj", "{69944039-65C2-40E1-9D86-0608FA0C2D70}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -414,18 +416,6 @@ Global
 		{09056964-1C74-445A-96EC-33F6DFC07916}.ReleaseNoWindows|Any CPU.Build.0 = Release|Any CPU
 		{09056964-1C74-445A-96EC-33F6DFC07916}.ReleaseNoWix|Any CPU.ActiveCfg = Release|Any CPU
 		{09056964-1C74-445A-96EC-33F6DFC07916}.ReleaseNoWix|Any CPU.Build.0 = Release|Any CPU
-		{5CB51532-55F0-4255-B6E5-69ED5CCD14CD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5CB51532-55F0-4255-B6E5-69ED5CCD14CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5CB51532-55F0-4255-B6E5-69ED5CCD14CD}.DebugNoWindows|Any CPU.ActiveCfg = Debug|Any CPU
-		{5CB51532-55F0-4255-B6E5-69ED5CCD14CD}.DebugNoWindows|Any CPU.Build.0 = Debug|Any CPU
-		{5CB51532-55F0-4255-B6E5-69ED5CCD14CD}.DebugNoWix|Any CPU.ActiveCfg = Debug|Any CPU
-		{5CB51532-55F0-4255-B6E5-69ED5CCD14CD}.DebugNoWix|Any CPU.Build.0 = Debug|Any CPU
-		{5CB51532-55F0-4255-B6E5-69ED5CCD14CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5CB51532-55F0-4255-B6E5-69ED5CCD14CD}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5CB51532-55F0-4255-B6E5-69ED5CCD14CD}.ReleaseNoWindows|Any CPU.ActiveCfg = Release|Any CPU
-		{5CB51532-55F0-4255-B6E5-69ED5CCD14CD}.ReleaseNoWindows|Any CPU.Build.0 = Release|Any CPU
-		{5CB51532-55F0-4255-B6E5-69ED5CCD14CD}.ReleaseNoWix|Any CPU.ActiveCfg = Release|Any CPU
-		{5CB51532-55F0-4255-B6E5-69ED5CCD14CD}.ReleaseNoWix|Any CPU.Build.0 = Release|Any CPU
 		{5813CC33-B16C-485D-A74D-20204DDF6542}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{5813CC33-B16C-485D-A74D-20204DDF6542}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5813CC33-B16C-485D-A74D-20204DDF6542}.DebugNoWindows|Any CPU.ActiveCfg = Debug|Any CPU
@@ -510,6 +500,18 @@ Global
 		{9E66C6F1-E235-4979-83B5-C2B3FDAD6E01}.Release|Any CPU.Build.0 = Release|x86
 		{9E66C6F1-E235-4979-83B5-C2B3FDAD6E01}.ReleaseNoWindows|Any CPU.ActiveCfg = Release|x86
 		{9E66C6F1-E235-4979-83B5-C2B3FDAD6E01}.ReleaseNoWix|Any CPU.ActiveCfg = Release|x86
+		{69944039-65C2-40E1-9D86-0608FA0C2D70}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{69944039-65C2-40E1-9D86-0608FA0C2D70}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{69944039-65C2-40E1-9D86-0608FA0C2D70}.DebugNoWindows|Any CPU.ActiveCfg = Debug|Any CPU
+		{69944039-65C2-40E1-9D86-0608FA0C2D70}.DebugNoWindows|Any CPU.Build.0 = Debug|Any CPU
+		{69944039-65C2-40E1-9D86-0608FA0C2D70}.DebugNoWix|Any CPU.ActiveCfg = Debug|Any CPU
+		{69944039-65C2-40E1-9D86-0608FA0C2D70}.DebugNoWix|Any CPU.Build.0 = Debug|Any CPU
+		{69944039-65C2-40E1-9D86-0608FA0C2D70}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{69944039-65C2-40E1-9D86-0608FA0C2D70}.Release|Any CPU.Build.0 = Release|Any CPU
+		{69944039-65C2-40E1-9D86-0608FA0C2D70}.ReleaseNoWindows|Any CPU.ActiveCfg = Release|Any CPU
+		{69944039-65C2-40E1-9D86-0608FA0C2D70}.ReleaseNoWindows|Any CPU.Build.0 = Release|Any CPU
+		{69944039-65C2-40E1-9D86-0608FA0C2D70}.ReleaseNoWix|Any CPU.ActiveCfg = Release|Any CPU
+		{69944039-65C2-40E1-9D86-0608FA0C2D70}.ReleaseNoWix|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -528,7 +530,6 @@ Global
 		{82066812-6C73-4360-943B-B23F2F491261} = {7E4E7CF6-A48D-410E-8191-C49C6B5AB9CC}
 		{057FAC33-CC31-4948-91C6-B0977C335890} = {F7765A4B-021C-454E-ABB1-2AB1B85F91B4}
 		{09056964-1C74-445A-96EC-33F6DFC07916} = {316141B0-CD21-4769-A013-D53DA9B9EC09}
-		{5CB51532-55F0-4255-B6E5-69ED5CCD14CD} = {A55C1117-5808-4AB2-BEA6-4D4A3E66A2F2}
 		{FAEAD3B5-2EAB-465C-A9C3-E8CB6AAA7131} = {F7765A4B-021C-454E-ABB1-2AB1B85F91B4}
 		{EB1DDE8C-CA6F-4BE3-947B-597CA8EABEA5} = {82066812-6C73-4360-943B-B23F2F491261}
 		{7B8FC2AF-1B64-4A89-8480-F0FE360DC9EC} = {82066812-6C73-4360-943B-B23F2F491261}
@@ -547,6 +548,7 @@ Global
 		{28669D98-E15D-4A62-B1D1-7C11D4CB1DE0} = {506B9092-AF88-4DA2-84FD-C11646B695B0}
 		{82996E9D-5E63-4CC5-8179-612C71B4F56C} = {506B9092-AF88-4DA2-84FD-C11646B695B0}
 		{9E66C6F1-E235-4979-83B5-C2B3FDAD6E01} = {506B9092-AF88-4DA2-84FD-C11646B695B0}
+		{69944039-65C2-40E1-9D86-0608FA0C2D70} = {A55C1117-5808-4AB2-BEA6-4D4A3E66A2F2}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {DFD36C95-3E49-41C7-ACDB-86BAF5B18A79}

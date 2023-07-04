@@ -1,5 +1,6 @@
 ﻿using System;
-using System.Diagnostics;
+using System.Collections.Specialized;
+using System.Configuration.Install;
 using System.IO;
 using System.Reflection;
 using System.ServiceProcess;
@@ -87,27 +88,58 @@ namespace Tgstation.Server.Host.Service
 		/// Runs sc.exe to either uninstall a given <paramref name="serviceToUninstall"/> or install the running <see cref="ServerService"/>.
 		/// </summary>
 		/// <param name="serviceToUninstall">The name of a service to uninstall.</param>
-		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
-		static async ValueTask InvokeSC(string serviceToUninstall)
+		static void InvokeSC(string serviceToUninstall)
 		{
-			using var process = new Process();
-			process.StartInfo.FileName = "C:/Windows/System32/sc.exe";
+			using var installer = new ServiceInstaller();
+			if (serviceToUninstall != null)
+			{
+				installer.Context = new InstallContext($"old-{serviceToUninstall}-uninstall.log", null);
+				installer.ServiceName = serviceToUninstall;
+				installer.Uninstall(null);
+			}
+			else
+			{
+				var fullPathToAssembly = Path.GetFullPath(
+					Assembly.GetExecutingAssembly().Location);
 
-			var fullPathToAssembly = Path.GetFullPath(
-				Assembly.GetExecutingAssembly().Location);
+				var assemblyDirectory = Path.GetDirectoryName(fullPathToAssembly);
+				var assemblyNameWithoutExtension = Path.GetFileNameWithoutExtension(fullPathToAssembly);
+				var exePath = Path.Combine(assemblyDirectory, $"{assemblyNameWithoutExtension}.exe");
 
-			var assemblyDirectory = Path.GetDirectoryName(fullPathToAssembly);
-			var assemblyNameWithoutExtension = Path.GetFileNameWithoutExtension(fullPathToAssembly);
-			var exePath = Path.Combine(assemblyDirectory, $"{assemblyNameWithoutExtension}.exe");
+				var programDataDirectory = Path.Combine(
+					Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData),
+					Server.Common.Constants.CanonicalPackageName);
 
-			process.StartInfo.Arguments = serviceToUninstall == null
-				? $"create tgstation-server binPath=\"{exePath}\" start=auto depend=Tcpip/Dhcp/Dnscache"
-				: $"delete {serviceToUninstall}";
-			process.StartInfo.CreateNoWindow = false;
+				using var processInstaller = new ServiceProcessInstaller();
+				processInstaller.Account = ServiceAccount.LocalSystem;
 
-			process.Start();
+				// Mimicing Tgstation.Server.Host.Service.Wix here, which is the source of truth for this data
+				installer.Context = new InstallContext(
+					Path.Combine(programDataDirectory, $"tgs-install-{Guid.NewGuid()}.log"),
+					new[]
+					{
+						$"assemblypath=\"{exePath}\" -p=--appsettings-base-path={programDataDirectory}",
+					});
+				installer.Description = $"{Server.Common.Constants.CanonicalPackageName} running as a Windows service.";
+				installer.DisplayName = Server.Common.Constants.CanonicalPackageName;
+				installer.StartType = ServiceStartMode.Automatic;
+				installer.ServicesDependedOn = new string[] { "Tcpip", "Dhcp", "Dnscache" };
+				installer.ServiceName = ServerService.Name;
+				installer.Parent = processInstaller;
 
-			await process.WaitForExitAsync();
+				var state = new ListDictionary();
+				try
+				{
+					installer.Install(state);
+
+					installer.Commit(state);
+				}
+				catch
+				{
+					installer.Rollback(state);
+					throw;
+				}
+			}
 		}
 
 		/// <summary>
@@ -156,17 +188,14 @@ namespace Tgstation.Server.Host.Service
 					}
 
 					if (match)
-					{
-						await InvokeSC(ServerService.Name);
-						break;
-					}
+						InvokeSC(ServerService.Name);
 				}
 
 				stopped = true;
 			}
 
 			if (Install)
-				stopped |= await RunServiceInstall();
+				stopped |= RunServiceInstall();
 
 			if (Restart)
 				foreach (ServiceController sc in ServiceController.GetServices())
@@ -177,15 +206,14 @@ namespace Tgstation.Server.Host.Service
 								RestartService(sc);
 
 							sc.Start();
-							break;
 						}
 		}
 
 		/// <summary>
 		/// Attempt to install the TGS Service.
 		/// </summary>
-		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in <see langword="true"/> if the service was stopped or detached as a result, <see langword="false"/> otherwise.</returns>
-		async ValueTask<bool> RunServiceInstall()
+		/// <returns><see langword="true"/> if the service was stopped or detached as a result, <see langword="false"/> otherwise.</returns>
+		bool RunServiceInstall()
 		{
 			// First check if the service already exists
 			bool serviceStopped = false;
@@ -210,11 +238,11 @@ namespace Tgstation.Server.Host.Service
 							RestartService(sc);
 
 							// And remove it
-							await InvokeSC(sc.ServiceName);
+							InvokeSC(sc.ServiceName);
 						}
 					}
 
-			await InvokeSC(null);
+			InvokeSC(null);
 
 			return serviceStopped;
 		}

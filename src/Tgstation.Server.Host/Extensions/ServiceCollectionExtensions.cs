@@ -56,7 +56,8 @@ namespace Tgstation.Server.Host.Extensions
 		/// Change the <see cref="Type"/> used as an implementation for calls to <see cref="AddChatProviderFactory(IServiceCollection)"/>.
 		/// </summary>
 		/// <typeparam name="TProviderFactory">The <see cref="IProviderFactory"/> implementation to use.</typeparam>
-		public static void UseChatProviderFactory<TProviderFactory>() where TProviderFactory : IProviderFactory
+		public static void UseChatProviderFactory<TProviderFactory>()
+			where TProviderFactory : IProviderFactory
 		{
 			chatProviderFactoryType = typeof(TProviderFactory);
 		}
@@ -65,7 +66,8 @@ namespace Tgstation.Server.Host.Extensions
 		/// Change the <see cref="Type"/> used as an implementation for calls to <see cref="AddGitHub(IServiceCollection)"/>.
 		/// </summary>
 		/// <typeparam name="TGitHubServiceFactory">The <see cref="IGitHubServiceFactory"/> implementation to use.</typeparam>
-		public static void UseGitHubServiceFactory<TGitHubServiceFactory>() where TGitHubServiceFactory : IGitHubServiceFactory
+		public static void UseGitHubServiceFactory<TGitHubServiceFactory>()
+			where TGitHubServiceFactory : IGitHubServiceFactory
 		{
 			gitHubServiceFactoryType = typeof(TGitHubServiceFactory);
 		}
@@ -74,7 +76,8 @@ namespace Tgstation.Server.Host.Extensions
 		/// Change the <see cref="Type"/> used as an implementation for calls to <see cref="AddGitHub(IServiceCollection)"/>.
 		/// </summary>
 		/// <typeparam name="TFileDownloader">The <see cref="IFileDownloader"/> implementation to use.</typeparam>
-		public static void UseFileDownloader<TFileDownloader>() where TFileDownloader : IFileDownloader
+		public static void UseFileDownloader<TFileDownloader>()
+			where TFileDownloader : IFileDownloader
 		{
 			fileDownloaderType = typeof(TFileDownloader);
 		}
@@ -112,7 +115,8 @@ namespace Tgstation.Server.Host.Extensions
 		/// Add an additional <see cref="ILoggerProvider"/> to <see cref="IServiceCollection"/>s that call <see cref="SetupLogging(IServiceCollection, Action{LoggerConfiguration}, Action{LoggerSinkConfiguration}, ElasticsearchSinkOptions, InternalConfiguration, FileLoggingConfiguration)"/>.
 		/// </summary>
 		/// <typeparam name="TLoggerProvider">The <see cref="Type"/> of <see cref="ILoggerProvider"/> to add.</typeparam>
-		public static void UseAdditionalLoggerProvider<TLoggerProvider>() where TLoggerProvider : class, ILoggerProvider
+		public static void UseAdditionalLoggerProvider<TLoggerProvider>()
+			where TLoggerProvider : class, ILoggerProvider
 		{
 			if (additionalLoggerProvider != null)
 				throw new InvalidOperationException("Cannot have multiple additionalLoggerProviders!");
@@ -138,7 +142,8 @@ namespace Tgstation.Server.Host.Extensions
 		/// <param name="serviceCollection">The <see cref="IServiceCollection"/> to configure.</param>
 		/// <param name="configuration">The <see cref="IConfiguration"/> containing the <typeparamref name="TConfig"/>.</param>
 		/// <returns><paramref name="serviceCollection"/>.</returns>
-		public static IServiceCollection UseStandardConfig<TConfig>(this IServiceCollection serviceCollection, IConfiguration configuration) where TConfig : class
+		public static IServiceCollection UseStandardConfig<TConfig>(this IServiceCollection serviceCollection, IConfiguration configuration)
+			where TConfig : class
 		{
 			ArgumentNullException.ThrowIfNull(serviceCollection);
 			ArgumentNullException.ThrowIfNull(configuration);

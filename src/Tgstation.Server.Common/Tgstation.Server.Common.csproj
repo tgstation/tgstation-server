@@ -2,30 +2,11 @@
   <Import Project="../../build/NugetCommon.props" />
 
   <PropertyGroup>
-    <TargetFramework>$(TgsNugetNetVersion)</TargetFramework>
+    <TargetFrameworks>$(TgsNugetNetFramework)</TargetFrameworks>
     <Version>$(TgsCommonLibraryVersion)</Version>
     <Description>Common functions for tgstation-server.</Description>
     <PackageTags>web tgstation-server tgstation ss13 byond client http</PackageTags>
     <PackageReleaseNotes>Added CachedResponseStream.</PackageReleaseNotes>
-    <EnableNETAnalyzers>true</EnableNETAnalyzers>
-    <CodeAnalysisRuleSet>../../build/analyzers.ruleset</CodeAnalysisRuleSet>
-    <DocumentationFile>bin/$(Configuration)/$(TargetFramework)/$(AssemblyName).xml</DocumentationFile>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)'=='Release'">
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <WarningsAsErrors />
-  </PropertyGroup>
-
-  <ItemGroup>
-    <!-- Usage: Linting -->
-    <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-  </ItemGroup>
-
-  <ItemGroup>
-    <AdditionalFiles Include="../../build/stylecop.json" />
-  </ItemGroup>
 </Project>

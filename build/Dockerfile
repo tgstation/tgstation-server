@@ -29,6 +29,7 @@ COPY build/Common.props Common.props
 COPY build/NugetCommon.props NugetCommon.props
 COPY build/Version.props Version.props
 COPY build/ControlPanelVersion.props ControlPanelVersion.props
+COPY build/SrcCommon.props SrcCommon.props
 
 WORKDIR /repo/src/Tgstation.Server.Host
 

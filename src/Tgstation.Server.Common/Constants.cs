@@ -1,4 +1,4 @@
-﻿namespace Tgstation.Server.Host.Common
+﻿namespace Tgstation.Server.Common
 {
 	/// <summary>
 	/// Constant values.

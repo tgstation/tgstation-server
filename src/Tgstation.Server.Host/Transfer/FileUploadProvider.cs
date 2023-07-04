@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.WebUtilities;
 
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Response;
-using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.IO;
 
 namespace Tgstation.Server.Host.Transfer

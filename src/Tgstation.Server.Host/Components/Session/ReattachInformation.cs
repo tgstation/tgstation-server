@@ -48,7 +48,8 @@ namespace Tgstation.Server.Host.Components.Session
 			Models.ReattachInformation copy,
 			IDmbProvider dmb,
 			IDmbProvider initialDmb,
-			TimeSpan topicRequestTimeout) : base(copy)
+			TimeSpan topicRequestTimeout)
+			: base(copy)
 		{
 			Dmb = dmb ?? throw new ArgumentNullException(nameof(dmb));
 			InitialDmb = initialDmb;
