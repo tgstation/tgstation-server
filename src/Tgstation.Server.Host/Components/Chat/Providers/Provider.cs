@@ -7,7 +7,6 @@ using Microsoft.Extensions.Logging;
 
 using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Host.Components.Interop;
-using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.Jobs;
 using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.Utils;

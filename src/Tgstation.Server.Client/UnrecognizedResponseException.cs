@@ -12,7 +12,8 @@ namespace Tgstation.Server.Client
 		/// Initializes a new instance of the <see cref="UnrecognizedResponseException"/> class.
 		/// </summary>
 		/// <param name="responseMessage">The <see cref="HttpResponseMessage"/>.</param>
-		public UnrecognizedResponseException(HttpResponseMessage responseMessage) : base(responseMessage, "Unrecognized response body!")
+		public UnrecognizedResponseException(HttpResponseMessage responseMessage)
+			: base(responseMessage, "Unrecognized response body!")
 		{
 		}
 
@@ -27,7 +28,8 @@ namespace Tgstation.Server.Client
 		/// Initializes a new instance of the <see cref="UnrecognizedResponseException"/> class.
 		/// </summary>
 		/// <param name="message">The message for the <see cref="Exception"/>.</param>
-		public UnrecognizedResponseException(string message) : base(message)
+		public UnrecognizedResponseException(string message)
+			: base(message)
 		{
 		}
 
@@ -36,7 +38,8 @@ namespace Tgstation.Server.Client
 		/// </summary>
 		/// <param name="message">The message for the <see cref="Exception"/>.</param>
 		/// <param name="innerException">The inner <see cref="Exception"/> for the base <see cref="Exception"/>.</param>
-		public UnrecognizedResponseException(string message, Exception innerException) : base(message, innerException)
+		public UnrecognizedResponseException(string message, Exception innerException)
+			: base(message, innerException)
 		{
 		}
 	}

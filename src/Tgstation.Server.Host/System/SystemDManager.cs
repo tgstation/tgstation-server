@@ -10,7 +10,6 @@ using Mono.Unix;
 
 using Tgstation.Server.Host.Components;
 using Tgstation.Server.Host.Core;
-using Tgstation.Server.Host.Extensions;
 
 namespace Tgstation.Server.Host.System
 {

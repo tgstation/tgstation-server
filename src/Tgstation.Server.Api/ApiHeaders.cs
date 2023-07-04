@@ -124,7 +124,8 @@ namespace Tgstation.Server.Api
 		/// <param name="userAgent">The value of <see cref="UserAgent"/>.</param>
 		/// <param name="token">The value of <see cref="Token"/>.</param>
 		/// <param name="oauthProvider">The value of <see cref="OAuthProvider"/>.</param>
-		public ApiHeaders(ProductHeaderValue userAgent, string token, OAuthProvider? oauthProvider = null) : this(userAgent, token, null, null)
+		public ApiHeaders(ProductHeaderValue userAgent, string token, OAuthProvider? oauthProvider = null)
+			: this(userAgent, token, null, null)
 		{
 			if (userAgent == null)
 				throw new ArgumentNullException(nameof(userAgent));
@@ -140,7 +141,8 @@ namespace Tgstation.Server.Api
 		/// <param name="userAgent">The value of <see cref="UserAgent"/>.</param>
 		/// <param name="username">The value of <see cref="Username"/>.</param>
 		/// <param name="password">The value of <see cref="Password"/>.</param>
-		public ApiHeaders(ProductHeaderValue userAgent, string username, string password) : this(userAgent, null, username, password)
+		public ApiHeaders(ProductHeaderValue userAgent, string username, string password)
+			: this(userAgent, null, username, password)
 		{
 			if (userAgent == null)
 				throw new ArgumentNullException(nameof(userAgent));
