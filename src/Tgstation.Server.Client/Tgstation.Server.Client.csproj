@@ -2,34 +2,15 @@
   <Import Project="../../build/NugetCommon.props" />
 
   <PropertyGroup>
-    <TargetFramework>$(TgsNugetNetVersion)</TargetFramework>
+    <TargetFramework>$(TgsNugetNetFramework)</TargetFramework>
     <Version>$(TgsClientVersion)</Version>
     <Description>Client library for tgstation-server.</Description>
     <PackageTags>json web api tgstation-server tgstation ss13 byond client http</PackageTags>
     <PackageReleaseNotes>Added missing Dispose() call to the StringContents for requests with bodies and added missing ConfigureAwait(false) to async call.</PackageReleaseNotes>
-    <EnableNETAnalyzers>true</EnableNETAnalyzers>
-    <CodeAnalysisRuleSet>../../build/analyzers.ruleset</CodeAnalysisRuleSet>
-    <DocumentationFile>bin/$(Configuration)/$(TargetFramework)/$(AssemblyName).xml</DocumentationFile>
   </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)'=='Release'">
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <WarningsAsErrors />
-  </PropertyGroup>
-
-  <ItemGroup>
-    <!-- Usage: Linting -->
-    <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Tgstation.Server.Api\Tgstation.Server.Api.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <AdditionalFiles Include="../../build/stylecop.json" />
-  </ItemGroup>
 </Project>

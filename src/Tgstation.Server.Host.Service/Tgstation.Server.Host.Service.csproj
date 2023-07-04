@@ -1,26 +1,14 @@
 <Project Sdk="Microsoft.NET.Sdk">
-  <Import Project="../../build/Common.props" />
+  <Import Project="../../build/SrcCommon.props" />
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>$(TgsFrameworkVersion)-windows</TargetFramework>
     <Version>$(TgsCoreVersion)</Version>
-    <EnableNETAnalyzers>true</EnableNETAnalyzers>
     <!-- DO NOT ENABLE THIS, It makes the service require the desktop runtime instead of the ASP NET Core Hosting Bundle -->
     <UseWindowsForms>false</UseWindowsForms>
-    <CodeAnalysisRuleSet>../../build/analyzers.ruleset</CodeAnalysisRuleSet>
-    <DocumentationFile>bin/$(Configuration)/$(TargetFramework)/$(RuntimeIdentifier)/$(AssemblyName).xml</DocumentationFile>
     <ApplicationIcon>../../build/tgs.ico</ApplicationIcon>
     <ApplicationManifest>../../build/uac_elevation_manifest.xml</ApplicationManifest>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <WarningsAsErrors />
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <NoWarn>1701;1702;SA1652</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
@@ -31,13 +19,9 @@
     <PackageReference Include="Microsoft.Extensions.Logging.EventLog" Version="7.0.0" />
     <!-- Usage: Console logging plugin -->
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="7.0.0" />
-    <!-- Usage: Linting -->
-    <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
     <!-- Usage: OS identification -->
     <PackageReference Include="System.Runtime.InteropServices" Version="4.3.0" />
+    <!-- Usage: Windows Service Manager intergration -->
     <PackageReference Include="System.ServiceProcess.ServiceController" Version="7.0.1" />
   </ItemGroup>
 
@@ -46,7 +30,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <AdditionalFiles Include="../../build/stylecop.json" />
     <AdditionalFiles Include="../../build/uac_elevation_manifest.xml" />
   </ItemGroup>
 

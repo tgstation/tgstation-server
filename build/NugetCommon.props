@@ -1,9 +1,9 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="Common.props" />
+  <Import Project="SrcCommon.props" />
 
   <PropertyGroup>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Authors>Cyberboss/Dominion</Authors>
+    <Authors>Jordan Dominion</Authors>
     <Company>/tg/station 13</Company>
     <PackageProjectUrl>https://tgstation.github.io/tgstation-server</PackageProjectUrl>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>

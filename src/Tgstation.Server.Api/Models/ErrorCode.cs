@@ -1,6 +1,8 @@
 ﻿using System;
 using System.ComponentModel;
 
+using Tgstation.Server.Common;
+
 namespace Tgstation.Server.Api.Models
 {
 	/// <summary>
@@ -60,7 +62,7 @@ namespace Tgstation.Server.Api.Models
 		/// <summary>
 		/// Attempted to change to a major version less than 4.
 		/// </summary>
-		[Description("Cannot downgrade to tgstation-server major version <4!")]
+		[Description($"Cannot downgrade to {Constants.CanonicalPackageName} major version <4!")]
 		CannotChangeServerSuite,
 
 		/// <summary>

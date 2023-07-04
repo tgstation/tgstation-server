@@ -21,6 +21,7 @@ using MySqlConnector;
 
 using Npgsql;
 
+using Tgstation.Server.Common;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.Extensions.Converters;
@@ -1012,7 +1013,7 @@ namespace Tgstation.Server.Host.Setup
 		async Task RunWizard(string userConfigFileName, CancellationToken cancellationToken)
 		{
 			// welcome message
-			await console.WriteAsync("Welcome to tgstation-server!", true, cancellationToken);
+			await console.WriteAsync($"Welcome to {Constants.CanonicalPackageName}!", true, cancellationToken);
 			await console.WriteAsync("This wizard will help you configure your server.", true, cancellationToken);
 
 			var hostingPort = await PromptForHostingPort(cancellationToken);

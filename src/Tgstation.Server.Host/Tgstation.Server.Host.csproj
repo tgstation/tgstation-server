@@ -1,26 +1,17 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
-  <Import Project="../../build/Common.props" />
+  <Import Project="../../build/SrcCommon.props" />
 
   <PropertyGroup>
     <TargetFramework>$(TgsFrameworkVersion)</TargetFramework>
     <Version>$(TgsCoreVersion)</Version>
     <IncludeOpenAPIAnalyzers>true</IncludeOpenAPIAnalyzers>
-    <EnableNETAnalyzers>true</EnableNETAnalyzers>
     <UseAppHost>false</UseAppHost>
-    <CodeAnalysisRuleSet>../../build/analyzers.ruleset</CodeAnalysisRuleSet>
-    <DocumentationFile>bin/$(Configuration)/$(TargetFramework)/$(AssemblyName).xml</DocumentationFile>
     <NoWarn>API1000</NoWarn>
     <NodeModulesFolder>ClientApp/node_modules</NodeModulesFolder>
     <NpmInstallStampFile>ClientApp/node_modules/.install-stamp</NpmInstallStampFile>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <DockerfileContext>..\..</DockerfileContext>
     <ApplicationManifest>../../build/uac_elevation_manifest.xml</ApplicationManifest>
-    <Configurations>Debug;Release;Installer</Configurations>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)'!='Debug'">
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <WarningsAsErrors />
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -99,7 +90,7 @@
     <!-- Usage: PostgresSQL ORM plugin -->
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="7.0.4" />
     <!-- Usage: GitHub.com interop -->
-    <PackageReference Include="Octokit" Version="6.1.0" />
+    <PackageReference Include="Octokit" Version="7.0.0" />
     <!-- Usage: MYSQL/MariaDB ORM plugin -->
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="7.0.0" />
     <!-- Usage: Discord interop -->
@@ -130,14 +121,6 @@
     <PackageReference Include="Z.EntityFramework.Plus.EFCore" Version="7.22.3" />
   </ItemGroup>
 
-  <ItemGroup Condition="'$(Configuration)'!='Installer'">
-    <!-- Usage: Linting -->
-    <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-  </ItemGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\Tgstation.Server.Api\Tgstation.Server.Api.csproj" />
     <ProjectReference Include="..\Tgstation.Server.Host.Common\Tgstation.Server.Host.Common.csproj" />
@@ -147,7 +130,6 @@
     <Content Remove="ClientApp\**\*.json" />
     <None Include="ClientApp\**\*.json" />
     <ClientApp Include="ClientApp\src\**\*;ClientApp\public\**\*;ClientApp\tsconfig.json;ClientApp\package.json;ClientApp\package-lock.json" />
-    <AdditionalFiles Include="../../build/stylecop.json" />
     <AdditionalFiles Include="../../build/uac_elevation_manifest.xml" />
   </ItemGroup>
 

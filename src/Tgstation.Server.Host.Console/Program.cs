@@ -5,6 +5,8 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using Microsoft.Extensions.Logging;
+
+using Tgstation.Server.Common;
 using Tgstation.Server.Common.Extensions;
 using Tgstation.Server.Host.Watchdog;
 
@@ -35,7 +37,7 @@ namespace Tgstation.Server.Host.Console
 		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
 		internal static async Task<int> Main(string[] args)
 		{
-			System.Console.Title = $"tgstation-server Host Watchdog v{Assembly.GetExecutingAssembly().GetName().Version.Semver()}";
+			System.Console.Title = $"{Constants.CanonicalPackageName} Host Watchdog v{Assembly.GetExecutingAssembly().GetName().Version.Semver()}";
 
 			var arguments = new List<string>(args);
 			var trace = arguments.Remove("--trace-host-watchdog");
