@@ -46,7 +46,7 @@ Follow the instructions for your OS below.
 
 ###### Note about Digital Signatures
 
-Note that the Windows Service and installer executables requires administrative privileges. These are digitally signed against the Root CA managed by [Jordan Dominion](https://github.com/Cyberboss). Consider installing the certificate into your `Trusted Root Authorities` store for cleaner UAC prompts. The certificate can be downloaded [here](https://file.house/zpFb.cer), please validate the thumbprint is `70176acf7ffa2898fa5b5cd6e38b43b38ea5d07f` before installing.
+Note that the Windows Service and installer executables require administrative privileges. These are digitally signed against the Root CA managed by [Jordan Dominion](https://github.com/Cyberboss). Consider installing the certificate into your `Trusted Root Authorities` store for cleaner UAC prompts. The certificate can be downloaded [here](https://file.house/zpFb.cer), please validate the thumbprint is `70176acf7ffa2898fa5b5cd6e38b43b38ea5d07f` before installing. The OCSP server for this is `http://ocsp.dextraspace.net`.
 
 ##### winget (Windows 10 or later)
 
