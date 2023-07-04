@@ -1,10 +1,15 @@
 <Project Sdk="Microsoft.NET.Sdk">
-  <Import Project="../../build/TestCommon.props" />
+  <Import Project="../../build/Common.props" />
 
   <PropertyGroup>
     <TargetFramework>$(TgsFrameworkVersion)</TargetFramework>
     <OutputType>Exe</OutputType>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Moq" Version="4.18.4" />
+    <PackageReference Include="MSTest.TestFramework" Version="3.0.2" />
+  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\Tgstation.Server.Host\Tgstation.Server.Host.csproj" />
