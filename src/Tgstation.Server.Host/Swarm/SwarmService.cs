@@ -199,6 +199,7 @@ namespace Tgstation.Server.Host.Swarm
 					new SwarmServerResponse
 					{
 						Address = swarmConfiguration.Address,
+						PublicAddress = swarmConfiguration.PublicAddress,
 						Controller = swarmController,
 						Identifier = swarmConfiguration.Identifier,
 					},
@@ -571,6 +572,7 @@ namespace Tgstation.Server.Host.Swarm
 
 				swarmServers.Add(new SwarmServerResponse
 				{
+					PublicAddress = node.PublicAddress,
 					Address = node.Address,
 					Identifier = node.Identifier,
 					Controller = false,
@@ -1239,6 +1241,7 @@ namespace Tgstation.Server.Host.Swarm
 					ServerVersion = assemblyInformationProvider.Version,
 					Identifier = swarmConfiguration.Identifier,
 					Address = swarmConfiguration.Address,
+					PublicAddress = swarmConfiguration.PublicAddress,
 				},
 				requestedRegistrationId);
 
