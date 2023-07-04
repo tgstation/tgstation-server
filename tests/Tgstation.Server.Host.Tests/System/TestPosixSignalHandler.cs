@@ -63,7 +63,7 @@ namespace Tgstation.Server.Host.System.Tests
 				Mock.Of<IIOManager>(),
 				loggerFactory.CreateLogger<ProcessExecutor>(),
 				loggerFactory);
-			await using var subProc = await processExecutor
+			await using var subProc = processExecutor
 				.LaunchProcess(
 					"dotnet",
 					pathToSignalTestApp,

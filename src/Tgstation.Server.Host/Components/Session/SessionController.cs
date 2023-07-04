@@ -67,7 +67,7 @@ namespace Tgstation.Server.Host.Components.Session
 		public Task<LaunchResult> LaunchResult { get; }
 
 		/// <inheritdoc />
-		public Task<int> Lifetime { get; }
+		public Task<int?> Lifetime { get; }
 
 		/// <inheritdoc />
 		public Task OnStartup => startupTcs.Task;
@@ -296,7 +296,7 @@ namespace Tgstation.Server.Host.Components.Session
 						? "no"
 						: $"incompatible ({reattachInformation.Dmb.CompileJob.DMApiVersion})");
 
-			async Task<int> WrapLifetime()
+			async Task<int?> WrapLifetime()
 			{
 				var exitCode = await process.Lifetime;
 				await postLifetimeCallback();

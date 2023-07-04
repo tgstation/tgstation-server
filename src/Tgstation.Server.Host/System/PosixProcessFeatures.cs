@@ -88,7 +88,7 @@ namespace Tgstation.Server.Host.System
 
 			string output;
 			int exitCode;
-			await using (var gcoreProc = await lazyLoadedProcessExecutor.Value.LaunchProcess(
+			await using (var gcoreProc = lazyLoadedProcessExecutor.Value.LaunchProcess(
 				GCorePath,
 				Environment.CurrentDirectory,
 				$"-o {outputFile} {process.Id}",
@@ -96,7 +96,7 @@ namespace Tgstation.Server.Host.System
 				noShellExecute: true))
 			{
 				using (cancellationToken.Register(() => gcoreProc.Terminate()))
-					exitCode = await gcoreProc.Lifetime;
+					exitCode = (await gcoreProc.Lifetime).Value;
 
 				output = await gcoreProc.GetCombinedOutput(cancellationToken);
 				logger.LogDebug("gcore output:{0}{1}", Environment.NewLine, output);

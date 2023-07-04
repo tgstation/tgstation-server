@@ -20,7 +20,7 @@ namespace Tgstation.Server.Host.System
 		public Task Startup { get; }
 
 		/// <inheritdoc />
-		public Task<int> Lifetime { get; }
+		public Task<int?> Lifetime { get; }
 
 		/// <summary>
 		/// The <see cref="IProcessFeatures"/> for the <see cref="Process"/>.
@@ -38,9 +38,9 @@ namespace Tgstation.Server.Host.System
 		readonly global::System.Diagnostics.Process handle;
 
 		/// <summary>
-		/// The <see cref="CancellationTokenSource"/> used to shutdown the <see cref="readTask"/>.
+		/// The <see cref="CancellationTokenSource"/> used to shutdown the <see cref="readTask"/> and <see cref="Lifetime"/>.
 		/// </summary>
-		readonly CancellationTokenSource readerCts;
+		readonly CancellationTokenSource cancellationTokenSource;
 
 		/// <summary>
 		/// The <see cref="global::System.Diagnostics.Process.SafeHandle"/>.
@@ -58,8 +58,7 @@ namespace Tgstation.Server.Host.System
 		/// </summary>
 		/// <param name="processFeatures">The value of <see cref="processFeatures"/>.</param>
 		/// <param name="handle">The value of <see cref="handle"/>.</param>
-		/// <param name="readerCts">The value of <see cref="readerCts"/>.</param>
-		/// <param name="lifetime">The value of <see cref="Lifetime"/>.</param>
+		/// <param name="readerCts">The override value of <see cref="cancellationTokenSource"/>.</param>
 		/// <param name="readTask">The value of <see cref="readTask"/>.</param>
 		/// <param name="logger">The value of <see cref="logger"/>.</param>
 		/// <param name="preExisting">If <paramref name="handle"/> was NOT just created.</param>
@@ -67,7 +66,6 @@ namespace Tgstation.Server.Host.System
 			IProcessFeatures processFeatures,
 			global::System.Diagnostics.Process handle,
 			CancellationTokenSource readerCts,
-			Task<int> lifetime,
 			Task<string> readTask,
 			ILogger<Process> logger,
 			bool preExisting)
@@ -78,7 +76,7 @@ namespace Tgstation.Server.Host.System
 			safeHandle = handle.SafeHandle;
 			Id = handle.Id;
 
-			this.readerCts = readerCts;
+			cancellationTokenSource = readerCts ?? new CancellationTokenSource();
 
 			this.processFeatures = processFeatures ?? throw new ArgumentNullException(nameof(processFeatures));
 
@@ -86,7 +84,7 @@ namespace Tgstation.Server.Host.System
 
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
-			Lifetime = WrapLifetimeTask(lifetime ?? throw new ArgumentNullException(nameof(lifetime)));
+			Lifetime = WrapLifetimeTask();
 
 			if (preExisting)
 			{
@@ -117,10 +115,12 @@ namespace Tgstation.Server.Host.System
 		public async ValueTask DisposeAsync()
 		{
 			logger.LogTrace("Disposing PID {pid}...", Id);
-			readerCts?.Cancel();
-			readerCts?.Dispose();
+			cancellationTokenSource.Cancel();
+			cancellationTokenSource.Dispose();
 			if (readTask != null)
 				await readTask;
+
+			await Lifetime;
 
 			safeHandle.Dispose();
 			handle.Dispose();
@@ -221,13 +221,21 @@ namespace Tgstation.Server.Host.System
 		/// <summary>
 		/// Attaches a log message to the process' exit event.
 		/// </summary>
-		/// <param name="lifetimeTask">The original lifetime <see cref="Task{TResult}"/>.</param>
-		/// <returns>A <see cref="Task{TResult}"/> functionally identical to <paramref name="lifetimeTask"/>.</returns>
-		async Task<int> WrapLifetimeTask(Task<int> lifetimeTask)
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="global::System.Diagnostics.Process.ExitCode"/> or <see langword="null"/> if the process was detached.</returns>
+		async Task<int?> WrapLifetimeTask()
 		{
-			var exitCode = await lifetimeTask;
-			logger.LogTrace("PID {pid} exited with code {exitCode}", Id, exitCode);
-			return exitCode;
+			try
+			{
+				await handle.WaitForExitAsync(cancellationTokenSource.Token);
+				var exitCode = handle.ExitCode;
+				logger.LogTrace("PID {pid} exited with code {exitCode}", Id, exitCode);
+				return exitCode;
+			}
+			catch (OperationCanceledException ex)
+			{
+				logger.LogTrace(ex, "Process lifetime task cancelled!");
+				return null;
+			}
 		}
 	}
 }

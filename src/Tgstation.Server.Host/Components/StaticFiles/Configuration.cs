@@ -629,7 +629,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 				foreach (var scriptFile in scriptFiles)
 				{
 					logger.LogTrace("Running event script {scriptFile}...", scriptFile);
-					await using (var script = await processExecutor.LaunchProcess(
+					await using (var script = processExecutor.LaunchProcess(
 						ioManager.ConcatPath(resolvedScriptsDir, scriptFile),
 						resolvedScriptsDir,
 						String.Join(

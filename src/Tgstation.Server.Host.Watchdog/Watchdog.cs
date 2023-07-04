@@ -143,17 +143,10 @@ namespace Tgstation.Server.Host.Watchdog
 
 							process.StartInfo.UseShellExecute = false; // runs in the same console
 
-							var tcs = new TaskCompletionSource<object>();
-							process.Exited += (a, b) =>
-							{
-								tcs.TrySetResult(null);
-							};
-							process.EnableRaisingEvents = true;
-
 							var killedHostProcess = false;
 							try
 							{
-								var processTask = tcs.Task;
+								Task processTask = null;
 								(int, Task) StartProcess(string additionalArg)
 								{
 									if (additionalArg != null)
@@ -162,11 +155,10 @@ namespace Tgstation.Server.Host.Watchdog
 									logger.LogInformation("Launching host with arguments: {arguments}", process.StartInfo.Arguments);
 
 									process.Start();
-									return (process.Id, processTask);
+									return (process.Id, processTask = process.WaitForExitAsync(cancellationToken));
 								}
 
 								using (var processCts = new CancellationTokenSource())
-								using (processCts.Token.Register(() => tcs.TrySetResult(null)))
 								using (cancellationToken.Register(() =>
 								{
 									if (!Directory.Exists(updateDirectory))

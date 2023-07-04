@@ -523,7 +523,7 @@ namespace Tgstation.Server.Host.Components.Session
 					: String.Empty,
 				parameters);
 
-			var process = await processExecutor.LaunchProcess(
+			var process = processExecutor.LaunchProcess(
 				byondLock.DreamDaemonPath,
 				dmbProvider.Directory,
 				arguments,

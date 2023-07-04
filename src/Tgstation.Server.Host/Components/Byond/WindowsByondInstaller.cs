@@ -206,7 +206,7 @@ namespace Tgstation.Server.Host.Components.Byond
 			try
 			{
 				// noShellExecute because we aren't doing runas shennanigans
-				await using var directXInstaller = await processExecutor.LaunchProcess(
+				await using var directXInstaller = processExecutor.LaunchProcess(
 					IOManager.ConcatPath(rbdx, "DXSETUP.exe"),
 					rbdx,
 					"/silent",
@@ -214,7 +214,7 @@ namespace Tgstation.Server.Host.Components.Byond
 
 				int exitCode;
 				using (cancellationToken.Register(() => directXInstaller.Terminate()))
-					exitCode = await directXInstaller.Lifetime;
+					exitCode = (await directXInstaller.Lifetime).Value;
 				cancellationToken.ThrowIfCancellationRequested();
 
 				if (exitCode != 0)
@@ -251,7 +251,7 @@ namespace Tgstation.Server.Host.Components.Byond
 				// 1. It'd make IByondInstaller need to be transient per-instance and WindowsByondInstaller relys on being a singleton for its DX installer call
 				// 2. The instance could be renamed, so it'd have to be an unfriendly ID anyway.
 				var arguments = $"advfirewall firewall add rule name=\"TGS DreamDaemon {version}\" program=\"{dreamDaemonPath}\" protocol=tcp dir=in enable=yes action=allow";
-				await using var netshProcess = await processExecutor.LaunchProcess(
+				await using var netshProcess = processExecutor.LaunchProcess(
 					"netsh.exe",
 					IOManager.ResolvePath(),
 					arguments,
@@ -260,7 +260,7 @@ namespace Tgstation.Server.Host.Components.Byond
 
 				int exitCode;
 				using (cancellationToken.Register(() => netshProcess.Terminate()))
-					exitCode = await netshProcess.Lifetime;
+					exitCode = (await netshProcess.Lifetime).Value;
 				cancellationToken.ThrowIfCancellationRequested();
 
 				Logger.LogDebug(

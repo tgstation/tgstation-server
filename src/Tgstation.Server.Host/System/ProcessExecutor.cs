@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 
 using Microsoft.Extensions.Logging;
 
-using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.IO;
 
 namespace Tgstation.Server.Host.System
@@ -80,7 +79,7 @@ namespace Tgstation.Server.Host.System
 		}
 
 		/// <inheritdoc />
-		public async Task<IProcess> LaunchProcess(
+		public IProcess LaunchProcess(
 			string fileName,
 			string workingDirectory,
 			string arguments,
@@ -111,41 +110,47 @@ namespace Tgstation.Server.Host.System
 				handle.StartInfo.UseShellExecute = !noShellExecute;
 
 				var processStartTcs = new TaskCompletionSource();
-				var lifetimeTaskTask = AttachExitHandlerBeforeLaunch(handle, processStartTcs.Task);
 
 				Task<string> readTask = null;
 				CancellationTokenSource disposeCts = null;
-				if (readStandardHandles)
-				{
-					handle.StartInfo.RedirectStandardOutput = true;
-					handle.StartInfo.RedirectStandardError = true;
-
-					disposeCts = new CancellationTokenSource();
-					readTask = ConsumeReaders(handle, processStartTcs.Task, fileRedirect, disposeCts.Token);
-				}
-
 				try
 				{
-					handle.Start();
+					if (readStandardHandles)
+					{
+						handle.StartInfo.RedirectStandardOutput = true;
+						handle.StartInfo.RedirectStandardError = true;
 
-					processStartTcs.SetResult();
+						disposeCts = new CancellationTokenSource();
+						readTask = ConsumeReaders(handle, processStartTcs.Task, fileRedirect, disposeCts.Token);
+					}
+
+					try
+					{
+						handle.Start();
+
+						processStartTcs.SetResult();
+					}
+					catch (Exception ex)
+					{
+						processStartTcs.SetException(ex);
+						throw;
+					}
+
+					var process = new Process(
+						processFeatures,
+						handle,
+						disposeCts,
+						readTask,
+						loggerFactory.CreateLogger<Process>(),
+						false);
+
+					return process;
 				}
-				catch (Exception ex)
+				catch
 				{
-					processStartTcs.SetException(ex);
+					disposeCts?.Dispose();
 					throw;
 				}
-
-				var process = new Process(
-					processFeatures,
-					handle,
-					disposeCts,
-					await lifetimeTaskTask, // won't block
-					readTask,
-					loggerFactory.CreateLogger<Process>(),
-					false);
-
-				return process;
 			}
 			catch
 			{
@@ -173,66 +178,6 @@ namespace Tgstation.Server.Host.System
 				return null;
 
 			return CreateFromExistingHandle(handle);
-		}
-
-		/// <summary>
-		/// Wrapper for <see cref="AttachExitHandler(global::System.Diagnostics.Process, Func{int})"/> to safely provide the process ID.
-		/// </summary>
-		/// <param name="handle">The <see cref="global::System.Diagnostics.Process"/> to attach an exit handler to.</param>
-		/// <param name="startupTask">A <see cref="Task"/> that completes once the process represented by <paramref name="handle"/> launches.</param>
-		/// <returns>The result of the call to <see cref="AttachExitHandler(global::System.Diagnostics.Process, Func{int})"/>.</returns>
-		async Task<Task<int>> AttachExitHandlerBeforeLaunch(global::System.Diagnostics.Process handle, Task startupTask)
-		{
-			var id = -1;
-			var result = AttachExitHandler(handle, () => id);
-			await startupTask;
-			id = handle.Id;
-			return result;
-		}
-
-		/// <summary>
-		/// Attach an asychronous exit handler to a given process <paramref name="handle"/>.
-		/// </summary>
-		/// <param name="handle">The <see cref="global::System.Diagnostics.Process"/> to attach an exit handler to.</param>
-		/// <param name="idProvider">A <see cref="Func{TResult}"/> that can be called to get the <see cref="global::System.Diagnostics.Process.Id"/> safely.</param>
-		/// <returns>A <see cref="Task{TResult}"/> that completes with the exit code of the process represented by <paramref name="handle"/>.</returns>
-		Task<int> AttachExitHandler(global::System.Diagnostics.Process handle, Func<int> idProvider)
-		{
-			handle.EnableRaisingEvents = true;
-
-			var tcs = new TaskCompletionSource<int>();
-			void ExitHandler(object sender, EventArgs args)
-			{
-				var id = idProvider();
-				try
-				{
-					try
-					{
-						var exitCode = handle.ExitCode;
-
-						// Try because this can be invoked twice for weird reasons
-						if (tcs.TrySetResult(exitCode))
-							logger.LogTrace("PID {pid} termination event completed", id);
-						else
-							logger.LogTrace("Ignoring duplicate PID {pid} termination event", id);
-					}
-					catch (InvalidOperationException ex)
-					{
-						if (!tcs.Task.IsCompleted)
-							throw;
-
-						logger.LogTrace(ex, "Ignoring expected PID {pid} exit handler exception!", id);
-					}
-				}
-				catch (Exception ex)
-				{
-					logger.LogError(ex, "PID {pid} exit handler exception!", id);
-				}
-			}
-
-			handle.Exited += ExitHandler;
-
-			return tcs.Task;
 		}
 
 		/// <summary>
@@ -327,7 +272,6 @@ namespace Tgstation.Server.Host.System
 					processFeatures,
 					handle,
 					null,
-					AttachExitHandler(handle, () => pid),
 					null,
 					loggerFactory.CreateLogger<Process>(),
 					true);

@@ -18,7 +18,6 @@ using Tgstation.Server.Host.Components.Repository;
 using Tgstation.Server.Host.Components.Session;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Database;
-using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Jobs;
 using Tgstation.Server.Host.Models;
@@ -860,7 +859,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
 		async Task<int> RunDreamMaker(string dreamMakerPath, Models.CompileJob job, CancellationToken cancellationToken)
 		{
-			await using var dm = await processExecutor.LaunchProcess(
+			await using var dm = processExecutor.LaunchProcess(
 				dreamMakerPath,
 				ioManager.ResolvePath(
 					job.DirectoryName.ToString()),
@@ -873,7 +872,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 
 			int exitCode;
 			using (cancellationToken.Register(() => dm.Terminate()))
-				exitCode = await dm.Lifetime;
+				exitCode = (await dm.Lifetime).Value;
 			cancellationToken.ThrowIfCancellationRequested();
 
 			logger.LogDebug("DreamMaker exit code: {exitCode}", exitCode);

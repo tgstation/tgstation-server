@@ -410,7 +410,7 @@ namespace Tgstation.Server.Tests
 
 			Assert.IsTrue(supportsCli);
 
-			await using var process = await processExecutor.LaunchProcess(
+			await using var process = processExecutor.LaunchProcess(
 				ddPath,
 				Environment.CurrentDirectory,
 				"fake.dmb -map-threads 3 -close",

@@ -1,6 +1,4 @@
-﻿using System.Threading.Tasks;
-
-namespace Tgstation.Server.Host.System
+﻿namespace Tgstation.Server.Host.System
 {
 	/// <summary>
 	/// For launching <see cref="IProcess"/>'.
@@ -16,8 +14,8 @@ namespace Tgstation.Server.Host.System
 		/// <param name="fileRedirect">File to write process output and error streams to. Requires <paramref name="readStandardHandles"/> to be <see langword="true"/>.</param>
 		/// <param name="readStandardHandles">If the process output and error streams should be read.</param>
 		/// <param name="noShellExecute">If shell execute should not be used. Must be set if <paramref name="readStandardHandles"/> is set.</param>
-		/// <returns>A <see cref="Task"/> resulting in the new <see cref="IProcess"/>.</returns>
-		Task<IProcess> LaunchProcess(
+		/// <returns>The new <see cref="IProcess"/>.</returns>
+		IProcess LaunchProcess(
 			string fileName,
 			string workingDirectory,
 			string arguments = null,
