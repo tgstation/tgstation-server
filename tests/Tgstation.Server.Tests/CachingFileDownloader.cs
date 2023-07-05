@@ -13,6 +13,7 @@ using Tgstation.Server.Common.Http;
 using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.System;
+using Tgstation.Server.Host.Utils;
 using Tgstation.Server.Tests.Live;
 using Tgstation.Server.Tests.Live.Instance;
 
@@ -21,6 +22,7 @@ namespace Tgstation.Server.Tests
 	public sealed class CachingFileDownloader : IFileDownloader
 	{
 		static readonly Dictionary<string, Tuple<string, bool>> cachedPaths = new();
+		static readonly SemaphoreSlim cachingSemaphore = new(1);
 
 		readonly ILogger<CachingFileDownloader> logger;
 
@@ -58,7 +60,12 @@ namespace Tgstation.Server.Tests
 				}
 				catch (Exception ex)
 				{
-					logger.LogWarning(ex, $"TEST: FAILED TO CACHE GITHUB RELEASE.");
+					logger.Log(
+						i == 9
+							? LogLevel.Error
+							: LogLevel.Warning,
+						ex,
+						"TEST: FAILED TO CACHE GITHUB RELEASE.");
 				}
 
 			Assert.IsTrue(succeeded);
@@ -75,9 +82,6 @@ namespace Tgstation.Server.Tests
 			var url = new Uri(
 			$"https://www.byond.com/download/build/{version.Major}/{version.Major}.{version.Minor}_byond{(!windows ? "_linux" : string.Empty)}.zip");
 
-			if (cachedPaths.ContainsKey(url.ToString()))
-				return;
-
 			var dir = Path.Combine(
 				Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
 				"byond-zips-cache",
@@ -85,18 +89,8 @@ namespace Tgstation.Server.Tests
 			var path = Path.Combine(
 				dir,
 				$"{version.Major}.{version.Minor}.zip");
-			if (!File.Exists(path))
-			{
-				Directory.CreateDirectory(dir);
-				await (await CacheFile(logger, url, null, path, cancellationToken)).DisposeAsync();
-				System.Console.WriteLine($"CACHE BUILT: {url}");
-			}
-			else
-			{
-				System.Console.WriteLine($"CACHE PREWARMED: {url} -> {path}");
-			}
 
-			cachedPaths.Add(url.ToString(), Tuple.Create(path, false));
+			await (await CacheFile(logger, url, null, path, cancellationToken)).DisposeAsync();
 		}
 
 		public static void Cleanup()
@@ -133,22 +127,7 @@ namespace Tgstation.Server.Tests
 			public ValueTask DisposeAsync() => ValueTask.CompletedTask;
 
 			public async Task<Stream> GetResult(CancellationToken cancellationToken)
-			{
-				Tuple<string, bool> tuple;
-				lock (cachedPaths)
-					if (!cachedPaths.TryGetValue(url.ToString(), out tuple))
-					{
-						logger.LogInformation("Cache miss: {url}", url);
-						tuple = null;
-					}
-
-				if (tuple == null)
-					return await CacheFile(logger, url, bearerToken, null, cancellationToken);
-
-				logger.LogTrace("Cache hit: {url}", url);
-				var bytes = await new DefaultIOManager().ReadAllBytes(tuple.Item1, cancellationToken);
-				return new MemoryStream(bytes);
-			}
+				=> await CacheFile(logger, url, bearerToken, null, cancellationToken);
 		}
 
 		public IFileStreamProvider DownloadFile(Uri url, string bearerToken) => new ProviderPackage(logger, url, bearerToken);
@@ -166,49 +145,69 @@ namespace Tgstation.Server.Tests
 
 		static async Task<MemoryStream> CacheFile(ILogger logger, Uri url, string bearerToken, string path, CancellationToken cancellationToken)
 		{
-			var downloader = CreateRealDownloader(logger);
-			await using var download = downloader.DownloadFile(url, bearerToken);
-			try
+			using (await SemaphoreSlimContext.Lock(cachingSemaphore, cancellationToken))
 			{
-				await using var buffer = new BufferedFileStreamProvider(
-					await download.GetResult(cancellationToken));
+				if (cachedPaths.TryGetValue(url.ToString(), out var tuple))
+				{
+					logger.LogTrace("Cache hit: {url}", url);
+					var bytes = await File.ReadAllBytesAsync(tuple.Item1, cancellationToken);
+					return new MemoryStream(bytes);
+				}
 
-				var ms = await buffer.GetOwnedResult(cancellationToken);
+				var temporal = path == null;
+				if(!temporal && File.Exists(path))
+				{
+					cachedPaths.Add(url.ToString(), Tuple.Create(path, false));
+					logger.LogTrace("Cache pre-warmed: {url}", url);
+					var bytes = await File.ReadAllBytesAsync(path, cancellationToken);
+					return new MemoryStream(bytes);
+				}
+
+				logger.LogTrace("Cache miss: {url}", url);
+
+				var downloader = CreateRealDownloader(logger);
+				await using var download = downloader.DownloadFile(url, bearerToken);
 				try
 				{
-					ms.Seek(0, SeekOrigin.Begin);
+					await using var buffer = new BufferedFileStreamProvider(
+						await download.GetResult(cancellationToken));
 
-					var temporal = path == null;
-					path ??= Path.GetTempFileName();
+					var ms = await buffer.GetOwnedResult(cancellationToken);
 					try
 					{
-						await using var fs = new DefaultIOManager().CreateAsyncSequentialWriteStream(path);
-						await ms.CopyToAsync(fs, cancellationToken);
+						ms.Seek(0, SeekOrigin.Begin);
 
-						lock (cachedPaths)
+						path ??= Path.GetTempFileName();
+						try
+						{
+							Directory.CreateDirectory(Path.GetDirectoryName(path));
+							await using var fs = new DefaultIOManager().CreateAsyncSequentialWriteStream(path);
+							await ms.CopyToAsync(fs, cancellationToken);
+
 							cachedPaths.Add(url.ToString(), Tuple.Create(path, temporal));
 
-						logger.LogTrace("Cached to {path}", path);
+							logger.LogTrace("Cached to {path}", path);
+						}
+						catch
+						{
+							File.Delete(path);
+							throw;
+						}
+
+						ms.Seek(0, SeekOrigin.Begin);
+						return ms;
 					}
 					catch
 					{
-						File.Delete(path);
+						await ms.DisposeAsync();
 						throw;
 					}
-
-					ms.Seek(0, SeekOrigin.Begin);
-					return ms;
 				}
 				catch
 				{
-					await ms.DisposeAsync();
+					await download.DisposeAsync();
 					throw;
 				}
-			}
-			catch
-			{
-				await download.DisposeAsync();
-				throw;
 			}
 		}
 	}
