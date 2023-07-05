@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.EventLog;
 
+using Tgstation.Server.Common;
 using Tgstation.Server.Host.Common;
 using Tgstation.Server.Host.Watchdog;
 

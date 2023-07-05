@@ -46,7 +46,7 @@ Follow the instructions for your OS below.
 
 ###### Note about Digital Signatures
 
-Note that the Windows Service and installer executables requires administrative privileges. These are digitally signed against the Root CA managed by [Jordan Dominion](https://github.com/Cyberboss). Consider installing the certificate into your `Trusted Root Authorities` store for cleaner UAC prompts. The certificate can be downloaded [here](https://file.house/zpFb.cer), please validate the thumbprint is `70176acf7ffa2898fa5b5cd6e38b43b38ea5d07f` before installing.
+Note that the Windows Service and installer executables require administrative privileges. These are digitally signed against the Root CA managed by [Jordan Dominion](https://github.com/Cyberboss). Consider installing the certificate into your `Trusted Root Authorities` store for cleaner UAC prompts. The certificate can be downloaded [here](https://file.house/zpFb.cer), please validate the thumbprint is `70176acf7ffa2898fa5b5cd6e38b43b38ea5d07f` before installing. The OCSP server for this is `http://ocsp.dextraspace.net`.
 
 ##### winget (Windows 10 or later)
 
@@ -252,17 +252,19 @@ Create an `appsettings.Production.yml` file next to `appsettings.yml`. This will
     Password: yourpasshere
   ```
 
-- `Swarm`: This section should be left `null` unless using the server swarm system. If this is to happen, ensure all swarm servers are set to connect to the same database.
+- `Swarm`: This section should be left empty unless using the server swarm system. If this is to happen, ensure all swarm servers are set to connect to the same database.
 
-- `Swarm:PrivateKey`: Should be a secure string set identically on all swarmed servers.
+- `Swarm:PrivateKey`: Must be a secure string set identically on all swarmed servers.
 
-- `Swarm:ControllerAddress`: Should be set on all swarmed servers that are **not** the controller server and should be an address the controller server may be reached at.
+- `Swarm:ControllerAddress`: Must be set on all swarmed servers that are **not** the controller server and should be an address the controller server may be reached at.
 
-- `Swarm:Address`: Should be set on all swarmed servers. Should be an address the server can be reached at by other servers in the swarm.
+- `Swarm:Address`: Must be set on all swarmed servers. Should be an address the server can be reached at by other servers in the swarm.
 
-- `Swarm:Identifier` should be set uniquely on all swarmed servers. Used to identify the current server. This is also used to select which instances exist on the current machine and should not be changed post-setup.
+- `Swarm:PublicAddress`: Should be set on all swarmed servers. Should be an address the server can be reached at by other servers in the swarm.
 
-- `Swarm:UpdateRequiredNodeCount` should be set to the total number of servers in your swarm, minus the controller. Prevents updates from occurring unless the non-controller server count in the swarm is greater than or equal to this value.
+- `Swarm:Identifier`: Must be set uniquely on all swarmed servers. Used to identify the current server. This is also used to select which instances exist on the current machine and should not be changed post-setup.
+
+- `Swarm:UpdateRequiredNodeCount`: Should be set to the total number of servers in your swarm minus 1. Prevents updates from occurring unless the non-controller server count in the swarm is greater than or equal to this value.
 
 - `Security:OAuth:<Provider Name>`: Sets the OAuth client ID and secret for a given `<Provider Name>`. The currently supported providers are `Keycloak`, `GitHub`, `Discord`, `InvisionCommunity` and `TGForums`. Setting these fields to `null` disables logins with the provider, but does not stop users from associating their accounts using the API. Sample Entry:
 ```yml

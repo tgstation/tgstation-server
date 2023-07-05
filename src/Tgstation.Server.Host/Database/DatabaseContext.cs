@@ -257,7 +257,8 @@ namespace Tgstation.Server.Host.Database
 		/// Initializes a new instance of the <see cref="DatabaseContext"/> class.
 		/// </summary>
 		/// <param name="dbContextOptions">The <see cref="DbContextOptions"/> for the <see cref="DatabaseContext"/>.</param>
-		protected DatabaseContext(DbContextOptions dbContextOptions) : base(dbContextOptions)
+		protected DatabaseContext(DbContextOptions dbContextOptions)
+			: base(dbContextOptions)
 		{
 			usersCollection = new DatabaseCollection<User>(Users);
 			instancesCollection = new DatabaseCollection<Instance>(Instances);

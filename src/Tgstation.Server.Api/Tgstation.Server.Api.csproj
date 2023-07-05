@@ -2,20 +2,12 @@
   <Import Project="../../build/NugetCommon.props" />
 
   <PropertyGroup>
-    <TargetFramework>$(TgsNugetNetVersion)</TargetFramework>
+    <TargetFramework>$(TgsNugetNetFramework)</TargetFramework>
     <Version>$(TgsApiLibraryVersion)</Version>
     <Description>API definitions for tgstation-server.</Description>
     <PackageTags>json web api tgstation-server tgstation ss13 byond http</PackageTags>
     <PackageReleaseNotes>Added support for -map-threads DreamDaemon parameter and UploadZip Administration update option.</PackageReleaseNotes>
-    <EnableNETAnalyzers>true</EnableNETAnalyzers>
-    <CodeAnalysisRuleSet>../../build/analyzers.ruleset</CodeAnalysisRuleSet>
-    <DocumentationFile>bin/$(Configuration)/$(TargetFramework)/$(AssemblyName).xml</DocumentationFile>
     <NoWarn>CA1028</NoWarn>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)'=='Release'">
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <WarningsAsErrors />
   </PropertyGroup>
 
   <Target Name="ApplyApiVersionAttribute" BeforeTargets="CoreCompile">
@@ -36,11 +28,6 @@
     <PackageReference Include="Microsoft.AspNetCore.Http.Extensions" Version="2.2.0" />
     <!-- Usage: Primary JSON library -->
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-    <!-- Usage: Linting -->
-    <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
     <!-- Usage: Data model annotating -->
     <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
   </ItemGroup>

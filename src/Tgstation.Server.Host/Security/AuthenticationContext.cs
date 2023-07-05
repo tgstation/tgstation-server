@@ -69,7 +69,7 @@ namespace Tgstation.Server.Host.Security
 
 			var prop = typeToCheck.GetProperties().Where(x => x.PropertyType == nullableRightsType).First();
 
-			var right = prop.GetMethod.Invoke(isInstance ? (object)InstancePermissionSet : PermissionSet, Array.Empty<object>());
+			var right = prop.GetMethod.Invoke(isInstance ? InstancePermissionSet : PermissionSet, Array.Empty<object>());
 
 			if (right == null)
 				throw new InvalidOperationException("A user right was null!");

@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Design;
 
+using Tgstation.Server.Common;
 using Tgstation.Server.Host.Configuration;
 
 namespace Tgstation.Server.Host.Database.Design
@@ -14,6 +15,6 @@ namespace Tgstation.Server.Host.Database.Design
 			=> new PostgresSqlDatabaseContext(
 				DesignTimeDbContextFactoryHelpers.CreateDatabaseContextOptions<PostgresSqlDatabaseContext>(
 					DatabaseType.PostgresSql,
-					"Application Name=tgstation-server;Host=127.0.0.1;Password=fake;Username=postgres;Database=TGS_Design"));
+					$"Application Name={Constants.CanonicalPackageName};Host=127.0.0.1;Password=fake;Username=postgres;Database=TGS_Design"));
 	}
 }

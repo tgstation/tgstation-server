@@ -22,7 +22,8 @@ namespace Tgstation.Server.Host.Database
 		/// Initializes a new instance of the <see cref="MySqlDatabaseContext"/> class.
 		/// </summary>
 		/// <param name="dbContextOptions">The <see cref="DbContextOptions{TContext}"/> for the <see cref="DatabaseContext"/>.</param>
-		public MySqlDatabaseContext(DbContextOptions<MySqlDatabaseContext> dbContextOptions) : base(dbContextOptions)
+		public MySqlDatabaseContext(DbContextOptions<MySqlDatabaseContext> dbContextOptions)
+			: base(dbContextOptions)
 		{
 		}
 

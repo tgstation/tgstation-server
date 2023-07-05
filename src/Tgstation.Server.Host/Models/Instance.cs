@@ -55,7 +55,7 @@ namespace Tgstation.Server.Host.Models
 		public ICollection<Job> Jobs { get; set; }
 
 		/// <inheritdoc />
-		public InstanceResponse ToApi() => new InstanceResponse
+		public InstanceResponse ToApi() => new ()
 		{
 			AutoUpdateInterval = AutoUpdateInterval,
 			ConfigurationType = ConfigurationType,

@@ -1,4 +1,6 @@
-﻿namespace Tgstation.Server.Host.Configuration
+﻿using Tgstation.Server.Common;
+
+namespace Tgstation.Server.Host.Configuration
 {
 	/// <summary>
 	/// Configuration for the automatic update system.
@@ -18,7 +20,7 @@
 		/// <summary>
 		/// The default value of <see cref="GitTagPrefix"/>.
 		/// </summary>
-		const string DefaultGitTagPrefix = "tgstation-server-v";
+		const string DefaultGitTagPrefix = $"{Constants.CanonicalPackageName}-v";
 
 		/// <summary>
 		/// The default value of <see cref="UpdatePackageAssetName"/>.

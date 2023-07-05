@@ -2,8 +2,6 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-using Tgstation.Server.Host.Extensions;
-
 namespace Tgstation.Server.Host.Jobs
 {
 	/// <summary>

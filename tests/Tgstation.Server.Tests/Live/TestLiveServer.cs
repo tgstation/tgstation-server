@@ -735,6 +735,7 @@ namespace Tgstation.Server.Tests.Live
 			{
 				Address = controllerAddress,
 				Identifier = "controller",
+				PublicAddress = new Uri("http://fakecontroller.com"),
 				PrivateKey = PrivateKey,
 				UpdateRequiredNodeCount = 2,
 			}, false, 15011))
@@ -743,6 +744,7 @@ namespace Tgstation.Server.Tests.Live
 				{
 					Address = new Uri("http://localhost:15012"),
 					ControllerAddress = controllerAddress,
+					PublicAddress = new Uri("http://fakenode1.com"),
 					Identifier = "node1",
 					PrivateKey = PrivateKey
 				}, false, 15012);
@@ -792,16 +794,19 @@ namespace Tgstation.Server.Tests.Live
 						Assert.IsNotNull(node1);
 						Assert.AreEqual(node1.Address, new Uri("http://localhost:15012"));
 						Assert.IsFalse(node1.Controller);
+						Assert.AreEqual(node1.PublicAddress, new Uri("http://fakenode1.com"));
 
 						var node2 = serverInformation.SwarmServers.SingleOrDefault(x => x.Identifier == "node2");
 						Assert.IsNotNull(node2);
 						Assert.AreEqual(node2.Address, new Uri("http://localhost:15013"));
 						Assert.IsFalse(node2.Controller);
+						Assert.IsNull(node2.PublicAddress);
 
 						var controller = serverInformation.SwarmServers.SingleOrDefault(x => x.Identifier == "controller");
 						Assert.IsNotNull(controller);
 						Assert.AreEqual(controller.Address, new Uri("http://localhost:15011"));
 						Assert.IsTrue(controller.Controller);
+						Assert.AreEqual(controller.PublicAddress, new Uri("http://fakecontroller.com"));
 					}
 
 					CheckInfo(controllerInfo);

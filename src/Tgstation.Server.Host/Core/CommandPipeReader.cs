@@ -10,7 +10,6 @@ using Microsoft.Extensions.Options;
 
 using Tgstation.Server.Host.Common;
 using Tgstation.Server.Host.Configuration;
-using Tgstation.Server.Host.Extensions;
 
 namespace Tgstation.Server.Host.Core
 {

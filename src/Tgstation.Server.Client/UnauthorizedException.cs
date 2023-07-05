@@ -15,7 +15,8 @@ namespace Tgstation.Server.Client
 		/// </summary>
 		/// <param name="errorMessage">The <see cref="ErrorMessageResponse"/> returned by the API.</param>
 		/// <param name="responseMessage">The <see cref="HttpResponseMessage"/>.</param>
-		public UnauthorizedException(ErrorMessageResponse? errorMessage, HttpResponseMessage responseMessage) : base(errorMessage, responseMessage)
+		public UnauthorizedException(ErrorMessageResponse? errorMessage, HttpResponseMessage responseMessage)
+			: base(errorMessage, responseMessage)
 		{
 		}
 
@@ -30,7 +31,8 @@ namespace Tgstation.Server.Client
 		/// Initializes a new instance of the <see cref="UnauthorizedException"/> class.
 		/// </summary>
 		/// <param name="message">The message for the <see cref="Exception"/>.</param>
-		public UnauthorizedException(string message) : base(message)
+		public UnauthorizedException(string message)
+			: base(message)
 		{
 		}
 
@@ -39,7 +41,8 @@ namespace Tgstation.Server.Client
 		/// </summary>
 		/// <param name="message">The message for the <see cref="Exception"/>.</param>
 		/// <param name="innerException">The inner <see cref="Exception"/> for the base <see cref="Exception"/>.</param>
-		public UnauthorizedException(string message, Exception innerException) : base(message, innerException)
+		public UnauthorizedException(string message, Exception innerException)
+			: base(message, innerException)
 		{
 		}
 	}

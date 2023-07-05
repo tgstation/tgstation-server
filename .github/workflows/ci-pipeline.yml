@@ -1140,10 +1140,10 @@ jobs:
       run: dotnet restore
 
     - name: Build ReleaseNotes
-      run: dotnet build -c Release tools/ReleaseNotes/ReleaseNotes.csproj
+      run: dotnet build -c Release tools/Tgstation.Server.ReleaseNotes/Tgstation.Server.ReleaseNotes.csproj
 
     - name: Run ReleaseNotes Check
-      run: dotnet run -c Release --no-build --project tools/ReleaseNotes --winget-template-check ${{ steps.get-sha.outputs.pr_template_sha }}
+      run: dotnet run -c Release --no-build --project tools/Tgstation.Server.ReleaseNotes --winget-template-check ${{ steps.get-sha.outputs.pr_template_sha }}
 
   ci-completion-gate: # This job exists so there isn't a moving target for branch protections
     name: CI Completion Gate
@@ -1304,10 +1304,10 @@ jobs:
       run: dotnet restore
 
     - name: Build ReleaseNotes
-      run: dotnet build -c Release tools/ReleaseNotes/ReleaseNotes.csproj
+      run: dotnet build -c Release tools/Tgstation.Server.ReleaseNotes/Tgstation.Server.ReleaseNotes.csproj
 
     - name: Run ReleaseNotes with --ensure-release
-      run: dotnet run -c Release --no-build --project tools/ReleaseNotes --ensure-release
+      run: dotnet run -c Release --no-build --project tools/Tgstation.Server.ReleaseNotes --ensure-release
 
   deploy-tgs:
     name: Deploy TGS
@@ -1332,7 +1332,7 @@ jobs:
         dotnet tool restore
 
     - name: Build ReleaseNotes
-      run: dotnet build -c Release tools/ReleaseNotes/ReleaseNotes.csproj
+      run: dotnet build -c Release tools/Tgstation.Server.ReleaseNotes/Tgstation.Server.ReleaseNotes.csproj
 
 # We need to rebuild the installer.exe so it can be properly signed
     - name: Restore
@@ -1422,7 +1422,7 @@ jobs:
         &"C:/Program Files/7-Zip/7z.exe" a ServerUpdatePackage.zip ./ServerUpdatePackage/* -tzip
 
     - name: Generate Release Notes
-      run: dotnet run -c Release --no-build --project tools/ReleaseNotes ${{ env.TGS_VERSION }}
+      run: dotnet run -c Release --no-build --project tools/Tgstation.Server.ReleaseNotes ${{ env.TGS_VERSION }}
 
     - name: Create GitHub Release
       uses: actions/create-release@v1
@@ -1571,7 +1571,7 @@ jobs:
       uses: actions/checkout@v3
 
     - name: Build ReleaseNotes
-      run: dotnet build -c Release tools/ReleaseNotes
+      run: dotnet build -c Release tools/Tgstation.Server.ReleaseNotes
 
     - name: Execute Push Script
       shell: powershell
@@ -1581,4 +1581,4 @@ jobs:
       shell: powershell
       run: |
         Sleep 15
-        dotnet run -c Release --no-build --project tools/ReleaseNotes --link-winget ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        dotnet run -c Release --no-build --project tools/Tgstation.Server.ReleaseNotes --link-winget ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
