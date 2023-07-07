@@ -287,6 +287,8 @@ namespace Tgstation.Server.Host.Components.Session
 
 				string outputFilePath = null;
 				var preserveLogFile = true;
+
+				var cliSupported = byondLock.SupportsCli;
 				if (launchParameters.LogOutput.Value)
 				{
 					var now = DateTimeOffset.UtcNow;
@@ -299,7 +301,7 @@ namespace Tgstation.Server.Host.Components.Session
 
 					logger.LogInformation("Logging DreamDaemon output to {path}...", outputFilePath);
 				}
-				else if (!byondLock.SupportsCli)
+				else if (!cliSupported)
 				{
 					outputFilePath = gameIOManager.ConcatPath(dmbProvider.Directory, $"{Guid.NewGuid()}.dd.log");
 					preserveLogFile = false;
@@ -359,7 +361,7 @@ namespace Tgstation.Server.Host.Components.Session
 							() => LogDDOutput(
 								process,
 								outputFilePath,
-								byondLock.SupportsCli,
+								cliSupported,
 								preserveLogFile,
 								CancellationToken.None), // DCT: None available
 							launchParameters.StartupTimeout,
