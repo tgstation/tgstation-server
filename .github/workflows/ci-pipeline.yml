@@ -257,7 +257,7 @@ jobs:
       run: dotnet build -c ${{ matrix.configuration }}NoWindows
 
     - name: Run Unit Tests
-      run: sudo dotnet test --no-build --logger GitHubActions --filter FullyQualifiedName!~TestLiveServer -c ${{ matrix.configuration }}NoWindows --collect:"XPlat Code Coverage" --settings build/coverlet.runsettings --results-directory ./TestResults tgstation-server.sln
+      run: sudo dotnet test --no-build --logger GitHubActions --filter FullyQualifiedName!~TestLiveServer -c ${{ matrix.configuration }}NoWindows --collect:"XPlat Code Coverage" --settings build/ci.runsettings --results-directory ./TestResults tgstation-server.sln
 
     - name: Store Code Coverage
       uses: actions/upload-artifact@v3
@@ -300,7 +300,7 @@ jobs:
       run: dotnet build -c ${{ matrix.configuration }}NoWix
 
     - name: Run Unit Tests
-      run: dotnet test --no-build --logger GitHubActions --filter FullyQualifiedName!~TestLiveServer -c ${{ matrix.configuration }}NoWix --collect:"XPlat Code Coverage" --settings build/coverlet.runsettings --results-directory ./TestResults tgstation-server.sln
+      run: dotnet test --no-build --logger GitHubActions --filter FullyQualifiedName!~TestLiveServer -c ${{ matrix.configuration }}NoWix --collect:"XPlat Code Coverage" --settings build/ci.runsettings --results-directory ./TestResults tgstation-server.sln
 
     - name: Store Code Coverage
       uses: actions/upload-artifact@v3
@@ -415,7 +415,7 @@ jobs:
       run: |
         cd tests/Tgstation.Server.Tests
         Start-Sleep -Seconds 10
-        dotnet test -c ${{ matrix.configuration }} --no-build --filter FullyQualifiedName~TestLiveServer --logger GitHubActions --collect:"XPlat Code Coverage" --settings ../../build/coverlet.runsettings --results-directory ../../TestResults
+        dotnet test -c ${{ matrix.configuration }} --no-build --filter FullyQualifiedName~TestLiveServer --logger GitHubActions --collect:"XPlat Code Coverage" --settings ../../build/ci.runsettings --results-directory ../../TestResults
 
     - name: Store Code Coverage
       uses: actions/upload-artifact@v3
@@ -584,7 +584,7 @@ jobs:
       run: |
         cd tests/Tgstation.Server.Tests
         sleep 10
-        dotnet test -c ${{ matrix.configuration }}NoWindows --filter FullyQualifiedName~TestLiveServer --logger GitHubActions --no-build --collect:"XPlat Code Coverage" --settings ../../build/coverlet.runsettings --results-directory ../../TestResults
+        dotnet test -c ${{ matrix.configuration }}NoWindows --filter FullyQualifiedName~TestLiveServer --logger GitHubActions --no-build --collect:"XPlat Code Coverage" --settings ../../build/ci.runsettings --results-directory ../../TestResults
 
     - name: Store Code Coverage
       uses: actions/upload-artifact@v3

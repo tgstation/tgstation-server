@@ -13,7 +13,7 @@ appveyor.yml
 omnisharp.json
 README.md
 build/package/**
-build/coverlet.runsettings
+build/ci.runsettings
 build/Dockerfile
 build/GenerateMigrations.sh
 build/OpenApiValidationSettings.json
