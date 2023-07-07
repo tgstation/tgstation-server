@@ -186,6 +186,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 							? LogLevel.Warning
 							: LogLevel.Trace,
 						"Releasing old deployment {compileJobId}{afterTimeout}",
+						currentCompileJobId,
 						timedOut
 							? " due to timeout!"
 							: "...");
