@@ -18,7 +18,7 @@ var searchData=
   ['registeredprocesses_15',['registeredProcesses',['../class_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_network_prompt_reaper.html#afffde309e8027f1373df6c95393c643a',1,'Tgstation::Server::Host::System::WindowsNetworkPromptReaper']]],
   ['registerroute_16',['RegisterRoute',['../class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_constants.html#a7289515ab43fd25d67d8705ab03f8f8c',1,'Tgstation::Server::Host::Swarm::SwarmConstants']]],
   ['registrationidheader_17',['RegistrationIdHeader',['../class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_constants.html#ac044806cbe7ad3fc7361aa4c83479335',1,'Tgstation::Server::Host::Swarm::SwarmConstants']]],
-  ['registrationids_18',['registrationIds',['../class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a0926eb3be45146873ad16a2c071b5622',1,'Tgstation::Server::Host::Swarm::SwarmService']]],
+  ['registrationidsandtimes_18',['registrationIdsAndTimes',['../class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a59c303ba904949c9aaa95fc33e4a2790',1,'Tgstation::Server::Host::Swarm::SwarmService']]],
   ['released_19',['released',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#a63130d91727f1706f6f7c25ca55ee29f',1,'Tgstation::Server::Host::Components::Session::SessionController']]],
   ['releaseservers_20',['releaseServers',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a256c7fd5a04870388411185b46ff6fb8',1,'Tgstation::Server::Host::Components::Watchdog::WatchdogBase']]],
   ['reloadtcs_21',['reloadTcs',['../class_tgstation_1_1_server_1_1_host_1_1_setup_1_1_setup_wizard.html#ab1d5502551533774e7f9eac24b37cfb0',1,'Tgstation::Server::Host::Setup::SetupWizard']]],
