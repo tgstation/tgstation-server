@@ -38,9 +38,9 @@ namespace Tgstation.Server.Tests.Live
 			this.testRootPath = testRootPath ?? throw new ArgumentNullException(nameof(testRootPath));
 		}
 
-		public async Task<InstanceResponse> CreateTestInstance(CancellationToken cancellationToken)
+		public async Task<InstanceResponse> CreateTestInstance(string name, CancellationToken cancellationToken)
 		{
-			var instance = await CreateTestInstanceStub("LiveTestsInstance", cancellationToken);
+			var instance = await CreateTestInstanceStub(name, cancellationToken);
 			return await instanceManagerClient.Update(new InstanceUpdateRequest
 			{
 				Id = instance.Id,
@@ -52,7 +52,7 @@ namespace Tgstation.Server.Tests.Live
 		Task<InstanceResponse> CreateTestInstanceStub(string name, CancellationToken cancellationToken) => instanceManagerClient.CreateOrAttach(new InstanceCreateRequest
 		{
 			Name = name,
-			Path = Path.Combine(testRootPath, Guid.NewGuid().ToString()),
+			Path = Path.Combine(testRootPath, $"Instance-{name}"),
 			Online = true,
 			ChatBotLimit = 2
 		}, cancellationToken);

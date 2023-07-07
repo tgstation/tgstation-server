@@ -41,7 +41,10 @@ namespace Tgstation.Server.Tests
 			});
 			var logger = loggerFactory.CreateLogger("CachingFileDownloader");
 
-			await InitializeByondVersion(logger, ByondTest.TestVersion, new PlatformIdentifier().IsWindows, cancellationToken);
+			var cfd = new CachingFileDownloader(loggerFactory.CreateLogger<CachingFileDownloader>());
+			var edgeVersion = await ByondTest.GetEdgeVersion(cfd, cancellationToken);
+
+			await InitializeByondVersion(logger, edgeVersion, new PlatformIdentifier().IsWindows, cancellationToken);
 
 			// predownload the target github release update asset
 			var gitHubToken = Environment.GetEnvironmentVariable("TGS_TEST_GITHUB_TOKEN");

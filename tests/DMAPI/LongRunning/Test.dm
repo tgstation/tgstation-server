@@ -51,7 +51,7 @@
 
 	startup_complete = TRUE
 	if(run_bridge_test)
-		CheckBridgeLimits()
+		CheckBridgeLimits(run_bridge_test)
 
 /world/Topic(T, Addr, Master, Keys)
 	if(findtext(T, "tgs_integration_test_tactics3") == 0)
@@ -76,9 +76,9 @@ var/run_bridge_test
 	var/tactics2 = data["tgs_integration_test_tactics2"]
 	if(tactics2)
 		if(startup_complete)
-			CheckBridgeLimits()
+			CheckBridgeLimits(tactics2)
 		else
-			run_bridge_test = TRUE
+			run_bridge_test = tactics2
 		return "ack2"
 
 	// Topic limit tests
@@ -259,17 +259,17 @@ var/suppress_bridge_spam = FALSE
 	var/payload = jointext(builder, "")
 	return payload
 
-/proc/CheckBridgeLimits()
+/proc/CheckBridgeLimits(id)
 	set waitfor = FALSE
-	CheckBridgeLimitsImpl()
+	CheckBridgeLimitsImpl(id)
 
-/proc/CheckBridgeLimitsImpl()
+/proc/CheckBridgeLimitsImpl(id)
 	sleep(30)
 
 	// Evil custom bridge command hacking here
 	var/datum/tgs_api/v5/api = TGS_READ_GLOBAL(tgs)
 	var/old_ai = api.access_identifier
-	api.access_identifier = "tgs_integration_test"
+	api.access_identifier = id
 
 	lastTgsError = null
 

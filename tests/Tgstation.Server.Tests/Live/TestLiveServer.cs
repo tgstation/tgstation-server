@@ -4,6 +4,7 @@ using System.Data.SqlClient;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Management;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -46,52 +47,88 @@ namespace Tgstation.Server.Tests.Live
 	[TestCategory("SkipWhenLiveUnitTesting")]
 	public sealed class TestLiveServer
 	{
-		public static ushort DDPort { get; } = FreeTcpPort();
-		public static ushort DMPort { get; } = GetDMPort();
-
 		public static readonly Version TestUpdateVersion = new(5, 11, 0);
+
+		static readonly ushort mainDDPort = FreeTcpPort();
+		static readonly ushort mainDMPort = FreeTcpPort(mainDDPort);
+		static readonly ushort compatDMPort = FreeTcpPort(mainDDPort, mainDMPort);
+		static readonly ushort compatDDPort = FreeTcpPort(mainDDPort, mainDMPort, compatDMPort);
 
 		readonly IServerClientFactory clientFactory = new ServerClientFactory(new ProductHeaderValue(Assembly.GetExecutingAssembly().GetName().Name, Assembly.GetExecutingAssembly().GetName().Version.ToString()));
 
-		public static List<System.Diagnostics.Process> GetAllDDProcesses()
+		public static List<System.Diagnostics.Process> GetDDProcessesOnPort(ushort? port)
 		{
 			var result = new List<System.Diagnostics.Process>();
 			result.AddRange(System.Diagnostics.Process.GetProcessesByName("DreamDaemon"));
-			if(new PlatformIdentifier().IsWindows)
+			if (new PlatformIdentifier().IsWindows)
 				result.AddRange(System.Diagnostics.Process.GetProcessesByName("dd"));
 
+			if (port.HasValue)
+				result = result.Where(x =>
+				{
+					if (GetCommandLine(x).Contains($"-port {port.Value}"))
+						return true;
+
+					x.Dispose();
+					return false;
+				}).ToList();
+
 			return result;
+		}
+
+		private static string GetCommandLine(System.Diagnostics.Process process)
+		{
+			if (new PlatformIdentifier().IsWindows)
+			{
+				var searcher = new ManagementObjectSearcher("SELECT CommandLine FROM Win32_Process WHERE ProcessId = " + process.Id);
+				var objects = searcher.Get();
+				return objects.Cast<ManagementBaseObject>().SingleOrDefault()?["CommandLine"]?.ToString();
+			}
+
+			var cmdlineFile = File.ReadAllText($"/proc/{process.Id}/cmdline");
+			var parsed = cmdlineFile.Replace('\0', ' ');
+			return parsed;
 		}
 
 		static void TerminateAllDDs()
 		{
-			foreach (var proc in GetAllDDProcesses())
+			foreach (var proc in GetDDProcessesOnPort(null))
 				using (proc)
 					proc.Kill();
 		}
 
-		static ushort GetDMPort()
+		static ushort FreeTcpPort(params ushort[] usedPorts)
 		{
 			ushort result;
-			do
-			{
-				result = FreeTcpPort();
-			} while (result == DDPort);
-			return result;
-		}
-
-		static ushort FreeTcpPort()
-		{
-			var l = new TcpListener(IPAddress.Loopback, 0);
-			l.Start();
+			var listeners = new List<TcpListener>();
 			try
 			{
-				return (ushort)((IPEndPoint)l.LocalEndpoint).Port;
+				do
+				{
+					var l = new TcpListener(IPAddress.Loopback, 0);
+					l.Start();
+					try
+					{
+						listeners.Add(l);
+					}
+					catch
+					{
+						l.Stop();
+						throw;
+					}
+
+					result = (ushort)((IPEndPoint)l.LocalEndpoint).Port;
+				}
+				while (usedPorts.Contains(result));
 			}
 			finally
 			{
-				l.Stop();
+				foreach(var l in listeners)
+				{
+					l.Stop();
+				}
 			}
+			return result;
 		}
 
 		[ClassInitialize]
@@ -1016,6 +1053,7 @@ namespace Tgstation.Server.Tests.Live
 			// main run
 			var serverTask = server.Run(cancellationToken);
 
+			var fileDownloader = ((Host.Server)server.RealServer).Host.Services.GetRequiredService<Host.IO.IFileDownloader>();
 			try
 			{
 				Api.Models.Instance instance;
@@ -1041,11 +1079,7 @@ namespace Tgstation.Server.Tests.Live
 						{
 							await task;
 						}
-						catch (OperationCanceledException)
-						{
-							throw;
-						}
-						catch (Exception ex)
+						catch (Exception ex) when (ex is not OperationCanceledException)
 						{
 							Console.WriteLine($"[{DateTimeOffset.UtcNow}] TEST ERROR: {ex}");
 							serverCts.Cancel();
@@ -1056,27 +1090,42 @@ namespace Tgstation.Server.Tests.Live
 					var rootTest = FailFast(RawRequestTests.Run(clientFactory, adminClient, cancellationToken));
 					var adminTest = FailFast(new AdministrationTest(adminClient.Administration).Run(cancellationToken));
 					var usersTest = FailFast(new UsersTest(adminClient).Run(cancellationToken));
-					var instanceMangagerTest = new InstanceManagerTest(adminClient, server.Directory);
-					instance = await instanceMangagerTest.CreateTestInstance(cancellationToken);
-					var instancesTest = FailFast(instanceMangagerTest.RunPreTest(cancellationToken));
+					var instanceManagerTest = new InstanceManagerTest(adminClient, server.Directory);
+					var compatInstanceTask = instanceManagerTest.CreateTestInstance("LiveTestsInstance", cancellationToken);
+					instance = await instanceManagerTest.CreateTestInstance("CompatTestsInstance", cancellationToken);
+					var compatInstance = await compatInstanceTask;
+					var instancesTest = FailFast(instanceManagerTest.RunPreTest(cancellationToken));
 					Assert.IsTrue(Directory.Exists(instance.Path));
 					var instanceClient = adminClient.Instances.CreateClient(instance);
 
 					Assert.IsTrue(Directory.Exists(instanceClient.Metadata.Path));
 
-					var instanceTests = FailFast(
-						new InstanceTest(
-							instanceClient,
+					var instanceTest = new InstanceTest(
 							adminClient.Instances,
-							((Host.Server)server.RealServer).Host.Services.GetRequiredService<Host.IO.IFileDownloader>(),
+							fileDownloader,
 							GetInstanceManager(),
-							(ushort)server.Url.Port)
-						.RunTests(
-							server.HighPriorityDreamDaemon,
-							server.LowPriorityDeployments,
-							cancellationToken));
+							(ushort)server.Url.Port);
 
-					await Task.WhenAll(rootTest, adminTest, instancesTest, instanceTests, usersTest);
+					var instanceTests = FailFast(
+						instanceTest
+							.RunTests(
+								instanceClient,
+								mainDMPort,
+								mainDDPort,
+								server.HighPriorityDreamDaemon,
+								server.LowPriorityDeployments,
+								cancellationToken));
+
+					var compatTests = FailFast(
+						instanceTest
+							.RunCompatTests(
+								adminClient.Instances.CreateClient(compatInstance),
+								compatDMPort,
+								compatDDPort,
+								server.HighPriorityDreamDaemon,
+								cancellationToken));
+
+					await Task.WhenAll(rootTest, adminTest, instancesTest, instanceTests, usersTest, compatTests);
 
 					var dd = await instanceClient.DreamDaemon.Read(cancellationToken);
 					Assert.AreEqual(WatchdogStatus.Online, dd.Status.Value);
@@ -1093,10 +1142,10 @@ namespace Tgstation.Server.Tests.Live
 
 				// test the reattach message queueing
 				// for the code coverage really...
-				var topicRequestResult = await WatchdogTest.TopicClient.SendTopic(
+				var topicRequestResult = await WatchdogTest.StaticTopicClient.SendTopic(
 					IPAddress.Loopback,
 					$"tgs_integration_test_tactics6=1",
-					DDPort,
+					mainDDPort,
 					cancellationToken);
 
 				Assert.IsNotNull(topicRequestResult);
@@ -1169,10 +1218,10 @@ namespace Tgstation.Server.Tests.Live
 					var chatReadTask = instanceClient.ChatBots.List(null, cancellationToken);
 
 					// Check the DMAPI got the channels again https://github.com/tgstation/tgstation-server/issues/1490
-					topicRequestResult = await WatchdogTest.TopicClient.SendTopic(
+					topicRequestResult = await WatchdogTest.StaticTopicClient.SendTopic(
 						IPAddress.Loopback,
 						$"tgs_integration_test_tactics7=1",
-						DDPort,
+						mainDDPort,
 						cancellationToken);
 
 					Assert.IsNotNull(topicRequestResult);
@@ -1186,7 +1235,7 @@ namespace Tgstation.Server.Tests.Live
 
 					Assert.AreEqual(connectedChannelCount, channelsPresent);
 
-					await WatchdogTest.TellWorldToReboot2(instanceClient, cancellationToken);
+					await WatchdogTest.TellWorldToReboot2(instanceClient, mainDDPort, cancellationToken);
 
 					dd = await instanceClient.DreamDaemon.Read(cancellationToken);
 					Assert.AreEqual(WatchdogStatus.Online, dd.Status.Value);
@@ -1238,6 +1287,7 @@ namespace Tgstation.Server.Tests.Live
 				preStartupTime = DateTimeOffset.UtcNow;
 				serverTask = server.Run(cancellationToken);
 				long expectedCompileJobId, expectedStaged;
+				var edgeByond = await ByondTest.GetEdgeVersion(fileDownloader, cancellationToken);
 				using (var adminClient = await CreateAdminClient(server.Url, cancellationToken))
 				{
 					var instanceClient = adminClient.Instances.CreateClient(instance);
@@ -1248,7 +1298,7 @@ namespace Tgstation.Server.Tests.Live
 					Assert.AreEqual(WatchdogStatus.Online, dd.Status.Value);
 
 					var compileJob = await instanceClient.DreamMaker.Compile(cancellationToken);
-					var wdt = new WatchdogTest(instanceClient, GetInstanceManager(), (ushort)server.Url.Port, server.HighPriorityDreamDaemon);
+					var wdt = new WatchdogTest(edgeByond, instanceClient, GetInstanceManager(), (ushort)server.Url.Port, server.HighPriorityDreamDaemon, mainDDPort);
 					await wdt.WaitForJob(compileJob, 30, false, null, cancellationToken);
 
 					dd = await instanceClient.DreamDaemon.Read(cancellationToken);
@@ -1295,7 +1345,7 @@ namespace Tgstation.Server.Tests.Live
 					Assert.AreEqual(WatchdogStatus.Online, currentDD.Status);
 					Assert.AreEqual(expectedStaged, currentDD.StagedCompileJob.Job.Id.Value);
 
-					var wdt = new WatchdogTest(instanceClient, GetInstanceManager(), (ushort)server.Url.Port, server.HighPriorityDreamDaemon);
+					var wdt = new WatchdogTest(edgeByond, instanceClient, GetInstanceManager(), (ushort)server.Url.Port, server.HighPriorityDreamDaemon, mainDDPort);
 					currentDD = await wdt.TellWorldToReboot(cancellationToken);
 					Assert.AreEqual(expectedStaged, currentDD.ActiveCompileJob.Job.Id.Value);
 					Assert.IsNull(currentDD.StagedCompileJob);

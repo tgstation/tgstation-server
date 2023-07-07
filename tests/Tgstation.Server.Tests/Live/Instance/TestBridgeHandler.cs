@@ -24,21 +24,23 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 		public DMApiParameters DMApiParameters => new DMApiParametersImpl
 		{
-			AccessIdentifier = "tgs_integration_test"
+			AccessIdentifier = accessIdentifier
 		};
 
 		long lastBridgeRequestSize = 0;
 
 		readonly TaskCompletionSource bridgeTestsTcs;
 		readonly ushort serverPort;
+		readonly string accessIdentifier;
 
 		bool chunksProcessed = false;
 
-		public TestBridgeHandler(TaskCompletionSource tcs, ILogger<TestBridgeHandler> logger, ushort serverPort)
+		public TestBridgeHandler(TaskCompletionSource tcs, ILogger<TestBridgeHandler> logger, string accessIdentifier, ushort serverPort)
 			: base(logger)
 		{
 			bridgeTestsTcs = tcs;
 			this.serverPort = serverPort;
+			this.accessIdentifier = accessIdentifier;
 		}
 
 		public async Task<BridgeResponse> ProcessBridgeRequest(BridgeParameters parameters, CancellationToken cancellationToken)

@@ -15,6 +15,7 @@ using Tgstation.Server.Host;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.Extensions;
+using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Setup;
 using Tgstation.Server.Host.Utils;
 
@@ -22,6 +23,33 @@ namespace Tgstation.Server.Tests.Live
 {
 	sealed class LiveTestingServer : IServer, IDisposable
 	{
+		public static string BaseDirectory { get; }
+
+		static LiveTestingServer()
+		{
+			SerilogContextHelper.AddSwarmNodeIdentifierToTemplate();
+			BaseDirectory = Environment.GetEnvironmentVariable("TGS_TEST_TEMP_DIRECTORY");
+			if (string.IsNullOrWhiteSpace(BaseDirectory))
+			{
+				BaseDirectory = Path.Combine(Path.GetTempPath(), "TGS_INTEGRATION_TEST");
+				Cleanup(BaseDirectory).GetAwaiter().GetResult();
+			}
+		}
+
+		static async Task Cleanup(string directory)
+		{
+			for (int i = 0; i < 5; ++i)
+				try
+				{
+					new DefaultIOManager().DeleteDirectory(directory, default).GetAwaiter().GetResult();
+				}
+				catch
+				{
+					GC.Collect(int.MaxValue, GCCollectionMode.Forced, false);
+					await Task.Delay(3000);
+				}
+		}
+
 		public Uri Url { get; }
 
 		public string Directory { get; }
@@ -44,25 +72,10 @@ namespace Tgstation.Server.Tests.Live
 
 		public IServer RealServer { get; private set; }
 
-		static LiveTestingServer()
-		{
-			SerilogContextHelper.AddSwarmNodeIdentifierToTemplate();
-		}
-
 		public LiveTestingServer(SwarmConfiguration swarmConfiguration, bool enableOAuth, ushort port = 15010)
 		{
 			Assert.IsTrue(port >= 10000); // for testing bridge request limit
-			Directory = Environment.GetEnvironmentVariable("TGS_TEST_TEMP_DIRECTORY");
-			if (string.IsNullOrWhiteSpace(Directory))
-			{
-				Directory = Path.Combine(Path.GetTempPath(), "TGS_INTEGRATION_TEST");
-				if (System.IO.Directory.Exists(Directory) && swarmConfiguration == null)
-					try
-					{
-						System.IO.Directory.Delete(Directory, true);
-					}
-					catch { }
-			}
+			Directory = BaseDirectory;
 
 			Directory = Path.Combine(Directory, Guid.NewGuid().ToString());
 			System.IO.Directory.CreateDirectory(Directory);
@@ -83,7 +96,7 @@ namespace Tgstation.Server.Tests.Live
 				Assert.Inconclusive("No connection string configured in env var TGS_TEST_CONNECTION_STRING!");
 
 			if (String.IsNullOrEmpty(gitHubAccessToken))
-				Console.WriteLine("WARNING: No GitHub access token configured, test may fail due to rate limits!");
+				System.Console.WriteLine("WARNING: No GitHub access token configured, test may fail due to rate limits!");
 
 			DumpOpenApiSpecpath = !String.IsNullOrEmpty(dumpOpenAPISpecPathEnvVar);
 
@@ -148,19 +161,7 @@ namespace Tgstation.Server.Tests.Live
 			UpdatePath = Path.Combine(Directory, Guid.NewGuid().ToString());
 		}
 
-		public void Dispose()
-		{
-			for (int i = 0; i < 5; ++i)
-				try
-				{
-					//System.IO.Directory.Delete(Directory, true);
-				}
-				catch
-				{
-					GC.Collect(int.MaxValue, GCCollectionMode.Forced, false);
-					Thread.Sleep(3000);
-				}
-		}
+		public void Dispose() => Cleanup(Directory).GetAwaiter().GetResult();
 
 		public void UpdateSwarmArguments(SwarmConfiguration swarmConfiguration)
 		{
@@ -194,7 +195,7 @@ namespace Tgstation.Server.Tests.Live
 		public async Task Run(CancellationToken cancellationToken)
 		{
 			var messageAddition = swarmNodeId != null ? $": {swarmNodeId}" : String.Empty;
-			Console.WriteLine("TEST SERVER START" + messageAddition);
+			System.Console.WriteLine("TEST SERVER START" + messageAddition);
 			var firstRun = RealServer == null;
 			var arrayArgs = args.Concat(swarmArgs).ToArray();
 			RealServer = await Application
@@ -213,7 +214,7 @@ namespace Tgstation.Server.Tests.Live
 				? LogContext.PushProperty(SerilogContextHelper.SwarmIdentifierContextProperty, swarmNodeId)
 				: null)
 				await RealServer.Run(cancellationToken);
-			Console.WriteLine($"TEST SERVER END" + messageAddition);
+			System.Console.WriteLine($"TEST SERVER END" + messageAddition);
 		}
 	}
 }
