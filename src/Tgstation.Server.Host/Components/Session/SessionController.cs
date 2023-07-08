@@ -966,13 +966,14 @@ namespace Tgstation.Server.Host.Components.Session
 			var firstSend = true;
 
 			const int PrioritySendAttempts = 5;
+			var endpoint = new IPEndPoint(IPAddress.Loopback, targetPort);
 			for (var i = PrioritySendAttempts - 1; i >= 0 && (priority || firstSend); --i)
 				try
 				{
 					firstSend = false;
 					if (!killedOrRebootedTask.IsCompleted)
 						byondResponse = await byondTopicSender.SendTopic(
-							new IPEndPoint(IPAddress.Loopback, targetPort),
+							endpoint,
 							queryString,
 							cancellationToken);
 
