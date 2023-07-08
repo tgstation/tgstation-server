@@ -66,7 +66,7 @@ namespace Tgstation.Server.Tests.Live
 			if (port.HasValue)
 				result = result.Where(x =>
 				{
-					if (GetCommandLine(x).Contains($"-port {port.Value}"))
+					if (GetCommandLine(x)?.Contains($"-port {port.Value}") ?? false)
 						return true;
 
 					x.Dispose();
@@ -85,9 +85,16 @@ namespace Tgstation.Server.Tests.Live
 				return objects.Cast<ManagementBaseObject>().SingleOrDefault()?["CommandLine"]?.ToString();
 			}
 
-			var cmdlineFile = File.ReadAllText($"/proc/{process.Id}/cmdline");
-			var parsed = cmdlineFile.Replace('\0', ' ');
-			return parsed;
+			try
+			{
+				var cmdlineFile = File.ReadAllText($"/proc/{process.Id}/cmdline");
+				var parsed = cmdlineFile.Replace('\0', ' ');
+				return parsed;
+			}
+			catch (FileNotFoundException)
+			{
+				return null;
+			}
 		}
 
 		static void TerminateAllDDs()
