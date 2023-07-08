@@ -19,16 +19,15 @@ using Newtonsoft.Json.Linq;
 
 using Tgstation.Server.Api;
 using Tgstation.Server.Client;
-using Tgstation.Server.Common.Http;
 using Tgstation.Server.Common.Extensions;
 using Tgstation.Server.Host;
 using Tgstation.Server.Host.Components.Byond;
 using Tgstation.Server.Host.Components.Interop;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Database;
-using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.System;
+using System.Net;
 
 namespace Tgstation.Server.Tests
 {
@@ -97,14 +96,21 @@ namespace Tgstation.Server.Tests
 			var mockSessionConfigurationOptions = new Mock<IOptions<SessionConfiguration>>();
 			mockSessionConfigurationOptions.SetupGet(x => x.Value).Returns(new SessionConfiguration());
 
+			using var loggerFactory = LoggerFactory.Create(builder =>
+			{
+				builder.AddConsole();
+				builder.SetMinimumLevel(LogLevel.Trace);
+			});
+			var logger = loggerFactory.CreateLogger<CachingFileDownloader>();
+
 			// windows only BYOND but can be checked on any system
 			var init1 = CachingFileDownloader.InitializeByondVersion(
-				null,
+				logger,
 				WindowsByondInstaller.DDExeVersion,
 				true,
 				CancellationToken.None);
 			await CachingFileDownloader.InitializeByondVersion(
-				null,
+				logger,
 				new Version(WindowsByondInstaller.DDExeVersion.Major, WindowsByondInstaller.DDExeVersion.Minor - 1),
 				true,
 				CancellationToken.None);
@@ -150,17 +156,26 @@ namespace Tgstation.Server.Tests
 			});
 
 			var platformIdentifier = new PlatformIdentifier();
-			var init1 = CachingFileDownloader.InitializeByondVersion(
-				null,
-				ByondInstallerBase.MapThreadsVersion,
-				platformIdentifier.IsWindows,
-				CancellationToken.None);
-			await CachingFileDownloader.InitializeByondVersion(
-				null,
-				new Version(ByondInstallerBase.MapThreadsVersion.Major, ByondInstallerBase.MapThreadsVersion.Minor - 1),
-				platformIdentifier.IsWindows,
-				CancellationToken.None);
-			await init1;
+			try
+			{
+				var logger = loggerFactory.CreateLogger<CachingFileDownloader>();
+				var init1 = CachingFileDownloader.InitializeByondVersion(
+					logger,
+					ByondInstallerBase.MapThreadsVersion,
+					platformIdentifier.IsWindows,
+					CancellationToken.None);
+				await CachingFileDownloader.InitializeByondVersion(
+					logger,
+					new Version(ByondInstallerBase.MapThreadsVersion.Major, ByondInstallerBase.MapThreadsVersion.Minor - 1),
+					platformIdentifier.IsWindows,
+					CancellationToken.None);
+				await init1;
+			}
+			catch (HttpRequestException ex) when (ex.StatusCode == HttpStatusCode.NotFound)
+			{
+				Assert.Inconclusive("-map-threads version appears to not have been released yet!");
+			}
+
 			var fileDownloader = new CachingFileDownloader(Mock.Of<ILogger<CachingFileDownloader>>());
 
 			IByondInstaller byondInstaller = platformIdentifier.IsWindows
@@ -216,6 +231,8 @@ namespace Tgstation.Server.Tests
 			{
 				await ioManager.DeleteDirectory(tempPath, default);
 			}
+
+			Assert.Fail("Test succeeded, but remove the 404 workaround!");
 		}
 
 		[ClassCleanup]

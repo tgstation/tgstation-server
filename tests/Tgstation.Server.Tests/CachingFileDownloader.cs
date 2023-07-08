@@ -78,20 +78,21 @@ namespace Tgstation.Server.Tests
 
 		public static async ValueTask InitializeByondVersion(ILogger logger, Version version, bool windows, CancellationToken cancellationToken)
 		{
-			// actions is supposed to cache BYOND for us
-			if (!TestingUtils.RunningInGitHubActions)
-				return;
-
 			var url = new Uri(
-			$"https://www.byond.com/download/build/{version.Major}/{version.Major}.{version.Minor}_byond{(!windows ? "_linux" : string.Empty)}.zip");
+				$"https://www.byond.com/download/build/{version.Major}/{version.Major}.{version.Minor}_byond{(!windows ? "_linux" : string.Empty)}.zip");
+			string path = null;
+			if (TestingUtils.RunningInGitHubActions)
+			{
+				// actions is supposed to cache BYOND for us
 
-			var dir = Path.Combine(
-				Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
-				"byond-zips-cache",
-				windows ? "windows" : "linux");
-			var path = Path.Combine(
-				dir,
-				$"{version.Major}.{version.Minor}.zip");
+				var dir = Path.Combine(
+					Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
+					"byond-zips-cache",
+					windows ? "windows" : "linux");
+				path = Path.Combine(
+					dir,
+					$"{version.Major}.{version.Minor}.zip");
+			}
 
 			await (await CacheFile(logger, url, null, path, cancellationToken)).DisposeAsync();
 		}
