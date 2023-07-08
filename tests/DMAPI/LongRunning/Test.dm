@@ -290,6 +290,7 @@ var/suppress_bridge_spam = FALSE
 	try
 		result = api.PerformBridgeRequest(bridge_request)
 	catch(var/exception/e)
+		world.log << "Caught exception: [e]"
 		result = null
 
 	if(!result || lastTgsError || result["integrationHack"] != "ok")
