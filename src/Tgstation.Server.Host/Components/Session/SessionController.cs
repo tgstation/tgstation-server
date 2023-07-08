@@ -978,7 +978,7 @@ namespace Tgstation.Server.Host.Components.Session
 
 					break;
 				}
-				catch (Exception ex) when (ex is not OperationCanceledException)
+				catch (Exception ex) when (!cancellationToken.IsCancellationRequested)
 				{
 					Logger.LogWarning(ex, "SendTopic exception!{retryDetails}", priority ? $" {i} attempts remaining." : String.Empty);
 
