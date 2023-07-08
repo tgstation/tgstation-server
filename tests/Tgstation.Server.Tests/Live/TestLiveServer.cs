@@ -1098,8 +1098,8 @@ namespace Tgstation.Server.Tests.Live
 					var adminTest = FailFast(new AdministrationTest(adminClient.Administration).Run(cancellationToken));
 					var usersTest = FailFast(new UsersTest(adminClient).Run(cancellationToken));
 					var instanceManagerTest = new InstanceManagerTest(adminClient, server.Directory);
-					var compatInstanceTask = instanceManagerTest.CreateTestInstance("LiveTestsInstance", cancellationToken);
-					instance = await instanceManagerTest.CreateTestInstance("CompatTestsInstance", cancellationToken);
+					var compatInstanceTask = instanceManagerTest.CreateTestInstance("CompatTestsInstance", cancellationToken);
+					instance = await instanceManagerTest.CreateTestInstance("LiveTestsInstance", cancellationToken);
 					var compatInstance = await compatInstanceTask;
 					var instancesTest = FailFast(instanceManagerTest.RunPreTest(cancellationToken));
 					Assert.IsTrue(Directory.Exists(instance.Path));
