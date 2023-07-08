@@ -45,6 +45,7 @@ namespace Tgstation.Server.Tests.Live
 {
 	[TestClass]
 	[TestCategory("SkipWhenLiveUnitTesting")]
+	[TestCategory("RequiresDatabase")]
 	public sealed class TestLiveServer
 	{
 		public static readonly Version TestUpdateVersion = new(5, 11, 0);

@@ -17,6 +17,7 @@ using Microsoft.Extensions.DependencyInjection;
 namespace Tgstation.Server.Tests
 {
 	[TestClass]
+	[TestCategory("RequiresDatabase")]
 	public sealed class TestDatabase
 	{
 		[TestMethod]
