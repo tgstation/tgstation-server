@@ -11,9 +11,10 @@
 		dab()
 	TgsNew(new /datum/tgs_event_handler/impl, TGS_SECURITY_SAFE)
 
-	var/list/channels = TgsChatChannelInfo()
-	if(!length(channels))
-		FailTest("Expected some chat channels!")
+	if(params["expect_chat_channels"])
+		var/list/channels = TgsChatChannelInfo()
+		if(!length(channels))
+			FailTest("Expected some chat channels!")
 
 	StartAsync()
 

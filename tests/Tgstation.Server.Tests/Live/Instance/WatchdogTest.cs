@@ -107,6 +107,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 					Port = ddPort,
 					MapThreads = 2,
 					LogOutput = false,
+					AdditionalParameters = "expect_chat_channels=1"
 				}, cancellationToken),
 				CheckByondVersions(),
 				ApiAssert.ThrowsException<ApiConflictException>(() => instanceClient.DreamDaemon.Update(new DreamDaemonRequest
@@ -137,6 +138,11 @@ namespace Tgstation.Server.Tests.Live.Instance
 			await RunHealthCheckTest(false, cancellationToken);
 
 			await InteropTestsForLongRunningDme(cancellationToken);
+
+			await instanceClient.DreamDaemon.Update(new DreamDaemonRequest
+			{
+				AdditionalParameters = String.Empty
+			}, cancellationToken);
 
 			// for the restart staging tests
 			await DeployTestDme("LongRunning/long_running_test", DreamDaemonSecurity.Trusted, true, cancellationToken);
