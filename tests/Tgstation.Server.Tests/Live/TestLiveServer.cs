@@ -82,7 +82,8 @@ namespace Tgstation.Server.Tests.Live
 			{
 				var searcher = new ManagementObjectSearcher("SELECT CommandLine FROM Win32_Process WHERE ProcessId = " + process.Id);
 				var objects = searcher.Get();
-				return objects.Cast<ManagementBaseObject>().SingleOrDefault()?["CommandLine"]?.ToString();
+				var commandLine = objects.Cast<ManagementBaseObject>().SingleOrDefault()?["CommandLine"]?.ToString();
+				return commandLine;
 			}
 
 			try
