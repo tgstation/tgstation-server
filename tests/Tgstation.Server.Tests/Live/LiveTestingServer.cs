@@ -125,7 +125,7 @@ namespace Tgstation.Server.Tests.Live
 				String.Format(CultureInfo.InvariantCulture, "FileLogging:LogLevel={0}", "Trace"),
 				String.Format(CultureInfo.InvariantCulture, "FileLogging:Disable={0}", false),
 				String.Format(CultureInfo.InvariantCulture, "General:ValidInstancePaths:0={0}", Directory),
-				"General:ByondTopicTimeout=3000",
+				"General:ByondTopicTimeout=5000",
 				$"Session:HighPriorityLiveDreamDaemon={HighPriorityDreamDaemon}",
 				$"Session:LowPriorityDeploymentProcesses={LowPriorityDeployments}",
 			};
