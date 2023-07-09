@@ -1126,14 +1126,16 @@ namespace Tgstation.Server.Tests.Live
 								cancellationToken));
 
 					var compatTests = FailFast(
-						instanceTest
-							.RunCompatTests(
-								new Version(510, 1346),
-								adminClient.Instances.CreateClient(compatInstance),
-								compatDMPort,
-								compatDDPort,
-								server.HighPriorityDreamDaemon,
-								cancellationToken));
+						TestingUtils.RunningInGitHubActions
+							? Task.CompletedTask
+							: instanceTest
+								.RunCompatTests(
+									new Version(510, 1346),
+									adminClient.Instances.CreateClient(compatInstance),
+									compatDMPort,
+									compatDDPort,
+									server.HighPriorityDreamDaemon,
+									cancellationToken));
 
 					await Task.WhenAll(rootTest, adminTest, instancesTest, instanceTests, usersTest, compatTests);
 
