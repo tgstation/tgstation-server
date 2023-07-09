@@ -1128,6 +1128,7 @@ namespace Tgstation.Server.Tests.Live
 					var compatTests = FailFast(
 						instanceTest
 							.RunCompatTests(
+								new Version(510, 1346),
 								adminClient.Instances.CreateClient(compatInstance),
 								compatDMPort,
 								compatDDPort,

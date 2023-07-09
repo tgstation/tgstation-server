@@ -70,13 +70,14 @@ namespace Tgstation.Server.Tests.Live.Instance
 		}
 
 		public async Task RunCompatTests(
+			Version compatVersion,
 			IInstanceClient instanceClient,
 			ushort dmPort,
 			ushort ddPort,
 			bool highPrioDD,
 			CancellationToken cancellationToken)
 		{
-			var compatVersion = new Version(510, 1346);
+			System.Console.WriteLine($"COMPAT TEST START: {compatVersion}");
 			const string Origin = "https://github.com/Cyberboss/common_core";
 			var cloneRequest = instanceClient.Repository.Clone(new RepositoryCreateRequest
 			{
@@ -194,6 +195,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 				Id = instanceClient.Metadata.Id,
 				Online = false,
 			}, cancellationToken);
+			System.Console.WriteLine($"COMPAT TEST END: {compatVersion}");
 		}
 	}
 }
