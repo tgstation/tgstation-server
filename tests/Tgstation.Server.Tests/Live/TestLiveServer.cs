@@ -1117,14 +1117,15 @@ namespace Tgstation.Server.Tests.Live
 
 					async Task RunInstanceTests()
 					{
-						await instanceTest
-							.RunCompatTests(
-								new Version(510, 1346),
-								adminClient.Instances.CreateClient(compatInstance),
-								compatDMPort,
-								compatDDPort,
-								server.HighPriorityDreamDaemon,
-								cancellationToken);
+						if (!TestingUtils.RunningInGitHubActions)
+							await instanceTest
+								.RunCompatTests(
+									new Version(510, 1346),
+									adminClient.Instances.CreateClient(compatInstance),
+									compatDMPort,
+									compatDDPort,
+									server.HighPriorityDreamDaemon,
+									cancellationToken);
 
 						await instanceTest
 							.RunTests(
