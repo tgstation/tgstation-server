@@ -109,14 +109,14 @@ namespace Tgstation.Server.Host.System
 
 				handle.StartInfo.UseShellExecute = !noShellExecute;
 
-				var processStartTcs = new TaskCompletionSource();
-
 				Task<string> readTask = null;
 				CancellationTokenSource disposeCts = null;
 				try
 				{
+					TaskCompletionSource processStartTcs = null;
 					if (readStandardHandles)
 					{
+						processStartTcs = new TaskCompletionSource();
 						handle.StartInfo.RedirectStandardOutput = true;
 						handle.StartInfo.RedirectStandardError = true;
 
@@ -128,11 +128,11 @@ namespace Tgstation.Server.Host.System
 					{
 						handle.Start();
 
-						processStartTcs.SetResult();
+						processStartTcs?.SetResult();
 					}
 					catch (Exception ex)
 					{
-						processStartTcs.SetException(ex);
+						processStartTcs?.SetException(ex);
 						throw;
 					}
 
