@@ -55,7 +55,6 @@
 			return result
 
 		if(DMAPI5_TOPIC_COMMAND_EVENT_NOTIFICATION)
-			intercepted_message_queue = list()
 			var/list/event_notification = topic_parameters[DMAPI5_TOPIC_PARAMETER_EVENT_NOTIFICATION]
 			if(!istype(event_notification))
 				return TopicResponse("Invalid [DMAPI5_TOPIC_PARAMETER_EVENT_NOTIFICATION]!")
@@ -66,23 +65,23 @@
 
 			var/list/event_parameters = event_notification[DMAPI5_EVENT_NOTIFICATION_PARAMETERS]
 			if(event_parameters && !istype(event_parameters))
-				return TopicResponse("Invalid or missing [DMAPI5_EVENT_NOTIFICATION_PARAMETERS]!")
+				. = TopicResponse("Invalid or missing [DMAPI5_EVENT_NOTIFICATION_PARAMETERS]!")
+			else
+				var/list/response = TopicResponse()
+				. = response
+				if(event_handler != null)
+					var/list/event_call = list(event_type)
+					if(event_parameters)
+						event_call += event_parameters
 
-			var/list/event_call = list(event_type)
+					intercepted_message_queue = list()
+					event_handler.HandleEvent(arglist(event_call))
+					response[DMAPI5_TOPIC_RESPONSE_CHAT_RESPONSES] = intercepted_message_queue
+					intercepted_message_queue = null
+
 			if (event_type == TGS_EVENT_WATCHDOG_DETACH)
 				detached = TRUE
 				chat_channels.Cut() // https://github.com/tgstation/tgstation-server/issues/1490
-
-			if(event_parameters)
-				event_call += event_parameters
-
-			if(event_handler != null)
-				event_handler.HandleEvent(arglist(event_call))
-
-			var/list/response = TopicResponse()
-			response[DMAPI5_TOPIC_RESPONSE_CHAT_RESPONSES] = intercepted_message_queue
-			intercepted_message_queue = null
-			return response
 
 		if(DMAPI5_TOPIC_COMMAND_CHANGE_PORT)
 			var/new_port = topic_parameters[DMAPI5_TOPIC_PARAMETER_NEW_PORT]

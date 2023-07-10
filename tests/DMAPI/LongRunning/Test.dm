@@ -181,12 +181,16 @@ var/received_health_check = FALSE
 	if(event_code == TGS_EVENT_HEALTH_CHECK)
 		received_health_check = TRUE
 	else if(event_code == TGS_EVENT_WATCHDOG_DETACH)
-		// hack hack, calling world.TgsChatChannelInfo() will try to delay until the channels come back
-		var/datum/tgs_api/v5/api = TGS_READ_GLOBAL(tgs)
-		if(length(api.chat_channels))
-			FailTest("Expected no chat channels after detach!")
+		DelayCheckDetach()
 
 	world.TgsChatBroadcast(new /datum/tgs_message_content("Recieved event: `[json_encode(args)]`"))
+
+/proc/DelayCheckDetach()
+	sleep(1)
+	// hack hack, calling world.TgsChatChannelInfo() will try to delay until the channels come back
+	var/datum/tgs_api/v5/api = TGS_READ_GLOBAL(tgs)
+	if(length(api.chat_channels))
+		FailTest("Expected no chat channels after detach!")
 
 /world/Export(url)
 	if(length(url) < 1000)
@@ -283,7 +287,7 @@ var/suppress_bridge_spam = FALSE
 	// so now we can only test that the limit is valid
 	// It's fine, chunking will handle the rest
 	var/payload_size = limit - length(base_bridge_request)
-		
+
 	var/payload = create_payload(payload_size)
 	var/bridge_request = api.CreateBridgeRequest(0, list("chatMessage" = list("text" = "payload:[payload]")))
 
