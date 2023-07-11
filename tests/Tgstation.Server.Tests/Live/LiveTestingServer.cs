@@ -161,7 +161,9 @@ namespace Tgstation.Server.Tests.Live
 			UpdatePath = Path.Combine(Directory, Guid.NewGuid().ToString());
 		}
 
-		public void Dispose() => Cleanup(Directory).GetAwaiter().GetResult();
+		public void Dispose()
+		{
+		}
 
 		public void UpdateSwarmArguments(SwarmConfiguration swarmConfiguration)
 		{
