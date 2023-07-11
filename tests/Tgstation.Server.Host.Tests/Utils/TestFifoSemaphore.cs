@@ -24,6 +24,7 @@ namespace Tgstation.Server.Host.Utils.Tests
 
 			var orderTotal = 0;
 			var orderActual = 0;
+			var entryCount = 0;
 
 			async Task LockAndUnlock(int? expectedOrder)
 			{
@@ -31,7 +32,9 @@ namespace Tgstation.Server.Host.Utils.Tests
 				{
 					using (await semaphore.Lock(expectedOrder.HasValue ? CancellationToken.None : cts.Token))
 					{
+						Assert.AreEqual(1, Interlocked.Increment(ref entryCount));
 						await tcs.Task;
+						Assert.AreEqual(0, Interlocked.Decrement(ref entryCount));
 						Assert.AreEqual(expectedOrder.Value, ++orderActual);
 					}
 				}
