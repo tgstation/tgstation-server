@@ -5,6 +5,7 @@
 	return response
 
 /datum/tgs_api/v5/proc/ProcessTopicJson(json, check_access_identifier)
+	TGS_DEBUG_LOG("ProcessTopicJson(..., [check_access_identifier])")
 	var/list/result = ProcessRawTopic(json, check_access_identifier)
 	if(!result)
 		result = TopicResponse("Runtime error!")
@@ -25,16 +26,20 @@
 	return response_json
 
 /datum/tgs_api/v5/proc/ProcessRawTopic(json, check_access_identifier)
+	TGS_DEBUG_LOG("ProcessRawTopic(..., [check_access_identifier])")
 	var/list/topic_parameters = json_decode(json)
 	if(!topic_parameters)
+		TGS_DEBUG_LOG("ProcessRawTopic: json_decode failed")
 		return TopicResponse("Invalid topic parameters json: [json]!");
 
 	var/their_sCK = topic_parameters[DMAPI5_PARAMETER_ACCESS_IDENTIFIER]
 	if(check_access_identifier && their_sCK != access_identifier)
-		return TopicResponse("Failed to decode [DMAPI5_PARAMETER_ACCESS_IDENTIFIER]!")
+		TGS_DEBUG_LOG("ProcessRawTopic: access identifier check failed")
+		return TopicResponse("Failed to decode [DMAPI5_PARAMETER_ACCESS_IDENTIFIER] or it does not match!")
 
 	var/command = topic_parameters[DMAPI5_TOPIC_PARAMETER_COMMAND_TYPE]
 	if(!isnum(command))
+		TGS_DEBUG_LOG("ProcessRawTopic: command type check failed")
 		return TopicResponse("Failed to decode [DMAPI5_TOPIC_PARAMETER_COMMAND_TYPE]!")
 
 	return ProcessTopicCommand(command, topic_parameters)
@@ -43,6 +48,7 @@
 	return "response[payload_id]"
 
 /datum/tgs_api/v5/proc/ProcessTopicCommand(command, list/topic_parameters)
+	TGS_DEBUG_LOG("ProcessTopicCommand([command], ...)")
 	switch(command)
 
 		if(DMAPI5_TOPIC_COMMAND_CHAT_COMMAND)
@@ -121,8 +127,10 @@
 			return TopicResponse()
 
 		if(DMAPI5_TOPIC_COMMAND_CHAT_CHANNELS_UPDATE)
+			TGS_DEBUG_LOG("ProcessTopicCommand: It's a chat update")
 			var/list/chat_update_json = topic_parameters[DMAPI5_TOPIC_PARAMETER_CHAT_UPDATE]
 			if(!istype(chat_update_json))
+				TGS_DEBUG_LOG("ProcessTopicCommand: failed \"[DMAPI5_TOPIC_PARAMETER_CHAT_UPDATE]\" check")
 				return TopicResponse("Invalid or missing [DMAPI5_TOPIC_PARAMETER_CHAT_UPDATE]!")
 
 			DecodeChannels(chat_update_json)

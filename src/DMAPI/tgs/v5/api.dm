@@ -22,12 +22,17 @@
 
 	var/detached = FALSE
 
+/datum/tgs_api/v5/New()
+	. = ..()
+	TGS_DEBUG_LOG("V5 API created")
+
 /datum/tgs_api/v5/ApiVersion()
 	return new /datum/tgs_version(
 		#include "__interop_version.dm"
 	)
 
 /datum/tgs_api/v5/OnWorldNew(minimum_required_security_level)
+	TGS_DEBUG_LOG("OnWorldNew()")
 	server_port = world.params[DMAPI5_PARAM_SERVER_PORT]
 	access_identifier = world.params[DMAPI5_PARAM_ACCESS_IDENTIFIER]
 
@@ -96,17 +101,28 @@
 	return TRUE
 
 /datum/tgs_api/v5/proc/RequireInitialBridgeResponse()
+	TGS_DEBUG_LOG("RequireInitialBridgeResponse()")
+	var/logged = FALSE
 	while(!version)
+		if(!logged)
+			TGS_DEBUG_LOG("RequireInitialBridgeResponse: Starting sleep")
+			logged = TRUE
+
 		sleep(1)
+
+	TGS_DEBUG_LOG("RequireInitialBridgeResponse: Passed")
 
 /datum/tgs_api/v5/OnInitializationComplete()
 	Bridge(DMAPI5_BRIDGE_COMMAND_PRIME)
 
 /datum/tgs_api/v5/OnTopic(T)
+	TGS_DEBUG_LOG("OnTopic()")
 	RequireInitialBridgeResponse()
+	TGS_DEBUG_LOG("OnTopic passed bridge request gate")
 	var/list/params = params2list(T)
 	var/json = params[DMAPI5_TOPIC_DATA]
 	if(!json)
+		TGS_DEBUG_LOG("No \"[DMAPI5_TOPIC_DATA]\" entry found, ignoring...")
 		return FALSE // continue to /world/Topic
 
 	if(!initialized)
@@ -211,6 +227,7 @@
 	return chat_channels.Copy()
 
 /datum/tgs_api/v5/proc/DecodeChannels(chat_update_json)
+	TGS_DEBUG_LOG("DecodeChannels()")
 	var/list/chat_channels_json = chat_update_json[DMAPI5_CHAT_UPDATE_CHANNELS]
 	if(istype(chat_channels_json))
 		chat_channels.Cut()
