@@ -68,6 +68,7 @@ var/run_bridge_test
 /world/proc/HandleTopic(T)
 	TGS_TOPIC
 
+	log << "Custom topic: [T]"
 	var/list/data = params2list(T)
 	var/special_tactics = data["tgs_integration_test_special_tactics"]
 	if(special_tactics)
