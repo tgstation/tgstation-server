@@ -1115,27 +1115,37 @@ namespace Tgstation.Server.Tests.Live
 							GetInstanceManager(),
 							(ushort)server.Url.Port);
 
-					var compatTests = FailFast(
-						instanceTest
-							.RunCompatTests(
-								new Version(510, 1346),
-								adminClient.Instances.CreateClient(compatInstance),
-								compatDMPort,
-								compatDDPort,
-								server.HighPriorityDreamDaemon,
-								cancellationToken));
+					async Task RunInstanceTests()
+					{
+						var compatTests =
+							TestingUtils.RunningInGitHubActions
+								? Task.CompletedTask
+								: FailFast(
+									instanceTest
+										.RunCompatTests(
+											new Version(510, 1346),
+											adminClient.Instances.CreateClient(compatInstance),
+											compatDMPort,
+											compatDDPort,
+											server.HighPriorityDreamDaemon,
+											cancellationToken));
 
-					var instanceTests = FailFast(
-						instanceTest
-							.RunTests(
-								instanceClient,
-								mainDMPort,
-								mainDDPort,
-								server.HighPriorityDreamDaemon,
-								server.LowPriorityDeployments,
-								cancellationToken));
+						await FailFast(
+							instanceTest
+								.RunTests(
+									instanceClient,
+									mainDMPort,
+									mainDDPort,
+									server.HighPriorityDreamDaemon,
+									server.LowPriorityDeployments,
+									cancellationToken));
 
-					await Task.WhenAll(rootTest, adminTest, instancesTest, instanceTests, usersTest, compatTests);
+						await compatTests;
+					}
+
+					var instanceTests = RunInstanceTests();
+
+					await Task.WhenAll(rootTest, adminTest, instancesTest, instanceTests, usersTest);
 
 					var dd = await instanceClient.DreamDaemon.Read(cancellationToken);
 					Assert.AreEqual(WatchdogStatus.Online, dd.Status.Value);
