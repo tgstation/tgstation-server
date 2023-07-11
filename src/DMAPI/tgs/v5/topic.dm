@@ -89,6 +89,8 @@
 				detached = TRUE
 				chat_channels.Cut() // https://github.com/tgstation/tgstation-server/issues/1490
 
+			return
+
 		if(DMAPI5_TOPIC_COMMAND_CHANGE_PORT)
 			var/new_port = topic_parameters[DMAPI5_TOPIC_PARAMETER_NEW_PORT]
 			if (!isnum(new_port) || !(new_port > 0))
