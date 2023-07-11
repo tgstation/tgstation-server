@@ -995,10 +995,15 @@ namespace Tgstation.Server.Host.Components.Session
 					{
 						firstSend = false;
 						if (!killedOrRebootedTask.IsCompleted)
+						{
+							Logger.LogTrace("Begin topic request");
 							byondResponse = await byondTopicSender.SendTopic(
 								endpoint,
 								queryString,
 								cancellationToken);
+
+							Logger.LogTrace("End topic request");
+						}
 
 						break;
 					}
