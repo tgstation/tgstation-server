@@ -161,6 +161,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			}
 
 			await chatRequest;
+			await Task.Yield();
 
 			var jobs = await instanceClient.Jobs.List(null, cancellationToken);
 			var theJobWeWant = jobs.First(x => x.Description.Contains("Reconnect chat bot"));
