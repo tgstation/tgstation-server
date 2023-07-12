@@ -194,9 +194,10 @@ var/received_health_check = FALSE
 		FailTest("Expected no chat channels after detach!")
 
 /world/Export(url)
-	if(length(url) < 1000)
-		log << "Export: [url]"
-	return ..()
+	var/redact = length(url) > 1000
+	log << "Export: [redact ? "<REDACTED>" : url]"
+	. = ..()
+	log << "Export completed: [redact ? "<REDACTED>" : json_encode(.)]"
 
 /proc/RebootAsync()
 	set waitfor = FALSE
