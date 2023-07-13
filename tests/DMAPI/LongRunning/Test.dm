@@ -207,7 +207,6 @@ var/received_health_check = FALSE
 	world.log << "Done sleep, calling Reboot"
 	world.Reboot()
 
-
 /datum/tgs_chat_command/embeds_test
 	name = "embeds_test"
 	help_text = "dumps an embed"
