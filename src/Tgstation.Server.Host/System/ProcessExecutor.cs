@@ -201,6 +201,9 @@ namespace Tgstation.Server.Host.System
 			bool outputOpen = true, errorOpen = true;
 			async Task<string> GetNextLine()
 			{
+#if NET7_0_OR_GREATER
+#error ReadLineAsync supports cancellation now
+#endif
 				if (outputOpen && outputReadTask == null)
 					outputReadTask = stdOutHandle.ReadLineAsync();
 
