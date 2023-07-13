@@ -1120,7 +1120,10 @@ namespace Tgstation.Server.Tests.Live
 						var compatTests = FailFast(
 							instanceTest
 								.RunCompatTests(
-									new Version(510, 1346),
+									// linux 510 has a critical bug where replacing the directory in non-basic watchdogs causes the DreamDaemon cwd to change
+									new PlatformIdentifier().IsWindows || Environment.GetEnvironmentVariable("General__UseBasicWatchdog") == "true"
+										? new Version(510, 1346)
+										: new Version(511, 1385),
 									adminClient.Instances.CreateClient(compatInstance),
 									compatDMPort,
 									compatDDPort,
