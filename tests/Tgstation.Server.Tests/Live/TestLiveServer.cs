@@ -1117,18 +1117,18 @@ namespace Tgstation.Server.Tests.Live
 
 					async Task RunInstanceTests()
 					{
-						var compatTests =
-							TestingUtils.RunningInGitHubActions
-								? Task.CompletedTask
-								: FailFast(
-									instanceTest
-										.RunCompatTests(
-											new Version(510, 1346),
-											adminClient.Instances.CreateClient(compatInstance),
-											compatDMPort,
-											compatDDPort,
-											server.HighPriorityDreamDaemon,
-											cancellationToken));
+						var compatTests = FailFast(
+							instanceTest
+								.RunCompatTests(
+									new Version(510, 1346),
+									adminClient.Instances.CreateClient(compatInstance),
+									compatDMPort,
+									compatDDPort,
+									server.HighPriorityDreamDaemon,
+									cancellationToken));
+
+						if (TestingUtils.RunningInGitHubActions) // they only have 2 cores, can't handle intense parallelization
+							await compatTests;
 
 						await FailFast(
 							instanceTest
