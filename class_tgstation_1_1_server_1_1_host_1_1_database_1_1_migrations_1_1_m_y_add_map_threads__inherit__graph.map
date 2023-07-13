@@ -1,0 +1,4 @@
+<map id="Tgstation.Server.Host.Database.Migrations.MYAddMapThreads" name="Tgstation.Server.Host.Database.Migrations.MYAddMapThreads">
+<area shape="rect" id="node1" title="Adds the MapThreads DreamDaemonSettings column for MYSQL." alt="" coords="5,79,215,119"/>
+<area shape="rect" id="node2" href="$class_migration.html" title=" " alt="" coords="73,5,147,31"/>
+</map>

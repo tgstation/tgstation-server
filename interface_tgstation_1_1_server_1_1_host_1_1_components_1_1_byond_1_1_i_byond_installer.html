@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.12.7</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.13.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -99,9 +99,9 @@ Inheritance diagram for Tgstation.Server.Host.Components.Byond.IByondInstaller:<
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a7e9a30e879ff0826f2fc07942cfa5499"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_i_byond_installer.html#a7e9a30e879ff0826f2fc07942cfa5499">GetDreamDaemonName</a> (Version version, out bool supportsCli)</td></tr>
-<tr class="memdesc:a7e9a30e879ff0826f2fc07942cfa5499"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the file name of the DreamDaemon executable.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_i_byond_installer.html#a7e9a30e879ff0826f2fc07942cfa5499">More...</a><br /></td></tr>
-<tr class="separator:a7e9a30e879ff0826f2fc07942cfa5499"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac4a4e484d580ed6af029a30805f64b2d"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_i_byond_installer.html#ac4a4e484d580ed6af029a30805f64b2d">GetDreamDaemonName</a> (Version version, out bool supportsCli, out bool supportsMapThreads)</td></tr>
+<tr class="memdesc:ac4a4e484d580ed6af029a30805f64b2d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the file name of the DreamDaemon executable.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_i_byond_installer.html#ac4a4e484d580ed6af029a30805f64b2d">More...</a><br /></td></tr>
+<tr class="separator:ac4a4e484d580ed6af029a30805f64b2d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3dece46e4e2a217266248a534ae33089"><td class="memItemLeft" align="right" valign="top">Task&lt; MemoryStream &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_i_byond_installer.html#a3dece46e4e2a217266248a534ae33089">DownloadVersion</a> (Version version, CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:a3dece46e4e2a217266248a534ae33089"><td class="mdescLeft">&#160;</td><td class="mdescRight">Download a given BYOND <em>version</em> .   <a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_i_byond_installer.html#a3dece46e4e2a217266248a534ae33089">More...</a><br /></td></tr>
 <tr class="separator:a3dece46e4e2a217266248a534ae33089"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -223,8 +223,8 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a id="a7e9a30e879ff0826f2fc07942cfa5499" name="a7e9a30e879ff0826f2fc07942cfa5499"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7e9a30e879ff0826f2fc07942cfa5499">&#9670;&#160;</a></span>GetDreamDaemonName()</h2>
+<a id="ac4a4e484d580ed6af029a30805f64b2d" name="ac4a4e484d580ed6af029a30805f64b2d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac4a4e484d580ed6af029a30805f64b2d">&#9670;&#160;</a></span>GetDreamDaemonName()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -239,7 +239,13 @@ Here is the caller graph for this function:</div>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">out bool&#160;</td>
-          <td class="paramname"><em>supportsCli</em>&#160;</td>
+          <td class="paramname"><em>supportsCli</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">out bool&#160;</td>
+          <td class="paramname"><em>supportsMapThreads</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -254,19 +260,20 @@ Here is the caller graph for this function:</div>
   <table class="params">
     <tr><td class="paramname">version</td><td>The Version of BYOND to select the executable name for.</td></tr>
     <tr><td class="paramname">supportsCli</td><td>Whether or not the returned path supports being run as a command-line application.</td></tr>
+    <tr><td class="paramname">supportsMapThreads</td><td>Whether or not the returned path supports the '-map-threads' parameter.</td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The file name of the DreamDaemon executable.</dd></dl>
 
-<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_installer_base.html#a4c5b9e84a3d1d73d8d880e960b3d4e14">Tgstation.Server.Host.Components.Byond.ByondInstallerBase</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_posix_byond_installer.html#af311dcfd47bef54a4fe017181b97bb3c">Tgstation.Server.Host.Components.Byond.PosixByondInstaller</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_windows_byond_installer.html#a5095aa1963a182efdde5d698e13acab2">Tgstation.Server.Host.Components.Byond.WindowsByondInstaller</a>.</p>
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_installer_base.html#a1c2916c6739bb61a4ceb019243f13d70">Tgstation.Server.Host.Components.Byond.ByondInstallerBase</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_posix_byond_installer.html#aba25a6e96c08c7e0b198e349cbf89f6d">Tgstation.Server.Host.Components.Byond.PosixByondInstaller</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_windows_byond_installer.html#adcbd3d4078c928688df7b79f04a721bf">Tgstation.Server.Host.Components.Byond.WindowsByondInstaller</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="_byond_manager_8cs_source.html#l00588">Tgstation.Server.Host.Components.Byond.ByondManager.AddInstallationContainer()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_i_byond_installer_a7e9a30e879ff0826f2fc07942cfa5499_icgraph.png" border="0" usemap="#ainterface_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_i_byond_installer_a7e9a30e879ff0826f2fc07942cfa5499_icgraph" alt=""/></div>
-<map name="ainterface_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_i_byond_installer_a7e9a30e879ff0826f2fc07942cfa5499_icgraph" id="ainterface_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_i_byond_installer_a7e9a30e879ff0826f2fc07942cfa5499_icgraph">
+<div class="center"><img src="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_i_byond_installer_ac4a4e484d580ed6af029a30805f64b2d_icgraph.png" border="0" usemap="#ainterface_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_i_byond_installer_ac4a4e484d580ed6af029a30805f64b2d_icgraph" alt=""/></div>
+<map name="ainterface_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_i_byond_installer_ac4a4e484d580ed6af029a30805f64b2d_icgraph" id="ainterface_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_i_byond_installer_ac4a4e484d580ed6af029a30805f64b2d_icgraph">
 <area shape="rect" title="Get the file name of the DreamDaemon executable." alt="" coords="968,101,1260,141"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_manager.html#aeb01317eb683e30e89e853ce26cf6cc4" title="Create and add a new ByondInstallation to installedVersions." alt="" coords="629,101,920,141"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_manager.html#a00f2e0f1ad897e7cb7f9e869d05691f6" title="Ensures a BYOND version &#160;is installed if it isn&#39;t already." alt="" coords="297,69,581,109"/>
@@ -458,7 +465,7 @@ Here is the caller graph for this function:</div>
 <p class="definition">Definition at line <a class="el" href="_i_byond_installer_8cs_source.html#l00021">21</a> of file <a class="el" href="_i_byond_installer_8cs_source.html">IByondInstaller.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   21</span>{ <span class="keyword">get</span>; }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_byond_manager_8cs_source.html#l00294">Tgstation.Server.Host.Components.Byond.ByondManager.StartAsync()</a>, and <a class="el" href="_byond_manager_8cs_source.html#l00618">Tgstation.Server.Host.Components.Byond.ByondManager.TrustDmbPath()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_byond_manager_8cs_source.html#l00294">Tgstation.Server.Host.Components.Byond.ByondManager.StartAsync()</a>, and <a class="el" href="_byond_manager_8cs_source.html#l00622">Tgstation.Server.Host.Components.Byond.ByondManager.TrustDmbPath()</a>.</p>
 
 </div>
 </div>

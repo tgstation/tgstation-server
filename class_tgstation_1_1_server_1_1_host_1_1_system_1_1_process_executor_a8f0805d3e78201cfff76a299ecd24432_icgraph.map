@@ -1,4 +1,0 @@
-<map id="Tgstation.Server.Host.System.ProcessExecutor.AttachExitHandlerBeforeLaunch" name="Tgstation.Server.Host.System.ProcessExecutor.AttachExitHandlerBeforeLaunch">
-<area shape="rect" id="node1" title="Wrapper for AttachExitHandler(global::System.Diagnostics.Process, Func&lt;int&gt;) to safely provide the pr..." alt="" coords="268,5,495,60"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#ad7d22bf621f10ecdcfbc54a83349980b" title="Launch a IProcess. A Task resulting in the new IProcess." alt="" coords="5,13,220,53"/>
-</map>

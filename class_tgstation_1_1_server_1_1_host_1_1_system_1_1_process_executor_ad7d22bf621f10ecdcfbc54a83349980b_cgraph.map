@@ -1,7 +1,0 @@
-<map id="Tgstation.Server.Host.System.ProcessExecutor.LaunchProcess" name="Tgstation.Server.Host.System.ProcessExecutor.LaunchProcess">
-<area shape="rect" id="node1" title="Launch a IProcess. A Task resulting in the new IProcess." alt="" coords="5,49,220,89"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#a8f0805d3e78201cfff76a299ecd24432" title="Wrapper for AttachExitHandler(global::System.Diagnostics.Process, Func&lt;int&gt;) to safely provide the pr..." alt="" coords="268,5,495,60"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#a5922088172f7f06623d4b09680fe8cdb" title="Consume the stdout/stderr streams into a Task." alt="" coords="268,85,495,125"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#a00f347706a8767c2ae974f6f3a9f0c7a" title="Attach an asychronous exit handler to a given process handle ." alt="" coords="543,13,770,53"/>
-<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a98d1ad47e4ba1c1f7407f5dd50a81de8" title="Creates an asynchronous FileStream for sequential writing." alt="" coords="543,77,771,132"/>
-</map>

@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.12.7</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.13.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -724,38 +724,38 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">  410</span>                <span class="keyword">using</span> (cancellationToken.Register(() =&gt; nickCheckCompleteTcs.TrySetCanceled(cancellationToken)))</div>
 <div class="line"><span class="lineno">  411</span>                {</div>
 <div class="line"><span class="lineno">  412</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_irc_provider.html#a4973331fd7986b7f14ec00426b474253">listenTask</a> = Task.Factory.StartNew(</div>
-<div class="line"><span class="lineno">  413</span>                    async () =&gt;</div>
-<div class="line"><span class="lineno">  414</span>                    {</div>
-<div class="line"><span class="lineno">  415</span>                        <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#ab24337ff80dfef1a9657f7106758a8c3">Logger</a>.LogTrace(<span class="stringliteral">&quot;Entering nick check loop&quot;</span>);</div>
-<div class="line"><span class="lineno">  416</span>                        <span class="keywordflow">while</span> (!<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_irc_provider.html#a86767ec9cfd43611d9d5e00cad58197e">disconnecting</a> &amp;&amp; <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_irc_provider.html#a01ba0df08b2b2139b417352c28cabc2f">client</a>.IsConnected &amp;&amp; <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_irc_provider.html#a01ba0df08b2b2139b417352c28cabc2f">client</a>.Nickname != <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_irc_provider.html#a75457eda73c1935c8784dc7fadf9e0ba">nickname</a>)</div>
-<div class="line"><span class="lineno">  417</span>                        {</div>
-<div class="line"><span class="lineno">  418</span>                            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_irc_provider.html#a01ba0df08b2b2139b417352c28cabc2f">client</a>.ListenOnce(<span class="keyword">true</span>);</div>
-<div class="line"><span class="lineno">  419</span>                            <span class="keywordflow">if</span> (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_irc_provider.html#a86767ec9cfd43611d9d5e00cad58197e">disconnecting</a> || !<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_irc_provider.html#a01ba0df08b2b2139b417352c28cabc2f">client</a>.IsConnected)</div>
-<div class="line"><span class="lineno">  420</span>                                <span class="keywordflow">break</span>;</div>
-<div class="line"><span class="lineno">  421</span>                            await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_irc_provider.html#af74b65e6c05dba2490bb2fb62bdb7f40">NonBlockingListen</a>(cancellationToken);</div>
+<div class="line"><span class="lineno">  413</span>                        async () =&gt;</div>
+<div class="line"><span class="lineno">  414</span>                        {</div>
+<div class="line"><span class="lineno">  415</span>                            <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#ab24337ff80dfef1a9657f7106758a8c3">Logger</a>.LogTrace(<span class="stringliteral">&quot;Entering nick check loop&quot;</span>);</div>
+<div class="line"><span class="lineno">  416</span>                            <span class="keywordflow">while</span> (!<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_irc_provider.html#a86767ec9cfd43611d9d5e00cad58197e">disconnecting</a> &amp;&amp; <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_irc_provider.html#a01ba0df08b2b2139b417352c28cabc2f">client</a>.IsConnected &amp;&amp; <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_irc_provider.html#a01ba0df08b2b2139b417352c28cabc2f">client</a>.Nickname != <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_irc_provider.html#a75457eda73c1935c8784dc7fadf9e0ba">nickname</a>)</div>
+<div class="line"><span class="lineno">  417</span>                            {</div>
+<div class="line"><span class="lineno">  418</span>                                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_irc_provider.html#a01ba0df08b2b2139b417352c28cabc2f">client</a>.ListenOnce(<span class="keyword">true</span>);</div>
+<div class="line"><span class="lineno">  419</span>                                <span class="keywordflow">if</span> (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_irc_provider.html#a86767ec9cfd43611d9d5e00cad58197e">disconnecting</a> || !<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_irc_provider.html#a01ba0df08b2b2139b417352c28cabc2f">client</a>.IsConnected)</div>
+<div class="line"><span class="lineno">  420</span>                                    <span class="keywordflow">break</span>;</div>
+<div class="line"><span class="lineno">  421</span>                                await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_irc_provider.html#af74b65e6c05dba2490bb2fb62bdb7f40">NonBlockingListen</a>(cancellationToken);</div>
 <div class="line"><span class="lineno">  422</span> </div>
-<div class="line"><span class="lineno">  423</span>                            <span class="comment">// ensure we have the correct nick</span></div>
-<div class="line"><span class="lineno">  424</span>                            <span class="keywordflow">if</span> (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_irc_provider.html#a01ba0df08b2b2139b417352c28cabc2f">client</a>.GetIrcUser(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_irc_provider.html#a75457eda73c1935c8784dc7fadf9e0ba">nickname</a>) == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">  425</span>                                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_irc_provider.html#a01ba0df08b2b2139b417352c28cabc2f">client</a>.RfcNick(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_irc_provider.html#a75457eda73c1935c8784dc7fadf9e0ba">nickname</a>);</div>
-<div class="line"><span class="lineno">  426</span>                        }</div>
+<div class="line"><span class="lineno">  423</span>                                <span class="comment">// ensure we have the correct nick</span></div>
+<div class="line"><span class="lineno">  424</span>                                <span class="keywordflow">if</span> (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_irc_provider.html#a01ba0df08b2b2139b417352c28cabc2f">client</a>.GetIrcUser(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_irc_provider.html#a75457eda73c1935c8784dc7fadf9e0ba">nickname</a>) == <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">  425</span>                                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_irc_provider.html#a01ba0df08b2b2139b417352c28cabc2f">client</a>.RfcNick(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_irc_provider.html#a75457eda73c1935c8784dc7fadf9e0ba">nickname</a>);</div>
+<div class="line"><span class="lineno">  426</span>                            }</div>
 <div class="line"><span class="lineno">  427</span> </div>
-<div class="line"><span class="lineno">  428</span>                        nickCheckCompleteTcs.TrySetResult();</div>
+<div class="line"><span class="lineno">  428</span>                            nickCheckCompleteTcs.TrySetResult();</div>
 <div class="line"><span class="lineno">  429</span> </div>
-<div class="line"><span class="lineno">  430</span>                        <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#ab24337ff80dfef1a9657f7106758a8c3">Logger</a>.LogTrace(<span class="stringliteral">&quot;Starting blocking listen...&quot;</span>);</div>
-<div class="line"><span class="lineno">  431</span>                        <span class="keywordflow">try</span></div>
-<div class="line"><span class="lineno">  432</span>                        {</div>
-<div class="line"><span class="lineno">  433</span>                            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_irc_provider.html#a01ba0df08b2b2139b417352c28cabc2f">client</a>.Listen();</div>
-<div class="line"><span class="lineno">  434</span>                        }</div>
-<div class="line"><span class="lineno">  435</span>                        <span class="keywordflow">catch</span> (Exception ex)</div>
-<div class="line"><span class="lineno">  436</span>                        {</div>
-<div class="line"><span class="lineno">  437</span>                            <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#ab24337ff80dfef1a9657f7106758a8c3">Logger</a>.LogWarning(ex, <span class="stringliteral">&quot;IRC Main Listen Exception!&quot;</span>);</div>
-<div class="line"><span class="lineno">  438</span>                        }</div>
+<div class="line"><span class="lineno">  430</span>                            <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#ab24337ff80dfef1a9657f7106758a8c3">Logger</a>.LogTrace(<span class="stringliteral">&quot;Starting blocking listen...&quot;</span>);</div>
+<div class="line"><span class="lineno">  431</span>                            <span class="keywordflow">try</span></div>
+<div class="line"><span class="lineno">  432</span>                            {</div>
+<div class="line"><span class="lineno">  433</span>                                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_irc_provider.html#a01ba0df08b2b2139b417352c28cabc2f">client</a>.Listen();</div>
+<div class="line"><span class="lineno">  434</span>                            }</div>
+<div class="line"><span class="lineno">  435</span>                            <span class="keywordflow">catch</span> (Exception ex)</div>
+<div class="line"><span class="lineno">  436</span>                            {</div>
+<div class="line"><span class="lineno">  437</span>                                <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#ab24337ff80dfef1a9657f7106758a8c3">Logger</a>.LogWarning(ex, <span class="stringliteral">&quot;IRC Main Listen Exception!&quot;</span>);</div>
+<div class="line"><span class="lineno">  438</span>                            }</div>
 <div class="line"><span class="lineno">  439</span> </div>
-<div class="line"><span class="lineno">  440</span>                        <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#ab24337ff80dfef1a9657f7106758a8c3">Logger</a>.LogTrace(<span class="stringliteral">&quot;Exiting listening task...&quot;</span>);</div>
-<div class="line"><span class="lineno">  441</span>                    },</div>
-<div class="line"><span class="lineno">  442</span>                    cancellationToken,</div>
-<div class="line"><span class="lineno">  443</span>                    <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html">DefaultIOManager</a>.<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#ac6dfeef4e622bb46047169215099995d">BlockingTaskCreationOptions</a>,</div>
-<div class="line"><span class="lineno">  444</span>                    TaskScheduler.Current);</div>
+<div class="line"><span class="lineno">  440</span>                            <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#ab24337ff80dfef1a9657f7106758a8c3">Logger</a>.LogTrace(<span class="stringliteral">&quot;Exiting listening task...&quot;</span>);</div>
+<div class="line"><span class="lineno">  441</span>                        },</div>
+<div class="line"><span class="lineno">  442</span>                        cancellationToken,</div>
+<div class="line"><span class="lineno">  443</span>                        <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html">DefaultIOManager</a>.<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#ac6dfeef4e622bb46047169215099995d">BlockingTaskCreationOptions</a>,</div>
+<div class="line"><span class="lineno">  444</span>                        TaskScheduler.Current);</div>
 <div class="line"><span class="lineno">  445</span> </div>
 <div class="line"><span class="lineno">  446</span>                    await nickCheckCompleteTcs.Task;</div>
 <div class="line"><span class="lineno">  447</span>                }</div>

@@ -1,4 +1,7 @@
 <map id="Tgstation.Server.Host.Components.Session.SessionController.DisposeAsync" name="Tgstation.Server.Host.Components.Session.SessionController.DisposeAsync">
-<area shape="rect" id="node1" title=" " alt="" coords="5,5,265,45"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process.html#a840da56ea51a4bbbc6b21667cc6355a2" title="Asycnhronously terminates the process." alt="" coords="313,5,512,45"/>
+<area shape="rect" id="node1" title=" " alt="" coords="5,69,265,109"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_fifo_semaphore.html#ae9f2a2d2df537323f83f50cd79185016" title=" " alt="" coords="322,5,503,45"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_fifo_semaphore.html#a226f5619ff7d884e2c8df1505548c04d" title="Locks the FifoSemaphore." alt="" coords="322,69,503,109"/>
+<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process.html#a840da56ea51a4bbbc6b21667cc6355a2" title="Asycnhronously terminates the process." alt="" coords="313,133,512,173"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html#a29773d588476671bbe480f096d839c91" title="Asyncronously locks a semaphore ." alt="" coords="560,69,751,109"/>
 </map>

@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.12.7</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.13.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -435,25 +435,25 @@ Private Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_database_context_8cs_source.html#l00258">258</a> of file <a class="el" href="_database_context_8cs_source.html">DatabaseContext.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  259</span>            : base(dbContextOptions)</div>
-<div class="line"><span class="lineno">  260</span>        {</div>
-<div class="line"><span class="lineno">  261</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#a6ce29a522553d19841a4dd07fcc1a545">usersCollection</a> = <span class="keyword">new</span> DatabaseCollection&lt;User&gt;(<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#ad1c33807b7a75d05d0004e024416e17f">Users</a>);</div>
-<div class="line"><span class="lineno">  262</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#a8d1d446a81c900d40cf03e43ae09447f">instancesCollection</a> = <span class="keyword">new</span> DatabaseCollection&lt;Instance&gt;(<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#a1bc257ebf1d31bfba7f665d61da5c4a2">Instances</a>);</div>
-<div class="line"><span class="lineno">  263</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#ab7b0b93e71e5c0abfeb3b02f0b4a213d">instancePermissionSetsCollection</a> = <span class="keyword">new</span> DatabaseCollection&lt;InstancePermissionSet&gt;(<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#a901489c5ed1c32ef2c745ecd93440892">InstancePermissionSets</a>);</div>
-<div class="line"><span class="lineno">  264</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#ac8e8b25dfc7e50721f457a5cdbe5f1c5">compileJobsCollection</a> = <span class="keyword">new</span> DatabaseCollection&lt;CompileJob&gt;(<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#aa72d8f36af92d91080acf1af4d971420">CompileJobs</a>);</div>
-<div class="line"><span class="lineno">  265</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#a64da1a0898e301c7c64c720588927793">repositorySettingsCollection</a> = <span class="keyword">new</span> DatabaseCollection&lt;RepositorySettings&gt;(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_repository_settings.html">RepositorySettings</a>);</div>
-<div class="line"><span class="lineno">  266</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#a333d57bfa4adf560b11b6df69c110be9">dreamMakerSettingsCollection</a> = <span class="keyword">new</span> DatabaseCollection&lt;DreamMakerSettings&gt;(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_dream_maker_settings.html">DreamMakerSettings</a>);</div>
-<div class="line"><span class="lineno">  267</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#a8b4bad8f9cad725b02e88b98fef96e7a">dreamDaemonSettingsCollection</a> = <span class="keyword">new</span> DatabaseCollection&lt;DreamDaemonSettings&gt;(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_dream_daemon_settings.html">DreamDaemonSettings</a>);</div>
-<div class="line"><span class="lineno">  268</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#ac6ec4fcf56661fc47e9d2abe9322924b">chatBotsCollection</a> = <span class="keyword">new</span> DatabaseCollection&lt;ChatBot&gt;(<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#ad4cf2228c8dae3c2641251070fee76af">ChatBots</a>);</div>
-<div class="line"><span class="lineno">  269</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#aa0c86a05a421da7e93e6a628d8332376">chatChannelsCollection</a> = <span class="keyword">new</span> DatabaseCollection&lt;ChatChannel&gt;(<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#a78702d5654098ab15997e27830ee3700">ChatChannels</a>);</div>
-<div class="line"><span class="lineno">  270</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#aab44643db86309797a66d33fc4377017">revisionInformationsCollection</a> = <span class="keyword">new</span> DatabaseCollection&lt;RevisionInformation&gt;(<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#af0868b43356117d8cf252ae50c218b38">RevisionInformations</a>);</div>
-<div class="line"><span class="lineno">  271</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#a6d6f982a1c3a6966ac31b5ac2d86f3e2">jobsCollection</a> = <span class="keyword">new</span> DatabaseCollection&lt;Job&gt;(<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#a0c2b56fc85825a4e3cace2b2b1eb6f30">Jobs</a>);</div>
-<div class="line"><span class="lineno">  272</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#ac17092c829e679b90650ae05338b4914">reattachInformationsCollection</a> = <span class="keyword">new</span> DatabaseCollection&lt;ReattachInformation&gt;(<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#a013e9ece5b0c1f83eb7eb891a8e09489">ReattachInformations</a>);</div>
-<div class="line"><span class="lineno">  273</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#adcf25746d08875ec1de9b685f8cd7c21">oAuthConnections</a> = <span class="keyword">new</span> DatabaseCollection&lt;OAuthConnection&gt;(<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#a6bc7d3bc84fd1589137c9626095dff5b">OAuthConnections</a>);</div>
-<div class="line"><span class="lineno">  274</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#a0aaaceaa77e5a78fcc8a944faaf6a3a5">groups</a> = <span class="keyword">new</span> DatabaseCollection&lt;UserGroup&gt;(<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#afdbe72c568fb4a8578a1dc965b34c9fa">Groups</a>);</div>
-<div class="line"><span class="lineno">  275</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#ac6e6a8e1bd160d36802c1228871f3713">permissionSets</a> = <span class="keyword">new</span> DatabaseCollection&lt;PermissionSet&gt;(<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#a9fa7129139a4c4197efe5c944f4e9d76">PermissionSets</a>);</div>
-<div class="line"><span class="lineno">  276</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_database_context_8cs_source.html#l00260">260</a> of file <a class="el" href="_database_context_8cs_source.html">DatabaseContext.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  261</span>            : base(dbContextOptions)</div>
+<div class="line"><span class="lineno">  262</span>        {</div>
+<div class="line"><span class="lineno">  263</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#a6ce29a522553d19841a4dd07fcc1a545">usersCollection</a> = <span class="keyword">new</span> DatabaseCollection&lt;User&gt;(<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#ad1c33807b7a75d05d0004e024416e17f">Users</a>);</div>
+<div class="line"><span class="lineno">  264</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#a8d1d446a81c900d40cf03e43ae09447f">instancesCollection</a> = <span class="keyword">new</span> DatabaseCollection&lt;Instance&gt;(<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#a1bc257ebf1d31bfba7f665d61da5c4a2">Instances</a>);</div>
+<div class="line"><span class="lineno">  265</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#ab7b0b93e71e5c0abfeb3b02f0b4a213d">instancePermissionSetsCollection</a> = <span class="keyword">new</span> DatabaseCollection&lt;InstancePermissionSet&gt;(<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#a901489c5ed1c32ef2c745ecd93440892">InstancePermissionSets</a>);</div>
+<div class="line"><span class="lineno">  266</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#ac8e8b25dfc7e50721f457a5cdbe5f1c5">compileJobsCollection</a> = <span class="keyword">new</span> DatabaseCollection&lt;CompileJob&gt;(<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#aa72d8f36af92d91080acf1af4d971420">CompileJobs</a>);</div>
+<div class="line"><span class="lineno">  267</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#a64da1a0898e301c7c64c720588927793">repositorySettingsCollection</a> = <span class="keyword">new</span> DatabaseCollection&lt;RepositorySettings&gt;(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_repository_settings.html">RepositorySettings</a>);</div>
+<div class="line"><span class="lineno">  268</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#a333d57bfa4adf560b11b6df69c110be9">dreamMakerSettingsCollection</a> = <span class="keyword">new</span> DatabaseCollection&lt;DreamMakerSettings&gt;(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_dream_maker_settings.html">DreamMakerSettings</a>);</div>
+<div class="line"><span class="lineno">  269</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#a8b4bad8f9cad725b02e88b98fef96e7a">dreamDaemonSettingsCollection</a> = <span class="keyword">new</span> DatabaseCollection&lt;DreamDaemonSettings&gt;(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_dream_daemon_settings.html">DreamDaemonSettings</a>);</div>
+<div class="line"><span class="lineno">  270</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#ac6ec4fcf56661fc47e9d2abe9322924b">chatBotsCollection</a> = <span class="keyword">new</span> DatabaseCollection&lt;ChatBot&gt;(<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#ad4cf2228c8dae3c2641251070fee76af">ChatBots</a>);</div>
+<div class="line"><span class="lineno">  271</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#aa0c86a05a421da7e93e6a628d8332376">chatChannelsCollection</a> = <span class="keyword">new</span> DatabaseCollection&lt;ChatChannel&gt;(<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#a78702d5654098ab15997e27830ee3700">ChatChannels</a>);</div>
+<div class="line"><span class="lineno">  272</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#aab44643db86309797a66d33fc4377017">revisionInformationsCollection</a> = <span class="keyword">new</span> DatabaseCollection&lt;RevisionInformation&gt;(<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#af0868b43356117d8cf252ae50c218b38">RevisionInformations</a>);</div>
+<div class="line"><span class="lineno">  273</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#a6d6f982a1c3a6966ac31b5ac2d86f3e2">jobsCollection</a> = <span class="keyword">new</span> DatabaseCollection&lt;Job&gt;(<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#a0c2b56fc85825a4e3cace2b2b1eb6f30">Jobs</a>);</div>
+<div class="line"><span class="lineno">  274</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#ac17092c829e679b90650ae05338b4914">reattachInformationsCollection</a> = <span class="keyword">new</span> DatabaseCollection&lt;ReattachInformation&gt;(<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#a013e9ece5b0c1f83eb7eb891a8e09489">ReattachInformations</a>);</div>
+<div class="line"><span class="lineno">  275</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#adcf25746d08875ec1de9b685f8cd7c21">oAuthConnections</a> = <span class="keyword">new</span> DatabaseCollection&lt;OAuthConnection&gt;(<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#a6bc7d3bc84fd1589137c9626095dff5b">OAuthConnections</a>);</div>
+<div class="line"><span class="lineno">  276</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#a0aaaceaa77e5a78fcc8a944faaf6a3a5">groups</a> = <span class="keyword">new</span> DatabaseCollection&lt;UserGroup&gt;(<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#afdbe72c568fb4a8578a1dc965b34c9fa">Groups</a>);</div>
+<div class="line"><span class="lineno">  277</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#ac6e6a8e1bd160d36802c1228871f3713">permissionSets</a> = <span class="keyword">new</span> DatabaseCollection&lt;PermissionSet&gt;(<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#a9fa7129139a4c4197efe5c944f4e9d76">PermissionSets</a>);</div>
+<div class="line"><span class="lineno">  278</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context_html_a013e9ece5b0c1f83eb7eb891a8e09489"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#a013e9ece5b0c1f83eb7eb891a8e09489">Tgstation.Server.Host.Database.DatabaseContext.ReattachInformations</a></div><div class="ttdeci">DbSet&lt; ReattachInformation &gt; ReattachInformations</div><div class="ttdoc">The ReattachInformations in the DatabaseContext.</div><div class="ttdef"><b>Definition:</b> <a href="_database_context_8cs_source.html#l00084">DatabaseContext.cs:84</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context_html_a0aaaceaa77e5a78fcc8a944faaf6a3a5"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#a0aaaceaa77e5a78fcc8a944faaf6a3a5">Tgstation.Server.Host.Database.DatabaseContext.groups</a></div><div class="ttdeci">readonly IDatabaseCollection&lt; UserGroup &gt; groups</div><div class="ttdoc">Backing field for IDatabaseContext.Groups.</div><div class="ttdef"><b>Definition:</b> <a href="_database_context_8cs_source.html#l00229">DatabaseContext.cs:229</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context_html_a0c2b56fc85825a4e3cace2b2b1eb6f30"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#a0c2b56fc85825a4e3cace2b2b1eb6f30">Tgstation.Server.Host.Database.DatabaseContext.Jobs</a></div><div class="ttdeci">DbSet&lt; Job &gt; Jobs</div><div class="ttdoc">The Jobs in the DatabaseContext.</div><div class="ttdef"><b>Definition:</b> <a href="_database_context_8cs_source.html#l00079">DatabaseContext.cs:79</a></div></div>
@@ -566,12 +566,14 @@ Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">  245</span>            <span class="keyword">const</span> <span class="keywordtype">string</span> ConfigureMethodName = nameof(SqlServerDatabaseContext.ConfigureWith);</div>
 <div class="line"><span class="lineno">  246</span>            var configureFunction = typeof(TDatabaseContext).GetMethod(</div>
 <div class="line"><span class="lineno">  247</span>                ConfigureMethodName,</div>
-<div class="line"><span class="lineno">  248</span>                BindingFlags.Public | BindingFlags.Static)</div>
-<div class="line"><span class="lineno">  249</span>                ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> InvalidOperationException($<span class="stringliteral">&quot;Context type {typeof(TDatabaseContext).FullName} missing static {ConfigureMethodName} function!&quot;</span>);</div>
-<div class="line"><span class="lineno">  250</span> </div>
-<div class="line"><span class="lineno">  251</span>            <span class="keywordflow">return</span> (optionsBuilder, config) =&gt; configureFunction.Invoke(<span class="keyword">null</span>, <span class="keyword">new</span> <span class="keywordtype">object</span>[] { optionsBuilder, config });</div>
-<div class="line"><span class="lineno">  252</span>        }</div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context_html_a816a6a136cb720c30a89568a0d071a5b"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#a816a6a136cb720c30a89568a0d071a5b">Tgstation.Server.Host.Database.DatabaseContext.DatabaseContext</a></div><div class="ttdeci">DatabaseContext(DbContextOptions dbContextOptions)</div><div class="ttdoc">Initializes a new instance of the DatabaseContext class.</div><div class="ttdef"><b>Definition:</b> <a href="_database_context_8cs_source.html#l00258">DatabaseContext.cs:258</a></div></div>
+<div class="line"><span class="lineno">  248</span>                BindingFlags.Public | BindingFlags.Static);</div>
+<div class="line"><span class="lineno">  249</span> </div>
+<div class="line"><span class="lineno">  250</span>            <span class="keywordflow">if</span> (configureFunction == <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">  251</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> InvalidOperationException($<span class="stringliteral">&quot;Context type {typeof(TDatabaseContext).FullName} missing static {ConfigureMethodName} function!&quot;</span>);</div>
+<div class="line"><span class="lineno">  252</span> </div>
+<div class="line"><span class="lineno">  253</span>            <span class="keywordflow">return</span> (optionsBuilder, config) =&gt; configureFunction.Invoke(<span class="keyword">null</span>, <span class="keyword">new</span> <span class="keywordtype">object</span>[] { optionsBuilder, config });</div>
+<div class="line"><span class="lineno">  254</span>        }</div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context_html_a816a6a136cb720c30a89568a0d071a5b"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#a816a6a136cb720c30a89568a0d071a5b">Tgstation.Server.Host.Database.DatabaseContext.DatabaseContext</a></div><div class="ttdeci">DatabaseContext(DbContextOptions dbContextOptions)</div><div class="ttdoc">Initializes a new instance of the DatabaseContext class.</div><div class="ttdef"><b>Definition:</b> <a href="_database_context_8cs_source.html#l00260">DatabaseContext.cs:260</a></div></div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="_sql_server_database_context_8cs_source.html#l00029">Tgstation.Server.Host.Database.SqlServerDatabaseContext.ConfigureWith()</a>.</p>
 <div class="dynheader">
@@ -624,24 +626,24 @@ Here is the call graph for this function:</div>
 
 <p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context.html#aadb042fbe800c8df0057819eab6eb770">Tgstation.Server.Host.Database.IDatabaseContext</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_database_context_8cs_source.html#l00285">285</a> of file <a class="el" href="_database_context_8cs_source.html">DatabaseContext.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  286</span>        {</div>
-<div class="line"><span class="lineno">  287</span>            ArgumentNullException.ThrowIfNull(logger);</div>
-<div class="line"><span class="lineno">  288</span>            var migrations = await Database.GetAppliedMigrationsAsync(cancellationToken);</div>
-<div class="line"><span class="lineno">  289</span>            var wasEmpty = !migrations.Any();</div>
-<div class="line"><span class="lineno">  290</span> </div>
-<div class="line"><span class="lineno">  291</span>            <span class="keywordflow">if</span> (wasEmpty || (await Database.GetPendingMigrationsAsync(cancellationToken)).Any())</div>
-<div class="line"><span class="lineno">  292</span>            {</div>
-<div class="line"><span class="lineno">  293</span>                logger.LogInformation(<span class="stringliteral">&quot;Migrating database...&quot;</span>);</div>
-<div class="line"><span class="lineno">  294</span>                await Database.MigrateAsync(cancellationToken);</div>
-<div class="line"><span class="lineno">  295</span>            }</div>
-<div class="line"><span class="lineno">  296</span>            <span class="keywordflow">else</span></div>
-<div class="line"><span class="lineno">  297</span>                logger.LogDebug(<span class="stringliteral">&quot;No migrations to apply&quot;</span>);</div>
-<div class="line"><span class="lineno">  298</span> </div>
-<div class="line"><span class="lineno">  299</span>            wasEmpty |= !await <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#ad1c33807b7a75d05d0004e024416e17f">Users</a>.AsQueryable().AnyAsync(cancellationToken);</div>
+<p class="definition">Definition at line <a class="el" href="_database_context_8cs_source.html#l00287">287</a> of file <a class="el" href="_database_context_8cs_source.html">DatabaseContext.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  288</span>        {</div>
+<div class="line"><span class="lineno">  289</span>            ArgumentNullException.ThrowIfNull(logger);</div>
+<div class="line"><span class="lineno">  290</span>            var migrations = await Database.GetAppliedMigrationsAsync(cancellationToken);</div>
+<div class="line"><span class="lineno">  291</span>            var wasEmpty = !migrations.Any();</div>
+<div class="line"><span class="lineno">  292</span> </div>
+<div class="line"><span class="lineno">  293</span>            <span class="keywordflow">if</span> (wasEmpty || (await Database.GetPendingMigrationsAsync(cancellationToken)).Any())</div>
+<div class="line"><span class="lineno">  294</span>            {</div>
+<div class="line"><span class="lineno">  295</span>                logger.LogInformation(<span class="stringliteral">&quot;Migrating database...&quot;</span>);</div>
+<div class="line"><span class="lineno">  296</span>                await Database.MigrateAsync(cancellationToken);</div>
+<div class="line"><span class="lineno">  297</span>            }</div>
+<div class="line"><span class="lineno">  298</span>            <span class="keywordflow">else</span></div>
+<div class="line"><span class="lineno">  299</span>                logger.LogDebug(<span class="stringliteral">&quot;No migrations to apply&quot;</span>);</div>
 <div class="line"><span class="lineno">  300</span> </div>
-<div class="line"><span class="lineno">  301</span>            <span class="keywordflow">return</span> wasEmpty;</div>
-<div class="line"><span class="lineno">  302</span>        }</div>
+<div class="line"><span class="lineno">  301</span>            wasEmpty |= !await <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#ad1c33807b7a75d05d0004e024416e17f">Users</a>.AsQueryable().AnyAsync(cancellationToken);</div>
+<div class="line"><span class="lineno">  302</span> </div>
+<div class="line"><span class="lineno">  303</span>            <span class="keywordflow">return</span> wasEmpty;</div>
+<div class="line"><span class="lineno">  304</span>        }</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="_database_context_8cs_source.html#l00029">Tgstation.Server.Host.Database.DatabaseContext.Users</a>.</p>
 
@@ -673,71 +675,71 @@ Here is the call graph for this function:</div>
 
 <p></p>
 
-<p class="definition">Definition at line <a class="el" href="_database_context_8cs_source.html#l00305">305</a> of file <a class="el" href="_database_context_8cs_source.html">DatabaseContext.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  306</span>        {</div>
-<div class="line"><span class="lineno">  307</span>            ArgumentNullException.ThrowIfNull(modelBuilder);</div>
-<div class="line"><span class="lineno">  308</span> </div>
-<div class="line"><span class="lineno">  309</span>            base.OnModelCreating(modelBuilder);</div>
+<p class="definition">Definition at line <a class="el" href="_database_context_8cs_source.html#l00307">307</a> of file <a class="el" href="_database_context_8cs_source.html">DatabaseContext.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  308</span>        {</div>
+<div class="line"><span class="lineno">  309</span>            ArgumentNullException.ThrowIfNull(modelBuilder);</div>
 <div class="line"><span class="lineno">  310</span> </div>
-<div class="line"><span class="lineno">  311</span>            var userModel = modelBuilder.Entity&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html">User</a>&gt;();</div>
-<div class="line"><span class="lineno">  312</span>            userModel.HasIndex(x =&gt; x.CanonicalName).IsUnique();</div>
-<div class="line"><span class="lineno">  313</span>            userModel.HasIndex(x =&gt; x.SystemIdentifier).IsUnique();</div>
-<div class="line"><span class="lineno">  314</span>            userModel.HasMany(x =&gt; x.TestMerges).WithOne(x =&gt; x.MergedBy).OnDelete(DeleteBehavior.Restrict);</div>
-<div class="line"><span class="lineno">  315</span>            userModel.HasMany(x =&gt; x.OAuthConnections).WithOne(x =&gt; x.User).OnDelete(DeleteBehavior.Cascade);</div>
-<div class="line"><span class="lineno">  316</span> </div>
-<div class="line"><span class="lineno">  317</span>            modelBuilder.Entity&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_o_auth_connection.html">OAuthConnection</a>&gt;().HasIndex(x =&gt; <span class="keyword">new</span> { x.Provider, x.ExternalUserId }).IsUnique();</div>
+<div class="line"><span class="lineno">  311</span>            base.OnModelCreating(modelBuilder);</div>
+<div class="line"><span class="lineno">  312</span> </div>
+<div class="line"><span class="lineno">  313</span>            var userModel = modelBuilder.Entity&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html">User</a>&gt;();</div>
+<div class="line"><span class="lineno">  314</span>            userModel.HasIndex(x =&gt; x.CanonicalName).IsUnique();</div>
+<div class="line"><span class="lineno">  315</span>            userModel.HasIndex(x =&gt; x.SystemIdentifier).IsUnique();</div>
+<div class="line"><span class="lineno">  316</span>            userModel.HasMany(x =&gt; x.TestMerges).WithOne(x =&gt; x.MergedBy).OnDelete(DeleteBehavior.Restrict);</div>
+<div class="line"><span class="lineno">  317</span>            userModel.HasMany(x =&gt; x.OAuthConnections).WithOne(x =&gt; x.User).OnDelete(DeleteBehavior.Cascade);</div>
 <div class="line"><span class="lineno">  318</span> </div>
-<div class="line"><span class="lineno">  319</span>            var groupsModel = modelBuilder.Entity&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user_group.html">UserGroup</a>&gt;();</div>
-<div class="line"><span class="lineno">  320</span>            groupsModel.HasIndex(x =&gt; x.Name).IsUnique();</div>
-<div class="line"><span class="lineno">  321</span>            groupsModel.HasMany(x =&gt; x.Users).WithOne(x =&gt; x.Group).OnDelete(DeleteBehavior.ClientSetNull);</div>
-<div class="line"><span class="lineno">  322</span> </div>
-<div class="line"><span class="lineno">  323</span>            var permissionSetModel = modelBuilder.Entity&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_permission_set.html">PermissionSet</a>&gt;();</div>
-<div class="line"><span class="lineno">  324</span>            permissionSetModel.HasOne(x =&gt; x.Group).WithOne(x =&gt; x.PermissionSet).OnDelete(DeleteBehavior.Cascade);</div>
-<div class="line"><span class="lineno">  325</span>            permissionSetModel.HasOne(x =&gt; x.User).WithOne(x =&gt; x.PermissionSet).OnDelete(DeleteBehavior.Cascade);</div>
-<div class="line"><span class="lineno">  326</span>            permissionSetModel.HasMany(x =&gt; x.InstancePermissionSets).WithOne(x =&gt; x.PermissionSet).OnDelete(DeleteBehavior.Cascade);</div>
-<div class="line"><span class="lineno">  327</span> </div>
-<div class="line"><span class="lineno">  328</span>            modelBuilder.Entity&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_instance_permission_set.html">InstancePermissionSet</a>&gt;().HasIndex(x =&gt; <span class="keyword">new</span> { x.PermissionSetId, x.InstanceId }).IsUnique();</div>
+<div class="line"><span class="lineno">  319</span>            modelBuilder.Entity&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_o_auth_connection.html">OAuthConnection</a>&gt;().HasIndex(x =&gt; <span class="keyword">new</span> { x.Provider, x.ExternalUserId }).IsUnique();</div>
+<div class="line"><span class="lineno">  320</span> </div>
+<div class="line"><span class="lineno">  321</span>            var groupsModel = modelBuilder.Entity&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user_group.html">UserGroup</a>&gt;();</div>
+<div class="line"><span class="lineno">  322</span>            groupsModel.HasIndex(x =&gt; x.Name).IsUnique();</div>
+<div class="line"><span class="lineno">  323</span>            groupsModel.HasMany(x =&gt; x.Users).WithOne(x =&gt; x.Group).OnDelete(DeleteBehavior.ClientSetNull);</div>
+<div class="line"><span class="lineno">  324</span> </div>
+<div class="line"><span class="lineno">  325</span>            var permissionSetModel = modelBuilder.Entity&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_permission_set.html">PermissionSet</a>&gt;();</div>
+<div class="line"><span class="lineno">  326</span>            permissionSetModel.HasOne(x =&gt; x.Group).WithOne(x =&gt; x.PermissionSet).OnDelete(DeleteBehavior.Cascade);</div>
+<div class="line"><span class="lineno">  327</span>            permissionSetModel.HasOne(x =&gt; x.User).WithOne(x =&gt; x.PermissionSet).OnDelete(DeleteBehavior.Cascade);</div>
+<div class="line"><span class="lineno">  328</span>            permissionSetModel.HasMany(x =&gt; x.InstancePermissionSets).WithOne(x =&gt; x.PermissionSet).OnDelete(DeleteBehavior.Cascade);</div>
 <div class="line"><span class="lineno">  329</span> </div>
-<div class="line"><span class="lineno">  330</span>            var revInfo = modelBuilder.Entity&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_revision_information.html">RevisionInformation</a>&gt;();</div>
-<div class="line"><span class="lineno">  331</span>            revInfo.HasMany(x =&gt; x.ActiveTestMerges).WithOne(x =&gt; x.RevisionInformation).OnDelete(DeleteBehavior.Cascade);</div>
-<div class="line"><span class="lineno">  332</span>            revInfo.HasOne(x =&gt; x.PrimaryTestMerge).WithOne(x =&gt; x.PrimaryRevisionInformation).OnDelete(DeleteBehavior.Cascade);</div>
-<div class="line"><span class="lineno">  333</span>            revInfo.HasIndex(x =&gt; <span class="keyword">new</span> { x.InstanceId, x.CommitSha }).IsUnique();</div>
-<div class="line"><span class="lineno">  334</span> </div>
-<div class="line"><span class="lineno">  335</span>            <span class="comment">// IMPORTANT: When an instance is deleted (detached) it cascades into the maze of revinfo/testmerge/ritm/compilejob/job/ri relations</span></div>
-<div class="line"><span class="lineno">  336</span>            <span class="comment">// This maze starts at revInfo and jobs</span></div>
-<div class="line"><span class="lineno">  337</span>            <span class="comment">// jobs takes care of deleting compile jobs and ris</span></div>
-<div class="line"><span class="lineno">  338</span>            <span class="comment">// rev info takes care of the rest</span></div>
-<div class="line"><span class="lineno">  339</span>            <span class="comment">// Break the link here so the db doesn&#39;t shit itself complaining about cascading deletes</span></div>
-<div class="line"><span class="lineno">  340</span>            <span class="comment">// EF will handle making the right query to destroy everything</span></div>
-<div class="line"><span class="lineno">  341</span>            <span class="comment">// UPDATE: I fuck with this constantly in hopes of eliminating FK issues on instance detack</span></div>
-<div class="line"><span class="lineno">  342</span>            revInfo.HasMany(x =&gt; x.CompileJobs).WithOne(x =&gt; x.RevisionInformation).OnDelete(<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#a362548adc55667bb4b4b868b6a93e194">RevInfoCompileJobDeleteBehavior</a>);</div>
-<div class="line"><span class="lineno">  343</span> </div>
-<div class="line"><span class="lineno">  344</span>            <span class="comment">// Also break the link between ritm and testmerge so it doesn&#39;t cycle in a triangle with rev info</span></div>
-<div class="line"><span class="lineno">  345</span>            modelBuilder.Entity&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_test_merge.html">TestMerge</a>&gt;().HasMany(x =&gt; x.RevisonInformations).WithOne(x =&gt; x.TestMerge).OnDelete(DeleteBehavior.ClientNoAction);</div>
-<div class="line"><span class="lineno">  346</span> </div>
-<div class="line"><span class="lineno">  347</span>            var compileJob = modelBuilder.Entity&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_compile_job.html">CompileJob</a>&gt;();</div>
-<div class="line"><span class="lineno">  348</span>            compileJob.HasIndex(x =&gt; x.DirectoryName);</div>
-<div class="line"><span class="lineno">  349</span>            compileJob.HasOne(x =&gt; x.Job).WithOne().OnDelete(DeleteBehavior.Cascade);</div>
-<div class="line"><span class="lineno">  350</span> </div>
-<div class="line"><span class="lineno">  351</span>            modelBuilder.Entity&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_reattach_information.html">ReattachInformation</a>&gt;().HasOne(x =&gt; x.CompileJob).WithMany().OnDelete(DeleteBehavior.Cascade);</div>
+<div class="line"><span class="lineno">  330</span>            modelBuilder.Entity&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_instance_permission_set.html">InstancePermissionSet</a>&gt;().HasIndex(x =&gt; <span class="keyword">new</span> { x.PermissionSetId, x.InstanceId }).IsUnique();</div>
+<div class="line"><span class="lineno">  331</span> </div>
+<div class="line"><span class="lineno">  332</span>            var revInfo = modelBuilder.Entity&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_revision_information.html">RevisionInformation</a>&gt;();</div>
+<div class="line"><span class="lineno">  333</span>            revInfo.HasMany(x =&gt; x.ActiveTestMerges).WithOne(x =&gt; x.RevisionInformation).OnDelete(DeleteBehavior.Cascade);</div>
+<div class="line"><span class="lineno">  334</span>            revInfo.HasOne(x =&gt; x.PrimaryTestMerge).WithOne(x =&gt; x.PrimaryRevisionInformation).OnDelete(DeleteBehavior.Cascade);</div>
+<div class="line"><span class="lineno">  335</span>            revInfo.HasIndex(x =&gt; <span class="keyword">new</span> { x.InstanceId, x.CommitSha }).IsUnique();</div>
+<div class="line"><span class="lineno">  336</span> </div>
+<div class="line"><span class="lineno">  337</span>            <span class="comment">// IMPORTANT: When an instance is deleted (detached) it cascades into the maze of revinfo/testmerge/ritm/compilejob/job/ri relations</span></div>
+<div class="line"><span class="lineno">  338</span>            <span class="comment">// This maze starts at revInfo and jobs</span></div>
+<div class="line"><span class="lineno">  339</span>            <span class="comment">// jobs takes care of deleting compile jobs and ris</span></div>
+<div class="line"><span class="lineno">  340</span>            <span class="comment">// rev info takes care of the rest</span></div>
+<div class="line"><span class="lineno">  341</span>            <span class="comment">// Break the link here so the db doesn&#39;t shit itself complaining about cascading deletes</span></div>
+<div class="line"><span class="lineno">  342</span>            <span class="comment">// EF will handle making the right query to destroy everything</span></div>
+<div class="line"><span class="lineno">  343</span>            <span class="comment">// UPDATE: I fuck with this constantly in hopes of eliminating FK issues on instance detack</span></div>
+<div class="line"><span class="lineno">  344</span>            revInfo.HasMany(x =&gt; x.CompileJobs).WithOne(x =&gt; x.RevisionInformation).OnDelete(<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#a362548adc55667bb4b4b868b6a93e194">RevInfoCompileJobDeleteBehavior</a>);</div>
+<div class="line"><span class="lineno">  345</span> </div>
+<div class="line"><span class="lineno">  346</span>            <span class="comment">// Also break the link between ritm and testmerge so it doesn&#39;t cycle in a triangle with rev info</span></div>
+<div class="line"><span class="lineno">  347</span>            modelBuilder.Entity&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_test_merge.html">TestMerge</a>&gt;().HasMany(x =&gt; x.RevisonInformations).WithOne(x =&gt; x.TestMerge).OnDelete(DeleteBehavior.ClientNoAction);</div>
+<div class="line"><span class="lineno">  348</span> </div>
+<div class="line"><span class="lineno">  349</span>            var compileJob = modelBuilder.Entity&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_compile_job.html">CompileJob</a>&gt;();</div>
+<div class="line"><span class="lineno">  350</span>            compileJob.HasIndex(x =&gt; x.DirectoryName);</div>
+<div class="line"><span class="lineno">  351</span>            compileJob.HasOne(x =&gt; x.Job).WithOne().OnDelete(DeleteBehavior.Cascade);</div>
 <div class="line"><span class="lineno">  352</span> </div>
-<div class="line"><span class="lineno">  353</span>            var chatChannel = modelBuilder.Entity&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_chat_channel.html">ChatChannel</a>&gt;();</div>
-<div class="line"><span class="lineno">  354</span>            chatChannel.HasIndex(x =&gt; <span class="keyword">new</span> { x.ChatSettingsId, x.IrcChannel }).IsUnique();</div>
-<div class="line"><span class="lineno">  355</span>            chatChannel.HasIndex(x =&gt; <span class="keyword">new</span> { x.ChatSettingsId, x.DiscordChannelId }).IsUnique();</div>
-<div class="line"><span class="lineno">  356</span>            chatChannel.HasOne(x =&gt; x.ChatSettings).WithMany(x =&gt; x.Channels).HasForeignKey(x =&gt; x.ChatSettingsId).OnDelete(DeleteBehavior.Cascade);</div>
-<div class="line"><span class="lineno">  357</span> </div>
-<div class="line"><span class="lineno">  358</span>            modelBuilder.Entity&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_chat_bot.html">ChatBot</a>&gt;().HasIndex(x =&gt; <span class="keyword">new</span> { x.InstanceId, x.Name }).IsUnique();</div>
+<div class="line"><span class="lineno">  353</span>            modelBuilder.Entity&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_reattach_information.html">ReattachInformation</a>&gt;().HasOne(x =&gt; x.CompileJob).WithMany().OnDelete(DeleteBehavior.Cascade);</div>
+<div class="line"><span class="lineno">  354</span> </div>
+<div class="line"><span class="lineno">  355</span>            var chatChannel = modelBuilder.Entity&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_chat_channel.html">ChatChannel</a>&gt;();</div>
+<div class="line"><span class="lineno">  356</span>            chatChannel.HasIndex(x =&gt; <span class="keyword">new</span> { x.ChatSettingsId, x.IrcChannel }).IsUnique();</div>
+<div class="line"><span class="lineno">  357</span>            chatChannel.HasIndex(x =&gt; <span class="keyword">new</span> { x.ChatSettingsId, x.DiscordChannelId }).IsUnique();</div>
+<div class="line"><span class="lineno">  358</span>            chatChannel.HasOne(x =&gt; x.ChatSettings).WithMany(x =&gt; x.Channels).HasForeignKey(x =&gt; x.ChatSettingsId).OnDelete(DeleteBehavior.Cascade);</div>
 <div class="line"><span class="lineno">  359</span> </div>
-<div class="line"><span class="lineno">  360</span>            var instanceModel = modelBuilder.Entity&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_instance.html">Instance</a>&gt;();</div>
-<div class="line"><span class="lineno">  361</span>            instanceModel.HasIndex(x =&gt; <span class="keyword">new</span> { x.Path, x.SwarmIdentifer }).IsUnique();</div>
-<div class="line"><span class="lineno">  362</span>            instanceModel.HasMany(x =&gt; x.ChatSettings).WithOne(x =&gt; x.Instance).OnDelete(DeleteBehavior.Cascade);</div>
-<div class="line"><span class="lineno">  363</span>            instanceModel.HasOne(x =&gt; x.DreamDaemonSettings).WithOne(x =&gt; x.Instance).OnDelete(DeleteBehavior.Cascade);</div>
-<div class="line"><span class="lineno">  364</span>            instanceModel.HasOne(x =&gt; x.DreamMakerSettings).WithOne(x =&gt; x.Instance).OnDelete(DeleteBehavior.Cascade);</div>
-<div class="line"><span class="lineno">  365</span>            instanceModel.HasOne(x =&gt; x.RepositorySettings).WithOne(x =&gt; x.Instance).OnDelete(DeleteBehavior.Cascade);</div>
-<div class="line"><span class="lineno">  366</span>            instanceModel.HasMany(x =&gt; x.RevisionInformations).WithOne(x =&gt; x.Instance).OnDelete(DeleteBehavior.Cascade);</div>
-<div class="line"><span class="lineno">  367</span>            instanceModel.HasMany(x =&gt; x.InstancePermissionSets).WithOne(x =&gt; x.Instance).OnDelete(DeleteBehavior.Cascade);</div>
-<div class="line"><span class="lineno">  368</span>            instanceModel.HasMany(x =&gt; x.Jobs).WithOne(x =&gt; x.Instance).OnDelete(DeleteBehavior.Cascade);</div>
-<div class="line"><span class="lineno">  369</span>        }</div>
+<div class="line"><span class="lineno">  360</span>            modelBuilder.Entity&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_chat_bot.html">ChatBot</a>&gt;().HasIndex(x =&gt; <span class="keyword">new</span> { x.InstanceId, x.Name }).IsUnique();</div>
+<div class="line"><span class="lineno">  361</span> </div>
+<div class="line"><span class="lineno">  362</span>            var instanceModel = modelBuilder.Entity&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_instance.html">Instance</a>&gt;();</div>
+<div class="line"><span class="lineno">  363</span>            instanceModel.HasIndex(x =&gt; <span class="keyword">new</span> { x.Path, x.SwarmIdentifer }).IsUnique();</div>
+<div class="line"><span class="lineno">  364</span>            instanceModel.HasMany(x =&gt; x.ChatSettings).WithOne(x =&gt; x.Instance).OnDelete(DeleteBehavior.Cascade);</div>
+<div class="line"><span class="lineno">  365</span>            instanceModel.HasOne(x =&gt; x.DreamDaemonSettings).WithOne(x =&gt; x.Instance).OnDelete(DeleteBehavior.Cascade);</div>
+<div class="line"><span class="lineno">  366</span>            instanceModel.HasOne(x =&gt; x.DreamMakerSettings).WithOne(x =&gt; x.Instance).OnDelete(DeleteBehavior.Cascade);</div>
+<div class="line"><span class="lineno">  367</span>            instanceModel.HasOne(x =&gt; x.RepositorySettings).WithOne(x =&gt; x.Instance).OnDelete(DeleteBehavior.Cascade);</div>
+<div class="line"><span class="lineno">  368</span>            instanceModel.HasMany(x =&gt; x.RevisionInformations).WithOne(x =&gt; x.Instance).OnDelete(DeleteBehavior.Cascade);</div>
+<div class="line"><span class="lineno">  369</span>            instanceModel.HasMany(x =&gt; x.InstancePermissionSets).WithOne(x =&gt; x.Instance).OnDelete(DeleteBehavior.Cascade);</div>
+<div class="line"><span class="lineno">  370</span>            instanceModel.HasMany(x =&gt; x.Jobs).WithOne(x =&gt; x.Instance).OnDelete(DeleteBehavior.Cascade);</div>
+<div class="line"><span class="lineno">  371</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context_html_a362548adc55667bb4b4b868b6a93e194"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#a362548adc55667bb4b4b868b6a93e194">Tgstation.Server.Host.Database.DatabaseContext.RevInfoCompileJobDeleteBehavior</a></div><div class="ttdeci">virtual DeleteBehavior RevInfoCompileJobDeleteBehavior</div><div class="ttdoc">The DeleteBehavior for the CompileJob/RevisionInformation foreign key.</div><div class="ttdef"><b>Definition:</b> <a href="_database_context_8cs_source.html#l00159">DatabaseContext.cs:159</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_models_1_1_chat_bot_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_chat_bot.html">Tgstation.Server.Host.Models.ChatBot</a></div><div class="ttdef"><b>Definition:</b> <a href="_chat_bot_8cs_source.html#l00010">ChatBot.cs:11</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_models_1_1_chat_channel_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_chat_channel.html">Tgstation.Server.Host.Models.ChatChannel</a></div><div class="ttdef"><b>Definition:</b> <a href="_tgstation_8_server_8_host_2_models_2_chat_channel_8cs_source.html#l00009">ChatChannel.cs:10</a></div></div>
@@ -783,7 +785,7 @@ Here is the call graph for this function:</div>
 
 <p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context.html#a74e123c6393ad813f997c882a22b228e">Tgstation.Server.Host.Database.IDatabaseContext</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_chat_controller_8cs_source.html#l00107">Tgstation.Server.Host.Controllers.ChatController.Create()</a>, <a class="el" href="_instance_permission_set_controller_8cs_source.html#l00064">Tgstation.Server.Host.Controllers.InstancePermissionSetController.Create()</a>, <a class="el" href="_repository_controller_8cs_source.html#l00083">Tgstation.Server.Host.Controllers.RepositoryController.Create()</a>, <a class="el" href="_user_controller_8cs_source.html#l00085">Tgstation.Server.Host.Controllers.UserController.Create()</a>, <a class="el" href="_user_group_controller_8cs_source.html#l00068">Tgstation.Server.Host.Controllers.UserGroupController.Create()</a>, <a class="el" href="_home_controller_8cs_source.html#l00223">Tgstation.Server.Host.Controllers.HomeController.CreateToken()</a>, <a class="el" href="_repository_controller_8cs_source.html#l00203">Tgstation.Server.Host.Controllers.RepositoryController.Delete()</a>, <a class="el" href="_instance_controller_8cs_source.html#l00282">Tgstation.Server.Host.Controllers.InstanceController.Delete()</a>, <a class="el" href="_instance_controller_8cs_source.html#l00587">Tgstation.Server.Host.Controllers.InstanceController.GetId()</a>, <a class="el" href="_instance_controller_8cs_source.html#l00643">Tgstation.Server.Host.Controllers.InstanceController.GrantPermissions()</a>, <a class="el" href="_instance_controller_8cs_source.html#l00520">Tgstation.Server.Host.Controllers.InstanceController.List()</a>, <a class="el" href="_repository_controller_8cs_source.html#l00249">Tgstation.Server.Host.Controllers.RepositoryController.Read()</a>, <a class="el" href="_chat_controller_8cs_source.html#l00278">Tgstation.Server.Host.Controllers.ChatController.Update()</a>, <a class="el" href="_dream_daemon_controller_8cs_source.html#l00159">Tgstation.Server.Host.Controllers.DreamDaemonController.Update()</a>, <a class="el" href="_dream_maker_controller_8cs_source.html#l00178">Tgstation.Server.Host.Controllers.DreamMakerController.Update()</a>, <a class="el" href="_instance_permission_set_controller_8cs_source.html#l00127">Tgstation.Server.Host.Controllers.InstancePermissionSetController.Update()</a>, <a class="el" href="_instance_controller_8cs_source.html#l00328">Tgstation.Server.Host.Controllers.InstanceController.Update()</a>, <a class="el" href="_repository_controller_8cs_source.html#l00309">Tgstation.Server.Host.Controllers.RepositoryController.Update()</a>, <a class="el" href="_user_group_controller_8cs_source.html#l00112">Tgstation.Server.Host.Controllers.UserGroupController.Update()</a>, <a class="el" href="_user_controller_8cs_source.html#l00171">Tgstation.Server.Host.Controllers.UserController.Update()</a>, and <a class="el" href="_component_interfacing_controller_8cs_source.html#l00063">Tgstation.Server.Host.Controllers.ComponentInterfacingController.ValidateRequest()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_chat_controller_8cs_source.html#l00107">Tgstation.Server.Host.Controllers.ChatController.Create()</a>, <a class="el" href="_instance_permission_set_controller_8cs_source.html#l00064">Tgstation.Server.Host.Controllers.InstancePermissionSetController.Create()</a>, <a class="el" href="_repository_controller_8cs_source.html#l00083">Tgstation.Server.Host.Controllers.RepositoryController.Create()</a>, <a class="el" href="_user_controller_8cs_source.html#l00085">Tgstation.Server.Host.Controllers.UserController.Create()</a>, <a class="el" href="_user_group_controller_8cs_source.html#l00068">Tgstation.Server.Host.Controllers.UserGroupController.Create()</a>, <a class="el" href="_home_controller_8cs_source.html#l00223">Tgstation.Server.Host.Controllers.HomeController.CreateToken()</a>, <a class="el" href="_repository_controller_8cs_source.html#l00203">Tgstation.Server.Host.Controllers.RepositoryController.Delete()</a>, <a class="el" href="_instance_controller_8cs_source.html#l00282">Tgstation.Server.Host.Controllers.InstanceController.Delete()</a>, <a class="el" href="_instance_controller_8cs_source.html#l00587">Tgstation.Server.Host.Controllers.InstanceController.GetId()</a>, <a class="el" href="_instance_controller_8cs_source.html#l00643">Tgstation.Server.Host.Controllers.InstanceController.GrantPermissions()</a>, <a class="el" href="_instance_controller_8cs_source.html#l00520">Tgstation.Server.Host.Controllers.InstanceController.List()</a>, <a class="el" href="_repository_controller_8cs_source.html#l00249">Tgstation.Server.Host.Controllers.RepositoryController.Read()</a>, <a class="el" href="_chat_controller_8cs_source.html#l00278">Tgstation.Server.Host.Controllers.ChatController.Update()</a>, <a class="el" href="_dream_daemon_controller_8cs_source.html#l00160">Tgstation.Server.Host.Controllers.DreamDaemonController.Update()</a>, <a class="el" href="_dream_maker_controller_8cs_source.html#l00178">Tgstation.Server.Host.Controllers.DreamMakerController.Update()</a>, <a class="el" href="_instance_permission_set_controller_8cs_source.html#l00127">Tgstation.Server.Host.Controllers.InstancePermissionSetController.Update()</a>, <a class="el" href="_instance_controller_8cs_source.html#l00328">Tgstation.Server.Host.Controllers.InstanceController.Update()</a>, <a class="el" href="_repository_controller_8cs_source.html#l00309">Tgstation.Server.Host.Controllers.RepositoryController.Update()</a>, <a class="el" href="_user_group_controller_8cs_source.html#l00112">Tgstation.Server.Host.Controllers.UserGroupController.Update()</a>, <a class="el" href="_user_controller_8cs_source.html#l00171">Tgstation.Server.Host.Controllers.UserController.Update()</a>, and <a class="el" href="_component_interfacing_controller_8cs_source.html#l00063">Tgstation.Server.Host.Controllers.ComponentInterfacingController.ValidateRequest()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -869,171 +871,171 @@ Here is the caller graph for this function:</div>
 
 <p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context.html#a5529555e7c95208aef1b1c00708f6272">Tgstation.Server.Host.Database.IDatabaseContext</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_database_context_8cs_source.html#l00398">398</a> of file <a class="el" href="_database_context_8cs_source.html">DatabaseContext.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  403</span>        {</div>
-<div class="line"><span class="lineno">  404</span>            ArgumentNullException.ThrowIfNull(logger);</div>
-<div class="line"><span class="lineno">  405</span>            ArgumentNullException.ThrowIfNull(targetVersion);</div>
-<div class="line"><span class="lineno">  406</span>            <span class="keywordflow">if</span> (targetVersion &lt; <span class="keyword">new</span> Version(4, 0))</div>
-<div class="line"><span class="lineno">  407</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentOutOfRangeException(nameof(targetVersion), targetVersion, <span class="stringliteral">&quot;Cannot migrate below version 4.0.0!&quot;</span>);</div>
-<div class="line"><span class="lineno">  408</span> </div>
-<div class="line"><span class="lineno">  409</span>            <span class="keywordflow">if</span> (currentDatabaseType == <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_host_1_1_configuration.html#acda8f6ee23a9ee8ac298f7b4a7d5617c">DatabaseType</a>.PostgresSql &amp;&amp; targetVersion &lt; <span class="keyword">new</span> Version(4, 3, 0))</div>
-<div class="line"><span class="lineno">  410</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> NotSupportedException(<span class="stringliteral">&quot;Cannot migrate below version 4.3.0 with PostgresSql!&quot;</span>);</div>
-<div class="line"><span class="lineno">  411</span> </div>
-<div class="line"><span class="lineno">  412</span>            <span class="keywordflow">if</span> (currentDatabaseType == <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_host_1_1_configuration.html#acda8f6ee23a9ee8ac298f7b4a7d5617c">DatabaseType</a>.MariaDB)</div>
-<div class="line"><span class="lineno">  413</span>                currentDatabaseType = <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_host_1_1_configuration.html#acda8f6ee23a9ee8ac298f7b4a7d5617c">DatabaseType</a>.MySql; <span class="comment">// Keeping switch expressions while avoiding `or` syntax from C#9</span></div>
-<div class="line"><span class="lineno">  414</span> </div>
-<div class="line"><span class="lineno">  415</span>            <span class="keywordflow">if</span> (targetVersion &lt; <span class="keyword">new</span> Version(4, 1, 0))</div>
-<div class="line"><span class="lineno">  416</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> NotSupportedException(<span class="stringliteral">&quot;Cannot migrate below version 4.1.0!&quot;</span>);</div>
-<div class="line"><span class="lineno">  417</span> </div>
-<div class="line"><span class="lineno">  418</span>            <span class="comment">// Update this with new migrations as they are made</span></div>
-<div class="line"><span class="lineno">  419</span>            <span class="keywordtype">string</span> targetMigration = <span class="keyword">null</span>;</div>
-<div class="line"><span class="lineno">  420</span> </div>
-<div class="line"><span class="lineno">  421</span>            <span class="keywordtype">string</span> BadDatabaseType() =&gt; <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentException($<span class="stringliteral">&quot;Invalid DatabaseType: {currentDatabaseType}&quot;</span>, nameof(currentDatabaseType));</div>
+<p class="definition">Definition at line <a class="el" href="_database_context_8cs_source.html#l00400">400</a> of file <a class="el" href="_database_context_8cs_source.html">DatabaseContext.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  405</span>        {</div>
+<div class="line"><span class="lineno">  406</span>            ArgumentNullException.ThrowIfNull(logger);</div>
+<div class="line"><span class="lineno">  407</span>            ArgumentNullException.ThrowIfNull(targetVersion);</div>
+<div class="line"><span class="lineno">  408</span>            <span class="keywordflow">if</span> (targetVersion &lt; <span class="keyword">new</span> Version(4, 0))</div>
+<div class="line"><span class="lineno">  409</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentOutOfRangeException(nameof(targetVersion), targetVersion, <span class="stringliteral">&quot;Cannot migrate below version 4.0.0!&quot;</span>);</div>
+<div class="line"><span class="lineno">  410</span> </div>
+<div class="line"><span class="lineno">  411</span>            <span class="keywordflow">if</span> (currentDatabaseType == <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_host_1_1_configuration.html#acda8f6ee23a9ee8ac298f7b4a7d5617c">DatabaseType</a>.PostgresSql &amp;&amp; targetVersion &lt; <span class="keyword">new</span> Version(4, 3, 0))</div>
+<div class="line"><span class="lineno">  412</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> NotSupportedException(<span class="stringliteral">&quot;Cannot migrate below version 4.3.0 with PostgresSql!&quot;</span>);</div>
+<div class="line"><span class="lineno">  413</span> </div>
+<div class="line"><span class="lineno">  414</span>            <span class="keywordflow">if</span> (currentDatabaseType == <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_host_1_1_configuration.html#acda8f6ee23a9ee8ac298f7b4a7d5617c">DatabaseType</a>.MariaDB)</div>
+<div class="line"><span class="lineno">  415</span>                currentDatabaseType = <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_host_1_1_configuration.html#acda8f6ee23a9ee8ac298f7b4a7d5617c">DatabaseType</a>.MySql; <span class="comment">// Keeping switch expressions while avoiding `or` syntax from C#9</span></div>
+<div class="line"><span class="lineno">  416</span> </div>
+<div class="line"><span class="lineno">  417</span>            <span class="keywordflow">if</span> (targetVersion &lt; <span class="keyword">new</span> Version(4, 1, 0))</div>
+<div class="line"><span class="lineno">  418</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> NotSupportedException(<span class="stringliteral">&quot;Cannot migrate below version 4.1.0!&quot;</span>);</div>
+<div class="line"><span class="lineno">  419</span> </div>
+<div class="line"><span class="lineno">  420</span>            <span class="comment">// Update this with new migrations as they are made</span></div>
+<div class="line"><span class="lineno">  421</span>            <span class="keywordtype">string</span> targetMigration = <span class="keyword">null</span>;</div>
 <div class="line"><span class="lineno">  422</span> </div>
-<div class="line"><span class="lineno">  423</span>            <span class="keywordflow">if</span> (targetVersion &lt; <span class="keyword">new</span> Version(5, 13, 0))</div>
-<div class="line"><span class="lineno">  424</span>                targetMigration = currentDatabaseType <span class="keywordflow">switch</span></div>
-<div class="line"><span class="lineno">  425</span>                {</div>
-<div class="line"><span class="lineno">  426</span>                    DatabaseType.MySql =&gt; nameof(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_y_add_reattach_info_initial_compile_job.html">MYAddReattachInfoInitialCompileJob</a>),</div>
-<div class="line"><span class="lineno">  427</span>                    DatabaseType.PostgresSql =&gt; nameof(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_p_g_add_reattach_info_initial_compile_job.html">PGAddReattachInfoInitialCompileJob</a>),</div>
-<div class="line"><span class="lineno">  428</span>                    DatabaseType.SqlServer =&gt; nameof(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_s_add_reattach_info_initial_compile_job.html">MSAddReattachInfoInitialCompileJob</a>),</div>
-<div class="line"><span class="lineno">  429</span>                    DatabaseType.Sqlite =&gt; nameof(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_s_l_add_reattach_info_initial_compile_job.html">SLAddReattachInfoInitialCompileJob</a>),</div>
-<div class="line"><span class="lineno">  430</span>                    _ =&gt; BadDatabaseType(),</div>
-<div class="line"><span class="lineno">  431</span>                };</div>
-<div class="line"><span class="lineno">  432</span>            <span class="keywordflow">if</span> (targetVersion &lt; <span class="keyword">new</span> Version(5, 7, 3))</div>
-<div class="line"><span class="lineno">  433</span>                targetMigration = currentDatabaseType <span class="keywordflow">switch</span></div>
-<div class="line"><span class="lineno">  434</span>                {</div>
-<div class="line"><span class="lineno">  435</span>                    DatabaseType.MySql =&gt; nameof(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_y_add_dream_daemon_log_output.html">MYAddDreamDaemonLogOutput</a>),</div>
-<div class="line"><span class="lineno">  436</span>                    DatabaseType.PostgresSql =&gt; nameof(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_p_g_add_dream_daemon_log_output.html">PGAddDreamDaemonLogOutput</a>),</div>
-<div class="line"><span class="lineno">  437</span>                    DatabaseType.SqlServer =&gt; nameof(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_s_add_dream_daemon_log_output.html">MSAddDreamDaemonLogOutput</a>),</div>
-<div class="line"><span class="lineno">  438</span>                    DatabaseType.Sqlite =&gt; nameof(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_s_l_add_dream_daemon_log_output.html">SLAddDreamDaemonLogOutput</a>),</div>
-<div class="line"><span class="lineno">  439</span>                    _ =&gt; BadDatabaseType(),</div>
-<div class="line"><span class="lineno">  440</span>                };</div>
-<div class="line"><span class="lineno">  441</span>            <span class="keywordflow">if</span> (targetVersion &lt; <span class="keyword">new</span> Version(5, 7, 0))</div>
-<div class="line"><span class="lineno">  442</span>                targetMigration = currentDatabaseType <span class="keywordflow">switch</span></div>
-<div class="line"><span class="lineno">  443</span>                {</div>
-<div class="line"><span class="lineno">  444</span>                    DatabaseType.MySql =&gt; nameof(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_y_add_profiler.html">MYAddProfiler</a>),</div>
-<div class="line"><span class="lineno">  445</span>                    DatabaseType.PostgresSql =&gt; nameof(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_p_g_add_profiler.html">PGAddProfiler</a>),</div>
-<div class="line"><span class="lineno">  446</span>                    DatabaseType.SqlServer =&gt; nameof(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_s_add_profiler.html">MSAddProfiler</a>),</div>
-<div class="line"><span class="lineno">  447</span>                    DatabaseType.Sqlite =&gt; nameof(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_s_l_add_profiler.html">SLAddProfiler</a>),</div>
-<div class="line"><span class="lineno">  448</span>                    _ =&gt; BadDatabaseType(),</div>
-<div class="line"><span class="lineno">  449</span>                };</div>
-<div class="line"><span class="lineno">  450</span>            <span class="keywordflow">if</span> (targetVersion &lt; <span class="keyword">new</span> Version(4, 19, 0))</div>
-<div class="line"><span class="lineno">  451</span>                targetMigration = currentDatabaseType <span class="keywordflow">switch</span></div>
-<div class="line"><span class="lineno">  452</span>                {</div>
-<div class="line"><span class="lineno">  453</span>                    DatabaseType.MySql =&gt; nameof(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_y_add_dump_on_heartbeat_restart.html">MYAddDumpOnHeartbeatRestart</a>),</div>
-<div class="line"><span class="lineno">  454</span>                    DatabaseType.PostgresSql =&gt; nameof(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_p_g_add_dump_on_heartbeat_restart.html">PGAddDumpOnHeartbeatRestart</a>),</div>
-<div class="line"><span class="lineno">  455</span>                    DatabaseType.SqlServer =&gt; nameof(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_s_add_dump_on_heartbeat_restart.html">MSAddDumpOnHeartbeatRestart</a>),</div>
-<div class="line"><span class="lineno">  456</span>                    DatabaseType.Sqlite =&gt; nameof(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_s_l_add_dump_on_heartbeat_restart.html">SLAddDumpOnHeartbeatRestart</a>),</div>
-<div class="line"><span class="lineno">  457</span>                    _ =&gt; BadDatabaseType(),</div>
-<div class="line"><span class="lineno">  458</span>                };</div>
-<div class="line"><span class="lineno">  459</span>            <span class="keywordflow">if</span> (targetVersion &lt; <span class="keyword">new</span> Version(4, 18, 0))</div>
-<div class="line"><span class="lineno">  460</span>                targetMigration = currentDatabaseType <span class="keywordflow">switch</span></div>
-<div class="line"><span class="lineno">  461</span>                {</div>
-<div class="line"><span class="lineno">  462</span>                    DatabaseType.MySql =&gt; nameof(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_y_add_update_submodules.html">MYAddUpdateSubmodules</a>),</div>
-<div class="line"><span class="lineno">  463</span>                    DatabaseType.PostgresSql =&gt; nameof(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_p_g_add_update_submodules.html">PGAddUpdateSubmodules</a>),</div>
-<div class="line"><span class="lineno">  464</span>                    DatabaseType.SqlServer =&gt; nameof(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_s_add_update_submodules.html">MSAddUpdateSubmodules</a>),</div>
-<div class="line"><span class="lineno">  465</span>                    DatabaseType.Sqlite =&gt; nameof(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_s_l_add_update_submodules.html">SLAddUpdateSubmodules</a>),</div>
-<div class="line"><span class="lineno">  466</span>                    _ =&gt; BadDatabaseType(),</div>
-<div class="line"><span class="lineno">  467</span>                };</div>
-<div class="line"><span class="lineno">  468</span>            <span class="keywordflow">if</span> (targetVersion &lt; <span class="keyword">new</span> Version(4, 14, 0))</div>
-<div class="line"><span class="lineno">  469</span>                targetMigration = currentDatabaseType <span class="keywordflow">switch</span></div>
-<div class="line"><span class="lineno">  470</span>                {</div>
-<div class="line"><span class="lineno">  471</span>                    DatabaseType.MySql =&gt; nameof(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_y_truncate_instance_names.html">MYTruncateInstanceNames</a>),</div>
-<div class="line"><span class="lineno">  472</span>                    DatabaseType.PostgresSql =&gt; nameof(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_p_g_truncate_instance_names.html">PGTruncateInstanceNames</a>),</div>
-<div class="line"><span class="lineno">  473</span>                    DatabaseType.SqlServer =&gt; nameof(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_s_truncate_instance_names.html">MSTruncateInstanceNames</a>),</div>
-<div class="line"><span class="lineno">  474</span>                    DatabaseType.Sqlite =&gt; nameof(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_s_l_add_rev_info_timestamp.html">SLAddRevInfoTimestamp</a>),</div>
-<div class="line"><span class="lineno">  475</span>                    _ =&gt; BadDatabaseType(),</div>
-<div class="line"><span class="lineno">  476</span>                };</div>
-<div class="line"><span class="lineno">  477</span>            <span class="keywordflow">if</span> (targetVersion &lt; <span class="keyword">new</span> Version(4, 10, 0))</div>
-<div class="line"><span class="lineno">  478</span>                targetMigration = currentDatabaseType <span class="keywordflow">switch</span></div>
-<div class="line"><span class="lineno">  479</span>                {</div>
-<div class="line"><span class="lineno">  480</span>                    DatabaseType.MySql =&gt; nameof(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_s_add_rev_info_timestamp.html">MSAddRevInfoTimestamp</a>),</div>
-<div class="line"><span class="lineno">  481</span>                    DatabaseType.PostgresSql =&gt; nameof(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_p_g_add_rev_info_timestamp.html">PGAddRevInfoTimestamp</a>),</div>
-<div class="line"><span class="lineno">  482</span>                    DatabaseType.SqlServer =&gt; nameof(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_s_add_rev_info_timestamp.html">MSAddRevInfoTimestamp</a>),</div>
-<div class="line"><span class="lineno">  483</span>                    DatabaseType.Sqlite =&gt; nameof(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_s_l_add_rev_info_timestamp.html">SLAddRevInfoTimestamp</a>),</div>
-<div class="line"><span class="lineno">  484</span>                    _ =&gt; BadDatabaseType(),</div>
-<div class="line"><span class="lineno">  485</span>                };</div>
-<div class="line"><span class="lineno">  486</span>            <span class="keywordflow">if</span> (targetVersion &lt; <span class="keyword">new</span> Version(4, 8, 0))</div>
-<div class="line"><span class="lineno">  487</span>                targetMigration = currentDatabaseType <span class="keywordflow">switch</span></div>
-<div class="line"><span class="lineno">  488</span>                {</div>
-<div class="line"><span class="lineno">  489</span>                    DatabaseType.MySql =&gt; nameof(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_y_add_swarm_identifer.html">MYAddSwarmIdentifer</a>),</div>
-<div class="line"><span class="lineno">  490</span>                    DatabaseType.PostgresSql =&gt; nameof(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_p_g_add_swarm_identifer.html">PGAddSwarmIdentifer</a>),</div>
-<div class="line"><span class="lineno">  491</span>                    DatabaseType.SqlServer =&gt; nameof(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_s_add_swarm_identifer.html">MSAddSwarmIdentifer</a>),</div>
-<div class="line"><span class="lineno">  492</span>                    DatabaseType.Sqlite =&gt; nameof(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_s_l_add_swarm_identifer.html">SLAddSwarmIdentifer</a>),</div>
-<div class="line"><span class="lineno">  493</span>                    _ =&gt; BadDatabaseType(),</div>
-<div class="line"><span class="lineno">  494</span>                };</div>
-<div class="line"><span class="lineno">  495</span>            <span class="keywordflow">if</span> (targetVersion &lt; <span class="keyword">new</span> Version(4, 7, 0))</div>
-<div class="line"><span class="lineno">  496</span>                targetMigration = currentDatabaseType <span class="keywordflow">switch</span></div>
-<div class="line"><span class="lineno">  497</span>                {</div>
-<div class="line"><span class="lineno">  498</span>                    DatabaseType.MySql =&gt; nameof(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_y_add_additional_d_d_parameters.html">MYAddAdditionalDDParameters</a>),</div>
-<div class="line"><span class="lineno">  499</span>                    DatabaseType.PostgresSql =&gt; nameof(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_p_g_add_additional_d_d_parameters.html">PGAddAdditionalDDParameters</a>),</div>
-<div class="line"><span class="lineno">  500</span>                    DatabaseType.SqlServer =&gt; nameof(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_s_add_additional_d_d_parameters.html">MSAddAdditionalDDParameters</a>),</div>
-<div class="line"><span class="lineno">  501</span>                    DatabaseType.Sqlite =&gt; nameof(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_s_l_add_additional_d_d_parameters.html">SLAddAdditionalDDParameters</a>),</div>
-<div class="line"><span class="lineno">  502</span>                    _ =&gt; BadDatabaseType(),</div>
-<div class="line"><span class="lineno">  503</span>                };</div>
-<div class="line"><span class="lineno">  504</span>            <span class="keywordflow">if</span> (targetVersion &lt; <span class="keyword">new</span> Version(4, 6, 0))</div>
-<div class="line"><span class="lineno">  505</span>                targetMigration = currentDatabaseType <span class="keywordflow">switch</span></div>
-<div class="line"><span class="lineno">  506</span>                {</div>
-<div class="line"><span class="lineno">  507</span>                    DatabaseType.MySql =&gt; nameof(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_y_add_deployment_columns.html">MYAddDeploymentColumns</a>),</div>
-<div class="line"><span class="lineno">  508</span>                    DatabaseType.PostgresSql =&gt; nameof(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_p_g_add_deployment_columns.html">PGAddDeploymentColumns</a>),</div>
-<div class="line"><span class="lineno">  509</span>                    DatabaseType.SqlServer =&gt; nameof(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_s_add_deployment_columns.html">MSAddDeploymentColumns</a>),</div>
-<div class="line"><span class="lineno">  510</span>                    DatabaseType.Sqlite =&gt; nameof(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_s_l_add_deployment_columns.html">SLAddDeploymentColumns</a>),</div>
-<div class="line"><span class="lineno">  511</span>                    _ =&gt; BadDatabaseType(),</div>
-<div class="line"><span class="lineno">  512</span>                };</div>
-<div class="line"><span class="lineno">  513</span>            <span class="keywordflow">if</span> (targetVersion &lt; <span class="keyword">new</span> Version(4, 5, 0))</div>
-<div class="line"><span class="lineno">  514</span>                targetMigration = currentDatabaseType <span class="keywordflow">switch</span></div>
-<div class="line"><span class="lineno">  515</span>                {</div>
-<div class="line"><span class="lineno">  516</span>                    DatabaseType.MySql =&gt; nameof(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_y_allow_null_d_m_api.html">MYAllowNullDMApi</a>),</div>
-<div class="line"><span class="lineno">  517</span>                    DatabaseType.PostgresSql =&gt; nameof(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_p_g_allow_null_d_m_api.html">PGAllowNullDMApi</a>),</div>
-<div class="line"><span class="lineno">  518</span>                    DatabaseType.SqlServer =&gt; nameof(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_s_allow_null_d_m_api.html">MSAllowNullDMApi</a>),</div>
-<div class="line"><span class="lineno">  519</span>                    DatabaseType.Sqlite =&gt; nameof(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_s_l_allow_null_d_m_api.html">SLAllowNullDMApi</a>),</div>
-<div class="line"><span class="lineno">  520</span>                    _ =&gt; BadDatabaseType(),</div>
-<div class="line"><span class="lineno">  521</span>                };</div>
-<div class="line"><span class="lineno">  522</span>            <span class="keywordflow">if</span> (targetVersion &lt; <span class="keyword">new</span> Version(4, 4, 0))</div>
-<div class="line"><span class="lineno">  523</span>                targetMigration = currentDatabaseType <span class="keywordflow">switch</span></div>
-<div class="line"><span class="lineno">  524</span>                {</div>
-<div class="line"><span class="lineno">  525</span>                    DatabaseType.MySql =&gt; nameof(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_y_fix_foreign_key.html">MYFixForeignKey</a>),</div>
-<div class="line"><span class="lineno">  526</span>                    DatabaseType.PostgresSql =&gt; nameof(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_p_g_create.html">PGCreate</a>),</div>
-<div class="line"><span class="lineno">  527</span>                    DatabaseType.SqlServer =&gt; nameof(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_s_remove_soft_columns.html">MSRemoveSoftColumns</a>),</div>
-<div class="line"><span class="lineno">  528</span>                    DatabaseType.Sqlite =&gt; nameof(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_s_l_remove_soft_columns.html">SLRemoveSoftColumns</a>),</div>
-<div class="line"><span class="lineno">  529</span>                    _ =&gt; BadDatabaseType(),</div>
-<div class="line"><span class="lineno">  530</span>                };</div>
-<div class="line"><span class="lineno">  531</span>            <span class="keywordflow">if</span> (targetVersion &lt; <span class="keyword">new</span> Version(4, 2, 0))</div>
-<div class="line"><span class="lineno">  532</span>                targetMigration = currentDatabaseType == DatabaseType.Sqlite ? nameof(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_s_l_rebuild.html">SLRebuild</a>) : nameof(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_s_fix_cascading_delete.html">MSFixCascadingDelete</a>);</div>
-<div class="line"><span class="lineno">  533</span> </div>
-<div class="line"><span class="lineno">  534</span>            <span class="keywordflow">if</span> (targetMigration == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">  535</span>            {</div>
-<div class="line"><span class="lineno">  536</span>                logger.LogDebug(<span class="stringliteral">&quot;No down migration required.&quot;</span>);</div>
-<div class="line"><span class="lineno">  537</span>                <span class="keywordflow">return</span>;</div>
-<div class="line"><span class="lineno">  538</span>            }</div>
-<div class="line"><span class="lineno">  539</span> </div>
-<div class="line"><span class="lineno">  540</span>            <span class="comment">// already setup</span></div>
-<div class="line"><span class="lineno">  541</span>            var migrationSubstitution = currentDatabaseType <span class="keywordflow">switch</span></div>
-<div class="line"><span class="lineno">  542</span>            {</div>
-<div class="line"><span class="lineno">  543</span>                DatabaseType.SqlServer =&gt; <span class="keyword">null</span>, <span class="comment">// already setup</span></div>
-<div class="line"><span class="lineno">  544</span>                DatabaseType.MySql =&gt; <span class="stringliteral">&quot;MY{0}&quot;</span>,</div>
-<div class="line"><span class="lineno">  545</span>                DatabaseType.Sqlite =&gt; <span class="stringliteral">&quot;SL{0}&quot;</span>,</div>
-<div class="line"><span class="lineno">  546</span>                DatabaseType.PostgresSql =&gt; <span class="stringliteral">&quot;PG{0}&quot;</span>,</div>
-<div class="line"><span class="lineno">  547</span>                _ =&gt; <span class="keywordflow">throw</span> <span class="keyword">new</span> InvalidOperationException($<span class="stringliteral">&quot;Invalid DatabaseType: {currentDatabaseType}&quot;</span>),</div>
-<div class="line"><span class="lineno">  548</span>            };</div>
-<div class="line"><span class="lineno">  549</span> </div>
-<div class="line"><span class="lineno">  550</span>            <span class="keywordflow">if</span> (migrationSubstitution != <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">  551</span>                targetMigration = String.Format(CultureInfo.InvariantCulture, migrationSubstitution, targetMigration[2..]);</div>
-<div class="line"><span class="lineno">  552</span> </div>
-<div class="line"><span class="lineno">  553</span>            <span class="comment">// even though it clearly implements it in the DatabaseFacade definition this won&#39;t work without casting (╯ಠ益ಠ)╯︵ ┻━┻</span></div>
-<div class="line"><span class="lineno">  554</span>            var dbServiceProvider = ((IInfrastructure&lt;IServiceProvider&gt;)Database).Instance;</div>
-<div class="line"><span class="lineno">  555</span>            var migrator = dbServiceProvider.GetRequiredService&lt;IMigrator&gt;();</div>
-<div class="line"><span class="lineno">  556</span> </div>
-<div class="line"><span class="lineno">  557</span>            logger.LogInformation(<span class="stringliteral">&quot;Migrating down to version {targetVersion}. Target: {targetMigration}&quot;</span>, targetVersion, targetMigration);</div>
-<div class="line"><span class="lineno">  558</span>            <span class="keywordflow">try</span></div>
-<div class="line"><span class="lineno">  559</span>            {</div>
-<div class="line"><span class="lineno">  560</span>                await migrator.MigrateAsync(targetMigration, cancellationToken);</div>
-<div class="line"><span class="lineno">  561</span>            }</div>
-<div class="line"><span class="lineno">  562</span>            <span class="keywordflow">catch</span> (Exception e)</div>
-<div class="line"><span class="lineno">  563</span>            {</div>
-<div class="line"><span class="lineno">  564</span>                logger.LogCritical(e, <span class="stringliteral">&quot;Failed to migrate!&quot;</span>);</div>
-<div class="line"><span class="lineno">  565</span>            }</div>
-<div class="line"><span class="lineno">  566</span>        }</div>
+<div class="line"><span class="lineno">  423</span>            <span class="keywordtype">string</span> BadDatabaseType() =&gt; <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentException($<span class="stringliteral">&quot;Invalid DatabaseType: {currentDatabaseType}&quot;</span>, nameof(currentDatabaseType));</div>
+<div class="line"><span class="lineno">  424</span> </div>
+<div class="line"><span class="lineno">  425</span>            <span class="keywordflow">if</span> (targetVersion &lt; <span class="keyword">new</span> Version(5, 13, 0))</div>
+<div class="line"><span class="lineno">  426</span>                targetMigration = currentDatabaseType <span class="keywordflow">switch</span></div>
+<div class="line"><span class="lineno">  427</span>                {</div>
+<div class="line"><span class="lineno">  428</span>                    DatabaseType.MySql =&gt; nameof(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_y_add_reattach_info_initial_compile_job.html">MYAddReattachInfoInitialCompileJob</a>),</div>
+<div class="line"><span class="lineno">  429</span>                    DatabaseType.PostgresSql =&gt; nameof(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_p_g_add_reattach_info_initial_compile_job.html">PGAddReattachInfoInitialCompileJob</a>),</div>
+<div class="line"><span class="lineno">  430</span>                    DatabaseType.SqlServer =&gt; nameof(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_s_add_reattach_info_initial_compile_job.html">MSAddReattachInfoInitialCompileJob</a>),</div>
+<div class="line"><span class="lineno">  431</span>                    DatabaseType.Sqlite =&gt; nameof(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_s_l_add_reattach_info_initial_compile_job.html">SLAddReattachInfoInitialCompileJob</a>),</div>
+<div class="line"><span class="lineno">  432</span>                    _ =&gt; BadDatabaseType(),</div>
+<div class="line"><span class="lineno">  433</span>                };</div>
+<div class="line"><span class="lineno">  434</span>            <span class="keywordflow">if</span> (targetVersion &lt; <span class="keyword">new</span> Version(5, 7, 3))</div>
+<div class="line"><span class="lineno">  435</span>                targetMigration = currentDatabaseType <span class="keywordflow">switch</span></div>
+<div class="line"><span class="lineno">  436</span>                {</div>
+<div class="line"><span class="lineno">  437</span>                    DatabaseType.MySql =&gt; nameof(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_y_add_dream_daemon_log_output.html">MYAddDreamDaemonLogOutput</a>),</div>
+<div class="line"><span class="lineno">  438</span>                    DatabaseType.PostgresSql =&gt; nameof(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_p_g_add_dream_daemon_log_output.html">PGAddDreamDaemonLogOutput</a>),</div>
+<div class="line"><span class="lineno">  439</span>                    DatabaseType.SqlServer =&gt; nameof(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_s_add_dream_daemon_log_output.html">MSAddDreamDaemonLogOutput</a>),</div>
+<div class="line"><span class="lineno">  440</span>                    DatabaseType.Sqlite =&gt; nameof(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_s_l_add_dream_daemon_log_output.html">SLAddDreamDaemonLogOutput</a>),</div>
+<div class="line"><span class="lineno">  441</span>                    _ =&gt; BadDatabaseType(),</div>
+<div class="line"><span class="lineno">  442</span>                };</div>
+<div class="line"><span class="lineno">  443</span>            <span class="keywordflow">if</span> (targetVersion &lt; <span class="keyword">new</span> Version(5, 7, 0))</div>
+<div class="line"><span class="lineno">  444</span>                targetMigration = currentDatabaseType <span class="keywordflow">switch</span></div>
+<div class="line"><span class="lineno">  445</span>                {</div>
+<div class="line"><span class="lineno">  446</span>                    DatabaseType.MySql =&gt; nameof(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_y_add_profiler.html">MYAddProfiler</a>),</div>
+<div class="line"><span class="lineno">  447</span>                    DatabaseType.PostgresSql =&gt; nameof(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_p_g_add_profiler.html">PGAddProfiler</a>),</div>
+<div class="line"><span class="lineno">  448</span>                    DatabaseType.SqlServer =&gt; nameof(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_s_add_profiler.html">MSAddProfiler</a>),</div>
+<div class="line"><span class="lineno">  449</span>                    DatabaseType.Sqlite =&gt; nameof(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_s_l_add_profiler.html">SLAddProfiler</a>),</div>
+<div class="line"><span class="lineno">  450</span>                    _ =&gt; BadDatabaseType(),</div>
+<div class="line"><span class="lineno">  451</span>                };</div>
+<div class="line"><span class="lineno">  452</span>            <span class="keywordflow">if</span> (targetVersion &lt; <span class="keyword">new</span> Version(4, 19, 0))</div>
+<div class="line"><span class="lineno">  453</span>                targetMigration = currentDatabaseType <span class="keywordflow">switch</span></div>
+<div class="line"><span class="lineno">  454</span>                {</div>
+<div class="line"><span class="lineno">  455</span>                    DatabaseType.MySql =&gt; nameof(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_y_add_dump_on_heartbeat_restart.html">MYAddDumpOnHeartbeatRestart</a>),</div>
+<div class="line"><span class="lineno">  456</span>                    DatabaseType.PostgresSql =&gt; nameof(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_p_g_add_dump_on_heartbeat_restart.html">PGAddDumpOnHeartbeatRestart</a>),</div>
+<div class="line"><span class="lineno">  457</span>                    DatabaseType.SqlServer =&gt; nameof(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_s_add_dump_on_heartbeat_restart.html">MSAddDumpOnHeartbeatRestart</a>),</div>
+<div class="line"><span class="lineno">  458</span>                    DatabaseType.Sqlite =&gt; nameof(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_s_l_add_dump_on_heartbeat_restart.html">SLAddDumpOnHeartbeatRestart</a>),</div>
+<div class="line"><span class="lineno">  459</span>                    _ =&gt; BadDatabaseType(),</div>
+<div class="line"><span class="lineno">  460</span>                };</div>
+<div class="line"><span class="lineno">  461</span>            <span class="keywordflow">if</span> (targetVersion &lt; <span class="keyword">new</span> Version(4, 18, 0))</div>
+<div class="line"><span class="lineno">  462</span>                targetMigration = currentDatabaseType <span class="keywordflow">switch</span></div>
+<div class="line"><span class="lineno">  463</span>                {</div>
+<div class="line"><span class="lineno">  464</span>                    DatabaseType.MySql =&gt; nameof(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_y_add_update_submodules.html">MYAddUpdateSubmodules</a>),</div>
+<div class="line"><span class="lineno">  465</span>                    DatabaseType.PostgresSql =&gt; nameof(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_p_g_add_update_submodules.html">PGAddUpdateSubmodules</a>),</div>
+<div class="line"><span class="lineno">  466</span>                    DatabaseType.SqlServer =&gt; nameof(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_s_add_update_submodules.html">MSAddUpdateSubmodules</a>),</div>
+<div class="line"><span class="lineno">  467</span>                    DatabaseType.Sqlite =&gt; nameof(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_s_l_add_update_submodules.html">SLAddUpdateSubmodules</a>),</div>
+<div class="line"><span class="lineno">  468</span>                    _ =&gt; BadDatabaseType(),</div>
+<div class="line"><span class="lineno">  469</span>                };</div>
+<div class="line"><span class="lineno">  470</span>            <span class="keywordflow">if</span> (targetVersion &lt; <span class="keyword">new</span> Version(4, 14, 0))</div>
+<div class="line"><span class="lineno">  471</span>                targetMigration = currentDatabaseType <span class="keywordflow">switch</span></div>
+<div class="line"><span class="lineno">  472</span>                {</div>
+<div class="line"><span class="lineno">  473</span>                    DatabaseType.MySql =&gt; nameof(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_y_truncate_instance_names.html">MYTruncateInstanceNames</a>),</div>
+<div class="line"><span class="lineno">  474</span>                    DatabaseType.PostgresSql =&gt; nameof(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_p_g_truncate_instance_names.html">PGTruncateInstanceNames</a>),</div>
+<div class="line"><span class="lineno">  475</span>                    DatabaseType.SqlServer =&gt; nameof(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_s_truncate_instance_names.html">MSTruncateInstanceNames</a>),</div>
+<div class="line"><span class="lineno">  476</span>                    DatabaseType.Sqlite =&gt; nameof(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_s_l_add_rev_info_timestamp.html">SLAddRevInfoTimestamp</a>),</div>
+<div class="line"><span class="lineno">  477</span>                    _ =&gt; BadDatabaseType(),</div>
+<div class="line"><span class="lineno">  478</span>                };</div>
+<div class="line"><span class="lineno">  479</span>            <span class="keywordflow">if</span> (targetVersion &lt; <span class="keyword">new</span> Version(4, 10, 0))</div>
+<div class="line"><span class="lineno">  480</span>                targetMigration = currentDatabaseType <span class="keywordflow">switch</span></div>
+<div class="line"><span class="lineno">  481</span>                {</div>
+<div class="line"><span class="lineno">  482</span>                    DatabaseType.MySql =&gt; nameof(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_s_add_rev_info_timestamp.html">MSAddRevInfoTimestamp</a>),</div>
+<div class="line"><span class="lineno">  483</span>                    DatabaseType.PostgresSql =&gt; nameof(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_p_g_add_rev_info_timestamp.html">PGAddRevInfoTimestamp</a>),</div>
+<div class="line"><span class="lineno">  484</span>                    DatabaseType.SqlServer =&gt; nameof(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_s_add_rev_info_timestamp.html">MSAddRevInfoTimestamp</a>),</div>
+<div class="line"><span class="lineno">  485</span>                    DatabaseType.Sqlite =&gt; nameof(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_s_l_add_rev_info_timestamp.html">SLAddRevInfoTimestamp</a>),</div>
+<div class="line"><span class="lineno">  486</span>                    _ =&gt; BadDatabaseType(),</div>
+<div class="line"><span class="lineno">  487</span>                };</div>
+<div class="line"><span class="lineno">  488</span>            <span class="keywordflow">if</span> (targetVersion &lt; <span class="keyword">new</span> Version(4, 8, 0))</div>
+<div class="line"><span class="lineno">  489</span>                targetMigration = currentDatabaseType <span class="keywordflow">switch</span></div>
+<div class="line"><span class="lineno">  490</span>                {</div>
+<div class="line"><span class="lineno">  491</span>                    DatabaseType.MySql =&gt; nameof(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_y_add_swarm_identifer.html">MYAddSwarmIdentifer</a>),</div>
+<div class="line"><span class="lineno">  492</span>                    DatabaseType.PostgresSql =&gt; nameof(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_p_g_add_swarm_identifer.html">PGAddSwarmIdentifer</a>),</div>
+<div class="line"><span class="lineno">  493</span>                    DatabaseType.SqlServer =&gt; nameof(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_s_add_swarm_identifer.html">MSAddSwarmIdentifer</a>),</div>
+<div class="line"><span class="lineno">  494</span>                    DatabaseType.Sqlite =&gt; nameof(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_s_l_add_swarm_identifer.html">SLAddSwarmIdentifer</a>),</div>
+<div class="line"><span class="lineno">  495</span>                    _ =&gt; BadDatabaseType(),</div>
+<div class="line"><span class="lineno">  496</span>                };</div>
+<div class="line"><span class="lineno">  497</span>            <span class="keywordflow">if</span> (targetVersion &lt; <span class="keyword">new</span> Version(4, 7, 0))</div>
+<div class="line"><span class="lineno">  498</span>                targetMigration = currentDatabaseType <span class="keywordflow">switch</span></div>
+<div class="line"><span class="lineno">  499</span>                {</div>
+<div class="line"><span class="lineno">  500</span>                    DatabaseType.MySql =&gt; nameof(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_y_add_additional_d_d_parameters.html">MYAddAdditionalDDParameters</a>),</div>
+<div class="line"><span class="lineno">  501</span>                    DatabaseType.PostgresSql =&gt; nameof(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_p_g_add_additional_d_d_parameters.html">PGAddAdditionalDDParameters</a>),</div>
+<div class="line"><span class="lineno">  502</span>                    DatabaseType.SqlServer =&gt; nameof(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_s_add_additional_d_d_parameters.html">MSAddAdditionalDDParameters</a>),</div>
+<div class="line"><span class="lineno">  503</span>                    DatabaseType.Sqlite =&gt; nameof(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_s_l_add_additional_d_d_parameters.html">SLAddAdditionalDDParameters</a>),</div>
+<div class="line"><span class="lineno">  504</span>                    _ =&gt; BadDatabaseType(),</div>
+<div class="line"><span class="lineno">  505</span>                };</div>
+<div class="line"><span class="lineno">  506</span>            <span class="keywordflow">if</span> (targetVersion &lt; <span class="keyword">new</span> Version(4, 6, 0))</div>
+<div class="line"><span class="lineno">  507</span>                targetMigration = currentDatabaseType <span class="keywordflow">switch</span></div>
+<div class="line"><span class="lineno">  508</span>                {</div>
+<div class="line"><span class="lineno">  509</span>                    DatabaseType.MySql =&gt; nameof(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_y_add_deployment_columns.html">MYAddDeploymentColumns</a>),</div>
+<div class="line"><span class="lineno">  510</span>                    DatabaseType.PostgresSql =&gt; nameof(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_p_g_add_deployment_columns.html">PGAddDeploymentColumns</a>),</div>
+<div class="line"><span class="lineno">  511</span>                    DatabaseType.SqlServer =&gt; nameof(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_s_add_deployment_columns.html">MSAddDeploymentColumns</a>),</div>
+<div class="line"><span class="lineno">  512</span>                    DatabaseType.Sqlite =&gt; nameof(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_s_l_add_deployment_columns.html">SLAddDeploymentColumns</a>),</div>
+<div class="line"><span class="lineno">  513</span>                    _ =&gt; BadDatabaseType(),</div>
+<div class="line"><span class="lineno">  514</span>                };</div>
+<div class="line"><span class="lineno">  515</span>            <span class="keywordflow">if</span> (targetVersion &lt; <span class="keyword">new</span> Version(4, 5, 0))</div>
+<div class="line"><span class="lineno">  516</span>                targetMigration = currentDatabaseType <span class="keywordflow">switch</span></div>
+<div class="line"><span class="lineno">  517</span>                {</div>
+<div class="line"><span class="lineno">  518</span>                    DatabaseType.MySql =&gt; nameof(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_y_allow_null_d_m_api.html">MYAllowNullDMApi</a>),</div>
+<div class="line"><span class="lineno">  519</span>                    DatabaseType.PostgresSql =&gt; nameof(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_p_g_allow_null_d_m_api.html">PGAllowNullDMApi</a>),</div>
+<div class="line"><span class="lineno">  520</span>                    DatabaseType.SqlServer =&gt; nameof(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_s_allow_null_d_m_api.html">MSAllowNullDMApi</a>),</div>
+<div class="line"><span class="lineno">  521</span>                    DatabaseType.Sqlite =&gt; nameof(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_s_l_allow_null_d_m_api.html">SLAllowNullDMApi</a>),</div>
+<div class="line"><span class="lineno">  522</span>                    _ =&gt; BadDatabaseType(),</div>
+<div class="line"><span class="lineno">  523</span>                };</div>
+<div class="line"><span class="lineno">  524</span>            <span class="keywordflow">if</span> (targetVersion &lt; <span class="keyword">new</span> Version(4, 4, 0))</div>
+<div class="line"><span class="lineno">  525</span>                targetMigration = currentDatabaseType <span class="keywordflow">switch</span></div>
+<div class="line"><span class="lineno">  526</span>                {</div>
+<div class="line"><span class="lineno">  527</span>                    DatabaseType.MySql =&gt; nameof(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_y_fix_foreign_key.html">MYFixForeignKey</a>),</div>
+<div class="line"><span class="lineno">  528</span>                    DatabaseType.PostgresSql =&gt; nameof(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_p_g_create.html">PGCreate</a>),</div>
+<div class="line"><span class="lineno">  529</span>                    DatabaseType.SqlServer =&gt; nameof(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_s_remove_soft_columns.html">MSRemoveSoftColumns</a>),</div>
+<div class="line"><span class="lineno">  530</span>                    DatabaseType.Sqlite =&gt; nameof(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_s_l_remove_soft_columns.html">SLRemoveSoftColumns</a>),</div>
+<div class="line"><span class="lineno">  531</span>                    _ =&gt; BadDatabaseType(),</div>
+<div class="line"><span class="lineno">  532</span>                };</div>
+<div class="line"><span class="lineno">  533</span>            <span class="keywordflow">if</span> (targetVersion &lt; <span class="keyword">new</span> Version(4, 2, 0))</div>
+<div class="line"><span class="lineno">  534</span>                targetMigration = currentDatabaseType == DatabaseType.Sqlite ? nameof(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_s_l_rebuild.html">SLRebuild</a>) : nameof(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_s_fix_cascading_delete.html">MSFixCascadingDelete</a>);</div>
+<div class="line"><span class="lineno">  535</span> </div>
+<div class="line"><span class="lineno">  536</span>            <span class="keywordflow">if</span> (targetMigration == <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">  537</span>            {</div>
+<div class="line"><span class="lineno">  538</span>                logger.LogDebug(<span class="stringliteral">&quot;No down migration required.&quot;</span>);</div>
+<div class="line"><span class="lineno">  539</span>                <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno">  540</span>            }</div>
+<div class="line"><span class="lineno">  541</span> </div>
+<div class="line"><span class="lineno">  542</span>            <span class="comment">// already setup</span></div>
+<div class="line"><span class="lineno">  543</span>            var migrationSubstitution = currentDatabaseType <span class="keywordflow">switch</span></div>
+<div class="line"><span class="lineno">  544</span>            {</div>
+<div class="line"><span class="lineno">  545</span>                DatabaseType.SqlServer =&gt; <span class="keyword">null</span>, <span class="comment">// already setup</span></div>
+<div class="line"><span class="lineno">  546</span>                DatabaseType.MySql =&gt; <span class="stringliteral">&quot;MY{0}&quot;</span>,</div>
+<div class="line"><span class="lineno">  547</span>                DatabaseType.Sqlite =&gt; <span class="stringliteral">&quot;SL{0}&quot;</span>,</div>
+<div class="line"><span class="lineno">  548</span>                DatabaseType.PostgresSql =&gt; <span class="stringliteral">&quot;PG{0}&quot;</span>,</div>
+<div class="line"><span class="lineno">  549</span>                _ =&gt; <span class="keywordflow">throw</span> <span class="keyword">new</span> InvalidOperationException($<span class="stringliteral">&quot;Invalid DatabaseType: {currentDatabaseType}&quot;</span>),</div>
+<div class="line"><span class="lineno">  550</span>            };</div>
+<div class="line"><span class="lineno">  551</span> </div>
+<div class="line"><span class="lineno">  552</span>            <span class="keywordflow">if</span> (migrationSubstitution != <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">  553</span>                targetMigration = String.Format(CultureInfo.InvariantCulture, migrationSubstitution, targetMigration[2..]);</div>
+<div class="line"><span class="lineno">  554</span> </div>
+<div class="line"><span class="lineno">  555</span>            <span class="comment">// even though it clearly implements it in the DatabaseFacade definition this won&#39;t work without casting (╯ಠ益ಠ)╯︵ ┻━┻</span></div>
+<div class="line"><span class="lineno">  556</span>            var dbServiceProvider = ((IInfrastructure&lt;IServiceProvider&gt;)Database).Instance;</div>
+<div class="line"><span class="lineno">  557</span>            var migrator = dbServiceProvider.GetRequiredService&lt;IMigrator&gt;();</div>
+<div class="line"><span class="lineno">  558</span> </div>
+<div class="line"><span class="lineno">  559</span>            logger.LogInformation(<span class="stringliteral">&quot;Migrating down to version {targetVersion}. Target: {targetMigration}&quot;</span>, targetVersion, targetMigration);</div>
+<div class="line"><span class="lineno">  560</span>            <span class="keywordflow">try</span></div>
+<div class="line"><span class="lineno">  561</span>            {</div>
+<div class="line"><span class="lineno">  562</span>                await migrator.MigrateAsync(targetMigration, cancellationToken);</div>
+<div class="line"><span class="lineno">  563</span>            }</div>
+<div class="line"><span class="lineno">  564</span>            <span class="keywordflow">catch</span> (Exception e)</div>
+<div class="line"><span class="lineno">  565</span>            {</div>
+<div class="line"><span class="lineno">  566</span>                logger.LogCritical(e, <span class="stringliteral">&quot;Failed to migrate!&quot;</span>);</div>
+<div class="line"><span class="lineno">  567</span>            }</div>
+<div class="line"><span class="lineno">  568</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_s_add_additional_d_d_parameters_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_s_add_additional_d_d_parameters.html">Tgstation.Server.Host.Database.Migrations.MSAddAdditionalDDParameters</a></div><div class="ttdoc">Adds the AdditionalParameters DD column for MSSQL.</div><div class="ttdef"><b>Definition:</b> <a href="20201106082502___m_s_add_additional_d_d_parameters_8cs_source.html#l00010">20201106082502_MSAddAdditionalDDParameters.cs:11</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_s_add_deployment_columns_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_s_add_deployment_columns.html">Tgstation.Server.Host.Database.Migrations.MSAddDeploymentColumns</a></div><div class="ttdoc">Adds columns for GitHub deployments for MSSQL.</div><div class="ttdef"><b>Definition:</b> <a href="20200807213255___m_s_add_deployment_columns_8cs_source.html#l00010">20200807213255_MSAddDeploymentColumns.cs:11</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_s_add_dream_daemon_log_output_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_s_add_dream_daemon_log_output.html">Tgstation.Server.Host.Database.Migrations.MSAddDreamDaemonLogOutput</a></div><div class="ttdoc">Adds the DreamDaemon LogOutput column for MSSQL.</div><div class="ttdef"><b>Definition:</b> <a href="20230331220749___m_s_add_dream_daemon_log_output_8cs_source.html#l00012">20230331220749_MSAddDreamDaemonLogOutput.cs:13</a></div></div>
@@ -1111,7 +1113,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_database_context_8cs_source.html#l00204">204</a> of file <a class="el" href="_database_context_8cs_source.html">DatabaseContext.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_database_context_8cs_source.html#l00258">Tgstation.Server.Host.Database.DatabaseContext.DatabaseContext()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_database_context_8cs_source.html#l00260">Tgstation.Server.Host.Database.DatabaseContext.DatabaseContext()</a>.</p>
 
 </div>
 </div>
@@ -1139,7 +1141,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_database_context_8cs_source.html#l00209">209</a> of file <a class="el" href="_database_context_8cs_source.html">DatabaseContext.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_database_context_8cs_source.html#l00258">Tgstation.Server.Host.Database.DatabaseContext.DatabaseContext()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_database_context_8cs_source.html#l00260">Tgstation.Server.Host.Database.DatabaseContext.DatabaseContext()</a>.</p>
 
 </div>
 </div>
@@ -1167,7 +1169,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_database_context_8cs_source.html#l00174">174</a> of file <a class="el" href="_database_context_8cs_source.html">DatabaseContext.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_database_context_8cs_source.html#l00258">Tgstation.Server.Host.Database.DatabaseContext.DatabaseContext()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_database_context_8cs_source.html#l00260">Tgstation.Server.Host.Database.DatabaseContext.DatabaseContext()</a>.</p>
 
 </div>
 </div>
@@ -1195,7 +1197,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_database_context_8cs_source.html#l00199">199</a> of file <a class="el" href="_database_context_8cs_source.html">DatabaseContext.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_database_context_8cs_source.html#l00258">Tgstation.Server.Host.Database.DatabaseContext.DatabaseContext()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_database_context_8cs_source.html#l00260">Tgstation.Server.Host.Database.DatabaseContext.DatabaseContext()</a>.</p>
 
 </div>
 </div>
@@ -1223,7 +1225,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_database_context_8cs_source.html#l00194">194</a> of file <a class="el" href="_database_context_8cs_source.html">DatabaseContext.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_database_context_8cs_source.html#l00258">Tgstation.Server.Host.Database.DatabaseContext.DatabaseContext()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_database_context_8cs_source.html#l00260">Tgstation.Server.Host.Database.DatabaseContext.DatabaseContext()</a>.</p>
 
 </div>
 </div>
@@ -1251,7 +1253,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_database_context_8cs_source.html#l00229">229</a> of file <a class="el" href="_database_context_8cs_source.html">DatabaseContext.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_database_context_8cs_source.html#l00258">Tgstation.Server.Host.Database.DatabaseContext.DatabaseContext()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_database_context_8cs_source.html#l00260">Tgstation.Server.Host.Database.DatabaseContext.DatabaseContext()</a>.</p>
 
 </div>
 </div>
@@ -1279,7 +1281,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_database_context_8cs_source.html#l00179">179</a> of file <a class="el" href="_database_context_8cs_source.html">DatabaseContext.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_database_context_8cs_source.html#l00258">Tgstation.Server.Host.Database.DatabaseContext.DatabaseContext()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_database_context_8cs_source.html#l00260">Tgstation.Server.Host.Database.DatabaseContext.DatabaseContext()</a>.</p>
 
 </div>
 </div>
@@ -1307,7 +1309,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_database_context_8cs_source.html#l00169">169</a> of file <a class="el" href="_database_context_8cs_source.html">DatabaseContext.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_database_context_8cs_source.html#l00258">Tgstation.Server.Host.Database.DatabaseContext.DatabaseContext()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_database_context_8cs_source.html#l00260">Tgstation.Server.Host.Database.DatabaseContext.DatabaseContext()</a>.</p>
 
 </div>
 </div>
@@ -1335,7 +1337,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_database_context_8cs_source.html#l00184">184</a> of file <a class="el" href="_database_context_8cs_source.html">DatabaseContext.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_database_context_8cs_source.html#l00258">Tgstation.Server.Host.Database.DatabaseContext.DatabaseContext()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_database_context_8cs_source.html#l00260">Tgstation.Server.Host.Database.DatabaseContext.DatabaseContext()</a>.</p>
 
 </div>
 </div>
@@ -1363,7 +1365,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_database_context_8cs_source.html#l00224">224</a> of file <a class="el" href="_database_context_8cs_source.html">DatabaseContext.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_database_context_8cs_source.html#l00258">Tgstation.Server.Host.Database.DatabaseContext.DatabaseContext()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_database_context_8cs_source.html#l00260">Tgstation.Server.Host.Database.DatabaseContext.DatabaseContext()</a>.</p>
 
 </div>
 </div>
@@ -1391,7 +1393,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_database_context_8cs_source.html#l00234">234</a> of file <a class="el" href="_database_context_8cs_source.html">DatabaseContext.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_database_context_8cs_source.html#l00258">Tgstation.Server.Host.Database.DatabaseContext.DatabaseContext()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_database_context_8cs_source.html#l00260">Tgstation.Server.Host.Database.DatabaseContext.DatabaseContext()</a>.</p>
 
 </div>
 </div>
@@ -1419,7 +1421,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_database_context_8cs_source.html#l00219">219</a> of file <a class="el" href="_database_context_8cs_source.html">DatabaseContext.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_database_context_8cs_source.html#l00258">Tgstation.Server.Host.Database.DatabaseContext.DatabaseContext()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_database_context_8cs_source.html#l00260">Tgstation.Server.Host.Database.DatabaseContext.DatabaseContext()</a>.</p>
 
 </div>
 </div>
@@ -1447,7 +1449,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_database_context_8cs_source.html#l00214">214</a> of file <a class="el" href="_database_context_8cs_source.html">DatabaseContext.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_database_context_8cs_source.html#l00258">Tgstation.Server.Host.Database.DatabaseContext.DatabaseContext()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_database_context_8cs_source.html#l00260">Tgstation.Server.Host.Database.DatabaseContext.DatabaseContext()</a>.</p>
 
 </div>
 </div>
@@ -1475,7 +1477,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_database_context_8cs_source.html#l00189">189</a> of file <a class="el" href="_database_context_8cs_source.html">DatabaseContext.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_database_context_8cs_source.html#l00258">Tgstation.Server.Host.Database.DatabaseContext.DatabaseContext()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_database_context_8cs_source.html#l00260">Tgstation.Server.Host.Database.DatabaseContext.DatabaseContext()</a>.</p>
 
 </div>
 </div>
@@ -1503,7 +1505,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_database_context_8cs_source.html#l00164">164</a> of file <a class="el" href="_database_context_8cs_source.html">DatabaseContext.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_database_context_8cs_source.html#l00258">Tgstation.Server.Host.Database.DatabaseContext.DatabaseContext()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_database_context_8cs_source.html#l00260">Tgstation.Server.Host.Database.DatabaseContext.DatabaseContext()</a>.</p>
 
 </div>
 </div>
@@ -1535,7 +1537,7 @@ Here is the caller graph for this function:</div>
 <p class="definition">Definition at line <a class="el" href="_database_context_8cs_source.html#l00054">54</a> of file <a class="el" href="_database_context_8cs_source.html">DatabaseContext.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   54</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_chat_controller_8cs_source.html#l00107">Tgstation.Server.Host.Controllers.ChatController.Create()</a>, <a class="el" href="_database_context_8cs_source.html#l00258">Tgstation.Server.Host.Database.DatabaseContext.DatabaseContext()</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_chat_controller.html#ab5babed68b817c6d5c7957804cbbb943">Tgstation.Server.Host.Controllers.ChatController.Delete()</a>, <a class="el" href="_chat_controller_8cs_source.html#l00208">Tgstation.Server.Host.Controllers.ChatController.List()</a>, <a class="el" href="_chat_controller_8cs_source.html#l00278">Tgstation.Server.Host.Controllers.ChatController.Update()</a>, and <a class="el" href="_instance_controller_8cs_source.html#l00328">Tgstation.Server.Host.Controllers.InstanceController.Update()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_chat_controller_8cs_source.html#l00107">Tgstation.Server.Host.Controllers.ChatController.Create()</a>, <a class="el" href="_database_context_8cs_source.html#l00260">Tgstation.Server.Host.Database.DatabaseContext.DatabaseContext()</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_chat_controller.html#ab5babed68b817c6d5c7957804cbbb943">Tgstation.Server.Host.Controllers.ChatController.Delete()</a>, <a class="el" href="_chat_controller_8cs_source.html#l00208">Tgstation.Server.Host.Controllers.ChatController.List()</a>, <a class="el" href="_chat_controller_8cs_source.html#l00278">Tgstation.Server.Host.Controllers.ChatController.Update()</a>, and <a class="el" href="_instance_controller_8cs_source.html#l00328">Tgstation.Server.Host.Controllers.InstanceController.Update()</a>.</p>
 
 </div>
 </div>
@@ -1594,7 +1596,7 @@ Here is the caller graph for this function:</div>
 <p class="definition">Definition at line <a class="el" href="_database_context_8cs_source.html#l00074">74</a> of file <a class="el" href="_database_context_8cs_source.html">DatabaseContext.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   74</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_database_context_8cs_source.html#l00258">Tgstation.Server.Host.Database.DatabaseContext.DatabaseContext()</a>, and <a class="el" href="_chat_controller_8cs_source.html#l00278">Tgstation.Server.Host.Controllers.ChatController.Update()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_database_context_8cs_source.html#l00260">Tgstation.Server.Host.Database.DatabaseContext.DatabaseContext()</a>, and <a class="el" href="_chat_controller_8cs_source.html#l00278">Tgstation.Server.Host.Controllers.ChatController.Update()</a>.</p>
 
 </div>
 </div>
@@ -1653,7 +1655,7 @@ Here is the caller graph for this function:</div>
 <p class="definition">Definition at line <a class="el" href="_database_context_8cs_source.html#l00039">39</a> of file <a class="el" href="_database_context_8cs_source.html">DatabaseContext.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   39</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_database_context_8cs_source.html#l00258">Tgstation.Server.Host.Database.DatabaseContext.DatabaseContext()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_database_context_8cs_source.html#l00260">Tgstation.Server.Host.Database.DatabaseContext.DatabaseContext()</a>.</p>
 
 </div>
 </div>
@@ -1828,7 +1830,7 @@ Here is the caller graph for this function:</div>
 <p class="definition">Definition at line <a class="el" href="_database_context_8cs_source.html#l00109">109</a> of file <a class="el" href="_database_context_8cs_source.html">DatabaseContext.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">  109</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_user_group_controller_8cs_source.html#l00068">Tgstation.Server.Host.Controllers.UserGroupController.Create()</a>, <a class="el" href="_user_controller_8cs_source.html#l00407">Tgstation.Server.Host.Controllers.UserController.CreateNewUserFromModel()</a>, <a class="el" href="_database_context_8cs_source.html#l00258">Tgstation.Server.Host.Database.DatabaseContext.DatabaseContext()</a>, <a class="el" href="_user_group_controller_8cs_source.html#l00213">Tgstation.Server.Host.Controllers.UserGroupController.Delete()</a>, <a class="el" href="_user_group_controller_8cs_source.html#l00158">Tgstation.Server.Host.Controllers.UserGroupController.GetId()</a>, <a class="el" href="_user_group_controller_8cs_source.html#l00112">Tgstation.Server.Host.Controllers.UserGroupController.Update()</a>, and <a class="el" href="_user_controller_8cs_source.html#l00171">Tgstation.Server.Host.Controllers.UserController.Update()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_user_group_controller_8cs_source.html#l00068">Tgstation.Server.Host.Controllers.UserGroupController.Create()</a>, <a class="el" href="_user_controller_8cs_source.html#l00407">Tgstation.Server.Host.Controllers.UserController.CreateNewUserFromModel()</a>, <a class="el" href="_database_context_8cs_source.html#l00260">Tgstation.Server.Host.Database.DatabaseContext.DatabaseContext()</a>, <a class="el" href="_user_group_controller_8cs_source.html#l00213">Tgstation.Server.Host.Controllers.UserGroupController.Delete()</a>, <a class="el" href="_user_group_controller_8cs_source.html#l00158">Tgstation.Server.Host.Controllers.UserGroupController.GetId()</a>, <a class="el" href="_user_group_controller_8cs_source.html#l00112">Tgstation.Server.Host.Controllers.UserGroupController.Update()</a>, and <a class="el" href="_user_controller_8cs_source.html#l00171">Tgstation.Server.Host.Controllers.UserController.Update()</a>.</p>
 
 </div>
 </div>
@@ -1887,7 +1889,7 @@ Here is the caller graph for this function:</div>
 <p class="definition">Definition at line <a class="el" href="_database_context_8cs_source.html#l00069">69</a> of file <a class="el" href="_database_context_8cs_source.html">DatabaseContext.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   69</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_instance_controller_8cs_source.html#l00800">Tgstation.Server.Host.Controllers.InstanceController.CheckAccessible()</a>, <a class="el" href="_instance_permission_set_controller_8cs_source.html#l00064">Tgstation.Server.Host.Controllers.InstancePermissionSetController.Create()</a>, <a class="el" href="_database_context_8cs_source.html#l00258">Tgstation.Server.Host.Database.DatabaseContext.DatabaseContext()</a>, and <a class="el" href="_instance_controller_8cs_source.html#l00643">Tgstation.Server.Host.Controllers.InstanceController.GrantPermissions()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_instance_controller_8cs_source.html#l00801">Tgstation.Server.Host.Controllers.InstanceController.CheckAccessible()</a>, <a class="el" href="_instance_permission_set_controller_8cs_source.html#l00064">Tgstation.Server.Host.Controllers.InstancePermissionSetController.Create()</a>, <a class="el" href="_database_context_8cs_source.html#l00260">Tgstation.Server.Host.Database.DatabaseContext.DatabaseContext()</a>, and <a class="el" href="_instance_controller_8cs_source.html#l00643">Tgstation.Server.Host.Controllers.InstanceController.GrantPermissions()</a>.</p>
 
 </div>
 </div>
@@ -1946,7 +1948,7 @@ Here is the caller graph for this function:</div>
 <p class="definition">Definition at line <a class="el" href="_database_context_8cs_source.html#l00034">34</a> of file <a class="el" href="_database_context_8cs_source.html">DatabaseContext.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   34</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_instance_controller_8cs_source.html#l00130">Tgstation.Server.Host.Controllers.InstanceController.Create()</a>, <a class="el" href="_database_context_8cs_source.html#l00258">Tgstation.Server.Host.Database.DatabaseContext.DatabaseContext()</a>, <a class="el" href="_instance_controller_8cs_source.html#l00282">Tgstation.Server.Host.Controllers.InstanceController.Delete()</a>, <a class="el" href="_instance_permission_set_controller_8cs_source.html#l00236">Tgstation.Server.Host.Controllers.InstancePermissionSetController.Delete()</a>, <a class="el" href="_instance_controller_8cs_source.html#l00587">Tgstation.Server.Host.Controllers.InstanceController.GetId()</a>, <a class="el" href="_instance_permission_set_controller_8cs_source.html#l00209">Tgstation.Server.Host.Controllers.InstancePermissionSetController.GetId()</a>, <a class="el" href="_instance_controller_8cs_source.html#l00643">Tgstation.Server.Host.Controllers.InstanceController.GrantPermissions()</a>, <a class="el" href="_instance_controller_8cs_source.html#l00520">Tgstation.Server.Host.Controllers.InstanceController.List()</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_dream_daemon_controller.html#a1d9d46d6e62b5bbae020f7bf7142fa88">Tgstation.Server.Host.Controllers.DreamDaemonController.ReadImpl()</a>, <a class="el" href="_dream_daemon_controller_8cs_source.html#l00159">Tgstation.Server.Host.Controllers.DreamDaemonController.Update()</a>, <a class="el" href="_instance_permission_set_controller_8cs_source.html#l00127">Tgstation.Server.Host.Controllers.InstancePermissionSetController.Update()</a>, and <a class="el" href="_instance_controller_8cs_source.html#l00328">Tgstation.Server.Host.Controllers.InstanceController.Update()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_instance_controller_8cs_source.html#l00130">Tgstation.Server.Host.Controllers.InstanceController.Create()</a>, <a class="el" href="_database_context_8cs_source.html#l00260">Tgstation.Server.Host.Database.DatabaseContext.DatabaseContext()</a>, <a class="el" href="_instance_controller_8cs_source.html#l00282">Tgstation.Server.Host.Controllers.InstanceController.Delete()</a>, <a class="el" href="_instance_permission_set_controller_8cs_source.html#l00236">Tgstation.Server.Host.Controllers.InstancePermissionSetController.Delete()</a>, <a class="el" href="_instance_controller_8cs_source.html#l00587">Tgstation.Server.Host.Controllers.InstanceController.GetId()</a>, <a class="el" href="_instance_permission_set_controller_8cs_source.html#l00209">Tgstation.Server.Host.Controllers.InstancePermissionSetController.GetId()</a>, <a class="el" href="_instance_controller_8cs_source.html#l00643">Tgstation.Server.Host.Controllers.InstanceController.GrantPermissions()</a>, <a class="el" href="_instance_controller_8cs_source.html#l00520">Tgstation.Server.Host.Controllers.InstanceController.List()</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_dream_daemon_controller.html#a1d9d46d6e62b5bbae020f7bf7142fa88">Tgstation.Server.Host.Controllers.DreamDaemonController.ReadImpl()</a>, <a class="el" href="_dream_daemon_controller_8cs_source.html#l00160">Tgstation.Server.Host.Controllers.DreamDaemonController.Update()</a>, <a class="el" href="_instance_permission_set_controller_8cs_source.html#l00127">Tgstation.Server.Host.Controllers.InstancePermissionSetController.Update()</a>, and <a class="el" href="_instance_controller_8cs_source.html#l00328">Tgstation.Server.Host.Controllers.InstanceController.Update()</a>.</p>
 
 </div>
 </div>
@@ -2005,7 +2007,7 @@ Here is the caller graph for this function:</div>
 <p class="definition">Definition at line <a class="el" href="_database_context_8cs_source.html#l00079">79</a> of file <a class="el" href="_database_context_8cs_source.html">DatabaseContext.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   79</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_database_context_8cs_source.html#l00258">Tgstation.Server.Host.Database.DatabaseContext.DatabaseContext()</a>, <a class="el" href="_job_controller_8cs_source.html#l00123">Tgstation.Server.Host.Controllers.JobController.Delete()</a>, and <a class="el" href="_job_controller_8cs_source.html#l00157">Tgstation.Server.Host.Controllers.JobController.GetId()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_database_context_8cs_source.html#l00260">Tgstation.Server.Host.Database.DatabaseContext.DatabaseContext()</a>, <a class="el" href="_job_controller_8cs_source.html#l00123">Tgstation.Server.Host.Controllers.JobController.Delete()</a>, and <a class="el" href="_job_controller_8cs_source.html#l00157">Tgstation.Server.Host.Controllers.JobController.GetId()</a>.</p>
 
 </div>
 </div>
@@ -2064,7 +2066,7 @@ Here is the caller graph for this function:</div>
 <p class="definition">Definition at line <a class="el" href="_database_context_8cs_source.html#l00099">99</a> of file <a class="el" href="_database_context_8cs_source.html">DatabaseContext.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   99</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_database_context_8cs_source.html#l00258">Tgstation.Server.Host.Database.DatabaseContext.DatabaseContext()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_database_context_8cs_source.html#l00260">Tgstation.Server.Host.Database.DatabaseContext.DatabaseContext()</a>.</p>
 
 </div>
 </div>
@@ -2123,7 +2125,7 @@ Here is the caller graph for this function:</div>
 <p class="definition">Definition at line <a class="el" href="_database_context_8cs_source.html#l00104">104</a> of file <a class="el" href="_database_context_8cs_source.html">DatabaseContext.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">  104</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_instance_permission_set_controller_8cs_source.html#l00064">Tgstation.Server.Host.Controllers.InstancePermissionSetController.Create()</a>, <a class="el" href="_database_context_8cs_source.html#l00258">Tgstation.Server.Host.Database.DatabaseContext.DatabaseContext()</a>, and <a class="el" href="_user_controller_8cs_source.html#l00171">Tgstation.Server.Host.Controllers.UserController.Update()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_instance_permission_set_controller_8cs_source.html#l00064">Tgstation.Server.Host.Controllers.InstancePermissionSetController.Create()</a>, <a class="el" href="_database_context_8cs_source.html#l00260">Tgstation.Server.Host.Database.DatabaseContext.DatabaseContext()</a>, and <a class="el" href="_user_controller_8cs_source.html#l00171">Tgstation.Server.Host.Controllers.UserController.Update()</a>.</p>
 
 </div>
 </div>
@@ -2182,7 +2184,7 @@ Here is the caller graph for this function:</div>
 <p class="definition">Definition at line <a class="el" href="_database_context_8cs_source.html#l00084">84</a> of file <a class="el" href="_database_context_8cs_source.html">DatabaseContext.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   84</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_database_context_8cs_source.html#l00258">Tgstation.Server.Host.Database.DatabaseContext.DatabaseContext()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_database_context_8cs_source.html#l00260">Tgstation.Server.Host.Database.DatabaseContext.DatabaseContext()</a>.</p>
 
 </div>
 </div>
@@ -2297,7 +2299,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_database_context_8cs_source.html#l00159">159</a> of file <a class="el" href="_database_context_8cs_source.html">DatabaseContext.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_database_context_8cs_source.html#l00305">Tgstation.Server.Host.Database.DatabaseContext.OnModelCreating()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_database_context_8cs_source.html#l00307">Tgstation.Server.Host.Database.DatabaseContext.OnModelCreating()</a>.</p>
 
 </div>
 </div>
@@ -2355,7 +2357,7 @@ Here is the caller graph for this function:</div>
 <p class="definition">Definition at line <a class="el" href="_database_context_8cs_source.html#l00044">44</a> of file <a class="el" href="_database_context_8cs_source.html">DatabaseContext.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   44</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_database_context_8cs_source.html#l00258">Tgstation.Server.Host.Database.DatabaseContext.DatabaseContext()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_database_context_8cs_source.html#l00260">Tgstation.Server.Host.Database.DatabaseContext.DatabaseContext()</a>.</p>
 
 </div>
 </div>
@@ -2441,7 +2443,7 @@ Here is the caller graph for this function:</div>
 <p class="definition">Definition at line <a class="el" href="_database_context_8cs_source.html#l00029">29</a> of file <a class="el" href="_database_context_8cs_source.html">DatabaseContext.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   29</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_instance_permission_set_controller_8cs_source.html#l00064">Tgstation.Server.Host.Controllers.InstancePermissionSetController.Create()</a>, <a class="el" href="_user_controller_8cs_source.html#l00085">Tgstation.Server.Host.Controllers.UserController.Create()</a>, <a class="el" href="_home_controller_8cs_source.html#l00223">Tgstation.Server.Host.Controllers.HomeController.CreateToken()</a>, <a class="el" href="_database_context_8cs_source.html#l00258">Tgstation.Server.Host.Database.DatabaseContext.DatabaseContext()</a>, <a class="el" href="_database_context_8cs_source.html#l00285">Tgstation.Server.Host.Database.DatabaseContext.Migrate()</a>, and <a class="el" href="_user_controller_8cs_source.html#l00171">Tgstation.Server.Host.Controllers.UserController.Update()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_instance_permission_set_controller_8cs_source.html#l00064">Tgstation.Server.Host.Controllers.InstancePermissionSetController.Create()</a>, <a class="el" href="_user_controller_8cs_source.html#l00085">Tgstation.Server.Host.Controllers.UserController.Create()</a>, <a class="el" href="_home_controller_8cs_source.html#l00223">Tgstation.Server.Host.Controllers.HomeController.CreateToken()</a>, <a class="el" href="_database_context_8cs_source.html#l00260">Tgstation.Server.Host.Database.DatabaseContext.DatabaseContext()</a>, <a class="el" href="_database_context_8cs_source.html#l00287">Tgstation.Server.Host.Database.DatabaseContext.Migrate()</a>, and <a class="el" href="_user_controller_8cs_source.html#l00171">Tgstation.Server.Host.Controllers.UserController.Update()</a>.</p>
 
 </div>
 </div>

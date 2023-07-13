@@ -1,0 +1,5 @@
+<map id="Tgstation.Server.Host.System.ProcessExecutor.LaunchProcess" name="Tgstation.Server.Host.System.ProcessExecutor.LaunchProcess">
+<area shape="rect" id="node1" title="Launch a IProcess. The new IProcess." alt="" coords="5,13,220,53"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#a5922088172f7f06623d4b09680fe8cdb" title="Consume the stdout/stderr streams into a Task." alt="" coords="268,13,495,53"/>
+<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a98d1ad47e4ba1c1f7407f5dd50a81de8" title="Creates an asynchronous FileStream for sequential writing." alt="" coords="543,5,771,60"/>
+</map>

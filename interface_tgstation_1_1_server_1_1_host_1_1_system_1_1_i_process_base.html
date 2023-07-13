@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.12.7</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.13.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -115,9 +115,9 @@ Public Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="properties" name="properties"></a>
 Properties</h2></td></tr>
-<tr class="memitem:a1d57ffc6a03199bba632d2c33dc139d3"><td class="memItemLeft" align="right" valign="top">Task&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_base.html#a1d57ffc6a03199bba632d2c33dc139d3">Lifetime</a><code> [get]</code></td></tr>
-<tr class="memdesc:a1d57ffc6a03199bba632d2c33dc139d3"><td class="mdescLeft">&#160;</td><td class="mdescRight">The Task&lt;TResult&gt; resulting in the exit code of the process.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_base.html#a1d57ffc6a03199bba632d2c33dc139d3">More...</a><br /></td></tr>
-<tr class="separator:a1d57ffc6a03199bba632d2c33dc139d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af31601af1591fe1277fb97d160bcbace"><td class="memItemLeft" align="right" valign="top">Task&lt; int?&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_base.html#af31601af1591fe1277fb97d160bcbace">Lifetime</a><code> [get]</code></td></tr>
+<tr class="memdesc:af31601af1591fe1277fb97d160bcbace"><td class="mdescLeft">&#160;</td><td class="mdescRight">The Task&lt;TResult&gt; resulting in the exit code of the process or <code>null</code> if the process was detached.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_base.html#af31601af1591fe1277fb97d160bcbace">More...</a><br /></td></tr>
+<tr class="separator:af31601af1591fe1277fb97d160bcbace"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p >Represents process lifetime.  </p>
@@ -149,6 +149,19 @@ Properties</h2></td></tr>
 </dl>
 
 <p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#a133dff7bd50f95537a01fef1fad6a407">Tgstation.Server.Host.Components.Session.SessionController</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process.html#a363841873e7329d5b7c8d79bed0bb25d">Tgstation.Server.Host.System.Process</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="_session_controller_factory_8cs_source.html#l00491">Tgstation.Server.Host.Components.Session.SessionControllerFactory.CreateDreamDaemonProcess()</a>.</p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_base_a9d860a501568835fac115772ee87902d_icgraph.png" border="0" usemap="#ainterface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_base_a9d860a501568835fac115772ee87902d_icgraph" alt=""/></div>
+<map name="ainterface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_base_a9d860a501568835fac115772ee87902d_icgraph" id="ainterface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_base_a9d860a501568835fac115772ee87902d_icgraph">
+<area shape="rect" title="Set&#39;s the owned global::System.Diagnostics.Process.PriorityClass to a non&#45;normal value." alt="" coords="949,13,1148,53"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller_factory.html#a5a981603548cbc102e4f855bd65ec877" title="Creates the DreamDaemon IProcess." alt="" coords="643,5,901,60"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller_factory.html#a0d2028540db88c8c5e578874399e8027" title="Create a ISessionController from a freshly launch DreamDaemon instance. A Task&lt;TResult&gt; resulting in ..." alt="" coords="304,13,595,53"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_basic_watchdog.html#ad6a174232e66f5070f33b14e2cf15d48" title="Starts all ISessionControllers. A Task representing the running operation." alt="" coords="5,13,256,53"/>
+</map>
+</div>
 
 </div>
 </div>
@@ -248,8 +261,8 @@ Here is the caller graph for this function:</div>
 </div>
 </div>
 <h2 class="groupheader">Property Documentation</h2>
-<a id="a1d57ffc6a03199bba632d2c33dc139d3" name="a1d57ffc6a03199bba632d2c33dc139d3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1d57ffc6a03199bba632d2c33dc139d3">&#9670;&#160;</a></span>Lifetime</h2>
+<a id="af31601af1591fe1277fb97d160bcbace" name="af31601af1591fe1277fb97d160bcbace"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af31601af1591fe1277fb97d160bcbace">&#9670;&#160;</a></span>Lifetime</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -258,7 +271,7 @@ Here is the caller graph for this function:</div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">Task&lt;int&gt; Tgstation.Server.Host.System.IProcessBase.Lifetime</td>
+          <td class="memname">Task&lt;int?&gt; Tgstation.Server.Host.System.IProcessBase.Lifetime</td>
         </tr>
       </table>
   </td>
@@ -268,14 +281,14 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p>The Task&lt;TResult&gt; resulting in the exit code of the process.  </p>
+<p>The Task&lt;TResult&gt; resulting in the exit code of the process or <code>null</code> if the process was detached.  </p>
 
-<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#a1c788fd5a67f57bd4344d30c3bbd6d48">Tgstation.Server.Host.Components.Session.SessionController</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process.html#a7c6cb2d9bb60adf415db09b3b6a45f26">Tgstation.Server.Host.System.Process</a>.</p>
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#a877b96a1b225be7ef447af47ce1a3d99">Tgstation.Server.Host.Components.Session.SessionController</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process.html#a29a5e4220bacdcbeec4fc5a5221f196b">Tgstation.Server.Host.System.Process</a>.</p>
 
 <p class="definition">Definition at line <a class="el" href="_i_process_base_8cs_source.html#l00014">14</a> of file <a class="el" href="_i_process_base_8cs_source.html">IProcessBase.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   14</span>{ <span class="keyword">get</span>; }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_session_controller_8cs_source.html#l00322">Tgstation.Server.Host.Components.Session.SessionController.DisposeAsync()</a>, <a class="el" href="_session_controller_8cs_source.html#l00574">Tgstation.Server.Host.Components.Session.SessionController.GetLaunchResult()</a>, <a class="el" href="_windows_network_prompt_reaper_8cs_source.html#l00102">Tgstation.Server.Host.System.WindowsNetworkPromptReaper.RegisterProcess()</a>, and <a class="el" href="_session_controller_8cs_source.html#l00238">Tgstation.Server.Host.Components.Session.SessionController.SessionController()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_session_controller_8cs_source.html#l00329">Tgstation.Server.Host.Components.Session.SessionController.DisposeAsync()</a>, <a class="el" href="_session_controller_8cs_source.html#l00588">Tgstation.Server.Host.Components.Session.SessionController.GetLaunchResult()</a>, <a class="el" href="_windows_network_prompt_reaper_8cs_source.html#l00102">Tgstation.Server.Host.System.WindowsNetworkPromptReaper.RegisterProcess()</a>, and <a class="el" href="_session_controller_8cs_source.html#l00243">Tgstation.Server.Host.Components.Session.SessionController.SessionController()</a>.</p>
 
 </div>
 </div>

@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.12.7</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.13.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -76,8 +76,7 @@ $(function() {
 <div class="contents">
 <div class="textblock"><p ><a class="anchor" id="md_README"></a> <img src="https://github.com/tgstation/tgstation-server/workflows/CI/badge.svg" alt="CI" style="pointer-events: none;" class="inline"/> <a href="https://codecov.io/gh/tgstation/tgstation-server"><img src="https://codecov.io/gh/tgstation/tgstation-server/branch/master/graph/badge.svg" alt="codecov" style="pointer-events: none;" class="inline"/></a></p>
 <p >[<img src="https://img.shields.io/github/license/tgstation/tgstation-server.svg" alt="GitHub license" style="pointer-events: none;" class="inline"/>](LICENSE) <a href="http://isitmaintained.com/project/tgstation/tgstation-server" title="Average time to resolve an issue"><img src="http://isitmaintained.com/badge/resolution/tgstation/tgstation-server.svg" alt="Average time to resolve an issue" style="pointer-events: none;" class="inline"/></a> <a href="https://www.nuget.org/packages/Tgstation.Server.Api"><img src="https://img.shields.io/nuget/v/Tgstation.Server.Api.svg" alt="NuGet version" style="pointer-events: none;" class="inline"/></a> <a href="https://www.nuget.org/packages/Tgstation.Server.Client"><img src="https://img.shields.io/nuget/v/Tgstation.Server.Client.svg" alt="NuGet version" style="pointer-events: none;" class="inline"/></a></p>
-<p ><a href="http://forthebadge.com"><img src="http://forthebadge.com/images/badges/made-with-c-sharp.svg" alt="forthebadge" style="pointer-events: none;" class="inline"/></a> <a href="https://www.reddit.com/r/SS13/comments/5oplxp/what_is_the_main_problem_with_byond_as_an_engine/dclbu1a"><img src="https://user-images.githubusercontent.com/5211576/29499758-4efff304-85e6-11e7-8267-62919c3688a9.gif" alt="forinfinityandbyond" class="inline"/></a></p>
-<p ><a href="http://forthebadge.com"><img src="http://forthebadge.com/images/badges/built-with-love.svg" alt="forthebadge" style="pointer-events: none;" class="inline"/></a> <a href="http://forthebadge.com"><img src="http://forthebadge.com/images/badges/60-percent-of-the-time-works-every-time.svg" alt="forthebadge" style="pointer-events: none;" class="inline"/></a></p>
+<p ><a href="http://forthebadge.com"><img src="http://forthebadge.com/images/badges/made-with-c-sharp.svg" alt="forthebadge" style="pointer-events: none;" class="inline"/></a> <a href="https://www.reddit.com/r/SS13/comments/5oplxp/what_is_the_main_problem_with_byond_as_an_engine/dclbu1a"><img src="https://user-images.githubusercontent.com/5211576/29499758-4efff304-85e6-11e7-8267-62919c3688a9.gif" alt="forinfinityandbyond" class="inline"/></a> <a href="http://forthebadge.com"><img src="http://forthebadge.com/images/badges/built-with-love.svg" alt="forthebadge" style="pointer-events: none;" class="inline"/></a></p>
 <p >This is a toolset to manage production BYOND servers. It includes the ability to update the server without having to stop or shutdown the server (the update will take effect on a "reboot" of the server), the ability to start the server and restart it if it crashes, as well as systems for managing code and game files, and locally merging GitHub Pull Requests for test deployments.</p>
 <h2><a class="anchor" id="autotoc_md1"></a>
 Legacy Servers</h2>
@@ -448,7 +447,7 @@ Repository</h3>
 <p >Manual operations on the repository while an instance is running may lead to git data corruption. Thankfully, it's simple enough to delete and reclone the repository via the API.</p>
 <h3><a class="anchor" id="autotoc_md39"></a>
 Byond</h3>
-<p >The <code>Byond</code> folder contains installations of <a href="https://secure.byond.com/">BYOND</a> versions. The version which is used by your game code can be changed on a whim (Note that only versions &gt;= 511.1385 have been thouroughly tested. Lower versions should work but if one doesn't function, please open an issue report) and the server will take care of installing it.</p>
+<p >The <code>Byond</code> folder contains installations of <a href="https://www.byond.com/">BYOND</a> versions. The version which is used by your game code can be changed on a whim (Note that only versions &gt;= 511.1385 have been thouroughly tested. Lower versions should work but if one doesn't function, please open an issue report) and the server will take care of installing it.</p>
 <h3><a class="anchor" id="autotoc_md40"></a>
 Compiler</h3>
 <p >The compiler deploys code from the <code>Repository</code> folder to the <code>Game</code> folder and compiles it either by autodetecting the <code>.dme</code> or having it set by configuration. Several other step are also run such as validating the DMAPI version and creating symlinks for static files are done at this point. The compiler also applies server side code modifications and duplicates compiled code for the watchdog as well (See following section).</p>

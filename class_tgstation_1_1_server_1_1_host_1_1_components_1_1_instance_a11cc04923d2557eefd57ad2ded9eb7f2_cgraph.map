@@ -48,5 +48,5 @@
 <area shape="rect" id="node48" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html#a29773d588476671bbe480f096d839c91" title="Asyncronously locks a semaphore ." alt="" coords="1679,2006,1869,2046"/>
 <area shape="rect" id="node49" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ac922bdac0d00614949510725420ddd4e" title="Returns all the contents of a file at path &#160;as a byte array." alt="" coords="1689,1457,1859,1497"/>
 <area shape="rect" id="node50" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_i_byond_installer.html#ad3810330f7cdb86dd7235213debea1d6" title="Does actions necessary to get upgrade a BYOND version installed by a previous version of TGS." alt="" coords="1643,1521,1905,1561"/>
-<area shape="rect" id="node43" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_i_byond_installer.html#a7e9a30e879ff0826f2fc07942cfa5499" title="Get the file name of the DreamDaemon executable." alt="" coords="1969,1690,2261,1730"/>
+<area shape="rect" id="node43" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_i_byond_installer.html#ac4a4e484d580ed6af029a30805f64b2d" title="Get the file name of the DreamDaemon executable." alt="" coords="1969,1690,2261,1730"/>
 </map>

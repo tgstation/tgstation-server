@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.12.7</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.13.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -110,6 +110,9 @@ Properties</h2></td></tr>
 <tr class="memitem:a0027fa06ccc70b8c198b021a1771ef24"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_i_byond_installation.html#a0027fa06ccc70b8c198b021a1771ef24">SupportsCli</a><code> [get]</code></td></tr>
 <tr class="memdesc:a0027fa06ccc70b8c198b021a1771ef24"><td class="mdescLeft">&#160;</td><td class="mdescRight">If <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_i_byond_installation.html#aa7eae94b2ca042b420249aa2a40c9896" title="The full path to the DreamDaemon executable.">DreamDaemonPath</a> supports being run as a command-line application.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_i_byond_installation.html#a0027fa06ccc70b8c198b021a1771ef24">More...</a><br /></td></tr>
 <tr class="separator:a0027fa06ccc70b8c198b021a1771ef24"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa30185934a59093bb6f6605372208dcf"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_i_byond_installation.html#aa30185934a59093bb6f6605372208dcf">SupportsMapThreads</a><code> [get]</code></td></tr>
+<tr class="memdesc:aa30185934a59093bb6f6605372208dcf"><td class="mdescLeft">&#160;</td><td class="mdescRight">If <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_i_byond_installation.html#aa7eae94b2ca042b420249aa2a40c9896" title="The full path to the DreamDaemon executable.">DreamDaemonPath</a> supports the -map-threads parameter.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_i_byond_installation.html#aa30185934a59093bb6f6605372208dcf">More...</a><br /></td></tr>
+<tr class="separator:aa30185934a59093bb6f6605372208dcf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p >Represents a BYOND installation.  </p>
@@ -143,7 +146,7 @@ Properties</h2></td></tr>
 <p class="definition">Definition at line <a class="el" href="_i_byond_installation_8cs_source.html#l00018">18</a> of file <a class="el" href="_i_byond_installation_8cs_source.html">IByondInstallation.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   18</span>{ <span class="keyword">get</span>; }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_session_controller_factory_8cs_source.html#l00489">Tgstation.Server.Host.Components.Session.SessionControllerFactory.CreateDreamDaemonProcess()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_session_controller_factory_8cs_source.html#l00491">Tgstation.Server.Host.Components.Session.SessionControllerFactory.CreateDreamDaemonProcess()</a>.</p>
 
 </div>
 </div>
@@ -205,7 +208,38 @@ Properties</h2></td></tr>
 <p class="definition">Definition at line <a class="el" href="_i_byond_installation_8cs_source.html#l00028">28</a> of file <a class="el" href="_i_byond_installation_8cs_source.html">IByondInstallation.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   28</span>{ <span class="keyword">get</span>; }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_session_controller_factory_8cs_source.html#l00489">Tgstation.Server.Host.Components.Session.SessionControllerFactory.CreateDreamDaemonProcess()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_session_controller_factory_8cs_source.html#l00491">Tgstation.Server.Host.Components.Session.SessionControllerFactory.CreateDreamDaemonProcess()</a>.</p>
+
+</div>
+</div>
+<a id="aa30185934a59093bb6f6605372208dcf" name="aa30185934a59093bb6f6605372208dcf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa30185934a59093bb6f6605372208dcf">&#9670;&#160;</a></span>SupportsMapThreads</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool Tgstation.Server.Host.Components.Byond.IByondInstallation.SupportsMapThreads</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">get</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>If <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_i_byond_installation.html#aa7eae94b2ca042b420249aa2a40c9896" title="The full path to the DreamDaemon executable.">DreamDaemonPath</a> supports the -map-threads parameter.  </p>
+
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_executable_lock.html#a9e52ef27c678ab559431ea0b5c02b7d0">Tgstation.Server.Host.Components.Byond.ByondExecutableLock</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_installation.html#a9d82fd27e2ea161742caaa1529c476ad">Tgstation.Server.Host.Components.Byond.ByondInstallation</a>.</p>
+
+<p class="definition">Definition at line <a class="el" href="_i_byond_installation_8cs_source.html#l00033">33</a> of file <a class="el" href="_i_byond_installation_8cs_source.html">IByondInstallation.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   33</span>{ <span class="keyword">get</span>; }</div>
+</div><!-- fragment -->
+<p class="reference">Referenced by <a class="el" href="_session_controller_factory_8cs_source.html#l00491">Tgstation.Server.Host.Components.Session.SessionControllerFactory.CreateDreamDaemonProcess()</a>.</p>
 
 </div>
 </div>

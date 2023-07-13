@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.12.7</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.13.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -332,854 +332,857 @@ Protected Member Functions</h2></td></tr>
 <div class="line"><span class="lineno">  209</span>                    .IsRequired()</div>
 <div class="line"><span class="lineno">  210</span>                    .HasColumnType(<span class="stringliteral">&quot;boolean&quot;</span>);</div>
 <div class="line"><span class="lineno">  211</span> </div>
-<div class="line"><span class="lineno">  212</span>                b.Property&lt;<span class="keywordtype">int</span>&gt;(<span class="stringliteral">&quot;Port&quot;</span>)</div>
-<div class="line"><span class="lineno">  213</span>                    .HasColumnType(<span class="stringliteral">&quot;integer&quot;</span>);</div>
+<div class="line"><span class="lineno">  212</span>                b.Property&lt;<span class="keywordtype">long</span>&gt;(<span class="stringliteral">&quot;MapThreads&quot;</span>)</div>
+<div class="line"><span class="lineno">  213</span>                    .HasColumnType(<span class="stringliteral">&quot;bigint&quot;</span>);</div>
 <div class="line"><span class="lineno">  214</span> </div>
-<div class="line"><span class="lineno">  215</span>                b.Property&lt;<span class="keywordtype">int</span>&gt;(<span class="stringliteral">&quot;SecurityLevel&quot;</span>)</div>
+<div class="line"><span class="lineno">  215</span>                b.Property&lt;<span class="keywordtype">int</span>&gt;(<span class="stringliteral">&quot;Port&quot;</span>)</div>
 <div class="line"><span class="lineno">  216</span>                    .HasColumnType(<span class="stringliteral">&quot;integer&quot;</span>);</div>
 <div class="line"><span class="lineno">  217</span> </div>
-<div class="line"><span class="lineno">  218</span>                b.Property&lt;<span class="keywordtype">bool</span>?&gt;(<span class="stringliteral">&quot;StartProfiler&quot;</span>)</div>
-<div class="line"><span class="lineno">  219</span>                    .IsRequired()</div>
-<div class="line"><span class="lineno">  220</span>                    .HasColumnType(<span class="stringliteral">&quot;boolean&quot;</span>);</div>
-<div class="line"><span class="lineno">  221</span> </div>
-<div class="line"><span class="lineno">  222</span>                b.Property&lt;<span class="keywordtype">long</span>&gt;(<span class="stringliteral">&quot;StartupTimeout&quot;</span>)</div>
-<div class="line"><span class="lineno">  223</span>                    .HasColumnType(<span class="stringliteral">&quot;bigint&quot;</span>);</div>
+<div class="line"><span class="lineno">  218</span>                b.Property&lt;<span class="keywordtype">int</span>&gt;(<span class="stringliteral">&quot;SecurityLevel&quot;</span>)</div>
+<div class="line"><span class="lineno">  219</span>                    .HasColumnType(<span class="stringliteral">&quot;integer&quot;</span>);</div>
+<div class="line"><span class="lineno">  220</span> </div>
+<div class="line"><span class="lineno">  221</span>                b.Property&lt;<span class="keywordtype">bool</span>?&gt;(<span class="stringliteral">&quot;StartProfiler&quot;</span>)</div>
+<div class="line"><span class="lineno">  222</span>                    .IsRequired()</div>
+<div class="line"><span class="lineno">  223</span>                    .HasColumnType(<span class="stringliteral">&quot;boolean&quot;</span>);</div>
 <div class="line"><span class="lineno">  224</span> </div>
-<div class="line"><span class="lineno">  225</span>                b.Property&lt;<span class="keywordtype">long</span>&gt;(<span class="stringliteral">&quot;TopicRequestTimeout&quot;</span>)</div>
+<div class="line"><span class="lineno">  225</span>                b.Property&lt;<span class="keywordtype">long</span>&gt;(<span class="stringliteral">&quot;StartupTimeout&quot;</span>)</div>
 <div class="line"><span class="lineno">  226</span>                    .HasColumnType(<span class="stringliteral">&quot;bigint&quot;</span>);</div>
 <div class="line"><span class="lineno">  227</span> </div>
-<div class="line"><span class="lineno">  228</span>                b.Property&lt;<span class="keywordtype">int</span>&gt;(<span class="stringliteral">&quot;Visibility&quot;</span>)</div>
-<div class="line"><span class="lineno">  229</span>                    .HasColumnType(<span class="stringliteral">&quot;integer&quot;</span>);</div>
+<div class="line"><span class="lineno">  228</span>                b.Property&lt;<span class="keywordtype">long</span>&gt;(<span class="stringliteral">&quot;TopicRequestTimeout&quot;</span>)</div>
+<div class="line"><span class="lineno">  229</span>                    .HasColumnType(<span class="stringliteral">&quot;bigint&quot;</span>);</div>
 <div class="line"><span class="lineno">  230</span> </div>
-<div class="line"><span class="lineno">  231</span>                b.HasKey(<span class="stringliteral">&quot;Id&quot;</span>);</div>
-<div class="line"><span class="lineno">  232</span> </div>
-<div class="line"><span class="lineno">  233</span>                b.HasIndex(<span class="stringliteral">&quot;InstanceId&quot;</span>)</div>
-<div class="line"><span class="lineno">  234</span>                    .IsUnique();</div>
+<div class="line"><span class="lineno">  231</span>                b.Property&lt;<span class="keywordtype">int</span>&gt;(<span class="stringliteral">&quot;Visibility&quot;</span>)</div>
+<div class="line"><span class="lineno">  232</span>                    .HasColumnType(<span class="stringliteral">&quot;integer&quot;</span>);</div>
+<div class="line"><span class="lineno">  233</span> </div>
+<div class="line"><span class="lineno">  234</span>                b.HasKey(<span class="stringliteral">&quot;Id&quot;</span>);</div>
 <div class="line"><span class="lineno">  235</span> </div>
-<div class="line"><span class="lineno">  236</span>                b.ToTable(<span class="stringliteral">&quot;DreamDaemonSettings&quot;</span>);</div>
-<div class="line"><span class="lineno">  237</span>            });</div>
+<div class="line"><span class="lineno">  236</span>                b.HasIndex(<span class="stringliteral">&quot;InstanceId&quot;</span>)</div>
+<div class="line"><span class="lineno">  237</span>                    .IsUnique();</div>
 <div class="line"><span class="lineno">  238</span> </div>
-<div class="line"><span class="lineno">  239</span>            modelBuilder.Entity(<span class="stringliteral">&quot;Tgstation.Server.Host.Models.DreamMakerSettings&quot;</span>, b =&gt;</div>
-<div class="line"><span class="lineno">  240</span>            {</div>
-<div class="line"><span class="lineno">  241</span>                b.Property&lt;<span class="keywordtype">long</span>&gt;(<span class="stringliteral">&quot;Id&quot;</span>)</div>
-<div class="line"><span class="lineno">  242</span>                    .ValueGeneratedOnAdd()</div>
-<div class="line"><span class="lineno">  243</span>                    .HasColumnType(<span class="stringliteral">&quot;bigint&quot;</span>);</div>
-<div class="line"><span class="lineno">  244</span> </div>
-<div class="line"><span class="lineno">  245</span>                NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property&lt;<span class="keywordtype">long</span>&gt;(<span class="stringliteral">&quot;Id&quot;</span>));</div>
-<div class="line"><span class="lineno">  246</span> </div>
-<div class="line"><span class="lineno">  247</span>                b.Property&lt;<span class="keywordtype">int</span>&gt;(<span class="stringliteral">&quot;ApiValidationPort&quot;</span>)</div>
-<div class="line"><span class="lineno">  248</span>                    .HasColumnType(<span class="stringliteral">&quot;integer&quot;</span>);</div>
+<div class="line"><span class="lineno">  239</span>                b.ToTable(<span class="stringliteral">&quot;DreamDaemonSettings&quot;</span>);</div>
+<div class="line"><span class="lineno">  240</span>            });</div>
+<div class="line"><span class="lineno">  241</span> </div>
+<div class="line"><span class="lineno">  242</span>            modelBuilder.Entity(<span class="stringliteral">&quot;Tgstation.Server.Host.Models.DreamMakerSettings&quot;</span>, b =&gt;</div>
+<div class="line"><span class="lineno">  243</span>            {</div>
+<div class="line"><span class="lineno">  244</span>                b.Property&lt;<span class="keywordtype">long</span>&gt;(<span class="stringliteral">&quot;Id&quot;</span>)</div>
+<div class="line"><span class="lineno">  245</span>                    .ValueGeneratedOnAdd()</div>
+<div class="line"><span class="lineno">  246</span>                    .HasColumnType(<span class="stringliteral">&quot;bigint&quot;</span>);</div>
+<div class="line"><span class="lineno">  247</span> </div>
+<div class="line"><span class="lineno">  248</span>                NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property&lt;<span class="keywordtype">long</span>&gt;(<span class="stringliteral">&quot;Id&quot;</span>));</div>
 <div class="line"><span class="lineno">  249</span> </div>
-<div class="line"><span class="lineno">  250</span>                b.Property&lt;<span class="keywordtype">int</span>&gt;(<span class="stringliteral">&quot;ApiValidationSecurityLevel&quot;</span>)</div>
+<div class="line"><span class="lineno">  250</span>                b.Property&lt;<span class="keywordtype">int</span>&gt;(<span class="stringliteral">&quot;ApiValidationPort&quot;</span>)</div>
 <div class="line"><span class="lineno">  251</span>                    .HasColumnType(<span class="stringliteral">&quot;integer&quot;</span>);</div>
 <div class="line"><span class="lineno">  252</span> </div>
-<div class="line"><span class="lineno">  253</span>                b.Property&lt;<span class="keywordtype">long</span>&gt;(<span class="stringliteral">&quot;InstanceId&quot;</span>)</div>
-<div class="line"><span class="lineno">  254</span>                    .HasColumnType(<span class="stringliteral">&quot;bigint&quot;</span>);</div>
+<div class="line"><span class="lineno">  253</span>                b.Property&lt;<span class="keywordtype">int</span>&gt;(<span class="stringliteral">&quot;ApiValidationSecurityLevel&quot;</span>)</div>
+<div class="line"><span class="lineno">  254</span>                    .HasColumnType(<span class="stringliteral">&quot;integer&quot;</span>);</div>
 <div class="line"><span class="lineno">  255</span> </div>
-<div class="line"><span class="lineno">  256</span>                b.Property&lt;<span class="keywordtype">string</span>&gt;(<span class="stringliteral">&quot;ProjectName&quot;</span>)</div>
-<div class="line"><span class="lineno">  257</span>                    .HasMaxLength(10000)</div>
-<div class="line"><span class="lineno">  258</span>                    .HasColumnType(<span class="stringliteral">&quot;character varying(10000)&quot;</span>);</div>
-<div class="line"><span class="lineno">  259</span> </div>
-<div class="line"><span class="lineno">  260</span>                b.Property&lt;<span class="keywordtype">bool</span>?&gt;(<span class="stringliteral">&quot;RequireDMApiValidation&quot;</span>)</div>
-<div class="line"><span class="lineno">  261</span>                    .IsRequired()</div>
-<div class="line"><span class="lineno">  262</span>                    .HasColumnType(<span class="stringliteral">&quot;boolean&quot;</span>);</div>
-<div class="line"><span class="lineno">  263</span> </div>
-<div class="line"><span class="lineno">  264</span>                b.Property&lt;TimeSpan?&gt;(<span class="stringliteral">&quot;Timeout&quot;</span>)</div>
-<div class="line"><span class="lineno">  265</span>                    .IsRequired()</div>
-<div class="line"><span class="lineno">  266</span>                    .HasColumnType(<span class="stringliteral">&quot;interval&quot;</span>);</div>
-<div class="line"><span class="lineno">  267</span> </div>
-<div class="line"><span class="lineno">  268</span>                b.HasKey(<span class="stringliteral">&quot;Id&quot;</span>);</div>
-<div class="line"><span class="lineno">  269</span> </div>
-<div class="line"><span class="lineno">  270</span>                b.HasIndex(<span class="stringliteral">&quot;InstanceId&quot;</span>)</div>
-<div class="line"><span class="lineno">  271</span>                    .IsUnique();</div>
+<div class="line"><span class="lineno">  256</span>                b.Property&lt;<span class="keywordtype">long</span>&gt;(<span class="stringliteral">&quot;InstanceId&quot;</span>)</div>
+<div class="line"><span class="lineno">  257</span>                    .HasColumnType(<span class="stringliteral">&quot;bigint&quot;</span>);</div>
+<div class="line"><span class="lineno">  258</span> </div>
+<div class="line"><span class="lineno">  259</span>                b.Property&lt;<span class="keywordtype">string</span>&gt;(<span class="stringliteral">&quot;ProjectName&quot;</span>)</div>
+<div class="line"><span class="lineno">  260</span>                    .HasMaxLength(10000)</div>
+<div class="line"><span class="lineno">  261</span>                    .HasColumnType(<span class="stringliteral">&quot;character varying(10000)&quot;</span>);</div>
+<div class="line"><span class="lineno">  262</span> </div>
+<div class="line"><span class="lineno">  263</span>                b.Property&lt;<span class="keywordtype">bool</span>?&gt;(<span class="stringliteral">&quot;RequireDMApiValidation&quot;</span>)</div>
+<div class="line"><span class="lineno">  264</span>                    .IsRequired()</div>
+<div class="line"><span class="lineno">  265</span>                    .HasColumnType(<span class="stringliteral">&quot;boolean&quot;</span>);</div>
+<div class="line"><span class="lineno">  266</span> </div>
+<div class="line"><span class="lineno">  267</span>                b.Property&lt;TimeSpan?&gt;(<span class="stringliteral">&quot;Timeout&quot;</span>)</div>
+<div class="line"><span class="lineno">  268</span>                    .IsRequired()</div>
+<div class="line"><span class="lineno">  269</span>                    .HasColumnType(<span class="stringliteral">&quot;interval&quot;</span>);</div>
+<div class="line"><span class="lineno">  270</span> </div>
+<div class="line"><span class="lineno">  271</span>                b.HasKey(<span class="stringliteral">&quot;Id&quot;</span>);</div>
 <div class="line"><span class="lineno">  272</span> </div>
-<div class="line"><span class="lineno">  273</span>                b.ToTable(<span class="stringliteral">&quot;DreamMakerSettings&quot;</span>);</div>
-<div class="line"><span class="lineno">  274</span>            });</div>
+<div class="line"><span class="lineno">  273</span>                b.HasIndex(<span class="stringliteral">&quot;InstanceId&quot;</span>)</div>
+<div class="line"><span class="lineno">  274</span>                    .IsUnique();</div>
 <div class="line"><span class="lineno">  275</span> </div>
-<div class="line"><span class="lineno">  276</span>            modelBuilder.Entity(<span class="stringliteral">&quot;Tgstation.Server.Host.Models.Instance&quot;</span>, b =&gt;</div>
-<div class="line"><span class="lineno">  277</span>            {</div>
-<div class="line"><span class="lineno">  278</span>                b.Property&lt;<span class="keywordtype">long</span>?&gt;(<span class="stringliteral">&quot;Id&quot;</span>)</div>
-<div class="line"><span class="lineno">  279</span>                    .ValueGeneratedOnAdd()</div>
-<div class="line"><span class="lineno">  280</span>                    .HasColumnType(<span class="stringliteral">&quot;bigint&quot;</span>);</div>
-<div class="line"><span class="lineno">  281</span> </div>
-<div class="line"><span class="lineno">  282</span>                NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property&lt;<span class="keywordtype">long</span>?&gt;(<span class="stringliteral">&quot;Id&quot;</span>));</div>
-<div class="line"><span class="lineno">  283</span> </div>
-<div class="line"><span class="lineno">  284</span>                b.Property&lt;<span class="keywordtype">long</span>&gt;(<span class="stringliteral">&quot;AutoUpdateInterval&quot;</span>)</div>
-<div class="line"><span class="lineno">  285</span>                    .HasColumnType(<span class="stringliteral">&quot;bigint&quot;</span>);</div>
+<div class="line"><span class="lineno">  276</span>                b.ToTable(<span class="stringliteral">&quot;DreamMakerSettings&quot;</span>);</div>
+<div class="line"><span class="lineno">  277</span>            });</div>
+<div class="line"><span class="lineno">  278</span> </div>
+<div class="line"><span class="lineno">  279</span>            modelBuilder.Entity(<span class="stringliteral">&quot;Tgstation.Server.Host.Models.Instance&quot;</span>, b =&gt;</div>
+<div class="line"><span class="lineno">  280</span>            {</div>
+<div class="line"><span class="lineno">  281</span>                b.Property&lt;<span class="keywordtype">long</span>?&gt;(<span class="stringliteral">&quot;Id&quot;</span>)</div>
+<div class="line"><span class="lineno">  282</span>                    .ValueGeneratedOnAdd()</div>
+<div class="line"><span class="lineno">  283</span>                    .HasColumnType(<span class="stringliteral">&quot;bigint&quot;</span>);</div>
+<div class="line"><span class="lineno">  284</span> </div>
+<div class="line"><span class="lineno">  285</span>                NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property&lt;<span class="keywordtype">long</span>?&gt;(<span class="stringliteral">&quot;Id&quot;</span>));</div>
 <div class="line"><span class="lineno">  286</span> </div>
-<div class="line"><span class="lineno">  287</span>                b.Property&lt;<span class="keywordtype">int</span>&gt;(<span class="stringliteral">&quot;ChatBotLimit&quot;</span>)</div>
-<div class="line"><span class="lineno">  288</span>                    .HasColumnType(<span class="stringliteral">&quot;integer&quot;</span>);</div>
+<div class="line"><span class="lineno">  287</span>                b.Property&lt;<span class="keywordtype">long</span>&gt;(<span class="stringliteral">&quot;AutoUpdateInterval&quot;</span>)</div>
+<div class="line"><span class="lineno">  288</span>                    .HasColumnType(<span class="stringliteral">&quot;bigint&quot;</span>);</div>
 <div class="line"><span class="lineno">  289</span> </div>
-<div class="line"><span class="lineno">  290</span>                b.Property&lt;<span class="keywordtype">int</span>&gt;(<span class="stringliteral">&quot;ConfigurationType&quot;</span>)</div>
+<div class="line"><span class="lineno">  290</span>                b.Property&lt;<span class="keywordtype">int</span>&gt;(<span class="stringliteral">&quot;ChatBotLimit&quot;</span>)</div>
 <div class="line"><span class="lineno">  291</span>                    .HasColumnType(<span class="stringliteral">&quot;integer&quot;</span>);</div>
 <div class="line"><span class="lineno">  292</span> </div>
-<div class="line"><span class="lineno">  293</span>                b.Property&lt;<span class="keywordtype">string</span>&gt;(<span class="stringliteral">&quot;Name&quot;</span>)</div>
-<div class="line"><span class="lineno">  294</span>                    .IsRequired()</div>
-<div class="line"><span class="lineno">  295</span>                    .HasMaxLength(100)</div>
-<div class="line"><span class="lineno">  296</span>                    .HasColumnType(<span class="stringliteral">&quot;character varying(100)&quot;</span>);</div>
-<div class="line"><span class="lineno">  297</span> </div>
-<div class="line"><span class="lineno">  298</span>                b.Property&lt;<span class="keywordtype">bool</span>?&gt;(<span class="stringliteral">&quot;Online&quot;</span>)</div>
-<div class="line"><span class="lineno">  299</span>                    .IsRequired()</div>
-<div class="line"><span class="lineno">  300</span>                    .HasColumnType(<span class="stringliteral">&quot;boolean&quot;</span>);</div>
-<div class="line"><span class="lineno">  301</span> </div>
-<div class="line"><span class="lineno">  302</span>                b.Property&lt;<span class="keywordtype">string</span>&gt;(<span class="stringliteral">&quot;Path&quot;</span>)</div>
-<div class="line"><span class="lineno">  303</span>                    .IsRequired()</div>
-<div class="line"><span class="lineno">  304</span>                    .HasColumnType(<span class="stringliteral">&quot;text&quot;</span>);</div>
-<div class="line"><span class="lineno">  305</span> </div>
-<div class="line"><span class="lineno">  306</span>                b.Property&lt;<span class="keywordtype">string</span>&gt;(<span class="stringliteral">&quot;SwarmIdentifer&quot;</span>)</div>
+<div class="line"><span class="lineno">  293</span>                b.Property&lt;<span class="keywordtype">int</span>&gt;(<span class="stringliteral">&quot;ConfigurationType&quot;</span>)</div>
+<div class="line"><span class="lineno">  294</span>                    .HasColumnType(<span class="stringliteral">&quot;integer&quot;</span>);</div>
+<div class="line"><span class="lineno">  295</span> </div>
+<div class="line"><span class="lineno">  296</span>                b.Property&lt;<span class="keywordtype">string</span>&gt;(<span class="stringliteral">&quot;Name&quot;</span>)</div>
+<div class="line"><span class="lineno">  297</span>                    .IsRequired()</div>
+<div class="line"><span class="lineno">  298</span>                    .HasMaxLength(100)</div>
+<div class="line"><span class="lineno">  299</span>                    .HasColumnType(<span class="stringliteral">&quot;character varying(100)&quot;</span>);</div>
+<div class="line"><span class="lineno">  300</span> </div>
+<div class="line"><span class="lineno">  301</span>                b.Property&lt;<span class="keywordtype">bool</span>?&gt;(<span class="stringliteral">&quot;Online&quot;</span>)</div>
+<div class="line"><span class="lineno">  302</span>                    .IsRequired()</div>
+<div class="line"><span class="lineno">  303</span>                    .HasColumnType(<span class="stringliteral">&quot;boolean&quot;</span>);</div>
+<div class="line"><span class="lineno">  304</span> </div>
+<div class="line"><span class="lineno">  305</span>                b.Property&lt;<span class="keywordtype">string</span>&gt;(<span class="stringliteral">&quot;Path&quot;</span>)</div>
+<div class="line"><span class="lineno">  306</span>                    .IsRequired()</div>
 <div class="line"><span class="lineno">  307</span>                    .HasColumnType(<span class="stringliteral">&quot;text&quot;</span>);</div>
 <div class="line"><span class="lineno">  308</span> </div>
-<div class="line"><span class="lineno">  309</span>                b.HasKey(<span class="stringliteral">&quot;Id&quot;</span>);</div>
-<div class="line"><span class="lineno">  310</span> </div>
-<div class="line"><span class="lineno">  311</span>                b.HasIndex(<span class="stringliteral">&quot;Path&quot;</span>, <span class="stringliteral">&quot;SwarmIdentifer&quot;</span>)</div>
-<div class="line"><span class="lineno">  312</span>                    .IsUnique();</div>
+<div class="line"><span class="lineno">  309</span>                b.Property&lt;<span class="keywordtype">string</span>&gt;(<span class="stringliteral">&quot;SwarmIdentifer&quot;</span>)</div>
+<div class="line"><span class="lineno">  310</span>                    .HasColumnType(<span class="stringliteral">&quot;text&quot;</span>);</div>
+<div class="line"><span class="lineno">  311</span> </div>
+<div class="line"><span class="lineno">  312</span>                b.HasKey(<span class="stringliteral">&quot;Id&quot;</span>);</div>
 <div class="line"><span class="lineno">  313</span> </div>
-<div class="line"><span class="lineno">  314</span>                b.ToTable(<span class="stringliteral">&quot;Instances&quot;</span>);</div>
-<div class="line"><span class="lineno">  315</span>            });</div>
+<div class="line"><span class="lineno">  314</span>                b.HasIndex(<span class="stringliteral">&quot;Path&quot;</span>, <span class="stringliteral">&quot;SwarmIdentifer&quot;</span>)</div>
+<div class="line"><span class="lineno">  315</span>                    .IsUnique();</div>
 <div class="line"><span class="lineno">  316</span> </div>
-<div class="line"><span class="lineno">  317</span>            modelBuilder.Entity(<span class="stringliteral">&quot;Tgstation.Server.Host.Models.InstancePermissionSet&quot;</span>, b =&gt;</div>
-<div class="line"><span class="lineno">  318</span>            {</div>
-<div class="line"><span class="lineno">  319</span>                b.Property&lt;<span class="keywordtype">long</span>&gt;(<span class="stringliteral">&quot;Id&quot;</span>)</div>
-<div class="line"><span class="lineno">  320</span>                    .ValueGeneratedOnAdd()</div>
-<div class="line"><span class="lineno">  321</span>                    .HasColumnType(<span class="stringliteral">&quot;bigint&quot;</span>);</div>
-<div class="line"><span class="lineno">  322</span> </div>
-<div class="line"><span class="lineno">  323</span>                NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property&lt;<span class="keywordtype">long</span>&gt;(<span class="stringliteral">&quot;Id&quot;</span>));</div>
-<div class="line"><span class="lineno">  324</span> </div>
-<div class="line"><span class="lineno">  325</span>                b.Property&lt;decimal&gt;(<span class="stringliteral">&quot;ByondRights&quot;</span>)</div>
-<div class="line"><span class="lineno">  326</span>                    .HasColumnType(<span class="stringliteral">&quot;numeric(20,0)&quot;</span>);</div>
+<div class="line"><span class="lineno">  317</span>                b.ToTable(<span class="stringliteral">&quot;Instances&quot;</span>);</div>
+<div class="line"><span class="lineno">  318</span>            });</div>
+<div class="line"><span class="lineno">  319</span> </div>
+<div class="line"><span class="lineno">  320</span>            modelBuilder.Entity(<span class="stringliteral">&quot;Tgstation.Server.Host.Models.InstancePermissionSet&quot;</span>, b =&gt;</div>
+<div class="line"><span class="lineno">  321</span>            {</div>
+<div class="line"><span class="lineno">  322</span>                b.Property&lt;<span class="keywordtype">long</span>&gt;(<span class="stringliteral">&quot;Id&quot;</span>)</div>
+<div class="line"><span class="lineno">  323</span>                    .ValueGeneratedOnAdd()</div>
+<div class="line"><span class="lineno">  324</span>                    .HasColumnType(<span class="stringliteral">&quot;bigint&quot;</span>);</div>
+<div class="line"><span class="lineno">  325</span> </div>
+<div class="line"><span class="lineno">  326</span>                NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property&lt;<span class="keywordtype">long</span>&gt;(<span class="stringliteral">&quot;Id&quot;</span>));</div>
 <div class="line"><span class="lineno">  327</span> </div>
-<div class="line"><span class="lineno">  328</span>                b.Property&lt;decimal&gt;(<span class="stringliteral">&quot;ChatBotRights&quot;</span>)</div>
+<div class="line"><span class="lineno">  328</span>                b.Property&lt;decimal&gt;(<span class="stringliteral">&quot;ByondRights&quot;</span>)</div>
 <div class="line"><span class="lineno">  329</span>                    .HasColumnType(<span class="stringliteral">&quot;numeric(20,0)&quot;</span>);</div>
 <div class="line"><span class="lineno">  330</span> </div>
-<div class="line"><span class="lineno">  331</span>                b.Property&lt;decimal&gt;(<span class="stringliteral">&quot;ConfigurationRights&quot;</span>)</div>
+<div class="line"><span class="lineno">  331</span>                b.Property&lt;decimal&gt;(<span class="stringliteral">&quot;ChatBotRights&quot;</span>)</div>
 <div class="line"><span class="lineno">  332</span>                    .HasColumnType(<span class="stringliteral">&quot;numeric(20,0)&quot;</span>);</div>
 <div class="line"><span class="lineno">  333</span> </div>
-<div class="line"><span class="lineno">  334</span>                b.Property&lt;decimal&gt;(<span class="stringliteral">&quot;DreamDaemonRights&quot;</span>)</div>
+<div class="line"><span class="lineno">  334</span>                b.Property&lt;decimal&gt;(<span class="stringliteral">&quot;ConfigurationRights&quot;</span>)</div>
 <div class="line"><span class="lineno">  335</span>                    .HasColumnType(<span class="stringliteral">&quot;numeric(20,0)&quot;</span>);</div>
 <div class="line"><span class="lineno">  336</span> </div>
-<div class="line"><span class="lineno">  337</span>                b.Property&lt;decimal&gt;(<span class="stringliteral">&quot;DreamMakerRights&quot;</span>)</div>
+<div class="line"><span class="lineno">  337</span>                b.Property&lt;decimal&gt;(<span class="stringliteral">&quot;DreamDaemonRights&quot;</span>)</div>
 <div class="line"><span class="lineno">  338</span>                    .HasColumnType(<span class="stringliteral">&quot;numeric(20,0)&quot;</span>);</div>
 <div class="line"><span class="lineno">  339</span> </div>
-<div class="line"><span class="lineno">  340</span>                b.Property&lt;<span class="keywordtype">long</span>&gt;(<span class="stringliteral">&quot;InstanceId&quot;</span>)</div>
-<div class="line"><span class="lineno">  341</span>                    .HasColumnType(<span class="stringliteral">&quot;bigint&quot;</span>);</div>
+<div class="line"><span class="lineno">  340</span>                b.Property&lt;decimal&gt;(<span class="stringliteral">&quot;DreamMakerRights&quot;</span>)</div>
+<div class="line"><span class="lineno">  341</span>                    .HasColumnType(<span class="stringliteral">&quot;numeric(20,0)&quot;</span>);</div>
 <div class="line"><span class="lineno">  342</span> </div>
-<div class="line"><span class="lineno">  343</span>                b.Property&lt;decimal&gt;(<span class="stringliteral">&quot;InstancePermissionSetRights&quot;</span>)</div>
-<div class="line"><span class="lineno">  344</span>                    .HasColumnType(<span class="stringliteral">&quot;numeric(20,0)&quot;</span>);</div>
+<div class="line"><span class="lineno">  343</span>                b.Property&lt;<span class="keywordtype">long</span>&gt;(<span class="stringliteral">&quot;InstanceId&quot;</span>)</div>
+<div class="line"><span class="lineno">  344</span>                    .HasColumnType(<span class="stringliteral">&quot;bigint&quot;</span>);</div>
 <div class="line"><span class="lineno">  345</span> </div>
-<div class="line"><span class="lineno">  346</span>                b.Property&lt;<span class="keywordtype">long</span>&gt;(<span class="stringliteral">&quot;PermissionSetId&quot;</span>)</div>
-<div class="line"><span class="lineno">  347</span>                    .HasColumnType(<span class="stringliteral">&quot;bigint&quot;</span>);</div>
+<div class="line"><span class="lineno">  346</span>                b.Property&lt;decimal&gt;(<span class="stringliteral">&quot;InstancePermissionSetRights&quot;</span>)</div>
+<div class="line"><span class="lineno">  347</span>                    .HasColumnType(<span class="stringliteral">&quot;numeric(20,0)&quot;</span>);</div>
 <div class="line"><span class="lineno">  348</span> </div>
-<div class="line"><span class="lineno">  349</span>                b.Property&lt;decimal&gt;(<span class="stringliteral">&quot;RepositoryRights&quot;</span>)</div>
-<div class="line"><span class="lineno">  350</span>                    .HasColumnType(<span class="stringliteral">&quot;numeric(20,0)&quot;</span>);</div>
+<div class="line"><span class="lineno">  349</span>                b.Property&lt;<span class="keywordtype">long</span>&gt;(<span class="stringliteral">&quot;PermissionSetId&quot;</span>)</div>
+<div class="line"><span class="lineno">  350</span>                    .HasColumnType(<span class="stringliteral">&quot;bigint&quot;</span>);</div>
 <div class="line"><span class="lineno">  351</span> </div>
-<div class="line"><span class="lineno">  352</span>                b.HasKey(<span class="stringliteral">&quot;Id&quot;</span>);</div>
-<div class="line"><span class="lineno">  353</span> </div>
-<div class="line"><span class="lineno">  354</span>                b.HasIndex(<span class="stringliteral">&quot;InstanceId&quot;</span>);</div>
-<div class="line"><span class="lineno">  355</span> </div>
-<div class="line"><span class="lineno">  356</span>                b.HasIndex(<span class="stringliteral">&quot;PermissionSetId&quot;</span>, <span class="stringliteral">&quot;InstanceId&quot;</span>)</div>
-<div class="line"><span class="lineno">  357</span>                    .IsUnique();</div>
+<div class="line"><span class="lineno">  352</span>                b.Property&lt;decimal&gt;(<span class="stringliteral">&quot;RepositoryRights&quot;</span>)</div>
+<div class="line"><span class="lineno">  353</span>                    .HasColumnType(<span class="stringliteral">&quot;numeric(20,0)&quot;</span>);</div>
+<div class="line"><span class="lineno">  354</span> </div>
+<div class="line"><span class="lineno">  355</span>                b.HasKey(<span class="stringliteral">&quot;Id&quot;</span>);</div>
+<div class="line"><span class="lineno">  356</span> </div>
+<div class="line"><span class="lineno">  357</span>                b.HasIndex(<span class="stringliteral">&quot;InstanceId&quot;</span>);</div>
 <div class="line"><span class="lineno">  358</span> </div>
-<div class="line"><span class="lineno">  359</span>                b.ToTable(<span class="stringliteral">&quot;InstancePermissionSets&quot;</span>);</div>
-<div class="line"><span class="lineno">  360</span>            });</div>
+<div class="line"><span class="lineno">  359</span>                b.HasIndex(<span class="stringliteral">&quot;PermissionSetId&quot;</span>, <span class="stringliteral">&quot;InstanceId&quot;</span>)</div>
+<div class="line"><span class="lineno">  360</span>                    .IsUnique();</div>
 <div class="line"><span class="lineno">  361</span> </div>
-<div class="line"><span class="lineno">  362</span>            modelBuilder.Entity(<span class="stringliteral">&quot;Tgstation.Server.Host.Models.Job&quot;</span>, b =&gt;</div>
-<div class="line"><span class="lineno">  363</span>            {</div>
-<div class="line"><span class="lineno">  364</span>                b.Property&lt;<span class="keywordtype">long</span>?&gt;(<span class="stringliteral">&quot;Id&quot;</span>)</div>
-<div class="line"><span class="lineno">  365</span>                    .ValueGeneratedOnAdd()</div>
-<div class="line"><span class="lineno">  366</span>                    .HasColumnType(<span class="stringliteral">&quot;bigint&quot;</span>);</div>
-<div class="line"><span class="lineno">  367</span> </div>
-<div class="line"><span class="lineno">  368</span>                NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property&lt;<span class="keywordtype">long</span>?&gt;(<span class="stringliteral">&quot;Id&quot;</span>));</div>
-<div class="line"><span class="lineno">  369</span> </div>
-<div class="line"><span class="lineno">  370</span>                b.Property&lt;decimal?&gt;(<span class="stringliteral">&quot;CancelRight&quot;</span>)</div>
-<div class="line"><span class="lineno">  371</span>                    .HasColumnType(<span class="stringliteral">&quot;numeric(20,0)&quot;</span>);</div>
+<div class="line"><span class="lineno">  362</span>                b.ToTable(<span class="stringliteral">&quot;InstancePermissionSets&quot;</span>);</div>
+<div class="line"><span class="lineno">  363</span>            });</div>
+<div class="line"><span class="lineno">  364</span> </div>
+<div class="line"><span class="lineno">  365</span>            modelBuilder.Entity(<span class="stringliteral">&quot;Tgstation.Server.Host.Models.Job&quot;</span>, b =&gt;</div>
+<div class="line"><span class="lineno">  366</span>            {</div>
+<div class="line"><span class="lineno">  367</span>                b.Property&lt;<span class="keywordtype">long</span>?&gt;(<span class="stringliteral">&quot;Id&quot;</span>)</div>
+<div class="line"><span class="lineno">  368</span>                    .ValueGeneratedOnAdd()</div>
+<div class="line"><span class="lineno">  369</span>                    .HasColumnType(<span class="stringliteral">&quot;bigint&quot;</span>);</div>
+<div class="line"><span class="lineno">  370</span> </div>
+<div class="line"><span class="lineno">  371</span>                NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property&lt;<span class="keywordtype">long</span>?&gt;(<span class="stringliteral">&quot;Id&quot;</span>));</div>
 <div class="line"><span class="lineno">  372</span> </div>
-<div class="line"><span class="lineno">  373</span>                b.Property&lt;decimal?&gt;(<span class="stringliteral">&quot;CancelRightsType&quot;</span>)</div>
+<div class="line"><span class="lineno">  373</span>                b.Property&lt;decimal?&gt;(<span class="stringliteral">&quot;CancelRight&quot;</span>)</div>
 <div class="line"><span class="lineno">  374</span>                    .HasColumnType(<span class="stringliteral">&quot;numeric(20,0)&quot;</span>);</div>
 <div class="line"><span class="lineno">  375</span> </div>
-<div class="line"><span class="lineno">  376</span>                b.Property&lt;<span class="keywordtype">bool</span>?&gt;(<span class="stringliteral">&quot;Cancelled&quot;</span>)</div>
-<div class="line"><span class="lineno">  377</span>                    .IsRequired()</div>
-<div class="line"><span class="lineno">  378</span>                    .HasColumnType(<span class="stringliteral">&quot;boolean&quot;</span>);</div>
-<div class="line"><span class="lineno">  379</span> </div>
-<div class="line"><span class="lineno">  380</span>                b.Property&lt;<span class="keywordtype">long</span>?&gt;(<span class="stringliteral">&quot;CancelledById&quot;</span>)</div>
-<div class="line"><span class="lineno">  381</span>                    .HasColumnType(<span class="stringliteral">&quot;bigint&quot;</span>);</div>
+<div class="line"><span class="lineno">  376</span>                b.Property&lt;decimal?&gt;(<span class="stringliteral">&quot;CancelRightsType&quot;</span>)</div>
+<div class="line"><span class="lineno">  377</span>                    .HasColumnType(<span class="stringliteral">&quot;numeric(20,0)&quot;</span>);</div>
+<div class="line"><span class="lineno">  378</span> </div>
+<div class="line"><span class="lineno">  379</span>                b.Property&lt;<span class="keywordtype">bool</span>?&gt;(<span class="stringliteral">&quot;Cancelled&quot;</span>)</div>
+<div class="line"><span class="lineno">  380</span>                    .IsRequired()</div>
+<div class="line"><span class="lineno">  381</span>                    .HasColumnType(<span class="stringliteral">&quot;boolean&quot;</span>);</div>
 <div class="line"><span class="lineno">  382</span> </div>
-<div class="line"><span class="lineno">  383</span>                b.Property&lt;<span class="keywordtype">string</span>&gt;(<span class="stringliteral">&quot;Description&quot;</span>)</div>
-<div class="line"><span class="lineno">  384</span>                    .IsRequired()</div>
-<div class="line"><span class="lineno">  385</span>                    .HasColumnType(<span class="stringliteral">&quot;text&quot;</span>);</div>
-<div class="line"><span class="lineno">  386</span> </div>
-<div class="line"><span class="lineno">  387</span>                b.Property&lt;<span class="keywordtype">long</span>?&gt;(<span class="stringliteral">&quot;ErrorCode&quot;</span>)</div>
-<div class="line"><span class="lineno">  388</span>                    .HasColumnType(<span class="stringliteral">&quot;bigint&quot;</span>);</div>
+<div class="line"><span class="lineno">  383</span>                b.Property&lt;<span class="keywordtype">long</span>?&gt;(<span class="stringliteral">&quot;CancelledById&quot;</span>)</div>
+<div class="line"><span class="lineno">  384</span>                    .HasColumnType(<span class="stringliteral">&quot;bigint&quot;</span>);</div>
+<div class="line"><span class="lineno">  385</span> </div>
+<div class="line"><span class="lineno">  386</span>                b.Property&lt;<span class="keywordtype">string</span>&gt;(<span class="stringliteral">&quot;Description&quot;</span>)</div>
+<div class="line"><span class="lineno">  387</span>                    .IsRequired()</div>
+<div class="line"><span class="lineno">  388</span>                    .HasColumnType(<span class="stringliteral">&quot;text&quot;</span>);</div>
 <div class="line"><span class="lineno">  389</span> </div>
-<div class="line"><span class="lineno">  390</span>                b.Property&lt;<span class="keywordtype">string</span>&gt;(<span class="stringliteral">&quot;ExceptionDetails&quot;</span>)</div>
-<div class="line"><span class="lineno">  391</span>                    .HasColumnType(<span class="stringliteral">&quot;text&quot;</span>);</div>
+<div class="line"><span class="lineno">  390</span>                b.Property&lt;<span class="keywordtype">long</span>?&gt;(<span class="stringliteral">&quot;ErrorCode&quot;</span>)</div>
+<div class="line"><span class="lineno">  391</span>                    .HasColumnType(<span class="stringliteral">&quot;bigint&quot;</span>);</div>
 <div class="line"><span class="lineno">  392</span> </div>
-<div class="line"><span class="lineno">  393</span>                b.Property&lt;<span class="keywordtype">long</span>&gt;(<span class="stringliteral">&quot;InstanceId&quot;</span>)</div>
-<div class="line"><span class="lineno">  394</span>                    .HasColumnType(<span class="stringliteral">&quot;bigint&quot;</span>);</div>
+<div class="line"><span class="lineno">  393</span>                b.Property&lt;<span class="keywordtype">string</span>&gt;(<span class="stringliteral">&quot;ExceptionDetails&quot;</span>)</div>
+<div class="line"><span class="lineno">  394</span>                    .HasColumnType(<span class="stringliteral">&quot;text&quot;</span>);</div>
 <div class="line"><span class="lineno">  395</span> </div>
-<div class="line"><span class="lineno">  396</span>                b.Property&lt;DateTimeOffset?&gt;(<span class="stringliteral">&quot;StartedAt&quot;</span>)</div>
-<div class="line"><span class="lineno">  397</span>                    .IsRequired()</div>
-<div class="line"><span class="lineno">  398</span>                    .HasColumnType(<span class="stringliteral">&quot;timestamp with time zone&quot;</span>);</div>
-<div class="line"><span class="lineno">  399</span> </div>
-<div class="line"><span class="lineno">  400</span>                b.Property&lt;<span class="keywordtype">long</span>&gt;(<span class="stringliteral">&quot;StartedById&quot;</span>)</div>
-<div class="line"><span class="lineno">  401</span>                    .HasColumnType(<span class="stringliteral">&quot;bigint&quot;</span>);</div>
+<div class="line"><span class="lineno">  396</span>                b.Property&lt;<span class="keywordtype">long</span>&gt;(<span class="stringliteral">&quot;InstanceId&quot;</span>)</div>
+<div class="line"><span class="lineno">  397</span>                    .HasColumnType(<span class="stringliteral">&quot;bigint&quot;</span>);</div>
+<div class="line"><span class="lineno">  398</span> </div>
+<div class="line"><span class="lineno">  399</span>                b.Property&lt;DateTimeOffset?&gt;(<span class="stringliteral">&quot;StartedAt&quot;</span>)</div>
+<div class="line"><span class="lineno">  400</span>                    .IsRequired()</div>
+<div class="line"><span class="lineno">  401</span>                    .HasColumnType(<span class="stringliteral">&quot;timestamp with time zone&quot;</span>);</div>
 <div class="line"><span class="lineno">  402</span> </div>
-<div class="line"><span class="lineno">  403</span>                b.Property&lt;DateTimeOffset?&gt;(<span class="stringliteral">&quot;StoppedAt&quot;</span>)</div>
-<div class="line"><span class="lineno">  404</span>                    .HasColumnType(<span class="stringliteral">&quot;timestamp with time zone&quot;</span>);</div>
+<div class="line"><span class="lineno">  403</span>                b.Property&lt;<span class="keywordtype">long</span>&gt;(<span class="stringliteral">&quot;StartedById&quot;</span>)</div>
+<div class="line"><span class="lineno">  404</span>                    .HasColumnType(<span class="stringliteral">&quot;bigint&quot;</span>);</div>
 <div class="line"><span class="lineno">  405</span> </div>
-<div class="line"><span class="lineno">  406</span>                b.HasKey(<span class="stringliteral">&quot;Id&quot;</span>);</div>
-<div class="line"><span class="lineno">  407</span> </div>
-<div class="line"><span class="lineno">  408</span>                b.HasIndex(<span class="stringliteral">&quot;CancelledById&quot;</span>);</div>
-<div class="line"><span class="lineno">  409</span> </div>
-<div class="line"><span class="lineno">  410</span>                b.HasIndex(<span class="stringliteral">&quot;InstanceId&quot;</span>);</div>
-<div class="line"><span class="lineno">  411</span> </div>
-<div class="line"><span class="lineno">  412</span>                b.HasIndex(<span class="stringliteral">&quot;StartedById&quot;</span>);</div>
-<div class="line"><span class="lineno">  413</span> </div>
-<div class="line"><span class="lineno">  414</span>                b.ToTable(<span class="stringliteral">&quot;Jobs&quot;</span>);</div>
-<div class="line"><span class="lineno">  415</span>            });</div>
+<div class="line"><span class="lineno">  406</span>                b.Property&lt;DateTimeOffset?&gt;(<span class="stringliteral">&quot;StoppedAt&quot;</span>)</div>
+<div class="line"><span class="lineno">  407</span>                    .HasColumnType(<span class="stringliteral">&quot;timestamp with time zone&quot;</span>);</div>
+<div class="line"><span class="lineno">  408</span> </div>
+<div class="line"><span class="lineno">  409</span>                b.HasKey(<span class="stringliteral">&quot;Id&quot;</span>);</div>
+<div class="line"><span class="lineno">  410</span> </div>
+<div class="line"><span class="lineno">  411</span>                b.HasIndex(<span class="stringliteral">&quot;CancelledById&quot;</span>);</div>
+<div class="line"><span class="lineno">  412</span> </div>
+<div class="line"><span class="lineno">  413</span>                b.HasIndex(<span class="stringliteral">&quot;InstanceId&quot;</span>);</div>
+<div class="line"><span class="lineno">  414</span> </div>
+<div class="line"><span class="lineno">  415</span>                b.HasIndex(<span class="stringliteral">&quot;StartedById&quot;</span>);</div>
 <div class="line"><span class="lineno">  416</span> </div>
-<div class="line"><span class="lineno">  417</span>            modelBuilder.Entity(<span class="stringliteral">&quot;Tgstation.Server.Host.Models.OAuthConnection&quot;</span>, b =&gt;</div>
-<div class="line"><span class="lineno">  418</span>            {</div>
-<div class="line"><span class="lineno">  419</span>                b.Property&lt;<span class="keywordtype">long</span>&gt;(<span class="stringliteral">&quot;Id&quot;</span>)</div>
-<div class="line"><span class="lineno">  420</span>                    .ValueGeneratedOnAdd()</div>
-<div class="line"><span class="lineno">  421</span>                    .HasColumnType(<span class="stringliteral">&quot;bigint&quot;</span>);</div>
-<div class="line"><span class="lineno">  422</span> </div>
-<div class="line"><span class="lineno">  423</span>                NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property&lt;<span class="keywordtype">long</span>&gt;(<span class="stringliteral">&quot;Id&quot;</span>));</div>
-<div class="line"><span class="lineno">  424</span> </div>
-<div class="line"><span class="lineno">  425</span>                b.Property&lt;<span class="keywordtype">string</span>&gt;(<span class="stringliteral">&quot;ExternalUserId&quot;</span>)</div>
-<div class="line"><span class="lineno">  426</span>                    .IsRequired()</div>
-<div class="line"><span class="lineno">  427</span>                    .HasMaxLength(100)</div>
-<div class="line"><span class="lineno">  428</span>                    .HasColumnType(<span class="stringliteral">&quot;character varying(100)&quot;</span>);</div>
-<div class="line"><span class="lineno">  429</span> </div>
-<div class="line"><span class="lineno">  430</span>                b.Property&lt;<span class="keywordtype">int</span>&gt;(<span class="stringliteral">&quot;Provider&quot;</span>)</div>
-<div class="line"><span class="lineno">  431</span>                    .HasColumnType(<span class="stringliteral">&quot;integer&quot;</span>);</div>
+<div class="line"><span class="lineno">  417</span>                b.ToTable(<span class="stringliteral">&quot;Jobs&quot;</span>);</div>
+<div class="line"><span class="lineno">  418</span>            });</div>
+<div class="line"><span class="lineno">  419</span> </div>
+<div class="line"><span class="lineno">  420</span>            modelBuilder.Entity(<span class="stringliteral">&quot;Tgstation.Server.Host.Models.OAuthConnection&quot;</span>, b =&gt;</div>
+<div class="line"><span class="lineno">  421</span>            {</div>
+<div class="line"><span class="lineno">  422</span>                b.Property&lt;<span class="keywordtype">long</span>&gt;(<span class="stringliteral">&quot;Id&quot;</span>)</div>
+<div class="line"><span class="lineno">  423</span>                    .ValueGeneratedOnAdd()</div>
+<div class="line"><span class="lineno">  424</span>                    .HasColumnType(<span class="stringliteral">&quot;bigint&quot;</span>);</div>
+<div class="line"><span class="lineno">  425</span> </div>
+<div class="line"><span class="lineno">  426</span>                NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property&lt;<span class="keywordtype">long</span>&gt;(<span class="stringliteral">&quot;Id&quot;</span>));</div>
+<div class="line"><span class="lineno">  427</span> </div>
+<div class="line"><span class="lineno">  428</span>                b.Property&lt;<span class="keywordtype">string</span>&gt;(<span class="stringliteral">&quot;ExternalUserId&quot;</span>)</div>
+<div class="line"><span class="lineno">  429</span>                    .IsRequired()</div>
+<div class="line"><span class="lineno">  430</span>                    .HasMaxLength(100)</div>
+<div class="line"><span class="lineno">  431</span>                    .HasColumnType(<span class="stringliteral">&quot;character varying(100)&quot;</span>);</div>
 <div class="line"><span class="lineno">  432</span> </div>
-<div class="line"><span class="lineno">  433</span>                b.Property&lt;<span class="keywordtype">long</span>?&gt;(<span class="stringliteral">&quot;UserId&quot;</span>)</div>
-<div class="line"><span class="lineno">  434</span>                    .HasColumnType(<span class="stringliteral">&quot;bigint&quot;</span>);</div>
+<div class="line"><span class="lineno">  433</span>                b.Property&lt;<span class="keywordtype">int</span>&gt;(<span class="stringliteral">&quot;Provider&quot;</span>)</div>
+<div class="line"><span class="lineno">  434</span>                    .HasColumnType(<span class="stringliteral">&quot;integer&quot;</span>);</div>
 <div class="line"><span class="lineno">  435</span> </div>
-<div class="line"><span class="lineno">  436</span>                b.HasKey(<span class="stringliteral">&quot;Id&quot;</span>);</div>
-<div class="line"><span class="lineno">  437</span> </div>
-<div class="line"><span class="lineno">  438</span>                b.HasIndex(<span class="stringliteral">&quot;UserId&quot;</span>);</div>
-<div class="line"><span class="lineno">  439</span> </div>
-<div class="line"><span class="lineno">  440</span>                b.HasIndex(<span class="stringliteral">&quot;Provider&quot;</span>, <span class="stringliteral">&quot;ExternalUserId&quot;</span>)</div>
-<div class="line"><span class="lineno">  441</span>                    .IsUnique();</div>
+<div class="line"><span class="lineno">  436</span>                b.Property&lt;<span class="keywordtype">long</span>?&gt;(<span class="stringliteral">&quot;UserId&quot;</span>)</div>
+<div class="line"><span class="lineno">  437</span>                    .HasColumnType(<span class="stringliteral">&quot;bigint&quot;</span>);</div>
+<div class="line"><span class="lineno">  438</span> </div>
+<div class="line"><span class="lineno">  439</span>                b.HasKey(<span class="stringliteral">&quot;Id&quot;</span>);</div>
+<div class="line"><span class="lineno">  440</span> </div>
+<div class="line"><span class="lineno">  441</span>                b.HasIndex(<span class="stringliteral">&quot;UserId&quot;</span>);</div>
 <div class="line"><span class="lineno">  442</span> </div>
-<div class="line"><span class="lineno">  443</span>                b.ToTable(<span class="stringliteral">&quot;OAuthConnections&quot;</span>);</div>
-<div class="line"><span class="lineno">  444</span>            });</div>
+<div class="line"><span class="lineno">  443</span>                b.HasIndex(<span class="stringliteral">&quot;Provider&quot;</span>, <span class="stringliteral">&quot;ExternalUserId&quot;</span>)</div>
+<div class="line"><span class="lineno">  444</span>                    .IsUnique();</div>
 <div class="line"><span class="lineno">  445</span> </div>
-<div class="line"><span class="lineno">  446</span>            modelBuilder.Entity(<span class="stringliteral">&quot;Tgstation.Server.Host.Models.PermissionSet&quot;</span>, b =&gt;</div>
-<div class="line"><span class="lineno">  447</span>            {</div>
-<div class="line"><span class="lineno">  448</span>                b.Property&lt;<span class="keywordtype">long</span>?&gt;(<span class="stringliteral">&quot;Id&quot;</span>)</div>
-<div class="line"><span class="lineno">  449</span>                    .ValueGeneratedOnAdd()</div>
-<div class="line"><span class="lineno">  450</span>                    .HasColumnType(<span class="stringliteral">&quot;bigint&quot;</span>);</div>
-<div class="line"><span class="lineno">  451</span> </div>
-<div class="line"><span class="lineno">  452</span>                NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property&lt;<span class="keywordtype">long</span>?&gt;(<span class="stringliteral">&quot;Id&quot;</span>));</div>
-<div class="line"><span class="lineno">  453</span> </div>
-<div class="line"><span class="lineno">  454</span>                b.Property&lt;decimal&gt;(<span class="stringliteral">&quot;AdministrationRights&quot;</span>)</div>
-<div class="line"><span class="lineno">  455</span>                    .HasColumnType(<span class="stringliteral">&quot;numeric(20,0)&quot;</span>);</div>
+<div class="line"><span class="lineno">  446</span>                b.ToTable(<span class="stringliteral">&quot;OAuthConnections&quot;</span>);</div>
+<div class="line"><span class="lineno">  447</span>            });</div>
+<div class="line"><span class="lineno">  448</span> </div>
+<div class="line"><span class="lineno">  449</span>            modelBuilder.Entity(<span class="stringliteral">&quot;Tgstation.Server.Host.Models.PermissionSet&quot;</span>, b =&gt;</div>
+<div class="line"><span class="lineno">  450</span>            {</div>
+<div class="line"><span class="lineno">  451</span>                b.Property&lt;<span class="keywordtype">long</span>?&gt;(<span class="stringliteral">&quot;Id&quot;</span>)</div>
+<div class="line"><span class="lineno">  452</span>                    .ValueGeneratedOnAdd()</div>
+<div class="line"><span class="lineno">  453</span>                    .HasColumnType(<span class="stringliteral">&quot;bigint&quot;</span>);</div>
+<div class="line"><span class="lineno">  454</span> </div>
+<div class="line"><span class="lineno">  455</span>                NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property&lt;<span class="keywordtype">long</span>?&gt;(<span class="stringliteral">&quot;Id&quot;</span>));</div>
 <div class="line"><span class="lineno">  456</span> </div>
-<div class="line"><span class="lineno">  457</span>                b.Property&lt;<span class="keywordtype">long</span>?&gt;(<span class="stringliteral">&quot;GroupId&quot;</span>)</div>
-<div class="line"><span class="lineno">  458</span>                    .HasColumnType(<span class="stringliteral">&quot;bigint&quot;</span>);</div>
+<div class="line"><span class="lineno">  457</span>                b.Property&lt;decimal&gt;(<span class="stringliteral">&quot;AdministrationRights&quot;</span>)</div>
+<div class="line"><span class="lineno">  458</span>                    .HasColumnType(<span class="stringliteral">&quot;numeric(20,0)&quot;</span>);</div>
 <div class="line"><span class="lineno">  459</span> </div>
-<div class="line"><span class="lineno">  460</span>                b.Property&lt;decimal&gt;(<span class="stringliteral">&quot;InstanceManagerRights&quot;</span>)</div>
-<div class="line"><span class="lineno">  461</span>                    .HasColumnType(<span class="stringliteral">&quot;numeric(20,0)&quot;</span>);</div>
+<div class="line"><span class="lineno">  460</span>                b.Property&lt;<span class="keywordtype">long</span>?&gt;(<span class="stringliteral">&quot;GroupId&quot;</span>)</div>
+<div class="line"><span class="lineno">  461</span>                    .HasColumnType(<span class="stringliteral">&quot;bigint&quot;</span>);</div>
 <div class="line"><span class="lineno">  462</span> </div>
-<div class="line"><span class="lineno">  463</span>                b.Property&lt;<span class="keywordtype">long</span>?&gt;(<span class="stringliteral">&quot;UserId&quot;</span>)</div>
-<div class="line"><span class="lineno">  464</span>                    .HasColumnType(<span class="stringliteral">&quot;bigint&quot;</span>);</div>
+<div class="line"><span class="lineno">  463</span>                b.Property&lt;decimal&gt;(<span class="stringliteral">&quot;InstanceManagerRights&quot;</span>)</div>
+<div class="line"><span class="lineno">  464</span>                    .HasColumnType(<span class="stringliteral">&quot;numeric(20,0)&quot;</span>);</div>
 <div class="line"><span class="lineno">  465</span> </div>
-<div class="line"><span class="lineno">  466</span>                b.HasKey(<span class="stringliteral">&quot;Id&quot;</span>);</div>
-<div class="line"><span class="lineno">  467</span> </div>
-<div class="line"><span class="lineno">  468</span>                b.HasIndex(<span class="stringliteral">&quot;GroupId&quot;</span>)</div>
-<div class="line"><span class="lineno">  469</span>                    .IsUnique();</div>
+<div class="line"><span class="lineno">  466</span>                b.Property&lt;<span class="keywordtype">long</span>?&gt;(<span class="stringliteral">&quot;UserId&quot;</span>)</div>
+<div class="line"><span class="lineno">  467</span>                    .HasColumnType(<span class="stringliteral">&quot;bigint&quot;</span>);</div>
+<div class="line"><span class="lineno">  468</span> </div>
+<div class="line"><span class="lineno">  469</span>                b.HasKey(<span class="stringliteral">&quot;Id&quot;</span>);</div>
 <div class="line"><span class="lineno">  470</span> </div>
-<div class="line"><span class="lineno">  471</span>                b.HasIndex(<span class="stringliteral">&quot;UserId&quot;</span>)</div>
+<div class="line"><span class="lineno">  471</span>                b.HasIndex(<span class="stringliteral">&quot;GroupId&quot;</span>)</div>
 <div class="line"><span class="lineno">  472</span>                    .IsUnique();</div>
 <div class="line"><span class="lineno">  473</span> </div>
-<div class="line"><span class="lineno">  474</span>                b.ToTable(<span class="stringliteral">&quot;PermissionSets&quot;</span>);</div>
-<div class="line"><span class="lineno">  475</span>            });</div>
+<div class="line"><span class="lineno">  474</span>                b.HasIndex(<span class="stringliteral">&quot;UserId&quot;</span>)</div>
+<div class="line"><span class="lineno">  475</span>                    .IsUnique();</div>
 <div class="line"><span class="lineno">  476</span> </div>
-<div class="line"><span class="lineno">  477</span>            modelBuilder.Entity(<span class="stringliteral">&quot;Tgstation.Server.Host.Models.ReattachInformation&quot;</span>, b =&gt;</div>
-<div class="line"><span class="lineno">  478</span>            {</div>
-<div class="line"><span class="lineno">  479</span>                b.Property&lt;<span class="keywordtype">long</span>&gt;(<span class="stringliteral">&quot;Id&quot;</span>)</div>
-<div class="line"><span class="lineno">  480</span>                    .ValueGeneratedOnAdd()</div>
-<div class="line"><span class="lineno">  481</span>                    .HasColumnType(<span class="stringliteral">&quot;bigint&quot;</span>);</div>
-<div class="line"><span class="lineno">  482</span> </div>
-<div class="line"><span class="lineno">  483</span>                NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property&lt;<span class="keywordtype">long</span>&gt;(<span class="stringliteral">&quot;Id&quot;</span>));</div>
-<div class="line"><span class="lineno">  484</span> </div>
-<div class="line"><span class="lineno">  485</span>                b.Property&lt;<span class="keywordtype">string</span>&gt;(<span class="stringliteral">&quot;AccessIdentifier&quot;</span>)</div>
-<div class="line"><span class="lineno">  486</span>                    .IsRequired()</div>
-<div class="line"><span class="lineno">  487</span>                    .HasColumnType(<span class="stringliteral">&quot;text&quot;</span>);</div>
-<div class="line"><span class="lineno">  488</span> </div>
-<div class="line"><span class="lineno">  489</span>                b.Property&lt;<span class="keywordtype">long</span>&gt;(<span class="stringliteral">&quot;CompileJobId&quot;</span>)</div>
-<div class="line"><span class="lineno">  490</span>                    .HasColumnType(<span class="stringliteral">&quot;bigint&quot;</span>);</div>
+<div class="line"><span class="lineno">  477</span>                b.ToTable(<span class="stringliteral">&quot;PermissionSets&quot;</span>);</div>
+<div class="line"><span class="lineno">  478</span>            });</div>
+<div class="line"><span class="lineno">  479</span> </div>
+<div class="line"><span class="lineno">  480</span>            modelBuilder.Entity(<span class="stringliteral">&quot;Tgstation.Server.Host.Models.ReattachInformation&quot;</span>, b =&gt;</div>
+<div class="line"><span class="lineno">  481</span>            {</div>
+<div class="line"><span class="lineno">  482</span>                b.Property&lt;<span class="keywordtype">long</span>&gt;(<span class="stringliteral">&quot;Id&quot;</span>)</div>
+<div class="line"><span class="lineno">  483</span>                    .ValueGeneratedOnAdd()</div>
+<div class="line"><span class="lineno">  484</span>                    .HasColumnType(<span class="stringliteral">&quot;bigint&quot;</span>);</div>
+<div class="line"><span class="lineno">  485</span> </div>
+<div class="line"><span class="lineno">  486</span>                NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property&lt;<span class="keywordtype">long</span>&gt;(<span class="stringliteral">&quot;Id&quot;</span>));</div>
+<div class="line"><span class="lineno">  487</span> </div>
+<div class="line"><span class="lineno">  488</span>                b.Property&lt;<span class="keywordtype">string</span>&gt;(<span class="stringliteral">&quot;AccessIdentifier&quot;</span>)</div>
+<div class="line"><span class="lineno">  489</span>                    .IsRequired()</div>
+<div class="line"><span class="lineno">  490</span>                    .HasColumnType(<span class="stringliteral">&quot;text&quot;</span>);</div>
 <div class="line"><span class="lineno">  491</span> </div>
-<div class="line"><span class="lineno">  492</span>                b.Property&lt;<span class="keywordtype">long</span>?&gt;(<span class="stringliteral">&quot;InitialCompileJobId&quot;</span>)</div>
+<div class="line"><span class="lineno">  492</span>                b.Property&lt;<span class="keywordtype">long</span>&gt;(<span class="stringliteral">&quot;CompileJobId&quot;</span>)</div>
 <div class="line"><span class="lineno">  493</span>                    .HasColumnType(<span class="stringliteral">&quot;bigint&quot;</span>);</div>
 <div class="line"><span class="lineno">  494</span> </div>
-<div class="line"><span class="lineno">  495</span>                b.Property&lt;<span class="keywordtype">int</span>&gt;(<span class="stringliteral">&quot;LaunchSecurityLevel&quot;</span>)</div>
-<div class="line"><span class="lineno">  496</span>                    .HasColumnType(<span class="stringliteral">&quot;integer&quot;</span>);</div>
+<div class="line"><span class="lineno">  495</span>                b.Property&lt;<span class="keywordtype">long</span>?&gt;(<span class="stringliteral">&quot;InitialCompileJobId&quot;</span>)</div>
+<div class="line"><span class="lineno">  496</span>                    .HasColumnType(<span class="stringliteral">&quot;bigint&quot;</span>);</div>
 <div class="line"><span class="lineno">  497</span> </div>
-<div class="line"><span class="lineno">  498</span>                b.Property&lt;<span class="keywordtype">int</span>&gt;(<span class="stringliteral">&quot;LaunchVisibility&quot;</span>)</div>
+<div class="line"><span class="lineno">  498</span>                b.Property&lt;<span class="keywordtype">int</span>&gt;(<span class="stringliteral">&quot;LaunchSecurityLevel&quot;</span>)</div>
 <div class="line"><span class="lineno">  499</span>                    .HasColumnType(<span class="stringliteral">&quot;integer&quot;</span>);</div>
 <div class="line"><span class="lineno">  500</span> </div>
-<div class="line"><span class="lineno">  501</span>                b.Property&lt;<span class="keywordtype">int</span>&gt;(<span class="stringliteral">&quot;Port&quot;</span>)</div>
+<div class="line"><span class="lineno">  501</span>                b.Property&lt;<span class="keywordtype">int</span>&gt;(<span class="stringliteral">&quot;LaunchVisibility&quot;</span>)</div>
 <div class="line"><span class="lineno">  502</span>                    .HasColumnType(<span class="stringliteral">&quot;integer&quot;</span>);</div>
 <div class="line"><span class="lineno">  503</span> </div>
-<div class="line"><span class="lineno">  504</span>                b.Property&lt;<span class="keywordtype">int</span>&gt;(<span class="stringliteral">&quot;ProcessId&quot;</span>)</div>
+<div class="line"><span class="lineno">  504</span>                b.Property&lt;<span class="keywordtype">int</span>&gt;(<span class="stringliteral">&quot;Port&quot;</span>)</div>
 <div class="line"><span class="lineno">  505</span>                    .HasColumnType(<span class="stringliteral">&quot;integer&quot;</span>);</div>
 <div class="line"><span class="lineno">  506</span> </div>
-<div class="line"><span class="lineno">  507</span>                b.Property&lt;<span class="keywordtype">int</span>&gt;(<span class="stringliteral">&quot;RebootState&quot;</span>)</div>
+<div class="line"><span class="lineno">  507</span>                b.Property&lt;<span class="keywordtype">int</span>&gt;(<span class="stringliteral">&quot;ProcessId&quot;</span>)</div>
 <div class="line"><span class="lineno">  508</span>                    .HasColumnType(<span class="stringliteral">&quot;integer&quot;</span>);</div>
 <div class="line"><span class="lineno">  509</span> </div>
-<div class="line"><span class="lineno">  510</span>                b.HasKey(<span class="stringliteral">&quot;Id&quot;</span>);</div>
-<div class="line"><span class="lineno">  511</span> </div>
-<div class="line"><span class="lineno">  512</span>                b.HasIndex(<span class="stringliteral">&quot;CompileJobId&quot;</span>);</div>
-<div class="line"><span class="lineno">  513</span> </div>
-<div class="line"><span class="lineno">  514</span>                b.HasIndex(<span class="stringliteral">&quot;InitialCompileJobId&quot;</span>);</div>
-<div class="line"><span class="lineno">  515</span> </div>
-<div class="line"><span class="lineno">  516</span>                b.ToTable(<span class="stringliteral">&quot;ReattachInformations&quot;</span>);</div>
-<div class="line"><span class="lineno">  517</span>            });</div>
+<div class="line"><span class="lineno">  510</span>                b.Property&lt;<span class="keywordtype">int</span>&gt;(<span class="stringliteral">&quot;RebootState&quot;</span>)</div>
+<div class="line"><span class="lineno">  511</span>                    .HasColumnType(<span class="stringliteral">&quot;integer&quot;</span>);</div>
+<div class="line"><span class="lineno">  512</span> </div>
+<div class="line"><span class="lineno">  513</span>                b.HasKey(<span class="stringliteral">&quot;Id&quot;</span>);</div>
+<div class="line"><span class="lineno">  514</span> </div>
+<div class="line"><span class="lineno">  515</span>                b.HasIndex(<span class="stringliteral">&quot;CompileJobId&quot;</span>);</div>
+<div class="line"><span class="lineno">  516</span> </div>
+<div class="line"><span class="lineno">  517</span>                b.HasIndex(<span class="stringliteral">&quot;InitialCompileJobId&quot;</span>);</div>
 <div class="line"><span class="lineno">  518</span> </div>
-<div class="line"><span class="lineno">  519</span>            modelBuilder.Entity(<span class="stringliteral">&quot;Tgstation.Server.Host.Models.RepositorySettings&quot;</span>, b =&gt;</div>
-<div class="line"><span class="lineno">  520</span>            {</div>
-<div class="line"><span class="lineno">  521</span>                b.Property&lt;<span class="keywordtype">long</span>&gt;(<span class="stringliteral">&quot;Id&quot;</span>)</div>
-<div class="line"><span class="lineno">  522</span>                    .ValueGeneratedOnAdd()</div>
-<div class="line"><span class="lineno">  523</span>                    .HasColumnType(<span class="stringliteral">&quot;bigint&quot;</span>);</div>
-<div class="line"><span class="lineno">  524</span> </div>
-<div class="line"><span class="lineno">  525</span>                NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property&lt;<span class="keywordtype">long</span>&gt;(<span class="stringliteral">&quot;Id&quot;</span>));</div>
-<div class="line"><span class="lineno">  526</span> </div>
-<div class="line"><span class="lineno">  527</span>                b.Property&lt;<span class="keywordtype">string</span>&gt;(<span class="stringliteral">&quot;AccessToken&quot;</span>)</div>
-<div class="line"><span class="lineno">  528</span>                    .HasMaxLength(10000)</div>
-<div class="line"><span class="lineno">  529</span>                    .HasColumnType(<span class="stringliteral">&quot;character varying(10000)&quot;</span>);</div>
-<div class="line"><span class="lineno">  530</span> </div>
-<div class="line"><span class="lineno">  531</span>                b.Property&lt;<span class="keywordtype">string</span>&gt;(<span class="stringliteral">&quot;AccessUser&quot;</span>)</div>
-<div class="line"><span class="lineno">  532</span>                    .HasMaxLength(10000)</div>
-<div class="line"><span class="lineno">  533</span>                    .HasColumnType(<span class="stringliteral">&quot;character varying(10000)&quot;</span>);</div>
-<div class="line"><span class="lineno">  534</span> </div>
-<div class="line"><span class="lineno">  535</span>                b.Property&lt;<span class="keywordtype">bool</span>?&gt;(<span class="stringliteral">&quot;AutoUpdatesKeepTestMerges&quot;</span>)</div>
-<div class="line"><span class="lineno">  536</span>                    .IsRequired()</div>
-<div class="line"><span class="lineno">  537</span>                    .HasColumnType(<span class="stringliteral">&quot;boolean&quot;</span>);</div>
-<div class="line"><span class="lineno">  538</span> </div>
-<div class="line"><span class="lineno">  539</span>                b.Property&lt;<span class="keywordtype">bool</span>?&gt;(<span class="stringliteral">&quot;AutoUpdatesSynchronize&quot;</span>)</div>
-<div class="line"><span class="lineno">  540</span>                    .IsRequired()</div>
-<div class="line"><span class="lineno">  541</span>                    .HasColumnType(<span class="stringliteral">&quot;boolean&quot;</span>);</div>
-<div class="line"><span class="lineno">  542</span> </div>
-<div class="line"><span class="lineno">  543</span>                b.Property&lt;<span class="keywordtype">string</span>&gt;(<span class="stringliteral">&quot;CommitterEmail&quot;</span>)</div>
-<div class="line"><span class="lineno">  544</span>                    .IsRequired()</div>
-<div class="line"><span class="lineno">  545</span>                    .HasMaxLength(10000)</div>
-<div class="line"><span class="lineno">  546</span>                    .HasColumnType(<span class="stringliteral">&quot;character varying(10000)&quot;</span>);</div>
-<div class="line"><span class="lineno">  547</span> </div>
-<div class="line"><span class="lineno">  548</span>                b.Property&lt;<span class="keywordtype">string</span>&gt;(<span class="stringliteral">&quot;CommitterName&quot;</span>)</div>
-<div class="line"><span class="lineno">  549</span>                    .IsRequired()</div>
-<div class="line"><span class="lineno">  550</span>                    .HasMaxLength(10000)</div>
-<div class="line"><span class="lineno">  551</span>                    .HasColumnType(<span class="stringliteral">&quot;character varying(10000)&quot;</span>);</div>
-<div class="line"><span class="lineno">  552</span> </div>
-<div class="line"><span class="lineno">  553</span>                b.Property&lt;<span class="keywordtype">bool</span>?&gt;(<span class="stringliteral">&quot;CreateGitHubDeployments&quot;</span>)</div>
-<div class="line"><span class="lineno">  554</span>                    .IsRequired()</div>
-<div class="line"><span class="lineno">  555</span>                    .HasColumnType(<span class="stringliteral">&quot;boolean&quot;</span>);</div>
-<div class="line"><span class="lineno">  556</span> </div>
-<div class="line"><span class="lineno">  557</span>                b.Property&lt;<span class="keywordtype">long</span>&gt;(<span class="stringliteral">&quot;InstanceId&quot;</span>)</div>
-<div class="line"><span class="lineno">  558</span>                    .HasColumnType(<span class="stringliteral">&quot;bigint&quot;</span>);</div>
+<div class="line"><span class="lineno">  519</span>                b.ToTable(<span class="stringliteral">&quot;ReattachInformations&quot;</span>);</div>
+<div class="line"><span class="lineno">  520</span>            });</div>
+<div class="line"><span class="lineno">  521</span> </div>
+<div class="line"><span class="lineno">  522</span>            modelBuilder.Entity(<span class="stringliteral">&quot;Tgstation.Server.Host.Models.RepositorySettings&quot;</span>, b =&gt;</div>
+<div class="line"><span class="lineno">  523</span>            {</div>
+<div class="line"><span class="lineno">  524</span>                b.Property&lt;<span class="keywordtype">long</span>&gt;(<span class="stringliteral">&quot;Id&quot;</span>)</div>
+<div class="line"><span class="lineno">  525</span>                    .ValueGeneratedOnAdd()</div>
+<div class="line"><span class="lineno">  526</span>                    .HasColumnType(<span class="stringliteral">&quot;bigint&quot;</span>);</div>
+<div class="line"><span class="lineno">  527</span> </div>
+<div class="line"><span class="lineno">  528</span>                NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property&lt;<span class="keywordtype">long</span>&gt;(<span class="stringliteral">&quot;Id&quot;</span>));</div>
+<div class="line"><span class="lineno">  529</span> </div>
+<div class="line"><span class="lineno">  530</span>                b.Property&lt;<span class="keywordtype">string</span>&gt;(<span class="stringliteral">&quot;AccessToken&quot;</span>)</div>
+<div class="line"><span class="lineno">  531</span>                    .HasMaxLength(10000)</div>
+<div class="line"><span class="lineno">  532</span>                    .HasColumnType(<span class="stringliteral">&quot;character varying(10000)&quot;</span>);</div>
+<div class="line"><span class="lineno">  533</span> </div>
+<div class="line"><span class="lineno">  534</span>                b.Property&lt;<span class="keywordtype">string</span>&gt;(<span class="stringliteral">&quot;AccessUser&quot;</span>)</div>
+<div class="line"><span class="lineno">  535</span>                    .HasMaxLength(10000)</div>
+<div class="line"><span class="lineno">  536</span>                    .HasColumnType(<span class="stringliteral">&quot;character varying(10000)&quot;</span>);</div>
+<div class="line"><span class="lineno">  537</span> </div>
+<div class="line"><span class="lineno">  538</span>                b.Property&lt;<span class="keywordtype">bool</span>?&gt;(<span class="stringliteral">&quot;AutoUpdatesKeepTestMerges&quot;</span>)</div>
+<div class="line"><span class="lineno">  539</span>                    .IsRequired()</div>
+<div class="line"><span class="lineno">  540</span>                    .HasColumnType(<span class="stringliteral">&quot;boolean&quot;</span>);</div>
+<div class="line"><span class="lineno">  541</span> </div>
+<div class="line"><span class="lineno">  542</span>                b.Property&lt;<span class="keywordtype">bool</span>?&gt;(<span class="stringliteral">&quot;AutoUpdatesSynchronize&quot;</span>)</div>
+<div class="line"><span class="lineno">  543</span>                    .IsRequired()</div>
+<div class="line"><span class="lineno">  544</span>                    .HasColumnType(<span class="stringliteral">&quot;boolean&quot;</span>);</div>
+<div class="line"><span class="lineno">  545</span> </div>
+<div class="line"><span class="lineno">  546</span>                b.Property&lt;<span class="keywordtype">string</span>&gt;(<span class="stringliteral">&quot;CommitterEmail&quot;</span>)</div>
+<div class="line"><span class="lineno">  547</span>                    .IsRequired()</div>
+<div class="line"><span class="lineno">  548</span>                    .HasMaxLength(10000)</div>
+<div class="line"><span class="lineno">  549</span>                    .HasColumnType(<span class="stringliteral">&quot;character varying(10000)&quot;</span>);</div>
+<div class="line"><span class="lineno">  550</span> </div>
+<div class="line"><span class="lineno">  551</span>                b.Property&lt;<span class="keywordtype">string</span>&gt;(<span class="stringliteral">&quot;CommitterName&quot;</span>)</div>
+<div class="line"><span class="lineno">  552</span>                    .IsRequired()</div>
+<div class="line"><span class="lineno">  553</span>                    .HasMaxLength(10000)</div>
+<div class="line"><span class="lineno">  554</span>                    .HasColumnType(<span class="stringliteral">&quot;character varying(10000)&quot;</span>);</div>
+<div class="line"><span class="lineno">  555</span> </div>
+<div class="line"><span class="lineno">  556</span>                b.Property&lt;<span class="keywordtype">bool</span>?&gt;(<span class="stringliteral">&quot;CreateGitHubDeployments&quot;</span>)</div>
+<div class="line"><span class="lineno">  557</span>                    .IsRequired()</div>
+<div class="line"><span class="lineno">  558</span>                    .HasColumnType(<span class="stringliteral">&quot;boolean&quot;</span>);</div>
 <div class="line"><span class="lineno">  559</span> </div>
-<div class="line"><span class="lineno">  560</span>                b.Property&lt;<span class="keywordtype">bool</span>?&gt;(<span class="stringliteral">&quot;PostTestMergeComment&quot;</span>)</div>
-<div class="line"><span class="lineno">  561</span>                    .IsRequired()</div>
-<div class="line"><span class="lineno">  562</span>                    .HasColumnType(<span class="stringliteral">&quot;boolean&quot;</span>);</div>
-<div class="line"><span class="lineno">  563</span> </div>
-<div class="line"><span class="lineno">  564</span>                b.Property&lt;<span class="keywordtype">bool</span>?&gt;(<span class="stringliteral">&quot;PushTestMergeCommits&quot;</span>)</div>
-<div class="line"><span class="lineno">  565</span>                    .IsRequired()</div>
-<div class="line"><span class="lineno">  566</span>                    .HasColumnType(<span class="stringliteral">&quot;boolean&quot;</span>);</div>
-<div class="line"><span class="lineno">  567</span> </div>
-<div class="line"><span class="lineno">  568</span>                b.Property&lt;<span class="keywordtype">bool</span>?&gt;(<span class="stringliteral">&quot;ShowTestMergeCommitters&quot;</span>)</div>
-<div class="line"><span class="lineno">  569</span>                    .IsRequired()</div>
-<div class="line"><span class="lineno">  570</span>                    .HasColumnType(<span class="stringliteral">&quot;boolean&quot;</span>);</div>
-<div class="line"><span class="lineno">  571</span> </div>
-<div class="line"><span class="lineno">  572</span>                b.Property&lt;<span class="keywordtype">bool</span>?&gt;(<span class="stringliteral">&quot;UpdateSubmodules&quot;</span>)</div>
-<div class="line"><span class="lineno">  573</span>                    .IsRequired()</div>
-<div class="line"><span class="lineno">  574</span>                    .HasColumnType(<span class="stringliteral">&quot;boolean&quot;</span>);</div>
-<div class="line"><span class="lineno">  575</span> </div>
-<div class="line"><span class="lineno">  576</span>                b.HasKey(<span class="stringliteral">&quot;Id&quot;</span>);</div>
-<div class="line"><span class="lineno">  577</span> </div>
-<div class="line"><span class="lineno">  578</span>                b.HasIndex(<span class="stringliteral">&quot;InstanceId&quot;</span>)</div>
-<div class="line"><span class="lineno">  579</span>                    .IsUnique();</div>
+<div class="line"><span class="lineno">  560</span>                b.Property&lt;<span class="keywordtype">long</span>&gt;(<span class="stringliteral">&quot;InstanceId&quot;</span>)</div>
+<div class="line"><span class="lineno">  561</span>                    .HasColumnType(<span class="stringliteral">&quot;bigint&quot;</span>);</div>
+<div class="line"><span class="lineno">  562</span> </div>
+<div class="line"><span class="lineno">  563</span>                b.Property&lt;<span class="keywordtype">bool</span>?&gt;(<span class="stringliteral">&quot;PostTestMergeComment&quot;</span>)</div>
+<div class="line"><span class="lineno">  564</span>                    .IsRequired()</div>
+<div class="line"><span class="lineno">  565</span>                    .HasColumnType(<span class="stringliteral">&quot;boolean&quot;</span>);</div>
+<div class="line"><span class="lineno">  566</span> </div>
+<div class="line"><span class="lineno">  567</span>                b.Property&lt;<span class="keywordtype">bool</span>?&gt;(<span class="stringliteral">&quot;PushTestMergeCommits&quot;</span>)</div>
+<div class="line"><span class="lineno">  568</span>                    .IsRequired()</div>
+<div class="line"><span class="lineno">  569</span>                    .HasColumnType(<span class="stringliteral">&quot;boolean&quot;</span>);</div>
+<div class="line"><span class="lineno">  570</span> </div>
+<div class="line"><span class="lineno">  571</span>                b.Property&lt;<span class="keywordtype">bool</span>?&gt;(<span class="stringliteral">&quot;ShowTestMergeCommitters&quot;</span>)</div>
+<div class="line"><span class="lineno">  572</span>                    .IsRequired()</div>
+<div class="line"><span class="lineno">  573</span>                    .HasColumnType(<span class="stringliteral">&quot;boolean&quot;</span>);</div>
+<div class="line"><span class="lineno">  574</span> </div>
+<div class="line"><span class="lineno">  575</span>                b.Property&lt;<span class="keywordtype">bool</span>?&gt;(<span class="stringliteral">&quot;UpdateSubmodules&quot;</span>)</div>
+<div class="line"><span class="lineno">  576</span>                    .IsRequired()</div>
+<div class="line"><span class="lineno">  577</span>                    .HasColumnType(<span class="stringliteral">&quot;boolean&quot;</span>);</div>
+<div class="line"><span class="lineno">  578</span> </div>
+<div class="line"><span class="lineno">  579</span>                b.HasKey(<span class="stringliteral">&quot;Id&quot;</span>);</div>
 <div class="line"><span class="lineno">  580</span> </div>
-<div class="line"><span class="lineno">  581</span>                b.ToTable(<span class="stringliteral">&quot;RepositorySettings&quot;</span>);</div>
-<div class="line"><span class="lineno">  582</span>            });</div>
+<div class="line"><span class="lineno">  581</span>                b.HasIndex(<span class="stringliteral">&quot;InstanceId&quot;</span>)</div>
+<div class="line"><span class="lineno">  582</span>                    .IsUnique();</div>
 <div class="line"><span class="lineno">  583</span> </div>
-<div class="line"><span class="lineno">  584</span>            modelBuilder.Entity(<span class="stringliteral">&quot;Tgstation.Server.Host.Models.RevInfoTestMerge&quot;</span>, b =&gt;</div>
-<div class="line"><span class="lineno">  585</span>            {</div>
-<div class="line"><span class="lineno">  586</span>                b.Property&lt;<span class="keywordtype">long</span>&gt;(<span class="stringliteral">&quot;Id&quot;</span>)</div>
-<div class="line"><span class="lineno">  587</span>                    .ValueGeneratedOnAdd()</div>
-<div class="line"><span class="lineno">  588</span>                    .HasColumnType(<span class="stringliteral">&quot;bigint&quot;</span>);</div>
-<div class="line"><span class="lineno">  589</span> </div>
-<div class="line"><span class="lineno">  590</span>                NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property&lt;<span class="keywordtype">long</span>&gt;(<span class="stringliteral">&quot;Id&quot;</span>));</div>
-<div class="line"><span class="lineno">  591</span> </div>
-<div class="line"><span class="lineno">  592</span>                b.Property&lt;<span class="keywordtype">long</span>&gt;(<span class="stringliteral">&quot;RevisionInformationId&quot;</span>)</div>
-<div class="line"><span class="lineno">  593</span>                    .HasColumnType(<span class="stringliteral">&quot;bigint&quot;</span>);</div>
+<div class="line"><span class="lineno">  584</span>                b.ToTable(<span class="stringliteral">&quot;RepositorySettings&quot;</span>);</div>
+<div class="line"><span class="lineno">  585</span>            });</div>
+<div class="line"><span class="lineno">  586</span> </div>
+<div class="line"><span class="lineno">  587</span>            modelBuilder.Entity(<span class="stringliteral">&quot;Tgstation.Server.Host.Models.RevInfoTestMerge&quot;</span>, b =&gt;</div>
+<div class="line"><span class="lineno">  588</span>            {</div>
+<div class="line"><span class="lineno">  589</span>                b.Property&lt;<span class="keywordtype">long</span>&gt;(<span class="stringliteral">&quot;Id&quot;</span>)</div>
+<div class="line"><span class="lineno">  590</span>                    .ValueGeneratedOnAdd()</div>
+<div class="line"><span class="lineno">  591</span>                    .HasColumnType(<span class="stringliteral">&quot;bigint&quot;</span>);</div>
+<div class="line"><span class="lineno">  592</span> </div>
+<div class="line"><span class="lineno">  593</span>                NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property&lt;<span class="keywordtype">long</span>&gt;(<span class="stringliteral">&quot;Id&quot;</span>));</div>
 <div class="line"><span class="lineno">  594</span> </div>
-<div class="line"><span class="lineno">  595</span>                b.Property&lt;<span class="keywordtype">long</span>&gt;(<span class="stringliteral">&quot;TestMergeId&quot;</span>)</div>
+<div class="line"><span class="lineno">  595</span>                b.Property&lt;<span class="keywordtype">long</span>&gt;(<span class="stringliteral">&quot;RevisionInformationId&quot;</span>)</div>
 <div class="line"><span class="lineno">  596</span>                    .HasColumnType(<span class="stringliteral">&quot;bigint&quot;</span>);</div>
 <div class="line"><span class="lineno">  597</span> </div>
-<div class="line"><span class="lineno">  598</span>                b.HasKey(<span class="stringliteral">&quot;Id&quot;</span>);</div>
-<div class="line"><span class="lineno">  599</span> </div>
-<div class="line"><span class="lineno">  600</span>                b.HasIndex(<span class="stringliteral">&quot;RevisionInformationId&quot;</span>);</div>
-<div class="line"><span class="lineno">  601</span> </div>
-<div class="line"><span class="lineno">  602</span>                b.HasIndex(<span class="stringliteral">&quot;TestMergeId&quot;</span>);</div>
-<div class="line"><span class="lineno">  603</span> </div>
-<div class="line"><span class="lineno">  604</span>                b.ToTable(<span class="stringliteral">&quot;RevInfoTestMerges&quot;</span>);</div>
-<div class="line"><span class="lineno">  605</span>            });</div>
+<div class="line"><span class="lineno">  598</span>                b.Property&lt;<span class="keywordtype">long</span>&gt;(<span class="stringliteral">&quot;TestMergeId&quot;</span>)</div>
+<div class="line"><span class="lineno">  599</span>                    .HasColumnType(<span class="stringliteral">&quot;bigint&quot;</span>);</div>
+<div class="line"><span class="lineno">  600</span> </div>
+<div class="line"><span class="lineno">  601</span>                b.HasKey(<span class="stringliteral">&quot;Id&quot;</span>);</div>
+<div class="line"><span class="lineno">  602</span> </div>
+<div class="line"><span class="lineno">  603</span>                b.HasIndex(<span class="stringliteral">&quot;RevisionInformationId&quot;</span>);</div>
+<div class="line"><span class="lineno">  604</span> </div>
+<div class="line"><span class="lineno">  605</span>                b.HasIndex(<span class="stringliteral">&quot;TestMergeId&quot;</span>);</div>
 <div class="line"><span class="lineno">  606</span> </div>
-<div class="line"><span class="lineno">  607</span>            modelBuilder.Entity(<span class="stringliteral">&quot;Tgstation.Server.Host.Models.RevisionInformation&quot;</span>, b =&gt;</div>
-<div class="line"><span class="lineno">  608</span>            {</div>
-<div class="line"><span class="lineno">  609</span>                b.Property&lt;<span class="keywordtype">long</span>&gt;(<span class="stringliteral">&quot;Id&quot;</span>)</div>
-<div class="line"><span class="lineno">  610</span>                    .ValueGeneratedOnAdd()</div>
-<div class="line"><span class="lineno">  611</span>                    .HasColumnType(<span class="stringliteral">&quot;bigint&quot;</span>);</div>
-<div class="line"><span class="lineno">  612</span> </div>
-<div class="line"><span class="lineno">  613</span>                NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property&lt;<span class="keywordtype">long</span>&gt;(<span class="stringliteral">&quot;Id&quot;</span>));</div>
-<div class="line"><span class="lineno">  614</span> </div>
-<div class="line"><span class="lineno">  615</span>                b.Property&lt;<span class="keywordtype">string</span>&gt;(<span class="stringliteral">&quot;CommitSha&quot;</span>)</div>
-<div class="line"><span class="lineno">  616</span>                    .IsRequired()</div>
-<div class="line"><span class="lineno">  617</span>                    .HasMaxLength(40)</div>
-<div class="line"><span class="lineno">  618</span>                    .HasColumnType(<span class="stringliteral">&quot;character varying(40)&quot;</span>);</div>
-<div class="line"><span class="lineno">  619</span> </div>
-<div class="line"><span class="lineno">  620</span>                b.Property&lt;<span class="keywordtype">long</span>&gt;(<span class="stringliteral">&quot;InstanceId&quot;</span>)</div>
-<div class="line"><span class="lineno">  621</span>                    .HasColumnType(<span class="stringliteral">&quot;bigint&quot;</span>);</div>
+<div class="line"><span class="lineno">  607</span>                b.ToTable(<span class="stringliteral">&quot;RevInfoTestMerges&quot;</span>);</div>
+<div class="line"><span class="lineno">  608</span>            });</div>
+<div class="line"><span class="lineno">  609</span> </div>
+<div class="line"><span class="lineno">  610</span>            modelBuilder.Entity(<span class="stringliteral">&quot;Tgstation.Server.Host.Models.RevisionInformation&quot;</span>, b =&gt;</div>
+<div class="line"><span class="lineno">  611</span>            {</div>
+<div class="line"><span class="lineno">  612</span>                b.Property&lt;<span class="keywordtype">long</span>&gt;(<span class="stringliteral">&quot;Id&quot;</span>)</div>
+<div class="line"><span class="lineno">  613</span>                    .ValueGeneratedOnAdd()</div>
+<div class="line"><span class="lineno">  614</span>                    .HasColumnType(<span class="stringliteral">&quot;bigint&quot;</span>);</div>
+<div class="line"><span class="lineno">  615</span> </div>
+<div class="line"><span class="lineno">  616</span>                NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property&lt;<span class="keywordtype">long</span>&gt;(<span class="stringliteral">&quot;Id&quot;</span>));</div>
+<div class="line"><span class="lineno">  617</span> </div>
+<div class="line"><span class="lineno">  618</span>                b.Property&lt;<span class="keywordtype">string</span>&gt;(<span class="stringliteral">&quot;CommitSha&quot;</span>)</div>
+<div class="line"><span class="lineno">  619</span>                    .IsRequired()</div>
+<div class="line"><span class="lineno">  620</span>                    .HasMaxLength(40)</div>
+<div class="line"><span class="lineno">  621</span>                    .HasColumnType(<span class="stringliteral">&quot;character varying(40)&quot;</span>);</div>
 <div class="line"><span class="lineno">  622</span> </div>
-<div class="line"><span class="lineno">  623</span>                b.Property&lt;<span class="keywordtype">string</span>&gt;(<span class="stringliteral">&quot;OriginCommitSha&quot;</span>)</div>
-<div class="line"><span class="lineno">  624</span>                    .IsRequired()</div>
-<div class="line"><span class="lineno">  625</span>                    .HasMaxLength(40)</div>
-<div class="line"><span class="lineno">  626</span>                    .HasColumnType(<span class="stringliteral">&quot;character varying(40)&quot;</span>);</div>
-<div class="line"><span class="lineno">  627</span> </div>
-<div class="line"><span class="lineno">  628</span>                b.Property&lt;DateTimeOffset&gt;(<span class="stringliteral">&quot;Timestamp&quot;</span>)</div>
-<div class="line"><span class="lineno">  629</span>                    .HasColumnType(<span class="stringliteral">&quot;timestamp with time zone&quot;</span>);</div>
+<div class="line"><span class="lineno">  623</span>                b.Property&lt;<span class="keywordtype">long</span>&gt;(<span class="stringliteral">&quot;InstanceId&quot;</span>)</div>
+<div class="line"><span class="lineno">  624</span>                    .HasColumnType(<span class="stringliteral">&quot;bigint&quot;</span>);</div>
+<div class="line"><span class="lineno">  625</span> </div>
+<div class="line"><span class="lineno">  626</span>                b.Property&lt;<span class="keywordtype">string</span>&gt;(<span class="stringliteral">&quot;OriginCommitSha&quot;</span>)</div>
+<div class="line"><span class="lineno">  627</span>                    .IsRequired()</div>
+<div class="line"><span class="lineno">  628</span>                    .HasMaxLength(40)</div>
+<div class="line"><span class="lineno">  629</span>                    .HasColumnType(<span class="stringliteral">&quot;character varying(40)&quot;</span>);</div>
 <div class="line"><span class="lineno">  630</span> </div>
-<div class="line"><span class="lineno">  631</span>                b.HasKey(<span class="stringliteral">&quot;Id&quot;</span>);</div>
-<div class="line"><span class="lineno">  632</span> </div>
-<div class="line"><span class="lineno">  633</span>                b.HasIndex(<span class="stringliteral">&quot;InstanceId&quot;</span>, <span class="stringliteral">&quot;CommitSha&quot;</span>)</div>
-<div class="line"><span class="lineno">  634</span>                    .IsUnique();</div>
+<div class="line"><span class="lineno">  631</span>                b.Property&lt;DateTimeOffset&gt;(<span class="stringliteral">&quot;Timestamp&quot;</span>)</div>
+<div class="line"><span class="lineno">  632</span>                    .HasColumnType(<span class="stringliteral">&quot;timestamp with time zone&quot;</span>);</div>
+<div class="line"><span class="lineno">  633</span> </div>
+<div class="line"><span class="lineno">  634</span>                b.HasKey(<span class="stringliteral">&quot;Id&quot;</span>);</div>
 <div class="line"><span class="lineno">  635</span> </div>
-<div class="line"><span class="lineno">  636</span>                b.ToTable(<span class="stringliteral">&quot;RevisionInformations&quot;</span>);</div>
-<div class="line"><span class="lineno">  637</span>            });</div>
+<div class="line"><span class="lineno">  636</span>                b.HasIndex(<span class="stringliteral">&quot;InstanceId&quot;</span>, <span class="stringliteral">&quot;CommitSha&quot;</span>)</div>
+<div class="line"><span class="lineno">  637</span>                    .IsUnique();</div>
 <div class="line"><span class="lineno">  638</span> </div>
-<div class="line"><span class="lineno">  639</span>            modelBuilder.Entity(<span class="stringliteral">&quot;Tgstation.Server.Host.Models.TestMerge&quot;</span>, b =&gt;</div>
-<div class="line"><span class="lineno">  640</span>            {</div>
-<div class="line"><span class="lineno">  641</span>                b.Property&lt;<span class="keywordtype">long</span>&gt;(<span class="stringliteral">&quot;Id&quot;</span>)</div>
-<div class="line"><span class="lineno">  642</span>                    .ValueGeneratedOnAdd()</div>
-<div class="line"><span class="lineno">  643</span>                    .HasColumnType(<span class="stringliteral">&quot;bigint&quot;</span>);</div>
-<div class="line"><span class="lineno">  644</span> </div>
-<div class="line"><span class="lineno">  645</span>                NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property&lt;<span class="keywordtype">long</span>&gt;(<span class="stringliteral">&quot;Id&quot;</span>));</div>
-<div class="line"><span class="lineno">  646</span> </div>
-<div class="line"><span class="lineno">  647</span>                b.Property&lt;<span class="keywordtype">string</span>&gt;(<span class="stringliteral">&quot;Author&quot;</span>)</div>
-<div class="line"><span class="lineno">  648</span>                    .IsRequired()</div>
-<div class="line"><span class="lineno">  649</span>                    .HasColumnType(<span class="stringliteral">&quot;text&quot;</span>);</div>
-<div class="line"><span class="lineno">  650</span> </div>
-<div class="line"><span class="lineno">  651</span>                b.Property&lt;<span class="keywordtype">string</span>&gt;(<span class="stringliteral">&quot;BodyAtMerge&quot;</span>)</div>
-<div class="line"><span class="lineno">  652</span>                    .IsRequired()</div>
-<div class="line"><span class="lineno">  653</span>                    .HasColumnType(<span class="stringliteral">&quot;text&quot;</span>);</div>
-<div class="line"><span class="lineno">  654</span> </div>
-<div class="line"><span class="lineno">  655</span>                b.Property&lt;<span class="keywordtype">string</span>&gt;(<span class="stringliteral">&quot;Comment&quot;</span>)</div>
-<div class="line"><span class="lineno">  656</span>                    .HasMaxLength(10000)</div>
-<div class="line"><span class="lineno">  657</span>                    .HasColumnType(<span class="stringliteral">&quot;character varying(10000)&quot;</span>);</div>
-<div class="line"><span class="lineno">  658</span> </div>
-<div class="line"><span class="lineno">  659</span>                b.Property&lt;DateTimeOffset&gt;(<span class="stringliteral">&quot;MergedAt&quot;</span>)</div>
-<div class="line"><span class="lineno">  660</span>                    .HasColumnType(<span class="stringliteral">&quot;timestamp with time zone&quot;</span>);</div>
+<div class="line"><span class="lineno">  639</span>                b.ToTable(<span class="stringliteral">&quot;RevisionInformations&quot;</span>);</div>
+<div class="line"><span class="lineno">  640</span>            });</div>
+<div class="line"><span class="lineno">  641</span> </div>
+<div class="line"><span class="lineno">  642</span>            modelBuilder.Entity(<span class="stringliteral">&quot;Tgstation.Server.Host.Models.TestMerge&quot;</span>, b =&gt;</div>
+<div class="line"><span class="lineno">  643</span>            {</div>
+<div class="line"><span class="lineno">  644</span>                b.Property&lt;<span class="keywordtype">long</span>&gt;(<span class="stringliteral">&quot;Id&quot;</span>)</div>
+<div class="line"><span class="lineno">  645</span>                    .ValueGeneratedOnAdd()</div>
+<div class="line"><span class="lineno">  646</span>                    .HasColumnType(<span class="stringliteral">&quot;bigint&quot;</span>);</div>
+<div class="line"><span class="lineno">  647</span> </div>
+<div class="line"><span class="lineno">  648</span>                NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property&lt;<span class="keywordtype">long</span>&gt;(<span class="stringliteral">&quot;Id&quot;</span>));</div>
+<div class="line"><span class="lineno">  649</span> </div>
+<div class="line"><span class="lineno">  650</span>                b.Property&lt;<span class="keywordtype">string</span>&gt;(<span class="stringliteral">&quot;Author&quot;</span>)</div>
+<div class="line"><span class="lineno">  651</span>                    .IsRequired()</div>
+<div class="line"><span class="lineno">  652</span>                    .HasColumnType(<span class="stringliteral">&quot;text&quot;</span>);</div>
+<div class="line"><span class="lineno">  653</span> </div>
+<div class="line"><span class="lineno">  654</span>                b.Property&lt;<span class="keywordtype">string</span>&gt;(<span class="stringliteral">&quot;BodyAtMerge&quot;</span>)</div>
+<div class="line"><span class="lineno">  655</span>                    .IsRequired()</div>
+<div class="line"><span class="lineno">  656</span>                    .HasColumnType(<span class="stringliteral">&quot;text&quot;</span>);</div>
+<div class="line"><span class="lineno">  657</span> </div>
+<div class="line"><span class="lineno">  658</span>                b.Property&lt;<span class="keywordtype">string</span>&gt;(<span class="stringliteral">&quot;Comment&quot;</span>)</div>
+<div class="line"><span class="lineno">  659</span>                    .HasMaxLength(10000)</div>
+<div class="line"><span class="lineno">  660</span>                    .HasColumnType(<span class="stringliteral">&quot;character varying(10000)&quot;</span>);</div>
 <div class="line"><span class="lineno">  661</span> </div>
-<div class="line"><span class="lineno">  662</span>                b.Property&lt;<span class="keywordtype">long</span>&gt;(<span class="stringliteral">&quot;MergedById&quot;</span>)</div>
-<div class="line"><span class="lineno">  663</span>                    .HasColumnType(<span class="stringliteral">&quot;bigint&quot;</span>);</div>
+<div class="line"><span class="lineno">  662</span>                b.Property&lt;DateTimeOffset&gt;(<span class="stringliteral">&quot;MergedAt&quot;</span>)</div>
+<div class="line"><span class="lineno">  663</span>                    .HasColumnType(<span class="stringliteral">&quot;timestamp with time zone&quot;</span>);</div>
 <div class="line"><span class="lineno">  664</span> </div>
-<div class="line"><span class="lineno">  665</span>                b.Property&lt;<span class="keywordtype">int</span>&gt;(<span class="stringliteral">&quot;Number&quot;</span>)</div>
-<div class="line"><span class="lineno">  666</span>                    .HasColumnType(<span class="stringliteral">&quot;integer&quot;</span>);</div>
+<div class="line"><span class="lineno">  665</span>                b.Property&lt;<span class="keywordtype">long</span>&gt;(<span class="stringliteral">&quot;MergedById&quot;</span>)</div>
+<div class="line"><span class="lineno">  666</span>                    .HasColumnType(<span class="stringliteral">&quot;bigint&quot;</span>);</div>
 <div class="line"><span class="lineno">  667</span> </div>
-<div class="line"><span class="lineno">  668</span>                b.Property&lt;<span class="keywordtype">long</span>?&gt;(<span class="stringliteral">&quot;PrimaryRevisionInformationId&quot;</span>)</div>
-<div class="line"><span class="lineno">  669</span>                    .IsRequired()</div>
-<div class="line"><span class="lineno">  670</span>                    .HasColumnType(<span class="stringliteral">&quot;bigint&quot;</span>);</div>
-<div class="line"><span class="lineno">  671</span> </div>
-<div class="line"><span class="lineno">  672</span>                b.Property&lt;<span class="keywordtype">string</span>&gt;(<span class="stringliteral">&quot;TargetCommitSha&quot;</span>)</div>
-<div class="line"><span class="lineno">  673</span>                    .IsRequired()</div>
-<div class="line"><span class="lineno">  674</span>                    .HasMaxLength(40)</div>
-<div class="line"><span class="lineno">  675</span>                    .HasColumnType(<span class="stringliteral">&quot;character varying(40)&quot;</span>);</div>
-<div class="line"><span class="lineno">  676</span> </div>
-<div class="line"><span class="lineno">  677</span>                b.Property&lt;<span class="keywordtype">string</span>&gt;(<span class="stringliteral">&quot;TitleAtMerge&quot;</span>)</div>
-<div class="line"><span class="lineno">  678</span>                    .IsRequired()</div>
-<div class="line"><span class="lineno">  679</span>                    .HasColumnType(<span class="stringliteral">&quot;text&quot;</span>);</div>
-<div class="line"><span class="lineno">  680</span> </div>
-<div class="line"><span class="lineno">  681</span>                b.Property&lt;<span class="keywordtype">string</span>&gt;(<span class="stringliteral">&quot;Url&quot;</span>)</div>
-<div class="line"><span class="lineno">  682</span>                    .IsRequired()</div>
-<div class="line"><span class="lineno">  683</span>                    .HasColumnType(<span class="stringliteral">&quot;text&quot;</span>);</div>
-<div class="line"><span class="lineno">  684</span> </div>
-<div class="line"><span class="lineno">  685</span>                b.HasKey(<span class="stringliteral">&quot;Id&quot;</span>);</div>
-<div class="line"><span class="lineno">  686</span> </div>
-<div class="line"><span class="lineno">  687</span>                b.HasIndex(<span class="stringliteral">&quot;MergedById&quot;</span>);</div>
-<div class="line"><span class="lineno">  688</span> </div>
-<div class="line"><span class="lineno">  689</span>                b.HasIndex(<span class="stringliteral">&quot;PrimaryRevisionInformationId&quot;</span>)</div>
-<div class="line"><span class="lineno">  690</span>                    .IsUnique();</div>
+<div class="line"><span class="lineno">  668</span>                b.Property&lt;<span class="keywordtype">int</span>&gt;(<span class="stringliteral">&quot;Number&quot;</span>)</div>
+<div class="line"><span class="lineno">  669</span>                    .HasColumnType(<span class="stringliteral">&quot;integer&quot;</span>);</div>
+<div class="line"><span class="lineno">  670</span> </div>
+<div class="line"><span class="lineno">  671</span>                b.Property&lt;<span class="keywordtype">long</span>?&gt;(<span class="stringliteral">&quot;PrimaryRevisionInformationId&quot;</span>)</div>
+<div class="line"><span class="lineno">  672</span>                    .IsRequired()</div>
+<div class="line"><span class="lineno">  673</span>                    .HasColumnType(<span class="stringliteral">&quot;bigint&quot;</span>);</div>
+<div class="line"><span class="lineno">  674</span> </div>
+<div class="line"><span class="lineno">  675</span>                b.Property&lt;<span class="keywordtype">string</span>&gt;(<span class="stringliteral">&quot;TargetCommitSha&quot;</span>)</div>
+<div class="line"><span class="lineno">  676</span>                    .IsRequired()</div>
+<div class="line"><span class="lineno">  677</span>                    .HasMaxLength(40)</div>
+<div class="line"><span class="lineno">  678</span>                    .HasColumnType(<span class="stringliteral">&quot;character varying(40)&quot;</span>);</div>
+<div class="line"><span class="lineno">  679</span> </div>
+<div class="line"><span class="lineno">  680</span>                b.Property&lt;<span class="keywordtype">string</span>&gt;(<span class="stringliteral">&quot;TitleAtMerge&quot;</span>)</div>
+<div class="line"><span class="lineno">  681</span>                    .IsRequired()</div>
+<div class="line"><span class="lineno">  682</span>                    .HasColumnType(<span class="stringliteral">&quot;text&quot;</span>);</div>
+<div class="line"><span class="lineno">  683</span> </div>
+<div class="line"><span class="lineno">  684</span>                b.Property&lt;<span class="keywordtype">string</span>&gt;(<span class="stringliteral">&quot;Url&quot;</span>)</div>
+<div class="line"><span class="lineno">  685</span>                    .IsRequired()</div>
+<div class="line"><span class="lineno">  686</span>                    .HasColumnType(<span class="stringliteral">&quot;text&quot;</span>);</div>
+<div class="line"><span class="lineno">  687</span> </div>
+<div class="line"><span class="lineno">  688</span>                b.HasKey(<span class="stringliteral">&quot;Id&quot;</span>);</div>
+<div class="line"><span class="lineno">  689</span> </div>
+<div class="line"><span class="lineno">  690</span>                b.HasIndex(<span class="stringliteral">&quot;MergedById&quot;</span>);</div>
 <div class="line"><span class="lineno">  691</span> </div>
-<div class="line"><span class="lineno">  692</span>                b.ToTable(<span class="stringliteral">&quot;TestMerges&quot;</span>);</div>
-<div class="line"><span class="lineno">  693</span>            });</div>
+<div class="line"><span class="lineno">  692</span>                b.HasIndex(<span class="stringliteral">&quot;PrimaryRevisionInformationId&quot;</span>)</div>
+<div class="line"><span class="lineno">  693</span>                    .IsUnique();</div>
 <div class="line"><span class="lineno">  694</span> </div>
-<div class="line"><span class="lineno">  695</span>            modelBuilder.Entity(<span class="stringliteral">&quot;Tgstation.Server.Host.Models.User&quot;</span>, b =&gt;</div>
-<div class="line"><span class="lineno">  696</span>            {</div>
-<div class="line"><span class="lineno">  697</span>                b.Property&lt;<span class="keywordtype">long</span>?&gt;(<span class="stringliteral">&quot;Id&quot;</span>)</div>
-<div class="line"><span class="lineno">  698</span>                    .ValueGeneratedOnAdd()</div>
-<div class="line"><span class="lineno">  699</span>                    .HasColumnType(<span class="stringliteral">&quot;bigint&quot;</span>);</div>
-<div class="line"><span class="lineno">  700</span> </div>
-<div class="line"><span class="lineno">  701</span>                NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property&lt;<span class="keywordtype">long</span>?&gt;(<span class="stringliteral">&quot;Id&quot;</span>));</div>
-<div class="line"><span class="lineno">  702</span> </div>
-<div class="line"><span class="lineno">  703</span>                b.Property&lt;<span class="keywordtype">string</span>&gt;(<span class="stringliteral">&quot;CanonicalName&quot;</span>)</div>
-<div class="line"><span class="lineno">  704</span>                    .IsRequired()</div>
-<div class="line"><span class="lineno">  705</span>                    .HasMaxLength(100)</div>
-<div class="line"><span class="lineno">  706</span>                    .HasColumnType(<span class="stringliteral">&quot;character varying(100)&quot;</span>);</div>
-<div class="line"><span class="lineno">  707</span> </div>
-<div class="line"><span class="lineno">  708</span>                b.Property&lt;DateTimeOffset?&gt;(<span class="stringliteral">&quot;CreatedAt&quot;</span>)</div>
-<div class="line"><span class="lineno">  709</span>                    .IsRequired()</div>
-<div class="line"><span class="lineno">  710</span>                    .HasColumnType(<span class="stringliteral">&quot;timestamp with time zone&quot;</span>);</div>
-<div class="line"><span class="lineno">  711</span> </div>
-<div class="line"><span class="lineno">  712</span>                b.Property&lt;<span class="keywordtype">long</span>?&gt;(<span class="stringliteral">&quot;CreatedById&quot;</span>)</div>
-<div class="line"><span class="lineno">  713</span>                    .HasColumnType(<span class="stringliteral">&quot;bigint&quot;</span>);</div>
+<div class="line"><span class="lineno">  695</span>                b.ToTable(<span class="stringliteral">&quot;TestMerges&quot;</span>);</div>
+<div class="line"><span class="lineno">  696</span>            });</div>
+<div class="line"><span class="lineno">  697</span> </div>
+<div class="line"><span class="lineno">  698</span>            modelBuilder.Entity(<span class="stringliteral">&quot;Tgstation.Server.Host.Models.User&quot;</span>, b =&gt;</div>
+<div class="line"><span class="lineno">  699</span>            {</div>
+<div class="line"><span class="lineno">  700</span>                b.Property&lt;<span class="keywordtype">long</span>?&gt;(<span class="stringliteral">&quot;Id&quot;</span>)</div>
+<div class="line"><span class="lineno">  701</span>                    .ValueGeneratedOnAdd()</div>
+<div class="line"><span class="lineno">  702</span>                    .HasColumnType(<span class="stringliteral">&quot;bigint&quot;</span>);</div>
+<div class="line"><span class="lineno">  703</span> </div>
+<div class="line"><span class="lineno">  704</span>                NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property&lt;<span class="keywordtype">long</span>?&gt;(<span class="stringliteral">&quot;Id&quot;</span>));</div>
+<div class="line"><span class="lineno">  705</span> </div>
+<div class="line"><span class="lineno">  706</span>                b.Property&lt;<span class="keywordtype">string</span>&gt;(<span class="stringliteral">&quot;CanonicalName&quot;</span>)</div>
+<div class="line"><span class="lineno">  707</span>                    .IsRequired()</div>
+<div class="line"><span class="lineno">  708</span>                    .HasMaxLength(100)</div>
+<div class="line"><span class="lineno">  709</span>                    .HasColumnType(<span class="stringliteral">&quot;character varying(100)&quot;</span>);</div>
+<div class="line"><span class="lineno">  710</span> </div>
+<div class="line"><span class="lineno">  711</span>                b.Property&lt;DateTimeOffset?&gt;(<span class="stringliteral">&quot;CreatedAt&quot;</span>)</div>
+<div class="line"><span class="lineno">  712</span>                    .IsRequired()</div>
+<div class="line"><span class="lineno">  713</span>                    .HasColumnType(<span class="stringliteral">&quot;timestamp with time zone&quot;</span>);</div>
 <div class="line"><span class="lineno">  714</span> </div>
-<div class="line"><span class="lineno">  715</span>                b.Property&lt;<span class="keywordtype">bool</span>?&gt;(<span class="stringliteral">&quot;Enabled&quot;</span>)</div>
-<div class="line"><span class="lineno">  716</span>                    .IsRequired()</div>
-<div class="line"><span class="lineno">  717</span>                    .HasColumnType(<span class="stringliteral">&quot;boolean&quot;</span>);</div>
-<div class="line"><span class="lineno">  718</span> </div>
-<div class="line"><span class="lineno">  719</span>                b.Property&lt;<span class="keywordtype">long</span>?&gt;(<span class="stringliteral">&quot;GroupId&quot;</span>)</div>
-<div class="line"><span class="lineno">  720</span>                    .HasColumnType(<span class="stringliteral">&quot;bigint&quot;</span>);</div>
+<div class="line"><span class="lineno">  715</span>                b.Property&lt;<span class="keywordtype">long</span>?&gt;(<span class="stringliteral">&quot;CreatedById&quot;</span>)</div>
+<div class="line"><span class="lineno">  716</span>                    .HasColumnType(<span class="stringliteral">&quot;bigint&quot;</span>);</div>
+<div class="line"><span class="lineno">  717</span> </div>
+<div class="line"><span class="lineno">  718</span>                b.Property&lt;<span class="keywordtype">bool</span>?&gt;(<span class="stringliteral">&quot;Enabled&quot;</span>)</div>
+<div class="line"><span class="lineno">  719</span>                    .IsRequired()</div>
+<div class="line"><span class="lineno">  720</span>                    .HasColumnType(<span class="stringliteral">&quot;boolean&quot;</span>);</div>
 <div class="line"><span class="lineno">  721</span> </div>
-<div class="line"><span class="lineno">  722</span>                b.Property&lt;DateTimeOffset?&gt;(<span class="stringliteral">&quot;LastPasswordUpdate&quot;</span>)</div>
-<div class="line"><span class="lineno">  723</span>                    .HasColumnType(<span class="stringliteral">&quot;timestamp with time zone&quot;</span>);</div>
+<div class="line"><span class="lineno">  722</span>                b.Property&lt;<span class="keywordtype">long</span>?&gt;(<span class="stringliteral">&quot;GroupId&quot;</span>)</div>
+<div class="line"><span class="lineno">  723</span>                    .HasColumnType(<span class="stringliteral">&quot;bigint&quot;</span>);</div>
 <div class="line"><span class="lineno">  724</span> </div>
-<div class="line"><span class="lineno">  725</span>                b.Property&lt;<span class="keywordtype">string</span>&gt;(<span class="stringliteral">&quot;Name&quot;</span>)</div>
-<div class="line"><span class="lineno">  726</span>                    .IsRequired()</div>
-<div class="line"><span class="lineno">  727</span>                    .HasMaxLength(100)</div>
-<div class="line"><span class="lineno">  728</span>                    .HasColumnType(<span class="stringliteral">&quot;character varying(100)&quot;</span>);</div>
-<div class="line"><span class="lineno">  729</span> </div>
-<div class="line"><span class="lineno">  730</span>                b.Property&lt;<span class="keywordtype">string</span>&gt;(<span class="stringliteral">&quot;PasswordHash&quot;</span>)</div>
-<div class="line"><span class="lineno">  731</span>                    .HasColumnType(<span class="stringliteral">&quot;text&quot;</span>);</div>
+<div class="line"><span class="lineno">  725</span>                b.Property&lt;DateTimeOffset?&gt;(<span class="stringliteral">&quot;LastPasswordUpdate&quot;</span>)</div>
+<div class="line"><span class="lineno">  726</span>                    .HasColumnType(<span class="stringliteral">&quot;timestamp with time zone&quot;</span>);</div>
+<div class="line"><span class="lineno">  727</span> </div>
+<div class="line"><span class="lineno">  728</span>                b.Property&lt;<span class="keywordtype">string</span>&gt;(<span class="stringliteral">&quot;Name&quot;</span>)</div>
+<div class="line"><span class="lineno">  729</span>                    .IsRequired()</div>
+<div class="line"><span class="lineno">  730</span>                    .HasMaxLength(100)</div>
+<div class="line"><span class="lineno">  731</span>                    .HasColumnType(<span class="stringliteral">&quot;character varying(100)&quot;</span>);</div>
 <div class="line"><span class="lineno">  732</span> </div>
-<div class="line"><span class="lineno">  733</span>                b.Property&lt;<span class="keywordtype">string</span>&gt;(<span class="stringliteral">&quot;SystemIdentifier&quot;</span>)</div>
-<div class="line"><span class="lineno">  734</span>                    .HasMaxLength(100)</div>
-<div class="line"><span class="lineno">  735</span>                    .HasColumnType(<span class="stringliteral">&quot;character varying(100)&quot;</span>);</div>
-<div class="line"><span class="lineno">  736</span> </div>
-<div class="line"><span class="lineno">  737</span>                b.HasKey(<span class="stringliteral">&quot;Id&quot;</span>);</div>
-<div class="line"><span class="lineno">  738</span> </div>
-<div class="line"><span class="lineno">  739</span>                b.HasIndex(<span class="stringliteral">&quot;CanonicalName&quot;</span>)</div>
-<div class="line"><span class="lineno">  740</span>                    .IsUnique();</div>
+<div class="line"><span class="lineno">  733</span>                b.Property&lt;<span class="keywordtype">string</span>&gt;(<span class="stringliteral">&quot;PasswordHash&quot;</span>)</div>
+<div class="line"><span class="lineno">  734</span>                    .HasColumnType(<span class="stringliteral">&quot;text&quot;</span>);</div>
+<div class="line"><span class="lineno">  735</span> </div>
+<div class="line"><span class="lineno">  736</span>                b.Property&lt;<span class="keywordtype">string</span>&gt;(<span class="stringliteral">&quot;SystemIdentifier&quot;</span>)</div>
+<div class="line"><span class="lineno">  737</span>                    .HasMaxLength(100)</div>
+<div class="line"><span class="lineno">  738</span>                    .HasColumnType(<span class="stringliteral">&quot;character varying(100)&quot;</span>);</div>
+<div class="line"><span class="lineno">  739</span> </div>
+<div class="line"><span class="lineno">  740</span>                b.HasKey(<span class="stringliteral">&quot;Id&quot;</span>);</div>
 <div class="line"><span class="lineno">  741</span> </div>
-<div class="line"><span class="lineno">  742</span>                b.HasIndex(<span class="stringliteral">&quot;CreatedById&quot;</span>);</div>
-<div class="line"><span class="lineno">  743</span> </div>
-<div class="line"><span class="lineno">  744</span>                b.HasIndex(<span class="stringliteral">&quot;GroupId&quot;</span>);</div>
-<div class="line"><span class="lineno">  745</span> </div>
-<div class="line"><span class="lineno">  746</span>                b.HasIndex(<span class="stringliteral">&quot;SystemIdentifier&quot;</span>)</div>
-<div class="line"><span class="lineno">  747</span>                    .IsUnique();</div>
+<div class="line"><span class="lineno">  742</span>                b.HasIndex(<span class="stringliteral">&quot;CanonicalName&quot;</span>)</div>
+<div class="line"><span class="lineno">  743</span>                    .IsUnique();</div>
+<div class="line"><span class="lineno">  744</span> </div>
+<div class="line"><span class="lineno">  745</span>                b.HasIndex(<span class="stringliteral">&quot;CreatedById&quot;</span>);</div>
+<div class="line"><span class="lineno">  746</span> </div>
+<div class="line"><span class="lineno">  747</span>                b.HasIndex(<span class="stringliteral">&quot;GroupId&quot;</span>);</div>
 <div class="line"><span class="lineno">  748</span> </div>
-<div class="line"><span class="lineno">  749</span>                b.ToTable(<span class="stringliteral">&quot;Users&quot;</span>);</div>
-<div class="line"><span class="lineno">  750</span>            });</div>
+<div class="line"><span class="lineno">  749</span>                b.HasIndex(<span class="stringliteral">&quot;SystemIdentifier&quot;</span>)</div>
+<div class="line"><span class="lineno">  750</span>                    .IsUnique();</div>
 <div class="line"><span class="lineno">  751</span> </div>
-<div class="line"><span class="lineno">  752</span>            modelBuilder.Entity(<span class="stringliteral">&quot;Tgstation.Server.Host.Models.UserGroup&quot;</span>, b =&gt;</div>
-<div class="line"><span class="lineno">  753</span>            {</div>
-<div class="line"><span class="lineno">  754</span>                b.Property&lt;<span class="keywordtype">long</span>?&gt;(<span class="stringliteral">&quot;Id&quot;</span>)</div>
-<div class="line"><span class="lineno">  755</span>                    .ValueGeneratedOnAdd()</div>
-<div class="line"><span class="lineno">  756</span>                    .HasColumnType(<span class="stringliteral">&quot;bigint&quot;</span>);</div>
-<div class="line"><span class="lineno">  757</span> </div>
-<div class="line"><span class="lineno">  758</span>                NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property&lt;<span class="keywordtype">long</span>?&gt;(<span class="stringliteral">&quot;Id&quot;</span>));</div>
-<div class="line"><span class="lineno">  759</span> </div>
-<div class="line"><span class="lineno">  760</span>                b.Property&lt;<span class="keywordtype">string</span>&gt;(<span class="stringliteral">&quot;Name&quot;</span>)</div>
-<div class="line"><span class="lineno">  761</span>                    .IsRequired()</div>
-<div class="line"><span class="lineno">  762</span>                    .HasMaxLength(100)</div>
-<div class="line"><span class="lineno">  763</span>                    .HasColumnType(<span class="stringliteral">&quot;character varying(100)&quot;</span>);</div>
-<div class="line"><span class="lineno">  764</span> </div>
-<div class="line"><span class="lineno">  765</span>                b.HasKey(<span class="stringliteral">&quot;Id&quot;</span>);</div>
-<div class="line"><span class="lineno">  766</span> </div>
-<div class="line"><span class="lineno">  767</span>                b.HasIndex(<span class="stringliteral">&quot;Name&quot;</span>)</div>
-<div class="line"><span class="lineno">  768</span>                    .IsUnique();</div>
+<div class="line"><span class="lineno">  752</span>                b.ToTable(<span class="stringliteral">&quot;Users&quot;</span>);</div>
+<div class="line"><span class="lineno">  753</span>            });</div>
+<div class="line"><span class="lineno">  754</span> </div>
+<div class="line"><span class="lineno">  755</span>            modelBuilder.Entity(<span class="stringliteral">&quot;Tgstation.Server.Host.Models.UserGroup&quot;</span>, b =&gt;</div>
+<div class="line"><span class="lineno">  756</span>            {</div>
+<div class="line"><span class="lineno">  757</span>                b.Property&lt;<span class="keywordtype">long</span>?&gt;(<span class="stringliteral">&quot;Id&quot;</span>)</div>
+<div class="line"><span class="lineno">  758</span>                    .ValueGeneratedOnAdd()</div>
+<div class="line"><span class="lineno">  759</span>                    .HasColumnType(<span class="stringliteral">&quot;bigint&quot;</span>);</div>
+<div class="line"><span class="lineno">  760</span> </div>
+<div class="line"><span class="lineno">  761</span>                NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property&lt;<span class="keywordtype">long</span>?&gt;(<span class="stringliteral">&quot;Id&quot;</span>));</div>
+<div class="line"><span class="lineno">  762</span> </div>
+<div class="line"><span class="lineno">  763</span>                b.Property&lt;<span class="keywordtype">string</span>&gt;(<span class="stringliteral">&quot;Name&quot;</span>)</div>
+<div class="line"><span class="lineno">  764</span>                    .IsRequired()</div>
+<div class="line"><span class="lineno">  765</span>                    .HasMaxLength(100)</div>
+<div class="line"><span class="lineno">  766</span>                    .HasColumnType(<span class="stringliteral">&quot;character varying(100)&quot;</span>);</div>
+<div class="line"><span class="lineno">  767</span> </div>
+<div class="line"><span class="lineno">  768</span>                b.HasKey(<span class="stringliteral">&quot;Id&quot;</span>);</div>
 <div class="line"><span class="lineno">  769</span> </div>
-<div class="line"><span class="lineno">  770</span>                b.ToTable(<span class="stringliteral">&quot;Groups&quot;</span>);</div>
-<div class="line"><span class="lineno">  771</span>            });</div>
+<div class="line"><span class="lineno">  770</span>                b.HasIndex(<span class="stringliteral">&quot;Name&quot;</span>)</div>
+<div class="line"><span class="lineno">  771</span>                    .IsUnique();</div>
 <div class="line"><span class="lineno">  772</span> </div>
-<div class="line"><span class="lineno">  773</span>            modelBuilder.Entity(<span class="stringliteral">&quot;Tgstation.Server.Host.Models.ChatBot&quot;</span>, b =&gt;</div>
-<div class="line"><span class="lineno">  774</span>            {</div>
-<div class="line"><span class="lineno">  775</span>                b.HasOne(<span class="stringliteral">&quot;Tgstation.Server.Host.Models.Instance&quot;</span>, <span class="stringliteral">&quot;Instance&quot;</span>)</div>
-<div class="line"><span class="lineno">  776</span>                    .WithMany(<span class="stringliteral">&quot;ChatSettings&quot;</span>)</div>
-<div class="line"><span class="lineno">  777</span>                    .HasForeignKey(<span class="stringliteral">&quot;InstanceId&quot;</span>)</div>
-<div class="line"><span class="lineno">  778</span>                    .OnDelete(DeleteBehavior.Cascade)</div>
-<div class="line"><span class="lineno">  779</span>                    .IsRequired();</div>
-<div class="line"><span class="lineno">  780</span> </div>
-<div class="line"><span class="lineno">  781</span>                b.Navigation(<span class="stringliteral">&quot;Instance&quot;</span>);</div>
-<div class="line"><span class="lineno">  782</span>            });</div>
+<div class="line"><span class="lineno">  773</span>                b.ToTable(<span class="stringliteral">&quot;Groups&quot;</span>);</div>
+<div class="line"><span class="lineno">  774</span>            });</div>
+<div class="line"><span class="lineno">  775</span> </div>
+<div class="line"><span class="lineno">  776</span>            modelBuilder.Entity(<span class="stringliteral">&quot;Tgstation.Server.Host.Models.ChatBot&quot;</span>, b =&gt;</div>
+<div class="line"><span class="lineno">  777</span>            {</div>
+<div class="line"><span class="lineno">  778</span>                b.HasOne(<span class="stringliteral">&quot;Tgstation.Server.Host.Models.Instance&quot;</span>, <span class="stringliteral">&quot;Instance&quot;</span>)</div>
+<div class="line"><span class="lineno">  779</span>                    .WithMany(<span class="stringliteral">&quot;ChatSettings&quot;</span>)</div>
+<div class="line"><span class="lineno">  780</span>                    .HasForeignKey(<span class="stringliteral">&quot;InstanceId&quot;</span>)</div>
+<div class="line"><span class="lineno">  781</span>                    .OnDelete(DeleteBehavior.Cascade)</div>
+<div class="line"><span class="lineno">  782</span>                    .IsRequired();</div>
 <div class="line"><span class="lineno">  783</span> </div>
-<div class="line"><span class="lineno">  784</span>            modelBuilder.Entity(<span class="stringliteral">&quot;Tgstation.Server.Host.Models.ChatChannel&quot;</span>, b =&gt;</div>
-<div class="line"><span class="lineno">  785</span>            {</div>
-<div class="line"><span class="lineno">  786</span>                b.HasOne(<span class="stringliteral">&quot;Tgstation.Server.Host.Models.ChatBot&quot;</span>, <span class="stringliteral">&quot;ChatSettings&quot;</span>)</div>
-<div class="line"><span class="lineno">  787</span>                    .WithMany(<span class="stringliteral">&quot;Channels&quot;</span>)</div>
-<div class="line"><span class="lineno">  788</span>                    .HasForeignKey(<span class="stringliteral">&quot;ChatSettingsId&quot;</span>)</div>
-<div class="line"><span class="lineno">  789</span>                    .OnDelete(DeleteBehavior.Cascade)</div>
-<div class="line"><span class="lineno">  790</span>                    .IsRequired();</div>
-<div class="line"><span class="lineno">  791</span> </div>
-<div class="line"><span class="lineno">  792</span>                b.Navigation(<span class="stringliteral">&quot;ChatSettings&quot;</span>);</div>
-<div class="line"><span class="lineno">  793</span>            });</div>
+<div class="line"><span class="lineno">  784</span>                b.Navigation(<span class="stringliteral">&quot;Instance&quot;</span>);</div>
+<div class="line"><span class="lineno">  785</span>            });</div>
+<div class="line"><span class="lineno">  786</span> </div>
+<div class="line"><span class="lineno">  787</span>            modelBuilder.Entity(<span class="stringliteral">&quot;Tgstation.Server.Host.Models.ChatChannel&quot;</span>, b =&gt;</div>
+<div class="line"><span class="lineno">  788</span>            {</div>
+<div class="line"><span class="lineno">  789</span>                b.HasOne(<span class="stringliteral">&quot;Tgstation.Server.Host.Models.ChatBot&quot;</span>, <span class="stringliteral">&quot;ChatSettings&quot;</span>)</div>
+<div class="line"><span class="lineno">  790</span>                    .WithMany(<span class="stringliteral">&quot;Channels&quot;</span>)</div>
+<div class="line"><span class="lineno">  791</span>                    .HasForeignKey(<span class="stringliteral">&quot;ChatSettingsId&quot;</span>)</div>
+<div class="line"><span class="lineno">  792</span>                    .OnDelete(DeleteBehavior.Cascade)</div>
+<div class="line"><span class="lineno">  793</span>                    .IsRequired();</div>
 <div class="line"><span class="lineno">  794</span> </div>
-<div class="line"><span class="lineno">  795</span>            modelBuilder.Entity(<span class="stringliteral">&quot;Tgstation.Server.Host.Models.CompileJob&quot;</span>, b =&gt;</div>
-<div class="line"><span class="lineno">  796</span>            {</div>
-<div class="line"><span class="lineno">  797</span>                b.HasOne(<span class="stringliteral">&quot;Tgstation.Server.Host.Models.Job&quot;</span>, <span class="stringliteral">&quot;Job&quot;</span>)</div>
-<div class="line"><span class="lineno">  798</span>                    .WithOne()</div>
-<div class="line"><span class="lineno">  799</span>                    .HasForeignKey(<span class="stringliteral">&quot;Tgstation.Server.Host.Models.CompileJob&quot;</span>, <span class="stringliteral">&quot;JobId&quot;</span>)</div>
-<div class="line"><span class="lineno">  800</span>                    .OnDelete(DeleteBehavior.Cascade)</div>
-<div class="line"><span class="lineno">  801</span>                    .IsRequired();</div>
-<div class="line"><span class="lineno">  802</span> </div>
-<div class="line"><span class="lineno">  803</span>                b.HasOne(<span class="stringliteral">&quot;Tgstation.Server.Host.Models.RevisionInformation&quot;</span>, <span class="stringliteral">&quot;RevisionInformation&quot;</span>)</div>
-<div class="line"><span class="lineno">  804</span>                    .WithMany(<span class="stringliteral">&quot;CompileJobs&quot;</span>)</div>
-<div class="line"><span class="lineno">  805</span>                    .HasForeignKey(<span class="stringliteral">&quot;RevisionInformationId&quot;</span>)</div>
-<div class="line"><span class="lineno">  806</span>                    .OnDelete(DeleteBehavior.Cascade)</div>
-<div class="line"><span class="lineno">  807</span>                    .IsRequired();</div>
-<div class="line"><span class="lineno">  808</span> </div>
-<div class="line"><span class="lineno">  809</span>                b.Navigation(<span class="stringliteral">&quot;Job&quot;</span>);</div>
-<div class="line"><span class="lineno">  810</span> </div>
-<div class="line"><span class="lineno">  811</span>                b.Navigation(<span class="stringliteral">&quot;RevisionInformation&quot;</span>);</div>
-<div class="line"><span class="lineno">  812</span>            });</div>
+<div class="line"><span class="lineno">  795</span>                b.Navigation(<span class="stringliteral">&quot;ChatSettings&quot;</span>);</div>
+<div class="line"><span class="lineno">  796</span>            });</div>
+<div class="line"><span class="lineno">  797</span> </div>
+<div class="line"><span class="lineno">  798</span>            modelBuilder.Entity(<span class="stringliteral">&quot;Tgstation.Server.Host.Models.CompileJob&quot;</span>, b =&gt;</div>
+<div class="line"><span class="lineno">  799</span>            {</div>
+<div class="line"><span class="lineno">  800</span>                b.HasOne(<span class="stringliteral">&quot;Tgstation.Server.Host.Models.Job&quot;</span>, <span class="stringliteral">&quot;Job&quot;</span>)</div>
+<div class="line"><span class="lineno">  801</span>                    .WithOne()</div>
+<div class="line"><span class="lineno">  802</span>                    .HasForeignKey(<span class="stringliteral">&quot;Tgstation.Server.Host.Models.CompileJob&quot;</span>, <span class="stringliteral">&quot;JobId&quot;</span>)</div>
+<div class="line"><span class="lineno">  803</span>                    .OnDelete(DeleteBehavior.Cascade)</div>
+<div class="line"><span class="lineno">  804</span>                    .IsRequired();</div>
+<div class="line"><span class="lineno">  805</span> </div>
+<div class="line"><span class="lineno">  806</span>                b.HasOne(<span class="stringliteral">&quot;Tgstation.Server.Host.Models.RevisionInformation&quot;</span>, <span class="stringliteral">&quot;RevisionInformation&quot;</span>)</div>
+<div class="line"><span class="lineno">  807</span>                    .WithMany(<span class="stringliteral">&quot;CompileJobs&quot;</span>)</div>
+<div class="line"><span class="lineno">  808</span>                    .HasForeignKey(<span class="stringliteral">&quot;RevisionInformationId&quot;</span>)</div>
+<div class="line"><span class="lineno">  809</span>                    .OnDelete(DeleteBehavior.Cascade)</div>
+<div class="line"><span class="lineno">  810</span>                    .IsRequired();</div>
+<div class="line"><span class="lineno">  811</span> </div>
+<div class="line"><span class="lineno">  812</span>                b.Navigation(<span class="stringliteral">&quot;Job&quot;</span>);</div>
 <div class="line"><span class="lineno">  813</span> </div>
-<div class="line"><span class="lineno">  814</span>            modelBuilder.Entity(<span class="stringliteral">&quot;Tgstation.Server.Host.Models.DreamDaemonSettings&quot;</span>, b =&gt;</div>
-<div class="line"><span class="lineno">  815</span>            {</div>
-<div class="line"><span class="lineno">  816</span>                b.HasOne(<span class="stringliteral">&quot;Tgstation.Server.Host.Models.Instance&quot;</span>, <span class="stringliteral">&quot;Instance&quot;</span>)</div>
-<div class="line"><span class="lineno">  817</span>                    .WithOne(<span class="stringliteral">&quot;DreamDaemonSettings&quot;</span>)</div>
-<div class="line"><span class="lineno">  818</span>                    .HasForeignKey(<span class="stringliteral">&quot;Tgstation.Server.Host.Models.DreamDaemonSettings&quot;</span>, <span class="stringliteral">&quot;InstanceId&quot;</span>)</div>
-<div class="line"><span class="lineno">  819</span>                    .OnDelete(DeleteBehavior.Cascade)</div>
-<div class="line"><span class="lineno">  820</span>                    .IsRequired();</div>
-<div class="line"><span class="lineno">  821</span> </div>
-<div class="line"><span class="lineno">  822</span>                b.Navigation(<span class="stringliteral">&quot;Instance&quot;</span>);</div>
-<div class="line"><span class="lineno">  823</span>            });</div>
+<div class="line"><span class="lineno">  814</span>                b.Navigation(<span class="stringliteral">&quot;RevisionInformation&quot;</span>);</div>
+<div class="line"><span class="lineno">  815</span>            });</div>
+<div class="line"><span class="lineno">  816</span> </div>
+<div class="line"><span class="lineno">  817</span>            modelBuilder.Entity(<span class="stringliteral">&quot;Tgstation.Server.Host.Models.DreamDaemonSettings&quot;</span>, b =&gt;</div>
+<div class="line"><span class="lineno">  818</span>            {</div>
+<div class="line"><span class="lineno">  819</span>                b.HasOne(<span class="stringliteral">&quot;Tgstation.Server.Host.Models.Instance&quot;</span>, <span class="stringliteral">&quot;Instance&quot;</span>)</div>
+<div class="line"><span class="lineno">  820</span>                    .WithOne(<span class="stringliteral">&quot;DreamDaemonSettings&quot;</span>)</div>
+<div class="line"><span class="lineno">  821</span>                    .HasForeignKey(<span class="stringliteral">&quot;Tgstation.Server.Host.Models.DreamDaemonSettings&quot;</span>, <span class="stringliteral">&quot;InstanceId&quot;</span>)</div>
+<div class="line"><span class="lineno">  822</span>                    .OnDelete(DeleteBehavior.Cascade)</div>
+<div class="line"><span class="lineno">  823</span>                    .IsRequired();</div>
 <div class="line"><span class="lineno">  824</span> </div>
-<div class="line"><span class="lineno">  825</span>            modelBuilder.Entity(<span class="stringliteral">&quot;Tgstation.Server.Host.Models.DreamMakerSettings&quot;</span>, b =&gt;</div>
-<div class="line"><span class="lineno">  826</span>            {</div>
-<div class="line"><span class="lineno">  827</span>                b.HasOne(<span class="stringliteral">&quot;Tgstation.Server.Host.Models.Instance&quot;</span>, <span class="stringliteral">&quot;Instance&quot;</span>)</div>
-<div class="line"><span class="lineno">  828</span>                    .WithOne(<span class="stringliteral">&quot;DreamMakerSettings&quot;</span>)</div>
-<div class="line"><span class="lineno">  829</span>                    .HasForeignKey(<span class="stringliteral">&quot;Tgstation.Server.Host.Models.DreamMakerSettings&quot;</span>, <span class="stringliteral">&quot;InstanceId&quot;</span>)</div>
-<div class="line"><span class="lineno">  830</span>                    .OnDelete(DeleteBehavior.Cascade)</div>
-<div class="line"><span class="lineno">  831</span>                    .IsRequired();</div>
-<div class="line"><span class="lineno">  832</span> </div>
-<div class="line"><span class="lineno">  833</span>                b.Navigation(<span class="stringliteral">&quot;Instance&quot;</span>);</div>
-<div class="line"><span class="lineno">  834</span>            });</div>
+<div class="line"><span class="lineno">  825</span>                b.Navigation(<span class="stringliteral">&quot;Instance&quot;</span>);</div>
+<div class="line"><span class="lineno">  826</span>            });</div>
+<div class="line"><span class="lineno">  827</span> </div>
+<div class="line"><span class="lineno">  828</span>            modelBuilder.Entity(<span class="stringliteral">&quot;Tgstation.Server.Host.Models.DreamMakerSettings&quot;</span>, b =&gt;</div>
+<div class="line"><span class="lineno">  829</span>            {</div>
+<div class="line"><span class="lineno">  830</span>                b.HasOne(<span class="stringliteral">&quot;Tgstation.Server.Host.Models.Instance&quot;</span>, <span class="stringliteral">&quot;Instance&quot;</span>)</div>
+<div class="line"><span class="lineno">  831</span>                    .WithOne(<span class="stringliteral">&quot;DreamMakerSettings&quot;</span>)</div>
+<div class="line"><span class="lineno">  832</span>                    .HasForeignKey(<span class="stringliteral">&quot;Tgstation.Server.Host.Models.DreamMakerSettings&quot;</span>, <span class="stringliteral">&quot;InstanceId&quot;</span>)</div>
+<div class="line"><span class="lineno">  833</span>                    .OnDelete(DeleteBehavior.Cascade)</div>
+<div class="line"><span class="lineno">  834</span>                    .IsRequired();</div>
 <div class="line"><span class="lineno">  835</span> </div>
-<div class="line"><span class="lineno">  836</span>            modelBuilder.Entity(<span class="stringliteral">&quot;Tgstation.Server.Host.Models.InstancePermissionSet&quot;</span>, b =&gt;</div>
-<div class="line"><span class="lineno">  837</span>            {</div>
-<div class="line"><span class="lineno">  838</span>                b.HasOne(<span class="stringliteral">&quot;Tgstation.Server.Host.Models.Instance&quot;</span>, <span class="stringliteral">&quot;Instance&quot;</span>)</div>
-<div class="line"><span class="lineno">  839</span>                    .WithMany(<span class="stringliteral">&quot;InstancePermissionSets&quot;</span>)</div>
-<div class="line"><span class="lineno">  840</span>                    .HasForeignKey(<span class="stringliteral">&quot;InstanceId&quot;</span>)</div>
-<div class="line"><span class="lineno">  841</span>                    .OnDelete(DeleteBehavior.Cascade)</div>
-<div class="line"><span class="lineno">  842</span>                    .IsRequired();</div>
-<div class="line"><span class="lineno">  843</span> </div>
-<div class="line"><span class="lineno">  844</span>                b.HasOne(<span class="stringliteral">&quot;Tgstation.Server.Host.Models.PermissionSet&quot;</span>, <span class="stringliteral">&quot;PermissionSet&quot;</span>)</div>
-<div class="line"><span class="lineno">  845</span>                    .WithMany(<span class="stringliteral">&quot;InstancePermissionSets&quot;</span>)</div>
-<div class="line"><span class="lineno">  846</span>                    .HasForeignKey(<span class="stringliteral">&quot;PermissionSetId&quot;</span>)</div>
-<div class="line"><span class="lineno">  847</span>                    .OnDelete(DeleteBehavior.Cascade)</div>
-<div class="line"><span class="lineno">  848</span>                    .IsRequired();</div>
-<div class="line"><span class="lineno">  849</span> </div>
-<div class="line"><span class="lineno">  850</span>                b.Navigation(<span class="stringliteral">&quot;Instance&quot;</span>);</div>
-<div class="line"><span class="lineno">  851</span> </div>
-<div class="line"><span class="lineno">  852</span>                b.Navigation(<span class="stringliteral">&quot;PermissionSet&quot;</span>);</div>
-<div class="line"><span class="lineno">  853</span>            });</div>
+<div class="line"><span class="lineno">  836</span>                b.Navigation(<span class="stringliteral">&quot;Instance&quot;</span>);</div>
+<div class="line"><span class="lineno">  837</span>            });</div>
+<div class="line"><span class="lineno">  838</span> </div>
+<div class="line"><span class="lineno">  839</span>            modelBuilder.Entity(<span class="stringliteral">&quot;Tgstation.Server.Host.Models.InstancePermissionSet&quot;</span>, b =&gt;</div>
+<div class="line"><span class="lineno">  840</span>            {</div>
+<div class="line"><span class="lineno">  841</span>                b.HasOne(<span class="stringliteral">&quot;Tgstation.Server.Host.Models.Instance&quot;</span>, <span class="stringliteral">&quot;Instance&quot;</span>)</div>
+<div class="line"><span class="lineno">  842</span>                    .WithMany(<span class="stringliteral">&quot;InstancePermissionSets&quot;</span>)</div>
+<div class="line"><span class="lineno">  843</span>                    .HasForeignKey(<span class="stringliteral">&quot;InstanceId&quot;</span>)</div>
+<div class="line"><span class="lineno">  844</span>                    .OnDelete(DeleteBehavior.Cascade)</div>
+<div class="line"><span class="lineno">  845</span>                    .IsRequired();</div>
+<div class="line"><span class="lineno">  846</span> </div>
+<div class="line"><span class="lineno">  847</span>                b.HasOne(<span class="stringliteral">&quot;Tgstation.Server.Host.Models.PermissionSet&quot;</span>, <span class="stringliteral">&quot;PermissionSet&quot;</span>)</div>
+<div class="line"><span class="lineno">  848</span>                    .WithMany(<span class="stringliteral">&quot;InstancePermissionSets&quot;</span>)</div>
+<div class="line"><span class="lineno">  849</span>                    .HasForeignKey(<span class="stringliteral">&quot;PermissionSetId&quot;</span>)</div>
+<div class="line"><span class="lineno">  850</span>                    .OnDelete(DeleteBehavior.Cascade)</div>
+<div class="line"><span class="lineno">  851</span>                    .IsRequired();</div>
+<div class="line"><span class="lineno">  852</span> </div>
+<div class="line"><span class="lineno">  853</span>                b.Navigation(<span class="stringliteral">&quot;Instance&quot;</span>);</div>
 <div class="line"><span class="lineno">  854</span> </div>
-<div class="line"><span class="lineno">  855</span>            modelBuilder.Entity(<span class="stringliteral">&quot;Tgstation.Server.Host.Models.Job&quot;</span>, b =&gt;</div>
-<div class="line"><span class="lineno">  856</span>            {</div>
-<div class="line"><span class="lineno">  857</span>                b.HasOne(<span class="stringliteral">&quot;Tgstation.Server.Host.Models.User&quot;</span>, <span class="stringliteral">&quot;CancelledBy&quot;</span>)</div>
-<div class="line"><span class="lineno">  858</span>                    .WithMany()</div>
-<div class="line"><span class="lineno">  859</span>                    .HasForeignKey(<span class="stringliteral">&quot;CancelledById&quot;</span>);</div>
-<div class="line"><span class="lineno">  860</span> </div>
-<div class="line"><span class="lineno">  861</span>                b.HasOne(<span class="stringliteral">&quot;Tgstation.Server.Host.Models.Instance&quot;</span>, <span class="stringliteral">&quot;Instance&quot;</span>)</div>
-<div class="line"><span class="lineno">  862</span>                    .WithMany(<span class="stringliteral">&quot;Jobs&quot;</span>)</div>
-<div class="line"><span class="lineno">  863</span>                    .HasForeignKey(<span class="stringliteral">&quot;InstanceId&quot;</span>)</div>
-<div class="line"><span class="lineno">  864</span>                    .OnDelete(DeleteBehavior.Cascade)</div>
-<div class="line"><span class="lineno">  865</span>                    .IsRequired();</div>
-<div class="line"><span class="lineno">  866</span> </div>
-<div class="line"><span class="lineno">  867</span>                b.HasOne(<span class="stringliteral">&quot;Tgstation.Server.Host.Models.User&quot;</span>, <span class="stringliteral">&quot;StartedBy&quot;</span>)</div>
-<div class="line"><span class="lineno">  868</span>                    .WithMany()</div>
-<div class="line"><span class="lineno">  869</span>                    .HasForeignKey(<span class="stringliteral">&quot;StartedById&quot;</span>)</div>
-<div class="line"><span class="lineno">  870</span>                    .OnDelete(DeleteBehavior.Cascade)</div>
-<div class="line"><span class="lineno">  871</span>                    .IsRequired();</div>
-<div class="line"><span class="lineno">  872</span> </div>
-<div class="line"><span class="lineno">  873</span>                b.Navigation(<span class="stringliteral">&quot;CancelledBy&quot;</span>);</div>
-<div class="line"><span class="lineno">  874</span> </div>
-<div class="line"><span class="lineno">  875</span>                b.Navigation(<span class="stringliteral">&quot;Instance&quot;</span>);</div>
-<div class="line"><span class="lineno">  876</span> </div>
-<div class="line"><span class="lineno">  877</span>                b.Navigation(<span class="stringliteral">&quot;StartedBy&quot;</span>);</div>
-<div class="line"><span class="lineno">  878</span>            });</div>
+<div class="line"><span class="lineno">  855</span>                b.Navigation(<span class="stringliteral">&quot;PermissionSet&quot;</span>);</div>
+<div class="line"><span class="lineno">  856</span>            });</div>
+<div class="line"><span class="lineno">  857</span> </div>
+<div class="line"><span class="lineno">  858</span>            modelBuilder.Entity(<span class="stringliteral">&quot;Tgstation.Server.Host.Models.Job&quot;</span>, b =&gt;</div>
+<div class="line"><span class="lineno">  859</span>            {</div>
+<div class="line"><span class="lineno">  860</span>                b.HasOne(<span class="stringliteral">&quot;Tgstation.Server.Host.Models.User&quot;</span>, <span class="stringliteral">&quot;CancelledBy&quot;</span>)</div>
+<div class="line"><span class="lineno">  861</span>                    .WithMany()</div>
+<div class="line"><span class="lineno">  862</span>                    .HasForeignKey(<span class="stringliteral">&quot;CancelledById&quot;</span>);</div>
+<div class="line"><span class="lineno">  863</span> </div>
+<div class="line"><span class="lineno">  864</span>                b.HasOne(<span class="stringliteral">&quot;Tgstation.Server.Host.Models.Instance&quot;</span>, <span class="stringliteral">&quot;Instance&quot;</span>)</div>
+<div class="line"><span class="lineno">  865</span>                    .WithMany(<span class="stringliteral">&quot;Jobs&quot;</span>)</div>
+<div class="line"><span class="lineno">  866</span>                    .HasForeignKey(<span class="stringliteral">&quot;InstanceId&quot;</span>)</div>
+<div class="line"><span class="lineno">  867</span>                    .OnDelete(DeleteBehavior.Cascade)</div>
+<div class="line"><span class="lineno">  868</span>                    .IsRequired();</div>
+<div class="line"><span class="lineno">  869</span> </div>
+<div class="line"><span class="lineno">  870</span>                b.HasOne(<span class="stringliteral">&quot;Tgstation.Server.Host.Models.User&quot;</span>, <span class="stringliteral">&quot;StartedBy&quot;</span>)</div>
+<div class="line"><span class="lineno">  871</span>                    .WithMany()</div>
+<div class="line"><span class="lineno">  872</span>                    .HasForeignKey(<span class="stringliteral">&quot;StartedById&quot;</span>)</div>
+<div class="line"><span class="lineno">  873</span>                    .OnDelete(DeleteBehavior.Cascade)</div>
+<div class="line"><span class="lineno">  874</span>                    .IsRequired();</div>
+<div class="line"><span class="lineno">  875</span> </div>
+<div class="line"><span class="lineno">  876</span>                b.Navigation(<span class="stringliteral">&quot;CancelledBy&quot;</span>);</div>
+<div class="line"><span class="lineno">  877</span> </div>
+<div class="line"><span class="lineno">  878</span>                b.Navigation(<span class="stringliteral">&quot;Instance&quot;</span>);</div>
 <div class="line"><span class="lineno">  879</span> </div>
-<div class="line"><span class="lineno">  880</span>            modelBuilder.Entity(<span class="stringliteral">&quot;Tgstation.Server.Host.Models.OAuthConnection&quot;</span>, b =&gt;</div>
-<div class="line"><span class="lineno">  881</span>            {</div>
-<div class="line"><span class="lineno">  882</span>                b.HasOne(<span class="stringliteral">&quot;Tgstation.Server.Host.Models.User&quot;</span>, <span class="stringliteral">&quot;User&quot;</span>)</div>
-<div class="line"><span class="lineno">  883</span>                    .WithMany(<span class="stringliteral">&quot;OAuthConnections&quot;</span>)</div>
-<div class="line"><span class="lineno">  884</span>                    .HasForeignKey(<span class="stringliteral">&quot;UserId&quot;</span>)</div>
-<div class="line"><span class="lineno">  885</span>                    .OnDelete(DeleteBehavior.Cascade);</div>
-<div class="line"><span class="lineno">  886</span> </div>
-<div class="line"><span class="lineno">  887</span>                b.Navigation(<span class="stringliteral">&quot;User&quot;</span>);</div>
-<div class="line"><span class="lineno">  888</span>            });</div>
+<div class="line"><span class="lineno">  880</span>                b.Navigation(<span class="stringliteral">&quot;StartedBy&quot;</span>);</div>
+<div class="line"><span class="lineno">  881</span>            });</div>
+<div class="line"><span class="lineno">  882</span> </div>
+<div class="line"><span class="lineno">  883</span>            modelBuilder.Entity(<span class="stringliteral">&quot;Tgstation.Server.Host.Models.OAuthConnection&quot;</span>, b =&gt;</div>
+<div class="line"><span class="lineno">  884</span>            {</div>
+<div class="line"><span class="lineno">  885</span>                b.HasOne(<span class="stringliteral">&quot;Tgstation.Server.Host.Models.User&quot;</span>, <span class="stringliteral">&quot;User&quot;</span>)</div>
+<div class="line"><span class="lineno">  886</span>                    .WithMany(<span class="stringliteral">&quot;OAuthConnections&quot;</span>)</div>
+<div class="line"><span class="lineno">  887</span>                    .HasForeignKey(<span class="stringliteral">&quot;UserId&quot;</span>)</div>
+<div class="line"><span class="lineno">  888</span>                    .OnDelete(DeleteBehavior.Cascade);</div>
 <div class="line"><span class="lineno">  889</span> </div>
-<div class="line"><span class="lineno">  890</span>            modelBuilder.Entity(<span class="stringliteral">&quot;Tgstation.Server.Host.Models.PermissionSet&quot;</span>, b =&gt;</div>
-<div class="line"><span class="lineno">  891</span>            {</div>
-<div class="line"><span class="lineno">  892</span>                b.HasOne(<span class="stringliteral">&quot;Tgstation.Server.Host.Models.UserGroup&quot;</span>, <span class="stringliteral">&quot;Group&quot;</span>)</div>
-<div class="line"><span class="lineno">  893</span>                    .WithOne(<span class="stringliteral">&quot;PermissionSet&quot;</span>)</div>
-<div class="line"><span class="lineno">  894</span>                    .HasForeignKey(<span class="stringliteral">&quot;Tgstation.Server.Host.Models.PermissionSet&quot;</span>, <span class="stringliteral">&quot;GroupId&quot;</span>)</div>
-<div class="line"><span class="lineno">  895</span>                    .OnDelete(DeleteBehavior.Cascade);</div>
-<div class="line"><span class="lineno">  896</span> </div>
-<div class="line"><span class="lineno">  897</span>                b.HasOne(<span class="stringliteral">&quot;Tgstation.Server.Host.Models.User&quot;</span>, <span class="stringliteral">&quot;User&quot;</span>)</div>
-<div class="line"><span class="lineno">  898</span>                    .WithOne(<span class="stringliteral">&quot;PermissionSet&quot;</span>)</div>
-<div class="line"><span class="lineno">  899</span>                    .HasForeignKey(<span class="stringliteral">&quot;Tgstation.Server.Host.Models.PermissionSet&quot;</span>, <span class="stringliteral">&quot;UserId&quot;</span>)</div>
-<div class="line"><span class="lineno">  900</span>                    .OnDelete(DeleteBehavior.Cascade);</div>
-<div class="line"><span class="lineno">  901</span> </div>
-<div class="line"><span class="lineno">  902</span>                b.Navigation(<span class="stringliteral">&quot;Group&quot;</span>);</div>
-<div class="line"><span class="lineno">  903</span> </div>
-<div class="line"><span class="lineno">  904</span>                b.Navigation(<span class="stringliteral">&quot;User&quot;</span>);</div>
-<div class="line"><span class="lineno">  905</span>            });</div>
+<div class="line"><span class="lineno">  890</span>                b.Navigation(<span class="stringliteral">&quot;User&quot;</span>);</div>
+<div class="line"><span class="lineno">  891</span>            });</div>
+<div class="line"><span class="lineno">  892</span> </div>
+<div class="line"><span class="lineno">  893</span>            modelBuilder.Entity(<span class="stringliteral">&quot;Tgstation.Server.Host.Models.PermissionSet&quot;</span>, b =&gt;</div>
+<div class="line"><span class="lineno">  894</span>            {</div>
+<div class="line"><span class="lineno">  895</span>                b.HasOne(<span class="stringliteral">&quot;Tgstation.Server.Host.Models.UserGroup&quot;</span>, <span class="stringliteral">&quot;Group&quot;</span>)</div>
+<div class="line"><span class="lineno">  896</span>                    .WithOne(<span class="stringliteral">&quot;PermissionSet&quot;</span>)</div>
+<div class="line"><span class="lineno">  897</span>                    .HasForeignKey(<span class="stringliteral">&quot;Tgstation.Server.Host.Models.PermissionSet&quot;</span>, <span class="stringliteral">&quot;GroupId&quot;</span>)</div>
+<div class="line"><span class="lineno">  898</span>                    .OnDelete(DeleteBehavior.Cascade);</div>
+<div class="line"><span class="lineno">  899</span> </div>
+<div class="line"><span class="lineno">  900</span>                b.HasOne(<span class="stringliteral">&quot;Tgstation.Server.Host.Models.User&quot;</span>, <span class="stringliteral">&quot;User&quot;</span>)</div>
+<div class="line"><span class="lineno">  901</span>                    .WithOne(<span class="stringliteral">&quot;PermissionSet&quot;</span>)</div>
+<div class="line"><span class="lineno">  902</span>                    .HasForeignKey(<span class="stringliteral">&quot;Tgstation.Server.Host.Models.PermissionSet&quot;</span>, <span class="stringliteral">&quot;UserId&quot;</span>)</div>
+<div class="line"><span class="lineno">  903</span>                    .OnDelete(DeleteBehavior.Cascade);</div>
+<div class="line"><span class="lineno">  904</span> </div>
+<div class="line"><span class="lineno">  905</span>                b.Navigation(<span class="stringliteral">&quot;Group&quot;</span>);</div>
 <div class="line"><span class="lineno">  906</span> </div>
-<div class="line"><span class="lineno">  907</span>            modelBuilder.Entity(<span class="stringliteral">&quot;Tgstation.Server.Host.Models.ReattachInformation&quot;</span>, b =&gt;</div>
-<div class="line"><span class="lineno">  908</span>            {</div>
-<div class="line"><span class="lineno">  909</span>                b.HasOne(<span class="stringliteral">&quot;Tgstation.Server.Host.Models.CompileJob&quot;</span>, <span class="stringliteral">&quot;CompileJob&quot;</span>)</div>
-<div class="line"><span class="lineno">  910</span>                    .WithMany()</div>
-<div class="line"><span class="lineno">  911</span>                    .HasForeignKey(<span class="stringliteral">&quot;CompileJobId&quot;</span>)</div>
-<div class="line"><span class="lineno">  912</span>                    .OnDelete(DeleteBehavior.Cascade)</div>
-<div class="line"><span class="lineno">  913</span>                    .IsRequired();</div>
-<div class="line"><span class="lineno">  914</span> </div>
-<div class="line"><span class="lineno">  915</span>                b.HasOne(<span class="stringliteral">&quot;Tgstation.Server.Host.Models.CompileJob&quot;</span>, <span class="stringliteral">&quot;InitialCompileJob&quot;</span>)</div>
-<div class="line"><span class="lineno">  916</span>                    .WithMany()</div>
-<div class="line"><span class="lineno">  917</span>                    .HasForeignKey(<span class="stringliteral">&quot;InitialCompileJobId&quot;</span>);</div>
-<div class="line"><span class="lineno">  918</span> </div>
-<div class="line"><span class="lineno">  919</span>                b.Navigation(<span class="stringliteral">&quot;CompileJob&quot;</span>);</div>
-<div class="line"><span class="lineno">  920</span> </div>
-<div class="line"><span class="lineno">  921</span>                b.Navigation(<span class="stringliteral">&quot;InitialCompileJob&quot;</span>);</div>
-<div class="line"><span class="lineno">  922</span>            });</div>
+<div class="line"><span class="lineno">  907</span>                b.Navigation(<span class="stringliteral">&quot;User&quot;</span>);</div>
+<div class="line"><span class="lineno">  908</span>            });</div>
+<div class="line"><span class="lineno">  909</span> </div>
+<div class="line"><span class="lineno">  910</span>            modelBuilder.Entity(<span class="stringliteral">&quot;Tgstation.Server.Host.Models.ReattachInformation&quot;</span>, b =&gt;</div>
+<div class="line"><span class="lineno">  911</span>            {</div>
+<div class="line"><span class="lineno">  912</span>                b.HasOne(<span class="stringliteral">&quot;Tgstation.Server.Host.Models.CompileJob&quot;</span>, <span class="stringliteral">&quot;CompileJob&quot;</span>)</div>
+<div class="line"><span class="lineno">  913</span>                    .WithMany()</div>
+<div class="line"><span class="lineno">  914</span>                    .HasForeignKey(<span class="stringliteral">&quot;CompileJobId&quot;</span>)</div>
+<div class="line"><span class="lineno">  915</span>                    .OnDelete(DeleteBehavior.Cascade)</div>
+<div class="line"><span class="lineno">  916</span>                    .IsRequired();</div>
+<div class="line"><span class="lineno">  917</span> </div>
+<div class="line"><span class="lineno">  918</span>                b.HasOne(<span class="stringliteral">&quot;Tgstation.Server.Host.Models.CompileJob&quot;</span>, <span class="stringliteral">&quot;InitialCompileJob&quot;</span>)</div>
+<div class="line"><span class="lineno">  919</span>                    .WithMany()</div>
+<div class="line"><span class="lineno">  920</span>                    .HasForeignKey(<span class="stringliteral">&quot;InitialCompileJobId&quot;</span>);</div>
+<div class="line"><span class="lineno">  921</span> </div>
+<div class="line"><span class="lineno">  922</span>                b.Navigation(<span class="stringliteral">&quot;CompileJob&quot;</span>);</div>
 <div class="line"><span class="lineno">  923</span> </div>
-<div class="line"><span class="lineno">  924</span>            modelBuilder.Entity(<span class="stringliteral">&quot;Tgstation.Server.Host.Models.RepositorySettings&quot;</span>, b =&gt;</div>
-<div class="line"><span class="lineno">  925</span>            {</div>
-<div class="line"><span class="lineno">  926</span>                b.HasOne(<span class="stringliteral">&quot;Tgstation.Server.Host.Models.Instance&quot;</span>, <span class="stringliteral">&quot;Instance&quot;</span>)</div>
-<div class="line"><span class="lineno">  927</span>                    .WithOne(<span class="stringliteral">&quot;RepositorySettings&quot;</span>)</div>
-<div class="line"><span class="lineno">  928</span>                    .HasForeignKey(<span class="stringliteral">&quot;Tgstation.Server.Host.Models.RepositorySettings&quot;</span>, <span class="stringliteral">&quot;InstanceId&quot;</span>)</div>
-<div class="line"><span class="lineno">  929</span>                    .OnDelete(DeleteBehavior.Cascade)</div>
-<div class="line"><span class="lineno">  930</span>                    .IsRequired();</div>
-<div class="line"><span class="lineno">  931</span> </div>
-<div class="line"><span class="lineno">  932</span>                b.Navigation(<span class="stringliteral">&quot;Instance&quot;</span>);</div>
-<div class="line"><span class="lineno">  933</span>            });</div>
+<div class="line"><span class="lineno">  924</span>                b.Navigation(<span class="stringliteral">&quot;InitialCompileJob&quot;</span>);</div>
+<div class="line"><span class="lineno">  925</span>            });</div>
+<div class="line"><span class="lineno">  926</span> </div>
+<div class="line"><span class="lineno">  927</span>            modelBuilder.Entity(<span class="stringliteral">&quot;Tgstation.Server.Host.Models.RepositorySettings&quot;</span>, b =&gt;</div>
+<div class="line"><span class="lineno">  928</span>            {</div>
+<div class="line"><span class="lineno">  929</span>                b.HasOne(<span class="stringliteral">&quot;Tgstation.Server.Host.Models.Instance&quot;</span>, <span class="stringliteral">&quot;Instance&quot;</span>)</div>
+<div class="line"><span class="lineno">  930</span>                    .WithOne(<span class="stringliteral">&quot;RepositorySettings&quot;</span>)</div>
+<div class="line"><span class="lineno">  931</span>                    .HasForeignKey(<span class="stringliteral">&quot;Tgstation.Server.Host.Models.RepositorySettings&quot;</span>, <span class="stringliteral">&quot;InstanceId&quot;</span>)</div>
+<div class="line"><span class="lineno">  932</span>                    .OnDelete(DeleteBehavior.Cascade)</div>
+<div class="line"><span class="lineno">  933</span>                    .IsRequired();</div>
 <div class="line"><span class="lineno">  934</span> </div>
-<div class="line"><span class="lineno">  935</span>            modelBuilder.Entity(<span class="stringliteral">&quot;Tgstation.Server.Host.Models.RevInfoTestMerge&quot;</span>, b =&gt;</div>
-<div class="line"><span class="lineno">  936</span>            {</div>
-<div class="line"><span class="lineno">  937</span>                b.HasOne(<span class="stringliteral">&quot;Tgstation.Server.Host.Models.RevisionInformation&quot;</span>, <span class="stringliteral">&quot;RevisionInformation&quot;</span>)</div>
-<div class="line"><span class="lineno">  938</span>                    .WithMany(<span class="stringliteral">&quot;ActiveTestMerges&quot;</span>)</div>
-<div class="line"><span class="lineno">  939</span>                    .HasForeignKey(<span class="stringliteral">&quot;RevisionInformationId&quot;</span>)</div>
-<div class="line"><span class="lineno">  940</span>                    .OnDelete(DeleteBehavior.Cascade)</div>
-<div class="line"><span class="lineno">  941</span>                    .IsRequired();</div>
-<div class="line"><span class="lineno">  942</span> </div>
-<div class="line"><span class="lineno">  943</span>                b.HasOne(<span class="stringliteral">&quot;Tgstation.Server.Host.Models.TestMerge&quot;</span>, <span class="stringliteral">&quot;TestMerge&quot;</span>)</div>
-<div class="line"><span class="lineno">  944</span>                    .WithMany(<span class="stringliteral">&quot;RevisonInformations&quot;</span>)</div>
-<div class="line"><span class="lineno">  945</span>                    .HasForeignKey(<span class="stringliteral">&quot;TestMergeId&quot;</span>)</div>
-<div class="line"><span class="lineno">  946</span>                    .OnDelete(DeleteBehavior.ClientNoAction)</div>
-<div class="line"><span class="lineno">  947</span>                    .IsRequired();</div>
-<div class="line"><span class="lineno">  948</span> </div>
-<div class="line"><span class="lineno">  949</span>                b.Navigation(<span class="stringliteral">&quot;RevisionInformation&quot;</span>);</div>
-<div class="line"><span class="lineno">  950</span> </div>
-<div class="line"><span class="lineno">  951</span>                b.Navigation(<span class="stringliteral">&quot;TestMerge&quot;</span>);</div>
-<div class="line"><span class="lineno">  952</span>            });</div>
+<div class="line"><span class="lineno">  935</span>                b.Navigation(<span class="stringliteral">&quot;Instance&quot;</span>);</div>
+<div class="line"><span class="lineno">  936</span>            });</div>
+<div class="line"><span class="lineno">  937</span> </div>
+<div class="line"><span class="lineno">  938</span>            modelBuilder.Entity(<span class="stringliteral">&quot;Tgstation.Server.Host.Models.RevInfoTestMerge&quot;</span>, b =&gt;</div>
+<div class="line"><span class="lineno">  939</span>            {</div>
+<div class="line"><span class="lineno">  940</span>                b.HasOne(<span class="stringliteral">&quot;Tgstation.Server.Host.Models.RevisionInformation&quot;</span>, <span class="stringliteral">&quot;RevisionInformation&quot;</span>)</div>
+<div class="line"><span class="lineno">  941</span>                    .WithMany(<span class="stringliteral">&quot;ActiveTestMerges&quot;</span>)</div>
+<div class="line"><span class="lineno">  942</span>                    .HasForeignKey(<span class="stringliteral">&quot;RevisionInformationId&quot;</span>)</div>
+<div class="line"><span class="lineno">  943</span>                    .OnDelete(DeleteBehavior.Cascade)</div>
+<div class="line"><span class="lineno">  944</span>                    .IsRequired();</div>
+<div class="line"><span class="lineno">  945</span> </div>
+<div class="line"><span class="lineno">  946</span>                b.HasOne(<span class="stringliteral">&quot;Tgstation.Server.Host.Models.TestMerge&quot;</span>, <span class="stringliteral">&quot;TestMerge&quot;</span>)</div>
+<div class="line"><span class="lineno">  947</span>                    .WithMany(<span class="stringliteral">&quot;RevisonInformations&quot;</span>)</div>
+<div class="line"><span class="lineno">  948</span>                    .HasForeignKey(<span class="stringliteral">&quot;TestMergeId&quot;</span>)</div>
+<div class="line"><span class="lineno">  949</span>                    .OnDelete(DeleteBehavior.ClientNoAction)</div>
+<div class="line"><span class="lineno">  950</span>                    .IsRequired();</div>
+<div class="line"><span class="lineno">  951</span> </div>
+<div class="line"><span class="lineno">  952</span>                b.Navigation(<span class="stringliteral">&quot;RevisionInformation&quot;</span>);</div>
 <div class="line"><span class="lineno">  953</span> </div>
-<div class="line"><span class="lineno">  954</span>            modelBuilder.Entity(<span class="stringliteral">&quot;Tgstation.Server.Host.Models.RevisionInformation&quot;</span>, b =&gt;</div>
-<div class="line"><span class="lineno">  955</span>            {</div>
-<div class="line"><span class="lineno">  956</span>                b.HasOne(<span class="stringliteral">&quot;Tgstation.Server.Host.Models.Instance&quot;</span>, <span class="stringliteral">&quot;Instance&quot;</span>)</div>
-<div class="line"><span class="lineno">  957</span>                    .WithMany(<span class="stringliteral">&quot;RevisionInformations&quot;</span>)</div>
-<div class="line"><span class="lineno">  958</span>                    .HasForeignKey(<span class="stringliteral">&quot;InstanceId&quot;</span>)</div>
-<div class="line"><span class="lineno">  959</span>                    .OnDelete(DeleteBehavior.Cascade)</div>
-<div class="line"><span class="lineno">  960</span>                    .IsRequired();</div>
-<div class="line"><span class="lineno">  961</span> </div>
-<div class="line"><span class="lineno">  962</span>                b.Navigation(<span class="stringliteral">&quot;Instance&quot;</span>);</div>
-<div class="line"><span class="lineno">  963</span>            });</div>
+<div class="line"><span class="lineno">  954</span>                b.Navigation(<span class="stringliteral">&quot;TestMerge&quot;</span>);</div>
+<div class="line"><span class="lineno">  955</span>            });</div>
+<div class="line"><span class="lineno">  956</span> </div>
+<div class="line"><span class="lineno">  957</span>            modelBuilder.Entity(<span class="stringliteral">&quot;Tgstation.Server.Host.Models.RevisionInformation&quot;</span>, b =&gt;</div>
+<div class="line"><span class="lineno">  958</span>            {</div>
+<div class="line"><span class="lineno">  959</span>                b.HasOne(<span class="stringliteral">&quot;Tgstation.Server.Host.Models.Instance&quot;</span>, <span class="stringliteral">&quot;Instance&quot;</span>)</div>
+<div class="line"><span class="lineno">  960</span>                    .WithMany(<span class="stringliteral">&quot;RevisionInformations&quot;</span>)</div>
+<div class="line"><span class="lineno">  961</span>                    .HasForeignKey(<span class="stringliteral">&quot;InstanceId&quot;</span>)</div>
+<div class="line"><span class="lineno">  962</span>                    .OnDelete(DeleteBehavior.Cascade)</div>
+<div class="line"><span class="lineno">  963</span>                    .IsRequired();</div>
 <div class="line"><span class="lineno">  964</span> </div>
-<div class="line"><span class="lineno">  965</span>            modelBuilder.Entity(<span class="stringliteral">&quot;Tgstation.Server.Host.Models.TestMerge&quot;</span>, b =&gt;</div>
-<div class="line"><span class="lineno">  966</span>            {</div>
-<div class="line"><span class="lineno">  967</span>                b.HasOne(<span class="stringliteral">&quot;Tgstation.Server.Host.Models.User&quot;</span>, <span class="stringliteral">&quot;MergedBy&quot;</span>)</div>
-<div class="line"><span class="lineno">  968</span>                    .WithMany(<span class="stringliteral">&quot;TestMerges&quot;</span>)</div>
-<div class="line"><span class="lineno">  969</span>                    .HasForeignKey(<span class="stringliteral">&quot;MergedById&quot;</span>)</div>
-<div class="line"><span class="lineno">  970</span>                    .OnDelete(DeleteBehavior.Restrict)</div>
-<div class="line"><span class="lineno">  971</span>                    .IsRequired();</div>
-<div class="line"><span class="lineno">  972</span> </div>
-<div class="line"><span class="lineno">  973</span>                b.HasOne(<span class="stringliteral">&quot;Tgstation.Server.Host.Models.RevisionInformation&quot;</span>, <span class="stringliteral">&quot;PrimaryRevisionInformation&quot;</span>)</div>
-<div class="line"><span class="lineno">  974</span>                    .WithOne(<span class="stringliteral">&quot;PrimaryTestMerge&quot;</span>)</div>
-<div class="line"><span class="lineno">  975</span>                    .HasForeignKey(<span class="stringliteral">&quot;Tgstation.Server.Host.Models.TestMerge&quot;</span>, <span class="stringliteral">&quot;PrimaryRevisionInformationId&quot;</span>)</div>
-<div class="line"><span class="lineno">  976</span>                    .OnDelete(DeleteBehavior.Cascade)</div>
-<div class="line"><span class="lineno">  977</span>                    .IsRequired();</div>
-<div class="line"><span class="lineno">  978</span> </div>
-<div class="line"><span class="lineno">  979</span>                b.Navigation(<span class="stringliteral">&quot;MergedBy&quot;</span>);</div>
-<div class="line"><span class="lineno">  980</span> </div>
-<div class="line"><span class="lineno">  981</span>                b.Navigation(<span class="stringliteral">&quot;PrimaryRevisionInformation&quot;</span>);</div>
-<div class="line"><span class="lineno">  982</span>            });</div>
+<div class="line"><span class="lineno">  965</span>                b.Navigation(<span class="stringliteral">&quot;Instance&quot;</span>);</div>
+<div class="line"><span class="lineno">  966</span>            });</div>
+<div class="line"><span class="lineno">  967</span> </div>
+<div class="line"><span class="lineno">  968</span>            modelBuilder.Entity(<span class="stringliteral">&quot;Tgstation.Server.Host.Models.TestMerge&quot;</span>, b =&gt;</div>
+<div class="line"><span class="lineno">  969</span>            {</div>
+<div class="line"><span class="lineno">  970</span>                b.HasOne(<span class="stringliteral">&quot;Tgstation.Server.Host.Models.User&quot;</span>, <span class="stringliteral">&quot;MergedBy&quot;</span>)</div>
+<div class="line"><span class="lineno">  971</span>                    .WithMany(<span class="stringliteral">&quot;TestMerges&quot;</span>)</div>
+<div class="line"><span class="lineno">  972</span>                    .HasForeignKey(<span class="stringliteral">&quot;MergedById&quot;</span>)</div>
+<div class="line"><span class="lineno">  973</span>                    .OnDelete(DeleteBehavior.Restrict)</div>
+<div class="line"><span class="lineno">  974</span>                    .IsRequired();</div>
+<div class="line"><span class="lineno">  975</span> </div>
+<div class="line"><span class="lineno">  976</span>                b.HasOne(<span class="stringliteral">&quot;Tgstation.Server.Host.Models.RevisionInformation&quot;</span>, <span class="stringliteral">&quot;PrimaryRevisionInformation&quot;</span>)</div>
+<div class="line"><span class="lineno">  977</span>                    .WithOne(<span class="stringliteral">&quot;PrimaryTestMerge&quot;</span>)</div>
+<div class="line"><span class="lineno">  978</span>                    .HasForeignKey(<span class="stringliteral">&quot;Tgstation.Server.Host.Models.TestMerge&quot;</span>, <span class="stringliteral">&quot;PrimaryRevisionInformationId&quot;</span>)</div>
+<div class="line"><span class="lineno">  979</span>                    .OnDelete(DeleteBehavior.Cascade)</div>
+<div class="line"><span class="lineno">  980</span>                    .IsRequired();</div>
+<div class="line"><span class="lineno">  981</span> </div>
+<div class="line"><span class="lineno">  982</span>                b.Navigation(<span class="stringliteral">&quot;MergedBy&quot;</span>);</div>
 <div class="line"><span class="lineno">  983</span> </div>
-<div class="line"><span class="lineno">  984</span>            modelBuilder.Entity(<span class="stringliteral">&quot;Tgstation.Server.Host.Models.User&quot;</span>, b =&gt;</div>
-<div class="line"><span class="lineno">  985</span>            {</div>
-<div class="line"><span class="lineno">  986</span>                b.HasOne(<span class="stringliteral">&quot;Tgstation.Server.Host.Models.User&quot;</span>, <span class="stringliteral">&quot;CreatedBy&quot;</span>)</div>
-<div class="line"><span class="lineno">  987</span>                    .WithMany(<span class="stringliteral">&quot;CreatedUsers&quot;</span>)</div>
-<div class="line"><span class="lineno">  988</span>                    .HasForeignKey(<span class="stringliteral">&quot;CreatedById&quot;</span>);</div>
-<div class="line"><span class="lineno">  989</span> </div>
-<div class="line"><span class="lineno">  990</span>                b.HasOne(<span class="stringliteral">&quot;Tgstation.Server.Host.Models.UserGroup&quot;</span>, <span class="stringliteral">&quot;Group&quot;</span>)</div>
-<div class="line"><span class="lineno">  991</span>                    .WithMany(<span class="stringliteral">&quot;Users&quot;</span>)</div>
-<div class="line"><span class="lineno">  992</span>                    .HasForeignKey(<span class="stringliteral">&quot;GroupId&quot;</span>);</div>
-<div class="line"><span class="lineno">  993</span> </div>
-<div class="line"><span class="lineno">  994</span>                b.Navigation(<span class="stringliteral">&quot;CreatedBy&quot;</span>);</div>
-<div class="line"><span class="lineno">  995</span> </div>
-<div class="line"><span class="lineno">  996</span>                b.Navigation(<span class="stringliteral">&quot;Group&quot;</span>);</div>
-<div class="line"><span class="lineno">  997</span>            });</div>
+<div class="line"><span class="lineno">  984</span>                b.Navigation(<span class="stringliteral">&quot;PrimaryRevisionInformation&quot;</span>);</div>
+<div class="line"><span class="lineno">  985</span>            });</div>
+<div class="line"><span class="lineno">  986</span> </div>
+<div class="line"><span class="lineno">  987</span>            modelBuilder.Entity(<span class="stringliteral">&quot;Tgstation.Server.Host.Models.User&quot;</span>, b =&gt;</div>
+<div class="line"><span class="lineno">  988</span>            {</div>
+<div class="line"><span class="lineno">  989</span>                b.HasOne(<span class="stringliteral">&quot;Tgstation.Server.Host.Models.User&quot;</span>, <span class="stringliteral">&quot;CreatedBy&quot;</span>)</div>
+<div class="line"><span class="lineno">  990</span>                    .WithMany(<span class="stringliteral">&quot;CreatedUsers&quot;</span>)</div>
+<div class="line"><span class="lineno">  991</span>                    .HasForeignKey(<span class="stringliteral">&quot;CreatedById&quot;</span>);</div>
+<div class="line"><span class="lineno">  992</span> </div>
+<div class="line"><span class="lineno">  993</span>                b.HasOne(<span class="stringliteral">&quot;Tgstation.Server.Host.Models.UserGroup&quot;</span>, <span class="stringliteral">&quot;Group&quot;</span>)</div>
+<div class="line"><span class="lineno">  994</span>                    .WithMany(<span class="stringliteral">&quot;Users&quot;</span>)</div>
+<div class="line"><span class="lineno">  995</span>                    .HasForeignKey(<span class="stringliteral">&quot;GroupId&quot;</span>);</div>
+<div class="line"><span class="lineno">  996</span> </div>
+<div class="line"><span class="lineno">  997</span>                b.Navigation(<span class="stringliteral">&quot;CreatedBy&quot;</span>);</div>
 <div class="line"><span class="lineno">  998</span> </div>
-<div class="line"><span class="lineno">  999</span>            modelBuilder.Entity(<span class="stringliteral">&quot;Tgstation.Server.Host.Models.ChatBot&quot;</span>, b =&gt;</div>
-<div class="line"><span class="lineno"> 1000</span>            {</div>
-<div class="line"><span class="lineno"> 1001</span>                b.Navigation(<span class="stringliteral">&quot;Channels&quot;</span>);</div>
-<div class="line"><span class="lineno"> 1002</span>            });</div>
-<div class="line"><span class="lineno"> 1003</span> </div>
-<div class="line"><span class="lineno"> 1004</span>            modelBuilder.Entity(<span class="stringliteral">&quot;Tgstation.Server.Host.Models.Instance&quot;</span>, b =&gt;</div>
-<div class="line"><span class="lineno"> 1005</span>            {</div>
-<div class="line"><span class="lineno"> 1006</span>                b.Navigation(<span class="stringliteral">&quot;ChatSettings&quot;</span>);</div>
-<div class="line"><span class="lineno"> 1007</span> </div>
-<div class="line"><span class="lineno"> 1008</span>                b.Navigation(<span class="stringliteral">&quot;DreamDaemonSettings&quot;</span>);</div>
-<div class="line"><span class="lineno"> 1009</span> </div>
-<div class="line"><span class="lineno"> 1010</span>                b.Navigation(<span class="stringliteral">&quot;DreamMakerSettings&quot;</span>);</div>
-<div class="line"><span class="lineno"> 1011</span> </div>
-<div class="line"><span class="lineno"> 1012</span>                b.Navigation(<span class="stringliteral">&quot;InstancePermissionSets&quot;</span>);</div>
-<div class="line"><span class="lineno"> 1013</span> </div>
-<div class="line"><span class="lineno"> 1014</span>                b.Navigation(<span class="stringliteral">&quot;Jobs&quot;</span>);</div>
-<div class="line"><span class="lineno"> 1015</span> </div>
-<div class="line"><span class="lineno"> 1016</span>                b.Navigation(<span class="stringliteral">&quot;RepositorySettings&quot;</span>);</div>
-<div class="line"><span class="lineno"> 1017</span> </div>
-<div class="line"><span class="lineno"> 1018</span>                b.Navigation(<span class="stringliteral">&quot;RevisionInformations&quot;</span>);</div>
-<div class="line"><span class="lineno"> 1019</span>            });</div>
+<div class="line"><span class="lineno">  999</span>                b.Navigation(<span class="stringliteral">&quot;Group&quot;</span>);</div>
+<div class="line"><span class="lineno"> 1000</span>            });</div>
+<div class="line"><span class="lineno"> 1001</span> </div>
+<div class="line"><span class="lineno"> 1002</span>            modelBuilder.Entity(<span class="stringliteral">&quot;Tgstation.Server.Host.Models.ChatBot&quot;</span>, b =&gt;</div>
+<div class="line"><span class="lineno"> 1003</span>            {</div>
+<div class="line"><span class="lineno"> 1004</span>                b.Navigation(<span class="stringliteral">&quot;Channels&quot;</span>);</div>
+<div class="line"><span class="lineno"> 1005</span>            });</div>
+<div class="line"><span class="lineno"> 1006</span> </div>
+<div class="line"><span class="lineno"> 1007</span>            modelBuilder.Entity(<span class="stringliteral">&quot;Tgstation.Server.Host.Models.Instance&quot;</span>, b =&gt;</div>
+<div class="line"><span class="lineno"> 1008</span>            {</div>
+<div class="line"><span class="lineno"> 1009</span>                b.Navigation(<span class="stringliteral">&quot;ChatSettings&quot;</span>);</div>
+<div class="line"><span class="lineno"> 1010</span> </div>
+<div class="line"><span class="lineno"> 1011</span>                b.Navigation(<span class="stringliteral">&quot;DreamDaemonSettings&quot;</span>);</div>
+<div class="line"><span class="lineno"> 1012</span> </div>
+<div class="line"><span class="lineno"> 1013</span>                b.Navigation(<span class="stringliteral">&quot;DreamMakerSettings&quot;</span>);</div>
+<div class="line"><span class="lineno"> 1014</span> </div>
+<div class="line"><span class="lineno"> 1015</span>                b.Navigation(<span class="stringliteral">&quot;InstancePermissionSets&quot;</span>);</div>
+<div class="line"><span class="lineno"> 1016</span> </div>
+<div class="line"><span class="lineno"> 1017</span>                b.Navigation(<span class="stringliteral">&quot;Jobs&quot;</span>);</div>
+<div class="line"><span class="lineno"> 1018</span> </div>
+<div class="line"><span class="lineno"> 1019</span>                b.Navigation(<span class="stringliteral">&quot;RepositorySettings&quot;</span>);</div>
 <div class="line"><span class="lineno"> 1020</span> </div>
-<div class="line"><span class="lineno"> 1021</span>            modelBuilder.Entity(<span class="stringliteral">&quot;Tgstation.Server.Host.Models.PermissionSet&quot;</span>, b =&gt;</div>
-<div class="line"><span class="lineno"> 1022</span>            {</div>
-<div class="line"><span class="lineno"> 1023</span>                b.Navigation(<span class="stringliteral">&quot;InstancePermissionSets&quot;</span>);</div>
-<div class="line"><span class="lineno"> 1024</span>            });</div>
-<div class="line"><span class="lineno"> 1025</span> </div>
-<div class="line"><span class="lineno"> 1026</span>            modelBuilder.Entity(<span class="stringliteral">&quot;Tgstation.Server.Host.Models.RevisionInformation&quot;</span>, b =&gt;</div>
-<div class="line"><span class="lineno"> 1027</span>            {</div>
-<div class="line"><span class="lineno"> 1028</span>                b.Navigation(<span class="stringliteral">&quot;ActiveTestMerges&quot;</span>);</div>
-<div class="line"><span class="lineno"> 1029</span> </div>
-<div class="line"><span class="lineno"> 1030</span>                b.Navigation(<span class="stringliteral">&quot;CompileJobs&quot;</span>);</div>
-<div class="line"><span class="lineno"> 1031</span> </div>
-<div class="line"><span class="lineno"> 1032</span>                b.Navigation(<span class="stringliteral">&quot;PrimaryTestMerge&quot;</span>);</div>
-<div class="line"><span class="lineno"> 1033</span>            });</div>
+<div class="line"><span class="lineno"> 1021</span>                b.Navigation(<span class="stringliteral">&quot;RevisionInformations&quot;</span>);</div>
+<div class="line"><span class="lineno"> 1022</span>            });</div>
+<div class="line"><span class="lineno"> 1023</span> </div>
+<div class="line"><span class="lineno"> 1024</span>            modelBuilder.Entity(<span class="stringliteral">&quot;Tgstation.Server.Host.Models.PermissionSet&quot;</span>, b =&gt;</div>
+<div class="line"><span class="lineno"> 1025</span>            {</div>
+<div class="line"><span class="lineno"> 1026</span>                b.Navigation(<span class="stringliteral">&quot;InstancePermissionSets&quot;</span>);</div>
+<div class="line"><span class="lineno"> 1027</span>            });</div>
+<div class="line"><span class="lineno"> 1028</span> </div>
+<div class="line"><span class="lineno"> 1029</span>            modelBuilder.Entity(<span class="stringliteral">&quot;Tgstation.Server.Host.Models.RevisionInformation&quot;</span>, b =&gt;</div>
+<div class="line"><span class="lineno"> 1030</span>            {</div>
+<div class="line"><span class="lineno"> 1031</span>                b.Navigation(<span class="stringliteral">&quot;ActiveTestMerges&quot;</span>);</div>
+<div class="line"><span class="lineno"> 1032</span> </div>
+<div class="line"><span class="lineno"> 1033</span>                b.Navigation(<span class="stringliteral">&quot;CompileJobs&quot;</span>);</div>
 <div class="line"><span class="lineno"> 1034</span> </div>
-<div class="line"><span class="lineno"> 1035</span>            modelBuilder.Entity(<span class="stringliteral">&quot;Tgstation.Server.Host.Models.TestMerge&quot;</span>, b =&gt;</div>
-<div class="line"><span class="lineno"> 1036</span>            {</div>
-<div class="line"><span class="lineno"> 1037</span>                b.Navigation(<span class="stringliteral">&quot;RevisonInformations&quot;</span>);</div>
-<div class="line"><span class="lineno"> 1038</span>            });</div>
-<div class="line"><span class="lineno"> 1039</span> </div>
-<div class="line"><span class="lineno"> 1040</span>            modelBuilder.Entity(<span class="stringliteral">&quot;Tgstation.Server.Host.Models.User&quot;</span>, b =&gt;</div>
-<div class="line"><span class="lineno"> 1041</span>            {</div>
-<div class="line"><span class="lineno"> 1042</span>                b.Navigation(<span class="stringliteral">&quot;CreatedUsers&quot;</span>);</div>
-<div class="line"><span class="lineno"> 1043</span> </div>
-<div class="line"><span class="lineno"> 1044</span>                b.Navigation(<span class="stringliteral">&quot;OAuthConnections&quot;</span>);</div>
-<div class="line"><span class="lineno"> 1045</span> </div>
-<div class="line"><span class="lineno"> 1046</span>                b.Navigation(<span class="stringliteral">&quot;PermissionSet&quot;</span>);</div>
-<div class="line"><span class="lineno"> 1047</span> </div>
-<div class="line"><span class="lineno"> 1048</span>                b.Navigation(<span class="stringliteral">&quot;TestMerges&quot;</span>);</div>
-<div class="line"><span class="lineno"> 1049</span>            });</div>
+<div class="line"><span class="lineno"> 1035</span>                b.Navigation(<span class="stringliteral">&quot;PrimaryTestMerge&quot;</span>);</div>
+<div class="line"><span class="lineno"> 1036</span>            });</div>
+<div class="line"><span class="lineno"> 1037</span> </div>
+<div class="line"><span class="lineno"> 1038</span>            modelBuilder.Entity(<span class="stringliteral">&quot;Tgstation.Server.Host.Models.TestMerge&quot;</span>, b =&gt;</div>
+<div class="line"><span class="lineno"> 1039</span>            {</div>
+<div class="line"><span class="lineno"> 1040</span>                b.Navigation(<span class="stringliteral">&quot;RevisonInformations&quot;</span>);</div>
+<div class="line"><span class="lineno"> 1041</span>            });</div>
+<div class="line"><span class="lineno"> 1042</span> </div>
+<div class="line"><span class="lineno"> 1043</span>            modelBuilder.Entity(<span class="stringliteral">&quot;Tgstation.Server.Host.Models.User&quot;</span>, b =&gt;</div>
+<div class="line"><span class="lineno"> 1044</span>            {</div>
+<div class="line"><span class="lineno"> 1045</span>                b.Navigation(<span class="stringliteral">&quot;CreatedUsers&quot;</span>);</div>
+<div class="line"><span class="lineno"> 1046</span> </div>
+<div class="line"><span class="lineno"> 1047</span>                b.Navigation(<span class="stringliteral">&quot;OAuthConnections&quot;</span>);</div>
+<div class="line"><span class="lineno"> 1048</span> </div>
+<div class="line"><span class="lineno"> 1049</span>                b.Navigation(<span class="stringliteral">&quot;PermissionSet&quot;</span>);</div>
 <div class="line"><span class="lineno"> 1050</span> </div>
-<div class="line"><span class="lineno"> 1051</span>            modelBuilder.Entity(<span class="stringliteral">&quot;Tgstation.Server.Host.Models.UserGroup&quot;</span>, b =&gt;</div>
-<div class="line"><span class="lineno"> 1052</span>            {</div>
-<div class="line"><span class="lineno"> 1053</span>                b.Navigation(<span class="stringliteral">&quot;PermissionSet&quot;</span>)</div>
-<div class="line"><span class="lineno"> 1054</span>                    .IsRequired();</div>
-<div class="line"><span class="lineno"> 1055</span> </div>
-<div class="line"><span class="lineno"> 1056</span>                b.Navigation(<span class="stringliteral">&quot;Users&quot;</span>);</div>
-<div class="line"><span class="lineno"> 1057</span>            });</div>
-<div class="line"><span class="lineno"> 1058</span><span class="preprocessor">#pragma warning restore 612, 618</span></div>
-<div class="line"><span class="lineno"> 1059</span>        }</div>
+<div class="line"><span class="lineno"> 1051</span>                b.Navigation(<span class="stringliteral">&quot;TestMerges&quot;</span>);</div>
+<div class="line"><span class="lineno"> 1052</span>            });</div>
+<div class="line"><span class="lineno"> 1053</span> </div>
+<div class="line"><span class="lineno"> 1054</span>            modelBuilder.Entity(<span class="stringliteral">&quot;Tgstation.Server.Host.Models.UserGroup&quot;</span>, b =&gt;</div>
+<div class="line"><span class="lineno"> 1055</span>            {</div>
+<div class="line"><span class="lineno"> 1056</span>                b.Navigation(<span class="stringliteral">&quot;PermissionSet&quot;</span>)</div>
+<div class="line"><span class="lineno"> 1057</span>                    .IsRequired();</div>
+<div class="line"><span class="lineno"> 1058</span> </div>
+<div class="line"><span class="lineno"> 1059</span>                b.Navigation(<span class="stringliteral">&quot;Users&quot;</span>);</div>
+<div class="line"><span class="lineno"> 1060</span>            });</div>
+<div class="line"><span class="lineno"> 1061</span><span class="preprocessor">#pragma warning restore 612, 618</span></div>
+<div class="line"><span class="lineno"> 1062</span>        }</div>
 </div><!-- fragment -->
 </div>
 </div>

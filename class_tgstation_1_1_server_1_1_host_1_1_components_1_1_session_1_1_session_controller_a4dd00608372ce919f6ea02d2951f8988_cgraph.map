@@ -1,4 +1,6 @@
 <map id="Tgstation.Server.Host.Components.Session.SessionController.SendRawTopic" name="Tgstation.Server.Host.Components.Session.SessionController.SendRawTopic">
-<area shape="rect" id="node1" title="Send a given queryString &#160;to DreamDaemon&#39;s /world/Topic." alt="" coords="5,5,271,45"/>
+<area shape="rect" id="node1" title="Send a given queryString &#160;to DreamDaemon&#39;s /world/Topic." alt="" coords="5,37,271,77"/>
 <area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_async_delayer.html#aeb604334bd297d47506dc23e0d115977" title="Create a Task that completes after a given timeSpan ." alt="" coords="319,5,500,45"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_fifo_semaphore.html#a226f5619ff7d884e2c8df1505548c04d" title="Locks the FifoSemaphore." alt="" coords="319,69,500,109"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html#a29773d588476671bbe480f096d839c91" title="Asyncronously locks a semaphore ." alt="" coords="548,69,739,109"/>
 </map>
