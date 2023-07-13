@@ -924,6 +924,23 @@ jobs:
         echo ${{ secrets.PACKAGING_PRIVATE_KEY_PASSPHRASE }} | gpg --batch --yes --passphrase-fd 0 --import private.pgp
         rm private.pgp
 
+    - name: Install dotnet-sdk-6.0
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y dotnet-sdk-6.0
+
+    - name: Setup dotnet
+      uses: actions/setup-dotnet@v2
+      with:
+        dotnet-version: ${{ env.TGS_DOTNET_VERSION }}
+
+    - name: Override /usr/bin/dotnet
+      run: |
+        DOTNET_PATH=$(which dotnet)
+        sudo rm /usr/bin/dotnet
+        sudo ln -s $DOTNET_PATH /usr/bin/dotnet
+        echo "New dotnet path should be $DOTNET_PATH"
+
     - name: Checkout (Branch)
       uses: actions/checkout@v3
       if: github.event_name == 'push' || github.event_name == 'schedule'
