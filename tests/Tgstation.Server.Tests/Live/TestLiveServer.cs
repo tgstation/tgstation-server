@@ -1117,18 +1117,19 @@ namespace Tgstation.Server.Tests.Live
 
 					async Task RunInstanceTests()
 					{
-						var compatTests = FailFast(
-							instanceTest
-								.RunCompatTests(
-									// linux 510 has a critical bug where replacing the directory in non-basic watchdogs causes the DreamDaemon cwd to change
-									new PlatformIdentifier().IsWindows || Environment.GetEnvironmentVariable("General__UseBasicWatchdog") == "true"
-										? new Version(510, 1346)
-										: new Version(511, 1385),
-									adminClient.Instances.CreateClient(compatInstance),
-									compatDMPort,
-									compatDDPort,
-									server.HighPriorityDreamDaemon,
-									cancellationToken));
+						// Some earlier linux BYOND versions have a critical bug where replacing the directory in non-basic watchdogs causes the DreamDaemon cwd to change
+						var canRunCompatTests = new PlatformIdentifier().IsWindows || Environment.GetEnvironmentVariable("General__UseBasicWatchdog") == "true";
+						var compatTests = canRunCompatTests
+							? FailFast(
+								instanceTest
+									.RunCompatTests(
+										new Version(510, 1346),
+										adminClient.Instances.CreateClient(compatInstance),
+										compatDMPort,
+										compatDDPort,
+										server.HighPriorityDreamDaemon,
+										cancellationToken))
+							: Task.CompletedTask;
 
 						if (TestingUtils.RunningInGitHubActions) // they only have 2 cores, can't handle intense parallelization
 							await compatTests;
