@@ -195,8 +195,9 @@ namespace Tgstation.Server.Host.System
 			var pid = handle.Id;
 			logger.LogTrace("Starting read for PID {pid}...", pid);
 
-			var stdOutHandle = handle.StandardOutput;
-			var stdErrHandle = handle.StandardError;
+			// once we obtain these handles we're responsible for them
+			using var stdOutHandle = handle.StandardOutput;
+			using var stdErrHandle = handle.StandardError;
 			Task<string> outputReadTask = null, errorReadTask = null;
 			bool outputOpen = true, errorOpen = true;
 			async Task<string> GetNextLine()
