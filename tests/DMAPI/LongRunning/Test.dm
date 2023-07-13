@@ -11,9 +11,10 @@
 		dab()
 	TgsNew(new /datum/tgs_event_handler/impl, TGS_SECURITY_SAFE)
 
-	var/list/channels = TgsChatChannelInfo()
-	if(!length(channels))
-		FailTest("Expected some chat channels!")
+	if(params["expect_chat_channels"])
+		var/list/channels = TgsChatChannelInfo()
+		if(!length(channels))
+			FailTest("Expected some chat channels!")
 
 	StartAsync()
 
@@ -51,7 +52,7 @@
 
 	startup_complete = TRUE
 	if(run_bridge_test)
-		CheckBridgeLimits()
+		CheckBridgeLimits(run_bridge_test)
 
 /world/Topic(T, Addr, Master, Keys)
 	if(findtext(T, "tgs_integration_test_tactics3") == 0)
@@ -67,6 +68,7 @@ var/run_bridge_test
 /world/proc/HandleTopic(T)
 	TGS_TOPIC
 
+	log << "Custom topic: [T]"
 	var/list/data = params2list(T)
 	var/special_tactics = data["tgs_integration_test_special_tactics"]
 	if(special_tactics)
@@ -76,9 +78,9 @@ var/run_bridge_test
 	var/tactics2 = data["tgs_integration_test_tactics2"]
 	if(tactics2)
 		if(startup_complete)
-			CheckBridgeLimits()
+			CheckBridgeLimits(tactics2)
 		else
-			run_bridge_test = TRUE
+			run_bridge_test = tactics2
 		return "ack2"
 
 	// Topic limit tests
@@ -180,17 +182,22 @@ var/received_health_check = FALSE
 	if(event_code == TGS_EVENT_HEALTH_CHECK)
 		received_health_check = TRUE
 	else if(event_code == TGS_EVENT_WATCHDOG_DETACH)
-		// hack hack, calling world.TgsChatChannelInfo() will try to delay until the channels come back
-		var/datum/tgs_api/v5/api = TGS_READ_GLOBAL(tgs)
-		if(length(api.chat_channels))
-			FailTest("Expected no chat channels after detach!")
+		DelayCheckDetach()
 
 	world.TgsChatBroadcast(new /datum/tgs_message_content("Recieved event: `[json_encode(args)]`"))
 
+/proc/DelayCheckDetach()
+	sleep(1)
+	// hack hack, calling world.TgsChatChannelInfo() will try to delay until the channels come back
+	var/datum/tgs_api/v5/api = TGS_READ_GLOBAL(tgs)
+	if(length(api.chat_channels))
+		FailTest("Expected no chat channels after detach!")
+
 /world/Export(url)
-	if(length(url) < 1000)
-		log << "Export: [url]"
-	return ..()
+	var/redact = length(url) > 1000
+	log << "Export: [redact ? "<REDACTED>" : url]"
+	. = ..()
+	log << "Export completed: [redact ? "<REDACTED>" : json_encode(.)]"
 
 /proc/RebootAsync()
 	set waitfor = FALSE
@@ -199,7 +206,6 @@ var/received_health_check = FALSE
 	sleep(30)
 	world.log << "Done sleep, calling Reboot"
 	world.Reboot()
-
 
 /datum/tgs_chat_command/embeds_test
 	name = "embeds_test"
@@ -259,53 +265,43 @@ var/suppress_bridge_spam = FALSE
 	var/payload = jointext(builder, "")
 	return payload
 
-/proc/CheckBridgeLimits()
+/proc/CheckBridgeLimits(id)
 	set waitfor = FALSE
-	CheckBridgeLimitsImpl()
+	CheckBridgeLimitsImpl(id)
 
-
-/proc/BridgeWithoutChunking(command, list/data)
-	var/datum/tgs_api/v5/api = TGS_READ_GLOBAL(tgs)
-	var/bridge_request = api.CreateBridgeRequest(command, data)
-	suppress_bridge_spam = TRUE
-	. = api.PerformBridgeRequest(bridge_request)
-	suppress_bridge_spam = FALSE
-
-/proc/CheckBridgeLimitsImpl()
+/proc/CheckBridgeLimitsImpl(id)
 	sleep(30)
 
 	// Evil custom bridge command hacking here
 	var/datum/tgs_api/v5/api = TGS_READ_GLOBAL(tgs)
 	var/old_ai = api.access_identifier
-	api.access_identifier = "tgs_integration_test"
+	api.access_identifier = id
+
+	lastTgsError = null
+
+	var/limit = 8198 // DMAPI5_BRIDGE_REQUEST_LIMIT
 
 	// Always send chat messages because they can have extremely large payloads with the text
+	var/base_bridge_request = api.CreateBridgeRequest(0, list("chatMessage" = list("text" = "payload:")))
 
-	// bisecting request test
-	var/base = 1
-	var/nextPow = 0
-	var/lastI = 0
-	var/i
-	lastTgsError = null
-	for(i = 1; ; i = base + (2 ** nextPow))
-		var/payload = create_payload(i)
+	// In 515 overloaded bridge requests started BUG-ing because of the HTTP 414 response it gets on errors
+	// so now we can only test that the limit is valid
+	// It's fine, chunking will handle the rest
+	var/payload_size = limit - length(base_bridge_request)
 
-		var/list/result = BridgeWithoutChunking(0, list("chatMessage" = list("text" = "payload:[payload]")))
+	var/payload = create_payload(payload_size)
+	var/bridge_request = api.CreateBridgeRequest(0, list("chatMessage" = list("text" = "payload:[payload]")))
 
-		if(!result || lastTgsError || result["integrationHack"] != "ok")
-			lastTgsError = null
-			if(i == lastI + 1)
-				break
-			i = lastI
-			base = lastI
-			nextPow = 0
-			continue
+	var/list/result
+	try
+		result = api.PerformBridgeRequest(bridge_request)
+	catch(var/exception/e)
+		world.log << "Caught exception: [e]"
+		result = null
 
-		lastI = i
-		++nextPow
-
-	// DMAPI5_BRIDGE_REQUEST_LIMIT
-	var/limit = 8198
+	if(!result || lastTgsError || result["integrationHack"] != "ok")
+		FailTest("Failed bridge request limit test!")
+		return
 
 	// this actually gets doubled because it's in two fields for backwards compatibility, but that's fine
 	var/list/final_result = api.Bridge(0, list("chatMessage" = list("text" = "done:[create_payload(limit * 3)]")))

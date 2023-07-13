@@ -6,7 +6,7 @@
     <Version>$(TgsApiLibraryVersion)</Version>
     <Description>API definitions for tgstation-server.</Description>
     <PackageTags>json web api tgstation-server tgstation ss13 byond http</PackageTags>
-    <PackageReleaseNotes>Minor documentation correction.</PackageReleaseNotes>
+    <PackageReleaseNotes>Added support for -map-threads DreamDaemon parameter and UploadZip Administration update option.</PackageReleaseNotes>
     <NoWarn>CA1028</NoWarn>
   </PropertyGroup>
 

@@ -27,7 +27,7 @@ namespace Tgstation.Server.Tests
 				Mock.Of<ILogger<ProcessExecutor>>(),
 				loggerFactory);
 
-			await using var process = await processExecutor.LaunchProcess("test." + platformIdentifier.ScriptFileExtension, ".", string.Empty, null, true, true);
+			await using var process = processExecutor.LaunchProcess("test." + platformIdentifier.ScriptFileExtension, ".", string.Empty, null, true, true);
 			using var cts = new CancellationTokenSource();
 			cts.CancelAfter(3000);
 			var exitCode = await process.Lifetime.WaitAsync(cts.Token);
@@ -55,7 +55,7 @@ namespace Tgstation.Server.Tests
 			File.Delete(tempFile);
 			try
 			{
-				await using (var process = await processExecutor.LaunchProcess("test." + platformIdentifier.ScriptFileExtension, ".", string.Empty, tempFile, true, true))
+				await using (var process = processExecutor.LaunchProcess("test." + platformIdentifier.ScriptFileExtension, ".", string.Empty, tempFile, true, true))
 				{
 					using var cts = new CancellationTokenSource();
 					cts.CancelAfter(3000);

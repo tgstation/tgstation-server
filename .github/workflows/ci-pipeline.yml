@@ -31,7 +31,7 @@ on:
     - master
     - V6
   pull_request_target:
-    types: [opened, reopened, labeled, synchronize]
+    types: [ opened, reopened, labeled, synchronize ]
     branches:
     - dev
     - master
@@ -85,9 +85,10 @@ jobs:
     name: Build DMAPI
     needs: start-ci-run-gate
     if: "!(cancelled() || failure()) && needs.start-ci-run-gate.result == 'success'"
-    env:
-      BYOND_MAJOR: 515
-      BYOND_MINOR: 1606
+    strategy:
+      fail-fast: false
+      matrix:
+        byond: [ '510.1346', '511.1385', '512.1488', '513.1542', '514.1589', 'EDGE' ]
     runs-on: ubuntu-latest
     steps:
     - name: Install x86 libc Dependencies
@@ -96,20 +97,30 @@ jobs:
         sudo apt-get update
         sudo apt-get install -y -o APT::Immediate-Configure=0 libc6-i386 libstdc++6:i386 libgcc-s1:i386
 
-    - name: Restore BYOND cache
+    - name: Cache BYOND .zips
       uses: actions/cache@v3
       id: cache-byond
       with:
-        path: ~/BYOND-${{ env.BYOND_MAJOR }}.${{ env.BYOND_MINOR }}
-        key: ${{ env.BYOND_MAJOR }}-${{ env.BYOND_MINOR }}-dmapibyond
+        path: ~/byond-zips-cache
+        key: byond-zips
 
-    - name: Install BYOND
-      if: steps.cache-byond.outputs.cache-hit != 'true'
+    - name: Build BYOND Cache if Necessary and Install
       run: |
         echo "Setting up BYOND."
-        mkdir -p "$HOME/BYOND-${{ env.BYOND_MAJOR }}.${{ env.BYOND_MINOR }}"
-        cd "$HOME/BYOND-${{ env.BYOND_MAJOR }}.${{ env.BYOND_MINOR }}"
-        curl "http://www.byond.com/download/build/${{ env.BYOND_MAJOR }}/${{ env.BYOND_MAJOR }}.${{ env.BYOND_MINOR }}_byond_linux.zip" -o byond.zip
+        FULL_VERSION=${{ matrix.byond }}
+        if [[ "$FULL_VERSION" = "EDGE" ]] ; then
+            VERSIONS=$(curl https://www.byond.com/download/version.txt)
+            FULL_VERSION=$(echo "$VERSIONS" | tail -n1)
+            echo "EDGE version evaluated to $FULL_VERSION"
+        fi
+        if [[ ! -f $HOME/byond-zips-cache/linux/$FULL_VERSION.zip ]] ; then
+            BYOND_MAJOR=${FULL_VERSION%.*}
+            mkdir -p $HOME/byond-zips-cache/linux
+            curl "https://www.byond.com/download/build/$BYOND_MAJOR/${FULL_VERSION}_byond_linux.zip" -o $HOME/byond-zips-cache/linux/$FULL_VERSION.zip
+        fi
+        mkdir -p "$HOME/BYOND"
+        cd "$HOME/BYOND"
+        cp $HOME/byond-zips-cache/linux/$FULL_VERSION.zip byond.zip
         unzip byond.zip
         cd byond
         make here
@@ -129,7 +140,7 @@ jobs:
       run: |
         set -e
         retval=1
-        source $HOME/BYOND-${{ env.BYOND_MAJOR }}.${{ env.BYOND_MINOR }}/byond/bin/byondsetup
+        source $HOME/BYOND/byond/bin/byondsetup
 
         if hash DreamMaker 2>/dev/null
         then
@@ -249,7 +260,7 @@ jobs:
       run: dotnet build -c ${{ matrix.configuration }}NoWindows
 
     - name: Run Unit Tests
-      run: sudo dotnet test --no-build --logger GitHubActions --filter FullyQualifiedName!~TestLiveServer -c ${{ matrix.configuration }}NoWindows --collect:"XPlat Code Coverage" --settings build/coverlet.runsettings --results-directory ./TestResults tgstation-server.sln
+      run: sudo dotnet test --no-build --logger "GitHubActions;summary.includePassedTests=true;summary.includeSkippedTests=true" --filter TestCategory!=RequiresDatabase -c ${{ matrix.configuration }}NoWindows --collect:"XPlat Code Coverage" --settings build/ci.runsettings --results-directory ./TestResults tgstation-server.sln
 
     - name: Store Code Coverage
       uses: actions/upload-artifact@v3
@@ -292,7 +303,7 @@ jobs:
       run: dotnet build -c ${{ matrix.configuration }}NoWix
 
     - name: Run Unit Tests
-      run: dotnet test --no-build --logger GitHubActions --filter FullyQualifiedName!~TestLiveServer -c ${{ matrix.configuration }}NoWix --collect:"XPlat Code Coverage" --settings build/coverlet.runsettings --results-directory ./TestResults tgstation-server.sln
+      run: dotnet test --no-build --logger "GitHubActions;summary.includePassedTests=true;summary.includeSkippedTests=true" --filter TestCategory!=RequiresDatabase -c ${{ matrix.configuration }}NoWix --collect:"XPlat Code Coverage" --settings build/ci.runsettings --results-directory ./TestResults tgstation-server.sln
 
     - name: Store Code Coverage
       uses: actions/upload-artifact@v3
@@ -311,9 +322,6 @@ jobs:
         watchdog-type: [ 'Basic', 'System' ]
         configuration: [ 'Debug', 'Release' ]
     runs-on: windows-latest
-    env:
-      BYOND_MAJOR: 514
-      BYOND_MINOR: 1588
     steps:
     - name: Wait for LocalDB Connection # Do this first because we don't want to find out it's failing later
       shell: powershell
@@ -326,21 +334,6 @@ jobs:
       uses: actions/setup-dotnet@v2
       with:
         dotnet-version: ${{ env.TGS_DOTNET_VERSION }}
-
-    - name: Restore BYOND cache
-      uses: actions/cache@v3
-      id: cache-byond
-      with:
-        path: ~/BYOND-${{ env.BYOND_MAJOR }}.${{ env.BYOND_MINOR }}
-        key: ${{ env.BYOND_MAJOR }}-${{ env.BYOND_MINOR }}-livebyond
-
-    - name: Download BYOND
-      if: steps.cache-byond.outputs.cache-hit != 'true'
-      run: |
-        echo "Downloading BYOND..."
-        mkdir -p "$HOME/BYOND-${{ env.BYOND_MAJOR }}.${{ env.BYOND_MINOR }}"
-        cd "$HOME/BYOND-${{ env.BYOND_MAJOR }}.${{ env.BYOND_MINOR }}"
-        curl "http://www.byond.com/download/build/${{ env.BYOND_MAJOR }}/${{ env.BYOND_MAJOR }}.${{ env.BYOND_MINOR }}_byond.zip" -o byond.zip
 
     - name: Set TGS_TEST_DUMP_API_SPEC
       if: ${{ matrix.configuration == 'Release' && matrix.watchdog-type == 'System' && matrix.database-type == 'SqlServer' }}
@@ -414,11 +407,18 @@ jobs:
     - name: Build
       run: dotnet build -c ${{ matrix.configuration }} tests/Tgstation.Server.Tests/Tgstation.Server.Tests.csproj
 
+    - name: Cache BYOND .zips
+      uses: actions/cache@v3
+      id: cache-byond
+      with:
+        path: ~/byond-zips-cache
+        key: byond-zips
+
     - name: Run Live Tests
       run: |
         cd tests/Tgstation.Server.Tests
         Start-Sleep -Seconds 10
-        dotnet test -c ${{ matrix.configuration }} --no-build --filter FullyQualifiedName~TestLiveServer --logger GitHubActions --collect:"XPlat Code Coverage" --settings ../../build/coverlet.runsettings --results-directory ../../TestResults
+        dotnet test -c ${{ matrix.configuration }} --no-build --filter TestCategory=RequiresDatabase --logger "GitHubActions;summary.includePassedTests=true;summary.includeSkippedTests=true" --collect:"XPlat Code Coverage" --settings ../../build/ci.runsettings --results-directory ../../TestResults
 
     - name: Store Code Coverage
       uses: actions/upload-artifact@v3
@@ -516,9 +516,6 @@ jobs:
         watchdog-type: [ 'Basic', 'System' ]
         configuration: [ 'Debug', 'Release' ]
     runs-on: ubuntu-latest
-    env:
-      BYOND_MAJOR: 514
-      BYOND_MINOR: 1588
     steps:
     - name: Disable ptrace_scope
       run: echo 0 | sudo tee /proc/sys/kernel/yama/ptrace_scope
@@ -528,21 +525,6 @@ jobs:
         sudo dpkg --add-architecture i386
         sudo apt-get update
         sudo apt-get install -y -o APT::Immediate-Configure=0 libc6-i386 libstdc++6:i386 gdb libgcc-s1:i386
-
-    - name: Restore BYOND cache
-      uses: actions/cache@v3
-      id: cache-byond
-      with:
-        path: $HOME/BYOND-${{ env.BYOND_MAJOR }}.${{ env.BYOND_MINOR }}
-        key: ${{ env.BYOND_MAJOR }}-${{ env.BYOND_MINOR }}-livebyond
-
-    - name: Download BYOND
-      if: steps.cache-byond.outputs.cache-hit != 'true'
-      run: |
-        echo "Downloading BYOND..."
-        mkdir -p "$HOME/BYOND-${{ env.BYOND_MAJOR }}.${{ env.BYOND_MINOR }}"
-        cd "$HOME/BYOND-${{ env.BYOND_MAJOR }}.${{ env.BYOND_MINOR }}"
-        curl "http://www.byond.com/download/build/${{ env.BYOND_MAJOR }}/${{ env.BYOND_MAJOR }}.${{ env.BYOND_MINOR }}_byond_linux.zip" -o byond.zip
 
     - name: Setup dotnet
       uses: actions/setup-dotnet@v2
@@ -594,11 +576,18 @@ jobs:
     - name: Build
       run: dotnet build -c ${{ matrix.configuration }}NoWindows tests/Tgstation.Server.Tests/Tgstation.Server.Tests.csproj
 
+    - name: Cache BYOND .zips
+      uses: actions/cache@v3
+      id: cache-byond
+      with:
+        path: ~/byond-zips-cache
+        key: byond-zips
+
     - name: Run Live Tests
       run: |
         cd tests/Tgstation.Server.Tests
         sleep 10
-        dotnet test -c ${{ matrix.configuration }}NoWindows --filter FullyQualifiedName~TestLiveServer --logger GitHubActions --no-build --collect:"XPlat Code Coverage" --settings ../../build/coverlet.runsettings --results-directory ../../TestResults
+        dotnet test -c ${{ matrix.configuration }}NoWindows --filter TestCategory=RequiresDatabase --logger "GitHubActions;summary.includePassedTests=true;summary.includeSkippedTests=true" --no-build --collect:"XPlat Code Coverage" --settings ../../build/ci.runsettings --results-directory ../../TestResults
 
     - name: Store Code Coverage
       uses: actions/upload-artifact@v3
@@ -934,6 +923,23 @@ jobs:
         echo "${{ secrets.PACKAGING_PRIVATE_KEY }}" > private.pgp
         echo ${{ secrets.PACKAGING_PRIVATE_KEY_PASSPHRASE }} | gpg --batch --yes --passphrase-fd 0 --import private.pgp
         rm private.pgp
+
+    - name: Install dotnet-sdk-6.0
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y dotnet-sdk-6.0
+
+    - name: Setup dotnet
+      uses: actions/setup-dotnet@v2
+      with:
+        dotnet-version: ${{ env.TGS_DOTNET_VERSION }}
+
+    - name: Override /usr/bin/dotnet
+      run: |
+        DOTNET_PATH=$(which dotnet)
+        sudo rm /usr/bin/dotnet
+        sudo ln -s $DOTNET_PATH /usr/bin/dotnet
+        echo "New dotnet path should be $DOTNET_PATH"
 
     - name: Checkout (Branch)
       uses: actions/checkout@v3

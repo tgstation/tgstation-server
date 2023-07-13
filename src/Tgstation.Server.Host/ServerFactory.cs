@@ -142,6 +142,9 @@ namespace Tgstation.Server.Host
 							kestrelOptions.ListenAnyIP(
 								serverPortProvider.HttpApiPort,
 								listenOptions => listenOptions.Protocols = HttpProtocols.Http1AndHttp2);
+
+							// with 515 we lost the ability to test this effectively. Just bump it slightly above the default and let the existing limit hold us back
+							kestrelOptions.Limits.MaxRequestLineSize = 8400;
 						})
 						.UseIIS()
 						.UseIISIntegration()

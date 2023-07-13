@@ -169,8 +169,10 @@ namespace Tgstation.Server.Host.Components
 		/// <inheritdoc />
 		public Task InstanceRenamed(string newName, CancellationToken cancellationToken)
 		{
+			ArgumentNullException.ThrowIfNull(newName);
 			if (String.IsNullOrWhiteSpace(newName))
-				throw new ArgumentNullException(nameof(newName));
+				throw new ArgumentException("newName cannot be whitespace!", nameof(newName));
+
 			metadata.Name = newName;
 			return Watchdog.InstanceRenamed(newName, cancellationToken);
 		}

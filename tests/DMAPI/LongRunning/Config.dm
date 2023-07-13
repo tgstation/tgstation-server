@@ -9,3 +9,4 @@
 #define TGS_ERROR_LOG(message) TgsError(##message)
 #define TGS_NOTIFY_ADMINS(event)
 #define TGS_CLIENT_COUNT 0
+#define TGS_DEBUG_LOG(message) world.log << "TGS DEBUG: [##message]"

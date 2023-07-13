@@ -6,7 +6,7 @@
     <Version>$(TgsClientVersion)</Version>
     <Description>Client library for tgstation-server.</Description>
     <PackageTags>json web api tgstation-server tgstation ss13 byond client http</PackageTags>
-    <PackageReleaseNotes>Added missing Dispose() call to the StringContents for requests with bodies and added missing ConfigureAwait(false) to async call.</PackageReleaseNotes>
+    <PackageReleaseNotes>Added support for .zip uploads for server updates. Added missing Dispose() call to the StringContents for requests with bodies and added missing ConfigureAwait(false) to async call.</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>

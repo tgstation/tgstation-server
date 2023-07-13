@@ -1,7 +1,7 @@
 ﻿using System;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -24,6 +24,7 @@ namespace Tgstation.Server.Tests.Live
 		{
 			var logMessage = formatter(state, exception);
 			if ((logLevel == LogLevel.Error
+				&& !((exception is BadHttpRequestException) && logMessage.Contains("Unexpected end of request content.")) // canceled request
 				&& !logMessage.StartsWith("Error disconnecting connection ")
 				&& !(logMessage.StartsWith("An exception occurred while iterating over the results of a query for context type") && (exception is OperationCanceledException || exception?.InnerException is OperationCanceledException))
 				&& !(logMessage.StartsWith("An exception occurred in the database while saving changes for context type") && (exception is OperationCanceledException || exception?.InnerException is OperationCanceledException)))

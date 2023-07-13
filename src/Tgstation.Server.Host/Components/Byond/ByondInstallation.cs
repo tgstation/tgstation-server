@@ -18,6 +18,9 @@ namespace Tgstation.Server.Host.Components.Byond
 		/// <inheritdoc />
 		public bool SupportsCli { get; }
 
+		/// <inheritdoc />
+		public bool SupportsMapThreads { get; }
+
 		/// <summary>
 		/// The <see cref="Task"/> that completes when the BYOND version finished installing.
 		/// </summary>
@@ -31,18 +34,21 @@ namespace Tgstation.Server.Host.Components.Byond
 		/// <param name="dreamDaemonPath">The value of <see cref="DreamDaemonPath"/>.</param>
 		/// <param name="dreamMakerPath">The value of <see cref="DreamMakerPath"/>.</param>
 		/// <param name="supportsCli">The value of <see cref="SupportsCli"/>.</param>
+		/// <param name="supportsMapThreads">The value of <see cref="SupportsMapThreads"/>.</param>
 		public ByondInstallation(
 			Task installationTask,
 			Version version,
 			string dreamDaemonPath,
 			string dreamMakerPath,
-			bool supportsCli)
+			bool supportsCli,
+			bool supportsMapThreads)
 		{
 			InstallationTask = installationTask ?? throw new ArgumentNullException(nameof(installationTask));
 			Version = version ?? throw new ArgumentNullException(nameof(version));
 			DreamDaemonPath = dreamDaemonPath ?? throw new ArgumentNullException(nameof(dreamDaemonPath));
 			DreamMakerPath = dreamMakerPath ?? throw new ArgumentNullException(nameof(dreamMakerPath));
 			SupportsCli = supportsCli;
+			SupportsMapThreads = supportsMapThreads;
 		}
 	}
 }
