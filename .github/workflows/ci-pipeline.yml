@@ -42,7 +42,6 @@ env:
   TGS_TEST_GITHUB_TOKEN: ${{ secrets.LIVE_TESTS_TOKEN }}
   TGS_RELEASE_NOTES_TOKEN: ${{ secrets.DEV_PUSH_TOKEN }}
   WINGET_PUSH_TOKEN: ${{ secrets.DEV_PUSH_TOKEN }}
-  PACKAGING_KEYGRIP: ${{ vars.PACKAGING_KEYGRIP }}
   PACKAGING_PRIVATE_KEY_PASSPHRASE: ${{ secrets.PACKAGING_PRIVATE_KEY_PASSPHRASE }}
   CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
@@ -926,11 +925,15 @@ jobs:
     runs-on: ubuntu-latest
     if: "!(cancelled() || failure()) && needs.start-ci-run-gate.result == 'success'"
     steps:
-    - name: Import GPG Key
+    - name: Install Native Dependencies
       run: |
         sudo dpkg --add-architecture i386
         sudo apt-get update
-        sudo apt-get install -y -o APT::Immediate-Configure=0 libstdc++6:i386 libgcc-s1:i386 gnupg2
+        sudo apt-get install -y -o APT::Immediate-Configure=0 libstdc++6:i386 libgcc-s1:i386 gnupg2 xmlstarlet
+
+    - name: Import GPG Key
+      if: "github.event_name == 'push' && github.event.ref == 'refs/heads/master' && contains(github.event.head_commit.message, '[TGSDeploy]')"
+      run: |
         echo "${{ secrets.PACKAGING_PRIVATE_KEY }}" > private.pgp
         echo ${{ secrets.PACKAGING_PRIVATE_KEY_PASSPHRASE }} | gpg --batch --yes --passphrase-fd 0 --import private.pgp
         rm private.pgp
@@ -945,15 +948,20 @@ jobs:
       with:
         ref: "refs/pull/${{ github.event.number }}/merge"
 
-    - name: Execute Build Script
-      run: sudo -E build/package/deb/build_package.sh
-
     - name: Parse TGS version
       run: |
         echo "TGS_VERSION=$(xmlstarlet sel -N X="http://schemas.microsoft.com/developer/msbuild/2003" --template --value-of /X:Project/X:PropertyGroup/X:TgsCoreVersion build/Version.props)" >> $GITHUB_ENV
 
-    - name: Validate Signatures
+    - name: Execute Build Script (Unsigned)
+      if: "!(github.event_name == 'push' && github.event.ref == 'refs/heads/master' && contains(github.event.head_commit.message, '[TGSDeploy]'))"
+      run: sudo build/package/deb/build_package.sh
+
+    - name: Execute Build Script (Signed)
+      if: "github.event_name == 'push' && github.event.ref == 'refs/heads/master' && contains(github.event.head_commit.message, '[TGSDeploy]')"
+      env:
+        PACKAGING_KEYGRIP: ${{ vars.PACKAGING_KEYGRIP }}
       run: |
+        sudo -E build/package/deb/build_package.sh
         gpg --verify tgstation-server_${{ env.TGS_VERSION }}-1.dsc
         gpg --verify tgstation-server_${{ env.TGS_VERSION }}-1_amd64.changes
         gpg --verify tgstation-server_${{ env.TGS_VERSION }}-1_amd64.buildinfo
