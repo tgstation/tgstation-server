@@ -437,7 +437,8 @@ namespace ReleaseNotes
 					})
 					.Compile();
 
-				await connection.Run(mutation);
+				if (!doNotCloseMilestone)
+					await connection.Run(mutation);
 
 				return 0;
 			}
