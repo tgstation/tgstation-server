@@ -179,12 +179,12 @@ var/received_health_check = FALSE
 /datum/tgs_event_handler/impl/HandleEvent(event_code, ...)
 	set waitfor = FALSE
 
+	world.TgsChatBroadcast(new /datum/tgs_message_content("Recieved event: `[json_encode(args)]`"))
+
 	if(event_code == TGS_EVENT_HEALTH_CHECK)
 		received_health_check = TRUE
 	else if(event_code == TGS_EVENT_WATCHDOG_DETACH)
 		DelayCheckDetach()
-
-	world.TgsChatBroadcast(new /datum/tgs_message_content("Recieved event: `[json_encode(args)]`"))
 
 /proc/DelayCheckDetach()
 	sleep(1)
