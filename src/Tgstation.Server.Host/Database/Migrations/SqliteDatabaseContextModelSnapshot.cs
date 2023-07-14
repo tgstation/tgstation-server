@@ -200,6 +200,10 @@ namespace Tgstation.Server.Host.Database.Migrations
 					.IsRequired()
 					.HasColumnType("INTEGER");
 
+				b.Property<uint?>("MapThreads")
+					.IsRequired()
+					.HasColumnType("INTEGER");
+
 				b.Property<ushort?>("Port")
 					.IsRequired()
 					.HasColumnType("INTEGER");

@@ -17,6 +17,7 @@ using Microsoft.Extensions.DependencyInjection;
 namespace Tgstation.Server.Tests
 {
 	[TestClass]
+	[TestCategory("RequiresDatabase")]
 	public sealed class TestDatabase
 	{
 		[TestMethod]
@@ -120,6 +121,7 @@ namespace Tgstation.Server.Tests
 					AdditionalParameters = string.Empty,
 					StartProfiler = false,
 					LogOutput = true,
+					MapThreads = 69,
 				},
 				DreamMakerSettings = new Host.Models.DreamMakerSettings
 				{

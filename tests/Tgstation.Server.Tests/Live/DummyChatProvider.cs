@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -36,7 +37,7 @@ namespace Tgstation.Server.Tests.Live
 		readonly ICryptographySuite cryptographySuite;
 		readonly CancellationTokenSource randomMessageCts;
 		readonly Task randomMessageTask;
-		readonly Dictionary<ulong, ChannelRepresentation> knownChannels;
+		readonly ConcurrentDictionary<ulong, ChannelRepresentation> knownChannels;
 
 		bool connectedOnce;
 		bool connected;
@@ -64,14 +65,14 @@ namespace Tgstation.Server.Tests.Live
 			ICryptographySuite cryptographySuite,
 			IReadOnlyCollection<ICommand> commands,
 			Random random)
-			: base(jobManager, CreateMockDelayer(), new Logger<DummyChatProvider>(LiveTestUtils.CreateLoggerFactoryForLogger(logger, out var mockLoggerFactory)), chatBot)
+			: base(jobManager, CreateMockDelayer(), new Logger<DummyChatProvider>(TestingUtils.CreateLoggerFactoryForLogger(logger, out var mockLoggerFactory)), chatBot)
 		{
 			mockLoggerFactory.VerifyAll();
 			this.cryptographySuite = cryptographySuite ?? throw new ArgumentNullException(nameof(cryptographySuite));
 			this.commands = commands ?? throw new ArgumentNullException(nameof(commands));
 			this.random = random ?? throw new ArgumentNullException(nameof(random));
 
-			knownChannels = new Dictionary<ulong, ChannelRepresentation>();
+			knownChannels = new ();
 			randomMessageCts = new CancellationTokenSource();
 			randomMessageTask = RandomMessageLoop(this.randomMessageCts.Token);
 		}
@@ -189,8 +190,7 @@ namespace Tgstation.Server.Tests.Live
 				Tag = channel.Tag,
 			};
 
-			knownChannels.Remove(channelId);
-			knownChannels.Add(channelId, entry);
+			knownChannels[channelId] = entry;
 
 			return CloneChannel(entry);
 		}
@@ -255,7 +255,7 @@ namespace Tgstation.Server.Tests.Live
 								// isAdmin and Tag populated by manager
 							};
 
-							knownChannels.Add(channelId, channel);
+							knownChannels[channelId] = channel;
 						}
 					else
 					{

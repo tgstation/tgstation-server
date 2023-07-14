@@ -410,38 +410,38 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				using (cancellationToken.Register(() => nickCheckCompleteTcs.TrySetCanceled(cancellationToken)))
 				{
 					listenTask = Task.Factory.StartNew(
-					async () =>
-					{
-						Logger.LogTrace("Entering nick check loop");
-						while (!disconnecting && client.IsConnected && client.Nickname != nickname)
+						async () =>
 						{
-							client.ListenOnce(true);
-							if (disconnecting || !client.IsConnected)
-								break;
-							await NonBlockingListen(cancellationToken);
+							Logger.LogTrace("Entering nick check loop");
+							while (!disconnecting && client.IsConnected && client.Nickname != nickname)
+							{
+								client.ListenOnce(true);
+								if (disconnecting || !client.IsConnected)
+									break;
+								await NonBlockingListen(cancellationToken);
 
-							// ensure we have the correct nick
-							if (client.GetIrcUser(nickname) == null)
-								client.RfcNick(nickname);
-						}
+								// ensure we have the correct nick
+								if (client.GetIrcUser(nickname) == null)
+									client.RfcNick(nickname);
+							}
 
-						nickCheckCompleteTcs.TrySetResult();
+							nickCheckCompleteTcs.TrySetResult();
 
-						Logger.LogTrace("Starting blocking listen...");
-						try
-						{
-							client.Listen();
-						}
-						catch (Exception ex)
-						{
-							Logger.LogWarning(ex, "IRC Main Listen Exception!");
-						}
+							Logger.LogTrace("Starting blocking listen...");
+							try
+							{
+								client.Listen();
+							}
+							catch (Exception ex)
+							{
+								Logger.LogWarning(ex, "IRC Main Listen Exception!");
+							}
 
-						Logger.LogTrace("Exiting listening task...");
-					},
-					cancellationToken,
-					DefaultIOManager.BlockingTaskCreationOptions,
-					TaskScheduler.Current);
+							Logger.LogTrace("Exiting listening task...");
+						},
+						cancellationToken,
+						DefaultIOManager.BlockingTaskCreationOptions,
+						TaskScheduler.Current);
 
 					await nickCheckCompleteTcs.Task;
 				}

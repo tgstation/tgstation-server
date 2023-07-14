@@ -9,9 +9,9 @@ namespace Tgstation.Server.Host.System
 	interface IProcessBase
 	{
 		/// <summary>
-		/// The <see cref="Task{TResult}"/> resulting in the exit code of the process.
+		/// The <see cref="Task{TResult}"/> resulting in the exit code of the process or <see langword="null"/> if the process was detached.
 		/// </summary>
-		Task<int> Lifetime { get; }
+		Task<int?> Lifetime { get; }
 
 		/// <summary>
 		/// Set's the owned <see cref="global::System.Diagnostics.Process.PriorityClass"/> to a non-normal value.

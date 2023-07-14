@@ -97,7 +97,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			await configurationClient.CreateDirectory(staticDir, cancellationToken);
 		}
 
-		Task SetupDMApiTests(CancellationToken cancellationToken)
+		public Task SetupDMApiTests(CancellationToken cancellationToken)
 		{
 			// just use an I/O manager here
 			var ioManager = new DefaultIOManager();

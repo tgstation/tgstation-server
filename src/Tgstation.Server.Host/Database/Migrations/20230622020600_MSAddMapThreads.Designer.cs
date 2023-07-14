@@ -3,16 +3,18 @@ using System;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
 namespace Tgstation.Server.Host.Database.Migrations
 {
 	[DbContext(typeof(SqlServerDatabaseContext))]
-	partial class SqlServerDatabaseContextModelSnapshot : ModelSnapshot
+	[Migration("20230622020600_MSAddMapThreads")]
+	partial class MSAddMapThreads
 	{
 		/// <inheritdoc />
-		protected override void BuildModel(ModelBuilder modelBuilder)
+		protected override void BuildTargetModel(ModelBuilder modelBuilder)
 		{
 #pragma warning disable 612, 618
 			modelBuilder

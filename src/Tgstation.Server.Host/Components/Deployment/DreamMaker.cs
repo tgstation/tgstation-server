@@ -797,6 +797,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 				HealthCheckSeconds = 0, // not used
 				StartProfiler = false,
 				LogOutput = logOutput,
+				MapThreads = 1, // lowest possible amount
 			};
 
 			job.MinimumSecurityLevel = securityLevel; // needed for the TempDmbProvider
@@ -858,7 +859,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
 		async Task<int> RunDreamMaker(string dreamMakerPath, Models.CompileJob job, CancellationToken cancellationToken)
 		{
-			await using var dm = await processExecutor.LaunchProcess(
+			await using var dm = processExecutor.LaunchProcess(
 				dreamMakerPath,
 				ioManager.ResolvePath(
 					job.DirectoryName.ToString()),
@@ -871,7 +872,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 
 			int exitCode;
 			using (cancellationToken.Register(() => dm.Terminate()))
-				exitCode = await dm.Lifetime;
+				exitCode = (await dm.Lifetime).Value;
 			cancellationToken.ThrowIfCancellationRequested();
 
 			logger.LogDebug("DreamMaker exit code: {exitCode}", exitCode);

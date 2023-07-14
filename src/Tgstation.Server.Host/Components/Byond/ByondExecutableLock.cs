@@ -20,6 +20,9 @@ namespace Tgstation.Server.Host.Components.Byond
 		public bool SupportsCli => Instance.SupportsCli;
 
 		/// <inheritdoc />
+		public bool SupportsMapThreads => Instance.SupportsMapThreads;
+
+		/// <inheritdoc />
 		public void DoNotDeleteThisSession() => DangerousDropReference();
 	}
 }

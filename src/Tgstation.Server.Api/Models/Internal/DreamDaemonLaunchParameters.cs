@@ -92,6 +92,13 @@ namespace Tgstation.Server.Api.Models.Internal
 		public bool? LogOutput { get; set; }
 
 		/// <summary>
+		/// If DreamDaemon supports it, the value added as the -map-threads parameter. 0 uses the default BYOND value.
+		/// </summary>
+		[Required]
+		[ResponseOptions]
+		public uint? MapThreads { get; set; }
+
+		/// <summary>
 		/// Check if we match a given set of <paramref name="otherParameters"/>. <see cref="StartupTimeout"/> is excluded.
 		/// </summary>
 		/// <param name="otherParameters">The <see cref="DreamDaemonLaunchParameters"/> to compare against.</param>
@@ -108,7 +115,8 @@ namespace Tgstation.Server.Api.Models.Internal
 				&& TopicRequestTimeout == otherParameters.TopicRequestTimeout
 				&& AdditionalParameters == otherParameters.AdditionalParameters
 				&& StartProfiler == otherParameters.StartProfiler
-				&& LogOutput == otherParameters.LogOutput; // We intentionally don't check StartupTimeout, health check seconds, or health check dump as they don't matter in terms of the watchdog
+				&& LogOutput == otherParameters.LogOutput
+				&& MapThreads == otherParameters.MapThreads; // We intentionally don't check StartupTimeout, health check seconds, or health check dump as they don't matter in terms of the watchdog
 		}
 	}
 }

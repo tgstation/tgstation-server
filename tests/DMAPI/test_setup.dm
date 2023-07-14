@@ -30,4 +30,5 @@
 	world.log << "TEST ERROR DM-SIDE: [reason]"
 	fdel("test_success.txt")
 	text2file(reason, "test_fail_reason.txt")
+	world.log << "Terminating..."
 	del(world)
