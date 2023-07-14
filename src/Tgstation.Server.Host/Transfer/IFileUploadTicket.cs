@@ -1,16 +1,13 @@
-﻿using System;
-using System.IO;
-using System.Threading;
-using System.Threading.Tasks;
-
+﻿using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Response;
+using Tgstation.Server.Host.IO;
 
 namespace Tgstation.Server.Host.Transfer
 {
 	/// <summary>
 	/// A <see cref="FileTicketResponse"/> that waits for a pending upload.
 	/// </summary>
-	public interface IFileUploadTicket : IDisposable
+	public interface IFileUploadTicket : IFileStreamProvider
 	{
 		/// <summary>
 		/// The <see cref="FileTicketResponse"/>.
@@ -18,17 +15,10 @@ namespace Tgstation.Server.Host.Transfer
 		FileTicketResponse Ticket { get; }
 
 		/// <summary>
-		/// Gets the <see cref="Stream"/> for the uploaded file.
+		/// Sets an <paramref name="errorCode"/> that indicates why the consuming operation could not complete. May only be called once on a <see cref="IFileStreamProvider"/>.
 		/// </summary>
-		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the uploaded <see cref="Stream"/> of the file on success, <see langword="null"/> if the ticket timed out.</returns>
-		/// <remarks>The resulting <see cref="Stream"/> is short lived and should be buffered if it needs use outside the lifetime of the <see cref="IFileUploadTicket"/>.</remarks>
-		Task<Stream> GetResult(CancellationToken cancellationToken);
-
-		/// <summary>
-		/// Sets an <paramref name="errorMessage"/> for the upload. Will be returned in upload request as a 409 error.
-		/// </summary>
-		/// <param name="errorMessage">The <see cref="ErrorMessageResponse"/> to set.</param>
-		void SetErrorMessage(ErrorMessageResponse errorMessage);
+		/// <param name="errorCode">The <see cref="ErrorCode"/> to set.</param>
+		/// <param name="additionalData">Any additional information that can be provided about the error.</param>
+		void SetError(ErrorCode errorCode, string additionalData);
 	}
 }

@@ -245,8 +245,10 @@ namespace Tgstation.Server.Host.Database
 			const string ConfigureMethodName = nameof(SqlServerDatabaseContext.ConfigureWith);
 			var configureFunction = typeof(TDatabaseContext).GetMethod(
 				ConfigureMethodName,
-				BindingFlags.Public | BindingFlags.Static)
-				?? throw new InvalidOperationException($"Context type {typeof(TDatabaseContext).FullName} missing static {ConfigureMethodName} function!");
+				BindingFlags.Public | BindingFlags.Static);
+
+			if (configureFunction == null)
+				throw new InvalidOperationException($"Context type {typeof(TDatabaseContext).FullName} missing static {ConfigureMethodName} function!");
 
 			return (optionsBuilder, config) => configureFunction.Invoke(null, new object[] { optionsBuilder, config });
 		}
@@ -255,7 +257,8 @@ namespace Tgstation.Server.Host.Database
 		/// Initializes a new instance of the <see cref="DatabaseContext"/> class.
 		/// </summary>
 		/// <param name="dbContextOptions">The <see cref="DbContextOptions"/> for the <see cref="DatabaseContext"/>.</param>
-		protected DatabaseContext(DbContextOptions dbContextOptions) : base(dbContextOptions)
+		protected DatabaseContext(DbContextOptions dbContextOptions)
+			: base(dbContextOptions)
 		{
 			usersCollection = new DatabaseCollection<User>(Users);
 			instancesCollection = new DatabaseCollection<Instance>(Instances);
@@ -283,8 +286,7 @@ namespace Tgstation.Server.Host.Database
 		/// <inheritdoc />
 		public async Task<bool> Migrate(ILogger<DatabaseContext> logger, CancellationToken cancellationToken)
 		{
-			if (logger == null)
-				throw new ArgumentNullException(nameof(logger));
+			ArgumentNullException.ThrowIfNull(logger);
 			var migrations = await Database.GetAppliedMigrationsAsync(cancellationToken);
 			var wasEmpty = !migrations.Any();
 
@@ -304,8 +306,7 @@ namespace Tgstation.Server.Host.Database
 		/// <inheritdoc />
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
-			if (modelBuilder == null)
-				throw new ArgumentNullException(nameof(modelBuilder));
+			ArgumentNullException.ThrowIfNull(modelBuilder);
 
 			base.OnModelCreating(modelBuilder);
 
@@ -377,22 +378,22 @@ namespace Tgstation.Server.Host.Database
 		/// <summary>
 		/// Used by unit tests to remind us to setup the correct MSSQL migration downgrades.
 		/// </summary>
-		internal static readonly Type MSLatestMigration = typeof(MSAddReattachInfoInitialCompileJob);
+		internal static readonly Type MSLatestMigration = typeof(MSAddMapThreads);
 
 		/// <summary>
 		/// Used by unit tests to remind us to setup the correct MYSQL migration downgrades.
 		/// </summary>
-		internal static readonly Type MYLatestMigration = typeof(MYAddReattachInfoInitialCompileJob);
+		internal static readonly Type MYLatestMigration = typeof(MYAddMapThreads);
 
 		/// <summary>
 		/// Used by unit tests to remind us to setup the correct PostgresSQL migration downgrades.
 		/// </summary>
-		internal static readonly Type PGLatestMigration = typeof(PGAddReattachInfoInitialCompileJob);
+		internal static readonly Type PGLatestMigration = typeof(PGAddMapThreads);
 
 		/// <summary>
 		/// Used by unit tests to remind us to setup the correct SQLite migration downgrades.
 		/// </summary>
-		internal static readonly Type SLLatestMigration = typeof(SLAddReattachInfoInitialCompileJob);
+		internal static readonly Type SLLatestMigration = typeof(SLAddMapThreads);
 
 		/// <inheritdoc />
 #pragma warning disable CA1502 // Cyclomatic complexity
@@ -402,10 +403,8 @@ namespace Tgstation.Server.Host.Database
 			DatabaseType currentDatabaseType,
 			CancellationToken cancellationToken)
 		{
-			if (logger == null)
-				throw new ArgumentNullException(nameof(logger));
-			if (targetVersion == null)
-				throw new ArgumentNullException(nameof(targetVersion));
+			ArgumentNullException.ThrowIfNull(logger);
+			ArgumentNullException.ThrowIfNull(targetVersion);
 			if (targetVersion < new Version(4, 0))
 				throw new ArgumentOutOfRangeException(nameof(targetVersion), targetVersion, "Cannot migrate below version 4.0.0!");
 
@@ -423,6 +422,15 @@ namespace Tgstation.Server.Host.Database
 
 			string BadDatabaseType() => throw new ArgumentException($"Invalid DatabaseType: {currentDatabaseType}", nameof(currentDatabaseType));
 
+			if (targetVersion < new Version(5, 13, 0))
+				targetMigration = currentDatabaseType switch
+				{
+					DatabaseType.MySql => nameof(MYAddReattachInfoInitialCompileJob),
+					DatabaseType.PostgresSql => nameof(PGAddReattachInfoInitialCompileJob),
+					DatabaseType.SqlServer => nameof(MSAddReattachInfoInitialCompileJob),
+					DatabaseType.Sqlite => nameof(SLAddReattachInfoInitialCompileJob),
+					_ => BadDatabaseType(),
+				};
 			if (targetVersion < new Version(5, 7, 3))
 				targetMigration = currentDatabaseType switch
 				{

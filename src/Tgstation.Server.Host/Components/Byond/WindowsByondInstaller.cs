@@ -46,6 +46,11 @@ namespace Tgstation.Server.Host.Components.Byond
 		/// </summary>
 		const string TgsFirewalledDDFile = "TGSFirewalledDD";
 
+		/// <summary>
+		/// The first version of BYOND to ship with dd.exe on the Windows build.
+		/// </summary>
+		public static Version DDExeVersion => new (515, 1598);
+
 		/// <inheritdoc />
 		public override string DreamMakerName => "dm.exe";
 
@@ -53,7 +58,7 @@ namespace Tgstation.Server.Host.Components.Byond
 		public override string PathToUserByondFolder { get; }
 
 		/// <inheritdoc />
-		protected override string ByondRevisionsUrlTemplate => "https://secure.byond.com/download/build/{0}/{0}.{1}_byond.zip";
+		protected override string ByondRevisionsUrlTemplate => "https://www.byond.com/download/build/{0}/{0}.{1}_byond.zip";
 
 		/// <summary>
 		/// The <see cref="IProcessExecutor"/> for the <see cref="WindowsByondInstaller"/>.
@@ -94,7 +99,11 @@ namespace Tgstation.Server.Host.Components.Byond
 			this.processExecutor = processExecutor ?? throw new ArgumentNullException(nameof(processExecutor));
 			generalConfiguration = generalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
 
-			PathToUserByondFolder = IOManager.ResolvePath(IOManager.ConcatPath(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "BYOND"));
+			var documentsDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+			if (String.IsNullOrWhiteSpace(documentsDirectory))
+				PathToUserByondFolder = null; // happens with the service account
+			else
+				PathToUserByondFolder = IOManager.ResolvePath(IOManager.ConcatPath(documentsDirectory, "BYOND"));
 
 			semaphore = new SemaphoreSlim(1);
 			installedDirectX = false;
@@ -104,12 +113,12 @@ namespace Tgstation.Server.Host.Components.Byond
 		public void Dispose() => semaphore.Dispose();
 
 		/// <inheritdoc />
-		public override string GetDreamDaemonName(Version version, out bool supportsCli)
+		public override string GetDreamDaemonName(Version version, out bool supportsCli, out bool supportsMapThreads)
 		{
-			if (version == null)
-				throw new ArgumentNullException(nameof(version));
+			ArgumentNullException.ThrowIfNull(version);
 
-			supportsCli = version.Major >= 515 && version.Minor >= 1598;
+			supportsCli = version >= DDExeVersion;
+			supportsMapThreads = version >= MapThreadsVersion;
 			return supportsCli ? "dd.exe" : "dreamdaemon.exe";
 		}
 
@@ -131,16 +140,13 @@ namespace Tgstation.Server.Host.Components.Byond
 		/// <inheritdoc />
 		public override async Task UpgradeInstallation(Version version, string path, CancellationToken cancellationToken)
 		{
-			if (version == null)
-				throw new ArgumentNullException(nameof(version));
-			if (path == null)
-				throw new ArgumentNullException(nameof(path));
+			ArgumentNullException.ThrowIfNull(version);
+			ArgumentNullException.ThrowIfNull(path);
 
 			if (generalConfiguration.SkipAddingByondFirewallException)
 				return;
 
-			GetDreamDaemonName(version, out var usesDDExe);
-			if (!usesDDExe)
+			if (version < DDExeVersion)
 				return;
 
 			if (await IOManager.FileExists(IOManager.ConcatPath(path, TgsFirewalledDDFile), cancellationToken))
@@ -192,7 +198,7 @@ namespace Tgstation.Server.Host.Components.Byond
 			try
 			{
 				// noShellExecute because we aren't doing runas shennanigans
-				await using var directXInstaller = await processExecutor.LaunchProcess(
+				await using var directXInstaller = processExecutor.LaunchProcess(
 					IOManager.ConcatPath(rbdx, "DXSETUP.exe"),
 					rbdx,
 					"/silent",
@@ -200,7 +206,7 @@ namespace Tgstation.Server.Host.Components.Byond
 
 				int exitCode;
 				using (cancellationToken.Register(() => directXInstaller.Terminate()))
-					exitCode = await directXInstaller.Lifetime;
+					exitCode = (await directXInstaller.Lifetime).Value;
 				cancellationToken.ThrowIfCancellationRequested();
 
 				if (exitCode != 0)
@@ -222,7 +228,7 @@ namespace Tgstation.Server.Host.Components.Byond
 		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
 		async Task AddDreamDaemonToFirewall(Version version, string path, CancellationToken cancellationToken)
 		{
-			var dreamDaemonName = GetDreamDaemonName(version, out var supportsCli);
+			var dreamDaemonName = GetDreamDaemonName(version, out var usesDDExe, out var _);
 
 			var dreamDaemonPath = IOManager.ResolvePath(
 				IOManager.ConcatPath(
@@ -233,16 +239,20 @@ namespace Tgstation.Server.Host.Components.Byond
 			Logger.LogInformation("Adding Windows Firewall exception for {path}...", dreamDaemonPath);
 			try
 			{
-				await using var netshProcess = await processExecutor.LaunchProcess(
+				// I really wish we could add the instance name here but
+				// 1. It'd make IByondInstaller need to be transient per-instance and WindowsByondInstaller relys on being a singleton for its DX installer call
+				// 2. The instance could be renamed, so it'd have to be an unfriendly ID anyway.
+				var arguments = $"advfirewall firewall add rule name=\"TGS DreamDaemon {version}\" program=\"{dreamDaemonPath}\" protocol=tcp dir=in enable=yes action=allow";
+				await using var netshProcess = processExecutor.LaunchProcess(
 					"netsh.exe",
 					IOManager.ResolvePath(),
-					$"advfirewall firewall add rule name=\"TGS DreamDaemon\" program=\"{dreamDaemonPath}\" protocol=tcp dir=in enable=yes action=allow",
+					arguments,
 					readStandardHandles: true,
 					noShellExecute: true);
 
 				int exitCode;
 				using (cancellationToken.Register(() => netshProcess.Terminate()))
-					exitCode = await netshProcess.Lifetime;
+					exitCode = (await netshProcess.Lifetime).Value;
 				cancellationToken.ThrowIfCancellationRequested();
 
 				Logger.LogDebug(
@@ -253,7 +263,7 @@ namespace Tgstation.Server.Host.Components.Byond
 				if (exitCode != 0)
 					throw new JobException(ErrorCode.ByondDreamDaemonFirewallFail, new JobException($"Invalid exit code: {exitCode}"));
 
-				if (supportsCli)
+				if (usesDDExe)
 					await IOManager.WriteAllBytes(
 						IOManager.ConcatPath(path, TgsFirewalledDDFile),
 						Array.Empty<byte>(),

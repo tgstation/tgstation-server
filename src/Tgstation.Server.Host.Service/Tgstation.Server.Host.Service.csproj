@@ -1,41 +1,31 @@
 <Project Sdk="Microsoft.NET.Sdk">
-  <Import Project="../../build/Version.props" />
+  <Import Project="../../build/SrcCommon.props" />
 
   <PropertyGroup>
-    <OutputType>Exe</OutputType>
-    <TargetFramework>net472</TargetFramework>
-    <RuntimeIdentifier>win</RuntimeIdentifier>
-    <DebugType>Full</DebugType>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>$(TgsFrameworkVersion)-windows</TargetFramework>
     <Version>$(TgsCoreVersion)</Version>
-    <CodeAnalysisRuleSet>../../build/analyzers.ruleset</CodeAnalysisRuleSet>
-    <LangVersion>7.3</LangVersion>
-    <DocumentationFile>bin\Debug\Tgstation.Server.Host.Console.xml</DocumentationFile>
-    <EnableNETAnalyzers>true</EnableNETAnalyzers>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <WarningsAsErrors />
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <NoWarn>1701;1702;SA1652</NoWarn>
+    <!-- DO NOT ENABLE THIS, It makes the service require the desktop runtime instead of the ASP NET Core Hosting Bundle -->
+    <UseWindowsForms>false</UseWindowsForms>
+    <ApplicationIcon>../../build/tgs.ico</ApplicationIcon>
+    <ApplicationManifest>../../build/uac_elevation_manifest.xml</ApplicationManifest>
   </PropertyGroup>
 
   <ItemGroup>
+    <!-- Usage: Installing service programatically -->
+    <PackageReference Include="Core.System.ServiceProcess" Version="2.0.1" />
     <!-- Usage: Command line argument support -->
     <PackageReference Include="McMaster.Extensions.CommandLineUtils" Version="4.0.2" />
+    <!-- Usage: Identifies when we are running in the context of the Windows SCM -->
+    <PackageReference Include="Microsoft.Extensions.Hosting.WindowsServices" Version="7.0.1" />
     <!-- Usage: Windows event log logging plugin -->
-    <PackageReference Include="Microsoft.Extensions.Logging.EventLog" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.EventLog" Version="7.0.0" />
     <!-- Usage: Console logging plugin -->
-    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="6.0.0" />
-    <!-- Usage: Linting -->
-    <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="7.0.0" />
     <!-- Usage: OS identification -->
     <PackageReference Include="System.Runtime.InteropServices" Version="4.3.0" />
+    <!-- Usage: Windows Service Manager intergration -->
+    <PackageReference Include="System.ServiceProcess.ServiceController" Version="7.0.1" />
   </ItemGroup>
 
   <ItemGroup>
@@ -43,12 +33,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <AdditionalFiles Include="../../build/stylecop.json" />
+    <AdditionalFiles Include="../../build/uac_elevation_manifest.xml" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Reference Include="System.Configuration.Install" />
-    <Reference Include="System.ServiceProcess" />
-    <Reference Include="System.Windows.Forms" />
-  </ItemGroup>
 </Project>

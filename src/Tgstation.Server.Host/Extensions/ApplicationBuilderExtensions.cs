@@ -37,8 +37,7 @@ namespace Tgstation.Server.Host.Extensions
 		/// <param name="applicationBuilder">The <see cref="IApplicationBuilder"/> to configure.</param>
 		public static void UseDbConflictHandling(this IApplicationBuilder applicationBuilder)
 		{
-			if (applicationBuilder == null)
-				throw new ArgumentNullException(nameof(applicationBuilder));
+			ArgumentNullException.ThrowIfNull(applicationBuilder);
 
 			applicationBuilder.Use(async (context, next) =>
 			{
@@ -73,8 +72,7 @@ namespace Tgstation.Server.Host.Extensions
 		/// <param name="applicationBuilder">The <see cref="IApplicationBuilder"/> to configure.</param>
 		public static void UseDisabledClientCache(this IApplicationBuilder applicationBuilder)
 		{
-			if (applicationBuilder == null)
-				throw new ArgumentNullException(nameof(applicationBuilder));
+			ArgumentNullException.ThrowIfNull(applicationBuilder);
 			applicationBuilder.Use(async (context, next) =>
 			{
 				context.Response.Headers.Add(HeaderNames.CacheControl, new StringValues("no-cache"));
@@ -88,8 +86,7 @@ namespace Tgstation.Server.Host.Extensions
 		/// <param name="applicationBuilder">The <see cref="IApplicationBuilder"/> to configure.</param>
 		public static void UseCancelledRequestSuppression(this IApplicationBuilder applicationBuilder)
 		{
-			if (applicationBuilder == null)
-				throw new ArgumentNullException(nameof(applicationBuilder));
+			ArgumentNullException.ThrowIfNull(applicationBuilder);
 			applicationBuilder.Use(async (context, next) =>
 			{
 				var logger = GetLogger(context);
@@ -110,8 +107,7 @@ namespace Tgstation.Server.Host.Extensions
 		/// <param name="applicationBuilder">The <see cref="IApplicationBuilder"/> to configure.</param>
 		public static void UseServerErrorHandling(this IApplicationBuilder applicationBuilder)
 		{
-			if (applicationBuilder == null)
-				throw new ArgumentNullException(nameof(applicationBuilder));
+			ArgumentNullException.ThrowIfNull(applicationBuilder);
 
 			applicationBuilder.Use(async (context, next) =>
 			{
@@ -146,10 +142,8 @@ namespace Tgstation.Server.Host.Extensions
 		/// <param name="assemblyInformationProvider">The <see cref="IAssemblyInformationProvider"/> to use.</param>
 		public static void UseServerBranding(this IApplicationBuilder applicationBuilder, IAssemblyInformationProvider assemblyInformationProvider)
 		{
-			if (applicationBuilder == null)
-				throw new ArgumentNullException(nameof(applicationBuilder));
-			if (assemblyInformationProvider == null)
-				throw new ArgumentNullException(nameof(assemblyInformationProvider));
+			ArgumentNullException.ThrowIfNull(applicationBuilder);
+			ArgumentNullException.ThrowIfNull(assemblyInformationProvider);
 
 			applicationBuilder.Use(async (context, next) =>
 			{
@@ -165,10 +159,8 @@ namespace Tgstation.Server.Host.Extensions
 		/// <param name="swarmConfiguration">The <see cref="SwarmConfiguration"/>.</param>
 		public static void UseAdditionalRequestLoggingContext(this IApplicationBuilder applicationBuilder, SwarmConfiguration swarmConfiguration)
 		{
-			if (applicationBuilder == null)
-				throw new ArgumentNullException(nameof(applicationBuilder));
-			if (swarmConfiguration == null)
-				throw new ArgumentNullException(nameof(swarmConfiguration));
+			ArgumentNullException.ThrowIfNull(applicationBuilder);
+			ArgumentNullException.ThrowIfNull(swarmConfiguration);
 
 			if (LogSwarmIdentifier && swarmConfiguration.Identifier != null)
 				applicationBuilder.Use(async (context, next) =>

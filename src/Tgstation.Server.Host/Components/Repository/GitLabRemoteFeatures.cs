@@ -7,7 +7,6 @@ using Microsoft.Extensions.Logging;
 
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Internal;
-using Tgstation.Server.Host.Extensions;
 
 namespace Tgstation.Server.Host.Components.Repository
 {
@@ -66,7 +65,7 @@ namespace Tgstation.Server.Host.Components.Repository
 				var mr = await client
 					.MergeRequests
 					.GetAsync($"{RemoteRepositoryOwner}/{RemoteRepositoryName}", parameters.Number)
-					.WithToken(cancellationToken);
+					.WaitAsync(cancellationToken);
 
 				var revisionToUse = parameters.TargetCommitSha == null
 					|| mr.Sha.StartsWith(parameters.TargetCommitSha, StringComparison.OrdinalIgnoreCase)

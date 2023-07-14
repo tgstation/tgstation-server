@@ -60,11 +60,9 @@ namespace Tgstation.Server.Host.Utils
 		/// <param name="referenceCleanupAction">The <see cref="Action"/> to take to clean up the reference.</param>
 		public void Initialize(TInstance instance, Action referenceCleanupAction)
 		{
-			if (instance == null)
-				throw new ArgumentNullException(nameof(instance));
+			ArgumentNullException.ThrowIfNull(instance);
 
-			if (referenceCleanupAction == null)
-				throw new ArgumentNullException(nameof(referenceCleanupAction));
+			ArgumentNullException.ThrowIfNull(referenceCleanupAction);
 
 			lock (initDisposeLock)
 			{

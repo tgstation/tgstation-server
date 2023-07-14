@@ -23,7 +23,8 @@ namespace Tgstation.Server.Client
 		/// </summary>
 		/// <param name="errorMessage">The <see cref="ErrorMessageResponse"/> for the <see cref="ApiException"/>.</param>
 		/// <param name="responseMessage">The <see cref="HttpResponseMessage"/> for the <see cref="ClientException"/>.</param>
-		public RateLimitException(ErrorMessageResponse? errorMessage, HttpResponseMessage responseMessage) : base(errorMessage, responseMessage)
+		public RateLimitException(ErrorMessageResponse? errorMessage, HttpResponseMessage responseMessage)
+			: base(errorMessage, responseMessage)
 		{
 			if (responseMessage == null)
 				throw new ArgumentNullException(nameof(responseMessage));
@@ -47,7 +48,8 @@ namespace Tgstation.Server.Client
 		/// Initializes a new instance of the <see cref="RateLimitException"/> class.
 		/// </summary>
 		/// <param name="message">The message for the <see cref="Exception"/>.</param>
-		public RateLimitException(string message) : base(message)
+		public RateLimitException(string message)
+			: base(message)
 		{
 		}
 
@@ -56,7 +58,8 @@ namespace Tgstation.Server.Client
 		/// </summary>
 		/// <param name="message">The message for the <see cref="Exception"/>.</param>
 		/// <param name="innerException">The inner <see cref="Exception"/> for the base <see cref="Exception"/>.</param>
-		public RateLimitException(string message, Exception innerException) : base(message, innerException)
+		public RateLimitException(string message, Exception innerException)
+			: base(message, innerException)
 		{
 		}
 	}

@@ -3,16 +3,32 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
+using Tgstation.Server.Host.System;
+
 namespace Tgstation.Server.Host.IO
 {
 	/// <inheritdoc />
 	sealed class Console : IConsole, IDisposable
 	{
 		/// <inheritdoc />
+		public string Title
+		{
+			get => platformIdentifier.IsWindows
+				? global::System.Console.Title
+				: null;
+			set => global::System.Console.Title = value;
+		}
+
+		/// <inheritdoc />
 		public bool Available => Environment.UserInteractive;
 
 		/// <inheritdoc />
 		public CancellationToken CancelKeyPress => cancelKeyCts.Token;
+
+		/// <summary>
+		/// The <see cref="IPlatformIdentifier"/> for the <see cref="Console"/>.
+		/// </summary>
+		readonly IPlatformIdentifier platformIdentifier;
 
 		/// <summary>
 		/// The <see cref="CancellationTokenSource"/> for <see cref="CancelKeyPress"/>.
@@ -27,8 +43,11 @@ namespace Tgstation.Server.Host.IO
 		/// <summary>
 		/// Initializes a new instance of the <see cref="Console"/> class.
 		/// </summary>
-		public Console()
+		/// <param name="platformIdentifier">The value of <see cref="platformIdentifier"/>.</param>
+		public Console(IPlatformIdentifier platformIdentifier)
 		{
+			this.platformIdentifier = platformIdentifier ?? throw new ArgumentNullException(nameof(platformIdentifier));
+
 			cancelKeyCts = new CancellationTokenSource();
 			global::System.Console.CancelKeyPress += (sender, e) =>
 			{
@@ -99,7 +118,8 @@ namespace Tgstation.Server.Host.IO
 			},
 			cancellationToken,
 			DefaultIOManager.BlockingTaskCreationOptions,
-			TaskScheduler.Current);
+			TaskScheduler.Current)
+			.WaitAsync(cancellationToken);
 
 		/// <inheritdoc />
 		public Task WriteAsync(string text, bool newLine, CancellationToken cancellationToken) => Task.Factory.StartNew(

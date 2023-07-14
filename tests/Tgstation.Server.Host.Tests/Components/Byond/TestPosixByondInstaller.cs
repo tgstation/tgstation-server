@@ -3,6 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 
 using Tgstation.Server.Host.IO;
@@ -51,11 +52,19 @@ namespace Tgstation.Server.Host.Components.Byond.Tests
 			await Assert.ThrowsExceptionAsync<ArgumentNullException>(() => installer.DownloadVersion(null, default));
 
 			var ourArray = Array.Empty<byte>();
-			mockFileDownloader.Setup(x => x.DownloadFile(It.Is<Uri>(uri => uri == new Uri("https://secure.byond.com/download/build/511/511.1385_byond_linux.zip")), null, default)).Returns(Task.FromResult(new MemoryStream(ourArray))).Verifiable();
+			mockFileDownloader
+				.Setup(
+					x => x.DownloadFile(
+						It.Is<Uri>(uri => uri == new Uri("https://www.byond.com/download/build/511/511.1385_byond_linux.zip")),
+						null))
+				.Returns(
+					new BufferedFileStreamProvider(
+						new MemoryStream(ourArray)))
+				.Verifiable();
 
 			var result = await installer.DownloadVersion(new Version(511, 1385), default);
 
-			Assert.AreSame(ourArray, result.ToArray());
+			Assert.IsTrue(ourArray.SequenceEqual(result.ToArray()));
 			mockIOManager.Verify();
 		}
 

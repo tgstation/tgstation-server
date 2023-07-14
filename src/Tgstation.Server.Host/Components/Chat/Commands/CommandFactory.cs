@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 
 using Tgstation.Server.Host.Components.Byond;
+using Tgstation.Server.Host.Components.Deployment;
 using Tgstation.Server.Host.Components.Repository;
 using Tgstation.Server.Host.Components.Watchdog;
 using Tgstation.Server.Host.Database;
@@ -33,6 +34,11 @@ namespace Tgstation.Server.Host.Components.Chat.Commands
 		readonly IDatabaseContextFactory databaseContextFactory;
 
 		/// <summary>
+		/// The <see cref="ILatestCompileJobProvider"/> for the <see cref="CommandFactory"/>.
+		/// </summary>
+		readonly ILatestCompileJobProvider compileJobProvider;
+
+		/// <summary>
 		/// The <see cref="Models.Instance"/> for the <see cref="CommandFactory"/>.
 		/// </summary>
 		readonly Models.Instance instance;
@@ -49,18 +55,21 @@ namespace Tgstation.Server.Host.Components.Chat.Commands
 		/// <param name="byondManager">The value of <see cref="byondManager"/>.</param>
 		/// <param name="repositoryManager">The value of <see cref="repositoryManager"/>.</param>
 		/// <param name="databaseContextFactory">The value of <see cref="databaseContextFactory"/>.</param>
+		/// <param name="compileJobProvider">The value of <see cref="compileJobProvider"/>.</param>
 		/// <param name="instance">The value of <see cref="instance"/>.</param>
 		public CommandFactory(
 			IAssemblyInformationProvider assemblyInformationProvider,
 			IByondManager byondManager,
 			IRepositoryManager repositoryManager,
 			IDatabaseContextFactory databaseContextFactory,
+			ILatestCompileJobProvider compileJobProvider,
 			Models.Instance instance)
 		{
 			this.assemblyInformationProvider = assemblyInformationProvider ?? throw new ArgumentNullException(nameof(assemblyInformationProvider));
 			this.byondManager = byondManager ?? throw new ArgumentNullException(nameof(byondManager));
 			this.repositoryManager = repositoryManager ?? throw new ArgumentNullException(nameof(repositoryManager));
 			this.databaseContextFactory = databaseContextFactory ?? throw new ArgumentNullException(nameof(databaseContextFactory));
+			this.compileJobProvider = compileJobProvider ?? throw new ArgumentNullException(nameof(compileJobProvider));
 			this.instance = instance ?? throw new ArgumentNullException(nameof(instance));
 		}
 
@@ -85,7 +94,7 @@ namespace Tgstation.Server.Host.Components.Chat.Commands
 				new VersionCommand(assemblyInformationProvider),
 				new ByondCommand(byondManager, watchdog),
 				new RevisionCommand(watchdog, repositoryManager),
-				new PullRequestsCommand(watchdog, repositoryManager, databaseContextFactory, instance),
+				new PullRequestsCommand(watchdog, repositoryManager, databaseContextFactory, compileJobProvider, instance),
 				new KekCommand(),
 			};
 		}

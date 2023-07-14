@@ -26,9 +26,9 @@
 		ActiveLaunchParametersUpdated,
 
 		/// <summary>
-		/// A heartbeat is required.
+		/// A health check is required.
 		/// </summary>
-		Heartbeat,
+		HealthCheck,
 
 		/// <summary>
 		/// Server primed.

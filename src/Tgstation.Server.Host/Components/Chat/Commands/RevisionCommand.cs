@@ -51,6 +51,13 @@ namespace Tgstation.Server.Host.Components.Chat.Commands
 		{
 			string result;
 			if (arguments.Split(' ').Any(x => x.ToUpperInvariant() == "--REPO"))
+			{
+				if (repositoryManager.CloneInProgress || repositoryManager.InUse)
+					return new MessageContent
+					{
+						Text = "Repository busy! Try again later",
+					};
+
 				using (var repo = await repositoryManager.LoadRepository(cancellationToken))
 				{
 					if (repo == null)
@@ -60,6 +67,7 @@ namespace Tgstation.Server.Host.Components.Chat.Commands
 						};
 					result = repo.Head;
 				}
+			}
 			else
 			{
 				if (watchdog.Status == WatchdogStatus.Offline)

@@ -42,8 +42,9 @@ namespace Tgstation.Server.Host.Core
 		/// <summary>
 		/// Gracefully shutsdown the <see cref="Host"/>.
 		/// </summary>
+		/// <param name="detach">If the graceful shutdown should detach any running watchdog. If <see langword="false"/> the server will wait for the next TgsReboot() or world exit before shutting down.</param>
 		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		Task GracefulShutdown();
+		Task GracefulShutdown(bool detach);
 
 		/// <summary>
 		/// Kill the server with a fatal exception.

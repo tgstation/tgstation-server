@@ -6,7 +6,6 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.Utils;
 
 namespace Tgstation.Server.Host.IO
@@ -77,10 +76,8 @@ namespace Tgstation.Server.Host.IO
 			int? taskThrottle,
 			CancellationToken cancellationToken)
 		{
-			if (src == null)
-				throw new ArgumentNullException(nameof(src));
-			if (dest == null)
-				throw new ArgumentNullException(nameof(src));
+			ArgumentNullException.ThrowIfNull(src);
+			ArgumentNullException.ThrowIfNull(src);
 
 			if (taskThrottle.HasValue && taskThrottle < 1)
 				throw new ArgumentOutOfRangeException(nameof(taskThrottle), taskThrottle, "taskThrottle must be at least 1!");
@@ -98,20 +95,18 @@ namespace Tgstation.Server.Host.IO
 		/// <inheritdoc />
 		public async Task CopyFile(string src, string dest, CancellationToken cancellationToken)
 		{
-			if (src == null)
-				throw new ArgumentNullException(nameof(src));
-			if (dest == null)
-				throw new ArgumentNullException(nameof(dest));
+			ArgumentNullException.ThrowIfNull(src);
+			ArgumentNullException.ThrowIfNull(dest);
 
 			// tested to hell and back, these are the optimal buffer sizes
-			using var srcStream = new FileStream(
+			await using var srcStream = new FileStream(
 				ResolvePath(src),
 				FileMode.Open,
 				FileAccess.Read,
 				FileShare.Read | FileShare.Delete,
 				DefaultBufferSize,
 				FileOptions.Asynchronous | FileOptions.SequentialScan);
-			using var destStream = CreateAsyncSequentialWriteStream(dest);
+			await using var destStream = CreateAsyncSequentialWriteStream(dest);
 
 			// value taken from documentation
 			await srcStream.CopyToAsync(destStream, 81920, cancellationToken);
@@ -158,8 +153,7 @@ namespace Tgstation.Server.Host.IO
 			() =>
 			{
 				path = ResolvePath(path);
-				if (extension == null)
-					throw new ArgumentNullException(extension);
+				ArgumentNullException.ThrowIfNull(extension);
 				var results = new List<string>();
 				foreach (var fileName in Directory.EnumerateFiles(
 					path,
@@ -180,8 +174,7 @@ namespace Tgstation.Server.Host.IO
 		public Task MoveFile(string source, string destination, CancellationToken cancellationToken) => Task.Factory.StartNew(
 			() =>
 			{
-				if (destination == null)
-					throw new ArgumentNullException(nameof(destination));
+				ArgumentNullException.ThrowIfNull(destination);
 				source = ResolvePath(source ?? throw new ArgumentNullException(nameof(source)));
 				destination = ResolvePath(destination);
 				File.Move(source, destination);
@@ -194,8 +187,7 @@ namespace Tgstation.Server.Host.IO
 		public Task MoveDirectory(string source, string destination, CancellationToken cancellationToken) => Task.Factory.StartNew(
 			() =>
 			{
-				if (destination == null)
-					throw new ArgumentNullException(nameof(destination));
+				ArgumentNullException.ThrowIfNull(destination);
 				source = ResolvePath(source ?? throw new ArgumentNullException(nameof(source)));
 				destination = ResolvePath(destination);
 				Directory.Move(source, destination);
@@ -208,7 +200,7 @@ namespace Tgstation.Server.Host.IO
 		public async Task<byte[]> ReadAllBytes(string path, CancellationToken cancellationToken)
 		{
 			path = ResolvePath(path);
-			using var file = new FileStream(
+			await using var file = new FileStream(
 				path,
 				FileMode.Open,
 				FileAccess.Read,
@@ -230,7 +222,7 @@ namespace Tgstation.Server.Host.IO
 		/// <inheritdoc />
 		public async Task WriteAllBytes(string path, byte[] contents, CancellationToken cancellationToken)
 		{
-			using var file = CreateAsyncSequentialWriteStream(path);
+			await using var file = CreateAsyncSequentialWriteStream(path);
 			await file.WriteAsync(contents, cancellationToken);
 		}
 
@@ -290,10 +282,17 @@ namespace Tgstation.Server.Host.IO
 			() =>
 			{
 				path = ResolvePath(path);
-				if (zipFile == null)
-					throw new ArgumentNullException(nameof(zipFile));
+				ArgumentNullException.ThrowIfNull(zipFile);
 
-				using var archive = new ZipArchive(zipFile, ZipArchiveMode.Read);
+#if NET7_0_OR_GREATER
+#warning Check if zip file seeking has been addressesed. See https://github.com/tgstation/tgstation-server/issues/1531
+#endif
+
+				// ZipArchive does a synchronous copy on unseekable streams we want to avoid
+				if (!zipFile.CanSeek)
+					throw new ArgumentException("Stream does not support seeking!", nameof(zipFile));
+
+				using var archive = new ZipArchive(zipFile, ZipArchiveMode.Read, true);
 				archive.ExtractToDirectory(path);
 			},
 			cancellationToken,
@@ -388,7 +387,7 @@ namespace Tgstation.Server.Host.IO
 
 				async Task CopyThisFile()
 				{
-					await subdirCreationTask.WithToken(cancellationToken);
+					await subdirCreationTask.WaitAsync(cancellationToken);
 					using var lockContext = semaphore != null
 						? await SemaphoreSlimContext.Lock(semaphore, cancellationToken)
 						: null;

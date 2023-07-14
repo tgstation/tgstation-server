@@ -20,6 +20,7 @@ using Tgstation.Server.Api.Models.Response;
 using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Host.Components;
 using Tgstation.Server.Host.Database;
+using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.Security;
 
@@ -71,6 +72,7 @@ namespace Tgstation.Server.Host.Controllers
 				IsAdminChannel = api.IsAdminChannel ?? false,
 				IsWatchdogChannel = api.IsWatchdogChannel ?? false,
 				IsUpdatesChannel = api.IsUpdatesChannel ?? false,
+				IsSystemChannel = api.IsSystemChannel ?? false,
 				Tag = api.Tag,
 			};
 
@@ -104,8 +106,7 @@ namespace Tgstation.Server.Host.Controllers
 		[ProducesResponseType(typeof(ChatBotResponse), 201)]
 		public async Task<IActionResult> Create([FromBody] ChatBotCreateRequest model, CancellationToken cancellationToken)
 		{
-			if (model == null)
-				throw new ArgumentNullException(nameof(model));
+			ArgumentNullException.ThrowIfNull(model);
 
 			var earlyOut = StandardModelChecks(model, true);
 			if (earlyOut != null)
@@ -164,7 +165,7 @@ namespace Tgstation.Server.Host.Controllers
 					return null;
 				})
 
-				?? StatusCode(HttpStatusCode.Created, dbModel.ToApi());
+				?? this.StatusCode(HttpStatusCode.Created, dbModel.ToApi());
 		}
 
 		/// <summary>
@@ -249,7 +250,7 @@ namespace Tgstation.Server.Host.Controllers
 
 			var results = await query.FirstOrDefaultAsync(cancellationToken);
 			if (results == default)
-				return Gone();
+				return this.Gone();
 
 			var connectionStrings = (AuthenticationContext.GetRight(RightsType.ChatBots) & (ulong)ChatBotRights.ReadConnectionString) != 0;
 
@@ -277,8 +278,7 @@ namespace Tgstation.Server.Host.Controllers
 		public async Task<IActionResult> Update([FromBody] ChatBotUpdateRequest model, CancellationToken cancellationToken)
 #pragma warning restore CA1502, CA1506
 		{
-			if (model == null)
-				throw new ArgumentNullException(nameof(model));
+			ArgumentNullException.ThrowIfNull(model);
 
 			var earlyOut = StandardModelChecks(model, false);
 			if (earlyOut != null)
@@ -293,7 +293,7 @@ namespace Tgstation.Server.Host.Controllers
 			var current = await query.FirstOrDefaultAsync(cancellationToken);
 
 			if (current == default)
-				return Gone();
+				return this.Gone();
 
 			if ((model.Channels?.Count ?? current.Channels.Count) > (model.ChannelLimit ?? current.ChannelLimit.Value))
 			{

@@ -18,6 +18,11 @@ namespace Tgstation.Server.Host.Components.Byond
 		/// </summary>
 		const string CacheDirectoryName = "cache";
 
+		/// <summary>
+		/// The first <see cref="Version"/> of BYOND that supports the '-map-threads' parameter on DreamDaemon.
+		/// </summary>
+		public static Version MapThreadsVersion => new (515, 1609);
+
 		/// <inheritdoc />
 		public abstract string DreamMakerName { get; }
 
@@ -58,7 +63,7 @@ namespace Tgstation.Server.Host.Components.Byond
 		}
 
 		/// <inheritdoc />
-		public abstract string GetDreamDaemonName(Version version, out bool supportsCli);
+		public abstract string GetDreamDaemonName(Version version, out bool supportsCli, out bool supportsMapThreads);
 
 		/// <inheritdoc />
 		public async Task CleanCache(CancellationToken cancellationToken)
@@ -89,14 +94,17 @@ namespace Tgstation.Server.Host.Components.Byond
 		public abstract Task UpgradeInstallation(Version version, string path, CancellationToken cancellationToken);
 
 		/// <inheritdoc />
-		public Task<MemoryStream> DownloadVersion(Version version, CancellationToken cancellationToken)
+		public async Task<MemoryStream> DownloadVersion(Version version, CancellationToken cancellationToken)
 		{
-			if (version == null)
-				throw new ArgumentNullException(nameof(version));
+			ArgumentNullException.ThrowIfNull(version);
 
 			Logger.LogTrace("Downloading BYOND version {major}.{minor}...", version.Major, version.Minor);
 			var url = String.Format(CultureInfo.InvariantCulture, ByondRevisionsUrlTemplate, version.Major, version.Minor);
-			return fileDownloader.DownloadFile(new Uri(url), null, cancellationToken);
+
+			await using var download = fileDownloader.DownloadFile(new Uri(url), null);
+			await using var buffer = new BufferedFileStreamProvider(
+				await download.GetResult(cancellationToken));
+			return await buffer.GetOwnedResult(cancellationToken);
 		}
 	}
 }

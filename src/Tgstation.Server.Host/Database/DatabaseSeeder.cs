@@ -104,8 +104,7 @@ namespace Tgstation.Server.Host.Database
 		/// <inheritdoc />
 		public async Task Initialize(IDatabaseContext databaseContext, CancellationToken cancellationToken)
 		{
-			if (databaseContext == null)
-				throw new ArgumentNullException(nameof(databaseContext));
+			ArgumentNullException.ThrowIfNull(databaseContext);
 
 			if (databaseConfiguration.DropDatabase)
 			{
@@ -134,10 +133,8 @@ namespace Tgstation.Server.Host.Database
 		/// <inheritdoc />
 		public Task Downgrade(IDatabaseContext databaseContext, Version downgradeVersion, CancellationToken cancellationToken)
 		{
-			if (databaseContext == null)
-				throw new ArgumentNullException(nameof(databaseContext));
-			if (downgradeVersion == null)
-				throw new ArgumentNullException(nameof(downgradeVersion));
+			ArgumentNullException.ThrowIfNull(databaseContext);
+			ArgumentNullException.ThrowIfNull(downgradeVersion);
 
 			return databaseContext.SchemaDowngradeForServerVersion(
 				databaseLogger,

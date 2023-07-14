@@ -55,18 +55,18 @@ namespace Tgstation.Server.Api.Models.Internal
 		public uint? StartupTimeout { get; set; }
 
 		/// <summary>
-		/// The number of seconds between each watchdog heartbeat. 0 disables.
+		/// The number of seconds between each watchdog health check. 0 disables.
 		/// </summary>
 		[Required]
 		[ResponseOptions]
-		public uint? HeartbeatSeconds { get; set; }
+		public uint? HealthCheckSeconds { get; set; }
 
 		/// <summary>
-		/// If a process core dump should be created prior to restarting the watchdog due to heartbeat failure.
+		/// If a process core dump should be created prior to restarting the watchdog due to health check failure.
 		/// </summary>
 		[Required]
 		[ResponseOptions]
-		public bool? DumpOnHeartbeatRestart { get; set; }
+		public bool? DumpOnHealthCheckRestart { get; set; }
 
 		/// <summary>
 		/// The timeout for sending and receiving BYOND topics in milliseconds.
@@ -92,6 +92,13 @@ namespace Tgstation.Server.Api.Models.Internal
 		public bool? LogOutput { get; set; }
 
 		/// <summary>
+		/// If DreamDaemon supports it, the value added as the -map-threads parameter. 0 uses the default BYOND value.
+		/// </summary>
+		[Required]
+		[ResponseOptions]
+		public uint? MapThreads { get; set; }
+
+		/// <summary>
 		/// Check if we match a given set of <paramref name="otherParameters"/>. <see cref="StartupTimeout"/> is excluded.
 		/// </summary>
 		/// <param name="otherParameters">The <see cref="DreamDaemonLaunchParameters"/> to compare against.</param>
@@ -108,7 +115,8 @@ namespace Tgstation.Server.Api.Models.Internal
 				&& TopicRequestTimeout == otherParameters.TopicRequestTimeout
 				&& AdditionalParameters == otherParameters.AdditionalParameters
 				&& StartProfiler == otherParameters.StartProfiler
-				&& LogOutput == otherParameters.LogOutput; // We intentionally don't check StartupTimeout, heartbeat seconds, or heartbeat dump as they don't matter in terms of the watchdog
+				&& LogOutput == otherParameters.LogOutput
+				&& MapThreads == otherParameters.MapThreads; // We intentionally don't check StartupTimeout, health check seconds, or health check dump as they don't matter in terms of the watchdog
 		}
 	}
 }

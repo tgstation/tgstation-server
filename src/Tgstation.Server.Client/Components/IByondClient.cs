@@ -32,7 +32,7 @@ namespace Tgstation.Server.Client.Components
 		/// Updates the active BYOND version.
 		/// </summary>
 		/// <param name="installRequest">The <see cref="ByondVersionRequest"/>.</param>
-		/// <param name="zipFileStream">The <see cref="Stream"/> for the .zip file if <see cref="ByondVersionRequest.UploadCustomZip"/> is <see langword="true"/>.</param>
+		/// <param name="zipFileStream">The <see cref="Stream"/> for the .zip file if <see cref="ByondVersionRequest.UploadCustomZip"/> is <see langword="true"/>. Will be ignored if it is <see langword="false"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the updated <see cref="ByondInstallResponse"/> information.</returns>
 		Task<ByondInstallResponse> SetActiveVersion(ByondVersionRequest installRequest, Stream? zipFileStream, CancellationToken cancellationToken);

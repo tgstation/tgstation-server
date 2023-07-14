@@ -1,0 +1,5 @@
+#!/bin/sh
+
+cd /opt/tgstation-server
+export General__SetupWizardMode=Only
+exec /usr/bin/dotnet /opt/tgstation-server/lib/Default/Tgstation.Server.Host.dll

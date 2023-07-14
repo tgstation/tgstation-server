@@ -16,8 +16,7 @@ namespace Tgstation.Server.Host.Extensions
 		/// <returns>The total number of tasks that may run simultaneously during an asynchronous directory copy operation.</returns>
 		public static int? GetCopyDirectoryTaskThrottle(this GeneralConfiguration generalConfiguration)
 		{
-			if (generalConfiguration == null)
-				throw new ArgumentNullException(nameof(generalConfiguration));
+			ArgumentNullException.ThrowIfNull(generalConfiguration);
 
 			var tasksPerCore = generalConfiguration.DeploymentDirectoryCopyTasksPerCore;
 			if (!tasksPerCore.HasValue)

@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models.Response;
-using Tgstation.Server.Common;
+using Tgstation.Server.Common.Http;
 
 namespace Tgstation.Server.Client.Tests
 {
@@ -39,7 +39,7 @@ namespace Tgstation.Server.Client.Tests
 			};
 
 			var httpClient = new Mock<IHttpClient>();
-			httpClient.Setup(x => x.SendAsync(It.IsNotNull<HttpRequestMessage>(), It.IsAny<CancellationToken>())).Returns(Task.FromResult(response));
+			httpClient.Setup(x => x.SendAsync(It.IsNotNull<HttpRequestMessage>(), It.IsAny<HttpCompletionOption>(), It.IsAny<CancellationToken>())).Returns(Task.FromResult(response));
 
 			var client = new ApiClient(httpClient.Object, new Uri("http://fake.com"), new ApiHeaders(new ProductHeaderValue("fake"), "fake"), null, false);
 
@@ -64,7 +64,7 @@ namespace Tgstation.Server.Client.Tests
 			};
 
 			var httpClient = new Mock<IHttpClient>();
-			httpClient.Setup(x => x.SendAsync(It.IsNotNull<HttpRequestMessage>(), It.IsAny<CancellationToken>())).Returns(Task.FromResult(response));
+			httpClient.Setup(x => x.SendAsync(It.IsNotNull<HttpRequestMessage>(), It.IsAny<HttpCompletionOption>(), It.IsAny<CancellationToken>())).Returns(Task.FromResult(response));
 
 			var client = new ApiClient(httpClient.Object, new Uri("http://fake.com"), new ApiHeaders(new ProductHeaderValue("fake"), "fake"), null, true);
 

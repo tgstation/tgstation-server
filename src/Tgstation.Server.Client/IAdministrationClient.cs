@@ -25,9 +25,10 @@ namespace Tgstation.Server.Client
 		/// Updates the <see cref="AdministrationResponse"/> setttings.
 		/// </summary>
 		/// <param name="updateRequest">The <see cref="ServerUpdateRequest"/>.</param>
+		/// <param name="zipFileStream">The <see cref="Stream"/> for the .zip file if <see cref="ServerUpdateRequest.UploadZip"/> is <see langword="true"/>. Will be ignored if it is <see langword="false"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the echoed <see cref="ServerUpdateResponse"/>.</returns>
-		Task<ServerUpdateResponse> Update(ServerUpdateRequest updateRequest, CancellationToken cancellationToken);
+		Task<ServerUpdateResponse> Update(ServerUpdateRequest updateRequest, Stream? zipFileStream, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Restarts the TGS server.

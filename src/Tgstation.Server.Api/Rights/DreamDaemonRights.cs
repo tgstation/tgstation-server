@@ -9,12 +9,12 @@ namespace Tgstation.Server.Api.Rights
 	public enum DreamDaemonRights : ulong
 	{
 		/// <summary>
-		/// User has no rights
+		/// User has no rights.
 		/// </summary>
 		None = 0,
 
 		/// <summary>
-		/// User can read <see cref="Models.Response.DreamDaemonResponse.ActiveCompileJob"/> and <see cref="Models.Response.DreamDaemonResponse.StagedCompileJob"/>
+		/// User can read <see cref="Models.Response.DreamDaemonResponse.ActiveCompileJob"/> and <see cref="Models.Response.DreamDaemonResponse.StagedCompileJob"/>.
 		/// </summary>
 		ReadRevision = 1 << 0,
 
@@ -24,12 +24,12 @@ namespace Tgstation.Server.Api.Rights
 		SetPort = 1 << 1,
 
 		/// <summary>
-		/// User can change <see cref="Models.Internal.DreamDaemonSettings.AutoStart"/>
+		/// User can change <see cref="Models.Internal.DreamDaemonSettings.AutoStart"/>.
 		/// </summary>
 		SetAutoStart = 1 << 2,
 
 		/// <summary>
-		/// User set <see cref="Models.Internal.DreamDaemonLaunchParameters.SecurityLevel"/>
+		/// User set <see cref="Models.Internal.DreamDaemonLaunchParameters.SecurityLevel"/>.
 		/// </summary>
 		SetSecurity = 1 << 3,
 
@@ -39,7 +39,7 @@ namespace Tgstation.Server.Api.Rights
 		ReadMetadata = 1 << 4,
 
 		/// <summary>
-		/// User can change <see cref="Models.Internal.DreamDaemonLaunchParameters.AllowWebClient"/>
+		/// User can change <see cref="Models.Internal.DreamDaemonLaunchParameters.AllowWebClient"/>.
 		/// </summary>
 		SetWebClient = 1 << 5,
 
@@ -69,17 +69,17 @@ namespace Tgstation.Server.Api.Rights
 		Start = 1 << 10,
 
 		/// <summary>
-		/// User can change <see cref="Models.Internal.DreamDaemonLaunchParameters.StartupTimeout"/>
+		/// User can change <see cref="Models.Internal.DreamDaemonLaunchParameters.StartupTimeout"/>.
 		/// </summary>
 		SetStartupTimeout = 1 << 11,
 
 		/// <summary>
-		/// User can change <see cref="Models.Internal.DreamDaemonLaunchParameters.HeartbeatSeconds"/>
+		/// User can change <see cref="Models.Internal.DreamDaemonLaunchParameters.HealthCheckSeconds"/>
 		/// </summary>
-		SetHeartbeatInterval = 1 << 12,
+		SetHealthCheckInterval = 1 << 12,
 
 		/// <summary>
-		/// User can create DreamDaemon process dumps or change <see cref="Models.Internal.DreamDaemonLaunchParameters.DumpOnHeartbeatRestart"/>.
+		/// User can create DreamDaemon process dumps or change <see cref="Models.Internal.DreamDaemonLaunchParameters.DumpOnHealthCheckRestart"/>.
 		/// </summary>
 		CreateDump = 1 << 13,
 
@@ -94,18 +94,23 @@ namespace Tgstation.Server.Api.Rights
 		SetAdditionalParameters = 1 << 15,
 
 		/// <summary>
-		/// User can change <see cref="Models.Internal.DreamDaemonLaunchParameters.Visibility"/>
+		/// User can change <see cref="Models.Internal.DreamDaemonLaunchParameters.Visibility"/>.
 		/// </summary>
 		SetVisibility = 1 << 16,
 
 		/// <summary>
-		/// User can change <see cref="Models.Internal.DreamDaemonLaunchParameters.StartProfiler"/>
+		/// User can change <see cref="Models.Internal.DreamDaemonLaunchParameters.StartProfiler"/>.
 		/// </summary>
 		SetProfiler = 1 << 17,
 
 		/// <summary>
-		/// User can change <see cref="Models.Internal.DreamDaemonLaunchParameters.LogOutput"/>
+		/// User can change <see cref="Models.Internal.DreamDaemonLaunchParameters.LogOutput"/>.
 		/// </summary>
 		SetLogOutput = 1 << 18,
+
+		/// <summary>
+		/// User can change <see cref="Models.Internal.DreamDaemonLaunchParameters.MapThreads"/>.
+		/// </summary>
+		SetMapThreads = 1 << 19,
 	}
 }

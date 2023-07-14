@@ -1,15 +1,12 @@
 <Project Sdk="Microsoft.NET.Sdk">
-  <Import Project="../../build/Version.props" />
+  <Import Project="../../build/SrcCommon.props" />
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net6.0</TargetFramework>
-    <DebugType>Full</DebugType>
+    <TargetFramework>$(TgsFrameworkVersion)</TargetFramework>
     <Version>$(TgsCoreVersion)</Version>
-    <CodeAnalysisRuleSet>../../build/analyzers.ruleset</CodeAnalysisRuleSet>
-    <LangVersion>latest</LangVersion>
-    <IsPackable>false</IsPackable>
-    <EnableNETAnalyzers>true</EnableNETAnalyzers>
+    <UseAppHost>false</UseAppHost>
+    <ApplicationManifest>../../build/uac_elevation_manifest.xml</ApplicationManifest>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
@@ -25,12 +22,7 @@
 
   <ItemGroup>
     <!-- Usage: Console logging plugin -->
-    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="6.0.0" />
-    <!-- Usage: Linting -->
-    <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
-    </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="7.0.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -47,6 +39,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <AdditionalFiles Include="../../build/stylecop.json" />
+    <AdditionalFiles Include="../../build/uac_elevation_manifest.xml" />
   </ItemGroup>
 </Project>

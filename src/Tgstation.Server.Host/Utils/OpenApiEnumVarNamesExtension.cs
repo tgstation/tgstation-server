@@ -33,8 +33,7 @@ namespace Tgstation.Server.Host.Utils
 		/// <param name="enumType">The <see cref="Type"/> of the <see cref="Enum"/> being described.</param>
 		public static void Apply(OpenApiSchema openApiSchema, Type enumType)
 		{
-			if (openApiSchema == null)
-				throw new ArgumentNullException(nameof(openApiSchema));
+			ArgumentNullException.ThrowIfNull(openApiSchema);
 
 			openApiSchema.Extensions.Add("x-enum-varnames", new OpenApiEnumVarNamesExtension(enumType));
 		}
@@ -42,8 +41,7 @@ namespace Tgstation.Server.Host.Utils
 		/// <inheritdoc />
 		public void Write(IOpenApiWriter writer, OpenApiSpecVersion specVersion)
 		{
-			if (writer == null)
-				throw new ArgumentNullException(nameof(writer));
+			ArgumentNullException.ThrowIfNull(writer);
 
 			if (specVersion != OpenApiSpecVersion.OpenApi3_0)
 				throw new InvalidOperationException("This extension only applies to OpenAPI 3.0!");

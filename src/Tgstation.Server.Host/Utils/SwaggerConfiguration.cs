@@ -16,6 +16,7 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Response;
+using Tgstation.Server.Common.Extensions;
 using Tgstation.Server.Host.Controllers;
 
 namespace Tgstation.Server.Host.Utils
@@ -330,10 +331,8 @@ namespace Tgstation.Server.Host.Utils
 		/// <inheritdoc />
 		public void Apply(OpenApiOperation operation, OperationFilterContext context)
 		{
-			if (operation == null)
-				throw new ArgumentNullException(nameof(operation));
-			if (context == null)
-				throw new ArgumentNullException(nameof(context));
+			ArgumentNullException.ThrowIfNull(operation);
+			ArgumentNullException.ThrowIfNull(context);
 
 			operation.OperationId = $"{context.MethodInfo.DeclaringType.Name}.{context.MethodInfo.Name}";
 
@@ -458,10 +457,8 @@ namespace Tgstation.Server.Host.Utils
 		/// <inheritdoc />
 		public void Apply(OpenApiDocument swaggerDoc, DocumentFilterContext context)
 		{
-			if (swaggerDoc == null)
-				throw new ArgumentNullException(nameof(swaggerDoc));
-			if (context == null)
-				throw new ArgumentNullException(nameof(context));
+			ArgumentNullException.ThrowIfNull(swaggerDoc);
+			ArgumentNullException.ThrowIfNull(context);
 
 			swaggerDoc.ExternalDocs = new OpenApiExternalDocs
 			{
@@ -541,10 +538,8 @@ namespace Tgstation.Server.Host.Utils
 		/// <inheritdoc />
 		public void Apply(OpenApiSchema schema, SchemaFilterContext context)
 		{
-			if (schema == null)
-				throw new ArgumentNullException(nameof(schema));
-			if (context == null)
-				throw new ArgumentNullException(nameof(context));
+			ArgumentNullException.ThrowIfNull(schema);
+			ArgumentNullException.ThrowIfNull(context);
 
 			// Nothing is required
 			schema.Required.Clear();
@@ -566,10 +561,8 @@ namespace Tgstation.Server.Host.Utils
 		/// <inheritdoc />
 		public void Apply(OpenApiRequestBody requestBody, RequestBodyFilterContext context)
 		{
-			if (requestBody == null)
-				throw new ArgumentNullException(nameof(requestBody));
-			if (context == null)
-				throw new ArgumentNullException(nameof(context));
+			ArgumentNullException.ThrowIfNull(requestBody);
+			ArgumentNullException.ThrowIfNull(context);
 
 			requestBody.Required = true;
 		}

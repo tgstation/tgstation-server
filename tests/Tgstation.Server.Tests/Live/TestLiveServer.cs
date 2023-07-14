@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Management;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -13,7 +15,10 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+using Moq;
 
 using MySqlConnector;
 
@@ -28,6 +33,7 @@ using Tgstation.Server.Api.Models.Response;
 using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Client;
 using Tgstation.Server.Client.Components;
+using Tgstation.Server.Common.Extensions;
 using Tgstation.Server.Host.Components;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Database;
@@ -39,53 +45,108 @@ namespace Tgstation.Server.Tests.Live
 {
 	[TestClass]
 	[TestCategory("SkipWhenLiveUnitTesting")]
+	[TestCategory("RequiresDatabase")]
 	public sealed class TestLiveServer
 	{
-		public static ushort DDPort { get; } = FreeTcpPort();
-		public static ushort DMPort { get; } = GetDMPort();
-
 		public static readonly Version TestUpdateVersion = new(5, 11, 0);
+
+		static readonly ushort mainDDPort = FreeTcpPort();
+		static readonly ushort mainDMPort = FreeTcpPort(mainDDPort);
+		static readonly ushort compatDMPort = FreeTcpPort(mainDDPort, mainDMPort);
+		static readonly ushort compatDDPort = FreeTcpPort(mainDDPort, mainDMPort, compatDMPort);
 
 		readonly IServerClientFactory clientFactory = new ServerClientFactory(new ProductHeaderValue(Assembly.GetExecutingAssembly().GetName().Name, Assembly.GetExecutingAssembly().GetName().Version.ToString()));
 
+		public static List<System.Diagnostics.Process> GetDDProcessesOnPort(ushort? port)
+		{
+			var result = new List<System.Diagnostics.Process>();
+			result.AddRange(System.Diagnostics.Process.GetProcessesByName("DreamDaemon"));
+			if (new PlatformIdentifier().IsWindows)
+				result.AddRange(System.Diagnostics.Process.GetProcessesByName("dd"));
+
+			if (port.HasValue)
+				result = result.Where(x =>
+				{
+					if (GetCommandLine(x)?.Contains($"-port {port.Value}") ?? false)
+						return true;
+
+					x.Dispose();
+					return false;
+				}).ToList();
+
+			return result;
+		}
+
+		private static string GetCommandLine(System.Diagnostics.Process process)
+		{
+			if (new PlatformIdentifier().IsWindows)
+			{
+				var searcher = new ManagementObjectSearcher("SELECT CommandLine FROM Win32_Process WHERE ProcessId = " + process.Id);
+				var objects = searcher.Get();
+				var commandLine = objects.Cast<ManagementBaseObject>().SingleOrDefault()?["CommandLine"]?.ToString();
+				return commandLine;
+			}
+
+			try
+			{
+				var cmdlineFile = File.ReadAllText($"/proc/{process.Id}/cmdline");
+				var parsed = cmdlineFile.Replace('\0', ' ');
+				return parsed;
+			}
+			catch (FileNotFoundException)
+			{
+				return null;
+			}
+		}
+
 		static void TerminateAllDDs()
 		{
-			foreach (var proc in System.Diagnostics.Process.GetProcessesByName("DreamDaemon"))
+			foreach (var proc in GetDDProcessesOnPort(null))
 				using (proc)
 					proc.Kill();
 		}
 
-		static ushort GetDMPort()
+		static ushort FreeTcpPort(params ushort[] usedPorts)
 		{
 			ushort result;
-			do
-			{
-				result = FreeTcpPort();
-			} while (result == DDPort);
-			return result;
-		}
-
-		static ushort FreeTcpPort()
-		{
-			var l = new TcpListener(IPAddress.Loopback, 0);
-			l.Start();
+			var listeners = new List<TcpListener>();
 			try
 			{
-				return (ushort)((IPEndPoint)l.LocalEndpoint).Port;
+				do
+				{
+					var l = new TcpListener(IPAddress.Loopback, 0);
+					l.Start();
+					try
+					{
+						listeners.Add(l);
+					}
+					catch
+					{
+						l.Stop();
+						throw;
+					}
+
+					result = (ushort)((IPEndPoint)l.LocalEndpoint).Port;
+				}
+				while (usedPorts.Contains(result));
 			}
 			finally
 			{
-				l.Stop();
+				foreach(var l in listeners)
+				{
+					l.Stop();
+				}
 			}
+			return result;
 		}
 
 		[ClassInitialize]
 		public static async Task Initialize(TestContext _)
 		{
-			if (LiveTestUtils.RunningInGitHubActions || String.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("TGS_TEST_GITHUB_TOKEN")))
+			if (TestingUtils.RunningInGitHubActions || String.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("TGS_TEST_GITHUB_TOKEN")))
 				await DummyGitHubService.InitializeAndInject(default);
 
-			await CachingFileDownloader.InitializeAndInject(default);
+			await CachingFileDownloader.InitializeAndInjectForLiveTests(default);
 
 			await DummyChatProvider.RandomDisconnections(true, default);
 			ServerClientFactory.ApiClientFactory = new RateLimitRetryingApiClientFactory();
@@ -129,14 +190,14 @@ namespace Tgstation.Server.Tests.Live
 
 			var connectionFactory = new DatabaseConnectionFactory();
 
-			using var cts = new CancellationTokenSource(TimeSpan.FromMinutes(LiveTestUtils.RunningInGitHubActions ? 10 : 1));
+			using var cts = new CancellationTokenSource(TimeSpan.FromMinutes(1));
 			var cancellationToken = cts.Token;
 
 			try
 			{
 				while (true)
 				{
-					await using var connection = connectionFactory.CreateConnection(connectionString, databaseType);
+					using var connection = connectionFactory.CreateConnection(connectionString, databaseType);
 					try
 					{
 						await connection.OpenAsync(cancellationToken);
@@ -152,7 +213,7 @@ namespace Tgstation.Server.Tests.Live
 					break;
 				}
 			}
-			catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested && LiveTestUtils.RunningInGitHubActions)
+			catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested && TestingUtils.RunningInGitHubActions)
 			{
 				Assert.Fail("Could not connect to the test database! Try re-running failed jobs.");
 			}
@@ -173,6 +234,26 @@ namespace Tgstation.Server.Tests.Live
 			var serverTask = server.Run(cancellationToken);
 			try
 			{
+				async Task<ServerUpdateResponse> TestWithoutAndWithPermission(Func<Task<ServerUpdateResponse>> action, IServerClient client, AdministrationRights right)
+				{
+					var ourUser = await client.Users.Read(cancellationToken);
+					var update = new UserUpdateRequest
+					{
+						Id = ourUser.Id,
+						PermissionSet = ourUser.PermissionSet,
+					};
+
+					update.PermissionSet.AdministrationRights &= ~right;
+					await client.Users.Update(update, cancellationToken);
+
+					await ApiAssert.ThrowsException<InsufficientPermissionsException>(action, null);
+
+					update.PermissionSet.AdministrationRights |= right;
+					await client.Users.Update(update, cancellationToken);
+
+					return await action();
+				}
+
 				using (var adminClient = await CreateAdminClient(server.Url, cancellationToken))
 				{
 					// Disabled OAuth test
@@ -193,10 +274,21 @@ namespace Tgstation.Server.Tests.Live
 					}
 
 					//attempt to update to stable
-					await adminClient.Administration.Update(new ServerUpdateRequest
-					{
-						NewVersion = TestUpdateVersion
-					}, cancellationToken);
+					var responseModel = await TestWithoutAndWithPermission(
+						() => adminClient.Administration.Update(
+							new ServerUpdateRequest
+							{
+								NewVersion = TestUpdateVersion,
+								UploadZip = false,
+							},
+							null,
+							cancellationToken),
+						adminClient,
+						AdministrationRights.ChangeVersion);
+
+					Assert.IsNotNull(responseModel);
+					Assert.IsNull(responseModel.FileTicket);
+					Assert.AreEqual(TestUpdateVersion, responseModel.NewVersion);
 
 					try
 					{
@@ -212,18 +304,64 @@ namespace Tgstation.Server.Tests.Live
 					catch (HttpRequestException) { }
 				}
 
-				//wait up to 3 minutes for the dl and install
-				await Task.WhenAny(serverTask, Task.Delay(TimeSpan.FromMinutes(3), cancellationToken));
+				async Task CheckUpdate()
+				{
+					//wait up to 3 minutes for the dl and install
+					await Task.WhenAny(serverTask, Task.Delay(TimeSpan.FromMinutes(3), cancellationToken));
 
-				Assert.IsTrue(serverTask.IsCompleted, "Server still running!");
+					Assert.IsTrue(serverTask.IsCompleted, "Server still running!");
 
-				Assert.IsTrue(Directory.Exists(server.UpdatePath), "Update directory not present!");
+					await serverTask;
 
-				var updatedAssemblyPath = Path.Combine(server.UpdatePath, "Tgstation.Server.Host.dll");
-				Assert.IsTrue(File.Exists(updatedAssemblyPath), "Updated assembly missing!");
+					Assert.IsTrue(Directory.Exists(server.UpdatePath), "Update directory not present!");
 
-				var updatedAssemblyVersion = FileVersionInfo.GetVersionInfo(updatedAssemblyPath);
-				Assert.AreEqual(TestUpdateVersion, Version.Parse(updatedAssemblyVersion.FileVersion).Semver());
+					var updatedAssemblyPath = Path.Combine(server.UpdatePath, "Tgstation.Server.Host.dll");
+					Assert.IsTrue(File.Exists(updatedAssemblyPath), "Updated assembly missing!");
+
+					var updatedAssemblyVersion = FileVersionInfo.GetVersionInfo(updatedAssemblyPath);
+					Assert.AreEqual(TestUpdateVersion, Version.Parse(updatedAssemblyVersion.FileVersion).Semver());
+				}
+
+				await CheckUpdate();
+
+				// Second pass, uploaded updates
+				var downloader = new Host.IO.FileDownloader(
+					new Common.Http.HttpClientFactory(
+						new AssemblyInformationProvider().ProductInfoHeaderValue),
+					Mock.Of<ILogger<Host.IO.FileDownloader>>());
+				var gitHubToken = Environment.GetEnvironmentVariable("TGS_TEST_GITHUB_TOKEN");
+				if (String.IsNullOrWhiteSpace(gitHubToken))
+					gitHubToken = null;
+				await new Host.IO.DefaultIOManager().DeleteDirectory(server.UpdatePath, cancellationToken);
+				serverTask = server.Run(cancellationToken);
+
+				using (var adminClient = await CreateAdminClient(server.Url, cancellationToken))
+				{
+					// test we can't do this without the correct permission
+
+					await using var download = downloader.DownloadFile(
+						new Uri($"https://github.com/tgstation/tgstation-server/releases/download/tgstation-server-v{TestLiveServer.TestUpdateVersion}/ServerUpdatePackage.zip"),
+						gitHubToken);
+
+					var downloadStream = await download.GetResult(cancellationToken);
+					var responseModel = await TestWithoutAndWithPermission(
+						() => adminClient.Administration.Update(
+							new ServerUpdateRequest
+							{
+								NewVersion = TestUpdateVersion,
+								UploadZip = true,
+							},
+							downloadStream,
+							cancellationToken),
+						adminClient,
+						AdministrationRights.UploadVersion);
+
+					Assert.IsNotNull(responseModel);
+					Assert.IsNotNull(responseModel.FileTicket);
+					Assert.AreEqual(TestUpdateVersion, responseModel.NewVersion);
+				}
+
+				await CheckUpdate();
 			}
 			finally
 			{
@@ -254,10 +392,15 @@ namespace Tgstation.Server.Tests.Live
 			{
 				var testUpdateVersion = new Version(5, 11, 20);
 				using var adminClient = await CreateAdminClient(server.Url, cancellationToken);
-				await ApiAssert.ThrowsException<ConflictException>(() => adminClient.Administration.Update(new ServerUpdateRequest
-				{
-					NewVersion = testUpdateVersion
-				}, cancellationToken), ErrorCode.ResourceNotPresent);
+				await ApiAssert.ThrowsException<ConflictException>(
+					() => adminClient.Administration.Update(
+						new ServerUpdateRequest
+						{
+							NewVersion = testUpdateVersion
+						},
+						null,
+						cancellationToken),
+					ErrorCode.ResourceNotPresent);
 			}
 			finally
 			{
@@ -283,13 +426,13 @@ namespace Tgstation.Server.Tests.Live
 
 			const string PrivateKey = "adlfj73ywifhks7iwrgfegjs";
 
-			var controllerAddress = new Uri("http://localhost:5011");
+			var controllerAddress = new Uri("http://localhost:15011");
 			using (var controller = new LiveTestingServer(new SwarmConfiguration
 			{
 				Address = controllerAddress,
 				Identifier = "controller",
 				PrivateKey = PrivateKey
-			}, false, 5011))
+			}, false, 15011))
 			{
 				using var serverCts = new CancellationTokenSource();
 				serverCts.CancelAfter(TimeSpan.FromHours(3));
@@ -308,23 +451,29 @@ namespace Tgstation.Server.Tests.Live
 						Assert.AreEqual(1, serverInformation.SwarmServers.Count);
 						var controller = serverInformation.SwarmServers.SingleOrDefault(x => x.Identifier == "controller");
 						Assert.IsNotNull(controller);
-						Assert.AreEqual(controller.Address, new Uri("http://localhost:5011"));
+						Assert.AreEqual(controller.Address, new Uri("http://localhost:15011"));
 						Assert.IsTrue(controller.Controller);
 					}
 
 					CheckInfo(controllerInfo);
 
 					// test update
-					await controllerClient.Administration.Update(
+					var responseModel = await controllerClient.Administration.Update(
 						new ServerUpdateRequest
 						{
 							NewVersion = TestUpdateVersion
 						},
+						null,
 						cancellationToken);
+
+					Assert.IsNotNull(responseModel);
+					Assert.IsNull(responseModel.FileTicket);
+					Assert.AreEqual(TestUpdateVersion, responseModel.NewVersion);
+
 					await Task.WhenAny(Task.Delay(TimeSpan.FromMinutes(2)), serverTask);
 					Assert.IsTrue(serverTask.IsCompleted);
 
-					void CheckServerUpdated(LiveTestingServer server)
+					static void CheckServerUpdated(LiveTestingServer server)
 					{
 						Assert.IsTrue(Directory.Exists(server.UpdatePath), "Update directory not present!");
 
@@ -363,28 +512,28 @@ namespace Tgstation.Server.Tests.Live
 
 			const string PrivateKey = "adlfj73ywifhks7iwrgfegjs";
 
-			var controllerAddress = new Uri("http://localhost:5011");
+			var controllerAddress = new Uri("http://localhost:15011");
 			using (var controller = new LiveTestingServer(new SwarmConfiguration
 			{
 				Address = controllerAddress,
 				Identifier = "controller",
 				PrivateKey = PrivateKey
-			}, false, 5011))
+			}, false, 15011))
 			{
 				using var node1 = new LiveTestingServer(new SwarmConfiguration
 				{
-					Address = new Uri("http://localhost:5012"),
+					Address = new Uri("http://localhost:15012"),
 					ControllerAddress = controllerAddress,
 					Identifier = "node1",
 					PrivateKey = PrivateKey
-				}, false, 5012);
+				}, false, 15012);
 				using var node2 = new LiveTestingServer(new SwarmConfiguration
 				{
-					Address = new Uri("http://localhost:5013"),
+					Address = new Uri("http://localhost:15013"),
 					ControllerAddress = controllerAddress,
 					Identifier = "node2",
 					PrivateKey = PrivateKey
-				}, false, 5013);
+				}, false, 15013);
 				using var serverCts = new CancellationTokenSource();
 				var cancellationToken = serverCts.Token;
 				var serverTask = Task.WhenAll(
@@ -418,17 +567,17 @@ namespace Tgstation.Server.Tests.Live
 
 						var node1 = serverInformation.SwarmServers.SingleOrDefault(x => x.Identifier == "node1");
 						Assert.IsNotNull(node1);
-						Assert.AreEqual(node1.Address, new Uri("http://localhost:5012"));
+						Assert.AreEqual(node1.Address, new Uri("http://localhost:15012"));
 						Assert.IsFalse(node1.Controller);
 
 						var node2 = serverInformation.SwarmServers.SingleOrDefault(x => x.Identifier == "node2");
 						Assert.IsNotNull(node2);
-						Assert.AreEqual(node2.Address, new Uri("http://localhost:5013"));
+						Assert.AreEqual(node2.Address, new Uri("http://localhost:15013"));
 						Assert.IsFalse(node2.Controller);
 
 						var controller = serverInformation.SwarmServers.SingleOrDefault(x => x.Identifier == "controller");
 						Assert.IsNotNull(controller);
-						Assert.AreEqual(controller.Address, new Uri("http://localhost:5011"));
+						Assert.AreEqual(controller.Address, new Uri("http://localhost:15011"));
 						Assert.IsTrue(controller.Controller);
 					}
 
@@ -502,6 +651,7 @@ namespace Tgstation.Server.Tests.Live
 						{
 							NewVersion = TestUpdateVersion
 						},
+						null,
 						cancellationToken);
 					await Task.WhenAny(Task.Delay(TimeSpan.FromMinutes(2)), serverTask);
 					Assert.IsTrue(serverTask.IsCompleted);
@@ -542,6 +692,7 @@ namespace Tgstation.Server.Tests.Live
 						{
 							NewVersion = TestUpdateVersion
 						},
+						null,
 						cancellationToken), ErrorCode.SwarmIntegrityCheckFailed);
 
 					// regression: test updating also works from the controller
@@ -551,12 +702,51 @@ namespace Tgstation.Server.Tests.Live
 
 					using var node2Client2 = await CreateAdminClient(node2.Url, cancellationToken);
 
-					await controllerClient2.Administration.Update(
+					async Task WaitForSwarmServerUpdate2()
+					{
+						ServerInformationResponse serverInformation;
+						do
+						{
+							await Task.Delay(TimeSpan.FromSeconds(10));
+							serverInformation = await node2Client2.ServerInformation(cancellationToken);
+						}
+						while (serverInformation.SwarmServers.Count == 1);
+					}
+
+					await Task.WhenAny(
+						WaitForSwarmServerUpdate2(),
+						Task.Delay(TimeSpan.FromMinutes(4), cancellationToken));
+
+					var node2Info2 = await node2Client2.ServerInformation(cancellationToken);
+					var node1Info2 = await node1Client2.ServerInformation(cancellationToken);
+					CheckInfo(node1Info2);
+					CheckInfo(node2Info2);
+
+					// also test with uploaded updates this time
+					var downloader = new Host.IO.FileDownloader(
+						new Common.Http.HttpClientFactory(
+							new AssemblyInformationProvider().ProductInfoHeaderValue),
+						Mock.Of<ILogger<Host.IO.FileDownloader>>());
+					var gitHubToken = Environment.GetEnvironmentVariable("TGS_TEST_GITHUB_TOKEN");
+					if (String.IsNullOrWhiteSpace(gitHubToken))
+						gitHubToken = null;
+					await using var download = downloader.DownloadFile(
+						new Uri($"https://github.com/tgstation/tgstation-server/releases/download/tgstation-server-v{TestLiveServer.TestUpdateVersion}/ServerUpdatePackage.zip"),
+						gitHubToken);
+
+					var downloadStream = await download.GetResult(cancellationToken);
+					var responseModel = await controllerClient2.Administration.Update(
 						new ServerUpdateRequest
 						{
-							NewVersion = TestUpdateVersion
+							NewVersion = TestUpdateVersion,
+							UploadZip = true,
 						},
+						downloadStream,
 						cancellationToken);
+
+					Assert.IsNotNull(responseModel);
+					Assert.IsNotNull(responseModel.FileTicket);
+					Assert.AreEqual(TestUpdateVersion, responseModel.NewVersion);
 
 					await Task.WhenAny(Task.Delay(TimeSpan.FromMinutes(2)), serverTask);
 					Assert.IsTrue(serverTask.IsCompleted);
@@ -586,29 +776,31 @@ namespace Tgstation.Server.Tests.Live
 
 			const string PrivateKey = "adlfj73ywifhks7iwrgfegjs";
 
-			var controllerAddress = new Uri("http://localhost:5011");
+			var controllerAddress = new Uri("http://localhost:15011");
 			using (var controller = new LiveTestingServer(new SwarmConfiguration
 			{
 				Address = controllerAddress,
 				Identifier = "controller",
+				PublicAddress = new Uri("http://fakecontroller.com"),
 				PrivateKey = PrivateKey,
 				UpdateRequiredNodeCount = 2,
-			}, false, 5011))
+			}, false, 15011))
 			{
 				using var node1 = new LiveTestingServer(new SwarmConfiguration
 				{
-					Address = new Uri("http://localhost:5012"),
+					Address = new Uri("http://localhost:15012"),
 					ControllerAddress = controllerAddress,
+					PublicAddress = new Uri("http://fakenode1.com"),
 					Identifier = "node1",
 					PrivateKey = PrivateKey
-				}, false, 5012);
+				}, false, 15012);
 				using var node2 = new LiveTestingServer(new SwarmConfiguration
 				{
-					Address = new Uri("http://localhost:5013"),
+					Address = new Uri("http://localhost:15013"),
 					ControllerAddress = controllerAddress,
 					Identifier = "node2",
 					PrivateKey = PrivateKey
-				}, false, 5013);
+				}, false, 15013);
 				using var serverCts = new CancellationTokenSource();
 
 				var cancellationToken = serverCts.Token;
@@ -646,18 +838,21 @@ namespace Tgstation.Server.Tests.Live
 
 						var node1 = serverInformation.SwarmServers.SingleOrDefault(x => x.Identifier == "node1");
 						Assert.IsNotNull(node1);
-						Assert.AreEqual(node1.Address, new Uri("http://localhost:5012"));
+						Assert.AreEqual(node1.Address, new Uri("http://localhost:15012"));
 						Assert.IsFalse(node1.Controller);
+						Assert.AreEqual(node1.PublicAddress, new Uri("http://fakenode1.com"));
 
 						var node2 = serverInformation.SwarmServers.SingleOrDefault(x => x.Identifier == "node2");
 						Assert.IsNotNull(node2);
-						Assert.AreEqual(node2.Address, new Uri("http://localhost:5013"));
+						Assert.AreEqual(node2.Address, new Uri("http://localhost:15013"));
 						Assert.IsFalse(node2.Controller);
+						Assert.IsNull(node2.PublicAddress);
 
 						var controller = serverInformation.SwarmServers.SingleOrDefault(x => x.Identifier == "controller");
 						Assert.IsNotNull(controller);
-						Assert.AreEqual(controller.Address, new Uri("http://localhost:5011"));
+						Assert.AreEqual(controller.Address, new Uri("http://localhost:15011"));
 						Assert.IsTrue(controller.Controller);
+						Assert.AreEqual(controller.PublicAddress, new Uri("http://fakecontroller.com"));
 					}
 
 					CheckInfo(controllerInfo);
@@ -728,10 +923,14 @@ namespace Tgstation.Server.Tests.Live
 					Assert.IsNull(controllerInfo.SwarmServers.SingleOrDefault(x => x.Identifier == "node2"));
 
 					// update should fail
-					await ApiAssert.ThrowsException<ApiConflictException>(() => controllerClient2.Administration.Update(new ServerUpdateRequest
-					{
-						NewVersion = new Version(4, 6, 2)
-					}, cancellationToken), ErrorCode.SwarmIntegrityCheckFailed);
+					await ApiAssert.ThrowsException<ApiConflictException>(
+						() => controllerClient2.Administration.Update(new ServerUpdateRequest
+						{
+							NewVersion = TestUpdateVersion
+						},
+						null,
+						cancellationToken),
+						ErrorCode.SwarmIntegrityCheckFailed);
 
 					node2Task = node2.Run(cancellationToken);
 					using var node2Client2 = await CreateAdminClient(node2.Url, cancellationToken);
@@ -774,7 +973,7 @@ namespace Tgstation.Server.Tests.Live
 				Assert.AreEqual(ProcessPriorityClass.Normal, currentProcess.PriorityClass);
 			}
 
-			var maximumTestMinutes = LiveTestUtils.RunningInGitHubActions ? 90 : 20;
+			var maximumTestMinutes = TestingUtils.RunningInGitHubActions ? 90 : 20;
 			using var hardCancellationTokenSource = new CancellationTokenSource(TimeSpan.FromMinutes(maximumTestMinutes));
 			var hardCancellationToken = hardCancellationTokenSource.Token;
 
@@ -846,6 +1045,8 @@ namespace Tgstation.Server.Tests.Live
 			{
 				foreach (var proc in procs)
 					proc.Dispose();
+
+				// Inconclusive and not fail because we don't want to unexpectedly kill a dev's BYOND.exe
 				Assert.Inconclusive("Cannot run server test because DreamDaemon will not start headless while the BYOND pager is running!");
 			}
 
@@ -861,6 +1062,7 @@ namespace Tgstation.Server.Tests.Live
 			// main run
 			var serverTask = server.Run(cancellationToken);
 
+			var fileDownloader = ((Host.Server)server.RealServer).Host.Services.GetRequiredService<Host.IO.IFileDownloader>();
 			try
 			{
 				Api.Models.Instance instance;
@@ -872,12 +1074,12 @@ namespace Tgstation.Server.Tests.Live
 						// Dump swagger to disk
 						// This is purely for CI
 						using var httpClient = new HttpClient();
-						var webRequestTask = httpClient.GetAsync(server.Url.ToString() + "swagger/v1/swagger.json");
+						var webRequestTask = httpClient.GetAsync(server.Url.ToString() + "swagger/v1/swagger.json", cancellationToken);
 						using var response = await webRequestTask;
 						response.EnsureSuccessStatusCode();
-						using var content = await response.Content.ReadAsStreamAsync();
-						using var output = new FileStream(@"C:\swagger.json", FileMode.Create);
-						await content.CopyToAsync(output);
+						await using var content = await response.Content.ReadAsStreamAsync(cancellationToken);
+						await using var output = new FileStream(@"C:\swagger.json", FileMode.Create);
+						await content.CopyToAsync(output, cancellationToken);
 					}
 
 					async Task FailFast(Task task)
@@ -886,11 +1088,7 @@ namespace Tgstation.Server.Tests.Live
 						{
 							await task;
 						}
-						catch (OperationCanceledException)
-						{
-							throw;
-						}
-						catch (Exception ex)
+						catch (Exception ex) when (ex is not OperationCanceledException)
 						{
 							Console.WriteLine($"[{DateTimeOffset.UtcNow}] TEST ERROR: {ex}");
 							serverCts.Cancel();
@@ -901,25 +1099,55 @@ namespace Tgstation.Server.Tests.Live
 					var rootTest = FailFast(RawRequestTests.Run(clientFactory, adminClient, cancellationToken));
 					var adminTest = FailFast(new AdministrationTest(adminClient.Administration).Run(cancellationToken));
 					var usersTest = FailFast(new UsersTest(adminClient).Run(cancellationToken));
-					var instanceMangagerTest = new InstanceManagerTest(adminClient, server.Directory);
-					instance = await instanceMangagerTest.CreateTestInstance(cancellationToken);
-					var instancesTest = FailFast(instanceMangagerTest.RunPreTest(cancellationToken));
+					var instanceManagerTest = new InstanceManagerTest(adminClient, server.Directory);
+					var compatInstanceTask = instanceManagerTest.CreateTestInstance("CompatTestsInstance", cancellationToken);
+					instance = await instanceManagerTest.CreateTestInstance("LiveTestsInstance", cancellationToken);
+					var compatInstance = await compatInstanceTask;
+					var instancesTest = FailFast(instanceManagerTest.RunPreTest(cancellationToken));
 					Assert.IsTrue(Directory.Exists(instance.Path));
 					var instanceClient = adminClient.Instances.CreateClient(instance);
 
 					Assert.IsTrue(Directory.Exists(instanceClient.Metadata.Path));
 
-					var instanceTests = FailFast(
-						new InstanceTest(
-							instanceClient,
+					var instanceTest = new InstanceTest(
 							adminClient.Instances,
-							((Host.Server)server.RealServer).Host.Services.GetRequiredService<Host.IO.IFileDownloader>(),
+							fileDownloader,
 							GetInstanceManager(),
-							(ushort)server.Url.Port)
-						.RunTests(
-							cancellationToken,
-							server.HighPriorityDreamDaemon,
-							server.LowPriorityDeployments));
+							(ushort)server.Url.Port);
+
+					async Task RunInstanceTests()
+					{
+						// Some earlier linux BYOND versions have a critical bug where replacing the directory in non-basic watchdogs causes the DreamDaemon cwd to change
+						var canRunCompatTests = new PlatformIdentifier().IsWindows;
+						var compatTests = canRunCompatTests
+							? FailFast(
+								instanceTest
+									.RunCompatTests(
+										new Version(510, 1346),
+										adminClient.Instances.CreateClient(compatInstance),
+										compatDMPort,
+										compatDDPort,
+										server.HighPriorityDreamDaemon,
+										cancellationToken))
+							: Task.CompletedTask;
+
+						if (TestingUtils.RunningInGitHubActions) // they only have 2 cores, can't handle intense parallelization
+							await compatTests;
+
+						await FailFast(
+							instanceTest
+								.RunTests(
+									instanceClient,
+									mainDMPort,
+									mainDDPort,
+									server.HighPriorityDreamDaemon,
+									server.LowPriorityDeployments,
+									cancellationToken));
+
+						await compatTests;
+					}
+
+					var instanceTests = RunInstanceTests();
 
 					await Task.WhenAll(rootTest, adminTest, instancesTest, instanceTests, usersTest);
 
@@ -938,10 +1166,10 @@ namespace Tgstation.Server.Tests.Live
 
 				// test the reattach message queueing
 				// for the code coverage really...
-				var topicRequestResult = await WatchdogTest.TopicClient.SendTopic(
+				var topicRequestResult = await WatchdogTest.StaticTopicClient.SendTopic(
 					IPAddress.Loopback,
 					$"tgs_integration_test_tactics6=1",
-					DDPort,
+					mainDDPort,
 					cancellationToken);
 
 				Assert.IsNotNull(topicRequestResult);
@@ -1014,10 +1242,10 @@ namespace Tgstation.Server.Tests.Live
 					var chatReadTask = instanceClient.ChatBots.List(null, cancellationToken);
 
 					// Check the DMAPI got the channels again https://github.com/tgstation/tgstation-server/issues/1490
-					topicRequestResult = await WatchdogTest.TopicClient.SendTopic(
+					topicRequestResult = await WatchdogTest.StaticTopicClient.SendTopic(
 						IPAddress.Loopback,
 						$"tgs_integration_test_tactics7=1",
-						DDPort,
+						mainDDPort,
 						cancellationToken);
 
 					Assert.IsNotNull(topicRequestResult);
@@ -1031,7 +1259,7 @@ namespace Tgstation.Server.Tests.Live
 
 					Assert.AreEqual(connectedChannelCount, channelsPresent);
 
-					await WatchdogTest.TellWorldToReboot2(instanceClient, cancellationToken);
+					await WatchdogTest.TellWorldToReboot2(instanceClient, WatchdogTest.StaticTopicClient, mainDDPort, cancellationToken);
 
 					dd = await instanceClient.DreamDaemon.Read(cancellationToken);
 					Assert.AreEqual(WatchdogStatus.Online, dd.Status.Value);
@@ -1083,6 +1311,7 @@ namespace Tgstation.Server.Tests.Live
 				preStartupTime = DateTimeOffset.UtcNow;
 				serverTask = server.Run(cancellationToken);
 				long expectedCompileJobId, expectedStaged;
+				var edgeByond = await ByondTest.GetEdgeVersion(fileDownloader, cancellationToken);
 				using (var adminClient = await CreateAdminClient(server.Url, cancellationToken))
 				{
 					var instanceClient = adminClient.Instances.CreateClient(instance);
@@ -1093,7 +1322,7 @@ namespace Tgstation.Server.Tests.Live
 					Assert.AreEqual(WatchdogStatus.Online, dd.Status.Value);
 
 					var compileJob = await instanceClient.DreamMaker.Compile(cancellationToken);
-					var wdt = new WatchdogTest(instanceClient, GetInstanceManager(), (ushort)server.Url.Port, server.HighPriorityDreamDaemon);
+					var wdt = new WatchdogTest(edgeByond, instanceClient, GetInstanceManager(), (ushort)server.Url.Port, server.HighPriorityDreamDaemon, mainDDPort);
 					await wdt.WaitForJob(compileJob, 30, false, null, cancellationToken);
 
 					dd = await instanceClient.DreamDaemon.Read(cancellationToken);
@@ -1104,7 +1333,7 @@ namespace Tgstation.Server.Tests.Live
 
 					while (dd.Status.Value == WatchdogStatus.Restoring)
 					{
-						await Task.Delay(TimeSpan.FromSeconds(1));
+						await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);
 						dd = await instanceClient.DreamDaemon.Read(cancellationToken);
 					}
 
@@ -1140,7 +1369,7 @@ namespace Tgstation.Server.Tests.Live
 					Assert.AreEqual(WatchdogStatus.Online, currentDD.Status);
 					Assert.AreEqual(expectedStaged, currentDD.StagedCompileJob.Job.Id.Value);
 
-					var wdt = new WatchdogTest(instanceClient, GetInstanceManager(), (ushort)server.Url.Port, server.HighPriorityDreamDaemon);
+					var wdt = new WatchdogTest(edgeByond, instanceClient, GetInstanceManager(), (ushort)server.Url.Port, server.HighPriorityDreamDaemon, mainDDPort);
 					currentDD = await wdt.TellWorldToReboot(cancellationToken);
 					Assert.AreEqual(expectedStaged, currentDD.ActiveCompileJob.Job.Id.Value);
 					Assert.IsNull(currentDD.StagedCompileJob);
@@ -1167,7 +1396,7 @@ namespace Tgstation.Server.Tests.Live
 				serverCts.Cancel();
 				try
 				{
-					await serverTask.WithToken(hardCancellationToken);
+					await serverTask.WaitAsync(hardCancellationToken);
 				}
 				catch (OperationCanceledException) { }
 

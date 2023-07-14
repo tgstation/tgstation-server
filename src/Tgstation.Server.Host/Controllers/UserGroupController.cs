@@ -15,6 +15,7 @@ using Tgstation.Server.Api.Models.Response;
 using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Database;
+using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.Security;
 
@@ -66,8 +67,7 @@ namespace Tgstation.Server.Host.Controllers
 		[ProducesResponseType(typeof(UserGroupResponse), 201)]
 		public async Task<IActionResult> Create([FromBody] UserGroupCreateRequest model, CancellationToken cancellationToken)
 		{
-			if (model == null)
-				throw new ArgumentNullException(nameof(model));
+			ArgumentNullException.ThrowIfNull(model);
 
 			if (model.Name == null)
 				return BadRequest(new ErrorMessageResponse(ErrorCode.ModelValidationFailure));
@@ -111,8 +111,7 @@ namespace Tgstation.Server.Host.Controllers
 		[ProducesResponseType(typeof(UserGroupResponse), 200)]
 		public async Task<IActionResult> Update([FromBody] UserGroupUpdateRequest model, CancellationToken cancellationToken)
 		{
-			if (model == null)
-				throw new ArgumentNullException(nameof(model));
+			ArgumentNullException.ThrowIfNull(model);
 
 			var currentGroup = await DatabaseContext
 				.Groups
@@ -123,7 +122,7 @@ namespace Tgstation.Server.Host.Controllers
 				.FirstOrDefaultAsync(cancellationToken);
 
 			if (currentGroup == default)
-				return Gone();
+				return this.Gone();
 
 			if (model.PermissionSet != null)
 			{
@@ -167,7 +166,7 @@ namespace Tgstation.Server.Host.Controllers
 				.Include(x => x.PermissionSet)
 				.FirstOrDefaultAsync(cancellationToken);
 			if (group == default)
-				return Gone();
+				return this.Gone();
 			return Json(group.ToApi(true));
 		}
 
@@ -231,7 +230,7 @@ namespace Tgstation.Server.Host.Controllers
 
 			return groupExists
 				? Conflict(new ErrorMessageResponse(ErrorCode.UserGroupNotEmpty))
-				: Gone();
+				: this.Gone();
 		}
 	}
 }

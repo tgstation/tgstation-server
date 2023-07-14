@@ -20,15 +20,24 @@ namespace Tgstation.Server.Tests.Live.Instance
 		readonly IDreamDaemonClient dreamDaemonClient;
 		readonly IInstanceClient instanceClient;
 
+		readonly ushort dmPort;
+		readonly ushort ddPort;
 		readonly bool lowPriorityDeployments;
 
 		Task vpTest;
 
-		public DeploymentTest(IInstanceClient instanceClient, IJobsClient jobsClient, bool lowPriorityDeployments) : base(jobsClient)
+		public DeploymentTest(
+			IInstanceClient instanceClient,
+			IJobsClient jobsClient,
+			ushort dmPort,
+			ushort ddPort,
+			bool lowPriorityDeployments) : base(jobsClient)
 		{
 			this.instanceClient = instanceClient ?? throw new ArgumentNullException(nameof(instanceClient));
 			dreamMakerClient = instanceClient.DreamMaker;
 			dreamDaemonClient = instanceClient.DreamDaemon;
+			this.dmPort = dmPort;
+			this.ddPort = ddPort;
 			this.lowPriorityDeployments = lowPriorityDeployments;
 		}
 
@@ -50,18 +59,13 @@ namespace Tgstation.Server.Tests.Live.Instance
 		async Task CheckDreamDaemonPriority(Task deploymentJobWaitTask, CancellationToken cancellationToken)
 		{
 			// this doesn't check dm's priority, but it really should
-
 			while (!deploymentJobWaitTask.IsCompleted)
 			{
-				var ddProcessName = new PlatformIdentifier().IsWindows && ByondTest.TestVersion >= new Version(515, 1598)
-					? "dd"
-					: "DreamDaemon";
-
-				var allProcesses = System.Diagnostics.Process.GetProcessesByName(ddProcessName);
-				if (allProcesses.Length == 0)
+				var allProcesses = TestLiveServer.GetDDProcessesOnPort(dmPort);
+				if (allProcesses.Count == 0)
 					continue;
 
-				if (allProcesses.Length > 1)
+				if (allProcesses.Count > 1)
 					Assert.Fail("Multiple DreamDaemon-like processes running!");
 
 				using var process = allProcesses[0];
@@ -115,27 +119,27 @@ namespace Tgstation.Server.Tests.Live.Instance
 				var updatedDM = await dreamMakerClient.Update(new DreamMakerRequest
 				{
 					ProjectName = "tests/DMAPI/ApiFree/api_free",
-					ApiValidationPort = TestLiveServer.DMPort
+					ApiValidationPort = dmPort
 				}, cancellationToken);
-				Assert.AreEqual(TestLiveServer.DMPort, updatedDM.ApiValidationPort);
+				Assert.AreEqual(dmPort, updatedDM.ApiValidationPort);
 				Assert.AreEqual("tests/DMAPI/ApiFree/api_free", updatedDM.ProjectName);
 			}
 			else
 			{
 				var updatedDM = await dreamMakerClient.Update(new DreamMakerRequest
 				{
-					ApiValidationPort = TestLiveServer.DMPort
+					ApiValidationPort = dmPort
 				}, cancellationToken);
-				Assert.AreEqual(TestLiveServer.DMPort, updatedDM.ApiValidationPort);
+				Assert.AreEqual(dmPort, updatedDM.ApiValidationPort);
 			}
 
 			var updatedDD = await dreamDaemonClient.Update(new DreamDaemonRequest
 			{
 				StartupTimeout = 15,
-				Port = TestLiveServer.DDPort
+				Port = ddPort
 			}, cancellationToken);
 			Assert.AreEqual(15U, updatedDD.StartupTimeout);
-			Assert.AreEqual(TestLiveServer.DDPort, updatedDD.Port);
+			Assert.AreEqual(ddPort, updatedDD.Port);
 
 			async Task<JobResponse> CompileAfterByondInstall()
 			{
@@ -152,11 +156,11 @@ namespace Tgstation.Server.Tests.Live.Instance
 			await Task.WhenAll(
 				ApiAssert.ThrowsException<ConflictException>(() => dreamDaemonClient.Update(new DreamDaemonRequest
 				{
-					Port = TestLiveServer.DMPort
+					Port = dmPort,
 				}, cancellationToken), ErrorCode.PortNotAvailable),
 				ApiAssert.ThrowsException<ConflictException>(() => dreamMakerClient.Update(new DreamMakerRequest
 				{
-					ApiValidationPort = TestLiveServer.DDPort
+					ApiValidationPort = ddPort
 				}, cancellationToken), ErrorCode.PortNotAvailable),
 				deploymentJobWaitTask);
 

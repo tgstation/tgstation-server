@@ -1,0 +1,29 @@
+name: 'V6 Integration'
+
+on:
+  push:
+    branches:
+    - dev
+
+jobs:
+  v6-integration:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v1
+
+    - name: Merge dev into V6
+      uses: robotology/gh-action-nightly-merge@22f5e45d028f22837d617fa07512925457eec184 #v1.3.3
+      with:
+        stable_branch: 'dev'
+        development_branch: 'V6'
+        allow_ff: true
+        allow_forks: true
+        user_name: tgstation-server
+        user_email: tgstation-server@users.noreply.github.com
+        push_token: DEV_PUSH_TOKEN
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        DEV_PUSH_TOKEN: ${{ secrets.DEV_PUSH_TOKEN }}

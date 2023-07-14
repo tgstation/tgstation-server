@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data.SqlClient;
 
 using Microsoft.EntityFrameworkCore;
 
@@ -15,7 +16,8 @@ namespace Tgstation.Server.Host.Database
 		/// Initializes a new instance of the <see cref="SqlServerDatabaseContext"/> class.
 		/// </summary>
 		/// <param name="dbContextOptions">The <see cref="DbContextOptions{TContext}"/> for the <see cref="DatabaseContext"/>.</param>
-		public SqlServerDatabaseContext(DbContextOptions<SqlServerDatabaseContext> dbContextOptions) : base(dbContextOptions)
+		public SqlServerDatabaseContext(DbContextOptions<SqlServerDatabaseContext> dbContextOptions)
+			: base(dbContextOptions)
 		{
 		}
 
@@ -26,16 +28,30 @@ namespace Tgstation.Server.Host.Database
 		/// <param name="databaseConfiguration">The <see cref="DatabaseConfiguration"/>.</param>
 		public static void ConfigureWith(DbContextOptionsBuilder options, DatabaseConfiguration databaseConfiguration)
 		{
-			if (options == null)
-				throw new ArgumentNullException(nameof(options));
-			if (databaseConfiguration == null)
-				throw new ArgumentNullException(nameof(databaseConfiguration));
+			ArgumentNullException.ThrowIfNull(options);
+			ArgumentNullException.ThrowIfNull(databaseConfiguration);
 
 			if (databaseConfiguration.DatabaseType != DatabaseType.SqlServer)
 				throw new InvalidOperationException($"Invalid DatabaseType for {nameof(SqlServerDatabaseContext)}!");
 
+#if NET7_0_OR_GREATER
+#error Perform this breaking config change
+#endif
+
+			// Workaround for breaking change https://learn.microsoft.com/en-us/ef/core/what-is-new/ef-core-7.0/breaking-changes#encrypt-true
+			var connectionString = databaseConfiguration.ConnectionString;
+			if (!connectionString.Contains("Encrypt=", StringComparison.OrdinalIgnoreCase))
+			{
+				var connectionStringBuilder = new SqlConnectionStringBuilder(databaseConfiguration.ConnectionString)
+				{
+					Encrypt = false,
+				};
+
+				connectionString = connectionStringBuilder.ToString();
+			}
+
 			options.UseSqlServer(
-				databaseConfiguration.ConnectionString,
+				connectionString,
 				sqlServerOptions =>
 				{
 					sqlServerOptions.EnableRetryOnFailure();

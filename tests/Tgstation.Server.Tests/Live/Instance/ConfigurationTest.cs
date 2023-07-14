@@ -14,6 +14,7 @@ using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Request;
 using Tgstation.Server.Client;
 using Tgstation.Server.Client.Components;
+using Tgstation.Server.Common;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.System;
 
@@ -50,7 +51,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 			//try to delete non-empty
 			const string TestString = "Hello world!";
-			using var uploadMs = new MemoryStream(Encoding.UTF8.GetBytes(TestString));
+			await using var uploadMs = new MemoryStream(Encoding.UTF8.GetBytes(TestString));
 			var file = await configurationClient.Write(new ConfigurationFileRequest
 			{
 				Path = TestDir.Path + "/test.txt"
@@ -62,14 +63,10 @@ namespace Tgstation.Server.Tests.Live.Instance
 			var updatedFileTuple = await configurationClient.Read(file, cancellationToken);
 			var updatedFile = updatedFileTuple.Item1;
 			Assert.IsNotNull(updatedFile.LastReadHash);
-			using (var downloadMemoryStream = new MemoryStream())
+			await using (var downloadMemoryStream = new MemoryStream())
 			{
-				using (var downloadStream = updatedFileTuple.Item2)
+				await using (var downloadStream = updatedFileTuple.Item2)
 				{
-					var requestStream = downloadStream as CachedResponseStream;
-					Assert.IsNotNull(requestStream);
-					var response = (HttpResponseMessage)requestStream.GetType().GetField("response", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(requestStream);
-					Assert.AreEqual(response.Content.Headers.ContentType.MediaType, MediaTypeNames.Application.Octet);
 					await downloadStream.CopyToAsync(downloadMemoryStream, cancellationToken);
 				}
 				Assert.AreEqual(TestString, Encoding.UTF8.GetString(downloadMemoryStream.ToArray()).Trim());
@@ -100,7 +97,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			await configurationClient.CreateDirectory(staticDir, cancellationToken);
 		}
 
-		Task SetupDMApiTests(CancellationToken cancellationToken)
+		public Task SetupDMApiTests(CancellationToken cancellationToken)
 		{
 			// just use an I/O manager here
 			var ioManager = new DefaultIOManager();
@@ -122,9 +119,32 @@ namespace Tgstation.Server.Tests.Live.Instance
 				);
 		}
 
+		Task TestPregeneratedFilesExist(CancellationToken cancellationToken) => Task.Factory.StartNew(
+			_ =>
+			{
+				var configDir = Path.Combine(instance.Path, "Configuration");
+				var baseDir = Path.Combine(configDir, "CodeModifications");
+				var path = Path.Combine(baseDir, "HeadInclude.dm");
+				var result = File.Exists(path);
+				Assert.IsTrue(result);
+				path = Path.Combine(baseDir, "TailInclude.dm");
+				result = File.Exists(path);
+				Assert.IsTrue(result);
+				var tgsIgnore = Path.Combine(configDir, "GameStaticFiles", ".tgsignore");
+				result = File.Exists(tgsIgnore);
+				Assert.IsTrue(result);
+			},
+			null,
+			cancellationToken,
+			TaskCreationOptions.LongRunning,
+			TaskScheduler.Current);
+
 		public Task RunPreWatchdog(CancellationToken cancellationToken)
 		{
-			return Task.WhenAll(TestUploadDownloadAndDeleteDirectory(cancellationToken), SetupDMApiTests(cancellationToken));
+			return Task.WhenAll(
+				TestUploadDownloadAndDeleteDirectory(cancellationToken),
+				SetupDMApiTests(cancellationToken),
+				TestPregeneratedFilesExist(cancellationToken));
 		}
 	}
 }

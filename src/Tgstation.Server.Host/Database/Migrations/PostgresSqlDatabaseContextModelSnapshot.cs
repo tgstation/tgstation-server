@@ -16,7 +16,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 		{
 #pragma warning disable 612, 618
 			modelBuilder
-				.HasAnnotation("ProductVersion", "6.0.15")
+				.HasAnnotation("ProductVersion", "7.0.7")
 				.HasAnnotation("Relational:MaxIdentifierLength", 63);
 
 			NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -81,6 +81,10 @@ namespace Tgstation.Server.Host.Database.Migrations
 					.HasColumnType("character varying(100)");
 
 				b.Property<bool?>("IsAdminChannel")
+					.IsRequired()
+					.HasColumnType("boolean");
+
+				b.Property<bool?>("IsSystemChannel")
 					.IsRequired()
 					.HasColumnType("boolean");
 
@@ -191,11 +195,11 @@ namespace Tgstation.Server.Host.Database.Migrations
 					.IsRequired()
 					.HasColumnType("boolean");
 
-				b.Property<bool?>("DumpOnHeartbeatRestart")
+				b.Property<bool?>("DumpOnHealthCheckRestart")
 					.IsRequired()
 					.HasColumnType("boolean");
 
-				b.Property<long>("HeartbeatSeconds")
+				b.Property<long>("HealthCheckSeconds")
 					.HasColumnType("bigint");
 
 				b.Property<long>("InstanceId")
@@ -204,6 +208,9 @@ namespace Tgstation.Server.Host.Database.Migrations
 				b.Property<bool?>("LogOutput")
 					.IsRequired()
 					.HasColumnType("boolean");
+
+				b.Property<long>("MapThreads")
+					.HasColumnType("bigint");
 
 				b.Property<int>("Port")
 					.HasColumnType("integer");

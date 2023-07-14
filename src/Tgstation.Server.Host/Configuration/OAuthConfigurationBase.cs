@@ -30,8 +30,7 @@ namespace Tgstation.Server.Host.Configuration
 		/// <param name="oAuthConfiguration">The <see cref="OAuthConfigurationBase"/> to copy settings from.</param>
 		public OAuthConfigurationBase(OAuthConfigurationBase oAuthConfiguration)
 		{
-			if (oAuthConfiguration == null)
-				throw new ArgumentNullException(nameof(oAuthConfiguration));
+			ArgumentNullException.ThrowIfNull(oAuthConfiguration);
 			ClientId = oAuthConfiguration.ClientId;
 			ClientSecret = oAuthConfiguration.ClientSecret;
 		}

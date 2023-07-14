@@ -114,8 +114,12 @@ namespace Tgstation.Server.Host
 			using (cancellationTokenSource = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken))
 			using (var fsWatcher = updatePath != null ? new FileSystemWatcher(Path.GetDirectoryName(updatePath)) : null)
 			{
-				if (fsWatcher != null)
+				if (updatePath != null)
 				{
+					// If ever there is a NECESSARY update to the Host Watchdog, change this to use a pipe
+					// I don't know why I'm only realizing this in 2023 when this is 2019 code
+					// As it stands, FSWatchers use async I/O on Windows and block a new thread on Linux
+					// That's an acceptable, if saddening, resource loss for now
 					fsWatcher.Created += WatchForShutdownFileCreation;
 					fsWatcher.EnableRaisingEvents = true;
 				}
@@ -164,10 +168,8 @@ namespace Tgstation.Server.Host
 		/// <inheritdoc />
 		public bool TryStartUpdate(IServerUpdateExecutor updateExecutor, Version newVersion)
 		{
-			if (updateExecutor == null)
-				throw new ArgumentNullException(nameof(updateExecutor));
-			if (newVersion == null)
-				throw new ArgumentNullException(nameof(newVersion));
+			ArgumentNullException.ThrowIfNull(updateExecutor);
+			ArgumentNullException.ThrowIfNull(newVersion);
 
 			CheckSanity(true);
 
@@ -194,7 +196,7 @@ namespace Tgstation.Server.Host
 				if (await updateExecutor.ExecuteUpdate(updatePath, criticalCancellationToken, criticalCancellationToken))
 				{
 					logger.LogTrace("Update complete!");
-					await Restart(newVersion, null, true);
+					await RestartImpl(newVersion, null, true, true);
 				}
 				else if (terminateIfUpdateFails)
 				{
@@ -215,8 +217,7 @@ namespace Tgstation.Server.Host
 		/// <inheritdoc />
 		public IRestartRegistration RegisterForRestart(IRestartHandler handler)
 		{
-			if (handler == null)
-				throw new ArgumentNullException(nameof(handler));
+			ArgumentNullException.ThrowIfNull(handler);
 
 			CheckSanity(false);
 
@@ -238,13 +239,20 @@ namespace Tgstation.Server.Host
 		}
 
 		/// <inheritdoc />
-		public Task Restart() => Restart(null, null, true);
+		public Task Restart() => RestartImpl(null, null, true, true);
 
 		/// <inheritdoc />
-		public Task GracefulShutdown() => Restart(null, null, false);
+		public Task GracefulShutdown(bool detach) => RestartImpl(null, null, false, detach);
 
 		/// <inheritdoc />
-		public Task Die(Exception exception) => Restart(null, exception, false);
+		public Task Die(Exception exception)
+		{
+			if (exception != null)
+				return RestartImpl(null, exception, false, true);
+
+			StopServerImmediate();
+			return Task.CompletedTask;
+		}
 
 		/// <summary>
 		/// Throws an <see cref="InvalidOperationException"/> if the <see cref="IServerControl"/> cannot be used.
@@ -280,8 +288,9 @@ namespace Tgstation.Server.Host
 		/// <param name="newVersion">The <see cref="Version"/> of any potential updates being applied.</param>
 		/// <param name="exception">The potential value of <see cref="propagatedException"/>.</param>
 		/// <param name="requireWatchdog">If the host watchdog is required for this "restart".</param>
+		/// <param name="completeAsap">If the restart should wait for extremely long running tasks to complete (Like the current DreamDaemon world).</param>
 		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		async Task Restart(Version newVersion, Exception exception, bool requireWatchdog)
+		async Task RestartImpl(Version newVersion, Exception exception, bool requireWatchdog, bool completeAsap)
 		{
 			CheckSanity(requireWatchdog);
 
@@ -290,7 +299,9 @@ namespace Tgstation.Server.Host
 			logger.LogTrace(
 				"Begin {restartType}...",
 				isGracefulShutdown
-					? "graceful shutdown"
+					? completeAsap
+						? "semi-graceful shutdown"
+						: "graceful shutdown"
 					: "restart");
 
 			lock (restartLock)
@@ -307,10 +318,11 @@ namespace Tgstation.Server.Host
 
 			if (exception == null)
 			{
+				var giveHandlersTimeToWaitAround = isGracefulShutdown && !completeAsap;
 				logger.LogInformation("Stopping server...");
 				using var cts = new CancellationTokenSource(
 					TimeSpan.FromMinutes(
-						isGracefulShutdown
+						giveHandlersTimeToWaitAround
 							? generalConfiguration.ShutdownTimeoutMinutes
 							: generalConfiguration.RestartTimeoutMinutes));
 				var cancellationToken = cts.Token;
@@ -318,7 +330,7 @@ namespace Tgstation.Server.Host
 				{
 					var eventsTask = Task.WhenAll(
 						restartHandlers.Select(
-							x => x.HandleRestart(newVersion, isGracefulShutdown, cancellationToken))
+							x => x.HandleRestart(newVersion, giveHandlersTimeToWaitAround, cancellationToken))
 						.ToList());
 
 					logger.LogTrace("Joining restart handlers...");
@@ -376,7 +388,7 @@ namespace Tgstation.Server.Host
 		void StopServerImmediate()
 		{
 			shutdownInProgress = true;
-			logger.LogTrace("Stopping host...");
+			logger.LogDebug("Stopping host...");
 			cancellationTokenSource.Cancel();
 		}
 	}

@@ -3,16 +3,21 @@
   <!-- Integration tests will ensure they match across the board -->
   <Import Project="ControlPanelVersion.props" />
   <PropertyGroup>
-    <TgsCoreVersion>5.12.7</TgsCoreVersion>
-    <TgsConfigVersion>4.6.0</TgsConfigVersion>
-    <TgsApiVersion>9.10.2</TgsApiVersion>
-    <TgsApiLibraryVersion>10.4.1</TgsApiLibraryVersion>
-    <TgsClientVersion>11.4.3</TgsClientVersion>
-    <TgsDmapiVersion>6.4.5</TgsDmapiVersion>
+    <TgsCoreVersion>5.13.0</TgsCoreVersion>
+    <TgsConfigVersion>4.7.0</TgsConfigVersion>
+    <TgsApiVersion>9.11.0</TgsApiVersion>
+    <TgsCommonLibraryVersion>6.0.0</TgsCommonLibraryVersion>
+    <TgsApiLibraryVersion>11.0.0</TgsApiLibraryVersion>
+    <TgsClientVersion>12.0.0</TgsClientVersion>
+    <TgsDmapiVersion>6.5.1</TgsDmapiVersion>
     <TgsInteropVersion>5.6.1</TgsInteropVersion>
-    <TgsHostWatchdogVersion>1.2.2</TgsHostWatchdogVersion>
+    <TgsHostWatchdogVersion>1.3.0</TgsHostWatchdogVersion>
     <TgsContainerScriptVersion>1.2.1</TgsContainerScriptVersion>
-    <TgsMigratorVersion>1.0.1</TgsMigratorVersion>
-    <TgsNetVersion>net6.0</TgsNetVersion>
+    <TgsMigratorVersion>1.0.2</TgsMigratorVersion>
+    <TgsNetMajorVersion>6</TgsNetMajorVersion>
+    <TgsNugetNetFramework>netstandard2.0</TgsNugetNetFramework>
+    <!-- Update this frequently with dotnet runtime patches. MAJOR MUST MATCH ABOVE! -->
+    <!-- You also need to update the .Bundle project's ExePackagePayload hash and file size after changing it -->
+    <TgsRedistUrl>https://dotnetcli.azureedge.net/dotnet/aspnetcore/Runtime/6.0.19/dotnet-hosting-6.0.19-win.exe</TgsRedistUrl>
   </PropertyGroup>
 </Project>

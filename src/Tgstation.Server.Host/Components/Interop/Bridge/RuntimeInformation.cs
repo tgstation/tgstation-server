@@ -76,8 +76,7 @@ namespace Tgstation.Server.Host.Components.Interop.Bridge
 			bool apiValidateOnly)
 			: base(chatTrackingContext?.Channels ?? throw new ArgumentNullException(nameof(chatTrackingContext)))
 		{
-			if (dmbProvider == null)
-				throw new ArgumentNullException(nameof(dmbProvider));
+			ArgumentNullException.ThrowIfNull(dmbProvider);
 
 			ServerVersion = serverVersion ?? throw new ArgumentNullException(nameof(serverVersion));
 

@@ -9,4 +9,5 @@ dotnet ef migrations add "MS$1" --context SqlServerDatabaseContext
 dotnet ef migrations add "MY$1" --context MySqlDatabaseContext
 dotnet ef migrations add "PG$1" --context PostgresSqlDatabaseContext
 dotnet ef migrations add "SL$1" --context SqliteDatabaseContext
+rm -f ./--applicationName # No idea why this file appears
 popd

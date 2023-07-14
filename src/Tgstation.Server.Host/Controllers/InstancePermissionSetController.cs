@@ -14,6 +14,7 @@ using Tgstation.Server.Api.Models.Response;
 using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Host.Components;
 using Tgstation.Server.Host.Database;
+using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.Security;
 
@@ -62,8 +63,7 @@ namespace Tgstation.Server.Host.Controllers
 #pragma warning disable CA1506
 		public async Task<IActionResult> Create([FromBody] InstancePermissionSetRequest model, CancellationToken cancellationToken)
 		{
-			if (model == null)
-				throw new ArgumentNullException(nameof(model));
+			ArgumentNullException.ThrowIfNull(model);
 
 			var existingPermissionSet = await DatabaseContext
 				.PermissionSets
@@ -76,7 +76,7 @@ namespace Tgstation.Server.Host.Controllers
 				.FirstOrDefaultAsync(cancellationToken);
 
 			if (existingPermissionSet == default)
-				return Gone();
+				return this.Gone();
 
 			if (existingPermissionSet.UserId.HasValue)
 			{
@@ -126,8 +126,7 @@ namespace Tgstation.Server.Host.Controllers
 #pragma warning disable CA1506 // TODO: Decomplexify
 		public async Task<IActionResult> Update([FromBody] InstancePermissionSetRequest model, CancellationToken cancellationToken)
 		{
-			if (model == null)
-				throw new ArgumentNullException(nameof(model));
+			ArgumentNullException.ThrowIfNull(model);
 
 			var originalPermissionSet = await DatabaseContext
 				.Instances
@@ -137,7 +136,7 @@ namespace Tgstation.Server.Host.Controllers
 				.Where(x => x.PermissionSetId == model.PermissionSetId)
 				.FirstOrDefaultAsync(cancellationToken);
 			if (originalPermissionSet == null)
-				return Gone();
+				return this.Gone();
 
 			originalPermissionSet.ByondRights = RightsHelper.Clamp(model.ByondRights ?? originalPermissionSet.ByondRights.Value);
 			originalPermissionSet.RepositoryRights = RightsHelper.Clamp(model.RepositoryRights ?? originalPermissionSet.RepositoryRights.Value);
@@ -218,7 +217,7 @@ namespace Tgstation.Server.Host.Controllers
 				.Where(x => x.PermissionSetId == id)
 				.FirstOrDefaultAsync(cancellationToken);
 			if (permissionSet == default)
-				return Gone();
+				return this.Gone();
 			return Json(permissionSet.ToApi());
 		}
 
@@ -243,7 +242,8 @@ namespace Tgstation.Server.Host.Controllers
 				.SelectMany(x => x.InstancePermissionSets)
 				.Where(x => x.PermissionSetId == id)
 				.DeleteAsync(cancellationToken);
-			return numDeleted > 0 ? NoContent() : Gone();
+
+			return numDeleted > 0 ? NoContent() : this.Gone();
 		}
 	}
 }

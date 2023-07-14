@@ -8,8 +8,12 @@ coverage:
 comment:
   layout: "header, diff, changes"
 ignore:
+  - "build"
   - "src/Tgstation.Server.Host/Database/Design"
-  - "src/Tgstation.Server.Host/Database/Migrations"
+  - "src/Tgstation.Server.Host/Database/Migrations/MySqlDatabaseContextModelSnapshot.cs"
+  - "src/Tgstation.Server.Host/Database/Migrations/PostgresSqlDatabaseContextModelSnapshot.cs"
+  - "src/Tgstation.Server.Host/Database/Migrations/SqliteDatabaseContextModelSnapshot.cs"
+  - "src/Tgstation.Server.Host/Database/Migrations/SqlServerDatabaseContextModelSnapshot.cs"
 codecov:
   max_report_age: off
   require_ci_to_pass: no

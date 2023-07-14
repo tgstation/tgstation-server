@@ -18,8 +18,7 @@ namespace Tgstation.Server.Host.Database
 		/// <inheritdoc />
 		public DbConnection CreateConnection(string connectionString, DatabaseType databaseType)
 		{
-			if (connectionString == null)
-				throw new ArgumentNullException(nameof(connectionString));
+			ArgumentNullException.ThrowIfNull(connectionString);
 
 			return databaseType switch
 			{

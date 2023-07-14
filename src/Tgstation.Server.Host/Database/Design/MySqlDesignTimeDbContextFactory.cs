@@ -14,6 +14,6 @@ namespace Tgstation.Server.Host.Database.Design
 			=> new MySqlDatabaseContext(
 				DesignTimeDbContextFactoryHelpers.CreateDatabaseContextOptions<MySqlDatabaseContext>(
 					DatabaseType.MariaDB,
-					"Server=127.0.0.1;User Id=root;Password=fake;Database=TGS_Design"));
+					"Server=127.0.0.1;User Id=root;Password=zdxfOOTlQFnklwzytzCj;Database=TGS_Design"));
 	}
 }

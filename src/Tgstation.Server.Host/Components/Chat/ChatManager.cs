@@ -14,7 +14,6 @@ using Tgstation.Server.Host.Components.Chat.Commands;
 using Tgstation.Server.Host.Components.Chat.Providers;
 using Tgstation.Server.Host.Components.Interop;
 using Tgstation.Server.Host.Core;
-using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.Utils;
 
 namespace Tgstation.Server.Host.Components.Chat
@@ -143,8 +142,7 @@ namespace Tgstation.Server.Host.Components.Chat
 		{
 			this.providerFactory = providerFactory ?? throw new ArgumentNullException(nameof(providerFactory));
 			this.commandFactory = commandFactory ?? throw new ArgumentNullException(nameof(commandFactory));
-			if (serverControl == null)
-				throw new ArgumentNullException(nameof(serverControl));
+			ArgumentNullException.ThrowIfNull(serverControl);
 			this.loggerFactory = loggerFactory ?? throw new ArgumentNullException(nameof(loggerFactory));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 			activeChatBots = initialChatBots?.ToList() ?? throw new ArgumentNullException(nameof(initialChatBots));
@@ -179,8 +177,7 @@ namespace Tgstation.Server.Host.Components.Chat
 		/// <inheritdoc />
 		public async Task ChangeChannels(long connectionId, IEnumerable<Models.ChatChannel> newChannels, CancellationToken cancellationToken)
 		{
-			if (newChannels == null)
-				throw new ArgumentNullException(nameof(newChannels));
+			ArgumentNullException.ThrowIfNull(newChannels);
 
 			logger.LogTrace("ChangeChannels {connectionId}...", connectionId);
 			var provider = await RemoveProviderChannels(connectionId, false, cancellationToken);
@@ -207,6 +204,7 @@ namespace Tgstation.Server.Host.Components.Chat
 								IrcChannel = apiModel.IrcChannel,
 								IsAdminChannel = apiModel.IsAdminChannel,
 								IsUpdatesChannel = apiModel.IsUpdatesChannel,
+								IsSystemChannel = apiModel.IsSystemChannel,
 								IsWatchdogChannel = apiModel.IsWatchdogChannel,
 								Tag = apiModel.Tag,
 							})
@@ -220,6 +218,7 @@ namespace Tgstation.Server.Host.Components.Chat
 							IsWatchdogChannel = kvp.Key.IsWatchdogChannel == true,
 							IsUpdatesChannel = kvp.Key.IsUpdatesChannel == true,
 							IsAdminChannel = kvp.Key.IsAdminChannel == true,
+							IsSystemChannel = kvp.Key.IsSystemChannel == true,
 							ProviderChannelId = channelRepresentation.RealId,
 							ProviderId = connectionId,
 							Channel = channelRepresentation,
@@ -261,8 +260,7 @@ namespace Tgstation.Server.Host.Components.Chat
 		/// <inheritdoc />
 		public async Task ChangeSettings(Models.ChatBot newSettings, CancellationToken cancellationToken)
 		{
-			if (newSettings == null)
-				throw new ArgumentNullException(nameof(newSettings));
+			ArgumentNullException.ThrowIfNull(newSettings);
 
 			logger.LogTrace("ChangeSettings...");
 
@@ -324,10 +322,8 @@ namespace Tgstation.Server.Host.Components.Chat
 		/// <inheritdoc />
 		public void QueueMessage(MessageContent message, IEnumerable<ulong> channelIds)
 		{
-			if (message == null)
-				throw new ArgumentNullException(nameof(message));
-			if (channelIds == null)
-				throw new ArgumentNullException(nameof(channelIds));
+			ArgumentNullException.ThrowIfNull(message);
+			ArgumentNullException.ThrowIfNull(channelIds);
 
 			QueueMessageInternal(message, () => channelIds, false);
 		}
@@ -335,8 +331,7 @@ namespace Tgstation.Server.Host.Components.Chat
 		/// <inheritdoc />
 		public void QueueWatchdogMessage(string message)
 		{
-			if (message == null)
-				throw new ArgumentNullException(nameof(message));
+			ArgumentNullException.ThrowIfNull(message);
 
 			message = String.Format(CultureInfo.InvariantCulture, "WD: {0}", message);
 
@@ -486,7 +481,7 @@ namespace Tgstation.Server.Host.Components.Chat
 			if (waitingForInitialConnection)
 			{
 				logger.LogTrace("Waiting for initial chat bot connections before updating tracking contexts...");
-				await initialProviderConnectionsTask.WithToken(cancellationToken);
+				await initialProviderConnectionsTask.WaitAsync(cancellationToken);
 			}
 
 			List<Task> tasks;
@@ -538,16 +533,15 @@ namespace Tgstation.Server.Host.Components.Chat
 		}
 
 		/// <inheritdoc />
-		public Task HandleRestart(Version updateVersion, bool gracefulShutdown, CancellationToken cancellationToken)
+		public Task HandleRestart(Version updateVersion, bool handlerMayDelayShutdownWithExtremelyLongRunningTasks, CancellationToken cancellationToken)
 		{
-			var message =
-				updateVersion == null
-				? $"TGS: {(gracefulShutdown ? "Graceful shutdown" : "Restart")} requested..."
+			var message = updateVersion == null
+				? $"TGS: {(handlerMayDelayShutdownWithExtremelyLongRunningTasks ? "Graceful shutdown" : "Going down")}..."
 				: $"TGS: Updating to version {updateVersion}...";
 			List<ulong> wdChannels;
 			lock (mappedChannels) // so it doesn't change while we're using it
 				wdChannels = mappedChannels
-					.Where(x => !x.Value.Channel.IsPrivateChannel)
+					.Where(x => !x.Value.IsSystemChannel)
 					.Select(x => x.Key)
 					.ToList();
 
@@ -937,7 +931,7 @@ namespace Tgstation.Server.Host.Components.Chat
 					if (messageTasks.Count == 0)
 					{
 						logger.LogTrace("No providers active, pausing messsage monitoring...");
-						await updatedTask.WithToken(cancellationToken);
+						await updatedTask.WaitAsync(cancellationToken);
 						logger.LogTrace("Resuming message monitoring...");
 						continue;
 					}
@@ -1078,7 +1072,7 @@ namespace Tgstation.Server.Host.Components.Chat
 			{
 				var cancellationToken = handlerCts.Token;
 				if (waitForConnections)
-					await initialProviderConnectionsTask.WithToken(cancellationToken);
+					await initialProviderConnectionsTask.WaitAsync(cancellationToken);
 
 				await SendMessage(
 					channelIdsFactory(),

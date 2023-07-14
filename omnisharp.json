@@ -1,6 +1,0 @@
-{
-    "msbuild": {
-        "Configuration": "DebugNoService",
-        "EnablePackageAutoRestore" : true
-    }
-}

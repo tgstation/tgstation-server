@@ -63,12 +63,9 @@ namespace Tgstation.Server.Host.Configuration
 			IAssemblyInformationProvider assemblyInformationProvider,
 			IPlatformIdentifier platformIdentifier)
 		{
-			if (ioManager == null)
-				throw new ArgumentNullException(nameof(ioManager));
-			if (assemblyInformationProvider == null)
-				throw new ArgumentNullException(nameof(assemblyInformationProvider));
-			if (platformIdentifier == null)
-				throw new ArgumentNullException(nameof(platformIdentifier));
+			ArgumentNullException.ThrowIfNull(ioManager);
+			ArgumentNullException.ThrowIfNull(assemblyInformationProvider);
+			ArgumentNullException.ThrowIfNull(platformIdentifier);
 
 			var directoryToUse = platformIdentifier.IsWindows
 				? Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData) // C:/ProgramData
@@ -78,7 +75,8 @@ namespace Tgstation.Server.Host.Configuration
 				? Directory
 				: ioManager.ConcatPath(
 					directoryToUse,
-					assemblyInformationProvider.VersionPrefix);
+					assemblyInformationProvider.VersionPrefix,
+					"logs");
 		}
 	}
 }

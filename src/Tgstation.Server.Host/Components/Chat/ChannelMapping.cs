@@ -31,6 +31,11 @@
 		public bool IsAdminChannel { get; set; }
 
 		/// <summary>
+		/// If the <see cref="Channel"/> is a system messages channel.
+		/// </summary>
+		public bool IsSystemChannel { get; set; }
+
+		/// <summary>
 		/// The <see cref="ChannelRepresentation"/> with the mapped Id.
 		/// </summary>
 		public ChannelRepresentation Channel { get; set; }

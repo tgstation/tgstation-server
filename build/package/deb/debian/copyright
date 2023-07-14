@@ -1,0 +1,10 @@
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Source: https://github.com/tgstation/tgstation-server
+Upstream-Name: tgstation-server
+Upstream-Contact: Jordan Dominion <Cyberboss@users.noreply.github.com>
+
+Files:
+ *
+Copyright:
+ 2023 Jordan Dominion <Cyberboss@users.noreply.github.com>
+License: AGPL-3.0

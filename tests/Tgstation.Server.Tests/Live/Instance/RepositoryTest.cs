@@ -40,6 +40,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 			async Task<JobResponse> Rest()
 			{
+				await Task.Yield();
 				await ApiAssert.ThrowsException<ConflictException>(() => repositoryClient.Read(cancellationToken), ErrorCode.RepoCloning);
 				Assert.IsNotNull(clone);
 				Assert.AreEqual(cloneRequest.Origin, clone.Origin);
@@ -125,7 +126,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			updated = await Checkout(new RepositoryUpdateRequest { Reference = "master" }, false, true, cancellationToken);
 
 			// enable the good shit if possible
-			if (LiveTestUtils.RunningInGitHubActions
+			if (TestingUtils.RunningInGitHubActions
 				|| String.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("TGS_TEST_GITHUB_TOKEN"))
 				|| Environment.MachineName.Equals("CYBERSTATIONXVI", StringComparison.OrdinalIgnoreCase))
 				await repositoryClient.Update(new RepositoryUpdateRequest

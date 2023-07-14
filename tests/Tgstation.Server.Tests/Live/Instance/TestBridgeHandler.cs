@@ -24,27 +24,30 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 		public DMApiParameters DMApiParameters => new DMApiParametersImpl
 		{
-			AccessIdentifier = "tgs_integration_test"
+			AccessIdentifier = accessIdentifier
 		};
 
 		long lastBridgeRequestSize = 0;
 
 		readonly TaskCompletionSource bridgeTestsTcs;
 		readonly ushort serverPort;
+		readonly string accessIdentifier;
 
 		bool chunksProcessed = false;
 
-		public TestBridgeHandler(TaskCompletionSource tcs, ILogger<TestBridgeHandler> logger, ushort serverPort)
+		public TestBridgeHandler(TaskCompletionSource tcs, ILogger<TestBridgeHandler> logger, string accessIdentifier, ushort serverPort)
 			: base(logger)
 		{
 			bridgeTestsTcs = tcs;
 			this.serverPort = serverPort;
+			this.accessIdentifier = accessIdentifier;
 		}
 
 		public async Task<BridgeResponse> ProcessBridgeRequest(BridgeParameters parameters, CancellationToken cancellationToken)
 		{
 			try
 			{
+				Logger.LogTrace("Bridge request received");
 				Assert.AreEqual(DMApiParameters.AccessIdentifier, parameters.AccessIdentifier);
 				if (parameters.CommandType == BridgeCommandType.Chunk)
 					return await ProcessChunk<BridgeParameters, BridgeResponse>(
@@ -84,8 +87,9 @@ namespace Tgstation.Server.Tests.Live.Instance
 				}
 
 				Assert.AreEqual("payload", coreMessage);
-				lastBridgeRequestSize = $"http://127.0.0.1:{serverPort}/Bridge?data=".Length + HttpUtility.UrlEncode(
-					JsonConvert.SerializeObject(parameters, DMApiConstants.SerializerSettings)).Length;
+				var serializedRequest = JsonConvert.SerializeObject(parameters, DMApiConstants.SerializerSettings);
+				var actualLastRequest = $"http://127.0.0.1:{serverPort}/Bridge?data=" + HttpUtility.UrlEncode(serializedRequest);
+				lastBridgeRequestSize = actualLastRequest.Length;
 				return new BridgeResponseHack
 				{
 					IntegrationHack = "ok"

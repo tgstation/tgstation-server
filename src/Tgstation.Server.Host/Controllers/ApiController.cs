@@ -14,13 +14,17 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
 using Microsoft.Extensions.Logging;
 using Microsoft.Net.Http.Headers;
+
 using Octokit;
+
 using Serilog.Context;
 
 using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Response;
+using Tgstation.Server.Common.Extensions;
 using Tgstation.Server.Host.Database;
+using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.Security;
 using Tgstation.Server.Host.Utils;
@@ -88,8 +92,7 @@ namespace Tgstation.Server.Host.Controllers
 			bool requireHeaders)
 		{
 			DatabaseContext = databaseContext ?? throw new ArgumentNullException(nameof(databaseContext));
-			if (authenticationContextFactory == null)
-				throw new ArgumentNullException(nameof(authenticationContextFactory));
+			ArgumentNullException.ThrowIfNull(authenticationContextFactory);
 			Logger = logger ?? throw new ArgumentNullException(nameof(logger));
 			AuthenticationContext = authenticationContextFactory.CurrentAuthenticationContext;
 			Instance = AuthenticationContext?.InstancePermissionSet?.Instance;
@@ -100,8 +103,7 @@ namespace Tgstation.Server.Host.Controllers
 #pragma warning disable CA1506 // TODO: Decomplexify
 		public override async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
 		{
-			if (context == null)
-				throw new ArgumentNullException(nameof(context));
+			ArgumentNullException.ThrowIfNull(context);
 
 			// ALL valid token and login requests that match a route go through this function
 			// 404 is returned before
@@ -119,7 +121,7 @@ namespace Tgstation.Server.Host.Controllers
 
 				if (!ApiHeaders.Compatible())
 				{
-					await StatusCode(
+					await this.StatusCode(
 						HttpStatusCode.UpgradeRequired,
 						new ErrorMessageResponse(ErrorCode.ApiMismatch))
 						.ExecuteResultAsync(context);
@@ -205,12 +207,6 @@ namespace Tgstation.Server.Host.Controllers
 #pragma warning restore CA1506
 
 		/// <summary>
-		/// Generic 410 response.
-		/// </summary>
-		/// <returns>An <see cref="ObjectResult"/> with <see cref="HttpStatusCode.Gone"/>.</returns>
-		protected ObjectResult Gone() => StatusCode(HttpStatusCode.Gone, new ErrorMessageResponse(ErrorCode.ResourceNotPresent));
-
-		/// <summary>
 		/// Generic 404 response.
 		/// </summary>
 		/// <returns>An <see cref="ObjectResult"/> with <see cref="HttpStatusCode.NotFound"/>.</returns>
@@ -224,7 +220,7 @@ namespace Tgstation.Server.Host.Controllers
 		protected ObjectResult RequiresPosixSystemIdentity(NotImplementedException ex)
 		{
 			Logger.LogTrace(ex, "System identities not implemented!");
-			return StatusCode(HttpStatusCode.NotImplemented, new ErrorMessageResponse(ErrorCode.RequiresPosixSystemIdentity));
+			return this.StatusCode(HttpStatusCode.NotImplemented, new ErrorMessageResponse(ErrorCode.RequiresPosixSystemIdentity));
 		}
 
 		/// <summary>
@@ -233,14 +229,6 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="statusCode">The <see cref="HttpStatusCode"/>.</param>
 		/// <returns>A <see cref="StatusCodeResult"/> with the given <paramref name="statusCode"/>.</returns>
 		protected StatusCodeResult StatusCode(HttpStatusCode statusCode) => StatusCode((int)statusCode);
-
-		/// <summary>
-		/// Strongly type calls to <see cref="ControllerBase.StatusCode(int, object)"/>.
-		/// </summary>
-		/// <param name="statusCode">The <see cref="HttpStatusCode"/>.</param>
-		/// <param name="errorMessage">The accompanying <see cref="ErrorMessageResponse"/> payload.</param>
-		/// <returns>A <see cref="StatusCodeResult"/> with the given <paramref name="statusCode"/>.</returns>
-		protected ObjectResult StatusCode(HttpStatusCode statusCode, object errorMessage) => StatusCode((int)statusCode, errorMessage);
 
 		/// <summary>
 		/// Generic 201 response with a given <paramref name="payload"/>.
@@ -256,14 +244,13 @@ namespace Tgstation.Server.Host.Controllers
 		/// <returns>A <see cref="HttpStatusCode.TooManyRequests"/> <see cref="ObjectResult"/>.</returns>
 		protected ObjectResult RateLimit(RateLimitExceededException rateLimitException)
 		{
-			if (rateLimitException == null)
-				throw new ArgumentNullException(nameof(rateLimitException));
+			ArgumentNullException.ThrowIfNull(rateLimitException);
 
 			Logger.LogWarning(rateLimitException, "Exceeded GitHub rate limit!");
 
 			var secondsString = Math.Ceiling(rateLimitException.GetRetryAfterTimeSpan().TotalSeconds).ToString(CultureInfo.InvariantCulture);
 			Response.Headers.Add(HeaderNames.RetryAfter, secondsString);
-			return StatusCode(HttpStatusCode.TooManyRequests, new ErrorMessageResponse(ErrorCode.GitHubApiRateLimit));
+			return this.StatusCode(HttpStatusCode.TooManyRequests, new ErrorMessageResponse(ErrorCode.GitHubApiRateLimit));
 		}
 
 		/// <summary>
@@ -298,7 +285,7 @@ namespace Tgstation.Server.Host.Controllers
 			};
 
 			if (headersException.MissingOrMalformedHeaders.HasFlag(HeaderTypes.Accept))
-				return StatusCode(HttpStatusCode.NotAcceptable, errorMessage);
+				return this.StatusCode(HttpStatusCode.NotAcceptable, errorMessage);
 
 			return BadRequest(errorMessage);
 		}
@@ -368,8 +355,7 @@ namespace Tgstation.Server.Host.Controllers
 			int? pageSizeQuery,
 			CancellationToken cancellationToken)
 		{
-			if (queryGenerator == null)
-				throw new ArgumentNullException(nameof(queryGenerator));
+			ArgumentNullException.ThrowIfNull(queryGenerator);
 
 			if (pageQuery <= 0 || pageSizeQuery <= 0)
 				return BadRequest(new ErrorMessageResponse(ErrorCode.ApiInvalidPageOrPageSize));

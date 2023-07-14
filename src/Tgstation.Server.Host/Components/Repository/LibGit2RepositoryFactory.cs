@@ -40,8 +40,7 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// <inheritdoc />
 		public async Task<LibGit2Sharp.IRepository> CreateFromPath(string path, CancellationToken cancellationToken)
 		{
-			if (path == null)
-				throw new ArgumentNullException(nameof(path));
+			ArgumentNullException.ThrowIfNull(path);
 
 			var repo = await Task.Factory.StartNew<LibGit2Sharp.IRepository>(
 				() =>
@@ -111,8 +110,7 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// <inheritdoc />
 		public void CheckBadCredentialsException(LibGit2SharpException exception)
 		{
-			if (exception == null)
-				throw new ArgumentNullException(nameof(exception));
+			ArgumentNullException.ThrowIfNull(exception);
 
 			if (exception.Message == "too many redirects or authentication replays")
 				throw new JobException("Bad git credentials exchange!", exception);

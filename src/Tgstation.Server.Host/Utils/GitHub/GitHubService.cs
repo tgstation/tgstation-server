@@ -9,7 +9,6 @@ using Microsoft.Extensions.Logging;
 using Octokit;
 
 using Tgstation.Server.Host.Configuration;
-using Tgstation.Server.Host.Extensions;
 
 namespace Tgstation.Server.Host.Utils.GitHub
 {
@@ -49,11 +48,9 @@ namespace Tgstation.Server.Host.Utils.GitHub
 		/// <inheritdoc />
 		public async Task<string> CreateOAuthAccessToken(OAuthConfiguration oAuthConfiguration, string code, CancellationToken cancellationToken)
 		{
-			if (oAuthConfiguration == null)
-				throw new ArgumentNullException(nameof(oAuthConfiguration));
+			ArgumentNullException.ThrowIfNull(oAuthConfiguration);
 
-			if (code == null)
-				throw new ArgumentNullException(nameof(code));
+			ArgumentNullException.ThrowIfNull(code);
 
 			logger.LogTrace("CreateOAuthAccessToken");
 
@@ -67,7 +64,7 @@ namespace Tgstation.Server.Host.Utils.GitHub
 					{
 						RedirectUri = oAuthConfiguration.RedirectUrl,
 					})
-				.WithToken(cancellationToken);
+				.WaitAsync(cancellationToken);
 
 			var token = response.AccessToken;
 			return token;
@@ -81,7 +78,7 @@ namespace Tgstation.Server.Host.Utils.GitHub
 				.Repository
 				.Release
 					.GetAll(updatesConfiguration.GitHubRepositoryId)
-					.WithToken(cancellationToken);
+					.WaitAsync(cancellationToken);
 
 			logger.LogTrace("{totalReleases} total releases", allReleases.Count);
 			var releases = allReleases
@@ -125,7 +122,7 @@ namespace Tgstation.Server.Host.Utils.GitHub
 			var repository = await gitHubClient
 				.Repository
 					.Get(updatesConfiguration.GitHubRepositoryId)
-					.WithToken(cancellationToken);
+					.WaitAsync(cancellationToken);
 
 			var repoUrl = new Uri(repository.HtmlUrl);
 			logger.LogTrace("Maps to {repostioryUrl}", repoUrl);
@@ -138,21 +135,18 @@ namespace Tgstation.Server.Host.Utils.GitHub
 		{
 			logger.LogTrace("CreateOAuthAccessToken");
 
-			var userDetails = await gitHubClient.User.Current().WithToken(cancellationToken);
+			var userDetails = await gitHubClient.User.Current().WaitAsync(cancellationToken);
 			return userDetails.Id;
 		}
 
 		/// <inheritdoc />
 		public Task CommentOnIssue(string repoOwner, string repoName, string comment, int issueNumber, CancellationToken cancellationToken)
 		{
-			if (repoOwner == null)
-				throw new ArgumentNullException(nameof(repoOwner));
+			ArgumentNullException.ThrowIfNull(repoOwner);
 
-			if (repoName == null)
-				throw new ArgumentNullException(nameof(repoName));
+			ArgumentNullException.ThrowIfNull(repoName);
 
-			if (comment == null)
-				throw new ArgumentNullException(nameof(comment));
+			ArgumentNullException.ThrowIfNull(comment);
 
 			logger.LogTrace("CommentOnIssue");
 
@@ -164,17 +158,15 @@ namespace Tgstation.Server.Host.Utils.GitHub
 					repoName,
 					issueNumber,
 					comment)
-				.WithToken(cancellationToken);
+				.WaitAsync(cancellationToken);
 		}
 
 		/// <inheritdoc />
 		public async Task<long> GetRepositoryId(string repoOwner, string repoName, CancellationToken cancellationToken)
 		{
-			if (repoOwner == null)
-				throw new ArgumentNullException(nameof(repoOwner));
+			ArgumentNullException.ThrowIfNull(repoOwner);
 
-			if (repoName == null)
-				throw new ArgumentNullException(nameof(repoName));
+			ArgumentNullException.ThrowIfNull(repoName);
 
 			logger.LogTrace("GetRepositoryId");
 
@@ -183,7 +175,7 @@ namespace Tgstation.Server.Host.Utils.GitHub
 				.Get(
 					repoOwner,
 					repoName)
-				.WithToken(cancellationToken);
+				.WaitAsync(cancellationToken);
 
 			return repo.Id;
 		}
@@ -191,14 +183,11 @@ namespace Tgstation.Server.Host.Utils.GitHub
 		/// <inheritdoc />
 		public async Task<int> CreateDeployment(NewDeployment newDeployment, string repoOwner, string repoName, CancellationToken cancellationToken)
 		{
-			if (newDeployment == null)
-				throw new ArgumentNullException(nameof(newDeployment));
+			ArgumentNullException.ThrowIfNull(newDeployment);
 
-			if (repoOwner == null)
-				throw new ArgumentNullException(nameof(repoOwner));
+			ArgumentNullException.ThrowIfNull(repoOwner);
 
-			if (repoName == null)
-				throw new ArgumentNullException(nameof(repoName));
+			ArgumentNullException.ThrowIfNull(repoName);
 
 			logger.LogTrace("CreateDeployment");
 
@@ -209,7 +198,7 @@ namespace Tgstation.Server.Host.Utils.GitHub
 					repoOwner,
 					repoName,
 					newDeployment)
-				.WithToken(cancellationToken);
+				.WaitAsync(cancellationToken);
 
 			return deployment.Id;
 		}
@@ -217,14 +206,11 @@ namespace Tgstation.Server.Host.Utils.GitHub
 		/// <inheritdoc />
 		public Task CreateDeploymentStatus(NewDeploymentStatus newDeploymentStatus, string repoOwner, string repoName, int deploymentId, CancellationToken cancellationToken)
 		{
-			if (newDeploymentStatus == null)
-				throw new ArgumentNullException(nameof(newDeploymentStatus));
+			ArgumentNullException.ThrowIfNull(newDeploymentStatus);
 
-			if (repoOwner == null)
-				throw new ArgumentNullException(nameof(repoOwner));
+			ArgumentNullException.ThrowIfNull(repoOwner);
 
-			if (repoName == null)
-				throw new ArgumentNullException(nameof(repoName));
+			ArgumentNullException.ThrowIfNull(repoName);
 
 			logger.LogTrace("CreateDeploymentStatus");
 			return gitHubClient
@@ -236,14 +222,13 @@ namespace Tgstation.Server.Host.Utils.GitHub
 					repoName,
 					deploymentId,
 					newDeploymentStatus)
-				.WithToken(cancellationToken);
+				.WaitAsync(cancellationToken);
 		}
 
 		/// <inheritdoc />
 		public Task CreateDeploymentStatus(NewDeploymentStatus newDeploymentStatus, long repoId, int deploymentId, CancellationToken cancellationToken)
 		{
-			if (newDeploymentStatus == null)
-				throw new ArgumentNullException(nameof(newDeploymentStatus));
+			ArgumentNullException.ThrowIfNull(newDeploymentStatus);
 
 			logger.LogTrace("CreateDeploymentStatus");
 			return gitHubClient
@@ -254,17 +239,15 @@ namespace Tgstation.Server.Host.Utils.GitHub
 					repoId,
 					deploymentId,
 					newDeploymentStatus)
-				.WithToken(cancellationToken);
+				.WaitAsync(cancellationToken);
 		}
 
 		/// <inheritdoc />
 		public Task<PullRequest> GetPullRequest(string repoOwner, string repoName, int pullRequestNumber, CancellationToken cancellationToken)
 		{
-			if (repoOwner == null)
-				throw new ArgumentNullException(nameof(repoOwner));
+			ArgumentNullException.ThrowIfNull(repoOwner);
 
-			if (repoName == null)
-				throw new ArgumentNullException(nameof(repoName));
+			ArgumentNullException.ThrowIfNull(repoName);
 
 			logger.LogTrace("GetPullRequest");
 			return gitHubClient
@@ -274,7 +257,7 @@ namespace Tgstation.Server.Host.Utils.GitHub
 					repoOwner,
 					repoName,
 					pullRequestNumber)
-				.WithToken(cancellationToken);
+				.WaitAsync(cancellationToken);
 		}
 	}
 }

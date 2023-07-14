@@ -23,6 +23,14 @@ namespace Tgstation.Server.Host.Configuration
 			set => base.Address = value;
 		}
 
+		/// <inheritdoc />
+		[YamlMember(SerializeAs = typeof(string))]
+		public override Uri PublicAddress
+		{
+			get => base.PublicAddress;
+			set => base.PublicAddress = value;
+		}
+
 		/// <summary>
 		/// The <see cref="SwarmServer.Address"/> of the swarm controller. If <see langword="null"/>, the current server is considered the controller.
 		/// </summary>

@@ -18,7 +18,6 @@ using Tgstation.Server.Host.Components.Repository;
 using Tgstation.Server.Host.Components.Session;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Database;
-using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Jobs;
 using Tgstation.Server.Host.Models;
@@ -199,12 +198,9 @@ namespace Tgstation.Server.Host.Components.Deployment
 			JobProgressReporter progressReporter,
 			CancellationToken cancellationToken)
 		{
-			if (job == null)
-				throw new ArgumentNullException(nameof(job));
-			if (databaseContextFactory == null)
-				throw new ArgumentNullException(nameof(databaseContextFactory));
-			if (progressReporter == null)
-				throw new ArgumentNullException(nameof(progressReporter));
+			ArgumentNullException.ThrowIfNull(job);
+			ArgumentNullException.ThrowIfNull(databaseContextFactory);
+			ArgumentNullException.ThrowIfNull(progressReporter);
 
 			lock (deploymentLock)
 			{
@@ -367,7 +363,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 								databaseContext.CompileJobs.Remove(compileJob);
 
 								// DCT: Cancellation token is for job, operation must run regardless
-								await databaseContext.Save(default);
+								await databaseContext.Save(CancellationToken.None);
 								throw;
 							}
 
@@ -389,7 +385,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 					repoName,
 					cancellationToken);
 
-				var eventTask = eventConsumer.HandleEvent(EventType.DeploymentComplete, Enumerable.Empty<string>(), cancellationToken);
+				var eventTask = eventConsumer.HandleEvent(EventType.DeploymentComplete, Enumerable.Empty<string>(), false, cancellationToken);
 
 				try
 				{
@@ -540,7 +536,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 			{
 				// DCT: Cancellation token is for job, delaying here is fine
 				progressReporter.StageName = "Running CompileCancelled event";
-				await eventConsumer.HandleEvent(EventType.CompileCancelled, Enumerable.Empty<string>(), default);
+				await eventConsumer.HandleEvent(EventType.CompileCancelled, Enumerable.Empty<string>(), true, CancellationToken.None);
 				throw;
 			}
 			finally
@@ -597,6 +593,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 						repoOrigin.ToString(),
 						$"{byondLock.Version.Major}.{byondLock.Version.Minor}",
 					},
+					true,
 					cancellationToken);
 
 				// determine the dme
@@ -635,6 +632,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 						repoOrigin.ToString(),
 						$"{byondLock.Version.Major}.{byondLock.Version.Minor}",
 					},
+					true,
 					cancellationToken);
 
 				// run compiler
@@ -675,6 +673,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 							exitCode == 0 ? "1" : "0",
 							byondVersion.ToString(),
 						},
+						true,
 						cancellationToken);
 					throw;
 				}
@@ -687,6 +686,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 						resolvedOutputDirectory,
 						byondVersion.ToString(),
 					},
+					true,
 					cancellationToken);
 
 				logger.LogTrace("Applying static game file symlinks...");
@@ -794,9 +794,10 @@ namespace Tgstation.Server.Host.Components.Deployment
 				Visibility = DreamDaemonVisibility.Invisible,
 				StartupTimeout = timeout,
 				TopicRequestTimeout = 0, // not used
-				HeartbeatSeconds = 0, // not used
+				HealthCheckSeconds = 0, // not used
 				StartProfiler = false,
 				LogOutput = logOutput,
+				MapThreads = 1, // lowest possible amount
 			};
 
 			job.MinimumSecurityLevel = securityLevel; // needed for the TempDmbProvider
@@ -805,10 +806,10 @@ namespace Tgstation.Server.Host.Components.Deployment
 			using (var provider = new TemporaryDmbProvider(ioManager.ResolvePath(job.DirectoryName.ToString()), String.Concat(job.DmeName, DmbExtension), job))
 			await using (var controller = await sessionControllerFactory.LaunchNew(provider, byondLock, launchParameters, true, cancellationToken))
 			{
-				var launchResult = await controller.LaunchResult.WithToken(cancellationToken);
+				var launchResult = await controller.LaunchResult.WaitAsync(cancellationToken);
 
 				if (launchResult.StartupTime.HasValue)
-					await controller.Lifetime.WithToken(cancellationToken);
+					await controller.Lifetime.WaitAsync(cancellationToken);
 
 				if (!controller.Lifetime.IsCompleted)
 					await controller.DisposeAsync();
@@ -858,7 +859,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
 		async Task<int> RunDreamMaker(string dreamMakerPath, Models.CompileJob job, CancellationToken cancellationToken)
 		{
-			await using var dm = await processExecutor.LaunchProcess(
+			await using var dm = processExecutor.LaunchProcess(
 				dreamMakerPath,
 				ioManager.ResolvePath(
 					job.DirectoryName.ToString()),
@@ -871,7 +872,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 
 			int exitCode;
 			using (cancellationToken.Register(() => dm.Terminate()))
-				exitCode = await dm.Lifetime;
+				exitCode = (await dm.Lifetime).Value;
 			cancellationToken.ThrowIfCancellationRequested();
 
 			logger.LogDebug("DreamMaker exit code: {exitCode}", exitCode);
@@ -893,7 +894,13 @@ namespace Tgstation.Server.Host.Components.Deployment
 			var dmePath = ioManager.ConcatPath(job.DirectoryName.ToString(), dmeFileName);
 			var dmeReadTask = ioManager.ReadAllBytes(dmePath, cancellationToken);
 
-			var dmeModificationsTask = configuration.CopyDMFilesTo(dmeFileName, ioManager.ResolvePath(job.DirectoryName.ToString()), cancellationToken);
+			var dmeModificationsTask = configuration.CopyDMFilesTo(
+				dmeFileName,
+				ioManager.ResolvePath(
+					ioManager.ConcatPath(
+						job.DirectoryName.ToString(),
+						ioManager.GetDirectoryName(dmeFileName))),
+				cancellationToken);
 
 			var dmeBytes = await dmeReadTask;
 			var dme = Encoding.UTF8.GetString(dmeBytes);
@@ -954,8 +961,8 @@ namespace Tgstation.Server.Host.Components.Deployment
 				try
 				{
 					// DCT: None available
-					await eventConsumer.HandleEvent(EventType.DeploymentCleanup, new List<string> { jobPath }, default);
-					await ioManager.DeleteDirectory(jobPath, default);
+					await eventConsumer.HandleEvent(EventType.DeploymentCleanup, new List<string> { jobPath }, true, CancellationToken.None);
+					await ioManager.DeleteDirectory(jobPath, CancellationToken.None);
 				}
 				catch (Exception e)
 				{
@@ -969,7 +976,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 				remoteDeploymentManager.FailDeployment(
 					job,
 					FormatExceptionForUsers(exception),
-					default));
+					CancellationToken.None));
 		}
 	}
 }
