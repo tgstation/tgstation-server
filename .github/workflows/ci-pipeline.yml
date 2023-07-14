@@ -921,7 +921,7 @@ jobs:
         sudo apt-get install -y -o APT::Immediate-Configure=0 libstdc++6:i386 libgcc-s1:i386 gnupg2 xmlstarlet
 
     - name: Import GPG Key
-      if: "github.event_name == 'push' && github.event.ref == 'refs/heads/master' && contains(github.event.head_commit.message, '[TGSDeploy]')"
+      if: "github.event_name == 'push' && contains(github.event.head_commit.message, '[TGSDeploy]') && (github.event.ref == 'refs/heads/master' || github.event.ref == 'refs/heads/dev')"
       run: |
         echo "${{ secrets.PACKAGING_PRIVATE_KEY }}" > private.pgp
         echo ${{ secrets.PACKAGING_PRIVATE_KEY_PASSPHRASE }} | gpg --batch --yes --passphrase-fd 0 --import private.pgp
@@ -959,11 +959,11 @@ jobs:
         echo "TGS_VERSION=$(xmlstarlet sel -N X="http://schemas.microsoft.com/developer/msbuild/2003" --template --value-of /X:Project/X:PropertyGroup/X:TgsCoreVersion build/Version.props)" >> $GITHUB_ENV
 
     - name: Execute Build Script (Unsigned)
-      if: "!(github.event_name == 'push' && github.event.ref == 'refs/heads/master' && contains(github.event.head_commit.message, '[TGSDeploy]'))"
+      if: "!(github.event_name == 'push' && contains(github.event.head_commit.message, '[TGSDeploy]') && (github.event.ref == 'refs/heads/master' || github.event.ref == 'refs/heads/dev'))"
       run: sudo build/package/deb/build_package.sh
 
     - name: Execute Build Script (Signed)
-      if: "github.event_name == 'push' && github.event.ref == 'refs/heads/master' && contains(github.event.head_commit.message, '[TGSDeploy]')"
+      if: "github.event_name == 'push' && contains(github.event.head_commit.message, '[TGSDeploy]') && (github.event.ref == 'refs/heads/master' || github.event.ref == 'refs/heads/dev')"
       env:
         PACKAGING_KEYGRIP: ${{ vars.PACKAGING_KEYGRIP }}
       run: |
@@ -1186,7 +1186,7 @@ jobs:
     name: Deployment Start Gate
     needs: ci-completion-gate
     runs-on: ubuntu-latest
-    if: "!(cancelled() || failure()) && needs.ci-completion-gate.result == 'success' && github.event_name == 'push'"
+    if: "!(cancelled() || failure()) && needs.ci-completion-gate.result == 'success' && github.event_name == 'push' && (github.event.ref == 'refs/heads/master' || github.event.ref == 'refs/heads/dev')"
     steps:
     - name: GitHub Requires at Least One Step for a Job
       run: exit 0
