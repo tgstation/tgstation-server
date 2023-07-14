@@ -1,3 +1,4 @@
+# THIS FILE MUST BE KEPT IN SYNC WITH DockerfileTest!
 FROM mcr.microsoft.com/dotnet/sdk:6.0-bookworm-slim AS build
 
 # install node and npm
@@ -71,8 +72,11 @@ RUN dotnet publish -c Release -o /app/lib/Default \
 FROM mcr.microsoft.com/dotnet/aspnet:6.0-bookworm-slim
 
 #needed for byond
-RUN apt-get update \
+RUN dpkg --add-architecture i386 \
+	&& apt-get update \
 	&& apt-get install -y \
+		libc6-i386 \
+		libstdc++6:i386 \
 		gcc-multilib \
 		gdb \
 	&& rm -rf /var/lib/apt/lists/*

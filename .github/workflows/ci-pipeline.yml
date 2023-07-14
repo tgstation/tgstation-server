@@ -251,6 +251,38 @@ jobs:
     - name: Build Docker Image
       run: docker build . -f build/Dockerfile
 
+  docker-test:
+    name: Build and Run Test Docker Image
+    runs-on: ubuntu-latest
+    needs: dmapi-build
+    if: "!(cancelled() || failure()) && needs.dmapi-build.result == 'success'"
+    steps:
+    - name: Checkout (Branch)
+      uses: actions/checkout@v3
+      if: github.event_name == 'push' || github.event_name == 'schedule'
+
+    - name: Checkout (PR Merge)
+      uses: actions/checkout@v3
+      if: github.event_name != 'push' && github.event_name != 'schedule'
+      with:
+        ref: "refs/pull/${{ github.event.number }}/merge"
+
+    - name: Build Docker Test Image
+      run: docker build . -f build/DockerfileTest -t tgstest
+
+    - name: Run Docker Test Image
+      run: |
+        mkdir TestResults
+        docker run --name tgstest -v `pwd`/TestResults:/TestResults --init --cap-add=sys_nice -e TGS_TEST_GITHUB_TOKEN=${{ env.TGS_TEST_GITHUB_TOKEN }} tgstest
+        EXIT_CODE=$(docker inspect tgstest --format='{{.State.ExitCode}}')
+        exit $EXIT_CODE
+
+    - name: Store Code Coverage
+      uses: actions/upload-artifact@v3
+      with:
+        name: docker-test-coverage
+        path: ./TestResults/
+
   linux-unit-tests:
     name: Linux Tests
     needs: start-ci-run-gate
@@ -709,8 +741,8 @@ jobs:
 
   upload-code-coverage:
     name: Upload Code Coverage
-    needs: [linux-unit-tests, linux-integration-tests, windows-unit-tests, windows-integration-test]
-    if: (!(cancelled() || failure()) && needs.linux-unit-tests.result == 'success' && needs.linux-integration-tests.result == 'success' && needs.windows-unit-tests.result == 'success' && needs.windows-integration-test.result == 'success')
+    needs: [linux-unit-tests, linux-integration-tests, windows-unit-tests, windows-integration-test, docker-test]
+    if: (!(cancelled() || failure()) && needs.linux-unit-tests.result == 'success' && needs.linux-integration-tests.result == 'success' && needs.windows-unit-tests.result == 'success' && needs.windows-integration-test.result == 'success' && needs.docker-test.result == 'success')
     runs-on: ubuntu-latest
     steps:
     - name: Checkout (Branch)
@@ -722,6 +754,12 @@ jobs:
       if: github.event_name != 'push' && github.event_name != 'schedule'
       with:
         ref: "refs/pull/${{ github.event.number }}/merge"
+
+    - name: Retrieve Docker Test Coverage (Release)
+      uses: actions/download-artifact@v3
+      with:
+        name: docker-test-coverage
+        path: ./code_coverage/docker_tests_release
 
     - name: Retrieve Linux Unit Test Coverage (Debug)
       uses: actions/download-artifact@v3
@@ -1233,9 +1271,9 @@ jobs:
 
   ci-completion-gate: # This job exists so there isn't a moving target for branch protections
     name: CI Completion Gate
-    needs: [ pages-build, docker-build, build-deb, build-msi, validate-openapi-spec, upload-code-coverage, check-winget-pr-template ]
+    needs: [ pages-build, docker-build, docker-test, build-deb, build-msi, validate-openapi-spec, upload-code-coverage, check-winget-pr-template ]
     runs-on: ubuntu-latest
-    if: (!(cancelled() || failure()) && needs.pages-build.result == 'success' && needs.docker-build.result == 'success' && needs.build-deb.result == 'success' && needs.build-msi.result == 'success' && needs.validate-openapi-spec.result == 'success' && needs.upload-code-coverage.result == 'success' && needs.check-winget-pr-template.result == 'success')
+    if: (!(cancelled() || failure()) && needs.pages-build.result == 'success' && needs.docker-build.result == 'success' && needs.docker-test.result == 'success' && needs.build-deb.result == 'success' && needs.build-msi.result == 'success' && needs.validate-openapi-spec.result == 'success' && needs.upload-code-coverage.result == 'success' && needs.check-winget-pr-template.result == 'success')
     steps:
     - name: GitHub Requires at Least One Step for a Job
       run: exit 0

@@ -28,6 +28,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{6FF654E6
 		build\Common.props = build\Common.props
 		build\ControlPanelVersion.props = build\ControlPanelVersion.props
 		build\Dockerfile = build\Dockerfile
+		build\DockerfileTest = build\DockerfileTest
 		build\GenerateMigrations.sh = build\GenerateMigrations.sh
 		build\logo.svg = build\logo.svg
 		build\NugetCommon.props = build\NugetCommon.props
