@@ -1283,7 +1283,7 @@ jobs:
       uses: actions/checkout@v3
 
     - name: Publish Tgstation.Server.Common to NuGet
-      uses: alirezanet/publish-nuget@c12b8546b67672ee38ac87bea491ac94a587f7cc # v3.0.0
+      uses: alirezanet/publish-nuget@e276c40afeb2a154046f0997820f2a9ea74832d9 # v3.1.0
       with:
         PROJECT_FILE_PATH: src/Tgstation.Server.Common/Tgstation.Server.Common.csproj
         TAG_COMMIT: false
@@ -1291,7 +1291,7 @@ jobs:
         NUGET_KEY: ${{ secrets.NUGET_API_KEY }}
 
     - name: Publish Tgstation.Server.Api to NuGet
-      uses: alirezanet/publish-nuget@c12b8546b67672ee38ac87bea491ac94a587f7cc # v3.0.0
+      uses: alirezanet/publish-nuget@e276c40afeb2a154046f0997820f2a9ea74832d9 # v3.1.0
       with:
         PROJECT_FILE_PATH: src/Tgstation.Server.Api/Tgstation.Server.Api.csproj
         TAG_COMMIT: false
@@ -1299,7 +1299,7 @@ jobs:
         NUGET_KEY: ${{ secrets.NUGET_API_KEY }}
 
     - name: Publish Tgstation.Server.Client to NuGet
-      uses: alirezanet/publish-nuget@c12b8546b67672ee38ac87bea491ac94a587f7cc # v3.0.0
+      uses: alirezanet/publish-nuget@e276c40afeb2a154046f0997820f2a9ea74832d9 # v3.1.0
       with:
         PROJECT_FILE_PATH: src/Tgstation.Server.Client/Tgstation.Server.Client.csproj
         TAG_COMMIT: false
