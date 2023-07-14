@@ -1285,7 +1285,7 @@ jobs:
     - name: Publish Tgstation.Server.Common to NuGet
       uses: alirezanet/publish-nuget@c12b8546b67672ee38ac87bea491ac94a587f7cc # v3.0.0
       with:
-        PROJECT_FILE_PATH: src/Tgstation.Server.Client/Tgstation.Server.Client.csproj
+        PROJECT_FILE_PATH: src/Tgstation.Server.Common/Tgstation.Server.Common.csproj
         TAG_COMMIT: false
         INCLUDE_SYMBOLS: true
         NUGET_KEY: ${{ secrets.NUGET_API_KEY }}
@@ -1301,7 +1301,7 @@ jobs:
     - name: Publish Tgstation.Server.Client to NuGet
       uses: alirezanet/publish-nuget@c12b8546b67672ee38ac87bea491ac94a587f7cc # v3.0.0
       with:
-        PROJECT_FILE_PATH: src/Tgstation.Server.Common/Tgstation.Server.Common.csproj
+        PROJECT_FILE_PATH: src/Tgstation.Server.Client/Tgstation.Server.Client.csproj
         TAG_COMMIT: false
         INCLUDE_SYMBOLS: true
         NUGET_KEY: ${{ secrets.NUGET_API_KEY }}
