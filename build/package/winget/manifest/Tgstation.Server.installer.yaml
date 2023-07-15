@@ -25,7 +25,7 @@ Installers:
     Publisher: /tg/station 13
   Dependencies:
     PackageDependencies:
-    - PackageIdentifier: Microsoft.DotNet.AspNetCore.6
+    - PackageIdentifier: Microsoft.DotNet.HostingBundle.6
   ReleaseDate: 2023-06-24 # Do not change. Set before publish by push_manifest.ps1
 ManifestType: installer
 ManifestVersion: 1.4.0
