@@ -39,7 +39,7 @@ var searchData=
   ['home_36',['Home',['../class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_home_controller.html#a2b30ee2c813739c640cb86cf8b39dd5e',1,'Tgstation::Server::Host::Controllers::HomeController']]],
   ['homecontroller_37',['HomeController',['../class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_home_controller.html#a7ca0ff8f9fe6f9f51915e72f9e9d3c18',1,'Tgstation.Server.Host.Controllers.HomeController.HomeController()'],['../class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_home_controller.html',1,'Tgstation.Server.Host.Controllers.HomeController']]],
   ['homecontroller_2ecs_38',['HomeController.cs',['../_home_controller_8cs.html',1,'']]],
-  ['host_39',['Host',['../class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_elasticsearch_configuration.html#a0d76a91f5a5937dfc74d51c64ba37f44',1,'Tgstation::Server::Host::Configuration::ElasticsearchConfiguration']]],
+  ['host_39',['Host',['../class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_elasticsearch_configuration.html#a7523b591900c135e812c2db174878086',1,'Tgstation::Server::Host::Configuration::ElasticsearchConfiguration']]],
   ['hostapidocumentation_40',['HostApiDocumentation',['../class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#a20afca0f8385264dfca46ad57b28eed6',1,'Tgstation::Server::Host::Configuration::GeneralConfiguration']]],
   ['hostbuilder_41',['hostBuilder',['../class_tgstation_1_1_server_1_1_host_1_1_server.html#ab2cb668c8f5441c3518f71d0a7555bc4',1,'Tgstation::Server::Host::Server']]],
   ['hostbuilderextensions_42',['HostBuilderExtensions',['../class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_host_builder_extensions.html',1,'Tgstation::Server::Host::Extensions']]],

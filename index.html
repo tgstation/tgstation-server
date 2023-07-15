@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.13.1</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.13.2</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -108,6 +108,10 @@ Windows</h3>
 <h5>Note about Digital Signatures</h5>
 <p >Note that the Windows Service and installer executables require administrative privileges. These are digitally signed against the Root CA managed by <a href="https://github.com/Cyberboss">Jordan Dominion</a>. Consider installing the certificate into your <code>Trusted Root Authorities</code> store for cleaner UAC prompts. The certificate can be downloaded <a href="https://file.house/zpFb.cer">here</a>, please validate the thumbprint is <code>70176acf7ffa2898fa5b5cd6e38b43b38ea5d07f</code> before installing. The OCSP server for this is <code><a href="http://ocsp.dextraspace.net">http://ocsp.dextraspace.net</a></code>.</p>
 <h4><a class="anchor" id="autotoc_md6"></a>
+Installer</h4>
+<p ><a href="https://github.com/tgstation/tgstation-server/releases/latest">Download the latest release's tgstation-server-installer.exe</a>. Executing it will take you through the process of installing and configuring your server. The required dotnet runtime may be installed as a pre-requisite.</p>
+<p >Note: If you use the <code>/silent</code> or <code>/passive</code> arguments to the installer, you will need to either pre-configure TGS or configure and start the <code>tgstation-server</code> service after installing. A shortcut will be placed on your desktop and in your start menu to assist with this.</p>
+<h4><a class="anchor" id="autotoc_md7"></a>
 winget (Windows 10 or later)</h4>
 <p ><a href="https://github.com/microsoft/winget-cli">winget</a> installed is the easiest way to install the latest version of tgstation-server (provided Microsoft has approved the most recent package manifest).</p>
 <p >Check if you have <code>winget</code> by running the following command. </p><div class="fragment"><div class="line">winget --version</div>
@@ -123,10 +127,7 @@ winget (Windows 10 or later)</h4>
 <div class="fragment"><div class="line">winget install tgstation-server</div>
 </div><!-- fragment --><p >The required dotnet runtime may be installed as a pre-requisite.</p>
 <p >Note: If you use the <code>-h</code> or <code>--disable-interactivity</code> winget arguments, you will need to either pre-configure TGS or configure and start the <code>tgstation-server</code> service after installing. A shortcut will be placed on your desktop and in your start menu to assist with this.</p>
-<h4><a class="anchor" id="autotoc_md7"></a>
-Installer</h4>
-<p ><a href="https://github.com/tgstation/tgstation-server/releases/latest">Download the latest release's tgstation-server-installer.exe</a>. Executing it will take you through the process of installing and configuring your server. The required dotnet runtime may be installed as a pre-requisite.</p>
-<p >Note: If you use the <code>/silent</code> or <code>/passive</code> arguments to the installer, you will need to either pre-configure TGS or configure and start the <code>tgstation-server</code> service after installing. A shortcut will be placed on your desktop and in your start menu to assist with this.</p>
+<p >Note: The <code>winget</code> package is submitted to Microsoft for approval once TGS releases. This means the winget version may be out of date with the current release version. You can always use the TGS updater after installing. You can see the versions still awaiting approval <a href="https://github.com/microsoft/winget-pkgs/pulls?q=is%3Apr+is%3Aopen+Tgstation.Server">here</a>.</p>
 <h4><a class="anchor" id="autotoc_md8"></a>
 Manual</h4>
 <p >If you don't have it installed already, download and install the <a href="https://dotnet.microsoft.com/download/dotnet/6.0">ASP .NET Core Runtime Hosting Bundle (&gt;= v6.0)</a>. Ensure that the <code>dotnet</code> executable file is in your system's <code>PATH</code> variable (or that of the user's that will be running the server). You can test this by opening a command prompt and running <code>dotnet --list-runtimes</code>.</p>
