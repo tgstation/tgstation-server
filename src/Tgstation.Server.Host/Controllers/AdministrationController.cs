@@ -9,6 +9,7 @@ using System.Web;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+
 using Octokit;
 
 using Tgstation.Server.Api;
@@ -19,6 +20,7 @@ using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.Database;
+using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Security;
 using Tgstation.Server.Host.System;
@@ -39,9 +41,9 @@ namespace Tgstation.Server.Host.Controllers
 		const string OctokitException = "Bad GitHub API response, check configuration!";
 
 		/// <summary>
-		/// The <see cref="IGitHubService"/> for the <see cref="AdministrationController"/>.
+		/// The <see cref="IGitHubServiceFactory"/> for the <see cref="AdministrationController"/>.
 		/// </summary>
-		readonly IGitHubService gitHubService;
+		readonly IGitHubServiceFactory gitHubServiceFactory;
 
 		/// <summary>
 		/// The <see cref="IServerControl"/> for the <see cref="AdministrationController"/>.
@@ -83,7 +85,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// </summary>
 		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> for the <see cref="ApiController"/>.</param>
 		/// <param name="authenticationContextFactory">The <see cref="IAuthenticationContextFactory"/> for the <see cref="ApiController"/>.</param>
-		/// <param name="gitHubService">The value of <see cref="gitHubService"/>.</param>
+		/// <param name="gitHubServiceFactory">The value of <see cref="gitHubServiceFactory"/>.</param>
 		/// <param name="serverControl">The value of <see cref="serverControl"/>.</param>
 		/// <param name="serverUpdateInitiator">The value of <see cref="serverUpdateInitiator"/>.</param>
 		/// <param name="assemblyInformationProvider">The value of <see cref="assemblyInformationProvider"/>.</param>
@@ -95,7 +97,7 @@ namespace Tgstation.Server.Host.Controllers
 		public AdministrationController(
 			IDatabaseContext databaseContext,
 			IAuthenticationContextFactory authenticationContextFactory,
-			IGitHubService gitHubService,
+			IGitHubServiceFactory gitHubServiceFactory,
 			IServerControl serverControl,
 			IServerUpdateInitiator serverUpdateInitiator,
 			IAssemblyInformationProvider assemblyInformationProvider,
@@ -110,7 +112,7 @@ namespace Tgstation.Server.Host.Controllers
 				logger,
 				true)
 		{
-			this.gitHubService = gitHubService ?? throw new ArgumentNullException(nameof(gitHubService));
+			this.gitHubServiceFactory = gitHubServiceFactory ?? throw new ArgumentNullException(nameof(gitHubServiceFactory));
 			this.serverControl = serverControl ?? throw new ArgumentNullException(nameof(serverControl));
 			this.serverUpdateInitiator = serverUpdateInitiator ?? throw new ArgumentNullException(nameof(serverUpdateInitiator));
 			this.assemblyInformationProvider = assemblyInformationProvider ?? throw new ArgumentNullException(nameof(assemblyInformationProvider));
@@ -141,6 +143,7 @@ namespace Tgstation.Server.Host.Controllers
 				Uri repoUrl = null;
 				try
 				{
+					var gitHubService = gitHubServiceFactory.CreateService();
 					var repositoryUrlTask = gitHubService.GetUpdatesRepositoryUrl(cancellationToken);
 					var releases = await gitHubService.GetTgsReleases(cancellationToken);
 
@@ -173,7 +176,7 @@ namespace Tgstation.Server.Host.Controllers
 			catch (ApiException e)
 			{
 				Logger.LogWarning(e, OctokitException);
-				return StatusCode(HttpStatusCode.FailedDependency, new ErrorMessageResponse(ErrorCode.RemoteApiError)
+				return this.StatusCode(HttpStatusCode.FailedDependency, new ErrorMessageResponse(ErrorCode.RemoteApiError)
 				{
 					AdditionalData = e.Message,
 				});
@@ -192,7 +195,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <response code="424">A GitHub rate limit was encountered or the swarm integrity check failed.</response>
 		/// <response code="429">A GitHub API error occurred.</response>
 		[HttpPost]
-		[TgsAuthorize(AdministrationRights.ChangeVersion)]
+		[TgsAuthorize(AdministrationRights.ChangeVersion | AdministrationRights.UploadVersion)]
 		[ProducesResponseType(typeof(ServerUpdateResponse), 202)]
 		[ProducesResponseType(typeof(ErrorMessageResponse), 410)]
 		[ProducesResponseType(typeof(ErrorMessageResponse), 422)]
@@ -200,8 +203,16 @@ namespace Tgstation.Server.Host.Controllers
 		[ProducesResponseType(typeof(ErrorMessageResponse), 429)]
 		public async Task<IActionResult> Update([FromBody] ServerUpdateRequest model, CancellationToken cancellationToken)
 		{
-			if (model == null)
-				throw new ArgumentNullException(nameof(model));
+			ArgumentNullException.ThrowIfNull(model);
+
+			var attemptingUpload = model.UploadZip == true;
+			if (attemptingUpload)
+			{
+				if (!AuthenticationContext.PermissionSet.AdministrationRights.Value.HasFlag(AdministrationRights.UploadVersion))
+					return Forbid();
+			}
+			else if (!AuthenticationContext.PermissionSet.AdministrationRights.Value.HasFlag(AdministrationRights.ChangeVersion))
+				return Forbid();
 
 			if (model.NewVersion == null)
 				return BadRequest(new ErrorMessageResponse(ErrorCode.ModelValidationFailure)
@@ -215,33 +226,7 @@ namespace Tgstation.Server.Host.Controllers
 			if (!serverControl.WatchdogPresent)
 				return UnprocessableEntity(new ErrorMessageResponse(ErrorCode.MissingHostWatchdog));
 
-			try
-			{
-				var updateResult = await serverUpdateInitiator.InitiateUpdate(model.NewVersion, cancellationToken);
-				return updateResult switch
-				{
-					ServerUpdateResult.Started => Accepted(new ServerUpdateResponse
-					{
-						NewVersion = model.NewVersion,
-					}),
-					ServerUpdateResult.ReleaseMissing => Gone(),
-					ServerUpdateResult.UpdateInProgress => BadRequest(new ErrorMessageResponse(ErrorCode.ServerUpdateInProgress)),
-					ServerUpdateResult.SwarmIntegrityCheckFailed => StatusCode(HttpStatusCode.FailedDependency, new ErrorMessageResponse(ErrorCode.SwarmIntegrityCheckFailed)),
-					_ => throw new InvalidOperationException($"Unexpected ServerUpdateResult: {updateResult}"),
-				};
-			}
-			catch (RateLimitExceededException e)
-			{
-				return RateLimit(e);
-			}
-			catch (ApiException e)
-			{
-				Logger.LogWarning(e, OctokitException);
-				return StatusCode(HttpStatusCode.FailedDependency, new ErrorMessageResponse(ErrorCode.RemoteApiError)
-				{
-					AdditionalData = e.Message,
-				});
-			}
+			return await AttemptInitiateUpdate(model.NewVersion, attemptingUpload, cancellationToken);
 		}
 
 		/// <summary>
@@ -341,8 +326,7 @@ namespace Tgstation.Server.Host.Controllers
 		[ProducesResponseType(typeof(ErrorMessageResponse), 409)]
 		public async Task<IActionResult> GetLog(string path, CancellationToken cancellationToken)
 		{
-			if (path == null)
-				throw new ArgumentNullException(nameof(path));
+			ArgumentNullException.ThrowIfNull(path);
 
 			path = HttpUtility.UrlDecode(path);
 
@@ -363,8 +347,6 @@ namespace Tgstation.Server.Host.Controllers
 						fullPath,
 						true));
 
-				var readTask = ioManager.ReadAllBytes(fullPath, cancellationToken);
-
 				return Ok(new LogFileResponse
 				{
 					Name = path,
@@ -379,6 +361,57 @@ namespace Tgstation.Server.Host.Controllers
 					AdditionalData = ex.ToString(),
 				});
 			}
+		}
+
+		/// <summary>
+		/// Attempt to initiate an update.
+		/// </summary>
+		/// <param name="newVersion">The <see cref="Version"/> being updated to.</param>
+		/// <param name="attemptingUpload">If an upload is being attempted.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the request.</returns>
+		async Task<IActionResult> AttemptInitiateUpdate(Version newVersion, bool attemptingUpload, CancellationToken cancellationToken)
+		{
+			IFileUploadTicket uploadTicket = attemptingUpload
+				? fileTransferService.CreateUpload(FileUploadStreamKind.None)
+				: null;
+
+			ServerUpdateResult updateResult;
+			try
+			{
+				try
+				{
+					updateResult = await serverUpdateInitiator.InitiateUpdate(uploadTicket, newVersion, cancellationToken);
+				}
+				catch
+				{
+					if (attemptingUpload)
+						await uploadTicket.DisposeAsync();
+
+					throw;
+				}
+			}
+			catch (RateLimitExceededException e)
+			{
+				return RateLimit(e);
+			}
+			catch (ApiException e)
+			{
+				Logger.LogWarning(e, OctokitException);
+				return this.StatusCode(HttpStatusCode.FailedDependency, new ErrorMessageResponse(ErrorCode.RemoteApiError)
+				{
+					AdditionalData = e.Message,
+				});
+			}
+
+			return updateResult switch
+			{
+				ServerUpdateResult.Started => Accepted(new ServerUpdateResponse(newVersion, uploadTicket?.Ticket.FileTicket)),
+				ServerUpdateResult.ReleaseMissing => this.Gone(),
+				ServerUpdateResult.UpdateInProgress => BadRequest(new ErrorMessageResponse(ErrorCode.ServerUpdateInProgress)),
+				ServerUpdateResult.SwarmIntegrityCheckFailed => this.StatusCode(HttpStatusCode.FailedDependency, new ErrorMessageResponse(ErrorCode.SwarmIntegrityCheckFailed)),
+				_ => throw new InvalidOperationException($"Unexpected ServerUpdateResult: {updateResult}"),
+			};
 		}
 	}
 }

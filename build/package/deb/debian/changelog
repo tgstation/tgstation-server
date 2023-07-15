@@ -1,0 +1,5 @@
+tgstation-server (~!VERSION!~-1) unstable; urgency=medium
+
+  * Package changelogs are currently stubs. They will be auto-generated in the future (https://github.com/tgstation/tgstation-server/issues/1147). Refer to GitHub release for changelog: https://github.com/tgstation/tgstation-server/releases/tag/tgstation-server-v~!VERSION!~
+
+ -- Jordan Dominion <Cyberboss@users.noreply.github.com>  Mon, 19 Jun 2023 16:14:13 +0000

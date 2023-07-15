@@ -22,7 +22,8 @@ namespace Tgstation.Server.Host.Database
 		/// Initializes a new instance of the <see cref="MySqlDatabaseContext"/> class.
 		/// </summary>
 		/// <param name="dbContextOptions">The <see cref="DbContextOptions{TContext}"/> for the <see cref="DatabaseContext"/>.</param>
-		public MySqlDatabaseContext(DbContextOptions<MySqlDatabaseContext> dbContextOptions) : base(dbContextOptions)
+		public MySqlDatabaseContext(DbContextOptions<MySqlDatabaseContext> dbContextOptions)
+			: base(dbContextOptions)
 		{
 		}
 
@@ -33,10 +34,8 @@ namespace Tgstation.Server.Host.Database
 		/// <param name="databaseConfiguration">The <see cref="DatabaseConfiguration"/>.</param>
 		public static void ConfigureWith(DbContextOptionsBuilder options, DatabaseConfiguration databaseConfiguration)
 		{
-			if (options == null)
-				throw new ArgumentNullException(nameof(options));
-			if (databaseConfiguration == null)
-				throw new ArgumentNullException(nameof(databaseConfiguration));
+			ArgumentNullException.ThrowIfNull(options);
+			ArgumentNullException.ThrowIfNull(databaseConfiguration);
 
 			if (databaseConfiguration.DatabaseType != DatabaseType.MariaDB && databaseConfiguration.DatabaseType != DatabaseType.MySql)
 				throw new InvalidOperationException($"Invalid DatabaseType for {nameof(MySqlDatabaseContext)}!");

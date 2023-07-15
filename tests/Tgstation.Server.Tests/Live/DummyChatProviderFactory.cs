@@ -9,6 +9,7 @@ using Tgstation.Server.Api.Models;
 using Tgstation.Server.Host.Components.Byond;
 using Tgstation.Server.Host.Components.Chat.Commands;
 using Tgstation.Server.Host.Components.Chat.Providers;
+using Tgstation.Server.Host.Components.Deployment;
 using Tgstation.Server.Host.Components.Repository;
 using Tgstation.Server.Host.Components.Watchdog;
 using Tgstation.Server.Host.Database;
@@ -42,6 +43,7 @@ namespace Tgstation.Server.Tests.Live
 				Mock.Of<IByondManager>(),
 				Mock.Of<IRepositoryManager>(),
 				Mock.Of<IDatabaseContextFactory>(),
+				Mock.Of<ILatestCompileJobProvider>(),
 				new Host.Models.Instance());
 
 			commandFactory.SetWatchdog(Mock.Of<IWatchdog>());
@@ -65,8 +67,7 @@ namespace Tgstation.Server.Tests.Live
 		public IProvider CreateProvider(ChatBot settings)
 		{
 			logger.LogTrace("CreateProvider");
-			if (settings == null)
-				throw new ArgumentNullException(nameof(settings));
+			ArgumentNullException.ThrowIfNull(settings);
 
 			var provider = settings.Provider;
 			switch (provider)

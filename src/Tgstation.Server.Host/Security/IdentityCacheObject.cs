@@ -37,11 +37,9 @@ namespace Tgstation.Server.Host.Security
 		{
 			SystemIdentity = systemIdentity ?? throw new ArgumentNullException(nameof(systemIdentity));
 
-			if (asyncDelayer == null)
-				throw new ArgumentNullException(nameof(asyncDelayer));
+			ArgumentNullException.ThrowIfNull(asyncDelayer);
 
-			if (onExpiry == null)
-				throw new ArgumentNullException(nameof(onExpiry));
+			ArgumentNullException.ThrowIfNull(onExpiry);
 			var now = DateTimeOffset.UtcNow;
 			if (expiry < now)
 				throw new ArgumentOutOfRangeException(nameof(expiry), expiry, "expiry must be greater than DateTimeOffset.UtcNow!");

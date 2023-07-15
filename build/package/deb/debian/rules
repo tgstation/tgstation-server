@@ -1,0 +1,27 @@
+#!/usr/bin/make -f
+
+export DH_VERBOSE = 1
+
+%:
+		dh $@
+
+override_dh_auto_clean:
+		rm -rf artifacts
+		dotnet clean -c ReleaseNoWindows
+
+override_dh_auto_build:
+		dotnet restore
+		cd src/Tgstation.Server.Host.Console && dotnet publish -c Release -o ../../artifacts
+		cd src/Tgstation.Server.Host && dotnet publish -c Release -o ../../artifacts/lib/Default
+		rm artifacts/lib/Default/appsettings.yml
+
+override_dh_auto_install:
+		cp build/package/deb/MakeInstall ./Makefile
+		dh_auto_install --
+
+override_dh_strip:
+
+override_dh_shlibdeps:
+
+override_dh_installsystemd:
+	dh_installsystemd -v --restart-after-upgrade

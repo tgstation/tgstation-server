@@ -28,8 +28,7 @@ namespace Tgstation.Server.Host.IO
 		/// <inheritdoc />
 		public bool NeedsPostWrite(string sourceFilePath)
 		{
-			if (sourceFilePath == null)
-				throw new ArgumentNullException(nameof(sourceFilePath));
+			ArgumentNullException.ThrowIfNull(sourceFilePath);
 
 			if (Syscall.stat(sourceFilePath, out var stat) != 0)
 				throw new UnixIOException(Stdlib.GetLastError());
@@ -40,8 +39,7 @@ namespace Tgstation.Server.Host.IO
 		/// <inheritdoc />
 		public void HandleWrite(string filePath)
 		{
-			if (filePath == null)
-				throw new ArgumentNullException(nameof(filePath));
+			ArgumentNullException.ThrowIfNull(filePath);
 
 			// set executable bit every time, don't want people calling me when their uploaded "sl" binary doesn't work
 			if (Syscall.stat(filePath, out var stat) != 0)

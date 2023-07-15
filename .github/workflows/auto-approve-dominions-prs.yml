@@ -8,9 +8,10 @@ on:
     branches:
     - dev
     - master
+    - V6
 
 concurrency:
-  group: "auto-approve-${{ github.head_ref || github.run_id }}-${{ github.event_name }}"
+  group: "approve-dominion-${{ github.head_ref || github.run_id }}-${{ github.event_name }}"
   cancel-in-progress: true
 
 jobs:

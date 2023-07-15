@@ -1,6 +1,8 @@
 ﻿using System;
 using System.ComponentModel;
 
+using Tgstation.Server.Common;
+
 namespace Tgstation.Server.Api.Models
 {
 	/// <summary>
@@ -60,7 +62,7 @@ namespace Tgstation.Server.Api.Models
 		/// <summary>
 		/// Attempted to change to a major version less than 4.
 		/// </summary>
-		[Description("Cannot downgrade to tgstation-server major version <4!")]
+		[Description($"Cannot downgrade to {Constants.CanonicalPackageName} major version <4!")]
 		CannotChangeServerSuite,
 
 		/// <summary>
@@ -288,9 +290,8 @@ namespace Tgstation.Server.Api.Models
 		/// <summary>
 		/// Currently unused.
 		/// </summary>
-		[Obsolete("Unused", true)]
-		[Description("Unknown error code.")]
-		UnusedErrorCode3,
+		[Description("IO operation could not start contended access to the instance's configuration directory!")]
+		ConfigurationContendedAccess,
 
 		/// <summary>
 		/// Attempted to add a chat bot when at or above the <see cref="Instance.ChatBotLimit"/> or it was set to something lower than the existing amount of chat bots.

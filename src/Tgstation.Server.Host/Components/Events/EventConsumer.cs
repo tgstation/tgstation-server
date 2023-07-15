@@ -31,16 +31,15 @@ namespace Tgstation.Server.Host.Components.Events
 		}
 
 		/// <inheritdoc />
-		public async Task HandleEvent(EventType eventType, IEnumerable<string> parameters, CancellationToken cancellationToken)
+		public async Task HandleEvent(EventType eventType, IEnumerable<string> parameters, bool deploymentPipeline, CancellationToken cancellationToken)
 		{
-			if (parameters == null)
-				throw new ArgumentNullException(nameof(parameters));
+			ArgumentNullException.ThrowIfNull(parameters);
 
 			if (watchdog == null)
 				throw new InvalidOperationException("EventConsumer used without watchdog set!");
 
-			var scriptTask = configuration.HandleEvent(eventType, parameters, cancellationToken);
-			await watchdog.HandleEvent(eventType, parameters, cancellationToken);
+			var scriptTask = configuration.HandleEvent(eventType, parameters, deploymentPipeline, cancellationToken);
+			await watchdog.HandleEvent(eventType, parameters, deploymentPipeline, cancellationToken);
 			await scriptTask;
 		}
 
@@ -50,12 +49,10 @@ namespace Tgstation.Server.Host.Components.Events
 		/// <param name="watchdog">The value of <see cref="watchdog"/>.</param>
 		public void SetWatchdog(IWatchdog watchdog)
 		{
-#pragma warning disable IDE0016 // Use 'throw' expression
-			if (watchdog == null)
-				throw new ArgumentNullException(nameof(watchdog));
-#pragma warning restore IDE0016 // Use 'throw' expression
+			ArgumentNullException.ThrowIfNull(watchdog);
 			if (this.watchdog != null)
 				throw new InvalidOperationException("watchdog already set!");
+
 			this.watchdog = watchdog;
 		}
 	}

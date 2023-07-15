@@ -16,6 +16,7 @@ using Tgstation.Server.Api.Models.Response;
 using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Database;
+using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.Security;
 
@@ -83,8 +84,7 @@ namespace Tgstation.Server.Host.Controllers
 #pragma warning disable CA1502, CA1506
 		public async Task<IActionResult> Create([FromBody] UserCreateRequest model, CancellationToken cancellationToken)
 		{
-			if (model == null)
-				throw new ArgumentNullException(nameof(model));
+			ArgumentNullException.ThrowIfNull(model);
 
 			if (model.OAuthConnections?.Any(x => x == null) == true)
 				return BadRequest(new ErrorMessageResponse(ErrorCode.ModelValidationFailure));
@@ -116,14 +116,14 @@ namespace Tgstation.Server.Host.Controllers
 
 			var dbUser = await CreateNewUserFromModel(model, cancellationToken);
 			if (dbUser == null)
-				return Gone();
+				return this.Gone();
 
 			if (model.SystemIdentifier != null)
 				try
 				{
 					using var sysIdentity = await systemIdentityFactory.CreateSystemIdentity(dbUser, cancellationToken);
 					if (sysIdentity == null)
-						return Gone();
+						return this.Gone();
 					dbUser.Name = sysIdentity.Username;
 					dbUser.SystemIdentifier = sysIdentity.Uid;
 				}
@@ -170,8 +170,7 @@ namespace Tgstation.Server.Host.Controllers
 #pragma warning disable CA1506
 		public async Task<IActionResult> Update([FromBody] UserUpdateRequest model, CancellationToken cancellationToken)
 		{
-			if (model == null)
-				throw new ArgumentNullException(nameof(model));
+			ArgumentNullException.ThrowIfNull(model);
 
 			if (!model.Id.HasValue || model.OAuthConnections?.Any(x => x == null) == true)
 				return BadRequest(new ErrorMessageResponse(ErrorCode.ModelValidationFailure));
@@ -276,7 +275,7 @@ namespace Tgstation.Server.Host.Controllers
 					.FirstOrDefaultAsync(cancellationToken);
 
 				if (originalUser.Group == default)
-					return Gone();
+					return this.Gone();
 
 				DatabaseContext.Groups.Attach(originalUser.Group);
 				if (originalUser.PermissionSet != null)

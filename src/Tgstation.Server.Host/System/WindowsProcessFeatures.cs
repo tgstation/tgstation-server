@@ -13,7 +13,6 @@ using Microsoft.Extensions.Logging;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Jobs;
-using Tgstation.Server.Host.System;
 
 namespace Tgstation.Server.Host.System
 {
@@ -38,8 +37,7 @@ namespace Tgstation.Server.Host.System
 		/// <inheritdoc />
 		public void ResumeProcess(global::System.Diagnostics.Process process)
 		{
-			if (process == null)
-				throw new ArgumentNullException(nameof(process));
+			ArgumentNullException.ThrowIfNull(process);
 
 			process.Refresh();
 			foreach (ProcessThread thread in process.Threads)
@@ -68,8 +66,7 @@ namespace Tgstation.Server.Host.System
 		/// <inheritdoc />
 		public void SuspendProcess(global::System.Diagnostics.Process process)
 		{
-			if (process == null)
-				throw new ArgumentNullException(nameof(process));
+			ArgumentNullException.ThrowIfNull(process);
 
 			process.Refresh();
 			foreach (ProcessThread thread in process.Threads)
@@ -123,21 +120,23 @@ namespace Tgstation.Server.Host.System
 		}
 
 		/// <inheritdoc />
-		public Task CreateDump(global::System.Diagnostics.Process process, string outputFile, CancellationToken cancellationToken)
-			=> Task.Factory.StartNew(
+		public async Task CreateDump(global::System.Diagnostics.Process process, string outputFile, CancellationToken cancellationToken)
+		{
+			try
+			{
+				if (process.HasExited)
+					throw new JobException(ErrorCode.DreamDaemonOffline);
+			}
+			catch (InvalidOperationException ex)
+			{
+				throw new JobException(ErrorCode.DreamDaemonOffline, ex);
+			}
+
+			await using var fileStream = new FileStream(outputFile, FileMode.CreateNew);
+
+			await Task.Factory.StartNew(
 				() =>
 				{
-					try
-					{
-						if (process.HasExited)
-							throw new JobException(ErrorCode.DreamDaemonOffline);
-					}
-					catch (InvalidOperationException ex)
-					{
-						throw new JobException(ErrorCode.DreamDaemonOffline, ex);
-					}
-
-					using var fileStream = new FileStream(outputFile, FileMode.CreateNew);
 					if (!NativeMethods.MiniDumpWriteDump(
 						process.Handle,
 						(uint)process.Id,
@@ -155,5 +154,6 @@ namespace Tgstation.Server.Host.System
 				cancellationToken,
 				DefaultIOManager.BlockingTaskCreationOptions,
 				TaskScheduler.Current);
+		}
 	}
 }

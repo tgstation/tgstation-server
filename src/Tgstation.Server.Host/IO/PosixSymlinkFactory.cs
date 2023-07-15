@@ -19,10 +19,8 @@ namespace Tgstation.Server.Host.IO
 		public Task CreateSymbolicLink(string targetPath, string linkPath, CancellationToken cancellationToken) => Task.Factory.StartNew(
 			() =>
 			{
-				if (targetPath == null)
-					throw new ArgumentNullException(nameof(targetPath));
-				if (linkPath == null)
-					throw new ArgumentNullException(nameof(linkPath));
+				ArgumentNullException.ThrowIfNull(targetPath);
+				ArgumentNullException.ThrowIfNull(linkPath);
 
 				UnixFileSystemInfo fsInfo;
 				var isFile = File.Exists(targetPath);

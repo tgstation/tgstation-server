@@ -66,10 +66,8 @@ namespace Tgstation.Server.Host.System
 		/// <inheritdoc />
 		public async Task CreateDump(global::System.Diagnostics.Process process, string outputFile, CancellationToken cancellationToken)
 		{
-			if (process == null)
-				throw new ArgumentNullException(nameof(process));
-			if (outputFile == null)
-				throw new ArgumentNullException(nameof(outputFile));
+			ArgumentNullException.ThrowIfNull(process);
+			ArgumentNullException.ThrowIfNull(outputFile);
 
 			const string GCorePath = "/usr/bin/gcore";
 			if (!await ioManager.FileExists(GCorePath, cancellationToken))
@@ -90,7 +88,7 @@ namespace Tgstation.Server.Host.System
 
 			string output;
 			int exitCode;
-			await using (var gcoreProc = await lazyLoadedProcessExecutor.Value.LaunchProcess(
+			await using (var gcoreProc = lazyLoadedProcessExecutor.Value.LaunchProcess(
 				GCorePath,
 				Environment.CurrentDirectory,
 				$"-o {outputFile} {process.Id}",
@@ -98,7 +96,7 @@ namespace Tgstation.Server.Host.System
 				noShellExecute: true))
 			{
 				using (cancellationToken.Register(() => gcoreProc.Terminate()))
-					exitCode = await gcoreProc.Lifetime;
+					exitCode = (await gcoreProc.Lifetime).Value;
 
 				output = await gcoreProc.GetCombinedOutput(cancellationToken);
 				logger.LogDebug("gcore output:{0}{1}", Environment.NewLine, output);

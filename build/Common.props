@@ -1,0 +1,9 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="Version.props" />
+
+  <PropertyGroup>
+    <TgsFrameworkVersion>net$(TgsNetMajorVersion).0</TgsFrameworkVersion>
+    <LangVersion>latest</LangVersion>
+    <DebugType>Full</DebugType>
+  </PropertyGroup>
+</Project>

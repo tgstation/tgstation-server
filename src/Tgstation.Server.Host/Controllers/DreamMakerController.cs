@@ -14,6 +14,7 @@ using Tgstation.Server.Api.Models.Response;
 using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Host.Components;
 using Tgstation.Server.Host.Database;
+using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.Jobs;
 using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.Security;
@@ -176,8 +177,7 @@ namespace Tgstation.Server.Host.Controllers
 		[ProducesResponseType(typeof(ErrorMessageResponse), 410)]
 		public async Task<IActionResult> Update([FromBody] DreamMakerRequest model, CancellationToken cancellationToken)
 		{
-			if (model == null)
-				throw new ArgumentNullException(nameof(model));
+			ArgumentNullException.ThrowIfNull(model);
 
 			if (model.ApiValidationPort == 0)
 				throw new InvalidOperationException("ApiValidationPort cannot be 0!");
@@ -188,7 +188,7 @@ namespace Tgstation.Server.Host.Controllers
 				.Where(x => x.InstanceId == Instance.Id)
 				.FirstOrDefaultAsync(cancellationToken);
 			if (hostModel == null)
-				return Gone();
+				return this.Gone();
 
 			if (model.ProjectName != null)
 			{

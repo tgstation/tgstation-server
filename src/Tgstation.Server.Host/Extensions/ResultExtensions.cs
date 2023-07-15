@@ -22,8 +22,7 @@ namespace Tgstation.Server.Host.Extensions
 		/// <returns>The <see cref="string"/> formatted <paramref name="result"/>.</returns>
 		public static string LogFormat(this IResult result, uint level = 0)
 		{
-			if (result == null)
-				throw new ArgumentNullException(nameof(result));
+			ArgumentNullException.ThrowIfNull(result);
 
 			if (result.IsSuccess)
 				return "SUCCESS?";

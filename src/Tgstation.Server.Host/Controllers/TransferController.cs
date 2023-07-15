@@ -1,20 +1,16 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Net;
-using System.Net.Mime;
 using System.Threading;
 using System.Threading.Tasks;
 
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Microsoft.Net.Http.Headers;
 
 using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Response;
 using Tgstation.Server.Host.Database;
+using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.Security;
 using Tgstation.Server.Host.Transfer;
 
@@ -63,43 +59,10 @@ namespace Tgstation.Server.Host.Controllers
 		/// <response code="410">The <paramref name="ticket"/> was no longer or was never valid.</response>
 		[TgsAuthorize]
 		[HttpGet]
-		[ProducesResponseType(200, Type = typeof(LimitedFileStreamResult))]
+		[ProducesResponseType(200, Type = typeof(LimitedStreamResult))]
 		[ProducesResponseType(410, Type = typeof(ErrorMessageResponse))]
-		public async Task<IActionResult> Download([Required, FromQuery] string ticket, CancellationToken cancellationToken)
-		{
-			if (ticket == null)
-				return BadRequest(new ErrorMessageResponse(ErrorCode.ModelValidationFailure));
-
-			var streamAccept = new MediaTypeHeaderValue(MediaTypeNames.Application.Octet);
-			if (!Request.GetTypedHeaders().Accept.Any(x => streamAccept.IsSubsetOf(x)))
-				return StatusCode(HttpStatusCode.NotAcceptable, new ErrorMessageResponse(ErrorCode.BadHeaders)
-				{
-					AdditionalData = $"File downloads must accept both {MediaTypeNames.Application.Octet} and {MediaTypeNames.Application.Json}!",
-				});
-
-			var fileTicketResult = new FileTicketResponse
-			{
-				FileTicket = ticket,
-			};
-
-			var tuple = await fileTransferService.RetrieveDownloadStream(fileTicketResult, cancellationToken);
-			var stream = tuple.Item1;
-			try
-			{
-				if (tuple.Item2 != null)
-					return Conflict(tuple.Item2);
-
-				if (stream == null)
-					return Gone();
-
-				return new LimitedFileStreamResult(stream);
-			}
-			catch
-			{
-				stream.Dispose();
-				throw;
-			}
-		}
+		public Task<IActionResult> Download([Required, FromQuery] string ticket, CancellationToken cancellationToken)
+			=> fileTransferService.GenerateDownloadResponse(this, ticket, cancellationToken);
 
 		/// <summary>
 		/// Uploads a file with a given <paramref name="ticket"/>.
@@ -127,7 +90,7 @@ namespace Tgstation.Server.Host.Controllers
 			var result = await fileTransferService.SetUploadStream(fileTicketResult, Request.Body, cancellationToken);
 			if (result != null)
 				return result.ErrorCode == ErrorCode.ResourceNotPresent
-					? Gone()
+					? this.Gone()
 					: Conflict(result);
 
 			return NoContent();

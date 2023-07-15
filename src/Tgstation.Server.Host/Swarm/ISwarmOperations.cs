@@ -10,7 +10,7 @@ namespace Tgstation.Server.Host.Swarm
 	/// <summary>
 	/// Swarm service operations for the <see cref="Controllers.SwarmController"/>.
 	/// </summary>
-	public interface ISwarmOperations
+	public interface ISwarmOperations : ISwarmUpdateAborter
 	{
 		/// <summary>
 		/// Pass in an updated list of <paramref name="swarmServers"/> to the node.
@@ -21,10 +21,10 @@ namespace Tgstation.Server.Host.Swarm
 		/// <summary>
 		/// Notify the node of an update request from the controller.
 		/// </summary>
-		/// <param name="version">The <see cref="Version"/> of TGS to update to.</param>
+		/// <param name="updateRequest">The <see cref="SwarmUpdateRequest"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in <see langword="true"/> if the node is able to update, <see langword="false"/> otherwise.</returns>
-		Task<bool> PrepareUpdateFromController(Version version, CancellationToken cancellationToken);
+		Task<bool> PrepareUpdateFromController(SwarmUpdateRequest updateRequest, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Validate a given <paramref name="registrationId"/>.
@@ -38,8 +38,9 @@ namespace Tgstation.Server.Host.Swarm
 		/// </summary>
 		/// <param name="node">The <see cref="SwarmServerResponse"/> that is registering.</param>
 		/// <param name="registrationId">The registration <see cref="Guid"/>.</param>
-		/// <returns><see langword="true"/> if the registration was successful, <see langword="false"/> otherwise.</returns>
-		bool RegisterNode(Api.Models.Internal.SwarmServer node, Guid registrationId);
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in <see langword="true"/> if the registration was successful, <see langword="false"/> otherwise.</returns>
+		Task<bool> RegisterNode(Api.Models.Internal.SwarmServer node, Guid registrationId, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Attempt to unregister a node with a given <paramref name="registrationId"/> with the controller.
@@ -56,12 +57,5 @@ namespace Tgstation.Server.Host.Swarm
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
 		Task<bool> RemoteCommitRecieved(Guid registrationId, CancellationToken cancellationToken);
-
-		/// <summary>
-		/// Remotely abort an uncommitted update.
-		/// </summary>
-		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		Task RemoteAbortUpdate(CancellationToken cancellationToken);
 	}
 }

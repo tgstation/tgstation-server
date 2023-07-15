@@ -1,0 +1,25 @@
+<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs" xmlns:bal="http://wixtoolset.org/schemas/v4/wxs/bal" xmlns:netfx="http://wixtoolset.org/schemas/v4/wxs/netfx">
+  <Bundle Name="tgstation-server" Manufacturer="/tg/station 13" Version="$(var.ProductVersion)" AboutUrl="https://github.com/tgstation/tgstation-server/blob/tgstation-server-v$(var.ProductVersion)/LICENSE" IconSourceFile="../../../tgs.ico" HelpUrl="https://github.com/tgstation/tgstation-server/discussions/categories/q-a" UpdateUrl="https://github.com/tgstation/tgstation-server/releases/latest" UpgradeCode="542535f4-49ad-45c4-9b96-6d8235ed8b87">
+    <BootstrapperApplication>
+      <bal:WixStandardBootstrapperApplication LicenseUrl="https://github.com/tgstation/tgstation/tree/tgstation-server-v$(var.ProductVersion)" Theme="hyperlinkLicense" LogoFile="../../../tgs.ico" ShowVersion="yes" SuppressOptionsUI="yes" />
+    </BootstrapperApplication>
+    
+    <netfx:DotNetCoreSearch RuntimeType="aspnet" Platform="x64" MajorVersion="$(var.NetMajorVersion)" Variable="AspNetCorex64Status" />
+    <netfx:DotNetCoreSearch RuntimeType="aspnet" Platform="x86" MajorVersion="$(var.NetMajorVersion)" Variable="AspNetCorex86Status" />
+    
+    <netfx:DotNetCoreSearch RuntimeType="core" Platform="x64" MajorVersion="$(var.NetMajorVersion)" Variable="NetCorex64Status" />
+    <netfx:DotNetCoreSearch RuntimeType="core" Platform="x86" MajorVersion="$(var.NetMajorVersion)" Variable="NetCorex86Status" />
+
+    <WixVariable Id="AspNetCoreDetectCondition" Value="(NetCorex64Status AND AspNetCorex64Status) OR (NetCorex86Status AND AspNetCorex86Status)" />
+
+    <Chain>
+      <ExePackage PerMachine="yes" DetectCondition="!(wix.AspNetCoreDetectCondition)" Vital="yes" Permanent="yes" Protocol="burn" InstallArguments="/install /quiet /norestart /log [HOSTING_BUNDLE_LOG_PATH]" RepairArguments="/repair /quiet /norestart /log [HOSTING_BUNDLE_LOG_PATH]" UninstallArguments="/uninstall /quiet /norestart /log [HOSTING_BUNDLE_LOG_PATH]" Cache="remove" LogPathVariable="HOSTING_BUNDLE_LOG_PATH" RepairCondition="FALSE">
+        <ExePackagePayload Name="Microsoft.DotNet.HostingBundle.$(var.NetMajorVersion)" DownloadUrl="$(var.AspNetRedistUrl)" Hash="FADC48A76561A7ABD5CC599DB737AFC2B1638013C95E29CFC8955CACA1D57004BD9078C6EF9696BECFD75BAA2983FDC2FF4382C9EBDF833A11316C2DEC218884" Size="71391856" Compressed="no" />
+      </ExePackage>
+      <MsiPackage SourceFile="$(var.Tgstation.Server.Host.Service.Wix.TargetPath)">
+        <MsiProperty Name="WIX_BOOTSTRAPPER_UILEVEL" Value="[WixBundleUILevel]" />
+      </MsiPackage>
+    </Chain>
+
+  </Bundle>
+</Wix>

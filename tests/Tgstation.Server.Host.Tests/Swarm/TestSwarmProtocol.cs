@@ -1,12 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
+using System.Threading;
 using System.Threading.Tasks;
 
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
+using Moq;
+
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Core;
+using Tgstation.Server.Host.IO;
+using Tgstation.Server.Host.Transfer;
 
 namespace Tgstation.Server.Host.Swarm.Tests
 {
@@ -15,10 +22,12 @@ namespace Tgstation.Server.Host.Swarm.Tests
 	{
 		static readonly HashSet<ushort> usedPorts = new ();
 		static ILoggerFactory loggerFactory;
-		static ILogger<TestSwarmProtocol> logger;
+		static ILogger logger;
+
+		static ISeekableFileStreamProvider updateFileStreamProvider;
 
 		[ClassInitialize]
-		public static void Initialize(TestContext _)
+		public static async Task Initialize(TestContext _)
 		{
 			loggerFactory = LoggerFactory.Create(builder =>
 			{
@@ -27,13 +36,19 @@ namespace Tgstation.Server.Host.Swarm.Tests
 			});
 
 			logger = loggerFactory.CreateLogger<TestSwarmProtocol>();
+
+			var ms = new MemoryStream(new byte[] { 1, 2, 3, 4 });
+
+			updateFileStreamProvider = new BufferedFileStreamProvider(ms);
+			await updateFileStreamProvider.GetResult(default);
 		}
 
 		[ClassCleanup]
-		public static void Shutdown()
+		public static async Task Shutdown()
 		{
 			usedPorts.Clear();
 			loggerFactory.Dispose();
+			await updateFileStreamProvider.DisposeAsync();
 		}
 
 		[TestMethod]
@@ -84,11 +99,24 @@ namespace Tgstation.Server.Host.Swarm.Tests
 			Assert.AreEqual(SwarmRegistrationResult.Success, await controller.TryInit());
 			Assert.AreEqual(SwarmRegistrationResult.Success, await node2.TryInit());
 
-			Assert.IsFalse(await controller.Service.PrepareUpdate(new Version(4, 3, 2), default));
+			await DelayMax(() =>
+			{
+				Assert.AreEqual(2, controller.Service.GetSwarmServers().Count);
+				Assert.AreEqual(2, node2.Service.GetSwarmServers().Count);
+			}, 5);
+
+			Assert.AreEqual(SwarmPrepareResult.Failure, await controller.Service.PrepareUpdate(updateFileStreamProvider, new Version(4, 3, 2), default));
 
 			Assert.AreEqual(SwarmRegistrationResult.Success, await node1.TryInit());
 
-			Assert.IsTrue(await controller.Service.PrepareUpdate(new Version(4, 3, 2), default));
+			await DelayMax(() =>
+			{
+				Assert.AreEqual(3, controller.Service.GetSwarmServers().Count);
+				Assert.AreEqual(3, node2.Service.GetSwarmServers().Count);
+				Assert.AreEqual(3, node1.Service.GetSwarmServers().Count);
+			}, 5);
+
+			Assert.AreEqual(SwarmPrepareResult.SuccessHoldProviderUntilCommit, await controller.Service.PrepareUpdate(updateFileStreamProvider, new Version(4, 3, 2), default));
 		}
 
 		[TestMethod]
@@ -98,9 +126,11 @@ namespace Tgstation.Server.Host.Swarm.Tests
 			await using var node1 = GenNode(controller);
 
 			TestableSwarmNode.Link(controller, node1);
-
 			Assert.AreEqual(SwarmRegistrationResult.Success, await controller.TryInit());
+
+			node1.RpcMapper.AsyncRequests = false;
 			Assert.AreEqual(SwarmRegistrationResult.Success, await node1.TryInit());
+			node1.RpcMapper.AsyncRequests = true;
 
 			Assert.AreEqual(2, controller.Service.GetSwarmServers().Count);
 			Assert.AreEqual(1, node1.Service.GetSwarmServers().Count);
@@ -154,8 +184,14 @@ namespace Tgstation.Server.Host.Swarm.Tests
 			Assert.AreEqual(SwarmRegistrationResult.Success, await controller.TryInit());
 			Assert.AreEqual(SwarmRegistrationResult.Success, await node1.TryInit());
 
-			Assert.IsTrue(await node1.Service.PrepareUpdate(new Version(4, 3, 2), default));
-			Assert.IsFalse(await node1.Service.PrepareUpdate(new Version(4, 3, 3), default));
+			await DelayMax(() =>
+			{
+				Assert.AreEqual(2, controller.Service.GetSwarmServers().Count);
+				Assert.AreEqual(2, node1.Service.GetSwarmServers().Count);
+			}, 5);
+
+			Assert.AreEqual(SwarmPrepareResult.SuccessHoldProviderUntilCommit, await node1.Service.PrepareUpdate(updateFileStreamProvider, new Version(4, 3, 2), default));
+			Assert.AreEqual(SwarmPrepareResult.Failure, await node1.Service.PrepareUpdate(updateFileStreamProvider, new Version(4, 3, 3), default));
 		}
 
 		[TestMethod]
@@ -170,7 +206,7 @@ namespace Tgstation.Server.Host.Swarm.Tests
 			await TestSimultaneousPrepareDifferentVersionsFails(false);
 		}
 
-		async Task TestSimultaneousPrepareDifferentVersionsFails(bool prepControllerFirst)
+		static async Task TestSimultaneousPrepareDifferentVersionsFails(bool prepControllerFirst)
 		{
 			await using var controller = GenNode();
 			await using var node1 = GenNode(controller);
@@ -183,14 +219,14 @@ namespace Tgstation.Server.Host.Swarm.Tests
 			Assert.AreEqual(SwarmRegistrationResult.Success, await controller.TryInit());
 			Assert.AreEqual(SwarmRegistrationResult.Success, await node1.TryInit());
 
-			Task<bool> controllerPrepareTask = null, nodePrepareTask;
+			Task<SwarmPrepareResult> controllerPrepareTask = null, nodePrepareTask;
 			if (prepControllerFirst)
-				controllerPrepareTask = controller.Service.PrepareUpdate(new Version(4, 3, 2), default);
+				controllerPrepareTask = controller.Service.PrepareUpdate(updateFileStreamProvider, new Version(4, 3, 2), default);
 
-			nodePrepareTask = node1.Service.PrepareUpdate(new Version(4, 3, 3), default);
+			nodePrepareTask = node1.Service.PrepareUpdate(updateFileStreamProvider, new Version(4, 3, 3), default);
 
 			if (!prepControllerFirst)
-				controllerPrepareTask = controller.Service.PrepareUpdate(new Version(4, 3, 2), default);
+				controllerPrepareTask = controller.Service.PrepareUpdate(updateFileStreamProvider, new Version(4, 3, 2), default);
 
 			await Task.Yield();
 
@@ -200,7 +236,7 @@ namespace Tgstation.Server.Host.Swarm.Tests
 
 			var controllerPrepped = await controllerPrepareTask;
 			var nodePrepped = await nodePrepareTask;
-			if (!controllerPrepped && !nodePrepped)
+			if (controllerPrepped == SwarmPrepareResult.Failure && nodePrepped == SwarmPrepareResult.Failure)
 				return; // all is good with the world
 
 			// We have to be fair to the system here...
@@ -209,24 +245,30 @@ namespace Tgstation.Server.Host.Swarm.Tests
 			// Give it 1 second to get its shit together
 			await Task.Delay(TimeSpan.FromSeconds(1));
 
-			if (controllerPrepped)
+			if (controllerPrepped != SwarmPrepareResult.Failure)
+			{
+				Assert.AreEqual(SwarmPrepareResult.SuccessHoldProviderUntilCommit, controllerPrepped);
 				controllerCommitTask = controller.Service.CommitUpdate(default);
+			}
 
-			if (nodePrepped)
+			if (nodePrepped != SwarmPrepareResult.Failure)
+			{
+				Assert.AreEqual(SwarmPrepareResult.SuccessHoldProviderUntilCommit, nodePrepped);
 				nodeCommitTask = node1.Service.CommitUpdate(default);
+			}
 
 			await Task.Yield();
 
 			await Task.WhenAll(controllerCommitTask ?? Task.CompletedTask, nodeCommitTask ?? Task.CompletedTask);
 
-			if (controllerPrepped)
+			if (controllerPrepped != SwarmPrepareResult.Failure)
 				Assert.AreEqual(SwarmCommitResult.AbortUpdate, await controllerCommitTask);
 
-			if (nodePrepped)
+			if (nodePrepped != SwarmPrepareResult.Failure)
 				Assert.AreEqual(SwarmCommitResult.AbortUpdate, await nodeCommitTask);
 		}
 
-		TestableSwarmNode GenNode(TestableSwarmNode controller = null, Version version = null)
+		static TestableSwarmNode GenNode(TestableSwarmNode controller = null, Version version = null)
 		{
 			ushort randPort;
 			do
@@ -247,27 +289,38 @@ namespace Tgstation.Server.Host.Swarm.Tests
 			return new TestableSwarmNode(loggerFactory, config, version);
 		}
 
-		async Task DelayMax(Action assertion, ulong seconds = 1)
+		static async Task DelayMax(Action assertion, long seconds = 1)
 		{
-			for (var i = 0U; i < (seconds * 10); ++i)
+			var id = Guid.NewGuid();
+			logger.LogInformation("Begin DelayMax {id}: {seconds}", id, seconds);
+			var stopwatch = Stopwatch.StartNew();
+			do
 			{
 				try
 				{
 					assertion();
+					logger.LogInformation("End DelayMax {id} after {milliseconds}ms", id, stopwatch.ElapsedMilliseconds);
 					return;
 				}
-				catch (AssertFailedException) { }
+				catch (AssertFailedException)
+				{
+				}
+
 				await Task.Delay(TimeSpan.FromMilliseconds(100));
 			}
+			while (stopwatch.ElapsedMilliseconds < (seconds * 1000));
 
 			try
 			{
 				assertion();
 			}
-			catch (Exception ex)
+			catch
 			{
-				logger.LogCritical(ex, "DelayMax failed!");
+				logger.LogError("Fail DelayMax {id} after {milliseconds}ms", id, stopwatch.ElapsedMilliseconds);
+				throw;
 			}
+
+			logger.LogInformation("End DelayMax {id} after {milliseconds}ms", id, stopwatch.ElapsedMilliseconds);
 		}
 	}
 }

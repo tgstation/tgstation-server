@@ -10,6 +10,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
 using Tgstation.Server.Api.Models;
+using Tgstation.Server.Common;
 using Tgstation.Server.Host.Components.Interop;
 using Tgstation.Server.Host.Components.Interop.Bridge;
 using Tgstation.Server.Host.Configuration;
@@ -88,6 +89,11 @@ namespace Tgstation.Server.Host.Components
 		readonly ISwarmServiceController swarmServiceController;
 
 		/// <summary>
+		/// The <see cref="IConsole"/> for the <see cref="InstanceManager"/>.
+		/// </summary>
+		readonly IConsole console;
+
+		/// <summary>
 		/// The <see cref="ILogger"/> for the <see cref="InstanceManager"/>.
 		/// </summary>
 		readonly ILogger<InstanceManager> logger;
@@ -133,6 +139,11 @@ namespace Tgstation.Server.Host.Components
 		readonly CancellationTokenSource shutdownCancellationTokenSource;
 
 		/// <summary>
+		/// The original <see cref="IConsole.Title"/> of <see cref="console"/>.
+		/// </summary>
+		readonly string originalConsoleTitle;
+
+		/// <summary>
 		/// The <see cref="Task"/> returned by <see cref="Initialize(CancellationToken)"/>.
 		/// </summary>
 		Task startupTask;
@@ -155,6 +166,7 @@ namespace Tgstation.Server.Host.Components
 		/// <param name="asyncDelayer">The value of <see cref="asyncDelayer"/>.</param>
 		/// <param name="serverPortProvider">The value of <see cref="serverPortProvider"/>.</param>
 		/// <param name="swarmServiceController">The value of <see cref="swarmServiceController"/>.</param>
+		/// <param name="console">The value of <see cref="console"/>.</param>
 		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="generalConfiguration"/>.</param>
 		/// <param name="swarmConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="swarmConfiguration"/>.</param>
 		/// <param name="logger">The value of <see cref="logger"/>.</param>
@@ -169,6 +181,7 @@ namespace Tgstation.Server.Host.Components
 			IAsyncDelayer asyncDelayer,
 			IServerPortProvider serverPortProvider,
 			ISwarmServiceController swarmServiceController,
+			IConsole console,
 			IOptions<GeneralConfiguration> generalConfigurationOptions,
 			IOptions<SwarmConfiguration> swarmConfigurationOptions,
 			ILogger<InstanceManager> logger)
@@ -183,9 +196,12 @@ namespace Tgstation.Server.Host.Components
 			this.asyncDelayer = asyncDelayer ?? throw new ArgumentNullException(nameof(asyncDelayer));
 			this.serverPortProvider = serverPortProvider ?? throw new ArgumentNullException(nameof(serverPortProvider));
 			this.swarmServiceController = swarmServiceController ?? throw new ArgumentNullException(nameof(swarmServiceController));
+			this.console = console ?? throw new ArgumentNullException(nameof(console));
 			generalConfiguration = generalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
 			swarmConfiguration = swarmConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(swarmConfigurationOptions));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
+
+			originalConsoleTitle = console.Title;
 
 			instances = new Dictionary<long, ReferenceCountingContainer<IInstance, InstanceWrapper>>();
 			bridgeHandlers = new Dictionary<string, IBridgeHandler>();
@@ -218,8 +234,7 @@ namespace Tgstation.Server.Host.Components
 		/// <inheritdoc />
 		public IInstanceReference GetInstanceReference(Api.Models.Instance metadata)
 		{
-			if (metadata == null)
-				throw new ArgumentNullException(nameof(metadata));
+			ArgumentNullException.ThrowIfNull(metadata);
 
 			lock (instances)
 			{
@@ -233,8 +248,7 @@ namespace Tgstation.Server.Host.Components
 		/// <inheritdoc />
 		public async Task MoveInstance(Models.Instance instance, string oldPath, CancellationToken cancellationToken)
 		{
-			if (oldPath == null)
-				throw new ArgumentNullException(nameof(oldPath));
+			ArgumentNullException.ThrowIfNull(oldPath);
 
 			using var lockContext = await SemaphoreSlimContext.Lock(instanceStateChangeSemaphore, cancellationToken);
 			using var instanceReferenceCheck = GetInstanceReference(instance);
@@ -268,7 +282,7 @@ namespace Tgstation.Server.Host.Components
 						};
 						db.Instances.Attach(targetInstance);
 						targetInstance.Path = oldPath;
-						return db.Save(default);
+						return db.Save(CancellationToken.None);
 					});
 				}
 				catch (Exception innerEx)
@@ -284,7 +298,7 @@ namespace Tgstation.Server.Host.Components
 						await ioManager.WriteAllBytes(
 							ioManager.ConcatPath(oldPath, InstanceController.InstanceAttachFileName),
 							Array.Empty<byte>(),
-							default);
+							CancellationToken.None);
 					}
 					catch (Exception tripleEx)
 					{
@@ -305,8 +319,7 @@ namespace Tgstation.Server.Host.Components
 		/// <inheritdoc />
 		public async Task OfflineInstance(Models.Instance metadata, Models.User user, CancellationToken cancellationToken)
 		{
-			if (metadata == null)
-				throw new ArgumentNullException(nameof(metadata));
+			ArgumentNullException.ThrowIfNull(metadata);
 
 			using (await SemaphoreSlimContext.Lock(instanceStateChangeSemaphore, cancellationToken))
 			{
@@ -326,7 +339,7 @@ namespace Tgstation.Server.Host.Components
 
 				try
 				{
-					await container.OnZeroReferences.WithToken(cancellationToken);
+					await container.OnZeroReferences.WaitAsync(cancellationToken);
 
 					// we are the one responsible for cancelling his jobs
 					var tasks = new List<Task>();
@@ -372,8 +385,7 @@ namespace Tgstation.Server.Host.Components
 		/// <inheritdoc />
 		public async Task OnlineInstance(Models.Instance metadata, CancellationToken cancellationToken)
 		{
-			if (metadata == null)
-				throw new ArgumentNullException(nameof(metadata));
+			ArgumentNullException.ThrowIfNull(metadata);
 
 			using var lockContext = await SemaphoreSlimContext.Lock(instanceStateChangeSemaphore, cancellationToken);
 			lock (instances)
@@ -402,7 +414,7 @@ namespace Tgstation.Server.Host.Components
 					try
 					{
 						// DCT: Must always run
-						await instance.StopAsync(default);
+						await instance.StopAsync(CancellationToken.None);
 					}
 					catch (Exception innerEx)
 					{
@@ -430,49 +442,56 @@ namespace Tgstation.Server.Host.Components
 		/// <inheritdoc />
 		public async Task StopAsync(CancellationToken cancellationToken)
 		{
-			using (cancellationToken.Register(shutdownCancellationTokenSource.Cancel))
-				try
-				{
-					logger.LogDebug("Stopping instance manager...");
-
-					if (!startupTask.IsCompleted)
+			try
+			{
+				using (cancellationToken.Register(shutdownCancellationTokenSource.Cancel))
+					try
 					{
-						logger.LogTrace("Interrupting startup task...");
-						startupCancellationTokenSource.Cancel();
-						await startupTask;
+						logger.LogDebug("Stopping instance manager...");
+
+						if (!startupTask.IsCompleted)
+						{
+							logger.LogTrace("Interrupting startup task...");
+							startupCancellationTokenSource.Cancel();
+							await startupTask;
+						}
+
+						var instanceFactoryStopTask = instanceFactory.StopAsync(cancellationToken);
+						await jobService.StopAsync(cancellationToken);
+
+						async Task OfflineInstanceImmediate(IInstance instance, CancellationToken cancellationToken)
+						{
+							try
+							{
+								await instance.StopAsync(cancellationToken);
+							}
+							catch (Exception ex)
+							{
+								logger.LogError(ex, "Instance shutdown exception!");
+							}
+						}
+
+						await Task.WhenAll(instances.Select(x => OfflineInstanceImmediate(x.Value.Instance, cancellationToken)));
+						await instanceFactoryStopTask;
+
+						await swarmServiceController.Shutdown(cancellationToken);
 					}
-
-					var instanceFactoryStopTask = instanceFactory.StopAsync(cancellationToken);
-					await jobService.StopAsync(cancellationToken);
-
-					async Task OfflineInstanceImmediate(IInstance instance, CancellationToken cancellationToken)
+					finally
 					{
-						try
-						{
-							await instance.StopAsync(cancellationToken);
-						}
-						catch (Exception ex)
-						{
-							logger.LogError(ex, "Instance shutdown exception!");
-						}
+						if (originalConsoleTitle != null)
+							console.Title = originalConsoleTitle;
 					}
-
-					await Task.WhenAll(instances.Select(x => OfflineInstanceImmediate(x.Value.Instance, cancellationToken)));
-					await instanceFactoryStopTask;
-
-					await swarmServiceController.Shutdown(cancellationToken);
-				}
-				catch (Exception ex)
-				{
-					logger.LogCritical(ex, "Instance manager stop exception!");
-				}
+			}
+			catch (Exception ex)
+			{
+				logger.LogCritical(ex, "Instance manager stop exception!");
+			}
 		}
 
 		/// <inheritdoc />
 		public async Task<BridgeResponse> ProcessBridgeRequest(BridgeParameters parameters, CancellationToken cancellationToken)
 		{
-			if (parameters == null)
-				throw new ArgumentNullException(nameof(parameters));
+			ArgumentNullException.ThrowIfNull(parameters);
 
 			IBridgeHandler bridgeHandler = null;
 			for (var i = 0; bridgeHandler == null && i < 30; ++i)
@@ -501,8 +520,7 @@ namespace Tgstation.Server.Host.Components
 		/// <inheritdoc />
 		public IBridgeRegistration RegisterHandler(IBridgeHandler bridgeHandler)
 		{
-			if (bridgeHandler == null)
-				throw new ArgumentNullException(nameof(bridgeHandler));
+			ArgumentNullException.ThrowIfNull(bridgeHandler);
 
 			var accessIdentifier = bridgeHandler.DMApiParameters.AccessIdentifier;
 			lock (bridgeHandlers)
@@ -541,6 +559,7 @@ namespace Tgstation.Server.Host.Components
 			try
 			{
 				logger.LogInformation("{versionString}", assemblyInformationProvider.VersionString);
+				console.Title = assemblyInformationProvider.VersionString;
 
 				CheckSystemCompatibility();
 
@@ -615,7 +634,7 @@ namespace Tgstation.Server.Host.Components
 			using (var systemIdentity = systemIdentityFactory.GetCurrent())
 			{
 				if (!systemIdentity.CanCreateSymlinks)
-					throw new InvalidOperationException("The user running tgstation-server cannot create symlinks! Please try running as an administrative user!");
+					throw new InvalidOperationException($"The user running {Constants.CanonicalPackageName} cannot create symlinks! Please try running as an administrative user!");
 			}
 
 			// This runs before the real socket is opened, ensures we don't perform reattaches unless we're fairly certain the bind won't fail

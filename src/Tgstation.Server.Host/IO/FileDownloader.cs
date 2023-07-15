@@ -1,14 +1,11 @@
 ﻿using System;
-using System.IO;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Threading;
-using System.Threading.Tasks;
 
 using Microsoft.Extensions.Logging;
 
 using Tgstation.Server.Api;
-using Tgstation.Server.Common;
+using Tgstation.Server.Common.Http;
 
 namespace Tgstation.Server.Host.IO
 {
@@ -37,34 +34,33 @@ namespace Tgstation.Server.Host.IO
 		}
 
 		/// <inheritdoc />
-		public async Task<MemoryStream> DownloadFile(Uri url, string bearerToken, CancellationToken cancellationToken)
+		public IFileStreamProvider DownloadFile(Uri url, string bearerToken)
 		{
-			if (url == null)
-				throw new ArgumentNullException(nameof(url));
+			ArgumentNullException.ThrowIfNull(url);
 
 			logger.LogDebug("Starting download of {url}...", url);
-			using var httpClient = httpClientFactory.CreateClient();
-			using var request = new HttpRequestMessage(
-				HttpMethod.Get,
-				url);
-
-			if (bearerToken != null)
-				request.Headers.Authorization = new AuthenticationHeaderValue(ApiHeaders.BearerAuthenticationScheme, bearerToken);
-
-			var webRequestTask = httpClient.SendAsync(request, cancellationToken);
-			using var response = await webRequestTask;
-			response.EnsureSuccessStatusCode();
-			using var responseStream = await response.Content.ReadAsStreamAsync(cancellationToken);
-			var memoryStream = new MemoryStream();
+			var httpClient = httpClientFactory.CreateClient();
 			try
 			{
-				await responseStream.CopyToAsync(memoryStream, cancellationToken);
-				memoryStream.Seek(0, SeekOrigin.Begin);
-				return memoryStream;
+				var request = new HttpRequestMessage(
+					HttpMethod.Get,
+					url);
+				try
+				{
+					if (bearerToken != null)
+						request.Headers.Authorization = new AuthenticationHeaderValue(ApiHeaders.BearerAuthenticationScheme, bearerToken);
+
+					return new RequestFileStreamProvider(httpClient, request);
+				}
+				catch
+				{
+					request.Dispose();
+					throw;
+				}
 			}
 			catch
 			{
-				memoryStream.Dispose();
+				httpClient.Dispose();
 				throw;
 			}
 		}

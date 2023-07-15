@@ -8,7 +8,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
 using Tgstation.Server.Api.Models;
-using Tgstation.Server.Common;
+using Tgstation.Server.Common.Http;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Utils.GitHub;
 
@@ -35,8 +35,7 @@ namespace Tgstation.Server.Host.Security.OAuth
 			ILoggerFactory loggerFactory,
 			IOptions<SecurityConfiguration> securityConfigurationOptions)
 		{
-			if (loggerFactory == null)
-				throw new ArgumentNullException(nameof(loggerFactory));
+			ArgumentNullException.ThrowIfNull(loggerFactory);
 
 			var securityConfiguration = securityConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(securityConfigurationOptions));
 

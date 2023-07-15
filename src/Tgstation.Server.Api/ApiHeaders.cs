@@ -12,6 +12,7 @@ using Microsoft.Net.Http.Headers;
 
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Properties;
+using Tgstation.Server.Common.Extensions;
 
 namespace Tgstation.Server.Api
 {
@@ -51,7 +52,7 @@ namespace Tgstation.Server.Api
 		public const string OAuthAuthenticationScheme = "OAuth";
 
 		/// <summary>
-		/// Added to <see cref="MediaTypeNames.Application"/> in netstandard2.1. Can't use because of Tgstation.Server.Migrator.
+		/// Added to <see cref="MediaTypeNames.Application"/> in netstandard2.1. Can't use because of lack of .NET Framework support.
 		/// </summary>
 		public const string ApplicationJsonMime = "application/json";
 
@@ -123,7 +124,8 @@ namespace Tgstation.Server.Api
 		/// <param name="userAgent">The value of <see cref="UserAgent"/>.</param>
 		/// <param name="token">The value of <see cref="Token"/>.</param>
 		/// <param name="oauthProvider">The value of <see cref="OAuthProvider"/>.</param>
-		public ApiHeaders(ProductHeaderValue userAgent, string token, OAuthProvider? oauthProvider = null) : this(userAgent, token, null, null)
+		public ApiHeaders(ProductHeaderValue userAgent, string token, OAuthProvider? oauthProvider = null)
+			: this(userAgent, token, null, null)
 		{
 			if (userAgent == null)
 				throw new ArgumentNullException(nameof(userAgent));
@@ -139,7 +141,8 @@ namespace Tgstation.Server.Api
 		/// <param name="userAgent">The value of <see cref="UserAgent"/>.</param>
 		/// <param name="username">The value of <see cref="Username"/>.</param>
 		/// <param name="password">The value of <see cref="Password"/>.</param>
-		public ApiHeaders(ProductHeaderValue userAgent, string username, string password) : this(userAgent, null, username, password)
+		public ApiHeaders(ProductHeaderValue userAgent, string username, string password)
+			: this(userAgent, null, username, password)
 		{
 			if (userAgent == null)
 				throw new ArgumentNullException(nameof(userAgent));

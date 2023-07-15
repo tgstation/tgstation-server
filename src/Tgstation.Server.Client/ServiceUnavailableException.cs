@@ -12,7 +12,8 @@ namespace Tgstation.Server.Client
 		/// Initializes a new instance of the <see cref="ServiceUnavailableException"/> class.
 		/// </summary>
 		/// <param name="responseMessage">The <see cref="HttpResponseMessage"/>.</param>
-		public ServiceUnavailableException(HttpResponseMessage responseMessage) : base(responseMessage, "The service is unavailable!")
+		public ServiceUnavailableException(HttpResponseMessage responseMessage)
+			: base(responseMessage, "The service is unavailable!")
 		{
 		}
 
@@ -27,7 +28,8 @@ namespace Tgstation.Server.Client
 		/// Initializes a new instance of the <see cref="ServiceUnavailableException"/> class.
 		/// </summary>
 		/// <param name="message">The message for the <see cref="Exception"/>.</param>
-		public ServiceUnavailableException(string message) : base(message)
+		public ServiceUnavailableException(string message)
+			: base(message)
 		{
 		}
 
@@ -36,7 +38,8 @@ namespace Tgstation.Server.Client
 		/// </summary>
 		/// <param name="message">The message for the <see cref="Exception"/>.</param>
 		/// <param name="innerException">The inner <see cref="Exception"/> for the base <see cref="Exception"/>.</param>
-		public ServiceUnavailableException(string message, Exception innerException) : base(message, innerException)
+		public ServiceUnavailableException(string message, Exception innerException)
+			: base(message, innerException)
 		{
 		}
 	}

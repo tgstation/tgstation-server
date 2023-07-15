@@ -113,8 +113,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			Models.ChatBot chatBot)
 			: base(jobManager, asyncDelayer, logger, chatBot)
 		{
-			if (assemblyInformationProvider == null)
-				throw new ArgumentNullException(nameof(assemblyInformationProvider));
+			ArgumentNullException.ThrowIfNull(assemblyInformationProvider);
 
 			var builder = chatBot.CreateConnectionStringBuilder();
 			if (builder == null || !builder.Valid || builder is not IrcConnectionStringBuilder ircBuilder)
@@ -161,14 +160,13 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			await base.DisposeAsync();
 
 			// DCT: None available
-			await HardDisconnect(default);
+			await HardDisconnect(CancellationToken.None);
 		}
 
 		/// <inheritdoc />
 		public override Task SendMessage(Message replyTo, MessageContent message, ulong channelId, CancellationToken cancellationToken)
 		{
-			if (message == null)
-				throw new ArgumentNullException(nameof(message));
+			ArgumentNullException.ThrowIfNull(message);
 
 			return Task.Factory.StartNew(
 				() =>
@@ -230,14 +228,10 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			bool localCommitPushed,
 			CancellationToken cancellationToken)
 		{
-			if (revisionInformation == null)
-				throw new ArgumentNullException(nameof(revisionInformation));
-			if (byondVersion == null)
-				throw new ArgumentNullException(nameof(byondVersion));
-			if (gitHubOwner == null)
-				throw new ArgumentNullException(nameof(gitHubOwner));
-			if (gitHubRepo == null)
-				throw new ArgumentNullException(nameof(gitHubRepo));
+			ArgumentNullException.ThrowIfNull(revisionInformation);
+			ArgumentNullException.ThrowIfNull(byondVersion);
+			ArgumentNullException.ThrowIfNull(gitHubOwner);
+			ArgumentNullException.ThrowIfNull(gitHubRepo);
 
 			var commitInsert = revisionInformation.CommitSha[..7];
 			string remoteCommitInsert;
@@ -383,7 +377,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 					cancellationToken,
 					DefaultIOManager.BlockingTaskCreationOptions,
 					TaskScheduler.Current)
-					.WithToken(cancellationToken);
+					.WaitAsync(cancellationToken);
 
 				cancellationToken.ThrowIfCancellationRequested();
 
@@ -413,41 +407,41 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				await NonBlockingListen(cancellationToken);
 
 				var nickCheckCompleteTcs = new TaskCompletionSource();
-				using (cancellationToken.Register(() => nickCheckCompleteTcs.TrySetCanceled()))
+				using (cancellationToken.Register(() => nickCheckCompleteTcs.TrySetCanceled(cancellationToken)))
 				{
 					listenTask = Task.Factory.StartNew(
-					async () =>
-					{
-						Logger.LogTrace("Entering nick check loop");
-						while (!disconnecting && client.IsConnected && client.Nickname != nickname)
+						async () =>
 						{
-							client.ListenOnce(true);
-							if (disconnecting || !client.IsConnected)
-								break;
-							await NonBlockingListen(cancellationToken);
+							Logger.LogTrace("Entering nick check loop");
+							while (!disconnecting && client.IsConnected && client.Nickname != nickname)
+							{
+								client.ListenOnce(true);
+								if (disconnecting || !client.IsConnected)
+									break;
+								await NonBlockingListen(cancellationToken);
 
-							// ensure we have the correct nick
-							if (client.GetIrcUser(nickname) == null)
-								client.RfcNick(nickname);
-						}
+								// ensure we have the correct nick
+								if (client.GetIrcUser(nickname) == null)
+									client.RfcNick(nickname);
+							}
 
-						nickCheckCompleteTcs.TrySetResult();
+							nickCheckCompleteTcs.TrySetResult();
 
-						Logger.LogTrace("Starting blocking listen...");
-						try
-						{
-							client.Listen();
-						}
-						catch (Exception ex)
-						{
-							Logger.LogWarning(ex, "IRC Main Listen Exception!");
-						}
+							Logger.LogTrace("Starting blocking listen...");
+							try
+							{
+								client.Listen();
+							}
+							catch (Exception ex)
+							{
+								Logger.LogWarning(ex, "IRC Main Listen Exception!");
+							}
 
-						Logger.LogTrace("Exiting listening task...");
-					},
-					cancellationToken,
-					DefaultIOManager.BlockingTaskCreationOptions,
-					TaskScheduler.Current);
+							Logger.LogTrace("Exiting listening task...");
+						},
+						cancellationToken,
+						DefaultIOManager.BlockingTaskCreationOptions,
+						TaskScheduler.Current);
 
 					await nickCheckCompleteTcs.Task;
 				}
@@ -590,7 +584,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			cancellationToken,
 			TaskCreationOptions.None,
 			TaskScheduler.Current)
-			.WithToken(cancellationToken);
+			.WaitAsync(cancellationToken);
 
 		/// <summary>
 		/// Run SASL authentication on <see cref="client"/>.

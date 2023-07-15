@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<RuleSet Name="myrules" Description="My rule set" ToolsVersion="16.0">
+<RuleSet Name="myrules" Description="My rule set" ToolsVersion="17.0">
   <Rules AnalyzerId="AsyncUsageAnalyzers" RuleNamespace="AsyncUsageAnalyzers">
     <Rule Id="UseConfigureAwait" Action="Warning" />
   </Rules>
@@ -1026,8 +1026,8 @@
     <Rule Id="SA1101" Action="None" />
     <Rule Id="SA1118" Action="None" />
     <Rule Id="SA1121" Action="None" />
-    <Rule Id="SA1127" Action="None" />
-    <Rule Id="SA1128" Action="None" />
+    <Rule Id="SA1127" Action="Warning" />
+    <Rule Id="SA1128" Action="Warning" />
     <Rule Id="SA1201" Action="None" />
     <Rule Id="SA1400" Action="None" />
     <Rule Id="SA1412" Action="Warning" />

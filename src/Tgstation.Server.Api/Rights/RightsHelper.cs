@@ -38,7 +38,8 @@ namespace Tgstation.Server.Api.Rights
 		/// <typeparam name="TRight">The <see cref="RightsType"/>.</typeparam>
 		/// <param name="right">The <typeparamref name="TRight"/>.</param>
 		/// <returns>A <see cref="string"/> representing the claim role name.</returns>
-		public static string RoleNames<TRight>(TRight right) where TRight : Enum
+		public static string RoleNames<TRight>(TRight right)
+			where TRight : Enum
 		{
 			IEnumerable<string> GetRoleNames()
 			{
@@ -75,7 +76,8 @@ namespace Tgstation.Server.Api.Rights
 		/// </summary>
 		/// <typeparam name="TRight">The <see cref="RightsType"/>.</typeparam>
 		/// <returns>All rights for the given <typeparamref name="TRight"/>.</returns>
-		public static TRight AllRights<TRight>() where TRight : Enum
+		public static TRight AllRights<TRight>()
+			where TRight : Enum
 		{
 			ulong rights = 0;
 			foreach (Enum right in Enum.GetValues(typeof(TRight)))
@@ -91,7 +93,8 @@ namespace Tgstation.Server.Api.Rights
 		/// <typeparam name="TRight">The <see cref="RightsType"/>.</typeparam>
 		/// <param name="rights">The <typeparamref name="TRight"/>s to clamp.</param>
 		/// <returns>The clamped <paramref name="rights"/>.</returns>
-		public static TRight Clamp<TRight>(TRight rights) where TRight : Enum
+		public static TRight Clamp<TRight>(TRight rights)
+			where TRight : Enum
 		{
 			var allRights = AllRights<TRight>();
 

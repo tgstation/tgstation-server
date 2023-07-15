@@ -48,7 +48,8 @@ namespace Tgstation.Server.Host.Components.Session
 			Models.ReattachInformation copy,
 			IDmbProvider dmb,
 			IDmbProvider initialDmb,
-			TimeSpan topicRequestTimeout) : base(copy)
+			TimeSpan topicRequestTimeout)
+			: base(copy)
 		{
 			Dmb = dmb ?? throw new ArgumentNullException(nameof(dmb));
 			InitialDmb = initialDmb;
@@ -93,8 +94,7 @@ namespace Tgstation.Server.Host.Components.Session
 		/// <param name="runtimeInformation">The <see cref="Interop.Bridge.RuntimeInformation"/>.</param>
 		public void SetRuntimeInformation(RuntimeInformation runtimeInformation)
 		{
-			if (runtimeInformation == null)
-				throw new ArgumentNullException(nameof(runtimeInformation));
+			ArgumentNullException.ThrowIfNull(runtimeInformation);
 
 			lock (runtimeInformationLock)
 			{

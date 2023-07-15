@@ -15,6 +15,11 @@ namespace Tgstation.Server.Api.Models.Internal
 		public virtual Uri? Address { get; set; }
 
 		/// <summary>
+		/// The address the swarm server can be publically accessed.
+		/// </summary>
+		public virtual Uri? PublicAddress { get; set; }
+
+		/// <summary>
 		/// The server's identifier.
 		/// </summary>
 		[Required]

@@ -27,7 +27,27 @@ namespace Tgstation.Server.Client
 		public Task<AdministrationResponse> Read(CancellationToken cancellationToken) => ApiClient.Read<AdministrationResponse>(Routes.Administration, cancellationToken);
 
 		/// <inheritdoc />
-		public Task<ServerUpdateResponse> Update(ServerUpdateRequest updateRequest, CancellationToken cancellationToken) => ApiClient.Update<ServerUpdateRequest, ServerUpdateResponse>(Routes.Administration, updateRequest ?? throw new ArgumentNullException(nameof(updateRequest)), cancellationToken);
+		public async Task<ServerUpdateResponse> Update(
+			ServerUpdateRequest updateRequest,
+			Stream? zipFileStream,
+			CancellationToken cancellationToken)
+		{
+			if (updateRequest == null)
+				throw new ArgumentNullException(nameof(updateRequest));
+
+			if (updateRequest.UploadZip == true && zipFileStream == null)
+				throw new ArgumentNullException(nameof(zipFileStream));
+
+			var result = await ApiClient.Update<ServerUpdateRequest, ServerUpdateResponse>(
+				Routes.Administration,
+				updateRequest,
+				cancellationToken);
+
+			if (updateRequest.UploadZip == true)
+				await ApiClient.Upload(result, zipFileStream, cancellationToken).ConfigureAwait(false);
+
+			return result;
+		}
 
 		/// <inheritdoc />
 		public Task Restart(CancellationToken cancellationToken) => ApiClient.Delete(Routes.Administration, cancellationToken);

@@ -7,7 +7,6 @@ using Microsoft.Extensions.Logging;
 
 using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Host.Components.Interop;
-using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.Jobs;
 using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.Utils;
@@ -131,6 +130,8 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// <inheritdoc />
 		public async Task<Dictionary<ChatChannel, IEnumerable<ChannelRepresentation>>> MapChannels(IEnumerable<ChatChannel> channels, CancellationToken cancellationToken)
 		{
+			ArgumentNullException.ThrowIfNull(channels);
+
 			try
 			{
 				return await MapChannelsImpl(channels, cancellationToken);
@@ -147,7 +148,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		{
 			while (true)
 			{
-				await nextMessage.Task.WithToken(cancellationToken);
+				await nextMessage.Task.WaitAsync(cancellationToken);
 				lock (messageQueue)
 					if (messageQueue.Count > 0)
 					{
@@ -308,7 +309,6 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 							},
 							cancellationToken);
 
-						// DCT: Always wait for the job to complete here
 						await jobManager.WaitForJobCompletion(job, null, cancellationToken, cancellationToken);
 					}
 				}

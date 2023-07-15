@@ -1,7 +1,7 @@
 ﻿using System;
 
 using Tgstation.Server.Api;
-using Tgstation.Server.Common;
+using Tgstation.Server.Common.Http;
 
 namespace Tgstation.Server.Client
 {

@@ -12,6 +12,7 @@ using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Response;
 using Tgstation.Server.Host.Components;
 using Tgstation.Server.Host.Database;
+using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.Jobs;
 using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.Security;
@@ -138,7 +139,7 @@ namespace Tgstation.Server.Host.Controllers
 				return Forbid();
 
 			var updatedJob = await jobManager.CancelJob(job, AuthenticationContext.User, false, cancellationToken);
-			return updatedJob != null ? Accepted(updatedJob.ToApi()) : Gone();
+			return updatedJob != null ? Accepted(updatedJob.ToApi()) : this.Gone();
 		}
 
 		/// <summary>

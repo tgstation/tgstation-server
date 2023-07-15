@@ -20,10 +20,8 @@ namespace Tgstation.Server.Host.IO
 		/// <param name="subdirectory">The value of <see cref="subdirectory"/>.</param>
 		public ResolvingIOManager(IIOManager parent, string subdirectory)
 		{
-			if (parent == null)
-				throw new ArgumentNullException(nameof(parent));
-			if (subdirectory == null)
-				throw new ArgumentNullException(nameof(subdirectory));
+			ArgumentNullException.ThrowIfNull(parent);
+			ArgumentNullException.ThrowIfNull(subdirectory);
 
 			this.subdirectory = ConcatPath(parent.ResolvePath(), subdirectory);
 		}

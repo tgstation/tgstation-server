@@ -46,10 +46,8 @@ namespace Tgstation.Server.Host.Security
 		{
 			this.asyncDelayer = asyncDelayer ?? throw new ArgumentNullException(nameof(asyncDelayer));
 
-			if (cryptographySuite == null)
-				throw new ArgumentNullException(nameof(cryptographySuite));
-			if (assemblyInformationProvider == null)
-				throw new ArgumentNullException(nameof(assemblyInformationProvider));
+			ArgumentNullException.ThrowIfNull(cryptographySuite);
+			ArgumentNullException.ThrowIfNull(assemblyInformationProvider);
 
 			securityConfiguration = securityConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(securityConfigurationOptions));
 
@@ -80,8 +78,7 @@ namespace Tgstation.Server.Host.Security
 		/// <inheritdoc />
 		public async Task<TokenResponse> CreateToken(Models.User user, bool oAuth, CancellationToken cancellationToken)
 		{
-			if (user == null)
-				throw new ArgumentNullException(nameof(user));
+			ArgumentNullException.ThrowIfNull(user);
 
 			var now = DateTimeOffset.UtcNow;
 			var nowUnix = now.ToUnixTimeSeconds();

@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/dotnet/sdk:6.0-bullseye-slim AS build
+FROM mcr.microsoft.com/dotnet/sdk:6.0-bookworm-slim AS build
 
 # install node and npm
 # replace shell with bash so we can source files
@@ -25,8 +25,11 @@ RUN npm install -g yarn
 # Build web control panel
 WORKDIR /repo/build
 
+COPY build/Common.props Common.props
+COPY build/NugetCommon.props NugetCommon.props
 COPY build/Version.props Version.props
 COPY build/ControlPanelVersion.props ControlPanelVersion.props
+COPY build/SrcCommon.props SrcCommon.props
 
 WORKDIR /repo/src/Tgstation.Server.Host
 
@@ -60,7 +63,7 @@ RUN dotnet publish -c Release -o /app
 WORKDIR /repo/src/Tgstation.Server.Host
 RUN dotnet publish -c Release -o /app/lib/Default && mv /app/lib/Default/appsettings* /app
 
-FROM mcr.microsoft.com/dotnet/aspnet:6.0-bullseye-slim
+FROM mcr.microsoft.com/dotnet/aspnet:6.0-bookworm-slim
 
 #needed for byond
 RUN apt-get update \

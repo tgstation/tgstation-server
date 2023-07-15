@@ -1,47 +1,12 @@
 <Project Sdk="Microsoft.NET.Sdk">
-  <Import Project="../../build/Version.props" />
+  <Import Project="../../build/NugetCommon.props" />
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-    <DebugType>Full</DebugType>
-    <Version>$(TgsCoreVersion)</Version>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Authors>Cyberboss/Dominion</Authors>
-    <Company>/tg/station 13</Company>
+    <TargetFrameworks>$(TgsNugetNetFramework)</TargetFrameworks>
+    <Version>$(TgsCommonLibraryVersion)</Version>
     <Description>Common functions for tgstation-server.</Description>
-    <PackageProjectUrl>https://tgstation.github.io/tgstation-server</PackageProjectUrl>
-    <PackageLicenseFile>LICENSE</PackageLicenseFile>
-    <PackageIcon>tgs.png</PackageIcon>
-    <RepositoryType>Git</RepositoryType>
-    <RepositoryUrl>https://github.com/tgstation/tgstation-server</RepositoryUrl>
-    <Copyright>2018-2023</Copyright>
     <PackageTags>web tgstation-server tgstation ss13 byond client http</PackageTags>
-    <PackageReleaseNotes>Initial release.</PackageReleaseNotes>
-    <IncludeSymbols>true</IncludeSymbols>
-    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
-    <CodeAnalysisRuleSet>../../build/analyzers.ruleset</CodeAnalysisRuleSet>
-    <LangVersion>latest</LangVersion>
-    <Nullable>enable</Nullable>
-    <DocumentationFile>bin\$(Configuration)\netstandard2.0\Tgstation.Server.Client.xml</DocumentationFile>
-    <EnableNETAnalyzers>true</EnableNETAnalyzers>
+    <PackageReleaseNotes>Added CachedResponseStream.</PackageReleaseNotes>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)'=='Release'">
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <WarningsAsErrors />
-  </PropertyGroup>
-
-  <ItemGroup>
-    <!-- Usage: Linting -->
-    <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-  </ItemGroup>
-
-  <ItemGroup>
-    <AdditionalFiles Include="../../build/stylecop.json" />
-    <None Include="../../LICENSE" Pack="true" PackagePath="" />
-    <None Include="../../build/tgs.png" Pack="true" PackagePath="" />
-  </ItemGroup>
 </Project>

@@ -17,6 +17,7 @@ using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Host.Components;
 using Tgstation.Server.Host.Components.Session;
 using Tgstation.Server.Host.Database;
+using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.Jobs;
 using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.Security;
@@ -145,20 +146,20 @@ namespace Tgstation.Server.Host.Controllers
 			| DreamDaemonRights.SoftShutdown
 			| DreamDaemonRights.Start
 			| DreamDaemonRights.SetStartupTimeout
-			| DreamDaemonRights.SetHeartbeatInterval
+			| DreamDaemonRights.SetHealthCheckInterval
 			| DreamDaemonRights.SetTopicTimeout
 			| DreamDaemonRights.SetAdditionalParameters
 			| DreamDaemonRights.SetVisibility
 			| DreamDaemonRights.SetProfiler
-			| DreamDaemonRights.SetLogOutput)]
+			| DreamDaemonRights.SetLogOutput
+			| DreamDaemonRights.SetMapThreads)]
 		[ProducesResponseType(typeof(DreamDaemonResponse), 200)]
 		[ProducesResponseType(typeof(ErrorMessageResponse), 410)]
 #pragma warning disable CA1502 // TODO: Decomplexify
 #pragma warning disable CA1506
 		public async Task<IActionResult> Update([FromBody] DreamDaemonRequest model, CancellationToken cancellationToken)
 		{
-			if (model == null)
-				throw new ArgumentNullException(nameof(model));
+			ArgumentNullException.ThrowIfNull(model);
 
 			if (model.SoftShutdown == true && model.SoftRestart == true)
 				return BadRequest(new ErrorMessageResponse(ErrorCode.DreamDaemonDoubleSoft));
@@ -172,7 +173,7 @@ namespace Tgstation.Server.Host.Controllers
 				.FirstOrDefaultAsync(cancellationToken);
 
 			if (current == default)
-				return Gone();
+				return this.Gone();
 
 			if (model.Port.HasValue && model.Port.Value != current.Port.Value)
 			{
@@ -181,9 +182,18 @@ namespace Tgstation.Server.Host.Controllers
 						model.Port.Value,
 						true,
 						cancellationToken);
+
 				if (verifiedPort != model.Port)
 					return Conflict(new ErrorMessageResponse(ErrorCode.PortNotAvailable));
 			}
+
+#pragma warning disable CS0618 // Type or member is obsolete
+			if (model.HeartbeatSeconds.HasValue && !model.HealthCheckSeconds.HasValue)
+				model.HealthCheckSeconds = model.HeartbeatSeconds;
+
+			if (model.DumpOnHeartbeatRestart.HasValue && !model.DumpOnHealthCheckRestart.HasValue)
+				model.DumpOnHealthCheckRestart = model.DumpOnHeartbeatRestart;
+#pragma warning restore CS0618 // Type or member is obsolete
 
 			var userRights = (DreamDaemonRights)AuthenticationContext.GetRight(RightsType.DreamDaemon);
 
@@ -218,12 +228,13 @@ namespace Tgstation.Server.Host.Controllers
 						|| (model.SoftRestart.HasValue && !AuthenticationContext.InstancePermissionSet.DreamDaemonRights.Value.HasFlag(DreamDaemonRights.SoftRestart))
 						|| (model.SoftShutdown.HasValue && !AuthenticationContext.InstancePermissionSet.DreamDaemonRights.Value.HasFlag(DreamDaemonRights.SoftShutdown))
 						|| CheckModified(x => x.StartupTimeout, DreamDaemonRights.SetStartupTimeout)
-						|| CheckModified(x => x.HeartbeatSeconds, DreamDaemonRights.SetHeartbeatInterval)
-						|| CheckModified(x => x.DumpOnHeartbeatRestart, DreamDaemonRights.CreateDump)
+						|| CheckModified(x => x.HealthCheckSeconds, DreamDaemonRights.SetHealthCheckInterval)
+						|| CheckModified(x => x.DumpOnHealthCheckRestart, DreamDaemonRights.CreateDump)
 						|| CheckModified(x => x.TopicRequestTimeout, DreamDaemonRights.SetTopicTimeout)
 						|| CheckModified(x => x.AdditionalParameters, DreamDaemonRights.SetAdditionalParameters)
 						|| CheckModified(x => x.StartProfiler, DreamDaemonRights.SetProfiler)
-						|| CheckModified(x => x.LogOutput, DreamDaemonRights.SetLogOutput))
+						|| CheckModified(x => x.LogOutput, DreamDaemonRights.SetLogOutput)
+						|| CheckModified(x => x.MapThreads, DreamDaemonRights.SetMapThreads))
 						return Forbid();
 
 					await DatabaseContext.Save(cancellationToken);
@@ -333,7 +344,7 @@ namespace Tgstation.Server.Host.Controllers
 						.Select(x => x.DreamDaemonSettings)
 						.FirstOrDefaultAsync(cancellationToken);
 					if (settings == default)
-						return Gone();
+						return this.Gone();
 				}
 
 				var result = new DreamDaemonResponse();
@@ -355,12 +366,17 @@ namespace Tgstation.Server.Host.Controllers
 					result.SoftRestart = rstate == RebootState.Restart;
 					result.SoftShutdown = rstate == RebootState.Shutdown;
 					result.StartupTimeout = settings.StartupTimeout.Value;
-					result.HeartbeatSeconds = settings.HeartbeatSeconds.Value;
-					result.DumpOnHeartbeatRestart = settings.DumpOnHeartbeatRestart.Value;
+					result.HealthCheckSeconds = settings.HealthCheckSeconds.Value;
+					result.DumpOnHealthCheckRestart = settings.DumpOnHealthCheckRestart.Value;
+#pragma warning disable CS0618 // Type or member is obsolete
+					result.HeartbeatSeconds = settings.HealthCheckSeconds.Value;
+					result.DumpOnHeartbeatRestart = settings.DumpOnHealthCheckRestart.Value;
+#pragma warning restore CS0618 // Type or member is obsolete
 					result.TopicRequestTimeout = settings.TopicRequestTimeout.Value;
 					result.AdditionalParameters = settings.AdditionalParameters;
 					result.StartProfiler = settings.StartProfiler;
 					result.LogOutput = settings.LogOutput;
+					result.MapThreads = settings.MapThreads;
 				}
 
 				if (revision)

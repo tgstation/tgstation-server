@@ -1,0 +1,5 @@
+#!/bin/sh -e
+
+#DEBHELPER#
+
+rm -rf /opt/tgstation-server/lib/*

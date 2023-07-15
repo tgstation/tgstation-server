@@ -18,6 +18,7 @@ using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Host.Components;
 using Tgstation.Server.Host.Components.Repository;
 using Tgstation.Server.Host.Database;
+using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.Jobs;
 using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.Security;
@@ -81,8 +82,7 @@ namespace Tgstation.Server.Host.Controllers
 		[ProducesResponseType(typeof(ErrorMessageResponse), 410)]
 		public async Task<IActionResult> Create([FromBody] RepositoryCreateRequest model, CancellationToken cancellationToken)
 		{
-			if (model == null)
-				throw new ArgumentNullException(nameof(model));
+			ArgumentNullException.ThrowIfNull(model);
 
 			if (model.Origin == null)
 				return BadRequest(ErrorCode.ModelValidationFailure);
@@ -106,7 +106,7 @@ namespace Tgstation.Server.Host.Controllers
 				.FirstOrDefaultAsync(cancellationToken);
 
 			if (currentModel == default)
-				return Gone();
+				return this.Gone();
 
 			currentModel.UpdateSubmodules = model.UpdateSubmodules ?? true;
 			currentModel.AccessToken = model.AccessToken;
@@ -209,7 +209,7 @@ namespace Tgstation.Server.Host.Controllers
 				.FirstOrDefaultAsync(cancellationToken);
 
 			if (currentModel == default)
-				return Gone();
+				return this.Gone();
 
 			currentModel.AccessToken = null;
 			currentModel.AccessUser = null;
@@ -255,7 +255,7 @@ namespace Tgstation.Server.Host.Controllers
 				.FirstOrDefaultAsync(cancellationToken);
 
 			if (currentModel == default)
-				return Gone();
+				return this.Gone();
 
 			var api = currentModel.ToApi();
 
@@ -309,8 +309,7 @@ namespace Tgstation.Server.Host.Controllers
 		public async Task<IActionResult> Update([FromBody] RepositoryUpdateRequest model, CancellationToken cancellationToken)
 #pragma warning restore CA1502
 		{
-			if (model == null)
-				throw new ArgumentNullException(nameof(model));
+			ArgumentNullException.ThrowIfNull(model);
 
 			if (model.AccessUser == null ^ model.AccessToken == null)
 				return BadRequest(new ErrorMessageResponse(ErrorCode.RepoMismatchUserAndAccessToken));
@@ -342,7 +341,7 @@ namespace Tgstation.Server.Host.Controllers
 				.FirstOrDefaultAsync(cancellationToken);
 
 			if (currentModel == default)
-				return Gone();
+				return this.Gone();
 
 			bool CheckModified<T>(Expression<Func<Api.Models.Internal.RepositorySettings, T>> expression, RepositoryRights requiredRight)
 			{

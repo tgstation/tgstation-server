@@ -1,6 +1,6 @@
 # The Watchdog
 
-The watchdog is what keeps DreamDaemon alive and well. It's responsible for starting, stopping, rebooting it, sending TGS events to the DMAPI, running heartbeats, and applying patches.
+The watchdog is what keeps DreamDaemon alive and well. It's responsible for starting, stopping, rebooting it, sending TGS events to the DMAPI, running health checks, and applying patches.
 
 There are three main implementations of the interface [IWatchdog](./IWatchdog.cs) that deal with how it handles the last of those jobs.
 
@@ -32,7 +32,7 @@ Watchdog monitoring takes place in the `MonitorLifetimes()` functiona and is ent
 - When a server calls `/world/prod/Reboot()`.
 - When a new .dmb is deployed.
 - When DreamDaemon settings are changed via the API.
-- When it is time to make a heartbeat.
+- When it is time to make a health check.
 
 Here's how this works.
 

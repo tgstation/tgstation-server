@@ -155,7 +155,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <summary>
 		/// The number of hearbeats missed.
 		/// </summary>
-		int heartbeatsMissed;
+		int healthChecksMissed;
 
 		/// <summary>
 		/// If the servers should be released instead of shutdown.
@@ -214,8 +214,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			this.metadata = metadata ?? throw new ArgumentNullException(nameof(metadata));
 			this.autoStart = autoStart;
 
-			if (serverControl == null)
-				throw new ArgumentNullException(nameof(serverControl));
+			ArgumentNullException.ThrowIfNull(serverControl);
 
 			chat.RegisterCommandHandler(this);
 
@@ -403,16 +402,16 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		}
 
 		/// <inheritdoc />
-		public async Task HandleRestart(Version updateVersion, bool gracefulShutdown, CancellationToken cancellationToken)
+		public async Task HandleRestart(Version updateVersion, bool handlerMayDelayShutdownWithExtremelyLongRunningTasks, CancellationToken cancellationToken)
 		{
-			if (gracefulShutdown)
+			if (handlerMayDelayShutdownWithExtremelyLongRunningTasks)
 			{
 				await Terminate(true, cancellationToken);
 
 				if (Status != WatchdogStatus.Offline)
 				{
-					Logger.LogTrace("Waiting for server to gracefully shut down.");
-					await monitorTask.WithToken(cancellationToken);
+					Logger.LogDebug("Waiting for server to gracefully shut down.");
+					await monitorTask.WaitAsync(cancellationToken);
 				}
 				else
 					Logger.LogTrace("Graceful shutdown requested but server is already offline.");
@@ -450,10 +449,9 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		}
 
 		/// <inheritdoc />
-		async Task IEventConsumer.HandleEvent(EventType eventType, IEnumerable<string> parameters, CancellationToken cancellationToken)
+		async Task IEventConsumer.HandleEvent(EventType eventType, IEnumerable<string> parameters, bool deploymentPipeline, CancellationToken cancellationToken)
 		{
-			if (parameters == null)
-				throw new ArgumentNullException(nameof(parameters));
+			ArgumentNullException.ThrowIfNull(parameters);
 
 			// Method explicitly implemented to prevent accidental calls when this.eventConsumer should be used.
 			var activeServer = GetActiveController();
@@ -511,12 +509,12 @@ namespace Tgstation.Server.Host.Components.Watchdog
 						? "Launching..."
 						: "Reattaching..."); // simple announce
 				if (reattachInfo == null)
-					eventTask = HandleEvent(EventType.WatchdogLaunch, Enumerable.Empty<string>(), false, cancellationToken);
+					eventTask = HandleEventImpl(EventType.WatchdogLaunch, Enumerable.Empty<string>(), false, cancellationToken);
 			}
 
 			// since neither server is running, this is safe to do
 			LastLaunchParameters = ActiveLaunchParameters;
-			heartbeatsMissed = 0;
+			healthChecksMissed = 0;
 
 			try
 			{
@@ -591,7 +589,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
 		protected async Task CheckLaunchResult(ISessionController controller, string serverName, CancellationToken cancellationToken)
 		{
-			var launchResult = await controller.LaunchResult.WithToken(cancellationToken);
+			var launchResult = await controller.LaunchResult.WaitAsync(cancellationToken);
 
 			// Dead sessions won't trigger this
 			if (launchResult.ExitCode.HasValue) // you killed us ray...
@@ -613,7 +611,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		{
 			// we lost the server, just restart entirely
 			// DCT: Operation must always run
-			await DisposeAndNullControllers(default);
+			await DisposeAndNullControllers(CancellationToken.None);
 			const string FailReattachMessage = "Unable to properly reattach to server! Restarting watchdog...";
 			Logger.LogWarning(FailReattachMessage);
 
@@ -652,7 +650,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <summary>
 		/// Handles the actions to take when the monitor has to "wake up".
 		/// </summary>
-		/// <param name="activationReason">The <see cref="MonitorActivationReason"/> that caused the invocation. Will never be <see cref="MonitorActivationReason.Heartbeat"/>.</param>
+		/// <param name="activationReason">The <see cref="MonitorActivationReason"/> that caused the invocation. Will never be <see cref="MonitorActivationReason.HealthCheck"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="MonitorAction"/> to take.</returns>
 		protected abstract Task<MonitorAction> HandleMonitorWakeup(
@@ -695,13 +693,13 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <param name="relayToSession">If the event should be sent to DreamDaemon.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		protected async Task HandleEvent(EventType eventType, IEnumerable<string> parameters, bool relayToSession, CancellationToken cancellationToken)
+		protected async Task HandleEventImpl(EventType eventType, IEnumerable<string> parameters, bool relayToSession, CancellationToken cancellationToken)
 		{
 			try
 			{
-				var sessionEventTask = relayToSession ? ((IEventConsumer)this).HandleEvent(eventType, parameters, cancellationToken) : Task.CompletedTask;
+				var sessionEventTask = relayToSession ? ((IEventConsumer)this).HandleEvent(eventType, parameters, false, cancellationToken) : Task.CompletedTask;
 				await Task.WhenAll(
-					eventConsumer.HandleEvent(eventType, parameters, cancellationToken),
+					eventConsumer.HandleEvent(eventType, parameters, false, cancellationToken),
 					sessionEventTask);
 			}
 			catch (JobException ex)
@@ -805,7 +803,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				for (ulong iteration = 1; nextAction != MonitorAction.Exit; ++iteration)
 					using (LogContext.PushProperty(SerilogContextHelper.WatchdogMonitorIterationContextProperty, iteration))
 					{
-						TaskCompletionSource nextMonitorWakeupTcs = new TaskCompletionSource();
+						var nextMonitorWakeupTcs = new TaskCompletionSource();
 						try
 						{
 							Logger.LogTrace("Iteration {iteration} of monitor loop", iteration);
@@ -855,29 +853,26 @@ namespace Tgstation.Server.Host.Components.Watchdog
 
 							UpdateMonitoredTasks();
 
-							var heartbeatSeconds = ActiveLaunchParameters.HeartbeatSeconds.Value;
-							var heartbeat = heartbeatSeconds == 0
+							var healthCheckSeconds = ActiveLaunchParameters.HealthCheckSeconds.Value;
+							var healthCheck = healthCheckSeconds == 0
 								|| !controller.DMApiAvailable
 								? Extensions.TaskExtensions.InfiniteTask
 								: Task.Delay(
-									TimeSpan.FromSeconds(heartbeatSeconds),
+									TimeSpan.FromSeconds(healthCheckSeconds),
 									cancellationToken);
 
 							// cancel waiting if requested
-							var cancelTcs = new TaskCompletionSource();
 							var toWaitOn = Task.WhenAny(
 								activeServerLifetime,
 								activeServerReboot,
 								activeServerStartup,
-								heartbeat,
+								healthCheck,
 								newDmbAvailable,
-								cancelTcs.Task,
 								activeLaunchParametersChanged,
 								serverPrimed);
 
 							// wait for something to happen
-							using (cancellationToken.Register(() => cancelTcs.SetCanceled()))
-								await toWaitOn;
+							await toWaitOn.WaitAsync(cancellationToken);
 
 							cancellationToken.ThrowIfCancellationRequested();
 							Logger.LogTrace("Monitor activated");
@@ -914,7 +909,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 										|| CheckActivationReason(ref activeServerReboot, MonitorActivationReason.ActiveServerRebooted)
 										|| CheckActivationReason(ref newDmbAvailable, MonitorActivationReason.NewDmbAvailable)
 										|| CheckActivationReason(ref activeLaunchParametersChanged, MonitorActivationReason.ActiveLaunchParametersUpdated)
-										|| CheckActivationReason(ref heartbeat, MonitorActivationReason.Heartbeat)
+										|| CheckActivationReason(ref healthCheck, MonitorActivationReason.HealthCheck)
 										|| CheckActivationReason(ref serverPrimed, MonitorActivationReason.ActiveServerPrimed)
 										|| CheckActivationReason(ref activeServerStartup, MonitorActivationReason.ActiveServerStartup);
 
@@ -925,8 +920,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 									else
 									{
 										Logger.LogTrace("Reason: {activationReason}", activationReason);
-										if (activationReason == MonitorActivationReason.Heartbeat)
-											nextAction = await HandleHeartbeat(
+										if (activationReason == MonitorActivationReason.HealthCheck)
+											nextAction = await HandleHealthCheck(
 												cancellationToken);
 										else
 											nextAction = await HandleMonitorWakeup(
@@ -990,7 +985,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			}
 
 			// DCT: Operation must always run
-			await DisposeAndNullControllers(default);
+			await DisposeAndNullControllers(CancellationToken.None);
 			Status = WatchdogStatus.Offline;
 
 			Logger.LogTrace("Monitor exiting...");
@@ -1010,7 +1005,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				return;
 			if (!graceful)
 			{
-				var eventTask = HandleEvent(
+				var eventTask = HandleEventImpl(
 					releaseServers
 						? EventType.WatchdogDetach
 						: EventType.WatchdogShutdown,
@@ -1041,26 +1036,26 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		}
 
 		/// <summary>
-		/// Handles a watchdog heartbeat.
+		/// Handles a watchdog health check.
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the next <see cref="MonitorAction"/> to take.</returns>
-		async Task<MonitorAction> HandleHeartbeat(CancellationToken cancellationToken)
+		async Task<MonitorAction> HandleHealthCheck(CancellationToken cancellationToken)
 		{
-			Logger.LogTrace("Sending heartbeat to active server...");
+			Logger.LogTrace("Sending health check to active server...");
 			var activeServer = GetActiveController();
 			var response = await activeServer.SendCommand(new TopicParameters(), cancellationToken);
 
 			var shouldShutdown = activeServer.RebootState == Session.RebootState.Shutdown;
 			if (response == null)
 			{
-				switch (++heartbeatsMissed)
+				switch (++healthChecksMissed)
 				{
 					case 1:
-						Logger.LogDebug("DEFCON 4: DreamDaemon missed first heartbeat!");
+						Logger.LogDebug("DEFCON 4: DreamDaemon missed first health check!");
 						break;
 					case 2:
-						const string message2 = "DEFCON 3: DreamDaemon has missed 2 heartbeats!";
+						const string message2 = "DEFCON 3: DreamDaemon has missed 2 health checks!";
 						Logger.LogInformation(message2);
 						Chat.QueueWatchdogMessage(message2);
 						break;
@@ -1068,7 +1063,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 						var actionToTake = shouldShutdown
 							? "shutdown"
 							: "be restarted";
-						const string logTemplate1 = "DEFCON 2: DreamDaemon has missed 3 heartbeats! If it does not respond to the next one, the watchdog will {actionToTake}!";
+						const string logTemplate1 = "DEFCON 2: DreamDaemon has missed 3 health checks! If it does not respond to the next one, the watchdog will {actionToTake}!";
 						Logger.LogWarning(logTemplate1, actionToTake);
 						Chat.QueueWatchdogMessage(
 							logTemplate1.Replace(
@@ -1080,7 +1075,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 						var actionTaken = shouldShutdown
 							? "Shutting down due to graceful termination request"
 							: "Restarting";
-						const string logTemplate2 = "DEFCON 1: Four heartbeats have been missed! {actionTaken}...";
+						const string logTemplate2 = "DEFCON 1: Four health checks have been missed! {actionTaken}...";
 						Logger.LogWarning(logTemplate2, actionTaken);
 						Chat.QueueWatchdogMessage(
 							logTemplate2.Replace(
@@ -1088,23 +1083,23 @@ namespace Tgstation.Server.Host.Components.Watchdog
 								actionTaken,
 								StringComparison.Ordinal));
 
-						if (ActiveLaunchParameters.DumpOnHeartbeatRestart.Value)
+						if (ActiveLaunchParameters.DumpOnHealthCheckRestart.Value)
 						{
-							Logger.LogDebug("DumpOnHeartbeatRestart enabled.");
+							Logger.LogDebug("DumpOnHealthCheckRestart enabled.");
 							await CreateDump(cancellationToken);
 						}
 						else
-							Logger.LogTrace("DumpOnHeartbeatRestart disabled.");
+							Logger.LogTrace("DumpOnHealthCheckRestart disabled.");
 
 						await DisposeAndNullControllers(cancellationToken);
 						return shouldShutdown ? MonitorAction.Exit : MonitorAction.Restart;
 					default:
-						Logger.LogError("Invalid heartbeats missed count: {heartbeatsMissed}", heartbeatsMissed);
+						Logger.LogError("Invalid health checks missed count: {healthChecksMissed}", healthChecksMissed);
 						break;
 				}
 			}
 			else
-				heartbeatsMissed = 0;
+				healthChecksMissed = 0;
 
 			return MonitorAction.Continue;
 		}

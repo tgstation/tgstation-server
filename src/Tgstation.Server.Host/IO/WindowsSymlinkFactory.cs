@@ -20,10 +20,8 @@ namespace Tgstation.Server.Host.IO
 		public Task CreateSymbolicLink(string targetPath, string linkPath, CancellationToken cancellationToken) => Task.Factory.StartNew(
 			() =>
 			{
-				if (targetPath == null)
-					throw new ArgumentNullException(nameof(targetPath));
-				if (linkPath == null)
-					throw new ArgumentNullException(nameof(linkPath));
+				ArgumentNullException.ThrowIfNull(targetPath);
+				ArgumentNullException.ThrowIfNull(linkPath);
 
 				// check if its not a file
 				var flags = File.Exists(targetPath) ? NativeMethods.CreateSymbolicLinkFlags.None : NativeMethods.CreateSymbolicLinkFlags.Directory;

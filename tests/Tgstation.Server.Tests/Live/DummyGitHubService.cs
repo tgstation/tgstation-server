@@ -45,7 +45,7 @@ namespace Tgstation.Server.Tests.Live
 					.Repository
 					.Release
 					.GetAll("tgstation", "tgstation-server")
-					.WithToken(cancellationToken);
+					.WaitAsync(cancellationToken);
 
 				targetRelease = releases.FirstOrDefault(release => release.TagName == $"{new UpdatesConfiguration().GitTagPrefix}{TestLiveServer.TestUpdateVersion}");
 			}
@@ -59,7 +59,7 @@ namespace Tgstation.Server.Tests.Live
 			testPr = await gitHubClient
 				.PullRequest
 				.Get("Cyberboss", "common_core", 2)
-				.WithToken(cancellationToken);
+				.WaitAsync(cancellationToken);
 
 			ServiceCollectionExtensions.UseGitHubServiceFactory<DummyGitHubServiceFactory>();
 		}

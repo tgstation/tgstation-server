@@ -54,8 +54,7 @@ namespace Tgstation.Server.Host.Security.OAuth
 		/// <inheritdoc />
 		public async Task<string> ValidateResponseCode(string code, CancellationToken cancellationToken)
 		{
-			if (code == null)
-				throw new ArgumentNullException(nameof(code));
+			ArgumentNullException.ThrowIfNull(code);
 
 			try
 			{

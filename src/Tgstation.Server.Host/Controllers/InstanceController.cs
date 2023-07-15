@@ -20,6 +20,7 @@ using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Host.Components;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Database;
+using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Jobs;
 using Tgstation.Server.Host.Models;
@@ -128,8 +129,7 @@ namespace Tgstation.Server.Host.Controllers
 		[ProducesResponseType(typeof(InstanceResponse), 201)]
 		public async Task<IActionResult> Create([FromBody] InstanceCreateRequest model, CancellationToken cancellationToken)
 		{
-			if (model == null)
-				throw new ArgumentNullException(nameof(model));
+			ArgumentNullException.ThrowIfNull(model);
 
 			if (String.IsNullOrWhiteSpace(model.Name))
 				return BadRequest(new ErrorMessageResponse(ErrorCode.InstanceWhitespaceName));
@@ -242,7 +242,7 @@ namespace Tgstation.Server.Host.Controllers
 					DatabaseContext.Instances.Remove(newInstance);
 
 					// DCT: Operation must always run
-					await DatabaseContext.Save(default);
+					await DatabaseContext.Save(CancellationToken.None);
 					throw;
 				}
 			}
@@ -287,7 +287,7 @@ namespace Tgstation.Server.Host.Controllers
 				.Where(x => x.Id == id && x.SwarmIdentifer == swarmConfiguration.Identifier)
 				.FirstOrDefaultAsync(cancellationToken);
 			if (originalModel == default)
-				return Gone();
+				return this.Gone();
 			if (originalModel.Online.Value)
 				return Conflict(new ErrorMessageResponse(ErrorCode.InstanceDetachOnline));
 
@@ -302,7 +302,7 @@ namespace Tgstation.Server.Host.Controllers
 			catch (OperationCanceledException)
 			{
 				// DCT: Operation must always run
-				await ioManager.DeleteFile(attachFileName, default);
+				await ioManager.DeleteFile(attachFileName, CancellationToken.None);
 				throw;
 			}
 
@@ -327,8 +327,7 @@ namespace Tgstation.Server.Host.Controllers
 #pragma warning disable CA1502 // TODO: Decomplexify
 		public async Task<IActionResult> Update([FromBody] InstanceUpdateRequest model, CancellationToken cancellationToken)
 		{
-			if (model == null)
-				throw new ArgumentNullException(nameof(model));
+			ArgumentNullException.ThrowIfNull(model);
 
 			IQueryable<Models.Instance> InstanceQuery() => DatabaseContext
 				.Instances
@@ -358,7 +357,7 @@ namespace Tgstation.Server.Host.Controllers
 				.Include(x => x.DreamDaemonSettings) // need these for onlining
 				.FirstOrDefaultAsync(cancellationToken);
 			if (originalModel == default(Models.Instance))
-				return Gone();
+				return this.Gone();
 
 			if (ValidateInstanceOnlineStatus(originalModel))
 				await DatabaseContext.Save(cancellationToken);
@@ -461,7 +460,7 @@ namespace Tgstation.Server.Host.Controllers
 					originalModel.Path = originalModelPath;
 
 				// DCT: Operation must always run
-				await DatabaseContext.Save(default);
+				await DatabaseContext.Save(CancellationToken.None);
 				throw;
 			}
 
@@ -603,7 +602,7 @@ namespace Tgstation.Server.Host.Controllers
 			var instance = await QueryForUser().FirstOrDefaultAsync(cancellationToken);
 
 			if (instance == null)
-				return Gone();
+				return this.Gone();
 
 			if (ValidateInstanceOnlineStatus(instance))
 				await DatabaseContext.Save(cancellationToken);
@@ -660,7 +659,7 @@ namespace Tgstation.Server.Host.Controllers
 					.AnyAsync(cancellationToken);
 
 				if (!instanceExists)
-					return Gone();
+					return this.Gone();
 
 				var instanceAdminUser = InstanceAdminPermissionSet(null);
 				instanceAdminUser.InstanceId = id;
@@ -715,12 +714,13 @@ namespace Tgstation.Server.Host.Controllers
 					SecurityLevel = DreamDaemonSecurity.Safe,
 					Visibility = DreamDaemonVisibility.Public,
 					StartupTimeout = 60,
-					HeartbeatSeconds = 60,
-					DumpOnHeartbeatRestart = false,
+					HealthCheckSeconds = 60,
+					DumpOnHealthCheckRestart = false,
 					TopicRequestTimeout = generalConfiguration.ByondTopicTimeout,
 					AdditionalParameters = String.Empty,
 					StartProfiler = false,
 					LogOutput = false,
+					MapThreads = 0,
 				},
 				DreamMakerSettings = new DreamMakerSettings
 				{

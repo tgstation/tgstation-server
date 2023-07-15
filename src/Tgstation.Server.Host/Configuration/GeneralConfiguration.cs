@@ -139,8 +139,7 @@ namespace Tgstation.Server.Host.Configuration
 		/// <param name="logger">The <see cref="ILogger"/> to use.</param>
 		public void CheckCompatibility(ILogger logger)
 		{
-			if (logger == null)
-				throw new ArgumentNullException(nameof(logger));
+			ArgumentNullException.ThrowIfNull(logger);
 
 			if (ConfigVersion == null)
 				logger.LogCritical(
