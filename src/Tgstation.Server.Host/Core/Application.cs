@@ -196,11 +196,7 @@ namespace Tgstation.Server.Host.Core
 						rollOnFileSizeLimit: true);
 				},
 				elasticsearchConfiguration.Enable
-					? new ElasticsearchSinkOptions(
-						new Uri(
-							String.IsNullOrWhiteSpace(elasticsearchConfiguration.Host)
-								? throw new InvalidOperationException($"Missing {ElasticsearchConfiguration.Section}:{nameof(elasticsearchConfiguration.Host)}!")
-								: elasticsearchConfiguration.Host))
+					? new ElasticsearchSinkOptions(elasticsearchConfiguration.Host ?? throw new InvalidOperationException($"Missing {ElasticsearchConfiguration.Section}:{nameof(elasticsearchConfiguration.Host)}!"))
 					{
 						// Yes I know this means they cannot use a self signed cert unless they also have authentication, but lets be real here
 						// No one is going to be doing one of those but not the other

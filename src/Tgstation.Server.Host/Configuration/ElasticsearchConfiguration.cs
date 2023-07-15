@@ -1,4 +1,6 @@
-﻿namespace Tgstation.Server.Host.Configuration
+﻿using System;
+
+namespace Tgstation.Server.Host.Configuration
 	{
 	/// <summary>
 	/// Configuration options pertaining to elasticsearch log storage.
@@ -18,7 +20,7 @@
 		/// <summary>
 		/// The host of the elasticsearch endpoint.
 		/// </summary>
-		public string Host { get; set; }
+		public Uri Host { get; set; }
 
 		/// <summary>
 		/// Username for elasticsearch.

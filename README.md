@@ -46,6 +46,12 @@ Follow the instructions for your OS below.
 
 Note that the Windows Service and installer executables require administrative privileges. These are digitally signed against the Root CA managed by [Jordan Dominion](https://github.com/Cyberboss). Consider installing the certificate into your `Trusted Root Authorities` store for cleaner UAC prompts. The certificate can be downloaded [here](https://file.house/zpFb.cer), please validate the thumbprint is `70176acf7ffa2898fa5b5cd6e38b43b38ea5d07f` before installing. The OCSP server for this is `http://ocsp.dextraspace.net`.
 
+##### Installer
+
+[Download the latest release's tgstation-server-installer.exe](https://github.com/tgstation/tgstation-server/releases/latest). Executing it will take you through the process of installing and configuring your server. The required dotnet runtime may be installed as a pre-requisite.
+
+Note: If you use the `/silent` or `/passive` arguments to the installer, you will need to either pre-configure TGS or configure and start the `tgstation-server` service after installing. A shortcut will be placed on your desktop and in your start menu to assist with this.
+
 ##### winget (Windows 10 or later)
 
 [winget](https://github.com/microsoft/winget-cli) installed is the easiest way to install the latest version of tgstation-server (provided Microsoft has approved the most recent package manifest).
@@ -77,11 +83,7 @@ The required dotnet runtime may be installed as a pre-requisite.
 
 Note: If you use the `-h` or `--disable-interactivity` winget arguments, you will need to either pre-configure TGS or configure and start the `tgstation-server` service after installing. A shortcut will be placed on your desktop and in your start menu to assist with this.
 
-##### Installer
-
-[Download the latest release's tgstation-server-installer.exe](https://github.com/tgstation/tgstation-server/releases/latest). Executing it will take you through the process of installing and configuring your server. The required dotnet runtime may be installed as a pre-requisite.
-
-Note: If you use the `/silent` or `/passive` arguments to the installer, you will need to either pre-configure TGS or configure and start the `tgstation-server` service after installing. A shortcut will be placed on your desktop and in your start menu to assist with this.
+Note: The `winget` package is submitted to Microsoft for approval once TGS releases. This means the winget version may be out of date with the current release version. You can always use the TGS updater after installing. You can see the versions still awaiting approval [here](https://github.com/microsoft/winget-pkgs/pulls?q=is%3Apr+is%3Aopen+Tgstation.Server).
 
 ##### Manual
 

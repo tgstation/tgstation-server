@@ -790,11 +790,17 @@ namespace Tgstation.Server.Host.Setup
 				do
 				{
 					await console.WriteAsync("ElasticSearch server endpoint (Include protocol and port, leave blank for http://127.0.0.1:9200): ", false, cancellationToken);
-					elasticsearchConfiguration.Host = await console.ReadLineAsync(false, cancellationToken);
-					if (!String.IsNullOrWhiteSpace(elasticsearchConfiguration.Host))
+					var hostString = await console.ReadLineAsync(false, cancellationToken);
+					if (String.IsNullOrWhiteSpace(hostString))
+						hostString = "http://127.0.0.1:9200";
+
+					if (Uri.TryCreate(hostString, UriKind.Absolute, out var host))
 					{
+						elasticsearchConfiguration.Host = host;
 						break;
 					}
+
+					await console.WriteAsync("Invalid URI!", true, cancellationToken);
 				}
 				while (true);
 
@@ -803,9 +809,7 @@ namespace Tgstation.Server.Host.Setup
 					await console.WriteAsync("Enter Elasticsearch username: ", false, cancellationToken);
 					elasticsearchConfiguration.Username = await console.ReadLineAsync(false, cancellationToken);
 					if (!String.IsNullOrWhiteSpace(elasticsearchConfiguration.Username))
-					{
 						break;
-					}
 				}
 				while (true);
 
@@ -814,9 +818,7 @@ namespace Tgstation.Server.Host.Setup
 					await console.WriteAsync("Enter password: ", false, cancellationToken);
 					elasticsearchConfiguration.Password = await console.ReadLineAsync(true, cancellationToken);
 					if (!String.IsNullOrWhiteSpace(elasticsearchConfiguration.Username))
-					{
 						break;
-					}
 				}
 				while (true);
 			}
