@@ -197,7 +197,7 @@ namespace Tgstation.Server.Host.System
 				return true;
 
 			if (result < 0)
-				logger.LogError(new UnixIOException(result), "sd_notify READY=1 failed!");
+				logger.LogError(new UnixIOException(result), "sd_notify {message} failed!", command);
 			else
 				logger.LogTrace("Could not send sd_notify {message}. Socket closed!", command);
 
