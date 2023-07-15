@@ -1447,7 +1447,6 @@ jobs:
         &"C:/Program Files/7-Zip/7z.exe" a ServerService.zip ./ServerService/* -tzip
         &"C:/Program Files/7-Zip/7z.exe" a ServerConsole.zip ./ServerConsole/* -tzip
         &"C:/Program Files/7-Zip/7z.exe" a ServerUpdatePackage.zip ./ServerUpdatePackage/* -tzip
-        &"C:/Program Files/7-Zip/7z.exe" a ServerUpdatePackage.zip ./ServerUpdatePackage/* -tzip
 
     - name: Generate Release Notes
       run: dotnet run -c Release --no-build --project tools/Tgstation.Server.ReleaseNotes ${{ env.TGS_VERSION }}
@@ -1509,7 +1508,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.DEV_PUSH_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./package-deb-amd64/ServerUpdatePackage.zip
+        asset_path: ./ServerUpdatePackage.zip
         asset_name: ServerUpdatePackage.zip
         asset_content_type: application/zip
 
