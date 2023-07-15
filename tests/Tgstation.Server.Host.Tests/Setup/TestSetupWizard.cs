@@ -200,7 +200,12 @@ namespace Tgstation.Server.Host.Setup.Tests
 				//logging config
 				"no",
 				// elasticsearch config
-				"n", // were not validating this travesty in CI
+				"y",
+				String.Empty,
+				String.Empty,
+				"user",
+				String.Empty,
+				"pass",
 				//cp config
 				"y",
 				"y",
@@ -267,7 +272,11 @@ namespace Tgstation.Server.Host.Setup.Tests
 				"None",
 				"Critical",
 				// elasticsearch config
-				"n", // were not validating this travesty in CI
+				"y",
+				"bad url",
+				"http://localhost:929",
+				"user",
+				"pass",
 				//cp config
 				"y",
 				"n",
