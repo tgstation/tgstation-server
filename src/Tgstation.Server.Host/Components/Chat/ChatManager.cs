@@ -538,15 +538,15 @@ namespace Tgstation.Server.Host.Components.Chat
 			var message = updateVersion == null
 				? $"TGS: {(handlerMayDelayShutdownWithExtremelyLongRunningTasks ? "Graceful shutdown" : "Going down")}..."
 				: $"TGS: Updating to version {updateVersion}...";
-			List<ulong> wdChannels;
+			List<ulong> systemChannels;
 			lock (mappedChannels) // so it doesn't change while we're using it
-				wdChannels = mappedChannels
-					.Where(x => !x.Value.IsSystemChannel)
+				systemChannels = mappedChannels
+					.Where(x => x.Value.IsSystemChannel)
 					.Select(x => x.Key)
 					.ToList();
 
 			return SendMessage(
-				wdChannels,
+				systemChannels,
 				null,
 				new MessageContent
 				{
