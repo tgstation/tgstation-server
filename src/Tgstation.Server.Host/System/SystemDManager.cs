@@ -96,7 +96,7 @@ namespace Tgstation.Server.Host.System
 		/// <inheritdoc />
 		protected override async Task ExecuteAsync(CancellationToken cancellationToken)
 		{
-			if (SendSDNotify(SDNotifyWatchdog))
+			if (!SendSDNotify(SDNotifyWatchdog))
 			{
 				logger.LogDebug("SystemD not detected");
 				return;
