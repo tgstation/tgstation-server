@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.13.0</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.13.1</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -140,7 +140,7 @@ $(function() {
 <div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span> </div>
 <div class="line"><a id="l00097" name="l00097"></a><span class="lineno"><a class="line" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_system_d_manager.html#a5aa8d815c6ce19d98874a95f0a6ecbfd">   97</a></span>        <span class="keyword">protected</span> <span class="keyword">override</span> async Task <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_system_d_manager.html#a5aa8d815c6ce19d98874a95f0a6ecbfd">ExecuteAsync</a>(CancellationToken cancellationToken)</div>
 <div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>        {</div>
-<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>            <span class="keywordflow">if</span> (<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_system_d_manager.html#ae11ee32aa27a117987d833967fd14b11">SendSDNotify</a>(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_system_d_manager.html#a7326ada5fcd6a23c94116325b799f327">SDNotifyWatchdog</a>))</div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>            <span class="keywordflow">if</span> (!<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_system_d_manager.html#ae11ee32aa27a117987d833967fd14b11">SendSDNotify</a>(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_system_d_manager.html#a7326ada5fcd6a23c94116325b799f327">SDNotifyWatchdog</a>))</div>
 <div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>            {</div>
 <div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_system_d_manager.html#a645054dbca104fe9f1ff3bec5b1b3ce9">logger</a>.LogDebug(<span class="stringliteral">&quot;SystemD not detected&quot;</span>);</div>
 <div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>                <span class="keywordflow">return</span>;</div>
@@ -236,7 +236,7 @@ $(function() {
 <div class="line"><a id="l00197" name="l00197"></a><span class="lineno">  197</span>                <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
 <div class="line"><a id="l00198" name="l00198"></a><span class="lineno">  198</span> </div>
 <div class="line"><a id="l00199" name="l00199"></a><span class="lineno">  199</span>            <span class="keywordflow">if</span> (result &lt; 0)</div>
-<div class="line"><a id="l00200" name="l00200"></a><span class="lineno">  200</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_system_d_manager.html#a645054dbca104fe9f1ff3bec5b1b3ce9">logger</a>.LogError(<span class="keyword">new</span> UnixIOException(result), <span class="stringliteral">&quot;sd_notify READY=1 failed!&quot;</span>);</div>
+<div class="line"><a id="l00200" name="l00200"></a><span class="lineno">  200</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_system_d_manager.html#a645054dbca104fe9f1ff3bec5b1b3ce9">logger</a>.LogError(<span class="keyword">new</span> UnixIOException(result), <span class="stringliteral">&quot;sd_notify {message} failed!&quot;</span>, command);</div>
 <div class="line"><a id="l00201" name="l00201"></a><span class="lineno">  201</span>            <span class="keywordflow">else</span></div>
 <div class="line"><a id="l00202" name="l00202"></a><span class="lineno">  202</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_system_d_manager.html#a645054dbca104fe9f1ff3bec5b1b3ce9">logger</a>.LogTrace(<span class="stringliteral">&quot;Could not send sd_notify {message}. Socket closed!&quot;</span>, command);</div>
 <div class="line"><a id="l00203" name="l00203"></a><span class="lineno">  203</span> </div>
