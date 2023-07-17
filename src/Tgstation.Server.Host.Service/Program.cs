@@ -3,6 +3,7 @@ using System.Collections.Specialized;
 using System.Configuration.Install;
 using System.IO;
 using System.Reflection;
+using System.Runtime.Versioning;
 using System.ServiceProcess;
 using System.Threading;
 using System.Threading.Tasks;
@@ -20,6 +21,7 @@ namespace Tgstation.Server.Host.Service
 	/// <summary>
 	/// Contains the entrypoint for the application.
 	/// </summary>
+	[SupportedOSPlatform("windows")]
 	sealed class Program
 	{
 		/// <summary>

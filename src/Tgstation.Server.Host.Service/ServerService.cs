@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.IO.Pipes;
 using System.Linq;
+using System.Runtime.Versioning;
 using System.ServiceProcess;
 using System.Text;
 using System.Threading;
@@ -21,6 +22,7 @@ namespace Tgstation.Server.Host.Service
 	/// <summary>
 	/// Represents a <see cref="IWatchdog"/> as a <see cref="ServiceBase"/>.
 	/// </summary>
+	[SupportedOSPlatform("windows")]
 	sealed class ServerService : ServiceBase, ISignalChecker
 	{
 		/// <summary>
