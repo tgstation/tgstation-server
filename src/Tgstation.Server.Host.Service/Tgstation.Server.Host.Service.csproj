@@ -3,7 +3,9 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>$(TgsFrameworkVersion)-windows</TargetFramework>
+    <RuntimeIdentifiers>win-x86;win-x64</RuntimeIdentifiers>
+    <!-- DO NOT ADD THE -windows SUFFIX, It makes the service require the desktop runtime instead of the ASP NET Core Hosting Bundle -->
+    <TargetFramework>$(TgsFrameworkVersion)</TargetFramework>
     <Version>$(TgsCoreVersion)</Version>
     <!-- DO NOT ENABLE THIS, It makes the service require the desktop runtime instead of the ASP NET Core Hosting Bundle -->
     <UseWindowsForms>false</UseWindowsForms>
