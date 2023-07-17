@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.13.2</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.13.3</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -196,7 +196,7 @@ Private Attributes</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p >Represents a IWatchdog as a <a class="el" href="class_service_base.html">ServiceBase</a>.  </p>
 
-<p class="definition">Definition at line <a class="el" href="_server_service_8cs_source.html#l00024">24</a> of file <a class="el" href="_server_service_8cs_source.html">ServerService.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_server_service_8cs_source.html#l00026">26</a> of file <a class="el" href="_server_service_8cs_source.html">ServerService.cs</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="aad7bf501e826f60c08c082150e741d34" name="aad7bf501e826f60c08c082150e741d34"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aad7bf501e826f60c08c082150e741d34">&#9670;&#160;</a></span>ServerService()</h2>
@@ -240,19 +240,19 @@ Private Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_server_service_8cs_source.html#l00077">77</a> of file <a class="el" href="_server_service_8cs_source.html">ServerService.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   78</span>        {</div>
-<div class="line"><span class="lineno">   79</span>            this.watchdogFactory = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service.html#a5ed96035a5f77935306a218fc08a1465">watchdogFactory</a> ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service.html#a5ed96035a5f77935306a218fc08a1465">watchdogFactory</a>));</div>
-<div class="line"><span class="lineno">   80</span>            this.commandLineArguments = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service.html#ada2140ad4e7bbe188ba30c227bb5a9cf">commandLineArguments</a> ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service.html#ada2140ad4e7bbe188ba30c227bb5a9cf">commandLineArguments</a>));</div>
-<div class="line"><span class="lineno">   81</span>            this.minimumLogLevel = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service.html#ab89d31ddcff55c58e64066a566f794ca">minimumLogLevel</a>;</div>
-<div class="line"><span class="lineno">   82</span>            ServiceName = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service.html#a82a1c35bb13819cd1003592351251fc1">Name</a>;</div>
-<div class="line"><span class="lineno">   83</span>        }</div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service_html_a5ed96035a5f77935306a218fc08a1465"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service.html#a5ed96035a5f77935306a218fc08a1465">Tgstation.Server.Host.Service.ServerService.watchdogFactory</a></div><div class="ttdeci">readonly IWatchdogFactory watchdogFactory</div><div class="ttdoc">The IWatchdog for the ServerService.</div><div class="ttdef"><b>Definition:</b> <a href="_server_service_8cs_source.html#l00034">ServerService.cs:34</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service_html_a82a1c35bb13819cd1003592351251fc1"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service.html#a82a1c35bb13819cd1003592351251fc1">Tgstation.Server.Host.Service.ServerService.Name</a></div><div class="ttdeci">const string Name</div><div class="ttdoc">The canonical windows service name.</div><div class="ttdef"><b>Definition:</b> <a href="_server_service_8cs_source.html#l00029">ServerService.cs:29</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service_html_ab89d31ddcff55c58e64066a566f794ca"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service.html#ab89d31ddcff55c58e64066a566f794ca">Tgstation.Server.Host.Service.ServerService.minimumLogLevel</a></div><div class="ttdeci">readonly LogLevel minimumLogLevel</div><div class="ttdoc">The minimum LogLevel for the EventLog.</div><div class="ttdef"><b>Definition:</b> <a href="_server_service_8cs_source.html#l00044">ServerService.cs:44</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service_html_ada2140ad4e7bbe188ba30c227bb5a9cf"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service.html#ada2140ad4e7bbe188ba30c227bb5a9cf">Tgstation.Server.Host.Service.ServerService.commandLineArguments</a></div><div class="ttdeci">readonly string[] commandLineArguments</div><div class="ttdoc">The Array of command line arguments the service was invoked with.</div><div class="ttdef"><b>Definition:</b> <a href="_server_service_8cs_source.html#l00039">ServerService.cs:39</a></div></div>
+<p class="definition">Definition at line <a class="el" href="_server_service_8cs_source.html#l00079">79</a> of file <a class="el" href="_server_service_8cs_source.html">ServerService.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   80</span>        {</div>
+<div class="line"><span class="lineno">   81</span>            this.watchdogFactory = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service.html#a5ed96035a5f77935306a218fc08a1465">watchdogFactory</a> ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service.html#a5ed96035a5f77935306a218fc08a1465">watchdogFactory</a>));</div>
+<div class="line"><span class="lineno">   82</span>            this.commandLineArguments = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service.html#ada2140ad4e7bbe188ba30c227bb5a9cf">commandLineArguments</a> ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service.html#ada2140ad4e7bbe188ba30c227bb5a9cf">commandLineArguments</a>));</div>
+<div class="line"><span class="lineno">   83</span>            this.minimumLogLevel = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service.html#ab89d31ddcff55c58e64066a566f794ca">minimumLogLevel</a>;</div>
+<div class="line"><span class="lineno">   84</span>            ServiceName = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service.html#a82a1c35bb13819cd1003592351251fc1">Name</a>;</div>
+<div class="line"><span class="lineno">   85</span>        }</div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service_html_a5ed96035a5f77935306a218fc08a1465"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service.html#a5ed96035a5f77935306a218fc08a1465">Tgstation.Server.Host.Service.ServerService.watchdogFactory</a></div><div class="ttdeci">readonly IWatchdogFactory watchdogFactory</div><div class="ttdoc">The IWatchdog for the ServerService.</div><div class="ttdef"><b>Definition:</b> <a href="_server_service_8cs_source.html#l00036">ServerService.cs:36</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service_html_a82a1c35bb13819cd1003592351251fc1"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service.html#a82a1c35bb13819cd1003592351251fc1">Tgstation.Server.Host.Service.ServerService.Name</a></div><div class="ttdeci">const string Name</div><div class="ttdoc">The canonical windows service name.</div><div class="ttdef"><b>Definition:</b> <a href="_server_service_8cs_source.html#l00031">ServerService.cs:31</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service_html_ab89d31ddcff55c58e64066a566f794ca"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service.html#ab89d31ddcff55c58e64066a566f794ca">Tgstation.Server.Host.Service.ServerService.minimumLogLevel</a></div><div class="ttdeci">readonly LogLevel minimumLogLevel</div><div class="ttdoc">The minimum LogLevel for the EventLog.</div><div class="ttdef"><b>Definition:</b> <a href="_server_service_8cs_source.html#l00046">ServerService.cs:46</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service_html_ada2140ad4e7bbe188ba30c227bb5a9cf"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service.html#ada2140ad4e7bbe188ba30c227bb5a9cf">Tgstation.Server.Host.Service.ServerService.commandLineArguments</a></div><div class="ttdeci">readonly string[] commandLineArguments</div><div class="ttdoc">The Array of command line arguments the service was invoked with.</div><div class="ttdef"><b>Definition:</b> <a href="_server_service_8cs_source.html#l00041">ServerService.cs:41</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_server_service_8cs_source.html#l00039">Tgstation.Server.Host.Service.ServerService.commandLineArguments</a>, <a class="el" href="_server_service_8cs_source.html#l00044">Tgstation.Server.Host.Service.ServerService.minimumLogLevel</a>, <a class="el" href="_server_service_8cs_source.html#l00029">Tgstation.Server.Host.Service.ServerService.Name</a>, and <a class="el" href="_server_service_8cs_source.html#l00034">Tgstation.Server.Host.Service.ServerService.watchdogFactory</a>.</p>
+<p class="reference">References <a class="el" href="_server_service_8cs_source.html#l00041">Tgstation.Server.Host.Service.ServerService.commandLineArguments</a>, <a class="el" href="_server_service_8cs_source.html#l00046">Tgstation.Server.Host.Service.ServerService.minimumLogLevel</a>, <a class="el" href="_server_service_8cs_source.html#l00031">Tgstation.Server.Host.Service.ServerService.Name</a>, and <a class="el" href="_server_service_8cs_source.html#l00036">Tgstation.Server.Host.Service.ServerService.watchdogFactory</a>.</p>
 
 </div>
 </div>
@@ -295,18 +295,18 @@ Private Attributes</h2></td></tr>
 
 <p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_signal_checker.html#af386b0a3dcac0fff58ac756caec829d5">Tgstation.Server.Host.Watchdog.ISignalChecker</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_server_service_8cs_source.html#l00086">86</a> of file <a class="el" href="_server_service_8cs_source.html">ServerService.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   87</span>        {</div>
-<div class="line"><span class="lineno">   88</span>            <span class="keyword">using</span> (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service.html#a311a0494fe06bd7cf880611e9dde89e0">pipeServer</a> = <span class="keyword">new</span> AnonymousPipeServerStream(PipeDirection.Out, HandleInheritability.Inheritable))</div>
-<div class="line"><span class="lineno">   89</span>            {</div>
-<div class="line"><span class="lineno">   90</span>                var (_, lifetimeTask) = startChildAndGetPid($<span class="stringliteral">&quot;--Internal:CommandPipe={pipeServer.GetClientHandleAsString()}&quot;</span>);</div>
-<div class="line"><span class="lineno">   91</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service.html#a311a0494fe06bd7cf880611e9dde89e0">pipeServer</a>.DisposeLocalCopyOfClientHandle();</div>
-<div class="line"><span class="lineno">   92</span>                await lifetimeTask;</div>
-<div class="line"><span class="lineno">   93</span>            }</div>
-<div class="line"><span class="lineno">   94</span>        }</div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service_html_a311a0494fe06bd7cf880611e9dde89e0"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service.html#a311a0494fe06bd7cf880611e9dde89e0">Tgstation.Server.Host.Service.ServerService.pipeServer</a></div><div class="ttdeci">AnonymousPipeServerStream pipeServer</div><div class="ttdoc">The AnonymousPipeServerStream the server process is using.</div><div class="ttdef"><b>Definition:</b> <a href="_server_service_8cs_source.html#l00069">ServerService.cs:69</a></div></div>
+<p class="definition">Definition at line <a class="el" href="_server_service_8cs_source.html#l00088">88</a> of file <a class="el" href="_server_service_8cs_source.html">ServerService.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   89</span>        {</div>
+<div class="line"><span class="lineno">   90</span>            <span class="keyword">using</span> (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service.html#a311a0494fe06bd7cf880611e9dde89e0">pipeServer</a> = <span class="keyword">new</span> AnonymousPipeServerStream(PipeDirection.Out, HandleInheritability.Inheritable))</div>
+<div class="line"><span class="lineno">   91</span>            {</div>
+<div class="line"><span class="lineno">   92</span>                var (_, lifetimeTask) = startChildAndGetPid($<span class="stringliteral">&quot;--Internal:CommandPipe={pipeServer.GetClientHandleAsString()}&quot;</span>);</div>
+<div class="line"><span class="lineno">   93</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service.html#a311a0494fe06bd7cf880611e9dde89e0">pipeServer</a>.DisposeLocalCopyOfClientHandle();</div>
+<div class="line"><span class="lineno">   94</span>                await lifetimeTask;</div>
+<div class="line"><span class="lineno">   95</span>            }</div>
+<div class="line"><span class="lineno">   96</span>        }</div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service_html_a311a0494fe06bd7cf880611e9dde89e0"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service.html#a311a0494fe06bd7cf880611e9dde89e0">Tgstation.Server.Host.Service.ServerService.pipeServer</a></div><div class="ttdeci">AnonymousPipeServerStream pipeServer</div><div class="ttdoc">The AnonymousPipeServerStream the server process is using.</div><div class="ttdef"><b>Definition:</b> <a href="_server_service_8cs_source.html#l00071">ServerService.cs:71</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_server_service_8cs_source.html#l00069">Tgstation.Server.Host.Service.ServerService.pipeServer</a>.</p>
+<p class="reference">References <a class="el" href="_server_service_8cs_source.html#l00071">Tgstation.Server.Host.Service.ServerService.pipeServer</a>.</p>
 
 </div>
 </div>
@@ -336,21 +336,21 @@ Private Attributes</h2></td></tr>
 
 <p></p>
 
-<p class="definition">Definition at line <a class="el" href="_server_service_8cs_source.html#l00102">102</a> of file <a class="el" href="_server_service_8cs_source.html">ServerService.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  103</span>        {</div>
-<div class="line"><span class="lineno">  104</span>            <span class="keywordflow">if</span> (disposing)</div>
-<div class="line"><span class="lineno">  105</span>            {</div>
-<div class="line"><span class="lineno">  106</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service.html#a61d57f00356bc1d53a59f2fc07c7458f">loggerFactory</a>?.Dispose();</div>
-<div class="line"><span class="lineno">  107</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service.html#a4f65e767919ae007c07ef7b3b715b498">cancellationTokenSource</a>?.Dispose();</div>
-<div class="line"><span class="lineno">  108</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service.html#a311a0494fe06bd7cf880611e9dde89e0">pipeServer</a>?.Dispose();</div>
-<div class="line"><span class="lineno">  109</span>            }</div>
-<div class="line"><span class="lineno">  110</span> </div>
-<div class="line"><span class="lineno">  111</span>            base.Dispose(disposing);</div>
-<div class="line"><span class="lineno">  112</span>        }</div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service_html_a4f65e767919ae007c07ef7b3b715b498"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service.html#a4f65e767919ae007c07ef7b3b715b498">Tgstation.Server.Host.Service.ServerService.cancellationTokenSource</a></div><div class="ttdeci">CancellationTokenSource cancellationTokenSource</div><div class="ttdoc">The cancellationTokenSource for the ServerService.</div><div class="ttdef"><b>Definition:</b> <a href="_server_service_8cs_source.html#l00064">ServerService.cs:64</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service_html_a61d57f00356bc1d53a59f2fc07c7458f"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service.html#a61d57f00356bc1d53a59f2fc07c7458f">Tgstation.Server.Host.Service.ServerService.loggerFactory</a></div><div class="ttdeci">ILoggerFactory loggerFactory</div><div class="ttdoc">The ILoggerFactory used by the ServerService.</div><div class="ttdef"><b>Definition:</b> <a href="_server_service_8cs_source.html#l00049">ServerService.cs:49</a></div></div>
+<p class="definition">Definition at line <a class="el" href="_server_service_8cs_source.html#l00104">104</a> of file <a class="el" href="_server_service_8cs_source.html">ServerService.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  105</span>        {</div>
+<div class="line"><span class="lineno">  106</span>            <span class="keywordflow">if</span> (disposing)</div>
+<div class="line"><span class="lineno">  107</span>            {</div>
+<div class="line"><span class="lineno">  108</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service.html#a61d57f00356bc1d53a59f2fc07c7458f">loggerFactory</a>?.Dispose();</div>
+<div class="line"><span class="lineno">  109</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service.html#a4f65e767919ae007c07ef7b3b715b498">cancellationTokenSource</a>?.Dispose();</div>
+<div class="line"><span class="lineno">  110</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service.html#a311a0494fe06bd7cf880611e9dde89e0">pipeServer</a>?.Dispose();</div>
+<div class="line"><span class="lineno">  111</span>            }</div>
+<div class="line"><span class="lineno">  112</span> </div>
+<div class="line"><span class="lineno">  113</span>            base.Dispose(disposing);</div>
+<div class="line"><span class="lineno">  114</span>        }</div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service_html_a4f65e767919ae007c07ef7b3b715b498"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service.html#a4f65e767919ae007c07ef7b3b715b498">Tgstation.Server.Host.Service.ServerService.cancellationTokenSource</a></div><div class="ttdeci">CancellationTokenSource cancellationTokenSource</div><div class="ttdoc">The cancellationTokenSource for the ServerService.</div><div class="ttdef"><b>Definition:</b> <a href="_server_service_8cs_source.html#l00066">ServerService.cs:66</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service_html_a61d57f00356bc1d53a59f2fc07c7458f"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service.html#a61d57f00356bc1d53a59f2fc07c7458f">Tgstation.Server.Host.Service.ServerService.loggerFactory</a></div><div class="ttdeci">ILoggerFactory loggerFactory</div><div class="ttdoc">The ILoggerFactory used by the ServerService.</div><div class="ttdef"><b>Definition:</b> <a href="_server_service_8cs_source.html#l00051">ServerService.cs:51</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_server_service_8cs_source.html#l00064">Tgstation.Server.Host.Service.ServerService.cancellationTokenSource</a>, <a class="el" href="_server_service_8cs_source.html#l00049">Tgstation.Server.Host.Service.ServerService.loggerFactory</a>, and <a class="el" href="_server_service_8cs_source.html#l00069">Tgstation.Server.Host.Service.ServerService.pipeServer</a>.</p>
+<p class="reference">References <a class="el" href="_server_service_8cs_source.html#l00066">Tgstation.Server.Host.Service.ServerService.cancellationTokenSource</a>, <a class="el" href="_server_service_8cs_source.html#l00051">Tgstation.Server.Host.Service.ServerService.loggerFactory</a>, and <a class="el" href="_server_service_8cs_source.html#l00071">Tgstation.Server.Host.Service.ServerService.pipeServer</a>.</p>
 
 </div>
 </div>
@@ -380,27 +380,27 @@ Private Attributes</h2></td></tr>
 
 <p></p>
 
-<p class="definition">Definition at line <a class="el" href="_server_service_8cs_source.html#l00115">115</a> of file <a class="el" href="_server_service_8cs_source.html">ServerService.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  116</span>        {</div>
-<div class="line"><span class="lineno">  117</span>            var commandsToCheck = <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_common_1_1_pipe_commands.html">PipeCommands</a>.AllCommands;</div>
-<div class="line"><span class="lineno">  118</span>            <span class="keywordflow">foreach</span> (var stringCommand <span class="keywordflow">in</span> commandsToCheck)</div>
-<div class="line"><span class="lineno">  119</span>            {</div>
-<div class="line"><span class="lineno">  120</span>                var commandId = <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_common_1_1_pipe_commands.html">PipeCommands</a>.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_common_1_1_pipe_commands.html#a1b22a865eb929ce8b1fa818b81a015a9">GetCommandId</a>(stringCommand);</div>
-<div class="line"><span class="lineno">  121</span>                <span class="keywordflow">if</span> (command == commandId)</div>
-<div class="line"><span class="lineno">  122</span>                {</div>
-<div class="line"><span class="lineno">  123</span>                    <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service.html#ad6526c46e25b98db7222a64d6f45bd49">SendCommandToUpdatePath</a>(stringCommand);</div>
-<div class="line"><span class="lineno">  124</span>                    <span class="keywordflow">return</span>;</div>
-<div class="line"><span class="lineno">  125</span>                }</div>
-<div class="line"><span class="lineno">  126</span>            }</div>
-<div class="line"><span class="lineno">  127</span> </div>
-<div class="line"><span class="lineno">  128</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service.html#a999c891e6bff6ba1c9e26e471ac7418f">logger</a>.LogWarning(<span class="stringliteral">&quot;Received unknown service command: {command}&quot;</span>, command);</div>
-<div class="line"><span class="lineno">  129</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_server_service_8cs_source.html#l00117">117</a> of file <a class="el" href="_server_service_8cs_source.html">ServerService.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  118</span>        {</div>
+<div class="line"><span class="lineno">  119</span>            var commandsToCheck = <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_common_1_1_pipe_commands.html">PipeCommands</a>.AllCommands;</div>
+<div class="line"><span class="lineno">  120</span>            <span class="keywordflow">foreach</span> (var stringCommand <span class="keywordflow">in</span> commandsToCheck)</div>
+<div class="line"><span class="lineno">  121</span>            {</div>
+<div class="line"><span class="lineno">  122</span>                var commandId = <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_common_1_1_pipe_commands.html">PipeCommands</a>.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_common_1_1_pipe_commands.html#a1b22a865eb929ce8b1fa818b81a015a9">GetCommandId</a>(stringCommand);</div>
+<div class="line"><span class="lineno">  123</span>                <span class="keywordflow">if</span> (command == commandId)</div>
+<div class="line"><span class="lineno">  124</span>                {</div>
+<div class="line"><span class="lineno">  125</span>                    <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service.html#ad6526c46e25b98db7222a64d6f45bd49">SendCommandToUpdatePath</a>(stringCommand);</div>
+<div class="line"><span class="lineno">  126</span>                    <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno">  127</span>                }</div>
+<div class="line"><span class="lineno">  128</span>            }</div>
+<div class="line"><span class="lineno">  129</span> </div>
+<div class="line"><span class="lineno">  130</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service.html#a999c891e6bff6ba1c9e26e471ac7418f">logger</a>.LogWarning(<span class="stringliteral">&quot;Received unknown service command: {command}&quot;</span>, command);</div>
+<div class="line"><span class="lineno">  131</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_common_1_1_pipe_commands_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_common_1_1_pipe_commands.html">Tgstation.Server.Host.Common.PipeCommands</a></div><div class="ttdoc">Values able to be passed via the update file path.</div><div class="ttdef"><b>Definition:</b> <a href="_pipe_commands_8cs_source.html#l00006">PipeCommands.cs:7</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_common_1_1_pipe_commands_html_a1b22a865eb929ce8b1fa818b81a015a9"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_common_1_1_pipe_commands.html#a1b22a865eb929ce8b1fa818b81a015a9">Tgstation.Server.Host.Common.PipeCommands.GetCommandId</a></div><div class="ttdeci">static ? int GetCommandId(string command)</div><div class="ttdoc">Gets the int value of a given command .</div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service_html_a999c891e6bff6ba1c9e26e471ac7418f"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service.html#a999c891e6bff6ba1c9e26e471ac7418f">Tgstation.Server.Host.Service.ServerService.logger</a></div><div class="ttdeci">ILogger&lt; ServerService &gt; logger</div><div class="ttdoc">The ILogger for the ServerService.</div><div class="ttdef"><b>Definition:</b> <a href="_server_service_8cs_source.html#l00054">ServerService.cs:54</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service_html_ad6526c46e25b98db7222a64d6f45bd49"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service.html#ad6526c46e25b98db7222a64d6f45bd49">Tgstation.Server.Host.Service.ServerService.SendCommandToUpdatePath</a></div><div class="ttdeci">void SendCommandToUpdatePath(string command)</div><div class="ttdoc">Sends a command to the main server process.</div><div class="ttdef"><b>Definition:</b> <a href="_server_service_8cs_source.html#l00204">ServerService.cs:204</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service_html_a999c891e6bff6ba1c9e26e471ac7418f"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service.html#a999c891e6bff6ba1c9e26e471ac7418f">Tgstation.Server.Host.Service.ServerService.logger</a></div><div class="ttdeci">ILogger&lt; ServerService &gt; logger</div><div class="ttdoc">The ILogger for the ServerService.</div><div class="ttdef"><b>Definition:</b> <a href="_server_service_8cs_source.html#l00056">ServerService.cs:56</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service_html_ad6526c46e25b98db7222a64d6f45bd49"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service.html#ad6526c46e25b98db7222a64d6f45bd49">Tgstation.Server.Host.Service.ServerService.SendCommandToUpdatePath</a></div><div class="ttdeci">void SendCommandToUpdatePath(string command)</div><div class="ttdoc">Sends a command to the main server process.</div><div class="ttdef"><b>Definition:</b> <a href="_server_service_8cs_source.html#l00206">ServerService.cs:206</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_common_1_1_pipe_commands.html#a1b22a865eb929ce8b1fa818b81a015a9">Tgstation.Server.Host.Common.PipeCommands.GetCommandId()</a>, <a class="el" href="_server_service_8cs_source.html#l00054">Tgstation.Server.Host.Service.ServerService.logger</a>, and <a class="el" href="_server_service_8cs_source.html#l00204">Tgstation.Server.Host.Service.ServerService.SendCommandToUpdatePath()</a>.</p>
+<p class="reference">References <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_common_1_1_pipe_commands.html#a1b22a865eb929ce8b1fa818b81a015a9">Tgstation.Server.Host.Common.PipeCommands.GetCommandId()</a>, <a class="el" href="_server_service_8cs_source.html#l00056">Tgstation.Server.Host.Service.ServerService.logger</a>, and <a class="el" href="_server_service_8cs_source.html#l00206">Tgstation.Server.Host.Service.ServerService.SendCommandToUpdatePath()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -440,42 +440,42 @@ Here is the call graph for this function:</div>
 
 <p></p>
 
-<p class="definition">Definition at line <a class="el" href="_server_service_8cs_source.html#l00132">132</a> of file <a class="el" href="_server_service_8cs_source.html">ServerService.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  133</span>        {</div>
-<div class="line"><span class="lineno">  134</span>            <span class="keywordflow">if</span> (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service.html#a61d57f00356bc1d53a59f2fc07c7458f">loggerFactory</a> == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">  135</span>            {</div>
-<div class="line"><span class="lineno">  136</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service.html#a61d57f00356bc1d53a59f2fc07c7458f">loggerFactory</a> = LoggerFactory.Create(builder =&gt; builder.AddEventLog(<span class="keyword">new</span> EventLogSettings</div>
-<div class="line"><span class="lineno">  137</span>                {</div>
-<div class="line"><span class="lineno">  138</span>                    LogName = EventLog.Log,</div>
-<div class="line"><span class="lineno">  139</span>                    MachineName = EventLog.MachineName,</div>
-<div class="line"><span class="lineno">  140</span>                    SourceName = EventLog.Source,</div>
-<div class="line"><span class="lineno">  141</span>                    Filter = (message, logLevel) =&gt; logLevel &gt;= minimumLogLevel,</div>
-<div class="line"><span class="lineno">  142</span>                }));</div>
-<div class="line"><span class="lineno">  143</span> </div>
-<div class="line"><span class="lineno">  144</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service.html#a999c891e6bff6ba1c9e26e471ac7418f">logger</a> = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service.html#a61d57f00356bc1d53a59f2fc07c7458f">loggerFactory</a>.CreateLogger&lt;<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service.html#aad7bf501e826f60c08c082150e741d34">ServerService</a>&gt;();</div>
-<div class="line"><span class="lineno">  145</span>            }</div>
-<div class="line"><span class="lineno">  146</span> </div>
-<div class="line"><span class="lineno">  147</span>            var watchdog = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service.html#a5ed96035a5f77935306a218fc08a1465">watchdogFactory</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_watchdog_factory.html#ab2d9fab6dfb0b258003ee1cff20694af">CreateWatchdog</a>(<span class="keyword">this</span>, <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service.html#a61d57f00356bc1d53a59f2fc07c7458f">loggerFactory</a>);</div>
+<p class="definition">Definition at line <a class="el" href="_server_service_8cs_source.html#l00134">134</a> of file <a class="el" href="_server_service_8cs_source.html">ServerService.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  135</span>        {</div>
+<div class="line"><span class="lineno">  136</span>            <span class="keywordflow">if</span> (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service.html#a61d57f00356bc1d53a59f2fc07c7458f">loggerFactory</a> == <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">  137</span>            {</div>
+<div class="line"><span class="lineno">  138</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service.html#a61d57f00356bc1d53a59f2fc07c7458f">loggerFactory</a> = LoggerFactory.Create(builder =&gt; builder.AddEventLog(<span class="keyword">new</span> EventLogSettings</div>
+<div class="line"><span class="lineno">  139</span>                {</div>
+<div class="line"><span class="lineno">  140</span>                    LogName = EventLog.Log,</div>
+<div class="line"><span class="lineno">  141</span>                    MachineName = EventLog.MachineName,</div>
+<div class="line"><span class="lineno">  142</span>                    SourceName = EventLog.Source,</div>
+<div class="line"><span class="lineno">  143</span>                    Filter = (message, logLevel) =&gt; logLevel &gt;= minimumLogLevel,</div>
+<div class="line"><span class="lineno">  144</span>                }));</div>
+<div class="line"><span class="lineno">  145</span> </div>
+<div class="line"><span class="lineno">  146</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service.html#a999c891e6bff6ba1c9e26e471ac7418f">logger</a> = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service.html#a61d57f00356bc1d53a59f2fc07c7458f">loggerFactory</a>.CreateLogger&lt;<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service.html#aad7bf501e826f60c08c082150e741d34">ServerService</a>&gt;();</div>
+<div class="line"><span class="lineno">  147</span>            }</div>
 <div class="line"><span class="lineno">  148</span> </div>
-<div class="line"><span class="lineno">  149</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service.html#a4f65e767919ae007c07ef7b3b715b498">cancellationTokenSource</a>?.Dispose();</div>
-<div class="line"><span class="lineno">  150</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service.html#a4f65e767919ae007c07ef7b3b715b498">cancellationTokenSource</a> = <span class="keyword">new</span> CancellationTokenSource();</div>
-<div class="line"><span class="lineno">  151</span> </div>
-<div class="line"><span class="lineno">  152</span>            var newArgs = <span class="keyword">new</span> List&lt;string&gt;(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service.html#ada2140ad4e7bbe188ba30c227bb5a9cf">commandLineArguments</a>.Length + args.Length + 1)</div>
-<div class="line"><span class="lineno">  153</span>            {</div>
-<div class="line"><span class="lineno">  154</span>                <span class="stringliteral">&quot;--General:SetupWizardMode=Never&quot;</span>,</div>
-<div class="line"><span class="lineno">  155</span>            };</div>
-<div class="line"><span class="lineno">  156</span> </div>
-<div class="line"><span class="lineno">  157</span>            newArgs.AddRange(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service.html#ada2140ad4e7bbe188ba30c227bb5a9cf">commandLineArguments</a>);</div>
-<div class="line"><span class="lineno">  158</span>            newArgs.AddRange(args);</div>
-<div class="line"><span class="lineno">  159</span> </div>
-<div class="line"><span class="lineno">  160</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service.html#a89678cb55592e83aa074a24dc86dcd6f">watchdogTask</a> = <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service.html#a63313991bba1e6d1037bc635ddd4d4d8">RunWatchdog</a>(watchdog, newArgs.ToArray(), <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service.html#a4f65e767919ae007c07ef7b3b715b498">cancellationTokenSource</a>.Token);</div>
-<div class="line"><span class="lineno">  161</span>        }</div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service_html_a63313991bba1e6d1037bc635ddd4d4d8"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service.html#a63313991bba1e6d1037bc635ddd4d4d8">Tgstation.Server.Host.Service.ServerService.RunWatchdog</a></div><div class="ttdeci">async Task RunWatchdog(IWatchdog watchdog, string[] args, CancellationToken cancellationToken)</div><div class="ttdoc">Executes the watchdog , stopping the service if it exits.</div><div class="ttdef"><b>Definition:</b> <a href="_server_service_8cs_source.html#l00177">ServerService.cs:177</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service_html_a89678cb55592e83aa074a24dc86dcd6f"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service.html#a89678cb55592e83aa074a24dc86dcd6f">Tgstation.Server.Host.Service.ServerService.watchdogTask</a></div><div class="ttdeci">Task watchdogTask</div><div class="ttdoc">The Task that represents the running ServerService.</div><div class="ttdef"><b>Definition:</b> <a href="_server_service_8cs_source.html#l00059">ServerService.cs:59</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service_html_aad7bf501e826f60c08c082150e741d34"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service.html#aad7bf501e826f60c08c082150e741d34">Tgstation.Server.Host.Service.ServerService.ServerService</a></div><div class="ttdeci">ServerService(IWatchdogFactory watchdogFactory, string[] commandLineArguments, LogLevel minimumLogLevel)</div><div class="ttdoc">Initializes a new instance of the ServerService class.</div><div class="ttdef"><b>Definition:</b> <a href="_server_service_8cs_source.html#l00077">ServerService.cs:77</a></div></div>
+<div class="line"><span class="lineno">  149</span>            var watchdog = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service.html#a5ed96035a5f77935306a218fc08a1465">watchdogFactory</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_watchdog_factory.html#ab2d9fab6dfb0b258003ee1cff20694af">CreateWatchdog</a>(<span class="keyword">this</span>, <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service.html#a61d57f00356bc1d53a59f2fc07c7458f">loggerFactory</a>);</div>
+<div class="line"><span class="lineno">  150</span> </div>
+<div class="line"><span class="lineno">  151</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service.html#a4f65e767919ae007c07ef7b3b715b498">cancellationTokenSource</a>?.Dispose();</div>
+<div class="line"><span class="lineno">  152</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service.html#a4f65e767919ae007c07ef7b3b715b498">cancellationTokenSource</a> = <span class="keyword">new</span> CancellationTokenSource();</div>
+<div class="line"><span class="lineno">  153</span> </div>
+<div class="line"><span class="lineno">  154</span>            var newArgs = <span class="keyword">new</span> List&lt;string&gt;(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service.html#ada2140ad4e7bbe188ba30c227bb5a9cf">commandLineArguments</a>.Length + args.Length + 1)</div>
+<div class="line"><span class="lineno">  155</span>            {</div>
+<div class="line"><span class="lineno">  156</span>                <span class="stringliteral">&quot;--General:SetupWizardMode=Never&quot;</span>,</div>
+<div class="line"><span class="lineno">  157</span>            };</div>
+<div class="line"><span class="lineno">  158</span> </div>
+<div class="line"><span class="lineno">  159</span>            newArgs.AddRange(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service.html#ada2140ad4e7bbe188ba30c227bb5a9cf">commandLineArguments</a>);</div>
+<div class="line"><span class="lineno">  160</span>            newArgs.AddRange(args);</div>
+<div class="line"><span class="lineno">  161</span> </div>
+<div class="line"><span class="lineno">  162</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service.html#a89678cb55592e83aa074a24dc86dcd6f">watchdogTask</a> = <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service.html#a63313991bba1e6d1037bc635ddd4d4d8">RunWatchdog</a>(watchdog, newArgs.ToArray(), <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service.html#a4f65e767919ae007c07ef7b3b715b498">cancellationTokenSource</a>.Token);</div>
+<div class="line"><span class="lineno">  163</span>        }</div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service_html_a63313991bba1e6d1037bc635ddd4d4d8"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service.html#a63313991bba1e6d1037bc635ddd4d4d8">Tgstation.Server.Host.Service.ServerService.RunWatchdog</a></div><div class="ttdeci">async Task RunWatchdog(IWatchdog watchdog, string[] args, CancellationToken cancellationToken)</div><div class="ttdoc">Executes the watchdog , stopping the service if it exits.</div><div class="ttdef"><b>Definition:</b> <a href="_server_service_8cs_source.html#l00179">ServerService.cs:179</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service_html_a89678cb55592e83aa074a24dc86dcd6f"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service.html#a89678cb55592e83aa074a24dc86dcd6f">Tgstation.Server.Host.Service.ServerService.watchdogTask</a></div><div class="ttdeci">Task watchdogTask</div><div class="ttdoc">The Task that represents the running ServerService.</div><div class="ttdef"><b>Definition:</b> <a href="_server_service_8cs_source.html#l00061">ServerService.cs:61</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service_html_aad7bf501e826f60c08c082150e741d34"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service.html#aad7bf501e826f60c08c082150e741d34">Tgstation.Server.Host.Service.ServerService.ServerService</a></div><div class="ttdeci">ServerService(IWatchdogFactory watchdogFactory, string[] commandLineArguments, LogLevel minimumLogLevel)</div><div class="ttdoc">Initializes a new instance of the ServerService class.</div><div class="ttdef"><b>Definition:</b> <a href="_server_service_8cs_source.html#l00079">ServerService.cs:79</a></div></div>
 <div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_watchdog_factory_html_ab2d9fab6dfb0b258003ee1cff20694af"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_watchdog_factory.html#ab2d9fab6dfb0b258003ee1cff20694af">Tgstation.Server.Host.Watchdog.IWatchdogFactory.CreateWatchdog</a></div><div class="ttdeci">IWatchdog CreateWatchdog(ISignalChecker signalChecker, ILoggerFactory loggerFactory)</div><div class="ttdoc">Create a IWatchdog.</div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_server_service_8cs_source.html#l00064">Tgstation.Server.Host.Service.ServerService.cancellationTokenSource</a>, <a class="el" href="_server_service_8cs_source.html#l00039">Tgstation.Server.Host.Service.ServerService.commandLineArguments</a>, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_watchdog_factory.html#ab2d9fab6dfb0b258003ee1cff20694af">Tgstation.Server.Host.Watchdog.IWatchdogFactory.CreateWatchdog()</a>, <a class="el" href="_server_service_8cs_source.html#l00054">Tgstation.Server.Host.Service.ServerService.logger</a>, <a class="el" href="_server_service_8cs_source.html#l00049">Tgstation.Server.Host.Service.ServerService.loggerFactory</a>, <a class="el" href="_server_service_8cs_source.html#l00177">Tgstation.Server.Host.Service.ServerService.RunWatchdog()</a>, <a class="el" href="_server_service_8cs_source.html#l00034">Tgstation.Server.Host.Service.ServerService.watchdogFactory</a>, and <a class="el" href="_server_service_8cs_source.html#l00059">Tgstation.Server.Host.Service.ServerService.watchdogTask</a>.</p>
+<p class="reference">References <a class="el" href="_server_service_8cs_source.html#l00066">Tgstation.Server.Host.Service.ServerService.cancellationTokenSource</a>, <a class="el" href="_server_service_8cs_source.html#l00041">Tgstation.Server.Host.Service.ServerService.commandLineArguments</a>, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_watchdog_factory.html#ab2d9fab6dfb0b258003ee1cff20694af">Tgstation.Server.Host.Watchdog.IWatchdogFactory.CreateWatchdog()</a>, <a class="el" href="_server_service_8cs_source.html#l00056">Tgstation.Server.Host.Service.ServerService.logger</a>, <a class="el" href="_server_service_8cs_source.html#l00051">Tgstation.Server.Host.Service.ServerService.loggerFactory</a>, <a class="el" href="_server_service_8cs_source.html#l00179">Tgstation.Server.Host.Service.ServerService.RunWatchdog()</a>, <a class="el" href="_server_service_8cs_source.html#l00036">Tgstation.Server.Host.Service.ServerService.watchdogFactory</a>, and <a class="el" href="_server_service_8cs_source.html#l00061">Tgstation.Server.Host.Service.ServerService.watchdogTask</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -515,13 +515,13 @@ Here is the call graph for this function:</div>
 
 <p></p>
 
-<p class="definition">Definition at line <a class="el" href="_server_service_8cs_source.html#l00164">164</a> of file <a class="el" href="_server_service_8cs_source.html">ServerService.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  165</span>        {</div>
-<div class="line"><span class="lineno">  166</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service.html#a4f65e767919ae007c07ef7b3b715b498">cancellationTokenSource</a>.Cancel();</div>
-<div class="line"><span class="lineno">  167</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service.html#a89678cb55592e83aa074a24dc86dcd6f">watchdogTask</a>.GetAwaiter().GetResult();</div>
-<div class="line"><span class="lineno">  168</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_server_service_8cs_source.html#l00166">166</a> of file <a class="el" href="_server_service_8cs_source.html">ServerService.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  167</span>        {</div>
+<div class="line"><span class="lineno">  168</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service.html#a4f65e767919ae007c07ef7b3b715b498">cancellationTokenSource</a>.Cancel();</div>
+<div class="line"><span class="lineno">  169</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service.html#a89678cb55592e83aa074a24dc86dcd6f">watchdogTask</a>.GetAwaiter().GetResult();</div>
+<div class="line"><span class="lineno">  170</span>        }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_server_service_8cs_source.html#l00064">Tgstation.Server.Host.Service.ServerService.cancellationTokenSource</a>, and <a class="el" href="_server_service_8cs_source.html#l00059">Tgstation.Server.Host.Service.ServerService.watchdogTask</a>.</p>
+<p class="reference">References <a class="el" href="_server_service_8cs_source.html#l00066">Tgstation.Server.Host.Service.ServerService.cancellationTokenSource</a>, and <a class="el" href="_server_service_8cs_source.html#l00061">Tgstation.Server.Host.Service.ServerService.watchdogTask</a>.</p>
 
 </div>
 </div>
@@ -595,33 +595,33 @@ Here is the call graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A Task representing the running operation.</dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_server_service_8cs_source.html#l00177">177</a> of file <a class="el" href="_server_service_8cs_source.html">ServerService.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  178</span>        {</div>
-<div class="line"><span class="lineno">  179</span>            await watchdog.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_watchdog.html#a0c7358d5daa1a04c517e8a33c1c99de6">RunAsync</a>(<span class="keyword">false</span>, args, cancellationToken);</div>
-<div class="line"><span class="lineno">  180</span> </div>
-<div class="line"><span class="lineno">  181</span>            async <span class="keywordtype">void</span> StopServiceAsync()</div>
-<div class="line"><span class="lineno">  182</span>            {</div>
-<div class="line"><span class="lineno">  183</span>                <span class="keywordflow">try</span></div>
-<div class="line"><span class="lineno">  184</span>                {</div>
-<div class="line"><span class="lineno">  185</span>                    await Task.Run(Stop, cancellationToken); <span class="comment">// DCT intentional</span></div>
-<div class="line"><span class="lineno">  186</span>                }</div>
-<div class="line"><span class="lineno">  187</span>                <span class="keywordflow">catch</span> (OperationCanceledException ex)</div>
-<div class="line"><span class="lineno">  188</span>                {</div>
-<div class="line"><span class="lineno">  189</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service.html#a999c891e6bff6ba1c9e26e471ac7418f">logger</a>.LogTrace(ex, <span class="stringliteral">&quot;Stopping service cancelled!&quot;</span>);</div>
-<div class="line"><span class="lineno">  190</span>                }</div>
-<div class="line"><span class="lineno">  191</span>                <span class="keywordflow">catch</span> (Exception ex)</div>
-<div class="line"><span class="lineno">  192</span>                {</div>
-<div class="line"><span class="lineno">  193</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service.html#a999c891e6bff6ba1c9e26e471ac7418f">logger</a>.LogError(ex, <span class="stringliteral">&quot;Error stopping service!&quot;</span>);</div>
-<div class="line"><span class="lineno">  194</span>                }</div>
-<div class="line"><span class="lineno">  195</span>            }</div>
-<div class="line"><span class="lineno">  196</span> </div>
-<div class="line"><span class="lineno">  197</span>            StopServiceAsync();</div>
-<div class="line"><span class="lineno">  198</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_server_service_8cs_source.html#l00179">179</a> of file <a class="el" href="_server_service_8cs_source.html">ServerService.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  180</span>        {</div>
+<div class="line"><span class="lineno">  181</span>            await watchdog.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_watchdog.html#a0c7358d5daa1a04c517e8a33c1c99de6">RunAsync</a>(<span class="keyword">false</span>, args, cancellationToken);</div>
+<div class="line"><span class="lineno">  182</span> </div>
+<div class="line"><span class="lineno">  183</span>            async <span class="keywordtype">void</span> StopServiceAsync()</div>
+<div class="line"><span class="lineno">  184</span>            {</div>
+<div class="line"><span class="lineno">  185</span>                <span class="keywordflow">try</span></div>
+<div class="line"><span class="lineno">  186</span>                {</div>
+<div class="line"><span class="lineno">  187</span>                    await Task.Run(Stop, cancellationToken); <span class="comment">// DCT intentional</span></div>
+<div class="line"><span class="lineno">  188</span>                }</div>
+<div class="line"><span class="lineno">  189</span>                <span class="keywordflow">catch</span> (OperationCanceledException ex)</div>
+<div class="line"><span class="lineno">  190</span>                {</div>
+<div class="line"><span class="lineno">  191</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service.html#a999c891e6bff6ba1c9e26e471ac7418f">logger</a>.LogTrace(ex, <span class="stringliteral">&quot;Stopping service cancelled!&quot;</span>);</div>
+<div class="line"><span class="lineno">  192</span>                }</div>
+<div class="line"><span class="lineno">  193</span>                <span class="keywordflow">catch</span> (Exception ex)</div>
+<div class="line"><span class="lineno">  194</span>                {</div>
+<div class="line"><span class="lineno">  195</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service.html#a999c891e6bff6ba1c9e26e471ac7418f">logger</a>.LogError(ex, <span class="stringliteral">&quot;Error stopping service!&quot;</span>);</div>
+<div class="line"><span class="lineno">  196</span>                }</div>
+<div class="line"><span class="lineno">  197</span>            }</div>
+<div class="line"><span class="lineno">  198</span> </div>
+<div class="line"><span class="lineno">  199</span>            StopServiceAsync();</div>
+<div class="line"><span class="lineno">  200</span>        }</div>
 <div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_watchdog_html_a0c7358d5daa1a04c517e8a33c1c99de6"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_watchdog.html#a0c7358d5daa1a04c517e8a33c1c99de6">Tgstation.Server.Host.Watchdog.IWatchdog.RunAsync</a></div><div class="ttdeci">Task&lt; bool &gt; RunAsync(bool runConfigure, string[] args, CancellationToken cancellationToken)</div><div class="ttdoc">Run the IWatchdog.</div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_server_service_8cs_source.html#l00054">Tgstation.Server.Host.Service.ServerService.logger</a>, and <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_watchdog.html#a0c7358d5daa1a04c517e8a33c1c99de6">Tgstation.Server.Host.Watchdog.IWatchdog.RunAsync()</a>.</p>
+<p class="reference">References <a class="el" href="_server_service_8cs_source.html#l00056">Tgstation.Server.Host.Service.ServerService.logger</a>, and <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_watchdog.html#a0c7358d5daa1a04c517e8a33c1c99de6">Tgstation.Server.Host.Watchdog.IWatchdog.RunAsync()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_server_service_8cs_source.html#l00132">Tgstation.Server.Host.Service.ServerService.OnStart()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_server_service_8cs_source.html#l00134">Tgstation.Server.Host.Service.ServerService.OnStart()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -675,40 +675,40 @@ Here is the caller graph for this function:</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_server_service_8cs_source.html#l00204">204</a> of file <a class="el" href="_server_service_8cs_source.html">ServerService.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  205</span>        {</div>
-<div class="line"><span class="lineno">  206</span>            var localPipeServer = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service.html#a311a0494fe06bd7cf880611e9dde89e0">pipeServer</a>;</div>
-<div class="line"><span class="lineno">  207</span>            <span class="keywordflow">if</span> (localPipeServer == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">  208</span>            {</div>
-<div class="line"><span class="lineno">  209</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service.html#a999c891e6bff6ba1c9e26e471ac7418f">logger</a>.LogWarning(<span class="stringliteral">&quot;Unable to send command \&quot;{command}\&quot; to main server process. Is the service running?&quot;</span>, command);</div>
-<div class="line"><span class="lineno">  210</span>                <span class="keywordflow">return</span>;</div>
-<div class="line"><span class="lineno">  211</span>            }</div>
-<div class="line"><span class="lineno">  212</span> </div>
-<div class="line"><span class="lineno">  213</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service.html#a999c891e6bff6ba1c9e26e471ac7418f">logger</a>.LogDebug(<span class="stringliteral">&quot;Send command: {command}&quot;</span>, command);</div>
-<div class="line"><span class="lineno">  214</span>            <span class="keywordflow">try</span></div>
-<div class="line"><span class="lineno">  215</span>            {</div>
-<div class="line"><span class="lineno">  216</span>                var encoding = Encoding.UTF8;</div>
-<div class="line"><span class="lineno">  217</span>                <span class="keyword">using </span>var streamWriter = <span class="keyword">new</span> StreamWriter(</div>
-<div class="line"><span class="lineno">  218</span>                    localPipeServer,</div>
-<div class="line"><span class="lineno">  219</span>                    encoding,</div>
-<div class="line"><span class="lineno">  220</span>                    <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_common_1_1_pipe_commands.html">PipeCommands</a></div>
-<div class="line"><span class="lineno">  221</span>                        .AllCommands</div>
-<div class="line"><span class="lineno">  222</span>                        .Select(</div>
-<div class="line"><span class="lineno">  223</span>                            command =&gt; encoding.GetByteCount(</div>
-<div class="line"><span class="lineno">  224</span>                                command + Environment.NewLine))</div>
-<div class="line"><span class="lineno">  225</span>                        .Max(),</div>
-<div class="line"><span class="lineno">  226</span>                    <span class="keyword">true</span>);</div>
-<div class="line"><span class="lineno">  227</span>                streamWriter.WriteLine(command);</div>
-<div class="line"><span class="lineno">  228</span>            }</div>
-<div class="line"><span class="lineno">  229</span>            <span class="keywordflow">catch</span> (Exception ex)</div>
-<div class="line"><span class="lineno">  230</span>            {</div>
-<div class="line"><span class="lineno">  231</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service.html#a999c891e6bff6ba1c9e26e471ac7418f">logger</a>.LogError(ex, <span class="stringliteral">&quot;Error attempting to send command \&quot;{command}\&quot;&quot;</span>, command);</div>
-<div class="line"><span class="lineno">  232</span>            }</div>
-<div class="line"><span class="lineno">  233</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_server_service_8cs_source.html#l00206">206</a> of file <a class="el" href="_server_service_8cs_source.html">ServerService.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  207</span>        {</div>
+<div class="line"><span class="lineno">  208</span>            var localPipeServer = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service.html#a311a0494fe06bd7cf880611e9dde89e0">pipeServer</a>;</div>
+<div class="line"><span class="lineno">  209</span>            <span class="keywordflow">if</span> (localPipeServer == <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">  210</span>            {</div>
+<div class="line"><span class="lineno">  211</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service.html#a999c891e6bff6ba1c9e26e471ac7418f">logger</a>.LogWarning(<span class="stringliteral">&quot;Unable to send command \&quot;{command}\&quot; to main server process. Is the service running?&quot;</span>, command);</div>
+<div class="line"><span class="lineno">  212</span>                <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno">  213</span>            }</div>
+<div class="line"><span class="lineno">  214</span> </div>
+<div class="line"><span class="lineno">  215</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service.html#a999c891e6bff6ba1c9e26e471ac7418f">logger</a>.LogDebug(<span class="stringliteral">&quot;Send command: {command}&quot;</span>, command);</div>
+<div class="line"><span class="lineno">  216</span>            <span class="keywordflow">try</span></div>
+<div class="line"><span class="lineno">  217</span>            {</div>
+<div class="line"><span class="lineno">  218</span>                var encoding = Encoding.UTF8;</div>
+<div class="line"><span class="lineno">  219</span>                <span class="keyword">using </span>var streamWriter = <span class="keyword">new</span> StreamWriter(</div>
+<div class="line"><span class="lineno">  220</span>                    localPipeServer,</div>
+<div class="line"><span class="lineno">  221</span>                    encoding,</div>
+<div class="line"><span class="lineno">  222</span>                    <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_common_1_1_pipe_commands.html">PipeCommands</a></div>
+<div class="line"><span class="lineno">  223</span>                        .AllCommands</div>
+<div class="line"><span class="lineno">  224</span>                        .Select(</div>
+<div class="line"><span class="lineno">  225</span>                            command =&gt; encoding.GetByteCount(</div>
+<div class="line"><span class="lineno">  226</span>                                command + Environment.NewLine))</div>
+<div class="line"><span class="lineno">  227</span>                        .Max(),</div>
+<div class="line"><span class="lineno">  228</span>                    <span class="keyword">true</span>);</div>
+<div class="line"><span class="lineno">  229</span>                streamWriter.WriteLine(command);</div>
+<div class="line"><span class="lineno">  230</span>            }</div>
+<div class="line"><span class="lineno">  231</span>            <span class="keywordflow">catch</span> (Exception ex)</div>
+<div class="line"><span class="lineno">  232</span>            {</div>
+<div class="line"><span class="lineno">  233</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service.html#a999c891e6bff6ba1c9e26e471ac7418f">logger</a>.LogError(ex, <span class="stringliteral">&quot;Error attempting to send command \&quot;{command}\&quot;&quot;</span>, command);</div>
+<div class="line"><span class="lineno">  234</span>            }</div>
+<div class="line"><span class="lineno">  235</span>        }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_server_service_8cs_source.html#l00054">Tgstation.Server.Host.Service.ServerService.logger</a>, and <a class="el" href="_server_service_8cs_source.html#l00069">Tgstation.Server.Host.Service.ServerService.pipeServer</a>.</p>
+<p class="reference">References <a class="el" href="_server_service_8cs_source.html#l00056">Tgstation.Server.Host.Service.ServerService.logger</a>, and <a class="el" href="_server_service_8cs_source.html#l00071">Tgstation.Server.Host.Service.ServerService.pipeServer</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_server_service_8cs_source.html#l00115">Tgstation.Server.Host.Service.ServerService.OnCustomCommand()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_server_service_8cs_source.html#l00117">Tgstation.Server.Host.Service.ServerService.OnCustomCommand()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -744,9 +744,9 @@ Here is the caller graph for this function:</div>
 
 <p>The <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service.html#a4f65e767919ae007c07ef7b3b715b498" title="The cancellationTokenSource for the ServerService.">cancellationTokenSource</a> for the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service.html" title="Represents a IWatchdog as a ServiceBase.">ServerService</a>.  </p>
 
-<p class="definition">Definition at line <a class="el" href="_server_service_8cs_source.html#l00064">64</a> of file <a class="el" href="_server_service_8cs_source.html">ServerService.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_server_service_8cs_source.html#l00066">66</a> of file <a class="el" href="_server_service_8cs_source.html">ServerService.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_server_service_8cs_source.html#l00102">Tgstation.Server.Host.Service.ServerService.Dispose()</a>, <a class="el" href="_server_service_8cs_source.html#l00132">Tgstation.Server.Host.Service.ServerService.OnStart()</a>, and <a class="el" href="_server_service_8cs_source.html#l00164">Tgstation.Server.Host.Service.ServerService.OnStop()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_server_service_8cs_source.html#l00104">Tgstation.Server.Host.Service.ServerService.Dispose()</a>, <a class="el" href="_server_service_8cs_source.html#l00134">Tgstation.Server.Host.Service.ServerService.OnStart()</a>, and <a class="el" href="_server_service_8cs_source.html#l00166">Tgstation.Server.Host.Service.ServerService.OnStop()</a>.</p>
 
 </div>
 </div>
@@ -772,9 +772,9 @@ Here is the caller graph for this function:</div>
 
 <p>The Array of command line arguments the service was invoked with.  </p>
 
-<p class="definition">Definition at line <a class="el" href="_server_service_8cs_source.html#l00039">39</a> of file <a class="el" href="_server_service_8cs_source.html">ServerService.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_server_service_8cs_source.html#l00041">41</a> of file <a class="el" href="_server_service_8cs_source.html">ServerService.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_server_service_8cs_source.html#l00132">Tgstation.Server.Host.Service.ServerService.OnStart()</a>, and <a class="el" href="_server_service_8cs_source.html#l00077">Tgstation.Server.Host.Service.ServerService.ServerService()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_server_service_8cs_source.html#l00134">Tgstation.Server.Host.Service.ServerService.OnStart()</a>, and <a class="el" href="_server_service_8cs_source.html#l00079">Tgstation.Server.Host.Service.ServerService.ServerService()</a>.</p>
 
 </div>
 </div>
@@ -800,9 +800,9 @@ Here is the caller graph for this function:</div>
 
 <p>The ILogger for the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service.html" title="Represents a IWatchdog as a ServiceBase.">ServerService</a>.  </p>
 
-<p class="definition">Definition at line <a class="el" href="_server_service_8cs_source.html#l00054">54</a> of file <a class="el" href="_server_service_8cs_source.html">ServerService.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_server_service_8cs_source.html#l00056">56</a> of file <a class="el" href="_server_service_8cs_source.html">ServerService.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_server_service_8cs_source.html#l00115">Tgstation.Server.Host.Service.ServerService.OnCustomCommand()</a>, <a class="el" href="_server_service_8cs_source.html#l00132">Tgstation.Server.Host.Service.ServerService.OnStart()</a>, <a class="el" href="_server_service_8cs_source.html#l00177">Tgstation.Server.Host.Service.ServerService.RunWatchdog()</a>, and <a class="el" href="_server_service_8cs_source.html#l00204">Tgstation.Server.Host.Service.ServerService.SendCommandToUpdatePath()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_server_service_8cs_source.html#l00117">Tgstation.Server.Host.Service.ServerService.OnCustomCommand()</a>, <a class="el" href="_server_service_8cs_source.html#l00134">Tgstation.Server.Host.Service.ServerService.OnStart()</a>, <a class="el" href="_server_service_8cs_source.html#l00179">Tgstation.Server.Host.Service.ServerService.RunWatchdog()</a>, and <a class="el" href="_server_service_8cs_source.html#l00206">Tgstation.Server.Host.Service.ServerService.SendCommandToUpdatePath()</a>.</p>
 
 </div>
 </div>
@@ -828,9 +828,9 @@ Here is the caller graph for this function:</div>
 
 <p>The ILoggerFactory used by the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service.html" title="Represents a IWatchdog as a ServiceBase.">ServerService</a>.  </p>
 
-<p class="definition">Definition at line <a class="el" href="_server_service_8cs_source.html#l00049">49</a> of file <a class="el" href="_server_service_8cs_source.html">ServerService.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_server_service_8cs_source.html#l00051">51</a> of file <a class="el" href="_server_service_8cs_source.html">ServerService.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_server_service_8cs_source.html#l00102">Tgstation.Server.Host.Service.ServerService.Dispose()</a>, and <a class="el" href="_server_service_8cs_source.html#l00132">Tgstation.Server.Host.Service.ServerService.OnStart()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_server_service_8cs_source.html#l00104">Tgstation.Server.Host.Service.ServerService.Dispose()</a>, and <a class="el" href="_server_service_8cs_source.html#l00134">Tgstation.Server.Host.Service.ServerService.OnStart()</a>.</p>
 
 </div>
 </div>
@@ -856,9 +856,9 @@ Here is the caller graph for this function:</div>
 
 <p>The minimum LogLevel for the EventLog.  </p>
 
-<p class="definition">Definition at line <a class="el" href="_server_service_8cs_source.html#l00044">44</a> of file <a class="el" href="_server_service_8cs_source.html">ServerService.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_server_service_8cs_source.html#l00046">46</a> of file <a class="el" href="_server_service_8cs_source.html">ServerService.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_server_service_8cs_source.html#l00077">Tgstation.Server.Host.Service.ServerService.ServerService()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_server_service_8cs_source.html#l00079">Tgstation.Server.Host.Service.ServerService.ServerService()</a>.</p>
 
 </div>
 </div>
@@ -884,9 +884,9 @@ Here is the caller graph for this function:</div>
 
 <p>The canonical windows service name.  </p>
 
-<p class="definition">Definition at line <a class="el" href="_server_service_8cs_source.html#l00029">29</a> of file <a class="el" href="_server_service_8cs_source.html">ServerService.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_server_service_8cs_source.html#l00031">31</a> of file <a class="el" href="_server_service_8cs_source.html">ServerService.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_tgstation_8_server_8_host_8_service_2_program_8cs_source.html#l00091">Tgstation.Server.Host.Service.Program.InvokeSC()</a>, <a class="el" href="_tgstation_8_server_8_host_8_service_2_program_8cs_source.html#l00149">Tgstation.Server.Host.Service.Program.OnExecuteAsync()</a>, <a class="el" href="_tgstation_8_server_8_host_8_service_2_program_8cs_source.html#l00216">Tgstation.Server.Host.Service.Program.RunServiceInstall()</a>, and <a class="el" href="_server_service_8cs_source.html#l00077">Tgstation.Server.Host.Service.ServerService.ServerService()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_tgstation_8_server_8_host_8_service_2_program_8cs_source.html#l00093">Tgstation.Server.Host.Service.Program.InvokeSC()</a>, <a class="el" href="_tgstation_8_server_8_host_8_service_2_program_8cs_source.html#l00151">Tgstation.Server.Host.Service.Program.OnExecuteAsync()</a>, <a class="el" href="_tgstation_8_server_8_host_8_service_2_program_8cs_source.html#l00218">Tgstation.Server.Host.Service.Program.RunServiceInstall()</a>, and <a class="el" href="_server_service_8cs_source.html#l00079">Tgstation.Server.Host.Service.ServerService.ServerService()</a>.</p>
 
 </div>
 </div>
@@ -912,9 +912,9 @@ Here is the caller graph for this function:</div>
 
 <p>The AnonymousPipeServerStream the server process is using.  </p>
 
-<p class="definition">Definition at line <a class="el" href="_server_service_8cs_source.html#l00069">69</a> of file <a class="el" href="_server_service_8cs_source.html">ServerService.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_server_service_8cs_source.html#l00071">71</a> of file <a class="el" href="_server_service_8cs_source.html">ServerService.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_server_service_8cs_source.html#l00086">Tgstation.Server.Host.Service.ServerService.CheckSignals()</a>, <a class="el" href="_server_service_8cs_source.html#l00102">Tgstation.Server.Host.Service.ServerService.Dispose()</a>, and <a class="el" href="_server_service_8cs_source.html#l00204">Tgstation.Server.Host.Service.ServerService.SendCommandToUpdatePath()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_server_service_8cs_source.html#l00088">Tgstation.Server.Host.Service.ServerService.CheckSignals()</a>, <a class="el" href="_server_service_8cs_source.html#l00104">Tgstation.Server.Host.Service.ServerService.Dispose()</a>, and <a class="el" href="_server_service_8cs_source.html#l00206">Tgstation.Server.Host.Service.ServerService.SendCommandToUpdatePath()</a>.</p>
 
 </div>
 </div>
@@ -940,9 +940,9 @@ Here is the caller graph for this function:</div>
 
 <p>The IWatchdog for the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service.html" title="Represents a IWatchdog as a ServiceBase.">ServerService</a>.  </p>
 
-<p class="definition">Definition at line <a class="el" href="_server_service_8cs_source.html#l00034">34</a> of file <a class="el" href="_server_service_8cs_source.html">ServerService.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_server_service_8cs_source.html#l00036">36</a> of file <a class="el" href="_server_service_8cs_source.html">ServerService.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_server_service_8cs_source.html#l00132">Tgstation.Server.Host.Service.ServerService.OnStart()</a>, and <a class="el" href="_server_service_8cs_source.html#l00077">Tgstation.Server.Host.Service.ServerService.ServerService()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_server_service_8cs_source.html#l00134">Tgstation.Server.Host.Service.ServerService.OnStart()</a>, and <a class="el" href="_server_service_8cs_source.html#l00079">Tgstation.Server.Host.Service.ServerService.ServerService()</a>.</p>
 
 </div>
 </div>
@@ -968,9 +968,9 @@ Here is the caller graph for this function:</div>
 
 <p>The Task that represents the running <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service.html" title="Represents a IWatchdog as a ServiceBase.">ServerService</a>.  </p>
 
-<p class="definition">Definition at line <a class="el" href="_server_service_8cs_source.html#l00059">59</a> of file <a class="el" href="_server_service_8cs_source.html">ServerService.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_server_service_8cs_source.html#l00061">61</a> of file <a class="el" href="_server_service_8cs_source.html">ServerService.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_server_service_8cs_source.html#l00132">Tgstation.Server.Host.Service.ServerService.OnStart()</a>, and <a class="el" href="_server_service_8cs_source.html#l00164">Tgstation.Server.Host.Service.ServerService.OnStop()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_server_service_8cs_source.html#l00134">Tgstation.Server.Host.Service.ServerService.OnStart()</a>, and <a class="el" href="_server_service_8cs_source.html#l00166">Tgstation.Server.Host.Service.ServerService.OnStop()</a>.</p>
 
 </div>
 </div>
