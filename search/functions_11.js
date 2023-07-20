@@ -82,5 +82,5 @@ var searchData=
   ['runserviceinstall_79',['RunServiceInstall',['../class_tgstation_1_1_server_1_1_host_1_1_service_1_1_program.html#a8d39a2cad1cd8f88138c96a710772fb4',1,'Tgstation::Server::Host::Service::Program']]],
   ['runtimeinformation_80',['RuntimeInformation',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_bridge_1_1_runtime_information.html#a2ee7f4199aa6a56e3bb2aef424fd7f46',1,'Tgstation::Server::Host::Components::Interop::Bridge::RuntimeInformation']]],
   ['runwatchdog_81',['RunWatchdog',['../class_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service.html#a63313991bba1e6d1037bc635ddd4d4d8',1,'Tgstation::Server::Host::Service::ServerService']]],
-  ['runwizard_82',['RunWizard',['../class_tgstation_1_1_server_1_1_host_1_1_setup_1_1_setup_wizard.html#af95450fea6b5b6d723d91198b7b41d8e',1,'Tgstation::Server::Host::Setup::SetupWizard']]]
+  ['runwizard_82',['RunWizard',['../_setup_wizard_8cs.html#a133aa9167bebce98243748fe735a4e32',1,'SetupWizard.cs']]]
 ];

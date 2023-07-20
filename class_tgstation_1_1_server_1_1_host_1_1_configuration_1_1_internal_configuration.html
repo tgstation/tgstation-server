@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.13.3</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.14.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -112,6 +112,9 @@ Properties</h2></td></tr>
 <tr class="memitem:add1fd36adcba522710b5f52fe6fb5649"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_internal_configuration.html#add1fd36adcba522710b5f52fe6fb5649">AppSettingsBasePath</a><code> [get, set]</code></td></tr>
 <tr class="memdesc:add1fd36adcba522710b5f52fe6fb5649"><td class="mdescLeft">&#160;</td><td class="mdescRight">The base path for the app settings configuration files.   <a href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_internal_configuration.html#add1fd36adcba522710b5f52fe6fb5649">More...</a><br /></td></tr>
 <tr class="separator:add1fd36adcba522710b5f52fe6fb5649"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6e5cf99a281100c024bdadc52baa5081"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_internal_configuration.html#a6e5cf99a281100c024bdadc52baa5081">MariaDBSetup</a><code> [get, set]</code></td></tr>
+<tr class="memdesc:a6e5cf99a281100c024bdadc52baa5081"><td class="mdescLeft">&#160;</td><td class="mdescRight">Coerce the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_setup_1_1_setup_wizard.html">Setup.SetupWizard</a> to select DatabaseType.MariaDB.   <a href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_internal_configuration.html#a6e5cf99a281100c024bdadc52baa5081">More...</a><br /></td></tr>
+<tr class="separator:a6e5cf99a281100c024bdadc52baa5081"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p >Unstable configuration options used internally by TGS.  </p>
@@ -170,7 +173,7 @@ Properties</h2></td></tr>
 <p class="definition">Definition at line <a class="el" href="_internal_configuration_8cs_source.html#l00026">26</a> of file <a class="el" href="_internal_configuration_8cs_source.html">InternalConfiguration.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   26</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_setup_wizard_8cs_source.html#l01062">Tgstation.Server.Host.Setup.SetupWizard.CheckRunWizard()</a>, and <a class="el" href="_setup_wizard_8cs_source.html#l00308">Tgstation.Server.Host.Setup.SetupWizard.ValidateNonExistantSqliteDBName()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_setup_wizard_8cs_source.html#l00308">Tgstation.Server.Host.Setup.SetupWizard.ValidateNonExistantSqliteDBName()</a>.</p>
 
 </div>
 </div>
@@ -200,6 +203,35 @@ Properties</h2></td></tr>
 <div class="fragment"><div class="line"><span class="lineno">   16</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
 </div><!-- fragment -->
 <p class="reference">Referenced by <a class="el" href="_command_pipe_reader_8cs_source.html#l00053">Tgstation.Server.Host.Core.CommandPipeReader.ExecuteAsync()</a>.</p>
+
+</div>
+</div>
+<a id="a6e5cf99a281100c024bdadc52baa5081" name="a6e5cf99a281100c024bdadc52baa5081"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6e5cf99a281100c024bdadc52baa5081">&#9670;&#160;</a></span>MariaDBSetup</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool Tgstation.Server.Host.Configuration.InternalConfiguration.MariaDBSetup</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">get</span><span class="mlabel">set</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Coerce the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_setup_1_1_setup_wizard.html">Setup.SetupWizard</a> to select DatabaseType.MariaDB.  </p>
+
+<p class="definition">Definition at line <a class="el" href="_internal_configuration_8cs_source.html#l00031">31</a> of file <a class="el" href="_internal_configuration_8cs_source.html">InternalConfiguration.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   31</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
+</div><!-- fragment -->
+<p class="reference">Referenced by <a class="el" href="_setup_wizard_8cs_source.html#l00411">Tgstation.Server.Host.Setup.SetupWizard.ConfigureDatabase()</a>, and <a class="el" href="_setup_wizard_8cs_source.html#l00361">Tgstation.Server.Host.Setup.SetupWizard.PromptDatabaseType()</a>.</p>
 
 </div>
 </div>

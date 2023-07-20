@@ -1,0 +1,9 @@
+<map id="RunWizard" name="RunWizard">
+<area shape="rect" id="node1" title="Runs the SetupWizard." alt="" coords="5,129,89,155"/>
+<area shape="rect" id="node2" href="$_setup_wizard_8cs.html#a46a4314202bbe55ae8724e7d27486163" title="Prompts the user to create a ControlPanelConfiguration." alt="" coords="139,5,290,31"/>
+<area shape="rect" id="node3" href="$_setup_wizard_8cs.html#a8c25292615cd1ecad91305b36ea7068e" title="Prompts the user to create a ElasticsearchConfiguration." alt="" coords="137,55,292,80"/>
+<area shape="rect" id="node4" href="$_setup_wizard_8cs.html#a8c8f5f56a7438fe48011eb8d738abec8" title="Prompts the user to create a GeneralConfiguration." alt="" coords="154,104,275,129"/>
+<area shape="rect" id="node5" href="$_setup_wizard_8cs.html#adbd38b2960ebef44f65c5b8e0af409b0" title="Prompts the user to create a FileLoggingConfiguration." alt="" coords="153,153,276,179"/>
+<area shape="rect" id="node6" href="$_setup_wizard_8cs.html#a159af60f0c66366ede5c65cb6e21e5ea" title="Prompts the user to create a SwarmConfiguration." alt="" coords="156,203,273,228"/>
+<area shape="rect" id="node7" href="$_setup_wizard_8cs.html#afb6b6fca0a8f1d72dd4e4f5cc84f76f1" title="Saves a given Configuration set to userConfigFileName ." alt="" coords="151,252,278,277"/>
+</map>
