@@ -24,5 +24,10 @@
 		/// The base path for the app settings configuration files.
 		/// </summary>
 		public string AppSettingsBasePath { get; set; }
+
+		/// <summary>
+		/// Coerce the <see cref="Setup.SetupWizard"/> to select <see cref="DatabaseType.MariaDB"/>.
+		/// </summary>
+		public bool MariaDBSetup { get; set; }
 	}
 }

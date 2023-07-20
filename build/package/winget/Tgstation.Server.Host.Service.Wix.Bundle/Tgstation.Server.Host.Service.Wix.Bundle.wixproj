@@ -1,7 +1,7 @@
 <Project Sdk="WixToolset.Sdk/4.0.1" xmlns:bal="http://schemas.microsoft.com/wix/BalExtension">
   <Import Project="../../../Common.props" />
   <PropertyGroup>
-    <DefineConstants>ProductVersion=$(TgsCoreVersion);NetMajorVersion=$(TgsNetMajorVersion);DotnetRedistUrl=$(TgsDotnetRedistUrl)</DefineConstants>
+    <DefineConstants>ProductVersion=$(TgsCoreVersion);NetMajorVersion=$(TgsNetMajorVersion);DotnetRedistUrl=$(TgsDotnetRedistUrl);MariaDBRedistUrl=$(TgsMariaDBRedistUrl)</DefineConstants>
     <OutputType>Bundle</OutputType>
     <Platforms>x86</Platforms>
     <OutputName>tgstation-server-installer</OutputName>
@@ -19,6 +19,10 @@
     <Message Importance="high" Text="SignBundle: @(SignBundle)" />
     <Exec Command="powershell.exe –NonInteractive –ExecutionPolicy Unrestricted –Command &quot;Set-AuthenticodeSignature %(SignBundle.FullPath) -Certificate (Get-ChildItem Cert:\CurrentUser\My | Where-Object { $_.Thumbprint -eq \&quot;$(CertificateThumbprint)\&quot; }) -TimestampServer http://timestamp.digicert.com&quot;" />
   </Target>
+  <ItemGroup>
+    <BindPath Include="../../../../artifacts" />
+    <Content Include="Theme.xml" />
+  </ItemGroup>
   <ItemGroup>
     <PackageReference Include="WixToolset.Bal.wixext" Version="4.0.1" />
     <PackageReference Include="WixToolset.Netfx.wixext" Version="4.0.1" />

@@ -362,6 +362,12 @@ namespace Tgstation.Server.Host.Setup
 		{
 			if (firstTime)
 			{
+				if (internalConfiguration.MariaDBSetup)
+				{
+					await console.WriteAsync("It looks like you just installed MariaDB. Selecting it as the database type.", true, cancellationToken);
+					return DatabaseType.MariaDB;
+				}
+
 				await console.WriteAsync(String.Empty, true, cancellationToken);
 				await console.WriteAsync(
 					"NOTE: If you are serious about hosting public servers, it is HIGHLY reccommended that TGS runs on a database *OTHER THAN* Sqlite.",
@@ -413,19 +419,30 @@ namespace Tgstation.Server.Host.Setup
 				{
 					DatabaseType = await PromptDatabaseType(firstTime, cancellationToken),
 				};
-				firstTime = false;
 
 				string serverAddress = null;
 				ushort? serverPort = null;
 
-				bool isSqliteDB = databaseConfiguration.DatabaseType == DatabaseType.Sqlite;
+				var definitelyLocalMariaDB = firstTime && internalConfiguration.MariaDBSetup;
+				var isSqliteDB = databaseConfiguration.DatabaseType == DatabaseType.Sqlite;
 				IPHostEntry serverAddressEntry = null;
 				if (!isSqliteDB)
 					do
 					{
 						await console.WriteAsync(null, true, cancellationToken);
-						await console.WriteAsync("Enter the server's address and port [<server>:<port> or <server>] (blank for local): ", false, cancellationToken);
-						serverAddress = await console.ReadLineAsync(false, cancellationToken);
+						if (definitelyLocalMariaDB)
+						{
+							await console.WriteAsync("Enter the server's port (blank for 3306): ", false, cancellationToken);
+							var enteredPort = await console.ReadLineAsync(false, cancellationToken);
+							if (!String.IsNullOrWhiteSpace(enteredPort) && enteredPort.Trim() != "3306")
+								serverAddress = $"localhost:{enteredPort}";
+						}
+						else
+						{
+							await console.WriteAsync("Enter the server's address and port [<server>:<port> or <server>] (blank for local): ", false, cancellationToken);
+							serverAddress = await console.ReadLineAsync(false, cancellationToken);
+						}
+
 						if (String.IsNullOrWhiteSpace(serverAddress))
 							serverAddress = null;
 						else if (databaseConfiguration.DatabaseType == DatabaseType.SqlServer)
@@ -463,7 +480,7 @@ namespace Tgstation.Server.Host.Setup
 					while (true);
 
 				await console.WriteAsync(null, true, cancellationToken);
-				await console.WriteAsync($"Enter the database {(isSqliteDB ? "file path" : "name")} (Can be from previous installation. Otherwise, should not exist): ", false, cancellationToken);
+				await console.WriteAsync($"Enter the database {(isSqliteDB ? "file path" : "name")} ({(definitelyLocalMariaDB ? "leave blank for \"tgs\")" : "Can be from previous installation. Otherwise, should not exist")}): ", false, cancellationToken);
 
 				string databaseName;
 				bool dbExists = false;
@@ -484,6 +501,8 @@ namespace Tgstation.Server.Host.Setup
 								null,
 								cancellationToken);
 					}
+					else if (definitelyLocalMariaDB)
+						databaseName = "tgs";
 
 					if (String.IsNullOrWhiteSpace(databaseName))
 						await console.WriteAsync("Invalid database name!", true, cancellationToken);
@@ -510,8 +529,17 @@ namespace Tgstation.Server.Host.Setup
 				if (!isSqliteDB)
 					if (!useWinAuth)
 					{
-						await console.WriteAsync("Enter username: ", false, cancellationToken);
-						username = await console.ReadLineAsync(false, cancellationToken);
+						if (definitelyLocalMariaDB)
+						{
+							await console.WriteAsync("Using username: root", true, cancellationToken);
+							username = "root";
+						}
+						else
+						{
+							await console.WriteAsync("Enter username: ", false, cancellationToken);
+							username = await console.ReadLineAsync(false, cancellationToken);
+						}
+
 						await console.WriteAsync("Enter password: ", false, cancellationToken);
 						password = await console.ReadLineAsync(true, cancellationToken);
 					}
@@ -625,6 +653,11 @@ namespace Tgstation.Server.Host.Setup
 					await console.WriteAsync(e.Message, true, cancellationToken);
 					await console.WriteAsync(null, true, cancellationToken);
 					await console.WriteAsync("Retrying database configuration...", true, cancellationToken);
+
+					if (definitelyLocalMariaDB)
+						await console.WriteAsync("No longer assuming MariaDB is the target.", true, cancellationToken);
+
+					firstTime = false;
 				}
 			}
 			while (true);
