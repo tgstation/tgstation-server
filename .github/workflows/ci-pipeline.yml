@@ -237,6 +237,12 @@ jobs:
       TGS_TEST_IRC_CONNECTION_STRING: ${{ secrets.IRC_CONNECTION_STRING }}
     runs-on: ubuntu-latest
     steps:
+    - name: Install x86 libc Dependencies
+      run: |
+        sudo dpkg --add-architecture i386
+        sudo apt-get update
+        sudo apt-get install -y -o APT::Immediate-Configure=0 libc6-i386 libstdc++6:i386 libgcc-s1:i386
+
     - name: Setup dotnet
       uses: actions/setup-dotnet@v2
       with:

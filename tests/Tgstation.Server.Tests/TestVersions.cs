@@ -156,25 +156,18 @@ namespace Tgstation.Server.Tests
 			});
 
 			var platformIdentifier = new PlatformIdentifier();
-			try
-			{
-				var logger = loggerFactory.CreateLogger<CachingFileDownloader>();
-				var init1 = CachingFileDownloader.InitializeByondVersion(
-					logger,
-					ByondInstallerBase.MapThreadsVersion,
-					platformIdentifier.IsWindows,
-					CancellationToken.None);
-				await CachingFileDownloader.InitializeByondVersion(
-					logger,
-					new Version(ByondInstallerBase.MapThreadsVersion.Major, ByondInstallerBase.MapThreadsVersion.Minor - 1),
-					platformIdentifier.IsWindows,
-					CancellationToken.None);
-				await init1;
-			}
-			catch (HttpRequestException ex) when (ex.StatusCode == HttpStatusCode.NotFound)
-			{
-				Assert.Inconclusive("-map-threads version appears to not have been released yet!");
-			}
+			var logger = loggerFactory.CreateLogger<CachingFileDownloader>();
+			var init1 = CachingFileDownloader.InitializeByondVersion(
+				logger,
+				ByondInstallerBase.MapThreadsVersion,
+				platformIdentifier.IsWindows,
+				CancellationToken.None);
+			await CachingFileDownloader.InitializeByondVersion(
+				logger,
+				new Version(ByondInstallerBase.MapThreadsVersion.Major, ByondInstallerBase.MapThreadsVersion.Minor - 1),
+				platformIdentifier.IsWindows,
+				CancellationToken.None);
+			await init1;
 
 			var fileDownloader = new CachingFileDownloader(Mock.Of<ILogger<CachingFileDownloader>>());
 
@@ -186,8 +179,8 @@ namespace Tgstation.Server.Tests
 					mockGeneralConfigurationOptions.Object,
 					loggerFactory.CreateLogger<WindowsByondInstaller>())
 				: new PosixByondInstaller(
-					Mock.Of<IPostWriteHandler>(),
-					Mock.Of<IIOManager>(),
+					new PosixPostWriteHandler(loggerFactory.CreateLogger<PosixPostWriteHandler>()),
+					new DefaultIOManager(),
 					fileDownloader,
 					loggerFactory.CreateLogger<PosixByondInstaller>());
 			using var disposable = byondInstaller as IDisposable;
@@ -217,6 +210,8 @@ namespace Tgstation.Server.Tests
 					processExecutor,
 					tempPath);
 
+				await ioManager.DeleteDirectory(tempPath, default);
+
 				var (byondBytes, version) = await GetByondVersionPriorTo(byondInstaller, ByondInstallerBase.MapThreadsVersion);
 
 				await TestMapThreadsVersion(
@@ -231,8 +226,6 @@ namespace Tgstation.Server.Tests
 			{
 				await ioManager.DeleteDirectory(tempPath, default);
 			}
-
-			Assert.Fail("Test succeeded, but remove the 404 workaround!");
 		}
 
 		[ClassCleanup]
@@ -425,29 +418,37 @@ namespace Tgstation.Server.Tests
 
 			Assert.IsTrue(supportsCli);
 
-			await using var process = processExecutor.LaunchProcess(
-				ddPath,
-				Environment.CurrentDirectory,
-				"fake.dmb -map-threads 3 -close",
-				null,
-				true,
-				true);
+			await File.WriteAllBytesAsync("fake.dmb", Array.Empty<byte>(), CancellationToken.None);
 
 			try
 			{
-				await process.Startup;
+				await using var process = processExecutor.LaunchProcess(
+					ddPath,
+					Environment.CurrentDirectory,
+					"fake.dmb -map-threads 3 -close",
+					null,
+					true,
+					true);
 
-				using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(10));
-				await process.Lifetime.WaitAsync(cts.Token);
+				try
+				{
+					await process.Startup;
+					using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(10));
+					await process.Lifetime.WaitAsync(cts.Token);
 
-				var output = await process.GetCombinedOutput(cts.Token);
+					var output = await process.GetCombinedOutput(cts.Token);
 
-				var supportsMapThreads = !output.Contains("invalid option '-map-threads'");
-				Assert.AreEqual(shouldSupportMapThreads, supportsMapThreads, $"DD Output:{Environment.NewLine}{output}");
+					var supportsMapThreads = !output.Contains("invalid option '-map-threads'");
+					Assert.AreEqual(shouldSupportMapThreads, supportsMapThreads, $"DD Output:{Environment.NewLine}{output}");
+				}
+				finally
+				{
+					process.Terminate();
+				}
 			}
 			finally
 			{
-				process.Terminate();
+				File.Delete("fake.dmb");
 			}
 		}
 
