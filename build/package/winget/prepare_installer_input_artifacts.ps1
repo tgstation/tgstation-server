@@ -12,7 +12,7 @@ try
     Remove-Item -Recurse -Force build/package/winget/Tgstation.Server.Host.Service.Wix.Bundle/obj -ErrorAction SilentlyContinue
 
     [XML]$versionXML = Get-Content build/Version.props -ErrorAction Stop
-    $redistUrl = $versionXML.Project.PropertyGroup.TgsRedistUrl
+    $redistUrl = $versionXML.Project.PropertyGroup.TgsDotnetRedistUrl
 
     mkdir artifacts
     $previousProgressPreference = $ProgressPreference

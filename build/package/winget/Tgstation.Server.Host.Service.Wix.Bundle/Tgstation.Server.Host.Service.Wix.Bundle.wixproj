@@ -1,7 +1,7 @@
 <Project Sdk="WixToolset.Sdk/4.0.1" xmlns:bal="http://schemas.microsoft.com/wix/BalExtension">
   <Import Project="../../../Common.props" />
   <PropertyGroup>
-    <DefineConstants>ProductVersion=$(TgsCoreVersion);NetMajorVersion=$(TgsNetMajorVersion);AspNetRedistUrl=$(TgsRedistUrl)</DefineConstants>
+    <DefineConstants>ProductVersion=$(TgsCoreVersion);NetMajorVersion=$(TgsNetMajorVersion);DotnetRedistUrl=$(TgsDotnetRedistUrl)</DefineConstants>
     <OutputType>Bundle</OutputType>
     <Platforms>x86</Platforms>
     <OutputName>tgstation-server-installer</OutputName>
@@ -13,11 +13,11 @@
   </PropertyGroup>
   <Target Name="SignBundleEngine">
     <Message Importance="high" Text="SignBundleEngine: @(SignBundleEngine)" />
-    <Exec Command='powershell.exe –NonInteractive –ExecutionPolicy Unrestricted –Command "Set-AuthenticodeSignature %(SignBundleEngine.FullPath) -Certificate (Get-ChildItem Cert:\CurrentUser\My | Where-Object { $_.Thumbprint -eq \"$(CertificateThumbprint)\" }) -TimestampServer http://timestamp.digicert.com"' />
+    <Exec Command="powershell.exe –NonInteractive –ExecutionPolicy Unrestricted –Command &quot;Set-AuthenticodeSignature %(SignBundleEngine.FullPath) -Certificate (Get-ChildItem Cert:\CurrentUser\My | Where-Object { $_.Thumbprint -eq \&quot;$(CertificateThumbprint)\&quot; }) -TimestampServer http://timestamp.digicert.com&quot;" />
   </Target>
   <Target Name="SignBundle">
     <Message Importance="high" Text="SignBundle: @(SignBundle)" />
-    <Exec Command='powershell.exe –NonInteractive –ExecutionPolicy Unrestricted –Command "Set-AuthenticodeSignature %(SignBundle.FullPath) -Certificate (Get-ChildItem Cert:\CurrentUser\My | Where-Object { $_.Thumbprint -eq \"$(CertificateThumbprint)\" }) -TimestampServer http://timestamp.digicert.com"' />
+    <Exec Command="powershell.exe –NonInteractive –ExecutionPolicy Unrestricted –Command &quot;Set-AuthenticodeSignature %(SignBundle.FullPath) -Certificate (Get-ChildItem Cert:\CurrentUser\My | Where-Object { $_.Thumbprint -eq \&quot;$(CertificateThumbprint)\&quot; }) -TimestampServer http://timestamp.digicert.com&quot;" />
   </Target>
   <ItemGroup>
     <PackageReference Include="WixToolset.Bal.wixext" Version="4.0.1" />

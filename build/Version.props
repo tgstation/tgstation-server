@@ -18,6 +18,6 @@
     <TgsNugetNetFramework>netstandard2.0</TgsNugetNetFramework>
     <!-- Update this frequently with dotnet runtime patches. MAJOR MUST MATCH ABOVE! -->
     <!-- You also need to update the .Bundle project's ExePackagePayload hash and file size after changing it -->
-    <TgsRedistUrl>https://dotnetcli.azureedge.net/dotnet/aspnetcore/Runtime/6.0.19/dotnet-hosting-6.0.19-win.exe</TgsRedistUrl>
+	  <TgsDotnetRedistUrl>https://dotnetcli.azureedge.net/dotnet/aspnetcore/Runtime/6.0.20/dotnet-hosting-6.0.20-win.exe</TgsDotnetRedistUrl>
   </PropertyGroup>
 </Project>

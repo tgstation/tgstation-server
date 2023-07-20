@@ -3,10 +3,10 @@
     <BootstrapperApplication>
       <bal:WixStandardBootstrapperApplication LicenseUrl="https://github.com/tgstation/tgstation/tree/tgstation-server-v$(var.ProductVersion)" Theme="hyperlinkLicense" LogoFile="../../../tgs.ico" ShowVersion="yes" SuppressOptionsUI="yes" />
     </BootstrapperApplication>
-    
+
     <netfx:DotNetCoreSearch RuntimeType="aspnet" Platform="x64" MajorVersion="$(var.NetMajorVersion)" Variable="AspNetCorex64Status" />
     <netfx:DotNetCoreSearch RuntimeType="aspnet" Platform="x86" MajorVersion="$(var.NetMajorVersion)" Variable="AspNetCorex86Status" />
-    
+
     <netfx:DotNetCoreSearch RuntimeType="core" Platform="x64" MajorVersion="$(var.NetMajorVersion)" Variable="NetCorex64Status" />
     <netfx:DotNetCoreSearch RuntimeType="core" Platform="x86" MajorVersion="$(var.NetMajorVersion)" Variable="NetCorex86Status" />
 
@@ -14,7 +14,7 @@
 
     <Chain>
       <ExePackage PerMachine="yes" DetectCondition="!(wix.AspNetCoreDetectCondition)" Vital="yes" Permanent="yes" Protocol="burn" InstallArguments="/install /quiet /norestart /log [HOSTING_BUNDLE_LOG_PATH]" RepairArguments="/repair /quiet /norestart /log [HOSTING_BUNDLE_LOG_PATH]" UninstallArguments="/uninstall /quiet /norestart /log [HOSTING_BUNDLE_LOG_PATH]" Cache="remove" LogPathVariable="HOSTING_BUNDLE_LOG_PATH" RepairCondition="FALSE">
-        <ExePackagePayload Name="Microsoft.DotNet.HostingBundle.$(var.NetMajorVersion)" DownloadUrl="$(var.AspNetRedistUrl)" Hash="FADC48A76561A7ABD5CC599DB737AFC2B1638013C95E29CFC8955CACA1D57004BD9078C6EF9696BECFD75BAA2983FDC2FF4382C9EBDF833A11316C2DEC218884" Size="71391856" Compressed="no" />
+        <ExePackagePayload Name="Microsoft.DotNet.HostingBundle.$(var.NetMajorVersion)" DownloadUrl="$(var.DotnetRedistUrl)" Hash="0B1D92A5161C9A2665085C90FC48567E0E9B92973B4221AB26C215D5520B3A83DC1014102C31CF99E67A875FE4F0069DC27A5B5B7CE08B0621230BB78FEEE88A" Size="71735488" Compressed="no" />
       </ExePackage>
       <MsiPackage SourceFile="$(var.Tgstation.Server.Host.Service.Wix.TargetPath)">
         <MsiProperty Name="WIX_BOOTSTRAPPER_UILEVEL" Value="[WixBundleUILevel]" />
