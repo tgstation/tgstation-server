@@ -8,6 +8,7 @@
 
     <CustomAction Id="DetachStopTgsServiceIfRunningAction" BinaryRef="InstallerExtensionsBinary" DllEntry="DetachStopTgsServiceIfRunning" Execute="deferred" />
     <CustomAction Id="RunTgsConfigure" Execute="deferred" FileRef="ServiceExecutableFile" ExeCommand="-c -p=--appsettings-base-path=[APPLICATIONDATADIRECTORY]" />
+    <CustomAction Id="RunTgsConfigureMariaDB" Execute="deferred" FileRef="ServiceExecutableFile" ExeCommand="-c -p=&quot;--appsettings-base-path=[APPLICATIONDATADIRECTORY] --Internal:MariaDBSetup=true&quot;" />
 
     <Icon Id="tgs.ico" SourceFile="../../../tgs.ico" />
 
@@ -15,7 +16,8 @@
 
     <InstallExecuteSequence>
       <Custom Action="DetachStopTgsServiceIfRunningAction" Condition="UPGRADINGPRODUCTCODE OR REINSTALL" Before="StopServices" />
-      <Custom Action="RunTgsConfigure" Before="StartServices" Condition="(NOT REMOVE~=&quot;ALL&quot;) AND (NOT PRODUCTIONAPPSETTINGSPRESENT) AND ((WIX_BOOTSTRAPPER_UILEVEL >= 4) OR (UILevel >= 4))" />
+      <Custom Action="RunTgsConfigure" Before="StartServices" Condition="(NOT MARIADB_INSTALLED) AND (NOT REMOVE~=&quot;ALL&quot;) AND (NOT PRODUCTIONAPPSETTINGSPRESENT) AND ((WIX_BOOTSTRAPPER_UILEVEL >= 4) OR (UILevel >= 4))"/>
+      <Custom Action="RunTgsConfigureMariaDB" Before="StartServices" Condition="MARIADB_INSTALLED AND (NOT REMOVE~=&quot;ALL&quot;) AND (NOT PRODUCTIONAPPSETTINGSPRESENT) AND ((WIX_BOOTSTRAPPER_UILEVEL >= 4) OR (UILevel >= 4))"/>
       <StartServices Condition="(NOT REMOVE~=&quot;ALL&quot;) AND ((WIX_BOOTSTRAPPER_UILEVEL >= 4) OR (UILevel >= 4) OR PRODUCTIONAPPSETTINGSPRESENT)"/>
     </InstallExecuteSequence>
 

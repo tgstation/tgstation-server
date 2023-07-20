@@ -12,7 +12,8 @@ try
     Remove-Item -Recurse -Force build/package/winget/Tgstation.Server.Host.Service.Wix.Bundle/obj -ErrorAction SilentlyContinue
 
     [XML]$versionXML = Get-Content build/Version.props -ErrorAction Stop
-    $redistUrl = $versionXML.Project.PropertyGroup.TgsRedistUrl
+    $redistUrl = $versionXML.Project.PropertyGroup.TgsDotnetRedistUrl
+    $dbRedistUrl = $versionXML.Project.PropertyGroup.TgsMariaDBRedistUrl
 
     mkdir artifacts
     $previousProgressPreference = $ProgressPreference
@@ -20,6 +21,7 @@ try
     try
     {
         Invoke-WebRequest -Uri $redistUrl -OutFile artifacts/hosting-bundle.exe
+        Invoke-WebRequest -Uri $dbRedistUrl -OutFile artifacts/mariadb.msi
     } finally {
         $ProgressPreference = $previousProgressPreference
     }
