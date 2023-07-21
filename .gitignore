@@ -26,3 +26,6 @@ release_notes.md
 *nupkg
 *.sqlite3
 packaging/
+tests/auxtools
+tests/libauxcov.so
+tests/auxcov.dll

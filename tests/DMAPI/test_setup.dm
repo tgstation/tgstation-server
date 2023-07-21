@@ -1,7 +1,62 @@
+var/auxcov
+
+/proc/start_code_coverage(filename)
+	CRASH("auxcov not loaded")
+
+/proc/stop_code_coverage(filename)
+	CRASH("auxcov not loaded")
+
+/proc/auxtools_stack_trace(msg)
+	CRASH(msg)
+
+/proc/auxtools_expr_stub()
+	CRASH("auxtools not loaded")
+
+/proc/enable_debugging(mode, port)
+	CRASH("auxtools not loaded")
+
+#define AUXCOV_MIN_BUILD 1607 // https://www.byond.com/forum/post/108025
+
 /world/New()
+#if defined(TGS_DMAPI_VERSION) && defined(DM_BUILD)
+#if DM_BUILD >= AUXCOV_MIN_BUILD
+	auxcov = "../[world.system_type == MS_WINDOWS ? "auxcov.dll" : "libauxcov.so"]"
+	if (fexists(auxcov))
+		log << "Loading auxcov..."
+		var/result = call_ext(auxcov, "auxtools_init")()
+		if(!findtext(result, "SUCCESS"))
+			log << "Loading auxcov failed: [result]"
+			del(src)
+	else
+		log << "auxcov not found"
+		auxcov = null
+#endif
+#endif
+
 	log << "Starting test..."
-	text2file("SUCCESS", "test_success.txt")
+
+	if (auxcov)
+		var/coverage_filename
+		for(var/i = 0; i == 0 || fexists(coverage_filename); ++i)
+			coverage_filename = "coverage/test_coverage_[i].xml"
+
+		text2file("touch", coverage_filename) // ghetto mkdir
+		fdel(coverage_filename)
+
+		start_code_coverage(coverage_filename)
+
 	world.RunTest()
+	return ..()
+
+/world/Del()
+#ifdef DM_BUILD
+#if DM_BUILD >= AUXCOV_MIN_BUILD
+	if(auxcov)
+		call_ext(auxcov, "auxtools_full_shutdown")()
+#endif
+#endif
+
+	return ..()
 
 /world/Error(exception/E, datum/e_src)
 	var/list/usrinfo = null
@@ -28,7 +83,6 @@
 
 /proc/FailTest(reason)
 	world.log << "TEST ERROR DM-SIDE: [reason]"
-	fdel("test_success.txt")
 	text2file(reason, "test_fail_reason.txt")
 	world.log << "Terminating..."
 	del(world)

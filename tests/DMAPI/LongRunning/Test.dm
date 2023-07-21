@@ -9,7 +9,7 @@
 	// Intentionally slow down startup for testing purposes
 	for(var/i in 1 to 10000000)
 		dab()
-	TgsNew(new /datum/tgs_event_handler/impl, TGS_SECURITY_SAFE)
+	TgsNew(new /datum/tgs_event_handler/impl, TGS_SECURITY_TRUSTED)
 
 	if(params["expect_chat_channels"])
 		var/list/channels = TgsChatChannelInfo()

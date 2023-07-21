@@ -155,6 +155,133 @@ jobs:
         fi
         exit $retval
 
+  linux-setup-auxcov:
+    name: Setup auxcov (Linux)
+    needs: start-ci-run-gate
+    runs-on: ubuntu-latest
+    if: "!(cancelled() || failure()) && needs.start-ci-run-gate.result == 'success'"
+    steps:
+    - name: Restore Auxcov cache
+      uses: actions/cache@v3
+      with:
+        path: ~/auxcov
+        key: auxcov-linux
+
+    - name: Check auxcov version
+      id: auxcov-check
+      run: |
+        if ! [ -f ~/auxcov/commit.txt ]; then
+          echo "Auxcov cache does not exist!"
+          echo "needs-build=yes" >> $GITHUB_OUTPUT
+          exit 0
+        fi
+        curl -L -u "${{ vars.DEV_PUSH_USERNAME }}:${{ secrets.DEV_PUSH_TOKEN }}" -H "Accept: application/vnd.github.everest-preview+json" -H "Content-Type: application/json" -o commits.json https://api.github.com/repos/willox/auxtools/commits
+        LATEST_AUXTOOLS_COMMIT=$(cat commits.json | jq '.[0].sha')
+        CACHED_AUXTOOLS_COMMIT=$(cat ~/auxcov/commit.txt)
+        if ! [ "$CACHED_AUXTOOLS_COMMIT" = "$LATEST_AUXTOOLS_COMMIT" ]; then
+          echo "Auxcov cache out of date! Expected $CACHED_AUXTOOLS_COMMIT but latest is $LATEST_AUXTOOLS_COMMIT"
+          echo "needs-build=yes" >> $GITHUB_OUTPUT
+        else
+          echo "Auxcov cache up-to-date!"
+          echo "needs-build=no" >> $GITHUB_OUTPUT
+        fi
+
+    - name: Install native dependencies
+      if: steps.auxcov-check.outputs.needs-build == 'yes'
+      run: |
+        sudo dpkg --add-architecture i386
+        sudo apt-get update
+        sudo apt-get install -y build-essential g++-multilib libc6-i386 libstdc++6:i386 zlib1g-dev:i386
+
+    - name: Setup rust
+      if: steps.auxcov-check.outputs.needs-build == 'yes'
+      run: |
+        rustup toolchain install 1.69
+        rustup default 1.69
+        rustup target add i686-unknown-linux-gnu
+
+    - name: Checkout (Branch)
+      uses: actions/checkout@v3
+      if: steps.auxcov-check.outputs.needs-build == 'yes' && (github.event_name == 'push' || github.event_name == 'schedule')
+
+    - name: Checkout (PR Merge)
+      uses: actions/checkout@v3
+      if: steps.auxcov-check.outputs.needs-build == 'yes' && (github.event_name != 'push' && github.event_name != 'schedule')
+      with:
+        ref: "refs/pull/${{ github.event.number }}/merge"
+
+    - name: Build and cache auxcov
+      if: steps.auxcov-check.outputs.needs-build == 'yes'
+      run: |
+        build/build_auxcov.sh
+        mkdir -p ~/auxcov
+        cp tests/libauxcov.so ~/auxcov
+        cd tests/auxtools
+        git rev-parse HEAD > ~/auxcov/commit.txt
+
+  windows-setup-auxcov:
+    name: Setup auxcov (Windows)
+    needs: start-ci-run-gate
+    runs-on: windows-latest
+    if: "!(cancelled() || failure()) && needs.start-ci-run-gate.result == 'success'"
+    steps:
+    - name: Restore Auxcov cache
+      uses: actions/cache@v3
+      with:
+        path: ~/auxcov
+        key: auxcov-windows
+
+    - name: Check auxcov version
+      id: auxcov-check
+      run: |
+        if (-Not (Test-Path ~/auxcov/commit.txt -PathType Leaf)) {
+          Write-Host "Auxcov cache does not exist!"
+          Write-Output "needs-build=yes" >> $Env:GITHUB_OUTPUT
+          exit 0
+        }
+        $username = "${{ vars.DEV_PUSH_USERNAME }}"
+        $password = ConvertTo-SecureString "${{ secrets.DEV_PUSH_TOKEN }}" -AsPlainText -Force
+        $credential = New-Object System.Management.Automation.PSCredential($username, $password)
+        $headers = @{
+            "Accept" = "application/vnd.github.everest-preview+json"
+        }
+        $response = Invoke-RestMethod -Uri "https://api.github.com/repos/willox/auxtools/commits" -Credential $credential -Authentication Basic -Headers $headers -ContentType "application/json"
+        $latestAuxtoolsCommit=$response[0].sha
+        $cachedAuxtoolsCommit=Get-Content ~/auxcov/commit.txt
+        if ($latestAuxtoolsCommit -ne $cachedAuxtoolsCommit) {
+          Write-Host "Auxcov cache out of date! Expected $cachedAuxtoolsCommit but latest is $latestAuxtoolsCommit"
+          Write-Output "needs-build=yes" >> $Env:GITHUB_OUTPUT
+        } else {
+          Write-Host "Auxcov cache up-to-date!"
+          Write-Output "needs-build=no" >> $Env:GITHUB_OUTPUT
+        }
+
+    - name: Setup rust
+      if: steps.auxcov-check.outputs.needs-build == 'yes'
+      run: |
+        rustup toolchain install 1.69
+        rustup default 1.69
+        rustup target add i686-unknown-linux-gnu
+
+    - name: Checkout (Branch)
+      uses: actions/checkout@v3
+      if: steps.auxcov-check.outputs.needs-build == 'yes' && (github.event_name == 'push' || github.event_name == 'schedule')
+
+    - name: Checkout (PR Merge)
+      uses: actions/checkout@v3
+      if: steps.auxcov-check.outputs.needs-build == 'yes' && (github.event_name != 'push' && github.event_name != 'schedule')
+      with:
+        ref: "refs/pull/${{ github.event.number }}/merge"
+
+    - name: Build and cache auxcov
+      if: steps.auxcov-check.outputs.needs-build == 'yes'
+      run: |
+        build/build_auxcov.ps1
+        mkdir ~/auxcov
+        cp tests/auxcov.dll ~/auxcov
+        cd tests/auxtools
+        git rev-parse HEAD | Out-File ~/auxcov/commit.txt
+
   dox-build:
     name: Build Doxygen Site
     runs-on: ubuntu-latest
@@ -318,8 +445,8 @@ jobs:
 
   windows-integration-test:
     name: Windows Live Tests
-    needs: dmapi-build
-    if: "!(cancelled() || failure()) && needs.dmapi-build.result == 'success'"
+    needs: [ 'dmapi-build', 'windows-setup-auxcov' ]
+    if: "!(cancelled() || failure()) && needs.dmapi-build.result == 'success' && needs.windows-setup-auxcov.result == 'success'"
     strategy:
       fail-fast: false
       matrix:
@@ -339,6 +466,12 @@ jobs:
       uses: actions/setup-dotnet@v2
       with:
         dotnet-version: ${{ env.TGS_DOTNET_VERSION }}
+
+    - name: Restore Auxcov cache
+      uses: actions/cache@v3
+      with:
+        path: ~/auxcov
+        key: auxcov-windows
 
     - name: Set TGS_TEST_DUMP_API_SPEC
       if: ${{ matrix.configuration == 'Release' && matrix.watchdog-type == 'System' && matrix.database-type == 'SqlServer' }}
@@ -410,7 +543,9 @@ jobs:
       run: dotnet restore
 
     - name: Build
-      run: dotnet build -c ${{ matrix.configuration }} tests/Tgstation.Server.Tests/Tgstation.Server.Tests.csproj
+      run: |
+        cp ~/auxcov/auxcov.dll tests/
+        dotnet build -c ${{ matrix.configuration }} tests/Tgstation.Server.Tests/Tgstation.Server.Tests.csproj
 
     - name: Cache BYOND .zips
       uses: actions/cache@v3
@@ -471,8 +606,8 @@ jobs:
 
   linux-integration-tests:
     name: Linux Live Tests
-    needs: dmapi-build
-    if: "!(cancelled() || failure()) && needs.dmapi-build.result == 'success'"
+    needs: [ 'dmapi-build', 'linux-setup-auxcov' ]
+    if: "!(cancelled() || failure()) && needs.dmapi-build.result == 'success' && needs.linux-setup-auxcov.result == 'success'"
     services: # We start all dbs here so we can just code the stuff once
       mssql:
         image: mcr.microsoft.com/mssql/server:2019-latest
@@ -531,6 +666,12 @@ jobs:
         sudo apt-get update
         sudo apt-get install -y -o APT::Immediate-Configure=0 libc6-i386 libstdc++6:i386 gdb libgcc-s1:i386
 
+    - name: Restore Auxcov cache
+      uses: actions/cache@v3
+      with:
+        path: ~/auxcov
+        key: auxcov-linux
+
     - name: Setup dotnet
       uses: actions/setup-dotnet@v2
       with:
@@ -579,7 +720,9 @@ jobs:
       run: dotnet restore
 
     - name: Build
-      run: dotnet build -c ${{ matrix.configuration }}NoWindows tests/Tgstation.Server.Tests/Tgstation.Server.Tests.csproj
+      run: |
+        cp ~/auxcov/libauxcov.so tests/
+        dotnet build -c ${{ matrix.configuration }}NoWindows tests/Tgstation.Server.Tests/Tgstation.Server.Tests.csproj
 
     - name: Cache BYOND .zips
       uses: actions/cache@v3

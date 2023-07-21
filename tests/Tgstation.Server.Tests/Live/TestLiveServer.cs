@@ -11,6 +11,7 @@ using System.Net.Http.Headers;
 using System.Net.Mime;
 using System.Net.Sockets;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -54,6 +55,8 @@ namespace Tgstation.Server.Tests.Live
 		static readonly ushort mainDMPort = FreeTcpPort(mainDDPort);
 		static readonly ushort compatDMPort = FreeTcpPort(mainDDPort, mainDMPort);
 		static readonly ushort compatDDPort = FreeTcpPort(mainDDPort, mainDMPort, compatDMPort);
+
+		public TestContext TestContext { get; set; }
 
 		readonly IServerClientFactory clientFactory = new ServerClientFactory(new ProductHeaderValue(Assembly.GetExecutingAssembly().GetName().Name, Assembly.GetExecutingAssembly().GetName().Version.ToString()));
 
@@ -1012,7 +1015,7 @@ namespace Tgstation.Server.Tests.Live
 				await internalTask;
 		}
 
-		async Task TestTgsInternal(CancellationToken hardCancellationToken)
+		async Task TestTgsInternal(CancellationToken hardCancellationToken, [CallerFilePath] string codeFilePath = "")
 		{
 			var discordConnectionString = Environment.GetEnvironmentVariable("TGS_TEST_DISCORD_TOKEN");
 			var ircConnectionString = Environment.GetEnvironmentVariable("TGS_TEST_IRC_CONNECTION_STRING");
@@ -1063,6 +1066,7 @@ namespace Tgstation.Server.Tests.Live
 			var serverTask = server.Run(cancellationToken);
 
 			var fileDownloader = ((Host.Server)server.RealServer).Host.Services.GetRequiredService<Host.IO.IFileDownloader>();
+			IReadOnlyList<Api.Models.Instance> finalInstanceList;
 			try
 			{
 				Api.Models.Instance instance;
@@ -1361,6 +1365,7 @@ namespace Tgstation.Server.Tests.Live
 				serverTask = server.Run(cancellationToken);
 				using (var adminClient = await CreateAdminClient(server.Url, cancellationToken))
 				{
+					var finalInstanceListTask = adminClient.Instances.List(null, cancellationToken);
 					var instanceClient = adminClient.Instances.CreateClient(instance);
 					await WaitForInitialJobs(instanceClient);
 
@@ -1378,6 +1383,7 @@ namespace Tgstation.Server.Tests.Live
 					await new ChatTest(instanceClient.ChatBots, adminClient.Instances, instanceClient.Jobs, instance).RunPostTest(cancellationToken);
 					await repoTest;
 
+					finalInstanceList = await finalInstanceListTask;
 					await new InstanceManagerTest(adminClient, server.Directory).RunPostTest(instance, cancellationToken);
 				}
 			}
@@ -1405,6 +1411,34 @@ namespace Tgstation.Server.Tests.Live
 
 			Assert.IsTrue(serverTask.IsCompleted);
 			await serverTask;
+
+			var testResultsDirectory = TestContext?.ResultsDirectory;
+			if (testResultsDirectory == null)
+				return;
+
+			var coverageFileCounter = 0;
+			var codebasePath = Path.GetDirectoryName(
+				Path.GetDirectoryName(
+					Path.GetDirectoryName(
+						Path.GetDirectoryName(
+							codeFilePath))));
+			foreach (var instance in finalInstanceList)
+			{
+				var coverageDirectory = Path.Combine(instance.Path, "Configuration", "GameStaticFiles", "coverage");
+				if (!Directory.Exists(coverageDirectory))
+					continue;
+
+				foreach (var coverageXmlFile in Directory.EnumerateFiles(coverageDirectory))
+				{
+					++coverageFileCounter;
+					var fileData = await File.ReadAllTextAsync(coverageXmlFile, cancellationToken);
+					var correctedFileData = fileData.Replace(String.Join('/', instance.Path, "Game", "Live"), codebasePath);
+					await File.WriteAllTextAsync(
+						Path.Combine(testResultsDirectory, $"DMAPI_coverage_{coverageFileCounter}.xml"),
+						correctedFileData,
+						cancellationToken);
+				}
+			}
 		}
 
 		async Task<IServerClient> CreateAdminClient(Uri url, CancellationToken cancellationToken)

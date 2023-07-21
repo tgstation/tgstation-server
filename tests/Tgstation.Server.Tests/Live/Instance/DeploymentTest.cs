@@ -10,7 +10,6 @@ using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Client;
 using Tgstation.Server.Client.Components;
 using Tgstation.Server.Host.System;
-using Tgstation.Server.Tests.Live;
 
 namespace Tgstation.Server.Tests.Live.Instance
 {
@@ -119,7 +118,8 @@ namespace Tgstation.Server.Tests.Live.Instance
 				var updatedDM = await dreamMakerClient.Update(new DreamMakerRequest
 				{
 					ProjectName = "tests/DMAPI/ApiFree/api_free",
-					ApiValidationPort = dmPort
+					ApiValidationPort = dmPort,
+					ApiValidationSecurityLevel = DreamDaemonSecurity.Ultrasafe,
 				}, cancellationToken);
 				Assert.AreEqual(dmPort, updatedDM.ApiValidationPort);
 				Assert.AreEqual("tests/DMAPI/ApiFree/api_free", updatedDM.ProjectName);
@@ -167,7 +167,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			const string FailProject = "tests/DMAPI/BuildFail/build_fail";
 			var updated = await dreamMakerClient.Update(new DreamMakerRequest
 			{
-				ProjectName = FailProject
+				ProjectName = FailProject,
 			}, cancellationToken);
 
 			Assert.AreEqual(FailProject, updated.ProjectName);

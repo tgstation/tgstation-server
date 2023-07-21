@@ -1,8 +1,7 @@
 /world/proc/RunTest()
-	text2file("SUCCESS", "test_success.txt")
 	log << "About to call TgsNew()"
 	sleep_offline = FALSE
-	TgsNew(minimum_required_security_level = TGS_SECURITY_SAFE)
+	TgsNew(minimum_required_security_level = TGS_SECURITY_TRUSTED)
 	log << "About to call StartAsync()"
 	StartAsync()
 
