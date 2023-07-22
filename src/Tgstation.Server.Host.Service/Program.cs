@@ -87,64 +87,6 @@ namespace Tgstation.Server.Host.Service
 		static Task<int> Main(string[] args) => CommandLineApplication.ExecuteAsync<Program>(args);
 
 		/// <summary>
-		/// Runs sc.exe to either uninstall a given <paramref name="serviceToUninstall"/> or install the running <see cref="ServerService"/>.
-		/// </summary>
-		/// <param name="serviceToUninstall">The name of a service to uninstall.</param>
-		static void InvokeSC(string serviceToUninstall)
-		{
-			using var installer = new ServiceInstaller();
-			if (serviceToUninstall != null)
-			{
-				installer.Context = new InstallContext($"old-{serviceToUninstall}-uninstall.log", null);
-				installer.ServiceName = serviceToUninstall;
-				installer.Uninstall(null);
-			}
-			else
-			{
-				var fullPathToAssembly = Path.GetFullPath(
-					Assembly.GetExecutingAssembly().Location);
-
-				var assemblyDirectory = Path.GetDirectoryName(fullPathToAssembly);
-				var assemblyNameWithoutExtension = Path.GetFileNameWithoutExtension(fullPathToAssembly);
-				var exePath = Path.Combine(assemblyDirectory, $"{assemblyNameWithoutExtension}.exe");
-
-				var programDataDirectory = Path.Combine(
-					Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData),
-					Server.Common.Constants.CanonicalPackageName);
-
-				using var processInstaller = new ServiceProcessInstaller();
-				processInstaller.Account = ServiceAccount.LocalSystem;
-
-				// Mimicing Tgstation.Server.Host.Service.Wix here, which is the source of truth for this data
-				installer.Context = new InstallContext(
-					Path.Combine(programDataDirectory, $"tgs-install-{Guid.NewGuid()}.log"),
-					new[]
-					{
-						$"assemblypath=\"{exePath}\" -p=--appsettings-base-path={programDataDirectory}",
-					});
-				installer.Description = $"{Server.Common.Constants.CanonicalPackageName} running as a Windows service.";
-				installer.DisplayName = Server.Common.Constants.CanonicalPackageName;
-				installer.StartType = ServiceStartMode.Automatic;
-				installer.ServicesDependedOn = new string[] { "Tcpip", "Dhcp", "Dnscache" };
-				installer.ServiceName = ServerService.Name;
-				installer.Parent = processInstaller;
-
-				var state = new ListDictionary();
-				try
-				{
-					installer.Install(state);
-
-					installer.Commit(state);
-				}
-				catch
-				{
-					installer.Rollback(state);
-					throw;
-				}
-			}
-		}
-
-		/// <summary>
 		/// Command line handler, always runs.
 		/// </summary>
 		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
@@ -209,6 +151,63 @@ namespace Tgstation.Server.Host.Service
 
 							sc.Start();
 						}
+		}
+
+		/// <summary>
+		/// Runs sc.exe to either uninstall a given <paramref name="serviceToUninstall"/> or install the running <see cref="ServerService"/>.
+		/// </summary>
+		/// <param name="serviceToUninstall">The name of a service to uninstall.</param>
+		void InvokeSC(string serviceToUninstall)
+		{
+			using var installer = new ServiceInstaller();
+			if (serviceToUninstall != null)
+			{
+				installer.Context = new InstallContext($"old-{serviceToUninstall}-uninstall.log", null);
+				installer.ServiceName = serviceToUninstall;
+				installer.Uninstall(null);
+				return;
+			}
+
+			var fullPathToAssembly = Path.GetFullPath(
+				Assembly.GetExecutingAssembly().Location);
+
+			var assemblyDirectory = Path.GetDirectoryName(fullPathToAssembly);
+			var assemblyNameWithoutExtension = Path.GetFileNameWithoutExtension(fullPathToAssembly);
+			var exePath = Path.Combine(assemblyDirectory, $"{assemblyNameWithoutExtension}.exe");
+
+			var programDataDirectory = Path.Combine(
+				Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData),
+				Server.Common.Constants.CanonicalPackageName);
+
+			using var processInstaller = new ServiceProcessInstaller();
+			processInstaller.Account = ServiceAccount.LocalSystem;
+
+			// Mimicing Tgstation.Server.Host.Service.Wix here, which is the source of truth for this data
+			installer.Context = new InstallContext(
+				Path.Combine(programDataDirectory, $"tgs-install-{Guid.NewGuid()}.log"),
+				new[]
+				{
+					$"assemblypath=\"{exePath}\"{(String.IsNullOrWhiteSpace(PassthroughArgs) ? String.Empty : $" -p=\"{PassthroughArgs}\"")}",
+				});
+			installer.Description = $"{Server.Common.Constants.CanonicalPackageName} running as a Windows service.";
+			installer.DisplayName = Server.Common.Constants.CanonicalPackageName;
+			installer.StartType = ServiceStartMode.Automatic;
+			installer.ServicesDependedOn = new string[] { "Tcpip", "Dhcp", "Dnscache" };
+			installer.ServiceName = ServerService.Name;
+			installer.Parent = processInstaller;
+
+			var state = new ListDictionary();
+			try
+			{
+				installer.Install(state);
+
+				installer.Commit(state);
+			}
+			catch
+			{
+				installer.Rollback(state);
+				throw;
+			}
 		}
 
 		/// <summary>
