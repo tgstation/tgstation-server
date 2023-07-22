@@ -202,12 +202,14 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 		{
 			using (await SemaphoreSlimContext.Lock(semaphore, cancellationToken))
 			{
-				await EnsureDirectories(cancellationToken);
+				var ensureDirectoriesTask = EnsureDirectories(cancellationToken);
 
 				// just assume no other fs race conditions here
 				var dmeExistsTask = ioManager.FileExists(ioManager.ConcatPath(CodeModificationsSubdirectory, dmeFile), cancellationToken);
 				var headFileExistsTask = ioManager.FileExists(ioManager.ConcatPath(CodeModificationsSubdirectory, CodeModificationsHeadFile), cancellationToken);
 				var tailFileExistsTask = ioManager.FileExists(ioManager.ConcatPath(CodeModificationsSubdirectory, CodeModificationsTailFile), cancellationToken);
+
+				await ensureDirectoriesTask;
 				var copyTask = ioManager.CopyDirectory(
 					null,
 					null,
