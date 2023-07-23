@@ -1,0 +1,4 @@
+<map id="RestartService" name="RestartService">
+<area shape="rect" id="node1" title="Restarts a service using a given serviceController ." alt="" coords="5,13,113,38"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_common_1_1_pipe_commands.html#a1b22a865eb929ce8b1fa818b81a015a9" title="Gets the int value of a given command ." alt="" coords="161,5,369,45"/>
+</map>

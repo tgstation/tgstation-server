@@ -2,7 +2,7 @@
 <area shape="rect" id="node1" title="Gets the int value of a given command ." alt="" coords="788,85,996,125"/>
 <area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_service_1_1_wix_1_1_extensions_1_1_installation_extensions.html#abe67d66e594a1b751e607b230ba6d4b2" title="Attempts to detach stop the existing tgstation&#45;server service if it exists." alt="" coords="499,5,740,60"/>
 <area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service.html#a2f03be0a11f20dffb543831b00498454" title=" " alt="" coords="505,85,733,125"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_service_1_1_program.html#ac56303c99198dff534014e7110fcf9f2" title="Restarts a service using a given serviceController ." alt="" coords="520,149,719,189"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_service_1_1_program.html#a86d24d735c64eb7c67a935b809927dd4" title="Command line handler, always runs." alt="" coords="5,149,204,189"/>
-<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_service_1_1_program.html#a8d39a2cad1cd8f88138c96a710772fb4" title="Attempt to install the TGS Service." alt="" coords="252,177,451,217"/>
+<area shape="rect" id="node4" href="$_tgstation_8_server_8_host_8_service_2_program_8cs.html#a7a5d1a672c9435fca33efa3cdfda3f7a" title="Restarts a service using a given serviceController ." alt="" coords="565,149,673,175"/>
+<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_service_1_1_program.html#a13ee7c7392b64842a36c8abc6c7ae5a6" title="Runs sc.exe to either uninstall a given serviceToUninstall &#160;or install the running ServerService." alt="" coords="252,113,451,153"/>
+<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_service_1_1_program.html#a86d24d735c64eb7c67a935b809927dd4" title="Command line handler, always runs." alt="" coords="5,142,204,182"/>
 </map>
