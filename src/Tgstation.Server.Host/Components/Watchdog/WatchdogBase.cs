@@ -4,7 +4,10 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
+using BetterWin32Errors;
+
 using Microsoft.Extensions.Logging;
+
 using Serilog.Context;
 
 using Tgstation.Server.Api.Models;
@@ -1086,7 +1089,18 @@ namespace Tgstation.Server.Host.Components.Watchdog
 						if (ActiveLaunchParameters.DumpOnHealthCheckRestart.Value)
 						{
 							Logger.LogDebug("DumpOnHealthCheckRestart enabled.");
-							await CreateDump(cancellationToken);
+							try
+							{
+								await CreateDump(cancellationToken);
+							}
+							catch (JobException ex)
+							{
+								Logger.LogWarning(ex, "Creating dump failed!");
+							}
+							catch (Win32Exception ex)
+							{
+								Logger.LogWarning(ex, "Creating dump failed!");
+							}
 						}
 						else
 							Logger.LogTrace("DumpOnHealthCheckRestart disabled.");
