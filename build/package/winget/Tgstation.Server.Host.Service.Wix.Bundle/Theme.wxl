@@ -1,7 +1,9 @@
 <!-- https://github.com/wixtoolset/wix/blob/e0641f1479c6f67f6ec119d448b66a74ad5d6b88/src/ext/Bal/wixstdba/Resources/HyperlinkTheme.wxl -->
 
 <WixLocalization Culture="en-us" Language="1033" xmlns="http://wixtoolset.org/schemas/v4/wxl">
-  <String Id="MariaDBCheckbox" Value="Install MariaDB for use as the TGS backing database. x64 only. Works well with SS13 servers."/>
+  <String Id="MariaDBCheckbox" Value="Install MariaDB for use as the TGS backing database. x64 only. (Recommended)"/>
+  <String Id="DefaultConfigurationCheckbox" Value="Use default configuration settings. (Port 5000, Database: tgs)" />
+  <String Id="MariaDBPassword" Value="MariaDB root password (Default: DreamsOfCheese):" />
   <String Id="Title" Value="[WixBundleName] v[WixBundleVersion]" />
 
   <String Id="Caption" Value="[WixBundleName] Setup" />

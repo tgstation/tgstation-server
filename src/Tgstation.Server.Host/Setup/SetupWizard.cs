@@ -26,6 +26,7 @@ using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.Extensions.Converters;
 using Tgstation.Server.Host.IO;
+using Tgstation.Server.Host.Properties;
 using Tgstation.Server.Host.System;
 using Tgstation.Server.Host.Utils;
 
@@ -980,8 +981,6 @@ namespace Tgstation.Server.Host.Setup
 			SwarmConfiguration swarmConfiguration,
 			CancellationToken cancellationToken)
 		{
-			await console.WriteAsync(String.Format(CultureInfo.InvariantCulture, "Configuration complete! Saving to {0}", userConfigFileName), true, cancellationToken);
-
 			newGeneralConfiguration.ApiPort = hostingPort ?? GeneralConfiguration.DefaultApiPort;
 			newGeneralConfiguration.ConfigVersion = GeneralConfiguration.CurrentConfigVersion;
 			var map = new Dictionary<string, object>()
@@ -1074,6 +1073,7 @@ namespace Tgstation.Server.Host.Setup
 			var swarmConfiguration = await ConfigureSwarm(cancellationToken);
 
 			await console.WriteAsync(null, true, cancellationToken);
+			await console.WriteAsync(String.Format(CultureInfo.InvariantCulture, "Configuration complete! Saving to {0}", userConfigFileName), true, cancellationToken);
 
 			await SaveConfiguration(
 				userConfigFileName,
@@ -1172,10 +1172,44 @@ namespace Tgstation.Server.Host.Setup
 
 					SetConsoleTitle();
 
-					// flush the logs to prevent console conflicts
-					await asyncDelayer.Delay(TimeSpan.FromSeconds(1), cancellationToken);
+					if (!String.IsNullOrEmpty(internalConfiguration.MariaDBDefaultRootPassword))
+					{
+						// we can generate the whole thing.
+						var csb = new MySqlConnectionStringBuilder
+						{
+							Server = "127.0.0.1",
+							UserID = "root",
+							Password = internalConfiguration.MariaDBDefaultRootPassword,
+							Database = "tgs",
+						};
 
-					await RunWizard(userConfigFileName, cancellationToken);
+						await SaveConfiguration(
+							userConfigFileName,
+							null,
+							new DatabaseConfiguration
+							{
+								ConnectionString = csb.ConnectionString,
+								DatabaseType = DatabaseType.MariaDB,
+								ServerVersion = MasterVersionsAttribute.Instance.RawMariaDBRedistVersion,
+							},
+							new GeneralConfiguration(),
+							null,
+							null,
+							new ControlPanelConfiguration
+							{
+								Enable = true,
+								AllowAnyOrigin = true,
+							},
+							null,
+							cancellationToken);
+					}
+					else
+					{
+						// flush the logs to prevent console conflicts
+						await asyncDelayer.Delay(TimeSpan.FromSeconds(1), cancellationToken);
+
+						await RunWizard(userConfigFileName, cancellationToken);
+					}
 				}
 				finally
 				{

@@ -37,9 +37,9 @@ namespace Tgstation.Server.Host.Properties
 		public string RawHostWatchdogVersion { get; }
 
 		/// <summary>
-		/// The compile time default.
+		/// The <see cref="Version"/> <see cref="string"/> of the MariaDB server bundled with TGS installs.
 		/// </summary>
-		public string DefaultControlPanelChannel { get; }
+		public string RawMariaDBRedistVersion { get; }
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="MasterVersionsAttribute"/> class.
@@ -48,16 +48,19 @@ namespace Tgstation.Server.Host.Properties
 		/// <param name="rawInteropVersion">The value of <see cref="RawInteropVersion"/>.</param>
 		/// <param name="rawControlPanelVersion">The value of <see cref="RawControlPanelVersion"/>.</param>
 		/// <param name="rawHostWatchdogVersion">The value of <see cref="RawHostWatchdogVersion"/>.</param>
+		/// <param name="rawMariaDBRedistVersion">The value of <see cref="RawMariaDBRedistVersion"/>.</param>
 		public MasterVersionsAttribute(
 			string rawConfigurationVersion,
 			string rawInteropVersion,
 			string rawControlPanelVersion,
-			string rawHostWatchdogVersion)
+			string rawHostWatchdogVersion,
+			string rawMariaDBRedistVersion)
 		{
 			RawConfigurationVersion = rawConfigurationVersion ?? throw new ArgumentNullException(nameof(rawConfigurationVersion));
 			RawInteropVersion = rawInteropVersion ?? throw new ArgumentNullException(nameof(rawInteropVersion));
 			RawControlPanelVersion = rawControlPanelVersion ?? throw new ArgumentNullException(nameof(rawControlPanelVersion));
 			RawHostWatchdogVersion = rawHostWatchdogVersion ?? throw new ArgumentNullException(nameof(rawHostWatchdogVersion));
+			RawMariaDBRedistVersion = rawMariaDBRedistVersion ?? throw new ArgumentNullException(nameof(rawMariaDBRedistVersion));
 		}
 	}
 }

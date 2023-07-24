@@ -29,5 +29,10 @@
 		/// Coerce the <see cref="Setup.SetupWizard"/> to select <see cref="DatabaseType.MariaDB"/>.
 		/// </summary>
 		public bool MariaDBSetup { get; set; }
+
+		/// <summary>
+		/// Generate default configuration using the given <see cref="DatabaseType.MariaDB"/> default password.
+		/// </summary>
+		public string MariaDBDefaultRootPassword { get; set; }
 	}
 }
