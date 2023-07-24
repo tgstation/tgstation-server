@@ -394,7 +394,7 @@ namespace Tgstation.Server.Host.Core
 			services.AddSingleton<ISynchronousIOManager, SynchronousIOManager>();
 			services.AddSingleton<IServerPortProvider, ServerPortProivder>();
 			services.AddSingleton<ITopicClientFactory, TopicClientFactory>();
-			services.AddHostedService<CommandPipeReader>();
+			services.AddHostedService<CommandPipeManager>();
 
 			services.AddFileDownloader();
 			services.AddGitHub();

@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Tgstation.Server.Host.Watchdog
@@ -8,6 +9,11 @@ namespace Tgstation.Server.Host.Watchdog
 	/// </summary>
 	public interface IWatchdog
 	{
+		/// <summary>
+		/// Gets the current version of the host process. Set once <see cref="RunAsync(bool, string[], CancellationToken)"/> begins and doesn't immediately return <see langword="false"/>.
+		/// </summary>
+		Version InitialHostVersion { get; }
+
 		/// <summary>
 		/// Run the <see cref="IWatchdog"/>.
 		/// </summary>

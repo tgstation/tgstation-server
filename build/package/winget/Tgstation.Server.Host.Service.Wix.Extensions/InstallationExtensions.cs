@@ -46,7 +46,7 @@
 						return ActionResult.Success;
 					}
 
-					var commandId = PipeCommands.GetCommandId(
+					var commandId = PipeCommands.GetServiceCommandId(
 						PipeCommands.CommandDetachingShutdown)
 						.Value;
 
