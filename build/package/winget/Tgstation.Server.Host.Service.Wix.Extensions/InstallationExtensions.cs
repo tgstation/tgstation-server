@@ -1,6 +1,7 @@
 ﻿namespace Tgstation.Server.Host.Service.Wix.Extensions
 {
 	using System;
+	using System.IO;
 	using System.ServiceProcess;
 
 	using Tgstation.Server.Host.Common;
@@ -12,6 +13,12 @@
 	/// </summary>
 	public static class InstallationExtensions
 	{
+		/// <summary>
+		/// Package name
+		/// </summary>
+		/// <remarks>As much as I'd like to use Tgstation.Server.Common.Constants.CanonicalPackageName here, attempting to reference it makes Tgstation.Server.Migrator.Comms fail due to referencing the net2.0 version of that library. EVEN THOUGH IT'S A TRANSITIVE DEPENDENCY OF Tgstation.Server.Client!!!!! If that dead-ass tool has been removed, feel free to do this.</remarks>
+		const string CanonicalPackageName = "tgstation-server";
+
 		/// <summary>
 		/// Attempts to detach stop the existing tgstation-server service if it exists.
 		/// </summary>
@@ -28,9 +35,6 @@
 				session.Log("Begin DetachStopTgsServiceIfRunning");
 				ServiceController serviceController = null;
 
-				// As much as I'd like to use Tgstation.Server.Common.Constants.CanonicalPackageName here, attempting to reference it make Tgstation.Server.Migrator.Comms fail due to referencing the net2.0 version of that library. EVEN THOUGH IT'S A TRANSITIVE DEPENDENCY OF Tgstation.Server.Client!!!!!
-				// If that dead-ass tool has been removed, feel free to do this
-				const string CanonicalPackageName = "tgstation-server";
 				session.Log($"Searching for {CanonicalPackageName} service...");
 				try
 				{
@@ -73,6 +77,56 @@
 			catch (Exception ex)
 			{
 				session.Log($"Exception in DetachStopTgsServiceIfRunning:{Environment.NewLine}{ex}");
+				return ActionResult.Failure;
+			}
+		}
+
+		/// <summary>
+		/// Attempts to copy the initial config to the production config if necessary.
+		/// </summary>
+		/// <param name="session">The installer <see cref="Session"/>.</param>
+		/// <returns>The <see cref="ActionResult"/> of the custom action.</returns>
+		[CustomAction]
+		public static ActionResult ApplyProductionAppsettingsIfNonExistant(Session session)
+		{
+			if (session == null)
+				throw new ArgumentNullException(nameof(session));
+
+			try
+			{
+				session.Log("Begin ApplyProductionAppsettingsIfNonExistant");
+				var programDataDirectory = Path.Combine(
+					Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData),
+					CanonicalPackageName);
+				var initialAppSettingsPath = Path.Combine(programDataDirectory, "appsettings.Initial.yml");
+				var productionAppSettingsPath = Path.Combine(programDataDirectory, "appsettings.Production.yml");
+
+				var initialAppSettingsExists = File.Exists(initialAppSettingsPath);
+				var productionAppSettingsExists = File.Exists(productionAppSettingsPath);
+
+				if (productionAppSettingsExists)
+					session.Log("appsettings.Production.yml present");
+				else
+					session.Log("appsettings.Production.yml NOT present");
+
+				if (!initialAppSettingsExists)
+					session.Log("appsettings.Initial.yml NOT present!");
+				else
+				{
+					session.Log("appsettings.Initial.yml present");
+					if (!productionAppSettingsExists)
+					{
+						session.Log("Copying initial settings to production settings...");
+						File.Copy(initialAppSettingsPath, productionAppSettingsPath);
+						return ActionResult.Success;
+					}
+				}
+
+				return ActionResult.NotExecuted;
+			}
+			catch (Exception ex)
+			{
+				session.Log($"Exception in ApplyProductionAppsettingsIfNonExistant:{Environment.NewLine}{ex}");
 				return ActionResult.Failure;
 			}
 		}
