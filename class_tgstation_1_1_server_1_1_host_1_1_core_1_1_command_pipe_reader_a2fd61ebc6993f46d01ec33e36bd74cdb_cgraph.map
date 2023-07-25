@@ -1,5 +1,0 @@
-<map id="Tgstation.Server.Host.Core.CommandPipeReader.ExecuteAsync" name="Tgstation.Server.Host.Core.CommandPipeReader.ExecuteAsync">
-<area shape="rect" id="node1" title=" " alt="" coords="5,37,239,77"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_control.html#a2eb5bdeb76bf1fbfdb297219af3ede45" title="Kill the server with a fatal exception." alt="" coords="303,5,485,45"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_control.html#a0d77d493e33c5262ef32484636ff5a65" title="Gracefully shutsdown the Host." alt="" coords="287,69,501,109"/>
-</map>

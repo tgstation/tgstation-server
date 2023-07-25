@@ -1,6 +1,6 @@
 <map id="Tgstation.Server.Host.Core.IServerControl.Die" name="Tgstation.Server.Host.Core.IServerControl.Die">
-<area shape="rect" id="node1" title="Kill the server with a fatal exception." alt="" coords="561,37,743,77"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_core_1_1_command_pipe_reader.html#a2fd61ebc6993f46d01ec33e36bd74cdb" title=" " alt="" coords="280,5,513,45"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#aa70355ebb8437fd170e4f75e826f1ad7" title="Initializes the InstanceManager." alt="" coords="283,69,510,109"/>
+<area shape="rect" id="node1" title="Kill the server with a fatal exception." alt="" coords="571,37,752,77"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_core_1_1_command_pipe_manager.html#a9d6f05a5cf43388b439c5662df67abf0" title=" " alt="" coords="280,5,523,45"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#aa70355ebb8437fd170e4f75e826f1ad7" title="Initializes the InstanceManager." alt="" coords="288,69,515,109"/>
 <area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#aa2bcc92fca46ad404800304ce4bdd781" title=" " alt="" coords="5,69,232,109"/>
 </map>

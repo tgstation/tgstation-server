@@ -1,4 +1,4 @@
-<map id="Tgstation.Server.Host.Core.CommandPipeReader" name="Tgstation.Server.Host.Core.CommandPipeReader">
+<map id="Tgstation.Server.Host.Core.CommandPipeManager" name="Tgstation.Server.Host.Core.CommandPipeManager">
 <area shape="rect" id="node1" title="Reads from the command pipe opened by the host watchdog." alt="" coords="5,79,187,119"/>
 <area shape="rect" id="node2" href="$class_background_service.html" title=" " alt="" coords="29,5,163,31"/>
 </map>

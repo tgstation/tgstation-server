@@ -188,7 +188,7 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">  261</span>            <span class="keywordflow">if</span> (!stop)</div>
 <div class="line"><span class="lineno">  262</span>            {</div>
 <div class="line"><span class="lineno">  263</span>                serviceController.ExecuteCommand(</div>
-<div class="line"><span class="lineno">  264</span>                    <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_common_1_1_pipe_commands.html">PipeCommands</a>.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_common_1_1_pipe_commands.html#a1b22a865eb929ce8b1fa818b81a015a9">GetCommandId</a>(</div>
+<div class="line"><span class="lineno">  264</span>                    <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_common_1_1_pipe_commands.html">PipeCommands</a>.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_common_1_1_pipe_commands.html#a06c8d3400eeb8207d35f8f3bae86cfb5">GetServiceCommandId</a>(</div>
 <div class="line"><span class="lineno">  265</span>                        <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_common_1_1_pipe_commands.html">PipeCommands</a>.<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_common_1_1_pipe_commands.html#a5118c73a97fc1f6e3484c59c40ceec12">CommandDetachingShutdown</a>)</div>
 <div class="line"><span class="lineno">  266</span>                    .Value);</div>
 <div class="line"><span class="lineno">  267</span>                serviceController.WaitForStatus(ServiceControllerStatus.Stopped, TimeSpan.FromSeconds(30));</div>
@@ -203,10 +203,10 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">  276</span>            }</div>
 <div class="line"><span class="lineno">  277</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_common_1_1_pipe_commands_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_common_1_1_pipe_commands.html">Tgstation.Server.Host.Common.PipeCommands</a></div><div class="ttdoc">Values able to be passed via the update file path.</div><div class="ttdef"><b>Definition:</b> <a href="_pipe_commands_8cs_source.html#l00006">PipeCommands.cs:7</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_common_1_1_pipe_commands_html_a1b22a865eb929ce8b1fa818b81a015a9"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_common_1_1_pipe_commands.html#a1b22a865eb929ce8b1fa818b81a015a9">Tgstation.Server.Host.Common.PipeCommands.GetCommandId</a></div><div class="ttdeci">static ? int GetCommandId(string command)</div><div class="ttdoc">Gets the int value of a given command .</div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_common_1_1_pipe_commands_html_a06c8d3400eeb8207d35f8f3bae86cfb5"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_common_1_1_pipe_commands.html#a06c8d3400eeb8207d35f8f3bae86cfb5">Tgstation.Server.Host.Common.PipeCommands.GetServiceCommandId</a></div><div class="ttdeci">static ? int GetServiceCommandId(string command)</div><div class="ttdoc">Gets the int value of a given command .</div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_common_1_1_pipe_commands_html_a5118c73a97fc1f6e3484c59c40ceec12"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_common_1_1_pipe_commands.html#a5118c73a97fc1f6e3484c59c40ceec12">Tgstation.Server.Host.Common.PipeCommands.CommandDetachingShutdown</a></div><div class="ttdeci">const string CommandDetachingShutdown</div><div class="ttdoc">Stops the server ASAP, detaching the watchdog for any running instances.</div><div class="ttdef"><b>Definition:</b> <a href="_pipe_commands_8cs_source.html#l00021">PipeCommands.cs:21</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_pipe_commands_8cs_source.html#l00021">Tgstation.Server.Host.Common.PipeCommands.CommandDetachingShutdown</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_common_1_1_pipe_commands.html#a1b22a865eb929ce8b1fa818b81a015a9">Tgstation.Server.Host.Common.PipeCommands.GetCommandId()</a>.</p>
+<p class="reference">References <a class="el" href="_pipe_commands_8cs_source.html#l00021">Tgstation.Server.Host.Common.PipeCommands.CommandDetachingShutdown</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_common_1_1_pipe_commands.html#a06c8d3400eeb8207d35f8f3bae86cfb5">Tgstation.Server.Host.Common.PipeCommands.GetServiceCommandId()</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="_tgstation_8_server_8_host_8_service_2_program_8cs_source.html#l00160">Tgstation.Server.Host.Service.Program.InvokeSC()</a>, and <a class="el" href="_tgstation_8_server_8_host_8_service_2_program_8cs_source.html#l00093">Tgstation.Server.Host.Service.Program.OnExecuteAsync()</a>.</p>
 <div class="dynheader">
@@ -215,7 +215,7 @@ Here is the call graph for this function:</div>
 <div class="center"><img src="_tgstation_8_server_8_host_8_service_2_program_8cs_a7a5d1a672c9435fca33efa3cdfda3f7a_cgraph.png" border="0" usemap="#a_tgstation_8_server_8_host_8_service_2_program_8cs_a7a5d1a672c9435fca33efa3cdfda3f7a_cgraph" alt=""/></div>
 <map name="a_tgstation_8_server_8_host_8_service_2_program_8cs_a7a5d1a672c9435fca33efa3cdfda3f7a_cgraph" id="a_tgstation_8_server_8_host_8_service_2_program_8cs_a7a5d1a672c9435fca33efa3cdfda3f7a_cgraph">
 <area shape="rect" title="Restarts a service using a given serviceController ." alt="" coords="5,13,113,38"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_common_1_1_pipe_commands.html#a1b22a865eb929ce8b1fa818b81a015a9" title="Gets the int value of a given command ." alt="" coords="161,5,369,45"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_common_1_1_pipe_commands.html#a06c8d3400eeb8207d35f8f3bae86cfb5" title="Gets the int value of a given command ." alt="" coords="161,5,413,45"/>
 </map>
 </div>
 <div class="dynheader">

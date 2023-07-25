@@ -236,37 +236,80 @@ Functions</h2></td></tr>
 <div class="line"><span class="lineno"> 1172</span> </div>
 <div class="line"><span class="lineno"> 1173</span>                    SetConsoleTitle();</div>
 <div class="line"><span class="lineno"> 1174</span> </div>
-<div class="line"><span class="lineno"> 1175</span>                    <span class="comment">// flush the logs to prevent console conflicts</span></div>
-<div class="line"><span class="lineno"> 1176</span>                    await asyncDelayer.Delay(TimeSpan.FromSeconds(1), cancellationToken);</div>
-<div class="line"><span class="lineno"> 1177</span> </div>
-<div class="line"><span class="lineno"> 1178</span>                    await <a class="code hl_function" href="_setup_wizard_8cs.html#a133aa9167bebce98243748fe735a4e32">RunWizard</a>(userConfigFileName, cancellationToken);</div>
-<div class="line"><span class="lineno"> 1179</span>                }</div>
-<div class="line"><span class="lineno"> 1180</span>                <span class="keywordflow">finally</span></div>
-<div class="line"><span class="lineno"> 1181</span>                {</div>
-<div class="line"><span class="lineno"> 1182</span>                    await finalTask;</div>
-<div class="line"><span class="lineno"> 1183</span>                    <span class="keywordflow">if</span> (originalConsoleTitle != <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno"> 1184</span>                        console.Title = originalConsoleTitle;</div>
-<div class="line"><span class="lineno"> 1185</span>                }</div>
-<div class="line"><span class="lineno"> 1186</span>        }</div>
-<div class="ttc" id="a_setup_wizard_8cs_html_a133aa9167bebce98243748fe735a4e32"><div class="ttname"><a href="_setup_wizard_8cs.html#a133aa9167bebce98243748fe735a4e32">RunWizard</a></div><div class="ttdeci">async Task RunWizard(string userConfigFileName, CancellationToken cancellationToken)</div><div class="ttdoc">Runs the SetupWizard.</div><div class="ttdef"><b>Definition:</b> <a href="_setup_wizard_8cs_source.html#l01056">SetupWizard.cs:1056</a></div></div>
+<div class="line"><span class="lineno"> 1175</span>                    <span class="keywordflow">if</span> (!String.IsNullOrEmpty(internalConfiguration.MariaDBDefaultRootPassword))</div>
+<div class="line"><span class="lineno"> 1176</span>                    {</div>
+<div class="line"><span class="lineno"> 1177</span>                        <span class="comment">// we can generate the whole thing.</span></div>
+<div class="line"><span class="lineno"> 1178</span>                        var csb = <span class="keyword">new</span> MySqlConnectionStringBuilder</div>
+<div class="line"><span class="lineno"> 1179</span>                        {</div>
+<div class="line"><span class="lineno"> 1180</span>                            Server = <span class="stringliteral">&quot;127.0.0.1&quot;</span>,</div>
+<div class="line"><span class="lineno"> 1181</span>                            UserID = <span class="stringliteral">&quot;root&quot;</span>,</div>
+<div class="line"><span class="lineno"> 1182</span>                            Password = internalConfiguration.MariaDBDefaultRootPassword,</div>
+<div class="line"><span class="lineno"> 1183</span>                            Database = <span class="stringliteral">&quot;tgs&quot;</span>,</div>
+<div class="line"><span class="lineno"> 1184</span>                        };</div>
+<div class="line"><span class="lineno"> 1185</span> </div>
+<div class="line"><span class="lineno"> 1186</span>                        await <a class="code hl_function" href="_setup_wizard_8cs.html#afb6b6fca0a8f1d72dd4e4f5cc84f76f1">SaveConfiguration</a>(</div>
+<div class="line"><span class="lineno"> 1187</span>                            userConfigFileName,</div>
+<div class="line"><span class="lineno"> 1188</span>                            <span class="keyword">null</span>,</div>
+<div class="line"><span class="lineno"> 1189</span>                            <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_database_configuration.html">DatabaseConfiguration</a></div>
+<div class="line"><span class="lineno"> 1190</span>                            {</div>
+<div class="line"><span class="lineno"> 1191</span>                                ConnectionString = csb.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_database_configuration.html#a53a14b4a89de73b8ea223804c4aea365">ConnectionString</a>,</div>
+<div class="line"><span class="lineno"> 1192</span>                                <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_host_1_1_configuration.html#acda8f6ee23a9ee8ac298f7b4a7d5617c">DatabaseType</a> = <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_host_1_1_configuration.html#acda8f6ee23a9ee8ac298f7b4a7d5617c">DatabaseType</a>.MariaDB,</div>
+<div class="line"><span class="lineno"> 1193</span>                                ServerVersion = <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_properties_1_1_master_versions_attribute.html">MasterVersionsAttribute</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_properties_1_1_master_versions_attribute.html#af17f819f7eb525f7274264ec212a5105">Instance</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_properties_1_1_master_versions_attribute.html#a391d66828b10498e259e6a3341396d17">RawMariaDBRedistVersion</a>,</div>
+<div class="line"><span class="lineno"> 1194</span>                            },</div>
+<div class="line"><span class="lineno"> 1195</span>                            <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html">GeneralConfiguration</a>(),</div>
+<div class="line"><span class="lineno"> 1196</span>                            <span class="keyword">null</span>,</div>
+<div class="line"><span class="lineno"> 1197</span>                            <span class="keyword">null</span>,</div>
+<div class="line"><span class="lineno"> 1198</span>                            <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_control_panel_configuration.html">ControlPanelConfiguration</a></div>
+<div class="line"><span class="lineno"> 1199</span>                            {</div>
+<div class="line"><span class="lineno"> 1200</span>                                Enable = <span class="keyword">true</span>,</div>
+<div class="line"><span class="lineno"> 1201</span>                                AllowAnyOrigin = <span class="keyword">true</span>,</div>
+<div class="line"><span class="lineno"> 1202</span>                            },</div>
+<div class="line"><span class="lineno"> 1203</span>                            <span class="keyword">null</span>,</div>
+<div class="line"><span class="lineno"> 1204</span>                            cancellationToken);</div>
+<div class="line"><span class="lineno"> 1205</span>                    }</div>
+<div class="line"><span class="lineno"> 1206</span>                    <span class="keywordflow">else</span></div>
+<div class="line"><span class="lineno"> 1207</span>                    {</div>
+<div class="line"><span class="lineno"> 1208</span>                        <span class="comment">// flush the logs to prevent console conflicts</span></div>
+<div class="line"><span class="lineno"> 1209</span>                        await asyncDelayer.Delay(TimeSpan.FromSeconds(1), cancellationToken);</div>
+<div class="line"><span class="lineno"> 1210</span> </div>
+<div class="line"><span class="lineno"> 1211</span>                        await <a class="code hl_function" href="_setup_wizard_8cs.html#a133aa9167bebce98243748fe735a4e32">RunWizard</a>(userConfigFileName, cancellationToken);</div>
+<div class="line"><span class="lineno"> 1212</span>                    }</div>
+<div class="line"><span class="lineno"> 1213</span>                }</div>
+<div class="line"><span class="lineno"> 1214</span>                <span class="keywordflow">finally</span></div>
+<div class="line"><span class="lineno"> 1215</span>                {</div>
+<div class="line"><span class="lineno"> 1216</span>                    await finalTask;</div>
+<div class="line"><span class="lineno"> 1217</span>                    <span class="keywordflow">if</span> (originalConsoleTitle != <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno"> 1218</span>                        console.Title = originalConsoleTitle;</div>
+<div class="line"><span class="lineno"> 1219</span>                }</div>
+<div class="line"><span class="lineno"> 1220</span>        }</div>
+<div class="ttc" id="a_setup_wizard_8cs_html_a133aa9167bebce98243748fe735a4e32"><div class="ttname"><a href="_setup_wizard_8cs.html#a133aa9167bebce98243748fe735a4e32">RunWizard</a></div><div class="ttdeci">async Task RunWizard(string userConfigFileName, CancellationToken cancellationToken)</div><div class="ttdoc">Runs the SetupWizard.</div><div class="ttdef"><b>Definition:</b> <a href="_setup_wizard_8cs_source.html#l01055">SetupWizard.cs:1055</a></div></div>
+<div class="ttc" id="a_setup_wizard_8cs_html_afb6b6fca0a8f1d72dd4e4f5cc84f76f1"><div class="ttname"><a href="_setup_wizard_8cs.html#afb6b6fca0a8f1d72dd4e4f5cc84f76f1">SaveConfiguration</a></div><div class="ttdeci">async Task SaveConfiguration(string userConfigFileName, ushort? hostingPort, DatabaseConfiguration databaseConfiguration, GeneralConfiguration newGeneralConfiguration, FileLoggingConfiguration fileLoggingConfiguration, ElasticsearchConfiguration elasticsearchConfiguration, ControlPanelConfiguration controlPanelConfiguration, SwarmConfiguration swarmConfiguration, CancellationToken cancellationToken)</div><div class="ttdoc">Saves a given Configuration set to userConfigFileName .</div><div class="ttdef"><b>Definition:</b> <a href="_setup_wizard_8cs_source.html#l00973">SetupWizard.cs:973</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_control_panel_configuration_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_control_panel_configuration.html">Tgstation.Server.Host.Configuration.ControlPanelConfiguration</a></div><div class="ttdoc">Configuration options for the web control panel.</div><div class="ttdef"><b>Definition:</b> <a href="_control_panel_configuration_8cs_source.html#l00008">ControlPanelConfiguration.cs:9</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_database_configuration_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_database_configuration.html">Tgstation.Server.Host.Configuration.DatabaseConfiguration</a></div><div class="ttdoc">Configuration options for the Database.DatabaseContext.</div><div class="ttdef"><b>Definition:</b> <a href="_database_configuration_8cs_source.html#l00009">DatabaseConfiguration.cs:10</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_database_configuration_html_a53a14b4a89de73b8ea223804c4aea365"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_database_configuration.html#a53a14b4a89de73b8ea223804c4aea365">Tgstation.Server.Host.Configuration.DatabaseConfiguration.ConnectionString</a></div><div class="ttdeci">string ConnectionString</div><div class="ttdoc">The connection string for the database.</div><div class="ttdef"><b>Definition:</b> <a href="_database_configuration_8cs_source.html#l00030">DatabaseConfiguration.cs:30</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html">Tgstation.Server.Host.Configuration.GeneralConfiguration</a></div><div class="ttdoc">General configuration options.</div><div class="ttdef"><b>Definition:</b> <a href="_general_configuration_8cs_source.html#l00017">GeneralConfiguration.cs:18</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_properties_1_1_master_versions_attribute_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_properties_1_1_master_versions_attribute.html">Tgstation.Server.Host.Properties.MasterVersionsAttribute</a></div><div class="ttdoc">Attribute for bringing in the master versions list from MSBuild that aren't embedded into assemblies ...</div><div class="ttdef"><b>Definition:</b> <a href="_master_versions_attribute_8cs_source.html#l00010">MasterVersionsAttribute.cs:11</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_properties_1_1_master_versions_attribute_html_a391d66828b10498e259e6a3341396d17"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_properties_1_1_master_versions_attribute.html#a391d66828b10498e259e6a3341396d17">Tgstation.Server.Host.Properties.MasterVersionsAttribute.RawMariaDBRedistVersion</a></div><div class="ttdeci">string RawMariaDBRedistVersion</div><div class="ttdoc">The Version string of the MariaDB server bundled with TGS installs.</div><div class="ttdef"><b>Definition:</b> <a href="_master_versions_attribute_8cs_source.html#l00042">MasterVersionsAttribute.cs:42</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_properties_1_1_master_versions_attribute_html_af17f819f7eb525f7274264ec212a5105"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_properties_1_1_master_versions_attribute.html#af17f819f7eb525f7274264ec212a5105">Tgstation.Server.Host.Properties.MasterVersionsAttribute.Instance</a></div><div class="ttdeci">static MasterVersionsAttribute Instance</div><div class="ttdoc">Return the Assembly's instance of the MasterVersionsAttribute.</div><div class="ttdef"><b>Definition:</b> <a href="_master_versions_attribute_8cs_source.html#l00015">MasterVersionsAttribute.cs:15</a></div></div>
+<div class="ttc" id="anamespace_tgstation_1_1_server_1_1_host_1_1_configuration_html_acda8f6ee23a9ee8ac298f7b4a7d5617c"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_host_1_1_configuration.html#acda8f6ee23a9ee8ac298f7b4a7d5617c">Tgstation.Server.Host.Configuration.DatabaseType</a></div><div class="ttdeci">DatabaseType</div><div class="ttdoc">Type of database to user.</div><div class="ttdef"><b>Definition:</b> <a href="_database_type_8cs_source.html#l00006">DatabaseType.cs:7</a></div></div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_host_1_1_setup_html_ada83b66b0eb589bb855302d25c41e4de"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_host_1_1_setup.html#ada83b66b0eb589bb855302d25c41e4de">Tgstation.Server.Host.Setup.SetupWizardMode</a></div><div class="ttdeci">SetupWizardMode</div><div class="ttdoc">Determines if the SetupWizard will run.</div><div class="ttdef"><b>Definition:</b> <a href="_setup_wizard_mode_8cs_source.html#l00006">SetupWizardMode.cs:7</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_setup_wizard_8cs_source.html#l01056">RunWizard()</a>.</p>
+<p class="reference">References <a class="el" href="_database_configuration_8cs_source.html#l00030">Tgstation.Server.Host.Configuration.DatabaseConfiguration.ConnectionString</a>, <a class="el" href="_master_versions_attribute_8cs_source.html#l00015">Tgstation.Server.Host.Properties.MasterVersionsAttribute.Instance</a>, <a class="el" href="_master_versions_attribute_8cs_source.html#l00042">Tgstation.Server.Host.Properties.MasterVersionsAttribute.RawMariaDBRedistVersion</a>, <a class="el" href="_setup_wizard_8cs_source.html#l01055">RunWizard()</a>, and <a class="el" href="_setup_wizard_8cs_source.html#l00973">SaveConfiguration()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_setup_wizard_8cs_source.html#l00142">Tgstation.Server.Host.Setup.SetupWizard.ExecuteAsync()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_setup_wizard_8cs_source.html#l00143">Tgstation.Server.Host.Setup.SetupWizard.ExecuteAsync()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="_setup_wizard_8cs_aac16c05e965ab067e23152458aa6fe59_cgraph.png" border="0" usemap="#a_setup_wizard_8cs_aac16c05e965ab067e23152458aa6fe59_cgraph" alt=""/></div>
 <map name="a_setup_wizard_8cs_aac16c05e965ab067e23152458aa6fe59_cgraph" id="a_setup_wizard_8cs_aac16c05e965ab067e23152458aa6fe59_cgraph">
-<area shape="rect" title="Check if it should and run the SetupWizard if necessary." alt="" coords="5,129,127,155"/>
-<area shape="rect" href="_setup_wizard_8cs.html#a133aa9167bebce98243748fe735a4e32" title="Runs the SetupWizard." alt="" coords="175,129,259,155"/>
+<area shape="rect" title="Check if it should and run the SetupWizard if necessary." alt="" coords="5,203,127,228"/>
+<area shape="rect" href="_setup_wizard_8cs.html#a133aa9167bebce98243748fe735a4e32" title="Runs the SetupWizard." alt="" coords="175,153,259,179"/>
+<area shape="rect" href="_setup_wizard_8cs.html#afb6b6fca0a8f1d72dd4e4f5cc84f76f1" title="Saves a given Configuration set to userConfigFileName ." alt="" coords="321,252,447,277"/>
 <area shape="rect" href="_setup_wizard_8cs.html#a46a4314202bbe55ae8724e7d27486163" title="Prompts the user to create a ControlPanelConfiguration." alt="" coords="309,5,459,31"/>
 <area shape="rect" href="_setup_wizard_8cs.html#a8c25292615cd1ecad91305b36ea7068e" title="Prompts the user to create a ElasticsearchConfiguration." alt="" coords="307,55,461,80"/>
 <area shape="rect" href="_setup_wizard_8cs.html#a8c8f5f56a7438fe48011eb8d738abec8" title="Prompts the user to create a GeneralConfiguration." alt="" coords="323,104,445,129"/>
 <area shape="rect" href="_setup_wizard_8cs.html#adbd38b2960ebef44f65c5b8e0af409b0" title="Prompts the user to create a FileLoggingConfiguration." alt="" coords="323,153,445,179"/>
 <area shape="rect" href="_setup_wizard_8cs.html#a159af60f0c66366ede5c65cb6e21e5ea" title="Prompts the user to create a SwarmConfiguration." alt="" coords="325,203,443,228"/>
-<area shape="rect" href="_setup_wizard_8cs.html#afb6b6fca0a8f1d72dd4e4f5cc84f76f1" title="Saves a given Configuration set to userConfigFileName ." alt="" coords="321,252,447,277"/>
 </map>
 </div>
 <div class="dynheader">
@@ -306,33 +349,32 @@ Here is the caller graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in the new ControlPanelConfiguration.</dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_setup_wizard_8cs_source.html#l00867">867</a> of file <a class="el" href="_setup_wizard_8cs_source.html">SetupWizard.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  868</span>        {</div>
-<div class="line"><span class="lineno">  869</span>            var config = <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_control_panel_configuration.html">ControlPanelConfiguration</a></div>
-<div class="line"><span class="lineno">  870</span>            {</div>
-<div class="line"><span class="lineno">  871</span>                Enable = await PromptYesNo(<span class="stringliteral">&quot;Enable the web control panel?&quot;</span>, <span class="keyword">true</span>, cancellationToken),</div>
-<div class="line"><span class="lineno">  872</span>                AllowAnyOrigin = await PromptYesNo(</div>
-<div class="line"><span class="lineno">  873</span>                    <span class="stringliteral">&quot;Allow web control panels hosted elsewhere to access the server? (Access-Control-Allow-Origin: *)&quot;</span>,</div>
-<div class="line"><span class="lineno">  874</span>                    <span class="keyword">true</span>,</div>
-<div class="line"><span class="lineno">  875</span>                    cancellationToken),</div>
-<div class="line"><span class="lineno">  876</span>            };</div>
-<div class="line"><span class="lineno">  877</span> </div>
-<div class="line"><span class="lineno">  878</span>            <span class="keywordflow">if</span> (!config.AllowAnyOrigin)</div>
-<div class="line"><span class="lineno">  879</span>            {</div>
-<div class="line"><span class="lineno">  880</span>                await console.WriteAsync(<span class="stringliteral">&quot;Enter a comma seperated list of CORS allowed origins (optional): &quot;</span>, <span class="keyword">false</span>, cancellationToken);</div>
-<div class="line"><span class="lineno">  881</span>                var commaSeperatedOrigins = await console.ReadLineAsync(<span class="keyword">false</span>, cancellationToken);</div>
-<div class="line"><span class="lineno">  882</span>                <span class="keywordflow">if</span> (!String.IsNullOrWhiteSpace(commaSeperatedOrigins))</div>
-<div class="line"><span class="lineno">  883</span>                {</div>
-<div class="line"><span class="lineno">  884</span>                    var splits = commaSeperatedOrigins.Split(<span class="charliteral">&#39;,&#39;</span>);</div>
-<div class="line"><span class="lineno">  885</span>                    config.AllowedOrigins = <span class="keyword">new</span> List&lt;string&gt;(splits.Select(x =&gt; x.Trim()));</div>
-<div class="line"><span class="lineno">  886</span>                }</div>
-<div class="line"><span class="lineno">  887</span>            }</div>
-<div class="line"><span class="lineno">  888</span> </div>
-<div class="line"><span class="lineno">  889</span>            <span class="keywordflow">return</span> config;</div>
-<div class="line"><span class="lineno">  890</span>        }</div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_control_panel_configuration_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_control_panel_configuration.html">Tgstation.Server.Host.Configuration.ControlPanelConfiguration</a></div><div class="ttdoc">Configuration options for the web control panel.</div><div class="ttdef"><b>Definition:</b> <a href="_control_panel_configuration_8cs_source.html#l00008">ControlPanelConfiguration.cs:9</a></div></div>
+<p class="definition">Definition at line <a class="el" href="_setup_wizard_8cs_source.html#l00868">868</a> of file <a class="el" href="_setup_wizard_8cs_source.html">SetupWizard.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  869</span>        {</div>
+<div class="line"><span class="lineno">  870</span>            var config = <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_control_panel_configuration.html">ControlPanelConfiguration</a></div>
+<div class="line"><span class="lineno">  871</span>            {</div>
+<div class="line"><span class="lineno">  872</span>                Enable = await PromptYesNo(<span class="stringliteral">&quot;Enable the web control panel?&quot;</span>, <span class="keyword">true</span>, cancellationToken),</div>
+<div class="line"><span class="lineno">  873</span>                AllowAnyOrigin = await PromptYesNo(</div>
+<div class="line"><span class="lineno">  874</span>                    <span class="stringliteral">&quot;Allow web control panels hosted elsewhere to access the server? (Access-Control-Allow-Origin: *)&quot;</span>,</div>
+<div class="line"><span class="lineno">  875</span>                    <span class="keyword">true</span>,</div>
+<div class="line"><span class="lineno">  876</span>                    cancellationToken),</div>
+<div class="line"><span class="lineno">  877</span>            };</div>
+<div class="line"><span class="lineno">  878</span> </div>
+<div class="line"><span class="lineno">  879</span>            <span class="keywordflow">if</span> (!config.AllowAnyOrigin)</div>
+<div class="line"><span class="lineno">  880</span>            {</div>
+<div class="line"><span class="lineno">  881</span>                await console.WriteAsync(<span class="stringliteral">&quot;Enter a comma seperated list of CORS allowed origins (optional): &quot;</span>, <span class="keyword">false</span>, cancellationToken);</div>
+<div class="line"><span class="lineno">  882</span>                var commaSeperatedOrigins = await console.ReadLineAsync(<span class="keyword">false</span>, cancellationToken);</div>
+<div class="line"><span class="lineno">  883</span>                <span class="keywordflow">if</span> (!String.IsNullOrWhiteSpace(commaSeperatedOrigins))</div>
+<div class="line"><span class="lineno">  884</span>                {</div>
+<div class="line"><span class="lineno">  885</span>                    var splits = commaSeperatedOrigins.Split(<span class="charliteral">&#39;,&#39;</span>);</div>
+<div class="line"><span class="lineno">  886</span>                    config.AllowedOrigins = <span class="keyword">new</span> List&lt;string&gt;(splits.Select(x =&gt; x.Trim()));</div>
+<div class="line"><span class="lineno">  887</span>                }</div>
+<div class="line"><span class="lineno">  888</span>            }</div>
+<div class="line"><span class="lineno">  889</span> </div>
+<div class="line"><span class="lineno">  890</span>            <span class="keywordflow">return</span> config;</div>
+<div class="line"><span class="lineno">  891</span>        }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_setup_wizard_8cs_source.html#l01056">RunWizard()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_setup_wizard_8cs_source.html#l01055">RunWizard()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -372,55 +414,55 @@ Here is the caller graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in the new ElasticsearchConfiguration.</dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_setup_wizard_8cs_source.html#l00815">815</a> of file <a class="el" href="_setup_wizard_8cs_source.html">SetupWizard.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  816</span>        {</div>
-<div class="line"><span class="lineno">  817</span>            var elasticsearchConfiguration = <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_elasticsearch_configuration.html">ElasticsearchConfiguration</a>();</div>
-<div class="line"><span class="lineno">  818</span>            await console.WriteAsync(<span class="keyword">null</span>, <span class="keyword">true</span>, cancellationToken);</div>
-<div class="line"><span class="lineno">  819</span>            elasticsearchConfiguration.Enable = await PromptYesNo(<span class="stringliteral">&quot;Enable logging to an external ElasticSearch server?&quot;</span>, <span class="keyword">false</span>, cancellationToken);</div>
-<div class="line"><span class="lineno">  820</span> </div>
-<div class="line"><span class="lineno">  821</span>            <span class="keywordflow">if</span> (elasticsearchConfiguration.Enable)</div>
-<div class="line"><span class="lineno">  822</span>            {</div>
-<div class="line"><span class="lineno">  823</span>                <span class="keywordflow">do</span></div>
-<div class="line"><span class="lineno">  824</span>                {</div>
-<div class="line"><span class="lineno">  825</span>                    await console.WriteAsync(<span class="stringliteral">&quot;ElasticSearch server endpoint (Include protocol and port, leave blank for http://127.0.0.1:9200): &quot;</span>, <span class="keyword">false</span>, cancellationToken);</div>
-<div class="line"><span class="lineno">  826</span>                    var hostString = await console.ReadLineAsync(<span class="keyword">false</span>, cancellationToken);</div>
-<div class="line"><span class="lineno">  827</span>                    <span class="keywordflow">if</span> (String.IsNullOrWhiteSpace(hostString))</div>
-<div class="line"><span class="lineno">  828</span>                        hostString = <span class="stringliteral">&quot;http://127.0.0.1:9200&quot;</span>;</div>
-<div class="line"><span class="lineno">  829</span> </div>
-<div class="line"><span class="lineno">  830</span>                    <span class="keywordflow">if</span> (Uri.TryCreate(hostString, UriKind.Absolute, out var host))</div>
-<div class="line"><span class="lineno">  831</span>                    {</div>
-<div class="line"><span class="lineno">  832</span>                        elasticsearchConfiguration.Host = host;</div>
-<div class="line"><span class="lineno">  833</span>                        <span class="keywordflow">break</span>;</div>
-<div class="line"><span class="lineno">  834</span>                    }</div>
-<div class="line"><span class="lineno">  835</span> </div>
-<div class="line"><span class="lineno">  836</span>                    await console.WriteAsync(<span class="stringliteral">&quot;Invalid URI!&quot;</span>, <span class="keyword">true</span>, cancellationToken);</div>
-<div class="line"><span class="lineno">  837</span>                }</div>
-<div class="line"><span class="lineno">  838</span>                <span class="keywordflow">while</span> (<span class="keyword">true</span>);</div>
-<div class="line"><span class="lineno">  839</span> </div>
-<div class="line"><span class="lineno">  840</span>                <span class="keywordflow">do</span></div>
-<div class="line"><span class="lineno">  841</span>                {</div>
-<div class="line"><span class="lineno">  842</span>                    await console.WriteAsync(<span class="stringliteral">&quot;Enter Elasticsearch username: &quot;</span>, <span class="keyword">false</span>, cancellationToken);</div>
-<div class="line"><span class="lineno">  843</span>                    elasticsearchConfiguration.Username = await console.ReadLineAsync(<span class="keyword">false</span>, cancellationToken);</div>
-<div class="line"><span class="lineno">  844</span>                    <span class="keywordflow">if</span> (!String.IsNullOrWhiteSpace(elasticsearchConfiguration.Username))</div>
-<div class="line"><span class="lineno">  845</span>                        <span class="keywordflow">break</span>;</div>
-<div class="line"><span class="lineno">  846</span>                }</div>
-<div class="line"><span class="lineno">  847</span>                <span class="keywordflow">while</span> (<span class="keyword">true</span>);</div>
-<div class="line"><span class="lineno">  848</span> </div>
-<div class="line"><span class="lineno">  849</span>                <span class="keywordflow">do</span></div>
-<div class="line"><span class="lineno">  850</span>                {</div>
-<div class="line"><span class="lineno">  851</span>                    await console.WriteAsync(<span class="stringliteral">&quot;Enter password: &quot;</span>, <span class="keyword">false</span>, cancellationToken);</div>
-<div class="line"><span class="lineno">  852</span>                    elasticsearchConfiguration.Password = await console.ReadLineAsync(<span class="keyword">true</span>, cancellationToken);</div>
-<div class="line"><span class="lineno">  853</span>                    <span class="keywordflow">if</span> (!String.IsNullOrWhiteSpace(elasticsearchConfiguration.Username))</div>
-<div class="line"><span class="lineno">  854</span>                        <span class="keywordflow">break</span>;</div>
-<div class="line"><span class="lineno">  855</span>                }</div>
-<div class="line"><span class="lineno">  856</span>                <span class="keywordflow">while</span> (<span class="keyword">true</span>);</div>
-<div class="line"><span class="lineno">  857</span>            }</div>
-<div class="line"><span class="lineno">  858</span> </div>
-<div class="line"><span class="lineno">  859</span>            <span class="keywordflow">return</span> elasticsearchConfiguration;</div>
-<div class="line"><span class="lineno">  860</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_setup_wizard_8cs_source.html#l00816">816</a> of file <a class="el" href="_setup_wizard_8cs_source.html">SetupWizard.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  817</span>        {</div>
+<div class="line"><span class="lineno">  818</span>            var elasticsearchConfiguration = <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_elasticsearch_configuration.html">ElasticsearchConfiguration</a>();</div>
+<div class="line"><span class="lineno">  819</span>            await console.WriteAsync(<span class="keyword">null</span>, <span class="keyword">true</span>, cancellationToken);</div>
+<div class="line"><span class="lineno">  820</span>            elasticsearchConfiguration.Enable = await PromptYesNo(<span class="stringliteral">&quot;Enable logging to an external ElasticSearch server?&quot;</span>, <span class="keyword">false</span>, cancellationToken);</div>
+<div class="line"><span class="lineno">  821</span> </div>
+<div class="line"><span class="lineno">  822</span>            <span class="keywordflow">if</span> (elasticsearchConfiguration.Enable)</div>
+<div class="line"><span class="lineno">  823</span>            {</div>
+<div class="line"><span class="lineno">  824</span>                <span class="keywordflow">do</span></div>
+<div class="line"><span class="lineno">  825</span>                {</div>
+<div class="line"><span class="lineno">  826</span>                    await console.WriteAsync(<span class="stringliteral">&quot;ElasticSearch server endpoint (Include protocol and port, leave blank for http://127.0.0.1:9200): &quot;</span>, <span class="keyword">false</span>, cancellationToken);</div>
+<div class="line"><span class="lineno">  827</span>                    var hostString = await console.ReadLineAsync(<span class="keyword">false</span>, cancellationToken);</div>
+<div class="line"><span class="lineno">  828</span>                    <span class="keywordflow">if</span> (String.IsNullOrWhiteSpace(hostString))</div>
+<div class="line"><span class="lineno">  829</span>                        hostString = <span class="stringliteral">&quot;http://127.0.0.1:9200&quot;</span>;</div>
+<div class="line"><span class="lineno">  830</span> </div>
+<div class="line"><span class="lineno">  831</span>                    <span class="keywordflow">if</span> (Uri.TryCreate(hostString, UriKind.Absolute, out var host))</div>
+<div class="line"><span class="lineno">  832</span>                    {</div>
+<div class="line"><span class="lineno">  833</span>                        elasticsearchConfiguration.Host = host;</div>
+<div class="line"><span class="lineno">  834</span>                        <span class="keywordflow">break</span>;</div>
+<div class="line"><span class="lineno">  835</span>                    }</div>
+<div class="line"><span class="lineno">  836</span> </div>
+<div class="line"><span class="lineno">  837</span>                    await console.WriteAsync(<span class="stringliteral">&quot;Invalid URI!&quot;</span>, <span class="keyword">true</span>, cancellationToken);</div>
+<div class="line"><span class="lineno">  838</span>                }</div>
+<div class="line"><span class="lineno">  839</span>                <span class="keywordflow">while</span> (<span class="keyword">true</span>);</div>
+<div class="line"><span class="lineno">  840</span> </div>
+<div class="line"><span class="lineno">  841</span>                <span class="keywordflow">do</span></div>
+<div class="line"><span class="lineno">  842</span>                {</div>
+<div class="line"><span class="lineno">  843</span>                    await console.WriteAsync(<span class="stringliteral">&quot;Enter Elasticsearch username: &quot;</span>, <span class="keyword">false</span>, cancellationToken);</div>
+<div class="line"><span class="lineno">  844</span>                    elasticsearchConfiguration.Username = await console.ReadLineAsync(<span class="keyword">false</span>, cancellationToken);</div>
+<div class="line"><span class="lineno">  845</span>                    <span class="keywordflow">if</span> (!String.IsNullOrWhiteSpace(elasticsearchConfiguration.Username))</div>
+<div class="line"><span class="lineno">  846</span>                        <span class="keywordflow">break</span>;</div>
+<div class="line"><span class="lineno">  847</span>                }</div>
+<div class="line"><span class="lineno">  848</span>                <span class="keywordflow">while</span> (<span class="keyword">true</span>);</div>
+<div class="line"><span class="lineno">  849</span> </div>
+<div class="line"><span class="lineno">  850</span>                <span class="keywordflow">do</span></div>
+<div class="line"><span class="lineno">  851</span>                {</div>
+<div class="line"><span class="lineno">  852</span>                    await console.WriteAsync(<span class="stringliteral">&quot;Enter password: &quot;</span>, <span class="keyword">false</span>, cancellationToken);</div>
+<div class="line"><span class="lineno">  853</span>                    elasticsearchConfiguration.Password = await console.ReadLineAsync(<span class="keyword">true</span>, cancellationToken);</div>
+<div class="line"><span class="lineno">  854</span>                    <span class="keywordflow">if</span> (!String.IsNullOrWhiteSpace(elasticsearchConfiguration.Username))</div>
+<div class="line"><span class="lineno">  855</span>                        <span class="keywordflow">break</span>;</div>
+<div class="line"><span class="lineno">  856</span>                }</div>
+<div class="line"><span class="lineno">  857</span>                <span class="keywordflow">while</span> (<span class="keyword">true</span>);</div>
+<div class="line"><span class="lineno">  858</span>            }</div>
+<div class="line"><span class="lineno">  859</span> </div>
+<div class="line"><span class="lineno">  860</span>            <span class="keywordflow">return</span> elasticsearchConfiguration;</div>
+<div class="line"><span class="lineno">  861</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_elasticsearch_configuration_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_elasticsearch_configuration.html">Tgstation.Server.Host.Configuration.ElasticsearchConfiguration</a></div><div class="ttdoc">Configuration options pertaining to elasticsearch log storage.</div><div class="ttdef"><b>Definition:</b> <a href="_elasticsearch_configuration_8cs_source.html#l00008">ElasticsearchConfiguration.cs:9</a></div></div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_setup_wizard_8cs_source.html#l01056">RunWizard()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_setup_wizard_8cs_source.html#l01055">RunWizard()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -460,61 +502,60 @@ Here is the caller graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in the new GeneralConfiguration.</dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_setup_wizard_8cs_source.html#l00672">672</a> of file <a class="el" href="_setup_wizard_8cs_source.html">SetupWizard.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  673</span>        {</div>
-<div class="line"><span class="lineno">  674</span>            var newGeneralConfiguration = <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html">GeneralConfiguration</a></div>
-<div class="line"><span class="lineno">  675</span>            {</div>
-<div class="line"><span class="lineno">  676</span>                <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_host_1_1_setup.html#ada83b66b0eb589bb855302d25c41e4de">SetupWizardMode</a> = <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_host_1_1_setup.html#ada83b66b0eb589bb855302d25c41e4de">SetupWizardMode</a>.Never,</div>
-<div class="line"><span class="lineno">  677</span>            };</div>
-<div class="line"><span class="lineno">  678</span> </div>
-<div class="line"><span class="lineno">  679</span>            <span class="keywordflow">do</span></div>
-<div class="line"><span class="lineno">  680</span>            {</div>
-<div class="line"><span class="lineno">  681</span>                await console.WriteAsync(<span class="keyword">null</span>, <span class="keyword">true</span>, cancellationToken);</div>
-<div class="line"><span class="lineno">  682</span>                await console.WriteAsync(String.Format(CultureInfo.InvariantCulture, <span class="stringliteral">&quot;Minimum database user password length (leave blank for default of {0}): &quot;</span>, newGeneralConfiguration.MinimumPasswordLength), <span class="keyword">false</span>, cancellationToken);</div>
-<div class="line"><span class="lineno">  683</span>                var passwordLengthString = await console.ReadLineAsync(<span class="keyword">false</span>, cancellationToken);</div>
-<div class="line"><span class="lineno">  684</span>                <span class="keywordflow">if</span> (String.IsNullOrWhiteSpace(passwordLengthString))</div>
-<div class="line"><span class="lineno">  685</span>                    <span class="keywordflow">break</span>;</div>
-<div class="line"><span class="lineno">  686</span>                <span class="keywordflow">if</span> (UInt32.TryParse(passwordLengthString, out var passwordLength) &amp;&amp; passwordLength &gt;= 0)</div>
-<div class="line"><span class="lineno">  687</span>                {</div>
-<div class="line"><span class="lineno">  688</span>                    newGeneralConfiguration.MinimumPasswordLength = passwordLength;</div>
-<div class="line"><span class="lineno">  689</span>                    <span class="keywordflow">break</span>;</div>
-<div class="line"><span class="lineno">  690</span>                }</div>
-<div class="line"><span class="lineno">  691</span> </div>
-<div class="line"><span class="lineno">  692</span>                await console.WriteAsync(<span class="stringliteral">&quot;Please enter a positive integer!&quot;</span>, <span class="keyword">true</span>, cancellationToken);</div>
-<div class="line"><span class="lineno">  693</span>            }</div>
-<div class="line"><span class="lineno">  694</span>            <span class="keywordflow">while</span> (<span class="keyword">true</span>);</div>
-<div class="line"><span class="lineno">  695</span> </div>
-<div class="line"><span class="lineno">  696</span>            <span class="keywordflow">do</span></div>
-<div class="line"><span class="lineno">  697</span>            {</div>
-<div class="line"><span class="lineno">  698</span>                await console.WriteAsync(<span class="keyword">null</span>, <span class="keyword">true</span>, cancellationToken);</div>
-<div class="line"><span class="lineno">  699</span>                await console.WriteAsync(String.Format(CultureInfo.InvariantCulture, <span class="stringliteral">&quot;Default timeout for sending and receiving BYOND topics (ms, 0 for infinite, leave blank for default of {0}): &quot;</span>, newGeneralConfiguration.ByondTopicTimeout), <span class="keyword">false</span>, cancellationToken);</div>
-<div class="line"><span class="lineno">  700</span>                var topicTimeoutString = await console.ReadLineAsync(<span class="keyword">false</span>, cancellationToken);</div>
-<div class="line"><span class="lineno">  701</span>                <span class="keywordflow">if</span> (String.IsNullOrWhiteSpace(topicTimeoutString))</div>
-<div class="line"><span class="lineno">  702</span>                    <span class="keywordflow">break</span>;</div>
-<div class="line"><span class="lineno">  703</span>                <span class="keywordflow">if</span> (UInt32.TryParse(topicTimeoutString, out var topicTimeout) &amp;&amp; topicTimeout &gt;= 0)</div>
-<div class="line"><span class="lineno">  704</span>                {</div>
-<div class="line"><span class="lineno">  705</span>                    newGeneralConfiguration.ByondTopicTimeout = topicTimeout;</div>
-<div class="line"><span class="lineno">  706</span>                    <span class="keywordflow">break</span>;</div>
-<div class="line"><span class="lineno">  707</span>                }</div>
-<div class="line"><span class="lineno">  708</span> </div>
-<div class="line"><span class="lineno">  709</span>                await console.WriteAsync(<span class="stringliteral">&quot;Please enter a positive integer!&quot;</span>, <span class="keyword">true</span>, cancellationToken);</div>
-<div class="line"><span class="lineno">  710</span>            }</div>
-<div class="line"><span class="lineno">  711</span>            <span class="keywordflow">while</span> (<span class="keyword">true</span>);</div>
-<div class="line"><span class="lineno">  712</span> </div>
-<div class="line"><span class="lineno">  713</span>            await console.WriteAsync(<span class="keyword">null</span>, <span class="keyword">true</span>, cancellationToken);</div>
-<div class="line"><span class="lineno">  714</span>            await console.WriteAsync(<span class="stringliteral">&quot;Enter a GitHub personal access token to bypass some rate limits (this is optional and does not require any scopes)&quot;</span>, <span class="keyword">true</span>, cancellationToken);</div>
-<div class="line"><span class="lineno">  715</span>            await console.WriteAsync(<span class="stringliteral">&quot;GitHub personal access token: &quot;</span>, <span class="keyword">false</span>, cancellationToken);</div>
-<div class="line"><span class="lineno">  716</span>            newGeneralConfiguration.GitHubAccessToken = await console.ReadLineAsync(<span class="keyword">true</span>, cancellationToken);</div>
-<div class="line"><span class="lineno">  717</span>            <span class="keywordflow">if</span> (String.IsNullOrWhiteSpace(newGeneralConfiguration.GitHubAccessToken))</div>
-<div class="line"><span class="lineno">  718</span>                newGeneralConfiguration.GitHubAccessToken = <span class="keyword">null</span>;</div>
-<div class="line"><span class="lineno">  719</span> </div>
-<div class="line"><span class="lineno">  720</span>            newGeneralConfiguration.HostApiDocumentation = await PromptYesNo(<span class="stringliteral">&quot;Host API Documentation?&quot;</span>, <span class="keyword">false</span>, cancellationToken);</div>
-<div class="line"><span class="lineno">  721</span> </div>
-<div class="line"><span class="lineno">  722</span>            <span class="keywordflow">return</span> newGeneralConfiguration;</div>
-<div class="line"><span class="lineno">  723</span>        }</div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html">Tgstation.Server.Host.Configuration.GeneralConfiguration</a></div><div class="ttdoc">General configuration options.</div><div class="ttdef"><b>Definition:</b> <a href="_general_configuration_8cs_source.html#l00017">GeneralConfiguration.cs:18</a></div></div>
+<p class="definition">Definition at line <a class="el" href="_setup_wizard_8cs_source.html#l00673">673</a> of file <a class="el" href="_setup_wizard_8cs_source.html">SetupWizard.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  674</span>        {</div>
+<div class="line"><span class="lineno">  675</span>            var newGeneralConfiguration = <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html">GeneralConfiguration</a></div>
+<div class="line"><span class="lineno">  676</span>            {</div>
+<div class="line"><span class="lineno">  677</span>                <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_host_1_1_setup.html#ada83b66b0eb589bb855302d25c41e4de">SetupWizardMode</a> = <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_host_1_1_setup.html#ada83b66b0eb589bb855302d25c41e4de">SetupWizardMode</a>.Never,</div>
+<div class="line"><span class="lineno">  678</span>            };</div>
+<div class="line"><span class="lineno">  679</span> </div>
+<div class="line"><span class="lineno">  680</span>            <span class="keywordflow">do</span></div>
+<div class="line"><span class="lineno">  681</span>            {</div>
+<div class="line"><span class="lineno">  682</span>                await console.WriteAsync(<span class="keyword">null</span>, <span class="keyword">true</span>, cancellationToken);</div>
+<div class="line"><span class="lineno">  683</span>                await console.WriteAsync(String.Format(CultureInfo.InvariantCulture, <span class="stringliteral">&quot;Minimum database user password length (leave blank for default of {0}): &quot;</span>, newGeneralConfiguration.MinimumPasswordLength), <span class="keyword">false</span>, cancellationToken);</div>
+<div class="line"><span class="lineno">  684</span>                var passwordLengthString = await console.ReadLineAsync(<span class="keyword">false</span>, cancellationToken);</div>
+<div class="line"><span class="lineno">  685</span>                <span class="keywordflow">if</span> (String.IsNullOrWhiteSpace(passwordLengthString))</div>
+<div class="line"><span class="lineno">  686</span>                    <span class="keywordflow">break</span>;</div>
+<div class="line"><span class="lineno">  687</span>                <span class="keywordflow">if</span> (UInt32.TryParse(passwordLengthString, out var passwordLength) &amp;&amp; passwordLength &gt;= 0)</div>
+<div class="line"><span class="lineno">  688</span>                {</div>
+<div class="line"><span class="lineno">  689</span>                    newGeneralConfiguration.MinimumPasswordLength = passwordLength;</div>
+<div class="line"><span class="lineno">  690</span>                    <span class="keywordflow">break</span>;</div>
+<div class="line"><span class="lineno">  691</span>                }</div>
+<div class="line"><span class="lineno">  692</span> </div>
+<div class="line"><span class="lineno">  693</span>                await console.WriteAsync(<span class="stringliteral">&quot;Please enter a positive integer!&quot;</span>, <span class="keyword">true</span>, cancellationToken);</div>
+<div class="line"><span class="lineno">  694</span>            }</div>
+<div class="line"><span class="lineno">  695</span>            <span class="keywordflow">while</span> (<span class="keyword">true</span>);</div>
+<div class="line"><span class="lineno">  696</span> </div>
+<div class="line"><span class="lineno">  697</span>            <span class="keywordflow">do</span></div>
+<div class="line"><span class="lineno">  698</span>            {</div>
+<div class="line"><span class="lineno">  699</span>                await console.WriteAsync(<span class="keyword">null</span>, <span class="keyword">true</span>, cancellationToken);</div>
+<div class="line"><span class="lineno">  700</span>                await console.WriteAsync(String.Format(CultureInfo.InvariantCulture, <span class="stringliteral">&quot;Default timeout for sending and receiving BYOND topics (ms, 0 for infinite, leave blank for default of {0}): &quot;</span>, newGeneralConfiguration.ByondTopicTimeout), <span class="keyword">false</span>, cancellationToken);</div>
+<div class="line"><span class="lineno">  701</span>                var topicTimeoutString = await console.ReadLineAsync(<span class="keyword">false</span>, cancellationToken);</div>
+<div class="line"><span class="lineno">  702</span>                <span class="keywordflow">if</span> (String.IsNullOrWhiteSpace(topicTimeoutString))</div>
+<div class="line"><span class="lineno">  703</span>                    <span class="keywordflow">break</span>;</div>
+<div class="line"><span class="lineno">  704</span>                <span class="keywordflow">if</span> (UInt32.TryParse(topicTimeoutString, out var topicTimeout) &amp;&amp; topicTimeout &gt;= 0)</div>
+<div class="line"><span class="lineno">  705</span>                {</div>
+<div class="line"><span class="lineno">  706</span>                    newGeneralConfiguration.ByondTopicTimeout = topicTimeout;</div>
+<div class="line"><span class="lineno">  707</span>                    <span class="keywordflow">break</span>;</div>
+<div class="line"><span class="lineno">  708</span>                }</div>
+<div class="line"><span class="lineno">  709</span> </div>
+<div class="line"><span class="lineno">  710</span>                await console.WriteAsync(<span class="stringliteral">&quot;Please enter a positive integer!&quot;</span>, <span class="keyword">true</span>, cancellationToken);</div>
+<div class="line"><span class="lineno">  711</span>            }</div>
+<div class="line"><span class="lineno">  712</span>            <span class="keywordflow">while</span> (<span class="keyword">true</span>);</div>
+<div class="line"><span class="lineno">  713</span> </div>
+<div class="line"><span class="lineno">  714</span>            await console.WriteAsync(<span class="keyword">null</span>, <span class="keyword">true</span>, cancellationToken);</div>
+<div class="line"><span class="lineno">  715</span>            await console.WriteAsync(<span class="stringliteral">&quot;Enter a GitHub personal access token to bypass some rate limits (this is optional and does not require any scopes)&quot;</span>, <span class="keyword">true</span>, cancellationToken);</div>
+<div class="line"><span class="lineno">  716</span>            await console.WriteAsync(<span class="stringliteral">&quot;GitHub personal access token: &quot;</span>, <span class="keyword">false</span>, cancellationToken);</div>
+<div class="line"><span class="lineno">  717</span>            newGeneralConfiguration.GitHubAccessToken = await console.ReadLineAsync(<span class="keyword">true</span>, cancellationToken);</div>
+<div class="line"><span class="lineno">  718</span>            <span class="keywordflow">if</span> (String.IsNullOrWhiteSpace(newGeneralConfiguration.GitHubAccessToken))</div>
+<div class="line"><span class="lineno">  719</span>                newGeneralConfiguration.GitHubAccessToken = <span class="keyword">null</span>;</div>
+<div class="line"><span class="lineno">  720</span> </div>
+<div class="line"><span class="lineno">  721</span>            newGeneralConfiguration.HostApiDocumentation = await PromptYesNo(<span class="stringliteral">&quot;Host API Documentation?&quot;</span>, <span class="keyword">false</span>, cancellationToken);</div>
+<div class="line"><span class="lineno">  722</span> </div>
+<div class="line"><span class="lineno">  723</span>            <span class="keywordflow">return</span> newGeneralConfiguration;</div>
+<div class="line"><span class="lineno">  724</span>        }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_setup_wizard_8cs_source.html#l01056">RunWizard()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_setup_wizard_8cs_source.html#l01055">RunWizard()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -554,88 +595,88 @@ Here is the caller graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in the new FileLoggingConfiguration.</dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_setup_wizard_8cs_source.html#l00730">730</a> of file <a class="el" href="_setup_wizard_8cs_source.html">SetupWizard.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  731</span>        {</div>
-<div class="line"><span class="lineno">  732</span>            var fileLoggingConfiguration = <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_file_logging_configuration.html">FileLoggingConfiguration</a>();</div>
-<div class="line"><span class="lineno">  733</span>            await console.WriteAsync(<span class="keyword">null</span>, <span class="keyword">true</span>, cancellationToken);</div>
-<div class="line"><span class="lineno">  734</span>            fileLoggingConfiguration.Disable = !await PromptYesNo(<span class="stringliteral">&quot;Enable file logging?&quot;</span>, <span class="keyword">true</span>, cancellationToken);</div>
-<div class="line"><span class="lineno">  735</span> </div>
-<div class="line"><span class="lineno">  736</span>            <span class="keywordflow">if</span> (!fileLoggingConfiguration.Disable)</div>
-<div class="line"><span class="lineno">  737</span>            {</div>
-<div class="line"><span class="lineno">  738</span>                <span class="keywordflow">do</span></div>
-<div class="line"><span class="lineno">  739</span>                {</div>
-<div class="line"><span class="lineno">  740</span>                    await console.WriteAsync(<span class="stringliteral">&quot;Log file directory path (leave blank for default): &quot;</span>, <span class="keyword">false</span>, cancellationToken);</div>
-<div class="line"><span class="lineno">  741</span>                    fileLoggingConfiguration.Directory = await console.ReadLineAsync(<span class="keyword">false</span>, cancellationToken);</div>
-<div class="line"><span class="lineno">  742</span>                    <span class="keywordflow">if</span> (String.IsNullOrWhiteSpace(fileLoggingConfiguration.Directory))</div>
-<div class="line"><span class="lineno">  743</span>                    {</div>
-<div class="line"><span class="lineno">  744</span>                        fileLoggingConfiguration.Directory = <span class="keyword">null</span>;</div>
-<div class="line"><span class="lineno">  745</span>                        <span class="keywordflow">break</span>;</div>
-<div class="line"><span class="lineno">  746</span>                    }</div>
-<div class="line"><span class="lineno">  747</span> </div>
-<div class="line"><span class="lineno">  748</span>                    <span class="comment">// test a write of it</span></div>
-<div class="line"><span class="lineno">  749</span>                    await console.WriteAsync(<span class="keyword">null</span>, <span class="keyword">true</span>, cancellationToken);</div>
-<div class="line"><span class="lineno">  750</span>                    await console.WriteAsync(<span class="stringliteral">&quot;Testing directory access...&quot;</span>, <span class="keyword">true</span>, cancellationToken);</div>
-<div class="line"><span class="lineno">  751</span>                    <span class="keywordflow">try</span></div>
-<div class="line"><span class="lineno">  752</span>                    {</div>
-<div class="line"><span class="lineno">  753</span>                        await ioManager.CreateDirectory(fileLoggingConfiguration.Directory, cancellationToken);</div>
-<div class="line"><span class="lineno">  754</span>                        var testFile = ioManager.ConcatPath(fileLoggingConfiguration.Directory, String.Format(CultureInfo.InvariantCulture, <span class="stringliteral">&quot;WizardAccesTest.{0}.deleteme&quot;</span>, Guid.NewGuid()));</div>
-<div class="line"><span class="lineno">  755</span>                        await ioManager.WriteAllBytes(testFile, Array.Empty&lt;<span class="keywordtype">byte</span>&gt;(), cancellationToken);</div>
-<div class="line"><span class="lineno">  756</span>                        <span class="keywordflow">try</span></div>
-<div class="line"><span class="lineno">  757</span>                        {</div>
-<div class="line"><span class="lineno">  758</span>                            await ioManager.DeleteFile(testFile, cancellationToken);</div>
-<div class="line"><span class="lineno">  759</span>                        }</div>
-<div class="line"><span class="lineno">  760</span>                        <span class="keywordflow">catch</span> (OperationCanceledException)</div>
-<div class="line"><span class="lineno">  761</span>                        {</div>
-<div class="line"><span class="lineno">  762</span>                            <span class="keywordflow">throw</span>;</div>
-<div class="line"><span class="lineno">  763</span>                        }</div>
-<div class="line"><span class="lineno">  764</span>                        <span class="keywordflow">catch</span> (Exception e)</div>
-<div class="line"><span class="lineno">  765</span>                        {</div>
-<div class="line"><span class="lineno">  766</span>                            await console.WriteAsync(String.Format(CultureInfo.InvariantCulture, <span class="stringliteral">&quot;Error deleting test log file: {0}&quot;</span>, testFile), <span class="keyword">true</span>, cancellationToken);</div>
-<div class="line"><span class="lineno">  767</span>                            await console.WriteAsync(e.Message, <span class="keyword">true</span>, cancellationToken);</div>
-<div class="line"><span class="lineno">  768</span>                            await console.WriteAsync(<span class="keyword">null</span>, <span class="keyword">true</span>, cancellationToken);</div>
-<div class="line"><span class="lineno">  769</span>                        }</div>
-<div class="line"><span class="lineno">  770</span> </div>
-<div class="line"><span class="lineno">  771</span>                        <span class="keywordflow">break</span>;</div>
-<div class="line"><span class="lineno">  772</span>                    }</div>
-<div class="line"><span class="lineno">  773</span>                    <span class="keywordflow">catch</span> (OperationCanceledException)</div>
-<div class="line"><span class="lineno">  774</span>                    {</div>
-<div class="line"><span class="lineno">  775</span>                        <span class="keywordflow">throw</span>;</div>
-<div class="line"><span class="lineno">  776</span>                    }</div>
-<div class="line"><span class="lineno">  777</span>                    <span class="keywordflow">catch</span> (Exception e)</div>
-<div class="line"><span class="lineno">  778</span>                    {</div>
-<div class="line"><span class="lineno">  779</span>                        await console.WriteAsync(e.Message, <span class="keyword">true</span>, cancellationToken);</div>
-<div class="line"><span class="lineno">  780</span>                        await console.WriteAsync(<span class="keyword">null</span>, <span class="keyword">true</span>, cancellationToken);</div>
-<div class="line"><span class="lineno">  781</span>                        await console.WriteAsync(<span class="stringliteral">&quot;Please verify the path is valid and you have access to it!&quot;</span>, <span class="keyword">true</span>, cancellationToken);</div>
-<div class="line"><span class="lineno">  782</span>                    }</div>
-<div class="line"><span class="lineno">  783</span>                }</div>
-<div class="line"><span class="lineno">  784</span>                <span class="keywordflow">while</span> (<span class="keyword">true</span>);</div>
-<div class="line"><span class="lineno">  785</span> </div>
-<div class="line"><span class="lineno">  786</span>                async Task&lt;LogLevel?&gt; PromptLogLevel(<span class="keywordtype">string</span> question)</div>
-<div class="line"><span class="lineno">  787</span>                {</div>
-<div class="line"><span class="lineno">  788</span>                    <span class="keywordflow">do</span></div>
-<div class="line"><span class="lineno">  789</span>                    {</div>
-<div class="line"><span class="lineno">  790</span>                        await console.WriteAsync(<span class="keyword">null</span>, <span class="keyword">true</span>, cancellationToken);</div>
-<div class="line"><span class="lineno">  791</span>                        await console.WriteAsync(question, <span class="keyword">true</span>, cancellationToken);</div>
-<div class="line"><span class="lineno">  792</span>                        await console.WriteAsync(String.Format(CultureInfo.InvariantCulture, <span class="stringliteral">&quot;Enter one of {0}/{1}/{2}/{3}/{4}/{5} (leave blank for default): &quot;</span>, nameof(LogLevel.Trace), nameof(LogLevel.Debug), nameof(LogLevel.Information), nameof(LogLevel.Warning), nameof(LogLevel.Error), nameof(LogLevel.Critical)), <span class="keyword">false</span>, cancellationToken);</div>
-<div class="line"><span class="lineno">  793</span>                        var responseString = await console.ReadLineAsync(<span class="keyword">false</span>, cancellationToken);</div>
-<div class="line"><span class="lineno">  794</span>                        <span class="keywordflow">if</span> (String.IsNullOrWhiteSpace(responseString))</div>
-<div class="line"><span class="lineno">  795</span>                            <span class="keywordflow">return</span> <span class="keyword">null</span>;</div>
-<div class="line"><span class="lineno">  796</span>                        <span class="keywordflow">if</span> (Enum.TryParse&lt;LogLevel&gt;(responseString, out var logLevel) &amp;&amp; logLevel != LogLevel.None)</div>
-<div class="line"><span class="lineno">  797</span>                            <span class="keywordflow">return</span> logLevel;</div>
-<div class="line"><span class="lineno">  798</span>                        await console.WriteAsync(<span class="stringliteral">&quot;Invalid log level!&quot;</span>, <span class="keyword">true</span>, cancellationToken);</div>
-<div class="line"><span class="lineno">  799</span>                    }</div>
-<div class="line"><span class="lineno">  800</span>                    <span class="keywordflow">while</span> (<span class="keyword">true</span>);</div>
-<div class="line"><span class="lineno">  801</span>                }</div>
-<div class="line"><span class="lineno">  802</span> </div>
-<div class="line"><span class="lineno">  803</span>                fileLoggingConfiguration.LogLevel = await PromptLogLevel(String.Format(CultureInfo.InvariantCulture, <span class="stringliteral">&quot;Enter the level limit for normal logs (default {0}).&quot;</span>, fileLoggingConfiguration.LogLevel)) ?? fileLoggingConfiguration.LogLevel;</div>
-<div class="line"><span class="lineno">  804</span>                fileLoggingConfiguration.MicrosoftLogLevel = await PromptLogLevel(String.Format(CultureInfo.InvariantCulture, <span class="stringliteral">&quot;Enter the level limit for Microsoft logs (VERY verbose, default {0}).&quot;</span>, fileLoggingConfiguration.MicrosoftLogLevel)) ?? fileLoggingConfiguration.MicrosoftLogLevel;</div>
-<div class="line"><span class="lineno">  805</span>            }</div>
-<div class="line"><span class="lineno">  806</span> </div>
-<div class="line"><span class="lineno">  807</span>            <span class="keywordflow">return</span> fileLoggingConfiguration;</div>
-<div class="line"><span class="lineno">  808</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_setup_wizard_8cs_source.html#l00731">731</a> of file <a class="el" href="_setup_wizard_8cs_source.html">SetupWizard.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  732</span>        {</div>
+<div class="line"><span class="lineno">  733</span>            var fileLoggingConfiguration = <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_file_logging_configuration.html">FileLoggingConfiguration</a>();</div>
+<div class="line"><span class="lineno">  734</span>            await console.WriteAsync(<span class="keyword">null</span>, <span class="keyword">true</span>, cancellationToken);</div>
+<div class="line"><span class="lineno">  735</span>            fileLoggingConfiguration.Disable = !await PromptYesNo(<span class="stringliteral">&quot;Enable file logging?&quot;</span>, <span class="keyword">true</span>, cancellationToken);</div>
+<div class="line"><span class="lineno">  736</span> </div>
+<div class="line"><span class="lineno">  737</span>            <span class="keywordflow">if</span> (!fileLoggingConfiguration.Disable)</div>
+<div class="line"><span class="lineno">  738</span>            {</div>
+<div class="line"><span class="lineno">  739</span>                <span class="keywordflow">do</span></div>
+<div class="line"><span class="lineno">  740</span>                {</div>
+<div class="line"><span class="lineno">  741</span>                    await console.WriteAsync(<span class="stringliteral">&quot;Log file directory path (leave blank for default): &quot;</span>, <span class="keyword">false</span>, cancellationToken);</div>
+<div class="line"><span class="lineno">  742</span>                    fileLoggingConfiguration.Directory = await console.ReadLineAsync(<span class="keyword">false</span>, cancellationToken);</div>
+<div class="line"><span class="lineno">  743</span>                    <span class="keywordflow">if</span> (String.IsNullOrWhiteSpace(fileLoggingConfiguration.Directory))</div>
+<div class="line"><span class="lineno">  744</span>                    {</div>
+<div class="line"><span class="lineno">  745</span>                        fileLoggingConfiguration.Directory = <span class="keyword">null</span>;</div>
+<div class="line"><span class="lineno">  746</span>                        <span class="keywordflow">break</span>;</div>
+<div class="line"><span class="lineno">  747</span>                    }</div>
+<div class="line"><span class="lineno">  748</span> </div>
+<div class="line"><span class="lineno">  749</span>                    <span class="comment">// test a write of it</span></div>
+<div class="line"><span class="lineno">  750</span>                    await console.WriteAsync(<span class="keyword">null</span>, <span class="keyword">true</span>, cancellationToken);</div>
+<div class="line"><span class="lineno">  751</span>                    await console.WriteAsync(<span class="stringliteral">&quot;Testing directory access...&quot;</span>, <span class="keyword">true</span>, cancellationToken);</div>
+<div class="line"><span class="lineno">  752</span>                    <span class="keywordflow">try</span></div>
+<div class="line"><span class="lineno">  753</span>                    {</div>
+<div class="line"><span class="lineno">  754</span>                        await ioManager.CreateDirectory(fileLoggingConfiguration.Directory, cancellationToken);</div>
+<div class="line"><span class="lineno">  755</span>                        var testFile = ioManager.ConcatPath(fileLoggingConfiguration.Directory, String.Format(CultureInfo.InvariantCulture, <span class="stringliteral">&quot;WizardAccesTest.{0}.deleteme&quot;</span>, Guid.NewGuid()));</div>
+<div class="line"><span class="lineno">  756</span>                        await ioManager.WriteAllBytes(testFile, Array.Empty&lt;<span class="keywordtype">byte</span>&gt;(), cancellationToken);</div>
+<div class="line"><span class="lineno">  757</span>                        <span class="keywordflow">try</span></div>
+<div class="line"><span class="lineno">  758</span>                        {</div>
+<div class="line"><span class="lineno">  759</span>                            await ioManager.DeleteFile(testFile, cancellationToken);</div>
+<div class="line"><span class="lineno">  760</span>                        }</div>
+<div class="line"><span class="lineno">  761</span>                        <span class="keywordflow">catch</span> (OperationCanceledException)</div>
+<div class="line"><span class="lineno">  762</span>                        {</div>
+<div class="line"><span class="lineno">  763</span>                            <span class="keywordflow">throw</span>;</div>
+<div class="line"><span class="lineno">  764</span>                        }</div>
+<div class="line"><span class="lineno">  765</span>                        <span class="keywordflow">catch</span> (Exception e)</div>
+<div class="line"><span class="lineno">  766</span>                        {</div>
+<div class="line"><span class="lineno">  767</span>                            await console.WriteAsync(String.Format(CultureInfo.InvariantCulture, <span class="stringliteral">&quot;Error deleting test log file: {0}&quot;</span>, testFile), <span class="keyword">true</span>, cancellationToken);</div>
+<div class="line"><span class="lineno">  768</span>                            await console.WriteAsync(e.Message, <span class="keyword">true</span>, cancellationToken);</div>
+<div class="line"><span class="lineno">  769</span>                            await console.WriteAsync(<span class="keyword">null</span>, <span class="keyword">true</span>, cancellationToken);</div>
+<div class="line"><span class="lineno">  770</span>                        }</div>
+<div class="line"><span class="lineno">  771</span> </div>
+<div class="line"><span class="lineno">  772</span>                        <span class="keywordflow">break</span>;</div>
+<div class="line"><span class="lineno">  773</span>                    }</div>
+<div class="line"><span class="lineno">  774</span>                    <span class="keywordflow">catch</span> (OperationCanceledException)</div>
+<div class="line"><span class="lineno">  775</span>                    {</div>
+<div class="line"><span class="lineno">  776</span>                        <span class="keywordflow">throw</span>;</div>
+<div class="line"><span class="lineno">  777</span>                    }</div>
+<div class="line"><span class="lineno">  778</span>                    <span class="keywordflow">catch</span> (Exception e)</div>
+<div class="line"><span class="lineno">  779</span>                    {</div>
+<div class="line"><span class="lineno">  780</span>                        await console.WriteAsync(e.Message, <span class="keyword">true</span>, cancellationToken);</div>
+<div class="line"><span class="lineno">  781</span>                        await console.WriteAsync(<span class="keyword">null</span>, <span class="keyword">true</span>, cancellationToken);</div>
+<div class="line"><span class="lineno">  782</span>                        await console.WriteAsync(<span class="stringliteral">&quot;Please verify the path is valid and you have access to it!&quot;</span>, <span class="keyword">true</span>, cancellationToken);</div>
+<div class="line"><span class="lineno">  783</span>                    }</div>
+<div class="line"><span class="lineno">  784</span>                }</div>
+<div class="line"><span class="lineno">  785</span>                <span class="keywordflow">while</span> (<span class="keyword">true</span>);</div>
+<div class="line"><span class="lineno">  786</span> </div>
+<div class="line"><span class="lineno">  787</span>                async Task&lt;LogLevel?&gt; PromptLogLevel(<span class="keywordtype">string</span> question)</div>
+<div class="line"><span class="lineno">  788</span>                {</div>
+<div class="line"><span class="lineno">  789</span>                    <span class="keywordflow">do</span></div>
+<div class="line"><span class="lineno">  790</span>                    {</div>
+<div class="line"><span class="lineno">  791</span>                        await console.WriteAsync(<span class="keyword">null</span>, <span class="keyword">true</span>, cancellationToken);</div>
+<div class="line"><span class="lineno">  792</span>                        await console.WriteAsync(question, <span class="keyword">true</span>, cancellationToken);</div>
+<div class="line"><span class="lineno">  793</span>                        await console.WriteAsync(String.Format(CultureInfo.InvariantCulture, <span class="stringliteral">&quot;Enter one of {0}/{1}/{2}/{3}/{4}/{5} (leave blank for default): &quot;</span>, nameof(LogLevel.Trace), nameof(LogLevel.Debug), nameof(LogLevel.Information), nameof(LogLevel.Warning), nameof(LogLevel.Error), nameof(LogLevel.Critical)), <span class="keyword">false</span>, cancellationToken);</div>
+<div class="line"><span class="lineno">  794</span>                        var responseString = await console.ReadLineAsync(<span class="keyword">false</span>, cancellationToken);</div>
+<div class="line"><span class="lineno">  795</span>                        <span class="keywordflow">if</span> (String.IsNullOrWhiteSpace(responseString))</div>
+<div class="line"><span class="lineno">  796</span>                            <span class="keywordflow">return</span> <span class="keyword">null</span>;</div>
+<div class="line"><span class="lineno">  797</span>                        <span class="keywordflow">if</span> (Enum.TryParse&lt;LogLevel&gt;(responseString, out var logLevel) &amp;&amp; logLevel != LogLevel.None)</div>
+<div class="line"><span class="lineno">  798</span>                            <span class="keywordflow">return</span> logLevel;</div>
+<div class="line"><span class="lineno">  799</span>                        await console.WriteAsync(<span class="stringliteral">&quot;Invalid log level!&quot;</span>, <span class="keyword">true</span>, cancellationToken);</div>
+<div class="line"><span class="lineno">  800</span>                    }</div>
+<div class="line"><span class="lineno">  801</span>                    <span class="keywordflow">while</span> (<span class="keyword">true</span>);</div>
+<div class="line"><span class="lineno">  802</span>                }</div>
+<div class="line"><span class="lineno">  803</span> </div>
+<div class="line"><span class="lineno">  804</span>                fileLoggingConfiguration.LogLevel = await PromptLogLevel(String.Format(CultureInfo.InvariantCulture, <span class="stringliteral">&quot;Enter the level limit for normal logs (default {0}).&quot;</span>, fileLoggingConfiguration.LogLevel)) ?? fileLoggingConfiguration.LogLevel;</div>
+<div class="line"><span class="lineno">  805</span>                fileLoggingConfiguration.MicrosoftLogLevel = await PromptLogLevel(String.Format(CultureInfo.InvariantCulture, <span class="stringliteral">&quot;Enter the level limit for Microsoft logs (VERY verbose, default {0}).&quot;</span>, fileLoggingConfiguration.MicrosoftLogLevel)) ?? fileLoggingConfiguration.MicrosoftLogLevel;</div>
+<div class="line"><span class="lineno">  806</span>            }</div>
+<div class="line"><span class="lineno">  807</span> </div>
+<div class="line"><span class="lineno">  808</span>            <span class="keywordflow">return</span> fileLoggingConfiguration;</div>
+<div class="line"><span class="lineno">  809</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_file_logging_configuration_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_file_logging_configuration.html">Tgstation.Server.Host.Configuration.FileLoggingConfiguration</a></div><div class="ttdoc">File logging configuration options.</div><div class="ttdef"><b>Definition:</b> <a href="_file_logging_configuration_8cs_source.html#l00015">FileLoggingConfiguration.cs:16</a></div></div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_setup_wizard_8cs_source.html#l01056">RunWizard()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_setup_wizard_8cs_source.html#l01055">RunWizard()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -675,70 +716,70 @@ Here is the caller graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in the new SwarmConfiguration.</dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_setup_wizard_8cs_source.html#l00897">897</a> of file <a class="el" href="_setup_wizard_8cs_source.html">SetupWizard.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  898</span>        {</div>
-<div class="line"><span class="lineno">  899</span>            var enable = await PromptYesNo(<span class="stringliteral">&quot;Enable swarm mode?&quot;</span>, <span class="keyword">false</span>, cancellationToken);</div>
-<div class="line"><span class="lineno">  900</span>            <span class="keywordflow">if</span> (!enable)</div>
-<div class="line"><span class="lineno">  901</span>                <span class="keywordflow">return</span> <span class="keyword">null</span>;</div>
-<div class="line"><span class="lineno">  902</span> </div>
-<div class="line"><span class="lineno">  903</span>            <span class="keywordtype">string</span> identifer;</div>
-<div class="line"><span class="lineno">  904</span>            <span class="keywordflow">do</span></div>
-<div class="line"><span class="lineno">  905</span>            {</div>
-<div class="line"><span class="lineno">  906</span>                await console.WriteAsync(<span class="stringliteral">&quot;Enter this server&#39;s identifer: &quot;</span>, <span class="keyword">false</span>, cancellationToken);</div>
-<div class="line"><span class="lineno">  907</span>                identifer = await console.ReadLineAsync(<span class="keyword">false</span>, cancellationToken);</div>
-<div class="line"><span class="lineno">  908</span>            }</div>
-<div class="line"><span class="lineno">  909</span>            <span class="keywordflow">while</span> (String.IsNullOrWhiteSpace(identifer));</div>
-<div class="line"><span class="lineno">  910</span> </div>
-<div class="line"><span class="lineno">  911</span>            async Task&lt;Uri&gt; ParseAddress(<span class="keywordtype">string</span> question)</div>
-<div class="line"><span class="lineno">  912</span>            {</div>
-<div class="line"><span class="lineno">  913</span>                var first = <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  914</span>                Uri address;</div>
-<div class="line"><span class="lineno">  915</span>                <span class="keywordflow">do</span></div>
-<div class="line"><span class="lineno">  916</span>                {</div>
-<div class="line"><span class="lineno">  917</span>                    <span class="keywordflow">if</span> (first)</div>
-<div class="line"><span class="lineno">  918</span>                        first = <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">  919</span>                    <span class="keywordflow">else</span></div>
-<div class="line"><span class="lineno">  920</span>                        await console.WriteAsync(<span class="stringliteral">&quot;Invalid address!&quot;</span>, <span class="keyword">true</span>, cancellationToken);</div>
-<div class="line"><span class="lineno">  921</span> </div>
-<div class="line"><span class="lineno">  922</span>                    await console.WriteAsync(question, <span class="keyword">false</span>, cancellationToken);</div>
-<div class="line"><span class="lineno">  923</span>                    var addressString = await console.ReadLineAsync(<span class="keyword">false</span>, cancellationToken);</div>
-<div class="line"><span class="lineno">  924</span>                    <span class="keywordflow">if</span> (Uri.TryCreate(addressString, UriKind.Absolute, out address)</div>
-<div class="line"><span class="lineno">  925</span>                        &amp;&amp; address.Scheme != Uri.UriSchemeHttp</div>
-<div class="line"><span class="lineno">  926</span>                        &amp;&amp; address.Scheme != Uri.UriSchemeHttps)</div>
-<div class="line"><span class="lineno">  927</span>                        address = <span class="keyword">null</span>;</div>
-<div class="line"><span class="lineno">  928</span>                }</div>
-<div class="line"><span class="lineno">  929</span>                <span class="keywordflow">while</span> (address == <span class="keyword">null</span>);</div>
-<div class="line"><span class="lineno">  930</span> </div>
-<div class="line"><span class="lineno">  931</span>                <span class="keywordflow">return</span> address;</div>
-<div class="line"><span class="lineno">  932</span>            }</div>
-<div class="line"><span class="lineno">  933</span> </div>
-<div class="line"><span class="lineno">  934</span>            var address = await ParseAddress(<span class="stringliteral">&quot;Enter this server&#39;s INTERNAL http(s) address: &quot;</span>);</div>
-<div class="line"><span class="lineno">  935</span>            var publicAddress = await ParseAddress(<span class="stringliteral">&quot;Enter this server&#39;s PUBLIC https(s) address: &quot;</span>);</div>
-<div class="line"><span class="lineno">  936</span>            <span class="keywordtype">string</span> privateKey;</div>
-<div class="line"><span class="lineno">  937</span>            <span class="keywordflow">do</span></div>
-<div class="line"><span class="lineno">  938</span>            {</div>
-<div class="line"><span class="lineno">  939</span>                await console.WriteAsync(<span class="stringliteral">&quot;Enter the swarm private key: &quot;</span>, <span class="keyword">false</span>, cancellationToken);</div>
-<div class="line"><span class="lineno">  940</span>                privateKey = await console.ReadLineAsync(<span class="keyword">false</span>, cancellationToken);</div>
-<div class="line"><span class="lineno">  941</span>            }</div>
-<div class="line"><span class="lineno">  942</span>            <span class="keywordflow">while</span> (String.IsNullOrWhiteSpace(privateKey));</div>
-<div class="line"><span class="lineno">  943</span> </div>
-<div class="line"><span class="lineno">  944</span>            var controller = await PromptYesNo(<span class="stringliteral">&quot;Is this server the swarm&#39;s controller? (y/n): &quot;</span>, <span class="keyword">null</span>, cancellationToken);</div>
-<div class="line"><span class="lineno">  945</span>            Uri controllerAddress = <span class="keyword">null</span>;</div>
-<div class="line"><span class="lineno">  946</span>            <span class="keywordflow">if</span> (!controller)</div>
-<div class="line"><span class="lineno">  947</span>                controllerAddress = await ParseAddress(<span class="stringliteral">&quot;Enter the swarm controller&#39;s HTTP(S) address: &quot;</span>);</div>
-<div class="line"><span class="lineno">  948</span> </div>
-<div class="line"><span class="lineno">  949</span>            <span class="keywordflow">return</span> <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_swarm_configuration.html">SwarmConfiguration</a></div>
-<div class="line"><span class="lineno">  950</span>            {</div>
-<div class="line"><span class="lineno">  951</span>                Address = address,</div>
-<div class="line"><span class="lineno">  952</span>                PublicAddress = publicAddress,</div>
-<div class="line"><span class="lineno">  953</span>                ControllerAddress = controllerAddress,</div>
-<div class="line"><span class="lineno">  954</span>                Identifier = identifer,</div>
-<div class="line"><span class="lineno">  955</span>                PrivateKey = privateKey,</div>
-<div class="line"><span class="lineno">  956</span>            };</div>
-<div class="line"><span class="lineno">  957</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_setup_wizard_8cs_source.html#l00898">898</a> of file <a class="el" href="_setup_wizard_8cs_source.html">SetupWizard.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  899</span>        {</div>
+<div class="line"><span class="lineno">  900</span>            var enable = await PromptYesNo(<span class="stringliteral">&quot;Enable swarm mode?&quot;</span>, <span class="keyword">false</span>, cancellationToken);</div>
+<div class="line"><span class="lineno">  901</span>            <span class="keywordflow">if</span> (!enable)</div>
+<div class="line"><span class="lineno">  902</span>                <span class="keywordflow">return</span> <span class="keyword">null</span>;</div>
+<div class="line"><span class="lineno">  903</span> </div>
+<div class="line"><span class="lineno">  904</span>            <span class="keywordtype">string</span> identifer;</div>
+<div class="line"><span class="lineno">  905</span>            <span class="keywordflow">do</span></div>
+<div class="line"><span class="lineno">  906</span>            {</div>
+<div class="line"><span class="lineno">  907</span>                await console.WriteAsync(<span class="stringliteral">&quot;Enter this server&#39;s identifer: &quot;</span>, <span class="keyword">false</span>, cancellationToken);</div>
+<div class="line"><span class="lineno">  908</span>                identifer = await console.ReadLineAsync(<span class="keyword">false</span>, cancellationToken);</div>
+<div class="line"><span class="lineno">  909</span>            }</div>
+<div class="line"><span class="lineno">  910</span>            <span class="keywordflow">while</span> (String.IsNullOrWhiteSpace(identifer));</div>
+<div class="line"><span class="lineno">  911</span> </div>
+<div class="line"><span class="lineno">  912</span>            async Task&lt;Uri&gt; ParseAddress(<span class="keywordtype">string</span> question)</div>
+<div class="line"><span class="lineno">  913</span>            {</div>
+<div class="line"><span class="lineno">  914</span>                var first = <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  915</span>                Uri address;</div>
+<div class="line"><span class="lineno">  916</span>                <span class="keywordflow">do</span></div>
+<div class="line"><span class="lineno">  917</span>                {</div>
+<div class="line"><span class="lineno">  918</span>                    <span class="keywordflow">if</span> (first)</div>
+<div class="line"><span class="lineno">  919</span>                        first = <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  920</span>                    <span class="keywordflow">else</span></div>
+<div class="line"><span class="lineno">  921</span>                        await console.WriteAsync(<span class="stringliteral">&quot;Invalid address!&quot;</span>, <span class="keyword">true</span>, cancellationToken);</div>
+<div class="line"><span class="lineno">  922</span> </div>
+<div class="line"><span class="lineno">  923</span>                    await console.WriteAsync(question, <span class="keyword">false</span>, cancellationToken);</div>
+<div class="line"><span class="lineno">  924</span>                    var addressString = await console.ReadLineAsync(<span class="keyword">false</span>, cancellationToken);</div>
+<div class="line"><span class="lineno">  925</span>                    <span class="keywordflow">if</span> (Uri.TryCreate(addressString, UriKind.Absolute, out address)</div>
+<div class="line"><span class="lineno">  926</span>                        &amp;&amp; address.Scheme != Uri.UriSchemeHttp</div>
+<div class="line"><span class="lineno">  927</span>                        &amp;&amp; address.Scheme != Uri.UriSchemeHttps)</div>
+<div class="line"><span class="lineno">  928</span>                        address = <span class="keyword">null</span>;</div>
+<div class="line"><span class="lineno">  929</span>                }</div>
+<div class="line"><span class="lineno">  930</span>                <span class="keywordflow">while</span> (address == <span class="keyword">null</span>);</div>
+<div class="line"><span class="lineno">  931</span> </div>
+<div class="line"><span class="lineno">  932</span>                <span class="keywordflow">return</span> address;</div>
+<div class="line"><span class="lineno">  933</span>            }</div>
+<div class="line"><span class="lineno">  934</span> </div>
+<div class="line"><span class="lineno">  935</span>            var address = await ParseAddress(<span class="stringliteral">&quot;Enter this server&#39;s INTERNAL http(s) address: &quot;</span>);</div>
+<div class="line"><span class="lineno">  936</span>            var publicAddress = await ParseAddress(<span class="stringliteral">&quot;Enter this server&#39;s PUBLIC https(s) address: &quot;</span>);</div>
+<div class="line"><span class="lineno">  937</span>            <span class="keywordtype">string</span> privateKey;</div>
+<div class="line"><span class="lineno">  938</span>            <span class="keywordflow">do</span></div>
+<div class="line"><span class="lineno">  939</span>            {</div>
+<div class="line"><span class="lineno">  940</span>                await console.WriteAsync(<span class="stringliteral">&quot;Enter the swarm private key: &quot;</span>, <span class="keyword">false</span>, cancellationToken);</div>
+<div class="line"><span class="lineno">  941</span>                privateKey = await console.ReadLineAsync(<span class="keyword">false</span>, cancellationToken);</div>
+<div class="line"><span class="lineno">  942</span>            }</div>
+<div class="line"><span class="lineno">  943</span>            <span class="keywordflow">while</span> (String.IsNullOrWhiteSpace(privateKey));</div>
+<div class="line"><span class="lineno">  944</span> </div>
+<div class="line"><span class="lineno">  945</span>            var controller = await PromptYesNo(<span class="stringliteral">&quot;Is this server the swarm&#39;s controller? (y/n): &quot;</span>, <span class="keyword">null</span>, cancellationToken);</div>
+<div class="line"><span class="lineno">  946</span>            Uri controllerAddress = <span class="keyword">null</span>;</div>
+<div class="line"><span class="lineno">  947</span>            <span class="keywordflow">if</span> (!controller)</div>
+<div class="line"><span class="lineno">  948</span>                controllerAddress = await ParseAddress(<span class="stringliteral">&quot;Enter the swarm controller&#39;s HTTP(S) address: &quot;</span>);</div>
+<div class="line"><span class="lineno">  949</span> </div>
+<div class="line"><span class="lineno">  950</span>            <span class="keywordflow">return</span> <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_swarm_configuration.html">SwarmConfiguration</a></div>
+<div class="line"><span class="lineno">  951</span>            {</div>
+<div class="line"><span class="lineno">  952</span>                Address = address,</div>
+<div class="line"><span class="lineno">  953</span>                PublicAddress = publicAddress,</div>
+<div class="line"><span class="lineno">  954</span>                ControllerAddress = controllerAddress,</div>
+<div class="line"><span class="lineno">  955</span>                Identifier = identifer,</div>
+<div class="line"><span class="lineno">  956</span>                PrivateKey = privateKey,</div>
+<div class="line"><span class="lineno">  957</span>            };</div>
+<div class="line"><span class="lineno">  958</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_swarm_configuration_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_swarm_configuration.html">Tgstation.Server.Host.Configuration.SwarmConfiguration</a></div><div class="ttdoc">Configuration for the server swarm system.</div><div class="ttdef"><b>Definition:</b> <a href="_swarm_configuration_8cs_source.html#l00011">SwarmConfiguration.cs:12</a></div></div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_setup_wizard_8cs_source.html#l01056">RunWizard()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_setup_wizard_8cs_source.html#l01055">RunWizard()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -789,27 +830,28 @@ Here is the caller graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A Task representing the running operation.</dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_setup_wizard_8cs_source.html#l01056">1056</a> of file <a class="el" href="_setup_wizard_8cs_source.html">SetupWizard.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno"> 1057</span>        {</div>
-<div class="line"><span class="lineno"> 1058</span>            <span class="comment">// welcome message</span></div>
-<div class="line"><span class="lineno"> 1059</span>            await console.WriteAsync($<span class="stringliteral">&quot;Welcome to {Constants.CanonicalPackageName}!&quot;</span>, <span class="keyword">true</span>, cancellationToken);</div>
-<div class="line"><span class="lineno"> 1060</span>            await console.WriteAsync(<span class="stringliteral">&quot;This wizard will help you configure your server.&quot;</span>, <span class="keyword">true</span>, cancellationToken);</div>
-<div class="line"><span class="lineno"> 1061</span> </div>
-<div class="line"><span class="lineno"> 1062</span>            var hostingPort = await PromptForHostingPort(cancellationToken);</div>
-<div class="line"><span class="lineno"> 1063</span> </div>
-<div class="line"><span class="lineno"> 1064</span>            var databaseConfiguration = await ConfigureDatabase(cancellationToken);</div>
-<div class="line"><span class="lineno"> 1065</span> </div>
-<div class="line"><span class="lineno"> 1066</span>            var newGeneralConfiguration = await <a class="code hl_function" href="_setup_wizard_8cs.html#a8c8f5f56a7438fe48011eb8d738abec8">ConfigureGeneral</a>(cancellationToken);</div>
-<div class="line"><span class="lineno"> 1067</span> </div>
-<div class="line"><span class="lineno"> 1068</span>            var fileLoggingConfiguration = await <a class="code hl_function" href="_setup_wizard_8cs.html#adbd38b2960ebef44f65c5b8e0af409b0">ConfigureLogging</a>(cancellationToken);</div>
-<div class="line"><span class="lineno"> 1069</span> </div>
-<div class="line"><span class="lineno"> 1070</span>            var elasticSearchConfiguration = await <a class="code hl_function" href="_setup_wizard_8cs.html#a8c25292615cd1ecad91305b36ea7068e">ConfigureElasticsearch</a>(cancellationToken);</div>
-<div class="line"><span class="lineno"> 1071</span> </div>
-<div class="line"><span class="lineno"> 1072</span>            var controlPanelConfiguration = await <a class="code hl_function" href="_setup_wizard_8cs.html#a46a4314202bbe55ae8724e7d27486163">ConfigureControlPanel</a>(cancellationToken);</div>
-<div class="line"><span class="lineno"> 1073</span> </div>
-<div class="line"><span class="lineno"> 1074</span>            var swarmConfiguration = await <a class="code hl_function" href="_setup_wizard_8cs.html#a159af60f0c66366ede5c65cb6e21e5ea">ConfigureSwarm</a>(cancellationToken);</div>
-<div class="line"><span class="lineno"> 1075</span> </div>
-<div class="line"><span class="lineno"> 1076</span>            await console.WriteAsync(<span class="keyword">null</span>, <span class="keyword">true</span>, cancellationToken);</div>
+<p class="definition">Definition at line <a class="el" href="_setup_wizard_8cs_source.html#l01055">1055</a> of file <a class="el" href="_setup_wizard_8cs_source.html">SetupWizard.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno"> 1056</span>        {</div>
+<div class="line"><span class="lineno"> 1057</span>            <span class="comment">// welcome message</span></div>
+<div class="line"><span class="lineno"> 1058</span>            await console.WriteAsync($<span class="stringliteral">&quot;Welcome to {Constants.CanonicalPackageName}!&quot;</span>, <span class="keyword">true</span>, cancellationToken);</div>
+<div class="line"><span class="lineno"> 1059</span>            await console.WriteAsync(<span class="stringliteral">&quot;This wizard will help you configure your server.&quot;</span>, <span class="keyword">true</span>, cancellationToken);</div>
+<div class="line"><span class="lineno"> 1060</span> </div>
+<div class="line"><span class="lineno"> 1061</span>            var hostingPort = await PromptForHostingPort(cancellationToken);</div>
+<div class="line"><span class="lineno"> 1062</span> </div>
+<div class="line"><span class="lineno"> 1063</span>            var databaseConfiguration = await ConfigureDatabase(cancellationToken);</div>
+<div class="line"><span class="lineno"> 1064</span> </div>
+<div class="line"><span class="lineno"> 1065</span>            var newGeneralConfiguration = await <a class="code hl_function" href="_setup_wizard_8cs.html#a8c8f5f56a7438fe48011eb8d738abec8">ConfigureGeneral</a>(cancellationToken);</div>
+<div class="line"><span class="lineno"> 1066</span> </div>
+<div class="line"><span class="lineno"> 1067</span>            var fileLoggingConfiguration = await <a class="code hl_function" href="_setup_wizard_8cs.html#adbd38b2960ebef44f65c5b8e0af409b0">ConfigureLogging</a>(cancellationToken);</div>
+<div class="line"><span class="lineno"> 1068</span> </div>
+<div class="line"><span class="lineno"> 1069</span>            var elasticSearchConfiguration = await <a class="code hl_function" href="_setup_wizard_8cs.html#a8c25292615cd1ecad91305b36ea7068e">ConfigureElasticsearch</a>(cancellationToken);</div>
+<div class="line"><span class="lineno"> 1070</span> </div>
+<div class="line"><span class="lineno"> 1071</span>            var controlPanelConfiguration = await <a class="code hl_function" href="_setup_wizard_8cs.html#a46a4314202bbe55ae8724e7d27486163">ConfigureControlPanel</a>(cancellationToken);</div>
+<div class="line"><span class="lineno"> 1072</span> </div>
+<div class="line"><span class="lineno"> 1073</span>            var swarmConfiguration = await <a class="code hl_function" href="_setup_wizard_8cs.html#a159af60f0c66366ede5c65cb6e21e5ea">ConfigureSwarm</a>(cancellationToken);</div>
+<div class="line"><span class="lineno"> 1074</span> </div>
+<div class="line"><span class="lineno"> 1075</span>            await console.WriteAsync(<span class="keyword">null</span>, <span class="keyword">true</span>, cancellationToken);</div>
+<div class="line"><span class="lineno"> 1076</span>            await console.WriteAsync(String.Format(CultureInfo.InvariantCulture, <span class="stringliteral">&quot;Configuration complete! Saving to {0}&quot;</span>, userConfigFileName), <span class="keyword">true</span>, cancellationToken);</div>
 <div class="line"><span class="lineno"> 1077</span> </div>
 <div class="line"><span class="lineno"> 1078</span>            await <a class="code hl_function" href="_setup_wizard_8cs.html#afb6b6fca0a8f1d72dd4e4f5cc84f76f1">SaveConfiguration</a>(</div>
 <div class="line"><span class="lineno"> 1079</span>                userConfigFileName,</div>
@@ -822,14 +864,13 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno"> 1086</span>                swarmConfiguration,</div>
 <div class="line"><span class="lineno"> 1087</span>                cancellationToken);</div>
 <div class="line"><span class="lineno"> 1088</span>        }</div>
-<div class="ttc" id="a_setup_wizard_8cs_html_a159af60f0c66366ede5c65cb6e21e5ea"><div class="ttname"><a href="_setup_wizard_8cs.html#a159af60f0c66366ede5c65cb6e21e5ea">ConfigureSwarm</a></div><div class="ttdeci">async Task&lt; SwarmConfiguration &gt; ConfigureSwarm(CancellationToken cancellationToken)</div><div class="ttdoc">Prompts the user to create a SwarmConfiguration.</div><div class="ttdef"><b>Definition:</b> <a href="_setup_wizard_8cs_source.html#l00897">SetupWizard.cs:897</a></div></div>
-<div class="ttc" id="a_setup_wizard_8cs_html_a46a4314202bbe55ae8724e7d27486163"><div class="ttname"><a href="_setup_wizard_8cs.html#a46a4314202bbe55ae8724e7d27486163">ConfigureControlPanel</a></div><div class="ttdeci">async Task&lt; ControlPanelConfiguration &gt; ConfigureControlPanel(CancellationToken cancellationToken)</div><div class="ttdoc">Prompts the user to create a ControlPanelConfiguration.</div><div class="ttdef"><b>Definition:</b> <a href="_setup_wizard_8cs_source.html#l00867">SetupWizard.cs:867</a></div></div>
-<div class="ttc" id="a_setup_wizard_8cs_html_a8c25292615cd1ecad91305b36ea7068e"><div class="ttname"><a href="_setup_wizard_8cs.html#a8c25292615cd1ecad91305b36ea7068e">ConfigureElasticsearch</a></div><div class="ttdeci">async Task&lt; ElasticsearchConfiguration &gt; ConfigureElasticsearch(CancellationToken cancellationToken)</div><div class="ttdoc">Prompts the user to create a ElasticsearchConfiguration.</div><div class="ttdef"><b>Definition:</b> <a href="_setup_wizard_8cs_source.html#l00815">SetupWizard.cs:815</a></div></div>
-<div class="ttc" id="a_setup_wizard_8cs_html_a8c8f5f56a7438fe48011eb8d738abec8"><div class="ttname"><a href="_setup_wizard_8cs.html#a8c8f5f56a7438fe48011eb8d738abec8">ConfigureGeneral</a></div><div class="ttdeci">async Task&lt; GeneralConfiguration &gt; ConfigureGeneral(CancellationToken cancellationToken)</div><div class="ttdoc">Prompts the user to create a GeneralConfiguration.</div><div class="ttdef"><b>Definition:</b> <a href="_setup_wizard_8cs_source.html#l00672">SetupWizard.cs:672</a></div></div>
-<div class="ttc" id="a_setup_wizard_8cs_html_adbd38b2960ebef44f65c5b8e0af409b0"><div class="ttname"><a href="_setup_wizard_8cs.html#adbd38b2960ebef44f65c5b8e0af409b0">ConfigureLogging</a></div><div class="ttdeci">async Task&lt; FileLoggingConfiguration &gt; ConfigureLogging(CancellationToken cancellationToken)</div><div class="ttdoc">Prompts the user to create a FileLoggingConfiguration.</div><div class="ttdef"><b>Definition:</b> <a href="_setup_wizard_8cs_source.html#l00730">SetupWizard.cs:730</a></div></div>
-<div class="ttc" id="a_setup_wizard_8cs_html_afb6b6fca0a8f1d72dd4e4f5cc84f76f1"><div class="ttname"><a href="_setup_wizard_8cs.html#afb6b6fca0a8f1d72dd4e4f5cc84f76f1">SaveConfiguration</a></div><div class="ttdeci">async Task SaveConfiguration(string userConfigFileName, ushort? hostingPort, DatabaseConfiguration databaseConfiguration, GeneralConfiguration newGeneralConfiguration, FileLoggingConfiguration fileLoggingConfiguration, ElasticsearchConfiguration elasticsearchConfiguration, ControlPanelConfiguration controlPanelConfiguration, SwarmConfiguration swarmConfiguration, CancellationToken cancellationToken)</div><div class="ttdoc">Saves a given Configuration set to userConfigFileName .</div><div class="ttdef"><b>Definition:</b> <a href="_setup_wizard_8cs_source.html#l00972">SetupWizard.cs:972</a></div></div>
+<div class="ttc" id="a_setup_wizard_8cs_html_a159af60f0c66366ede5c65cb6e21e5ea"><div class="ttname"><a href="_setup_wizard_8cs.html#a159af60f0c66366ede5c65cb6e21e5ea">ConfigureSwarm</a></div><div class="ttdeci">async Task&lt; SwarmConfiguration &gt; ConfigureSwarm(CancellationToken cancellationToken)</div><div class="ttdoc">Prompts the user to create a SwarmConfiguration.</div><div class="ttdef"><b>Definition:</b> <a href="_setup_wizard_8cs_source.html#l00898">SetupWizard.cs:898</a></div></div>
+<div class="ttc" id="a_setup_wizard_8cs_html_a46a4314202bbe55ae8724e7d27486163"><div class="ttname"><a href="_setup_wizard_8cs.html#a46a4314202bbe55ae8724e7d27486163">ConfigureControlPanel</a></div><div class="ttdeci">async Task&lt; ControlPanelConfiguration &gt; ConfigureControlPanel(CancellationToken cancellationToken)</div><div class="ttdoc">Prompts the user to create a ControlPanelConfiguration.</div><div class="ttdef"><b>Definition:</b> <a href="_setup_wizard_8cs_source.html#l00868">SetupWizard.cs:868</a></div></div>
+<div class="ttc" id="a_setup_wizard_8cs_html_a8c25292615cd1ecad91305b36ea7068e"><div class="ttname"><a href="_setup_wizard_8cs.html#a8c25292615cd1ecad91305b36ea7068e">ConfigureElasticsearch</a></div><div class="ttdeci">async Task&lt; ElasticsearchConfiguration &gt; ConfigureElasticsearch(CancellationToken cancellationToken)</div><div class="ttdoc">Prompts the user to create a ElasticsearchConfiguration.</div><div class="ttdef"><b>Definition:</b> <a href="_setup_wizard_8cs_source.html#l00816">SetupWizard.cs:816</a></div></div>
+<div class="ttc" id="a_setup_wizard_8cs_html_a8c8f5f56a7438fe48011eb8d738abec8"><div class="ttname"><a href="_setup_wizard_8cs.html#a8c8f5f56a7438fe48011eb8d738abec8">ConfigureGeneral</a></div><div class="ttdeci">async Task&lt; GeneralConfiguration &gt; ConfigureGeneral(CancellationToken cancellationToken)</div><div class="ttdoc">Prompts the user to create a GeneralConfiguration.</div><div class="ttdef"><b>Definition:</b> <a href="_setup_wizard_8cs_source.html#l00673">SetupWizard.cs:673</a></div></div>
+<div class="ttc" id="a_setup_wizard_8cs_html_adbd38b2960ebef44f65c5b8e0af409b0"><div class="ttname"><a href="_setup_wizard_8cs.html#adbd38b2960ebef44f65c5b8e0af409b0">ConfigureLogging</a></div><div class="ttdeci">async Task&lt; FileLoggingConfiguration &gt; ConfigureLogging(CancellationToken cancellationToken)</div><div class="ttdoc">Prompts the user to create a FileLoggingConfiguration.</div><div class="ttdef"><b>Definition:</b> <a href="_setup_wizard_8cs_source.html#l00731">SetupWizard.cs:731</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_setup_wizard_8cs_source.html#l00867">ConfigureControlPanel()</a>, <a class="el" href="_setup_wizard_8cs_source.html#l00815">ConfigureElasticsearch()</a>, <a class="el" href="_setup_wizard_8cs_source.html#l00672">ConfigureGeneral()</a>, <a class="el" href="_setup_wizard_8cs_source.html#l00730">ConfigureLogging()</a>, <a class="el" href="_setup_wizard_8cs_source.html#l00897">ConfigureSwarm()</a>, and <a class="el" href="_setup_wizard_8cs_source.html#l00972">SaveConfiguration()</a>.</p>
+<p class="reference">References <a class="el" href="_setup_wizard_8cs_source.html#l00868">ConfigureControlPanel()</a>, <a class="el" href="_setup_wizard_8cs_source.html#l00816">ConfigureElasticsearch()</a>, <a class="el" href="_setup_wizard_8cs_source.html#l00673">ConfigureGeneral()</a>, <a class="el" href="_setup_wizard_8cs_source.html#l00731">ConfigureLogging()</a>, <a class="el" href="_setup_wizard_8cs_source.html#l00898">ConfigureSwarm()</a>, and <a class="el" href="_setup_wizard_8cs_source.html#l00973">SaveConfiguration()</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="_setup_wizard_8cs_source.html#l01095">CheckRunWizard()</a>.</p>
 <div class="dynheader">
@@ -944,76 +985,73 @@ Here is the caller graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A Task representing the running operation.</dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_setup_wizard_8cs_source.html#l00972">972</a> of file <a class="el" href="_setup_wizard_8cs_source.html">SetupWizard.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  982</span>        {</div>
-<div class="line"><span class="lineno">  983</span>            await console.WriteAsync(String.Format(CultureInfo.InvariantCulture, <span class="stringliteral">&quot;Configuration complete! Saving to {0}&quot;</span>, userConfigFileName), <span class="keyword">true</span>, cancellationToken);</div>
-<div class="line"><span class="lineno">  984</span> </div>
-<div class="line"><span class="lineno">  985</span>            newGeneralConfiguration.ApiPort = hostingPort ?? <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html">GeneralConfiguration</a>.<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#a34554b3c3ec4b265081f7af8b8d99715">DefaultApiPort</a>;</div>
-<div class="line"><span class="lineno">  986</span>            newGeneralConfiguration.ConfigVersion = <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html">GeneralConfiguration</a>.<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#a11cacc87b093badf8b45cc9fd858df54">CurrentConfigVersion</a>;</div>
-<div class="line"><span class="lineno">  987</span>            var map = <span class="keyword">new</span> Dictionary&lt;string, object&gt;()</div>
-<div class="line"><span class="lineno">  988</span>            {</div>
-<div class="line"><span class="lineno">  989</span>                { <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_database_configuration.html">DatabaseConfiguration</a>.<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_database_configuration.html#a3c3201b453ffd190158839da139e4a13">Section</a>, databaseConfiguration },</div>
-<div class="line"><span class="lineno">  990</span>                { <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html">GeneralConfiguration</a>.<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#a04dc43bd8ff33f4a8a791f750f7eb1d9">Section</a>, newGeneralConfiguration },</div>
-<div class="line"><span class="lineno">  991</span>                { <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_file_logging_configuration.html">FileLoggingConfiguration</a>.<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_file_logging_configuration.html#a8450ea7764591aa38857686d8fc70f93">Section</a>, fileLoggingConfiguration },</div>
-<div class="line"><span class="lineno">  992</span>                { <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_elasticsearch_configuration.html">ElasticsearchConfiguration</a>.<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_elasticsearch_configuration.html#ac3eaafd5c44e6447a15c3992086b03f3">Section</a>, elasticsearchConfiguration },</div>
-<div class="line"><span class="lineno">  993</span>                { <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_control_panel_configuration.html">ControlPanelConfiguration</a>.<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_control_panel_configuration.html#adbbc553f0fd0f2eb4a69a8361c5a9c80">Section</a>, controlPanelConfiguration },</div>
-<div class="line"><span class="lineno">  994</span>                { <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_swarm_configuration.html">SwarmConfiguration</a>.<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_swarm_configuration.html#a4112bcb9a326ef189a140db42f90a332">Section</a>, swarmConfiguration },</div>
-<div class="line"><span class="lineno">  995</span>            };</div>
-<div class="line"><span class="lineno">  996</span> </div>
-<div class="line"><span class="lineno">  997</span>            var builder = <span class="keyword">new</span> SerializerBuilder()</div>
-<div class="line"><span class="lineno">  998</span>                .WithTypeConverter(<span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_converters_1_1_version_converter.html">VersionConverter</a>());</div>
-<div class="line"><span class="lineno">  999</span> </div>
-<div class="line"><span class="lineno"> 1000</span>            <span class="keywordflow">if</span> (userConfigFileName.EndsWith(<span class="stringliteral">&quot;.json&quot;</span>, StringComparison.OrdinalIgnoreCase))</div>
-<div class="line"><span class="lineno"> 1001</span>                builder.JsonCompatible();</div>
-<div class="line"><span class="lineno"> 1002</span> </div>
-<div class="line"><span class="lineno"> 1003</span>            var serializer = <span class="keyword">new</span> SerializerBuilder()</div>
-<div class="line"><span class="lineno"> 1004</span>                .WithTypeConverter(<span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_converters_1_1_version_converter.html">VersionConverter</a>())</div>
-<div class="line"><span class="lineno"> 1005</span>                .Build();</div>
-<div class="line"><span class="lineno"> 1006</span> </div>
-<div class="line"><span class="lineno"> 1007</span>            var serializedYaml = serializer.Serialize(map);</div>
-<div class="line"><span class="lineno"> 1008</span> </div>
-<div class="line"><span class="lineno"> 1009</span>            <span class="comment">// big hack, but, prevent the default control panel channel from being overridden</span></div>
-<div class="line"><span class="lineno"> 1010</span>            serializedYaml = serializedYaml.Replace(</div>
-<div class="line"><span class="lineno"> 1011</span>                $<span class="stringliteral">&quot;\n  {nameof(ControlPanelConfiguration.Channel)}: &quot;</span>,</div>
-<div class="line"><span class="lineno"> 1012</span>                String.Empty,</div>
-<div class="line"><span class="lineno"> 1013</span>                StringComparison.Ordinal)</div>
-<div class="line"><span class="lineno"> 1014</span>                .Replace(<span class="stringliteral">&quot;\r&quot;</span>, String.Empty, StringComparison.Ordinal);</div>
-<div class="line"><span class="lineno"> 1015</span> </div>
-<div class="line"><span class="lineno"> 1016</span>            var configBytes = Encoding.UTF8.GetBytes(serializedYaml);</div>
-<div class="line"><span class="lineno"> 1017</span> </div>
-<div class="line"><span class="lineno"> 1018</span>            reloadTcs = <span class="keyword">new</span> TaskCompletionSource();</div>
-<div class="line"><span class="lineno"> 1019</span> </div>
-<div class="line"><span class="lineno"> 1020</span>            <span class="keywordflow">try</span></div>
-<div class="line"><span class="lineno"> 1021</span>            {</div>
-<div class="line"><span class="lineno"> 1022</span>                await ioManager.WriteAllBytes(</div>
-<div class="line"><span class="lineno"> 1023</span>                    userConfigFileName,</div>
-<div class="line"><span class="lineno"> 1024</span>                    configBytes,</div>
-<div class="line"><span class="lineno"> 1025</span>                    cancellationToken);</div>
-<div class="line"><span class="lineno"> 1026</span> </div>
-<div class="line"><span class="lineno"> 1027</span>                <span class="comment">// Ensure the reload</span></div>
-<div class="line"><span class="lineno"> 1028</span>                <span class="keywordflow">if</span> (generalConfiguration.SetupWizardMode != <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_host_1_1_setup.html#ada83b66b0eb589bb855302d25c41e4de">SetupWizardMode</a>.Only)</div>
-<div class="line"><span class="lineno"> 1029</span>                    <span class="keyword">using</span> (cancellationToken.Register(() =&gt; reloadTcs.TrySetCanceled()))</div>
-<div class="line"><span class="lineno"> 1030</span>                        await reloadTcs.Task;</div>
-<div class="line"><span class="lineno"> 1031</span>            }</div>
-<div class="line"><span class="lineno"> 1032</span>            <span class="keywordflow">catch</span> (OperationCanceledException)</div>
-<div class="line"><span class="lineno"> 1033</span>            {</div>
-<div class="line"><span class="lineno"> 1034</span>                <span class="keywordflow">throw</span>;</div>
-<div class="line"><span class="lineno"> 1035</span>            }</div>
-<div class="line"><span class="lineno"> 1036</span>            <span class="keywordflow">catch</span> (Exception e)</div>
-<div class="line"><span class="lineno"> 1037</span>            {</div>
-<div class="line"><span class="lineno"> 1038</span>                await console.WriteAsync(e.Message, <span class="keyword">true</span>, cancellationToken);</div>
-<div class="line"><span class="lineno"> 1039</span>                await console.WriteAsync(<span class="keyword">null</span>, <span class="keyword">true</span>, cancellationToken);</div>
-<div class="line"><span class="lineno"> 1040</span>                await console.WriteAsync(<span class="stringliteral">&quot;For your convienence, here&#39;s the yaml we tried to write out:&quot;</span>, <span class="keyword">true</span>, cancellationToken);</div>
-<div class="line"><span class="lineno"> 1041</span>                await console.WriteAsync(<span class="keyword">null</span>, <span class="keyword">true</span>, cancellationToken);</div>
-<div class="line"><span class="lineno"> 1042</span>                await console.WriteAsync(serializedYaml, <span class="keyword">true</span>, cancellationToken);</div>
-<div class="line"><span class="lineno"> 1043</span>                await console.WriteAsync(<span class="keyword">null</span>, <span class="keyword">true</span>, cancellationToken);</div>
-<div class="line"><span class="lineno"> 1044</span>                await console.WriteAsync(<span class="stringliteral">&quot;Press any key to exit...&quot;</span>, <span class="keyword">true</span>, cancellationToken);</div>
-<div class="line"><span class="lineno"> 1045</span>                await console.PressAnyKeyAsync(cancellationToken);</div>
-<div class="line"><span class="lineno"> 1046</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> OperationCanceledException();</div>
-<div class="line"><span class="lineno"> 1047</span>            }</div>
-<div class="line"><span class="lineno"> 1048</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_setup_wizard_8cs_source.html#l00973">973</a> of file <a class="el" href="_setup_wizard_8cs_source.html">SetupWizard.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  983</span>        {</div>
+<div class="line"><span class="lineno">  984</span>            newGeneralConfiguration.ApiPort = hostingPort ?? <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html">GeneralConfiguration</a>.<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#a34554b3c3ec4b265081f7af8b8d99715">DefaultApiPort</a>;</div>
+<div class="line"><span class="lineno">  985</span>            newGeneralConfiguration.ConfigVersion = <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html">GeneralConfiguration</a>.<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#a11cacc87b093badf8b45cc9fd858df54">CurrentConfigVersion</a>;</div>
+<div class="line"><span class="lineno">  986</span>            var map = <span class="keyword">new</span> Dictionary&lt;string, object&gt;()</div>
+<div class="line"><span class="lineno">  987</span>            {</div>
+<div class="line"><span class="lineno">  988</span>                { <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_database_configuration.html">DatabaseConfiguration</a>.<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_database_configuration.html#a3c3201b453ffd190158839da139e4a13">Section</a>, databaseConfiguration },</div>
+<div class="line"><span class="lineno">  989</span>                { <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html">GeneralConfiguration</a>.<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#a04dc43bd8ff33f4a8a791f750f7eb1d9">Section</a>, newGeneralConfiguration },</div>
+<div class="line"><span class="lineno">  990</span>                { <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_file_logging_configuration.html">FileLoggingConfiguration</a>.<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_file_logging_configuration.html#a8450ea7764591aa38857686d8fc70f93">Section</a>, fileLoggingConfiguration },</div>
+<div class="line"><span class="lineno">  991</span>                { <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_elasticsearch_configuration.html">ElasticsearchConfiguration</a>.<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_elasticsearch_configuration.html#ac3eaafd5c44e6447a15c3992086b03f3">Section</a>, elasticsearchConfiguration },</div>
+<div class="line"><span class="lineno">  992</span>                { <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_control_panel_configuration.html">ControlPanelConfiguration</a>.<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_control_panel_configuration.html#adbbc553f0fd0f2eb4a69a8361c5a9c80">Section</a>, controlPanelConfiguration },</div>
+<div class="line"><span class="lineno">  993</span>                { <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_swarm_configuration.html">SwarmConfiguration</a>.<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_swarm_configuration.html#a4112bcb9a326ef189a140db42f90a332">Section</a>, swarmConfiguration },</div>
+<div class="line"><span class="lineno">  994</span>            };</div>
+<div class="line"><span class="lineno">  995</span> </div>
+<div class="line"><span class="lineno">  996</span>            var builder = <span class="keyword">new</span> SerializerBuilder()</div>
+<div class="line"><span class="lineno">  997</span>                .WithTypeConverter(<span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_converters_1_1_version_converter.html">VersionConverter</a>());</div>
+<div class="line"><span class="lineno">  998</span> </div>
+<div class="line"><span class="lineno">  999</span>            <span class="keywordflow">if</span> (userConfigFileName.EndsWith(<span class="stringliteral">&quot;.json&quot;</span>, StringComparison.OrdinalIgnoreCase))</div>
+<div class="line"><span class="lineno"> 1000</span>                builder.JsonCompatible();</div>
+<div class="line"><span class="lineno"> 1001</span> </div>
+<div class="line"><span class="lineno"> 1002</span>            var serializer = <span class="keyword">new</span> SerializerBuilder()</div>
+<div class="line"><span class="lineno"> 1003</span>                .WithTypeConverter(<span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_converters_1_1_version_converter.html">VersionConverter</a>())</div>
+<div class="line"><span class="lineno"> 1004</span>                .Build();</div>
+<div class="line"><span class="lineno"> 1005</span> </div>
+<div class="line"><span class="lineno"> 1006</span>            var serializedYaml = serializer.Serialize(map);</div>
+<div class="line"><span class="lineno"> 1007</span> </div>
+<div class="line"><span class="lineno"> 1008</span>            <span class="comment">// big hack, but, prevent the default control panel channel from being overridden</span></div>
+<div class="line"><span class="lineno"> 1009</span>            serializedYaml = serializedYaml.Replace(</div>
+<div class="line"><span class="lineno"> 1010</span>                $<span class="stringliteral">&quot;\n  {nameof(ControlPanelConfiguration.Channel)}: &quot;</span>,</div>
+<div class="line"><span class="lineno"> 1011</span>                String.Empty,</div>
+<div class="line"><span class="lineno"> 1012</span>                StringComparison.Ordinal)</div>
+<div class="line"><span class="lineno"> 1013</span>                .Replace(<span class="stringliteral">&quot;\r&quot;</span>, String.Empty, StringComparison.Ordinal);</div>
+<div class="line"><span class="lineno"> 1014</span> </div>
+<div class="line"><span class="lineno"> 1015</span>            var configBytes = Encoding.UTF8.GetBytes(serializedYaml);</div>
+<div class="line"><span class="lineno"> 1016</span> </div>
+<div class="line"><span class="lineno"> 1017</span>            reloadTcs = <span class="keyword">new</span> TaskCompletionSource();</div>
+<div class="line"><span class="lineno"> 1018</span> </div>
+<div class="line"><span class="lineno"> 1019</span>            <span class="keywordflow">try</span></div>
+<div class="line"><span class="lineno"> 1020</span>            {</div>
+<div class="line"><span class="lineno"> 1021</span>                await ioManager.WriteAllBytes(</div>
+<div class="line"><span class="lineno"> 1022</span>                    userConfigFileName,</div>
+<div class="line"><span class="lineno"> 1023</span>                    configBytes,</div>
+<div class="line"><span class="lineno"> 1024</span>                    cancellationToken);</div>
+<div class="line"><span class="lineno"> 1025</span> </div>
+<div class="line"><span class="lineno"> 1026</span>                <span class="comment">// Ensure the reload</span></div>
+<div class="line"><span class="lineno"> 1027</span>                <span class="keywordflow">if</span> (generalConfiguration.SetupWizardMode != <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_host_1_1_setup.html#ada83b66b0eb589bb855302d25c41e4de">SetupWizardMode</a>.Only)</div>
+<div class="line"><span class="lineno"> 1028</span>                    <span class="keyword">using</span> (cancellationToken.Register(() =&gt; reloadTcs.TrySetCanceled()))</div>
+<div class="line"><span class="lineno"> 1029</span>                        await reloadTcs.Task;</div>
+<div class="line"><span class="lineno"> 1030</span>            }</div>
+<div class="line"><span class="lineno"> 1031</span>            <span class="keywordflow">catch</span> (OperationCanceledException)</div>
+<div class="line"><span class="lineno"> 1032</span>            {</div>
+<div class="line"><span class="lineno"> 1033</span>                <span class="keywordflow">throw</span>;</div>
+<div class="line"><span class="lineno"> 1034</span>            }</div>
+<div class="line"><span class="lineno"> 1035</span>            <span class="keywordflow">catch</span> (Exception e)</div>
+<div class="line"><span class="lineno"> 1036</span>            {</div>
+<div class="line"><span class="lineno"> 1037</span>                await console.WriteAsync(e.Message, <span class="keyword">true</span>, cancellationToken);</div>
+<div class="line"><span class="lineno"> 1038</span>                await console.WriteAsync(<span class="keyword">null</span>, <span class="keyword">true</span>, cancellationToken);</div>
+<div class="line"><span class="lineno"> 1039</span>                await console.WriteAsync(<span class="stringliteral">&quot;For your convienence, here&#39;s the yaml we tried to write out:&quot;</span>, <span class="keyword">true</span>, cancellationToken);</div>
+<div class="line"><span class="lineno"> 1040</span>                await console.WriteAsync(<span class="keyword">null</span>, <span class="keyword">true</span>, cancellationToken);</div>
+<div class="line"><span class="lineno"> 1041</span>                await console.WriteAsync(serializedYaml, <span class="keyword">true</span>, cancellationToken);</div>
+<div class="line"><span class="lineno"> 1042</span>                await console.WriteAsync(<span class="keyword">null</span>, <span class="keyword">true</span>, cancellationToken);</div>
+<div class="line"><span class="lineno"> 1043</span>                await console.WriteAsync(<span class="stringliteral">&quot;Press any key to exit...&quot;</span>, <span class="keyword">true</span>, cancellationToken);</div>
+<div class="line"><span class="lineno"> 1044</span>                await console.PressAnyKeyAsync(cancellationToken);</div>
+<div class="line"><span class="lineno"> 1045</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> OperationCanceledException();</div>
+<div class="line"><span class="lineno"> 1046</span>            }</div>
+<div class="line"><span class="lineno"> 1047</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_control_panel_configuration_html_adbbc553f0fd0f2eb4a69a8361c5a9c80"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_control_panel_configuration.html#adbbc553f0fd0f2eb4a69a8361c5a9c80">Tgstation.Server.Host.Configuration.ControlPanelConfiguration.Section</a></div><div class="ttdeci">const string Section</div><div class="ttdoc">The key for the Microsoft.Extensions.Configuration.IConfigurationSection the ControlPanelConfiguratio...</div><div class="ttdef"><b>Definition:</b> <a href="_control_panel_configuration_8cs_source.html#l00013">ControlPanelConfiguration.cs:13</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_database_configuration_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_database_configuration.html">Tgstation.Server.Host.Configuration.DatabaseConfiguration</a></div><div class="ttdoc">Configuration options for the Database.DatabaseContext.</div><div class="ttdef"><b>Definition:</b> <a href="_database_configuration_8cs_source.html#l00009">DatabaseConfiguration.cs:10</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_database_configuration_html_a3c3201b453ffd190158839da139e4a13"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_database_configuration.html#a3c3201b453ffd190158839da139e4a13">Tgstation.Server.Host.Configuration.DatabaseConfiguration.Section</a></div><div class="ttdeci">const string Section</div><div class="ttdoc">The key for the Microsoft.Extensions.Configuration.IConfigurationSection the DatabaseConfiguration re...</div><div class="ttdef"><b>Definition:</b> <a href="_database_configuration_8cs_source.html#l00014">DatabaseConfiguration.cs:14</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_elasticsearch_configuration_html_ac3eaafd5c44e6447a15c3992086b03f3"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_elasticsearch_configuration.html#ac3eaafd5c44e6447a15c3992086b03f3">Tgstation.Server.Host.Configuration.ElasticsearchConfiguration.Section</a></div><div class="ttdeci">const string Section</div><div class="ttdoc">The key for the Microsoft.Extensions.Configuration.IConfigurationSection the ElasticsearchConfigurati...</div><div class="ttdef"><b>Definition:</b> <a href="_elasticsearch_configuration_8cs_source.html#l00013">ElasticsearchConfiguration.cs:13</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_file_logging_configuration_html_a8450ea7764591aa38857686d8fc70f93"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_file_logging_configuration.html#a8450ea7764591aa38857686d8fc70f93">Tgstation.Server.Host.Configuration.FileLoggingConfiguration.Section</a></div><div class="ttdeci">const string Section</div><div class="ttdoc">The key for the Microsoft.Extensions.Configuration.IConfigurationSection the FileLoggingConfiguration...</div><div class="ttdef"><b>Definition:</b> <a href="_file_logging_configuration_8cs_source.html#l00020">FileLoggingConfiguration.cs:20</a></div></div>
@@ -1025,15 +1063,15 @@ Here is the caller graph for this function:</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="_general_configuration_8cs_source.html#l00067">Tgstation.Server.Host.Configuration.GeneralConfiguration.CurrentConfigVersion</a>, <a class="el" href="_general_configuration_8cs_source.html#l00027">Tgstation.Server.Host.Configuration.GeneralConfiguration.DefaultApiPort</a>, <a class="el" href="_control_panel_configuration_8cs_source.html#l00013">Tgstation.Server.Host.Configuration.ControlPanelConfiguration.Section</a>, <a class="el" href="_database_configuration_8cs_source.html#l00014">Tgstation.Server.Host.Configuration.DatabaseConfiguration.Section</a>, <a class="el" href="_elasticsearch_configuration_8cs_source.html#l00013">Tgstation.Server.Host.Configuration.ElasticsearchConfiguration.Section</a>, <a class="el" href="_file_logging_configuration_8cs_source.html#l00020">Tgstation.Server.Host.Configuration.FileLoggingConfiguration.Section</a>, <a class="el" href="_general_configuration_8cs_source.html#l00022">Tgstation.Server.Host.Configuration.GeneralConfiguration.Section</a>, and <a class="el" href="_swarm_configuration_8cs_source.html#l00016">Tgstation.Server.Host.Configuration.SwarmConfiguration.Section</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_setup_wizard_8cs_source.html#l01056">RunWizard()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_setup_wizard_8cs_source.html#l01095">CheckRunWizard()</a>, and <a class="el" href="_setup_wizard_8cs_source.html#l01055">RunWizard()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="_setup_wizard_8cs_afb6b6fca0a8f1d72dd4e4f5cc84f76f1_icgraph.png" border="0" usemap="#a_setup_wizard_8cs_afb6b6fca0a8f1d72dd4e4f5cc84f76f1_icgraph" alt=""/></div>
 <map name="a_setup_wizard_8cs_afb6b6fca0a8f1d72dd4e4f5cc84f76f1_icgraph" id="a_setup_wizard_8cs_afb6b6fca0a8f1d72dd4e4f5cc84f76f1_icgraph">
 <area shape="rect" title="Saves a given Configuration set to userConfigFileName ." alt="" coords="543,13,669,38"/>
-<area shape="rect" href="_setup_wizard_8cs.html#a133aa9167bebce98243748fe735a4e32" title="Runs the SetupWizard." alt="" coords="411,13,495,38"/>
 <area shape="rect" href="_setup_wizard_8cs.html#aac16c05e965ab067e23152458aa6fe59" title="Check if it should and run the SetupWizard if necessary." alt="" coords="241,13,363,38"/>
+<area shape="rect" href="_setup_wizard_8cs.html#a133aa9167bebce98243748fe735a4e32" title="Runs the SetupWizard." alt="" coords="411,38,495,63"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_setup_1_1_setup_wizard.html#aa7320ced82b10bda77125684f2708839" title=" " alt="" coords="5,5,193,45"/>
 </map>
 </div>

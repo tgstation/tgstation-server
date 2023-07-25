@@ -36,7 +36,7 @@ var searchData=
   ['clientexception_33',['ClientException',['../class_tgstation_1_1_server_1_1_client_1_1_client_exception.html',1,'Tgstation::Server::Client']]],
   ['combinedtopicresponse_34',['CombinedTopicResponse',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_combined_topic_response.html',1,'Tgstation::Server::Host::Components::Session']]],
   ['commandfactory_35',['CommandFactory',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_command_factory.html',1,'Tgstation::Server::Host::Components::Chat::Commands']]],
-  ['commandpipereader_36',['CommandPipeReader',['../class_tgstation_1_1_server_1_1_host_1_1_core_1_1_command_pipe_reader.html',1,'Tgstation::Server::Host::Core']]],
+  ['commandpipemanager_36',['CommandPipeManager',['../class_tgstation_1_1_server_1_1_host_1_1_core_1_1_command_pipe_manager.html',1,'Tgstation::Server::Host::Core']]],
   ['compilejob_37',['CompileJob',['../class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_compile_job.html',1,'Tgstation.Server.Api.Models.Internal.CompileJob'],['../class_tgstation_1_1_server_1_1_host_1_1_models_1_1_compile_job.html',1,'Tgstation.Server.Host.Models.CompileJob']]],
   ['compilejobresponse_38',['CompileJobResponse',['../class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_compile_job_response.html',1,'Tgstation::Server::Api::Models::Response']]],
   ['componentinterfacingcontroller_39',['ComponentInterfacingController',['../class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_component_interfacing_controller.html',1,'Tgstation::Server::Host::Controllers']]],

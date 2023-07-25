@@ -1,5 +1,5 @@
-<map id="Tgstation.Server.Host.Common.PipeCommands.GetCommandId" name="Tgstation.Server.Host.Common.PipeCommands.GetCommandId">
-<area shape="rect" id="node1" title="Gets the int value of a given command ." alt="" coords="788,85,996,125"/>
+<map id="Tgstation.Server.Host.Common.PipeCommands.GetServiceCommandId" name="Tgstation.Server.Host.Common.PipeCommands.GetServiceCommandId">
+<area shape="rect" id="node1" title="Gets the int value of a given command ." alt="" coords="788,85,1040,125"/>
 <area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_service_1_1_wix_1_1_extensions_1_1_installation_extensions.html#abe67d66e594a1b751e607b230ba6d4b2" title="Attempts to detach stop the existing tgstation&#45;server service if it exists." alt="" coords="499,5,740,60"/>
 <area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service.html#a2f03be0a11f20dffb543831b00498454" title=" " alt="" coords="505,85,733,125"/>
 <area shape="rect" id="node4" href="$_tgstation_8_server_8_host_8_service_2_program_8cs.html#a7a5d1a672c9435fca33efa3cdfda3f7a" title="Restarts a service using a given serviceController ." alt="" coords="565,149,673,175"/>

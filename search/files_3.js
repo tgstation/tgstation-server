@@ -38,7 +38,7 @@ var searchData=
   ['clientexception_2ecs_35',['ClientException.cs',['../_client_exception_8cs.html',1,'']]],
   ['combinedtopicresponse_2ecs_36',['CombinedTopicResponse.cs',['../_combined_topic_response_8cs.html',1,'']]],
   ['commandfactory_2ecs_37',['CommandFactory.cs',['../_command_factory_8cs.html',1,'']]],
-  ['commandpipereader_2ecs_38',['CommandPipeReader.cs',['../_command_pipe_reader_8cs.html',1,'']]],
+  ['commandpipemanager_2ecs_38',['CommandPipeManager.cs',['../_command_pipe_manager_8cs.html',1,'']]],
   ['compilejob_2ecs_39',['CompileJob.cs',['../_tgstation_8_server_8_api_2_models_2_internal_2_compile_job_8cs.html',1,'(Global Namespace)'],['../_tgstation_8_server_8_host_2_models_2_compile_job_8cs.html',1,'(Global Namespace)']]],
   ['compilejobresponse_2ecs_40',['CompileJobResponse.cs',['../_compile_job_response_8cs.html',1,'']]],
   ['componentinterfacingcontroller_2ecs_41',['ComponentInterfacingController.cs',['../_component_interfacing_controller_8cs.html',1,'']]],
