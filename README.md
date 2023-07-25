@@ -307,15 +307,15 @@ Test your server is running by visiting the local port in your browser. You shou
 
 ### Stopping
 
-Note that the live detach for DreamDaemon servers is only supported for updates or restarts via the API at this time. Stopping tgstation-server will TERMINATE ALL CHILD DREAMDAEMON SERVERS.
+Normally stopping TGS will terminate DreamDaemon processes. If you need a graceful detach, send command `130` to the Windows service or signal `SIGUSR2` to the Linux dotnet process. Detaching with the Windows console runner is currently not officially supported.
 
-For the Windows service version stop the `tgstation-server` service
+For the Windows service version stop the `tgstation-server` service.
 
 For the SystemD managed service, use `systemctl stop tgstation-server`. DO NOT USE `systemctl kill` as this can create orphaned processes while leaving TGS running.
 
-For the console version press `Ctrl+C` or send a SIGQUIT to the ORIGINAL dotnet process
+For the console version press `Ctrl+C` or send a SIGQUIT to the ORIGINAL dotnet process.
 
-For the docker version run `docker stop <your container name>`
+For the docker version run `docker stop <your container name>`.
 
 ### Updating the Game
 
