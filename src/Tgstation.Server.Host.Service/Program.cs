@@ -261,7 +261,7 @@ namespace Tgstation.Server.Host.Service
 			if (!stop)
 			{
 				serviceController.ExecuteCommand(
-					PipeCommands.GetCommandId(
+					PipeCommands.GetServiceCommandId(
 						PipeCommands.CommandDetachingShutdown)
 					.Value);
 				serviceController.WaitForStatus(ServiceControllerStatus.Stopped, TimeSpan.FromSeconds(30));

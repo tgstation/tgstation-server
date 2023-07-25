@@ -23,9 +23,12 @@
         </Page>
         <Page Name="Install">
             <Hypertext Name="EulaHyperlink" X="11" Y="121" Width="-11" Height="25" TabStop="yes" FontId="3" HideWhenDisabled="yes">#(loc.InstallLicenseLinkText)</Hypertext>
-            <Checkbox Name="InstallMariaDBCheckbox" X="11" Y="146" Width="500" Height="26" TabStop="yes" FontId="3">#(loc.MariaDBCheckbox)</Checkbox>
             <Checkbox Name="EulaAcceptCheckbox" X="-11" Y="-41" Width="260" Height="17" TabStop="yes" FontId="3" HideWhenDisabled="yes">#(loc.InstallAcceptCheckbox)</Checkbox>
-            <Button Name="InstallUpdateButton" X="11" Y="-11" Width="200" Height="23" TabStop="yes" FontId="0" EnableCondition="WixStdBAUpdateAvailable" HideWhenDisabled="yes">#(loc.UpdateButton)</Button>
+            <Label X="11" Y="80" Width="-11" Height="30" FontId="2" DisablePrefix="yes">#(loc.OptionsHeader)</Label>
+            <Checkbox Name="InstallMariaDBCheckbox" X="11" Y="146" Width="500" Height="17" TabStop="yes" FontId="3">#(loc.MariaDBCheckbox)</Checkbox>
+            <Checkbox Name="DefaultConfigurationCheckbox" X="11" Y="163" Width="500" Height="17" TabStop="yes" FontId="3" HideWhenDisabled="yes" EnableCondition="InstallMariaDBCheckbox=1">#(loc.DefaultConfigurationCheckbox)</Checkbox>
+            <Label X="11" Y="185" Width="500" Height="17" FontId="3" DisablePrefix="yes" HideWhenDisabled="yes" EnableCondition="InstallMariaDBCheckbox=1 AND DefaultConfigurationCheckbox=1">#(loc.MariaDBPassword)</Label>
+            <Editbox Name="InstallMariaDBPassword" X="11" Y="203" Width="200" Height="17" TabStop="yes" FontId="3" HideWhenDisabled="yes" EnableCondition="InstallMariaDBCheckbox=1 AND DefaultConfigurationCheckbox=1" HexStyle="20">#(loc.MariaDBPassword)</Editbox>
             <Button Name="InstallButton" X="-91" Y="-11" Width="75" Height="23" TabStop="yes" FontId="0">#(loc.InstallInstallButton)</Button>
             <Button Name="InstallCancelButton" X="-11" Y="-11" Width="75" Height="23" TabStop="yes" FontId="0">
                 <Text>#(loc.InstallCancelButton)</Text>
@@ -60,7 +63,7 @@
                 <Text Condition="WixBundleAction = 7">#(loc.SuccessModifyHeader)</Text>
                 <Text Condition="WixBundleAction = 8">#(loc.SuccessRepairHeader)</Text>
             </Label>
-            <Button Name="LaunchButton" X="-91" Y="-11" Width="75" Height="23" TabStop="yes" FontId="0" HideWhenDisabled="yes">#(loc.SuccessLaunchButton)</Button>
+            <Button Name="LaunchButton" X="-91" Y="-11" Width="75" Height="23" TabStop="yes" FontId="0" HideWhenDisabled="yes" EnableCondition="InstallMariaDBCheckbox=1 AND DefaultConfigurationCheckbox=1">#(loc.SuccessLaunchButton)</Button>
             <Label X="-11" Y="-51" Width="400" Height="34" FontId="3" DisablePrefix="yes" VisibleCondition="WixStdBARestartRequired">
                 <Text>#(loc.SuccessRestartText)</Text>
                 <Text Condition="WixBundleAction = 3">#(loc.SuccessUninstallRestartText)</Text>

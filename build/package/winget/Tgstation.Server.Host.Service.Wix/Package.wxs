@@ -7,8 +7,9 @@
     <Binary Id="InstallerExtensionsBinary" SourceFile="$(var.Tgstation.Server.Host.Service.Wix.Extensions.TargetName).CA.dll" />
 
     <CustomAction Id="DetachStopTgsServiceIfRunningAction" BinaryRef="InstallerExtensionsBinary" DllEntry="DetachStopTgsServiceIfRunning" Execute="deferred" />
+    <CustomAction Id="ApplyProductionAppsettingsIfNonExistantAction" BinaryRef="InstallerExtensionsBinary" DllEntry="ApplyProductionAppsettingsIfNonExistant" Execute="deferred" />
     <CustomAction Id="RunTgsConfigure" Execute="deferred" FileRef="ServiceExecutableFile" ExeCommand="-c -p=--appsettings-base-path=[APPLICATIONDATADIRECTORY]" />
-    <CustomAction Id="RunTgsConfigureMariaDB" Execute="deferred" FileRef="ServiceExecutableFile" ExeCommand="-c -p=&quot;--appsettings-base-path=[APPLICATIONDATADIRECTORY] --Internal:MariaDBSetup=true&quot;" />
+    <CustomAction Id="RunTgsConfigureMariaDB" Execute="deferred" FileRef="ServiceExecutableFile" ExeCommand="-c -p=&quot;--appsettings-base-path=[APPLICATIONDATADIRECTORY] --Internal:MariaDBSetup=true --Internal:MariaDBDefaultRootPassword=\&quot;[MARIADB_PASSWORD]\&quot;&quot;" />
 
     <Icon Id="tgs.ico" SourceFile="../../../tgs.ico" />
 
@@ -16,6 +17,7 @@
 
     <InstallExecuteSequence>
       <Custom Action="DetachStopTgsServiceIfRunningAction" Condition="UPGRADINGPRODUCTCODE OR REINSTALL" Before="StopServices" />
+      <Custom Action="ApplyProductionAppsettingsIfNonExistantAction" Condition="NOT ((NOT REMOVE~=&quot;ALL&quot;) AND (NOT PRODUCTIONAPPSETTINGSPRESENT) AND ((WIX_BOOTSTRAPPER_UILEVEL >= 4) OR (UILevel >= 4)))" Before="StartServices" />
       <Custom Action="RunTgsConfigure" Before="StartServices" Condition="(NOT MARIADB_INSTALLED) AND (NOT REMOVE~=&quot;ALL&quot;) AND (NOT PRODUCTIONAPPSETTINGSPRESENT) AND ((WIX_BOOTSTRAPPER_UILEVEL >= 4) OR (UILevel >= 4))"/>
       <Custom Action="RunTgsConfigureMariaDB" Before="StartServices" Condition="MARIADB_INSTALLED AND (NOT REMOVE~=&quot;ALL&quot;) AND (NOT PRODUCTIONAPPSETTINGSPRESENT) AND ((WIX_BOOTSTRAPPER_UILEVEL >= 4) OR (UILevel >= 4))"/>
       <StartServices Condition="(NOT REMOVE~=&quot;ALL&quot;) AND ((WIX_BOOTSTRAPPER_UILEVEL >= 4) OR (UILevel >= 4) OR PRODUCTIONAPPSETTINGSPRESENT)"/>
@@ -79,7 +81,7 @@
           <File Source="../../../../src/Tgstation.Server.Host/appsettings.yml" />
         </Component>
         <Component Id="ProductionAppSettingsComponent" Guid="" NeverOverwrite="yes">
-          <File Source="../../appsettings.Initial.yml" Name="appsettings.Production.yml">
+          <File Source="../../appsettings.Initial.yml">
             <PermissionEx Sddl="D:PAI(A;;FA;;;SY)(A;;FA;;;BA)" />
           </File>
         </Component>

@@ -66,9 +66,14 @@ namespace Tgstation.Server.Host.Service
 		CancellationTokenSource cancellationTokenSource;
 
 		/// <summary>
-		/// The <see cref="AnonymousPipeServerStream"/> the server process is using.
+		/// The <see cref="AnonymousPipeServerStream"/> for sending <see cref="PipeCommands"/> to the server process.
 		/// </summary>
-		AnonymousPipeServerStream pipeServer;
+		AnonymousPipeServerStream commandPipeServer;
+
+		/// <summary>
+		/// The <see cref="AnonymousPipeServerStream"/> for receiving the <see cref="PipeCommands.CommandStartupComplete"/>.
+		/// </summary>
+		AnonymousPipeServerStream readyPipeServer;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="ServerService"/> class.
@@ -87,10 +92,12 @@ namespace Tgstation.Server.Host.Service
 		/// <inheritdoc />
 		public async Task CheckSignals(Func<string, (int, Task)> startChildAndGetPid, CancellationToken cancellationToken)
 		{
-			using (pipeServer = new AnonymousPipeServerStream(PipeDirection.Out, HandleInheritability.Inheritable))
+			await using (commandPipeServer = new AnonymousPipeServerStream(PipeDirection.Out, HandleInheritability.Inheritable))
+			await using (readyPipeServer = new AnonymousPipeServerStream(PipeDirection.In, HandleInheritability.Inheritable))
 			{
-				var (_, lifetimeTask) = startChildAndGetPid($"--Internal:CommandPipe={pipeServer.GetClientHandleAsString()}");
-				pipeServer.DisposeLocalCopyOfClientHandle();
+				var (_, lifetimeTask) = startChildAndGetPid($"--Internal:CommandPipe={commandPipeServer.GetClientHandleAsString()} --Internal:ReadyPipe={readyPipeServer.GetClientHandleAsString()}");
+				commandPipeServer.DisposeLocalCopyOfClientHandle();
+				readyPipeServer.DisposeLocalCopyOfClientHandle();
 				await lifetimeTask;
 			}
 		}
@@ -107,7 +114,8 @@ namespace Tgstation.Server.Host.Service
 			{
 				loggerFactory?.Dispose();
 				cancellationTokenSource?.Dispose();
-				pipeServer?.Dispose();
+				commandPipeServer?.Dispose();
+				readyPipeServer?.Dispose();
 			}
 
 			base.Dispose(disposing);
@@ -119,10 +127,10 @@ namespace Tgstation.Server.Host.Service
 			var commandsToCheck = PipeCommands.AllCommands;
 			foreach (var stringCommand in commandsToCheck)
 			{
-				var commandId = PipeCommands.GetCommandId(stringCommand);
+				var commandId = PipeCommands.GetServiceCommandId(stringCommand);
 				if (command == commandId)
 				{
-					SendCommandToUpdatePath(stringCommand);
+					SendCommandToHostThroughPipe(stringCommand);
 					return;
 				}
 			}
@@ -160,6 +168,21 @@ namespace Tgstation.Server.Host.Service
 			newArgs.AddRange(args);
 
 			watchdogTask = RunWatchdog(watchdog, newArgs.ToArray(), cancellationTokenSource.Token);
+
+			if (!watchdogTask.IsCompleted && watchdog.InitialHostVersion >= new Version(5, 14, 0))
+			{
+				logger.LogInformation("Waiting for host to finish starting...");
+				using var streamReader = new StreamReader(
+					readyPipeServer,
+					Encoding.UTF8,
+					leaveOpen: true);
+
+				var line = streamReader.ReadLine(); // Intentionally blocking service startup
+				logger.LogDebug("Pipe read: {line}", line);
+			}
+
+			// Maybe we'll use this pipe more in the future, but for now leaving it open is just a resource waste
+			readyPipeServer.Dispose();
 		}
 
 		/// <inheritdoc />
@@ -203,9 +226,9 @@ namespace Tgstation.Server.Host.Service
 		/// Sends a command to the main server process.
 		/// </summary>
 		/// <param name="command">One of the <see cref="PipeCommands"/>.</param>
-		void SendCommandToUpdatePath(string command)
+		void SendCommandToHostThroughPipe(string command)
 		{
-			var localPipeServer = pipeServer;
+			var localPipeServer = commandPipeServer;
 			if (localPipeServer == null)
 			{
 				logger.LogWarning("Unable to send command \"{command}\" to main server process. Is the service running?", command);

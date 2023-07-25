@@ -20,6 +20,11 @@
 		/// </summary>
 		public const string CommandDetachingShutdown = "detach";
 
+		/// <summary>
+		/// Indicates that the host has finished initializing.
+		/// </summary>
+		public const string CommandStartupComplete = "times_up_lets_do_this";
+
 #if NET6_0_OR_GREATER
 		/// <summary>
 		/// All of the <see cref="PipeCommands"/> represented as a <see cref="System.Collections.Generic.IReadOnlyList{T}"/>.
@@ -29,6 +34,7 @@
 			CommandStop,
 			CommandGracefulShutdown,
 			CommandDetachingShutdown,
+			CommandStartupComplete,
 		};
 #endif
 
@@ -36,14 +42,14 @@
 		/// Gets the <see cref="int"/> value of a given <paramref name="command"/>.
 		/// </summary>
 		/// <param name="command">The <see cref="PipeCommands"/>.</param>
-		/// <returns>The <see cref="int"/> value of the command or <see langword="null"/> if it was unrecognized.</returns>
-		public static int? GetCommandId(string command)
+		/// <returns>The <see cref="int"/> value of the command or <see langword="null"/> if it was unrecognized service command.</returns>
+		public static int? GetServiceCommandId(string command)
 			=> command switch
 			{
 				CommandStop => 128, // Windows only allows commands 128-256: https://stackoverflow.com/a/62858106
 				CommandGracefulShutdown => 129,
 				CommandDetachingShutdown => 130,
-				_ => null,
+				CommandStartupComplete or _ => null,
 			};
 	}
 }

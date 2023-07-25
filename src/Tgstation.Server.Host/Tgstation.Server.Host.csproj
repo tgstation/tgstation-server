@@ -45,6 +45,7 @@
         <_Parameter2>$(TgsInteropVersion)</_Parameter2>
         <_Parameter3>$(TgsControlPanelVersion)</_Parameter3>
         <_Parameter4>$(TgsHostWatchdogVersion)</_Parameter4>
+        <_Parameter5>$(TgsMariaDBRedistVersion)</_Parameter5>
       </AssemblyAttributes>
     </ItemGroup>
 
@@ -94,7 +95,7 @@
     <!-- Usage: MYSQL/MariaDB ORM plugin -->
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="7.0.0" />
     <!-- Usage: Discord interop -->
-    <PackageReference Include="Remora.Discord" Version="2023.3.0" />
+    <PackageReference Include="Remora.Discord" Version="2023.4.0" />
     <!-- Usage: Rich logger builder -->
     <PackageReference Include="Serilog.Extensions.Logging" Version="7.0.0" />
     <!-- Usage: Async logging plugin -->

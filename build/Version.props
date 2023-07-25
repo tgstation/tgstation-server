@@ -11,13 +11,15 @@
     <TgsClientVersion>12.0.0</TgsClientVersion>
     <TgsDmapiVersion>6.5.2</TgsDmapiVersion>
     <TgsInteropVersion>5.6.1</TgsInteropVersion>
-    <TgsHostWatchdogVersion>1.3.0</TgsHostWatchdogVersion>
+    <TgsHostWatchdogVersion>1.4.0</TgsHostWatchdogVersion>
     <TgsContainerScriptVersion>1.2.1</TgsContainerScriptVersion>
     <TgsMigratorVersion>1.0.2</TgsMigratorVersion>
     <TgsNugetNetFramework>netstandard2.0</TgsNugetNetFramework>
     <TgsNetMajorVersion>6</TgsNetMajorVersion>
     <!-- Update this frequently with dotnet runtime patches. MAJOR MUST MATCH ABOVE! -->
     <TgsDotnetRedistUrl>https://dotnetcli.azureedge.net/dotnet/aspnetcore/Runtime/6.0.20/dotnet-hosting-6.0.20-win.exe</TgsDotnetRedistUrl>
+    <TgsMariaDBRedistVersion>11.0.2</TgsMariaDBRedistVersion>
+    <!-- The two versions must match above, this is referenced by scripts so we can't use an MSBuild property reference -->
     <TgsMariaDBRedistUrl>https://ftp.osuosl.org/pub/mariadb/mariadb-11.0.2/winx64-packages/mariadb-11.0.2-winx64.msi</TgsMariaDBRedistUrl>
   </PropertyGroup>
 </Project>
