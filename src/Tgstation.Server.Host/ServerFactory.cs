@@ -89,7 +89,7 @@ namespace Tgstation.Server.Host
 
 					// CURSED
 					// https://github.com/dotnet/runtime/blob/30dc7e7aedb7aab085c7d9702afeae5bc5a43133/src/libraries/Microsoft.Extensions.Hosting/src/HostingHostBuilderExtensions.cs#L246-L249
-#if !NET6_0
+#if !NET8_0
 #error Validate this monstrosity works on current .NET
 #endif
 					IConfigurationSource cmdLineConfig, baseYmlConfig, environmentYmlConfig;
@@ -141,7 +141,7 @@ namespace Tgstation.Server.Host
 							var serverPortProvider = kestrelOptions.ApplicationServices.GetRequiredService<IServerPortProvider>();
 							kestrelOptions.ListenAnyIP(
 								serverPortProvider.HttpApiPort,
-								listenOptions => listenOptions.Protocols = HttpProtocols.Http1AndHttp2);
+								listenOptions => listenOptions.Protocols = HttpProtocols.Http1); // Can't use Http1And2 without TLS. Let the reverse proxy handle it
 
 							// with 515 we lost the ability to test this effectively. Just bump it slightly above the default and let the existing limit hold us back
 							kestrelOptions.Limits.MaxRequestLineSize = 8400;

@@ -24,9 +24,9 @@ using Tgstation.Server.Client;
 using Tgstation.Server.Common;
 using Tgstation.Server.Common.Extensions;
 using Tgstation.Server.Common.Http;
-using Tgstation.Server.Host.Common;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Setup;
+using Tgstation.Server.Migrator.Properties;
 
 using FileMode = System.IO.FileMode;
 
@@ -226,7 +226,7 @@ try
 	Console.WriteLine("Attempting to create TGS install directory...");
 	Directory.CreateDirectory(tgsInstallPath);
 
-	// ASP.NET 6.0 RUNTIME CHECK
+	// ASP.NET 8.0 RUNTIME CHECK
 	Console.WriteLine("Next step, we need to ensure the ASP.NET Core 6 runtime is installed on your machine.");
 	Console.WriteLine("We're going to download it for you.");
 	Console.WriteLine("Yes, this program runs .NET 6, but it contains the entire runtime embedded into it. You will need a system-wide install for TGS.");
@@ -253,14 +253,14 @@ try
 		if (runtimeInstalled)
 		{
 			var versions = await dotnetRuntimeCheck.StandardOutput.ReadToEndAsync();
-			var regex = new Regex("Microsoft\\.AspNetCore\\.App 6\\.0\\.[0-9]+");
+			var regex = new Regex("Microsoft\\.AspNetCore\\.App 8\\.0\\.[0-9]+");
 
 			if (!regex.IsMatch(versions))
 				runtimeInstalled = false;
 		}
 	}
 
-	// ASP.NET 6.0 RUNTIME SETUP
+	// ASP.NET 8.0 RUNTIME SETUP
 	var assemblyName = currentAssembly.GetName();
 	var productInfoHeaderValue =
 		new ProductInfoHeaderValue(
@@ -276,9 +276,9 @@ try
 		var xSubstitution = x64 ? "64" : "86";
 		Console.WriteLine($"Running on an x{xSubstitution} system.");
 
-		var downloadUri = new Uri("https://download.visualstudio.microsoft.com/download/pr/eaa3eab9-cc21-44b5-a4e4-af31ee73b9fa/d8ad75d525dec0a30b52adc990796b11/dotnet-hosting-6.0.9-win.exe");
+		var downloadUri = RuntimeDistributableAttribute.Instance.RuntimeDistributableUrl;
 
-		var dotnetDownloadFilePath = $"dotnet-hosting-6.0.9-win.exe";
+		var dotnetDownloadFilePath = $"dotnet-hosting-bundle-installer.exe";
 
 		Console.WriteLine($"Downloading {downloadUri} to {Path.GetFullPath(dotnetDownloadFilePath)}...");
 
@@ -327,7 +327,7 @@ try
 
 			if (!PromptYesOrNo("Was the installation successful?"))
 			{
-				Console.WriteLine("Cannot continue without ASP.NET 6.0 runtime installed.");
+				Console.WriteLine("Cannot continue without ASP.NET 8.0 runtime installed.");
 				ExitPause(2);
 			}
 		}

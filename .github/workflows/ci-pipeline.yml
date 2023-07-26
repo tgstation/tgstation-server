@@ -38,7 +38,7 @@ on:
     - V6
 
 env:
-  TGS_DOTNET_VERSION: 6.0.x
+  TGS_DOTNET_VERSION: 8.0.x
   TGS_TEST_GITHUB_TOKEN: ${{ secrets.LIVE_TESTS_TOKEN }}
   TGS_RELEASE_NOTES_TOKEN: ${{ secrets.DEV_PUSH_TOKEN }}
   WINGET_PUSH_TOKEN: ${{ secrets.DEV_PUSH_TOKEN }}
@@ -246,7 +246,7 @@ jobs:
     - name: Setup dotnet
       uses: actions/setup-dotnet@v2
       with:
-        dotnet-version: ${{ env.TGS_DOTNET_VERSION }}
+        dotnet-version: '${{ env.TGS_DOTNET_VERSION }}.x'
 
     - name: Checkout (Branch)
       uses: actions/checkout@v3
@@ -289,7 +289,7 @@ jobs:
     - name: Setup dotnet
       uses: actions/setup-dotnet@v2
       with:
-        dotnet-version: ${{ env.TGS_DOTNET_VERSION }}
+        dotnet-version: '${{ env.TGS_DOTNET_VERSION }}.x'
 
     - name: Checkout (Branch)
       uses: actions/checkout@v3
@@ -338,7 +338,7 @@ jobs:
     - name: Setup dotnet
       uses: actions/setup-dotnet@v2
       with:
-        dotnet-version: ${{ env.TGS_DOTNET_VERSION }}
+        dotnet-version: '${{ env.TGS_DOTNET_VERSION }}.x'
 
     - name: Set TGS_TEST_DUMP_API_SPEC
       if: ${{ matrix.configuration == 'Release' && matrix.watchdog-type == 'System' && matrix.database-type == 'SqlServer' }}
@@ -534,7 +534,7 @@ jobs:
     - name: Setup dotnet
       uses: actions/setup-dotnet@v2
       with:
-        dotnet-version: ${{ env.TGS_DOTNET_VERSION }}
+        dotnet-version: '${{ env.TGS_DOTNET_VERSION }}.x'
 
     - name: Set Sqlite Connection Info
       if: ${{ matrix.database-type == 'Sqlite' }}
@@ -933,15 +933,15 @@ jobs:
         echo ${{ secrets.PACKAGING_PRIVATE_KEY_PASSPHRASE }} | gpg --batch --yes --passphrase-fd 0 --import private.pgp
         rm private.pgp
 
-    - name: Install dotnet-sdk-6.0
+    - name: Install dotnet-sdk system package
       run: |
         sudo apt-get update
-        sudo apt-get install -y dotnet-sdk-6.0
+        sudo apt-get install -y dotnet-sdk-${{ env.TGS_DOTNET_VERSION }}
 
     - name: Setup dotnet
       uses: actions/setup-dotnet@v2
       with:
-        dotnet-version: ${{ env.TGS_DOTNET_VERSION }}
+        dotnet-version: '${{ env.TGS_DOTNET_VERSION }}.x'
 
     - name: Override /usr/bin/dotnet
       run: |
@@ -1027,7 +1027,7 @@ jobs:
     - name: Setup dotnet
       uses: actions/setup-dotnet@v2
       with:
-        dotnet-version: ${{ env.TGS_DOTNET_VERSION }}
+        dotnet-version: '${{ env.TGS_DOTNET_VERSION }}.x'
 
     - name: Checkout (Branch)
       uses: actions/checkout@v3
@@ -1152,7 +1152,7 @@ jobs:
     - name: Setup dotnet
       uses: actions/setup-dotnet@v2
       with:
-        dotnet-version: ${{ env.TGS_DOTNET_VERSION }}
+        dotnet-version: '${{ env.TGS_DOTNET_VERSION }}.x'
 
     - name: Retrieve Latest winget-pkgs PULL_REQUEST_TEMPLATE commit SHA from GitHub API
       id: get-sha
@@ -1291,7 +1291,7 @@ jobs:
     - name: Setup dotnet
       uses: actions/setup-dotnet@v2
       with:
-        dotnet-version: ${{ env.TGS_DOTNET_VERSION }}
+        dotnet-version: '${{ env.TGS_DOTNET_VERSION }}.x'
 
     - name: Checkout
       uses: actions/checkout@v3
@@ -1329,7 +1329,7 @@ jobs:
     - name: Setup dotnet
       uses: actions/setup-dotnet@v2
       with:
-        dotnet-version: ${{ env.TGS_DOTNET_VERSION }}
+        dotnet-version: '${{ env.TGS_DOTNET_VERSION }}.x'
 
     - name: Checkout
       uses: actions/checkout@v3
@@ -1352,7 +1352,7 @@ jobs:
     - name: Setup dotnet
       uses: actions/setup-dotnet@v2
       with:
-        dotnet-version: ${{ env.TGS_DOTNET_VERSION }}
+        dotnet-version: '${{ env.TGS_DOTNET_VERSION }}.x'
 
     - name: Checkout
       uses: actions/checkout@v3
@@ -1590,7 +1590,7 @@ jobs:
     - name: Setup dotnet
       uses: actions/setup-dotnet@v2
       with:
-        dotnet-version: ${{ env.TGS_DOTNET_VERSION }}
+        dotnet-version: '${{ env.TGS_DOTNET_VERSION }}.x'
 
     - name: Install winget
       uses: Cyberboss/install-winget@v1

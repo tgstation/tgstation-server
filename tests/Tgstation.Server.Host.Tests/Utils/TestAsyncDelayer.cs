@@ -13,8 +13,8 @@ namespace Tgstation.Server.Host.Utils.Tests
 		public async Task TestDelay()
 		{
 			var delayer = new AsyncDelayer();
-			var startDelay = delayer.Delay(TimeSpan.FromSeconds(1), default);
-			var checkDelay = Task.Delay(TimeSpan.FromSeconds(1) - TimeSpan.FromMilliseconds(100), default);
+			var startDelay = delayer.Delay(TimeSpan.FromSeconds(1), CancellationToken.None);
+			var checkDelay = Task.Delay(TimeSpan.FromSeconds(1) - TimeSpan.FromMilliseconds(100), CancellationToken.None);
 			await startDelay;
 			Assert.IsTrue(checkDelay.IsCompleted);
 		}

@@ -85,7 +85,7 @@ Note: The `winget` package is submitted to Microsoft for approval once TGS relea
 
 ##### Manual
 
-If you don't have it installed already, download and install the [ASP .NET Core Runtime Hosting Bundle (>= v6.0)](https://dotnet.microsoft.com/download/dotnet/6.0). Ensure that the `dotnet` executable file is in your system's `PATH` variable (or that of the user's that will be running the server). You can test this by opening a command prompt and running `dotnet --list-runtimes`.
+If you don't have it installed already, download and install the [ASP .NET Core Runtime Hosting Bundle (>= v8.0)](https://dotnet.microsoft.com/download/dotnet/8.0). Ensure that the `dotnet` executable file is in your system's `PATH` variable (or that of the user's that will be running the server). You can test this by opening a command prompt and running `dotnet --list-runtimes`.
 
 [Download the latest release .zip](https://github.com/tgstation/tgstation-server/releases/latest). Typically, you want the `ServerService.zip` package in order to run TGS as a Windows service. Choose `ServerConsole.zip` if you prefer to use a command line daemon.
 
@@ -119,7 +119,7 @@ sudo dpkg --add-architecture i386 \
 
 ##### Debian
 
-The `aspnetcore-runtime-6.0` package isn't yet available on mainline Debian and must be [installed from Microsoft](https://learn.microsoft.com/en-us/dotnet/core/install/linux-debian) first. Use the following one-liner to add their packages repository.
+The `aspnetcore-runtime-8.0` package isn't yet available on mainline Debian and must be [installed from Microsoft](https://learn.microsoft.com/en-us/dotnet/core/install/linux-debian) first. Use the following one-liner to add their packages repository.
 
 ```sh
 curl -L https://packages.microsoft.com/config/debian/11/packages-microsoft-prod.deb -o packages-microsoft-prod.deb \
@@ -135,7 +135,7 @@ _Support for more distros coming soon_
 
 The following dependencies are required.
 
-- aspnetcore-runtime-6.0 (Note, not all supported distros have this package, see the links above for official Microsoft installation instructions)
+- aspnetcore-runtime-8.0 (Note, not all supported distros have this package, see the links above for official Microsoft installation instructions)
 - libc6-i386
 - libstdc++6:i386
 - gcc-multilib (Only on 64-bit systems)
@@ -197,7 +197,7 @@ There are 3 primary supported ways to configure TGS:
 - Set environment variables in the form `Section__Subsection=value` or `Section__ArraySubsection__0=value` for arrays.
 - Set command line arguments in the form `--Section:Subsection=value` or `--Section:ArraySubsection:0=value` for arrays.
 
-The latter two are not recommended as they cannot be dynamically changed at runtime. See more on ASP.NET core configuration [here](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/configuration/?view=aspnetcore-6.0).
+The latter two are not recommended as they cannot be dynamically changed at runtime. See more on ASP.NET core configuration [here](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/configuration/?view=aspnetcore-8.0).
 
 #### Manual Configuration
 

@@ -202,16 +202,13 @@ namespace Tgstation.Server.Host.System
 			bool outputOpen = true, errorOpen = true;
 			async Task<string> GetNextLine()
 			{
-#if NET7_0_OR_GREATER
-#error ReadLineAsync supports cancellation now
-#endif
 				if (outputOpen && outputReadTask == null)
-					outputReadTask = stdOutHandle.ReadLineAsync();
+					outputReadTask = stdOutHandle.ReadLineAsync(disposeToken).AsTask();
 
 				if (errorOpen && errorReadTask == null)
-					errorReadTask = stdErrHandle.ReadLineAsync();
+					errorReadTask = stdErrHandle.ReadLineAsync(disposeToken).AsTask();
 
-				var completedTask = await Task.WhenAny(outputReadTask ?? errorReadTask, errorReadTask ?? outputReadTask).WaitAsync(disposeToken);
+				var completedTask = await Task.WhenAny(outputReadTask ?? errorReadTask, errorReadTask ?? outputReadTask);
 				var line = await completedTask;
 				if (completedTask == outputReadTask)
 				{
@@ -243,8 +240,8 @@ namespace Tgstation.Server.Host.System
 				{
 					if (fileStream != null)
 					{
-						await writer.WriteLineAsync(text);
-						await writer.FlushAsync();
+						await writer.WriteLineAsync(text.AsMemory(), disposeToken);
+						await writer.FlushAsync(disposeToken);
 					}
 					else
 						stringBuilder.AppendLine(text);
@@ -267,7 +264,7 @@ namespace Tgstation.Server.Host.System
 		/// </summary>
 		/// <param name="handle">The <see cref="global::System.Diagnostics.Process"/> to create a <see cref="IProcess"/> from.</param>
 		/// <returns>The <see cref="IProcess"/> based on <paramref name="handle"/>.</returns>
-		IProcess CreateFromExistingHandle(global::System.Diagnostics.Process handle)
+		Process CreateFromExistingHandle(global::System.Diagnostics.Process handle)
 		{
 			try
 			{

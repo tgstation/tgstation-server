@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/dotnet/sdk:6.0-bookworm-slim AS build
+FROM mcr.microsoft.com/dotnet/sdk:8.0-bookworm-slim AS build
 
 # install node and npm
 # replace shell with bash so we can source files
@@ -63,7 +63,7 @@ RUN dotnet publish -c Release -o /app
 WORKDIR /repo/src/Tgstation.Server.Host
 RUN dotnet publish -c Release -o /app/lib/Default && mv /app/lib/Default/appsettings* /app
 
-FROM mcr.microsoft.com/dotnet/aspnet:6.0-bookworm-slim
+FROM mcr.microsoft.com/dotnet/aspnet:8.0-bookworm-slim
 
 #needed for byond
 RUN apt-get update \

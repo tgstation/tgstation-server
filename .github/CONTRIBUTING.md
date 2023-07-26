@@ -34,7 +34,7 @@ You can of course, as always, ask for help at [#coderbus](irc://irc.rizon.net/co
 
 ### Development Environment
 
-You need the .NET 6.0 SDK and npm>=v5.7 (in your PATH) to compile the server.
+You need the .NET 8.0 SDK and npm>=v5.7 (in your PATH) to compile the server.
 
 The recommended IDE is Visual Studio 2022 or VSCode.
 

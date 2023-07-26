@@ -181,6 +181,8 @@ namespace Tgstation.Server.Host.Setup.Tests
 				"no",
 				//test winauth
 				"yes",
+				// encrypt
+				"YES",
 				//sql server will always fail so reconfigure with maria
 				nameof(DatabaseType.MariaDB),
 				"127.0.0.1",
