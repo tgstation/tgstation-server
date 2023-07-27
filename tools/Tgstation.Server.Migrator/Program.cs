@@ -44,7 +44,7 @@ try
 	var commandLineArguments = commandLine.Skip(1);
 	var skipPreamble = commandLineArguments.Any(x => x.Equals("--skip-preamble", StringComparison.OrdinalIgnoreCase));
 
-	Console.WriteLine("This is a very straightfoward script to migrate the instances of a TGS3 install into a new TGS5 install");
+	Console.WriteLine("This is a very straightfoward script to migrate the instances of a TGS3 install into a new TGS6 install");
 
 	static bool PromptYesOrNo(string question)
 	{
@@ -194,7 +194,7 @@ try
 	Console.WriteLine("- DISABLED INSTANCES WILL NOT BE MIGRATED! PLEASE ENABLE ALL INSTANCES YOU WISH TO MIGRATE BEFORE CONTINUING!");
 	Console.WriteLine("- INSTANCE AUTO UPDATE CAN INTERFERE WITH THE MIGRATION! PLEASE DISABLE IT ON ALL INSTANCES BEING MIGRATED BEFORE CONTINUING!");
 	Console.WriteLine("- DO NOT ATTEMPT TO USE TGS3 VIA NORMAL METHODS WHILE THIS MIGRATION IS TAKING PLACE OR YOU COULD CORRUPT YOUR DATA!");
-	Console.WriteLine("Side note: You can skip the TGS5 setup wizard step by copying your premade appsettings.Production.yml file next to this .exe NOW.");
+	Console.WriteLine("Side note: You can skip the TGS6 setup wizard step by copying your premade appsettings.Production.yml file next to this .exe NOW.");
 	if (!PromptYesOrNo("Proceed with upgrade?"))
 	{
 		Console.WriteLine("Prerequisite not met.");
@@ -338,7 +338,7 @@ try
 	}
 
 
-	// TGS5 ONLINE LOCATING
+	// TGS6 ONLINE LOCATING
 	Console.WriteLine("Now we're going to locate the latest version of the TGS service.");
 	Console.WriteLine("(This migrator does not support the console runner, but you may switch the installation to it after completion)");
 
@@ -376,14 +376,14 @@ try
 		ExitPause(4);
 	}
 
-	// TGS5 SETUP WIZARD
+	// TGS6 SETUP WIZARD
 	Console.WriteLine("We are now going to run the TGS setup wizard to generate your new server configuration file.");
 
 	var serverFactory = Tgstation.Server.Host.Core.Application.CreateDefaultServerFactory();
 	_ = await serverFactory.CreateServer(new[] { $"General:SetupWizardMode={SetupWizardMode.Only}" }, null, default); // This is where the wizard actually runs
 
-	// TGS5 DOWNLOAD AND UNZIP
-	Console.WriteLine("Downloading TGS5...");
+	// TGS6 DOWNLOAD AND UNZIP
+	Console.WriteLine("Downloading TGS6...");
 
 	using (var loggerFactory = LoggerFactory.Create(builder => { }))
 	{
@@ -397,7 +397,7 @@ try
 
 		await using (tgsFiveZipBuffer)
 		{
-			Console.WriteLine("Unzipping TGS5...");
+			Console.WriteLine("Unzipping TGS6...");
 			await serverFactory.IOManager.ZipToDirectory(
 				tgsInstallPath,
 				await tgsFiveZipBuffer.GetResult(default),
@@ -405,7 +405,7 @@ try
 		}
 	}
 
-	// TGS5 CONFIG SETUP
+	// TGS6 CONFIG SETUP
 	const string ConfigurationFileName = "appsettings.Production.yml";
 	Console.WriteLine("Extracting API port from configuration...");
 	ushort configuredApiPort;
@@ -424,8 +424,8 @@ try
 	Console.WriteLine("Moving configuration file from setup wizard to installation folder...");
 	File.Copy(ConfigurationFileName, Path.Combine(tgsInstallPath, ConfigurationFileName));
 
-	// TGS5 SERVICE SETUP
-	Console.WriteLine("Installing TGS5 service...");
+	// TGS6 SERVICE SETUP
+	Console.WriteLine("Installing TGS6 service...");
 	using (var processInstaller = new ServiceProcessInstaller())
 	using (var installer = new ServiceInstaller())
 	{
@@ -448,42 +448,42 @@ try
 		installer.Install(state);
 	}
 
-	Console.WriteLine("Starting TGS5 service...");
+	Console.WriteLine("Starting TGS6 service...");
 	var allServices = ServiceController.GetServices();
-	using (var tgs5Service = allServices.FirstOrDefault(service => service.ServiceName == NewServiceName))
+	using (var TGS6Service = allServices.FirstOrDefault(service => service.ServiceName == NewServiceName))
 	{
-		if (tgs5Service == null)
+		if (TGS6Service == null)
 		{
-			Console.WriteLine("Unable to locate newly installed TGS5 service!");
+			Console.WriteLine("Unable to locate newly installed TGS6 service!");
 			ExitPause(11);
 		}
 
 		foreach (var service in allServices)
 		{
-			if (service == tgs5Service)
+			if (service == TGS6Service)
 				continue;
 
 			service.Dispose();
 		}
 
-		tgs5Service.Start();
-		tgs5Service.WaitForStatus(ServiceControllerStatus.Running, TimeSpan.FromMinutes(2));
+		TGS6Service.Start();
+		TGS6Service.WaitForStatus(ServiceControllerStatus.Running, TimeSpan.FromMinutes(2));
 	}
 
-	// TGS5 CLIENT CONNECTION
+	// TGS6 CLIENT CONNECTION
 	const int MaxWaitMinutes = 5;
-	Console.WriteLine($"Connecting to TGS5 (Max {MaxWaitMinutes} minute wait)...");
+	Console.WriteLine($"Connecting to TGS6 (Max {MaxWaitMinutes} minute wait)...");
 	var giveUpAt = DateTimeOffset.UtcNow.AddMinutes(MaxWaitMinutes);
 
 	var serverUrl = new Uri($"http://localhost:{configuredApiPort}");
 	var clientFactory = new ServerClientFactory(productInfoHeaderValue.Product);
-	IServerClient tgs5Client;
+	IServerClient TGS6Client;
 	for (var I = 1; ; ++I)
 	{
 		try
 		{
 			Console.WriteLine($"Attempt {I}...");
-			tgs5Client = await clientFactory.CreateFromLogin(
+			TGS6Client = await clientFactory.CreateFromLogin(
 				serverUrl,
 				DefaultCredentials.AdminUserName,
 				DefaultCredentials.DefaultAdminUserPassword);
@@ -505,7 +505,7 @@ try
 		}
 	}
 
-	Console.WriteLine("Successfully connected to TGS5!");
+	Console.WriteLine("Successfully connected to TGS6!");
 
 	// COMMS MIGRATION
 	Console.WriteLine("Deferring to Comms binary to migrate instances...");
@@ -533,7 +533,7 @@ try
 		Console.WriteLine("Failed to disable TGS3 service! This isn't critical, however.");
 
 	Console.WriteLine("Migration complete! Please continue uninstall TGS3 using Add/Remove Programs.");
-	Console.WriteLine("Then configure TGS5 using an interactive client to build and start your server.");
+	Console.WriteLine("Then configure TGS6 using an interactive client to build and start your server.");
 	ExitPause(0);
 }
 catch (Exception ex)

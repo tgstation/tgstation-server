@@ -13,7 +13,7 @@
     <TgsInteropVersion>5.6.1</TgsInteropVersion>
     <TgsHostWatchdogVersion>1.4.0</TgsHostWatchdogVersion>
     <TgsContainerScriptVersion>1.2.1</TgsContainerScriptVersion>
-    <TgsMigratorVersion>1.0.2</TgsMigratorVersion>
+    <TgsMigratorVersion>2.0.0</TgsMigratorVersion>
     <TgsNugetNetFramework>netstandard2.0</TgsNugetNetFramework>
     <TgsNetMajorVersion>8</TgsNetMajorVersion>
     <!-- Update this frequently with dotnet runtime patches. MAJOR MUST MATCH ABOVE! -->
