@@ -107,7 +107,7 @@ namespace Tgstation.Server.Host.Components.Byond
 			ArgumentNullException.ThrowIfNull(version);
 
 			if (version.Build == 0)
-				throw new ArgumentException("version.Build cannot be 0!", nameof(version));
+				throw new InvalidOperationException("version.Build cannot be 0!");
 		}
 
 		/// <summary>

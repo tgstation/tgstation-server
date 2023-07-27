@@ -100,7 +100,7 @@ namespace Tgstation.Server.Client
 			if (token == null)
 				throw new ArgumentNullException(nameof(token));
 			if (token.Bearer == null)
-				throw new ArgumentException("token.Bearer should not be null!", nameof(token));
+				throw new InvalidOperationException("token.Bearer should not be null!");
 
 			return new ServerClient(ApiClientFactory.CreateApiClient(host, new ApiHeaders(productHeaderValue, token.Bearer), null, false), token);
 		}
