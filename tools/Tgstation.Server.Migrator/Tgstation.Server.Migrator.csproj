@@ -5,6 +5,7 @@
     <OutputType>Exe</OutputType>
     <TargetFramework>$(TgsFrameworkVersion)</TargetFramework> <!-- This is fine, we publish self-contained -->
     <RuntimeIdentifier>win-x86</RuntimeIdentifier>
+    <SelfContained>true</SelfContained>
     <Version>$(TgsMigratorVersion)</Version>
     <Nullable>enable</Nullable>
     <NoWarn>CA1416</NoWarn>
