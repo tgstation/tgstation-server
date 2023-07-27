@@ -15,7 +15,8 @@ on:
     - V6
 
 env:
-  TGS_DOTNET_VERSION: 8.0.x
+  TGS_DOTNET_VERSION: 8
+  TGS_DOTNET_QUALITY: preview
 
 concurrency:
   group: "code-scanning-${{ github.head_ref || github.run_id }}-${{ github.event_name }}"
@@ -32,9 +33,10 @@ jobs:
     if: ${{ vars.TGS_ENABLE_CODE_QL }} == 'true'
     steps:
     - name: Setup dotnet
-      uses: actions/setup-dotnet@v2
+      uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: '${{ env.TGS_DOTNET_VERSION }}.x'
+        dotnet-version: '${{ env.TGS_DOTNET_VERSION }}.0.x'
+        dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
 
     - name: Checkout
       uses: actions/checkout@v3

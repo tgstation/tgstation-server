@@ -38,7 +38,8 @@ on:
     - V6
 
 env:
-  TGS_DOTNET_VERSION: 8.0.x
+  TGS_DOTNET_VERSION: 8
+  TGS_DOTNET_QUALITY: preview
   TGS_TEST_GITHUB_TOKEN: ${{ secrets.LIVE_TESTS_TOKEN }}
   TGS_RELEASE_NOTES_TOKEN: ${{ secrets.DEV_PUSH_TOKEN }}
   WINGET_PUSH_TOKEN: ${{ secrets.DEV_PUSH_TOKEN }}
@@ -244,9 +245,9 @@ jobs:
         sudo apt-get install -y -o APT::Immediate-Configure=0 libc6-i386 libstdc++6:i386 libgcc-s1:i386
 
     - name: Setup dotnet
-      uses: actions/setup-dotnet@v2
+      uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: '${{ env.TGS_DOTNET_VERSION }}.x'
+        dotnet-version: '${{ env.TGS_DOTNET_VERSION }}.0.x'
 
     - name: Checkout (Branch)
       uses: actions/checkout@v3
@@ -287,9 +288,9 @@ jobs:
     runs-on: windows-latest
     steps:
     - name: Setup dotnet
-      uses: actions/setup-dotnet@v2
+      uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: '${{ env.TGS_DOTNET_VERSION }}.x'
+        dotnet-version: '${{ env.TGS_DOTNET_VERSION }}.0.x'
 
     - name: Checkout (Branch)
       uses: actions/checkout@v3
@@ -336,9 +337,9 @@ jobs:
         sqlcmd -l 600 -S "(localdb)\MSSQLLocalDB" -Q "SELECT @@VERSION;"
 
     - name: Setup dotnet
-      uses: actions/setup-dotnet@v2
+      uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: '${{ env.TGS_DOTNET_VERSION }}.x'
+        dotnet-version: '${{ env.TGS_DOTNET_VERSION }}.0.x'
 
     - name: Set TGS_TEST_DUMP_API_SPEC
       if: ${{ matrix.configuration == 'Release' && matrix.watchdog-type == 'System' && matrix.database-type == 'SqlServer' }}
@@ -532,9 +533,9 @@ jobs:
         sudo apt-get install -y -o APT::Immediate-Configure=0 libc6-i386 libstdc++6:i386 gdb libgcc-s1:i386
 
     - name: Setup dotnet
-      uses: actions/setup-dotnet@v2
+      uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: '${{ env.TGS_DOTNET_VERSION }}.x'
+        dotnet-version: '${{ env.TGS_DOTNET_VERSION }}.0.x'
 
     - name: Set Sqlite Connection Info
       if: ${{ matrix.database-type == 'Sqlite' }}
@@ -936,12 +937,13 @@ jobs:
     - name: Install dotnet-sdk system package
       run: |
         sudo apt-get update
-        sudo apt-get install -y dotnet-sdk-${{ env.TGS_DOTNET_VERSION }}
+        sudo apt-get install -y dotnet-sdk-${{ env.TGS_DOTNET_VERSION }}.0
 
     - name: Setup dotnet
-      uses: actions/setup-dotnet@v2
+      uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: '${{ env.TGS_DOTNET_VERSION }}.x'
+        dotnet-version: '${{ env.TGS_DOTNET_VERSION }}.0.x'
+        dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
 
     - name: Override /usr/bin/dotnet
       run: |
@@ -1025,9 +1027,9 @@ jobs:
         GITHUB_TOKEN: ${{ env.WINGET_PUSH_TOKEN }}
 
     - name: Setup dotnet
-      uses: actions/setup-dotnet@v2
+      uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: '${{ env.TGS_DOTNET_VERSION }}.x'
+        dotnet-version: '${{ env.TGS_DOTNET_VERSION }}.0.x'
 
     - name: Checkout (Branch)
       uses: actions/checkout@v3
@@ -1150,9 +1152,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Setup dotnet
-      uses: actions/setup-dotnet@v2
+      uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: '${{ env.TGS_DOTNET_VERSION }}.x'
+        dotnet-version: '${{ env.TGS_DOTNET_VERSION }}.0.x'
 
     - name: Retrieve Latest winget-pkgs PULL_REQUEST_TEMPLATE commit SHA from GitHub API
       id: get-sha
@@ -1289,9 +1291,9 @@ jobs:
     if: "!(cancelled() || failure()) && needs.upload-code-coverage.result == 'success' && needs.validate-openapi-spec.result == 'success' && github.event_name == 'push' && contains(github.event.head_commit.message, '[NugetDeploy]')"
     steps:
     - name: Setup dotnet
-      uses: actions/setup-dotnet@v2
+      uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: '${{ env.TGS_DOTNET_VERSION }}.x'
+        dotnet-version: '${{ env.TGS_DOTNET_VERSION }}.0.x'
 
     - name: Checkout
       uses: actions/checkout@v3
@@ -1327,9 +1329,9 @@ jobs:
     if: "!(cancelled() || failure()) && (needs.deploy-dm.result == 'success' || needs.deploy-http.result == 'success') && !contains(github.event.head_commit.message, '[TGSDeploy]')"
     steps:
     - name: Setup dotnet
-      uses: actions/setup-dotnet@v2
+      uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: '${{ env.TGS_DOTNET_VERSION }}.x'
+        dotnet-version: '${{ env.TGS_DOTNET_VERSION }}.0.x'
 
     - name: Checkout
       uses: actions/checkout@v3
@@ -1350,9 +1352,9 @@ jobs:
     if: "!(cancelled() || failure()) && needs.deployment-gate.result == 'success' && github.event.ref == 'refs/heads/master' && contains(github.event.head_commit.message, '[TGSDeploy]')"
     steps:
     - name: Setup dotnet
-      uses: actions/setup-dotnet@v2
+      uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: '${{ env.TGS_DOTNET_VERSION }}.x'
+        dotnet-version: '${{ env.TGS_DOTNET_VERSION }}.0.x'
 
     - name: Checkout
       uses: actions/checkout@v3
@@ -1588,9 +1590,9 @@ jobs:
     runs-on: windows-latest
     steps:
     - name: Setup dotnet
-      uses: actions/setup-dotnet@v2
+      uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: '${{ env.TGS_DOTNET_VERSION }}.x'
+        dotnet-version: '${{ env.TGS_DOTNET_VERSION }}.0.x'
 
     - name: Install winget
       uses: Cyberboss/install-winget@v1
