@@ -46,7 +46,7 @@ Updates:
 Database:
   DatabaseType: SqlServer # The database type TGS connects to
   ServerVersion: # The version of the database being connected to, generally not required to be specified
-  ConnectionString: Data Source=(local);Initial Catalog=TGS;Integrated Security=True # The connection string used to establish the database connection. Format varies for each DatabaseType
+  ConnectionString: Data Source=(local);Initial Catalog=TGS;Integrated Security=True;Encrypt=false # The connection string used to establish the database connection. Format varies for each DatabaseType
   DropDatabase: false # DANGEROUS! Causes TGS to recreate its database on startup. Must be unset manually
   ResetAdminPassword: false # DANGEROUS! Causes TGS to reset the `Admin` user password back to its default value on startup. Must be unset manually.
 Security:

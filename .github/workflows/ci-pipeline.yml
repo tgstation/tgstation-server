@@ -393,7 +393,7 @@ jobs:
       if: ${{ matrix.database-type == 'SqlServer' }}
       shell: bash
       run: |
-        TGS_CONNSTRING_VALUE="Server=(localdb)\MSSQLLocalDB;Integrated Security=true;Initial Catalog=TGS_${{ matrix.watchdog-type }}_${{ matrix.configuration }};Application Name=tgstation-server"
+        TGS_CONNSTRING_VALUE="Server=(localdb)\MSSQLLocalDB;Encrypt=false;Integrated Security=true;Initial Catalog=TGS_${{ matrix.watchdog-type }}_${{ matrix.configuration }};Application Name=tgstation-server"
         echo "TGS_TEST_CONNECTION_STRING=$(echo $TGS_CONNSTRING_VALUE)" >> $GITHUB_ENV
         echo "TGS_TEST_DATABASE_TYPE=SqlServer" >> $GITHUB_ENV
 
