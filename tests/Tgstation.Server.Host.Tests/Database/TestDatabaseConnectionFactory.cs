@@ -1,9 +1,9 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System;
+
+using Microsoft.Data.SqlClient;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using MySqlConnector;
-
-using System;
-using System.Data.SqlClient;
 
 using Tgstation.Server.Host.Configuration;
 
