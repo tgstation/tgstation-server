@@ -118,6 +118,8 @@
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.32.0" />
     <!-- Usage: Identifying owning user of Windows Process objects -->
     <PackageReference Include="System.Management" Version="8.0.0-preview.6.23329.7" />
+    <!-- Usage: Temporary resolution to compatibility issues with EFCore 7 and .NET 8 -->
+    <PackageReference Include="System.Security.Permissions" Version="8.0.0-preview.6.23329.7" />
     <!-- Usage: .DeleteAsync() support for IQueryable<T>s -->
     <PackageReference Include="Z.EntityFramework.Plus.EFCore" Version="7.22.4" />
   </ItemGroup>
