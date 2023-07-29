@@ -14,6 +14,6 @@ namespace Tgstation.Server.Host.Database.Design
 			=> new SqlServerDatabaseContext(
 				DesignTimeDbContextFactoryHelpers.CreateDatabaseContextOptions<SqlServerDatabaseContext>(
 					DatabaseType.SqlServer,
-					"Data Source=fake;Initial Catalog=TGS_Design;Integrated Security=True;Application Name=tgstation-server"));
+					"Data Source=fake;Initial Catalog=TGS_Design;Integrated Security=True;Encrypt=false;Application Name=tgstation-server"));
 	}
 }

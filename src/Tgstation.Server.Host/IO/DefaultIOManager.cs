@@ -284,8 +284,8 @@ namespace Tgstation.Server.Host.IO
 				path = ResolvePath(path);
 				ArgumentNullException.ThrowIfNull(zipFile);
 
-#if NET7_0_OR_GREATER
-#warning Check if zip file seeking has been addressesed. See https://github.com/tgstation/tgstation-server/issues/1531
+#if NET9_0_OR_GREATER
+#error Check if zip file seeking has been addressesed. See https://github.com/tgstation/tgstation-server/issues/1531
 #endif
 
 				// ZipArchive does a synchronous copy on unseekable streams we want to avoid

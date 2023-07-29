@@ -8,7 +8,16 @@ set -x
 
 dpkg --add-architecture i386
 apt-get update
-apt-get install -y npm dotnet-sdk-6.0 build-essential binutils lintian debhelper dh-make devscripts xmlstarlet # needs cleanup probably, SO copypasta
+# This package set needs cleanup probably, StackOverflow copypasta
+apt-get install -y npm \
+    build-essential \
+    binutils \
+    lintian \
+    debhelper \
+    dh-make \
+    devscripts \
+    xmlstarlet
+#   dotnet-sdk-8.0 # Disabled while in preview
 
 CURRENT_COMMIT=$(git rev-parse HEAD)
 

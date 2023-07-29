@@ -1,4 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+
+using Swashbuckle.AspNetCore.SwaggerGen;
 
 using Tgstation.Server.Api.Models;
 
@@ -62,6 +65,27 @@ namespace Tgstation.Server.Host.Configuration
 		/// <summary>
 		/// OAuth provider settings.
 		/// </summary>
-		public IDictionary<OAuthProvider, OAuthConfiguration> OAuth { get; set; }
+		public IDictionary<OAuthProvider, OAuthConfiguration> OAuth
+		{
+			get => oAuth;
+			set
+			{
+				// Workaround for https://github.com/dotnet/runtime/issues/89547
+				var publicProperties = typeof(OAuthConfiguration)
+					.GetProperties()
+					.Where(property => property.CanWrite && property.SetMethod.IsPublic)
+					.ToList();
+				oAuth = value
+					.Where(
+						kvp => !publicProperties.All(
+							prop => prop.GetValue(kvp.Value) == prop.PropertyType.GetDefaultValue()))
+					.ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+			}
+		}
+
+		/// <summary>
+		/// Backing field for <see cref="OAuth"/>.
+		/// </summary>
+		IDictionary<OAuthProvider, OAuthConfiguration> oAuth;
 	}
 }

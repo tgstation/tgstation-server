@@ -64,7 +64,7 @@ static class Program
 
 		Console.WriteLine("Connected!");
 
-		Console.WriteLine("Connecting to TGS5...");
+		Console.WriteLine("Connecting to TGS6...");
 		var assemblyName = Assembly.GetExecutingAssembly().GetName();
 		var productInfoHeaderValue =
 			new ProductInfoHeaderValue(
@@ -73,7 +73,7 @@ static class Program
 
 		var serverUrl = new Uri($"http://localhost:{apiPort}");
 		var clientFactory = new ServerClientFactory(productInfoHeaderValue.Product);
-		var tgs5Client = await clientFactory.CreateFromLogin(
+		var TGS6Client = await clientFactory.CreateFromLogin(
 			serverUrl,
 			DefaultCredentials.AdminUserName,
 			DefaultCredentials.DefaultAdminUserPassword);
@@ -217,7 +217,7 @@ static class Program
 			Console.WriteLine("Detaching TGS3 instance...");
 			tgs3Client.Server.InstanceManager.DetachInstance(instanceName);
 
-			Console.WriteLine("Creating TGS5 attach file...");
+			Console.WriteLine("Creating TGS6 attach file...");
 			File.WriteAllText(Path.Combine(instancePath, "TGS4_ALLOW_INSTANCE_ATTACH"), String.Empty);
 
 			Console.WriteLine("Checking BYOND install...");
@@ -309,22 +309,22 @@ static class Program
 			Console.WriteLine("Deleting TGDreamDaemonBridge.dll...");
 			File.Delete(Path.Combine(instancePath, "TGDreamDaemonBridge.dll"));
 
-			Console.WriteLine("Attaching TGS5 instance...");
-			var tgs5Instance = await tgs5Client.Instances.CreateOrAttach(new InstanceCreateRequest
+			Console.WriteLine("Attaching TGS6 instance...");
+			var TGS6Instance = await TGS6Client.Instances.CreateOrAttach(new InstanceCreateRequest
 			{
 				ConfigurationType = ConfigurationType.Disallowed,
 				Name = instanceName,
 				Path = instancePath,
 			}, default);
 
-			Console.WriteLine($"Onlining TGS5 instance ID {tgs5Instance.Id}...");
-			tgs5Instance = await tgs5Client.Instances.Update(new InstanceUpdateRequest
+			Console.WriteLine($"Onlining TGS6 instance ID {TGS6Instance.Id}...");
+			TGS6Instance = await TGS6Client.Instances.Update(new InstanceUpdateRequest
 			{
 				Online = true,
-				Id = tgs5Instance.Id
+				Id = TGS6Instance.Id
 			}, default);
 
-			var v5InstanceClient = tgs5Client.Instances.CreateClient(tgs5Instance);
+			var v5InstanceClient = TGS6Client.Instances.CreateClient(TGS6Instance);
 
 			if (byondVersionRequest != null)
 			{
@@ -350,7 +350,7 @@ static class Program
 				await v5InstanceClient.ChatBots.Create(chatBotCreateRequest, default);
 			}
 
-			Console.WriteLine($"Instance {instanceName} (TGS5 ID: {tgs5Instance.Id}) successfully migrated!");
+			Console.WriteLine($"Instance {instanceName} (TGS6 ID: {TGS6Instance.Id}) successfully migrated!");
 		}
 
 		Console.WriteLine("All enabled V3 instances migrated into V5 and detached from V3!");

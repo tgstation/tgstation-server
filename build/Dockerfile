@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/dotnet/sdk:6.0-bookworm-slim AS build
+FROM mcr.microsoft.com/dotnet/sdk:8.0-preview-bookworm-slim AS build
 
 # install node and npm
 # replace shell with bash so we can source files
@@ -25,11 +25,7 @@ RUN npm install -g yarn
 # Build web control panel
 WORKDIR /repo/build
 
-COPY build/Common.props Common.props
-COPY build/NugetCommon.props NugetCommon.props
-COPY build/Version.props Version.props
-COPY build/ControlPanelVersion.props ControlPanelVersion.props
-COPY build/SrcCommon.props SrcCommon.props
+COPY build/*.props ./
 
 WORKDIR /repo/src/Tgstation.Server.Host
 
@@ -40,22 +36,11 @@ RUN dotnet msbuild -target:NpmBuild
 
 WORKDIR /repo
 
-# Restore nuget packages
-COPY tgstation-server.sln ./
-
-COPY src/Tgstation.Server.Host.Console/Tgstation.Server.Host.Console.csproj src/Tgstation.Server.Host.Console/
-COPY src/Tgstation.Server.Host.Watchdog/Tgstation.Server.Host.Watchdog.csproj src/Tgstation.Server.Host.Watchdog/
-COPY src/Tgstation.Server.Api/Tgstation.Server.Api.csproj src/Tgstation.Server.Api/
-COPY src/Tgstation.Server.Common/Tgstation.Server.Common.csproj src/Tgstation.Server.Common/
-COPY src/Tgstation.Server.Host.Common/Tgstation.Server.Host.Common.csproj src/Tgstation.Server.Host.Common/
-
-RUN dotnet restore -nowarn:MSB3202,nu1503 -p:RestoreUseSkipNonexistentTargets=false
-
 # Final copy for building
 COPY . .
 
 #run dos2unix on tgs.docker.sh so we can build without issue on windows
-RUN dos2unix build/tgs.docker.sh
+RUN dos2unix build/tgs.docker.sh && dotnet restore
 
 WORKDIR /repo/src/Tgstation.Server.Host.Console
 RUN dotnet publish -c Release -o /app
@@ -63,7 +48,7 @@ RUN dotnet publish -c Release -o /app
 WORKDIR /repo/src/Tgstation.Server.Host
 RUN dotnet publish -c Release -o /app/lib/Default && mv /app/lib/Default/appsettings* /app
 
-FROM mcr.microsoft.com/dotnet/aspnet:6.0-bookworm-slim
+FROM mcr.microsoft.com/dotnet/aspnet:8.0-preview-bookworm-slim
 
 #needed for byond
 RUN apt-get update \
