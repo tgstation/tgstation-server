@@ -12,7 +12,7 @@ NotifyAccess=all
 WorkingDirectory=/opt/tgstation-server
 ExecStart=/usr/bin/dotnet Tgstation.Server.Host.Console.dll --appsettings-base-path=/etc/tgstation-server --General:SetupWizardMode=Never --Internal:UsingSystemD=true
 TimeoutStartSec=600
-Restart=Always
+Restart=always
 KillMode=process
 ReloadSignal=SIGUSR2
 RestartKillSignal=SIGUSR2
