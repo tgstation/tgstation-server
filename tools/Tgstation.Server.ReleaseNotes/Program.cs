@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using System.Xml.Linq;
 
 using Octokit;
-using Octokit.GraphQL;
 
 namespace Tgstation.Server.ReleaseNotes
 {
