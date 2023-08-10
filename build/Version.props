@@ -19,7 +19,7 @@
     <!-- Update this frequently with dotnet runtime patches. MAJOR MUST MATCH ABOVE! -->
     <TgsDotnetRedistUrl>https://download.visualstudio.microsoft.com/download/pr/e5db48f5-99c6-42ca-804a-85b89ae09671/b5594181b347a9a77246e3645916bd0e/dotnet-hosting-8.0.0-preview.6.23329.11-win.exe</TgsDotnetRedistUrl>
     <TgsMariaDBRedistVersion>11.0.2</TgsMariaDBRedistVersion>
-    <!-- The two versions must match above, this is referenced by scripts so we can't use an MSBuild property reference -->
+    <!-- The two versions must match above, this is referenced by XML readers in scripts so we can't use an MSBuild property reference -->
     <TgsMariaDBRedistUrl>https://ftp.osuosl.org/pub/mariadb/mariadb-11.0.2/winx64-packages/mariadb-11.0.2-winx64.msi</TgsMariaDBRedistUrl>
   </PropertyGroup>
 </Project>

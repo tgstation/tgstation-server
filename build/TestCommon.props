@@ -2,17 +2,24 @@
   <Import Project="Common.props" />
 
   <ItemGroup>
+    <!-- Usage: Code coverage collection -->
     <PackageReference Include="coverlet.collector" Version="6.0.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <!-- Usage: Logging specific for GitHub actions -->
     <PackageReference Include="GitHubActionsTestLogger" Version="2.3.2">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.6.3" />
-    <PackageReference Include="Moq" Version="4.18.4" />
+    <!-- Usage: Hard to say what exactly this is for, but not including it removes the test icon and breaks vstest.console.exe for some reason -->
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.7.0" />
+    <!-- Usage: Dependency mocking for tests -->
+    <!-- Pinned: Moq is OVER https://github.com/moq/moq/issues/1372 -->
+    <PackageReference Include="Moq" Version="4.20.2" />
+    <!-- Usage: MSTest execution -->
     <PackageReference Include="MSTest.TestAdapter" Version="3.1.1" />
+    <!-- Usage: MSTest asserts etc... -->
     <PackageReference Include="MSTest.TestFramework" Version="3.1.1" />
   </ItemGroup>
 

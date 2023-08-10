@@ -7,7 +7,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="octokit" Version="7.0.1" />
+    <!-- Usage: GitHub.com general interop -->
+    <PackageReference Include="Octokit" Version="7.1.0" />
+    <!-- Usage: GitHub Discussions interop -->
     <PackageReference Include="Octokit.GraphQL" Version="0.2.1-beta" />
   </ItemGroup>
 
