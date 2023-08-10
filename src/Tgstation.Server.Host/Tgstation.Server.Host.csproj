@@ -65,25 +65,25 @@
     <!-- Usage: IRC interop -->
     <PackageReference Include="Cyberboss.SmartIrc4net.Standard" Version="0.4.7" />
     <!-- Usage: Text formatter for Elasticsearch logging plugin -->
-    <PackageReference Include="Elastic.CommonSchema.Serilog" Version="8.6.0" />
+    <PackageReference Include="Elastic.CommonSchema.Serilog" Version="8.6.1" />
     <!-- Usage: GitLab interop -->
     <PackageReference Include="GitLabApiClient" Version="1.8.0" />
     <!-- Usage: git interop -->
     <PackageReference Include="LibGit2Sharp" Version="0.27.2" />
     <!-- Usage: JWT injection into HTTP pipeline -->
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.20" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.21" />
     <!-- Usage: Support ""legacy"" Newotonsoft.Json in HTTP pipeline. The rest of our codebase uses Newtonsoft. -->
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.20" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.21" />
     <!-- Usage: Database ORM -->
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.9" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.10" />
     <!-- Usage: Automatic migration generation using command line -->
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.9">
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.10">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <!-- Usage: Sqlite ORM plugin -->
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.9" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.10" />
     <!-- Usage: MSSQL ORM plugin -->
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.9" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.10" />
     <!-- Usage: POSIX support for syscalls, signals, and symlinks -->
     <PackageReference Include="Mono.Posix.NETStandard" Version="1.0.0" />
     <!-- Usage: YAML config plugin -->
@@ -91,7 +91,7 @@
     <!-- Usage: PostgresSQL ORM plugin -->
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="7.0.4" />
     <!-- Usage: GitHub.com interop -->
-    <PackageReference Include="Octokit" Version="7.0.1" />
+    <PackageReference Include="Octokit" Version="7.1.0" />
     <!-- Usage: MYSQL/MariaDB ORM plugin -->
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="7.0.0" />
     <!-- Usage: Discord interop -->
@@ -113,7 +113,7 @@
     <!-- Usage: Windows authentication plugin allowing searching for users by name -->
     <PackageReference Include="System.DirectoryServices.AccountManagement" Version="7.0.0" />
     <!-- Usage: JWT plugin needed to undo some Microsoft meddling in the HTTP pipeline -->
-    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.32.0" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.32.1" />
     <!-- Usage: Identifying owning user of Windows Process objects -->
     <PackageReference Include="System.Management" Version="7.0.2" />
     <!-- Usage: .DeleteAsync() support for IQueryable<T>s -->
