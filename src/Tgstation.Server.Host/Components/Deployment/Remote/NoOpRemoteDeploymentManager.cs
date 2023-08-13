@@ -1,8 +1,12 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
+using Microsoft.Extensions.Logging;
+
+using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Host.Components.Repository;
 using Tgstation.Server.Host.Models;
 
@@ -11,48 +15,66 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 	/// <summary>
 	/// No-op implementation of <see cref="IRemoteDeploymentManager"/>.
 	/// </summary>
-	sealed class NoOpRemoteDeploymentManager : IRemoteDeploymentManager
+	sealed class NoOpRemoteDeploymentManager : BaseRemoteDeploymentManager
 	{
-		/// <inheritdoc />
-		public Task ApplyDeployment(
-			CompileJob compileJob,
-			CompileJob oldCompileJob,
-			CancellationToken cancellationToken) => Task.CompletedTask;
+		/// <summary>
+		/// Initializes a new instance of the <see cref="NoOpRemoteDeploymentManager"/> class.
+		/// </summary>
+		/// <param name="logger">The value of <see cref="BaseRemoteDeploymentManager.Logger"/>.</param>
+		/// <param name="metadata">The value of <see cref="BaseRemoteDeploymentManager.Metadata"/>.</param>
+		/// <param name="activationCallbacks">The activation callback <see cref="ConcurrentDictionary{TKey, TValue}"/> for the <see cref="BaseRemoteDeploymentManager"/>.</param>
+		public NoOpRemoteDeploymentManager(
+			ILogger<NoOpRemoteDeploymentManager> logger,
+			Api.Models.Instance metadata,
+			ConcurrentDictionary<long, Action<bool>> activationCallbacks)
+			: base(logger, metadata, activationCallbacks)
+		{
+		}
 
 		/// <inheritdoc />
-		public Task FailDeployment(
-			CompileJob compileJob,
-			string errorMessage,
-			CancellationToken cancellationToken) => Task.CompletedTask;
+		public override Task FailDeployment(Models.CompileJob compileJob, string errorMessage, CancellationToken cancellationToken)
+		{
+			throw new NotImplementedException();
+		}
 
 		/// <inheritdoc />
-		public Task MarkInactive(
-			CompileJob compileJob,
-			CancellationToken cancellationToken) => Task.CompletedTask;
+		public override Task<IReadOnlyCollection<TestMerge>> RemoveMergedTestMerges(IRepository repository, Models.RepositorySettings repositorySettings, Models.RevisionInformation revisionInformation, CancellationToken cancellationToken)
+			=> Task.FromResult<IReadOnlyCollection<TestMerge>>(Array.Empty<TestMerge>());
 
 		/// <inheritdoc />
-		public Task PostDeploymentComments(
-			CompileJob compileJob,
-			RevisionInformation previousRevisionInformation,
-			RepositorySettings repositorySettings,
-			string repoOwner,
-			string repoName,
-			CancellationToken cancellationToken) => Task.CompletedTask;
+		public override Task StartDeployment(IGitRemoteInformation remoteInformation, Models.CompileJob compileJob, CancellationToken cancellationToken)
+			=> Task.CompletedTask;
 
 		/// <inheritdoc />
-		public Task<IReadOnlyCollection<TestMerge>> RemoveMergedTestMerges(
-			IRepository repository,
-			RepositorySettings repositorySettings,
-			RevisionInformation revisionInformation,
-			CancellationToken cancellationToken) => Task.FromResult<IReadOnlyCollection<TestMerge>>(Array.Empty<TestMerge>());
+		protected override Task ApplyDeploymentImpl(Models.CompileJob compileJob, CancellationToken cancellationToken) => Task.CompletedTask;
 
 		/// <inheritdoc />
-		public Task StageDeployment(CompileJob compileJob, CancellationToken cancellationToken) => Task.CompletedTask;
+		protected override Task CommentOnTestMergeSource(
+			Models.RepositorySettings repositorySettings,
+			string remoteRepositoryOwner,
+			string remoteRepositoryName,
+			string comment,
+			int testMergeNumber,
+			CancellationToken cancellationToken)
+			=> Task.CompletedTask;
 
 		/// <inheritdoc />
-		public Task StartDeployment(
-			Api.Models.Internal.IGitRemoteInformation remoteInformation,
-			CompileJob compileJob,
-			CancellationToken cancellationToken) => Task.CompletedTask;
+		protected override string FormatTestMerge(
+			Models.RepositorySettings repositorySettings,
+			Models.CompileJob compileJob,
+			TestMerge testMerge,
+			string remoteRepositoryOwner,
+			string remoteRepositoryName,
+			bool updated)
+			=> String.Empty;
+
+		/// <inheritdoc />
+		protected override Task MarkInactiveImpl(Models.CompileJob compileJob, CancellationToken cancellationToken)
+		{
+			throw new NotImplementedException();
+		}
+
+		/// <inheritdoc />
+		protected override Task StageDeploymentImpl(Models.CompileJob compileJob, CancellationToken cancellationToken) => Task.CompletedTask;
 	}
 }

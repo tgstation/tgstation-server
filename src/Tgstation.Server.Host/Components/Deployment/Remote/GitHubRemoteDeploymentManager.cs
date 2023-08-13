@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Globalization;
@@ -40,12 +41,14 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 		/// <param name="gitHubServiceFactory">The value of <see cref="gitHubServiceFactory"/>.</param>
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="BaseRemoteDeploymentManager"/>.</param>
 		/// <param name="metadata">The <see cref="Api.Models.Instance"/> for the <see cref="BaseRemoteDeploymentManager"/>.</param>
+		/// <param name="activationCallbacks">The activation callback <see cref="ConcurrentDictionary{TKey, TValue}"/> for the <see cref="BaseRemoteDeploymentManager"/>.</param>
 		public GitHubRemoteDeploymentManager(
 			IDatabaseContextFactory databaseContextFactory,
 			IGitHubServiceFactory gitHubServiceFactory,
 			ILogger<GitHubRemoteDeploymentManager> logger,
-			Api.Models.Instance metadata)
-			: base(logger, metadata)
+			Api.Models.Instance metadata,
+			ConcurrentDictionary<long, Action<bool>> activationCallbacks)
+			: base(logger, metadata, activationCallbacks)
 		{
 			this.databaseContextFactory = databaseContextFactory ?? throw new ArgumentNullException(nameof(databaseContextFactory));
 			this.gitHubServiceFactory = gitHubServiceFactory ?? throw new ArgumentNullException(nameof(gitHubServiceFactory));
@@ -145,37 +148,11 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 		}
 
 		/// <inheritdoc />
-		public override Task StageDeployment(
-			CompileJob compileJob,
-			CancellationToken cancellationToken)
-			=> UpdateDeployment(
-				compileJob,
-				"The deployment succeeded and will be applied a the next server reboot.",
-				DeploymentState.Pending,
-				cancellationToken);
-
-		/// <inheritdoc />
-		public override Task ApplyDeployment(CompileJob compileJob, CompileJob oldCompileJob, CancellationToken cancellationToken)
-			=> UpdateDeployment(
-				compileJob,
-				"The deployment is now live on the server.",
-				DeploymentState.Success,
-				cancellationToken);
-
-		/// <inheritdoc />
 		public override Task FailDeployment(CompileJob compileJob, string errorMessage, CancellationToken cancellationToken)
 			=> UpdateDeployment(
 				compileJob,
 				errorMessage,
 				DeploymentState.Error,
-				cancellationToken);
-
-		/// <inheritdoc />
-		public override Task MarkInactive(CompileJob compileJob, CancellationToken cancellationToken)
-			=> UpdateDeployment(
-				compileJob,
-				"The deployment has been superceeded.",
-				DeploymentState.Inactive,
 				cancellationToken);
 
 		/// <inheritdoc />
@@ -236,6 +213,32 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 
 			return newList;
 		}
+
+		/// <inheritdoc />
+		protected override Task StageDeploymentImpl(
+			CompileJob compileJob,
+			CancellationToken cancellationToken)
+			=> UpdateDeployment(
+				compileJob,
+				"The deployment succeeded and will be applied a the next server reboot.",
+				DeploymentState.Pending,
+				cancellationToken);
+
+		/// <inheritdoc />
+		protected override Task ApplyDeploymentImpl(CompileJob compileJob, CancellationToken cancellationToken)
+			=> UpdateDeployment(
+				compileJob,
+				"The deployment is now live on the server.",
+				DeploymentState.Success,
+				cancellationToken);
+
+		/// <inheritdoc />
+		protected override Task MarkInactiveImpl(CompileJob compileJob, CancellationToken cancellationToken)
+			=> UpdateDeployment(
+				compileJob,
+				"The deployment has been superceeded.",
+				DeploymentState.Inactive,
+				cancellationToken);
 
 		/// <inheritdoc />
 		protected override async Task CommentOnTestMergeSource(

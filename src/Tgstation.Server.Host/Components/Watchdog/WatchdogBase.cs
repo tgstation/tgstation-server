@@ -680,7 +680,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 
 			try
 			{
-				await remoteDeploymentManager.ApplyDeployment(newCompileJob, ActiveCompileJob, cancellationToken);
+				await remoteDeploymentManager.ApplyDeployment(newCompileJob, cancellationToken);
 			}
 			catch (Exception ex)
 			{

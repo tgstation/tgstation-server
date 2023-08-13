@@ -326,7 +326,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		}
 
 		/// <inheritdoc />
-		public override async Task<Func<string, string, Task>> SendUpdateMessage(
+		public override async Task<Func<string, string, Task<Func<bool, Task>>>> SendUpdateMessage(
 			Models.RevisionInformation revisionInformation,
 			Version byondVersion,
 			DateTimeOffset? estimatedCompletionTime,
@@ -377,19 +377,26 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			{
 				var completionString = errorMessage == null ? "Succeeded" : "Failed";
 
-				embed = new Embed
+				Embed CreateUpdatedEmbed(string message, Color color) => new Embed
 				{
 					Author = embed.Author,
-					Colour = errorMessage == null ? Color.Green : Color.Red,
-					Description = errorMessage == null
-					? "The deployment completed successfully and will be available at the next server reboot."
-					: "The deployment failed.",
+					Colour = color,
+					Description = message,
 					Fields = fields,
 					Title = embed.Title,
 					Footer = new EmbedFooter(
 						completionString),
 					Timestamp = DateTimeOffset.UtcNow,
 				};
+
+				if (errorMessage == null)
+					embed = CreateUpdatedEmbed(
+						"The deployment completed successfully and will be available at the next server reboot.",
+						Color.Blue);
+				else
+					embed = CreateUpdatedEmbed(
+						"The deployment failed.",
+						Color.Red);
 
 				var showDMOutput = outputDisplayType switch
 				{
@@ -417,13 +424,14 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 						errorMessage,
 						false));
 
-				var updatedMessage = $"DM: Deployment {completionString}!";
+				var updatedMessageText = $"DM: Deployment {completionString}!";
 
+				IMessage updatedMessage = null;
 				async Task CreateUpdatedMessage()
 				{
 					var createUpdatedMessageResponse = await channelsClient.CreateMessageAsync(
 						new Snowflake(channelId),
-						updatedMessage,
+						updatedMessageText,
 						embeds: new List<IEmbed> { embed },
 						ct: cancellationToken);
 
@@ -431,6 +439,8 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 						Logger.LogWarning(
 							"Creating updated deploy embed failed: {result}",
 							createUpdatedMessageResponse.LogFormat());
+					else
+						updatedMessage = createUpdatedMessageResponse.Entity;
 				}
 
 				if (!messageResponse.IsSuccess)
@@ -440,7 +450,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 					var editResponse = await channelsClient.EditMessageAsync(
 						new Snowflake(channelId),
 						messageResponse.Entity.ID,
-						updatedMessage,
+						updatedMessageText,
 						embeds: new List<IEmbed> { embed },
 						ct: cancellationToken);
 
@@ -452,7 +462,37 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 							editResponse.LogFormat());
 						await CreateUpdatedMessage();
 					}
+					else
+						updatedMessage = editResponse.Entity;
 				}
+
+				return async (active) =>
+				{
+					if (updatedMessage == null || errorMessage != null)
+						return;
+
+					if (active)
+						embed = CreateUpdatedEmbed(
+							"The deployment completed successfully and was applied to server.",
+							Color.Green);
+					else
+						embed = CreateUpdatedEmbed(
+							"This deployment has been superceeded by a new one.",
+							Color.Gray);
+
+					var editResponse = await channelsClient.EditMessageAsync(
+						new Snowflake(channelId),
+						updatedMessage.ID,
+						updatedMessageText,
+						embeds: new List<IEmbed> { embed },
+						ct: cancellationToken);
+
+					if (!editResponse.IsSuccess)
+						Logger.LogWarning(
+							"Finalizing deploy embed {messageId} failed: {result}",
+							messageResponse.Entity.ID,
+							editResponse.LogFormat());
+				};
 			};
 		}
 

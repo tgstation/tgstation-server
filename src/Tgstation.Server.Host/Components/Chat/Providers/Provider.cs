@@ -181,7 +181,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		public abstract Task SendMessage(Message replyTo, MessageContent message, ulong channelId, CancellationToken cancellationToken);
 
 		/// <inheritdoc />
-		public abstract Task<Func<string, string, Task>> SendUpdateMessage(
+		public abstract Task<Func<string, string, Task<Func<bool, Task>>>> SendUpdateMessage(
 			RevisionInformation revisionInformation,
 			Version byondVersion,
 			DateTimeOffset? estimatedCompletionTime,
