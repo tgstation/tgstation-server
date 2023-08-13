@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -71,8 +72,10 @@ namespace Tgstation.Server.Host.Console
 				};
 
 				var watchdog = WatchdogFactory.CreateWatchdog(
-					new PosixSignalChecker(
-						loggerFactory.CreateLogger<PosixSignalChecker>()),
+					RuntimeInformation.IsOSPlatform(OSPlatform.Windows)
+						? new NoopSignalChecker()
+						: new PosixSignalChecker(
+							loggerFactory.CreateLogger<PosixSignalChecker>()),
 					loggerFactory);
 
 				return await watchdog.RunAsync(false, arguments.ToArray(), cts.Token)
