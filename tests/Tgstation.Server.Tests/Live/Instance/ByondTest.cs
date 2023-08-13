@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -58,7 +59,23 @@ namespace Tgstation.Server.Tests.Live.Instance
 			using var reader = new StreamReader(stream, Encoding.UTF8, false, -1, true);
 			var text = await reader.ReadToEndAsync();
 			var splits = text.Split('\n', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
-			return edgeVersion = Version.Parse(splits.Last());
+
+			var targetVersion = splits.Last();
+
+			var missingVersionMap = new PlatformIdentifier().IsWindows
+				? new Dictionary<string, string>()
+				{
+				}
+				// linux map also needs updating in CI
+				: new Dictionary<string, string>()
+				{
+					{ "515.1612", "515.1611" }
+				};
+
+			if (missingVersionMap.TryGetValue(targetVersion, out var remappedVersion))
+				targetVersion = remappedVersion;
+
+			return edgeVersion = Version.Parse(targetVersion);
 		}
 
 		async Task RunPartOne(CancellationToken cancellationToken)
