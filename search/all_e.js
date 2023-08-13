@@ -28,7 +28,7 @@ var searchData=
   ['nonblockinglisten_25',['NonBlockingListen',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_irc_provider.html#af74b65e6c05dba2490bb2fb62bdb7f40',1,'Tgstation::Server::Host::Components::Chat::Providers::IrcProvider']]],
   ['noopremotedeploymentmanager_26',['NoOpRemoteDeploymentManager',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_no_op_remote_deployment_manager.html',1,'Tgstation::Server::Host::Components::Deployment::Remote']]],
   ['noopremotedeploymentmanager_2ecs_27',['NoOpRemoteDeploymentManager.cs',['../_no_op_remote_deployment_manager_8cs.html',1,'']]],
-  ['noopsignalchecker_28',['NoopSignalChecker',['../class_tgstation_1_1_server_1_1_host_1_1_service_1_1_noop_signal_checker.html',1,'Tgstation::Server::Host::Service']]],
+  ['noopsignalchecker_28',['NoopSignalChecker',['../class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_noop_signal_checker.html',1,'Tgstation::Server::Host::Watchdog']]],
   ['noopsignalchecker_2ecs_29',['NoopSignalChecker.cs',['../_noop_signal_checker_8cs.html',1,'']]],
   ['normalizeanddelete_30',['NormalizeAndDelete',['../class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#acba7d5b4654f5a2358fef05ede3c5dd5',1,'Tgstation::Server::Host::IO::DefaultIOManager']]],
   ['normalizementions_31',['NormalizeMentions',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#a3cf5b9ba9079d6c9f582f61b5894f7c1',1,'Tgstation::Server::Host::Components::Chat::Providers::DiscordProvider']]],
