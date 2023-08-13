@@ -1,5 +1,5 @@
 <map id="Tgstation.Server.Host.Components.Watchdog.WatchdogBase.BeforeApplyDmb" name="Tgstation.Server.Host.Components.Watchdog.WatchdogBase.BeforeApplyDmb">
 <area shape="rect" id="node1" title="To be called before a given newCompileJob &#160;goes live." alt="" coords="5,53,276,93"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_i_remote_deployment_manager.html#a5eb0d5e39709230e697671ed11f1cc04" title="Stage a given compileJob &#39;s deployment." alt="" coords="354,5,613,60"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_i_remote_deployment_manager.html#a270882ce0907bcbbd06528fc47c64858" title="Stage a given compileJob &#39;s deployment." alt="" coords="354,5,613,60"/>
 <area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_i_remote_deployment_manager_factory.html#a4115cea1f220c4fdaede74566aa848d3" title="Creates a IRemoteDeploymentManager for a given remoteGitProvider ." alt="" coords="324,84,643,139"/>
 </map>

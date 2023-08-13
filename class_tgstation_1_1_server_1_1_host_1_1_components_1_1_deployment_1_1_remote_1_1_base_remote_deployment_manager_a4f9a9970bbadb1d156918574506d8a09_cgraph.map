@@ -1,0 +1,4 @@
+<map id="Tgstation.Server.Host.Components.Deployment.Remote.BaseRemoteDeploymentManager.StageDeployment" name="Tgstation.Server.Host.Components.Deployment.Remote.BaseRemoteDeploymentManager.StageDeployment">
+<area shape="rect" id="node1" title="Stage a given compileJob &#39;s deployment. A Task representing the running operation." alt="" coords="5,5,289,60"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_base_remote_deployment_manager.html#ac85d072248d56de9277ae4e064d5e1a1" title="Implementation of StageDeployment(CompileJob, Action&lt;bool&gt;, CancellationToken)." alt="" coords="337,5,621,60"/>
+</map>
