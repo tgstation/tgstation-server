@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Net.Http.Headers;
 using System.Net.Mime;
@@ -331,7 +332,7 @@ namespace Tgstation.Server.Api
 
 			instanceId ??= InstanceId;
 			if (instanceId.HasValue)
-				headers.Add(InstanceIdHeader, instanceId.ToString());
+				headers.Add(InstanceIdHeader, instanceId.Value.ToString(CultureInfo.InvariantCulture));
 		}
 	}
 }
