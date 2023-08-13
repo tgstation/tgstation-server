@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
 
 using Microsoft.Extensions.Logging;
 
@@ -38,6 +40,11 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 		readonly ILogger<RemoteDeploymentManagerFactory> logger;
 
 		/// <summary>
+		/// A map of <see cref="Models.CompileJob"/> <see cref="EntityId.Id"/>s to activation callback <see cref="Action{T1}"/>s.
+		/// </summary>
+		readonly ConcurrentDictionary<long, Action<bool>> activationCallbacks;
+
+		/// <summary>
 		/// Initializes a new instance of the <see cref="RemoteDeploymentManagerFactory"/> class.
 		/// </summary>
 		/// <param name="databaseContextFactory">The value of <see cref="databaseContextFactory"/>.</param>
@@ -57,6 +64,8 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 			this.gitRemoteFeaturesFactory = gitRemoteFeaturesFactory ?? throw new ArgumentNullException(nameof(gitRemoteFeaturesFactory));
 			this.loggerFactory = loggerFactory ?? throw new ArgumentNullException(nameof(loggerFactory));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
+
+			activationCallbacks = new ConcurrentDictionary<long, Action<bool>>();
 		}
 
 		/// <inheritdoc />
@@ -71,11 +80,16 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 					databaseContextFactory,
 					gitHubServiceFactory,
 					loggerFactory.CreateLogger<GitHubRemoteDeploymentManager>(),
-					metadata),
+					metadata,
+					activationCallbacks),
 				RemoteGitProvider.GitLab => new GitLabRemoteDeploymentManager(
 					loggerFactory.CreateLogger<GitLabRemoteDeploymentManager>(),
-					metadata),
-				RemoteGitProvider.Unknown => new NoOpRemoteDeploymentManager(),
+					metadata,
+					activationCallbacks),
+				RemoteGitProvider.Unknown => new NoOpRemoteDeploymentManager(
+					loggerFactory.CreateLogger<NoOpRemoteDeploymentManager>(),
+					metadata,
+					activationCallbacks),
 				_ => throw new InvalidOperationException($"Invalid RemoteGitProvider: {remoteGitProvider}!"),
 			};
 		}
@@ -96,6 +110,15 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 						compileJob.RepositoryOrigin));
 
 			return CreateRemoteDeploymentManager(metadata, remoteGitProvider);
+		}
+
+		/// <inheritdoc />
+		public void ForgetLocalStateForCompileJobs(IEnumerable<long> compileJobIds)
+		{
+			ArgumentNullException.ThrowIfNull(compileJobIds);
+
+			foreach (var compileJobId in compileJobIds)
+				activationCallbacks.Remove(compileJobId, out _);
 		}
 	}
 }

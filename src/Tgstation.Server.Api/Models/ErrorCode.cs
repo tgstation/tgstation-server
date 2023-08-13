@@ -486,7 +486,7 @@ namespace Tgstation.Server.Api.Models
 		DreamDaemonPortInUse,
 
 		/// <summary>
-		/// Failed to post GitHub comments, send chat message, or send TGS event.
+		/// Failed to post GitHub comments, or send TGS event.
 		/// </summary>
 		[Description("The deployment succeeded but one or more notification events failed!")]
 		PostDeployFailure,

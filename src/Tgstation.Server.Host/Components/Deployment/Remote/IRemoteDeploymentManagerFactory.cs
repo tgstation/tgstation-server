@@ -1,4 +1,6 @@
-﻿using Tgstation.Server.Api.Models;
+﻿using System.Collections.Generic;
+
+using Tgstation.Server.Api.Models;
 
 namespace Tgstation.Server.Host.Components.Deployment.Remote
 {
@@ -22,5 +24,11 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 		/// <param name="compileJob">The <see cref="Models.CompileJob"/> containing the <see cref="Api.Models.Response.CompileJobResponse.RepositoryOrigin"/> to use.</param>
 		/// <returns>A new <see cref="IRemoteDeploymentManager"/>.</returns>
 		IRemoteDeploymentManager CreateRemoteDeploymentManager(Api.Models.Instance metadata, Models.CompileJob compileJob);
+
+		/// <summary>
+		/// Cause the <see cref="IRemoteDeploymentManagerFactory"/> to drop any local state is has for the given <paramref name="compileJobsIds"/>.
+		/// </summary>
+		/// <param name="compileJobsIds">An <see cref="IEnumerable{T}"/> of <see cref="Models.CompileJob"/> <see cref="EntityId.Id"/>s.</param>
+		void ForgetLocalStateForCompileJobs(IEnumerable<long> compileJobsIds);
 	}
 }

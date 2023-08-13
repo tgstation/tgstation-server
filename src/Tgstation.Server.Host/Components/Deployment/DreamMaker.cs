@@ -117,7 +117,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 		/// <summary>
 		/// The active callback from <see cref="IChatManager.QueueDeploymentMessage"/>.
 		/// </summary>
-		Action<string, string> currentChatCallback;
+		Func<string, string, Action<bool>> currentChatCallback;
 
 		/// <summary>
 		/// Cached for <see cref="currentChatCallback"/>.
@@ -355,7 +355,8 @@ namespace Tgstation.Server.Host.Components.Deployment
 							logger.LogTrace("Created CompileJob {compileJobId}", compileJob.Id);
 							try
 							{
-								await compileJobConsumer.LoadCompileJob(compileJob, cancellationToken);
+								var chatNotificationAction = currentChatCallback(null, compileJob.Output);
+								await compileJobConsumer.LoadCompileJob(compileJob, chatNotificationAction, cancellationToken);
 							}
 							catch
 							{
@@ -389,8 +390,6 @@ namespace Tgstation.Server.Host.Components.Deployment
 
 				try
 				{
-					currentChatCallback(null, compileJob.Output);
-
 					await Task.WhenAll(commentsTask, eventTask);
 				}
 				catch (Exception ex)
