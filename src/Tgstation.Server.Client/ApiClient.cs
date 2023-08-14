@@ -221,9 +221,9 @@ namespace Tgstation.Server.Client
 			=> RunRequest(route, HttpMethod.Delete, instanceId, false, cancellationToken);
 
 		/// <inheritdoc />
-		public async ValueTask Delete<TBody>(string route, TBody body, long instanceId, CancellationToken cancellationToken)
+		public ValueTask Delete<TBody>(string route, TBody body, long instanceId, CancellationToken cancellationToken)
 			where TBody : class
-			=> await RunRequest<TBody, object>(route, body, HttpMethod.Delete, instanceId, false, cancellationToken);
+			=> RunResultlessRequest(route, body, HttpMethod.Delete, instanceId, false, cancellationToken);
 
 		/// <inheritdoc />
 		public ValueTask<TResult> Delete<TResult>(string route, long instanceId, CancellationToken cancellationToken)
