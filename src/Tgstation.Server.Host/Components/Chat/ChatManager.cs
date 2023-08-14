@@ -6,7 +6,9 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using Microsoft.Extensions.Logging;
+
 using Newtonsoft.Json;
+
 using Serilog.Context;
 
 using Tgstation.Server.Api.Models.Internal;
@@ -354,7 +356,7 @@ namespace Tgstation.Server.Host.Components.Chat
 		}
 
 		/// <inheritdoc />
-		public Action<string, string> QueueDeploymentMessage(
+		public Func<string, string, Action<bool>> QueueDeploymentMessage(
 			Models.RevisionInformation revisionInformation,
 			Version byondVersion,
 			DateTimeOffset? estimatedCompletionTime,
@@ -368,7 +370,7 @@ namespace Tgstation.Server.Host.Components.Chat
 
 			logger.LogTrace("Sending deployment message for RevisionInformation: {revisionInfoId}", revisionInformation.Id);
 
-			var callbacks = new List<Func<string, string, Task>>();
+			var callbacks = new List<Func<string, string, Task<Func<bool, Task>>>>();
 
 			var task = Task.WhenAll(
 				wdChannels.Select(
@@ -408,17 +410,44 @@ namespace Tgstation.Server.Host.Components.Chat
 
 			AddMessageTask(task);
 
-			async Task CollateTasks(string errorMessage, string dreamMakerOutput)
+			Task callbackTask = null;
+			Func<bool, Task> finalUpdateAction = null;
+			async Task CallbackTask(string errorMessage, string dreamMakerOutput)
 			{
 				await task;
-				await Task.WhenAll(
+				var callbackResultTasks =
 					callbacks.Select(
 						x => x(
 							errorMessage,
-							dreamMakerOutput)));
+							dreamMakerOutput))
+					.ToList();
+
+				await Task.WhenAll(callbackResultTasks);
+
+				finalUpdateAction = active => Task.WhenAll(callbackResultTasks.Select(task => task.Result(active)));
 			}
 
-			return (errorMessage, dreamMakerOutput) => AddMessageTask(CollateTasks(errorMessage, dreamMakerOutput));
+			async Task CompletionTask(bool active)
+			{
+				try
+				{
+					await callbackTask;
+				}
+				catch
+				{
+					// Handled in AddMessageTask
+					return;
+				}
+
+				AddMessageTask(finalUpdateAction(active));
+			}
+
+			return (errorMessage, dreamMakerOutput) =>
+			{
+				callbackTask = CallbackTask(errorMessage, dreamMakerOutput);
+				AddMessageTask(callbackTask);
+				return active => AddMessageTask(CompletionTask(active));
+			};
 		}
 
 		/// <inheritdoc />

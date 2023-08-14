@@ -43,10 +43,15 @@ COPY . .
 RUN dos2unix build/tgs.docker.sh && dotnet restore
 
 WORKDIR /repo/src/Tgstation.Server.Host.Console
-RUN dotnet publish -c Release -o /app
+RUN dotnet publish -c Release -o /app \
+	&& cd ../.. \
+	&& build/RemoveUnsupportedRuntimes.sh /app
 
 WORKDIR /repo/src/Tgstation.Server.Host
-RUN dotnet publish -c Release -o /app/lib/Default && mv /app/lib/Default/appsettings* /app
+RUN dotnet publish -c Release -o /app/lib/Default \
+	&& cd ../.. \
+	&& build/RemoveUnsupportedRuntimes.sh /app/lib/Default \
+	&& mv /app/lib/Default/appsettings* /app
 
 FROM mcr.microsoft.com/dotnet/aspnet:8.0-preview-bookworm-slim
 

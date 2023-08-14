@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -28,20 +29,21 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 		/// Stage a given <paramref name="compileJob"/>'s deployment.
 		/// </summary>
 		/// <param name="compileJob">The staged <see cref="CompileJob"/>.</param>
+		/// <param name="activationCallback">An optional <see cref="Action{T1}"/> to be called when the <see cref="CompileJob"/> becomes active or is discarded with <see langword="true"/> or <see langword="false"/> respectively.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
 		Task StageDeployment(
 			CompileJob compileJob,
+			Action<bool> activationCallback,
 			CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Stage a given <paramref name="compileJob"/>'s deployment.
 		/// </summary>
 		/// <param name="compileJob">The <see cref="CompileJob"/> being applied.</param>
-		/// <param name="oldCompileJob">The currently active <see cref="CompileJob"/>, if any.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		Task ApplyDeployment(CompileJob compileJob, CompileJob oldCompileJob, CancellationToken cancellationToken);
+		Task ApplyDeployment(CompileJob compileJob, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Fail a deployment for a given <paramref name="compileJob"/>.

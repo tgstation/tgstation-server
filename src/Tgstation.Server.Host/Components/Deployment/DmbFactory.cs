@@ -75,14 +75,14 @@ namespace Tgstation.Server.Host.Components.Deployment
 		readonly IDictionary<long, int> jobLockCounts;
 
 		/// <summary>
+		/// <see cref="TaskCompletionSource"/> resulting in the latest <see cref="DmbProvider"/> yet to exist.
+		/// </summary>
+		volatile TaskCompletionSource newerDmbTcs;
+
+		/// <summary>
 		/// <see cref="Task"/> representing calls to <see cref="CleanRegisteredCompileJob(CompileJob)"/>.
 		/// </summary>
 		Task cleanupTask;
-
-		/// <summary>
-		/// <see cref="TaskCompletionSource"/> resulting in the latest <see cref="DmbProvider"/> yet to exist.
-		/// </summary>
-		TaskCompletionSource newerDmbTcs;
 
 		/// <summary>
 		/// The latest <see cref="DmbProvider"/>.
@@ -128,7 +128,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 		public void Dispose() => cleanupCts.Dispose(); // we don't dispose nextDmbProvider here, since it might be the only thing we have
 
 		/// <inheritdoc />
-		public async Task LoadCompileJob(CompileJob job, CancellationToken cancellationToken)
+		public async Task LoadCompileJob(CompileJob job, Action<bool> activationAction, CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(job);
 
@@ -143,8 +143,9 @@ namespace Tgstation.Server.Host.Components.Deployment
 					metadata,
 					job);
 				await remoteDeploymentManager.StageDeployment(
-						newProvider.CompileJob,
-						cancellationToken);
+					newProvider.CompileJob,
+					activationAction,
+					cancellationToken);
 			}
 
 			lock (jobLockCounts)
@@ -153,8 +154,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 				nextDmbProvider = newProvider;
 
 				// Oh god dammit
-				var temp = newerDmbTcs;
-				newerDmbTcs = new TaskCompletionSource();
+				var temp = Interlocked.Exchange(ref newerDmbTcs, new TaskCompletionSource());
 				temp.SetResult();
 			}
 		}
@@ -170,7 +170,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 			{
 				var jobId = nextDmbProvider.CompileJob.Id;
 				var incremented = jobLockCounts[jobId.Value] += lockCount;
-				logger.LogTrace("Compile job {0} lock count now: {1}", jobId, incremented);
+				logger.LogTrace("Compile job {jobId} lock count now: {lockCount}", jobId, incremented);
 				return nextDmbProvider;
 			}
 		}
@@ -189,10 +189,16 @@ namespace Tgstation.Server.Host.Components.Deployment
 					.FirstOrDefaultAsync(cancellationToken);
 			});
 
-			if (cj == default(CompileJob))
-				return;
-			await LoadCompileJob(cj, cancellationToken);
-			started = true;
+			try
+			{
+				if (cj == default(CompileJob))
+					return;
+				await LoadCompileJob(cj, null, cancellationToken);
+			}
+			finally
+			{
+				started = true;
+			}
 
 			// we dont do CleanUnusedCompileJobs here because the watchdog may have plans for them yet
 		}
@@ -202,6 +208,9 @@ namespace Tgstation.Server.Host.Components.Deployment
 		{
 			try
 			{
+				lock (jobLockCounts)
+					remoteDeploymentManagerFactory.ForgetLocalStateForCompileJobs(jobLockCounts.Keys);
+
 				using (cancellationToken.Register(() => cleanupCts.Cancel()))
 					await cleanupTask;
 			}
@@ -218,7 +227,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 			ArgumentNullException.ThrowIfNull(compileJob);
 
 			// ensure we have the entire metadata tree
-			logger.LogTrace("Loading compile job {0}...", compileJob.Id);
+			logger.LogTrace("Loading compile job {id}...", compileJob.Id);
 			await databaseContextFactory.UseContext(
 				async db => compileJob = await db
 					.CompileJobs
@@ -240,7 +249,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 				// This happens when we're told to load the compile job that is currently finished up
 				// It constitutes an API violation if it's returned by the DreamDaemonController so just set it here
 				// Bit of a hack, but it works out to be nearly if not the same value that's put in the DB
-				logger.LogTrace("Setting missing StoppedAt for CompileJob.Job #{0}...", compileJob.Job.Id);
+				logger.LogTrace("Setting missing StoppedAt for CompileJob.Job #{id}...", compileJob.Job.Id);
 				compileJob.Job.StoppedAt = DateTimeOffset.UtcNow;
 			}
 
@@ -288,7 +297,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 
 					// rebuild the provider because it's using the legacy style directories
 					// Don't dispose it
-					logger.LogDebug("Creating legacy two folder .dmb provider targeting {0} directory...", LegacyADirectoryName);
+					logger.LogDebug("Creating legacy two folder .dmb provider targeting {aDirName} directory...", LegacyADirectoryName);
 					newProvider = new DmbProvider(compileJob, ioManager, CleanupAction, Path.DirectorySeparatorChar + LegacyADirectoryName);
 				}
 
@@ -304,7 +313,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 
 					providerSubmitted = true;
 
-					logger.LogTrace("Compile job {0} lock count now: {1}", compileJob.Id, value);
+					logger.LogTrace("Compile job {id} lock count now: {lockCount}", compileJob.Id, value);
 					return newProvider;
 				}
 			}
@@ -324,7 +333,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 
 			// don't clean locked directories
 			lock (jobLockCounts)
-				jobIdsToSkip = jobLockCounts.Select(x => x.Key).ToList();
+				jobIdsToSkip = jobLockCounts.Keys.ToList();
 
 			List<string> jobUidsToNotErase = null;
 
@@ -350,7 +359,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 
 			jobUidsToNotErase.Add(SwappableDmbProvider.LiveGameDirectory);
 
-			logger.LogTrace("We will not clean the following directories: {0}", String.Join(", ", jobUidsToNotErase));
+			logger.LogTrace("We will not clean the following directories: {directoriesToNotClean}", String.Join(", ", jobUidsToNotErase));
 
 			// cleanup
 			var gameDirectory = ioManager.ResolvePath();
@@ -362,7 +371,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 				var nameOnly = ioManager.GetFileName(x);
 				if (jobUidsToNotErase.Contains(nameOnly))
 					return;
-				logger.LogDebug("Cleaning unused game folder: {0}...", nameOnly);
+				logger.LogDebug("Cleaning unused game folder: {dirName}...", nameOnly);
 				try
 				{
 					++deleting;
@@ -374,7 +383,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 				}
 				catch (Exception e)
 				{
-					logger.LogWarning(e, "Error deleting directory {0}!", x);
+					logger.LogWarning(e, "Error deleting directory {dirName}!", x);
 				}
 			}).ToList();
 			if (deleting > 0)
@@ -427,13 +436,13 @@ namespace Tgstation.Server.Host.Components.Deployment
 					if (currentVal == 1)
 					{
 						jobLockCounts.Remove(job.Id.Value);
-						logger.LogDebug("Cleaning lock-free compile job {0} => {1}", job.Id, job.DirectoryName);
+						logger.LogDebug("Cleaning lock-free compile job {id} => {dirName}", job.Id, job.DirectoryName);
 						cleanupTask = HandleCleanup();
 					}
 					else
 					{
 						var decremented = --jobLockCounts[job.Id.Value];
-						logger.LogTrace("Compile job {0} lock count now: {1}", job.Id, decremented);
+						logger.LogTrace("Compile job {id} lock count now: {lockCount}", job.Id, decremented);
 					}
 				else
 					logger.LogError("Extra Dispose of DmbProvider for CompileJob {compileJobId}!", job.Id);

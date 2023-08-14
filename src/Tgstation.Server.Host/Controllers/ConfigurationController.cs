@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -190,10 +189,7 @@ namespace Tgstation.Server.Host.Controllers
 								return new PaginatableResult<ConfigurationFileResponse>(
 									Conflict(new ErrorMessageResponse(ErrorCode.ConfigurationContendedAccess)));
 
-							return new PaginatableResult<ConfigurationFileResponse>(
-								result
-									.AsQueryable()
-									.OrderBy(x => x)); // ordering performed by IConfiguration
+							return new PaginatableResult<ConfigurationFileResponse>(result);
 						}
 						catch (NotImplementedException ex)
 						{

@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -38,8 +38,8 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 		/// <param name="configurationRelativePath">The relative path in the Configuration directory.</param>
 		/// <param name="systemIdentity">The <see cref="ISystemIdentity"/> for the operation. If <see langword="null"/>, the operation will be performed as the user of the <see cref="Core.Application"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="ConfigurationFileResponse"/>s for the items in the directory. <see cref="FileTicketResponse.FileTicket"/> and <see cref="IConfigurationFile.LastReadHash"/> will both be <see langword="null"/>. <see langword="null"/> will be returned if the operation failed due to access contention.</returns>
-		Task<IReadOnlyList<ConfigurationFileResponse>> ListDirectory(string configurationRelativePath, ISystemIdentity systemIdentity, CancellationToken cancellationToken);
+		/// <returns>A <see cref="Task{TResult}"/> resulting in an <see cref="IOrderedQueryable{T}"/> of the <see cref="ConfigurationFileResponse"/>s for the items in the directory. <see cref="FileTicketResponse.FileTicket"/> and <see cref="IConfigurationFile.LastReadHash"/> will both be <see langword="null"/>. <see langword="null"/> will be returned if the operation failed due to access contention.</returns>
+		Task<IOrderedQueryable<ConfigurationFileResponse>> ListDirectory(string configurationRelativePath, ISystemIdentity systemIdentity, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Reads a given <paramref name="configurationRelativePath"/>.

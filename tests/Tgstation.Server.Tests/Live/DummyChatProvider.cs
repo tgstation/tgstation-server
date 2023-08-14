@@ -100,7 +100,7 @@ namespace Tgstation.Server.Tests.Live
 			return Task.CompletedTask;
 		}
 
-		public override Task<Func<string, string, Task>> SendUpdateMessage(RevisionInformation revisionInformation, Version byondVersion, DateTimeOffset? estimatedCompletionTime, string gitHubOwner, string gitHubRepo, ulong channelId, bool localCommitPushed, CancellationToken cancellationToken)
+		public override Task<Func<string, string, Task<Func<bool, Task>>>> SendUpdateMessage(RevisionInformation revisionInformation, Version byondVersion, DateTimeOffset? estimatedCompletionTime, string gitHubOwner, string gitHubRepo, ulong channelId, bool localCommitPushed, CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(revisionInformation);
 			ArgumentNullException.ThrowIfNull(byondVersion);
@@ -115,7 +115,7 @@ namespace Tgstation.Server.Tests.Live
 			if (random.Next(0, 100) > 70)
 				throw new Exception("Random SendUpdateMessage failure!"); */
 
-			return Task.FromResult<Func<string, string, Task>>((_, _) =>
+			return Task.FromResult<Func<string, string, Task<Func<bool, Task>>>>((_, _) =>
 			{
 				cancellationToken.ThrowIfCancellationRequested();
 
@@ -123,7 +123,7 @@ namespace Tgstation.Server.Tests.Live
 				if (random.Next(0, 100) > 70)
 					throw new Exception("Random SendUpdateMessage failure!"); */
 
-				return Task.CompletedTask;
+				return Task.FromResult<Func<bool, Task>>(_ => Task.CompletedTask);
 			});
 		}
 

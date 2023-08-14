@@ -465,17 +465,20 @@ jobs:
       if: ${{ matrix.configuration == 'Release' && matrix.watchdog-type == 'Basic' }}
       run: |
         cd src/Tgstation.Server.Host.Service
-        dotnet publish -c ${{ matrix.configuration }} -o ../../Artifacts/Service
+        dotnet publish -c ${{ matrix.configuration }} -o ../../artifacts/Service
         cd ../Tgstation.Server.Host
-        dotnet publish -c ${{ matrix.configuration }} --no-build -o ../../Artifacts/Service/lib/Default
-        mv ../../Artifacts/Service/lib/Default/appsettings.yml ../../Artifacts/Service/appsettings.yml
+        dotnet publish -c ${{ matrix.configuration }} --no-build -o ../../artifacts/Service/lib/Default
+        cd ../..
+        mv artifacts/Service/lib/Default/appsettings.yml artifacts/Service/appsettings.yml
+        build/RemoveUnsupportedRuntimes.sh artifacts/Service/lib/Default
+        build/RemoveUnsupportedServiceRuntimes.ps1 artifacts/Service
 
     - name: Store Server Service
       if: ${{ matrix.configuration == 'Release' && matrix.watchdog-type == 'Basic' }}
       uses: actions/upload-artifact@v3
       with:
         name: ServerService
-        path: Artifacts/Service/
+        path: artifacts/Service/
 
     - name: Install Code Signing Certificate
       if: ${{ matrix.configuration == 'Release' && matrix.watchdog-type == 'Basic' }}
@@ -490,7 +493,7 @@ jobs:
     - name: Test Sign Service .exe
       if: ${{ matrix.configuration == 'Release' && matrix.watchdog-type == 'Basic' }}
       shell: powershell
-      run: Set-AuthenticodeSignature Artifacts/Service/Tgstation.Server.Host.Service.exe -Certificate (Get-ChildItem Cert:\CurrentUser\My | Where-Object { $_.Thumbprint -eq "${{ vars.CODE_SIGNING_THUMBPRINT }}" }) -TimestampServer "http://timestamp.digicert.com"
+      run: Set-AuthenticodeSignature artifacts/Service/Tgstation.Server.Host.Service.exe -Certificate (Get-ChildItem Cert:\CurrentUser\My | Where-Object { $_.Thumbprint -eq "${{ vars.CODE_SIGNING_THUMBPRINT }}" }) -TimestampServer "http://timestamp.digicert.com"
 
   linux-integration-tests:
     name: Linux Live Tests
@@ -627,31 +630,36 @@ jobs:
       if: ${{ matrix.configuration == 'Release' && matrix.watchdog-type == 'System' && matrix.database-type == 'MariaDB' }}
       run: |
         cd src/Tgstation.Server.Host.Console
-        dotnet publish -c ${{ matrix.configuration }} -o ../../Artifacts/Console
+        dotnet publish -c ${{ matrix.configuration }} -o ../../artifacts/Console
         cd ../Tgstation.Server.Host
-        dotnet publish -c ${{ matrix.configuration }}NoWindows --no-build -o ../../Artifacts/Console/lib/Default
-        mv ../../Artifacts/Console/lib/Default/appsettings.yml ../../Artifacts/Console/appsettings.yml
+        dotnet publish -c ${{ matrix.configuration }}NoWindows --no-build -o ../../artifacts/Console/lib/Default
+        cd ../..
+        mv artifacts/Console/lib/Default/appsettings.yml artifacts/Console/appsettings.yml
+        build/RemoveUnsupportedRuntimes.sh artifacts/Console/lib/Default
+        build/RemoveUnsupportedRuntimes.sh artifacts/Console
 
     - name: Package Server Update Package
       if: ${{ matrix.configuration == 'Release' && matrix.watchdog-type == 'System' && matrix.database-type == 'PostgresSql' }}
       run: |
         cd src/Tgstation.Server.Host
-        dotnet publish -c ${{ matrix.configuration }}NoWindows --no-build -o ../../Artifacts/ServerUpdate
-        rm ../../Artifacts/ServerUpdate/appsettings.yml
+        dotnet publish -c ${{ matrix.configuration }}NoWindows --no-build -o ../../artifacts/ServerUpdate
+        cd ../..
+        rm artifacts/ServerUpdate/appsettings.yml
+        build/RemoveUnsupportedRuntimes.sh artifacts/ServerUpdate
 
     - name: Store Server Console
       if: ${{ matrix.configuration == 'Release' && matrix.watchdog-type == 'System' && matrix.database-type == 'MariaDB' }}
       uses: actions/upload-artifact@v3
       with:
         name: ServerConsole
-        path: Artifacts/Console/
+        path: artifacts/Console/
 
     - name: Store Server Update Package
       if: ${{ matrix.configuration == 'Release' && matrix.watchdog-type == 'System' && matrix.database-type == 'PostgresSql' }}
       uses: actions/upload-artifact@v3
       with:
         name: ServerUpdatePackage
-        path: Artifacts/ServerUpdate/
+        path: artifacts/ServerUpdate/
 
   validate-openapi-spec:
     name: OpenAPI Spec Validation
