@@ -1,4 +1,4 @@
 <map id="Tgstation.Server.Host.IO.ISynchronousIOManager.GetDirectories" name="Tgstation.Server.Host.IO.ISynchronousIOManager.GetDirectories">
 <area shape="rect" id="node1" title="Enumerate directories in a given path ." alt="" coords="292,5,543,45"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#a2b7984653cf4f050bb287b79f58062da" title="Get ConfigurationFileResponses for all items in a given configurationRelativePath ...." alt="" coords="5,5,244,45"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#a4b1c7c7db3393519a6aa4a117ba0ade6" title="Get ConfigurationFileResponses for all items in a given configurationRelativePath ...." alt="" coords="5,5,244,45"/>
 </map>

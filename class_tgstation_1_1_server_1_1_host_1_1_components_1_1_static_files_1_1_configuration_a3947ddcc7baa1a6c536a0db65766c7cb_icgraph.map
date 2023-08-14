@@ -1,5 +1,5 @@
 <map id="Tgstation.Server.Host.Components.StaticFiles.Configuration.ValidateConfigRelativePath" name="Tgstation.Server.Host.Components.StaticFiles.Configuration.ValidateConfigRelativePath">
 <area shape="rect" id="node1" title="Resolve a given configurationRelativePath &#160;to it&#39;s full path or throw an InvalidOperationException if..." alt="" coords="292,30,540,85"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#a2b7984653cf4f050bb287b79f58062da" title="Get ConfigurationFileResponses for all items in a given configurationRelativePath ...." alt="" coords="5,5,244,45"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#a4b1c7c7db3393519a6aa4a117ba0ade6" title="Get ConfigurationFileResponses for all items in a given configurationRelativePath ...." alt="" coords="5,5,244,45"/>
 <area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#a9760c4def25e9918f91f51ea180c567e" title="Reads a given configurationRelativePath . A Task&lt;TResult&gt; resulting in the ConfigurationFileResponse ..." alt="" coords="11,69,238,109"/>
 </map>
