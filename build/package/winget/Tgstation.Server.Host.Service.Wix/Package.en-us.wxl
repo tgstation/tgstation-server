@@ -1,0 +1,11 @@
+<!--
+This file contains the declaration of all the localizable strings.
+-->
+<WixLocalization xmlns="http://wixtoolset.org/schemas/v4/wxl" Culture="en-US">
+
+  <String Id="DowngradeError" Value="A newer version of [ProductName] is already installed. Downgrades are only supported via the HTTP API." />
+  <String Id="MainServerFeatureDescription" Value="The primary application for running [ProductName]." />
+  <String Id="ServerServiceDescription" Value="[ProductName] running as a Windows service." />
+  <String Id="ConfigureRestartDescription" Value="Runs the tgstation-server setup wizard and restarts the service (Does not stop DreamDaemon processes)." />
+  <String Id="ConfigureRestartName" Value="Configure &amp; Restart tgstation-server" />
+</WixLocalization>

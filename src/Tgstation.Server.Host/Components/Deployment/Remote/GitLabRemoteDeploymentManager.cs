@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -11,7 +12,6 @@ using GitLabApiClient.Models.Notes.Requests;
 using Microsoft.Extensions.Logging;
 
 using Tgstation.Server.Host.Components.Repository;
-using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.Models;
 
 namespace Tgstation.Server.Host.Components.Deployment.Remote
@@ -26,8 +26,12 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 		/// </summary>
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="BaseRemoteDeploymentManager"/>.</param>
 		/// <param name="metadata">The <see cref="Api.Models.Instance"/> for the <see cref="BaseRemoteDeploymentManager"/>.</param>
-		public GitLabRemoteDeploymentManager(ILogger<GitLabRemoteDeploymentManager> logger, Api.Models.Instance metadata)
-			: base(logger, metadata)
+		/// <param name="activationCallbacks">The activation callback <see cref="ConcurrentDictionary{TKey, TValue}"/> for the <see cref="BaseRemoteDeploymentManager"/>.</param>
+		public GitLabRemoteDeploymentManager(
+			ILogger<GitLabRemoteDeploymentManager> logger,
+			Api.Models.Instance metadata,
+			ConcurrentDictionary<long, Action<bool>> activationCallbacks)
+			: base(logger, metadata, activationCallbacks)
 		{
 		}
 
@@ -59,7 +63,7 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 					.GetAsync(
 						$"{repository.RemoteRepositoryOwner}/{repository.RemoteRepositoryName}",
 						x.TestMerge.Number)
-					.WithToken(cancellationToken));
+					.WaitAsync(cancellationToken));
 			try
 			{
 				await Task.WhenAll(tasks);
@@ -96,22 +100,10 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 		}
 
 		/// <inheritdoc />
-		public override Task ApplyDeployment(
-			CompileJob compileJob,
-			CompileJob oldCompileJob,
-			CancellationToken cancellationToken) => Task.CompletedTask;
-
-		/// <inheritdoc />
 		public override Task FailDeployment(
 			CompileJob compileJob,
 			string errorMessage,
 			CancellationToken cancellationToken) => Task.CompletedTask;
-
-		/// <inheritdoc />
-		public override Task MarkInactive(CompileJob compileJob, CancellationToken cancellationToken) => Task.CompletedTask;
-
-		/// <inheritdoc />
-		public override Task StageDeployment(CompileJob compileJob, CancellationToken cancellationToken) => Task.CompletedTask;
 
 		/// <inheritdoc />
 		public override Task StartDeployment(
@@ -120,7 +112,18 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 			CancellationToken cancellationToken) => Task.CompletedTask;
 
 		/// <inheritdoc />
-		protected override Task CommentOnTestMergeSource(
+		protected override Task ApplyDeploymentImpl(
+			CompileJob compileJob,
+			CancellationToken cancellationToken) => Task.CompletedTask;
+
+		/// <inheritdoc />
+		protected override Task StageDeploymentImpl(CompileJob compileJob, CancellationToken cancellationToken) => Task.CompletedTask;
+
+		/// <inheritdoc />
+		protected override Task MarkInactiveImpl(CompileJob compileJob, CancellationToken cancellationToken) => Task.CompletedTask;
+
+		/// <inheritdoc />
+		protected override async Task CommentOnTestMergeSource(
 			RepositorySettings repositorySettings,
 			string remoteRepositoryOwner,
 			string remoteRepositoryName,
@@ -132,13 +135,20 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 				? new GitLabClient(GitLabRemoteFeatures.GitLabUrl, repositorySettings.AccessToken)
 				: new GitLabClient(GitLabRemoteFeatures.GitLabUrl);
 
-			return client
-				.MergeRequests
-				.CreateNoteAsync(
-					$"{remoteRepositoryOwner}/{remoteRepositoryName}",
-					testMergeNumber,
-					new CreateMergeRequestNoteRequest(comment))
-				.WithToken(cancellationToken);
+			try
+			{
+				await client
+					.MergeRequests
+					.CreateNoteAsync(
+						$"{remoteRepositoryOwner}/{remoteRepositoryName}",
+						testMergeNumber,
+						new CreateMergeRequestNoteRequest(comment))
+					.WaitAsync(cancellationToken);
+			}
+			catch (Exception ex) when (ex is not OperationCanceledException)
+			{
+				Logger.LogWarning(ex, "Error posting GitHub comment!");
+			}
 		}
 
 		/// <inheritdoc />

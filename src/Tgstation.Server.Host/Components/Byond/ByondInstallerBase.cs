@@ -18,6 +18,11 @@ namespace Tgstation.Server.Host.Components.Byond
 		/// </summary>
 		const string CacheDirectoryName = "cache";
 
+		/// <summary>
+		/// The first <see cref="Version"/> of BYOND that supports the '-map-threads' parameter on DreamDaemon.
+		/// </summary>
+		public static Version MapThreadsVersion => new (515, 1609);
+
 		/// <inheritdoc />
 		public abstract string DreamMakerName { get; }
 
@@ -58,7 +63,7 @@ namespace Tgstation.Server.Host.Components.Byond
 		}
 
 		/// <inheritdoc />
-		public abstract string GetDreamDaemonName(Version version, out bool supportsCli);
+		public abstract string GetDreamDaemonName(Version version, out bool supportsCli, out bool supportsMapThreads);
 
 		/// <inheritdoc />
 		public async ValueTask CleanCache(CancellationToken cancellationToken)

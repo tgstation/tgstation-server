@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
@@ -21,6 +22,7 @@ namespace Tgstation.Server.Host.Swarm.Tests
 	{
 		static readonly HashSet<ushort> usedPorts = new ();
 		static ILoggerFactory loggerFactory;
+		static ILogger logger;
 
 		static ISeekableFileStreamProvider updateFileStreamProvider;
 
@@ -32,6 +34,8 @@ namespace Tgstation.Server.Host.Swarm.Tests
 				builder.SetMinimumLevel(LogLevel.Trace);
 				builder.AddConsole();
 			});
+
+			logger = loggerFactory.CreateLogger<TestSwarmProtocol>();
 
 			var ms = new MemoryStream(new byte[] { 1, 2, 3, 4 });
 
@@ -122,9 +126,11 @@ namespace Tgstation.Server.Host.Swarm.Tests
 			await using var node1 = GenNode(controller);
 
 			TestableSwarmNode.Link(controller, node1);
-
 			Assert.AreEqual(SwarmRegistrationResult.Success, await controller.TryInit());
+
+			node1.RpcMapper.AsyncRequests = false;
 			Assert.AreEqual(SwarmRegistrationResult.Success, await node1.TryInit());
+			node1.RpcMapper.AsyncRequests = true;
 
 			Assert.AreEqual(2, controller.Service.GetSwarmServers().Count);
 			Assert.AreEqual(1, node1.Service.GetSwarmServers().Count);
@@ -283,20 +289,38 @@ namespace Tgstation.Server.Host.Swarm.Tests
 			return new TestableSwarmNode(loggerFactory, config, version);
 		}
 
-		static async Task DelayMax(Action assertion, ulong seconds = 1)
+		static async Task DelayMax(Action assertion, long seconds = 1)
 		{
-			for (var i = 0U; i < (seconds * 10); ++i)
+			var id = Guid.NewGuid();
+			logger.LogInformation("Begin DelayMax {id}: {seconds}", id, seconds);
+			var stopwatch = Stopwatch.StartNew();
+			do
 			{
 				try
 				{
 					assertion();
+					logger.LogInformation("End DelayMax {id} after {milliseconds}ms", id, stopwatch.ElapsedMilliseconds);
 					return;
 				}
-				catch (AssertFailedException) { }
+				catch (AssertFailedException)
+				{
+				}
+
 				await Task.Delay(TimeSpan.FromMilliseconds(100));
 			}
+			while (stopwatch.ElapsedMilliseconds < (seconds * 1000));
 
-			assertion();
+			try
+			{
+				assertion();
+			}
+			catch
+			{
+				logger.LogError("Fail DelayMax {id} after {milliseconds}ms", id, stopwatch.ElapsedMilliseconds);
+				throw;
+			}
+
+			logger.LogInformation("End DelayMax {id} after {milliseconds}ms", id, stopwatch.ElapsedMilliseconds);
 		}
 	}
 }

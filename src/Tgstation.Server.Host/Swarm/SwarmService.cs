@@ -20,7 +20,6 @@ using Tgstation.Server.Common.Http;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.Database;
-using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.System;
 using Tgstation.Server.Host.Transfer;
@@ -107,9 +106,9 @@ namespace Tgstation.Server.Host.Swarm
 		readonly List<SwarmServerResponse> swarmServers;
 
 		/// <summary>
-		/// <see cref="Dictionary{TKey, TValue}"/> of <see cref="Api.Models.Internal.SwarmServer.Identifier"/>s to registration <see cref="Guid"/>s.
+		/// <see cref="Dictionary{TKey, TValue}"/> of <see cref="Api.Models.Internal.SwarmServer.Identifier"/>s to registration <see cref="Guid"/>s and when they were created.
 		/// </summary>
-		readonly Dictionary<string, Guid> registrationIds;
+		readonly Dictionary<string, (Guid, DateTimeOffset)> registrationIdsAndTimes;
 
 		/// <summary>
 		/// If the current server is the swarm controller.
@@ -193,13 +192,14 @@ namespace Tgstation.Server.Host.Swarm
 				serverHealthCheckCancellationTokenSource = new CancellationTokenSource();
 				forceHealthCheckTcs = new TaskCompletionSource();
 				if (swarmController)
-					registrationIds = new Dictionary<string, Guid>();
+					registrationIdsAndTimes = new ();
 
 				swarmServers = new List<SwarmServerResponse>
 				{
 					new SwarmServerResponse
 					{
 						Address = swarmConfiguration.Address,
+						PublicAddress = swarmConfiguration.PublicAddress,
 						Controller = swarmController,
 						Identifier = swarmConfiguration.Identifier,
 					},
@@ -282,7 +282,7 @@ namespace Tgstation.Server.Host.Swarm
 				? asyncDelayer.Delay(
 					TimeSpan.FromMinutes(SwarmConstants.UpdateCommitTimeoutMinutes),
 					cancellationToken)
-				: Extensions.TaskExtensions.InfiniteTask.WithToken(cancellationToken);
+				: Extensions.TaskExtensions.InfiniteTask.WaitAsync(cancellationToken);
 
 			var commitTask = Task.WhenAny(localUpdateOperation.CommitGate, timeoutTask);
 
@@ -486,7 +486,7 @@ namespace Tgstation.Server.Host.Swarm
 								.Where(x => !x.Controller)
 								.Select(SendUnregistrationRequest));
 						swarmServers.RemoveRange(1, swarmServers.Count - 1);
-						registrationIds.Clear();
+						registrationIdsAndTimes.Clear();
 					}
 
 					await task;
@@ -517,7 +517,7 @@ namespace Tgstation.Server.Host.Swarm
 		{
 			if (swarmController)
 				lock (swarmServers)
-					return registrationIds.Values.Any(x => x == registrationId);
+					return registrationIdsAndTimes.Values.Any(x => x.Item1 == registrationId);
 
 			if (registrationId != controllerRegistration)
 				return false;
@@ -546,9 +546,9 @@ namespace Tgstation.Server.Host.Swarm
 
 			lock (swarmServers)
 			{
-				if (registrationIds.Any(x => x.Value == registrationId))
+				if (registrationIdsAndTimes.Any(x => x.Value.Item1 == registrationId))
 				{
-					var preExistingRegistrationKvp = registrationIds.FirstOrDefault(x => x.Value == registrationId);
+					var preExistingRegistrationKvp = registrationIdsAndTimes.FirstOrDefault(x => x.Value.Item1 == registrationId);
 					if (preExistingRegistrationKvp.Key == node.Identifier)
 					{
 						logger.LogWarning("Node {nodeId} has already registered!", node.Identifier);
@@ -563,20 +563,21 @@ namespace Tgstation.Server.Host.Swarm
 					return false;
 				}
 
-				if (registrationIds.TryGetValue(node.Identifier, out var oldRegistration))
+				if (registrationIdsAndTimes.TryGetValue(node.Identifier, out var oldRegistration))
 				{
 					logger.LogInformation("Node {nodeId} is re-registering without first unregistering. Indicative of restart.", node.Identifier);
 					swarmServers.RemoveAll(x => x.Identifier == node.Identifier);
-					registrationIds.Remove(node.Identifier);
+					registrationIdsAndTimes.Remove(node.Identifier);
 				}
 
 				swarmServers.Add(new SwarmServerResponse
 				{
+					PublicAddress = node.PublicAddress,
 					Address = node.Address,
 					Identifier = node.Identifier,
 					Controller = false,
 				});
-				registrationIds.Add(node.Identifier, registrationId);
+				registrationIdsAndTimes.Add(node.Identifier, (registrationId, DateTimeOffset.UtcNow));
 			}
 
 			logger.LogInformation("Registered node {nodeId} ({nodeIP}) with ID {registrationId}", node.Identifier, node.Address, registrationId);
@@ -657,7 +658,7 @@ namespace Tgstation.Server.Host.Swarm
 			lock (swarmServers)
 			{
 				swarmServers.RemoveAll(x => x.Identifier == nodeIdentifier);
-				registrationIds.Remove(nodeIdentifier);
+				registrationIdsAndTimes.Remove(nodeIdentifier);
 			}
 
 			MarkServersDirty();
@@ -1126,13 +1127,15 @@ namespace Tgstation.Server.Host.Swarm
 				lock (swarmServers)
 				{
 					swarmServers.Remove(swarmServer);
-					registrationIds.Remove(swarmServer.Identifier);
+					registrationIdsAndTimes.Remove(swarmServer.Identifier);
 				}
 			}
 
 			await Task.WhenAll(
 				currentSwarmServers
-					.Where(x => !x.Controller)
+					.Where(node => !node.Controller
+						&& registrationIdsAndTimes.TryGetValue(node.Identifier, out var registrationAndTime)
+						&& registrationAndTime.Item2.AddMinutes(SwarmConstants.ControllerHealthCheckIntervalMinutes) < DateTimeOffset.UtcNow)
 					.Select(HealthRequestForServer));
 
 			lock (swarmServers)
@@ -1159,8 +1162,7 @@ namespace Tgstation.Server.Host.Swarm
 		/// <returns><see langword="true"/> the result of the call to <see cref="TaskCompletionSource{TResult}.TrySetResult(TResult)"/>.</returns>
 		bool TriggerHealthCheck()
 		{
-			var currentTcs = forceHealthCheckTcs;
-			forceHealthCheckTcs = new TaskCompletionSource();
+			var currentTcs = Interlocked.Exchange(ref forceHealthCheckTcs, new TaskCompletionSource());
 			return currentTcs.TrySetResult();
 		}
 
@@ -1241,6 +1243,7 @@ namespace Tgstation.Server.Host.Swarm
 					ServerVersion = assemblyInformationProvider.Version,
 					Identifier = swarmConfiguration.Identifier,
 					Address = swarmConfiguration.Address,
+					PublicAddress = swarmConfiguration.PublicAddress,
 				},
 				requestedRegistrationId);
 
@@ -1328,7 +1331,7 @@ namespace Tgstation.Server.Host.Swarm
 					lock (swarmServers)
 					{
 						swarmServers.Remove(swarmServer);
-						registrationIds.Remove(swarmServer.Identifier);
+						registrationIdsAndTimes.Remove(swarmServer.Identifier);
 					}
 				}
 			}
@@ -1381,8 +1384,8 @@ namespace Tgstation.Server.Host.Swarm
 				else if (swarmController)
 				{
 					lock (swarmServers)
-						if (registrationIds.TryGetValue(swarmServer.Identifier, out var registrationId))
-							request.Headers.Add(SwarmConstants.RegistrationIdHeader, registrationId.ToString());
+						if (registrationIdsAndTimes.TryGetValue(swarmServer.Identifier, out var registrationIdAndTime))
+							request.Headers.Add(SwarmConstants.RegistrationIdHeader, registrationIdAndTime.Item1.ToString());
 				}
 				else if (controllerRegistration.HasValue)
 					request.Headers.Add(SwarmConstants.RegistrationIdHeader, controllerRegistration.Value.ToString());
@@ -1497,14 +1500,14 @@ namespace Tgstation.Server.Host.Swarm
 
 			lock (swarmServers)
 			{
-				var exists = registrationIds.Any(x => x.Value == registrationId);
+				var exists = registrationIdsAndTimes.Any(x => x.Value.Item1 == registrationId);
 				if (!exists)
 				{
 					logger.LogWarning("A node that was to be looked up ({registrationId}) disappeared from our records!", registrationId);
 					return null;
 				}
 
-				return registrationIds.First(x => x.Value == registrationId).Key;
+				return registrationIdsAndTimes.First(x => x.Value.Item1 == registrationId).Key;
 			}
 		}
 	}

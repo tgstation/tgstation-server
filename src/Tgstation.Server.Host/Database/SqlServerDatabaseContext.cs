@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Data.SqlClient;
 
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 
 using Tgstation.Server.Host.Configuration;
@@ -16,7 +16,8 @@ namespace Tgstation.Server.Host.Database
 		/// Initializes a new instance of the <see cref="SqlServerDatabaseContext"/> class.
 		/// </summary>
 		/// <param name="dbContextOptions">The <see cref="DbContextOptions{TContext}"/> for the <see cref="DatabaseContext"/>.</param>
-		public SqlServerDatabaseContext(DbContextOptions<SqlServerDatabaseContext> dbContextOptions) : base(dbContextOptions)
+		public SqlServerDatabaseContext(DbContextOptions<SqlServerDatabaseContext> dbContextOptions)
+			: base(dbContextOptions)
 		{
 		}
 

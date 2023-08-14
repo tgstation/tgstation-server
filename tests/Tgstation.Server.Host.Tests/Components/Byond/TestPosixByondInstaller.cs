@@ -55,7 +55,7 @@ namespace Tgstation.Server.Host.Components.Byond.Tests
 			mockFileDownloader
 				.Setup(
 					x => x.DownloadFile(
-						It.Is<Uri>(uri => uri == new Uri("https://secure.byond.com/download/build/511/511.1385_byond_linux.zip")),
+						It.Is<Uri>(uri => uri == new Uri("https://www.byond.com/download/build/511/511.1385_byond_linux.zip")),
 						null))
 				.Returns(
 					new BufferedFileStreamProvider(

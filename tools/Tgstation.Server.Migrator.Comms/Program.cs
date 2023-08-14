@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net.Http.Headers;
@@ -15,6 +14,7 @@ using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Api.Models.Request;
 using Tgstation.Server.Client;
+using Tgstation.Server.Common.Extensions;
 
 static class Program
 {
@@ -52,7 +52,7 @@ static class Program
 	{
 #if DEBUG
 		Console.WriteLine("Test log line...");
-		Debugger.Launch();
+		System.Diagnostics.Debugger.Launch();
 #endif
 		Console.WriteLine("Connecting to TGS3...");
 		var status = tgs3Client.ConnectionStatus(out var tgs3Error);

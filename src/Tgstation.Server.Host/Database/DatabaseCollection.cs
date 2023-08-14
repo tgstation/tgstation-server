@@ -10,7 +10,8 @@ using Microsoft.EntityFrameworkCore;
 namespace Tgstation.Server.Host.Database
 {
 	/// <inheritdoc />
-	sealed class DatabaseCollection<TModel> : IDatabaseCollection<TModel> where TModel : class
+	sealed class DatabaseCollection<TModel> : IDatabaseCollection<TModel>
+		where TModel : class
 	{
 		/// <summary>
 		/// The backing <see cref="DbSet{TEntity}"/>.

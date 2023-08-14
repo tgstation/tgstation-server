@@ -44,7 +44,8 @@ namespace Tgstation.Server.Client
 		/// <param name="body">The request body.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the response body as a <typeparamref name="TResult"/>.</returns>
-		ValueTask<TResult> Create<TBody, TResult>(string route, TBody body, CancellationToken cancellationToken) where TBody : class;
+		ValueTask<TResult> Create<TBody, TResult>(string route, TBody body, CancellationToken cancellationToken)
+			where TBody : class;
 
 		/// <summary>
 		/// Run an HTTP PUT request.
@@ -73,7 +74,8 @@ namespace Tgstation.Server.Client
 		/// <param name="body">The request body.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the response body as a <typeparamref name="TResult"/>.</returns>
-		ValueTask<TResult> Update<TBody, TResult>(string route, TBody body, CancellationToken cancellationToken) where TBody : class;
+		ValueTask<TResult> Update<TBody, TResult>(string route, TBody body, CancellationToken cancellationToken)
+			where TBody : class;
 
 		/// <summary>
 		/// Run an HTTP POST request.
@@ -92,7 +94,8 @@ namespace Tgstation.Server.Client
 		/// <param name="body">The request body.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
-		ValueTask Update<TBody>(string route, TBody body, CancellationToken cancellationToken) where TBody : class;
+		ValueTask Update<TBody>(string route, TBody body, CancellationToken cancellationToken)
+			where TBody : class;
 
 		/// <summary>
 		/// Run an HTTP PATCH request.
@@ -192,7 +195,8 @@ namespace Tgstation.Server.Client
 		/// <param name="instanceId">The instance <see cref="EntityId.Id"/> to make the request to.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
-		ValueTask Delete<TBody>(string route, TBody body, long instanceId, CancellationToken cancellationToken) where TBody : class;
+		ValueTask Delete<TBody>(string route, TBody body, long instanceId, CancellationToken cancellationToken)
+			where TBody : class;
 
 		/// <summary>
 		/// Run an HTTP DELETE request.
@@ -214,7 +218,8 @@ namespace Tgstation.Server.Client
 		/// <param name="instanceId">The instance <see cref="EntityId.Id"/> to make the request to.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
-		ValueTask<TResult> Delete<TBody, TResult>(string route, TBody body, long instanceId, CancellationToken cancellationToken) where TBody : class;
+		ValueTask<TResult> Delete<TBody, TResult>(string route, TBody body, long instanceId, CancellationToken cancellationToken)
+			where TBody : class;
 
 		/// <summary>
 		/// Downloads a file <see cref="Stream"/> for a given <paramref name="ticket"/>.

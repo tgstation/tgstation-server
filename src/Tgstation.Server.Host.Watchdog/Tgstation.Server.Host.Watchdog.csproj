@@ -1,24 +1,10 @@
 <Project Sdk="Microsoft.NET.Sdk">
-  <Import Project="../../build/Common.props" />
+  <Import Project="../../build/SrcCommon.props" />
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-    <DebugType>Full</DebugType>
+    <TargetFramework>$(TgsFrameworkVersion)</TargetFramework>
     <AddSyntheticProjectReferencesForSolutionDependencies>false</AddSyntheticProjectReferencesForSolutionDependencies>
     <Version>$(TgsHostWatchdogVersion)</Version>
-    <IsPackable>false</IsPackable>
-    <EnableNETAnalyzers>true</EnableNETAnalyzers>
-    <CodeAnalysisRuleSet>../../build/analyzers.ruleset</CodeAnalysisRuleSet>
-    <DocumentationFile>bin/$(Configuration)/$(TargetFramework)/$(AssemblyName).xml</DocumentationFile>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <WarningsAsErrors />
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <NoWarn>1701;1702;SA1652</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
@@ -26,11 +12,6 @@
     <PackageReference Include="Microsoft.Extensions.Logging" Version="7.0.0" />
     <!-- Usage: POSIX support for signals -->
     <PackageReference Include="Mono.Posix.NETStandard" Version="1.0.0" />
-    <!-- Usage: Linting -->
-    <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
   </ItemGroup>
 
   <ItemGroup>
@@ -40,10 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <AdditionalFiles Include="../../build/stylecop.json" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <ProjectReference Include="..\Tgstation.Server.Common\Tgstation.Server.Common.csproj" />
     <ProjectReference Include="..\Tgstation.Server.Host.Common\Tgstation.Server.Host.Common.csproj" />
   </ItemGroup>
 </Project>

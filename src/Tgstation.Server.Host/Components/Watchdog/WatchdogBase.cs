@@ -4,7 +4,10 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
+using BetterWin32Errors;
+
 using Microsoft.Extensions.Logging;
+
 using Serilog.Context;
 
 using Tgstation.Server.Api.Models;
@@ -411,7 +414,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				if (Status != WatchdogStatus.Offline)
 				{
 					Logger.LogDebug("Waiting for server to gracefully shut down.");
-					await monitorTask.WithToken(cancellationToken);
+					await monitorTask.WaitAsync(cancellationToken);
 				}
 				else
 					Logger.LogTrace("Graceful shutdown requested but server is already offline.");
@@ -589,7 +592,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
 		protected async Task CheckLaunchResult(ISessionController controller, string serverName, CancellationToken cancellationToken)
 		{
-			var launchResult = await controller.LaunchResult.WithToken(cancellationToken);
+			var launchResult = await controller.LaunchResult.WaitAsync(cancellationToken);
 
 			// Dead sessions won't trigger this
 			if (launchResult.ExitCode.HasValue) // you killed us ray...
@@ -677,7 +680,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 
 			try
 			{
-				await remoteDeploymentManager.ApplyDeployment(newCompileJob, ActiveCompileJob, cancellationToken);
+				await remoteDeploymentManager.ApplyDeployment(newCompileJob, cancellationToken);
 			}
 			catch (Exception ex)
 			{
@@ -872,7 +875,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 								serverPrimed);
 
 							// wait for something to happen
-							await toWaitOn.WithToken(cancellationToken);
+							await toWaitOn.WaitAsync(cancellationToken);
 
 							cancellationToken.ThrowIfCancellationRequested();
 							Logger.LogTrace("Monitor activated");
@@ -1086,7 +1089,18 @@ namespace Tgstation.Server.Host.Components.Watchdog
 						if (ActiveLaunchParameters.DumpOnHealthCheckRestart.Value)
 						{
 							Logger.LogDebug("DumpOnHealthCheckRestart enabled.");
-							await CreateDump(cancellationToken);
+							try
+							{
+								await CreateDump(cancellationToken);
+							}
+							catch (JobException ex)
+							{
+								Logger.LogWarning(ex, "Creating dump failed!");
+							}
+							catch (Win32Exception ex)
+							{
+								Logger.LogWarning(ex, "Creating dump failed!");
+							}
 						}
 						else
 							Logger.LogTrace("DumpOnHealthCheckRestart disabled.");

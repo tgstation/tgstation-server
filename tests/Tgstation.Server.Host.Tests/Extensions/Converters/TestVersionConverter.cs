@@ -1,7 +1,7 @@
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 
-using Tgstation.Server.Api;
+using Tgstation.Server.Common.Extensions;
 
 using YamlDotNet.Serialization;
 

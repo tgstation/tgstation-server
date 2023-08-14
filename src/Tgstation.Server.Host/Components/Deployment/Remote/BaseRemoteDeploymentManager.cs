@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -27,14 +28,24 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 		protected ILogger<BaseRemoteDeploymentManager> Logger { get; }
 
 		/// <summary>
+		/// A map of <see cref="CompileJob"/> <see cref="Api.Models.EntityId.Id"/>s to activation callback <see cref="Action{T1}"/>s.
+		/// </summary>
+		readonly ConcurrentDictionary<long, Action<bool>> activationCallbacks;
+
+		/// <summary>
 		/// Initializes a new instance of the <see cref="BaseRemoteDeploymentManager"/> class.
 		/// </summary>
 		/// <param name="logger">The value of <see cref="Logger"/>.</param>
 		/// <param name="metadata">The value of <see cref="Metadata"/>.</param>
-		protected BaseRemoteDeploymentManager(ILogger<BaseRemoteDeploymentManager> logger, Api.Models.Instance metadata)
+		/// <param name="activationCallbacks">The value of <see cref="activationCallbacks"/>.</param>
+		protected BaseRemoteDeploymentManager(
+			ILogger<BaseRemoteDeploymentManager> logger,
+			Api.Models.Instance metadata,
+			ConcurrentDictionary<long, Action<bool>> activationCallbacks)
 		{
 			Logger = logger ?? throw new ArgumentNullException(nameof(logger));
 			Metadata = metadata ?? throw new ArgumentNullException(nameof(metadata));
+			this.activationCallbacks = activationCallbacks ?? throw new ArgumentNullException(nameof(activationCallbacks));
 		}
 
 		/// <inheritdoc />
@@ -58,7 +69,6 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 			previousRevisionInformation.ActiveTestMerges ??= new List<RevInfoTestMerge>();
 
 			deployedRevisionInformation.ActiveTestMerges ??= new List<RevInfoTestMerge>();
-			var tasks = new List<Task>();
 
 			// added prs
 			var addedTestMerges = deployedRevisionInformation
@@ -87,10 +97,12 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 				return;
 
 			Logger.LogTrace(
-				"Commenting on {0} added, {1} removed, and {2} updated test merge sources...",
+				"Commenting on {addedCount} added, {removedCount} removed, and {updatedCount} updated test merge sources...",
 				addedTestMerges.Count,
 				removedTestMerges.Count,
 				updatedTestMerges.Count);
+
+			var tasks = new List<Task>(addedTestMerges.Count + updatedTestMerges.Count + removedTestMerges.Count);
 			foreach (var addedTestMerge in addedTestMerges)
 				tasks.Add(
 					CommentOnTestMergeSource(
@@ -138,13 +150,29 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 		}
 
 		/// <inheritdoc />
-		public abstract Task ApplyDeployment(CompileJob compileJob, CompileJob oldCompileJob, CancellationToken cancellationToken);
+		public Task ApplyDeployment(CompileJob compileJob, CancellationToken cancellationToken)
+		{
+			ArgumentNullException.ThrowIfNull(compileJob);
+
+			if (activationCallbacks.TryGetValue(compileJob.Id.Value, out var activationCallback))
+				activationCallback(true);
+
+			return ApplyDeploymentImpl(compileJob, cancellationToken);
+		}
 
 		/// <inheritdoc />
 		public abstract Task FailDeployment(CompileJob compileJob, string errorMessage, CancellationToken cancellationToken);
 
 		/// <inheritdoc />
-		public abstract Task MarkInactive(CompileJob compileJob, CancellationToken cancellationToken);
+		public Task MarkInactive(CompileJob compileJob, CancellationToken cancellationToken)
+		{
+			ArgumentNullException.ThrowIfNull(compileJob);
+
+			if (activationCallbacks.TryRemove(compileJob.Id.Value, out var activationCallback))
+				activationCallback(false);
+
+			return MarkInactiveImpl(compileJob, cancellationToken);
+		}
 
 		/// <inheritdoc />
 		public abstract Task<IReadOnlyCollection<TestMerge>> RemoveMergedTestMerges(
@@ -154,13 +182,45 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 			CancellationToken cancellationToken);
 
 		/// <inheritdoc />
-		public abstract Task StageDeployment(CompileJob compileJob, CancellationToken cancellationToken);
+		public Task StageDeployment(CompileJob compileJob, Action<bool> activationCallback, CancellationToken cancellationToken)
+		{
+			ArgumentNullException.ThrowIfNull(compileJob);
+
+			if (activationCallback != null && !activationCallbacks.TryAdd(compileJob.Id.Value, activationCallback))
+				Logger.LogError("activationCallbacks conflicted on CompileJob #{id}!", compileJob.Id.Value);
+
+			return StageDeploymentImpl(compileJob, cancellationToken);
+		}
 
 		/// <inheritdoc />
 		public abstract Task StartDeployment(
 			Api.Models.Internal.IGitRemoteInformation remoteInformation,
 			CompileJob compileJob,
 			CancellationToken cancellationToken);
+
+		/// <summary>
+		/// Implementation of <see cref="StageDeployment(CompileJob, Action{bool}, CancellationToken)"/>.
+		/// </summary>
+		/// <param name="compileJob">The staged <see cref="CompileJob"/>.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
+		protected abstract Task StageDeploymentImpl(CompileJob compileJob, CancellationToken cancellationToken);
+
+		/// <summary>
+		/// Implementation of <see cref="ApplyDeployment(CompileJob, CancellationToken)"/>.
+		/// </summary>
+		/// <param name="compileJob">The <see cref="CompileJob"/> being applied.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
+		protected abstract Task ApplyDeploymentImpl(CompileJob compileJob, CancellationToken cancellationToken);
+
+		/// <summary>
+		/// Implementation of <see cref="MarkInactive(CompileJob, CancellationToken)"/>.
+		/// </summary>
+		/// <param name="compileJob">The inactive <see cref="CompileJob"/>.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
+		protected abstract Task MarkInactiveImpl(CompileJob compileJob, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Formats a comment for a given <paramref name="testMerge"/>.

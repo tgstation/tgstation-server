@@ -1,0 +1,34 @@
+<Project Sdk="WixToolset.Sdk/4.0.1">
+  <Import Project="../../../Common.props" />
+  <PropertyGroup>
+    <DefineConstants>ProductVersion=$(TgsCoreVersion)</DefineConstants>
+    <HarvestDirectorySuppressSpecificWarnings>5150;5151</HarvestDirectorySuppressSpecificWarnings>
+    <Platforms>x86</Platforms>
+    <OutputName>tgstation-server</OutputName>
+  </PropertyGroup>
+  <ItemGroup>
+    <BindPath Include="../Tgstation.Server.Host.Service.Wix.Extensions/$(Configuration)/net472" />
+    <BindPath Include="../../../../artifacts" />
+    <BindPath Include="../../../../artifacts/Tgstation.Server.Host" />
+    <BindPath Include="../../../../artifacts/Tgstation.Server.Host.Service" />
+    <HarvestDirectory Include="../../../../artifacts/Tgstation.Server.Host">
+      <ComponentGroupName>InitialHostComponentGroup</ComponentGroupName>
+      <DirectoryRefId>DefaultLibDirectory</DirectoryRefId>
+      <SuppressCom>true</SuppressCom>
+      <SuppressRegistry>true</SuppressRegistry>
+      <SuppressRootDirectory>true</SuppressRootDirectory>
+    </HarvestDirectory>
+    <HarvestDirectory Include="../../../../artifacts/Tgstation.Server.Host.Service">
+      <ComponentGroupName>ServiceHostWatchdogComponentGroup</ComponentGroupName>
+      <DirectoryRefId>ApplicationDirectory</DirectoryRefId>
+      <SuppressRootDirectory>true</SuppressRootDirectory>
+    </HarvestDirectory>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="WixToolset.Heat" Version="4.0.1" />
+    <PackageReference Include="WixToolset.Util.wixext" Version="4.0.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Tgstation.Server.Host.Service.Wix.Extensions\Tgstation.Server.Host.Service.Wix.Extensions.csproj" />
+  </ItemGroup>
+</Project>

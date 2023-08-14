@@ -169,55 +169,78 @@ namespace Tgstation.Server.Client
 		}
 
 		/// <inheritdoc />
-		public ValueTask<TResult> Create<TResult>(string route, CancellationToken cancellationToken) => RunRequest<object, TResult>(route, new object(), HttpMethod.Put, null, false, cancellationToken);
+		public ValueTask<TResult> Create<TResult>(string route, CancellationToken cancellationToken)
+			=> RunRequest<object, TResult>(route, new object(), HttpMethod.Put, null, false, cancellationToken);
 
 		/// <inheritdoc />
-		public ValueTask<TResult> Read<TResult>(string route, CancellationToken cancellationToken) => RunRequest<object, TResult>(route, null, HttpMethod.Get, null, false, cancellationToken);
+		public ValueTask<TResult> Read<TResult>(string route, CancellationToken cancellationToken)
+			=> RunRequest<object, TResult>(route, null, HttpMethod.Get, null, false, cancellationToken);
 
 		/// <inheritdoc />
-		public ValueTask<TResult> Update<TResult>(string route, CancellationToken cancellationToken) => RunRequest<object, TResult>(route, new object(), HttpMethod.Post, null, false, cancellationToken);
+		public ValueTask<TResult> Update<TResult>(string route, CancellationToken cancellationToken)
+			=> RunRequest<object, TResult>(route, new object(), HttpMethod.Post, null, false, cancellationToken);
 
 		/// <inheritdoc />
-		public ValueTask<TResult> Update<TBody, TResult>(string route, TBody body, CancellationToken cancellationToken) where TBody : class => RunRequest<TBody, TResult>(route, body, HttpMethod.Post, null, false, cancellationToken);
+		public ValueTask<TResult> Update<TBody, TResult>(string route, TBody body, CancellationToken cancellationToken)
+			where TBody : class
+			=> RunRequest<TBody, TResult>(route, body, HttpMethod.Post, null, false, cancellationToken);
 
 		/// <inheritdoc />
 		public ValueTask Patch(string route, CancellationToken cancellationToken) => RunRequest(route, HttpPatch, null, false, cancellationToken);
 
 		/// <inheritdoc />
-		public ValueTask Update<TBody>(string route, TBody body, CancellationToken cancellationToken) where TBody : class => RunResultlessRequest(route, body, HttpMethod.Post, null, false, cancellationToken);
+		public ValueTask Update<TBody>(string route, TBody body, CancellationToken cancellationToken)
+			where TBody : class
+			=> RunResultlessRequest(route, body, HttpMethod.Post, null, false, cancellationToken);
 
 		/// <inheritdoc />
-		public ValueTask<TResult> Create<TBody, TResult>(string route, TBody body, CancellationToken cancellationToken) where TBody : class => RunRequest<TBody, TResult>(route, body, HttpMethod.Put, null, false, cancellationToken);
+		public ValueTask<TResult> Create<TBody, TResult>(string route, TBody body, CancellationToken cancellationToken)
+			where TBody : class
+			=> RunRequest<TBody, TResult>(route, body, HttpMethod.Put, null, false, cancellationToken);
 
 		/// <inheritdoc />
-		public ValueTask Delete(string route, CancellationToken cancellationToken) => RunRequest(route, HttpMethod.Delete, null, false, cancellationToken);
+		public ValueTask Delete(string route, CancellationToken cancellationToken)
+			=> RunRequest(route, HttpMethod.Delete, null, false, cancellationToken);
 
 		/// <inheritdoc />
-		public ValueTask<TResult> Create<TBody, TResult>(string route, TBody body, long instanceId, CancellationToken cancellationToken) where TBody : class => RunRequest<TBody, TResult>(route, body, HttpMethod.Put, instanceId, false, cancellationToken);
+		public ValueTask<TResult> Create<TBody, TResult>(string route, TBody body, long instanceId, CancellationToken cancellationToken)
+			where TBody : class
+			=> RunRequest<TBody, TResult>(route, body, HttpMethod.Put, instanceId, false, cancellationToken);
 
 		/// <inheritdoc />
-		public ValueTask<TResult> Read<TResult>(string route, long instanceId, CancellationToken cancellationToken) => RunRequest<TResult>(route, null, HttpMethod.Get, instanceId, false, cancellationToken);
+		public ValueTask<TResult> Read<TResult>(string route, long instanceId, CancellationToken cancellationToken)
+			=> RunRequest<TResult>(route, null, HttpMethod.Get, instanceId, false, cancellationToken);
 
 		/// <inheritdoc />
-		public ValueTask<TResult> Update<TBody, TResult>(string route, TBody body, long instanceId, CancellationToken cancellationToken) where TBody : class => RunRequest<TBody, TResult>(route, body, HttpMethod.Post, instanceId, false, cancellationToken);
+		public ValueTask<TResult> Update<TBody, TResult>(string route, TBody body, long instanceId, CancellationToken cancellationToken)
+			where TBody : class
+			=> RunRequest<TBody, TResult>(route, body, HttpMethod.Post, instanceId, false, cancellationToken);
 
 		/// <inheritdoc />
-		public ValueTask Delete(string route, long instanceId, CancellationToken cancellationToken) => RunRequest(route, HttpMethod.Delete, instanceId, false, cancellationToken);
+		public ValueTask Delete(string route, long instanceId, CancellationToken cancellationToken)
+			=> RunRequest(route, HttpMethod.Delete, instanceId, false, cancellationToken);
 
 		/// <inheritdoc />
-		public async ValueTask Delete<TBody>(string route, TBody body, long instanceId, CancellationToken cancellationToken) where TBody : class => await RunRequest<TBody, object>(route, body, HttpMethod.Delete, instanceId, false, cancellationToken);
+		public async ValueTask Delete<TBody>(string route, TBody body, long instanceId, CancellationToken cancellationToken)
+			where TBody : class
+			=> await RunRequest<TBody, object>(route, body, HttpMethod.Delete, instanceId, false, cancellationToken);
 
 		/// <inheritdoc />
-		public ValueTask<TResult> Delete<TResult>(string route, long instanceId, CancellationToken cancellationToken) => RunRequest<TResult>(route, null, HttpMethod.Delete, instanceId, false, cancellationToken);
+		public ValueTask<TResult> Delete<TResult>(string route, long instanceId, CancellationToken cancellationToken)
+			=> RunRequest<TResult>(route, null, HttpMethod.Delete, instanceId, false, cancellationToken);
 
 		/// <inheritdoc />
-		public ValueTask<TResult> Delete<TBody, TResult>(string route, TBody body, long instanceId, CancellationToken cancellationToken) where TBody : class => RunRequest<TBody, TResult>(route, body, HttpMethod.Delete, instanceId, false, cancellationToken);
+		public ValueTask<TResult> Delete<TBody, TResult>(string route, TBody body, long instanceId, CancellationToken cancellationToken)
+			where TBody : class
+			=> RunRequest<TBody, TResult>(route, body, HttpMethod.Delete, instanceId, false, cancellationToken);
 
 		/// <inheritdoc />
-		public ValueTask<TResult> Create<TResult>(string route, long instanceId, CancellationToken cancellationToken) => RunRequest<object, TResult>(route, new object(), HttpMethod.Put, instanceId, false, cancellationToken);
+		public ValueTask<TResult> Create<TResult>(string route, long instanceId, CancellationToken cancellationToken)
+			=> RunRequest<object, TResult>(route, new object(), HttpMethod.Put, instanceId, false, cancellationToken);
 
 		/// <inheritdoc />
-		public ValueTask<TResult> Patch<TResult>(string route, long instanceId, CancellationToken cancellationToken) => RunRequest<object, TResult>(route, new object(), HttpPatch, instanceId, false, cancellationToken);
+		public ValueTask<TResult> Patch<TResult>(string route, long instanceId, CancellationToken cancellationToken)
+			=> RunRequest<object, TResult>(route, new object(), HttpPatch, instanceId, false, cancellationToken);
 
 		/// <inheritdoc />
 		public void AddRequestLogger(IRequestLogger requestLogger) => requestLoggers.Add(requestLogger ?? throw new ArgumentNullException(nameof(requestLogger)));

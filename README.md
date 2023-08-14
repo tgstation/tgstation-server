@@ -4,21 +4,35 @@
 
 [![GitHub license](https://img.shields.io/github/license/tgstation/tgstation-server.svg)](LICENSE) [![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/tgstation/tgstation-server.svg)](http://isitmaintained.com/project/tgstation/tgstation-server "Average time to resolve an issue") [![NuGet version](https://img.shields.io/nuget/v/Tgstation.Server.Api.svg)](https://www.nuget.org/packages/Tgstation.Server.Api) [![NuGet version](https://img.shields.io/nuget/v/Tgstation.Server.Client.svg)](https://www.nuget.org/packages/Tgstation.Server.Client)
 
-[![forthebadge](http://forthebadge.com/images/badges/made-with-c-sharp.svg)](http://forthebadge.com) [![forinfinityandbyond](https://user-images.githubusercontent.com/5211576/29499758-4efff304-85e6-11e7-8267-62919c3688a9.gif)](https://www.reddit.com/r/SS13/comments/5oplxp/what_is_the_main_problem_with_byond_as_an_engine/dclbu1a)
-
-[![forthebadge](http://forthebadge.com/images/badges/built-with-love.svg)](http://forthebadge.com) [![forthebadge](http://forthebadge.com/images/badges/60-percent-of-the-time-works-every-time.svg)](http://forthebadge.com)
+[![forthebadge](http://forthebadge.com/images/badges/made-with-c-sharp.svg)](http://forthebadge.com) [![forinfinityandbyond](https://user-images.githubusercontent.com/5211576/29499758-4efff304-85e6-11e7-8267-62919c3688a9.gif)](https://www.reddit.com/r/SS13/comments/5oplxp/what_is_the_main_problem_with_byond_as_an_engine/dclbu1a) [![forthebadge](http://forthebadge.com/images/badges/built-with-love.svg)](http://forthebadge.com)
 
 This is a toolset to manage production BYOND servers. It includes the ability to update the server without having to stop or shutdown the server (the update will take effect on a "reboot" of the server), the ability to start the server and restart it if it crashes, as well as systems for managing code and game files, and locally merging GitHub Pull Requests for test deployments.
-
-### Legacy Servers
-
-Older server versions can be found in the V# branches of this repository. Note that the current server fully incompatible with installations before version 4. Only some static files may be copied over: https://github.com/tgstation/tgstation-server#static-files
 
 ## Setup
 
 ### Pre-Requisites
 
-- A [MariaDB](https://downloads.mariadb.org/), MySQL, [PostgresSQL](https://www.postgresql.org/download/), or [Microsoft SQL Server](https://www.microsoft.com/en-us/download/details.aspx?id=55994) database engine is required
+_Note: If you opt to use the Windows installer, all pre-requisites (including MariaDB) are provided out of the box._
+
+tgstation-server needs a relational database to store it's data.
+
+If you're just a hobbyist server host, you can probably get away with using SQLite for this. SQLite is bundled with TGS and simply requires you to specify where on your machine you want to store the data.
+
+_HOWEVER_
+
+SQLite is not a battle-ready relational database. It doesn't scale well for any use case. TGS *strongly* recommends you use one of its supported standalone databases. Setting one of these up is more involved but worth the effort.
+
+The supported standalone databases are:
+
+- [MariaDB](https://downloads.mariadb.org/) _- NOTE: If you plan on hosting SpaceStation 13, this is the database most codebases support, making it an ideal choice_
+- [PostgresSQL](https://www.postgresql.org/download/)
+- [Microsoft SQL Server](https://www.microsoft.com/en-us/download/details.aspx?id=55994)
+- MySQL
+
+TGS will require either:
+- No pre-existing database WITH schema creation permissions.
+or
+- Exclusive access to a database schema that TGS has full control over.
 
 ### Installation
 
@@ -26,17 +40,62 @@ Follow the instructions for your OS below.
 
 #### Windows
 
-Download and install the [ASP .NET Core Runtime (>= v6.0)](https://dotnet.microsoft.com/download/dotnet/6.0) (Choose the option to `Run Server Apps` for your system). If you plan to install tgstation-server as a Windows service, you should also ensure that your .NET Framework runtime version is >= v4.7.2 (Most modern systems have it by default. Download can be found on same page). Ensure that the `dotnet` executable file is in your system's `PATH` variable (or that of the user's that will be running the server), you can test this by opening a command prompt and running `dotnet --list-runtimes`.
+###### Note about Digital Signatures
 
-[Download the latest release .zip](https://github.com/tgstation/tgstation-server/releases/latest). You probably want the `ServerService` package. Choose `ServerConsole` if you prefer not to use the Windows service.
+Note that the Windows Service and installer executables require administrative privileges. These are digitally signed against the Root CA managed by [Jordan Dominion](https://github.com/Cyberboss). Consider installing the certificate into your `Trusted Root Authorities` store for cleaner UAC prompts. The certificate can be downloaded [here](https://file.house/zpFb.cer), please validate the thumbprint is `70176acf7ffa2898fa5b5cd6e38b43b38ea5d07f` before installing. The OCSP server for this is `http://ocsp.dextraspace.net`.
 
-Extract the .zip file to where you want the server to run from. Note the account running the server must have write and delete access to the `lib` subdirectory.
+##### Installer
 
-If you wish to install the TGS as a service, run `Tgstation.Server.Host.Service.exe`. It should prompt you to install it. Click `Yes` and accept a potential UAC elevation prompt and the setup wizard should run.
+[Download the latest release's tgstation-server-installer.exe](https://github.com/tgstation/tgstation-server/releases/latest). Executing it will take you through the process of installing and configuring your server. The required dotnet runtime may be installed as a pre-requisite.
+
+Note: If you use the `/silent` or `/passive` arguments to the installer, you will not be able to install MariaDB using it. In addition, if those arguments are present, you'll need to either pre-configure TGS or configure and start the `tgstation-server` service after installing. A shortcut will be placed on your desktop and in your start menu to assist with this.
+
+##### winget (Windows 10 or later)
+
+[winget](https://github.com/microsoft/winget-cli) installed is the easiest way to install the latest version of tgstation-server (provided Microsoft has approved the most recent package manifest).
+
+Check if you have `winget` by running the following command.
+```
+winget --version
+```
+
+If it returns an error that means you don't have winget. You can easily install it by running the following commands in an administrative Windows Powershell instance:
+```
+Import-Module Appx
+Invoke-WebRequest -Uri https://www.nuget.org/api/v2/package/Microsoft.UI.Xaml/2.7.3 -OutFile .\microsoft.ui.xaml.2.7.3.zip
+Expand-Archive .\microsoft.ui.xaml.2.7.3.zip
+Add-AppxPackage .\microsoft.ui.xaml.2.7.3\tools\AppX\x64\Release\Microsoft.UI.Xaml.2.7.appx
+Add-AppxPackage -Path "https://aka.ms/Microsoft.VCLibs.x64.14.00.Desktop.appx"
+Add-AppxPackage -Path "https://github.com/microsoft/winget-cli/releases/latest/download/Microsoft.DesktopAppInstaller_8wekyb3d8bbwe.msixbundle"
+Remove-Item .\microsoft.ui.xaml.2.7.3\ -r
+Remove-Item .\microsoft.ui.xaml.2.7.3.zip
+```
+
+Once winget is installed, simply run the following commands, accepting any prompts that may appear:
+
+```ps
+winget install tgstation-server
+```
+
+The required dotnet runtime may be installed as a pre-requisite. MariaDB will not be installed.
+
+Note: If you use the `-h` or `--disable-interactivity` winget arguments, you will need to either pre-configure TGS or configure and start the `tgstation-server` service after installing. A shortcut will be placed on your desktop and in your start menu to assist with this.
+
+Note: The `winget` package is submitted to Microsoft for approval once TGS releases. This means the winget version may be out of date with the current release version. You can always use the TGS updater after installing. You can see the versions still awaiting approval [here](https://github.com/microsoft/winget-pkgs/pulls?q=is%3Apr+is%3Aopen+Tgstation.Server).
+
+##### Manual
+
+If you don't have it installed already, download and install the [ASP .NET Core Runtime Hosting Bundle (>= v6.0)](https://dotnet.microsoft.com/download/dotnet/6.0). Ensure that the `dotnet` executable file is in your system's `PATH` variable (or that of the user's that will be running the server). You can test this by opening a command prompt and running `dotnet --list-runtimes`.
+
+[Download the latest release .zip](https://github.com/tgstation/tgstation-server/releases/latest). Typically, you want the `ServerService.zip` package in order to run TGS as a Windows service. Choose `ServerConsole.zip` if you prefer to use a command line daemon.
+
+Extract the .zip file to where you want the server to run from. Note the account running the server must have write, execute, and delete access to the `lib` subdirectory.
+
+If you wish to install the TGS as a service, run `Tgstation.Server.Host.Service.exe`. It should prompt you to install it. Click `Yes` and the setup wizard should run.
 
 Should you want a clean start, be sure to first uninstall the service by running `Tgstation.Server.Host.Service.exe -u` from the command line.
 
-If using the console version, run ./tgs.bat in the root of the installation directory. Ctrl+C will close the server, terminating all live game instances.
+If using the console version, run `./tgs.bat` in the root of the installation directory. Ctrl+C will close the server, terminating all live game instances.
 
 #### Linux
 
@@ -162,7 +221,7 @@ Create an `appsettings.Production.yml` file next to `appsettings.yml`. This will
 
 - `Session:LowPriorityDeploymentProcesses `: Boolean controlling if DreamMaker and API validation DreamDaemon instances get set to below normal priority processes.
 
-- `FileLogging:Directory`: Override the default directory where server logs are stored. Default is C:/ProgramData/tgstation-server/logs on Windows, /usr/share/tgstation-server/logs otherwise
+- `FileLogging:Directory`: Override the default directory where server logs are stored. Default is `C:/ProgramData/tgstation-server/logs` on Windows, `/usr/share/tgstation-server/logs` otherwise
 
 - `FileLogging:LogLevel`: Can be one of `Trace`, `Debug`, `Information`, `Warning`, `Error`, or `Critical`. Restricts what is put into the log files. Currently `Debug` is reccommended for help with error reporting.
 
@@ -191,17 +250,19 @@ Create an `appsettings.Production.yml` file next to `appsettings.yml`. This will
     Password: yourpasshere
   ```
 
-- `Swarm`: This section should be left `null` unless using the server swarm system. If this is to happen, ensure all swarm servers are set to connect to the same database.
+- `Swarm`: This section should be left empty unless using the server swarm system. If this is to happen, ensure all swarm servers are set to connect to the same database.
 
-- `Swarm:PrivateKey`: Should be a secure string set identically on all swarmed servers.
+- `Swarm:PrivateKey`: Must be a secure string set identically on all swarmed servers.
 
-- `Swarm:ControllerAddress`: Should be set on all swarmed servers that are **not** the controller server and should be an address the controller server may be reached at.
+- `Swarm:ControllerAddress`: Must be set on all swarmed servers that are **not** the controller server and should be an address the controller server may be reached at.
 
-- `Swarm:Address`: Should be set on all swarmed servers. Should be an address the server can be reached at by other servers in the swarm.
+- `Swarm:Address`: Must be set on all swarmed servers. Should be an address the server can be reached at by other servers in the swarm.
 
-- `Swarm:Identifier` should be set uniquely on all swarmed servers. Used to identify the current server. This is also used to select which instances exist on the current machine and should not be changed post-setup.
+- `Swarm:PublicAddress`: Should be set on all swarmed servers. Should be an address the server can be reached at by other servers in the swarm.
 
-- `Swarm:UpdateRequiredNodeCount` should be set to the total number of servers in your swarm, minus the controller. Prevents updates from occurring unless the non-controller server count in the swarm is greater than or equal to this value.
+- `Swarm:Identifier`: Must be set uniquely on all swarmed servers. Used to identify the current server. This is also used to select which instances exist on the current machine and should not be changed post-setup.
+
+- `Swarm:UpdateRequiredNodeCount`: Should be set to the total number of servers in your swarm minus 1. Prevents updates from occurring unless the non-controller server count in the swarm is greater than or equal to this value.
 
 - `Security:OAuth:<Provider Name>`: Sets the OAuth client ID and secret for a given `<Provider Name>`. The currently supported providers are `Keycloak`, `GitHub`, `Discord`, `InvisionCommunity` and `TGForums`. Setting these fields to `null` disables logins with the provider, but does not stop users from associating their accounts using the API. Sample Entry:
 ```yml
@@ -246,15 +307,15 @@ Test your server is running by visiting the local port in your browser. You shou
 
 ### Stopping
 
-Note that the live detach for DreamDaemon servers is only supported for updates or restarts via the API at this time. Stopping tgstation-server will TERMINATE ALL CHILD DREAMDAEMON SERVERS.
+Normally stopping TGS will terminate DreamDaemon processes. If you need a graceful detach, send command `130` to the Windows service or signal `SIGUSR2` to the Linux dotnet process. Detaching with the Windows console runner is currently not officially supported.
 
-For the Windows service version stop the `tgstation-server` service
+For the Windows service version stop the `tgstation-server` service.
 
 For the SystemD managed service, use `systemctl stop tgstation-server`. DO NOT USE `systemctl kill` as this can create orphaned processes while leaving TGS running.
 
-For the console version press `Ctrl+C` or send a SIGQUIT to the ORIGINAL dotnet process
+For the console version press `Ctrl+C` or send a SIGQUIT to the ORIGINAL dotnet process.
 
-For the docker version run `docker stop <your container name>`
+For the docker version run `docker stop <your container name>`.
 
 ### Updating the Game
 
@@ -458,7 +519,7 @@ Manual operations on the repository while an instance is running may lead to git
 
 #### Byond
 
-The `Byond` folder contains installations of [BYOND](https://secure.byond.com/) versions. The version which is used by your game code can be changed on a whim (Note that only versions >= 511.1385 have been thouroughly tested. Lower versions should work but if one doesn't function, please open an issue report) and the server will take care of installing it.
+The `Byond` folder contains installations of [BYOND](https://www.byond.com/) versions. The version which is used by your game code can be changed on a whim (Note that only versions >= 511.1385 have been thouroughly tested. Lower versions should work but if one doesn't function, please open an issue report) and the server will take care of installing it.
 
 #### Compiler
 

@@ -245,8 +245,10 @@ namespace Tgstation.Server.Host.Database
 			const string ConfigureMethodName = nameof(SqlServerDatabaseContext.ConfigureWith);
 			var configureFunction = typeof(TDatabaseContext).GetMethod(
 				ConfigureMethodName,
-				BindingFlags.Public | BindingFlags.Static)
-				?? throw new InvalidOperationException($"Context type {typeof(TDatabaseContext).FullName} missing static {ConfigureMethodName} function!");
+				BindingFlags.Public | BindingFlags.Static);
+
+			if (configureFunction == null)
+				throw new InvalidOperationException($"Context type {typeof(TDatabaseContext).FullName} missing static {ConfigureMethodName} function!");
 
 			return (optionsBuilder, config) => configureFunction.Invoke(null, new object[] { optionsBuilder, config });
 		}
@@ -255,7 +257,8 @@ namespace Tgstation.Server.Host.Database
 		/// Initializes a new instance of the <see cref="DatabaseContext"/> class.
 		/// </summary>
 		/// <param name="dbContextOptions">The <see cref="DbContextOptions"/> for the <see cref="DatabaseContext"/>.</param>
-		protected DatabaseContext(DbContextOptions dbContextOptions) : base(dbContextOptions)
+		protected DatabaseContext(DbContextOptions dbContextOptions)
+			: base(dbContextOptions)
 		{
 			usersCollection = new DatabaseCollection<User>(Users);
 			instancesCollection = new DatabaseCollection<Instance>(Instances);
@@ -375,22 +378,22 @@ namespace Tgstation.Server.Host.Database
 		/// <summary>
 		/// Used by unit tests to remind us to setup the correct MSSQL migration downgrades.
 		/// </summary>
-		internal static readonly Type MSLatestMigration = typeof(MSRenameHeartbeatsToHealthChecks);
+		internal static readonly Type MSLatestMigration = typeof(MSAddMapThreads);
 
 		/// <summary>
 		/// Used by unit tests to remind us to setup the correct MYSQL migration downgrades.
 		/// </summary>
-		internal static readonly Type MYLatestMigration = typeof(MYRenameHeartbeatsToHealthChecks);
+		internal static readonly Type MYLatestMigration = typeof(MYAddMapThreads);
 
 		/// <summary>
 		/// Used by unit tests to remind us to setup the correct PostgresSQL migration downgrades.
 		/// </summary>
-		internal static readonly Type PGLatestMigration = typeof(PGRenameHeartbeatsToHealthChecks);
+		internal static readonly Type PGLatestMigration = typeof(PGAddMapThreads);
 
 		/// <summary>
 		/// Used by unit tests to remind us to setup the correct SQLite migration downgrades.
 		/// </summary>
-		internal static readonly Type SLLatestMigration = typeof(SLRenameHeartbeatsToHealthChecks);
+		internal static readonly Type SLLatestMigration = typeof(SLAddMapThreads);
 
 		/// <inheritdoc />
 #pragma warning disable CA1502 // Cyclomatic complexity

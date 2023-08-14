@@ -96,7 +96,6 @@ namespace Tgstation.Server.Host.Utils.GitHub
 				var now = DateTimeOffset.UtcNow;
 				if (!cacheHit)
 				{
-					logger.LogTrace("Creating new GitHubClient...");
 					client = new GitHubClient(
 						new ProductHeaderValue(
 							assemblyInformationProvider.ProductInfoHeaderValue.Product.Name,

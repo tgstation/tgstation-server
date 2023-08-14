@@ -1,4 +1,6 @@
-﻿namespace Tgstation.Server.Host.Configuration
+﻿using System;
+
+namespace Tgstation.Server.Host.Configuration
 	{
 	/// <summary>
 	/// Configuration options pertaining to elasticsearch log storage.
@@ -11,21 +13,6 @@
 		public const string Section = "Elasticsearch";
 
 		/// <summary>
-		/// Default value of <see cref="Host"/>.
-		/// </summary>
-		const string DefaultHost = "http://127.0.0.1:9200"; // localhost
-
-		/// <summary>
-		/// Default value of <see cref="Username"/>.
-		/// </summary>
-		const string DefaultUsername = "my_username";
-
-		/// <summary>
-		/// Default value of <see cref="Password"/>.
-		/// </summary>
-		const string DefaultPassword = "my_password";
-
-		/// <summary>
 		/// Do we want to enable elasticsearch or not?.
 		/// </summary>
 		public bool Enable { get; set; }
@@ -33,16 +20,16 @@
 		/// <summary>
 		/// The host of the elasticsearch endpoint.
 		/// </summary>
-		public string Host { get; set; } = DefaultHost;
+		public Uri Host { get; set; }
 
 		/// <summary>
 		/// Username for elasticsearch.
 		/// </summary>
-		public string Username { get; set; } = DefaultUsername;
+		public string Username { get; set; }
 
 		/// <summary>
 		/// Password for elasticsearch.
 		/// </summary>
-		public string Password { get; set; } = DefaultPassword;
+		public string Password { get; set; }
 	}
 }

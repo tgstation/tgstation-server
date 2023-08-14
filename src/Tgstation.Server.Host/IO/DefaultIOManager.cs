@@ -6,7 +6,6 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.Utils;
 
 namespace Tgstation.Server.Host.IO
@@ -154,8 +153,7 @@ namespace Tgstation.Server.Host.IO
 			() =>
 			{
 				path = ResolvePath(path);
-				if (extension == null)
-					throw new ArgumentNullException(extension);
+				ArgumentNullException.ThrowIfNull(extension);
 				var results = new List<string>();
 				foreach (var fileName in Directory.EnumerateFiles(
 					path,
@@ -389,7 +387,7 @@ namespace Tgstation.Server.Host.IO
 
 				async Task CopyThisFile()
 				{
-					await subdirCreationTask.WithToken(cancellationToken);
+					await subdirCreationTask.WaitAsync(cancellationToken);
 					using var lockContext = semaphore != null
 						? await SemaphoreSlimContext.Lock(semaphore, cancellationToken)
 						: null;

@@ -1,18 +1,33 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Newtonsoft.Json.Linq;
-using System;
+﻿using System;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
+using System.Net.Http;
+using System.Reflection;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
+using Microsoft.EntityFrameworkCore.Migrations;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+using Moq;
+
+using Newtonsoft.Json.Linq;
+
 using Tgstation.Server.Api;
 using Tgstation.Server.Client;
+using Tgstation.Server.Common.Extensions;
 using Tgstation.Server.Host;
+using Tgstation.Server.Host.Components.Byond;
 using Tgstation.Server.Host.Components.Interop;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Database;
+using Tgstation.Server.Host.IO;
+using Tgstation.Server.Host.System;
+using System.Net;
 
 namespace Tgstation.Server.Tests
 {
@@ -71,6 +86,152 @@ namespace Tgstation.Server.Tests
 			Assert.IsTrue(Version.TryParse(versionString, out var expected));
 			var actual = typeof(ApiHeaders).Assembly.GetName().Version;
 			Assert.AreEqual(expected, actual);
+		}
+
+		[TestMethod]
+		public async Task TestDDExeByondVersion()
+		{
+			var mockGeneralConfigurationOptions = new Mock<IOptions<GeneralConfiguration>>();
+			mockGeneralConfigurationOptions.SetupGet(x => x.Value).Returns(new GeneralConfiguration());
+			var mockSessionConfigurationOptions = new Mock<IOptions<SessionConfiguration>>();
+			mockSessionConfigurationOptions.SetupGet(x => x.Value).Returns(new SessionConfiguration());
+
+			using var loggerFactory = LoggerFactory.Create(builder =>
+			{
+				builder.AddConsole();
+				builder.SetMinimumLevel(LogLevel.Trace);
+			});
+			var logger = loggerFactory.CreateLogger<CachingFileDownloader>();
+
+			// windows only BYOND but can be checked on any system
+			var init1 = CachingFileDownloader.InitializeByondVersion(
+				logger,
+				WindowsByondInstaller.DDExeVersion,
+				true,
+				CancellationToken.None);
+			await CachingFileDownloader.InitializeByondVersion(
+				logger,
+				new Version(WindowsByondInstaller.DDExeVersion.Major, WindowsByondInstaller.DDExeVersion.Minor - 1),
+				true,
+				CancellationToken.None);
+			await init1;
+
+			using var byondInstaller = new WindowsByondInstaller(
+				Mock.Of<IProcessExecutor>(),
+				Mock.Of<IIOManager>(),
+				new CachingFileDownloader(Mock.Of<ILogger<CachingFileDownloader>>()),
+				mockGeneralConfigurationOptions.Object,
+				Mock.Of<ILogger<WindowsByondInstaller>>());
+
+			const string ArchiveEntryPath = "byond/bin/dd.exe";
+			var hasEntry = ArchiveHasFileEntry(
+				await byondInstaller.DownloadVersion(WindowsByondInstaller.DDExeVersion, default),
+				ArchiveEntryPath);
+
+			Assert.IsTrue(hasEntry);
+
+			var (byondBytes, version) = await GetByondVersionPriorTo(byondInstaller, WindowsByondInstaller.DDExeVersion);
+			hasEntry = ArchiveHasFileEntry(
+				byondBytes,
+				ArchiveEntryPath);
+
+			Assert.IsFalse(hasEntry);
+		}
+
+		[TestMethod]
+		public async Task TestMapThreadsByondVersion()
+		{
+			var mockGeneralConfigurationOptions = new Mock<IOptions<GeneralConfiguration>>();
+			mockGeneralConfigurationOptions.SetupGet(x => x.Value).Returns(new GeneralConfiguration
+			{
+				SkipAddingByondFirewallException = true,
+			});
+			var mockSessionConfigurationOptions = new Mock<IOptions<SessionConfiguration>>();
+			mockSessionConfigurationOptions.SetupGet(x => x.Value).Returns(new SessionConfiguration());
+
+			using var loggerFactory = LoggerFactory.Create(builder =>
+			{
+				builder.AddConsole();
+				builder.SetMinimumLevel(LogLevel.Trace);
+			});
+
+			var platformIdentifier = new PlatformIdentifier();
+			var logger = loggerFactory.CreateLogger<CachingFileDownloader>();
+			var init1 = CachingFileDownloader.InitializeByondVersion(
+				logger,
+				ByondInstallerBase.MapThreadsVersion,
+				platformIdentifier.IsWindows,
+				CancellationToken.None);
+			await CachingFileDownloader.InitializeByondVersion(
+				logger,
+				new Version(ByondInstallerBase.MapThreadsVersion.Major, ByondInstallerBase.MapThreadsVersion.Minor - 1),
+				platformIdentifier.IsWindows,
+				CancellationToken.None);
+			await init1;
+
+			var fileDownloader = new CachingFileDownloader(Mock.Of<ILogger<CachingFileDownloader>>());
+
+			IByondInstaller byondInstaller = platformIdentifier.IsWindows
+				? new WindowsByondInstaller(
+					Mock.Of<IProcessExecutor>(),
+					Mock.Of<IIOManager>(),
+					fileDownloader,
+					mockGeneralConfigurationOptions.Object,
+					loggerFactory.CreateLogger<WindowsByondInstaller>())
+				: new PosixByondInstaller(
+					new PosixPostWriteHandler(loggerFactory.CreateLogger<PosixPostWriteHandler>()),
+					new DefaultIOManager(),
+					fileDownloader,
+					loggerFactory.CreateLogger<PosixByondInstaller>());
+			using var disposable = byondInstaller as IDisposable;
+
+			var processExecutor = new ProcessExecutor(
+				platformIdentifier.IsWindows
+					? new WindowsProcessFeatures(Mock.Of<ILogger<WindowsProcessFeatures>>())
+					: new PosixProcessFeatures(
+						new Lazy<IProcessExecutor>(() => null),
+						Mock.Of<IIOManager>(),
+						loggerFactory.CreateLogger<PosixProcessFeatures>()),
+					Mock.Of<IIOManager>(),
+					loggerFactory.CreateLogger<ProcessExecutor>(),
+					loggerFactory);
+
+			var ioManager = new DefaultIOManager();
+			var tempPath = Path.GetTempFileName();
+			await ioManager.DeleteFile(tempPath, default);
+			await ioManager.CreateDirectory(tempPath, default);
+			try
+			{
+				await TestMapThreadsVersion(
+					ByondInstallerBase.MapThreadsVersion,
+					await byondInstaller.DownloadVersion(ByondInstallerBase.MapThreadsVersion, default),
+					byondInstaller,
+					ioManager,
+					processExecutor,
+					tempPath);
+
+				await ioManager.DeleteDirectory(tempPath, default);
+
+				var (byondBytes, version) = await GetByondVersionPriorTo(byondInstaller, ByondInstallerBase.MapThreadsVersion);
+
+				await TestMapThreadsVersion(
+					version,
+					byondBytes,
+					byondInstaller,
+					ioManager,
+					processExecutor,
+					tempPath);
+			}
+			finally
+			{
+				await ioManager.DeleteDirectory(tempPath, default);
+			}
+		}
+
+		[ClassCleanup]
+		public static void Cleanup()
+		{
+			CachingFileDownloader.Cleanup();
 		}
 
 		[TestMethod]
@@ -217,6 +378,90 @@ namespace Tgstation.Server.Tests
 			Assert.AreEqual(latestMigrationMY, DatabaseContext.MYLatestMigration);
 			Assert.AreEqual(latestMigrationPG, DatabaseContext.PGLatestMigration);
 			Assert.AreEqual(latestMigrationSL, DatabaseContext.SLLatestMigration);
+		}
+
+		static async Task<Tuple<MemoryStream, Version>> GetByondVersionPriorTo(IByondInstaller byondInstaller, Version version)
+		{
+			var minusOneMinor = new Version(version.Major, version.Minor - 1);
+			try
+			{
+				return Tuple.Create(await byondInstaller.DownloadVersion(minusOneMinor, default), minusOneMinor);
+			}
+			catch (HttpRequestException)
+			{
+				var minusOneMajor = new Version(minusOneMinor.Major - 1, minusOneMinor.Minor);
+				return Tuple.Create(await byondInstaller.DownloadVersion(minusOneMajor, default), minusOneMajor);
+			}
+		}
+
+		static async Task TestMapThreadsVersion(
+			Version byondVersion,
+			Stream byondBytes,
+			IByondInstaller byondInstaller,
+			IIOManager ioManager,
+			IProcessExecutor processExecutor,
+			string tempPath)
+		{
+			using (byondBytes)
+				await ioManager.ZipToDirectory(tempPath, byondBytes, default);
+
+			// HAAAAAAAX
+			if (byondInstaller.GetType() == typeof(WindowsByondInstaller))
+				typeof(WindowsByondInstaller).GetField("installedDirectX", BindingFlags.Instance | BindingFlags.NonPublic).SetValue(byondInstaller, true);
+
+			await byondInstaller.InstallByond(byondVersion, tempPath, default);
+
+			var ddPath = ioManager.ConcatPath(
+				tempPath,
+				ByondManager.BinPath,
+				byondInstaller.GetDreamDaemonName(byondVersion, out var supportsCli, out var shouldSupportMapThreads));
+
+			Assert.IsTrue(supportsCli);
+
+			await File.WriteAllBytesAsync("fake.dmb", Array.Empty<byte>(), CancellationToken.None);
+
+			try
+			{
+				await using var process = processExecutor.LaunchProcess(
+					ddPath,
+					Environment.CurrentDirectory,
+					"fake.dmb -map-threads 3 -close",
+					null,
+					true,
+					true);
+
+				try
+				{
+					await process.Startup;
+					using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(10));
+					await process.Lifetime.WaitAsync(cts.Token);
+
+					var output = await process.GetCombinedOutput(cts.Token);
+
+					var supportsMapThreads = !output.Contains("invalid option '-map-threads'");
+					Assert.AreEqual(shouldSupportMapThreads, supportsMapThreads, $"DD Output:{Environment.NewLine}{output}");
+				}
+				finally
+				{
+					process.Terminate();
+				}
+			}
+			finally
+			{
+				File.Delete("fake.dmb");
+			}
+		}
+
+		static bool ArchiveHasFileEntry(Stream byondBytes, string entryPath)
+		{
+			using (byondBytes)
+			{
+				using var archive = new ZipArchive(byondBytes, ZipArchiveMode.Read);
+
+				var entry = archive.Entries.FirstOrDefault(entry => entry.FullName == entryPath);
+
+				return entry != null;
+			}
 		}
 	}
 }

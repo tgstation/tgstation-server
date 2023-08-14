@@ -115,8 +115,12 @@ namespace Tgstation.Server.Host
 			using (cancellationTokenSource = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken))
 			using (var fsWatcher = updatePath != null ? new FileSystemWatcher(Path.GetDirectoryName(updatePath)) : null)
 			{
-				if (fsWatcher != null)
+				if (updatePath != null)
 				{
+					// If ever there is a NECESSARY update to the Host Watchdog, change this to use a pipe
+					// I don't know why I'm only realizing this in 2023 when this is 2019 code
+					// As it stands, FSWatchers use async I/O on Windows and block a new thread on Linux
+					// That's an acceptable, if saddening, resource loss for now
 					fsWatcher.Created += WatchForShutdownFileCreation;
 					fsWatcher.EnableRaisingEvents = true;
 				}
@@ -242,7 +246,14 @@ namespace Tgstation.Server.Host
 		public Task GracefulShutdown(bool detach) => RestartImpl(null, null, false, detach);
 
 		/// <inheritdoc />
-		public Task Die(Exception exception) => RestartImpl(null, exception, false, true);
+		public Task Die(Exception exception)
+		{
+			if (exception != null)
+				return RestartImpl(null, exception, false, true);
+
+			StopServerImmediate();
+			return Task.CompletedTask;
+		}
 
 		/// <summary>
 		/// Throws an <see cref="InvalidOperationException"/> if the <see cref="IServerControl"/> cannot be used.
@@ -381,7 +392,7 @@ namespace Tgstation.Server.Host
 		void StopServerImmediate()
 		{
 			shutdownInProgress = true;
-			logger.LogTrace("Stopping host...");
+			logger.LogDebug("Stopping host...");
 			cancellationTokenSource.Cancel();
 		}
 	}

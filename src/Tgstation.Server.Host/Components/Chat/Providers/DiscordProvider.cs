@@ -3,9 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Globalization;
 using System.Linq;
-using System.Reflection;
 using System.Threading;
-using System.Threading.Channels;
 using System.Threading.Tasks;
 
 using Microsoft.Extensions.DependencyInjection;
@@ -19,7 +17,6 @@ using Remora.Discord.API.Abstractions.Results;
 using Remora.Discord.API.Objects;
 using Remora.Discord.Gateway;
 using Remora.Discord.Gateway.Extensions;
-using Remora.Discord.Gateway.Services;
 using Remora.Rest.Core;
 using Remora.Rest.Results;
 using Remora.Results;
@@ -228,54 +225,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 
 			await base.DisposeAsync();
 
-			// https://github.com/Remora/Remora.Discord/issues/305
-			var responderDispatchService = serviceProvider.GetRequiredService<ResponderDispatchService>();
-			var serviceProviderDisposeTask = serviceProvider.DisposeAsync().AsTask();
-			var timeout = AsyncDelayer.Delay(TimeSpan.FromSeconds(10), default); // DCT: None available
-
-			await Task.WhenAny(timeout, serviceProviderDisposeTask);
-
-			if (!serviceProviderDisposeTask.IsCompleted)
-			{
-				// HACK HACK HACK, there's a potential deadlock in the ResponderDispatchService
-				Logger.LogWarning("ServiceProvider disposal stalled. Attempting workaround...");
-				var responderDispatchServiceType = responderDispatchService.GetType();
-				var dispatcherTask = (Task)responderDispatchServiceType.GetField("_dispatcher", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(responderDispatchService);
-				var finalizerTask = (Task)responderDispatchServiceType.GetField("_finalizer", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(responderDispatchService);
-
-				var dispatcherCompleted = dispatcherTask.IsCompleted;
-				var finalizerCompleted = finalizerTask.IsCompleted;
-				if (dispatcherCompleted && !finalizerCompleted)
-				{
-					// deadlocked, force close the channel
-					var channel = (Channel<Task<IReadOnlyList<Result>>>)responderDispatchServiceType.GetField("_respondersToFinalize", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(responderDispatchService);
-					if (!channel.Writer.TryComplete())
-						Logger.LogCritical("Workaround failed (channel already closed), you may be deadlocked!");
-					else
-					{
-						// drain the channel, fuck the results
-						// DCT: None available
-						await foreach (var result in channel.Reader.ReadAllAsync(CancellationToken.None))
-							try
-							{
-								await result;
-							}
-							catch (Exception ex)
-							{
-								Logger.LogDebug(ex, "Channel draining exception!");
-							}
-
-						Logger.LogInformation("Workaround seems successful. Awaiting ServiceProvider disposal...");
-					}
-				}
-				else
-					Logger.LogCritical(
-						"Workaround failed (_dispatcher: {dispatcherCompleted}, _finalizer: {finalizerCompleted}), you may be deadlocked!",
-						dispatcherCompleted,
-						finalizerCompleted);
-			}
-
-			await serviceProviderDisposeTask;
+			await serviceProvider.DisposeAsync();
 
 			Logger.LogTrace("ServiceProvider disposed");
 
@@ -377,7 +327,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		}
 
 		/// <inheritdoc />
-		public override async ValueTask<Func<string, string, ValueTask>> SendUpdateMessage(
+		public override async ValueTask<Func<string, string, ValueTask<Func<bool, ValueTask>>>> SendUpdateMessage(
 			Models.RevisionInformation revisionInformation,
 			Version byondVersion,
 			DateTimeOffset? estimatedCompletionTime,
@@ -428,19 +378,26 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			{
 				var completionString = errorMessage == null ? "Succeeded" : "Failed";
 
-				embed = new Embed
+				Embed CreateUpdatedEmbed(string message, Color color) => new Embed
 				{
 					Author = embed.Author,
-					Colour = errorMessage == null ? Color.Green : Color.Red,
-					Description = errorMessage == null
-					? "The deployment completed successfully and will be available at the next server reboot."
-					: "The deployment failed.",
+					Colour = color,
+					Description = message,
 					Fields = fields,
 					Title = embed.Title,
 					Footer = new EmbedFooter(
 						completionString),
 					Timestamp = DateTimeOffset.UtcNow,
 				};
+
+				if (errorMessage == null)
+					embed = CreateUpdatedEmbed(
+						"The deployment completed successfully and will be available at the next server reboot.",
+						Color.Blue);
+				else
+					embed = CreateUpdatedEmbed(
+						"The deployment failed.",
+						Color.Red);
 
 				var showDMOutput = outputDisplayType switch
 				{
@@ -468,13 +425,14 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 						errorMessage,
 						false));
 
-				var updatedMessage = $"DM: Deployment {completionString}!";
+				var updatedMessageText = $"DM: Deployment {completionString}!";
 
+				IMessage updatedMessage = null;
 				async Task CreateUpdatedMessage()
 				{
 					var createUpdatedMessageResponse = await channelsClient.CreateMessageAsync(
 						new Snowflake(channelId),
-						updatedMessage,
+						updatedMessageText,
 						embeds: new List<IEmbed> { embed },
 						ct: cancellationToken);
 
@@ -482,6 +440,8 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 						Logger.LogWarning(
 							"Creating updated deploy embed failed: {result}",
 							createUpdatedMessageResponse.LogFormat());
+					else
+						updatedMessage = createUpdatedMessageResponse.Entity;
 				}
 
 				if (!messageResponse.IsSuccess)
@@ -491,7 +451,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 					var editResponse = await channelsClient.EditMessageAsync(
 						new Snowflake(channelId),
 						messageResponse.Entity.ID,
-						updatedMessage,
+						updatedMessageText,
 						embeds: new List<IEmbed> { embed },
 						ct: cancellationToken);
 
@@ -503,7 +463,37 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 							editResponse.LogFormat());
 						await CreateUpdatedMessage();
 					}
+					else
+						updatedMessage = editResponse.Entity;
 				}
+
+				return async (active) =>
+				{
+					if (updatedMessage == null || errorMessage != null)
+						return;
+
+					if (active)
+						embed = CreateUpdatedEmbed(
+							"The deployment completed successfully and was applied to server.",
+							Color.Green);
+					else
+						embed = CreateUpdatedEmbed(
+							"This deployment has been superceeded by a new one.",
+							Color.Gray);
+
+					var editResponse = await channelsClient.EditMessageAsync(
+						new Snowflake(channelId),
+						updatedMessage.ID,
+						updatedMessageText,
+						embeds: new List<IEmbed> { embed },
+						ct: cancellationToken);
+
+					if (!editResponse.IsSuccess)
+						Logger.LogWarning(
+							"Finalizing deploy embed {messageId} failed: {result}",
+							messageResponse.Entity.ID,
+							editResponse.LogFormat());
+				};
 			};
 		}
 

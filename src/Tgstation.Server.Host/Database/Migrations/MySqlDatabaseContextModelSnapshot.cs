@@ -218,6 +218,10 @@ namespace Tgstation.Server.Host.Database.Migrations
 					.IsRequired()
 					.HasColumnType("tinyint(1)");
 
+				b.Property<uint?>("MapThreads")
+					.IsRequired()
+					.HasColumnType("int unsigned");
+
 				b.Property<ushort?>("Port")
 					.IsRequired()
 					.HasColumnType("smallint unsigned");

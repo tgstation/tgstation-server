@@ -14,6 +14,7 @@ using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Response;
 using Tgstation.Server.Client;
+using Tgstation.Server.Common.Extensions;
 using Tgstation.Server.Host;
 
 namespace Tgstation.Server.Tests.Live

@@ -1,36 +1,13 @@
 <Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="../../build/TestCommon.props" />
 
   <PropertyGroup>
-    <TargetFramework>net472</TargetFramework>
+    <TargetFramework>$(TgsFrameworkVersion)-windows</TargetFramework>
   </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
-    <WarningsAsErrors />
-  </PropertyGroup>
-
-  <ItemGroup>
-    <PackageReference Include="coverlet.collector" Version="6.0.0">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="GitHubActionsTestLogger" Version="2.3.2">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.6.2" />
-    <PackageReference Include="Moq" Version="4.18.4" />
-    <PackageReference Include="MSTest.TestAdapter" Version="3.0.4" />
-    <PackageReference Include="MSTest.TestFramework" Version="3.0.4" />
-  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\Tgstation.Server.Host.Service\Tgstation.Server.Host.Service.csproj" />
     <ProjectReference Include="..\..\src\Tgstation.Server.Host.Watchdog\Tgstation.Server.Host.Watchdog.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="System.ServiceProcess" />
   </ItemGroup>
 
 </Project>

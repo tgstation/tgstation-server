@@ -10,9 +10,9 @@ using Byond.TopicSender;
 
 using Microsoft.Extensions.Logging;
 
-using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Internal;
+using Tgstation.Server.Common.Extensions;
 using Tgstation.Server.Host.Components.Byond;
 using Tgstation.Server.Host.Components.Chat;
 using Tgstation.Server.Host.Components.Deployment;
@@ -287,6 +287,8 @@ namespace Tgstation.Server.Host.Components.Session
 
 				string outputFilePath = null;
 				var preserveLogFile = true;
+
+				var cliSupported = byondLock.SupportsCli;
 				if (launchParameters.LogOutput.Value)
 				{
 					var now = DateTimeOffset.UtcNow;
@@ -299,7 +301,7 @@ namespace Tgstation.Server.Host.Components.Session
 
 					logger.LogInformation("Logging DreamDaemon output to {path}...", outputFilePath);
 				}
-				else if (!byondLock.SupportsCli)
+				else if (!cliSupported)
 				{
 					outputFilePath = gameIOManager.ConcatPath(dmbProvider.Directory, $"{Guid.NewGuid()}.dd.log");
 					preserveLogFile = false;
@@ -359,7 +361,7 @@ namespace Tgstation.Server.Host.Components.Session
 							() => LogDDOutput(
 								process,
 								outputFilePath,
-								byondLock.SupportsCli,
+								cliSupported,
 								preserveLogFile,
 								CancellationToken.None), // DCT: None available
 							launchParameters.StartupTimeout,
@@ -506,7 +508,7 @@ namespace Tgstation.Server.Host.Components.Session
 			// important to run on all ports to allow port changing
 			var arguments = String.Format(
 				CultureInfo.InvariantCulture,
-				"{0} -port {1} -ports 1-65535 {2}-close -verbose -{3} -{4}{5}{6} -params \"{7}\"",
+				"{0} -port {1} -ports 1-65535 {2}-close -verbose -{3} -{4}{5}{6}{7} -params \"{8}\"",
 				dmbProvider.DmbName,
 				launchParameters.Port.Value,
 				launchParameters.AllowWebClient.Value ? "-webclient " : String.Empty,
@@ -518,9 +520,12 @@ namespace Tgstation.Server.Host.Components.Session
 				launchParameters.StartProfiler.Value
 					? " -profile"
 					: String.Empty,
+				byondLock.SupportsMapThreads && launchParameters.MapThreads.Value != 0
+					? $" -map-threads {launchParameters.MapThreads.Value}"
+					: String.Empty,
 				parameters);
 
-			var process = await processExecutor.LaunchProcess(
+			var process = processExecutor.LaunchProcess(
 				byondLock.DreamDaemonPath,
 				dmbProvider.Directory,
 				arguments,

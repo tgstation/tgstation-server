@@ -1,3 +1,5 @@
+# Base tgstation-server configuration file
+# You SHOULD NOT edit this file. Instead, make changes in its override file: appsettings.Production.yml
 General:
 # ConfigVersion: # Basic semver. Differs from TGS version to version. See changelog for current version
   MinimumPasswordLength: 15 # Minimum TGS user password length
@@ -64,3 +66,10 @@ Security:
     TGForums: # https://tgstation13.org OAuth configuration
     Keycloak: # Keycloak OAuth configuration.
     InvisionCommunity: # Invision Community OAuth configuration.
+Swarm: # Should be left empty if using swarm mode is not desired
+# Identifier: # Required: The string identifier of the swarm node
+# PrivateKey: # Required: The shared API key used for inter-server communication in the swarm. Must be the same secure string on all nodes
+# Address: # Required: The internal address of the swarm node's API
+# PublicAddress: # The public address of the swarm node
+# ControllerAddress: # Required on non-controller nodes. The internal address of the swarm controller's API'. Should be left empty on the controller itself
+# UpdateRequiredNodeCount: # The number of nodes expected to be in the swarm before initiating an update. This should count every server irrespective of whether or not they are the controller MINUS 1

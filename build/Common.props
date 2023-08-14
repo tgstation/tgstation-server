@@ -2,8 +2,7 @@
   <Import Project="Version.props" />
 
   <PropertyGroup>
-    <TgsNetVersion>net6.0</TgsNetVersion>
-    <TgsNugetNetVersion>netstandard2.0</TgsNugetNetVersion>
+    <TgsFrameworkVersion>net$(TgsNetMajorVersion).0</TgsFrameworkVersion>
     <LangVersion>latest</LangVersion>
     <DebugType>Full</DebugType>
   </PropertyGroup>

@@ -38,7 +38,7 @@ namespace Tgstation.Server.Host.Components.Byond
 		public override string PathToUserByondFolder { get; }
 
 		/// <inheritdoc />
-		protected override string ByondRevisionsUrlTemplate => "https://secure.byond.com/download/build/{0}/{0}.{1}_byond_linux.zip";
+		protected override string ByondRevisionsUrlTemplate => "https://www.byond.com/download/build/{0}/{0}.{1}_byond_linux.zip";
 
 		/// <summary>
 		/// The <see cref="IPostWriteHandler"/> for the <see cref="PosixByondInstaller"/>.
@@ -69,11 +69,12 @@ namespace Tgstation.Server.Host.Components.Byond
 		}
 
 		/// <inheritdoc />
-		public override string GetDreamDaemonName(Version version, out bool supportsCli)
+		public override string GetDreamDaemonName(Version version, out bool supportsCli, out bool supportsMapThreads)
 		{
 			ArgumentNullException.ThrowIfNull(version);
 
 			supportsCli = true;
+			supportsMapThreads = version >= MapThreadsVersion;
 			return DreamDaemonExecutableName + ShellScriptExtension;
 		}
 
@@ -100,7 +101,7 @@ namespace Tgstation.Server.Host.Components.Byond
 			var basePath = IOManager.ConcatPath(path, ByondManager.BinPath);
 
 			var ddTask = WriteAndMakeExecutable(
-				IOManager.ConcatPath(basePath, GetDreamDaemonName(version, out var _)),
+				IOManager.ConcatPath(basePath, GetDreamDaemonName(version, out _, out _)),
 				dreamDaemonScript);
 
 			var dmTask = WriteAndMakeExecutable(

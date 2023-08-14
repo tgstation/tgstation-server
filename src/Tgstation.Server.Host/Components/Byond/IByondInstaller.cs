@@ -25,8 +25,9 @@ namespace Tgstation.Server.Host.Components.Byond
 		/// </summary>
 		/// <param name="version">The <see cref="Version"/> of BYOND to select the executable name for.</param>
 		/// <param name="supportsCli">Whether or not the returned path supports being run as a command-line application.</param>
+		/// <param name="supportsMapThreads">Whether or not the returned path supports the '-map-threads' parameter.</param>
 		/// <returns>The file name of the DreamDaemon executable.</returns>
-		string GetDreamDaemonName(Version version, out bool supportsCli);
+		string GetDreamDaemonName(Version version, out bool supportsCli, out bool supportsMapThreads);
 
 		/// <summary>
 		/// Download a given BYOND <paramref name="version"/>.

@@ -218,7 +218,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		}
 
 		/// <inheritdoc />
-		public override async ValueTask<Func<string, string, ValueTask>> SendUpdateMessage(
+		public override async ValueTask<Func<string, string, ValueTask<Func<bool, ValueTask>>>> SendUpdateMessage(
 			Models.RevisionInformation revisionInformation,
 			Version byondVersion,
 			DateTimeOffset? estimatedCompletionTime,
@@ -281,14 +281,19 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				channelId,
 				cancellationToken);
 
-			return (errorMessage, dreamMakerOutput) => SendMessage(
-				null,
-				new MessageContent
-				{
-					Text = $"DM: Deployment {(errorMessage == null ? "complete" : "failed")}!",
-				},
-				channelId,
-				cancellationToken);
+			return async (errorMessage, dreamMakerOutput) =>
+			{
+				await SendMessage(
+					null,
+					new MessageContent
+					{
+						Text = $"DM: Deployment {(errorMessage == null ? "complete" : "failed")}!",
+					},
+					channelId,
+					cancellationToken);
+
+				return active => ValueTask.CompletedTask;
+			};
 		}
 
 		/// <inheritdoc />
@@ -377,7 +382,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 					cancellationToken,
 					DefaultIOManager.BlockingTaskCreationOptions,
 					TaskScheduler.Current)
-					.WithToken(cancellationToken);
+					.WaitAsync(cancellationToken);
 
 				cancellationToken.ThrowIfCancellationRequested();
 
@@ -410,38 +415,38 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				using (cancellationToken.Register(() => nickCheckCompleteTcs.TrySetCanceled(cancellationToken)))
 				{
 					listenTask = Task.Factory.StartNew(
-					async () =>
-					{
-						Logger.LogTrace("Entering nick check loop");
-						while (!disconnecting && client.IsConnected && client.Nickname != nickname)
+						async () =>
 						{
-							client.ListenOnce(true);
-							if (disconnecting || !client.IsConnected)
-								break;
-							await NonBlockingListen(cancellationToken);
+							Logger.LogTrace("Entering nick check loop");
+							while (!disconnecting && client.IsConnected && client.Nickname != nickname)
+							{
+								client.ListenOnce(true);
+								if (disconnecting || !client.IsConnected)
+									break;
+								await NonBlockingListen(cancellationToken);
 
-							// ensure we have the correct nick
-							if (client.GetIrcUser(nickname) == null)
-								client.RfcNick(nickname);
-						}
+								// ensure we have the correct nick
+								if (client.GetIrcUser(nickname) == null)
+									client.RfcNick(nickname);
+							}
 
-						nickCheckCompleteTcs.TrySetResult();
+							nickCheckCompleteTcs.TrySetResult();
 
-						Logger.LogTrace("Starting blocking listen...");
-						try
-						{
-							client.Listen();
-						}
-						catch (Exception ex)
-						{
-							Logger.LogWarning(ex, "IRC Main Listen Exception!");
-						}
+							Logger.LogTrace("Starting blocking listen...");
+							try
+							{
+								client.Listen();
+							}
+							catch (Exception ex)
+							{
+								Logger.LogWarning(ex, "IRC Main Listen Exception!");
+							}
 
-						Logger.LogTrace("Exiting listening task...");
-					},
-					cancellationToken,
-					DefaultIOManager.BlockingTaskCreationOptions,
-					TaskScheduler.Current);
+							Logger.LogTrace("Exiting listening task...");
+						},
+						cancellationToken,
+						DefaultIOManager.BlockingTaskCreationOptions,
+						TaskScheduler.Current);
 
 					await nickCheckCompleteTcs.Task;
 				}
@@ -584,7 +589,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			cancellationToken,
 			TaskCreationOptions.None,
 			TaskScheduler.Current)
-			.WithToken(cancellationToken);
+			.WaitAsync(cancellationToken);
 
 		/// <summary>
 		/// Run SASL authentication on <see cref="client"/>.

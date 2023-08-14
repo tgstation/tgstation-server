@@ -193,7 +193,7 @@ namespace Tgstation.Server.Host.Controllers
 							return new PaginatableResult<ConfigurationFileResponse>(
 								result
 									.AsQueryable()
-									.OrderBy(x => x.Path));
+									.OrderBy(x => x)); // ordering performed by IConfiguration
 						}
 						catch (NotImplementedException ex)
 						{

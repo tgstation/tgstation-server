@@ -4,15 +4,23 @@ using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 
+using Tgstation.Server.Host.System;
+
 namespace Tgstation.Server.Host.IO.Tests
 {
 	[TestClass]
 	public sealed class TestConsole
 	{
 		[TestMethod]
+		public void TestContructionThrows()
+		{
+			Assert.ThrowsException<ArgumentNullException>(() => new Console(null));
+		}
+
+		[TestMethod]
 		public async Task TestWriteLine()
 		{
-			var console = new Console();
+			var console = new Console(new PlatformIdentifier());
 			await Assert.ThrowsExceptionAsync<InvalidOperationException>(() => console.WriteAsync(null, false, default));
 			try
 			{
@@ -28,7 +36,7 @@ namespace Tgstation.Server.Host.IO.Tests
 		[TestMethod]
 		public void TestUserInteractive()
 		{
-			var console = new Console();
+			var console = new Console(new PlatformIdentifier());
 			Assert.AreEqual(Environment.UserInteractive, console.Available);
 		}
 	}

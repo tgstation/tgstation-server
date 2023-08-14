@@ -16,7 +16,7 @@ using Tgstation.Server.Host.Utils;
 namespace Tgstation.Server.Host.System
 {
 	/// <inheritdoc />
-	sealed class WindowsNetworkPromptReaper : IHostedService, INetworkPromptReaper, IDisposable
+	sealed class WindowsNetworkPromptReaper : BackgroundService, INetworkPromptReaper
 	{
 		/// <summary>
 		/// Number of times to send the button click message. Should be at least 2 or it may fail to focus the window.
@@ -39,19 +39,9 @@ namespace Tgstation.Server.Host.System
 		readonly ILogger<WindowsNetworkPromptReaper> logger;
 
 		/// <summary>
-		/// The <see cref="CancellationTokenSource"/> for the <see cref="WindowsNetworkPromptReaper"/>.
-		/// </summary>
-		readonly CancellationTokenSource cancellationTokenSource;
-
-		/// <summary>
 		/// The list of <see cref="IProcess"/>s registered.
 		/// </summary>
 		readonly List<IProcess> registeredProcesses;
-
-		/// <summary>
-		/// The <see cref="Task"/> representing the lifetime of the <see cref="WindowsNetworkPromptReaper"/>.
-		/// </summary>
-		Task runTask;
 
 		/// <summary>
 		/// Callback for <see cref="NativeMethods.EnumChildWindows(IntPtr, NativeMethods.EnumWindowProc, IntPtr)"/>.
@@ -106,26 +96,6 @@ namespace Tgstation.Server.Host.System
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
 			registeredProcesses = new List<IProcess>();
-			cancellationTokenSource = new CancellationTokenSource();
-		}
-
-		/// <inheritdoc />
-		public void Dispose() => cancellationTokenSource.Dispose();
-
-		/// <inheritdoc />
-		public Task StartAsync(CancellationToken cancellationToken)
-		{
-			runTask = Run(cancellationTokenSource.Token);
-			return Task.CompletedTask;
-		}
-
-		/// <inheritdoc />
-		public async Task StopAsync(CancellationToken cancellationToken)
-		{
-			logger.LogTrace("Stopping network prompt reaper...");
-			cancellationTokenSource.Cancel();
-			await runTask;
-			registeredProcesses.Clear();
 		}
 
 		/// <inheritdoc />
@@ -150,12 +120,8 @@ namespace Tgstation.Server.Host.System
 			}, TaskScheduler.Current);
 		}
 
-		/// <summary>
-		/// Main loop for the <see cref="WindowsNetworkPromptReaper"/>.
-		/// </summary>
-		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		async Task Run(CancellationToken cancellationToken)
+		/// <inheritdoc />
+		protected override async Task ExecuteAsync(CancellationToken cancellationToken)
 		{
 			logger.LogDebug("Starting network prompt reaper...");
 			try
@@ -221,7 +187,8 @@ namespace Tgstation.Server.Host.System
 			}
 			finally
 			{
-				logger.LogDebug("Exiting network prompt reaper...");
+				registeredProcesses.Clear();
+				logger.LogTrace("Exiting network prompt reaper...");
 			}
 		}
 	}

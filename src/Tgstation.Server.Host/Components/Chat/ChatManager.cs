@@ -6,7 +6,9 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using Microsoft.Extensions.Logging;
+
 using Newtonsoft.Json;
+
 using Serilog.Context;
 
 using Tgstation.Server.Api.Models.Internal;
@@ -15,7 +17,6 @@ using Tgstation.Server.Host.Components.Chat.Commands;
 using Tgstation.Server.Host.Components.Chat.Providers;
 using Tgstation.Server.Host.Components.Interop;
 using Tgstation.Server.Host.Core;
-using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.Utils;
 
 namespace Tgstation.Server.Host.Components.Chat
@@ -356,7 +357,7 @@ namespace Tgstation.Server.Host.Components.Chat
 		}
 
 		/// <inheritdoc />
-		public Action<string, string> QueueDeploymentMessage(
+		public Func<string, string, Action<bool>> QueueDeploymentMessage(
 			Models.RevisionInformation revisionInformation,
 			Version byondVersion,
 			DateTimeOffset? estimatedCompletionTime,
@@ -370,7 +371,7 @@ namespace Tgstation.Server.Host.Components.Chat
 
 			logger.LogTrace("Sending deployment message for RevisionInformation: {revisionInfoId}", revisionInformation.Id);
 
-			var callbacks = new List<Func<string, string, ValueTask>>();
+			var callbacks = new List<Func<string, string, ValueTask<Func<bool, ValueTask>>>>();
 
 			var task = Task.WhenAll(
 				wdChannels.Select(
@@ -410,17 +411,42 @@ namespace Tgstation.Server.Host.Components.Chat
 
 			AddMessageTask(task);
 
-			async Task CollateTasks(string errorMessage, string dreamMakerOutput)
+			Task callbackTask;
+			Func<bool, ValueTask> finalUpdateAction = null;
+			async Task CallbackTask(string errorMessage, string dreamMakerOutput)
 			{
 				await task;
-				await ValueTaskExtensions.WhenAll(
+				var callbackResults = await ValueTaskExtensions.WhenAll(
 					callbacks.Select(
 						x => x(
 							errorMessage,
-							dreamMakerOutput)));
+							dreamMakerOutput)),
+					callbacks.Count);
+
+				finalUpdateAction = active => ValueTaskExtensions.WhenAll(callbackResults.Select(finalizerCallback => finalizerCallback(active)));
 			}
 
-			return (errorMessage, dreamMakerOutput) => AddMessageTask(CollateTasks(errorMessage, dreamMakerOutput));
+			async ValueTask CompletionTask(bool active)
+			{
+				try
+				{
+					await callbackTask;
+				}
+				catch
+				{
+					// Handled in AddMessageTask
+					return;
+				}
+
+				AddMessageTask(finalUpdateAction(active).AsTask());
+			}
+
+			return (errorMessage, dreamMakerOutput) =>
+			{
+				callbackTask = CallbackTask(errorMessage, dreamMakerOutput);
+				AddMessageTask(callbackTask);
+				return active => AddMessageTask(CompletionTask(active).AsTask());
+			};
 		}
 
 		/// <inheritdoc />
@@ -483,7 +509,7 @@ namespace Tgstation.Server.Host.Components.Chat
 			if (waitingForInitialConnection)
 			{
 				logger.LogTrace("Waiting for initial chat bot connections before updating tracking contexts...");
-				await initialProviderConnectionsTask.WithToken(cancellationToken);
+				await initialProviderConnectionsTask.WaitAsync(cancellationToken);
 			}
 
 			List<Task> tasks;
@@ -540,15 +566,15 @@ namespace Tgstation.Server.Host.Components.Chat
 			var message = updateVersion == null
 				? $"TGS: {(handlerMayDelayShutdownWithExtremelyLongRunningTasks ? "Graceful shutdown" : "Going down")}..."
 				: $"TGS: Updating to version {updateVersion}...";
-			List<ulong> wdChannels;
+			List<ulong> systemChannels;
 			lock (mappedChannels) // so it doesn't change while we're using it
-				wdChannels = mappedChannels
-					.Where(x => !x.Value.IsSystemChannel)
+				systemChannels = mappedChannels
+					.Where(x => x.Value.IsSystemChannel)
 					.Select(x => x.Key)
 					.ToList();
 
 			return SendMessage(
-				wdChannels,
+				systemChannels,
 				null,
 				new MessageContent
 				{
@@ -935,7 +961,7 @@ namespace Tgstation.Server.Host.Components.Chat
 					if (messageTasks.Count == 0)
 					{
 						logger.LogTrace("No providers active, pausing messsage monitoring...");
-						await updatedTask.WithToken(cancellationToken);
+						await updatedTask.WaitAsync(cancellationToken);
 						logger.LogTrace("Resuming message monitoring...");
 						continue;
 					}
@@ -1076,7 +1102,7 @@ namespace Tgstation.Server.Host.Components.Chat
 			{
 				var cancellationToken = handlerCts.Token;
 				if (waitForConnections)
-					await initialProviderConnectionsTask.WithToken(cancellationToken);
+					await initialProviderConnectionsTask.WaitAsync(cancellationToken);
 
 				await SendMessage(
 					channelIdsFactory(),

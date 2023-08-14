@@ -211,6 +211,9 @@ namespace Tgstation.Server.Host.Database.Migrations
 					.IsRequired()
 					.HasColumnType("bit");
 
+				b.Property<long>("MapThreads")
+					.HasColumnType("bigint");
+
 				b.Property<int>("Port")
 					.HasColumnType("int");
 

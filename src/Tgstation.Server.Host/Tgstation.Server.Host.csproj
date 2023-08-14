@@ -1,27 +1,17 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
-  <Import Project="../../build/Common.props" />
+  <Import Project="../../build/SrcCommon.props" />
 
   <PropertyGroup>
-    <TargetFramework>$(TgsNetVersion)</TargetFramework>
+    <TargetFramework>$(TgsFrameworkVersion)</TargetFramework>
     <Version>$(TgsCoreVersion)</Version>
     <IncludeOpenAPIAnalyzers>true</IncludeOpenAPIAnalyzers>
-    <EnableNETAnalyzers>true</EnableNETAnalyzers>
-    <CodeAnalysisRuleSet>../../build/analyzers.ruleset</CodeAnalysisRuleSet>
-    <DocumentationFile>bin/$(Configuration)/$(TargetFramework)/$(AssemblyName).xml</DocumentationFile>
+    <UseAppHost>false</UseAppHost>
     <NoWarn>API1000</NoWarn>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)'=='Release'">
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <WarningsAsErrors />
-  </PropertyGroup>
-
-  <PropertyGroup>
     <NodeModulesFolder>ClientApp/node_modules</NodeModulesFolder>
     <NpmInstallStampFile>ClientApp/node_modules/.install-stamp</NpmInstallStampFile>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <DockerfileContext>..\..</DockerfileContext>
-    <ApplicationManifest>manifest.xml</ApplicationManifest>
+    <ApplicationManifest>../../build/uac_elevation_manifest.xml</ApplicationManifest>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -32,6 +22,7 @@
     <Message Text="Pulling web control panel..." Importance="high" />
     <RemoveDir Directories="ClientApp" />
     <Exec Command="git clone https://github.com/tgstation/tgstation-server-webpanel --branch v$(TgsControlPanelVersion) --depth 1 ClientApp" />
+    <RemoveDir Directories="ClientApp/.git" /> <!-- Allows git clean to clean it out -->
     <Message Text="Restoring yarn packages..." Importance="high" />
     <Exec WorkingDirectory="ClientApp" Command="npx --yes yarn install --immutable" />
     <Touch Files="$(NpmInstallStampFile)" AlwaysCreate="true" />
@@ -54,6 +45,7 @@
         <_Parameter2>$(TgsInteropVersion)</_Parameter2>
         <_Parameter3>$(TgsControlPanelVersion)</_Parameter3>
         <_Parameter4>$(TgsHostWatchdogVersion)</_Parameter4>
+        <_Parameter5>$(TgsMariaDBRedistVersion)</_Parameter5>
       </AssemblyAttributes>
     </ItemGroup>
 
@@ -73,26 +65,25 @@
     <!-- Usage: IRC interop -->
     <PackageReference Include="Cyberboss.SmartIrc4net.Standard" Version="0.4.7" />
     <!-- Usage: Text formatter for Elasticsearch logging plugin -->
-    <PackageReference Include="Elastic.CommonSchema.Serilog" Version="8.6.0" />
+    <PackageReference Include="Elastic.CommonSchema.Serilog" Version="8.6.1" />
     <!-- Usage: GitLab interop -->
     <PackageReference Include="GitLabApiClient" Version="1.8.0" />
     <!-- Usage: git interop -->
     <PackageReference Include="LibGit2Sharp" Version="0.27.2" />
     <!-- Usage: JWT injection into HTTP pipeline -->
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.19" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.21" />
     <!-- Usage: Support ""legacy"" Newotonsoft.Json in HTTP pipeline. The rest of our codebase uses Newtonsoft. -->
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.19" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.21" />
     <!-- Usage: Database ORM -->
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.8" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.10" />
     <!-- Usage: Automatic migration generation using command line -->
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.8">
-      <PrivateAssets>all</PrivateAssets>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.10">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <!-- Usage: Sqlite ORM plugin -->
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.8" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.10" />
     <!-- Usage: MSSQL ORM plugin -->
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.8" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.10" />
     <!-- Usage: POSIX support for syscalls, signals, and symlinks -->
     <PackageReference Include="Mono.Posix.NETStandard" Version="1.0.0" />
     <!-- Usage: YAML config plugin -->
@@ -100,11 +91,11 @@
     <!-- Usage: PostgresSQL ORM plugin -->
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="7.0.4" />
     <!-- Usage: GitHub.com interop -->
-    <PackageReference Include="Octokit" Version="6.1.0" />
+    <PackageReference Include="Octokit" Version="7.1.0" />
     <!-- Usage: MYSQL/MariaDB ORM plugin -->
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="7.0.0" />
     <!-- Usage: Discord interop -->
-    <PackageReference Include="Remora.Discord" Version="2023.3.0" />
+    <PackageReference Include="Remora.Discord" Version="2023.4.0" />
     <!-- Usage: Rich logger builder -->
     <PackageReference Include="Serilog.Extensions.Logging" Version="7.0.0" />
     <!-- Usage: Async logging plugin -->
@@ -115,43 +106,30 @@
     <PackageReference Include="Serilog.Sinks.Elasticsearch" Version="9.0.3" />
     <!-- Usage: File logging plugin -->
     <PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
-    <!-- Usage: Linting -->
-    <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
     <!-- Usage: OpenAPI spec generator -->
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
     <!-- Usage: Newtonsoft.Json plugin for OpenAPI spec generator -->
     <PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" Version="6.5.0" />
-    <!-- Usage: Access to raw database connectors primarily for setup wizard -->
-    <PackageReference Include="System.Data.SqlClient" Version="4.8.5" />
     <!-- Usage: Windows authentication plugin allowing searching for users by name -->
     <PackageReference Include="System.DirectoryServices.AccountManagement" Version="7.0.0" />
     <!-- Usage: JWT plugin needed to undo some Microsoft meddling in the HTTP pipeline -->
-    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.31.0" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.32.1" />
     <!-- Usage: Identifying owning user of Windows Process objects -->
     <PackageReference Include="System.Management" Version="7.0.2" />
     <!-- Usage: .DeleteAsync() support for IQueryable<T>s -->
-    <PackageReference Include="Z.EntityFramework.Plus.EFCore" Version="7.22.3" />
+    <PackageReference Include="Z.EntityFramework.Plus.EFCore" Version="7.22.4" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Tgstation.Server.Api\Tgstation.Server.Api.csproj" />
-    <ProjectReference Include="..\Tgstation.Server.Common\Tgstation.Server.Common.csproj" />
     <ProjectReference Include="..\Tgstation.Server.Host.Common\Tgstation.Server.Host.Common.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Remove="ClientApp\package-lock.json" />
-    <Content Remove="ClientApp\package.json" />
-    <Content Remove="ClientApp\tsconfig.json" />
-    <Content Remove="ClientApp\tslint.json" />
-    <None Include="ClientApp\package-lock.json" />
-    <None Include="ClientApp\package.json" />
-    <None Include="ClientApp\tsconfig.json" />
+    <Content Remove="ClientApp\**\*.json" />
+    <None Include="ClientApp\**\*.json" />
     <ClientApp Include="ClientApp\src\**\*;ClientApp\public\**\*;ClientApp\tsconfig.json;ClientApp\package.json;ClientApp\package-lock.json" />
-    <AdditionalFiles Include="../../build/stylecop.json" />
+    <AdditionalFiles Include="../../build/uac_elevation_manifest.xml" />
   </ItemGroup>
 
   <ItemGroup>

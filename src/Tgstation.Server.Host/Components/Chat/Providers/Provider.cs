@@ -7,7 +7,6 @@ using Microsoft.Extensions.Logging;
 
 using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Host.Components.Interop;
-using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.Jobs;
 using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.Utils;
@@ -149,7 +148,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		{
 			while (true)
 			{
-				await nextMessage.Task.WithToken(cancellationToken);
+				await nextMessage.Task.WaitAsync(cancellationToken);
 				lock (messageQueue)
 					if (messageQueue.Count > 0)
 					{
@@ -182,7 +181,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		public abstract ValueTask SendMessage(Message replyTo, MessageContent message, ulong channelId, CancellationToken cancellationToken);
 
 		/// <inheritdoc />
-		public abstract ValueTask<Func<string, string, ValueTask>> SendUpdateMessage(
+		public abstract ValueTask<Func<string, string, ValueTask<Func<bool, ValueTask>>>> SendUpdateMessage(
 			RevisionInformation revisionInformation,
 			Version byondVersion,
 			DateTimeOffset? estimatedCompletionTime,

@@ -13,15 +13,14 @@ using Newtonsoft.Json;
 
 using Serilog.Context;
 
-using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
+using Tgstation.Server.Common.Extensions;
 using Tgstation.Server.Host.Components.Byond;
 using Tgstation.Server.Host.Components.Chat;
 using Tgstation.Server.Host.Components.Deployment;
 using Tgstation.Server.Host.Components.Interop;
 using Tgstation.Server.Host.Components.Interop.Bridge;
 using Tgstation.Server.Host.Components.Interop.Topic;
-using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.System;
 using Tgstation.Server.Host.Utils;
 
@@ -68,7 +67,7 @@ namespace Tgstation.Server.Host.Components.Session
 		public Task<LaunchResult> LaunchResult { get; }
 
 		/// <inheritdoc />
-		public Task<int> Lifetime { get; }
+		public Task<int?> Lifetime { get; }
 
 		/// <inheritdoc />
 		public Task OnStartup => startupTcs.Task;
@@ -82,17 +81,15 @@ namespace Tgstation.Server.Host.Components.Session
 			get => rebootGate;
 			set
 			{
-				var tcs = new TaskCompletionSource();
-				Task toAwait = null;
+				var tcs = new TaskCompletionSource<Task>();
 				async Task Wrap()
 				{
-					await tcs.Task;
+					var toAwait = await tcs.Task;
 					await toAwait;
 					await value;
 				}
 
-				toAwait = Interlocked.Exchange(ref rebootGate, Wrap());
-				tcs.SetResult();
+				tcs.SetResult(Interlocked.Exchange(ref rebootGate, Wrap()));
 			}
 		}
 
@@ -109,21 +106,6 @@ namespace Tgstation.Server.Host.Components.Session
 		/// The up to date <see cref="Session.ReattachInformation"/>.
 		/// </summary>
 		public ReattachInformation ReattachInformation { get; }
-
-		/// <summary>
-		/// The <see cref="TaskCompletionSource"/> that completes when DD makes it's first bridge request.
-		/// </summary>
-		readonly TaskCompletionSource initialBridgeRequestTcs;
-
-		/// <summary>
-		/// The <see cref="Instance"/> metadata.
-		/// </summary>
-		readonly Api.Models.Instance metadata;
-
-		/// <summary>
-		/// A <see cref="CancellationTokenSource"/> used for the topic send operation made on reattaching.
-		/// </summary>
-		readonly CancellationTokenSource reattachTopicCts;
 
 		/// <summary>
 		/// The <see cref="global::Byond.TopicSender.ITopicClient"/> for the <see cref="SessionController"/>.
@@ -159,6 +141,26 @@ namespace Tgstation.Server.Host.Components.Session
 		/// The <see cref="IAsyncDelayer"/> for the <see cref="SessionController"/>.
 		/// </summary>
 		readonly IAsyncDelayer asyncDelayer;
+
+		/// <summary>
+		/// The <see cref="TaskCompletionSource"/> that completes when DD makes it's first bridge request.
+		/// </summary>
+		readonly TaskCompletionSource initialBridgeRequestTcs;
+
+		/// <summary>
+		/// The <see cref="FifoSemaphore"/> used to prevent concurrent calls into /world/Topic().
+		/// </summary>
+		readonly FifoSemaphore topicSendSemaphore;
+
+		/// <summary>
+		/// The <see cref="Instance"/> metadata.
+		/// </summary>
+		readonly Api.Models.Instance metadata;
+
+		/// <summary>
+		/// A <see cref="CancellationTokenSource"/> used for the topic send operation made on reattaching.
+		/// </summary>
+		readonly CancellationTokenSource reattachTopicCts;
 
 		/// <summary>
 		/// <see langword="lock"/> <see cref="object"/> for port updates and <see cref="disposed"/>.
@@ -285,6 +287,8 @@ namespace Tgstation.Server.Host.Components.Session
 			// Worth further investigation as to if that sequence of events is a reliable crash vector and opening a BYOND bug if it is
 			initialBridgeRequestTcs = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
 			reattachTopicCts = new CancellationTokenSource();
+
+			topicSendSemaphore = new FifoSemaphore();
 			synchronizationLock = new object();
 
 			if (apiValidate || DMApiAvailable)
@@ -299,7 +303,7 @@ namespace Tgstation.Server.Host.Components.Session
 						? "no"
 						: $"incompatible ({reattachInformation.Dmb.CompileJob.DMApiVersion})");
 
-			async Task<int> WrapLifetime()
+			async Task<int?> WrapLifetime()
 			{
 				var exitCode = await process.Lifetime;
 				await postLifetimeCallback();
@@ -332,6 +336,11 @@ namespace Tgstation.Server.Host.Components.Session
 			}
 
 			Logger.LogTrace("Disposing...");
+
+			// yield then acquire the topic semaphore to prevent new calls from starting
+			await Task.Yield();
+			(await topicSendSemaphore.Lock(CancellationToken.None)).Dispose(); // DCT: None available
+
 			if (!released)
 			{
 				process.Terminate();
@@ -348,6 +357,8 @@ namespace Tgstation.Server.Host.Components.Session
 
 			if (!released)
 				await Lifetime; // finish the async callback
+
+			topicSendSemaphore.Dispose();
 		}
 
 		/// <inheritdoc />
@@ -390,7 +401,7 @@ namespace Tgstation.Server.Host.Components.Session
 		{
 			ArgumentNullException.ThrowIfNull(parameters);
 
-			if (Lifetime.IsCompleted)
+			if (Lifetime.IsCompleted || disposed)
 			{
 				Logger.LogWarning(
 					"Attempted to send a command to an inactive SessionController: {commandType}",
@@ -520,7 +531,7 @@ namespace Tgstation.Server.Host.Components.Session
 				new TopicParameters(newRebootState),
 				cancellationToken);
 
-			return result?.ErrorMessage == null;
+			return result != null && result.ErrorMessage == null;
 		}
 
 		/// <inheritdoc />
@@ -779,7 +790,7 @@ namespace Tgstation.Server.Host.Components.Session
 						}
 
 						Interlocked.Exchange(ref rebootTcs, new TaskCompletionSource()).SetResult();
-						await RebootGate.WithToken(cancellationToken);
+						await RebootGate.WaitAsync(cancellationToken);
 					}
 					finally
 					{
@@ -963,34 +974,50 @@ namespace Tgstation.Server.Host.Components.Session
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="CombinedTopicResponse"/> of the topic request.</returns>
 		async Task<CombinedTopicResponse> SendRawTopic(string queryString, bool priority, CancellationToken cancellationToken)
 		{
+			if (disposed)
+			{
+				Logger.LogWarning(
+					"Attempted to send a topic on a disposed SessionController");
+				return null;
+			}
+
 			var targetPort = ReattachInformation.Port;
 			var killedOrRebootedTask = Task.WhenAny(Lifetime, OnReboot);
 			global::Byond.TopicSender.TopicResponse byondResponse = null;
 			var firstSend = true;
 
-			const int PrioritySendAttempts = 5;
-			for (var i = PrioritySendAttempts - 1; i >= 0 && (priority || firstSend); --i)
-				try
-				{
-					firstSend = false;
-					if (!killedOrRebootedTask.IsCompleted)
-						byondResponse = await byondTopicSender.SendTopic(
-							new IPEndPoint(IPAddress.Loopback, targetPort),
-							queryString,
-							cancellationToken);
-
-					break;
-				}
-				catch (Exception ex)
-				{
-					Logger.LogWarning(ex, "SendTopic exception!{retryDetails}", priority ? $" {i} attempts remaining." : String.Empty);
-
-					if (priority && i > 0)
+			using (await topicSendSemaphore.Lock(cancellationToken))
+			{
+				const int PrioritySendAttempts = 5;
+				var endpoint = new IPEndPoint(IPAddress.Loopback, targetPort);
+				for (var i = PrioritySendAttempts - 1; i >= 0 && (priority || firstSend); --i)
+					try
 					{
-						var delayTask = asyncDelayer.Delay(TimeSpan.FromSeconds(2), cancellationToken);
-						await Task.WhenAny(killedOrRebootedTask, delayTask);
+						firstSend = false;
+						if (!killedOrRebootedTask.IsCompleted)
+						{
+							Logger.LogTrace("Begin topic request");
+							byondResponse = await byondTopicSender.SendTopic(
+								endpoint,
+								queryString,
+								cancellationToken);
+
+							Logger.LogTrace("End topic request");
+						}
+
+						break;
 					}
-				}
+					catch (Exception ex) when (!cancellationToken.IsCancellationRequested)
+					{
+						Logger.LogWarning(ex, "SendTopic exception!{retryDetails}", priority ? $" {i} attempts remaining." : String.Empty);
+
+						if (priority && i > 0)
+						{
+							var delayTask = asyncDelayer.Delay(TimeSpan.FromSeconds(2), cancellationToken);
+							await Task.WhenAny(killedOrRebootedTask, delayTask);
+						}
+					}
+			}
 
 			if (byondResponse == null)
 			{

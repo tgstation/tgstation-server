@@ -202,12 +202,14 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 		{
 			using (await SemaphoreSlimContext.Lock(semaphore, cancellationToken))
 			{
-				await EnsureDirectories(cancellationToken);
+				var ensureDirectoriesTask = EnsureDirectories(cancellationToken);
 
 				// just assume no other fs race conditions here
 				var dmeExistsTask = ioManager.FileExists(ioManager.ConcatPath(CodeModificationsSubdirectory, dmeFile), cancellationToken);
 				var headFileExistsTask = ioManager.FileExists(ioManager.ConcatPath(CodeModificationsSubdirectory, CodeModificationsHeadFile), cancellationToken);
 				var tailFileExistsTask = ioManager.FileExists(ioManager.ConcatPath(CodeModificationsSubdirectory, CodeModificationsTailFile), cancellationToken);
+
+				await ensureDirectoriesTask;
 				var copyTask = ioManager.CopyDirectory(
 					null,
 					null,
@@ -629,7 +631,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 				foreach (var scriptFile in scriptFiles)
 				{
 					logger.LogTrace("Running event script {scriptFile}...", scriptFile);
-					await using (var script = await processExecutor.LaunchProcess(
+					await using (var script = processExecutor.LaunchProcess(
 						ioManager.ConcatPath(resolvedScriptsDir, scriptFile),
 						resolvedScriptsDir,
 						String.Join(

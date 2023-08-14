@@ -18,7 +18,6 @@ using Tgstation.Server.Host.Components.Repository;
 using Tgstation.Server.Host.Components.Session;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Database;
-using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Jobs;
 using Tgstation.Server.Host.Models;
@@ -118,7 +117,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 		/// <summary>
 		/// The active callback from <see cref="IChatManager.QueueDeploymentMessage"/>.
 		/// </summary>
-		Action<string, string> currentChatCallback;
+		Func<string, string, Action<bool>> currentChatCallback;
 
 		/// <summary>
 		/// Cached for <see cref="currentChatCallback"/>.
@@ -356,7 +355,8 @@ namespace Tgstation.Server.Host.Components.Deployment
 							logger.LogTrace("Created CompileJob {compileJobId}", compileJob.Id);
 							try
 							{
-								await compileJobConsumer.LoadCompileJob(compileJob, cancellationToken);
+								var chatNotificationAction = currentChatCallback(null, compileJob.Output);
+								await compileJobConsumer.LoadCompileJob(compileJob, chatNotificationAction, cancellationToken);
 							}
 							catch
 							{
@@ -390,8 +390,6 @@ namespace Tgstation.Server.Host.Components.Deployment
 
 				try
 				{
-					currentChatCallback(null, compileJob.Output);
-
 					await Task.WhenAll(commentsTask, eventTask);
 				}
 				catch (Exception ex)
@@ -798,6 +796,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 				HealthCheckSeconds = 0, // not used
 				StartProfiler = false,
 				LogOutput = logOutput,
+				MapThreads = 1, // lowest possible amount
 			};
 
 			job.MinimumSecurityLevel = securityLevel; // needed for the TempDmbProvider
@@ -806,10 +805,10 @@ namespace Tgstation.Server.Host.Components.Deployment
 			using (var provider = new TemporaryDmbProvider(ioManager.ResolvePath(job.DirectoryName.ToString()), String.Concat(job.DmeName, DmbExtension), job))
 			await using (var controller = await sessionControllerFactory.LaunchNew(provider, byondLock, launchParameters, true, cancellationToken))
 			{
-				var launchResult = await controller.LaunchResult.WithToken(cancellationToken);
+				var launchResult = await controller.LaunchResult.WaitAsync(cancellationToken);
 
 				if (launchResult.StartupTime.HasValue)
-					await controller.Lifetime.WithToken(cancellationToken);
+					await controller.Lifetime.WaitAsync(cancellationToken);
 
 				if (!controller.Lifetime.IsCompleted)
 					await controller.DisposeAsync();
@@ -859,7 +858,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
 		async Task<int> RunDreamMaker(string dreamMakerPath, Models.CompileJob job, CancellationToken cancellationToken)
 		{
-			await using var dm = await processExecutor.LaunchProcess(
+			await using var dm = processExecutor.LaunchProcess(
 				dreamMakerPath,
 				ioManager.ResolvePath(
 					job.DirectoryName.ToString()),
@@ -872,7 +871,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 
 			int exitCode;
 			using (cancellationToken.Register(() => dm.Terminate()))
-				exitCode = await dm.Lifetime;
+				exitCode = (await dm.Lifetime).Value;
 			cancellationToken.ThrowIfCancellationRequested();
 
 			logger.LogDebug("DreamMaker exit code: {exitCode}", exitCode);
