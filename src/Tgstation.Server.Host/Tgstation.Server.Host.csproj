@@ -71,9 +71,9 @@
     <!-- Usage: git interop -->
     <PackageReference Include="LibGit2Sharp" Version="0.27.2" />
     <!-- Usage: JWT injection into HTTP pipeline -->
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.0-preview.6.23329.11" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.0-preview.7.23375.9" />
     <!-- Usage: Support ""legacy"" Newotonsoft.Json in HTTP pipeline. The rest of our codebase uses Newtonsoft. -->
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="8.0.0-preview.6.23329.11" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="8.0.0-preview.7.23375.9" />
     <!-- Usage: Database ORM -->
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.10" />
     <!-- Usage: Automatic migration generation using command line -->
@@ -111,13 +111,11 @@
     <!-- Usage: Newtonsoft.Json plugin for OpenAPI spec generator -->
     <PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" Version="6.5.0" />
     <!-- Usage: Windows authentication plugin allowing searching for users by name -->
-    <PackageReference Include="System.DirectoryServices.AccountManagement" Version="8.0.0-preview.6.23329.7" />
-    <!-- Usage: JWT plugin needed to undo some Microsoft meddling in the HTTP pipeline -->
-    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.32.1" />
+    <PackageReference Include="System.DirectoryServices.AccountManagement" Version="8.0.0-preview.7.23375.6" />
     <!-- Usage: Identifying owning user of Windows Process objects -->
-    <PackageReference Include="System.Management" Version="8.0.0-preview.6.23329.7" />
+    <PackageReference Include="System.Management" Version="8.0.0-preview.7.23375.6" />
     <!-- Usage: Temporary resolution to compatibility issues with EFCore 7 and .NET 8 -->
-    <PackageReference Include="System.Security.Permissions" Version="8.0.0-preview.6.23329.7" />
+    <PackageReference Include="System.Security.Permissions" Version="8.0.0-preview.7.23375.6" />
     <!-- Usage: .DeleteAsync() support for IQueryable<T>s -->
     <PackageReference Include="Z.EntityFramework.Plus.EFCore" Version="7.22.4" />
   </ItemGroup>

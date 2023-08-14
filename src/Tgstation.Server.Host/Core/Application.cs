@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 
 using Cyberboss.AspNetCore.AsyncInitializer;
@@ -224,6 +223,7 @@ namespace Tgstation.Server.Host.Core
 					// this line isn't actually run until the first request is made
 					// at that point tokenFactory will be populated
 					jwtBearerOptions.TokenValidationParameters = tokenFactory.ValidationParameters;
+					jwtBearerOptions.MapInboundClaims = false;
 					jwtBearerOptions.Events = new JwtBearerEvents
 					{
 						// Application is our composition root so this monstrosity of a line is okay
@@ -237,11 +237,6 @@ namespace Tgstation.Server.Host.Core
 								ctx.HttpContext.RequestAborted),
 					};
 				});
-
-			// WARNING: STATIC CODE
-			// fucking prevents converting 'sub' to M$ bs
-			// can't be done in the above lambda, that's too late
-			JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
 
 			// add mvc, configure the json serializer settings
 			services
