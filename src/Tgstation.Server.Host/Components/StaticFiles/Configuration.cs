@@ -236,7 +236,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 		}
 
 		/// <inheritdoc />
-		public async Task<IReadOnlyList<ConfigurationFileResponse>> ListDirectory(string configurationRelativePath, ISystemIdentity systemIdentity, CancellationToken cancellationToken)
+		public async Task<IOrderedQueryable<ConfigurationFileResponse>> ListDirectory(string configurationRelativePath, ISystemIdentity systemIdentity, CancellationToken cancellationToken)
 		{
 			await EnsureDirectories(cancellationToken);
 			var path = ValidateConfigRelativePath(configurationRelativePath);
@@ -252,14 +252,14 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 				{
 					IsDirectory = true,
 					Path = ioManager.ConcatPath(configurationRelativePath, x),
-				}).OrderBy(file => file.Path));
+				}));
 
 				enumerator = synchronousIOManager.GetFiles(path, cancellationToken);
 				result.AddRange(enumerator.Select(x => new ConfigurationFileResponse
 				{
 					IsDirectory = false,
 					Path = ioManager.ConcatPath(configurationRelativePath, x),
-				}).OrderBy(file => file.Path));
+				}));
 			}
 
 			using (SemaphoreSlimContext.TryLock(semaphore, out var locked))
@@ -276,7 +276,10 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 					await systemIdentity.RunImpersonated(ListImpl, cancellationToken);
 			}
 
-			return result;
+			return result
+				.AsQueryable()
+				.OrderBy(configFile => !configFile.IsDirectory)
+				.ThenBy(configFile => configFile.Path);
 		}
 
 		/// <inheritdoc />
