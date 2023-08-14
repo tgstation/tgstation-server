@@ -39,7 +39,10 @@ try
         exit $lastexitcode
     }
 
-    mv ../../artifacts/Tgstation.Server.Host.Service/Tgstation.Server.Host.Service.exe ../../artifacts/
+    cd ../..
+    build/RemoveUnsupportedRuntimes.sh artifacts/Tgstation.Server.Host
+    build/RemoveUnsupportedServiceRuntimes.ps1 artifacts/Tgstation.Server.Host.Service
+    mv artifacts/Tgstation.Server.Host.Service/Tgstation.Server.Host.Service.exe artifacts/
 }
 finally
 {
