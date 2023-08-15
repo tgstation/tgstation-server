@@ -168,7 +168,6 @@ static class Program
 					var discordSetupInfo = new DiscordSetupInfo(providerInfo);
 					csb = new DiscordConnectionStringBuilder
 					{
-						BasedMeme = false,
 						DMOutputDisplay = DiscordDMOutputDisplayType.Always,
 						BotToken = discordSetupInfo.BotToken
 					};
