@@ -5,4 +5,4 @@ PackageIdentifier: Tgstation.Server
 PackageVersion: 0.22.475 # Do not change. Set before publish by push_manifest.ps1
 DefaultLocale: en-US
 ManifestType: version
-ManifestVersion: 1.4.0
+ManifestVersion: 1.5.0
