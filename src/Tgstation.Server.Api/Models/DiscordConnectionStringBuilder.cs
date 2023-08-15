@@ -20,11 +20,6 @@ namespace Tgstation.Server.Api.Models
 		public string? BotToken { get; set; }
 
 		/// <summary>
-		/// <see cref="bool"/> to enable based mode. Will auto reply with a youtube link to a video that says "based on the hardware that's installed in it" to anyone saying 'based on what?' case-insensitive.
-		/// </summary>
-		public bool BasedMeme { get; set; }
-
-		/// <summary>
 		/// If the tgstation-server logo is shown in deployment embeds.
 		/// </summary>
 		public bool DeploymentBranding { get; set; }
@@ -35,11 +30,16 @@ namespace Tgstation.Server.Api.Models
 		public DiscordDMOutputDisplayType DMOutputDisplay { get; set; }
 
 		/// <summary>
+		/// Currently unused. Note its origin in based meme before repurposing.
+		/// </summary>
+		readonly bool unusedFlag;
+
+
+		/// <summary>
 		/// Initializes a new instance of the <see cref="DiscordConnectionStringBuilder"/> class.
 		/// </summary>
 		public DiscordConnectionStringBuilder()
 		{
-			BasedMeme = true;
 		}
 
 		/// <summary>
@@ -60,9 +60,7 @@ namespace Tgstation.Server.Api.Models
 			DMOutputDisplay = dMOutputDisplayType;
 
 			if (splits.Length > 2 && Int32.TryParse(splits[2], out Int32 basedMeme))
-				BasedMeme = Convert.ToBoolean(basedMeme);
-			else
-				BasedMeme = true; // oranges said this needs to be true by default :pensive:
+				unusedFlag = Convert.ToBoolean(basedMeme);
 
 			if (splits.Length > 3 && Int32.TryParse(splits[3], out Int32 branding))
 				DeploymentBranding = Convert.ToBoolean(branding);
@@ -71,6 +69,6 @@ namespace Tgstation.Server.Api.Models
 		}
 
 		/// <inheritdoc />
-		public override string ToString() => $"{BotToken};{(int)DMOutputDisplay};{Convert.ToInt32(BasedMeme)};{Convert.ToInt32(DeploymentBranding)}";
+		public override string ToString() => $"{BotToken};{(int)DMOutputDisplay};{Convert.ToInt32(unusedFlag)};{Convert.ToInt32(DeploymentBranding)}";
 	}
 }
