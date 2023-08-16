@@ -34,7 +34,6 @@ namespace Tgstation.Server.Api.Models
 		/// </summary>
 		readonly bool unusedFlag;
 
-
 		/// <summary>
 		/// Initializes a new instance of the <see cref="DiscordConnectionStringBuilder"/> class.
 		/// </summary>
