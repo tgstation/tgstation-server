@@ -13,7 +13,7 @@ namespace Tgstation.Server.Host.Extensions.Converters
 	/// <summary>
 	/// <see cref="JsonConverter"/> and <see cref="IYamlTypeConverter"/> for serializing <see cref="global::System.Version"/>s in semver format.
 	/// </summary>
-	sealed class VersionConverter : JsonConverter, IYamlTypeConverter
+	public sealed class VersionConverter : JsonConverter, IYamlTypeConverter
 	{
 		/// <summary>
 		/// Check if the <see cref="VersionConverter"/> supports (de)serializing a given <paramref name="type"/>.

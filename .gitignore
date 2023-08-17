@@ -23,6 +23,7 @@ artifacts/
 /tools/Tgstation.Server.ReleaseNotes/release_notes.md
 launchSettings.json
 release_notes.md
+release_notes.yml
 *nupkg
 *.sqlite3
 packaging/
