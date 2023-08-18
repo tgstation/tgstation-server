@@ -59,7 +59,6 @@ namespace Tgstation.Server.Host.Core
 	/// <summary>
 	/// Sets up dependency injection.
 	/// </summary>
-#pragma warning disable CA1506
 	public sealed class Application : SetupApplication
 	{
 		/// <summary>
