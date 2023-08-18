@@ -1,7 +1,7 @@
 name: "Check PR Has Milestone"
 
 on:
-  pull_request_target:
+  pull_request:
     types: [ opened, edited, synchronize, reopened ]
     branches:
     - dev
