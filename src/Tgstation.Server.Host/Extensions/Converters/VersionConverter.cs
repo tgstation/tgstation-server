@@ -35,6 +35,8 @@ namespace Tgstation.Server.Host.Extensions.Converters
 		/// <inheritdoc />
 		public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
 		{
+			ArgumentNullException.ThrowIfNull(writer);
+
 			if (value == null)
 			{
 				writer.WriteNull();
