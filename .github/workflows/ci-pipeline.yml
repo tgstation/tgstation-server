@@ -1421,8 +1421,6 @@ jobs:
         dotnet tool restore
 
 # We need to rebuild the installer.exe so it can be properly signed
-    - name: Restore
-      run: dotnet restore
 
     - name: Build Host
       run: dotnet build -c Release src/Tgstation.Server.Host/Tgstation.Server.Host.csproj
