@@ -1541,7 +1541,7 @@ package (version) distribution(s); urgency=urgency
 				builder.Append(' ');
 				builder.Append(commitTime.ToString("MMM").TrimEnd('.'));
 				builder.Append(' ');
-				builder.AppendLine(commitTime.ToString("yyyy HH:mm:sszz00"));
+				builder.AppendLine(commitTime.ToString("yyyy HH:mm:ss zz00"));
 			}
 
 			var changelog = builder.ToString().Replace("\r", String.Empty);
