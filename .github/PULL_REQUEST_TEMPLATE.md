@@ -13,9 +13,10 @@ They will be amalgamated together in the end.
 /:cl:
 
 :cl: Categories
-Categories are divided up in the release notes and set after the :cl: header.
+Categories are used by [the release notes tool](../tools/Tgstation.Server.ReleaseNotes) to generate formatted changelists used in releases.
 The default category is Core.
-The current standard categories are Core, DreamMaker API, HTTP API, and Host Watchdog.
+Only one category may be specified for a :cl: block.
+Valid categories are Core, DreamMaker API, HTTP API, Host Watchdog, Web Control Panel, Configuration, Nuget: Api, Nuget: Client, and Nuget: Common.
 /:cl:
 
 [Why]: # (If this does not close or work on an existing GitHub issue, please add a short description [two lines down] of why you think these changes would benefit the server. If you can't justify it in words, it might not be worth adding.)
