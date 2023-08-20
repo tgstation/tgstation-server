@@ -30,6 +30,7 @@ namespace Tgstation.Server.ReleaseNotes
 	/// </summary>
 	static class Program
 	{
+		const string OutputPath = "release_notes.md";
 		const string RepoOwner = "tgstation";
 		const string RepoName = "tgstation-server";
 
@@ -50,13 +51,34 @@ namespace Tgstation.Server.ReleaseNotes
 			var shaCheck = versionString.Equals("--winget-template-check", StringComparison.OrdinalIgnoreCase);
 			var fullNotes = versionString.Equals("--generate-full-notes", StringComparison.OrdinalIgnoreCase);
 
-			if ((!Version.TryParse(versionString, out var version) || version.Revision != -1) && !ensureRelease && !linkWinget && !shaCheck && !fullNotes)
+			if ((!Version.TryParse(versionString, out var version) || version.Revision != -1)
+				&& !ensureRelease
+				&& !linkWinget
+				&& !shaCheck
+				&& !fullNotes)
 			{
 				Console.WriteLine("Invalid version: " + versionString);
 				return 2;
 			}
 
-			var doNotCloseMilestone = args.Length > 1 && args[1].ToUpperInvariant() == "--NO-CLOSE";
+			var doNotCloseMilestone = false;
+			Component? componentRelease = null;
+			if (args.Length > 1)
+				switch (args[1].ToUpperInvariant())
+				{
+					case "--NO-CLOSE":
+						doNotCloseMilestone = true;
+						break;
+					case "--HTTPAPI":
+						componentRelease = Component.HttpApi;
+						break;
+					case "--INTEROPAPI":
+						componentRelease = Component.InteropApi;
+						break;
+					case "--DMAPI":
+						componentRelease = Component.DreamMakerApi;
+						break;
+				}
 
 			const string ReleaseNotesEnvVar = "TGS_RELEASE_NOTES_TOKEN";
 			var githubToken = Environment.GetEnvironmentVariable(ReleaseNotesEnvVar);
@@ -100,9 +122,10 @@ namespace Tgstation.Server.ReleaseNotes
 				}
 
 				if (fullNotes)
-				{
 					return await FullNotes(client);
-				}
+
+				if (componentRelease.HasValue)
+					return await ReleaseComponent(client, version, componentRelease.Value);
 
 				var releasesTask = client.Repository.Release.GetAll(RepoOwner, RepoName);
 
@@ -396,18 +419,7 @@ namespace Tgstation.Server.ReleaseNotes
 					};
 					newNotes.Append(componentName);
 
-					foreach (var change in I.Value.Changes)
-						foreach (var line in change.Descriptions)
-						{
-							newNotes.Append(Environment.NewLine);
-							newNotes.Append("- ");
-							newNotes.Append(line);
-							newNotes.Append(" (#");
-							newNotes.Append(change.PullRequest);
-							newNotes.Append(" @");
-							newNotes.Append(change.Author);
-							newNotes.Append(')');
-						}
+					PrintChanges(newNotes, I.Value);
 
 					newNotes.Append(Environment.NewLine);
 				}
@@ -417,7 +429,6 @@ namespace Tgstation.Server.ReleaseNotes
 				if (version.Minor != 0 && version.Build != 0)
 					newNotes.Append(oldNotes);
 
-				const string OutputPath = "release_notes.md";
 				Console.WriteLine($"Writing out new release notes to {Path.GetFullPath(OutputPath)}...");
 				var releaseNotes = newNotes.ToString();
 				await File.WriteAllTextAsync(OutputPath, releaseNotes).ConfigureAwait(false);
@@ -450,9 +461,7 @@ namespace Tgstation.Server.ReleaseNotes
 			}
 		}
 
-		static ConcurrentDictionary<int, Task<Milestone>> milestoneTasks = new ConcurrentDictionary<int, Task<Milestone>>();
-		static Task<Milestone> GetMilestone(IGitHubClient client, int number)
-			=> milestoneTasks.GetOrAdd(number, localNumber => client.Issue.Milestone.Get(RepoOwner, RepoName, localNumber));
+		static readonly ConcurrentDictionary<int, Task<Milestone>> milestoneTasks = new ();
 
 		static async Task<Tuple<Dictionary<Component, Changelist>, Dictionary<Component, Version>, bool>> GetReleaseNotesFromPR(IGitHubClient client, Issue pullRequest, bool doNotCloseMilestone, bool needComponentExactVersions, bool forAllComponents)
 		{
@@ -623,42 +632,19 @@ namespace Tgstation.Server.ReleaseNotes
 					if (trimmedLine.StartsWith("/:cl:", StringComparison.Ordinal))
 					{
 						if(!Enum.TryParse<Component>(targetComponent, out var component))
-							switch (targetComponent.ToUpperInvariant())
+							component = targetComponent.ToUpperInvariant() switch
 							{
-								case "**CONFIGURATION**":
-								case "CONFIGURATION":
-								case "CONFIG":
-									component = Component.Configuration;
-									break;
-								case "HTTP API":
-									component = Component.HttpApi;
-									break;
-								case "WEB CONTROL PANEL":
-									component = Component.WebControlPanel;
-									break;
-								case "DMAPI":
-								case "DREAMMAKER API":
-									component = Component.DreamMakerApi;
-									break;
-								case "INTEROP API":
-									component = Component.InteropApi;
-									break;
-								case "HOST WATCHDOG":
-									component = Component.HostWatchdog;
-									break;
-								case "NUGET: API":
-									component = Component.NugetApi;
-									break;
-								case "NUGET: COMMON":
-									component = Component.NugetCommon;
-									break;
-								case "NUGET: CLIENT":
-									component = Component.NugetClient;
-									break;
-								default:
-									throw new Exception($"Unknown component: \"{targetComponent}\"");
-							}
-
+								"**CONFIGURATION**" or "CONFIGURATION" or "CONFIG" => Component.Configuration,
+								"HTTP API" => Component.HttpApi,
+								"WEB CONTROL PANEL" => Component.WebControlPanel,
+								"DMAPI" or "DREAMMAKER API" => Component.DreamMakerApi,
+								"INTEROP API" => Component.InteropApi,
+								"HOST WATCHDOG" => Component.HostWatchdog,
+								"NUGET: API" => Component.NugetApi,
+								"NUGET: COMMON" => Component.NugetCommon,
+								"NUGET: CLIENT" => Component.NugetClient,
+								_ => throw new Exception($"Unknown component: \"{targetComponent}\""),
+							};
 						await CommitNotes(component, notes);
 						targetComponent = null;
 						notes.Clear();
@@ -816,7 +802,7 @@ The user account that created this pull request is available to correct any issu
 				PageSize = 100
 			};
 			var results = await RLR(() => apiCall(apiOptions));
-			Dictionary<long, T> distinctEntries = new Dictionary<long, T>(results.Count);
+			var distinctEntries = new Dictionary<long, T>(results.Count);
 			foreach (var result in results)
 				distinctEntries.Add(idSelector(result), result);
 
@@ -1001,17 +987,7 @@ The user account that created this pull request is available to correct any issu
 		{
 			var startRateLimit = (client.GetLastApiInfo()?.RateLimit ?? (await client.RateLimit.GetRateLimits()).Rate).Remaining;
 
-			ReleaseNotes existingNotes = null;
-			if (File.Exists("changelog.yml"))
-			{
-				var existingYml = await File.ReadAllTextAsync("changelog.yml");
-				var deserializer = new DeserializerBuilder()
-					.Build();
-
-				existingNotes = deserializer.Deserialize<ReleaseNotes>(existingYml);
-			}
-
-			var releaseNotes = await GenerateNotes(client, existingNotes);
+			var releaseNotes = await GenerateNotes(client);
 
 			Console.WriteLine($"Generating all release notes took {startRateLimit - client.GetLastApiInfo().RateLimit.Remaining} requests.");
 
@@ -1025,10 +1001,11 @@ The user account that created this pull request is available to correct any issu
 			return 0;
 		}
 
-		static HttpClient httpClient = new HttpClient(new HttpClientHandler()
-		{
-			AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate
-		});
+		static readonly HttpClient httpClient = new (
+			new HttpClientHandler()
+			{
+				AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate
+			});
 		static async Task<HashSet<Version>> EnumerateNugetVersions(string package)
 		{
 			var url = new Uri($"https://api.nuget.org/v3/registration5-gz-semver2/{package.ToLowerInvariant()}/index.json");
@@ -1056,8 +1033,18 @@ The user account that created this pull request is available to correct any issu
 
 		static IReadOnlyDictionary<Component, IReadOnlySet<Version>> releasedNonCoreVersions;
 
-		static async Task<ReleaseNotes> GenerateNotes(IGitHubClient client, ReleaseNotes previousNotes)
+		static async Task<ReleaseNotes> GenerateNotes(IGitHubClient client, Tuple<Component, Version> forceReleaseVersion = null)
 		{
+			ReleaseNotes previousNotes = null;
+			if (File.Exists("changelog.yml"))
+			{
+				var existingYml = await File.ReadAllTextAsync("changelog.yml");
+				var deserializer = new DeserializerBuilder()
+					.Build();
+
+				previousNotes = deserializer.Deserialize<ReleaseNotes>(existingYml);
+			}
+
 			var releasesTask = TripleCheckGitHubPagination(
 				apiOptions => client.Repository.Release.GetAll(RepoOwner, RepoName, apiOptions),
 				release => release.Id);
@@ -1078,7 +1065,7 @@ The user account that created this pull request is available to correct any issu
 			var nugetApiVersions = EnumerateNugetVersions("Tgstation.Server.Api");
 			var nugetClientVersions = EnumerateNugetVersions("Tgstation.Server.Client");
 
-			releasedNonCoreVersions = new Dictionary<Component, IReadOnlySet<Version>> {
+			var newDic = new Dictionary<Component, IReadOnlySet<Version>> {
 				{ Component.HttpApi, releases
 					.Where(x => x.TagName.StartsWith("api-v"))
 					.Select(x => Version.Parse(x.TagName[5..]))
@@ -1093,6 +1080,14 @@ The user account that created this pull request is available to correct any issu
 				{ Component.NugetApi, await nugetApiVersions },
 				{ Component.NugetClient, await nugetClientVersions }
 			};
+
+			if (forceReleaseVersion != null && !newDic[forceReleaseVersion.Item1].Any(x => x == forceReleaseVersion.Item2))
+				newDic[forceReleaseVersion.Item1] = newDic[forceReleaseVersion.Item1]
+					.Concat(new List<Version> { forceReleaseVersion.Item2 })
+					.OrderBy(x => x)
+					.ToHashSet();
+
+			releasedNonCoreVersions = newDic;
 
 			var milestonesToProcess = versionMilestones;
 			if (previousNotes != null)
@@ -1135,7 +1130,7 @@ The user account that created this pull request is available to correct any issu
 				.ToList();
 
 			var missingCoreVersions = milestonesToProcess
-				.Where(x => !distinctCoreVersions.Any(y => Version.Parse(x.Title.Substring(1)) == y))
+				.Where(x => !distinctCoreVersions.Any(y => Version.Parse(x.Title.AsSpan(1)) == y))
 				.ToList();
 
 			Debug.Assert(missingCoreVersions.Count == 0);
@@ -1181,11 +1176,27 @@ The user account that created this pull request is available to correct any issu
 					if (!previousNotes.Components.ContainsKey(component))
 						continue;
 
-					if (releaseNotes.Components.TryGetValue(component, out var changelists))
-						releaseNotes.Components[component] = changelists
-							.Concat(previousNotes.Components[component])
+					if (releaseNotes.Components.TryGetValue(component, out var newChangelists))
+					{
+						var missingVersions = previousNotes.Components[component]
+							.Where(olderVersion =>
+							{
+								var newerVersion = newChangelists.SingleOrDefault(y => olderVersion.Version == y.Version);
+								if (newerVersion != null)
+								{
+									newerVersion.Changes.AddRange(
+										olderVersion.Changes.Where(x => !newerVersion.Changes.Any(y => x.PullRequest == y.PullRequest)));
+									return false;
+								}
+
+								return true;
+							});
+
+						releaseNotes.Components[component] = newChangelists
+							.Concat(missingVersions)
 							.OrderByDescending(cl => cl.Version)
 							.ToList();
+					}
 					else
 						releaseNotes.Components[component] = previousNotes.Components[component];
 				}
@@ -1201,6 +1212,36 @@ The user account that created this pull request is available to correct any issu
 			}
 
 			return releaseNotes;
+		}
+
+		static void PrintChanges(StringBuilder newNotes, Changelist changelist)
+		{
+			foreach (var change in changelist.Changes)
+				foreach (var line in change.Descriptions)
+				{
+					newNotes.Append(Environment.NewLine);
+					newNotes.Append("- ");
+					newNotes.Append(line);
+					newNotes.Append(" (#");
+					newNotes.Append(change.PullRequest);
+					newNotes.Append(" @");
+					newNotes.Append(change.Author);
+					newNotes.Append(')');
+				}
+		}
+
+		static async Task<int> ReleaseComponent(IGitHubClient client, Version version, Component component)
+		{
+			var releaseNotes = await GenerateNotes(client, Tuple.Create(component, version));
+			var relevantChangelog = releaseNotes.Components[component].First(x => x.Version == version);
+
+			var newNotes = new StringBuilder("Full changelog can be found [here](https://raw.githubusercontent.com/tgstation/tgstation-server/gh-pages/changelog.yml).");
+			newNotes.AppendLine();
+			PrintChanges(newNotes, relevantChangelog);
+
+			var markdown = newNotes.ToString();
+			await File.WriteAllTextAsync(OutputPath, markdown);
+			return 0;
 		}
 	}
 }

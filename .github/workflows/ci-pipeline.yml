@@ -1256,8 +1256,21 @@ jobs:
     runs-on: windows-latest
     if: (!(cancelled() || failure()) && needs.deployment-gate.result == 'success' && github.event_name == 'push' && contains(github.event.head_commit.message, '[APIDeploy]'))
     steps:
+    - name: Setup dotnet
+      uses: actions/setup-dotnet@v2
+      with:
+        dotnet-version: ${{ env.TGS_DOTNET_VERSION }}
+
     - name: Checkout
       uses: actions/checkout@v3
+
+    - name: Restore
+      run: dotnet restore
+
+    - name: Build ReleaseNotes
+      run: |
+        export TGS_HOST_NO_WEBPANEL=true
+        dotnet build -c Release tools/Tgstation.Server.ReleaseNotes/Tgstation.Server.ReleaseNotes.csproj
 
     - name: Parse API version
       shell: powershell
@@ -1272,15 +1285,24 @@ jobs:
         name: openapi-spec
         path: swagger
 
+    - name: Grab Most Recent Changelog
+      shell: powershell
+      run: |
+        $ProgressPreference = 'SilentlyContinue'
+        Invoke-WebRequest -Uri https://raw.githubusercontent.com/tgstation/tgstation-server/gh-pages/changelog.yml -OutFile changelog.yml
+
+    - name: Generate Release Notes
+      run: dotnet run -c Release --no-build --project tools/Tgstation.Server.ReleaseNotes ${{ env.TGS_API_VERSION }} --httpapi
+
     - name: Create GitHub Release
-      uses: juitnow/github-action-create-release@80dc88a9d09c0ee394a4a31b0450e8cbe62996ef # v1
+      uses: actions/create-release@v1
       id: create_release
       env:
         GITHUB_TOKEN: ${{ secrets.DEV_PUSH_TOKEN }}
       with:
         tag_name: api-v${{ env.TGS_API_VERSION }}
         release_name: tgstation-server API v${{ env.TGS_API_VERSION }}
-        body: The TGS HTTP API
+        body_path: release_notes.md
         commitish: ${{ github.event.head_commit.id }}
 
     - name: Upload OpenApi Spec
@@ -1299,8 +1321,21 @@ jobs:
     runs-on: windows-latest
     if: (!(cancelled() || failure()) && needs.deployment-gate.result == 'success' && github.event_name == 'push' && contains(github.event.head_commit.message, '[DMDeploy]'))
     steps:
+    - name: Setup dotnet
+      uses: actions/setup-dotnet@v2
+      with:
+        dotnet-version: ${{ env.TGS_DOTNET_VERSION }}
+
     - name: Checkout
       uses: actions/checkout@v3
+
+    - name: Restore
+      run: dotnet restore
+
+    - name: Build ReleaseNotes
+      run: |
+        export TGS_HOST_NO_WEBPANEL=true
+        dotnet build -c Release tools/Tgstation.Server.ReleaseNotes/Tgstation.Server.ReleaseNotes.csproj
 
     - name: Parse DMAPI version
       shell: powershell
@@ -1314,15 +1349,24 @@ jobs:
       run: |
         &"C:/Program Files/7-Zip/7z.exe" a DMAPI.zip ./src/DMAPI/* -tzip
 
+    - name: Grab Most Recent Changelog
+      shell: powershell
+      run: |
+        $ProgressPreference = 'SilentlyContinue'
+        Invoke-WebRequest -Uri https://raw.githubusercontent.com/tgstation/tgstation-server/gh-pages/changelog.yml -OutFile changelog.yml
+
+    - name: Generate Release Notes
+      run: dotnet run -c Release --no-build --project tools/Tgstation.Server.ReleaseNotes ${{ env.TGS_DM_VERSION }} --dmapi
+
     - name: Create GitHub Release
-      uses: juitnow/github-action-create-release@v1
+      uses: actions/create-release@v1
       id: create_release
       env:
         GITHUB_TOKEN: ${{ secrets.DEV_PUSH_TOKEN }}
       with:
         tag_name: dmapi-v${{ env.TGS_DM_VERSION }}
         release_name: tgstation-server DMAPI v${{ env.TGS_DM_VERSION }}
-        body: The TGS DMAPI \#tgs-dmapi-release
+        body_path: release_notes.md
         commitish: ${{ github.event.head_commit.id }}
 
     - name: Upload DMAPI Artifact
