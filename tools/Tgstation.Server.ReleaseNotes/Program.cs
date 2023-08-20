@@ -1290,9 +1290,11 @@ The user account that created this pull request is available to correct any issu
 
 		static void PrintChanges(StringBuilder newNotes, Changelist changelist, bool debianMode = false)
 		{
+			var none = true;
 			foreach (var change in changelist.Changes)
 				foreach (var line in change.Descriptions)
 				{
+					none = false;
 					newNotes.AppendLine();
 					if (debianMode)
 						newNotes.Append("  * ");
@@ -1306,6 +1308,9 @@ The user account that created this pull request is available to correct any issu
 					newNotes.Append(change.Author);
 					newNotes.Append(')');
 				}
+
+			if (debianMode && none)
+				throw new Exception($"Changlist {changelist.Version} has no changes!");
 		}
 
 		static string GenerateComponentNotes(ReleaseNotes releaseNotes, Component component, Version version)
@@ -1404,11 +1409,14 @@ package (version) distribution(s); urgency=urgency
 			*/
 
 			// debian package did not exist before uhhh...
-			var debianPackageFirstRelease = new Version(5, 13, 0);
+			// var debianPackageFirstRelease = new Version(5, 13, 0);
+			// can't use that, there are irreconcilable changelog/version errors
+			// keep it straight going forwards
+			var noChangelogsBeforeVersion = new Version(5, 14, 0);
 
 			var coreChangelists = releaseNotes
 				.Components[Component.Core]
-				.Where(x => x.Version >= debianPackageFirstRelease && (!x.Unreleased || x.Version == version))
+				.Where(x => x.Version >= noChangelogsBeforeVersion && (!x.Unreleased || x.Version == version))
 				.OrderByDescending(x => x.Version)
 				.ToList();
 
@@ -1417,13 +1425,13 @@ package (version) distribution(s); urgency=urgency
 			for (var i = 0; i < coreChangelists.Count; ++i)
 			{
 				var currentDic = new SortedDictionary<Component, Changelist>();
-				currentReleaseChangelists.Insert(0, currentDic);
+				currentReleaseChangelists.Add(currentDic);
 				var nowRelease = coreChangelists[i];
 				var previousRelease = (i + 1) < coreChangelists.Count
 					? coreChangelists[i + 1]
 					: releaseNotes
 						.Components[Component.Core]
-						.First(x => x.Version == new Version(5, 12, 7));
+						.First(x => x.Version == new Version(5, 13, 7));
 
 				currentDic.Add(Component.Core, nowRelease);
 				foreach (var componentKvp in nowRelease.ComponentVersions)
@@ -1450,7 +1458,8 @@ package (version) distribution(s); urgency=urgency
 								.ToList(),
 						};
 
-						currentDic.Add(component, changelist);
+						if (changelist.Changes.Any())
+							currentDic.Add(component, changelist);
 					}
 					catch when (Debugger.IsAttached)
 					{
@@ -1491,7 +1500,7 @@ package (version) distribution(s); urgency=urgency
 				builder.Append("-1) unstable; urgency=");
 				builder.Append(urgency);
 
-				foreach (var kvp in releaseDictionary)
+				foreach (var kvp in releaseDictionary.Where(x => x.Value.Changes.Count > 0 || x.Key == Component.Configuration))
 				{
 					builder.AppendLine();
 					builder.AppendLine();
