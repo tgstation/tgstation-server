@@ -199,7 +199,9 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 
 			var csb = new DiscordConnectionStringBuilder(chatBot.ConnectionString);
 			var botToken = csb.BotToken;
+#pragma warning disable CS0618 // Type or member is obsolete
 			basedMeme = csb.BasedMeme;
+#pragma warning restore CS0618 // Type or member is obsolete
 			outputDisplayType = csb.DMOutputDisplay;
 			deploymentBranding = csb.DeploymentBranding;
 
