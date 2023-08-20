@@ -33,7 +33,7 @@ rm -f debian/README* debian/changelog debian/*.ex debian/upstream/*.ex
 
 pushd ..
 export TGS_HOST_NO_WEBPANEL=true
-dotnet run -c Release --project tools/Tgstation.Server.ReleaseNotes $TGS_VERSION --debian packaging/debian/changelog $(git rev-parse HEAD)
+dotnet run -c Release --project tools/Tgstation.Server.ReleaseNotes $TGS_VERSION --debian packaging/debian/changelog $CURRENT_COMMIT
 export TGS_HOST_NO_WEBPANEL=false
 popd
 
