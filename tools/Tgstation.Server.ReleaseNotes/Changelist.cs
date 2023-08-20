@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace Tgstation.Server.ReleaseNotes
 {
@@ -41,6 +42,12 @@ namespace Tgstation.Server.ReleaseNotes
 					};
 				})
 				.ToList();
+		}
+
+		public void StripConfigVersionMessage()
+		{
+			foreach (var change in Changes)
+				change.Descriptions.RemoveAll(desc => Regex.IsMatch(desc, "The new config.* version is"));
 		}
 	}
 }

@@ -2,13 +2,13 @@
 {
 	enum Component
 	{
-		Core,
-		HttpApi,
 		Configuration,
+		Core,
+		HostWatchdog,
+		WebControlPanel,
+		HttpApi,
 		DreamMakerApi,
 		InteropApi,
-		WebControlPanel,
-		HostWatchdog,
 		NugetCommon,
 		NugetApi,
 		NugetClient,

@@ -65,10 +65,26 @@ namespace Tgstation.Server.ReleaseNotes
 			}
 
 			var doNotCloseMilestone = false;
+			var debianMode = false;
 			Component? componentRelease = null;
 			if (args.Length > 1)
 				switch (args[1].ToUpperInvariant())
 				{
+					case "--DEBIAN":
+						debianMode = true;
+						doNotCloseMilestone = true;
+						if (args.Length < 3)
+						{
+							Console.WriteLine("Missing output path!");
+							return 238;
+						}
+
+						if (args.Length < 4)
+						{
+							Console.WriteLine("Missing current SHA!");
+							return 239;
+						}
+						break;
 					case "--NO-CLOSE":
 						doNotCloseMilestone = true;
 						break;
@@ -132,6 +148,9 @@ namespace Tgstation.Server.ReleaseNotes
 
 				if (nuget)
 					return await ReleaseNuget(client);
+
+				if (debianMode)
+					return await GenDebianChangelog(client, version, args[2], args[3]);
 
 				var releasesTask = client.Repository.Release.GetAll(RepoOwner, RepoName);
 
@@ -258,7 +277,9 @@ namespace Tgstation.Server.ReleaseNotes
 				}
 				newNotes.Append("](");
 
-				var milestone = await milestoneTasks.Single().Value.ConfigureAwait(false);
+				await Task.WhenAll(noteTasks);
+
+				var milestone = milestones.Single().Value;
 				if (milestone == null)
 				{
 					Console.WriteLine("Unable to detemine milestone!");
@@ -379,28 +400,31 @@ namespace Tgstation.Server.ReleaseNotes
 					{ Component.HostWatchdog, hostWatchdogVersion },
 				};
 
-				var releaseDictionary = new Dictionary<Component, Changelist>(
-					noteTasks
-						.SelectMany(task => task.Result.Item1)
-						.GroupBy(kvp => kvp.Key)
-						.Select(grouping =>
-						{
-							var component = grouping.Key;
-							var changelist = new Changelist
+				var releaseDictionary = new SortedDictionary<Component, Changelist>(
+					new Dictionary<Component, Changelist>(
+						noteTasks
+							.Where(task => task.Result != null)
+							.SelectMany(task => task.Result.Item1)
+							.Where(kvp => kvp.Key == Component.Core || componentVersionDict.ContainsKey(kvp.Key))
+							.GroupBy(kvp => kvp.Key)
+							.Select(grouping =>
 							{
-								Changes = grouping.SelectMany(kvp => kvp.Value.Changes).ToList()
-							};
+								var component = grouping.Key;
+								var changelist = new Changelist
+								{
+									Changes = grouping.SelectMany(kvp => kvp.Value.Changes).ToList()
+								};
 
-							if (component == Component.Core)
-							{
-								changelist.Version = coreVersion;
-								changelist.ComponentVersions = componentVersionDict;
-							}
-							else
-								changelist.Version = componentVersionDict[component];
+								if (component == Component.Core)
+								{
+									changelist.Version = coreVersion;
+									changelist.ComponentVersions = componentVersionDict;
+								}
+								else
+									changelist.Version = componentVersionDict[component];
 
-							return new KeyValuePair<Component, Changelist>(component, changelist);
-						}));
+								return new KeyValuePair<Component, Changelist>(component, changelist);
+							})));
 
 				if (releaseDictionary.Count == 0)
 				{
@@ -408,22 +432,21 @@ namespace Tgstation.Server.ReleaseNotes
 					return 8;
 				}
 
-				foreach (var I in releaseDictionary.OrderBy(kvp => kvp.Key))
+				foreach (var I in releaseDictionary)
 				{
 					newNotes.Append(Environment.NewLine);
 					newNotes.Append("#### ");
-					string componentName = I.Key switch
-					{
-						Component.HttpApi => "HTTP API",
-						Component.InteropApi => "Interop API",
-						Component.Configuration => "**Configuration**",
-						Component.DreamMakerApi => "DreamMaker API",
-						Component.HostWatchdog => "Host Watchdog",
-						Component.Core => "Core",
-						Component.WebControlPanel => "Web Control Panel",
-						_ => throw new Exception($"Unknown Component: {I.Key}"),
-					};
+					string componentName = GetComponentDisplayName(I.Key, false);
 					newNotes.Append(componentName);
+
+					if (I.Key == Component.Configuration)
+					{
+						I.Value.StripConfigVersionMessage();
+						newNotes.AppendLine();
+						newNotes.Append("- **The new configuration version is `");
+						newNotes.Append(I.Value.Version);
+						newNotes.Append("`. Please update your `General:ConfigVersion` setting appropriately.**");
+					}
 
 					PrintChanges(newNotes, I.Value);
 
@@ -467,12 +490,28 @@ namespace Tgstation.Server.ReleaseNotes
 			}
 		}
 
-		static readonly ConcurrentDictionary<int, Task<Milestone>> milestoneTasks = new ();
+		static string GetComponentDisplayName(Component component, bool debian) => component switch
+		{
+			Component.HttpApi => debian ? "the HTTP API" : "HTTP API",
+			Component.InteropApi => debian ? "the Interop API" : "Interop API",
+			Component.Configuration => debian ? "the TGS configuration" : "**Configuration**",
+			Component.DreamMakerApi => debian ? "the DreamMaker API" : "DreamMaker API",
+			Component.HostWatchdog => debian ? "the Host Watchdog" : "Host Watchdog",
+			Component.Core => debian ? "the main server" : "Core",
+			Component.WebControlPanel => debian ? "the Web Control Panel" : "Web Control Panel",
+			_ => throw new Exception($"Unnamed Component: {component}"),
+		};
+
+		static readonly ConcurrentDictionary<int, Milestone> milestones = new();
+		static readonly ConcurrentDictionary<int, Task<PullRequest>> pullRequests = new();
+
+		static Task<PullRequest> GetPR(IGitHubClient client, int pr) => pullRequests.GetOrAdd(pr, x => RLR(() => client.Repository.PullRequest.Get(RepoOwner, RepoName, x)));
 
 		static async Task<Tuple<Dictionary<Component, Changelist>, Dictionary<Component, Version>, bool>> GetReleaseNotesFromPR(IGitHubClient client, Issue pullRequest, bool doNotCloseMilestone, bool needComponentExactVersions, bool forAllComponents)
 		{
 			//need to check it was merged
-			var fullPR = await RLR(() => client.Repository.PullRequest.Get(RepoOwner, RepoName, pullRequest.Number));
+			var prTask = GetPR(client, pullRequest.Number);
+			var fullPR = await prTask;
 
 			if (!fullPR.Merged)
 			{
@@ -493,6 +532,8 @@ namespace Tgstation.Server.ReleaseNotes
 				return null;
 			}
 
+			milestones.TryAdd(fullPR.Milestone.Number, fullPR.Milestone);
+
 			var commentsTask = TripleCheckGitHubPagination(apiOptions => client.Issue.Comment.GetAllForIssue(fullPR.Base.Repository.Id, pullRequest.Number, apiOptions), comment => comment.Id);
 
 			bool isReleasePR = false;
@@ -503,10 +544,24 @@ namespace Tgstation.Server.ReleaseNotes
 
 				var commit = await RLR(() => client.Repository.Commit.Get(fullPR.Base.Repository.Id, fullPR.MergeCommitSha));
 
-				return isReleasePR = commit.Commit.Message.Contains("[TGSDeploy]");
+				isReleasePR = commit.Commit.Message.Contains("[TGSDeploy]")
+					|| fullPR.Number == 966
+					|| fullPR.Number == 1048
+					|| fullPR.Number == 1435
+					|| fullPR.Number == 1263
+					|| fullPR.Number == 1087
+					|| fullPR.Number == 1441
+					|| fullPR.Number == 1437
+					|| fullPR.Number == 1443
+					|| fullPR.Number == 1311
+					|| fullPR.Number == 1598
+					|| fullPR.Number == 1463
+					|| fullPR.Number == 1209; // some special tactics from before we were more stingent
+
+				return isReleasePR;
 			}
 
-			Task<bool> needExtendedComponentVersions = null;
+			Task<bool> needExtendedComponentVersions = Task.FromResult(false);
 			async Task<Dictionary<Component, Version>> GetComponentVersions()
 			{
 				var mergeCommit = fullPR.MergeCommitSha;
@@ -670,6 +725,8 @@ namespace Tgstation.Server.ReleaseNotes
 
 			await previousTask;
 
+			Debug.Assert(!(await needExtendedComponentVersions) || changelists.Where(x => x.Key == Component.Core).All(x => x.Value.ComponentVersions != null && x.Value.ComponentVersions.Count > 3));
+
 			return Tuple.Create(changelists.ToDictionary(kvp => kvp.Key, kvp => kvp.Value), await componentVersions, isReleasePR);
 		}
 
@@ -799,7 +856,7 @@ The user account that created this pull request is available to correct any issu
 				}
 		}
 
-		static async Task<List<T>> TripleCheckGitHubPagination<T>(Func<ApiOptions, Task<IReadOnlyList<T>>> apiCall, Func<T, long> idSelector)
+		static async Task<List<T>> TripleCheckGitHubPagination<T>(Func<ApiOptions, Task<IReadOnlyList<T>>> apiCall, Func<T, object> idSelector)
 		{
 			// I've seen GitHub pagination return incomplete result sets in the past
 			// It has an in-built pagination limit of 100
@@ -808,19 +865,19 @@ The user account that created this pull request is available to correct any issu
 				PageSize = 100
 			};
 			var results = await RLR(() => apiCall(apiOptions));
-			var distinctEntries = new Dictionary<long, T>(results.Count);
+			var distinctEntries = new Dictionary<string, T>(results.Count);
 			foreach (var result in results)
-				distinctEntries.Add(idSelector(result), result);
+				distinctEntries.Add(idSelector(result).ToString(), result);
 
 			if (results.Count > 100)
 			{
 				results = await RLR(() => apiCall(apiOptions));
 				foreach (var result in results)
-					distinctEntries.TryAdd(idSelector(result), result);
+					distinctEntries.TryAdd(idSelector(result).ToString(), result);
 
 				results = await RLR(() => apiCall(apiOptions));
 				foreach (var result in results)
-					distinctEntries.TryAdd(idSelector(result), result);
+					distinctEntries.TryAdd(idSelector(result).ToString(), result);
 			}
 
 			return distinctEntries.Values.ToList();
@@ -844,11 +901,11 @@ The user account that created this pull request is available to correct any issu
 					{
 						{ RepoOwner, RepoName },
 					},
+					Merged = DateRange.GreaterThan(new DateTimeOffset(2018, 9, 27, 0, 0, 0, TimeSpan.Zero)),
 				}));
 
 				foreach (var result in results.Items)
-					if (pullRequests.TryAdd(result.Number, result))
-						milestoneTasks.TryAdd(result.Number, milestoneTask);
+					pullRequests.TryAdd(result.Number, result);
 
 				if (results.IncompleteResults)
 					continue;
@@ -866,9 +923,11 @@ The user account that created this pull request is available to correct any issu
 
 				await Task.WhenAll(prTasks);
 
-				var prResults = prTasks.Select(x => x.Result).Where(result => result != null).ToList();
+				var prResults = prTasks.Select(x => x.Result).ToList();
 
 				var releasePRResult = prResults.FirstOrDefault(x => x.Item3);
+
+				prResults = prResults.Where(result => result != null).ToList();
 
 				Dictionary<Component, Version> releasedComponentVersions;
 				if (releasePRResult != null)
@@ -945,6 +1004,9 @@ The user account that created this pull request is available to correct any issu
 							entry = changelist;
 							entry.Version = componentVersion;
 							entry.Unreleased = unreleased;
+							if (component == Component.Core && entry.ComponentVersions == null)
+								entry.ComponentVersions = releasedComponentVersions;
+
 							list.Add(entry);
 						}
 						else
@@ -976,7 +1038,7 @@ The user account that created this pull request is available to correct any issu
 					});
 				}
 				else
-					Debug.Assert(finalResults[Component.Core].All(x => x.Version == milestoneVersion));
+					Debug.Assert(finalResults[Component.Core].All(x => x.Version == milestoneVersion && x.ComponentVersions != null && x.ComponentVersions.Count > 3));
 
 				var notes = new ReleaseNotes
 				{
@@ -991,7 +1053,8 @@ The user account that created this pull request is available to correct any issu
 
 		static async Task<int> FullNotes(IGitHubClient client)
 		{
-			var startRateLimit = (client.GetLastApiInfo()?.RateLimit ?? (await client.RateLimit.GetRateLimits()).Rate).Remaining;
+			var rateLimitInfo = client.GetLastApiInfo()?.RateLimit ?? (await client.RateLimit.GetRateLimits()).Rate;
+			var startRateLimit = rateLimitInfo.Remaining;
 
 			var releaseNotes = await GenerateNotes(client);
 
@@ -1142,8 +1205,6 @@ The user account that created this pull request is available to correct any issu
 				.ToList();
 
 			Debug.Assert(missingCoreVersions.Count == 0);
-			foreach (var missingCoreVersion in missingCoreVersions)
-				await await ProcessMilestone(client, missingCoreVersion);
 
 			var changelistsGroupedByComponent =
 					milestonePRTasks
@@ -1216,19 +1277,28 @@ The user account that created this pull request is available to correct any issu
 				Debug.Assert(distinctCount == kvp.Value.Count);
 
 				foreach (var cl in kvp.Value)
+				{
 					cl.DeduplicateChanges();
+
+					if (kvp.Key == Component.Configuration)
+						cl.StripConfigVersionMessage();
+				}
 			}
 
 			return releaseNotes;
 		}
 
-		static void PrintChanges(StringBuilder newNotes, Changelist changelist)
+		static void PrintChanges(StringBuilder newNotes, Changelist changelist, bool debianMode = false)
 		{
 			foreach (var change in changelist.Changes)
 				foreach (var line in change.Descriptions)
 				{
-					newNotes.Append(Environment.NewLine);
-					newNotes.Append("- ");
+					newNotes.AppendLine();
+					if (debianMode)
+						newNotes.Append("  * ");
+					else
+						newNotes.Append("- ");
+
 					newNotes.Append(line);
 					newNotes.Append(" (#");
 					newNotes.Append(change.PullRequest);
@@ -1308,6 +1378,174 @@ The user account that created this pull request is available to correct any issu
 				await File.WriteAllTextAsync(csprojPath, substitutedCsproj);
 			}
 
+			return 0;
+		}
+
+		static async Task<int> GenDebianChangelog(IGitHubClient client, Version version, string outputPath, string currentSha)
+		{
+			var tagsTask = RLR(() => TripleCheckGitHubPagination<RepositoryTag>(
+				apiOptions => client.Repository.GetAllTags(RepoOwner, RepoName, apiOptions),
+				x => x.Name));
+			var currentRefTask = client.Repository.Commit.Get(RepoOwner, RepoName, currentSha);
+			var releaseNotes = await GenerateNotes(client);
+
+			// https://www.debian.org/doc/manuals/maint-guide/dreq.en.html#changelog
+			// https://www.debian.org/doc/debian-policy/ch-source.html#s-dpkgchangelog
+
+			/*
+package (version) distribution(s); urgency=urgency
+  [optional blank line(s), stripped]
+  * change details
+  more change details
+  [blank line(s), included in output of dpkg-parsechangelog]
+  * even more change details
+  [optional blank line(s), stripped]
+ -- maintainer name <email address>[two spaces]  date
+			*/
+
+			// debian package did not exist before uhhh...
+			var debianPackageFirstRelease = new Version(5, 13, 0);
+
+			var coreChangelists = releaseNotes
+				.Components[Component.Core]
+				.Where(x => x.Version >= debianPackageFirstRelease && (!x.Unreleased || x.Version == version))
+				.OrderByDescending(x => x.Version)
+				.ToList();
+
+			var currentReleaseChangelists = new List<SortedDictionary<Component, Changelist>>();
+
+			for (var i = 0; i < coreChangelists.Count; ++i)
+			{
+				var currentDic = new SortedDictionary<Component, Changelist>();
+				currentReleaseChangelists.Insert(0, currentDic);
+				var nowRelease = coreChangelists[i];
+				var previousRelease = (i + 1) < coreChangelists.Count
+					? coreChangelists[i + 1]
+					: releaseNotes
+						.Components[Component.Core]
+						.First(x => x.Version == new Version(5, 12, 7));
+
+				currentDic.Add(Component.Core, nowRelease);
+				foreach (var componentKvp in nowRelease.ComponentVersions)
+				{
+					try
+					{
+						var component = componentKvp.Key;
+						if (component == Component.Core
+							|| component == Component.NugetClient
+							|| component == Component.NugetApi
+							|| component == Component.NugetCommon)
+							continue;
+
+						var takeNotesFrom = previousRelease.ComponentVersions[componentKvp.Key];
+						var changesEnumerator = releaseNotes
+							.Components[component]
+							.Where(changelist => changelist.Version > takeNotesFrom && changelist.Version <= componentKvp.Value)
+							.SelectMany(x => x.Changes)
+							.OrderBy(x => x.PullRequest);
+						var changelist = new Changelist
+						{
+							Version = componentKvp.Value,
+							Changes = changesEnumerator
+								.ToList(),
+						};
+
+						currentDic.Add(component, changelist);
+					}
+					catch when (Debugger.IsAttached)
+					{
+						Debugger.Break();
+					}
+				}
+			}
+
+			var builder = new StringBuilder();
+			foreach (var releaseDictionary in currentReleaseChangelists)
+			{
+				var allPrNumbers = releaseDictionary.Values.SelectMany(x => x.Changes.Select(y => y.PullRequest)).Distinct().OrderBy(x => x).ToList();
+				var allPrTasks = allPrNumbers
+					.Select(x => GetPR(client, x))
+					.ToList();
+
+				await Task.WhenAll(allPrTasks);
+
+				var prDict = allPrTasks.ToDictionary(x => x.Result.Number, x => x.Result);
+
+				bool AnyPRHasLabel(string labelName) => prDict.Values.Any(x => x.Labels.Any(y => y.Name == labelName));
+
+				// determine urgency
+
+				string urgency;
+				if (AnyPRHasLabel("Priority: CRITICAL"))
+					urgency = "critical";
+				else if (AnyPRHasLabel("Priority: High"))
+					urgency = "high";
+				else if (AnyPRHasLabel("Fix"))
+					urgency = "medium";
+				else
+					urgency = "low";
+
+				builder.Append($"tgstation-server (");
+
+				builder.Append(releaseDictionary[Component.Core].Version);
+				builder.Append("-1) unstable; urgency=");
+				builder.Append(urgency);
+
+				foreach (var kvp in releaseDictionary)
+				{
+					builder.AppendLine();
+					builder.AppendLine();
+					builder.Append("  * The following changes are for ");
+					builder.Append(GetComponentDisplayName(kvp.Key, true));
+					if(kvp.Key == Component.Configuration)
+					{
+						builder.Append(". You ");
+						if (kvp.Value.Version.Minor == 0 && kvp.Value.Version.Build == 0)
+							builder.Append("will need to");
+						else
+							builder.Append("should");
+						builder.Append(" update your `General:ConfigVersion` setting in `/etc/tgstation-server/appsettings.Production.yml` to this new version");
+					}
+
+					builder.Append(':');
+
+					PrintChanges(builder, kvp.Value, true);
+				}
+
+				builder.AppendLine();
+				builder.Append(" -- ");
+
+				GitHubCommit currentRef;
+				var tags = await tagsTask;
+				var releaseTag = tags.FirstOrDefault(x => x.Name == $"tgstation-server-v{releaseDictionary[Component.Core].Version}");
+
+				if (releaseTag != null)
+					currentRef = await client.Repository.Commit.Get(RepoOwner, RepoName, releaseTag.Commit.Sha);
+				else
+					currentRef = await currentRefTask;
+
+				var committer = currentRef.Commit.Committer;
+				if (committer.Name == "GitHub" && committer.Email == "noreply@github.com")
+					committer = currentRef.Commit.Author;
+
+				builder.Append(committer.Name);
+				builder.Append(" <");
+				builder.Append(committer.Email);
+				builder.Append(">  ");
+
+				var commitTime = currentRef.Commit.Committer.Date;
+
+				builder.Append(commitTime.ToString("ddd").TrimEnd('.'));
+				builder.Append(", ");
+				builder.Append(commitTime.ToString("dd"));
+				builder.Append(' ');
+				builder.Append(commitTime.ToString("MMM").TrimEnd('.'));
+				builder.Append(' ');
+				builder.AppendLine(commitTime.ToString("yyyy HH:mm:sszz00"));
+			}
+
+			var changelog = builder.ToString().Replace("\r", String.Empty);
+			await File.WriteAllTextAsync(outputPath, changelog);
 			return 0;
 		}
 	}
