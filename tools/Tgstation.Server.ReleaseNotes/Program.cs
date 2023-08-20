@@ -9,6 +9,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Sockets;
+using System.Security;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -50,12 +51,14 @@ namespace Tgstation.Server.ReleaseNotes
 			var linkWinget = versionString.Equals("--link-winget", StringComparison.OrdinalIgnoreCase);
 			var shaCheck = versionString.Equals("--winget-template-check", StringComparison.OrdinalIgnoreCase);
 			var fullNotes = versionString.Equals("--generate-full-notes", StringComparison.OrdinalIgnoreCase);
+			var nuget = versionString.Equals("--nuget", StringComparison.OrdinalIgnoreCase);
 
 			if ((!Version.TryParse(versionString, out var version) || version.Revision != -1)
 				&& !ensureRelease
 				&& !linkWinget
 				&& !shaCheck
-				&& !fullNotes)
+				&& !fullNotes
+				&& !nuget)
 			{
 				Console.WriteLine("Invalid version: " + versionString);
 				return 2;
@@ -126,6 +129,9 @@ namespace Tgstation.Server.ReleaseNotes
 
 				if (componentRelease.HasValue)
 					return await ReleaseComponent(client, version, componentRelease.Value);
+
+				if (nuget)
+					return await ReleaseNuget(client);
 
 				var releasesTask = client.Repository.Release.GetAll(RepoOwner, RepoName);
 
@@ -1033,7 +1039,7 @@ The user account that created this pull request is available to correct any issu
 
 		static IReadOnlyDictionary<Component, IReadOnlySet<Version>> releasedNonCoreVersions;
 
-		static async Task<ReleaseNotes> GenerateNotes(IGitHubClient client, Tuple<Component, Version> forceReleaseVersion = null)
+		static async Task<ReleaseNotes> GenerateNotes(IGitHubClient client, Dictionary<Component, Version> forceReleaseVersions = null)
 		{
 			ReleaseNotes previousNotes = null;
 			if (File.Exists("changelog.yml"))
@@ -1081,11 +1087,13 @@ The user account that created this pull request is available to correct any issu
 				{ Component.NugetClient, await nugetClientVersions }
 			};
 
-			if (forceReleaseVersion != null && !newDic[forceReleaseVersion.Item1].Any(x => x == forceReleaseVersion.Item2))
-				newDic[forceReleaseVersion.Item1] = newDic[forceReleaseVersion.Item1]
-					.Concat(new List<Version> { forceReleaseVersion.Item2 })
-					.OrderBy(x => x)
-					.ToHashSet();
+			if (forceReleaseVersions != null)
+				foreach (var kvp in forceReleaseVersions)
+					if (!newDic[kvp.Key].Any(x => x == kvp.Value))
+						newDic[kvp.Key] = newDic[kvp.Key]
+							.Concat(new List<Version> { kvp.Value })
+							.OrderBy(x => x)
+							.ToHashSet();
 
 			releasedNonCoreVersions = newDic;
 
@@ -1230,17 +1238,76 @@ The user account that created this pull request is available to correct any issu
 				}
 		}
 
-		static async Task<int> ReleaseComponent(IGitHubClient client, Version version, Component component)
+		static string GenerateComponentNotes(ReleaseNotes releaseNotes, Component component, Version version)
 		{
-			var releaseNotes = await GenerateNotes(client, Tuple.Create(component, version));
-			var relevantChangelog = releaseNotes.Components[component].First(x => x.Version == version);
+			var relevantChangelog = releaseNotes.Components[component].FirstOrDefault(x => x.Version == version);
 
 			var newNotes = new StringBuilder("Full changelog can be found [here](https://raw.githubusercontent.com/tgstation/tgstation-server/gh-pages/changelog.yml).");
-			newNotes.AppendLine();
-			PrintChanges(newNotes, relevantChangelog);
+			if (relevantChangelog != null)
+			{
+				newNotes.AppendLine();
+				PrintChanges(newNotes, relevantChangelog);
+			}
 
 			var markdown = newNotes.ToString();
-			await File.WriteAllTextAsync(OutputPath, markdown);
+			return markdown;
+		}
+
+		static async Task<int> ReleaseComponent(IGitHubClient client, Version version, Component component)
+		{
+			var releaseNotes = await GenerateNotes(client, new Dictionary<Component, Version> { { component, version } });
+			await File.WriteAllTextAsync(OutputPath, GenerateComponentNotes(releaseNotes, component, version));
+			return 0;
+		}
+
+		// must run from repo root
+		static async Task<int> ReleaseNuget(IGitHubClient client)
+		{
+			const string PropsPath = "build/Version.props";
+
+			var doc = XDocument.Load(PropsPath);
+			var project = doc.Root;
+			var xmlNamespace = project.GetDefaultNamespace();
+			var versionsPropertyGroup = project.Elements().First(x => x.Name == xmlNamespace + "PropertyGroup");
+
+			var commonVersion = Version.Parse(versionsPropertyGroup.Element(xmlNamespace + "TgsCommonLibraryVersion").Value);
+			var apiVersion = Version.Parse(versionsPropertyGroup.Element(xmlNamespace + "TgsApiLibraryVersion").Value);
+			var clientVersion = Version.Parse(versionsPropertyGroup.Element(xmlNamespace + "TgsClientVersion").Value);
+
+			var componentVersions = new Dictionary<Component, Version>
+			{
+				{ Component.NugetCommon, commonVersion },
+				{ Component.NugetApi, apiVersion },
+				{ Component.NugetClient, clientVersion },
+			};
+
+			var releaseNotes = await GenerateNotes(
+				client,
+				componentVersions);
+
+			const string CsprojSubstitution = "src/Tgstation.Server.$PROJECT$/Tgstation.Server.$PROJECT$.csproj";
+			var csprojNameMap = new Dictionary<Component, string>
+			{
+				{ Component.NugetCommon, "Common" },
+				{ Component.NugetApi, "Api" },
+				{ Component.NugetClient, "Client" },
+			};
+
+			foreach(var kvp in csprojNameMap)
+			{
+				var component = kvp.Key;
+				var csprojPath = CsprojSubstitution.Replace("$PROJECT$", kvp.Value);
+
+				var markdown = GenerateComponentNotes(releaseNotes, component, componentVersions[component]);
+
+				var escapedMarkdown = SecurityElement.Escape(markdown);
+
+				var originalCsproj = await File.ReadAllTextAsync(csprojPath);
+				var substitutedCsproj = originalCsproj.Replace($"$(TGS_NUGET_RELEASE_NOTES_{kvp.Value.ToUpperInvariant()})", escapedMarkdown);
+
+				await File.WriteAllTextAsync(csprojPath, substitutedCsproj);
+			}
+
 			return 0;
 		}
 	}

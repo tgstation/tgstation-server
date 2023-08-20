@@ -1393,6 +1393,20 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v3
 
+    - name: Restore
+      run: dotnet restore
+
+    - name: Build ReleaseNotes
+      run: |
+        export TGS_HOST_NO_WEBPANEL=true
+        dotnet build -c Release tools/Tgstation.Server.ReleaseNotes/Tgstation.Server.ReleaseNotes.csproj
+
+    - name: Grab Most Recent Changelog
+      run: curl -L https://raw.githubusercontent.com/tgstation/tgstation-server/gh-pages/changelog.yml -o changelog.yml
+
+    - name: Generate Release Notes
+      run: dotnet run -c Release --no-build --project tools/Tgstation.Server.ReleaseNotes ${{ env.TGS_DM_VERSION }} --nuget
+
     - name: Publish Tgstation.Server.Common to NuGet
       uses: alirezanet/publish-nuget@e276c40afeb2a154046f0997820f2a9ea74832d9 # v3.1.0
       with:
