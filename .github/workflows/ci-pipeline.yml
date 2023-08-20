@@ -1020,7 +1020,7 @@ jobs:
 
     - name: Execute Build Script (Unsigned)
       if: (!(github.event_name == 'push' && contains(github.event.head_commit.message, '[TGSDeploy]') && (github.event.ref == 'refs/heads/master' || github.event.ref == 'refs/heads/dev')))
-      run: sudo build/package/deb/build_package.sh
+      run: sudo -E build/package/deb/build_package.sh
 
     - name: Execute Build Script (Signed)
       if: (github.event_name == 'push' && contains(github.event.head_commit.message, '[TGSDeploy]') && (github.event.ref == 'refs/heads/master' || github.event.ref == 'refs/heads/dev'))
