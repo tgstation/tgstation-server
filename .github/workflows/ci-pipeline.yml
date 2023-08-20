@@ -185,7 +185,7 @@ jobs:
         echo -e "\nPROJECT_NUMBER = $VERSION\nINPUT = .\nOUTPUT_DIRECTORY = ./doxout\nPROJECT_LOGO = ./build/tgs.ico\nHAVE_DOT=YES" >> "docs/Doxyfile"
 
     - name: Doxygen Build
-      uses: mattnotmitt/doxygen-action@v1
+      uses: mattnotmitt/doxygen-action@411df0c62acb5b96b8a93d93a7bf4b753c47ea05 # v1.9.5
       with:
         doxyfile-path: 'docs/Doxyfile'
 
@@ -1231,7 +1231,7 @@ jobs:
     name: Deploy HTTP API
     needs: deployment-gate
     runs-on: windows-latest
-    if: (!(cancelled() || failure()) && needs.deployment-gate.result == 'success' && github.event_name == 'push' && contains(github.event.head_commit.message, '[APIDeploy]'))
+    if: (!(cancelled() || failure()) && needs.deployment-gate.result == 'success' && contains(github.event.head_commit.message, '[APIDeploy]'))
     steps:
     - name: Checkout
       uses: actions/checkout@v3
@@ -1274,7 +1274,7 @@ jobs:
     name: Deploy DreamMaker API
     needs: deployment-gate
     runs-on: windows-latest
-    if: (!(cancelled() || failure()) && needs.deployment-gate.result == 'success' && github.event_name == 'push' && contains(github.event.head_commit.message, '[DMDeploy]'))
+    if: (!(cancelled() || failure()) && needs.deployment-gate.result == 'success' && contains(github.event.head_commit.message, '[DMDeploy]'))
     steps:
     - name: Checkout
       uses: actions/checkout@v3
@@ -1316,7 +1316,7 @@ jobs:
     name: Deploy Nuget Packages
     needs: deployment-gate
     runs-on: ubuntu-latest
-    if: (!(cancelled() || failure()) && needs.upload-code-coverage.result == 'success' && needs.validate-openapi-spec.result == 'success' && github.event_name == 'push' && contains(github.event.head_commit.message, '[NugetDeploy]'))
+    if: (!(cancelled() || failure()) && needs.deployment-gate.result == 'success' && contains(github.event.head_commit.message, '[NugetDeploy]'))
     steps:
     - name: Setup dotnet
       uses: actions/setup-dotnet@v2
