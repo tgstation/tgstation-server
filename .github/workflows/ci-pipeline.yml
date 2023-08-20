@@ -1269,7 +1269,7 @@ jobs:
 
     - name: Build ReleaseNotes
       run: |
-        export TGS_HOST_NO_WEBPANEL=true
+        $Env:TGS_HOST_NO_WEBPANEL=true
         dotnet build -c Release tools/Tgstation.Server.ReleaseNotes/Tgstation.Server.ReleaseNotes.csproj
 
     - name: Parse API version
@@ -1334,7 +1334,7 @@ jobs:
 
     - name: Build ReleaseNotes
       run: |
-        export TGS_HOST_NO_WEBPANEL=true
+        $Env:TGS_HOST_NO_WEBPANEL=true
         dotnet build -c Release tools/Tgstation.Server.ReleaseNotes/Tgstation.Server.ReleaseNotes.csproj
 
     - name: Parse DMAPI version
