@@ -198,7 +198,7 @@ jobs:
 
     - name: Build Changelog (Incremental)
       run: |
-        cp $HOME/tgsdox/changelog.yml ./ 2>/dev/null
+        mv $HOME/tgsdox/changelog.yml ./ 2>/dev/null
         dotnet run -c Release --no-build --project tools/Tgstation.Server.ReleaseNotes --generate-full-notes
 
     - name: Patch Doxyfile
@@ -214,10 +214,10 @@ jobs:
     - name: gh-pages Push
       if: github.event_name == 'push' && github.event.ref == 'refs/heads/dev' && env.TGS_RELEASE_NOTES_TOKEN != ''
       run: |
+        sudo mv changelog.yml $HOME/tgsdox/
         pushd $HOME/tgsdox
         rm -r *
         popd
-        sudo mv changlog.yml $HOME/tgsdox/
         echo ./doxout/* | xargs -n 10 sudo mv -t $HOME/tgsdox
         cd $HOME/tgsdox
         git config --global push.default simple
@@ -1715,7 +1715,7 @@ jobs:
         GITHUB_TOKEN: ${{ env.WINGET_PUSH_TOKEN }}
 
     - name: Install wingetcreate
-      run: winget install wingetcreate --version 1.2.8.0 --disable-interactivity --accept-source-agreements # Pinned due to https://github.com/microsoft/winget-create/issues/429
+      run: winget install wingetcreate --disable-interactivity --accept-source-agreements
 
     - name: Checkout
       uses: actions/checkout@v3
