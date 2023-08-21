@@ -213,7 +213,7 @@ jobs:
     - name: gh-pages Push
       if: github.event_name == 'push' && github.event.ref == 'refs/heads/dev' && env.TGS_RELEASE_NOTES_TOKEN != ''
       run: |
-        sudo mv changlog.yml $HOME/tgsdox/
+        sudo mv changelog.yml $HOME/tgsdox/
         pushd $HOME/tgsdox
         rm -r *
         popd
