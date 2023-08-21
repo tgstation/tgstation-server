@@ -503,7 +503,11 @@ namespace Tgstation.Server.Host.Core
 				});
 			}
 			else
+#if NO_WEBPANEL
+				logger.LogTrace("Web control panel was not included in TGS build!");
+#else
 				logger.LogTrace("Web control panel disabled!");
+#endif
 
 			// Do not cache a single thing beyond this point, it's all API
 			applicationBuilder.UseDisabledClientCache();
