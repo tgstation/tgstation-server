@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Common;
-using System.Data.SqlClient;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -11,6 +10,7 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 
+using Microsoft.Data.SqlClient;
 using Microsoft.Data.Sqlite;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
@@ -26,6 +26,7 @@ using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.Extensions.Converters;
 using Tgstation.Server.Host.IO;
+using Tgstation.Server.Host.Properties;
 using Tgstation.Server.Host.System;
 using Tgstation.Server.Host.Utils;
 
@@ -362,6 +363,12 @@ namespace Tgstation.Server.Host.Setup
 		{
 			if (firstTime)
 			{
+				if (internalConfiguration.MariaDBSetup)
+				{
+					await console.WriteAsync("It looks like you just installed MariaDB. Selecting it as the database type.", true, cancellationToken);
+					return DatabaseType.MariaDB;
+				}
+
 				await console.WriteAsync(String.Empty, true, cancellationToken);
 				await console.WriteAsync(
 					"NOTE: If you are serious about hosting public servers, it is HIGHLY reccommended that TGS runs on a database *OTHER THAN* Sqlite.",
@@ -413,19 +420,30 @@ namespace Tgstation.Server.Host.Setup
 				{
 					DatabaseType = await PromptDatabaseType(firstTime, cancellationToken),
 				};
-				firstTime = false;
 
 				string serverAddress = null;
 				ushort? serverPort = null;
 
-				bool isSqliteDB = databaseConfiguration.DatabaseType == DatabaseType.Sqlite;
+				var definitelyLocalMariaDB = firstTime && internalConfiguration.MariaDBSetup;
+				var isSqliteDB = databaseConfiguration.DatabaseType == DatabaseType.Sqlite;
 				IPHostEntry serverAddressEntry = null;
 				if (!isSqliteDB)
 					do
 					{
 						await console.WriteAsync(null, true, cancellationToken);
-						await console.WriteAsync("Enter the server's address and port [<server>:<port> or <server>] (blank for local): ", false, cancellationToken);
-						serverAddress = await console.ReadLineAsync(false, cancellationToken);
+						if (definitelyLocalMariaDB)
+						{
+							await console.WriteAsync("Enter the server's port (blank for 3306): ", false, cancellationToken);
+							var enteredPort = await console.ReadLineAsync(false, cancellationToken);
+							if (!String.IsNullOrWhiteSpace(enteredPort) && enteredPort.Trim() != "3306")
+								serverAddress = $"localhost:{enteredPort}";
+						}
+						else
+						{
+							await console.WriteAsync("Enter the server's address and port [<server>:<port> or <server>] (blank for local): ", false, cancellationToken);
+							serverAddress = await console.ReadLineAsync(false, cancellationToken);
+						}
+
 						if (String.IsNullOrWhiteSpace(serverAddress))
 							serverAddress = null;
 						else if (databaseConfiguration.DatabaseType == DatabaseType.SqlServer)
@@ -463,7 +481,7 @@ namespace Tgstation.Server.Host.Setup
 					while (true);
 
 				await console.WriteAsync(null, true, cancellationToken);
-				await console.WriteAsync($"Enter the database {(isSqliteDB ? "file path" : "name")} (Can be from previous installation. Otherwise, should not exist): ", false, cancellationToken);
+				await console.WriteAsync($"Enter the database {(isSqliteDB ? "file path" : "name")} ({(definitelyLocalMariaDB ? "leave blank for \"tgs\")" : "Can be from previous installation. Otherwise, should not exist")}): ", false, cancellationToken);
 
 				string databaseName;
 				bool dbExists = false;
@@ -484,6 +502,8 @@ namespace Tgstation.Server.Host.Setup
 								null,
 								cancellationToken);
 					}
+					else if (definitelyLocalMariaDB)
+						databaseName = "tgs";
 
 					if (String.IsNullOrWhiteSpace(databaseName))
 						await console.WriteAsync("Invalid database name!", true, cancellationToken);
@@ -510,8 +530,17 @@ namespace Tgstation.Server.Host.Setup
 				if (!isSqliteDB)
 					if (!useWinAuth)
 					{
-						await console.WriteAsync("Enter username: ", false, cancellationToken);
-						username = await console.ReadLineAsync(false, cancellationToken);
+						if (definitelyLocalMariaDB)
+						{
+							await console.WriteAsync("Using username: root", true, cancellationToken);
+							username = "root";
+						}
+						else
+						{
+							await console.WriteAsync("Enter username: ", false, cancellationToken);
+							username = await console.ReadLineAsync(false, cancellationToken);
+						}
+
 						await console.WriteAsync("Enter password: ", false, cancellationToken);
 						password = await console.ReadLineAsync(true, cancellationToken);
 					}
@@ -625,6 +654,11 @@ namespace Tgstation.Server.Host.Setup
 					await console.WriteAsync(e.Message, true, cancellationToken);
 					await console.WriteAsync(null, true, cancellationToken);
 					await console.WriteAsync("Retrying database configuration...", true, cancellationToken);
+
+					if (definitelyLocalMariaDB)
+						await console.WriteAsync("No longer assuming MariaDB is the target.", true, cancellationToken);
+
+					firstTime = false;
 				}
 			}
 			while (true);
@@ -947,8 +981,6 @@ namespace Tgstation.Server.Host.Setup
 			SwarmConfiguration swarmConfiguration,
 			CancellationToken cancellationToken)
 		{
-			await console.WriteAsync(String.Format(CultureInfo.InvariantCulture, "Configuration complete! Saving to {0}", userConfigFileName), true, cancellationToken);
-
 			newGeneralConfiguration.ApiPort = hostingPort ?? GeneralConfiguration.DefaultApiPort;
 			newGeneralConfiguration.ConfigVersion = GeneralConfiguration.CurrentConfigVersion;
 			var map = new Dictionary<string, object>()
@@ -1041,6 +1073,7 @@ namespace Tgstation.Server.Host.Setup
 			var swarmConfiguration = await ConfigureSwarm(cancellationToken);
 
 			await console.WriteAsync(null, true, cancellationToken);
+			await console.WriteAsync(String.Format(CultureInfo.InvariantCulture, "Configuration complete! Saving to {0}", userConfigFileName), true, cancellationToken);
 
 			await SaveConfiguration(
 				userConfigFileName,
@@ -1139,10 +1172,44 @@ namespace Tgstation.Server.Host.Setup
 
 					SetConsoleTitle();
 
-					// flush the logs to prevent console conflicts
-					await asyncDelayer.Delay(TimeSpan.FromSeconds(1), cancellationToken);
+					if (!String.IsNullOrEmpty(internalConfiguration.MariaDBDefaultRootPassword))
+					{
+						// we can generate the whole thing.
+						var csb = new MySqlConnectionStringBuilder
+						{
+							Server = "127.0.0.1",
+							UserID = "root",
+							Password = internalConfiguration.MariaDBDefaultRootPassword,
+							Database = "tgs",
+						};
 
-					await RunWizard(userConfigFileName, cancellationToken);
+						await SaveConfiguration(
+							userConfigFileName,
+							null,
+							new DatabaseConfiguration
+							{
+								ConnectionString = csb.ConnectionString,
+								DatabaseType = DatabaseType.MariaDB,
+								ServerVersion = MasterVersionsAttribute.Instance.RawMariaDBRedistVersion,
+							},
+							new GeneralConfiguration(),
+							null,
+							null,
+							new ControlPanelConfiguration
+							{
+								Enable = true,
+								AllowAnyOrigin = true,
+							},
+							null,
+							cancellationToken);
+					}
+					else
+					{
+						// flush the logs to prevent console conflicts
+						await asyncDelayer.Delay(TimeSpan.FromSeconds(1), cancellationToken);
+
+						await RunWizard(userConfigFileName, cancellationToken);
+					}
 				}
 				finally
 				{

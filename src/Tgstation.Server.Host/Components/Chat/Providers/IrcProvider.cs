@@ -218,7 +218,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		}
 
 		/// <inheritdoc />
-		public override async Task<Func<string, string, Task>> SendUpdateMessage(
+		public override async Task<Func<string, string, Task<Func<bool, Task>>>> SendUpdateMessage(
 			Models.RevisionInformation revisionInformation,
 			Version byondVersion,
 			DateTimeOffset? estimatedCompletionTime,
@@ -281,14 +281,19 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				channelId,
 				cancellationToken);
 
-			return (errorMessage, dreamMakerOutput) => SendMessage(
-				null,
-				new MessageContent
-				{
-					Text = $"DM: Deployment {(errorMessage == null ? "complete" : "failed")}!",
-				},
-				channelId,
-				cancellationToken);
+			return async (errorMessage, dreamMakerOutput) =>
+			{
+				await SendMessage(
+					null,
+					new MessageContent
+					{
+						Text = $"DM: Deployment {(errorMessage == null ? "complete" : "failed")}!",
+					},
+					channelId,
+					cancellationToken);
+
+				return active => Task.CompletedTask;
+			};
 		}
 
 		/// <inheritdoc />

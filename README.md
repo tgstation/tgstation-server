@@ -8,13 +8,11 @@
 
 This is a toolset to manage production BYOND servers. It includes the ability to update the server without having to stop or shutdown the server (the update will take effect on a "reboot" of the server), the ability to start the server and restart it if it crashes, as well as systems for managing code and game files, and locally merging GitHub Pull Requests for test deployments.
 
-### Legacy Servers
-
-Older server versions can be found in the V# branches of this repository. Note that the current server fully incompatible with installations before version 4. Only some static files may be copied over: https://github.com/tgstation/tgstation-server#static-files
-
 ## Setup
 
 ### Pre-Requisites
+
+_Note: If you opt to use the Windows installer, all pre-requisites (including MariaDB) are provided out of the box._
 
 tgstation-server needs a relational database to store it's data.
 
@@ -50,7 +48,7 @@ Note that the Windows Service and installer executables require administrative p
 
 [Download the latest release's tgstation-server-installer.exe](https://github.com/tgstation/tgstation-server/releases/latest). Executing it will take you through the process of installing and configuring your server. The required dotnet runtime may be installed as a pre-requisite.
 
-Note: If you use the `/silent` or `/passive` arguments to the installer, you will need to either pre-configure TGS or configure and start the `tgstation-server` service after installing. A shortcut will be placed on your desktop and in your start menu to assist with this.
+Note: If you use the `/silent` or `/passive` arguments to the installer, you will not be able to install MariaDB using it. In addition, if those arguments are present, you'll need to either pre-configure TGS or configure and start the `tgstation-server` service after installing. A shortcut will be placed on your desktop and in your start menu to assist with this.
 
 ##### winget (Windows 10 or later)
 
@@ -79,7 +77,7 @@ Once winget is installed, simply run the following commands, accepting any promp
 winget install tgstation-server
 ```
 
-The required dotnet runtime may be installed as a pre-requisite.
+The required dotnet runtime may be installed as a pre-requisite. MariaDB will not be installed.
 
 Note: If you use the `-h` or `--disable-interactivity` winget arguments, you will need to either pre-configure TGS or configure and start the `tgstation-server` service after installing. A shortcut will be placed on your desktop and in your start menu to assist with this.
 
@@ -223,7 +221,7 @@ Create an `appsettings.Production.yml` file next to `appsettings.yml`. This will
 
 - `Session:LowPriorityDeploymentProcesses `: Boolean controlling if DreamMaker and API validation DreamDaemon instances get set to below normal priority processes.
 
-- `FileLogging:Directory`: Override the default directory where server logs are stored. Default is C:/ProgramData/tgstation-server/logs on Windows, /usr/share/tgstation-server/logs otherwise
+- `FileLogging:Directory`: Override the default directory where server logs are stored. Default is `C:/ProgramData/tgstation-server/logs` on Windows, `/usr/share/tgstation-server/logs` otherwise
 
 - `FileLogging:LogLevel`: Can be one of `Trace`, `Debug`, `Information`, `Warning`, `Error`, or `Critical`. Restricts what is put into the log files. Currently `Debug` is reccommended for help with error reporting.
 

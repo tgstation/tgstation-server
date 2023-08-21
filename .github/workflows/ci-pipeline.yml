@@ -163,12 +163,17 @@ jobs:
         fi
         exit $retval
 
-  dox-build:
-    name: Build Doxygen Site
+  pages-build:
+    name: Build gh-pages
     runs-on: ubuntu-latest
     needs: start-ci-run-gate
     if: (!(cancelled() || failure()) && needs.start-ci-run-gate.result == 'success')
     steps:
+    - name: Setup dotnet
+      uses: actions/setup-dotnet@v2
+      with:
+        dotnet-version: ${{ env.TGS_DOTNET_VERSION }}
+
     - name: Checkout (Branch)
       uses: actions/checkout@v3
       if: github.event_name == 'push' || github.event_name == 'schedule'
@@ -178,6 +183,22 @@ jobs:
       if: github.event_name != 'push' && github.event_name != 'schedule'
       with:
         ref: "refs/pull/${{ github.event.number }}/merge"
+
+    - name: gh-pages Clone
+      run: git clone -b gh-pages --single-branch "https://git@github.com/tgstation/tgstation-server" $HOME/tgsdox
+
+    - name: Restore
+      run: dotnet restore
+
+    - name: Build ReleaseNotes
+      run: |
+        export TGS_HOST_NO_WEBPANEL=true
+        dotnet build -c Release tools/Tgstation.Server.ReleaseNotes/Tgstation.Server.ReleaseNotes.csproj
+
+    - name: Build Changelog (Incremental)
+      run: |
+        mv $HOME/tgsdox/changelog.yml ./ 2>/dev/null
+        dotnet run -c Release --no-build --project tools/Tgstation.Server.ReleaseNotes --generate-full-notes
 
     - name: Patch Doxyfile
       run: |
@@ -189,10 +210,10 @@ jobs:
       with:
         doxyfile-path: 'docs/Doxyfile'
 
-    - name: gh-pages push
+    - name: gh-pages Push
       if: github.event_name == 'push' && github.event.ref == 'refs/heads/dev' && env.TGS_RELEASE_NOTES_TOKEN != ''
       run: |
-        git clone -b gh-pages --single-branch "https://git@github.com/tgstation/tgstation-server" $HOME/tgsdox
+        sudo mv changelog.yml $HOME/tgsdox/
         pushd $HOME/tgsdox
         rm -r *
         popd
@@ -464,17 +485,20 @@ jobs:
       if: ${{ matrix.configuration == 'Release' && matrix.watchdog-type == 'Basic' }}
       run: |
         cd src/Tgstation.Server.Host.Service
-        dotnet publish -c ${{ matrix.configuration }} -o ../../Artifacts/Service
+        dotnet publish -c ${{ matrix.configuration }} -o ../../artifacts/Service
         cd ../Tgstation.Server.Host
-        dotnet publish -c ${{ matrix.configuration }} --no-build -o ../../Artifacts/Service/lib/Default
-        mv ../../Artifacts/Service/lib/Default/appsettings.yml ../../Artifacts/Service/appsettings.yml
+        dotnet publish -c ${{ matrix.configuration }} --no-build -o ../../artifacts/Service/lib/Default
+        cd ../..
+        mv artifacts/Service/lib/Default/appsettings.yml artifacts/Service/appsettings.yml
+        build/RemoveUnsupportedRuntimes.sh artifacts/Service/lib/Default
+        build/RemoveUnsupportedServiceRuntimes.ps1 artifacts/Service
 
     - name: Store Server Service
       if: ${{ matrix.configuration == 'Release' && matrix.watchdog-type == 'Basic' }}
       uses: actions/upload-artifact@v3
       with:
         name: ServerService
-        path: Artifacts/Service/
+        path: artifacts/Service/
 
     - name: Install Code Signing Certificate
       if: ${{ matrix.configuration == 'Release' && matrix.watchdog-type == 'Basic' }}
@@ -489,7 +513,7 @@ jobs:
     - name: Test Sign Service .exe
       if: ${{ matrix.configuration == 'Release' && matrix.watchdog-type == 'Basic' }}
       shell: powershell
-      run: Set-AuthenticodeSignature Artifacts/Service/Tgstation.Server.Host.Service.exe -Certificate (Get-ChildItem Cert:\CurrentUser\My | Where-Object { $_.Thumbprint -eq "${{ vars.CODE_SIGNING_THUMBPRINT }}" }) -TimestampServer "http://timestamp.digicert.com"
+      run: Set-AuthenticodeSignature artifacts/Service/Tgstation.Server.Host.Service.exe -Certificate (Get-ChildItem Cert:\CurrentUser\My | Where-Object { $_.Thumbprint -eq "${{ vars.CODE_SIGNING_THUMBPRINT }}" }) -TimestampServer "http://timestamp.digicert.com"
 
   linux-integration-tests:
     name: Linux Live Tests
@@ -626,31 +650,36 @@ jobs:
       if: ${{ matrix.configuration == 'Release' && matrix.watchdog-type == 'System' && matrix.database-type == 'MariaDB' }}
       run: |
         cd src/Tgstation.Server.Host.Console
-        dotnet publish -c ${{ matrix.configuration }} -o ../../Artifacts/Console
+        dotnet publish -c ${{ matrix.configuration }} -o ../../artifacts/Console
         cd ../Tgstation.Server.Host
-        dotnet publish -c ${{ matrix.configuration }}NoWindows --no-build -o ../../Artifacts/Console/lib/Default
-        mv ../../Artifacts/Console/lib/Default/appsettings.yml ../../Artifacts/Console/appsettings.yml
+        dotnet publish -c ${{ matrix.configuration }}NoWindows --no-build -o ../../artifacts/Console/lib/Default
+        cd ../..
+        mv artifacts/Console/lib/Default/appsettings.yml artifacts/Console/appsettings.yml
+        build/RemoveUnsupportedRuntimes.sh artifacts/Console/lib/Default
+        build/RemoveUnsupportedRuntimes.sh artifacts/Console
 
     - name: Package Server Update Package
       if: ${{ matrix.configuration == 'Release' && matrix.watchdog-type == 'System' && matrix.database-type == 'PostgresSql' }}
       run: |
         cd src/Tgstation.Server.Host
-        dotnet publish -c ${{ matrix.configuration }}NoWindows --no-build -o ../../Artifacts/ServerUpdate
-        rm ../../Artifacts/ServerUpdate/appsettings.yml
+        dotnet publish -c ${{ matrix.configuration }}NoWindows --no-build -o ../../artifacts/ServerUpdate
+        cd ../..
+        rm artifacts/ServerUpdate/appsettings.yml
+        build/RemoveUnsupportedRuntimes.sh artifacts/ServerUpdate
 
     - name: Store Server Console
       if: ${{ matrix.configuration == 'Release' && matrix.watchdog-type == 'System' && matrix.database-type == 'MariaDB' }}
       uses: actions/upload-artifact@v3
       with:
         name: ServerConsole
-        path: Artifacts/Console/
+        path: artifacts/Console/
 
     - name: Store Server Update Package
       if: ${{ matrix.configuration == 'Release' && matrix.watchdog-type == 'System' && matrix.database-type == 'PostgresSql' }}
       uses: actions/upload-artifact@v3
       with:
         name: ServerUpdatePackage
-        path: Artifacts/ServerUpdate/
+        path: artifacts/ServerUpdate/
 
   validate-openapi-spec:
     name: OpenAPI Spec Validation
@@ -986,9 +1015,12 @@ jobs:
       run: |
         echo "TGS_VERSION=$(xmlstarlet sel -N X="http://schemas.microsoft.com/developer/msbuild/2003" --template --value-of /X:Project/X:PropertyGroup/X:TgsCoreVersion build/Version.props)" >> $GITHUB_ENV
 
+    - name: Grab Most Recent Changelog
+      run: curl -L https://raw.githubusercontent.com/tgstation/tgstation-server/gh-pages/changelog.yml -o changelog.yml
+
     - name: Execute Build Script (Unsigned)
       if: (!(github.event_name == 'push' && contains(github.event.head_commit.message, '[TGSDeploy]') && (github.event.ref == 'refs/heads/master' || github.event.ref == 'refs/heads/dev')))
-      run: sudo build/package/deb/build_package.sh
+      run: sudo -E build/package/deb/build_package.sh
 
     - name: Execute Build Script (Signed)
       if: (github.event_name == 'push' && contains(github.event.head_commit.message, '[TGSDeploy]') && (github.event.ref == 'refs/heads/master' || github.event.ref == 'refs/heads/dev'))
@@ -1196,16 +1228,18 @@ jobs:
       run: dotnet restore
 
     - name: Build ReleaseNotes
-      run: dotnet build -c Release tools/Tgstation.Server.ReleaseNotes/Tgstation.Server.ReleaseNotes.csproj
+      run: |
+        export TGS_HOST_NO_WEBPANEL=true
+        dotnet build -c Release tools/Tgstation.Server.ReleaseNotes/Tgstation.Server.ReleaseNotes.csproj
 
     - name: Run ReleaseNotes Check
       run: dotnet run -c Release --no-build --project tools/Tgstation.Server.ReleaseNotes --winget-template-check ${{ steps.get-sha.outputs.pr_template_sha }}
 
   ci-completion-gate: # This job exists so there isn't a moving target for branch protections
     name: CI Completion Gate
-    needs: [ dox-build, docker-build, build-deb, build-msi, validate-openapi-spec, upload-code-coverage, check-winget-pr-template ]
+    needs: [ pages-build, docker-build, build-deb, build-msi, validate-openapi-spec, upload-code-coverage, check-winget-pr-template ]
     runs-on: ubuntu-latest
-    if: (!(cancelled() || failure()) && needs.dox-build.result == 'success' && needs.docker-build.result == 'success' && needs.build-deb.result == 'success' && needs.build-msi.result == 'success' && needs.validate-openapi-spec.result == 'success' && needs.upload-code-coverage.result == 'success' && needs.check-winget-pr-template.result == 'success')
+    if: (!(cancelled() || failure()) && needs.pages-build.result == 'success' && needs.docker-build.result == 'success' && needs.build-deb.result == 'success' && needs.build-msi.result == 'success' && needs.validate-openapi-spec.result == 'success' && needs.upload-code-coverage.result == 'success' && needs.check-winget-pr-template.result == 'success')
     steps:
     - name: GitHub Requires at Least One Step for a Job
       run: exit 0
@@ -1225,8 +1259,21 @@ jobs:
     runs-on: windows-latest
     if: (!(cancelled() || failure()) && needs.deployment-gate.result == 'success' && contains(github.event.head_commit.message, '[APIDeploy]'))
     steps:
+    - name: Setup dotnet
+      uses: actions/setup-dotnet@v2
+      with:
+        dotnet-version: ${{ env.TGS_DOTNET_VERSION }}
+
     - name: Checkout
       uses: actions/checkout@v3
+
+    - name: Restore
+      run: dotnet restore
+
+    - name: Build ReleaseNotes
+      run: |
+        $Env:TGS_HOST_NO_WEBPANEL=true
+        dotnet build -c Release tools/Tgstation.Server.ReleaseNotes/Tgstation.Server.ReleaseNotes.csproj
 
     - name: Parse API version
       shell: powershell
@@ -1241,15 +1288,24 @@ jobs:
         name: openapi-spec
         path: swagger
 
+    - name: Grab Most Recent Changelog
+      shell: powershell
+      run: |
+        $ProgressPreference = 'SilentlyContinue'
+        Invoke-WebRequest -Uri https://raw.githubusercontent.com/tgstation/tgstation-server/gh-pages/changelog.yml -OutFile changelog.yml
+
+    - name: Generate Release Notes
+      run: dotnet run -c Release --no-build --project tools/Tgstation.Server.ReleaseNotes ${{ env.TGS_API_VERSION }} --httpapi
+
     - name: Create GitHub Release
-      uses: juitnow/github-action-create-release@80dc88a9d09c0ee394a4a31b0450e8cbe62996ef # v1
+      uses: actions/create-release@v1
       id: create_release
       env:
         GITHUB_TOKEN: ${{ secrets.DEV_PUSH_TOKEN }}
       with:
         tag_name: api-v${{ env.TGS_API_VERSION }}
         release_name: tgstation-server API v${{ env.TGS_API_VERSION }}
-        body: The TGS HTTP API
+        body_path: release_notes.md
         commitish: ${{ github.event.head_commit.id }}
 
     - name: Upload OpenApi Spec
@@ -1268,8 +1324,21 @@ jobs:
     runs-on: windows-latest
     if: (!(cancelled() || failure()) && needs.deployment-gate.result == 'success' && contains(github.event.head_commit.message, '[DMDeploy]'))
     steps:
+    - name: Setup dotnet
+      uses: actions/setup-dotnet@v2
+      with:
+        dotnet-version: ${{ env.TGS_DOTNET_VERSION }}
+
     - name: Checkout
       uses: actions/checkout@v3
+
+    - name: Restore
+      run: dotnet restore
+
+    - name: Build ReleaseNotes
+      run: |
+        $Env:TGS_HOST_NO_WEBPANEL=true
+        dotnet build -c Release tools/Tgstation.Server.ReleaseNotes/Tgstation.Server.ReleaseNotes.csproj
 
     - name: Parse DMAPI version
       shell: powershell
@@ -1283,15 +1352,24 @@ jobs:
       run: |
         &"C:/Program Files/7-Zip/7z.exe" a DMAPI.zip ./src/DMAPI/* -tzip
 
+    - name: Grab Most Recent Changelog
+      shell: powershell
+      run: |
+        $ProgressPreference = 'SilentlyContinue'
+        Invoke-WebRequest -Uri https://raw.githubusercontent.com/tgstation/tgstation-server/gh-pages/changelog.yml -OutFile changelog.yml
+
+    - name: Generate Release Notes
+      run: dotnet run -c Release --no-build --project tools/Tgstation.Server.ReleaseNotes ${{ env.TGS_DM_VERSION }} --dmapi
+
     - name: Create GitHub Release
-      uses: juitnow/github-action-create-release@v1
+      uses: actions/create-release@v1
       id: create_release
       env:
         GITHUB_TOKEN: ${{ secrets.DEV_PUSH_TOKEN }}
       with:
         tag_name: dmapi-v${{ env.TGS_DM_VERSION }}
         release_name: tgstation-server DMAPI v${{ env.TGS_DM_VERSION }}
-        body: The TGS DMAPI \#tgs-dmapi-release
+        body_path: release_notes.md
         commitish: ${{ github.event.head_commit.id }}
 
     - name: Upload DMAPI Artifact
@@ -1317,6 +1395,20 @@ jobs:
 
     - name: Checkout
       uses: actions/checkout@v3
+
+    - name: Restore
+      run: dotnet restore
+
+    - name: Build ReleaseNotes
+      run: |
+        export TGS_HOST_NO_WEBPANEL=true
+        dotnet build -c Release tools/Tgstation.Server.ReleaseNotes/Tgstation.Server.ReleaseNotes.csproj
+
+    - name: Grab Most Recent Changelog
+      run: curl -L https://raw.githubusercontent.com/tgstation/tgstation-server/gh-pages/changelog.yml -o changelog.yml
+
+    - name: Generate Release Notes
+      run: dotnet run -c Release --no-build --project tools/Tgstation.Server.ReleaseNotes ${{ env.TGS_DM_VERSION }} --nuget
 
     - name: Publish Tgstation.Server.Common to NuGet
       uses: alirezanet/publish-nuget@e276c40afeb2a154046f0997820f2a9ea74832d9 # v3.1.0
@@ -1360,7 +1452,9 @@ jobs:
       run: dotnet restore
 
     - name: Build ReleaseNotes
-      run: dotnet build -c Release tools/Tgstation.Server.ReleaseNotes/Tgstation.Server.ReleaseNotes.csproj
+      run: |
+        export TGS_HOST_NO_WEBPANEL=true
+        dotnet build -c Release tools/Tgstation.Server.ReleaseNotes/Tgstation.Server.ReleaseNotes.csproj
 
     - name: Run ReleaseNotes with --ensure-release
       run: dotnet run -c Release --no-build --project tools/Tgstation.Server.ReleaseNotes --ensure-release
@@ -1387,18 +1481,16 @@ jobs:
         cd build/package/winget
         dotnet tool restore
 
-    - name: Build ReleaseNotes
-      run: dotnet build -c Release tools/Tgstation.Server.ReleaseNotes/Tgstation.Server.ReleaseNotes.csproj
-
 # We need to rebuild the installer.exe so it can be properly signed
-    - name: Restore
-      run: dotnet restore
 
     - name: Build Host
       run: dotnet build -c Release src/Tgstation.Server.Host/Tgstation.Server.Host.csproj
 
     - name: Build Service
       run: dotnet build -c Release src/Tgstation.Server.Host.Service/Tgstation.Server.Host.Service.csproj
+
+    - name: Build ReleaseNotes
+      run: dotnet build -c Release tools/Tgstation.Server.ReleaseNotes/Tgstation.Server.ReleaseNotes.csproj
 
     - name: Prepare Artifacts
       shell: powershell
@@ -1620,13 +1712,15 @@ jobs:
         GITHUB_TOKEN: ${{ env.WINGET_PUSH_TOKEN }}
 
     - name: Install wingetcreate
-      run: winget install wingetcreate --version 1.2.8.0 --disable-interactivity --accept-source-agreements # Pinned due to https://github.com/microsoft/winget-create/issues/429
+      run: winget install wingetcreate --disable-interactivity --accept-source-agreements
 
     - name: Checkout
       uses: actions/checkout@v3
 
     - name: Build ReleaseNotes
-      run: dotnet build -c Release tools/Tgstation.Server.ReleaseNotes
+      run: |
+        $Env:TGS_HOST_NO_WEBPANEL=true
+        dotnet build -c Release tools/Tgstation.Server.ReleaseNotes
 
     - name: Execute Push Script
       shell: powershell

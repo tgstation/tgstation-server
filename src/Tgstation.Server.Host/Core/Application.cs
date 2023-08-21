@@ -394,7 +394,7 @@ namespace Tgstation.Server.Host.Core
 			services.AddSingleton<ISynchronousIOManager, SynchronousIOManager>();
 			services.AddSingleton<IServerPortProvider, ServerPortProivder>();
 			services.AddSingleton<ITopicClientFactory, TopicClientFactory>();
-			services.AddHostedService<CommandPipeReader>();
+			services.AddHostedService<CommandPipeManager>();
 
 			services.AddFileDownloader();
 			services.AddGitHub();
@@ -508,7 +508,11 @@ namespace Tgstation.Server.Host.Core
 				});
 			}
 			else
+#if NO_WEBPANEL
+				logger.LogTrace("Web control panel was not included in TGS build!");
+#else
 				logger.LogTrace("Web control panel disabled!");
+#endif
 
 			// Do not cache a single thing beyond this point, it's all API
 			applicationBuilder.UseDisabledClientCache();

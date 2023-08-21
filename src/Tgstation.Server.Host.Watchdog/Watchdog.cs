@@ -19,6 +19,9 @@ namespace Tgstation.Server.Host.Watchdog
 	/// <remarks>This <see langword="class"/> is a HACK but it works. Try not to break it if you wish to change it. Remember, this code doesn't get updated with the rest of the server.</remarks>
 	sealed class Watchdog : IWatchdog
 	{
+		/// <inheritdoc />
+		public Version InitialHostVersion { get; private set; }
+
 		/// <summary>
 		/// The <see cref="ISignalChecker"/> for the <see cref="Watchdog"/>.
 		/// </summary>
@@ -108,6 +111,8 @@ namespace Tgstation.Server.Host.Watchdog
 					logger.LogCritical("Unable to locate host assembly!");
 					return false;
 				}
+
+				InitialHostVersion = Version.Parse(FileVersionInfo.GetVersionInfo(assemblyPath).FileVersion);
 
 				var watchdogVersion = executingAssembly.GetName().Version.Semver().ToString();
 

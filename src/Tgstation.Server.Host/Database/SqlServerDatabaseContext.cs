@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Data.SqlClient;
 
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 
 using Tgstation.Server.Host.Configuration;

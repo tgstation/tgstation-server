@@ -7,8 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="octokit" Version="7.0.0" />
-    <PackageReference Include="Octokit.GraphQL" Version="0.2.0-beta" />
+    <!-- Usage: GitHub Discussions interop -->
+    <PackageReference Include="Octokit.GraphQL" Version="0.2.1-beta" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Tgstation.Server.Host\Tgstation.Server.Host.csproj" />
   </ItemGroup>
 
 </Project>

@@ -27,6 +27,26 @@ namespace Tgstation.Server.Host.Security
 		readonly SecurityConfiguration securityConfiguration;
 
 		/// <summary>
+		/// The <see cref="JwtRegisteredClaimNames.Iss"/> claim.
+		/// </summary>
+		readonly Claim issuerClaim;
+
+		/// <summary>
+		/// The <see cref="JwtRegisteredClaimNames.Aud"/> claim.
+		/// </summary>
+		readonly Claim audienceClaim;
+
+		/// <summary>
+		/// The <see cref="JwtHeader"/> for generating tokens.
+		/// </summary>
+		readonly JwtHeader tokenHeader;
+
+		/// <summary>
+		/// The <see cref="JwtSecurityTokenHandler"/> used to generate <see cref="TokenResponse.Bearer"/> <see cref="string"/>s.
+		/// </summary>
+		readonly JwtSecurityTokenHandler tokenHandler;
+
+		/// <summary>
 		/// The <see cref="IAsyncDelayer"/> for the <see cref="TokenFactory"/>.
 		/// </summary>
 		readonly IAsyncDelayer asyncDelayer;
@@ -73,6 +93,14 @@ namespace Tgstation.Server.Host.Security
 
 				RequireExpirationTime = true,
 			};
+
+			issuerClaim = new Claim(JwtRegisteredClaimNames.Iss, ValidationParameters.ValidIssuer);
+			audienceClaim = new Claim(JwtRegisteredClaimNames.Aud, ValidationParameters.ValidAudience);
+			tokenHeader = new JwtHeader(
+				new SigningCredentials(
+					ValidationParameters.IssuerSigningKey,
+					SecurityAlgorithms.HmacSha256));
+			tokenHandler = new JwtSecurityTokenHandler();
 		}
 
 		/// <inheritdoc />
@@ -88,8 +116,8 @@ namespace Tgstation.Server.Host.Security
 			// since unix time rounds down, it looks like it came from before the user changed their password
 			// this happens occasionally in unit tests
 			// just delay a second so we can force a round up
-			var lpuUnix = user.LastPasswordUpdate?.ToUnixTimeSeconds();
-			if (nowUnix == lpuUnix)
+			var userLastPassworUpdateUnix = user.LastPasswordUpdate?.ToUnixTimeSeconds();
+			if (nowUnix == userLastPassworUpdateUnix)
 				await asyncDelayer.Delay(TimeSpan.FromSeconds(1), cancellationToken);
 
 			var expiry = now.AddMinutes(oAuth
@@ -100,16 +128,21 @@ namespace Tgstation.Server.Host.Security
 				new Claim(JwtRegisteredClaimNames.Sub, user.Id.Value.ToString(CultureInfo.InvariantCulture)),
 				new Claim(JwtRegisteredClaimNames.Exp, expiry.ToUnixTimeSeconds().ToString(CultureInfo.InvariantCulture)),
 				new Claim(JwtRegisteredClaimNames.Nbf, nowUnix.ToString(CultureInfo.InvariantCulture)),
-				new Claim(JwtRegisteredClaimNames.Iss, ValidationParameters.ValidIssuer),
-				new Claim(JwtRegisteredClaimNames.Aud, ValidationParameters.ValidAudience),
+				issuerClaim,
+				audienceClaim,
 			};
 
-			var token = new JwtSecurityToken(new JwtHeader(new SigningCredentials(ValidationParameters.IssuerSigningKey, SecurityAlgorithms.HmacSha256)), new JwtPayload(claims));
-			return new TokenResponse
+			var securityToken = new JwtSecurityToken(
+				tokenHeader,
+				new JwtPayload(claims));
+
+			var tokenResponse = new TokenResponse
 			{
-				Bearer = new JwtSecurityTokenHandler().WriteToken(token),
+				Bearer = tokenHandler.WriteToken(securityToken),
 				ExpiresAt = expiry,
 			};
+
+			return tokenResponse;
 		}
 	}
 }
