@@ -83,11 +83,6 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		readonly object connectDisconnectLock;
 
 		/// <summary>
-		/// <see cref="bool"/> to enable based mode. Will auto reply with a youtube link to a video that says "based on the hardware that's installed in it" to anyone saying 'based on what?' case-insensitive.
-		/// </summary>
-		readonly bool basedMeme;
-
-		/// <summary>
 		/// If the tgstation-server logo is shown in deployment embeds.
 		/// </summary>
 		readonly bool deploymentBranding;
@@ -199,9 +194,6 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 
 			var csb = new DiscordConnectionStringBuilder(chatBot.ConnectionString);
 			var botToken = csb.BotToken;
-#pragma warning disable CS0618 // Type or member is obsolete
-			basedMeme = csb.BasedMeme;
-#pragma warning restore CS0618 // Type or member is obsolete
 			outputDisplayType = csb.DMOutputDisplay;
 			deploymentBranding = csb.DeploymentBranding;
 
@@ -515,22 +507,6 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				MessageID = messageCreateEvent.ID,
 				FailIfNotExists = false,
 			};
-
-			if (basedMeme && messageCreateEvent.Content.Equals("Based on what?", StringComparison.OrdinalIgnoreCase))
-			{
-				await SendMessage(
-					new DiscordMessage
-					{
-						MessageReference = messageReference,
-					},
-					new MessageContent
-					{
-						Text = "https://youtu.be/LrNu-SuFF_o",
-					},
-					messageCreateEvent.ChannelID.Value,
-					cancellationToken);
-				return Result.FromSuccess();
-			}
 
 			var channelsClient = serviceProvider.GetRequiredService<IDiscordRestChannelAPI>();
 			var channelResponse = await channelsClient.GetChannelAsync(messageCreateEvent.ChannelID, cancellationToken);
