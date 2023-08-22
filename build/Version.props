@@ -18,8 +18,8 @@
     <TgsNetMajorVersion>8</TgsNetMajorVersion>
     <!-- Update this frequently with dotnet runtime patches. MAJOR MUST MATCH ABOVE! -->
     <TgsDotnetRedistUrl>https://download.visualstudio.microsoft.com/download/pr/e465df26-2f50-432f-a588-51c7682fd9b1/9efca17f575afd387aa9b02fb3dfb7e1/dotnet-hosting-8.0.0-preview.7.23375.9-win.exe</TgsDotnetRedistUrl>
-    <TgsMariaDBRedistVersion>11.0.2</TgsMariaDBRedistVersion>
+    <TgsMariaDBRedistVersion>10.11.5</TgsMariaDBRedistVersion>
     <!-- The two versions must match above, this is referenced by XML readers in scripts so we can't use an MSBuild property reference -->
-    <TgsMariaDBRedistUrl>https://ftp.osuosl.org/pub/mariadb/mariadb-11.0.2/winx64-packages/mariadb-11.0.2-winx64.msi</TgsMariaDBRedistUrl>
+    <TgsMariaDBRedistUrl>https://ftp.osuosl.org/pub/mariadb//mariadb-10.11.5/winx64-packages/mariadb-10.11.5-winx64.msi</TgsMariaDBRedistUrl>
   </PropertyGroup>
 </Project>

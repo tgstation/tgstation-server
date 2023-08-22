@@ -76,7 +76,7 @@ jobs:
     name: CI Start Gate
     needs: security-checkpoint
     runs-on: ubuntu-latest
-    if: "!(cancelled() || failure()) && (needs.security-checkpoint.result == 'success' || (needs.security-checkpoint.result == 'skipped' && (github.event_name == 'push' || github.event_name == 'schedule' || (github.event.pull_request.head.repo.id == github.event.pull_request.base.repo.id && github.event_name != 'pull_request_target'))))"
+    if: (!(cancelled() || failure()) && (needs.security-checkpoint.result == 'success' || (needs.security-checkpoint.result == 'skipped' && (github.event_name == 'push' || github.event_name == 'schedule' || (github.event.pull_request.head.repo.id == github.event.pull_request.base.repo.id && github.event_name != 'pull_request_target')))))
     steps:
     - name: GitHub Requires at Least One Step for a Job
       run: exit 0
@@ -84,7 +84,7 @@ jobs:
   dmapi-build:
     name: Build DMAPI
     needs: start-ci-run-gate
-    if: "!(cancelled() || failure()) && needs.start-ci-run-gate.result == 'success'"
+    if: (!(cancelled() || failure()) && needs.start-ci-run-gate.result == 'success')
     strategy:
       fail-fast: false
       matrix:
@@ -164,12 +164,17 @@ jobs:
         fi
         exit $retval
 
-  dox-build:
-    name: Build Doxygen Site
+  pages-build:
+    name: Build gh-pages
     runs-on: ubuntu-latest
     needs: start-ci-run-gate
-    if: "!(cancelled() || failure()) && needs.start-ci-run-gate.result == 'success'"
+    if: (!(cancelled() || failure()) && needs.start-ci-run-gate.result == 'success')
     steps:
+    - name: Setup dotnet
+      uses: actions/setup-dotnet@v2
+      with:
+        dotnet-version: ${{ env.TGS_DOTNET_VERSION }}
+
     - name: Checkout (Branch)
       uses: actions/checkout@v3
       if: github.event_name == 'push' || github.event_name == 'schedule'
@@ -180,20 +185,36 @@ jobs:
       with:
         ref: "refs/pull/${{ github.event.number }}/merge"
 
+    - name: gh-pages Clone
+      run: git clone -b gh-pages --single-branch "https://git@github.com/tgstation/tgstation-server" $HOME/tgsdox
+
+    - name: Restore
+      run: dotnet restore
+
+    - name: Build ReleaseNotes
+      run: |
+        export TGS_HOST_NO_WEBPANEL=true
+        dotnet build -c Release tools/Tgstation.Server.ReleaseNotes/Tgstation.Server.ReleaseNotes.csproj
+
+    - name: Build Changelog (Incremental)
+      run: |
+        mv $HOME/tgsdox/changelog.yml ./ 2>/dev/null
+        dotnet run -c Release --no-build --project tools/Tgstation.Server.ReleaseNotes --generate-full-notes
+
     - name: Patch Doxyfile
       run: |
         VERSION=$(cat "build/Version.props" | grep -oPm1 "(?<=<TgsCoreVersion>)[^<]+")
         echo -e "\nPROJECT_NUMBER = $VERSION\nINPUT = .\nOUTPUT_DIRECTORY = ./doxout\nPROJECT_LOGO = ./build/tgs.ico\nHAVE_DOT=YES" >> "docs/Doxyfile"
 
     - name: Doxygen Build
-      uses: mattnotmitt/doxygen-action@v1
+      uses: mattnotmitt/doxygen-action@411df0c62acb5b96b8a93d93a7bf4b753c47ea05 # v1.9.5
       with:
         doxyfile-path: 'docs/Doxyfile'
 
-    - name: gh-pages push
+    - name: gh-pages Push
       if: github.event_name == 'push' && github.event.ref == 'refs/heads/dev' && env.TGS_RELEASE_NOTES_TOKEN != ''
       run: |
-        git clone -b gh-pages --single-branch "https://git@github.com/tgstation/tgstation-server" $HOME/tgsdox
+        sudo mv changelog.yml $HOME/tgsdox/
         pushd $HOME/tgsdox
         rm -r *
         popd
@@ -218,7 +239,7 @@ jobs:
     name: Build Docker Image
     runs-on: ubuntu-latest
     needs: start-ci-run-gate
-    if: "!(cancelled() || failure()) && needs.start-ci-run-gate.result == 'success'"
+    if: (!(cancelled() || failure()) && needs.start-ci-run-gate.result == 'success')
     steps:
     - name: Checkout (Branch)
       uses: actions/checkout@v3
@@ -236,7 +257,7 @@ jobs:
   linux-unit-tests:
     name: Linux Tests
     needs: start-ci-run-gate
-    if: "!(cancelled() || failure()) && needs.start-ci-run-gate.result == 'success'"
+    if: (!(cancelled() || failure()) && needs.start-ci-run-gate.result == 'success')
     strategy:
       fail-fast: false
       matrix:
@@ -292,7 +313,7 @@ jobs:
   windows-unit-tests:
     name: Windows Tests
     needs: start-ci-run-gate
-    if: "!(cancelled() || failure()) && needs.start-ci-run-gate.result == 'success'"
+    if: (!(cancelled() || failure()) && needs.start-ci-run-gate.result == 'success')
     strategy:
       fail-fast: false
       matrix:
@@ -342,7 +363,7 @@ jobs:
   windows-integration-test:
     name: Windows Live Tests
     needs: dmapi-build
-    if: "!(cancelled() || failure()) && needs.dmapi-build.result == 'success'"
+    if: (!(cancelled() || failure()) && needs.dmapi-build.result == 'success')
     strategy:
       fail-fast: false
       matrix:
@@ -498,7 +519,7 @@ jobs:
   linux-integration-tests:
     name: Linux Live Tests
     needs: dmapi-build
-    if: "!(cancelled() || failure()) && needs.dmapi-build.result == 'success'"
+    if: (!(cancelled() || failure()) && needs.dmapi-build.result == 'success')
     services: # We start all dbs here so we can just code the stuff once
       mssql:
         image: mcr.microsoft.com/mssql/server:2019-latest
@@ -664,7 +685,7 @@ jobs:
   validate-openapi-spec:
     name: OpenAPI Spec Validation
     needs: windows-integration-test
-    if: "!(cancelled() || failure()) && needs.windows-integration-test.result == 'success'"
+    if: (!(cancelled() || failure()) && needs.windows-integration-test.result == 'success')
     runs-on: ubuntu-latest
     steps:
     - name: Install IBM OpenAPI Validator
@@ -692,7 +713,7 @@ jobs:
   upload-code-coverage:
     name: Upload Code Coverage
     needs: [linux-unit-tests, linux-integration-tests, windows-unit-tests, windows-integration-test]
-    if: "!(cancelled() || failure()) && needs.linux-unit-tests.result == 'success' && needs.linux-integration-tests.result == 'success' && needs.windows-unit-tests.result == 'success' && needs.windows-integration-test.result == 'success'"
+    if: (!(cancelled() || failure()) && needs.linux-unit-tests.result == 'success' && needs.linux-integration-tests.result == 'success' && needs.windows-unit-tests.result == 'success' && needs.windows-integration-test.result == 'success')
     runs-on: ubuntu-latest
     steps:
     - name: Checkout (Branch)
@@ -949,7 +970,7 @@ jobs:
     name: Build .deb Package # Can't do i386 due to https://github.com/dotnet/core/issues/4595
     needs: start-ci-run-gate
     runs-on: ubuntu-latest
-    if: "!(cancelled() || failure()) && needs.start-ci-run-gate.result == 'success'"
+    if: (!(cancelled() || failure()) && needs.start-ci-run-gate.result == 'success')
     steps:
     - name: Install Native Dependencies
       run: |
@@ -958,7 +979,7 @@ jobs:
         sudo apt-get install -y -o APT::Immediate-Configure=0 libstdc++6:i386 libgcc-s1:i386 gnupg2 xmlstarlet
 
     - name: Import GPG Key
-      if: "github.event_name == 'push' && contains(github.event.head_commit.message, '[TGSDeploy]') && (github.event.ref == 'refs/heads/master' || github.event.ref == 'refs/heads/dev')"
+      if: (github.event_name == 'push' && contains(github.event.head_commit.message, '[TGSDeploy]') && (github.event.ref == 'refs/heads/master' || github.event.ref == 'refs/heads/dev'))
       run: |
         echo "${{ secrets.PACKAGING_PRIVATE_KEY }}" > private.pgp
         echo ${{ secrets.PACKAGING_PRIVATE_KEY_PASSPHRASE }} | gpg --batch --yes --passphrase-fd 0 --import private.pgp
@@ -997,12 +1018,15 @@ jobs:
       run: |
         echo "TGS_VERSION=$(xmlstarlet sel -N X="http://schemas.microsoft.com/developer/msbuild/2003" --template --value-of /X:Project/X:PropertyGroup/X:TgsCoreVersion build/Version.props)" >> $GITHUB_ENV
 
+    - name: Grab Most Recent Changelog
+      run: curl -L https://raw.githubusercontent.com/tgstation/tgstation-server/gh-pages/changelog.yml -o changelog.yml
+
     - name: Execute Build Script (Unsigned)
-      if: "!(github.event_name == 'push' && contains(github.event.head_commit.message, '[TGSDeploy]') && (github.event.ref == 'refs/heads/master' || github.event.ref == 'refs/heads/dev'))"
-      run: sudo build/package/deb/build_package.sh
+      if: (!(github.event_name == 'push' && contains(github.event.head_commit.message, '[TGSDeploy]') && (github.event.ref == 'refs/heads/master' || github.event.ref == 'refs/heads/dev')))
+      run: sudo -E build/package/deb/build_package.sh
 
     - name: Execute Build Script (Signed)
-      if: "github.event_name == 'push' && contains(github.event.head_commit.message, '[TGSDeploy]') && (github.event.ref == 'refs/heads/master' || github.event.ref == 'refs/heads/dev')"
+      if: (github.event_name == 'push' && contains(github.event.head_commit.message, '[TGSDeploy]') && (github.event.ref == 'refs/heads/master' || github.event.ref == 'refs/heads/dev'))
       env:
         PACKAGING_KEYGRIP: ${{ vars.PACKAGING_KEYGRIP }}
       run: |
@@ -1050,7 +1074,7 @@ jobs:
     name: Build Windows Installer .exe
     needs: start-ci-run-gate
     runs-on: windows-latest
-    if: "!(cancelled() || failure()) && needs.start-ci-run-gate.result == 'success'"
+    if: (!(cancelled() || failure()) && needs.start-ci-run-gate.result == 'success')
     steps:
     - name: Install winget
       uses: Cyberboss/install-winget@v1
@@ -1179,7 +1203,7 @@ jobs:
   check-winget-pr-template:
     name: Check winget-pkgs Pull Request Template is up to date
     needs: start-ci-run-gate
-    if: "!(cancelled() || failure()) && needs.start-ci-run-gate.result == 'success'"
+    if: (!(cancelled() || failure()) && needs.start-ci-run-gate.result == 'success')
     runs-on: ubuntu-latest
     steps:
     - name: Setup dotnet
@@ -1207,16 +1231,18 @@ jobs:
       run: dotnet restore
 
     - name: Build ReleaseNotes
-      run: dotnet build -c Release tools/Tgstation.Server.ReleaseNotes/Tgstation.Server.ReleaseNotes.csproj
+      run: |
+        export TGS_HOST_NO_WEBPANEL=true
+        dotnet build -c Release tools/Tgstation.Server.ReleaseNotes/Tgstation.Server.ReleaseNotes.csproj
 
     - name: Run ReleaseNotes Check
       run: dotnet run -c Release --no-build --project tools/Tgstation.Server.ReleaseNotes --winget-template-check ${{ steps.get-sha.outputs.pr_template_sha }}
 
   ci-completion-gate: # This job exists so there isn't a moving target for branch protections
     name: CI Completion Gate
-    needs: [ dox-build, docker-build, build-deb, build-msi, validate-openapi-spec, upload-code-coverage, check-winget-pr-template ]
+    needs: [ pages-build, docker-build, build-deb, build-msi, validate-openapi-spec, upload-code-coverage, check-winget-pr-template ]
     runs-on: ubuntu-latest
-    if: "!(cancelled() || failure()) && needs.dox-build.result == 'success' && needs.docker-build.result == 'success' && needs.build-deb.result == 'success' && needs.build-msi.result == 'success' && needs.validate-openapi-spec.result == 'success' && needs.upload-code-coverage.result == 'success' && needs.check-winget-pr-template.result == 'success'"
+    if: (!(cancelled() || failure()) && needs.pages-build.result == 'success' && needs.docker-build.result == 'success' && needs.build-deb.result == 'success' && needs.build-msi.result == 'success' && needs.validate-openapi-spec.result == 'success' && needs.upload-code-coverage.result == 'success' && needs.check-winget-pr-template.result == 'success')
     steps:
     - name: GitHub Requires at Least One Step for a Job
       run: exit 0
@@ -1225,7 +1251,7 @@ jobs:
     name: Deployment Start Gate
     needs: ci-completion-gate
     runs-on: ubuntu-latest
-    if: "!(cancelled() || failure()) && needs.ci-completion-gate.result == 'success' && github.event_name == 'push' && (github.event.ref == 'refs/heads/master' || github.event.ref == 'refs/heads/dev')"
+    if: (!(cancelled() || failure()) && needs.ci-completion-gate.result == 'success' && github.event_name == 'push' && (github.event.ref == 'refs/heads/master' || github.event.ref == 'refs/heads/dev'))
     steps:
     - name: GitHub Requires at Least One Step for a Job
       run: exit 0
@@ -1234,10 +1260,23 @@ jobs:
     name: Deploy HTTP API
     needs: deployment-gate
     runs-on: windows-latest
-    if: "!(cancelled() || failure()) && needs.deployment-gate.result == 'success' && github.event_name == 'push' && contains(github.event.head_commit.message, '[APIDeploy]')"
+    if: (!(cancelled() || failure()) && needs.deployment-gate.result == 'success' && contains(github.event.head_commit.message, '[APIDeploy]'))
     steps:
+    - name: Setup dotnet
+      uses: actions/setup-dotnet@v2
+      with:
+        dotnet-version: ${{ env.TGS_DOTNET_VERSION }}
+
     - name: Checkout
       uses: actions/checkout@v3
+
+    - name: Restore
+      run: dotnet restore
+
+    - name: Build ReleaseNotes
+      run: |
+        $Env:TGS_HOST_NO_WEBPANEL=true
+        dotnet build -c Release tools/Tgstation.Server.ReleaseNotes/Tgstation.Server.ReleaseNotes.csproj
 
     - name: Parse API version
       shell: powershell
@@ -1252,15 +1291,24 @@ jobs:
         name: openapi-spec
         path: swagger
 
+    - name: Grab Most Recent Changelog
+      shell: powershell
+      run: |
+        $ProgressPreference = 'SilentlyContinue'
+        Invoke-WebRequest -Uri https://raw.githubusercontent.com/tgstation/tgstation-server/gh-pages/changelog.yml -OutFile changelog.yml
+
+    - name: Generate Release Notes
+      run: dotnet run -c Release --no-build --project tools/Tgstation.Server.ReleaseNotes ${{ env.TGS_API_VERSION }} --httpapi
+
     - name: Create GitHub Release
-      uses: juitnow/github-action-create-release@80dc88a9d09c0ee394a4a31b0450e8cbe62996ef # v1
+      uses: actions/create-release@v1
       id: create_release
       env:
         GITHUB_TOKEN: ${{ secrets.DEV_PUSH_TOKEN }}
       with:
         tag_name: api-v${{ env.TGS_API_VERSION }}
         release_name: tgstation-server API v${{ env.TGS_API_VERSION }}
-        body: The TGS HTTP API
+        body_path: release_notes.md
         commitish: ${{ github.event.head_commit.id }}
 
     - name: Upload OpenApi Spec
@@ -1277,10 +1325,23 @@ jobs:
     name: Deploy DreamMaker API
     needs: deployment-gate
     runs-on: windows-latest
-    if: "!(cancelled() || failure()) && needs.deployment-gate.result == 'success' && github.event_name == 'push' && contains(github.event.head_commit.message, '[DMDeploy]')"
+    if: (!(cancelled() || failure()) && needs.deployment-gate.result == 'success' && contains(github.event.head_commit.message, '[DMDeploy]'))
     steps:
+    - name: Setup dotnet
+      uses: actions/setup-dotnet@v2
+      with:
+        dotnet-version: ${{ env.TGS_DOTNET_VERSION }}
+
     - name: Checkout
       uses: actions/checkout@v3
+
+    - name: Restore
+      run: dotnet restore
+
+    - name: Build ReleaseNotes
+      run: |
+        $Env:TGS_HOST_NO_WEBPANEL=true
+        dotnet build -c Release tools/Tgstation.Server.ReleaseNotes/Tgstation.Server.ReleaseNotes.csproj
 
     - name: Parse DMAPI version
       shell: powershell
@@ -1294,15 +1355,24 @@ jobs:
       run: |
         &"C:/Program Files/7-Zip/7z.exe" a DMAPI.zip ./src/DMAPI/* -tzip
 
+    - name: Grab Most Recent Changelog
+      shell: powershell
+      run: |
+        $ProgressPreference = 'SilentlyContinue'
+        Invoke-WebRequest -Uri https://raw.githubusercontent.com/tgstation/tgstation-server/gh-pages/changelog.yml -OutFile changelog.yml
+
+    - name: Generate Release Notes
+      run: dotnet run -c Release --no-build --project tools/Tgstation.Server.ReleaseNotes ${{ env.TGS_DM_VERSION }} --dmapi
+
     - name: Create GitHub Release
-      uses: juitnow/github-action-create-release@v1
+      uses: actions/create-release@v1
       id: create_release
       env:
         GITHUB_TOKEN: ${{ secrets.DEV_PUSH_TOKEN }}
       with:
         tag_name: dmapi-v${{ env.TGS_DM_VERSION }}
         release_name: tgstation-server DMAPI v${{ env.TGS_DM_VERSION }}
-        body: The TGS DMAPI \#tgs-dmapi-release
+        body_path: release_notes.md
         commitish: ${{ github.event.head_commit.id }}
 
     - name: Upload DMAPI Artifact
@@ -1319,7 +1389,7 @@ jobs:
     name: Deploy Nuget Packages
     needs: deployment-gate
     runs-on: ubuntu-latest
-    if: "!(cancelled() || failure()) && needs.upload-code-coverage.result == 'success' && needs.validate-openapi-spec.result == 'success' && github.event_name == 'push' && contains(github.event.head_commit.message, '[NugetDeploy]')"
+    if: (!(cancelled() || failure()) && needs.deployment-gate.result == 'success' && contains(github.event.head_commit.message, '[NugetDeploy]'))
     steps:
     - name: Setup dotnet
       uses: actions/setup-dotnet@v3
@@ -1328,6 +1398,20 @@ jobs:
 
     - name: Checkout
       uses: actions/checkout@v3
+
+    - name: Restore
+      run: dotnet restore
+
+    - name: Build ReleaseNotes
+      run: |
+        export TGS_HOST_NO_WEBPANEL=true
+        dotnet build -c Release tools/Tgstation.Server.ReleaseNotes/Tgstation.Server.ReleaseNotes.csproj
+
+    - name: Grab Most Recent Changelog
+      run: curl -L https://raw.githubusercontent.com/tgstation/tgstation-server/gh-pages/changelog.yml -o changelog.yml
+
+    - name: Generate Release Notes
+      run: dotnet run -c Release --no-build --project tools/Tgstation.Server.ReleaseNotes ${{ env.TGS_DM_VERSION }} --nuget
 
     - name: Publish Tgstation.Server.Common to NuGet
       uses: alirezanet/publish-nuget@e276c40afeb2a154046f0997820f2a9ea74832d9 # v3.1.0
@@ -1357,7 +1441,7 @@ jobs:
     name: Ensure TGS Release is Latest GitHub Release
     needs: [deploy-dm, deploy-http]
     runs-on: ubuntu-latest
-    if: "!(cancelled() || failure()) && (needs.deploy-dm.result == 'success' || needs.deploy-http.result == 'success') && !contains(github.event.head_commit.message, '[TGSDeploy]')"
+    if: (!(cancelled() || failure()) && (needs.deploy-dm.result == 'success' || needs.deploy-http.result == 'success') && !contains(github.event.head_commit.message, '[TGSDeploy]'))
     steps:
     - name: Setup dotnet
       uses: actions/setup-dotnet@v3
@@ -1371,7 +1455,9 @@ jobs:
       run: dotnet restore
 
     - name: Build ReleaseNotes
-      run: dotnet build -c Release tools/Tgstation.Server.ReleaseNotes/Tgstation.Server.ReleaseNotes.csproj
+      run: |
+        export TGS_HOST_NO_WEBPANEL=true
+        dotnet build -c Release tools/Tgstation.Server.ReleaseNotes/Tgstation.Server.ReleaseNotes.csproj
 
     - name: Run ReleaseNotes with --ensure-release
       run: dotnet run -c Release --no-build --project tools/Tgstation.Server.ReleaseNotes --ensure-release
@@ -1380,7 +1466,7 @@ jobs:
     name: Deploy TGS
     needs: [deploy-dm, deploy-http, deployment-gate]
     runs-on: windows-latest
-    if: "!(cancelled() || failure()) && needs.deployment-gate.result == 'success' && github.event.ref == 'refs/heads/master' && contains(github.event.head_commit.message, '[TGSDeploy]')"
+    if: (!(cancelled() || failure()) && needs.deployment-gate.result == 'success' && github.event.ref == 'refs/heads/master' && contains(github.event.head_commit.message, '[TGSDeploy]'))
     steps:
     - name: Setup dotnet
       uses: actions/setup-dotnet@v3
@@ -1398,18 +1484,16 @@ jobs:
         cd build/package/winget
         dotnet tool restore
 
-    - name: Build ReleaseNotes
-      run: dotnet build -c Release tools/Tgstation.Server.ReleaseNotes/Tgstation.Server.ReleaseNotes.csproj
-
 # We need to rebuild the installer.exe so it can be properly signed
-    - name: Restore
-      run: dotnet restore
 
     - name: Build Host
       run: dotnet build -c Release src/Tgstation.Server.Host/Tgstation.Server.Host.csproj
 
     - name: Build Service
       run: dotnet build -c Release src/Tgstation.Server.Host.Service/Tgstation.Server.Host.Service.csproj
+
+    - name: Build ReleaseNotes
+      run: dotnet build -c Release tools/Tgstation.Server.ReleaseNotes/Tgstation.Server.ReleaseNotes.csproj
 
     - name: Prepare Artifacts
       shell: powershell
@@ -1574,7 +1658,7 @@ jobs:
   deploy-docker:
     name: Deploy TGS (Docker)
     needs: deploy-tgs
-    if: "!(cancelled() || failure()) && needs.deploy-tgs.result == 'success'"
+    if: (!(cancelled() || failure()) && needs.deploy-tgs.result == 'success')
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
@@ -1598,7 +1682,7 @@ jobs:
   deploy-ppa:
     name: Deploy TGS (PPA)
     needs: deploy-tgs
-    if: "!(cancelled() || failure()) && needs.deploy-tgs.result == 'success'"
+    if: (!(cancelled() || failure()) && needs.deploy-tgs.result == 'success')
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
@@ -1617,7 +1701,7 @@ jobs:
   deploy-winget:
     name: Deploy TGS (winget)
     needs: deploy-tgs
-    if: "!(cancelled() || failure()) && needs.deploy-tgs.result == 'success'"
+    if: (!(cancelled() || failure()) && needs.deploy-tgs.result == 'success')
     runs-on: windows-latest
     steps:
     - name: Setup dotnet
@@ -1631,13 +1715,15 @@ jobs:
         GITHUB_TOKEN: ${{ env.WINGET_PUSH_TOKEN }}
 
     - name: Install wingetcreate
-      run: winget install wingetcreate --version 1.2.8.0 --disable-interactivity --accept-source-agreements # Pinned due to https://github.com/microsoft/winget-create/issues/429
+      run: winget install wingetcreate --disable-interactivity --accept-source-agreements
 
     - name: Checkout
       uses: actions/checkout@v3
 
     - name: Build ReleaseNotes
-      run: dotnet build -c Release tools/Tgstation.Server.ReleaseNotes
+      run: |
+        $Env:TGS_HOST_NO_WEBPANEL=true
+        dotnet build -c Release tools/Tgstation.Server.ReleaseNotes
 
     - name: Execute Push Script
       shell: powershell

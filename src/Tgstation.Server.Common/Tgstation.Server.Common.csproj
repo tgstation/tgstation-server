@@ -6,7 +6,7 @@
     <Version>$(TgsCommonLibraryVersion)</Version>
     <Description>Common functions for tgstation-server.</Description>
     <PackageTags>web tgstation-server tgstation ss13 byond client http</PackageTags>
-    <PackageReleaseNotes>Added CachedResponseStream.</PackageReleaseNotes>
+    <PackageReleaseNotes>$(TGS_NUGET_RELEASE_NOTES_COMMON)</PackageReleaseNotes>
   </PropertyGroup>
 
 </Project>
