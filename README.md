@@ -323,7 +323,7 @@ For the docker version run `docker stop <your container name>`.
 
 tgstation-server provides the DMAPI which can be be integrated into any BYOND codebase for heavily enhanced functionality. The integration process is a fairly simple set of code changes.
 
-1. Copy the [latest release of the DMAPI](https://github.com/tgstation/tgstation-server/releases) anywhere in your code base. `tgs.dm` can be seperated from the `tgs` folder, but do not modify or move the contents of the `tgs` folder
+1. Copy the [latest release of the DMAPI](https://github.com/tgstation/tgstation-server/releases?q=dmapi&expanded=true) anywhere in your code base. `tgs.dm` can be seperated from the `tgs` folder, but do not modify or move the contents of the `tgs` folder
 2. Modify your `.dme`(s) to include the `tgs.dm` and `tgs/includes.dm` files (ORDER OF APPEARANCE IS MANDATORY)
 3. Follow the instructions in `tgs.dm` to integrate the API with your codebase.
 
