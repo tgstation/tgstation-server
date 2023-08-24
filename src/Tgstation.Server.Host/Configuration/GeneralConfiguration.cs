@@ -148,7 +148,7 @@ namespace Tgstation.Server.Host.Configuration
 			else if (ConfigVersion != CurrentConfigVersion)
 				if (ConfigVersion.Major != CurrentConfigVersion.Major)
 					logger.LogCritical(
-						"Your `ConfigVersion` is majorly out-of-date and may potentially cause issues running the server. Please follow migration instructions from the TGS release notes. The current version is \"{currentVersion}\"",
+						"Your `ConfigVersion` is majorly out-of-date and may potentially cause issues running the server. Please follow migration instructions from the TGS release notes. The current config version is v{currentConfigVersion}.",
 						CurrentConfigVersion);
 				else
 					logger.LogWarning("Your `ConfigVersion` is out-of-date. Please follow migration instructions from the TGS release notes.");

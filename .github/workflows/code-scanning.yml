@@ -47,7 +47,9 @@ jobs:
         languages: csharp
 
     - name: Build
-      run: dotnet build -c ReleaseNoWindows
+      run: |
+        export TGS_HOST_NO_WEBPANEL=true
+        dotnet build -c ReleaseNoWindows
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v2

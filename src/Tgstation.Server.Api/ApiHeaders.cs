@@ -68,6 +68,11 @@ namespace Tgstation.Server.Api
 		static readonly AssemblyName AssemblyName = Assembly.GetExecutingAssembly().GetName();
 
 		/// <summary>
+		/// A <see cref="char"/> <see cref="Array"/> containing the ':' <see cref="char"/>.
+		/// </summary>
+		static readonly char[] ColonSeparator = new char[] { ':' };
+
+		/// <summary>
 		/// The instance <see cref="EntityId.Id"/> being accessed.
 		/// </summary>
 		public long? InstanceId { get; set; }
@@ -255,7 +260,7 @@ namespace Tgstation.Server.Api
 									break;
 								}
 
-								var basicAuthSplits = joinedString.Split(new char[] { ':' }, StringSplitOptions.RemoveEmptyEntries);
+								var basicAuthSplits = joinedString.Split(ColonSeparator, StringSplitOptions.RemoveEmptyEntries);
 								if (basicAuthSplits.Length < 2)
 								{
 									AddError(HeaderTypes.Authorization, badBasicAuthHeaderMessage);
