@@ -53,7 +53,7 @@ namespace Tgstation.Server.Client.Components
 			if (file == null)
 				throw new ArgumentNullException(nameof(file));
 			var configFile = await ApiClient.Read<ConfigurationFileResponse>(
-				Routes.ConfigurationFile + Routes.SanitizeGetPath(file.Path ?? throw new ArgumentException("file.Path should not be null!", nameof(file))),
+				Routes.ConfigurationFile + Routes.SanitizeGetPath(file.Path ?? throw new InvalidOperationException("file.Path should not be null!")),
 				instance.Id!.Value,
 				cancellationToken)
 				.ConfigureAwait(false);

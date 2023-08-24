@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Globalization;
 
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Internal;
@@ -41,7 +42,7 @@ namespace Tgstation.Server.Host.Models
 		/// <returns>The converted <see cref="Api.Models.ChatChannel"/>.</returns>
 		public Api.Models.ChatChannel ToApi(ChatProvider chatProvider) => new Api.Models.ChatChannel
 		{
-			ChannelData = chatProvider == ChatProvider.Discord ? DiscordChannelId.ToString() : IrcChannel,
+			ChannelData = chatProvider == ChatProvider.Discord ? DiscordChannelId.Value.ToString(CultureInfo.InvariantCulture) : IrcChannel,
 #pragma warning disable CS0618
 			IrcChannel = IrcChannel,
 			DiscordChannelId = DiscordChannelId,
