@@ -1,6 +1,7 @@
 <map id="Tgstation.Server.Api.ApiHeaders" name="Tgstation.Server.Api.ApiHeaders">
-<area shape="rect" id="node1" title="Represents the header that must be present for every server request." alt="" coords="169,181,331,221"/>
-<area shape="rect" id="node2" title=" " alt="" coords="5,5,95,31"/>
-<area shape="rect" id="node3" title=" " alt="" coords="174,5,326,31"/>
-<area shape="rect" id="node4" title=" " alt="" coords="350,5,550,31"/>
+<area shape="rect" id="node1" title="Represents the header that must be present for every server request." alt="" coords="423,151,584,191"/>
+<area shape="rect" id="node2" title=" " alt="" coords="61,83,150,109"/>
+<area shape="rect" id="node3" title=" " alt="" coords="29,133,181,158"/>
+<area shape="rect" id="node4" title=" " alt="" coords="5,182,205,207"/>
+<area shape="rect" id="node5" title=" " alt="" coords="35,231,176,257"/>
 </map>

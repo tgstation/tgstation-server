@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.14.0</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.14.1</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -483,7 +483,7 @@ Additional Inherited Members</h2></td></tr>
 <div class="line"><span class="lineno">   53</span>            <span class="keywordflow">if</span> (file == <span class="keyword">null</span>)</div>
 <div class="line"><span class="lineno">   54</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(file));</div>
 <div class="line"><span class="lineno">   55</span>            var configFile = await <a class="code hl_property" href="class_tgstation_1_1_server_1_1_client_1_1_paginated_client.html#a46a285dccb579dedc9efac7eadafb230">ApiClient</a>.Read&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_configuration_file_response.html">ConfigurationFileResponse</a>&gt;(</div>
-<div class="line"><span class="lineno">   56</span>                Routes.ConfigurationFile + <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_routes.html">Routes</a>.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_api_1_1_routes.html#a427423a8a36ba74df914acb74ffb0483">SanitizeGetPath</a>(file.<a class="code hl_property" href="interface_tgstation_1_1_server_1_1_api_1_1_models_1_1_i_configuration_file.html#a64ba746c710bb542c6708dca94d631ed">Path</a> ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentException(<span class="stringliteral">&quot;file.Path should not be null!&quot;</span>, nameof(file))),</div>
+<div class="line"><span class="lineno">   56</span>                Routes.ConfigurationFile + <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_routes.html">Routes</a>.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_api_1_1_routes.html#a427423a8a36ba74df914acb74ffb0483">SanitizeGetPath</a>(file.<a class="code hl_property" href="interface_tgstation_1_1_server_1_1_api_1_1_models_1_1_i_configuration_file.html#a64ba746c710bb542c6708dca94d631ed">Path</a> ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> InvalidOperationException(<span class="stringliteral">&quot;file.Path should not be null!&quot;</span>)),</div>
 <div class="line"><span class="lineno">   57</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_configuration_client.html#a3fbe930ee9bc4cf37d734c4ccc50668c">instance</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html#ae31e478e1d338b37a14565df6fd58570">Id</a>!.Value,</div>
 <div class="line"><span class="lineno">   58</span>                cancellationToken)</div>
 <div class="line"><span class="lineno">   59</span>                .ConfigureAwait(<span class="keyword">false</span>);</div>

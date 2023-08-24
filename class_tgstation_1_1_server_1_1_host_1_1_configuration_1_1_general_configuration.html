@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.14.0</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.14.1</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -285,7 +285,7 @@ Static Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">  148</span>            <span class="keywordflow">else</span> <span class="keywordflow">if</span> (<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#a5625c8cc148d7d33019735915d440ec7">ConfigVersion</a> != <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#a11cacc87b093badf8b45cc9fd858df54">CurrentConfigVersion</a>)</div>
 <div class="line"><span class="lineno">  149</span>                <span class="keywordflow">if</span> (<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#a5625c8cc148d7d33019735915d440ec7">ConfigVersion</a>.Major != <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#a11cacc87b093badf8b45cc9fd858df54">CurrentConfigVersion</a>.Major)</div>
 <div class="line"><span class="lineno">  150</span>                    logger.LogCritical(</div>
-<div class="line"><span class="lineno">  151</span>                        <span class="stringliteral">&quot;Your `ConfigVersion` is majorly out-of-date and may potentially cause issues running the server. Please follow migration instructions from the TGS release notes.&quot;</span>,</div>
+<div class="line"><span class="lineno">  151</span>                        <span class="stringliteral">&quot;Your `ConfigVersion` is majorly out-of-date and may potentially cause issues running the server. Please follow migration instructions from the TGS release notes. The current config version is v{currentConfigVersion}.&quot;</span>,</div>
 <div class="line"><span class="lineno">  152</span>                        <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#a11cacc87b093badf8b45cc9fd858df54">CurrentConfigVersion</a>);</div>
 <div class="line"><span class="lineno">  153</span>                <span class="keywordflow">else</span></div>
 <div class="line"><span class="lineno">  154</span>                    logger.LogWarning(<span class="stringliteral">&quot;Your `ConfigVersion` is out-of-date. Please follow migration instructions from the TGS release notes.&quot;</span>);</div>
