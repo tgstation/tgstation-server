@@ -501,16 +501,16 @@ namespace Tgstation.Server.Host.Setup
 				}
 				while (true);
 
-				bool useWinAuth;
+				var useWinAuth = false;
+				var encrypt = false;
 				if (databaseConfiguration.DatabaseType == DatabaseType.SqlServer && platformIdentifier.IsWindows)
 				{
 					var defaultResponse = serverAddressEntry?.AddressList.Any(IPAddress.IsLoopback) ?? false
 						? (bool?)true
 						: null;
 					useWinAuth = await PromptYesNo("Use Windows Authentication?", defaultResponse, cancellationToken);
+					encrypt = await PromptYesNo("Use encrypted connection?", false, cancellationToken);
 				}
-				else
-					useWinAuth = false;
 
 				await console.WriteAsync(null, true, cancellationToken);
 
@@ -565,6 +565,8 @@ namespace Tgstation.Server.Host.Setup
 								csb.UserID = username;
 								csb.Password = password;
 							}
+
+							csb.Encrypt = encrypt;
 
 							CreateTestConnection(csb.ConnectionString);
 							csb.InitialCatalog = databaseName;
