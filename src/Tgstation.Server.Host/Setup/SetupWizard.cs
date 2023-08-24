@@ -88,11 +88,6 @@ namespace Tgstation.Server.Host.Setup
 		readonly InternalConfiguration internalConfiguration;
 
 		/// <summary>
-		/// A <see cref="TaskCompletionSource"/> that will complete when the <see cref="IConfiguration"/> is reloaded.
-		/// </summary>
-		TaskCompletionSource reloadTcs;
-
-		/// <summary>
 		/// Initializes a new instance of the <see cref="SetupWizard"/> class.
 		/// </summary>
 		/// <param name="ioManager">The value of <see cref="ioManager"/>.</param>
@@ -131,12 +126,6 @@ namespace Tgstation.Server.Host.Setup
 
 			generalConfiguration = generalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
 			internalConfiguration = internalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(internalConfigurationOptions));
-
-			configuration
-				.GetReloadToken()
-				.RegisterChangeCallback(
-					state => reloadTcs?.TrySetResult(),
-					null);
 		}
 
 		/// <inheritdoc />
@@ -1014,19 +1003,12 @@ namespace Tgstation.Server.Host.Setup
 
 			var configBytes = Encoding.UTF8.GetBytes(serializedYaml);
 
-			reloadTcs = new TaskCompletionSource();
-
 			try
 			{
 				await ioManager.WriteAllBytes(
 					userConfigFileName,
 					configBytes,
 					cancellationToken);
-
-				// Ensure the reload
-				if (generalConfiguration.SetupWizardMode != SetupWizardMode.Only)
-					using (cancellationToken.Register(() => reloadTcs.TrySetCanceled()))
-						await reloadTcs.Task;
 			}
 			catch (OperationCanceledException)
 			{
@@ -1108,7 +1090,7 @@ namespace Tgstation.Server.Host.Setup
 
 			var userConfigFileName = ioManager.ConcatPath(
 				internalConfiguration.AppSettingsBasePath,
-				String.Format(CultureInfo.InvariantCulture, "appsettings.{0}.yml", hostingEnvironment.EnvironmentName));
+				$"{ServerFactory.AppSettings}.{hostingEnvironment.EnvironmentName}.yml");
 
 			async Task HandleSetupCancel()
 			{
