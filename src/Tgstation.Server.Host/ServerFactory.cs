@@ -25,6 +25,11 @@ namespace Tgstation.Server.Host
 	sealed class ServerFactory : IServerFactory
 	{
 		/// <summary>
+		/// Name of the appsettings file.
+		/// </summary>
+		public const string AppSettings = "appsettings";
+
+		/// <summary>
 		/// The <see cref="IAssemblyInformationProvider"/> for the <see cref="ServerFactory"/>.
 		/// </summary>
 		readonly IAssemblyInformationProvider assemblyInformationProvider;
@@ -60,7 +65,6 @@ namespace Tgstation.Server.Host
 				args[oldArgs.Length] = "--hostBuilder:reloadConfigOnChange=false";
 			}
 
-			const string AppSettings = "appsettings";
 			const string AppSettingsRelocationKey = $"--{AppSettings}-base-path=";
 
 			var appsettingsRelativeBasePathArgument = args.FirstOrDefault(arg => arg.StartsWith(AppSettingsRelocationKey, StringComparison.Ordinal));
