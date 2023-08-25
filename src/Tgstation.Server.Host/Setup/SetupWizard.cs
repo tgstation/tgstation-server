@@ -98,7 +98,6 @@ namespace Tgstation.Server.Host.Setup
 		/// <param name="platformIdentifier">The value of <see cref="platformIdentifier"/>.</param>
 		/// <param name="asyncDelayer">The value of <see cref="asyncDelayer"/>.</param>
 		/// <param name="applicationLifetime">The value of <see cref="applicationLifetime"/>.</param>
-		/// <param name="configuration">The <see cref="IConfiguration"/> in use.</param>
 		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="generalConfiguration"/>.</param>
 		/// <param name="internalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="internalConfiguration"/>.</param>
 		public SetupWizard(
