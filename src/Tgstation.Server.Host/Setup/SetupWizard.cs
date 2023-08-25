@@ -110,7 +110,6 @@ namespace Tgstation.Server.Host.Setup
 			IPlatformIdentifier platformIdentifier,
 			IAsyncDelayer asyncDelayer,
 			IHostApplicationLifetime applicationLifetime,
-			IConfiguration configuration,
 			IOptions<GeneralConfiguration> generalConfigurationOptions,
 			IOptions<InternalConfiguration> internalConfigurationOptions)
 		{
@@ -122,7 +121,6 @@ namespace Tgstation.Server.Host.Setup
 			this.platformIdentifier = platformIdentifier ?? throw new ArgumentNullException(nameof(platformIdentifier));
 			this.asyncDelayer = asyncDelayer ?? throw new ArgumentNullException(nameof(asyncDelayer));
 			this.applicationLifetime = applicationLifetime ?? throw new ArgumentNullException(nameof(applicationLifetime));
-			ArgumentNullException.ThrowIfNull(configuration);
 
 			generalConfiguration = generalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
 			internalConfiguration = internalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(internalConfigurationOptions));
@@ -1012,11 +1010,7 @@ namespace Tgstation.Server.Host.Setup
 					configBytes,
 					cancellationToken);
 			}
-			catch (OperationCanceledException)
-			{
-				throw;
-			}
-			catch (Exception e)
+			catch (Exception e) when (e is not OperationCanceledException)
 			{
 				await console.WriteAsync(e.Message, true, cancellationToken);
 				await console.WriteAsync(null, true, cancellationToken);
