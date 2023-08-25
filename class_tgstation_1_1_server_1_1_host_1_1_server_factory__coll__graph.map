@@ -1,5 +1,6 @@
 <map id="Tgstation.Server.Host.ServerFactory" name="Tgstation.Server.Host.ServerFactory">
-<area shape="rect" id="node1" title="Implementation of IServerFactory." alt="" coords="52,108,241,148"/>
+<area shape="rect" id="node1" title="Implementation of IServerFactory." alt="" coords="69,108,259,148"/>
 <area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_server_factory.html" title="For creating IServers." alt="" coords="5,13,112,38"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_assembly_information_provider.html" title="For retrieving the Assembly&#39;s location." alt="" coords="137,5,335,45"/>
+<area shape="rect" id="node3" title=" " alt="" coords="137,13,191,38"/>
+<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_assembly_information_provider.html" title="For retrieving the Assembly&#39;s location." alt="" coords="215,5,414,45"/>
 </map>

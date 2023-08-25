@@ -162,8 +162,22 @@ Components:
       PullRequest: 1628
     Unreleased: true
   - Version: 5.15.0
-    ComponentVersions: {}
-    Changes: []
+    ComponentVersions:
+      HttpApi: 9.12.0
+      DreamMakerApi: 6.5.3
+      Configuration: 4.7.1
+      InteropApi: 5.6.1
+      HostWatchdog: 1.4.0
+      NugetCommon: 6.0.1
+      NugetApi: 11.1.2
+      NugetClient: 12.1.2
+      WebControlPanel: 4.24.0
+    Changes:
+    - Descriptions:
+      - Fixed setup wizard hanging after writing configuration file.
+      - Fixed using SQL Server in the setup wizard not giving the option to set the parameter for encrypting the connection.
+      Author: Cyberboss
+      PullRequest: 1639
     Unreleased: true
   - Version: 5.14.1
     ComponentVersions:
@@ -2860,6 +2874,14 @@ Components:
       Author: AffectedArc07
       PullRequest: 1408
   WebControlPanel:
+  - Version: 4.24.0
+    Changes:
+    - Descriptions:
+      - Updated bundled version to 4.24.0.
+      - The web control panel now shows the exact changelog diff between your current and selected TGS versions when updating.
+      Author: Cyberboss
+      PullRequest: 1639
+    Unreleased: true
   - Version: 4.22.0
     Changes:
     - Descriptions:
@@ -2997,14 +3019,6 @@ Components:
       - The flag in Discord chat bot connection strings for the based meme is now deprecated and defaults to `0`.
       Author: Cyberboss
       PullRequest: 1629
-    Unreleased: true
-  - Version: 9.11.1
-    Changes:
-    - Descriptions:
-      - ErrorCode 79 no longer occurs on failing to send a chat message. Will be logged as an error instead.
-      Author: Cyberboss
-      PullRequest: 1622
-    Unreleased: true
   - Version: 9.11.0
     Changes:
     - Descriptions:
@@ -3619,15 +3633,4 @@ Components:
       - Adjusted some error case `ArgumentException`s to instead be `InvalidOperationException`s.
       Author: Cyberboss
       PullRequest: 1612
-    Unreleased: true
-  - Version: 12.1.1
-    Changes:
-    - Descriptions:
-      - Updated to TGS API v9.12.0.
-      Author: Cyberboss
-      PullRequest: 1630
-    - Descriptions:
-      - Added SourceLink support.
-      Author: Cyberboss
-      PullRequest: 1636
     Unreleased: true
