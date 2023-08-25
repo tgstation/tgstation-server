@@ -15,6 +15,7 @@ try
 }
 
 $installerHash = Get-FileHash -Path "artifacts/tgstation-server-installer.exe" -ErrorAction Stop # SHA256 is the default
+$msiPath = [System.IO.Path]::Combine($pwd, "artifacts/tgstation-server.msi").Replace("/", "\");
 
 Push-Location build/package/winget
 try
@@ -24,7 +25,6 @@ try
     $devReleaseDate = '2023-06-24'
     $devProductCode = "{D24887FA-3228-4509-B5F3-4E07E349F278}"
 
-    $msiPath = [System.IO.Path]::Combine($pwd, "Tgstation.Server.Host.Service.Wix/bin/x86/Release/en-US/tgstation-server.msi").Replace("/", "\");
     Set-Location manifest
     Convert-Path -ErrorAction Stop -LiteralPath $msiPath
     $windowsInstaller = New-Object -ComObject WindowsInstaller.Installer

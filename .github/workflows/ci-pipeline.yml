@@ -1508,6 +1508,12 @@ jobs:
         $tgsVersion = $versionXML.Project.PropertyGroup.TgsCoreVersion
         echo "TGS_VERSION=$tgsVersion" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf8 -Append
 
+    - name: Upload .msi
+      uses: actions/upload-artifact@v3
+      with:
+        name: packaging-windows-raw-msi
+        path: build/package/winget/Tgstation.Server.Host.Service.Wix/bin/x86/Release/en-US/tgstation-server.msi
+
     - name: Retrieve Server Service
       uses: actions/download-artifact@v3
       with:
@@ -1721,6 +1727,12 @@ jobs:
       run: |
         $Env:TGS_HOST_NO_WEBPANEL=true
         dotnet build -c Release tools/Tgstation.Server.ReleaseNotes
+
+    - name: Retrieve Server Service
+      uses: actions/download-artifact@v3
+      with:
+        name: packaging-windows-raw-msi
+        path: artifacts
 
     - name: Execute Push Script
       shell: powershell
