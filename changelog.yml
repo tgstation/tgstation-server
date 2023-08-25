@@ -161,6 +161,27 @@ Components:
       Author: Cyberboss
       PullRequest: 1628
     Unreleased: true
+  - Version: 5.16.0
+    ComponentVersions: {}
+    Changes: []
+    Unreleased: true
+  - Version: 5.15.1
+    ComponentVersions:
+      HttpApi: 9.12.0
+      DreamMakerApi: 6.5.3
+      Configuration: 4.7.1
+      InteropApi: 5.6.1
+      HostWatchdog: 1.4.0
+      NugetCommon: 6.0.1
+      NugetApi: 11.1.2
+      NugetClient: 12.1.2
+      WebControlPanel: 4.24.0
+    Changes:
+    - Descriptions:
+      - This is a non-functional release due to 5.15.0's CD pipeline not being able to deploy to winget.
+      Author: Cyberboss
+      PullRequest: 1642
+    Unreleased: true
   - Version: 5.15.0
     ComponentVersions:
       HttpApi: 9.12.0
@@ -174,28 +195,14 @@ Components:
       WebControlPanel: 4.24.0
     Changes:
     - Descriptions:
+      - Fixed a log message when the configuration version is majorly out of date not showing the current version.
+      Author: Cyberboss
+      PullRequest: 1612
+    - Descriptions:
       - Fixed setup wizard hanging after writing configuration file.
       - Fixed using SQL Server in the setup wizard not giving the option to set the parameter for encrypting the connection.
       Author: Cyberboss
       PullRequest: 1639
-    Unreleased: true
-  - Version: 5.14.1
-    ComponentVersions:
-      HttpApi: 9.12.0
-      DreamMakerApi: 6.5.3
-      Configuration: 4.7.1
-      InteropApi: 5.6.1
-      HostWatchdog: 1.4.0
-      NugetCommon: 6.0.1
-      NugetApi: 11.1.2
-      NugetClient: 12.1.2
-      WebControlPanel: 4.23.1
-    Changes:
-    - Descriptions:
-      - Fixed a log message when the configuration version is majorly out of date not showing the current version.
-      Author: Cyberboss
-      PullRequest: 1612
-    Unreleased: true
   - Version: 5.14.0
     ComponentVersions:
       HttpApi: 9.12.0
@@ -2881,7 +2888,6 @@ Components:
       - The web control panel now shows the exact changelog diff between your current and selected TGS versions when updating.
       Author: Cyberboss
       PullRequest: 1639
-    Unreleased: true
   - Version: 4.22.0
     Changes:
     - Descriptions:
@@ -3450,7 +3456,6 @@ Components:
       - Improved documentation on where to call `/world/proc/TgsReboot()`.
       Author: Cyberboss
       PullRequest: 1612
-    Unreleased: true
   - Version: 6.5.2
     Changes:
     - Descriptions:
@@ -3609,7 +3614,6 @@ Components:
       - Corrected conversion handling of `Instance` header value.
       Author: Cyberboss
       PullRequest: 1612
-    Unreleased: true
   - Version: 11.1.1
     Changes:
     - Descriptions:
