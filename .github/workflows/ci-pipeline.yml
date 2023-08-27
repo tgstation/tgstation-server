@@ -1512,7 +1512,7 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: packaging-windows-raw-msi
-        path: build/package/winget/Tgstation.Server.Host.Service.Wix/bin/x86/Release/en-US/tgstation-server.msi
+        path: build/package/winget/Tgstation.Server.Host.Service.Wix/bin/Release/en-US/tgstation-server.msi
 
     - name: Retrieve Server Service
       uses: actions/download-artifact@v3
