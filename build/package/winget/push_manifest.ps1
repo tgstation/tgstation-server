@@ -4,7 +4,7 @@ $ErrorActionPreference="Stop"
 
 $tgsVersion = $versionXML.Project.PropertyGroup.TgsCoreVersion
 
-mkdir artifacts
+New-Item artifacts -ItemType Directory -ErrorAction SilentlyContinue
 $previousProgressPreference = $ProgressPreference
 $ProgressPreference = 'SilentlyContinue'
 try
