@@ -18,6 +18,9 @@ concurrency:
   group: "code-scanning-${{ github.head_ref || github.run_id }}-${{ github.event_name }}"
   cancel-in-progress: true
 
+env:
+  TGS_DOTNET_VERSION: 6.0.x
+
 jobs:
   analyze:
     name: Code Scanning
@@ -28,6 +31,11 @@ jobs:
       security-events: write
     if: ${{ vars.TGS_ENABLE_CODE_QL }} == 'true'
     steps:
+    - name: Setup dotnet
+      uses: actions/setup-dotnet@v2
+      with:
+        dotnet-version: ${{ env.TGS_DOTNET_VERSION }}
+
     - name: Checkout
       uses: actions/checkout@v3
 
@@ -37,9 +45,7 @@ jobs:
         languages: csharp
 
     - name: Build
-      run: |
-        export TGS_HOST_NO_WEBPANEL=true
-        dotnet build -c ReleaseNoWindows
+      run: dotnet build -c ReleaseNoWindows -p:TGS_HOST_NO_WEBPANEL=true
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v2
