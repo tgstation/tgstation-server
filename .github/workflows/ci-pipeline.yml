@@ -191,9 +191,7 @@ jobs:
       run: dotnet restore
 
     - name: Build ReleaseNotes
-      run: |
-        export TGS_HOST_NO_WEBPANEL=true
-        dotnet build -c Release tools/Tgstation.Server.ReleaseNotes/Tgstation.Server.ReleaseNotes.csproj
+      run: dotnet build -c Release -p:TGS_HOST_NO_WEBPANEL=true tools/Tgstation.Server.ReleaseNotes/Tgstation.Server.ReleaseNotes.csproj
 
     - name: Build Changelog (Incremental)
       run: |
@@ -1228,9 +1226,7 @@ jobs:
       run: dotnet restore
 
     - name: Build ReleaseNotes
-      run: |
-        export TGS_HOST_NO_WEBPANEL=true
-        dotnet build -c Release tools/Tgstation.Server.ReleaseNotes/Tgstation.Server.ReleaseNotes.csproj
+      run: dotnet build -c Release -p:TGS_HOST_NO_WEBPANEL=true tools/Tgstation.Server.ReleaseNotes/Tgstation.Server.ReleaseNotes.csproj
 
     - name: Run ReleaseNotes Check
       run: dotnet run -c Release --no-build --project tools/Tgstation.Server.ReleaseNotes --winget-template-check ${{ steps.get-sha.outputs.pr_template_sha }}
@@ -1271,9 +1267,7 @@ jobs:
       run: dotnet restore
 
     - name: Build ReleaseNotes
-      run: |
-        $Env:TGS_HOST_NO_WEBPANEL=true
-        dotnet build -c Release tools/Tgstation.Server.ReleaseNotes/Tgstation.Server.ReleaseNotes.csproj
+      run: dotnet build -c Release -p:TGS_HOST_NO_WEBPANEL=true tools/Tgstation.Server.ReleaseNotes/Tgstation.Server.ReleaseNotes.csproj
 
     - name: Parse API version
       shell: powershell
@@ -1336,9 +1330,7 @@ jobs:
       run: dotnet restore
 
     - name: Build ReleaseNotes
-      run: |
-        $Env:TGS_HOST_NO_WEBPANEL=true
-        dotnet build -c Release tools/Tgstation.Server.ReleaseNotes/Tgstation.Server.ReleaseNotes.csproj
+      run: dotnet build -c Release -p:TGS_HOST_NO_WEBPANEL=true tools/Tgstation.Server.ReleaseNotes/Tgstation.Server.ReleaseNotes.csproj
 
     - name: Parse DMAPI version
       shell: powershell
@@ -1400,9 +1392,7 @@ jobs:
       run: dotnet restore
 
     - name: Build ReleaseNotes
-      run: |
-        export TGS_HOST_NO_WEBPANEL=true
-        dotnet build -c Release tools/Tgstation.Server.ReleaseNotes/Tgstation.Server.ReleaseNotes.csproj
+      run: dotnet build -c Release -p:TGS_HOST_NO_WEBPANEL=true tools/Tgstation.Server.ReleaseNotes/Tgstation.Server.ReleaseNotes.csproj
 
     - name: Grab Most Recent Changelog
       run: curl -L https://raw.githubusercontent.com/tgstation/tgstation-server/gh-pages/changelog.yml -o changelog.yml
@@ -1452,9 +1442,7 @@ jobs:
       run: dotnet restore
 
     - name: Build ReleaseNotes
-      run: |
-        export TGS_HOST_NO_WEBPANEL=true
-        dotnet build -c Release tools/Tgstation.Server.ReleaseNotes/Tgstation.Server.ReleaseNotes.csproj
+      run: dotnet build -c Release -p:TGS_HOST_NO_WEBPANEL=true tools/Tgstation.Server.ReleaseNotes/Tgstation.Server.ReleaseNotes.csproj
 
     - name: Run ReleaseNotes with --ensure-release
       run: dotnet run -c Release --no-build --project tools/Tgstation.Server.ReleaseNotes --ensure-release
@@ -1724,9 +1712,7 @@ jobs:
       uses: actions/checkout@v3
 
     - name: Build ReleaseNotes
-      run: |
-        $Env:TGS_HOST_NO_WEBPANEL=true
-        dotnet build -c Release tools/Tgstation.Server.ReleaseNotes
+      run: dotnet build -c Release -p:TGS_HOST_NO_WEBPANEL=true tools/Tgstation.Server.ReleaseNotes
 
     - name: Retrieve Server Service
       uses: actions/download-artifact@v3
