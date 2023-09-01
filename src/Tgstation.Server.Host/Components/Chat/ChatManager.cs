@@ -20,7 +20,7 @@ using Tgstation.Server.Host.Utils;
 
 namespace Tgstation.Server.Host.Components.Chat
 {
-	/// <inheritdoc />
+	/// <inheritdoc cref="Tgstation.Server.Host.Components.Chat.IChatManager" />
 	// TODO: Decomplexify
 #pragma warning disable CA1506
 	sealed class ChatManager : IChatManager, IRestartHandler

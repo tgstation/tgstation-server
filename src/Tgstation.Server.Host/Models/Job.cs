@@ -4,7 +4,7 @@ using Tgstation.Server.Api.Models.Response;
 
 namespace Tgstation.Server.Host.Models
 {
-	/// <inheritdoc />
+	/// <inheritdoc cref="Tgstation.Server.Api.Models.Internal.Job" />
 #pragma warning disable CA1724 // naming conflict with gitlab package
 	public sealed class Job : Api.Models.Internal.Job, IApiTransformable<JobResponse>
 #pragma warning restore CA1724

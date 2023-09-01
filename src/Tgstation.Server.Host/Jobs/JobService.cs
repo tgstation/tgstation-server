@@ -16,7 +16,7 @@ using Tgstation.Server.Host.Utils;
 
 namespace Tgstation.Server.Host.Jobs
 {
-	/// <inheritdoc />
+	/// <inheritdoc cref="Tgstation.Server.Host.Jobs.IJobService" />
 	sealed class JobService : IJobService, IDisposable
 	{
 		/// <summary>
@@ -35,7 +35,7 @@ namespace Tgstation.Server.Host.Jobs
 		readonly ILogger<JobService> logger;
 
 		/// <summary>
-		/// <see cref="Dictionary{TKey, TValue}"/> of <see cref="Job"/> <see cref="Api.Models.EntityId.Id"/>s to running <see cref="JobHandler"/>s.
+		/// <see cref="Dictionary{TKey,TValue}"/> of <see cref="Job"/> <see cref="Api.Models.EntityId.Id"/>s to running <see cref="JobHandler"/>s.
 		/// </summary>
 		readonly Dictionary<long, JobHandler> jobs;
 

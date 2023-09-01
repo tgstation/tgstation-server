@@ -13,7 +13,7 @@ using Tgstation.Server.Host.Models;
 
 namespace Tgstation.Server.Host.Security
 {
-	/// <inheritdoc />
+	/// <inheritdoc cref="Tgstation.Server.Host.Security.IAuthenticationContextFactory" />
 	sealed class AuthenticationContextFactory : IAuthenticationContextFactory, IDisposable
 	{
 		/// <inheritdoc />

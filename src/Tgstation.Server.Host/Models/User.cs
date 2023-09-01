@@ -8,7 +8,7 @@ using Tgstation.Server.Api.Models.Response;
 
 namespace Tgstation.Server.Host.Models
 {
-	/// <inheritdoc />
+	/// <inheritdoc cref="Tgstation.Server.Api.Models.Internal.UserModelBase" />
 	public sealed class User : Api.Models.Internal.UserModelBase, IApiTransformable<UserResponse>
 	{
 		/// <summary>

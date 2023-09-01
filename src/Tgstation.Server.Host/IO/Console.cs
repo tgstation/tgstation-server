@@ -7,7 +7,10 @@ using Tgstation.Server.Host.System;
 
 namespace Tgstation.Server.Host.IO
 {
-	/// <inheritdoc />
+	/// <summary>
+	/// Implementation of <see cref="Tgstation.Server.Host.IO.IConsole"/>,
+	/// uses <see cref="global::System.Console"/>.
+	/// </summary>
 	sealed class Console : IConsole, IDisposable
 	{
 		/// <inheritdoc />

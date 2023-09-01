@@ -26,7 +26,7 @@ using Tgstation.Server.Host.Utils;
 
 namespace Tgstation.Server.Host.Components.Session
 {
-	/// <inheritdoc />
+	/// <inheritdoc cref="Tgstation.Server.Host.Components.Session.ISessionController" />
 	sealed class SessionController : Chunker, ISessionController, IBridgeHandler, IChannelSink
 	{
 		/// <summary>
