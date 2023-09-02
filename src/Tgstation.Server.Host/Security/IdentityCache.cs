@@ -9,7 +9,7 @@ using Tgstation.Server.Host.Utils;
 
 namespace Tgstation.Server.Host.Security
 {
-	/// <inheritdoc cref="Tgstation.Server.Host.Security.IIdentityCache" />
+	/// <inheritdoc cref="IIdentityCache" />
 	sealed class IdentityCache : IIdentityCache, IDisposable
 	{
 		/// <summary>

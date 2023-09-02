@@ -10,7 +10,7 @@ using Tgstation.Server.Api.Models.Response;
 
 namespace Tgstation.Server.Client
 {
-	/// <inheritdoc cref="Tgstation.Server.Client.IUserGroupsClient" />
+	/// <inheritdoc cref="IUserGroupsClient" />
 	sealed class UserGroupsClient : PaginatedClient, IUserGroupsClient
 	{
 		/// <summary>

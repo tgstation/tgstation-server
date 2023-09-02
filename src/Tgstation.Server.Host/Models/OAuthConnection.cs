@@ -1,6 +1,6 @@
 ﻿namespace Tgstation.Server.Host.Models
 {
-	/// <inheritdoc cref="Tgstation.Server.Api.Models.OAuthConnection" />
+	/// <inheritdoc cref="Api.Models.OAuthConnection" />
 	public sealed class OAuthConnection : Api.Models.OAuthConnection, IApiTransformable<Api.Models.OAuthConnection>
 	{
 		/// <summary>

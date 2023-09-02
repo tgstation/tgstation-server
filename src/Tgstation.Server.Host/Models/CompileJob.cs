@@ -6,7 +6,7 @@ using Tgstation.Server.Api.Models.Response;
 
 namespace Tgstation.Server.Host.Models
 {
-	/// <inheritdoc cref="Tgstation.Server.Api.Models.Internal.CompileJob" />
+	/// <inheritdoc cref="Api.Models.Internal.CompileJob" />
 	public sealed class CompileJob : Api.Models.Internal.CompileJob, IApiTransformable<CompileJobResponse>
 	{
 		/// <summary>

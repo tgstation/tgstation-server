@@ -11,7 +11,7 @@ using Tgstation.Server.Api.Models.Response;
 
 namespace Tgstation.Server.Client.Components
 {
-	/// <inheritdoc cref="Tgstation.Server.Client.Components.IConfigurationClient" />
+	/// <inheritdoc cref="IConfigurationClient" />
 	sealed class ConfigurationClient : PaginatedClient, IConfigurationClient
 	{
 		/// <summary>

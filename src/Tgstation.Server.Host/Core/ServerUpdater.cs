@@ -13,7 +13,7 @@ using Tgstation.Server.Host.Utils.GitHub;
 
 namespace Tgstation.Server.Host.Core
 {
-	/// <inheritdoc cref="Tgstation.Server.Host.Core.IServerUpdater" />
+	/// <inheritdoc cref="IServerUpdater" />
 	sealed class ServerUpdater : IServerUpdater, IServerUpdateExecutor
 	{
 		/// <summary>

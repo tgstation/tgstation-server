@@ -4,7 +4,7 @@ using Tgstation.Server.Host.Utils;
 
 namespace Tgstation.Server.Host.Components.Byond
 {
-	/// <inheritdoc cref="Tgstation.Server.Host.Components.Byond.IByondExecutableLock" />
+	/// <inheritdoc cref="IByondExecutableLock" />
 	sealed class ByondExecutableLock : ReferenceCounter<ByondInstallation>, IByondExecutableLock
 	{
 		/// <inheritdoc />

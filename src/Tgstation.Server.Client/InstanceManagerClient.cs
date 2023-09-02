@@ -11,7 +11,7 @@ using Tgstation.Server.Client.Components;
 
 namespace Tgstation.Server.Client
 {
-	/// <inheritdoc cref="Tgstation.Server.Client.IInstanceManagerClient" />
+	/// <inheritdoc cref="IInstanceManagerClient" />
 	sealed class InstanceManagerClient : PaginatedClient, IInstanceManagerClient
 	{
 		/// <summary>

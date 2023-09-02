@@ -15,7 +15,7 @@ using Tgstation.Server.Host.Utils;
 
 namespace Tgstation.Server.Host.System
 {
-	/// <inheritdoc cref="Tgstation.Server.Host.System.INetworkPromptReaper" />
+	/// <inheritdoc cref="INetworkPromptReaper" />
 	sealed class WindowsNetworkPromptReaper : BackgroundService, INetworkPromptReaper
 	{
 		/// <summary>

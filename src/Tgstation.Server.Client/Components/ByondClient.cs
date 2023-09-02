@@ -11,7 +11,7 @@ using Tgstation.Server.Api.Models.Response;
 
 namespace Tgstation.Server.Client.Components
 {
-	/// <inheritdoc cref="Tgstation.Server.Client.Components.IByondClient" />
+	/// <inheritdoc cref="IByondClient" />
 	sealed class ByondClient : PaginatedClient, IByondClient
 	{
 		/// <summary>

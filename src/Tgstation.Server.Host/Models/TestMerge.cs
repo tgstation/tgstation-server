@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Tgstation.Server.Host.Models
 {
-	/// <inheritdoc cref="Tgstation.Server.Api.Models.Internal.TestMergeApiBase" />
+	/// <inheritdoc cref="Api.Models.Internal.TestMergeApiBase" />
 	public sealed class TestMerge : Api.Models.Internal.TestMergeApiBase, IApiTransformable<Api.Models.TestMerge>
 	{
 		/// <summary>

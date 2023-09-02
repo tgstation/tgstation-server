@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Tgstation.Server.Host.Models
 {
-	/// <inheritdoc cref="Tgstation.Server.Api.Models.Internal.RevisionInformation" />
+	/// <inheritdoc cref="Api.Models.Internal.RevisionInformation" />
 	public sealed class RevisionInformation : Api.Models.Internal.RevisionInformation, IApiTransformable<Api.Models.RevisionInformation>
 	{
 		/// <summary>

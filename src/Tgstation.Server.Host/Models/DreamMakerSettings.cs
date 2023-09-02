@@ -4,7 +4,7 @@ using Tgstation.Server.Api.Models.Response;
 
 namespace Tgstation.Server.Host.Models
 {
-	/// <inheritdoc cref="Tgstation.Server.Api.Models.Internal.DreamMakerSettings" />
+	/// <inheritdoc cref="Api.Models.Internal.DreamMakerSettings" />
 	public sealed class DreamMakerSettings : Api.Models.Internal.DreamMakerSettings, IApiTransformable<DreamMakerResponse>
 	{
 		/// <summary>
