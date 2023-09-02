@@ -8,7 +8,7 @@ using Tgstation.Server.Api.Models.Response;
 namespace Tgstation.Server.Host.Models
 {
 	/// <summary>
-	///	Represents a group of <see cref="User"/>s.
+	/// Represents a group of <see cref="User"/>s.
 	/// </summary>
 	public sealed class UserGroup : NamedEntity, IApiTransformable<UserGroupResponse>
 	{
