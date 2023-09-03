@@ -12,7 +12,7 @@
 <area shape="rect" id="node14" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_chat_bot_settings.html" title="Manage the server chat bots." alt="" coords="600,376,787,416"/>
 <area shape="rect" id="node20" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_user_group.html" title="Represents a group of users." alt="" coords="600,504,787,544"/>
 <area shape="rect" id="node24" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_user_name.html" title="Base class for user names." alt="" coords="600,568,787,608"/>
-<area shape="rect" id="node31" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user_group.html" title=" " alt="" coords="595,632,791,672"/>
+<area shape="rect" id="node31" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user_group.html" title="Represents a group of Users." alt="" coords="595,632,791,672"/>
 <area shape="rect" id="node10" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_1_1_instance_create_request.html" title="A request to create an Instance." alt="" coords="884,120,1093,160"/>
 <area shape="rect" id="node11" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_1_1_instance_update_request.html" title="A request to update an Instance." alt="" coords="882,184,1095,224"/>
 <area shape="rect" id="node12" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_instance_response.html" title="Server response for Instances." alt="" coords="893,248,1084,288"/>

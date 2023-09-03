@@ -15,7 +15,7 @@
 <area shape="rect" id="node27" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository_manager.html" title="Factory for creating and loading IRepositorys." alt="" coords="144,773,371,813"/>
 <area shape="rect" id="node29" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_i_configuration.html" title="For managing the Configuration directory." alt="" coords="144,837,371,877"/>
 <area shape="rect" id="node31" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_restart_registration.html" title="Represents the lifetime of a IRestartHandler registration." alt="" coords="167,901,348,941"/>
-<area shape="rect" id="node33" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_console.html" title=" " alt="" coords="173,965,341,1005"/>
+<area shape="rect" id="node33" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_console.html" title="Implementation of IConsole, uses global::System.Console." alt="" coords="173,965,341,1005"/>
 <area shape="rect" id="node34" href="$class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_handler.html" title="Class for pairing Tasks with CancellationTokenSources." alt="" coords="166,1029,349,1069"/>
 <area shape="rect" id="node35" href="$class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html" title=" " alt="" coords="166,1093,349,1133"/>
 <area shape="rect" id="node36" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context_factory.html" title=" " alt="" coords="157,1157,358,1197"/>
