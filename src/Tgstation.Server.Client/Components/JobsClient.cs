@@ -9,7 +9,7 @@ using Tgstation.Server.Api.Models.Response;
 
 namespace Tgstation.Server.Client.Components
 {
-	/// <inheritdoc />
+	/// <inheritdoc cref="IJobsClient" />
 	sealed class JobsClient : PaginatedClient, IJobsClient
 	{
 		/// <summary>

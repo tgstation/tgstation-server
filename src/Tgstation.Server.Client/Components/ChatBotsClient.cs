@@ -10,7 +10,7 @@ using Tgstation.Server.Api.Models.Response;
 
 namespace Tgstation.Server.Client.Components
 {
-	/// <inheritdoc />
+	/// <inheritdoc cref="IChatBotsClient" />
 	sealed class ChatBotsClient : PaginatedClient, IChatBotsClient
 	{
 		/// <summary>

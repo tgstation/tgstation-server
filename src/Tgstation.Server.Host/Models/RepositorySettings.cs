@@ -4,7 +4,7 @@ using Tgstation.Server.Api.Models.Response;
 
 namespace Tgstation.Server.Host.Models
 {
-	/// <inheritdoc />
+	/// <inheritdoc cref="Api.Models.Internal.RepositorySettings" />
 	public sealed class RepositorySettings : Api.Models.Internal.RepositorySettings, IApiTransformable<RepositoryResponse>
 	{
 		/// <summary>
