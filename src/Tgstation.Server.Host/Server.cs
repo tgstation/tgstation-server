@@ -15,7 +15,7 @@ using Tgstation.Server.Host.Core;
 
 namespace Tgstation.Server.Host
 {
-	/// <inheritdoc />
+	/// <inheritdoc cref="IServer" />
 	sealed class Server : IServer, IServerControl
 	{
 		/// <inheritdoc />

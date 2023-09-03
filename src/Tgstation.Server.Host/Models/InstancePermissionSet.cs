@@ -4,7 +4,7 @@ using Tgstation.Server.Api.Models.Response;
 
 namespace Tgstation.Server.Host.Models
 {
-	/// <inheritdoc />
+	/// <inheritdoc cref="Api.Models.Internal.InstancePermissionSet" />
 	public sealed class InstancePermissionSet : Api.Models.Internal.InstancePermissionSet, IApiTransformable<InstancePermissionSetResponse>
 	{
 		/// <summary>

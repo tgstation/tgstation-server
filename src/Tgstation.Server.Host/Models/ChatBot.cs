@@ -6,7 +6,7 @@ using Tgstation.Server.Api.Models.Response;
 
 namespace Tgstation.Server.Host.Models
 {
-	/// <inheritdoc />
+	/// <inheritdoc cref="Api.Models.Internal.ChatBotSettings" />
 	public sealed class ChatBot : Api.Models.Internal.ChatBotSettings, IApiTransformable<ChatBotResponse>
 	{
 		/// <summary>
