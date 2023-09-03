@@ -4,7 +4,7 @@ FROM mcr.microsoft.com/dotnet/sdk:8.0-preview-bookworm-slim AS build
 # replace shell with bash so we can source files
 RUN curl --silent -o- https://raw.githubusercontent.com/creationix/nvm/v0.39.1/install.sh | sh
 
-ENV NODE_VERSION 14.18.1
+ENV NODE_VERSION 20.5.1
 
 ENV NVM_DIR /root/.nvm
 ENV NODE_PATH $NVM_DIR/v$NODE_VERSION/lib/node_modules
