@@ -167,7 +167,6 @@ Components:
     Unreleased: true
   - Version: 5.15.2
     ComponentVersions:
-      Core: 5.15.1
       HttpApi: 9.12.0
       DreamMakerApi: 6.5.3
       Configuration: 4.7.1
@@ -177,7 +176,11 @@ Components:
       NugetApi: 11.1.2
       NugetClient: 12.1.2
       WebControlPanel: 4.24.0
-    Changes: []
+    Changes:
+    - Descriptions:
+      - Added a new project logo.
+      Author: Thunder12345
+      PullRequest: 1648
     Unreleased: true
   - Version: 5.15.1
     ComponentVersions:
