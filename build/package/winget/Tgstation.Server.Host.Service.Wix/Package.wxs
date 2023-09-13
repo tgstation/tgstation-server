@@ -11,7 +11,7 @@
     <CustomAction Id="RunTgsConfigure" Execute="deferred" FileRef="ServiceExecutableFile" ExeCommand="-c -p=--appsettings-base-path=[APPLICATIONDATADIRECTORY]" />
     <CustomAction Id="RunTgsConfigureMariaDB" Execute="deferred" FileRef="ServiceExecutableFile" ExeCommand="-c -p=&quot;--appsettings-base-path=[APPLICATIONDATADIRECTORY] --Internal:MariaDBSetup=true --Internal:MariaDBDefaultRootPassword=\&quot;[MARIADB_PASSWORD]\&quot;&quot;" />
 
-    <Icon Id="tgs.ico" SourceFile="../../../tgs.ico" />
+    <Icon Id="tgs.ico" SourceFile="../../../../artifacts/tgs.ico" />
 
     <SetProperty Id="WIX_BOOTSTRAPPER_UILEVEL" Value="[UILevel]" After="CostFinalize" Condition="WIX_BOOTSTRAPPER_UILEVEL=&quot;&quot;" />
 
