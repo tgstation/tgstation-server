@@ -27,3 +27,6 @@ changelog.yml
 *nupkg
 *.sqlite3
 packaging/
+/src/Tgstation.Server.Common/node_modules
+/src/Tgstation.Server.Common/package.json
+/src/Tgstation.Server.Common/yarn.lock
