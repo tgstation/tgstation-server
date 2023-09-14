@@ -1,6 +1,8 @@
 #!/usr/bin/make -f
 
 install:
+		rm artifacts/tgs.png
+		rm artifacts/tgs.ico
 		build/package/deb/install_artifacts.sh "$(DESTDIR)"
 		install -D build/package/appsettings.Initial.yml "$(DESTDIR)/etc/tgstation-server/appsettings.Production.yml"
 		install src/Tgstation.Server.Host/appsettings.yml "$(DESTDIR)/etc/tgstation-server/appsettings.yml"
