@@ -161,6 +161,14 @@ Components:
       Author: Cyberboss
       PullRequest: 1628
     Unreleased: true
+  - Version: 5.17.0
+    ComponentVersions: {}
+    Changes: []
+    Unreleased: true
+  - Version: 5.16.1
+    ComponentVersions: {}
+    Changes: []
+    Unreleased: true
   - Version: 5.16.0
     ComponentVersions:
       Core: 5.16.0
@@ -173,25 +181,11 @@ Components:
       NugetApi: 11.1.2
       NugetClient: 12.1.2
       WebControlPanel: 4.25.2
-    Changes: []
-    Unreleased: true
-  - Version: 5.15.2
-    ComponentVersions:
-      HttpApi: 9.12.0
-      DreamMakerApi: 6.5.3
-      Configuration: 4.7.1
-      InteropApi: 5.6.1
-      HostWatchdog: 1.4.0
-      NugetCommon: 6.0.1
-      NugetApi: 11.1.2
-      NugetClient: 12.1.2
-      WebControlPanel: 4.24.0
     Changes:
     - Descriptions:
       - Added a new project logo.
       Author: Thunder12345
       PullRequest: 1648
-    Unreleased: true
   - Version: 5.15.1
     ComponentVersions:
       HttpApi: 9.12.0
