@@ -9,7 +9,7 @@
     <Version>$(TgsCoreVersion)</Version>
     <!-- DO NOT ENABLE THIS, It makes the service require the desktop runtime instead of the ASP NET Core Hosting Bundle -->
     <UseWindowsForms>false</UseWindowsForms>
-    <ApplicationIcon>../../build/tgs.ico</ApplicationIcon>
+    <ApplicationIcon>../../artifacts/tgs.ico</ApplicationIcon>
     <ApplicationManifest>../../build/uac_elevation_manifest.xml</ApplicationManifest>
   </PropertyGroup>
 
