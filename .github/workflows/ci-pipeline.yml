@@ -185,14 +185,14 @@ jobs:
       with:
         ref: "refs/pull/${{ github.event.number }}/merge"
 
-    - name: gh-pages Clone
-      run: git clone -b gh-pages --single-branch "https://git@github.com/tgstation/tgstation-server" $HOME/tgsdox
-
     - name: Restore
       run: dotnet restore
 
     - name: Build ReleaseNotes
       run: dotnet build -c Release -p:TGS_HOST_NO_WEBPANEL=true tools/Tgstation.Server.ReleaseNotes/Tgstation.Server.ReleaseNotes.csproj
+
+    - name: gh-pages Clone
+      run: git clone -b gh-pages --single-branch "https://git@github.com/tgstation/tgstation-server" $HOME/tgsdox
 
     - name: Build Changelog (Incremental)
       run: |
@@ -1648,6 +1648,50 @@ jobs:
         asset_path: ./build/package/winget/tgstation-server-installer.exe
         asset_name: tgstation-server-installer.exe
         asset_content_type: application/octet-stream
+
+  changelog-regen:
+    name: Regenerate Changelog
+    runs-on: ubuntu-latest
+    needs: deploy-tgs
+    if: (!(cancelled() || failure()) && needs.deploy-tgs.result == 'success')
+    steps:
+    - name: Setup dotnet
+      uses: actions/setup-dotnet@v2
+      with:
+        dotnet-version: ${{ env.TGS_DOTNET_VERSION }}
+
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    - name: Restore
+      run: dotnet restore
+
+    - name: Build ReleaseNotes
+      run: dotnet build -c Release -p:TGS_HOST_NO_WEBPANEL=true tools/Tgstation.Server.ReleaseNotes/Tgstation.Server.ReleaseNotes.csproj
+
+    - name: gh-pages Clone
+      run: git clone -b gh-pages --single-branch "https://git@github.com/tgstation/tgstation-server" $HOME/tgsdox
+
+    - name: Build Changelog (Incremental)
+      run: |
+        mv $HOME/tgsdox/changelog.yml ./ 2>/dev/null
+        dotnet run -c Release --no-build --project tools/Tgstation.Server.ReleaseNotes --generate-full-notes
+
+    - name: gh-pages Push
+      run: |
+        pushd $HOME/tgsdox
+        rm -f changelog.yml
+        popd
+        sudo mv changelog.yml $HOME/tgsdox/
+        cd $HOME/tgsdox
+        git config --global push.default simple
+        git config user.name "tgstation-server"
+        git config user.email "tgstation-server@tgstation13.org"
+        git add changelog.yml
+        echo "Committing..."
+        git diff-index --quiet HEAD || git commit -m "Regenerate changelog post deploy for workflow run ${{ github.run_number }}" -m "Commit: ${{ github.event.head_commit.id }}"
+        echo "Pushing..."
+        git push -f "https://${{ secrets.DEV_PUSH_TOKEN }}@github.com/tgstation/tgstation-server" 2>&1
 
   deploy-docker:
     name: Deploy TGS (Docker)
