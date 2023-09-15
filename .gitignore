@@ -30,3 +30,5 @@ packaging/
 /src/Tgstation.Server.Common/node_modules
 /src/Tgstation.Server.Common/package.json
 /src/Tgstation.Server.Common/yarn.lock
+/src/Tgstation.Server.Common/logo_bg_white.svg
+yarn-error.log*
