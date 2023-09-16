@@ -166,8 +166,21 @@ Components:
     Changes: []
     Unreleased: true
   - Version: 5.16.1
-    ComponentVersions: {}
-    Changes: []
+    ComponentVersions:
+      HttpApi: 9.12.0
+      DreamMakerApi: 6.5.3
+      Configuration: 4.7.1
+      InteropApi: 5.6.1
+      HostWatchdog: 1.4.0
+      NugetCommon: 6.0.1
+      NugetApi: 11.1.2
+      NugetClient: 12.1.2
+      WebControlPanel: 4.25.2
+    Changes:
+    - Descriptions:
+      - Added white background to Windows project logo.
+      Author: Cyberboss
+      PullRequest: 1653
     Unreleased: true
   - Version: 5.16.0
     ComponentVersions:
