@@ -730,11 +730,6 @@ namespace Tgstation.Server.ReleaseNotes
 			return Tuple.Create(changelists.ToDictionary(kvp => kvp.Key, kvp => kvp.Value), await componentVersions, isReleasePR);
 		}
 
-		class ExtendedReleaseUpdate : ReleaseUpdate
-		{
-			public bool? MakeLatest { get; set; }
-		}
-
 		static async Task<int> EnsureRelease(IGitHubClient client)
 		{
 			Console.WriteLine("Ensuring latest release is a GitHub release...");
@@ -753,9 +748,9 @@ namespace Tgstation.Server.ReleaseNotes
 					.First();
 
 				// this should set it as latest
-				await client.Repository.Release.Edit(RepoOwner, RepoName, latestRelease.Id, new ExtendedReleaseUpdate
+				await client.Repository.Release.Edit(RepoOwner, RepoName, latestRelease.Id, new ReleaseUpdate
 				{
-					MakeLatest = true
+					MakeLatest = MakeLatestQualifier.True
 				});
 			}
 
