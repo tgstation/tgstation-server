@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.StaticFiles;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Primitives;
 using Microsoft.Net.Http.Headers;
@@ -40,6 +41,11 @@ namespace Tgstation.Server.Host.Controllers
 		readonly IWebHostEnvironment hostEnvironment;
 
 		/// <summary>
+		/// The <see cref="ILogger"/> for the <see cref="ControlPanelController"/>.
+		/// </summary>
+		readonly ILogger<ControlPanelController> logger;
+
+		/// <summary>
 		/// The <see cref="ControlPanelConfiguration"/> for the <see cref="ControlPanelController"/>.
 		/// </summary>
 		readonly ControlPanelConfiguration controlPanelConfiguration;
@@ -49,10 +55,15 @@ namespace Tgstation.Server.Host.Controllers
 		/// </summary>
 		/// <param name="hostEnvironment">The value of <see cref="hostEnvironment"/>.</param>
 		/// <param name="controlPanelConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="controlPanelConfiguration"/>.</param>
-		public ControlPanelController(IWebHostEnvironment hostEnvironment, IOptions<ControlPanelConfiguration> controlPanelConfigurationOptions)
+		/// <param name="logger">The value of <see cref="logger"/>.</param>
+		public ControlPanelController(
+			IWebHostEnvironment hostEnvironment,
+			IOptions<ControlPanelConfiguration> controlPanelConfigurationOptions,
+			ILogger<ControlPanelController> logger)
 		{
 			this.hostEnvironment = hostEnvironment ?? throw new ArgumentNullException(nameof(hostEnvironment));
 			controlPanelConfiguration = controlPanelConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(controlPanelConfigurationOptions));
+			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 		}
 
 		/// <summary>
@@ -64,9 +75,14 @@ namespace Tgstation.Server.Host.Controllers
 		public IActionResult GetChannelJson()
 		{
 			if (!controlPanelConfiguration.Enable)
+			{
+				logger.LogDebug("Not serving channel.json as control panel is disabled.");
 				return NotFound();
+			}
 
 			var controlPanelChannel = controlPanelConfiguration.Channel;
+			logger.LogTrace("Generating channel.json for channel \"{channel}\"...", controlPanelChannel);
+
 			if (controlPanelChannel == "local")
 				controlPanelChannel = ControlPanelRoute;
 			else if (String.IsNullOrWhiteSpace(controlPanelChannel))
@@ -112,7 +128,10 @@ namespace Tgstation.Server.Host.Controllers
 		public IActionResult Get([FromRoute] string appRoute)
 		{
 			if (!controlPanelConfiguration.Enable)
+			{
+				logger.LogDebug("Not serving static files as control panel is disabled.");
 				return NotFound();
+			}
 
 			if (Request.Headers.ContainsKey(FetchChannelVaryHeader))
 				return GetChannelJson();
@@ -120,6 +139,7 @@ namespace Tgstation.Server.Host.Controllers
 			var fileInfo = hostEnvironment.WebRootFileProvider.GetFileInfo(appRoute);
 			if (fileInfo.Exists)
 			{
+				logger.LogTrace("Serving static file \"{filename}\"...", appRoute);
 				var contentTypeProvider = new FileExtensionContentTypeProvider();
 				if (!contentTypeProvider.TryGetContentType(fileInfo.Name, out var contentType))
 					contentType = MediaTypeNames.Application.Octet;
@@ -130,6 +150,8 @@ namespace Tgstation.Server.Host.Controllers
 
 				return File(appRoute, contentType);
 			}
+			else
+				logger.LogTrace("Requested static file \"{filename}\" does not exist! Redirecting to index...", appRoute);
 
 			return File("index.html", MediaTypeNames.Text.Html);
 		}
