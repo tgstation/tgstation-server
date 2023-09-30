@@ -163,7 +163,7 @@ Components:
     Unreleased: true
   - Version: 5.17.0
     ComponentVersions:
-      Core: 5.16.0
+      Core: 5.16.1
       HttpApi: 9.12.0
       DreamMakerApi: 6.5.3
       Configuration: 4.7.1
