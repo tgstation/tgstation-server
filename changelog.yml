@@ -191,6 +191,10 @@ Components:
       - Added white background to Windows project logo.
       Author: Cyberboss
       PullRequest: 1653
+    - Descriptions:
+      - Added some additional logging to the `/app` route.
+      Author: Cyberboss
+      PullRequest: 1657
     Unreleased: true
   - Version: 5.16.0
     ComponentVersions:
