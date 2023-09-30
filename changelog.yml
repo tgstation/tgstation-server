@@ -175,6 +175,10 @@ Components:
       WebControlPanel: 4.25.2
     Changes: []
     Unreleased: true
+  - Version: 5.16.2
+    ComponentVersions: {}
+    Changes: []
+    Unreleased: true
   - Version: 5.16.1
     ComponentVersions:
       HttpApi: 9.12.0
@@ -195,7 +199,6 @@ Components:
       - Added some additional logging to the `/app` route.
       Author: Cyberboss
       PullRequest: 1657
-    Unreleased: true
   - Version: 5.16.0
     ComponentVersions:
       Core: 5.16.0
