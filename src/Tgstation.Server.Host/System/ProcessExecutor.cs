@@ -95,8 +95,9 @@ namespace Tgstation.Server.Host.System
 				throw new InvalidOperationException("Requesting output/error reading requires noShellExecute to be true!");
 
 			logger.LogDebug(
-				"{launchType}aunching process in {workingDirectory}: {exe} {arguments}",
-				noShellExecute ? "L" : "Shell l",
+				noShellExecute
+					? "Launching process in {workingDirectory}: {exe} {arguments}"
+					: "Shell launching process in {workingDirectory}: {exe} {arguments}",
 				workingDirectory,
 				fileName,
 				arguments);
