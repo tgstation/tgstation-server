@@ -200,7 +200,9 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 
 			var csb = new DiscordConnectionStringBuilder(chatBot.ConnectionString);
 			var botToken = csb.BotToken;
+#pragma warning disable CS0618 // Type or member is obsolete
 			basedMeme = csb.BasedMeme;
+#pragma warning restore CS0618 // Type or member is obsolete
 			outputDisplayType = csb.DMOutputDisplay;
 			deploymentBranding = csb.DeploymentBranding;
 
@@ -348,7 +350,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			var author = new EmbedAuthor(assemblyInformationProvider.VersionPrefix)
 			{
 				Url = "https://github.com/tgstation/tgstation-server",
-				IconUrl = "https://avatars0.githubusercontent.com/u/1363778?s=280&v=4",
+				IconUrl = "https://cdn.discordapp.com/attachments/1114451486374637629/1151650846019432448/tgs.png",
 			};
 			var embed = new Embed
 			{

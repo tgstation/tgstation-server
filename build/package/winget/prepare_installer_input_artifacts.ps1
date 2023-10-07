@@ -26,7 +26,11 @@ try
         $ProgressPreference = $previousProgressPreference
     }
 
-    cd src/Tgstation.Server.Host
+    # Generating icons
+    Set-Location src/Tgstation.Server.Common
+    dotnet msbuild -t:IconGeneration
+
+    Set-Location  ../Tgstation.Server.Host
     dotnet publish -c Release --no-build -o ../../artifacts/Tgstation.Server.Host
     if (-Not $?) {
         exit $lastexitcode
@@ -39,7 +43,10 @@ try
         exit $lastexitcode
     }
 
-    mv ../../artifacts/Tgstation.Server.Host.Service/Tgstation.Server.Host.Service.exe ../../artifacts/
+    cd ../..
+    build/RemoveUnsupportedRuntimes.sh artifacts/Tgstation.Server.Host
+    build/RemoveUnsupportedServiceRuntimes.ps1 artifacts/Tgstation.Server.Host.Service
+    mv artifacts/Tgstation.Server.Host.Service/Tgstation.Server.Host.Service.exe artifacts/
 }
 finally
 {

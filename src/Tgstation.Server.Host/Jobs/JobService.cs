@@ -16,7 +16,7 @@ using Tgstation.Server.Host.Utils;
 
 namespace Tgstation.Server.Host.Jobs
 {
-	/// <inheritdoc />
+	/// <inheritdoc cref="IJobService" />
 	sealed class JobService : IJobService, IDisposable
 	{
 		/// <summary>

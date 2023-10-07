@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -57,7 +58,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles.Tests
 
 				await configuration.StartAsync(CancellationToken.None);
 
-				var listResponse = await configuration.ListDirectory(".", null, CancellationToken.None);
+				var listResponse = (await configuration.ListDirectory(".", null, CancellationToken.None)).ToList();
 				Assert.AreEqual(9, listResponse.Count);
 				Assert.AreEqual("a", listResponse[0].Path[2..]);
 				Assert.AreEqual("c", listResponse[1].Path[2..]);
@@ -76,7 +77,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles.Tests
 				await ioManager.WriteAllBytes("GameStaticFiles/config/unbuyableshuttles.txt", Array.Empty<byte>(), CancellationToken.None);
 				await ioManager.WriteAllBytes("GameStaticFiles/config/spaceruinblacklist.txt", Array.Empty<byte>(), CancellationToken.None);
 
-				listResponse = await configuration.ListDirectory("GameStaticFiles/config", null, CancellationToken.None);
+				listResponse = (await configuration.ListDirectory("GameStaticFiles/config", null, CancellationToken.None)).ToList();
 				var substringStart = "GameStaticFiles/config".Length + 1;
 				Assert.AreEqual(6, listResponse.Count);
 				Assert.AreEqual("title_music", listResponse[0].Path[substringStart..]);

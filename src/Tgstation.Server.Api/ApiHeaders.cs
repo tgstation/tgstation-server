@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Net.Http.Headers;
 using System.Net.Mime;
@@ -65,6 +66,11 @@ namespace Tgstation.Server.Api
 		/// The current <see cref="System.Reflection.AssemblyName"/>.
 		/// </summary>
 		static readonly AssemblyName AssemblyName = Assembly.GetExecutingAssembly().GetName();
+
+		/// <summary>
+		/// A <see cref="char"/> <see cref="Array"/> containing the ':' <see cref="char"/>.
+		/// </summary>
+		static readonly char[] ColonSeparator = new char[] { ':' };
 
 		/// <summary>
 		/// The instance <see cref="EntityId.Id"/> being accessed.
@@ -254,7 +260,7 @@ namespace Tgstation.Server.Api
 									break;
 								}
 
-								var basicAuthSplits = joinedString.Split(new char[] { ':' }, StringSplitOptions.RemoveEmptyEntries);
+								var basicAuthSplits = joinedString.Split(ColonSeparator, StringSplitOptions.RemoveEmptyEntries);
 								if (basicAuthSplits.Length < 2)
 								{
 									AddError(HeaderTypes.Authorization, badBasicAuthHeaderMessage);
@@ -331,7 +337,7 @@ namespace Tgstation.Server.Api
 
 			instanceId ??= InstanceId;
 			if (instanceId.HasValue)
-				headers.Add(InstanceIdHeader, instanceId.ToString());
+				headers.Add(InstanceIdHeader, instanceId.Value.ToString(CultureInfo.InvariantCulture));
 		}
 	}
 }

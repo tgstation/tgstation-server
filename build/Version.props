@@ -3,13 +3,13 @@
   <!-- Integration tests will ensure they match across the board -->
   <Import Project="ControlPanelVersion.props" />
   <PropertyGroup>
-    <TgsCoreVersion>5.14.0</TgsCoreVersion>
+    <TgsCoreVersion>5.16.1</TgsCoreVersion>
     <TgsConfigVersion>4.7.1</TgsConfigVersion>
-    <TgsApiVersion>9.11.1</TgsApiVersion>
-    <TgsCommonLibraryVersion>6.0.0</TgsCommonLibraryVersion>
-    <TgsApiLibraryVersion>11.0.1</TgsApiLibraryVersion>
-    <TgsClientVersion>12.0.1</TgsClientVersion>
-    <TgsDmapiVersion>6.5.2</TgsDmapiVersion>
+    <TgsApiVersion>9.12.0</TgsApiVersion>
+    <TgsCommonLibraryVersion>6.0.1</TgsCommonLibraryVersion>
+    <TgsApiLibraryVersion>11.1.2</TgsApiLibraryVersion>
+    <TgsClientVersion>12.1.2</TgsClientVersion>
+    <TgsDmapiVersion>6.5.3</TgsDmapiVersion>
     <TgsInteropVersion>5.6.1</TgsInteropVersion>
     <TgsHostWatchdogVersion>1.4.0</TgsHostWatchdogVersion>
     <TgsContainerScriptVersion>1.2.1</TgsContainerScriptVersion>
@@ -17,9 +17,9 @@
     <TgsNugetNetFramework>netstandard2.0</TgsNugetNetFramework>
     <TgsNetMajorVersion>6</TgsNetMajorVersion>
     <!-- Update this frequently with dotnet runtime patches. MAJOR MUST MATCH ABOVE! -->
-    <TgsDotnetRedistUrl>https://dotnetcli.azureedge.net/dotnet/aspnetcore/Runtime/6.0.21/dotnet-hosting-6.0.21-win.exe</TgsDotnetRedistUrl>
-    <TgsMariaDBRedistVersion>11.0.2</TgsMariaDBRedistVersion>
+    <TgsDotnetRedistUrl>https://dotnetcli.azureedge.net/dotnet/aspnetcore/Runtime/6.0.22/dotnet-hosting-6.0.22-win.exe</TgsDotnetRedistUrl>
+    <TgsMariaDBRedistVersion>10.11.5</TgsMariaDBRedistVersion>
     <!-- The two versions must match above, this is referenced by XML readers in scripts so we can't use an MSBuild property reference -->
-    <TgsMariaDBRedistUrl>https://ftp.osuosl.org/pub/mariadb/mariadb-11.0.2/winx64-packages/mariadb-11.0.2-winx64.msi</TgsMariaDBRedistUrl>
+    <TgsMariaDBRedistUrl>https://ftp.osuosl.org/pub/mariadb//mariadb-10.11.5/winx64-packages/mariadb-10.11.5-winx64.msi</TgsMariaDBRedistUrl>
   </PropertyGroup>
 </Project>

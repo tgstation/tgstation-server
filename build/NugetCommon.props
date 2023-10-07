@@ -5,21 +5,32 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Authors>Jordan Dominion</Authors>
     <Company>/tg/station 13</Company>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
     <PackageProjectUrl>https://tgstation.github.io/tgstation-server</PackageProjectUrl>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageIcon>tgs.png</PackageIcon>
     <RepositoryType>Git</RepositoryType>
     <RepositoryUrl>https://github.com/tgstation/tgstation-server</RepositoryUrl>
-    <Copyright>2018-2023</Copyright>
+    <Copyright>Copyright (c) Jordan Brown 2018</Copyright>
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(GITHUB_ACTIONS)' == 'true'">
+    <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- Usage: Sourcelink -->
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
+  </ItemGroup>
+
   <ItemGroup>
     <None Include="README.md" Pack="true" PackagePath="" />
     <None Include="../../LICENSE" Pack="true" PackagePath="" />
-    <None Include="../../build/tgs.png" Pack="true" PackagePath="" />
+    <None Include="../../artifacts/tgs.png" Pack="true" PackagePath="" />
   </ItemGroup>
 </Project>

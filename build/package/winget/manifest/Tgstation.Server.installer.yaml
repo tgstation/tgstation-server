@@ -21,11 +21,10 @@ Installers:
   ElevationRequirement: elevatesSelf
   AppsAndFeaturesEntries:
   - DisplayName: tgstation-server
-    DisplayVersion: 0.22.475 # Do not change. Set before publish by push_manifest.ps1
     Publisher: /tg/station 13
   Dependencies:
     PackageDependencies:
     - PackageIdentifier: Microsoft.DotNet.HostingBundle.6
   ReleaseDate: 2023-06-24 # Do not change. Set before publish by push_manifest.ps1
 ManifestType: installer
-ManifestVersion: 1.4.0
+ManifestVersion: 1.5.0

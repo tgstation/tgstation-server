@@ -4,7 +4,7 @@ $ErrorActionPreference="Stop"
 
 $tgsVersion = $versionXML.Project.PropertyGroup.TgsCoreVersion
 
-mkdir artifacts
+New-Item artifacts -ItemType Directory -ErrorAction SilentlyContinue
 $previousProgressPreference = $ProgressPreference
 $ProgressPreference = 'SilentlyContinue'
 try
@@ -15,16 +15,30 @@ try
 }
 
 $installerHash = Get-FileHash -Path "artifacts/tgstation-server-installer.exe" -ErrorAction Stop # SHA256 is the default
+$msiPath = [System.IO.Path]::Combine($pwd, "artifacts/tgstation-server.msi").Replace("/", "\");
 
-cd build/package/winget/manifest
+Push-Location build/package/winget
 try
 {
     $devHash = 'CF0D4D2FD042098D826A226A05A9DAA5C792318CF48FD334F7FC06AF6A8A23B1'
     $devVersion = '0.22.475'
     $devReleaseDate = '2023-06-24'
+    $devProductCode = "{D24887FA-3228-4509-B5F3-4E07E349F278}"
+
+    Set-Location manifest
+    Convert-Path -ErrorAction Stop -LiteralPath $msiPath
+    $windowsInstaller = New-Object -ComObject WindowsInstaller.Installer
+    $database = $windowsInstaller.OpenDatabase($msiPath, 0)
+    $q = "SELECT Value FROM Property WHERE Property = 'ProductCode'"
+    $view = $database.OpenView($q)
+    $null = $View.Execute()
+    $record = $View.Fetch()
+    $realProductCode = $record.StringData(1)
+    $null = $View.Close()
+
     $releaseDate = Get-Date -format "yyyy-MM-dd"
 
-    (Get-Content Tgstation.Server.installer.yaml -ErrorAction Stop).Replace($devHash, $installerHash.Hash).Replace($devReleaseDate, $releaseDate).Replace($devVersion, $tgsVersion) | Set-Content Tgstation.Server.installer.yaml -ErrorAction Stop
+    (Get-Content Tgstation.Server.installer.yaml -ErrorAction Stop).Replace($devHash, $installerHash.Hash).Replace($devReleaseDate, $releaseDate).Replace($devVersion, $tgsVersion).Replace($devProductCode, $realProductCode.ToString()) | Set-Content Tgstation.Server.installer.yaml -ErrorAction Stop
     (Get-Content Tgstation.Server.locale.en-US.yaml -ErrorAction Stop).Replace($devVersion, $tgsVersion) | Set-Content Tgstation.Server.locale.en-US.yaml -ErrorAction Stop
     (Get-Content Tgstation.Server.yaml -ErrorAction Stop).Replace($devVersion, $tgsVersion) | Set-Content Tgstation.Server.yaml -ErrorAction Stop
 
@@ -40,5 +54,5 @@ try
 }
 finally
 {
-    cd ../../../..
+    Pop-Location
 }

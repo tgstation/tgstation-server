@@ -31,8 +31,11 @@ dh_make -p tgstation-server_$TGS_VERSION -y --createorig -s
 
 rm -f debian/README* debian/changelog debian/*.ex debian/upstream/*.ex
 
+pushd ..
+dotnet run -c Release -p:TGS_HOST_NO_WEBPANEL=true --project tools/Tgstation.Server.ReleaseNotes $TGS_VERSION --debian packaging/debian/changelog $CURRENT_COMMIT
+popd
+
 cp -r build/package/deb/debian/* debian/
-sed -i "s/~!VERSION!~/$TGS_VERSION/g" debian/changelog
 
 cp build/tgstation-server.service debian/
 

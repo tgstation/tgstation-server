@@ -12,7 +12,6 @@ using System.Threading.Tasks;
 
 using Microsoft.Data.SqlClient;
 using Microsoft.Data.Sqlite;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -88,11 +87,6 @@ namespace Tgstation.Server.Host.Setup
 		readonly InternalConfiguration internalConfiguration;
 
 		/// <summary>
-		/// A <see cref="TaskCompletionSource"/> that will complete when the <see cref="IConfiguration"/> is reloaded.
-		/// </summary>
-		TaskCompletionSource reloadTcs;
-
-		/// <summary>
 		/// Initializes a new instance of the <see cref="SetupWizard"/> class.
 		/// </summary>
 		/// <param name="ioManager">The value of <see cref="ioManager"/>.</param>
@@ -103,7 +97,6 @@ namespace Tgstation.Server.Host.Setup
 		/// <param name="platformIdentifier">The value of <see cref="platformIdentifier"/>.</param>
 		/// <param name="asyncDelayer">The value of <see cref="asyncDelayer"/>.</param>
 		/// <param name="applicationLifetime">The value of <see cref="applicationLifetime"/>.</param>
-		/// <param name="configuration">The <see cref="IConfiguration"/> in use.</param>
 		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="generalConfiguration"/>.</param>
 		/// <param name="internalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="internalConfiguration"/>.</param>
 		public SetupWizard(
@@ -115,7 +108,6 @@ namespace Tgstation.Server.Host.Setup
 			IPlatformIdentifier platformIdentifier,
 			IAsyncDelayer asyncDelayer,
 			IHostApplicationLifetime applicationLifetime,
-			IConfiguration configuration,
 			IOptions<GeneralConfiguration> generalConfigurationOptions,
 			IOptions<InternalConfiguration> internalConfigurationOptions)
 		{
@@ -127,16 +119,9 @@ namespace Tgstation.Server.Host.Setup
 			this.platformIdentifier = platformIdentifier ?? throw new ArgumentNullException(nameof(platformIdentifier));
 			this.asyncDelayer = asyncDelayer ?? throw new ArgumentNullException(nameof(asyncDelayer));
 			this.applicationLifetime = applicationLifetime ?? throw new ArgumentNullException(nameof(applicationLifetime));
-			ArgumentNullException.ThrowIfNull(configuration);
 
 			generalConfiguration = generalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
 			internalConfiguration = internalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(internalConfigurationOptions));
-
-			configuration
-				.GetReloadToken()
-				.RegisterChangeCallback(
-					state => reloadTcs?.TrySetResult(),
-					null);
 		}
 
 		/// <inheritdoc />
@@ -512,16 +497,16 @@ namespace Tgstation.Server.Host.Setup
 				}
 				while (true);
 
-				bool useWinAuth;
+				var useWinAuth = false;
+				var encrypt = false;
 				if (databaseConfiguration.DatabaseType == DatabaseType.SqlServer && platformIdentifier.IsWindows)
 				{
 					var defaultResponse = serverAddressEntry?.AddressList.Any(IPAddress.IsLoopback) ?? false
 						? (bool?)true
 						: null;
 					useWinAuth = await PromptYesNo("Use Windows Authentication?", defaultResponse, cancellationToken);
+					encrypt = await PromptYesNo("Use encrypted connection?", false, cancellationToken);
 				}
-				else
-					useWinAuth = false;
 
 				await console.WriteAsync(null, true, cancellationToken);
 
@@ -576,6 +561,8 @@ namespace Tgstation.Server.Host.Setup
 								csb.UserID = username;
 								csb.Password = password;
 							}
+
+							csb.Encrypt = encrypt;
 
 							CreateTestConnection(csb.ConnectionString);
 							csb.InitialCatalog = databaseName;
@@ -1014,25 +1001,14 @@ namespace Tgstation.Server.Host.Setup
 
 			var configBytes = Encoding.UTF8.GetBytes(serializedYaml);
 
-			reloadTcs = new TaskCompletionSource();
-
 			try
 			{
 				await ioManager.WriteAllBytes(
 					userConfigFileName,
 					configBytes,
 					cancellationToken);
-
-				// Ensure the reload
-				if (generalConfiguration.SetupWizardMode != SetupWizardMode.Only)
-					using (cancellationToken.Register(() => reloadTcs.TrySetCanceled()))
-						await reloadTcs.Task;
 			}
-			catch (OperationCanceledException)
-			{
-				throw;
-			}
-			catch (Exception e)
+			catch (Exception e) when (e is not OperationCanceledException)
 			{
 				await console.WriteAsync(e.Message, true, cancellationToken);
 				await console.WriteAsync(null, true, cancellationToken);
@@ -1108,7 +1084,7 @@ namespace Tgstation.Server.Host.Setup
 
 			var userConfigFileName = ioManager.ConcatPath(
 				internalConfiguration.AppSettingsBasePath,
-				String.Format(CultureInfo.InvariantCulture, "appsettings.{0}.yml", hostingEnvironment.EnvironmentName));
+				$"{ServerFactory.AppSettings}.{hostingEnvironment.EnvironmentName}.yml");
 
 			async Task HandleSetupCancel()
 			{

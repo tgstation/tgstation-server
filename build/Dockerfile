@@ -4,7 +4,7 @@ FROM mcr.microsoft.com/dotnet/sdk:6.0-bookworm-slim AS build
 # replace shell with bash so we can source files
 RUN curl --silent -o- https://raw.githubusercontent.com/creationix/nvm/v0.39.1/install.sh | sh
 
-ENV NODE_VERSION 14.18.1
+ENV NODE_VERSION 20.5.1
 
 ENV NVM_DIR /root/.nvm
 ENV NODE_PATH $NVM_DIR/v$NODE_VERSION/lib/node_modules
@@ -58,10 +58,15 @@ COPY . .
 RUN dos2unix build/tgs.docker.sh
 
 WORKDIR /repo/src/Tgstation.Server.Host.Console
-RUN dotnet publish -c Release -o /app
+RUN dotnet publish -c Release -o /app \
+	&& cd ../.. \
+	&& build/RemoveUnsupportedRuntimes.sh /app
 
 WORKDIR /repo/src/Tgstation.Server.Host
-RUN dotnet publish -c Release -o /app/lib/Default && mv /app/lib/Default/appsettings* /app
+RUN dotnet publish -c Release -o /app/lib/Default \
+	&& cd ../.. \
+	&& build/RemoveUnsupportedRuntimes.sh /app/lib/Default \
+	&& mv /app/lib/Default/appsettings* /app
 
 FROM mcr.microsoft.com/dotnet/aspnet:6.0-bookworm-slim
 

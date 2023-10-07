@@ -11,7 +11,7 @@ using Tgstation.Server.Api.Models.Response;
 
 namespace Tgstation.Server.Client.Components
 {
-	/// <inheritdoc />
+	/// <inheritdoc cref="IInstancePermissionSetClient" />
 	sealed class InstancePermissionSetClient : PaginatedClient, IInstancePermissionSetClient
 	{
 		/// <summary>

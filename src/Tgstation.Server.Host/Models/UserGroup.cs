@@ -7,7 +7,9 @@ using Tgstation.Server.Api.Models.Response;
 
 namespace Tgstation.Server.Host.Models
 {
-	/// <inheritdoc />
+	/// <summary>
+	/// Represents a group of <see cref="User"/>s.
+	/// </summary>
 	public sealed class UserGroup : NamedEntity, IApiTransformable<UserGroupResponse>
 	{
 		/// <summary>

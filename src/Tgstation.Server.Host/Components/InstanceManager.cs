@@ -27,7 +27,7 @@ using Tgstation.Server.Host.Utils;
 
 namespace Tgstation.Server.Host.Components
 {
-	/// <inheritdoc />
+	/// <inheritdoc cref="IInstanceManager" />
 	sealed class InstanceManager :
 		IInstanceManager,
 		IInstanceCoreProvider,

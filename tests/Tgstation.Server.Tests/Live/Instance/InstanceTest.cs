@@ -97,7 +97,6 @@ namespace Tgstation.Server.Tests.Live.Instance
 				// needs to just be valid
 				connectionString = new DiscordConnectionStringBuilder
 				{
-					BasedMeme = true,
 					BotToken = "some_token",
 					DeploymentBranding = true,
 					DMOutputDisplay = DiscordDMOutputDisplayType.Always,

@@ -6,7 +6,7 @@
     <Version>$(TgsCommonLibraryVersion)</Version>
     <Description>Common functions for tgstation-server.</Description>
     <PackageTags>web tgstation-server tgstation ss13 byond client http</PackageTags>
-    <PackageReleaseNotes>Added CachedResponseStream.</PackageReleaseNotes>
+    <PackageReleaseNotes>$(TGS_NUGET_RELEASE_NOTES_COMMON)</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
@@ -14,4 +14,21 @@
     <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.5.4" />
   </ItemGroup>
 
+  <!-- This is here because I know we have node as a build dep so this just works -->
+  <Target Name="IconGeneration" BeforeTargets="ResolveAssemblyReferences" Inputs="build_logo.js;../../build/logo.svg" Outputs="../../artifacts/tgs.ico;../../artifacts/tgs.png">
+    <Message Text="Restoring yarn packages..." Importance="high" />
+    <Exec Command="npx --yes yarn add svg-to-ico@1.0.14 svg2img@1.0.0-beta.2" />
+    <Message Text="Generating icons from SVG..." Importance="high" />
+    <Exec Command="node ./build_logo.js" />
+  </Target>
+
+  <Target Name="IconClean" AfterTargets="Clean">
+    <Message Text="Cleaning icons..." Importance="high" />
+    <Delete Files="../../artifacts/tgs.ico;../../artifacts/tgs.png" />
+  </Target>
+
+  <Target Name="IconNodeCleanup" AfterTargets="IconGeneration;IconClean">
+    <RemoveDir Directories="node_modules" />
+    <Delete Files="package.json;yarn.lock;logo_bg_white.svg;yarn-error.log" />
+  </Target>
 </Project>

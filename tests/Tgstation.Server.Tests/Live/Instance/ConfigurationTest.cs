@@ -1,9 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
-using System.Net.Http;
-using System.Net.Mime;
-using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -14,9 +11,7 @@ using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Request;
 using Tgstation.Server.Client;
 using Tgstation.Server.Client.Components;
-using Tgstation.Server.Common;
 using Tgstation.Server.Host.IO;
-using Tgstation.Server.Host.System;
 
 namespace Tgstation.Server.Tests.Live.Instance
 {
@@ -139,12 +134,49 @@ namespace Tgstation.Server.Tests.Live.Instance
 			TaskCreationOptions.LongRunning,
 			TaskScheduler.Current);
 
-		public Task RunPreWatchdog(CancellationToken cancellationToken)
+		async Task TestListing(CancellationToken cancellationToken)
 		{
-			return Task.WhenAll(
-				TestUploadDownloadAndDeleteDirectory(cancellationToken),
-				SetupDMApiTests(cancellationToken),
-				TestPregeneratedFilesExist(cancellationToken));
+			await using var uploadMs = new MemoryStream(Encoding.UTF8.GetBytes("Hello world!"));
+			await configurationClient.Write(
+				new ConfigurationFileRequest
+				{
+					Path = "f-TestFile.txt"
+				},
+				uploadMs,
+				cancellationToken);
+			uploadMs.Seek(0, SeekOrigin.Begin);
+			await configurationClient.Write(
+				new ConfigurationFileRequest
+				{
+					Path = "f-TestDir/f-TestFile.txt"
+				},
+				uploadMs,
+				cancellationToken);
+
+			var baseList = await configurationClient.List(null, ".", cancellationToken);
+			Assert.AreEqual(5, baseList.Count);
+
+			Assert.AreEqual($"/CodeModifications", baseList[0].Path);
+			Assert.IsTrue(baseList[0].IsDirectory);
+			Assert.AreEqual($"/EventScripts", baseList[1].Path);
+			Assert.IsTrue(baseList[1].IsDirectory);
+			Assert.AreEqual($"/f-TestDir", baseList[2].Path);
+			Assert.IsTrue(baseList[2].IsDirectory);
+			Assert.AreEqual($"/GameStaticFiles", baseList[3].Path);
+			Assert.IsTrue(baseList[3].IsDirectory);
+			Assert.AreEqual($"/f-TestFile.txt", baseList[4].Path);
+			Assert.IsFalse(baseList[4].IsDirectory);
 		}
+
+		async Task SequencedApiTests(CancellationToken cancellationToken)
+		{
+			await TestUploadDownloadAndDeleteDirectory(cancellationToken);
+			await TestListing(cancellationToken);
+		}
+
+		public Task RunPreWatchdog(CancellationToken cancellationToken) => Task.WhenAll(
+			SequencedApiTests(cancellationToken),
+			SetupDMApiTests(cancellationToken),
+			TestPregeneratedFilesExist(cancellationToken));
 	}
 }
