@@ -20,8 +20,8 @@ namespace Tgstation.Server.Host.Components.Session
 		/// Load a saved <see cref="ReattachInformation"/>.
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the stored <see cref="ReattachInformation"/> if any.</returns>
-		Task<ReattachInformation> Load(CancellationToken cancellationToken);
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the stored <see cref="ReattachInformation"/> if any.</returns>
+		ValueTask<ReattachInformation> Load(CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Clear any stored <see cref="ReattachInformation"/>.

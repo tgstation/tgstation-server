@@ -90,7 +90,7 @@ namespace Tgstation.Server.Host.Components.Session
 		});
 
 		/// <inheritdoc />
-		public async Task<ReattachInformation> Load(CancellationToken cancellationToken)
+		public async ValueTask<ReattachInformation> Load(CancellationToken cancellationToken)
 		{
 			Models.ReattachInformation result = null;
 			TimeSpan? topicTimeout = null;

@@ -239,7 +239,7 @@ namespace Tgstation.Server.Host.Components.Session
 		}
 
 		/// <inheritdoc />
-		public async Task<ISessionController> LaunchNew(
+		public async ValueTask<ISessionController> LaunchNew(
 			IDmbProvider dmbProvider,
 			IByondExecutableLock currentByondLock,
 			DreamDaemonLaunchParameters launchParameters,
@@ -395,7 +395,7 @@ namespace Tgstation.Server.Host.Components.Session
 		}
 
 		/// <inheritdoc />
-		public async Task<ISessionController> Reattach(
+		public async ValueTask<ISessionController> Reattach(
 			ReattachInformation reattachInformation,
 			CancellationToken cancellationToken)
 		{
@@ -446,7 +446,7 @@ namespace Tgstation.Server.Host.Components.Session
 							assemblyInformationProvider,
 							asyncDelayer,
 							loggerFactory.CreateLogger<SessionController>(),
-							() => Task.CompletedTask,
+							() => ValueTask.CompletedTask,
 							null,
 							true,
 							false);
@@ -487,8 +487,8 @@ namespace Tgstation.Server.Host.Components.Session
 		/// <param name="logFilePath">The path to log DreamDaemon output to.</param>
 		/// <param name="apiValidate">If we are only validating the DMAPI then exiting.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the DreamDaemon <see cref="IProcess"/>.</returns>
-		async Task<IProcess> CreateDreamDaemonProcess(
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the DreamDaemon <see cref="IProcess"/>.</returns>
+		async ValueTask<IProcess> CreateDreamDaemonProcess(
 			IDmbProvider dmbProvider,
 			ITopicClient byondTopicSender,
 			IByondExecutableLock byondLock,
@@ -578,8 +578,8 @@ namespace Tgstation.Server.Host.Components.Session
 		/// <param name="cliSupported">If DreamDaemon was launched with CLI capabilities.</param>
 		/// <param name="preserveFile">If <see langword="false"/>, <paramref name="outputFilePath"/> will be deleted.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		async Task LogDDOutput(IProcess process, string outputFilePath, bool cliSupported, bool preserveFile, CancellationToken cancellationToken)
+		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
+		async ValueTask LogDDOutput(IProcess process, string outputFilePath, bool cliSupported, bool preserveFile, CancellationToken cancellationToken)
 		{
 			try
 			{

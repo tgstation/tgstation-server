@@ -217,7 +217,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				// start the alpha server task, either by launch a new process or attaching to an existing one
 				// The tasks returned are mainly for writing interop files to the directories among other things and should generally never fail
 				// The tasks pertaining to server startup times are in the ISessionControllers
-				Task<ISessionController> serverLaunchTask;
+				ValueTask<ISessionController> serverLaunchTask;
 				if (!reattachInProgress)
 				{
 					Logger.LogTrace("Initializing controller with CompileJob {compileJobId}...", dmbToUse.CompileJob.Id);

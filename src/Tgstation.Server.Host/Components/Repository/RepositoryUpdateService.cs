@@ -79,8 +79,8 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// <param name="lastOriginCommitSha">The last known origin commit SHA of the <paramref name="repository"/> if any.</param>
 		/// <param name="revInfoSink">An optional <see cref="Action{T}"/> to receive the loaded <see cref="RevisionInformation"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in <see langword="true"/> if the <paramref name="databaseContext"/> was modified in a way that requires saving, <see langword="false"/> otherwise.</returns>
-		public static async Task<bool> LoadRevisionInformation(
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in <see langword="true"/> if the <paramref name="databaseContext"/> was modified in a way that requires saving, <see langword="false"/> otherwise.</returns>
+		public static async ValueTask<bool> LoadRevisionInformation(
 			IRepository repository,
 			IDatabaseContext databaseContext,
 			ILogger logger,

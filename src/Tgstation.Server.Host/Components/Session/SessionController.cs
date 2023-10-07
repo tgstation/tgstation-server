@@ -236,7 +236,7 @@ namespace Tgstation.Server.Host.Components.Session
 		/// <param name="assemblyInformationProvider">The <see cref="IAssemblyInformationProvider"/> for the <see cref="SessionController"/>.</param>
 		/// <param name="asyncDelayer">The <see cref="IAsyncDelayer"/> for the <see cref="SessionController"/>.</param>
 		/// <param name="logger">The value of <see cref="Chunker.Logger"/>.</param>
-		/// <param name="postLifetimeCallback">The <see cref="Func{TResult}"/> returning a <see cref="Task"/> to be run after the <paramref name="process"/> ends.</param>
+		/// <param name="postLifetimeCallback">The <see cref="Func{TResult}"/> returning a <see cref="ValueTask"/> to be run after the <paramref name="process"/> ends.</param>
 		/// <param name="startupTimeout">The optional time to wait before failing the <see cref="LaunchResult"/>.</param>
 		/// <param name="reattached">If this is a reattached session.</param>
 		/// <param name="apiValidate">If this is a DMAPI validation session.</param>
@@ -252,7 +252,7 @@ namespace Tgstation.Server.Host.Components.Session
 			IAssemblyInformationProvider assemblyInformationProvider,
 			IAsyncDelayer asyncDelayer,
 			ILogger<SessionController> logger,
-			Func<Task> postLifetimeCallback,
+			Func<ValueTask> postLifetimeCallback,
 			uint? startupTimeout,
 			bool reattached,
 			bool apiValidate)
