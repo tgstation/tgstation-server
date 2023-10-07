@@ -368,7 +368,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 
 			var messageResponse = await channelsClient.CreateMessageAsync(
 				new Snowflake(channelId),
-				"DM: Deployment in Progress...",
+				"DM: Deployment in progress...",
 				embeds: new List<IEmbed> { embed },
 				ct: cancellationToken);
 
@@ -377,7 +377,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 
 			return async (errorMessage, dreamMakerOutput) =>
 			{
-				var completionString = errorMessage == null ? "Succeeded" : "Failed";
+				var completionString = errorMessage == null ? "Pending" : "Failed";
 
 				Embed CreateUpdatedEmbed(string message, Color color) => new Embed
 				{
@@ -426,7 +426,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 						errorMessage,
 						false));
 
-				var updatedMessageText = $"DM: Deployment {completionString}!";
+				var updatedMessageText = errorMessage == null ? $"DM: Deployment pending reboot..." : $"DM: Deployment failed!";
 
 				IMessage updatedMessage = null;
 				async Task CreateUpdatedMessage()
@@ -474,13 +474,20 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 						return;
 
 					if (active)
+					{
+						completionString = "Succeeded";
+						updatedMessageText = $"DM: Deployment succeeded!";
 						embed = CreateUpdatedEmbed(
 							"The deployment completed successfully and was applied to server.",
 							Color.Green);
+					}
 					else
+					{
+						completionString = "Inactive";
 						embed = CreateUpdatedEmbed(
 							"This deployment has been superceeded by a new one.",
 							Color.Gray);
+					}
 
 					var editResponse = await channelsClient.EditMessageAsync(
 						new Snowflake(channelId),
