@@ -73,12 +73,12 @@ namespace Tgstation.Server.Host.Controllers
 		/// Launches the watchdog.
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation.</returns>
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation.</returns>
 		/// <response code="202">Watchdog launch started successfully.</response>
 		[HttpPut]
 		[TgsAuthorize(DreamDaemonRights.Start)]
 		[ProducesResponseType(typeof(JobResponse), 202)]
-		public Task<IActionResult> Create(CancellationToken cancellationToken)
+		public ValueTask<IActionResult> Create(CancellationToken cancellationToken)
 			=> WithComponentInstance(async instance =>
 			{
 				if (instance.Watchdog.Status != WatchdogStatus.Offline)
@@ -103,25 +103,25 @@ namespace Tgstation.Server.Host.Controllers
 		/// Get the watchdog status.
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation.</returns>
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation.</returns>
 		/// <response code="200">Read <see cref="DreamDaemonResponse"/> information successfully.</response>
 		/// <response code="410">The database entity for the requested instance could not be retrieved. The instance was likely detached.</response>
 		[HttpGet]
 		[TgsAuthorize(DreamDaemonRights.ReadMetadata | DreamDaemonRights.ReadRevision)]
 		[ProducesResponseType(typeof(DreamDaemonResponse), 200)]
 		[ProducesResponseType(typeof(ErrorMessageResponse), 410)]
-		public Task<IActionResult> Read(CancellationToken cancellationToken) => ReadImpl(null, cancellationToken);
+		public ValueTask<IActionResult> Read(CancellationToken cancellationToken) => ReadImpl(null, cancellationToken);
 
 		/// <summary>
 		/// Stops the Watchdog if it's running.
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation.</returns>
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation.</returns>
 		/// <response code="204">Watchdog terminated.</response>
 		[HttpDelete]
 		[TgsAuthorize(DreamDaemonRights.Shutdown)]
 		[ProducesResponseType(204)]
-		public Task<IActionResult> Delete(CancellationToken cancellationToken)
+		public ValueTask<IActionResult> Delete(CancellationToken cancellationToken)
 			=> WithComponentInstance(async instance =>
 			{
 				await instance.Watchdog.Terminate(false, cancellationToken);
@@ -133,7 +133,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// </summary>
 		/// <param name="model">The <see cref="DreamDaemonRequest"/> with updated settings.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation.</returns>
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation.</returns>
 		/// <response code="200">Settings applied successfully.</response>
 		/// <response code="410">The database entity for the requested instance could not be retrieved. The instance was likely detached.</response>
 		[HttpPost]
@@ -157,7 +157,7 @@ namespace Tgstation.Server.Host.Controllers
 		[ProducesResponseType(typeof(ErrorMessageResponse), 410)]
 #pragma warning disable CA1502 // TODO: Decomplexify
 #pragma warning disable CA1506
-		public async Task<IActionResult> Update([FromBody] DreamDaemonRequest model, CancellationToken cancellationToken)
+		public async ValueTask<IActionResult> Update([FromBody] DreamDaemonRequest model, CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(model);
 
@@ -259,12 +259,12 @@ namespace Tgstation.Server.Host.Controllers
 		/// Creates a <see cref="JobResponse"/> to restart the Watchdog. It will not start if it wasn't already running.
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the request.</returns>
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="IActionResult"/> of the request.</returns>
 		/// <response code="202">Restart <see cref="JobResponse"/> started successfully.</response>
 		[HttpPatch]
 		[TgsAuthorize(DreamDaemonRights.Restart)]
 		[ProducesResponseType(typeof(JobResponse), 202)]
-		public Task<IActionResult> Restart(CancellationToken cancellationToken)
+		public ValueTask<IActionResult> Restart(CancellationToken cancellationToken)
 			=> WithComponentInstance(async instance =>
 			{
 				var job = new Job
@@ -292,12 +292,12 @@ namespace Tgstation.Server.Host.Controllers
 		/// Creates a <see cref="JobResponse"/> to generate a DreamDaemon process dump.
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the request.</returns>
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="IActionResult"/> of the request.</returns>
 		/// <response code="202">Dump <see cref="JobResponse"/> started successfully.</response>
 		[HttpPatch(Routes.Diagnostics)]
 		[TgsAuthorize(DreamDaemonRights.CreateDump)]
 		[ProducesResponseType(typeof(JobResponse), 202)]
-		public Task<IActionResult> CreateDump(CancellationToken cancellationToken)
+		public ValueTask<IActionResult> CreateDump(CancellationToken cancellationToken)
 			=> WithComponentInstance(async instance =>
 			{
 				var job = new Job
@@ -326,8 +326,8 @@ namespace Tgstation.Server.Host.Controllers
 		/// </summary>
 		/// <param name="settings">The <see cref="DreamDaemonSettings"/> to operate on if any.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation.</returns>
-		Task<IActionResult> ReadImpl(DreamDaemonSettings settings, CancellationToken cancellationToken)
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation.</returns>
+		ValueTask<IActionResult> ReadImpl(DreamDaemonSettings settings, CancellationToken cancellationToken)
 			=> WithComponentInstance(async instance =>
 			{
 				var dd = instance.Watchdog;

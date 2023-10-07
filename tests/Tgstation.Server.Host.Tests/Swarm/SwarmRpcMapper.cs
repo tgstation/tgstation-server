@@ -184,12 +184,21 @@ namespace Tgstation.Server.Host.Swarm.Tests
 
 					if (controllerMethod.ReturnType != typeof(IActionResult))
 					{
-						Assert.AreEqual(typeof(Task<IActionResult>), controllerMethod.ReturnType);
+						var isValueTask = controllerMethod.ReturnType == typeof(ValueTask<IActionResult>);
+						if (!isValueTask)
+							Assert.AreEqual(typeof(Task<IActionResult>), controllerMethod.ReturnType);
+
 						var lastParam = controllerMethod.GetParameters().LastOrDefault();
 						if (lastParam?.ParameterType == typeof(CancellationToken))
 							args.Add(cancellationToken);
 
-						var invocationTask = (Task<IActionResult>)controllerMethod.Invoke(controller, args.ToArray());
+						var rawTask = controllerMethod.Invoke(controller, args.ToArray());
+						Task<IActionResult> invocationTask;
+						if (isValueTask)
+							invocationTask = ((ValueTask<IActionResult>)rawTask).AsTask();
+						else
+							invocationTask = (Task<IActionResult>)rawTask;
+
 						result = await invocationTask;
 					}
 					else

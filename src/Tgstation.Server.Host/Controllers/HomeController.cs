@@ -147,14 +147,14 @@ namespace Tgstation.Server.Host.Controllers
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>
-		/// A <see cref="Task{TResult}"/> resuting in the <see cref="JsonResult"/> containing <see cref="ServerInformationResponse"/> of the <see cref="Application"/> if a properly authenticated API request, the web control panel if on a browser and enabled, <see cref="UnauthorizedResult"/> otherwise.
+		/// A <see cref="ValueTask{TResult}"/> resuting in the <see cref="JsonResult"/> containing <see cref="ServerInformationResponse"/> of the <see cref="Application"/> if a properly authenticated API request, the web control panel if on a browser and enabled, <see cref="UnauthorizedResult"/> otherwise.
 		/// </returns>
 		/// <response code="200"><see cref="ServerInformationResponse"/> retrieved successfully.</response>
 		[HttpGet]
 		[AllowAnonymous]
 		[ProducesResponseType(typeof(ServerInformationResponse), 200)]
 #pragma warning disable CA1506
-		public async Task<IActionResult> Home(CancellationToken cancellationToken)
+		public async ValueTask<IActionResult> Home(CancellationToken cancellationToken)
 		{
 			if (controlPanelConfiguration.Enable)
 				Response.Headers.Add(
@@ -211,7 +211,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// Attempt to authenticate a <see cref="User"/> using <see cref="ApiController.ApiHeaders"/>.
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation.</returns>
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation.</returns>
 		/// <response code="200">User logged in and <see cref="TokenResponse"/> generated successfully.</response>
 		/// <response code="401">User authentication failed.</response>
 		/// <response code="403">User authenticated but is disabled by an administrator.</response>
@@ -220,7 +220,7 @@ namespace Tgstation.Server.Host.Controllers
 		[ProducesResponseType(typeof(TokenResponse), 200)]
 		[ProducesResponseType(typeof(ErrorMessageResponse), 429)]
 #pragma warning disable CA1506 // TODO: Decomplexify
-		public async Task<IActionResult> CreateToken(CancellationToken cancellationToken)
+		public async ValueTask<IActionResult> CreateToken(CancellationToken cancellationToken)
 		{
 			if (ApiHeaders == null)
 			{

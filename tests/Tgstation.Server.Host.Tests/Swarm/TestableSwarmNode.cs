@@ -270,18 +270,18 @@ namespace Tgstation.Server.Host.Swarm.Tests
 			return result;
 		}
 
-		Task<ServerUpdateResult> BeginUpdate(ISwarmService swarmService, IFileStreamProvider fileStreamProvider, Version version, CancellationToken cancellationToken)
+		ValueTask<ServerUpdateResult> BeginUpdate(ISwarmService swarmService, IFileStreamProvider fileStreamProvider, Version version, CancellationToken cancellationToken)
 		{
 			logger.LogTrace("BeginUpdate...");
 			if (UpdateTask?.IsCompleted == false)
-				return Task.FromResult(ServerUpdateResult.UpdateInProgress);
+				return ValueTask.FromResult(ServerUpdateResult.UpdateInProgress);
 
 			if (UpdateResult == ServerUpdateResult.Started)
 			{
 				UpdateTask = ExecuteUpdate(fileStreamProvider, version, cancellationToken, CriticalCancellationTokenSource.Token);
 			}
 
-			return Task.FromResult(UpdateResult);
+			return ValueTask.FromResult(UpdateResult);
 		}
 
 		async Task<SwarmCommitResult?> ExecuteUpdate(IFileStreamProvider fileStreamProvider, Version version, CancellationToken cancellationToken, CancellationToken criticalCancellationToken)

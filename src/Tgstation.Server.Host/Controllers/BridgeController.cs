@@ -74,9 +74,9 @@ namespace Tgstation.Server.Host.Controllers
 		/// </summary>
 		/// <param name="data">JSON encoded <see cref="BridgeParameters"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> for the operation.</returns>
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="IActionResult"/> for the operation.</returns>
 		[HttpGet]
-		public async Task<IActionResult> Process([FromQuery] string data, CancellationToken cancellationToken)
+		public async ValueTask<IActionResult> Process([FromQuery] string data, CancellationToken cancellationToken)
 		{
 			// Nothing to see here
 			var remoteIP = Request.HttpContext.Connection.RemoteIpAddress;
