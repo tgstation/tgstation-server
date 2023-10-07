@@ -192,7 +192,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 
 		/// <inheritdoc />
 #pragma warning disable CA1506
-		public async Task DeploymentProcess(
+		public async ValueTask DeploymentProcess(
 			Models.Job job,
 			IDatabaseContextFactory databaseContextFactory,
 			JobProgressReporter progressReporter,

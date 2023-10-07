@@ -14,7 +14,7 @@ namespace Tgstation.Server.Host.Components.Chat
 		/// </summary>
 		/// <param name="newChannels">The <see cref="IEnumerable{T}"/> of new <see cref="ChannelRepresentation"/>s.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		Task UpdateChannels(IEnumerable<ChannelRepresentation> newChannels, CancellationToken cancellationToken);
+		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
+		ValueTask UpdateChannels(IEnumerable<ChannelRepresentation> newChannels, CancellationToken cancellationToken);
 	}
 }

@@ -606,7 +606,7 @@ namespace Tgstation.Server.Host.Components.Chat
 					providers.Remove(connectionId);
 			}
 
-			Task trackingContextsUpdateTask;
+			ValueTask trackingContextsUpdateTask;
 			lock (mappedChannels)
 			{
 				foreach (var mappedConnectionChannel in mappedChannels.Where(x => x.Value.ProviderId == connectionId).Select(x => x.Key).ToList())
@@ -616,9 +616,9 @@ namespace Tgstation.Server.Host.Components.Chat
 
 				if (removeProvider)
 					lock (trackingContexts)
-						trackingContextsUpdateTask = Task.WhenAll(trackingContexts.Select(x => x.UpdateChannels(newMappedChannels, cancellationToken)));
+						trackingContextsUpdateTask = ValueTaskExtensions.WhenAll(trackingContexts.Select(x => x.UpdateChannels(newMappedChannels, cancellationToken)));
 				else
-					trackingContextsUpdateTask = Task.CompletedTask;
+					trackingContextsUpdateTask = ValueTask.CompletedTask;
 			}
 
 			await trackingContextsUpdateTask;

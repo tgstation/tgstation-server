@@ -311,7 +311,7 @@ namespace Tgstation.Server.Host.Controllers
 			await jobManager.RegisterOperation(
 				job,
 				(instanceCore, databaseContextFactory, job, progressReporter, jobCancellationToken)
-					=> instanceCore.ByondManager.DeleteVersion(progressReporter, version, jobCancellationToken).AsTask(),
+					=> instanceCore.ByondManager.DeleteVersion(progressReporter, version, jobCancellationToken),
 				cancellationToken);
 
 			var apiResponse = job.ToApi();

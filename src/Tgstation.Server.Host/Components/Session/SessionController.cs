@@ -385,7 +385,7 @@ namespace Tgstation.Server.Host.Components.Session
 		public void EnableCustomChatCommands() => chatTrackingContext.Active = DMApiAvailable;
 
 		/// <inheritdoc />
-		public async Task Release()
+		public ValueTask Release()
 		{
 			CheckDisposed();
 
@@ -393,11 +393,11 @@ namespace Tgstation.Server.Host.Components.Session
 			ReattachInformation.InitialDmb?.KeepAlive();
 			byondLock.DoNotDeleteThisSession();
 			released = true;
-			await DisposeAsync();
+			return DisposeAsync();
 		}
 
 		/// <inheritdoc />
-		public async Task<TopicResponse> SendCommand(TopicParameters parameters, CancellationToken cancellationToken)
+		public async ValueTask<TopicResponse> SendCommand(TopicParameters parameters, CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(parameters);
 
@@ -519,7 +519,7 @@ namespace Tgstation.Server.Host.Components.Session
 		}
 
 		/// <inheritdoc />
-		public async Task<bool> SetRebootState(RebootState newRebootState, CancellationToken cancellationToken)
+		public async ValueTask<bool> SetRebootState(RebootState newRebootState, CancellationToken cancellationToken)
 		{
 			if (RebootState == newRebootState)
 				return true;
@@ -560,15 +560,15 @@ namespace Tgstation.Server.Host.Components.Session
 		}
 
 		/// <inheritdoc />
-		public Task InstanceRenamed(string newInstanceName, CancellationToken cancellationToken)
+		public async ValueTask InstanceRenamed(string newInstanceName, CancellationToken cancellationToken)
 		{
 			ReattachInformation.RuntimeInformation.InstanceName = newInstanceName;
-			return SendCommand(new TopicParameters(newInstanceName), cancellationToken);
+			await SendCommand(new TopicParameters(newInstanceName), cancellationToken);
 		}
 
 		/// <inheritdoc />
-		public Task UpdateChannels(IEnumerable<ChannelRepresentation> newChannels, CancellationToken cancellationToken)
-			=> SendCommand(
+		public async ValueTask UpdateChannels(IEnumerable<ChannelRepresentation> newChannels, CancellationToken cancellationToken)
+			=> await SendCommand(
 				new TopicParameters(
 					new ChatUpdate(newChannels)),
 				cancellationToken);

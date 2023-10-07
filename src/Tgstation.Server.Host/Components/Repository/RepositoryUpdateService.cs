@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 using LibGit2Sharp;
 
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Request;
 using Tgstation.Server.Host.Database;
@@ -142,9 +142,9 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// <param name="job">The running <see cref="Job"/>, ignored.</param>
 		/// <param name="progressReporter">The <see cref="JobProgressReporter"/> for the job.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
+		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
 #pragma warning disable CA1502, CA1506 // TODO: Decomplexify
-		public async Task<IActionResult> RepositoryUpdateJob(
+		public async ValueTask RepositoryUpdateJob(
 			IInstanceCore instance,
 			IDatabaseContextFactory databaseContextFactory,
 			Job job,
@@ -557,8 +557,6 @@ namespace Tgstation.Server.Host.Components.Repository
 						cancellationToken);
 					await UpdateRevInfo();
 				}
-
-				return null;
 			}
 			catch
 			{

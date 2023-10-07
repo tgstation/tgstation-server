@@ -87,16 +87,16 @@ namespace Tgstation.Server.Host.Components.Session
 		/// <summary>
 		/// Releases the <see cref="IProcess"/> without terminating it. Also calls <see cref="IDisposable.Dispose"/>.
 		/// </summary>
-		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		Task Release();
+		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
+		ValueTask Release();
 
 		/// <summary>
 		/// Sends a command to DreamDaemon through /world/Topic().
 		/// </summary>
 		/// <param name="parameters">The <see cref="TopicParameters"/> to send.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="TopicResponse"/> of /world/Topic().</returns>
-		Task<TopicResponse> SendCommand(TopicParameters parameters, CancellationToken cancellationToken);
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="TopicResponse"/> of /world/Topic().</returns>
+		ValueTask<TopicResponse> SendCommand(TopicParameters parameters, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Causes the world to start listening on a <paramref name="newPort"/>.
@@ -111,8 +111,8 @@ namespace Tgstation.Server.Host.Components.Session
 		/// </summary>
 		/// <param name="newRebootState">The new <see cref="RebootState"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in <see langword="true"/> if the operation succeeded, <see langword="false"/> otherwise.</returns>
-		Task<bool> SetRebootState(RebootState newRebootState, CancellationToken cancellationToken);
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in <see langword="true"/> if the operation succeeded, <see langword="false"/> otherwise.</returns>
+		ValueTask<bool> SetRebootState(RebootState newRebootState, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Changes <see cref="RebootState"/> to <see cref="RebootState.Normal"/> without telling the DMAPI.

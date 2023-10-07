@@ -133,15 +133,15 @@ namespace Tgstation.Server.Host.Components.Chat
 		}
 
 		/// <inheritdoc />
-		public Task UpdateChannels(IEnumerable<ChannelRepresentation> newChannels, CancellationToken cancellationToken)
+		public ValueTask UpdateChannels(IEnumerable<ChannelRepresentation> newChannels, CancellationToken cancellationToken)
 		{
 			logger.LogTrace("UpdateChannels...");
 			var completed = newChannels.ToList();
-			Task updateTask;
+			ValueTask updateTask;
 			lock (synchronizationLock)
 			{
 				Channels = completed;
-				updateTask = channelSink?.UpdateChannels(newChannels, cancellationToken) ?? Task.CompletedTask;
+				updateTask = channelSink?.UpdateChannels(newChannels, cancellationToken) ?? ValueTask.CompletedTask;
 			}
 
 			return updateTask;

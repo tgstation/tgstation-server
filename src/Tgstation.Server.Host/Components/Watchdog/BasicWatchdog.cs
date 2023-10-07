@@ -91,7 +91,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		}
 
 		/// <inheritdoc />
-		public override Task ResetRebootState(CancellationToken cancellationToken)
+		public override ValueTask ResetRebootState(CancellationToken cancellationToken)
 		{
 			if (!gracefulRebootRequired)
 				return base.ResetRebootState(cancellationToken);
@@ -100,8 +100,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		}
 
 		/// <inheritdoc />
-		public sealed override Task InstanceRenamed(string newInstanceName, CancellationToken cancellationToken)
-			=> Server?.InstanceRenamed(newInstanceName, cancellationToken) ?? Task.CompletedTask;
+		public sealed override ValueTask InstanceRenamed(string newInstanceName, CancellationToken cancellationToken)
+			=> Server?.InstanceRenamed(newInstanceName, cancellationToken) ?? ValueTask.CompletedTask;
 
 		/// <inheritdoc />
 		protected override async Task<MonitorAction> HandleMonitorWakeup(MonitorActivationReason reason, CancellationToken cancellationToken)

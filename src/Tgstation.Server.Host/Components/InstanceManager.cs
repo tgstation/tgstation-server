@@ -246,7 +246,7 @@ namespace Tgstation.Server.Host.Components
 		}
 
 		/// <inheritdoc />
-		public async Task MoveInstance(Models.Instance instance, string oldPath, CancellationToken cancellationToken)
+		public async ValueTask MoveInstance(Models.Instance instance, string oldPath, CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(oldPath);
 
@@ -317,7 +317,7 @@ namespace Tgstation.Server.Host.Components
 		}
 
 		/// <inheritdoc />
-		public async Task OfflineInstance(Models.Instance metadata, Models.User user, CancellationToken cancellationToken)
+		public async ValueTask OfflineInstance(Models.Instance metadata, Models.User user, CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(metadata);
 
@@ -383,7 +383,7 @@ namespace Tgstation.Server.Host.Components
 		}
 
 		/// <inheritdoc />
-		public async Task OnlineInstance(Models.Instance metadata, CancellationToken cancellationToken)
+		public async ValueTask OnlineInstance(Models.Instance metadata, CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(metadata);
 

@@ -255,7 +255,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		}
 
 		/// <inheritdoc />
-		public async Task ChangeSettings(DreamDaemonLaunchParameters launchParameters, CancellationToken cancellationToken)
+		public async ValueTask ChangeSettings(DreamDaemonLaunchParameters launchParameters, CancellationToken cancellationToken)
 		{
 			using (await SemaphoreSlimContext.Lock(synchronizationSemaphore, cancellationToken))
 			{
@@ -315,7 +315,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		}
 
 		/// <inheritdoc />
-		public async Task Launch(CancellationToken cancellationToken)
+		public async ValueTask Launch(CancellationToken cancellationToken)
 		{
 			if (Status != WatchdogStatus.Offline)
 				throw new JobException(ErrorCode.WatchdogRunning);
@@ -324,7 +324,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		}
 
 		/// <inheritdoc />
-		public virtual async Task ResetRebootState(CancellationToken cancellationToken)
+		public virtual async ValueTask ResetRebootState(CancellationToken cancellationToken)
 		{
 			using (await SemaphoreSlimContext.Lock(synchronizationSemaphore, cancellationToken))
 			{
@@ -337,7 +337,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		}
 
 		/// <inheritdoc />
-		public async Task Restart(bool graceful, CancellationToken cancellationToken)
+		public async ValueTask Restart(bool graceful, CancellationToken cancellationToken)
 		{
 			if (Status == WatchdogStatus.Offline)
 				throw new JobException(ErrorCode.WatchdogNotRunning);
@@ -398,7 +398,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			TerminateNoLock(false, !releaseServers, cancellationToken);
 
 		/// <inheritdoc />
-		public async Task Terminate(bool graceful, CancellationToken cancellationToken)
+		public async ValueTask Terminate(bool graceful, CancellationToken cancellationToken)
 		{
 			using (await SemaphoreSlimContext.Lock(synchronizationSemaphore, cancellationToken))
 				await TerminateNoLock(graceful, !releaseServers, cancellationToken);
@@ -430,10 +430,10 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		}
 
 		/// <inheritdoc />
-		public abstract Task InstanceRenamed(string newInstanceName, CancellationToken cancellationToken);
+		public abstract ValueTask InstanceRenamed(string newInstanceName, CancellationToken cancellationToken);
 
 		/// <inheritdoc />
-		public async Task CreateDump(CancellationToken cancellationToken)
+		public async ValueTask CreateDump(CancellationToken cancellationToken)
 		{
 			const string DumpDirectory = "ProcessDumps";
 			await diagnosticsIOManager.CreateDirectory(DumpDirectory, cancellationToken);
