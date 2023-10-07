@@ -631,8 +631,8 @@ namespace Tgstation.Server.Host.Components.Chat
 		/// </summary>
 		/// <param name="provider">The <see cref="IProvider"/> to remap channels for.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		async Task RemapProvider(IProvider provider, CancellationToken cancellationToken)
+		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
+		async ValueTask RemapProvider(IProvider provider, CancellationToken cancellationToken)
 		{
 			logger.LogTrace("Remapping channels for provider reconnection...");
 			IEnumerable<Models.ChatChannel> channelsToMap;
@@ -654,9 +654,9 @@ namespace Tgstation.Server.Host.Components.Chat
 		/// <param name="message">The <see cref="Message"/> to process. If <see langword="null"/>, this indicates the provider reconnected.</param>
 		/// <param name="recursed">If we are called recursively after remapping the provider.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
+		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
 #pragma warning disable CA1502
-		async Task ProcessMessage(IProvider provider, Message message, bool recursed, CancellationToken cancellationToken)
+		async ValueTask ProcessMessage(IProvider provider, Message message, bool recursed, CancellationToken cancellationToken)
 #pragma warning restore CA1502
 		{
 			if (!provider.Connected)

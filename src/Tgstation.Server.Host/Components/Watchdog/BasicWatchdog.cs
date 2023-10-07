@@ -202,8 +202,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		protected sealed override ISessionController GetActiveController() => Server;
 
 		/// <inheritdoc />
-		protected override async Task InitController(
-			Task eventTask,
+		protected override async ValueTask InitController(
+			ValueTask eventTask,
 			ReattachInformation reattachInfo,
 			CancellationToken cancellationToken)
 		{

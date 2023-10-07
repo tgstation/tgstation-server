@@ -12,6 +12,7 @@ using Microsoft.Extensions.Logging;
 
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Response;
+using Tgstation.Server.Common.Extensions;
 using Tgstation.Server.Host.Components.Events;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Extensions;
@@ -198,7 +199,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 		}
 
 		/// <inheritdoc />
-		public async Task<ServerSideModifications> CopyDMFilesTo(string dmeFile, string destination, CancellationToken cancellationToken)
+		public async ValueTask<ServerSideModifications> CopyDMFilesTo(string dmeFile, string destination, CancellationToken cancellationToken)
 		{
 			using (await SemaphoreSlimContext.Lock(semaphore, cancellationToken))
 			{
@@ -236,7 +237,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 		}
 
 		/// <inheritdoc />
-		public async Task<IOrderedQueryable<ConfigurationFileResponse>> ListDirectory(string configurationRelativePath, ISystemIdentity systemIdentity, CancellationToken cancellationToken)
+		public async ValueTask<IOrderedQueryable<ConfigurationFileResponse>> ListDirectory(string configurationRelativePath, ISystemIdentity systemIdentity, CancellationToken cancellationToken)
 		{
 			await EnsureDirectories(cancellationToken);
 			var path = ValidateConfigRelativePath(configurationRelativePath);
@@ -283,7 +284,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 		}
 
 		/// <inheritdoc />
-		public async Task<ConfigurationFileResponse> Read(string configurationRelativePath, ISystemIdentity systemIdentity, CancellationToken cancellationToken)
+		public async ValueTask<ConfigurationFileResponse> Read(string configurationRelativePath, ISystemIdentity systemIdentity, CancellationToken cancellationToken)
 		{
 			await EnsureDirectories(cancellationToken);
 			var path = ValidateConfigRelativePath(configurationRelativePath);
@@ -393,7 +394,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 		}
 
 		/// <inheritdoc />
-		public async Task SymlinkStaticFilesTo(string destination, CancellationToken cancellationToken)
+		public async ValueTask SymlinkStaticFilesTo(string destination, CancellationToken cancellationToken)
 		{
 			async Task<IReadOnlyList<string>> GetIgnoreFiles()
 			{
@@ -416,7 +417,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 
 			IReadOnlyList<string> ignoreFiles;
 
-			async Task SymlinkBase(bool files)
+			async ValueTask SymlinkBase(bool files)
 			{
 				Task<IReadOnlyList<string>> task;
 				if (files)
@@ -425,7 +426,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 					task = ioManager.GetDirectories(GameStaticFilesSubdirectory, cancellationToken);
 				var entries = await task;
 
-				await Task.WhenAll(entries.Select(async file =>
+				await ValueTaskExtensions.WhenAll(entries.Select<string, ValueTask>(async file =>
 				{
 					var fileName = ioManager.GetFileName(file);
 
@@ -458,12 +459,12 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 			{
 				await EnsureDirectories(cancellationToken);
 				ignoreFiles = await GetIgnoreFiles();
-				await Task.WhenAll(SymlinkBase(true), SymlinkBase(false));
+				await ValueTaskExtensions.WhenAll(SymlinkBase(true), SymlinkBase(false));
 			}
 		}
 
 		/// <inheritdoc />
-		public async Task<ConfigurationFileResponse> Write(string configurationRelativePath, ISystemIdentity systemIdentity, string previousHash, CancellationToken cancellationToken)
+		public async ValueTask<ConfigurationFileResponse> Write(string configurationRelativePath, ISystemIdentity systemIdentity, string previousHash, CancellationToken cancellationToken)
 		{
 			await EnsureDirectories(cancellationToken);
 			var path = ValidateConfigRelativePath(configurationRelativePath);
@@ -573,7 +574,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 		}
 
 		/// <inheritdoc />
-		public async Task<bool?> CreateDirectory(string configurationRelativePath, ISystemIdentity systemIdentity, CancellationToken cancellationToken)
+		public async ValueTask<bool?> CreateDirectory(string configurationRelativePath, ISystemIdentity systemIdentity, CancellationToken cancellationToken)
 		{
 			await EnsureDirectories(cancellationToken);
 			var path = ValidateConfigRelativePath(configurationRelativePath);
@@ -605,7 +606,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 		public Task StopAsync(CancellationToken cancellationToken) => EnsureDirectories(cancellationToken);
 
 		/// <inheritdoc />
-		public async Task HandleEvent(EventType eventType, IEnumerable<string> parameters, bool deploymentPipeline, CancellationToken cancellationToken)
+		public async ValueTask HandleEvent(EventType eventType, IEnumerable<string> parameters, bool deploymentPipeline, CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(parameters);
 
@@ -668,7 +669,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 		}
 
 		/// <inheritdoc />
-		public async Task<bool?> DeleteDirectory(string configurationRelativePath, ISystemIdentity systemIdentity, CancellationToken cancellationToken)
+		public async ValueTask<bool?> DeleteDirectory(string configurationRelativePath, ISystemIdentity systemIdentity, CancellationToken cancellationToken)
 		{
 			await EnsureDirectories(cancellationToken);
 			var path = ValidateConfigRelativePath(configurationRelativePath);

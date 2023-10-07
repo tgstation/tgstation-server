@@ -10,6 +10,7 @@ using Microsoft.Extensions.Logging;
 
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Internal;
+using Tgstation.Server.Common.Extensions;
 using Tgstation.Server.Host.Components.Byond;
 using Tgstation.Server.Host.Components.Chat;
 using Tgstation.Server.Host.Components.Deployment.Remote;
@@ -390,7 +391,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 
 				try
 				{
-					await Task.WhenAll(commentsTask, eventTask);
+					await ValueTaskExtensions.WhenAll(commentsTask, eventTask);
 				}
 				catch (Exception ex)
 				{
@@ -950,10 +951,10 @@ namespace Tgstation.Server.Host.Components.Deployment
 		/// <param name="job">The running <see cref="CompileJob"/>.</param>
 		/// <param name="remoteDeploymentManager">The <see cref="IRemoteDeploymentManager"/> associated with the <paramref name="job"/>.</param>
 		/// <param name="exception">The <see cref="Exception"/> that was thrown.</param>
-		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		async Task CleanupFailedCompile(Models.CompileJob job, IRemoteDeploymentManager remoteDeploymentManager, Exception exception)
+		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
+		ValueTask CleanupFailedCompile(Models.CompileJob job, IRemoteDeploymentManager remoteDeploymentManager, Exception exception)
 		{
-			async Task CleanDir()
+			async ValueTask CleanDir()
 			{
 				logger.LogTrace("Cleaning compile directory...");
 				var jobPath = job.DirectoryName.ToString();
@@ -970,7 +971,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 			}
 
 			// DCT: None available
-			await Task.WhenAll(
+			return ValueTaskExtensions.WhenAll(
 				CleanDir(),
 				remoteDeploymentManager.FailDeployment(
 					job,

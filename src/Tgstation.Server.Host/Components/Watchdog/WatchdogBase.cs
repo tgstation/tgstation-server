@@ -13,6 +13,7 @@ using Serilog.Context;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Api.Rights;
+using Tgstation.Server.Common.Extensions;
 using Tgstation.Server.Host.Components.Chat;
 using Tgstation.Server.Host.Components.Deployment;
 using Tgstation.Server.Host.Components.Deployment.Remote;
@@ -452,7 +453,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		}
 
 		/// <inheritdoc />
-		async Task IEventConsumer.HandleEvent(EventType eventType, IEnumerable<string> parameters, bool deploymentPipeline, CancellationToken cancellationToken)
+		async ValueTask IEventConsumer.HandleEvent(EventType eventType, IEnumerable<string> parameters, bool deploymentPipeline, CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(parameters);
 
@@ -478,7 +479,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <param name="reattachInfo"><see cref="ReattachInformation"/> to use, if any.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		protected abstract Task InitController(Task eventTask, ReattachInformation reattachInfo, CancellationToken cancellationToken);
+		protected abstract ValueTask InitController(ValueTask eventTask, ReattachInformation reattachInfo, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Launches the watchdog.
@@ -488,8 +489,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <param name="announceFailure">If launch failure should be announced to chat by this function.</param>
 		/// <param name="reattachInfo"><see cref="ReattachInformation"/> to use, if any.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		protected async Task LaunchNoLock(
+		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
+		protected async ValueTask LaunchNoLock(
 			bool startMonitor,
 			bool announce,
 			bool announceFailure,
@@ -504,7 +505,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				throw new JobException(ErrorCode.WatchdogCompileJobCorrupted);
 
 			// this is necessary, the monitor could be in it's sleep loop trying to restart, if so cancel THAT monitor and start our own with blackjack and hookers
-			var eventTask = Task.CompletedTask;
+			var eventTask = ValueTask.CompletedTask;
 			if (announce)
 			{
 				Chat.QueueWatchdogMessage(
@@ -532,7 +533,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			{
 				Logger.LogWarning(e, "Failed to start watchdog!");
 				var originalChatTask = eventTask;
-				async Task ChainEventTaskWithErrorMessage()
+				async ValueTask ChainEventTaskWithErrorMessage()
 				{
 					await originalChatTask;
 					if (announceFailure)
@@ -606,11 +607,11 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		}
 
 		/// <summary>
-		/// Call from <see cref="InitController(Task, ReattachInformation, CancellationToken)"/> when a reattach operation fails to attempt a fresh start.
+		/// Call from <see cref="InitController(ValueTask, ReattachInformation, CancellationToken)"/> when a reattach operation fails to attempt a fresh start.
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		protected async Task ReattachFailure(CancellationToken cancellationToken)
+		protected async ValueTask ReattachFailure(CancellationToken cancellationToken)
 		{
 			// we lost the server, just restart entirely
 			// DCT: Operation must always run
@@ -619,7 +620,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			Logger.LogWarning(FailReattachMessage);
 
 			Chat.QueueWatchdogMessage(FailReattachMessage);
-			await InitController(Task.CompletedTask, null, cancellationToken);
+			await InitController(ValueTask.CompletedTask, null, cancellationToken);
 		}
 
 		/// <summary>
@@ -696,12 +697,12 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <param name="relayToSession">If the event should be sent to DreamDaemon.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		protected async Task HandleEventImpl(EventType eventType, IEnumerable<string> parameters, bool relayToSession, CancellationToken cancellationToken)
+		protected async ValueTask HandleEventImpl(EventType eventType, IEnumerable<string> parameters, bool relayToSession, CancellationToken cancellationToken)
 		{
 			try
 			{
-				var sessionEventTask = relayToSession ? ((IEventConsumer)this).HandleEvent(eventType, parameters, false, cancellationToken) : Task.CompletedTask;
-				await Task.WhenAll(
+				var sessionEventTask = relayToSession ? ((IEventConsumer)this).HandleEvent(eventType, parameters, false, cancellationToken) : ValueTask.CompletedTask;
+				await ValueTaskExtensions.WhenAll(
 					eventConsumer.HandleEvent(eventType, parameters, false, cancellationToken),
 					sessionEventTask);
 			}

@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
+using Tgstation.Server.Common.Extensions;
 using Tgstation.Server.Host.Components.Deployment.Remote;
 using Tgstation.Server.Host.Components.Events;
 using Tgstation.Server.Host.Database;
@@ -420,7 +421,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 				{
 					try
 					{
-						await Task.WhenAll(deleteTask, deploymentJob);
+						await ValueTaskExtensions.WhenAll(deleteTask, deploymentJob);
 					}
 					catch (Exception ex)
 					{
@@ -453,8 +454,8 @@ namespace Tgstation.Server.Host.Components.Deployment
 		/// </summary>
 		/// <param name="directory">The directory to cleanup.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for this <see cref="Task"/>.</param>
-		/// <returns>The deletion <see cref="Task"/>.</returns>
-		async Task DeleteCompileJobContent(string directory, CancellationToken cancellationToken)
+		/// <returns>The deletion <see cref="ValueTask"/>.</returns>
+		async ValueTask DeleteCompileJobContent(string directory, CancellationToken cancellationToken)
 		{
 			// Then call the cleanup event, waiting here first
 			await eventConsumer.HandleEvent(EventType.DeploymentCleanup, new List<string> { ioManager.ResolvePath(directory) }, true, cancellationToken);
