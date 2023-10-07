@@ -75,9 +75,9 @@
     <!-- Usage: git interop -->
     <PackageReference Include="LibGit2Sharp" Version="0.27.2" />
     <!-- Usage: JWT injection into HTTP pipeline -->
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.0-preview.7.23375.9" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.0-rc.1.23421.29" />
     <!-- Usage: Support ""legacy"" Newotonsoft.Json in HTTP pipeline. The rest of our codebase uses Newtonsoft. -->
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="8.0.0-preview.7.23375.9" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="8.0.0-rc.1.23421.29" />
     <!-- Usage: Database ORM -->
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.11" />
     <!-- Usage: Automatic migration generation using command line -->
@@ -115,11 +115,11 @@
     <!-- Usage: Newtonsoft.Json plugin for OpenAPI spec generator -->
     <PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" Version="6.5.0" />
     <!-- Usage: Windows authentication plugin allowing searching for users by name -->
-    <PackageReference Include="System.DirectoryServices.AccountManagement" Version="8.0.0-preview.7.23375.6" />
+    <PackageReference Include="System.DirectoryServices.AccountManagement" Version="8.0.0-rc.1.23419.4" />
     <!-- Usage: Identifying owning user of Windows Process objects -->
-    <PackageReference Include="System.Management" Version="8.0.0-preview.7.23375.6" />
+    <PackageReference Include="System.Management" Version="8.0.0-rc.1.23419.4" />
     <!-- Usage: Temporary resolution to compatibility issues with EFCore 7 and .NET 8 -->
-    <PackageReference Include="System.Security.Permissions" Version="8.0.0-preview.7.23375.6" />
+    <PackageReference Include="System.Security.Permissions" Version="8.0.0-rc.1.23419.4" />
     <!-- Usage: .DeleteAsync() support for IQueryable<T>s -->
     <PackageReference Include="Z.EntityFramework.Plus.EFCore" Version="7.100.0.2" />
   </ItemGroup>
