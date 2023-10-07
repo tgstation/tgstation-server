@@ -95,14 +95,14 @@ namespace Tgstation.Server.Host.IO
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		public Task EnsureBuffered(CancellationToken cancellationToken) => GetResultInternal(cancellationToken);
+		public Task EnsureBuffered(CancellationToken cancellationToken) => GetResultInternal(cancellationToken).AsTask();
 
 		/// <summary>
 		/// Gets the shared <see cref="MemoryStream"/> and its <see cref="Stream.Length"/>.
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in <see cref="buffer"/> and its <see cref="Stream.Length"/>.</returns>
-		async Task<(MemoryStream, long)> GetResultInternal(CancellationToken cancellationToken)
+		async ValueTask<(MemoryStream, long)> GetResultInternal(CancellationToken cancellationToken)
 		{
 			if (!buffered)
 				using (await SemaphoreSlimContext.Lock(semaphore, cancellationToken))

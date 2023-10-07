@@ -219,7 +219,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 					generalConfiguration.GetCopyDirectoryTaskThrottle(),
 					cancellationToken);
 
-				await Task.WhenAll(dmeExistsTask, headFileExistsTask, tailFileExistsTask, copyTask);
+				await Task.WhenAll(dmeExistsTask, headFileExistsTask, tailFileExistsTask, copyTask.AsTask());
 
 				if (!dmeExistsTask.Result && !headFileExistsTask.Result && !tailFileExistsTask.Result)
 					return null;
@@ -396,26 +396,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 		/// <inheritdoc />
 		public async ValueTask SymlinkStaticFilesTo(string destination, CancellationToken cancellationToken)
 		{
-			async Task<IReadOnlyList<string>> GetIgnoreFiles()
-			{
-				var ignoreFileBytes = await ioManager.ReadAllBytes(StaticIgnorePath(), cancellationToken);
-				var ignoreFileText = Encoding.UTF8.GetString(ignoreFileBytes);
-
-				var results = new List<string> { StaticIgnoreFile };
-
-				// we don't want to lose trailing whitespace on linux
-				using (var reader = new StringReader(ignoreFileText))
-				{
-					cancellationToken.ThrowIfCancellationRequested();
-					var line = await reader.ReadLineAsync();
-					if (!String.IsNullOrEmpty(line))
-						results.Add(line);
-				}
-
-				return results;
-			}
-
-			IReadOnlyList<string> ignoreFiles;
+			List<string> ignoreFiles;
 
 			async ValueTask SymlinkBase(bool files)
 			{
@@ -458,7 +439,20 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 			using (await SemaphoreSlimContext.Lock(semaphore, cancellationToken))
 			{
 				await EnsureDirectories(cancellationToken);
-				ignoreFiles = await GetIgnoreFiles();
+				var ignoreFileBytes = await ioManager.ReadAllBytes(StaticIgnorePath(), cancellationToken);
+				var ignoreFileText = Encoding.UTF8.GetString(ignoreFileBytes);
+
+				ignoreFiles = new List<string> { StaticIgnoreFile };
+
+				// we don't want to lose trailing whitespace on linux
+				using (var reader = new StringReader(ignoreFileText))
+				{
+					cancellationToken.ThrowIfCancellationRequested();
+					var line = await reader.ReadLineAsync();
+					if (!String.IsNullOrEmpty(line))
+						ignoreFiles.Add(line);
+				}
+
 				await ValueTaskExtensions.WhenAll(SymlinkBase(true), SymlinkBase(false));
 			}
 		}
@@ -705,7 +699,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		async Task EnsureDirectories(CancellationToken cancellationToken)
+		Task EnsureDirectories(CancellationToken cancellationToken)
 		{
 			async Task ValidateStaticFolder()
 			{
@@ -721,7 +715,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 					return;
 
 				await ioManager.CreateDirectory(CodeModificationsSubdirectory, cancellationToken);
-				await Task.WhenAll(
+				await ValueTaskExtensions.WhenAll(
 					ioManager.WriteAllBytes(
 						ioManager.ConcatPath(
 							CodeModificationsSubdirectory,
@@ -736,7 +730,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 						cancellationToken));
 			}
 
-			await Task.WhenAll(
+			return Task.WhenAll(
 				ValidateCodeModsFolder(),
 				ioManager.CreateDirectory(EventScriptsSubdirectory, cancellationToken),
 				ValidateStaticFolder());

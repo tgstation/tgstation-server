@@ -362,7 +362,7 @@ namespace Tgstation.Server.Host.Components.Session
 		}
 
 		/// <inheritdoc />
-		public async Task<BridgeResponse> ProcessBridgeRequest(BridgeParameters parameters, CancellationToken cancellationToken)
+		public async ValueTask<BridgeResponse> ProcessBridgeRequest(BridgeParameters parameters, CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(parameters);
 
@@ -439,7 +439,7 @@ namespace Tgstation.Server.Host.Components.Session
 							(completedResponse, cancellationToken) =>
 							{
 								fullResponse = completedResponse;
-								return Task.FromResult<ChunkedTopicParameters>(null);
+								return ValueTask.FromResult<ChunkedTopicParameters>(null);
 							},
 							error =>
 							{
@@ -574,7 +574,7 @@ namespace Tgstation.Server.Host.Components.Session
 				cancellationToken);
 
 		/// <inheritdoc />
-		public Task CreateDump(string outputFile, CancellationToken cancellationToken) => process.CreateDump(outputFile, cancellationToken);
+		public ValueTask CreateDump(string outputFile, CancellationToken cancellationToken) => process.CreateDump(outputFile, cancellationToken);
 
 		/// <summary>
 		/// The <see cref="Task{TResult}"/> for <see cref="LaunchResult"/>.
@@ -660,8 +660,8 @@ namespace Tgstation.Server.Host.Components.Session
 		/// </summary>
 		/// <param name="parameters">The <see cref="BridgeParameters"/> to handle.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="BridgeResponse"/> for the request or <see langword="null"/> if the request could not be dispatched.</returns>
-		async Task<BridgeResponse> ProcessBridgeCommand(BridgeParameters parameters, CancellationToken cancellationToken)
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="BridgeResponse"/> for the request or <see langword="null"/> if the request could not be dispatched.</returns>
+		async ValueTask<BridgeResponse> ProcessBridgeCommand(BridgeParameters parameters, CancellationToken cancellationToken)
 		{
 			var response = new BridgeResponse();
 			switch (parameters.CommandType)
@@ -828,8 +828,8 @@ namespace Tgstation.Server.Host.Components.Session
 		/// </summary>
 		/// <param name="parameters">The <see cref="TopicParameters"/> to send.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="CombinedTopicResponse"/> of the topic request.</returns>
-		async Task<CombinedTopicResponse> SendTopicRequest(TopicParameters parameters, CancellationToken cancellationToken)
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="CombinedTopicResponse"/> of the topic request.</returns>
+		async ValueTask<CombinedTopicResponse> SendTopicRequest(TopicParameters parameters, CancellationToken cancellationToken)
 		{
 			parameters.AccessIdentifier = ReattachInformation.AccessIdentifier;
 
@@ -971,8 +971,8 @@ namespace Tgstation.Server.Host.Components.Session
 		/// <param name="queryString">The sanitized topic query string to send.</param>
 		/// <param name="priority">If this is a priority message. If so, the topic will make 5 attempts to send unless BYOND reboots or exits.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="CombinedTopicResponse"/> of the topic request.</returns>
-		async Task<CombinedTopicResponse> SendRawTopic(string queryString, bool priority, CancellationToken cancellationToken)
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="CombinedTopicResponse"/> of the topic request.</returns>
+		async ValueTask<CombinedTopicResponse> SendRawTopic(string queryString, bool priority, CancellationToken cancellationToken)
 		{
 			if (disposed)
 			{

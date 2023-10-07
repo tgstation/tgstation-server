@@ -239,6 +239,7 @@ namespace Tgstation.Server.Host.Components.Session
 		}
 
 		/// <inheritdoc />
+		#pragma warning disable CA1506 // TODO: Decomplexify
 		public async ValueTask<ISessionController> LaunchNew(
 			IDmbProvider dmbProvider,
 			IByondExecutableLock currentByondLock,
@@ -283,7 +284,7 @@ namespace Tgstation.Server.Host.Components.Session
 					dmbProvider.CompileJob.Id);
 
 				PortBindTest(launchParameters.Port.Value);
-				await CheckPagerIsNotRunning(cancellationToken);
+				await CheckPagerIsNotRunning();
 
 				string outputFilePath = null;
 				var preserveLogFile = true;
@@ -393,6 +394,7 @@ namespace Tgstation.Server.Host.Components.Session
 				throw;
 			}
 		}
+#pragma warning restore CA1506
 
 		/// <inheritdoc />
 		public async ValueTask<ISessionController> Reattach(
@@ -647,9 +649,8 @@ namespace Tgstation.Server.Host.Components.Session
 		/// <summary>
 		/// Make sure the BYOND pager is not running.
 		/// </summary>
-		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		async Task CheckPagerIsNotRunning(CancellationToken cancellationToken)
+		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
+		async ValueTask CheckPagerIsNotRunning()
 		{
 			if (!platformIdentifier.IsWindows)
 				return;
@@ -658,12 +659,12 @@ namespace Tgstation.Server.Host.Components.Session
 			if (otherProcess == null)
 				return;
 
-			var otherUsernameTask = otherProcess.GetExecutingUsername(cancellationToken);
-			await using var ourProcess = processExecutor.GetCurrentProcess();
-			var ourUserName = await ourProcess.GetExecutingUsername(cancellationToken);
-			var otherUserName = await otherUsernameTask;
+			var otherUsername = otherProcess.GetExecutingUsername();
 
-			if (otherUserName.Equals(ourUserName, StringComparison.Ordinal))
+			await using var ourProcess = processExecutor.GetCurrentProcess();
+			var ourUsername = ourProcess.GetExecutingUsername();
+
+			if (otherUsername.Equals(ourUsername, StringComparison.Ordinal))
 				throw new JobException(ErrorCode.DeploymentPagerRunning);
 		}
 	}

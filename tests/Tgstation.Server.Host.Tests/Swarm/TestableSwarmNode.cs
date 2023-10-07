@@ -237,7 +237,7 @@ namespace Tgstation.Server.Host.Swarm.Tests
 					throw new TaskCanceledException();
 				}).Verifiable();
 
-			Task<SwarmRegistrationResult> Invoke() => Service.Initialize(default);
+			Task<SwarmRegistrationResult> Invoke() => Service.Initialize(default).AsTask();
 
 			SwarmRegistrationResult? result;
 			if (cancel)

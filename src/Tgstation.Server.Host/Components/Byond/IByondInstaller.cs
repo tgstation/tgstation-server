@@ -59,7 +59,7 @@ namespace Tgstation.Server.Host.Components.Byond
 		/// Attempts to cleans the BYOND cache folder for the system.
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
-		ValueTask CleanCache(CancellationToken cancellationToken);
+		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
+		Task CleanCache(CancellationToken cancellationToken);
 	}
 }

@@ -66,7 +66,7 @@ namespace Tgstation.Server.Host.Components.Byond
 		public abstract string GetDreamDaemonName(Version version, out bool supportsCli, out bool supportsMapThreads);
 
 		/// <inheritdoc />
-		public async ValueTask CleanCache(CancellationToken cancellationToken)
+		public async Task CleanCache(CancellationToken cancellationToken)
 		{
 			try
 			{

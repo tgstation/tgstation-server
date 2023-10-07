@@ -260,7 +260,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			var embeds = ConvertEmbed(message.Embed);
 
 			var channelsClient = serviceProvider.GetRequiredService<IDiscordRestChannelAPI>();
-			async Task SendToChannel(Snowflake channelId)
+			async ValueTask SendToChannel(Snowflake channelId)
 			{
 				var result = await channelsClient.CreateMessageAsync(
 					channelId,
@@ -312,7 +312,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 					if (unmappedTextChannels.Any())
 					{
 						Logger.LogDebug("Dispatching to {count} unmapped channels...", unmappedTextChannels.Count());
-						await Task.WhenAll(
+						await ValueTaskExtensions.WhenAll(
 							unmappedTextChannels.Select(
 								x => SendToChannel(x.ID)));
 					}
@@ -430,7 +430,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				var updatedMessageText = $"DM: Deployment {completionString}!";
 
 				IMessage updatedMessage = null;
-				async Task CreateUpdatedMessage()
+				async ValueTask CreateUpdatedMessage()
 				{
 					var createUpdatedMessageResponse = await channelsClient.CreateMessageAsync(
 						new Snowflake(channelId),

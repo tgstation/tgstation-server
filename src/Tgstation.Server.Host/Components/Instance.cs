@@ -317,7 +317,7 @@ namespace Tgstation.Server.Host.Components
 					var hasDbChanges = false;
 					RevisionInformation currentRevInfo = null;
 					Models.Instance attachedInstance = null;
-					async Task UpdateRevInfo(string currentHead, bool onOrigin, IEnumerable<TestMerge> updatedTestMerges)
+					async ValueTask UpdateRevInfo(string currentHead, bool onOrigin, IEnumerable<TestMerge> updatedTestMerges)
 					{
 						if (currentRevInfo == null)
 						{

@@ -595,8 +595,8 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// Run SASL authentication on <see cref="client"/>.
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		async Task SaslAuthenticate(CancellationToken cancellationToken)
+		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
+		async ValueTask SaslAuthenticate(CancellationToken cancellationToken)
 		{
 			client.WriteLine("CAP REQ :sasl", Priority.Critical); // needs to be put in the buffer before anything else
 			cancellationToken.ThrowIfCancellationRequested();
@@ -665,8 +665,8 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// Attempt to disconnect from IRC immediately.
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		async Task HardDisconnect(CancellationToken cancellationToken)
+		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
+		async ValueTask HardDisconnect(CancellationToken cancellationToken)
 		{
 			if (!Connected)
 			{

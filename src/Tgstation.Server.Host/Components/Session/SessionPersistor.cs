@@ -95,7 +95,7 @@ namespace Tgstation.Server.Host.Components.Session
 			Models.ReattachInformation result = null;
 			TimeSpan? topicTimeout = null;
 
-			async Task KillProcess(Models.ReattachInformation reattachInfo)
+			async ValueTask KillProcess(Models.ReattachInformation reattachInfo)
 			{
 				try
 				{

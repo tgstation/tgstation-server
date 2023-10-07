@@ -419,7 +419,7 @@ namespace Tgstation.Server.Host.Components
 		public Task StartAsync(CancellationToken cancellationToken)
 		{
 			CheckSystemCompatibility();
-			return byondInstaller.CleanCache(cancellationToken).AsTask();
+			return byondInstaller.CleanCache(cancellationToken);
 		}
 
 		/// <inheritdoc />

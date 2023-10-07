@@ -116,7 +116,7 @@ namespace Tgstation.Server.Host.Service
 					}
 
 			if (Configure)
-					await RunConfigure(CancellationToken.None); // DCT: None available
+				await RunConfigure(CancellationToken.None); // DCT: None available
 
 			bool stopped = false;
 			if (Uninstall)
@@ -281,7 +281,7 @@ namespace Tgstation.Server.Host.Service
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		async Task RunConfigure(CancellationToken cancellationToken)
+		async ValueTask RunConfigure(CancellationToken cancellationToken)
 		{
 			using var loggerFactory = LoggerFactory.Create(builder =>
 			{

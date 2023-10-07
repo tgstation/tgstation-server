@@ -39,12 +39,12 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		void InitialMappingComplete();
 
 		/// <summary>
-		/// Get a <see cref="ValueTask{TResult}"/> resulting in the next <see cref="Message"/> the <see cref="IProvider"/> recieves or <see langword="null"/> on a disconnect.
+		/// Get a <see cref="Task{TResult}"/> resulting in the next <see cref="Message"/> the <see cref="IProvider"/> recieves or <see langword="null"/> on a disconnect.
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the next available <see cref="Message"/> or <see langword="null"/> if the <see cref="IProvider"/> needed to reconnect.</returns>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the next available <see cref="Message"/> or <see langword="null"/> if the <see cref="IProvider"/> needed to reconnect.</returns>
 		/// <remarks>Note that private messages will come in the form of <see cref="ChannelRepresentation"/>s not returned in <see cref="MapChannels(IEnumerable{ChatChannel}, CancellationToken)"/>.</remarks>
-		ValueTask<Message> NextMessage(CancellationToken cancellationToken);
+		Task<Message> NextMessage(CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Gracefully disconnects the provider. Permanently stops the reconnection timer.

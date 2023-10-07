@@ -331,8 +331,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// Create the initial link to the live game directory using <see cref="ActiveSwappable"/>.
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		Task InitialLink(CancellationToken cancellationToken)
+		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
+		ValueTask InitialLink(CancellationToken cancellationToken)
 		{
 			Logger.LogTrace("Symlinking compile job...");
 			return ActiveSwappable.MakeActive(cancellationToken);

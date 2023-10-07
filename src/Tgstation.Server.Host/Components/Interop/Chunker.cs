@@ -63,9 +63,9 @@ namespace Tgstation.Server.Host.Components.Interop
 		/// <param name="chunkErrorCallback">The callback that generates a <typeparamref name="TResponse"/> for a given error.</param>
 		/// <param name="chunk">The <see cref="ChunkData"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the <typeparamref name="TResponse"/> for the chunked request.</returns>
-		protected async Task<TResponse> ProcessChunk<TCommnication, TResponse>(
-			Func<TCommnication, CancellationToken, Task<TResponse>> completionCallback,
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <typeparamref name="TResponse"/> for the chunked request.</returns>
+		protected async ValueTask<TResponse> ProcessChunk<TCommnication, TResponse>(
+			Func<TCommnication, CancellationToken, ValueTask<TResponse>> completionCallback,
 			Func<string, TResponse> chunkErrorCallback,
 			ChunkData chunk,
 			CancellationToken cancellationToken)

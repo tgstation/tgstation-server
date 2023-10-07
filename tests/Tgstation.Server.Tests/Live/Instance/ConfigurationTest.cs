@@ -11,6 +11,7 @@ using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Request;
 using Tgstation.Server.Client;
 using Tgstation.Server.Client.Components;
+using Tgstation.Server.Common.Extensions;
 using Tgstation.Server.Host.IO;
 
 namespace Tgstation.Server.Tests.Live.Instance
@@ -92,11 +93,11 @@ namespace Tgstation.Server.Tests.Live.Instance
 			await configurationClient.CreateDirectory(staticDir, cancellationToken);
 		}
 
-		public Task SetupDMApiTests(CancellationToken cancellationToken)
+		public ValueTask SetupDMApiTests(CancellationToken cancellationToken)
 		{
 			// just use an I/O manager here
 			var ioManager = new DefaultIOManager();
-			return Task.WhenAll(
+			return ValueTaskExtensions.WhenAll(
 				ioManager.CopyDirectory(
 					Enumerable.Empty<string>(),
 					null,
@@ -176,7 +177,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 		public Task RunPreWatchdog(CancellationToken cancellationToken) => Task.WhenAll(
 			SequencedApiTests(cancellationToken),
-			SetupDMApiTests(cancellationToken),
+			SetupDMApiTests(cancellationToken).AsTask(),
 			TestPregeneratedFilesExist(cancellationToken));
 	}
 }

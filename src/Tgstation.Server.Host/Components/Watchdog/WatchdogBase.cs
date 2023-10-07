@@ -395,8 +395,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		}
 
 		/// <inheritdoc />
-		public Task StopAsync(CancellationToken cancellationToken) =>
-			TerminateNoLock(false, !releaseServers, cancellationToken);
+		public async Task StopAsync(CancellationToken cancellationToken) =>
+			await TerminateNoLock(false, !releaseServers, cancellationToken);
 
 		/// <inheritdoc />
 		public async ValueTask Terminate(bool graceful, CancellationToken cancellationToken)
@@ -1002,8 +1002,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <param name="graceful">If <see langword="true"/> the termination will be delayed until a reboot is detected in the active server's DMAPI and this function will return immediately.</param>
 		/// <param name="announce">If <see langword="true"/> the termination will be announced using <see cref="Chat"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		async Task TerminateNoLock(bool graceful, bool announce, CancellationToken cancellationToken)
+		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
+		async ValueTask TerminateNoLock(bool graceful, bool announce, CancellationToken cancellationToken)
 		{
 			if (Status == WatchdogStatus.Offline)
 				return;

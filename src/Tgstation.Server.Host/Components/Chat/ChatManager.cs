@@ -178,7 +178,7 @@ namespace Tgstation.Server.Host.Components.Chat
 		}
 
 		/// <inheritdoc />
-		public async Task ChangeChannels(long connectionId, IEnumerable<Models.ChatChannel> newChannels, CancellationToken cancellationToken)
+		public async ValueTask ChangeChannels(long connectionId, IEnumerable<Models.ChatChannel> newChannels, CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(newChannels);
 
@@ -261,7 +261,7 @@ namespace Tgstation.Server.Host.Components.Chat
 		}
 
 		/// <inheritdoc />
-		public async Task ChangeSettings(Models.ChatBot newSettings, CancellationToken cancellationToken)
+		public async ValueTask ChangeSettings(Models.ChatBot newSettings, CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(newSettings);
 
@@ -412,7 +412,7 @@ namespace Tgstation.Server.Host.Components.Chat
 			AddMessageTask(task);
 
 			Task callbackTask;
-			Func<bool, ValueTask> finalUpdateAction = null;
+			Func<bool, Task> finalUpdateAction = null;
 			async Task CallbackTask(string errorMessage, string dreamMakerOutput)
 			{
 				await task;
@@ -423,10 +423,10 @@ namespace Tgstation.Server.Host.Components.Chat
 							dreamMakerOutput)),
 					callbacks.Count);
 
-				finalUpdateAction = active => ValueTaskExtensions.WhenAll(callbackResults.Select(finalizerCallback => finalizerCallback(active)));
+				finalUpdateAction = active => ValueTaskExtensions.WhenAll(callbackResults.Select(finalizerCallback => finalizerCallback(active))).AsTask();
 			}
 
-			async ValueTask CompletionTask(bool active)
+			async Task CompletionTask(bool active)
 			{
 				try
 				{
@@ -438,14 +438,14 @@ namespace Tgstation.Server.Host.Components.Chat
 					return;
 				}
 
-				AddMessageTask(finalUpdateAction(active).AsTask());
+				AddMessageTask(finalUpdateAction(active));
 			}
 
 			return (errorMessage, dreamMakerOutput) =>
 			{
 				callbackTask = CallbackTask(errorMessage, dreamMakerOutput);
 				AddMessageTask(callbackTask);
-				return active => AddMessageTask(CompletionTask(active).AsTask());
+				return active => AddMessageTask(CompletionTask(active));
 			};
 		}
 
@@ -455,7 +455,7 @@ namespace Tgstation.Server.Host.Components.Chat
 			foreach (var tgsCommand in commandFactory.GenerateCommands())
 				builtinCommands.Add(tgsCommand.Name.ToUpperInvariant(), tgsCommand);
 			var initialChatBots = activeChatBots.ToList();
-			await Task.WhenAll(initialChatBots.Select(x => ChangeSettings(x, cancellationToken)));
+			await ValueTaskExtensions.WhenAll(initialChatBots.Select(x => ChangeSettings(x, cancellationToken)));
 			initialProviderConnectionsTask = InitialConnection();
 			chatHandler = MonitorMessages(handlerCts.Token);
 		}
@@ -495,7 +495,7 @@ namespace Tgstation.Server.Host.Components.Chat
 		}
 
 		/// <inheritdoc />
-		public async Task UpdateTrackingContexts(CancellationToken cancellationToken)
+		public async ValueTask UpdateTrackingContexts(CancellationToken cancellationToken)
 		{
 			var logMessageSent = 0;
 			async Task UpdateTrackingContext(IChatTrackingContext channelSink, IEnumerable<ChannelRepresentation> channels)
@@ -589,8 +589,8 @@ namespace Tgstation.Server.Host.Components.Chat
 		/// <param name="connectionId">The <see cref="Api.Models.EntityId.Id"/> of the <see cref="IProvider"/> to delete.</param>
 		/// <param name="removeProvider">If the provider should be removed from <see cref="providers"/> and <see cref="trackingContexts"/> should be update.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IProvider"/> being removed if it exists, <see langword="null"/> otherwise.</returns>
-		async Task<IProvider> RemoveProviderChannels(long connectionId, bool removeProvider, CancellationToken cancellationToken)
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="IProvider"/> being removed if it exists, <see langword="null"/> otherwise.</returns>
+		async ValueTask<IProvider> RemoveProviderChannels(long connectionId, bool removeProvider, CancellationToken cancellationToken)
 		{
 			logger.LogTrace("RemoveProviderChannels {connectionId}...", connectionId);
 			IProvider provider;
@@ -936,7 +936,7 @@ namespace Tgstation.Server.Host.Components.Chat
 		{
 			logger.LogTrace("Starting processing loop...");
 			var messageTasks = new Dictionary<IProvider, Task<Message>>();
-			Task activeProcessingTask = Task.CompletedTask;
+			ValueTask activeProcessingTask = ValueTask.CompletedTask;
 			try
 			{
 				Task updatedTask = null;
@@ -956,7 +956,7 @@ namespace Tgstation.Server.Host.Components.Chat
 							if (!messageTasks.ContainsKey(providerKvp.Value))
 								messageTasks.Add(
 									providerKvp.Value,
-									providerKvp.Value.NextMessage(cancellationToken).AsTask());
+									providerKvp.Value.NextMessage(cancellationToken));
 
 					if (messageTasks.Count == 0)
 					{
@@ -981,7 +981,7 @@ namespace Tgstation.Server.Host.Components.Chat
 						var message = await completedMessageTaskKvp.Value;
 						var messageNumber = Interlocked.Increment(ref messagesProcessed);
 
-						async Task WrapProcessMessage()
+						async ValueTask WrapProcessMessage()
 						{
 							var localActiveProcessingTask = activeProcessingTask;
 							using (LogContext.PushProperty(SerilogContextHelper.ChatMessageIterationContextProperty, messageNumber))

@@ -144,7 +144,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		}
 
 		/// <inheritdoc />
-		public async ValueTask<Message> NextMessage(CancellationToken cancellationToken)
+		public async Task<Message> NextMessage(CancellationToken cancellationToken)
 		{
 			while (true)
 			{
@@ -171,7 +171,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			{
 				stopOldTimerTask = StopReconnectionTimer();
 				reconnectCts = new CancellationTokenSource();
-				reconnectTask = ReconnectionLoop(reconnectInterval, connectNow, reconnectCts.Token).AsTask();
+				reconnectTask = ReconnectionLoop(reconnectInterval, connectNow, reconnectCts.Token);
 			}
 
 			return stopOldTimerTask;
@@ -260,8 +260,8 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// <param name="reconnectInterval">The amount of minutes to wait between reconnection attempts.</param>
 		/// <param name="connectNow">If a connection attempt should be immediately made.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
-		async ValueTask ReconnectionLoop(uint reconnectInterval, bool connectNow, CancellationToken cancellationToken)
+		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
+		async Task ReconnectionLoop(uint reconnectInterval, bool connectNow, CancellationToken cancellationToken)
 		{
 			do
 			{

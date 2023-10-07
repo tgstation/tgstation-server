@@ -535,7 +535,7 @@ namespace Tgstation.Server.Host.Components.Repository
 					if (postWriteHandler.NeedsPostWrite(src))
 						postWriteHandler.HandleWrite(dest);
 
-					return Task.CompletedTask;
+					return ValueTask.CompletedTask;
 				},
 				ioMananger.ResolvePath(),
 				path,
@@ -992,8 +992,8 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// <param name="password">The password for the <see cref="credentialsProvider"/>.</param>
 		/// <param name="deploymentPipeline">If any events created should be marked as part of the deployment pipeline.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		async Task UpdateSubmodules(
+		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
+		async ValueTask UpdateSubmodules(
 			JobProgressReporter progressReporter,
 			string username,
 			string password,

@@ -460,7 +460,7 @@ namespace Tgstation.Server.Host.Components
 						var instanceFactoryStopTask = instanceFactory.StopAsync(cancellationToken);
 						await jobService.StopAsync(cancellationToken);
 
-						async Task OfflineInstanceImmediate(IInstance instance, CancellationToken cancellationToken)
+						async ValueTask OfflineInstanceImmediate(IInstance instance, CancellationToken cancellationToken)
 						{
 							try
 							{
@@ -472,7 +472,7 @@ namespace Tgstation.Server.Host.Components
 							}
 						}
 
-						await Task.WhenAll(instances.Select(x => OfflineInstanceImmediate(x.Value.Instance, cancellationToken)));
+						await ValueTaskExtensions.WhenAll(instances.Select(x => OfflineInstanceImmediate(x.Value.Instance, cancellationToken)));
 						await instanceFactoryStopTask;
 
 						await swarmServiceController.Shutdown(cancellationToken);
@@ -490,7 +490,7 @@ namespace Tgstation.Server.Host.Components
 		}
 
 		/// <inheritdoc />
-		public async Task<BridgeResponse> ProcessBridgeRequest(BridgeParameters parameters, CancellationToken cancellationToken)
+		public async ValueTask<BridgeResponse> ProcessBridgeRequest(BridgeParameters parameters, CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(parameters);
 
@@ -650,8 +650,8 @@ namespace Tgstation.Server.Host.Components
 		/// Initializes the connection to the TGS swarm.
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		async Task InitializeSwarm(CancellationToken cancellationToken)
+		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
+		async ValueTask InitializeSwarm(CancellationToken cancellationToken)
 		{
 			SwarmRegistrationResult registrationResult;
 			do
