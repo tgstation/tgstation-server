@@ -22,7 +22,7 @@ namespace Tgstation.Server.Host.Tests.Signals
 			mockServerControl
 				.Setup(x => x.GracefulShutdown(It.IsAny<bool>()))
 				.Callback(() => tcs.SetResult())
-				.Returns(Task.CompletedTask);
+				.Returns(ValueTask.CompletedTask);
 
 			var mockAsyncDelayer = new Mock<IAsyncDelayer>();
 			mockAsyncDelayer.Setup(x => x.Delay(It.IsAny<TimeSpan>(), It.IsAny<CancellationToken>())).Returns(Task.CompletedTask);

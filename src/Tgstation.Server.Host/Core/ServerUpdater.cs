@@ -92,7 +92,7 @@ namespace Tgstation.Server.Host.Core
 		}
 
 		/// <inheritdoc />
-		public async Task<ServerUpdateResult> BeginUpdate(ISwarmService swarmService, IFileStreamProvider fileStreamProvider, Version version, CancellationToken cancellationToken)
+		public async ValueTask<ServerUpdateResult> BeginUpdate(ISwarmService swarmService, IFileStreamProvider fileStreamProvider, Version version, CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(swarmService);
 
@@ -105,7 +105,7 @@ namespace Tgstation.Server.Host.Core
 		}
 
 		/// <inheritdoc />
-		public async Task<bool> ExecuteUpdate(string updatePath, CancellationToken cancellationToken, CancellationToken criticalCancellationToken)
+		public async ValueTask<bool> ExecuteUpdate(string updatePath, CancellationToken cancellationToken, CancellationToken criticalCancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(updatePath);
 
@@ -194,10 +194,10 @@ namespace Tgstation.Server.Host.Core
 		/// Attempt to abort a prepared swarm update.
 		/// </summary>
 		/// <param name="exception">The <see cref="Exception"/> being thrown.</param>
-		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
+		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
 		/// <exception cref="AggregateException">A new <see cref="AggregateException"/> containing <paramref name="exception"/> and the swarm abort <see cref="Exception"/> if thrown.</exception>
 		/// <remarks>Requires <see cref="serverUpdateOperation"/> to be populated.</remarks>
-		async Task TryAbort(Exception exception)
+		async ValueTask TryAbort(Exception exception)
 		{
 			try
 			{
@@ -214,9 +214,9 @@ namespace Tgstation.Server.Host.Core
 		/// </summary>
 		/// <param name="stagingDirectory">The directory the server update is initially extracted to.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in <see cref="Tuple{T1, T2}"/> containing a new <see cref="BufferedFileStreamProvider"/> based on the <see cref="ServerUpdateOperation.FileStreamProvider"/> of <see cref="serverUpdateOperation"/> and <see langword="true"/> if it needs to be kept active until the swarm commit.</returns>
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in <see cref="Tuple{T1, T2}"/> containing a new <see cref="BufferedFileStreamProvider"/> based on the <see cref="ServerUpdateOperation.FileStreamProvider"/> of <see cref="serverUpdateOperation"/> and <see langword="true"/> if it needs to be kept active until the swarm commit.</returns>
 		/// <remarks>Requires <see cref="serverUpdateOperation"/> to be populated.</remarks>
-		async Task<Tuple<BufferedFileStreamProvider, bool>> PrepareUpdateClearStagingAndBufferStream(string stagingDirectory, CancellationToken cancellationToken)
+		async ValueTask<Tuple<BufferedFileStreamProvider, bool>> PrepareUpdateClearStagingAndBufferStream(string stagingDirectory, CancellationToken cancellationToken)
 		{
 			await using var fileStreamProvider = serverUpdateOperation.FileStreamProvider;
 
@@ -273,8 +273,8 @@ namespace Tgstation.Server.Host.Core
 		/// <param name="newVersion">The TGS <see cref="Version"/> to update to.</param>
 		/// <param name="recursed">If this is a recursive call.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="ServerUpdateResult"/>.</returns>
-		async Task<ServerUpdateResult> BeginUpdateImpl(
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="ServerUpdateResult"/>.</returns>
+		async ValueTask<ServerUpdateResult> BeginUpdateImpl(
 			ISwarmService swarmService,
 			IFileStreamProvider fileStreamProvider,
 			Version newVersion,

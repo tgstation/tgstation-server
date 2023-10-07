@@ -257,7 +257,7 @@ namespace Tgstation.Server.Host.Components
 
 		/// <inheritdoc />
 #pragma warning disable CA1506 // TODO: Decomplexify
-		public async Task<IInstance> CreateInstance(IBridgeRegistrar bridgeRegistrar, Models.Instance metadata)
+		public async ValueTask<IInstance> CreateInstance(IBridgeRegistrar bridgeRegistrar, Models.Instance metadata)
 		{
 			ArgumentNullException.ThrowIfNull(bridgeRegistrar);
 			ArgumentNullException.ThrowIfNull(metadata);
