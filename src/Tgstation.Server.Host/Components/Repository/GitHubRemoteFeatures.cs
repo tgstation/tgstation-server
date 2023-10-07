@@ -56,7 +56,7 @@ namespace Tgstation.Server.Host.Components.Repository
 		}
 
 		/// <inheritdoc />
-		protected override async Task<Models.TestMerge> GetTestMergeImpl(
+		protected override async ValueTask<Models.TestMerge> GetTestMergeImpl(
 			TestMergeParameters parameters,
 			RepositorySettings repositorySettings,
 			CancellationToken cancellationToken)

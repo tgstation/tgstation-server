@@ -181,7 +181,7 @@ namespace Tgstation.Server.Host.Components.Repository
 
 		/// <inheritdoc />
 #pragma warning disable CA1506 // TODO: Decomplexify
-		public async Task<TestMergeResult> AddTestMerge(
+		public async ValueTask<TestMergeResult> AddTestMerge(
 			TestMergeParameters testMergeParameters,
 			string committerName,
 			string committerEmail,
@@ -384,7 +384,7 @@ namespace Tgstation.Server.Host.Components.Repository
 #pragma warning restore CA1506
 
 		/// <inheritdoc />
-		public async Task CheckoutObject(
+		public async ValueTask CheckoutObject(
 			string committish,
 			string username,
 			string password,
@@ -419,7 +419,7 @@ namespace Tgstation.Server.Host.Components.Repository
 		}
 
 		/// <inheritdoc />
-		public async Task FetchOrigin(
+		public async ValueTask FetchOrigin(
 			JobProgressReporter progressReporter,
 			string username,
 			string password,
@@ -466,7 +466,7 @@ namespace Tgstation.Server.Host.Components.Repository
 		}
 
 		/// <inheritdoc />
-		public async Task ResetToOrigin(
+		public async ValueTask ResetToOrigin(
 			JobProgressReporter progressReporter,
 			string username,
 			string password,
@@ -522,7 +522,7 @@ namespace Tgstation.Server.Host.Components.Repository
 			TaskScheduler.Current);
 
 		/// <inheritdoc />
-		public async Task CopyTo(string path, CancellationToken cancellationToken)
+		public async ValueTask CopyTo(string path, CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(path);
 			logger.LogTrace("Copying to {path}...", path);
@@ -557,7 +557,7 @@ namespace Tgstation.Server.Host.Components.Repository
 			TaskScheduler.Current);
 
 		/// <inheritdoc />
-		public async Task<bool?> MergeOrigin(
+		public async ValueTask<bool?> MergeOrigin(
 			JobProgressReporter progressReporter,
 			string committerName,
 			string committerEmail,
@@ -636,7 +636,7 @@ namespace Tgstation.Server.Host.Components.Repository
 		}
 
 		/// <inheritdoc />
-		public async Task<bool> Sychronize(
+		public async ValueTask<bool> Sychronize(
 			JobProgressReporter progressReporter,
 			string username,
 			string password,
@@ -828,7 +828,7 @@ namespace Tgstation.Server.Host.Components.Repository
 			TaskScheduler.Current);
 
 		/// <inheritdoc />
-		public Task<Models.TestMerge> GetTestMerge(
+		public ValueTask<Models.TestMerge> GetTestMerge(
 			TestMergeParameters parameters,
 			RepositorySettings repositorySettings,
 			CancellationToken cancellationToken) => gitRemoteFeatures.GetTestMerge(
