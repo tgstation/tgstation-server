@@ -568,8 +568,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <summary>
 		/// Stops <see cref="MonitorLifetimes(CancellationToken)"/>. Doesn't kill the servers.
 		/// </summary>
-		/// <returns><see langword="true"/> if the monitor was running, <see langword="false"/> otherwise.</returns>
-		protected async Task<bool> StopMonitor()
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in <see langword="true"/> if the monitor was running, <see langword="false"/> otherwise.</returns>
+		protected async ValueTask<bool> StopMonitor()
 		{
 			Logger.LogTrace("StopMonitor");
 			if (monitorTask == null)
@@ -590,8 +590,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <param name="controller">The <see cref="ISessionController"/> to checkou.</param>
 		/// <param name="serverName">The name of the server being checked.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		protected async Task CheckLaunchResult(ISessionController controller, string serverName, CancellationToken cancellationToken)
+		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
+		protected async ValueTask CheckLaunchResult(ISessionController controller, string serverName, CancellationToken cancellationToken)
 		{
 			var launchResult = await controller.LaunchResult.WaitAsync(cancellationToken);
 
@@ -610,7 +610,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// Call from <see cref="InitController(ValueTask, ReattachInformation, CancellationToken)"/> when a reattach operation fails to attempt a fresh start.
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
+		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
 		protected async ValueTask ReattachFailure(CancellationToken cancellationToken)
 		{
 			// we lost the server, just restart entirely
@@ -626,15 +626,15 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <summary>
 		/// Call <see cref="IDisposable.Dispose"/> and null the fields for all <see cref="ISessionController"/>s.
 		/// </summary>
-		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		protected abstract Task DisposeAndNullControllersImpl();
+		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
+		protected abstract ValueTask DisposeAndNullControllersImpl();
 
 		/// <summary>
 		/// Wrapper for <see cref="DisposeAndNullControllersImpl"/> under a locked context.
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		protected async Task DisposeAndNullControllers(CancellationToken cancellationToken)
+		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
+		protected async ValueTask DisposeAndNullControllers(CancellationToken cancellationToken)
 		{
 			Logger.LogTrace("DisposeAndNullControllers");
 			using (await SemaphoreSlimContext.Lock(controllerDisposeSemaphore, cancellationToken))
@@ -656,8 +656,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// </summary>
 		/// <param name="activationReason">The <see cref="MonitorActivationReason"/> that caused the invocation. Will never be <see cref="MonitorActivationReason.HealthCheck"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="MonitorAction"/> to take.</returns>
-		protected abstract Task<MonitorAction> HandleMonitorWakeup(
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="MonitorAction"/> to take.</returns>
+		protected abstract ValueTask<MonitorAction> HandleMonitorWakeup(
 			MonitorActivationReason activationReason,
 			CancellationToken cancellationToken);
 
@@ -666,8 +666,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// </summary>
 		/// <param name="newCompileJob">The new <see cref="Models.CompileJob"/> being applied.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		protected async Task BeforeApplyDmb(Models.CompileJob newCompileJob, CancellationToken cancellationToken)
+		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
+		protected async ValueTask BeforeApplyDmb(Models.CompileJob newCompileJob, CancellationToken cancellationToken)
 		{
 			if (newCompileJob.Id == ActiveCompileJob?.Id)
 			{
@@ -696,7 +696,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <param name="parameters">An <see cref="IEnumerable{T}"/> of <see cref="string"/> parameters for <paramref name="eventType"/>.</param>
 		/// <param name="relayToSession">If the event should be sent to DreamDaemon.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
+		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
 		protected async ValueTask HandleEventImpl(EventType eventType, IEnumerable<string> parameters, bool relayToSession, CancellationToken cancellationToken)
 		{
 			try
@@ -716,8 +716,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// Attempt to restart the monitor from scratch.
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		async Task MonitorRestart(CancellationToken cancellationToken)
+		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
+		async ValueTask MonitorRestart(CancellationToken cancellationToken)
 		{
 			Logger.LogTrace("Monitor restart!");
 
@@ -784,7 +784,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// The main loop of the watchdog. Ayschronously waits for events to occur and then responds to them.
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
+		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
 #pragma warning disable CA1502
 		async Task MonitorLifetimes(CancellationToken cancellationToken)
 		{
@@ -1043,8 +1043,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// Handles a watchdog health check.
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the next <see cref="MonitorAction"/> to take.</returns>
-		async Task<MonitorAction> HandleHealthCheck(CancellationToken cancellationToken)
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the next <see cref="MonitorAction"/> to take.</returns>
+		async ValueTask<MonitorAction> HandleHealthCheck(CancellationToken cancellationToken)
 		{
 			Logger.LogTrace("Sending health check to active server...");
 			var activeServer = GetActiveController();
