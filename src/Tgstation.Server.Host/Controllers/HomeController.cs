@@ -145,16 +145,15 @@ namespace Tgstation.Server.Host.Controllers
 		/// <summary>
 		/// Main page of the <see cref="Application"/>.
 		/// </summary>
-		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>
-		/// A <see cref="ValueTask{TResult}"/> resuting in the <see cref="JsonResult"/> containing <see cref="ServerInformationResponse"/> of the <see cref="Application"/> if a properly authenticated API request, the web control panel if on a browser and enabled, <see cref="UnauthorizedResult"/> otherwise.
+		/// The <see cref="JsonResult"/> containing <see cref="ServerInformationResponse"/> of the <see cref="Application"/> if a properly authenticated API request, the web control panel if on a browser and enabled, <see cref="UnauthorizedResult"/> otherwise.
 		/// </returns>
 		/// <response code="200"><see cref="ServerInformationResponse"/> retrieved successfully.</response>
 		[HttpGet]
 		[AllowAnonymous]
 		[ProducesResponseType(typeof(ServerInformationResponse), 200)]
 #pragma warning disable CA1506
-		public async ValueTask<IActionResult> Home(CancellationToken cancellationToken)
+		public IActionResult Home()
 		{
 			if (controlPanelConfiguration.Enable)
 				Response.Headers.Add(
@@ -201,7 +200,7 @@ namespace Tgstation.Server.Host.Controllers
 				ValidInstancePaths = generalConfiguration.ValidInstancePaths,
 				WindowsHost = platformIdentifier.IsWindows,
 				SwarmServers = swarmService.GetSwarmServers(),
-				OAuthProviderInfos = await oAuthProviders.ProviderInfos(cancellationToken),
+				OAuthProviderInfos = oAuthProviders.ProviderInfos(),
 				UpdateInProgress = serverControl.UpdateInProgress,
 			});
 		}

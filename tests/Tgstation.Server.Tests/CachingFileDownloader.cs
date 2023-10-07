@@ -130,7 +130,7 @@ namespace Tgstation.Server.Tests
 
 			public ValueTask DisposeAsync() => ValueTask.CompletedTask;
 
-			public async Task<Stream> GetResult(CancellationToken cancellationToken)
+			public async ValueTask<Stream> GetResult(CancellationToken cancellationToken)
 				=> await CacheFile(logger, url, bearerToken, null, cancellationToken);
 		}
 

@@ -98,7 +98,7 @@ namespace Tgstation.Server.Host.Swarm.Tests
 				.Setup(x => x.UseContext(It.IsNotNull<Func<IDatabaseContext, ValueTask>>()))
 				.Callback<Func<IDatabaseContext, ValueTask>>((func) => func(mockDatabaseContext));
 			mockDBContextFactory
-				.Setup(x => x.UseContext2(It.IsNotNull<Func<IDatabaseContext, Task>>()))
+				.Setup(x => x.UseContextTaskReturn(It.IsNotNull<Func<IDatabaseContext, Task>>()))
 				.Callback<Func<IDatabaseContext, Task>>((func) => func(mockDatabaseContext));
 
 			var mockHttpClientFactory = new Mock<IAbstractHttpClientFactory>();

@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 using LibGit2Sharp;
 using LibGit2Sharp.Handlers;
+
 using Microsoft.Extensions.Logging;
 
 using Tgstation.Server.Api.Models;
@@ -20,6 +21,7 @@ using Tgstation.Server.Host.Jobs;
 namespace Tgstation.Server.Host.Components.Repository
 {
 	/// <inheritdoc />
+#pragma warning disable CA1506 // TODO: Decomplexify
 	sealed class Repository : IRepository
 	{
 		/// <summary>
@@ -1131,4 +1133,5 @@ namespace Tgstation.Server.Host.Components.Repository
 			return !cancellationToken.IsCancellationRequested;
 		};
 	}
+#pragma warning restore CA1506
 }

@@ -21,7 +21,7 @@ namespace Tgstation.Server.Host.Security
 		/// </summary>
 		/// <param name="user">The user to create a <see cref="ISystemIdentity"/> for.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A new <see cref="ISystemIdentity"/> or <see langword="null"/> if the <paramref name="user"/> has no <see cref="ISystemIdentity"/>.</returns>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in a new <see cref="ISystemIdentity"/> based on the given <paramref name="user"/> or <see langword="null"/> if the <paramref name="user"/> has no <see cref="ISystemIdentity"/>.</returns>
 		Task<ISystemIdentity> CreateSystemIdentity(User user, CancellationToken cancellationToken);
 
 		/// <summary>
@@ -30,7 +30,7 @@ namespace Tgstation.Server.Host.Security
 		/// <param name="username">The username of the user.</param>
 		/// <param name="password">The password of the user.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A new <see cref="ISystemIdentity"/>.</returns>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in a new <see cref="ISystemIdentity"/> based on the given credentials.</returns>
 		Task<ISystemIdentity> CreateSystemIdentity(string username, string password, CancellationToken cancellationToken);
 	}
 }

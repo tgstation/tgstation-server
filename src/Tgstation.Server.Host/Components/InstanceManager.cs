@@ -11,6 +11,7 @@ using Microsoft.Extensions.Options;
 
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Common;
+using Tgstation.Server.Common.Extensions;
 using Tgstation.Server.Host.Components.Interop;
 using Tgstation.Server.Host.Components.Interop.Bridge;
 using Tgstation.Server.Host.Configuration;
@@ -274,7 +275,7 @@ namespace Tgstation.Server.Host.Components
 					logger.LogDebug("Reverting instance {instanceId}'s path to {oldPath} in the DB...", instance.Id, oldPath);
 
 					// DCT: Operation must always run
-					await databaseContextFactory.UseContext2(db =>
+					await databaseContextFactory.UseContextTaskReturn(db =>
 					{
 						var targetInstance = new Models.Instance
 						{
@@ -342,7 +343,7 @@ namespace Tgstation.Server.Host.Components
 					await container.OnZeroReferences.WaitAsync(cancellationToken);
 
 					// we are the one responsible for cancelling his jobs
-					var tasks = new List<Task>();
+					var tasks = new List<ValueTask<Models.Job>>();
 					await databaseContextFactory.UseContext(
 						async db =>
 						{
@@ -359,7 +360,7 @@ namespace Tgstation.Server.Host.Components
 								tasks.Add(jobService.CancelJob(job, user, true, cancellationToken));
 						});
 
-					await Task.WhenAll(tasks);
+					await ValueTaskExtensions.WhenAll(tasks);
 				}
 				catch
 				{

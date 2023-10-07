@@ -77,14 +77,14 @@ namespace Tgstation.Server.Host.IO
 		}
 
 		/// <inheritdoc />
-		public async Task<Stream> GetResult(CancellationToken cancellationToken)
+		public async ValueTask<Stream> GetResult(CancellationToken cancellationToken)
 		{
 			var (sharedStream, _) = await GetResultInternal(cancellationToken);
 			return sharedStream;
 		}
 
 		/// <inheritdoc />
-		public async Task<MemoryStream> GetOwnedResult(CancellationToken cancellationToken)
+		public async ValueTask<MemoryStream> GetOwnedResult(CancellationToken cancellationToken)
 		{
 			var (sharedStream, length) = await GetResultInternal(cancellationToken);
 			return new MemoryStream(sharedStream.GetBuffer(), 0, (int)length, false, true);

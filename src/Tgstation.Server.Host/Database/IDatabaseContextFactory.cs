@@ -20,6 +20,6 @@ namespace Tgstation.Server.Host.Database
 		/// </summary>
 		/// <param name="operation">The operation to run.</param>
 		/// <returns>A <see cref="ValueTask"/> representing the running <paramref name="operation"/>.</returns>
-		ValueTask UseContext2(Func<IDatabaseContext, Task> operation);
+		ValueTask UseContextTaskReturn(Func<IDatabaseContext, Task> operation);
 	}
 }

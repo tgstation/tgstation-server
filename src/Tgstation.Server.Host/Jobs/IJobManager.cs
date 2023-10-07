@@ -33,8 +33,8 @@ namespace Tgstation.Server.Host.Jobs
 		/// <param name="canceller">The <see cref="User"/> to cancel the <paramref name="job"/>. If <see langword="null"/> the TGS user will be used.</param>
 		/// <param name="jobCancellationToken">A <see cref="CancellationToken"/> that will cancel the <paramref name="job"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task"/> representing the <see cref="Job"/>.</returns>
-		Task WaitForJobCompletion(Job job, User canceller, CancellationToken jobCancellationToken, CancellationToken cancellationToken);
+		/// <returns>A <see cref="ValueTask"/> representing the <see cref="Job"/>.</returns>
+		ValueTask WaitForJobCompletion(Job job, User canceller, CancellationToken jobCancellationToken, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Cancels a give <paramref name="job"/>.
@@ -43,7 +43,7 @@ namespace Tgstation.Server.Host.Jobs
 		/// <param name="user">The <see cref="User"/> who cancelled the <paramref name="job"/>. If <see langword="null"/> the TGS user will be used.</param>
 		/// <param name="blocking">If the operation should wait until the job exits before completing.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the updated <paramref name="job"/> if it was cancelled, <see langword="null"/> if it couldn't be found.</returns>
-		Task<Job> CancelJob(Job job, User user, bool blocking, CancellationToken cancellationToken);
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the updated <paramref name="job"/> if it was cancelled, <see langword="null"/> if it couldn't be found.</returns>
+		ValueTask<Job> CancelJob(Job job, User user, bool blocking, CancellationToken cancellationToken);
 	}
 }

@@ -35,7 +35,7 @@ namespace Tgstation.Server.Host.Database
 		}
 
 		/// <inheritdoc />
-		public async ValueTask UseContext2(Func<IDatabaseContext, Task> operation)
+		public async ValueTask UseContextTaskReturn(Func<IDatabaseContext, Task> operation)
 		{
 			ArgumentNullException.ThrowIfNull(operation);
 

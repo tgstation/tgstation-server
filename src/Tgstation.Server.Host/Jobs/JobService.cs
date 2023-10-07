@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Serilog.Context;
 using Tgstation.Server.Api.Models.Response;
+using Tgstation.Server.Common.Extensions;
 using Tgstation.Server.Host.Components;
 using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.Extensions;
@@ -172,9 +173,9 @@ namespace Tgstation.Server.Host.Jobs
 			.AsTask();
 
 		/// <inheritdoc />
-		public async Task StopAsync(CancellationToken cancellationToken)
+		public Task StopAsync(CancellationToken cancellationToken)
 		{
-			List<Task<Job>> joinTasks;
+			List<ValueTask<Job>> joinTasks;
 			lock (addCancelLock)
 				lock (synchronizationLock)
 				{
@@ -190,11 +191,11 @@ namespace Tgstation.Server.Host.Jobs
 						.ToList();
 				}
 
-			await Task.WhenAll(joinTasks);
+			return ValueTaskExtensions.WhenAll(joinTasks).AsTask();
 		}
 
 		/// <inheritdoc />
-		public async Task<Job> CancelJob(Job job, User user, bool blocking, CancellationToken cancellationToken)
+		public async ValueTask<Job> CancelJob(Job job, User user, bool blocking, CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(job);
 
@@ -248,7 +249,7 @@ namespace Tgstation.Server.Host.Jobs
 		}
 
 		/// <inheritdoc />
-		public async Task WaitForJobCompletion(Job job, User canceller, CancellationToken jobCancellationToken, CancellationToken cancellationToken)
+		public async ValueTask WaitForJobCompletion(Job job, User canceller, CancellationToken jobCancellationToken, CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(job);
 
@@ -268,12 +269,12 @@ namespace Tgstation.Server.Host.Jobs
 			if (noMoreJobsShouldStart && !handler.Started)
 				await Extensions.TaskExtensions.InfiniteTask.WaitAsync(cancellationToken);
 
-			Task cancelTask = null;
+			ValueTask<Job>? cancelTask = null;
 			using (jobCancellationToken.Register(() => cancelTask = CancelJob(job, canceller, true, cancellationToken)))
 				await handler.Wait(cancellationToken);
 
-			if (cancelTask != null)
-				await cancelTask;
+			if (cancelTask.HasValue)
+				await cancelTask.Value;
 		}
 
 		/// <inheritdoc />
