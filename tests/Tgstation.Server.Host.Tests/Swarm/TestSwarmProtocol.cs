@@ -10,6 +10,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using Moq;
 
+using Tgstation.Server.Common.Extensions;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.IO;
@@ -206,7 +207,7 @@ namespace Tgstation.Server.Host.Swarm.Tests
 			await TestSimultaneousPrepareDifferentVersionsFails(false);
 		}
 
-		static async Task TestSimultaneousPrepareDifferentVersionsFails(bool prepControllerFirst)
+		static async ValueTask TestSimultaneousPrepareDifferentVersionsFails(bool prepControllerFirst)
 		{
 			await using var controller = GenNode();
 			await using var node1 = GenNode(controller);
@@ -219,7 +220,7 @@ namespace Tgstation.Server.Host.Swarm.Tests
 			Assert.AreEqual(SwarmRegistrationResult.Success, await controller.TryInit());
 			Assert.AreEqual(SwarmRegistrationResult.Success, await node1.TryInit());
 
-			Task<SwarmPrepareResult> controllerPrepareTask = null, nodePrepareTask;
+			ValueTask<SwarmPrepareResult> controllerPrepareTask = ValueTask.FromResult(SwarmPrepareResult.SuccessProviderNotRequired), nodePrepareTask;
 			if (prepControllerFirst)
 				controllerPrepareTask = controller.Service.PrepareUpdate(updateFileStreamProvider, new Version(4, 3, 2), default);
 
@@ -230,7 +231,7 @@ namespace Tgstation.Server.Host.Swarm.Tests
 
 			await Task.Yield();
 
-			await Task.WhenAll(controllerPrepareTask, nodePrepareTask);
+			await ValueTaskExtensions.WhenAll(controllerPrepareTask, nodePrepareTask);
 
 			Task<SwarmCommitResult> nodeCommitTask = null, controllerCommitTask = null;
 
@@ -248,13 +249,13 @@ namespace Tgstation.Server.Host.Swarm.Tests
 			if (controllerPrepped != SwarmPrepareResult.Failure)
 			{
 				Assert.AreEqual(SwarmPrepareResult.SuccessHoldProviderUntilCommit, controllerPrepped);
-				controllerCommitTask = controller.Service.CommitUpdate(default);
+				controllerCommitTask = controller.Service.CommitUpdate(default).AsTask();
 			}
 
 			if (nodePrepped != SwarmPrepareResult.Failure)
 			{
 				Assert.AreEqual(SwarmPrepareResult.SuccessHoldProviderUntilCommit, nodePrepped);
-				nodeCommitTask = node1.Service.CommitUpdate(default);
+				nodeCommitTask = node1.Service.CommitUpdate(default).AsTask();
 			}
 
 			await Task.Yield();

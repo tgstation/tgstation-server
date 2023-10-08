@@ -1,4 +1,4 @@
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System;
 using System.Collections.Generic;
@@ -30,7 +30,8 @@ namespace Tgstation.Server.Client.Components.Tests
 			};
 
 			var mockApiClient = new Mock<IApiClient>();
-			mockApiClient.Setup(x => x.Create<JobResponse>(Routes.DreamDaemon, inst.Id.Value, It.IsAny<CancellationToken>())).Returns(Task.FromResult(example));
+			var result2 = ValueTask.FromResult(example);
+			mockApiClient.Setup(x => x.Create<JobResponse>(Routes.DreamDaemon, inst.Id.Value, It.IsAny<CancellationToken>())).Returns(result2);
 
 			var client = new DreamDaemonClient(mockApiClient.Object, inst);
 

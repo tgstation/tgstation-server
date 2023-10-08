@@ -126,7 +126,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// Get <see cref="AdministrationResponse"/> server information.
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> for the operation.</returns>
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="IActionResult"/> for the operation.</returns>
 		/// <response code="200">Retrieved <see cref="AdministrationResponse"/> data successfully.</response>
 		/// <response code="424">The GitHub API rate limit was hit. See response header Retry-After.</response>
 		/// <response code="429">A GitHub API error occurred. See error message for details.</response>
@@ -135,7 +135,7 @@ namespace Tgstation.Server.Host.Controllers
 		[ProducesResponseType(typeof(AdministrationResponse), 200)]
 		[ProducesResponseType(typeof(ErrorMessageResponse), 424)]
 		[ProducesResponseType(typeof(ErrorMessageResponse), 429)]
-		public async Task<IActionResult> Read(CancellationToken cancellationToken)
+		public async ValueTask<IActionResult> Read(CancellationToken cancellationToken)
 		{
 			try
 			{
@@ -188,7 +188,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// </summary>
 		/// <param name="model">The <see cref="ServerUpdateRequest"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> for the operation.</returns>
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="IActionResult"/> for the operation.</returns>
 		/// <response code="202">Update has been started successfully.</response>
 		/// <response code="410">The requested release version could not be found in the target GitHub repository.</response>
 		/// <response code="422">Upgrade operations are unavailable due to the launch configuration of TGS.</response>
@@ -201,7 +201,7 @@ namespace Tgstation.Server.Host.Controllers
 		[ProducesResponseType(typeof(ErrorMessageResponse), 422)]
 		[ProducesResponseType(typeof(ErrorMessageResponse), 424)]
 		[ProducesResponseType(typeof(ErrorMessageResponse), 429)]
-		public async Task<IActionResult> Update([FromBody] ServerUpdateRequest model, CancellationToken cancellationToken)
+		public async ValueTask<IActionResult> Update([FromBody] ServerUpdateRequest model, CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(model);
 
@@ -232,14 +232,14 @@ namespace Tgstation.Server.Host.Controllers
 		/// <summary>
 		/// Attempts to restart the server.
 		/// </summary>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the request.</returns>
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="IActionResult"/> of the request.</returns>
 		/// <response code="204">Restart begun successfully.</response>
 		/// <response code="422">Restart operations are unavailable due to the launch configuration of TGS.</response>
 		[HttpDelete]
 		[TgsAuthorize(AdministrationRights.RestartHost)]
 		[ProducesResponseType(204)]
 		[ProducesResponseType(typeof(ErrorMessageResponse), 422)]
-		public async Task<IActionResult> Delete()
+		public async ValueTask<IActionResult> Delete()
 		{
 			try
 			{
@@ -264,14 +264,14 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="page">The current page.</param>
 		/// <param name="pageSize">The page size.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the request.</returns>
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="IActionResult"/> of the request.</returns>
 		/// <response code="200">Listed logs successfully.</response>
 		/// <response code="409">An IO error occurred while listing.</response>
 		[HttpGet(Routes.Logs)]
 		[TgsAuthorize(AdministrationRights.DownloadLogs)]
 		[ProducesResponseType(typeof(PaginatedResponse<LogFileResponse>), 200)]
 		[ProducesResponseType(typeof(ErrorMessageResponse), 409)]
-		public Task<IActionResult> ListLogs([FromQuery] int? page, [FromQuery] int? pageSize, CancellationToken cancellationToken)
+		public ValueTask<IActionResult> ListLogs([FromQuery] int? page, [FromQuery] int? pageSize, CancellationToken cancellationToken)
 			=> Paginated(
 				async () =>
 				{
@@ -317,14 +317,14 @@ namespace Tgstation.Server.Host.Controllers
 		/// </summary>
 		/// <param name="path">The path to download.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the request.</returns>
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="IActionResult"/> of the request.</returns>
 		/// <response code="200">Downloaded <see cref="LogFileResponse"/> successfully.</response>
 		/// <response code="409">An IO error occurred while downloading.</response>
 		[HttpGet(Routes.Logs + "/{*path}")]
 		[TgsAuthorize(AdministrationRights.DownloadLogs)]
 		[ProducesResponseType(typeof(LogFileResponse), 200)]
 		[ProducesResponseType(typeof(ErrorMessageResponse), 409)]
-		public async Task<IActionResult> GetLog(string path, CancellationToken cancellationToken)
+		public async ValueTask<IActionResult> GetLog(string path, CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(path);
 
@@ -369,8 +369,8 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="newVersion">The <see cref="Version"/> being updated to.</param>
 		/// <param name="attemptingUpload">If an upload is being attempted.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the request.</returns>
-		async Task<IActionResult> AttemptInitiateUpdate(Version newVersion, bool attemptingUpload, CancellationToken cancellationToken)
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="IActionResult"/> of the request.</returns>
+		async ValueTask<IActionResult> AttemptInitiateUpdate(Version newVersion, bool attemptingUpload, CancellationToken cancellationToken)
 		{
 			IFileUploadTicket uploadTicket = attemptingUpload
 				? fileTransferService.CreateUpload(FileUploadStreamKind.None)

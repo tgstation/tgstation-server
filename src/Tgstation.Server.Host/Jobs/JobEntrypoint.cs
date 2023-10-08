@@ -15,8 +15,8 @@ namespace Tgstation.Server.Host.Jobs
 	/// <param name="job">The running <see cref="Job"/>.</param>
 	/// <param name="progressReporter">The <see cref="JobProgressReporter"/> for the job.</param>
 	/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-	/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-	public delegate Task JobEntrypoint(
+	/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
+	public delegate ValueTask JobEntrypoint(
 		IInstanceCore instance,
 		IDatabaseContextFactory databaseContextFactory,
 		Job job,

@@ -25,7 +25,7 @@ namespace Tgstation.Server.Common.Http
 		/// </summary>
 		/// <param name="response">The <see cref="HttpResponseMessage"/> to build from.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in a new <see cref="CachedResponseStream"/>.</returns>
-		public static async Task<CachedResponseStream> Create(HttpResponseMessage response)
+		public static async ValueTask<CachedResponseStream> Create(HttpResponseMessage response)
 		{
 			if (response == null)
 				throw new ArgumentNullException(nameof(response));

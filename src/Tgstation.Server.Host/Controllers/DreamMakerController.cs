@@ -69,12 +69,12 @@ namespace Tgstation.Server.Host.Controllers
 		/// Read current deployment settings.
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the request.</returns>
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="IActionResult"/> of the request.</returns>
 		/// <response code="200">Read deployment settings successfully.</response>
 		[HttpGet]
 		[TgsAuthorize(DreamMakerRights.Read)]
 		[ProducesResponseType(typeof(DreamMakerResponse), 200)]
-		public async Task<IActionResult> Read(CancellationToken cancellationToken)
+		public async ValueTask<IActionResult> Read(CancellationToken cancellationToken)
 		{
 			var dreamMakerSettings = await DatabaseContext
 				.DreamMakerSettings
@@ -89,14 +89,14 @@ namespace Tgstation.Server.Host.Controllers
 		/// </summary>
 		/// <param name="id">The <see cref="EntityId.Id"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the request.</returns>
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="IActionResult"/> of the request.</returns>
 		/// <response code="200"><see cref="CompileJob"/> retrieved successfully.</response>
 		/// <response code="404">Specified <see cref="CompileJob"/> ID does not exist in this instance.</response>
 		[HttpGet("{id}")]
 		[TgsAuthorize(DreamMakerRights.CompileJobs)]
 		[ProducesResponseType(typeof(CompileJobResponse), 200)]
 		[ProducesResponseType(typeof(ErrorMessageResponse), 404)]
-		public async Task<IActionResult> GetId(long id, CancellationToken cancellationToken)
+		public async ValueTask<IActionResult> GetId(long id, CancellationToken cancellationToken)
 		{
 			var compileJob = await BaseCompileJobsQuery()
 				.Where(x => x.Id == id)
@@ -112,14 +112,14 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="page">The current page.</param>
 		/// <param name="pageSize">The page size.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the request.</returns>
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="IActionResult"/> of the request.</returns>
 		/// <response code="200">Retrieved <see cref="EntityId"/>s successfully.</response>
 		[HttpGet(Routes.List)]
 		[TgsAuthorize(DreamMakerRights.CompileJobs)]
 		[ProducesResponseType(typeof(PaginatedResponse<CompileJobResponse>), 200)]
-		public Task<IActionResult> List([FromQuery] int? page, [FromQuery] int? pageSize, CancellationToken cancellationToken)
+		public ValueTask<IActionResult> List([FromQuery] int? page, [FromQuery] int? pageSize, CancellationToken cancellationToken)
 			=> Paginated<CompileJob, CompileJobResponse>(
-				() => Task.FromResult(
+				() => ValueTask.FromResult(
 					new PaginatableResult<CompileJob>(
 						BaseCompileJobsQuery()
 							.OrderByDescending(x => x.Job.StoppedAt))),
@@ -132,12 +132,12 @@ namespace Tgstation.Server.Host.Controllers
 		/// Begin deploying repository code.
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the request.</returns>
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="IActionResult"/> of the request.</returns>
 		/// <response code="202">Created deployment <see cref="JobResponse"/> successfully.</response>
 		[HttpPut]
 		[TgsAuthorize(DreamMakerRights.Compile)]
 		[ProducesResponseType(typeof(JobResponse), 202)]
-		public async Task<IActionResult> Create(CancellationToken cancellationToken)
+		public async ValueTask<IActionResult> Create(CancellationToken cancellationToken)
 		{
 			var job = new Job
 			{
@@ -161,7 +161,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// </summary>
 		/// <param name="model">The <see cref="DreamMakerRequest"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the request.</returns>
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="IActionResult"/> of the request.</returns>
 		/// <response code="200">Changes applied successfully. The updated <see cref="DreamMakerSettings"/> will be returned.</response>
 		/// <response code="204">Changes applied successfully. The updated <see cref="DreamMakerSettings"/> will be not be returned due to permissions.</response>
 		/// <response code="410">The database entity for the requested instance could not be retrieved. The instance was likely detached.</response>
@@ -175,7 +175,7 @@ namespace Tgstation.Server.Host.Controllers
 		[ProducesResponseType(typeof(DreamMakerResponse), 200)]
 		[ProducesResponseType(204)]
 		[ProducesResponseType(typeof(ErrorMessageResponse), 410)]
-		public async Task<IActionResult> Update([FromBody] DreamMakerRequest model, CancellationToken cancellationToken)
+		public async ValueTask<IActionResult> Update([FromBody] DreamMakerRequest model, CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(model);
 

@@ -34,21 +34,21 @@ namespace Tgstation.Server.Client.Components
 		}
 
 		/// <inheritdoc />
-		public Task Shutdown(CancellationToken cancellationToken) => apiClient.Delete(Routes.DreamDaemon, instance.Id!.Value, cancellationToken);
+		public ValueTask Shutdown(CancellationToken cancellationToken) => apiClient.Delete(Routes.DreamDaemon, instance.Id!.Value, cancellationToken);
 
 		/// <inheritdoc />
-		public Task<JobResponse> Start(CancellationToken cancellationToken) => apiClient.Create<JobResponse>(Routes.DreamDaemon, instance.Id!.Value, cancellationToken);
+		public ValueTask<JobResponse> Start(CancellationToken cancellationToken) => apiClient.Create<JobResponse>(Routes.DreamDaemon, instance.Id!.Value, cancellationToken);
 
 		/// <inheritdoc />
-		public Task<JobResponse> Restart(CancellationToken cancellationToken) => apiClient.Patch<JobResponse>(Routes.DreamDaemon, instance.Id!.Value, cancellationToken);
+		public ValueTask<JobResponse> Restart(CancellationToken cancellationToken) => apiClient.Patch<JobResponse>(Routes.DreamDaemon, instance.Id!.Value, cancellationToken);
 
 		/// <inheritdoc />
-		public Task<DreamDaemonResponse> Read(CancellationToken cancellationToken) => apiClient.Read<DreamDaemonResponse>(Routes.DreamDaemon, instance.Id!.Value, cancellationToken);
+		public ValueTask<DreamDaemonResponse> Read(CancellationToken cancellationToken) => apiClient.Read<DreamDaemonResponse>(Routes.DreamDaemon, instance.Id!.Value, cancellationToken);
 
 		/// <inheritdoc />
-		public Task<DreamDaemonResponse> Update(DreamDaemonRequest dreamDaemon, CancellationToken cancellationToken) => apiClient.Update<DreamDaemonRequest, DreamDaemonResponse>(Routes.DreamDaemon, dreamDaemon ?? throw new ArgumentNullException(nameof(dreamDaemon)), instance.Id!.Value, cancellationToken);
+		public ValueTask<DreamDaemonResponse> Update(DreamDaemonRequest dreamDaemon, CancellationToken cancellationToken) => apiClient.Update<DreamDaemonRequest, DreamDaemonResponse>(Routes.DreamDaemon, dreamDaemon ?? throw new ArgumentNullException(nameof(dreamDaemon)), instance.Id!.Value, cancellationToken);
 
 		/// <inheritdoc />
-		public Task<JobResponse> CreateDump(CancellationToken cancellationToken) => apiClient.Patch<JobResponse>(Routes.Diagnostics, instance.Id!.Value, cancellationToken);
+		public ValueTask<JobResponse> CreateDump(CancellationToken cancellationToken) => apiClient.Patch<JobResponse>(Routes.Diagnostics, instance.Id!.Value, cancellationToken);
 	}
 }

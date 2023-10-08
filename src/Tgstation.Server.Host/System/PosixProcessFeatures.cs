@@ -60,11 +60,11 @@ namespace Tgstation.Server.Host.System
 		}
 
 		/// <inheritdoc />
-		public Task<string> GetExecutingUsername(global::System.Diagnostics.Process process, CancellationToken cancellationToken)
+		public string GetExecutingUsername(global::System.Diagnostics.Process process)
 			=> throw new NotSupportedException();
 
 		/// <inheritdoc />
-		public async Task CreateDump(global::System.Diagnostics.Process process, string outputFile, CancellationToken cancellationToken)
+		public async ValueTask CreateDump(global::System.Diagnostics.Process process, string outputFile, CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(process);
 			ArgumentNullException.ThrowIfNull(outputFile);

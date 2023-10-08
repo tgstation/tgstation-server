@@ -29,17 +29,17 @@ namespace Tgstation.Server.Client.Components
 		}
 
 		/// <inheritdoc />
-		public Task Cancel(JobResponse job, CancellationToken cancellationToken) => ApiClient.Delete(Routes.SetID(Routes.Jobs, job?.Id ?? throw new ArgumentNullException(nameof(job))), instance.Id!.Value, cancellationToken);
+		public ValueTask Cancel(JobResponse job, CancellationToken cancellationToken) => ApiClient.Delete(Routes.SetID(Routes.Jobs, job?.Id ?? throw new ArgumentNullException(nameof(job))), instance.Id!.Value, cancellationToken);
 
 		/// <inheritdoc />
-		public Task<IReadOnlyList<JobResponse>> List(PaginationSettings? paginationSettings, CancellationToken cancellationToken)
+		public ValueTask<List<JobResponse>> List(PaginationSettings? paginationSettings, CancellationToken cancellationToken)
 			=> ReadPaged<JobResponse>(paginationSettings, Routes.ListRoute(Routes.Jobs), instance.Id!.Value, cancellationToken);
 
 		/// <inheritdoc />
-		public Task<IReadOnlyList<JobResponse>> ListActive(PaginationSettings? paginationSettings, CancellationToken cancellationToken)
+		public ValueTask<List<JobResponse>> ListActive(PaginationSettings? paginationSettings, CancellationToken cancellationToken)
 			=> ReadPaged<JobResponse>(paginationSettings, Routes.Jobs, instance.Id!.Value, cancellationToken);
 
 		/// <inheritdoc />
-		public Task<JobResponse> GetId(EntityId job, CancellationToken cancellationToken) => ApiClient.Read<JobResponse>(Routes.SetID(Routes.Jobs, job?.Id ?? throw new ArgumentNullException(nameof(job))), instance.Id!.Value, cancellationToken);
+		public ValueTask<JobResponse> GetId(EntityId job, CancellationToken cancellationToken) => ApiClient.Read<JobResponse>(Routes.SetID(Routes.Jobs, job?.Id ?? throw new ArgumentNullException(nameof(job))), instance.Id!.Value, cancellationToken);
 	}
 }

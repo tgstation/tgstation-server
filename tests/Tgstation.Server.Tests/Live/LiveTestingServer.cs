@@ -181,7 +181,7 @@ namespace Tgstation.Server.Tests.Live
 			swarmNodeId = swarmConfiguration.Identifier;
 		}
 
-		public async Task RunNoArgumentsTest(CancellationToken cancellationToken)
+		public async ValueTask RunNoArgumentsTest(CancellationToken cancellationToken)
 		{
 			Assert.IsNull(Environment.GetEnvironmentVariable("General:SetupWizardMode"));
 			Environment.SetEnvironmentVariable("General:SetupWizardMode", "Never");
@@ -194,7 +194,7 @@ namespace Tgstation.Server.Tests.Live
 			Environment.SetEnvironmentVariable("General:SetupWizardMode", null);
 		}
 
-		public async Task Run(CancellationToken cancellationToken)
+		public async ValueTask Run(CancellationToken cancellationToken)
 		{
 			var messageAddition = swarmNodeId != null ? $": {swarmNodeId}" : String.Empty;
 			System.Console.WriteLine("TEST SERVER START" + messageAddition);

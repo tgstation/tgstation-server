@@ -24,10 +24,10 @@ namespace Tgstation.Server.Client
 		}
 
 		/// <inheritdoc />
-		public Task<AdministrationResponse> Read(CancellationToken cancellationToken) => ApiClient.Read<AdministrationResponse>(Routes.Administration, cancellationToken);
+		public ValueTask<AdministrationResponse> Read(CancellationToken cancellationToken) => ApiClient.Read<AdministrationResponse>(Routes.Administration, cancellationToken);
 
 		/// <inheritdoc />
-		public async Task<ServerUpdateResponse> Update(
+		public async ValueTask<ServerUpdateResponse> Update(
 			ServerUpdateRequest updateRequest,
 			Stream? zipFileStream,
 			CancellationToken cancellationToken)
@@ -50,14 +50,14 @@ namespace Tgstation.Server.Client
 		}
 
 		/// <inheritdoc />
-		public Task Restart(CancellationToken cancellationToken) => ApiClient.Delete(Routes.Administration, cancellationToken);
+		public ValueTask Restart(CancellationToken cancellationToken) => ApiClient.Delete(Routes.Administration, cancellationToken);
 
 		/// <inheritdoc />
-		public Task<IReadOnlyList<LogFileResponse>> ListLogs(PaginationSettings? paginationSettings, CancellationToken cancellationToken)
+		public ValueTask<List<LogFileResponse>> ListLogs(PaginationSettings? paginationSettings, CancellationToken cancellationToken)
 			=> ReadPaged<LogFileResponse>(paginationSettings, Routes.Logs, null, cancellationToken);
 
 		/// <inheritdoc />
-		public async Task<Tuple<LogFileResponse, Stream>> GetLog(LogFileResponse logFile, CancellationToken cancellationToken)
+		public async ValueTask<Tuple<LogFileResponse, Stream>> GetLog(LogFileResponse logFile, CancellationToken cancellationToken)
 		{
 			var resultFile = await ApiClient.Read<LogFileResponse>(
 				Routes.Logs + Routes.SanitizeGetPath(

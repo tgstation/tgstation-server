@@ -3,7 +3,7 @@
 namespace Tgstation.Server.Host.Extensions
 {
 	/// <summary>
-	/// Extensions for the <see cref="Task"/> class.
+	/// Extensions for the <see cref="Task"/> and <see cref="Task{TResult}"/> <see langword="class"/>es.
 	/// </summary>
 	static class TaskExtensions
 	{

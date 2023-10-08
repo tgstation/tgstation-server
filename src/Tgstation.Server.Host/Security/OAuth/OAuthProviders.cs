@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -85,19 +83,17 @@ namespace Tgstation.Server.Host.Security.OAuth
 		public IOAuthValidator GetValidator(OAuthProvider oAuthProvider) => validators.FirstOrDefault(x => x.Provider == oAuthProvider);
 
 		/// <inheritdoc />
-		public async Task<Dictionary<OAuthProvider, OAuthProviderInfo>> ProviderInfos(CancellationToken cancellationToken)
+		public Dictionary<OAuthProvider, OAuthProviderInfo> ProviderInfos()
 		{
 			var providersAndTasks = validators.ToDictionary(
 				x => x.Provider,
-				x => x.GetProviderInfo(cancellationToken));
-
-			await Task.WhenAll(providersAndTasks.Values);
+				x => x.GetProviderInfo());
 
 			return providersAndTasks
-				.Where(x => x.Value.Result != null)
+				.Where(x => x.Value != null)
 				.ToDictionary(
 					x => x.Key,
-					x => x.Value.Result);
+					x => x.Value);
 		}
 	}
 }

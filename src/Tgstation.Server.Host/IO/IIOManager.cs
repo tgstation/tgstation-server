@@ -54,10 +54,10 @@ namespace Tgstation.Server.Host.IO
 		/// <param name="dest">The destination directory path.</param>
 		/// <param name="taskThrottle">The optional maximum number of simultaneous tasks allowed to execute.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		Task CopyDirectory(
+		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
+		ValueTask CopyDirectory(
 			IEnumerable<string> ignore,
-			Func<string, string, Task> postCopyCallback,
+			Func<string, string, ValueTask> postCopyCallback,
 			string src,
 			string dest,
 			int? taskThrottle,
@@ -84,8 +84,8 @@ namespace Tgstation.Server.Host.IO
 		/// </summary>
 		/// <param name="path">The path of the file to read.</param>
 		/// <param name="cancellationToken">A <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task"/> that results in the contents of a file at <paramref name="path"/>.</returns>
-		Task<byte[]> ReadAllBytes(string path, CancellationToken cancellationToken);
+		/// <returns>A <see cref="ValueTask"/> that results in the contents of a file at <paramref name="path"/>.</returns>
+		ValueTask<byte[]> ReadAllBytes(string path, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Returns directory names in a given <paramref name="path"/>.
@@ -116,8 +116,8 @@ namespace Tgstation.Server.Host.IO
 		/// <param name="path">The path of the file to write.</param>
 		/// <param name="contents">The contents of the file.</param>
 		/// <param name="cancellationToken">A <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		Task WriteAllBytes(string path, byte[] contents, CancellationToken cancellationToken);
+		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
+		ValueTask WriteAllBytes(string path, byte[] contents, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Copy a file from <paramref name="src"/> to <paramref name="dest"/>.
@@ -125,8 +125,8 @@ namespace Tgstation.Server.Host.IO
 		/// <param name="src">The source file to copy.</param>
 		/// <param name="dest">The destination path.</param>
 		/// <param name="cancellationToken">A <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		Task CopyFile(string src, string dest, CancellationToken cancellationToken);
+		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
+		ValueTask CopyFile(string src, string dest, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Gets the directory portion of a given <paramref name="path"/>.

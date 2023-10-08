@@ -49,8 +49,8 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// <param name="updateSubmodules">If a submodule update should be attempted after the merge.</param>
 		/// <param name="progressReporter">The <see cref="JobProgressReporter"/> to report progress of the operation.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		Task CheckoutObject(
+		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
+		ValueTask CheckoutObject(
 			string committish,
 			string username,
 			string password,
@@ -69,8 +69,8 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// <param name="updateSubmodules">If a submodule update should be attempted after the merge.</param>
 		/// <param name="progressReporter">The <see cref="JobProgressReporter"/> to report progress of the operation.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="TestMergeResult"/>.</returns>
-		Task<TestMergeResult> AddTestMerge(
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="TestMergeResult"/>.</returns>
+		ValueTask<TestMergeResult> AddTestMerge(
 			TestMergeParameters testMergeParameters,
 			string committerName,
 			string committerEmail,
@@ -88,8 +88,8 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// <param name="password">The password to fetch from the origin repository.</param>
 		/// <param name="deploymentPipeline">If any events created should be marked as part of the deployment pipeline.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		Task FetchOrigin(
+		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
+		ValueTask FetchOrigin(
 			JobProgressReporter progressReporter,
 			string username,
 			string password,
@@ -105,8 +105,8 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// <param name="updateSubmodules">If a submodule update should be attempted after the merge.</param>
 		/// <param name="deploymentPipeline">If any events created should be marked as part of the deployment pipeline.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the SHA of the new HEAD.</returns>
-		Task ResetToOrigin(
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the SHA of the new HEAD.</returns>
+		ValueTask ResetToOrigin(
 			JobProgressReporter progressReporter,
 			string username,
 			string password,
@@ -131,8 +131,8 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// <param name="committerEmail">The e-mail of the merge committer.</param>
 		/// <param name="deploymentPipeline">If any events created should be marked as part of the deployment pipeline.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in a <see cref="Nullable{T}"/> <see cref="bool"/> representing the merge result that is <see langword="true"/> after a fast forward, <see langword="false"/> on a merge or up to date, <see langword="null"/> on a conflict.</returns>
-		Task<bool?> MergeOrigin(
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in a <see cref="Nullable{T}"/> <see cref="bool"/> representing the merge result that is <see langword="true"/> after a fast forward, <see langword="false"/> on a merge or up to date, <see langword="null"/> on a conflict.</returns>
+		ValueTask<bool?> MergeOrigin(
 			JobProgressReporter progressReporter,
 			string committerName,
 			string committerEmail,
@@ -150,8 +150,8 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// <param name="synchronizeTrackedBranch">If the synchronizations should be made to the tracked reference as opposed to a temporary branch.</param>
 		/// <param name="deploymentPipeline">If any events created should be marked as part of the deployment pipeline.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in <see langword="true"/> if commits were pushed to the tracked origin reference, <see langword="false"/> otherwise.</returns>
-		Task<bool> Sychronize(
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in <see langword="true"/> if commits were pushed to the tracked origin reference, <see langword="false"/> otherwise.</returns>
+		ValueTask<bool> Sychronize(
 			JobProgressReporter progressReporter,
 			string username,
 			string password,
@@ -166,8 +166,8 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// </summary>
 		/// <param name="path">The path to copy repository contents to.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		Task CopyTo(string path, CancellationToken cancellationToken);
+		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
+		ValueTask CopyTo(string path, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Check if a given <paramref name="sha"/> is a parent of the current <see cref="Head"/>.

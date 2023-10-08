@@ -90,7 +90,7 @@ namespace Tgstation.Server.Host.IO
 		}
 
 		/// <inheritdoc />
-		public async Task<Stream> GetResult(CancellationToken cancellationToken)
+		public async ValueTask<Stream> GetResult(CancellationToken cancellationToken)
 		{
 			if (disposed)
 				throw new ObjectDisposedException(nameof(RequestFileStreamProvider));

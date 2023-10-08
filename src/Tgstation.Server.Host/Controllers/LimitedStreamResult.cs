@@ -48,6 +48,6 @@ namespace Tgstation.Server.Host.Controllers
 		}
 
 		/// <inheritdoc />
-		public Task<Stream> GetResult(CancellationToken cancellationToken) => Task.FromResult(stream);
+		public ValueTask<Stream> GetResult(CancellationToken cancellationToken) => ValueTask.FromResult(stream);
 	}
 }

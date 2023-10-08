@@ -22,6 +22,7 @@ using Remora.Rest.Results;
 using Remora.Results;
 
 using Tgstation.Server.Api.Models;
+using Tgstation.Server.Common.Extensions;
 using Tgstation.Server.Host.Components.Interop;
 using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.Jobs;
@@ -237,7 +238,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		}
 
 		/// <inheritdoc />
-		public override async Task SendMessage(Message replyTo, MessageContent message, ulong channelId, CancellationToken cancellationToken)
+		public override async ValueTask SendMessage(Message replyTo, MessageContent message, ulong channelId, CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(message);
 
@@ -259,7 +260,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			var embeds = ConvertEmbed(message.Embed);
 
 			var channelsClient = serviceProvider.GetRequiredService<IDiscordRestChannelAPI>();
-			async Task SendToChannel(Snowflake channelId)
+			async ValueTask SendToChannel(Snowflake channelId)
 			{
 				var result = await channelsClient.CreateMessageAsync(
 					channelId,
@@ -311,7 +312,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 					if (unmappedTextChannels.Any())
 					{
 						Logger.LogDebug("Dispatching to {count} unmapped channels...", unmappedTextChannels.Count());
-						await Task.WhenAll(
+						await ValueTaskExtensions.WhenAll(
 							unmappedTextChannels.Select(
 								x => SendToChannel(x.ID)));
 					}
@@ -328,7 +329,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		}
 
 		/// <inheritdoc />
-		public override async Task<Func<string, string, Task<Func<bool, Task>>>> SendUpdateMessage(
+		public override async ValueTask<Func<string, string, ValueTask<Func<bool, ValueTask>>>> SendUpdateMessage(
 			Models.RevisionInformation revisionInformation,
 			Version byondVersion,
 			DateTimeOffset? estimatedCompletionTime,
@@ -429,7 +430,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				var updatedMessageText = errorMessage == null ? $"DM: Deployment pending reboot..." : $"DM: Deployment failed!";
 
 				IMessage updatedMessage = null;
-				async Task CreateUpdatedMessage()
+				async ValueTask CreateUpdatedMessage()
 				{
 					var createUpdatedMessageResponse = await channelsClient.CreateMessageAsync(
 						new Snowflake(channelId),
@@ -627,7 +628,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		}
 
 		/// <inheritdoc />
-		protected override async Task Connect(CancellationToken cancellationToken)
+		protected override async ValueTask Connect(CancellationToken cancellationToken)
 		{
 			try
 			{
@@ -687,7 +688,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		}
 
 		/// <inheritdoc />
-		protected override async Task DisconnectImpl(CancellationToken cancellationToken)
+		protected override async ValueTask DisconnectImpl(CancellationToken cancellationToken)
 		{
 			Task<Result> localGatewayTask;
 			CancellationTokenSource localGatewayCts;
@@ -712,14 +713,14 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		}
 
 		/// <inheritdoc />
-		protected override async Task<Dictionary<Models.ChatChannel, IEnumerable<ChannelRepresentation>>> MapChannelsImpl(IEnumerable<Models.ChatChannel> channels, CancellationToken cancellationToken)
+		protected override async ValueTask<Dictionary<Models.ChatChannel, IEnumerable<ChannelRepresentation>>> MapChannelsImpl(IEnumerable<Models.ChatChannel> channels, CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(channels);
 
 			var remapRequired = false;
 			var guildsClient = serviceProvider.GetRequiredService<IDiscordRestGuildAPI>();
 
-			async Task<Tuple<Models.ChatChannel, IEnumerable<ChannelRepresentation>>> GetModelChannelFromDBChannel(Models.ChatChannel channelFromDB)
+			async ValueTask<Tuple<Models.ChatChannel, IEnumerable<ChannelRepresentation>>> GetModelChannelFromDBChannel(Models.ChatChannel channelFromDB)
 			{
 				if (!channelFromDB.DiscordChannelId.HasValue)
 					throw new InvalidOperationException("ChatChannel missing DiscordChannelId!");
@@ -784,10 +785,13 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 
 			var tasks = channels
 				.Where(x => x.DiscordChannelId != 0)
-				.Select(GetModelChannelFromDBChannel)
-				.ToList();
+				.Select(GetModelChannelFromDBChannel);
 
-			await Task.WhenAll(tasks);
+			var channelTuples = await ValueTaskExtensions.WhenAll(tasks.ToList());
+
+			var enumerator = channelTuples
+				.Where(x => x != null)
+				.ToList();
 
 			var channelIdZeroModel = channels.FirstOrDefault(x => x.DiscordChannelId == 0);
 			if (channelIdZeroModel != null)
@@ -797,7 +801,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				var unmappedTextChannels = allAccessibleChannels
 					.Where(x => !tasks.Any(task => task.Result != null && new Snowflake(task.Result.Item1.DiscordChannelId.Value) == x.ID));
 
-				async Task<Tuple<Models.ChatChannel, IEnumerable<ChannelRepresentation>>> CreateMappingsForUnmappedChannels()
+				async ValueTask<Tuple<Models.ChatChannel, IEnumerable<ChannelRepresentation>>> CreateMappingsForUnmappedChannels()
 				{
 					var unmappedTasks =
 						unmappedTextChannels.Select(
@@ -834,14 +838,9 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				}
 
 				var task = CreateMappingsForUnmappedChannels();
-				await task;
-				tasks.Add(task);
+				var tuple = await task;
+				enumerator.Add(tuple);
 			}
-
-			var enumerator = tasks
-				.Select(x => x.Result)
-				.Where(x => x != null)
-				.ToList();
 
 			lock (mappedChannels)
 			{
@@ -863,7 +862,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in an <see cref="IEnumerable{T}"/> of accessible and compatible <see cref="IChannel"/>s.</returns>
-		async Task<IEnumerable<IChannel>> GetAllAccessibleTextChannels(CancellationToken cancellationToken)
+		async ValueTask<IEnumerable<IChannel>> GetAllAccessibleTextChannels(CancellationToken cancellationToken)
 		{
 			var usersClient = serviceProvider.GetRequiredService<IDiscordRestUserAPI>();
 			var currentGuildsResponse = await usersClient.GetCurrentUserGuildsAsync(ct: cancellationToken);
@@ -877,7 +876,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 
 			var guildsClient = serviceProvider.GetRequiredService<IDiscordRestGuildAPI>();
 
-			async Task<IEnumerable<IChannel>> GetGuildChannels(IPartialGuild guild)
+			async ValueTask<IEnumerable<IChannel>> GetGuildChannels(IPartialGuild guild)
 			{
 				var channelsTask = guildsClient.GetGuildChannelsAsync(guild.ID.Value, cancellationToken);
 				var threads = await guildsClient.ListActiveGuildThreadsAsync(guild.ID.Value, cancellationToken);
@@ -906,13 +905,12 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			}
 
 			var guildsChannelsTasks = currentGuildsResponse.Entity
-				.Select(GetGuildChannels)
-				.ToList();
+				.Select(GetGuildChannels);
 
-			await Task.WhenAll(guildsChannelsTasks);
+			var guildsChannels = await ValueTaskExtensions.WhenAll(guildsChannelsTasks, currentGuildsResponse.Entity.Count);
 
-			var allAccessibleChannels = guildsChannelsTasks
-				.SelectMany(task => task.Result)
+			var allAccessibleChannels = guildsChannels
+				.SelectMany(channels => channels)
 				.Where(guildChannel => SupportedGuildChannelTypes.Contains(guildChannel.Type));
 
 			return allAccessibleChannels;

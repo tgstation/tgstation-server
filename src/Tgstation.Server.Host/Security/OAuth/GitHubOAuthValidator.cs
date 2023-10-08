@@ -52,7 +52,7 @@ namespace Tgstation.Server.Host.Security.OAuth
 		}
 
 		/// <inheritdoc />
-		public async Task<string> ValidateResponseCode(string code, CancellationToken cancellationToken)
+		public async ValueTask<string> ValidateResponseCode(string code, CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(code);
 
@@ -84,11 +84,11 @@ namespace Tgstation.Server.Host.Security.OAuth
 		}
 
 		/// <inheritdoc />
-		public Task<OAuthProviderInfo> GetProviderInfo(CancellationToken cancellationToken) => Task.FromResult(
-			new OAuthProviderInfo
+		public OAuthProviderInfo GetProviderInfo()
+			=> new ()
 			{
 				ClientId = oAuthConfiguration.ClientId,
 				RedirectUri = oAuthConfiguration.RedirectUrl,
-			});
+			};
 	}
 }

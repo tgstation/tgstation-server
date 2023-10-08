@@ -46,7 +46,7 @@ namespace Tgstation.Server.Host.Watchdog
 		/// <inheritdoc />
 #pragma warning disable CA1502 // TODO: Decomplexify
 #pragma warning disable CA1506
-		public async Task<bool> RunAsync(bool runConfigure, string[] args, CancellationToken cancellationToken)
+		public async ValueTask<bool> RunAsync(bool runConfigure, string[] args, CancellationToken cancellationToken)
 		{
 			logger.LogInformation("Host watchdog starting...");
 			int currentProcessId;

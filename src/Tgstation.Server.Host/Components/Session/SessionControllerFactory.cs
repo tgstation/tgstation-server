@@ -239,7 +239,8 @@ namespace Tgstation.Server.Host.Components.Session
 		}
 
 		/// <inheritdoc />
-		public async Task<ISessionController> LaunchNew(
+		#pragma warning disable CA1506 // TODO: Decomplexify
+		public async ValueTask<ISessionController> LaunchNew(
 			IDmbProvider dmbProvider,
 			IByondExecutableLock currentByondLock,
 			DreamDaemonLaunchParameters launchParameters,
@@ -283,7 +284,7 @@ namespace Tgstation.Server.Host.Components.Session
 					dmbProvider.CompileJob.Id);
 
 				PortBindTest(launchParameters.Port.Value);
-				await CheckPagerIsNotRunning(cancellationToken);
+				await CheckPagerIsNotRunning();
 
 				string outputFilePath = null;
 				var preserveLogFile = true;
@@ -393,9 +394,10 @@ namespace Tgstation.Server.Host.Components.Session
 				throw;
 			}
 		}
+#pragma warning restore CA1506
 
 		/// <inheritdoc />
-		public async Task<ISessionController> Reattach(
+		public async ValueTask<ISessionController> Reattach(
 			ReattachInformation reattachInformation,
 			CancellationToken cancellationToken)
 		{
@@ -446,7 +448,7 @@ namespace Tgstation.Server.Host.Components.Session
 							assemblyInformationProvider,
 							asyncDelayer,
 							loggerFactory.CreateLogger<SessionController>(),
-							() => Task.CompletedTask,
+							() => ValueTask.CompletedTask,
 							null,
 							true,
 							false);
@@ -487,8 +489,8 @@ namespace Tgstation.Server.Host.Components.Session
 		/// <param name="logFilePath">The path to log DreamDaemon output to.</param>
 		/// <param name="apiValidate">If we are only validating the DMAPI then exiting.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the DreamDaemon <see cref="IProcess"/>.</returns>
-		async Task<IProcess> CreateDreamDaemonProcess(
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the DreamDaemon <see cref="IProcess"/>.</returns>
+		async ValueTask<IProcess> CreateDreamDaemonProcess(
 			IDmbProvider dmbProvider,
 			ITopicClient byondTopicSender,
 			IByondExecutableLock byondLock,
@@ -578,8 +580,8 @@ namespace Tgstation.Server.Host.Components.Session
 		/// <param name="cliSupported">If DreamDaemon was launched with CLI capabilities.</param>
 		/// <param name="preserveFile">If <see langword="false"/>, <paramref name="outputFilePath"/> will be deleted.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		async Task LogDDOutput(IProcess process, string outputFilePath, bool cliSupported, bool preserveFile, CancellationToken cancellationToken)
+		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
+		async ValueTask LogDDOutput(IProcess process, string outputFilePath, bool cliSupported, bool preserveFile, CancellationToken cancellationToken)
 		{
 			try
 			{
@@ -647,9 +649,8 @@ namespace Tgstation.Server.Host.Components.Session
 		/// <summary>
 		/// Make sure the BYOND pager is not running.
 		/// </summary>
-		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		async Task CheckPagerIsNotRunning(CancellationToken cancellationToken)
+		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
+		async ValueTask CheckPagerIsNotRunning()
 		{
 			if (!platformIdentifier.IsWindows)
 				return;
@@ -658,12 +659,12 @@ namespace Tgstation.Server.Host.Components.Session
 			if (otherProcess == null)
 				return;
 
-			var otherUsernameTask = otherProcess.GetExecutingUsername(cancellationToken);
-			await using var ourProcess = processExecutor.GetCurrentProcess();
-			var ourUserName = await ourProcess.GetExecutingUsername(cancellationToken);
-			var otherUserName = await otherUsernameTask;
+			var otherUsername = otherProcess.GetExecutingUsername();
 
-			if (otherUserName.Equals(ourUserName, StringComparison.Ordinal))
+			await using var ourProcess = processExecutor.GetCurrentProcess();
+			var ourUsername = ourProcess.GetExecutingUsername();
+
+			if (otherUsername.Equals(ourUsername, StringComparison.Ordinal))
 				throw new JobException(ErrorCode.DeploymentPagerRunning);
 		}
 	}

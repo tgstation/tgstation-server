@@ -32,7 +32,7 @@ namespace Tgstation.Server.Host.Core
 		}
 
 		/// <inheritdoc />
-		public Task<ServerUpdateResult> InitiateUpdate(IFileStreamProvider fileStreamProvider, Version version, CancellationToken cancellationToken)
+		public ValueTask<ServerUpdateResult> InitiateUpdate(IFileStreamProvider fileStreamProvider, Version version, CancellationToken cancellationToken)
 			=> serverUpdater.BeginUpdate(swarmService, fileStreamProvider, version, cancellationToken);
 	}
 }

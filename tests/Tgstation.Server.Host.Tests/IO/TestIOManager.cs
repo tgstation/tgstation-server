@@ -88,28 +88,28 @@ namespace Tgstation.Server.Host.IO.Tests
 				null,
 				tempPath2,
 				throttle,
-				default));
+				default).AsTask());
 			await Assert.ThrowsExceptionAsync<ArgumentNullException>(() => ioManager.CopyDirectory(
 				null,
 				null,
 				tempPath1,
 				null,
 				throttle,
-				default));
+				default).AsTask());
 			await Assert.ThrowsExceptionAsync<ArgumentNullException>(() => ioManager.CopyDirectory(
 				null,
 				null,
 				null,
 				null,
 				throttle,
-				default));
+				default).AsTask());
 			await Assert.ThrowsExceptionAsync<ArgumentOutOfRangeException>(() => ioManager.CopyDirectory(
 				null,
 				null,
 				tempPath1,
 				tempPath2,
 				-1,
-				default));
+				default).AsTask());
 		}
 
 		[TestMethod]

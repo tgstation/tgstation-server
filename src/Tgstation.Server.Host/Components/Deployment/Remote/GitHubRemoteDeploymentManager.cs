@@ -55,7 +55,7 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 		}
 
 		/// <inheritdoc />
-		public override async Task StartDeployment(
+		public override async ValueTask StartDeployment(
 			Api.Models.Internal.IGitRemoteInformation remoteInformation,
 			CompileJob compileJob,
 			CancellationToken cancellationToken)
@@ -148,7 +148,7 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 		}
 
 		/// <inheritdoc />
-		public override Task FailDeployment(CompileJob compileJob, string errorMessage, CancellationToken cancellationToken)
+		public override ValueTask FailDeployment(CompileJob compileJob, string errorMessage, CancellationToken cancellationToken)
 			=> UpdateDeployment(
 				compileJob,
 				errorMessage,
@@ -156,7 +156,7 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 				cancellationToken);
 
 		/// <inheritdoc />
-		public override async Task<IReadOnlyCollection<TestMerge>> RemoveMergedTestMerges(
+		public override async ValueTask<IReadOnlyCollection<TestMerge>> RemoveMergedTestMerges(
 			IRepository repository,
 			RepositorySettings repositorySettings,
 			RevisionInformation revisionInformation,
@@ -191,7 +191,7 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 			var newList = revisionInformation.ActiveTestMerges.Select(x => x.TestMerge).ToList();
 
 			PullRequest lastMerged = null;
-			async Task CheckRemovePR(Task<PullRequest> task)
+			async ValueTask CheckRemovePR(Task<PullRequest> task)
 			{
 				var pr = await task;
 				if (!pr.Merged)
@@ -215,7 +215,7 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 		}
 
 		/// <inheritdoc />
-		protected override Task StageDeploymentImpl(
+		protected override ValueTask StageDeploymentImpl(
 			CompileJob compileJob,
 			CancellationToken cancellationToken)
 			=> UpdateDeployment(
@@ -225,7 +225,7 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 				cancellationToken);
 
 		/// <inheritdoc />
-		protected override Task ApplyDeploymentImpl(CompileJob compileJob, CancellationToken cancellationToken)
+		protected override ValueTask ApplyDeploymentImpl(CompileJob compileJob, CancellationToken cancellationToken)
 			=> UpdateDeployment(
 				compileJob,
 				"The deployment is now live on the server.",
@@ -233,7 +233,7 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 				cancellationToken);
 
 		/// <inheritdoc />
-		protected override Task MarkInactiveImpl(CompileJob compileJob, CancellationToken cancellationToken)
+		protected override ValueTask MarkInactiveImpl(CompileJob compileJob, CancellationToken cancellationToken)
 			=> UpdateDeployment(
 				compileJob,
 				"The deployment has been superceeded.",
@@ -241,7 +241,7 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 				cancellationToken);
 
 		/// <inheritdoc />
-		protected override async Task CommentOnTestMergeSource(
+		protected override async ValueTask CommentOnTestMergeSource(
 			RepositorySettings repositorySettings,
 			string remoteRepositoryOwner,
 			string remoteRepositoryName,
@@ -302,8 +302,8 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 		/// <param name="description">A description of the update.</param>
 		/// <param name="deploymentState">The new <see cref="DeploymentState"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		async Task UpdateDeployment(
+		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
+		async ValueTask UpdateDeployment(
 			CompileJob compileJob,
 			string description,
 			DeploymentState deploymentState,

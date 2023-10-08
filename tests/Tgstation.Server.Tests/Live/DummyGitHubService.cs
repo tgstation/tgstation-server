@@ -77,10 +77,10 @@ namespace Tgstation.Server.Tests.Live
 			return Task.CompletedTask;
 		}
 
-		public Task<int> CreateDeployment(NewDeployment newDeployment, string repoOwner, string repoName, CancellationToken cancellationToken)
+		public ValueTask<int> CreateDeployment(NewDeployment newDeployment, string repoOwner, string repoName, CancellationToken cancellationToken)
 		{
 			logger.LogTrace("CreateDeployment");
-			return Task.FromResult(new Random().Next()); ;
+			return ValueTask.FromResult(new Random().Next()); ;
 		}
 
 		public Task CreateDeploymentStatus(NewDeploymentStatus newDeploymentStatus, string repoOwner, string repoName, int deploymentId, CancellationToken cancellationToken)
@@ -95,28 +95,28 @@ namespace Tgstation.Server.Tests.Live
 			return Task.CompletedTask;
 		}
 
-		public Task<string> CreateOAuthAccessToken(OAuthConfiguration oAuthConfiguration, string code, CancellationToken cancellationToken)
+		public ValueTask<string> CreateOAuthAccessToken(OAuthConfiguration oAuthConfiguration, string code, CancellationToken cancellationToken)
 		{
 			logger.LogTrace("CreateOAuthAccessToken");
-			return Task.FromResult(cryptographySuite.GetSecureString());
+			return ValueTask.FromResult(cryptographySuite.GetSecureString());
 		}
 
-		public Task<int> GetCurrentUserId(CancellationToken cancellationToken)
+		public ValueTask<int> GetCurrentUserId(CancellationToken cancellationToken)
 		{
 			logger.LogTrace("GetCurrentUserId");
-			return Task.FromResult(new Random().Next());
+			return ValueTask.FromResult(new Random().Next());
 		}
 
-		public Task<long> GetRepositoryId(string repoOwner, string repoName, CancellationToken cancellationToken)
+		public ValueTask<long> GetRepositoryId(string repoOwner, string repoName, CancellationToken cancellationToken)
 		{
 			logger.LogTrace("GetRepositoryId");
-			return Task.FromResult(new Random().NextInt64());
+			return ValueTask.FromResult(new Random().NextInt64());
 		}
 
-		public Task<Uri> GetUpdatesRepositoryUrl(CancellationToken cancellationToken)
+		public ValueTask<Uri> GetUpdatesRepositoryUrl(CancellationToken cancellationToken)
 		{
 			logger.LogTrace("GetUpdatesRepositoryUrl");
-			return Task.FromResult(new Uri("https://github.com/tgstation/tgstation-server"));
+			return ValueTask.FromResult(new Uri("https://github.com/tgstation/tgstation-server"));
 		}
 
 		public Task<PullRequest> GetPullRequest(string repoOwner, string repoName, int pullRequestNumber, CancellationToken cancellationToken)
@@ -125,10 +125,10 @@ namespace Tgstation.Server.Tests.Live
 			return Task.FromResult(testPr);
 		}
 
-		public Task<Dictionary<Version, Release>> GetTgsReleases(CancellationToken cancellationToken)
+		public ValueTask<Dictionary<Version, Release>> GetTgsReleases(CancellationToken cancellationToken)
 		{
 			logger.LogTrace("GetTgsReleases");
-			return Task.FromResult(releasesDictionary);
+			return ValueTask.FromResult(releasesDictionary);
 		}
 	}
 }

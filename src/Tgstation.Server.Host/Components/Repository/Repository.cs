@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 using LibGit2Sharp;
 using LibGit2Sharp.Handlers;
+
 using Microsoft.Extensions.Logging;
 
 using Tgstation.Server.Api.Models;
@@ -20,6 +21,7 @@ using Tgstation.Server.Host.Jobs;
 namespace Tgstation.Server.Host.Components.Repository
 {
 	/// <inheritdoc />
+#pragma warning disable CA1506 // TODO: Decomplexify
 	sealed class Repository : IRepository
 	{
 		/// <summary>
@@ -181,7 +183,7 @@ namespace Tgstation.Server.Host.Components.Repository
 
 		/// <inheritdoc />
 #pragma warning disable CA1506 // TODO: Decomplexify
-		public async Task<TestMergeResult> AddTestMerge(
+		public async ValueTask<TestMergeResult> AddTestMerge(
 			TestMergeParameters testMergeParameters,
 			string committerName,
 			string committerEmail,
@@ -384,7 +386,7 @@ namespace Tgstation.Server.Host.Components.Repository
 #pragma warning restore CA1506
 
 		/// <inheritdoc />
-		public async Task CheckoutObject(
+		public async ValueTask CheckoutObject(
 			string committish,
 			string username,
 			string password,
@@ -419,7 +421,7 @@ namespace Tgstation.Server.Host.Components.Repository
 		}
 
 		/// <inheritdoc />
-		public async Task FetchOrigin(
+		public async ValueTask FetchOrigin(
 			JobProgressReporter progressReporter,
 			string username,
 			string password,
@@ -466,7 +468,7 @@ namespace Tgstation.Server.Host.Components.Repository
 		}
 
 		/// <inheritdoc />
-		public async Task ResetToOrigin(
+		public async ValueTask ResetToOrigin(
 			JobProgressReporter progressReporter,
 			string username,
 			string password,
@@ -522,7 +524,7 @@ namespace Tgstation.Server.Host.Components.Repository
 			TaskScheduler.Current);
 
 		/// <inheritdoc />
-		public async Task CopyTo(string path, CancellationToken cancellationToken)
+		public async ValueTask CopyTo(string path, CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(path);
 			logger.LogTrace("Copying to {path}...", path);
@@ -533,7 +535,7 @@ namespace Tgstation.Server.Host.Components.Repository
 					if (postWriteHandler.NeedsPostWrite(src))
 						postWriteHandler.HandleWrite(dest);
 
-					return Task.CompletedTask;
+					return ValueTask.CompletedTask;
 				},
 				ioMananger.ResolvePath(),
 				path,
@@ -557,7 +559,7 @@ namespace Tgstation.Server.Host.Components.Repository
 			TaskScheduler.Current);
 
 		/// <inheritdoc />
-		public async Task<bool?> MergeOrigin(
+		public async ValueTask<bool?> MergeOrigin(
 			JobProgressReporter progressReporter,
 			string committerName,
 			string committerEmail,
@@ -636,7 +638,7 @@ namespace Tgstation.Server.Host.Components.Repository
 		}
 
 		/// <inheritdoc />
-		public async Task<bool> Sychronize(
+		public async ValueTask<bool> Sychronize(
 			JobProgressReporter progressReporter,
 			string username,
 			string password,
@@ -828,7 +830,7 @@ namespace Tgstation.Server.Host.Components.Repository
 			TaskScheduler.Current);
 
 		/// <inheritdoc />
-		public Task<Models.TestMerge> GetTestMerge(
+		public ValueTask<Models.TestMerge> GetTestMerge(
 			TestMergeParameters parameters,
 			RepositorySettings repositorySettings,
 			CancellationToken cancellationToken) => gitRemoteFeatures.GetTestMerge(
@@ -990,8 +992,8 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// <param name="password">The password for the <see cref="credentialsProvider"/>.</param>
 		/// <param name="deploymentPipeline">If any events created should be marked as part of the deployment pipeline.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		async Task UpdateSubmodules(
+		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
+		async ValueTask UpdateSubmodules(
 			JobProgressReporter progressReporter,
 			string username,
 			string password,
@@ -1131,4 +1133,5 @@ namespace Tgstation.Server.Host.Components.Repository
 			return !cancellationToken.IsCancellationRequested;
 		};
 	}
+#pragma warning restore CA1506
 }

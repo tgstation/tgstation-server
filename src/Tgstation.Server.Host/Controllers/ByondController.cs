@@ -74,14 +74,14 @@ namespace Tgstation.Server.Host.Controllers
 		/// <summary>
 		/// Gets the active <see cref="ByondResponse.Version"/>.
 		/// </summary>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> for the operation.</returns>
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="IActionResult"/> for the operation.</returns>
 		/// <response code="200">Retrieved version information successfully.</response>
 		[HttpGet]
 		[TgsAuthorize(ByondRights.ReadActive)]
 		[ProducesResponseType(typeof(ByondResponse), 200)]
-		public Task<IActionResult> Read()
+		public ValueTask<IActionResult> Read()
 			=> WithComponentInstance(instance =>
-				Task.FromResult<IActionResult>(
+				ValueTask.FromResult<IActionResult>(
 					Json(new ByondResponse
 					{
 						Version = instance.ByondManager.ActiveVersion,
@@ -93,15 +93,15 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="page">The current page.</param>
 		/// <param name="pageSize">The page size.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> for the operation.</returns>
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="IActionResult"/> for the operation.</returns>
 		/// <response code="200">Retrieved version information successfully.</response>
 		[HttpGet(Routes.List)]
 		[TgsAuthorize(ByondRights.ListInstalled)]
 		[ProducesResponseType(typeof(PaginatedResponse<ByondResponse>), 200)]
-		public Task<IActionResult> List([FromQuery] int? page, [FromQuery] int? pageSize, CancellationToken cancellationToken)
+		public ValueTask<IActionResult> List([FromQuery] int? page, [FromQuery] int? pageSize, CancellationToken cancellationToken)
 			=> WithComponentInstance(
 				instance => Paginated(
-					() => Task.FromResult(
+					() => ValueTask.FromResult(
 						new PaginatableResult<ByondResponse>(
 							instance
 								.ByondManager
@@ -122,7 +122,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// </summary>
 		/// <param name="model">The <see cref="ByondVersionRequest"/> containing the <see cref="Version"/> to switch to.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> for the operation.</returns>
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="IActionResult"/> for the operation.</returns>
 		/// <response code="200">Switched active version successfully.</response>
 		/// <response code="202">Created <see cref="Job"/> to install and switch active version successfully.</response>
 		[HttpPost]
@@ -130,7 +130,7 @@ namespace Tgstation.Server.Host.Controllers
 		[ProducesResponseType(typeof(ByondInstallResponse), 200)]
 		[ProducesResponseType(typeof(ByondInstallResponse), 202)]
 #pragma warning disable CA1506 // TODO: Decomplexify
-		public async Task<IActionResult> Update([FromBody] ByondVersionRequest model, CancellationToken cancellationToken)
+		public async ValueTask<IActionResult> Update([FromBody] ByondVersionRequest model, CancellationToken cancellationToken)
 #pragma warning restore CA1506
 		{
 			ArgumentNullException.ThrowIfNull(model);
@@ -257,7 +257,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// </summary>
 		/// <param name="model">The <see cref="ByondVersionDeleteRequest"/> containing the <see cref="Version"/> to delete.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> for the operation.</returns>
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="IActionResult"/> for the operation.</returns>
 		/// <response code="202">Created <see cref="Job"/> to delete target version successfully.</response>
 		/// <response code="409">Attempted to delete the active BYOND <see cref="Version"/>.</response>
 		/// <response code="410">The <see cref="ByondVersionDeleteRequest.Version"/> specified was not installed.</response>
@@ -266,7 +266,7 @@ namespace Tgstation.Server.Host.Controllers
 		[ProducesResponseType(typeof(JobResponse), 202)]
 		[ProducesResponseType(typeof(ErrorMessageResponse), 409)]
 		[ProducesResponseType(typeof(ErrorMessageResponse), 410)]
-		public async Task<IActionResult> Delete([FromBody] ByondVersionDeleteRequest model, CancellationToken cancellationToken)
+		public async ValueTask<IActionResult> Delete([FromBody] ByondVersionDeleteRequest model, CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(model);
 
@@ -282,12 +282,12 @@ namespace Tgstation.Server.Host.Controllers
 					var byondManager = instance.ByondManager;
 
 					if (version == byondManager.ActiveVersion)
-						return Task.FromResult<IActionResult>(
+						return ValueTask.FromResult<IActionResult>(
 							Conflict(new ErrorMessageResponse(ErrorCode.ByondCannotDeleteActiveVersion)));
 
 					var versionNotInstalled = !byondManager.InstalledVersions.Any(x => x == version);
 
-					return Task.FromResult<IActionResult>(
+					return ValueTask.FromResult<IActionResult>(
 						versionNotInstalled
 							? this.Gone()
 							: null);

@@ -91,7 +91,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		}
 
 		/// <inheritdoc />
-		public override Task ResetRebootState(CancellationToken cancellationToken)
+		public override ValueTask ResetRebootState(CancellationToken cancellationToken)
 		{
 			if (!gracefulRebootRequired)
 				return base.ResetRebootState(cancellationToken);
@@ -100,11 +100,11 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		}
 
 		/// <inheritdoc />
-		public sealed override Task InstanceRenamed(string newInstanceName, CancellationToken cancellationToken)
-			=> Server?.InstanceRenamed(newInstanceName, cancellationToken) ?? Task.CompletedTask;
+		public sealed override ValueTask InstanceRenamed(string newInstanceName, CancellationToken cancellationToken)
+			=> Server?.InstanceRenamed(newInstanceName, cancellationToken) ?? ValueTask.CompletedTask;
 
 		/// <inheritdoc />
-		protected override async Task<MonitorAction> HandleMonitorWakeup(MonitorActivationReason reason, CancellationToken cancellationToken)
+		protected override async ValueTask<MonitorAction> HandleMonitorWakeup(MonitorActivationReason reason, CancellationToken cancellationToken)
 		{
 			switch (reason)
 			{
@@ -187,7 +187,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		}
 
 		/// <inheritdoc />
-		protected override async Task DisposeAndNullControllersImpl()
+		protected override async ValueTask DisposeAndNullControllersImpl()
 		{
 			var disposeTask = Server?.DisposeAsync();
 			gracefulRebootRequired = false;
@@ -202,8 +202,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		protected sealed override ISessionController GetActiveController() => Server;
 
 		/// <inheritdoc />
-		protected override async Task InitController(
-			Task eventTask,
+		protected override async ValueTask InitController(
+			ValueTask eventTask,
 			ReattachInformation reattachInfo,
 			CancellationToken cancellationToken)
 		{
@@ -217,7 +217,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				// start the alpha server task, either by launch a new process or attaching to an existing one
 				// The tasks returned are mainly for writing interop files to the directories among other things and should generally never fail
 				// The tasks pertaining to server startup times are in the ISessionControllers
-				Task<ISessionController> serverLaunchTask;
+				ValueTask<ISessionController> serverLaunchTask;
 				if (!reattachInProgress)
 				{
 					Logger.LogTrace("Initializing controller with CompileJob {compileJobId}...", dmbToUse.CompileJob.Id);
@@ -278,30 +278,28 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// Called to save the current <see cref="Server"/> into the <see cref="WatchdogBase.SessionPersistor"/> when initially launched.
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		protected virtual Task SessionStartupPersist(CancellationToken cancellationToken)
-		{
-			return SessionPersistor.Save(Server.ReattachInformation, cancellationToken);
-		}
+		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
+		protected virtual ValueTask SessionStartupPersist(CancellationToken cancellationToken)
+			=> SessionPersistor.Save(Server.ReattachInformation, cancellationToken);
 
 		/// <summary>
 		/// Handler for <see cref="MonitorActivationReason.ActiveServerRebooted"/> when the <see cref="RebootState"/> is <see cref="RebootState.Normal"/>.
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="MonitorAction"/> to take.</returns>
-		protected virtual Task<MonitorAction> HandleNormalReboot(CancellationToken cancellationToken)
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="MonitorAction"/> to take.</returns>
+		protected virtual ValueTask<MonitorAction> HandleNormalReboot(CancellationToken cancellationToken)
 		{
 			var settingsUpdatePending = ActiveLaunchParameters != LastLaunchParameters;
 			var result = settingsUpdatePending ? MonitorAction.Restart : MonitorAction.Continue;
-			return Task.FromResult(result);
+			return ValueTask.FromResult(result);
 		}
 
 		/// <summary>
 		/// Handler for <see cref="MonitorActivationReason.NewDmbAvailable"/>.
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		protected virtual async Task HandleNewDmbAvailable(CancellationToken cancellationToken)
+		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
+		protected virtual async ValueTask HandleNewDmbAvailable(CancellationToken cancellationToken)
 		{
 			gracefulRebootRequired = true;
 			if (Server.CompileJob.DMApiVersion == null)
@@ -319,7 +317,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// </summary>
 		/// <param name="dmbToUse">The <see cref="IDmbProvider"/> to be launched. Will not be disposed by this function.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the modified <see cref="IDmbProvider"/> to be used.</returns>
-		protected virtual Task<IDmbProvider> PrepServerForLaunch(IDmbProvider dmbToUse, CancellationToken cancellationToken) => Task.FromResult(dmbToUse);
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the modified <see cref="IDmbProvider"/> to be used.</returns>
+		protected virtual ValueTask<IDmbProvider> PrepServerForLaunch(IDmbProvider dmbToUse, CancellationToken cancellationToken) => ValueTask.FromResult(dmbToUse);
 	}
 }

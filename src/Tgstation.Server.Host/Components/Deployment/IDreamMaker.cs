@@ -19,8 +19,8 @@ namespace Tgstation.Server.Host.Components.Deployment
 		/// <param name="databaseContextFactory">The <see cref="IDatabaseContextFactory"/> for the operation.</param>
 		/// <param name="progressReporter">The <see cref="JobProgressReporter"/> to report compilation progress.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		Task DeploymentProcess(
+		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
+		ValueTask DeploymentProcess(
 			Job job,
 			IDatabaseContextFactory databaseContextFactory,
 			JobProgressReporter progressReporter,

@@ -20,8 +20,8 @@ namespace Tgstation.Server.Client
 		/// <param name="requestLoggers">Optional <see cref="IRequestLogger"/>s.</param>
 		/// <param name="timeout">Optional <see cref="TimeSpan"/> representing timeout for the HTTP request.</param>
 		/// <param name="cancellationToken">Optional <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="ServerInformationResponse"/>.</returns>
-		Task<ServerInformationResponse> GetServerInformation(
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="ServerInformationResponse"/>.</returns>
+		ValueTask<ServerInformationResponse> GetServerInformation(
 			   Uri host,
 			   IEnumerable<IRequestLogger>? requestLoggers = null,
 			   TimeSpan? timeout = null,
@@ -37,8 +37,8 @@ namespace Tgstation.Server.Client
 		/// <param name="timeout">Optional <see cref="TimeSpan"/> representing timeout for the connection.</param>
 		/// <param name="attemptLoginRefresh">Attempt to refresh the received <see cref="TokenResponse"/> when it expires or becomes invalid. <paramref name="username"/> and <paramref name="password"/> will be stored in memory if this is <see langword="true"/>.</param>
 		/// <param name="cancellationToken">Optional <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in a new <see cref="IServerClient"/>.</returns>
-		Task<IServerClient> CreateFromLogin(
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in a new <see cref="IServerClient"/>.</returns>
+		ValueTask<IServerClient> CreateFromLogin(
 			Uri host,
 			string username,
 			string password,
@@ -56,8 +56,8 @@ namespace Tgstation.Server.Client
 		/// <param name="requestLoggers">Optional initial <see cref="IRequestLogger"/>s to add to the <see cref="IServerClient"/>.</param>
 		/// <param name="timeout">Optional <see cref="TimeSpan"/> representing timeout for the connection.</param>
 		/// <param name="cancellationToken">Optional <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in a new <see cref="IServerClient"/>.</returns>
-		Task<IServerClient> CreateFromOAuth(
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in a new <see cref="IServerClient"/>.</returns>
+		ValueTask<IServerClient> CreateFromOAuth(
 			Uri host,
 			string oAuthCode,
 			OAuthProvider oAuthProvider,

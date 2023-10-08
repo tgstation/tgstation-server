@@ -37,8 +37,8 @@ namespace Tgstation.Server.Client
 		/// <param name="route">The route.</param>
 		/// <param name="instanceId">The optional <see cref="Instance"/> <see cref="EntityId.Id"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in an <see cref="IReadOnlyList{T}"/> of the paginated <typeparamref name="TModel"/>s.</returns>
-		protected async Task<IReadOnlyList<TModel>> ReadPaged<TModel>(
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in an <see cref="List{T}"/> of the paginated <typeparamref name="TModel"/>s.</returns>
+		protected async ValueTask<List<TModel>> ReadPaged<TModel>(
 			PaginationSettings? paginationSettings,
 			string route,
 			long? instanceId,
@@ -74,7 +74,7 @@ namespace Tgstation.Server.Client
 				}
 			}
 
-			Task<PaginatedResponse<TModel>> GetPage() => instanceId.HasValue
+			ValueTask<PaginatedResponse<TModel>> GetPage() => instanceId.HasValue
 				? ApiClient.Read<PaginatedResponse<TModel>>(
 					String.Format(CultureInfo.InvariantCulture, routeFormatter, currentPage),
 					instanceId.Value,

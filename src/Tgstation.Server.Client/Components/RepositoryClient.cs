@@ -34,15 +34,15 @@ namespace Tgstation.Server.Client.Components
 		}
 
 		/// <inheritdoc />
-		public Task<RepositoryResponse> Clone(RepositoryCreateRequest repository, CancellationToken cancellationToken) => apiClient.Create<RepositoryCreateRequest, RepositoryResponse>(Routes.Repository, repository, instance.Id!.Value, cancellationToken);
+		public ValueTask<RepositoryResponse> Clone(RepositoryCreateRequest repository, CancellationToken cancellationToken) => apiClient.Create<RepositoryCreateRequest, RepositoryResponse>(Routes.Repository, repository, instance.Id!.Value, cancellationToken);
 
 		/// <inheritdoc />
-		public Task<RepositoryResponse> Delete(CancellationToken cancellationToken) => apiClient.Delete<RepositoryResponse>(Routes.Repository, instance.Id!.Value, cancellationToken);
+		public ValueTask<RepositoryResponse> Delete(CancellationToken cancellationToken) => apiClient.Delete<RepositoryResponse>(Routes.Repository, instance.Id!.Value, cancellationToken);
 
 		/// <inheritdoc />
-		public Task<RepositoryResponse> Read(CancellationToken cancellationToken) => apiClient.Read<RepositoryResponse>(Routes.Repository, instance.Id!.Value, cancellationToken);
+		public ValueTask<RepositoryResponse> Read(CancellationToken cancellationToken) => apiClient.Read<RepositoryResponse>(Routes.Repository, instance.Id!.Value, cancellationToken);
 
 		/// <inheritdoc />
-		public Task<RepositoryResponse> Update(RepositoryUpdateRequest repository, CancellationToken cancellationToken) => apiClient.Update<RepositoryUpdateRequest, RepositoryResponse>(Routes.Repository, repository ?? throw new ArgumentNullException(nameof(repository)), instance.Id!.Value, cancellationToken);
+		public ValueTask<RepositoryResponse> Update(RepositoryUpdateRequest repository, CancellationToken cancellationToken) => apiClient.Update<RepositoryUpdateRequest, RepositoryResponse>(Routes.Repository, repository ?? throw new ArgumentNullException(nameof(repository)), instance.Id!.Value, cancellationToken);
 	}
 }

@@ -31,13 +31,13 @@ namespace Tgstation.Server.Client.Components
 		}
 
 		/// <inheritdoc />
-		public Task DeleteEmptyDirectory(IConfigurationFile directory, CancellationToken cancellationToken) => ApiClient.Delete(Routes.Configuration, directory, instance.Id!.Value, cancellationToken);
+		public ValueTask DeleteEmptyDirectory(IConfigurationFile directory, CancellationToken cancellationToken) => ApiClient.Delete(Routes.Configuration, directory, instance.Id!.Value, cancellationToken);
 
 		/// <inheritdoc />
-		public Task<ConfigurationFileResponse> CreateDirectory(IConfigurationFile directory, CancellationToken cancellationToken) => ApiClient.Create<IConfigurationFile, ConfigurationFileResponse>(Routes.Configuration, directory, instance.Id!.Value, cancellationToken);
+		public ValueTask<ConfigurationFileResponse> CreateDirectory(IConfigurationFile directory, CancellationToken cancellationToken) => ApiClient.Create<IConfigurationFile, ConfigurationFileResponse>(Routes.Configuration, directory, instance.Id!.Value, cancellationToken);
 
 		/// <inheritdoc />
-		public Task<IReadOnlyList<ConfigurationFileResponse>> List(
+		public ValueTask<List<ConfigurationFileResponse>> List(
 			PaginationSettings? paginationSettings,
 			string directory,
 			CancellationToken cancellationToken)
@@ -48,7 +48,7 @@ namespace Tgstation.Server.Client.Components
 				cancellationToken);
 
 		/// <inheritdoc />
-		public async Task<Tuple<ConfigurationFileResponse, Stream>> Read(IConfigurationFile file, CancellationToken cancellationToken)
+		public async ValueTask<Tuple<ConfigurationFileResponse, Stream>> Read(IConfigurationFile file, CancellationToken cancellationToken)
 		{
 			if (file == null)
 				throw new ArgumentNullException(nameof(file));
@@ -70,7 +70,7 @@ namespace Tgstation.Server.Client.Components
 		}
 
 		/// <inheritdoc />
-		public async Task<ConfigurationFileResponse> Write(ConfigurationFileRequest file, Stream uploadStream, CancellationToken cancellationToken)
+		public async ValueTask<ConfigurationFileResponse> Write(ConfigurationFileRequest file, Stream uploadStream, CancellationToken cancellationToken)
 		{
 			long initialStreamPosition = 0;
 			MemoryStream? memoryStream = null;

@@ -73,14 +73,14 @@ namespace Tgstation.Server.Host.Controllers
 		/// </summary>
 		/// <param name="model">The <see cref="RepositoryCreateRequest"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the request.</returns>
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="IActionResult"/> of the request.</returns>
 		/// <response code="201">The repository was created successfully and the <see cref="JobResponse"/> to clone it has begun.</response>
 		/// <response code="410">The database entity for the requested instance could not be retrieved. The instance was likely detached.</response>
 		[HttpPut]
 		[TgsAuthorize(RepositoryRights.SetOrigin)]
 		[ProducesResponseType(typeof(RepositoryResponse), 201)]
 		[ProducesResponseType(typeof(ErrorMessageResponse), 410)]
-		public async Task<IActionResult> Create([FromBody] RepositoryCreateRequest model, CancellationToken cancellationToken)
+		public async ValueTask<IActionResult> Create([FromBody] RepositoryCreateRequest model, CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(model);
 
@@ -193,14 +193,14 @@ namespace Tgstation.Server.Host.Controllers
 		/// Delete the repository.
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation.</returns>
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation.</returns>
 		/// <response code="202">Job to delete the repository created successfully.</response>
 		/// <response code="410">The database entity for the requested instance could not be retrieved. The instance was likely detached.</response>
 		[HttpDelete]
 		[TgsAuthorize(RepositoryRights.Delete)]
 		[ProducesResponseType(typeof(RepositoryResponse), 202)]
 		[ProducesResponseType(typeof(ErrorMessageResponse), 410)]
-		public async Task<IActionResult> Delete(CancellationToken cancellationToken)
+		public async ValueTask<IActionResult> Delete(CancellationToken cancellationToken)
 		{
 			var currentModel = await DatabaseContext
 				.RepositorySettings
@@ -237,7 +237,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// Get the repository's status.
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation.</returns>
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation.</returns>
 		/// <response code="200">Retrieved the repository settings successfully.</response>
 		/// <response code="201">Retrieved the repository settings successfully, though they did not previously exist.</response>
 		/// <response code="410">The database entity for the requested instance could not be retrieved. The instance was likely detached.</response>
@@ -246,7 +246,7 @@ namespace Tgstation.Server.Host.Controllers
 		[ProducesResponseType(typeof(RepositoryResponse), 200)]
 		[ProducesResponseType(typeof(RepositoryResponse), 201)]
 		[ProducesResponseType(typeof(RepositoryResponse), 410)]
-		public async Task<IActionResult> Read(CancellationToken cancellationToken)
+		public async ValueTask<IActionResult> Read(CancellationToken cancellationToken)
 		{
 			var currentModel = await DatabaseContext
 				.RepositorySettings
@@ -287,7 +287,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// </summary>
 		/// <param name="model">The <see cref="RepositoryUpdateRequest"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation.</returns>
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation.</returns>
 		/// <response code="200">Updated the repository settings successfully.</response>
 		/// <response code="202">Updated the repository settings successfully and a <see cref="JobResponse"/> was created to make the requested git changes.</response>
 		/// <response code="410">The database entity for the requested instance could not be retrieved. The instance was likely detached.</response>
@@ -306,7 +306,7 @@ namespace Tgstation.Server.Host.Controllers
 		[ProducesResponseType(typeof(RepositoryResponse), 202)]
 		[ProducesResponseType(typeof(ErrorMessageResponse), 410)]
 #pragma warning disable CA1502 // TODO: Decomplexify
-		public async Task<IActionResult> Update([FromBody] RepositoryUpdateRequest model, CancellationToken cancellationToken)
+		public async ValueTask<IActionResult> Update([FromBody] RepositoryUpdateRequest model, CancellationToken cancellationToken)
 #pragma warning restore CA1502
 		{
 			ArgumentNullException.ThrowIfNull(model);
@@ -484,8 +484,8 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="databaseContext">The active <see cref="IDatabaseContext"/>.</param>
 		/// <param name="instance">The active <see cref="Models.Instance"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in <see langword="true"/> if the <paramref name="databaseContext"/> was modified in a way that requires saving, <see langword="false"/> otherwise.</returns>
-		async Task<bool> PopulateApi(
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in <see langword="true"/> if the <paramref name="databaseContext"/> was modified in a way that requires saving, <see langword="false"/> otherwise.</returns>
+		async ValueTask<bool> PopulateApi(
 			RepositoryResponse apiResponse,
 			IRepository repository,
 			IDatabaseContext databaseContext,
