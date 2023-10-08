@@ -498,7 +498,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// <param name="isPrivate">If this is a query message.</param>
 		void HandleMessage(IrcEventArgs e, bool isPrivate)
 		{
-			if (e.Data.Nick.ToUpperInvariant() == client.Nickname.ToUpperInvariant())
+			if (e.Data.Nick.Equals(client.Nickname, StringComparison.OrdinalIgnoreCase))
 				return;
 
 			var username = e.Data.Nick;
@@ -605,16 +605,16 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			client.Login(nickname, nickname, 0, nickname);
 			cancellationToken.ThrowIfCancellationRequested();
 
-			// wait for the sasl ack or timeout
-			var recievedAck = false;
-			var recievedPlus = false;
+			// wait for the SASL ack or timeout
+			var receivedAck = false;
+			var receivedPlus = false;
 
 			void AuthenticationDelegate(object sender, ReadLineEventArgs e)
 			{
 				if (e.Line.Contains("ACK :sasl", StringComparison.Ordinal))
-					recievedAck = true;
+					receivedAck = true;
 				else if (e.Line.Contains("AUTHENTICATE +", StringComparison.Ordinal))
-					recievedPlus = true;
+					receivedPlus = true;
 			}
 
 			Logger.LogTrace("Performing handshake...");
@@ -626,14 +626,14 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				var timeoutToken = timeoutCts.Token;
 
 				var listenTimeSpan = TimeSpan.FromMilliseconds(10);
-				for (; !recievedAck;
+				for (; !receivedAck;
 					await AsyncDelayer.Delay(listenTimeSpan, timeoutToken))
 					await NonBlockingListen(cancellationToken);
 
 				client.WriteLine("AUTHENTICATE PLAIN", Priority.Critical);
 				timeoutToken.ThrowIfCancellationRequested();
 
-				for (; !recievedPlus;
+				for (; !receivedPlus;
 					await AsyncDelayer.Delay(listenTimeSpan, timeoutToken))
 					await NonBlockingListen(cancellationToken);
 			}
