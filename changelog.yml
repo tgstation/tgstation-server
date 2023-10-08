@@ -163,7 +163,6 @@ Components:
     Unreleased: true
   - Version: 5.17.0
     ComponentVersions:
-      Core: 5.16.1
       HttpApi: 9.12.0
       DreamMakerApi: 6.5.3
       Configuration: 4.7.1
@@ -173,7 +172,11 @@ Components:
       NugetApi: 11.1.2
       NugetClient: 12.1.2
       WebControlPanel: 4.25.2
-    Changes: []
+    Changes:
+    - Descriptions:
+      - The Discord deployment embed footer and message text now more accurately represent the current state of the deployment.
+      Author: Cyberboss
+      PullRequest: 1662
     Unreleased: true
   - Version: 5.16.2
     ComponentVersions:
