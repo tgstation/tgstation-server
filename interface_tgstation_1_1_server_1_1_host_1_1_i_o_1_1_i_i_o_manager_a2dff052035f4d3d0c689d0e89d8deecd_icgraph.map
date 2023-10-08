@@ -1,4 +1,4 @@
 <map id="Tgstation.Server.Host.IO.IIOManager.MoveFile" name="Tgstation.Server.Host.IO.IIOManager.MoveFile">
 <area shape="rect" id="node1" title="Moves a file at source &#160;to destination ." alt="" coords="281,5,449,45"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features.html#adb55624c50c7c2ac7fedb4c64737b0db" title="Create a dump file for a given process . A Task representing the running operation." alt="" coords="5,5,233,45"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features.html#ae96d7e1eadabec1dbcd420efc6d7dc26" title="Create a dump file for a given process . A ValueTask representing the running operation." alt="" coords="5,5,233,45"/>
 </map>

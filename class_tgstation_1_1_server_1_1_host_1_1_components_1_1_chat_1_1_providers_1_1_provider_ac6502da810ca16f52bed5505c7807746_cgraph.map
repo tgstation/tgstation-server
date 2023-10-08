@@ -1,9 +1,9 @@
 <map id="Tgstation.Server.Host.Components.Chat.Providers.Provider.ReconnectionLoop" name="Tgstation.Server.Host.Components.Chat.Providers.Provider.ReconnectionLoop">
 <area shape="rect" id="node1" title="Creates a Task that will attempt to reconnect the Provider every reconnectInterval &#160;minutes." alt="" coords="5,165,275,205"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#a96305dc74c77224130e4067f19b59407" title="Attempt to connect the Provider." alt="" coords="341,5,568,45"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#ad0677d853753f58d995d56d115ddb3a4" title="Attempt to connect the Provider." alt="" coords="341,5,568,45"/>
 <area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_async_delayer.html#a866d0f61c2a2311e5fbe5d8de329df33" title="Create a Task that completes after a given timeSpan . A Task representing the running operation." alt="" coords="364,69,545,109"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#a627edd03f216fa53e443b1901cf5599c" title="Gracefully disconnects the provider." alt="" coords="329,133,580,173"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#a53bbd9bd4bd351ddd86bbea888ab06cf" title="Gracefully disconnects the provider." alt="" coords="329,133,580,173"/>
 <area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#ac45c189505744c6f1012461193fca877" title="Queues a message &#160;for NextMessage(CancellationToken)." alt="" coords="323,197,587,237"/>
-<area shape="rect" id="node6" href="$interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html#a21be789f798adf9985f2432d3499b4cd" title="Registers a given Job and begins running it." alt="" coords="353,261,557,301"/>
-<area shape="rect" id="node7" href="$interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html#a04ad7543ef9c8863c1d8d0b46d17f522" title="Wait for a given job &#160;to complete." alt="" coords="339,325,570,365"/>
+<area shape="rect" id="node6" href="$interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html#aefaca6d0c2762350a41adfe7daaade95" title="Registers a given Job and begins running it." alt="" coords="353,261,557,301"/>
+<area shape="rect" id="node7" href="$interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html#a485010f3175f6ee62625d32db681747a" title="Wait for a given job &#160;to complete." alt="" coords="339,325,570,365"/>
 </map>

@@ -1,7 +1,0 @@
-<map id="Tgstation.Server.Host.Components.Watchdog.WatchdogBase.HandleChatCommand" name="Tgstation.Server.Host.Components.Watchdog.WatchdogBase.HandleChatCommand">
-<area shape="rect" id="node1" title="Handle a chat command. A Task&lt;TResult&gt; resulting in the MessageContent text to send back." alt="" coords="5,69,307,109"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a634f53946305b875c65c04dfd1719830" title="Get the active ISessionController." alt="" coords="365,5,651,45"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a78a34174a09d1726b92d2bc70182b657" title="Handle any TopicResponse.ChatResponses in a given topic result ." alt="" coords="355,69,661,109"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html#a29773d588476671bbe480f096d839c91" title="Asyncronously locks a semaphore ." alt="" coords="413,133,603,173"/>
-<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager.html#af9226f864c0c82403eab7ac5f8e43002" title="Queue a chat message &#160;to a given set of channelIds ." alt="" coords="709,69,936,109"/>
-</map>

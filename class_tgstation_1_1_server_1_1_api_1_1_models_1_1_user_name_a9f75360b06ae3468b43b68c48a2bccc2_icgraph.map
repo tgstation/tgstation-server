@@ -3,10 +3,10 @@
 <area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html#aa71fac864062f40aa138f93476950d8b" title="Generate a UserResponse from this." alt="" coords="797,5,993,45"/>
 <area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_job.html#a26803af89e798afe4e8878b9bc2f213b" title=" " alt="" coords="797,69,993,109"/>
 <area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_test_merge.html#ac2943458d2fc3077a6684408fb26ab09" title=" " alt="" coords="797,133,993,173"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#a12f8174933870e22f21cf34497e49789" title="Begin cloning the repository if it doesn&#39;t exist." alt="" coords="533,16,749,56"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#ac7a15de6e6b871bb48a39a4103fae82b" title="Begin cloning the repository if it doesn&#39;t exist." alt="" coords="533,16,749,56"/>
 <area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_compile_job.html#a4b92dec44bb4d23b320ea6a17263308e" title=" " alt="" coords="279,73,475,113"/>
 <area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_revision_information.html#a8e6f5b4375c0594f10c413c4119515b1" title=" " alt="" coords="543,133,739,173"/>
-<area shape="rect" id="node8" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#a1c607a73fa8e88f8559e8383dc7c358c" title="Populate a given apiResponse &#160;with the current state of a given repository ." alt="" coords="269,137,485,177"/>
-<area shape="rect" id="node9" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#ad57c46f8518725528dc5df0c4020d48c" title="Get the repository&#39;s status." alt="" coords="5,105,221,145"/>
-<area shape="rect" id="node10" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#a9f7b3bc7b210f85dbadaa04295ae0c92" title="Perform updates to the repository." alt="" coords="5,169,221,209"/>
+<area shape="rect" id="node8" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#a16cc955ac08b286dc475b60b045d63e0" title="Populate a given apiResponse &#160;with the current state of a given repository ." alt="" coords="269,137,485,177"/>
+<area shape="rect" id="node9" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#a193a9906e18dd87c1f5d730bcd6f5613" title="Get the repository&#39;s status." alt="" coords="5,105,221,145"/>
+<area shape="rect" id="node10" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#ac4cbbd1105362b5a24122cac252143af" title="Perform updates to the repository." alt="" coords="5,169,221,209"/>
 </map>

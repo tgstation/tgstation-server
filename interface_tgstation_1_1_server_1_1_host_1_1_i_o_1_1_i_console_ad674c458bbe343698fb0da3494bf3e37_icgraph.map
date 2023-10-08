@@ -1,4 +1,4 @@
 <map id="Tgstation.Server.Host.IO.IConsole.PressAnyKeyAsync" name="Tgstation.Server.Host.IO.IConsole.PressAnyKeyAsync">
 <area shape="rect" id="node1" title="Wait for a key press on the IConsole." alt="" coords="297,5,488,45"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_setup_1_1_setup_wizard.html#ab962664cd664ba5ad329e8af1d6b49a7" title="Ensure a given testConnection &#160;works." alt="" coords="5,5,249,45"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_setup_1_1_setup_wizard.html#af79aa93220cd892232bc2f986d69b36e" title="Ensure a given testConnection &#160;works." alt="" coords="5,5,249,45"/>
 </map>

@@ -1,6 +1,0 @@
-<map id="Tgstation.Server.Host.Setup.SetupWizard.ConfigureDatabase" name="Tgstation.Server.Host.Setup.SetupWizard.ConfigureDatabase">
-<area shape="rect" id="node1" title="Prompts the user to create a DatabaseConfiguration." alt="" coords="5,49,212,89"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_setup_1_1_setup_wizard.html#a48f3d574d341bbb25f361ea000e5bd50" title="Prompt the user for the DatabaseType." alt="" coords="260,49,483,89"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_console.html#acae9e2a36d9f2907a69390221443db34" title="Read a line from the IConsole." alt="" coords="531,5,699,45"/>
-<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_console.html#af9dd7697e9f6a0f4a62567e28cd6c470" title="Write some text &#160;to the IConsole." alt="" coords="531,81,699,121"/>
-</map>

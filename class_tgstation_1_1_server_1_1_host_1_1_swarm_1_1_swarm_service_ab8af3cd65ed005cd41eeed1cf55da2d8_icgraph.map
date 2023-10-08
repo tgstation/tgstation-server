@@ -1,7 +1,0 @@
-<map id="Tgstation.Server.Host.Swarm.SwarmService.CreateDownloadTickets" name="Tgstation.Server.Host.Swarm.SwarmService.CreateDownloadTickets">
-<area shape="rect" id="node1" title="Create a FileTicketResponse for downloading the content of a given initiatorProvider &#160;for the rest of..." alt="" coords="881,46,1129,86"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#ace4f10b1f946a33380666caabf8c3bb5" title="Send a given updateRequest &#160;out to nodes from the swarm controller." alt="" coords="607,5,833,60"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a598ccdd185156e1f44c8842403a5a864" title="Implementation of PrepareUpdate(ISeekableFileStreamProvider, Version, CancellationToken),..." alt="" coords="336,46,559,86"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a8284ef2414d328d72315c5ce83b6f7c2" title="Signal to the swarm that an update is requested. A Task&lt;TResult&gt; resulting in true if the update shou..." alt="" coords="48,14,245,54"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a9b47bfea16dcb7b4ec46989a67adf384" title="Notify the node of an update request from the controller. A Task&lt;TResult&gt; resulting in true if the no..." alt="" coords="5,78,288,118"/>
-</map>

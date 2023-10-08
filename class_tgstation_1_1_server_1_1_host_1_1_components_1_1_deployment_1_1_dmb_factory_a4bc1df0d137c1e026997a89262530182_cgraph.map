@@ -1,8 +1,0 @@
-<map id="Tgstation.Server.Host.Components.Deployment.DmbFactory.CleanUnusedCompileJobs" name="Tgstation.Server.Host.Components.Deployment.DmbFactory.CleanUnusedCompileJobs">
-<area shape="rect" id="node1" title="Deletes all compile jobs that are inactive in the Game folder. A Task representing the running operat..." alt="" coords="5,133,324,173"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a69aa1b9dbeb6af3744e568095c4376e7" title="Create a directory at path ." alt="" coords="400,5,583,45"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a39ebf958ad54ba63a6b74a1d4d75a6f2" title="Returns directory names in a given path ." alt="" coords="403,69,579,109"/>
-<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a0d6d5a54db205d2d1d45a927d57f5182" title="Gets the file name portion of a path ." alt="" coords="406,133,577,173"/>
-<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a18a442b5dff16f5e7a730ec354e81d78" title="Retrieve the full path of the current working directory." alt="" coords="407,197,575,237"/>
-<area shape="rect" id="node6" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_factory.html#ad22fce8fc51129e9da203dcef2f7ab42" title="Run an operation &#160;in the scope of an IDatabaseContext." alt="" coords="372,261,611,301"/>
-</map>

@@ -1,7 +1,0 @@
-<map id="Tgstation.Server.Host.Components.Repository.Repository.CopyTo" name="Tgstation.Server.Host.Components.Repository.Repository.CopyTo">
-<area shape="rect" id="node1" title="Copies the current working directory to a given path . A Task representing the running operation." alt="" coords="5,101,232,141"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a797e60a0920a4f0495eb1070e7b2b2d2" title="Copies a directory from src &#160;to dest ." alt="" coords="307,5,480,45"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_post_write_handler.html#a977c03596e21a07e06d7bc3735c6884f" title="For handling system specific necessities after a write." alt="" coords="292,69,495,109"/>
-<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_post_write_handler.html#abf71900cbac377408fda23dd147a3269" title="Check if a given sourceFilePath &#160;will need HandleWrite(string) called on a copy of it." alt="" coords="280,133,507,173"/>
-<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a18a442b5dff16f5e7a730ec354e81d78" title="Retrieve the full path of the current working directory." alt="" coords="309,197,477,237"/>
-</map>

@@ -1,5 +1,0 @@
-<map id="Tgstation.Server.Host.IO.BufferedFileStreamProvider.GetResultInternal" name="Tgstation.Server.Host.IO.BufferedFileStreamProvider.GetResultInternal">
-<area shape="rect" id="node1" title="Gets the shared MemoryStream and its Stream.Length." alt="" coords="259,45,464,100"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_buffered_file_stream_provider.html#add85accb878e38c5ce694a3ef49ac1a0" title="Gets the provided MemoryStream. May be called multiple times, though cancelling any may cause all cal..." alt="" coords="5,5,211,60"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_buffered_file_stream_provider.html#aa33223cdc5073bce7b311cf3aee8da6e" title="Gets the provided Stream. May be called multiple times, though cancelling any may cause all calls to ..." alt="" coords="5,84,211,139"/>
-</map>

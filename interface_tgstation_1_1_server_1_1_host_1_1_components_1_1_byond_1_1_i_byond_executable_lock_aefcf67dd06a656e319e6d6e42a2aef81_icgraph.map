@@ -1,4 +1,4 @@
 <map id="Tgstation.Server.Host.Components.Byond.IByondExecutableLock.DoNotDeleteThisSession" name="Tgstation.Server.Host.Components.Byond.IByondExecutableLock.DoNotDeleteThisSession">
 <area shape="rect" id="node1" title="Call if, during a detach, this version should not be deleted." alt="" coords="280,5,551,60"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#a56746b962570ee4b349380f63965dc0d" title="Releases the IProcess without terminating it. Also calls IDisposable.Dispose. A Task representing the..." alt="" coords="5,13,232,53"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#ac370a90bf019b15f2b189522320031ed" title="Releases the IProcess without terminating it. Also calls IDisposable.Dispose. A ValueTask representin..." alt="" coords="5,13,232,53"/>
 </map>

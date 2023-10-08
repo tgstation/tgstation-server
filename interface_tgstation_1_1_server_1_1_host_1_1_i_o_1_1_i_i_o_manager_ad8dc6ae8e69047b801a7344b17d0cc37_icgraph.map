@@ -1,5 +1,5 @@
 <map id="Tgstation.Server.Host.IO.IIOManager.MoveDirectory" name="Tgstation.Server.Host.IO.IIOManager.MoveDirectory">
 <area shape="rect" id="node1" title="Moves a directory at source &#160;to destination ." alt="" coords="280,37,456,77"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#a3b704ff1a08b3a9462a71884c52b5a25" title="Executes a pending server update by extracting the new server to a given updatePath ...." alt="" coords="20,5,217,45"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#a232e9720186876671fb9709f433a507b" title="Move an IInstance. A Task representing the running operation." alt="" coords="5,69,232,109"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#a2a702f9141f98d0ba1aae9a70688704c" title="Executes a pending server update by extracting the new server to a given updatePath ...." alt="" coords="20,5,217,45"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#ad3dc0cfcb7f415f1dd8a98bfd018f90e" title="Move an IInstance. A ValueTask representing the running operation." alt="" coords="5,69,232,109"/>
 </map>

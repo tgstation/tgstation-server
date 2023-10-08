@@ -109,19 +109,32 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ac543a4e3bf61cec7ef0cee9abab7d0e4"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context_factory.html#ac543a4e3bf61cec7ef0cee9abab7d0e4">DatabaseContextFactory</a> (IServiceScopeFactory <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context_factory.html#a82349a843b7d53e907fbdcfd46bf91d2">scopeFactory</a>)</td></tr>
 <tr class="memdesc:ac543a4e3bf61cec7ef0cee9abab7d0e4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes a new instance of the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context_factory.html">DatabaseContextFactory</a> class.   <a href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context_factory.html#ac543a4e3bf61cec7ef0cee9abab7d0e4">More...</a><br /></td></tr>
 <tr class="separator:ac543a4e3bf61cec7ef0cee9abab7d0e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a655c73b949f3fe4fee8106844ef2eab2"><td class="memItemLeft" align="right" valign="top">async Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context_factory.html#a655c73b949f3fe4fee8106844ef2eab2">UseContext</a> (Func&lt; <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context.html">IDatabaseContext</a>, Task &gt; operation)</td></tr>
-<tr class="memdesc:a655c73b949f3fe4fee8106844ef2eab2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Run an <em>operation</em>  in the scope of an <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context.html" title="Represents the database.">IDatabaseContext</a>. <dl class="params"><dt>Parameters</dt><dd>
+<tr class="memitem:aa0f2badeb4e28beb151ff0046c5be2cd"><td class="memItemLeft" align="right" valign="top">async ValueTask&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context_factory.html#aa0f2badeb4e28beb151ff0046c5be2cd">UseContext</a> (Func&lt; <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context.html">IDatabaseContext</a>, ValueTask &gt; operation)</td></tr>
+<tr class="memdesc:aa0f2badeb4e28beb151ff0046c5be2cd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Run an <em>operation</em>  in the scope of an <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context.html" title="Represents the database.">IDatabaseContext</a>. <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">operation</td><td>The operation to run.</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A Task representing the running <em>operation</em> .</dd></dl>
-  <a href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context_factory.html#a655c73b949f3fe4fee8106844ef2eab2">More...</a><br /></td></tr>
-<tr class="separator:a655c73b949f3fe4fee8106844ef2eab2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad22fce8fc51129e9da203dcef2f7ab42"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_factory.html#ad22fce8fc51129e9da203dcef2f7ab42">UseContext</a> (Func&lt; <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context.html">IDatabaseContext</a>, Task &gt; operation)</td></tr>
-<tr class="memdesc:ad22fce8fc51129e9da203dcef2f7ab42"><td class="mdescLeft">&#160;</td><td class="mdescRight">Run an <em>operation</em>  in the scope of an <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context.html" title="Represents the database.">IDatabaseContext</a>.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_factory.html#ad22fce8fc51129e9da203dcef2f7ab42">More...</a><br /></td></tr>
-<tr class="separator:ad22fce8fc51129e9da203dcef2f7ab42"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<dl class="section return"><dt>Returns</dt><dd>A ValueTask representing the running <em>operation</em> .</dd></dl>
+  <a href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context_factory.html#aa0f2badeb4e28beb151ff0046c5be2cd">More...</a><br /></td></tr>
+<tr class="separator:aa0f2badeb4e28beb151ff0046c5be2cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abe7674bde9f2ac573f91d994b5ca3421"><td class="memItemLeft" align="right" valign="top">async ValueTask&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context_factory.html#abe7674bde9f2ac573f91d994b5ca3421">UseContextTaskReturn</a> (Func&lt; <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context.html">IDatabaseContext</a>, Task &gt; operation)</td></tr>
+<tr class="memdesc:abe7674bde9f2ac573f91d994b5ca3421"><td class="mdescLeft">&#160;</td><td class="mdescRight">Run an <em>operation</em>  in the scope of an <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context.html" title="Represents the database.">IDatabaseContext</a>. <dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">operation</td><td>The operation to run.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A ValueTask representing the running <em>operation</em> .</dd></dl>
+  <a href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context_factory.html#abe7674bde9f2ac573f91d994b5ca3421">More...</a><br /></td></tr>
+<tr class="separator:abe7674bde9f2ac573f91d994b5ca3421"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1da664d7237dbec5a6cb9ce04b79ccc1"><td class="memItemLeft" align="right" valign="top">ValueTask&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_factory.html#a1da664d7237dbec5a6cb9ce04b79ccc1">UseContext</a> (Func&lt; <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context.html">IDatabaseContext</a>, ValueTask &gt; operation)</td></tr>
+<tr class="memdesc:a1da664d7237dbec5a6cb9ce04b79ccc1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Run an <em>operation</em>  in the scope of an <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context.html" title="Represents the database.">IDatabaseContext</a>.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_factory.html#a1da664d7237dbec5a6cb9ce04b79ccc1">More...</a><br /></td></tr>
+<tr class="separator:a1da664d7237dbec5a6cb9ce04b79ccc1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0804dcd2b607f4e8c5b46c8c05f04926"><td class="memItemLeft" align="right" valign="top">ValueTask&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_factory.html#a0804dcd2b607f4e8c5b46c8c05f04926">UseContextTaskReturn</a> (Func&lt; <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context.html">IDatabaseContext</a>, Task &gt; operation)</td></tr>
+<tr class="memdesc:a0804dcd2b607f4e8c5b46c8c05f04926"><td class="mdescLeft">&#160;</td><td class="mdescRight">Run an <em>operation</em>  in the scope of an <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context.html" title="Represents the database.">IDatabaseContext</a>.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_factory.html#a0804dcd2b607f4e8c5b46c8c05f04926">More...</a><br /></td></tr>
+<tr class="separator:a0804dcd2b607f4e8c5b46c8c05f04926"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
@@ -171,14 +184,53 @@ Private Attributes</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a655c73b949f3fe4fee8106844ef2eab2" name="a655c73b949f3fe4fee8106844ef2eab2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a655c73b949f3fe4fee8106844ef2eab2">&#9670;&#160;</a></span>UseContext()</h2>
+<a id="aa0f2badeb4e28beb151ff0046c5be2cd" name="aa0f2badeb4e28beb151ff0046c5be2cd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa0f2badeb4e28beb151ff0046c5be2cd">&#9670;&#160;</a></span>UseContext()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">async Task Tgstation.Server.Host.Database.DatabaseContextFactory.UseContext </td>
+          <td class="memname">async ValueTask Tgstation.Server.Host.Database.DatabaseContextFactory.UseContext </td>
+          <td>(</td>
+          <td class="paramtype">Func&lt; <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context.html">IDatabaseContext</a>, ValueTask &gt;&#160;</td>
+          <td class="paramname"><em>operation</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Run an <em>operation</em>  in the scope of an <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context.html" title="Represents the database.">IDatabaseContext</a>. <dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">operation</td><td>The operation to run.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A ValueTask representing the running <em>operation</em> .</dd></dl>
+ </p>
+
+<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_factory.html#a1da664d7237dbec5a6cb9ce04b79ccc1">Tgstation.Server.Host.Database.IDatabaseContextFactory</a>.</p>
+
+<p class="definition">Definition at line <a class="el" href="_database_context_factory_8cs_source.html#l00029">29</a> of file <a class="el" href="_database_context_factory_8cs_source.html">DatabaseContextFactory.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   30</span>        {</div>
+<div class="line"><span class="lineno">   31</span>            ArgumentNullException.ThrowIfNull(operation);</div>
+<div class="line"><span class="lineno">   32</span> </div>
+<div class="line"><span class="lineno">   33</span>            await <span class="keyword">using </span>var scope = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context_factory.html#a82349a843b7d53e907fbdcfd46bf91d2">scopeFactory</a>.CreateAsyncScope();</div>
+<div class="line"><span class="lineno">   34</span>            await operation(scope.ServiceProvider.GetRequiredService&lt;IDatabaseContext&gt;());</div>
+<div class="line"><span class="lineno">   35</span>        }</div>
+</div><!-- fragment -->
+<p class="reference">References <a class="el" href="_database_context_factory_8cs_source.html#l00014">Tgstation.Server.Host.Database.DatabaseContextFactory.scopeFactory</a>.</p>
+
+</div>
+</div>
+<a id="abe7674bde9f2ac573f91d994b5ca3421" name="abe7674bde9f2ac573f91d994b5ca3421"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abe7674bde9f2ac573f91d994b5ca3421">&#9670;&#160;</a></span>UseContextTaskReturn()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">async ValueTask Tgstation.Server.Host.Database.DatabaseContextFactory.UseContextTaskReturn </td>
           <td>(</td>
           <td class="paramtype">Func&lt; <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context.html">IDatabaseContext</a>, Task &gt;&#160;</td>
           <td class="paramname"><em>operation</em></td><td>)</td>
@@ -193,18 +245,18 @@ Private Attributes</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A Task representing the running <em>operation</em> .</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A ValueTask representing the running <em>operation</em> .</dd></dl>
  </p>
 
-<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_factory.html#ad22fce8fc51129e9da203dcef2f7ab42">Tgstation.Server.Host.Database.IDatabaseContextFactory</a>.</p>
+<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_factory.html#a0804dcd2b607f4e8c5b46c8c05f04926">Tgstation.Server.Host.Database.IDatabaseContextFactory</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_database_context_factory_8cs_source.html#l00029">29</a> of file <a class="el" href="_database_context_factory_8cs_source.html">DatabaseContextFactory.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   30</span>        {</div>
-<div class="line"><span class="lineno">   31</span>            ArgumentNullException.ThrowIfNull(operation);</div>
-<div class="line"><span class="lineno">   32</span> </div>
-<div class="line"><span class="lineno">   33</span>            await <span class="keyword">using </span>var scope = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context_factory.html#a82349a843b7d53e907fbdcfd46bf91d2">scopeFactory</a>.CreateAsyncScope();</div>
-<div class="line"><span class="lineno">   34</span>            await operation(scope.ServiceProvider.GetRequiredService&lt;IDatabaseContext&gt;());</div>
-<div class="line"><span class="lineno">   35</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_database_context_factory_8cs_source.html#l00038">38</a> of file <a class="el" href="_database_context_factory_8cs_source.html">DatabaseContextFactory.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   39</span>        {</div>
+<div class="line"><span class="lineno">   40</span>            ArgumentNullException.ThrowIfNull(operation);</div>
+<div class="line"><span class="lineno">   41</span> </div>
+<div class="line"><span class="lineno">   42</span>            await <span class="keyword">using </span>var scope = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context_factory.html#a82349a843b7d53e907fbdcfd46bf91d2">scopeFactory</a>.CreateAsyncScope();</div>
+<div class="line"><span class="lineno">   43</span>            await operation(scope.ServiceProvider.GetRequiredService&lt;IDatabaseContext&gt;());</div>
+<div class="line"><span class="lineno">   44</span>        }</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="_database_context_factory_8cs_source.html#l00014">Tgstation.Server.Host.Database.DatabaseContextFactory.scopeFactory</a>.</p>
 
@@ -235,7 +287,7 @@ Private Attributes</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="_database_context_factory_8cs_source.html#l00014">14</a> of file <a class="el" href="_database_context_factory_8cs_source.html">DatabaseContextFactory.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_database_context_factory_8cs_source.html#l00020">Tgstation.Server.Host.Database.DatabaseContextFactory.DatabaseContextFactory()</a>, and <a class="el" href="_database_context_factory_8cs_source.html#l00029">Tgstation.Server.Host.Database.DatabaseContextFactory.UseContext()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_database_context_factory_8cs_source.html#l00020">Tgstation.Server.Host.Database.DatabaseContextFactory.DatabaseContextFactory()</a>, <a class="el" href="_database_context_factory_8cs_source.html#l00029">Tgstation.Server.Host.Database.DatabaseContextFactory.UseContext()</a>, and <a class="el" href="_database_context_factory_8cs_source.html#l00038">Tgstation.Server.Host.Database.DatabaseContextFactory.UseContextTaskReturn()</a>.</p>
 
 </div>
 </div>

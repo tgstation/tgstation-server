@@ -1,4 +1,4 @@
 <map id="Tgstation.Server.Host.Jobs.JobService.RunJob" name="Tgstation.Server.Host.Jobs.JobService.RunJob">
 <area shape="rect" id="node1" title="Runner for JobHandlers." alt="" coords="248,5,431,45"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#a3377ee874856ca422c16558894e158e6" title="Registers a given Job and begins running it. A Task representing a running operation." alt="" coords="5,5,200,45"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#af2255b562972f70a638cf93cd830b6a9" title="Registers a given Job and begins running it. A ValueTask representing a running operation." alt="" coords="5,5,200,45"/>
 </map>

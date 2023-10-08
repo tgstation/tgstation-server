@@ -1,0 +1,4 @@
+<map id="Tgstation.Server.Host.Components.Deployment.Remote.BaseRemoteDeploymentManager.CommentOnTestMergeSource" name="Tgstation.Server.Host.Components.Deployment.Remote.BaseRemoteDeploymentManager.CommentOnTestMergeSource">
+<area shape="rect" id="node1" title="Create a comment of a given testMergeNumber &#39;s source." alt="" coords="337,5,621,60"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_base_remote_deployment_manager.html#aafa0ae1e572748ead5c0c430e759b21e" title="Post deployment comments to the test merge ticket. A ValueTask representing the running operation." alt="" coords="5,5,289,60"/>
+</map>

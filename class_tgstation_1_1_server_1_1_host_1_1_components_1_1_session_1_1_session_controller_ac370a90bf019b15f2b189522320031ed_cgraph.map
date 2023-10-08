@@ -1,0 +1,11 @@
+<map id="Tgstation.Server.Host.Components.Session.SessionController.Release" name="Tgstation.Server.Host.Components.Session.SessionController.Release">
+<area shape="rect" id="node1" title="Releases the IProcess without terminating it. Also calls IDisposable.Dispose. A ValueTask representin..." alt="" coords="5,105,232,145"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#ab0660ae6440a38aa85f8473a8220533a" title="Throws an ObjectDisposedException if DisposeAsync has been called." alt="" coords="281,5,549,45"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#a0a6612e49a14544cad75292fba3798c1" title=" " alt="" coords="285,69,545,109"/>
+<area shape="rect" id="node8" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_i_byond_executable_lock.html#aefcf67dd06a656e319e6d6e42a2aef81" title="Call if, during a detach, this version should not be deleted." alt="" coords="280,134,551,189"/>
+<area shape="rect" id="node9" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_dmb_provider.html#a01b014f3713b09cdbc9093bc1bbc0164" title="Disposing the IDmbProvider won&#39;t cause a cleanup of the working directory." alt="" coords="298,213,533,253"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_fifo_semaphore.html#ae9f2a2d2df537323f83f50cd79185016" title=" " alt="" coords="607,5,789,45"/>
+<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_fifo_semaphore.html#a226f5619ff7d884e2c8df1505548c04d" title="Locks the FifoSemaphore." alt="" coords="607,69,789,109"/>
+<area shape="rect" id="node7" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process.html#a840da56ea51a4bbbc6b21667cc6355a2" title="Asycnhronously terminates the process." alt="" coords="599,133,797,173"/>
+<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html#a29773d588476671bbe480f096d839c91" title="Asyncronously locks a semaphore ." alt="" coords="845,69,1036,109"/>
+</map>

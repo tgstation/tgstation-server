@@ -1,11 +1,11 @@
 <map id="Tgstation.Server.Host.Setup.SetupWizard.ExecuteAsync" name="Tgstation.Server.Host.Setup.SetupWizard.ExecuteAsync">
 <area shape="rect" id="node1" title=" " alt="" coords="5,195,193,235"/>
-<area shape="rect" id="node2" href="$_setup_wizard_8cs.html#aac16c05e965ab067e23152458aa6fe59" title="Check if it should and run the SetupWizard if necessary." alt="" coords="241,203,363,228"/>
-<area shape="rect" id="node3" href="$_setup_wizard_8cs.html#a133aa9167bebce98243748fe735a4e32" title="Runs the SetupWizard." alt="" coords="411,153,495,179"/>
-<area shape="rect" id="node9" href="$_setup_wizard_8cs.html#afb6b6fca0a8f1d72dd4e4f5cc84f76f1" title="Saves a given Configuration set to userConfigFileName ." alt="" coords="557,252,683,277"/>
-<area shape="rect" id="node4" href="$_setup_wizard_8cs.html#a46a4314202bbe55ae8724e7d27486163" title="Prompts the user to create a ControlPanelConfiguration." alt="" coords="545,5,695,31"/>
-<area shape="rect" id="node5" href="$_setup_wizard_8cs.html#a8c25292615cd1ecad91305b36ea7068e" title="Prompts the user to create a ElasticsearchConfiguration." alt="" coords="543,55,697,80"/>
-<area shape="rect" id="node6" href="$_setup_wizard_8cs.html#a8c8f5f56a7438fe48011eb8d738abec8" title="Prompts the user to create a GeneralConfiguration." alt="" coords="559,104,681,129"/>
-<area shape="rect" id="node7" href="$_setup_wizard_8cs.html#adbd38b2960ebef44f65c5b8e0af409b0" title="Prompts the user to create a FileLoggingConfiguration." alt="" coords="559,153,681,179"/>
-<area shape="rect" id="node8" href="$_setup_wizard_8cs.html#a159af60f0c66366ede5c65cb6e21e5ea" title="Prompts the user to create a SwarmConfiguration." alt="" coords="561,203,679,228"/>
+<area shape="rect" id="node2" href="$_setup_wizard_8cs.html#a01b0e7396617d57f71e59a26e0f78f3b" title="Check if it should and run the SetupWizard if necessary." alt="" coords="241,203,363,228"/>
+<area shape="rect" id="node3" href="$_setup_wizard_8cs.html#aada1bd5b44415cd45d3e19b0f03294b9" title="Runs the SetupWizard." alt="" coords="411,153,495,179"/>
+<area shape="rect" id="node9" href="$_setup_wizard_8cs.html#a17a44f74a679ac9310557f37f8130308" title="Saves a given Configuration set to userConfigFileName ." alt="" coords="557,252,683,277"/>
+<area shape="rect" id="node4" href="$_setup_wizard_8cs.html#a075ad1fc71f82da3a1aa2e2389fc07d8" title="Prompts the user to create a ControlPanelConfiguration." alt="" coords="545,5,695,31"/>
+<area shape="rect" id="node5" href="$_setup_wizard_8cs.html#af2d535605617f095ffd643cebb79e899" title="Prompts the user to create a ElasticsearchConfiguration." alt="" coords="543,55,697,80"/>
+<area shape="rect" id="node6" href="$_setup_wizard_8cs.html#a55010aaa9334ef9f8fe717198150cd34" title="Prompts the user to create a GeneralConfiguration." alt="" coords="559,104,681,129"/>
+<area shape="rect" id="node7" href="$_setup_wizard_8cs.html#a6e1cc5560d2955aa63df7edd5e718b9b" title="Prompts the user to create a FileLoggingConfiguration." alt="" coords="559,153,681,179"/>
+<area shape="rect" id="node8" href="$_setup_wizard_8cs.html#a2be55b2a297e8ab9cbd32d969f495e93" title="Prompts the user to create a SwarmConfiguration." alt="" coords="561,203,679,228"/>
 </map>

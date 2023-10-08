@@ -126,22 +126,22 @@ Protected Member Functions</h2></td></tr>
 <tr class="memitem:a59b77faf4eaa200f86f7a9e0b22ac367"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_component_interfacing_controller.html#a59b77faf4eaa200f86f7a9e0b22ac367">ComponentInterfacingController</a> (<a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context.html">IDatabaseContext</a> databaseContext, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authentication_context_factory.html">IAuthenticationContextFactory</a> authenticationContextFactory, ILogger&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_component_interfacing_controller.html">ComponentInterfacingController</a> &gt; logger, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_manager.html">IInstanceManager</a> <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_component_interfacing_controller.html#a9a2c4d46ba2467c16b22172a98f1ba35">instanceManager</a>, bool <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_component_interfacing_controller.html#a92bb12695e2aae9efae16f28c7d61607">useInstanceRequestHeader</a>=false)</td></tr>
 <tr class="memdesc:a59b77faf4eaa200f86f7a9e0b22ac367"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes a new instance of the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_component_interfacing_controller.html" title="ApiController for operations on IInstanceCores.">ComponentInterfacingController</a> class.   <a href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_component_interfacing_controller.html#a59b77faf4eaa200f86f7a9e0b22ac367">More...</a><br /></td></tr>
 <tr class="separator:a59b77faf4eaa200f86f7a9e0b22ac367"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2f0d9f496f5fc8a2193b91712e44acd8"><td class="memItemLeft" align="right" valign="top">override async Task&lt; IActionResult &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_component_interfacing_controller.html#a2f0d9f496f5fc8a2193b91712e44acd8">ValidateRequest</a> (CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a2f0d9f496f5fc8a2193b91712e44acd8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Performs validation a request. <dl class="params"><dt>Parameters</dt><dd>
+<tr class="memitem:a05f36a7706a3145aab2a5c4f4f0c7f7a"><td class="memItemLeft" align="right" valign="top">override async ValueTask&lt; IActionResult &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_component_interfacing_controller.html#a05f36a7706a3145aab2a5c4f4f0c7f7a">ValidateRequest</a> (CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a05f36a7706a3145aab2a5c4f4f0c7f7a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Performs validation a request. <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in an appropriate IActionResult on validation failure, <code>null</code> otherwise.</dd></dl>
-  <a href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_component_interfacing_controller.html#a2f0d9f496f5fc8a2193b91712e44acd8">More...</a><br /></td></tr>
-<tr class="separator:a2f0d9f496f5fc8a2193b91712e44acd8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<dl class="section return"><dt>Returns</dt><dd>A ValueTask&lt;TResult&gt; resulting in an appropriate IActionResult on validation failure, <code>null</code> otherwise.</dd></dl>
+  <a href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_component_interfacing_controller.html#a05f36a7706a3145aab2a5c4f4f0c7f7a">More...</a><br /></td></tr>
+<tr class="separator:a05f36a7706a3145aab2a5c4f4f0c7f7a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aba9306ee424759a221509c021cdf0cde"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_component_interfacing_controller.html#aba9306ee424759a221509c021cdf0cde">ValidateInstanceOnlineStatus</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html">Api.Models.Instance</a> metadata)</td></tr>
 <tr class="memdesc:aba9306ee424759a221509c021cdf0cde"><td class="mdescLeft">&#160;</td><td class="mdescRight">Corrects discrepencies between the <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html#a6f024aa440adbecbd80b053eb57badc2" title="If the Instance is online.">Api.Models.Instance.Online</a> status of IInstances in the database vs the service.   <a href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_component_interfacing_controller.html#aba9306ee424759a221509c021cdf0cde">More...</a><br /></td></tr>
 <tr class="separator:aba9306ee424759a221509c021cdf0cde"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5a56b67b5565db25af2db5daee576ad8"><td class="memItemLeft" align="right" valign="top">async Task&lt; IActionResult &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_component_interfacing_controller.html#a5a56b67b5565db25af2db5daee576ad8">WithComponentInstance</a> (Func&lt; <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_core.html">IInstanceCore</a>, Task&lt; IActionResult &gt; &gt; action, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_instance.html">Models.Instance</a> instance=null)</td></tr>
-<tr class="memdesc:a5a56b67b5565db25af2db5daee576ad8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Run a given <em>action</em>  with the relevant IInstance.   <a href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_component_interfacing_controller.html#a5a56b67b5565db25af2db5daee576ad8">More...</a><br /></td></tr>
-<tr class="separator:a5a56b67b5565db25af2db5daee576ad8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5f14b9df1b1871f942ea7d19efe3a7d0"><td class="memItemLeft" align="right" valign="top">async ValueTask&lt; IActionResult &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_component_interfacing_controller.html#a5f14b9df1b1871f942ea7d19efe3a7d0">WithComponentInstance</a> (Func&lt; <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_core.html">IInstanceCore</a>, ValueTask&lt; IActionResult &gt; &gt; action, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_instance.html">Models.Instance</a> instance=null)</td></tr>
+<tr class="memdesc:a5f14b9df1b1871f942ea7d19efe3a7d0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Run a given <em>action</em>  with the relevant IInstance.   <a href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_component_interfacing_controller.html#a5f14b9df1b1871f942ea7d19efe3a7d0">More...</a><br /></td></tr>
+<tr class="separator:a5f14b9df1b1871f942ea7d19efe3a7d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pro_methods_class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller"><td colspan="2" onclick="javascript:toggleInherit('pro_methods_class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller')"><img src="closed.png" alt="-"/>&#160;Protected Member Functions inherited from <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html">Tgstation.Server.Host.Controllers.ApiController</a></td></tr>
 <tr class="memitem:a32fe6d42273d3db9b7d1937ff5f08044 inherit pro_methods_class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a32fe6d42273d3db9b7d1937ff5f08044">ApiController</a> (<a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context.html">IDatabaseContext</a> databaseContext, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authentication_context_factory.html">IAuthenticationContextFactory</a> authenticationContextFactory, ILogger&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html">ApiController</a> &gt; logger, bool <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a91c58c31f7a3cc51fff3cfc3b236756d">requireHeaders</a>)</td></tr>
 <tr class="memdesc:a32fe6d42273d3db9b7d1937ff5f08044 inherit pro_methods_class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes a new instance of the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html" title="Base Controller for API functions.">ApiController</a> class.   <a href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a32fe6d42273d3db9b7d1937ff5f08044">More...</a><br /></td></tr>
@@ -161,18 +161,18 @@ Protected Member Functions</h2></td></tr>
 <tr class="memitem:adfc4e0e6f1d81ebc19a238527550f7a4 inherit pro_methods_class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller"><td class="memItemLeft" align="right" valign="top">ObjectResult&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#adfc4e0e6f1d81ebc19a238527550f7a4">RateLimit</a> (RateLimitExceededException rateLimitException)</td></tr>
 <tr class="memdesc:adfc4e0e6f1d81ebc19a238527550f7a4 inherit pro_methods_class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller"><td class="mdescLeft">&#160;</td><td class="mdescRight">429 response for a given <em>rateLimitException</em> .   <a href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#adfc4e0e6f1d81ebc19a238527550f7a4">More...</a><br /></td></tr>
 <tr class="separator:adfc4e0e6f1d81ebc19a238527550f7a4 inherit pro_methods_class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1df01a8fe92492320149135206e09f47 inherit pro_methods_class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller"><td class="memItemLeft" align="right" valign="top">virtual Task&lt; IActionResult &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a1df01a8fe92492320149135206e09f47">ValidateRequest</a> (CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a1df01a8fe92492320149135206e09f47 inherit pro_methods_class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller"><td class="mdescLeft">&#160;</td><td class="mdescRight">Performs validation a request.   <a href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a1df01a8fe92492320149135206e09f47">More...</a><br /></td></tr>
-<tr class="separator:a1df01a8fe92492320149135206e09f47 inherit pro_methods_class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2f29c35abc04db25f02d207a7e671030 inherit pro_methods_class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller"><td class="memItemLeft" align="right" valign="top">virtual ValueTask&lt; IActionResult &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a2f29c35abc04db25f02d207a7e671030">ValidateRequest</a> (CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a2f29c35abc04db25f02d207a7e671030 inherit pro_methods_class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller"><td class="mdescLeft">&#160;</td><td class="mdescRight">Performs validation a request.   <a href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a2f29c35abc04db25f02d207a7e671030">More...</a><br /></td></tr>
+<tr class="separator:a2f29c35abc04db25f02d207a7e671030 inherit pro_methods_class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a28d03a8af8e2ef025de2f0ac8e7a4221 inherit pro_methods_class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller"><td class="memItemLeft" align="right" valign="top">IActionResult&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a28d03a8af8e2ef025de2f0ac8e7a4221">HeadersIssue</a> (bool ignoreMissingAuth)</td></tr>
 <tr class="memdesc:a28d03a8af8e2ef025de2f0ac8e7a4221 inherit pro_methods_class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller"><td class="mdescLeft">&#160;</td><td class="mdescRight">Response for missing/Invalid headers.   <a href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a28d03a8af8e2ef025de2f0ac8e7a4221">More...</a><br /></td></tr>
 <tr class="separator:a28d03a8af8e2ef025de2f0ac8e7a4221 inherit pro_methods_class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acbf312ea14d4147ae4cce92c5f32bc40 inherit pro_methods_class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller"><td class="memItemLeft" align="right" valign="top">Task&lt; IActionResult &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#acbf312ea14d4147ae4cce92c5f32bc40">Paginated&lt; TModel &gt;</a> (Func&lt; Task&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_paginatable_result.html">PaginatableResult</a>&lt; TModel &gt; &gt; &gt; queryGenerator, Func&lt; TModel, Task &gt; resultTransformer, int? pageQuery, int? pageSizeQuery, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:acbf312ea14d4147ae4cce92c5f32bc40 inherit pro_methods_class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generates a paginated response.   <a href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#acbf312ea14d4147ae4cce92c5f32bc40">More...</a><br /></td></tr>
-<tr class="separator:acbf312ea14d4147ae4cce92c5f32bc40 inherit pro_methods_class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acd40934d3dcb9317f4d06fd82d1f86c0 inherit pro_methods_class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller"><td class="memItemLeft" align="right" valign="top">Task&lt; IActionResult &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#acd40934d3dcb9317f4d06fd82d1f86c0">Paginated&lt; TModel, TApiModel &gt;</a> (Func&lt; Task&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_paginatable_result.html">PaginatableResult</a>&lt; TModel &gt; &gt; &gt; queryGenerator, Func&lt; TApiModel, Task &gt; resultTransformer, int? pageQuery, int? pageSizeQuery, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:acd40934d3dcb9317f4d06fd82d1f86c0 inherit pro_methods_class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generates a paginated response.   <a href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#acd40934d3dcb9317f4d06fd82d1f86c0">More...</a><br /></td></tr>
-<tr class="separator:acd40934d3dcb9317f4d06fd82d1f86c0 inherit pro_methods_class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6b9d58df021c1a38423e30fed1e867a3 inherit pro_methods_class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller"><td class="memItemLeft" align="right" valign="top">ValueTask&lt; IActionResult &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a6b9d58df021c1a38423e30fed1e867a3">Paginated&lt; TModel &gt;</a> (Func&lt; ValueTask&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_paginatable_result.html">PaginatableResult</a>&lt; TModel &gt; &gt; &gt; queryGenerator, Func&lt; TModel, ValueTask &gt; resultTransformer, int? pageQuery, int? pageSizeQuery, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a6b9d58df021c1a38423e30fed1e867a3 inherit pro_methods_class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generates a paginated response.   <a href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a6b9d58df021c1a38423e30fed1e867a3">More...</a><br /></td></tr>
+<tr class="separator:a6b9d58df021c1a38423e30fed1e867a3 inherit pro_methods_class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a55a15ea1084753881babffb6fd2c9dbe inherit pro_methods_class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller"><td class="memItemLeft" align="right" valign="top">ValueTask&lt; IActionResult &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a55a15ea1084753881babffb6fd2c9dbe">Paginated&lt; TModel, TApiModel &gt;</a> (Func&lt; ValueTask&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_paginatable_result.html">PaginatableResult</a>&lt; TModel &gt; &gt; &gt; queryGenerator, Func&lt; TApiModel, ValueTask &gt; resultTransformer, int? pageQuery, int? pageSizeQuery, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a55a15ea1084753881babffb6fd2c9dbe inherit pro_methods_class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generates a paginated response.   <a href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a55a15ea1084753881babffb6fd2c9dbe">More...</a><br /></td></tr>
+<tr class="separator:a55a15ea1084753881babffb6fd2c9dbe inherit pro_methods_class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="properties" name="properties"></a>
 Properties</h2></td></tr>
@@ -375,14 +375,14 @@ Here is the caller graph for this function:</div>
 <div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_component_interfacing_controller_aba9306ee424759a221509c021cdf0cde_icgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_component_interfacing_controller_aba9306ee424759a221509c021cdf0cde_icgraph" alt=""/></div>
 <map name="aclass_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_component_interfacing_controller_aba9306ee424759a221509c021cdf0cde_icgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_component_interfacing_controller_aba9306ee424759a221509c021cdf0cde_icgraph">
 <area shape="rect" title="Corrects discrepencies between the Api.Models.Instance.Online status of IInstances in the database vs..." alt="" coords="308,5,563,60"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_component_interfacing_controller.html#a2f0d9f496f5fc8a2193b91712e44acd8" title="Performs validation a request. A Task&lt;TResult&gt; resulting in an appropriate IActionResult on validatio..." alt="" coords="5,5,260,60"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_component_interfacing_controller.html#a05f36a7706a3145aab2a5c4f4f0c7f7a" title="Performs validation a request. A ValueTask&lt;TResult&gt; resulting in an appropriate IActionResult on vali..." alt="" coords="5,5,260,60"/>
 </map>
 </div>
 
 </div>
 </div>
-<a id="a2f0d9f496f5fc8a2193b91712e44acd8" name="a2f0d9f496f5fc8a2193b91712e44acd8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2f0d9f496f5fc8a2193b91712e44acd8">&#9670;&#160;</a></span>ValidateRequest()</h2>
+<a id="a05f36a7706a3145aab2a5c4f4f0c7f7a" name="a05f36a7706a3145aab2a5c4f4f0c7f7a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a05f36a7706a3145aab2a5c4f4f0c7f7a">&#9670;&#160;</a></span>ValidateRequest()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -391,7 +391,7 @@ Here is the caller graph for this function:</div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">override async Task&lt; IActionResult &gt; Tgstation.Server.Host.Controllers.ComponentInterfacingController.ValidateRequest </td>
+          <td class="memname">override async ValueTask&lt; IActionResult &gt; Tgstation.Server.Host.Controllers.ComponentInterfacingController.ValidateRequest </td>
           <td>(</td>
           <td class="paramtype">CancellationToken&#160;</td>
           <td class="paramname"><em>cancellationToken</em></td><td>)</td>
@@ -411,10 +411,10 @@ Here is the caller graph for this function:</div>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in an appropriate IActionResult on validation failure, <code>null</code> otherwise.</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A ValueTask&lt;TResult&gt; resulting in an appropriate IActionResult on validation failure, <code>null</code> otherwise.</dd></dl>
  </p>
 
-<p>Reimplemented from <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a1df01a8fe92492320149135206e09f47">Tgstation.Server.Host.Controllers.ApiController</a>.</p>
+<p>Reimplemented from <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a2f29c35abc04db25f02d207a7e671030">Tgstation.Server.Host.Controllers.ApiController</a>.</p>
 
 <p class="definition">Definition at line <a class="el" href="_component_interfacing_controller_8cs_source.html#l00063">63</a> of file <a class="el" href="_component_interfacing_controller_8cs_source.html">ComponentInterfacingController.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   64</span>        {</div>
@@ -450,9 +450,9 @@ Here is the caller graph for this function:</div>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_component_interfacing_controller_a2f0d9f496f5fc8a2193b91712e44acd8_cgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_component_interfacing_controller_a2f0d9f496f5fc8a2193b91712e44acd8_cgraph" alt=""/></div>
-<map name="aclass_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_component_interfacing_controller_a2f0d9f496f5fc8a2193b91712e44acd8_cgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_component_interfacing_controller_a2f0d9f496f5fc8a2193b91712e44acd8_cgraph">
-<area shape="rect" title="Performs validation a request. A Task&lt;TResult&gt; resulting in an appropriate IActionResult on validatio..." alt="" coords="5,19,260,73"/>
+<div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_component_interfacing_controller_a05f36a7706a3145aab2a5c4f4f0c7f7a_cgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_component_interfacing_controller_a05f36a7706a3145aab2a5c4f4f0c7f7a_cgraph" alt=""/></div>
+<map name="aclass_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_component_interfacing_controller_a05f36a7706a3145aab2a5c4f4f0c7f7a_cgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_component_interfacing_controller_a05f36a7706a3145aab2a5c4f4f0c7f7a_cgraph">
+<area shape="rect" title="Performs validation a request. A ValueTask&lt;TResult&gt; resulting in an appropriate IActionResult on vali..." alt="" coords="5,19,260,73"/>
 <area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_manager.html#a80956df7c531cd3cf662dab797ab2c82" title="Get the IInstanceReference associated with given metadata ." alt="" coords="611,34,869,74"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#ac2e88d53bf1b6ac87d175d83ed39da7c" title="Saves changes made to the IDatabaseContext. A Task representing the running operation." alt="" coords="331,26,540,66"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_component_interfacing_controller.html#aba9306ee424759a221509c021cdf0cde" title="Corrects discrepencies between the Api.Models.Instance.Online status of IInstances in the database vs..." alt="" coords="308,91,563,145"/>
@@ -461,8 +461,8 @@ Here is the call graph for this function:</div>
 
 </div>
 </div>
-<a id="a5a56b67b5565db25af2db5daee576ad8" name="a5a56b67b5565db25af2db5daee576ad8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5a56b67b5565db25af2db5daee576ad8">&#9670;&#160;</a></span>WithComponentInstance()</h2>
+<a id="a5f14b9df1b1871f942ea7d19efe3a7d0" name="a5f14b9df1b1871f942ea7d19efe3a7d0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5f14b9df1b1871f942ea7d19efe3a7d0">&#9670;&#160;</a></span>WithComponentInstance()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -471,9 +471,9 @@ Here is the call graph for this function:</div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">async Task&lt; IActionResult &gt; Tgstation.Server.Host.Controllers.ComponentInterfacingController.WithComponentInstance </td>
+          <td class="memname">async ValueTask&lt; IActionResult &gt; Tgstation.Server.Host.Controllers.ComponentInterfacingController.WithComponentInstance </td>
           <td>(</td>
-          <td class="paramtype">Func&lt; <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_core.html">IInstanceCore</a>, Task&lt; IActionResult &gt; &gt;&#160;</td>
+          <td class="paramtype">Func&lt; <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_core.html">IInstanceCore</a>, ValueTask&lt; IActionResult &gt; &gt;&#160;</td>
           <td class="paramname"><em>action</em>, </td>
         </tr>
         <tr>
@@ -498,12 +498,12 @@ Here is the call graph for this function:</div>
 <p>Run a given <em>action</em>  with the relevant IInstance.  </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">action</td><td>A Func&lt;T, TResult&gt; accepting the IInstance and returning a Task&lt;TResult&gt; with the IActionResult.</td></tr>
+    <tr><td class="paramname">action</td><td>A Func&lt;T, TResult&gt; accepting the IInstance and returning a ValueTask&lt;TResult&gt; with the IActionResult.</td></tr>
     <tr><td class="paramname">instance</td><td>The <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_instance.html" title="Represents an Api.Models.Instance in the database.">Models.Instance</a> to grab. If <code>null</code>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a19f89ec03ffd6f2bf5cab5214d5e6bb8" title="The Instance for the operation.">ApiController.Instance</a> will be used.</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in the IActionResult that should be returned.</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A ValueTask&lt;TResult&gt; resulting in the IActionResult that should be returned.</dd></dl>
 <p >The context of <em>action</em>  should be as small as possible so as to avoid race conditions. This function can return a ConflictResult if the requested instance was offline.</p>
 
 <p class="definition">Definition at line <a class="el" href="_component_interfacing_controller_8cs_source.html#l00120">120</a> of file <a class="el" href="_component_interfacing_controller_8cs_source.html">ComponentInterfacingController.cs</a>.</p>
@@ -530,8 +530,8 @@ Here is the call graph for this function:</div>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_component_interfacing_controller_a5a56b67b5565db25af2db5daee576ad8_cgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_component_interfacing_controller_a5a56b67b5565db25af2db5daee576ad8_cgraph" alt=""/></div>
-<map name="aclass_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_component_interfacing_controller_a5a56b67b5565db25af2db5daee576ad8_cgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_component_interfacing_controller_a5a56b67b5565db25af2db5daee576ad8_cgraph">
+<div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_component_interfacing_controller_a5f14b9df1b1871f942ea7d19efe3a7d0_cgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_component_interfacing_controller_a5f14b9df1b1871f942ea7d19efe3a7d0_cgraph" alt=""/></div>
+<map name="aclass_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_component_interfacing_controller_a5f14b9df1b1871f942ea7d19efe3a7d0_cgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_component_interfacing_controller_a5f14b9df1b1871f942ea7d19efe3a7d0_cgraph">
 <area shape="rect" title="Run a given action &#160;with the relevant IInstance." alt="" coords="5,5,239,60"/>
 <area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_manager.html#a80956df7c531cd3cf662dab797ab2c82" title="Get the IInstanceReference associated with given metadata ." alt="" coords="287,13,545,53"/>
 </map>
@@ -539,20 +539,20 @@ Here is the call graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_component_interfacing_controller_a5a56b67b5565db25af2db5daee576ad8_icgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_component_interfacing_controller_a5a56b67b5565db25af2db5daee576ad8_icgraph" alt=""/></div>
-<map name="aclass_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_component_interfacing_controller_a5a56b67b5565db25af2db5daee576ad8_icgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_component_interfacing_controller_a5a56b67b5565db25af2db5daee576ad8_icgraph">
+<div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_component_interfacing_controller_a5f14b9df1b1871f942ea7d19efe3a7d0_icgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_component_interfacing_controller_a5f14b9df1b1871f942ea7d19efe3a7d0_icgraph" alt=""/></div>
+<map name="aclass_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_component_interfacing_controller_a5f14b9df1b1871f942ea7d19efe3a7d0_icgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_component_interfacing_controller_a5f14b9df1b1871f942ea7d19efe3a7d0_icgraph">
 <area shape="rect" title="Run a given action &#160;with the relevant IInstance." alt="" coords="297,318,531,373"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_chat_controller.html#adbe7a715e0df8bba87014be9e29555f9" title="Create a new chat bot model ." alt="" coords="19,5,235,45"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#a12f8174933870e22f21cf34497e49789" title="Begin cloning the repository if it doesn&#39;t exist." alt="" coords="19,69,235,109"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_configuration_controller.html#a89959c527a40371fa4f4c3f82ad15828" title="Create a configuration directory." alt="" coords="5,133,249,173"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_configuration_controller.html#ae4fbaa774b0c8f4c4693988e37e0bb08" title="Deletes an empty directory ." alt="" coords="6,197,249,237"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_configuration_controller.html#a6706cf6dc4fa13b3934cf7e0e1a50b1c" title="Get the contents of a file at a filePath ." alt="" coords="19,261,235,301"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#ad57c46f8518725528dc5df0c4020d48c" title="Get the repository&#39;s status." alt="" coords="19,325,235,365"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_byond_controller.html#aad1b13d8c14d668e2715afe8eae21fc4" title="Changes the active BYOND version to the one specified in a given model ." alt="" coords="19,389,235,429"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_chat_controller.html#a9526e569e4152295283ac186951ce699" title="Updates a chat bot model ." alt="" coords="19,453,235,493"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_configuration_controller.html#a102d0e5dc3a4206d302ea68c6918069d" title="Write to a configuration file." alt="" coords="19,517,235,557"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_dream_daemon_controller.html#a42c8f601481295270724f874272896bb" title="Update watchdog settings to be applied at next server reboot." alt="" coords="19,581,235,621"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#a9f7b3bc7b210f85dbadaa04295ae0c92" title="Perform updates to the repository." alt="" coords="19,645,235,685"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_chat_controller.html#a930c1ed07039457ab6f9a8751fd462a6" title="Create a new chat bot model ." alt="" coords="19,5,235,45"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#ac7a15de6e6b871bb48a39a4103fae82b" title="Begin cloning the repository if it doesn&#39;t exist." alt="" coords="19,69,235,109"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_configuration_controller.html#ad027b48cbc062a6a109c68c1f36db53e" title="Create a configuration directory." alt="" coords="5,133,249,173"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_configuration_controller.html#a05490adb221b9e0954caa76167121d33" title="Deletes an empty directory ." alt="" coords="6,197,249,237"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_configuration_controller.html#aad0135f549d1c973f2a144b55fbf40b9" title="Get the contents of a file at a filePath ." alt="" coords="19,261,235,301"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#a193a9906e18dd87c1f5d730bcd6f5613" title="Get the repository&#39;s status." alt="" coords="19,325,235,365"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_byond_controller.html#a144dfdf339174acb4f63c2dc5567622d" title="Changes the active BYOND version to the one specified in a given model ." alt="" coords="19,389,235,429"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_chat_controller.html#a896419e100fc2c903dcebc89646cdf6a" title="Updates a chat bot model ." alt="" coords="19,453,235,493"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_configuration_controller.html#a2a376160593ef985968f01f7dd93d24f" title="Write to a configuration file." alt="" coords="19,517,235,557"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_dream_daemon_controller.html#aedb524ec7c65c10a241fc3d177902995" title="Update watchdog settings to be applied at next server reboot." alt="" coords="19,581,235,621"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#ac4cbbd1105362b5a24122cac252143af" title="Perform updates to the repository." alt="" coords="19,645,235,685"/>
 </map>
 </div>
 

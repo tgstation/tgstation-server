@@ -1,5 +1,5 @@
 <map id="Tgstation.Server.Host.Components.Byond.ByondManager.CheckVersionParameter" name="Tgstation.Server.Host.Components.Byond.ByondManager.CheckVersionParameter">
 <area shape="rect" id="node1" title="Validates a given version &#160;parameter." alt="" coords="292,37,583,77"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_manager.html#a6def087723e66e640dde136d3d26b056" title="Change the active BYOND version. A Task representing the running operation." alt="" coords="5,5,244,45"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_manager.html#aa8974e0ffd8ea0cd9d2cc3f76ccebfe7" title="Deletes a given BYOND version from the disk. A Task representing the running operation." alt="" coords="9,69,240,109"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_manager.html#a59f8a7d39d80d876f2ee18079a65dde1" title="Change the active BYOND version. A ValueTask representing the running operation." alt="" coords="5,5,244,45"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_manager.html#a69c2b32cc6afa514435757ec85f298af" title="Deletes a given BYOND version from the disk. A ValueTask representing the running operation." alt="" coords="9,69,240,109"/>
 </map>

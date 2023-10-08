@@ -1,5 +1,5 @@
 <map id="Tgstation.Server.Host.Core.IServerControl.TryStartUpdate" name="Tgstation.Server.Host.Core.IServerControl.TryStartUpdate">
 <area shape="rect" id="node1" title="Attempt to update with a given updateExecutor ." alt="" coords="495,29,691,69"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#a1b6b860492eec3c1de2f26e542243c9f" title="Start the process of downloading and applying an update to a new server version. Doesn&#39;t perform argu..." alt="" coords="237,29,447,69"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#ab65eab64218a91f87b201b8fce889f98" title="Start the process of downloading and applying an update to a new server version . A Task&lt;TResult&gt; res..." alt="" coords="5,29,189,69"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#aa4825cd1baecd982d6a92d2b5a791cce" title="Start the process of downloading and applying an update to a new server version. Doesn&#39;t perform argu..." alt="" coords="237,29,447,69"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#aed35d481c2d0ca721b17f811ba9a9b04" title="Start the process of downloading and applying an update to a new server version . A ValueTask&lt;TResult..." alt="" coords="5,29,189,69"/>
 </map>

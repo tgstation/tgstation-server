@@ -1,7 +1,0 @@
-<map id="Tgstation.Server.Host.Swarm.ISwarmUpdateAborter.AbortUpdate" name="Tgstation.Server.Host.Swarm.ISwarmUpdateAborter.AbortUpdate">
-<area shape="rect" id="node1" title="Attempt to abort an uncommitted update." alt="" coords="789,37,1016,77"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_swarm_controller.html#a27472fcec2a134ee4af805f0b3bd4b50" title="Update abort endpoint." alt="" coords="525,5,741,45"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#ab6b973d68183ae6478ad7fa671060be3" title="Attempt to abort a prepared swarm update." alt="" coords="543,69,724,109"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#a3b704ff1a08b3a9462a71884c52b5a25" title="Executes a pending server update by extracting the new server to a given updatePath ...." alt="" coords="5,69,203,109"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#a9027b73a78741455dc7020c6b0d19860" title="Prepares the swarm update, deletes the stagingDirectory , and buffers the ServerUpdateOperation...." alt="" coords="251,94,477,149"/>
-</map>

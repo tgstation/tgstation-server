@@ -134,8 +134,8 @@ Public Member Functions</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>A Task representing the running operation.</dd></dl>
   <a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_installer_base.html#a26fd27ae8ad551f07cb655309bed6830">More...</a><br /></td></tr>
 <tr class="separator:a26fd27ae8ad551f07cb655309bed6830"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a833919a1f025e3006981db0102147ec1"><td class="memItemLeft" align="right" valign="top">abstract Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_installer_base.html#a833919a1f025e3006981db0102147ec1">InstallByond</a> (Version version, string path, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a833919a1f025e3006981db0102147ec1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Does actions necessary to get an extracted BYOND installation working. <dl class="params"><dt>Parameters</dt><dd>
+<tr class="memitem:a5942016d5cffa3dba079cf4a78b3f479"><td class="memItemLeft" align="right" valign="top">abstract ValueTask&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_installer_base.html#a5942016d5cffa3dba079cf4a78b3f479">InstallByond</a> (Version version, string path, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a5942016d5cffa3dba079cf4a78b3f479"><td class="mdescLeft">&#160;</td><td class="mdescRight">Does actions necessary to get an extracted BYOND installation working. <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">version</td><td>The Version of BYOND being installed.</td></tr>
     <tr><td class="paramname">path</td><td>The path to the BYOND installation.</td></tr>
@@ -143,11 +143,11 @@ Public Member Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A Task representing the running operation.</dd></dl>
-  <a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_installer_base.html#a833919a1f025e3006981db0102147ec1">More...</a><br /></td></tr>
-<tr class="separator:a833919a1f025e3006981db0102147ec1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac89f0a97bf70874ad650e3d174fd1066"><td class="memItemLeft" align="right" valign="top">abstract Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_installer_base.html#ac89f0a97bf70874ad650e3d174fd1066">UpgradeInstallation</a> (Version version, string path, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:ac89f0a97bf70874ad650e3d174fd1066"><td class="mdescLeft">&#160;</td><td class="mdescRight">Does actions necessary to get upgrade a BYOND version installed by a previous version of TGS. <dl class="params"><dt>Parameters</dt><dd>
+<dl class="section return"><dt>Returns</dt><dd>A ValueTask representing the running operation.</dd></dl>
+  <a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_installer_base.html#a5942016d5cffa3dba079cf4a78b3f479">More...</a><br /></td></tr>
+<tr class="separator:a5942016d5cffa3dba079cf4a78b3f479"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acacfb6ac3a669122917f7daf442f2feb"><td class="memItemLeft" align="right" valign="top">abstract ValueTask&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_installer_base.html#acacfb6ac3a669122917f7daf442f2feb">UpgradeInstallation</a> (Version version, string path, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:acacfb6ac3a669122917f7daf442f2feb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Does actions necessary to get upgrade a BYOND version installed by a previous version of TGS. <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">version</td><td>The Version of BYOND being installed.</td></tr>
     <tr><td class="paramname">path</td><td>The path to the BYOND installation.</td></tr>
@@ -155,32 +155,32 @@ Public Member Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A Task representing the running operation.</dd></dl>
-  <a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_installer_base.html#ac89f0a97bf70874ad650e3d174fd1066">More...</a><br /></td></tr>
-<tr class="separator:ac89f0a97bf70874ad650e3d174fd1066"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a34339893f85b4a30c4fb0d5857138b07"><td class="memItemLeft" align="right" valign="top">async Task&lt; MemoryStream &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_installer_base.html#a34339893f85b4a30c4fb0d5857138b07">DownloadVersion</a> (Version version, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a34339893f85b4a30c4fb0d5857138b07"><td class="mdescLeft">&#160;</td><td class="mdescRight">Download a given BYOND <em>version</em> . <dl class="params"><dt>Parameters</dt><dd>
+<dl class="section return"><dt>Returns</dt><dd>A ValueTask representing the running operation.</dd></dl>
+  <a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_installer_base.html#acacfb6ac3a669122917f7daf442f2feb">More...</a><br /></td></tr>
+<tr class="separator:acacfb6ac3a669122917f7daf442f2feb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae3716e43da0451d7f525fb7bb2ad39e9"><td class="memItemLeft" align="right" valign="top">async ValueTask&lt; MemoryStream &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_installer_base.html#ae3716e43da0451d7f525fb7bb2ad39e9">DownloadVersion</a> (Version version, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:ae3716e43da0451d7f525fb7bb2ad39e9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Download a given BYOND <em>version</em> . <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">version</td><td>The Version of BYOND to download.</td></tr>
     <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in a MemoryStream of the zipfile.</dd></dl>
-  <a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_installer_base.html#a34339893f85b4a30c4fb0d5857138b07">More...</a><br /></td></tr>
-<tr class="separator:a34339893f85b4a30c4fb0d5857138b07"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<dl class="section return"><dt>Returns</dt><dd>A ValueTask&lt;TResult&gt; resulting in a MemoryStream of the zipfile.</dd></dl>
+  <a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_installer_base.html#ae3716e43da0451d7f525fb7bb2ad39e9">More...</a><br /></td></tr>
+<tr class="separator:ae3716e43da0451d7f525fb7bb2ad39e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac4a4e484d580ed6af029a30805f64b2d"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_i_byond_installer.html#ac4a4e484d580ed6af029a30805f64b2d">GetDreamDaemonName</a> (Version version, out bool supportsCli, out bool supportsMapThreads)</td></tr>
 <tr class="memdesc:ac4a4e484d580ed6af029a30805f64b2d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the file name of the DreamDaemon executable.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_i_byond_installer.html#ac4a4e484d580ed6af029a30805f64b2d">More...</a><br /></td></tr>
 <tr class="separator:ac4a4e484d580ed6af029a30805f64b2d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3dece46e4e2a217266248a534ae33089"><td class="memItemLeft" align="right" valign="top">Task&lt; MemoryStream &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_i_byond_installer.html#a3dece46e4e2a217266248a534ae33089">DownloadVersion</a> (Version version, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a3dece46e4e2a217266248a534ae33089"><td class="mdescLeft">&#160;</td><td class="mdescRight">Download a given BYOND <em>version</em> .   <a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_i_byond_installer.html#a3dece46e4e2a217266248a534ae33089">More...</a><br /></td></tr>
-<tr class="separator:a3dece46e4e2a217266248a534ae33089"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aaedded8b0753db439df62a1e1dd4852a"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_i_byond_installer.html#aaedded8b0753db439df62a1e1dd4852a">InstallByond</a> (Version version, string path, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:aaedded8b0753db439df62a1e1dd4852a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Does actions necessary to get an extracted BYOND installation working.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_i_byond_installer.html#aaedded8b0753db439df62a1e1dd4852a">More...</a><br /></td></tr>
-<tr class="separator:aaedded8b0753db439df62a1e1dd4852a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad3810330f7cdb86dd7235213debea1d6"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_i_byond_installer.html#ad3810330f7cdb86dd7235213debea1d6">UpgradeInstallation</a> (Version version, string path, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:ad3810330f7cdb86dd7235213debea1d6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Does actions necessary to get upgrade a BYOND version installed by a previous version of TGS.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_i_byond_installer.html#ad3810330f7cdb86dd7235213debea1d6">More...</a><br /></td></tr>
-<tr class="separator:ad3810330f7cdb86dd7235213debea1d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a98e66646cc969f2877c58b3b920183f8"><td class="memItemLeft" align="right" valign="top">ValueTask&lt; MemoryStream &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_i_byond_installer.html#a98e66646cc969f2877c58b3b920183f8">DownloadVersion</a> (Version version, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a98e66646cc969f2877c58b3b920183f8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Download a given BYOND <em>version</em> .   <a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_i_byond_installer.html#a98e66646cc969f2877c58b3b920183f8">More...</a><br /></td></tr>
+<tr class="separator:a98e66646cc969f2877c58b3b920183f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4c004f2348d6293e6c9143cae4ce3259"><td class="memItemLeft" align="right" valign="top">ValueTask&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_i_byond_installer.html#a4c004f2348d6293e6c9143cae4ce3259">InstallByond</a> (Version version, string path, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a4c004f2348d6293e6c9143cae4ce3259"><td class="mdescLeft">&#160;</td><td class="mdescRight">Does actions necessary to get an extracted BYOND installation working.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_i_byond_installer.html#a4c004f2348d6293e6c9143cae4ce3259">More...</a><br /></td></tr>
+<tr class="separator:a4c004f2348d6293e6c9143cae4ce3259"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a033e0b39432972dbf34bf89b96c856be"><td class="memItemLeft" align="right" valign="top">ValueTask&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_i_byond_installer.html#a033e0b39432972dbf34bf89b96c856be">UpgradeInstallation</a> (Version version, string path, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a033e0b39432972dbf34bf89b96c856be"><td class="mdescLeft">&#160;</td><td class="mdescRight">Does actions necessary to get upgrade a BYOND version installed by a previous version of TGS.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_i_byond_installer.html#a033e0b39432972dbf34bf89b96c856be">More...</a><br /></td></tr>
+<tr class="separator:a033e0b39432972dbf34bf89b96c856be"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad014a7849a1246dc316a9ac3d8a43d16"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_i_byond_installer.html#ad014a7849a1246dc316a9ac3d8a43d16">CleanCache</a> (CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:ad014a7849a1246dc316a9ac3d8a43d16"><td class="mdescLeft">&#160;</td><td class="mdescRight">Attempts to cleans the BYOND cache folder for the system.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_i_byond_installer.html#ad014a7849a1246dc316a9ac3d8a43d16">More...</a><br /></td></tr>
 <tr class="separator:ad014a7849a1246dc316a9ac3d8a43d16"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -338,15 +338,11 @@ Static Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">   77</span>                        <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_installer_base.html#a4f8d03c61dfdd7c1a60c6b495288806f">CacheDirectoryName</a>),</div>
 <div class="line"><span class="lineno">   78</span>                    cancellationToken);</div>
 <div class="line"><span class="lineno">   79</span>            }</div>
-<div class="line"><span class="lineno">   80</span>            <span class="keywordflow">catch</span> (OperationCanceledException)</div>
+<div class="line"><span class="lineno">   80</span>            <span class="keywordflow">catch</span> (Exception ex) when (ex is not OperationCanceledException)</div>
 <div class="line"><span class="lineno">   81</span>            {</div>
-<div class="line"><span class="lineno">   82</span>                <span class="keywordflow">throw</span>;</div>
+<div class="line"><span class="lineno">   82</span>                <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_installer_base.html#a7e847c327e2f2b6ccfde15c3c0825b2f">Logger</a>.LogWarning(ex, <span class="stringliteral">&quot;Error deleting BYOND cache!&quot;</span>);</div>
 <div class="line"><span class="lineno">   83</span>            }</div>
-<div class="line"><span class="lineno">   84</span>            <span class="keywordflow">catch</span> (Exception e)</div>
-<div class="line"><span class="lineno">   85</span>            {</div>
-<div class="line"><span class="lineno">   86</span>                <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_installer_base.html#a7e847c327e2f2b6ccfde15c3c0825b2f">Logger</a>.LogWarning(e, <span class="stringliteral">&quot;Error deleting BYOND cache!&quot;</span>);</div>
-<div class="line"><span class="lineno">   87</span>            }</div>
-<div class="line"><span class="lineno">   88</span>        }</div>
+<div class="line"><span class="lineno">   84</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_installer_base_html_a4f8d03c61dfdd7c1a60c6b495288806f"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_installer_base.html#a4f8d03c61dfdd7c1a60c6b495288806f">Tgstation.Server.Host.Components.Byond.ByondInstallerBase.CacheDirectoryName</a></div><div class="ttdeci">const string CacheDirectoryName</div><div class="ttdoc">The name of BYOND's cache directory.</div><div class="ttdef"><b>Definition:</b> <a href="_byond_installer_base_8cs_source.html#l00019">ByondInstallerBase.cs:19</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_installer_base_html_a679ae28275514213de77b1f1a2fc94ff"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_installer_base.html#a679ae28275514213de77b1f1a2fc94ff">Tgstation.Server.Host.Components.Byond.ByondInstallerBase.PathToUserByondFolder</a></div><div class="ttdeci">abstract string PathToUserByondFolder</div><div class="ttdoc">The path to the BYOND folder for the user.</div><div class="ttdef"><b>Definition:</b> <a href="_byond_installer_base_8cs_source.html#l00030">ByondInstallerBase.cs:30</a></div></div>
 <div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager_html_a286f4eb5c679683b7e519847a6c3574e"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a286f4eb5c679683b7e519847a6c3574e">Tgstation.Server.Host.IO.IIOManager.ConcatPath</a></div><div class="ttdeci">string ConcatPath(params string[] paths)</div><div class="ttdoc">Combines an array of strings into a path.</div></div>
@@ -366,14 +362,14 @@ Here is the call graph for this function:</div>
 
 </div>
 </div>
-<a id="a34339893f85b4a30c4fb0d5857138b07" name="a34339893f85b4a30c4fb0d5857138b07"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a34339893f85b4a30c4fb0d5857138b07">&#9670;&#160;</a></span>DownloadVersion()</h2>
+<a id="ae3716e43da0451d7f525fb7bb2ad39e9" name="ae3716e43da0451d7f525fb7bb2ad39e9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae3716e43da0451d7f525fb7bb2ad39e9">&#9670;&#160;</a></span>DownloadVersion()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">async Task&lt; MemoryStream &gt; Tgstation.Server.Host.Components.Byond.ByondInstallerBase.DownloadVersion </td>
+          <td class="memname">async ValueTask&lt; MemoryStream &gt; Tgstation.Server.Host.Components.Byond.ByondInstallerBase.DownloadVersion </td>
           <td>(</td>
           <td class="paramtype">Version&#160;</td>
           <td class="paramname"><em>version</em>, </td>
@@ -399,23 +395,23 @@ Here is the call graph for this function:</div>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in a MemoryStream of the zipfile.</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A ValueTask&lt;TResult&gt; resulting in a MemoryStream of the zipfile.</dd></dl>
  </p>
 
-<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_i_byond_installer.html#a3dece46e4e2a217266248a534ae33089">Tgstation.Server.Host.Components.Byond.IByondInstaller</a>.</p>
+<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_i_byond_installer.html#a98e66646cc969f2877c58b3b920183f8">Tgstation.Server.Host.Components.Byond.IByondInstaller</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_byond_installer_base_8cs_source.html#l00097">97</a> of file <a class="el" href="_byond_installer_base_8cs_source.html">ByondInstallerBase.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   98</span>        {</div>
-<div class="line"><span class="lineno">   99</span>            ArgumentNullException.ThrowIfNull(version);</div>
-<div class="line"><span class="lineno">  100</span> </div>
-<div class="line"><span class="lineno">  101</span>            <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_installer_base.html#a7e847c327e2f2b6ccfde15c3c0825b2f">Logger</a>.LogTrace(<span class="stringliteral">&quot;Downloading BYOND version {major}.{minor}...&quot;</span>, version.Major, version.Minor);</div>
-<div class="line"><span class="lineno">  102</span>            var url = String.Format(CultureInfo.InvariantCulture, <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_installer_base.html#a892ce181d4bc0b58d1601d09f6d58674">ByondRevisionsUrlTemplate</a>, version.Major, version.Minor);</div>
-<div class="line"><span class="lineno">  103</span> </div>
-<div class="line"><span class="lineno">  104</span>            await <span class="keyword">using </span>var download = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_installer_base.html#a61ed80e3a0bf0cd2860e547d5b0c7668">fileDownloader</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_file_downloader.html#ac81250678243dbd567a9283ea40ee2a7">DownloadFile</a>(<span class="keyword">new</span> Uri(url), <span class="keyword">null</span>);</div>
-<div class="line"><span class="lineno">  105</span>            await <span class="keyword">using </span>var buffer = <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_buffered_file_stream_provider.html">BufferedFileStreamProvider</a>(</div>
-<div class="line"><span class="lineno">  106</span>                await download.GetResult(cancellationToken));</div>
-<div class="line"><span class="lineno">  107</span>            <span class="keywordflow">return</span> await buffer.GetOwnedResult(cancellationToken);</div>
-<div class="line"><span class="lineno">  108</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_byond_installer_base_8cs_source.html#l00093">93</a> of file <a class="el" href="_byond_installer_base_8cs_source.html">ByondInstallerBase.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   94</span>        {</div>
+<div class="line"><span class="lineno">   95</span>            ArgumentNullException.ThrowIfNull(version);</div>
+<div class="line"><span class="lineno">   96</span> </div>
+<div class="line"><span class="lineno">   97</span>            <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_installer_base.html#a7e847c327e2f2b6ccfde15c3c0825b2f">Logger</a>.LogTrace(<span class="stringliteral">&quot;Downloading BYOND version {major}.{minor}...&quot;</span>, version.Major, version.Minor);</div>
+<div class="line"><span class="lineno">   98</span>            var url = String.Format(CultureInfo.InvariantCulture, <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_installer_base.html#a892ce181d4bc0b58d1601d09f6d58674">ByondRevisionsUrlTemplate</a>, version.Major, version.Minor);</div>
+<div class="line"><span class="lineno">   99</span> </div>
+<div class="line"><span class="lineno">  100</span>            await <span class="keyword">using </span>var download = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_installer_base.html#a61ed80e3a0bf0cd2860e547d5b0c7668">fileDownloader</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_file_downloader.html#ac81250678243dbd567a9283ea40ee2a7">DownloadFile</a>(<span class="keyword">new</span> Uri(url), <span class="keyword">null</span>);</div>
+<div class="line"><span class="lineno">  101</span>            await <span class="keyword">using </span>var buffer = <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_buffered_file_stream_provider.html">BufferedFileStreamProvider</a>(</div>
+<div class="line"><span class="lineno">  102</span>                await download.GetResult(cancellationToken));</div>
+<div class="line"><span class="lineno">  103</span>            <span class="keywordflow">return</span> await buffer.GetOwnedResult(cancellationToken);</div>
+<div class="line"><span class="lineno">  104</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_installer_base_html_a892ce181d4bc0b58d1601d09f6d58674"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_installer_base.html#a892ce181d4bc0b58d1601d09f6d58674">Tgstation.Server.Host.Components.Byond.ByondInstallerBase.ByondRevisionsUrlTemplate</a></div><div class="ttdeci">abstract string ByondRevisionsUrlTemplate</div><div class="ttdoc">Gets the URL formatter string for downloading a byond version of {0:Major} {1:Minor}.</div><div class="ttdef"><b>Definition:</b> <a href="_byond_installer_base_8cs_source.html#l00035">ByondInstallerBase.cs:35</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_buffered_file_stream_provider_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_buffered_file_stream_provider.html">Tgstation.Server.Host.IO.BufferedFileStreamProvider</a></div><div class="ttdoc">IFileStreamProvider that provides a ISeekableFileStreamProvider from an input Stream.</div><div class="ttdef"><b>Definition:</b> <a href="_buffered_file_stream_provider_8cs_source.html#l00013">BufferedFileStreamProvider.cs:14</a></div></div>
 <div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_file_downloader_html_ac81250678243dbd567a9283ea40ee2a7"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_file_downloader.html#ac81250678243dbd567a9283ea40ee2a7">Tgstation.Server.Host.IO.IFileDownloader.DownloadFile</a></div><div class="ttdeci">IFileStreamProvider DownloadFile(Uri url, string bearerToken)</div><div class="ttdoc">Downloads a file from a given url .</div></div>
@@ -424,9 +420,9 @@ Here is the call graph for this function:</div>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_installer_base_a34339893f85b4a30c4fb0d5857138b07_cgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_installer_base_a34339893f85b4a30c4fb0d5857138b07_cgraph" alt=""/></div>
-<map name="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_installer_base_a34339893f85b4a30c4fb0d5857138b07_cgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_installer_base_a34339893f85b4a30c4fb0d5857138b07_cgraph">
-<area shape="rect" title="Download a given BYOND version . A Task&lt;TResult&gt; resulting in a MemoryStream of the zipfile." alt="" coords="5,5,283,45"/>
+<div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_installer_base_ae3716e43da0451d7f525fb7bb2ad39e9_cgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_installer_base_ae3716e43da0451d7f525fb7bb2ad39e9_cgraph" alt=""/></div>
+<map name="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_installer_base_ae3716e43da0451d7f525fb7bb2ad39e9_cgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_installer_base_ae3716e43da0451d7f525fb7bb2ad39e9_cgraph">
+<area shape="rect" title="Download a given BYOND version . A ValueTask&lt;TResult&gt; resulting in a MemoryStream of the zipfile." alt="" coords="5,5,283,45"/>
 <area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_file_downloader.html#ac81250678243dbd567a9283ea40ee2a7" title="Downloads a file from a given url ." alt="" coords="331,5,527,45"/>
 </map>
 </div>
@@ -490,8 +486,8 @@ Here is the call graph for this function:</div>
 
 </div>
 </div>
-<a id="a833919a1f025e3006981db0102147ec1" name="a833919a1f025e3006981db0102147ec1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a833919a1f025e3006981db0102147ec1">&#9670;&#160;</a></span>InstallByond()</h2>
+<a id="a5942016d5cffa3dba079cf4a78b3f479" name="a5942016d5cffa3dba079cf4a78b3f479"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5942016d5cffa3dba079cf4a78b3f479">&#9670;&#160;</a></span>InstallByond()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -500,7 +496,7 @@ Here is the call graph for this function:</div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">abstract Task Tgstation.Server.Host.Components.Byond.ByondInstallerBase.InstallByond </td>
+          <td class="memname">abstract ValueTask Tgstation.Server.Host.Components.Byond.ByondInstallerBase.InstallByond </td>
           <td>(</td>
           <td class="paramtype">Version&#160;</td>
           <td class="paramname"><em>version</em>, </td>
@@ -538,17 +534,17 @@ Here is the call graph for this function:</div>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A Task representing the running operation.</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A ValueTask representing the running operation.</dd></dl>
  </p>
 
-<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_i_byond_installer.html#aaedded8b0753db439df62a1e1dd4852a">Tgstation.Server.Host.Components.Byond.IByondInstaller</a>.</p>
+<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_i_byond_installer.html#a4c004f2348d6293e6c9143cae4ce3259">Tgstation.Server.Host.Components.Byond.IByondInstaller</a>.</p>
 
-<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_posix_byond_installer.html#a7c2989ee9127735cc2bb17b668071cc6">Tgstation.Server.Host.Components.Byond.PosixByondInstaller</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_windows_byond_installer.html#a2a38db71313d0a37018e16b39f123083">Tgstation.Server.Host.Components.Byond.WindowsByondInstaller</a>.</p>
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_posix_byond_installer.html#aa214c04d346d734039854b9ebfda4fb6">Tgstation.Server.Host.Components.Byond.PosixByondInstaller</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_windows_byond_installer.html#a580dccfc1c4693e9badbb0f9b05f0324">Tgstation.Server.Host.Components.Byond.WindowsByondInstaller</a>.</p>
 
 </div>
 </div>
-<a id="ac89f0a97bf70874ad650e3d174fd1066" name="ac89f0a97bf70874ad650e3d174fd1066"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac89f0a97bf70874ad650e3d174fd1066">&#9670;&#160;</a></span>UpgradeInstallation()</h2>
+<a id="acacfb6ac3a669122917f7daf442f2feb" name="acacfb6ac3a669122917f7daf442f2feb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acacfb6ac3a669122917f7daf442f2feb">&#9670;&#160;</a></span>UpgradeInstallation()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -557,7 +553,7 @@ Here is the call graph for this function:</div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">abstract Task Tgstation.Server.Host.Components.Byond.ByondInstallerBase.UpgradeInstallation </td>
+          <td class="memname">abstract ValueTask Tgstation.Server.Host.Components.Byond.ByondInstallerBase.UpgradeInstallation </td>
           <td>(</td>
           <td class="paramtype">Version&#160;</td>
           <td class="paramname"><em>version</em>, </td>
@@ -595,12 +591,12 @@ Here is the call graph for this function:</div>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A Task representing the running operation.</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A ValueTask representing the running operation.</dd></dl>
  </p>
 
-<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_i_byond_installer.html#ad3810330f7cdb86dd7235213debea1d6">Tgstation.Server.Host.Components.Byond.IByondInstaller</a>.</p>
+<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_i_byond_installer.html#a033e0b39432972dbf34bf89b96c856be">Tgstation.Server.Host.Components.Byond.IByondInstaller</a>.</p>
 
-<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_posix_byond_installer.html#a9dbbff63f0476d12808ca286cf8fe5df">Tgstation.Server.Host.Components.Byond.PosixByondInstaller</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_windows_byond_installer.html#aed52998c731a2e4d43d7bea0f5f0d4fe">Tgstation.Server.Host.Components.Byond.WindowsByondInstaller</a>.</p>
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_posix_byond_installer.html#a1fc83ad767e7ac88c5e5f0547a5b300c">Tgstation.Server.Host.Components.Byond.PosixByondInstaller</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_windows_byond_installer.html#a8001cd50ac313ed6de8e9e6f605a623a">Tgstation.Server.Host.Components.Byond.WindowsByondInstaller</a>.</p>
 
 </div>
 </div>
@@ -657,7 +653,7 @@ Here is the call graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_byond_installer_base_8cs_source.html#l00050">50</a> of file <a class="el" href="_byond_installer_base_8cs_source.html">ByondInstallerBase.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_byond_installer_base_8cs_source.html#l00058">Tgstation.Server.Host.Components.Byond.ByondInstallerBase.ByondInstallerBase()</a>, and <a class="el" href="_byond_installer_base_8cs_source.html#l00097">Tgstation.Server.Host.Components.Byond.ByondInstallerBase.DownloadVersion()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_byond_installer_base_8cs_source.html#l00058">Tgstation.Server.Host.Components.Byond.ByondInstallerBase.ByondInstallerBase()</a>, and <a class="el" href="_byond_installer_base_8cs_source.html#l00093">Tgstation.Server.Host.Components.Byond.ByondInstallerBase.DownloadVersion()</a>.</p>
 
 </div>
 </div>
@@ -687,7 +683,7 @@ Here is the call graph for this function:</div>
 <p class="definition">Definition at line <a class="el" href="_byond_installer_base_8cs_source.html#l00035">35</a> of file <a class="el" href="_byond_installer_base_8cs_source.html">ByondInstallerBase.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   35</span>{ <span class="keyword">get</span>; }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_byond_installer_base_8cs_source.html#l00097">Tgstation.Server.Host.Components.Byond.ByondInstallerBase.DownloadVersion()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_byond_installer_base_8cs_source.html#l00093">Tgstation.Server.Host.Components.Byond.ByondInstallerBase.DownloadVersion()</a>.</p>
 
 </div>
 </div>
@@ -745,7 +741,7 @@ Here is the call graph for this function:</div>
 <p class="definition">Definition at line <a class="el" href="_byond_installer_base_8cs_source.html#l00040">40</a> of file <a class="el" href="_byond_installer_base_8cs_source.html">ByondInstallerBase.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   40</span>{ <span class="keyword">get</span>; }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_windows_byond_installer_8cs_source.html#l00229">Tgstation.Server.Host.Components.Byond.WindowsByondInstaller.AddDreamDaemonToFirewall()</a>, <a class="el" href="_byond_installer_base_8cs_source.html#l00058">Tgstation.Server.Host.Components.Byond.ByondInstallerBase.ByondInstallerBase()</a>, <a class="el" href="_byond_installer_base_8cs_source.html#l00069">Tgstation.Server.Host.Components.Byond.ByondInstallerBase.CleanCache()</a>, <a class="el" href="_posix_byond_installer_8cs_source.html#l00081">Tgstation.Server.Host.Components.Byond.PosixByondInstaller.InstallByond()</a>, <a class="el" href="_windows_byond_installer_8cs_source.html#l00184">Tgstation.Server.Host.Components.Byond.WindowsByondInstaller.InstallDirectX()</a>, <a class="el" href="_posix_byond_installer_8cs_source.html#l00054">Tgstation.Server.Host.Components.Byond.PosixByondInstaller.PosixByondInstaller()</a>, <a class="el" href="_windows_byond_installer_8cs_source.html#l00165">Tgstation.Server.Host.Components.Byond.WindowsByondInstaller.SetNoPromptTrusted()</a>, <a class="el" href="_windows_byond_installer_8cs_source.html#l00141">Tgstation.Server.Host.Components.Byond.WindowsByondInstaller.UpgradeInstallation()</a>, and <a class="el" href="_windows_byond_installer_8cs_source.html#l00091">Tgstation.Server.Host.Components.Byond.WindowsByondInstaller.WindowsByondInstaller()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_windows_byond_installer_8cs_source.html#l00230">Tgstation.Server.Host.Components.Byond.WindowsByondInstaller.AddDreamDaemonToFirewall()</a>, <a class="el" href="_byond_installer_base_8cs_source.html#l00058">Tgstation.Server.Host.Components.Byond.ByondInstallerBase.ByondInstallerBase()</a>, <a class="el" href="_byond_installer_base_8cs_source.html#l00069">Tgstation.Server.Host.Components.Byond.ByondInstallerBase.CleanCache()</a>, <a class="el" href="_posix_byond_installer_8cs_source.html#l00082">Tgstation.Server.Host.Components.Byond.PosixByondInstaller.InstallByond()</a>, <a class="el" href="_windows_byond_installer_8cs_source.html#l00185">Tgstation.Server.Host.Components.Byond.WindowsByondInstaller.InstallDirectX()</a>, <a class="el" href="_posix_byond_installer_8cs_source.html#l00055">Tgstation.Server.Host.Components.Byond.PosixByondInstaller.PosixByondInstaller()</a>, <a class="el" href="_windows_byond_installer_8cs_source.html#l00166">Tgstation.Server.Host.Components.Byond.WindowsByondInstaller.SetNoPromptTrusted()</a>, <a class="el" href="_windows_byond_installer_8cs_source.html#l00142">Tgstation.Server.Host.Components.Byond.WindowsByondInstaller.UpgradeInstallation()</a>, and <a class="el" href="_windows_byond_installer_8cs_source.html#l00092">Tgstation.Server.Host.Components.Byond.WindowsByondInstaller.WindowsByondInstaller()</a>.</p>
 
 </div>
 </div>
@@ -774,7 +770,7 @@ Here is the call graph for this function:</div>
 <p class="definition">Definition at line <a class="el" href="_byond_installer_base_8cs_source.html#l00045">45</a> of file <a class="el" href="_byond_installer_base_8cs_source.html">ByondInstallerBase.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   45</span>{ <span class="keyword">get</span>; }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_windows_byond_installer_8cs_source.html#l00229">Tgstation.Server.Host.Components.Byond.WindowsByondInstaller.AddDreamDaemonToFirewall()</a>, <a class="el" href="_byond_installer_base_8cs_source.html#l00058">Tgstation.Server.Host.Components.Byond.ByondInstallerBase.ByondInstallerBase()</a>, <a class="el" href="_byond_installer_base_8cs_source.html#l00069">Tgstation.Server.Host.Components.Byond.ByondInstallerBase.CleanCache()</a>, <a class="el" href="_byond_installer_base_8cs_source.html#l00097">Tgstation.Server.Host.Components.Byond.ByondInstallerBase.DownloadVersion()</a>, <a class="el" href="_posix_byond_installer_8cs_source.html#l00081">Tgstation.Server.Host.Components.Byond.PosixByondInstaller.InstallByond()</a>, <a class="el" href="_windows_byond_installer_8cs_source.html#l00184">Tgstation.Server.Host.Components.Byond.WindowsByondInstaller.InstallDirectX()</a>, <a class="el" href="_windows_byond_installer_8cs_source.html#l00165">Tgstation.Server.Host.Components.Byond.WindowsByondInstaller.SetNoPromptTrusted()</a>, and <a class="el" href="_windows_byond_installer_8cs_source.html#l00141">Tgstation.Server.Host.Components.Byond.WindowsByondInstaller.UpgradeInstallation()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_windows_byond_installer_8cs_source.html#l00230">Tgstation.Server.Host.Components.Byond.WindowsByondInstaller.AddDreamDaemonToFirewall()</a>, <a class="el" href="_byond_installer_base_8cs_source.html#l00058">Tgstation.Server.Host.Components.Byond.ByondInstallerBase.ByondInstallerBase()</a>, <a class="el" href="_byond_installer_base_8cs_source.html#l00069">Tgstation.Server.Host.Components.Byond.ByondInstallerBase.CleanCache()</a>, <a class="el" href="_byond_installer_base_8cs_source.html#l00093">Tgstation.Server.Host.Components.Byond.ByondInstallerBase.DownloadVersion()</a>, <a class="el" href="_posix_byond_installer_8cs_source.html#l00082">Tgstation.Server.Host.Components.Byond.PosixByondInstaller.InstallByond()</a>, <a class="el" href="_windows_byond_installer_8cs_source.html#l00185">Tgstation.Server.Host.Components.Byond.WindowsByondInstaller.InstallDirectX()</a>, <a class="el" href="_windows_byond_installer_8cs_source.html#l00166">Tgstation.Server.Host.Components.Byond.WindowsByondInstaller.SetNoPromptTrusted()</a>, and <a class="el" href="_windows_byond_installer_8cs_source.html#l00142">Tgstation.Server.Host.Components.Byond.WindowsByondInstaller.UpgradeInstallation()</a>.</p>
 
 </div>
 </div>
@@ -802,7 +798,7 @@ Here is the call graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_byond_installer_base_8cs_source.html#l00024">24</a> of file <a class="el" href="_byond_installer_base_8cs_source.html">ByondInstallerBase.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_posix_byond_installer_8cs_source.html#l00071">Tgstation.Server.Host.Components.Byond.PosixByondInstaller.GetDreamDaemonName()</a>, and <a class="el" href="_windows_byond_installer_8cs_source.html#l00116">Tgstation.Server.Host.Components.Byond.WindowsByondInstaller.GetDreamDaemonName()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_posix_byond_installer_8cs_source.html#l00072">Tgstation.Server.Host.Components.Byond.PosixByondInstaller.GetDreamDaemonName()</a>, and <a class="el" href="_windows_byond_installer_8cs_source.html#l00117">Tgstation.Server.Host.Components.Byond.WindowsByondInstaller.GetDreamDaemonName()</a>.</p>
 
 </div>
 </div>

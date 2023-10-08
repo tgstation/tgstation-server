@@ -1,0 +1,6 @@
+<map id="Tgstation.Server.Host.Components.IInstanceFactory.CreateInstance" name="Tgstation.Server.Host.Components.IInstanceFactory.CreateInstance">
+<area shape="rect" id="node1" title="Create an IInstance." alt="" coords="829,5,1056,45"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#a4dc85f42ec73bd6fd72085969a7c4cb5" title="Online an IInstance. A ValueTask representing the running operation." alt="" coords="555,5,781,45"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#aa70355ebb8437fd170e4f75e826f1ad7" title="Initializes the InstanceManager." alt="" coords="280,5,507,45"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#aa2bcc92fca46ad404800304ce4bdd781" title=" " alt="" coords="5,5,232,45"/>
+</map>

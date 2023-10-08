@@ -99,29 +99,29 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a2fc945f03da3ef6cd356b8e8597e2b55"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html#a2fc945f03da3ef6cd356b8e8597e2b55">SetJobProgress</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_job_response.html">JobResponse</a> apiResponse)</td></tr>
 <tr class="memdesc:a2fc945f03da3ef6cd356b8e8597e2b55"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_job_response.html#a86e3be06465db3073e18bab0d716c9f4" title="Optional progress between 0 and 100 inclusive.">JobResponse.Progress</a> and <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_job_response.html#ab382fa77a6373f833ab25889d6a8704c" title="Optional description of the job&#39;s current .">JobResponse.Stage</a> for a given <em>apiResponse</em> .   <a href="interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html#a2fc945f03da3ef6cd356b8e8597e2b55">More...</a><br /></td></tr>
 <tr class="separator:a2fc945f03da3ef6cd356b8e8597e2b55"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a21be789f798adf9985f2432d3499b4cd"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html#a21be789f798adf9985f2432d3499b4cd">RegisterOperation</a> (<a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_job.html">Job</a> job, <a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_jobs.html#a9a7ee6bec5fdadb933ac6ee7fd1b0c93">JobEntrypoint</a> operation, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a21be789f798adf9985f2432d3499b4cd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Registers a given Job and begins running it.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html#a21be789f798adf9985f2432d3499b4cd">More...</a><br /></td></tr>
-<tr class="separator:a21be789f798adf9985f2432d3499b4cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a04ad7543ef9c8863c1d8d0b46d17f522"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html#a04ad7543ef9c8863c1d8d0b46d17f522">WaitForJobCompletion</a> (<a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_job.html">Job</a> job, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html">User</a> canceller, CancellationToken jobCancellationToken, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a04ad7543ef9c8863c1d8d0b46d17f522"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wait for a given <em>job</em>  to complete.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html#a04ad7543ef9c8863c1d8d0b46d17f522">More...</a><br /></td></tr>
-<tr class="separator:a04ad7543ef9c8863c1d8d0b46d17f522"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4facb1a143c6ee0dd7eae5117befdfda"><td class="memItemLeft" align="right" valign="top">Task&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_job.html">Job</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html#a4facb1a143c6ee0dd7eae5117befdfda">CancelJob</a> (<a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_job.html">Job</a> job, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html">User</a> user, bool blocking, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a4facb1a143c6ee0dd7eae5117befdfda"><td class="mdescLeft">&#160;</td><td class="mdescRight">Cancels a give <em>job</em> .   <a href="interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html#a4facb1a143c6ee0dd7eae5117befdfda">More...</a><br /></td></tr>
-<tr class="separator:a4facb1a143c6ee0dd7eae5117befdfda"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aefaca6d0c2762350a41adfe7daaade95"><td class="memItemLeft" align="right" valign="top">ValueTask&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html#aefaca6d0c2762350a41adfe7daaade95">RegisterOperation</a> (<a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_job.html">Job</a> job, <a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_jobs.html#ad6d7a30f40b17f2a0f95f97fe0d5745a">JobEntrypoint</a> operation, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:aefaca6d0c2762350a41adfe7daaade95"><td class="mdescLeft">&#160;</td><td class="mdescRight">Registers a given Job and begins running it.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html#aefaca6d0c2762350a41adfe7daaade95">More...</a><br /></td></tr>
+<tr class="separator:aefaca6d0c2762350a41adfe7daaade95"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a485010f3175f6ee62625d32db681747a"><td class="memItemLeft" align="right" valign="top">ValueTask&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html#a485010f3175f6ee62625d32db681747a">WaitForJobCompletion</a> (<a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_job.html">Job</a> job, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html">User</a> canceller, CancellationToken jobCancellationToken, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a485010f3175f6ee62625d32db681747a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wait for a given <em>job</em>  to complete.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html#a485010f3175f6ee62625d32db681747a">More...</a><br /></td></tr>
+<tr class="separator:a485010f3175f6ee62625d32db681747a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2ba74523096516f2790a792c9f6bc094"><td class="memItemLeft" align="right" valign="top">ValueTask&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_job.html">Job</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html#a2ba74523096516f2790a792c9f6bc094">CancelJob</a> (<a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_job.html">Job</a> job, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html">User</a> user, bool blocking, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a2ba74523096516f2790a792c9f6bc094"><td class="mdescLeft">&#160;</td><td class="mdescRight">Cancels a give <em>job</em> .   <a href="interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html#a2ba74523096516f2790a792c9f6bc094">More...</a><br /></td></tr>
+<tr class="separator:a2ba74523096516f2790a792c9f6bc094"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p >Manages the runtime of Jobs.  </p>
 
 <p class="definition">Definition at line <a class="el" href="_i_job_manager_8cs_source.html#l00012">12</a> of file <a class="el" href="_i_job_manager_8cs_source.html">IJobManager.cs</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a id="a4facb1a143c6ee0dd7eae5117befdfda" name="a4facb1a143c6ee0dd7eae5117befdfda"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4facb1a143c6ee0dd7eae5117befdfda">&#9670;&#160;</a></span>CancelJob()</h2>
+<a id="a2ba74523096516f2790a792c9f6bc094" name="a2ba74523096516f2790a792c9f6bc094"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2ba74523096516f2790a792c9f6bc094">&#9670;&#160;</a></span>CancelJob()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">Task&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_job.html">Job</a> &gt; Tgstation.Server.Host.Jobs.IJobManager.CancelJob </td>
+          <td class="memname">ValueTask&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_job.html">Job</a> &gt; Tgstation.Server.Host.Jobs.IJobManager.CancelJob </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_job.html">Job</a>&#160;</td>
           <td class="paramname"><em>job</em>, </td>
@@ -162,32 +162,32 @@ Public Member Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in the updated <em>job</em>  if it was cancelled, <code>null</code> if it couldn't be found.</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A ValueTask&lt;TResult&gt; resulting in the updated <em>job</em>  if it was cancelled, <code>null</code> if it couldn't be found.</dd></dl>
 
-<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#a9e21547ef3576e2b185d53d2dc025c50">Tgstation.Server.Host.Jobs.JobService</a>.</p>
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#ac02a1b04fe68e66782a63c3724989457">Tgstation.Server.Host.Jobs.JobService</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_job_controller_8cs_source.html#l00123">Tgstation.Server.Host.Controllers.JobController.Delete()</a>, and <a class="el" href="_instance_manager_8cs_source.html#l00320">Tgstation.Server.Host.Components.InstanceManager.OfflineInstance()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_job_controller_8cs_source.html#l00123">Tgstation.Server.Host.Controllers.JobController.Delete()</a>, and <a class="el" href="_instance_manager_8cs_source.html#l00321">Tgstation.Server.Host.Components.InstanceManager.OfflineInstance()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager_a4facb1a143c6ee0dd7eae5117befdfda_icgraph.png" border="0" usemap="#ainterface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager_a4facb1a143c6ee0dd7eae5117befdfda_icgraph" alt=""/></div>
-<map name="ainterface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager_a4facb1a143c6ee0dd7eae5117befdfda_icgraph" id="ainterface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager_a4facb1a143c6ee0dd7eae5117befdfda_icgraph">
+<div class="center"><img src="interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager_a2ba74523096516f2790a792c9f6bc094_icgraph.png" border="0" usemap="#ainterface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager_a2ba74523096516f2790a792c9f6bc094_icgraph" alt=""/></div>
+<map name="ainterface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager_a2ba74523096516f2790a792c9f6bc094_icgraph" id="ainterface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager_a2ba74523096516f2790a792c9f6bc094_icgraph">
 <area shape="rect" title="Cancels a give job ." alt="" coords="280,37,463,77"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_job_controller.html#a71f267db8b3eef9da5ea73fa6b82bd0c" title="Cancel a running JobResponse." alt="" coords="11,5,227,45"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#a77615fe1970391e6ebe643dc3033156f" title=" " alt="" coords="5,69,232,109"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_job_controller.html#a3f98fb2e4e46b96258839c5cfe3665c2" title="Cancel a running JobResponse." alt="" coords="11,5,227,45"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#ada6fd57634001ad160058642f5c86ddd" title=" " alt="" coords="5,69,232,109"/>
 </map>
 </div>
 
 </div>
 </div>
-<a id="a21be789f798adf9985f2432d3499b4cd" name="a21be789f798adf9985f2432d3499b4cd"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a21be789f798adf9985f2432d3499b4cd">&#9670;&#160;</a></span>RegisterOperation()</h2>
+<a id="aefaca6d0c2762350a41adfe7daaade95" name="aefaca6d0c2762350a41adfe7daaade95"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aefaca6d0c2762350a41adfe7daaade95">&#9670;&#160;</a></span>RegisterOperation()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">Task Tgstation.Server.Host.Jobs.IJobManager.RegisterOperation </td>
+          <td class="memname">ValueTask Tgstation.Server.Host.Jobs.IJobManager.RegisterOperation </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_job.html">Job</a>&#160;</td>
           <td class="paramname"><em>job</em>, </td>
@@ -195,7 +195,7 @@ Here is the caller graph for this function:</div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_jobs.html#a9a7ee6bec5fdadb933ac6ee7fd1b0c93">JobEntrypoint</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_jobs.html#ad6d7a30f40b17f2a0f95f97fe0d5745a">JobEntrypoint</a>&#160;</td>
           <td class="paramname"><em>operation</em>, </td>
         </tr>
         <tr>
@@ -216,34 +216,34 @@ Here is the caller graph for this function:</div>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">job</td><td>The Job. Should at least have <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_job.html#acebd359c2b46a97a5ddf7c6c9c4f9eb7" title="The Models.Instance the job belongs to if any.">Job.Instance</a> and <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_job.html#a3898828f81135947949d8f1083a71a10" title="English description of the Job.">Api.Models.Internal.Job.Description</a>. If <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_job.html#aeb64c30e0787225682030adf2d2af036" title="See JobResponse.StartedBy.">Job.StartedBy</a> is <code>null</code>, the TGS user will be used.</td></tr>
-    <tr><td class="paramname">operation</td><td>The <a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_jobs.html#a9a7ee6bec5fdadb933ac6ee7fd1b0c93" title="Entrypoint for running a given job.">JobEntrypoint</a> for the <em>job</em> .</td></tr>
+    <tr><td class="paramname">operation</td><td>The <a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_jobs.html#ad6d7a30f40b17f2a0f95f97fe0d5745a" title="Entrypoint for running a given job.">JobEntrypoint</a> for the <em>job</em> .</td></tr>
     <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A Task representing a running operation.</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A ValueTask representing a running operation.</dd></dl>
 
-<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#a3377ee874856ca422c16558894e158e6">Tgstation.Server.Host.Jobs.JobService</a>.</p>
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#af2255b562972f70a638cf93cd830b6a9">Tgstation.Server.Host.Jobs.JobService</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_repository_controller_8cs_source.html#l00083">Tgstation.Server.Host.Controllers.RepositoryController.Create()</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_dream_daemon_controller.html#a44cdf174ed850657340752311d65c996">Tgstation.Server.Host.Controllers.DreamDaemonController.Create()</a>, <a class="el" href="_dream_maker_controller_8cs_source.html#l00140">Tgstation.Server.Host.Controllers.DreamMakerController.Create()</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_dream_daemon_controller.html#a36861b8a815525a546845ffd57cd3f1f">Tgstation.Server.Host.Controllers.DreamDaemonController.CreateDump()</a>, <a class="el" href="_repository_controller_8cs_source.html#l00203">Tgstation.Server.Host.Controllers.RepositoryController.Delete()</a>, <a class="el" href="_provider_8cs_source.html#l00264">Tgstation.Server.Host.Components.Chat.Providers.Provider.ReconnectionLoop()</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_dream_daemon_controller.html#a8b7b8473b29bd70d471d57ecf107792c">Tgstation.Server.Host.Controllers.DreamDaemonController.Restart()</a>, <a class="el" href="_watchdog_base_8cs_source.html#l00364">Tgstation.Server.Host.Components.Watchdog.WatchdogBase.StartAsync()</a>, <a class="el" href="_tgstation_8_server_8_host_2_components_2_instance_8cs_source.html#l00493">Tgstation.Server.Host.Components.Instance.TimerLoop()</a>, and <a class="el" href="_repository_controller_8cs_source.html#l00309">Tgstation.Server.Host.Controllers.RepositoryController.Update()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_repository_controller_8cs_source.html#l00083">Tgstation.Server.Host.Controllers.RepositoryController.Create()</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_dream_daemon_controller.html#a70a8c37154274637dace8a87239795ed">Tgstation.Server.Host.Controllers.DreamDaemonController.Create()</a>, <a class="el" href="_dream_maker_controller_8cs_source.html#l00140">Tgstation.Server.Host.Controllers.DreamMakerController.Create()</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_dream_daemon_controller.html#ab538726e889dd70b1dd204fd3240b04a">Tgstation.Server.Host.Controllers.DreamDaemonController.CreateDump()</a>, <a class="el" href="_repository_controller_8cs_source.html#l00203">Tgstation.Server.Host.Controllers.RepositoryController.Delete()</a>, <a class="el" href="_provider_8cs_source.html#l00264">Tgstation.Server.Host.Components.Chat.Providers.Provider.ReconnectionLoop()</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_dream_daemon_controller.html#a493845e121a87d36b3f11fc27ddcdd79">Tgstation.Server.Host.Controllers.DreamDaemonController.Restart()</a>, <a class="el" href="_watchdog_base_8cs_source.html#l00365">Tgstation.Server.Host.Components.Watchdog.WatchdogBase.StartAsync()</a>, <a class="el" href="_tgstation_8_server_8_host_2_components_2_instance_8cs_source.html#l00493">Tgstation.Server.Host.Components.Instance.TimerLoop()</a>, and <a class="el" href="_repository_controller_8cs_source.html#l00309">Tgstation.Server.Host.Controllers.RepositoryController.Update()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager_a21be789f798adf9985f2432d3499b4cd_icgraph.png" border="0" usemap="#ainterface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager_a21be789f798adf9985f2432d3499b4cd_icgraph" alt=""/></div>
-<map name="ainterface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager_a21be789f798adf9985f2432d3499b4cd_icgraph" id="ainterface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager_a21be789f798adf9985f2432d3499b4cd_icgraph">
+<div class="center"><img src="interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager_aefaca6d0c2762350a41adfe7daaade95_icgraph.png" border="0" usemap="#ainterface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager_aefaca6d0c2762350a41adfe7daaade95_icgraph" alt=""/></div>
+<map name="ainterface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager_aefaca6d0c2762350a41adfe7daaade95_icgraph" id="ainterface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager_aefaca6d0c2762350a41adfe7daaade95_icgraph">
 <area shape="rect" title="Registers a given Job and begins running it." alt="" coords="888,293,1092,333"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#a12f8174933870e22f21cf34497e49789" title="Begin cloning the repository if it doesn&#39;t exist." alt="" coords="597,5,813,45"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_dream_daemon_controller.html#a44cdf174ed850657340752311d65c996" title="Launches the watchdog." alt="" coords="597,69,813,109"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_dream_maker_controller.html#aad6f5ba856db44abb016cdb2cc045411" title="Begin deploying repository code." alt="" coords="597,133,813,173"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_dream_daemon_controller.html#a36861b8a815525a546845ffd57cd3f1f" title="Creates a JobResponse to generate a DreamDaemon process dump." alt="" coords="586,197,825,237"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#a5ed12417933271acc1f32831e317e6bc" title="Delete the repository." alt="" coords="597,261,813,301"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#ac7a15de6e6b871bb48a39a4103fae82b" title="Begin cloning the repository if it doesn&#39;t exist." alt="" coords="597,5,813,45"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_dream_daemon_controller.html#a70a8c37154274637dace8a87239795ed" title="Launches the watchdog." alt="" coords="597,69,813,109"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_dream_maker_controller.html#abad90753319f5f43ed0802a3fad952c2" title="Begin deploying repository code." alt="" coords="597,133,813,173"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_dream_daemon_controller.html#ab538726e889dd70b1dd204fd3240b04a" title="Creates a JobResponse to generate a DreamDaemon process dump." alt="" coords="586,197,825,237"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#adf927beefb84907b988ad6c473db0147" title="Delete the repository." alt="" coords="597,261,813,301"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#ac6502da810ca16f52bed5505c7807746" title="Creates a Task that will attempt to reconnect the Provider every reconnectInterval &#160;minutes." alt="" coords="571,325,840,365"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_dream_daemon_controller.html#a8b7b8473b29bd70d471d57ecf107792c" title="Creates a JobResponse to restart the Watchdog. It will not start if it wasn&#39;t already running." alt="" coords="597,389,813,429"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_dream_daemon_controller.html#a493845e121a87d36b3f11fc27ddcdd79" title="Creates a JobResponse to restart the Watchdog. It will not start if it wasn&#39;t already running." alt="" coords="597,389,813,429"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#ae30d4b582b04eb7c3ef3c5d848429bbd" title=" " alt="" coords="586,453,825,493"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#afb736b47a7400fb861186b8dad1c4c4c" title="Pull the repository and compile for every set of given minutes ." alt="" coords="592,517,819,557"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#a9f7b3bc7b210f85dbadaa04295ae0c92" title="Perform updates to the repository." alt="" coords="597,581,813,621"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#ac4cbbd1105362b5a24122cac252143af" title="Perform updates to the repository." alt="" coords="597,581,813,621"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#ac4642b423570a979ed7d0ae2b3b73ea3" title="Set the interval at which the provider starts jobs to try to reconnect. A Task representing the runni..." alt="" coords="280,318,523,373"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a9c7e2863cce30a01be66c0ce1dd07d9c" title="Change the Api.Models.Instance.AutoUpdateInterval for the IInstanceCore. A Task representing the runn..." alt="" coords="288,517,515,557"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a2e70b9e1b420670ff8b02592a15dbdbe" title="Change the Api.Models.Instance.AutoUpdateInterval for the IInstanceCore. A ValueTask representing the..." alt="" coords="288,517,515,557"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a11cc04923d2557eefd57ad2ded9eb7f2" title=" " alt="" coords="5,485,232,525"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#afc1fd9e8dc3bd57b78dbcbc4e7f449b4" title=" " alt="" coords="5,549,232,589"/>
 </map>
@@ -284,21 +284,21 @@ Here is the caller graph for this function:</div>
 <div class="center"><img src="interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager_a2fc945f03da3ef6cd356b8e8597e2b55_icgraph.png" border="0" usemap="#ainterface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager_a2fc945f03da3ef6cd356b8e8597e2b55_icgraph" alt=""/></div>
 <map name="ainterface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager_a2fc945f03da3ef6cd356b8e8597e2b55_icgraph" id="ainterface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager_a2fc945f03da3ef6cd356b8e8597e2b55_icgraph">
 <area shape="rect" title="Set the JobResponse.Progress and JobResponse.Stage for a given apiResponse ." alt="" coords="308,49,501,89"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_job_controller.html#afe76ebf1c6be9349aae73dd2b2c6d6f7" title="Supplements JobResponse PaginatedResponse&lt;TModel&gt;s with their JobResponse.Progress." alt="" coords="5,5,260,60"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_job_controller.html#a3bdb0c1c83ca60216f70fedfdfe863f4" title="Get a specific JobResponse." alt="" coords="25,85,241,125"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_job_controller.html#a1dc8ddf51fddc546edeb13540fe195a1" title="Supplements JobResponse PaginatedResponse&lt;TModel&gt;s with their JobResponse.Progress." alt="" coords="5,5,260,60"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_job_controller.html#a72699cfab0e237d11d66fa001fdd5180" title="Get a specific JobResponse." alt="" coords="25,85,241,125"/>
 </map>
 </div>
 
 </div>
 </div>
-<a id="a04ad7543ef9c8863c1d8d0b46d17f522" name="a04ad7543ef9c8863c1d8d0b46d17f522"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a04ad7543ef9c8863c1d8d0b46d17f522">&#9670;&#160;</a></span>WaitForJobCompletion()</h2>
+<a id="a485010f3175f6ee62625d32db681747a" name="a485010f3175f6ee62625d32db681747a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a485010f3175f6ee62625d32db681747a">&#9670;&#160;</a></span>WaitForJobCompletion()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">Task Tgstation.Server.Host.Jobs.IJobManager.WaitForJobCompletion </td>
+          <td class="memname">ValueTask Tgstation.Server.Host.Jobs.IJobManager.WaitForJobCompletion </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_job.html">Job</a>&#160;</td>
           <td class="paramname"><em>job</em>, </td>
@@ -339,21 +339,21 @@ Here is the caller graph for this function:</div>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A Task representing the Job.</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A ValueTask representing the Job.</dd></dl>
 
-<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#af5fe657cdfef95a8172fe2c960977a87">Tgstation.Server.Host.Jobs.JobService</a>.</p>
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#aa66c931e301afa1d01ee9a8a29df81eb">Tgstation.Server.Host.Jobs.JobService</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="_provider_8cs_source.html#l00264">Tgstation.Server.Host.Components.Chat.Providers.Provider.ReconnectionLoop()</a>, and <a class="el" href="_tgstation_8_server_8_host_2_components_2_instance_8cs_source.html#l00493">Tgstation.Server.Host.Components.Instance.TimerLoop()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager_a04ad7543ef9c8863c1d8d0b46d17f522_icgraph.png" border="0" usemap="#ainterface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager_a04ad7543ef9c8863c1d8d0b46d17f522_icgraph" alt=""/></div>
-<map name="ainterface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager_a04ad7543ef9c8863c1d8d0b46d17f522_icgraph" id="ainterface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager_a04ad7543ef9c8863c1d8d0b46d17f522_icgraph">
+<div class="center"><img src="interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager_a485010f3175f6ee62625d32db681747a_icgraph.png" border="0" usemap="#ainterface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager_a485010f3175f6ee62625d32db681747a_icgraph" alt=""/></div>
+<map name="ainterface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager_a485010f3175f6ee62625d32db681747a_icgraph" id="ainterface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager_a485010f3175f6ee62625d32db681747a_icgraph">
 <area shape="rect" title="Wait for a given job &#160;to complete." alt="" coords="888,49,1119,89"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#ac6502da810ca16f52bed5505c7807746" title="Creates a Task that will attempt to reconnect the Provider every reconnectInterval &#160;minutes." alt="" coords="571,15,840,55"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#afb736b47a7400fb861186b8dad1c4c4c" title="Pull the repository and compile for every set of given minutes ." alt="" coords="592,81,819,121"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#ac4642b423570a979ed7d0ae2b3b73ea3" title="Set the interval at which the provider starts jobs to try to reconnect. A Task representing the runni..." alt="" coords="280,5,523,60"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a9c7e2863cce30a01be66c0ce1dd07d9c" title="Change the Api.Models.Instance.AutoUpdateInterval for the IInstanceCore. A Task representing the runn..." alt="" coords="288,85,515,125"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a2e70b9e1b420670ff8b02592a15dbdbe" title="Change the Api.Models.Instance.AutoUpdateInterval for the IInstanceCore. A ValueTask representing the..." alt="" coords="288,85,515,125"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a11cc04923d2557eefd57ad2ded9eb7f2" title=" " alt="" coords="5,53,232,93"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#afc1fd9e8dc3bd57b78dbcbc4e7f449b4" title=" " alt="" coords="5,117,232,157"/>
 </map>

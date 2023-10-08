@@ -1,0 +1,7 @@
+<map id="Tgstation.Server.Host.Components.Session.SessionController.ProcessBridgeRequest" name="Tgstation.Server.Host.Components.Session.SessionController.ProcessBridgeRequest">
+<area shape="rect" id="node1" title="Handle a set of bridge parameters . A ValueTask&lt;TResult&gt; resulting in the BridgeResponse for the requ..." alt="" coords="5,62,268,117"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#ad208c7227af2aa22764e76a693349584" title="Handle a set of bridge parameters ." alt="" coords="316,62,579,117"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#a610c434225f1b0c912e2d845e0429eb5" title="Log and return a BridgeResponse for a given message ." alt="" coords="627,5,868,45"/>
+<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager.html#af9226f864c0c82403eab7ac5f8e43002" title="Queue a chat message &#160;to a given set of channelIds ." alt="" coords="634,69,861,109"/>
+<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process.html#a840da56ea51a4bbbc6b21667cc6355a2" title="Asycnhronously terminates the process." alt="" coords="648,133,847,173"/>
+</map>

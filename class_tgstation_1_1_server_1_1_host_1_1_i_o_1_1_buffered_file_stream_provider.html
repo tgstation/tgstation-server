@@ -120,35 +120,35 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a6c4f5b773a539935c7cf42ef2e8f8910"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abfb7f9ed8ed0fd489448c8a7b3cc555f"><td class="memItemLeft" align="right" valign="top">async ValueTask&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_buffered_file_stream_provider.html#abfb7f9ed8ed0fd489448c8a7b3cc555f">DisposeAsync</a> ()</td></tr>
 <tr class="separator:abfb7f9ed8ed0fd489448c8a7b3cc555f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa33223cdc5073bce7b311cf3aee8da6e"><td class="memItemLeft" align="right" valign="top">async Task&lt; <a class="el" href="class_stream.html">Stream</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_buffered_file_stream_provider.html#aa33223cdc5073bce7b311cf3aee8da6e">GetResult</a> (CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:aa33223cdc5073bce7b311cf3aee8da6e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the provided <a class="el" href="class_stream.html">Stream</a>. May be called multiple times, though cancelling any may cause all calls to be cancelled. All calls yield the same <a class="el" href="class_stream.html">Stream</a> reference. <dl class="params"><dt>Parameters</dt><dd>
+<tr class="memitem:a413ee02b56e08b0885d039dfc05f36de"><td class="memItemLeft" align="right" valign="top">async ValueTask&lt; <a class="el" href="class_stream.html">Stream</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_buffered_file_stream_provider.html#a413ee02b56e08b0885d039dfc05f36de">GetResult</a> (CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a413ee02b56e08b0885d039dfc05f36de"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the provided <a class="el" href="class_stream.html">Stream</a>. May be called multiple times, though cancelling any may cause all calls to be cancelled. All calls yield the same <a class="el" href="class_stream.html">Stream</a> reference. <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in the provided <a class="el" href="class_stream.html">Stream</a> on success, <code>null</code> if it could not be provided.</dd></dl>
-The resulting <a class="el" href="class_stream.html">Stream</a> is owned by the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_file_stream_provider.html" title="Interface for asynchronously consuming Streams of files.">IFileStreamProvider</a> and is short lived unless otherwise specified. It should be buffered if it needs use outside the lifetime of the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_file_stream_provider.html" title="Interface for asynchronously consuming Streams of files.">IFileStreamProvider</a>.  <a href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_buffered_file_stream_provider.html#aa33223cdc5073bce7b311cf3aee8da6e">More...</a><br /></td></tr>
-<tr class="separator:aa33223cdc5073bce7b311cf3aee8da6e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:add85accb878e38c5ce694a3ef49ac1a0"><td class="memItemLeft" align="right" valign="top">async Task&lt; MemoryStream &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_buffered_file_stream_provider.html#add85accb878e38c5ce694a3ef49ac1a0">GetOwnedResult</a> (CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:add85accb878e38c5ce694a3ef49ac1a0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the provided MemoryStream. May be called multiple times, though cancelling any may cause all calls to be cancelled. <dl class="params"><dt>Parameters</dt><dd>
+<dl class="section return"><dt>Returns</dt><dd>A ValueTask&lt;TResult&gt; resulting in the provided <a class="el" href="class_stream.html">Stream</a> on success, <code>null</code> if it could not be provided.</dd></dl>
+The resulting <a class="el" href="class_stream.html">Stream</a> is owned by the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_file_stream_provider.html" title="Interface for asynchronously consuming Streams of files.">IFileStreamProvider</a> and is short lived unless otherwise specified. It should be buffered if it needs use outside the lifetime of the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_file_stream_provider.html" title="Interface for asynchronously consuming Streams of files.">IFileStreamProvider</a>.  <a href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_buffered_file_stream_provider.html#a413ee02b56e08b0885d039dfc05f36de">More...</a><br /></td></tr>
+<tr class="separator:a413ee02b56e08b0885d039dfc05f36de"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1cca5ec2b5264f423823956acf25d8ac"><td class="memItemLeft" align="right" valign="top">async ValueTask&lt; MemoryStream &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_buffered_file_stream_provider.html#a1cca5ec2b5264f423823956acf25d8ac">GetOwnedResult</a> (CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a1cca5ec2b5264f423823956acf25d8ac"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the provided MemoryStream. May be called multiple times, though cancelling any may cause all calls to be cancelled. <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in the provided MemoryStream on success, <code>null</code> if it could not be provided.</dd></dl>
-  <a href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_buffered_file_stream_provider.html#add85accb878e38c5ce694a3ef49ac1a0">More...</a><br /></td></tr>
-<tr class="separator:add85accb878e38c5ce694a3ef49ac1a0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<dl class="section return"><dt>Returns</dt><dd>A ValueTask&lt;TResult&gt; resulting in the provided MemoryStream on success, <code>null</code> if it could not be provided.</dd></dl>
+  <a href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_buffered_file_stream_provider.html#a1cca5ec2b5264f423823956acf25d8ac">More...</a><br /></td></tr>
+<tr class="separator:a1cca5ec2b5264f423823956acf25d8ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa45f1c36e52ec57b66de097e8174bf3e"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_buffered_file_stream_provider.html#aa45f1c36e52ec57b66de097e8174bf3e">EnsureBuffered</a> (CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:aa45f1c36e52ec57b66de097e8174bf3e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ensures the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_buffered_file_stream_provider.html#a65dc7e8e2bc4ea9efb9d98190b63af7e" title="The original input Stream must remain valid for the lifetime of the BufferedFileStreamProvider or unt...">input</a> <a class="el" href="class_stream.html">Stream</a> has been copied to the buffer.   <a href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_buffered_file_stream_provider.html#aa45f1c36e52ec57b66de097e8174bf3e">More...</a><br /></td></tr>
 <tr class="separator:aa45f1c36e52ec57b66de097e8174bf3e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4d1c8ffb367260cd178b68b0d137bf51"><td class="memItemLeft" align="right" valign="top">Task&lt; MemoryStream &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_seekable_file_stream_provider.html#a4d1c8ffb367260cd178b68b0d137bf51">GetOwnedResult</a> (CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a4d1c8ffb367260cd178b68b0d137bf51"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the provided MemoryStream. May be called multiple times, though cancelling any may cause all calls to be cancelled.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_seekable_file_stream_provider.html#a4d1c8ffb367260cd178b68b0d137bf51">More...</a><br /></td></tr>
-<tr class="separator:a4d1c8ffb367260cd178b68b0d137bf51"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4089d4c4bd2c81af23de761984fed8e9"><td class="memItemLeft" align="right" valign="top">Task&lt; <a class="el" href="class_stream.html">Stream</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_file_stream_provider.html#a4089d4c4bd2c81af23de761984fed8e9">GetResult</a> (CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a4089d4c4bd2c81af23de761984fed8e9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the provided <a class="el" href="class_stream.html">Stream</a>. May be called multiple times, though cancelling any may cause all calls to be cancelled. All calls yield the same <a class="el" href="class_stream.html">Stream</a> reference.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_file_stream_provider.html#a4089d4c4bd2c81af23de761984fed8e9">More...</a><br /></td></tr>
-<tr class="separator:a4089d4c4bd2c81af23de761984fed8e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a911dc864e5e9ba44772382900ad6998b"><td class="memItemLeft" align="right" valign="top">ValueTask&lt; MemoryStream &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_seekable_file_stream_provider.html#a911dc864e5e9ba44772382900ad6998b">GetOwnedResult</a> (CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a911dc864e5e9ba44772382900ad6998b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the provided MemoryStream. May be called multiple times, though cancelling any may cause all calls to be cancelled.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_seekable_file_stream_provider.html#a911dc864e5e9ba44772382900ad6998b">More...</a><br /></td></tr>
+<tr class="separator:a911dc864e5e9ba44772382900ad6998b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a78376175b738d1a52b4e711e2379396b"><td class="memItemLeft" align="right" valign="top">ValueTask&lt; <a class="el" href="class_stream.html">Stream</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_file_stream_provider.html#a78376175b738d1a52b4e711e2379396b">GetResult</a> (CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a78376175b738d1a52b4e711e2379396b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the provided <a class="el" href="class_stream.html">Stream</a>. May be called multiple times, though cancelling any may cause all calls to be cancelled. All calls yield the same <a class="el" href="class_stream.html">Stream</a> reference.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_file_stream_provider.html#a78376175b738d1a52b4e711e2379396b">More...</a><br /></td></tr>
+<tr class="separator:a78376175b738d1a52b4e711e2379396b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="properties" name="properties"></a>
 Properties</h2></td></tr>
@@ -162,14 +162,14 @@ Properties</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-methods" name="pri-methods"></a>
 Private Member Functions</h2></td></tr>
-<tr class="memitem:a54e83e45ce4810c5d0ef9518b8a0ce96"><td class="memItemLeft" align="right" valign="top">async Task&lt;(MemoryStream, long)&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_buffered_file_stream_provider.html#a54e83e45ce4810c5d0ef9518b8a0ce96">GetResultInternal</a> (CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a54e83e45ce4810c5d0ef9518b8a0ce96"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the shared MemoryStream and its Stream.Length.   <a href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_buffered_file_stream_provider.html#a54e83e45ce4810c5d0ef9518b8a0ce96">More...</a><br /></td></tr>
-<tr class="separator:a54e83e45ce4810c5d0ef9518b8a0ce96"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a687891976d5f713714ac9e8b6ce896cf"><td class="memItemLeft" align="right" valign="top">async ValueTask&lt;(MemoryStream, long)&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_buffered_file_stream_provider.html#a687891976d5f713714ac9e8b6ce896cf">GetResultInternal</a> (CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a687891976d5f713714ac9e8b6ce896cf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the shared MemoryStream and its Stream.Length.   <a href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_buffered_file_stream_provider.html#a687891976d5f713714ac9e8b6ce896cf">More...</a><br /></td></tr>
+<tr class="separator:a687891976d5f713714ac9e8b6ce896cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
 <tr class="memitem:a65dc7e8e2bc4ea9efb9d98190b63af7e"><td class="memItemLeft" align="right" valign="top">readonly <a class="el" href="class_stream.html">Stream</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_buffered_file_stream_provider.html#a65dc7e8e2bc4ea9efb9d98190b63af7e">input</a></td></tr>
-<tr class="memdesc:a65dc7e8e2bc4ea9efb9d98190b63af7e"><td class="mdescLeft">&#160;</td><td class="mdescRight">The original input <a class="el" href="class_stream.html">Stream</a> must remain valid for the lifetime of the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_buffered_file_stream_provider.html" title="IFileStreamProvider that provides a ISeekableFileStreamProvider from an input Stream.">BufferedFileStreamProvider</a> or until <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_buffered_file_stream_provider.html#aa33223cdc5073bce7b311cf3aee8da6e" title="Gets the provided Stream. May be called multiple times, though cancelling any may cause all calls to ...">GetResult(CancellationToken)</a> first returns.   <a href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_buffered_file_stream_provider.html#a65dc7e8e2bc4ea9efb9d98190b63af7e">More...</a><br /></td></tr>
+<tr class="memdesc:a65dc7e8e2bc4ea9efb9d98190b63af7e"><td class="mdescLeft">&#160;</td><td class="mdescRight">The original input <a class="el" href="class_stream.html">Stream</a> must remain valid for the lifetime of the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_buffered_file_stream_provider.html" title="IFileStreamProvider that provides a ISeekableFileStreamProvider from an input Stream.">BufferedFileStreamProvider</a> or until <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_buffered_file_stream_provider.html#a413ee02b56e08b0885d039dfc05f36de" title="Gets the provided Stream. May be called multiple times, though cancelling any may cause all calls to ...">GetResult(CancellationToken)</a> first returns.   <a href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_buffered_file_stream_provider.html#a65dc7e8e2bc4ea9efb9d98190b63af7e">More...</a><br /></td></tr>
 <tr class="separator:a65dc7e8e2bc4ea9efb9d98190b63af7e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a46700d69fc324e99478474acb35621e6"><td class="memItemLeft" align="right" valign="top">readonly SemaphoreSlim&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_buffered_file_stream_provider.html#a46700d69fc324e99478474acb35621e6">semaphore</a></td></tr>
 <tr class="memdesc:a46700d69fc324e99478474acb35621e6"><td class="mdescLeft">&#160;</td><td class="mdescRight">The SemaphoreSlim used to synchronize writes to <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_buffered_file_stream_provider.html#a86db28f3593c1f85662f537ee09412f6" title="The backing Stream.">buffer</a>.   <a href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_buffered_file_stream_provider.html#a46700d69fc324e99478474acb35621e6">More...</a><br /></td></tr>
@@ -303,14 +303,14 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="add85accb878e38c5ce694a3ef49ac1a0" name="add85accb878e38c5ce694a3ef49ac1a0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#add85accb878e38c5ce694a3ef49ac1a0">&#9670;&#160;</a></span>GetOwnedResult()</h2>
+<a id="a1cca5ec2b5264f423823956acf25d8ac" name="a1cca5ec2b5264f423823956acf25d8ac"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1cca5ec2b5264f423823956acf25d8ac">&#9670;&#160;</a></span>GetOwnedResult()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">async Task&lt; MemoryStream &gt; Tgstation.Server.Host.IO.BufferedFileStreamProvider.GetOwnedResult </td>
+          <td class="memname">async ValueTask&lt; MemoryStream &gt; Tgstation.Server.Host.IO.BufferedFileStreamProvider.GetOwnedResult </td>
           <td>(</td>
           <td class="paramtype">CancellationToken&#160;</td>
           <td class="paramname"><em>cancellationToken</em></td><td>)</td>
@@ -325,40 +325,40 @@ Private Attributes</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in the provided MemoryStream on success, <code>null</code> if it could not be provided.</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A ValueTask&lt;TResult&gt; resulting in the provided MemoryStream on success, <code>null</code> if it could not be provided.</dd></dl>
  </p>
 
-<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_seekable_file_stream_provider.html#a4d1c8ffb367260cd178b68b0d137bf51">Tgstation.Server.Host.IO.ISeekableFileStreamProvider</a>.</p>
+<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_seekable_file_stream_provider.html#a911dc864e5e9ba44772382900ad6998b">Tgstation.Server.Host.IO.ISeekableFileStreamProvider</a>.</p>
 
 <p class="definition">Definition at line <a class="el" href="_buffered_file_stream_provider_8cs_source.html#l00087">87</a> of file <a class="el" href="_buffered_file_stream_provider_8cs_source.html">BufferedFileStreamProvider.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   88</span>        {</div>
-<div class="line"><span class="lineno">   89</span>            var (sharedStream, length) = await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_buffered_file_stream_provider.html#a54e83e45ce4810c5d0ef9518b8a0ce96">GetResultInternal</a>(cancellationToken);</div>
+<div class="line"><span class="lineno">   89</span>            var (sharedStream, length) = await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_buffered_file_stream_provider.html#a687891976d5f713714ac9e8b6ce896cf">GetResultInternal</a>(cancellationToken);</div>
 <div class="line"><span class="lineno">   90</span>            <span class="keywordflow">return</span> <span class="keyword">new</span> MemoryStream(sharedStream.GetBuffer(), 0, (<span class="keywordtype">int</span>)length, <span class="keyword">false</span>, <span class="keyword">true</span>);</div>
 <div class="line"><span class="lineno">   91</span>        }</div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_buffered_file_stream_provider_html_a54e83e45ce4810c5d0ef9518b8a0ce96"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_buffered_file_stream_provider.html#a54e83e45ce4810c5d0ef9518b8a0ce96">Tgstation.Server.Host.IO.BufferedFileStreamProvider.GetResultInternal</a></div><div class="ttdeci">async Task&lt;(MemoryStream, long)&gt; GetResultInternal(CancellationToken cancellationToken)</div><div class="ttdoc">Gets the shared MemoryStream and its Stream.Length.</div><div class="ttdef"><b>Definition:</b> <a href="_buffered_file_stream_provider_8cs_source.html#l00105">BufferedFileStreamProvider.cs:105</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_buffered_file_stream_provider_html_a687891976d5f713714ac9e8b6ce896cf"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_buffered_file_stream_provider.html#a687891976d5f713714ac9e8b6ce896cf">Tgstation.Server.Host.IO.BufferedFileStreamProvider.GetResultInternal</a></div><div class="ttdeci">async ValueTask&lt;(MemoryStream, long)&gt; GetResultInternal(CancellationToken cancellationToken)</div><div class="ttdoc">Gets the shared MemoryStream and its Stream.Length.</div><div class="ttdef"><b>Definition:</b> <a href="_buffered_file_stream_provider_8cs_source.html#l00105">BufferedFileStreamProvider.cs:105</a></div></div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="_buffered_file_stream_provider_8cs_source.html#l00105">Tgstation.Server.Host.IO.BufferedFileStreamProvider.GetResultInternal()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_buffered_file_stream_provider_add85accb878e38c5ce694a3ef49ac1a0_cgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_buffered_file_stream_provider_add85accb878e38c5ce694a3ef49ac1a0_cgraph" alt=""/></div>
-<map name="aclass_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_buffered_file_stream_provider_add85accb878e38c5ce694a3ef49ac1a0_cgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_buffered_file_stream_provider_add85accb878e38c5ce694a3ef49ac1a0_cgraph">
+<div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_buffered_file_stream_provider_a1cca5ec2b5264f423823956acf25d8ac_cgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_buffered_file_stream_provider_a1cca5ec2b5264f423823956acf25d8ac_cgraph" alt=""/></div>
+<map name="aclass_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_buffered_file_stream_provider_a1cca5ec2b5264f423823956acf25d8ac_cgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_buffered_file_stream_provider_a1cca5ec2b5264f423823956acf25d8ac_cgraph">
 <area shape="rect" title="Gets the provided MemoryStream. May be called multiple times, though cancelling any may cause all cal..." alt="" coords="5,5,211,60"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_buffered_file_stream_provider.html#a54e83e45ce4810c5d0ef9518b8a0ce96" title="Gets the shared MemoryStream and its Stream.Length." alt="" coords="259,5,464,60"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_buffered_file_stream_provider.html#a687891976d5f713714ac9e8b6ce896cf" title="Gets the shared MemoryStream and its Stream.Length." alt="" coords="259,5,464,60"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html#a29773d588476671bbe480f096d839c91" title="Asyncronously locks a semaphore ." alt="" coords="512,13,703,53"/>
 </map>
 </div>
 
 </div>
 </div>
-<a id="aa33223cdc5073bce7b311cf3aee8da6e" name="aa33223cdc5073bce7b311cf3aee8da6e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa33223cdc5073bce7b311cf3aee8da6e">&#9670;&#160;</a></span>GetResult()</h2>
+<a id="a413ee02b56e08b0885d039dfc05f36de" name="a413ee02b56e08b0885d039dfc05f36de"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a413ee02b56e08b0885d039dfc05f36de">&#9670;&#160;</a></span>GetResult()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">async Task&lt; <a class="el" href="class_stream.html">Stream</a> &gt; Tgstation.Server.Host.IO.BufferedFileStreamProvider.GetResult </td>
+          <td class="memname">async ValueTask&lt; <a class="el" href="class_stream.html">Stream</a> &gt; Tgstation.Server.Host.IO.BufferedFileStreamProvider.GetResult </td>
           <td>(</td>
           <td class="paramtype">CancellationToken&#160;</td>
           <td class="paramname"><em>cancellationToken</em></td><td>)</td>
@@ -373,14 +373,14 @@ Here is the call graph for this function:</div>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in the provided <a class="el" href="class_stream.html">Stream</a> on success, <code>null</code> if it could not be provided.</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A ValueTask&lt;TResult&gt; resulting in the provided <a class="el" href="class_stream.html">Stream</a> on success, <code>null</code> if it could not be provided.</dd></dl>
 The resulting <a class="el" href="class_stream.html">Stream</a> is owned by the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_file_stream_provider.html" title="Interface for asynchronously consuming Streams of files.">IFileStreamProvider</a> and is short lived unless otherwise specified. It should be buffered if it needs use outside the lifetime of the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_file_stream_provider.html" title="Interface for asynchronously consuming Streams of files.">IFileStreamProvider</a>. </p>
 
-<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_file_stream_provider.html#a4089d4c4bd2c81af23de761984fed8e9">Tgstation.Server.Host.IO.IFileStreamProvider</a>.</p>
+<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_file_stream_provider.html#a78376175b738d1a52b4e711e2379396b">Tgstation.Server.Host.IO.IFileStreamProvider</a>.</p>
 
 <p class="definition">Definition at line <a class="el" href="_buffered_file_stream_provider_8cs_source.html#l00080">80</a> of file <a class="el" href="_buffered_file_stream_provider_8cs_source.html">BufferedFileStreamProvider.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   81</span>        {</div>
-<div class="line"><span class="lineno">   82</span>            var (sharedStream, _) = await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_buffered_file_stream_provider.html#a54e83e45ce4810c5d0ef9518b8a0ce96">GetResultInternal</a>(cancellationToken);</div>
+<div class="line"><span class="lineno">   82</span>            var (sharedStream, _) = await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_buffered_file_stream_provider.html#a687891976d5f713714ac9e8b6ce896cf">GetResultInternal</a>(cancellationToken);</div>
 <div class="line"><span class="lineno">   83</span>            <span class="keywordflow">return</span> sharedStream;</div>
 <div class="line"><span class="lineno">   84</span>        }</div>
 </div><!-- fragment -->
@@ -388,18 +388,18 @@ The resulting <a class="el" href="class_stream.html">Stream</a> is owned by the 
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_buffered_file_stream_provider_aa33223cdc5073bce7b311cf3aee8da6e_cgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_buffered_file_stream_provider_aa33223cdc5073bce7b311cf3aee8da6e_cgraph" alt=""/></div>
-<map name="aclass_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_buffered_file_stream_provider_aa33223cdc5073bce7b311cf3aee8da6e_cgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_buffered_file_stream_provider_aa33223cdc5073bce7b311cf3aee8da6e_cgraph">
+<div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_buffered_file_stream_provider_a413ee02b56e08b0885d039dfc05f36de_cgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_buffered_file_stream_provider_a413ee02b56e08b0885d039dfc05f36de_cgraph" alt=""/></div>
+<map name="aclass_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_buffered_file_stream_provider_a413ee02b56e08b0885d039dfc05f36de_cgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_buffered_file_stream_provider_a413ee02b56e08b0885d039dfc05f36de_cgraph">
 <area shape="rect" title="Gets the provided Stream. May be called multiple times, though cancelling any may cause all calls to ..." alt="" coords="5,5,211,60"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_buffered_file_stream_provider.html#a54e83e45ce4810c5d0ef9518b8a0ce96" title="Gets the shared MemoryStream and its Stream.Length." alt="" coords="259,5,464,60"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_buffered_file_stream_provider.html#a687891976d5f713714ac9e8b6ce896cf" title="Gets the shared MemoryStream and its Stream.Length." alt="" coords="259,5,464,60"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html#a29773d588476671bbe480f096d839c91" title="Asyncronously locks a semaphore ." alt="" coords="512,13,703,53"/>
 </map>
 </div>
 
 </div>
 </div>
-<a id="a54e83e45ce4810c5d0ef9518b8a0ce96" name="a54e83e45ce4810c5d0ef9518b8a0ce96"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a54e83e45ce4810c5d0ef9518b8a0ce96">&#9670;&#160;</a></span>GetResultInternal()</h2>
+<a id="a687891976d5f713714ac9e8b6ce896cf" name="a687891976d5f713714ac9e8b6ce896cf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a687891976d5f713714ac9e8b6ce896cf">&#9670;&#160;</a></span>GetResultInternal()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -408,7 +408,7 @@ Here is the call graph for this function:</div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">async Task&lt;(MemoryStream, long)&gt; Tgstation.Server.Host.IO.BufferedFileStreamProvider.GetResultInternal </td>
+          <td class="memname">async ValueTask&lt;(MemoryStream, long)&gt; Tgstation.Server.Host.IO.BufferedFileStreamProvider.GetResultInternal </td>
           <td>(</td>
           <td class="paramtype">CancellationToken&#160;</td>
           <td class="paramname"><em>cancellationToken</em></td><td>)</td>
@@ -464,8 +464,8 @@ Here is the call graph for this function:</div>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_buffered_file_stream_provider_a54e83e45ce4810c5d0ef9518b8a0ce96_cgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_buffered_file_stream_provider_a54e83e45ce4810c5d0ef9518b8a0ce96_cgraph" alt=""/></div>
-<map name="aclass_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_buffered_file_stream_provider_a54e83e45ce4810c5d0ef9518b8a0ce96_cgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_buffered_file_stream_provider_a54e83e45ce4810c5d0ef9518b8a0ce96_cgraph">
+<div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_buffered_file_stream_provider_a687891976d5f713714ac9e8b6ce896cf_cgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_buffered_file_stream_provider_a687891976d5f713714ac9e8b6ce896cf_cgraph" alt=""/></div>
+<map name="aclass_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_buffered_file_stream_provider_a687891976d5f713714ac9e8b6ce896cf_cgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_buffered_file_stream_provider_a687891976d5f713714ac9e8b6ce896cf_cgraph">
 <area shape="rect" title="Gets the shared MemoryStream and its Stream.Length." alt="" coords="5,5,211,60"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html#a29773d588476671bbe480f096d839c91" title="Asyncronously locks a semaphore ." alt="" coords="259,13,449,53"/>
 </map>
@@ -473,11 +473,11 @@ Here is the call graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_buffered_file_stream_provider_a54e83e45ce4810c5d0ef9518b8a0ce96_icgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_buffered_file_stream_provider_a54e83e45ce4810c5d0ef9518b8a0ce96_icgraph" alt=""/></div>
-<map name="aclass_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_buffered_file_stream_provider_a54e83e45ce4810c5d0ef9518b8a0ce96_icgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_buffered_file_stream_provider_a54e83e45ce4810c5d0ef9518b8a0ce96_icgraph">
+<div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_buffered_file_stream_provider_a687891976d5f713714ac9e8b6ce896cf_icgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_buffered_file_stream_provider_a687891976d5f713714ac9e8b6ce896cf_icgraph" alt=""/></div>
+<map name="aclass_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_buffered_file_stream_provider_a687891976d5f713714ac9e8b6ce896cf_icgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_buffered_file_stream_provider_a687891976d5f713714ac9e8b6ce896cf_icgraph">
 <area shape="rect" title="Gets the shared MemoryStream and its Stream.Length." alt="" coords="259,45,464,100"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_buffered_file_stream_provider.html#add85accb878e38c5ce694a3ef49ac1a0" title="Gets the provided MemoryStream. May be called multiple times, though cancelling any may cause all cal..." alt="" coords="5,5,211,60"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_buffered_file_stream_provider.html#aa33223cdc5073bce7b311cf3aee8da6e" title="Gets the provided Stream. May be called multiple times, though cancelling any may cause all calls to ..." alt="" coords="5,84,211,139"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_buffered_file_stream_provider.html#a1cca5ec2b5264f423823956acf25d8ac" title="Gets the provided MemoryStream. May be called multiple times, though cancelling any may cause all cal..." alt="" coords="5,5,211,60"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_buffered_file_stream_provider.html#a413ee02b56e08b0885d039dfc05f36de" title="Gets the provided Stream. May be called multiple times, though cancelling any may cause all calls to ..." alt="" coords="5,84,211,139"/>
 </map>
 </div>
 
@@ -560,7 +560,7 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p>The original input <a class="el" href="class_stream.html">Stream</a> must remain valid for the lifetime of the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_buffered_file_stream_provider.html" title="IFileStreamProvider that provides a ISeekableFileStreamProvider from an input Stream.">BufferedFileStreamProvider</a> or until <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_buffered_file_stream_provider.html#aa33223cdc5073bce7b311cf3aee8da6e" title="Gets the provided Stream. May be called multiple times, though cancelling any may cause all calls to ...">GetResult(CancellationToken)</a> first returns.  </p>
+<p>The original input <a class="el" href="class_stream.html">Stream</a> must remain valid for the lifetime of the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_buffered_file_stream_provider.html" title="IFileStreamProvider that provides a ISeekableFileStreamProvider from an input Stream.">BufferedFileStreamProvider</a> or until <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_buffered_file_stream_provider.html#a413ee02b56e08b0885d039dfc05f36de" title="Gets the provided Stream. May be called multiple times, though cancelling any may cause all calls to ...">GetResult(CancellationToken)</a> first returns.  </p>
 
 <p class="definition">Definition at line <a class="el" href="_buffered_file_stream_provider_8cs_source.html#l00021">21</a> of file <a class="el" href="_buffered_file_stream_provider_8cs_source.html">BufferedFileStreamProvider.cs</a>.</p>
 

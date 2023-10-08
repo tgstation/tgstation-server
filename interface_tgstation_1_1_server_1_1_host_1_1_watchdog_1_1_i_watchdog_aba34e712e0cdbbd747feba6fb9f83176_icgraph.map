@@ -1,0 +1,7 @@
+<map id="Tgstation.Server.Host.Watchdog.IWatchdog.RunAsync" name="Tgstation.Server.Host.Watchdog.IWatchdog.RunAsync">
+<area shape="rect" id="node1" title="Run the IWatchdog." alt="" coords="499,39,711,79"/>
+<area shape="rect" id="node2" href="$_tgstation_8_server_8_host_8_service_2_program_8cs.html#a4981a34f5f9ca5f428d65dcc28f8deff" title="Runs the host application with the setup wizard." alt="" coords="302,15,401,41"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service.html#a63313991bba1e6d1037bc635ddd4d4d8" title="Executes the watchdog , stopping the service if it exits." alt="" coords="252,67,451,107"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_service_1_1_program.html#a86d24d735c64eb7c67a935b809927dd4" title="Command line handler, always runs." alt="" coords="5,5,204,45"/>
+<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service.html#a40bef17d85eb30f2cbad7ed81ef9c774" title=" " alt="" coords="5,69,204,109"/>
+</map>

@@ -95,35 +95,35 @@ Inheritance diagram for Tgstation.Server.Client.Components.IConfigurationClient:
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a04e64c33da26ef98f0f02c9b81ed0aa9"><td class="memItemLeft" align="right" valign="top">Task&lt; IReadOnlyList&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_configuration_file_response.html">ConfigurationFileResponse</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_configuration_client.html#a04e64c33da26ef98f0f02c9b81ed0aa9">List</a> (<a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_pagination_settings.html">PaginationSettings</a>? paginationSettings, string directory, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a04e64c33da26ef98f0f02c9b81ed0aa9"><td class="mdescLeft">&#160;</td><td class="mdescRight">List configuration files.   <a href="interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_configuration_client.html#a04e64c33da26ef98f0f02c9b81ed0aa9">More...</a><br /></td></tr>
-<tr class="separator:a04e64c33da26ef98f0f02c9b81ed0aa9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a61ef8cff20accd163141012353a2fe6d"><td class="memItemLeft" align="right" valign="top">Task&lt; Tuple&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_configuration_file_response.html">ConfigurationFileResponse</a>, <a class="el" href="class_stream.html">Stream</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_configuration_client.html#a61ef8cff20accd163141012353a2fe6d">Read</a> (<a class="el" href="interface_tgstation_1_1_server_1_1_api_1_1_models_1_1_i_configuration_file.html">IConfigurationFile</a> file, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a61ef8cff20accd163141012353a2fe6d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read a <em>file</em> .   <a href="interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_configuration_client.html#a61ef8cff20accd163141012353a2fe6d">More...</a><br /></td></tr>
-<tr class="separator:a61ef8cff20accd163141012353a2fe6d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6a475793505a6a52d298c6a367c00056"><td class="memItemLeft" align="right" valign="top">Task&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_configuration_file_response.html">ConfigurationFileResponse</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_configuration_client.html#a6a475793505a6a52d298c6a367c00056">Write</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_1_1_configuration_file_request.html">ConfigurationFileRequest</a> file, <a class="el" href="class_stream.html">Stream</a> uploadStream, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a6a475793505a6a52d298c6a367c00056"><td class="mdescLeft">&#160;</td><td class="mdescRight">Overwrite a <em>file</em> .   <a href="interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_configuration_client.html#a6a475793505a6a52d298c6a367c00056">More...</a><br /></td></tr>
-<tr class="separator:a6a475793505a6a52d298c6a367c00056"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a769c2892a3e5fb04cf8aa073d090ccee"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_configuration_client.html#a769c2892a3e5fb04cf8aa073d090ccee">DeleteEmptyDirectory</a> (<a class="el" href="interface_tgstation_1_1_server_1_1_api_1_1_models_1_1_i_configuration_file.html">IConfigurationFile</a> directory, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a769c2892a3e5fb04cf8aa073d090ccee"><td class="mdescLeft">&#160;</td><td class="mdescRight">Delete an empty <em>directory</em> .   <a href="interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_configuration_client.html#a769c2892a3e5fb04cf8aa073d090ccee">More...</a><br /></td></tr>
-<tr class="separator:a769c2892a3e5fb04cf8aa073d090ccee"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abca2bcfd34a7ce13161bebb401b8b385"><td class="memItemLeft" align="right" valign="top">Task&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_configuration_file_response.html">ConfigurationFileResponse</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_configuration_client.html#abca2bcfd34a7ce13161bebb401b8b385">CreateDirectory</a> (<a class="el" href="interface_tgstation_1_1_server_1_1_api_1_1_models_1_1_i_configuration_file.html">IConfigurationFile</a> directory, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:abca2bcfd34a7ce13161bebb401b8b385"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates an empty <em>directory</em> .   <a href="interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_configuration_client.html#abca2bcfd34a7ce13161bebb401b8b385">More...</a><br /></td></tr>
-<tr class="separator:abca2bcfd34a7ce13161bebb401b8b385"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afa27b0eb0c68b57c2859bfa5f8370145"><td class="memItemLeft" align="right" valign="top">ValueTask&lt; List&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_configuration_file_response.html">ConfigurationFileResponse</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_configuration_client.html#afa27b0eb0c68b57c2859bfa5f8370145">List</a> (<a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_pagination_settings.html">PaginationSettings</a>? paginationSettings, string directory, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:afa27b0eb0c68b57c2859bfa5f8370145"><td class="mdescLeft">&#160;</td><td class="mdescRight">List configuration files.   <a href="interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_configuration_client.html#afa27b0eb0c68b57c2859bfa5f8370145">More...</a><br /></td></tr>
+<tr class="separator:afa27b0eb0c68b57c2859bfa5f8370145"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a32ff8a7eb065f5c46fa65770951d0270"><td class="memItemLeft" align="right" valign="top">ValueTask&lt; Tuple&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_configuration_file_response.html">ConfigurationFileResponse</a>, <a class="el" href="class_stream.html">Stream</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_configuration_client.html#a32ff8a7eb065f5c46fa65770951d0270">Read</a> (<a class="el" href="interface_tgstation_1_1_server_1_1_api_1_1_models_1_1_i_configuration_file.html">IConfigurationFile</a> file, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a32ff8a7eb065f5c46fa65770951d0270"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read a <em>file</em> .   <a href="interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_configuration_client.html#a32ff8a7eb065f5c46fa65770951d0270">More...</a><br /></td></tr>
+<tr class="separator:a32ff8a7eb065f5c46fa65770951d0270"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7105ae2603eb0678f8666b875a829d53"><td class="memItemLeft" align="right" valign="top">ValueTask&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_configuration_file_response.html">ConfigurationFileResponse</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_configuration_client.html#a7105ae2603eb0678f8666b875a829d53">Write</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_1_1_configuration_file_request.html">ConfigurationFileRequest</a> file, <a class="el" href="class_stream.html">Stream</a> uploadStream, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a7105ae2603eb0678f8666b875a829d53"><td class="mdescLeft">&#160;</td><td class="mdescRight">Overwrite a <em>file</em> .   <a href="interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_configuration_client.html#a7105ae2603eb0678f8666b875a829d53">More...</a><br /></td></tr>
+<tr class="separator:a7105ae2603eb0678f8666b875a829d53"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a19aa1f29db8d7d75b7fe26257aa8cb18"><td class="memItemLeft" align="right" valign="top">ValueTask&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_configuration_client.html#a19aa1f29db8d7d75b7fe26257aa8cb18">DeleteEmptyDirectory</a> (<a class="el" href="interface_tgstation_1_1_server_1_1_api_1_1_models_1_1_i_configuration_file.html">IConfigurationFile</a> directory, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a19aa1f29db8d7d75b7fe26257aa8cb18"><td class="mdescLeft">&#160;</td><td class="mdescRight">Delete an empty <em>directory</em> .   <a href="interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_configuration_client.html#a19aa1f29db8d7d75b7fe26257aa8cb18">More...</a><br /></td></tr>
+<tr class="separator:a19aa1f29db8d7d75b7fe26257aa8cb18"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adb04f0bae38947c1735f326ab2aa70d6"><td class="memItemLeft" align="right" valign="top">ValueTask&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_configuration_file_response.html">ConfigurationFileResponse</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_configuration_client.html#adb04f0bae38947c1735f326ab2aa70d6">CreateDirectory</a> (<a class="el" href="interface_tgstation_1_1_server_1_1_api_1_1_models_1_1_i_configuration_file.html">IConfigurationFile</a> directory, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:adb04f0bae38947c1735f326ab2aa70d6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates an empty <em>directory</em> .   <a href="interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_configuration_client.html#adb04f0bae38947c1735f326ab2aa70d6">More...</a><br /></td></tr>
+<tr class="separator:adb04f0bae38947c1735f326ab2aa70d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p >For managing IConfigurationFiles.  </p>
 
 <p class="definition">Definition at line <a class="el" href="_i_configuration_client_8cs_source.html#l00016">16</a> of file <a class="el" href="_i_configuration_client_8cs_source.html">IConfigurationClient.cs</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a id="abca2bcfd34a7ce13161bebb401b8b385" name="abca2bcfd34a7ce13161bebb401b8b385"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abca2bcfd34a7ce13161bebb401b8b385">&#9670;&#160;</a></span>CreateDirectory()</h2>
+<a id="adb04f0bae38947c1735f326ab2aa70d6" name="adb04f0bae38947c1735f326ab2aa70d6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adb04f0bae38947c1735f326ab2aa70d6">&#9670;&#160;</a></span>CreateDirectory()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">Task&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_configuration_file_response.html">ConfigurationFileResponse</a> &gt; Tgstation.Server.Client.Components.IConfigurationClient.CreateDirectory </td>
+          <td class="memname">ValueTask&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_configuration_file_response.html">ConfigurationFileResponse</a> &gt; Tgstation.Server.Client.Components.IConfigurationClient.CreateDirectory </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="interface_tgstation_1_1_server_1_1_api_1_1_models_1_1_i_configuration_file.html">IConfigurationFile</a>&#160;</td>
           <td class="paramname"><em>directory</em>, </td>
@@ -150,20 +150,20 @@ Public Member Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in the new ConfigurationFileResponse.</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A ValueTask&lt;TResult&gt; resulting in the new ConfigurationFileResponse.</dd></dl>
 
-<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_configuration_client.html#ae7894fa3b4e2c938e91865630a496ecd">Tgstation.Server.Client.Components.ConfigurationClient</a>.</p>
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_configuration_client.html#a3b813723109da1c557da65ab7af12fd8">Tgstation.Server.Client.Components.ConfigurationClient</a>.</p>
 
 </div>
 </div>
-<a id="a769c2892a3e5fb04cf8aa073d090ccee" name="a769c2892a3e5fb04cf8aa073d090ccee"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a769c2892a3e5fb04cf8aa073d090ccee">&#9670;&#160;</a></span>DeleteEmptyDirectory()</h2>
+<a id="a19aa1f29db8d7d75b7fe26257aa8cb18" name="a19aa1f29db8d7d75b7fe26257aa8cb18"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a19aa1f29db8d7d75b7fe26257aa8cb18">&#9670;&#160;</a></span>DeleteEmptyDirectory()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">Task Tgstation.Server.Client.Components.IConfigurationClient.DeleteEmptyDirectory </td>
+          <td class="memname">ValueTask Tgstation.Server.Client.Components.IConfigurationClient.DeleteEmptyDirectory </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="interface_tgstation_1_1_server_1_1_api_1_1_models_1_1_i_configuration_file.html">IConfigurationFile</a>&#160;</td>
           <td class="paramname"><em>directory</em>, </td>
@@ -190,20 +190,20 @@ Public Member Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A Task representing the running operation.</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A ValueTask representing the running operation.</dd></dl>
 
-<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_configuration_client.html#aae500adb46ffa26dbfcbc4a4c4b4ee6e">Tgstation.Server.Client.Components.ConfigurationClient</a>.</p>
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_configuration_client.html#a106d0a92cb756ff58cccb5d8e5774b6f">Tgstation.Server.Client.Components.ConfigurationClient</a>.</p>
 
 </div>
 </div>
-<a id="a04e64c33da26ef98f0f02c9b81ed0aa9" name="a04e64c33da26ef98f0f02c9b81ed0aa9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a04e64c33da26ef98f0f02c9b81ed0aa9">&#9670;&#160;</a></span>List()</h2>
+<a id="afa27b0eb0c68b57c2859bfa5f8370145" name="afa27b0eb0c68b57c2859bfa5f8370145"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afa27b0eb0c68b57c2859bfa5f8370145">&#9670;&#160;</a></span>List()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">Task&lt; IReadOnlyList&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_configuration_file_response.html">ConfigurationFileResponse</a> &gt; &gt; Tgstation.Server.Client.Components.IConfigurationClient.List </td>
+          <td class="memname">ValueTask&lt; List&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_configuration_file_response.html">ConfigurationFileResponse</a> &gt; &gt; Tgstation.Server.Client.Components.IConfigurationClient.List </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_pagination_settings.html">PaginationSettings</a>?&#160;</td>
           <td class="paramname"><em>paginationSettings</em>, </td>
@@ -237,20 +237,20 @@ Public Member Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A IReadOnlyList&lt;T&gt; of ConfigurationFileResponses in the <em>directory</em> .</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_configuration_client.html#afa27b0eb0c68b57c2859bfa5f8370145" title="List configuration files.">List&lt;T&gt;</a> of ConfigurationFileResponses in the <em>directory</em> .</dd></dl>
 
-<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_configuration_client.html#a397de1a8f64ebbd128c385fb4086a046">Tgstation.Server.Client.Components.ConfigurationClient</a>.</p>
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_configuration_client.html#ac032e7dafb940924e951b6e6a8a62dba">Tgstation.Server.Client.Components.ConfigurationClient</a>.</p>
 
 </div>
 </div>
-<a id="a61ef8cff20accd163141012353a2fe6d" name="a61ef8cff20accd163141012353a2fe6d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a61ef8cff20accd163141012353a2fe6d">&#9670;&#160;</a></span>Read()</h2>
+<a id="a32ff8a7eb065f5c46fa65770951d0270" name="a32ff8a7eb065f5c46fa65770951d0270"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a32ff8a7eb065f5c46fa65770951d0270">&#9670;&#160;</a></span>Read()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">Task&lt; Tuple&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_configuration_file_response.html">ConfigurationFileResponse</a>, <a class="el" href="class_stream.html">Stream</a> &gt; &gt; Tgstation.Server.Client.Components.IConfigurationClient.Read </td>
+          <td class="memname">ValueTask&lt; Tuple&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_configuration_file_response.html">ConfigurationFileResponse</a>, <a class="el" href="class_stream.html">Stream</a> &gt; &gt; Tgstation.Server.Client.Components.IConfigurationClient.Read </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="interface_tgstation_1_1_server_1_1_api_1_1_models_1_1_i_configuration_file.html">IConfigurationFile</a>&#160;</td>
           <td class="paramname"><em>file</em>, </td>
@@ -277,20 +277,20 @@ Public Member Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A Task resulting in a Tuple&lt;T1, T2&gt; containing the ConfigurationFileResponse and downloaded FileTicketResponse <a class="el" href="class_stream.html">Stream</a>.</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A ValueTask resulting in a Tuple&lt;T1, T2&gt; containing the ConfigurationFileResponse and downloaded FileTicketResponse <a class="el" href="class_stream.html">Stream</a>.</dd></dl>
 
-<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_configuration_client.html#add4dfb81b1774b0d7d6e1ab6ff0ae46f">Tgstation.Server.Client.Components.ConfigurationClient</a>.</p>
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_configuration_client.html#a2d6257c8c564261a04224a5788f5cea1">Tgstation.Server.Client.Components.ConfigurationClient</a>.</p>
 
 </div>
 </div>
-<a id="a6a475793505a6a52d298c6a367c00056" name="a6a475793505a6a52d298c6a367c00056"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6a475793505a6a52d298c6a367c00056">&#9670;&#160;</a></span>Write()</h2>
+<a id="a7105ae2603eb0678f8666b875a829d53" name="a7105ae2603eb0678f8666b875a829d53"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7105ae2603eb0678f8666b875a829d53">&#9670;&#160;</a></span>Write()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">Task&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_configuration_file_response.html">ConfigurationFileResponse</a> &gt; Tgstation.Server.Client.Components.IConfigurationClient.Write </td>
+          <td class="memname">ValueTask&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_configuration_file_response.html">ConfigurationFileResponse</a> &gt; Tgstation.Server.Client.Components.IConfigurationClient.Write </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_1_1_configuration_file_request.html">ConfigurationFileRequest</a>&#160;</td>
           <td class="paramname"><em>file</em>, </td>
@@ -324,9 +324,9 @@ Public Member Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in the new ConfigurationFileResponse.</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A ValueTask&lt;TResult&gt; resulting in the new ConfigurationFileResponse.</dd></dl>
 
-<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_configuration_client.html#a985fa888edbcb5c868c6250a8f4d8897">Tgstation.Server.Client.Components.ConfigurationClient</a>.</p>
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_configuration_client.html#a943aaca0c623f34dc91d198f14102a85">Tgstation.Server.Client.Components.ConfigurationClient</a>.</p>
 
 </div>
 </div>

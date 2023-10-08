@@ -1,4 +1,4 @@
 <map id="Tgstation.Server.Host.Controllers.ByondController.NormalizeVersion" name="Tgstation.Server.Host.Controllers.ByondController.NormalizeVersion">
 <area shape="rect" id="node1" title="Remove the Version.Build from a given version &#160;if present." alt="" coords="269,5,488,45"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_byond_controller.html#aad1b13d8c14d668e2715afe8eae21fc4" title="Changes the active BYOND version to the one specified in a given model ." alt="" coords="5,5,221,45"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_byond_controller.html#a144dfdf339174acb4f63c2dc5567622d" title="Changes the active BYOND version to the one specified in a given model ." alt="" coords="5,5,221,45"/>
 </map>

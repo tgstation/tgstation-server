@@ -1,0 +1,7 @@
+<map id="Tgstation.Server.Host.Components.Watchdog.WatchdogBase.CreateDump" name="Tgstation.Server.Host.Components.Watchdog.WatchdogBase.CreateDump">
+<area shape="rect" id="node1" title="Attempt to create a process dump for DreamDaemon. A ValueTask representing the running operation." alt="" coords="5,101,252,141"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a286f4eb5c679683b7e519847a6c3574e" title="Combines an array of strings into a path." alt="" coords="359,5,527,45"/>
+<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a69aa1b9dbeb6af3744e568095c4376e7" title="Create a directory at path ." alt="" coords="352,69,535,109"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a634f53946305b875c65c04dfd1719830" title="Get the active ISessionController." alt="" coords="300,133,587,173"/>
+<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a18a442b5dff16f5e7a730ec354e81d78" title="Retrieve the full path of the current working directory." alt="" coords="359,197,527,237"/>
+</map>

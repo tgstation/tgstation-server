@@ -119,19 +119,19 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:aeb1ef0cc523ac11f7e1122110a14a5ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af1560622a7d79f2207f23c3cfcaf88a5"><td class="memItemLeft" align="right" valign="top">async ValueTask&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_request_file_stream_provider.html#af1560622a7d79f2207f23c3cfcaf88a5">DisposeAsync</a> ()</td></tr>
 <tr class="separator:af1560622a7d79f2207f23c3cfcaf88a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8ff81109a481a673997fdc2da04d0792"><td class="memItemLeft" align="right" valign="top">async Task&lt; <a class="el" href="class_stream.html">Stream</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_request_file_stream_provider.html#a8ff81109a481a673997fdc2da04d0792">GetResult</a> (CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a8ff81109a481a673997fdc2da04d0792"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the provided <a class="el" href="class_stream.html">Stream</a>. May be called multiple times, though cancelling any may cause all calls to be cancelled. All calls yield the same <a class="el" href="class_stream.html">Stream</a> reference. <dl class="params"><dt>Parameters</dt><dd>
+<tr class="memitem:afd6294b767b298ace3b91aef1accc5f6"><td class="memItemLeft" align="right" valign="top">async ValueTask&lt; <a class="el" href="class_stream.html">Stream</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_request_file_stream_provider.html#afd6294b767b298ace3b91aef1accc5f6">GetResult</a> (CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:afd6294b767b298ace3b91aef1accc5f6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the provided <a class="el" href="class_stream.html">Stream</a>. May be called multiple times, though cancelling any may cause all calls to be cancelled. All calls yield the same <a class="el" href="class_stream.html">Stream</a> reference. <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in the provided <a class="el" href="class_stream.html">Stream</a> on success, <code>null</code> if it could not be provided.</dd></dl>
-The resulting <a class="el" href="class_stream.html">Stream</a> is owned by the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_file_stream_provider.html" title="Interface for asynchronously consuming Streams of files.">IFileStreamProvider</a> and is short lived unless otherwise specified. It should be buffered if it needs use outside the lifetime of the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_file_stream_provider.html" title="Interface for asynchronously consuming Streams of files.">IFileStreamProvider</a>.  <a href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_request_file_stream_provider.html#a8ff81109a481a673997fdc2da04d0792">More...</a><br /></td></tr>
-<tr class="separator:a8ff81109a481a673997fdc2da04d0792"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4089d4c4bd2c81af23de761984fed8e9"><td class="memItemLeft" align="right" valign="top">Task&lt; <a class="el" href="class_stream.html">Stream</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_file_stream_provider.html#a4089d4c4bd2c81af23de761984fed8e9">GetResult</a> (CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a4089d4c4bd2c81af23de761984fed8e9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the provided <a class="el" href="class_stream.html">Stream</a>. May be called multiple times, though cancelling any may cause all calls to be cancelled. All calls yield the same <a class="el" href="class_stream.html">Stream</a> reference.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_file_stream_provider.html#a4089d4c4bd2c81af23de761984fed8e9">More...</a><br /></td></tr>
-<tr class="separator:a4089d4c4bd2c81af23de761984fed8e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<dl class="section return"><dt>Returns</dt><dd>A ValueTask&lt;TResult&gt; resulting in the provided <a class="el" href="class_stream.html">Stream</a> on success, <code>null</code> if it could not be provided.</dd></dl>
+The resulting <a class="el" href="class_stream.html">Stream</a> is owned by the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_file_stream_provider.html" title="Interface for asynchronously consuming Streams of files.">IFileStreamProvider</a> and is short lived unless otherwise specified. It should be buffered if it needs use outside the lifetime of the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_file_stream_provider.html" title="Interface for asynchronously consuming Streams of files.">IFileStreamProvider</a>.  <a href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_request_file_stream_provider.html#afd6294b767b298ace3b91aef1accc5f6">More...</a><br /></td></tr>
+<tr class="separator:afd6294b767b298ace3b91aef1accc5f6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a78376175b738d1a52b4e711e2379396b"><td class="memItemLeft" align="right" valign="top">ValueTask&lt; <a class="el" href="class_stream.html">Stream</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_file_stream_provider.html#a78376175b738d1a52b4e711e2379396b">GetResult</a> (CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a78376175b738d1a52b4e711e2379396b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the provided <a class="el" href="class_stream.html">Stream</a>. May be called multiple times, though cancelling any may cause all calls to be cancelled. All calls yield the same <a class="el" href="class_stream.html">Stream</a> reference.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_file_stream_provider.html#a78376175b738d1a52b4e711e2379396b">More...</a><br /></td></tr>
+<tr class="separator:a78376175b738d1a52b4e711e2379396b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-methods" name="pri-methods"></a>
 Private Member Functions</h2></td></tr>
@@ -274,14 +274,14 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a8ff81109a481a673997fdc2da04d0792" name="a8ff81109a481a673997fdc2da04d0792"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8ff81109a481a673997fdc2da04d0792">&#9670;&#160;</a></span>GetResult()</h2>
+<a id="afd6294b767b298ace3b91aef1accc5f6" name="afd6294b767b298ace3b91aef1accc5f6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afd6294b767b298ace3b91aef1accc5f6">&#9670;&#160;</a></span>GetResult()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">async Task&lt; <a class="el" href="class_stream.html">Stream</a> &gt; Tgstation.Server.Host.IO.RequestFileStreamProvider.GetResult </td>
+          <td class="memname">async ValueTask&lt; <a class="el" href="class_stream.html">Stream</a> &gt; Tgstation.Server.Host.IO.RequestFileStreamProvider.GetResult </td>
           <td>(</td>
           <td class="paramtype">CancellationToken&#160;</td>
           <td class="paramname"><em>cancellationToken</em></td><td>)</td>
@@ -296,10 +296,10 @@ Private Attributes</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in the provided <a class="el" href="class_stream.html">Stream</a> on success, <code>null</code> if it could not be provided.</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A ValueTask&lt;TResult&gt; resulting in the provided <a class="el" href="class_stream.html">Stream</a> on success, <code>null</code> if it could not be provided.</dd></dl>
 The resulting <a class="el" href="class_stream.html">Stream</a> is owned by the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_file_stream_provider.html" title="Interface for asynchronously consuming Streams of files.">IFileStreamProvider</a> and is short lived unless otherwise specified. It should be buffered if it needs use outside the lifetime of the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_file_stream_provider.html" title="Interface for asynchronously consuming Streams of files.">IFileStreamProvider</a>. </p>
 
-<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_file_stream_provider.html#a4089d4c4bd2c81af23de761984fed8e9">Tgstation.Server.Host.IO.IFileStreamProvider</a>.</p>
+<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_file_stream_provider.html#a78376175b738d1a52b4e711e2379396b">Tgstation.Server.Host.IO.IFileStreamProvider</a>.</p>
 
 <p class="definition">Definition at line <a class="el" href="_request_file_stream_provider_8cs_source.html#l00093">93</a> of file <a class="el" href="_request_file_stream_provider_8cs_source.html">RequestFileStreamProvider.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   94</span>        {</div>
@@ -324,11 +324,11 @@ The resulting <a class="el" href="class_stream.html">Stream</a> is owned by the 
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_request_file_stream_provider_a8ff81109a481a673997fdc2da04d0792_cgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_request_file_stream_provider_a8ff81109a481a673997fdc2da04d0792_cgraph" alt=""/></div>
-<map name="aclass_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_request_file_stream_provider_a8ff81109a481a673997fdc2da04d0792_cgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_request_file_stream_provider_a8ff81109a481a673997fdc2da04d0792_cgraph">
+<div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_request_file_stream_provider_afd6294b767b298ace3b91aef1accc5f6_cgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_request_file_stream_provider_afd6294b767b298ace3b91aef1accc5f6_cgraph" alt=""/></div>
+<map name="aclass_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_request_file_stream_provider_afd6294b767b298ace3b91aef1accc5f6_cgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_request_file_stream_provider_afd6294b767b298ace3b91aef1accc5f6_cgraph">
 <area shape="rect" title="Gets the provided Stream. May be called multiple times, though cancelling any may cause all calls to ..." alt="" coords="5,37,248,77"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_request_file_stream_provider.html#a7c0e96de0b1928972f549ab0d2df882f" title="Initiate the download." alt="" coords="296,30,519,85"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_common_1_1_http_1_1_cached_response_stream.html#a03ee8f58617b22421c691bf7f5a82461" title="Asyncronously creates a new CachedResponseStream." alt="" coords="567,5,801,45"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_common_1_1_http_1_1_cached_response_stream.html#a1c106673ce3f96456822b62e75b06774" title="Asyncronously creates a new CachedResponseStream." alt="" coords="567,5,801,45"/>
 <area shape="rect" href="interface_tgstation_1_1_server_1_1_common_1_1_http_1_1_i_http_client.html#ade67e5a20b9f897d763517c700523a83" title="Send an HTTP request." alt="" coords="593,69,775,109"/>
 </map>
 </div>
@@ -374,7 +374,7 @@ Here is the call graph for this function:</div>
 <div class="line"><span class="lineno">  119</span>            <span class="keywordflow">try</span></div>
 <div class="line"><span class="lineno">  120</span>            {</div>
 <div class="line"><span class="lineno">  121</span>                response.EnsureSuccessStatusCode();</div>
-<div class="line"><span class="lineno">  122</span>                <span class="keywordflow">return</span> await <a class="code hl_class" href="class_tgstation_1_1_server_1_1_common_1_1_http_1_1_cached_response_stream.html">CachedResponseStream</a>.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_common_1_1_http_1_1_cached_response_stream.html#a03ee8f58617b22421c691bf7f5a82461">Create</a>(response);</div>
+<div class="line"><span class="lineno">  122</span>                <span class="keywordflow">return</span> await <a class="code hl_class" href="class_tgstation_1_1_server_1_1_common_1_1_http_1_1_cached_response_stream.html">CachedResponseStream</a>.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_common_1_1_http_1_1_cached_response_stream.html#a1c106673ce3f96456822b62e75b06774">Create</a>(response);</div>
 <div class="line"><span class="lineno">  123</span>            }</div>
 <div class="line"><span class="lineno">  124</span>            <span class="keywordflow">catch</span></div>
 <div class="line"><span class="lineno">  125</span>            {</div>
@@ -382,7 +382,7 @@ Here is the call graph for this function:</div>
 <div class="line"><span class="lineno">  127</span>                <span class="keywordflow">throw</span>;</div>
 <div class="line"><span class="lineno">  128</span>            }</div>
 <div class="line"><span class="lineno">  129</span>        }</div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_common_1_1_http_1_1_cached_response_stream_html_a03ee8f58617b22421c691bf7f5a82461"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_common_1_1_http_1_1_cached_response_stream.html#a03ee8f58617b22421c691bf7f5a82461">Tgstation.Server.Common.Http.CachedResponseStream.Create</a></div><div class="ttdeci">static async Task&lt; CachedResponseStream &gt; Create(HttpResponseMessage response)</div><div class="ttdoc">Asyncronously creates a new CachedResponseStream.</div><div class="ttdef"><b>Definition:</b> <a href="_cached_response_stream_8cs_source.html#l00028">CachedResponseStream.cs:28</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_common_1_1_http_1_1_cached_response_stream_html_a1c106673ce3f96456822b62e75b06774"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_common_1_1_http_1_1_cached_response_stream.html#a1c106673ce3f96456822b62e75b06774">Tgstation.Server.Common.Http.CachedResponseStream.Create</a></div><div class="ttdeci">static async ValueTask&lt; CachedResponseStream &gt; Create(HttpResponseMessage response)</div><div class="ttdoc">Asyncronously creates a new CachedResponseStream.</div><div class="ttdef"><b>Definition:</b> <a href="_cached_response_stream_8cs_source.html#l00028">CachedResponseStream.cs:28</a></div></div>
 <div class="ttc" id="ainterface_tgstation_1_1_server_1_1_common_1_1_http_1_1_i_http_client_html_ade67e5a20b9f897d763517c700523a83"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_common_1_1_http_1_1_i_http_client.html#ade67e5a20b9f897d763517c700523a83">Tgstation.Server.Common.Http.IHttpClient.SendAsync</a></div><div class="ttdeci">Task&lt; HttpResponseMessage &gt; SendAsync(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationToken cancellationToken)</div><div class="ttdoc">Send an HTTP request.</div></div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="_cached_response_stream_8cs_source.html#l00028">Tgstation.Server.Common.Http.CachedResponseStream.Create()</a>, <a class="el" href="_request_file_stream_provider_8cs_source.html#l00019">Tgstation.Server.Host.IO.RequestFileStreamProvider.httpClient</a>, <a class="el" href="_request_file_stream_provider_8cs_source.html#l00024">Tgstation.Server.Host.IO.RequestFileStreamProvider.requestMessage</a>, and <a class="el" href="interface_tgstation_1_1_server_1_1_common_1_1_http_1_1_i_http_client.html#ade67e5a20b9f897d763517c700523a83">Tgstation.Server.Common.Http.IHttpClient.SendAsync()</a>.</p>
@@ -394,7 +394,7 @@ Here is the call graph for this function:</div>
 <div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_request_file_stream_provider_a7c0e96de0b1928972f549ab0d2df882f_cgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_request_file_stream_provider_a7c0e96de0b1928972f549ab0d2df882f_cgraph" alt=""/></div>
 <map name="aclass_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_request_file_stream_provider_a7c0e96de0b1928972f549ab0d2df882f_cgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_request_file_stream_provider_a7c0e96de0b1928972f549ab0d2df882f_cgraph">
 <area shape="rect" title="Initiate the download." alt="" coords="5,30,228,85"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_common_1_1_http_1_1_cached_response_stream.html#a03ee8f58617b22421c691bf7f5a82461" title="Asyncronously creates a new CachedResponseStream." alt="" coords="276,5,511,45"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_common_1_1_http_1_1_cached_response_stream.html#a1c106673ce3f96456822b62e75b06774" title="Asyncronously creates a new CachedResponseStream." alt="" coords="276,5,511,45"/>
 <area shape="rect" href="interface_tgstation_1_1_server_1_1_common_1_1_http_1_1_i_http_client.html#ade67e5a20b9f897d763517c700523a83" title="Send an HTTP request." alt="" coords="303,69,484,109"/>
 </map>
 </div>
@@ -404,7 +404,7 @@ Here is the caller graph for this function:</div>
 <div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_request_file_stream_provider_a7c0e96de0b1928972f549ab0d2df882f_icgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_request_file_stream_provider_a7c0e96de0b1928972f549ab0d2df882f_icgraph" alt=""/></div>
 <map name="aclass_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_request_file_stream_provider_a7c0e96de0b1928972f549ab0d2df882f_icgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_request_file_stream_provider_a7c0e96de0b1928972f549ab0d2df882f_icgraph">
 <area shape="rect" title="Initiate the download." alt="" coords="296,5,519,60"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_request_file_stream_provider.html#a8ff81109a481a673997fdc2da04d0792" title="Gets the provided Stream. May be called multiple times, though cancelling any may cause all calls to ..." alt="" coords="5,13,248,53"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_request_file_stream_provider.html#afd6294b767b298ace3b91aef1accc5f6" title="Gets the provided Stream. May be called multiple times, though cancelling any may cause all calls to ..." alt="" coords="5,13,248,53"/>
 </map>
 </div>
 

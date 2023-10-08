@@ -1,0 +1,4 @@
+<map id="Tgstation.Server.Host.IO.DefaultIOManager.CopyDirectoryImpl" name="Tgstation.Server.Host.IO.DefaultIOManager.CopyDirectoryImpl">
+<area shape="rect" id="node1" title="Copies a directory from src &#160;to dest ." alt="" coords="264,29,499,69"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a479d571a6078db0b40f6d45fdf2119b1" title="Copies a directory from src &#160;to dest . A ValueTask representing the running operation." alt="" coords="5,29,216,69"/>
+</map>

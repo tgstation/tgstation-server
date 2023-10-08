@@ -126,24 +126,24 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a762952812b16768101d0cad4615dcdfe"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8f8fbce6859effb2f6005432084d740a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#a8f8fbce6859effb2f6005432084d740a">Dispose</a> ()</td></tr>
 <tr class="separator:a8f8fbce6859effb2f6005432084d740a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3377ee874856ca422c16558894e158e6"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#a3377ee874856ca422c16558894e158e6">RegisterOperation</a> (<a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_job.html">Job</a> job, <a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_jobs.html#a9a7ee6bec5fdadb933ac6ee7fd1b0c93">JobEntrypoint</a> operation, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a3377ee874856ca422c16558894e158e6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Registers a given Job and begins running it. <dl class="params"><dt>Parameters</dt><dd>
+<tr class="memitem:af2255b562972f70a638cf93cd830b6a9"><td class="memItemLeft" align="right" valign="top">ValueTask&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#af2255b562972f70a638cf93cd830b6a9">RegisterOperation</a> (<a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_job.html">Job</a> job, <a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_jobs.html#ad6d7a30f40b17f2a0f95f97fe0d5745a">JobEntrypoint</a> operation, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:af2255b562972f70a638cf93cd830b6a9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Registers a given Job and begins running it. <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">job</td><td>The Job. Should at least have <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_job.html#acebd359c2b46a97a5ddf7c6c9c4f9eb7" title="The Models.Instance the job belongs to if any.">Job.Instance</a> and <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_job.html#a3898828f81135947949d8f1083a71a10" title="English description of the Job.">Api.Models.Internal.Job.Description</a>. If <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_job.html#aeb64c30e0787225682030adf2d2af036" title="See JobResponse.StartedBy.">Job.StartedBy</a> is <code>null</code>, the TGS user will be used.</td></tr>
-    <tr><td class="paramname">operation</td><td>The <a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_jobs.html#a9a7ee6bec5fdadb933ac6ee7fd1b0c93" title="Entrypoint for running a given job.">JobEntrypoint</a> for the <em>job</em> .</td></tr>
+    <tr><td class="paramname">operation</td><td>The <a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_jobs.html#ad6d7a30f40b17f2a0f95f97fe0d5745a" title="Entrypoint for running a given job.">JobEntrypoint</a> for the <em>job</em> .</td></tr>
     <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A Task representing a running operation.</dd></dl>
-  <a href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#a3377ee874856ca422c16558894e158e6">More...</a><br /></td></tr>
-<tr class="separator:a3377ee874856ca422c16558894e158e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<dl class="section return"><dt>Returns</dt><dd>A ValueTask representing a running operation.</dd></dl>
+  <a href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#af2255b562972f70a638cf93cd830b6a9">More...</a><br /></td></tr>
+<tr class="separator:af2255b562972f70a638cf93cd830b6a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aaebaadf1aa4a8764c953f7f25a5d2135"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#aaebaadf1aa4a8764c953f7f25a5d2135">StartAsync</a> (CancellationToken cancellationToken)</td></tr>
 <tr class="separator:aaebaadf1aa4a8764c953f7f25a5d2135"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aed827f047051ff4780fe82f5da5da09b"><td class="memItemLeft" align="right" valign="top">async Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#aed827f047051ff4780fe82f5da5da09b">StopAsync</a> (CancellationToken cancellationToken)</td></tr>
-<tr class="separator:aed827f047051ff4780fe82f5da5da09b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9e21547ef3576e2b185d53d2dc025c50"><td class="memItemLeft" align="right" valign="top">async Task&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_job.html">Job</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#a9e21547ef3576e2b185d53d2dc025c50">CancelJob</a> (<a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_job.html">Job</a> job, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html">User</a> user, bool blocking, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a9e21547ef3576e2b185d53d2dc025c50"><td class="mdescLeft">&#160;</td><td class="mdescRight">Cancels a give <em>job</em> . <dl class="params"><dt>Parameters</dt><dd>
+<tr class="memitem:a46f9c3765d722cbd274dc7af7c02165d"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#a46f9c3765d722cbd274dc7af7c02165d">StopAsync</a> (CancellationToken cancellationToken)</td></tr>
+<tr class="separator:a46f9c3765d722cbd274dc7af7c02165d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac02a1b04fe68e66782a63c3724989457"><td class="memItemLeft" align="right" valign="top">async ValueTask&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_job.html">Job</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#ac02a1b04fe68e66782a63c3724989457">CancelJob</a> (<a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_job.html">Job</a> job, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html">User</a> user, bool blocking, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:ac02a1b04fe68e66782a63c3724989457"><td class="mdescLeft">&#160;</td><td class="mdescRight">Cancels a give <em>job</em> . <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">job</td><td>The Job to cancel.</td></tr>
     <tr><td class="paramname">user</td><td>The User who cancelled the <em>job</em> . If <code>null</code> the TGS user will be used.</td></tr>
@@ -152,9 +152,9 @@ Public Member Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in the updated <em>job</em>  if it was cancelled, <code>null</code> if it couldn't be found.</dd></dl>
-  <a href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#a9e21547ef3576e2b185d53d2dc025c50">More...</a><br /></td></tr>
-<tr class="separator:a9e21547ef3576e2b185d53d2dc025c50"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<dl class="section return"><dt>Returns</dt><dd>A ValueTask&lt;TResult&gt; resulting in the updated <em>job</em>  if it was cancelled, <code>null</code> if it couldn't be found.</dd></dl>
+  <a href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#ac02a1b04fe68e66782a63c3724989457">More...</a><br /></td></tr>
+<tr class="separator:ac02a1b04fe68e66782a63c3724989457"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:accb4de87f7287b21ee72f930075ff1e7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#accb4de87f7287b21ee72f930075ff1e7">SetJobProgress</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_job_response.html">JobResponse</a> apiResponse)</td></tr>
 <tr class="memdesc:accb4de87f7287b21ee72f930075ff1e7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_job_response.html#a86e3be06465db3073e18bab0d716c9f4" title="Optional progress between 0 and 100 inclusive.">JobResponse.Progress</a> and <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_job_response.html#ab382fa77a6373f833ab25889d6a8704c" title="Optional description of the job&#39;s current .">JobResponse.Stage</a> for a given <em>apiResponse</em> . <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -164,8 +164,8 @@ Public Member Functions</h2></td></tr>
 </dl>
   <a href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#accb4de87f7287b21ee72f930075ff1e7">More...</a><br /></td></tr>
 <tr class="separator:accb4de87f7287b21ee72f930075ff1e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af5fe657cdfef95a8172fe2c960977a87"><td class="memItemLeft" align="right" valign="top">async Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#af5fe657cdfef95a8172fe2c960977a87">WaitForJobCompletion</a> (<a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_job.html">Job</a> job, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html">User</a> canceller, CancellationToken jobCancellationToken, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:af5fe657cdfef95a8172fe2c960977a87"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wait for a given <em>job</em>  to complete. <dl class="params"><dt>Parameters</dt><dd>
+<tr class="memitem:aa66c931e301afa1d01ee9a8a29df81eb"><td class="memItemLeft" align="right" valign="top">async ValueTask&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#aa66c931e301afa1d01ee9a8a29df81eb">WaitForJobCompletion</a> (<a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_job.html">Job</a> job, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html">User</a> canceller, CancellationToken jobCancellationToken, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:aa66c931e301afa1d01ee9a8a29df81eb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wait for a given <em>job</em>  to complete. <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">job</td><td>The Job to wait for. </td></tr>
     <tr><td class="paramname">canceller</td><td>The User to cancel the <em>job</em> . If <code>null</code> the TGS user will be used.</td></tr>
@@ -174,9 +174,9 @@ Public Member Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A Task representing the Job.</dd></dl>
-  <a href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#af5fe657cdfef95a8172fe2c960977a87">More...</a><br /></td></tr>
-<tr class="separator:af5fe657cdfef95a8172fe2c960977a87"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<dl class="section return"><dt>Returns</dt><dd>A ValueTask representing the Job.</dd></dl>
+  <a href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#aa66c931e301afa1d01ee9a8a29df81eb">More...</a><br /></td></tr>
+<tr class="separator:aa66c931e301afa1d01ee9a8a29df81eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2b62f0fb522257f707d532fc6ece5041"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#a2b62f0fb522257f707d532fc6ece5041">Activate</a> (<a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_core_provider.html">IInstanceCoreProvider</a> instanceCoreProvider)</td></tr>
 <tr class="memdesc:a2b62f0fb522257f707d532fc6ece5041"><td class="mdescLeft">&#160;</td><td class="mdescRight">Activate the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html" title="Manages the runtime of Jobs.">IJobManager</a>. <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -192,19 +192,19 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a2fc945f03da3ef6cd356b8e8597e2b55"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html#a2fc945f03da3ef6cd356b8e8597e2b55">SetJobProgress</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_job_response.html">JobResponse</a> apiResponse)</td></tr>
 <tr class="memdesc:a2fc945f03da3ef6cd356b8e8597e2b55"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_job_response.html#a86e3be06465db3073e18bab0d716c9f4" title="Optional progress between 0 and 100 inclusive.">JobResponse.Progress</a> and <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_job_response.html#ab382fa77a6373f833ab25889d6a8704c" title="Optional description of the job&#39;s current .">JobResponse.Stage</a> for a given <em>apiResponse</em> .   <a href="interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html#a2fc945f03da3ef6cd356b8e8597e2b55">More...</a><br /></td></tr>
 <tr class="separator:a2fc945f03da3ef6cd356b8e8597e2b55"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a21be789f798adf9985f2432d3499b4cd"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html#a21be789f798adf9985f2432d3499b4cd">RegisterOperation</a> (<a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_job.html">Job</a> job, <a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_jobs.html#a9a7ee6bec5fdadb933ac6ee7fd1b0c93">JobEntrypoint</a> operation, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a21be789f798adf9985f2432d3499b4cd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Registers a given Job and begins running it.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html#a21be789f798adf9985f2432d3499b4cd">More...</a><br /></td></tr>
-<tr class="separator:a21be789f798adf9985f2432d3499b4cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a04ad7543ef9c8863c1d8d0b46d17f522"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html#a04ad7543ef9c8863c1d8d0b46d17f522">WaitForJobCompletion</a> (<a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_job.html">Job</a> job, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html">User</a> canceller, CancellationToken jobCancellationToken, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a04ad7543ef9c8863c1d8d0b46d17f522"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wait for a given <em>job</em>  to complete.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html#a04ad7543ef9c8863c1d8d0b46d17f522">More...</a><br /></td></tr>
-<tr class="separator:a04ad7543ef9c8863c1d8d0b46d17f522"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4facb1a143c6ee0dd7eae5117befdfda"><td class="memItemLeft" align="right" valign="top">Task&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_job.html">Job</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html#a4facb1a143c6ee0dd7eae5117befdfda">CancelJob</a> (<a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_job.html">Job</a> job, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html">User</a> user, bool blocking, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a4facb1a143c6ee0dd7eae5117befdfda"><td class="mdescLeft">&#160;</td><td class="mdescRight">Cancels a give <em>job</em> .   <a href="interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html#a4facb1a143c6ee0dd7eae5117befdfda">More...</a><br /></td></tr>
-<tr class="separator:a4facb1a143c6ee0dd7eae5117befdfda"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aefaca6d0c2762350a41adfe7daaade95"><td class="memItemLeft" align="right" valign="top">ValueTask&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html#aefaca6d0c2762350a41adfe7daaade95">RegisterOperation</a> (<a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_job.html">Job</a> job, <a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_jobs.html#ad6d7a30f40b17f2a0f95f97fe0d5745a">JobEntrypoint</a> operation, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:aefaca6d0c2762350a41adfe7daaade95"><td class="mdescLeft">&#160;</td><td class="mdescRight">Registers a given Job and begins running it.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html#aefaca6d0c2762350a41adfe7daaade95">More...</a><br /></td></tr>
+<tr class="separator:aefaca6d0c2762350a41adfe7daaade95"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a485010f3175f6ee62625d32db681747a"><td class="memItemLeft" align="right" valign="top">ValueTask&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html#a485010f3175f6ee62625d32db681747a">WaitForJobCompletion</a> (<a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_job.html">Job</a> job, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html">User</a> canceller, CancellationToken jobCancellationToken, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a485010f3175f6ee62625d32db681747a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wait for a given <em>job</em>  to complete.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html#a485010f3175f6ee62625d32db681747a">More...</a><br /></td></tr>
+<tr class="separator:a485010f3175f6ee62625d32db681747a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2ba74523096516f2790a792c9f6bc094"><td class="memItemLeft" align="right" valign="top">ValueTask&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_job.html">Job</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html#a2ba74523096516f2790a792c9f6bc094">CancelJob</a> (<a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_job.html">Job</a> job, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html">User</a> user, bool blocking, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a2ba74523096516f2790a792c9f6bc094"><td class="mdescLeft">&#160;</td><td class="mdescRight">Cancels a give <em>job</em> .   <a href="interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html#a2ba74523096516f2790a792c9f6bc094">More...</a><br /></td></tr>
+<tr class="separator:a2ba74523096516f2790a792c9f6bc094"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-methods" name="pri-methods"></a>
 Private Member Functions</h2></td></tr>
-<tr class="memitem:aefe2c8ced346d9a64ef02a77fe4980ae"><td class="memItemLeft" align="right" valign="top">async Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#aefe2c8ced346d9a64ef02a77fe4980ae">RunJob</a> (<a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_job.html">Job</a> job, <a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_jobs.html#a9a7ee6bec5fdadb933ac6ee7fd1b0c93">JobEntrypoint</a> operation, CancellationToken cancellationToken)</td></tr>
+<tr class="memitem:aefe2c8ced346d9a64ef02a77fe4980ae"><td class="memItemLeft" align="right" valign="top">async Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#aefe2c8ced346d9a64ef02a77fe4980ae">RunJob</a> (<a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_job.html">Job</a> job, <a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_jobs.html#ad6d7a30f40b17f2a0f95f97fe0d5745a">JobEntrypoint</a> operation, CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:aefe2c8ced346d9a64ef02a77fe4980ae"><td class="mdescLeft">&#160;</td><td class="mdescRight">Runner for <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_handler.html" title="Class for pairing Tasks with CancellationTokenSources.">JobHandler</a>s.   <a href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#aefe2c8ced346d9a64ef02a77fe4980ae">More...</a><br /></td></tr>
 <tr class="separator:aefe2c8ced346d9a64ef02a77fe4980ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -237,7 +237,7 @@ Private Attributes</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p class="definition">Definition at line <a class="el" href="_job_service_8cs_source.html#l00020">20</a> of file <a class="el" href="_job_service_8cs_source.html">JobService.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_job_service_8cs_source.html#l00021">21</a> of file <a class="el" href="_job_service_8cs_source.html">JobService.cs</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a762952812b16768101d0cad4615dcdfe" name="a762952812b16768101d0cad4615dcdfe"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a762952812b16768101d0cad4615dcdfe">&#9670;&#160;</a></span>JobService()</h2>
@@ -281,25 +281,25 @@ Private Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_job_service_8cs_source.html#l00068">68</a> of file <a class="el" href="_job_service_8cs_source.html">JobService.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   72</span>        {</div>
-<div class="line"><span class="lineno">   73</span>            this.databaseContextFactory = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#aadb062723447ba776a7efa9d81493b9a">databaseContextFactory</a> ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#aadb062723447ba776a7efa9d81493b9a">databaseContextFactory</a>));</div>
-<div class="line"><span class="lineno">   74</span>            this.loggerFactory = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#a5ed30d8f070bcfed658337187e68c841">loggerFactory</a> ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#a5ed30d8f070bcfed658337187e68c841">loggerFactory</a>));</div>
-<div class="line"><span class="lineno">   75</span>            this.logger = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#a205ac8792aefeda9cd2a532d36b1784c">logger</a> ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#a205ac8792aefeda9cd2a532d36b1784c">logger</a>));</div>
-<div class="line"><span class="lineno">   76</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#adb8db167c189c8ea456a0372432de1a0">jobs</a> = <span class="keyword">new</span> Dictionary&lt;long, JobHandler&gt;();</div>
-<div class="line"><span class="lineno">   77</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#a65f26f7978af1de33b6339147d243045">activationTcs</a> = <span class="keyword">new</span> TaskCompletionSource&lt;IInstanceCoreProvider&gt;();</div>
-<div class="line"><span class="lineno">   78</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#a2a0df9ba71fdfea989c57f975fce051f">synchronizationLock</a> = <span class="keyword">new</span> object();</div>
-<div class="line"><span class="lineno">   79</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#a65f7d840d9d1d86d25267d75b07dd688">addCancelLock</a> = <span class="keyword">new</span> object();</div>
-<div class="line"><span class="lineno">   80</span>        }</div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service_html_a205ac8792aefeda9cd2a532d36b1784c"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#a205ac8792aefeda9cd2a532d36b1784c">Tgstation.Server.Host.Jobs.JobService.logger</a></div><div class="ttdeci">readonly ILogger&lt; JobService &gt; logger</div><div class="ttdoc">The ILogger for the JobService.</div><div class="ttdef"><b>Definition:</b> <a href="_job_service_8cs_source.html#l00035">JobService.cs:35</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service_html_a2a0df9ba71fdfea989c57f975fce051f"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#a2a0df9ba71fdfea989c57f975fce051f">Tgstation.Server.Host.Jobs.JobService.synchronizationLock</a></div><div class="ttdeci">readonly object synchronizationLock</div><div class="ttdoc">lock object for various operations.</div><div class="ttdef"><b>Definition:</b> <a href="_job_service_8cs_source.html#l00050">JobService.cs:50</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service_html_a5ed30d8f070bcfed658337187e68c841"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#a5ed30d8f070bcfed658337187e68c841">Tgstation.Server.Host.Jobs.JobService.loggerFactory</a></div><div class="ttdeci">readonly ILoggerFactory loggerFactory</div><div class="ttdoc">The ILoggerFactory for the JobService.</div><div class="ttdef"><b>Definition:</b> <a href="_job_service_8cs_source.html#l00030">JobService.cs:30</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service_html_a65f26f7978af1de33b6339147d243045"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#a65f26f7978af1de33b6339147d243045">Tgstation.Server.Host.Jobs.JobService.activationTcs</a></div><div class="ttdeci">readonly TaskCompletionSource&lt; IInstanceCoreProvider &gt; activationTcs</div><div class="ttdoc">TaskCompletionSource&lt;TResult&gt; to delay starting jobs until the server is ready.</div><div class="ttdef"><b>Definition:</b> <a href="_job_service_8cs_source.html#l00045">JobService.cs:45</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service_html_a65f7d840d9d1d86d25267d75b07dd688"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#a65f7d840d9d1d86d25267d75b07dd688">Tgstation.Server.Host.Jobs.JobService.addCancelLock</a></div><div class="ttdeci">readonly object addCancelLock</div><div class="ttdoc">Prevents a really REALLY rare race condition between add and cancel operations.</div><div class="ttdef"><b>Definition:</b> <a href="_job_service_8cs_source.html#l00055">JobService.cs:55</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service_html_aadb062723447ba776a7efa9d81493b9a"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#aadb062723447ba776a7efa9d81493b9a">Tgstation.Server.Host.Jobs.JobService.databaseContextFactory</a></div><div class="ttdeci">readonly IDatabaseContextFactory databaseContextFactory</div><div class="ttdoc">The IServiceProvider for the JobService.</div><div class="ttdef"><b>Definition:</b> <a href="_job_service_8cs_source.html#l00025">JobService.cs:25</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service_html_adb8db167c189c8ea456a0372432de1a0"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#adb8db167c189c8ea456a0372432de1a0">Tgstation.Server.Host.Jobs.JobService.jobs</a></div><div class="ttdeci">readonly Dictionary&lt; long, JobHandler &gt; jobs</div><div class="ttdoc">Dictionary&lt;TKey, TValue&gt; of Job Api.Models.EntityId.Ids to running JobHandlers.</div><div class="ttdef"><b>Definition:</b> <a href="_job_service_8cs_source.html#l00040">JobService.cs:40</a></div></div>
+<p class="definition">Definition at line <a class="el" href="_job_service_8cs_source.html#l00069">69</a> of file <a class="el" href="_job_service_8cs_source.html">JobService.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   73</span>        {</div>
+<div class="line"><span class="lineno">   74</span>            this.databaseContextFactory = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#aadb062723447ba776a7efa9d81493b9a">databaseContextFactory</a> ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#aadb062723447ba776a7efa9d81493b9a">databaseContextFactory</a>));</div>
+<div class="line"><span class="lineno">   75</span>            this.loggerFactory = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#a5ed30d8f070bcfed658337187e68c841">loggerFactory</a> ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#a5ed30d8f070bcfed658337187e68c841">loggerFactory</a>));</div>
+<div class="line"><span class="lineno">   76</span>            this.logger = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#a205ac8792aefeda9cd2a532d36b1784c">logger</a> ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#a205ac8792aefeda9cd2a532d36b1784c">logger</a>));</div>
+<div class="line"><span class="lineno">   77</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#adb8db167c189c8ea456a0372432de1a0">jobs</a> = <span class="keyword">new</span> Dictionary&lt;long, JobHandler&gt;();</div>
+<div class="line"><span class="lineno">   78</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#a65f26f7978af1de33b6339147d243045">activationTcs</a> = <span class="keyword">new</span> TaskCompletionSource&lt;IInstanceCoreProvider&gt;();</div>
+<div class="line"><span class="lineno">   79</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#a2a0df9ba71fdfea989c57f975fce051f">synchronizationLock</a> = <span class="keyword">new</span> object();</div>
+<div class="line"><span class="lineno">   80</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#a65f7d840d9d1d86d25267d75b07dd688">addCancelLock</a> = <span class="keyword">new</span> object();</div>
+<div class="line"><span class="lineno">   81</span>        }</div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service_html_a205ac8792aefeda9cd2a532d36b1784c"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#a205ac8792aefeda9cd2a532d36b1784c">Tgstation.Server.Host.Jobs.JobService.logger</a></div><div class="ttdeci">readonly ILogger&lt; JobService &gt; logger</div><div class="ttdoc">The ILogger for the JobService.</div><div class="ttdef"><b>Definition:</b> <a href="_job_service_8cs_source.html#l00036">JobService.cs:36</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service_html_a2a0df9ba71fdfea989c57f975fce051f"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#a2a0df9ba71fdfea989c57f975fce051f">Tgstation.Server.Host.Jobs.JobService.synchronizationLock</a></div><div class="ttdeci">readonly object synchronizationLock</div><div class="ttdoc">lock object for various operations.</div><div class="ttdef"><b>Definition:</b> <a href="_job_service_8cs_source.html#l00051">JobService.cs:51</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service_html_a5ed30d8f070bcfed658337187e68c841"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#a5ed30d8f070bcfed658337187e68c841">Tgstation.Server.Host.Jobs.JobService.loggerFactory</a></div><div class="ttdeci">readonly ILoggerFactory loggerFactory</div><div class="ttdoc">The ILoggerFactory for the JobService.</div><div class="ttdef"><b>Definition:</b> <a href="_job_service_8cs_source.html#l00031">JobService.cs:31</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service_html_a65f26f7978af1de33b6339147d243045"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#a65f26f7978af1de33b6339147d243045">Tgstation.Server.Host.Jobs.JobService.activationTcs</a></div><div class="ttdeci">readonly TaskCompletionSource&lt; IInstanceCoreProvider &gt; activationTcs</div><div class="ttdoc">TaskCompletionSource&lt;TResult&gt; to delay starting jobs until the server is ready.</div><div class="ttdef"><b>Definition:</b> <a href="_job_service_8cs_source.html#l00046">JobService.cs:46</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service_html_a65f7d840d9d1d86d25267d75b07dd688"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#a65f7d840d9d1d86d25267d75b07dd688">Tgstation.Server.Host.Jobs.JobService.addCancelLock</a></div><div class="ttdeci">readonly object addCancelLock</div><div class="ttdoc">Prevents a really REALLY rare race condition between add and cancel operations.</div><div class="ttdef"><b>Definition:</b> <a href="_job_service_8cs_source.html#l00056">JobService.cs:56</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service_html_aadb062723447ba776a7efa9d81493b9a"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#aadb062723447ba776a7efa9d81493b9a">Tgstation.Server.Host.Jobs.JobService.databaseContextFactory</a></div><div class="ttdeci">readonly IDatabaseContextFactory databaseContextFactory</div><div class="ttdoc">The IServiceProvider for the JobService.</div><div class="ttdef"><b>Definition:</b> <a href="_job_service_8cs_source.html#l00026">JobService.cs:26</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service_html_adb8db167c189c8ea456a0372432de1a0"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#adb8db167c189c8ea456a0372432de1a0">Tgstation.Server.Host.Jobs.JobService.jobs</a></div><div class="ttdeci">readonly Dictionary&lt; long, JobHandler &gt; jobs</div><div class="ttdoc">Dictionary&lt;TKey, TValue&gt; of Job Api.Models.EntityId.Ids to running JobHandlers.</div><div class="ttdef"><b>Definition:</b> <a href="_job_service_8cs_source.html#l00041">JobService.cs:41</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_job_service_8cs_source.html#l00045">Tgstation.Server.Host.Jobs.JobService.activationTcs</a>, <a class="el" href="_job_service_8cs_source.html#l00055">Tgstation.Server.Host.Jobs.JobService.addCancelLock</a>, <a class="el" href="_job_service_8cs_source.html#l00025">Tgstation.Server.Host.Jobs.JobService.databaseContextFactory</a>, <a class="el" href="_job_service_8cs_source.html#l00040">Tgstation.Server.Host.Jobs.JobService.jobs</a>, <a class="el" href="_job_service_8cs_source.html#l00035">Tgstation.Server.Host.Jobs.JobService.logger</a>, <a class="el" href="_job_service_8cs_source.html#l00030">Tgstation.Server.Host.Jobs.JobService.loggerFactory</a>, and <a class="el" href="_job_service_8cs_source.html#l00050">Tgstation.Server.Host.Jobs.JobService.synchronizationLock</a>.</p>
+<p class="reference">References <a class="el" href="_job_service_8cs_source.html#l00046">Tgstation.Server.Host.Jobs.JobService.activationTcs</a>, <a class="el" href="_job_service_8cs_source.html#l00056">Tgstation.Server.Host.Jobs.JobService.addCancelLock</a>, <a class="el" href="_job_service_8cs_source.html#l00026">Tgstation.Server.Host.Jobs.JobService.databaseContextFactory</a>, <a class="el" href="_job_service_8cs_source.html#l00041">Tgstation.Server.Host.Jobs.JobService.jobs</a>, <a class="el" href="_job_service_8cs_source.html#l00036">Tgstation.Server.Host.Jobs.JobService.logger</a>, <a class="el" href="_job_service_8cs_source.html#l00031">Tgstation.Server.Host.Jobs.JobService.loggerFactory</a>, and <a class="el" href="_job_service_8cs_source.html#l00051">Tgstation.Server.Host.Jobs.JobService.synchronizationLock</a>.</p>
 
 </div>
 </div>
@@ -330,24 +330,24 @@ Private Attributes</h2></td></tr>
 
 <p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_service.html#a23de62961f3d9eb3db05d4db8c409bac">Tgstation.Server.Host.Jobs.IJobService</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_job_service_8cs_source.html#l00279">279</a> of file <a class="el" href="_job_service_8cs_source.html">JobService.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  280</span>        {</div>
-<div class="line"><span class="lineno">  281</span>            ArgumentNullException.ThrowIfNull(instanceCoreProvider);</div>
-<div class="line"><span class="lineno">  282</span> </div>
-<div class="line"><span class="lineno">  283</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#a205ac8792aefeda9cd2a532d36b1784c">logger</a>.LogTrace(<span class="stringliteral">&quot;Activating job manager...&quot;</span>);</div>
-<div class="line"><span class="lineno">  284</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#a65f26f7978af1de33b6339147d243045">activationTcs</a>.SetResult(instanceCoreProvider);</div>
-<div class="line"><span class="lineno">  285</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_job_service_8cs_source.html#l00281">281</a> of file <a class="el" href="_job_service_8cs_source.html">JobService.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  282</span>        {</div>
+<div class="line"><span class="lineno">  283</span>            ArgumentNullException.ThrowIfNull(instanceCoreProvider);</div>
+<div class="line"><span class="lineno">  284</span> </div>
+<div class="line"><span class="lineno">  285</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#a205ac8792aefeda9cd2a532d36b1784c">logger</a>.LogTrace(<span class="stringliteral">&quot;Activating job manager...&quot;</span>);</div>
+<div class="line"><span class="lineno">  286</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#a65f26f7978af1de33b6339147d243045">activationTcs</a>.SetResult(instanceCoreProvider);</div>
+<div class="line"><span class="lineno">  287</span>        }</div>
 </div><!-- fragment -->
 </div>
 </div>
-<a id="a9e21547ef3576e2b185d53d2dc025c50" name="a9e21547ef3576e2b185d53d2dc025c50"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9e21547ef3576e2b185d53d2dc025c50">&#9670;&#160;</a></span>CancelJob()</h2>
+<a id="ac02a1b04fe68e66782a63c3724989457" name="ac02a1b04fe68e66782a63c3724989457"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac02a1b04fe68e66782a63c3724989457">&#9670;&#160;</a></span>CancelJob()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">async Task&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_job.html">Job</a> &gt; Tgstation.Server.Host.Jobs.JobService.CancelJob </td>
+          <td class="memname">async ValueTask&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_job.html">Job</a> &gt; Tgstation.Server.Host.Jobs.JobService.CancelJob </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_job.html">Job</a>&#160;</td>
           <td class="paramname"><em>job</em>, </td>
@@ -387,62 +387,62 @@ Private Attributes</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in the updated <em>job</em>  if it was cancelled, <code>null</code> if it couldn't be found.</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A ValueTask&lt;TResult&gt; resulting in the updated <em>job</em>  if it was cancelled, <code>null</code> if it couldn't be found.</dd></dl>
  </p>
 
-<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html#a4facb1a143c6ee0dd7eae5117befdfda">Tgstation.Server.Host.Jobs.IJobManager</a>.</p>
+<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html#a2ba74523096516f2790a792c9f6bc094">Tgstation.Server.Host.Jobs.IJobManager</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_job_service_8cs_source.html#l00196">196</a> of file <a class="el" href="_job_service_8cs_source.html">JobService.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  197</span>        {</div>
-<div class="line"><span class="lineno">  198</span>            ArgumentNullException.ThrowIfNull(job);</div>
-<div class="line"><span class="lineno">  199</span> </div>
-<div class="line"><span class="lineno">  200</span>            JobHandler handler;</div>
-<div class="line"><span class="lineno">  201</span>            lock (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#a65f7d840d9d1d86d25267d75b07dd688">addCancelLock</a>)</div>
-<div class="line"><span class="lineno">  202</span>            {</div>
-<div class="line"><span class="lineno">  203</span>                lock (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#a2a0df9ba71fdfea989c57f975fce051f">synchronizationLock</a>)</div>
-<div class="line"><span class="lineno">  204</span>                    <span class="keywordflow">if</span> (!<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#adb8db167c189c8ea456a0372432de1a0">jobs</a>.TryGetValue(job.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html#ae31e478e1d338b37a14565df6fd58570">Id</a>.Value, out handler))</div>
-<div class="line"><span class="lineno">  205</span>                        <span class="keywordflow">return</span> <span class="keyword">null</span>;</div>
-<div class="line"><span class="lineno">  206</span> </div>
-<div class="line"><span class="lineno">  207</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#a205ac8792aefeda9cd2a532d36b1784c">logger</a>.LogDebug(<span class="stringliteral">&quot;Cancelling job ID {jobId}...&quot;</span>, job.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html#ae31e478e1d338b37a14565df6fd58570">Id</a>.Value);</div>
-<div class="line"><span class="lineno">  208</span>                handler.Cancel(); <span class="comment">// this will ensure the db update is only done once</span></div>
-<div class="line"><span class="lineno">  209</span>            }</div>
-<div class="line"><span class="lineno">  210</span> </div>
-<div class="line"><span class="lineno">  211</span>            await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#aadb062723447ba776a7efa9d81493b9a">databaseContextFactory</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_factory.html#ad22fce8fc51129e9da203dcef2f7ab42">UseContext</a>(async databaseContext =&gt;</div>
-<div class="line"><span class="lineno">  212</span>            {</div>
-<div class="line"><span class="lineno">  213</span>                user ??= await databaseContext.Users.GetTgsUser(cancellationToken);</div>
-<div class="line"><span class="lineno">  214</span> </div>
-<div class="line"><span class="lineno">  215</span>                var updatedJob = <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_job.html">Job</a> { Id = job.Id };</div>
-<div class="line"><span class="lineno">  216</span>                databaseContext.Jobs.Attach(updatedJob);</div>
-<div class="line"><span class="lineno">  217</span>                var attachedUser = <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html">User</a> { Id = user.Id };</div>
-<div class="line"><span class="lineno">  218</span>                databaseContext.Users.Attach(attachedUser);</div>
-<div class="line"><span class="lineno">  219</span>                updatedJob.CancelledBy = attachedUser;</div>
-<div class="line"><span class="lineno">  220</span> </div>
-<div class="line"><span class="lineno">  221</span>                <span class="comment">// let either startup or cancellation set job.cancelled</span></div>
-<div class="line"><span class="lineno">  222</span>                await databaseContext.Save(cancellationToken);</div>
-<div class="line"><span class="lineno">  223</span>                job.CancelledBy = user;</div>
-<div class="line"><span class="lineno">  224</span>            });</div>
-<div class="line"><span class="lineno">  225</span> </div>
-<div class="line"><span class="lineno">  226</span>            <span class="keywordflow">if</span> (blocking)</div>
-<div class="line"><span class="lineno">  227</span>            {</div>
-<div class="line"><span class="lineno">  228</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#a205ac8792aefeda9cd2a532d36b1784c">logger</a>.LogTrace(<span class="stringliteral">&quot;Waiting on cancelled job #{jobId}...&quot;</span>, job.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html#ae31e478e1d338b37a14565df6fd58570">Id</a>);</div>
-<div class="line"><span class="lineno">  229</span>                await handler.Wait(cancellationToken);</div>
-<div class="line"><span class="lineno">  230</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#a205ac8792aefeda9cd2a532d36b1784c">logger</a>.LogTrace(<span class="stringliteral">&quot;Done waiting on job #{jobId}...&quot;</span>, job.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html#ae31e478e1d338b37a14565df6fd58570">Id</a>);</div>
-<div class="line"><span class="lineno">  231</span>            }</div>
-<div class="line"><span class="lineno">  232</span> </div>
-<div class="line"><span class="lineno">  233</span>            <span class="keywordflow">return</span> job;</div>
-<div class="line"><span class="lineno">  234</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_job_service_8cs_source.html#l00198">198</a> of file <a class="el" href="_job_service_8cs_source.html">JobService.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  199</span>        {</div>
+<div class="line"><span class="lineno">  200</span>            ArgumentNullException.ThrowIfNull(job);</div>
+<div class="line"><span class="lineno">  201</span> </div>
+<div class="line"><span class="lineno">  202</span>            JobHandler handler;</div>
+<div class="line"><span class="lineno">  203</span>            lock (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#a65f7d840d9d1d86d25267d75b07dd688">addCancelLock</a>)</div>
+<div class="line"><span class="lineno">  204</span>            {</div>
+<div class="line"><span class="lineno">  205</span>                lock (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#a2a0df9ba71fdfea989c57f975fce051f">synchronizationLock</a>)</div>
+<div class="line"><span class="lineno">  206</span>                    <span class="keywordflow">if</span> (!<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#adb8db167c189c8ea456a0372432de1a0">jobs</a>.TryGetValue(job.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html#ae31e478e1d338b37a14565df6fd58570">Id</a>.Value, out handler))</div>
+<div class="line"><span class="lineno">  207</span>                        <span class="keywordflow">return</span> <span class="keyword">null</span>;</div>
+<div class="line"><span class="lineno">  208</span> </div>
+<div class="line"><span class="lineno">  209</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#a205ac8792aefeda9cd2a532d36b1784c">logger</a>.LogDebug(<span class="stringliteral">&quot;Cancelling job ID {jobId}...&quot;</span>, job.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html#ae31e478e1d338b37a14565df6fd58570">Id</a>.Value);</div>
+<div class="line"><span class="lineno">  210</span>                handler.Cancel(); <span class="comment">// this will ensure the db update is only done once</span></div>
+<div class="line"><span class="lineno">  211</span>            }</div>
+<div class="line"><span class="lineno">  212</span> </div>
+<div class="line"><span class="lineno">  213</span>            await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#aadb062723447ba776a7efa9d81493b9a">databaseContextFactory</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_factory.html#a1da664d7237dbec5a6cb9ce04b79ccc1">UseContext</a>(async databaseContext =&gt;</div>
+<div class="line"><span class="lineno">  214</span>            {</div>
+<div class="line"><span class="lineno">  215</span>                user ??= await databaseContext.Users.GetTgsUser(cancellationToken);</div>
+<div class="line"><span class="lineno">  216</span> </div>
+<div class="line"><span class="lineno">  217</span>                var updatedJob = <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_job.html">Job</a> { Id = job.Id };</div>
+<div class="line"><span class="lineno">  218</span>                databaseContext.Jobs.Attach(updatedJob);</div>
+<div class="line"><span class="lineno">  219</span>                var attachedUser = <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html">User</a> { Id = user.Id };</div>
+<div class="line"><span class="lineno">  220</span>                databaseContext.Users.Attach(attachedUser);</div>
+<div class="line"><span class="lineno">  221</span>                updatedJob.CancelledBy = attachedUser;</div>
+<div class="line"><span class="lineno">  222</span> </div>
+<div class="line"><span class="lineno">  223</span>                <span class="comment">// let either startup or cancellation set job.cancelled</span></div>
+<div class="line"><span class="lineno">  224</span>                await databaseContext.Save(cancellationToken);</div>
+<div class="line"><span class="lineno">  225</span>                job.CancelledBy = user;</div>
+<div class="line"><span class="lineno">  226</span>            });</div>
+<div class="line"><span class="lineno">  227</span> </div>
+<div class="line"><span class="lineno">  228</span>            <span class="keywordflow">if</span> (blocking)</div>
+<div class="line"><span class="lineno">  229</span>            {</div>
+<div class="line"><span class="lineno">  230</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#a205ac8792aefeda9cd2a532d36b1784c">logger</a>.LogTrace(<span class="stringliteral">&quot;Waiting on cancelled job #{jobId}...&quot;</span>, job.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html#ae31e478e1d338b37a14565df6fd58570">Id</a>);</div>
+<div class="line"><span class="lineno">  231</span>                await handler.Wait(cancellationToken);</div>
+<div class="line"><span class="lineno">  232</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#a205ac8792aefeda9cd2a532d36b1784c">logger</a>.LogTrace(<span class="stringliteral">&quot;Done waiting on job #{jobId}...&quot;</span>, job.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html#ae31e478e1d338b37a14565df6fd58570">Id</a>);</div>
+<div class="line"><span class="lineno">  233</span>            }</div>
+<div class="line"><span class="lineno">  234</span> </div>
+<div class="line"><span class="lineno">  235</span>            <span class="keywordflow">return</span> job;</div>
+<div class="line"><span class="lineno">  236</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id_html_ae31e478e1d338b37a14565df6fd58570"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html#ae31e478e1d338b37a14565df6fd58570">Tgstation.Server.Api.Models.EntityId.Id</a></div><div class="ttdeci">virtual ? long Id</div><div class="ttdoc">The ID of the entity.</div><div class="ttdef"><b>Definition:</b> <a href="_entity_id_8cs_source.html#l00013">EntityId.cs:13</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_models_1_1_job_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_job.html">Tgstation.Server.Host.Models.Job</a></div><div class="ttdef"><b>Definition:</b> <a href="_tgstation_8_server_8_host_2_models_2_job_8cs_source.html#l00009">Job.cs:11</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_models_1_1_user_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html">Tgstation.Server.Host.Models.User</a></div><div class="ttdef"><b>Definition:</b> <a href="_user_8cs_source.html#l00012">User.cs:13</a></div></div>
-<div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_factory_html_ad22fce8fc51129e9da203dcef2f7ab42"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_factory.html#ad22fce8fc51129e9da203dcef2f7ab42">Tgstation.Server.Host.Database.IDatabaseContextFactory.UseContext</a></div><div class="ttdeci">Task UseContext(Func&lt; IDatabaseContext, Task &gt; operation)</div><div class="ttdoc">Run an operation  in the scope of an IDatabaseContext.</div></div>
+<div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_factory_html_a1da664d7237dbec5a6cb9ce04b79ccc1"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_factory.html#a1da664d7237dbec5a6cb9ce04b79ccc1">Tgstation.Server.Host.Database.IDatabaseContextFactory.UseContext</a></div><div class="ttdeci">ValueTask UseContext(Func&lt; IDatabaseContext, ValueTask &gt; operation)</div><div class="ttdoc">Run an operation  in the scope of an IDatabaseContext.</div></div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_handler.html#a674342b0dc8050c0ab42a299aa4a7762">Tgstation.Server.Host.Jobs.JobHandler.Cancel()</a>, <a class="el" href="_entity_id_8cs_source.html#l00013">Tgstation.Server.Api.Models.EntityId.Id</a>, and <a class="el" href="_job_handler_8cs_source.html#l00060">Tgstation.Server.Host.Jobs.JobHandler.Wait()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service_a9e21547ef3576e2b185d53d2dc025c50_cgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service_a9e21547ef3576e2b185d53d2dc025c50_cgraph" alt=""/></div>
-<map name="aclass_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service_a9e21547ef3576e2b185d53d2dc025c50_cgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service_a9e21547ef3576e2b185d53d2dc025c50_cgraph">
-<area shape="rect" title="Cancels a give job . A Task&lt;TResult&gt; resulting in the updated job &#160;if it was cancelled,..." alt="" coords="5,37,188,77"/>
+<div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service_ac02a1b04fe68e66782a63c3724989457_cgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service_ac02a1b04fe68e66782a63c3724989457_cgraph" alt=""/></div>
+<map name="aclass_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service_ac02a1b04fe68e66782a63c3724989457_cgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service_ac02a1b04fe68e66782a63c3724989457_cgraph">
+<area shape="rect" title="Cancels a give job . A ValueTask&lt;TResult&gt; resulting in the updated job &#160;if it was cancelled,..." alt="" coords="5,37,188,77"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_handler.html#a674342b0dc8050c0ab42a299aa4a7762" title="Cancels task." alt="" coords="236,5,419,45"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_handler.html#ae9c16c160e9e0f1e1201dc86a29eace0" title="Wait for task to complete." alt="" coords="236,69,419,109"/>
 </map>
@@ -467,24 +467,24 @@ Here is the call graph for this function:</div>
 
 <p></p>
 
-<p class="definition">Definition at line <a class="el" href="_job_service_8cs_source.html#l00083">83</a> of file <a class="el" href="_job_service_8cs_source.html">JobService.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   84</span>        {</div>
-<div class="line"><span class="lineno">   85</span>            <span class="keywordflow">foreach</span> (var job <span class="keywordflow">in</span> <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#adb8db167c189c8ea456a0372432de1a0">jobs</a>)</div>
-<div class="line"><span class="lineno">   86</span>                job.Value.Dispose();</div>
-<div class="line"><span class="lineno">   87</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_job_service_8cs_source.html#l00084">84</a> of file <a class="el" href="_job_service_8cs_source.html">JobService.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   85</span>        {</div>
+<div class="line"><span class="lineno">   86</span>            <span class="keywordflow">foreach</span> (var job <span class="keywordflow">in</span> <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#adb8db167c189c8ea456a0372432de1a0">jobs</a>)</div>
+<div class="line"><span class="lineno">   87</span>                job.Value.Dispose();</div>
+<div class="line"><span class="lineno">   88</span>        }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_job_service_8cs_source.html#l00040">Tgstation.Server.Host.Jobs.JobService.jobs</a>.</p>
+<p class="reference">References <a class="el" href="_job_service_8cs_source.html#l00041">Tgstation.Server.Host.Jobs.JobService.jobs</a>.</p>
 
 </div>
 </div>
-<a id="a3377ee874856ca422c16558894e158e6" name="a3377ee874856ca422c16558894e158e6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3377ee874856ca422c16558894e158e6">&#9670;&#160;</a></span>RegisterOperation()</h2>
+<a id="af2255b562972f70a638cf93cd830b6a9" name="af2255b562972f70a638cf93cd830b6a9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af2255b562972f70a638cf93cd830b6a9">&#9670;&#160;</a></span>RegisterOperation()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">Task Tgstation.Server.Host.Jobs.JobService.RegisterOperation </td>
+          <td class="memname">ValueTask Tgstation.Server.Host.Jobs.JobService.RegisterOperation </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_job.html">Job</a>&#160;</td>
           <td class="paramname"><em>job</em>, </td>
@@ -492,7 +492,7 @@ Here is the call graph for this function:</div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_jobs.html#a9a7ee6bec5fdadb933ac6ee7fd1b0c93">JobEntrypoint</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_jobs.html#ad6d7a30f40b17f2a0f95f97fe0d5745a">JobEntrypoint</a>&#160;</td>
           <td class="paramname"><em>operation</em>, </td>
         </tr>
         <tr>
@@ -512,23 +512,23 @@ Here is the call graph for this function:</div>
 <p>Registers a given Job and begins running it. <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">job</td><td>The Job. Should at least have <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_job.html#acebd359c2b46a97a5ddf7c6c9c4f9eb7" title="The Models.Instance the job belongs to if any.">Job.Instance</a> and <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_job.html#a3898828f81135947949d8f1083a71a10" title="English description of the Job.">Api.Models.Internal.Job.Description</a>. If <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_job.html#aeb64c30e0787225682030adf2d2af036" title="See JobResponse.StartedBy.">Job.StartedBy</a> is <code>null</code>, the TGS user will be used.</td></tr>
-    <tr><td class="paramname">operation</td><td>The <a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_jobs.html#a9a7ee6bec5fdadb933ac6ee7fd1b0c93" title="Entrypoint for running a given job.">JobEntrypoint</a> for the <em>job</em> .</td></tr>
+    <tr><td class="paramname">operation</td><td>The <a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_jobs.html#ad6d7a30f40b17f2a0f95f97fe0d5745a" title="Entrypoint for running a given job.">JobEntrypoint</a> for the <em>job</em> .</td></tr>
     <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A Task representing a running operation.</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A ValueTask representing a running operation.</dd></dl>
  </p>
 
-<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html#a21be789f798adf9985f2432d3499b4cd">Tgstation.Server.Host.Jobs.IJobManager</a>.</p>
+<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html#aefaca6d0c2762350a41adfe7daaade95">Tgstation.Server.Host.Jobs.IJobManager</a>.</p>
 
-<p class="reference">References <a class="el" href="_job_service_8cs_source.html#l00055">Tgstation.Server.Host.Jobs.JobService.addCancelLock</a>, <a class="el" href="_entity_id_8cs_source.html#l00013">Tgstation.Server.Api.Models.EntityId.Id</a>, <a class="el" href="_job_service_8cs_source.html#l00040">Tgstation.Server.Host.Jobs.JobService.jobs</a>, <a class="el" href="_job_service_8cs_source.html#l00035">Tgstation.Server.Host.Jobs.JobService.logger</a>, <a class="el" href="_job_service_8cs_source.html#l00060">Tgstation.Server.Host.Jobs.JobService.noMoreJobsShouldStart</a>, <a class="el" href="_job_service_8cs_source.html#l00294">Tgstation.Server.Host.Jobs.JobService.RunJob()</a>, and <a class="el" href="_job_service_8cs_source.html#l00050">Tgstation.Server.Host.Jobs.JobService.synchronizationLock</a>.</p>
+<p class="reference">References <a class="el" href="_job_service_8cs_source.html#l00056">Tgstation.Server.Host.Jobs.JobService.addCancelLock</a>, <a class="el" href="_entity_id_8cs_source.html#l00013">Tgstation.Server.Api.Models.EntityId.Id</a>, <a class="el" href="_job_service_8cs_source.html#l00041">Tgstation.Server.Host.Jobs.JobService.jobs</a>, <a class="el" href="_job_service_8cs_source.html#l00036">Tgstation.Server.Host.Jobs.JobService.logger</a>, <a class="el" href="_job_service_8cs_source.html#l00061">Tgstation.Server.Host.Jobs.JobService.noMoreJobsShouldStart</a>, <a class="el" href="_job_service_8cs_source.html#l00296">Tgstation.Server.Host.Jobs.JobService.RunJob()</a>, and <a class="el" href="_job_service_8cs_source.html#l00051">Tgstation.Server.Host.Jobs.JobService.synchronizationLock</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service_a3377ee874856ca422c16558894e158e6_cgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service_a3377ee874856ca422c16558894e158e6_cgraph" alt=""/></div>
-<map name="aclass_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service_a3377ee874856ca422c16558894e158e6_cgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service_a3377ee874856ca422c16558894e158e6_cgraph">
-<area shape="rect" title="Registers a given Job and begins running it. A Task representing a running operation." alt="" coords="5,5,200,45"/>
+<div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service_af2255b562972f70a638cf93cd830b6a9_cgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service_af2255b562972f70a638cf93cd830b6a9_cgraph" alt=""/></div>
+<map name="aclass_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service_af2255b562972f70a638cf93cd830b6a9_cgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service_af2255b562972f70a638cf93cd830b6a9_cgraph">
+<area shape="rect" title="Registers a given Job and begins running it. A ValueTask representing a running operation." alt="" coords="5,5,200,45"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#aefe2c8ced346d9a64ef02a77fe4980ae" title="Runner for JobHandlers." alt="" coords="248,5,431,45"/>
 </map>
 </div>
@@ -553,7 +553,7 @@ Here is the call graph for this function:</div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_jobs.html#a9a7ee6bec5fdadb933ac6ee7fd1b0c93">JobEntrypoint</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_jobs.html#ad6d7a30f40b17f2a0f95f97fe0d5745a">JobEntrypoint</a>&#160;</td>
           <td class="paramname"><em>operation</em>, </td>
         </tr>
         <tr>
@@ -579,101 +579,101 @@ Here is the call graph for this function:</div>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">job</td><td>The Job being run.</td></tr>
-    <tr><td class="paramname">operation</td><td>The <a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_jobs.html#a9a7ee6bec5fdadb933ac6ee7fd1b0c93" title="Entrypoint for running a given job.">JobEntrypoint</a> for the <em>job</em> .</td></tr>
+    <tr><td class="paramname">operation</td><td>The <a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_jobs.html#ad6d7a30f40b17f2a0f95f97fe0d5745a" title="Entrypoint for running a given job.">JobEntrypoint</a> for the <em>job</em> .</td></tr>
     <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A Task representing the running operation.</dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_job_service_8cs_source.html#l00294">294</a> of file <a class="el" href="_job_service_8cs_source.html">JobService.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  295</span>        {</div>
-<div class="line"><span class="lineno">  296</span>            <span class="keyword">using</span> (LogContext.PushProperty(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_serilog_context_helper.html">SerilogContextHelper</a>.<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_serilog_context_helper.html#a3ca0176fe2538e88fb74e223066f34f2">JobIdContextProperty</a>, job.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html#ae31e478e1d338b37a14565df6fd58570">Id</a>))</div>
-<div class="line"><span class="lineno">  297</span>                <span class="keywordflow">try</span></div>
-<div class="line"><span class="lineno">  298</span>                {</div>
-<div class="line"><span class="lineno">  299</span>                    <span class="keywordtype">void</span> LogException(Exception ex) =&gt; <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#a205ac8792aefeda9cd2a532d36b1784c">logger</a>.LogDebug(ex, <span class="stringliteral">&quot;Job {jobId} exited with error!&quot;</span>, job.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html#ae31e478e1d338b37a14565df6fd58570">Id</a>);</div>
-<div class="line"><span class="lineno">  300</span>                    <span class="keywordflow">try</span></div>
-<div class="line"><span class="lineno">  301</span>                    {</div>
-<div class="line"><span class="lineno">  302</span>                        var oldJob = job;</div>
-<div class="line"><span class="lineno">  303</span>                        job = <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_job.html">Job</a> { Id = oldJob.Id };</div>
-<div class="line"><span class="lineno">  304</span> </div>
-<div class="line"><span class="lineno">  305</span>                        <span class="keywordtype">void</span> UpdateProgress(<span class="keywordtype">string</span> stage, <span class="keywordtype">double</span>? progress)</div>
-<div class="line"><span class="lineno">  306</span>                        {</div>
-<div class="line"><span class="lineno">  307</span>                            <span class="keywordflow">if</span> (progress.HasValue</div>
-<div class="line"><span class="lineno">  308</span>                                &amp;&amp; (progress.Value &lt; 0 || progress.Value &gt; 1))</div>
-<div class="line"><span class="lineno">  309</span>                            {</div>
-<div class="line"><span class="lineno">  310</span>                                var exception = <span class="keyword">new</span> ArgumentOutOfRangeException(nameof(progress), progress, <span class="stringliteral">&quot;Progress must be a value from 0-1!&quot;</span>);</div>
-<div class="line"><span class="lineno">  311</span>                                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#a205ac8792aefeda9cd2a532d36b1784c">logger</a>.LogError(exception, <span class="stringliteral">&quot;Invalid progress value!&quot;</span>);</div>
-<div class="line"><span class="lineno">  312</span>                                <span class="keywordflow">return</span>;</div>
-<div class="line"><span class="lineno">  313</span>                            }</div>
-<div class="line"><span class="lineno">  314</span> </div>
-<div class="line"><span class="lineno">  315</span>                            lock (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#a2a0df9ba71fdfea989c57f975fce051f">synchronizationLock</a>)</div>
-<div class="line"><span class="lineno">  316</span>                                <span class="keywordflow">if</span> (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#adb8db167c189c8ea456a0372432de1a0">jobs</a>.TryGetValue(oldJob.Id.Value, out var handler))</div>
-<div class="line"><span class="lineno">  317</span>                                {</div>
-<div class="line"><span class="lineno">  318</span>                                    handler.Stage = stage;</div>
-<div class="line"><span class="lineno">  319</span>                                    handler.Progress = progress.HasValue ? (int)Math.Floor(progress.Value * 100) : <span class="keyword">null</span>;</div>
-<div class="line"><span class="lineno">  320</span>                                }</div>
-<div class="line"><span class="lineno">  321</span>                        }</div>
-<div class="line"><span class="lineno">  322</span> </div>
-<div class="line"><span class="lineno">  323</span>                        var instanceCoreProvider = await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#a65f26f7978af1de33b6339147d243045">activationTcs</a>.Task.WaitAsync(cancellationToken);</div>
+<p class="definition">Definition at line <a class="el" href="_job_service_8cs_source.html#l00296">296</a> of file <a class="el" href="_job_service_8cs_source.html">JobService.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  297</span>        {</div>
+<div class="line"><span class="lineno">  298</span>            <span class="keyword">using</span> (LogContext.PushProperty(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_serilog_context_helper.html">SerilogContextHelper</a>.<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_serilog_context_helper.html#a3ca0176fe2538e88fb74e223066f34f2">JobIdContextProperty</a>, job.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html#ae31e478e1d338b37a14565df6fd58570">Id</a>))</div>
+<div class="line"><span class="lineno">  299</span>                <span class="keywordflow">try</span></div>
+<div class="line"><span class="lineno">  300</span>                {</div>
+<div class="line"><span class="lineno">  301</span>                    <span class="keywordtype">void</span> LogException(Exception ex) =&gt; <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#a205ac8792aefeda9cd2a532d36b1784c">logger</a>.LogDebug(ex, <span class="stringliteral">&quot;Job {jobId} exited with error!&quot;</span>, job.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html#ae31e478e1d338b37a14565df6fd58570">Id</a>);</div>
+<div class="line"><span class="lineno">  302</span>                    <span class="keywordflow">try</span></div>
+<div class="line"><span class="lineno">  303</span>                    {</div>
+<div class="line"><span class="lineno">  304</span>                        var oldJob = job;</div>
+<div class="line"><span class="lineno">  305</span>                        job = <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_job.html">Job</a> { Id = oldJob.Id };</div>
+<div class="line"><span class="lineno">  306</span> </div>
+<div class="line"><span class="lineno">  307</span>                        <span class="keywordtype">void</span> UpdateProgress(<span class="keywordtype">string</span> stage, <span class="keywordtype">double</span>? progress)</div>
+<div class="line"><span class="lineno">  308</span>                        {</div>
+<div class="line"><span class="lineno">  309</span>                            <span class="keywordflow">if</span> (progress.HasValue</div>
+<div class="line"><span class="lineno">  310</span>                                &amp;&amp; (progress.Value &lt; 0 || progress.Value &gt; 1))</div>
+<div class="line"><span class="lineno">  311</span>                            {</div>
+<div class="line"><span class="lineno">  312</span>                                var exception = <span class="keyword">new</span> ArgumentOutOfRangeException(nameof(progress), progress, <span class="stringliteral">&quot;Progress must be a value from 0-1!&quot;</span>);</div>
+<div class="line"><span class="lineno">  313</span>                                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#a205ac8792aefeda9cd2a532d36b1784c">logger</a>.LogError(exception, <span class="stringliteral">&quot;Invalid progress value!&quot;</span>);</div>
+<div class="line"><span class="lineno">  314</span>                                <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno">  315</span>                            }</div>
+<div class="line"><span class="lineno">  316</span> </div>
+<div class="line"><span class="lineno">  317</span>                            lock (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#a2a0df9ba71fdfea989c57f975fce051f">synchronizationLock</a>)</div>
+<div class="line"><span class="lineno">  318</span>                                <span class="keywordflow">if</span> (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#adb8db167c189c8ea456a0372432de1a0">jobs</a>.TryGetValue(oldJob.Id.Value, out var handler))</div>
+<div class="line"><span class="lineno">  319</span>                                {</div>
+<div class="line"><span class="lineno">  320</span>                                    handler.Stage = stage;</div>
+<div class="line"><span class="lineno">  321</span>                                    handler.Progress = progress.HasValue ? (int)Math.Floor(progress.Value * 100) : <span class="keyword">null</span>;</div>
+<div class="line"><span class="lineno">  322</span>                                }</div>
+<div class="line"><span class="lineno">  323</span>                        }</div>
 <div class="line"><span class="lineno">  324</span> </div>
-<div class="line"><span class="lineno">  325</span>                        <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#a205ac8792aefeda9cd2a532d36b1784c">logger</a>.LogTrace(<span class="stringliteral">&quot;Starting job...&quot;</span>);</div>
-<div class="line"><span class="lineno">  326</span>                        await operation(</div>
-<div class="line"><span class="lineno">  327</span>                            instanceCoreProvider.GetInstance(oldJob.Instance),</div>
-<div class="line"><span class="lineno">  328</span>                            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#aadb062723447ba776a7efa9d81493b9a">databaseContextFactory</a>,</div>
-<div class="line"><span class="lineno">  329</span>                            job,</div>
-<div class="line"><span class="lineno">  330</span>                            <span class="keyword">new</span> JobProgressReporter(</div>
-<div class="line"><span class="lineno">  331</span>                                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#a5ed30d8f070bcfed658337187e68c841">loggerFactory</a>.CreateLogger&lt;JobProgressReporter&gt;(),</div>
-<div class="line"><span class="lineno">  332</span>                                <span class="keyword">null</span>,</div>
-<div class="line"><span class="lineno">  333</span>                                UpdateProgress),</div>
-<div class="line"><span class="lineno">  334</span>                            cancellationToken);</div>
-<div class="line"><span class="lineno">  335</span> </div>
-<div class="line"><span class="lineno">  336</span>                        <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#a205ac8792aefeda9cd2a532d36b1784c">logger</a>.LogDebug(<span class="stringliteral">&quot;Job {jobId} completed!&quot;</span>, job.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html#ae31e478e1d338b37a14565df6fd58570">Id</a>);</div>
-<div class="line"><span class="lineno">  337</span>                    }</div>
-<div class="line"><span class="lineno">  338</span>                    <span class="keywordflow">catch</span> (OperationCanceledException ex)</div>
-<div class="line"><span class="lineno">  339</span>                    {</div>
-<div class="line"><span class="lineno">  340</span>                        <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#a205ac8792aefeda9cd2a532d36b1784c">logger</a>.LogDebug(ex, <span class="stringliteral">&quot;Job {jobId} cancelled!&quot;</span>, job.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html#ae31e478e1d338b37a14565df6fd58570">Id</a>);</div>
-<div class="line"><span class="lineno">  341</span>                        job.Cancelled = <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  342</span>                    }</div>
-<div class="line"><span class="lineno">  343</span>                    <span class="keywordflow">catch</span> (JobException e)</div>
-<div class="line"><span class="lineno">  344</span>                    {</div>
-<div class="line"><span class="lineno">  345</span>                        job.ErrorCode = e.ErrorCode;</div>
-<div class="line"><span class="lineno">  346</span>                        job.ExceptionDetails = String.IsNullOrWhiteSpace(e.Message) ? e.InnerException?.Message : e.Message + $<span class="stringliteral">&quot; (Inner exception: {e.InnerException?.Message})&quot;</span>;</div>
-<div class="line"><span class="lineno">  347</span>                        LogException(e);</div>
-<div class="line"><span class="lineno">  348</span>                    }</div>
-<div class="line"><span class="lineno">  349</span>                    <span class="keywordflow">catch</span> (Exception e)</div>
-<div class="line"><span class="lineno">  350</span>                    {</div>
-<div class="line"><span class="lineno">  351</span>                        job.ExceptionDetails = e.ToString();</div>
-<div class="line"><span class="lineno">  352</span>                        LogException(e);</div>
-<div class="line"><span class="lineno">  353</span>                    }</div>
-<div class="line"><span class="lineno">  354</span> </div>
-<div class="line"><span class="lineno">  355</span>                    await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#aadb062723447ba776a7efa9d81493b9a">databaseContextFactory</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_factory.html#ad22fce8fc51129e9da203dcef2f7ab42">UseContext</a>(async databaseContext =&gt;</div>
-<div class="line"><span class="lineno">  356</span>                    {</div>
-<div class="line"><span class="lineno">  357</span>                        var attachedJob = <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_job.html">Job</a></div>
-<div class="line"><span class="lineno">  358</span>                        {</div>
-<div class="line"><span class="lineno">  359</span>                            Id = job.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html#ae31e478e1d338b37a14565df6fd58570">Id</a>,</div>
-<div class="line"><span class="lineno">  360</span>                        };</div>
-<div class="line"><span class="lineno">  361</span> </div>
-<div class="line"><span class="lineno">  362</span>                        databaseContext.Jobs.Attach(attachedJob);</div>
-<div class="line"><span class="lineno">  363</span>                        attachedJob.StoppedAt = DateTimeOffset.UtcNow;</div>
-<div class="line"><span class="lineno">  364</span>                        attachedJob.ExceptionDetails = job.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_job.html#afb20366fa3c290f5478e92e18cc94317">ExceptionDetails</a>;</div>
-<div class="line"><span class="lineno">  365</span>                        attachedJob.ErrorCode = job.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_job.html#ab248f62271e87c90f007c40058c06032">ErrorCode</a>;</div>
-<div class="line"><span class="lineno">  366</span>                        attachedJob.Cancelled = job.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_job.html#ab68caae8a7e5bd3bfd7764cab7b8773d">Cancelled</a>;</div>
-<div class="line"><span class="lineno">  367</span> </div>
-<div class="line"><span class="lineno">  368</span>                        <span class="comment">// DCT: Cancellation token is for job, operation should always run</span></div>
-<div class="line"><span class="lineno">  369</span>                        await databaseContext.Save(CancellationToken.None);</div>
-<div class="line"><span class="lineno">  370</span>                    });</div>
-<div class="line"><span class="lineno">  371</span>                }</div>
-<div class="line"><span class="lineno">  372</span>                <span class="keywordflow">finally</span></div>
-<div class="line"><span class="lineno">  373</span>                {</div>
-<div class="line"><span class="lineno">  374</span>                    lock (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#a2a0df9ba71fdfea989c57f975fce051f">synchronizationLock</a>)</div>
-<div class="line"><span class="lineno">  375</span>                    {</div>
-<div class="line"><span class="lineno">  376</span>                        var handler = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#adb8db167c189c8ea456a0372432de1a0">jobs</a>[job.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html#ae31e478e1d338b37a14565df6fd58570">Id</a>.Value];</div>
-<div class="line"><span class="lineno">  377</span>                        <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#adb8db167c189c8ea456a0372432de1a0">jobs</a>.Remove(job.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html#ae31e478e1d338b37a14565df6fd58570">Id</a>.Value);</div>
-<div class="line"><span class="lineno">  378</span>                        handler.Dispose();</div>
-<div class="line"><span class="lineno">  379</span>                    }</div>
-<div class="line"><span class="lineno">  380</span>                }</div>
-<div class="line"><span class="lineno">  381</span>        }</div>
+<div class="line"><span class="lineno">  325</span>                        var instanceCoreProvider = await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#a65f26f7978af1de33b6339147d243045">activationTcs</a>.Task.WaitAsync(cancellationToken);</div>
+<div class="line"><span class="lineno">  326</span> </div>
+<div class="line"><span class="lineno">  327</span>                        <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#a205ac8792aefeda9cd2a532d36b1784c">logger</a>.LogTrace(<span class="stringliteral">&quot;Starting job...&quot;</span>);</div>
+<div class="line"><span class="lineno">  328</span>                        await operation(</div>
+<div class="line"><span class="lineno">  329</span>                            instanceCoreProvider.GetInstance(oldJob.Instance),</div>
+<div class="line"><span class="lineno">  330</span>                            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#aadb062723447ba776a7efa9d81493b9a">databaseContextFactory</a>,</div>
+<div class="line"><span class="lineno">  331</span>                            job,</div>
+<div class="line"><span class="lineno">  332</span>                            <span class="keyword">new</span> JobProgressReporter(</div>
+<div class="line"><span class="lineno">  333</span>                                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#a5ed30d8f070bcfed658337187e68c841">loggerFactory</a>.CreateLogger&lt;JobProgressReporter&gt;(),</div>
+<div class="line"><span class="lineno">  334</span>                                <span class="keyword">null</span>,</div>
+<div class="line"><span class="lineno">  335</span>                                UpdateProgress),</div>
+<div class="line"><span class="lineno">  336</span>                            cancellationToken);</div>
+<div class="line"><span class="lineno">  337</span> </div>
+<div class="line"><span class="lineno">  338</span>                        <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#a205ac8792aefeda9cd2a532d36b1784c">logger</a>.LogDebug(<span class="stringliteral">&quot;Job {jobId} completed!&quot;</span>, job.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html#ae31e478e1d338b37a14565df6fd58570">Id</a>);</div>
+<div class="line"><span class="lineno">  339</span>                    }</div>
+<div class="line"><span class="lineno">  340</span>                    <span class="keywordflow">catch</span> (OperationCanceledException ex)</div>
+<div class="line"><span class="lineno">  341</span>                    {</div>
+<div class="line"><span class="lineno">  342</span>                        <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#a205ac8792aefeda9cd2a532d36b1784c">logger</a>.LogDebug(ex, <span class="stringliteral">&quot;Job {jobId} cancelled!&quot;</span>, job.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html#ae31e478e1d338b37a14565df6fd58570">Id</a>);</div>
+<div class="line"><span class="lineno">  343</span>                        job.Cancelled = <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  344</span>                    }</div>
+<div class="line"><span class="lineno">  345</span>                    <span class="keywordflow">catch</span> (JobException e)</div>
+<div class="line"><span class="lineno">  346</span>                    {</div>
+<div class="line"><span class="lineno">  347</span>                        job.ErrorCode = e.ErrorCode;</div>
+<div class="line"><span class="lineno">  348</span>                        job.ExceptionDetails = String.IsNullOrWhiteSpace(e.Message) ? e.InnerException?.Message : e.Message + $<span class="stringliteral">&quot; (Inner exception: {e.InnerException?.Message})&quot;</span>;</div>
+<div class="line"><span class="lineno">  349</span>                        LogException(e);</div>
+<div class="line"><span class="lineno">  350</span>                    }</div>
+<div class="line"><span class="lineno">  351</span>                    <span class="keywordflow">catch</span> (Exception e)</div>
+<div class="line"><span class="lineno">  352</span>                    {</div>
+<div class="line"><span class="lineno">  353</span>                        job.ExceptionDetails = e.ToString();</div>
+<div class="line"><span class="lineno">  354</span>                        LogException(e);</div>
+<div class="line"><span class="lineno">  355</span>                    }</div>
+<div class="line"><span class="lineno">  356</span> </div>
+<div class="line"><span class="lineno">  357</span>                    await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#aadb062723447ba776a7efa9d81493b9a">databaseContextFactory</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_factory.html#a1da664d7237dbec5a6cb9ce04b79ccc1">UseContext</a>(async databaseContext =&gt;</div>
+<div class="line"><span class="lineno">  358</span>                    {</div>
+<div class="line"><span class="lineno">  359</span>                        var attachedJob = <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_job.html">Job</a></div>
+<div class="line"><span class="lineno">  360</span>                        {</div>
+<div class="line"><span class="lineno">  361</span>                            Id = job.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html#ae31e478e1d338b37a14565df6fd58570">Id</a>,</div>
+<div class="line"><span class="lineno">  362</span>                        };</div>
+<div class="line"><span class="lineno">  363</span> </div>
+<div class="line"><span class="lineno">  364</span>                        databaseContext.Jobs.Attach(attachedJob);</div>
+<div class="line"><span class="lineno">  365</span>                        attachedJob.StoppedAt = DateTimeOffset.UtcNow;</div>
+<div class="line"><span class="lineno">  366</span>                        attachedJob.ExceptionDetails = job.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_job.html#afb20366fa3c290f5478e92e18cc94317">ExceptionDetails</a>;</div>
+<div class="line"><span class="lineno">  367</span>                        attachedJob.ErrorCode = job.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_job.html#ab248f62271e87c90f007c40058c06032">ErrorCode</a>;</div>
+<div class="line"><span class="lineno">  368</span>                        attachedJob.Cancelled = job.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_job.html#ab68caae8a7e5bd3bfd7764cab7b8773d">Cancelled</a>;</div>
+<div class="line"><span class="lineno">  369</span> </div>
+<div class="line"><span class="lineno">  370</span>                        <span class="comment">// DCT: Cancellation token is for job, operation should always run</span></div>
+<div class="line"><span class="lineno">  371</span>                        await databaseContext.Save(CancellationToken.None);</div>
+<div class="line"><span class="lineno">  372</span>                    });</div>
+<div class="line"><span class="lineno">  373</span>                }</div>
+<div class="line"><span class="lineno">  374</span>                <span class="keywordflow">finally</span></div>
+<div class="line"><span class="lineno">  375</span>                {</div>
+<div class="line"><span class="lineno">  376</span>                    lock (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#a2a0df9ba71fdfea989c57f975fce051f">synchronizationLock</a>)</div>
+<div class="line"><span class="lineno">  377</span>                    {</div>
+<div class="line"><span class="lineno">  378</span>                        var handler = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#adb8db167c189c8ea456a0372432de1a0">jobs</a>[job.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html#ae31e478e1d338b37a14565df6fd58570">Id</a>.Value];</div>
+<div class="line"><span class="lineno">  379</span>                        <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#adb8db167c189c8ea456a0372432de1a0">jobs</a>.Remove(job.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html#ae31e478e1d338b37a14565df6fd58570">Id</a>.Value);</div>
+<div class="line"><span class="lineno">  380</span>                        handler.Dispose();</div>
+<div class="line"><span class="lineno">  381</span>                    }</div>
+<div class="line"><span class="lineno">  382</span>                }</div>
+<div class="line"><span class="lineno">  383</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_job_html_ab248f62271e87c90f007c40058c06032"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_job.html#ab248f62271e87c90f007c40058c06032">Tgstation.Server.Api.Models.Internal.Job.ErrorCode</a></div><div class="ttdeci">ErrorCode? ErrorCode</div><div class="ttdoc">The Models.ErrorCode associated with the Job if any.</div><div class="ttdef"><b>Definition:</b> <a href="_tgstation_8_server_8_api_2_models_2_internal_2_job_8cs_source.html#l00023">Job.cs:23</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_job_html_ab68caae8a7e5bd3bfd7764cab7b8773d"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_job.html#ab68caae8a7e5bd3bfd7764cab7b8773d">Tgstation.Server.Api.Models.Internal.Job.Cancelled</a></div><div class="ttdeci">bool? Cancelled</div><div class="ttdoc">If the Job was cancelled.</div><div class="ttdef"><b>Definition:</b> <a href="_tgstation_8_server_8_api_2_models_2_internal_2_job_8cs_source.html#l00047">Job.cs:47</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_job_html_afb20366fa3c290f5478e92e18cc94317"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_job.html#afb20366fa3c290f5478e92e18cc94317">Tgstation.Server.Api.Models.Internal.Job.ExceptionDetails</a></div><div class="ttdeci">string? ExceptionDetails</div><div class="ttdoc">Details of any exceptions caught during the Job.</div><div class="ttdef"><b>Definition:</b> <a href="_tgstation_8_server_8_api_2_models_2_internal_2_job_8cs_source.html#l00029">Job.cs:29</a></div></div>
@@ -682,14 +682,14 @@ Here is the call graph for this function:</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="_tgstation_8_server_8_api_2_models_2_internal_2_job_8cs_source.html#l00047">Tgstation.Server.Api.Models.Internal.Job.Cancelled</a>, <a class="el" href="_tgstation_8_server_8_api_2_models_2_internal_2_job_8cs_source.html#l00023">Tgstation.Server.Api.Models.Internal.Job.ErrorCode</a>, <a class="el" href="_job_exception_8cs_source.html#l00015">Tgstation.Server.Host.Jobs.JobException.ErrorCode</a>, <a class="el" href="_tgstation_8_server_8_api_2_models_2_internal_2_job_8cs_source.html#l00029">Tgstation.Server.Api.Models.Internal.Job.ExceptionDetails</a>, <a class="el" href="_entity_id_8cs_source.html#l00013">Tgstation.Server.Api.Models.EntityId.Id</a>, and <a class="el" href="_serilog_context_helper_8cs_source.html#l00016">Tgstation.Server.Host.Utils.SerilogContextHelper.JobIdContextProperty</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#a3377ee874856ca422c16558894e158e6">Tgstation.Server.Host.Jobs.JobService.RegisterOperation()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#af2255b562972f70a638cf93cd830b6a9">Tgstation.Server.Host.Jobs.JobService.RegisterOperation()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service_aefe2c8ced346d9a64ef02a77fe4980ae_icgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service_aefe2c8ced346d9a64ef02a77fe4980ae_icgraph" alt=""/></div>
 <map name="aclass_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service_aefe2c8ced346d9a64ef02a77fe4980ae_icgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service_aefe2c8ced346d9a64ef02a77fe4980ae_icgraph">
 <area shape="rect" title="Runner for JobHandlers." alt="" coords="248,5,431,45"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#a3377ee874856ca422c16558894e158e6" title="Registers a given Job and begins running it. A Task representing a running operation." alt="" coords="5,5,200,45"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#af2255b562972f70a638cf93cd830b6a9" title="Registers a given Job and begins running it. A ValueTask representing a running operation." alt="" coords="5,5,200,45"/>
 </map>
 </div>
 
@@ -721,17 +721,17 @@ Here is the caller graph for this function:</div>
 
 <p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html#a2fc945f03da3ef6cd356b8e8597e2b55">Tgstation.Server.Host.Jobs.IJobManager</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_job_service_8cs_source.html#l00237">237</a> of file <a class="el" href="_job_service_8cs_source.html">JobService.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  238</span>        {</div>
-<div class="line"><span class="lineno">  239</span>            ArgumentNullException.ThrowIfNull(apiResponse);</div>
-<div class="line"><span class="lineno">  240</span>            lock (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#a2a0df9ba71fdfea989c57f975fce051f">synchronizationLock</a>)</div>
-<div class="line"><span class="lineno">  241</span>            {</div>
-<div class="line"><span class="lineno">  242</span>                <span class="keywordflow">if</span> (!<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#adb8db167c189c8ea456a0372432de1a0">jobs</a>.TryGetValue(apiResponse.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html#ae31e478e1d338b37a14565df6fd58570">Id</a>.Value, out var handler))</div>
-<div class="line"><span class="lineno">  243</span>                    <span class="keywordflow">return</span>;</div>
-<div class="line"><span class="lineno">  244</span>                apiResponse.Progress = handler.Progress;</div>
-<div class="line"><span class="lineno">  245</span>                apiResponse.Stage = handler.Stage;</div>
-<div class="line"><span class="lineno">  246</span>            }</div>
-<div class="line"><span class="lineno">  247</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_job_service_8cs_source.html#l00239">239</a> of file <a class="el" href="_job_service_8cs_source.html">JobService.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  240</span>        {</div>
+<div class="line"><span class="lineno">  241</span>            ArgumentNullException.ThrowIfNull(apiResponse);</div>
+<div class="line"><span class="lineno">  242</span>            lock (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#a2a0df9ba71fdfea989c57f975fce051f">synchronizationLock</a>)</div>
+<div class="line"><span class="lineno">  243</span>            {</div>
+<div class="line"><span class="lineno">  244</span>                <span class="keywordflow">if</span> (!<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#adb8db167c189c8ea456a0372432de1a0">jobs</a>.TryGetValue(apiResponse.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html#ae31e478e1d338b37a14565df6fd58570">Id</a>.Value, out var handler))</div>
+<div class="line"><span class="lineno">  245</span>                    <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno">  246</span>                apiResponse.Progress = handler.Progress;</div>
+<div class="line"><span class="lineno">  247</span>                apiResponse.Stage = handler.Stage;</div>
+<div class="line"><span class="lineno">  248</span>            }</div>
+<div class="line"><span class="lineno">  249</span>        }</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="_entity_id_8cs_source.html#l00013">Tgstation.Server.Api.Models.EntityId.Id</a>.</p>
 
@@ -757,14 +757,14 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a id="aed827f047051ff4780fe82f5da5da09b" name="aed827f047051ff4780fe82f5da5da09b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aed827f047051ff4780fe82f5da5da09b">&#9670;&#160;</a></span>StopAsync()</h2>
+<a id="a46f9c3765d722cbd274dc7af7c02165d" name="a46f9c3765d722cbd274dc7af7c02165d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a46f9c3765d722cbd274dc7af7c02165d">&#9670;&#160;</a></span>StopAsync()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">async Task Tgstation.Server.Host.Jobs.JobService.StopAsync </td>
+          <td class="memname">Task Tgstation.Server.Host.Jobs.JobService.StopAsync </td>
           <td>(</td>
           <td class="paramtype">CancellationToken&#160;</td>
           <td class="paramname"><em>cancellationToken</em></td><td>)</td>
@@ -775,39 +775,52 @@ Here is the caller graph for this function:</div>
 
 <p></p>
 
-<p class="definition">Definition at line <a class="el" href="_job_service_8cs_source.html#l00174">174</a> of file <a class="el" href="_job_service_8cs_source.html">JobService.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  175</span>        {</div>
-<div class="line"><span class="lineno">  176</span>            List&lt;Task&lt;Job&gt;&gt; joinTasks;</div>
-<div class="line"><span class="lineno">  177</span>            lock (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#a65f7d840d9d1d86d25267d75b07dd688">addCancelLock</a>)</div>
-<div class="line"><span class="lineno">  178</span>                lock (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#a2a0df9ba71fdfea989c57f975fce051f">synchronizationLock</a>)</div>
-<div class="line"><span class="lineno">  179</span>                {</div>
-<div class="line"><span class="lineno">  180</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#ab97d4bed642d329daea3510d64f8ec6c">noMoreJobsShouldStart</a> = <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  181</span>                    joinTasks = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#adb8db167c189c8ea456a0372432de1a0">jobs</a>.Select(x =&gt; <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#a9e21547ef3576e2b185d53d2dc025c50">CancelJob</a>(</div>
-<div class="line"><span class="lineno">  182</span>                        <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_job.html">Job</a></div>
-<div class="line"><span class="lineno">  183</span>                        {</div>
-<div class="line"><span class="lineno">  184</span>                            Id = x.Key,</div>
-<div class="line"><span class="lineno">  185</span>                        },</div>
-<div class="line"><span class="lineno">  186</span>                        <span class="keyword">null</span>,</div>
-<div class="line"><span class="lineno">  187</span>                        <span class="keyword">true</span>,</div>
-<div class="line"><span class="lineno">  188</span>                        cancellationToken))</div>
-<div class="line"><span class="lineno">  189</span>                        .ToList();</div>
-<div class="line"><span class="lineno">  190</span>                }</div>
-<div class="line"><span class="lineno">  191</span> </div>
-<div class="line"><span class="lineno">  192</span>            await Task.WhenAll(joinTasks);</div>
-<div class="line"><span class="lineno">  193</span>        }</div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service_html_a9e21547ef3576e2b185d53d2dc025c50"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#a9e21547ef3576e2b185d53d2dc025c50">Tgstation.Server.Host.Jobs.JobService.CancelJob</a></div><div class="ttdeci">async Task&lt; Job &gt; CancelJob(Job job, User user, bool blocking, CancellationToken cancellationToken)</div><div class="ttdoc">Cancels a give job . A Task&lt;TResult&gt; resulting in the updated job  if it was cancelled,...</div><div class="ttdef"><b>Definition:</b> <a href="_job_service_8cs_source.html#l00196">JobService.cs:196</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service_html_ab97d4bed642d329daea3510d64f8ec6c"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#ab97d4bed642d329daea3510d64f8ec6c">Tgstation.Server.Host.Jobs.JobService.noMoreJobsShouldStart</a></div><div class="ttdeci">volatile bool noMoreJobsShouldStart</div><div class="ttdoc">Prevents jobs that are registered after shutdown from activating.</div><div class="ttdef"><b>Definition:</b> <a href="_job_service_8cs_source.html#l00060">JobService.cs:60</a></div></div>
+<p class="definition">Definition at line <a class="el" href="_job_service_8cs_source.html#l00176">176</a> of file <a class="el" href="_job_service_8cs_source.html">JobService.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  177</span>        {</div>
+<div class="line"><span class="lineno">  178</span>            List&lt;ValueTask&lt;Job&gt;&gt; joinTasks;</div>
+<div class="line"><span class="lineno">  179</span>            lock (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#a65f7d840d9d1d86d25267d75b07dd688">addCancelLock</a>)</div>
+<div class="line"><span class="lineno">  180</span>                lock (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#a2a0df9ba71fdfea989c57f975fce051f">synchronizationLock</a>)</div>
+<div class="line"><span class="lineno">  181</span>                {</div>
+<div class="line"><span class="lineno">  182</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#ab97d4bed642d329daea3510d64f8ec6c">noMoreJobsShouldStart</a> = <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  183</span>                    joinTasks = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#adb8db167c189c8ea456a0372432de1a0">jobs</a>.Select(x =&gt; <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#ac02a1b04fe68e66782a63c3724989457">CancelJob</a>(</div>
+<div class="line"><span class="lineno">  184</span>                        <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_job.html">Job</a></div>
+<div class="line"><span class="lineno">  185</span>                        {</div>
+<div class="line"><span class="lineno">  186</span>                            Id = x.Key,</div>
+<div class="line"><span class="lineno">  187</span>                        },</div>
+<div class="line"><span class="lineno">  188</span>                        <span class="keyword">null</span>,</div>
+<div class="line"><span class="lineno">  189</span>                        <span class="keyword">true</span>,</div>
+<div class="line"><span class="lineno">  190</span>                        cancellationToken))</div>
+<div class="line"><span class="lineno">  191</span>                        .ToList();</div>
+<div class="line"><span class="lineno">  192</span>                }</div>
+<div class="line"><span class="lineno">  193</span> </div>
+<div class="line"><span class="lineno">  194</span>            <span class="keywordflow">return</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_common_1_1_extensions_1_1_value_task_extensions.html">ValueTaskExtensions</a>.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_common_1_1_extensions_1_1_value_task_extensions.html#a58adbd94d764754bd3e6c566a5fe7fe3">WhenAll</a>(joinTasks).AsTask();</div>
+<div class="line"><span class="lineno">  195</span>        }</div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_common_1_1_extensions_1_1_value_task_extensions_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_common_1_1_extensions_1_1_value_task_extensions.html">Tgstation.Server.Common.Extensions.ValueTaskExtensions</a></div><div class="ttdoc">Extension methods for the ValueTask and ValueTask&lt;TResult&gt; classes.</div><div class="ttdef"><b>Definition:</b> <a href="_value_task_extensions_8cs_source.html#l00011">ValueTaskExtensions.cs:12</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_common_1_1_extensions_1_1_value_task_extensions_html_a58adbd94d764754bd3e6c566a5fe7fe3"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_common_1_1_extensions_1_1_value_task_extensions.html#a58adbd94d764754bd3e6c566a5fe7fe3">Tgstation.Server.Common.Extensions.ValueTaskExtensions.WhenAll</a></div><div class="ttdeci">static async ValueTask WhenAll(IEnumerable&lt; ValueTask &gt; tasks)</div><div class="ttdoc">Fully await a given list of tasks .</div><div class="ttdef"><b>Definition:</b> <a href="_value_task_extensions_8cs_source.html#l00099">ValueTaskExtensions.cs:99</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service_html_ab97d4bed642d329daea3510d64f8ec6c"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#ab97d4bed642d329daea3510d64f8ec6c">Tgstation.Server.Host.Jobs.JobService.noMoreJobsShouldStart</a></div><div class="ttdeci">volatile bool noMoreJobsShouldStart</div><div class="ttdoc">Prevents jobs that are registered after shutdown from activating.</div><div class="ttdef"><b>Definition:</b> <a href="_job_service_8cs_source.html#l00061">JobService.cs:61</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service_html_ac02a1b04fe68e66782a63c3724989457"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#ac02a1b04fe68e66782a63c3724989457">Tgstation.Server.Host.Jobs.JobService.CancelJob</a></div><div class="ttdeci">async ValueTask&lt; Job &gt; CancelJob(Job job, User user, bool blocking, CancellationToken cancellationToken)</div><div class="ttdoc">Cancels a give job . A ValueTask&lt;TResult&gt; resulting in the updated job  if it was cancelled,...</div><div class="ttdef"><b>Definition:</b> <a href="_job_service_8cs_source.html#l00198">JobService.cs:198</a></div></div>
 </div><!-- fragment -->
+<p class="reference">References <a class="el" href="_value_task_extensions_8cs_source.html#l00099">Tgstation.Server.Common.Extensions.ValueTaskExtensions.WhenAll()</a>.</p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service_a46f9c3765d722cbd274dc7af7c02165d_cgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service_a46f9c3765d722cbd274dc7af7c02165d_cgraph" alt=""/></div>
+<map name="aclass_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service_a46f9c3765d722cbd274dc7af7c02165d_cgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service_a46f9c3765d722cbd274dc7af7c02165d_cgraph">
+<area shape="rect" title=" " alt="" coords="5,13,188,53"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_common_1_1_extensions_1_1_value_task_extensions.html#a58adbd94d764754bd3e6c566a5fe7fe3" title="Fully await a given list of tasks ." alt="" coords="236,5,452,60"/>
+</map>
+</div>
+
 </div>
 </div>
-<a id="af5fe657cdfef95a8172fe2c960977a87" name="af5fe657cdfef95a8172fe2c960977a87"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af5fe657cdfef95a8172fe2c960977a87">&#9670;&#160;</a></span>WaitForJobCompletion()</h2>
+<a id="aa66c931e301afa1d01ee9a8a29df81eb" name="aa66c931e301afa1d01ee9a8a29df81eb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa66c931e301afa1d01ee9a8a29df81eb">&#9670;&#160;</a></span>WaitForJobCompletion()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">async Task Tgstation.Server.Host.Jobs.JobService.WaitForJobCompletion </td>
+          <td class="memname">async ValueTask Tgstation.Server.Host.Jobs.JobService.WaitForJobCompletion </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_job.html">Job</a>&#160;</td>
           <td class="paramname"><em>job</em>, </td>
@@ -847,46 +860,46 @@ Here is the caller graph for this function:</div>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A Task representing the Job.</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A ValueTask representing the Job.</dd></dl>
  </p>
 
-<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html#a04ad7543ef9c8863c1d8d0b46d17f522">Tgstation.Server.Host.Jobs.IJobManager</a>.</p>
+<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html#a485010f3175f6ee62625d32db681747a">Tgstation.Server.Host.Jobs.IJobManager</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_job_service_8cs_source.html#l00250">250</a> of file <a class="el" href="_job_service_8cs_source.html">JobService.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  251</span>        {</div>
-<div class="line"><span class="lineno">  252</span>            ArgumentNullException.ThrowIfNull(job);</div>
-<div class="line"><span class="lineno">  253</span> </div>
-<div class="line"><span class="lineno">  254</span>            <span class="keywordflow">if</span> (!cancellationToken.CanBeCanceled)</div>
-<div class="line"><span class="lineno">  255</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentException(<span class="stringliteral">&quot;A cancellable CancellationToken should be provided!&quot;</span>, nameof(cancellationToken));</div>
-<div class="line"><span class="lineno">  256</span> </div>
-<div class="line"><span class="lineno">  257</span>            JobHandler handler;</div>
-<div class="line"><span class="lineno">  258</span>            <span class="keywordtype">bool</span> <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#ab97d4bed642d329daea3510d64f8ec6c">noMoreJobsShouldStart</a>;</div>
-<div class="line"><span class="lineno">  259</span>            lock (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#a2a0df9ba71fdfea989c57f975fce051f">synchronizationLock</a>)</div>
-<div class="line"><span class="lineno">  260</span>            {</div>
-<div class="line"><span class="lineno">  261</span>                <span class="keywordflow">if</span> (!<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#adb8db167c189c8ea456a0372432de1a0">jobs</a>.TryGetValue(job.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html#ae31e478e1d338b37a14565df6fd58570">Id</a>.Value, out handler))</div>
-<div class="line"><span class="lineno">  262</span>                    <span class="keywordflow">return</span>;</div>
-<div class="line"><span class="lineno">  263</span> </div>
-<div class="line"><span class="lineno">  264</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#ab97d4bed642d329daea3510d64f8ec6c">noMoreJobsShouldStart</a> = this.<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#ab97d4bed642d329daea3510d64f8ec6c">noMoreJobsShouldStart</a>;</div>
-<div class="line"><span class="lineno">  265</span>            }</div>
-<div class="line"><span class="lineno">  266</span> </div>
-<div class="line"><span class="lineno">  267</span>            <span class="keywordflow">if</span> (noMoreJobsShouldStart &amp;&amp; !handler.Started)</div>
-<div class="line"><span class="lineno">  268</span>                await Extensions.TaskExtensions.InfiniteTask.WaitAsync(cancellationToken);</div>
-<div class="line"><span class="lineno">  269</span> </div>
-<div class="line"><span class="lineno">  270</span>            Task cancelTask = <span class="keyword">null</span>;</div>
-<div class="line"><span class="lineno">  271</span>            <span class="keyword">using</span> (jobCancellationToken.Register(() =&gt; cancelTask = <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#a9e21547ef3576e2b185d53d2dc025c50">CancelJob</a>(job, canceller, <span class="keyword">true</span>, cancellationToken)))</div>
-<div class="line"><span class="lineno">  272</span>                await handler.Wait(cancellationToken);</div>
-<div class="line"><span class="lineno">  273</span> </div>
-<div class="line"><span class="lineno">  274</span>            <span class="keywordflow">if</span> (cancelTask != <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">  275</span>                await cancelTask;</div>
-<div class="line"><span class="lineno">  276</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_job_service_8cs_source.html#l00252">252</a> of file <a class="el" href="_job_service_8cs_source.html">JobService.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  253</span>        {</div>
+<div class="line"><span class="lineno">  254</span>            ArgumentNullException.ThrowIfNull(job);</div>
+<div class="line"><span class="lineno">  255</span> </div>
+<div class="line"><span class="lineno">  256</span>            <span class="keywordflow">if</span> (!cancellationToken.CanBeCanceled)</div>
+<div class="line"><span class="lineno">  257</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentException(<span class="stringliteral">&quot;A cancellable CancellationToken should be provided!&quot;</span>, nameof(cancellationToken));</div>
+<div class="line"><span class="lineno">  258</span> </div>
+<div class="line"><span class="lineno">  259</span>            JobHandler handler;</div>
+<div class="line"><span class="lineno">  260</span>            <span class="keywordtype">bool</span> <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#ab97d4bed642d329daea3510d64f8ec6c">noMoreJobsShouldStart</a>;</div>
+<div class="line"><span class="lineno">  261</span>            lock (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#a2a0df9ba71fdfea989c57f975fce051f">synchronizationLock</a>)</div>
+<div class="line"><span class="lineno">  262</span>            {</div>
+<div class="line"><span class="lineno">  263</span>                <span class="keywordflow">if</span> (!<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#adb8db167c189c8ea456a0372432de1a0">jobs</a>.TryGetValue(job.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html#ae31e478e1d338b37a14565df6fd58570">Id</a>.Value, out handler))</div>
+<div class="line"><span class="lineno">  264</span>                    <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno">  265</span> </div>
+<div class="line"><span class="lineno">  266</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#ab97d4bed642d329daea3510d64f8ec6c">noMoreJobsShouldStart</a> = this.<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#ab97d4bed642d329daea3510d64f8ec6c">noMoreJobsShouldStart</a>;</div>
+<div class="line"><span class="lineno">  267</span>            }</div>
+<div class="line"><span class="lineno">  268</span> </div>
+<div class="line"><span class="lineno">  269</span>            <span class="keywordflow">if</span> (noMoreJobsShouldStart &amp;&amp; !handler.Started)</div>
+<div class="line"><span class="lineno">  270</span>                await Extensions.TaskExtensions.InfiniteTask.WaitAsync(cancellationToken);</div>
+<div class="line"><span class="lineno">  271</span> </div>
+<div class="line"><span class="lineno">  272</span>            ValueTask&lt;Job&gt;? cancelTask = <span class="keyword">null</span>;</div>
+<div class="line"><span class="lineno">  273</span>            <span class="keyword">using</span> (jobCancellationToken.Register(() =&gt; cancelTask = <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#ac02a1b04fe68e66782a63c3724989457">CancelJob</a>(job, canceller, <span class="keyword">true</span>, cancellationToken)))</div>
+<div class="line"><span class="lineno">  274</span>                await handler.Wait(cancellationToken);</div>
+<div class="line"><span class="lineno">  275</span> </div>
+<div class="line"><span class="lineno">  276</span>            <span class="keywordflow">if</span> (cancelTask.HasValue)</div>
+<div class="line"><span class="lineno">  277</span>                await cancelTask.Value;</div>
+<div class="line"><span class="lineno">  278</span>        }</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="_entity_id_8cs_source.html#l00013">Tgstation.Server.Api.Models.EntityId.Id</a>, <a class="el" href="_job_handler_8cs_source.html#l00015">Tgstation.Server.Host.Jobs.JobHandler.Started</a>, and <a class="el" href="_job_handler_8cs_source.html#l00060">Tgstation.Server.Host.Jobs.JobHandler.Wait()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service_af5fe657cdfef95a8172fe2c960977a87_cgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service_af5fe657cdfef95a8172fe2c960977a87_cgraph" alt=""/></div>
-<map name="aclass_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service_af5fe657cdfef95a8172fe2c960977a87_cgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service_af5fe657cdfef95a8172fe2c960977a87_cgraph">
-<area shape="rect" title="Wait for a given job &#160;to complete. A Task representing the Job." alt="" coords="5,5,227,45"/>
+<div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service_aa66c931e301afa1d01ee9a8a29df81eb_cgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service_aa66c931e301afa1d01ee9a8a29df81eb_cgraph" alt=""/></div>
+<map name="aclass_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service_aa66c931e301afa1d01ee9a8a29df81eb_cgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service_aa66c931e301afa1d01ee9a8a29df81eb_cgraph">
+<area shape="rect" title="Wait for a given job &#160;to complete. A ValueTask representing the Job." alt="" coords="5,5,227,45"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_handler.html#ae9c16c160e9e0f1e1201dc86a29eace0" title="Wait for task to complete." alt="" coords="275,5,457,45"/>
 </map>
 </div>
@@ -916,9 +929,9 @@ Here is the call graph for this function:</div>
 
 <p>TaskCompletionSource&lt;TResult&gt; to delay starting jobs until the server is ready.  </p>
 
-<p class="definition">Definition at line <a class="el" href="_job_service_8cs_source.html#l00045">45</a> of file <a class="el" href="_job_service_8cs_source.html">JobService.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_job_service_8cs_source.html#l00046">46</a> of file <a class="el" href="_job_service_8cs_source.html">JobService.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_job_service_8cs_source.html#l00068">Tgstation.Server.Host.Jobs.JobService.JobService()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_job_service_8cs_source.html#l00069">Tgstation.Server.Host.Jobs.JobService.JobService()</a>.</p>
 
 </div>
 </div>
@@ -944,9 +957,9 @@ Here is the call graph for this function:</div>
 
 <p>Prevents a really REALLY rare race condition between add and cancel operations.  </p>
 
-<p class="definition">Definition at line <a class="el" href="_job_service_8cs_source.html#l00055">55</a> of file <a class="el" href="_job_service_8cs_source.html">JobService.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_job_service_8cs_source.html#l00056">56</a> of file <a class="el" href="_job_service_8cs_source.html">JobService.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_job_service_8cs_source.html#l00068">Tgstation.Server.Host.Jobs.JobService.JobService()</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#a3377ee874856ca422c16558894e158e6">Tgstation.Server.Host.Jobs.JobService.RegisterOperation()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_job_service_8cs_source.html#l00069">Tgstation.Server.Host.Jobs.JobService.JobService()</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#af2255b562972f70a638cf93cd830b6a9">Tgstation.Server.Host.Jobs.JobService.RegisterOperation()</a>.</p>
 
 </div>
 </div>
@@ -972,9 +985,9 @@ Here is the call graph for this function:</div>
 
 <p>The IServiceProvider for the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html">JobService</a>.  </p>
 
-<p class="definition">Definition at line <a class="el" href="_job_service_8cs_source.html#l00025">25</a> of file <a class="el" href="_job_service_8cs_source.html">JobService.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_job_service_8cs_source.html#l00026">26</a> of file <a class="el" href="_job_service_8cs_source.html">JobService.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_job_service_8cs_source.html#l00068">Tgstation.Server.Host.Jobs.JobService.JobService()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_job_service_8cs_source.html#l00069">Tgstation.Server.Host.Jobs.JobService.JobService()</a>.</p>
 
 </div>
 </div>
@@ -1000,9 +1013,9 @@ Here is the call graph for this function:</div>
 
 <p>Dictionary&lt;TKey, TValue&gt; of Job <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html#ae31e478e1d338b37a14565df6fd58570" title="The ID of the entity.">Api.Models.EntityId.Id</a>s to running <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_handler.html" title="Class for pairing Tasks with CancellationTokenSources.">JobHandler</a>s.  </p>
 
-<p class="definition">Definition at line <a class="el" href="_job_service_8cs_source.html#l00040">40</a> of file <a class="el" href="_job_service_8cs_source.html">JobService.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_job_service_8cs_source.html#l00041">41</a> of file <a class="el" href="_job_service_8cs_source.html">JobService.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_job_service_8cs_source.html#l00083">Tgstation.Server.Host.Jobs.JobService.Dispose()</a>, <a class="el" href="_job_service_8cs_source.html#l00068">Tgstation.Server.Host.Jobs.JobService.JobService()</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#a3377ee874856ca422c16558894e158e6">Tgstation.Server.Host.Jobs.JobService.RegisterOperation()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_job_service_8cs_source.html#l00084">Tgstation.Server.Host.Jobs.JobService.Dispose()</a>, <a class="el" href="_job_service_8cs_source.html#l00069">Tgstation.Server.Host.Jobs.JobService.JobService()</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#af2255b562972f70a638cf93cd830b6a9">Tgstation.Server.Host.Jobs.JobService.RegisterOperation()</a>.</p>
 
 </div>
 </div>
@@ -1028,9 +1041,9 @@ Here is the call graph for this function:</div>
 
 <p>The ILogger for the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html">JobService</a>.  </p>
 
-<p class="definition">Definition at line <a class="el" href="_job_service_8cs_source.html#l00035">35</a> of file <a class="el" href="_job_service_8cs_source.html">JobService.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_job_service_8cs_source.html#l00036">36</a> of file <a class="el" href="_job_service_8cs_source.html">JobService.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_job_service_8cs_source.html#l00068">Tgstation.Server.Host.Jobs.JobService.JobService()</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#a3377ee874856ca422c16558894e158e6">Tgstation.Server.Host.Jobs.JobService.RegisterOperation()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_job_service_8cs_source.html#l00069">Tgstation.Server.Host.Jobs.JobService.JobService()</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#af2255b562972f70a638cf93cd830b6a9">Tgstation.Server.Host.Jobs.JobService.RegisterOperation()</a>.</p>
 
 </div>
 </div>
@@ -1056,9 +1069,9 @@ Here is the call graph for this function:</div>
 
 <p>The ILoggerFactory for the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html">JobService</a>.  </p>
 
-<p class="definition">Definition at line <a class="el" href="_job_service_8cs_source.html#l00030">30</a> of file <a class="el" href="_job_service_8cs_source.html">JobService.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_job_service_8cs_source.html#l00031">31</a> of file <a class="el" href="_job_service_8cs_source.html">JobService.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_job_service_8cs_source.html#l00068">Tgstation.Server.Host.Jobs.JobService.JobService()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_job_service_8cs_source.html#l00069">Tgstation.Server.Host.Jobs.JobService.JobService()</a>.</p>
 
 </div>
 </div>
@@ -1084,9 +1097,9 @@ Here is the call graph for this function:</div>
 
 <p>Prevents jobs that are registered after shutdown from activating.  </p>
 
-<p class="definition">Definition at line <a class="el" href="_job_service_8cs_source.html#l00060">60</a> of file <a class="el" href="_job_service_8cs_source.html">JobService.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_job_service_8cs_source.html#l00061">61</a> of file <a class="el" href="_job_service_8cs_source.html">JobService.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#a3377ee874856ca422c16558894e158e6">Tgstation.Server.Host.Jobs.JobService.RegisterOperation()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#af2255b562972f70a638cf93cd830b6a9">Tgstation.Server.Host.Jobs.JobService.RegisterOperation()</a>.</p>
 
 </div>
 </div>
@@ -1112,9 +1125,9 @@ Here is the call graph for this function:</div>
 
 <p><code>lock</code> object for various operations.  </p>
 
-<p class="definition">Definition at line <a class="el" href="_job_service_8cs_source.html#l00050">50</a> of file <a class="el" href="_job_service_8cs_source.html">JobService.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_job_service_8cs_source.html#l00051">51</a> of file <a class="el" href="_job_service_8cs_source.html">JobService.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_job_service_8cs_source.html#l00068">Tgstation.Server.Host.Jobs.JobService.JobService()</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#a3377ee874856ca422c16558894e158e6">Tgstation.Server.Host.Jobs.JobService.RegisterOperation()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_job_service_8cs_source.html#l00069">Tgstation.Server.Host.Jobs.JobService.JobService()</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#af2255b562972f70a638cf93cd830b6a9">Tgstation.Server.Host.Jobs.JobService.RegisterOperation()</a>.</p>
 
 </div>
 </div>

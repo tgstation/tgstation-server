@@ -1,0 +1,12 @@
+<map id="Tgstation.Server.Host.Components.Deployment.DreamMaker.RunCompileJob" name="Tgstation.Server.Host.Components.Deployment.DreamMaker.RunCompileJob">
+<area shape="rect" id="node1" title="Executes and populate a given job ." alt="" coords="5,261,267,301"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a286f4eb5c679683b7e519847a6c3574e" title="Combines an array of strings into a path." alt="" coords="364,5,532,45"/>
+<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository.html#a551ace4a402d31944fbd16eabdcf0d7e" title="Copies the current working directory to a given path ." alt="" coords="335,69,561,109"/>
+<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ad4de873180481f7afa206b6282158d62" title="Check that the file at path &#160;exists." alt="" coords="364,133,532,173"/>
+<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ad71a483a00641af2838418f677801df5" title="Gets a list of files in path &#160;with the given extension ." alt="" coords="336,197,560,237"/>
+<area shape="rect" id="node6" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html#a7a338bb40621b86f0e88674a193f144f" title="Handle a given eventType ." alt="" coords="329,261,567,301"/>
+<area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#acd0b61739ab535d67d9081d8071b8f0b" title="Adds server side includes to the .dme being compiled." alt="" coords="331,325,565,365"/>
+<area shape="rect" id="node8" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a18a442b5dff16f5e7a730ec354e81d78" title="Retrieve the full path of the current working directory." alt="" coords="364,389,532,429"/>
+<area shape="rect" id="node9" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#a586ec295603d2bc4f2128d5d978be4e0" title="Compiles a .dme with DreamMaker." alt="" coords="315,453,581,493"/>
+<area shape="rect" id="node10" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#ab7f866db1c1b98c6196556f12aab43e3" title="Run a quick DD instance to test the DMAPI is installed on the target code." alt="" coords="335,517,561,557"/>
+</map>

@@ -86,17 +86,17 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
-<tr class="memitem:a4183b4de82b238fa9b2ee0b45640e712"><td class="memItemLeft" align="right" valign="top">static async Task&lt; IActionResult &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_file_transfer_stream_handler_extensions.html#a4183b4de82b238fa9b2ee0b45640e712">GenerateDownloadResponse</a> (this <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_i_file_transfer_stream_handler.html">IFileTransferStreamHandler</a> fileTransferService, ControllerBase controller, string ticket, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a4183b4de82b238fa9b2ee0b45640e712"><td class="mdescLeft">&#160;</td><td class="mdescRight">Downloads a file with a given <em>ticket</em> .   <a href="class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_file_transfer_stream_handler_extensions.html#a4183b4de82b238fa9b2ee0b45640e712">More...</a><br /></td></tr>
-<tr class="separator:a4183b4de82b238fa9b2ee0b45640e712"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a151730b54f45dffd546dfd21539db1f4"><td class="memItemLeft" align="right" valign="top">static async ValueTask&lt; IActionResult &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_file_transfer_stream_handler_extensions.html#a151730b54f45dffd546dfd21539db1f4">GenerateDownloadResponse</a> (this <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_i_file_transfer_stream_handler.html">IFileTransferStreamHandler</a> fileTransferService, ControllerBase controller, string ticket, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a151730b54f45dffd546dfd21539db1f4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Downloads a file with a given <em>ticket</em> .   <a href="class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_file_transfer_stream_handler_extensions.html#a151730b54f45dffd546dfd21539db1f4">More...</a><br /></td></tr>
+<tr class="separator:a151730b54f45dffd546dfd21539db1f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p >Extension methods for IFileTransferStreamHandler.  </p>
 
 <p class="definition">Definition at line <a class="el" href="_file_transfer_stream_handler_extensions_8cs_source.html#l00022">22</a> of file <a class="el" href="_file_transfer_stream_handler_extensions_8cs_source.html">FileTransferStreamHandlerExtensions.cs</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a id="a4183b4de82b238fa9b2ee0b45640e712" name="a4183b4de82b238fa9b2ee0b45640e712"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4183b4de82b238fa9b2ee0b45640e712">&#9670;&#160;</a></span>GenerateDownloadResponse()</h2>
+<a id="a151730b54f45dffd546dfd21539db1f4" name="a151730b54f45dffd546dfd21539db1f4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a151730b54f45dffd546dfd21539db1f4">&#9670;&#160;</a></span>GenerateDownloadResponse()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -105,7 +105,7 @@ Static Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static async Task&lt; IActionResult &gt; Tgstation.Server.Host.Extensions.FileTransferStreamHandlerExtensions.GenerateDownloadResponse </td>
+          <td class="memname">static async ValueTask&lt; IActionResult &gt; Tgstation.Server.Host.Extensions.FileTransferStreamHandlerExtensions.GenerateDownloadResponse </td>
           <td>(</td>
           <td class="paramtype">this <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_i_file_transfer_stream_handler.html">IFileTransferStreamHandler</a>&#160;</td>
           <td class="paramname"><em>fileTransferService</em>, </td>
@@ -151,7 +151,7 @@ Static Public Member Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in the IActionResult of the method.</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A ValueTask&lt;TResult&gt; resulting in the IActionResult of the method.</dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="_file_transfer_stream_handler_extensions_8cs_source.html#l00032">32</a> of file <a class="el" href="_file_transfer_stream_handler_extensions_8cs_source.html">FileTransferStreamHandlerExtensions.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   37</span>        {</div>
@@ -196,14 +196,14 @@ Static Public Member Functions</h2></td></tr>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_limited_stream_result_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_limited_stream_result.html">Tgstation.Server.Host.Controllers.LimitedStreamResult</a></div><div class="ttdoc">Very similar to FileStreamResult except it's IActionResultExecutor&lt;TResult&gt; contains a fix for https:...</div><div class="ttdef"><b>Definition:</b> <a href="_limited_stream_result_8cs_source.html#l00018">LimitedStreamResult.cs:19</a></div></div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_api_1_1_models_html_a1a6adb59dd51244efabf4e548e7075c8"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">Tgstation.Server.Api.Models.ErrorCode</a></div><div class="ttdeci">ErrorCode</div><div class="ttdoc">Types of Response.ErrorMessageResponses that the API may return.</div><div class="ttdef"><b>Definition:</b> <a href="_error_code_8cs_source.html#l00012">ErrorCode.cs:13</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_i_file_transfer_stream_handler.html#ade7f15d496c4ff425803ff3327cc6632">Tgstation.Server.Host.Transfer.IFileTransferStreamHandler.RetrieveDownloadStream()</a>.</p>
+<p class="reference">References <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_i_file_transfer_stream_handler.html#a7c5cd677af9e279e469215c1ce697e3d">Tgstation.Server.Host.Transfer.IFileTransferStreamHandler.RetrieveDownloadStream()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_file_transfer_stream_handler_extensions_a4183b4de82b238fa9b2ee0b45640e712_cgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_file_transfer_stream_handler_extensions_a4183b4de82b238fa9b2ee0b45640e712_cgraph" alt=""/></div>
-<map name="aclass_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_file_transfer_stream_handler_extensions_a4183b4de82b238fa9b2ee0b45640e712_cgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_file_transfer_stream_handler_extensions_a4183b4de82b238fa9b2ee0b45640e712_cgraph">
+<div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_file_transfer_stream_handler_extensions_a151730b54f45dffd546dfd21539db1f4_cgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_file_transfer_stream_handler_extensions_a151730b54f45dffd546dfd21539db1f4_cgraph" alt=""/></div>
+<map name="aclass_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_file_transfer_stream_handler_extensions_a151730b54f45dffd546dfd21539db1f4_cgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_file_transfer_stream_handler_extensions_a151730b54f45dffd546dfd21539db1f4_cgraph">
 <area shape="rect" title="Downloads a file with a given ticket ." alt="" coords="5,5,249,60"/>
-<area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_i_file_transfer_stream_handler.html#ade7f15d496c4ff425803ff3327cc6632" title="Gets the the Stream for a given ticket &#160;associated with a pending download." alt="" coords="297,5,531,60"/>
+<area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_i_file_transfer_stream_handler.html#a7c5cd677af9e279e469215c1ce697e3d" title="Gets the the Stream for a given ticket &#160;associated with a pending download." alt="" coords="297,5,531,60"/>
 </map>
 </div>
 

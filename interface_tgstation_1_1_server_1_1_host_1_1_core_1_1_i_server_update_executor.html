@@ -95,23 +95,23 @@ Inheritance diagram for Tgstation.Server.Host.Core.IServerUpdateExecutor:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a2b25c5bbbaa17232348921c7e0f84531"><td class="memItemLeft" align="right" valign="top">Task&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_update_executor.html#a2b25c5bbbaa17232348921c7e0f84531">ExecuteUpdate</a> (string updatePath, CancellationToken cancellationToken, CancellationToken criticalCancellationToken)</td></tr>
-<tr class="memdesc:a2b25c5bbbaa17232348921c7e0f84531"><td class="mdescLeft">&#160;</td><td class="mdescRight">Executes a pending server update by extracting the new server to a given <em>updatePath</em> .   <a href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_update_executor.html#a2b25c5bbbaa17232348921c7e0f84531">More...</a><br /></td></tr>
-<tr class="separator:a2b25c5bbbaa17232348921c7e0f84531"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8ce371405040dc3ce0e6c6ba7072325e"><td class="memItemLeft" align="right" valign="top">ValueTask&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_update_executor.html#a8ce371405040dc3ce0e6c6ba7072325e">ExecuteUpdate</a> (string updatePath, CancellationToken cancellationToken, CancellationToken criticalCancellationToken)</td></tr>
+<tr class="memdesc:a8ce371405040dc3ce0e6c6ba7072325e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Executes a pending server update by extracting the new server to a given <em>updatePath</em> .   <a href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_update_executor.html#a8ce371405040dc3ce0e6c6ba7072325e">More...</a><br /></td></tr>
+<tr class="separator:a8ce371405040dc3ce0e6c6ba7072325e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p >Executes server update operations.  </p>
 
 <p class="definition">Definition at line <a class="el" href="_i_server_update_executor_8cs_source.html#l00009">9</a> of file <a class="el" href="_i_server_update_executor_8cs_source.html">IServerUpdateExecutor.cs</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a id="a2b25c5bbbaa17232348921c7e0f84531" name="a2b25c5bbbaa17232348921c7e0f84531"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2b25c5bbbaa17232348921c7e0f84531">&#9670;&#160;</a></span>ExecuteUpdate()</h2>
+<a id="a8ce371405040dc3ce0e6c6ba7072325e" name="a8ce371405040dc3ce0e6c6ba7072325e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8ce371405040dc3ce0e6c6ba7072325e">&#9670;&#160;</a></span>ExecuteUpdate()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">Task&lt; bool &gt; Tgstation.Server.Host.Core.IServerUpdateExecutor.ExecuteUpdate </td>
+          <td class="memname">ValueTask&lt; bool &gt; Tgstation.Server.Host.Core.IServerUpdateExecutor.ExecuteUpdate </td>
           <td>(</td>
           <td class="paramtype">string&#160;</td>
           <td class="paramname"><em>updatePath</em>, </td>
@@ -145,16 +145,16 @@ Public Member Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in <code>true</code> if the update was successful, <code>false</code> otherwise.</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A ValueTask&lt;TResult&gt; resulting in <code>true</code> if the update was successful, <code>false</code> otherwise.</dd></dl>
 
-<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#a3b704ff1a08b3a9462a71884c52b5a25">Tgstation.Server.Host.Core.ServerUpdater</a>.</p>
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#a2a702f9141f98d0ba1aae9a70688704c">Tgstation.Server.Host.Core.ServerUpdater</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_server_8cs_source.html#l00169">Tgstation.Server.Host.Server.TryStartUpdate()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_server_8cs_source.html#l00170">Tgstation.Server.Host.Server.TryStartUpdate()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_update_executor_a2b25c5bbbaa17232348921c7e0f84531_icgraph.png" border="0" usemap="#ainterface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_update_executor_a2b25c5bbbaa17232348921c7e0f84531_icgraph" alt=""/></div>
-<map name="ainterface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_update_executor_a2b25c5bbbaa17232348921c7e0f84531_icgraph" id="ainterface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_update_executor_a2b25c5bbbaa17232348921c7e0f84531_icgraph">
+<div class="center"><img src="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_update_executor_a8ce371405040dc3ce0e6c6ba7072325e_icgraph.png" border="0" usemap="#ainterface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_update_executor_a8ce371405040dc3ce0e6c6ba7072325e_icgraph" alt=""/></div>
+<map name="ainterface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_update_executor_a8ce371405040dc3ce0e6c6ba7072325e_icgraph" id="ainterface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_update_executor_a8ce371405040dc3ce0e6c6ba7072325e_icgraph">
 <area shape="rect" title="Executes a pending server update by extracting the new server to a given updatePath ." alt="" coords="245,5,492,45"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_server.html#a2343e099613579929e08bbc59f28c1c5" title="Attempt to update with a given updateExecutor . true if the update started successfully,..." alt="" coords="5,5,197,45"/>
 </map>

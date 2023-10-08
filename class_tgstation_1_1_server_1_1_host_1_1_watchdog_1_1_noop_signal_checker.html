@@ -104,34 +104,34 @@ Collaboration diagram for Tgstation.Server.Host.Watchdog.NoopSignalChecker:</div
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a6d6a619bef54f93ad427c44ebc5b3f83"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_noop_signal_checker.html#a6d6a619bef54f93ad427c44ebc5b3f83">CheckSignals</a> (Func&lt; string,(int, Task)&gt; startChild, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a6d6a619bef54f93ad427c44ebc5b3f83"><td class="mdescLeft">&#160;</td><td class="mdescRight">Relays signals received to the host process. <dl class="params"><dt>Parameters</dt><dd>
+<tr class="memitem:a5bff9dcea5728a6284c364f937fcfbec"><td class="memItemLeft" align="right" valign="top">ValueTask&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_noop_signal_checker.html#a5bff9dcea5728a6284c364f937fcfbec">CheckSignals</a> (Func&lt; string,(int, Task)&gt; startChild, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a5bff9dcea5728a6284c364f937fcfbec"><td class="mdescLeft">&#160;</td><td class="mdescRight">Relays signals received to the host process. <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">startChild</td><td>An Func&lt;TResult&gt; to start the main process. It accepts an optional additional command line argument as a paramter and returns it's System.Diagnostics.Process.Id and lifetime Task.</td></tr>
     <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A Task representing the running operation.</dd></dl>
-  <a href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_noop_signal_checker.html#a6d6a619bef54f93ad427c44ebc5b3f83">More...</a><br /></td></tr>
-<tr class="separator:a6d6a619bef54f93ad427c44ebc5b3f83"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af386b0a3dcac0fff58ac756caec829d5"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_signal_checker.html#af386b0a3dcac0fff58ac756caec829d5">CheckSignals</a> (Func&lt; string,(int, Task)&gt; startChild, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:af386b0a3dcac0fff58ac756caec829d5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Relays signals received to the host process.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_signal_checker.html#af386b0a3dcac0fff58ac756caec829d5">More...</a><br /></td></tr>
-<tr class="separator:af386b0a3dcac0fff58ac756caec829d5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<dl class="section return"><dt>Returns</dt><dd>A ValueTask representing the running operation.</dd></dl>
+  <a href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_noop_signal_checker.html#a5bff9dcea5728a6284c364f937fcfbec">More...</a><br /></td></tr>
+<tr class="separator:a5bff9dcea5728a6284c364f937fcfbec"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af6772af01e3ced4ac70aece520542adf"><td class="memItemLeft" align="right" valign="top">ValueTask&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_signal_checker.html#af6772af01e3ced4ac70aece520542adf">CheckSignals</a> (Func&lt; string,(int, Task)&gt; startChild, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:af6772af01e3ced4ac70aece520542adf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Relays signals received to the host process.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_signal_checker.html#af6772af01e3ced4ac70aece520542adf">More...</a><br /></td></tr>
+<tr class="separator:af6772af01e3ced4ac70aece520542adf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p >No-op <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_signal_checker.html" title="For relaying signals received to the host process.">ISignalChecker</a>.  </p>
 
 <p class="definition">Definition at line <a class="el" href="_noop_signal_checker_8cs_source.html#l00010">10</a> of file <a class="el" href="_noop_signal_checker_8cs_source.html">NoopSignalChecker.cs</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a id="a6d6a619bef54f93ad427c44ebc5b3f83" name="a6d6a619bef54f93ad427c44ebc5b3f83"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6d6a619bef54f93ad427c44ebc5b3f83">&#9670;&#160;</a></span>CheckSignals()</h2>
+<a id="a5bff9dcea5728a6284c364f937fcfbec" name="a5bff9dcea5728a6284c364f937fcfbec"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5bff9dcea5728a6284c364f937fcfbec">&#9670;&#160;</a></span>CheckSignals()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">Task Tgstation.Server.Host.Watchdog.NoopSignalChecker.CheckSignals </td>
+          <td class="memname">ValueTask Tgstation.Server.Host.Watchdog.NoopSignalChecker.CheckSignals </td>
           <td>(</td>
           <td class="paramtype">Func&lt; string,(int, Task)&gt;&#160;</td>
           <td class="paramname"><em>startChild</em>, </td>
@@ -157,16 +157,16 @@ Public Member Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A Task representing the running operation.</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A ValueTask representing the running operation.</dd></dl>
  </p>
 
-<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_signal_checker.html#af386b0a3dcac0fff58ac756caec829d5">Tgstation.Server.Host.Watchdog.ISignalChecker</a>.</p>
+<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_signal_checker.html#af6772af01e3ced4ac70aece520542adf">Tgstation.Server.Host.Watchdog.ISignalChecker</a>.</p>
 
 <p class="definition">Definition at line <a class="el" href="_noop_signal_checker_8cs_source.html#l00013">13</a> of file <a class="el" href="_noop_signal_checker_8cs_source.html">NoopSignalChecker.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   14</span>        {</div>
 <div class="line"><span class="lineno">   15</span>            ArgumentNullException.ThrowIfNull(startChild);</div>
 <div class="line"><span class="lineno">   16</span>            startChild(<span class="keyword">null</span>);</div>
-<div class="line"><span class="lineno">   17</span>            <span class="keywordflow">return</span> Task.CompletedTask;</div>
+<div class="line"><span class="lineno">   17</span>            <span class="keywordflow">return</span> ValueTask.CompletedTask;</div>
 <div class="line"><span class="lineno">   18</span>        }</div>
 </div><!-- fragment -->
 </div>

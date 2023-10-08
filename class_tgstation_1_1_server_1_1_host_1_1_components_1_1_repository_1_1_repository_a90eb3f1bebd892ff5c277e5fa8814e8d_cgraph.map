@@ -1,0 +1,6 @@
+<map id="Tgstation.Server.Host.Components.Repository.Repository.FetchOrigin" name="Tgstation.Server.Host.Components.Repository.Repository.FetchOrigin">
+<area shape="rect" id="node1" title="Fetch commits from the origin repository. A ValueTask representing the running operation." alt="" coords="5,85,232,125"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_credentials_provider.html#adadfc1a59c4a3f30bc795c43b3c6fa42" title="Rethrow the authentication failure message as a JobException if it is one." alt="" coords="280,5,523,60"/>
+<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_lib_git2_commands.html#a3660f1ded05e762c347ffc43c6d71700" title="Runs a blocking fetch operation on a given repository ." alt="" coords="284,85,519,125"/>
+<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html#a7a338bb40621b86f0e88674a193f144f" title="Handle a given eventType ." alt="" coords="282,149,521,189"/>
+</map>

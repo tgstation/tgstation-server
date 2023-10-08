@@ -110,23 +110,23 @@ Collaboration diagram for Tgstation.Server.Host.IO.IFileStreamProvider:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a4089d4c4bd2c81af23de761984fed8e9"><td class="memItemLeft" align="right" valign="top">Task&lt; <a class="el" href="class_stream.html">Stream</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_file_stream_provider.html#a4089d4c4bd2c81af23de761984fed8e9">GetResult</a> (CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a4089d4c4bd2c81af23de761984fed8e9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the provided <a class="el" href="class_stream.html">Stream</a>. May be called multiple times, though cancelling any may cause all calls to be cancelled. All calls yield the same <a class="el" href="class_stream.html">Stream</a> reference.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_file_stream_provider.html#a4089d4c4bd2c81af23de761984fed8e9">More...</a><br /></td></tr>
-<tr class="separator:a4089d4c4bd2c81af23de761984fed8e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a78376175b738d1a52b4e711e2379396b"><td class="memItemLeft" align="right" valign="top">ValueTask&lt; <a class="el" href="class_stream.html">Stream</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_file_stream_provider.html#a78376175b738d1a52b4e711e2379396b">GetResult</a> (CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a78376175b738d1a52b4e711e2379396b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the provided <a class="el" href="class_stream.html">Stream</a>. May be called multiple times, though cancelling any may cause all calls to be cancelled. All calls yield the same <a class="el" href="class_stream.html">Stream</a> reference.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_file_stream_provider.html#a78376175b738d1a52b4e711e2379396b">More...</a><br /></td></tr>
+<tr class="separator:a78376175b738d1a52b4e711e2379396b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p >Interface for asynchronously consuming <a class="el" href="class_stream.html">Stream</a>s of files.  </p>
 
 <p class="definition">Definition at line <a class="el" href="_i_file_stream_provider_8cs_source.html#l00011">11</a> of file <a class="el" href="_i_file_stream_provider_8cs_source.html">IFileStreamProvider.cs</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a id="a4089d4c4bd2c81af23de761984fed8e9" name="a4089d4c4bd2c81af23de761984fed8e9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4089d4c4bd2c81af23de761984fed8e9">&#9670;&#160;</a></span>GetResult()</h2>
+<a id="a78376175b738d1a52b4e711e2379396b" name="a78376175b738d1a52b4e711e2379396b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a78376175b738d1a52b4e711e2379396b">&#9670;&#160;</a></span>GetResult()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">Task&lt; <a class="el" href="class_stream.html">Stream</a> &gt; Tgstation.Server.Host.IO.IFileStreamProvider.GetResult </td>
+          <td class="memname">ValueTask&lt; <a class="el" href="class_stream.html">Stream</a> &gt; Tgstation.Server.Host.IO.IFileStreamProvider.GetResult </td>
           <td>(</td>
           <td class="paramtype">CancellationToken&#160;</td>
           <td class="paramname"><em>cancellationToken</em></td><td>)</td>
@@ -142,23 +142,23 @@ Public Member Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in the provided <a class="el" href="class_stream.html">Stream</a> on success, <code>null</code> if it could not be provided.</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A ValueTask&lt;TResult&gt; resulting in the provided <a class="el" href="class_stream.html">Stream</a> on success, <code>null</code> if it could not be provided.</dd></dl>
 <p >The resulting <a class="el" href="class_stream.html">Stream</a> is owned by the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_file_stream_provider.html" title="Interface for asynchronously consuming Streams of files.">IFileStreamProvider</a> and is short lived unless otherwise specified. It should be buffered if it needs use outside the lifetime of the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_file_stream_provider.html" title="Interface for asynchronously consuming Streams of files.">IFileStreamProvider</a>.</p>
 
-<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_limited_stream_result.html#a59254f5e12a23b3014c278e4207809fc">Tgstation.Server.Host.Controllers.LimitedStreamResult</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_buffered_file_stream_provider.html#aa33223cdc5073bce7b311cf3aee8da6e">Tgstation.Server.Host.IO.BufferedFileStreamProvider</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_request_file_stream_provider.html#a8ff81109a481a673997fdc2da04d0792">Tgstation.Server.Host.IO.RequestFileStreamProvider</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_upload_provider.html#ac957601ace3de0c23b77d39900d98304">Tgstation.Server.Host.Transfer.FileUploadProvider</a>.</p>
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_limited_stream_result.html#a477350158b5ff69bef7daa61c73f823f">Tgstation.Server.Host.Controllers.LimitedStreamResult</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_buffered_file_stream_provider.html#a413ee02b56e08b0885d039dfc05f36de">Tgstation.Server.Host.IO.BufferedFileStreamProvider</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_request_file_stream_provider.html#afd6294b767b298ace3b91aef1accc5f6">Tgstation.Server.Host.IO.RequestFileStreamProvider</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_upload_provider.html#ab69896f76142e1f2668f8c8ad992fe06">Tgstation.Server.Host.Transfer.FileUploadProvider</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_swarm_service_8cs_source.html#l01060">Tgstation.Server.Host.Swarm.SwarmService.CreateDownloadTickets()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_swarm_service_8cs_source.html#l01064">Tgstation.Server.Host.Swarm.SwarmService.CreateDownloadTickets()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_file_stream_provider_a4089d4c4bd2c81af23de761984fed8e9_icgraph.png" border="0" usemap="#ainterface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_file_stream_provider_a4089d4c4bd2c81af23de761984fed8e9_icgraph" alt=""/></div>
-<map name="ainterface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_file_stream_provider_a4089d4c4bd2c81af23de761984fed8e9_icgraph" id="ainterface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_file_stream_provider_a4089d4c4bd2c81af23de761984fed8e9_icgraph">
+<div class="center"><img src="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_file_stream_provider_a78376175b738d1a52b4e711e2379396b_icgraph.png" border="0" usemap="#ainterface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_file_stream_provider_a78376175b738d1a52b4e711e2379396b_icgraph" alt=""/></div>
+<map name="ainterface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_file_stream_provider_a78376175b738d1a52b4e711e2379396b_icgraph" id="ainterface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_file_stream_provider_a78376175b738d1a52b4e711e2379396b_icgraph">
 <area shape="rect" title="Gets the provided Stream. May be called multiple times, though cancelling any may cause all calls to ..." alt="" coords="1177,46,1376,86"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#ab8af3cd65ed005cd41eeed1cf55da2d8" title="Create a FileTicketResponse for downloading the content of a given initiatorProvider &#160;for the rest of..." alt="" coords="881,46,1129,86"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#ace4f10b1f946a33380666caabf8c3bb5" title="Send a given updateRequest &#160;out to nodes from the swarm controller." alt="" coords="607,5,833,60"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a598ccdd185156e1f44c8842403a5a864" title="Implementation of PrepareUpdate(ISeekableFileStreamProvider, Version, CancellationToken),..." alt="" coords="336,46,559,86"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a8284ef2414d328d72315c5ce83b6f7c2" title="Signal to the swarm that an update is requested. A Task&lt;TResult&gt; resulting in true if the update shou..." alt="" coords="48,14,245,54"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a9b47bfea16dcb7b4ec46989a67adf384" title="Notify the node of an update request from the controller. A Task&lt;TResult&gt; resulting in true if the no..." alt="" coords="5,78,288,118"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a454f66212f15d38ac9a1716bae7de63d" title="Create a FileTicketResponse for downloading the content of a given initiatorProvider &#160;for the rest of..." alt="" coords="881,46,1129,86"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a19b5ef6f8af3d936fcce641072cfd19e" title="Send a given updateRequest &#160;out to nodes from the swarm controller." alt="" coords="607,5,833,60"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#aed887b1ae2bf34b0cc29a81b9f080dfe" title="Implementation of PrepareUpdate(ISeekableFileStreamProvider, Version, CancellationToken),..." alt="" coords="336,46,559,86"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#aae6cda24a68c829292aabbe3bc1d1ffb" title="Signal to the swarm that an update is requested. A ValueTask&lt;TResult&gt; resulting in true if the update..." alt="" coords="48,14,245,54"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a821ac265358e43b97a2449a6a6fb17d5" title="Notify the node of an update request from the controller. A ValueTask&lt;TResult&gt; resulting in true if t..." alt="" coords="5,78,288,118"/>
 </map>
 </div>
 

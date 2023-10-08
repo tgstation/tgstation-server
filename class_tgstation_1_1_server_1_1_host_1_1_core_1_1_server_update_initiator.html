@@ -111,8 +111,8 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:acf422cc90785493329d395d40f2ceecc"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_update_initiator.html#acf422cc90785493329d395d40f2ceecc">ServerUpdateInitiator</a> (<a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_service.html">ISwarmService</a> <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_update_initiator.html#a3e41ec0e9946e41e253cda202515f984">swarmService</a>, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_updater.html">IServerUpdater</a> <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_update_initiator.html#aa06261ce83970f5d30f4dbafc6d1caa2">serverUpdater</a>)</td></tr>
 <tr class="memdesc:acf422cc90785493329d395d40f2ceecc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes a new instance of the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_update_initiator.html">ServerUpdateInitiator</a> class.   <a href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_update_initiator.html#acf422cc90785493329d395d40f2ceecc">More...</a><br /></td></tr>
 <tr class="separator:acf422cc90785493329d395d40f2ceecc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1776060aeab22b6bc33e72b069493f6e"><td class="memItemLeft" align="right" valign="top">Task&lt; <a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_core.html#ae686e550e6b4c0a19a500e3dd9e4195c">ServerUpdateResult</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_update_initiator.html#a1776060aeab22b6bc33e72b069493f6e">InitiateUpdate</a> (<a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_file_stream_provider.html">IFileStreamProvider</a> fileStreamProvider, Version version, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a1776060aeab22b6bc33e72b069493f6e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Start the process of downloading and applying an update to a new server <em>version</em> . <dl class="params"><dt>Parameters</dt><dd>
+<tr class="memitem:a9f3e885cf73b2636463ecea280837d55"><td class="memItemLeft" align="right" valign="top">ValueTask&lt; <a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_core.html#ae686e550e6b4c0a19a500e3dd9e4195c">ServerUpdateResult</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_update_initiator.html#a9f3e885cf73b2636463ecea280837d55">InitiateUpdate</a> (<a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_file_stream_provider.html">IFileStreamProvider</a> fileStreamProvider, Version version, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a9f3e885cf73b2636463ecea280837d55"><td class="mdescLeft">&#160;</td><td class="mdescRight">Start the process of downloading and applying an update to a new server <em>version</em> . <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">fileStreamProvider</td><td>The optional IFileStreamProvider used to retrieve the target server <em>version</em> . If not provided, GitHub will be used.</td></tr>
     <tr><td class="paramname">version</td><td>The TGS Version to update to.</td></tr>
@@ -120,12 +120,12 @@ Public Member Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in the <a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_core.html#ae686e550e6b4c0a19a500e3dd9e4195c" title="The result of a call to start a server update.">ServerUpdateResult</a>.</dd></dl>
-  <a href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_update_initiator.html#a1776060aeab22b6bc33e72b069493f6e">More...</a><br /></td></tr>
-<tr class="separator:a1776060aeab22b6bc33e72b069493f6e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad9f875eab928fa681c05e1188889f705"><td class="memItemLeft" align="right" valign="top">Task&lt; <a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_core.html#ae686e550e6b4c0a19a500e3dd9e4195c">ServerUpdateResult</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_update_initiator.html#ad9f875eab928fa681c05e1188889f705">InitiateUpdate</a> (<a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_file_stream_provider.html">IFileStreamProvider</a> fileStreamProvider, Version version, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:ad9f875eab928fa681c05e1188889f705"><td class="mdescLeft">&#160;</td><td class="mdescRight">Start the process of downloading and applying an update to a new server <em>version</em> .   <a href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_update_initiator.html#ad9f875eab928fa681c05e1188889f705">More...</a><br /></td></tr>
-<tr class="separator:ad9f875eab928fa681c05e1188889f705"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<dl class="section return"><dt>Returns</dt><dd>A ValueTask&lt;TResult&gt; resulting in the <a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_core.html#ae686e550e6b4c0a19a500e3dd9e4195c" title="The result of a call to start a server update.">ServerUpdateResult</a>.</dd></dl>
+  <a href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_update_initiator.html#a9f3e885cf73b2636463ecea280837d55">More...</a><br /></td></tr>
+<tr class="separator:a9f3e885cf73b2636463ecea280837d55"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a28f97833d81808e4cf02964019316531"><td class="memItemLeft" align="right" valign="top">ValueTask&lt; <a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_core.html#ae686e550e6b4c0a19a500e3dd9e4195c">ServerUpdateResult</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_update_initiator.html#a28f97833d81808e4cf02964019316531">InitiateUpdate</a> (<a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_file_stream_provider.html">IFileStreamProvider</a> fileStreamProvider, Version version, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a28f97833d81808e4cf02964019316531"><td class="mdescLeft">&#160;</td><td class="mdescRight">Start the process of downloading and applying an update to a new server <em>version</em> .   <a href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_update_initiator.html#a28f97833d81808e4cf02964019316531">More...</a><br /></td></tr>
+<tr class="separator:a28f97833d81808e4cf02964019316531"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
@@ -188,14 +188,14 @@ Private Attributes</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a1776060aeab22b6bc33e72b069493f6e" name="a1776060aeab22b6bc33e72b069493f6e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1776060aeab22b6bc33e72b069493f6e">&#9670;&#160;</a></span>InitiateUpdate()</h2>
+<a id="a9f3e885cf73b2636463ecea280837d55" name="a9f3e885cf73b2636463ecea280837d55"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9f3e885cf73b2636463ecea280837d55">&#9670;&#160;</a></span>InitiateUpdate()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">Task&lt; <a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_core.html#ae686e550e6b4c0a19a500e3dd9e4195c">ServerUpdateResult</a> &gt; Tgstation.Server.Host.Core.ServerUpdateInitiator.InitiateUpdate </td>
+          <td class="memname">ValueTask&lt; <a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_core.html#ae686e550e6b4c0a19a500e3dd9e4195c">ServerUpdateResult</a> &gt; Tgstation.Server.Host.Core.ServerUpdateInitiator.InitiateUpdate </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_file_stream_provider.html">IFileStreamProvider</a>&#160;</td>
           <td class="paramname"><em>fileStreamProvider</em>, </td>
@@ -228,10 +228,10 @@ Private Attributes</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in the <a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_core.html#ae686e550e6b4c0a19a500e3dd9e4195c" title="The result of a call to start a server update.">ServerUpdateResult</a>.</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A ValueTask&lt;TResult&gt; resulting in the <a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_core.html#ae686e550e6b4c0a19a500e3dd9e4195c" title="The result of a call to start a server update.">ServerUpdateResult</a>.</dd></dl>
  </p>
 
-<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_update_initiator.html#ad9f875eab928fa681c05e1188889f705">Tgstation.Server.Host.Core.IServerUpdateInitiator</a>.</p>
+<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_update_initiator.html#a28f97833d81808e4cf02964019316531">Tgstation.Server.Host.Core.IServerUpdateInitiator</a>.</p>
 
 </div>
 </div>

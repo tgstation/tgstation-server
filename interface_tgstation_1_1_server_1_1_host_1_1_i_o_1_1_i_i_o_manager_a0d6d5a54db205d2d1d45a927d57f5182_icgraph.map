@@ -1,6 +1,6 @@
 <map id="Tgstation.Server.Host.IO.IIOManager.GetFileName" name="Tgstation.Server.Host.IO.IIOManager.GetFileName">
 <area shape="rect" id="node1" title="Gets the file name portion of a path ." alt="" coords="372,69,543,109"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dmb_factory.html#a4bc1df0d137c1e026997a89262530182" title="Deletes all compile jobs that are inactive in the Game folder. A Task representing the running operat..." alt="" coords="5,5,324,45"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#a4219acb56f80e826b3e1e86fbe66b08a" title="Download a LogFileResponse." alt="" coords="57,69,273,109"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#a6516cc312ebd140c6fbf218a155fa74f" title="List LogFileResponses present." alt="" coords="57,133,273,173"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dmb_factory.html#a077adeb753e3f95c3ef4dc29f7bcc264" title="Deletes all compile jobs that are inactive in the Game folder. A ValueTask representing the running o..." alt="" coords="5,5,324,45"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#aab04508f9021893da0268cf94411226f" title="Download a LogFileResponse." alt="" coords="57,69,273,109"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#a3373ed476e620fd7c223185ab4234551" title="List LogFileResponses present." alt="" coords="57,133,273,173"/>
 </map>

@@ -1,0 +1,7 @@
+<map id="Tgstation.Server.Host.Components.Watchdog.WatchdogBase.TerminateNoLock" name="Tgstation.Server.Host.Components.Watchdog.WatchdogBase.TerminateNoLock">
+<area shape="rect" id="node1" title="Implementation of Terminate(bool, CancellationToken). Does not lock synchronizationSemaphore." alt="" coords="616,37,895,77"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a805a90319a8bdf4862ce9879f125b853" title="Restarts the watchdog. A ValueTask representing the running operation." alt="" coords="339,5,565,45"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a4ee58f2a5e3ae97940e281d6975ed720" title="Stops the watchdog. A ValueTask representing the running operation." alt="" coords="336,69,568,109"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_basic_watchdog.html#a86e19b422334b36dbb2a7f84d5393b99" title="Cancels pending graceful actions. A ValueTask representing the running operation." alt="" coords="5,5,288,45"/>
+<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a2f30bf89a01840c457b415dc387b5f47" title="Handle a restart of the server. A ValueTask representing the running operation." alt="" coords="18,69,275,109"/>
+</map>

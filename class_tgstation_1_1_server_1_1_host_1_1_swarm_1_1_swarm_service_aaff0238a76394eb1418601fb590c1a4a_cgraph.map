@@ -1,8 +1,0 @@
-<map id="Tgstation.Server.Host.Swarm.SwarmService.RegisterNode" name="Tgstation.Server.Host.Swarm.SwarmService.RegisterNode">
-<area shape="rect" id="node1" title="Attempt to register a given node &#160;with the controller. A Task&lt;TResult&gt; resulting in true if the regis..." alt="" coords="5,81,200,121"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#ae9359f9862065f26ef100673ca3f568a" title="Attempt to abort an uncommitted update. A Task representing the running operation...." alt="" coords="256,49,451,89"/>
-<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#ac4194e4d0fb3cad95550e55859228529" title="Set serversDirty and complete the current forceHealthCheckTcs." alt="" coords="248,113,459,153"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#af66c264a8d2bb1040d408b64071543d2" title="Sends out remote abort update requests." alt="" coords="507,49,735,89"/>
-<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_common_1_1_http_1_1_i_abstract_http_client_factory.html#a668eebb48c5c60a848376d9a00a9ecc9" title="Create a IHttpClient." alt="" coords="801,5,1008,60"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a82eee947c75e6a064ead15845d08f4fb" title="Prepares a HttpRequestMessage for swarm communication." alt="" coords="783,85,1027,125"/>
-</map>

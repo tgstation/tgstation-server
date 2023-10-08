@@ -116,8 +116,8 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a3fd0782fa495e68c15cc28367fed9373"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_token_factory.html#a3fd0782fa495e68c15cc28367fed9373">TokenFactory</a> (<a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_async_delayer.html">IAsyncDelayer</a> <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_token_factory.html#ad5a557224dd5d8eac2a46dec133509fb">asyncDelayer</a>, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_cryptography_suite.html">ICryptographySuite</a> cryptographySuite, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_assembly_information_provider.html">IAssemblyInformationProvider</a> assemblyInformationProvider, IOptions&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_security_configuration.html">SecurityConfiguration</a> &gt; securityConfigurationOptions)</td></tr>
 <tr class="memdesc:a3fd0782fa495e68c15cc28367fed9373"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes a new instance of the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_token_factory.html">TokenFactory</a> class.   <a href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_token_factory.html#a3fd0782fa495e68c15cc28367fed9373">More...</a><br /></td></tr>
 <tr class="separator:a3fd0782fa495e68c15cc28367fed9373"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a12f796ed2df76876c2d29ad9a70a68e1"><td class="memItemLeft" align="right" valign="top">async Task&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_token_response.html">TokenResponse</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_token_factory.html#a12f796ed2df76876c2d29ad9a70a68e1">CreateToken</a> (<a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html">Models.User</a> user, bool oAuth, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a12f796ed2df76876c2d29ad9a70a68e1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a TokenResponse for a given <em>user</em> . <dl class="params"><dt>Parameters</dt><dd>
+<tr class="memitem:a98f199cc9088edec67298e30bb98eefa"><td class="memItemLeft" align="right" valign="top">async ValueTask&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_token_response.html">TokenResponse</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_token_factory.html#a98f199cc9088edec67298e30bb98eefa">CreateToken</a> (<a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html">Models.User</a> user, bool oAuth, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a98f199cc9088edec67298e30bb98eefa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a TokenResponse for a given <em>user</em> . <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">user</td><td>The <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html">Models.User</a> to create the token for. Must have the <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html#ae31e478e1d338b37a14565df6fd58570" title="The ID of the entity.">Api.Models.EntityId.Id</a> field available.</td></tr>
     <tr><td class="paramname">oAuth</td><td>Whether or not this is an <a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth.html">OAuth</a> login.</td></tr>
@@ -125,12 +125,12 @@ Public Member Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in a new TokenResponse.</dd></dl>
-  <a href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_token_factory.html#a12f796ed2df76876c2d29ad9a70a68e1">More...</a><br /></td></tr>
-<tr class="separator:a12f796ed2df76876c2d29ad9a70a68e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a24aa475bf6a9d0a6feb74136f4b2e379"><td class="memItemLeft" align="right" valign="top">Task&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_token_response.html">TokenResponse</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_token_factory.html#a24aa475bf6a9d0a6feb74136f4b2e379">CreateToken</a> (<a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html">Models.User</a> user, bool oAuth, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a24aa475bf6a9d0a6feb74136f4b2e379"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a TokenResponse for a given <em>user</em> .   <a href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_token_factory.html#a24aa475bf6a9d0a6feb74136f4b2e379">More...</a><br /></td></tr>
-<tr class="separator:a24aa475bf6a9d0a6feb74136f4b2e379"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<dl class="section return"><dt>Returns</dt><dd>A ValueTask&lt;TResult&gt; resulting in a new TokenResponse.</dd></dl>
+  <a href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_token_factory.html#a98f199cc9088edec67298e30bb98eefa">More...</a><br /></td></tr>
+<tr class="separator:a98f199cc9088edec67298e30bb98eefa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac586ce9e1776ccf60b44c7f8aaa75aca"><td class="memItemLeft" align="right" valign="top">ValueTask&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_token_response.html">TokenResponse</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_token_factory.html#ac586ce9e1776ccf60b44c7f8aaa75aca">CreateToken</a> (<a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html">Models.User</a> user, bool oAuth, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:ac586ce9e1776ccf60b44c7f8aaa75aca"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a TokenResponse for a given <em>user</em> .   <a href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_token_factory.html#ac586ce9e1776ccf60b44c7f8aaa75aca">More...</a><br /></td></tr>
+<tr class="separator:ac586ce9e1776ccf60b44c7f8aaa75aca"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="properties" name="properties"></a>
 Properties</h2></td></tr>
@@ -283,14 +283,14 @@ Here is the call graph for this function:</div>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a12f796ed2df76876c2d29ad9a70a68e1" name="a12f796ed2df76876c2d29ad9a70a68e1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a12f796ed2df76876c2d29ad9a70a68e1">&#9670;&#160;</a></span>CreateToken()</h2>
+<a id="a98f199cc9088edec67298e30bb98eefa" name="a98f199cc9088edec67298e30bb98eefa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a98f199cc9088edec67298e30bb98eefa">&#9670;&#160;</a></span>CreateToken()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">async Task&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_token_response.html">TokenResponse</a> &gt; Tgstation.Server.Host.Security.TokenFactory.CreateToken </td>
+          <td class="memname">async ValueTask&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_token_response.html">TokenResponse</a> &gt; Tgstation.Server.Host.Security.TokenFactory.CreateToken </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html">Models.User</a>&#160;</td>
           <td class="paramname"><em>user</em>, </td>
@@ -323,10 +323,10 @@ Here is the call graph for this function:</div>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in a new TokenResponse.</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A ValueTask&lt;TResult&gt; resulting in a new TokenResponse.</dd></dl>
  </p>
 
-<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_token_factory.html#a24aa475bf6a9d0a6feb74136f4b2e379">Tgstation.Server.Host.Security.ITokenFactory</a>.</p>
+<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_token_factory.html#ac586ce9e1776ccf60b44c7f8aaa75aca">Tgstation.Server.Host.Security.ITokenFactory</a>.</p>
 
 <p class="definition">Definition at line <a class="el" href="_token_factory_8cs_source.html#l00107">107</a> of file <a class="el" href="_token_factory_8cs_source.html">TokenFactory.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">  108</span>        {</div>
@@ -376,9 +376,9 @@ Here is the call graph for this function:</div>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_token_factory_a12f796ed2df76876c2d29ad9a70a68e1_cgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_security_1_1_token_factory_a12f796ed2df76876c2d29ad9a70a68e1_cgraph" alt=""/></div>
-<map name="aclass_tgstation_1_1_server_1_1_host_1_1_security_1_1_token_factory_a12f796ed2df76876c2d29ad9a70a68e1_cgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_security_1_1_token_factory_a12f796ed2df76876c2d29ad9a70a68e1_cgraph">
-<area shape="rect" title="Create a TokenResponse for a given user . A Task&lt;TResult&gt; resulting in a new TokenResponse." alt="" coords="5,5,207,45"/>
+<div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_token_factory_a98f199cc9088edec67298e30bb98eefa_cgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_security_1_1_token_factory_a98f199cc9088edec67298e30bb98eefa_cgraph" alt=""/></div>
+<map name="aclass_tgstation_1_1_server_1_1_host_1_1_security_1_1_token_factory_a98f199cc9088edec67298e30bb98eefa_cgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_security_1_1_token_factory_a98f199cc9088edec67298e30bb98eefa_cgraph">
+<area shape="rect" title="Create a TokenResponse for a given user . A ValueTask&lt;TResult&gt; resulting in a new TokenResponse." alt="" coords="5,5,207,45"/>
 <area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_async_delayer.html#aeb604334bd297d47506dc23e0d115977" title="Create a Task that completes after a given timeSpan ." alt="" coords="255,5,436,45"/>
 </map>
 </div>

@@ -1,5 +1,0 @@
-<map id="Tgstation.Server.Host.Components.Repository.RepositoryManager.LoadRepository" name="Tgstation.Server.Host.Components.Repository.RepositoryManager.LoadRepository">
-<area shape="rect" id="node1" title="Attempt to load the IRepository from the default location. The loaded IRepository if it exists,..." alt="" coords="5,49,296,89"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_lib_git2_repository_factory.html#aa86c655ce5936565a44676012522a938" title="Load a LibGit2Sharp.IRepository from a given path ." alt="" coords="344,5,583,60"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a18a442b5dff16f5e7a730ec354e81d78" title="Retrieve the full path of the current working directory." alt="" coords="379,85,547,125"/>
-</map>

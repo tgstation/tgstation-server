@@ -108,39 +108,39 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a2ba1740a5fd62d86167cb46c1440f280"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_operations.html#a2ba1740a5fd62d86167cb46c1440f280">UpdateSwarmServersList</a> (IEnumerable&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_swarm_server_response.html">SwarmServerResponse</a> &gt; swarmServers)</td></tr>
 <tr class="memdesc:a2ba1740a5fd62d86167cb46c1440f280"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pass in an updated list of <em>swarmServers</em>  to the node.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_operations.html#a2ba1740a5fd62d86167cb46c1440f280">More...</a><br /></td></tr>
 <tr class="separator:a2ba1740a5fd62d86167cb46c1440f280"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab99449a287c7a32f20cfbd23f602063d"><td class="memItemLeft" align="right" valign="top">Task&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_operations.html#ab99449a287c7a32f20cfbd23f602063d">PrepareUpdateFromController</a> (<a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_update_request.html">SwarmUpdateRequest</a> updateRequest, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:ab99449a287c7a32f20cfbd23f602063d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Notify the node of an update request from the controller.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_operations.html#ab99449a287c7a32f20cfbd23f602063d">More...</a><br /></td></tr>
-<tr class="separator:ab99449a287c7a32f20cfbd23f602063d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7e8067294cc6dec3fcf9617703f3b85f"><td class="memItemLeft" align="right" valign="top">ValueTask&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_operations.html#a7e8067294cc6dec3fcf9617703f3b85f">PrepareUpdateFromController</a> (<a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_update_request.html">SwarmUpdateRequest</a> updateRequest, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a7e8067294cc6dec3fcf9617703f3b85f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Notify the node of an update request from the controller.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_operations.html#a7e8067294cc6dec3fcf9617703f3b85f">More...</a><br /></td></tr>
+<tr class="separator:a7e8067294cc6dec3fcf9617703f3b85f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa15c22a966aef83c93a0b6c429edf9fb"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_operations.html#aa15c22a966aef83c93a0b6c429edf9fb">ValidateRegistration</a> (Guid registrationId)</td></tr>
 <tr class="memdesc:aa15c22a966aef83c93a0b6c429edf9fb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Validate a given <em>registrationId</em> .   <a href="interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_operations.html#aa15c22a966aef83c93a0b6c429edf9fb">More...</a><br /></td></tr>
 <tr class="separator:aa15c22a966aef83c93a0b6c429edf9fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac24fb46696216abb06c341ee88c5587d"><td class="memItemLeft" align="right" valign="top">Task&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_operations.html#ac24fb46696216abb06c341ee88c5587d">RegisterNode</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_swarm_server.html">Api.Models.Internal.SwarmServer</a> node, Guid registrationId, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:ac24fb46696216abb06c341ee88c5587d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Attempt to register a given <em>node</em>  with the controller.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_operations.html#ac24fb46696216abb06c341ee88c5587d">More...</a><br /></td></tr>
-<tr class="separator:ac24fb46696216abb06c341ee88c5587d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a97fe7a292801196edc4fc3295aa5c071"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_operations.html#a97fe7a292801196edc4fc3295aa5c071">UnregisterNode</a> (Guid registrationId, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a97fe7a292801196edc4fc3295aa5c071"><td class="mdescLeft">&#160;</td><td class="mdescRight">Attempt to unregister a node with a given <em>registrationId</em>  with the controller.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_operations.html#a97fe7a292801196edc4fc3295aa5c071">More...</a><br /></td></tr>
-<tr class="separator:a97fe7a292801196edc4fc3295aa5c071"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adfd2d301a0354f98dd5720f6bf914a74"><td class="memItemLeft" align="right" valign="top">Task&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_operations.html#adfd2d301a0354f98dd5720f6bf914a74">RemoteCommitRecieved</a> (Guid registrationId, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:adfd2d301a0354f98dd5720f6bf914a74"><td class="mdescLeft">&#160;</td><td class="mdescRight">Notify the controller that the node with the given <em>registrationId</em>  is ready to commit or notify the node of the controller telling it to commit.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_operations.html#adfd2d301a0354f98dd5720f6bf914a74">More...</a><br /></td></tr>
-<tr class="separator:adfd2d301a0354f98dd5720f6bf914a74"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3964b58ba09bd622599faf058e362e35"><td class="memItemLeft" align="right" valign="top">ValueTask&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_operations.html#a3964b58ba09bd622599faf058e362e35">RegisterNode</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_swarm_server.html">Api.Models.Internal.SwarmServer</a> node, Guid registrationId, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a3964b58ba09bd622599faf058e362e35"><td class="mdescLeft">&#160;</td><td class="mdescRight">Attempt to register a given <em>node</em>  with the controller.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_operations.html#a3964b58ba09bd622599faf058e362e35">More...</a><br /></td></tr>
+<tr class="separator:a3964b58ba09bd622599faf058e362e35"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a34a25b0431db9e68c67653afc95954ae"><td class="memItemLeft" align="right" valign="top">ValueTask&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_operations.html#a34a25b0431db9e68c67653afc95954ae">UnregisterNode</a> (Guid registrationId, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a34a25b0431db9e68c67653afc95954ae"><td class="mdescLeft">&#160;</td><td class="mdescRight">Attempt to unregister a node with a given <em>registrationId</em>  with the controller.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_operations.html#a34a25b0431db9e68c67653afc95954ae">More...</a><br /></td></tr>
+<tr class="separator:a34a25b0431db9e68c67653afc95954ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acb9969ee4c134b32821a3aa6763164a5"><td class="memItemLeft" align="right" valign="top">ValueTask&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_operations.html#acb9969ee4c134b32821a3aa6763164a5">RemoteCommitRecieved</a> (Guid registrationId, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:acb9969ee4c134b32821a3aa6763164a5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Notify the controller that the node with the given <em>registrationId</em>  is ready to commit or notify the node of the controller telling it to commit.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_operations.html#acb9969ee4c134b32821a3aa6763164a5">More...</a><br /></td></tr>
+<tr class="separator:acb9969ee4c134b32821a3aa6763164a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_update_aborter"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_update_aborter')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_update_aborter.html">Tgstation.Server.Host.Swarm.ISwarmUpdateAborter</a></td></tr>
-<tr class="memitem:adec40a5257541fadbaa126108e6c70ca inherit pub_methods_interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_update_aborter"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_update_aborter.html#adec40a5257541fadbaa126108e6c70ca">AbortUpdate</a> ()</td></tr>
-<tr class="memdesc:adec40a5257541fadbaa126108e6c70ca inherit pub_methods_interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_update_aborter"><td class="mdescLeft">&#160;</td><td class="mdescRight">Attempt to abort an uncommitted update.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_update_aborter.html#adec40a5257541fadbaa126108e6c70ca">More...</a><br /></td></tr>
-<tr class="separator:adec40a5257541fadbaa126108e6c70ca inherit pub_methods_interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_update_aborter"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac68948445b85942f29d2b618dfea9763 inherit pub_methods_interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_update_aborter"><td class="memItemLeft" align="right" valign="top">ValueTask&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_update_aborter.html#ac68948445b85942f29d2b618dfea9763">AbortUpdate</a> ()</td></tr>
+<tr class="memdesc:ac68948445b85942f29d2b618dfea9763 inherit pub_methods_interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_update_aborter"><td class="mdescLeft">&#160;</td><td class="mdescRight">Attempt to abort an uncommitted update.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_update_aborter.html#ac68948445b85942f29d2b618dfea9763">More...</a><br /></td></tr>
+<tr class="separator:ac68948445b85942f29d2b618dfea9763 inherit pub_methods_interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_update_aborter"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p ><a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_swarm.html">Swarm</a> service operations for the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_swarm_controller.html" title="For swarm server communication.">Controllers.SwarmController</a>.  </p>
 
 <p class="definition">Definition at line <a class="el" href="_i_swarm_operations_8cs_source.html#l00013">13</a> of file <a class="el" href="_i_swarm_operations_8cs_source.html">ISwarmOperations.cs</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a id="ab99449a287c7a32f20cfbd23f602063d" name="ab99449a287c7a32f20cfbd23f602063d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab99449a287c7a32f20cfbd23f602063d">&#9670;&#160;</a></span>PrepareUpdateFromController()</h2>
+<a id="a7e8067294cc6dec3fcf9617703f3b85f" name="a7e8067294cc6dec3fcf9617703f3b85f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7e8067294cc6dec3fcf9617703f3b85f">&#9670;&#160;</a></span>PrepareUpdateFromController()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">Task&lt; bool &gt; Tgstation.Server.Host.Swarm.ISwarmOperations.PrepareUpdateFromController </td>
+          <td class="memname">ValueTask&lt; bool &gt; Tgstation.Server.Host.Swarm.ISwarmOperations.PrepareUpdateFromController </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_update_request.html">SwarmUpdateRequest</a>&#160;</td>
           <td class="paramname"><em>updateRequest</em>, </td>
@@ -167,31 +167,31 @@ Public Member Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in <code>true</code> if the node is able to update, <code>false</code> otherwise.</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A ValueTask&lt;TResult&gt; resulting in <code>true</code> if the node is able to update, <code>false</code> otherwise.</dd></dl>
 
-<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a9b47bfea16dcb7b4ec46989a67adf384">Tgstation.Server.Host.Swarm.SwarmService</a>.</p>
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a821ac265358e43b97a2449a6a6fb17d5">Tgstation.Server.Host.Swarm.SwarmService</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="_swarm_controller_8cs_source.html#l00168">Tgstation.Server.Host.Controllers.SwarmController.PrepareUpdate()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_operations_ab99449a287c7a32f20cfbd23f602063d_icgraph.png" border="0" usemap="#ainterface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_operations_ab99449a287c7a32f20cfbd23f602063d_icgraph" alt=""/></div>
-<map name="ainterface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_operations_ab99449a287c7a32f20cfbd23f602063d_icgraph" id="ainterface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_operations_ab99449a287c7a32f20cfbd23f602063d_icgraph">
+<div class="center"><img src="interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_operations_a7e8067294cc6dec3fcf9617703f3b85f_icgraph.png" border="0" usemap="#ainterface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_operations_a7e8067294cc6dec3fcf9617703f3b85f_icgraph" alt=""/></div>
+<map name="ainterface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_operations_a7e8067294cc6dec3fcf9617703f3b85f_icgraph" id="ainterface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_operations_a7e8067294cc6dec3fcf9617703f3b85f_icgraph">
 <area shape="rect" title="Notify the node of an update request from the controller." alt="" coords="269,5,520,60"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_swarm_controller.html#af3bb81850445d2f1318b624a3f1e5d9c" title="Update initiation endpoint." alt="" coords="5,13,221,53"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_swarm_controller.html#a939ea103528e5a95c4a0a12f60cc925f" title="Update initiation endpoint." alt="" coords="5,13,221,53"/>
 </map>
 </div>
 
 </div>
 </div>
-<a id="ac24fb46696216abb06c341ee88c5587d" name="ac24fb46696216abb06c341ee88c5587d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac24fb46696216abb06c341ee88c5587d">&#9670;&#160;</a></span>RegisterNode()</h2>
+<a id="a3964b58ba09bd622599faf058e362e35" name="a3964b58ba09bd622599faf058e362e35"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3964b58ba09bd622599faf058e362e35">&#9670;&#160;</a></span>RegisterNode()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">Task&lt; bool &gt; Tgstation.Server.Host.Swarm.ISwarmOperations.RegisterNode </td>
+          <td class="memname">ValueTask&lt; bool &gt; Tgstation.Server.Host.Swarm.ISwarmOperations.RegisterNode </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_swarm_server.html">Api.Models.Internal.SwarmServer</a>&#160;</td>
           <td class="paramname"><em>node</em>, </td>
@@ -225,31 +225,31 @@ Here is the caller graph for this function:</div>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in <code>true</code> if the registration was successful, <code>false</code> otherwise.</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A ValueTask&lt;TResult&gt; resulting in <code>true</code> if the registration was successful, <code>false</code> otherwise.</dd></dl>
 
-<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#aaff0238a76394eb1418601fb590c1a4a">Tgstation.Server.Host.Swarm.SwarmService</a>.</p>
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a3c3257b2cbbae59658945fe7d699b7a9">Tgstation.Server.Host.Swarm.SwarmService</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="_swarm_controller_8cs_source.html#l00092">Tgstation.Server.Host.Controllers.SwarmController.Register()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_operations_ac24fb46696216abb06c341ee88c5587d_icgraph.png" border="0" usemap="#ainterface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_operations_ac24fb46696216abb06c341ee88c5587d_icgraph" alt=""/></div>
-<map name="ainterface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_operations_ac24fb46696216abb06c341ee88c5587d_icgraph" id="ainterface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_operations_ac24fb46696216abb06c341ee88c5587d_icgraph">
+<div class="center"><img src="interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_operations_a3964b58ba09bd622599faf058e362e35_icgraph.png" border="0" usemap="#ainterface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_operations_a3964b58ba09bd622599faf058e362e35_icgraph" alt=""/></div>
+<map name="ainterface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_operations_a3964b58ba09bd622599faf058e362e35_icgraph" id="ainterface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_operations_a3964b58ba09bd622599faf058e362e35_icgraph">
 <area shape="rect" title="Attempt to register a given node &#160;with the controller." alt="" coords="269,5,481,45"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_swarm_controller.html#a9b6a39b5686ab2b06f37a3e8c8edc528" title="Registration endpoint." alt="" coords="5,5,221,45"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_swarm_controller.html#a39ad629bd3c687676c39af000e7af99f" title="Registration endpoint." alt="" coords="5,5,221,45"/>
 </map>
 </div>
 
 </div>
 </div>
-<a id="adfd2d301a0354f98dd5720f6bf914a74" name="adfd2d301a0354f98dd5720f6bf914a74"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#adfd2d301a0354f98dd5720f6bf914a74">&#9670;&#160;</a></span>RemoteCommitRecieved()</h2>
+<a id="acb9969ee4c134b32821a3aa6763164a5" name="acb9969ee4c134b32821a3aa6763164a5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acb9969ee4c134b32821a3aa6763164a5">&#9670;&#160;</a></span>RemoteCommitRecieved()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">Task&lt; bool &gt; Tgstation.Server.Host.Swarm.ISwarmOperations.RemoteCommitRecieved </td>
+          <td class="memname">ValueTask&lt; bool &gt; Tgstation.Server.Host.Swarm.ISwarmOperations.RemoteCommitRecieved </td>
           <td>(</td>
           <td class="paramtype">Guid&#160;</td>
           <td class="paramname"><em>registrationId</em>, </td>
@@ -276,31 +276,31 @@ Here is the caller graph for this function:</div>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A Task representing the running operation.</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A ValueTask representing the running operation.</dd></dl>
 
-<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a44c24c0d2cb5b42e3b62ee61c7c70284">Tgstation.Server.Host.Swarm.SwarmService</a>.</p>
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a82b7e5aaca289e3ea5214014000d18b7">Tgstation.Server.Host.Swarm.SwarmService</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="_swarm_controller_8cs_source.html#l00188">Tgstation.Server.Host.Controllers.SwarmController.CommitUpdate()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_operations_adfd2d301a0354f98dd5720f6bf914a74_icgraph.png" border="0" usemap="#ainterface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_operations_adfd2d301a0354f98dd5720f6bf914a74_icgraph" alt=""/></div>
-<map name="ainterface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_operations_adfd2d301a0354f98dd5720f6bf914a74_icgraph" id="ainterface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_operations_adfd2d301a0354f98dd5720f6bf914a74_icgraph">
+<div class="center"><img src="interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_operations_acb9969ee4c134b32821a3aa6763164a5_icgraph.png" border="0" usemap="#ainterface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_operations_acb9969ee4c134b32821a3aa6763164a5_icgraph" alt=""/></div>
+<map name="ainterface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_operations_acb9969ee4c134b32821a3aa6763164a5_icgraph" id="ainterface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_operations_acb9969ee4c134b32821a3aa6763164a5_icgraph">
 <area shape="rect" title="Notify the controller that the node with the given registrationId &#160;is ready to commit or notify the n..." alt="" coords="269,5,547,45"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_swarm_controller.html#ae2b682525aea0ccb5b738e17f57a3171" title="Update commit endpoint." alt="" coords="5,5,221,45"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_swarm_controller.html#adac540b17df48ad7a9828b00681846d7" title="Update commit endpoint." alt="" coords="5,5,221,45"/>
 </map>
 </div>
 
 </div>
 </div>
-<a id="a97fe7a292801196edc4fc3295aa5c071" name="a97fe7a292801196edc4fc3295aa5c071"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a97fe7a292801196edc4fc3295aa5c071">&#9670;&#160;</a></span>UnregisterNode()</h2>
+<a id="a34a25b0431db9e68c67653afc95954ae" name="a34a25b0431db9e68c67653afc95954ae"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a34a25b0431db9e68c67653afc95954ae">&#9670;&#160;</a></span>UnregisterNode()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">Task Tgstation.Server.Host.Swarm.ISwarmOperations.UnregisterNode </td>
+          <td class="memname">ValueTask Tgstation.Server.Host.Swarm.ISwarmOperations.UnregisterNode </td>
           <td>(</td>
           <td class="paramtype">Guid&#160;</td>
           <td class="paramname"><em>registrationId</em>, </td>
@@ -327,18 +327,18 @@ Here is the caller graph for this function:</div>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A Task representing the running operation.</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A ValueTask representing the running operation.</dd></dl>
 
-<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a13a8e3596303af235b87c9c44241d72b">Tgstation.Server.Host.Swarm.SwarmService</a>.</p>
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a19995c107d8efaee1fe2dfdda5c509cc">Tgstation.Server.Host.Swarm.SwarmService</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="_swarm_controller_8cs_source.html#l00111">Tgstation.Server.Host.Controllers.SwarmController.UnregisterNode()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_operations_a97fe7a292801196edc4fc3295aa5c071_icgraph.png" border="0" usemap="#ainterface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_operations_a97fe7a292801196edc4fc3295aa5c071_icgraph" alt=""/></div>
-<map name="ainterface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_operations_a97fe7a292801196edc4fc3295aa5c071_icgraph" id="ainterface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_operations_a97fe7a292801196edc4fc3295aa5c071_icgraph">
+<div class="center"><img src="interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_operations_a34a25b0431db9e68c67653afc95954ae_icgraph.png" border="0" usemap="#ainterface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_operations_a34a25b0431db9e68c67653afc95954ae_icgraph" alt=""/></div>
+<map name="ainterface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_operations_a34a25b0431db9e68c67653afc95954ae_icgraph" id="ainterface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_operations_a34a25b0431db9e68c67653afc95954ae_icgraph">
 <area shape="rect" title="Attempt to unregister a node with a given registrationId &#160;with the controller." alt="" coords="269,5,493,45"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_swarm_controller.html#acda88d9cb892bd8b59647a69dcd979a6" title="Deregistration endpoint." alt="" coords="5,5,221,45"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_swarm_controller.html#af8d0f1a482edc2ab29de4400a2ba7664" title="Deregistration endpoint." alt="" coords="5,5,221,45"/>
 </map>
 </div>
 

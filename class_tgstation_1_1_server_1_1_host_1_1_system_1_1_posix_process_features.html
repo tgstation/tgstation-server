@@ -129,19 +129,18 @@ Public Member Functions</h2></td></tr>
 </dl>
   <a href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features.html#a1c0faded339a483cc9e2f513ec7d5cee">More...</a><br /></td></tr>
 <tr class="separator:a1c0faded339a483cc9e2f513ec7d5cee"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a165ac6a2a7394d6dfb4ea96ee77232f8"><td class="memItemLeft" align="right" valign="top">Task&lt; string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features.html#a165ac6a2a7394d6dfb4ea96ee77232f8">GetExecutingUsername</a> (global::System.Diagnostics.Process process, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a165ac6a2a7394d6dfb4ea96ee77232f8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the name of the user executing a given <em>process</em> . <dl class="params"><dt>Parameters</dt><dd>
+<tr class="memitem:adad0e0b8968836ca4ef4253d8dbb9b85"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features.html#adad0e0b8968836ca4ef4253d8dbb9b85">GetExecutingUsername</a> (global::System.Diagnostics.Process process)</td></tr>
+<tr class="memdesc:adad0e0b8968836ca4ef4253d8dbb9b85"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the name of the user executing a given <em>process</em> . <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">process</td><td>The global::System.Diagnostics.Process.</td></tr>
-    <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The name of the user executing <em>process</em> .</dd></dl>
-  <a href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features.html#a165ac6a2a7394d6dfb4ea96ee77232f8">More...</a><br /></td></tr>
-<tr class="separator:a165ac6a2a7394d6dfb4ea96ee77232f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adb55624c50c7c2ac7fedb4c64737b0db"><td class="memItemLeft" align="right" valign="top">async Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features.html#adb55624c50c7c2ac7fedb4c64737b0db">CreateDump</a> (global::System.Diagnostics.Process process, string outputFile, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:adb55624c50c7c2ac7fedb4c64737b0db"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a dump file for a given <em>process</em> . <dl class="params"><dt>Parameters</dt><dd>
+  <a href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features.html#adad0e0b8968836ca4ef4253d8dbb9b85">More...</a><br /></td></tr>
+<tr class="separator:adad0e0b8968836ca4ef4253d8dbb9b85"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae96d7e1eadabec1dbcd420efc6d7dc26"><td class="memItemLeft" align="right" valign="top">async ValueTask&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features.html#ae96d7e1eadabec1dbcd420efc6d7dc26">CreateDump</a> (global::System.Diagnostics.Process process, string outputFile, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:ae96d7e1eadabec1dbcd420efc6d7dc26"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a dump file for a given <em>process</em> . <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">process</td><td>The <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process.html">Process</a> to dump.</td></tr>
     <tr><td class="paramname">outputFile</td><td>The full path to the output file.</td></tr>
@@ -149,21 +148,21 @@ Public Member Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A Task representing the running operation.</dd></dl>
-  <a href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features.html#adb55624c50c7c2ac7fedb4c64737b0db">More...</a><br /></td></tr>
-<tr class="separator:adb55624c50c7c2ac7fedb4c64737b0db"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af8750367fbbaccd955f8933326abfdd7"><td class="memItemLeft" align="right" valign="top">Task&lt; string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_features.html#af8750367fbbaccd955f8933326abfdd7">GetExecutingUsername</a> (global::System.Diagnostics.Process process, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:af8750367fbbaccd955f8933326abfdd7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the name of the user executing a given <em>process</em> .   <a href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_features.html#af8750367fbbaccd955f8933326abfdd7">More...</a><br /></td></tr>
-<tr class="separator:af8750367fbbaccd955f8933326abfdd7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<dl class="section return"><dt>Returns</dt><dd>A ValueTask representing the running operation.</dd></dl>
+  <a href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features.html#ae96d7e1eadabec1dbcd420efc6d7dc26">More...</a><br /></td></tr>
+<tr class="separator:ae96d7e1eadabec1dbcd420efc6d7dc26"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a52ab4ae774176eeed01605f35df723d2"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_features.html#a52ab4ae774176eeed01605f35df723d2">GetExecutingUsername</a> (global::System.Diagnostics.Process process)</td></tr>
+<tr class="memdesc:a52ab4ae774176eeed01605f35df723d2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the name of the user executing a given <em>process</em> .   <a href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_features.html#a52ab4ae774176eeed01605f35df723d2">More...</a><br /></td></tr>
+<tr class="separator:a52ab4ae774176eeed01605f35df723d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac6b97694917044ddce0c3ba9c8478246"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_features.html#ac6b97694917044ddce0c3ba9c8478246">SuspendProcess</a> (global::System.Diagnostics.Process process)</td></tr>
 <tr class="memdesc:ac6b97694917044ddce0c3ba9c8478246"><td class="mdescLeft">&#160;</td><td class="mdescRight">Suspend a given <em>process</em> .   <a href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_features.html#ac6b97694917044ddce0c3ba9c8478246">More...</a><br /></td></tr>
 <tr class="separator:ac6b97694917044ddce0c3ba9c8478246"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad7b3670db0f89899889687e13a33f7c6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_features.html#ad7b3670db0f89899889687e13a33f7c6">ResumeProcess</a> (global::System.Diagnostics.Process process)</td></tr>
 <tr class="memdesc:ad7b3670db0f89899889687e13a33f7c6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Resume a given suspended <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process.html">Process</a>.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_features.html#ad7b3670db0f89899889687e13a33f7c6">More...</a><br /></td></tr>
 <tr class="separator:ad7b3670db0f89899889687e13a33f7c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad576ba0ef666881ed6059180a0522a09"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_features.html#ad576ba0ef666881ed6059180a0522a09">CreateDump</a> (global::System.Diagnostics.Process process, string outputFile, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:ad576ba0ef666881ed6059180a0522a09"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a dump file for a given <em>process</em> .   <a href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_features.html#ad576ba0ef666881ed6059180a0522a09">More...</a><br /></td></tr>
-<tr class="separator:ad576ba0ef666881ed6059180a0522a09"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6aba09702c8f7f5d54bae30027e7c9e3"><td class="memItemLeft" align="right" valign="top">ValueTask&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_features.html#a6aba09702c8f7f5d54bae30027e7c9e3">CreateDump</a> (global::System.Diagnostics.Process process, string outputFile, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a6aba09702c8f7f5d54bae30027e7c9e3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a dump file for a given <em>process</em> .   <a href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_features.html#a6aba09702c8f7f5d54bae30027e7c9e3">More...</a><br /></td></tr>
+<tr class="separator:a6aba09702c8f7f5d54bae30027e7c9e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
@@ -238,14 +237,14 @@ Private Attributes</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="adb55624c50c7c2ac7fedb4c64737b0db" name="adb55624c50c7c2ac7fedb4c64737b0db"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#adb55624c50c7c2ac7fedb4c64737b0db">&#9670;&#160;</a></span>CreateDump()</h2>
+<a id="ae96d7e1eadabec1dbcd420efc6d7dc26" name="ae96d7e1eadabec1dbcd420efc6d7dc26"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae96d7e1eadabec1dbcd420efc6d7dc26">&#9670;&#160;</a></span>CreateDump()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">async Task Tgstation.Server.Host.System.PosixProcessFeatures.CreateDump </td>
+          <td class="memname">async ValueTask Tgstation.Server.Host.System.PosixProcessFeatures.CreateDump </td>
           <td>(</td>
           <td class="paramtype">global::System.Diagnostics.Process&#160;</td>
           <td class="paramname"><em>process</em>, </td>
@@ -278,10 +277,10 @@ Private Attributes</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A Task representing the running operation.</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A ValueTask representing the running operation.</dd></dl>
  </p>
 
-<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_features.html#ad576ba0ef666881ed6059180a0522a09">Tgstation.Server.Host.System.IProcessFeatures</a>.</p>
+<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_features.html#a6aba09702c8f7f5d54bae30027e7c9e3">Tgstation.Server.Host.System.IProcessFeatures</a>.</p>
 
 <p class="definition">Definition at line <a class="el" href="_posix_process_features_8cs_source.html#l00067">67</a> of file <a class="el" href="_posix_process_features_8cs_source.html">PosixProcessFeatures.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   68</span>        {</div>
@@ -340,9 +339,9 @@ Private Attributes</h2></td></tr>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features_adb55624c50c7c2ac7fedb4c64737b0db_cgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features_adb55624c50c7c2ac7fedb4c64737b0db_cgraph" alt=""/></div>
-<map name="aclass_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features_adb55624c50c7c2ac7fedb4c64737b0db_cgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features_adb55624c50c7c2ac7fedb4c64737b0db_cgraph">
-<area shape="rect" title="Create a dump file for a given process . A Task representing the running operation." alt="" coords="5,37,233,77"/>
+<div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features_ae96d7e1eadabec1dbcd420efc6d7dc26_cgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features_ae96d7e1eadabec1dbcd420efc6d7dc26_cgraph" alt=""/></div>
+<map name="aclass_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features_ae96d7e1eadabec1dbcd420efc6d7dc26_cgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features_ae96d7e1eadabec1dbcd420efc6d7dc26_cgraph">
+<area shape="rect" title="Create a dump file for a given process . A ValueTask representing the running operation." alt="" coords="5,37,233,77"/>
 <area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ad4de873180481f7afa206b6282158d62" title="Check that the file at path &#160;exists." alt="" coords="281,5,449,45"/>
 <area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a2dff052035f4d3d0c689d0e89d8deecd" title="Moves a file at source &#160;to destination ." alt="" coords="281,69,449,109"/>
 </map>
@@ -350,28 +349,18 @@ Here is the call graph for this function:</div>
 
 </div>
 </div>
-<a id="a165ac6a2a7394d6dfb4ea96ee77232f8" name="a165ac6a2a7394d6dfb4ea96ee77232f8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a165ac6a2a7394d6dfb4ea96ee77232f8">&#9670;&#160;</a></span>GetExecutingUsername()</h2>
+<a id="adad0e0b8968836ca4ef4253d8dbb9b85" name="adad0e0b8968836ca4ef4253d8dbb9b85"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adad0e0b8968836ca4ef4253d8dbb9b85">&#9670;&#160;</a></span>GetExecutingUsername()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">Task&lt; string &gt; Tgstation.Server.Host.System.PosixProcessFeatures.GetExecutingUsername </td>
+          <td class="memname">string Tgstation.Server.Host.System.PosixProcessFeatures.GetExecutingUsername </td>
           <td>(</td>
           <td class="paramtype">global::System.Diagnostics.Process&#160;</td>
-          <td class="paramname"><em>process</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
+          <td class="paramname"><em>process</em></td><td>)</td>
           <td></td>
-          <td class="paramtype">CancellationToken&#160;</td>
-          <td class="paramname"><em>cancellationToken</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -379,14 +368,13 @@ Here is the call graph for this function:</div>
 <p>Get the name of the user executing a given <em>process</em> . <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">process</td><td>The global::System.Diagnostics.Process.</td></tr>
-    <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The name of the user executing <em>process</em> .</dd></dl>
  </p>
 
-<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_features.html#af8750367fbbaccd955f8933326abfdd7">Tgstation.Server.Host.System.IProcessFeatures</a>.</p>
+<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_features.html#a52ab4ae774176eeed01605f35df723d2">Tgstation.Server.Host.System.IProcessFeatures</a>.</p>
 
 </div>
 </div>

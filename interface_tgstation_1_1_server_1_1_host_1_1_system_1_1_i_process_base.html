@@ -108,9 +108,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a676e4a90946a0ccfbd06bfd231215a87"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_base.html#a676e4a90946a0ccfbd06bfd231215a87">Resume</a> ()</td></tr>
 <tr class="memdesc:a676e4a90946a0ccfbd06bfd231215a87"><td class="mdescLeft">&#160;</td><td class="mdescRight">Resumes the process.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_base.html#a676e4a90946a0ccfbd06bfd231215a87">More...</a><br /></td></tr>
 <tr class="separator:a676e4a90946a0ccfbd06bfd231215a87"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acf8d9dfdf49269e33dd78e634b741620"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_base.html#acf8d9dfdf49269e33dd78e634b741620">CreateDump</a> (string outputFile, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:acf8d9dfdf49269e33dd78e634b741620"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a dump file of the process.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_base.html#acf8d9dfdf49269e33dd78e634b741620">More...</a><br /></td></tr>
-<tr class="separator:acf8d9dfdf49269e33dd78e634b741620"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a10a5f52164b7c397bcefda36c8b99bbe"><td class="memItemLeft" align="right" valign="top">ValueTask&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_base.html#a10a5f52164b7c397bcefda36c8b99bbe">CreateDump</a> (string outputFile, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a10a5f52164b7c397bcefda36c8b99bbe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a dump file of the process.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_base.html#a10a5f52164b7c397bcefda36c8b99bbe">More...</a><br /></td></tr>
+<tr class="separator:a10a5f52164b7c397bcefda36c8b99bbe"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="properties" name="properties"></a>
 Properties</h2></td></tr>
@@ -149,29 +149,29 @@ Properties</h2></td></tr>
 
 <p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#a133dff7bd50f95537a01fef1fad6a407">Tgstation.Server.Host.Components.Session.SessionController</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process.html#a363841873e7329d5b7c8d79bed0bb25d">Tgstation.Server.Host.System.Process</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_session_controller_factory_8cs_source.html#l00491">Tgstation.Server.Host.Components.Session.SessionControllerFactory.CreateDreamDaemonProcess()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_session_controller_factory_8cs_source.html#l00493">Tgstation.Server.Host.Components.Session.SessionControllerFactory.CreateDreamDaemonProcess()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_base_a9d860a501568835fac115772ee87902d_icgraph.png" border="0" usemap="#ainterface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_base_a9d860a501568835fac115772ee87902d_icgraph" alt=""/></div>
 <map name="ainterface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_base_a9d860a501568835fac115772ee87902d_icgraph" id="ainterface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_base_a9d860a501568835fac115772ee87902d_icgraph">
 <area shape="rect" title="Set&#39;s the owned global::System.Diagnostics.Process.PriorityClass to a non&#45;normal value." alt="" coords="949,13,1148,53"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller_factory.html#a5a981603548cbc102e4f855bd65ec877" title="Creates the DreamDaemon IProcess." alt="" coords="643,5,901,60"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller_factory.html#a0d2028540db88c8c5e578874399e8027" title="Create a ISessionController from a freshly launch DreamDaemon instance. A Task&lt;TResult&gt; resulting in ..." alt="" coords="304,13,595,53"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_basic_watchdog.html#ad6a174232e66f5070f33b14e2cf15d48" title="Starts all ISessionControllers. A Task representing the running operation." alt="" coords="5,13,256,53"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller_factory.html#ad56327f96795ca12386e561af64c654e" title="Creates the DreamDaemon IProcess." alt="" coords="643,5,901,60"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller_factory.html#a6d591152c39db0454b04a7f342fe423d" title="Create a ISessionController from a freshly launch DreamDaemon instance. A ValueTask&lt;TResult&gt; resultin..." alt="" coords="304,13,595,53"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_basic_watchdog.html#a395c59a97a1716b97c2e00339859d533" title="Starts all ISessionControllers. A Task representing the running operation." alt="" coords="5,13,256,53"/>
 </map>
 </div>
 
 </div>
 </div>
-<a id="acf8d9dfdf49269e33dd78e634b741620" name="acf8d9dfdf49269e33dd78e634b741620"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#acf8d9dfdf49269e33dd78e634b741620">&#9670;&#160;</a></span>CreateDump()</h2>
+<a id="a10a5f52164b7c397bcefda36c8b99bbe" name="a10a5f52164b7c397bcefda36c8b99bbe"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a10a5f52164b7c397bcefda36c8b99bbe">&#9670;&#160;</a></span>CreateDump()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">Task Tgstation.Server.Host.System.IProcessBase.CreateDump </td>
+          <td class="memname">ValueTask Tgstation.Server.Host.System.IProcessBase.CreateDump </td>
           <td>(</td>
           <td class="paramtype">string&#160;</td>
           <td class="paramname"><em>outputFile</em>, </td>
@@ -198,9 +198,9 @@ Here is the caller graph for this function:</div>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A Task representing the running operation.</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A ValueTask representing the running operation.</dd></dl>
 
-<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#a27cbf6cebc4f18d796bc0e0a77c5d755">Tgstation.Server.Host.Components.Session.SessionController</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process.html#add49679c161683221749ee9962b98f49">Tgstation.Server.Host.System.Process</a>.</p>
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#aa642e3229a7f07751fa9064bba5049a0">Tgstation.Server.Host.Components.Session.SessionController</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process.html#a0b5c286747cf7fc0371a7f7a87625e7e">Tgstation.Server.Host.System.Process</a>.</p>
 
 </div>
 </div>
@@ -252,8 +252,8 @@ Here is the caller graph for this function:</div>
 <map name="ainterface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_base_a50cf121e04a59decc0262d2eaef0845f_icgraph" id="ainterface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_base_a50cf121e04a59decc0262d2eaef0845f_icgraph">
 <area shape="rect" title="Suspends the process." alt="" coords="725,49,924,89"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_windows_watchdog.html#af50e7538e911c7085605f2e9a5e5b438" title="Suspends the BasicWatchdog.Server and calls SwappableDmbProvider.MakeActive(CancellationToken) on a n..." alt="" coords="375,49,677,89"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_windows_watchdog.html#a8e8934ab54a29d00c8a6b6b39bd29cb1" title="Handler for MonitorActivationReason.NewDmbAvailable. A Task representing the running operation." alt="" coords="20,5,312,60"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_windows_watchdog.html#afcdeb4376d24326a76bc920fe6974b35" title="Handler for MonitorActivationReason.ActiveServerRebooted when the RebootState is RebootState...." alt="" coords="5,85,327,125"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_windows_watchdog.html#a1d525f079fc6b8e7df31c5fde3b7f46f" title="Handler for MonitorActivationReason.NewDmbAvailable. A ValueTask representing the running operation." alt="" coords="20,5,312,60"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_windows_watchdog.html#a4ef40db3ef4089ad858c405739e74bfd" title="Handler for MonitorActivationReason.ActiveServerRebooted when the RebootState is RebootState...." alt="" coords="5,85,327,125"/>
 </map>
 </div>
 

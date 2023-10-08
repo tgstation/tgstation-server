@@ -1,5 +1,5 @@
 <map id="Tgstation.Server.Host.Components.Deployment.SwappableDmbProvider.Dispose" name="Tgstation.Server.Host.Components.Deployment.SwappableDmbProvider.Dispose">
 <area shape="rect" id="node1" title=" " alt="" coords="345,53,628,93"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_windows_watchdog.html#a4fbabec855f7dc736b0bd76e6c311be4" title="Call IDisposable.Dispose and null the fields for all ISessionControllers. A Task representing the run..." alt="" coords="18,5,285,60"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_windows_watchdog.html#a8e8934ab54a29d00c8a6b6b39bd29cb1" title="Handler for MonitorActivationReason.NewDmbAvailable. A Task representing the running operation." alt="" coords="5,84,297,139"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_windows_watchdog.html#ab3a13b85c1ff15a6993bbeaa6c681684" title="Call IDisposable.Dispose and null the fields for all ISessionControllers. A ValueTask representing th..." alt="" coords="18,5,285,60"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_windows_watchdog.html#a1d525f079fc6b8e7df31c5fde3b7f46f" title="Handler for MonitorActivationReason.NewDmbAvailable. A ValueTask representing the running operation." alt="" coords="5,84,297,139"/>
 </map>

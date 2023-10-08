@@ -1,4 +1,0 @@
-<map id="Tgstation.Server.Host.Utils.PortAllocator.GetAvailablePort" name="Tgstation.Server.Host.Utils.PortAllocator.GetAvailablePort">
-<area shape="rect" id="node1" title="Gets a port not currently in use by TGS. A Task&lt;TResult&gt; resulting in the first available port on suc..." alt="" coords="5,5,204,45"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_socket_extensions.html#a2b6458e7e063e0ea2368fefd2df1c0e1" title="Attempt to exclusively bind to a given port ." alt="" coords="252,5,469,45"/>
-</map>

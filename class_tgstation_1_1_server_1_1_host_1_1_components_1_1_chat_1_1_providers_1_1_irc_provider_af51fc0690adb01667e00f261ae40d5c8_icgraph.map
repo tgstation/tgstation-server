@@ -1,4 +1,0 @@
-<map id="Tgstation.Server.Host.Components.Chat.Providers.IrcProvider.SendMessage" name="Tgstation.Server.Host.Components.Chat.Providers.IrcProvider.SendMessage">
-<area shape="rect" id="node1" title="Send a message to the IProvider. A Task representing the running operation." alt="" coords="301,13,560,53"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_irc_provider.html#a4e84c38ee7ede83001c68e438a4c33ca" title=" " alt="" coords="5,5,253,60"/>
-</map>

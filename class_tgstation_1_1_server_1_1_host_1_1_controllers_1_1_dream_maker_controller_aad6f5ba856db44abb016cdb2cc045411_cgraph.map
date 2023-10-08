@@ -1,4 +1,0 @@
-<map id="Tgstation.Server.Host.Controllers.DreamMakerController.Create" name="Tgstation.Server.Host.Controllers.DreamMakerController.Create">
-<area shape="rect" id="node1" title="Begin deploying repository code." alt="" coords="5,5,221,45"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html#a21be789f798adf9985f2432d3499b4cd" title="Registers a given Job and begins running it." alt="" coords="269,5,473,45"/>
-</map>

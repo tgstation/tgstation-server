@@ -1,6 +1,0 @@
-<map id="Tgstation.Server.Host.Components.Chat.Commands.PullRequestsCommand.Invoke" name="Tgstation.Server.Host.Components.Chat.Commands.PullRequestsCommand.Invoke">
-<area shape="rect" id="node1" title="Invoke the ICommand. A Task&lt;TResult&gt; resulting in a MessageContent to send to the invoker." alt="" coords="5,85,304,125"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_latest_compile_job_provider.html#a12c574e4b8010e0005b77dd242c055e7" title="Gets the latest CompileJob." alt="" coords="373,5,626,60"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository_manager.html#a998518f9e2bebaffcf575021a07f35c5" title="Attempt to load the IRepository from the default location." alt="" coords="352,85,647,125"/>
-<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_factory.html#ad22fce8fc51129e9da203dcef2f7ab42" title="Run an operation &#160;in the scope of an IDatabaseContext." alt="" coords="380,149,619,189"/>
-</map>

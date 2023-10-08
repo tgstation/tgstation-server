@@ -110,72 +110,72 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a2d6043c1548bc86551fe56f12a78d4cb"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_instance_manager_client.html#a2d6043c1548bc86551fe56f12a78d4cb">InstanceManagerClient</a> (<a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_api_client.html">IApiClient</a> apiClient)</td></tr>
 <tr class="memdesc:a2d6043c1548bc86551fe56f12a78d4cb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes a new instance of the <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_instance_manager_client.html">InstanceManagerClient</a> class.   <a href="class_tgstation_1_1_server_1_1_client_1_1_instance_manager_client.html#a2d6043c1548bc86551fe56f12a78d4cb">More...</a><br /></td></tr>
 <tr class="separator:a2d6043c1548bc86551fe56f12a78d4cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1a294382d927409a61ac3c03de909ccc"><td class="memItemLeft" align="right" valign="top">Task&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_instance_response.html">InstanceResponse</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_instance_manager_client.html#a1a294382d927409a61ac3c03de909ccc">CreateOrAttach</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_1_1_instance_create_request.html">InstanceCreateRequest</a> instance, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a1a294382d927409a61ac3c03de909ccc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create or attach an <em>instance</em> . <dl class="params"><dt>Parameters</dt><dd>
+<tr class="memitem:a039363171f5da1ef2605d31e82dbfc1b"><td class="memItemLeft" align="right" valign="top">ValueTask&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_instance_response.html">InstanceResponse</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_instance_manager_client.html#a039363171f5da1ef2605d31e82dbfc1b">CreateOrAttach</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_1_1_instance_create_request.html">InstanceCreateRequest</a> instance, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a039363171f5da1ef2605d31e82dbfc1b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create or attach an <em>instance</em> . <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">instance</td><td>The InstanceCreateRequest.</td></tr>
     <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in the created or attached Instance.</dd></dl>
-  <a href="class_tgstation_1_1_server_1_1_client_1_1_instance_manager_client.html#a1a294382d927409a61ac3c03de909ccc">More...</a><br /></td></tr>
-<tr class="separator:a1a294382d927409a61ac3c03de909ccc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a65b27db631418a70d9eb55f1cfd046e7"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_instance_manager_client.html#a65b27db631418a70d9eb55f1cfd046e7">Detach</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html">EntityId</a> instance, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a65b27db631418a70d9eb55f1cfd046e7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Deletes an <em>instance</em> . <dl class="params"><dt>Parameters</dt><dd>
+<dl class="section return"><dt>Returns</dt><dd>A ValueTask&lt;TResult&gt; resulting in the created or attached Instance.</dd></dl>
+  <a href="class_tgstation_1_1_server_1_1_client_1_1_instance_manager_client.html#a039363171f5da1ef2605d31e82dbfc1b">More...</a><br /></td></tr>
+<tr class="separator:a039363171f5da1ef2605d31e82dbfc1b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3f061eb484143f41cef1aef9d85ff28a"><td class="memItemLeft" align="right" valign="top">ValueTask&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_instance_manager_client.html#a3f061eb484143f41cef1aef9d85ff28a">Detach</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html">EntityId</a> instance, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a3f061eb484143f41cef1aef9d85ff28a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Deletes an <em>instance</em> . <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">instance</td><td>The EntityId of the Instance to delete.</td></tr>
     <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A Task representing the running operation.</dd></dl>
-  <a href="class_tgstation_1_1_server_1_1_client_1_1_instance_manager_client.html#a65b27db631418a70d9eb55f1cfd046e7">More...</a><br /></td></tr>
-<tr class="separator:a65b27db631418a70d9eb55f1cfd046e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab8157d8e1f00a8b5f9f26723d0faeb3b"><td class="memItemLeft" align="right" valign="top">Task&lt; IReadOnlyList&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_instance_response.html">InstanceResponse</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_instance_manager_client.html#ab8157d8e1f00a8b5f9f26723d0faeb3b">List</a> (<a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_pagination_settings.html">PaginationSettings</a>? paginationSettings, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:ab8157d8e1f00a8b5f9f26723d0faeb3b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get all IInstanceClients for Instances the user can view. <dl class="params"><dt>Parameters</dt><dd>
+<dl class="section return"><dt>Returns</dt><dd>A ValueTask representing the running operation.</dd></dl>
+  <a href="class_tgstation_1_1_server_1_1_client_1_1_instance_manager_client.html#a3f061eb484143f41cef1aef9d85ff28a">More...</a><br /></td></tr>
+<tr class="separator:a3f061eb484143f41cef1aef9d85ff28a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4ea5f47f88e69cca85a566095e8c9fab"><td class="memItemLeft" align="right" valign="top">ValueTask&lt; List&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_instance_response.html">InstanceResponse</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_instance_manager_client.html#a4ea5f47f88e69cca85a566095e8c9fab">List</a> (<a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_pagination_settings.html">PaginationSettings</a>? paginationSettings, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a4ea5f47f88e69cca85a566095e8c9fab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get all IInstanceClients for Instances the user can view. <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">paginationSettings</td><td>The optional <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_pagination_settings.html" title="Settings for a paginated request.">PaginationSettings</a> for the operation.</td></tr>
     <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in a IReadOnlyList&lt;T&gt; of all Instances the user can view.</dd></dl>
-  <a href="class_tgstation_1_1_server_1_1_client_1_1_instance_manager_client.html#ab8157d8e1f00a8b5f9f26723d0faeb3b">More...</a><br /></td></tr>
-<tr class="separator:ab8157d8e1f00a8b5f9f26723d0faeb3b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1bd30aac1620d14fdd26d770bf6a1a29"><td class="memItemLeft" align="right" valign="top">Task&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_instance_response.html">InstanceResponse</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_instance_manager_client.html#a1bd30aac1620d14fdd26d770bf6a1a29">Update</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_1_1_instance_update_request.html">InstanceUpdateRequest</a> instance, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a1bd30aac1620d14fdd26d770bf6a1a29"><td class="mdescLeft">&#160;</td><td class="mdescRight">Relocates, renamed, and/or on/offlines an <em>instance</em> . <dl class="params"><dt>Parameters</dt><dd>
+<dl class="section return"><dt>Returns</dt><dd>A ValueTask&lt;TResult&gt; resulting in a <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_instance_manager_client.html#a7a7f1d73f1b9fa65c71f83ed7c449190" title="Get all IInstanceClients for Instances the user can view.">List&lt;T&gt;</a> of all Instances the user can view.</dd></dl>
+  <a href="class_tgstation_1_1_server_1_1_client_1_1_instance_manager_client.html#a4ea5f47f88e69cca85a566095e8c9fab">More...</a><br /></td></tr>
+<tr class="separator:a4ea5f47f88e69cca85a566095e8c9fab"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0c0cd8a0381d0a3c7105c3d585545738"><td class="memItemLeft" align="right" valign="top">ValueTask&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_instance_response.html">InstanceResponse</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_instance_manager_client.html#a0c0cd8a0381d0a3c7105c3d585545738">Update</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_1_1_instance_update_request.html">InstanceUpdateRequest</a> instance, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a0c0cd8a0381d0a3c7105c3d585545738"><td class="mdescLeft">&#160;</td><td class="mdescRight">Relocates, renamed, and/or on/offlines an <em>instance</em> . <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">instance</td><td>The InstanceUpdateRequest.</td></tr>
     <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in the updated Instance.</dd></dl>
-  <a href="class_tgstation_1_1_server_1_1_client_1_1_instance_manager_client.html#a1bd30aac1620d14fdd26d770bf6a1a29">More...</a><br /></td></tr>
-<tr class="separator:a1bd30aac1620d14fdd26d770bf6a1a29"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae52aff7e15bcaa3192496818c826f3df"><td class="memItemLeft" align="right" valign="top">Task&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_instance_response.html">InstanceResponse</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_instance_manager_client.html#ae52aff7e15bcaa3192496818c826f3df">GetId</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html">EntityId</a> instance, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:ae52aff7e15bcaa3192496818c826f3df"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a specific <em>instance</em> . <dl class="params"><dt>Parameters</dt><dd>
+<dl class="section return"><dt>Returns</dt><dd>A ValueTask&lt;TResult&gt; resulting in the updated Instance.</dd></dl>
+  <a href="class_tgstation_1_1_server_1_1_client_1_1_instance_manager_client.html#a0c0cd8a0381d0a3c7105c3d585545738">More...</a><br /></td></tr>
+<tr class="separator:a0c0cd8a0381d0a3c7105c3d585545738"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0ecb0587a4961d80d4338f83c4a7304f"><td class="memItemLeft" align="right" valign="top">ValueTask&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_instance_response.html">InstanceResponse</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_instance_manager_client.html#a0ecb0587a4961d80d4338f83c4a7304f">GetId</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html">EntityId</a> instance, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a0ecb0587a4961d80d4338f83c4a7304f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a specific <em>instance</em> . <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">instance</td><td>The Instance to get.</td></tr>
     <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in the Instance.</dd></dl>
-  <a href="class_tgstation_1_1_server_1_1_client_1_1_instance_manager_client.html#ae52aff7e15bcaa3192496818c826f3df">More...</a><br /></td></tr>
-<tr class="separator:ae52aff7e15bcaa3192496818c826f3df"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3cab4f3015276287906b86742e89ee08"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_instance_manager_client.html#a3cab4f3015276287906b86742e89ee08">GrantPermissions</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html">EntityId</a> instance, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a3cab4f3015276287906b86742e89ee08"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gives the user full permissions on an <em>instance</em> . <dl class="params"><dt>Parameters</dt><dd>
+<dl class="section return"><dt>Returns</dt><dd>A ValueTask&lt;TResult&gt; resulting in the Instance.</dd></dl>
+  <a href="class_tgstation_1_1_server_1_1_client_1_1_instance_manager_client.html#a0ecb0587a4961d80d4338f83c4a7304f">More...</a><br /></td></tr>
+<tr class="separator:a0ecb0587a4961d80d4338f83c4a7304f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0b00e9b9eac57142fa2ddbdbd4bd8092"><td class="memItemLeft" align="right" valign="top">ValueTask&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_instance_manager_client.html#a0b00e9b9eac57142fa2ddbdbd4bd8092">GrantPermissions</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html">EntityId</a> instance, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a0b00e9b9eac57142fa2ddbdbd4bd8092"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gives the user full permissions on an <em>instance</em> . <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">instance</td><td>The EntityId of the Instance to grant permissions on.</td></tr>
     <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A Task representing the running operation.</dd></dl>
-  <a href="class_tgstation_1_1_server_1_1_client_1_1_instance_manager_client.html#a3cab4f3015276287906b86742e89ee08">More...</a><br /></td></tr>
-<tr class="separator:a3cab4f3015276287906b86742e89ee08"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<dl class="section return"><dt>Returns</dt><dd>A ValueTask representing the running operation.</dd></dl>
+  <a href="class_tgstation_1_1_server_1_1_client_1_1_instance_manager_client.html#a0b00e9b9eac57142fa2ddbdbd4bd8092">More...</a><br /></td></tr>
+<tr class="separator:a0b00e9b9eac57142fa2ddbdbd4bd8092"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aad7c5289f672bb2598084276d583a1f9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_instance_client.html">IInstanceClient</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_instance_manager_client.html#aad7c5289f672bb2598084276d583a1f9">CreateClient</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html">Instance</a> instance)</td></tr>
 <tr class="memdesc:aad7c5289f672bb2598084276d583a1f9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create an IInstanceClient for a given Instance. <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -190,41 +190,41 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aeb87c35a9dd07a11b14175e10822bbb7 inherit pub_methods_class_tgstation_1_1_server_1_1_client_1_1_paginated_client"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_paginated_client.html#aeb87c35a9dd07a11b14175e10822bbb7">PaginatedClient</a> (<a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_api_client.html">IApiClient</a> apiClient)</td></tr>
 <tr class="memdesc:aeb87c35a9dd07a11b14175e10822bbb7 inherit pub_methods_class_tgstation_1_1_server_1_1_client_1_1_paginated_client"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes a new instance of the <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_paginated_client.html" title="Client that deals with getting paginated results.">PaginatedClient</a> class.   <a href="class_tgstation_1_1_server_1_1_client_1_1_paginated_client.html#aeb87c35a9dd07a11b14175e10822bbb7">More...</a><br /></td></tr>
 <tr class="separator:aeb87c35a9dd07a11b14175e10822bbb7 inherit pub_methods_class_tgstation_1_1_server_1_1_client_1_1_paginated_client"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a23f2e9ee748000729cc5f852923e606f"><td class="memItemLeft" align="right" valign="top">Task&lt; IReadOnlyList&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_instance_response.html">InstanceResponse</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_instance_manager_client.html#a23f2e9ee748000729cc5f852923e606f">List</a> (<a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_pagination_settings.html">PaginationSettings</a>? paginationSettings, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a23f2e9ee748000729cc5f852923e606f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get all IInstanceClients for Instances the user can view.   <a href="interface_tgstation_1_1_server_1_1_client_1_1_i_instance_manager_client.html#a23f2e9ee748000729cc5f852923e606f">More...</a><br /></td></tr>
-<tr class="separator:a23f2e9ee748000729cc5f852923e606f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9938863def882dc60e973d283c4e05d3"><td class="memItemLeft" align="right" valign="top">Task&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_instance_response.html">InstanceResponse</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_instance_manager_client.html#a9938863def882dc60e973d283c4e05d3">CreateOrAttach</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_1_1_instance_create_request.html">InstanceCreateRequest</a> instance, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a9938863def882dc60e973d283c4e05d3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create or attach an <em>instance</em> .   <a href="interface_tgstation_1_1_server_1_1_client_1_1_i_instance_manager_client.html#a9938863def882dc60e973d283c4e05d3">More...</a><br /></td></tr>
-<tr class="separator:a9938863def882dc60e973d283c4e05d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6d56a7c3ef7bc77c458609313f3cfe29"><td class="memItemLeft" align="right" valign="top">Task&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_instance_response.html">InstanceResponse</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_instance_manager_client.html#a6d56a7c3ef7bc77c458609313f3cfe29">Update</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_1_1_instance_update_request.html">InstanceUpdateRequest</a> instance, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a6d56a7c3ef7bc77c458609313f3cfe29"><td class="mdescLeft">&#160;</td><td class="mdescRight">Relocates, renamed, and/or on/offlines an <em>instance</em> .   <a href="interface_tgstation_1_1_server_1_1_client_1_1_i_instance_manager_client.html#a6d56a7c3ef7bc77c458609313f3cfe29">More...</a><br /></td></tr>
-<tr class="separator:a6d56a7c3ef7bc77c458609313f3cfe29"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a36238e3514fcbba510d662c888b92920"><td class="memItemLeft" align="right" valign="top">Task&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_instance_response.html">InstanceResponse</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_instance_manager_client.html#a36238e3514fcbba510d662c888b92920">GetId</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html">EntityId</a> instance, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a36238e3514fcbba510d662c888b92920"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a specific <em>instance</em> .   <a href="interface_tgstation_1_1_server_1_1_client_1_1_i_instance_manager_client.html#a36238e3514fcbba510d662c888b92920">More...</a><br /></td></tr>
-<tr class="separator:a36238e3514fcbba510d662c888b92920"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a82717b67e78f3b4805abc67a59531963"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_instance_manager_client.html#a82717b67e78f3b4805abc67a59531963">Detach</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html">EntityId</a> instance, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a82717b67e78f3b4805abc67a59531963"><td class="mdescLeft">&#160;</td><td class="mdescRight">Deletes an <em>instance</em> .   <a href="interface_tgstation_1_1_server_1_1_client_1_1_i_instance_manager_client.html#a82717b67e78f3b4805abc67a59531963">More...</a><br /></td></tr>
-<tr class="separator:a82717b67e78f3b4805abc67a59531963"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad01af140b597868ebe81678f4f38e728"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_instance_manager_client.html#ad01af140b597868ebe81678f4f38e728">GrantPermissions</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html">EntityId</a> instance, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:ad01af140b597868ebe81678f4f38e728"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gives the user full permissions on an <em>instance</em> .   <a href="interface_tgstation_1_1_server_1_1_client_1_1_i_instance_manager_client.html#ad01af140b597868ebe81678f4f38e728">More...</a><br /></td></tr>
-<tr class="separator:ad01af140b597868ebe81678f4f38e728"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7a7f1d73f1b9fa65c71f83ed7c449190"><td class="memItemLeft" align="right" valign="top">ValueTask&lt; List&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_instance_response.html">InstanceResponse</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_instance_manager_client.html#a7a7f1d73f1b9fa65c71f83ed7c449190">List</a> (<a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_pagination_settings.html">PaginationSettings</a>? paginationSettings, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a7a7f1d73f1b9fa65c71f83ed7c449190"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get all IInstanceClients for Instances the user can view.   <a href="interface_tgstation_1_1_server_1_1_client_1_1_i_instance_manager_client.html#a7a7f1d73f1b9fa65c71f83ed7c449190">More...</a><br /></td></tr>
+<tr class="separator:a7a7f1d73f1b9fa65c71f83ed7c449190"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a85a050f69830581c3748dffa100fc253"><td class="memItemLeft" align="right" valign="top">ValueTask&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_instance_response.html">InstanceResponse</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_instance_manager_client.html#a85a050f69830581c3748dffa100fc253">CreateOrAttach</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_1_1_instance_create_request.html">InstanceCreateRequest</a> instance, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a85a050f69830581c3748dffa100fc253"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create or attach an <em>instance</em> .   <a href="interface_tgstation_1_1_server_1_1_client_1_1_i_instance_manager_client.html#a85a050f69830581c3748dffa100fc253">More...</a><br /></td></tr>
+<tr class="separator:a85a050f69830581c3748dffa100fc253"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8f433ddcfa9cee4ac58827463c69855f"><td class="memItemLeft" align="right" valign="top">ValueTask&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_instance_response.html">InstanceResponse</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_instance_manager_client.html#a8f433ddcfa9cee4ac58827463c69855f">Update</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_1_1_instance_update_request.html">InstanceUpdateRequest</a> instance, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a8f433ddcfa9cee4ac58827463c69855f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Relocates, renamed, and/or on/offlines an <em>instance</em> .   <a href="interface_tgstation_1_1_server_1_1_client_1_1_i_instance_manager_client.html#a8f433ddcfa9cee4ac58827463c69855f">More...</a><br /></td></tr>
+<tr class="separator:a8f433ddcfa9cee4ac58827463c69855f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1dc8f26e7d3e481e132084876a315afe"><td class="memItemLeft" align="right" valign="top">ValueTask&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_instance_response.html">InstanceResponse</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_instance_manager_client.html#a1dc8f26e7d3e481e132084876a315afe">GetId</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html">EntityId</a> instance, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a1dc8f26e7d3e481e132084876a315afe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a specific <em>instance</em> .   <a href="interface_tgstation_1_1_server_1_1_client_1_1_i_instance_manager_client.html#a1dc8f26e7d3e481e132084876a315afe">More...</a><br /></td></tr>
+<tr class="separator:a1dc8f26e7d3e481e132084876a315afe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa5e57e859acfe10dadfd217e54251fb7"><td class="memItemLeft" align="right" valign="top">ValueTask&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_instance_manager_client.html#aa5e57e859acfe10dadfd217e54251fb7">Detach</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html">EntityId</a> instance, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:aa5e57e859acfe10dadfd217e54251fb7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Deletes an <em>instance</em> .   <a href="interface_tgstation_1_1_server_1_1_client_1_1_i_instance_manager_client.html#aa5e57e859acfe10dadfd217e54251fb7">More...</a><br /></td></tr>
+<tr class="separator:aa5e57e859acfe10dadfd217e54251fb7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa5e496374e9d580487236fe5c5605bf7"><td class="memItemLeft" align="right" valign="top">ValueTask&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_instance_manager_client.html#aa5e496374e9d580487236fe5c5605bf7">GrantPermissions</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html">EntityId</a> instance, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:aa5e496374e9d580487236fe5c5605bf7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gives the user full permissions on an <em>instance</em> .   <a href="interface_tgstation_1_1_server_1_1_client_1_1_i_instance_manager_client.html#aa5e496374e9d580487236fe5c5605bf7">More...</a><br /></td></tr>
+<tr class="separator:aa5e496374e9d580487236fe5c5605bf7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a89d0d8409ead36832135461bb544ad09"><td class="memItemLeft" align="right" valign="top"><a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_instance_client.html">IInstanceClient</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_instance_manager_client.html#a89d0d8409ead36832135461bb544ad09">CreateClient</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html">Instance</a> instance)</td></tr>
 <tr class="memdesc:a89d0d8409ead36832135461bb544ad09"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create an IInstanceClient for a given Instance.   <a href="interface_tgstation_1_1_server_1_1_client_1_1_i_instance_manager_client.html#a89d0d8409ead36832135461bb544ad09">More...</a><br /></td></tr>
 <tr class="separator:a89d0d8409ead36832135461bb544ad09"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-methods" name="pri-methods"></a>
 Private Member Functions</h2></td></tr>
-<tr class="memitem:a68271c8016526ba3b4016584cc2ed5b3"><td class="memItemLeft" align="right" valign="top">Task&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_instance_response.html">InstanceResponse</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_instance_manager_client.html#a68271c8016526ba3b4016584cc2ed5b3">InstanceResponse</a> (Routes.InstanceManager, instance ?? throw new ArgumentNullException(nameof(instance)), cancellationToken)</td></tr>
-<tr class="separator:a68271c8016526ba3b4016584cc2ed5b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a68271c8016526ba3b4016584cc2ed5b3"><td class="memItemLeft" align="right" valign="top">Task&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_instance_response.html">InstanceResponse</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_instance_manager_client.html#a68271c8016526ba3b4016584cc2ed5b3">InstanceResponse</a> (Routes.InstanceManager, instance ?? throw new ArgumentNullException(nameof(instance)), cancellationToken)</td></tr>
-<tr class="separator:a68271c8016526ba3b4016584cc2ed5b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a55d7e35774b8520798b62a9c5dc5be56"><td class="memItemLeft" align="right" valign="top">ValueTask&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_instance_response.html">InstanceResponse</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_instance_manager_client.html#a55d7e35774b8520798b62a9c5dc5be56">InstanceResponse</a> (Routes.InstanceManager, instance ?? throw new ArgumentNullException(nameof(instance)), cancellationToken)</td></tr>
+<tr class="separator:a55d7e35774b8520798b62a9c5dc5be56"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a55d7e35774b8520798b62a9c5dc5be56"><td class="memItemLeft" align="right" valign="top">ValueTask&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_instance_response.html">InstanceResponse</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_instance_manager_client.html#a55d7e35774b8520798b62a9c5dc5be56">InstanceResponse</a> (Routes.InstanceManager, instance ?? throw new ArgumentNullException(nameof(instance)), cancellationToken)</td></tr>
+<tr class="separator:a55d7e35774b8520798b62a9c5dc5be56"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="inherited" name="inherited"></a>
 Additional Inherited Members</h2></td></tr>
 <tr class="inherit_header pro_methods_class_tgstation_1_1_server_1_1_client_1_1_paginated_client"><td colspan="2" onclick="javascript:toggleInherit('pro_methods_class_tgstation_1_1_server_1_1_client_1_1_paginated_client')"><img src="closed.png" alt="-"/>&#160;Protected Member Functions inherited from <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_paginated_client.html">Tgstation.Server.Client.PaginatedClient</a></td></tr>
-<tr class="memitem:a6e07d281bf20812323bc4f37b2af1ea1 inherit pro_methods_class_tgstation_1_1_server_1_1_client_1_1_paginated_client"><td class="memItemLeft" align="right" valign="top">async Task&lt; IReadOnlyList&lt; TModel &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_paginated_client.html#a6e07d281bf20812323bc4f37b2af1ea1">ReadPaged&lt; TModel &gt;</a> (<a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_pagination_settings.html">PaginationSettings</a>? paginationSettings, string route, long? instanceId, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a6e07d281bf20812323bc4f37b2af1ea1 inherit pro_methods_class_tgstation_1_1_server_1_1_client_1_1_paginated_client"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads a given <em>route</em>  with paged results.   <a href="class_tgstation_1_1_server_1_1_client_1_1_paginated_client.html#a6e07d281bf20812323bc4f37b2af1ea1">More...</a><br /></td></tr>
-<tr class="separator:a6e07d281bf20812323bc4f37b2af1ea1 inherit pro_methods_class_tgstation_1_1_server_1_1_client_1_1_paginated_client"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aec6b5aa8f1bb128b347b1db25e9c38ea inherit pro_methods_class_tgstation_1_1_server_1_1_client_1_1_paginated_client"><td class="memItemLeft" align="right" valign="top">async ValueTask&lt; List&lt; TModel &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_paginated_client.html#aec6b5aa8f1bb128b347b1db25e9c38ea">ReadPaged&lt; TModel &gt;</a> (<a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_pagination_settings.html">PaginationSettings</a>? paginationSettings, string route, long? instanceId, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:aec6b5aa8f1bb128b347b1db25e9c38ea inherit pro_methods_class_tgstation_1_1_server_1_1_client_1_1_paginated_client"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads a given <em>route</em>  with paged results.   <a href="class_tgstation_1_1_server_1_1_client_1_1_paginated_client.html#aec6b5aa8f1bb128b347b1db25e9c38ea">More...</a><br /></td></tr>
+<tr class="separator:aec6b5aa8f1bb128b347b1db25e9c38ea inherit pro_methods_class_tgstation_1_1_server_1_1_client_1_1_paginated_client"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header properties_class_tgstation_1_1_server_1_1_client_1_1_paginated_client"><td colspan="2" onclick="javascript:toggleInherit('properties_class_tgstation_1_1_server_1_1_client_1_1_paginated_client')"><img src="closed.png" alt="-"/>&#160;Properties inherited from <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_paginated_client.html">Tgstation.Server.Client.PaginatedClient</a></td></tr>
 <tr class="memitem:a46a285dccb579dedc9efac7eadafb230 inherit properties_class_tgstation_1_1_server_1_1_client_1_1_paginated_client"><td class="memItemLeft" align="right" valign="top"><a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_api_client.html">IApiClient</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_paginated_client.html#a46a285dccb579dedc9efac7eadafb230">ApiClient</a><code> [get]</code></td></tr>
 <tr class="memdesc:a46a285dccb579dedc9efac7eadafb230 inherit properties_class_tgstation_1_1_server_1_1_client_1_1_paginated_client"><td class="mdescLeft">&#160;</td><td class="mdescRight">The <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_api_client.html" title="Web interface for the API.">IApiClient</a> for the <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_paginated_client.html" title="Client that deals with getting paginated results.">PaginatedClient</a>.   <a href="class_tgstation_1_1_server_1_1_client_1_1_paginated_client.html#a46a285dccb579dedc9efac7eadafb230">More...</a><br /></td></tr>
@@ -313,14 +313,14 @@ Additional Inherited Members</h2></td></tr>
 
 </div>
 </div>
-<a id="a1a294382d927409a61ac3c03de909ccc" name="a1a294382d927409a61ac3c03de909ccc"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1a294382d927409a61ac3c03de909ccc">&#9670;&#160;</a></span>CreateOrAttach()</h2>
+<a id="a039363171f5da1ef2605d31e82dbfc1b" name="a039363171f5da1ef2605d31e82dbfc1b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a039363171f5da1ef2605d31e82dbfc1b">&#9670;&#160;</a></span>CreateOrAttach()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">Task&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_instance_response.html">InstanceResponse</a> &gt; Tgstation.Server.Client.InstanceManagerClient.CreateOrAttach </td>
+          <td class="memname">ValueTask&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_instance_response.html">InstanceResponse</a> &gt; Tgstation.Server.Client.InstanceManagerClient.CreateOrAttach </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_1_1_instance_create_request.html">InstanceCreateRequest</a>&#160;</td>
           <td class="paramname"><em>instance</em>, </td>
@@ -346,21 +346,21 @@ Additional Inherited Members</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in the created or attached Instance.</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A ValueTask&lt;TResult&gt; resulting in the created or attached Instance.</dd></dl>
  </p>
 
-<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_instance_manager_client.html#a9938863def882dc60e973d283c4e05d3">Tgstation.Server.Client.IInstanceManagerClient</a>.</p>
+<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_instance_manager_client.html#a85a050f69830581c3748dffa100fc253">Tgstation.Server.Client.IInstanceManagerClient</a>.</p>
 
 </div>
 </div>
-<a id="a65b27db631418a70d9eb55f1cfd046e7" name="a65b27db631418a70d9eb55f1cfd046e7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a65b27db631418a70d9eb55f1cfd046e7">&#9670;&#160;</a></span>Detach()</h2>
+<a id="a3f061eb484143f41cef1aef9d85ff28a" name="a3f061eb484143f41cef1aef9d85ff28a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3f061eb484143f41cef1aef9d85ff28a">&#9670;&#160;</a></span>Detach()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">Task Tgstation.Server.Client.InstanceManagerClient.Detach </td>
+          <td class="memname">ValueTask Tgstation.Server.Client.InstanceManagerClient.Detach </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html">EntityId</a>&#160;</td>
           <td class="paramname"><em>instance</em>, </td>
@@ -386,21 +386,21 @@ Additional Inherited Members</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A Task representing the running operation.</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A ValueTask representing the running operation.</dd></dl>
  </p>
 
-<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_instance_manager_client.html#a82717b67e78f3b4805abc67a59531963">Tgstation.Server.Client.IInstanceManagerClient</a>.</p>
+<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_instance_manager_client.html#aa5e57e859acfe10dadfd217e54251fb7">Tgstation.Server.Client.IInstanceManagerClient</a>.</p>
 
 </div>
 </div>
-<a id="ae52aff7e15bcaa3192496818c826f3df" name="ae52aff7e15bcaa3192496818c826f3df"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae52aff7e15bcaa3192496818c826f3df">&#9670;&#160;</a></span>GetId()</h2>
+<a id="a0ecb0587a4961d80d4338f83c4a7304f" name="a0ecb0587a4961d80d4338f83c4a7304f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0ecb0587a4961d80d4338f83c4a7304f">&#9670;&#160;</a></span>GetId()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">Task&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_instance_response.html">InstanceResponse</a> &gt; Tgstation.Server.Client.InstanceManagerClient.GetId </td>
+          <td class="memname">ValueTask&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_instance_response.html">InstanceResponse</a> &gt; Tgstation.Server.Client.InstanceManagerClient.GetId </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html">EntityId</a>&#160;</td>
           <td class="paramname"><em>instance</em>, </td>
@@ -426,21 +426,21 @@ Additional Inherited Members</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in the Instance.</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A ValueTask&lt;TResult&gt; resulting in the Instance.</dd></dl>
  </p>
 
-<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_instance_manager_client.html#a36238e3514fcbba510d662c888b92920">Tgstation.Server.Client.IInstanceManagerClient</a>.</p>
+<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_instance_manager_client.html#a1dc8f26e7d3e481e132084876a315afe">Tgstation.Server.Client.IInstanceManagerClient</a>.</p>
 
 </div>
 </div>
-<a id="a3cab4f3015276287906b86742e89ee08" name="a3cab4f3015276287906b86742e89ee08"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3cab4f3015276287906b86742e89ee08">&#9670;&#160;</a></span>GrantPermissions()</h2>
+<a id="a0b00e9b9eac57142fa2ddbdbd4bd8092" name="a0b00e9b9eac57142fa2ddbdbd4bd8092"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0b00e9b9eac57142fa2ddbdbd4bd8092">&#9670;&#160;</a></span>GrantPermissions()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">Task Tgstation.Server.Client.InstanceManagerClient.GrantPermissions </td>
+          <td class="memname">ValueTask Tgstation.Server.Client.InstanceManagerClient.GrantPermissions </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html">EntityId</a>&#160;</td>
           <td class="paramname"><em>instance</em>, </td>
@@ -466,15 +466,15 @@ Additional Inherited Members</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A Task representing the running operation.</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A ValueTask representing the running operation.</dd></dl>
  </p>
 
-<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_instance_manager_client.html#ad01af140b597868ebe81678f4f38e728">Tgstation.Server.Client.IInstanceManagerClient</a>.</p>
+<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_instance_manager_client.html#aa5e496374e9d580487236fe5c5605bf7">Tgstation.Server.Client.IInstanceManagerClient</a>.</p>
 
 </div>
 </div>
-<a id="a68271c8016526ba3b4016584cc2ed5b3" name="a68271c8016526ba3b4016584cc2ed5b3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a68271c8016526ba3b4016584cc2ed5b3">&#9670;&#160;</a></span>InstanceResponse() <span class="overload">[1/2]</span></h2>
+<a id="a55d7e35774b8520798b62a9c5dc5be56" name="a55d7e35774b8520798b62a9c5dc5be56"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a55d7e35774b8520798b62a9c5dc5be56">&#9670;&#160;</a></span>InstanceResponse() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -483,7 +483,7 @@ Additional Inherited Members</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">Task&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_instance_response.html">InstanceResponse</a> &gt; Tgstation.Server.Client.InstanceManagerClient.InstanceResponse </td>
+          <td class="memname">ValueTask&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_instance_response.html">InstanceResponse</a> &gt; Tgstation.Server.Client.InstanceManagerClient.InstanceResponse </td>
           <td>(</td>
           <td class="paramtype">Routes.&#160;</td>
           <td class="paramname"><em>InstanceManager</em>, </td>
@@ -515,8 +515,8 @@ Additional Inherited Members</h2></td></tr>
 
 </div>
 </div>
-<a id="a68271c8016526ba3b4016584cc2ed5b3" name="a68271c8016526ba3b4016584cc2ed5b3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a68271c8016526ba3b4016584cc2ed5b3">&#9670;&#160;</a></span>InstanceResponse() <span class="overload">[2/2]</span></h2>
+<a id="a55d7e35774b8520798b62a9c5dc5be56" name="a55d7e35774b8520798b62a9c5dc5be56"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a55d7e35774b8520798b62a9c5dc5be56">&#9670;&#160;</a></span>InstanceResponse() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -525,7 +525,7 @@ Additional Inherited Members</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">Task&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_instance_response.html">InstanceResponse</a> &gt; Tgstation.Server.Client.InstanceManagerClient.InstanceResponse </td>
+          <td class="memname">ValueTask&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_instance_response.html">InstanceResponse</a> &gt; Tgstation.Server.Client.InstanceManagerClient.InstanceResponse </td>
           <td>(</td>
           <td class="paramtype">Routes.&#160;</td>
           <td class="paramname"><em>InstanceManager</em>, </td>
@@ -557,14 +557,14 @@ Additional Inherited Members</h2></td></tr>
 
 </div>
 </div>
-<a id="ab8157d8e1f00a8b5f9f26723d0faeb3b" name="ab8157d8e1f00a8b5f9f26723d0faeb3b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab8157d8e1f00a8b5f9f26723d0faeb3b">&#9670;&#160;</a></span>List()</h2>
+<a id="a4ea5f47f88e69cca85a566095e8c9fab" name="a4ea5f47f88e69cca85a566095e8c9fab"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4ea5f47f88e69cca85a566095e8c9fab">&#9670;&#160;</a></span>List()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">Task&lt; IReadOnlyList&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_instance_response.html">InstanceResponse</a> &gt; &gt; Tgstation.Server.Client.InstanceManagerClient.List </td>
+          <td class="memname">ValueTask&lt; List&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_instance_response.html">InstanceResponse</a> &gt; &gt; Tgstation.Server.Client.InstanceManagerClient.List </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_pagination_settings.html">PaginationSettings</a>?&#160;</td>
           <td class="paramname"><em>paginationSettings</em>, </td>
@@ -590,21 +590,21 @@ Additional Inherited Members</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in a IReadOnlyList&lt;T&gt; of all Instances the user can view.</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A ValueTask&lt;TResult&gt; resulting in a <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_instance_manager_client.html#a7a7f1d73f1b9fa65c71f83ed7c449190" title="Get all IInstanceClients for Instances the user can view.">List&lt;T&gt;</a> of all Instances the user can view.</dd></dl>
  </p>
 
-<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_instance_manager_client.html#a23f2e9ee748000729cc5f852923e606f">Tgstation.Server.Client.IInstanceManagerClient</a>.</p>
+<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_instance_manager_client.html#a7a7f1d73f1b9fa65c71f83ed7c449190">Tgstation.Server.Client.IInstanceManagerClient</a>.</p>
 
 </div>
 </div>
-<a id="a1bd30aac1620d14fdd26d770bf6a1a29" name="a1bd30aac1620d14fdd26d770bf6a1a29"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1bd30aac1620d14fdd26d770bf6a1a29">&#9670;&#160;</a></span>Update()</h2>
+<a id="a0c0cd8a0381d0a3c7105c3d585545738" name="a0c0cd8a0381d0a3c7105c3d585545738"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0c0cd8a0381d0a3c7105c3d585545738">&#9670;&#160;</a></span>Update()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">Task&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_instance_response.html">InstanceResponse</a> &gt; Tgstation.Server.Client.InstanceManagerClient.Update </td>
+          <td class="memname">ValueTask&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_instance_response.html">InstanceResponse</a> &gt; Tgstation.Server.Client.InstanceManagerClient.Update </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_1_1_instance_update_request.html">InstanceUpdateRequest</a>&#160;</td>
           <td class="paramname"><em>instance</em>, </td>
@@ -630,10 +630,10 @@ Additional Inherited Members</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in the updated Instance.</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A ValueTask&lt;TResult&gt; resulting in the updated Instance.</dd></dl>
  </p>
 
-<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_instance_manager_client.html#a6d56a7c3ef7bc77c458609313f3cfe29">Tgstation.Server.Client.IInstanceManagerClient</a>.</p>
+<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_instance_manager_client.html#a8f433ddcfa9cee4ac58827463c69855f">Tgstation.Server.Client.IInstanceManagerClient</a>.</p>
 
 </div>
 </div>

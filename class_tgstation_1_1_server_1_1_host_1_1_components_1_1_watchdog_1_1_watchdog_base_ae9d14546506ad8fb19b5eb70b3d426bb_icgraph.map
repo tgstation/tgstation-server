@@ -1,5 +1,0 @@
-<map id="Tgstation.Server.Host.Components.Watchdog.WatchdogBase.BeforeApplyDmb" name="Tgstation.Server.Host.Components.Watchdog.WatchdogBase.BeforeApplyDmb">
-<area shape="rect" id="node1" title="To be called before a given newCompileJob &#160;goes live." alt="" coords="375,37,645,77"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_windows_watchdog.html#afcdeb4376d24326a76bc920fe6974b35" title="Handler for MonitorActivationReason.ActiveServerRebooted when the RebootState is RebootState...." alt="" coords="5,5,327,45"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_basic_watchdog.html#ad6a174232e66f5070f33b14e2cf15d48" title="Starts all ISessionControllers. A Task representing the running operation." alt="" coords="41,69,291,109"/>
-</map>

@@ -1,0 +1,5 @@
+<map id="Tgstation.Server.Host.Components.Byond.ByondManager.AssertAndLockVersion" name="Tgstation.Server.Host.Components.Byond.ByondManager.AssertAndLockVersion">
+<area shape="rect" id="node1" title="Ensures a BYOND version &#160;is installed if it isn&#39;t already." alt="" coords="297,37,581,77"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_manager.html#a59f8a7d39d80d876f2ee18079a65dde1" title="Change the active BYOND version. A ValueTask representing the running operation." alt="" coords="8,5,247,45"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_manager.html#ad4947f28448485f7aed1f5b0d23f9946" title="Lock the current installation&#39;s location and return a IByondExecutableLock. A ValueTask&lt;TResult&gt; resu..." alt="" coords="5,69,249,109"/>
+</map>

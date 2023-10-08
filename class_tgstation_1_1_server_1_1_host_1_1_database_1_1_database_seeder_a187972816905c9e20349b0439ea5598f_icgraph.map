@@ -1,0 +1,6 @@
+<map id="Tgstation.Server.Host.Database.DatabaseSeeder.GetAdminUser" name="Tgstation.Server.Host.Database.DatabaseSeeder.GetAdminUser">
+<area shape="rect" id="node1" title="Get or create the admin User." alt="" coords="561,37,771,77"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_seeder.html#a374a1163eaa6f02afb419449a4478b48" title="Changes the admin password in IDatabaseContext back to it&#39;s default, enables the account,..." alt="" coords="263,5,513,45"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_seeder.html#acccb4650f7b19158f0241418c7345719" title="Correct invalid database data caused by previous versions (NOT user fuckery)." alt="" coords="277,69,499,109"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_seeder.html#ad25dc5de4181c941c699a26e098149e6" title="Setup up a given databaseContext . A ValueTask representing the running operation." alt="" coords="5,37,215,77"/>
+</map>

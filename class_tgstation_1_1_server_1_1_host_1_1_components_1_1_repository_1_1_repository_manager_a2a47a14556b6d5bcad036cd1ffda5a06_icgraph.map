@@ -1,0 +1,9 @@
+<map id="Tgstation.Server.Host.Components.Repository.RepositoryManager.LoadRepository" name="Tgstation.Server.Host.Components.Repository.RepositoryManager.LoadRepository">
+<area shape="rect" id="node1" title="Attempt to load the IRepository from the default location. A ValueTask&lt;TResult&gt; resulting in the load..." alt="" coords="1172,69,1463,109"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository_manager.html#a1cdfc3d3de0af8072aacdff0afc0b648" title="Clone the repository at url . A ValueTask&lt;TResult&gt; resulting i the newly cloned IRepository,..." alt="" coords="829,5,1124,45"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#af9b1ac10fa397ab985bbc5b0784aa431" title="The JobEntrypoint for updating the repository." alt="" coords="863,69,1090,109"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#afb736b47a7400fb861186b8dad1c4c4c" title="Pull the repository and compile for every set of given minutes ." alt="" coords="555,99,781,139"/>
+<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a2e70b9e1b420670ff8b02592a15dbdbe" title="Change the Api.Models.Instance.AutoUpdateInterval for the IInstanceCore. A ValueTask representing the..." alt="" coords="280,99,507,139"/>
+<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a11cc04923d2557eefd57ad2ded9eb7f2" title=" " alt="" coords="5,67,232,107"/>
+<area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#afc1fd9e8dc3bd57b78dbcbc4e7f449b4" title=" " alt="" coords="5,131,232,171"/>
+</map>

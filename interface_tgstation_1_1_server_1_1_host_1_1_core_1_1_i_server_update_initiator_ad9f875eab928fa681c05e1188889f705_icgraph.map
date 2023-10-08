@@ -1,5 +1,0 @@
-<map id="Tgstation.Server.Host.Core.IServerUpdateInitiator.InitiateUpdate" name="Tgstation.Server.Host.Core.IServerUpdateInitiator.InitiateUpdate">
-<area shape="rect" id="node1" title="Start the process of downloading and applying an update to a new server version ." alt="" coords="608,5,799,60"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#a30617dab4befa4172cf001391d1ca62f" title="Attempt to initiate an update." alt="" coords="269,13,560,53"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#afa27ac5eabff66919186c66da2dc8ecf" title="Attempt to perform a server upgrade." alt="" coords="5,13,221,53"/>
-</map>

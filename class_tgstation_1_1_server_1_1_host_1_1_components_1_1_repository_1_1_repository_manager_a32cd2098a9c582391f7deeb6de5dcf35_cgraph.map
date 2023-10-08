@@ -1,0 +1,6 @@
+<map id="Tgstation.Server.Host.Components.Repository.RepositoryManager.DeleteRepository" name="Tgstation.Server.Host.Components.Repository.RepositoryManager.DeleteRepository">
+<area shape="rect" id="node1" title="Delete the current repository. A ValueTask representing the running operation." alt="" coords="5,62,243,117"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ad3e0dda4b7fbad4c77f48ba3b2681dc7" title="Recursively delete a directory, removes and does not enter any symlinks encounterd." alt="" coords="295,5,477,45"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html#a29773d588476671bbe480f096d839c91" title="Asyncronously locks a semaphore ." alt="" coords="291,69,481,109"/>
+<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a18a442b5dff16f5e7a730ec354e81d78" title="Retrieve the full path of the current working directory." alt="" coords="302,133,470,173"/>
+</map>

@@ -117,8 +117,8 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a04c8863ccdb6d8f93c56eec22e3015d5"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_byond_command.html#a04c8863ccdb6d8f93c56eec22e3015d5">ByondCommand</a> (<a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_i_byond_manager.html">IByondManager</a> <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_byond_command.html#a65e3da64c0d52b3811a21952e5bcae28">byondManager</a>, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_watchdog.html">IWatchdog</a> <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_byond_command.html#a90292e2c1149c3d0e92a79d98968be44">watchdog</a>)</td></tr>
 <tr class="memdesc:a04c8863ccdb6d8f93c56eec22e3015d5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes a new instance of the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_byond_command.html" title="For displaying the installed Byond version.">ByondCommand</a> class.   <a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_byond_command.html#a04c8863ccdb6d8f93c56eec22e3015d5">More...</a><br /></td></tr>
 <tr class="separator:a04c8863ccdb6d8f93c56eec22e3015d5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a600e095bd0b90b73d481bb6a7630ad89"><td class="memItemLeft" align="right" valign="top">Task&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_message_content.html">MessageContent</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_byond_command.html#a600e095bd0b90b73d481bb6a7630ad89">Invoke</a> (string arguments, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_user.html">ChatUser</a> user, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a600e095bd0b90b73d481bb6a7630ad89"><td class="mdescLeft">&#160;</td><td class="mdescRight">Invoke the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_i_command.html" title="Represents a command that can be invoked by talking to chat bots.">ICommand</a>. <dl class="params"><dt>Parameters</dt><dd>
+<tr class="memitem:a863aa6d400cc5f25b94503e62d9d9d6e"><td class="memItemLeft" align="right" valign="top">ValueTask&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_message_content.html">MessageContent</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_byond_command.html#a863aa6d400cc5f25b94503e62d9d9d6e">Invoke</a> (string arguments, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_user.html">ChatUser</a> user, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a863aa6d400cc5f25b94503e62d9d9d6e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Invoke the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_i_command.html" title="Represents a command that can be invoked by talking to chat bots.">ICommand</a>. <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">arguments</td><td>The text after <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_i_command.html#aa9cbbf23975efc1dde048ee43a6e1d4b" title="The text to invoke the command. May not be &quot;?&quot; or &quot;help&quot; (case-insensitive).">Name</a> with leading whitespace trimmed.</td></tr>
     <tr><td class="paramname">user</td><td>The <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_user.html" title="Represents a tgs_chat_user datum.">ChatUser</a> who invoked the command.</td></tr>
@@ -126,12 +126,12 @@ Public Member Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in a MessageContent to send to the invoker.</dd></dl>
-  <a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_byond_command.html#a600e095bd0b90b73d481bb6a7630ad89">More...</a><br /></td></tr>
-<tr class="separator:a600e095bd0b90b73d481bb6a7630ad89"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a496f239620a204de7043218771fd55d4"><td class="memItemLeft" align="right" valign="top">Task&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_message_content.html">MessageContent</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_i_command.html#a496f239620a204de7043218771fd55d4">Invoke</a> (string arguments, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_user.html">ChatUser</a> user, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a496f239620a204de7043218771fd55d4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Invoke the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_i_command.html" title="Represents a command that can be invoked by talking to chat bots.">ICommand</a>.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_i_command.html#a496f239620a204de7043218771fd55d4">More...</a><br /></td></tr>
-<tr class="separator:a496f239620a204de7043218771fd55d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<dl class="section return"><dt>Returns</dt><dd>A ValueTask&lt;TResult&gt; resulting in a MessageContent to send to the invoker.</dd></dl>
+  <a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_byond_command.html#a863aa6d400cc5f25b94503e62d9d9d6e">More...</a><br /></td></tr>
+<tr class="separator:a863aa6d400cc5f25b94503e62d9d9d6e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a839fdafcec724d77ef18522a03b00fca"><td class="memItemLeft" align="right" valign="top">ValueTask&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_message_content.html">MessageContent</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_i_command.html#a839fdafcec724d77ef18522a03b00fca">Invoke</a> (string arguments, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_user.html">ChatUser</a> user, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a839fdafcec724d77ef18522a03b00fca"><td class="mdescLeft">&#160;</td><td class="mdescRight">Invoke the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_i_command.html" title="Represents a command that can be invoked by talking to chat bots.">ICommand</a>.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_i_command.html#a839fdafcec724d77ef18522a03b00fca">More...</a><br /></td></tr>
+<tr class="separator:a839fdafcec724d77ef18522a03b00fca"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="properties" name="properties"></a>
 Properties</h2></td></tr>
@@ -217,14 +217,14 @@ Private Attributes</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a600e095bd0b90b73d481bb6a7630ad89" name="a600e095bd0b90b73d481bb6a7630ad89"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a600e095bd0b90b73d481bb6a7630ad89">&#9670;&#160;</a></span>Invoke()</h2>
+<a id="a863aa6d400cc5f25b94503e62d9d9d6e" name="a863aa6d400cc5f25b94503e62d9d9d6e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a863aa6d400cc5f25b94503e62d9d9d6e">&#9670;&#160;</a></span>Invoke()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">Task&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_message_content.html">MessageContent</a> &gt; Tgstation.Server.Host.Components.Chat.Commands.ByondCommand.Invoke </td>
+          <td class="memname">ValueTask&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_message_content.html">MessageContent</a> &gt; Tgstation.Server.Host.Components.Chat.Commands.ByondCommand.Invoke </td>
           <td>(</td>
           <td class="paramtype">string&#160;</td>
           <td class="paramname"><em>arguments</em>, </td>
@@ -257,24 +257,24 @@ Private Attributes</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in a MessageContent to send to the invoker.</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A ValueTask&lt;TResult&gt; resulting in a MessageContent to send to the invoker.</dd></dl>
  </p>
 
-<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_i_command.html#a496f239620a204de7043218771fd55d4">Tgstation.Server.Host.Components.Chat.Commands.ICommand</a>.</p>
+<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_i_command.html#a839fdafcec724d77ef18522a03b00fca">Tgstation.Server.Host.Components.Chat.Commands.ICommand</a>.</p>
 
 <p class="definition">Definition at line <a class="el" href="_byond_command_8cs_source.html#l00050">50</a> of file <a class="el" href="_byond_command_8cs_source.html">ByondCommand.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   51</span>        {</div>
 <div class="line"><span class="lineno">   52</span>            <span class="keywordflow">if</span> (arguments.Split(<span class="charliteral">&#39; &#39;</span>).Any(x =&gt; x.ToUpperInvariant() == <span class="stringliteral">&quot;--ACTIVE&quot;</span>))</div>
-<div class="line"><span class="lineno">   53</span>                <span class="keywordflow">return</span> Task.FromResult(<span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_message_content.html">MessageContent</a></div>
+<div class="line"><span class="lineno">   53</span>                <span class="keywordflow">return</span> ValueTask.FromResult(<span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_message_content.html">MessageContent</a></div>
 <div class="line"><span class="lineno">   54</span>                {</div>
 <div class="line"><span class="lineno">   55</span>                    Text = byondManager.ActiveVersion == <span class="keyword">null</span> ? <span class="stringliteral">&quot;None!&quot;</span> : String.Format(CultureInfo.InvariantCulture, <span class="stringliteral">&quot;{0}.{1}&quot;</span>, <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_byond_command.html#a65e3da64c0d52b3811a21952e5bcae28">byondManager</a>.<a class="code hl_property" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_i_byond_manager.html#a4bbf7c36cfdbbbdc5a87813d0d6959f6">ActiveVersion</a>.Major, <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_byond_command.html#a65e3da64c0d52b3811a21952e5bcae28">byondManager</a>.<a class="code hl_property" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_i_byond_manager.html#a4bbf7c36cfdbbbdc5a87813d0d6959f6">ActiveVersion</a>.Minor),</div>
 <div class="line"><span class="lineno">   56</span>                });</div>
 <div class="line"><span class="lineno">   57</span>            <span class="keywordflow">if</span> (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_byond_command.html#a90292e2c1149c3d0e92a79d98968be44">watchdog</a>.<a class="code hl_property" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_watchdog.html#a81f00a3e7109a861886d14e6233d8b43">Status</a> == <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#abcc98739b8feb9dd6744647f287e0683">WatchdogStatus</a>.Offline)</div>
-<div class="line"><span class="lineno">   58</span>                <span class="keywordflow">return</span> Task.FromResult(<span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_message_content.html">MessageContent</a></div>
+<div class="line"><span class="lineno">   58</span>                <span class="keywordflow">return</span> ValueTask.FromResult(<span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_message_content.html">MessageContent</a></div>
 <div class="line"><span class="lineno">   59</span>                {</div>
 <div class="line"><span class="lineno">   60</span>                    Text = <span class="stringliteral">&quot;Server offline!&quot;</span>,</div>
 <div class="line"><span class="lineno">   61</span>                });</div>
-<div class="line"><span class="lineno">   62</span>            <span class="keywordflow">return</span> Task.FromResult(<span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_message_content.html">MessageContent</a></div>
+<div class="line"><span class="lineno">   62</span>            <span class="keywordflow">return</span> ValueTask.FromResult(<span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_message_content.html">MessageContent</a></div>
 <div class="line"><span class="lineno">   63</span>            {</div>
 <div class="line"><span class="lineno">   64</span>                Text = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_byond_command.html#a90292e2c1149c3d0e92a79d98968be44">watchdog</a>.<a class="code hl_property" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_watchdog.html#a23f9971c8bc84a87cfaf08744eaaee0d">ActiveCompileJob</a>?.ByondVersion ?? <span class="stringliteral">&quot;None!&quot;</span>,</div>
 <div class="line"><span class="lineno">   65</span>            });</div>

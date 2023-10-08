@@ -1,4 +1,4 @@
 <map id="Tgstation.Server.Host.Service.ServerService.RunWatchdog" name="Tgstation.Server.Host.Service.ServerService.RunWatchdog">
 <area shape="rect" id="node1" title="Executes the watchdog , stopping the service if it exits." alt="" coords="5,5,204,45"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_watchdog.html#a0c7358d5daa1a04c517e8a33c1c99de6" title="Run the IWatchdog." alt="" coords="252,5,464,45"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_watchdog.html#aba34e712e0cdbbd747feba6fb9f83176" title="Run the IWatchdog." alt="" coords="252,5,464,45"/>
 </map>

@@ -1,5 +1,5 @@
 <map id="Tgstation.Server.Host.Transfer.IFileTransferTicketProvider.CreateDownload" name="Tgstation.Server.Host.Transfer.IFileTransferTicketProvider.CreateDownload">
 <area shape="rect" id="node1" title="Create a FileTicketResponse for a download." alt="" coords="280,30,500,85"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#a4219acb56f80e826b3e1e86fbe66b08a" title="Download a LogFileResponse." alt="" coords="11,5,227,45"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#a9760c4def25e9918f91f51ea180c567e" title="Reads a given configurationRelativePath . A Task&lt;TResult&gt; resulting in the ConfigurationFileResponse ..." alt="" coords="5,69,232,109"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#aab04508f9021893da0268cf94411226f" title="Download a LogFileResponse." alt="" coords="11,5,227,45"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#a093a48365d7f50a317219b0cb742ef37" title="Reads a given configurationRelativePath . A ValueTask&lt;TResult&gt; resulting in the ConfigurationFileResp..." alt="" coords="5,69,232,109"/>
 </map>

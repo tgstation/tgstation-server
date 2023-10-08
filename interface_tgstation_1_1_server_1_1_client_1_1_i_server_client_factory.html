@@ -95,15 +95,15 @@ Inheritance diagram for Tgstation.Server.Client.IServerClientFactory:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:ad317ff4ff8bb6b4ee2106211fbd576a5"><td class="memItemLeft" align="right" valign="top">Task&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_server_information_response.html">ServerInformationResponse</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_server_client_factory.html#ad317ff4ff8bb6b4ee2106211fbd576a5">GetServerInformation</a> (Uri host, IEnumerable&lt; <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_request_logger.html">IRequestLogger</a> &gt;? requestLoggers=null, TimeSpan? timeout=null, CancellationToken cancellationToken=default)</td></tr>
-<tr class="memdesc:ad317ff4ff8bb6b4ee2106211fbd576a5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the ServerInformationResponse for a given <em>host</em> .   <a href="interface_tgstation_1_1_server_1_1_client_1_1_i_server_client_factory.html#ad317ff4ff8bb6b4ee2106211fbd576a5">More...</a><br /></td></tr>
-<tr class="separator:ad317ff4ff8bb6b4ee2106211fbd576a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1c050f73d45fa7028de0ba10079bf53f"><td class="memItemLeft" align="right" valign="top">Task&lt; <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_server_client.html">IServerClient</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_server_client_factory.html#a1c050f73d45fa7028de0ba10079bf53f">CreateFromLogin</a> (Uri host, string username, string password, IEnumerable&lt; <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_request_logger.html">IRequestLogger</a> &gt;? requestLoggers=null, TimeSpan? timeout=null, bool attemptLoginRefresh=true, CancellationToken cancellationToken=default)</td></tr>
-<tr class="memdesc:a1c050f73d45fa7028de0ba10079bf53f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_server_client.html" title="Main client for communicating with a server.">IServerClient</a> using a password login.   <a href="interface_tgstation_1_1_server_1_1_client_1_1_i_server_client_factory.html#a1c050f73d45fa7028de0ba10079bf53f">More...</a><br /></td></tr>
-<tr class="separator:a1c050f73d45fa7028de0ba10079bf53f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2c580db5eecc7ff27fb6ae0b64245ca0"><td class="memItemLeft" align="right" valign="top">Task&lt; <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_server_client.html">IServerClient</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_server_client_factory.html#a2c580db5eecc7ff27fb6ae0b64245ca0">CreateFromOAuth</a> (Uri host, string oAuthCode, <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a49b1c1275c0d47d43360f8c7619ec901">OAuthProvider</a> oAuthProvider, IEnumerable&lt; <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_request_logger.html">IRequestLogger</a> &gt;? requestLoggers=null, TimeSpan? timeout=null, CancellationToken cancellationToken=default)</td></tr>
-<tr class="memdesc:a2c580db5eecc7ff27fb6ae0b64245ca0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_server_client.html" title="Main client for communicating with a server.">IServerClient</a> using am OAuth login.   <a href="interface_tgstation_1_1_server_1_1_client_1_1_i_server_client_factory.html#a2c580db5eecc7ff27fb6ae0b64245ca0">More...</a><br /></td></tr>
-<tr class="separator:a2c580db5eecc7ff27fb6ae0b64245ca0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afc6ed39d00e71206c2e7ad6032d88341"><td class="memItemLeft" align="right" valign="top">ValueTask&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_server_information_response.html">ServerInformationResponse</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_server_client_factory.html#afc6ed39d00e71206c2e7ad6032d88341">GetServerInformation</a> (Uri host, IEnumerable&lt; <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_request_logger.html">IRequestLogger</a> &gt;? requestLoggers=null, TimeSpan? timeout=null, CancellationToken cancellationToken=default)</td></tr>
+<tr class="memdesc:afc6ed39d00e71206c2e7ad6032d88341"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the ServerInformationResponse for a given <em>host</em> .   <a href="interface_tgstation_1_1_server_1_1_client_1_1_i_server_client_factory.html#afc6ed39d00e71206c2e7ad6032d88341">More...</a><br /></td></tr>
+<tr class="separator:afc6ed39d00e71206c2e7ad6032d88341"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a98c9ea59ee8175d6f7ed071bd3ae394a"><td class="memItemLeft" align="right" valign="top">ValueTask&lt; <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_server_client.html">IServerClient</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_server_client_factory.html#a98c9ea59ee8175d6f7ed071bd3ae394a">CreateFromLogin</a> (Uri host, string username, string password, IEnumerable&lt; <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_request_logger.html">IRequestLogger</a> &gt;? requestLoggers=null, TimeSpan? timeout=null, bool attemptLoginRefresh=true, CancellationToken cancellationToken=default)</td></tr>
+<tr class="memdesc:a98c9ea59ee8175d6f7ed071bd3ae394a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_server_client.html" title="Main client for communicating with a server.">IServerClient</a> using a password login.   <a href="interface_tgstation_1_1_server_1_1_client_1_1_i_server_client_factory.html#a98c9ea59ee8175d6f7ed071bd3ae394a">More...</a><br /></td></tr>
+<tr class="separator:a98c9ea59ee8175d6f7ed071bd3ae394a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7ccda4f89d590a23ad3553035e95d8f0"><td class="memItemLeft" align="right" valign="top">ValueTask&lt; <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_server_client.html">IServerClient</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_server_client_factory.html#a7ccda4f89d590a23ad3553035e95d8f0">CreateFromOAuth</a> (Uri host, string oAuthCode, <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a49b1c1275c0d47d43360f8c7619ec901">OAuthProvider</a> oAuthProvider, IEnumerable&lt; <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_request_logger.html">IRequestLogger</a> &gt;? requestLoggers=null, TimeSpan? timeout=null, CancellationToken cancellationToken=default)</td></tr>
+<tr class="memdesc:a7ccda4f89d590a23ad3553035e95d8f0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_server_client.html" title="Main client for communicating with a server.">IServerClient</a> using am OAuth login.   <a href="interface_tgstation_1_1_server_1_1_client_1_1_i_server_client_factory.html#a7ccda4f89d590a23ad3553035e95d8f0">More...</a><br /></td></tr>
+<tr class="separator:a7ccda4f89d590a23ad3553035e95d8f0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a960a35829fa39c203ce78935e8228deb"><td class="memItemLeft" align="right" valign="top"><a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_server_client.html">IServerClient</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_server_client_factory.html#a960a35829fa39c203ce78935e8228deb">CreateFromToken</a> (Uri host, <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_token_response.html">TokenResponse</a> token)</td></tr>
 <tr class="memdesc:a960a35829fa39c203ce78935e8228deb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_server_client.html" title="Main client for communicating with a server.">IServerClient</a>.   <a href="interface_tgstation_1_1_server_1_1_client_1_1_i_server_client_factory.html#a960a35829fa39c203ce78935e8228deb">More...</a><br /></td></tr>
 <tr class="separator:a960a35829fa39c203ce78935e8228deb"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -113,14 +113,14 @@ Public Member Functions</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="_i_server_client_factory_8cs_source.html#l00014">14</a> of file <a class="el" href="_i_server_client_factory_8cs_source.html">IServerClientFactory.cs</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a id="a1c050f73d45fa7028de0ba10079bf53f" name="a1c050f73d45fa7028de0ba10079bf53f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1c050f73d45fa7028de0ba10079bf53f">&#9670;&#160;</a></span>CreateFromLogin()</h2>
+<a id="a98c9ea59ee8175d6f7ed071bd3ae394a" name="a98c9ea59ee8175d6f7ed071bd3ae394a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a98c9ea59ee8175d6f7ed071bd3ae394a">&#9670;&#160;</a></span>CreateFromLogin()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">Task&lt; <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_server_client.html">IServerClient</a> &gt; Tgstation.Server.Client.IServerClientFactory.CreateFromLogin </td>
+          <td class="memname">ValueTask&lt; <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_server_client.html">IServerClient</a> &gt; Tgstation.Server.Client.IServerClientFactory.CreateFromLogin </td>
           <td>(</td>
           <td class="paramtype">Uri&#160;</td>
           <td class="paramname"><em>host</em>, </td>
@@ -182,20 +182,20 @@ Public Member Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in a new <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_server_client.html" title="Main client for communicating with a server.">IServerClient</a>.</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A ValueTask&lt;TResult&gt; resulting in a new <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_server_client.html" title="Main client for communicating with a server.">IServerClient</a>.</dd></dl>
 
-<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_server_client_factory.html#ac6b3d4fa0296c5683978385873acf3fc">Tgstation.Server.Client.ServerClientFactory</a>.</p>
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_server_client_factory.html#a430da725226ffc80e16a8585c7d7eab9">Tgstation.Server.Client.ServerClientFactory</a>.</p>
 
 </div>
 </div>
-<a id="a2c580db5eecc7ff27fb6ae0b64245ca0" name="a2c580db5eecc7ff27fb6ae0b64245ca0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2c580db5eecc7ff27fb6ae0b64245ca0">&#9670;&#160;</a></span>CreateFromOAuth()</h2>
+<a id="a7ccda4f89d590a23ad3553035e95d8f0" name="a7ccda4f89d590a23ad3553035e95d8f0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7ccda4f89d590a23ad3553035e95d8f0">&#9670;&#160;</a></span>CreateFromOAuth()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">Task&lt; <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_server_client.html">IServerClient</a> &gt; Tgstation.Server.Client.IServerClientFactory.CreateFromOAuth </td>
+          <td class="memname">ValueTask&lt; <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_server_client.html">IServerClient</a> &gt; Tgstation.Server.Client.IServerClientFactory.CreateFromOAuth </td>
           <td>(</td>
           <td class="paramtype">Uri&#160;</td>
           <td class="paramname"><em>host</em>, </td>
@@ -250,9 +250,9 @@ Public Member Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in a new <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_server_client.html" title="Main client for communicating with a server.">IServerClient</a>.</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A ValueTask&lt;TResult&gt; resulting in a new <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_server_client.html" title="Main client for communicating with a server.">IServerClient</a>.</dd></dl>
 
-<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_server_client_factory.html#acf31334390ab2823fa7999f33eaee17e">Tgstation.Server.Client.ServerClientFactory</a>.</p>
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_server_client_factory.html#a5c86ed9aba697ed31dfb6921e8572706">Tgstation.Server.Client.ServerClientFactory</a>.</p>
 
 </div>
 </div>
@@ -296,14 +296,14 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="ad317ff4ff8bb6b4ee2106211fbd576a5" name="ad317ff4ff8bb6b4ee2106211fbd576a5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad317ff4ff8bb6b4ee2106211fbd576a5">&#9670;&#160;</a></span>GetServerInformation()</h2>
+<a id="afc6ed39d00e71206c2e7ad6032d88341" name="afc6ed39d00e71206c2e7ad6032d88341"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afc6ed39d00e71206c2e7ad6032d88341">&#9670;&#160;</a></span>GetServerInformation()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">Task&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_server_information_response.html">ServerInformationResponse</a> &gt; Tgstation.Server.Client.IServerClientFactory.GetServerInformation </td>
+          <td class="memname">ValueTask&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_server_information_response.html">ServerInformationResponse</a> &gt; Tgstation.Server.Client.IServerClientFactory.GetServerInformation </td>
           <td>(</td>
           <td class="paramtype">Uri&#160;</td>
           <td class="paramname"><em>host</em>, </td>
@@ -344,9 +344,9 @@ Public Member Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in the ServerInformationResponse.</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A ValueTask&lt;TResult&gt; resulting in the ServerInformationResponse.</dd></dl>
 
-<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_server_client_factory.html#a6664e8fbfab210d343e8d13a9cff87c2">Tgstation.Server.Client.ServerClientFactory</a>.</p>
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_server_client_factory.html#aa5461ed5834609085bdc98b12d242171">Tgstation.Server.Client.ServerClientFactory</a>.</p>
 
 </div>
 </div>

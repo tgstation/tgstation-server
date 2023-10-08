@@ -1,0 +1,6 @@
+<map id="Tgstation.Server.Host.Components.Repository.Repository.UpdateSubmodules" name="Tgstation.Server.Host.Components.Repository.Repository.UpdateSubmodules">
+<area shape="rect" id="node1" title="Recusively update all Submodules in the libGitRepo." alt="" coords="296,69,560,109"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html#a5202e16405c7ee91f6a678105f04ee15" title="Attempt to merge the revision specified by a given set of testMergeParameters &#160;into HEAD...." alt="" coords="9,5,244,45"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html#af9048b07651a81305831b76062404505" title="Checks out a given committish . A ValueTask representing the running operation." alt="" coords="5,69,248,109"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html#afd7f26dda149c3bce6823987eb3ea15b" title="Requires the current HEAD to be a tracked reference. Hard resets the reference to what it tracks on t..." alt="" coords="10,133,243,173"/>
+</map>

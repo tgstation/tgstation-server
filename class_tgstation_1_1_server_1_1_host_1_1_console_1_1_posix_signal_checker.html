@@ -109,20 +109,20 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aecfd1efae8ae4860b0f7fa3a3ee114f2"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_console_1_1_posix_signal_checker.html#aecfd1efae8ae4860b0f7fa3a3ee114f2">PosixSignalChecker</a> (ILogger&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_console_1_1_posix_signal_checker.html">PosixSignalChecker</a> &gt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_console_1_1_posix_signal_checker.html#a610e5f5b56178a32c13f4b7769b707e4">logger</a>)</td></tr>
 <tr class="memdesc:aecfd1efae8ae4860b0f7fa3a3ee114f2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes a new instance of the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_console_1_1_posix_signal_checker.html" title="ISignalChecker for checking POSIX signals.">PosixSignalChecker</a> class.   <a href="class_tgstation_1_1_server_1_1_host_1_1_console_1_1_posix_signal_checker.html#aecfd1efae8ae4860b0f7fa3a3ee114f2">More...</a><br /></td></tr>
 <tr class="separator:aecfd1efae8ae4860b0f7fa3a3ee114f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab124a972f2b2c714d2c965448ec035aa"><td class="memItemLeft" align="right" valign="top">async Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_console_1_1_posix_signal_checker.html#ab124a972f2b2c714d2c965448ec035aa">CheckSignals</a> (Func&lt; string,(int, Task)&gt; startChild, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:ab124a972f2b2c714d2c965448ec035aa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Relays signals received to the host process. <dl class="params"><dt>Parameters</dt><dd>
+<tr class="memitem:aa6ef6e0d4e1b495d843f9248de85c5a1"><td class="memItemLeft" align="right" valign="top">async ValueTask&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_console_1_1_posix_signal_checker.html#aa6ef6e0d4e1b495d843f9248de85c5a1">CheckSignals</a> (Func&lt; string,(int, Task)&gt; startChild, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:aa6ef6e0d4e1b495d843f9248de85c5a1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Relays signals received to the host process. <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">startChild</td><td>An Func&lt;TResult&gt; to start the main process. It accepts an optional additional command line argument as a paramter and returns it's System.Diagnostics.Process.Id and lifetime Task.</td></tr>
     <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A Task representing the running operation.</dd></dl>
-  <a href="class_tgstation_1_1_server_1_1_host_1_1_console_1_1_posix_signal_checker.html#ab124a972f2b2c714d2c965448ec035aa">More...</a><br /></td></tr>
-<tr class="separator:ab124a972f2b2c714d2c965448ec035aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af386b0a3dcac0fff58ac756caec829d5"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_signal_checker.html#af386b0a3dcac0fff58ac756caec829d5">CheckSignals</a> (Func&lt; string,(int, Task)&gt; startChild, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:af386b0a3dcac0fff58ac756caec829d5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Relays signals received to the host process.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_signal_checker.html#af386b0a3dcac0fff58ac756caec829d5">More...</a><br /></td></tr>
-<tr class="separator:af386b0a3dcac0fff58ac756caec829d5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<dl class="section return"><dt>Returns</dt><dd>A ValueTask representing the running operation.</dd></dl>
+  <a href="class_tgstation_1_1_server_1_1_host_1_1_console_1_1_posix_signal_checker.html#aa6ef6e0d4e1b495d843f9248de85c5a1">More...</a><br /></td></tr>
+<tr class="separator:aa6ef6e0d4e1b495d843f9248de85c5a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af6772af01e3ced4ac70aece520542adf"><td class="memItemLeft" align="right" valign="top">ValueTask&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_signal_checker.html#af6772af01e3ced4ac70aece520542adf">CheckSignals</a> (Func&lt; string,(int, Task)&gt; startChild, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:af6772af01e3ced4ac70aece520542adf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Relays signals received to the host process.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_signal_checker.html#af6772af01e3ced4ac70aece520542adf">More...</a><br /></td></tr>
+<tr class="separator:af6772af01e3ced4ac70aece520542adf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
@@ -170,14 +170,14 @@ Private Attributes</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="ab124a972f2b2c714d2c965448ec035aa" name="ab124a972f2b2c714d2c965448ec035aa"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab124a972f2b2c714d2c965448ec035aa">&#9670;&#160;</a></span>CheckSignals()</h2>
+<a id="aa6ef6e0d4e1b495d843f9248de85c5a1" name="aa6ef6e0d4e1b495d843f9248de85c5a1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa6ef6e0d4e1b495d843f9248de85c5a1">&#9670;&#160;</a></span>CheckSignals()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">async Task Tgstation.Server.Host.Console.PosixSignalChecker.CheckSignals </td>
+          <td class="memname">async ValueTask Tgstation.Server.Host.Console.PosixSignalChecker.CheckSignals </td>
           <td>(</td>
           <td class="paramtype">Func&lt; string,(int, Task)&gt;&#160;</td>
           <td class="paramname"><em>startChild</em>, </td>
@@ -203,10 +203,10 @@ Private Attributes</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A Task representing the running operation.</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A ValueTask representing the running operation.</dd></dl>
  </p>
 
-<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_signal_checker.html#af386b0a3dcac0fff58ac756caec829d5">Tgstation.Server.Host.Watchdog.ISignalChecker</a>.</p>
+<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_signal_checker.html#af6772af01e3ced4ac70aece520542adf">Tgstation.Server.Host.Watchdog.ISignalChecker</a>.</p>
 
 <p class="definition">Definition at line <a class="el" href="_posix_signal_checker_8cs_source.html#l00034">34</a> of file <a class="el" href="_posix_signal_checker_8cs_source.html">PosixSignalChecker.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   35</span>        {</div>

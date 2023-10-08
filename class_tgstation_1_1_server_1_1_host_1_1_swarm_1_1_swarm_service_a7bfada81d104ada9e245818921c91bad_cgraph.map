@@ -1,7 +1,0 @@
-<map id="Tgstation.Server.Host.Swarm.SwarmService.Initialize" name="Tgstation.Server.Host.Swarm.SwarmService.Initialize">
-<area shape="rect" id="node1" title="Attempt to register with the swarm controller if not one, sets up the database otherwise...." alt="" coords="5,101,200,141"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a629900d5614b289a8701057e0436ec2d" title="Timed loop for calling HealthCheckNodes(CancellationToken)." alt="" coords="260,5,475,45"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_seeder.html#a62bc67dd82ccf210c92c01966640cb64" title="Setup up a given databaseContext ." alt="" coords="263,69,472,109"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#ade41eff6442a1a8fc025640738e746f2" title="Attempt to register the node with the controller." alt="" coords="248,133,487,173"/>
-<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_factory.html#ad22fce8fc51129e9da203dcef2f7ab42" title="Run an operation &#160;in the scope of an IDatabaseContext." alt="" coords="248,197,487,237"/>
-</map>

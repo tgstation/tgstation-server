@@ -109,8 +109,8 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a15b253fbfadb57eae2865a238de8342b"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog.html#a15b253fbfadb57eae2865a238de8342b">Watchdog</a> (<a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_signal_checker.html">ISignalChecker</a> <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog.html#a5f39816571e2d232a8f1113b351117a5">signalChecker</a>, ILogger&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog.html">Watchdog</a> &gt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog.html#a247d89dab45478183870bbdac843dbde">logger</a>)</td></tr>
 <tr class="memdesc:a15b253fbfadb57eae2865a238de8342b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes a new instance of the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog.html">Watchdog</a> class.   <a href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog.html#a15b253fbfadb57eae2865a238de8342b">More...</a><br /></td></tr>
 <tr class="separator:a15b253fbfadb57eae2865a238de8342b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad4a2d4c2f97de9b534c9d1d7b0248cc7"><td class="memItemLeft" align="right" valign="top">async Task&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog.html#ad4a2d4c2f97de9b534c9d1d7b0248cc7">RunAsync</a> (bool runConfigure, string[] args, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:ad4a2d4c2f97de9b534c9d1d7b0248cc7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Run the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_watchdog.html" title="The watchdog for a Host.">IWatchdog</a>. <dl class="params"><dt>Parameters</dt><dd>
+<tr class="memitem:af5a9c87dbb3e13ad9d0be80df36eab15"><td class="memItemLeft" align="right" valign="top">async ValueTask&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog.html#af5a9c87dbb3e13ad9d0be80df36eab15">RunAsync</a> (bool runConfigure, string[] args, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:af5a9c87dbb3e13ad9d0be80df36eab15"><td class="mdescLeft">&#160;</td><td class="mdescRight">Run the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_watchdog.html" title="The watchdog for a Host.">IWatchdog</a>. <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">runConfigure</td><td>If the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_watchdog.html" title="The watchdog for a Host.">IWatchdog</a> should just run the host configuration wizard and exit.</td></tr>
     <tr><td class="paramname">args</td><td>The arguments for the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_watchdog.html" title="The watchdog for a Host.">IWatchdog</a>.</td></tr>
@@ -118,21 +118,21 @@ Public Member Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in <code>true</code> if there were no errors, <code>false</code> otherwise.</dd></dl>
-  <a href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog.html#ad4a2d4c2f97de9b534c9d1d7b0248cc7">More...</a><br /></td></tr>
-<tr class="separator:ad4a2d4c2f97de9b534c9d1d7b0248cc7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0c7358d5daa1a04c517e8a33c1c99de6"><td class="memItemLeft" align="right" valign="top">Task&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_watchdog.html#a0c7358d5daa1a04c517e8a33c1c99de6">RunAsync</a> (bool runConfigure, string[] args, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a0c7358d5daa1a04c517e8a33c1c99de6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Run the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_watchdog.html" title="The watchdog for a Host.">IWatchdog</a>.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_watchdog.html#a0c7358d5daa1a04c517e8a33c1c99de6">More...</a><br /></td></tr>
-<tr class="separator:a0c7358d5daa1a04c517e8a33c1c99de6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<dl class="section return"><dt>Returns</dt><dd>A ValueTask&lt;TResult&gt; resulting in <code>true</code> if there were no errors, <code>false</code> otherwise.</dd></dl>
+  <a href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog.html#af5a9c87dbb3e13ad9d0be80df36eab15">More...</a><br /></td></tr>
+<tr class="separator:af5a9c87dbb3e13ad9d0be80df36eab15"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aba34e712e0cdbbd747feba6fb9f83176"><td class="memItemLeft" align="right" valign="top">ValueTask&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_watchdog.html#aba34e712e0cdbbd747feba6fb9f83176">RunAsync</a> (bool runConfigure, string[] args, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:aba34e712e0cdbbd747feba6fb9f83176"><td class="mdescLeft">&#160;</td><td class="mdescRight">Run the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_watchdog.html" title="The watchdog for a Host.">IWatchdog</a>.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_watchdog.html#aba34e712e0cdbbd747feba6fb9f83176">More...</a><br /></td></tr>
+<tr class="separator:aba34e712e0cdbbd747feba6fb9f83176"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="properties" name="properties"></a>
 Properties</h2></td></tr>
 <tr class="memitem:a109d7ab390cc282399878389a5da4cca"><td class="memItemLeft" align="right" valign="top">Version&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog.html#a109d7ab390cc282399878389a5da4cca">InitialHostVersion</a><code> [get, private set]</code></td></tr>
-<tr class="memdesc:a109d7ab390cc282399878389a5da4cca"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the current version of the host process. Set once <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_watchdog.html#a0c7358d5daa1a04c517e8a33c1c99de6" title="Run the IWatchdog.">RunAsync(bool, string[], CancellationToken)</a> begins and doesn't immediately return <code>false</code>.   <a href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog.html#a109d7ab390cc282399878389a5da4cca">More...</a><br /></td></tr>
+<tr class="memdesc:a109d7ab390cc282399878389a5da4cca"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the current version of the host process. Set once <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_watchdog.html#aba34e712e0cdbbd747feba6fb9f83176" title="Run the IWatchdog.">RunAsync(bool, string[], CancellationToken)</a> begins and doesn't immediately return <code>false</code>.   <a href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog.html#a109d7ab390cc282399878389a5da4cca">More...</a><br /></td></tr>
 <tr class="separator:a109d7ab390cc282399878389a5da4cca"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header properties_interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_watchdog"><td colspan="2" onclick="javascript:toggleInherit('properties_interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_watchdog')"><img src="closed.png" alt="-"/>&#160;Properties inherited from <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_watchdog.html">Tgstation.Server.Host.Watchdog.IWatchdog</a></td></tr>
 <tr class="memitem:a4979974fac757c23f53faa99df036e7e inherit properties_interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_watchdog"><td class="memItemLeft" align="right" valign="top">Version&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_watchdog.html#a4979974fac757c23f53faa99df036e7e">InitialHostVersion</a><code> [get]</code></td></tr>
-<tr class="memdesc:a4979974fac757c23f53faa99df036e7e inherit properties_interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_watchdog"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the current version of the host process. Set once <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_watchdog.html#a0c7358d5daa1a04c517e8a33c1c99de6" title="Run the IWatchdog.">RunAsync(bool, string[], CancellationToken)</a> begins and doesn't immediately return <code>false</code>.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_watchdog.html#a4979974fac757c23f53faa99df036e7e">More...</a><br /></td></tr>
+<tr class="memdesc:a4979974fac757c23f53faa99df036e7e inherit properties_interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_watchdog"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the current version of the host process. Set once <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_watchdog.html#aba34e712e0cdbbd747feba6fb9f83176" title="Run the IWatchdog.">RunAsync(bool, string[], CancellationToken)</a> begins and doesn't immediately return <code>false</code>.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_watchdog.html#a4979974fac757c23f53faa99df036e7e">More...</a><br /></td></tr>
 <tr class="separator:a4979974fac757c23f53faa99df036e7e inherit properties_interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_watchdog"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-methods" name="pri-methods"></a>
@@ -281,20 +281,20 @@ Here is the caller graph for this function:</div>
 <div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog_a8d0f1fffc5a866c3d542d2e1c106fbb4_icgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog_a8d0f1fffc5a866c3d542d2e1c106fbb4_icgraph" alt=""/></div>
 <map name="aclass_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog_a8d0f1fffc5a866c3d542d2e1c106fbb4_icgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog_a8d0f1fffc5a866c3d542d2e1c106fbb4_icgraph">
 <area shape="rect" title="Gets the path to the dotnet executable." alt="" coords="265,5,477,45"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog.html#ad4a2d4c2f97de9b534c9d1d7b0248cc7" title="Run the IWatchdog. A Task&lt;TResult&gt; resulting in true if there were no errors, false otherwise." alt="" coords="5,5,217,45"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog.html#af5a9c87dbb3e13ad9d0be80df36eab15" title="Run the IWatchdog. A ValueTask&lt;TResult&gt; resulting in true if there were no errors,..." alt="" coords="5,5,217,45"/>
 </map>
 </div>
 
 </div>
 </div>
-<a id="ad4a2d4c2f97de9b534c9d1d7b0248cc7" name="ad4a2d4c2f97de9b534c9d1d7b0248cc7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad4a2d4c2f97de9b534c9d1d7b0248cc7">&#9670;&#160;</a></span>RunAsync()</h2>
+<a id="af5a9c87dbb3e13ad9d0be80df36eab15" name="af5a9c87dbb3e13ad9d0be80df36eab15"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af5a9c87dbb3e13ad9d0be80df36eab15">&#9670;&#160;</a></span>RunAsync()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">async Task&lt; bool &gt; Tgstation.Server.Host.Watchdog.Watchdog.RunAsync </td>
+          <td class="memname">async ValueTask&lt; bool &gt; Tgstation.Server.Host.Watchdog.Watchdog.RunAsync </td>
           <td>(</td>
           <td class="paramtype">bool&#160;</td>
           <td class="paramname"><em>runConfigure</em>, </td>
@@ -327,10 +327,10 @@ Here is the caller graph for this function:</div>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in <code>true</code> if there were no errors, <code>false</code> otherwise.</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A ValueTask&lt;TResult&gt; resulting in <code>true</code> if there were no errors, <code>false</code> otherwise.</dd></dl>
  </p>
 
-<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_watchdog.html#a0c7358d5daa1a04c517e8a33c1c99de6">Tgstation.Server.Host.Watchdog.IWatchdog</a>.</p>
+<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_watchdog.html#aba34e712e0cdbbd747feba6fb9f83176">Tgstation.Server.Host.Watchdog.IWatchdog</a>.</p>
 
 <p class="definition">Definition at line <a class="el" href="_watchdog_8cs_source.html#l00049">49</a> of file <a class="el" href="_watchdog_8cs_source.html">Watchdog.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   50</span>        {</div>
@@ -475,7 +475,7 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">  189</span>                                {</div>
 <div class="line"><span class="lineno">  190</span>                                    <span class="keyword">using </span>var cts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);</div>
 <div class="line"><span class="lineno">  191</span> </div>
-<div class="line"><span class="lineno">  192</span>                                    var checkerTask = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog.html#a5f39816571e2d232a8f1113b351117a5">signalChecker</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_signal_checker.html#af386b0a3dcac0fff58ac756caec829d5">CheckSignals</a>(StartProcess, cts.Token);</div>
+<div class="line"><span class="lineno">  192</span>                                    var checkerTask = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog.html#a5f39816571e2d232a8f1113b351117a5">signalChecker</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_signal_checker.html#af6772af01e3ced4ac70aece520542adf">CheckSignals</a>(StartProcess, cts.Token);</div>
 <div class="line"><span class="lineno">  193</span>                                    <span class="keywordflow">try</span></div>
 <div class="line"><span class="lineno">  194</span>                                    {</div>
 <div class="line"><span class="lineno">  195</span>                                        await processTask;</div>
@@ -636,18 +636,18 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">  350</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog_html_a109d7ab390cc282399878389a5da4cca"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog.html#a109d7ab390cc282399878389a5da4cca">Tgstation.Server.Host.Watchdog.Watchdog.InitialHostVersion</a></div><div class="ttdeci">Version InitialHostVersion</div><div class="ttdoc">Gets the current version of the host process. Set once RunAsync(bool, string[], CancellationToken) be...</div><div class="ttdef"><b>Definition:</b> <a href="_watchdog_8cs_source.html#l00023">Watchdog.cs:23</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog_html_a8d0f1fffc5a866c3d542d2e1c106fbb4"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog.html#a8d0f1fffc5a866c3d542d2e1c106fbb4">Tgstation.Server.Host.Watchdog.Watchdog.GetDotnetPath</a></div><div class="ttdeci">string GetDotnetPath(bool isWindows)</div><div class="ttdoc">Gets the path to the dotnet executable.</div><div class="ttdef"><b>Definition:</b> <a href="_watchdog_8cs_source.html#l00359">Watchdog.cs:359</a></div></div>
-<div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_signal_checker_html_af386b0a3dcac0fff58ac756caec829d5"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_signal_checker.html#af386b0a3dcac0fff58ac756caec829d5">Tgstation.Server.Host.Watchdog.ISignalChecker.CheckSignals</a></div><div class="ttdeci">Task CheckSignals(Func&lt; string,(int, Task)&gt; startChild, CancellationToken cancellationToken)</div><div class="ttdoc">Relays signals received to the host process.</div></div>
+<div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_signal_checker_html_af6772af01e3ced4ac70aece520542adf"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_signal_checker.html#af6772af01e3ced4ac70aece520542adf">Tgstation.Server.Host.Watchdog.ISignalChecker.CheckSignals</a></div><div class="ttdeci">ValueTask CheckSignals(Func&lt; string,(int, Task)&gt; startChild, CancellationToken cancellationToken)</div><div class="ttdoc">Relays signals received to the host process.</div></div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_host_1_1_common_html_a839ae2909dd0bfbfc4d06a404f9b4fde"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_host_1_1_common.html#a839ae2909dd0bfbfc4d06a404f9b4fde">Tgstation.Server.Host.Common.HostExitCode</a></div><div class="ttdeci">HostExitCode</div><div class="ttdoc">Represents the exit code of the Host program.</div><div class="ttdef"><b>Definition:</b> <a href="_host_exit_code_8cs_source.html#l00006">HostExitCode.cs:7</a></div></div>
 <div class="ttc" id="anamespace_tgstation_html"><div class="ttname"><a href="namespace_tgstation.html">Tgstation</a></div><div class="ttdef"><b>Definition:</b> <a href="_installation_extensions_8cs_source.html#l00001">InstallationExtensions.cs:2</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_signal_checker.html#af386b0a3dcac0fff58ac756caec829d5">Tgstation.Server.Host.Watchdog.ISignalChecker.CheckSignals()</a>, <a class="el" href="_watchdog_8cs_source.html#l00359">Tgstation.Server.Host.Watchdog.Watchdog.GetDotnetPath()</a>, <a class="el" href="_watchdog_8cs_source.html#l00023">Tgstation.Server.Host.Watchdog.Watchdog.InitialHostVersion</a>, <a class="el" href="_watchdog_8cs_source.html#l00033">Tgstation.Server.Host.Watchdog.Watchdog.logger</a>, and <a class="el" href="_watchdog_8cs_source.html#l00028">Tgstation.Server.Host.Watchdog.Watchdog.signalChecker</a>.</p>
+<p class="reference">References <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_signal_checker.html#af6772af01e3ced4ac70aece520542adf">Tgstation.Server.Host.Watchdog.ISignalChecker.CheckSignals()</a>, <a class="el" href="_watchdog_8cs_source.html#l00359">Tgstation.Server.Host.Watchdog.Watchdog.GetDotnetPath()</a>, <a class="el" href="_watchdog_8cs_source.html#l00023">Tgstation.Server.Host.Watchdog.Watchdog.InitialHostVersion</a>, <a class="el" href="_watchdog_8cs_source.html#l00033">Tgstation.Server.Host.Watchdog.Watchdog.logger</a>, and <a class="el" href="_watchdog_8cs_source.html#l00028">Tgstation.Server.Host.Watchdog.Watchdog.signalChecker</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog_ad4a2d4c2f97de9b534c9d1d7b0248cc7_cgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog_ad4a2d4c2f97de9b534c9d1d7b0248cc7_cgraph" alt=""/></div>
-<map name="aclass_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog_ad4a2d4c2f97de9b534c9d1d7b0248cc7_cgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog_ad4a2d4c2f97de9b534c9d1d7b0248cc7_cgraph">
-<area shape="rect" title="Run the IWatchdog. A Task&lt;TResult&gt; resulting in true if there were no errors, false otherwise." alt="" coords="5,37,217,77"/>
-<area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_signal_checker.html#af386b0a3dcac0fff58ac756caec829d5" title="Relays signals received to the host process." alt="" coords="265,5,477,45"/>
+<div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog_af5a9c87dbb3e13ad9d0be80df36eab15_cgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog_af5a9c87dbb3e13ad9d0be80df36eab15_cgraph" alt=""/></div>
+<map name="aclass_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog_af5a9c87dbb3e13ad9d0be80df36eab15_cgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog_af5a9c87dbb3e13ad9d0be80df36eab15_cgraph">
+<area shape="rect" title="Run the IWatchdog. A ValueTask&lt;TResult&gt; resulting in true if there were no errors,..." alt="" coords="5,37,217,77"/>
+<area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_signal_checker.html#af6772af01e3ced4ac70aece520542adf" title="Relays signals received to the host process." alt="" coords="265,5,477,45"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog.html#a8d0f1fffc5a866c3d542d2e1c106fbb4" title="Gets the path to the dotnet executable." alt="" coords="265,69,477,109"/>
 </map>
 </div>
@@ -732,7 +732,7 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p>Gets the current version of the host process. Set once <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_watchdog.html#a0c7358d5daa1a04c517e8a33c1c99de6" title="Run the IWatchdog.">RunAsync(bool, string[], CancellationToken)</a> begins and doesn't immediately return <code>false</code>.  </p>
+<p>Gets the current version of the host process. Set once <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_watchdog.html#aba34e712e0cdbbd747feba6fb9f83176" title="Run the IWatchdog.">RunAsync(bool, string[], CancellationToken)</a> begins and doesn't immediately return <code>false</code>.  </p>
 
 <p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_watchdog.html#a4979974fac757c23f53faa99df036e7e">Tgstation.Server.Host.Watchdog.IWatchdog</a>.</p>
 

@@ -108,9 +108,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a456a4c98f9b668fe2cba461351d6eb95"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_lib_git2_repository_factory.html#a456a4c98f9b668fe2cba461351d6eb95">CreateInMemory</a> ()</td></tr>
 <tr class="memdesc:a456a4c98f9b668fe2cba461351d6eb95"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create and destory an in-memeory LibGit2Sharp.IRepository.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_lib_git2_repository_factory.html#a456a4c98f9b668fe2cba461351d6eb95">More...</a><br /></td></tr>
 <tr class="separator:a456a4c98f9b668fe2cba461351d6eb95"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa86c655ce5936565a44676012522a938"><td class="memItemLeft" align="right" valign="top">Task&lt; LibGit2Sharp.IRepository &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_lib_git2_repository_factory.html#aa86c655ce5936565a44676012522a938">CreateFromPath</a> (string path, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:aa86c655ce5936565a44676012522a938"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load a LibGit2Sharp.IRepository from a given <em>path</em> .   <a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_lib_git2_repository_factory.html#aa86c655ce5936565a44676012522a938">More...</a><br /></td></tr>
-<tr class="separator:aa86c655ce5936565a44676012522a938"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa2a092f96f2408453c2a1b5d5b0a4f30"><td class="memItemLeft" align="right" valign="top">ValueTask&lt; LibGit2Sharp.IRepository &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_lib_git2_repository_factory.html#aa2a092f96f2408453c2a1b5d5b0a4f30">CreateFromPath</a> (string path, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:aa2a092f96f2408453c2a1b5d5b0a4f30"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load a LibGit2Sharp.IRepository from a given <em>path</em> .   <a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_lib_git2_repository_factory.html#aa2a092f96f2408453c2a1b5d5b0a4f30">More...</a><br /></td></tr>
+<tr class="separator:aa2a092f96f2408453c2a1b5d5b0a4f30"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0a6ed81450e50013e2ec1bae65e5f8cb"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_lib_git2_repository_factory.html#a0a6ed81450e50013e2ec1bae65e5f8cb">Clone</a> (Uri url, CloneOptions cloneOptions, string path, CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:a0a6ed81450e50013e2ec1bae65e5f8cb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clone a remote LibGit2Sharp.IRepository.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_lib_git2_repository_factory.html#a0a6ed81450e50013e2ec1bae65e5f8cb">More...</a><br /></td></tr>
 <tr class="separator:a0a6ed81450e50013e2ec1bae65e5f8cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -186,20 +186,20 @@ Here is the caller graph for this function:</div>
 <div class="center"><img src="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_lib_git2_repository_factory_a0a6ed81450e50013e2ec1bae65e5f8cb_icgraph.png" border="0" usemap="#ainterface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_lib_git2_repository_factory_a0a6ed81450e50013e2ec1bae65e5f8cb_icgraph" alt=""/></div>
 <map name="ainterface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_lib_git2_repository_factory_a0a6ed81450e50013e2ec1bae65e5f8cb_icgraph" id="ainterface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_lib_git2_repository_factory_a0a6ed81450e50013e2ec1bae65e5f8cb_icgraph">
 <area shape="rect" title="Clone a remote LibGit2Sharp.IRepository." alt="" coords="348,5,620,45"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository_manager.html#a52b3b88c2a5fe92ce0bce72d9f88c611" title="Clone the repository at url . The newly cloned IRepository, null if one already exists." alt="" coords="5,5,300,45"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository_manager.html#a1cdfc3d3de0af8072aacdff0afc0b648" title="Clone the repository at url . A ValueTask&lt;TResult&gt; resulting i the newly cloned IRepository,..." alt="" coords="5,5,300,45"/>
 </map>
 </div>
 
 </div>
 </div>
-<a id="aa86c655ce5936565a44676012522a938" name="aa86c655ce5936565a44676012522a938"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa86c655ce5936565a44676012522a938">&#9670;&#160;</a></span>CreateFromPath()</h2>
+<a id="aa2a092f96f2408453c2a1b5d5b0a4f30" name="aa2a092f96f2408453c2a1b5d5b0a4f30"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa2a092f96f2408453c2a1b5d5b0a4f30">&#9670;&#160;</a></span>CreateFromPath()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">Task&lt; LibGit2Sharp.IRepository &gt; Tgstation.Server.Host.Components.Repository.ILibGit2RepositoryFactory.CreateFromPath </td>
+          <td class="memname">ValueTask&lt; LibGit2Sharp.IRepository &gt; Tgstation.Server.Host.Components.Repository.ILibGit2RepositoryFactory.CreateFromPath </td>
           <td>(</td>
           <td class="paramtype">string&#160;</td>
           <td class="paramname"><em>path</em>, </td>
@@ -226,22 +226,22 @@ Here is the caller graph for this function:</div>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in the loaded LibGit2Sharp.IRepository.</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A ValueTask&lt;TResult&gt; resulting in the loaded LibGit2Sharp.IRepository.</dd></dl>
 
-<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_lib_git2_repository_factory.html#ab32babbeecda4cd7d097e9e292be8cfa">Tgstation.Server.Host.Components.Repository.LibGit2RepositoryFactory</a>.</p>
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_lib_git2_repository_factory.html#aa73b9b03774dac7fdc54f0df318a7dc0">Tgstation.Server.Host.Components.Repository.LibGit2RepositoryFactory</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="_repository_manager_8cs_source.html#l00205">Tgstation.Server.Host.Components.Repository.RepositoryManager.LoadRepository()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_lib_git2_repository_factory_aa86c655ce5936565a44676012522a938_icgraph.png" border="0" usemap="#ainterface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_lib_git2_repository_factory_aa86c655ce5936565a44676012522a938_icgraph" alt=""/></div>
-<map name="ainterface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_lib_git2_repository_factory_aa86c655ce5936565a44676012522a938_icgraph" id="ainterface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_lib_git2_repository_factory_aa86c655ce5936565a44676012522a938_icgraph">
+<div class="center"><img src="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_lib_git2_repository_factory_aa2a092f96f2408453c2a1b5d5b0a4f30_icgraph.png" border="0" usemap="#ainterface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_lib_git2_repository_factory_aa2a092f96f2408453c2a1b5d5b0a4f30_icgraph" alt=""/></div>
+<map name="ainterface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_lib_git2_repository_factory_aa2a092f96f2408453c2a1b5d5b0a4f30_icgraph" id="ainterface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_lib_git2_repository_factory_aa2a092f96f2408453c2a1b5d5b0a4f30_icgraph">
 <area shape="rect" title="Load a LibGit2Sharp.IRepository from a given path ." alt="" coords="1511,62,1749,117"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository_manager.html#ad44304880259ff6f82c328199ea6166f" title="Attempt to load the IRepository from the default location. The loaded IRepository if it exists,..." alt="" coords="1172,69,1463,109"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository_manager.html#a52b3b88c2a5fe92ce0bce72d9f88c611" title="Clone the repository at url . The newly cloned IRepository, null if one already exists." alt="" coords="829,5,1124,45"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#af8422c62401719f452a5c70cdb1d96d1" title="The JobEntrypoint for updating the repository." alt="" coords="863,69,1090,109"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository_manager.html#a2a47a14556b6d5bcad036cd1ffda5a06" title="Attempt to load the IRepository from the default location. A ValueTask&lt;TResult&gt; resulting in the load..." alt="" coords="1172,69,1463,109"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository_manager.html#a1cdfc3d3de0af8072aacdff0afc0b648" title="Clone the repository at url . A ValueTask&lt;TResult&gt; resulting i the newly cloned IRepository,..." alt="" coords="829,5,1124,45"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#af9b1ac10fa397ab985bbc5b0784aa431" title="The JobEntrypoint for updating the repository." alt="" coords="863,69,1090,109"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#afb736b47a7400fb861186b8dad1c4c4c" title="Pull the repository and compile for every set of given minutes ." alt="" coords="555,99,781,139"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a9c7e2863cce30a01be66c0ce1dd07d9c" title="Change the Api.Models.Instance.AutoUpdateInterval for the IInstanceCore. A Task representing the runn..." alt="" coords="280,99,507,139"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a2e70b9e1b420670ff8b02592a15dbdbe" title="Change the Api.Models.Instance.AutoUpdateInterval for the IInstanceCore. A ValueTask representing the..." alt="" coords="280,99,507,139"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a11cc04923d2557eefd57ad2ded9eb7f2" title=" " alt="" coords="5,67,232,107"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#afc1fd9e8dc3bd57b78dbcbc4e7f449b4" title=" " alt="" coords="5,131,232,171"/>
 </map>

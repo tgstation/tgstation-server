@@ -1,0 +1,4 @@
+<map id="Tgstation.Server.Host.Components.Watchdog.BasicWatchdog.PrepServerForLaunch" name="Tgstation.Server.Host.Components.Watchdog.BasicWatchdog.PrepServerForLaunch">
+<area shape="rect" id="node1" title="Prepare the server to launch a new instance with the WatchdogBase.ActiveLaunchParameters and a given ..." alt="" coords="304,5,608,45"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_basic_watchdog.html#a395c59a97a1716b97c2e00339859d533" title="Starts all ISessionControllers. A Task representing the running operation." alt="" coords="5,5,256,45"/>
+</map>

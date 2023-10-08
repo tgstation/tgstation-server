@@ -1,9 +1,0 @@
-<map id="Tgstation.Server.Host.Controllers.ConfigurationController.Update" name="Tgstation.Server.Host.Controllers.ConfigurationController.Update">
-<area shape="rect" id="node1" title="Write to a configuration file." alt="" coords="5,85,221,125"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_configuration_controller.html#a3478628e5a443b65c9ffb565d4da2cde" title="If a ForbidResult should be returned from actions due to conflicts with one or both of the Api...." alt="" coords="289,5,518,60"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a526173be91476b48ade7f0bc0cac6287" title="Generic 501 response." alt="" coords="269,85,537,125"/>
-<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_component_interfacing_controller.html#a5a56b67b5565db25af2db5daee576ad8" title="Run a given action &#160;with the relevant IInstance." alt="" coords="287,149,520,204"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#af05931d02f5f5d95b87a56c0cc60d855" title="Check if a path &#160;contains the &#39;..&#39; parent directory accessor." alt="" coords="588,13,841,53"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a978fe89eeaea424d7e034d2c7ab7b76e" title="Strongly type calls to ControllerBase.StatusCode(int)." alt="" coords="607,85,823,125"/>
-<area shape="rect" id="node7" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_manager.html#a80956df7c531cd3cf662dab797ab2c82" title="Get the IInstanceReference associated with given metadata ." alt="" coords="585,157,844,197"/>
-</map>

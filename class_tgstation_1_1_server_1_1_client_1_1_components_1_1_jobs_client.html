@@ -113,66 +113,66 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a9ffef36f7b69e7c76e31af3958797846"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_jobs_client.html#a9ffef36f7b69e7c76e31af3958797846">JobsClient</a> (<a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_api_client.html">IApiClient</a> apiClient, <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html">Instance</a> <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_jobs_client.html#ab7fc36983aad5fd506a83687b70c77ff">instance</a>)</td></tr>
 <tr class="memdesc:a9ffef36f7b69e7c76e31af3958797846"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes a new instance of the <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_jobs_client.html">JobsClient</a> class.   <a href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_jobs_client.html#a9ffef36f7b69e7c76e31af3958797846">More...</a><br /></td></tr>
 <tr class="separator:a9ffef36f7b69e7c76e31af3958797846"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a556abad4af0d6e856147cbbeb874dcfb"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_jobs_client.html#a556abad4af0d6e856147cbbeb874dcfb">Cancel</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_job_response.html">JobResponse</a> job, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a556abad4af0d6e856147cbbeb874dcfb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Cancels a <em>job</em> . <dl class="params"><dt>Parameters</dt><dd>
+<tr class="memitem:a7fec94cc574523b12ffc8f0f80db82fc"><td class="memItemLeft" align="right" valign="top">ValueTask&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_jobs_client.html#a7fec94cc574523b12ffc8f0f80db82fc">Cancel</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_job_response.html">JobResponse</a> job, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a7fec94cc574523b12ffc8f0f80db82fc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Cancels a <em>job</em> . <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">job</td><td>The JobResponse to cancel.</td></tr>
     <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A Task representing the running operation.</dd></dl>
-  <a href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_jobs_client.html#a556abad4af0d6e856147cbbeb874dcfb">More...</a><br /></td></tr>
-<tr class="separator:a556abad4af0d6e856147cbbeb874dcfb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5aed9f306a7b996545367db86cd9dc67"><td class="memItemLeft" align="right" valign="top">Task&lt; IReadOnlyList&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_job_response.html">JobResponse</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_jobs_client.html#a5aed9f306a7b996545367db86cd9dc67">List</a> (<a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_pagination_settings.html">PaginationSettings</a>? paginationSettings, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a5aed9f306a7b996545367db86cd9dc67"><td class="mdescLeft">&#160;</td><td class="mdescRight">List the JobResponses in the Instance. <dl class="params"><dt>Parameters</dt><dd>
+<dl class="section return"><dt>Returns</dt><dd>A ValueTask representing the running operation.</dd></dl>
+  <a href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_jobs_client.html#a7fec94cc574523b12ffc8f0f80db82fc">More...</a><br /></td></tr>
+<tr class="separator:a7fec94cc574523b12ffc8f0f80db82fc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abd93d24fcbbc5e3b4f0ccaa66dc1b90a"><td class="memItemLeft" align="right" valign="top">ValueTask&lt; List&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_job_response.html">JobResponse</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_jobs_client.html#abd93d24fcbbc5e3b4f0ccaa66dc1b90a">List</a> (<a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_pagination_settings.html">PaginationSettings</a>? paginationSettings, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:abd93d24fcbbc5e3b4f0ccaa66dc1b90a"><td class="mdescLeft">&#160;</td><td class="mdescRight">List the JobResponses in the Instance. <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">paginationSettings</td><td>The optional <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_pagination_settings.html" title="Settings for a paginated request.">PaginationSettings</a> for the operation.</td></tr>
     <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in a IReadOnlyList&lt;T&gt; of the JobResponse EntityIds in the Instance.</dd></dl>
-  <a href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_jobs_client.html#a5aed9f306a7b996545367db86cd9dc67">More...</a><br /></td></tr>
-<tr class="separator:a5aed9f306a7b996545367db86cd9dc67"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a228d8b4adf3ce31f3d07d98a7c12a00a"><td class="memItemLeft" align="right" valign="top">Task&lt; IReadOnlyList&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_job_response.html">JobResponse</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_jobs_client.html#a228d8b4adf3ce31f3d07d98a7c12a00a">ListActive</a> (<a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_pagination_settings.html">PaginationSettings</a>? paginationSettings, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a228d8b4adf3ce31f3d07d98a7c12a00a"><td class="mdescLeft">&#160;</td><td class="mdescRight">List the active JobResponses in the Instance. <dl class="params"><dt>Parameters</dt><dd>
+<dl class="section return"><dt>Returns</dt><dd>A ValueTask&lt;TResult&gt; resulting in a <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_jobs_client.html#ae87a6a45a4442c3584e58d527d4296c2" title="List the JobResponses in the Instance.">List&lt;T&gt;</a> of the JobResponse EntityIds in the Instance.</dd></dl>
+  <a href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_jobs_client.html#abd93d24fcbbc5e3b4f0ccaa66dc1b90a">More...</a><br /></td></tr>
+<tr class="separator:abd93d24fcbbc5e3b4f0ccaa66dc1b90a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a28bbb7b67f41ddda0a745dadc933d234"><td class="memItemLeft" align="right" valign="top">ValueTask&lt; <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_jobs_client.html#abd93d24fcbbc5e3b4f0ccaa66dc1b90a">List</a>&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_job_response.html">JobResponse</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_jobs_client.html#a28bbb7b67f41ddda0a745dadc933d234">ListActive</a> (<a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_pagination_settings.html">PaginationSettings</a>? paginationSettings, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a28bbb7b67f41ddda0a745dadc933d234"><td class="mdescLeft">&#160;</td><td class="mdescRight">List the active JobResponses in the Instance. <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">paginationSettings</td><td>The optional <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_pagination_settings.html" title="Settings for a paginated request.">PaginationSettings</a> for the operation.</td></tr>
     <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in a IReadOnlyList&lt;T&gt; of the active JobResponses in the Instance.</dd></dl>
-  <a href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_jobs_client.html#a228d8b4adf3ce31f3d07d98a7c12a00a">More...</a><br /></td></tr>
-<tr class="separator:a228d8b4adf3ce31f3d07d98a7c12a00a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aea73457b6ef437a2b7c737cf9bd8bb5a"><td class="memItemLeft" align="right" valign="top">Task&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_job_response.html">JobResponse</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_jobs_client.html#aea73457b6ef437a2b7c737cf9bd8bb5a">GetId</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html">EntityId</a> job, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:aea73457b6ef437a2b7c737cf9bd8bb5a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a <em>job</em> . <dl class="params"><dt>Parameters</dt><dd>
+<dl class="section return"><dt>Returns</dt><dd>A ValueTask&lt;TResult&gt; resulting in a <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_jobs_client.html#ae87a6a45a4442c3584e58d527d4296c2" title="List the JobResponses in the Instance.">List&lt;T&gt;</a> of the active JobResponses in the Instance.</dd></dl>
+  <a href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_jobs_client.html#a28bbb7b67f41ddda0a745dadc933d234">More...</a><br /></td></tr>
+<tr class="separator:a28bbb7b67f41ddda0a745dadc933d234"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeafb034f1958ccd4732a46f9b1c3eb20"><td class="memItemLeft" align="right" valign="top">ValueTask&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_job_response.html">JobResponse</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_jobs_client.html#aeafb034f1958ccd4732a46f9b1c3eb20">GetId</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html">EntityId</a> job, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:aeafb034f1958ccd4732a46f9b1c3eb20"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a <em>job</em> . <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">job</td><td>The JobResponse's EntityId to get.</td></tr>
     <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in the JobResponse.</dd></dl>
-  <a href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_jobs_client.html#aea73457b6ef437a2b7c737cf9bd8bb5a">More...</a><br /></td></tr>
-<tr class="separator:aea73457b6ef437a2b7c737cf9bd8bb5a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<dl class="section return"><dt>Returns</dt><dd>A ValueTask&lt;TResult&gt; resulting in the JobResponse.</dd></dl>
+  <a href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_jobs_client.html#aeafb034f1958ccd4732a46f9b1c3eb20">More...</a><br /></td></tr>
+<tr class="separator:aeafb034f1958ccd4732a46f9b1c3eb20"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_class_tgstation_1_1_server_1_1_client_1_1_paginated_client"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_class_tgstation_1_1_server_1_1_client_1_1_paginated_client')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_paginated_client.html">Tgstation.Server.Client.PaginatedClient</a></td></tr>
 <tr class="memitem:aeb87c35a9dd07a11b14175e10822bbb7 inherit pub_methods_class_tgstation_1_1_server_1_1_client_1_1_paginated_client"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_paginated_client.html#aeb87c35a9dd07a11b14175e10822bbb7">PaginatedClient</a> (<a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_api_client.html">IApiClient</a> apiClient)</td></tr>
 <tr class="memdesc:aeb87c35a9dd07a11b14175e10822bbb7 inherit pub_methods_class_tgstation_1_1_server_1_1_client_1_1_paginated_client"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes a new instance of the <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_paginated_client.html" title="Client that deals with getting paginated results.">PaginatedClient</a> class.   <a href="class_tgstation_1_1_server_1_1_client_1_1_paginated_client.html#aeb87c35a9dd07a11b14175e10822bbb7">More...</a><br /></td></tr>
 <tr class="separator:aeb87c35a9dd07a11b14175e10822bbb7 inherit pub_methods_class_tgstation_1_1_server_1_1_client_1_1_paginated_client"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab38bf2940a383a906ac44a1fd027552f"><td class="memItemLeft" align="right" valign="top">Task&lt; IReadOnlyList&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_job_response.html">JobResponse</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_jobs_client.html#ab38bf2940a383a906ac44a1fd027552f">List</a> (<a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_pagination_settings.html">PaginationSettings</a>? paginationSettings, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:ab38bf2940a383a906ac44a1fd027552f"><td class="mdescLeft">&#160;</td><td class="mdescRight">List the JobResponses in the Instance.   <a href="interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_jobs_client.html#ab38bf2940a383a906ac44a1fd027552f">More...</a><br /></td></tr>
-<tr class="separator:ab38bf2940a383a906ac44a1fd027552f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a312ce58e374fbb95f196a062542069a7"><td class="memItemLeft" align="right" valign="top">Task&lt; IReadOnlyList&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_job_response.html">JobResponse</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_jobs_client.html#a312ce58e374fbb95f196a062542069a7">ListActive</a> (<a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_pagination_settings.html">PaginationSettings</a>? paginationSettings, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a312ce58e374fbb95f196a062542069a7"><td class="mdescLeft">&#160;</td><td class="mdescRight">List the active JobResponses in the Instance.   <a href="interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_jobs_client.html#a312ce58e374fbb95f196a062542069a7">More...</a><br /></td></tr>
-<tr class="separator:a312ce58e374fbb95f196a062542069a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5cf40d1dd405214d6f05f8dfc4bb0cb5"><td class="memItemLeft" align="right" valign="top">Task&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_job_response.html">JobResponse</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_jobs_client.html#a5cf40d1dd405214d6f05f8dfc4bb0cb5">GetId</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html">EntityId</a> job, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a5cf40d1dd405214d6f05f8dfc4bb0cb5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a <em>job</em> .   <a href="interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_jobs_client.html#a5cf40d1dd405214d6f05f8dfc4bb0cb5">More...</a><br /></td></tr>
-<tr class="separator:a5cf40d1dd405214d6f05f8dfc4bb0cb5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7315dcdbbcc82bc14435ee4559e945fd"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_jobs_client.html#a7315dcdbbcc82bc14435ee4559e945fd">Cancel</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_job_response.html">JobResponse</a> job, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a7315dcdbbcc82bc14435ee4559e945fd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Cancels a <em>job</em> .   <a href="interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_jobs_client.html#a7315dcdbbcc82bc14435ee4559e945fd">More...</a><br /></td></tr>
-<tr class="separator:a7315dcdbbcc82bc14435ee4559e945fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae87a6a45a4442c3584e58d527d4296c2"><td class="memItemLeft" align="right" valign="top">ValueTask&lt; List&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_job_response.html">JobResponse</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_jobs_client.html#ae87a6a45a4442c3584e58d527d4296c2">List</a> (<a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_pagination_settings.html">PaginationSettings</a>? paginationSettings, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:ae87a6a45a4442c3584e58d527d4296c2"><td class="mdescLeft">&#160;</td><td class="mdescRight">List the JobResponses in the Instance.   <a href="interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_jobs_client.html#ae87a6a45a4442c3584e58d527d4296c2">More...</a><br /></td></tr>
+<tr class="separator:ae87a6a45a4442c3584e58d527d4296c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a981c378d8515e50c36d310d1c257c243"><td class="memItemLeft" align="right" valign="top">ValueTask&lt; <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_jobs_client.html#ae87a6a45a4442c3584e58d527d4296c2">List</a>&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_job_response.html">JobResponse</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_jobs_client.html#a981c378d8515e50c36d310d1c257c243">ListActive</a> (<a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_pagination_settings.html">PaginationSettings</a>? paginationSettings, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a981c378d8515e50c36d310d1c257c243"><td class="mdescLeft">&#160;</td><td class="mdescRight">List the active JobResponses in the Instance.   <a href="interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_jobs_client.html#a981c378d8515e50c36d310d1c257c243">More...</a><br /></td></tr>
+<tr class="separator:a981c378d8515e50c36d310d1c257c243"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abf03c20d60e358bfdbd5b66c4f197890"><td class="memItemLeft" align="right" valign="top">ValueTask&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_job_response.html">JobResponse</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_jobs_client.html#abf03c20d60e358bfdbd5b66c4f197890">GetId</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html">EntityId</a> job, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:abf03c20d60e358bfdbd5b66c4f197890"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a <em>job</em> .   <a href="interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_jobs_client.html#abf03c20d60e358bfdbd5b66c4f197890">More...</a><br /></td></tr>
+<tr class="separator:abf03c20d60e358bfdbd5b66c4f197890"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af5e917c7c72684cc08c4f9d0336050b0"><td class="memItemLeft" align="right" valign="top">ValueTask&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_jobs_client.html#af5e917c7c72684cc08c4f9d0336050b0">Cancel</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_job_response.html">JobResponse</a> job, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:af5e917c7c72684cc08c4f9d0336050b0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Cancels a <em>job</em> .   <a href="interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_jobs_client.html#af5e917c7c72684cc08c4f9d0336050b0">More...</a><br /></td></tr>
+<tr class="separator:af5e917c7c72684cc08c4f9d0336050b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
@@ -183,9 +183,9 @@ Private Attributes</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="inherited" name="inherited"></a>
 Additional Inherited Members</h2></td></tr>
 <tr class="inherit_header pro_methods_class_tgstation_1_1_server_1_1_client_1_1_paginated_client"><td colspan="2" onclick="javascript:toggleInherit('pro_methods_class_tgstation_1_1_server_1_1_client_1_1_paginated_client')"><img src="closed.png" alt="-"/>&#160;Protected Member Functions inherited from <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_paginated_client.html">Tgstation.Server.Client.PaginatedClient</a></td></tr>
-<tr class="memitem:a6e07d281bf20812323bc4f37b2af1ea1 inherit pro_methods_class_tgstation_1_1_server_1_1_client_1_1_paginated_client"><td class="memItemLeft" align="right" valign="top">async Task&lt; IReadOnlyList&lt; TModel &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_paginated_client.html#a6e07d281bf20812323bc4f37b2af1ea1">ReadPaged&lt; TModel &gt;</a> (<a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_pagination_settings.html">PaginationSettings</a>? paginationSettings, string route, long? instanceId, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a6e07d281bf20812323bc4f37b2af1ea1 inherit pro_methods_class_tgstation_1_1_server_1_1_client_1_1_paginated_client"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads a given <em>route</em>  with paged results.   <a href="class_tgstation_1_1_server_1_1_client_1_1_paginated_client.html#a6e07d281bf20812323bc4f37b2af1ea1">More...</a><br /></td></tr>
-<tr class="separator:a6e07d281bf20812323bc4f37b2af1ea1 inherit pro_methods_class_tgstation_1_1_server_1_1_client_1_1_paginated_client"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aec6b5aa8f1bb128b347b1db25e9c38ea inherit pro_methods_class_tgstation_1_1_server_1_1_client_1_1_paginated_client"><td class="memItemLeft" align="right" valign="top">async ValueTask&lt; List&lt; TModel &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_paginated_client.html#aec6b5aa8f1bb128b347b1db25e9c38ea">ReadPaged&lt; TModel &gt;</a> (<a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_pagination_settings.html">PaginationSettings</a>? paginationSettings, string route, long? instanceId, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:aec6b5aa8f1bb128b347b1db25e9c38ea inherit pro_methods_class_tgstation_1_1_server_1_1_client_1_1_paginated_client"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads a given <em>route</em>  with paged results.   <a href="class_tgstation_1_1_server_1_1_client_1_1_paginated_client.html#aec6b5aa8f1bb128b347b1db25e9c38ea">More...</a><br /></td></tr>
+<tr class="separator:aec6b5aa8f1bb128b347b1db25e9c38ea inherit pro_methods_class_tgstation_1_1_server_1_1_client_1_1_paginated_client"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header properties_class_tgstation_1_1_server_1_1_client_1_1_paginated_client"><td colspan="2" onclick="javascript:toggleInherit('properties_class_tgstation_1_1_server_1_1_client_1_1_paginated_client')"><img src="closed.png" alt="-"/>&#160;Properties inherited from <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_paginated_client.html">Tgstation.Server.Client.PaginatedClient</a></td></tr>
 <tr class="memitem:a46a285dccb579dedc9efac7eadafb230 inherit properties_class_tgstation_1_1_server_1_1_client_1_1_paginated_client"><td class="memItemLeft" align="right" valign="top"><a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_api_client.html">IApiClient</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_paginated_client.html#a46a285dccb579dedc9efac7eadafb230">ApiClient</a><code> [get]</code></td></tr>
 <tr class="memdesc:a46a285dccb579dedc9efac7eadafb230 inherit properties_class_tgstation_1_1_server_1_1_client_1_1_paginated_client"><td class="mdescLeft">&#160;</td><td class="mdescRight">The <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_api_client.html" title="Web interface for the API.">IApiClient</a> for the <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_paginated_client.html" title="Client that deals with getting paginated results.">PaginatedClient</a>.   <a href="class_tgstation_1_1_server_1_1_client_1_1_paginated_client.html#a46a285dccb579dedc9efac7eadafb230">More...</a><br /></td></tr>
@@ -242,14 +242,14 @@ Additional Inherited Members</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a556abad4af0d6e856147cbbeb874dcfb" name="a556abad4af0d6e856147cbbeb874dcfb"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a556abad4af0d6e856147cbbeb874dcfb">&#9670;&#160;</a></span>Cancel()</h2>
+<a id="a7fec94cc574523b12ffc8f0f80db82fc" name="a7fec94cc574523b12ffc8f0f80db82fc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7fec94cc574523b12ffc8f0f80db82fc">&#9670;&#160;</a></span>Cancel()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">Task Tgstation.Server.Client.Components.JobsClient.Cancel </td>
+          <td class="memname">ValueTask Tgstation.Server.Client.Components.JobsClient.Cancel </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_job_response.html">JobResponse</a>&#160;</td>
           <td class="paramname"><em>job</em>, </td>
@@ -275,21 +275,21 @@ Additional Inherited Members</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A Task representing the running operation.</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A ValueTask representing the running operation.</dd></dl>
  </p>
 
-<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_jobs_client.html#a7315dcdbbcc82bc14435ee4559e945fd">Tgstation.Server.Client.Components.IJobsClient</a>.</p>
+<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_jobs_client.html#af5e917c7c72684cc08c4f9d0336050b0">Tgstation.Server.Client.Components.IJobsClient</a>.</p>
 
 </div>
 </div>
-<a id="aea73457b6ef437a2b7c737cf9bd8bb5a" name="aea73457b6ef437a2b7c737cf9bd8bb5a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aea73457b6ef437a2b7c737cf9bd8bb5a">&#9670;&#160;</a></span>GetId()</h2>
+<a id="aeafb034f1958ccd4732a46f9b1c3eb20" name="aeafb034f1958ccd4732a46f9b1c3eb20"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aeafb034f1958ccd4732a46f9b1c3eb20">&#9670;&#160;</a></span>GetId()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">Task&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_job_response.html">JobResponse</a> &gt; Tgstation.Server.Client.Components.JobsClient.GetId </td>
+          <td class="memname">ValueTask&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_job_response.html">JobResponse</a> &gt; Tgstation.Server.Client.Components.JobsClient.GetId </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html">EntityId</a>&#160;</td>
           <td class="paramname"><em>job</em>, </td>
@@ -315,21 +315,21 @@ Additional Inherited Members</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in the JobResponse.</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A ValueTask&lt;TResult&gt; resulting in the JobResponse.</dd></dl>
  </p>
 
-<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_jobs_client.html#a5cf40d1dd405214d6f05f8dfc4bb0cb5">Tgstation.Server.Client.Components.IJobsClient</a>.</p>
+<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_jobs_client.html#abf03c20d60e358bfdbd5b66c4f197890">Tgstation.Server.Client.Components.IJobsClient</a>.</p>
 
 </div>
 </div>
-<a id="a5aed9f306a7b996545367db86cd9dc67" name="a5aed9f306a7b996545367db86cd9dc67"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5aed9f306a7b996545367db86cd9dc67">&#9670;&#160;</a></span>List()</h2>
+<a id="abd93d24fcbbc5e3b4f0ccaa66dc1b90a" name="abd93d24fcbbc5e3b4f0ccaa66dc1b90a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abd93d24fcbbc5e3b4f0ccaa66dc1b90a">&#9670;&#160;</a></span>List()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">Task&lt; IReadOnlyList&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_job_response.html">JobResponse</a> &gt; &gt; Tgstation.Server.Client.Components.JobsClient.List </td>
+          <td class="memname">ValueTask&lt; List&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_job_response.html">JobResponse</a> &gt; &gt; Tgstation.Server.Client.Components.JobsClient.List </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_pagination_settings.html">PaginationSettings</a>?&#160;</td>
           <td class="paramname"><em>paginationSettings</em>, </td>
@@ -355,21 +355,21 @@ Additional Inherited Members</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in a IReadOnlyList&lt;T&gt; of the JobResponse EntityIds in the Instance.</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A ValueTask&lt;TResult&gt; resulting in a <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_jobs_client.html#ae87a6a45a4442c3584e58d527d4296c2" title="List the JobResponses in the Instance.">List&lt;T&gt;</a> of the JobResponse EntityIds in the Instance.</dd></dl>
  </p>
 
-<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_jobs_client.html#ab38bf2940a383a906ac44a1fd027552f">Tgstation.Server.Client.Components.IJobsClient</a>.</p>
+<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_jobs_client.html#ae87a6a45a4442c3584e58d527d4296c2">Tgstation.Server.Client.Components.IJobsClient</a>.</p>
 
 </div>
 </div>
-<a id="a228d8b4adf3ce31f3d07d98a7c12a00a" name="a228d8b4adf3ce31f3d07d98a7c12a00a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a228d8b4adf3ce31f3d07d98a7c12a00a">&#9670;&#160;</a></span>ListActive()</h2>
+<a id="a28bbb7b67f41ddda0a745dadc933d234" name="a28bbb7b67f41ddda0a745dadc933d234"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a28bbb7b67f41ddda0a745dadc933d234">&#9670;&#160;</a></span>ListActive()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">Task&lt; IReadOnlyList&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_job_response.html">JobResponse</a> &gt; &gt; Tgstation.Server.Client.Components.JobsClient.ListActive </td>
+          <td class="memname">ValueTask&lt; <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_jobs_client.html#abd93d24fcbbc5e3b4f0ccaa66dc1b90a">List</a>&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_job_response.html">JobResponse</a> &gt; &gt; Tgstation.Server.Client.Components.JobsClient.ListActive </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_pagination_settings.html">PaginationSettings</a>?&#160;</td>
           <td class="paramname"><em>paginationSettings</em>, </td>
@@ -395,10 +395,10 @@ Additional Inherited Members</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in a IReadOnlyList&lt;T&gt; of the active JobResponses in the Instance.</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A ValueTask&lt;TResult&gt; resulting in a <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_jobs_client.html#ae87a6a45a4442c3584e58d527d4296c2" title="List the JobResponses in the Instance.">List&lt;T&gt;</a> of the active JobResponses in the Instance.</dd></dl>
  </p>
 
-<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_jobs_client.html#a312ce58e374fbb95f196a062542069a7">Tgstation.Server.Client.Components.IJobsClient</a>.</p>
+<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_jobs_client.html#a981c378d8515e50c36d310d1c257c243">Tgstation.Server.Client.Components.IJobsClient</a>.</p>
 
 </div>
 </div>

@@ -1,0 +1,5 @@
+<map id="Tgstation.Server.Host.Components.Session.SessionControllerFactory.CheckPagerIsNotRunning" name="Tgstation.Server.Host.Components.Session.SessionControllerFactory.CheckPagerIsNotRunning">
+<area shape="rect" id="node1" title="Make sure the BYOND pager is not running." alt="" coords="643,5,900,60"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller_factory.html#a6d591152c39db0454b04a7f342fe423d" title="Create a ISessionController from a freshly launch DreamDaemon instance. A ValueTask&lt;TResult&gt; resultin..." alt="" coords="304,13,595,53"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_basic_watchdog.html#a395c59a97a1716b97c2e00339859d533" title="Starts all ISessionControllers. A Task representing the running operation." alt="" coords="5,13,256,53"/>
+</map>

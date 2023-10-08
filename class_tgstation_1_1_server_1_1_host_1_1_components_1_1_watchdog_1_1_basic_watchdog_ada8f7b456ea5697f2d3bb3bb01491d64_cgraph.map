@@ -1,0 +1,9 @@
+<map id="Tgstation.Server.Host.Components.Watchdog.BasicWatchdog.HandleMonitorWakeup" name="Tgstation.Server.Host.Components.Watchdog.BasicWatchdog.HandleMonitorWakeup">
+<area shape="rect" id="node1" title="Handles the actions to take when the monitor has to &quot;wake up&quot;. A ValueTask&lt;TResult&gt; resulting in the ..." alt="" coords="5,165,313,205"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#af1a7765d8a839d318fee44e8d63b6369" title="Handle a given eventType &#160;without re&#45;throwing errors." alt="" coords="375,60,649,100"/>
+<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_basic_watchdog.html#aa374db79a957d1aeb2ba660afd3c535b" title="Handler for MonitorActivationReason.NewDmbAvailable." alt="" coords="376,125,648,179"/>
+<area shape="rect" id="node6" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager.html#a103e061814fc6760410734c7a83f9a83" title="Queue a chat message &#160;to configured watchdog channels." alt="" coords="711,165,996,205"/>
+<area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_basic_watchdog.html#ac4e91ce47610a691e8dd0c9d85c32d78" title="Handler for MonitorActivationReason.ActiveServerRebooted when the RebootState is RebootState...." alt="" coords="361,255,663,295"/>
+<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html#a7a338bb40621b86f0e88674a193f144f" title="Handle a given eventType ." alt="" coords="734,5,973,45"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_common_1_1_extensions_1_1_value_task_extensions.html#a58adbd94d764754bd3e6c566a5fe7fe3" title="Fully await a given list of tasks ." alt="" coords="745,70,961,125"/>
+</map>

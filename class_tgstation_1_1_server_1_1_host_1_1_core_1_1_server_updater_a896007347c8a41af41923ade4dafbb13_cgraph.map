@@ -1,0 +1,7 @@
+<map id="Tgstation.Server.Host.Core.ServerUpdater.PrepareUpdateClearStagingAndBufferStream" name="Tgstation.Server.Host.Core.ServerUpdater.PrepareUpdateClearStagingAndBufferStream">
+<area shape="rect" id="node1" title="Prepares the swarm update, deletes the stagingDirectory , and buffers the ServerUpdateOperation...." alt="" coords="5,62,232,117"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ad3e0dda4b7fbad4c77f48ba3b2681dc7" title="Recursively delete a directory, removes and does not enter any symlinks encounterd." alt="" coords="290,5,471,45"/>
+<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_service.html#a4bce9f341d4ff8b0dedbe2f1474e6dc8" title="Signal to the swarm that an update is requested." alt="" coords="280,69,481,109"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#a9486c55f454c4f37c13adeb620523654" title="Attempt to abort a prepared swarm update." alt="" coords="290,133,471,173"/>
+<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_update_aborter.html#ac68948445b85942f29d2b618dfea9763" title="Attempt to abort an uncommitted update." alt="" coords="529,133,756,173"/>
+</map>

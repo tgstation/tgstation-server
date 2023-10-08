@@ -1,0 +1,12 @@
+<map id="Tgstation.Server.Client.ApiClient.RunRequest&lt; TBody, TResult &gt;" name="Tgstation.Server.Client.ApiClient.RunRequest&lt; TBody, TResult &gt;">
+<area shape="rect" id="node1" title="Main request method." alt="" coords="5,68,161,123"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_client_1_1_api_client.html#aed28ea7a7fff4be99f3c65a8dcd0a47e" title="Get the JsonSerializerSettings to use." alt="" coords="696,7,895,47"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_client_1_1_api_client.html#a890bb267ce0d788c2d9c0311873f6ade" title="Main request method." alt="" coords="209,185,365,240"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_common_1_1_http_1_1_cached_response_stream.html#a1c106673ce3f96456822b62e75b06774" title="Asyncronously creates a new CachedResponseStream." alt="" coords="413,65,648,105"/>
+<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_client_1_1_api_client.html#a7b81831316898d1d92a5103d3ecf145b" title="Handle a bad HTTP response ." alt="" coords="431,129,630,169"/>
+<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_client_1_1_api_client.html#af320dd9d2f015f987ae2782accc79b0d" title="Attempt to refresh the bearer token in the headers." alt="" coords="451,193,610,233"/>
+<area shape="rect" id="node7" href="$interface_tgstation_1_1_server_1_1_common_1_1_http_1_1_i_http_client.html#ade67e5a20b9f897d763517c700523a83" title="Send an HTTP request." alt="" coords="440,257,621,297"/>
+<area shape="rect" id="node8" href="$class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a5f9f37923fe9811ceb4556af0ebfc8aa" title="Set HttpRequestHeaders using the ApiHeaders. This initially clears headers ." alt="" coords="435,321,626,361"/>
+<area shape="rect" id="node9" href="$class_tgstation_1_1_server_1_1_client_1_1_api_client.html#afb52c56fd5e4d691ac3924cc80323d19" title=" " alt="" coords="453,385,609,425"/>
+<area shape="rect" id="node10" href="$class_tgstation_1_1_server_1_1_common_1_1_extensions_1_1_value_task_extensions.html#a58adbd94d764754bd3e6c566a5fe7fe3" title="Fully await a given list of tasks ." alt="" coords="423,449,639,504"/>
+</map>

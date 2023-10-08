@@ -2,5 +2,5 @@
 <area shape="rect" id="node1" title=" " alt="" coords="5,37,204,77"/>
 <area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_watchdog_factory.html#ab2d9fab6dfb0b258003ee1cff20694af" title="Create a IWatchdog." alt="" coords="252,5,479,45"/>
 <area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service.html#a63313991bba1e6d1037bc635ddd4d4d8" title="Executes the watchdog , stopping the service if it exits." alt="" coords="266,69,465,109"/>
-<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_watchdog.html#a0c7358d5daa1a04c517e8a33c1c99de6" title="Run the IWatchdog." alt="" coords="527,69,739,109"/>
+<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_watchdog.html#aba34e712e0cdbbd747feba6fb9f83176" title="Run the IWatchdog." alt="" coords="527,69,739,109"/>
 </map>

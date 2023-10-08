@@ -1,0 +1,5 @@
+<map id="Tgstation.Server.Client.ApiClient.Download" name="Tgstation.Server.Client.ApiClient.Download">
+<area shape="rect" id="node1" title="Downloads a file Stream for a given ticket . A ValueTask&lt;TResult&gt; resulting in the downloaded Stream." alt="" coords="292,37,448,77"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_client_1_1_administration_client.html#a3a5d6656c8ffc30db1d0d115b2a34c00" title="Download a given logFile . A ValueTask&lt;TResult&gt; resulting a Tuple&lt;T1, T2&gt; containing the downloaded L..." alt="" coords="33,5,217,45"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_client_1_1_components_1_1_configuration_client.html#a2d6257c8c564261a04224a5788f5cea1" title="Read a file . A ValueTask resulting in a Tuple&lt;T1, T2&gt; containing the ConfigurationFileResponse and d..." alt="" coords="5,69,244,109"/>
+</map>

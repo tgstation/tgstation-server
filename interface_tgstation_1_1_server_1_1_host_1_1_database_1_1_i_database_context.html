@@ -106,12 +106,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a6216e8a817ab6700a155699bb8013584"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context.html#a6216e8a817ab6700a155699bb8013584">Drop</a> (CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:a6216e8a817ab6700a155699bb8013584"><td class="mdescLeft">&#160;</td><td class="mdescRight">Attempts to delete all tables and drop the database in use.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context.html#a6216e8a817ab6700a155699bb8013584">More...</a><br /></td></tr>
 <tr class="separator:a6216e8a817ab6700a155699bb8013584"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aadb042fbe800c8df0057819eab6eb770"><td class="memItemLeft" align="right" valign="top">Task&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context.html#aadb042fbe800c8df0057819eab6eb770">Migrate</a> (ILogger&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html">DatabaseContext</a> &gt; logger, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:aadb042fbe800c8df0057819eab6eb770"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates and migrates the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context.html" title="Represents the database.">IDatabaseContext</a>.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context.html#aadb042fbe800c8df0057819eab6eb770">More...</a><br /></td></tr>
-<tr class="separator:aadb042fbe800c8df0057819eab6eb770"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5529555e7c95208aef1b1c00708f6272"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context.html#a5529555e7c95208aef1b1c00708f6272">SchemaDowngradeForServerVersion</a> (ILogger&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html">DatabaseContext</a> &gt; logger, Version targetVersion, <a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_configuration.html#acda8f6ee23a9ee8ac298f7b4a7d5617c">DatabaseType</a> currentDatabaseType, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a5529555e7c95208aef1b1c00708f6272"><td class="mdescLeft">&#160;</td><td class="mdescRight">Attempt to downgrade the schema to the migration used for a given server <em>targetVersion</em> .   <a href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context.html#a5529555e7c95208aef1b1c00708f6272">More...</a><br /></td></tr>
-<tr class="separator:a5529555e7c95208aef1b1c00708f6272"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2c49a304dcaa39776af5b1d5dbeda1fd"><td class="memItemLeft" align="right" valign="top">ValueTask&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context.html#a2c49a304dcaa39776af5b1d5dbeda1fd">Migrate</a> (ILogger&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html">DatabaseContext</a> &gt; logger, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a2c49a304dcaa39776af5b1d5dbeda1fd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates and migrates the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context.html" title="Represents the database.">IDatabaseContext</a>.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context.html#a2c49a304dcaa39776af5b1d5dbeda1fd">More...</a><br /></td></tr>
+<tr class="separator:a2c49a304dcaa39776af5b1d5dbeda1fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3dc28d78cb9503b921799233156ed3f1"><td class="memItemLeft" align="right" valign="top">ValueTask&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context.html#a3dc28d78cb9503b921799233156ed3f1">SchemaDowngradeForServerVersion</a> (ILogger&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html">DatabaseContext</a> &gt; logger, Version targetVersion, <a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_configuration.html#acda8f6ee23a9ee8ac298f7b4a7d5617c">DatabaseType</a> currentDatabaseType, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a3dc28d78cb9503b921799233156ed3f1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Attempt to downgrade the schema to the migration used for a given server <em>targetVersion</em> .   <a href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context.html#a3dc28d78cb9503b921799233156ed3f1">More...</a><br /></td></tr>
+<tr class="separator:a3dc28d78cb9503b921799233156ed3f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="properties" name="properties"></a>
 Properties</h2></td></tr>
@@ -200,20 +200,20 @@ Here is the caller graph for this function:</div>
 <div class="center"><img src="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_a6216e8a817ab6700a155699bb8013584_icgraph.png" border="0" usemap="#ainterface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_a6216e8a817ab6700a155699bb8013584_icgraph" alt=""/></div>
 <map name="ainterface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_a6216e8a817ab6700a155699bb8013584_icgraph" id="ainterface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_a6216e8a817ab6700a155699bb8013584_icgraph">
 <area shape="rect" title="Attempts to delete all tables and drop the database in use." alt="" coords="263,5,472,45"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_seeder.html#a453f07e4addb58e08b4ce0ddfb84e357" title="Setup up a given databaseContext . A Task representing the running operation." alt="" coords="5,5,215,45"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_seeder.html#ad25dc5de4181c941c699a26e098149e6" title="Setup up a given databaseContext . A ValueTask representing the running operation." alt="" coords="5,5,215,45"/>
 </map>
 </div>
 
 </div>
 </div>
-<a id="aadb042fbe800c8df0057819eab6eb770" name="aadb042fbe800c8df0057819eab6eb770"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aadb042fbe800c8df0057819eab6eb770">&#9670;&#160;</a></span>Migrate()</h2>
+<a id="a2c49a304dcaa39776af5b1d5dbeda1fd" name="a2c49a304dcaa39776af5b1d5dbeda1fd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2c49a304dcaa39776af5b1d5dbeda1fd">&#9670;&#160;</a></span>Migrate()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">Task&lt; bool &gt; Tgstation.Server.Host.Database.IDatabaseContext.Migrate </td>
+          <td class="memname">ValueTask&lt; bool &gt; Tgstation.Server.Host.Database.IDatabaseContext.Migrate </td>
           <td>(</td>
           <td class="paramtype">ILogger&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html">DatabaseContext</a> &gt;&#160;</td>
           <td class="paramname"><em>logger</em>, </td>
@@ -240,18 +240,18 @@ Here is the caller graph for this function:</div>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in <code>true</code> if the database should be seeded, <code>false</code> otherwise.</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A ValueTask&lt;TResult&gt; resulting in <code>true</code> if the database should be seeded, <code>false</code> otherwise.</dd></dl>
 
-<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#a16e2b58d4231bd38f43da83a93c44f93">Tgstation.Server.Host.Database.DatabaseContext</a>.</p>
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#aa8f13b5074455e01c9ae50d5ff31bb39">Tgstation.Server.Host.Database.DatabaseContext</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="_database_seeder_8cs_source.html#l00105">Tgstation.Server.Host.Database.DatabaseSeeder.Initialize()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_aadb042fbe800c8df0057819eab6eb770_icgraph.png" border="0" usemap="#ainterface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_aadb042fbe800c8df0057819eab6eb770_icgraph" alt=""/></div>
-<map name="ainterface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_aadb042fbe800c8df0057819eab6eb770_icgraph" id="ainterface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_aadb042fbe800c8df0057819eab6eb770_icgraph">
+<div class="center"><img src="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_a2c49a304dcaa39776af5b1d5dbeda1fd_icgraph.png" border="0" usemap="#ainterface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_a2c49a304dcaa39776af5b1d5dbeda1fd_icgraph" alt=""/></div>
+<map name="ainterface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_a2c49a304dcaa39776af5b1d5dbeda1fd_icgraph" id="ainterface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_a2c49a304dcaa39776af5b1d5dbeda1fd_icgraph">
 <area shape="rect" title="Creates and migrates the IDatabaseContext." alt="" coords="263,5,472,45"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_seeder.html#a453f07e4addb58e08b4ce0ddfb84e357" title="Setup up a given databaseContext . A Task representing the running operation." alt="" coords="5,5,215,45"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_seeder.html#ad25dc5de4181c941c699a26e098149e6" title="Setup up a given databaseContext . A ValueTask representing the running operation." alt="" coords="5,5,215,45"/>
 </map>
 </div>
 
@@ -291,23 +291,23 @@ Here is the caller graph for this function:</div>
 <div class="center"><img src="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_a74e123c6393ad813f997c882a22b228e_icgraph.png" border="0" usemap="#ainterface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_a74e123c6393ad813f997c882a22b228e_icgraph" alt=""/></div>
 <map name="ainterface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_a74e123c6393ad813f997c882a22b228e_icgraph" id="ainterface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_a74e123c6393ad813f997c882a22b228e_icgraph">
 <area shape="rect" title="Saves changes made to the IDatabaseContext." alt="" coords="561,69,771,109"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_seeder.html#af844d41153f8a43c071bb6ec67445a1b" title="Changes the admin password in IDatabaseContext back to it&#39;s default, enables the account,..." alt="" coords="263,5,513,45"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_seeder.html#a1ed443f053ba4e1098f0e4099d23b774" title="Correct invalid database data caused by previous versions (NOT user fuckery)." alt="" coords="277,69,499,109"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_seeder.html#a09fc7208df756283dd6b475cfe013151" title="Initially seed a given databaseContext ." alt="" coords="283,133,493,173"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_seeder.html#a453f07e4addb58e08b4ce0ddfb84e357" title="Setup up a given databaseContext . A Task representing the running operation." alt="" coords="5,69,215,109"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_seeder.html#a374a1163eaa6f02afb419449a4478b48" title="Changes the admin password in IDatabaseContext back to it&#39;s default, enables the account,..." alt="" coords="263,5,513,45"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_seeder.html#acccb4650f7b19158f0241418c7345719" title="Correct invalid database data caused by previous versions (NOT user fuckery)." alt="" coords="277,69,499,109"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_seeder.html#a59c3f85134ebd165aaa4df15c45d3901" title="Initially seed a given databaseContext ." alt="" coords="283,133,493,173"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_seeder.html#ad25dc5de4181c941c699a26e098149e6" title="Setup up a given databaseContext . A ValueTask representing the running operation." alt="" coords="5,69,215,109"/>
 </map>
 </div>
 
 </div>
 </div>
-<a id="a5529555e7c95208aef1b1c00708f6272" name="a5529555e7c95208aef1b1c00708f6272"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5529555e7c95208aef1b1c00708f6272">&#9670;&#160;</a></span>SchemaDowngradeForServerVersion()</h2>
+<a id="a3dc28d78cb9503b921799233156ed3f1" name="a3dc28d78cb9503b921799233156ed3f1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3dc28d78cb9503b921799233156ed3f1">&#9670;&#160;</a></span>SchemaDowngradeForServerVersion()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">Task Tgstation.Server.Host.Database.IDatabaseContext.SchemaDowngradeForServerVersion </td>
+          <td class="memname">ValueTask Tgstation.Server.Host.Database.IDatabaseContext.SchemaDowngradeForServerVersion </td>
           <td>(</td>
           <td class="paramtype">ILogger&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html">DatabaseContext</a> &gt;&#160;</td>
           <td class="paramname"><em>logger</em>, </td>
@@ -348,18 +348,18 @@ Here is the caller graph for this function:</div>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A Task representing the running operation.</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A ValueTask representing the running operation.</dd></dl>
 
-<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#a5f663b429aa5645799114195d044fbdf">Tgstation.Server.Host.Database.DatabaseContext</a>.</p>
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#ab59918f7c3ed01cb0f7b1c17172a5a8f">Tgstation.Server.Host.Database.DatabaseContext</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="_database_seeder_8cs_source.html#l00134">Tgstation.Server.Host.Database.DatabaseSeeder.Downgrade()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_a5529555e7c95208aef1b1c00708f6272_icgraph.png" border="0" usemap="#ainterface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_a5529555e7c95208aef1b1c00708f6272_icgraph" alt=""/></div>
-<map name="ainterface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_a5529555e7c95208aef1b1c00708f6272_icgraph" id="ainterface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_a5529555e7c95208aef1b1c00708f6272_icgraph">
+<div class="center"><img src="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_a3dc28d78cb9503b921799233156ed3f1_icgraph.png" border="0" usemap="#ainterface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_a3dc28d78cb9503b921799233156ed3f1_icgraph" alt=""/></div>
+<map name="ainterface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_a3dc28d78cb9503b921799233156ed3f1_icgraph" id="ainterface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_a3dc28d78cb9503b921799233156ed3f1_icgraph">
 <area shape="rect" title="Attempt to downgrade the schema to the migration used for a given server targetVersion ." alt="" coords="263,5,523,60"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_seeder.html#ae30cd4eb76ba111b3fcd0e1b3622716d" title="Migrate a given databaseContext &#160;down. A Task representing the running operation." alt="" coords="5,13,215,53"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_seeder.html#aa1516a1b38e124f682e779a9c9942318" title="Migrate a given databaseContext &#160;down. A ValueTask representing the running operation." alt="" coords="5,13,215,53"/>
 </map>
 </div>
 
@@ -451,7 +451,7 @@ Here is the caller graph for this function:</div>
 <p class="definition">Definition at line <a class="el" href="_i_database_context_8cs_source.html#l00041">41</a> of file <a class="el" href="_i_database_context_8cs_source.html">IDatabaseContext.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   41</span>{ <span class="keyword">get</span>; }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_dream_maker_8cs_source.html#l00425">Tgstation.Server.Host.Components.Deployment.DreamMaker.CalculateExpectedDeploymentTime()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_dream_maker_8cs_source.html#l00426">Tgstation.Server.Host.Components.Deployment.DreamMaker.CalculateExpectedDeploymentTime()</a>.</p>
 
 </div>
 </div>
@@ -602,7 +602,7 @@ Here is the caller graph for this function:</div>
 <p class="definition">Definition at line <a class="el" href="_i_database_context_8cs_source.html#l00026">26</a> of file <a class="el" href="_i_database_context_8cs_source.html">IDatabaseContext.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   26</span>{ <span class="keyword">get</span>; }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_database_seeder_8cs_source.html#l00195">Tgstation.Server.Host.Database.DatabaseSeeder.SanitizeDatabase()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_instance_manager_8cs_source.html#l00558">Tgstation.Server.Host.Components.InstanceManager.Initialize()</a>, and <a class="el" href="_database_seeder_8cs_source.html#l00195">Tgstation.Server.Host.Database.DatabaseSeeder.SanitizeDatabase()</a>.</p>
 
 </div>
 </div>

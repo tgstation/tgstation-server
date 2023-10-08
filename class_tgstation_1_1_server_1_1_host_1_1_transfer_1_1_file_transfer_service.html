@@ -146,19 +146,19 @@ Public Member Functions</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>A new <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_i_file_upload_ticket.html" title="A FileTicketResponse that waits for a pending upload.">IFileUploadTicket</a>.</dd></dl>
   <a href="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_transfer_service.html#a326e6dbdb12cf2b96a505261ef79c117">More...</a><br /></td></tr>
 <tr class="separator:a326e6dbdb12cf2b96a505261ef79c117"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a18b06ae21c5b83ec3666387d6da731c5"><td class="memItemLeft" align="right" valign="top">async Task&lt; Tuple&lt; <a class="el" href="class_stream.html">Stream</a>, <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_error_message_response.html">ErrorMessageResponse</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_transfer_service.html#a18b06ae21c5b83ec3666387d6da731c5">RetrieveDownloadStream</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_file_ticket_response.html">FileTicketResponse</a> ticket, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a18b06ae21c5b83ec3666387d6da731c5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the the <a class="el" href="class_stream.html">Stream</a> for a given <em>ticket</em>  associated with a pending download. <dl class="params"><dt>Parameters</dt><dd>
+<tr class="memitem:ad1dad6583b33d4cbe9b7deb60df46317"><td class="memItemLeft" align="right" valign="top">async ValueTask&lt; Tuple&lt; <a class="el" href="class_stream.html">Stream</a>, <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_error_message_response.html">ErrorMessageResponse</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_transfer_service.html#ad1dad6583b33d4cbe9b7deb60df46317">RetrieveDownloadStream</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_file_ticket_response.html">FileTicketResponse</a> ticket, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:ad1dad6583b33d4cbe9b7deb60df46317"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the the <a class="el" href="class_stream.html">Stream</a> for a given <em>ticket</em>  associated with a pending download. <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">ticket</td><td>The FileTicketResponse.</td></tr>
     <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A Tuple&lt;T1, T2&gt; containing either a <a class="el" href="class_stream.html">Stream</a> containing the data to download or an ErrorMessageResponse to return.</dd></dl>
-  <a href="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_transfer_service.html#a18b06ae21c5b83ec3666387d6da731c5">More...</a><br /></td></tr>
-<tr class="separator:a18b06ae21c5b83ec3666387d6da731c5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a303ef029b30173edc0c87e5c7b8ff379"><td class="memItemLeft" align="right" valign="top">async Task&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_error_message_response.html">ErrorMessageResponse</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_transfer_service.html#a303ef029b30173edc0c87e5c7b8ff379">SetUploadStream</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_file_ticket_response.html">FileTicketResponse</a> ticket, <a class="el" href="class_stream.html">Stream</a> stream, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a303ef029b30173edc0c87e5c7b8ff379"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the <a class="el" href="class_stream.html">Stream</a> for a given <em>ticket</em>  associated with a pending upload. <dl class="params"><dt>Parameters</dt><dd>
+<dl class="section return"><dt>Returns</dt><dd>A ValueTask&lt;TResult&gt; resulting in a Tuple&lt;T1, T2&gt; containing either a <a class="el" href="class_stream.html">Stream</a> containing the data to download or an ErrorMessageResponse to return.</dd></dl>
+  <a href="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_transfer_service.html#ad1dad6583b33d4cbe9b7deb60df46317">More...</a><br /></td></tr>
+<tr class="separator:ad1dad6583b33d4cbe9b7deb60df46317"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa97d6330a37a7ffd60de6a89dee3183b"><td class="memItemLeft" align="right" valign="top">async ValueTask&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_error_message_response.html">ErrorMessageResponse</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_transfer_service.html#aa97d6330a37a7ffd60de6a89dee3183b">SetUploadStream</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_file_ticket_response.html">FileTicketResponse</a> ticket, <a class="el" href="class_stream.html">Stream</a> stream, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:aa97d6330a37a7ffd60de6a89dee3183b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the <a class="el" href="class_stream.html">Stream</a> for a given <em>ticket</em>  associated with a pending upload. <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">ticket</td><td>The FileTicketResponse.</td></tr>
     <tr><td class="paramname">stream</td><td>The <a class="el" href="class_stream.html">Stream</a> with uploaded data.</td></tr>
@@ -166,21 +166,21 @@ Public Member Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd><code>null</code> if the upload completed successfully, ErrorMessageResponse otherwise.</dd></dl>
-  <a href="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_transfer_service.html#a303ef029b30173edc0c87e5c7b8ff379">More...</a><br /></td></tr>
-<tr class="separator:a303ef029b30173edc0c87e5c7b8ff379"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<dl class="section return"><dt>Returns</dt><dd>A ValueTask&lt;TResult&gt; resulting in <code>null</code> if the upload completed successfully, ErrorMessageResponse otherwise.</dd></dl>
+  <a href="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_transfer_service.html#aa97d6330a37a7ffd60de6a89dee3183b">More...</a><br /></td></tr>
+<tr class="separator:aa97d6330a37a7ffd60de6a89dee3183b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4df208caec70ad306a00a42f0f5889f1"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_file_ticket_response.html">FileTicketResponse</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_i_file_transfer_ticket_provider.html#a4df208caec70ad306a00a42f0f5889f1">CreateDownload</a> (<a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_download_provider.html">FileDownloadProvider</a> fileDownloadProvider)</td></tr>
 <tr class="memdesc:a4df208caec70ad306a00a42f0f5889f1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a FileTicketResponse for a download.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_i_file_transfer_ticket_provider.html#a4df208caec70ad306a00a42f0f5889f1">More...</a><br /></td></tr>
 <tr class="separator:a4df208caec70ad306a00a42f0f5889f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa99c11372e2e7aa5fc84e2cc6f12eb8e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_i_file_upload_ticket.html">IFileUploadTicket</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_i_file_transfer_ticket_provider.html#aa99c11372e2e7aa5fc84e2cc6f12eb8e">CreateUpload</a> (<a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_transfer.html#a877ade9041cebca776e13eeea5b9871d">FileUploadStreamKind</a> streamKind)</td></tr>
 <tr class="memdesc:aa99c11372e2e7aa5fc84e2cc6f12eb8e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_i_file_upload_ticket.html" title="A FileTicketResponse that waits for a pending upload.">IFileUploadTicket</a>.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_i_file_transfer_ticket_provider.html#aa99c11372e2e7aa5fc84e2cc6f12eb8e">More...</a><br /></td></tr>
 <tr class="separator:aa99c11372e2e7aa5fc84e2cc6f12eb8e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9baee8df153a4cfdb1bfa5e8913c0962"><td class="memItemLeft" align="right" valign="top">Task&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_error_message_response.html">ErrorMessageResponse</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_i_file_transfer_stream_handler.html#a9baee8df153a4cfdb1bfa5e8913c0962">SetUploadStream</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_file_ticket_response.html">FileTicketResponse</a> ticket, <a class="el" href="class_stream.html">Stream</a> stream, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a9baee8df153a4cfdb1bfa5e8913c0962"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the <a class="el" href="class_stream.html">Stream</a> for a given <em>ticket</em>  associated with a pending upload.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_i_file_transfer_stream_handler.html#a9baee8df153a4cfdb1bfa5e8913c0962">More...</a><br /></td></tr>
-<tr class="separator:a9baee8df153a4cfdb1bfa5e8913c0962"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ade7f15d496c4ff425803ff3327cc6632"><td class="memItemLeft" align="right" valign="top">Task&lt; Tuple&lt; <a class="el" href="class_stream.html">Stream</a>, <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_error_message_response.html">ErrorMessageResponse</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_i_file_transfer_stream_handler.html#ade7f15d496c4ff425803ff3327cc6632">RetrieveDownloadStream</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_file_ticket_response.html">FileTicketResponse</a> ticket, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:ade7f15d496c4ff425803ff3327cc6632"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the the <a class="el" href="class_stream.html">Stream</a> for a given <em>ticket</em>  associated with a pending download.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_i_file_transfer_stream_handler.html#ade7f15d496c4ff425803ff3327cc6632">More...</a><br /></td></tr>
-<tr class="separator:ade7f15d496c4ff425803ff3327cc6632"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a74fa6afce12e8613ccee3eb64e28cf5b"><td class="memItemLeft" align="right" valign="top">ValueTask&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_error_message_response.html">ErrorMessageResponse</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_i_file_transfer_stream_handler.html#a74fa6afce12e8613ccee3eb64e28cf5b">SetUploadStream</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_file_ticket_response.html">FileTicketResponse</a> ticket, <a class="el" href="class_stream.html">Stream</a> stream, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a74fa6afce12e8613ccee3eb64e28cf5b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the <a class="el" href="class_stream.html">Stream</a> for a given <em>ticket</em>  associated with a pending upload.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_i_file_transfer_stream_handler.html#a74fa6afce12e8613ccee3eb64e28cf5b">More...</a><br /></td></tr>
+<tr class="separator:a74fa6afce12e8613ccee3eb64e28cf5b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7c5cd677af9e279e469215c1ce697e3d"><td class="memItemLeft" align="right" valign="top">ValueTask&lt; Tuple&lt; <a class="el" href="class_stream.html">Stream</a>, <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_error_message_response.html">ErrorMessageResponse</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_i_file_transfer_stream_handler.html#a7c5cd677af9e279e469215c1ce697e3d">RetrieveDownloadStream</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_file_ticket_response.html">FileTicketResponse</a> ticket, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a7c5cd677af9e279e469215c1ce697e3d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the the <a class="el" href="class_stream.html">Stream</a> for a given <em>ticket</em>  associated with a pending download.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_i_file_transfer_stream_handler.html#a7c5cd677af9e279e469215c1ce697e3d">More...</a><br /></td></tr>
+<tr class="separator:a7c5cd677af9e279e469215c1ce697e3d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-methods" name="pri-methods"></a>
 Private Member Functions</h2></td></tr>
@@ -620,14 +620,14 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a id="a18b06ae21c5b83ec3666387d6da731c5" name="a18b06ae21c5b83ec3666387d6da731c5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a18b06ae21c5b83ec3666387d6da731c5">&#9670;&#160;</a></span>RetrieveDownloadStream()</h2>
+<a id="ad1dad6583b33d4cbe9b7deb60df46317" name="ad1dad6583b33d4cbe9b7deb60df46317"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad1dad6583b33d4cbe9b7deb60df46317">&#9670;&#160;</a></span>RetrieveDownloadStream()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">async Task&lt; Tuple&lt; <a class="el" href="class_stream.html">Stream</a>, <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_error_message_response.html">ErrorMessageResponse</a> &gt; &gt; Tgstation.Server.Host.Transfer.FileTransferService.RetrieveDownloadStream </td>
+          <td class="memname">async ValueTask&lt; Tuple&lt; <a class="el" href="class_stream.html">Stream</a>, <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_error_message_response.html">ErrorMessageResponse</a> &gt; &gt; Tgstation.Server.Host.Transfer.FileTransferService.RetrieveDownloadStream </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_file_ticket_response.html">FileTicketResponse</a>&#160;</td>
           <td class="paramname"><em>ticket</em>, </td>
@@ -653,10 +653,10 @@ Here is the caller graph for this function:</div>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A Tuple&lt;T1, T2&gt; containing either a <a class="el" href="class_stream.html">Stream</a> containing the data to download or an ErrorMessageResponse to return.</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A ValueTask&lt;TResult&gt; resulting in a Tuple&lt;T1, T2&gt; containing either a <a class="el" href="class_stream.html">Stream</a> containing the data to download or an ErrorMessageResponse to return.</dd></dl>
  </p>
 
-<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_i_file_transfer_stream_handler.html#ade7f15d496c4ff425803ff3327cc6632">Tgstation.Server.Host.Transfer.IFileTransferStreamHandler</a>.</p>
+<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_i_file_transfer_stream_handler.html#a7c5cd677af9e279e469215c1ce697e3d">Tgstation.Server.Host.Transfer.IFileTransferStreamHandler</a>.</p>
 
 <p class="definition">Definition at line <a class="el" href="_file_transfer_service_8cs_source.html#l00166">166</a> of file <a class="el" href="_file_transfer_service_8cs_source.html">FileTransferService.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">  167</span>        {</div>
@@ -720,23 +720,23 @@ Here is the caller graph for this function:</div>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_transfer_service_a18b06ae21c5b83ec3666387d6da731c5_cgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_transfer_service_a18b06ae21c5b83ec3666387d6da731c5_cgraph" alt=""/></div>
-<map name="aclass_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_transfer_service_a18b06ae21c5b83ec3666387d6da731c5_cgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_transfer_service_a18b06ae21c5b83ec3666387d6da731c5_cgraph">
-<area shape="rect" title="Gets the the Stream for a given ticket &#160;associated with a pending download. A Tuple&lt;T1,..." alt="" coords="5,5,291,45"/>
+<div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_transfer_service_ad1dad6583b33d4cbe9b7deb60df46317_cgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_transfer_service_ad1dad6583b33d4cbe9b7deb60df46317_cgraph" alt=""/></div>
+<map name="aclass_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_transfer_service_ad1dad6583b33d4cbe9b7deb60df46317_cgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_transfer_service_ad1dad6583b33d4cbe9b7deb60df46317_cgraph">
+<area shape="rect" title="Gets the the Stream for a given ticket &#160;associated with a pending download. A ValueTask&lt;TResult&gt; resu..." alt="" coords="5,5,291,45"/>
 <area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#aa1c0f513935124018845b41e158ad3a6" title="Gets the Stream for a given file path ." alt="" coords="339,5,516,45"/>
 </map>
 </div>
 
 </div>
 </div>
-<a id="a303ef029b30173edc0c87e5c7b8ff379" name="a303ef029b30173edc0c87e5c7b8ff379"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a303ef029b30173edc0c87e5c7b8ff379">&#9670;&#160;</a></span>SetUploadStream()</h2>
+<a id="aa97d6330a37a7ffd60de6a89dee3183b" name="aa97d6330a37a7ffd60de6a89dee3183b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa97d6330a37a7ffd60de6a89dee3183b">&#9670;&#160;</a></span>SetUploadStream()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">async Task&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_error_message_response.html">ErrorMessageResponse</a> &gt; Tgstation.Server.Host.Transfer.FileTransferService.SetUploadStream </td>
+          <td class="memname">async ValueTask&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_error_message_response.html">ErrorMessageResponse</a> &gt; Tgstation.Server.Host.Transfer.FileTransferService.SetUploadStream </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_file_ticket_response.html">FileTicketResponse</a>&#160;</td>
           <td class="paramname"><em>ticket</em>, </td>
@@ -769,10 +769,10 @@ Here is the call graph for this function:</div>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd><code>null</code> if the upload completed successfully, ErrorMessageResponse otherwise.</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A ValueTask&lt;TResult&gt; resulting in <code>null</code> if the upload completed successfully, ErrorMessageResponse otherwise.</dd></dl>
  </p>
 
-<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_i_file_transfer_stream_handler.html#a9baee8df153a4cfdb1bfa5e8913c0962">Tgstation.Server.Host.Transfer.IFileTransferStreamHandler</a>.</p>
+<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_i_file_transfer_stream_handler.html#a74fa6afce12e8613ccee3eb64e28cf5b">Tgstation.Server.Host.Transfer.IFileTransferStreamHandler</a>.</p>
 
 <p class="definition">Definition at line <a class="el" href="_file_transfer_service_8cs_source.html#l00220">220</a> of file <a class="el" href="_file_transfer_service_8cs_source.html">FileTransferService.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">  221</span>        {</div>
@@ -797,10 +797,10 @@ Here is the call graph for this function:</div>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_transfer_service_a303ef029b30173edc0c87e5c7b8ff379_cgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_transfer_service_a303ef029b30173edc0c87e5c7b8ff379_cgraph" alt=""/></div>
-<map name="aclass_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_transfer_service_a303ef029b30173edc0c87e5c7b8ff379_cgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_transfer_service_a303ef029b30173edc0c87e5c7b8ff379_cgraph">
-<area shape="rect" title="Sets the Stream for a given ticket &#160;associated with a pending upload. null if the upload completed su..." alt="" coords="5,5,247,45"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_upload_provider.html#a6f4d99496d5edf61534da8e71fc639c6" title="Resolve the stream &#160;for the FileUploadProvider and awaits the upload." alt="" coords="295,5,497,45"/>
+<div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_transfer_service_aa97d6330a37a7ffd60de6a89dee3183b_cgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_transfer_service_aa97d6330a37a7ffd60de6a89dee3183b_cgraph" alt=""/></div>
+<map name="aclass_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_transfer_service_aa97d6330a37a7ffd60de6a89dee3183b_cgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_transfer_service_aa97d6330a37a7ffd60de6a89dee3183b_cgraph">
+<area shape="rect" title="Sets the Stream for a given ticket &#160;associated with a pending upload. A ValueTask&lt;TResult&gt; resulting ..." alt="" coords="5,5,247,45"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_upload_provider.html#af90c9d4e4ad70978c8b83148c4c46a50" title="Resolve the stream &#160;for the FileUploadProvider and awaits the upload." alt="" coords="295,5,497,45"/>
 </map>
 </div>
 

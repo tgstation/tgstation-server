@@ -110,9 +110,9 @@ Protected Member Functions</h2></td></tr>
 <tr class="memitem:af04cdee6b8fa4478e55014dd3c7b72fb"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_chunker.html#af04cdee6b8fa4478e55014dd3c7b72fb">Chunker</a> (ILogger&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_chunker.html">Chunker</a> &gt; logger)</td></tr>
 <tr class="memdesc:af04cdee6b8fa4478e55014dd3c7b72fb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes a new instance of the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_chunker.html" title="Class that deserializes chunked interop payloads.">Chunker</a> class.   <a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_chunker.html#af04cdee6b8fa4478e55014dd3c7b72fb">More...</a><br /></td></tr>
 <tr class="separator:af04cdee6b8fa4478e55014dd3c7b72fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8983b332cc19dafb6f26ba25c664988d"><td class="memItemLeft" align="right" valign="top">async Task&lt; TResponse &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_chunker.html#a8983b332cc19dafb6f26ba25c664988d">ProcessChunk&lt; TCommnication, TResponse &gt;</a> (Func&lt; TCommnication, CancellationToken, Task&lt; TResponse &gt; &gt; completionCallback, Func&lt; string, TResponse &gt; chunkErrorCallback, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_chunk_data.html">ChunkData</a> chunk, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a8983b332cc19dafb6f26ba25c664988d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Process a given <em>chunk</em> .   <a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_chunker.html#a8983b332cc19dafb6f26ba25c664988d">More...</a><br /></td></tr>
-<tr class="separator:a8983b332cc19dafb6f26ba25c664988d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1ee492915780c5630fd1e52215f6a59b"><td class="memItemLeft" align="right" valign="top">async ValueTask&lt; TResponse &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_chunker.html#a1ee492915780c5630fd1e52215f6a59b">ProcessChunk&lt; TCommnication, TResponse &gt;</a> (Func&lt; TCommnication, CancellationToken, ValueTask&lt; TResponse &gt; &gt; completionCallback, Func&lt; string, TResponse &gt; chunkErrorCallback, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_chunk_data.html">ChunkData</a> chunk, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a1ee492915780c5630fd1e52215f6a59b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Process a given <em>chunk</em> .   <a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_chunker.html#a1ee492915780c5630fd1e52215f6a59b">More...</a><br /></td></tr>
+<tr class="separator:a1ee492915780c5630fd1e52215f6a59b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="properties" name="properties"></a>
 Properties</h2></td></tr>
@@ -182,8 +182,8 @@ Private Attributes</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a8983b332cc19dafb6f26ba25c664988d" name="a8983b332cc19dafb6f26ba25c664988d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8983b332cc19dafb6f26ba25c664988d">&#9670;&#160;</a></span>ProcessChunk&lt; TCommnication, TResponse &gt;()</h2>
+<a id="a1ee492915780c5630fd1e52215f6a59b" name="a1ee492915780c5630fd1e52215f6a59b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1ee492915780c5630fd1e52215f6a59b">&#9670;&#160;</a></span>ProcessChunk&lt; TCommnication, TResponse &gt;()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -192,9 +192,9 @@ Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">async Task&lt; TResponse &gt; Tgstation.Server.Host.Components.Interop.Chunker.ProcessChunk&lt; TCommnication, TResponse &gt; </td>
+          <td class="memname">async ValueTask&lt; TResponse &gt; Tgstation.Server.Host.Components.Interop.Chunker.ProcessChunk&lt; TCommnication, TResponse &gt; </td>
           <td>(</td>
-          <td class="paramtype">Func&lt; TCommnication, CancellationToken, Task&lt; TResponse &gt; &gt;&#160;</td>
+          <td class="paramtype">Func&lt; TCommnication, CancellationToken, ValueTask&lt; TResponse &gt; &gt;&#160;</td>
           <td class="paramname"><em>completionCallback</em>, </td>
         </tr>
         <tr>
@@ -245,7 +245,7 @@ Private Attributes</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in the <em>TResponse</em>  for the chunked request.</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A ValueTask&lt;TResult&gt; resulting in the <em>TResponse</em>  for the chunked request.</dd></dl>
 <div class="typeconstraint">
 <dl><dt><b>Type Constraints</b></dt><dd>
 <table border="0" cellspacing="2" cellpadding="0">

@@ -1,6 +1,0 @@
-<map id="Tgstation.Server.Host.Components.StaticFiles.Configuration.EnsureDirectories" name="Tgstation.Server.Host.Components.StaticFiles.Configuration.EnsureDirectories">
-<area shape="rect" id="node1" title="Ensures standard configuration directories exist." alt="" coords="311,69,577,109"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#a3bc9b1cc811f4a13c74e4cf230a3f2f4" title="Copies all files in the CodeModifications directory to destination . A Task&lt;TResult&gt; resulting in the..." alt="" coords="5,5,263,45"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#a4b1c7c7db3393519a6aa4a117ba0ade6" title="Get ConfigurationFileResponses for all items in a given configurationRelativePath ...." alt="" coords="15,69,253,109"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#a9760c4def25e9918f91f51ea180c567e" title="Reads a given configurationRelativePath . A Task&lt;TResult&gt; resulting in the ConfigurationFileResponse ..." alt="" coords="21,133,247,173"/>
-</map>

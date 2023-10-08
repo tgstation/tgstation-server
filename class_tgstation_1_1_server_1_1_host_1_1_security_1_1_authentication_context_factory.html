@@ -119,8 +119,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a64adcaa81090e5b627e76fb1d098d02d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:accc9334a642e563e47c5308df2d5149a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context_factory.html#accc9334a642e563e47c5308df2d5149a">Dispose</a> ()</td></tr>
 <tr class="separator:accc9334a642e563e47c5308df2d5149a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2d25109494770497244333f385bd5d7e"><td class="memItemLeft" align="right" valign="top">async Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context_factory.html#a2d25109494770497244333f385bd5d7e">CreateAuthenticationContext</a> (long userId, long? instanceId, DateTimeOffset validAfter, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a2d25109494770497244333f385bd5d7e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create an <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authentication_context.html" title="Represents the currently authenticated Models.User.">IAuthenticationContext</a> to populate <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authentication_context_factory.html#a6c1be0fe695cf57fa21674373868f709" title="The IAuthenticationContext the IAuthenticationContextFactory created.">CurrentAuthenticationContext</a>. <dl class="params"><dt>Parameters</dt><dd>
+<tr class="memitem:a32678ee5fabedb7d4e5548a9a99bcd51"><td class="memItemLeft" align="right" valign="top">async ValueTask&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context_factory.html#a32678ee5fabedb7d4e5548a9a99bcd51">CreateAuthenticationContext</a> (long userId, long? instanceId, DateTimeOffset validAfter, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a32678ee5fabedb7d4e5548a9a99bcd51"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create an <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authentication_context.html" title="Represents the currently authenticated Models.User.">IAuthenticationContext</a> to populate <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authentication_context_factory.html#a6c1be0fe695cf57fa21674373868f709" title="The IAuthenticationContext the IAuthenticationContextFactory created.">CurrentAuthenticationContext</a>. <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">userId</td><td>The <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html#ae31e478e1d338b37a14565df6fd58570" title="The ID of the entity.">Api.Models.EntityId.Id</a> of the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authentication_context.html#ae2e7c0c04d2797b9a24a9776277ec77b" title="The authenticated user.">IAuthenticationContext.User</a>.</td></tr>
     <tr><td class="paramname">instanceId</td><td>The <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html#ae31e478e1d338b37a14565df6fd58570" title="The ID of the entity.">Api.Models.EntityId.Id</a> of the operation.</td></tr>
@@ -129,12 +129,12 @@ Public Member Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A Task representing the running operation.</dd></dl>
-  <a href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context_factory.html#a2d25109494770497244333f385bd5d7e">More...</a><br /></td></tr>
-<tr class="separator:a2d25109494770497244333f385bd5d7e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6ed924f10ee271ccc8d2ea840c095e23"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authentication_context_factory.html#a6ed924f10ee271ccc8d2ea840c095e23">CreateAuthenticationContext</a> (long userId, long? instanceId, DateTimeOffset validAfter, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a6ed924f10ee271ccc8d2ea840c095e23"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create an <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authentication_context.html" title="Represents the currently authenticated Models.User.">IAuthenticationContext</a> to populate <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authentication_context_factory.html#a6c1be0fe695cf57fa21674373868f709" title="The IAuthenticationContext the IAuthenticationContextFactory created.">CurrentAuthenticationContext</a>.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authentication_context_factory.html#a6ed924f10ee271ccc8d2ea840c095e23">More...</a><br /></td></tr>
-<tr class="separator:a6ed924f10ee271ccc8d2ea840c095e23"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<dl class="section return"><dt>Returns</dt><dd>A ValueTask representing the running operation.</dd></dl>
+  <a href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context_factory.html#a32678ee5fabedb7d4e5548a9a99bcd51">More...</a><br /></td></tr>
+<tr class="separator:a32678ee5fabedb7d4e5548a9a99bcd51"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9a17e88bfccadd0b3f6dd369b0379761"><td class="memItemLeft" align="right" valign="top">ValueTask&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authentication_context_factory.html#a9a17e88bfccadd0b3f6dd369b0379761">CreateAuthenticationContext</a> (long userId, long? instanceId, DateTimeOffset validAfter, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a9a17e88bfccadd0b3f6dd369b0379761"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create an <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authentication_context.html" title="Represents the currently authenticated Models.User.">IAuthenticationContext</a> to populate <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authentication_context_factory.html#a6c1be0fe695cf57fa21674373868f709" title="The IAuthenticationContext the IAuthenticationContextFactory created.">CurrentAuthenticationContext</a>.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authentication_context_factory.html#a9a17e88bfccadd0b3f6dd369b0379761">More...</a><br /></td></tr>
+<tr class="separator:a9a17e88bfccadd0b3f6dd369b0379761"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="properties" name="properties"></a>
 Properties</h2></td></tr>
@@ -231,14 +231,14 @@ Private Attributes</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a2d25109494770497244333f385bd5d7e" name="a2d25109494770497244333f385bd5d7e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2d25109494770497244333f385bd5d7e">&#9670;&#160;</a></span>CreateAuthenticationContext()</h2>
+<a id="a32678ee5fabedb7d4e5548a9a99bcd51" name="a32678ee5fabedb7d4e5548a9a99bcd51"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a32678ee5fabedb7d4e5548a9a99bcd51">&#9670;&#160;</a></span>CreateAuthenticationContext()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">async Task Tgstation.Server.Host.Security.AuthenticationContextFactory.CreateAuthenticationContext </td>
+          <td class="memname">async ValueTask Tgstation.Server.Host.Security.AuthenticationContextFactory.CreateAuthenticationContext </td>
           <td>(</td>
           <td class="paramtype">long&#160;</td>
           <td class="paramname"><em>userId</em>, </td>
@@ -278,10 +278,10 @@ Private Attributes</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A Task representing the running operation.</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A ValueTask representing the running operation.</dd></dl>
  </p>
 
-<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authentication_context_factory.html#a6ed924f10ee271ccc8d2ea840c095e23">Tgstation.Server.Host.Security.IAuthenticationContextFactory</a>.</p>
+<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authentication_context_factory.html#a9a17e88bfccadd0b3f6dd369b0379761">Tgstation.Server.Host.Security.IAuthenticationContextFactory</a>.</p>
 
 <p class="definition">Definition at line <a class="el" href="_authentication_context_factory_8cs_source.html#l00065">65</a> of file <a class="el" href="_authentication_context_factory_8cs_source.html">AuthenticationContextFactory.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   66</span>        {</div>
@@ -357,9 +357,9 @@ Private Attributes</h2></td></tr>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context_factory_a2d25109494770497244333f385bd5d7e_cgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context_factory_a2d25109494770497244333f385bd5d7e_cgraph" alt=""/></div>
-<map name="aclass_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context_factory_a2d25109494770497244333f385bd5d7e_cgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context_factory_a2d25109494770497244333f385bd5d7e_cgraph">
-<area shape="rect" title="Create an IAuthenticationContext to populate CurrentAuthenticationContext. A Task representing the ru..." alt="" coords="5,5,239,60"/>
+<div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context_factory_a32678ee5fabedb7d4e5548a9a99bcd51_cgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context_factory_a32678ee5fabedb7d4e5548a9a99bcd51_cgraph" alt=""/></div>
+<map name="aclass_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context_factory_a32678ee5fabedb7d4e5548a9a99bcd51_cgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context_factory_a32678ee5fabedb7d4e5548a9a99bcd51_cgraph">
+<area shape="rect" title="Create an IAuthenticationContext to populate CurrentAuthenticationContext. A ValueTask representing t..." alt="" coords="5,5,239,60"/>
 <area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_identity_cache.html#afc655c9c2d6af6086bcda5b6c54e1c41" title="Attempt to load a cached ISystemIdentity." alt="" coords="287,13,509,53"/>
 </map>
 </div>

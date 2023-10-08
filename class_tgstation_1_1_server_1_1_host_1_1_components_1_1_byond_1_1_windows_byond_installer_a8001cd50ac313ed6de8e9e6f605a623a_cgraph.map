@@ -1,0 +1,10 @@
+<map id="Tgstation.Server.Host.Components.Byond.WindowsByondInstaller.UpgradeInstallation" name="Tgstation.Server.Host.Components.Byond.WindowsByondInstaller.UpgradeInstallation">
+<area shape="rect" id="node1" title="Does actions necessary to get upgrade a BYOND version installed by a previous version of TGS...." alt="" coords="5,122,253,177"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_windows_byond_installer.html#aaf1dd30fcd3d339a475f094e63b2e192" title="Attempt to add the DreamDaemon executable as an exception to the Windows firewall." alt="" coords="301,122,561,177"/>
+<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a286f4eb5c679683b7e519847a6c3574e" title="Combines an array of strings into a path." alt="" coords="655,5,823,45"/>
+<area shape="rect" id="node8" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ad4de873180481f7afa206b6282158d62" title="Check that the file at path &#160;exists." alt="" coords="347,201,515,241"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_windows_byond_installer.html#adcbd3d4078c928688df7b79f04a721bf" title="Get the file name of the DreamDaemon executable. The file name of the DreamDaemon executable." alt="" coords="609,70,868,125"/>
+<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_executor.html#a5e48f8c3170b82398e88c55724c3941a" title="Launch a IProcess." alt="" coords="629,149,848,189"/>
+<area shape="rect" id="node6" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a18a442b5dff16f5e7a730ec354e81d78" title="Retrieve the full path of the current working directory." alt="" coords="655,213,823,253"/>
+<area shape="rect" id="node7" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a9aeb8b83ea3f4b13a183b6ac55b35a70" title="Writes some contents &#160;to a file at path &#160;overwriting previous content." alt="" coords="653,277,824,317"/>
+</map>

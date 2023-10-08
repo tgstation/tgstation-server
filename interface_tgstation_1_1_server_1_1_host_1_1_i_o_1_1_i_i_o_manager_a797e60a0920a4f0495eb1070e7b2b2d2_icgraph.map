@@ -1,5 +1,0 @@
-<map id="Tgstation.Server.Host.IO.IIOManager.CopyDirectory" name="Tgstation.Server.Host.IO.IIOManager.CopyDirectory">
-<area shape="rect" id="node1" title="Copies a directory from src &#160;to dest ." alt="" coords="311,37,484,77"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#a3bc9b1cc811f4a13c74e4cf230a3f2f4" title="Copies all files in the CodeModifications directory to destination . A Task&lt;TResult&gt; resulting in the..." alt="" coords="5,5,263,45"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html#a09369ceb3b7c2c2562d546b9daebd42b" title="Copies the current working directory to a given path . A Task representing the running operation." alt="" coords="21,69,247,109"/>
-</map>

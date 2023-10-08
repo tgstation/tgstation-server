@@ -1,4 +1,0 @@
-<map id="Tgstation.Server.Host.Components.Chat.ChatManager.RemoveProviderChannels" name="Tgstation.Server.Host.Components.Chat.ChatManager.RemoveProviderChannels">
-<area shape="rect" id="node1" title="Remove a IProvider from mappedChannels optionally removing the provider itself from providers and upd..." alt="" coords="284,5,567,45"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#aee67a4cb60d68f67214958ec996805cc" title="Change chat channels. A Task representing the running operation." alt="" coords="5,5,236,45"/>
-</map>

@@ -126,8 +126,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a6f58815e073d27699e473c74617f0fdc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa03bf7c23b1ca8beae299f5c358a55ee"><td class="memItemLeft" align="right" valign="top">override void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_system_d_manager.html#aa03bf7c23b1ca8beae299f5c358a55ee">Dispose</a> ()</td></tr>
 <tr class="separator:aa03bf7c23b1ca8beae299f5c358a55ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5ad8735fb1000699009b55aa3ccd22ee"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_system_d_manager.html#a5ad8735fb1000699009b55aa3ccd22ee">HandleRestart</a> (Version updateVersion, bool handlerMayDelayShutdownWithExtremelyLongRunningTasks, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a5ad8735fb1000699009b55aa3ccd22ee"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handle a restart of the server. <dl class="params"><dt>Parameters</dt><dd>
+<tr class="memitem:aeb01775289ed2a3bce83a9e30268e5da"><td class="memItemLeft" align="right" valign="top">ValueTask&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_system_d_manager.html#aeb01775289ed2a3bce83a9e30268e5da">HandleRestart</a> (Version updateVersion, bool handlerMayDelayShutdownWithExtremelyLongRunningTasks, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:aeb01775289ed2a3bce83a9e30268e5da"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handle a restart of the server. <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">updateVersion</td><td>The Version being updated to, <code>null</code> if not being changed.</td></tr>
     <tr><td class="paramname">handlerMayDelayShutdownWithExtremelyLongRunningTasks</td><td>If <code>false</code> the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_restart_handler.html" title="Handler for server restarts.">IRestartHandler</a> should aim to complete the Task returned from this function ASAP.</td></tr>
@@ -135,12 +135,12 @@ Public Member Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A Task representing the running operation.</dd></dl>
-  <a href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_system_d_manager.html#a5ad8735fb1000699009b55aa3ccd22ee">More...</a><br /></td></tr>
-<tr class="separator:a5ad8735fb1000699009b55aa3ccd22ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1a66ba5a98464e55bbb85195d3c49a50"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_restart_handler.html#a1a66ba5a98464e55bbb85195d3c49a50">HandleRestart</a> (Version updateVersion, bool handlerMayDelayShutdownWithExtremelyLongRunningTasks, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a1a66ba5a98464e55bbb85195d3c49a50"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handle a restart of the server.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_restart_handler.html#a1a66ba5a98464e55bbb85195d3c49a50">More...</a><br /></td></tr>
-<tr class="separator:a1a66ba5a98464e55bbb85195d3c49a50"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<dl class="section return"><dt>Returns</dt><dd>A ValueTask representing the running operation.</dd></dl>
+  <a href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_system_d_manager.html#aeb01775289ed2a3bce83a9e30268e5da">More...</a><br /></td></tr>
+<tr class="separator:aeb01775289ed2a3bce83a9e30268e5da"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a599c07577acdbea19a8eeb83304fdece"><td class="memItemLeft" align="right" valign="top">ValueTask&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_restart_handler.html#a599c07577acdbea19a8eeb83304fdece">HandleRestart</a> (Version updateVersion, bool handlerMayDelayShutdownWithExtremelyLongRunningTasks, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a599c07577acdbea19a8eeb83304fdece"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handle a restart of the server.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_restart_handler.html#a599c07577acdbea19a8eeb83304fdece">More...</a><br /></td></tr>
+<tr class="separator:a599c07577acdbea19a8eeb83304fdece"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pro-methods" name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
@@ -448,14 +448,14 @@ Here is the call graph for this function:</div>
 
 </div>
 </div>
-<a id="a5ad8735fb1000699009b55aa3ccd22ee" name="a5ad8735fb1000699009b55aa3ccd22ee"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5ad8735fb1000699009b55aa3ccd22ee">&#9670;&#160;</a></span>HandleRestart()</h2>
+<a id="aeb01775289ed2a3bce83a9e30268e5da" name="aeb01775289ed2a3bce83a9e30268e5da"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aeb01775289ed2a3bce83a9e30268e5da">&#9670;&#160;</a></span>HandleRestart()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">Task Tgstation.Server.Host.System.SystemDManager.HandleRestart </td>
+          <td class="memname">ValueTask Tgstation.Server.Host.System.SystemDManager.HandleRestart </td>
           <td>(</td>
           <td class="paramtype">Version&#160;</td>
           <td class="paramname"><em>updateVersion</em>, </td>
@@ -488,16 +488,16 @@ Here is the call graph for this function:</div>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A Task representing the running operation.</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A ValueTask representing the running operation.</dd></dl>
  </p>
 
-<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_restart_handler.html#a1a66ba5a98464e55bbb85195d3c49a50">Tgstation.Server.Host.Core.IRestartHandler</a>.</p>
+<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_restart_handler.html#a599c07577acdbea19a8eeb83304fdece">Tgstation.Server.Host.Core.IRestartHandler</a>.</p>
 
 <p class="definition">Definition at line <a class="el" href="_system_d_manager_8cs_source.html#l00089">89</a> of file <a class="el" href="_system_d_manager_8cs_source.html">SystemDManager.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   90</span>        {</div>
 <div class="line"><span class="lineno">   91</span>            <span class="comment">// If this is set, we know a gracefule SHUTDOWN was requested</span></div>
 <div class="line"><span class="lineno">   92</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_system_d_manager.html#a7d5659d722a690da2b6fe6b243648f87">restartInProgress</a> = !handlerMayDelayShutdownWithExtremelyLongRunningTasks;</div>
-<div class="line"><span class="lineno">   93</span>            <span class="keywordflow">return</span> Task.CompletedTask;</div>
+<div class="line"><span class="lineno">   93</span>            <span class="keywordflow">return</span> ValueTask.CompletedTask;</div>
 <div class="line"><span class="lineno">   94</span>        }</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="_system_d_manager_8cs_source.html#l00049">Tgstation.Server.Host.System.SystemDManager.restartInProgress</a>.</p>

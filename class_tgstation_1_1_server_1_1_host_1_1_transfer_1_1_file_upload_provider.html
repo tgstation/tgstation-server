@@ -120,22 +120,22 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a1f2ec5d481f86107eb6696ef66e43dc7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a82e8284e51143ebc8c48cb30166304cd"><td class="memItemLeft" align="right" valign="top">ValueTask&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_upload_provider.html#a82e8284e51143ebc8c48cb30166304cd">DisposeAsync</a> ()</td></tr>
 <tr class="separator:a82e8284e51143ebc8c48cb30166304cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac957601ace3de0c23b77d39900d98304"><td class="memItemLeft" align="right" valign="top">async Task&lt; <a class="el" href="class_stream.html">Stream</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_upload_provider.html#ac957601ace3de0c23b77d39900d98304">GetResult</a> (CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:ac957601ace3de0c23b77d39900d98304"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the provided <a class="el" href="class_stream.html">Stream</a>. May be called multiple times, though cancelling any may cause all calls to be cancelled. All calls yield the same <a class="el" href="class_stream.html">Stream</a> reference. <dl class="params"><dt>Parameters</dt><dd>
+<tr class="memitem:ab69896f76142e1f2668f8c8ad992fe06"><td class="memItemLeft" align="right" valign="top">async ValueTask&lt; <a class="el" href="class_stream.html">Stream</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_upload_provider.html#ab69896f76142e1f2668f8c8ad992fe06">GetResult</a> (CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:ab69896f76142e1f2668f8c8ad992fe06"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the provided <a class="el" href="class_stream.html">Stream</a>. May be called multiple times, though cancelling any may cause all calls to be cancelled. All calls yield the same <a class="el" href="class_stream.html">Stream</a> reference. <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in the provided <a class="el" href="class_stream.html">Stream</a> on success, <code>null</code> if it could not be provided.</dd></dl>
-The resulting <a class="el" href="class_stream.html">Stream</a> is owned by the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_file_stream_provider.html" title="Interface for asynchronously consuming Streams of files.">IFileStreamProvider</a> and is short lived unless otherwise specified. It should be buffered if it needs use outside the lifetime of the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_file_stream_provider.html" title="Interface for asynchronously consuming Streams of files.">IFileStreamProvider</a>.  <a href="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_upload_provider.html#ac957601ace3de0c23b77d39900d98304">More...</a><br /></td></tr>
-<tr class="separator:ac957601ace3de0c23b77d39900d98304"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<dl class="section return"><dt>Returns</dt><dd>A ValueTask&lt;TResult&gt; resulting in the provided <a class="el" href="class_stream.html">Stream</a> on success, <code>null</code> if it could not be provided.</dd></dl>
+The resulting <a class="el" href="class_stream.html">Stream</a> is owned by the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_file_stream_provider.html" title="Interface for asynchronously consuming Streams of files.">IFileStreamProvider</a> and is short lived unless otherwise specified. It should be buffered if it needs use outside the lifetime of the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_file_stream_provider.html" title="Interface for asynchronously consuming Streams of files.">IFileStreamProvider</a>.  <a href="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_upload_provider.html#ab69896f76142e1f2668f8c8ad992fe06">More...</a><br /></td></tr>
+<tr class="separator:ab69896f76142e1f2668f8c8ad992fe06"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af5e09bbddf32115235159af767b6f644"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_upload_provider.html#af5e09bbddf32115235159af767b6f644">Expire</a> ()</td></tr>
 <tr class="memdesc:af5e09bbddf32115235159af767b6f644"><td class="mdescLeft">&#160;</td><td class="mdescRight">Expire the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_upload_provider.html">FileUploadProvider</a>.   <a href="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_upload_provider.html#af5e09bbddf32115235159af767b6f644">More...</a><br /></td></tr>
 <tr class="separator:af5e09bbddf32115235159af767b6f644"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6f4d99496d5edf61534da8e71fc639c6"><td class="memItemLeft" align="right" valign="top">async Task&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_error_message_response.html">ErrorMessageResponse</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_upload_provider.html#a6f4d99496d5edf61534da8e71fc639c6">Completion</a> (<a class="el" href="class_stream.html">Stream</a> stream, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a6f4d99496d5edf61534da8e71fc639c6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Resolve the <em>stream</em>  for the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_upload_provider.html">FileUploadProvider</a> and awaits the upload.   <a href="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_upload_provider.html#a6f4d99496d5edf61534da8e71fc639c6">More...</a><br /></td></tr>
-<tr class="separator:a6f4d99496d5edf61534da8e71fc639c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af90c9d4e4ad70978c8b83148c4c46a50"><td class="memItemLeft" align="right" valign="top">async ValueTask&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_error_message_response.html">ErrorMessageResponse</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_upload_provider.html#af90c9d4e4ad70978c8b83148c4c46a50">Completion</a> (<a class="el" href="class_stream.html">Stream</a> stream, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:af90c9d4e4ad70978c8b83148c4c46a50"><td class="mdescLeft">&#160;</td><td class="mdescRight">Resolve the <em>stream</em>  for the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_upload_provider.html">FileUploadProvider</a> and awaits the upload.   <a href="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_upload_provider.html#af90c9d4e4ad70978c8b83148c4c46a50">More...</a><br /></td></tr>
+<tr class="separator:af90c9d4e4ad70978c8b83148c4c46a50"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac8c42f5846dc48ced5396749317496b9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_upload_provider.html#ac8c42f5846dc48ced5396749317496b9">SetError</a> (<a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">ErrorCode</a> errorCode, string additionalData)</td></tr>
 <tr class="memdesc:ac8c42f5846dc48ced5396749317496b9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets an <em>errorCode</em>  that indicates why the consuming operation could not complete. May only be called once on a IFileStreamProvider. <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -149,9 +149,9 @@ The resulting <a class="el" href="class_stream.html">Stream</a> is owned by the 
 <tr class="memitem:a410fe4006751e6919f2fe7c8a3c4df40"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_i_file_upload_ticket.html#a410fe4006751e6919f2fe7c8a3c4df40">SetError</a> (<a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">ErrorCode</a> errorCode, string additionalData)</td></tr>
 <tr class="memdesc:a410fe4006751e6919f2fe7c8a3c4df40"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets an <em>errorCode</em>  that indicates why the consuming operation could not complete. May only be called once on a IFileStreamProvider.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_i_file_upload_ticket.html#a410fe4006751e6919f2fe7c8a3c4df40">More...</a><br /></td></tr>
 <tr class="separator:a410fe4006751e6919f2fe7c8a3c4df40"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4089d4c4bd2c81af23de761984fed8e9"><td class="memItemLeft" align="right" valign="top">Task&lt; <a class="el" href="class_stream.html">Stream</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_file_stream_provider.html#a4089d4c4bd2c81af23de761984fed8e9">GetResult</a> (CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a4089d4c4bd2c81af23de761984fed8e9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the provided <a class="el" href="class_stream.html">Stream</a>. May be called multiple times, though cancelling any may cause all calls to be cancelled. All calls yield the same <a class="el" href="class_stream.html">Stream</a> reference.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_file_stream_provider.html#a4089d4c4bd2c81af23de761984fed8e9">More...</a><br /></td></tr>
-<tr class="separator:a4089d4c4bd2c81af23de761984fed8e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a78376175b738d1a52b4e711e2379396b"><td class="memItemLeft" align="right" valign="top">ValueTask&lt; <a class="el" href="class_stream.html">Stream</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_file_stream_provider.html#a78376175b738d1a52b4e711e2379396b">GetResult</a> (CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a78376175b738d1a52b4e711e2379396b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the provided <a class="el" href="class_stream.html">Stream</a>. May be called multiple times, though cancelling any may cause all calls to be cancelled. All calls yield the same <a class="el" href="class_stream.html">Stream</a> reference.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_file_stream_provider.html#a78376175b738d1a52b4e711e2379396b">More...</a><br /></td></tr>
+<tr class="separator:a78376175b738d1a52b4e711e2379396b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="properties" name="properties"></a>
 Properties</h2></td></tr>
@@ -175,7 +175,7 @@ Private Attributes</h2></td></tr>
 <tr class="memdesc:ac28a7cc3bcb617e27496478772f1a2fb"><td class="mdescLeft">&#160;</td><td class="mdescRight">The TaskCompletionSource that completes in IDisposable.Dispose or when <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_upload_provider.html#ac8c42f5846dc48ced5396749317496b9" title="Sets an errorCode  that indicates why the consuming operation could not complete. May only be called ...">SetError(ErrorCode, string)</a> is called.   <a href="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_upload_provider.html#ac28a7cc3bcb617e27496478772f1a2fb">More...</a><br /></td></tr>
 <tr class="separator:ac28a7cc3bcb617e27496478772f1a2fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a664d40fda715c2542f9f5fffa39ea574"><td class="memItemLeft" align="right" valign="top">readonly <a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_transfer.html#a877ade9041cebca776e13eeea5b9871d">FileUploadStreamKind</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_upload_provider.html#a664d40fda715c2542f9f5fffa39ea574">streamKind</a></td></tr>
-<tr class="memdesc:a664d40fda715c2542f9f5fffa39ea574"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determines the backing for the <a class="el" href="class_stream.html">Stream</a> returned from <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_upload_provider.html#ac957601ace3de0c23b77d39900d98304" title="Gets the provided Stream. May be called multiple times, though cancelling any may cause all calls to ...">GetResult(CancellationToken)</a>.   <a href="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_upload_provider.html#a664d40fda715c2542f9f5fffa39ea574">More...</a><br /></td></tr>
+<tr class="memdesc:a664d40fda715c2542f9f5fffa39ea574"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determines the backing for the <a class="el" href="class_stream.html">Stream</a> returned from <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_upload_provider.html#ab69896f76142e1f2668f8c8ad992fe06" title="Gets the provided Stream. May be called multiple times, though cancelling any may cause all calls to ...">GetResult(CancellationToken)</a>.   <a href="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_upload_provider.html#a664d40fda715c2542f9f5fffa39ea574">More...</a><br /></td></tr>
 <tr class="separator:a664d40fda715c2542f9f5fffa39ea574"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa574c8b0a37895b05e9d84a606372baa"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_error_message_response.html">ErrorMessageResponse</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_upload_provider.html#aa574c8b0a37895b05e9d84a606372baa">errorMessage</a></td></tr>
 <tr class="memdesc:aa574c8b0a37895b05e9d84a606372baa"><td class="mdescLeft">&#160;</td><td class="mdescRight">The ErrorMessageResponse that occurred while processing the upload if any.   <a href="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_upload_provider.html#aa574c8b0a37895b05e9d84a606372baa">More...</a><br /></td></tr>
@@ -240,14 +240,14 @@ Private Attributes</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a6f4d99496d5edf61534da8e71fc639c6" name="a6f4d99496d5edf61534da8e71fc639c6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6f4d99496d5edf61534da8e71fc639c6">&#9670;&#160;</a></span>Completion()</h2>
+<a id="af90c9d4e4ad70978c8b83148c4c46a50" name="af90c9d4e4ad70978c8b83148c4c46a50"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af90c9d4e4ad70978c8b83148c4c46a50">&#9670;&#160;</a></span>Completion()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">async Task&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_error_message_response.html">ErrorMessageResponse</a> &gt; Tgstation.Server.Host.Transfer.FileUploadProvider.Completion </td>
+          <td class="memname">async ValueTask&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_error_message_response.html">ErrorMessageResponse</a> &gt; Tgstation.Server.Host.Transfer.FileUploadProvider.Completion </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="class_stream.html">Stream</a>&#160;</td>
           <td class="paramname"><em>stream</em>, </td>
@@ -331,10 +331,10 @@ Private Attributes</h2></td></tr>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_upload_provider_a6f4d99496d5edf61534da8e71fc639c6_icgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_upload_provider_a6f4d99496d5edf61534da8e71fc639c6_icgraph" alt=""/></div>
-<map name="aclass_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_upload_provider_a6f4d99496d5edf61534da8e71fc639c6_icgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_upload_provider_a6f4d99496d5edf61534da8e71fc639c6_icgraph">
+<div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_upload_provider_af90c9d4e4ad70978c8b83148c4c46a50_icgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_upload_provider_af90c9d4e4ad70978c8b83148c4c46a50_icgraph" alt=""/></div>
+<map name="aclass_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_upload_provider_af90c9d4e4ad70978c8b83148c4c46a50_icgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_upload_provider_af90c9d4e4ad70978c8b83148c4c46a50_icgraph">
 <area shape="rect" title="Resolve the stream &#160;for the FileUploadProvider and awaits the upload." alt="" coords="295,5,497,45"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_transfer_service.html#a303ef029b30173edc0c87e5c7b8ff379" title="Sets the Stream for a given ticket &#160;associated with a pending upload. null if the upload completed su..." alt="" coords="5,5,247,45"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_transfer_service.html#aa97d6330a37a7ffd60de6a89dee3183b" title="Sets the Stream for a given ticket &#160;associated with a pending upload. A ValueTask&lt;TResult&gt; resulting ..." alt="" coords="5,5,247,45"/>
 </map>
 </div>
 
@@ -395,14 +395,14 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a id="ac957601ace3de0c23b77d39900d98304" name="ac957601ace3de0c23b77d39900d98304"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac957601ace3de0c23b77d39900d98304">&#9670;&#160;</a></span>GetResult()</h2>
+<a id="ab69896f76142e1f2668f8c8ad992fe06" name="ab69896f76142e1f2668f8c8ad992fe06"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab69896f76142e1f2668f8c8ad992fe06">&#9670;&#160;</a></span>GetResult()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">async Task&lt; <a class="el" href="class_stream.html">Stream</a> &gt; Tgstation.Server.Host.Transfer.FileUploadProvider.GetResult </td>
+          <td class="memname">async ValueTask&lt; <a class="el" href="class_stream.html">Stream</a> &gt; Tgstation.Server.Host.Transfer.FileUploadProvider.GetResult </td>
           <td>(</td>
           <td class="paramtype">CancellationToken&#160;</td>
           <td class="paramname"><em>cancellationToken</em></td><td>)</td>
@@ -417,10 +417,10 @@ Here is the caller graph for this function:</div>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in the provided <a class="el" href="class_stream.html">Stream</a> on success, <code>null</code> if it could not be provided.</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A ValueTask&lt;TResult&gt; resulting in the provided <a class="el" href="class_stream.html">Stream</a> on success, <code>null</code> if it could not be provided.</dd></dl>
 The resulting <a class="el" href="class_stream.html">Stream</a> is owned by the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_file_stream_provider.html" title="Interface for asynchronously consuming Streams of files.">IFileStreamProvider</a> and is short lived unless otherwise specified. It should be buffered if it needs use outside the lifetime of the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_file_stream_provider.html" title="Interface for asynchronously consuming Streams of files.">IFileStreamProvider</a>. </p>
 
-<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_file_stream_provider.html#a4089d4c4bd2c81af23de761984fed8e9">Tgstation.Server.Host.IO.IFileStreamProvider</a>.</p>
+<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_file_stream_provider.html#a78376175b738d1a52b4e711e2379396b">Tgstation.Server.Host.IO.IFileStreamProvider</a>.</p>
 
 <p class="definition">Definition at line <a class="el" href="_file_upload_provider_8cs_source.html#l00069">69</a> of file <a class="el" href="_file_upload_provider_8cs_source.html">FileUploadProvider.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   70</span>        {</div>
@@ -563,7 +563,7 @@ The resulting <a class="el" href="class_stream.html">Stream</a> is owned by the 
 </table>
 </div><div class="memdoc">
 
-<p>Determines the backing for the <a class="el" href="class_stream.html">Stream</a> returned from <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_upload_provider.html#ac957601ace3de0c23b77d39900d98304" title="Gets the provided Stream. May be called multiple times, though cancelling any may cause all calls to ...">GetResult(CancellationToken)</a>.  </p>
+<p>Determines the backing for the <a class="el" href="class_stream.html">Stream</a> returned from <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_upload_provider.html#ab69896f76142e1f2668f8c8ad992fe06" title="Gets the provided Stream. May be called multiple times, though cancelling any may cause all calls to ...">GetResult(CancellationToken)</a>.  </p>
 
 <p class="definition">Definition at line <a class="el" href="_file_upload_provider_8cs_source.html#l00038">38</a> of file <a class="el" href="_file_upload_provider_8cs_source.html">FileUploadProvider.cs</a>.</p>
 

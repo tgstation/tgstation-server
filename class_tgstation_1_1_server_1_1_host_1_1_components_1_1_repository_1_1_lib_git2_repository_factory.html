@@ -114,17 +114,17 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a8bc05618aab9412af73cd95ef270a0c5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_lib_git2_repository_factory.html#a8bc05618aab9412af73cd95ef270a0c5">CreateInMemory</a> ()</td></tr>
 <tr class="memdesc:a8bc05618aab9412af73cd95ef270a0c5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create and destory an in-memeory LibGit2Sharp.IRepository. Used as a test of the libgit2 native library.  <a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_lib_git2_repository_factory.html#a8bc05618aab9412af73cd95ef270a0c5">More...</a><br /></td></tr>
 <tr class="separator:a8bc05618aab9412af73cd95ef270a0c5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab32babbeecda4cd7d097e9e292be8cfa"><td class="memItemLeft" align="right" valign="top">async Task&lt; LibGit2Sharp.IRepository &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_lib_git2_repository_factory.html#ab32babbeecda4cd7d097e9e292be8cfa">CreateFromPath</a> (string path, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:ab32babbeecda4cd7d097e9e292be8cfa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load a LibGit2Sharp.IRepository from a given <em>path</em> . <dl class="params"><dt>Parameters</dt><dd>
+<tr class="memitem:aa73b9b03774dac7fdc54f0df318a7dc0"><td class="memItemLeft" align="right" valign="top">async ValueTask&lt; LibGit2Sharp.IRepository &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_lib_git2_repository_factory.html#aa73b9b03774dac7fdc54f0df318a7dc0">CreateFromPath</a> (string path, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:aa73b9b03774dac7fdc54f0df318a7dc0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load a LibGit2Sharp.IRepository from a given <em>path</em> . <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">path</td><td>The full path to the LibGit2Sharp.IRepository.</td></tr>
     <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in the loaded LibGit2Sharp.IRepository.</dd></dl>
-  <a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_lib_git2_repository_factory.html#ab32babbeecda4cd7d097e9e292be8cfa">More...</a><br /></td></tr>
-<tr class="separator:ab32babbeecda4cd7d097e9e292be8cfa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<dl class="section return"><dt>Returns</dt><dd>A ValueTask&lt;TResult&gt; resulting in the loaded LibGit2Sharp.IRepository.</dd></dl>
+  <a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_lib_git2_repository_factory.html#aa73b9b03774dac7fdc54f0df318a7dc0">More...</a><br /></td></tr>
+<tr class="separator:aa73b9b03774dac7fdc54f0df318a7dc0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac40ab8e01d38e4283f2b108b6cf3d4e4"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_lib_git2_repository_factory.html#ac40ab8e01d38e4283f2b108b6cf3d4e4">Clone</a> (Uri url, CloneOptions cloneOptions, string path, CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:ac40ab8e01d38e4283f2b108b6cf3d4e4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clone a remote LibGit2Sharp.IRepository. <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -161,9 +161,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a456a4c98f9b668fe2cba461351d6eb95"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_lib_git2_repository_factory.html#a456a4c98f9b668fe2cba461351d6eb95">CreateInMemory</a> ()</td></tr>
 <tr class="memdesc:a456a4c98f9b668fe2cba461351d6eb95"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create and destory an in-memeory LibGit2Sharp.IRepository.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_lib_git2_repository_factory.html#a456a4c98f9b668fe2cba461351d6eb95">More...</a><br /></td></tr>
 <tr class="separator:a456a4c98f9b668fe2cba461351d6eb95"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa86c655ce5936565a44676012522a938"><td class="memItemLeft" align="right" valign="top">Task&lt; LibGit2Sharp.IRepository &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_lib_git2_repository_factory.html#aa86c655ce5936565a44676012522a938">CreateFromPath</a> (string path, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:aa86c655ce5936565a44676012522a938"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load a LibGit2Sharp.IRepository from a given <em>path</em> .   <a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_lib_git2_repository_factory.html#aa86c655ce5936565a44676012522a938">More...</a><br /></td></tr>
-<tr class="separator:aa86c655ce5936565a44676012522a938"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa2a092f96f2408453c2a1b5d5b0a4f30"><td class="memItemLeft" align="right" valign="top">ValueTask&lt; LibGit2Sharp.IRepository &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_lib_git2_repository_factory.html#aa2a092f96f2408453c2a1b5d5b0a4f30">CreateFromPath</a> (string path, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:aa2a092f96f2408453c2a1b5d5b0a4f30"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load a LibGit2Sharp.IRepository from a given <em>path</em> .   <a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_lib_git2_repository_factory.html#aa2a092f96f2408453c2a1b5d5b0a4f30">More...</a><br /></td></tr>
+<tr class="separator:aa2a092f96f2408453c2a1b5d5b0a4f30"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0a6ed81450e50013e2ec1bae65e5f8cb"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_lib_git2_repository_factory.html#a0a6ed81450e50013e2ec1bae65e5f8cb">Clone</a> (Uri url, CloneOptions cloneOptions, string path, CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:a0a6ed81450e50013e2ec1bae65e5f8cb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clone a remote LibGit2Sharp.IRepository.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_lib_git2_repository_factory.html#a0a6ed81450e50013e2ec1bae65e5f8cb">More...</a><br /></td></tr>
 <tr class="separator:a0a6ed81450e50013e2ec1bae65e5f8cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -351,14 +351,14 @@ Here is the call graph for this function:</div>
 
 </div>
 </div>
-<a id="ab32babbeecda4cd7d097e9e292be8cfa" name="ab32babbeecda4cd7d097e9e292be8cfa"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab32babbeecda4cd7d097e9e292be8cfa">&#9670;&#160;</a></span>CreateFromPath()</h2>
+<a id="aa73b9b03774dac7fdc54f0df318a7dc0" name="aa73b9b03774dac7fdc54f0df318a7dc0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa73b9b03774dac7fdc54f0df318a7dc0">&#9670;&#160;</a></span>CreateFromPath()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">async Task&lt; LibGit2Sharp.IRepository &gt; Tgstation.Server.Host.Components.Repository.LibGit2RepositoryFactory.CreateFromPath </td>
+          <td class="memname">async ValueTask&lt; LibGit2Sharp.IRepository &gt; Tgstation.Server.Host.Components.Repository.LibGit2RepositoryFactory.CreateFromPath </td>
           <td>(</td>
           <td class="paramtype">string&#160;</td>
           <td class="paramname"><em>path</em>, </td>
@@ -384,10 +384,10 @@ Here is the call graph for this function:</div>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in the loaded LibGit2Sharp.IRepository.</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A ValueTask&lt;TResult&gt; resulting in the loaded LibGit2Sharp.IRepository.</dd></dl>
  </p>
 
-<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_lib_git2_repository_factory.html#aa86c655ce5936565a44676012522a938">Tgstation.Server.Host.Components.Repository.ILibGit2RepositoryFactory</a>.</p>
+<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_lib_git2_repository_factory.html#aa2a092f96f2408453c2a1b5d5b0a4f30">Tgstation.Server.Host.Components.Repository.ILibGit2RepositoryFactory</a>.</p>
 
 <p class="definition">Definition at line <a class="el" href="_lib_git2_repository_factory_8cs_source.html#l00041">41</a> of file <a class="el" href="_lib_git2_repository_factory_8cs_source.html">LibGit2RepositoryFactory.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   42</span>        {</div>
