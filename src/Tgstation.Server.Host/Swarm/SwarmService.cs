@@ -16,6 +16,7 @@ using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 
 using Tgstation.Server.Api.Models.Response;
+using Tgstation.Server.Common.Extensions;
 using Tgstation.Server.Common.Http;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Core;
@@ -211,7 +212,7 @@ namespace Tgstation.Server.Host.Swarm
 		public void Dispose() => serverHealthCheckCancellationTokenSource?.Dispose();
 
 		/// <inheritdoc />
-		public async Task AbortUpdate()
+		public async ValueTask AbortUpdate()
 		{
 			if (!SwarmMode)
 				return;
@@ -239,7 +240,7 @@ namespace Tgstation.Server.Host.Swarm
 		}
 
 		/// <inheritdoc />
-		public async Task<SwarmCommitResult> CommitUpdate(CancellationToken cancellationToken)
+		public async ValueTask<SwarmCommitResult> CommitUpdate(CancellationToken cancellationToken)
 		{
 			if (!SwarmMode)
 				return SwarmCommitResult.ContinueUpdateNonCommitted;
@@ -311,7 +312,7 @@ namespace Tgstation.Server.Host.Swarm
 			// on the controller, we first need to signal for nodes to go ahead
 			// if anything fails at this point, there's nothing we can do
 			logger.LogDebug("Sending remote commit message to nodes...");
-			async Task SendRemoteCommitUpdate(SwarmServerResponse swarmServer)
+			async ValueTask SendRemoteCommitUpdate(SwarmServerResponse swarmServer)
 			{
 				using var request = PrepareSwarmRequest(
 					swarmServer,
@@ -332,12 +333,13 @@ namespace Tgstation.Server.Host.Swarm
 				}
 			}
 
-			Task task;
+			ValueTask task;
 			lock (swarmServers)
-				task = Task.WhenAll(
+				task = ValueTaskExtensions.WhenAll(
 					swarmServers
 						.Where(x => !x.Controller)
-						.Select(SendRemoteCommitUpdate));
+						.Select(SendRemoteCommitUpdate)
+						.ToList());
 
 			await task;
 			return SwarmCommitResult.MustCommitUpdate;
@@ -354,7 +356,7 @@ namespace Tgstation.Server.Host.Swarm
 		}
 
 		/// <inheritdoc />
-		public Task<SwarmPrepareResult> PrepareUpdate(ISeekableFileStreamProvider fileStreamProvider, Version version, CancellationToken cancellationToken)
+		public ValueTask<SwarmPrepareResult> PrepareUpdate(ISeekableFileStreamProvider fileStreamProvider, Version version, CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(fileStreamProvider);
 
@@ -371,7 +373,7 @@ namespace Tgstation.Server.Host.Swarm
 		}
 
 		/// <inheritdoc />
-		public async Task<bool> PrepareUpdateFromController(SwarmUpdateRequest updateRequest, CancellationToken cancellationToken)
+		public async ValueTask<bool> PrepareUpdateFromController(SwarmUpdateRequest updateRequest, CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(updateRequest);
 
@@ -385,7 +387,7 @@ namespace Tgstation.Server.Host.Swarm
 		}
 
 		/// <inheritdoc />
-		public async Task<SwarmRegistrationResult> Initialize(CancellationToken cancellationToken)
+		public async ValueTask<SwarmRegistrationResult> Initialize(CancellationToken cancellationToken)
 		{
 			if (SwarmMode)
 				logger.LogInformation(
@@ -418,11 +420,11 @@ namespace Tgstation.Server.Host.Swarm
 		}
 
 		/// <inheritdoc />
-		public async Task Shutdown(CancellationToken cancellationToken)
+		public async ValueTask Shutdown(CancellationToken cancellationToken)
 		{
 			logger.LogTrace("Begin Shutdown");
 
-			async Task SendUnregistrationRequest(SwarmServerResponse swarmServer)
+			async ValueTask SendUnregistrationRequest(SwarmServerResponse swarmServer)
 			{
 				using var httpClient = httpClientFactory.CreateClient();
 				using var request = PrepareSwarmRequest(
@@ -478,13 +480,14 @@ namespace Tgstation.Server.Host.Swarm
 				if (updateOperation == null)
 				{
 					logger.LogInformation("Unregistering nodes...");
-					Task task;
+					ValueTask task;
 					lock (swarmServers)
 					{
-						task = Task.WhenAll(
+						task = ValueTaskExtensions.WhenAll(
 							swarmServers
 								.Where(x => !x.Controller)
-								.Select(SendUnregistrationRequest));
+								.Select(SendUnregistrationRequest)
+								.ToList());
 						swarmServers.RemoveRange(1, swarmServers.Count - 1);
 						registrationIdsAndTimes.Clear();
 					}
@@ -527,7 +530,7 @@ namespace Tgstation.Server.Host.Swarm
 		}
 
 		/// <inheritdoc />
-		public async Task<bool> RegisterNode(Api.Models.Internal.SwarmServer node, Guid registrationId, CancellationToken cancellationToken)
+		public async ValueTask<bool> RegisterNode(Api.Models.Internal.SwarmServer node, Guid registrationId, CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(node);
 
@@ -586,7 +589,7 @@ namespace Tgstation.Server.Host.Swarm
 		}
 
 		/// <inheritdoc />
-		public async Task<bool> RemoteCommitRecieved(Guid registrationId, CancellationToken cancellationToken)
+		public async ValueTask<bool> RemoteCommitRecieved(Guid registrationId, CancellationToken cancellationToken)
 		{
 			var localUpdateOperation = updateOperation;
 			if (!swarmController)
@@ -635,7 +638,7 @@ namespace Tgstation.Server.Host.Swarm
 		}
 
 		/// <inheritdoc />
-		public async Task UnregisterNode(Guid registrationId, CancellationToken cancellationToken)
+		public async ValueTask UnregisterNode(Guid registrationId, CancellationToken cancellationToken)
 		{
 			logger.LogTrace("UnregisterNode {registrationId}", registrationId);
 			await AbortUpdate();
@@ -667,14 +670,14 @@ namespace Tgstation.Server.Host.Swarm
 		/// <summary>
 		/// Sends out remote abort update requests.
 		/// </summary>
-		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
+		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
 		/// <remarks>The aborted <see cref="updateOperation"/> should be cleared out before calling this. This method does not accept a <see cref="CancellationToken"/> because aborting an update should never be cancelled.</remarks>
-		Task RemoteAbortUpdate()
+		ValueTask RemoteAbortUpdate()
 		{
 			logger.LogInformation("Aborting swarm update!");
 
 			using var httpClient = httpClientFactory.CreateClient();
-			async Task SendRemoteAbort(SwarmServerResponse swarmServer)
+			async ValueTask SendRemoteAbort(SwarmServerResponse swarmServer)
 			{
 				using var request = PrepareSwarmRequest(
 					swarmServer,
@@ -706,10 +709,11 @@ namespace Tgstation.Server.Host.Swarm
 				});
 
 			lock (swarmServers)
-				return Task.WhenAll(
+				return ValueTaskExtensions.WhenAll(
 					swarmServers
 						.Where(x => !x.Controller)
-						.Select(SendRemoteAbort));
+						.Select(SendRemoteAbort)
+						.ToList());
 		}
 
 		/// <summary>
@@ -753,8 +757,8 @@ namespace Tgstation.Server.Host.Swarm
 		/// <param name="initiatorProvider">The <see cref="ISeekableFileStreamProvider"/> containing the update package if this is the initiating server, <see langword="null"/> otherwise.</param>
 		/// <param name="updateRequest">The <see cref="SwarmUpdateRequest"/>. Must always have <see cref="SwarmUpdateRequest.UpdateVersion"/> populated. If <paramref name="initiatorProvider"/> is <see langword="null"/>, it must be fully populated.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="SwarmPrepareResult"/>.</returns>
-		async Task<SwarmPrepareResult> PrepareUpdateImpl(ISeekableFileStreamProvider initiatorProvider, SwarmUpdateRequest updateRequest, CancellationToken cancellationToken)
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="SwarmPrepareResult"/>.</returns>
+		async ValueTask<SwarmPrepareResult> PrepareUpdateImpl(ISeekableFileStreamProvider initiatorProvider, SwarmUpdateRequest updateRequest, CancellationToken cancellationToken)
 		{
 			if (!SwarmMode)
 			{
@@ -916,8 +920,8 @@ namespace Tgstation.Server.Host.Swarm
 		/// <param name="updateRequest">The <see cref="SwarmUpdateRequest"/>. Must always have <see cref="SwarmUpdateRequest.UpdateVersion"/> populated. If <paramref name="initiatorProvider"/> is <see langword="null"/>, it must be fully populated.</param>
 		/// <param name="currentUpdateOperation">The current <see cref="SwarmUpdateOperation"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="SwarmPrepareResult"/>.</returns>
-		async Task<SwarmPrepareResult> ControllerDistributedPrepareUpdate(
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="SwarmPrepareResult"/>.</returns>
+		async ValueTask<SwarmPrepareResult> ControllerDistributedPrepareUpdate(
 			ISeekableFileStreamProvider initiatorProvider,
 			SwarmUpdateRequest updateRequest,
 			SwarmUpdateOperation currentUpdateOperation,
@@ -1056,8 +1060,8 @@ namespace Tgstation.Server.Host.Swarm
 		/// <param name="initiatorProvider">The <see cref="ISeekableFileStreamProvider"/> containing the server update package.</param>
 		/// <param name="involvedServers">An <see cref="IEnumerable{T}"/> of the involved <see cref="SwarmServerResponse"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in a new <see cref="Dictionary{TKey, TValue}"/> of unique <see cref="FileTicketResponse"/>s keyed by their <see cref="Api.Models.Internal.SwarmServer.Identifier"/>.</returns>
-		async Task<Dictionary<string, FileTicketResponse>> CreateDownloadTickets(
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in a new <see cref="Dictionary{TKey, TValue}"/> of unique <see cref="FileTicketResponse"/>s keyed by their <see cref="Api.Models.Internal.SwarmServer.Identifier"/>.</returns>
+		async ValueTask<Dictionary<string, FileTicketResponse>> CreateDownloadTickets(
 			ISeekableFileStreamProvider initiatorProvider,
 			IReadOnlyCollection<SwarmServerResponse> involvedServers,
 			CancellationToken cancellationToken)
@@ -1093,8 +1097,8 @@ namespace Tgstation.Server.Host.Swarm
 		/// Ping each node to see that they are still running.
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		async Task HealthCheckNodes(CancellationToken cancellationToken)
+		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
+		async ValueTask HealthCheckNodes(CancellationToken cancellationToken)
 		{
 			using var httpClient = httpClientFactory.CreateClient();
 
@@ -1102,7 +1106,7 @@ namespace Tgstation.Server.Host.Swarm
 			lock (swarmServers)
 				currentSwarmServers = swarmServers.ToList();
 
-			async Task HealthRequestForServer(SwarmServerResponse swarmServer)
+			async ValueTask HealthRequestForServer(SwarmServerResponse swarmServer)
 			{
 				using var request = PrepareSwarmRequest(
 					swarmServer,
@@ -1131,7 +1135,7 @@ namespace Tgstation.Server.Host.Swarm
 				}
 			}
 
-			await Task.WhenAll(
+			await ValueTaskExtensions.WhenAll(
 				currentSwarmServers
 					.Where(node => !node.Controller
 						&& registrationIdsAndTimes.TryGetValue(node.Identifier, out var registrationAndTime)
@@ -1170,8 +1174,8 @@ namespace Tgstation.Server.Host.Swarm
 		/// Ping the swarm controller to see that it is still running. If need be, reregister.
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		async Task HealthCheckController(CancellationToken cancellationToken)
+		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
+		async ValueTask HealthCheckController(CancellationToken cancellationToken)
 		{
 			using var httpClient = httpClientFactory.CreateClient();
 
@@ -1227,8 +1231,8 @@ namespace Tgstation.Server.Host.Swarm
 		/// Attempt to register the node with the controller.
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="SwarmRegistrationResult"/>.</returns>
-		async Task<SwarmRegistrationResult> RegisterWithController(CancellationToken cancellationToken)
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="SwarmRegistrationResult"/>.</returns>
+		async ValueTask<SwarmRegistrationResult> RegisterWithController(CancellationToken cancellationToken)
 		{
 			logger.LogInformation("Attempting to register with swarm controller at {controllerAddress}...", swarmConfiguration.ControllerAddress);
 			var requestedRegistrationId = Guid.NewGuid();
@@ -1289,8 +1293,8 @@ namespace Tgstation.Server.Host.Swarm
 		/// Sends the controllers list of nodes to all nodes.
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		async Task SendUpdatedServerListToNodes(CancellationToken cancellationToken)
+		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
+		async ValueTask SendUpdatedServerListToNodes(CancellationToken cancellationToken)
 		{
 			List<SwarmServerResponse> currentSwarmServers;
 			lock (swarmServers)
@@ -1308,7 +1312,7 @@ namespace Tgstation.Server.Host.Swarm
 			logger.LogDebug("Sending updated server list to all {nodeCount} nodes...", currentSwarmServers.Count - 1);
 
 			using var httpClient = httpClientFactory.CreateClient();
-			async Task UpdateRequestForServer(SwarmServerResponse swarmServer)
+			async ValueTask UpdateRequestForServer(SwarmServerResponse swarmServer)
 			{
 				using var request = PrepareSwarmRequest(
 					swarmServer,
@@ -1336,10 +1340,11 @@ namespace Tgstation.Server.Host.Swarm
 				}
 			}
 
-			await Task.WhenAll(
+			await ValueTaskExtensions.WhenAll(
 				currentSwarmServers
 					.Where(x => !x.Controller)
-					.Select(UpdateRequestForServer));
+					.Select(UpdateRequestForServer)
+					.ToList());
 		}
 
 		/// <summary>

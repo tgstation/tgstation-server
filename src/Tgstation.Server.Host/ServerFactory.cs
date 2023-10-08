@@ -51,7 +51,7 @@ namespace Tgstation.Server.Host
 		/// <inheritdoc />
 		// TODO: Decomplexify
 #pragma warning disable CA1506
-		public async Task<IServer> CreateServer(string[] args, string updatePath, CancellationToken cancellationToken)
+		public async ValueTask<IServer> CreateServer(string[] args, string updatePath, CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(args);
 

@@ -10,6 +10,7 @@ using Microsoft.Extensions.Logging;
 
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Internal;
+using Tgstation.Server.Common.Extensions;
 using Tgstation.Server.Host.Components.Byond;
 using Tgstation.Server.Host.Components.Chat;
 using Tgstation.Server.Host.Components.Deployment.Remote;
@@ -192,7 +193,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 
 		/// <inheritdoc />
 #pragma warning disable CA1506
-		public async Task DeploymentProcess(
+		public async ValueTask DeploymentProcess(
 			Models.Job job,
 			IDatabaseContextFactory databaseContextFactory,
 			JobProgressReporter progressReporter,
@@ -390,7 +391,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 
 				try
 				{
-					await Task.WhenAll(commentsTask, eventTask);
+					await ValueTaskExtensions.WhenAll(commentsTask, eventTask);
 				}
 				catch (Exception ex)
 				{
@@ -421,8 +422,8 @@ namespace Tgstation.Server.Host.Components.Deployment
 		/// </summary>
 		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> to retrieve previous deployment <see cref="Job"/>s from.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the average <see cref="TimeSpan"/> of the 10 previous deployments or <see langword="null"/> if there are none.</returns>
-		async Task<TimeSpan?> CalculateExpectedDeploymentTime(IDatabaseContext databaseContext, CancellationToken cancellationToken)
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the average <see cref="TimeSpan"/> of the 10 previous deployments or <see langword="null"/> if there are none.</returns>
+		async ValueTask<TimeSpan?> CalculateExpectedDeploymentTime(IDatabaseContext databaseContext, CancellationToken cancellationToken)
 		{
 			var previousCompileJobs = await databaseContext
 				.CompileJobs
@@ -461,8 +462,8 @@ namespace Tgstation.Server.Host.Components.Deployment
 		/// <param name="estimatedDuration">The optional estimated <see cref="TimeSpan"/> of the compilation.</param>
 		/// <param name="localCommitExistsOnRemote">Whether or not the <paramref name="repository"/>'s current commit exists on the remote repository.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the completed <see cref="CompileJob"/>.</returns>
-		async Task<Models.CompileJob> Compile(
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the completed <see cref="CompileJob"/>.</returns>
+		async ValueTask<Models.CompileJob> Compile(
 			Models.RevisionInformation revisionInformation,
 			Api.Models.Internal.DreamMakerSettings dreamMakerSettings,
 			DreamDaemonLaunchParameters launchParameters,
@@ -556,8 +557,8 @@ namespace Tgstation.Server.Host.Components.Deployment
 		/// <param name="repository">The <see cref="IRepository"/> to use.</param>
 		/// <param name="remoteDeploymentManager">The <see cref="IRemoteDeploymentManager"/> to use.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		async Task RunCompileJob(
+		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
+		async ValueTask RunCompileJob(
 			JobProgressReporter progressReporter,
 			Models.CompileJob job,
 			Api.Models.Internal.DreamMakerSettings dreamMakerSettings,
@@ -710,8 +711,8 @@ namespace Tgstation.Server.Host.Components.Deployment
 		/// <param name="progressReporter">The <see cref="JobProgressReporter"/> to report progress of the operation.</param>
 		/// <param name="estimatedDuration">A <see cref="TimeSpan"/> representing the duration to give progress over if any.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		async Task ProgressTask(JobProgressReporter progressReporter, TimeSpan? estimatedDuration, CancellationToken cancellationToken)
+		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
+		async ValueTask ProgressTask(JobProgressReporter progressReporter, TimeSpan? estimatedDuration, CancellationToken cancellationToken)
 		{
 			double? lastReport = estimatedDuration.HasValue ? 0 : null;
 			progressReporter.ReportProgress(lastReport);
@@ -773,8 +774,8 @@ namespace Tgstation.Server.Host.Components.Deployment
 		/// <param name="requireValidate">If the API validation is required to complete the deployment.</param>
 		/// <param name="logOutput">If output should be logged to the DreamDaemon Diagnostics folder.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		async Task VerifyApi(
+		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
+		async ValueTask VerifyApi(
 			uint timeout,
 			DreamDaemonSecurity securityLevel,
 			Models.CompileJob job,
@@ -855,8 +856,8 @@ namespace Tgstation.Server.Host.Components.Deployment
 		/// <param name="dreamMakerPath">The path to the DreamMaker executable.</param>
 		/// <param name="job">The <see cref="CompileJob"/> for the operation.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		async Task<int> RunDreamMaker(string dreamMakerPath, Models.CompileJob job, CancellationToken cancellationToken)
+		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
+		async ValueTask<int> RunDreamMaker(string dreamMakerPath, Models.CompileJob job, CancellationToken cancellationToken)
 		{
 			await using var dm = processExecutor.LaunchProcess(
 				dreamMakerPath,
@@ -886,8 +887,8 @@ namespace Tgstation.Server.Host.Components.Deployment
 		/// </summary>
 		/// <param name="job">The <see cref="CompileJob"/> for the operation.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		async Task ModifyDme(Models.CompileJob job, CancellationToken cancellationToken)
+		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
+		async ValueTask ModifyDme(Models.CompileJob job, CancellationToken cancellationToken)
 		{
 			var dmeFileName = String.Join('.', job.DmeName, DmeExtension);
 			var dmePath = ioManager.ConcatPath(job.DirectoryName.ToString(), dmeFileName);
@@ -950,10 +951,10 @@ namespace Tgstation.Server.Host.Components.Deployment
 		/// <param name="job">The running <see cref="CompileJob"/>.</param>
 		/// <param name="remoteDeploymentManager">The <see cref="IRemoteDeploymentManager"/> associated with the <paramref name="job"/>.</param>
 		/// <param name="exception">The <see cref="Exception"/> that was thrown.</param>
-		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		async Task CleanupFailedCompile(Models.CompileJob job, IRemoteDeploymentManager remoteDeploymentManager, Exception exception)
+		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
+		ValueTask CleanupFailedCompile(Models.CompileJob job, IRemoteDeploymentManager remoteDeploymentManager, Exception exception)
 		{
-			async Task CleanDir()
+			async ValueTask CleanDir()
 			{
 				logger.LogTrace("Cleaning compile directory...");
 				var jobPath = job.DirectoryName.ToString();
@@ -970,7 +971,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 			}
 
 			// DCT: None available
-			await Task.WhenAll(
+			return ValueTaskExtensions.WhenAll(
 				CleanDir(),
 				remoteDeploymentManager.FailDeployment(
 					job,

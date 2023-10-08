@@ -74,7 +74,7 @@ namespace Tgstation.Server.Tests
 				return null;
 			}
 
-			using var context = CreateContext();
+			await using var context = CreateContext();
 			await context.Database.EnsureDeletedAsync();
 			await context.Database.MigrateAsync(default);
 

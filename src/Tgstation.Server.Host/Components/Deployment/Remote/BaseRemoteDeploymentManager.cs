@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 using Microsoft.Extensions.Logging;
 
+using Tgstation.Server.Common.Extensions;
 using Tgstation.Server.Host.Components.Repository;
 using Tgstation.Server.Host.Models;
 
@@ -49,7 +50,7 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 		}
 
 		/// <inheritdoc />
-		public async Task PostDeploymentComments(
+		public async ValueTask PostDeploymentComments(
 			CompileJob compileJob,
 			RevisionInformation previousRevisionInformation,
 			RepositorySettings repositorySettings,
@@ -102,7 +103,7 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 				removedTestMerges.Count,
 				updatedTestMerges.Count);
 
-			var tasks = new List<Task>(addedTestMerges.Count + updatedTestMerges.Count + removedTestMerges.Count);
+			var tasks = new List<ValueTask>(addedTestMerges.Count + updatedTestMerges.Count + removedTestMerges.Count);
 			foreach (var addedTestMerge in addedTestMerges)
 				tasks.Add(
 					CommentOnTestMergeSource(
@@ -146,11 +147,11 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 						cancellationToken));
 
 			if (tasks.Any())
-				await Task.WhenAll(tasks);
+				await ValueTaskExtensions.WhenAll(tasks);
 		}
 
 		/// <inheritdoc />
-		public Task ApplyDeployment(CompileJob compileJob, CancellationToken cancellationToken)
+		public ValueTask ApplyDeployment(CompileJob compileJob, CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(compileJob);
 
@@ -161,10 +162,10 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 		}
 
 		/// <inheritdoc />
-		public abstract Task FailDeployment(CompileJob compileJob, string errorMessage, CancellationToken cancellationToken);
+		public abstract ValueTask FailDeployment(CompileJob compileJob, string errorMessage, CancellationToken cancellationToken);
 
 		/// <inheritdoc />
-		public Task MarkInactive(CompileJob compileJob, CancellationToken cancellationToken)
+		public ValueTask MarkInactive(CompileJob compileJob, CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(compileJob);
 
@@ -175,14 +176,14 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 		}
 
 		/// <inheritdoc />
-		public abstract Task<IReadOnlyCollection<TestMerge>> RemoveMergedTestMerges(
+		public abstract ValueTask<IReadOnlyCollection<TestMerge>> RemoveMergedTestMerges(
 			IRepository repository,
 			RepositorySettings repositorySettings,
 			RevisionInformation revisionInformation,
 			CancellationToken cancellationToken);
 
 		/// <inheritdoc />
-		public Task StageDeployment(CompileJob compileJob, Action<bool> activationCallback, CancellationToken cancellationToken)
+		public ValueTask StageDeployment(CompileJob compileJob, Action<bool> activationCallback, CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(compileJob);
 
@@ -193,7 +194,7 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 		}
 
 		/// <inheritdoc />
-		public abstract Task StartDeployment(
+		public abstract ValueTask StartDeployment(
 			Api.Models.Internal.IGitRemoteInformation remoteInformation,
 			CompileJob compileJob,
 			CancellationToken cancellationToken);
@@ -203,24 +204,24 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 		/// </summary>
 		/// <param name="compileJob">The staged <see cref="CompileJob"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		protected abstract Task StageDeploymentImpl(CompileJob compileJob, CancellationToken cancellationToken);
+		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
+		protected abstract ValueTask StageDeploymentImpl(CompileJob compileJob, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Implementation of <see cref="ApplyDeployment(CompileJob, CancellationToken)"/>.
 		/// </summary>
 		/// <param name="compileJob">The <see cref="CompileJob"/> being applied.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		protected abstract Task ApplyDeploymentImpl(CompileJob compileJob, CancellationToken cancellationToken);
+		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
+		protected abstract ValueTask ApplyDeploymentImpl(CompileJob compileJob, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Implementation of <see cref="MarkInactive(CompileJob, CancellationToken)"/>.
 		/// </summary>
 		/// <param name="compileJob">The inactive <see cref="CompileJob"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		protected abstract Task MarkInactiveImpl(CompileJob compileJob, CancellationToken cancellationToken);
+		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
+		protected abstract ValueTask MarkInactiveImpl(CompileJob compileJob, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Formats a comment for a given <paramref name="testMerge"/>.
@@ -231,7 +232,7 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 		/// <param name="remoteRepositoryOwner">The <see cref="Api.Models.Internal.IGitRemoteInformation.RemoteRepositoryOwner"/>.</param>
 		/// <param name="remoteRepositoryName">The <see cref="Api.Models.Internal.IGitRemoteInformation.RemoteRepositoryName"/>.</param>
 		/// <param name="updated">If <see langword="false"/> <paramref name="testMerge"/> is new, otherwise it has been updated to a different <see cref="Api.Models.TestMergeParameters.TargetCommitSha"/>.</param>
-		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
+		/// <returns>A formatted <see cref="string"/> for posting a informative comment about the <paramref name="testMerge"/>.</returns>
 		protected abstract string FormatTestMerge(
 			RepositorySettings repositorySettings,
 			CompileJob compileJob,
@@ -249,8 +250,8 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 		/// <param name="comment">The comment to post.</param>
 		/// <param name="testMergeNumber">The <see cref="Api.Models.TestMergeParameters.Number"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		protected abstract Task CommentOnTestMergeSource(
+		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
+		protected abstract ValueTask CommentOnTestMergeSource(
 			RepositorySettings repositorySettings,
 			string remoteRepositoryOwner,
 			string remoteRepositoryName,

@@ -54,7 +54,7 @@ namespace Tgstation.Server.Host.Components.Repository
 		}
 
 		/// <inheritdoc />
-		public async Task<Models.TestMerge> GetTestMerge(
+		public async ValueTask<Models.TestMerge> GetTestMerge(
 			TestMergeParameters parameters,
 			RepositorySettings repositorySettings,
 			CancellationToken cancellationToken)
@@ -85,8 +85,8 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// <param name="parameters">The <see cref="TestMergeParameters"/>.</param>
 		/// <param name="repositorySettings">The <see cref="RepositorySettings"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="Models.TestMerge"/> of the <paramref name="parameters"/>.</returns>
-		protected abstract Task<Models.TestMerge> GetTestMergeImpl(
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="Models.TestMerge"/> of the <paramref name="parameters"/>.</returns>
+		protected abstract ValueTask<Models.TestMerge> GetTestMergeImpl(
 			TestMergeParameters parameters,
 			RepositorySettings repositorySettings,
 			CancellationToken cancellationToken);

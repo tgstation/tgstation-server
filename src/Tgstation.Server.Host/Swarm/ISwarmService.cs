@@ -24,15 +24,15 @@ namespace Tgstation.Server.Host.Swarm
 		/// <param name="fileStreamProvider">The <see cref="ISeekableFileStreamProvider"/> to relay to other nodes.</param>
 		/// <param name="version">The <see cref="Version"/> to update to.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in <see langword="true"/> if the update should proceed, <see langword="false"/> otherwise.</returns>
-		Task<SwarmPrepareResult> PrepareUpdate(ISeekableFileStreamProvider fileStreamProvider, Version version, CancellationToken cancellationToken);
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in <see langword="true"/> if the update should proceed, <see langword="false"/> otherwise.</returns>
+		ValueTask<SwarmPrepareResult> PrepareUpdate(ISeekableFileStreamProvider fileStreamProvider, Version version, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Signal to the swarm that an update is ready to be applied.
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="SwarmCommitResult"/>.</returns>
-		Task<SwarmCommitResult> CommitUpdate(CancellationToken cancellationToken);
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="SwarmCommitResult"/>.</returns>
+		ValueTask<SwarmCommitResult> CommitUpdate(CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Gets the list of <see cref="SwarmServerResponse"/>s in the swarm, including the current one.

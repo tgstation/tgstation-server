@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 
 using Tgstation.Server.Api.Models;
+using Tgstation.Server.Common.Extensions;
 using Tgstation.Server.Host.Components.Events;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Jobs;
@@ -133,7 +134,7 @@ namespace Tgstation.Server.Host.Components.Byond
 		public void Dispose() => changeDeleteSemaphore.Dispose();
 
 		/// <inheritdoc />
-		public async Task ChangeVersion(
+		public async ValueTask ChangeVersion(
 			JobProgressReporter progressReporter,
 			Version version,
 			Stream customVersionStream,
@@ -145,12 +146,12 @@ namespace Tgstation.Server.Host.Components.Byond
 			using (await SemaphoreSlimContext.Lock(changeDeleteSemaphore, cancellationToken))
 			{
 				using var installLock = await AssertAndLockVersion(
-				progressReporter,
-				version,
-				customVersionStream,
-				false,
-				allowInstallation,
-				cancellationToken);
+					progressReporter,
+					version,
+					customVersionStream,
+					false,
+					allowInstallation,
+					cancellationToken);
 
 				// We reparse the version because it could be changed after a custom install.
 				version = installLock.Version;
@@ -176,7 +177,7 @@ namespace Tgstation.Server.Host.Components.Byond
 		}
 
 		/// <inheritdoc />
-		public async Task<IByondExecutableLock> UseExecutables(Version requiredVersion, string trustDmbFullPath, CancellationToken cancellationToken)
+		public async ValueTask<IByondExecutableLock> UseExecutables(Version requiredVersion, string trustDmbFullPath, CancellationToken cancellationToken)
 		{
 			logger.LogTrace(
 				"Acquiring lock on BYOND version {version}...",
@@ -204,7 +205,7 @@ namespace Tgstation.Server.Host.Components.Byond
 		}
 
 		/// <inheritdoc />
-		public async Task DeleteVersion(JobProgressReporter progressReporter, Version version, CancellationToken cancellationToken)
+		public async ValueTask DeleteVersion(JobProgressReporter progressReporter, Version version, CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(progressReporter);
 
@@ -293,7 +294,7 @@ namespace Tgstation.Server.Host.Components.Byond
 		/// <inheritdoc />
 		public async Task StartAsync(CancellationToken cancellationToken)
 		{
-			async Task<byte[]> GetActiveVersion()
+			async ValueTask<byte[]> GetActiveVersion()
 			{
 				var activeVersionFileExists = await ioManager.FileExists(ActiveVersionFileName, cancellationToken);
 				return !activeVersionFileExists ? null : await ioManager.ReadAllBytes(ActiveVersionFileName, cancellationToken);
@@ -329,7 +330,7 @@ namespace Tgstation.Server.Host.Components.Byond
 
 			var installedVersionPaths = new Dictionary<string, Version>();
 
-			async Task ReadVersion(string path)
+			async ValueTask ReadVersion(string path)
 			{
 				var versionFile = ioManager.ConcatPath(path, VersionFileName);
 				if (!await ioManager.FileExists(versionFile, cancellationToken))
@@ -368,10 +369,14 @@ namespace Tgstation.Server.Host.Components.Byond
 					installedVersionPaths.Add(ioManager.ResolvePath(version.ToString()), version);
 			}
 
-			await Task.WhenAll(directories.Select(ReadVersion));
+			await ValueTaskExtensions.WhenAll(
+				directories
+					.Select(ReadVersion));
 
 			logger.LogTrace("Upgrading BYOND installations...");
-			await Task.WhenAll(installedVersionPaths.Select(kvp => byondInstaller.UpgradeInstallation(kvp.Value, kvp.Key, cancellationToken)));
+			await ValueTaskExtensions.WhenAll(
+				installedVersionPaths
+					.Select(kvp => byondInstaller.UpgradeInstallation(kvp.Value, kvp.Key, cancellationToken)));
 
 			var activeVersionBytes = await activeVersionBytesTask;
 			if (activeVersionBytes != null)
@@ -406,8 +411,8 @@ namespace Tgstation.Server.Host.Components.Byond
 		/// <param name="neededForLock">If this BYOND version is required as part of a locking operation.</param>
 		/// <param name="allowInstallation">If an installation should be performed if the <paramref name="version"/> is not installed. If <see langword="false"/> and an installation is required an <see cref="InvalidOperationException"/> will be thrown.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="ByondExecutableLock"/>.</returns>
-		async Task<ByondExecutableLock> AssertAndLockVersion(
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="ByondExecutableLock"/>.</returns>
+		async ValueTask<ByondExecutableLock> AssertAndLockVersion(
 			JobProgressReporter progressReporter,
 			Version version,
 			Stream customVersionStream,
@@ -511,11 +516,11 @@ namespace Tgstation.Server.Host.Components.Byond
 		/// <param name="version">The BYOND <see cref="Version"/> being installed with the <see cref="Version.Build"/> number set if appropriate.</param>
 		/// <param name="customVersionStream">Custom zip file <see cref="Stream"/> to use. Will cause a <see cref="Version.Build"/> number to be added.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		async Task InstallVersionFiles(JobProgressReporter progressReporter, Version version, Stream customVersionStream, CancellationToken cancellationToken)
+		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
+		async ValueTask InstallVersionFiles(JobProgressReporter progressReporter, Version version, Stream customVersionStream, CancellationToken cancellationToken)
 		{
 			var installFullPath = ioManager.ResolvePath(version.ToString());
-			async Task DirectoryCleanup()
+			async ValueTask DirectoryCleanup()
 			{
 				await ioManager.DeleteDirectory(installFullPath, cancellationToken);
 				await ioManager.CreateDirectory(installFullPath, cancellationToken);
@@ -563,10 +568,10 @@ namespace Tgstation.Server.Host.Components.Byond
 					Encoding.UTF8.GetBytes(version.ToString()),
 					cancellationToken);
 			}
-			catch (HttpRequestException e)
+			catch (HttpRequestException ex)
 			{
 				// since the user can easily provide non-exitent version numbers, we'll turn this into a JobException
-				throw new JobException(ErrorCode.ByondDownloadFail, e);
+				throw new JobException(ErrorCode.ByondDownloadFail, ex);
 			}
 			catch (OperationCanceledException)
 			{
@@ -583,7 +588,7 @@ namespace Tgstation.Server.Host.Components.Byond
 		/// Create and add a new <see cref="ByondInstallation"/> to <see cref="installedVersions"/>.
 		/// </summary>
 		/// <param name="version">The <see cref="Version"/> being added.</param>
-		/// <param name="installationTask">The <see cref="Task"/> representing the installation process.</param>
+		/// <param name="installationTask">The <see cref="ValueTask"/> representing the installation process.</param>
 		/// <returns>The new <see cref="ReferenceCountingContainer{TWrapped, TReference}"/> containing the new <see cref="ByondInstallation"/>.</returns>
 		ReferenceCountingContainer<ByondInstallation, ByondExecutableLock> AddInstallationContainer(Version version, Task installationTask)
 		{
@@ -618,8 +623,8 @@ namespace Tgstation.Server.Host.Components.Byond
 		/// </summary>
 		/// <param name="fullDmbPath">Full path to the .dmb that should be trusted.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		async Task TrustDmbPath(string fullDmbPath, CancellationToken cancellationToken)
+		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
+		async ValueTask TrustDmbPath(string fullDmbPath, CancellationToken cancellationToken)
 		{
 			var byondDir = byondInstaller.PathToUserByondFolder;
 			if (String.IsNullOrWhiteSpace(byondDir))

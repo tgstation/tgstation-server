@@ -25,7 +25,7 @@ namespace Tgstation.Server.Host.Components.Chat.Commands
 		public bool AdminOnly => false;
 
 		/// <inheritdoc />
-		public Task<MessageContent> Invoke(string arguments, ChatUser user, CancellationToken cancellationToken) => Task.FromResult(new MessageContent
+		public ValueTask<MessageContent> Invoke(string arguments, ChatUser user, CancellationToken cancellationToken) => ValueTask.FromResult(new MessageContent
 		{
 			Text = Kek,
 		});

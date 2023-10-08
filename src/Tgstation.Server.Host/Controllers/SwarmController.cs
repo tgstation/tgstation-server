@@ -89,7 +89,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>The <see cref="IActionResult"/> of the operation.</returns>
 		[HttpPost(SwarmConstants.RegisterRoute)]
-		public async Task<IActionResult> Register([FromBody] SwarmRegistrationRequest registrationRequest, CancellationToken cancellationToken)
+		public async ValueTask<IActionResult> Register([FromBody] SwarmRegistrationRequest registrationRequest, CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(registrationRequest);
 
@@ -108,7 +108,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation.</returns>
 		[HttpDelete(SwarmConstants.RegisterRoute)]
-		public async Task<IActionResult> UnregisterNode(CancellationToken cancellationToken)
+		public async ValueTask<IActionResult> UnregisterNode(CancellationToken cancellationToken)
 		{
 			if (!ValidateRegistration())
 				return Forbid();
@@ -138,7 +138,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation.</returns>
 		[HttpGet(SwarmConstants.UpdateRoute)]
 		[Produces(MediaTypeNames.Application.Octet)]
-		public Task<IActionResult> GetUpdatePackage([FromQuery] string ticket, CancellationToken cancellationToken)
+		public ValueTask<IActionResult> GetUpdatePackage([FromQuery] string ticket, CancellationToken cancellationToken)
 			=> transferService.GenerateDownloadResponse(this, ticket, cancellationToken);
 
 		/// <summary>
@@ -163,9 +163,9 @@ namespace Tgstation.Server.Host.Controllers
 		/// </summary>
 		/// <param name="updateRequest">The <see cref="SwarmUpdateRequest"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation.</returns>
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation.</returns>
 		[HttpPut(SwarmConstants.UpdateRoute)]
-		public async Task<IActionResult> PrepareUpdate([FromBody] SwarmUpdateRequest updateRequest, CancellationToken cancellationToken)
+		public async ValueTask<IActionResult> PrepareUpdate([FromBody] SwarmUpdateRequest updateRequest, CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(updateRequest);
 
@@ -183,9 +183,9 @@ namespace Tgstation.Server.Host.Controllers
 		/// Update commit endpoint.
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation.</returns>
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation.</returns>
 		[HttpPost(SwarmConstants.UpdateRoute)]
-		public async Task<IActionResult> CommitUpdate(CancellationToken cancellationToken)
+		public async ValueTask<IActionResult> CommitUpdate(CancellationToken cancellationToken)
 		{
 			if (!ValidateRegistration())
 				return Forbid();
@@ -199,9 +199,9 @@ namespace Tgstation.Server.Host.Controllers
 		/// <summary>
 		/// Update abort endpoint.
 		/// </summary>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation.</returns>
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation.</returns>
 		[HttpDelete(SwarmConstants.UpdateRoute)]
-		public async Task<IActionResult> AbortUpdate()
+		public async ValueTask<IActionResult> AbortUpdate()
 		{
 			if (!ValidateRegistration())
 				return Forbid();

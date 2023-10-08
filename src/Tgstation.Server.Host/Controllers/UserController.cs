@@ -75,14 +75,14 @@ namespace Tgstation.Server.Host.Controllers
 		/// </summary>
 		/// <param name="model">The <see cref="UserCreateRequest"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation.</returns>
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation.</returns>
 		/// <response code="201"><see cref="User"/> created successfully.</response>
 		/// <response code="410">The requested system identifier could not be found.</response>
 		[HttpPut]
 		[TgsAuthorize(AdministrationRights.WriteUsers)]
 		[ProducesResponseType(typeof(UserResponse), 201)]
 #pragma warning disable CA1502, CA1506
-		public async Task<IActionResult> Create([FromBody] UserCreateRequest model, CancellationToken cancellationToken)
+		public async ValueTask<IActionResult> Create([FromBody] UserCreateRequest model, CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(model);
 
@@ -155,7 +155,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// </summary>
 		/// <param name="model">The <see cref="UserResponse"/> to update.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation.</returns>
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation.</returns>
 		/// <response code="200"><see cref="User"/> updated successfully.</response>
 		/// <response code="200"><see cref="User"/> updated successfully. Not returned due to lack of permissions.</response>
 		/// <response code="404">Requested <see cref="EntityId.Id"/> does not exist.</response>
@@ -168,7 +168,7 @@ namespace Tgstation.Server.Host.Controllers
 		[ProducesResponseType(typeof(ErrorMessageResponse), 410)]
 #pragma warning disable CA1502 // TODO: Decomplexify
 #pragma warning disable CA1506
-		public async Task<IActionResult> Update([FromBody] UserUpdateRequest model, CancellationToken cancellationToken)
+		public async ValueTask<IActionResult> Update([FromBody] UserUpdateRequest model, CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(model);
 
@@ -336,14 +336,14 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="page">The current page.</param>
 		/// <param name="pageSize">The page size.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation.</returns>
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation.</returns>
 		/// <response code="200">Retrieved <see cref="User"/>s successfully.</response>
 		[HttpGet(Routes.List)]
 		[TgsAuthorize(AdministrationRights.ReadUsers)]
 		[ProducesResponseType(typeof(PaginatedResponse<UserResponse>), 200)]
-		public Task<IActionResult> List([FromQuery] int? page, [FromQuery] int? pageSize, CancellationToken cancellationToken)
+		public ValueTask<IActionResult> List([FromQuery] int? page, [FromQuery] int? pageSize, CancellationToken cancellationToken)
 			=> Paginated<User, UserResponse>(
-				() => Task.FromResult(
+				() => ValueTask.FromResult(
 					new PaginatableResult<User>(
 						DatabaseContext
 							.Users
@@ -365,14 +365,14 @@ namespace Tgstation.Server.Host.Controllers
 		/// </summary>
 		/// <param name="id">The <see cref="EntityId.Id"/> to retrieve.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation.</returns>
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation.</returns>
 		/// <response code="200">The <see cref="User"/> was retrieved successfully.</response>
 		/// <response code="404">The <see cref="User"/> does not exist.</response>
 		[HttpGet("{id}")]
 		[TgsAuthorize]
 		[ProducesResponseType(typeof(UserResponse), 200)]
 		[ProducesResponseType(typeof(ErrorMessageResponse), 404)]
-		public async Task<IActionResult> GetId(long id, CancellationToken cancellationToken)
+		public async ValueTask<IActionResult> GetId(long id, CancellationToken cancellationToken)
 		{
 			if (id == AuthenticationContext.User.Id)
 				return Read();
@@ -403,8 +403,8 @@ namespace Tgstation.Server.Host.Controllers
 		/// </summary>
 		/// <param name="model">The <see cref="Api.Models.Internal.UserApiBase"/> to use as a template.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in a new <see cref="User"/> on success, <see langword="null"/> if the requested <see cref="UserGroup"/> did not exist.</returns>
-		async Task<User> CreateNewUserFromModel(Api.Models.Internal.UserApiBase model, CancellationToken cancellationToken)
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in a new <see cref="User"/> on success, <see langword="null"/> if the requested <see cref="UserGroup"/> did not exist.</returns>
+		async ValueTask<User> CreateNewUserFromModel(Api.Models.Internal.UserApiBase model, CancellationToken cancellationToken)
 		{
 			Models.PermissionSet permissionSet = null;
 			UserGroup group = null;

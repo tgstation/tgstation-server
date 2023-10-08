@@ -167,7 +167,7 @@ namespace Tgstation.Server.Host.Components
 		}
 
 		/// <inheritdoc />
-		public Task InstanceRenamed(string newName, CancellationToken cancellationToken)
+		public ValueTask InstanceRenamed(string newName, CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(newName);
 			if (String.IsNullOrWhiteSpace(newName))
@@ -183,11 +183,11 @@ namespace Tgstation.Server.Host.Components
 			using (LogContext.PushProperty(SerilogContextHelper.InstanceIdContextProperty, metadata.Id))
 			{
 				await Task.WhenAll(
-				SetAutoUpdateInterval(metadata.AutoUpdateInterval.Value),
-				Configuration.StartAsync(cancellationToken),
-				ByondManager.StartAsync(cancellationToken),
-				Chat.StartAsync(cancellationToken),
-				dmbFactory.StartAsync(cancellationToken));
+					SetAutoUpdateInterval(metadata.AutoUpdateInterval.Value).AsTask(),
+					Configuration.StartAsync(cancellationToken),
+					ByondManager.StartAsync(cancellationToken),
+					Chat.StartAsync(cancellationToken),
+					dmbFactory.StartAsync(cancellationToken));
 
 				// dependent on so many things, its just safer this way
 				await Watchdog.StartAsync(cancellationToken);
@@ -213,7 +213,7 @@ namespace Tgstation.Server.Host.Components
 		}
 
 		/// <inheritdoc />
-		public async Task SetAutoUpdateInterval(uint newInterval)
+		public async ValueTask SetAutoUpdateInterval(uint newInterval)
 		{
 			Task toWait;
 			lock (timerLock)
@@ -263,9 +263,9 @@ namespace Tgstation.Server.Host.Components
 		/// <param name="job">The <see cref="Job"/> being run.</param>
 		/// <param name="progressReporter">The progress reporter action for the <paramref name="job"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
+		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
 #pragma warning disable CA1502 // Cyclomatic complexity
-		Task RepositoryAutoUpdateJob(
+		ValueTask RepositoryAutoUpdateJob(
 			IInstanceCore core,
 			IDatabaseContextFactory databaseContextFactory,
 			Job job,
@@ -317,7 +317,7 @@ namespace Tgstation.Server.Host.Components
 					var hasDbChanges = false;
 					RevisionInformation currentRevInfo = null;
 					Models.Instance attachedInstance = null;
-					async Task UpdateRevInfo(string currentHead, bool onOrigin, IEnumerable<TestMerge> updatedTestMerges)
+					async ValueTask UpdateRevInfo(string currentHead, bool onOrigin, IEnumerable<TestMerge> updatedTestMerges)
 					{
 						if (currentRevInfo == null)
 						{

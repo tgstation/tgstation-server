@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 using Microsoft.Extensions.Logging;
 
+using Tgstation.Server.Common.Extensions;
 using Tgstation.Server.Host.IO;
 
 namespace Tgstation.Server.Host.Components.Byond
@@ -78,7 +79,7 @@ namespace Tgstation.Server.Host.Components.Byond
 		}
 
 		/// <inheritdoc />
-		public override Task InstallByond(Version version, string path, CancellationToken cancellationToken)
+		public override ValueTask InstallByond(Version version, string path, CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(version);
 			ArgumentNullException.ThrowIfNull(path);
@@ -90,7 +91,7 @@ namespace Tgstation.Server.Host.Components.Byond
 			var dreamDaemonScript = String.Format(CultureInfo.InvariantCulture, StandardScript, DreamDaemonExecutableName);
 			var dreamMakerScript = String.Format(CultureInfo.InvariantCulture, StandardScript, DreamMakerExecutableName);
 
-			async Task WriteAndMakeExecutable(string pathToScript, string script)
+			async ValueTask WriteAndMakeExecutable(string pathToScript, string script)
 			{
 				Logger.LogTrace("Writing script {path}:{newLine}{scriptContents}", pathToScript, Environment.NewLine, script);
 				await IOManager.WriteAllBytes(pathToScript, Encoding.ASCII.GetBytes(script), cancellationToken);
@@ -99,13 +100,17 @@ namespace Tgstation.Server.Host.Components.Byond
 
 			var basePath = IOManager.ConcatPath(path, ByondManager.BinPath);
 
-			var task = Task.WhenAll(
-				WriteAndMakeExecutable(
-					IOManager.ConcatPath(basePath, GetDreamDaemonName(version, out _, out _)),
-					dreamDaemonScript),
-				WriteAndMakeExecutable(
-					IOManager.ConcatPath(basePath, DreamMakerName),
-					dreamMakerScript));
+			var ddTask = WriteAndMakeExecutable(
+				IOManager.ConcatPath(basePath, GetDreamDaemonName(version, out _, out _)),
+				dreamDaemonScript);
+
+			var dmTask = WriteAndMakeExecutable(
+				IOManager.ConcatPath(basePath, DreamMakerName),
+				dreamMakerScript);
+
+			var task = ValueTaskExtensions.WhenAll(
+				ddTask,
+				dmTask);
 
 			postWriteHandler.HandleWrite(IOManager.ConcatPath(basePath, DreamDaemonExecutableName));
 			postWriteHandler.HandleWrite(IOManager.ConcatPath(basePath, DreamMakerExecutableName));
@@ -114,12 +119,12 @@ namespace Tgstation.Server.Host.Components.Byond
 		}
 
 		/// <inheritdoc />
-		public override Task UpgradeInstallation(Version version, string path, CancellationToken cancellationToken)
+		public override ValueTask UpgradeInstallation(Version version, string path, CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(version);
 			ArgumentNullException.ThrowIfNull(path);
 
-			return Task.CompletedTask;
+			return ValueTask.CompletedTask;
 		}
 	}
 }

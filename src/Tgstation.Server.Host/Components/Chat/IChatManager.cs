@@ -24,8 +24,8 @@ namespace Tgstation.Server.Host.Components.Chat
 		/// </summary>
 		/// <param name="newSettings">The new <see cref="Models.ChatBot"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task"/> representing the running operation. Will complete immediately if the <see cref="ChatBotSettings.Enabled"/> property of <paramref name="newSettings"/> is <see langword="false"/>.</returns>
-		Task ChangeSettings(Models.ChatBot newSettings, CancellationToken cancellationToken);
+		/// <returns>A <see cref="ValueTask"/> representing the running operation. Will complete immediately if the <see cref="ChatBotSettings.Enabled"/> property of <paramref name="newSettings"/> is <see langword="false"/>.</returns>
+		ValueTask ChangeSettings(Models.ChatBot newSettings, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Disconnects and deletes a given connection.
@@ -41,8 +41,8 @@ namespace Tgstation.Server.Host.Components.Chat
 		/// <param name="connectionId">The <see cref="Api.Models.EntityId.Id"/> of the connection.</param>
 		/// <param name="newChannels">An <see cref="IEnumerable{T}"/> of the new list of <see cref="Models.ChatChannel"/>s.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		Task ChangeChannels(long connectionId, IEnumerable<Models.ChatChannel> newChannels, CancellationToken cancellationToken);
+		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
+		ValueTask ChangeChannels(long connectionId, IEnumerable<Models.ChatChannel> newChannels, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Queue a chat <paramref name="message"/> to a given set of <paramref name="channelIds"/>.
@@ -85,7 +85,7 @@ namespace Tgstation.Server.Host.Components.Chat
 		/// Force an update with the active channels on all active <see cref="IChatTrackingContext"/>s.
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		Task UpdateTrackingContexts(CancellationToken cancellationToken);
+		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
+		ValueTask UpdateTrackingContexts(CancellationToken cancellationToken);
 	}
 }

@@ -133,9 +133,9 @@ namespace Tgstation.Server.Host.IO.Tests
 
 			cts2.Cancel();
 
-			await Assert.ThrowsExceptionAsync<TaskCanceledException>(() => task1);
-			await Assert.ThrowsExceptionAsync<TaskCanceledException>(() => task2);
-			await Assert.ThrowsExceptionAsync<TaskCanceledException>(() => task3);
+			await Assert.ThrowsExceptionAsync<TaskCanceledException>(() => task1.AsTask());
+			await Assert.ThrowsExceptionAsync<TaskCanceledException>(() => task2.AsTask());
+			await Assert.ThrowsExceptionAsync<TaskCanceledException>(() => task3.AsTask());
 
 			mockHttpClient.VerifyAll();
 		}

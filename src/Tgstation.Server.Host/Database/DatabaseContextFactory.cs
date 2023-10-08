@@ -26,7 +26,16 @@ namespace Tgstation.Server.Host.Database
 		}
 
 		/// <inheritdoc />
-		public async Task UseContext(Func<IDatabaseContext, Task> operation)
+		public async ValueTask UseContext(Func<IDatabaseContext, ValueTask> operation)
+		{
+			ArgumentNullException.ThrowIfNull(operation);
+
+			await using var scope = scopeFactory.CreateAsyncScope();
+			await operation(scope.ServiceProvider.GetRequiredService<IDatabaseContext>());
+		}
+
+		/// <inheritdoc />
+		public async ValueTask UseContextTaskReturn(Func<IDatabaseContext, Task> operation)
 		{
 			ArgumentNullException.ThrowIfNull(operation);
 

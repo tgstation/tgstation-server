@@ -19,7 +19,7 @@ namespace Tgstation.Server.Host.Core
 		/// <param name="fileStreamProvider">The optional <see cref="IFileStreamProvider"/> used to retrieve the target server <paramref name="version"/>. If not provided, GitHub will be used.</param>
 		/// <param name="version">The TGS <see cref="Version"/> to update to.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="ServerUpdateResult"/>.</returns>
-		Task<ServerUpdateResult> BeginUpdate(ISwarmService swarmService, IFileStreamProvider fileStreamProvider, Version version, CancellationToken cancellationToken);
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="ServerUpdateResult"/>.</returns>
+		ValueTask<ServerUpdateResult> BeginUpdate(ISwarmService swarmService, IFileStreamProvider fileStreamProvider, Version version, CancellationToken cancellationToken);
 	}
 }

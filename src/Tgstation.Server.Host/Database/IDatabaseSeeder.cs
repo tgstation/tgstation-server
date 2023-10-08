@@ -14,8 +14,8 @@ namespace Tgstation.Server.Host.Database
 		/// </summary>
 		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> to setup.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		Task Initialize(IDatabaseContext databaseContext, CancellationToken cancellationToken);
+		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
+		ValueTask Initialize(IDatabaseContext databaseContext, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Migrate a given <paramref name="databaseContext"/> down.
@@ -23,7 +23,7 @@ namespace Tgstation.Server.Host.Database
 		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> to downgrade.</param>
 		/// <param name="downgradeVersion">The migration <see cref="Version"/> to downgrade the <paramref name="databaseContext"/> to.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		Task Downgrade(IDatabaseContext databaseContext, Version downgradeVersion, CancellationToken cancellationToken);
+		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
+		ValueTask Downgrade(IDatabaseContext databaseContext, Version downgradeVersion, CancellationToken cancellationToken);
 	}
 }

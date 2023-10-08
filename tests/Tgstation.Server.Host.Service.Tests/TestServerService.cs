@@ -35,7 +35,7 @@ namespace Tgstation.Server.Host.Service.Tests
 			var mockWatchdog = new Mock<IWatchdog>();
 			var args = Array.Empty<string>();
 			CancellationToken cancellationToken = default;
-			Task signalCheckerTask = null;
+			ValueTask? signalCheckerTask = null;
 			var childStarted = false;
 			ISignalChecker signalChecker = null;
 
@@ -47,7 +47,7 @@ namespace Tgstation.Server.Host.Service.Tests
 					childStarted = true;
 					return (123, Task.CompletedTask);
 				}, cancellationToken);
-			}).Returns(Task.FromResult(true)).Verifiable();
+			}).Returns(ValueTask.FromResult(true)).Verifiable();
 			var mockWatchdogFactory = new Mock<IWatchdogFactory>();
 
 			mockWatchdogFactory.Setup(x => x.CreateWatchdog(It.IsNotNull<ISignalChecker>(), It.IsNotNull<ILoggerFactory>()))
@@ -67,7 +67,7 @@ namespace Tgstation.Server.Host.Service.Tests
 			}
 
 			mockWatchdogFactory.VerifyAll();
-			Assert.IsTrue(signalCheckerTask.IsCompleted);
+			Assert.IsTrue(signalCheckerTask.Value.IsCompleted);
 		}
 	}
 }

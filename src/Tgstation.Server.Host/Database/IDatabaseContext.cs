@@ -109,8 +109,8 @@ namespace Tgstation.Server.Host.Database
 		/// </summary>
 		/// <param name="logger">The <see cref="DatabaseContext"/> <see cref="ILogger"/> to use.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in <see langword="true"/> if the database should be seeded, <see langword="false"/> otherwise.</returns>
-		Task<bool> Migrate(ILogger<DatabaseContext> logger, CancellationToken cancellationToken);
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in <see langword="true"/> if the database should be seeded, <see langword="false"/> otherwise.</returns>
+		ValueTask<bool> Migrate(ILogger<DatabaseContext> logger, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Attempt to downgrade the schema to the migration used for a given server <paramref name="targetVersion"/>.
@@ -119,8 +119,8 @@ namespace Tgstation.Server.Host.Database
 		/// <param name="targetVersion">The tgstation-server <see cref="Version"/> that the schema should downgrade for.</param>
 		/// <param name="currentDatabaseType">The <see cref="DatabaseType"/> in use.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		Task SchemaDowngradeForServerVersion(
+		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
+		ValueTask SchemaDowngradeForServerVersion(
 			ILogger<DatabaseContext> logger,
 			Version targetVersion,
 			DatabaseType currentDatabaseType,

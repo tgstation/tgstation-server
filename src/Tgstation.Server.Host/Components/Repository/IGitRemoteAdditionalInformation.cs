@@ -17,9 +17,9 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// <param name="parameters">The <see cref="TestMergeParameters"/>.</param>
 		/// <param name="repositorySettings">The <see cref="RepositorySettings"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="Models.TestMerge"/> of the <paramref name="parameters"/>.</returns>
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="Models.TestMerge"/> of the <paramref name="parameters"/>.</returns>
 		/// <remarks><see cref="TestMergeApiBase.MergedAt"/> and <see cref="Models.TestMerge.MergedBy"/> will be unset.</remarks>
-		Task<Models.TestMerge> GetTestMerge(
+		ValueTask<Models.TestMerge> GetTestMerge(
 			TestMergeParameters parameters,
 			RepositorySettings repositorySettings,
 			CancellationToken cancellationToken);

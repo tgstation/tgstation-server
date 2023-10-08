@@ -27,7 +27,7 @@ namespace Tgstation.Server.Host.Components.Repository
 		public string RemoteRepositoryName => null;
 
 		/// <inheritdoc />
-		public Task<Models.TestMerge> GetTestMerge(
+		public ValueTask<Models.TestMerge> GetTestMerge(
 			TestMergeParameters parameters,
 			Api.Models.Internal.RepositorySettings repositorySettings,
 			CancellationToken cancellationToken) => throw new NotSupportedException();

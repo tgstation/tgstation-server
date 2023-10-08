@@ -62,7 +62,7 @@ namespace Tgstation.Server.Host.Security
 		public void Dispose() => CurrentAuthenticationContext?.Dispose();
 
 		/// <inheritdoc />
-		public async Task CreateAuthenticationContext(long userId, long? instanceId, DateTimeOffset validAfter, CancellationToken cancellationToken)
+		public async ValueTask CreateAuthenticationContext(long userId, long? instanceId, DateTimeOffset validAfter, CancellationToken cancellationToken)
 		{
 			if (CurrentAuthenticationContext != null)
 				throw new InvalidOperationException("Authentication context has already been loaded");

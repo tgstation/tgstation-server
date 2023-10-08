@@ -93,7 +93,7 @@ namespace Tgstation.Server.Host.System
 		}
 
 		/// <inheritdoc />
-		public Task<string> GetExecutingUsername(global::System.Diagnostics.Process process, CancellationToken cancellationToken)
+		public string GetExecutingUsername(global::System.Diagnostics.Process process)
 		{
 			string query = $"SELECT * FROM Win32_Process WHERE ProcessId = {process?.Id ?? throw new ArgumentNullException(nameof(process))}";
 			using var searcher = new ManagementObjectSearcher(query);
@@ -106,21 +106,21 @@ namespace Tgstation.Server.Host.System
 					?.ToString();
 
 				if (!Int32.TryParse(returnString, out var returnVal))
-					return Task.FromResult($"BAD RETURN PARSE: {returnString}");
+					return $"BAD RETURN PARSE: {returnString}";
 
 				if (returnVal == 0)
 				{
 					// return DOMAIN\user
 					string owner = argList.Last() + "\\" + argList.First();
-					return Task.FromResult(owner);
+					return owner;
 				}
 			}
 
-			return Task.FromResult("NO OWNER");
+			return "NO OWNER";
 		}
 
 		/// <inheritdoc />
-		public async Task CreateDump(global::System.Diagnostics.Process process, string outputFile, CancellationToken cancellationToken)
+		public async ValueTask CreateDump(global::System.Diagnostics.Process process, string outputFile, CancellationToken cancellationToken)
 		{
 			try
 			{

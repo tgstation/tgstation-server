@@ -31,10 +31,10 @@ namespace Tgstation.Server.Client.Components
 		}
 
 		/// <inheritdoc />
-		public Task<InstancePermissionSetResponse> Create(InstancePermissionSetRequest instancePermissionSet, CancellationToken cancellationToken) => ApiClient.Create<InstancePermissionSetRequest, InstancePermissionSetResponse>(Routes.InstancePermissionSet, instancePermissionSet ?? throw new ArgumentNullException(nameof(instancePermissionSet)), instance.Id!.Value, cancellationToken);
+		public ValueTask<InstancePermissionSetResponse> Create(InstancePermissionSetRequest instancePermissionSet, CancellationToken cancellationToken) => ApiClient.Create<InstancePermissionSetRequest, InstancePermissionSetResponse>(Routes.InstancePermissionSet, instancePermissionSet ?? throw new ArgumentNullException(nameof(instancePermissionSet)), instance.Id!.Value, cancellationToken);
 
 		/// <inheritdoc />
-		public Task Delete(InstancePermissionSet instancePermissionSet, CancellationToken cancellationToken) => ApiClient.Delete(
+		public ValueTask Delete(InstancePermissionSet instancePermissionSet, CancellationToken cancellationToken) => ApiClient.Delete(
 			Routes.SetID(
 				Routes.InstancePermissionSet,
 				instancePermissionSet.PermissionSetId),
@@ -42,13 +42,13 @@ namespace Tgstation.Server.Client.Components
 			cancellationToken);
 
 		/// <inheritdoc />
-		public Task<InstancePermissionSetResponse> Read(CancellationToken cancellationToken) => ApiClient.Read<InstancePermissionSetResponse>(Routes.InstancePermissionSet, instance.Id!.Value, cancellationToken);
+		public ValueTask<InstancePermissionSetResponse> Read(CancellationToken cancellationToken) => ApiClient.Read<InstancePermissionSetResponse>(Routes.InstancePermissionSet, instance.Id!.Value, cancellationToken);
 
 		/// <inheritdoc />
-		public Task<InstancePermissionSetResponse> Update(InstancePermissionSetRequest instancePermissionSet, CancellationToken cancellationToken) => ApiClient.Update<InstancePermissionSetRequest, InstancePermissionSetResponse>(Routes.InstancePermissionSet, instancePermissionSet ?? throw new ArgumentNullException(nameof(instancePermissionSet)), instance.Id!.Value, cancellationToken);
+		public ValueTask<InstancePermissionSetResponse> Update(InstancePermissionSetRequest instancePermissionSet, CancellationToken cancellationToken) => ApiClient.Update<InstancePermissionSetRequest, InstancePermissionSetResponse>(Routes.InstancePermissionSet, instancePermissionSet ?? throw new ArgumentNullException(nameof(instancePermissionSet)), instance.Id!.Value, cancellationToken);
 
 		/// <inheritdoc />
-		public Task<IReadOnlyList<InstancePermissionSetResponse>> List(PaginationSettings? paginationSettings, CancellationToken cancellationToken)
+		public ValueTask<List<InstancePermissionSetResponse>> List(PaginationSettings? paginationSettings, CancellationToken cancellationToken)
 			=> ReadPaged<InstancePermissionSetResponse>(
 				paginationSettings,
 				Routes.ListRoute(Routes.InstancePermissionSet),
@@ -56,6 +56,6 @@ namespace Tgstation.Server.Client.Components
 				cancellationToken);
 
 		/// <inheritdoc />
-		public Task<InstancePermissionSetResponse> GetId(InstancePermissionSet instancePermissionSet, CancellationToken cancellationToken) => ApiClient.Read<InstancePermissionSetResponse>(Routes.SetID(Routes.InstancePermissionSet, instancePermissionSet?.PermissionSetId ?? throw new ArgumentNullException(nameof(instancePermissionSet))), instance.Id!.Value, cancellationToken);
+		public ValueTask<InstancePermissionSetResponse> GetId(InstancePermissionSet instancePermissionSet, CancellationToken cancellationToken) => ApiClient.Read<InstancePermissionSetResponse>(Routes.SetID(Routes.InstancePermissionSet, instancePermissionSet?.PermissionSetId ?? throw new ArgumentNullException(nameof(instancePermissionSet))), instance.Id!.Value, cancellationToken);
 	}
 }

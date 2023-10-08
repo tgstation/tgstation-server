@@ -15,8 +15,8 @@ namespace Tgstation.Server.Host.Components
 		/// </summary>
 		/// <param name="bridgeRegistrar">The <see cref="IBridgeRegistrar"/> to use.</param>
 		/// <param name="metadata">The <see cref="Models.Instance"/>.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in a new <see cref="IInstance"/>.</returns>
-		Task<IInstance> CreateInstance(IBridgeRegistrar bridgeRegistrar, Models.Instance metadata);
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in a new <see cref="IInstance"/>.</returns>
+		ValueTask<IInstance> CreateInstance(IBridgeRegistrar bridgeRegistrar, Models.Instance metadata);
 
 		/// <summary>
 		/// Create an <see cref="IIOManager"/> that resolves to the "Game" directory of the <see cref="Models.Instance"/> defined by <paramref name="metadata"/>.

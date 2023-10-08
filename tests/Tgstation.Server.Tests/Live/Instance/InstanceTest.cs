@@ -169,8 +169,8 @@ namespace Tgstation.Server.Tests.Live.Instance
 				jrt.WaitForJob(installJob2.InstallJob, 60, false, null, cancellationToken),
 				jrt.WaitForJob(cloneRequest.Result.ActiveJob, 60, false, null, cancellationToken),
 				jrt.WaitForJob(theJobWeWant, 30, false, null, cancellationToken),
-				dmUpdateRequest,
-				cloneRequest);
+				dmUpdateRequest.AsTask(),
+				cloneRequest.AsTask());
 
 			var configSetupTask = new ConfigurationTest(instanceClient.Configuration, instanceClient.Metadata).SetupDMApiTests(cancellationToken);
 

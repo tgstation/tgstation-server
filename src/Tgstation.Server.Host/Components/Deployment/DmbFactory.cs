@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
+using Tgstation.Server.Common.Extensions;
 using Tgstation.Server.Host.Components.Deployment.Remote;
 using Tgstation.Server.Host.Components.Events;
 using Tgstation.Server.Host.Database;
@@ -128,7 +129,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 		public void Dispose() => cleanupCts.Dispose(); // we don't dispose nextDmbProvider here, since it might be the only thing we have
 
 		/// <inheritdoc />
-		public async Task LoadCompileJob(CompileJob job, Action<bool> activationAction, CancellationToken cancellationToken)
+		public async ValueTask LoadCompileJob(CompileJob job, Action<bool> activationAction, CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(job);
 
@@ -222,7 +223,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 
 		/// <inheritdoc />
 #pragma warning disable CA1506 // TODO: Decomplexify
-		public async Task<IDmbProvider> FromCompileJob(CompileJob compileJob, CancellationToken cancellationToken)
+		public async ValueTask<IDmbProvider> FromCompileJob(CompileJob compileJob, CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(compileJob);
 
@@ -327,7 +328,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 
 		/// <inheritdoc />
 #pragma warning disable CA1506 // TODO: Decomplexify
-		public async Task CleanUnusedCompileJobs(CancellationToken cancellationToken)
+		public async ValueTask CleanUnusedCompileJobs(CancellationToken cancellationToken)
 		{
 			List<long> jobIdsToSkip;
 
@@ -420,7 +421,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 				{
 					try
 					{
-						await Task.WhenAll(deleteTask, deploymentJob);
+						await ValueTaskExtensions.WhenAll(deleteTask, deploymentJob);
 					}
 					catch (Exception ex)
 					{
@@ -453,8 +454,8 @@ namespace Tgstation.Server.Host.Components.Deployment
 		/// </summary>
 		/// <param name="directory">The directory to cleanup.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for this <see cref="Task"/>.</param>
-		/// <returns>The deletion <see cref="Task"/>.</returns>
-		async Task DeleteCompileJobContent(string directory, CancellationToken cancellationToken)
+		/// <returns>The deletion <see cref="ValueTask"/>.</returns>
+		async ValueTask DeleteCompileJobContent(string directory, CancellationToken cancellationToken)
 		{
 			// Then call the cleanup event, waiting here first
 			await eventConsumer.HandleEvent(EventType.DeploymentCleanup, new List<string> { ioManager.ResolvePath(directory) }, true, cancellationToken);

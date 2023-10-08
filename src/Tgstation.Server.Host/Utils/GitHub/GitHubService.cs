@@ -46,7 +46,7 @@ namespace Tgstation.Server.Host.Utils.GitHub
 		}
 
 		/// <inheritdoc />
-		public async Task<string> CreateOAuthAccessToken(OAuthConfiguration oAuthConfiguration, string code, CancellationToken cancellationToken)
+		public async ValueTask<string> CreateOAuthAccessToken(OAuthConfiguration oAuthConfiguration, string code, CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(oAuthConfiguration);
 
@@ -71,7 +71,7 @@ namespace Tgstation.Server.Host.Utils.GitHub
 		}
 
 		/// <inheritdoc />
-		public async Task<Dictionary<Version, Release>> GetTgsReleases(CancellationToken cancellationToken)
+		public async ValueTask<Dictionary<Version, Release>> GetTgsReleases(CancellationToken cancellationToken)
 		{
 			logger.LogTrace("GetTgsReleases");
 			var allReleases = await gitHubClient
@@ -116,7 +116,7 @@ namespace Tgstation.Server.Host.Utils.GitHub
 		}
 
 		/// <inheritdoc />
-		public async Task<Uri> GetUpdatesRepositoryUrl(CancellationToken cancellationToken)
+		public async ValueTask<Uri> GetUpdatesRepositoryUrl(CancellationToken cancellationToken)
 		{
 			logger.LogTrace("GetUpdatesRepositoryUrl");
 			var repository = await gitHubClient
@@ -131,7 +131,7 @@ namespace Tgstation.Server.Host.Utils.GitHub
 		}
 
 		/// <inheritdoc />
-		public async Task<int> GetCurrentUserId(CancellationToken cancellationToken)
+		public async ValueTask<int> GetCurrentUserId(CancellationToken cancellationToken)
 		{
 			logger.LogTrace("CreateOAuthAccessToken");
 
@@ -162,7 +162,7 @@ namespace Tgstation.Server.Host.Utils.GitHub
 		}
 
 		/// <inheritdoc />
-		public async Task<long> GetRepositoryId(string repoOwner, string repoName, CancellationToken cancellationToken)
+		public async ValueTask<long> GetRepositoryId(string repoOwner, string repoName, CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(repoOwner);
 
@@ -181,7 +181,7 @@ namespace Tgstation.Server.Host.Utils.GitHub
 		}
 
 		/// <inheritdoc />
-		public async Task<int> CreateDeployment(NewDeployment newDeployment, string repoOwner, string repoName, CancellationToken cancellationToken)
+		public async ValueTask<int> CreateDeployment(NewDeployment newDeployment, string repoOwner, string repoName, CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(newDeployment);
 

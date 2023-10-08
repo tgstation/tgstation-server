@@ -125,7 +125,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		}
 
 		/// <inheritdoc />
-		protected override async Task DisposeAndNullControllersImpl()
+		protected override async ValueTask DisposeAndNullControllersImpl()
 		{
 			await base.DisposeAndNullControllersImpl();
 
@@ -138,7 +138,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		}
 
 		/// <inheritdoc />
-		protected override async Task<MonitorAction> HandleNormalReboot(CancellationToken cancellationToken)
+		protected override async ValueTask<MonitorAction> HandleNormalReboot(CancellationToken cancellationToken)
 		{
 			if (pendingSwappable != null)
 			{
@@ -219,7 +219,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		}
 
 		/// <inheritdoc />
-		protected override async Task HandleNewDmbAvailable(CancellationToken cancellationToken)
+		protected override async ValueTask HandleNewDmbAvailable(CancellationToken cancellationToken)
 		{
 			IDmbProvider compileJobProvider = DmbFactory.LockNextDmb(1);
 			bool canSeamlesslySwap = true;
@@ -275,7 +275,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		}
 
 		/// <inheritdoc />
-		protected sealed override async Task<IDmbProvider> PrepServerForLaunch(IDmbProvider dmbToUse, CancellationToken cancellationToken)
+		protected sealed override async ValueTask<IDmbProvider> PrepServerForLaunch(IDmbProvider dmbToUse, CancellationToken cancellationToken)
 		{
 			if (ActiveSwappable != null)
 				throw new InvalidOperationException("Expected activeSwappable to be null!");
@@ -305,20 +305,20 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		protected virtual async Task ApplyInitialDmb(CancellationToken cancellationToken)
+		protected virtual async ValueTask ApplyInitialDmb(CancellationToken cancellationToken)
 		{
 			Server.ReattachInformation.InitialDmb = await DmbFactory.FromCompileJob(Server.CompileJob, cancellationToken);
 		}
 
 		/// <inheritdoc />
-		protected override async Task SessionStartupPersist(CancellationToken cancellationToken)
+		protected override async ValueTask SessionStartupPersist(CancellationToken cancellationToken)
 		{
 			await ApplyInitialDmb(cancellationToken);
 			await base.SessionStartupPersist(cancellationToken);
 		}
 
 		/// <inheritdoc />
-		protected override async Task<MonitorAction> HandleMonitorWakeup(MonitorActivationReason reason, CancellationToken cancellationToken)
+		protected override async ValueTask<MonitorAction> HandleMonitorWakeup(MonitorActivationReason reason, CancellationToken cancellationToken)
 		{
 			var result = await base.HandleMonitorWakeup(reason, cancellationToken);
 			if (reason == MonitorActivationReason.ActiveServerStartup)
@@ -331,8 +331,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// Create the initial link to the live game directory using <see cref="ActiveSwappable"/>.
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		Task InitialLink(CancellationToken cancellationToken)
+		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
+		ValueTask InitialLink(CancellationToken cancellationToken)
 		{
 			Logger.LogTrace("Symlinking compile job...");
 			return ActiveSwappable.MakeActive(cancellationToken);

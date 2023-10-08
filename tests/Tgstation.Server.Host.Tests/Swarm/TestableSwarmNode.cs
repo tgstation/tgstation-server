@@ -51,7 +51,7 @@ namespace Tgstation.Server.Host.Swarm.Tests
 		readonly Mock<IHttpClient> mockHttpClient;
 		readonly Mock<IDatabaseContextFactory> mockDBContextFactory;
 		readonly Mock<IDatabaseSeeder> mockDatabaseSeeder;
-		readonly ISetup<IDatabaseSeeder, Task> mockDatabaseSeederInitialize;
+		readonly ISetup<IDatabaseSeeder, ValueTask> mockDatabaseSeederInitialize;
 
 		readonly Action recreateControllerAndService;
 
@@ -94,8 +94,11 @@ namespace Tgstation.Server.Host.Swarm.Tests
 			mockDatabaseSeeder = new Mock<IDatabaseSeeder>();
 			mockDatabaseSeederInitialize = new Mock<IDatabaseSeeder>().Setup(x => x.Initialize(mockDatabaseContext, It.IsAny<CancellationToken>()));
 			mockDBContextFactory = new Mock<IDatabaseContextFactory>();
+			_ = mockDBContextFactory
+				.Setup(x => x.UseContext(It.IsNotNull<Func<IDatabaseContext, ValueTask>>()))
+				.Callback<Func<IDatabaseContext, ValueTask>>((func) => func(mockDatabaseContext));
 			mockDBContextFactory
-				.Setup(x => x.UseContext(It.IsNotNull<Func<IDatabaseContext, Task>>()))
+				.Setup(x => x.UseContextTaskReturn(It.IsNotNull<Func<IDatabaseContext, Task>>()))
 				.Callback<Func<IDatabaseContext, Task>>((func) => func(mockDatabaseContext));
 
 			var mockHttpClientFactory = new Mock<IAbstractHttpClientFactory>();
@@ -226,11 +229,15 @@ namespace Tgstation.Server.Host.Swarm.Tests
 				Assert.Fail("Initialized twice!");
 
 			if (!cancel)
-				mockDatabaseSeederInitialize.Returns(Task.CompletedTask).Verifiable();
+				mockDatabaseSeederInitialize.Returns(ValueTask.CompletedTask).Verifiable();
 			else
-				mockDatabaseSeederInitialize.ThrowsAsync(new TaskCanceledException()).Verifiable();
+				mockDatabaseSeederInitialize.Returns(async () =>
+				{
+					await Task.Yield();
+					throw new TaskCanceledException();
+				}).Verifiable();
 
-			Task<SwarmRegistrationResult> Invoke() => Service.Initialize(default);
+			Task<SwarmRegistrationResult> Invoke() => Service.Initialize(default).AsTask();
 
 			SwarmRegistrationResult? result;
 			if (cancel)
@@ -263,18 +270,18 @@ namespace Tgstation.Server.Host.Swarm.Tests
 			return result;
 		}
 
-		Task<ServerUpdateResult> BeginUpdate(ISwarmService swarmService, IFileStreamProvider fileStreamProvider, Version version, CancellationToken cancellationToken)
+		ValueTask<ServerUpdateResult> BeginUpdate(ISwarmService swarmService, IFileStreamProvider fileStreamProvider, Version version, CancellationToken cancellationToken)
 		{
 			logger.LogTrace("BeginUpdate...");
 			if (UpdateTask?.IsCompleted == false)
-				return Task.FromResult(ServerUpdateResult.UpdateInProgress);
+				return ValueTask.FromResult(ServerUpdateResult.UpdateInProgress);
 
 			if (UpdateResult == ServerUpdateResult.Started)
 			{
 				UpdateTask = ExecuteUpdate(fileStreamProvider, version, cancellationToken, CriticalCancellationTokenSource.Token);
 			}
 
-			return Task.FromResult(UpdateResult);
+			return ValueTask.FromResult(UpdateResult);
 		}
 
 		async Task<SwarmCommitResult?> ExecuteUpdate(IFileStreamProvider fileStreamProvider, Version version, CancellationToken cancellationToken, CancellationToken criticalCancellationToken)

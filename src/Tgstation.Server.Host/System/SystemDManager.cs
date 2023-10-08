@@ -86,11 +86,11 @@ namespace Tgstation.Server.Host.System
 		}
 
 		/// <inheritdoc />
-		public Task HandleRestart(Version updateVersion, bool handlerMayDelayShutdownWithExtremelyLongRunningTasks, CancellationToken cancellationToken)
+		public ValueTask HandleRestart(Version updateVersion, bool handlerMayDelayShutdownWithExtremelyLongRunningTasks, CancellationToken cancellationToken)
 		{
 			// If this is set, we know a gracefule SHUTDOWN was requested
 			restartInProgress = !handlerMayDelayShutdownWithExtremelyLongRunningTasks;
-			return Task.CompletedTask;
+			return ValueTask.CompletedTask;
 		}
 
 		/// <inheritdoc />

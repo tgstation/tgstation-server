@@ -59,14 +59,14 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="page">The current page.</param>
 		/// <param name="pageSize">The page size.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the request.</returns>
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="IActionResult"/> of the request.</returns>
 		/// <response code="200">Retrieved active <see cref="Job"/>s successfully.</response>
 		[HttpGet]
 		[TgsAuthorize]
 		[ProducesResponseType(typeof(PaginatedResponse<JobResponse>), 200)]
-		public Task<IActionResult> Read([FromQuery] int? page, [FromQuery] int? pageSize, CancellationToken cancellationToken)
+		public ValueTask<IActionResult> Read([FromQuery] int? page, [FromQuery] int? pageSize, CancellationToken cancellationToken)
 			=> Paginated<Job, JobResponse>(
-				() => Task.FromResult(
+				() => ValueTask.FromResult(
 					new PaginatableResult<Job>(
 						DatabaseContext
 						.Jobs
@@ -86,14 +86,14 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="page">The current page.</param>
 		/// <param name="pageSize">The page size.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the request.</returns>
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="IActionResult"/> of the request.</returns>
 		/// <response code="200">Retrieved <see cref="Job"/> <see cref="EntityId"/>s successfully.</response>
 		[HttpGet(Routes.List)]
 		[TgsAuthorize]
 		[ProducesResponseType(typeof(PaginatedResponse<JobResponse>), 200)]
-		public Task<IActionResult> List([FromQuery] int? page, [FromQuery] int? pageSize, CancellationToken cancellationToken)
+		public ValueTask<IActionResult> List([FromQuery] int? page, [FromQuery] int? pageSize, CancellationToken cancellationToken)
 			=> Paginated<Job, JobResponse>(
-				() => Task.FromResult(
+				() => ValueTask.FromResult(
 					new PaginatableResult<Job>(
 						DatabaseContext
 						.Jobs
@@ -112,7 +112,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// </summary>
 		/// <param name="id">The <see cref="EntityId.Id"/> of the <see cref="JobResponse"/> to cancel.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the request.</returns>
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="IActionResult"/> of the request.</returns>
 		/// <response code="202"><see cref="Job"/> cancellation requested successfully.</response>
 		/// <response code="404"><see cref="Job"/> does not exist in this instance.</response>
 		/// <response code="410"><see cref="Job"/> could not be found in the job manager. Has it already completed?.</response>
@@ -120,7 +120,7 @@ namespace Tgstation.Server.Host.Controllers
 		[TgsAuthorize]
 		[ProducesResponseType(typeof(JobResponse), 202)]
 		[ProducesResponseType(typeof(ErrorMessageResponse), 404)]
-		public async Task<IActionResult> Delete(long id, CancellationToken cancellationToken)
+		public async ValueTask<IActionResult> Delete(long id, CancellationToken cancellationToken)
 		{
 			// don't care if an instance post or not at this point
 			var job = await DatabaseContext
@@ -147,14 +147,14 @@ namespace Tgstation.Server.Host.Controllers
 		/// </summary>
 		/// <param name="id">The <see cref="EntityId.Id"/> of the <see cref="JobResponse"/> to retrieve.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the request.</returns>
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="IActionResult"/> of the request.</returns>
 		/// <response code="200">Retrieved <see cref="Job"/> successfully.</response>
 		/// <response code="404"><see cref="Job"/> does not exist in this instance.</response>
 		[HttpGet("{id}")]
 		[TgsAuthorize]
 		[ProducesResponseType(typeof(JobResponse), 200)]
 		[ProducesResponseType(typeof(ErrorMessageResponse), 404)]
-		public async Task<IActionResult> GetId(long id, CancellationToken cancellationToken)
+		public async ValueTask<IActionResult> GetId(long id, CancellationToken cancellationToken)
 		{
 			var job = await DatabaseContext
 				.Jobs
@@ -174,11 +174,11 @@ namespace Tgstation.Server.Host.Controllers
 		/// Supplements <see cref="JobResponse"/> <see cref="PaginatedResponse{TModel}"/>s with their <see cref="JobResponse.Progress"/>.
 		/// </summary>
 		/// <param name="jobResponse">The <see cref="JobResponse"/> to augment.</param>
-		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		Task AddJobProgressResponseTransformer(JobResponse jobResponse)
+		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
+		ValueTask AddJobProgressResponseTransformer(JobResponse jobResponse)
 		{
 			jobManager.SetJobProgress(jobResponse);
-			return Task.CompletedTask;
+			return ValueTask.CompletedTask;
 		}
 	}
 }

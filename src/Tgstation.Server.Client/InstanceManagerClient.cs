@@ -24,23 +24,23 @@ namespace Tgstation.Server.Client
 		}
 
 		/// <inheritdoc />
-		public Task<InstanceResponse> CreateOrAttach(InstanceCreateRequest instance, CancellationToken cancellationToken) => ApiClient.Create<InstanceCreateRequest, InstanceResponse>(Routes.InstanceManager, instance ?? throw new ArgumentNullException(nameof(instance)), cancellationToken);
+		public ValueTask<InstanceResponse> CreateOrAttach(InstanceCreateRequest instance, CancellationToken cancellationToken) => ApiClient.Create<InstanceCreateRequest, InstanceResponse>(Routes.InstanceManager, instance ?? throw new ArgumentNullException(nameof(instance)), cancellationToken);
 
 		/// <inheritdoc />
-		public Task Detach(EntityId instance, CancellationToken cancellationToken) => ApiClient.Delete(Routes.SetID(Routes.InstanceManager, instance?.Id ?? throw new ArgumentNullException(nameof(instance))), cancellationToken);
+		public ValueTask Detach(EntityId instance, CancellationToken cancellationToken) => ApiClient.Delete(Routes.SetID(Routes.InstanceManager, instance?.Id ?? throw new ArgumentNullException(nameof(instance))), cancellationToken);
 
 		/// <inheritdoc />
-		public Task<IReadOnlyList<InstanceResponse>> List(PaginationSettings? paginationSettings, CancellationToken cancellationToken)
+		public ValueTask<List<InstanceResponse>> List(PaginationSettings? paginationSettings, CancellationToken cancellationToken)
 			=> ReadPaged<InstanceResponse>(paginationSettings, Routes.ListRoute(Routes.InstanceManager), null, cancellationToken);
 
 		/// <inheritdoc />
-		public Task<InstanceResponse> Update(InstanceUpdateRequest instance, CancellationToken cancellationToken) => ApiClient.Update<InstanceUpdateRequest, InstanceResponse>(Routes.InstanceManager, instance ?? throw new ArgumentNullException(nameof(instance)), cancellationToken);
+		public ValueTask<InstanceResponse> Update(InstanceUpdateRequest instance, CancellationToken cancellationToken) => ApiClient.Update<InstanceUpdateRequest, InstanceResponse>(Routes.InstanceManager, instance ?? throw new ArgumentNullException(nameof(instance)), cancellationToken);
 
 		/// <inheritdoc />
-		public Task<InstanceResponse> GetId(EntityId instance, CancellationToken cancellationToken) => ApiClient.Read<InstanceResponse>(Routes.SetID(Routes.InstanceManager, instance?.Id ?? throw new ArgumentNullException(nameof(instance))), cancellationToken);
+		public ValueTask<InstanceResponse> GetId(EntityId instance, CancellationToken cancellationToken) => ApiClient.Read<InstanceResponse>(Routes.SetID(Routes.InstanceManager, instance?.Id ?? throw new ArgumentNullException(nameof(instance))), cancellationToken);
 
 		/// <inheritdoc />
-		public Task GrantPermissions(EntityId instance, CancellationToken cancellationToken) => ApiClient.Patch(Routes.SetID(Routes.InstanceManager, instance?.Id ?? throw new ArgumentNullException(nameof(instance))), cancellationToken);
+		public ValueTask GrantPermissions(EntityId instance, CancellationToken cancellationToken) => ApiClient.Patch(Routes.SetID(Routes.InstanceManager, instance?.Id ?? throw new ArgumentNullException(nameof(instance))), cancellationToken);
 
 		/// <inheritdoc />
 		public IInstanceClient CreateClient(Instance instance)

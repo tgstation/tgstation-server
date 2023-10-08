@@ -51,7 +51,7 @@ namespace Tgstation.Server.Client
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="ServerInformationResponse"/> of the target server.</returns>
-		Task<ServerInformationResponse> ServerInformation(CancellationToken cancellationToken);
+		ValueTask<ServerInformationResponse> ServerInformation(CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Adds a <paramref name="requestLogger"/> to the request pipeline.

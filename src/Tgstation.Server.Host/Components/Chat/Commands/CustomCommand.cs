@@ -37,7 +37,7 @@ namespace Tgstation.Server.Host.Components.Chat.Commands
 		}
 
 		/// <inheritdoc />
-		public Task<MessageContent> Invoke(string arguments, ChatUser user, CancellationToken cancellationToken)
+		public ValueTask<MessageContent> Invoke(string arguments, ChatUser user, CancellationToken cancellationToken)
 		{
 			if (handler == null)
 				throw new InvalidOperationException("SetHandler() has not been called!");

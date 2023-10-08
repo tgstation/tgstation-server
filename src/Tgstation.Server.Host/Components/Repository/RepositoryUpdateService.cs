@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 using LibGit2Sharp;
 
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Request;
 using Tgstation.Server.Host.Database;
@@ -79,8 +79,8 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// <param name="lastOriginCommitSha">The last known origin commit SHA of the <paramref name="repository"/> if any.</param>
 		/// <param name="revInfoSink">An optional <see cref="Action{T}"/> to receive the loaded <see cref="RevisionInformation"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in <see langword="true"/> if the <paramref name="databaseContext"/> was modified in a way that requires saving, <see langword="false"/> otherwise.</returns>
-		public static async Task<bool> LoadRevisionInformation(
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in <see langword="true"/> if the <paramref name="databaseContext"/> was modified in a way that requires saving, <see langword="false"/> otherwise.</returns>
+		public static async ValueTask<bool> LoadRevisionInformation(
 			IRepository repository,
 			IDatabaseContext databaseContext,
 			ILogger logger,
@@ -142,9 +142,9 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// <param name="job">The running <see cref="Job"/>, ignored.</param>
 		/// <param name="progressReporter">The <see cref="JobProgressReporter"/> for the job.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
+		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
 #pragma warning disable CA1502, CA1506 // TODO: Decomplexify
-		public async Task<IActionResult> RepositoryUpdateJob(
+		public async ValueTask RepositoryUpdateJob(
 			IInstanceCore instance,
 			IDatabaseContextFactory databaseContextFactory,
 			Job job,
@@ -191,7 +191,7 @@ namespace Tgstation.Server.Host.Components.Repository
 				Id = instanceId,
 			};
 
-			Task CallLoadRevInfo(Models.TestMerge testMergeToAdd = null, string lastOriginCommitSha = null) => databaseContextFactory
+			ValueTask CallLoadRevInfo(Models.TestMerge testMergeToAdd = null, string lastOriginCommitSha = null) => databaseContextFactory
 				.UseContext(
 					async databaseContext =>
 					{
@@ -242,7 +242,7 @@ namespace Tgstation.Server.Host.Components.Repository
 			await CallLoadRevInfo();
 
 			// apply new rev info, tracking applied test merges
-			Task UpdateRevInfo(Models.TestMerge testMergeToAdd = null) => CallLoadRevInfo(testMergeToAdd, lastRevisionInfo.OriginCommitSha);
+			ValueTask UpdateRevInfo(Models.TestMerge testMergeToAdd = null) => CallLoadRevInfo(testMergeToAdd, lastRevisionInfo.OriginCommitSha);
 
 			try
 			{
@@ -557,8 +557,6 @@ namespace Tgstation.Server.Host.Components.Repository
 						cancellationToken);
 					await UpdateRevInfo();
 				}
-
-				return null;
 			}
 			catch
 			{

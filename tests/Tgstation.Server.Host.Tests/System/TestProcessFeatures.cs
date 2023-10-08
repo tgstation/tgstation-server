@@ -3,7 +3,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System;
 using System.Runtime.InteropServices;
-using System.Threading.Tasks;
 
 using Tgstation.Server.Host.IO;
 
@@ -26,12 +25,12 @@ namespace Tgstation.Server.Host.System.Tests
 		}
 
 		[TestMethod]
-		public async Task TestGetUsername()
+		public void TestGetUsername()
 		{
 			if (!new PlatformIdentifier().IsWindows)
 				Assert.Inconclusive("This test is buggy on linux and not required");
 
-			var username = await features.GetExecutingUsername(global::System.Diagnostics.Process.GetCurrentProcess(), default);
+			var username = features.GetExecutingUsername(global::System.Diagnostics.Process.GetCurrentProcess());
 			Assert.IsTrue(username.Contains(Environment.UserName), $"Exepcted a string containing \"{Environment.UserName}\", got \"{username}\"");
 		}
 	}

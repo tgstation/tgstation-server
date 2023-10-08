@@ -28,8 +28,8 @@ namespace Tgstation.Server.Host.Utils.GitHub
 		/// <param name="repoOwner">The owner of the target repository.</param>
 		/// <param name="repoName">The name of the target repository.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the new deployment's ID.</returns>
-		Task<int> CreateDeployment(NewDeployment newDeployment, string repoOwner, string repoName, CancellationToken cancellationToken);
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the new deployment's ID.</returns>
+		ValueTask<int> CreateDeployment(NewDeployment newDeployment, string repoOwner, string repoName, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Create a <paramref name="newDeploymentStatus"/> on a target deployment.

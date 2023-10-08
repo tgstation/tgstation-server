@@ -137,8 +137,8 @@ namespace Tgstation.Server.Host.Setup
 		/// <param name="question">The question <see cref="string"/>.</param>
 		/// <param name="defaultResponse">The optional default response if the user doesn't enter anything.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task"/> resulting in <see langword="true"/> if the user replied yes, <see langword="false"/> otherwise.</returns>
-		async Task<bool> PromptYesNo(string question, bool? defaultResponse, CancellationToken cancellationToken)
+		/// <returns>A <see cref="ValueTask"/> resulting in <see langword="true"/> if the user replied yes, <see langword="false"/> otherwise.</returns>
+		async ValueTask<bool> PromptYesNo(string question, bool? defaultResponse, CancellationToken cancellationToken)
 		{
 			do
 			{
@@ -167,8 +167,8 @@ namespace Tgstation.Server.Host.Setup
 		/// Prompts the user to enter the port to host TGS on.
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task"/> resulting in the hosting port, or <see langword="null"/> to use the default.</returns>
-		async Task<ushort?> PromptForHostingPort(CancellationToken cancellationToken)
+		/// <returns>A <see cref="ValueTask"/> resulting in the hosting port, or <see langword="null"/> to use the default.</returns>
+		async ValueTask<ushort?> PromptForHostingPort(CancellationToken cancellationToken)
 		{
 			await console.WriteAsync(null, true, cancellationToken);
 			await console.WriteAsync("What port would you like to connect to TGS on?", true, cancellationToken);
@@ -198,8 +198,8 @@ namespace Tgstation.Server.Host.Setup
 		/// <param name="databaseName">The database name (or path in the case of a <see cref="DatabaseType.Sqlite"/> database).</param>
 		/// <param name="dbExists">Whether or not the database exists.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		async Task TestDatabaseConnection(
+		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
+		async ValueTask TestDatabaseConnection(
 			DbConnection testConnection,
 			DatabaseConfiguration databaseConfiguration,
 			string databaseName,
@@ -290,8 +290,8 @@ namespace Tgstation.Server.Host.Setup
 		/// </summary>
 		/// <param name="databaseName">The path to the potential SQLite database file.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the SQLite database path to store in the configuration.</returns>
-		async Task<string> ValidateNonExistantSqliteDBName(string databaseName, CancellationToken cancellationToken)
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the SQLite database path to store in the configuration.</returns>
+		async ValueTask<string> ValidateNonExistantSqliteDBName(string databaseName, CancellationToken cancellationToken)
 		{
 			var dbPathIsRooted = Path.IsPathRooted(databaseName);
 			var resolvedPath = ioManager.ResolvePath(
@@ -343,8 +343,8 @@ namespace Tgstation.Server.Host.Setup
 		/// </summary>
 		/// <param name="firstTime">If this is the user's first time here.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the input <see cref="DatabaseType"/>.</returns>
-		async Task<DatabaseType> PromptDatabaseType(bool firstTime, CancellationToken cancellationToken)
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the input <see cref="DatabaseType"/>.</returns>
+		async ValueTask<DatabaseType> PromptDatabaseType(bool firstTime, CancellationToken cancellationToken)
 		{
 			if (firstTime)
 			{
@@ -392,9 +392,9 @@ namespace Tgstation.Server.Host.Setup
 		/// Prompts the user to create a <see cref="DatabaseConfiguration"/>.
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the new <see cref="DatabaseConfiguration"/>.</returns>
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the new <see cref="DatabaseConfiguration"/>.</returns>
 #pragma warning disable CA1502 // TODO: Decomplexify
-		async Task<DatabaseConfiguration> ConfigureDatabase(CancellationToken cancellationToken)
+		async ValueTask<DatabaseConfiguration> ConfigureDatabase(CancellationToken cancellationToken)
 		{
 			bool firstTime = true;
 			do
@@ -657,8 +657,8 @@ namespace Tgstation.Server.Host.Setup
 		/// Prompts the user to create a <see cref="GeneralConfiguration"/>.
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the new <see cref="GeneralConfiguration"/>.</returns>
-		async Task<GeneralConfiguration> ConfigureGeneral(CancellationToken cancellationToken)
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the new <see cref="GeneralConfiguration"/>.</returns>
+		async ValueTask<GeneralConfiguration> ConfigureGeneral(CancellationToken cancellationToken)
 		{
 			var newGeneralConfiguration = new GeneralConfiguration
 			{
@@ -715,8 +715,8 @@ namespace Tgstation.Server.Host.Setup
 		/// Prompts the user to create a <see cref="FileLoggingConfiguration"/>.
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the new <see cref="FileLoggingConfiguration"/>.</returns>
-		async Task<FileLoggingConfiguration> ConfigureLogging(CancellationToken cancellationToken)
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the new <see cref="FileLoggingConfiguration"/>.</returns>
+		async ValueTask<FileLoggingConfiguration> ConfigureLogging(CancellationToken cancellationToken)
 		{
 			var fileLoggingConfiguration = new FileLoggingConfiguration();
 			await console.WriteAsync(null, true, cancellationToken);
@@ -772,7 +772,7 @@ namespace Tgstation.Server.Host.Setup
 				}
 				while (true);
 
-				async Task<LogLevel?> PromptLogLevel(string question)
+				async ValueTask<LogLevel?> PromptLogLevel(string question)
 				{
 					do
 					{
@@ -800,8 +800,8 @@ namespace Tgstation.Server.Host.Setup
 		/// Prompts the user to create a <see cref="ElasticsearchConfiguration"/>.
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the new <see cref="ElasticsearchConfiguration"/>.</returns>
-		async Task<ElasticsearchConfiguration> ConfigureElasticsearch(CancellationToken cancellationToken)
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the new <see cref="ElasticsearchConfiguration"/>.</returns>
+		async ValueTask<ElasticsearchConfiguration> ConfigureElasticsearch(CancellationToken cancellationToken)
 		{
 			var elasticsearchConfiguration = new ElasticsearchConfiguration();
 			await console.WriteAsync(null, true, cancellationToken);
@@ -852,8 +852,8 @@ namespace Tgstation.Server.Host.Setup
 		/// Prompts the user to create a <see cref="ControlPanelConfiguration"/>.
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the new <see cref="ControlPanelConfiguration"/>.</returns>
-		async Task<ControlPanelConfiguration> ConfigureControlPanel(CancellationToken cancellationToken)
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the new <see cref="ControlPanelConfiguration"/>.</returns>
+		async ValueTask<ControlPanelConfiguration> ConfigureControlPanel(CancellationToken cancellationToken)
 		{
 			var config = new ControlPanelConfiguration
 			{
@@ -882,8 +882,8 @@ namespace Tgstation.Server.Host.Setup
 		/// Prompts the user to create a <see cref="SwarmConfiguration"/>.
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the new <see cref="SwarmConfiguration"/>.</returns>
-		async Task<SwarmConfiguration> ConfigureSwarm(CancellationToken cancellationToken)
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the new <see cref="SwarmConfiguration"/>.</returns>
+		async ValueTask<SwarmConfiguration> ConfigureSwarm(CancellationToken cancellationToken)
 		{
 			var enable = await PromptYesNo("Enable swarm mode?", false, cancellationToken);
 			if (!enable)
@@ -897,7 +897,7 @@ namespace Tgstation.Server.Host.Setup
 			}
 			while (String.IsNullOrWhiteSpace(identifer));
 
-			async Task<Uri> ParseAddress(string question)
+			async ValueTask<Uri> ParseAddress(string question)
 			{
 				var first = true;
 				Uri address;
@@ -957,8 +957,8 @@ namespace Tgstation.Server.Host.Setup
 		/// <param name="controlPanelConfiguration">The <see cref="ControlPanelConfiguration"/> to save.</param>
 		/// <param name="swarmConfiguration">The <see cref="SwarmConfiguration"/> to save.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		async Task SaveConfiguration(
+		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
+		async ValueTask SaveConfiguration(
 			string userConfigFileName,
 			ushort? hostingPort,
 			DatabaseConfiguration databaseConfiguration,
@@ -1028,8 +1028,8 @@ namespace Tgstation.Server.Host.Setup
 		/// </summary>
 		/// <param name="userConfigFileName">The path to the settings json to build.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		async Task RunWizard(string userConfigFileName, CancellationToken cancellationToken)
+		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
+		async ValueTask RunWizard(string userConfigFileName, CancellationToken cancellationToken)
 		{
 			// welcome message
 			await console.WriteAsync($"Welcome to {Constants.CanonicalPackageName}!", true, cancellationToken);
@@ -1068,8 +1068,8 @@ namespace Tgstation.Server.Host.Setup
 		/// Check if it should and run the <see cref="SetupWizard"/> if necessary.
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		async Task CheckRunWizard(CancellationToken cancellationToken)
+		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
+		async ValueTask CheckRunWizard(CancellationToken cancellationToken)
 		{
 			var setupWizardMode = generalConfiguration.SetupWizardMode;
 			if (setupWizardMode == SetupWizardMode.Never)

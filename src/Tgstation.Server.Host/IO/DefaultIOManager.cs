@@ -68,9 +68,9 @@ namespace Tgstation.Server.Host.IO
 		}
 
 		/// <inheritdoc />
-		public async Task CopyDirectory(
+		public async ValueTask CopyDirectory(
 			IEnumerable<string> ignore,
-			Func<string, string, Task> postCopyCallback,
+			Func<string, string, ValueTask> postCopyCallback,
 			string src,
 			string dest,
 			int? taskThrottle,
@@ -93,7 +93,7 @@ namespace Tgstation.Server.Host.IO
 		public string ConcatPath(params string[] paths) => Path.Combine(paths);
 
 		/// <inheritdoc />
-		public async Task CopyFile(string src, string dest, CancellationToken cancellationToken)
+		public async ValueTask CopyFile(string src, string dest, CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(src);
 			ArgumentNullException.ThrowIfNull(dest);
@@ -197,7 +197,7 @@ namespace Tgstation.Server.Host.IO
 			TaskScheduler.Current);
 
 		/// <inheritdoc />
-		public async Task<byte[]> ReadAllBytes(string path, CancellationToken cancellationToken)
+		public async ValueTask<byte[]> ReadAllBytes(string path, CancellationToken cancellationToken)
 		{
 			path = ResolvePath(path);
 			await using var file = new FileStream(
@@ -220,7 +220,7 @@ namespace Tgstation.Server.Host.IO
 		public virtual string ResolvePath(string path) => Path.GetFullPath(path ?? throw new ArgumentNullException(nameof(path)));
 
 		/// <inheritdoc />
-		public async Task WriteAllBytes(string path, byte[] contents, CancellationToken cancellationToken)
+		public async ValueTask WriteAllBytes(string path, byte[] contents, CancellationToken cancellationToken)
 		{
 			await using var file = CreateAsyncSequentialWriteStream(path);
 			await file.WriteAsync(contents, cancellationToken);
@@ -345,7 +345,7 @@ namespace Tgstation.Server.Host.IO
 			string src,
 			string dest,
 			IEnumerable<string> ignore,
-			Func<string, string, Task> postCopyCallback,
+			Func<string, string, ValueTask> postCopyCallback,
 			SemaphoreSlim semaphore,
 			CancellationToken cancellationToken)
 		{

@@ -43,7 +43,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			this.accessIdentifier = accessIdentifier;
 		}
 
-		public async Task<BridgeResponse> ProcessBridgeRequest(BridgeParameters parameters, CancellationToken cancellationToken)
+		public async ValueTask<BridgeResponse> ProcessBridgeRequest(BridgeParameters parameters, CancellationToken cancellationToken)
 		{
 			try
 			{

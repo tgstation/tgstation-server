@@ -104,7 +104,7 @@ namespace Tgstation.Server.Host.Security
 		}
 
 		/// <inheritdoc />
-		public async Task<TokenResponse> CreateToken(Models.User user, bool oAuth, CancellationToken cancellationToken)
+		public async ValueTask<TokenResponse> CreateToken(Models.User user, bool oAuth, CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(user);
 
