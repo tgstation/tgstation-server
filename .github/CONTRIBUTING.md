@@ -121,6 +121,8 @@ DO:
 - Use CancellationTokens where possible
 - Throw appropriate ArgumentExceptions for public functions
 - Use nullable references approprately
+- Prefer `ValueTask`s to `Task`s where possible.
+- Return `Task` instead of `ValueTask` if all the callers would need to `.AsTask()` it.
 
 DON'T:
 
@@ -128,7 +130,7 @@ DON'T:
 - Use the internal keyword
 - Use the static keyword on fields where avoidable
 - Use the public keyword where avoidable
-- Handle Tasks in a synchronous fashion
+- Handle `ValueTask`s/`Task`s in a synchronous fashion
 - Use static methods from built-in keywords i.e. Use `Boolean.TryParse` instead of `bool.TryParse`
 
 ### Formatting
@@ -244,13 +246,15 @@ We use this attribute to ensure EFCore generated tables are not nullable for spe
 
 ## Versioning
 
-The version format we use is 4.\<minor\>.\<patch\>. The first number never changes and TGS 1/2/3/4 are to be considered seperate products. The numbers that follow are the semver. The criteria for changing a version number is as follows
+We follow [semantic versioning](https://semver.org) (Although TGS 1/2/3 are to be considered seperate products). The numbers that follow are the semver. The criteria for changing a version number is as follows
 
+- Major: A change that requires direct host access to apply properly. Generally, these are updates to the dotnet runtime.
 - Minor: A feature addition to the core server functionality.
 - Patch: Patch changes.
 
 Patch changes should be committed to the `master` branch if possible. These will be automatically merged into the `dev` branch.
-All other changes should be made directly to the `dev` branch. These will be merged to `master` on the next minor release cycle.
+All minor changes should be made directly to the `dev` branch. These will be merged to `master` on the next minor release cycle.
+Major changes should be committed to the `VX` branch created when the time for a major release comes around.
 
 We have several subcomponent APIs we ship with the core server that have their own versions.
 
@@ -261,7 +265,7 @@ We have several subcomponent APIs we ship with the core server that have their o
 - Host Watchdog
 - Web Control Panel
 
-These are represent as standard [semver](https://semver.org/)s and don't affect the core version. The only stipulation is major changes to the HTTP and DreamMaker APIs or the configuration must coincide with a minor core version bump.
+These don't affect the core version. The only stipulation is major changes to the HTTP and DreamMaker APIs or the configuration must coincide with a minor core version bump.
 
 All versions are stored in the master file [build/Version.props](../build/Version.props). They are repeatedly defined in a few other places, but integration tests will make sure they are consistent.
 
@@ -271,6 +275,7 @@ The NuGet package Tgstation.Server.Client is another part of the suite which sho
 
 - Consider Tgstation.Server.Client it's own product, perform major and minor bumps according to semver semantics including the Tgstation.Server.Api code (but not the version).
 - Tgstation.Server.Api is a bit tricky as breaking code changes may occur without affecting the actual HTTP contract. For this reason, the library itself is versioned separately from the API contract.
+- Tgstation.Server.Common is also versioned independently.
 
 ## Triage, Deployment, and Releasing
 
