@@ -23,21 +23,6 @@ namespace Tgstation.Server.Host.Components.Byond
 	sealed class EngineManager : IEngineManager
 	{
 		/// <summary>
-		/// The path to the BYOND bin folder.
-		/// </summary>
-		public const string BinPath = "byond/bin";
-
-		/// <summary>
-		/// The path to the cfg directory.
-		/// </summary>
-		const string CfgDirectoryName = "cfg";
-
-		/// <summary>
-		/// The name of the list of trusted .dmb files in the user's BYOND cfg directory.
-		/// </summary>
-		const string TrustedDmbFileName = "trusted.txt";
-
-		/// <summary>
 		/// The file in which we store the <see cref="Version"/> for installations.
 		/// </summary>
 		const string VersionFileName = "Version.txt";
@@ -61,11 +46,6 @@ namespace Tgstation.Server.Host.Components.Byond
 		}
 
 		/// <summary>
-		/// <see cref="SemaphoreSlim"/> for writing to files in the user's BYOND directory.
-		/// </summary>
-		static readonly SemaphoreSlim UserFilesSemaphore = new (1);
-
-		/// <summary>
 		/// The <see cref="IIOManager"/> for the <see cref="EngineManager"/>.
 		/// </summary>
 		readonly IIOManager ioManager;
@@ -73,7 +53,7 @@ namespace Tgstation.Server.Host.Components.Byond
 		/// <summary>
 		/// The <see cref="IEngineInstaller"/> for the <see cref="EngineManager"/>.
 		/// </summary>
-		readonly IEngineInstaller byondInstaller;
+		readonly IEngineInstaller engineInstaller;
 
 		/// <summary>
 		/// The <see cref="IEventConsumer"/> for the <see cref="EngineManager"/>.
@@ -119,13 +99,13 @@ namespace Tgstation.Server.Host.Components.Byond
 		/// Initializes a new instance of the <see cref="EngineManager"/> class.
 		/// </summary>
 		/// <param name="ioManager">The value of <see cref="ioManager"/>.</param>
-		/// <param name="byondInstaller">The value of <see cref="byondInstaller"/>.</param>
+		/// <param name="engineInstaller">The value of <see cref="engineInstaller"/>.</param>
 		/// <param name="eventConsumer">The value of <see cref="eventConsumer"/>.</param>
 		/// <param name="logger">The value of <see cref="logger"/>.</param>
-		public EngineManager(IIOManager ioManager, IEngineInstaller byondInstaller, IEventConsumer eventConsumer, ILogger<EngineManager> logger)
+		public EngineManager(IIOManager ioManager, IEngineInstaller engineInstaller, IEventConsumer eventConsumer, ILogger<EngineManager> logger)
 		{
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
-			this.byondInstaller = byondInstaller ?? throw new ArgumentNullException(nameof(byondInstaller));
+			this.engineInstaller = engineInstaller ?? throw new ArgumentNullException(nameof(engineInstaller));
 			this.eventConsumer = eventConsumer ?? throw new ArgumentNullException(nameof(eventConsumer));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
@@ -200,7 +180,7 @@ namespace Tgstation.Server.Host.Components.Byond
 			try
 			{
 				if (trustDmbFullPath != null)
-					await TrustDmbPath(trustDmbFullPath, cancellationToken);
+					await engineInstaller.TrustDmbPath(trustDmbFullPath, cancellationToken);
 
 				return installLock;
 			}
@@ -302,13 +282,6 @@ namespace Tgstation.Server.Host.Components.Byond
 		}
 
 		/// <inheritdoc />
-		public async ValueTask EnsureEngineSource(Uri source, EngineType engine, CancellationToken cancellationToken)
-		{
-			await Task.Yield();
-			throw new NotImplementedException();
-		}
-
-		/// <inheritdoc />
 		public async Task StartAsync(CancellationToken cancellationToken)
 		{
 			async ValueTask<byte[]> GetActiveVersion()
@@ -318,29 +291,6 @@ namespace Tgstation.Server.Host.Components.Byond
 			}
 
 			var activeVersionBytesTask = GetActiveVersion();
-
-			var byondDir = byondInstaller.PathToUserFolder;
-			if (byondDir != null)
-				using (await SemaphoreSlimContext.Lock(UserFilesSemaphore, cancellationToken))
-				{
-					// Create local cfg directory in case it doesn't exist
-					var localCfgDirectory = ioManager.ConcatPath(
-							byondDir,
-							CfgDirectoryName);
-					await ioManager.CreateDirectory(
-						localCfgDirectory,
-						cancellationToken);
-
-					// Delete trusted.txt so it doesn't grow too large
-					var trustedFilePath =
-						ioManager.ConcatPath(
-							localCfgDirectory,
-							TrustedDmbFileName);
-					logger.LogTrace("Deleting trusted .dmbs file {trustedFilePath}", trustedFilePath);
-					await ioManager.DeleteFile(
-						trustedFilePath,
-						cancellationToken);
-				}
 
 			await ioManager.CreateDirectory(DefaultIOManager.CurrentDirectory, cancellationToken);
 			var directories = await ioManager.GetDirectories(DefaultIOManager.CurrentDirectory, cancellationToken);
@@ -393,7 +343,7 @@ namespace Tgstation.Server.Host.Components.Byond
 			logger.LogTrace("Upgrading BYOND installations...");
 			await ValueTaskExtensions.WhenAll(
 				installedVersionPaths
-					.Select(kvp => byondInstaller.UpgradeInstallation(kvp.Value, kvp.Key, cancellationToken)));
+					.Select(kvp => engineInstaller.UpgradeInstallation(kvp.Value, kvp.Key, cancellationToken)));
 
 			var activeVersionBytes = await activeVersionBytesTask;
 			if (activeVersionBytes != null)
@@ -553,7 +503,7 @@ namespace Tgstation.Server.Host.Components.Byond
 					if (progressReporter != null)
 						progressReporter.StageName = "Downloading version";
 
-					versionZipStream = await byondInstaller.DownloadVersion(version, cancellationToken);
+					versionZipStream = await engineInstaller.DownloadVersion(version, cancellationToken);
 				}
 				else
 					versionZipStream = customVersionStream;
@@ -575,7 +525,7 @@ namespace Tgstation.Server.Host.Components.Byond
 				if (progressReporter != null)
 					progressReporter.StageName = "Running installation actions";
 
-				await byondInstaller.Install(version, installFullPath, cancellationToken);
+				await engineInstaller.Install(version, installFullPath, cancellationToken);
 
 				if (progressReporter != null)
 					progressReporter.StageName = "Writing version file";
@@ -607,40 +557,10 @@ namespace Tgstation.Server.Host.Components.Byond
 		/// </summary>
 		/// <param name="version">The <see cref="Version"/> being added.</param>
 		/// <param name="installationTask">The <see cref="ValueTask"/> representing the installation process.</param>
-		/// <returns>The new <see cref="ReferenceCountingContainer{TWrapped, TReference}"/> containing the new <see cref="IEngineInstallation"/>.</returns>
+		/// <returns>The new <see cref="IEngineInstallation"/>.</returns>
 		ReferenceCountingContainer<IEngineInstallation, EngineExecutableLock> AddInstallationContainer(ByondVersion version, Task installationTask)
 		{
-			var binPathForVersion = ioManager.ConcatPath(version.ToString(), BinPath);
-			IEngineInstallation installation;
-
-			switch (version.Engine.Value)
-			{
-				case EngineType.Byond:
-					installation = new ByondInstallation(
-						installationTask,
-						version,
-						ioManager.ResolvePath(
-							ioManager.ConcatPath(
-								binPathForVersion,
-								byondInstaller.GetDreamDaemonName(
-									version,
-									out var supportsCli,
-									out var supportsMapThreads))),
-						ioManager.ResolvePath(
-							ioManager.ConcatPath(
-								binPathForVersion,
-								byondInstaller.CompilerName)),
-						supportsCli,
-						supportsMapThreads);
-					break;
-				case EngineType.OpenDream:
-					installation = new OpenDreamInstallation(
-						installationTask,
-						version);
-					break;
-				default:
-					throw new InvalidOperationException($"Invalid EngineType: {version.Engine.Value}");
-			}
+			var installation = engineInstaller.CreateInstallation(version, installationTask);
 
 			var installationContainer = new ReferenceCountingContainer<IEngineInstallation, EngineExecutableLock>(installation);
 
@@ -648,50 +568,6 @@ namespace Tgstation.Server.Host.Components.Byond
 				installedVersions.Add(version, installationContainer);
 
 			return installationContainer;
-		}
-
-		/// <summary>
-		/// Add a given <paramref name="fullDmbPath"/> to the trusted DMBs list in BYOND's config.
-		/// </summary>
-		/// <param name="fullDmbPath">Full path to the .dmb that should be trusted.</param>
-		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
-		async ValueTask TrustDmbPath(string fullDmbPath, CancellationToken cancellationToken)
-		{
-			var byondDir = byondInstaller.PathToUserFolder;
-			if (String.IsNullOrWhiteSpace(byondDir))
-			{
-				logger.LogTrace("No relevant user BYOND directory to install a \"{fileName}\" in", TrustedDmbFileName);
-				return;
-			}
-
-			var trustedFilePath = ioManager.ConcatPath(
-				byondDir,
-				CfgDirectoryName,
-				TrustedDmbFileName);
-
-			logger.LogDebug("Adding .dmb ({dmbPath}) to {trustedFilePath}", fullDmbPath, trustedFilePath);
-
-			using (await SemaphoreSlimContext.Lock(UserFilesSemaphore, cancellationToken))
-			{
-				string trustedFileText;
-				if (await ioManager.FileExists(trustedFilePath, cancellationToken))
-				{
-					var trustedFileBytes = await ioManager.ReadAllBytes(trustedFilePath, cancellationToken);
-					trustedFileText = Encoding.UTF8.GetString(trustedFileBytes);
-					trustedFileText = $"{trustedFileText.Trim()}{Environment.NewLine}";
-				}
-				else
-					trustedFileText = String.Empty;
-
-				if (trustedFileText.Contains(fullDmbPath, StringComparison.Ordinal))
-					return;
-
-				trustedFileText = $"{trustedFileText}{fullDmbPath}{Environment.NewLine}";
-
-				var newTrustedFileBytes = Encoding.UTF8.GetBytes(trustedFileText);
-				await ioManager.WriteAllBytes(trustedFilePath, newTrustedFileBytes, cancellationToken);
-			}
 		}
 	}
 }

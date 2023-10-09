@@ -139,25 +139,16 @@ namespace Tgstation.Server.Host.Controllers
 #pragma warning restore CA1506
 #pragma warning restore CA1502
 		{
+			throw new NotImplementedException("Fix OD/BYOND model validation");
+
 			ArgumentNullException.ThrowIfNull(model);
 
 			var uploadingZip = model.UploadCustomZip == true;
 			var isByondEngine = model.Engine.Value == EngineType.Byond;
 
-			if ((isByondEngine && (model.Version.Revision != -1 || (uploadingZip && model.Version.Build > 0) || model.SourceCommittish != null || model.SourceRepository != null))
+			if ((isByondEngine && (model.Version.Revision != -1 || (uploadingZip && model.Version.Build > 0) || model.SourceCommittish != null))
 				|| (!isByondEngine && (model.Version != null || String.IsNullOrWhiteSpace(model.SourceCommittish))))
 				return BadRequest(new ErrorMessageResponse(ErrorCode.ModelValidationFailure));
-
-			Uri sourceRepo;
-			if (isByondEngine)
-			{
-				model.Version = NormalizeByondVersion(model.Version);
-				sourceRepo = null;
-			}
-			else
-			{
-				sourceRepo = model.SourceRepository ?? new Uri("https://github.com/OpenDreamProject/OpenDream");
-			}
 
 			var userByondRights = AuthenticationContext.InstancePermissionSet.ByondRights.Value;
 			if ((!userByondRights.HasFlag(ByondRights.InstallOfficialOrChangeActiveByondVersion) && !uploadingZip)
@@ -230,12 +221,6 @@ namespace Tgstation.Server.Host.Controllers
 								job,
 								async (core, databaseContextFactory, paramJob, progressHandler, jobCancellationToken) =>
 								{
-									if (sourceRepo != null)
-										await core.EngineManager.EnsureEngineSource(
-											sourceRepo,
-											model.Engine.Value,
-											jobCancellationToken);
-
 									MemoryStream zipFileStream = null;
 									if (fileUploadTicket != null)
 										await using (fileUploadTicket)

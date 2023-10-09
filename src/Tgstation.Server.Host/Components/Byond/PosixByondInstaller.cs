@@ -33,10 +33,10 @@ namespace Tgstation.Server.Host.Components.Byond
 		const string ShellScriptExtension = ".sh";
 
 		/// <inheritdoc />
-		public override string CompilerName => DreamMakerExecutableName + ShellScriptExtension;
+		protected override string PathToUserFolder { get; }
 
 		/// <inheritdoc />
-		public override string PathToUserFolder { get; }
+		protected override string DreamMakerName => DreamMakerExecutableName + ShellScriptExtension;
 
 		/// <inheritdoc />
 		protected override string ByondRevisionsUrlTemplate => "https://www.byond.com/download/build/{0}/{0}.{1}_byond_linux.zip";
@@ -70,19 +70,9 @@ namespace Tgstation.Server.Host.Components.Byond
 		}
 
 		/// <inheritdoc />
-		public override string GetDreamDaemonName(ByondVersion version, out bool supportsCli, out bool supportsMapThreads)
-		{
-			ArgumentNullException.ThrowIfNull(version);
-
-			supportsCli = true;
-			supportsMapThreads = version.Version >= MapThreadsVersion;
-			return DreamDaemonExecutableName + ShellScriptExtension;
-		}
-
-		/// <inheritdoc />
 		public override ValueTask Install(ByondVersion version, string path, CancellationToken cancellationToken)
 		{
-			ArgumentNullException.ThrowIfNull(version);
+			CheckVersionValidity(version);
 			ArgumentNullException.ThrowIfNull(path);
 
 			// write the scripts for running the ting
@@ -99,14 +89,14 @@ namespace Tgstation.Server.Host.Components.Byond
 				postWriteHandler.HandleWrite(IOManager.ResolvePath(pathToScript));
 			}
 
-			var basePath = IOManager.ConcatPath(path, EngineManager.BinPath);
+			var basePath = IOManager.ConcatPath(path, BinPath);
 
 			var ddTask = WriteAndMakeExecutable(
-				IOManager.ConcatPath(basePath, GetDreamDaemonName(version, out _, out _)),
+				IOManager.ConcatPath(basePath, GetDreamDaemonName(version.Version, out _)),
 				dreamDaemonScript);
 
 			var dmTask = WriteAndMakeExecutable(
-				IOManager.ConcatPath(basePath, CompilerName),
+				IOManager.ConcatPath(basePath, DreamMakerName),
 				dreamMakerScript);
 
 			var task = ValueTaskExtensions.WhenAll(
@@ -122,10 +112,17 @@ namespace Tgstation.Server.Host.Components.Byond
 		/// <inheritdoc />
 		public override ValueTask UpgradeInstallation(ByondVersion version, string path, CancellationToken cancellationToken)
 		{
-			ArgumentNullException.ThrowIfNull(version);
+			CheckVersionValidity(version);
 			ArgumentNullException.ThrowIfNull(path);
 
 			return ValueTask.CompletedTask;
+		}
+
+		/// <inheritdoc />
+		protected override string GetDreamDaemonName(Version byondVersion, out bool supportsCli)
+		{
+			supportsCli = true;
+			return DreamDaemonExecutableName + ShellScriptExtension;
 		}
 	}
 }

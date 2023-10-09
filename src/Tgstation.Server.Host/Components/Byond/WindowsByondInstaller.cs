@@ -54,10 +54,10 @@ namespace Tgstation.Server.Host.Components.Byond
 		public static Version DDExeVersion => new (515, 1598);
 
 		/// <inheritdoc />
-		public override string CompilerName => "dm.exe";
+		protected override string DreamMakerName => "dm.exe";
 
 		/// <inheritdoc />
-		public override string PathToUserFolder { get; }
+		protected override string PathToUserFolder { get; }
 
 		/// <inheritdoc />
 		protected override string ByondRevisionsUrlTemplate => "https://www.byond.com/download/build/{0}/{0}.{1}_byond.zip";
@@ -115,18 +115,11 @@ namespace Tgstation.Server.Host.Components.Byond
 		public void Dispose() => semaphore.Dispose();
 
 		/// <inheritdoc />
-		public override string GetDreamDaemonName(ByondVersion version, out bool supportsCli, out bool supportsMapThreads)
-		{
-			ArgumentNullException.ThrowIfNull(version);
-
-			supportsCli = version.Version >= DDExeVersion;
-			supportsMapThreads = version.Version >= MapThreadsVersion;
-			return supportsCli ? "dd.exe" : "dreamdaemon.exe";
-		}
-
-		/// <inheritdoc />
 		public override ValueTask Install(ByondVersion version, string path, CancellationToken cancellationToken)
 		{
+			CheckVersionValidity(version);
+			ArgumentNullException.ThrowIfNull(path);
+
 			var tasks = new List<ValueTask>(3)
 			{
 				SetNoPromptTrusted(path, cancellationToken),
@@ -134,7 +127,7 @@ namespace Tgstation.Server.Host.Components.Byond
 			};
 
 			if (!generalConfiguration.SkipAddingByondFirewallException)
-				tasks.Add(AddDreamDaemonToFirewall(version, path, cancellationToken));
+				tasks.Add(AddDreamDaemonToFirewall(version.Version, path, cancellationToken));
 
 			return ValueTaskExtensions.WhenAll(tasks);
 		}
@@ -142,7 +135,7 @@ namespace Tgstation.Server.Host.Components.Byond
 		/// <inheritdoc />
 		public override async ValueTask UpgradeInstallation(ByondVersion version, string path, CancellationToken cancellationToken)
 		{
-			ArgumentNullException.ThrowIfNull(version);
+			CheckVersionValidity(version);
 			ArgumentNullException.ThrowIfNull(path);
 
 			if (generalConfiguration.SkipAddingByondFirewallException)
@@ -155,7 +148,14 @@ namespace Tgstation.Server.Host.Components.Byond
 				return;
 
 			Logger.LogInformation("BYOND Version {version} needs dd.exe added to firewall", version);
-			await AddDreamDaemonToFirewall(version, path, cancellationToken);
+			await AddDreamDaemonToFirewall(version.Version, path, cancellationToken);
+		}
+
+		/// <inheritdoc />
+		protected override string GetDreamDaemonName(Version byondVersion, out bool supportsCli)
+		{
+			supportsCli = byondVersion >= DDExeVersion;
+			return supportsCli ? "dd.exe" : "dreamdaemon.exe";
 		}
 
 		/// <summary>
@@ -224,18 +224,18 @@ namespace Tgstation.Server.Host.Components.Byond
 		/// <summary>
 		/// Attempt to add the DreamDaemon executable as an exception to the Windows firewall.
 		/// </summary>
-		/// <param name="version">The BYOND <see cref="Version"/>.</param>
+		/// <param name="byondVersion">The BYOND <see cref="Version"/>.</param>
 		/// <param name="path">The path to the BYOND installation.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
-		async ValueTask AddDreamDaemonToFirewall(ByondVersion version, string path, CancellationToken cancellationToken)
+		async ValueTask AddDreamDaemonToFirewall(Version byondVersion, string path, CancellationToken cancellationToken)
 		{
-			var dreamDaemonName = GetDreamDaemonName(version, out var usesDDExe, out var _);
+			var dreamDaemonName = GetDreamDaemonName(byondVersion, out var usesDDExe);
 
 			var dreamDaemonPath = IOManager.ResolvePath(
 				IOManager.ConcatPath(
 					path,
-					EngineManager.BinPath,
+					BinPath,
 					dreamDaemonName));
 
 			Logger.LogInformation("Adding Windows Firewall exception for {path}...", dreamDaemonPath);
@@ -244,7 +244,7 @@ namespace Tgstation.Server.Host.Components.Byond
 				// I really wish we could add the instance name here but
 				// 1. It'd make IByondInstaller need to be transient per-instance and WindowsByondInstaller relys on being a singleton for its DX installer call
 				// 2. The instance could be renamed, so it'd have to be an unfriendly ID anyway.
-				var arguments = $"advfirewall firewall add rule name=\"TGS DreamDaemon {version}\" program=\"{dreamDaemonPath}\" protocol=tcp dir=in enable=yes action=allow";
+				var arguments = $"advfirewall firewall add rule name=\"TGS DreamDaemon {byondVersion}\" program=\"{dreamDaemonPath}\" protocol=tcp dir=in enable=yes action=allow";
 				await using var netshProcess = processExecutor.LaunchProcess(
 					"netsh.exe",
 					IOManager.ResolvePath(),

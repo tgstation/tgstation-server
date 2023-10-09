@@ -629,6 +629,10 @@ namespace Tgstation.Server.Api.Models
 		[Description("The deployment took longer than the configured timeout!")]
 		DeploymentTimeout,
 
-		// This comment is here to remind you that there is one more unused error code above and you should use it first
+		/// <summary>
+		/// Could not compile OpenDream due to a missing dotnet executable.
+		/// </summary>
+		[Description("OpenDream could not be compiled due to being unable to locate the dotnet executable!")]
+		OpenDreamCantFindDotnet,
 	}
 }

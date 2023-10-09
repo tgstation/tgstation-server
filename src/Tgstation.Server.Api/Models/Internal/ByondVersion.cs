@@ -16,13 +16,13 @@ namespace Tgstation.Server.Api.Models.Internal
 		public EngineType? Engine { get; set; }
 
 		/// <summary>
-		/// The <see cref="System.Version"/> of the engine.
+		/// The <see cref="System.Version"/> of the engine. Currently only valid when <see cref="Engine"/> is <see cref="EngineType.Byond"/>.
 		/// </summary>
 		[ResponseOptions]
 		public Version? Version { get; set; }
 
 		/// <summary>
-		/// The git committish of the <see cref="Version"/>. On response, this will always be a commit SHA.
+		/// The git committish of the engine. On response, this will always be a commit SHA. Currently only valid when <see cref="Engine"/> is <see cref="EngineType.Byond"/>.
 		/// </summary>
 		[ResponseOptions]
 		[StringLength(Limits.MaximumCommitShaLength)]

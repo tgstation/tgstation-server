@@ -1,6 +1,4 @@
-﻿using System;
-
-using Tgstation.Server.Api.Models.Internal;
+﻿using Tgstation.Server.Api.Models.Internal;
 
 namespace Tgstation.Server.Api.Models.Request
 {
@@ -13,10 +11,5 @@ namespace Tgstation.Server.Api.Models.Request
 		/// If a custom BYOND version is to be uploaded.
 		/// </summary>
 		public bool? UploadCustomZip { get; set; }
-
-		/// <summary>
-		/// The remote repository for non-<see cref="EngineType.Byond"/> <see cref="EngineType"/>s. By default, this is the original git repository of the target <see cref="EngineType"/>.
-		/// </summary>
-		public Uri? SourceRepository { get; set; }
 	}
 }

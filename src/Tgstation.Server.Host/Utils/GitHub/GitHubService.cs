@@ -259,5 +259,23 @@ namespace Tgstation.Server.Host.Utils.GitHub
 					pullRequestNumber)
 				.WaitAsync(cancellationToken);
 		}
+
+		/// <inheritdoc />
+		public Task<GitHubCommit> GetCommit(string repoOwner, string repoName, string committish, CancellationToken cancellationToken)
+		{
+			ArgumentNullException.ThrowIfNull(repoOwner);
+
+			ArgumentNullException.ThrowIfNull(repoName);
+
+			logger.LogTrace("GetPulGetCommitlRequest");
+			return gitHubClient
+				.Repository
+				.Commit
+				.Get(
+					repoOwner,
+					repoName,
+					committish)
+				.WaitAsync(cancellationToken);
+		}
 	}
 }

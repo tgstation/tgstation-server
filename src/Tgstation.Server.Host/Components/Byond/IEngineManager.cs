@@ -27,15 +27,6 @@ namespace Tgstation.Server.Host.Components.Byond
 		IReadOnlyList<ByondVersion> InstalledVersions { get; }
 
 		/// <summary>
-		/// Ensure that the given <paramref name="source"/> is registered for the given <paramref name="engine"/>.
-		/// </summary>
-		/// <param name="source">The <see cref="Uri"/> source of the <paramref name="engine"/>.</param>
-		/// <param name="engine">The <see cref="EngineType"/>.</param>
-		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
-		ValueTask EnsureEngineSource(Uri source, EngineType engine, CancellationToken cancellationToken);
-
-		/// <summary>
 		/// Change the active <see cref="ByondVersion"/>.
 		/// </summary>
 		/// <param name="progressReporter">The optional <see cref="JobProgressReporter"/> for the operation.</param>

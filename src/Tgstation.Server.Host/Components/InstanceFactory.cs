@@ -73,7 +73,7 @@ namespace Tgstation.Server.Host.Components
 		/// <summary>
 		/// The <see cref="IEngineInstaller"/> for the <see cref="InstanceFactory"/>.
 		/// </summary>
-		readonly IEngineInstaller byondInstaller;
+		readonly IEngineInstaller engineInstaller;
 
 		/// <summary>
 		/// The <see cref="IChatManagerFactory"/> for the <see cref="InstanceFactory"/>.
@@ -174,7 +174,7 @@ namespace Tgstation.Server.Host.Components
 		/// <param name="cryptographySuite">The value of <see cref="cryptographySuite"/>.</param>
 		/// <param name="synchronousIOManager">The value of <see cref="synchronousIOManager"/>.</param>
 		/// <param name="symlinkFactory">The value of <see cref="symlinkFactory"/>.</param>
-		/// <param name="byondInstaller">The value of <see cref="byondInstaller"/>.</param>
+		/// <param name="engineInstaller">The value of <see cref="engineInstaller"/>.</param>
 		/// <param name="chatFactory">The value of <see cref="chatFactory"/>.</param>
 		/// <param name="processExecutor">The value of <see cref="processExecutor"/>.</param>
 		/// <param name="postWriteHandler">The value of <see cref="postWriteHandler"/>.</param>
@@ -200,7 +200,7 @@ namespace Tgstation.Server.Host.Components
 			ICryptographySuite cryptographySuite,
 			ISynchronousIOManager synchronousIOManager,
 			ISymlinkFactory symlinkFactory,
-			IEngineInstaller byondInstaller,
+			IEngineInstaller engineInstaller,
 			IChatManagerFactory chatFactory,
 			IProcessExecutor processExecutor,
 			IPostWriteHandler postWriteHandler,
@@ -226,7 +226,7 @@ namespace Tgstation.Server.Host.Components
 			this.cryptographySuite = cryptographySuite ?? throw new ArgumentNullException(nameof(cryptographySuite));
 			this.synchronousIOManager = synchronousIOManager ?? throw new ArgumentNullException(nameof(synchronousIOManager));
 			this.symlinkFactory = symlinkFactory ?? throw new ArgumentNullException(nameof(symlinkFactory));
-			this.byondInstaller = byondInstaller ?? throw new ArgumentNullException(nameof(byondInstaller));
+			this.engineInstaller = engineInstaller ?? throw new ArgumentNullException(nameof(engineInstaller));
 			this.chatFactory = chatFactory ?? throw new ArgumentNullException(nameof(chatFactory));
 			this.processExecutor = processExecutor ?? throw new ArgumentNullException(nameof(processExecutor));
 			this.postWriteHandler = postWriteHandler ?? throw new ArgumentNullException(nameof(postWriteHandler));
@@ -296,7 +296,7 @@ namespace Tgstation.Server.Host.Components
 				generalConfiguration);
 			try
 			{
-				var byond = new EngineManager(byondIOManager, byondInstaller, eventConsumer, loggerFactory.CreateLogger<EngineManager>());
+				var byond = new EngineManager(byondIOManager, engineInstaller, eventConsumer, loggerFactory.CreateLogger<EngineManager>());
 
 				var dmbFactory = new DmbFactory(
 					databaseContextFactory,
@@ -419,7 +419,7 @@ namespace Tgstation.Server.Host.Components
 		public Task StartAsync(CancellationToken cancellationToken)
 		{
 			CheckSystemCompatibility();
-			return byondInstaller.CleanCache(cancellationToken);
+			return engineInstaller.CleanCache(cancellationToken);
 		}
 
 		/// <inheritdoc />

@@ -12,23 +12,12 @@ namespace Tgstation.Server.Host.Components.Byond
 	interface IEngineInstaller
 	{
 		/// <summary>
-		/// Get the file name of the compiler executable.
+		/// Creates an <see cref="IEngineInstallation"/> for a given <paramref name="version"/>.
 		/// </summary>
-		string CompilerName { get; }
-
-		/// <summary>
-		/// The path to the folder for the user's data.
-		/// </summary>
-		string PathToUserFolder { get; }
-
-		/// <summary>
-		/// Get the file name of the DreamDaemon executable.
-		/// </summary>
-		/// <param name="version">The <see cref="ByondVersion"/> of BYOND to select the executable name for.</param>
-		/// <param name="supportsCli">Whether or not the returned path supports being run as a command-line application.</param>
-		/// <param name="supportsMapThreads">Whether or not the returned path supports the '-map-threads' parameter.</param>
-		/// <returns>The file name of the DreamDaemon executable.</returns>
-		string GetDreamDaemonName(ByondVersion version, out bool supportsCli, out bool supportsMapThreads);
+		/// <param name="version">The <see cref="ByondVersion"/> of the installation.</param>
+		/// <param name="installationTask">The <see cref="Task"/> representing the installation process for the installation.</param>
+		/// <returns>The <see cref="IEngineInstallation"/>.</returns>
+		IEngineInstallation CreateInstallation(ByondVersion version, Task installationTask);
 
 		/// <summary>
 		/// Download a given engine <paramref name="version"/>.
@@ -42,19 +31,27 @@ namespace Tgstation.Server.Host.Components.Byond
 		/// Does actions necessary to get an extracted installation working.
 		/// </summary>
 		/// <param name="version">The <see cref="ByondVersion"/> being installed.</param>
-		/// <param name="path">The path to the BYOND installation.</param>
+		/// <param name="path">The path to the installation.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
 		ValueTask Install(ByondVersion version, string path, CancellationToken cancellationToken);
 
 		/// <summary>
-		/// Does actions necessary to get upgrade a BYOND version installed by a previous version of TGS.
+		/// Does actions necessary to get upgrade a version installed by a previous version of TGS.
 		/// </summary>
 		/// <param name="version">The <see cref="ByondVersion"/> being installed.</param>
-		/// <param name="path">The path to the BYOND installation.</param>
+		/// <param name="path">The path to the installation.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
 		ValueTask UpgradeInstallation(ByondVersion version, string path, CancellationToken cancellationToken);
+
+		/// <summary>
+		/// Add a given <paramref name="fullDmbPath"/> to the trusted DMBs list in BYOND's config.
+		/// </summary>
+		/// <param name="fullDmbPath">Full path to the .dmb that should be trusted.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
+		ValueTask TrustDmbPath(string fullDmbPath, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Attempts to cleans the engine's cache folder for the system.

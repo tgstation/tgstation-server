@@ -146,6 +146,8 @@ namespace Tgstation.Server.Tests
 			Assert.IsFalse(hasEntry);
 		}
 
+		static Version MapThreadsVersion() => (Version)typeof(ByondInstallerBase).GetField("MapThreadsVersion", BindingFlags.Static | BindingFlags.NonPublic).GetValue(null) ?? throw new InvalidOperationException("Couldn't find MapThreadsVersion");
+
 		[TestMethod]
 		public async Task TestMapThreadsByondVersion()
 		{
@@ -167,19 +169,19 @@ namespace Tgstation.Server.Tests
 			var logger = loggerFactory.CreateLogger<CachingFileDownloader>();
 			var init1 = CachingFileDownloader.InitializeByondVersion(
 				logger,
-				ByondInstallerBase.MapThreadsVersion,
+				MapThreadsVersion(),
 				platformIdentifier.IsWindows,
 				CancellationToken.None);
 			await CachingFileDownloader.InitializeByondVersion(
 				logger,
-				new Version(ByondInstallerBase.MapThreadsVersion.Major, ByondInstallerBase.MapThreadsVersion.Minor - 1),
+				new Version(MapThreadsVersion().Major, MapThreadsVersion().Minor - 1),
 				platformIdentifier.IsWindows,
 				CancellationToken.None);
 			await init1;
 
 			var fileDownloader = new CachingFileDownloader(Mock.Of<ILogger<CachingFileDownloader>>());
 
-			IEngineInstaller byondInstaller = platformIdentifier.IsWindows
+			ByondInstallerBase byondInstaller = platformIdentifier.IsWindows
 				? new WindowsByondInstaller(
 					Mock.Of<IProcessExecutor>(),
 					Mock.Of<IIOManager>(),
@@ -214,13 +216,13 @@ namespace Tgstation.Server.Tests
 					new ByondVersion
 					{
 						Engine = EngineType.Byond,
-						Version = ByondInstallerBase.MapThreadsVersion,
+						Version = MapThreadsVersion(),
 					},
 					await byondInstaller.DownloadVersion(
 						new ByondVersion
 						{
 							Engine = EngineType.Byond,
-							Version = ByondInstallerBase.MapThreadsVersion
+							Version = MapThreadsVersion()
 						},
 						default),
 					byondInstaller,
@@ -230,7 +232,7 @@ namespace Tgstation.Server.Tests
 
 				await ioManager.DeleteDirectory(tempPath, default);
 
-				var (byondBytes, version) = await GetByondVersionPriorTo(byondInstaller, ByondInstallerBase.MapThreadsVersion);
+				var (byondBytes, version) = await GetByondVersionPriorTo(byondInstaller, MapThreadsVersion());
 
 				await TestMapThreadsVersion(
 					version,
@@ -425,7 +427,7 @@ namespace Tgstation.Server.Tests
 		static async Task TestMapThreadsVersion(
 			ByondVersion byondVersion,
 			Stream byondBytes,
-			IEngineInstaller byondInstaller,
+			ByondInstallerBase byondInstaller,
 			IIOManager ioManager,
 			IProcessExecutor processExecutor,
 			string tempPath)
@@ -434,17 +436,26 @@ namespace Tgstation.Server.Tests
 				await ioManager.ZipToDirectory(tempPath, byondBytes, default);
 
 			// HAAAAAAAX
-			if (byondInstaller.GetType() == typeof(WindowsByondInstaller))
+			var installerType = byondInstaller.GetType();
+			if (byondInstaller is WindowsByondInstaller)
 				typeof(WindowsByondInstaller).GetField("installedDirectX", BindingFlags.Instance | BindingFlags.NonPublic).SetValue(byondInstaller, true);
 
 			await byondInstaller.Install(byondVersion, tempPath, default);
 
+			var binPath = (string)typeof(ByondInstallerBase).GetField("BinPath", BindingFlags.Static | BindingFlags.NonPublic).GetValue(null);
+			var ddNameFunc = installerType.GetMethod("GetDreamDaemonName", BindingFlags.Instance | BindingFlags.NonPublic);
+			var supportsCli = false;
+			var argArray = new object[] { byondVersion.Version, supportsCli };
+
+			// https://stackoverflow.com/questions/2438065/how-can-i-invoke-a-method-with-an-out-parameter
 			var ddPath = ioManager.ConcatPath(
 				tempPath,
-				EngineManager.BinPath,
-				byondInstaller.GetDreamDaemonName(byondVersion, out var supportsCli, out var shouldSupportMapThreads));
+				binPath,
+				(string)ddNameFunc.Invoke(byondInstaller, argArray));
 
-			Assert.IsTrue(supportsCli);
+			Assert.IsTrue((bool)argArray[1]);
+
+			var shouldSupportMapThreads = byondVersion.Version >= MapThreadsVersion();
 
 			await File.WriteAllBytesAsync("fake.dmb", Array.Empty<byte>(), CancellationToken.None);
 
