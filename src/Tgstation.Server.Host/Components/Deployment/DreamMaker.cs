@@ -553,7 +553,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 		/// <param name="job">The <see cref="CompileJob"/> to run and populate.</param>
 		/// <param name="dreamMakerSettings">The <see cref="Api.Models.Internal.DreamMakerSettings"/> to use.</param>
 		/// <param name="launchParameters">The <see cref="DreamDaemonLaunchParameters"/> to use.</param>
-		/// <param name="byondLock">The <see cref="IByondExecutableLock"/> to use.</param>
+		/// <param name="byondLock">The <see cref="IEngineExecutableLock"/> to use.</param>
 		/// <param name="repository">The <see cref="IRepository"/> to use.</param>
 		/// <param name="remoteDeploymentManager">The <see cref="IRemoteDeploymentManager"/> to use.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
@@ -563,7 +563,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 			Models.CompileJob job,
 			Api.Models.Internal.DreamMakerSettings dreamMakerSettings,
 			DreamDaemonLaunchParameters launchParameters,
-			IByondExecutableLock byondLock,
+			IEngineExecutableLock byondLock,
 			IRepository repository,
 			IRemoteDeploymentManager remoteDeploymentManager,
 			CancellationToken cancellationToken)
@@ -591,7 +591,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 					{
 						resolvedOutputDirectory,
 						repoOrigin.ToString(),
-						$"{byondLock.Version.Major}.{byondLock.Version.Minor}",
+						byondLock.Version.ToString(),
 					},
 					true,
 					cancellationToken);
@@ -630,14 +630,14 @@ namespace Tgstation.Server.Host.Components.Deployment
 					{
 						resolvedOutputDirectory,
 						repoOrigin.ToString(),
-						$"{byondLock.Version.Major}.{byondLock.Version.Minor}",
+						byondLock.Version.ToString(),
 					},
 					true,
 					cancellationToken);
 
 				// run compiler
 				progressReporter.StageName = "Running DreamMaker";
-				var exitCode = await RunDreamMaker(byondLock.DreamMakerPath, job, cancellationToken);
+				var compileSuceeded = await RunDreamMaker(byondLock, job, cancellationToken);
 
 				// Session takes ownership of the lock and Disposes it so save this for later
 				var byondVersion = byondLock.Version;
@@ -645,10 +645,10 @@ namespace Tgstation.Server.Host.Components.Deployment
 				// verify api
 				try
 				{
-					if (exitCode != 0)
+					if (!compileSuceeded)
 						throw new JobException(
 							ErrorCode.DreamMakerExitCode,
-							new JobException($"Exit code: {exitCode}{Environment.NewLine}{Environment.NewLine}{job.Output}"));
+							new JobException($"Compilation failed:{Environment.NewLine}{Environment.NewLine}{job.Output}"));
 
 					progressReporter.StageName = "Validating DMAPI";
 					await VerifyApi(
@@ -670,7 +670,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 						new List<string>
 						{
 							resolvedOutputDirectory,
-							exitCode == 0 ? "1" : "0",
+							compileSuceeded ? "1" : "0",
 							byondVersion.ToString(),
 						},
 						true,
@@ -769,7 +769,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 		/// <param name="timeout">The timeout in seconds for validation.</param>
 		/// <param name="securityLevel">The <see cref="DreamDaemonSecurity"/> level to use to validate the API.</param>
 		/// <param name="job">The <see cref="CompileJob"/> for the operation.</param>
-		/// <param name="byondLock">The current <see cref="IByondExecutableLock"/>.</param>
+		/// <param name="byondLock">The current <see cref="IEngineExecutableLock"/>.</param>
 		/// <param name="portToUse">The port to use for API validation.</param>
 		/// <param name="requireValidate">If the API validation is required to complete the deployment.</param>
 		/// <param name="logOutput">If output should be logged to the DreamDaemon Diagnostics folder.</param>
@@ -779,7 +779,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 			uint timeout,
 			DreamDaemonSecurity securityLevel,
 			Models.CompileJob job,
-			IByondExecutableLock byondLock,
+			IEngineExecutableLock byondLock,
 			ushort portToUse,
 			bool requireValidate,
 			bool logOutput,
@@ -803,7 +803,11 @@ namespace Tgstation.Server.Host.Components.Deployment
 			job.MinimumSecurityLevel = securityLevel; // needed for the TempDmbProvider
 
 			ApiValidationStatus validationStatus;
-			using (var provider = new TemporaryDmbProvider(ioManager.ResolvePath(job.DirectoryName.ToString()), String.Concat(job.DmeName, DmbExtension), job))
+			using (var provider = new TemporaryDmbProvider(
+				ioManager.ResolvePath(job.DirectoryName.ToString()),
+				String.Concat(job.DmeName, DmbExtension),
+				job,
+				byondLock.Version))
 			await using (var controller = await sessionControllerFactory.LaunchNew(provider, byondLock, launchParameters, true, cancellationToken))
 			{
 				var launchResult = await controller.LaunchResult.WaitAsync(cancellationToken);
@@ -853,33 +857,46 @@ namespace Tgstation.Server.Host.Components.Deployment
 		/// <summary>
 		/// Compiles a .dme with DreamMaker.
 		/// </summary>
-		/// <param name="dreamMakerPath">The path to the DreamMaker executable.</param>
+		/// <param name="engineLock">The <see cref="IEngineExecutableLock"/> to use.</param>
 		/// <param name="job">The <see cref="CompileJob"/> for the operation.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
-		async ValueTask<int> RunDreamMaker(string dreamMakerPath, Models.CompileJob job, CancellationToken cancellationToken)
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in <see langword="true"/> if compilation succeeded, <see langword="false"/> otherwise.</returns>
+		async ValueTask<bool> RunDreamMaker(IEngineExecutableLock engineLock, Models.CompileJob job, CancellationToken cancellationToken)
 		{
-			await using var dm = processExecutor.LaunchProcess(
-				dreamMakerPath,
-				ioManager.ResolvePath(
-					job.DirectoryName.ToString()),
-				$"-clean {job.DmeName}.{DmeExtension}",
-				readStandardHandles: true,
-				noShellExecute: true);
+			var arguments = engineLock.FormatCompilerArguments($"{job.DmeName}.{DmeExtension}");
+			bool result;
+			if (arguments == null)
+			{
+				logger.LogTrace("Engine lock says compilation isn't necessary.");
+				job.Output = $"{engineLock.Version.Engine} does not require compilation.";
+				result = true;
+			}
+			else
+			{
+				await using var dm = processExecutor.LaunchProcess(
+					engineLock.CompilerExePath,
+					ioManager.ResolvePath(
+						job.DirectoryName.ToString()),
+					arguments,
+					readStandardHandles: true,
+					noShellExecute: true);
 
-			if (sessionConfiguration.LowPriorityDeploymentProcesses)
-				dm.AdjustPriority(false);
+				if (sessionConfiguration.LowPriorityDeploymentProcesses)
+					dm.AdjustPriority(false);
 
-			int exitCode;
-			using (cancellationToken.Register(() => dm.Terminate()))
-				exitCode = (await dm.Lifetime).Value;
-			cancellationToken.ThrowIfCancellationRequested();
+				int exitCode;
+				using (cancellationToken.Register(() => dm.Terminate()))
+					exitCode = (await dm.Lifetime).Value;
+				cancellationToken.ThrowIfCancellationRequested();
 
-			logger.LogDebug("DreamMaker exit code: {exitCode}", exitCode);
-			job.Output = await dm.GetCombinedOutput(cancellationToken);
+				logger.LogDebug("DreamMaker exit code: {exitCode}", exitCode);
+				job.Output = $"{await dm.GetCombinedOutput(cancellationToken)}{Environment.NewLine}{Environment.NewLine}Exit Code: {exitCode}";
+				logger.LogDebug("DreamMaker output: {newLine}{output}", Environment.NewLine, job.Output);
+				result = exitCode == 0;
+			}
+
 			currentDreamMakerOutput = job.Output;
-			logger.LogDebug("DreamMaker output: {newLine}{output}", Environment.NewLine, job.Output);
-			return exitCode;
+			return result;
 		}
 
 		/// <summary>

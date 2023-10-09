@@ -1,7 +1,7 @@
 ﻿using System;
 
+using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Host.IO;
-using Tgstation.Server.Host.Models;
 
 namespace Tgstation.Server.Host.Components.Deployment
 {
@@ -14,10 +14,11 @@ namespace Tgstation.Server.Host.Components.Deployment
 		/// <inheritdoc />
 		public string Directory => ioManager.ResolvePath(CompileJob.DirectoryName.ToString() + directoryAppend);
 
-		/// <summary>
-		/// The <see cref="CompileJob"/> for the <see cref="DmbProvider"/>.
-		/// </summary>
-		public CompileJob CompileJob { get; }
+		/// <inheritdoc />
+		public Models.CompileJob CompileJob { get; }
+
+		/// <inheritdoc />
+		public ByondVersion ByondVersion { get; }
 
 		/// <summary>
 		/// The <see cref="IIOManager"/> for the <see cref="DmbProvider"/>.
@@ -25,7 +26,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 		readonly IIOManager ioManager;
 
 		/// <summary>
-		/// Extra path to add to the end of <see cref="Api.Models.Internal.CompileJob.DirectoryName"/>.
+		/// Extra path to add to the end of <see cref="CompileJob.DirectoryName"/>.
 		/// </summary>
 		readonly string directoryAppend;
 
@@ -38,12 +39,14 @@ namespace Tgstation.Server.Host.Components.Deployment
 		/// Initializes a new instance of the <see cref="DmbProvider"/> class.
 		/// </summary>
 		/// <param name="compileJob">The value of <see cref="CompileJob"/>.</param>
+		/// <param name="byondVersion">The value of <see cref="ByondVersion"/>.</param>
 		/// <param name="ioManager">The value of <see cref="ioManager"/>.</param>
 		/// <param name="onDispose">The value of <see cref="onDispose"/>.</param>
 		/// <param name="directoryAppend">The optional value of <see cref="directoryAppend"/>.</param>
-		public DmbProvider(CompileJob compileJob, IIOManager ioManager, Action onDispose, string directoryAppend = null)
+		public DmbProvider(Models.CompileJob compileJob, ByondVersion byondVersion, IIOManager ioManager, Action onDispose, string directoryAppend = null)
 		{
 			CompileJob = compileJob ?? throw new ArgumentNullException(nameof(compileJob));
+			ByondVersion = byondVersion ?? throw new ArgumentNullException(nameof(byondVersion));
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
 			this.onDispose = onDispose ?? throw new ArgumentNullException(nameof(onDispose));
 			this.directoryAppend = directoryAppend ?? String.Empty;

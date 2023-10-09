@@ -82,7 +82,7 @@ namespace Tgstation.Server.Host.Models
 		}
 
 		/// <inheritdoc />
-		public CompileJobResponse ToApi() => new CompileJobResponse
+		public CompileJobResponse ToApi() => new ()
 		{
 			DirectoryName = DirectoryName,
 			DmeName = DmeName,
@@ -90,7 +90,9 @@ namespace Tgstation.Server.Host.Models
 			Job = Job.ToApi(),
 			Output = Output,
 			RevisionInformation = RevisionInformation.ToApi(),
-			ByondVersion = Version.Parse(ByondVersion),
+			ByondVersion = Api.Models.Internal.ByondVersion.TryParse(ByondVersion, out var version)
+				? version
+				: throw new InvalidOperationException($"Failed to parse BYOND version: {ByondVersion}"),
 			MinimumSecurityLevel = MinimumSecurityLevel,
 			DMApiVersion = DMApiVersion,
 			RepositoryOrigin = RepositoryOrigin != null ? new Uri(RepositoryOrigin) : null,

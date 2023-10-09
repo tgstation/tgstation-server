@@ -123,9 +123,9 @@ namespace Tgstation.Server.Host.Components.Session
 		readonly IProcess process;
 
 		/// <summary>
-		/// The <see cref="IByondExecutableLock"/> for the <see cref="SessionController"/>.
+		/// The <see cref="IEngineExecutableLock"/> for the <see cref="SessionController"/>.
 		/// </summary>
-		readonly IByondExecutableLock byondLock;
+		readonly IEngineExecutableLock byondLock;
 
 		/// <summary>
 		/// The <see cref="IChatTrackingContext"/> for the <see cref="SessionController"/>.
@@ -244,7 +244,7 @@ namespace Tgstation.Server.Host.Components.Session
 			ReattachInformation reattachInformation,
 			Api.Models.Instance metadata,
 			IProcess process,
-			IByondExecutableLock byondLock,
+			IEngineExecutableLock byondLock,
 			global::Byond.TopicSender.ITopicClient byondTopicSender,
 			IChatTrackingContext chatTrackingContext,
 			IBridgeRegistrar bridgeRegistrar,

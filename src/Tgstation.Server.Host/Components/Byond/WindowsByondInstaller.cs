@@ -8,6 +8,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
 using Tgstation.Server.Api.Models;
+using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Common.Extensions;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.IO;
@@ -53,10 +54,10 @@ namespace Tgstation.Server.Host.Components.Byond
 		public static Version DDExeVersion => new (515, 1598);
 
 		/// <inheritdoc />
-		public override string DreamMakerName => "dm.exe";
+		public override string CompilerName => "dm.exe";
 
 		/// <inheritdoc />
-		public override string PathToUserByondFolder { get; }
+		public override string PathToUserFolder { get; }
 
 		/// <inheritdoc />
 		protected override string ByondRevisionsUrlTemplate => "https://www.byond.com/download/build/{0}/{0}.{1}_byond.zip";
@@ -102,9 +103,9 @@ namespace Tgstation.Server.Host.Components.Byond
 
 			var documentsDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
 			if (String.IsNullOrWhiteSpace(documentsDirectory))
-				PathToUserByondFolder = null; // happens with the service account
+				PathToUserFolder = null; // happens with the service account
 			else
-				PathToUserByondFolder = IOManager.ResolvePath(IOManager.ConcatPath(documentsDirectory, "BYOND"));
+				PathToUserFolder = IOManager.ResolvePath(IOManager.ConcatPath(documentsDirectory, "BYOND"));
 
 			semaphore = new SemaphoreSlim(1);
 			installedDirectX = false;
@@ -114,17 +115,17 @@ namespace Tgstation.Server.Host.Components.Byond
 		public void Dispose() => semaphore.Dispose();
 
 		/// <inheritdoc />
-		public override string GetDreamDaemonName(Version version, out bool supportsCli, out bool supportsMapThreads)
+		public override string GetDreamDaemonName(ByondVersion version, out bool supportsCli, out bool supportsMapThreads)
 		{
 			ArgumentNullException.ThrowIfNull(version);
 
-			supportsCli = version >= DDExeVersion;
-			supportsMapThreads = version >= MapThreadsVersion;
+			supportsCli = version.Version >= DDExeVersion;
+			supportsMapThreads = version.Version >= MapThreadsVersion;
 			return supportsCli ? "dd.exe" : "dreamdaemon.exe";
 		}
 
 		/// <inheritdoc />
-		public override ValueTask InstallByond(Version version, string path, CancellationToken cancellationToken)
+		public override ValueTask InstallByond(ByondVersion version, string path, CancellationToken cancellationToken)
 		{
 			var tasks = new List<ValueTask>(3)
 			{
@@ -139,7 +140,7 @@ namespace Tgstation.Server.Host.Components.Byond
 		}
 
 		/// <inheritdoc />
-		public override async ValueTask UpgradeInstallation(Version version, string path, CancellationToken cancellationToken)
+		public override async ValueTask UpgradeInstallation(ByondVersion version, string path, CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(version);
 			ArgumentNullException.ThrowIfNull(path);
@@ -147,7 +148,7 @@ namespace Tgstation.Server.Host.Components.Byond
 			if (generalConfiguration.SkipAddingByondFirewallException)
 				return;
 
-			if (version < DDExeVersion)
+			if (version.Version < DDExeVersion)
 				return;
 
 			if (await IOManager.FileExists(IOManager.ConcatPath(path, TgsFirewalledDDFile), cancellationToken))
@@ -227,7 +228,7 @@ namespace Tgstation.Server.Host.Components.Byond
 		/// <param name="path">The path to the BYOND installation.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
-		async ValueTask AddDreamDaemonToFirewall(Version version, string path, CancellationToken cancellationToken)
+		async ValueTask AddDreamDaemonToFirewall(ByondVersion version, string path, CancellationToken cancellationToken)
 		{
 			var dreamDaemonName = GetDreamDaemonName(version, out var usesDDExe, out var _);
 

@@ -359,7 +359,7 @@ namespace Tgstation.Server.Host.Components.Chat
 		/// <inheritdoc />
 		public Func<string, string, Action<bool>> QueueDeploymentMessage(
 			Models.RevisionInformation revisionInformation,
-			Version byondVersion,
+			ByondVersion byondVersion,
 			DateTimeOffset? estimatedCompletionTime,
 			string gitHubOwner,
 			string gitHubRepo,

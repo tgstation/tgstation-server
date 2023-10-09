@@ -28,6 +28,7 @@ using Npgsql;
 
 using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
+using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Api.Models.Request;
 using Tgstation.Server.Api.Models.Response;
 using Tgstation.Server.Api.Rights;
@@ -955,7 +956,12 @@ namespace Tgstation.Server.Tests.Live
 		}
 
 		[TestMethod]
-		public async Task TestStandardTgsOperation()
+		public Task TestStandardTgsOperation() => TestStandardTgsOperation(EngineType.Byond);
+
+		[TestMethod]
+		public Task TestOpenDreamTgsOperation() => TestStandardTgsOperation(EngineType.OpenDream);
+
+		async Task TestStandardTgsOperation(EngineType engineType)
 		{
 			using(var currentProcess = System.Diagnostics.Process.GetCurrentProcess())
 			{
@@ -980,7 +986,7 @@ namespace Tgstation.Server.Tests.Live
 			ServiceCollectionExtensions.UseAdditionalLoggerProvider<HardFailLoggerProvider>();
 
 			var failureTask = HardFailLoggerProvider.FailureSource;
-			var internalTask = TestTgsInternal(hardCancellationToken);
+			var internalTask = TestTgsInternal(engineType, hardCancellationToken);
 			await Task.WhenAny(
 				internalTask,
 				failureTask);
@@ -1012,7 +1018,7 @@ namespace Tgstation.Server.Tests.Live
 				await internalTask;
 		}
 
-		async Task TestTgsInternal(CancellationToken hardCancellationToken)
+		async Task TestTgsInternal(EngineType engineType, CancellationToken hardCancellationToken)
 		{
 			var discordConnectionString = Environment.GetEnvironmentVariable("TGS_TEST_DISCORD_TOKEN");
 			var ircConnectionString = Environment.GetEnvironmentVariable("TGS_TEST_IRC_CONNECTION_STRING");
@@ -1118,7 +1124,7 @@ namespace Tgstation.Server.Tests.Live
 					async Task RunInstanceTests()
 					{
 						// Some earlier linux BYOND versions have a critical bug where replacing the directory in non-basic watchdogs causes the DreamDaemon cwd to change
-						var canRunCompatTests = new PlatformIdentifier().IsWindows;
+						var canRunCompatTests = engineType == EngineType.Byond && new PlatformIdentifier().IsWindows;
 						var compatTests = canRunCompatTests
 							? FailFast(
 								instanceTest
@@ -1142,6 +1148,7 @@ namespace Tgstation.Server.Tests.Live
 									mainDDPort,
 									server.HighPriorityDreamDaemon,
 									server.LowPriorityDeployments,
+									engineType,
 									cancellationToken));
 
 						await compatTests;
@@ -1308,7 +1315,7 @@ namespace Tgstation.Server.Tests.Live
 				preStartupTime = DateTimeOffset.UtcNow;
 				serverTask = server.Run(cancellationToken).AsTask();
 				long expectedCompileJobId, expectedStaged;
-				var edgeByond = await ByondTest.GetEdgeVersion(fileDownloader, cancellationToken);
+				var edgeVersion = await ByondTest.GetEdgeVersion(engineType, fileDownloader, cancellationToken);
 				using (var adminClient = await CreateAdminClient(server.Url, cancellationToken))
 				{
 					var instanceClient = adminClient.Instances.CreateClient(instance);
@@ -1319,7 +1326,7 @@ namespace Tgstation.Server.Tests.Live
 					Assert.AreEqual(WatchdogStatus.Online, dd.Status.Value);
 
 					var compileJob = await instanceClient.DreamMaker.Compile(cancellationToken);
-					var wdt = new WatchdogTest(edgeByond, instanceClient, GetInstanceManager(), (ushort)server.Url.Port, server.HighPriorityDreamDaemon, mainDDPort);
+					var wdt = new WatchdogTest(edgeVersion, instanceClient, GetInstanceManager(), (ushort)server.Url.Port, server.HighPriorityDreamDaemon, mainDDPort);
 					await wdt.WaitForJob(compileJob, 30, false, null, cancellationToken);
 
 					dd = await instanceClient.DreamDaemon.Read(cancellationToken);
@@ -1366,7 +1373,7 @@ namespace Tgstation.Server.Tests.Live
 					Assert.AreEqual(WatchdogStatus.Online, currentDD.Status);
 					Assert.AreEqual(expectedStaged, currentDD.StagedCompileJob.Job.Id.Value);
 
-					var wdt = new WatchdogTest(edgeByond, instanceClient, GetInstanceManager(), (ushort)server.Url.Port, server.HighPriorityDreamDaemon, mainDDPort);
+					var wdt = new WatchdogTest(edgeVersion, instanceClient, GetInstanceManager(), (ushort)server.Url.Port, server.HighPriorityDreamDaemon, mainDDPort);
 					currentDD = await wdt.TellWorldToReboot(cancellationToken);
 					Assert.AreEqual(expectedStaged, currentDD.ActiveCompileJob.Job.Id.Value);
 					Assert.IsNull(currentDD.StagedCompileJob);

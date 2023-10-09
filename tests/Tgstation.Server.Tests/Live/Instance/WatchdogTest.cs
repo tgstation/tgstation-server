@@ -18,6 +18,7 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using Tgstation.Server.Api.Models;
+using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Api.Models.Request;
 using Tgstation.Server.Api.Models.Response;
 using Tgstation.Server.Client;
@@ -57,11 +58,11 @@ namespace Tgstation.Server.Tests.Live.Instance
 		readonly ushort ddPort;
 		readonly bool highPrioDD;
 		readonly TopicClient topicClient;
-		readonly Version testVersion;
+		readonly ByondVersion testVersion;
 
 		bool ranTimeoutTest = false;
 
-		public WatchdogTest(Version testVersion, IInstanceClient instanceClient, InstanceManager instanceManager, ushort serverPort, bool highPrioDD, ushort ddPort)
+		public WatchdogTest(ByondVersion testVersion, IInstanceClient instanceClient, InstanceManager instanceManager, ushort serverPort, bool highPrioDD, ushort ddPort)
 			: base(instanceClient.Jobs)
 		{
 			this.instanceClient = instanceClient ?? throw new ArgumentNullException(nameof(instanceClient));
@@ -94,8 +95,9 @@ namespace Tgstation.Server.Tests.Live.Instance
 				var byondVersion = list[0];
 
 				Assert.AreEqual(1, byondVersion.Version.Build);
-				Assert.AreEqual(testVersion.Major, byondVersion.Version.Major);
-				Assert.AreEqual(testVersion.Minor, byondVersion.Version.Minor);
+				Assert.AreEqual(testVersion.Version.Major, byondVersion.Version.Major);
+				Assert.AreEqual(testVersion.Version.Minor, byondVersion.Version.Minor);
+				Assert.AreEqual(testVersion.Engine, byondVersion.Engine);
 			}
 
 			await Task.WhenAll(
@@ -230,10 +232,10 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 		async Task<JobResponse> TestDeleteByondInstallErrorCasesAndQueing(CancellationToken cancellationToken)
 		{
-			var testCustomVersion = new Version(testVersion.Major, testVersion.Minor, 1);
+			var testCustomVersion = new Version(testVersion.Version.Major, testVersion.Version.Minor, 1);
 			var currentByond = await instanceClient.Byond.ActiveVersion(cancellationToken);
 			Assert.IsNotNull(currentByond);
-			Assert.AreEqual(testVersion.Semver(), currentByond.Version);
+			Assert.AreEqual(testVersion.Version.Semver(), currentByond.Version);
 
 			// Change the active version and check we get delayed while deleting the old one because the watchdog is using it
 			var setActiveResponse = await instanceClient.Byond.SetActiveVersion(
@@ -250,7 +252,8 @@ namespace Tgstation.Server.Tests.Live.Instance
 			var deleteJob = await instanceClient.Byond.DeleteVersion(
 				new ByondVersionDeleteRequest
 				{
-					Version = testVersion,
+					Version = testVersion.Version,
+					SourceCommittish = testVersion.SourceCommittish,
 				},
 				cancellationToken);
 
@@ -265,7 +268,9 @@ namespace Tgstation.Server.Tests.Live.Instance
 			setActiveResponse = await instanceClient.Byond.SetActiveVersion(
 				new ByondVersionRequest
 				{
-					Version = testVersion,
+					Version = testVersion.Version,
+					Engine = testVersion.Engine,
+					SourceCommittish = testVersion.SourceCommittish
 				},
 				null,
 				cancellationToken);
@@ -291,7 +296,9 @@ namespace Tgstation.Server.Tests.Live.Instance
 			deleteJob = await instanceClient.Byond.DeleteVersion(
 				new ByondVersionDeleteRequest
 				{
-					Version = testVersion,
+					Version = testVersion.Version,
+					Engine = testVersion.Engine,
+					SourceCommittish = testVersion.SourceCommittish,
 				},
 				cancellationToken);
 
@@ -954,9 +961,8 @@ namespace Tgstation.Server.Tests.Live.Instance
 			System.Console.WriteLine("TEST: WATCHDOG BYOND VERSION UPDATE TEST");
 			var versionToInstall = testVersion;
 
-			versionToInstall = versionToInstall.Semver();
 			var currentByondVersion = await instanceClient.Byond.ActiveVersion(cancellationToken);
-			Assert.AreNotEqual(versionToInstall, currentByondVersion.Version);
+			Assert.AreNotEqual(versionToInstall, currentByondVersion);
 
 			var initialStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
 
@@ -969,7 +975,9 @@ namespace Tgstation.Server.Tests.Live.Instance
 			var byondInstallJobTask = instanceClient.Byond.SetActiveVersion(
 				new ByondVersionRequest
 				{
-					Version = versionToInstall
+					Version = versionToInstall.Version,
+					Engine = versionToInstall.Engine,
+					SourceCommittish = versionToInstall.SourceCommittish,
 				},
 				null,
 				cancellationToken);

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 using Microsoft.Extensions.Logging;
 
+using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Host.IO;
 
 namespace Tgstation.Server.Host.Components.Byond
@@ -24,10 +25,10 @@ namespace Tgstation.Server.Host.Components.Byond
 		public static Version MapThreadsVersion => new (515, 1609);
 
 		/// <inheritdoc />
-		public abstract string DreamMakerName { get; }
+		public abstract string CompilerName { get; }
 
 		/// <inheritdoc />
-		public abstract string PathToUserByondFolder { get; }
+		public abstract string PathToUserFolder { get; }
 
 		/// <summary>
 		/// Gets the URL formatter string for downloading a byond version of {0:Major} {1:Minor}.
@@ -63,7 +64,7 @@ namespace Tgstation.Server.Host.Components.Byond
 		}
 
 		/// <inheritdoc />
-		public abstract string GetDreamDaemonName(Version version, out bool supportsCli, out bool supportsMapThreads);
+		public abstract string GetDreamDaemonName(ByondVersion version, out bool supportsCli, out bool supportsMapThreads);
 
 		/// <inheritdoc />
 		public async Task CleanCache(CancellationToken cancellationToken)
@@ -73,7 +74,7 @@ namespace Tgstation.Server.Host.Components.Byond
 				Logger.LogDebug("Cleaning BYOND cache...");
 				await IOManager.DeleteDirectory(
 					IOManager.ConcatPath(
-						PathToUserByondFolder,
+						PathToUserFolder,
 						CacheDirectoryName),
 					cancellationToken);
 			}
@@ -84,18 +85,18 @@ namespace Tgstation.Server.Host.Components.Byond
 		}
 
 		/// <inheritdoc />
-		public abstract ValueTask InstallByond(Version version, string path, CancellationToken cancellationToken);
+		public abstract ValueTask InstallByond(ByondVersion version, string path, CancellationToken cancellationToken);
 
 		/// <inheritdoc />
-		public abstract ValueTask UpgradeInstallation(Version version, string path, CancellationToken cancellationToken);
+		public abstract ValueTask UpgradeInstallation(ByondVersion version, string path, CancellationToken cancellationToken);
 
 		/// <inheritdoc />
-		public async ValueTask<MemoryStream> DownloadVersion(Version version, CancellationToken cancellationToken)
+		public async ValueTask<MemoryStream> DownloadVersion(ByondVersion version, CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(version);
 
-			Logger.LogTrace("Downloading BYOND version {major}.{minor}...", version.Major, version.Minor);
-			var url = String.Format(CultureInfo.InvariantCulture, ByondRevisionsUrlTemplate, version.Major, version.Minor);
+			Logger.LogTrace("Downloading BYOND version {major}.{minor}...", version.Version.Major, version.Version.Minor);
+			var url = String.Format(CultureInfo.InvariantCulture, ByondRevisionsUrlTemplate, version.Version.Major, version.Version.Minor);
 
 			await using var download = fileDownloader.DownloadFile(new Uri(url), null);
 			await using var buffer = new BufferedFileStreamProvider(

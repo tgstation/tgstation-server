@@ -43,7 +43,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// </summary>
 		/// <param name="version">The <see cref="Version"/> to normalize.</param>
 		/// <returns>The normalized <see cref="Version"/>. May be a reference to <paramref name="version"/>.</returns>
-		static Version NormalizeVersion(Version version) => version.Build == 0 ? new Version(version.Major, version.Minor) : version;
+		static Version NormalizeByondVersion(Version version) => version.Build == 0 ? new Version(version.Major, version.Minor) : version;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="ByondController"/> class.
@@ -72,23 +72,26 @@ namespace Tgstation.Server.Host.Controllers
 		}
 
 		/// <summary>
-		/// Gets the active <see cref="ByondResponse.Version"/>.
+		/// Gets the active <see cref="Api.Models.Internal.ByondVersion"/>.
 		/// </summary>
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="IActionResult"/> for the operation.</returns>
 		/// <response code="200">Retrieved version information successfully.</response>
+		/// <response code="409">No BYOND versions installed.</response>
 		[HttpGet]
 		[TgsAuthorize(ByondRights.ReadActive)]
 		[ProducesResponseType(typeof(ByondResponse), 200)]
+		[ProducesResponseType(typeof(ErrorMessageResponse), 409)]
 		public ValueTask<IActionResult> Read()
 			=> WithComponentInstance(instance =>
 				ValueTask.FromResult<IActionResult>(
-					Json(new ByondResponse
-					{
-						Version = instance.ByondManager.ActiveVersion,
-					})));
+					instance.ByondManager.ActiveVersion != null
+						? Json(
+							new ByondResponse(
+								instance.ByondManager.ActiveVersion))
+						: Conflict(new ErrorMessageResponse(ErrorCode.ResourceNotPresent))));
 
 		/// <summary>
-		/// Lists installed <see cref="ByondResponse.Version"/>s.
+		/// Lists installed <see cref="Api.Models.Internal.ByondVersion"/>s.
 		/// </summary>
 		/// <param name="page">The current page.</param>
 		/// <param name="pageSize">The page size.</param>
@@ -106,10 +109,7 @@ namespace Tgstation.Server.Host.Controllers
 							instance
 								.ByondManager
 								.InstalledVersions
-								.Select(x => new ByondResponse
-								{
-									Version = x,
-								})
+								.Select(x => new ByondResponse(x))
 								.AsQueryable()
 								.OrderBy(x => x.Version))),
 					null,
@@ -126,27 +126,42 @@ namespace Tgstation.Server.Host.Controllers
 		/// <response code="200">Switched active version successfully.</response>
 		/// <response code="202">Created <see cref="Job"/> to install and switch active version successfully.</response>
 		[HttpPost]
-		[TgsAuthorize(ByondRights.InstallOfficialOrChangeActiveVersion | ByondRights.InstallCustomVersion)]
+		[TgsAuthorize(
+			ByondRights.InstallOfficialOrChangeActiveByondVersion
+			| ByondRights.InstallCustomByondVersion
+			| ByondRights.InstallOfficialOrChangeActiveOpenDreamVersion
+			| ByondRights.InstallCustomOpenDreamVersion)]
 		[ProducesResponseType(typeof(ByondInstallResponse), 200)]
 		[ProducesResponseType(typeof(ByondInstallResponse), 202)]
-#pragma warning disable CA1506 // TODO: Decomplexify
+#pragma warning disable CA1502 // TODO: Decomplexify
+#pragma warning disable CA1506
 		public async ValueTask<IActionResult> Update([FromBody] ByondVersionRequest model, CancellationToken cancellationToken)
 #pragma warning restore CA1506
+#pragma warning restore CA1502
 		{
 			ArgumentNullException.ThrowIfNull(model);
 
 			var uploadingZip = model.UploadCustomZip == true;
+			var isByondEngine = model.Engine.Value == EngineType.Byond;
 
-			if (model.Version == null
-				|| model.Version.Revision != -1
-				|| (uploadingZip && model.Version.Build > 0))
+			if ((isByondEngine && (model.Version.Revision != -1 || (uploadingZip && model.Version.Build > 0) || model.SourceCommittish != null || model.SourceRepository != null))
+				|| (!isByondEngine && (model.Version != null || String.IsNullOrWhiteSpace(model.SourceCommittish))))
 				return BadRequest(new ErrorMessageResponse(ErrorCode.ModelValidationFailure));
 
-			var version = NormalizeVersion(model.Version);
+			Uri sourceRepo;
+			if (isByondEngine)
+			{
+				model.Version = NormalizeByondVersion(model.Version);
+				sourceRepo = null;
+			}
+			else
+			{
+				sourceRepo = model.SourceRepository ?? new Uri("https://github.com/OpenDreamProject/OpenDream");
+			}
 
 			var userByondRights = AuthenticationContext.InstancePermissionSet.ByondRights.Value;
-			if ((!userByondRights.HasFlag(ByondRights.InstallOfficialOrChangeActiveVersion) && !uploadingZip)
-				|| (!userByondRights.HasFlag(ByondRights.InstallCustomVersion) && uploadingZip))
+			if ((!userByondRights.HasFlag(ByondRights.InstallOfficialOrChangeActiveByondVersion) && !uploadingZip)
+				|| (!userByondRights.HasFlag(ByondRights.InstallCustomByondVersion) && uploadingZip))
 				return Forbid();
 
 			// remove cruff fields
@@ -155,44 +170,50 @@ namespace Tgstation.Server.Host.Controllers
 				async instance =>
 				{
 					var byondManager = instance.ByondManager;
-					var versionAlreadyInstalled = !uploadingZip && byondManager.InstalledVersions.Any(x => x == version);
+					var versionAlreadyInstalled = !uploadingZip && byondManager.InstalledVersions.Any(x => x.Equals(model));
 					if (versionAlreadyInstalled)
 					{
 						Logger.LogInformation(
-							"User ID {userId} changing instance ID {instanceId} BYOND version to {newByondVersion}",
+							"User ID {userId} changing instance ID {instanceId} {engineType} version to {newByondVersion}",
 							AuthenticationContext.User.Id,
 							Instance.Id,
-							version);
+							model.Engine,
+							model.Version);
 
 						try
 						{
-							await byondManager.ChangeVersion(null, version, null, false, cancellationToken);
+							await byondManager.ChangeVersion(null, model, null, false, cancellationToken);
 						}
 						catch (InvalidOperationException ex)
 						{
 							Logger.LogDebug(
 								ex,
-								"Race condition: BYOND version {version} uninstalled before we could switch to it. Creating install job instead...",
-								version);
+								"Race condition: {engineType} version {version} uninstalled before we could switch to it. Creating install job instead...",
+								model.Engine.Value,
+								model.Version);
 							versionAlreadyInstalled = false;
 						}
 					}
 
 					if (!versionAlreadyInstalled)
 					{
-						if (version.Build > 0)
+						if (model.Version.Build > 0)
 							return BadRequest(new ErrorMessageResponse(ErrorCode.ByondNonExistentCustomVersion));
 
 						Logger.LogInformation(
-							"User ID {userId} installing BYOND version to {newByondVersion} on instance ID {instanceId}",
+							"User ID {userId} installing {engineType} version {newByondVersion}{sourceCommittish} on instance ID {instanceId}",
 							AuthenticationContext.User.Id,
-							version,
+							model.Engine.Value,
+							model.Version,
+							model.SourceCommittish != null
+								? $" ({model.SourceCommittish})"
+								: String.Empty,
 							Instance.Id);
 
 						// run the install through the job manager
 						var job = new Job
 						{
-							Description = $"Install {(!uploadingZip ? String.Empty : "custom ")}BYOND version {version}",
+							Description = $"Install {(!uploadingZip ? String.Empty : "custom ")}{model.Engine.Value} version {model.Version}",
 							StartedBy = AuthenticationContext.User,
 							CancelRightsType = RightsType.Byond,
 							CancelRight = (ulong)ByondRights.CancelInstall,
@@ -209,7 +230,13 @@ namespace Tgstation.Server.Host.Controllers
 								job,
 								async (core, databaseContextFactory, paramJob, progressHandler, jobCancellationToken) =>
 								{
-									Stream zipFileStream = null;
+									if (sourceRepo != null)
+										await core.ByondManager.EnsureEngineSource(
+											sourceRepo,
+											model.Engine.Value,
+											jobCancellationToken);
+
+									MemoryStream zipFileStream = null;
 									if (fileUploadTicket != null)
 										await using (fileUploadTicket)
 										{
@@ -229,7 +256,7 @@ namespace Tgstation.Server.Host.Controllers
 									await using (zipFileStream)
 										await core.ByondManager.ChangeVersion(
 											progressHandler,
-											version,
+											model,
 											zipFileStream,
 											true,
 											jobCancellationToken);
@@ -260,7 +287,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="IActionResult"/> for the operation.</returns>
 		/// <response code="202">Created <see cref="Job"/> to delete target version successfully.</response>
 		/// <response code="409">Attempted to delete the active BYOND <see cref="Version"/>.</response>
-		/// <response code="410">The <see cref="ByondVersionDeleteRequest.Version"/> specified was not installed.</response>
+		/// <response code="410">The <see cref="Api.Models.Internal.ByondVersion"/> specified was not installed.</response>
 		[HttpDelete]
 		[TgsAuthorize(ByondRights.DeleteInstall)]
 		[ProducesResponseType(typeof(JobResponse), 202)]
@@ -270,22 +297,22 @@ namespace Tgstation.Server.Host.Controllers
 		{
 			ArgumentNullException.ThrowIfNull(model);
 
-			if (model.Version == null
-				|| model.Version.Revision != -1)
+			if (model.Version.Revision != -1)
 				return BadRequest(new ErrorMessageResponse(ErrorCode.ModelValidationFailure));
 
-			var version = NormalizeVersion(model.Version);
+			if (model.Engine == EngineType.Byond)
+				model.Version = NormalizeByondVersion(model.Version);
 
 			var notInstalledResponse = await WithComponentInstance(
 				instance =>
 				{
 					var byondManager = instance.ByondManager;
 
-					if (version == byondManager.ActiveVersion)
+					if (model.Equals(byondManager.ActiveVersion))
 						return ValueTask.FromResult<IActionResult>(
 							Conflict(new ErrorMessageResponse(ErrorCode.ByondCannotDeleteActiveVersion)));
 
-					var versionNotInstalled = !byondManager.InstalledVersions.Any(x => x == version);
+					var versionNotInstalled = !byondManager.InstalledVersions.Any(x => x.Equals(model));
 
 					return ValueTask.FromResult<IActionResult>(
 						versionNotInstalled
@@ -296,22 +323,27 @@ namespace Tgstation.Server.Host.Controllers
 			if (notInstalledResponse != null)
 				return notInstalledResponse;
 
-			var isCustomVersion = version.Build != -1;
+			var isByondVersion = model.Engine.Value == EngineType.Byond;
 
 			// run the install through the job manager
 			var job = new Job
 			{
-				Description = $"Delete installed BYOND version {version}",
+				Description = $"Delete installed {model.Engine.Value} version {model.Version}",
 				StartedBy = AuthenticationContext.User,
 				CancelRightsType = RightsType.Byond,
-				CancelRight = (ulong)(isCustomVersion ? ByondRights.InstallOfficialOrChangeActiveVersion : ByondRights.InstallCustomVersion),
+				CancelRight = (ulong)(
+					isByondVersion
+						? model.Version.Build != -1
+							? ByondRights.InstallOfficialOrChangeActiveByondVersion
+							: ByondRights.InstallCustomByondVersion
+						: ByondRights.InstallCustomOpenDreamVersion | ByondRights.InstallOfficialOrChangeActiveOpenDreamVersion),
 				Instance = Instance,
 			};
 
 			await jobManager.RegisterOperation(
 				job,
 				(instanceCore, databaseContextFactory, job, progressReporter, jobCancellationToken)
-					=> instanceCore.ByondManager.DeleteVersion(progressReporter, version, jobCancellationToken),
+					=> instanceCore.ByondManager.DeleteVersion(progressReporter, model, jobCancellationToken),
 				cancellationToken);
 
 			var apiResponse = job.ToApi();

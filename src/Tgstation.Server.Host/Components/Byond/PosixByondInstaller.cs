@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 using Microsoft.Extensions.Logging;
 
+using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Common.Extensions;
 using Tgstation.Server.Host.IO;
 
@@ -32,10 +33,10 @@ namespace Tgstation.Server.Host.Components.Byond
 		const string ShellScriptExtension = ".sh";
 
 		/// <inheritdoc />
-		public override string DreamMakerName => DreamMakerExecutableName + ShellScriptExtension;
+		public override string CompilerName => DreamMakerExecutableName + ShellScriptExtension;
 
 		/// <inheritdoc />
-		public override string PathToUserByondFolder { get; }
+		public override string PathToUserFolder { get; }
 
 		/// <inheritdoc />
 		protected override string ByondRevisionsUrlTemplate => "https://www.byond.com/download/build/{0}/{0}.{1}_byond_linux.zip";
@@ -61,7 +62,7 @@ namespace Tgstation.Server.Host.Components.Byond
 		{
 			this.postWriteHandler = postWriteHandler ?? throw new ArgumentNullException(nameof(postWriteHandler));
 
-			PathToUserByondFolder = IOManager.ResolvePath(
+			PathToUserFolder = IOManager.ResolvePath(
 				IOManager.ConcatPath(
 					Environment.GetFolderPath(
 						Environment.SpecialFolder.UserProfile),
@@ -69,17 +70,17 @@ namespace Tgstation.Server.Host.Components.Byond
 		}
 
 		/// <inheritdoc />
-		public override string GetDreamDaemonName(Version version, out bool supportsCli, out bool supportsMapThreads)
+		public override string GetDreamDaemonName(ByondVersion version, out bool supportsCli, out bool supportsMapThreads)
 		{
 			ArgumentNullException.ThrowIfNull(version);
 
 			supportsCli = true;
-			supportsMapThreads = version >= MapThreadsVersion;
+			supportsMapThreads = version.Version >= MapThreadsVersion;
 			return DreamDaemonExecutableName + ShellScriptExtension;
 		}
 
 		/// <inheritdoc />
-		public override ValueTask InstallByond(Version version, string path, CancellationToken cancellationToken)
+		public override ValueTask InstallByond(ByondVersion version, string path, CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(version);
 			ArgumentNullException.ThrowIfNull(path);
@@ -105,7 +106,7 @@ namespace Tgstation.Server.Host.Components.Byond
 				dreamDaemonScript);
 
 			var dmTask = WriteAndMakeExecutable(
-				IOManager.ConcatPath(basePath, DreamMakerName),
+				IOManager.ConcatPath(basePath, CompilerName),
 				dreamMakerScript);
 
 			var task = ValueTaskExtensions.WhenAll(
@@ -119,7 +120,7 @@ namespace Tgstation.Server.Host.Components.Byond
 		}
 
 		/// <inheritdoc />
-		public override ValueTask UpgradeInstallation(Version version, string path, CancellationToken cancellationToken)
+		public override ValueTask UpgradeInstallation(ByondVersion version, string path, CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(version);
 			ArgumentNullException.ThrowIfNull(path);

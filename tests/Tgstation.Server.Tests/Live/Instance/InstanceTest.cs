@@ -10,6 +10,7 @@ using Microsoft.Extensions.Options;
 using Moq;
 
 using Tgstation.Server.Api.Models;
+using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Api.Models.Request;
 using Tgstation.Server.Api.Models.Response;
 using Tgstation.Server.Client;
@@ -43,9 +44,10 @@ namespace Tgstation.Server.Tests.Live.Instance
 			ushort ddPort,
 			bool highPrioDD,
 			bool lowPrioDeployment,
+			EngineType engineType,
 			CancellationToken cancellationToken)
 		{
-			var byondTest = new ByondTest(instanceClient.Byond, instanceClient.Jobs, fileDownloader, instanceClient.Metadata);
+			var byondTest = new ByondTest(instanceClient.Byond, instanceClient.Jobs, fileDownloader, instanceClient.Metadata, engineType);
 			var chatTest = new ChatTest(instanceClient.ChatBots, instanceManagerClient, instanceClient.Jobs, instanceClient.Metadata);
 			var configTest = new ConfigurationTest(instanceClient.Configuration, instanceClient.Metadata);
 			var repoTest = new RepositoryTest(instanceClient.Repository, instanceClient.Jobs);
@@ -66,17 +68,23 @@ namespace Tgstation.Server.Tests.Live.Instance
 			await byondTask;
 
 			await new WatchdogTest(
-				await ByondTest.GetEdgeVersion(fileDownloader, cancellationToken), instanceClient, instanceManager, serverPort, highPrioDD, ddPort).Run(cancellationToken);
+				await ByondTest.GetEdgeVersion(engineType, fileDownloader, cancellationToken), instanceClient, instanceManager, serverPort, highPrioDD, ddPort).Run(cancellationToken);
 		}
 
 		public async Task RunCompatTests(
-			Version compatVersion,
+			Version compatByondVersion,
 			IInstanceClient instanceClient,
 			ushort dmPort,
 			ushort ddPort,
 			bool highPrioDD,
 			CancellationToken cancellationToken)
 		{
+			var compatVersion = new ByondVersion
+			{
+				Engine = EngineType.Byond,
+				Version = compatByondVersion,
+			};
+
 			System.Console.WriteLine($"COMPAT TEST START: {compatVersion}");
 			const string Origin = "https://github.com/Cyberboss/common_core";
 			var cloneRequest = instanceClient.Repository.Clone(new RepositoryCreateRequest
@@ -155,7 +163,9 @@ namespace Tgstation.Server.Tests.Live.Instance
 				installJob2 = await instanceClient.Byond.SetActiveVersion(new ByondVersionRequest
 				{
 					UploadCustomZip = true,
-					Version = compatVersion,
+					Version = compatVersion.Version,
+					Engine = compatVersion.Engine,
+					SourceCommittish = compatVersion.SourceCommittish
 				}, stableBytesMs, cancellationToken);
 			}
 

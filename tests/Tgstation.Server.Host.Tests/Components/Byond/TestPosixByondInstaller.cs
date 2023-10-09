@@ -6,6 +6,8 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
+using Tgstation.Server.Api.Models;
+using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Host.IO;
 
 namespace Tgstation.Server.Host.Components.Byond.Tests
@@ -62,7 +64,11 @@ namespace Tgstation.Server.Host.Components.Byond.Tests
 						new MemoryStream(ourArray)))
 				.Verifiable();
 
-			var result = await installer.DownloadVersion(new Version(511, 1385), default);
+			var result = await installer.DownloadVersion(new ByondVersion
+			{
+				Engine = EngineType.Byond,
+				Version = new Version(123, 252345),
+			}, default);
 
 			Assert.IsTrue(ourArray.SequenceEqual(result.ToArray()));
 			mockIOManager.Verify();
@@ -79,9 +85,17 @@ namespace Tgstation.Server.Host.Components.Byond.Tests
 
 			const string FakePath = "fake";
 			await Assert.ThrowsExceptionAsync<ArgumentNullException>(() => installer.InstallByond(null, null, default).AsTask());
-			await Assert.ThrowsExceptionAsync<ArgumentNullException>(() => installer.InstallByond(new Version(123,252345), null, default).AsTask());
 
-			await installer.InstallByond(new Version(511, 1385), FakePath, default);
+			var byondVersion = new ByondVersion
+			{
+				Engine = EngineType.Byond,
+				Version = new Version(123, 252345),
+			};
+
+			await Assert.ThrowsExceptionAsync<ArgumentNullException>(() => installer.InstallByond(byondVersion, null, default).AsTask());
+
+			byondVersion.Version = new Version(511, 1385);
+			await installer.InstallByond(byondVersion, FakePath, default);
 
 			mockPostWriteHandler.Verify(x => x.HandleWrite(It.IsAny<string>()), Times.Exactly(4));
 		}

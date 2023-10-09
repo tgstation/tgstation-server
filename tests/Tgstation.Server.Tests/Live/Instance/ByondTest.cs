@@ -6,13 +6,17 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
+using Elasticsearch.Net.Specification.IndexLifecycleManagementApi;
+
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Microsoft.VisualStudio.TestPlatform.CrossPlatEngine;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using Moq;
 
 using Tgstation.Server.Api.Models;
+using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Api.Models.Request;
 using Tgstation.Server.Api.Models.Response;
 using Tgstation.Server.Client;
@@ -32,16 +36,22 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 		readonly Api.Models.Instance metadata;
 
-		static Version edgeVersion;
+		static Dictionary<EngineType, ByondVersion> edgeVersions = new Dictionary<EngineType, ByondVersion>
+		{
+			{ EngineType.Byond, null },
+			{ EngineType.OpenDream, null }
+		};
 
-		Version testVersion;
+		ByondVersion testVersion;
+		EngineType testEngine;
 
-		public ByondTest(IByondClient byondClient, IJobsClient jobsClient, IFileDownloader fileDownloader, Api.Models.Instance metadata)
+		public ByondTest(IByondClient byondClient, IJobsClient jobsClient, IFileDownloader fileDownloader, Api.Models.Instance metadata, EngineType engineType)
 			: base(jobsClient)
 		{
 			this.byondClient = byondClient ?? throw new ArgumentNullException(nameof(byondClient));
 			this.fileDownloader = fileDownloader ?? throw new ArgumentNullException(nameof(fileDownloader));
 			this.metadata = metadata ?? throw new ArgumentNullException(nameof(metadata));
+			this.testEngine = engineType;
 		}
 
 		public Task Run(CancellationToken cancellationToken, out Task firstInstall)
@@ -50,41 +60,66 @@ namespace Tgstation.Server.Tests.Live.Instance
 			return RunContinued(firstInstall, cancellationToken);
 		}
 
-		public static async Task<Version> GetEdgeVersion(IFileDownloader fileDownloader, CancellationToken cancellationToken)
+		public static async ValueTask<ByondVersion> GetEdgeVersion(EngineType engineType, IFileDownloader fileDownloader, CancellationToken cancellationToken)
 		{
+			var edgeVersion = edgeVersions[engineType];
+
 			if (edgeVersion != null)
 				return edgeVersion;
 
-			await using var provider = fileDownloader.DownloadFile(new Uri("https://www.byond.com/download/version.txt"), null);
-			var stream = await provider.GetResult(cancellationToken);
-			using var reader = new StreamReader(stream, Encoding.UTF8, false, -1, true);
-			var text = await reader.ReadToEndAsync();
-			var splits = text.Split('\n', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
+			ByondVersion byondVersion;
+			if (engineType == EngineType.Byond)
+			{
+				await using var provider = fileDownloader.DownloadFile(new Uri("https://www.byond.com/download/version.txt"), null);
+				var stream = await provider.GetResult(cancellationToken);
+				using var reader = new StreamReader(stream, Encoding.UTF8, false, -1, true);
+				var text = await reader.ReadToEndAsync(cancellationToken);
+				var splits = text.Split('\n', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
 
-			var targetVersion = splits.Last();
+				var targetVersion = splits.Last();
 
-			var missingVersionMap = new PlatformIdentifier().IsWindows
-				? new Dictionary<string, string>()
-				{
-				}
-				// linux map also needs updating in CI
-				: new Dictionary<string, string>()
-				{
+				var missingVersionMap = new PlatformIdentifier().IsWindows
+					? new Dictionary<string, string>()
+					{
+					}
+					// linux map also needs updating in CI
+					: new Dictionary<string, string>()
+					{
 					{ "515.1612", "515.1611" }
-				};
+					};
 
-			if (missingVersionMap.TryGetValue(targetVersion, out var remappedVersion))
-				targetVersion = remappedVersion;
+				if (missingVersionMap.TryGetValue(targetVersion, out var remappedVersion))
+					targetVersion = remappedVersion;
 
-			return edgeVersion = Version.Parse(targetVersion);
+				Assert.IsTrue(ByondVersion.TryParse(targetVersion, out byondVersion), $"Bad version: {targetVersion}");
+			}
+			else
+			{
+				Assert.Fail($"Edge version retrieval for {engineType} not implemented!");
+				return null;
+			}
+
+			return edgeVersions[engineType] = byondVersion;
 		}
 
 		async Task RunPartOne(CancellationToken cancellationToken)
 		{
-			testVersion = await GetEdgeVersion(fileDownloader, cancellationToken);
+			testVersion = await GetEdgeVersion(EngineType.Byond, fileDownloader, cancellationToken);
 			await TestNoVersion(cancellationToken);
+			await TestInstallNullVersion(cancellationToken);
 			await TestInstallStable(cancellationToken);
 		}
+
+		ValueTask TestInstallNullVersion(CancellationToken cancellationToken)
+			=> ApiAssert.ThrowsException<ApiConflictException, ByondInstallResponse>(
+				() => byondClient.SetActiveVersion(
+					new ByondVersionRequest
+					{
+						Engine = testEngine,
+					},
+					null,
+					cancellationToken),
+				ErrorCode.ModelValidationFailure);
 
 		async Task RunContinued(Task firstInstall, CancellationToken cancellationToken)
 		{
@@ -98,7 +133,8 @@ namespace Tgstation.Server.Tests.Live.Instance
 		{
 			var deleteThisOneBecauseItWasntPartOfTheOriginalTest = await byondClient.DeleteVersion(new ByondVersionDeleteRequest
 			{
-				Version = new(testVersion.Major, testVersion.Minor, 2)
+				Engine = testEngine,
+				Version = new(testVersion.Version.Major, testVersion.Version.Minor, 2)
 			}, cancellationToken);
 			await WaitForJob(deleteThisOneBecauseItWasntPartOfTheOriginalTest, 30, false, null, cancellationToken);
 
@@ -112,14 +148,18 @@ namespace Tgstation.Server.Tests.Live.Instance
 			var uninstallResponseTask = byondClient.DeleteVersion(
 				new ByondVersionDeleteRequest
 				{
-					Version = testVersion
+					Version = testVersion.Version,
+					Engine = testVersion.Engine,
+					SourceCommittish = testVersion.SourceCommittish,
 				},
 				cancellationToken);
 
 			var badBecauseActiveResponseTask = ApiAssert.ThrowsException<ConflictException, JobResponse>(() => byondClient.DeleteVersion(
 				new ByondVersionDeleteRequest
 				{
-					Version = new(testVersion.Major, testVersion.Minor, 1)
+					Version = new(testVersion.Version.Major, testVersion.Version.Minor, 1),
+					Engine = testVersion.Engine,
+					SourceCommittish = testVersion.SourceCommittish,
 				},
 				cancellationToken), ErrorCode.ByondCannotDeleteActiveVersion);
 
@@ -140,7 +180,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			var newVersions = await byondClient.InstalledVersions(null, cancellationToken);
 			Assert.IsNotNull(newVersions);
 			Assert.AreEqual(1, newVersions.Count);
-			Assert.AreEqual(new Version(testVersion.Major, testVersion.Minor, 1), newVersions[0].Version);
+			Assert.AreEqual(new Version(testVersion.Version.Major, testVersion.Version.Minor, 1), newVersions[0].Version);
 		}
 
 		async Task TestInstallFakeVersion(CancellationToken cancellationToken)
@@ -158,7 +198,9 @@ namespace Tgstation.Server.Tests.Live.Instance
 		{
 			var newModel = new ByondVersionRequest
 			{
-				Version = testVersion
+				Version = testVersion.Version,
+				Engine = testVersion.Engine,
+				SourceCommittish = testVersion.SourceCommittish,
 			};
 			var test = await byondClient.SetActiveVersion(newModel, null, cancellationToken);
 			Assert.IsNotNull(test.InstallJob);
@@ -220,7 +262,9 @@ namespace Tgstation.Server.Tests.Live.Instance
 			var test = await byondClient.SetActiveVersion(
 				new ByondVersionRequest
 				{
-					Version = testVersion,
+					Engine = testVersion.Engine,
+					Version = testVersion.Version,
+					SourceCommittish = testVersion.SourceCommittish,
 					UploadCustomZip = true
 				},
 				stableBytesMs,
@@ -234,7 +278,9 @@ namespace Tgstation.Server.Tests.Live.Instance
 			var test2 = await byondClient.SetActiveVersion(
 				new ByondVersionRequest
 				{
-					Version = testVersion,
+					Version = testVersion.Version,
+					SourceCommittish = testVersion.SourceCommittish,
+					Engine = testVersion.Engine,
 					UploadCustomZip = true
 				},
 				stableBytesMs,
@@ -244,22 +290,24 @@ namespace Tgstation.Server.Tests.Live.Instance
 			await WaitForJob(test2.InstallJob, 30, false, null, cancellationToken);
 
 			var newSettings = await byondClient.ActiveVersion(cancellationToken);
-			Assert.AreEqual(new Version(testVersion.Major, testVersion.Minor, 2), newSettings.Version);
+			Assert.AreEqual(new Version(testVersion.Version.Major, testVersion.Version.Minor, 2), newSettings.Version);
 
 			// test a few switches
 			var installResponse = await byondClient.SetActiveVersion(new ByondVersionRequest
 			{
-				Version = testVersion
+				Version = testVersion.Version,
+				SourceCommittish = testVersion.SourceCommittish,
+				Engine = testVersion.Engine,
 			}, null, cancellationToken);
 			Assert.IsNull(installResponse.InstallJob);
 			await ApiAssert.ThrowsException<ApiConflictException, ByondInstallResponse>(() => byondClient.SetActiveVersion(new ByondVersionRequest
 			{
-				Version = new Version(testVersion.Major, testVersion.Minor, 3)
+				Version = new Version(testVersion.Version.Major, testVersion.Version.Minor, 3)
 			}, null, cancellationToken), ErrorCode.ByondNonExistentCustomVersion);
 
 			installResponse = await byondClient.SetActiveVersion(new ByondVersionRequest
 			{
-				Version = new Version(testVersion.Major, testVersion.Minor, 1)
+				Version = new Version(testVersion.Version.Major, testVersion.Version.Minor, 1)
 			}, null, cancellationToken);
 			Assert.IsNull(installResponse.InstallJob);
 		}

@@ -22,6 +22,7 @@ using Remora.Rest.Results;
 using Remora.Results;
 
 using Tgstation.Server.Api.Models;
+using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Common.Extensions;
 using Tgstation.Server.Host.Components.Interop;
 using Tgstation.Server.Host.Extensions;
@@ -129,25 +130,35 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// Create a <see cref="List{T}"/> of <see cref="IEmbedField"/>s for a discord update embed.
 		/// </summary>
 		/// <param name="revisionInformation">The <see cref="RevisionInformation"/> of the deployment.</param>
-		/// <param name="byondVersion">The BYOND <see cref="Version"/> of the deployment.</param>
+		/// <param name="byondVersion">The <see cref="ByondVersion"/> of the deployment.</param>
 		/// <param name="gitHubOwner">The repository GitHub owner, if any.</param>
 		/// <param name="gitHubRepo">The repository GitHub name, if any.</param>
 		/// <param name="localCommitPushed"><see langword="true"/> if the local deployment commit was pushed to the remote repository.</param>
 		/// <returns>A new <see cref="List{T}"/> of <see cref="IEmbedField"/>s to use.</returns>
 		static List<IEmbedField> BuildUpdateEmbedFields(
 			Models.RevisionInformation revisionInformation,
-			Version byondVersion,
+			ByondVersion byondVersion,
 			string gitHubOwner,
 			string gitHubRepo,
 			bool localCommitPushed)
 		{
 			bool gitHub = gitHubOwner != null && gitHubRepo != null;
+			var engineField = byondVersion.Engine.Value switch
+			{
+				EngineType.Byond => new EmbedField(
+					"BYOND Version",
+					$"{byondVersion.Version.Major}.{byondVersion.Version.Minor}{(byondVersion.Version.Build > 0 ? $".{byondVersion.Version.Build}" : String.Empty)}",
+					true),
+				EngineType.OpenDream => new EmbedField(
+					"OpenDream Version",
+					$"[{byondVersion.SourceCommittish[..7]}](https://github.com/OpenDreamProject/OpenDream/commit/{revisionInformation.CommitSha})",
+					true),
+				_ => throw new InvalidOperationException($"Invaild EngineType: {byondVersion.Engine.Value}"),
+			};
+
 			var fields = new List<IEmbedField>
 			{
-				new EmbedField(
-					"BYOND Version",
-					$"{byondVersion.Major}.{byondVersion.Minor}{(byondVersion.Build > 0 ? $".{byondVersion.Build}" : String.Empty)}",
-					true),
+				engineField,
 				new EmbedField(
 					"Local Commit",
 					localCommitPushed && gitHub
@@ -323,7 +334,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// <inheritdoc />
 		public override async ValueTask<Func<string, string, ValueTask<Func<bool, ValueTask>>>> SendUpdateMessage(
 			Models.RevisionInformation revisionInformation,
-			Version byondVersion,
+			ByondVersion byondVersion,
 			DateTimeOffset? estimatedCompletionTime,
 			string gitHubOwner,
 			string gitHubRepo,

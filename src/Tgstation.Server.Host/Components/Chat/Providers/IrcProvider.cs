@@ -12,6 +12,7 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
 using Tgstation.Server.Api.Models;
+using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Host.Components.Interop;
 using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.IO;
@@ -220,7 +221,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// <inheritdoc />
 		public override async ValueTask<Func<string, string, ValueTask<Func<bool, ValueTask>>>> SendUpdateMessage(
 			Models.RevisionInformation revisionInformation,
-			Version byondVersion,
+			ByondVersion byondVersion,
 			DateTimeOffset? estimatedCompletionTime,
 			string gitHubOwner,
 			string gitHubRepo,
@@ -271,9 +272,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 						commitInsert,
 						testmergeInsert,
 						remoteCommitInsert,
-						byondVersion.Build > 0
-							? byondVersion.ToString()
-							: $"{byondVersion.Major}.{byondVersion.Minor}",
+						byondVersion.ToString(),
 						estimatedCompletionTime.HasValue
 							? $" ETA: {estimatedCompletionTime - DateTimeOffset.UtcNow}"
 							: String.Empty),

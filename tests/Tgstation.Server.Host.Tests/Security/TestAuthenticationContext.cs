@@ -1,4 +1,4 @@
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System;
 
@@ -50,7 +50,7 @@ namespace Tgstation.Server.Host.Security.Tests
 			var authContext = new AuthenticationContext(null, user, instanceUser);
 
 			user.PermissionSet.AdministrationRights = AdministrationRights.WriteUsers;
-			instanceUser.ByondRights = ByondRights.InstallOfficialOrChangeActiveVersion | ByondRights.ReadActive;
+			instanceUser.ByondRights = ByondRights.InstallOfficialOrChangeActiveByondVersion | ByondRights.ReadActive;
 			Assert.AreEqual((ulong)user.PermissionSet.AdministrationRights, authContext.GetRight(RightsType.Administration));
 			Assert.AreEqual((ulong)instanceUser.ByondRights, authContext.GetRight(RightsType.Byond));
 		}

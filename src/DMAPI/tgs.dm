@@ -1,6 +1,6 @@
 // tgstation-server DMAPI
 
-#define TGS_DMAPI_VERSION "6.5.3"
+#define TGS_DMAPI_VERSION "6.6.0"
 
 // All functions and datums outside this document are subject to change with any version and should not be relied on.
 
@@ -73,11 +73,11 @@
 #define TGS_EVENT_REPO_MERGE_PULL_REQUEST 3
 /// Before the repository makes a sychronize operation. Parameters: Absolute repostiory path.
 #define TGS_EVENT_REPO_PRE_SYNCHRONIZE 4
-/// Before a BYOND install operation begins. Parameters: [/datum/tgs_version] of the installing BYOND.
+/// Before a BYOND install operation begins. Parameters: [/datum/tgs_version] of the installing BYOND, engine type of the installing BYOND.
 #define TGS_EVENT_BYOND_INSTALL_START 5
 /// When a BYOND install operation fails. Parameters: Error message
 #define TGS_EVENT_BYOND_INSTALL_FAIL 6
-/// When the active BYOND version changes.  Parameters: (Nullable) [/datum/tgs_version] of the current BYOND, [/datum/tgs_version] of the new BYOND.
+/// When the active BYOND version changes. Parameters: (Nullable) [/datum/tgs_version] of the current BYOND, [/datum/tgs_version] of the new BYOND, engine type of the current BYOND, engine type of the new BYOND.
 #define TGS_EVENT_BYOND_ACTIVE_VERSION_CHANGE 7
 /// When the compiler starts running. Parameters: Game directory path, origin commit SHA.
 #define TGS_EVENT_COMPILE_START 8
@@ -128,6 +128,11 @@
 #define TGS_SECURITY_SAFE 1
 /// DreamDaemon Ultrasafe security level.
 #define TGS_SECURITY_ULTRASAFE 2
+
+/// The Build Your Own Net Dream engine.
+#define TGS_ENGINE_TYPE_BYOND 0
+/// The OpenDream engine.
+#define TGS_ENGINE_TYPE_OPENDREAM 1
 
 //REQUIRED HOOKS
 

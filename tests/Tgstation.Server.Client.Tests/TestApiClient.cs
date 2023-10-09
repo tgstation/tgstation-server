@@ -11,6 +11,8 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using Tgstation.Server.Api;
+using Tgstation.Server.Api.Models;
+using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Api.Models.Response;
 using Tgstation.Server.Common.Http;
 
@@ -22,10 +24,12 @@ namespace Tgstation.Server.Client.Tests
 		[TestMethod]
 		public async Task TestDeserializingByondModelsWork()
 		{
-			var sample = new ByondResponse
-			{
-				Version = new Version(511, 1385, 0)
-			};
+			var sample = new ByondResponse(
+				new ByondVersion
+				{
+					Engine = EngineType.Byond,
+					Version = new Version(511, 1385, 0)
+				});
 
 			var sampleJson = JsonConvert.SerializeObject(sample, new JsonSerializerSettings
 			{
@@ -51,10 +55,12 @@ namespace Tgstation.Server.Client.Tests
 		[TestMethod]
 		public async Task TestUnrecognizedResponse()
 		{
-			var sample = new ByondResponse
-			{
-				Version = new Version(511, 1385)
-			};
+			var sample = new ByondResponse(
+				new ByondVersion
+				{
+					Engine = EngineType.Byond,
+					Version = new Version(511, 1385)
+				});
 
 			var fakeJson = "asdfasd <>F#(*)U*#JLI";
 

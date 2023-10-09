@@ -1,16 +1,19 @@
-﻿using System;
+﻿using Tgstation.Server.Api.Models.Internal;
 
 namespace Tgstation.Server.Api.Models.Response
 {
 	/// <summary>
-	/// Represents an installed BYOND <see cref="Version"/>.
+	/// Represents an installed <see cref="ByondVersion"/>.
 	/// </summary>
-	public sealed class ByondResponse
+	public sealed class ByondResponse : ByondVersion
 	{
 		/// <summary>
-		/// The installed BYOND <see cref="System.Version"/>. BYOND itself only considers the <see cref="Version.Major"/> and <see cref="Version.Minor"/> numbers. TGS uses the <see cref="Version.Build"/> number to represent installed custom versions.
+		/// Initializes a new instance of the <see cref="ByondResponse"/> class.
 		/// </summary>
-		[ResponseOptions]
-		public Version? Version { get; set; }
+		/// <param name="byondVersion">The <see cref="ByondVersion"/> to copy.</param>
+		public ByondResponse(ByondVersion byondVersion)
+			: base(byondVersion)
+		{
+		}
 	}
 }

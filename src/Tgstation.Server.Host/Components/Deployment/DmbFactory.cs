@@ -245,6 +245,12 @@ namespace Tgstation.Server.Host.Components.Deployment
 						.ThenInclude(x => x.MergedBy)
 					.FirstAsync(cancellationToken)); // can't wait to see that query
 
+			if (!Api.Models.Internal.ByondVersion.TryParse(compileJob.ByondVersion, out var byondVersion))
+			{
+				logger.LogWarning("Error loading compile job, bad BYOND version: {0}", compileJob.ByondVersion);
+				return null; // omae wa mou shinderu
+			}
+
 			if (!compileJob.Job.StoppedAt.HasValue)
 			{
 				// This happens when we're told to load the compile job that is currently finished up
@@ -262,7 +268,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 					CleanRegisteredCompileJob(compileJob);
 			}
 
-			var newProvider = new DmbProvider(compileJob, ioManager, CleanupAction);
+			var newProvider = new DmbProvider(compileJob, byondVersion, ioManager, CleanupAction);
 			try
 			{
 				const string LegacyADirectoryName = "A";
@@ -299,7 +305,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 					// rebuild the provider because it's using the legacy style directories
 					// Don't dispose it
 					logger.LogDebug("Creating legacy two folder .dmb provider targeting {aDirName} directory...", LegacyADirectoryName);
-					newProvider = new DmbProvider(compileJob, ioManager, CleanupAction, Path.DirectorySeparatorChar + LegacyADirectoryName);
+					newProvider = new DmbProvider(compileJob, byondVersion, ioManager, CleanupAction, Path.DirectorySeparatorChar + LegacyADirectoryName);
 				}
 
 				lock (jobLockCounts)

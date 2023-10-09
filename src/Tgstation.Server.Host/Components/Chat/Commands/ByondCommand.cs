@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Globalization;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -49,20 +48,45 @@ namespace Tgstation.Server.Host.Components.Chat.Commands
 		/// <inheritdoc />
 		public ValueTask<MessageContent> Invoke(string arguments, ChatUser user, CancellationToken cancellationToken)
 		{
-			if (arguments.Split(' ').Any(x => x.ToUpperInvariant() == "--ACTIVE"))
-				return ValueTask.FromResult(new MessageContent
-				{
-					Text = byondManager.ActiveVersion == null ? "None!" : String.Format(CultureInfo.InvariantCulture, "{0}.{1}", byondManager.ActiveVersion.Major, byondManager.ActiveVersion.Minor),
-				});
-			if (watchdog.Status == WatchdogStatus.Offline)
-				return ValueTask.FromResult(new MessageContent
-				{
-					Text = "Server offline!",
-				});
-			return ValueTask.FromResult(new MessageContent
+			if (arguments.Split(' ').Any(x => x.Equals("--active", StringComparison.OrdinalIgnoreCase)))
 			{
-				Text = watchdog.ActiveCompileJob?.ByondVersion ?? "None!",
-			});
+				string text;
+				if (byondManager.ActiveVersion == null)
+					text = "None!";
+				else
+					switch (byondManager.ActiveVersion.Engine.Value)
+					{
+						case EngineType.OpenDream:
+							text = $"OpenDream: {byondManager.ActiveVersion.SourceCommittish}";
+							break;
+						case EngineType.Byond:
+							text = $"BYOND {byondManager.ActiveVersion.Version.Major}.{byondManager.ActiveVersion.Version.Minor}";
+							if (byondManager.ActiveVersion.Version.Build != -1)
+								text += " (Custom Build)";
+
+							break;
+						default:
+							throw new InvalidOperationException($"Invalid EngineType: {byondManager.ActiveVersion.Engine.Value}");
+					}
+
+				return ValueTask.FromResult(
+					new MessageContent
+					{
+						Text = text,
+					});
+			}
+
+			if (watchdog.Status == WatchdogStatus.Offline)
+				return ValueTask.FromResult(
+					new MessageContent
+					{
+						Text = "Server offline!",
+					});
+			return ValueTask.FromResult(
+				new MessageContent
+				{
+					Text = watchdog.ActiveCompileJob?.ByondVersion ?? "None!",
+				});
 		}
 	}
 }
