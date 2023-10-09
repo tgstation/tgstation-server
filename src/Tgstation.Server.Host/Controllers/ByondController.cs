@@ -84,10 +84,10 @@ namespace Tgstation.Server.Host.Controllers
 		public ValueTask<IActionResult> Read()
 			=> WithComponentInstance(instance =>
 				ValueTask.FromResult<IActionResult>(
-					instance.ByondManager.ActiveVersion != null
+					instance.EngineManager.ActiveVersion != null
 						? Json(
 							new ByondResponse(
-								instance.ByondManager.ActiveVersion))
+								instance.EngineManager.ActiveVersion))
 						: Conflict(new ErrorMessageResponse(ErrorCode.ResourceNotPresent))));
 
 		/// <summary>
@@ -107,7 +107,7 @@ namespace Tgstation.Server.Host.Controllers
 					() => ValueTask.FromResult(
 						new PaginatableResult<ByondResponse>(
 							instance
-								.ByondManager
+								.EngineManager
 								.InstalledVersions
 								.Select(x => new ByondResponse(x))
 								.AsQueryable()
@@ -169,7 +169,7 @@ namespace Tgstation.Server.Host.Controllers
 			return await WithComponentInstance(
 				async instance =>
 				{
-					var byondManager = instance.ByondManager;
+					var byondManager = instance.EngineManager;
 					var versionAlreadyInstalled = !uploadingZip && byondManager.InstalledVersions.Any(x => x.Equals(model));
 					if (versionAlreadyInstalled)
 					{
@@ -231,7 +231,7 @@ namespace Tgstation.Server.Host.Controllers
 								async (core, databaseContextFactory, paramJob, progressHandler, jobCancellationToken) =>
 								{
 									if (sourceRepo != null)
-										await core.ByondManager.EnsureEngineSource(
+										await core.EngineManager.EnsureEngineSource(
 											sourceRepo,
 											model.Engine.Value,
 											jobCancellationToken);
@@ -254,7 +254,7 @@ namespace Tgstation.Server.Host.Controllers
 										}
 
 									await using (zipFileStream)
-										await core.ByondManager.ChangeVersion(
+										await core.EngineManager.ChangeVersion(
 											progressHandler,
 											model,
 											zipFileStream,
@@ -306,7 +306,7 @@ namespace Tgstation.Server.Host.Controllers
 			var notInstalledResponse = await WithComponentInstance(
 				instance =>
 				{
-					var byondManager = instance.ByondManager;
+					var byondManager = instance.EngineManager;
 
 					if (model.Equals(byondManager.ActiveVersion))
 						return ValueTask.FromResult<IActionResult>(
@@ -343,7 +343,7 @@ namespace Tgstation.Server.Host.Controllers
 			await jobManager.RegisterOperation(
 				job,
 				(instanceCore, databaseContextFactory, job, progressReporter, jobCancellationToken)
-					=> instanceCore.ByondManager.DeleteVersion(progressReporter, model, jobCancellationToken),
+					=> instanceCore.EngineManager.DeleteVersion(progressReporter, model, jobCancellationToken),
 				cancellationToken);
 
 			var apiResponse = job.ToApi();

@@ -441,7 +441,7 @@ namespace Tgstation.Server.Tests
 
 			var ddPath = ioManager.ConcatPath(
 				tempPath,
-				ByondManager.BinPath,
+				EngineManager.BinPath,
 				byondInstaller.GetDreamDaemonName(byondVersion, out var supportsCli, out var shouldSupportMapThreads));
 
 			Assert.IsTrue(supportsCli);

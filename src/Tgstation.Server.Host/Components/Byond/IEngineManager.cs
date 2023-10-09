@@ -11,10 +11,10 @@ using Tgstation.Server.Host.Jobs;
 namespace Tgstation.Server.Host.Components.Byond
 {
 	/// <summary>
-	/// For managing the BYOND installation.
+	/// For managing the engine installations.
 	/// </summary>
 	/// <remarks>When passing in <see cref="ByondVersion.Version"/>s for <see cref="EngineType.Byond"/>, ensure they are BYOND format versions unless referring to a custom version. This means <see cref="Version.Build"/> should NEVER be 0.</remarks>
-	public interface IByondManager : IComponentService, IDisposable
+	public interface IEngineManager : IComponentService, IDisposable
 	{
 		/// <summary>
 		/// The currently active <see cref="ByondVersion"/>.

@@ -42,9 +42,9 @@ namespace Tgstation.Server.Host.Components.Session
 		readonly IProcessExecutor processExecutor;
 
 		/// <summary>
-		/// The <see cref="IByondManager"/> for the <see cref="SessionControllerFactory"/>.
+		/// The <see cref="IEngineManager"/> for the <see cref="SessionControllerFactory"/>.
 		/// </summary>
-		readonly IByondManager byond;
+		readonly IEngineManager engineManager;
 
 		/// <summary>
 		/// The <see cref="ITopicClientFactory"/> for the <see cref="SessionControllerFactory"/>.
@@ -147,7 +147,7 @@ namespace Tgstation.Server.Host.Components.Session
 		/// Initializes a new instance of the <see cref="SessionControllerFactory"/> class.
 		/// </summary>
 		/// <param name="processExecutor">The value of <see cref="processExecutor"/>.</param>
-		/// <param name="byond">The value of <see cref="byond"/>.</param>
+		/// <param name="engineManager">The value of <see cref="engineManager"/>.</param>
 		/// <param name="topicClientFactory">The value of <see cref="topicClientFactory"/>.</param>
 		/// <param name="cryptographySuite">The value of <see cref="cryptographySuite"/>.</param>
 		/// <param name="assemblyInformationProvider">The value of <see cref="assemblyInformationProvider"/>.</param>
@@ -166,7 +166,7 @@ namespace Tgstation.Server.Host.Components.Session
 		/// <param name="sessionConfiguration">The value of <see cref="sessionConfiguration"/>.</param>
 		public SessionControllerFactory(
 			IProcessExecutor processExecutor,
-			IByondManager byond,
+			IEngineManager engineManager,
 			ITopicClientFactory topicClientFactory,
 			ICryptographySuite cryptographySuite,
 			IAssemblyInformationProvider assemblyInformationProvider,
@@ -185,7 +185,7 @@ namespace Tgstation.Server.Host.Components.Session
 			Api.Models.Instance instance)
 		{
 			this.processExecutor = processExecutor ?? throw new ArgumentNullException(nameof(processExecutor));
-			this.byond = byond ?? throw new ArgumentNullException(nameof(byond));
+			this.engineManager = engineManager ?? throw new ArgumentNullException(nameof(engineManager));
 			this.topicClientFactory = topicClientFactory ?? throw new ArgumentNullException(nameof(topicClientFactory));
 			this.cryptographySuite = cryptographySuite ?? throw new ArgumentNullException(nameof(cryptographySuite));
 			this.assemblyInformationProvider = assemblyInformationProvider ?? throw new ArgumentNullException(nameof(assemblyInformationProvider));
@@ -239,7 +239,7 @@ namespace Tgstation.Server.Host.Components.Session
 			}
 
 			// get the byond lock
-			var byondLock = currentByondLock ?? await byond.UseExecutables(
+			var byondLock = currentByondLock ?? await engineManager.UseExecutables(
 				dmbProvider.ByondVersion,
 				gameIOManager.ConcatPath(dmbProvider.Directory, dmbProvider.DmbName),
 				cancellationToken);
@@ -370,7 +370,7 @@ namespace Tgstation.Server.Host.Components.Session
 
 			logger.LogTrace("Begin session reattach...");
 			var byondTopicSender = topicClientFactory.CreateTopicClient(reattachInformation.TopicRequestTimeout);
-			var byondLock = await byond.UseExecutables(
+			var byondLock = await engineManager.UseExecutables(
 				reattachInformation.Dmb.ByondVersion,
 				null, // Doesn't matter if it's trusted or not on reattach
 				cancellationToken);

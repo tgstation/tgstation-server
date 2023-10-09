@@ -296,7 +296,7 @@ namespace Tgstation.Server.Host.Components
 				generalConfiguration);
 			try
 			{
-				var byond = new ByondManager(byondIOManager, byondInstaller, eventConsumer, loggerFactory.CreateLogger<ByondManager>());
+				var byond = new EngineManager(byondIOManager, byondInstaller, eventConsumer, loggerFactory.CreateLogger<EngineManager>());
 
 				var dmbFactory = new DmbFactory(
 					databaseContextFactory,

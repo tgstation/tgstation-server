@@ -41,9 +41,9 @@ namespace Tgstation.Server.Host.Components.Deployment
 		const string DmeExtension = "dme";
 
 		/// <summary>
-		/// The <see cref="IByondManager"/> for <see cref="DreamMaker"/>.
+		/// The <see cref="IEngineManager"/> for <see cref="DreamMaker"/>.
 		/// </summary>
-		readonly IByondManager byond;
+		readonly IEngineManager engineManager;
 
 		/// <summary>
 		/// The <see cref="IIOManager"/> for <see cref="DreamMaker"/>.
@@ -143,7 +143,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 		/// <summary>
 		/// Initializes a new instance of the <see cref="DreamMaker"/> class.
 		/// </summary>
-		/// <param name="byond">The value of <see cref="byond"/>.</param>
+		/// <param name="engineManager">The value of <see cref="engineManager"/>.</param>
 		/// <param name="ioManager">The value of <see cref="ioManager"/>.</param>
 		/// <param name="configuration">The value of <see cref="configuration"/>.</param>
 		/// <param name="sessionControllerFactory">The value of <see cref="sessionControllerFactory"/>.</param>
@@ -158,7 +158,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 		/// <param name="sessionConfiguration">The value of <see cref="sessionConfiguration"/>.</param>
 		/// <param name="metadata">The value of <see cref="metadata"/>.</param>
 		public DreamMaker(
-			IByondManager byond,
+			IEngineManager engineManager,
 			IIOManager ioManager,
 			StaticFiles.IConfiguration configuration,
 			ISessionControllerFactory sessionControllerFactory,
@@ -173,7 +173,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 			SessionConfiguration sessionConfiguration,
 			Api.Models.Instance metadata)
 		{
-			this.byond = byond ?? throw new ArgumentNullException(nameof(byond));
+			this.engineManager = engineManager ?? throw new ArgumentNullException(nameof(engineManager));
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
 			this.configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
 			this.sessionControllerFactory = sessionControllerFactory ?? throw new ArgumentNullException(nameof(sessionControllerFactory));
@@ -482,7 +482,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 			var progressTask = ProgressTask(progressReporter, estimatedDuration, progressCts.Token);
 			try
 			{
-				using var byondLock = await byond.UseExecutables(null, null, cancellationToken);
+				using var byondLock = await engineManager.UseExecutables(null, null, cancellationToken);
 				currentChatCallback = chatManager.QueueDeploymentMessage(
 					revisionInformation,
 					byondLock.Version,

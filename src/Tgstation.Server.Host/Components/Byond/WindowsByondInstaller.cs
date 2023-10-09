@@ -235,7 +235,7 @@ namespace Tgstation.Server.Host.Components.Byond
 			var dreamDaemonPath = IOManager.ResolvePath(
 				IOManager.ConcatPath(
 					path,
-					ByondManager.BinPath,
+					EngineManager.BinPath,
 					dreamDaemonName));
 
 			Logger.LogInformation("Adding Windows Firewall exception for {path}...", dreamDaemonPath);

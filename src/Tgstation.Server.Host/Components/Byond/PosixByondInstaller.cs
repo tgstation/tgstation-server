@@ -99,7 +99,7 @@ namespace Tgstation.Server.Host.Components.Byond
 				postWriteHandler.HandleWrite(IOManager.ResolvePath(pathToScript));
 			}
 
-			var basePath = IOManager.ConcatPath(path, ByondManager.BinPath);
+			var basePath = IOManager.ConcatPath(path, EngineManager.BinPath);
 
 			var ddTask = WriteAndMakeExecutable(
 				IOManager.ConcatPath(basePath, GetDreamDaemonName(version, out _, out _)),

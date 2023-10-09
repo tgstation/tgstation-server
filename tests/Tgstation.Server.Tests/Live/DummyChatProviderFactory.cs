@@ -40,7 +40,7 @@ namespace Tgstation.Server.Tests.Live
 
 			var commandFactory = new CommandFactory(
 				Mock.Of<IAssemblyInformationProvider>(),
-				Mock.Of<IByondManager>(),
+				Mock.Of<IEngineManager>(),
 				Mock.Of<IRepositoryManager>(),
 				Mock.Of<IDatabaseContextFactory>(),
 				Mock.Of<ILatestCompileJobProvider>(),

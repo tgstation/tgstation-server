@@ -20,7 +20,7 @@ using Tgstation.Server.Host.Utils;
 namespace Tgstation.Server.Host.Components.Byond
 {
 	/// <inheritdoc />
-	sealed class ByondManager : IByondManager
+	sealed class EngineManager : IEngineManager
 	{
 		/// <summary>
 		/// The path to the BYOND bin folder.
@@ -66,24 +66,24 @@ namespace Tgstation.Server.Host.Components.Byond
 		static readonly SemaphoreSlim UserFilesSemaphore = new (1);
 
 		/// <summary>
-		/// The <see cref="IIOManager"/> for the <see cref="ByondManager"/>.
+		/// The <see cref="IIOManager"/> for the <see cref="EngineManager"/>.
 		/// </summary>
 		readonly IIOManager ioManager;
 
 		/// <summary>
-		/// The <see cref="IByondInstaller"/> for the <see cref="ByondManager"/>.
+		/// The <see cref="IByondInstaller"/> for the <see cref="EngineManager"/>.
 		/// </summary>
 		readonly IByondInstaller byondInstaller;
 
 		/// <summary>
-		/// The <see cref="IEventConsumer"/> for the <see cref="ByondManager"/>.
+		/// The <see cref="IEventConsumer"/> for the <see cref="EngineManager"/>.
 		/// </summary>
 		readonly IEventConsumer eventConsumer;
 
 		/// <summary>
-		/// The <see cref="ILogger"/> for the <see cref="ByondManager"/>.
+		/// The <see cref="ILogger"/> for the <see cref="EngineManager"/>.
 		/// </summary>
-		readonly ILogger<ByondManager> logger;
+		readonly ILogger<EngineManager> logger;
 
 		/// <summary>
 		/// Map of byond <see cref="Version"/>s to <see cref="Task"/>s that complete when they are installed.
@@ -116,13 +116,13 @@ namespace Tgstation.Server.Host.Components.Byond
 		}
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="ByondManager"/> class.
+		/// Initializes a new instance of the <see cref="EngineManager"/> class.
 		/// </summary>
 		/// <param name="ioManager">The value of <see cref="ioManager"/>.</param>
 		/// <param name="byondInstaller">The value of <see cref="byondInstaller"/>.</param>
 		/// <param name="eventConsumer">The value of <see cref="eventConsumer"/>.</param>
 		/// <param name="logger">The value of <see cref="logger"/>.</param>
-		public ByondManager(IIOManager ioManager, IByondInstaller byondInstaller, IEventConsumer eventConsumer, ILogger<ByondManager> logger)
+		public EngineManager(IIOManager ioManager, IByondInstaller byondInstaller, IEventConsumer eventConsumer, ILogger<EngineManager> logger)
 		{
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
 			this.byondInstaller = byondInstaller ?? throw new ArgumentNullException(nameof(byondInstaller));

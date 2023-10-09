@@ -25,7 +25,7 @@ namespace Tgstation.Server.Host.Components
 		public IRepositoryManager RepositoryManager => Instance.RepositoryManager;
 
 		/// <inheritdoc />
-		public IByondManager ByondManager => Instance.ByondManager;
+		public IEngineManager EngineManager => Instance.EngineManager;
 
 		/// <inheritdoc />
 		public IDreamMaker DreamMaker => Instance.DreamMaker;

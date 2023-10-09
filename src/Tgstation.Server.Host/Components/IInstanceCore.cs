@@ -20,9 +20,9 @@ namespace Tgstation.Server.Host.Components
 		IRepositoryManager RepositoryManager { get; }
 
 		/// <summary>
-		/// The <see cref="IByondManager"/> for the <see cref="IInstanceCore"/>.
+		/// The <see cref="IEngineManager"/> for the <see cref="IInstanceCore"/>.
 		/// </summary>
-		IByondManager ByondManager { get; }
+		IEngineManager EngineManager { get; }
 
 		/// <summary>
 		/// The <see cref="IDreamMaker"/> for the <see cref="IInstanceCore"/>.

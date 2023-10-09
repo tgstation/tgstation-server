@@ -25,9 +25,9 @@ namespace Tgstation.Server.Host.Components.Chat.Commands
 		public bool AdminOnly => false;
 
 		/// <summary>
-		/// The <see cref="IByondManager"/> for the <see cref="ByondCommand"/>.
+		/// The <see cref="IEngineManager"/> for the <see cref="ByondCommand"/>.
 		/// </summary>
-		readonly IByondManager byondManager;
+		readonly IEngineManager engineManager;
 
 		/// <summary>
 		/// The <see cref="IWatchdog"/> for the <see cref="ByondCommand"/>.
@@ -37,11 +37,11 @@ namespace Tgstation.Server.Host.Components.Chat.Commands
 		/// <summary>
 		/// Initializes a new instance of the <see cref="ByondCommand"/> class.
 		/// </summary>
-		/// <param name="byondManager">The value of <see cref="byondManager"/>.</param>
+		/// <param name="engineManager">The value of <see cref="engineManager"/>.</param>
 		/// <param name="watchdog">The value of <see cref="watchdog"/>.</param>
-		public ByondCommand(IByondManager byondManager, IWatchdog watchdog)
+		public ByondCommand(IEngineManager engineManager, IWatchdog watchdog)
 		{
-			this.byondManager = byondManager ?? throw new ArgumentNullException(nameof(byondManager));
+			this.engineManager = engineManager ?? throw new ArgumentNullException(nameof(engineManager));
 			this.watchdog = watchdog ?? throw new ArgumentNullException(nameof(watchdog));
 		}
 
@@ -51,22 +51,22 @@ namespace Tgstation.Server.Host.Components.Chat.Commands
 			if (arguments.Split(' ').Any(x => x.Equals("--active", StringComparison.OrdinalIgnoreCase)))
 			{
 				string text;
-				if (byondManager.ActiveVersion == null)
+				if (engineManager.ActiveVersion == null)
 					text = "None!";
 				else
-					switch (byondManager.ActiveVersion.Engine.Value)
+					switch (engineManager.ActiveVersion.Engine.Value)
 					{
 						case EngineType.OpenDream:
-							text = $"OpenDream: {byondManager.ActiveVersion.SourceCommittish}";
+							text = $"OpenDream: {engineManager.ActiveVersion.SourceCommittish}";
 							break;
 						case EngineType.Byond:
-							text = $"BYOND {byondManager.ActiveVersion.Version.Major}.{byondManager.ActiveVersion.Version.Minor}";
-							if (byondManager.ActiveVersion.Version.Build != -1)
+							text = $"BYOND {engineManager.ActiveVersion.Version.Major}.{engineManager.ActiveVersion.Version.Minor}";
+							if (engineManager.ActiveVersion.Version.Build != -1)
 								text += " (Custom Build)";
 
 							break;
 						default:
-							throw new InvalidOperationException($"Invalid EngineType: {byondManager.ActiveVersion.Engine.Value}");
+							throw new InvalidOperationException($"Invalid EngineType: {engineManager.ActiveVersion.Engine.Value}");
 					}
 
 				return ValueTask.FromResult(
