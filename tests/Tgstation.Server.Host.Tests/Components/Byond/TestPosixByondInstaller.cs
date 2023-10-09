@@ -84,7 +84,7 @@ namespace Tgstation.Server.Host.Components.Byond.Tests
 			var installer = new PosixByondInstaller(mockPostWriteHandler.Object, mockIOManager.Object, mockFileDownloader, mockLogger.Object);
 
 			const string FakePath = "fake";
-			await Assert.ThrowsExceptionAsync<ArgumentNullException>(() => installer.InstallByond(null, null, default).AsTask());
+			await Assert.ThrowsExceptionAsync<ArgumentNullException>(() => installer.Install(null, null, default).AsTask());
 
 			var byondVersion = new ByondVersion
 			{
@@ -92,10 +92,10 @@ namespace Tgstation.Server.Host.Components.Byond.Tests
 				Version = new Version(123, 252345),
 			};
 
-			await Assert.ThrowsExceptionAsync<ArgumentNullException>(() => installer.InstallByond(byondVersion, null, default).AsTask());
+			await Assert.ThrowsExceptionAsync<ArgumentNullException>(() => installer.Install(byondVersion, null, default).AsTask());
 
 			byondVersion.Version = new Version(511, 1385);
-			await installer.InstallByond(byondVersion, FakePath, default);
+			await installer.Install(byondVersion, FakePath, default);
 
 			mockPostWriteHandler.Verify(x => x.HandleWrite(It.IsAny<string>()), Times.Exactly(4));
 		}

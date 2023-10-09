@@ -13,7 +13,7 @@ using Tgstation.Server.Host.IO;
 namespace Tgstation.Server.Host.Components.Byond
 {
 	/// <summary>
-	/// <see cref="IByondInstaller"/> for Posix systems.
+	/// <see cref="IEngineInstaller"/> for Posix systems.
 	/// </summary>
 	sealed class PosixByondInstaller : ByondInstallerBase
 	{
@@ -80,7 +80,7 @@ namespace Tgstation.Server.Host.Components.Byond
 		}
 
 		/// <inheritdoc />
-		public override ValueTask InstallByond(ByondVersion version, string path, CancellationToken cancellationToken)
+		public override ValueTask Install(ByondVersion version, string path, CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(version);
 			ArgumentNullException.ThrowIfNull(path);

@@ -141,7 +141,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 			var jrt = new JobsRequiredTest(instanceClient.Jobs);
 
-			IByondInstaller byondInstaller = new PlatformIdentifier().IsWindows
+			IEngineInstaller byondInstaller = new PlatformIdentifier().IsWindows
 				? new WindowsByondInstaller(
 					Mock.Of<IProcessExecutor>(),
 					Mock.Of<IIOManager>(),

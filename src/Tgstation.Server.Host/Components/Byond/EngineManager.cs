@@ -71,9 +71,9 @@ namespace Tgstation.Server.Host.Components.Byond
 		readonly IIOManager ioManager;
 
 		/// <summary>
-		/// The <see cref="IByondInstaller"/> for the <see cref="EngineManager"/>.
+		/// The <see cref="IEngineInstaller"/> for the <see cref="EngineManager"/>.
 		/// </summary>
-		readonly IByondInstaller byondInstaller;
+		readonly IEngineInstaller byondInstaller;
 
 		/// <summary>
 		/// The <see cref="IEventConsumer"/> for the <see cref="EngineManager"/>.
@@ -122,7 +122,7 @@ namespace Tgstation.Server.Host.Components.Byond
 		/// <param name="byondInstaller">The value of <see cref="byondInstaller"/>.</param>
 		/// <param name="eventConsumer">The value of <see cref="eventConsumer"/>.</param>
 		/// <param name="logger">The value of <see cref="logger"/>.</param>
-		public EngineManager(IIOManager ioManager, IByondInstaller byondInstaller, IEventConsumer eventConsumer, ILogger<EngineManager> logger)
+		public EngineManager(IIOManager ioManager, IEngineInstaller byondInstaller, IEventConsumer eventConsumer, ILogger<EngineManager> logger)
 		{
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
 			this.byondInstaller = byondInstaller ?? throw new ArgumentNullException(nameof(byondInstaller));
@@ -575,7 +575,7 @@ namespace Tgstation.Server.Host.Components.Byond
 				if (progressReporter != null)
 					progressReporter.StageName = "Running installation actions";
 
-				await byondInstaller.InstallByond(version, installFullPath, cancellationToken);
+				await byondInstaller.Install(version, installFullPath, cancellationToken);
 
 				if (progressReporter != null)
 					progressReporter.StageName = "Writing version file";

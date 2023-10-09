@@ -71,9 +71,9 @@ namespace Tgstation.Server.Host.Components
 		readonly ISymlinkFactory symlinkFactory;
 
 		/// <summary>
-		/// The <see cref="IByondInstaller"/> for the <see cref="InstanceFactory"/>.
+		/// The <see cref="IEngineInstaller"/> for the <see cref="InstanceFactory"/>.
 		/// </summary>
-		readonly IByondInstaller byondInstaller;
+		readonly IEngineInstaller byondInstaller;
 
 		/// <summary>
 		/// The <see cref="IChatManagerFactory"/> for the <see cref="InstanceFactory"/>.
@@ -200,7 +200,7 @@ namespace Tgstation.Server.Host.Components
 			ICryptographySuite cryptographySuite,
 			ISynchronousIOManager synchronousIOManager,
 			ISymlinkFactory symlinkFactory,
-			IByondInstaller byondInstaller,
+			IEngineInstaller byondInstaller,
 			IChatManagerFactory chatFactory,
 			IProcessExecutor processExecutor,
 			IPostWriteHandler postWriteHandler,

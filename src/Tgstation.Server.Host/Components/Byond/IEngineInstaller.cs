@@ -7,9 +7,9 @@ using Tgstation.Server.Api.Models.Internal;
 namespace Tgstation.Server.Host.Components.Byond
 {
 	/// <summary>
-	/// For downloading and installing BYOND extractions for a given system.
+	/// For downloading and installing game engines for a given system.
 	/// </summary>
-	interface IByondInstaller
+	interface IEngineInstaller
 	{
 		/// <summary>
 		/// Get the file name of the compiler executable.
@@ -31,7 +31,7 @@ namespace Tgstation.Server.Host.Components.Byond
 		string GetDreamDaemonName(ByondVersion version, out bool supportsCli, out bool supportsMapThreads);
 
 		/// <summary>
-		/// Download a given BYOND <paramref name="version"/>.
+		/// Download a given engine <paramref name="version"/>.
 		/// </summary>
 		/// <param name="version">The <see cref="ByondVersion"/> of BYOND to download.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
@@ -39,13 +39,13 @@ namespace Tgstation.Server.Host.Components.Byond
 		ValueTask<MemoryStream> DownloadVersion(ByondVersion version, CancellationToken cancellationToken);
 
 		/// <summary>
-		/// Does actions necessary to get an extracted BYOND installation working.
+		/// Does actions necessary to get an extracted installation working.
 		/// </summary>
 		/// <param name="version">The <see cref="ByondVersion"/> being installed.</param>
 		/// <param name="path">The path to the BYOND installation.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
-		ValueTask InstallByond(ByondVersion version, string path, CancellationToken cancellationToken);
+		ValueTask Install(ByondVersion version, string path, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Does actions necessary to get upgrade a BYOND version installed by a previous version of TGS.

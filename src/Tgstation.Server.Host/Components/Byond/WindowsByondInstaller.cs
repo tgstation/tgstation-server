@@ -19,7 +19,7 @@ using Tgstation.Server.Host.Utils;
 namespace Tgstation.Server.Host.Components.Byond
 {
 	/// <summary>
-	/// <see cref="IByondInstaller"/> for windows systems.
+	/// <see cref="IEngineInstaller"/> for windows systems.
 	/// </summary>
 	sealed class WindowsByondInstaller : ByondInstallerBase, IDisposable
 	{
@@ -125,7 +125,7 @@ namespace Tgstation.Server.Host.Components.Byond
 		}
 
 		/// <inheritdoc />
-		public override ValueTask InstallByond(ByondVersion version, string path, CancellationToken cancellationToken)
+		public override ValueTask Install(ByondVersion version, string path, CancellationToken cancellationToken)
 		{
 			var tasks = new List<ValueTask>(3)
 			{

@@ -179,7 +179,7 @@ namespace Tgstation.Server.Tests
 
 			var fileDownloader = new CachingFileDownloader(Mock.Of<ILogger<CachingFileDownloader>>());
 
-			IByondInstaller byondInstaller = platformIdentifier.IsWindows
+			IEngineInstaller byondInstaller = platformIdentifier.IsWindows
 				? new WindowsByondInstaller(
 					Mock.Of<IProcessExecutor>(),
 					Mock.Of<IIOManager>(),
@@ -398,7 +398,7 @@ namespace Tgstation.Server.Tests
 			Assert.AreEqual(latestMigrationSL, DatabaseContext.SLLatestMigration);
 		}
 
-		static async Task<Tuple<MemoryStream, ByondVersion>> GetByondVersionPriorTo(IByondInstaller byondInstaller, Version version)
+		static async Task<Tuple<MemoryStream, ByondVersion>> GetByondVersionPriorTo(IEngineInstaller byondInstaller, Version version)
 		{
 			var minusOneMinor = new Version(version.Major, version.Minor - 1);
 			var byondVersion = new ByondVersion
@@ -425,7 +425,7 @@ namespace Tgstation.Server.Tests
 		static async Task TestMapThreadsVersion(
 			ByondVersion byondVersion,
 			Stream byondBytes,
-			IByondInstaller byondInstaller,
+			IEngineInstaller byondInstaller,
 			IIOManager ioManager,
 			IProcessExecutor processExecutor,
 			string tempPath)
@@ -437,7 +437,7 @@ namespace Tgstation.Server.Tests
 			if (byondInstaller.GetType() == typeof(WindowsByondInstaller))
 				typeof(WindowsByondInstaller).GetField("installedDirectX", BindingFlags.Instance | BindingFlags.NonPublic).SetValue(byondInstaller, true);
 
-			await byondInstaller.InstallByond(byondVersion, tempPath, default);
+			await byondInstaller.Install(byondVersion, tempPath, default);
 
 			var ddPath = ioManager.ConcatPath(
 				tempPath,

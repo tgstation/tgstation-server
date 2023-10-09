@@ -12,7 +12,7 @@ using Tgstation.Server.Host.IO;
 namespace Tgstation.Server.Host.Components.Byond
 {
 	/// <inheritdoc />
-	abstract class ByondInstallerBase : IByondInstaller
+	abstract class ByondInstallerBase : IEngineInstaller
 	{
 		/// <summary>
 		/// The name of BYOND's cache directory.
@@ -85,7 +85,7 @@ namespace Tgstation.Server.Host.Components.Byond
 		}
 
 		/// <inheritdoc />
-		public abstract ValueTask InstallByond(ByondVersion version, string path, CancellationToken cancellationToken);
+		public abstract ValueTask Install(ByondVersion version, string path, CancellationToken cancellationToken);
 
 		/// <inheritdoc />
 		public abstract ValueTask UpgradeInstallation(ByondVersion version, string path, CancellationToken cancellationToken);
