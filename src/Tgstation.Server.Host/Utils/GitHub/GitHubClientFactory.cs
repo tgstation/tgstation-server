@@ -80,6 +80,7 @@ namespace Tgstation.Server.Host.Utils.GitHub
 		{
 			GitHubClient client;
 			bool cacheHit;
+			DateTimeOffset? lastUsed;
 			lock (clientCache)
 			{
 				string cacheKey;
@@ -105,11 +106,13 @@ namespace Tgstation.Server.Host.Utils.GitHub
 						client.Credentials = new Credentials(accessToken);
 
 					clientCache.Add(cacheKey, (client, now));
+					lastUsed = null;
 				}
 				else
 				{
 					logger.LogTrace("Cache hit for GitHubClient");
 					client = tuple.Item1;
+					lastUsed = tuple.Item2;
 					tuple.Item2 = now;
 				}
 
@@ -144,13 +147,15 @@ namespace Tgstation.Server.Host.Utils.GitHub
 						rateLimitInfo.Reset.ToString("o"));
 				else if (rateLimitInfo.Remaining < 25) // good luck hitting these lines on codecov
 					logger.LogWarning(
-						"Requested GitHub client has only {remainingRequests} requests remaining! Limit resets at {resetTime}",
+						"Requested GitHub client has only {remainingRequests} requests remaining after the usage at {lastUse}! Limit resets at {resetTime}",
 						rateLimitInfo.Remaining,
+						lastUsed,
 						rateLimitInfo.Reset.ToString("o"));
 				else
 					logger.LogDebug(
-						"Requested GitHub client has {remainingRequests} requests remaining. Limit resets at {resetTime}",
+						"Requested GitHub client has {remainingRequests} requests remaining after the usage {lastUse}. Limit resets at {resetTime}",
 						rateLimitInfo.Remaining,
+						lastUsed,
 						rateLimitInfo.Reset.ToString("o"));
 
 			return client;
