@@ -5,7 +5,7 @@ using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Host.Components.Deployment;
 using Tgstation.Server.Host.Utils;
 
-namespace Tgstation.Server.Host.Components.Byond
+namespace Tgstation.Server.Host.Components.Engine
 {
 	/// <inheritdoc cref="IEngineExecutableLock" />
 	sealed class EngineExecutableLock : ReferenceCounter<IEngineInstallation>, IEngineExecutableLock

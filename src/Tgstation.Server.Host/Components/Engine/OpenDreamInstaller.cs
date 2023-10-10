@@ -13,7 +13,7 @@ using Tgstation.Server.Host.Jobs;
 using Tgstation.Server.Host.System;
 using Tgstation.Server.Host.Utils.GitHub;
 
-namespace Tgstation.Server.Host.Components.Byond
+namespace Tgstation.Server.Host.Components.Engine
 {
 	/// <summary>
 	/// Implementation of <see cref="IEngineInstaller"/> for <see cref="EngineType.OpenDream"/>.
@@ -115,7 +115,6 @@ namespace Tgstation.Server.Host.Components.Byond
 		protected override async ValueTask<Uri> GetDownloadZipUrl(ByondVersion version, CancellationToken cancellationToken)
 		{
 			throw new NotImplementedException("This won't work because of the goddamn fucking robust toolbox submodule");
-
 			var fullCommit = await gitHubService.GetCommit("OpenDreamProject", "OpenDream", version.SourceCommittish, cancellationToken);
 
 			if (fullCommit.Sha != version.SourceCommittish)

@@ -140,7 +140,6 @@ namespace Tgstation.Server.Host.Controllers
 #pragma warning restore CA1502
 		{
 			throw new NotImplementedException("Fix OD/BYOND model validation");
-
 			ArgumentNullException.ThrowIfNull(model);
 
 			var uploadingZip = model.UploadCustomZip == true;

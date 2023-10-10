@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 using Tgstation.Server.Api.Models.Internal;
 
-namespace Tgstation.Server.Host.Components.Byond
+namespace Tgstation.Server.Host.Components.Engine
 {
 	/// <summary>
 	/// For downloading and installing game engines for a given system.

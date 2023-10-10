@@ -9,7 +9,7 @@ using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Host.IO;
 
-namespace Tgstation.Server.Host.Components.Byond
+namespace Tgstation.Server.Host.Components.Engine
 {
 	/// <inheritdoc />
 	abstract class EngineInstallerBase : IEngineInstaller

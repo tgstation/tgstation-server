@@ -11,7 +11,7 @@ using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Utils;
 
-namespace Tgstation.Server.Host.Components.Byond
+namespace Tgstation.Server.Host.Components.Engine
 {
 	/// <summary>
 	/// Base implementation of <see cref="IEngineInstaller"/> for <see cref="EngineType.Byond"/>.

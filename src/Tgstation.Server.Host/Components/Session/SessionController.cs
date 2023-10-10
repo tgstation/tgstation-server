@@ -15,9 +15,9 @@ using Serilog.Context;
 
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Common.Extensions;
-using Tgstation.Server.Host.Components.Byond;
 using Tgstation.Server.Host.Components.Chat;
 using Tgstation.Server.Host.Components.Deployment;
+using Tgstation.Server.Host.Components.Engine;
 using Tgstation.Server.Host.Components.Interop;
 using Tgstation.Server.Host.Components.Interop.Bridge;
 using Tgstation.Server.Host.Components.Interop.Topic;
@@ -108,9 +108,9 @@ namespace Tgstation.Server.Host.Components.Session
 		public ReattachInformation ReattachInformation { get; }
 
 		/// <summary>
-		/// The <see cref="global::Byond.TopicSender.ITopicClient"/> for the <see cref="SessionController"/>.
+		/// The <see cref="Byond.TopicSender.ITopicClient"/> for the <see cref="SessionController"/>.
 		/// </summary>
-		readonly global::Byond.TopicSender.ITopicClient byondTopicSender;
+		readonly Byond.TopicSender.ITopicClient byondTopicSender;
 
 		/// <summary>
 		/// The <see cref="IBridgeRegistration"/> for the <see cref="SessionController"/>.
@@ -245,7 +245,7 @@ namespace Tgstation.Server.Host.Components.Session
 			Api.Models.Instance metadata,
 			IProcess process,
 			IEngineExecutableLock byondLock,
-			global::Byond.TopicSender.ITopicClient byondTopicSender,
+			Byond.TopicSender.ITopicClient byondTopicSender,
 			IChatTrackingContext chatTrackingContext,
 			IBridgeRegistrar bridgeRegistrar,
 			IChatManager chat,
@@ -949,11 +949,11 @@ namespace Tgstation.Server.Host.Components.Session
 		}
 
 		/// <summary>
-		/// Generates a <see cref="global::Byond.TopicSender.ITopicClient"/> query string for a given set of <paramref name="parameters"/>.
+		/// Generates a <see cref="Byond.TopicSender.ITopicClient"/> query string for a given set of <paramref name="parameters"/>.
 		/// </summary>
 		/// <param name="parameters">The <see cref="TopicParameters"/> to serialize.</param>
 		/// <param name="json">The intermediate JSON <see cref="string"/> prior to URL encoding.</param>
-		/// <returns>The <see cref="global::Byond.TopicSender.ITopicClient"/> query string for the given <paramref name="parameters"/>.</returns>
+		/// <returns>The <see cref="Byond.TopicSender.ITopicClient"/> query string for the given <paramref name="parameters"/>.</returns>
 		string GenerateQueryString(TopicParameters parameters, out string json)
 		{
 			json = JsonConvert.SerializeObject(parameters, DMApiConstants.SerializerSettings);
@@ -983,7 +983,7 @@ namespace Tgstation.Server.Host.Components.Session
 
 			var targetPort = ReattachInformation.Port;
 			var killedOrRebootedTask = Task.WhenAny(Lifetime, OnReboot);
-			global::Byond.TopicSender.TopicResponse byondResponse = null;
+			Byond.TopicSender.TopicResponse byondResponse = null;
 			var firstSend = true;
 
 			using (await topicSendSemaphore.Lock(cancellationToken))

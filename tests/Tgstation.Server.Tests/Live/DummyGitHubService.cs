@@ -23,6 +23,7 @@ namespace Tgstation.Server.Tests.Live
 	{
 		static Dictionary<Version, Release> releasesDictionary;
 		static PullRequest testPr;
+		static GitHubCommit testCommit;
 
 		readonly ICryptographySuite cryptographySuite;
 		readonly ILogger<DummyGitHubService> logger;
@@ -56,10 +57,16 @@ namespace Tgstation.Server.Tests.Live
 				{ TestLiveServer.TestUpdateVersion, targetRelease }
 			};
 
+			var testCommitTask = gitHubClient
+				.Repository
+				.Commit
+				.Get("Cyberboss", "common_core", "4b4926dfaf6295f19f8ae7abf03cb357dbb05b29")
+				.WaitAsync(cancellationToken);
 			testPr = await gitHubClient
 				.PullRequest
 				.Get("Cyberboss", "common_core", 2)
 				.WaitAsync(cancellationToken);
+			testCommit = await testCommitTask;
 
 			ServiceCollectionExtensions.UseGitHubServiceFactory<DummyGitHubServiceFactory>();
 		}
@@ -123,6 +130,12 @@ namespace Tgstation.Server.Tests.Live
 		{
 			logger.LogTrace("GetPullRequest");
 			return Task.FromResult(testPr);
+		}
+
+		public Task<GitHubCommit> GetCommit(string repoOwner, string repoName, string committish, CancellationToken cancellationToken)
+		{
+			logger.LogTrace("GetPullRequest");
+			return Task.FromResult(testCommit);
 		}
 
 		public ValueTask<Dictionary<Version, Release>> GetTgsReleases(CancellationToken cancellationToken)

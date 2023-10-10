@@ -10,7 +10,7 @@ using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Host.IO;
 
-namespace Tgstation.Server.Host.Components.Byond.Tests
+namespace Tgstation.Server.Host.Components.Engine.Tests
 {
 	[TestClass]
 	public sealed class TestPosixByondInstaller
