@@ -11,10 +11,11 @@ namespace Tgstation.Server.Host.Jobs.Tests
 		Task currentWaitTask;
 		bool cancelled;
 
-		async Task TestJob(CancellationToken cancellationToken)
+		async Task<bool> TestJob(CancellationToken cancellationToken)
 		{
 			await currentWaitTask;
 			cancelled = cancellationToken.IsCancellationRequested;
+			return true;
 		}
 
 		[TestMethod]
