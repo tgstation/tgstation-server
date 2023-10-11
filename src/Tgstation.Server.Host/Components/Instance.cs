@@ -382,6 +382,17 @@ namespace Tgstation.Server.Host.Components
 					// build current commit data if it's missing
 					await UpdateRevInfo(repo.Head, false, null);
 
+					var preserveTestMerges = repositorySettings.AutoUpdatesKeepTestMerges.Value;
+					var remoteDeploymentManager = remoteDeploymentManagerFactory.CreateRemoteDeploymentManager(
+						metadata,
+						repo.RemoteGitProvider.Value);
+
+					var updatedTestMerges = await remoteDeploymentManager.RemoveMergedTestMerges(
+						repo,
+						repositorySettings,
+						currentRevInfo,
+						cancellationToken);
+
 					var result = await repo.MergeOrigin(
 						NextProgressReporter("Merge Origin"),
 						repositorySettings.CommitterName,
@@ -389,21 +400,10 @@ namespace Tgstation.Server.Host.Components
 						true,
 						cancellationToken);
 
-					var preserveTestMerges = repositorySettings.AutoUpdatesKeepTestMerges.Value;
-					var remoteDeploymentManager = remoteDeploymentManagerFactory.CreateRemoteDeploymentManager(
-						metadata,
-						repo.RemoteGitProvider.Value);
-
 					// take appropriate auto update actions
 					var shouldSyncTracked = false;
 					if (result.HasValue)
 					{
-						var updatedTestMerges = await remoteDeploymentManager.RemoveMergedTestMerges(
-							repo,
-							repositorySettings,
-							currentRevInfo,
-							cancellationToken);
-
 						if (updatedTestMerges.Count == 0)
 						{
 							logger.LogTrace("All test merges have been merged on remote");
@@ -517,7 +517,12 @@ namespace Tgstation.Server.Host.Components
 							RepositoryAutoUpdateJob,
 							cancellationToken);
 
-						await jobManager.WaitForJobCompletion(repositoryUpdateJob, null, cancellationToken, cancellationToken);
+						var repoUpdateJobResult = await jobManager.WaitForJobCompletion(repositoryUpdateJob, null, cancellationToken, cancellationToken);
+						if (repoUpdateJobResult == false)
+						{
+							logger.LogWarning("Aborting auto-update due to repository update error!");
+							continue;
+						}
 
 						Job compileProcessJob;
 						using (var repo = await RepositoryManager.LoadRepository(cancellationToken))

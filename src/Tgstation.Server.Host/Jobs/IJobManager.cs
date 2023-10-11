@@ -33,8 +33,8 @@ namespace Tgstation.Server.Host.Jobs
 		/// <param name="canceller">The <see cref="User"/> to cancel the <paramref name="job"/>. If <see langword="null"/> the TGS user will be used.</param>
 		/// <param name="jobCancellationToken">A <see cref="CancellationToken"/> that will cancel the <paramref name="job"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task"/> representing the <see cref="Job"/>.</returns>
-		Task WaitForJobCompletion(Job job, User canceller, CancellationToken jobCancellationToken, CancellationToken cancellationToken);
+		/// <returns>A <see cref="Task{TResult}"/> representing the <see cref="Job"/>. Results in <see langword="true"/> if the <see cref="Job"/> completed without errors, <see langword="false"/> if errors occurred, or <see langword="null"/> if the job isn't registered.</returns>
+		Task<bool?> WaitForJobCompletion(Job job, User canceller, CancellationToken jobCancellationToken, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Cancels a give <paramref name="job"/>.
