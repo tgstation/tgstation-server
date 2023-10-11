@@ -183,9 +183,12 @@ Components:
       Author: Cyberboss
       PullRequest: 1662
     Unreleased: true
+  - Version: 5.16.3
+    ComponentVersions: {}
+    Changes: []
+    Unreleased: true
   - Version: 5.16.2
     ComponentVersions:
-      Core: 5.16.1
       HttpApi: 9.12.0
       DreamMakerApi: 6.5.3
       Configuration: 4.7.1
@@ -195,8 +198,13 @@ Components:
       NugetApi: 11.1.2
       NugetClient: 12.1.2
       WebControlPanel: 4.25.2
-    Changes: []
-    Unreleased: true
+    Changes:
+    - Descriptions:
+      - Logging regarding GitHub rate limits is now more correct.
+      - The repository auto-update job now will no longer fail in the middle of the operation due to GitHub API issues.
+      - The code deployment auto-update job will no longer proceed if the repository auto-update job failed.
+      Author: Cyberboss
+      PullRequest: 1668
   - Version: 5.16.1
     ComponentVersions:
       HttpApi: 9.12.0
