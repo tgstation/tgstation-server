@@ -1,8 +1,8 @@
-﻿using System.IO;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 
 using Tgstation.Server.Api.Models.Internal;
+using Tgstation.Server.Host.Jobs;
 
 namespace Tgstation.Server.Host.Components.Engine
 {
@@ -22,10 +22,11 @@ namespace Tgstation.Server.Host.Components.Engine
 		/// <summary>
 		/// Download a given engine <paramref name="version"/>.
 		/// </summary>
-		/// <param name="version">The <see cref="ByondVersion"/> of BYOND to download.</param>
+		/// <param name="version">The <see cref="ByondVersion"/> of the engine to download.</param>
+		/// <param name="jobProgressReporter">The optional <see cref="JobProgressReporter"/> for the operation.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in a <see cref="MemoryStream"/> of the zipfile.</returns>
-		ValueTask<MemoryStream> DownloadVersion(ByondVersion version, CancellationToken cancellationToken);
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="IEngineInstallationData"/> for the download.</returns>
+		ValueTask<IEngineInstallationData> DownloadVersion(ByondVersion version, JobProgressReporter jobProgressReporter, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Does actions necessary to get an extracted installation working.

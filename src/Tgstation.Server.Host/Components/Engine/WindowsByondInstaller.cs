@@ -96,7 +96,7 @@ namespace Tgstation.Server.Host.Components.Engine
 			IFileDownloader fileDownloader,
 			IOptions<GeneralConfiguration> generalConfigurationOptions,
 			ILogger<WindowsByondInstaller> logger)
-			: base(ioManager, fileDownloader, logger)
+			: base(ioManager, logger, fileDownloader)
 		{
 			this.processExecutor = processExecutor ?? throw new ArgumentNullException(nameof(processExecutor));
 			generalConfiguration = generalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));

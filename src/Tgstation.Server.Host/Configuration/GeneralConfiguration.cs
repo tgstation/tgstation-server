@@ -62,6 +62,11 @@ namespace Tgstation.Server.Host.Configuration
 		const uint DefaultShutdownTimeoutMinutes = 300;
 
 		/// <summary>
+		/// The default value for <see cref="OpenDreamGitUrl"/>.
+		/// </summary>
+		const string DefaultOpenDreamGitUrl = "https://github.com/OpenDreamProject/OpenDream";
+
+		/// <summary>
 		/// The current <see cref="ConfigVersion"/>.
 		/// </summary>
 		public static readonly Version CurrentConfigVersion = Version.Parse(MasterVersionsAttribute.Instance.RawConfigurationVersion);
@@ -121,6 +126,11 @@ namespace Tgstation.Server.Host.Configuration
 		/// A limit on the amount of tasks used for asynchronous I/O when copying directories during the deployment process as a multiplier to the machine's <see cref="Environment.ProcessorCount"/>. Too few can significantly increase deployment times, too many can make TGS unresponsive and slowdown other I/O operations on the machine.
 		/// </summary>
 		public uint? DeploymentDirectoryCopyTasksPerCore { get; set; }
+
+		/// <summary>
+		/// Location of a publically accessible OpenDream repository.
+		/// </summary>
+		public Uri OpenDreamGitUrl { get; set; } = new Uri(DefaultOpenDreamGitUrl);
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="GeneralConfiguration"/> class.

@@ -1,9 +1,12 @@
 ﻿using System;
+using System.IO;
+using System.Reflection;
 
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-
 using Moq;
+
+using Tgstation.Server.Host.Components.Engine;
 
 namespace Tgstation.Server.Tests
 {
@@ -24,6 +27,12 @@ namespace Tgstation.Server.Tests
 			})
 			.Verifiable();
 			return mockLoggerFactory.Object;
+		}
+
+		public static MemoryStream ExtractMemoryStreamFromInstallationData(IEngineInstallationData engineInstallationData)
+		{
+			var zipStreamData = (ZipStreamEngineInstallationData)engineInstallationData;
+			return (MemoryStream)zipStreamData.GetType().GetField("stream", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(zipStreamData);
 		}
 	}
 }

@@ -127,13 +127,15 @@ namespace Tgstation.Server.Tests
 
 			const string ArchiveEntryPath = "byond/bin/dd.exe";
 			var hasEntry = ArchiveHasFileEntry(
-				await byondInstaller.DownloadVersion(
-					new ByondVersion
-					{
-						Engine = EngineType.Byond,
-						Version = WindowsByondInstaller.DDExeVersion
-					},
-					default),
+				TestingUtils.ExtractMemoryStreamFromInstallationData(
+					await byondInstaller.DownloadVersion(
+						new ByondVersion
+						{
+							Engine = EngineType.Byond,
+							Version = WindowsByondInstaller.DDExeVersion
+						},
+						null,
+						default)),
 				ArchiveEntryPath);
 
 			Assert.IsTrue(hasEntry);
@@ -218,13 +220,15 @@ namespace Tgstation.Server.Tests
 						Engine = EngineType.Byond,
 						Version = MapThreadsVersion(),
 					},
-					await byondInstaller.DownloadVersion(
-						new ByondVersion
-						{
-							Engine = EngineType.Byond,
-							Version = MapThreadsVersion()
-						},
-						default),
+					TestingUtils.ExtractMemoryStreamFromInstallationData(
+						await byondInstaller.DownloadVersion(
+							new ByondVersion
+							{
+								Engine = EngineType.Byond,
+								Version = MapThreadsVersion()
+							},
+							null,
+							default)),
 					byondInstaller,
 					ioManager,
 					processExecutor,
@@ -400,7 +404,7 @@ namespace Tgstation.Server.Tests
 			Assert.AreEqual(latestMigrationSL, DatabaseContext.SLLatestMigration);
 		}
 
-		static async Task<Tuple<MemoryStream, ByondVersion>> GetByondVersionPriorTo(IEngineInstaller byondInstaller, Version version)
+		static async Task<Tuple<MemoryStream, ByondVersion>> GetByondVersionPriorTo(ByondInstallerBase byondInstaller, Version version)
 		{
 			var minusOneMinor = new Version(version.Major, version.Minor - 1);
 			var byondVersion = new ByondVersion
@@ -410,17 +414,19 @@ namespace Tgstation.Server.Tests
 			};
 			try
 			{
-				return Tuple.Create(await byondInstaller.DownloadVersion(
+				return Tuple.Create(TestingUtils.ExtractMemoryStreamFromInstallationData(await byondInstaller.DownloadVersion(
 					byondVersion,
-					CancellationToken.None), byondVersion);
+					null,
+					CancellationToken.None)), byondVersion);
 			}
 			catch (HttpRequestException)
 			{
 				var minusOneMajor = new Version(minusOneMinor.Major - 1, minusOneMinor.Minor);
 				byondVersion.Version = minusOneMajor;
-				return Tuple.Create(await byondInstaller.DownloadVersion(
+				return Tuple.Create(TestingUtils.ExtractMemoryStreamFromInstallationData(await byondInstaller.DownloadVersion(
 					byondVersion,
-					CancellationToken.None), byondVersion);
+					null,
+					CancellationToken.None)), byondVersion);
 			}
 		}
 

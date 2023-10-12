@@ -9,6 +9,7 @@ using Microsoft.Extensions.Logging;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Host.IO;
+using Tgstation.Server.Host.Jobs;
 using Tgstation.Server.Host.Utils;
 
 namespace Tgstation.Server.Host.Components.Engine
@@ -67,14 +68,20 @@ namespace Tgstation.Server.Host.Components.Engine
 		protected abstract string ByondRevisionsUrlTemplate { get; }
 
 		/// <summary>
+		/// The <see cref="IFileDownloader"/> for the <see cref="ByondInstallerBase"/>.
+		/// </summary>
+		readonly IFileDownloader fileDownloader;
+
+		/// <summary>
 		/// Initializes a new instance of the <see cref="ByondInstallerBase"/> class.
 		/// </summary>
 		/// <param name="ioManager">The <see cref="IIOManager"/> for the <see cref="EngineInstallerBase"/>.</param>
-		/// <param name="fileDownloader">The <see cref="IFileDownloader"/> for the <see cref="EngineInstallerBase"/>.</param>
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="EngineInstallerBase"/>.</param>
-		protected ByondInstallerBase(IIOManager ioManager, IFileDownloader fileDownloader, ILogger<ByondInstallerBase> logger)
-			: base(ioManager, fileDownloader, logger)
+		/// <param name="fileDownloader">The value of <see cref="fileDownloader"/>.</param>
+		protected ByondInstallerBase(IIOManager ioManager, ILogger<ByondInstallerBase> logger, IFileDownloader fileDownloader)
+			: base(ioManager, logger)
 		{
+			this.fileDownloader = fileDownloader ?? throw new ArgumentNullException(nameof(fileDownloader));
 		}
 
 		/// <inheritdoc />
@@ -184,11 +191,29 @@ namespace Tgstation.Server.Host.Components.Engine
 		}
 
 		/// <inheritdoc />
-		protected override ValueTask<Uri> GetDownloadZipUrl(ByondVersion version, CancellationToken cancellationToken)
+		public override async ValueTask<IEngineInstallationData> DownloadVersion(ByondVersion version, JobProgressReporter progressReporter, CancellationToken cancellationToken)
 		{
 			CheckVersionValidity(version);
-			var url = String.Format(CultureInfo.InvariantCulture, ByondRevisionsUrlTemplate, version.Version.Major, version.Version.Minor);
-			return ValueTask.FromResult(new Uri(url));
+
+			var url = await GetDownloadZipUrl(version, cancellationToken);
+			Logger.LogTrace("Downloading {engineType} version {version} from {url}...", TargetEngineType, version, url);
+
+			await using var download = fileDownloader.DownloadFile(url, null);
+			await using var buffer = new BufferedFileStreamProvider(
+				await download.GetResult(cancellationToken));
+
+			var stream = await buffer.GetOwnedResult(cancellationToken);
+			try
+			{
+				return new ZipStreamEngineInstallationData(
+					IOManager,
+					stream);
+			}
+			catch
+			{
+				await stream.DisposeAsync();
+				throw;
+			}
 		}
 
 		/// <summary>
@@ -198,5 +223,18 @@ namespace Tgstation.Server.Host.Components.Engine
 		/// <param name="supportsCli">Whether or not the returned path supports being run as a command-line application.</param>
 		/// <returns>The file name of the DreamDaemon executable.</returns>
 		protected abstract string GetDreamDaemonName(Version byondVersion, out bool supportsCli);
+
+		/// <summary>
+		/// Create a <see cref="Uri"/> pointing to the location of the download for a given <paramref name="version"/>.
+		/// </summary>
+		/// <param name="version">The <see cref="ByondVersion"/> to create a <see cref="Uri"/> for.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in a new <see cref="Uri"/> pointing to the version download location.</returns>
+		ValueTask<Uri> GetDownloadZipUrl(ByondVersion version, CancellationToken cancellationToken)
+		{
+			CheckVersionValidity(version);
+			var url = String.Format(CultureInfo.InvariantCulture, ByondRevisionsUrlTemplate, version.Version.Major, version.Version.Minor);
+			return ValueTask.FromResult(new Uri(url));
+		}
 	}
 }

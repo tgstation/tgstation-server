@@ -4,6 +4,7 @@ using Moq;
 using System;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 
 using Tgstation.Server.Api.Models;
@@ -51,7 +52,7 @@ namespace Tgstation.Server.Host.Components.Engine.Tests
 			var mockFileDownloader = new Mock<IFileDownloader>();
 			var installer = new PosixByondInstaller(mockPostWriteHandler.Object, mockIOManager.Object, mockFileDownloader.Object, mockLogger.Object);
 
-			await Assert.ThrowsExceptionAsync<ArgumentNullException>(() => installer.DownloadVersion(null, default).AsTask());
+			await Assert.ThrowsExceptionAsync<ArgumentNullException>(() => installer.DownloadVersion(null, null, default).AsTask());
 
 			var ourArray = Array.Empty<byte>();
 			mockFileDownloader
@@ -64,14 +65,19 @@ namespace Tgstation.Server.Host.Components.Engine.Tests
 						new MemoryStream(ourArray)))
 				.Verifiable();
 
-			var result = await installer.DownloadVersion(new ByondVersion
+			var result = ExtractMemoryStreamFromInstallationData(await installer.DownloadVersion(new ByondVersion
 			{
 				Engine = EngineType.Byond,
 				Version = new Version(123, 252345),
-			}, default);
+			}, null, default));
 
 			Assert.IsTrue(ourArray.SequenceEqual(result.ToArray()));
 			mockIOManager.Verify();
+		}
+		static MemoryStream ExtractMemoryStreamFromInstallationData(IEngineInstallationData engineInstallationData)
+		{
+			var zipStreamData = (ZipStreamEngineInstallationData)engineInstallationData;
+			return (MemoryStream)zipStreamData.GetType().GetField("stream", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(zipStreamData);
 		}
 
 		[TestMethod]

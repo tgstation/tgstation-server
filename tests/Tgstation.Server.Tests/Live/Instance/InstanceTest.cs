@@ -158,7 +158,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 			// get the bytes for stable
 			ByondInstallResponse installJob2;
-			using (var stableBytesMs = await byondInstaller.DownloadVersion(compatVersion, cancellationToken))
+			using (var stableBytesMs = TestingUtils.ExtractMemoryStreamFromInstallationData(await byondInstaller.DownloadVersion(compatVersion, null, cancellationToken)))
 			{
 				installJob2 = await instanceClient.Byond.SetActiveVersion(new ByondVersionRequest
 				{

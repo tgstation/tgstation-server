@@ -58,7 +58,7 @@ namespace Tgstation.Server.Host.Components.Engine
 			IIOManager ioManager,
 			IFileDownloader fileDownloader,
 			ILogger<PosixByondInstaller> logger)
-			: base(ioManager, fileDownloader, logger)
+			: base(ioManager, logger, fileDownloader)
 		{
 			this.postWriteHandler = postWriteHandler ?? throw new ArgumentNullException(nameof(postWriteHandler));
 

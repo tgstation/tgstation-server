@@ -4,14 +4,16 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Host.Common;
+using Tgstation.Server.Host.Components.Repository;
+using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Jobs;
 using Tgstation.Server.Host.System;
-using Tgstation.Server.Host.Utils.GitHub;
 
 namespace Tgstation.Server.Host.Components.Engine
 {
@@ -20,6 +22,11 @@ namespace Tgstation.Server.Host.Components.Engine
 	/// </summary>
 	sealed class OpenDreamInstaller : EngineInstallerBase
 	{
+		/// <summary>
+		/// The name of the subdirectory used for the <see cref="RepositoryEngineInstallationData"/>'s copy.
+		/// </summary>
+		private const string InstallationRepositorySubDirectory = "SourceRepo";
+
 		/// <inheritdoc />
 		protected override EngineType TargetEngineType => EngineType.OpenDream;
 
@@ -29,36 +36,42 @@ namespace Tgstation.Server.Host.Components.Engine
 		readonly IPlatformIdentifier platformIdentifier;
 
 		/// <summary>
-		/// The <see cref="IGitHubService"/> for the <see cref="OpenDreamInstaller"/>.
-		/// </summary>
-		readonly IGitHubService gitHubService;
-
-		/// <summary>
 		/// The <see cref="IProcessExecutor"/> for the <see cref="OpenDreamInstaller"/>.
 		/// </summary>
 		readonly IProcessExecutor processExecutor;
 
 		/// <summary>
+		/// The <see cref="IRepositoryManager"/> for the OpenDream repository.
+		/// </summary>
+		readonly IRepositoryManager repositoryManager;
+
+		/// <summary>
+		/// The <see cref="GeneralConfiguration"/> for the <see cref="OpenDreamInstaller"/>.
+		/// </summary>
+		readonly GeneralConfiguration generalConfiguration;
+
+		/// <summary>
 		/// Initializes a new instance of the <see cref="OpenDreamInstaller"/> class.
 		/// </summary>
 		/// <param name="ioManager">The <see cref="IIOManager"/> for the <see cref="EngineInstallerBase"/>.</param>
-		/// <param name="fileDownloader">The <see cref="IFileDownloader"/> for the <see cref="EngineInstallerBase"/>.</param>
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="EngineInstallerBase"/>.</param>
 		/// <param name="platformIdentifier">The value of <see cref="platformIdentifier"/>.</param>
-		/// <param name="gitHubService">The value of <see cref="gitHubService"/>.</param>
 		/// <param name="processExecutor">The value of <see cref="processExecutor"/>.</param>
+		/// <param name="repositoryManager">The value of <see cref="repositoryManager"/>.</param>
+		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing value of <see cref="generalConfiguration"/>.</param>
 		public OpenDreamInstaller(
 			IIOManager ioManager,
-			IFileDownloader fileDownloader,
 			ILogger<OpenDreamInstaller> logger,
 			IPlatformIdentifier platformIdentifier,
-			IGitHubService gitHubService,
-			IProcessExecutor processExecutor)
-			: base(ioManager, fileDownloader, logger)
+			IProcessExecutor processExecutor,
+			IRepositoryManager repositoryManager,
+			IOptions<GeneralConfiguration> generalConfigurationOptions)
+			: base(ioManager, logger)
 		{
 			this.platformIdentifier = platformIdentifier ?? throw new ArgumentNullException(nameof(platformIdentifier));
-			this.gitHubService = gitHubService ?? throw new ArgumentNullException(nameof(gitHubService));
 			this.processExecutor = processExecutor ?? throw new ArgumentNullException(nameof(processExecutor));
+			this.repositoryManager = repositoryManager ?? throw new ArgumentNullException(nameof(repositoryManager));
+			generalConfiguration = generalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
 		}
 
 		/// <inheritdoc />
@@ -72,10 +85,63 @@ namespace Tgstation.Server.Host.Components.Engine
 		}
 
 		/// <inheritdoc />
-		public override async ValueTask Install(ByondVersion version, string path, CancellationToken cancellationToken)
+		public override async ValueTask<IEngineInstallationData> DownloadVersion(ByondVersion version, JobProgressReporter jobProgressReporter, CancellationToken cancellationToken)
 		{
 			CheckVersionValidity(version);
-			ArgumentNullException.ThrowIfNull(path);
+
+			// get a lock on a system wide OD repo
+			Logger.LogTrace("Cloning OD repo...");
+
+			var progressSection1 = jobProgressReporter.CreateSection("Updating OpenDream git repository", 0.5f);
+
+			var repo = await repositoryManager.CloneRepository(
+				generalConfiguration.OpenDreamGitUrl,
+				null,
+				null,
+				null,
+				progressSection1,
+				true,
+				cancellationToken);
+
+			try
+			{
+				if (repo == null)
+				{
+					Logger.LogTrace("OD repo seems to already exist, attempting load and fetch...");
+					repo = await repositoryManager.LoadRepository(cancellationToken);
+
+					await repo.FetchOrigin(
+						progressSection1,
+						null,
+						null,
+						false,
+						cancellationToken);
+				}
+
+				var progressSection2 = jobProgressReporter.CreateSection("Checking out OpenDream version", 0.5f);
+
+				await repo.CheckoutObject(
+					version.SourceCommittish,
+					null,
+					null,
+					true,
+					progressSection2,
+					cancellationToken);
+
+				return new RepositoryEngineInstallationData(IOManager, repo, InstallationRepositorySubDirectory);
+			}
+			catch
+			{
+				repo?.Dispose();
+				throw;
+			}
+		}
+
+		/// <inheritdoc />
+		public override async ValueTask Install(ByondVersion version, string installPath, CancellationToken cancellationToken)
+		{
+			CheckVersionValidity(version);
+			ArgumentNullException.ThrowIfNull(installPath);
 
 			var dotnetPaths = DotnetHelper.GetPotentialDotnetPaths(platformIdentifier.IsWindows)
 				.ToList();
@@ -92,8 +158,33 @@ namespace Tgstation.Server.Host.Components.Engine
 
 			var dotnetPath = dotnetPaths[selectedPathIndex];
 
-			await Task.Yield();
-			throw new NotImplementedException();
+			var repositoryPath = IOManager.ConcatPath(installPath, InstallationRepositorySubDirectory);
+
+			await using (var buildProcess = processExecutor.LaunchProcess(
+				dotnetPath,
+				repositoryPath,
+				"build -c Release",
+				null,
+				true,
+				true))
+			{
+				var buildExitCode = await buildProcess.Lifetime;
+				if (buildExitCode != 0)
+					throw new JobException("OpenDream build failed!");
+			}
+
+			const string BinDirectory = "bin";
+			await IOManager.MoveDirectory(
+				IOManager.ConcatPath(
+					repositoryPath,
+					BinDirectory,
+					"Content.Server"),
+				IOManager.ConcatPath(
+					installPath,
+					BinDirectory),
+				cancellationToken);
+
+			await IOManager.DeleteDirectory(repositoryPath, cancellationToken);
 		}
 
 		/// <inheritdoc />
@@ -109,22 +200,6 @@ namespace Tgstation.Server.Host.Components.Engine
 		{
 			ArgumentNullException.ThrowIfNull(fullDmbPath);
 			return ValueTask.CompletedTask;
-		}
-
-		/// <inheritdoc />
-		protected override async ValueTask<Uri> GetDownloadZipUrl(ByondVersion version, CancellationToken cancellationToken)
-		{
-			throw new NotImplementedException("This won't work because of the goddamn fucking robust toolbox submodule");
-			var fullCommit = await gitHubService.GetCommit("OpenDreamProject", "OpenDream", version.SourceCommittish, cancellationToken);
-
-			if (fullCommit.Sha != version.SourceCommittish)
-			{
-				Logger.LogInformation("Replacing committish {committish} with full SHA {sha}...", version.SourceCommittish, fullCommit.Sha);
-				version.SourceCommittish = fullCommit.Sha;
-			}
-
-			var gitHubDownloadUrlString = $"https://codeload.github.com/OpenDreamProject/OpenDream/zip/{version.SourceCommittish}";
-			return new Uri(gitHubDownloadUrlString);
 		}
 	}
 }

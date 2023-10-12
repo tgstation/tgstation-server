@@ -254,7 +254,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			using var windowsByondInstaller = byondInstaller as WindowsByondInstaller;
 
 			// get the bytes for stable
-			using var stableBytesMs = await byondInstaller.DownloadVersion(testVersion, cancellationToken);
+			using var stableBytesMs = TestingUtils.ExtractMemoryStreamFromInstallationData(await byondInstaller.DownloadVersion(testVersion, null, cancellationToken));
 
 			var test = await byondClient.SetActiveVersion(
 				new ByondVersionRequest

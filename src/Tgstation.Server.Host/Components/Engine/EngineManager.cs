@@ -497,18 +497,24 @@ namespace Tgstation.Server.Host.Components.Engine
 			var directoryCleanupTask = DirectoryCleanup();
 			try
 			{
-				Stream versionZipStream;
+				IEngineInstallationData engineInstallationData;
 				if (customVersionStream == null)
 				{
 					if (progressReporter != null)
 						progressReporter.StageName = "Downloading version";
 
-					versionZipStream = await engineInstaller.DownloadVersion(version, cancellationToken);
+					engineInstallationData = await engineInstaller.DownloadVersion(version, progressReporter, cancellationToken);
+
+					progressReporter.ReportProgress(null);
 				}
 				else
-					versionZipStream = customVersionStream;
+#pragma warning disable CA2000 // Dispose objects before losing scope, false positive
+					engineInstallationData = new ZipStreamEngineInstallationData(
+						ioManager,
+						customVersionStream);
+#pragma warning restore CA2000 // Dispose objects before losing scope
 
-				await using (versionZipStream)
+				await using (engineInstallationData)
 				{
 					if (progressReporter != null)
 						progressReporter.StageName = "Cleaning target directory";
@@ -516,10 +522,10 @@ namespace Tgstation.Server.Host.Components.Engine
 					await directoryCleanupTask;
 
 					if (progressReporter != null)
-						progressReporter.StageName = "Extracting zip";
+						progressReporter.StageName = "Extracting data";
 
-					logger.LogTrace("Extracting downloaded BYOND zip to {extractPath}...", installFullPath);
-					await ioManager.ZipToDirectory(installFullPath, versionZipStream, cancellationToken);
+					logger.LogTrace("Extracting engine to {extractPath}...", installFullPath);
+					await engineInstallationData.ExtractToPath(installFullPath, cancellationToken);
 				}
 
 				if (progressReporter != null)
