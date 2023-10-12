@@ -39,7 +39,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers.Tests
 				.Returns(ValueTask.CompletedTask);
 			mockSetup
 				.Setup(x => x.WaitForJobCompletion(It.IsNotNull<Job>(), It.IsAny<User>(), It.IsAny<CancellationToken>(), It.IsAny<CancellationToken>()))
-				.Returns(ValueTask.CompletedTask);
+				.Returns(ValueTask.FromResult<bool?>(true));
 			mockJobManager = mockSetup.Object;
 		}
 
