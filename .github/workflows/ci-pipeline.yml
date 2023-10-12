@@ -1753,7 +1753,7 @@ jobs:
         GITHUB_TOKEN: ${{ env.WINGET_PUSH_TOKEN }}
 
     - name: Install wingetcreate
-      run: winget install wingetcreate --disable-interactivity --accept-source-agreements
+      run: winget install wingetcreate --version 1.2.8.0 --disable-interactivity --accept-source-agreements # Pinned due to breaking every other version
 
     - name: Checkout
       uses: actions/checkout@v3
