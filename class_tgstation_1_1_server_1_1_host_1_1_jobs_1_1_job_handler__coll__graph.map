@@ -1,7 +1,7 @@
 <map id="Tgstation.Server.Host.Jobs.JobHandler" name="Tgstation.Server.Host.Jobs.JobHandler">
-<area shape="rect" id="node1" title="Class for pairing Tasks with CancellationTokenSources." alt="" coords="214,108,397,148"/>
-<area shape="rect" id="node2" href="$class_i_disposable.html" title=" " alt="" coords="5,13,96,38"/>
-<area shape="rect" id="node3" title=" " alt="" coords="120,13,291,38"/>
-<area shape="rect" id="node4" title=" " alt="" coords="315,5,499,45"/>
-<area shape="rect" id="node5" title=" " alt="" coords="523,13,573,38"/>
+<area shape="rect" id="node1" title="Class for pairing Tasks with CancellationTokenSources." alt="" coords="387,77,569,117"/>
+<area shape="rect" id="node2" href="$class_i_disposable.html" title=" " alt="" coords="52,5,143,31"/>
+<area shape="rect" id="node3" title=" " alt="" coords="12,55,183,80"/>
+<area shape="rect" id="node4" title=" " alt="" coords="5,105,189,145"/>
+<area shape="rect" id="node5" title=" " alt="" coords="49,169,146,195"/>
 </map>

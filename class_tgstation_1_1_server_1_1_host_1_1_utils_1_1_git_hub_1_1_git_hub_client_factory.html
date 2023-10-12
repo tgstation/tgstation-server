@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.16.1</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.16.2</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -322,81 +322,86 @@ Static Private Attributes</h2></td></tr>
 <div class="fragment"><div class="line"><span class="lineno">   80</span>        {</div>
 <div class="line"><span class="lineno">   81</span>            GitHubClient client;</div>
 <div class="line"><span class="lineno">   82</span>            <span class="keywordtype">bool</span> cacheHit;</div>
-<div class="line"><span class="lineno">   83</span>            lock (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_git_hub_client_factory.html#ad7488e6dd75337153ce12d243e065cd3">clientCache</a>)</div>
-<div class="line"><span class="lineno">   84</span>            {</div>
-<div class="line"><span class="lineno">   85</span>                <span class="keywordtype">string</span> cacheKey;</div>
-<div class="line"><span class="lineno">   86</span>                <span class="keywordflow">if</span> (String.IsNullOrWhiteSpace(accessToken))</div>
-<div class="line"><span class="lineno">   87</span>                {</div>
-<div class="line"><span class="lineno">   88</span>                    accessToken = <span class="keyword">null</span>;</div>
-<div class="line"><span class="lineno">   89</span>                    cacheKey = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_git_hub_client_factory.html#a126b64745b7f4949a5f0c4ae6bb4479e">DefaultCacheKey</a>;</div>
-<div class="line"><span class="lineno">   90</span>                }</div>
-<div class="line"><span class="lineno">   91</span>                <span class="keywordflow">else</span></div>
-<div class="line"><span class="lineno">   92</span>                    cacheKey = accessToken;</div>
-<div class="line"><span class="lineno">   93</span> </div>
-<div class="line"><span class="lineno">   94</span>                cacheHit = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_git_hub_client_factory.html#ad7488e6dd75337153ce12d243e065cd3">clientCache</a>.TryGetValue(cacheKey, out var tuple);</div>
-<div class="line"><span class="lineno">   95</span> </div>
-<div class="line"><span class="lineno">   96</span>                var now = DateTimeOffset.UtcNow;</div>
-<div class="line"><span class="lineno">   97</span>                <span class="keywordflow">if</span> (!cacheHit)</div>
-<div class="line"><span class="lineno">   98</span>                {</div>
-<div class="line"><span class="lineno">   99</span>                    client = <span class="keyword">new</span> GitHubClient(</div>
-<div class="line"><span class="lineno">  100</span>                        <span class="keyword">new</span> ProductHeaderValue(</div>
-<div class="line"><span class="lineno">  101</span>                            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_git_hub_client_factory.html#a71a4a0b6b751cef410461b3eb71a3c0f">assemblyInformationProvider</a>.<a class="code hl_property" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_assembly_information_provider.html#ac576ee50be1f68ebbaeaa959fa304aa8">ProductInfoHeaderValue</a>.Product.Name,</div>
-<div class="line"><span class="lineno">  102</span>                            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_git_hub_client_factory.html#a71a4a0b6b751cef410461b3eb71a3c0f">assemblyInformationProvider</a>.<a class="code hl_property" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_assembly_information_provider.html#ac576ee50be1f68ebbaeaa959fa304aa8">ProductInfoHeaderValue</a>.Product.Version));</div>
-<div class="line"><span class="lineno">  103</span> </div>
-<div class="line"><span class="lineno">  104</span>                    <span class="keywordflow">if</span> (accessToken != <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">  105</span>                        client.Credentials = <span class="keyword">new</span> Credentials(accessToken);</div>
-<div class="line"><span class="lineno">  106</span> </div>
-<div class="line"><span class="lineno">  107</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_git_hub_client_factory.html#ad7488e6dd75337153ce12d243e065cd3">clientCache</a>.Add(cacheKey, (client, now));</div>
-<div class="line"><span class="lineno">  108</span>                }</div>
-<div class="line"><span class="lineno">  109</span>                <span class="keywordflow">else</span></div>
-<div class="line"><span class="lineno">  110</span>                {</div>
-<div class="line"><span class="lineno">  111</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_git_hub_client_factory.html#a78e1ae3c2b180077dec7f628ff14b5e0">logger</a>.LogTrace(<span class="stringliteral">&quot;Cache hit for GitHubClient&quot;</span>);</div>
-<div class="line"><span class="lineno">  112</span>                    client = tuple.Item1;</div>
-<div class="line"><span class="lineno">  113</span>                    tuple.Item2 = now;</div>
-<div class="line"><span class="lineno">  114</span>                }</div>
-<div class="line"><span class="lineno">  115</span> </div>
-<div class="line"><span class="lineno">  116</span>                <span class="comment">// Prune the cache</span></div>
-<div class="line"><span class="lineno">  117</span>                var purgeCount = 0U;</div>
-<div class="line"><span class="lineno">  118</span>                var purgeAfter = now.AddDays(-<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_git_hub_client_factory.html#ad09403ccc82d2ba57cae58beb5b6f04f">ClientCacheDays</a>);</div>
-<div class="line"><span class="lineno">  119</span>                <span class="keywordflow">foreach</span> (var key <span class="keywordflow">in</span> <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_git_hub_client_factory.html#ad7488e6dd75337153ce12d243e065cd3">clientCache</a>.Keys.ToList())</div>
-<div class="line"><span class="lineno">  120</span>                {</div>
-<div class="line"><span class="lineno">  121</span>                    <span class="keywordflow">if</span> (key == cacheKey)</div>
-<div class="line"><span class="lineno">  122</span>                        <span class="keywordflow">continue</span>; <span class="comment">// save the hash lookup</span></div>
-<div class="line"><span class="lineno">  123</span> </div>
-<div class="line"><span class="lineno">  124</span>                    tuple = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_git_hub_client_factory.html#ad7488e6dd75337153ce12d243e065cd3">clientCache</a>[key];</div>
-<div class="line"><span class="lineno">  125</span>                    <span class="keywordflow">if</span> (tuple.Item2 &lt;= purgeAfter)</div>
-<div class="line"><span class="lineno">  126</span>                    {</div>
-<div class="line"><span class="lineno">  127</span>                        <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_git_hub_client_factory.html#ad7488e6dd75337153ce12d243e065cd3">clientCache</a>.Remove(key);</div>
-<div class="line"><span class="lineno">  128</span>                        ++purgeCount;</div>
-<div class="line"><span class="lineno">  129</span>                    }</div>
-<div class="line"><span class="lineno">  130</span>                }</div>
-<div class="line"><span class="lineno">  131</span> </div>
-<div class="line"><span class="lineno">  132</span>                <span class="keywordflow">if</span> (purgeCount &gt; 0)</div>
-<div class="line"><span class="lineno">  133</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_git_hub_client_factory.html#a78e1ae3c2b180077dec7f628ff14b5e0">logger</a>.LogDebug(</div>
-<div class="line"><span class="lineno">  134</span>                        <span class="stringliteral">&quot;Pruned {count} expired GitHub client(s) from cache that haven&#39;t been used in {purgeAfterHours} days.&quot;</span>,</div>
-<div class="line"><span class="lineno">  135</span>                        purgeCount,</div>
-<div class="line"><span class="lineno">  136</span>                        <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_git_hub_client_factory.html#ad09403ccc82d2ba57cae58beb5b6f04f">ClientCacheDays</a>);</div>
-<div class="line"><span class="lineno">  137</span>            }</div>
-<div class="line"><span class="lineno">  138</span> </div>
-<div class="line"><span class="lineno">  139</span>            var rateLimitInfo = client.GetLastApiInfo()?.RateLimit;</div>
-<div class="line"><span class="lineno">  140</span>            <span class="keywordflow">if</span> (rateLimitInfo != <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">  141</span>                <span class="keywordflow">if</span> (rateLimitInfo.Remaining == 0)</div>
-<div class="line"><span class="lineno">  142</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_git_hub_client_factory.html#a78e1ae3c2b180077dec7f628ff14b5e0">logger</a>.LogWarning(</div>
-<div class="line"><span class="lineno">  143</span>                        <span class="stringliteral">&quot;Requested GitHub client has no requests remaining! Limit resets at {resetTime}&quot;</span>,</div>
-<div class="line"><span class="lineno">  144</span>                        rateLimitInfo.Reset.ToString(<span class="stringliteral">&quot;o&quot;</span>));</div>
-<div class="line"><span class="lineno">  145</span>                <span class="keywordflow">else</span> <span class="keywordflow">if</span> (rateLimitInfo.Remaining &lt; 25) <span class="comment">// good luck hitting these lines on codecov</span></div>
-<div class="line"><span class="lineno">  146</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_git_hub_client_factory.html#a78e1ae3c2b180077dec7f628ff14b5e0">logger</a>.LogWarning(</div>
-<div class="line"><span class="lineno">  147</span>                        <span class="stringliteral">&quot;Requested GitHub client has only {remainingRequests} requests remaining! Limit resets at {resetTime}&quot;</span>,</div>
-<div class="line"><span class="lineno">  148</span>                        rateLimitInfo.Remaining,</div>
-<div class="line"><span class="lineno">  149</span>                        rateLimitInfo.Reset.ToString(<span class="stringliteral">&quot;o&quot;</span>));</div>
-<div class="line"><span class="lineno">  150</span>                <span class="keywordflow">else</span></div>
-<div class="line"><span class="lineno">  151</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_git_hub_client_factory.html#a78e1ae3c2b180077dec7f628ff14b5e0">logger</a>.LogDebug(</div>
-<div class="line"><span class="lineno">  152</span>                        <span class="stringliteral">&quot;Requested GitHub client has {remainingRequests} requests remaining. Limit resets at {resetTime}&quot;</span>,</div>
-<div class="line"><span class="lineno">  153</span>                        rateLimitInfo.Remaining,</div>
-<div class="line"><span class="lineno">  154</span>                        rateLimitInfo.Reset.ToString(<span class="stringliteral">&quot;o&quot;</span>));</div>
-<div class="line"><span class="lineno">  155</span> </div>
-<div class="line"><span class="lineno">  156</span>            <span class="keywordflow">return</span> client;</div>
-<div class="line"><span class="lineno">  157</span>        }</div>
+<div class="line"><span class="lineno">   83</span>            DateTimeOffset? lastUsed;</div>
+<div class="line"><span class="lineno">   84</span>            lock (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_git_hub_client_factory.html#ad7488e6dd75337153ce12d243e065cd3">clientCache</a>)</div>
+<div class="line"><span class="lineno">   85</span>            {</div>
+<div class="line"><span class="lineno">   86</span>                <span class="keywordtype">string</span> cacheKey;</div>
+<div class="line"><span class="lineno">   87</span>                <span class="keywordflow">if</span> (String.IsNullOrWhiteSpace(accessToken))</div>
+<div class="line"><span class="lineno">   88</span>                {</div>
+<div class="line"><span class="lineno">   89</span>                    accessToken = <span class="keyword">null</span>;</div>
+<div class="line"><span class="lineno">   90</span>                    cacheKey = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_git_hub_client_factory.html#a126b64745b7f4949a5f0c4ae6bb4479e">DefaultCacheKey</a>;</div>
+<div class="line"><span class="lineno">   91</span>                }</div>
+<div class="line"><span class="lineno">   92</span>                <span class="keywordflow">else</span></div>
+<div class="line"><span class="lineno">   93</span>                    cacheKey = accessToken;</div>
+<div class="line"><span class="lineno">   94</span> </div>
+<div class="line"><span class="lineno">   95</span>                cacheHit = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_git_hub_client_factory.html#ad7488e6dd75337153ce12d243e065cd3">clientCache</a>.TryGetValue(cacheKey, out var tuple);</div>
+<div class="line"><span class="lineno">   96</span> </div>
+<div class="line"><span class="lineno">   97</span>                var now = DateTimeOffset.UtcNow;</div>
+<div class="line"><span class="lineno">   98</span>                <span class="keywordflow">if</span> (!cacheHit)</div>
+<div class="line"><span class="lineno">   99</span>                {</div>
+<div class="line"><span class="lineno">  100</span>                    client = <span class="keyword">new</span> GitHubClient(</div>
+<div class="line"><span class="lineno">  101</span>                        <span class="keyword">new</span> ProductHeaderValue(</div>
+<div class="line"><span class="lineno">  102</span>                            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_git_hub_client_factory.html#a71a4a0b6b751cef410461b3eb71a3c0f">assemblyInformationProvider</a>.<a class="code hl_property" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_assembly_information_provider.html#ac576ee50be1f68ebbaeaa959fa304aa8">ProductInfoHeaderValue</a>.Product.Name,</div>
+<div class="line"><span class="lineno">  103</span>                            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_git_hub_client_factory.html#a71a4a0b6b751cef410461b3eb71a3c0f">assemblyInformationProvider</a>.<a class="code hl_property" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_assembly_information_provider.html#ac576ee50be1f68ebbaeaa959fa304aa8">ProductInfoHeaderValue</a>.Product.Version));</div>
+<div class="line"><span class="lineno">  104</span> </div>
+<div class="line"><span class="lineno">  105</span>                    <span class="keywordflow">if</span> (accessToken != <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">  106</span>                        client.Credentials = <span class="keyword">new</span> Credentials(accessToken);</div>
+<div class="line"><span class="lineno">  107</span> </div>
+<div class="line"><span class="lineno">  108</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_git_hub_client_factory.html#ad7488e6dd75337153ce12d243e065cd3">clientCache</a>.Add(cacheKey, (client, now));</div>
+<div class="line"><span class="lineno">  109</span>                    lastUsed = <span class="keyword">null</span>;</div>
+<div class="line"><span class="lineno">  110</span>                }</div>
+<div class="line"><span class="lineno">  111</span>                <span class="keywordflow">else</span></div>
+<div class="line"><span class="lineno">  112</span>                {</div>
+<div class="line"><span class="lineno">  113</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_git_hub_client_factory.html#a78e1ae3c2b180077dec7f628ff14b5e0">logger</a>.LogTrace(<span class="stringliteral">&quot;Cache hit for GitHubClient&quot;</span>);</div>
+<div class="line"><span class="lineno">  114</span>                    client = tuple.Item1;</div>
+<div class="line"><span class="lineno">  115</span>                    lastUsed = tuple.Item2;</div>
+<div class="line"><span class="lineno">  116</span>                    tuple.Item2 = now;</div>
+<div class="line"><span class="lineno">  117</span>                }</div>
+<div class="line"><span class="lineno">  118</span> </div>
+<div class="line"><span class="lineno">  119</span>                <span class="comment">// Prune the cache</span></div>
+<div class="line"><span class="lineno">  120</span>                var purgeCount = 0U;</div>
+<div class="line"><span class="lineno">  121</span>                var purgeAfter = now.AddDays(-<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_git_hub_client_factory.html#ad09403ccc82d2ba57cae58beb5b6f04f">ClientCacheDays</a>);</div>
+<div class="line"><span class="lineno">  122</span>                <span class="keywordflow">foreach</span> (var key <span class="keywordflow">in</span> <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_git_hub_client_factory.html#ad7488e6dd75337153ce12d243e065cd3">clientCache</a>.Keys.ToList())</div>
+<div class="line"><span class="lineno">  123</span>                {</div>
+<div class="line"><span class="lineno">  124</span>                    <span class="keywordflow">if</span> (key == cacheKey)</div>
+<div class="line"><span class="lineno">  125</span>                        <span class="keywordflow">continue</span>; <span class="comment">// save the hash lookup</span></div>
+<div class="line"><span class="lineno">  126</span> </div>
+<div class="line"><span class="lineno">  127</span>                    tuple = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_git_hub_client_factory.html#ad7488e6dd75337153ce12d243e065cd3">clientCache</a>[key];</div>
+<div class="line"><span class="lineno">  128</span>                    <span class="keywordflow">if</span> (tuple.Item2 &lt;= purgeAfter)</div>
+<div class="line"><span class="lineno">  129</span>                    {</div>
+<div class="line"><span class="lineno">  130</span>                        <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_git_hub_client_factory.html#ad7488e6dd75337153ce12d243e065cd3">clientCache</a>.Remove(key);</div>
+<div class="line"><span class="lineno">  131</span>                        ++purgeCount;</div>
+<div class="line"><span class="lineno">  132</span>                    }</div>
+<div class="line"><span class="lineno">  133</span>                }</div>
+<div class="line"><span class="lineno">  134</span> </div>
+<div class="line"><span class="lineno">  135</span>                <span class="keywordflow">if</span> (purgeCount &gt; 0)</div>
+<div class="line"><span class="lineno">  136</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_git_hub_client_factory.html#a78e1ae3c2b180077dec7f628ff14b5e0">logger</a>.LogDebug(</div>
+<div class="line"><span class="lineno">  137</span>                        <span class="stringliteral">&quot;Pruned {count} expired GitHub client(s) from cache that haven&#39;t been used in {purgeAfterHours} days.&quot;</span>,</div>
+<div class="line"><span class="lineno">  138</span>                        purgeCount,</div>
+<div class="line"><span class="lineno">  139</span>                        <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_git_hub_client_factory.html#ad09403ccc82d2ba57cae58beb5b6f04f">ClientCacheDays</a>);</div>
+<div class="line"><span class="lineno">  140</span>            }</div>
+<div class="line"><span class="lineno">  141</span> </div>
+<div class="line"><span class="lineno">  142</span>            var rateLimitInfo = client.GetLastApiInfo()?.RateLimit;</div>
+<div class="line"><span class="lineno">  143</span>            <span class="keywordflow">if</span> (rateLimitInfo != <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">  144</span>                <span class="keywordflow">if</span> (rateLimitInfo.Remaining == 0)</div>
+<div class="line"><span class="lineno">  145</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_git_hub_client_factory.html#a78e1ae3c2b180077dec7f628ff14b5e0">logger</a>.LogWarning(</div>
+<div class="line"><span class="lineno">  146</span>                        <span class="stringliteral">&quot;Requested GitHub client has no requests remaining! Limit resets at {resetTime}&quot;</span>,</div>
+<div class="line"><span class="lineno">  147</span>                        rateLimitInfo.Reset.ToString(<span class="stringliteral">&quot;o&quot;</span>));</div>
+<div class="line"><span class="lineno">  148</span>                <span class="keywordflow">else</span> <span class="keywordflow">if</span> (rateLimitInfo.Remaining &lt; 25) <span class="comment">// good luck hitting these lines on codecov</span></div>
+<div class="line"><span class="lineno">  149</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_git_hub_client_factory.html#a78e1ae3c2b180077dec7f628ff14b5e0">logger</a>.LogWarning(</div>
+<div class="line"><span class="lineno">  150</span>                        <span class="stringliteral">&quot;Requested GitHub client has only {remainingRequests} requests remaining after the usage at {lastUse}! Limit resets at {resetTime}&quot;</span>,</div>
+<div class="line"><span class="lineno">  151</span>                        rateLimitInfo.Remaining,</div>
+<div class="line"><span class="lineno">  152</span>                        lastUsed,</div>
+<div class="line"><span class="lineno">  153</span>                        rateLimitInfo.Reset.ToString(<span class="stringliteral">&quot;o&quot;</span>));</div>
+<div class="line"><span class="lineno">  154</span>                <span class="keywordflow">else</span></div>
+<div class="line"><span class="lineno">  155</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_git_hub_client_factory.html#a78e1ae3c2b180077dec7f628ff14b5e0">logger</a>.LogDebug(</div>
+<div class="line"><span class="lineno">  156</span>                        <span class="stringliteral">&quot;Requested GitHub client has {remainingRequests} requests remaining after the usage {lastUse}. Limit resets at {resetTime}&quot;</span>,</div>
+<div class="line"><span class="lineno">  157</span>                        rateLimitInfo.Remaining,</div>
+<div class="line"><span class="lineno">  158</span>                        lastUsed,</div>
+<div class="line"><span class="lineno">  159</span>                        rateLimitInfo.Reset.ToString(<span class="stringliteral">&quot;o&quot;</span>));</div>
+<div class="line"><span class="lineno">  160</span> </div>
+<div class="line"><span class="lineno">  161</span>            <span class="keywordflow">return</span> client;</div>
+<div class="line"><span class="lineno">  162</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_git_hub_client_factory_html_a126b64745b7f4949a5f0c4ae6bb4479e"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_git_hub_client_factory.html#a126b64745b7f4949a5f0c4ae6bb4479e">Tgstation.Server.Host.Utils.GitHub.GitHubClientFactory.DefaultCacheKey</a></div><div class="ttdeci">const string DefaultCacheKey</div><div class="ttdoc">The clientCache KeyValuePair&lt;TKey, TValue&gt;.Key used in place of null when accessing a configuration-b...</div><div class="ttdef"><b>Definition:</b> <a href="_git_hub_client_factory_8cs_source.html#l00026">GitHubClientFactory.cs:26</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_git_hub_client_factory_html_ad09403ccc82d2ba57cae58beb5b6f04f"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_git_hub_client_factory.html#ad09403ccc82d2ba57cae58beb5b6f04f">Tgstation.Server.Host.Utils.GitHub.GitHubClientFactory.ClientCacheDays</a></div><div class="ttdeci">const uint ClientCacheDays</div><div class="ttdoc">Limit to the amount of days a GitHubClient can live in the clientCache.</div><div class="ttdef"><b>Definition:</b> <a href="_git_hub_client_factory_8cs_source.html#l00021">GitHubClientFactory.cs:21</a></div></div>
 <div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_assembly_information_provider_html_ac576ee50be1f68ebbaeaa959fa304aa8"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_assembly_information_provider.html#ac576ee50be1f68ebbaeaa959fa304aa8">Tgstation.Server.Host.System.IAssemblyInformationProvider.ProductInfoHeaderValue</a></div><div class="ttdeci">ProductInfoHeaderValue ProductInfoHeaderValue</div><div class="ttdoc">The ProductInfoHeaderValue for the assembly.</div><div class="ttdef"><b>Definition:</b> <a href="_i_assembly_information_provider_8cs_source.html#l00040">IAssemblyInformationProvider.cs:40</a></div></div>

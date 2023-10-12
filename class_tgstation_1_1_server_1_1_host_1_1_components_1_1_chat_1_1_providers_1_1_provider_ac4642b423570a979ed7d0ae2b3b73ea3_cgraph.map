@@ -7,5 +7,5 @@
 <area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#a53bbd9bd4bd351ddd86bbea888ab06cf" title="Gracefully disconnects the provider." alt="" coords="651,133,901,173"/>
 <area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#ac45c189505744c6f1012461193fca877" title="Queues a message &#160;for NextMessage(CancellationToken)." alt="" coords="644,197,908,237"/>
 <area shape="rect" id="node7" href="$interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html#aefaca6d0c2762350a41adfe7daaade95" title="Registers a given Job and begins running it." alt="" coords="674,261,878,301"/>
-<area shape="rect" id="node8" href="$interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html#a485010f3175f6ee62625d32db681747a" title="Wait for a given job &#160;to complete." alt="" coords="661,325,891,365"/>
+<area shape="rect" id="node8" href="$interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html#a7e692bde9b868698a7b9d77eeb1b5229" title="Wait for a given job &#160;to complete." alt="" coords="661,325,891,365"/>
 </map>

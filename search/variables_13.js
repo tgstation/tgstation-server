@@ -1,7 +1,7 @@
 var searchData=
 [
   ['targetresponder_0',['targetResponder',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_forwarding_responder.html#a986e4939c2f7caf324fa86ac10516f3c',1,'Tgstation::Server::Host::Components::Chat::Providers::DiscordForwardingResponder']]],
-  ['task_1',['task',['../class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_handler.html#aff63ce12f5e3649ee2b85b3753dd4da7',1,'Tgstation.Server.Host.Jobs.JobHandler.task()'],['../class_tgstation_1_1_server_1_1_host_1_1_security_1_1_identity_cache_object.html#a2d1a4fc7b7fee56456ccebfb699ad8ee',1,'Tgstation.Server.Host.Security.IdentityCacheObject.task()']]],
+  ['task_1',['task',['../class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_handler.html#a21fdd0916931e6cfc0ef4a7c16536ccd',1,'Tgstation.Server.Host.Jobs.JobHandler.task()'],['../class_tgstation_1_1_server_1_1_host_1_1_security_1_1_identity_cache_object.html#a2d1a4fc7b7fee56456ccebfb699ad8ee',1,'Tgstation.Server.Host.Security.IdentityCacheObject.task()']]],
   ['terminateifupdatefails_2',['terminateIfUpdateFails',['../class_tgstation_1_1_server_1_1_host_1_1_server.html#a910e71f0be9d723d37783abb8ccd838a',1,'Tgstation::Server::Host::Server']]],
   ['testconnection_3',['testConnection',['../class_tgstation_1_1_server_1_1_host_1_1_setup_1_1_setup_wizard.html#ad10d92569a73469dc91d7b2b211583ef',1,'Tgstation::Server::Host::Setup::SetupWizard']]],
   ['tgsfirewalledddfile_4',['TgsFirewalledDDFile',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_windows_byond_installer.html#ae81cb597487269875a3a758b669873fd',1,'Tgstation::Server::Host::Components::Byond::WindowsByondInstaller']]],

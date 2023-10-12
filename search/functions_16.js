@@ -1,7 +1,7 @@
 var searchData=
 [
-  ['wait_0',['Wait',['../class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_handler.html#ae9c16c160e9e0f1e1201dc86a29eace0',1,'Tgstation::Server::Host::Jobs::JobHandler']]],
-  ['waitforjobcompletion_1',['WaitForJobCompletion',['../interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html#a485010f3175f6ee62625d32db681747a',1,'Tgstation.Server.Host.Jobs.IJobManager.WaitForJobCompletion()'],['../class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#aa66c931e301afa1d01ee9a8a29df81eb',1,'Tgstation.Server.Host.Jobs.JobService.WaitForJobCompletion()']]],
+  ['wait_0',['Wait',['../class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_handler.html#a857174cbad81d2ecf5d455346c8cd694',1,'Tgstation::Server::Host::Jobs::JobHandler']]],
+  ['waitforjobcompletion_1',['WaitForJobCompletion',['../interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html#a7e692bde9b868698a7b9d77eeb1b5229',1,'Tgstation.Server.Host.Jobs.IJobManager.WaitForJobCompletion()'],['../class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#aecb9eb255161de649502f51d98475966',1,'Tgstation.Server.Host.Jobs.JobService.WaitForJobCompletion()']]],
   ['watchdog_2',['Watchdog',['../class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog.html#a15b253fbfadb57eae2865a238de8342b',1,'Tgstation::Server::Host::Watchdog::Watchdog']]],
   ['watchdogbase_3',['WatchdogBase',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a5a114c04be3e48711271ab2ffd6be8fc',1,'Tgstation::Server::Host::Components::Watchdog::WatchdogBase']]],
   ['watchdogfactory_4',['WatchdogFactory',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_factory.html#afdf6af7bc2e3fc7eb272eb50dd95994e',1,'Tgstation::Server::Host::Components::Watchdog::WatchdogFactory']]],
