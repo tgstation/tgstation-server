@@ -127,7 +127,6 @@ namespace Tgstation.Server.Host.Components.Repository
 			CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(url);
-			ArgumentNullException.ThrowIfNull(progressReporter);
 
 			logger.LogInformation("Begin clone {url} (Branch: {initialBranch})", url, initialBranch);
 			lock (semaphore)
@@ -146,18 +145,32 @@ namespace Tgstation.Server.Host.Components.Repository
 					if (!await ioManager.DirectoryExists(repositoryPath, cancellationToken))
 						try
 						{
+							var cloneProgressReporter = progressReporter?.CreateSection(null, 0.75f);
+							var checkoutProgressReporter = progressReporter?.CreateSection(null, 0.25f);
 							var cloneOptions = new CloneOptions
 							{
 								OnProgress = (a) => !cancellationToken.IsCancellationRequested,
 								OnTransferProgress = (a) =>
 								{
-									var percentage = ((double)a.IndexedObjects + a.ReceivedObjects) / (a.TotalObjects * 2);
-									progressReporter.ReportProgress(percentage);
+									if (cloneProgressReporter != null)
+									{
+										var percentage = ((double)a.IndexedObjects + a.ReceivedObjects) / (a.TotalObjects * 2);
+										cloneProgressReporter.ReportProgress(percentage);
+									}
+
 									return !cancellationToken.IsCancellationRequested;
 								},
 								RecurseSubmodules = recurseSubmodules,
 								OnUpdateTips = (a, b, c) => !cancellationToken.IsCancellationRequested,
 								RepositoryOperationStarting = (a) => !cancellationToken.IsCancellationRequested,
+								OnCheckoutProgress = (path, completed, remaining) =>
+								{
+									if (checkoutProgressReporter == null)
+										return;
+
+									var percentage = (double)completed / remaining;
+									checkoutProgressReporter.ReportProgress(percentage);
+								},
 								BranchName = initialBranch,
 								CredentialsProvider = repositoryFactory.GenerateCredentialsHandler(username, password),
 							};

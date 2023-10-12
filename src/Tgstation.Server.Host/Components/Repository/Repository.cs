@@ -395,7 +395,7 @@ namespace Tgstation.Server.Host.Components.Repository
 			CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(committish);
-			ArgumentNullException.ThrowIfNull(progressReporter);
+
 			logger.LogDebug("Checkout object: {committish}...", committish);
 			await eventConsumer.HandleEvent(EventType.RepoCheckout, new List<string> { committish }, false, cancellationToken);
 			await Task.Factory.StartNew(
@@ -404,7 +404,7 @@ namespace Tgstation.Server.Host.Components.Repository
 					libGitRepo.RemoveUntrackedFiles();
 					RawCheckout(
 						committish,
-						progressReporter.CreateSection(null, updateSubmodules ? 2.0 / 3 : 1.0),
+						progressReporter?.CreateSection(null, updateSubmodules ? 2.0 / 3 : 1.0),
 						cancellationToken);
 				},
 				cancellationToken,
@@ -413,7 +413,7 @@ namespace Tgstation.Server.Host.Components.Repository
 
 			if (updateSubmodules)
 				await UpdateSubmodules(
-					progressReporter.CreateSection(null, 1.0 / 3),
+					progressReporter?.CreateSection(null, 1.0 / 3),
 					username,
 					password,
 					false,
@@ -428,7 +428,6 @@ namespace Tgstation.Server.Host.Components.Repository
 			bool deploymentPipeline,
 			CancellationToken cancellationToken)
 		{
-			ArgumentNullException.ThrowIfNull(progressReporter);
 			logger.LogDebug("Fetch origin...");
 			await eventConsumer.HandleEvent(EventType.RepoFetch, Enumerable.Empty<string>(), deploymentPipeline, cancellationToken);
 			await Task.Factory.StartNew(
@@ -437,20 +436,24 @@ namespace Tgstation.Server.Host.Components.Repository
 					var remote = libGitRepo.Network.Remotes.First();
 					try
 					{
+						var fetchOptions = new FetchOptions
+						{
+							Prune = true,
+							OnProgress = (a) => !cancellationToken.IsCancellationRequested,
+							OnUpdateTips = (a, b, c) => !cancellationToken.IsCancellationRequested,
+							CredentialsProvider = credentialsProvider.GenerateCredentialsHandler(username, password),
+						};
+
+						if (progressReporter != null)
+							fetchOptions.OnTransferProgress = TransferProgressHandler(progressReporter.CreateSection("Fetch Origin", 1.0), cancellationToken);
+
 						commands.Fetch(
 							libGitRepo,
 							remote
 								.FetchRefSpecs
 								.Select(x => x.Specification),
 							remote,
-							new FetchOptions
-							{
-								Prune = true,
-								OnProgress = (a) => !cancellationToken.IsCancellationRequested,
-								OnTransferProgress = TransferProgressHandler(progressReporter.CreateSection("Fetch Origin", 1.0), cancellationToken),
-								OnUpdateTips = (a, b, c) => !cancellationToken.IsCancellationRequested,
-								CredentialsProvider = credentialsProvider.GenerateCredentialsHandler(username, password),
-							},
+							fetchOptions,
 							"Fetch origin commits");
 					}
 					catch (UserCancelledException)
@@ -855,22 +858,26 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// Runs a blocking force checkout to <paramref name="committish"/>.
 		/// </summary>
 		/// <param name="committish">The committish to checkout.</param>
-		/// <param name="progressReporter">The <see cref="JobProgressReporter"/> for the operation.</param>
+		/// <param name="progressReporter">The optional <see cref="JobProgressReporter"/> for the operation.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		void RawCheckout(string committish, JobProgressReporter progressReporter, CancellationToken cancellationToken)
 		{
 			logger.LogTrace("Checkout: {committish}", committish);
 
-			var stage = $"Checkout {committish}";
-			progressReporter = progressReporter.CreateSection(stage, 1.0);
-			progressReporter.ReportProgress(0);
-			cancellationToken.ThrowIfCancellationRequested();
-
 			var checkoutOptions = new CheckoutOptions
 			{
 				CheckoutModifiers = CheckoutModifiers.Force,
-				OnCheckoutProgress = CheckoutProgressHandler(progressReporter),
 			};
+
+			if (progressReporter != null)
+			{
+				var stage = $"Checkout {committish}";
+				progressReporter = progressReporter.CreateSection(stage, 1.0);
+				progressReporter.ReportProgress(0);
+				checkoutOptions.OnCheckoutProgress = CheckoutProgressHandler(progressReporter);
+			}
+
+			cancellationToken.ThrowIfCancellationRequested();
 
 			void RunCheckout() => commands.Checkout(
 				libGitRepo,
@@ -987,7 +994,7 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// <summary>
 		/// Recusively update all <see cref="Submodule"/>s in the <see cref="libGitRepo"/>.
 		/// </summary>
-		/// <param name="progressReporter"><see cref="JobProgressReporter"/> of the operation.</param>
+		/// <param name="progressReporter">Optional <see cref="JobProgressReporter"/> of the operation.</param>
 		/// <param name="username">The username for the <see cref="credentialsProvider"/>.</param>
 		/// <param name="password">The password for the <see cref="credentialsProvider"/>.</param>
 		/// <param name="deploymentPipeline">If any events created should be marked as part of the deployment pipeline.</param>
@@ -1015,15 +1022,19 @@ namespace Tgstation.Server.Host.Components.Repository
 				var submoduleUpdateOptions = new SubmoduleUpdateOptions
 				{
 					Init = true,
-					OnTransferProgress = TransferProgressHandler(
-						progressReporter.CreateSection($"Fetch submodule {submodule.Name}", factor),
-						cancellationToken),
 					OnProgress = output => !cancellationToken.IsCancellationRequested,
 					OnUpdateTips = (a, b, c) => !cancellationToken.IsCancellationRequested,
 					CredentialsProvider = credentialsProvider.GenerateCredentialsHandler(username, password),
-					OnCheckoutProgress = CheckoutProgressHandler(
-						progressReporter.CreateSection($"Checkout submodule {submodule.Name}", factor)),
 				};
+
+				if (progressReporter != null)
+				{
+					submoduleUpdateOptions.OnTransferProgress = TransferProgressHandler(
+						progressReporter.CreateSection($"Fetch submodule {submodule.Name}", factor),
+						cancellationToken);
+					submoduleUpdateOptions.OnCheckoutProgress = CheckoutProgressHandler(
+						progressReporter.CreateSection($"Checkout submodule {submodule.Name}", factor));
+				}
 
 				logger.LogDebug("Updating submodule {submoduleName}...", submodule.Name);
 				Task RawSubModuleUpdate() => Task.Factory.StartNew(
@@ -1039,7 +1050,7 @@ namespace Tgstation.Server.Host.Components.Repository
 				{
 					// workaround for https://github.com/libgit2/libgit2/issues/3820
 					// kill off the modules/ folder in .git and try again
-					progressReporter.ReportProgress(null);
+					progressReporter?.ReportProgress(null);
 					credentialsProvider.CheckBadCredentialsException(ex);
 					logger.LogWarning(ex, "Initial update of submodule {submoduleName} failed. Deleting submodule directories and re-attempting...", submodule.Name);
 
