@@ -249,7 +249,7 @@ namespace Tgstation.Server.Host.Jobs
 		}
 
 		/// <inheritdoc />
-		public async ValueTask WaitForJobCompletion(Job job, User canceller, CancellationToken jobCancellationToken, CancellationToken cancellationToken)
+		public async ValueTask<bool?> WaitForJobCompletion(Job job, User canceller, CancellationToken jobCancellationToken, CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(job);
 
@@ -261,7 +261,7 @@ namespace Tgstation.Server.Host.Jobs
 			lock (synchronizationLock)
 			{
 				if (!jobs.TryGetValue(job.Id.Value, out handler))
-					return;
+					return null;
 
 				noMoreJobsShouldStart = this.noMoreJobsShouldStart;
 			}
@@ -270,11 +270,14 @@ namespace Tgstation.Server.Host.Jobs
 				await Extensions.TaskExtensions.InfiniteTask.WaitAsync(cancellationToken);
 
 			ValueTask<Job>? cancelTask = null;
+			bool result;
 			using (jobCancellationToken.Register(() => cancelTask = CancelJob(job, canceller, true, cancellationToken)))
-				await handler.Wait(cancellationToken);
+				result = await handler.Wait(cancellationToken);
 
 			if (cancelTask.HasValue)
 				await cancelTask.Value;
+
+			return result;
 		}
 
 		/// <inheritdoc />
@@ -293,12 +296,14 @@ namespace Tgstation.Server.Host.Jobs
 		/// <param name="operation">The <see cref="JobEntrypoint"/> for the <paramref name="job"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		async Task RunJob(Job job, JobEntrypoint operation, CancellationToken cancellationToken)
+		async Task<bool> RunJob(Job job, JobEntrypoint operation, CancellationToken cancellationToken)
 		{
 			using (LogContext.PushProperty(SerilogContextHelper.JobIdContextProperty, job.Id))
 				try
 				{
 					void LogException(Exception ex) => logger.LogDebug(ex, "Job {jobId} exited with error!", job.Id);
+
+					var result = false;
 					try
 					{
 						var oldJob = job;
@@ -336,6 +341,7 @@ namespace Tgstation.Server.Host.Jobs
 							cancellationToken);
 
 						logger.LogDebug("Job {jobId} completed!", job.Id);
+						result = true;
 					}
 					catch (OperationCanceledException ex)
 					{
@@ -370,6 +376,8 @@ namespace Tgstation.Server.Host.Jobs
 						// DCT: Cancellation token is for job, operation should always run
 						await databaseContext.Save(CancellationToken.None);
 					});
+
+					return result;
 				}
 				finally
 				{

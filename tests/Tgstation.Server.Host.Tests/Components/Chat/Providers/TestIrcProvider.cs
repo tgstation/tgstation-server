@@ -76,7 +76,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers.Tests
 				.Returns(ValueTask.CompletedTask);
 			mockSetup
 				.Setup(x => x.WaitForJobCompletion(It.IsNotNull<Job>(), It.IsAny<User>(), It.IsAny<CancellationToken>(), It.IsAny<CancellationToken>()))
-				.Returns(ValueTask.CompletedTask);
+				.Returns(ValueTask.FromResult<bool?>(true));
 			var mockJobManager = mockSetup.Object;
 			await using var provider = new IrcProvider(mockJobManager, new AsyncDelayer(), loggerFactory.CreateLogger<IrcProvider>(), Mock.Of<IAssemblyInformationProvider>(), new ChatBot
 			{
