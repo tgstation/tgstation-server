@@ -1046,14 +1046,17 @@ namespace Tgstation.Server.Tests.Live
 				Assert.IsTrue(new IrcConnectionStringBuilder(ircConnectionString).Valid);
 			}
 
-			var procs = System.Diagnostics.Process.GetProcessesByName("byond");
-			if (procs.Any())
+			if (engineType == EngineType.Byond)
 			{
-				foreach (var proc in procs)
-					proc.Dispose();
+				var procs = System.Diagnostics.Process.GetProcessesByName("byond");
+				if (procs.Any())
+				{
+					foreach (var proc in procs)
+						proc.Dispose();
 
-				// Inconclusive and not fail because we don't want to unexpectedly kill a dev's BYOND.exe
-				Assert.Inconclusive("Cannot run server test because DreamDaemon will not start headless while the BYOND pager is running!");
+					// Inconclusive and not fail because we don't want to unexpectedly kill a dev's BYOND.exe
+					Assert.Inconclusive("Cannot run server test because DreamDaemon will not start headless while the BYOND pager is running!");
+				}
 			}
 
 			using var server = new LiveTestingServer(null, true);

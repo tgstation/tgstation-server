@@ -477,7 +477,7 @@ namespace Tgstation.Server.Api.Models
 		/// Attempted to launch DreamDaemon on a user account that had the BYOND pager running.
 		/// </summary>
 		[Description("Cannot start DreamDaemon headless with the BYOND pager running!")]
-		DeploymentPagerRunning,
+		DreamDaemonPagerRunning,
 
 		/// <summary>
 		/// Could not bind to port we wanted to launch DreamDaemon on.

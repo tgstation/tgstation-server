@@ -77,7 +77,7 @@ namespace Tgstation.Server.Host.Components.Engine.Tests
 		static MemoryStream ExtractMemoryStreamFromInstallationData(IEngineInstallationData engineInstallationData)
 		{
 			var zipStreamData = (ZipStreamEngineInstallationData)engineInstallationData;
-			return (MemoryStream)zipStreamData.GetType().GetField("stream", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(zipStreamData);
+			return (MemoryStream)zipStreamData.GetType().GetField("zipStream", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(zipStreamData);
 		}
 
 		[TestMethod]

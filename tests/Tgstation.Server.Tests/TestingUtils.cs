@@ -32,7 +32,7 @@ namespace Tgstation.Server.Tests
 		public static MemoryStream ExtractMemoryStreamFromInstallationData(IEngineInstallationData engineInstallationData)
 		{
 			var zipStreamData = (ZipStreamEngineInstallationData)engineInstallationData;
-			return (MemoryStream)zipStreamData.GetType().GetField("stream", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(zipStreamData);
+			return (MemoryStream)zipStreamData.GetType().GetField("zipStream", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(zipStreamData);
 		}
 	}
 }

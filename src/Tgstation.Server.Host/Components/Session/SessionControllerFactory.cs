@@ -250,7 +250,10 @@ namespace Tgstation.Server.Host.Components.Session
 					dmbProvider.CompileJob.Id);
 
 				PortBindTest(launchParameters.Port.Value);
-				await CheckPagerIsNotRunning();
+
+				// mad this isn't abstracted but whatever
+				if (dmbProvider.ByondVersion.Engine.Value == EngineType.Byond)
+					await CheckPagerIsNotRunning();
 
 				string outputFilePath = null;
 				var preserveLogFile = true;
@@ -615,7 +618,7 @@ namespace Tgstation.Server.Host.Components.Session
 			var ourUsername = ourProcess.GetExecutingUsername();
 
 			if (otherUsername.Equals(ourUsername, StringComparison.Ordinal))
-				throw new JobException(ErrorCode.DeploymentPagerRunning);
+				throw new JobException(ErrorCode.DreamDaemonPagerRunning);
 		}
 	}
 }

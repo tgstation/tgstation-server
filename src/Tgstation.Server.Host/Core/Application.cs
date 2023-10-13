@@ -374,7 +374,7 @@ namespace Tgstation.Server.Host.Core
 						new NoopEventConsumer()));
 
 			services.AddSingleton<OpenDreamInstaller>();
-			services.AddSingleton(
+			services.AddSingleton<IReadOnlyDictionary<EngineType, IEngineInstaller>>(
 				serviceProvider => new Dictionary<EngineType, IEngineInstaller>
 				{
 					{ EngineType.Byond, serviceProvider.GetRequiredService<ByondInstallerBase>() },
