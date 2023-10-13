@@ -9,6 +9,7 @@ using Microsoft.Extensions.Logging;
 
 using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
+using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Api.Models.Request;
 using Tgstation.Server.Api.Models.Response;
 using Tgstation.Server.Api.Rights;
@@ -72,7 +73,7 @@ namespace Tgstation.Server.Host.Controllers
 		}
 
 		/// <summary>
-		/// Gets the active <see cref="Api.Models.Internal.ByondVersion"/>.
+		/// Gets the active <see cref="ByondVersion"/>.
 		/// </summary>
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="IActionResult"/> for the operation.</returns>
 		/// <response code="200">Retrieved version information successfully.</response>
@@ -91,7 +92,7 @@ namespace Tgstation.Server.Host.Controllers
 						: Conflict(new ErrorMessageResponse(ErrorCode.ResourceNotPresent))));
 
 		/// <summary>
-		/// Lists installed <see cref="Api.Models.Internal.ByondVersion"/>s.
+		/// Lists installed <see cref="ByondVersion"/>s.
 		/// </summary>
 		/// <param name="page">The current page.</param>
 		/// <param name="pageSize">The page size.</param>
@@ -139,15 +140,11 @@ namespace Tgstation.Server.Host.Controllers
 #pragma warning restore CA1506
 #pragma warning restore CA1502
 		{
-			throw new NotImplementedException("Fix OD/BYOND model validation");
-			ArgumentNullException.ThrowIfNull(model);
+			var earlyOut = ValidateByondVersion(model);
+			if (earlyOut != null)
+				return earlyOut;
 
 			var uploadingZip = model.UploadCustomZip == true;
-			var isByondEngine = model.Engine.Value == EngineType.Byond;
-
-			if ((isByondEngine && (model.Version.Revision != -1 || (uploadingZip && model.Version.Build > 0) || model.SourceCommittish != null))
-				|| (!isByondEngine && (model.Version != null || String.IsNullOrWhiteSpace(model.SourceCommittish))))
-				return BadRequest(new ErrorMessageResponse(ErrorCode.ModelValidationFailure));
 
 			var userByondRights = AuthenticationContext.InstancePermissionSet.ByondRights.Value;
 			if ((!userByondRights.HasFlag(ByondRights.InstallOfficialOrChangeActiveByondVersion) && !uploadingZip)
@@ -201,7 +198,7 @@ namespace Tgstation.Server.Host.Controllers
 							Instance.Id);
 
 						// run the install through the job manager
-						var job = new Job
+						var job = new Models.Job
 						{
 							Description = $"Install {(!uploadingZip ? String.Empty : "custom ")}{model.Engine.Value} version {model.Version}",
 							StartedBy = AuthenticationContext.User,
@@ -271,7 +268,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="IActionResult"/> for the operation.</returns>
 		/// <response code="202">Created <see cref="Job"/> to delete target version successfully.</response>
 		/// <response code="409">Attempted to delete the active BYOND <see cref="Version"/>.</response>
-		/// <response code="410">The <see cref="Api.Models.Internal.ByondVersion"/> specified was not installed.</response>
+		/// <response code="410">The <see cref="ByondVersion"/> specified was not installed.</response>
 		[HttpDelete]
 		[TgsAuthorize(ByondRights.DeleteInstall)]
 		[ProducesResponseType(typeof(JobResponse), 202)]
@@ -279,13 +276,9 @@ namespace Tgstation.Server.Host.Controllers
 		[ProducesResponseType(typeof(ErrorMessageResponse), 410)]
 		public async ValueTask<IActionResult> Delete([FromBody] ByondVersionDeleteRequest model, CancellationToken cancellationToken)
 		{
-			ArgumentNullException.ThrowIfNull(model);
-
-			if (model.Version.Revision != -1)
-				return BadRequest(new ErrorMessageResponse(ErrorCode.ModelValidationFailure));
-
-			if (model.Engine == EngineType.Byond)
-				model.Version = NormalizeByondVersion(model.Version);
+			var earlyOut = ValidateByondVersion(model);
+			if (earlyOut != null)
+				return earlyOut;
 
 			var notInstalledResponse = await WithComponentInstance(
 				instance =>
@@ -310,7 +303,7 @@ namespace Tgstation.Server.Host.Controllers
 			var isByondVersion = model.Engine.Value == EngineType.Byond;
 
 			// run the install through the job manager
-			var job = new Job
+			var job = new Models.Job
 			{
 				Description = $"Delete installed {model.Engine.Value} version {model.Version}",
 				StartedBy = AuthenticationContext.User,
@@ -332,6 +325,31 @@ namespace Tgstation.Server.Host.Controllers
 
 			var apiResponse = job.ToApi();
 			return Accepted(apiResponse);
+		}
+
+		/// <summary>
+		/// Validate and normalize a given <paramref name="version"/>.
+		/// </summary>
+		/// <param name="version">The <see cref="ByondVersion"/> to validate and normalize.</param>
+		/// <returns>The <see cref="BadRequestObjectResult"/> to return, if any.</returns>
+		BadRequestObjectResult ValidateByondVersion(ByondVersion version)
+		{
+			ArgumentNullException.ThrowIfNull(version);
+
+			var isByond = version.Engine.Value == EngineType.Byond;
+			if ((isByond
+				&& (version.Version == null
+				|| version.Version.Revision != -1
+				|| version.SourceCommittish != null))
+				|| (version.Engine.Value == EngineType.OpenDream &&
+				((version.SourceCommittish == null && version.Version == null)
+				|| (version.Version != null && (version.Version.Revision != -1 || version.Version.Build == -1 || version.SourceCommittish == null)))))
+				return BadRequest(new ErrorMessageResponse(ErrorCode.ModelValidationFailure));
+
+			if (isByond)
+				version.Version = NormalizeByondVersion(version.Version);
+
+			return null;
 		}
 	}
 }

@@ -67,6 +67,11 @@ namespace Tgstation.Server.Host.Configuration
 		const string DefaultOpenDreamGitUrl = "https://github.com/OpenDreamProject/OpenDream";
 
 		/// <summary>
+		/// The default value for <see cref="OpenDreamGitTagPrefix"/>.
+		/// </summary>
+		const string DefaultOpenDreamGitTagPrefix = "v";
+
+		/// <summary>
 		/// The current <see cref="ConfigVersion"/>.
 		/// </summary>
 		public static readonly Version CurrentConfigVersion = Version.Parse(MasterVersionsAttribute.Instance.RawConfigurationVersion);
@@ -131,6 +136,11 @@ namespace Tgstation.Server.Host.Configuration
 		/// Location of a publically accessible OpenDream repository.
 		/// </summary>
 		public Uri OpenDreamGitUrl { get; set; } = new Uri(DefaultOpenDreamGitUrl);
+
+		/// <summary>
+		/// The prefix to the OpenDream semver as tags appear in the git repository.
+		/// </summary>
+		public string OpenDreamGitTagPrefix { get; set; } = DefaultOpenDreamGitTagPrefix;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="GeneralConfiguration"/> class.

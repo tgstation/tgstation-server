@@ -25,6 +25,7 @@ using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Common.Extensions;
 using Tgstation.Server.Host.Components.Interop;
+using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.Jobs;
 using Tgstation.Server.Host.Models;
@@ -68,6 +69,11 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// The <see cref="IAssemblyInformationProvider"/> for the <see cref="DiscordProvider"/>.
 		/// </summary>
 		readonly IAssemblyInformationProvider assemblyInformationProvider;
+
+		/// <summary>
+		/// The <see cref="GeneralConfiguration"/> for the <see cref="DiscordProvider"/>.
+		/// </summary>
+		readonly GeneralConfiguration generalConfiguration;
 
 		/// <summary>
 		/// The <see cref="ServiceProvider"/> containing Discord services.
@@ -127,63 +133,6 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		static string NormalizeMentions(string fromDiscord) => fromDiscord.Replace("<@!", "<@", StringComparison.Ordinal);
 
 		/// <summary>
-		/// Create a <see cref="List{T}"/> of <see cref="IEmbedField"/>s for a discord update embed.
-		/// </summary>
-		/// <param name="revisionInformation">The <see cref="RevisionInformation"/> of the deployment.</param>
-		/// <param name="byondVersion">The <see cref="ByondVersion"/> of the deployment.</param>
-		/// <param name="gitHubOwner">The repository GitHub owner, if any.</param>
-		/// <param name="gitHubRepo">The repository GitHub name, if any.</param>
-		/// <param name="localCommitPushed"><see langword="true"/> if the local deployment commit was pushed to the remote repository.</param>
-		/// <returns>A new <see cref="List{T}"/> of <see cref="IEmbedField"/>s to use.</returns>
-		static List<IEmbedField> BuildUpdateEmbedFields(
-			Models.RevisionInformation revisionInformation,
-			ByondVersion byondVersion,
-			string gitHubOwner,
-			string gitHubRepo,
-			bool localCommitPushed)
-		{
-			bool gitHub = gitHubOwner != null && gitHubRepo != null;
-			var engineField = byondVersion.Engine.Value switch
-			{
-				EngineType.Byond => new EmbedField(
-					"BYOND Version",
-					$"{byondVersion.Version.Major}.{byondVersion.Version.Minor}{(byondVersion.Version.Build > 0 ? $".{byondVersion.Version.Build}" : String.Empty)}",
-					true),
-				EngineType.OpenDream => new EmbedField(
-					"OpenDream Version",
-					$"[{byondVersion.SourceCommittish[..7]}](https://github.com/OpenDreamProject/OpenDream/commit/{revisionInformation.CommitSha})",
-					true),
-				_ => throw new InvalidOperationException($"Invaild EngineType: {byondVersion.Engine.Value}"),
-			};
-
-			var fields = new List<IEmbedField>
-			{
-				engineField,
-				new EmbedField(
-					"Local Commit",
-					localCommitPushed && gitHub
-						? $"[{revisionInformation.CommitSha[..7]}](https://github.com/{gitHubOwner}/{gitHubRepo}/commit/{revisionInformation.CommitSha})"
-						: revisionInformation.CommitSha[..7],
-					true),
-				new EmbedField(
-					"Branch Commit",
-					gitHub
-						? $"[{revisionInformation.OriginCommitSha[..7]}](https://github.com/{gitHubOwner}/{gitHubRepo}/commit/{revisionInformation.OriginCommitSha})"
-						: revisionInformation.OriginCommitSha[..7],
-					true),
-			};
-
-			fields.AddRange((revisionInformation.ActiveTestMerges ?? Enumerable.Empty<RevInfoTestMerge>())
-				.Select(x => x.TestMerge)
-				.Select(x => new EmbedField(
-					$"#{x.Number}",
-					$"[{x.TitleAtMerge}]({x.Url}) by _[@{x.Author}](https://github.com/{x.Author})_{Environment.NewLine}Commit: [{x.TargetCommitSha[..7]}](https://github.com/{gitHubOwner}/{gitHubRepo}/commit/{x.TargetCommitSha}){(String.IsNullOrWhiteSpace(x.Comment) ? String.Empty : $"{Environment.NewLine}_**{x.Comment}**_")}",
-					false)));
-
-			return fields;
-		}
-
-		/// <summary>
 		/// Initializes a new instance of the <see cref="DiscordProvider"/> class.
 		/// </summary>
 		/// <param name="jobManager">The <see cref="IJobManager"/> for the <see cref="Provider"/>.</param>
@@ -191,15 +140,18 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="Provider"/>.</param>
 		/// <param name="assemblyInformationProvider">The value of <see cref="assemblyInformationProvider"/>.</param>
 		/// <param name="chatBot">The <see cref="ChatBot"/> for the <see cref="Provider"/>.</param>
+		/// <param name="generalConfiguration">The value of <see cref="generalConfiguration"/>.</param>
 		public DiscordProvider(
 			IJobManager jobManager,
 			IAsyncDelayer asyncDelayer,
 			ILogger<DiscordProvider> logger,
 			IAssemblyInformationProvider assemblyInformationProvider,
-			ChatBot chatBot)
+			ChatBot chatBot,
+			GeneralConfiguration generalConfiguration)
 			: base(jobManager, asyncDelayer, logger, chatBot)
 		{
 			this.assemblyInformationProvider = assemblyInformationProvider ?? throw new ArgumentNullException(nameof(assemblyInformationProvider));
+			this.generalConfiguration = generalConfiguration ?? throw new ArgumentNullException(nameof(generalConfiguration));
 
 			mappedChannels = new List<ulong>();
 			connectDisconnectLock = new object();
@@ -904,11 +856,68 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		}
 
 		/// <summary>
+		/// Create a <see cref="List{T}"/> of <see cref="IEmbedField"/>s for a discord update embed.
+		/// </summary>
+		/// <param name="revisionInformation">The <see cref="RevisionInformation"/> of the deployment.</param>
+		/// <param name="byondVersion">The <see cref="ByondVersion"/> of the deployment.</param>
+		/// <param name="gitHubOwner">The repository GitHub owner, if any.</param>
+		/// <param name="gitHubRepo">The repository GitHub name, if any.</param>
+		/// <param name="localCommitPushed"><see langword="true"/> if the local deployment commit was pushed to the remote repository.</param>
+		/// <returns>A new <see cref="List{T}"/> of <see cref="IEmbedField"/>s to use.</returns>
+		List<IEmbedField> BuildUpdateEmbedFields(
+			Models.RevisionInformation revisionInformation,
+			ByondVersion byondVersion,
+			string gitHubOwner,
+			string gitHubRepo,
+			bool localCommitPushed)
+		{
+			bool gitHub = gitHubOwner != null && gitHubRepo != null;
+			var engineField = byondVersion.Engine.Value switch
+			{
+				EngineType.Byond => new EmbedField(
+					"BYOND Version",
+					$"{byondVersion.Version.Major}.{byondVersion.Version.Minor}{(byondVersion.Version.Build > 0 ? $".{byondVersion.Version.Build}" : String.Empty)}",
+					true),
+				EngineType.OpenDream => new EmbedField(
+					"OpenDream Version",
+					$"[{byondVersion.SourceCommittish[..7]}]({generalConfiguration.OpenDreamGitUrl}/commit/{revisionInformation.CommitSha})",
+					true),
+				_ => throw new InvalidOperationException($"Invaild EngineType: {byondVersion.Engine.Value}"),
+			};
+
+			var fields = new List<IEmbedField>
+			{
+				engineField,
+				new EmbedField(
+					"Local Commit",
+					localCommitPushed && gitHub
+						? $"[{revisionInformation.CommitSha[..7]}](https://github.com/{gitHubOwner}/{gitHubRepo}/commit/{revisionInformation.CommitSha})"
+						: revisionInformation.CommitSha[..7],
+					true),
+				new EmbedField(
+					"Branch Commit",
+					gitHub
+						? $"[{revisionInformation.OriginCommitSha[..7]}](https://github.com/{gitHubOwner}/{gitHubRepo}/commit/{revisionInformation.OriginCommitSha})"
+						: revisionInformation.OriginCommitSha[..7],
+					true),
+			};
+
+			fields.AddRange((revisionInformation.ActiveTestMerges ?? Enumerable.Empty<RevInfoTestMerge>())
+				.Select(x => x.TestMerge)
+				.Select(x => new EmbedField(
+					$"#{x.Number}",
+					$"[{x.TitleAtMerge}]({x.Url}) by _[@{x.Author}](https://github.com/{x.Author})_{Environment.NewLine}Commit: [{x.TargetCommitSha[..7]}](https://github.com/{gitHubOwner}/{gitHubRepo}/commit/{x.TargetCommitSha}){(String.IsNullOrWhiteSpace(x.Comment) ? String.Empty : $"{Environment.NewLine}_**{x.Comment}**_")}",
+					false)));
+
+			return fields;
+		}
+
+		/// <summary>
 		/// Convert a <see cref="ChatEmbed"/> to an <see cref="IEmbed"/> parameters.
 		/// </summary>
 		/// <param name="embed">The <see cref="ChatEmbed"/> to convert.</param>
 		/// <returns>The parameter for sending a single <see cref="IEmbed"/>.</returns>
-		#pragma warning disable CA1502
+#pragma warning disable CA1502
 		Optional<IReadOnlyList<IEmbed>> ConvertEmbed(ChatEmbed embed)
 		{
 			if (embed == null)

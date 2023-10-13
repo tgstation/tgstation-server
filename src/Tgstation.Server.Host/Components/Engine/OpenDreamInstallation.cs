@@ -54,6 +54,10 @@ namespace Tgstation.Server.Host.Components.Engine
 		/// <inheritdoc />
 		public string FormatServerArguments(IDmbProvider dmbProvider, IReadOnlyDictionary<string, string> parameters, DreamDaemonLaunchParameters launchParameters, string logFilePath)
 		{
+			ArgumentNullException.ThrowIfNull(dmbProvider);
+			ArgumentNullException.ThrowIfNull(parameters);
+			ArgumentNullException.ThrowIfNull(launchParameters);
+
 			throw new NotImplementedException();
 		}
 
@@ -61,7 +65,7 @@ namespace Tgstation.Server.Host.Components.Engine
 		public string FormatCompilerArguments(string dmePath)
 		{
 			ArgumentNullException.ThrowIfNull(dmePath);
-			return null;
+			throw new NotImplementedException();
 		}
 	}
 }

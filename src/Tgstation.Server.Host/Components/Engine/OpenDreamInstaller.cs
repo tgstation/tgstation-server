@@ -8,6 +8,7 @@ using Microsoft.Extensions.Options;
 
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Internal;
+using Tgstation.Server.Common.Extensions;
 using Tgstation.Server.Host.Common;
 using Tgstation.Server.Host.Components.Repository;
 using Tgstation.Server.Host.Configuration;
@@ -120,13 +121,19 @@ namespace Tgstation.Server.Host.Components.Engine
 
 				var progressSection2 = jobProgressReporter.CreateSection("Checking out OpenDream version", 0.5f);
 
+				var committish = version.SourceCommittish;
+				if (committish == null)
+					committish = $"{generalConfiguration.OpenDreamGitTagPrefix}{version.Version.Semver()}";
+
 				await repo.CheckoutObject(
-					version.SourceCommittish,
+					committish,
 					null,
 					null,
 					true,
 					progressSection2,
 					cancellationToken);
+
+				version.SourceCommittish = repo.Head;
 
 				return new RepositoryEngineInstallationData(IOManager, repo, InstallationRepositorySubDirectory);
 			}

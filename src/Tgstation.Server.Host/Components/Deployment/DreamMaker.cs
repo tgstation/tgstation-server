@@ -864,39 +864,29 @@ namespace Tgstation.Server.Host.Components.Deployment
 		async ValueTask<bool> RunDreamMaker(IEngineExecutableLock engineLock, Models.CompileJob job, CancellationToken cancellationToken)
 		{
 			var arguments = engineLock.FormatCompilerArguments($"{job.DmeName}.{DmeExtension}");
-			bool result;
-			if (arguments == null)
-			{
-				logger.LogTrace("Engine lock says compilation isn't necessary.");
-				job.Output = $"{engineLock.Version.Engine} does not require compilation.";
-				result = true;
-			}
-			else
-			{
-				await using var dm = processExecutor.LaunchProcess(
-					engineLock.CompilerExePath,
-					ioManager.ResolvePath(
-						job.DirectoryName.ToString()),
-					arguments,
-					readStandardHandles: true,
-					noShellExecute: true);
 
-				if (sessionConfiguration.LowPriorityDeploymentProcesses)
-					dm.AdjustPriority(false);
+			await using var dm = processExecutor.LaunchProcess(
+				engineLock.CompilerExePath,
+				ioManager.ResolvePath(
+					job.DirectoryName.ToString()),
+				arguments,
+				readStandardHandles: true,
+				noShellExecute: true);
 
-				int exitCode;
-				using (cancellationToken.Register(() => dm.Terminate()))
-					exitCode = (await dm.Lifetime).Value;
-				cancellationToken.ThrowIfCancellationRequested();
+			if (sessionConfiguration.LowPriorityDeploymentProcesses)
+				dm.AdjustPriority(false);
 
-				logger.LogDebug("DreamMaker exit code: {exitCode}", exitCode);
-				job.Output = $"{await dm.GetCombinedOutput(cancellationToken)}{Environment.NewLine}{Environment.NewLine}Exit Code: {exitCode}";
-				logger.LogDebug("DreamMaker output: {newLine}{output}", Environment.NewLine, job.Output);
-				result = exitCode == 0;
-			}
+			int exitCode;
+			using (cancellationToken.Register(() => dm.Terminate()))
+				exitCode = (await dm.Lifetime).Value;
+			cancellationToken.ThrowIfCancellationRequested();
+
+			logger.LogDebug("DreamMaker exit code: {exitCode}", exitCode);
+			job.Output = $"{await dm.GetCombinedOutput(cancellationToken)}{Environment.NewLine}{Environment.NewLine}Exit Code: {exitCode}";
+			logger.LogDebug("DreamMaker output: {newLine}{output}", Environment.NewLine, job.Output);
 
 			currentDreamMakerOutput = job.Output;
-			return result;
+			return exitCode == 0;
 		}
 
 		/// <summary>

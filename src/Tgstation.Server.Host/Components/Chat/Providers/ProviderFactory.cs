@@ -2,8 +2,10 @@
 using System.Globalization;
 
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 using Tgstation.Server.Api.Models;
+using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Jobs;
 using Tgstation.Server.Host.System;
 using Tgstation.Server.Host.Utils;
@@ -34,22 +36,30 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		readonly ILoggerFactory loggerFactory;
 
 		/// <summary>
+		/// The <see cref="GeneralConfiguration"/> for the <see cref="ProviderFactory"/>.
+		/// </summary>
+		readonly GeneralConfiguration generalConfiguration;
+
+		/// <summary>
 		/// Initializes a new instance of the <see cref="ProviderFactory"/> class.
 		/// </summary>
 		/// <param name="jobManager">The value of <see cref="jobManager"/>.</param>
 		/// <param name="assemblyInformationProvider">The value of <see cref="assemblyInformationProvider"/>.</param>
 		/// <param name="asyncDelayer">The value of <see cref="asyncDelayer"/>.</param>
 		/// <param name="loggerFactory">The value of <see cref="loggerFactory"/>.</param>
+		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="generalConfiguration"/>.</param>
 		public ProviderFactory(
 			IJobManager jobManager,
 			IAssemblyInformationProvider assemblyInformationProvider,
 			IAsyncDelayer asyncDelayer,
-			ILoggerFactory loggerFactory)
+			ILoggerFactory loggerFactory,
+			IOptions<GeneralConfiguration> generalConfigurationOptions)
 		{
 			this.jobManager = jobManager ?? throw new ArgumentNullException(nameof(jobManager));
 			this.loggerFactory = loggerFactory ?? throw new ArgumentNullException(nameof(loggerFactory));
 			this.asyncDelayer = asyncDelayer ?? throw new ArgumentNullException(nameof(asyncDelayer));
 			this.assemblyInformationProvider = assemblyInformationProvider ?? throw new ArgumentNullException(nameof(assemblyInformationProvider));
+			generalConfiguration = generalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
 		}
 
 		/// <inheritdoc />
@@ -69,7 +79,8 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 					asyncDelayer,
 					loggerFactory.CreateLogger<DiscordProvider>(),
 					assemblyInformationProvider,
-					settings),
+					settings,
+					generalConfiguration),
 				_ => throw new InvalidOperationException(String.Format(CultureInfo.InvariantCulture, "Invalid ChatProvider: {0}", settings.Provider)),
 			};
 		}

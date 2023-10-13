@@ -27,11 +27,13 @@ using Serilog.Formatting.Display;
 using Serilog.Sinks.Elasticsearch;
 
 using Tgstation.Server.Api;
+using Tgstation.Server.Api.Models;
 using Tgstation.Server.Common.Http;
 using Tgstation.Server.Host.Components;
 using Tgstation.Server.Host.Components.Chat;
 using Tgstation.Server.Host.Components.Deployment.Remote;
 using Tgstation.Server.Host.Components.Engine;
+using Tgstation.Server.Host.Components.Events;
 using Tgstation.Server.Host.Components.Interop;
 using Tgstation.Server.Host.Components.Interop.Bridge;
 using Tgstation.Server.Host.Components.Repository;
@@ -332,7 +334,7 @@ namespace Tgstation.Server.Host.Core
 				AddWatchdog<WindowsWatchdogFactory>(services, postSetupServices);
 				services.AddSingleton<ISystemIdentityFactory, WindowsSystemIdentityFactory>();
 				services.AddSingleton<ISymlinkFactory, WindowsSymlinkFactory>();
-				services.AddSingleton<IEngineInstaller, WindowsByondInstaller>();
+				services.AddSingleton<ByondInstallerBase, WindowsByondInstaller>();
 				services.AddSingleton<IPostWriteHandler, WindowsPostWriteHandler>();
 				services.AddSingleton<IProcessFeatures, WindowsProcessFeatures>();
 
@@ -345,7 +347,7 @@ namespace Tgstation.Server.Host.Core
 				AddWatchdog<PosixWatchdogFactory>(services, postSetupServices);
 				services.AddSingleton<ISystemIdentityFactory, PosixSystemIdentityFactory>();
 				services.AddSingleton<ISymlinkFactory, PosixSymlinkFactory>();
-				services.AddSingleton<IEngineInstaller, PosixByondInstaller>();
+				services.AddSingleton<ByondInstallerBase, PosixByondInstaller>();
 				services.AddSingleton<IPostWriteHandler, PosixPostWriteHandler>();
 
 				services.AddSingleton<IProcessFeatures, PosixProcessFeatures>();
@@ -356,6 +358,29 @@ namespace Tgstation.Server.Host.Core
 
 				services.AddHostedService<PosixSignalHandler>();
 			}
+
+			// only global repo manager should be for the OD repo
+			var openDreamRepositoryDirectory = ioManager.ConcatPath(
+				Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+				assemblyInformationProvider.VersionPrefix,
+				"OpenDreamRepository");
+			services.AddSingleton(
+				services => services
+					.GetRequiredService<IRepositoryManagerFactory>()
+					.CreateRepositoryManager(
+						new ResolvingIOManager(
+							services.GetRequiredService<IIOManager>(),
+							openDreamRepositoryDirectory),
+						new NoopEventConsumer()));
+
+			services.AddSingleton<OpenDreamInstaller>();
+			services.AddSingleton(
+				serviceProvider => new Dictionary<EngineType, IEngineInstaller>
+				{
+					{ EngineType.Byond, serviceProvider.GetRequiredService<ByondInstallerBase>() },
+					{ EngineType.OpenDream, serviceProvider.GetRequiredService<OpenDreamInstaller>() },
+				});
+			services.AddSingleton<IEngineInstaller, DelegatingEngineInstaller>();
 
 			if (postSetupServices.InternalConfiguration.UsingSystemD)
 				services.AddHostedService<SystemDManager>();
@@ -378,6 +403,7 @@ namespace Tgstation.Server.Host.Core
 			services.AddSingleton<IGitRemoteFeaturesFactory, GitRemoteFeaturesFactory>();
 			services.AddSingleton<ILibGit2RepositoryFactory, LibGit2RepositoryFactory>();
 			services.AddSingleton<ILibGit2Commands, LibGit2Commands>();
+			services.AddSingleton<IRepositoryManagerFactory, RepostoryManagerFactory>();
 			services.AddSingleton<IRemoteDeploymentManagerFactory, RemoteDeploymentManagerFactory>();
 			services.AddChatProviderFactory();
 			services.AddSingleton<IChatManagerFactory, ChatManagerFactory>();
