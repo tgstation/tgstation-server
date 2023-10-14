@@ -83,7 +83,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			}
 			else if (engineType == EngineType.OpenDream)
 			{
-				var masterBranch = await DummyGitHubService.RealTestClient.Repository.Branch.Get("OpenDreamProject", "OpenDream", "master");
+				var masterBranch = await TestingGitHubService.RealTestClient.Repository.Branch.Get("OpenDreamProject", "OpenDream", "master");
 
 				byondVersion = new ByondVersion
 				{

@@ -19,18 +19,18 @@ using Tgstation.Server.Host.Utils.GitHub;
 
 namespace Tgstation.Server.Tests.Live
 {
-	sealed class DummyGitHubService : IAuthenticatedGitHubService
+	sealed class TestingGitHubService : IAuthenticatedGitHubService
 	{
 		static Dictionary<Version, Release> releasesDictionary;
 		static PullRequest testPr;
 		static GitHubCommit testCommit;
 
 		readonly ICryptographySuite cryptographySuite;
-		readonly ILogger<DummyGitHubService> logger;
+		readonly ILogger<TestingGitHubService> logger;
 
-		public static IGitHubClient RealTestClient;
+		public static readonly IGitHubClient RealTestClient;
 
-		public static async Task InitializeAndInject(CancellationToken cancellationToken)
+		static TestingGitHubService()
 		{
 			var mockOptions = new Mock<IOptions<GeneralConfiguration>>();
 			mockOptions.SetupGet(x => x.Value).Returns(new GeneralConfiguration
@@ -40,7 +40,10 @@ namespace Tgstation.Server.Tests.Live
 
 			var gitHubClientFactory = new GitHubClientFactory(new AssemblyInformationProvider(), Mock.Of<ILogger<GitHubClientFactory>>(), mockOptions.Object);
 			RealTestClient = gitHubClientFactory.CreateClient();
+		}
 
+		public static async Task InitializeAndInject(CancellationToken cancellationToken)
+		{
 			Release targetRelease;
 			do
 			{
@@ -73,7 +76,7 @@ namespace Tgstation.Server.Tests.Live
 			ServiceCollectionExtensions.UseGitHubServiceFactory<DummyGitHubServiceFactory>();
 		}
 
-		public DummyGitHubService(ICryptographySuite cryptographySuite, ILogger<DummyGitHubService> logger)
+		public TestingGitHubService(ICryptographySuite cryptographySuite, ILogger<TestingGitHubService> logger)
 		{
 			this.cryptographySuite = cryptographySuite ?? throw new ArgumentNullException(nameof(cryptographySuite));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));

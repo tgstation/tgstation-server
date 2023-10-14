@@ -145,7 +145,7 @@ namespace Tgstation.Server.Tests.Live
 		public static async Task Initialize(TestContext _)
 		{
 			if (TestingUtils.RunningInGitHubActions || String.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("TGS_TEST_GITHUB_TOKEN")))
-				await DummyGitHubService.InitializeAndInject(default);
+				await TestingGitHubService.InitializeAndInject(default);
 
 			await CachingFileDownloader.InitializeAndInjectForLiveTests(default);
 
