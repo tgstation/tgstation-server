@@ -242,6 +242,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 				new ByondVersionRequest
 				{
 					Version = testCustomVersion,
+					Engine = testVersion.Engine,
 				},
 				null,
 				cancellationToken);
