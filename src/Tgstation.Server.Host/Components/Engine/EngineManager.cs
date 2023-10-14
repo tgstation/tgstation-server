@@ -78,7 +78,7 @@ namespace Tgstation.Server.Host.Components.Engine
 		/// <summary>
 		/// <see cref="TaskCompletionSource"/> that notifes when the <see cref="ActiveVersion"/> changes.
 		/// </summary>
-		TaskCompletionSource activeVersionChanged;
+		volatile TaskCompletionSource activeVersionChanged;
 
 		/// <summary>
 		/// Validates a given <paramref name="version"/> parameter.
@@ -158,8 +158,8 @@ namespace Tgstation.Server.Host.Components.Engine
 				ActiveVersion = version;
 
 				logger.LogInformation("Active version changed to {version}", version);
-				activeVersionChanged.SetResult();
-				activeVersionChanged = new TaskCompletionSource();
+				var oldTcs = Interlocked.Exchange(ref activeVersionChanged, new TaskCompletionSource());
+				oldTcs.SetResult();
 			}
 		}
 
