@@ -600,11 +600,7 @@ namespace Tgstation.Server.Host.Components.Session
 		/// <summary>
 		/// Throws an <see cref="ObjectDisposedException"/> if <see cref="DisposeAsync"/> has been called.
 		/// </summary>
-		void CheckDisposed()
-		{
-			if (disposed)
-				throw new ObjectDisposedException(nameof(SessionController));
-		}
+		void CheckDisposed() => ObjectDisposedException.ThrowIf(disposed, this);
 
 		/// <summary>
 		/// Handle a set of bridge <paramref name="parameters"/>.
