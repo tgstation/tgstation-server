@@ -161,9 +161,11 @@ namespace Tgstation.Server.Host.Components.Engine
 				return;
 			}
 
-			var trustedFilePath = IOManager.ConcatPath(
+			var cfgDir = IOManager.ConcatPath(
 				byondDir,
-				CfgDirectoryName,
+				CfgDirectoryName);
+			var trustedFilePath = IOManager.ConcatPath(
+				cfgDir,
 				TrustedDmbFileName);
 
 			Logger.LogDebug("Adding .dmb ({dmbPath}) to {trustedFilePath}", fullDmbPath, trustedFilePath);
@@ -171,7 +173,8 @@ namespace Tgstation.Server.Host.Components.Engine
 			using (await SemaphoreSlimContext.Lock(UserFilesSemaphore, cancellationToken))
 			{
 				string trustedFileText;
-				if (await IOManager.FileExists(trustedFilePath, cancellationToken))
+				var filePreviouslyExisted = await IOManager.FileExists(trustedFilePath, cancellationToken);
+				if (filePreviouslyExisted)
 				{
 					var trustedFileBytes = await IOManager.ReadAllBytes(trustedFilePath, cancellationToken);
 					trustedFileText = Encoding.UTF8.GetString(trustedFileBytes);
@@ -186,6 +189,10 @@ namespace Tgstation.Server.Host.Components.Engine
 				trustedFileText = $"{trustedFileText}{fullDmbPath}{Environment.NewLine}";
 
 				var newTrustedFileBytes = Encoding.UTF8.GetBytes(trustedFileText);
+
+				if (!filePreviouslyExisted)
+					await IOManager.CreateDirectory(cfgDir, cancellationToken);
+
 				await IOManager.WriteAllBytes(trustedFilePath, newTrustedFileBytes, cancellationToken);
 			}
 		}
