@@ -55,6 +55,8 @@ namespace Tgstation.Server.Tests.Live
 		static readonly ushort mainDMPort = FreeTcpPort(mainDDPort);
 		static readonly ushort compatDMPort = FreeTcpPort(mainDDPort, mainDMPort);
 		static readonly ushort compatDDPort = FreeTcpPort(mainDDPort, mainDMPort, compatDMPort);
+		static readonly ushort odDMPort = FreeTcpPort(mainDDPort, mainDMPort, compatDMPort, compatDDPort);
+		static readonly ushort odDDPort = FreeTcpPort(mainDDPort, mainDMPort, compatDMPort, compatDDPort, odDMPort);
 
 		readonly ServerClientFactory clientFactory = new (new ProductHeaderValue(Assembly.GetExecutingAssembly().GetName().Name, Assembly.GetExecutingAssembly().GetName().Version.ToString()));
 
@@ -1144,8 +1146,8 @@ namespace Tgstation.Server.Tests.Live
 									.RunCompatTests(
 										await ByondTest.GetEdgeVersion(EngineType.OpenDream, fileDownloader, cancellationToken),
 										adminClient.Instances.CreateClient(compatInstance),
-										compatDMPort,
-										compatDDPort,
+										odDMPort,
+										odDDPort,
 										server.HighPriorityDreamDaemon,
 										cancellationToken))
 							: Task.CompletedTask;
