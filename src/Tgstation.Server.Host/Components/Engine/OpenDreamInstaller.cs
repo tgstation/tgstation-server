@@ -221,7 +221,7 @@ namespace Tgstation.Server.Host.Components.Engine
 			await using (var buildProcess = processExecutor.LaunchProcess(
 				dotnetPath,
 				sourcePath,
-				"build -c Release",
+				"build -c Release /p:TgsEngineBuild=true",
 				null,
 				true,
 				true))
