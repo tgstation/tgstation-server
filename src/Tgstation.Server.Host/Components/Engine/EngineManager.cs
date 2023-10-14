@@ -204,12 +204,17 @@ namespace Tgstation.Server.Host.Components.Engine
 				throw new JobException(ErrorCode.EngineCannotDeleteActiveVersion);
 
 			ReferenceCountingContainer<IEngineInstallation, EngineExecutableLock> container;
+			logger.LogTrace("Waiting to acquire installedVersions lock...");
 			lock (installedVersions)
+			{
 				if (!installedVersions.TryGetValue(version, out container))
 				{
 					logger.LogTrace("Version {version} already deleted.", version);
 					return;
 				}
+
+				logger.LogTrace("Installation container acquired for deletion");
+			}
 
 			logger.LogInformation("Deleting version {version}...", version);
 			progressReporter.StageName = "Waiting for version to not be in use...";
@@ -222,6 +227,7 @@ namespace Tgstation.Server.Host.Components.Engine
 				using (await SemaphoreSlimContext.Lock(changeDeleteSemaphore, cancellationToken))
 					activeVersionUpdate = activeVersionChanged.Task;
 
+				logger.LogTrace("Waiting for container.OnZeroReferences or switch of active version...");
 				await Task.WhenAny(
 					containerTask,
 					activeVersionUpdate)
@@ -229,6 +235,8 @@ namespace Tgstation.Server.Host.Components.Engine
 
 				if (containerTask.IsCompleted)
 					logger.LogTrace("All locks for version {version} are gone", version);
+				else
+					logger.LogTrace("activeVersion changed, we'll likely have to wait again. Acquiring semaphore...");
 
 				using (await SemaphoreSlimContext.Lock(changeDeleteSemaphore, cancellationToken))
 				{
@@ -237,6 +245,7 @@ namespace Tgstation.Server.Host.Components.Engine
 						throw new JobException(ErrorCode.EngineCannotDeleteActiveVersion);
 
 					bool proceed;
+					logger.LogTrace("Locking installedVersions...");
 					lock (installedVersions)
 					{
 						proceed = container.OnZeroReferences.IsCompleted;
@@ -256,7 +265,10 @@ namespace Tgstation.Server.Host.Components.Engine
 								}
 
 								if (proceed)
+								{
+									logger.LogTrace("Proceeding with installation deletion...");
 									installedVersions.Remove(version);
+								}
 							}
 					}
 
@@ -277,6 +289,8 @@ namespace Tgstation.Server.Host.Components.Engine
 						logger.LogDebug(
 							"Another lock was acquired before we could remove version {version} from the list. We will have to wait again.",
 							version);
+					else
+						logger.LogTrace("Not proceeding for some reason or another");
 				}
 			}
 		}
