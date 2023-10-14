@@ -235,7 +235,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			var testCustomVersion = new Version(testVersion.Version.Major, testVersion.Version.Minor, 1);
 			var currentByond = await instanceClient.Byond.ActiveVersion(cancellationToken);
 			Assert.IsNotNull(currentByond);
-			Assert.AreEqual(testVersion.Version.Semver(), currentByond.Version.Version);
+			Assert.AreEqual(testVersion, currentByond.Version);
 
 			// Change the active version and check we get delayed while deleting the old one because the watchdog is using it
 			var setActiveResponse = await instanceClient.Byond.SetActiveVersion(
