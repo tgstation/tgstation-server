@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using Moq;
 
@@ -23,20 +24,12 @@ using Tgstation.Server.Host.System;
 
 namespace Tgstation.Server.Tests.Live.Instance
 {
-	sealed class InstanceTest
+	sealed class InstanceTest(IInstanceManagerClient instanceManagerClient, IFileDownloader fileDownloader, InstanceManager instanceManager, ushort serverPort)
 	{
-		readonly IInstanceManagerClient instanceManagerClient;
-		readonly IFileDownloader fileDownloader;
-		readonly InstanceManager instanceManager;
-		readonly ushort serverPort;
-
-		public InstanceTest(IInstanceManagerClient instanceManagerClient, IFileDownloader fileDownloader, InstanceManager instanceManager, ushort serverPort)
-		{
-			this.instanceManagerClient = instanceManagerClient ?? throw new ArgumentNullException(nameof(instanceManagerClient));
-			this.fileDownloader = fileDownloader ?? throw new ArgumentNullException(nameof(fileDownloader));
-			this.instanceManager = instanceManager ?? throw new ArgumentNullException(nameof(instanceManager));
-			this.serverPort = serverPort;
-		}
+		readonly IInstanceManagerClient instanceManagerClient = instanceManagerClient ?? throw new ArgumentNullException(nameof(instanceManagerClient));
+		readonly IFileDownloader fileDownloader = fileDownloader ?? throw new ArgumentNullException(nameof(fileDownloader));
+		readonly InstanceManager instanceManager = instanceManager ?? throw new ArgumentNullException(nameof(instanceManager));
+		readonly ushort serverPort = serverPort;
 
 		public async Task RunTests(
 			IInstanceClient instanceClient,
@@ -44,10 +37,9 @@ namespace Tgstation.Server.Tests.Live.Instance
 			ushort ddPort,
 			bool highPrioDD,
 			bool lowPrioDeployment,
-			EngineType engineType,
 			CancellationToken cancellationToken)
 		{
-			var byondTest = new ByondTest(instanceClient.Byond, instanceClient.Jobs, fileDownloader, instanceClient.Metadata, engineType);
+			var byondTest = new ByondTest(instanceClient.Byond, instanceClient.Jobs, fileDownloader, instanceClient.Metadata, EngineType.Byond);
 			var chatTest = new ChatTest(instanceClient.ChatBots, instanceManagerClient, instanceClient.Jobs, instanceClient.Metadata);
 			var configTest = new ConfigurationTest(instanceClient.Configuration, instanceClient.Metadata);
 			var repoTest = new RepositoryTest(instanceClient.Repository, instanceClient.Jobs);
@@ -68,30 +60,29 @@ namespace Tgstation.Server.Tests.Live.Instance
 			await byondTask;
 
 			await new WatchdogTest(
-				await ByondTest.GetEdgeVersion(engineType, fileDownloader, cancellationToken), instanceClient, instanceManager, serverPort, highPrioDD, ddPort).Run(cancellationToken);
+				await ByondTest.GetEdgeVersion(EngineType.Byond, fileDownloader, cancellationToken), instanceClient, instanceManager, serverPort, highPrioDD, ddPort).Run(cancellationToken);
 		}
 
 		public async Task RunCompatTests(
-			Version compatByondVersion,
+			ByondVersion compatVersion,
 			IInstanceClient instanceClient,
 			ushort dmPort,
 			ushort ddPort,
 			bool highPrioDD,
 			CancellationToken cancellationToken)
 		{
-			var compatVersion = new ByondVersion
-			{
-				Engine = EngineType.Byond,
-				Version = compatByondVersion,
-			};
-
+			if (compatVersion.Engine != EngineType.Byond)
+#if !DEBUG
+				Assert.Fail("Compat test for OD not release ready!");
+#else
+				return;
+#endif
 			System.Console.WriteLine($"COMPAT TEST START: {compatVersion}");
 			const string Origin = "https://github.com/Cyberboss/common_core";
 			var cloneRequest = instanceClient.Repository.Clone(new RepositoryCreateRequest
 			{
 				Origin = new Uri(Origin),
-			}, cancellationToken);
-
+			}, cancellationToken).AsTask();
 
 			var dmUpdateRequest = instanceClient.DreamMaker.Update(new DreamMakerRequest
 			{
@@ -122,7 +113,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 				ChannelLimit = 10,
 				Channels = new List<ChatChannel>
 				{
-					new ChatChannel
+					new ()
 					{
 						ChannelData = channelIdStr,
 						Tag = "some_tag",
@@ -180,7 +171,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 				jrt.WaitForJob(cloneRequest.Result.ActiveJob, 60, false, null, cancellationToken),
 				jrt.WaitForJob(theJobWeWant, 30, false, null, cancellationToken),
 				dmUpdateRequest.AsTask(),
-				cloneRequest.AsTask());
+				cloneRequest);
 
 			var configSetupTask = new ConfigurationTest(instanceClient.Configuration, instanceClient.Metadata).SetupDMApiTests(cancellationToken);
 

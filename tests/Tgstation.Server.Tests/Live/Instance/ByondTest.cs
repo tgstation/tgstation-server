@@ -26,30 +26,21 @@ using Tgstation.Server.Host.System;
 
 namespace Tgstation.Server.Tests.Live.Instance
 {
-	sealed class ByondTest : JobsRequiredTest
+	sealed class ByondTest(IByondClient byondClient, IJobsClient jobsClient, IFileDownloader fileDownloader, Api.Models.Instance metadata, EngineType engineType) : JobsRequiredTest(jobsClient)
 	{
-		readonly IByondClient byondClient;
-		readonly IFileDownloader fileDownloader;
+		readonly IByondClient byondClient = byondClient ?? throw new ArgumentNullException(nameof(byondClient));
+		readonly IFileDownloader fileDownloader = fileDownloader ?? throw new ArgumentNullException(nameof(fileDownloader));
 
-		readonly Api.Models.Instance metadata;
+		readonly Api.Models.Instance metadata = metadata ?? throw new ArgumentNullException(nameof(metadata));
 
-		static Dictionary<EngineType, ByondVersion> edgeVersions = new Dictionary<EngineType, ByondVersion>
+		static readonly Dictionary<EngineType, ByondVersion> edgeVersions = new ()
 		{
 			{ EngineType.Byond, null },
 			{ EngineType.OpenDream, null }
 		};
 
 		ByondVersion testVersion;
-		EngineType testEngine;
-
-		public ByondTest(IByondClient byondClient, IJobsClient jobsClient, IFileDownloader fileDownloader, Api.Models.Instance metadata, EngineType engineType)
-			: base(jobsClient)
-		{
-			this.byondClient = byondClient ?? throw new ArgumentNullException(nameof(byondClient));
-			this.fileDownloader = fileDownloader ?? throw new ArgumentNullException(nameof(fileDownloader));
-			this.metadata = metadata ?? throw new ArgumentNullException(nameof(metadata));
-			testEngine = engineType;
-		}
+		readonly EngineType testEngine = engineType;
 
 		public Task Run(CancellationToken cancellationToken, out Task firstInstall)
 		{
@@ -76,9 +67,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 				var targetVersion = splits.Last();
 
 				var badVersionMap = new PlatformIdentifier().IsWindows
-					? new Dictionary<string, string>()
-					{
-					}
+					? []
 					// linux map also needs updating in CI
 					: new Dictionary<string, string>()
 					{
@@ -108,6 +97,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 				return null;
 			}
 
+			global::System.Console.WriteLine($"Edge {engineType} version evalutated to {byondVersion}");
 			return edgeVersions[engineType] = byondVersion;
 		}
 

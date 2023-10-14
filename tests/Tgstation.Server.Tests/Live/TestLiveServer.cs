@@ -56,7 +56,7 @@ namespace Tgstation.Server.Tests.Live
 		static readonly ushort compatDMPort = FreeTcpPort(mainDDPort, mainDMPort);
 		static readonly ushort compatDDPort = FreeTcpPort(mainDDPort, mainDMPort, compatDMPort);
 
-		readonly IServerClientFactory clientFactory = new ServerClientFactory(new ProductHeaderValue(Assembly.GetExecutingAssembly().GetName().Name, Assembly.GetExecutingAssembly().GetName().Version.ToString()));
+		readonly ServerClientFactory clientFactory = new (new ProductHeaderValue(Assembly.GetExecutingAssembly().GetName().Name, Assembly.GetExecutingAssembly().GetName().Version.ToString()));
 
 		public static List<System.Diagnostics.Process> GetDDProcessesOnPort(ushort? port)
 		{
@@ -956,12 +956,7 @@ namespace Tgstation.Server.Tests.Live
 		}
 
 		[TestMethod]
-		public Task TestStandardTgsOperation() => TestStandardTgsOperation(EngineType.Byond);
-
-		[TestMethod]
-		public Task TestOpenDreamTgsOperation() => TestStandardTgsOperation(EngineType.OpenDream);
-
-		async Task TestStandardTgsOperation(EngineType engineType)
+		public async Task TestStandardTgsOperation()
 		{
 			using(var currentProcess = System.Diagnostics.Process.GetCurrentProcess())
 			{
@@ -986,7 +981,7 @@ namespace Tgstation.Server.Tests.Live
 			ServiceCollectionExtensions.UseAdditionalLoggerProvider<HardFailLoggerProvider>();
 
 			var failureTask = HardFailLoggerProvider.FailureSource;
-			var internalTask = TestTgsInternal(engineType, hardCancellationToken);
+			var internalTask = TestTgsInternal(hardCancellationToken);
 			await Task.WhenAny(
 				internalTask,
 				failureTask);
@@ -1018,7 +1013,7 @@ namespace Tgstation.Server.Tests.Live
 				await internalTask;
 		}
 
-		async Task TestTgsInternal(EngineType engineType, CancellationToken hardCancellationToken)
+		async Task TestTgsInternal(CancellationToken hardCancellationToken)
 		{
 			var discordConnectionString = Environment.GetEnvironmentVariable("TGS_TEST_DISCORD_TOKEN");
 			var ircConnectionString = Environment.GetEnvironmentVariable("TGS_TEST_IRC_CONNECTION_STRING");
@@ -1046,19 +1041,15 @@ namespace Tgstation.Server.Tests.Live
 				Assert.IsTrue(new IrcConnectionStringBuilder(ircConnectionString).Valid);
 			}
 
-			if (engineType == EngineType.Byond)
+			var procs = System.Diagnostics.Process.GetProcessesByName("byond");
+			if (procs.Length != 0)
 			{
-				var procs = System.Diagnostics.Process.GetProcessesByName("byond");
-				if (procs.Any())
-				{
-					foreach (var proc in procs)
-						proc.Dispose();
+				foreach (var proc in procs)
+					proc.Dispose();
 
-					// Inconclusive and not fail because we don't want to unexpectedly kill a dev's BYOND.exe
-					Assert.Inconclusive("Cannot run server test because DreamDaemon will not start headless while the BYOND pager is running!");
-				}
+				// Inconclusive and not fail because we don't want to unexpectedly kill a dev's BYOND.exe
+				Assert.Inconclusive("Cannot run server test because DreamDaemon will not start headless while the BYOND pager is running!");
 			}
-
 			using var server = new LiveTestingServer(null, true);
 
 			using var serverCts = CancellationTokenSource.CreateLinkedTokenSource(hardCancellationToken);
@@ -1127,12 +1118,16 @@ namespace Tgstation.Server.Tests.Live
 					async Task RunInstanceTests()
 					{
 						// Some earlier linux BYOND versions have a critical bug where replacing the directory in non-basic watchdogs causes the DreamDaemon cwd to change
-						var canRunCompatTests = engineType == EngineType.Byond && new PlatformIdentifier().IsWindows;
+						var canRunCompatTests = new PlatformIdentifier().IsWindows;
 						var compatTests = canRunCompatTests
 							? FailFast(
 								instanceTest
 									.RunCompatTests(
-										new Version(510, 1346),
+										new ByondVersion
+										{
+											Engine = EngineType.Byond,
+											Version = new Version(510, 1346)
+										},
 										adminClient.Instances.CreateClient(compatInstance),
 										compatDMPort,
 										compatDDPort,
@@ -1143,6 +1138,21 @@ namespace Tgstation.Server.Tests.Live
 						if (TestingUtils.RunningInGitHubActions) // they only have 2 cores, can't handle intense parallelization
 							await compatTests;
 
+						var odCompatTests = canRunCompatTests
+							? FailFast(
+								instanceTest
+									.RunCompatTests(
+										await ByondTest.GetEdgeVersion(EngineType.OpenDream, fileDownloader, cancellationToken),
+										adminClient.Instances.CreateClient(compatInstance),
+										compatDMPort,
+										compatDDPort,
+										server.HighPriorityDreamDaemon,
+										cancellationToken))
+							: Task.CompletedTask;
+
+						if (TestingUtils.RunningInGitHubActions) // they only have 2 cores, can't handle intense parallelization
+							await odCompatTests;
+
 						await FailFast(
 							instanceTest
 								.RunTests(
@@ -1151,10 +1161,10 @@ namespace Tgstation.Server.Tests.Live
 									mainDDPort,
 									server.HighPriorityDreamDaemon,
 									server.LowPriorityDeployments,
-									engineType,
 									cancellationToken));
 
 						await compatTests;
+						await odCompatTests;
 					}
 
 					var instanceTests = RunInstanceTests();
@@ -1221,7 +1231,7 @@ namespace Tgstation.Server.Tests.Live
 					var instanceClient = adminClient.Instances.CreateClient(instance);
 
 					var jobs = await instanceClient.Jobs.ListActive(null, cancellationToken);
-					if (!jobs.Any())
+					if (jobs.Count == 0)
 					{
 						var entities = await instanceClient.Jobs.List(null, cancellationToken);
 						var getTasks = entities
@@ -1293,7 +1303,7 @@ namespace Tgstation.Server.Tests.Live
 				async Task WaitForInitialJobs(IInstanceClient instanceClient)
 				{
 					var jobs = await instanceClient.Jobs.ListActive(null, cancellationToken);
-					if (!jobs.Any())
+					if (jobs.Count == 0)
 					{
 						var entities = await instanceClient.Jobs.List(null, cancellationToken);
 						var getTasks = entities
@@ -1318,7 +1328,7 @@ namespace Tgstation.Server.Tests.Live
 				preStartupTime = DateTimeOffset.UtcNow;
 				serverTask = server.Run(cancellationToken).AsTask();
 				long expectedCompileJobId, expectedStaged;
-				var edgeVersion = await ByondTest.GetEdgeVersion(engineType, fileDownloader, cancellationToken);
+				var edgeVersion = await ByondTest.GetEdgeVersion(EngineType.Byond, fileDownloader, cancellationToken);
 				using (var adminClient = await CreateAdminClient(server.Url, cancellationToken))
 				{
 					var instanceClient = adminClient.Instances.CreateClient(instance);
