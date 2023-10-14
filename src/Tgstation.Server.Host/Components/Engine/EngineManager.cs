@@ -216,7 +216,6 @@ namespace Tgstation.Server.Host.Components.Engine
 				logger.LogTrace("Installation container acquired for deletion");
 			}
 
-			logger.LogInformation("Deleting version {version}...", version);
 			progressReporter.StageName = "Waiting for version to not be in use...";
 			while (true)
 			{
@@ -241,7 +240,7 @@ namespace Tgstation.Server.Host.Components.Engine
 				using (await SemaphoreSlimContext.Lock(changeDeleteSemaphore, cancellationToken))
 				{
 					// check again because it could have become the active version.
-					if (version == ActiveVersion)
+					if (version.Equals(ActiveVersion))
 						throw new JobException(ErrorCode.EngineCannotDeleteActiveVersion);
 
 					bool proceed;
@@ -274,6 +273,7 @@ namespace Tgstation.Server.Host.Components.Engine
 
 					if (proceed)
 					{
+						logger.LogInformation("Deleting version {version}...", version);
 						progressReporter.StageName = "Deleting installation...";
 
 						// delete the version file first, because we will know not to re-discover the installation if it's not present and it will get cleaned on reboot
