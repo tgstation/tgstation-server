@@ -1,4 +1,6 @@
-﻿using Tgstation.Server.Api.Models.Internal;
+﻿using System;
+
+using Tgstation.Server.Api.Models.Internal;
 
 namespace Tgstation.Server.Api.Models.Response
 {
@@ -13,6 +15,14 @@ namespace Tgstation.Server.Api.Models.Response
 		/// <param name="byondVersion">The <see cref="ByondVersion"/> to copy.</param>
 		public ByondResponse(ByondVersion byondVersion)
 			: base(byondVersion)
+		{
+		}
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="ByondResponse"/> class.
+		/// </summary>
+		[Obsolete("JSON constructor", true)]
+		public ByondResponse()
 		{
 		}
 	}

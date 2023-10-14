@@ -48,7 +48,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			this.byondClient = byondClient ?? throw new ArgumentNullException(nameof(byondClient));
 			this.fileDownloader = fileDownloader ?? throw new ArgumentNullException(nameof(fileDownloader));
 			this.metadata = metadata ?? throw new ArgumentNullException(nameof(metadata));
-			this.testEngine = engineType;
+			testEngine = engineType;
 		}
 
 		public Task Run(CancellationToken cancellationToken, out Task firstInstall)
@@ -82,7 +82,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 					// linux map also needs updating in CI
 					: new Dictionary<string, string>()
 					{
-					{ "515.1612", "515.1611" }
+						{ "515.1612", "515.1611" }
 					};
 
 				if (missingVersionMap.TryGetValue(targetVersion, out var remappedVersion))
@@ -90,9 +90,19 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 				Assert.IsTrue(ByondVersion.TryParse(targetVersion, out byondVersion), $"Bad version: {targetVersion}");
 			}
+			else if (engineType == EngineType.OpenDream)
+			{
+				var masterBranch = await DummyGitHubService.RealTestClient.Repository.Branch.Get("OpenDreamProject", "OpenDream", "master");
+
+				byondVersion = new ByondVersion
+				{
+					Engine = EngineType.OpenDream,
+					SourceCommittish = masterBranch.Commit.Sha,
+				};
+			}
 			else
 			{
-				Assert.Fail($"Edge version retrieval for {engineType} not implemented!");
+				Assert.Fail($"Unimplemented edge retrieval for engine type: {engineType}");
 				return null;
 			}
 
@@ -101,7 +111,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 		async Task RunPartOne(CancellationToken cancellationToken)
 		{
-			testVersion = await GetEdgeVersion(EngineType.Byond, fileDownloader, cancellationToken);
+			testVersion = await GetEdgeVersion(testEngine, fileDownloader, cancellationToken);
 			await TestNoVersion(cancellationToken);
 			await TestInstallNullVersion(cancellationToken);
 			await TestInstallStable(cancellationToken);

@@ -40,7 +40,7 @@ namespace Tgstation.Server.Api.Rights.Tests
 		[TestMethod]
 		public void TestAllRightsWorks()
 		{
-			var allByondRights = ByondRights.CancelInstall | ByondRights.InstallOfficialOrChangeActiveByondVersion | ByondRights.ListInstalled | ByondRights.ReadActive | ByondRights.InstallCustomByondVersion | ByondRights.DeleteInstall;
+			var allByondRights = ByondRights.CancelInstall | ByondRights.InstallOfficialOrChangeActiveByondVersion | ByondRights.ListInstalled | ByondRights.ReadActive | ByondRights.InstallCustomByondVersion | ByondRights.DeleteInstall | ByondRights.InstallCustomOpenDreamVersion | ByondRights.InstallOfficialOrChangeActiveOpenDreamVersion;
 			var automaticByondRights = RightsHelper.AllRights<ByondRights>();
 
 			Assert.AreEqual(allByondRights, automaticByondRights);

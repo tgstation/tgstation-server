@@ -68,7 +68,7 @@ namespace Tgstation.Server.Host.Components.Engine.Tests
 			var result = ExtractMemoryStreamFromInstallationData(await installer.DownloadVersion(new ByondVersion
 			{
 				Engine = EngineType.Byond,
-				Version = new Version(123, 252345),
+				Version = new Version(511, 1385),
 			}, null, default));
 
 			Assert.IsTrue(ourArray.SequenceEqual(result.ToArray()));
