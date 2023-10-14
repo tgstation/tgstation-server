@@ -817,30 +817,24 @@ namespace Tgstation.Server.Host.Components.Watchdog
 
 							void UpdateMonitoredTasks()
 							{
-								static void TryUpdateTask(ref Task oldTask, Func<Task> newTaskFactory)
+								var sameController = lastController == controller;
+								void TryUpdateTask(ref Task oldTask, Func<Task> newTaskFactory)
 								{
-									if (oldTask?.IsCompleted == true)
+									if (sameController && oldTask?.IsCompleted == true)
 										return;
 
 									oldTask = newTaskFactory();
 								}
 
 								controller.RebootGate = nextMonitorWakeupTcs.Task;
-								if (lastController == controller)
-								{
-									TryUpdateTask(ref activeServerLifetime, () => controller.Lifetime);
-									TryUpdateTask(ref activeServerReboot, () => controller.OnReboot);
-									TryUpdateTask(ref serverPrimed, () => controller.OnPrime);
-									TryUpdateTask(ref activeServerStartup, () => controller.OnStartup);
-								}
-								else
-								{
-									activeServerLifetime = controller.Lifetime;
-									activeServerReboot = controller.OnReboot;
-									serverPrimed = controller.OnPrime;
-									activeServerStartup = controller.OnStartup;
+
+								TryUpdateTask(ref activeServerLifetime, () => controller.Lifetime);
+								TryUpdateTask(ref activeServerReboot, () => controller.OnReboot);
+								TryUpdateTask(ref serverPrimed, () => controller.OnPrime);
+								TryUpdateTask(ref activeServerStartup, () => controller.OnStartup);
+
+								if (!sameController)
 									lastController = controller;
-								}
 
 								TryUpdateTask(ref activeLaunchParametersChanged, () => ActiveParametersUpdated.Task);
 								TryUpdateTask(
