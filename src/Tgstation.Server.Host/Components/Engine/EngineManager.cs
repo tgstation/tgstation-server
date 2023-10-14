@@ -156,11 +156,11 @@ namespace Tgstation.Server.Host.Components.Engine
 					cancellationToken);
 
 				ActiveVersion = version;
+
+				logger.LogInformation("Active version changed to {version}", version);
 				activeVersionChanged.SetResult();
 				activeVersionChanged = new TaskCompletionSource();
 			}
-
-			logger.LogInformation("Active version changed to {version}", version);
 		}
 
 		/// <inheritdoc />
@@ -236,7 +236,7 @@ namespace Tgstation.Server.Host.Components.Engine
 				if (containerTask.IsCompleted)
 					logger.LogTrace("All locks for version {version} are gone", version);
 				else
-					logger.LogTrace("activeVersion changed, we'll likely have to wait again. Acquiring semaphore...");
+					logger.LogTrace("activeVersion changed, we may have to wait again. Acquiring semaphore...");
 
 				using (await SemaphoreSlimContext.Lock(changeDeleteSemaphore, cancellationToken))
 				{
