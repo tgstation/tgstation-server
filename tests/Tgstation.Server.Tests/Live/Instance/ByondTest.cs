@@ -63,7 +63,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 			var targetVersion = splits.Last();
 
-			var missingVersionMap = new PlatformIdentifier().IsWindows
+			var badVersionMap = new PlatformIdentifier().IsWindows
 				? new Dictionary<string, string>()
 				{
 				}
@@ -73,7 +73,9 @@ namespace Tgstation.Server.Tests.Live.Instance
 					{ "515.1612", "515.1611" }
 				};
 
-			if (missingVersionMap.TryGetValue(targetVersion, out var remappedVersion))
+			badVersionMap.Add("515.1617", "515.1616");
+
+			if (badVersionMap.TryGetValue(targetVersion, out var remappedVersion))
 				targetVersion = remappedVersion;
 
 			return edgeVersion = Version.Parse(targetVersion);

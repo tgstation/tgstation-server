@@ -113,11 +113,11 @@ jobs:
             echo "EDGE version evaluated to $FULL_VERSION"
 
             # Also needs updating in ByondTest.cs
-            declare -A missing_linux_releases=([515.1612]="515.1611")
+            declare -A bad_linux_releases=([515.1612]="515.1611" [515.1617]="515.1616")
 
-            if [[ -n "${missing_linux_releases[$FULL_VERSION]}" ]] ; then
-                echo "$FULL_VERSION does not have a linux zip, falling back to ${missing_linux_releases[$FULL_VERSION]}"
-                FULL_VERSION=${missing_linux_releases[$FULL_VERSION]}
+            if [[ -n "${bad_linux_releases[$FULL_VERSION]}" ]] ; then
+                echo "$FULL_VERSION does not have a linux zip, falling back to ${bad_linux_releases[$FULL_VERSION]}"
+                FULL_VERSION=${bad_linux_releases[$FULL_VERSION]}
             fi
         fi
         if [[ ! -f $HOME/byond-zips-cache/linux/$FULL_VERSION.zip ]] ; then
