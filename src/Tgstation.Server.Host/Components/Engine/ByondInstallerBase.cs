@@ -85,11 +85,11 @@ namespace Tgstation.Server.Host.Components.Engine
 		}
 
 		/// <inheritdoc />
-		public override IEngineInstallation CreateInstallation(ByondVersion version, Task installationTask)
+		public override IEngineInstallation CreateInstallation(ByondVersion version, string path, Task installationTask)
 		{
 			CheckVersionValidity(version);
 
-			var binPathForVersion = IOManager.ConcatPath(version.ToString(), BinPath);
+			var binPathForVersion = IOManager.ConcatPath(path, BinPath);
 			var supportsMapThreads = version.Version >= MapThreadsVersion;
 
 			return new ByondInstallation(

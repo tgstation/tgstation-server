@@ -148,7 +148,8 @@ namespace Tgstation.Server.Tests.Live.Instance
 			var nonExistentUninstallResponseTask = ApiAssert.ThrowsException<ConflictException, JobResponse>(() => byondClient.DeleteVersion(
 				new ByondVersionDeleteRequest
 				{
-					Version = new(509, 1000)
+					Version = new(509, 1000),
+					Engine = testEngine,
 				},
 				cancellationToken), ErrorCode.ResourceNotPresent);
 
@@ -168,7 +169,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 					Engine = testVersion.Engine,
 					SourceCommittish = testVersion.SourceCommittish,
 				},
-				cancellationToken), ErrorCode.ByondCannotDeleteActiveVersion);
+				cancellationToken), ErrorCode.EngineCannotDeleteActiveVersion);
 
 			await badBecauseActiveResponseTask;
 
@@ -187,7 +188,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			var newVersions = await byondClient.InstalledVersions(null, cancellationToken);
 			Assert.IsNotNull(newVersions);
 			Assert.AreEqual(1, newVersions.Count);
-			Assert.AreEqual(new Version(testVersion.Version.Major, testVersion.Version.Minor, 1), newVersions[0].Version);
+			Assert.AreEqual(new Version(testVersion.Version.Major, testVersion.Version.Minor, 1), newVersions[0].Version.Version);
 		}
 
 		async Task TestInstallFakeVersion(CancellationToken cancellationToken)
@@ -196,9 +197,14 @@ namespace Tgstation.Server.Tests.Live.Instance
 			{
 				Version = new Version(5011, 1385)
 			};
+
+			await ApiAssert.ThrowsException<ApiConflictException, ByondInstallResponse>(() => byondClient.SetActiveVersion(newModel, null, cancellationToken), ErrorCode.ModelValidationFailure);
+
+			newModel.Engine = testEngine;
+
 			var test = await byondClient.SetActiveVersion(newModel, null, cancellationToken);
 			Assert.IsNotNull(test.InstallJob);
-			await WaitForJob(test.InstallJob, 60, true, ErrorCode.ByondDownloadFail, cancellationToken);
+			await WaitForJob(test.InstallJob, 60, true, ErrorCode.EngineDownloadFail, cancellationToken);
 		}
 
 		async Task TestInstallStable(CancellationToken cancellationToken)
@@ -213,7 +219,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			Assert.IsNotNull(test.InstallJob);
 			await WaitForJob(test.InstallJob, 180, false, null, cancellationToken);
 			var currentShit = await byondClient.ActiveVersion(cancellationToken);
-			Assert.AreEqual(newModel.Version.Semver(), currentShit.Version);
+			Assert.AreEqual(newModel.Version.Semver(), currentShit.Version.Version);
 
 			var dreamMaker = "DreamMaker";
 			if (new PlatformIdentifier().IsWindows)
@@ -297,7 +303,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			await WaitForJob(test2.InstallJob, 30, false, null, cancellationToken);
 
 			var newSettings = await byondClient.ActiveVersion(cancellationToken);
-			Assert.AreEqual(new Version(testVersion.Version.Major, testVersion.Version.Minor, 2), newSettings.Version);
+			Assert.AreEqual(new Version(testVersion.Version.Major, testVersion.Version.Minor, 2), newSettings.Version.Version);
 
 			// test a few switches
 			var installResponse = await byondClient.SetActiveVersion(new ByondVersionRequest
@@ -309,12 +315,14 @@ namespace Tgstation.Server.Tests.Live.Instance
 			Assert.IsNull(installResponse.InstallJob);
 			await ApiAssert.ThrowsException<ApiConflictException, ByondInstallResponse>(() => byondClient.SetActiveVersion(new ByondVersionRequest
 			{
-				Version = new Version(testVersion.Version.Major, testVersion.Version.Minor, 3)
-			}, null, cancellationToken), ErrorCode.ByondNonExistentCustomVersion);
+				Version = new Version(testVersion.Version.Major, testVersion.Version.Minor, 3),
+				Engine = testEngine,
+			}, null, cancellationToken), ErrorCode.EngineNonExistentCustomVersion);
 
 			installResponse = await byondClient.SetActiveVersion(new ByondVersionRequest
 			{
-				Version = new Version(testVersion.Version.Major, testVersion.Version.Minor, 1)
+				Version = new Version(testVersion.Version.Major, testVersion.Version.Minor, 1),
+				Engine = testEngine,
 			}, null, cancellationToken);
 			Assert.IsNull(installResponse.InstallJob);
 		}

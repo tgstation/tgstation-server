@@ -149,7 +149,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 			var deployJobTask = CompileAfterByondInstall();
 			var deployJob = await deployJobTask;
-			var deploymentJobWaitTask = WaitForJob(deployJob, 40, true, ErrorCode.DreamMakerNeverValidated, cancellationToken);
+			var deploymentJobWaitTask = WaitForJob(deployJob, 40, true, ErrorCode.DeploymentNeverValidated, cancellationToken);
 
 			await CheckDreamDaemonPriority(deploymentJobWaitTask, cancellationToken);
 
@@ -174,7 +174,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			Assert.AreEqual(FailProject, updated.ProjectName);
 
 			deployJob = await dreamMakerClient.Compile(cancellationToken);
-			await WaitForJob(deployJob, 40, true, ErrorCode.DreamMakerExitCode, cancellationToken);
+			await WaitForJob(deployJob, 40, true, ErrorCode.DeploymentExitCode, cancellationToken);
 
 			await dreamMakerClient.Update(new DreamMakerRequest
 			{
@@ -182,7 +182,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			}, cancellationToken);
 
 			deployJob = await dreamMakerClient.Compile(cancellationToken);
-			await WaitForJob(deployJob, 40, true, ErrorCode.DreamMakerMissingDme, cancellationToken);
+			await WaitForJob(deployJob, 40, true, ErrorCode.DeploymentMissingDme, cancellationToken);
 
 			// check that we can change the visibility
 

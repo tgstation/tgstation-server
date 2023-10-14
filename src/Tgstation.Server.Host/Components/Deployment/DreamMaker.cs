@@ -201,7 +201,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 			lock (deploymentLock)
 			{
 				if (deploying)
-					throw new JobException(ErrorCode.DreamMakerCompileJobInProgress);
+					throw new JobException(ErrorCode.DeploymentInProgress);
 				deploying = true;
 			}
 
@@ -599,7 +599,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 					var foundPaths = await ioManager.GetFilesWithExtension(resolvedOutputDirectory, DmeExtension, true, cancellationToken);
 					var foundPath = foundPaths.FirstOrDefault();
 					if (foundPath == default)
-						throw new JobException(ErrorCode.DreamMakerNoDme);
+						throw new JobException(ErrorCode.DeploymentNoDme);
 					job.DmeName = foundPath.Substring(
 						resolvedOutputDirectory.Length + 1,
 						foundPath.Length - resolvedOutputDirectory.Length - DmeExtension.Length - 2); // +1 for . in extension
@@ -609,7 +609,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 					var targetDme = ioManager.ConcatPath(outputDirectory, String.Join('.', job.DmeName, DmeExtension));
 					var targetDmeExists = await ioManager.FileExists(targetDme, cancellationToken);
 					if (!targetDmeExists)
-						throw new JobException(ErrorCode.DreamMakerMissingDme);
+						throw new JobException(ErrorCode.DeploymentMissingDme);
 				}
 
 				logger.LogDebug("Selected {dmeName}.dme for compilation!", job.DmeName);
@@ -642,7 +642,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 				{
 					if (!compileSuceeded)
 						throw new JobException(
-							ErrorCode.DreamMakerExitCode,
+							ErrorCode.DeploymentExitCode,
 							new JobException($"Compilation failed:{Environment.NewLine}{Environment.NewLine}{job.Output}"));
 
 					progressReporter.StageName = "Validating DMAPI";
@@ -815,7 +815,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 				validationStatus = controller.ApiValidationStatus;
 
 				if (requireValidate && validationStatus == ApiValidationStatus.NeverValidated)
-					throw new JobException(ErrorCode.DreamMakerNeverValidated);
+					throw new JobException(ErrorCode.DeploymentNeverValidated);
 
 				logger.LogTrace("API validation status: {validationStatus}", validationStatus);
 
@@ -835,12 +835,12 @@ namespace Tgstation.Server.Host.Components.Deployment
 					return;
 				case ApiValidationStatus.NeverValidated:
 					if (requireValidate)
-						throw new JobException(ErrorCode.DreamMakerNeverValidated);
+						throw new JobException(ErrorCode.DeploymentNeverValidated);
 					job.MinimumSecurityLevel = DreamDaemonSecurity.Ultrasafe;
 					break;
 				case ApiValidationStatus.BadValidationRequest:
 				case ApiValidationStatus.Incompatible:
-					throw new JobException(ErrorCode.DreamMakerInvalidValidation);
+					throw new JobException(ErrorCode.DeploymentInvalidValidation);
 				case ApiValidationStatus.UnaskedValidationRequest:
 				default:
 					throw new InvalidOperationException(

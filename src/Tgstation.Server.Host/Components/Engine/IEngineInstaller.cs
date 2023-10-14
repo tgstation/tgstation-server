@@ -15,9 +15,10 @@ namespace Tgstation.Server.Host.Components.Engine
 		/// Creates an <see cref="IEngineInstallation"/> for a given <paramref name="version"/>.
 		/// </summary>
 		/// <param name="version">The <see cref="ByondVersion"/> of the installation.</param>
+		/// <param name="path">The path to the installation.</param>
 		/// <param name="installationTask">The <see cref="Task"/> representing the installation process for the installation.</param>
 		/// <returns>The <see cref="IEngineInstallation"/>.</returns>
-		IEngineInstallation CreateInstallation(ByondVersion version, Task installationTask);
+		IEngineInstallation CreateInstallation(ByondVersion version, string path, Task installationTask);
 
 		/// <summary>
 		/// Download a given engine <paramref name="version"/>.

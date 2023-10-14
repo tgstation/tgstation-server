@@ -125,11 +125,11 @@ namespace Tgstation.Server.Host.System
 			try
 			{
 				if (process.HasExited)
-					throw new JobException(ErrorCode.DreamDaemonOffline);
+					throw new JobException(ErrorCode.GameServerOffline);
 			}
 			catch (InvalidOperationException ex)
 			{
-				throw new JobException(ErrorCode.DreamDaemonOffline, ex);
+				throw new JobException(ErrorCode.GameServerOffline, ex);
 			}
 
 			await using var fileStream = new FileStream(outputFile, FileMode.CreateNew);

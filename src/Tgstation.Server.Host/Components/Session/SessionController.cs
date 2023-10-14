@@ -62,9 +62,6 @@ namespace Tgstation.Server.Host.Components.Session
 		public Version DMApiVersion { get; private set; }
 
 		/// <inheritdoc />
-		public bool ClosePortOnReboot { get; set; }
-
-		/// <inheritdoc />
 		public bool TerminationWasRequested { get; private set; }
 
 		/// <inheritdoc />
@@ -202,11 +199,6 @@ namespace Tgstation.Server.Host.Components.Session
 		ApiValidationStatus apiValidationStatus;
 
 		/// <summary>
-		/// If we know DreamDaemon currently has it's port closed.
-		/// </summary>
-		bool portClosedForReboot;
-
-		/// <summary>
 		/// If the <see cref="SessionController"/> has been disposed.
 		/// </summary>
 		bool disposed;
@@ -265,7 +257,6 @@ namespace Tgstation.Server.Host.Components.Session
 
 			this.asyncDelayer = asyncDelayer ?? throw new ArgumentNullException(nameof(asyncDelayer));
 
-			portClosedForReboot = false;
 			disposed = false;
 			apiValidationStatus = ApiValidationStatus.NeverValidated;
 			released = false;
@@ -720,13 +711,6 @@ namespace Tgstation.Server.Host.Components.Session
 					Interlocked.Increment(ref rebootBridgeRequestsProcessing);
 					try
 					{
-						if (ClosePortOnReboot)
-						{
-							chatTrackingContext.Active = false;
-							response.NewPort = 0;
-							portClosedForReboot = true;
-						}
-
 						Interlocked.Exchange(ref rebootTcs, new TaskCompletionSource()).SetResult();
 						await RebootGate.WaitAsync(cancellationToken);
 					}

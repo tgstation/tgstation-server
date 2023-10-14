@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
@@ -13,7 +14,9 @@ using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Api.Models.Request;
 using Tgstation.Server.Api.Models.Response;
 using Tgstation.Server.Api.Rights;
+using Tgstation.Server.Common.Extensions;
 using Tgstation.Server.Host.Components;
+using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.Jobs;
@@ -40,6 +43,11 @@ namespace Tgstation.Server.Host.Controllers
 		readonly IFileTransferTicketProvider fileTransferService;
 
 		/// <summary>
+		/// The <see cref="GeneralConfiguration"/> for the <see cref="ByondController"/>.
+		/// </summary>
+		readonly GeneralConfiguration generalConfiguration;
+
+		/// <summary>
 		/// Remove the <see cref="Version.Build"/> from a given <paramref name="version"/> if present.
 		/// </summary>
 		/// <param name="version">The <see cref="Version"/> to normalize.</param>
@@ -55,13 +63,15 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="instanceManager">The <see cref="IInstanceManager"/> for the <see cref="InstanceRequiredController"/>.</param>
 		/// <param name="jobManager">The value of <see cref="jobManager"/>.</param>
 		/// <param name="fileTransferService">The value of <see cref="fileTransferService"/>.</param>
+		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="generalConfiguration"/>.</param>
 		public ByondController(
 			IDatabaseContext databaseContext,
 			IAuthenticationContextFactory authenticationContextFactory,
 			ILogger<ByondController> logger,
 			IInstanceManager instanceManager,
 			IJobManager jobManager,
-			IFileTransferTicketProvider fileTransferService)
+			IFileTransferTicketProvider fileTransferService,
+			IOptions<GeneralConfiguration> generalConfigurationOptions)
 			: base(
 				  databaseContext,
 				  authenticationContextFactory,
@@ -70,6 +80,7 @@ namespace Tgstation.Server.Host.Controllers
 		{
 			this.jobManager = jobManager ?? throw new ArgumentNullException(nameof(jobManager));
 			this.fileTransferService = fileTransferService ?? throw new ArgumentNullException(nameof(fileTransferService));
+			generalConfiguration = generalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
 		}
 
 		/// <summary>
@@ -85,11 +96,11 @@ namespace Tgstation.Server.Host.Controllers
 		public ValueTask<IActionResult> Read()
 			=> WithComponentInstance(instance =>
 				ValueTask.FromResult<IActionResult>(
-					instance.EngineManager.ActiveVersion != null
-						? Json(
-							new ByondResponse(
-								instance.EngineManager.ActiveVersion))
-						: Conflict(new ErrorMessageResponse(ErrorCode.ResourceNotPresent))));
+					Json(
+						new ByondResponse
+						{
+							Version = instance.EngineManager.ActiveVersion,
+						})));
 
 		/// <summary>
 		/// Lists installed <see cref="ByondVersion"/>s.
@@ -110,7 +121,10 @@ namespace Tgstation.Server.Host.Controllers
 							instance
 								.EngineManager
 								.InstalledVersions
-								.Select(x => new ByondResponse(x))
+								.Select(x => new ByondResponse
+								{
+									Version = x,
+								})
 								.AsQueryable()
 								.OrderBy(x => x.Version))),
 					null,
@@ -185,7 +199,7 @@ namespace Tgstation.Server.Host.Controllers
 					if (!versionAlreadyInstalled)
 					{
 						if (model.Version.Build > 0)
-							return BadRequest(new ErrorMessageResponse(ErrorCode.ByondNonExistentCustomVersion));
+							return BadRequest(new ErrorMessageResponse(ErrorCode.EngineNonExistentCustomVersion));
 
 						Logger.LogInformation(
 							"User ID {userId} installing {engineType} version {newByondVersion}{sourceCommittish} on instance ID {instanceId}",
@@ -287,7 +301,7 @@ namespace Tgstation.Server.Host.Controllers
 
 					if (model.Equals(byondManager.ActiveVersion))
 						return ValueTask.FromResult<IActionResult>(
-							Conflict(new ErrorMessageResponse(ErrorCode.ByondCannotDeleteActiveVersion)));
+							Conflict(new ErrorMessageResponse(ErrorCode.EngineCannotDeleteActiveVersion)));
 
 					var versionNotInstalled = !byondManager.InstalledVersions.Any(x => x.Equals(model));
 
@@ -336,6 +350,9 @@ namespace Tgstation.Server.Host.Controllers
 		{
 			ArgumentNullException.ThrowIfNull(version);
 
+			if (!version.Engine.HasValue)
+				return BadRequest(new ErrorMessageResponse(ErrorCode.ModelValidationFailure));
+
 			var isByond = version.Engine.Value == EngineType.Byond;
 			if ((isByond
 				&& (version.Version == null
@@ -348,6 +365,11 @@ namespace Tgstation.Server.Host.Controllers
 
 			if (isByond)
 				version.Version = NormalizeByondVersion(version.Version);
+			else if (version.Engine.Value == EngineType.OpenDream && version.Version != null)
+			{
+				version.SourceCommittish = String.Concat(generalConfiguration.OpenDreamGitTagPrefix, version.Version.Semver());
+				version.Version = null;
+			}
 
 			return null;
 		}

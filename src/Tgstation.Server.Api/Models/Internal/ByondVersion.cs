@@ -1,6 +1,9 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics;
 using System.Linq;
+
+using Tgstation.Server.Common.Extensions;
 
 namespace Tgstation.Server.Api.Models.Internal
 {
@@ -54,13 +57,30 @@ namespace Tgstation.Server.Api.Models.Internal
 			else
 				engine = EngineType.Byond;
 
-			if (!Version.TryParse(splits.Last(), out var version))
-				return false;
+			Version? version;
+			string? sha;
+			if (engine == EngineType.Byond)
+			{
+				if (!Version.TryParse(splits.Last(), out version))
+					return false;
+
+				sha = null;
+			}
+			else
+			{
+				Debug.Assert(engine == EngineType.OpenDream, "This does not support whatever ungodly new engine you've added");
+				sha = splits.Last();
+				if (sha.Length != Limits.MaximumCommitShaLength)
+					return false;
+
+				version = null;
+			}
 
 			byondVersion = new ByondVersion
 			{
 				Engine = engine,
 				Version = version,
+				SourceCommittish = sha,
 			};
 			return true;
 		}
@@ -91,8 +111,9 @@ namespace Tgstation.Server.Api.Models.Internal
 		{
 			// https://github.com/dotnet/roslyn-analyzers/issues/2875
 #pragma warning disable CA1062 // Validate arguments of public methods
-			return other!.Version == Version
-				&& other.Engine == Engine;
+			return other!.Version?.Semver() == Version?.Semver()
+				&& other.Engine == Engine
+				&& other.SourceCommittish == SourceCommittish;
 #pragma warning restore CA1062 // Validate arguments of public methods
 		}
 
@@ -101,7 +122,11 @@ namespace Tgstation.Server.Api.Models.Internal
 			=> obj is ByondVersion other && Equals(other);
 
 		/// <inheritdoc />
-		public override string ToString() => $"{(Engine != EngineType.Byond ? $"{Engine}-" : String.Empty)}{Version}"; // BYOND isn't display for backwards compatibility. SourceCommittish is not included
+		public override string ToString()
+		{
+			var isByond = Engine == EngineType.Byond;
+			return $"{(!isByond ? $"{Engine}-" : String.Empty)}{(isByond ? Version : SourceCommittish)}"; // BYOND isn't displayed for backwards compatibility
+		}
 
 		/// <inheritdoc />
 		public override int GetHashCode() => ToString().GetHashCode();

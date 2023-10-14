@@ -50,11 +50,6 @@ namespace Tgstation.Server.Host.Components.Session
 		ReattachInformation ReattachInformation { get; }
 
 		/// <summary>
-		/// If the port should be rotated off when the world reboots.
-		/// </summary>
-		bool ClosePortOnReboot { get; set; }
-
-		/// <summary>
 		/// If the <see cref="ISessionController"/> is currently processing a bridge request from TgsReboot().
 		/// </summary>
 		bool ProcessingRebootBridgeRequest { get; }

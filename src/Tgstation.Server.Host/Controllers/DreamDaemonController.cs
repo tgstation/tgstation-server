@@ -162,7 +162,7 @@ namespace Tgstation.Server.Host.Controllers
 			ArgumentNullException.ThrowIfNull(model);
 
 			if (model.SoftShutdown == true && model.SoftRestart == true)
-				return BadRequest(new ErrorMessageResponse(ErrorCode.DreamDaemonDoubleSoft));
+				return BadRequest(new ErrorMessageResponse(ErrorCode.GameServerDoubleSoft));
 
 			// alias for changing DD settings
 			var current = await DatabaseContext

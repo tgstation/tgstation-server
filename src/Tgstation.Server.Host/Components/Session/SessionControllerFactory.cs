@@ -139,7 +139,7 @@ namespace Tgstation.Server.Host.Components.Session
 			}
 			catch (SocketException ex) when (ex.SocketErrorCode == SocketError.AddressAlreadyInUse)
 			{
-				throw new JobException(ErrorCode.DreamDaemonPortInUse, ex);
+				throw new JobException(ErrorCode.GameServerPortInUse, ex);
 			}
 		}
 

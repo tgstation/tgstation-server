@@ -35,8 +35,8 @@ namespace Tgstation.Server.Host.Components.Engine
 			=> Task.WhenAll(delegatedInstallers.Values.Select(installer => installer.CleanCache(cancellationToken)));
 
 		/// <inheritdoc />
-		public IEngineInstallation CreateInstallation(ByondVersion version, Task installationTask)
-			=> DelegateCall(version, installer => installer.CreateInstallation(version, installationTask));
+		public IEngineInstallation CreateInstallation(ByondVersion version, string path, Task installationTask)
+			=> DelegateCall(version, installer => installer.CreateInstallation(version, path, installationTask));
 
 		/// <inheritdoc />
 		public ValueTask<IEngineInstallationData> DownloadVersion(ByondVersion version, JobProgressReporter jobProgressReporter, CancellationToken cancellationToken)

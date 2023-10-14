@@ -41,7 +41,7 @@ namespace Tgstation.Server.Host.Components.Engine
 		}
 
 		/// <inheritdoc />
-		public abstract IEngineInstallation CreateInstallation(ByondVersion version, Task installationTask);
+		public abstract IEngineInstallation CreateInstallation(ByondVersion version, string path, Task installationTask);
 
 		/// <inheritdoc />
 		public abstract Task CleanCache(CancellationToken cancellationToken);

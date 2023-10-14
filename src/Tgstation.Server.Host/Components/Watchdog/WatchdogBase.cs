@@ -446,7 +446,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 
 			var session = GetActiveController();
 			if (session?.Lifetime.IsCompleted != false)
-				throw new JobException(ErrorCode.DreamDaemonOffline);
+				throw new JobException(ErrorCode.GameServerOffline);
 
 			Logger.LogInformation("Dumping session to {dumpFileName}...", dumpFileName);
 			await session.CreateDump(dumpFileName, cancellationToken);

@@ -169,7 +169,7 @@ namespace Tgstation.Server.Host.Components.Engine
 			logger.LogTrace(
 				"Acquiring lock on BYOND version {version}...",
 				requiredVersion?.ToString() ?? $"{ActiveVersion} (active)");
-			var versionToUse = requiredVersion ?? ActiveVersion ?? throw new JobException(ErrorCode.ByondNoVersionsInstalled);
+			var versionToUse = requiredVersion ?? ActiveVersion ?? throw new JobException(ErrorCode.EngineNoVersionsInstalled);
 			var installLock = await AssertAndLockVersion(
 				null,
 				versionToUse,
@@ -201,7 +201,7 @@ namespace Tgstation.Server.Host.Components.Engine
 			logger.LogTrace("DeleteVersion {version}", version);
 
 			if (version.Equals(ActiveVersion))
-				throw new JobException(ErrorCode.ByondCannotDeleteActiveVersion);
+				throw new JobException(ErrorCode.EngineCannotDeleteActiveVersion);
 
 			ReferenceCountingContainer<IEngineInstallation, EngineExecutableLock> container;
 			lock (installedVersions)
@@ -234,7 +234,7 @@ namespace Tgstation.Server.Host.Components.Engine
 				{
 					// check again because it could have become the active version.
 					if (version == ActiveVersion)
-						throw new JobException(ErrorCode.ByondCannotDeleteActiveVersion);
+						throw new JobException(ErrorCode.EngineCannotDeleteActiveVersion);
 
 					bool proceed;
 					lock (installedVersions)
@@ -318,7 +318,7 @@ namespace Tgstation.Server.Host.Components.Engine
 
 				try
 				{
-					AddInstallationContainer(version, Task.CompletedTask);
+					AddInstallationContainer(version, path, Task.CompletedTask);
 					logger.LogDebug("Added detected BYOND version {versionKey}...", version);
 				}
 				catch (Exception ex)
@@ -410,7 +410,10 @@ namespace Tgstation.Server.Host.Components.Engine
 					if (!allowInstallation)
 						throw new InvalidOperationException($"BYOND version {byondVersion} not installed!");
 
-					installationContainer = AddInstallationContainer(byondVersion, ourTcs.Task);
+					installationContainer = AddInstallationContainer(
+						byondVersion,
+						ioManager.ResolvePath(byondVersion.ToString()),
+						ourTcs.Task);
 				}
 
 				installation = installationContainer.Instance;
@@ -439,7 +442,7 @@ namespace Tgstation.Server.Host.Components.Engine
 					else if (neededForLock)
 					{
 						if (byondEngine && byondVersion.Version.Build > 0)
-							throw new JobException(ErrorCode.ByondNonExistentCustomVersion);
+							throw new JobException(ErrorCode.EngineNonExistentCustomVersion);
 
 						logger.LogWarning("The required BYOND version ({version}) is not readily available! We will have to install it.", byondVersion);
 					}
@@ -487,7 +490,10 @@ namespace Tgstation.Server.Host.Components.Engine
 		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
 		async ValueTask InstallVersionFiles(JobProgressReporter progressReporter, ByondVersion version, Stream customVersionStream, CancellationToken cancellationToken)
 		{
-			var installFullPath = ioManager.ResolvePath(version.ToString());
+			var installFullPath = ioManager.ResolvePath(
+				version.Engine == EngineType.Byond
+					? version.ToString()
+					: Guid.NewGuid().ToString()); // too much BS with OD i swear, we can't use the provided committish because it may expand later
 			async ValueTask DirectoryCleanup()
 			{
 				await ioManager.DeleteDirectory(installFullPath, cancellationToken);
@@ -545,7 +551,7 @@ namespace Tgstation.Server.Host.Components.Engine
 			catch (HttpRequestException ex)
 			{
 				// since the user can easily provide non-exitent version numbers, we'll turn this into a JobException
-				throw new JobException(ErrorCode.ByondDownloadFail, ex);
+				throw new JobException(ErrorCode.EngineDownloadFail, ex);
 			}
 			catch (OperationCanceledException)
 			{
@@ -562,11 +568,12 @@ namespace Tgstation.Server.Host.Components.Engine
 		/// Create and add a new <see cref="IEngineInstallation"/> to <see cref="installedVersions"/>.
 		/// </summary>
 		/// <param name="version">The <see cref="Version"/> being added.</param>
+		/// <param name="installPath">The path to the installation.</param>
 		/// <param name="installationTask">The <see cref="ValueTask"/> representing the installation process.</param>
 		/// <returns>The new <see cref="IEngineInstallation"/>.</returns>
-		ReferenceCountingContainer<IEngineInstallation, EngineExecutableLock> AddInstallationContainer(ByondVersion version, Task installationTask)
+		ReferenceCountingContainer<IEngineInstallation, EngineExecutableLock> AddInstallationContainer(ByondVersion version, string installPath, Task installationTask)
 		{
-			var installation = engineInstaller.CreateInstallation(version, installationTask);
+			var installation = engineInstaller.CreateInstallation(version, installPath, installationTask);
 
 			var installationContainer = new ReferenceCountingContainer<IEngineInstallation, EngineExecutableLock>(installation);
 

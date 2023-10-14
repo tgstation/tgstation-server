@@ -94,10 +94,10 @@ namespace Tgstation.Server.Tests.Live.Instance
 				Assert.AreEqual(1, list.Count);
 				var byondVersion = list[0];
 
-				Assert.AreEqual(1, byondVersion.Version.Build);
-				Assert.AreEqual(testVersion.Version.Major, byondVersion.Version.Major);
-				Assert.AreEqual(testVersion.Version.Minor, byondVersion.Version.Minor);
-				Assert.AreEqual(testVersion.Engine, byondVersion.Engine);
+				Assert.AreEqual(1, byondVersion.Version.Version.Build);
+				Assert.AreEqual(testVersion.Version.Major, byondVersion.Version.Version.Major);
+				Assert.AreEqual(testVersion.Version.Minor, byondVersion.Version.Version.Minor);
+				Assert.AreEqual(testVersion.Engine, byondVersion.Version.Engine);
 			}
 
 			await Task.WhenAll(
@@ -115,7 +115,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 				{
 					SoftShutdown = true,
 					SoftRestart = true
-				}, cancellationToken), ErrorCode.DreamDaemonDoubleSoft).AsTask(),
+				}, cancellationToken), ErrorCode.GameServerDoubleSoft).AsTask(),
 				ApiAssert.ThrowsException<ApiConflictException, DreamDaemonResponse>(() => instanceClient.DreamDaemon.Update(new DreamDaemonRequest
 				{
 					Port = 0
@@ -235,7 +235,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			var testCustomVersion = new Version(testVersion.Version.Major, testVersion.Version.Minor, 1);
 			var currentByond = await instanceClient.Byond.ActiveVersion(cancellationToken);
 			Assert.IsNotNull(currentByond);
-			Assert.AreEqual(testVersion.Version.Semver(), currentByond.Version);
+			Assert.AreEqual(testVersion.Version.Semver(), currentByond.Version.Version);
 
 			// Change the active version and check we get delayed while deleting the old one because the watchdog is using it
 			var setActiveResponse = await instanceClient.Byond.SetActiveVersion(
@@ -254,6 +254,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 				{
 					Version = testVersion.Version,
 					SourceCommittish = testVersion.SourceCommittish,
+					Engine = testVersion.Engine,
 				},
 				cancellationToken);
 
@@ -278,7 +279,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			Assert.IsNotNull(setActiveResponse);
 			Assert.IsNull(setActiveResponse.InstallJob);
 
-			await WaitForJob(deleteJob, 5, true, ErrorCode.ByondCannotDeleteActiveVersion, cancellationToken);
+			await WaitForJob(deleteJob, 5, true, ErrorCode.EngineCannotDeleteActiveVersion, cancellationToken);
 
 			// finally, queue the last delete job which should complete when the watchdog restarts with a newly deployed .dmb
 			// queue the byond change followed by the deployment for that first
@@ -286,6 +287,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 				new ByondVersionRequest
 				{
 					Version = testCustomVersion,
+					Engine = testVersion.Engine,
 				},
 				null,
 				cancellationToken);
@@ -372,7 +374,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 				await WaitForJob(restartJob, 20, false, null, cancellationToken);
 			}
 
-			Assert.IsTrue(job.ErrorCode == ErrorCode.DreamDaemonOffline || job.ErrorCode == ErrorCode.GCoreFailure, $"{job.ErrorCode}: {job.ExceptionDetails}");
+			Assert.IsTrue(job.ErrorCode == ErrorCode.GameServerOffline || job.ErrorCode == ErrorCode.GCoreFailure, $"{job.ErrorCode}: {job.ExceptionDetails}");
 
 			await Task.Delay(TimeSpan.FromSeconds(20), cancellationToken);
 
@@ -447,7 +449,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 					// Don't use StartDD here
 					startJob = await instanceClient.DreamDaemon.Start(cancellationToken);
 
-					await WaitForJob(startJob, 40, true, ErrorCode.DreamDaemonPortInUse, cancellationToken);
+					await WaitForJob(startJob, 40, true, ErrorCode.GameServerPortInUse, cancellationToken);
 				}
 
 			startJob = await StartDD(cancellationToken);
@@ -962,7 +964,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			var versionToInstall = testVersion;
 
 			var currentByondVersion = await instanceClient.Byond.ActiveVersion(cancellationToken);
-			Assert.AreNotEqual(versionToInstall, currentByondVersion);
+			Assert.AreNotEqual(versionToInstall, currentByondVersion.Version);
 
 			var initialStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
 

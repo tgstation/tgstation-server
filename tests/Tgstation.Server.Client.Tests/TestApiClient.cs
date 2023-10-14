@@ -24,12 +24,14 @@ namespace Tgstation.Server.Client.Tests
 		[TestMethod]
 		public async Task TestDeserializingByondModelsWork()
 		{
-			var sample = new ByondResponse(
-				new ByondVersion
+			var sample = new ByondResponse
+			{
+				Version = new ByondVersion
 				{
 					Engine = EngineType.Byond,
 					Version = new Version(511, 1385, 0)
-				});
+				}
+			};
 
 			var sampleJson = JsonConvert.SerializeObject(sample, new JsonSerializerSettings
 			{
@@ -49,18 +51,20 @@ namespace Tgstation.Server.Client.Tests
 
 			var result = await client.Read<ByondResponse>(Routes.Byond, default);
 			Assert.AreEqual(sample.Version, result.Version);
-			Assert.AreEqual(0, result.Version.Build);
+			Assert.AreEqual(0, result.Version.Version.Build);
 		}
 
 		[TestMethod]
 		public async Task TestUnrecognizedResponse()
 		{
-			var sample = new ByondResponse(
-				new ByondVersion
+			var sample = new ByondResponse
+			{
+				Version =				new ByondVersion
 				{
 					Engine = EngineType.Byond,
 					Version = new Version(511, 1385)
-				});
+				}
+			};
 
 			var fakeJson = "asdfasd <>F#(*)U*#JLI";
 
