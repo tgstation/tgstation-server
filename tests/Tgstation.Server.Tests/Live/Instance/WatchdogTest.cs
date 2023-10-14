@@ -514,7 +514,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 				Assert.Fail($"Incorrect number of DD processes: {ddProcs.Count}");
 
 			using var ddProc = ddProcs.Single();
-			IProcessExecutor executor = null;
+			ProcessExecutor executor = null;
 			executor = new ProcessExecutor(
 				RuntimeInformation.IsOSPlatform(OSPlatform.Windows)
 					? new WindowsProcessFeatures(Mock.Of<ILogger<WindowsProcessFeatures>>())
