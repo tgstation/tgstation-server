@@ -31,11 +31,6 @@ namespace Tgstation.Server.Host.Components.Deployment
 	sealed class DreamMaker : IDreamMaker
 	{
 		/// <summary>
-		/// Extension for .dmbs.
-		/// </summary>
-		public const string DmbExtension = ".dmb";
-
-		/// <summary>
 		/// Extension for .dmes.
 		/// </summary>
 		const string DmeExtension = "dme";
@@ -805,7 +800,6 @@ namespace Tgstation.Server.Host.Components.Deployment
 			ApiValidationStatus validationStatus;
 			using (var provider = new TemporaryDmbProvider(
 				ioManager.ResolvePath(job.DirectoryName.ToString()),
-				String.Concat(job.DmeName, DmbExtension),
 				job,
 				byondLock.Version))
 			await using (var controller = await sessionControllerFactory.LaunchNew(provider, byondLock, launchParameters, true, cancellationToken))

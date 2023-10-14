@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using System.Web;
 
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Internal;
@@ -34,21 +36,23 @@ namespace Tgstation.Server.Host.Components.Engine
 		/// <summary>
 		/// Initializes a new instance of the <see cref="OpenDreamInstallation"/> class.
 		/// </summary>
+		/// <param name="serverExePath">The value of <see cref="ServerExePath"/>.</param>
+		/// <param name="compilerExePath">The value of <see cref="CompilerExePath"/>.</param>
 		/// <param name="installationTask">The value of <see cref="InstallationTask"/>.</param>
 		/// <param name="version">The value of <see cref="Version"/>.</param>
 		public OpenDreamInstallation(
+			string serverExePath,
+			string compilerExePath,
 			Task installationTask,
 			ByondVersion version)
 		{
+			ServerExePath = serverExePath ?? throw new ArgumentNullException(nameof(serverExePath));
+			CompilerExePath = compilerExePath ?? throw new ArgumentNullException(nameof(compilerExePath));
 			InstallationTask = installationTask ?? throw new ArgumentNullException(nameof(installationTask));
 			ArgumentNullException.ThrowIfNull(version);
 
 			if (version.Engine.Value != EngineType.OpenDream)
 				throw new ArgumentException($"Invalid EngineType: {version.Engine.Value}", nameof(version));
-
-			Version = version ?? throw new ArgumentNullException(nameof(version));
-
-			throw new NotImplementedException();
 		}
 
 		/// <inheritdoc />
@@ -58,14 +62,33 @@ namespace Tgstation.Server.Host.Components.Engine
 			ArgumentNullException.ThrowIfNull(parameters);
 			ArgumentNullException.ThrowIfNull(launchParameters);
 
-			throw new NotImplementedException();
+			var parametersString = String.Join(';', parameters.Select(kvp => $"{kvp.Key}={kvp.Value}"));
+
+			if (!String.IsNullOrEmpty(launchParameters.AdditionalParameters))
+			{
+				// TGS and BYOND expect url encoded params, OD takes unencoded
+				var unencodedAdditionalParams = String.Join(
+					';',
+					launchParameters
+						.AdditionalParameters
+						.Split('&')
+						.Select(
+							singleParam => String.Join(
+								'=',
+								singleParam
+									.Split('=')
+									.Select(
+										encodedParam => HttpUtility.UrlDecode(encodedParam)))));
+
+				parametersString = $"{parametersString};{unencodedAdditionalParams}";
+			}
+
+			var arguments = $"--cvar net.port={launchParameters.Port.Value} --cvar opendream.topic_port=0 --cvar opendream.world_params=\"{parametersString}\" \"{dmbProvider.DmbName}\"";
+			return arguments;
 		}
 
 		/// <inheritdoc />
 		public string FormatCompilerArguments(string dmePath)
-		{
-			ArgumentNullException.ThrowIfNull(dmePath);
-			throw new NotImplementedException();
-		}
+			=> $"--suppress-unimplemented --verbose --notices-enabled {dmePath ?? throw new ArgumentNullException(nameof(dmePath))}";
 	}
 }

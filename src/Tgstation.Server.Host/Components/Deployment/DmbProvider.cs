@@ -6,19 +6,16 @@ using Tgstation.Server.Host.IO;
 namespace Tgstation.Server.Host.Components.Deployment
 {
 	/// <inheritdoc />
-	sealed class DmbProvider : IDmbProvider
+	sealed class DmbProvider : DmbProviderBase, IDmbProvider
 	{
 		/// <inheritdoc />
-		public string DmbName => String.Concat(CompileJob.DmeName, DreamMaker.DmbExtension);
+		public override string Directory => ioManager.ResolvePath(CompileJob.DirectoryName.ToString() + directoryAppend);
 
 		/// <inheritdoc />
-		public string Directory => ioManager.ResolvePath(CompileJob.DirectoryName.ToString() + directoryAppend);
+		public override Models.CompileJob CompileJob { get; }
 
 		/// <inheritdoc />
-		public Models.CompileJob CompileJob { get; }
-
-		/// <inheritdoc />
-		public ByondVersion ByondVersion { get; }
+		public override ByondVersion ByondVersion { get; }
 
 		/// <summary>
 		/// The <see cref="IIOManager"/> for the <see cref="DmbProvider"/>.
@@ -53,9 +50,9 @@ namespace Tgstation.Server.Host.Components.Deployment
 		}
 
 		/// <inheritdoc />
-		public void Dispose() => onDispose?.Invoke();
+		public override void Dispose() => onDispose?.Invoke();
 
 		/// <inheritdoc />
-		public void KeepAlive() => onDispose = null;
+		public override void KeepAlive() => onDispose = null;
 	}
 }

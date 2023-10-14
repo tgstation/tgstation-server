@@ -8,7 +8,7 @@
 		/// <summary>
 		/// DreamDaemon notifying us of its current port and requesting a change if necessary.
 		/// </summary>
-		PortUpdate,
+		DeprecatedPortUpdate,
 
 		/// <summary>
 		/// DreamDaemon notifying it is starting.

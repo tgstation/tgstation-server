@@ -24,9 +24,14 @@ namespace Tgstation.Server.Host.Components.Engine
 	sealed class OpenDreamInstaller : EngineInstallerBase
 	{
 		/// <summary>
+		/// The name of the subdirectory used to store the server and compiler binaries.
+		/// </summary>
+		const string InstallationBinDirectory = "bin";
+
+		/// <summary>
 		/// The name of the subdirectory used for the <see cref="RepositoryEngineInstallationData"/>'s copy.
 		/// </summary>
-		private const string InstallationRepositorySubDirectory = "SourceRepo";
+		const string InstallationSourceSubDirectory = "TgsSourceSubdir";
 
 		/// <inheritdoc />
 		protected override EngineType TargetEngineType => EngineType.OpenDream;
@@ -82,7 +87,21 @@ namespace Tgstation.Server.Host.Components.Engine
 		public override IEngineInstallation CreateInstallation(ByondVersion version, Task installationTask)
 		{
 			CheckVersionValidity(version);
-			return new OpenDreamInstallation(installationTask, version);
+			var binPathForVersion = IOManager.ConcatPath(version.ToString(), InstallationBinDirectory);
+
+			var exeExtension = platformIdentifier.IsWindows
+				? ".exe"
+				: String.Empty;
+
+			return new OpenDreamInstallation(
+				IOManager.ConcatPath(
+					binPathForVersion,
+					$"OpenDreamServer{exeExtension}"),
+				IOManager.ConcatPath(
+					binPathForVersion,
+					$"DMCompiler{exeExtension}"),
+				installationTask,
+				version);
 		}
 
 		/// <inheritdoc />
@@ -135,7 +154,7 @@ namespace Tgstation.Server.Host.Components.Engine
 
 				version.SourceCommittish = repo.Head;
 
-				return new RepositoryEngineInstallationData(IOManager, repo, InstallationRepositorySubDirectory);
+				return new RepositoryEngineInstallationData(IOManager, repo, InstallationSourceSubDirectory);
 			}
 			catch
 			{
@@ -149,6 +168,40 @@ namespace Tgstation.Server.Host.Components.Engine
 		{
 			CheckVersionValidity(version);
 			ArgumentNullException.ThrowIfNull(installPath);
+			var sourcePath = IOManager.ConcatPath(installPath, InstallationSourceSubDirectory);
+
+			if (!await IOManager.DirectoryExists(sourcePath, cancellationToken))
+			{
+				// a zip install that didn't come from us?
+				// we want to use the bin dir, so put everything where we expect
+				Logger.LogDebug("Correcting extraction location...");
+				var dirsTask = IOManager.GetDirectories(installPath, cancellationToken);
+				var filesTask = IOManager.GetFiles(installPath, cancellationToken);
+				var dirCreateTask = IOManager.CreateDirectory(sourcePath, cancellationToken);
+
+				await Task.WhenAll(dirsTask, filesTask, dirCreateTask);
+
+				var dirsMoveTasks = dirsTask
+					.Result
+					.Select(
+						dirPath => IOManager.MoveDirectory(
+							dirPath,
+							IOManager.ConcatPath(
+								sourcePath,
+								IOManager.GetFileName(sourcePath)),
+							cancellationToken));
+				var filesMoveTask = filesTask
+					.Result
+					.Select(
+						filePath => IOManager.MoveFile(
+							filePath,
+							IOManager.ConcatPath(
+								sourcePath,
+								IOManager.GetFileName(sourcePath)),
+							cancellationToken));
+
+				await Task.WhenAll(dirsMoveTasks.Concat(filesMoveTask));
+			}
 
 			var dotnetPaths = DotnetHelper.GetPotentialDotnetPaths(platformIdentifier.IsWindows)
 				.ToList();
@@ -165,11 +218,9 @@ namespace Tgstation.Server.Host.Components.Engine
 
 			var dotnetPath = dotnetPaths[selectedPathIndex];
 
-			var repositoryPath = IOManager.ConcatPath(installPath, InstallationRepositorySubDirectory);
-
 			await using (var buildProcess = processExecutor.LaunchProcess(
 				dotnetPath,
-				repositoryPath,
+				sourcePath,
 				"build -c Release",
 				null,
 				true,
@@ -180,18 +231,17 @@ namespace Tgstation.Server.Host.Components.Engine
 					throw new JobException("OpenDream build failed!");
 			}
 
-			const string BinDirectory = "bin";
 			await IOManager.MoveDirectory(
 				IOManager.ConcatPath(
-					repositoryPath,
-					BinDirectory,
+					sourcePath,
+					InstallationBinDirectory,
 					"Content.Server"),
 				IOManager.ConcatPath(
 					installPath,
-					BinDirectory),
+					InstallationBinDirectory),
 				cancellationToken);
 
-			await IOManager.DeleteDirectory(repositoryPath, cancellationToken);
+			await IOManager.DeleteDirectory(sourcePath, cancellationToken);
 		}
 
 		/// <inheritdoc />

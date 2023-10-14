@@ -255,6 +255,11 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				await CheckLaunchResult(Server, "Server", cancellationToken);
 
 				Server.EnableCustomChatCommands();
+
+				// persist again, because the DMAPI can say we need a different topic port (Original OD behavior)
+				// kinda hacky imo, but at least we can safely forget about this
+				if (!reattachInProgress)
+					await SessionPersistor.Save(Server.ReattachInformation, cancellationToken);
 			}
 			catch (Exception ex)
 			{

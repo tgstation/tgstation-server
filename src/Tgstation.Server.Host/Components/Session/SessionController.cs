@@ -14,6 +14,7 @@ using Newtonsoft.Json;
 using Serilog.Context;
 
 using Tgstation.Server.Api.Models;
+using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Common.Extensions;
 using Tgstation.Server.Host.Components.Chat;
 using Tgstation.Server.Host.Components.Deployment;
@@ -50,6 +51,9 @@ namespace Tgstation.Server.Host.Components.Session
 
 		/// <inheritdoc />
 		public Models.CompileJob CompileJob => ReattachInformation.Dmb.CompileJob;
+
+		/// <inheritdoc />
+		public ByondVersion ByondVersion => ReattachInformation.Dmb.ByondVersion;
 
 		/// <inheritdoc />
 		public RebootState RebootState => ReattachInformation.RebootState;
@@ -168,11 +172,6 @@ namespace Tgstation.Server.Host.Components.Session
 		readonly object synchronizationLock;
 
 		/// <summary>
-		/// The <see cref="TaskCompletionSource{TResult}"/> <see cref="SetPort(ushort, CancellationToken)"/> waits on when DreamDaemon currently has it's ports closed.
-		/// </summary>
-		TaskCompletionSource<bool> portAssignmentTcs;
-
-		/// <summary>
 		/// The <see cref="TaskCompletionSource"/> that completes when DD sends a valid startup bridge request.
 		/// </summary>
 		volatile TaskCompletionSource startupTcs;
@@ -196,11 +195,6 @@ namespace Tgstation.Server.Host.Components.Session
 		/// The number of currently active calls to <see cref="ProcessBridgeRequest(BridgeParameters, CancellationToken)"/> from TgsReboot().
 		/// </summary>
 		volatile uint rebootBridgeRequestsProcessing;
-
-		/// <summary>
-		/// The port to assign DreamDaemon when it queries for it.
-		/// </summary>
-		ushort? nextPort;
 
 		/// <summary>
 		/// The <see cref="ApiValidationStatus"/> for the <see cref="SessionController"/>.
@@ -485,40 +479,6 @@ namespace Tgstation.Server.Host.Components.Session
 		}
 
 		/// <inheritdoc />
-		public Task<bool> SetPort(ushort port, CancellationToken cancellationToken)
-		{
-			CheckDisposed();
-
-			if (port == 0)
-				throw new ArgumentOutOfRangeException(nameof(port), port, "port must not be zero!");
-
-			async Task<bool> ImmediateTopicPortChange()
-			{
-				var commandResult = await SendCommand(
-					new TopicParameters(port),
-					cancellationToken);
-
-				if (commandResult?.ErrorMessage != null)
-					return false;
-
-				ReattachInformation.Port = port;
-				return true;
-			}
-
-			lock (synchronizationLock)
-				if (portClosedForReboot)
-				{
-					if (portAssignmentTcs != null)
-						throw new InvalidOperationException("A port change operation is already in progress!");
-					nextPort = port;
-					portAssignmentTcs = new TaskCompletionSource<bool>();
-					return portAssignmentTcs.Task;
-				}
-				else
-					return ImmediateTopicPortChange();
-		}
-
-		/// <inheritdoc />
 		public async ValueTask<bool> SetRebootState(RebootState newRebootState, CancellationToken cancellationToken)
 		{
 			if (RebootState == newRebootState)
@@ -702,37 +662,8 @@ namespace Tgstation.Server.Host.Components.Session
 					TerminationWasRequested = true;
 					process.Terminate();
 					break;
-				case BridgeCommandType.PortUpdate:
-					lock (synchronizationLock)
-					{
-						if (!parameters.CurrentPort.HasValue)
-						{
-							/////UHHHH
-							Logger.LogWarning("DreamDaemon sent new port command without providing it's own!");
-							return BridgeError("Missing stringified port as data parameter!");
-						}
-
-						var currentPort = parameters.CurrentPort.Value;
-						if (!nextPort.HasValue)
-							ReattachInformation.Port = parameters.CurrentPort.Value; // not ready yet, so what we'll do is accept the random port DD opened on for now and change it later when we decide to
-						else
-						{
-							// nextPort is ready, tell DD to switch to that
-							// if it fails it'll kill itself
-							response.NewPort = nextPort.Value;
-							ReattachInformation.Port = nextPort.Value;
-							nextPort = null;
-
-							// we'll also get here from SetPort so complete that task
-							var tmpTcs = portAssignmentTcs;
-							portAssignmentTcs = null;
-							tmpTcs.SetResult(true);
-						}
-
-						portClosedForReboot = false;
-					}
-
-					break;
+				case BridgeCommandType.DeprecatedPortUpdate:
+					return BridgeError("Port switching is no longer supported!");
 				case BridgeCommandType.Startup:
 					apiValidationStatus = ApiValidationStatus.BadValidationRequest;
 					if (parameters.Version == null)
@@ -773,6 +704,13 @@ namespace Tgstation.Server.Host.Components.Session
 						ReattachInformation.RuntimeInformation.Visibility,
 						ReattachInformation.RuntimeInformation.ServerPort,
 						ReattachInformation.RuntimeInformation.ApiValidateOnly);
+
+					if (parameters.TopicPort.HasValue)
+					{
+						var newTopicPort = parameters.TopicPort.Value;
+						Logger.LogInformation("Server is requesting use of port {topicPort} for topic communications", newTopicPort);
+						ReattachInformation.Port = newTopicPort;
+					}
 
 					// Load custom commands
 					chatTrackingContext.CustomCommands = parameters.CustomCommands;
@@ -816,7 +754,7 @@ namespace Tgstation.Server.Host.Components.Session
 		/// <returns>A new errored <see cref="BridgeResponse"/>.</returns>
 		BridgeResponse BridgeError(string message)
 		{
-			Logger.LogWarning("Bridge request chunking error: {message}", message);
+			Logger.LogWarning("Bridge request error: {message}", message);
 			return new BridgeResponse
 			{
 				ErrorMessage = message,

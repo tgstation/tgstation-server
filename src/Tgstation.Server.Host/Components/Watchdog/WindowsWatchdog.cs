@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 using Microsoft.Extensions.Logging;
 
+using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Host.Components.Chat;
 using Tgstation.Server.Host.Components.Deployment;
@@ -242,6 +243,16 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					compileJobProvider.CompileJob.Id,
 					compileJobProvider.CompileJob.DmeName,
 					ActiveCompileJob.DmeName);
+				canSeamlesslySwap = false;
+			}
+
+			if (Server.ByondVersion.Engine.Value != EngineType.Byond
+				|| compileJobProvider.ByondVersion.Engine.Value != EngineType.Byond)
+			{
+				Logger.LogDebug(
+					"Not swapping to new compile job {newCompileJobId} as it or the current compile job ({oldCompileJobId}) is not using the BYOND engine. Queueing graceful restart instead...",
+					compileJobProvider.CompileJob.Id,
+					Server.CompileJob.Id);
 				canSeamlesslySwap = false;
 			}
 

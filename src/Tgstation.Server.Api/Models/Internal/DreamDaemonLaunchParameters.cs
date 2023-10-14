@@ -9,21 +9,21 @@ namespace Tgstation.Server.Api.Models.Internal
 	public class DreamDaemonLaunchParameters
 	{
 		/// <summary>
-		/// If the BYOND web client can be used to connect to the game server.
+		/// If the BYOND web client can be used to connect to the game server. No-op for <see cref="EngineType.OpenDream"/>.
 		/// </summary>
 		[Required]
 		[ResponseOptions]
 		public bool? AllowWebClient { get; set; }
 
 		/// <summary>
-		/// If -profile is passed in on the DreamDaemon command line.
+		/// If -profile is passed in on the DreamDaemon command line. No-op for <see cref="EngineType.OpenDream"/>.
 		/// </summary>
 		[Required]
 		[ResponseOptions]
 		public bool? StartProfiler { get; set; }
 
 		/// <summary>
-		/// The <see cref="DreamDaemonVisibility"/> level of DreamDaemon.
+		/// The <see cref="DreamDaemonVisibility"/> level of DreamDaemon. No-op for <see cref="EngineType.OpenDream"/>.
 		/// </summary>
 		[Required]
 		[ResponseOptions]
@@ -31,7 +31,7 @@ namespace Tgstation.Server.Api.Models.Internal
 		public DreamDaemonVisibility? Visibility { get; set; }
 
 		/// <summary>
-		/// The <see cref="DreamDaemonSecurity"/> level of DreamDaemon.
+		/// The <see cref="DreamDaemonSecurity"/> level of DreamDaemon. No-op for <see cref="EngineType.OpenDream"/>.
 		/// </summary>
 		[Required]
 		[ResponseOptions]
@@ -92,7 +92,7 @@ namespace Tgstation.Server.Api.Models.Internal
 		public bool? LogOutput { get; set; }
 
 		/// <summary>
-		/// If DreamDaemon supports it, the value added as the -map-threads parameter. 0 uses the default BYOND value.
+		/// If DreamDaemon supports it, the value added as the -map-threads parameter. 0 uses the default BYOND value. No-op for <see cref="EngineType.OpenDream"/>.
 		/// </summary>
 		[Required]
 		[ResponseOptions]
