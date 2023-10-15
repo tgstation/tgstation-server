@@ -182,8 +182,8 @@ namespace Tgstation.Server.Tests.Live.Instance
 			var newVersions = await byondClient.InstalledVersions(null, cancellationToken);
 			Assert.IsNotNull(newVersions);
 			Assert.AreEqual(1, newVersions.Count);
-			Assert.AreEqual(testVersion.Version.Semver(), newVersions[0].Version.Version.Semver());
-			Assert.AreEqual(1, newVersions[0].Version.CustomIteration);
+			Assert.AreEqual(testVersion.Version.Semver(), newVersions[0].EngineVersion.Version.Semver());
+			Assert.AreEqual(1, newVersions[0].EngineVersion.CustomIteration);
 		}
 
 		async Task TestInstallFakeVersion(CancellationToken cancellationToken)
@@ -214,8 +214,8 @@ namespace Tgstation.Server.Tests.Live.Instance
 			Assert.IsNotNull(test.InstallJob);
 			await WaitForJob(test.InstallJob, 180, false, null, cancellationToken);
 			var currentShit = await byondClient.ActiveVersion(cancellationToken);
-			Assert.AreEqual(newModel, currentShit.Version);
-			Assert.IsFalse(currentShit.Version.CustomIteration.HasValue);
+			Assert.AreEqual(newModel, currentShit.EngineVersion);
+			Assert.IsFalse(currentShit.EngineVersion.CustomIteration.HasValue);
 
 			var dreamMaker = "DreamMaker";
 			if (new PlatformIdentifier().IsWindows)
@@ -235,7 +235,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			var allVersionsTask = byondClient.InstalledVersions(null, cancellationToken);
 			var currentShit = await byondClient.ActiveVersion(cancellationToken);
 			Assert.IsNotNull(currentShit);
-			Assert.IsNull(currentShit.Version);
+			Assert.IsNull(currentShit.EngineVersion);
 			var otherShit = await allVersionsTask;
 			Assert.IsNotNull(otherShit);
 			Assert.AreEqual(0, otherShit.Count);
@@ -299,8 +299,8 @@ namespace Tgstation.Server.Tests.Live.Instance
 			await WaitForJob(test2.InstallJob, 30, false, null, cancellationToken);
 
 			var newSettings = await byondClient.ActiveVersion(cancellationToken);
-			Assert.AreEqual(new Version(testVersion.Version.Major, testVersion.Version.Minor, 0), newSettings.Version.Version);
-			Assert.AreEqual(2, newSettings.Version.CustomIteration);
+			Assert.AreEqual(new Version(testVersion.Version.Major, testVersion.Version.Minor, 0), newSettings.EngineVersion.Version);
+			Assert.AreEqual(2, newSettings.EngineVersion.CustomIteration);
 
 			// test a few switches
 			var installResponse = await byondClient.SetActiveVersion(new ByondVersionRequest

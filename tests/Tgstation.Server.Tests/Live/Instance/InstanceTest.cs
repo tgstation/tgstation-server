@@ -206,8 +206,8 @@ namespace Tgstation.Server.Tests.Live.Instance
 				Assert.IsNotNull(compatVersion.SourceSHA);
 				Assert.AreNotEqual(Limits.MaximumCommitShaLength, compatVersion.SourceSHA.Length);
 				var activeVersion = await instanceClient.Byond.ActiveVersion(cancellationToken);
-				Assert.AreEqual(Limits.MaximumCommitShaLength, activeVersion.Version.SourceSHA.Length);
-				Assert.AreEqual(compatVersion, activeVersion.Version);
+				Assert.AreEqual(Limits.MaximumCommitShaLength, activeVersion.EngineVersion.SourceSHA.Length);
+				Assert.AreEqual(compatVersion, activeVersion.EngineVersion);
 			}
 
 			var configSetupTask = new ConfigurationTest(instanceClient.Configuration, instanceClient.Metadata).SetupDMApiTests(cancellationToken);

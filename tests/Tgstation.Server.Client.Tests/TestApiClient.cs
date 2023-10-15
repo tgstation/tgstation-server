@@ -26,7 +26,7 @@ namespace Tgstation.Server.Client.Tests
 		{
 			var sample = new ByondResponse
 			{
-				Version = new EngineVersion
+				EngineVersion = new EngineVersion
 				{
 					Engine = EngineType.Byond,
 					Version = new Version(511, 1385)
@@ -50,9 +50,9 @@ namespace Tgstation.Server.Client.Tests
 			var client = new ApiClient(httpClient.Object, new Uri("http://fake.com"), new ApiHeaders(new ProductHeaderValue("fake"), "fake"), null, false);
 
 			var result = await client.Read<ByondResponse>(Routes.Byond, default);
-			Assert.AreEqual(sample.Version, result.Version);
-			Assert.AreEqual(0, result.Version.Version.Build); // sucks but we can't do better really
-			Assert.IsFalse(result.Version.CustomIteration.HasValue);
+			Assert.AreEqual(sample.EngineVersion, result.EngineVersion);
+			Assert.AreEqual(0, result.EngineVersion.Version.Build); // sucks but we can't do better really
+			Assert.IsFalse(result.EngineVersion.CustomIteration.HasValue);
 		}
 
 		[TestMethod]
@@ -60,7 +60,7 @@ namespace Tgstation.Server.Client.Tests
 		{
 			var sample = new ByondResponse
 			{
-				Version = new EngineVersion
+				EngineVersion = new EngineVersion
 				{
 					Engine = EngineType.Byond,
 					Version = new Version(511, 1385)

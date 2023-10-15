@@ -98,7 +98,7 @@ namespace Tgstation.Server.Host.Controllers
 					Json(
 						new ByondResponse
 						{
-							Version = instance.EngineManager.ActiveVersion,
+							EngineVersion = instance.EngineManager.ActiveVersion,
 						})));
 
 		/// <summary>
@@ -122,10 +122,10 @@ namespace Tgstation.Server.Host.Controllers
 								.InstalledVersions
 								.Select(x => new ByondResponse
 								{
-									Version = x,
+									EngineVersion = x,
 								})
 								.AsQueryable()
-								.OrderBy(x => x.Version))),
+								.OrderBy(x => x.EngineVersion))),
 					null,
 					page,
 					pageSize,

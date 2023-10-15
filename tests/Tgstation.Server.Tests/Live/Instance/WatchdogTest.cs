@@ -94,17 +94,17 @@ namespace Tgstation.Server.Tests.Live.Instance
 				Assert.AreEqual(1, list.Count);
 				var byondVersion = list[0];
 
-				Assert.AreEqual(1, byondVersion.Version.CustomIteration);
-				Assert.AreEqual(testVersion.Engine, byondVersion.Version.Engine);
+				Assert.AreEqual(1, byondVersion.EngineVersion.CustomIteration);
+				Assert.AreEqual(testVersion.Engine, byondVersion.EngineVersion.Engine);
 				if (testVersion.Version != null)
 				{
-					Assert.AreEqual(testVersion.Version.Major, byondVersion.Version.Version.Major);
-					Assert.AreEqual(testVersion.Version.Minor, byondVersion.Version.Version.Minor);
+					Assert.AreEqual(testVersion.Version.Major, byondVersion.EngineVersion.Version.Major);
+					Assert.AreEqual(testVersion.Version.Minor, byondVersion.EngineVersion.Version.Minor);
 				}
 				else
 				{
-					Assert.IsNull(byondVersion.Version.Version);
-					Assert.AreEqual(testVersion.SourceSHA, byondVersion.Version.SourceSHA);
+					Assert.IsNull(byondVersion.EngineVersion.Version);
+					Assert.AreEqual(testVersion.SourceSHA, byondVersion.EngineVersion.SourceSHA);
 				}
 			}
 
@@ -244,7 +244,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			var testCustomRevision = 1;
 			var currentByond = await instanceClient.Byond.ActiveVersion(cancellationToken);
 			Assert.IsNotNull(currentByond);
-			Assert.AreEqual(testVersion, currentByond.Version);
+			Assert.AreEqual(testVersion, currentByond.EngineVersion);
 
 			// Change the active version and check we get delayed while deleting the old one because the watchdog is using it
 			var setActiveResponse = await instanceClient.Byond.SetActiveVersion(
@@ -976,7 +976,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			var versionToInstall = testVersion;
 
 			var currentByondVersion = await instanceClient.Byond.ActiveVersion(cancellationToken);
-			Assert.AreNotEqual(versionToInstall, currentByondVersion.Version);
+			Assert.AreNotEqual(versionToInstall, currentByondVersion.EngineVersion);
 
 			var initialStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
 

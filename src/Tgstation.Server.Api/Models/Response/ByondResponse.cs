@@ -3,13 +3,13 @@
 namespace Tgstation.Server.Api.Models.Response
 {
 	/// <summary>
-	/// Represents an installed <see cref="EngineVersion"/>.
+	/// Represents an installed <see cref="Internal.EngineVersion"/>.
 	/// </summary>
 	public sealed class ByondResponse
 	{
 		/// <summary>
-		/// The represented <see cref="EngineVersion"/>.
+		/// The represented <see cref="Internal.EngineVersion"/>. If <see langword="null"/> that indicates none were found.
 		/// </summary>
-		public EngineVersion? Version { get; set; }
+		public EngineVersion? EngineVersion { get; set; }
 	}
 }
