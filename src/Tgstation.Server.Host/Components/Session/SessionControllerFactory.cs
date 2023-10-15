@@ -216,6 +216,8 @@ namespace Tgstation.Server.Host.Components.Session
 			logger.LogTrace("Begin session launch...");
 			if (!launchParameters.Port.HasValue)
 				throw new InvalidOperationException("Given port is null!");
+
+			PortBindTest(launchParameters.Port.Value);
 			switch (dmbProvider.CompileJob.MinimumSecurityLevel)
 			{
 				case DreamDaemonSecurity.Ultrasafe:
@@ -249,11 +251,11 @@ namespace Tgstation.Server.Host.Components.Session
 					"Launching session with CompileJob {compileJobId}...",
 					dmbProvider.CompileJob.Id);
 
-				PortBindTest(launchParameters.Port.Value);
-
 				// mad this isn't abstracted but whatever
 				if (dmbProvider.EngineVersion.Engine.Value == EngineType.Byond)
 					await CheckPagerIsNotRunning();
+				else if (dmbProvider.EngineVersion.Engine.Value == EngineType.OpenDream)
+					await asyncDelayer.Delay(TimeSpan.FromMilliseconds(1), cancellationToken); // OpenDream is 2fuckingfast and can trip after we bind tested the port
 
 				string outputFilePath = null;
 				var preserveLogFile = true;
