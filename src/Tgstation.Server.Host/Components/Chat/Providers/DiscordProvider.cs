@@ -876,11 +876,11 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			{
 				EngineType.Byond => new EmbedField(
 					"BYOND Version",
-					$"{byondVersion.Version.Major}.{byondVersion.Version.Minor}{(byondVersion.Version.Build > 0 ? $".{byondVersion.Version.Build}" : String.Empty)}",
+					$"{byondVersion.Version.Major}.{byondVersion.Version.Minor}{(byondVersion.CustomIteration.HasValue ? $".{byondVersion.CustomIteration.Value}" : String.Empty)}",
 					true),
 				EngineType.OpenDream => new EmbedField(
 					"OpenDream Version",
-					$"[{byondVersion.SourceCommittish[..7]}]({generalConfiguration.OpenDreamGitUrl}/commit/{revisionInformation.CommitSha})",
+					$"[{byondVersion.SourceSHA[..7]}]({generalConfiguration.OpenDreamGitUrl}/commit/{byondVersion.SourceSHA})",
 					true),
 				_ => throw new InvalidOperationException($"Invaild EngineType: {byondVersion.Engine.Value}"),
 			};

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -18,6 +19,8 @@ using Tgstation.Server.Client;
 using Tgstation.Server.Client.Components;
 using Tgstation.Server.Host.Components;
 using Tgstation.Server.Host.Components.Engine;
+using Tgstation.Server.Host.Components.Events;
+using Tgstation.Server.Host.Components.Repository;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.System;
@@ -71,11 +74,11 @@ namespace Tgstation.Server.Tests.Live.Instance
 			bool highPrioDD,
 			CancellationToken cancellationToken)
 		{
-			if (compatVersion.Engine != EngineType.Byond)
-#if !DEBUG
-				Assert.Fail("Compat test for OD not release ready!");
-#else
+			if (compatVersion.Engine.Value == EngineType.OpenDream)
+#if DEBUG
 				return;
+#else
+				Assert.Fail("OD Compat test not ready!");
 #endif
 			System.Console.WriteLine($"COMPAT TEST START: {compatVersion}");
 			const string Origin = "https://github.com/Cyberboss/common_core";
@@ -132,31 +135,56 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 			var jrt = new JobsRequiredTest(instanceClient.Jobs);
 
-			IEngineInstaller byondInstaller = new PlatformIdentifier().IsWindows
-				? new WindowsByondInstaller(
+
+			var odRepoDir = Path.GetFullPath(Path.Combine(instanceClient.Metadata.Path, "..", "OpenDreamRepo"));
+			var tmpIOManager = new ResolvingIOManager(new DefaultIOManager(), odRepoDir);
+
+			var mockOptions = new Mock<IOptions<GeneralConfiguration>>();
+			mockOptions.SetupGet(x => x.Value).Returns(new GeneralConfiguration());
+			IEngineInstaller byondInstaller =
+				compatVersion.Engine == EngineType.OpenDream
+				? new OpenDreamInstaller(
+					new DefaultIOManager(),
+					Mock.Of<ILogger<OpenDreamInstaller>>(),
+					new PlatformIdentifier(),
 					Mock.Of<IProcessExecutor>(),
-					Mock.Of<IIOManager>(),
-					fileDownloader,
-					Options.Create(new GeneralConfiguration()),
-					Mock.Of<ILogger<WindowsByondInstaller>>())
-				: new PosixByondInstaller(
-					Mock.Of<IPostWriteHandler>(),
-					Mock.Of<IIOManager>(),
-					fileDownloader,
-					Mock.Of<ILogger<PosixByondInstaller>>());
+					new RepositoryManager(
+						new LibGit2RepositoryFactory(
+							Mock.Of<ILogger<LibGit2RepositoryFactory>>()),
+						new LibGit2Commands(),
+						tmpIOManager,
+						new NoopEventConsumer(),
+						Mock.Of<IPostWriteHandler>(),
+						Mock.Of<IGitRemoteFeaturesFactory>(),
+						Mock.Of<ILogger<Repository>>(),
+						Mock.Of<ILogger<RepositoryManager>>(),
+						new GeneralConfiguration()),
+					mockOptions.Object)
+				: new PlatformIdentifier().IsWindows
+					? new WindowsByondInstaller(
+						Mock.Of<IProcessExecutor>(),
+						Mock.Of<IIOManager>(),
+						fileDownloader,
+						Options.Create(new GeneralConfiguration()),
+						Mock.Of<ILogger<WindowsByondInstaller>>())
+					: new PosixByondInstaller(
+						Mock.Of<IPostWriteHandler>(),
+						Mock.Of<IIOManager>(),
+						fileDownloader,
+						Mock.Of<ILogger<PosixByondInstaller>>());
 
 			using var windowsByondInstaller = byondInstaller as WindowsByondInstaller;
 
 			// get the bytes for stable
 			ByondInstallResponse installJob2;
-			using (var stableBytesMs = TestingUtils.ExtractMemoryStreamFromInstallationData(await byondInstaller.DownloadVersion(compatVersion, null, cancellationToken)))
+			await using (var stableBytesMs = await TestingUtils.ExtractMemoryStreamFromInstallationData(await byondInstaller.DownloadVersion(compatVersion, null, cancellationToken), cancellationToken))
 			{
 				installJob2 = await instanceClient.Byond.SetActiveVersion(new ByondVersionRequest
 				{
 					UploadCustomZip = true,
 					Version = compatVersion.Version,
 					Engine = compatVersion.Engine,
-					SourceCommittish = compatVersion.SourceCommittish
+					SourceSHA = compatVersion.SourceSHA
 				}, stableBytesMs, cancellationToken);
 			}
 
@@ -172,6 +200,15 @@ namespace Tgstation.Server.Tests.Live.Instance
 				jrt.WaitForJob(theJobWeWant, 30, false, null, cancellationToken),
 				dmUpdateRequest.AsTask(),
 				cloneRequest);
+
+			if (compatVersion.Engine.Value == EngineType.OpenDream)
+			{
+				Assert.IsNotNull(compatVersion.SourceSHA);
+				Assert.AreNotEqual(Limits.MaximumCommitShaLength, compatVersion.SourceSHA.Length);
+				var activeVersion = await instanceClient.Byond.ActiveVersion(cancellationToken);
+				Assert.AreEqual(Limits.MaximumCommitShaLength, activeVersion.Version.SourceSHA.Length);
+				Assert.AreEqual(compatVersion, activeVersion.Version);
+			}
 
 			var configSetupTask = new ConfigurationTest(instanceClient.Configuration, instanceClient.Metadata).SetupDMApiTests(cancellationToken);
 

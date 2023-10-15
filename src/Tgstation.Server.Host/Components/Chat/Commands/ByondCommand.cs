@@ -57,11 +57,11 @@ namespace Tgstation.Server.Host.Components.Chat.Commands
 					switch (engineManager.ActiveVersion.Engine.Value)
 					{
 						case EngineType.OpenDream:
-							text = $"OpenDream: {engineManager.ActiveVersion.SourceCommittish}";
+							text = $"OpenDream: {engineManager.ActiveVersion.SourceSHA}";
 							break;
 						case EngineType.Byond:
 							text = $"BYOND {engineManager.ActiveVersion.Version.Major}.{engineManager.ActiveVersion.Version.Minor}";
-							if (engineManager.ActiveVersion.Version.Build != -1)
+							if (engineManager.ActiveVersion.CustomIteration.HasValue)
 								text += " (Custom Build)";
 
 							break;

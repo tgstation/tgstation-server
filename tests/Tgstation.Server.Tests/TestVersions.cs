@@ -127,7 +127,7 @@ namespace Tgstation.Server.Tests
 
 			const string ArchiveEntryPath = "byond/bin/dd.exe";
 			var hasEntry = ArchiveHasFileEntry(
-				TestingUtils.ExtractMemoryStreamFromInstallationData(
+				await TestingUtils.ExtractMemoryStreamFromInstallationData(
 					await byondInstaller.DownloadVersion(
 						new ByondVersion
 						{
@@ -135,7 +135,8 @@ namespace Tgstation.Server.Tests
 							Version = WindowsByondInstaller.DDExeVersion
 						},
 						null,
-						default)),
+						default),
+					CancellationToken.None),
 				ArchiveEntryPath);
 
 			Assert.IsTrue(hasEntry);
@@ -220,7 +221,7 @@ namespace Tgstation.Server.Tests
 						Engine = EngineType.Byond,
 						Version = MapThreadsVersion(),
 					},
-					TestingUtils.ExtractMemoryStreamFromInstallationData(
+					await TestingUtils.ExtractMemoryStreamFromInstallationData(
 						await byondInstaller.DownloadVersion(
 							new ByondVersion
 							{
@@ -228,7 +229,8 @@ namespace Tgstation.Server.Tests
 								Version = MapThreadsVersion()
 							},
 							null,
-							default)),
+							default),
+						CancellationToken.None),
 					byondInstaller,
 					ioManager,
 					processExecutor,
@@ -414,19 +416,19 @@ namespace Tgstation.Server.Tests
 			};
 			try
 			{
-				return Tuple.Create(TestingUtils.ExtractMemoryStreamFromInstallationData(await byondInstaller.DownloadVersion(
+				return Tuple.Create(await TestingUtils.ExtractMemoryStreamFromInstallationData(await byondInstaller.DownloadVersion(
 					byondVersion,
 					null,
-					CancellationToken.None)), byondVersion);
+					CancellationToken.None), CancellationToken.None), byondVersion);
 			}
 			catch (HttpRequestException)
 			{
 				var minusOneMajor = new Version(minusOneMinor.Major - 1, minusOneMinor.Minor);
 				byondVersion.Version = minusOneMajor;
-				return Tuple.Create(TestingUtils.ExtractMemoryStreamFromInstallationData(await byondInstaller.DownloadVersion(
+				return Tuple.Create(await TestingUtils.ExtractMemoryStreamFromInstallationData(await byondInstaller.DownloadVersion(
 					byondVersion,
 					null,
-					CancellationToken.None)), byondVersion);
+					CancellationToken.None), CancellationToken.None), byondVersion);
 			}
 		}
 

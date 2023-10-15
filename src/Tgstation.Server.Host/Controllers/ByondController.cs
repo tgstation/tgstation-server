@@ -14,7 +14,6 @@ using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Api.Models.Request;
 using Tgstation.Server.Api.Models.Response;
 using Tgstation.Server.Api.Rights;
-using Tgstation.Server.Common.Extensions;
 using Tgstation.Server.Host.Components;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Database;
@@ -175,11 +174,10 @@ namespace Tgstation.Server.Host.Controllers
 					if (versionAlreadyInstalled)
 					{
 						Logger.LogInformation(
-							"User ID {userId} changing instance ID {instanceId} {engineType} version to {newByondVersion}",
+							"User ID {userId} changing instance ID {instanceId} engine to {newByondVersion}",
 							AuthenticationContext.User.Id,
 							Instance.Id,
-							model.Engine,
-							model.Version);
+							model);
 
 						try
 						{
@@ -189,26 +187,21 @@ namespace Tgstation.Server.Host.Controllers
 						{
 							Logger.LogDebug(
 								ex,
-								"Race condition: {engineType} version {version} uninstalled before we could switch to it. Creating install job instead...",
-								model.Engine.Value,
-								model.Version);
+								"Race condition: Engine {version} uninstalled before we could switch to it. Creating install job instead...",
+								model);
 							versionAlreadyInstalled = false;
 						}
 					}
 
 					if (!versionAlreadyInstalled)
 					{
-						if (model.Version.Build > 0)
+						if (model.CustomIteration.HasValue)
 							return BadRequest(new ErrorMessageResponse(ErrorCode.EngineNonExistentCustomVersion));
 
 						Logger.LogInformation(
-							"User ID {userId} installing {engineType} version {newByondVersion}{sourceCommittish} on instance ID {instanceId}",
+							"User ID {userId} installing engine version {newByondVersion} on instance ID {instanceId}",
 							AuthenticationContext.User.Id,
-							model.Engine.Value,
 							model.Version,
-							model.SourceCommittish != null
-								? $" ({model.SourceCommittish})"
-								: String.Empty,
 							Instance.Id);
 
 						// run the install through the job manager
@@ -319,7 +312,7 @@ namespace Tgstation.Server.Host.Controllers
 			// run the install through the job manager
 			var job = new Models.Job
 			{
-				Description = $"Delete installed {model.Engine.Value} version {model.Version}",
+				Description = $"Delete installed engine version {model}",
 				StartedBy = AuthenticationContext.User,
 				CancelRightsType = RightsType.Byond,
 				CancelRight = (ulong)(
@@ -354,21 +347,20 @@ namespace Tgstation.Server.Host.Controllers
 				return BadRequest(new ErrorMessageResponse(ErrorCode.ModelValidationFailure));
 
 			var isByond = version.Engine.Value == EngineType.Byond;
+			var validSha = version.SourceSHA?.Length == Limits.MaximumCommitShaLength;
 			if ((isByond
 				&& (version.Version == null
-				|| version.Version.Revision != -1
-				|| version.SourceCommittish != null))
+				|| validSha))
 				|| (version.Engine.Value == EngineType.OpenDream &&
-				((version.SourceCommittish == null && version.Version == null)
-				|| (version.Version != null && (version.Version.Revision != -1 || version.Version.Build == -1 || version.SourceCommittish == null)))))
+				((version.SourceSHA == null && version.Version == null)
+				|| (version.Version != null && (version.Version.Revision != -1 || validSha)))))
 				return BadRequest(new ErrorMessageResponse(ErrorCode.ModelValidationFailure));
 
 			if (isByond)
-				version.Version = NormalizeByondVersion(version.Version);
-			else if (version.Engine.Value == EngineType.OpenDream && version.Version != null)
 			{
-				version.SourceCommittish = String.Concat(generalConfiguration.OpenDreamGitTagPrefix, version.Version.Semver());
-				version.Version = null;
+				version.Version = NormalizeByondVersion(version.Version);
+				if (version.Version.Build != -1)
+					return BadRequest(new ErrorMessageResponse(ErrorCode.ModelValidationFailure));
 			}
 
 			return null;

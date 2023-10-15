@@ -29,7 +29,7 @@ namespace Tgstation.Server.Client.Tests
 				Version = new ByondVersion
 				{
 					Engine = EngineType.Byond,
-					Version = new Version(511, 1385, 0)
+					Version = new Version(511, 1385)
 				}
 			};
 
@@ -51,7 +51,8 @@ namespace Tgstation.Server.Client.Tests
 
 			var result = await client.Read<ByondResponse>(Routes.Byond, default);
 			Assert.AreEqual(sample.Version, result.Version);
-			Assert.AreEqual(0, result.Version.Version.Build);
+			Assert.AreEqual(0, result.Version.Version.Build); // sucks but we can't do better really
+			Assert.IsFalse(result.Version.CustomIteration.HasValue);
 		}
 
 		[TestMethod]

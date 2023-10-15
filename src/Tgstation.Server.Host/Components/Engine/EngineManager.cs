@@ -66,7 +66,7 @@ namespace Tgstation.Server.Host.Components.Engine
 		readonly ILogger<EngineManager> logger;
 
 		/// <summary>
-		/// Map of byond <see cref="Version"/>s to <see cref="Task"/>s that complete when they are installed.
+		/// Map of byond <see cref="ByondVersion"/>s to <see cref="Task"/>s that complete when they are installed.
 		/// </summary>
 		readonly Dictionary<ByondVersion, ReferenceCountingContainer<IEngineInstallation, EngineExecutableLock>> installedVersions;
 
@@ -91,8 +91,8 @@ namespace Tgstation.Server.Host.Components.Engine
 			if (!version.Engine.HasValue)
 				throw new InvalidOperationException("version.Engine cannot be null!");
 
-			if (version.Version.Build == 0)
-				throw new InvalidOperationException("version.Build cannot be 0!");
+			if (version.CustomIteration == 0)
+				throw new InvalidOperationException("version.CustomIteration cannot be 0!");
 		}
 
 		/// <summary>
@@ -138,10 +138,7 @@ namespace Tgstation.Server.Host.Components.Engine
 					cancellationToken);
 
 				// We reparse the version because it could be changed after a custom install.
-				version = new ByondVersion(version)
-				{
-					Version = installLock.Version.Version,
-				};
+				version = new ByondVersion(installLock.Version);
 
 				var stringVersion = version.ToString();
 				await ioManager.WriteAllBytes(ActiveVersionFileName, Encoding.UTF8.GetBytes(stringVersion), cancellationToken);
@@ -413,7 +410,7 @@ namespace Tgstation.Server.Host.Components.Engine
 					var customInstallationNumber = 1;
 					do
 					{
-						byondVersion.Version = new Version(byondVersion.Version.Major, byondVersion.Version.Minor, customInstallationNumber++);
+						byondVersion.CustomIteration = customInstallationNumber++;
 					}
 					while (installedVersions.ContainsKey(byondVersion));
 				}
@@ -455,7 +452,7 @@ namespace Tgstation.Server.Host.Components.Engine
 						logger.LogInformation("Installing custom BYOND version as {version}...", byondVersion);
 					else if (neededForLock)
 					{
-						if (byondEngine && byondVersion.Version.Build > 0)
+						if (byondEngine && byondVersion.CustomIteration.HasValue)
 							throw new JobException(ErrorCode.EngineNonExistentCustomVersion);
 
 						logger.LogWarning("The required BYOND version ({version}) is not readily available! We will have to install it.", byondVersion);

@@ -657,8 +657,10 @@ namespace Tgstation.Server.Host.Components.Session
 						return BridgeError("Missing dmApiVersion field!");
 
 					DMApiVersion = parameters.Version;
+
+					// TODO: When OD figures out how to unite port and topic_port, set an upper version bound on OD for this check
 					if (DMApiVersion.Major != DMApiConstants.InteropVersion.Major
-						|| (ByondVersion.Engine.Value == EngineType.OpenDream && DMApiVersion < new Version(5, 7))) // TODO: When OD figures out how to unite port and topic_port, set an upper version bound on OD for this check
+						|| (ByondVersion.Engine.Value == EngineType.OpenDream && DMApiVersion < new Version(5, 7)))
 					{
 						apiValidationStatus = ApiValidationStatus.Incompatible;
 						return BridgeError("Incompatible dmApiVersion!");

@@ -112,7 +112,7 @@ namespace Tgstation.Server.Host.Components.Engine
 			// get a lock on a system wide OD repo
 			Logger.LogTrace("Cloning OD repo...");
 
-			var progressSection1 = jobProgressReporter.CreateSection("Updating OpenDream git repository", 0.5f);
+			var progressSection1 = jobProgressReporter?.CreateSection("Updating OpenDream git repository", 0.5f);
 
 			var repo = await repositoryManager.CloneRepository(
 				generalConfiguration.OpenDreamGitUrl,
@@ -138,11 +138,10 @@ namespace Tgstation.Server.Host.Components.Engine
 						cancellationToken);
 				}
 
-				var progressSection2 = jobProgressReporter.CreateSection("Checking out OpenDream version", 0.5f);
+				var progressSection2 = jobProgressReporter?.CreateSection("Checking out OpenDream version", 0.5f);
 
-				var committish = version.SourceCommittish;
-				if (committish == null)
-					committish = $"{generalConfiguration.OpenDreamGitTagPrefix}{version.Version.Semver()}";
+				var committish = version.SourceSHA
+					?? $"{generalConfiguration.OpenDreamGitTagPrefix}{version.Version.Semver()}";
 
 				await repo.CheckoutObject(
 					committish,
@@ -151,8 +150,6 @@ namespace Tgstation.Server.Host.Components.Engine
 					true,
 					progressSection2,
 					cancellationToken);
-
-				version.SourceCommittish = repo.Head;
 
 				return new RepositoryEngineInstallationData(IOManager, repo, InstallationSourceSubDirectory);
 			}

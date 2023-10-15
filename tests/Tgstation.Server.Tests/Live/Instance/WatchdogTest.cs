@@ -94,7 +94,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 				Assert.AreEqual(1, list.Count);
 				var byondVersion = list[0];
 
-				Assert.AreEqual(1, byondVersion.Version.Version.Build);
+				Assert.AreEqual(1, byondVersion.Version.CustomIteration);
 				Assert.AreEqual(testVersion.Version.Major, byondVersion.Version.Version.Major);
 				Assert.AreEqual(testVersion.Version.Minor, byondVersion.Version.Version.Minor);
 				Assert.AreEqual(testVersion.Engine, byondVersion.Version.Engine);
@@ -232,7 +232,8 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 		async Task<JobResponse> TestDeleteByondInstallErrorCasesAndQueing(CancellationToken cancellationToken)
 		{
-			var testCustomVersion = new Version(testVersion.Version.Major, testVersion.Version.Minor, 1);
+			var testCustomVersion = testVersion.Version;
+			var testCustomRevision = 1;
 			var currentByond = await instanceClient.Byond.ActiveVersion(cancellationToken);
 			Assert.IsNotNull(currentByond);
 			Assert.AreEqual(testVersion, currentByond.Version);
@@ -243,6 +244,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 				{
 					Version = testCustomVersion,
 					Engine = testVersion.Engine,
+					CustomIteration = testCustomRevision,
 				},
 				null,
 				cancellationToken);
@@ -254,7 +256,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 				new ByondVersionDeleteRequest
 				{
 					Version = testVersion.Version,
-					SourceCommittish = testVersion.SourceCommittish,
+					SourceSHA = testVersion.SourceSHA,
 					Engine = testVersion.Engine,
 				},
 				cancellationToken);
@@ -272,7 +274,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 				{
 					Version = testVersion.Version,
 					Engine = testVersion.Engine,
-					SourceCommittish = testVersion.SourceCommittish
+					SourceSHA = testVersion.SourceSHA
 				},
 				null,
 				cancellationToken);
@@ -289,6 +291,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 				{
 					Version = testCustomVersion,
 					Engine = testVersion.Engine,
+					CustomIteration = testCustomRevision,
 				},
 				null,
 				cancellationToken);
@@ -301,7 +304,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 				{
 					Version = testVersion.Version,
 					Engine = testVersion.Engine,
-					SourceCommittish = testVersion.SourceCommittish,
+					SourceSHA = testVersion.SourceSHA,
 				},
 				cancellationToken);
 
@@ -980,7 +983,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 				{
 					Version = versionToInstall.Version,
 					Engine = versionToInstall.Engine,
-					SourceCommittish = versionToInstall.SourceCommittish,
+					SourceSHA = versionToInstall.SourceSHA,
 				},
 				null,
 				cancellationToken);

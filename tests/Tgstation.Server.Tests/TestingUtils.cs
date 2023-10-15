@@ -1,12 +1,16 @@
 ﻿using System;
 using System.IO;
+using System.IO.Compression;
 using System.Reflection;
+using System.Threading;
+using System.Threading.Tasks;
 
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 
 using Tgstation.Server.Host.Components.Engine;
+using Tgstation.Server.Host.IO;
 
 namespace Tgstation.Server.Tests
 {
@@ -29,10 +33,33 @@ namespace Tgstation.Server.Tests
 			return mockLoggerFactory.Object;
 		}
 
-		public static MemoryStream ExtractMemoryStreamFromInstallationData(IEngineInstallationData engineInstallationData)
+		public static async ValueTask<MemoryStream> ExtractMemoryStreamFromInstallationData(IEngineInstallationData engineInstallationData, CancellationToken cancellationToken)
 		{
-			var zipStreamData = (ZipStreamEngineInstallationData)engineInstallationData;
-			return (MemoryStream)zipStreamData.GetType().GetField("zipStream", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(zipStreamData);
+			if (engineInstallationData is ZipStreamEngineInstallationData zipStreamData)
+				return (MemoryStream)zipStreamData.GetType().GetField("zipStream", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(zipStreamData);
+
+			await using var repoData = (RepositoryEngineInstallationData)engineInstallationData;
+			var tempFolder = Path.GetTempFileName();
+			File.Delete(tempFolder);
+			try
+			{
+				await repoData.ExtractToPath(tempFolder, cancellationToken);
+				var resultStream = new MemoryStream();
+				try
+				{
+					ZipFile.CreateFromDirectory(tempFolder, resultStream, CompressionLevel.NoCompression, false);
+					return resultStream;
+				}
+				catch
+				{
+					await resultStream.DisposeAsync();
+					throw;
+				}
+			}
+			finally
+			{
+				await new DefaultIOManager().DeleteDirectory(tempFolder, cancellationToken);
+			}
 		}
 	}
 }

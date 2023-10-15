@@ -1103,8 +1103,10 @@ namespace Tgstation.Server.Tests.Live
 					var usersTest = FailFast(new UsersTest(adminClient).Run(cancellationToken));
 					var instanceManagerTest = new InstanceManagerTest(adminClient, server.Directory);
 					var compatInstanceTask = instanceManagerTest.CreateTestInstance("CompatTestsInstance", cancellationToken);
+					var odInstanceTask = instanceManagerTest.CreateTestInstance("OdTestsInstance", cancellationToken);
 					instance = await instanceManagerTest.CreateTestInstance("LiveTestsInstance", cancellationToken);
 					var compatInstance = await compatInstanceTask;
+					var odInstance = await odInstanceTask;
 					var instancesTest = FailFast(instanceManagerTest.RunPreTest(cancellationToken));
 					Assert.IsTrue(Directory.Exists(instance.Path));
 					var instanceClient = adminClient.Instances.CreateClient(instance);
@@ -1123,7 +1125,7 @@ namespace Tgstation.Server.Tests.Live
 							instanceTest
 								.RunCompatTests(
 									await ByondTest.GetEdgeVersion(EngineType.OpenDream, fileDownloader, cancellationToken),
-									adminClient.Instances.CreateClient(compatInstance),
+									adminClient.Instances.CreateClient(odInstance),
 									odDMPort,
 									odDDPort,
 									server.HighPriorityDreamDaemon,
@@ -1131,6 +1133,9 @@ namespace Tgstation.Server.Tests.Live
 
 						if (TestingUtils.RunningInGitHubActions) // they only have 2 cores, can't handle intense parallelization
 							await odCompatTests;
+
+						await odCompatTests;
+						Assert.Fail("!!!SUCCESS!!!");
 
 						// Some earlier linux BYOND versions have a critical bug where replacing the directory in non-basic watchdogs causes the DreamDaemon cwd to change
 						var canRunCompatTests = new PlatformIdentifier().IsWindows;

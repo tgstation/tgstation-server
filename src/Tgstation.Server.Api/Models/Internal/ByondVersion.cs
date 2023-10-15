@@ -25,11 +25,17 @@ namespace Tgstation.Server.Api.Models.Internal
 		public Version? Version { get; set; }
 
 		/// <summary>
-		/// The git committish of the engine. On response, this will always be a commit SHA. Currently only valid when <see cref="Engine"/> is <see cref="EngineType.Byond"/>.
+		/// The git commit SHA of the engine. Currently only valid when <see cref="Engine"/> is <see cref="EngineType.OpenDream"/>.
 		/// </summary>
 		[ResponseOptions]
-		[StringLength(Limits.MaximumCommitShaLength)]
-		public string? SourceCommittish { get; set; }
+		[StringLength(Limits.MaximumCommitShaLength, MinimumLength = Limits.MaximumCommitShaLength)]
+		public string? SourceSHA { get; set; }
+
+		/// <summary>
+		/// The revision of the custom build.
+		/// </summary>
+		[ResponseOptions]
+		public int? CustomIteration { get; set; }
 
 		/// <summary>
 		/// Parses a stringified <see cref="ByondVersion"/>.
@@ -49,7 +55,8 @@ namespace Tgstation.Server.Api.Models.Internal
 				return false;
 
 			EngineType engine;
-			if (splits.Length > 1)
+			var hasPrefix = splits.Length > 1;
+			if (hasPrefix)
 			{
 				if (!Enum.TryParse(splits[0], out engine))
 					return false;
@@ -59,28 +66,46 @@ namespace Tgstation.Server.Api.Models.Internal
 
 			Version? version;
 			string? sha;
+			int? customRev = null;
 			if (engine == EngineType.Byond)
 			{
 				if (!Version.TryParse(splits.Last(), out version))
 					return false;
+
+				if (version.Build > 0)
+				{
+					customRev = version.Build;
+					version = new Version(version.Major, version.Minor);
+				}
 
 				sha = null;
 			}
 			else
 			{
 				Debug.Assert(engine == EngineType.OpenDream, "This does not support whatever ungodly new engine you've added");
-				sha = splits.Last();
+
+				var shaIndex = hasPrefix ? 1 : 0;
+				sha = splits[shaIndex];
 				if (sha.Length != Limits.MaximumCommitShaLength)
 					return false;
 
 				version = null;
+
+				if (splits.Length - 1 > shaIndex)
+				{
+					if (!Int32.TryParse(splits.Last(), out var customRevResult))
+						return false;
+
+					customRev = customRevResult;
+				}
 			}
 
 			byondVersion = new ByondVersion
 			{
 				Engine = engine,
 				Version = version,
-				SourceCommittish = sha,
+				SourceSHA = sha,
+				CustomIteration = customRev,
 			};
 			return true;
 		}
@@ -103,7 +128,8 @@ namespace Tgstation.Server.Api.Models.Internal
 
 			Version = other.Version;
 			Engine = other.Engine;
-			SourceCommittish = other.SourceCommittish;
+			SourceSHA = other.SourceSHA;
+			CustomIteration = other.CustomIteration;
 		}
 
 		/// <inheritdoc />
@@ -113,7 +139,11 @@ namespace Tgstation.Server.Api.Models.Internal
 #pragma warning disable CA1062 // Validate arguments of public methods
 			return other!.Version?.Semver() == Version?.Semver()
 				&& other.Engine == Engine
-				&& other.SourceCommittish == SourceCommittish;
+				&& (other.SourceSHA == SourceSHA
+				|| (other.SourceSHA != null
+					&& SourceSHA != null
+					&& other.SourceSHA.Equals(SourceSHA, StringComparison.OrdinalIgnoreCase)))
+				&& other.CustomIteration == CustomIteration;
 #pragma warning restore CA1062 // Validate arguments of public methods
 		}
 
@@ -125,7 +155,20 @@ namespace Tgstation.Server.Api.Models.Internal
 		public override string ToString()
 		{
 			var isByond = Engine == EngineType.Byond;
-			return $"{(!isByond ? $"{Engine}-" : String.Empty)}{(isByond ? Version : SourceCommittish)}"; // BYOND isn't displayed for backwards compatibility
+
+			// BYOND encodes differently for backwards compatibility
+			var enginePrefix = !isByond
+				? $"{Engine}-"
+				: String.Empty;
+			var displayedVersion = isByond
+				? (CustomIteration.HasValue
+					? new Version(Version!.Major, Version.Minor, CustomIteration.Value)
+					: Version!).ToString()
+				: SourceSHA;
+			var displayedCustomIteration = !isByond && CustomIteration.HasValue
+				? $"-{CustomIteration}"
+				: String.Empty;
+			return $"{enginePrefix}{displayedVersion}{displayedCustomIteration}";
 		}
 
 		/// <inheritdoc />
