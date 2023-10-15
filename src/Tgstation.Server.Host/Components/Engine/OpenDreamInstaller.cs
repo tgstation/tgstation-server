@@ -24,9 +24,14 @@ namespace Tgstation.Server.Host.Components.Engine
 	class OpenDreamInstaller : EngineInstallerBase
 	{
 		/// <summary>
-		/// The name of the subdirectory used to store the server and compiler binaries.
+		/// The name of the subdirectory used to store the server binaries.
 		/// </summary>
-		const string InstallationBinDirectory = "bin";
+		const string InstallationServerDirectory = "server";
+
+		/// <summary>
+		/// The name of the subdirectory used to store the compiler binaries.
+		/// </summary>
+		const string InstallationCompilerDirectory = "compiler";
 
 		/// <summary>
 		/// The name of the subdirectory used for the <see cref="RepositoryEngineInstallationData"/>'s copy.
@@ -226,16 +231,27 @@ namespace Tgstation.Server.Host.Components.Engine
 			if (buildExitCode != 0)
 				throw new JobException("OpenDream build failed!");
 
-			await IOManager.MoveDirectory(
+			var serverMoveTask = IOManager.MoveDirectory(
 				IOManager.ConcatPath(
 					sourcePath,
-					InstallationBinDirectory,
+					"bin",
 					"Content.Server"),
 				IOManager.ConcatPath(
 					installPath,
-					InstallationBinDirectory),
+					InstallationServerDirectory),
 				cancellationToken);
 
+			var compilerMoveTask = IOManager.MoveDirectory(
+				IOManager.ConcatPath(
+					sourcePath,
+					"bin",
+					"DMCompiler"),
+				IOManager.ConcatPath(
+					installPath,
+					InstallationCompilerDirectory),
+				cancellationToken);
+
+			await Task.WhenAll(serverMoveTask, compilerMoveTask);
 			await IOManager.DeleteDirectory(sourcePath, cancellationToken);
 		}
 
@@ -275,18 +291,18 @@ namespace Tgstation.Server.Host.Components.Engine
 		/// <param name="compilerExePath">The path to the DMCompiler executable.</param>
 		protected void GetExecutablePaths(string installationPath, out string serverExePath, out string compilerExePath)
 		{
-			var binPathForVersion = IOManager.ConcatPath(installationPath, InstallationBinDirectory);
-
 			var exeExtension = platformIdentifier.IsWindows
 				? ".exe"
 				: String.Empty;
 
 			serverExePath = IOManager.ConcatPath(
-				binPathForVersion,
+				installationPath,
+				InstallationServerDirectory,
 				$"OpenDreamServer{exeExtension}");
 
 			compilerExePath = IOManager.ConcatPath(
-				binPathForVersion,
+				installationPath,
+				InstallationCompilerDirectory,
 				$"DMCompiler{exeExtension}");
 		}
 	}
