@@ -501,10 +501,7 @@ namespace Tgstation.Server.Host.Components.Engine
 		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
 		async ValueTask InstallVersionFiles(JobProgressReporter progressReporter, ByondVersion version, Stream customVersionStream, CancellationToken cancellationToken)
 		{
-			var installFullPath = ioManager.ResolvePath(
-				version.Engine == EngineType.Byond
-					? version.ToString()
-					: Guid.NewGuid().ToString()); // too much BS with OD i swear, we can't use the provided committish because it may expand later
+			var installFullPath = ioManager.ResolvePath(version.ToString());
 			async ValueTask DirectoryCleanup()
 			{
 				await ioManager.DeleteDirectory(installFullPath, cancellationToken);
