@@ -49,7 +49,7 @@ namespace Tgstation.Server.Host.Components.Engine
 			ServerExePath = serverExePath ?? throw new ArgumentNullException(nameof(serverExePath));
 			CompilerExePath = compilerExePath ?? throw new ArgumentNullException(nameof(compilerExePath));
 			InstallationTask = installationTask ?? throw new ArgumentNullException(nameof(installationTask));
-			ArgumentNullException.ThrowIfNull(version);
+			Version = version ?? throw new ArgumentNullException(nameof(version));
 
 			if (version.Engine.Value != EngineType.OpenDream)
 				throw new ArgumentException($"Invalid EngineType: {version.Engine.Value}", nameof(version));
