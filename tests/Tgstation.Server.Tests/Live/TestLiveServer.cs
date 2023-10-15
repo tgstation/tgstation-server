@@ -1006,6 +1006,8 @@ namespace Tgstation.Server.Tests.Live
 			using var hardCancellationTokenSource = new CancellationTokenSource(TimeSpan.FromMinutes(maximumTestMinutes));
 			var hardCancellationToken = hardCancellationTokenSource.Token;
 
+			hardCancellationToken.Register(() => Console.WriteLine("TGS TEST CANCELLED TOKEN DUE TO TIMEOUT"));
+
 			ServiceCollectionExtensions.UseAdditionalLoggerProvider<HardFailLoggerProvider>();
 
 			var failureTask = HardFailLoggerProvider.FailureSource;
@@ -1016,6 +1018,7 @@ namespace Tgstation.Server.Tests.Live
 
 			if (!internalTask.IsCompleted)
 			{
+				Console.WriteLine("TGS TEST CANCELLING TOKEN DUE TO ERROR");
 				hardCancellationTokenSource.Cancel();
 				try
 				{
@@ -1441,6 +1444,7 @@ namespace Tgstation.Server.Tests.Live
 			}
 			finally
 			{
+				Console.WriteLine("TGS TEST CANCELLING TOKEN AS FINAL STEP");
 				serverCts.Cancel();
 				try
 				{
