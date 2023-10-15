@@ -153,7 +153,8 @@ namespace Tgstation.Server.Host.Controllers
 #pragma warning restore CA1506
 #pragma warning restore CA1502
 		{
-			var earlyOut = ValidateByondVersion(model);
+			ArgumentNullException.ThrowIfNull(model);
+			var earlyOut = ValidateEngineVersion(model.EngineVersion);
 			if (earlyOut != null)
 				return earlyOut;
 
@@ -170,7 +171,7 @@ namespace Tgstation.Server.Host.Controllers
 				async instance =>
 				{
 					var byondManager = instance.EngineManager;
-					var versionAlreadyInstalled = !uploadingZip && byondManager.InstalledVersions.Any(x => x.Equals(model));
+					var versionAlreadyInstalled = !uploadingZip && byondManager.InstalledVersions.Any(x => x.Equals(model.EngineVersion));
 					if (versionAlreadyInstalled)
 					{
 						Logger.LogInformation(
@@ -181,7 +182,7 @@ namespace Tgstation.Server.Host.Controllers
 
 						try
 						{
-							await byondManager.ChangeVersion(null, model, null, false, cancellationToken);
+							await byondManager.ChangeVersion(null, model.EngineVersion, null, false, cancellationToken);
 						}
 						catch (InvalidOperationException ex)
 						{
@@ -195,7 +196,7 @@ namespace Tgstation.Server.Host.Controllers
 
 					if (!versionAlreadyInstalled)
 					{
-						if (model.CustomIteration.HasValue)
+						if (model.EngineVersion.CustomIteration.HasValue)
 							return BadRequest(new ErrorMessageResponse(ErrorCode.EngineNonExistentCustomVersion));
 
 						Logger.LogInformation(
@@ -207,7 +208,7 @@ namespace Tgstation.Server.Host.Controllers
 						// run the install through the job manager
 						var job = new Models.Job
 						{
-							Description = $"Install {(!uploadingZip ? String.Empty : "custom ")}{model.Engine.Value} version {model.Version}",
+							Description = $"Install {(!uploadingZip ? String.Empty : "custom ")}{model.EngineVersion.Engine.Value} version {model.EngineVersion.Version}",
 							StartedBy = AuthenticationContext.User,
 							CancelRightsType = RightsType.Byond,
 							CancelRight = (ulong)ByondRights.CancelInstall,
@@ -244,7 +245,7 @@ namespace Tgstation.Server.Host.Controllers
 									await using (zipFileStream)
 										await core.EngineManager.ChangeVersion(
 											progressHandler,
-											model,
+											model.EngineVersion,
 											zipFileStream,
 											true,
 											jobCancellationToken);
@@ -283,7 +284,8 @@ namespace Tgstation.Server.Host.Controllers
 		[ProducesResponseType(typeof(ErrorMessageResponse), 410)]
 		public async ValueTask<IActionResult> Delete([FromBody] ByondVersionDeleteRequest model, CancellationToken cancellationToken)
 		{
-			var earlyOut = ValidateByondVersion(model);
+			ArgumentNullException.ThrowIfNull(model);
+			var earlyOut = ValidateEngineVersion(model.EngineVersion);
 			if (earlyOut != null)
 				return earlyOut;
 
@@ -292,11 +294,11 @@ namespace Tgstation.Server.Host.Controllers
 				{
 					var byondManager = instance.EngineManager;
 
-					if (model.Equals(byondManager.ActiveVersion))
+					if (model.EngineVersion.Equals(byondManager.ActiveVersion))
 						return ValueTask.FromResult<IActionResult>(
 							Conflict(new ErrorMessageResponse(ErrorCode.EngineCannotDeleteActiveVersion)));
 
-					var versionNotInstalled = !byondManager.InstalledVersions.Any(x => x.Equals(model));
+					var versionNotInstalled = !byondManager.InstalledVersions.Any(x => x.Equals(model.EngineVersion));
 
 					return ValueTask.FromResult<IActionResult>(
 						versionNotInstalled
@@ -307,7 +309,7 @@ namespace Tgstation.Server.Host.Controllers
 			if (notInstalledResponse != null)
 				return notInstalledResponse;
 
-			var isByondVersion = model.Engine.Value == EngineType.Byond;
+			var isByondVersion = model.EngineVersion.Engine.Value == EngineType.Byond;
 
 			// run the install through the job manager
 			var job = new Models.Job
@@ -317,7 +319,7 @@ namespace Tgstation.Server.Host.Controllers
 				CancelRightsType = RightsType.Byond,
 				CancelRight = (ulong)(
 					isByondVersion
-						? model.Version.Build != -1
+						? model.EngineVersion.Version.Build != -1
 							? ByondRights.InstallOfficialOrChangeActiveByondVersion
 							: ByondRights.InstallCustomByondVersion
 						: ByondRights.InstallCustomOpenDreamVersion | ByondRights.InstallOfficialOrChangeActiveOpenDreamVersion),
@@ -327,7 +329,7 @@ namespace Tgstation.Server.Host.Controllers
 			await jobManager.RegisterOperation(
 				job,
 				(instanceCore, databaseContextFactory, job, progressReporter, jobCancellationToken)
-					=> instanceCore.EngineManager.DeleteVersion(progressReporter, model, jobCancellationToken),
+					=> instanceCore.EngineManager.DeleteVersion(progressReporter, model.EngineVersion, jobCancellationToken),
 				cancellationToken);
 
 			var apiResponse = job.ToApi();
@@ -339,11 +341,9 @@ namespace Tgstation.Server.Host.Controllers
 		/// </summary>
 		/// <param name="version">The <see cref="EngineVersion"/> to validate and normalize.</param>
 		/// <returns>The <see cref="BadRequestObjectResult"/> to return, if any.</returns>
-		BadRequestObjectResult ValidateByondVersion(EngineVersion version)
+		BadRequestObjectResult ValidateEngineVersion(EngineVersion version)
 		{
-			ArgumentNullException.ThrowIfNull(version);
-
-			if (!version.Engine.HasValue)
+			if (version == null || !version.Engine.HasValue)
 				return BadRequest(new ErrorMessageResponse(ErrorCode.ModelValidationFailure));
 
 			var isByond = version.Engine.Value == EngineType.Byond;

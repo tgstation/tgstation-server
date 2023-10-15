@@ -114,7 +114,10 @@ namespace Tgstation.Server.Tests.Live.Instance
 				() => byondClient.SetActiveVersion(
 					new ByondVersionRequest
 					{
-						Engine = testEngine,
+						EngineVersion = new EngineVersion
+						{
+							Engine = testEngine,
+						}
 					},
 					null,
 					cancellationToken),
@@ -132,36 +135,48 @@ namespace Tgstation.Server.Tests.Live.Instance
 		{
 			var deleteThisOneBecauseItWasntPartOfTheOriginalTest = await byondClient.DeleteVersion(new ByondVersionDeleteRequest
 			{
-				Engine = testEngine,
-				Version = testVersion.Version,
-				CustomIteration = 2,
+				EngineVersion = new EngineVersion
+				{
+					Engine = testEngine,
+					Version = testVersion.Version,
+					CustomIteration = 2,
+				}
 			}, cancellationToken);
 			await WaitForJob(deleteThisOneBecauseItWasntPartOfTheOriginalTest, 30, false, null, cancellationToken);
 
 			var nonExistentUninstallResponseTask = ApiAssert.ThrowsException<ConflictException, JobResponse>(() => byondClient.DeleteVersion(
 				new ByondVersionDeleteRequest
 				{
-					Version = new(509, 1000),
-					Engine = testEngine,
+					EngineVersion = new EngineVersion
+					{
+						Version = new(509, 1000),
+						Engine = testEngine,
+					}
 				},
 				cancellationToken), ErrorCode.ResourceNotPresent);
 
 			var uninstallResponseTask = byondClient.DeleteVersion(
 				new ByondVersionDeleteRequest
 				{
-					Version = testVersion.Version,
-					Engine = testVersion.Engine,
-					SourceSHA = testVersion.SourceSHA,
+					EngineVersion = new EngineVersion
+					{
+						Version = testVersion.Version,
+						Engine = testVersion.Engine,
+						SourceSHA = testVersion.SourceSHA,
+					}
 				},
 				cancellationToken);
 
 			var badBecauseActiveResponseTask = ApiAssert.ThrowsException<ConflictException, JobResponse>(() => byondClient.DeleteVersion(
 				new ByondVersionDeleteRequest
 				{
-					Version = testVersion.Version,
-					Engine = testVersion.Engine,
-					SourceSHA = testVersion.SourceSHA,
-					CustomIteration = 1,
+					EngineVersion = new EngineVersion
+					{
+						Version = testVersion.Version,
+						Engine = testVersion.Engine,
+						SourceSHA = testVersion.SourceSHA,
+						CustomIteration = 1,
+					}
 				},
 				cancellationToken), ErrorCode.EngineCannotDeleteActiveVersion);
 
@@ -190,12 +205,15 @@ namespace Tgstation.Server.Tests.Live.Instance
 		{
 			var newModel = new ByondVersionRequest
 			{
-				Version = new Version(5011, 1385)
+				EngineVersion = new EngineVersion
+				{
+					Version = new Version(5011, 1385),
+				}
 			};
 
 			await ApiAssert.ThrowsException<ApiConflictException, ByondInstallResponse>(() => byondClient.SetActiveVersion(newModel, null, cancellationToken), ErrorCode.ModelValidationFailure);
 
-			newModel.Engine = testEngine;
+			newModel.EngineVersion.Engine = testEngine;
 
 			var test = await byondClient.SetActiveVersion(newModel, null, cancellationToken);
 			Assert.IsNotNull(test.InstallJob);
@@ -206,22 +224,25 @@ namespace Tgstation.Server.Tests.Live.Instance
 		{
 			var newModel = new ByondVersionRequest
 			{
-				Version = testVersion.Version,
-				Engine = testVersion.Engine,
-				SourceSHA = testVersion.SourceSHA,
+				EngineVersion = new EngineVersion
+				{
+					Version = testVersion.Version,
+					Engine = testVersion.Engine,
+					SourceSHA = testVersion.SourceSHA,
+				}
 			};
 			var test = await byondClient.SetActiveVersion(newModel, null, cancellationToken);
 			Assert.IsNotNull(test.InstallJob);
 			await WaitForJob(test.InstallJob, 180, false, null, cancellationToken);
 			var currentShit = await byondClient.ActiveVersion(cancellationToken);
-			Assert.AreEqual(newModel, currentShit.EngineVersion);
+			Assert.AreEqual(newModel.EngineVersion, currentShit.EngineVersion);
 			Assert.IsFalse(currentShit.EngineVersion.CustomIteration.HasValue);
 
 			var dreamMaker = "DreamMaker";
 			if (new PlatformIdentifier().IsWindows)
 				dreamMaker += ".exe";
 
-			var dreamMakerDir = Path.Combine(metadata.Path, "Byond", newModel.Version.ToString(), "byond", "bin");
+			var dreamMakerDir = Path.Combine(metadata.Path, "Byond", newModel.EngineVersion.Version.ToString(), "byond", "bin");
 
 			Assert.IsTrue(Directory.Exists(dreamMakerDir), $"Directory {dreamMakerDir} does not exist!");
 			Assert.IsTrue(
@@ -271,10 +292,13 @@ namespace Tgstation.Server.Tests.Live.Instance
 			var test = await byondClient.SetActiveVersion(
 				new ByondVersionRequest
 				{
-					Engine = testVersion.Engine,
-					Version = testVersion.Version,
-					SourceSHA = testVersion.SourceSHA,
-					UploadCustomZip = true
+					EngineVersion = new EngineVersion
+					{
+						Engine = testVersion.Engine,
+						Version = testVersion.Version,
+						SourceSHA = testVersion.SourceSHA,
+					},
+					UploadCustomZip = true,
 				},
 				stableBytesMs,
 				cancellationToken);
@@ -287,10 +311,14 @@ namespace Tgstation.Server.Tests.Live.Instance
 			var test2 = await byondClient.SetActiveVersion(
 				new ByondVersionRequest
 				{
-					Version = testVersion.Version,
-					SourceSHA = testVersion.SourceSHA,
-					Engine = testVersion.Engine,
-					UploadCustomZip = true
+					EngineVersion = new EngineVersion
+					{
+						Version = testVersion.Version,
+						SourceSHA = testVersion.SourceSHA,
+						Engine = testVersion.Engine,
+					},
+					UploadCustomZip = true,
+
 				},
 				stableBytesMs,
 				cancellationToken);
@@ -305,23 +333,32 @@ namespace Tgstation.Server.Tests.Live.Instance
 			// test a few switches
 			var installResponse = await byondClient.SetActiveVersion(new ByondVersionRequest
 			{
-				Version = testVersion.Version,
-				SourceSHA = testVersion.SourceSHA,
-				Engine = testVersion.Engine,
+				EngineVersion = new EngineVersion
+				{
+					Version = testVersion.Version,
+					SourceSHA = testVersion.SourceSHA,
+					Engine = testVersion.Engine,
+				}
 			}, null, cancellationToken);
 			Assert.IsNull(installResponse.InstallJob);
 			await ApiAssert.ThrowsException<ApiConflictException, ByondInstallResponse>(() => byondClient.SetActiveVersion(new ByondVersionRequest
 			{
-				Version = testVersion.Version,
-				Engine = testEngine,
-				CustomIteration = 3,
+				EngineVersion = new EngineVersion
+				{
+					Version = testVersion.Version,
+					Engine = testEngine,
+					CustomIteration = 3,
+				}
 			}, null, cancellationToken), ErrorCode.EngineNonExistentCustomVersion);
 
 			installResponse = await byondClient.SetActiveVersion(new ByondVersionRequest
 			{
-				Version = new Version(testVersion.Version.Major, testVersion.Version.Minor),
-				Engine = testEngine,
-				CustomIteration = 1,
+				EngineVersion = new EngineVersion
+				{
+					Version = new Version(testVersion.Version.Major, testVersion.Version.Minor),
+					Engine = testEngine,
+					CustomIteration = 1,
+				}
 			}, null, cancellationToken);
 			Assert.IsNull(installResponse.InstallJob);
 		}

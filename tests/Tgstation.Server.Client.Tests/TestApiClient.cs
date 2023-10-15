@@ -51,7 +51,7 @@ namespace Tgstation.Server.Client.Tests
 
 			var result = await client.Read<ByondResponse>(Routes.Byond, default);
 			Assert.AreEqual(sample.EngineVersion, result.EngineVersion);
-			Assert.AreEqual(0, result.EngineVersion.Version.Build); // sucks but we can't do better really
+			Assert.AreEqual(-1, result.EngineVersion.Version.Build);
 			Assert.IsFalse(result.EngineVersion.CustomIteration.HasValue);
 		}
 

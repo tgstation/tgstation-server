@@ -182,9 +182,12 @@ namespace Tgstation.Server.Tests.Live.Instance
 				installJob2 = await instanceClient.Byond.SetActiveVersion(new ByondVersionRequest
 				{
 					UploadCustomZip = true,
-					Version = compatVersion.Version,
-					Engine = compatVersion.Engine,
-					SourceSHA = compatVersion.SourceSHA
+					EngineVersion = new EngineVersion
+					{
+						Version = compatVersion.Version,
+						Engine = compatVersion.Engine,
+						SourceSHA = compatVersion.SourceSHA,
+					},
 				}, stableBytesMs, cancellationToken);
 			}
 

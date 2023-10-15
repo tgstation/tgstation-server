@@ -250,9 +250,12 @@ namespace Tgstation.Server.Tests.Live.Instance
 			var setActiveResponse = await instanceClient.Byond.SetActiveVersion(
 				new ByondVersionRequest
 				{
-					Version = testCustomVersion,
-					Engine = testVersion.Engine,
-					CustomIteration = testCustomRevision,
+					EngineVersion = new EngineVersion
+					{
+						Version = testCustomVersion,
+						Engine = testVersion.Engine,
+						CustomIteration = testCustomRevision,
+					}
 				},
 				null,
 				cancellationToken);
@@ -263,9 +266,12 @@ namespace Tgstation.Server.Tests.Live.Instance
 			var deleteJob = await instanceClient.Byond.DeleteVersion(
 				new ByondVersionDeleteRequest
 				{
-					Version = testVersion.Version,
-					SourceSHA = testVersion.SourceSHA,
-					Engine = testVersion.Engine,
+					EngineVersion = new EngineVersion
+					{
+						Version = testVersion.Version,
+						SourceSHA = testVersion.SourceSHA,
+						Engine = testVersion.Engine,
+					}
 				},
 				cancellationToken);
 
@@ -280,9 +286,12 @@ namespace Tgstation.Server.Tests.Live.Instance
 			setActiveResponse = await instanceClient.Byond.SetActiveVersion(
 				new ByondVersionRequest
 				{
-					Version = testVersion.Version,
-					Engine = testVersion.Engine,
-					SourceSHA = testVersion.SourceSHA
+					EngineVersion = new EngineVersion
+					{
+						Version = testVersion.Version,
+						Engine = testVersion.Engine,
+						SourceSHA = testVersion.SourceSHA
+					}
 				},
 				null,
 				cancellationToken);
@@ -297,9 +306,12 @@ namespace Tgstation.Server.Tests.Live.Instance
 			setActiveResponse = await instanceClient.Byond.SetActiveVersion(
 				new ByondVersionRequest
 				{
-					Version = testCustomVersion,
-					Engine = testVersion.Engine,
-					CustomIteration = testCustomRevision,
+					EngineVersion = new EngineVersion
+					{
+						Version = testCustomVersion,
+						Engine = testVersion.Engine,
+						CustomIteration = testCustomRevision,
+					}
 				},
 				null,
 				cancellationToken);
@@ -310,9 +322,12 @@ namespace Tgstation.Server.Tests.Live.Instance
 			deleteJob = await instanceClient.Byond.DeleteVersion(
 				new ByondVersionDeleteRequest
 				{
-					Version = testVersion.Version,
-					Engine = testVersion.Engine,
-					SourceSHA = testVersion.SourceSHA,
+					EngineVersion = new EngineVersion
+					{
+						Version = testVersion.Version,
+						Engine = testVersion.Engine,
+						SourceSHA = testVersion.SourceSHA,
+					}
 				},
 				cancellationToken);
 
@@ -989,9 +1004,12 @@ namespace Tgstation.Server.Tests.Live.Instance
 			var byondInstallJobTask = instanceClient.Byond.SetActiveVersion(
 				new ByondVersionRequest
 				{
-					Version = versionToInstall.Version,
-					Engine = versionToInstall.Engine,
-					SourceSHA = versionToInstall.SourceSHA,
+					EngineVersion = new EngineVersion
+					{
+						Version = versionToInstall.Version,
+						Engine = versionToInstall.Engine,
+						SourceSHA = versionToInstall.SourceSHA,
+					}
 				},
 				null,
 				cancellationToken);

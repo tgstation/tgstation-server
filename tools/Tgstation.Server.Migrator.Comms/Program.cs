@@ -230,7 +230,10 @@ static class Program
 				Console.WriteLine($"Found installed BYOND version: {byondVersion.Major}.{byondVersion.Minor}");
 				byondVersionRequest = new ByondVersionRequest
 				{
-					Version = byondVersion
+					EngineVersion = new EngineVersion
+					{
+						Version = byondVersion
+					}
 				};
 			}
 
