@@ -942,7 +942,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 				}
 			}
 
-			dmeBytes = Encoding.UTF8.GetBytes(String.Join(Environment.NewLine, dmeLines));
+			dmeBytes = Encoding.UTF8.GetBytes(String.Join('\n', dmeLines));
 			await ioManager.WriteAllBytes(dmePath, dmeBytes, cancellationToken);
 		}
 
