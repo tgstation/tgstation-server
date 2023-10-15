@@ -381,18 +381,18 @@ namespace Tgstation.Server.Host.Components.Engine
 		public Task StopAsync(CancellationToken cancellationToken) => Task.CompletedTask;
 
 		/// <summary>
-		/// Ensures a BYOND <paramref name="byondVersion"/> is installed if it isn't already.
+		/// Ensures a BYOND <paramref name="version"/> is installed if it isn't already.
 		/// </summary>
 		/// <param name="progressReporter">The optional <see cref="JobProgressReporter"/> for the operation.</param>
-		/// <param name="byondVersion">The <see cref="ByondVersion"/> to install.</param>
+		/// <param name="version">The <see cref="ByondVersion"/> to install.</param>
 		/// <param name="customVersionStream">Custom zip file <see cref="Stream"/> to use. Will cause a <see cref="Version.Build"/> number to be added.</param>
 		/// <param name="neededForLock">If this BYOND version is required as part of a locking operation.</param>
-		/// <param name="allowInstallation">If an installation should be performed if the <paramref name="byondVersion"/> is not installed. If <see langword="false"/> and an installation is required an <see cref="InvalidOperationException"/> will be thrown.</param>
+		/// <param name="allowInstallation">If an installation should be performed if the <paramref name="version"/> is not installed. If <see langword="false"/> and an installation is required an <see cref="InvalidOperationException"/> will be thrown.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="EngineExecutableLock"/>.</returns>
 		async ValueTask<EngineExecutableLock> AssertAndLockVersion(
 			JobProgressReporter progressReporter,
-			ByondVersion byondVersion,
+			ByondVersion version,
 			Stream customVersionStream,
 			bool neededForLock,
 			bool allowInstallation,
@@ -402,28 +402,27 @@ namespace Tgstation.Server.Host.Components.Engine
 			IEngineInstallation installation;
 			EngineExecutableLock installLock;
 			bool installedOrInstalling;
-			var byondEngine = byondVersion.Engine.Value == EngineType.Byond;
 			lock (installedVersions)
 			{
-				if (customVersionStream != null && byondEngine)
+				if (customVersionStream != null)
 				{
 					var customInstallationNumber = 1;
 					do
 					{
-						byondVersion.CustomIteration = customInstallationNumber++;
+						version.CustomIteration = customInstallationNumber++;
 					}
-					while (installedVersions.ContainsKey(byondVersion));
+					while (installedVersions.ContainsKey(version));
 				}
 
-				installedOrInstalling = installedVersions.TryGetValue(byondVersion, out var installationContainer);
+				installedOrInstalling = installedVersions.TryGetValue(version, out var installationContainer);
 				if (!installedOrInstalling)
 				{
 					if (!allowInstallation)
-						throw new InvalidOperationException($"BYOND version {byondVersion} not installed!");
+						throw new InvalidOperationException($"Engine version {version} not installed!");
 
 					installationContainer = AddInstallationContainer(
-						byondVersion,
-						ioManager.ResolvePath(byondVersion.ToString()),
+						version,
+						ioManager.ResolvePath(version.ToString()),
 						ourTcs.Task);
 				}
 
@@ -439,7 +438,7 @@ namespace Tgstation.Server.Host.Components.Engine
 						progressReporter.StageName = "Waiting for existing installation job...";
 
 					if (neededForLock && !installation.InstallationTask.IsCompleted)
-						logger.LogWarning("The required BYOND version ({version}) is not readily available! We will have to wait for it to install.", byondVersion);
+						logger.LogWarning("The required engine version ({version}) is not readily available! We will have to wait for it to install.", version);
 
 					await installation.InstallationTask.WaitAsync(cancellationToken);
 					return installLock;
@@ -449,24 +448,24 @@ namespace Tgstation.Server.Host.Components.Engine
 				try
 				{
 					if (customVersionStream != null)
-						logger.LogInformation("Installing custom BYOND version as {version}...", byondVersion);
+						logger.LogInformation("Installing custom engine version as {version}...", version);
 					else if (neededForLock)
 					{
-						if (byondEngine && byondVersion.CustomIteration.HasValue)
+						if (version.CustomIteration.HasValue)
 							throw new JobException(ErrorCode.EngineNonExistentCustomVersion);
 
-						logger.LogWarning("The required BYOND version ({version}) is not readily available! We will have to install it.", byondVersion);
+						logger.LogWarning("The required engine version ({version}) is not readily available! We will have to install it.", version);
 					}
 					else
-						logger.LogDebug("Requested BYOND version {version} not currently installed. Doing so now...", byondVersion);
+						logger.LogDebug("Requested engine version {version} not currently installed. Doing so now...", version);
 
 					if (progressReporter != null)
 						progressReporter.StageName = "Running event";
 
-					var versionString = byondVersion.ToString();
+					var versionString = version.ToString();
 					await eventConsumer.HandleEvent(EventType.ByondInstallStart, new List<string> { versionString }, false, cancellationToken);
 
-					await InstallVersionFiles(progressReporter, byondVersion, customVersionStream, cancellationToken);
+					await InstallVersionFiles(progressReporter, version, customVersionStream, cancellationToken);
 
 					ourTcs.SetResult();
 				}
@@ -476,7 +475,7 @@ namespace Tgstation.Server.Host.Components.Engine
 						await eventConsumer.HandleEvent(EventType.ByondInstallFail, new List<string> { ex.Message }, false, cancellationToken);
 
 					lock (installedVersions)
-						installedVersions.Remove(byondVersion);
+						installedVersions.Remove(version);
 
 					ourTcs.SetException(ex);
 					throw;
