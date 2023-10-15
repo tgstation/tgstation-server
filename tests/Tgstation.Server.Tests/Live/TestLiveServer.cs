@@ -81,7 +81,21 @@ namespace Tgstation.Server.Tests.Live
 			if (port.HasValue)
 				result = result.Where(x =>
 				{
-					if (GetCommandLine(x)?.Contains($"-port {port.Value}") ?? false)
+					string portString = null;
+					switch (engineType)
+					{
+						case EngineType.OpenDream:
+							portString = $"--cvar net.port={port.Value}";
+							break;
+						case EngineType.Byond:
+							portString = $"-port {port.Value}";
+							break;
+						default:
+							Assert.Fail($"Unknown engine type: {engineType}");
+							break;
+					}
+
+					if (GetCommandLine(x)?.Contains(portString) ?? false)
 						return true;
 
 					x.Dispose();
