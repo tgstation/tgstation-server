@@ -23,6 +23,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 		readonly ushort dmPort;
 		readonly ushort ddPort;
 		readonly bool lowPriorityDeployments;
+		readonly EngineType testEngine;
 
 		Task vpTest;
 
@@ -31,7 +32,8 @@ namespace Tgstation.Server.Tests.Live.Instance
 			IJobsClient jobsClient,
 			ushort dmPort,
 			ushort ddPort,
-			bool lowPriorityDeployments) : base(jobsClient)
+			bool lowPriorityDeployments,
+			EngineType testEngine) : base(jobsClient)
 		{
 			this.instanceClient = instanceClient ?? throw new ArgumentNullException(nameof(instanceClient));
 			dreamMakerClient = instanceClient.DreamMaker;
@@ -39,6 +41,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			this.dmPort = dmPort;
 			this.ddPort = ddPort;
 			this.lowPriorityDeployments = lowPriorityDeployments;
+			this.testEngine = testEngine;
 		}
 
 		public async ValueTask RunPreRepoClone(CancellationToken cancellationToken)
@@ -61,12 +64,12 @@ namespace Tgstation.Server.Tests.Live.Instance
 			// this doesn't check dm's priority, but it really should
 			while (!deploymentJobWaitTask.IsCompleted)
 			{
-				var allProcesses = TestLiveServer.GetDDProcessesOnPort(dmPort);
+				var allProcesses = TestLiveServer.GetEngineServerProcessesOnPort(testEngine, dmPort);
 				if (allProcesses.Count == 0)
 					continue;
 
 				if (allProcesses.Count > 1)
-					Assert.Fail("Multiple DreamDaemon-like processes running!");
+					Assert.Fail("Multiple engine-like processes running!");
 
 				using var process = allProcesses[0];
 

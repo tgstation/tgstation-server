@@ -60,12 +60,23 @@ namespace Tgstation.Server.Tests.Live
 
 		readonly ServerClientFactory clientFactory = new (new ProductHeaderValue(Assembly.GetExecutingAssembly().GetName().Name, Assembly.GetExecutingAssembly().GetName().Version.ToString()));
 
-		public static List<System.Diagnostics.Process> GetDDProcessesOnPort(ushort? port)
+		public static List<System.Diagnostics.Process> GetEngineServerProcessesOnPort(EngineType engineType, ushort? port)
 		{
 			var result = new List<System.Diagnostics.Process>();
-			result.AddRange(System.Diagnostics.Process.GetProcessesByName("DreamDaemon"));
-			if (new PlatformIdentifier().IsWindows)
-				result.AddRange(System.Diagnostics.Process.GetProcessesByName("dd"));
+
+			switch (engineType) {
+				case EngineType.Byond:
+					result.AddRange(System.Diagnostics.Process.GetProcessesByName("DreamDaemon"));
+					if (new PlatformIdentifier().IsWindows)
+						result.AddRange(System.Diagnostics.Process.GetProcessesByName("dd"));
+					break;
+				case EngineType.OpenDream:
+					result.AddRange(System.Diagnostics.Process.GetProcessesByName("OpenDreamServer"));
+					break;
+				default:
+					Assert.Fail($"Unknown engine type: {engineType}");
+					return null;
+			}
 
 			if (port.HasValue)
 				result = result.Where(x =>
@@ -102,11 +113,12 @@ namespace Tgstation.Server.Tests.Live
 			}
 		}
 
-		static void TerminateAllDDs()
+		static void TerminateAllEngineServers()
 		{
-			foreach (var proc in GetDDProcessesOnPort(null))
-				using (proc)
-					proc.Kill();
+			foreach (var enumValue in Enum.GetValues<EngineType>())
+				foreach (var proc in GetEngineServerProcessesOnPort(enumValue, null))
+					using (proc)
+						proc.Kill();
 		}
 
 		static ushort FreeTcpPort(params ushort[] usedPorts)
@@ -1057,7 +1069,7 @@ namespace Tgstation.Server.Tests.Live
 			using var serverCts = CancellationTokenSource.CreateLinkedTokenSource(hardCancellationToken);
 			var cancellationToken = serverCts.Token;
 
-			TerminateAllDDs();
+			TerminateAllEngineServers();
 
 			InstanceManager GetInstanceManager() => ((Host.Server)server.RealServer).Host.Services.GetRequiredService<InstanceManager>();
 
@@ -1315,7 +1327,7 @@ namespace Tgstation.Server.Tests.Live
 							.Select(e => instanceClient.Jobs.GetId(e, cancellationToken))
 							.ToList();
 
-						
+
 						jobs = (await ValueTaskExtensions.WhenAll(getTasks))
 							.Where(x => x.StartedAt.Value > preStartupTime)
 						.ToList();
@@ -1422,7 +1434,7 @@ namespace Tgstation.Server.Tests.Live
 				}
 				catch (OperationCanceledException) { }
 
-				TerminateAllDDs();
+				TerminateAllEngineServers();
 			}
 
 			Assert.IsTrue(serverTask.IsCompleted);

@@ -535,7 +535,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			CheckDDPriority();
 
 			// lock on to DD and pause it so it can't health check
-			var ddProcs = TestLiveServer.GetDDProcessesOnPort(ddPort).Where(x => !x.HasExited).ToList();
+			var ddProcs = TestLiveServer.GetEngineServerProcessesOnPort(testVersion.Engine.Value, ddPort).Where(x => !x.HasExited).ToList();
 			if (ddProcs.Count != 1)
 				Assert.Fail($"Incorrect number of DD processes: {ddProcs.Count}");
 
@@ -882,7 +882,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 		void CheckDDPriority()
 		{
-			var allProcesses = TestLiveServer.GetDDProcessesOnPort(ddPort).Where(x => !x.HasExited).ToList();
+			var allProcesses = TestLiveServer.GetEngineServerProcessesOnPort(testVersion.Engine.Value, ddPort).Where(x => !x.HasExited).ToList();
 			if (allProcesses.Count == 0)
 				Assert.Fail("Expected DreamDaemon to be running here");
 
@@ -1093,7 +1093,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 		bool KillDD(bool require)
 		{
-			var ddProcs = TestLiveServer.GetDDProcessesOnPort(ddPort).Where(x => !x.HasExited).ToList();
+			var ddProcs = TestLiveServer.GetEngineServerProcessesOnPort(testVersion.Engine.Value, ddPort).Where(x => !x.HasExited).ToList();
 			if (require && ddProcs.Count == 0 || ddProcs.Count > 1)
 				Assert.Fail($"Incorrect number of DD processes: {ddProcs.Count}");
 
@@ -1167,7 +1167,12 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 			var ddInfo = await instanceClient.DreamDaemon.Read(cancellationToken);
 			if (requireApi)
-				Assert.IsNotNull((ddInfo.StagedCompileJob ?? ddInfo.ActiveCompileJob).DMApiVersion);
+			{
+				var targetJob = ddInfo.StagedCompileJob ?? ddInfo.ActiveCompileJob;
+				Assert.IsNotNull(targetJob);
+				Assert.IsNotNull(targetJob.DMApiVersion);
+			}
+
 			return ddInfo;
 		}
 

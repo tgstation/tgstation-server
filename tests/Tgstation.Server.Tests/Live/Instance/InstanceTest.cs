@@ -42,11 +42,12 @@ namespace Tgstation.Server.Tests.Live.Instance
 			bool lowPrioDeployment,
 			CancellationToken cancellationToken)
 		{
-			var byondTest = new ByondTest(instanceClient.Byond, instanceClient.Jobs, fileDownloader, instanceClient.Metadata, EngineType.Byond);
+			var testVersion = await ByondTest.GetEdgeVersion(EngineType.Byond, fileDownloader, cancellationToken);
+			var byondTest = new ByondTest(instanceClient.Byond, instanceClient.Jobs, fileDownloader, instanceClient.Metadata, testVersion.Engine.Value);
 			var chatTest = new ChatTest(instanceClient.ChatBots, instanceManagerClient, instanceClient.Jobs, instanceClient.Metadata);
 			var configTest = new ConfigurationTest(instanceClient.Configuration, instanceClient.Metadata);
 			var repoTest = new RepositoryTest(instanceClient.Repository, instanceClient.Jobs);
-			var dmTest = new DeploymentTest(instanceClient, instanceClient.Jobs, dmPort, ddPort, lowPrioDeployment);
+			var dmTest = new DeploymentTest(instanceClient, instanceClient.Jobs, dmPort, ddPort, lowPrioDeployment, testVersion.Engine.Value);
 
 			var byondTask = byondTest.Run(cancellationToken, out var firstInstall);
 			var chatTask = chatTest.RunPreWatchdog(cancellationToken);
@@ -62,8 +63,8 @@ namespace Tgstation.Server.Tests.Live.Instance
 			await dmTask;
 			await byondTask;
 
-			await new WatchdogTest(
-				await ByondTest.GetEdgeVersion(EngineType.Byond, fileDownloader, cancellationToken), instanceClient, instanceManager, serverPort, highPrioDD, ddPort).Run(cancellationToken);
+			await new WatchdogTest(testVersion, instanceClient, instanceManager, serverPort, highPrioDD, ddPort)
+				.Run(cancellationToken);
 		}
 
 		public async Task RunCompatTests(
@@ -74,12 +75,6 @@ namespace Tgstation.Server.Tests.Live.Instance
 			bool highPrioDD,
 			CancellationToken cancellationToken)
 		{
-			if (compatVersion.Engine.Value == EngineType.OpenDream)
-#if DEBUG
-				return;
-#else
-				Assert.Fail("OD Compat test not ready!");
-#endif
 			System.Console.WriteLine($"COMPAT TEST START: {compatVersion}");
 			const string Origin = "https://github.com/Cyberboss/common_core";
 			var cloneRequest = instanceClient.Repository.Clone(new RepositoryCreateRequest
@@ -207,10 +202,14 @@ namespace Tgstation.Server.Tests.Live.Instance
 			if (compatVersion.Engine.Value == EngineType.OpenDream)
 			{
 				Assert.IsNotNull(compatVersion.SourceSHA);
-				Assert.AreNotEqual(Limits.MaximumCommitShaLength, compatVersion.SourceSHA.Length);
 				var activeVersion = await instanceClient.Byond.ActiveVersion(cancellationToken);
 				Assert.AreEqual(Limits.MaximumCommitShaLength, activeVersion.EngineVersion.SourceSHA.Length);
-				Assert.AreEqual(compatVersion, activeVersion.EngineVersion);
+				Assert.AreEqual(compatVersion.SourceSHA, activeVersion.EngineVersion.SourceSHA);
+				Assert.AreEqual(compatVersion.Version, activeVersion.EngineVersion.Version);
+				Assert.AreEqual(compatVersion.Engine, activeVersion.EngineVersion.Engine);
+				Assert.AreEqual(1, activeVersion.EngineVersion.CustomIteration);
+
+				compatVersion = activeVersion.EngineVersion;
 			}
 
 			var configSetupTask = new ConfigurationTest(instanceClient.Configuration, instanceClient.Metadata).SetupDMApiTests(cancellationToken);
