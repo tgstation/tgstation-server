@@ -51,7 +51,7 @@ namespace Tgstation.Server.Api.Models.Internal
 			var splits = input.Split(new char[] { '-' }, StringSplitOptions.RemoveEmptyEntries);
 			engineVersion = null;
 
-			if (splits.Length > 2)
+			if (splits.Length > 3)
 				return false;
 
 			EngineType engine;
