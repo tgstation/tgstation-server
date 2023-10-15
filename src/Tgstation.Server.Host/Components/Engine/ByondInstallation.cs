@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
 
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Internal;
@@ -14,25 +12,25 @@ namespace Tgstation.Server.Host.Components.Engine
 	/// <summary>
 	/// Implementation of <see cref="IEngineInstallation"/> for <see cref="EngineType.Byond"/>.
 	/// </summary>
-	sealed class ByondInstallation : IEngineInstallation
+	sealed class ByondInstallation : EngineInstallationBase
 	{
 		/// <inheritdoc />
-		public EngineVersion Version { get; }
+		public override EngineVersion Version { get; }
 
 		/// <inheritdoc />
-		public string ServerExePath { get; }
+		public override string ServerExePath { get; }
 
 		/// <inheritdoc />
-		public string CompilerExePath { get; }
+		public override string CompilerExePath { get; }
 
 		/// <inheritdoc />
-		public bool PromptsForNetworkAccess { get; }
+		public override bool PromptsForNetworkAccess { get; }
 
 		/// <inheritdoc />
-		public bool HasStandardOutput { get; }
+		public override bool HasStandardOutput { get; }
 
 		/// <inheritdoc />
-		public Task InstallationTask { get; }
+		public override Task InstallationTask { get; }
 
 		/// <summary>
 		/// If map threads are supported by the <see cref="Version"/>.
@@ -103,7 +101,7 @@ namespace Tgstation.Server.Host.Components.Engine
 		}
 
 		/// <inheritdoc />
-		public string FormatServerArguments(
+		public override string FormatServerArguments(
 			IDmbProvider dmbProvider,
 			IReadOnlyDictionary<string, string> parameters,
 			DreamDaemonLaunchParameters launchParameters,
@@ -113,10 +111,7 @@ namespace Tgstation.Server.Host.Components.Engine
 			ArgumentNullException.ThrowIfNull(parameters);
 			ArgumentNullException.ThrowIfNull(launchParameters);
 
-			var parametersString = String.Join('&', parameters.Select(kvp => $"{HttpUtility.UrlEncode(kvp.Key)}={HttpUtility.UrlEncode(kvp.Value)}"));
-
-			if (!String.IsNullOrEmpty(launchParameters.AdditionalParameters))
-				parametersString = $"{parametersString}&{launchParameters.AdditionalParameters}";
+			var parametersString = EncodeParameters(parameters, launchParameters);
 
 			var arguments = String.Format(
 				CultureInfo.InvariantCulture,
@@ -142,7 +137,7 @@ namespace Tgstation.Server.Host.Components.Engine
 		}
 
 		/// <inheritdoc />
-		public string FormatCompilerArguments(string dmePath)
+		public override string FormatCompilerArguments(string dmePath)
 			=> $"-clean \"{dmePath ?? throw new ArgumentNullException(nameof(dmePath))}\"";
 	}
 }

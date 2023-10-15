@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
 
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Internal;
@@ -13,25 +11,25 @@ namespace Tgstation.Server.Host.Components.Engine
 	/// <summary>
 	/// Implementation of <see cref="IEngineInstallation"/> for <see cref="EngineType.OpenDream"/>.
 	/// </summary>
-	sealed class OpenDreamInstallation : IEngineInstallation
+	sealed class OpenDreamInstallation : EngineInstallationBase
 	{
 		/// <inheritdoc />
-		public EngineVersion Version { get; }
+		public override EngineVersion Version { get; }
 
 		/// <inheritdoc />
-		public string ServerExePath { get; }
+		public override string ServerExePath { get; }
 
 		/// <inheritdoc />
-		public string CompilerExePath { get; }
+		public override string CompilerExePath { get; }
 
 		/// <inheritdoc />
-		public bool PromptsForNetworkAccess => false;
+		public override bool PromptsForNetworkAccess => false;
 
 		/// <inheritdoc />
-		public bool HasStandardOutput => true;
+		public override bool HasStandardOutput => true;
 
 		/// <inheritdoc />
-		public Task InstallationTask { get; }
+		public override Task InstallationTask { get; }
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="OpenDreamInstallation"/> class.
@@ -56,39 +54,27 @@ namespace Tgstation.Server.Host.Components.Engine
 		}
 
 		/// <inheritdoc />
-		public string FormatServerArguments(IDmbProvider dmbProvider, IReadOnlyDictionary<string, string> parameters, DreamDaemonLaunchParameters launchParameters, string logFilePath)
+		public override string FormatServerArguments(
+			IDmbProvider dmbProvider,
+			IReadOnlyDictionary<string, string> parameters,
+			DreamDaemonLaunchParameters launchParameters,
+			string logFilePath)
 		{
 			ArgumentNullException.ThrowIfNull(dmbProvider);
 			ArgumentNullException.ThrowIfNull(parameters);
 			ArgumentNullException.ThrowIfNull(launchParameters);
 
-			var parametersString = String.Join(';', parameters.Select(kvp => $"{kvp.Key}={kvp.Value}"));
+			if (logFilePath != null)
+				throw new NotSupportedException("OpenDream does not support logging to a file!");
 
-			if (!String.IsNullOrEmpty(launchParameters.AdditionalParameters))
-			{
-				// TGS and BYOND expect url encoded params, OD takes unencoded
-				var unencodedAdditionalParams = String.Join(
-					';',
-					launchParameters
-						.AdditionalParameters
-						.Split('&')
-						.Select(
-							singleParam => String.Join(
-								'=',
-								singleParam
-									.Split('=')
-									.Select(
-										encodedParam => HttpUtility.UrlDecode(encodedParam)))));
-
-				parametersString = $"{parametersString};{unencodedAdditionalParams}";
-			}
+			var parametersString = EncodeParameters(parameters, launchParameters);
 
 			var arguments = $"--cvar net.port={launchParameters.Port.Value} --cvar opendream.topic_port=0 --cvar opendream.world_params=\"{parametersString}\" \"{dmbProvider.DmbName}\"";
 			return arguments;
 		}
 
 		/// <inheritdoc />
-		public string FormatCompilerArguments(string dmePath)
+		public override string FormatCompilerArguments(string dmePath)
 			=> $"--suppress-unimplemented --notices-enabled \"{dmePath ?? throw new ArgumentNullException(nameof(dmePath))}\"";
 	}
 }
