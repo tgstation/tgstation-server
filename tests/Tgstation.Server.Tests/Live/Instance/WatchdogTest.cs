@@ -884,10 +884,10 @@ namespace Tgstation.Server.Tests.Live.Instance
 		{
 			var allProcesses = TestLiveServer.GetEngineServerProcessesOnPort(testVersion.Engine.Value, ddPort).Where(x => !x.HasExited).ToList();
 			if (allProcesses.Count == 0)
-				Assert.Fail("Expected DreamDaemon to be running here");
+				Assert.Fail("Expected engine server to be running here");
 
 			if (allProcesses.Count > 1)
-				Assert.Fail("Multiple DreamDaemon-like processes running!");
+				Assert.Fail("Multiple engine server-like processes running!");
 
 			using var process = allProcesses[0];
 
