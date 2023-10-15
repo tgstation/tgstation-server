@@ -95,9 +95,17 @@ namespace Tgstation.Server.Tests.Live.Instance
 				var byondVersion = list[0];
 
 				Assert.AreEqual(1, byondVersion.Version.CustomIteration);
-				Assert.AreEqual(testVersion.Version.Major, byondVersion.Version.Version.Major);
-				Assert.AreEqual(testVersion.Version.Minor, byondVersion.Version.Version.Minor);
 				Assert.AreEqual(testVersion.Engine, byondVersion.Version.Engine);
+				if (testVersion.Version != null)
+				{
+					Assert.AreEqual(testVersion.Version.Major, byondVersion.Version.Version.Major);
+					Assert.AreEqual(testVersion.Version.Minor, byondVersion.Version.Version.Minor);
+				}
+				else
+				{
+					Assert.IsNull(byondVersion.Version.Version);
+					Assert.AreEqual(testVersion.SourceSHA, byondVersion.Version.SourceSHA);
+				}
 			}
 
 			await Task.WhenAll(
