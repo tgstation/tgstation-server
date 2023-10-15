@@ -23,6 +23,7 @@ namespace Tgstation.Server.Host.Extensions
 				ProtocolType.Tcp);
 			socket.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ExclusiveAddressUse, true);
 			socket.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReuseAddress, false);
+			socket.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.DontLinger, true);
 			if (includeIPv6)
 				socket.DualMode = true;
 
