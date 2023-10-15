@@ -247,7 +247,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 
 			if (!Api.Models.Internal.EngineVersion.TryParse(compileJob.ByondVersion, out var engineVersion))
 			{
-				logger.LogWarning("Error loading compile job, bad BYOND version: {0}", compileJob.ByondVersion);
+				logger.LogWarning("Error loading compile job, bad engine version: {0}", compileJob.ByondVersion);
 				return null; // omae wa mou shinderu
 			}
 
