@@ -201,7 +201,7 @@ namespace Tgstation.Server.Host.Controllers
 						Logger.LogInformation(
 							"User ID {userId} installing engine version {newByondVersion} on instance ID {instanceId}",
 							AuthenticationContext.User.Id,
-							model.Version,
+							model,
 							Instance.Id);
 
 						// run the install through the job manager
