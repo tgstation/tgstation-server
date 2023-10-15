@@ -254,8 +254,9 @@ namespace Tgstation.Server.Host.Components.Session
 				// mad this isn't abstracted but whatever
 				if (dmbProvider.EngineVersion.Engine.Value == EngineType.Byond)
 					await CheckPagerIsNotRunning();
-				else if (dmbProvider.EngineVersion.Engine.Value == EngineType.OpenDream)
-					await asyncDelayer.Delay(TimeSpan.FromMilliseconds(1), cancellationToken); // OpenDream is 2fuckingfast and can trip after we bind tested the port
+
+				if (platformIdentifier.IsWindows)
+					await asyncDelayer.Delay(TimeSpan.FromMilliseconds(500), cancellationToken); // Server can trip after we bind tested the port
 
 				string outputFilePath = null;
 				var preserveLogFile = true;
