@@ -206,21 +206,25 @@ namespace Tgstation.Server.Host.Components.Engine
 
 			var dotnetPath = dotnetPaths[selectedPathIndex];
 
-			await using (var buildProcess = ProcessExecutor.LaunchProcess(
-				dotnetPath,
+			int? buildExitCode = null;
+			await HandleExtremelyLongPathOperation(
+				async shortenedPath =>
+				{
+					await using var buildProcess = ProcessExecutor.LaunchProcess(
+						dotnetPath,
+						shortenedPath,
+						"build -c Release /p:TgsEngineBuild=true",
+						null,
+						true,
+						true);
+					buildExitCode = await buildProcess.Lifetime;
+					Logger.LogDebug("Build output:{newLine}{output}", Environment.NewLine, await buildProcess.GetCombinedOutput(cancellationToken));
+				},
 				sourcePath,
-				"build -c Release /p:TgsEngineBuild=true",
-				null,
-				true,
-				true))
-			{
-				var buildExitCode = await buildProcess.Lifetime;
+				cancellationToken);
 
-				Logger.LogDebug("Build output:{newLine}{output}", Environment.NewLine, await buildProcess.GetCombinedOutput(cancellationToken));
-
-				if (buildExitCode != 0)
-					throw new JobException("OpenDream build failed!");
-			}
+			if (buildExitCode != 0)
+				throw new JobException("OpenDream build failed!");
 
 			await IOManager.MoveDirectory(
 				IOManager.ConcatPath(
@@ -249,6 +253,19 @@ namespace Tgstation.Server.Host.Components.Engine
 			ArgumentNullException.ThrowIfNull(fullDmbPath);
 			return ValueTask.CompletedTask;
 		}
+
+		/// <summary>
+		/// Perform an operation on a very long path.
+		/// </summary>
+		/// <param name="shortenedPathOperation">A <see cref="Func{T, TResult}"/> taking a shortened path and resulting in a <see cref="ValueTask"/> representing the running operation.</param>
+		/// <param name="originalPath">The original path to the directory.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
+		protected virtual ValueTask HandleExtremelyLongPathOperation(
+			Func<string, ValueTask> shortenedPathOperation,
+			string originalPath,
+			CancellationToken cancellationToken)
+			=> shortenedPathOperation(originalPath); // based god linux has no such weakness
 
 		/// <summary>
 		/// Gets the paths to the server and client executables.

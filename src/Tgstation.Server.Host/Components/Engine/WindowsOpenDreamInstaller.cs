@@ -22,6 +22,11 @@ namespace Tgstation.Server.Host.Components.Engine
 	sealed class WindowsOpenDreamInstaller : OpenDreamInstaller
 	{
 		/// <summary>
+		/// The <see cref="ISymlinkFactory"/> for the <see cref="WindowsOpenDreamInstaller"/>.
+		/// </summary>
+		readonly ISymlinkFactory symlinkFactory;
+
+		/// <summary>
 		/// Initializes a new instance of the <see cref="WindowsOpenDreamInstaller"/> class.
 		/// </summary>
 		/// <param name="ioManager">The <see cref="IIOManager"/> for the <see cref="OpenDreamInstaller"/>.</param>
@@ -30,13 +35,15 @@ namespace Tgstation.Server.Host.Components.Engine
 		/// <param name="processExecutor">The <see cref="IProcessExecutor"/> for the <see cref="OpenDreamInstaller"/>.</param>
 		/// <param name="repositoryManager">The <see cref="IRepositoryManager"/> for the <see cref="OpenDreamInstaller"/>.</param>
 		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> of <see cref="GeneralConfiguration"/> for the <see cref="OpenDreamInstaller"/>.</param>
+		/// <param name="symlinkFactory">The value of <see cref="symlinkFactory"/>.</param>
 		public WindowsOpenDreamInstaller(
 			IIOManager ioManager,
 			ILogger<WindowsOpenDreamInstaller> logger,
 			IPlatformIdentifier platformIdentifier,
 			IProcessExecutor processExecutor,
 			IRepositoryManager repositoryManager,
-			IOptions<GeneralConfiguration> generalConfigurationOptions)
+			IOptions<GeneralConfiguration> generalConfigurationOptions,
+			ISymlinkFactory symlinkFactory)
 			: base(
 				ioManager,
 				logger,
@@ -45,6 +52,7 @@ namespace Tgstation.Server.Host.Components.Engine
 				repositoryManager,
 				generalConfigurationOptions)
 		{
+			this.symlinkFactory = symlinkFactory ?? throw new ArgumentNullException(nameof(symlinkFactory));
 		}
 
 		/// <inheritdoc />
@@ -58,6 +66,21 @@ namespace Tgstation.Server.Host.Components.Engine
 					version,
 					installPath,
 					cancellationToken));
+
+		/// <inheritdoc />
+		protected override async ValueTask HandleExtremelyLongPathOperation(Func<string, ValueTask> shortenedPathOperation, string originalPath, CancellationToken cancellationToken)
+		{
+			var shortPath = $"C:/{Guid.NewGuid()}";
+			await symlinkFactory.CreateSymbolicLink(originalPath, shortPath, cancellationToken);
+			try
+			{
+				await shortenedPathOperation(shortPath);
+			}
+			finally
+			{
+				await IOManager.DeleteDirectory(shortPath, CancellationToken.None); // DCT: Should always run.
+			}
+		}
 
 		/// <summary>
 		/// Attempt to add the DreamDaemon executable as an exception to the Windows firewall.
