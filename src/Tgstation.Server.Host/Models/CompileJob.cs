@@ -90,7 +90,7 @@ namespace Tgstation.Server.Host.Models
 			Job = Job.ToApi(),
 			Output = Output,
 			RevisionInformation = RevisionInformation.ToApi(),
-			ByondVersion = Api.Models.Internal.ByondVersion.TryParse(ByondVersion, out var version)
+			ByondVersion = Api.Models.Internal.EngineVersion.TryParse(ByondVersion, out var version)
 				? version
 				: throw new InvalidOperationException($"Failed to parse BYOND version: {ByondVersion}"),
 			MinimumSecurityLevel = MinimumSecurityLevel,

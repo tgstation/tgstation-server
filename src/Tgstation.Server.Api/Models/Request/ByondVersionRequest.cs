@@ -3,9 +3,9 @@
 namespace Tgstation.Server.Api.Models.Request
 {
 	/// <summary>
-	/// A request to install a <see cref="ByondVersion"/>.
+	/// A request to install a <see cref="EngineVersion"/>.
 	/// </summary>
-	public sealed class ByondVersionRequest : ByondVersion
+	public sealed class ByondVersionRequest : EngineVersion
 	{
 		/// <summary>
 		/// If a custom BYOND version is to be uploaded.

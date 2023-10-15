@@ -11,7 +11,7 @@ namespace Tgstation.Server.Host.Components.Engine
 	sealed class EngineExecutableLock : ReferenceCounter<IEngineInstallation>, IEngineExecutableLock
 	{
 		/// <inheritdoc />
-		public ByondVersion Version => Instance.Version;
+		public EngineVersion Version => Instance.Version;
 
 		/// <inheritdoc />
 		public string ServerExePath => Instance.ServerExePath;

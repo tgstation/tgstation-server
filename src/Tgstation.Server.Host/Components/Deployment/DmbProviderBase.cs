@@ -12,11 +12,11 @@ namespace Tgstation.Server.Host.Components.Deployment
 		/// <inheritdoc />
 		public string DmbName => String.Concat(
 			CompileJob.DmeName,
-			ByondVersion.Engine.Value switch
+			EngineVersion.Engine.Value switch
 			{
 				EngineType.Byond => ".dmb",
 				EngineType.OpenDream => ".json",
-				_ => throw new InvalidOperationException($"Invalid EngineType: {ByondVersion.Engine.Value}"),
+				_ => throw new InvalidOperationException($"Invalid EngineType: {EngineVersion.Engine.Value}"),
 			});
 
 		/// <inheritdoc />
@@ -26,7 +26,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 		public abstract Models.CompileJob CompileJob { get; }
 
 		/// <inheritdoc />
-		public abstract ByondVersion ByondVersion { get; }
+		public abstract EngineVersion EngineVersion { get; }
 
 		/// <inheritdoc />
 		public abstract void Dispose();

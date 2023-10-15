@@ -12,9 +12,9 @@ namespace Tgstation.Server.Host.Components.Engine
 	public interface IEngineInstallation
 	{
 		/// <summary>
-		/// The <see cref="ByondVersion"/> of the <see cref="IEngineInstallation"/>.
+		/// The <see cref="EngineVersion"/> of the <see cref="IEngineInstallation"/>.
 		/// </summary>
-		ByondVersion Version { get; }
+		EngineVersion Version { get; }
 
 		/// <summary>
 		/// The full path to the game server executable.

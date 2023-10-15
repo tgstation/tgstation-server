@@ -56,7 +56,7 @@ namespace Tgstation.Server.Host.Components.Engine
 		}
 
 		/// <inheritdoc />
-		public override ValueTask Install(ByondVersion version, string installPath, CancellationToken cancellationToken)
+		public override ValueTask Install(EngineVersion version, string installPath, CancellationToken cancellationToken)
 			=> ValueTaskExtensions.WhenAll(
 				base.Install(
 					version,
@@ -85,11 +85,11 @@ namespace Tgstation.Server.Host.Components.Engine
 		/// <summary>
 		/// Attempt to add the DreamDaemon executable as an exception to the Windows firewall.
 		/// </summary>
-		/// <param name="version">The BYOND <see cref="ByondVersion"/>.</param>
+		/// <param name="version">The BYOND <see cref="EngineVersion"/>.</param>
 		/// <param name="path">The path to the BYOND installation.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
-		async ValueTask AddServerFirewallException(ByondVersion version, string path, CancellationToken cancellationToken)
+		async ValueTask AddServerFirewallException(EngineVersion version, string path, CancellationToken cancellationToken)
 		{
 			GetExecutablePaths(path, out var serverExePath, out _);
 

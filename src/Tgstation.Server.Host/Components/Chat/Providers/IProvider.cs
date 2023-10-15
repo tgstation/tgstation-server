@@ -84,7 +84,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// Send the message for a deployment.
 		/// </summary>
 		/// <param name="revisionInformation">The <see cref="RevisionInformation"/> of the deployment.</param>
-		/// <param name="byondVersion">The <see cref="ByondVersion"/> of the deployment.</param>
+		/// <param name="engineVersion">The <see cref="EngineVersion"/> of the deployment.</param>
 		/// <param name="estimatedCompletionTime">The optional <see cref="DateTimeOffset"/> the deployment is expected to be completed at.</param>
 		/// <param name="gitHubOwner">The repository GitHub owner, if any.</param>
 		/// <param name="gitHubRepo">The repository GitHub name, if any.</param>
@@ -94,7 +94,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in a <see cref="Func{T1, T2, TResult}"/> to call to update the message at the deployment's conclusion. Parameters: Error message if any, DreamMaker output if any. Returns another callback which should be called to mark the deployment as active.</returns>
 		ValueTask<Func<string, string, ValueTask<Func<bool, ValueTask>>>> SendUpdateMessage(
 			Models.RevisionInformation revisionInformation,
-			ByondVersion byondVersion,
+			EngineVersion engineVersion,
 			DateTimeOffset? estimatedCompletionTime,
 			string gitHubOwner,
 			string gitHubRepo,

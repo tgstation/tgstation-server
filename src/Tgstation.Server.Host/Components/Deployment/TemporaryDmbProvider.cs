@@ -16,19 +16,19 @@ namespace Tgstation.Server.Host.Components.Deployment
 		public override Models.CompileJob CompileJob { get; }
 
 		/// <inheritdoc />
-		public override ByondVersion ByondVersion { get; }
+		public override EngineVersion EngineVersion { get; }
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="TemporaryDmbProvider"/> class.
 		/// </summary>
 		/// <param name="directory">The value of <see cref="Directory"/>.</param>
 		/// <param name="compileJob">The value of <see cref="CompileJob"/>.</param>
-		/// <param name="byondVersion">The value of <see cref="ByondVersion"/>.</param>
-		public TemporaryDmbProvider(string directory, Models.CompileJob compileJob, ByondVersion byondVersion)
+		/// <param name="engineVersion">The value of <see cref="EngineVersion"/>.</param>
+		public TemporaryDmbProvider(string directory, Models.CompileJob compileJob, EngineVersion engineVersion)
 		{
 			Directory = directory ?? throw new ArgumentNullException(nameof(directory));
 			CompileJob = compileJob ?? throw new ArgumentNullException(nameof(compileJob));
-			ByondVersion = byondVersion ?? throw new ArgumentNullException(nameof(byondVersion));
+			EngineVersion = engineVersion ?? throw new ArgumentNullException(nameof(engineVersion));
 		}
 
 		/// <inheritdoc />

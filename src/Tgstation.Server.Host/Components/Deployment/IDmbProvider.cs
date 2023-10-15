@@ -25,9 +25,9 @@ namespace Tgstation.Server.Host.Components.Deployment
 		Models.CompileJob CompileJob { get; }
 
 		/// <summary>
-		/// The <see cref="Api.Models.Internal.ByondVersion"/> used to build the .dmb.
+		/// The <see cref="Api.Models.Internal.EngineVersion"/> used to build the .dmb.
 		/// </summary>
-		ByondVersion ByondVersion { get; }
+		EngineVersion EngineVersion { get; }
 
 		/// <summary>
 		/// Disposing the <see cref="IDmbProvider"/> won't cause a cleanup of the working directory.

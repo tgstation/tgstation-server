@@ -65,7 +65,7 @@ namespace Tgstation.Server.Host.Components.Engine.Tests
 						new MemoryStream(ourArray)))
 				.Verifiable();
 
-			var result = ExtractMemoryStreamFromInstallationData(await installer.DownloadVersion(new ByondVersion
+			var result = ExtractMemoryStreamFromInstallationData(await installer.DownloadVersion(new EngineVersion
 			{
 				Engine = EngineType.Byond,
 				Version = new Version(511, 1385),
@@ -92,7 +92,7 @@ namespace Tgstation.Server.Host.Components.Engine.Tests
 			const string FakePath = "fake";
 			await Assert.ThrowsExceptionAsync<ArgumentNullException>(() => installer.Install(null, null, default).AsTask());
 
-			var byondVersion = new ByondVersion
+			var byondVersion = new EngineVersion
 			{
 				Engine = EngineType.Byond,
 				Version = new Version(123, 252345),

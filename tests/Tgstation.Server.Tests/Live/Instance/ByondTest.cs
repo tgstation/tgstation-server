@@ -33,13 +33,13 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 		readonly Api.Models.Instance metadata = metadata ?? throw new ArgumentNullException(nameof(metadata));
 
-		static readonly Dictionary<EngineType, ByondVersion> edgeVersions = new ()
+		static readonly Dictionary<EngineType, EngineVersion> edgeVersions = new ()
 		{
 			{ EngineType.Byond, null },
 			{ EngineType.OpenDream, null }
 		};
 
-		ByondVersion testVersion;
+		EngineVersion testVersion;
 		readonly EngineType testEngine = engineType;
 
 		public Task Run(CancellationToken cancellationToken, out Task firstInstall)
@@ -48,14 +48,14 @@ namespace Tgstation.Server.Tests.Live.Instance
 			return RunContinued(firstInstall, cancellationToken);
 		}
 
-		public static async ValueTask<ByondVersion> GetEdgeVersion(EngineType engineType, IFileDownloader fileDownloader, CancellationToken cancellationToken)
+		public static async ValueTask<EngineVersion> GetEdgeVersion(EngineType engineType, IFileDownloader fileDownloader, CancellationToken cancellationToken)
 		{
 			var edgeVersion = edgeVersions[engineType];
 
 			if (edgeVersion != null)
 				return edgeVersion;
 
-			ByondVersion byondVersion;
+			EngineVersion engineVersion;
 			if (engineType == EngineType.Byond)
 			{
 				await using var provider = fileDownloader.DownloadFile(new Uri("https://www.byond.com/download/version.txt"), null);
@@ -79,13 +79,13 @@ namespace Tgstation.Server.Tests.Live.Instance
 				if (badVersionMap.TryGetValue(targetVersion, out var remappedVersion))
 					targetVersion = remappedVersion;
 
-				Assert.IsTrue(ByondVersion.TryParse(targetVersion, out byondVersion), $"Bad version: {targetVersion}");
+				Assert.IsTrue(EngineVersion.TryParse(targetVersion, out engineVersion), $"Bad version: {targetVersion}");
 			}
 			else if (engineType == EngineType.OpenDream)
 			{
 				var masterBranch = await TestingGitHubService.RealTestClient.Repository.Branch.Get("OpenDreamProject", "OpenDream", "master");
 
-				byondVersion = new ByondVersion
+				engineVersion = new EngineVersion
 				{
 					Engine = EngineType.OpenDream,
 					SourceSHA = masterBranch.Commit.Sha,
@@ -97,8 +97,8 @@ namespace Tgstation.Server.Tests.Live.Instance
 				return null;
 			}
 
-			global::System.Console.WriteLine($"Edge {engineType} version evalutated to {byondVersion}");
-			return edgeVersions[engineType] = byondVersion;
+			global::System.Console.WriteLine($"Edge {engineType} version evalutated to {engineVersion}");
+			return edgeVersions[engineType] = engineVersion;
 		}
 
 		async Task RunPartOne(CancellationToken cancellationToken)

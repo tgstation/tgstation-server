@@ -240,7 +240,7 @@ namespace Tgstation.Server.Host.Components.Session
 
 			// get the byond lock
 			var byondLock = currentByondLock ?? await engineManager.UseExecutables(
-				dmbProvider.ByondVersion,
+				dmbProvider.EngineVersion,
 				gameIOManager.ConcatPath(dmbProvider.Directory, dmbProvider.DmbName),
 				cancellationToken);
 			try
@@ -252,7 +252,7 @@ namespace Tgstation.Server.Host.Components.Session
 				PortBindTest(launchParameters.Port.Value);
 
 				// mad this isn't abstracted but whatever
-				if (dmbProvider.ByondVersion.Engine.Value == EngineType.Byond)
+				if (dmbProvider.EngineVersion.Engine.Value == EngineType.Byond)
 					await CheckPagerIsNotRunning();
 
 				string outputFilePath = null;
@@ -374,7 +374,7 @@ namespace Tgstation.Server.Host.Components.Session
 			logger.LogTrace("Begin session reattach...");
 			var byondTopicSender = topicClientFactory.CreateTopicClient(reattachInformation.TopicRequestTimeout);
 			var byondLock = await engineManager.UseExecutables(
-				reattachInformation.Dmb.ByondVersion,
+				reattachInformation.Dmb.EngineVersion,
 				null, // Doesn't matter if it's trusted or not on reattach
 				cancellationToken);
 

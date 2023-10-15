@@ -286,7 +286,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// <inheritdoc />
 		public override async ValueTask<Func<string, string, ValueTask<Func<bool, ValueTask>>>> SendUpdateMessage(
 			Models.RevisionInformation revisionInformation,
-			ByondVersion byondVersion,
+			EngineVersion engineVersion,
 			DateTimeOffset? estimatedCompletionTime,
 			string gitHubOwner,
 			string gitHubRepo,
@@ -295,13 +295,13 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(revisionInformation);
-			ArgumentNullException.ThrowIfNull(byondVersion);
+			ArgumentNullException.ThrowIfNull(engineVersion);
 			ArgumentNullException.ThrowIfNull(gitHubOwner);
 			ArgumentNullException.ThrowIfNull(gitHubRepo);
 
 			localCommitPushed |= revisionInformation.CommitSha == revisionInformation.OriginCommitSha;
 
-			var fields = BuildUpdateEmbedFields(revisionInformation, byondVersion, gitHubOwner, gitHubRepo, localCommitPushed);
+			var fields = BuildUpdateEmbedFields(revisionInformation, engineVersion, gitHubOwner, gitHubRepo, localCommitPushed);
 			var author = new EmbedAuthor(assemblyInformationProvider.VersionPrefix)
 			{
 				Url = "https://github.com/tgstation/tgstation-server",
@@ -859,30 +859,30 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// Create a <see cref="List{T}"/> of <see cref="IEmbedField"/>s for a discord update embed.
 		/// </summary>
 		/// <param name="revisionInformation">The <see cref="RevisionInformation"/> of the deployment.</param>
-		/// <param name="byondVersion">The <see cref="ByondVersion"/> of the deployment.</param>
+		/// <param name="engineVersion">The <see cref="EngineVersion"/> of the deployment.</param>
 		/// <param name="gitHubOwner">The repository GitHub owner, if any.</param>
 		/// <param name="gitHubRepo">The repository GitHub name, if any.</param>
 		/// <param name="localCommitPushed"><see langword="true"/> if the local deployment commit was pushed to the remote repository.</param>
 		/// <returns>A new <see cref="List{T}"/> of <see cref="IEmbedField"/>s to use.</returns>
 		List<IEmbedField> BuildUpdateEmbedFields(
 			Models.RevisionInformation revisionInformation,
-			ByondVersion byondVersion,
+			EngineVersion engineVersion,
 			string gitHubOwner,
 			string gitHubRepo,
 			bool localCommitPushed)
 		{
 			bool gitHub = gitHubOwner != null && gitHubRepo != null;
-			var engineField = byondVersion.Engine.Value switch
+			var engineField = engineVersion.Engine.Value switch
 			{
 				EngineType.Byond => new EmbedField(
 					"BYOND Version",
-					$"{byondVersion.Version.Major}.{byondVersion.Version.Minor}{(byondVersion.CustomIteration.HasValue ? $".{byondVersion.CustomIteration.Value}" : String.Empty)}",
+					$"{engineVersion.Version.Major}.{engineVersion.Version.Minor}{(engineVersion.CustomIteration.HasValue ? $".{engineVersion.CustomIteration.Value}" : String.Empty)}",
 					true),
 				EngineType.OpenDream => new EmbedField(
 					"OpenDream Version",
-					$"[{byondVersion.SourceSHA[..7]}]({generalConfiguration.OpenDreamGitUrl}/commit/{byondVersion.SourceSHA})",
+					$"[{engineVersion.SourceSHA[..7]}]({generalConfiguration.OpenDreamGitUrl}/commit/{engineVersion.SourceSHA})",
 					true),
-				_ => throw new InvalidOperationException($"Invaild EngineType: {byondVersion.Engine.Value}"),
+				_ => throw new InvalidOperationException($"Invaild EngineType: {engineVersion.Engine.Value}"),
 			};
 
 			var fields = new List<IEmbedField>

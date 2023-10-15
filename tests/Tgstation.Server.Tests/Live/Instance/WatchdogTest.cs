@@ -58,11 +58,11 @@ namespace Tgstation.Server.Tests.Live.Instance
 		readonly ushort ddPort;
 		readonly bool highPrioDD;
 		readonly TopicClient topicClient;
-		readonly ByondVersion testVersion;
+		readonly EngineVersion testVersion;
 
 		bool ranTimeoutTest = false;
 
-		public WatchdogTest(ByondVersion testVersion, IInstanceClient instanceClient, InstanceManager instanceManager, ushort serverPort, bool highPrioDD, ushort ddPort)
+		public WatchdogTest(EngineVersion testVersion, IInstanceClient instanceClient, InstanceManager instanceManager, ushort serverPort, bool highPrioDD, ushort ddPort)
 			: base(instanceClient.Jobs)
 		{
 			this.instanceClient = instanceClient ?? throw new ArgumentNullException(nameof(instanceClient));

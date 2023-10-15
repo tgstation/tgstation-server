@@ -15,7 +15,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 		public override Models.CompileJob CompileJob { get; }
 
 		/// <inheritdoc />
-		public override ByondVersion ByondVersion { get; }
+		public override EngineVersion EngineVersion { get; }
 
 		/// <summary>
 		/// The <see cref="IIOManager"/> for the <see cref="DmbProvider"/>.
@@ -36,14 +36,14 @@ namespace Tgstation.Server.Host.Components.Deployment
 		/// Initializes a new instance of the <see cref="DmbProvider"/> class.
 		/// </summary>
 		/// <param name="compileJob">The value of <see cref="CompileJob"/>.</param>
-		/// <param name="byondVersion">The value of <see cref="ByondVersion"/>.</param>
+		/// <param name="engineVersion">The value of <see cref="EngineVersion"/>.</param>
 		/// <param name="ioManager">The value of <see cref="ioManager"/>.</param>
 		/// <param name="onDispose">The value of <see cref="onDispose"/>.</param>
 		/// <param name="directoryAppend">The optional value of <see cref="directoryAppend"/>.</param>
-		public DmbProvider(Models.CompileJob compileJob, ByondVersion byondVersion, IIOManager ioManager, Action onDispose, string directoryAppend = null)
+		public DmbProvider(Models.CompileJob compileJob, EngineVersion engineVersion, IIOManager ioManager, Action onDispose, string directoryAppend = null)
 		{
 			CompileJob = compileJob ?? throw new ArgumentNullException(nameof(compileJob));
-			ByondVersion = byondVersion ?? throw new ArgumentNullException(nameof(byondVersion));
+			EngineVersion = engineVersion ?? throw new ArgumentNullException(nameof(engineVersion));
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
 			this.onDispose = onDispose ?? throw new ArgumentNullException(nameof(onDispose));
 			this.directoryAppend = directoryAppend ?? String.Empty;

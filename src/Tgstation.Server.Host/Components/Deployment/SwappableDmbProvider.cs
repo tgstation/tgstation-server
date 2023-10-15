@@ -27,7 +27,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 		public Models.CompileJob CompileJob => baseProvider.CompileJob;
 
 		/// <inheritdoc />
-		public ByondVersion ByondVersion => baseProvider.ByondVersion;
+		public EngineVersion EngineVersion => baseProvider.EngineVersion;
 
 		/// <summary>
 		/// If <see cref="MakeActive(CancellationToken)"/> has been run.

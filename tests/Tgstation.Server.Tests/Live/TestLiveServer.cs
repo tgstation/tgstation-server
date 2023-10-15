@@ -1143,7 +1143,7 @@ namespace Tgstation.Server.Tests.Live
 							? FailFast(
 								instanceTest
 									.RunCompatTests(
-										new ByondVersion
+										new EngineVersion
 										{
 											Engine = EngineType.Byond,
 											Version = new Version(510, 1346)

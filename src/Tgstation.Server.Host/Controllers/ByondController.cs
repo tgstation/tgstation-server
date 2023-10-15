@@ -83,7 +83,7 @@ namespace Tgstation.Server.Host.Controllers
 		}
 
 		/// <summary>
-		/// Gets the active <see cref="ByondVersion"/>.
+		/// Gets the active <see cref="EngineVersion"/>.
 		/// </summary>
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="IActionResult"/> for the operation.</returns>
 		/// <response code="200">Retrieved version information successfully.</response>
@@ -102,7 +102,7 @@ namespace Tgstation.Server.Host.Controllers
 						})));
 
 		/// <summary>
-		/// Lists installed <see cref="ByondVersion"/>s.
+		/// Lists installed <see cref="EngineVersion"/>s.
 		/// </summary>
 		/// <param name="page">The current page.</param>
 		/// <param name="pageSize">The page size.</param>
@@ -275,7 +275,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="IActionResult"/> for the operation.</returns>
 		/// <response code="202">Created <see cref="Job"/> to delete target version successfully.</response>
 		/// <response code="409">Attempted to delete the active BYOND <see cref="Version"/>.</response>
-		/// <response code="410">The <see cref="ByondVersion"/> specified was not installed.</response>
+		/// <response code="410">The <see cref="EngineVersion"/> specified was not installed.</response>
 		[HttpDelete]
 		[TgsAuthorize(ByondRights.DeleteInstall)]
 		[ProducesResponseType(typeof(JobResponse), 202)]
@@ -337,9 +337,9 @@ namespace Tgstation.Server.Host.Controllers
 		/// <summary>
 		/// Validate and normalize a given <paramref name="version"/>.
 		/// </summary>
-		/// <param name="version">The <see cref="ByondVersion"/> to validate and normalize.</param>
+		/// <param name="version">The <see cref="EngineVersion"/> to validate and normalize.</param>
 		/// <returns>The <see cref="BadRequestObjectResult"/> to return, if any.</returns>
-		BadRequestObjectResult ValidateByondVersion(ByondVersion version)
+		BadRequestObjectResult ValidateByondVersion(EngineVersion version)
 		{
 			ArgumentNullException.ThrowIfNull(version);
 

@@ -17,7 +17,7 @@ namespace Tgstation.Server.Host.Components.Engine
 	sealed class ByondInstallation : IEngineInstallation
 	{
 		/// <inheritdoc />
-		public ByondVersion Version { get; }
+		public EngineVersion Version { get; }
 
 		/// <inheritdoc />
 		public string ServerExePath { get; }
@@ -82,7 +82,7 @@ namespace Tgstation.Server.Host.Components.Engine
 		/// <param name="supportsMapThreads">The value of <see cref="supportsMapThreads"/>.</param>
 		public ByondInstallation(
 			Task installationTask,
-			ByondVersion version,
+			EngineVersion version,
 			string dreamDaemonPath,
 			string dreamMakerPath,
 			bool supportsCli,

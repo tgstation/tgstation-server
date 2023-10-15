@@ -26,7 +26,7 @@ namespace Tgstation.Server.Client.Tests
 		{
 			var sample = new ByondResponse
 			{
-				Version = new ByondVersion
+				Version = new EngineVersion
 				{
 					Engine = EngineType.Byond,
 					Version = new Version(511, 1385)
@@ -60,7 +60,7 @@ namespace Tgstation.Server.Client.Tests
 		{
 			var sample = new ByondResponse
 			{
-				Version =				new ByondVersion
+				Version = new EngineVersion
 				{
 					Engine = EngineType.Byond,
 					Version = new Version(511, 1385)

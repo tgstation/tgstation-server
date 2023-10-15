@@ -41,19 +41,19 @@ namespace Tgstation.Server.Host.Components.Engine
 		}
 
 		/// <inheritdoc />
-		public abstract IEngineInstallation CreateInstallation(ByondVersion version, string path, Task installationTask);
+		public abstract IEngineInstallation CreateInstallation(EngineVersion version, string path, Task installationTask);
 
 		/// <inheritdoc />
 		public abstract Task CleanCache(CancellationToken cancellationToken);
 
 		/// <inheritdoc />
-		public abstract ValueTask Install(ByondVersion version, string path, CancellationToken cancellationToken);
+		public abstract ValueTask Install(EngineVersion version, string path, CancellationToken cancellationToken);
 
 		/// <inheritdoc />
-		public abstract ValueTask UpgradeInstallation(ByondVersion version, string path, CancellationToken cancellationToken);
+		public abstract ValueTask UpgradeInstallation(EngineVersion version, string path, CancellationToken cancellationToken);
 
 		/// <inheritdoc />
-		public abstract ValueTask<IEngineInstallationData> DownloadVersion(ByondVersion version, JobProgressReporter jobProgressReporter, CancellationToken cancellationToken);
+		public abstract ValueTask<IEngineInstallationData> DownloadVersion(EngineVersion version, JobProgressReporter jobProgressReporter, CancellationToken cancellationToken);
 
 		/// <inheritdoc />
 		public abstract ValueTask TrustDmbPath(string fullDmbPath, CancellationToken cancellationToken);
@@ -61,8 +61,8 @@ namespace Tgstation.Server.Host.Components.Engine
 		/// <summary>
 		/// Check that a given <paramref name="version"/> is of type <see cref="EngineType.Byond"/>.
 		/// </summary>
-		/// <param name="version">The <see cref="ByondVersion"/> to check.</param>
-		protected void CheckVersionValidity(ByondVersion version)
+		/// <param name="version">The <see cref="EngineVersion"/> to check.</param>
+		protected void CheckVersionValidity(EngineVersion version)
 		{
 			ArgumentNullException.ThrowIfNull(version);
 			if (version.Engine.Value != TargetEngineType)

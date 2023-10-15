@@ -115,7 +115,7 @@ namespace Tgstation.Server.Host.Components.Engine
 		public void Dispose() => semaphore.Dispose();
 
 		/// <inheritdoc />
-		public override ValueTask Install(ByondVersion version, string path, CancellationToken cancellationToken)
+		public override ValueTask Install(EngineVersion version, string path, CancellationToken cancellationToken)
 		{
 			CheckVersionValidity(version);
 			ArgumentNullException.ThrowIfNull(path);
@@ -133,7 +133,7 @@ namespace Tgstation.Server.Host.Components.Engine
 		}
 
 		/// <inheritdoc />
-		public override async ValueTask UpgradeInstallation(ByondVersion version, string path, CancellationToken cancellationToken)
+		public override async ValueTask UpgradeInstallation(EngineVersion version, string path, CancellationToken cancellationToken)
 		{
 			CheckVersionValidity(version);
 			ArgumentNullException.ThrowIfNull(path);
@@ -224,11 +224,11 @@ namespace Tgstation.Server.Host.Components.Engine
 		/// <summary>
 		/// Attempt to add the DreamDaemon executable as an exception to the Windows firewall.
 		/// </summary>
-		/// <param name="version">The BYOND <see cref="ByondVersion"/>.</param>
+		/// <param name="version">The BYOND <see cref="EngineVersion"/>.</param>
 		/// <param name="path">The path to the BYOND installation.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
-		async ValueTask AddDreamDaemonToFirewall(ByondVersion version, string path, CancellationToken cancellationToken)
+		async ValueTask AddDreamDaemonToFirewall(EngineVersion version, string path, CancellationToken cancellationToken)
 		{
 			var dreamDaemonName = GetDreamDaemonName(version.Version, out var usesDDExe);
 

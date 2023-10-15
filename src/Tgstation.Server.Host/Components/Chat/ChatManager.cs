@@ -359,7 +359,7 @@ namespace Tgstation.Server.Host.Components.Chat
 		/// <inheritdoc />
 		public Func<string, string, Action<bool>> QueueDeploymentMessage(
 			Models.RevisionInformation revisionInformation,
-			ByondVersion byondVersion,
+			EngineVersion engineVersion,
 			DateTimeOffset? estimatedCompletionTime,
 			string gitHubOwner,
 			string gitHubRepo,
@@ -389,7 +389,7 @@ namespace Tgstation.Server.Host.Components.Chat
 						{
 							var callback = await provider.SendUpdateMessage(
 								revisionInformation,
-								byondVersion,
+								engineVersion,
 								estimatedCompletionTime,
 								gitHubOwner,
 								gitHubRepo,

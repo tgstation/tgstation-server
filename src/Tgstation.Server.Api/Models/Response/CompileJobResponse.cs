@@ -18,12 +18,12 @@ namespace Tgstation.Server.Api.Models.Response
 		public RevisionInformation? RevisionInformation { get; set; }
 
 		/// <summary>
-		/// The <see cref="ByondVersion.Version"/> the <see cref="CompileJobResponse"/> was made with.
+		/// The <see cref="EngineVersion.Version"/> the <see cref="CompileJobResponse"/> was made with.
 		/// </summary>
-		public ByondVersion? ByondVersion { get; set; }
+		public EngineVersion? ByondVersion { get; set; }
 
 		/// <summary>
-		/// The <see cref="ByondVersion.Engine"/> the <see cref="CompileJobResponse"/> was made with.
+		/// The <see cref="EngineVersion.Engine"/> the <see cref="CompileJobResponse"/> was made with.
 		/// </summary>
 		public EngineType? Engine { get; set; }
 

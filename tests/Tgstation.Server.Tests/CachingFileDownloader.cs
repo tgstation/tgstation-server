@@ -79,7 +79,7 @@ namespace Tgstation.Server.Tests
 
 		public static async ValueTask InitializeByondVersion(ILogger logger, Version byondVersion, bool windows, CancellationToken cancellationToken)
 		{
-			var version = new ByondVersion
+			var version = new EngineVersion
 			{
 				Engine = Api.Models.EngineType.Byond,
 				Version = byondVersion,

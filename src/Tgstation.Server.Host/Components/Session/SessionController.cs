@@ -53,7 +53,7 @@ namespace Tgstation.Server.Host.Components.Session
 		public Models.CompileJob CompileJob => ReattachInformation.Dmb.CompileJob;
 
 		/// <inheritdoc />
-		public ByondVersion ByondVersion => ReattachInformation.Dmb.ByondVersion;
+		public EngineVersion EngineVersion => ReattachInformation.Dmb.EngineVersion;
 
 		/// <inheritdoc />
 		public RebootState RebootState => ReattachInformation.RebootState;
@@ -660,7 +660,7 @@ namespace Tgstation.Server.Host.Components.Session
 
 					// TODO: When OD figures out how to unite port and topic_port, set an upper version bound on OD for this check
 					if (DMApiVersion.Major != DMApiConstants.InteropVersion.Major
-						|| (ByondVersion.Engine.Value == EngineType.OpenDream && DMApiVersion < new Version(5, 7)))
+						|| (EngineVersion.Engine.Value == EngineType.OpenDream && DMApiVersion < new Version(5, 7)))
 					{
 						apiValidationStatus = ApiValidationStatus.Incompatible;
 						return BridgeError("Incompatible dmApiVersion!");

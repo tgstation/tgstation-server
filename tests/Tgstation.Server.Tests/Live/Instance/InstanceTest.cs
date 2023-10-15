@@ -67,7 +67,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 		}
 
 		public async Task RunCompatTests(
-			ByondVersion compatVersion,
+			EngineVersion compatVersion,
 			IInstanceClient instanceClient,
 			ushort dmPort,
 			ushort ddPort,

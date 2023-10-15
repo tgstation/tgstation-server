@@ -129,7 +129,7 @@ namespace Tgstation.Server.Tests
 			var hasEntry = ArchiveHasFileEntry(
 				await TestingUtils.ExtractMemoryStreamFromInstallationData(
 					await byondInstaller.DownloadVersion(
-						new ByondVersion
+						new EngineVersion
 						{
 							Engine = EngineType.Byond,
 							Version = WindowsByondInstaller.DDExeVersion
@@ -216,14 +216,14 @@ namespace Tgstation.Server.Tests
 			try
 			{
 				await TestMapThreadsVersion(
-					new ByondVersion
+					new EngineVersion
 					{
 						Engine = EngineType.Byond,
 						Version = MapThreadsVersion(),
 					},
 					await TestingUtils.ExtractMemoryStreamFromInstallationData(
 						await byondInstaller.DownloadVersion(
-							new ByondVersion
+							new EngineVersion
 							{
 								Engine = EngineType.Byond,
 								Version = MapThreadsVersion()
@@ -406,10 +406,10 @@ namespace Tgstation.Server.Tests
 			Assert.AreEqual(latestMigrationSL, DatabaseContext.SLLatestMigration);
 		}
 
-		static async Task<Tuple<Stream, ByondVersion>> GetByondVersionPriorTo(ByondInstallerBase byondInstaller, Version version)
+		static async Task<Tuple<Stream, EngineVersion>> GetByondVersionPriorTo(ByondInstallerBase byondInstaller, Version version)
 		{
 			var minusOneMinor = new Version(version.Major, version.Minor - 1);
-			var byondVersion = new ByondVersion
+			var byondVersion = new EngineVersion
 			{
 				Engine = EngineType.Byond,
 				Version = minusOneMinor
@@ -433,7 +433,7 @@ namespace Tgstation.Server.Tests
 		}
 
 		static async Task TestMapThreadsVersion(
-			ByondVersion byondVersion,
+			EngineVersion engineVersion,
 			Stream byondBytes,
 			ByondInstallerBase byondInstaller,
 			IIOManager ioManager,
@@ -448,12 +448,12 @@ namespace Tgstation.Server.Tests
 			if (byondInstaller is WindowsByondInstaller)
 				typeof(WindowsByondInstaller).GetField("installedDirectX", BindingFlags.Instance | BindingFlags.NonPublic).SetValue(byondInstaller, true);
 
-			await byondInstaller.Install(byondVersion, tempPath, default);
+			await byondInstaller.Install(engineVersion, tempPath, default);
 
 			var binPath = (string)typeof(ByondInstallerBase).GetField("BinPath", BindingFlags.Static | BindingFlags.NonPublic).GetValue(null);
 			var ddNameFunc = installerType.GetMethod("GetDreamDaemonName", BindingFlags.Instance | BindingFlags.NonPublic);
 			var supportsCli = false;
-			var argArray = new object[] { byondVersion.Version, supportsCli };
+			var argArray = new object[] { engineVersion.Version, supportsCli };
 
 			// https://stackoverflow.com/questions/2438065/how-can-i-invoke-a-method-with-an-out-parameter
 			var ddPath = ioManager.ConcatPath(
@@ -463,7 +463,7 @@ namespace Tgstation.Server.Tests
 
 			Assert.IsTrue((bool)argArray[1]);
 
-			var shouldSupportMapThreads = byondVersion.Version >= MapThreadsVersion();
+			var shouldSupportMapThreads = engineVersion.Version >= MapThreadsVersion();
 
 			await File.WriteAllBytesAsync("fake.dmb", Array.Empty<byte>(), CancellationToken.None);
 

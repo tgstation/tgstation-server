@@ -221,7 +221,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// <inheritdoc />
 		public override async ValueTask<Func<string, string, ValueTask<Func<bool, ValueTask>>>> SendUpdateMessage(
 			Models.RevisionInformation revisionInformation,
-			ByondVersion byondVersion,
+			EngineVersion engineVersion,
 			DateTimeOffset? estimatedCompletionTime,
 			string gitHubOwner,
 			string gitHubRepo,
@@ -230,7 +230,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(revisionInformation);
-			ArgumentNullException.ThrowIfNull(byondVersion);
+			ArgumentNullException.ThrowIfNull(engineVersion);
 			ArgumentNullException.ThrowIfNull(gitHubOwner);
 			ArgumentNullException.ThrowIfNull(gitHubRepo);
 
@@ -272,7 +272,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 						commitInsert,
 						testmergeInsert,
 						remoteCommitInsert,
-						byondVersion.ToString(),
+						engineVersion.ToString(),
 						estimatedCompletionTime.HasValue
 							? $" ETA: {estimatedCompletionTime - DateTimeOffset.UtcNow}"
 							: String.Empty),

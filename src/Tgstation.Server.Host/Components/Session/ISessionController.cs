@@ -40,9 +40,9 @@ namespace Tgstation.Server.Host.Components.Session
 		Models.CompileJob CompileJob { get; }
 
 		/// <summary>
-		/// Gets the <see cref="Api.Models.Internal.ByondVersion"/> associated with the <see cref="ISessionController"/>.
+		/// Gets the <see cref="Api.Models.Internal.EngineVersion"/> associated with the <see cref="ISessionController"/>.
 		/// </summary>
-		ByondVersion ByondVersion { get; }
+		EngineVersion EngineVersion { get; }
 
 		/// <summary>
 		/// Gets the <see cref="Session.ReattachInformation"/> associated with the <see cref="ISessionController"/>.

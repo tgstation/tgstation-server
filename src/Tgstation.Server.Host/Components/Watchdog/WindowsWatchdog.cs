@@ -246,8 +246,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				canSeamlesslySwap = false;
 			}
 
-			if (Server.ByondVersion.Engine.Value != EngineType.Byond
-				|| compileJobProvider.ByondVersion.Engine.Value != EngineType.Byond)
+			if (Server.EngineVersion.Engine.Value != EngineType.Byond
+				|| compileJobProvider.EngineVersion.Engine.Value != EngineType.Byond)
 			{
 				Logger.LogDebug(
 					"Not swapping to new compile job {newCompileJobId} as it or the current compile job ({oldCompileJobId}) is not using the BYOND engine. Queueing graceful restart instead...",

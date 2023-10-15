@@ -89,7 +89,7 @@ namespace Tgstation.Server.Host.Components.Engine
 		public override Task CleanCache(CancellationToken cancellationToken) => Task.CompletedTask;
 
 		/// <inheritdoc />
-		public override IEngineInstallation CreateInstallation(ByondVersion version, string path, Task installationTask)
+		public override IEngineInstallation CreateInstallation(EngineVersion version, string path, Task installationTask)
 		{
 			CheckVersionValidity(version);
 			GetExecutablePaths(path, out var serverExePath, out var compilerExePath);
@@ -101,7 +101,7 @@ namespace Tgstation.Server.Host.Components.Engine
 		}
 
 		/// <inheritdoc />
-		public override async ValueTask<IEngineInstallationData> DownloadVersion(ByondVersion version, JobProgressReporter jobProgressReporter, CancellationToken cancellationToken)
+		public override async ValueTask<IEngineInstallationData> DownloadVersion(EngineVersion version, JobProgressReporter jobProgressReporter, CancellationToken cancellationToken)
 		{
 			CheckVersionValidity(version);
 
@@ -157,7 +157,7 @@ namespace Tgstation.Server.Host.Components.Engine
 		}
 
 		/// <inheritdoc />
-		public override async ValueTask Install(ByondVersion version, string installPath, CancellationToken cancellationToken)
+		public override async ValueTask Install(EngineVersion version, string installPath, CancellationToken cancellationToken)
 		{
 			CheckVersionValidity(version);
 			ArgumentNullException.ThrowIfNull(installPath);
@@ -256,7 +256,7 @@ namespace Tgstation.Server.Host.Components.Engine
 		}
 
 		/// <inheritdoc />
-		public override ValueTask UpgradeInstallation(ByondVersion version, string path, CancellationToken cancellationToken)
+		public override ValueTask UpgradeInstallation(EngineVersion version, string path, CancellationToken cancellationToken)
 		{
 			CheckVersionValidity(version);
 			ArgumentNullException.ThrowIfNull(path);

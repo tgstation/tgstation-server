@@ -35,15 +35,15 @@ namespace Tgstation.Server.Host.Components.Engine
 			=> Task.WhenAll(delegatedInstallers.Values.Select(installer => installer.CleanCache(cancellationToken)));
 
 		/// <inheritdoc />
-		public IEngineInstallation CreateInstallation(ByondVersion version, string path, Task installationTask)
+		public IEngineInstallation CreateInstallation(EngineVersion version, string path, Task installationTask)
 			=> DelegateCall(version, installer => installer.CreateInstallation(version, path, installationTask));
 
 		/// <inheritdoc />
-		public ValueTask<IEngineInstallationData> DownloadVersion(ByondVersion version, JobProgressReporter jobProgressReporter, CancellationToken cancellationToken)
+		public ValueTask<IEngineInstallationData> DownloadVersion(EngineVersion version, JobProgressReporter jobProgressReporter, CancellationToken cancellationToken)
 			=> DelegateCall(version, installer => installer.DownloadVersion(version, jobProgressReporter, cancellationToken));
 
 		/// <inheritdoc />
-		public ValueTask Install(ByondVersion version, string path, CancellationToken cancellationToken)
+		public ValueTask Install(EngineVersion version, string path, CancellationToken cancellationToken)
 			=> DelegateCall(version, installer => installer.Install(version, path, cancellationToken));
 
 		/// <inheritdoc />
@@ -51,17 +51,17 @@ namespace Tgstation.Server.Host.Components.Engine
 			=> ValueTaskExtensions.WhenAll(delegatedInstallers.Values.Select(installer => installer.TrustDmbPath(fullDmbPath, cancellationToken)));
 
 		/// <inheritdoc />
-		public ValueTask UpgradeInstallation(ByondVersion version, string path, CancellationToken cancellationToken)
+		public ValueTask UpgradeInstallation(EngineVersion version, string path, CancellationToken cancellationToken)
 			=> DelegateCall(version, installer => installer.UpgradeInstallation(version, path, cancellationToken));
 
 		/// <summary>
 		/// Delegate a given <paramref name="call"/> to its appropriate <see cref="IEngineInstaller"/>.
 		/// </summary>
 		/// <typeparam name="TReturn">The return <see cref="Type"/> of the call.</typeparam>
-		/// <param name="version">The <see cref="ByondVersion"/> used to perform delegate selection.</param>
+		/// <param name="version">The <see cref="EngineVersion"/> used to perform delegate selection.</param>
 		/// <param name="call">The <see cref="Func{T, TResult}"/> that will be called with the correct <see cref="IEngineInstaller"/> based on <paramref name="version"/>.</param>
 		/// <returns>The <typeparamref name="TReturn"/> value of the delegated call.</returns>
-		TReturn DelegateCall<TReturn>(ByondVersion version, Func<IEngineInstaller, TReturn> call)
+		TReturn DelegateCall<TReturn>(EngineVersion version, Func<IEngineInstaller, TReturn> call)
 		{
 			ArgumentNullException.ThrowIfNull(version);
 			return call(delegatedInstallers[version.Engine.Value]);

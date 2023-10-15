@@ -85,7 +85,7 @@ namespace Tgstation.Server.Host.Components.Engine
 		}
 
 		/// <inheritdoc />
-		public override IEngineInstallation CreateInstallation(ByondVersion version, string path, Task installationTask)
+		public override IEngineInstallation CreateInstallation(EngineVersion version, string path, Task installationTask)
 		{
 			CheckVersionValidity(version);
 
@@ -198,7 +198,7 @@ namespace Tgstation.Server.Host.Components.Engine
 		}
 
 		/// <inheritdoc />
-		public override async ValueTask<IEngineInstallationData> DownloadVersion(ByondVersion version, JobProgressReporter progressReporter, CancellationToken cancellationToken)
+		public override async ValueTask<IEngineInstallationData> DownloadVersion(EngineVersion version, JobProgressReporter progressReporter, CancellationToken cancellationToken)
 		{
 			CheckVersionValidity(version);
 
@@ -234,10 +234,10 @@ namespace Tgstation.Server.Host.Components.Engine
 		/// <summary>
 		/// Create a <see cref="Uri"/> pointing to the location of the download for a given <paramref name="version"/>.
 		/// </summary>
-		/// <param name="version">The <see cref="ByondVersion"/> to create a <see cref="Uri"/> for.</param>
+		/// <param name="version">The <see cref="EngineVersion"/> to create a <see cref="Uri"/> for.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in a new <see cref="Uri"/> pointing to the version download location.</returns>
-		ValueTask<Uri> GetDownloadZipUrl(ByondVersion version, CancellationToken cancellationToken)
+		ValueTask<Uri> GetDownloadZipUrl(EngineVersion version, CancellationToken cancellationToken)
 		{
 			CheckVersionValidity(version);
 			var url = String.Format(CultureInfo.InvariantCulture, ByondRevisionsUrlTemplate, version.Version.Major, version.Version.Minor);

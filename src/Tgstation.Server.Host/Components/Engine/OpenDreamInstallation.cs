@@ -16,7 +16,7 @@ namespace Tgstation.Server.Host.Components.Engine
 	sealed class OpenDreamInstallation : IEngineInstallation
 	{
 		/// <inheritdoc />
-		public ByondVersion Version { get; }
+		public EngineVersion Version { get; }
 
 		/// <inheritdoc />
 		public string ServerExePath { get; }
@@ -44,7 +44,7 @@ namespace Tgstation.Server.Host.Components.Engine
 			string serverExePath,
 			string compilerExePath,
 			Task installationTask,
-			ByondVersion version)
+			EngineVersion version)
 		{
 			ServerExePath = serverExePath ?? throw new ArgumentNullException(nameof(serverExePath));
 			CompilerExePath = compilerExePath ?? throw new ArgumentNullException(nameof(compilerExePath));

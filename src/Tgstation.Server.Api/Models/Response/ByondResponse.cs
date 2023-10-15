@@ -3,13 +3,13 @@
 namespace Tgstation.Server.Api.Models.Response
 {
 	/// <summary>
-	/// Represents an installed <see cref="ByondVersion"/>.
+	/// Represents an installed <see cref="EngineVersion"/>.
 	/// </summary>
 	public sealed class ByondResponse
 	{
 		/// <summary>
-		/// The represented <see cref="ByondVersion"/>.
+		/// The represented <see cref="EngineVersion"/>.
 		/// </summary>
-		public ByondVersion? Version { get; set; }
+		public EngineVersion? Version { get; set; }
 	}
 }
