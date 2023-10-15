@@ -78,7 +78,7 @@ namespace Tgstation.Server.Host.Components.Engine
 			}
 			finally
 			{
-				await IOManager.DeleteDirectory(shortPath, CancellationToken.None); // DCT: Should always run.
+				await IOManager.DeleteDirectory(shortPath, CancellationToken.None); // DCT: Should always run
 			}
 		}
 
