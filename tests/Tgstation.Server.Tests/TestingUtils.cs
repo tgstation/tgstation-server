@@ -33,7 +33,7 @@ namespace Tgstation.Server.Tests
 			return mockLoggerFactory.Object;
 		}
 
-		public static async ValueTask<MemoryStream> ExtractMemoryStreamFromInstallationData(IEngineInstallationData engineInstallationData, CancellationToken cancellationToken)
+		public static async ValueTask<Stream> ExtractMemoryStreamFromInstallationData(IEngineInstallationData engineInstallationData, CancellationToken cancellationToken)
 		{
 			if (engineInstallationData is ZipStreamEngineInstallationData zipStreamData)
 				return (MemoryStream)zipStreamData.GetType().GetField("zipStream", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(zipStreamData);
@@ -44,7 +44,15 @@ namespace Tgstation.Server.Tests
 			try
 			{
 				await repoData.ExtractToPath(tempFolder, cancellationToken);
-				var resultStream = new MemoryStream();
+				var resultStream = new FileStream(
+					$"{tempFolder}.zip",
+					FileMode.Create,
+					FileAccess.ReadWrite,
+					FileShare.Read | FileShare.Delete,
+					4096,
+					FileOptions.Asynchronous);
+
+				File.Delete(resultStream.Name); // now we have a ghost file that will delete when the stream closes
 				try
 				{
 					ZipFile.CreateFromDirectory(tempFolder, resultStream, CompressionLevel.NoCompression, false);

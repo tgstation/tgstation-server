@@ -406,7 +406,7 @@ namespace Tgstation.Server.Tests
 			Assert.AreEqual(latestMigrationSL, DatabaseContext.SLLatestMigration);
 		}
 
-		static async Task<Tuple<MemoryStream, ByondVersion>> GetByondVersionPriorTo(ByondInstallerBase byondInstaller, Version version)
+		static async Task<Tuple<Stream, ByondVersion>> GetByondVersionPriorTo(ByondInstallerBase byondInstaller, Version version)
 		{
 			var minusOneMinor = new Version(version.Major, version.Minor - 1);
 			var byondVersion = new ByondVersion
