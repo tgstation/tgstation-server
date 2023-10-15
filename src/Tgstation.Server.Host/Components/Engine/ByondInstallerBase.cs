@@ -22,7 +22,7 @@ namespace Tgstation.Server.Host.Components.Engine
 		/// <summary>
 		/// The path to the BYOND bin folder.
 		/// </summary>
-		protected const string BinPath = "byond/bin";
+		protected const string ByondBinPath = "byond/bin";
 
 		/// <summary>
 		/// The name of BYOND's cache directory.
@@ -89,7 +89,7 @@ namespace Tgstation.Server.Host.Components.Engine
 		{
 			CheckVersionValidity(version);
 
-			var binPathForVersion = IOManager.ConcatPath(path, BinPath);
+			var binPathForVersion = IOManager.ConcatPath(path, ByondBinPath);
 			var supportsMapThreads = version.Version >= MapThreadsVersion;
 
 			return new ByondInstallation(

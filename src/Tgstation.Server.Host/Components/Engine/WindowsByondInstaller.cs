@@ -235,7 +235,7 @@ namespace Tgstation.Server.Host.Components.Engine
 			var dreamDaemonPath = IOManager.ResolvePath(
 				IOManager.ConcatPath(
 					path,
-					BinPath,
+					ByondBinPath,
 					dreamDaemonName));
 
 			int exitCode;
