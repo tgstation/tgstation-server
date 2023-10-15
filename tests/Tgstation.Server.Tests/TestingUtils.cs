@@ -48,6 +48,7 @@ namespace Tgstation.Server.Tests
 				try
 				{
 					ZipFile.CreateFromDirectory(tempFolder, resultStream, CompressionLevel.NoCompression, false);
+					resultStream.Seek(0, SeekOrigin.Begin);
 					return resultStream;
 				}
 				catch
