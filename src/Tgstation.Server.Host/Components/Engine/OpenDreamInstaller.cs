@@ -24,12 +24,17 @@ namespace Tgstation.Server.Host.Components.Engine
 	class OpenDreamInstaller : EngineInstallerBase
 	{
 		/// <summary>
-		/// The name of the subdirectory used to store the server binaries.
+		/// The bin directory name.
 		/// </summary>
-		const string InstallationServerDirectory = "server";
+		const string BinDir = "bin";
 
 		/// <summary>
-		/// The name of the subdirectory used to store the compiler binaries.
+		/// The OD server directory name.
+		/// </summary>
+		const string ServerDir = "Content.Server";
+
+		/// <summary>
+		/// The name of the subdirectory in an installation's <see cref="BinDir"/> used to store the compiler binaries.
 		/// </summary>
 		const string InstallationCompilerDirectory = "compiler";
 
@@ -211,6 +216,7 @@ namespace Tgstation.Server.Host.Components.Engine
 
 			var dotnetPath = dotnetPaths[selectedPathIndex];
 
+			// TODO: https://github.com/OpenDreamProject/OpenDream/issues/1495
 			int? buildExitCode = null;
 			await HandleExtremelyLongPathOperation(
 				async shortenedPath =>
@@ -231,27 +237,68 @@ namespace Tgstation.Server.Host.Components.Engine
 			if (buildExitCode != 0)
 				throw new JobException("OpenDream build failed!");
 
-			var serverMoveTask = IOManager.MoveDirectory(
-				IOManager.ConcatPath(
-					sourcePath,
-					"bin",
-					"Content.Server"),
-				IOManager.ConcatPath(
-					installPath,
-					InstallationServerDirectory),
-				cancellationToken);
+			async ValueTask MoveBinFiles()
+			{
+				var installBinPath = IOManager.ConcatPath(installPath, BinDir);
 
-			var compilerMoveTask = IOManager.MoveDirectory(
-				IOManager.ConcatPath(
-					sourcePath,
-					"bin",
-					"DMCompiler"),
-				IOManager.ConcatPath(
-					installPath,
-					InstallationCompilerDirectory),
-				cancellationToken);
+				await IOManager.CreateDirectory(installBinPath, cancellationToken);
 
-			await Task.WhenAll(serverMoveTask, compilerMoveTask);
+				var serverMoveTask = IOManager.MoveDirectory(
+					IOManager.ConcatPath(
+						sourcePath,
+						BinDir,
+						ServerDir),
+					IOManager.ConcatPath(
+						installBinPath,
+						ServerDir),
+					cancellationToken);
+
+				var compilerMoveTask = IOManager.MoveDirectory(
+					IOManager.ConcatPath(
+						sourcePath,
+						BinDir,
+						"DMCompiler"),
+					IOManager.ConcatPath(
+						installBinPath,
+						InstallationCompilerDirectory),
+					cancellationToken);
+
+				await Task.WhenAll(serverMoveTask, compilerMoveTask);
+			}
+
+			async ValueTask MoveResources()
+			{
+				const string RobustDir = "RobustToolbox";
+				const string ResourcesDir = "Resources";
+
+				var rootMoveTask = IOManager.MoveDirectory(
+					IOManager.ConcatPath(
+						sourcePath,
+						ResourcesDir),
+					IOManager.ConcatPath(
+						installPath,
+						ResourcesDir),
+					cancellationToken);
+				var installRobustDir = IOManager.ConcatPath(installPath, RobustDir);
+
+				await IOManager.CreateDirectory(installRobustDir, cancellationToken);
+				var robustMoveTask = IOManager.MoveDirectory(
+					IOManager.ConcatPath(
+						sourcePath,
+						RobustDir,
+						ResourcesDir),
+					IOManager.ConcatPath(
+						installRobustDir,
+						ResourcesDir),
+					cancellationToken);
+
+				await Task.WhenAll(rootMoveTask, robustMoveTask);
+			}
+
+			var binSetupTask = MoveBinFiles();
+			var resourcesMoveTask = MoveResources();
+
+			await ValueTaskExtensions.WhenAll(binSetupTask, resourcesMoveTask);
 			await IOManager.DeleteDirectory(sourcePath, cancellationToken);
 		}
 
@@ -297,11 +344,13 @@ namespace Tgstation.Server.Host.Components.Engine
 
 			serverExePath = IOManager.ConcatPath(
 				installationPath,
-				InstallationServerDirectory,
+				BinDir,
+				ServerDir,
 				$"OpenDreamServer{exeExtension}");
 
 			compilerExePath = IOManager.ConcatPath(
 				installationPath,
+				BinDir,
 				InstallationCompilerDirectory,
 				$"DMCompiler{exeExtension}");
 		}
