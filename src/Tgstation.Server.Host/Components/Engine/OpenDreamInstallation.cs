@@ -89,6 +89,6 @@ namespace Tgstation.Server.Host.Components.Engine
 
 		/// <inheritdoc />
 		public string FormatCompilerArguments(string dmePath)
-			=> $"--suppress-unimplemented --verbose --notices-enabled {dmePath ?? throw new ArgumentNullException(nameof(dmePath))}";
+			=> $"--suppress-unimplemented --notices-enabled {dmePath ?? throw new ArgumentNullException(nameof(dmePath))}";
 	}
 }
