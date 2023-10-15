@@ -566,8 +566,8 @@ namespace Tgstation.Server.Api.Models
 		/// <summary>
 		/// Attempt to add DreamDaemon to the list of firewall exempt processes failed.
 		/// </summary>
-		[Description("Failed to allow DreamDaemon through the Windows firewall!")]
-		ByondDreamDaemonFirewallFail,
+		[Description("Failed to allow game server through the Windows firewall!")]
+		EngineFirewallFail,
 
 		/// <summary>
 		/// Attempted to create an instance but no free ports could be found.

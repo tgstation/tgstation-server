@@ -1135,7 +1135,7 @@ namespace Tgstation.Server.Tests.Live
 							await odCompatTests;
 
 						await odCompatTests;
-						Assert.Fail("!!!SUCCESS!!!");
+						// Assert.Fail("!!!SUCCESS!!!");
 
 						// Some earlier linux BYOND versions have a critical bug where replacing the directory in non-basic watchdogs causes the DreamDaemon cwd to change
 						var canRunCompatTests = new PlatformIdentifier().IsWindows;

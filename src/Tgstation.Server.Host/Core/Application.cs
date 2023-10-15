@@ -335,6 +335,7 @@ namespace Tgstation.Server.Host.Core
 				services.AddSingleton<ISystemIdentityFactory, WindowsSystemIdentityFactory>();
 				services.AddSingleton<ISymlinkFactory, WindowsSymlinkFactory>();
 				services.AddSingleton<ByondInstallerBase, WindowsByondInstaller>();
+				services.AddSingleton<OpenDreamInstaller, WindowsOpenDreamInstaller>();
 				services.AddSingleton<IPostWriteHandler, WindowsPostWriteHandler>();
 				services.AddSingleton<IProcessFeatures, WindowsProcessFeatures>();
 
@@ -348,6 +349,7 @@ namespace Tgstation.Server.Host.Core
 				services.AddSingleton<ISystemIdentityFactory, PosixSystemIdentityFactory>();
 				services.AddSingleton<ISymlinkFactory, PosixSymlinkFactory>();
 				services.AddSingleton<ByondInstallerBase, PosixByondInstaller>();
+				services.AddSingleton<OpenDreamInstaller>();
 				services.AddSingleton<IPostWriteHandler, PosixPostWriteHandler>();
 
 				services.AddSingleton<IProcessFeatures, PosixProcessFeatures>();
@@ -373,7 +375,6 @@ namespace Tgstation.Server.Host.Core
 							openDreamRepositoryDirectory),
 						new NoopEventConsumer()));
 
-			services.AddSingleton<OpenDreamInstaller>();
 			services.AddSingleton<IReadOnlyDictionary<EngineType, IEngineInstaller>>(
 				serviceProvider => new Dictionary<EngineType, IEngineInstaller>
 				{

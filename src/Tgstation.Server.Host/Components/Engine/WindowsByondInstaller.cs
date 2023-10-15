@@ -238,43 +238,34 @@ namespace Tgstation.Server.Host.Components.Engine
 					BinPath,
 					dreamDaemonName));
 
-			Logger.LogInformation("Adding Windows Firewall exception for {path}...", dreamDaemonPath);
+			int exitCode;
 			try
 			{
 				// I really wish we could add the instance name here but
 				// 1. It'd make IByondInstaller need to be transient per-instance and WindowsByondInstaller relys on being a singleton for its DX installer call
 				// 2. The instance could be renamed, so it'd have to be an unfriendly ID anyway.
-				var arguments = $"advfirewall firewall add rule name=\"TGS DreamDaemon {version}\" program=\"{dreamDaemonPath}\" protocol=tcp dir=in enable=yes action=allow";
-				await using var netshProcess = processExecutor.LaunchProcess(
-					"netsh.exe",
-					IOManager.ResolvePath(),
-					arguments,
-					readStandardHandles: true,
-					noShellExecute: true);
+				var ruleName = $"TGS DreamDaemon {version}";
 
-				int exitCode;
-				using (cancellationToken.Register(() => netshProcess.Terminate()))
-					exitCode = (await netshProcess.Lifetime).Value;
-				cancellationToken.ThrowIfCancellationRequested();
-
-				Logger.LogDebug(
-					"netsh.exe output:{newLine}{output}",
-					Environment.NewLine,
-					await netshProcess.GetCombinedOutput(cancellationToken));
-
-				if (exitCode != 0)
-					throw new JobException(ErrorCode.ByondDreamDaemonFirewallFail, new JobException($"Invalid exit code: {exitCode}"));
-
-				if (usesDDExe)
-					await IOManager.WriteAllBytes(
-						IOManager.ConcatPath(path, TgsFirewalledDDFile),
-						Array.Empty<byte>(),
-						cancellationToken);
+				exitCode = await WindowsFirewallHelper.AddFirewallException(
+					processExecutor,
+					Logger,
+					ruleName,
+					dreamDaemonPath,
+					cancellationToken);
 			}
 			catch (Exception ex)
 			{
-				throw new JobException(ErrorCode.ByondDreamDaemonFirewallFail, ex);
+				throw new JobException(ErrorCode.EngineFirewallFail, ex);
 			}
+
+			if (exitCode != 0)
+				throw new JobException(ErrorCode.EngineFirewallFail, new JobException($"Invalid exit code: {exitCode}"));
+
+			if (usesDDExe)
+				await IOManager.WriteAllBytes(
+					IOManager.ConcatPath(path, TgsFirewalledDDFile),
+					[],
+					cancellationToken);
 		}
 	}
 }

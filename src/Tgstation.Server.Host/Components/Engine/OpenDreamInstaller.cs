@@ -21,7 +21,7 @@ namespace Tgstation.Server.Host.Components.Engine
 	/// <summary>
 	/// Implementation of <see cref="IEngineInstaller"/> for <see cref="EngineType.OpenDream"/>.
 	/// </summary>
-	sealed class OpenDreamInstaller : EngineInstallerBase
+	class OpenDreamInstaller : EngineInstallerBase
 	{
 		/// <summary>
 		/// The name of the subdirectory used to store the server and compiler binaries.
@@ -37,14 +37,14 @@ namespace Tgstation.Server.Host.Components.Engine
 		protected override EngineType TargetEngineType => EngineType.OpenDream;
 
 		/// <summary>
+		/// The <see cref="IProcessExecutor"/> for the <see cref="OpenDreamInstaller"/>.
+		/// </summary>
+		protected IProcessExecutor ProcessExecutor { get; }
+
+		/// <summary>
 		/// The <see cref="IPlatformIdentifier"/> for the <see cref="OpenDreamInstaller"/>.
 		/// </summary>
 		readonly IPlatformIdentifier platformIdentifier;
-
-		/// <summary>
-		/// The <see cref="IProcessExecutor"/> for the <see cref="OpenDreamInstaller"/>.
-		/// </summary>
-		readonly IProcessExecutor processExecutor;
 
 		/// <summary>
 		/// The <see cref="IRepositoryManager"/> for the OpenDream repository.
@@ -62,7 +62,7 @@ namespace Tgstation.Server.Host.Components.Engine
 		/// <param name="ioManager">The <see cref="IIOManager"/> for the <see cref="EngineInstallerBase"/>.</param>
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="EngineInstallerBase"/>.</param>
 		/// <param name="platformIdentifier">The value of <see cref="platformIdentifier"/>.</param>
-		/// <param name="processExecutor">The value of <see cref="processExecutor"/>.</param>
+		/// <param name="processExecutor">The value of <see cref="ProcessExecutor"/>.</param>
 		/// <param name="repositoryManager">The value of <see cref="repositoryManager"/>.</param>
 		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing value of <see cref="generalConfiguration"/>.</param>
 		public OpenDreamInstaller(
@@ -75,7 +75,7 @@ namespace Tgstation.Server.Host.Components.Engine
 			: base(ioManager, logger)
 		{
 			this.platformIdentifier = platformIdentifier ?? throw new ArgumentNullException(nameof(platformIdentifier));
-			this.processExecutor = processExecutor ?? throw new ArgumentNullException(nameof(processExecutor));
+			ProcessExecutor = processExecutor ?? throw new ArgumentNullException(nameof(processExecutor));
 			this.repositoryManager = repositoryManager ?? throw new ArgumentNullException(nameof(repositoryManager));
 			generalConfiguration = generalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
 		}
@@ -87,19 +87,10 @@ namespace Tgstation.Server.Host.Components.Engine
 		public override IEngineInstallation CreateInstallation(ByondVersion version, string path, Task installationTask)
 		{
 			CheckVersionValidity(version);
-			var binPathForVersion = IOManager.ConcatPath(path, InstallationBinDirectory);
-
-			var exeExtension = platformIdentifier.IsWindows
-				? ".exe"
-				: String.Empty;
-
+			GetExecutablePaths(path, out var serverExePath, out var compilerExePath);
 			return new OpenDreamInstallation(
-				IOManager.ConcatPath(
-					binPathForVersion,
-					$"OpenDreamServer{exeExtension}"),
-				IOManager.ConcatPath(
-					binPathForVersion,
-					$"DMCompiler{exeExtension}"),
+				serverExePath,
+				compilerExePath,
 				installationTask,
 				version);
 		}
@@ -215,7 +206,7 @@ namespace Tgstation.Server.Host.Components.Engine
 
 			var dotnetPath = dotnetPaths[selectedPathIndex];
 
-			await using (var buildProcess = processExecutor.LaunchProcess(
+			await using (var buildProcess = ProcessExecutor.LaunchProcess(
 				dotnetPath,
 				sourcePath,
 				"build -c Release /p:TgsEngineBuild=true",
@@ -254,6 +245,29 @@ namespace Tgstation.Server.Host.Components.Engine
 		{
 			ArgumentNullException.ThrowIfNull(fullDmbPath);
 			return ValueTask.CompletedTask;
+		}
+
+		/// <summary>
+		/// Gets the paths to the server and client executables.
+		/// </summary>
+		/// <param name="installationPath">The path to the OpenDream installation.</param>
+		/// <param name="serverExePath">The path to the OpenDreamServer executable.</param>
+		/// <param name="compilerExePath">The path to the DMCompiler executable.</param>
+		protected void GetExecutablePaths(string installationPath, out string serverExePath, out string compilerExePath)
+		{
+			var binPathForVersion = IOManager.ConcatPath(installationPath, InstallationBinDirectory);
+
+			var exeExtension = platformIdentifier.IsWindows
+				? ".exe"
+				: String.Empty;
+
+			serverExePath = IOManager.ConcatPath(
+				binPathForVersion,
+				$"OpenDreamServer{exeExtension}");
+
+			compilerExePath = IOManager.ConcatPath(
+				binPathForVersion,
+				$"DMCompiler{exeExtension}");
 		}
 	}
 }
