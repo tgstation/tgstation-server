@@ -64,7 +64,7 @@ namespace Tgstation.Server.Host.Components.Engine
 		/// <summary>
 		/// The <see cref="GeneralConfiguration"/> for the <see cref="OpenDreamInstaller"/>.
 		/// </summary>
-		readonly GeneralConfiguration generalConfiguration;
+		protected GeneralConfiguration GeneralConfiguration { get; }
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="OpenDreamInstaller"/> class.
@@ -74,7 +74,7 @@ namespace Tgstation.Server.Host.Components.Engine
 		/// <param name="platformIdentifier">The value of <see cref="platformIdentifier"/>.</param>
 		/// <param name="processExecutor">The value of <see cref="ProcessExecutor"/>.</param>
 		/// <param name="repositoryManager">The value of <see cref="repositoryManager"/>.</param>
-		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing value of <see cref="generalConfiguration"/>.</param>
+		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing value of <see cref="GeneralConfiguration"/>.</param>
 		public OpenDreamInstaller(
 			IIOManager ioManager,
 			ILogger<OpenDreamInstaller> logger,
@@ -87,7 +87,7 @@ namespace Tgstation.Server.Host.Components.Engine
 			this.platformIdentifier = platformIdentifier ?? throw new ArgumentNullException(nameof(platformIdentifier));
 			ProcessExecutor = processExecutor ?? throw new ArgumentNullException(nameof(processExecutor));
 			this.repositoryManager = repositoryManager ?? throw new ArgumentNullException(nameof(repositoryManager));
-			generalConfiguration = generalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
+			GeneralConfiguration = generalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
 		}
 
 		/// <inheritdoc />
@@ -116,7 +116,7 @@ namespace Tgstation.Server.Host.Components.Engine
 			var progressSection1 = jobProgressReporter?.CreateSection("Updating OpenDream git repository", 0.5f);
 
 			var repo = await repositoryManager.CloneRepository(
-				generalConfiguration.OpenDreamGitUrl,
+				GeneralConfiguration.OpenDreamGitUrl,
 				null,
 				null,
 				null,
@@ -142,7 +142,7 @@ namespace Tgstation.Server.Host.Components.Engine
 				var progressSection2 = jobProgressReporter?.CreateSection("Checking out OpenDream version", 0.5f);
 
 				var committish = version.SourceSHA
-					?? $"{generalConfiguration.OpenDreamGitTagPrefix}{version.Version.Semver()}";
+					?? $"{GeneralConfiguration.OpenDreamGitTagPrefix}{version.Version.Semver()}";
 
 				await repo.CheckoutObject(
 					committish,

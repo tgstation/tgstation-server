@@ -91,6 +91,9 @@ namespace Tgstation.Server.Host.Components.Engine
 		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
 		async ValueTask AddServerFirewallException(EngineVersion version, string path, CancellationToken cancellationToken)
 		{
+			if (GeneralConfiguration.SkipAddingByondFirewallException)
+				return;
+
 			GetExecutablePaths(path, out var serverExePath, out _);
 
 			int exitCode;
