@@ -17,7 +17,7 @@ namespace Tgstation.Server.Api.Rights
 			{ RightsType.Administration, typeof(AdministrationRights) },
 			{ RightsType.InstanceManager, typeof(InstanceManagerRights) },
 			{ RightsType.Repository, typeof(RepositoryRights) },
-			{ RightsType.Byond, typeof(ByondRights) },
+			{ RightsType.Engine, typeof(EngineRights) },
 			{ RightsType.DreamMaker, typeof(DreamMakerRights) },
 			{ RightsType.DreamDaemon, typeof(DreamDaemonRights) },
 			{ RightsType.ChatBots, typeof(ChatBotRights) },

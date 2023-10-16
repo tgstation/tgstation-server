@@ -5,7 +5,7 @@ namespace Tgstation.Server.Api.Models.Request
 	/// <summary>
 	/// A request to switch to a given <see cref="EngineVersion"/>.
 	/// </summary>
-	public sealed class ByondVersionRequest
+	public sealed class EngineVersionRequest
 	{
 		/// <summary>
 		/// The <see cref="Internal.EngineVersion"/> to switch to.

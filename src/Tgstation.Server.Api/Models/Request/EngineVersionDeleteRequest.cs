@@ -5,7 +5,7 @@ namespace Tgstation.Server.Api.Models.Request
 	/// <summary>
 	/// A request to delete a specific <see cref="EngineVersion"/>.
 	/// </summary>
-	public class ByondVersionDeleteRequest
+	public class EngineVersionDeleteRequest
 	{
 		/// <summary>
 		/// The <see cref="Internal.EngineVersion"/> to delete.

@@ -38,9 +38,9 @@ namespace Tgstation.Server.Api
 		public const string InstanceManager = Root + "Instance";
 
 		/// <summary>
-		/// The BYOND controller.
+		/// The engine controller.
 		/// </summary>
-		public const string Byond = Root + "Byond";
+		public const string Engine = Root + "Engine";
 
 		/// <summary>
 		/// The git repository controller.

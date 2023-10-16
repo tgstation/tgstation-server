@@ -24,18 +24,18 @@ using Tgstation.Server.Host.Transfer;
 namespace Tgstation.Server.Host.Controllers
 {
 	/// <summary>
-	/// Controller for managing BYOND installations.
+	/// Controller for managing engine installations.
 	/// </summary>
-	[Route(Routes.Byond)]
-	public sealed class ByondController : InstanceRequiredController
+	[Route(Routes.Engine)]
+	public sealed class EngineController : InstanceRequiredController
 	{
 		/// <summary>
-		/// The <see cref="IJobManager"/> for the <see cref="ByondController"/>.
+		/// The <see cref="IJobManager"/> for the <see cref="EngineController"/>.
 		/// </summary>
 		readonly IJobManager jobManager;
 
 		/// <summary>
-		/// The <see cref="IFileTransferTicketProvider"/> for the <see cref="ByondController"/>.
+		/// The <see cref="IFileTransferTicketProvider"/> for the <see cref="EngineController"/>.
 		/// </summary>
 		readonly IFileTransferTicketProvider fileTransferService;
 
@@ -47,7 +47,7 @@ namespace Tgstation.Server.Host.Controllers
 		static Version NormalizeByondVersion(Version version) => version.Build == 0 ? new Version(version.Major, version.Minor) : version;
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="ByondController"/> class.
+		/// Initializes a new instance of the <see cref="EngineController"/> class.
 		/// </summary>
 		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> for the <see cref="InstanceRequiredController"/>.</param>
 		/// <param name="authenticationContextFactory">The <see cref="IAuthenticationContextFactory"/> for the <see cref="InstanceRequiredController"/>.</param>
@@ -55,10 +55,10 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="instanceManager">The <see cref="IInstanceManager"/> for the <see cref="InstanceRequiredController"/>.</param>
 		/// <param name="jobManager">The value of <see cref="jobManager"/>.</param>
 		/// <param name="fileTransferService">The value of <see cref="fileTransferService"/>.</param>
-		public ByondController(
+		public EngineController(
 			IDatabaseContext databaseContext,
 			IAuthenticationContextFactory authenticationContextFactory,
-			ILogger<ByondController> logger,
+			ILogger<EngineController> logger,
 			IInstanceManager instanceManager,
 			IJobManager jobManager,
 			IFileTransferTicketProvider fileTransferService)
@@ -77,16 +77,16 @@ namespace Tgstation.Server.Host.Controllers
 		/// </summary>
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="IActionResult"/> for the operation.</returns>
 		/// <response code="200">Retrieved version information successfully.</response>
-		/// <response code="409">No BYOND versions installed.</response>
+		/// <response code="409">No engine versions installed.</response>
 		[HttpGet]
-		[TgsAuthorize(ByondRights.ReadActive)]
-		[ProducesResponseType(typeof(ByondResponse), 200)]
+		[TgsAuthorize(EngineRights.ReadActive)]
+		[ProducesResponseType(typeof(EngineResponse), 200)]
 		[ProducesResponseType(typeof(ErrorMessageResponse), 409)]
 		public ValueTask<IActionResult> Read()
 			=> WithComponentInstance(instance =>
 				ValueTask.FromResult<IActionResult>(
 					Json(
-						new ByondResponse
+						new EngineResponse
 						{
 							EngineVersion = instance.EngineManager.ActiveVersion,
 						})));
@@ -100,17 +100,17 @@ namespace Tgstation.Server.Host.Controllers
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="IActionResult"/> for the operation.</returns>
 		/// <response code="200">Retrieved version information successfully.</response>
 		[HttpGet(Routes.List)]
-		[TgsAuthorize(ByondRights.ListInstalled)]
-		[ProducesResponseType(typeof(PaginatedResponse<ByondResponse>), 200)]
+		[TgsAuthorize(EngineRights.ListInstalled)]
+		[ProducesResponseType(typeof(PaginatedResponse<EngineResponse>), 200)]
 		public ValueTask<IActionResult> List([FromQuery] int? page, [FromQuery] int? pageSize, CancellationToken cancellationToken)
 			=> WithComponentInstance(
 				instance => Paginated(
 					() => ValueTask.FromResult(
-						new PaginatableResult<ByondResponse>(
+						new PaginatableResult<EngineResponse>(
 							instance
 								.EngineManager
 								.InstalledVersions
-								.Select(x => new ByondResponse
+								.Select(x => new EngineResponse
 								{
 									EngineVersion = x,
 								})
@@ -122,24 +122,24 @@ namespace Tgstation.Server.Host.Controllers
 					cancellationToken));
 
 		/// <summary>
-		/// Changes the active BYOND version to the one specified in a given <paramref name="model"/>.
+		/// Changes the active engine version to the one specified in a given <paramref name="model"/>.
 		/// </summary>
-		/// <param name="model">The <see cref="ByondVersionRequest"/> containing the <see cref="Version"/> to switch to.</param>
+		/// <param name="model">The <see cref="EngineVersionRequest"/> containing the <see cref="Version"/> to switch to.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="IActionResult"/> for the operation.</returns>
-		/// <response code="200">Switched active version successfully.</response>
-		/// <response code="202">Created <see cref="Job"/> to install and switch active version successfully.</response>
+		/// <response code="200">Switched active engine version successfully.</response>
+		/// <response code="202">Created <see cref="Job"/> to install and switch active engine version successfully.</response>
 		[HttpPost]
 		[TgsAuthorize(
-			ByondRights.InstallOfficialOrChangeActiveByondVersion
-			| ByondRights.InstallCustomByondVersion
-			| ByondRights.InstallOfficialOrChangeActiveOpenDreamVersion
-			| ByondRights.InstallCustomOpenDreamVersion)]
-		[ProducesResponseType(typeof(ByondInstallResponse), 200)]
-		[ProducesResponseType(typeof(ByondInstallResponse), 202)]
+			EngineRights.InstallOfficialOrChangeActiveByondVersion
+			| EngineRights.InstallCustomByondVersion
+			| EngineRights.InstallOfficialOrChangeActiveOpenDreamVersion
+			| EngineRights.InstallCustomOpenDreamVersion)]
+		[ProducesResponseType(typeof(EngineInstallResponse), 200)]
+		[ProducesResponseType(typeof(EngineInstallResponse), 202)]
 #pragma warning disable CA1502 // TODO: Decomplexify
 #pragma warning disable CA1506
-		public async ValueTask<IActionResult> Update([FromBody] ByondVersionRequest model, CancellationToken cancellationToken)
+		public async ValueTask<IActionResult> Update([FromBody] EngineVersionRequest model, CancellationToken cancellationToken)
 #pragma warning restore CA1506
 #pragma warning restore CA1502
 		{
@@ -150,13 +150,13 @@ namespace Tgstation.Server.Host.Controllers
 
 			var uploadingZip = model.UploadCustomZip == true;
 
-			var userByondRights = AuthenticationContext.InstancePermissionSet.ByondRights.Value;
-			if ((!userByondRights.HasFlag(ByondRights.InstallOfficialOrChangeActiveByondVersion) && !uploadingZip)
-				|| (!userByondRights.HasFlag(ByondRights.InstallCustomByondVersion) && uploadingZip))
+			var userByondRights = AuthenticationContext.InstancePermissionSet.EngineRights.Value;
+			if ((!userByondRights.HasFlag(EngineRights.InstallOfficialOrChangeActiveByondVersion) && !uploadingZip)
+				|| (!userByondRights.HasFlag(EngineRights.InstallCustomByondVersion) && uploadingZip))
 				return Forbid();
 
 			// remove cruff fields
-			var result = new ByondInstallResponse();
+			var result = new EngineInstallResponse();
 			return await WithComponentInstance(
 				async instance =>
 				{
@@ -200,8 +200,8 @@ namespace Tgstation.Server.Host.Controllers
 						{
 							Description = $"Install {(!uploadingZip ? String.Empty : "custom ")}{model.EngineVersion.Engine.Value} version {model.EngineVersion.Version}",
 							StartedBy = AuthenticationContext.User,
-							CancelRightsType = RightsType.Byond,
-							CancelRight = (ulong)ByondRights.CancelInstall,
+							CancelRightsType = RightsType.Engine,
+							CancelRight = (ulong)EngineRights.CancelInstall,
 							Instance = Instance,
 						};
 
@@ -261,18 +261,18 @@ namespace Tgstation.Server.Host.Controllers
 		/// <summary>
 		/// Attempts to delete the BYOND version specified in a given <paramref name="model"/> from the instance.
 		/// </summary>
-		/// <param name="model">The <see cref="ByondVersionDeleteRequest"/> containing the <see cref="Version"/> to delete.</param>
+		/// <param name="model">The <see cref="EngineVersionDeleteRequest"/> containing the <see cref="Version"/> to delete.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="IActionResult"/> for the operation.</returns>
 		/// <response code="202">Created <see cref="Job"/> to delete target version successfully.</response>
 		/// <response code="409">Attempted to delete the active BYOND <see cref="Version"/>.</response>
 		/// <response code="410">The <see cref="EngineVersion"/> specified was not installed.</response>
 		[HttpDelete]
-		[TgsAuthorize(ByondRights.DeleteInstall)]
+		[TgsAuthorize(EngineRights.DeleteInstall)]
 		[ProducesResponseType(typeof(JobResponse), 202)]
 		[ProducesResponseType(typeof(ErrorMessageResponse), 409)]
 		[ProducesResponseType(typeof(ErrorMessageResponse), 410)]
-		public async ValueTask<IActionResult> Delete([FromBody] ByondVersionDeleteRequest model, CancellationToken cancellationToken)
+		public async ValueTask<IActionResult> Delete([FromBody] EngineVersionDeleteRequest model, CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(model);
 			var earlyOut = ValidateEngineVersion(model.EngineVersion);
@@ -306,13 +306,13 @@ namespace Tgstation.Server.Host.Controllers
 			{
 				Description = $"Delete installed engine version {model}",
 				StartedBy = AuthenticationContext.User,
-				CancelRightsType = RightsType.Byond,
+				CancelRightsType = RightsType.Engine,
 				CancelRight = (ulong)(
 					isByondVersion
 						? model.EngineVersion.Version.Build != -1
-							? ByondRights.InstallOfficialOrChangeActiveByondVersion
-							: ByondRights.InstallCustomByondVersion
-						: ByondRights.InstallCustomOpenDreamVersion | ByondRights.InstallOfficialOrChangeActiveOpenDreamVersion),
+							? EngineRights.InstallOfficialOrChangeActiveByondVersion
+							: EngineRights.InstallCustomByondVersion
+						: EngineRights.InstallCustomOpenDreamVersion | EngineRights.InstallOfficialOrChangeActiveOpenDreamVersion),
 				Instance = Instance,
 			};
 

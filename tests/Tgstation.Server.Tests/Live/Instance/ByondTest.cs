@@ -26,9 +26,9 @@ using Tgstation.Server.Host.System;
 
 namespace Tgstation.Server.Tests.Live.Instance
 {
-	sealed class ByondTest(IByondClient byondClient, IJobsClient jobsClient, IFileDownloader fileDownloader, Api.Models.Instance metadata, EngineType engineType) : JobsRequiredTest(jobsClient)
+	sealed class ByondTest(IEngineClient byondClient, IJobsClient jobsClient, IFileDownloader fileDownloader, Api.Models.Instance metadata, EngineType engineType) : JobsRequiredTest(jobsClient)
 	{
-		readonly IByondClient byondClient = byondClient ?? throw new ArgumentNullException(nameof(byondClient));
+		readonly IEngineClient byondClient = byondClient ?? throw new ArgumentNullException(nameof(byondClient));
 		readonly IFileDownloader fileDownloader = fileDownloader ?? throw new ArgumentNullException(nameof(fileDownloader));
 
 		readonly Api.Models.Instance metadata = metadata ?? throw new ArgumentNullException(nameof(metadata));
@@ -110,9 +110,9 @@ namespace Tgstation.Server.Tests.Live.Instance
 		}
 
 		ValueTask TestInstallNullVersion(CancellationToken cancellationToken)
-			=> ApiAssert.ThrowsException<ApiConflictException, ByondInstallResponse>(
+			=> ApiAssert.ThrowsException<ApiConflictException, EngineInstallResponse>(
 				() => byondClient.SetActiveVersion(
-					new ByondVersionRequest
+					new EngineVersionRequest
 					{
 						EngineVersion = new EngineVersion
 						{
@@ -133,7 +133,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 		async Task TestDeletes(CancellationToken cancellationToken)
 		{
-			var deleteThisOneBecauseItWasntPartOfTheOriginalTest = await byondClient.DeleteVersion(new ByondVersionDeleteRequest
+			var deleteThisOneBecauseItWasntPartOfTheOriginalTest = await byondClient.DeleteVersion(new EngineVersionDeleteRequest
 			{
 				EngineVersion = new EngineVersion
 				{
@@ -145,7 +145,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			await WaitForJob(deleteThisOneBecauseItWasntPartOfTheOriginalTest, 30, false, null, cancellationToken);
 
 			var nonExistentUninstallResponseTask = ApiAssert.ThrowsException<ConflictException, JobResponse>(() => byondClient.DeleteVersion(
-				new ByondVersionDeleteRequest
+				new EngineVersionDeleteRequest
 				{
 					EngineVersion = new EngineVersion
 					{
@@ -156,7 +156,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 				cancellationToken), ErrorCode.ResourceNotPresent);
 
 			var uninstallResponseTask = byondClient.DeleteVersion(
-				new ByondVersionDeleteRequest
+				new EngineVersionDeleteRequest
 				{
 					EngineVersion = new EngineVersion
 					{
@@ -168,7 +168,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 				cancellationToken);
 
 			var badBecauseActiveResponseTask = ApiAssert.ThrowsException<ConflictException, JobResponse>(() => byondClient.DeleteVersion(
-				new ByondVersionDeleteRequest
+				new EngineVersionDeleteRequest
 				{
 					EngineVersion = new EngineVersion
 					{
@@ -203,7 +203,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 		async Task TestInstallFakeVersion(CancellationToken cancellationToken)
 		{
-			var newModel = new ByondVersionRequest
+			var newModel = new EngineVersionRequest
 			{
 				EngineVersion = new EngineVersion
 				{
@@ -211,7 +211,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 				}
 			};
 
-			await ApiAssert.ThrowsException<ApiConflictException, ByondInstallResponse>(() => byondClient.SetActiveVersion(newModel, null, cancellationToken), ErrorCode.ModelValidationFailure);
+			await ApiAssert.ThrowsException<ApiConflictException, EngineInstallResponse>(() => byondClient.SetActiveVersion(newModel, null, cancellationToken), ErrorCode.ModelValidationFailure);
 
 			newModel.EngineVersion.Engine = testEngine;
 
@@ -222,7 +222,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 		async Task TestInstallStable(CancellationToken cancellationToken)
 		{
-			var newModel = new ByondVersionRequest
+			var newModel = new EngineVersionRequest
 			{
 				EngineVersion = new EngineVersion
 				{
@@ -290,7 +290,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			await using var stableBytesMs = await TestingUtils.ExtractMemoryStreamFromInstallationData(await byondInstaller.DownloadVersion(testVersion, null, cancellationToken), cancellationToken);
 
 			var test = await byondClient.SetActiveVersion(
-				new ByondVersionRequest
+				new EngineVersionRequest
 				{
 					EngineVersion = new EngineVersion
 					{
@@ -309,7 +309,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			// do it again. #1501
 			stableBytesMs.Seek(0, SeekOrigin.Begin);
 			var test2 = await byondClient.SetActiveVersion(
-				new ByondVersionRequest
+				new EngineVersionRequest
 				{
 					EngineVersion = new EngineVersion
 					{
@@ -331,7 +331,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			Assert.AreEqual(2, newSettings.EngineVersion.CustomIteration);
 
 			// test a few switches
-			var installResponse = await byondClient.SetActiveVersion(new ByondVersionRequest
+			var installResponse = await byondClient.SetActiveVersion(new EngineVersionRequest
 			{
 				EngineVersion = new EngineVersion
 				{
@@ -341,7 +341,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 				}
 			}, null, cancellationToken);
 			Assert.IsNull(installResponse.InstallJob);
-			await ApiAssert.ThrowsException<ApiConflictException, ByondInstallResponse>(() => byondClient.SetActiveVersion(new ByondVersionRequest
+			await ApiAssert.ThrowsException<ApiConflictException, EngineInstallResponse>(() => byondClient.SetActiveVersion(new EngineVersionRequest
 			{
 				EngineVersion = new EngineVersion
 				{
@@ -351,7 +351,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 				}
 			}, null, cancellationToken), ErrorCode.EngineNonExistentCustomVersion);
 
-			installResponse = await byondClient.SetActiveVersion(new ByondVersionRequest
+			installResponse = await byondClient.SetActiveVersion(new EngineVersionRequest
 			{
 				EngineVersion = new EngineVersion
 				{

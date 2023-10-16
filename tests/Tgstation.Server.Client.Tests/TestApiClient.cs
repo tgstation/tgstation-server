@@ -24,7 +24,7 @@ namespace Tgstation.Server.Client.Tests
 		[TestMethod]
 		public async Task TestDeserializingByondModelsWork()
 		{
-			var sample = new ByondResponse
+			var sample = new EngineResponse
 			{
 				EngineVersion = new EngineVersion
 				{
@@ -49,7 +49,7 @@ namespace Tgstation.Server.Client.Tests
 
 			var client = new ApiClient(httpClient.Object, new Uri("http://fake.com"), new ApiHeaders(new ProductHeaderValue("fake"), "fake"), null, false);
 
-			var result = await client.Read<ByondResponse>(Routes.Byond, default);
+			var result = await client.Read<EngineResponse>(Routes.Engine, default);
 			Assert.AreEqual(sample.EngineVersion, result.EngineVersion);
 			Assert.AreEqual(-1, result.EngineVersion.Version.Build);
 			Assert.IsFalse(result.EngineVersion.CustomIteration.HasValue);
@@ -58,7 +58,7 @@ namespace Tgstation.Server.Client.Tests
 		[TestMethod]
 		public async Task TestUnrecognizedResponse()
 		{
-			var sample = new ByondResponse
+			var sample = new EngineResponse
 			{
 				EngineVersion = new EngineVersion
 				{
@@ -79,7 +79,7 @@ namespace Tgstation.Server.Client.Tests
 
 			var client = new ApiClient(httpClient.Object, new Uri("http://fake.com"), new ApiHeaders(new ProductHeaderValue("fake"), "fake"), null, true);
 
-			await Assert.ThrowsExceptionAsync<UnrecognizedResponseException>(() => client.Read<ByondResponse>(Routes.Byond, default).AsTask());
+			await Assert.ThrowsExceptionAsync<UnrecognizedResponseException>(() => client.Read<EngineResponse>(Routes.Engine, default).AsTask());
 		}
 	}
 }

@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 using Tgstation.Server.Api.Rights;
 
@@ -22,10 +24,17 @@ namespace Tgstation.Server.Api.Models.Internal
 		public InstancePermissionSetRights? InstancePermissionSetRights { get; set; }
 
 		/// <summary>
-		/// The <see cref="Rights.ByondRights"/> of the <see cref="InstancePermissionSet"/>.
+		/// The <see cref="Rights.EngineRights"/> of the <see cref="InstancePermissionSet"/>.
+		/// </summary>
+		[NotMapped]
+		public EngineRights? EngineRights { get; set; }
+
+		/// <summary>
+		/// The legacy <see cref="Rights.EngineRights"/> of the <see cref="InstancePermissionSet"/>.
 		/// </summary>
 		[Required]
-		public ByondRights? ByondRights { get; set; }
+		[Obsolete("Use EngineRights instead")]
+		public EngineRights? ByondRights { get; set; }
 
 		/// <summary>
 		/// The <see cref="Rights.DreamDaemonRights"/> of the <see cref="InstancePermissionSet"/>.

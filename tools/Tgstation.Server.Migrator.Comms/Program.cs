@@ -223,12 +223,12 @@ static class Program
 			var byondDirectory = Path.Combine(instancePath, "BYOND");
 			var byondVersionFile = Path.Combine(byondDirectory, "byond_version.dat");
 
-			ByondVersionRequest? byondVersionRequest = null;
+			EngineVersionRequest? byondVersionRequest = null;
 			if (Directory.Exists(byondDirectory) && File.Exists(byondVersionFile))
 			{
 				var byondVersion = Version.Parse(File.ReadAllText(byondVersionFile).Trim());
 				Console.WriteLine($"Found installed BYOND version: {byondVersion.Major}.{byondVersion.Minor}");
-				byondVersionRequest = new ByondVersionRequest
+				byondVersionRequest = new EngineVersionRequest
 				{
 					EngineVersion = new EngineVersion
 					{
@@ -331,7 +331,7 @@ static class Program
 			if (byondVersionRequest != null)
 			{
 				Console.WriteLine("Triggering BYOND install job...");
-				await v5InstanceClient.Byond.SetActiveVersion(byondVersionRequest, null, default);
+				await v5InstanceClient.Engine.SetActiveVersion(byondVersionRequest, null, default);
 			}
 
 			if (repositoryUpdateRequest != null)

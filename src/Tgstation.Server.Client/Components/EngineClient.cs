@@ -11,46 +11,46 @@ using Tgstation.Server.Api.Models.Response;
 
 namespace Tgstation.Server.Client.Components
 {
-	/// <inheritdoc cref="IByondClient" />
-	sealed class ByondClient : PaginatedClient, IByondClient
+	/// <inheritdoc cref="IEngineClient" />
+	sealed class EngineClient : PaginatedClient, IEngineClient
 	{
 		/// <summary>
-		/// The <see cref="Instance"/> for the <see cref="ByondClient"/>.
+		/// The <see cref="Instance"/> for the <see cref="EngineClient"/>.
 		/// </summary>
 		readonly Instance instance;
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="ByondClient"/> class.
+		/// Initializes a new instance of the <see cref="EngineClient"/> class.
 		/// </summary>
 		/// <param name="apiClient">The <see cref="IApiClient"/> for the <see cref="PaginatedClient"/>.</param>
 		/// <param name="instance">The value of <see cref="Instance"/>.</param>
-		public ByondClient(IApiClient apiClient, Instance instance)
+		public EngineClient(IApiClient apiClient, Instance instance)
 			: base(apiClient)
 		{
 			this.instance = instance ?? throw new ArgumentNullException(nameof(instance));
 		}
 
 		/// <inheritdoc />
-		public ValueTask<ByondResponse> ActiveVersion(CancellationToken cancellationToken) => ApiClient.Read<ByondResponse>(Routes.Byond, instance.Id!.Value, cancellationToken);
+		public ValueTask<EngineResponse> ActiveVersion(CancellationToken cancellationToken) => ApiClient.Read<EngineResponse>(Routes.Engine, instance.Id!.Value, cancellationToken);
 
 		/// <inheritdoc />
-		public ValueTask<JobResponse> DeleteVersion(ByondVersionDeleteRequest deleteRequest, CancellationToken cancellationToken)
-			=> ApiClient.Delete<ByondVersionDeleteRequest, JobResponse>(Routes.Byond, deleteRequest, instance.Id!.Value, cancellationToken);
+		public ValueTask<JobResponse> DeleteVersion(EngineVersionDeleteRequest deleteRequest, CancellationToken cancellationToken)
+			=> ApiClient.Delete<EngineVersionDeleteRequest, JobResponse>(Routes.Engine, deleteRequest, instance.Id!.Value, cancellationToken);
 
 		/// <inheritdoc />
-		public ValueTask<List<ByondResponse>> InstalledVersions(PaginationSettings? paginationSettings, CancellationToken cancellationToken)
-			=> ReadPaged<ByondResponse>(paginationSettings, Routes.ListRoute(Routes.Byond), instance.Id, cancellationToken);
+		public ValueTask<List<EngineResponse>> InstalledVersions(PaginationSettings? paginationSettings, CancellationToken cancellationToken)
+			=> ReadPaged<EngineResponse>(paginationSettings, Routes.ListRoute(Routes.Engine), instance.Id, cancellationToken);
 
 		/// <inheritdoc />
-		public async ValueTask<ByondInstallResponse> SetActiveVersion(ByondVersionRequest installRequest, Stream? zipFileStream, CancellationToken cancellationToken)
+		public async ValueTask<EngineInstallResponse> SetActiveVersion(EngineVersionRequest installRequest, Stream? zipFileStream, CancellationToken cancellationToken)
 		{
 			if (installRequest == null)
 				throw new ArgumentNullException(nameof(installRequest));
 			if (installRequest.UploadCustomZip == true && zipFileStream == null)
 				throw new ArgumentNullException(nameof(zipFileStream));
 
-			var result = await ApiClient.Update<ByondVersionRequest, ByondInstallResponse>(
-				Routes.Byond,
+			var result = await ApiClient.Update<EngineVersionRequest, EngineInstallResponse>(
+				Routes.Engine,
 				installRequest,
 				instance.Id!.Value,
 				cancellationToken)

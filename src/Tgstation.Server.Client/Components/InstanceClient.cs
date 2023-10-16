@@ -11,7 +11,7 @@ namespace Tgstation.Server.Client.Components
 		public Instance Metadata { get; }
 
 		/// <inheritdoc />
-		public IByondClient Byond { get; }
+		public IEngineClient Engine { get; }
 
 		/// <inheritdoc />
 		public IRepositoryClient Repository { get; }
@@ -48,7 +48,7 @@ namespace Tgstation.Server.Client.Components
 
 			Metadata = instance ?? throw new ArgumentNullException(nameof(instance));
 
-			Byond = new ByondClient(apiClient, instance);
+			Engine = new EngineClient(apiClient, instance);
 			Repository = new RepositoryClient(apiClient, instance);
 			DreamDaemon = new DreamDaemonClient(apiClient, instance);
 			Configuration = new ConfigurationClient(apiClient, instance);

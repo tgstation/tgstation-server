@@ -3,10 +3,10 @@
 namespace Tgstation.Server.Api.Rights
 {
 	/// <summary>
-	/// Rights for BYOND version management.
+	/// Rights for engine version management.
 	/// </summary>
 	[Flags]
-	public enum ByondRights : ulong
+	public enum EngineRights : ulong
 	{
 		/// <summary>
 		/// User has no rights.

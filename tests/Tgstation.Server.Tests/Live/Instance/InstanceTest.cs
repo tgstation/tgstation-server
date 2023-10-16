@@ -43,7 +43,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			CancellationToken cancellationToken)
 		{
 			var testVersion = await ByondTest.GetEdgeVersion(EngineType.Byond, fileDownloader, cancellationToken);
-			var byondTest = new ByondTest(instanceClient.Byond, instanceClient.Jobs, fileDownloader, instanceClient.Metadata, testVersion.Engine.Value);
+			var byondTest = new ByondTest(instanceClient.Engine, instanceClient.Jobs, fileDownloader, instanceClient.Metadata, testVersion.Engine.Value);
 			var chatTest = new ChatTest(instanceClient.ChatBots, instanceManagerClient, instanceClient.Jobs, instanceClient.Metadata);
 			var configTest = new ConfigurationTest(instanceClient.Configuration, instanceClient.Metadata);
 			var repoTest = new RepositoryTest(instanceClient.Repository, instanceClient.Jobs);
@@ -171,10 +171,10 @@ namespace Tgstation.Server.Tests.Live.Instance
 			using var windowsByondInstaller = byondInstaller as WindowsByondInstaller;
 
 			// get the bytes for stable
-			ByondInstallResponse installJob2;
+			EngineInstallResponse installJob2;
 			await using (var stableBytesMs = await TestingUtils.ExtractMemoryStreamFromInstallationData(await byondInstaller.DownloadVersion(compatVersion, null, cancellationToken), cancellationToken))
 			{
-				installJob2 = await instanceClient.Byond.SetActiveVersion(new ByondVersionRequest
+				installJob2 = await instanceClient.Engine.SetActiveVersion(new EngineVersionRequest
 				{
 					UploadCustomZip = true,
 					EngineVersion = new EngineVersion
@@ -202,7 +202,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			if (compatVersion.Engine.Value == EngineType.OpenDream)
 			{
 				Assert.IsNotNull(compatVersion.SourceSHA);
-				var activeVersion = await instanceClient.Byond.ActiveVersion(cancellationToken);
+				var activeVersion = await instanceClient.Engine.ActiveVersion(cancellationToken);
 				Assert.AreEqual(Limits.MaximumCommitShaLength, activeVersion.EngineVersion.SourceSHA.Length);
 				Assert.AreEqual(compatVersion.SourceSHA, activeVersion.EngineVersion.SourceSHA);
 				Assert.AreEqual(compatVersion.Version, activeVersion.EngineVersion.Version);

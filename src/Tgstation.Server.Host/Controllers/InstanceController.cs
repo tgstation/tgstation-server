@@ -532,7 +532,7 @@ namespace Tgstation.Server.Host.Controllers
 					query = query
 						.Where(x => x.InstancePermissionSets.Any(y => y.PermissionSetId == AuthenticationContext.PermissionSet.Id.Value))
 						.Where(x => x.InstancePermissionSets.Any(instanceUser =>
-							instanceUser.ByondRights != ByondRights.None ||
+							instanceUser.EngineRights != EngineRights.None ||
 							instanceUser.ChatBotRights != ChatBotRights.None ||
 							instanceUser.ConfigurationRights != ConfigurationRights.None ||
 							instanceUser.DreamDaemonRights != DreamDaemonRights.None ||
@@ -609,7 +609,7 @@ namespace Tgstation.Server.Host.Controllers
 
 			if (cantList && !instance.InstancePermissionSets.Any(instanceUser => instanceUser.PermissionSetId == AuthenticationContext.PermissionSet.Id.Value &&
 				(instanceUser.RepositoryRights != RepositoryRights.None ||
-				instanceUser.ByondRights != ByondRights.None ||
+				instanceUser.EngineRights != EngineRights.None ||
 				instanceUser.ChatBotRights != ChatBotRights.None ||
 				instanceUser.ConfigurationRights != ConfigurationRights.None ||
 				instanceUser.DreamDaemonRights != DreamDaemonRights.None ||
@@ -765,7 +765,7 @@ namespace Tgstation.Server.Host.Controllers
 			{
 				PermissionSetId = AuthenticationContext.PermissionSet.Id.Value,
 			};
-			permissionSetToModify.ByondRights = RightsHelper.AllRights<ByondRights>();
+			permissionSetToModify.EngineRights = RightsHelper.AllRights<EngineRights>();
 			permissionSetToModify.ChatBotRights = RightsHelper.AllRights<ChatBotRights>();
 			permissionSetToModify.ConfigurationRights = RightsHelper.AllRights<ConfigurationRights>();
 			permissionSetToModify.DreamDaemonRights = RightsHelper.AllRights<DreamDaemonRights>();

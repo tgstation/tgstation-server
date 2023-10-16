@@ -50,9 +50,9 @@ namespace Tgstation.Server.Host.Security.Tests
 			var authContext = new AuthenticationContext(null, user, instanceUser);
 
 			user.PermissionSet.AdministrationRights = AdministrationRights.WriteUsers;
-			instanceUser.ByondRights = ByondRights.InstallOfficialOrChangeActiveByondVersion | ByondRights.ReadActive;
+			instanceUser.EngineRights = EngineRights.InstallOfficialOrChangeActiveByondVersion | EngineRights.ReadActive;
 			Assert.AreEqual((ulong)user.PermissionSet.AdministrationRights, authContext.GetRight(RightsType.Administration));
-			Assert.AreEqual((ulong)instanceUser.ByondRights, authContext.GetRight(RightsType.Byond));
+			Assert.AreEqual((ulong)instanceUser.EngineRights, authContext.GetRight(RightsType.Engine));
 		}
 	}
 }

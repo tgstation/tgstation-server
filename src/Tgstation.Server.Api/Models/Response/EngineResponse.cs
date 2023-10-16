@@ -5,7 +5,7 @@ namespace Tgstation.Server.Api.Models.Response
 	/// <summary>
 	/// Represents an installed <see cref="Internal.EngineVersion"/>.
 	/// </summary>
-	public sealed class ByondResponse
+	public sealed class EngineResponse
 	{
 		/// <summary>
 		/// The represented <see cref="Internal.EngineVersion"/>. If <see langword="null"/> that indicates none were found.

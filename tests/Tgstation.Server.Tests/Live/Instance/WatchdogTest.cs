@@ -89,7 +89,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 			async Task CheckByondVersions()
 			{
-				var listTask = instanceClient.Byond.InstalledVersions(null, cancellationToken);
+				var listTask = instanceClient.Engine.InstalledVersions(null, cancellationToken);
 
 				var list = await listTask;
 
@@ -251,13 +251,13 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 		async Task<JobResponse> TestDeleteByondInstallErrorCasesAndQueing(CancellationToken cancellationToken)
 		{
-			var currentByond = await instanceClient.Byond.ActiveVersion(cancellationToken);
+			var currentByond = await instanceClient.Engine.ActiveVersion(cancellationToken);
 			Assert.IsNotNull(currentByond);
 			Assert.AreEqual(testVersion, currentByond.EngineVersion);
 
 			// Change the active version and check we get delayed while deleting the old one because the watchdog is using it
-			var setActiveResponse = await instanceClient.Byond.SetActiveVersion(
-				new ByondVersionRequest
+			var setActiveResponse = await instanceClient.Engine.SetActiveVersion(
+				new EngineVersionRequest
 				{
 					EngineVersion = new EngineVersion
 					{
@@ -273,8 +273,8 @@ namespace Tgstation.Server.Tests.Live.Instance
 			Assert.IsNotNull(setActiveResponse);
 			Assert.IsNull(setActiveResponse.InstallJob);
 
-			var deleteJob = await instanceClient.Byond.DeleteVersion(
-				new ByondVersionDeleteRequest
+			var deleteJob = await instanceClient.Engine.DeleteVersion(
+				new EngineVersionDeleteRequest
 				{
 					EngineVersion = new EngineVersion
 					{
@@ -293,8 +293,8 @@ namespace Tgstation.Server.Tests.Live.Instance
 			Assert.IsTrue(deleteJob.Stage.Contains("Waiting"));
 
 			// then change it back and check it fails the job because it's active again
-			setActiveResponse = await instanceClient.Byond.SetActiveVersion(
-				new ByondVersionRequest
+			setActiveResponse = await instanceClient.Engine.SetActiveVersion(
+				new EngineVersionRequest
 				{
 					EngineVersion = new EngineVersion
 					{
@@ -313,8 +313,8 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 			// finally, queue the last delete job which should complete when the watchdog restarts with a newly deployed .dmb
 			// queue the byond change followed by the deployment for that first
-			setActiveResponse = await instanceClient.Byond.SetActiveVersion(
-				new ByondVersionRequest
+			setActiveResponse = await instanceClient.Engine.SetActiveVersion(
+				new EngineVersionRequest
 				{
 					EngineVersion = new EngineVersion
 					{
@@ -330,8 +330,8 @@ namespace Tgstation.Server.Tests.Live.Instance
 			Assert.IsNotNull(setActiveResponse);
 			Assert.IsNull(setActiveResponse.InstallJob);
 
-			deleteJob = await instanceClient.Byond.DeleteVersion(
-				new ByondVersionDeleteRequest
+			deleteJob = await instanceClient.Engine.DeleteVersion(
+				new EngineVersionDeleteRequest
 				{
 					EngineVersion = new EngineVersion
 					{
@@ -1015,7 +1015,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			System.Console.WriteLine("TEST: WATCHDOG BYOND VERSION UPDATE TEST");
 			var versionToInstall = testVersion;
 
-			var currentByondVersion = await instanceClient.Byond.ActiveVersion(cancellationToken);
+			var currentByondVersion = await instanceClient.Engine.ActiveVersion(cancellationToken);
 			Assert.AreNotEqual(versionToInstall, currentByondVersion.EngineVersion);
 
 			var initialStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
@@ -1026,8 +1026,8 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 			CheckDDPriority();
 
-			var byondInstallJobTask = instanceClient.Byond.SetActiveVersion(
-				new ByondVersionRequest
+			var byondInstallJobTask = instanceClient.Engine.SetActiveVersion(
+				new EngineVersionRequest
 				{
 					EngineVersion = new EngineVersion
 					{
