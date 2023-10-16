@@ -42,6 +42,7 @@ namespace Tgstation.Server.Host.Extensions
 			GC.Collect(Int32.MaxValue, GCCollectionMode.Forced, true, false);
 			BindSocket(false);
 			BindSocket(true);
+			GC.Collect(Int32.MaxValue, GCCollectionMode.Forced, true, false);
 		}
 	}
 }
