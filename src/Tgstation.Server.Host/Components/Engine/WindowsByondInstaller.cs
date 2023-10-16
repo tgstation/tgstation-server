@@ -264,7 +264,7 @@ namespace Tgstation.Server.Host.Components.Engine
 			if (usesDDExe)
 				await IOManager.WriteAllBytes(
 					IOManager.ConcatPath(path, TgsFirewalledDDFile),
-					[],
+					Array.Empty<byte>(),
 					cancellationToken);
 		}
 	}
