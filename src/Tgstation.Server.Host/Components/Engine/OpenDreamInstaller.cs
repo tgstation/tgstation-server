@@ -229,7 +229,11 @@ namespace Tgstation.Server.Host.Components.Engine
 						true,
 						true);
 					buildExitCode = await buildProcess.Lifetime;
-					Logger.LogDebug("Build output:{newLine}{output}", Environment.NewLine, await buildProcess.GetCombinedOutput(cancellationToken));
+					Logger.LogDebug(
+						"OpenDream build exited with code {exitCode}:{newLine}{output}",
+						buildExitCode,
+						Environment.NewLine,
+						await buildProcess.GetCombinedOutput(cancellationToken));
 				},
 				sourcePath,
 				cancellationToken);
