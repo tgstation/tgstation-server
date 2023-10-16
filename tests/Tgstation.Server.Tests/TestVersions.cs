@@ -450,7 +450,7 @@ namespace Tgstation.Server.Tests
 
 			await byondInstaller.Install(engineVersion, tempPath, default);
 
-			var binPath = (string)typeof(ByondInstallerBase).GetField("BinPath", BindingFlags.Static | BindingFlags.NonPublic).GetValue(null);
+			var binPath = (string)typeof(ByondInstallerBase).GetField("ByondBinPath", BindingFlags.Static | BindingFlags.NonPublic).GetValue(null);
 			var ddNameFunc = installerType.GetMethod("GetDreamDaemonName", BindingFlags.Instance | BindingFlags.NonPublic);
 			var supportsCli = false;
 			var argArray = new object[] { engineVersion.Version, supportsCli };
