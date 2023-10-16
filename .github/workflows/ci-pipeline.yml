@@ -195,8 +195,8 @@ jobs:
         cd $HOME
         git clone https://github.com/OpenDreamProject/OpenDream
         cd OpenDream
-        git submodule init --update --recursive
         git checkout ${{ matrix.committish }}
+        git submodule update --init --recursive
 
     - name: Build OpenDream
       run: |
