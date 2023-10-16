@@ -135,6 +135,7 @@ namespace Tgstation.Server.Tests.Live
 				"General:ByondTopicTimeout=10000",
 				$"Session:HighPriorityLiveDreamDaemon={HighPriorityDreamDaemon}",
 				$"Session:LowPriorityDeploymentProcesses={LowPriorityDeployments}",
+				$"General:SkipAddingByondFirewallException={!TestingUtils.RunningInGitHubActions}",
 			};
 
 			swarmArgs = new List<string>();
