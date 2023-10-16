@@ -548,7 +548,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 		/// <param name="job">The <see cref="CompileJob"/> to run and populate.</param>
 		/// <param name="dreamMakerSettings">The <see cref="Api.Models.Internal.DreamMakerSettings"/> to use.</param>
 		/// <param name="launchParameters">The <see cref="DreamDaemonLaunchParameters"/> to use.</param>
-		/// <param name="byondLock">The <see cref="IEngineExecutableLock"/> to use.</param>
+		/// <param name="engineLock">The <see cref="IEngineExecutableLock"/> to use.</param>
 		/// <param name="repository">The <see cref="IRepository"/> to use.</param>
 		/// <param name="remoteDeploymentManager">The <see cref="IRemoteDeploymentManager"/> to use.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
@@ -558,7 +558,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 			Models.CompileJob job,
 			Api.Models.Internal.DreamMakerSettings dreamMakerSettings,
 			DreamDaemonLaunchParameters launchParameters,
-			IEngineExecutableLock byondLock,
+			IEngineExecutableLock engineLock,
 			IRepository repository,
 			IRemoteDeploymentManager remoteDeploymentManager,
 			CancellationToken cancellationToken)
@@ -586,7 +586,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 					{
 						resolvedOutputDirectory,
 						repoOrigin.ToString(),
-						byondLock.Version.ToString(),
+						engineLock.Version.ToString(),
 					},
 					true,
 					cancellationToken);
@@ -625,17 +625,17 @@ namespace Tgstation.Server.Host.Components.Deployment
 					{
 						resolvedOutputDirectory,
 						repoOrigin.ToString(),
-						byondLock.Version.ToString(),
+						engineLock.Version.ToString(),
 					},
 					true,
 					cancellationToken);
 
 				// run compiler
 				progressReporter.StageName = "Running DreamMaker";
-				var compileSuceeded = await RunDreamMaker(byondLock, job, cancellationToken);
+				var compileSuceeded = await RunDreamMaker(engineLock, job, cancellationToken);
 
 				// Session takes ownership of the lock and Disposes it so save this for later
-				var byondVersion = byondLock.Version;
+				var engineVersion = engineLock.Version;
 
 				// verify api
 				try
@@ -650,7 +650,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 						launchParameters.StartupTimeout.Value,
 						dreamMakerSettings.ApiValidationSecurityLevel.Value,
 						job,
-						byondLock,
+						engineLock,
 						dreamMakerSettings.ApiValidationPort.Value,
 						dreamMakerSettings.RequireDMApiValidation.Value,
 						launchParameters.LogOutput.Value,
@@ -666,7 +666,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 						{
 							resolvedOutputDirectory,
 							compileSuceeded ? "1" : "0",
-							byondVersion.ToString(),
+							engineVersion.ToString(),
 						},
 						true,
 						cancellationToken);
@@ -679,7 +679,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 					new List<string>
 					{
 						resolvedOutputDirectory,
-						byondVersion.ToString(),
+						engineVersion.ToString(),
 					},
 					true,
 					cancellationToken);

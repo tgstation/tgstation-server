@@ -1,7 +1,7 @@
 ﻿namespace Tgstation.Server.Host.Components.Events
 {
 	/// <summary>
-	/// Types of events. Mirror in tgs.dm.
+	/// Types of events. Mirror in tgs.dm. Prefer last listed name for script.
 	/// </summary>
 	public enum EventType
 	{
@@ -39,23 +39,23 @@
 		/// <summary>
 		/// Parameters: Version being installed
 		/// </summary>
-		[EventScript("ByondInstallStart")]
-		ByondInstallStart,
+		[EventScript("ByondInstallStart", "EngineInstallStart")]
+		EngineInstallStart,
 
 		/// <summary>
 		/// Parameters: Error string
 		/// </summary>
-		[EventScript("ByondInstallFail")]
-		ByondInstallFail,
+		[EventScript("ByondInstallFail", "EngineInstallFail")]
+		EngineInstallFail,
 
 		/// <summary>
 		/// Parameters: Old active version, new active version
 		/// </summary>
-		[EventScript("ByondActiveVersionChange")]
-		ByondActiveVersionChange,
+		[EventScript("ByondActiveVersionChange", "EngineActiveVersionChange")]
+		EngineActiveVersionChange,
 
 		/// <summary>
-		/// After the repo is copied, before CodeModifications are applied. Parameters: Game directory path, origin commit sha, byond version
+		/// After the repo is copied, before CodeModifications are applied. Parameters: Game directory path, origin commit sha, engine version string
 		/// </summary>
 		[EventScript("PreCompile")]
 		CompileStart,
@@ -67,13 +67,13 @@
 		CompileCancelled,
 
 		/// <summary>
-		/// Parameters: Game directory path, "1" if compile succeeded and api validation failed, "0" otherwise, BYOND version used
+		/// Parameters: Game directory path, "1" if compile succeeded and api validation failed, "0" otherwise, engine version string
 		/// </summary>
 		[EventScript("CompileFailure")]
 		CompileFailure,
 
 		/// <summary>
-		/// Parameters: Game directory path, BYOND version used
+		/// Parameters: Game directory path, engine version string
 		/// </summary>
 		[EventScript("PostCompile")]
 		CompileComplete,
@@ -151,7 +151,7 @@
 		RepoSubmoduleUpdate,
 
 		/// <summary>
-		/// After CodeModifications are applied, before DreamMaker is run. Parameters: Game directory path, origin commit sha, byond version
+		/// After CodeModifications are applied, before DreamMaker is run. Parameters: Game directory path, origin commit sha, engine version string
 		/// </summary>
 		[EventScript("PreDreamMaker")]
 		PreDreamMaker,

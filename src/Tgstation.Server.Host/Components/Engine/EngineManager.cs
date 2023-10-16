@@ -143,7 +143,7 @@ namespace Tgstation.Server.Host.Components.Engine
 				var stringVersion = version.ToString();
 				await ioManager.WriteAllBytes(ActiveVersionFileName, Encoding.UTF8.GetBytes(stringVersion), cancellationToken);
 				await eventConsumer.HandleEvent(
-					EventType.ByondActiveVersionChange,
+					EventType.EngineActiveVersionChange,
 					new List<string>
 					{
 						ActiveVersion?.ToString(),
@@ -463,7 +463,7 @@ namespace Tgstation.Server.Host.Components.Engine
 						progressReporter.StageName = "Running event";
 
 					var versionString = version.ToString();
-					await eventConsumer.HandleEvent(EventType.ByondInstallStart, new List<string> { versionString }, false, cancellationToken);
+					await eventConsumer.HandleEvent(EventType.EngineInstallStart, new List<string> { versionString }, false, cancellationToken);
 
 					await InstallVersionFiles(progressReporter, version, customVersionStream, cancellationToken);
 
@@ -472,7 +472,7 @@ namespace Tgstation.Server.Host.Components.Engine
 				catch (Exception ex)
 				{
 					if (ex is not OperationCanceledException)
-						await eventConsumer.HandleEvent(EventType.ByondInstallFail, new List<string> { ex.Message }, false, cancellationToken);
+						await eventConsumer.HandleEvent(EventType.EngineInstallFail, new List<string> { ex.Message }, false, cancellationToken);
 
 					lock (installedVersions)
 						installedVersions.Remove(version);

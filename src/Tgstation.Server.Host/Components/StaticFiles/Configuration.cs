@@ -71,18 +71,18 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 		/// <summary>
 		/// Map of <see cref="EventType"/>s to the filename of the event scripts they trigger.
 		/// </summary>
-		static readonly IReadOnlyDictionary<EventType, string> EventTypeScriptFileNameMap = new Dictionary<EventType, string>(
+		static readonly IReadOnlyDictionary<EventType, IReadOnlyList<string>> EventTypeScriptFileNameMap = new Dictionary<EventType, IReadOnlyList<string>>(
 			Enum.GetValues(typeof(EventType))
 				.OfType<EventType>()
 				.Select(
-					eventType => new KeyValuePair<EventType, string>(
+					eventType => new KeyValuePair<EventType, IReadOnlyList<string>>(
 						eventType,
 						typeof(EventType)
 							.GetField(eventType.ToString())
 							.GetCustomAttributes(false)
 							.OfType<EventScriptAttribute>()
 							.First()
-							.ScriptName)));
+							.ScriptNames)));
 
 		/// <summary>
 		/// The <see cref="IIOManager"/> for <see cref="Configuration"/>.
@@ -606,7 +606,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 
 			await EnsureDirectories(cancellationToken);
 
-			if (!EventTypeScriptFileNameMap.TryGetValue(eventType, out var scriptName))
+			if (!EventTypeScriptFileNameMap.TryGetValue(eventType, out var scriptNames))
 				return;
 
 			// always execute in serial
@@ -617,12 +617,13 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 
 				var scriptFiles = files
 					.Select(x => ioManager.GetFileName(x))
-					.Where(x => x.StartsWith(scriptName, StringComparison.Ordinal))
+					.Where(x => scriptNames.Any(
+						scriptName => x.StartsWith(scriptName, StringComparison.Ordinal)))
 					.ToList();
 
 				if (!scriptFiles.Any())
 				{
-					logger.LogTrace("No event scripts starting with \"{scriptName}\" detected", scriptName);
+					logger.LogTrace("No event scripts starting with \"{scriptName}\" detected", String.Join("\" or \"", scriptNames));
 					return;
 				}
 

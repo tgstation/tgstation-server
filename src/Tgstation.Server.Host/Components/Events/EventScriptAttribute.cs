@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Tgstation.Server.Host.Components.Events
 {
@@ -9,17 +10,17 @@ namespace Tgstation.Server.Host.Components.Events
 	sealed class EventScriptAttribute : Attribute
 	{
 		/// <summary>
-		/// The name of the script the event script the <see cref="EventType"/> runs.
+		/// The name and order of the scripts the event script the <see cref="EventType"/> runs.
 		/// </summary>
-		public string ScriptName { get; }
+		public IReadOnlyList<string> ScriptNames { get; }
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="EventScriptAttribute"/> class.
 		/// </summary>
-		/// <param name="scriptName">The value of <see cref="ScriptName"/>.</param>
-		public EventScriptAttribute(string scriptName)
+		/// <param name="scriptNames">The value of <see cref="ScriptNames"/>.</param>
+		public EventScriptAttribute(params string[] scriptNames)
 		{
-			ScriptName = scriptName ?? throw new ArgumentNullException(nameof(scriptName));
+			ScriptNames = ScriptNames ?? throw new ArgumentNullException(nameof(scriptNames));
 		}
 	}
 }

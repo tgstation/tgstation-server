@@ -107,6 +107,13 @@
 	if(api)
 		return api.ApiVersion()
 
+/world/TgsEngine()
+#ifdef OPENDREAM
+	return TGS_ENGINE_TYPE_OPENDREAM
+#else
+	return TGS_ENGINE_TYPE_BYOND
+#endif
+
 /world/TgsInstanceName()
 	var/datum/tgs_api/api = TGS_READ_GLOBAL(tgs)
 	if(api)
