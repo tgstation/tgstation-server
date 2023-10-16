@@ -127,12 +127,18 @@ namespace Tgstation.Server.Tests.Live
 			}
 		}
 
-		static void TerminateAllEngineServers()
+		static bool TerminateAllEngineServers()
 		{
+			var result = false;
 			foreach (var enumValue in Enum.GetValues<EngineType>())
 				foreach (var proc in GetEngineServerProcessesOnPort(enumValue, null))
 					using (proc)
+					{
 						proc.Kill();
+						result = true;
+					}
+
+			return result;
 		}
 
 		static ushort FreeTcpPort(params ushort[] usedPorts)
@@ -1081,12 +1087,14 @@ namespace Tgstation.Server.Tests.Live
 				// Inconclusive and not fail because we don't want to unexpectedly kill a dev's BYOND.exe
 				Assert.Inconclusive("Cannot run server test because DreamDaemon will not start headless while the BYOND pager is running!");
 			}
+
+			if (TerminateAllEngineServers())
+				await Task.Delay(TimeSpan.FromSeconds(5));
+
 			using var server = new LiveTestingServer(null, true);
 
 			using var serverCts = CancellationTokenSource.CreateLinkedTokenSource(hardCancellationToken);
 			var cancellationToken = serverCts.Token;
-
-			TerminateAllEngineServers();
 
 			InstanceManager GetInstanceManager() => ((Host.Server)server.RealServer).Host.Services.GetRequiredService<InstanceManager>();
 

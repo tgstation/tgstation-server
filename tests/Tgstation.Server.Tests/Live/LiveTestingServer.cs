@@ -23,6 +23,7 @@ namespace Tgstation.Server.Tests.Live
 {
 	sealed class LiveTestingServer : IServer, IDisposable
 	{
+		static bool needCleanup = false;
 		public static string BaseDirectory { get; }
 
 		static LiveTestingServer()
@@ -32,7 +33,7 @@ namespace Tgstation.Server.Tests.Live
 			if (string.IsNullOrWhiteSpace(BaseDirectory))
 			{
 				BaseDirectory = Path.Combine(Path.GetTempPath(), "TGS_INTEGRATION_TEST");
-				Cleanup(BaseDirectory).GetAwaiter().GetResult();
+				needCleanup = true;
 			}
 		}
 
@@ -74,6 +75,9 @@ namespace Tgstation.Server.Tests.Live
 
 		public LiveTestingServer(SwarmConfiguration swarmConfiguration, bool enableOAuth, ushort port = 15010)
 		{
+			if(needCleanup)
+				Cleanup(BaseDirectory).GetAwaiter().GetResult();
+
 			Assert.IsTrue(port >= 10000); // for testing bridge request limit
 			Directory = BaseDirectory;
 
