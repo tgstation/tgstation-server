@@ -30,6 +30,7 @@ using Tgstation.Server.Host.System;
 using System.Net;
 using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Api.Models;
+using Tgstation.Server.Tests.Live;
 
 namespace Tgstation.Server.Tests
 {
@@ -210,7 +211,7 @@ namespace Tgstation.Server.Tests
 					loggerFactory);
 
 			var ioManager = new DefaultIOManager();
-			var tempPath = Path.GetTempFileName();
+			var tempPath = ioManager.ConcatPath(LiveTestingServer.BaseDirectory, "mapthreads");
 			await ioManager.DeleteFile(tempPath, default);
 			await ioManager.CreateDirectory(tempPath, default);
 			try

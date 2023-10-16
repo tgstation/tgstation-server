@@ -84,7 +84,7 @@ namespace Tgstation.Server.Tests.Live
 			Assert.IsTrue(port >= 10000); // for testing bridge request limit
 			Directory = BaseDirectory;
 
-			Directory = Path.Combine(Directory, Guid.NewGuid().ToString());
+			Directory = Path.Combine(Directory, swarmConfiguration?.Identifier ?? "default");
 			System.IO.Directory.CreateDirectory(Directory);
 			string urlString = $"http://localhost:{port}";
 			Url = new Uri(urlString);
