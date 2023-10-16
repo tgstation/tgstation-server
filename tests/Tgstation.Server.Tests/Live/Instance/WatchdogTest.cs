@@ -879,7 +879,8 @@ namespace Tgstation.Server.Tests.Live.Instance
 			Assert.AreEqual("Dominion", embedsResponse.Embed.Author?.Name);
 			Assert.AreEqual("https://github.com/Cyberboss", embedsResponse.Embed.Author.Url);
 			Assert.IsTrue(DateTimeOffset.TryParse(embedsResponse.Embed.Timestamp, CultureInfo.InvariantCulture, DateTimeStyles.AssumeLocal, out var timestamp));
-			Assert.IsTrue(startTime < timestamp && endTime > timestamp);
+			var timestampCheck = startTime < timestamp && endTime > timestamp;
+			Assert.IsTrue(timestampCheck);
 			Assert.AreEqual("https://github.com/tgstation/tgstation-server", embedsResponse.Embed.Url);
 			Assert.AreEqual(3, embedsResponse.Embed.Fields?.Count);
 			Assert.AreEqual("field1", embedsResponse.Embed.Fields.ElementAt(0).Name);
