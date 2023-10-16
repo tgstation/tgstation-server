@@ -213,7 +213,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			var topicRequestResult = await topicClient.SendTopic(
 				IPAddress.Loopback,
 				$"shadow_wizard_money_gang=1",
-				ddPort,
+				FindTopicPort(),
 				cancellationToken);
 
 			Assert.IsNotNull(topicRequestResult);
@@ -345,7 +345,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			var topicRequestResult = await topicClient.SendTopic(
 				IPAddress.Loopback,
 				$"tgs_integration_test_tactics5=1",
-				ddPort,
+				FindTopicPort(),
 				cancellationToken);
 
 			Assert.IsNotNull(topicRequestResult);
@@ -561,7 +561,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			var topicRequestResult = await topicClient.SendTopic(
 				IPAddress.Loopback,
 				$"tgs_integration_test_tactics8=1",
-				ddPort,
+				FindTopicPort(),
 				cancellationToken);
 
 			Assert.IsNotNull(topicRequestResult);
@@ -673,7 +673,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 				System.Console.WriteLine("TEST: Sending Bridge tests topic...");
 
-				var bridgeTestTopicResult = await topicClient.SendTopic(IPAddress.Loopback, $"tgs_integration_test_tactics2={accessIdentifier}", ddPort, cancellationToken);
+				var bridgeTestTopicResult = await topicClient.SendTopic(IPAddress.Loopback, $"tgs_integration_test_tactics2={accessIdentifier}", FindTopicPort(), cancellationToken);
 				Assert.AreEqual("ack2", bridgeTestTopicResult.StringData);
 
 				await bridgeTestsTcs.Task.WaitAsync(cancellationToken);
@@ -726,7 +726,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 					topicRequestResult = await topicClient.SendTopic(
 						IPAddress.Loopback,
 						$"tgs_integration_test_tactics3={topicClient.SanitizeString(JsonConvert.SerializeObject(topic, DMApiConstants.SerializerSettings))}",
-						ddPort,
+						FindTopicPort(),
 						cancellationToken);
 				}
 				catch (ArgumentOutOfRangeException)
@@ -767,7 +767,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 				var topicRequestResult = await topicClient.SendTopic(
 					IPAddress.Loopback,
 					$"tgs_integration_test_tactics4={topicClient.SanitizeString(currentSize.ToString())}",
-					ddPort,
+					FindTopicPort(),
 					cancellationToken);
 
 				if (topicRequestResult.ResponseType != TopicResponseType.StringResponse
