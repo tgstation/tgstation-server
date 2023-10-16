@@ -636,7 +636,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			{
 				try
 				{
-					SocketExtensions.BindTest(ddPort, false);
+					SocketExtensions.BindTest(new PlatformIdentifier(), ddPort, false);
 					break;
 				}
 				catch

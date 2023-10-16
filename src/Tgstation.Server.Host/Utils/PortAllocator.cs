@@ -12,6 +12,7 @@ using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.Extensions;
+using Tgstation.Server.Host.System;
 
 namespace Tgstation.Server.Host.Utils
 {
@@ -29,6 +30,11 @@ namespace Tgstation.Server.Host.Utils
 		readonly IDatabaseContext databaseContext;
 
 		/// <summary>
+		/// The <see cref="IPlatformIdentifier"/> for the <see cref="PortAllocator"/>.
+		/// </summary>
+		readonly IPlatformIdentifier platformIdentifier;
+
+		/// <summary>
 		/// The <see cref="ILogger"/> for the <see cref="PortAllocator"/>.
 		/// </summary>
 		readonly ILogger<PortAllocator> logger;
@@ -43,16 +49,19 @@ namespace Tgstation.Server.Host.Utils
 		/// </summary>
 		/// <param name="serverPortProvider">The value of <see cref="serverPortProvider"/>.</param>
 		/// <param name="databaseContext">The value of <see cref="databaseContext"/>.</param>
+		/// <param name="platformIdentifier">The value of <see cref="platformIdentifier"/>.</param>
 		/// <param name="swarmConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="swarmConfiguration"/>.</param>
 		/// <param name="logger">The value of <see cref="logger"/>.</param>
 		public PortAllocator(
 			IServerPortProvider serverPortProvider,
 			IDatabaseContext databaseContext,
+			IPlatformIdentifier platformIdentifier,
 			IOptions<SwarmConfiguration> swarmConfigurationOptions,
 			ILogger<PortAllocator> logger)
 		{
 			this.serverPortProvider = serverPortProvider ?? throw new ArgumentNullException(nameof(serverPortProvider));
 			this.databaseContext = databaseContext ?? throw new ArgumentNullException(nameof(databaseContext));
+			this.platformIdentifier = platformIdentifier ?? throw new ArgumentNullException(nameof(platformIdentifier));
 			swarmConfiguration = swarmConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(swarmConfigurationOptions));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 		}
@@ -92,7 +101,7 @@ namespace Tgstation.Server.Host.Utils
 
 					try
 					{
-						SocketExtensions.BindTest(port, false);
+						SocketExtensions.BindTest(platformIdentifier, port, false);
 					}
 					catch (Exception ex)
 					{

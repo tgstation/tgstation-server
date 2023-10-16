@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
 using System.Net.Sockets;
 
 using Tgstation.Server.Host.System;
@@ -13,10 +14,13 @@ namespace Tgstation.Server.Host.Extensions
 		/// <summary>
 		/// Attempt to exclusively bind to a given <paramref name="port"/>.
 		/// </summary>
+		/// <param name="platformIdentifier">The <see cref="PlatformIdentifier"/> to use.</param>
 		/// <param name="port">The port number to bind to.</param>
 		/// <param name="includeIPv6">If IPV6 should be tested as well.</param>
-		public static void BindTest(ushort port, bool includeIPv6)
-			=> ProcessExecutor.WithProcessLaunchExclusivity(() =>
+		public static void BindTest(IPlatformIdentifier platformIdentifier, ushort port, bool includeIPv6)
+		{
+			ArgumentNullException.ThrowIfNull(platformIdentifier);
+			ProcessExecutor.WithProcessLaunchExclusivity(() =>
 			{
 				using var socket = new Socket(
 					includeIPv6
@@ -27,7 +31,9 @@ namespace Tgstation.Server.Host.Extensions
 
 				socket.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ExclusiveAddressUse, true);
 				socket.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReuseAddress, false);
-				socket.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.DontLinger, true);
+				if (platformIdentifier.IsWindows)
+					socket.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.DontLinger, true);
+
 				if (includeIPv6)
 					socket.DualMode = true;
 
@@ -38,5 +44,6 @@ namespace Tgstation.Server.Host.Extensions
 							: IPAddress.Any,
 						port));
 			});
+		}
 	}
 }

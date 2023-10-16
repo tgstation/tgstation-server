@@ -135,7 +135,7 @@ namespace Tgstation.Server.Host.Components.Session
 			try
 			{
 				logger.LogTrace("Bind test: {port}", port);
-				SocketExtensions.BindTest(port, false);
+				SocketExtensions.BindTest(platformIdentifier, port, false);
 			}
 			catch (SocketException ex) when (ex.SocketErrorCode == SocketError.AddressAlreadyInUse)
 			{
