@@ -231,7 +231,16 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 			await TellWorldToReboot(cancellationToken);
 
-			currentStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
+			if (testVersion.Engine == EngineType.OpenDream)
+				do
+				{
+					await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);
+					currentStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
+				}
+				while (currentStatus.Status == WatchdogStatus.Restoring);
+			else
+				currentStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
+
 			Assert.AreEqual(WatchdogStatus.Online, currentStatus.Status);
 			Assert.IsNull(currentStatus.StagedCompileJob);
 			Assert.AreEqual(expectedStaged.Id, currentStatus.ActiveCompileJob.Id);
@@ -242,8 +251,6 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 		async Task<JobResponse> TestDeleteByondInstallErrorCasesAndQueing(CancellationToken cancellationToken)
 		{
-			var testCustomVersion = testVersion.Version;
-			var testCustomRevision = 1;
 			var currentByond = await instanceClient.Byond.ActiveVersion(cancellationToken);
 			Assert.IsNotNull(currentByond);
 			Assert.AreEqual(testVersion, currentByond.EngineVersion);
@@ -254,9 +261,10 @@ namespace Tgstation.Server.Tests.Live.Instance
 				{
 					EngineVersion = new EngineVersion
 					{
-						Version = testCustomVersion,
+						Version = testVersion.Version,
+						SourceSHA = testVersion.SourceSHA,
 						Engine = testVersion.Engine,
-						CustomIteration = testCustomRevision,
+						CustomIteration = 1,
 					}
 				},
 				null,
@@ -310,9 +318,10 @@ namespace Tgstation.Server.Tests.Live.Instance
 				{
 					EngineVersion = new EngineVersion
 					{
-						Version = testCustomVersion,
+						Version = testVersion.Version,
 						Engine = testVersion.Engine,
-						CustomIteration = testCustomRevision,
+						SourceSHA = testVersion.SourceSHA,
+						CustomIteration = 1,
 					}
 				},
 				null,
