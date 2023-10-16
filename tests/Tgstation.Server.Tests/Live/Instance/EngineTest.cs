@@ -122,8 +122,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 					null,
 					cancellationToken),
 				ErrorCode.ModelValidationFailure);
-
-		int EngineInstallationTimeout()
+		public static int EngineInstallationTimeout(EngineVersion testVersion)
 		{
 			switch (testVersion.Engine.Value)
 			{
@@ -135,6 +134,8 @@ namespace Tgstation.Server.Tests.Live.Instance
 					throw new InvalidOperationException($"Unknown engine type: {testVersion.Engine.Value}");
 			}
 		}
+
+		int EngineInstallationTimeout() => EngineInstallationTimeout(testVersion);
 
 		async Task RunContinued(Task firstInstall, CancellationToken cancellationToken)
 		{

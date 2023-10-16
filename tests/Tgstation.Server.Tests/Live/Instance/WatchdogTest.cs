@@ -1042,7 +1042,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 			// This used to be the case but it gets deleted now that we have and test that
 			// Assert.IsNull(byondInstallJob.InstallJob);
-			await WaitForJob(byondInstallJob.InstallJob, 60, false, null, cancellationToken);
+			await WaitForJob(byondInstallJob.InstallJob, EngineTest.EngineInstallationTimeout(versionToInstall) + 30, false, null, cancellationToken);
 
 			const string DmeName = "LongRunning/long_running_test";
 
