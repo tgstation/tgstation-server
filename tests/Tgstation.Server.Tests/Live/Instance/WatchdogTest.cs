@@ -8,11 +8,13 @@ using Moq;
 using Newtonsoft.Json;
 
 using System;
+using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
@@ -786,6 +788,18 @@ namespace Tgstation.Server.Tests.Live.Instance
 			Assert.AreEqual(DMApiConstants.MaximumTopicResponseLength, (uint)lastSize);
 		}
 
+		ushort FindTopicPort()
+		{
+			using var instanceReference = instanceManager.GetInstanceReference(instanceClient.Metadata);
+			var watchdog = instanceReference.Watchdog;
+
+			var sessionObj = watchdog.GetType().GetProperty("Server", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(watchdog);
+			Assert.IsNotNull(sessionObj);
+
+			var session = (ISessionController)sessionObj;
+			return session.ReattachInformation.Port;
+		}
+
 		// - Uses instance manager concrete
 		// - Injects a custom bridge handler into the bridge registrar and makes the test hack into the DMAPI and change its access_identifier
 		async Task WhiteBoxChatCommandTest(CancellationToken cancellationToken)
@@ -1104,15 +1118,16 @@ namespace Tgstation.Server.Tests.Live.Instance
 			return ddProc != null;
 		}
 
-		public Task<DreamDaemonResponse> TellWorldToReboot(CancellationToken cancellationToken) => TellWorldToReboot2(instanceClient, topicClient, ddPort, cancellationToken);
-		public static async Task<DreamDaemonResponse> TellWorldToReboot2(IInstanceClient instanceClient, ITopicClient topicClient, ushort ddPort, CancellationToken cancellationToken)
+		public Task<DreamDaemonResponse> TellWorldToReboot(CancellationToken cancellationToken) => TellWorldToReboot2(instanceClient, topicClient, FindTopicPort(), cancellationToken);
+		public static async Task<DreamDaemonResponse> TellWorldToReboot2(IInstanceClient instanceClient, ITopicClient topicClient, ushort topicPort, CancellationToken cancellationToken)
 		{
 			var daemonStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
 			Assert.IsNotNull(daemonStatus.StagedCompileJob);
 			var initialCompileJob = daemonStatus.ActiveCompileJob;
 
 			System.Console.WriteLine("TEST: Sending world reboot topic...");
-			var result = await topicClient.SendTopic(IPAddress.Loopback, "tgs_integration_test_special_tactics=1", ddPort, cancellationToken);
+
+			var result = await topicClient.SendTopic(IPAddress.Loopback, "tgs_integration_test_special_tactics=1", topicPort, cancellationToken);
 			Assert.AreEqual("ack", result.StringData);
 
 			using var tempCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
