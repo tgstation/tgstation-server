@@ -14,6 +14,11 @@ namespace Tgstation.Server.Host.System
 	sealed class ProcessExecutor : IProcessExecutor
 	{
 		/// <summary>
+		/// <see cref="ReaderWriterLockSlim"/> for <see cref="WithProcessLaunchExclusivity(Action)"/>.
+		/// </summary>
+		static readonly ReaderWriterLockSlim ExclusiveProcessLaunchLock = new ();
+
+		/// <summary>
 		/// The <see cref="IProcessFeatures"/> for the <see cref="ProcessExecutor"/>.
 		/// </summary>
 		readonly IProcessFeatures processFeatures;
@@ -32,6 +37,23 @@ namespace Tgstation.Server.Host.System
 		/// The <see cref="ILoggerFactory"/> for the <see cref="ProcessExecutor"/>.
 		/// </summary>
 		readonly ILoggerFactory loggerFactory;
+
+		/// <summary>
+		/// Runs a given <paramref name="action"/> making sure to not launch any processes while its running.
+		/// </summary>
+		/// <param name="action">The <see cref="Action"/> to execute.</param>
+		public static void WithProcessLaunchExclusivity(Action action)
+		{
+			ExclusiveProcessLaunchLock.EnterWriteLock();
+			try
+			{
+				action();
+			}
+			finally
+			{
+				ExclusiveProcessLaunchLock.ExitWriteLock();
+			}
+		}
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="ProcessExecutor"/> class.
@@ -127,7 +149,15 @@ namespace Tgstation.Server.Host.System
 
 					try
 					{
-						handle.Start();
+						ExclusiveProcessLaunchLock.EnterReadLock();
+						try
+						{
+							handle.Start();
+						}
+						finally
+						{
+							ExclusiveProcessLaunchLock.ExitReadLock();
+						}
 
 						processStartTcs?.SetResult();
 					}

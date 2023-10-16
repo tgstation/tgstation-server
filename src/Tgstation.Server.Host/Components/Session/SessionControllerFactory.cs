@@ -217,7 +217,6 @@ namespace Tgstation.Server.Host.Components.Session
 			if (!launchParameters.Port.HasValue)
 				throw new InvalidOperationException("Given port is null!");
 
-			PortBindTest(launchParameters.Port.Value);
 			switch (dmbProvider.CompileJob.MinimumSecurityLevel)
 			{
 				case DreamDaemonSecurity.Ultrasafe:
@@ -255,8 +254,8 @@ namespace Tgstation.Server.Host.Components.Session
 				var engineType = dmbProvider.EngineVersion.Engine.Value;
 				if (engineType == EngineType.Byond)
 					await CheckPagerIsNotRunning();
-				else if (engineType == EngineType.OpenDream && platformIdentifier.IsWindows)
-					await asyncDelayer.Delay(TimeSpan.FromSeconds(2), cancellationToken); // prevent socket reuse after bind test
+
+				PortBindTest(launchParameters.Port.Value);
 
 				string outputFilePath = null;
 				var preserveLogFile = true;
