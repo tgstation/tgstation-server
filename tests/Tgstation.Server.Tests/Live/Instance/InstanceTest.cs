@@ -208,8 +208,6 @@ namespace Tgstation.Server.Tests.Live.Instance
 				Assert.AreEqual(compatVersion.Version, activeVersion.EngineVersion.Version);
 				Assert.AreEqual(compatVersion.Engine, activeVersion.EngineVersion.Engine);
 				Assert.AreEqual(1, activeVersion.EngineVersion.CustomIteration);
-
-				compatVersion = activeVersion.EngineVersion;
 			}
 
 			var configSetupTask = new ConfigurationTest(instanceClient.Configuration, instanceClient.Metadata).SetupDMApiTests(cancellationToken);
