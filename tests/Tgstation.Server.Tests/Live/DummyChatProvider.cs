@@ -53,10 +53,11 @@ namespace Tgstation.Server.Tests.Live
 			mock.Setup(x => x.Delay(It.IsAny<TimeSpan>(), It.IsAny<CancellationToken>())).Returns<TimeSpan, CancellationToken>((delay, cancellationToken) => Task.Delay(TimeSpan.FromSeconds(3), cancellationToken));
 			return mock.Object;
 		}
-		public static async Task RandomDisconnections(bool enabled, CancellationToken cancellationToken)
+
+		public static Task RandomDisconnections(bool enabled, CancellationToken cancellationToken)
 		{
-			if (Interlocked.Exchange(ref enableRandomDisconnections, enabled ? 1 : 0) != 0 && !enabled)
-				await Task.Delay(TimeSpan.FromSeconds(5), cancellationToken);
+			// we just don't do random disconnections when live testing these days, too many potential issue vectors like thread exhaustion on actions runners
+			return Task.CompletedTask;
 		}
 
 		public DummyChatProvider(

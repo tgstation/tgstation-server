@@ -1096,6 +1096,9 @@ namespace Tgstation.Server.Tests.Live
 			using var serverCts = CancellationTokenSource.CreateLinkedTokenSource(hardCancellationToken);
 			var cancellationToken = serverCts.Token;
 
+			for (var i = 0; i < 50; ++i)
+				await Task.Yield();
+
 			InstanceManager GetInstanceManager() => ((Host.Server)server.RealServer).Host.Services.GetRequiredService<InstanceManager>();
 
 			// main run

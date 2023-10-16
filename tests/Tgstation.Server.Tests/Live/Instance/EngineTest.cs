@@ -123,6 +123,19 @@ namespace Tgstation.Server.Tests.Live.Instance
 					cancellationToken),
 				ErrorCode.ModelValidationFailure);
 
+		int EngineInstallationTimeout()
+		{
+			switch (testVersion.Engine.Value)
+			{
+				case EngineType.Byond:
+					return 30;
+				case EngineType.OpenDream:
+					return 300;
+				default:
+					throw new InvalidOperationException($"Unknown engine type: {testVersion.Engine.Value}");
+			}
+		}
+
 		async Task RunContinued(Task firstInstall, CancellationToken cancellationToken)
 		{
 			await firstInstall;
@@ -142,7 +155,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 					CustomIteration = 2,
 				}
 			}, cancellationToken);
-			await WaitForJob(deleteThisOneBecauseItWasntPartOfTheOriginalTest, 30, false, null, cancellationToken);
+			await WaitForJob(deleteThisOneBecauseItWasntPartOfTheOriginalTest, EngineInstallationTimeout(), false, null, cancellationToken);
 
 			var nonExistentUninstallResponseTask = ApiAssert.ThrowsException<ConflictException, JobResponse>(() => engineClient.DeleteVersion(
 				new EngineVersionDeleteRequest
@@ -186,7 +199,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			Assert.IsNotNull(uninstallJob);
 
 			// Has to wait on deployment test possibly
-			var uninstallTask = WaitForJob(uninstallJob, 120, false, null, cancellationToken);
+			var uninstallTask = WaitForJob(uninstallJob, EngineInstallationTimeout() + 90, false, null, cancellationToken);
 
 			await nonExistentUninstallResponseTask;
 
@@ -217,7 +230,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 			var test = await engineClient.SetActiveVersion(newModel, null, cancellationToken);
 			Assert.IsNotNull(test.InstallJob);
-			await WaitForJob(test.InstallJob, 60, true, ErrorCode.EngineDownloadFail, cancellationToken);
+			await WaitForJob(test.InstallJob, EngineInstallationTimeout() + 30, true, ErrorCode.EngineDownloadFail, cancellationToken);
 		}
 
 		async Task TestInstallStable(CancellationToken cancellationToken)
@@ -233,7 +246,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			};
 			var test = await engineClient.SetActiveVersion(newModel, null, cancellationToken);
 			Assert.IsNotNull(test.InstallJob);
-			await WaitForJob(test.InstallJob, 180, false, null, cancellationToken);
+			await WaitForJob(test.InstallJob, EngineInstallationTimeout() + 150, false, null, cancellationToken);
 			var currentShit = await engineClient.ActiveVersion(cancellationToken);
 			Assert.AreEqual(newModel.EngineVersion, currentShit.EngineVersion);
 			Assert.IsFalse(currentShit.EngineVersion.CustomIteration.HasValue);
@@ -304,7 +317,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 				cancellationToken);
 
 			Assert.IsNotNull(test.InstallJob);
-			await WaitForJob(test.InstallJob, 30, false, null, cancellationToken);
+			await WaitForJob(test.InstallJob, EngineInstallationTimeout(), false, null, cancellationToken);
 
 			// do it again. #1501
 			stableBytesMs.Seek(0, SeekOrigin.Begin);
@@ -324,7 +337,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 				cancellationToken);
 
 			Assert.IsNotNull(test2.InstallJob);
-			await WaitForJob(test2.InstallJob, 30, false, null, cancellationToken);
+			await WaitForJob(test2.InstallJob, EngineInstallationTimeout(), false, null, cancellationToken);
 
 			var newSettings = await engineClient.ActiveVersion(cancellationToken);
 			Assert.AreEqual(new Version(testVersion.Version.Major, testVersion.Version.Minor, 0), newSettings.EngineVersion.Version);
