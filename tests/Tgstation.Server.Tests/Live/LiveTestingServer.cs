@@ -75,8 +75,11 @@ namespace Tgstation.Server.Tests.Live
 
 		public LiveTestingServer(SwarmConfiguration swarmConfiguration, bool enableOAuth, ushort port = 15010)
 		{
-			if(needCleanup)
+			if (needCleanup)
+			{
+				needCleanup = false;
 				Cleanup(BaseDirectory).GetAwaiter().GetResult();
+			}
 
 			Assert.IsTrue(port >= 10000); // for testing bridge request limit
 			Directory = BaseDirectory;
