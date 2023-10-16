@@ -212,7 +212,6 @@ namespace Tgstation.Server.Tests
 
 			var ioManager = new DefaultIOManager();
 			var tempPath = ioManager.ConcatPath(LiveTestingServer.BaseDirectory, "mapthreads");
-			await ioManager.DeleteFile(tempPath, default);
 			await ioManager.CreateDirectory(tempPath, default);
 			try
 			{
