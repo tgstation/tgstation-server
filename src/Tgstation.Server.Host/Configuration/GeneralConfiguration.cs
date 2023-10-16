@@ -9,6 +9,8 @@ using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.Properties;
 using Tgstation.Server.Host.Setup;
 
+using YamlDotNet.Serialization;
+
 namespace Tgstation.Server.Host.Configuration
 {
 	/// <summary>
@@ -135,6 +137,7 @@ namespace Tgstation.Server.Host.Configuration
 		/// <summary>
 		/// Location of a publically accessible OpenDream repository.
 		/// </summary>
+		[YamlMember(SerializeAs = typeof(string))]
 		public Uri OpenDreamGitUrl { get; set; } = new Uri(DefaultOpenDreamGitUrl);
 
 		/// <summary>
