@@ -203,7 +203,7 @@ jobs:
         cd $HOME/OpenDream
         dotnet build -c Release
 
-    - name: Build OpenDream
+    - name: Build DMAPI
       run: |
         cd tests/DMAPI/BasicOperation
         $HOME/OpenDream/bin/DMCompiler/DMCompiler --verbose --notices-enabled basic_operation_test.dme
