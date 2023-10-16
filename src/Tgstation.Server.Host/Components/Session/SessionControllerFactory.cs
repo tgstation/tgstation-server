@@ -256,7 +256,7 @@ namespace Tgstation.Server.Host.Components.Session
 				if (engineType == EngineType.Byond)
 					await CheckPagerIsNotRunning();
 				else if (engineType == EngineType.OpenDream && platformIdentifier.IsWindows)
-					await asyncDelayer.Delay(TimeSpan.FromSeconds(1), cancellationToken); // prevent socket reuse after bind test
+					await asyncDelayer.Delay(TimeSpan.FromSeconds(2), cancellationToken); // prevent socket reuse after bind test
 
 				string outputFilePath = null;
 				var preserveLogFile = true;
