@@ -203,7 +203,7 @@ var/received_health_check = FALSE
 	set waitfor = FALSE
 	world.TgsChatBroadcast(new /datum/tgs_message_content("Rebooting after 3 seconds"));
 	world.log << "About to sleep. sleep_offline: [world.sleep_offline]"
-	sleep(1)
+	sleep(30)
 	world.log << "Done sleep, calling Reboot"
 	world.Reboot()
 
