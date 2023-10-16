@@ -20,7 +20,7 @@ namespace Tgstation.Server.Host.Components.Events
 		/// <param name="scriptNames">The value of <see cref="ScriptNames"/>.</param>
 		public EventScriptAttribute(params string[] scriptNames)
 		{
-			ScriptNames = ScriptNames ?? throw new ArgumentNullException(nameof(scriptNames));
+			ScriptNames = scriptNames ?? throw new ArgumentNullException(nameof(scriptNames));
 		}
 	}
 }

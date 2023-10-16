@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using System.Linq;
 
 
 namespace Tgstation.Server.Host.Components.Events.Tests
@@ -14,8 +15,8 @@ namespace Tgstation.Server.Host.Components.Events.Tests
 		public void TestConstruction()
 		{
 			Assert.ThrowsException<ArgumentNullException>(() => new EventScriptAttribute(null));
-			var test = new EventScriptAttribute("test");
-			Assert.AreEqual("test", test.ScriptName);
+			var test = new EventScriptAttribute("test1", "test2");
+			Assert.IsTrue(test.ScriptNames.SequenceEqual(["test1", "test2"]));
 		}
 	}
 }
