@@ -1171,9 +1171,6 @@ namespace Tgstation.Server.Tests.Live
 						if (TestingUtils.RunningInGitHubActions) // they only have 2 cores, can't handle intense parallelization
 							await odCompatTests;
 
-						await odCompatTests;
-						Assert.Fail("!!!SUCCESS!!!");
-
 						// Some earlier linux BYOND versions have a critical bug where replacing the directory in non-basic watchdogs causes the DreamDaemon cwd to change
 						var canRunCompatTests = new PlatformIdentifier().IsWindows;
 						var compatTests = canRunCompatTests
