@@ -1,5 +1,4 @@
-﻿using System;
-using System.Net;
+﻿using System.Net;
 using System.Net.Sockets;
 
 namespace Tgstation.Server.Host.Extensions
@@ -16,33 +15,27 @@ namespace Tgstation.Server.Host.Extensions
 		/// <param name="includeIPv6">If IPV6 should be tested as well.</param>
 		public static void BindTest(ushort port, bool includeIPv6)
 		{
-			void BindSocket(bool forCleanup)
-			{
-				using var socket = new Socket(
+			using var socket = new Socket(
+				includeIPv6
+					? AddressFamily.InterNetworkV6
+					: AddressFamily.InterNetwork,
+				SocketType.Stream,
+				ProtocolType.Tcp);
+
+			socket.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ExclusiveAddressUse, true);
+			socket.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReuseAddress, false);
+			socket.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.DontLinger, true);
+			if (includeIPv6)
+				socket.DualMode = true;
+
+			socket.Bind(
+				new IPEndPoint(
 					includeIPv6
-						? AddressFamily.InterNetworkV6
-						: AddressFamily.InterNetwork,
-					SocketType.Stream,
-					ProtocolType.Tcp);
+						? IPAddress.IPv6Any
+						: IPAddress.Any,
+					port));
 
-				socket.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ExclusiveAddressUse, !forCleanup);
-				socket.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReuseAddress, forCleanup);
-				socket.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.DontLinger, true);
-				if (includeIPv6)
-					socket.DualMode = true;
-
-				socket.Bind(
-					new IPEndPoint(
-						includeIPv6
-							? IPAddress.IPv6Any
-							: IPAddress.Any,
-						port));
-			}
-
-			GC.Collect(Int32.MaxValue, GCCollectionMode.Forced, true, false);
-			BindSocket(false);
-			BindSocket(true);
-			GC.Collect(Int32.MaxValue, GCCollectionMode.Forced, true, false);
+			socket.Close();
 		}
 	}
 }
