@@ -2,9 +2,7 @@
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-using Tgstation.Server.Api.Models.Internal;
-
-namespace Tgstation.Server.Api.Models.Tests
+namespace Tgstation.Server.Api.Models.Internal.Tests
 {
 	[TestClass]
 	public sealed class TestEngineVersion
