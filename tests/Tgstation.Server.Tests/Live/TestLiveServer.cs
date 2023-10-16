@@ -1141,9 +1141,11 @@ namespace Tgstation.Server.Tests.Live
 					var instanceManagerTest = new InstanceManagerTest(adminClient, server.Directory);
 					var compatInstanceTask = instanceManagerTest.CreateTestInstance("CompatTestsInstance", cancellationToken);
 					var odInstanceTask = instanceManagerTest.CreateTestInstance("OdTestsInstance", cancellationToken);
+					var byondApiCompatInstanceTask = instanceManagerTest.CreateTestInstance("BCAPITestsInstance", cancellationToken);
 					instance = await instanceManagerTest.CreateTestInstance("LiveTestsInstance", cancellationToken);
 					var compatInstance = await compatInstanceTask;
 					var odInstance = await odInstanceTask;
+					var byondApiCompatInstance = await byondApiCompatInstanceTask;
 					var instancesTest = FailFast(instanceManagerTest.RunPreTest(cancellationToken));
 					Assert.IsTrue(Directory.Exists(instance.Path));
 					var instanceClient = adminClient.Instances.CreateClient(instance);
@@ -1158,10 +1160,19 @@ namespace Tgstation.Server.Tests.Live
 
 					async Task RunInstanceTests()
 					{
+						var byondApiCompatTests = FailFast(
+							instanceTest
+								.RunLegacyByondTest(
+									adminClient.Instances.CreateClient(byondApiCompatInstance),
+									cancellationToken));
+
+						if (TestingUtils.RunningInGitHubActions) // they only have 2 cores, can't handle intense parallelization
+							await byondApiCompatTests;
+
 						var odCompatTests = FailFast(
 							instanceTest
 								.RunCompatTests(
-									await ByondTest.GetEdgeVersion(EngineType.OpenDream, fileDownloader, cancellationToken),
+									await EngineTest.GetEdgeVersion(EngineType.OpenDream, fileDownloader, cancellationToken),
 									adminClient.Instances.CreateClient(odInstance),
 									odDMPort,
 									odDDPort,
@@ -1204,6 +1215,7 @@ namespace Tgstation.Server.Tests.Live
 
 						await compatTests;
 						await odCompatTests;
+						await byondApiCompatTests;
 					}
 
 					var instanceTests = RunInstanceTests();
@@ -1367,7 +1379,7 @@ namespace Tgstation.Server.Tests.Live
 				preStartupTime = DateTimeOffset.UtcNow;
 				serverTask = server.Run(cancellationToken).AsTask();
 				long expectedCompileJobId, expectedStaged;
-				var edgeVersion = await ByondTest.GetEdgeVersion(EngineType.Byond, fileDownloader, cancellationToken);
+				var edgeVersion = await EngineTest.GetEdgeVersion(EngineType.Byond, fileDownloader, cancellationToken);
 				using (var adminClient = await CreateAdminClient(server.Url, cancellationToken))
 				{
 					var instanceClient = adminClient.Instances.CreateClient(instance);

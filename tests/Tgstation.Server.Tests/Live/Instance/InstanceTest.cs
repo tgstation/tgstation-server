@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -34,6 +35,22 @@ namespace Tgstation.Server.Tests.Live.Instance
 		readonly InstanceManager instanceManager = instanceManager ?? throw new ArgumentNullException(nameof(instanceManager));
 		readonly ushort serverPort = serverPort;
 
+		public async Task RunLegacyByondTest(
+			IInstanceClient instanceClient,
+			CancellationToken cancellationToken)
+		{
+			var testVersion = await EngineTest.GetEdgeVersion(EngineType.Byond, fileDownloader, cancellationToken);
+			await new LegacyByondTest(
+				instanceClient.Jobs,
+				fileDownloader,
+				new LegacyByondClient(
+					(IApiClient)instanceClient.Engine.GetType().GetProperty("ApiClient", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(instanceClient.Engine),
+					instanceClient.Metadata),
+				testVersion.Version,
+				instanceClient.Metadata)
+				.Run(cancellationToken);
+		}
+
 		public async Task RunTests(
 			IInstanceClient instanceClient,
 			ushort dmPort,
@@ -42,14 +59,14 @@ namespace Tgstation.Server.Tests.Live.Instance
 			bool lowPrioDeployment,
 			CancellationToken cancellationToken)
 		{
-			var testVersion = await ByondTest.GetEdgeVersion(EngineType.Byond, fileDownloader, cancellationToken);
-			var byondTest = new ByondTest(instanceClient.Engine, instanceClient.Jobs, fileDownloader, instanceClient.Metadata, testVersion.Engine.Value);
+			var testVersion = await EngineTest.GetEdgeVersion(EngineType.Byond, fileDownloader, cancellationToken);
+			var engineTest = new EngineTest(instanceClient.Engine, instanceClient.Jobs, fileDownloader, instanceClient.Metadata, testVersion.Engine.Value);
 			var chatTest = new ChatTest(instanceClient.ChatBots, instanceManagerClient, instanceClient.Jobs, instanceClient.Metadata);
 			var configTest = new ConfigurationTest(instanceClient.Configuration, instanceClient.Metadata);
 			var repoTest = new RepositoryTest(instanceClient.Repository, instanceClient.Jobs);
 			var dmTest = new DeploymentTest(instanceClient, instanceClient.Jobs, dmPort, ddPort, lowPrioDeployment, testVersion.Engine.Value);
 
-			var byondTask = byondTest.Run(cancellationToken, out var firstInstall);
+			var byondTask = engineTest.Run(cancellationToken, out var firstInstall);
 			var chatTask = chatTest.RunPreWatchdog(cancellationToken);
 
 			var repoLongJob = await repoTest.RunLongClone(cancellationToken);

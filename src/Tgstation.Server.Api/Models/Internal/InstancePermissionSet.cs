@@ -2,6 +2,8 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
+using Newtonsoft.Json;
+
 using Tgstation.Server.Api.Rights;
 
 namespace Tgstation.Server.Api.Models.Internal
@@ -27,7 +29,14 @@ namespace Tgstation.Server.Api.Models.Internal
 		/// The <see cref="Rights.EngineRights"/> of the <see cref="InstancePermissionSet"/>.
 		/// </summary>
 		[NotMapped]
-		public EngineRights? EngineRights { get; set; }
+		[JsonIgnore]
+		public EngineRights? EngineRights
+		{
+#pragma warning disable CS0618 // Type or member is obsolete
+			get => ByondRights;
+			set => ByondRights = value;
+#pragma warning restore CS0618 // Type or member is obsolete
+		}
 
 		/// <summary>
 		/// The legacy <see cref="Rights.EngineRights"/> of the <see cref="InstancePermissionSet"/>.

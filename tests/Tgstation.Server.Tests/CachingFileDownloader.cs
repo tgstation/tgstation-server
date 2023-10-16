@@ -43,7 +43,7 @@ namespace Tgstation.Server.Tests
 			var logger = loggerFactory.CreateLogger("CachingFileDownloader");
 
 			var cfd = new CachingFileDownloader(loggerFactory.CreateLogger<CachingFileDownloader>());
-			var edgeVersion = await ByondTest.GetEdgeVersion(Api.Models.EngineType.Byond, cfd, cancellationToken);
+			var edgeVersion = await EngineTest.GetEdgeVersion(Api.Models.EngineType.Byond, cfd, cancellationToken);
 
 			await InitializeByondVersion(logger, edgeVersion.Version, new PlatformIdentifier().IsWindows, cancellationToken);
 
