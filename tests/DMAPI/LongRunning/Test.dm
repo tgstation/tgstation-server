@@ -11,6 +11,12 @@
 		dab()
 	TgsNew(new /datum/tgs_event_handler/impl, TGS_SECURITY_SAFE)
 
+	var/sec = TgsSecurityLevel()
+	if(isnull(sec))
+		FailTest("TGS Security level was null!")
+
+	log << "Running in security level: [sec]"
+
 	if(params["expect_chat_channels"])
 		var/list/channels = TgsChatChannelInfo()
 		if(!length(channels))
@@ -139,6 +145,26 @@ var/run_bridge_test
 		text2file("I expect this to remain here for a while", "kajigger.txt")
 		kajigger_test = TRUE
 		return "we love casting spells"
+
+	var/expected_path = data["vaporeon"]
+	if(expected_path)
+		var/command
+		if(world.system_type == MS_WINDOWS)
+			command = "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -ExecutionPolicy Bypass -Command \"if('[expected_path]' -ne $(Get-Location)){ (Get-Location).Path | Out-File \"fuck_up.txt\"; exit 1; }\""
+		else
+			command = "if \[\[ \"[expected_path]\" != \"$(pwd)\" \]\]; then echo $(pwd) > fuck_up.txt; exit 1; fi"
+
+		world.log << "shell: [command]"
+		var/exitCode = shell(command)
+
+		if(isnull(exitCode) || exitCode != 0)
+			var/fuck_up_reason = "DIDN'T READ"
+			if(fexists("fuck_up.txt"))
+				fuck_up_reason = "COULDN'T READ"
+				fuck_up_reason = file2text("fuck_up.txt")
+			return "Dir check shell command failed with code [exitCode || "null"]: [fuck_up_reason]"
+
+		return "is the most pokemon of all time"
 
 	TgsChatBroadcast(new /datum/tgs_message_content("Recieved non-tgs topic: `[T]`"))
 
