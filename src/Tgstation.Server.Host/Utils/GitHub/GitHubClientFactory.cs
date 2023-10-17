@@ -153,7 +153,7 @@ namespace Tgstation.Server.Host.Utils.GitHub
 						rateLimitInfo.Reset.ToString("o"));
 				else
 					logger.LogDebug(
-						"Requested GitHub client has {remainingRequests} requests remaining after the usage {lastUse}. Limit resets at {resetTime}",
+						"Requested GitHub client has {remainingRequests} requests remaining after the usage at {lastUse}. Limit resets at {resetTime}",
 						rateLimitInfo.Remaining,
 						lastUsed,
 						rateLimitInfo.Reset.ToString("o"));
