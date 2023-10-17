@@ -153,4 +153,4 @@
 /world/TgsSecurityLevel()
 	var/datum/tgs_api/api = TGS_READ_GLOBAL(tgs)
 	if(api)
-		api.SecurityLevel()
+		return api.SecurityLevel()
