@@ -3,17 +3,22 @@
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
+using Mono.Unix;
+using Mono.Unix.Native;
+
 using Moq;
 
 using Newtonsoft.Json;
 
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Runtime.InteropServices;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -471,6 +476,47 @@ namespace Tgstation.Server.Tests.Live.Instance
 			Assert.AreEqual(string.Empty, daemonStatus.AdditionalParameters);
 		}
 
+		void TestLinuxIsntBeingFuckingCheekyAboutFilePaths(DreamDaemonResponse currentStatus, CompileJobResponse previousStatus, CancellationToken cancellationToken)
+		{
+			if (new PlatformIdentifier().IsWindows)
+				return;
+
+			Assert.IsNotNull(currentStatus.ActiveCompileJob);
+			Assert.IsTrue(currentStatus.ActiveCompileJob.DmeName.Contains("long_running_test"));
+			Assert.AreEqual(WatchdogStatus.Online, currentStatus.Status);
+
+			var procs = TestLiveServer.GetDDProcessesOnPort(currentStatus.Port.Value);
+			Assert.AreEqual(1, procs.Count);
+			var failingLinks = new List<string>();
+			using var proc = procs[0];
+			var pid = proc.Id;
+			var foundLivePath = false;
+			var allPaths = new List<string>();
+			foreach (var fd in Directory.EnumerateFiles($"/proc/{pid}/fd"))
+			{
+				var sb = new StringBuilder();
+				if (Syscall.readlink(fd, sb) == -1)
+					throw new UnixIOException(Stdlib.GetLastError());
+
+				var path = sb.ToString();
+
+				allPaths.Add(path);
+				if (path.Contains($"Game/{previousStatus.DirectoryName}"))
+					failingLinks.Add($"Found fd {fd} resolving to previous absolute path game dir path: {path}");
+
+				if (path.Contains($"Game/{currentStatus.ActiveCompileJob.DirectoryName}"))
+					failingLinks.Add($"Found fd {fd} resolving to current absolute path game dir path: {path}");
+
+				if (path.Contains($"Game/Live"))
+					foundLivePath = true;
+			}
+
+			if (!foundLivePath)
+				failingLinks.Add($"Failed to find a path containing the 'Live' directory! Found {allPaths.Count}: \"{String.Join("\", \"", allPaths)}\"");
+
+			Assert.IsTrue(failingLinks.Count == 0, String.Join(Environment.NewLine, failingLinks));
+		}
+
 		async Task RunHealthCheckTest(bool checkDump, CancellationToken cancellationToken)
 		{
 			System.Console.WriteLine("TEST: WATCHDOG HEALTH CHECK TEST");
@@ -900,6 +946,8 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 			Assert.AreNotEqual(initialCompileJob.Id, daemonStatus.ActiveCompileJob.Id);
 			Assert.IsNull(daemonStatus.StagedCompileJob);
+
+			TestLinuxIsntBeingFuckingCheekyAboutFilePaths(daemonStatus, initialCompileJob, cancellationToken);
 
 			await instanceClient.DreamDaemon.Shutdown(cancellationToken);
 

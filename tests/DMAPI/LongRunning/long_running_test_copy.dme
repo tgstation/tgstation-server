@@ -11,5 +11,6 @@
 // END_PREFERENCES
 
 // BEGIN_INCLUDE
+#define DME_NAME "long_running_test_copy"
 #include "long_running_test.dme"
 // END_INCLUDE
