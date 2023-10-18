@@ -1119,17 +1119,17 @@ namespace Tgstation.Server.Tests.Live
 					{
 						// Some earlier linux BYOND versions have a critical bug where replacing the directory in non-basic watchdogs causes the DreamDaemon cwd to change
 						var canRunCompatTests = new PlatformIdentifier().IsWindows;
-						var compatTests = canRunCompatTests
-							? FailFast(
-								instanceTest
-									.RunCompatTests(
-										new Version(510, 1346),
-										adminClient.Instances.CreateClient(compatInstance),
-										compatDMPort,
-										compatDDPort,
-										server.HighPriorityDreamDaemon,
-										cancellationToken))
-							: Task.CompletedTask;
+						var compatTests = FailFast(
+							instanceTest
+								.RunCompatTests(
+									new PlatformIdentifier().IsWindows
+										? new Version(510, 1346)
+										: new Version(512, 1451), // http://www.byond.com/forum/?forum=5&command=search&scope=local&text=resolved%3a512.1451
+									adminClient.Instances.CreateClient(compatInstance),
+									compatDMPort,
+									compatDDPort,
+									server.HighPriorityDreamDaemon,
+									cancellationToken));
 
 						if (TestingUtils.RunningInGitHubActions) // they only have 2 cores, can't handle intense parallelization
 							await compatTests;
