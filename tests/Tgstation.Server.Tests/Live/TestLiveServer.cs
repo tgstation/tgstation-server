@@ -10,6 +10,7 @@ using System.Net.Http.Headers;
 using System.Net.Mime;
 using System.Net.Sockets;
 using System.Reflection;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -955,6 +956,216 @@ namespace Tgstation.Server.Tests.Live
 		}
 
 		[TestMethod]
+		public async Task TestTgstationInteractive() => await TestTgstation(true);
+
+		[TestMethod]
+		public async Task TestTgstationHeadless() => await TestTgstation(false);
+
+		async ValueTask TestTgstation(bool interactive)
+		{
+			// i'm only running this on dev machines, actions is too taxed
+			if (TestingUtils.RunningInGitHubActions)
+				Assert.Inconclusive("lol. lmao.");
+
+			var discordConnectionString = Environment.GetEnvironmentVariable("TGS_TEST_DISCORD_TOKEN");
+
+			var procs = System.Diagnostics.Process.GetProcessesByName("byond");
+			if (procs.Any())
+			{
+				foreach (var proc in procs)
+					proc.Dispose();
+
+				// Inconclusive and not fail because we don't want to unexpectedly kill a dev's BYOND.exe
+				Assert.Inconclusive("Cannot run server test because DreamDaemon will not start headless while the BYOND pager is running!");
+			}
+
+
+			using var loggerFactory = LoggerFactory.Create(builder =>
+			{
+				builder.AddConsole();
+				builder.SetMinimumLevel(LogLevel.Trace);
+			});
+			using var server = new LiveTestingServer(null, true);
+
+			TerminateAllDDs();
+
+			using var serverCts = new CancellationTokenSource();
+			var cancellationToken = serverCts.Token;
+			var serverTask = server.Run(cancellationToken);
+			try
+			{
+				using var adminClient = await CreateAdminClient(server.Url, cancellationToken);
+
+				var instanceManagerTest = new InstanceManagerTest(adminClient, server.Directory);
+				var instance = await instanceManagerTest.CreateTestInstance("TgTestInstance", cancellationToken);
+				var instanceClient = adminClient.Instances.CreateClient(instance);
+
+
+				var ddUpdateTask = instanceClient.DreamDaemon.Update(new DreamDaemonRequest
+				{
+					LogOutput = true,
+				}, cancellationToken);
+				var dmUpdateTask = instanceClient.DreamMaker.Update(new DreamMakerRequest
+				{
+					ApiValidationSecurityLevel = DreamDaemonSecurity.Trusted,
+				}, cancellationToken);
+
+				var ioManager = new Host.IO.DefaultIOManager();
+				var repoPath = ioManager.ConcatPath(instance.Path, "Repository");
+				var jobsTest = new JobsRequiredTest(instanceClient.Jobs);
+				var postWriteHandler = (Host.IO.IPostWriteHandler)(new PlatformIdentifier().IsWindows
+					? new Host.IO.WindowsPostWriteHandler()
+					: new Host.IO.PosixPostWriteHandler(loggerFactory.CreateLogger<Host.IO.PosixPostWriteHandler>()));
+				var localRepoPath = Environment.GetEnvironmentVariable("TGS_LOCAL_TG_REPO");
+				Task jobWaitTask;
+				if (!String.IsNullOrWhiteSpace(localRepoPath))
+				{
+					await ioManager.CopyDirectory(
+						Enumerable.Empty<string>(),
+						(src, dest) =>
+						{
+							if (postWriteHandler.NeedsPostWrite(src))
+								postWriteHandler.HandleWrite(dest);
+
+							return Task.CompletedTask;
+						},
+						ioManager.ConcatPath(
+							localRepoPath,
+							".git"),
+						ioManager.ConcatPath(
+							repoPath,
+							".git"),
+						null,
+						cancellationToken);
+
+					IProcessExecutor processExecutor = null;
+					processExecutor = new ProcessExecutor(
+						new PlatformIdentifier().IsWindows
+							? new WindowsProcessFeatures(loggerFactory.CreateLogger<WindowsProcessFeatures>())
+							: new PosixProcessFeatures(new Lazy<IProcessExecutor>(() => processExecutor), ioManager, loggerFactory.CreateLogger<PosixProcessFeatures>()),
+						ioManager,
+						loggerFactory.CreateLogger<ProcessExecutor>(),
+						loggerFactory);
+
+					async ValueTask RunGitCommand(string args)
+					{
+						await using var gitRemoteOriginFixProc = processExecutor.LaunchProcess(
+							"git",
+							repoPath,
+							args,
+							null,
+							true,
+							true);
+
+						int? exitCode;
+						using (cancellationToken.Register(gitRemoteOriginFixProc.Terminate))
+							exitCode = await gitRemoteOriginFixProc.Lifetime;
+
+						loggerFactory.CreateLogger("TgTest").LogInformation("git {args} output:{newLine}{output}",args, Environment.NewLine, await gitRemoteOriginFixProc.GetCombinedOutput(cancellationToken));
+						Assert.AreEqual(0, exitCode);
+					}
+
+					await RunGitCommand("remote set-url origin https://github.com/tgstation/tgstation");
+					await RunGitCommand("checkout -f master");
+					await RunGitCommand("reset --hard origin/master");
+
+					jobWaitTask = Task.CompletedTask;
+				}
+				else
+				{
+					var repoResponse = await instanceClient.Repository.Clone(new RepositoryCreateRequest
+					{
+						Origin = new Uri("https://github.com/tgstation/tgstation"),
+					}, cancellationToken);
+					jobWaitTask = jobsTest.WaitForJob(repoResponse.ActiveJob, 300, false, null, cancellationToken);
+				}
+
+				await Task.WhenAll(jobWaitTask, ddUpdateTask, dmUpdateTask);
+
+				var depsBytesTask = ioManager.ReadAllBytes(
+					ioManager.ConcatPath(repoPath, "dependencies.sh"),
+					cancellationToken);
+
+				var scriptsCopyTask = ioManager.CopyDirectory(
+					Enumerable.Empty<string>(),
+					(src, dest) =>
+					{
+						if (postWriteHandler.NeedsPostWrite(src))
+							postWriteHandler.HandleWrite(dest);
+
+						return Task.CompletedTask;
+					},
+					ioManager.ConcatPath(
+						repoPath,
+						"tools",
+						"tgs_scripts"),
+					ioManager.ConcatPath(
+						instance.Path,
+						"Configuration",
+						"EventScripts"),
+					null,
+					cancellationToken);
+
+				var dependenciesSh = Encoding.UTF8.GetString(await depsBytesTask);
+				var lines = dependenciesSh.Split("\n", StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
+				const string MajorPrefix = "export BYOND_MAJOR=";
+				var major = Int32.Parse(lines.First(x => x.StartsWith(MajorPrefix)).Substring(MajorPrefix.Length));
+				const string MinorPrefix = "export BYOND_MINOR=";
+				var minor = Int32.Parse(lines.First(x => x.StartsWith(MinorPrefix)).Substring(MinorPrefix.Length));
+
+				var byondJob = await instanceClient.Byond.SetActiveVersion(new ByondVersionRequest
+				{
+					Version = new Version(major, minor)
+				}, null, cancellationToken);
+
+				var byondJobTask = jobsTest.WaitForJob(byondJob.InstallJob, 60, false, null, cancellationToken);
+
+				await Task.WhenAll(scriptsCopyTask, byondJobTask);
+
+				var compileJob = await instanceClient.DreamMaker.Compile(cancellationToken);
+
+				await jobsTest.WaitForJob(compileJob, 180, false, null, cancellationToken);
+
+				var startJob = await instanceClient.DreamDaemon.Start(cancellationToken);
+				await jobsTest.WaitForJob(startJob, 30, false, null, cancellationToken);
+
+				var compileJob2 = await instanceClient.DreamMaker.Compile(cancellationToken);
+
+				await jobsTest.WaitForJob(compileJob2, 360, false, null, cancellationToken);
+
+				if (interactive)
+				{
+					bool updated = false;
+					while (true)
+					{
+						await Task.Delay(TimeSpan.FromSeconds(5), cancellationToken);
+
+						var status = await instanceClient.DreamDaemon.Read(cancellationToken);
+
+						if (updated)
+						{
+							if (status.Status == WatchdogStatus.Offline)
+								break;
+						}
+						else if (status.StagedCompileJob == null)
+						{
+							updated = true;
+							await instanceClient.DreamDaemon.Update(new DreamDaemonRequest
+							{
+								SoftShutdown = true
+							}, cancellationToken);
+						}
+					}
+				}
+			}
+			finally
+			{
+				serverCts.Cancel();
+				await serverTask;
+			}
+		}
+
+		[TestMethod]
 		public async Task TestStandardTgsOperation()
 		{
 			using(var currentProcess = System.Diagnostics.Process.GetCurrentProcess())
@@ -969,9 +1180,7 @@ namespace Tgstation.Server.Tests.Live
 			}
 
 			using (var currentProcess = System.Diagnostics.Process.GetCurrentProcess())
-			{
 				Assert.AreEqual(ProcessPriorityClass.Normal, currentProcess.PriorityClass);
-			}
 
 			var maximumTestMinutes = TestingUtils.RunningInGitHubActions ? 90 : 20;
 			using var hardCancellationTokenSource = new CancellationTokenSource(TimeSpan.FromMinutes(maximumTestMinutes));
