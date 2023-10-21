@@ -70,7 +70,7 @@ namespace Tgstation.Server.Host.Components.Engine
 			var parametersString = EncodeParameters(parameters, launchParameters);
 
 			var loggingEnabled = logFilePath != null;
-			var arguments = $"--cvar {(loggingEnabled ? $"log.path=\"{logFilePath}\"" : "log.enabled=false")} --cvar net.port={launchParameters.Port.Value} --cvar opendream.topic_port=0 --cvar opendream.world_params=\"{parametersString}\" \"{dmbProvider.DmbName}\"";
+			var arguments = $"--cvar {(loggingEnabled ? $"log.path=\"{logFilePath}\"" : "log.enabled=false")} --cvar net.port={launchParameters.Port.Value} --cvar opendream.topic_port=0 --cvar opendream.world_params=\"{parametersString}\" \"./{dmbProvider.DmbName}\"";
 			return arguments;
 		}
 
