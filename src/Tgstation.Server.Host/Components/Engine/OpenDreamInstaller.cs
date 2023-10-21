@@ -186,7 +186,7 @@ namespace Tgstation.Server.Host.Components.Engine
 							dirPath,
 							IOManager.ConcatPath(
 								sourcePath,
-								IOManager.GetFileName(sourcePath)),
+								IOManager.GetFileName(dirPath)),
 							cancellationToken));
 				var filesMoveTask = filesTask
 					.Result
@@ -195,7 +195,7 @@ namespace Tgstation.Server.Host.Components.Engine
 							filePath,
 							IOManager.ConcatPath(
 								sourcePath,
-								IOManager.GetFileName(sourcePath)),
+								IOManager.GetFileName(filePath)),
 							cancellationToken));
 
 				await Task.WhenAll(dirsMoveTasks.Concat(filesMoveTask));
