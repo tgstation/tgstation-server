@@ -11,6 +11,12 @@
 		dab()
 	TgsNew(new /datum/tgs_event_handler/impl, TGS_SECURITY_SAFE)
 
+	var/sec = TgsSecurityLevel()
+	if(isnull(sec))
+		FailTest("TGS Security level was null!")
+
+	log << "Running in security level: [sec]"
+
 	if(params["expect_chat_channels"])
 		var/list/channels = TgsChatChannelInfo()
 		if(!length(channels))

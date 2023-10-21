@@ -1469,7 +1469,7 @@ namespace Tgstation.Server.Tests.Live
 					await WatchdogTest.TellWorldToReboot2(instanceClient, WatchdogTest.StaticTopicClient, mainDDPort, cancellationToken);
 
 					dd = await instanceClient.DreamDaemon.Read(cancellationToken);
-					Assert.AreEqual(WatchdogStatus.Online, dd.Status.Value);
+					Assert.AreEqual(WatchdogStatus.Online, dd.Status.Value); // if this assert fails, you likely have to crack open the debugger and read test_fail_reason.txt manually
 					Assert.IsNull(dd.StagedCompileJob);
 					Assert.AreEqual(initialStaged, dd.ActiveCompileJob.Id);
 

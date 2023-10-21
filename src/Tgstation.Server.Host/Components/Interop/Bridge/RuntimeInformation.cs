@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 
+using Newtonsoft.Json;
+
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Host.Components.Chat;
 using Tgstation.Server.Host.Components.Deployment;
@@ -42,12 +44,14 @@ namespace Tgstation.Server.Host.Components.Interop.Bridge
 		/// <summary>
 		/// The <see cref="DreamDaemonSecurity"/> level of the launch.
 		/// </summary>
-		public DreamDaemonSecurity? SecurityLevel { get; }
+		[JsonProperty(DefaultValueHandling = DefaultValueHandling.Include)]
+		public DreamDaemonSecurity SecurityLevel { get; }
 
 		/// <summary>
 		/// The <see cref="DreamDaemonSecurity"/> level of the launch.
 		/// </summary>
-		public DreamDaemonVisibility? Visibility { get; }
+		[JsonProperty(DefaultValueHandling = DefaultValueHandling.Include)]
+		public DreamDaemonVisibility Visibility { get; }
 
 		/// <summary>
 		/// The <see cref="TestMergeInformation"/>s in the launch.
@@ -70,8 +74,8 @@ namespace Tgstation.Server.Host.Components.Interop.Bridge
 			IDmbProvider dmbProvider,
 			Version serverVersion,
 			string instanceName,
-			DreamDaemonSecurity? securityLevel,
-			DreamDaemonVisibility? visibility,
+			DreamDaemonSecurity securityLevel,
+			DreamDaemonVisibility visibility,
 			ushort serverPort,
 			bool apiValidateOnly)
 			: base(chatTrackingContext?.Channels ?? throw new ArgumentNullException(nameof(chatTrackingContext)))

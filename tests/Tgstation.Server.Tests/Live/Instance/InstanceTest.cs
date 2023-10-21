@@ -63,6 +63,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 			await chatTask;
 			await dmTask;
+			await configTest.SetupDMApiTests(true, cancellationToken);
 			await byondTask;
 
 			await new WatchdogTest(
@@ -172,7 +173,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 				dmUpdateRequest.AsTask(),
 				cloneRequest.AsTask());
 
-			var configSetupTask = new ConfigurationTest(instanceClient.Configuration, instanceClient.Metadata).SetupDMApiTests(cancellationToken);
+			var configSetupTask = new ConfigurationTest(instanceClient.Configuration, instanceClient.Metadata).SetupDMApiTests(true, cancellationToken);
 
 			if (TestingUtils.RunningInGitHubActions
 				|| String.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("TGS_TEST_GITHUB_TOKEN"))

@@ -157,6 +157,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "LongRunning", "LongRunning"
 		tests\DMAPI\LongRunning\Config.dm = tests\DMAPI\LongRunning\Config.dm
 		tests\DMAPI\LongRunning\long_running_test.dme = tests\DMAPI\LongRunning\long_running_test.dme
 		tests\DMAPI\LongRunning\long_running_test_copy.dme = tests\DMAPI\LongRunning\long_running_test_copy.dme
+		tests\DMAPI\LongRunning\long_running_test_rooted.dme = tests\DMAPI\LongRunning\long_running_test_rooted.dme
 		tests\DMAPI\LongRunning\Test.dm = tests\DMAPI\LongRunning\Test.dm
 	EndProjectSection
 EndProject
