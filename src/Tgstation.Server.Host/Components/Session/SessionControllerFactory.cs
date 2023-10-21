@@ -240,7 +240,7 @@ namespace Tgstation.Server.Host.Components.Session
 			}
 
 			// get the byond lock
-			var byondLock = currentByondLock ?? await engineManager.UseExecutables(
+			var engineLock = currentByondLock ?? await engineManager.UseExecutables(
 				dmbProvider.EngineVersion,
 				gameIOManager.ConcatPath(dmbProvider.Directory, dmbProvider.DmbName),
 				cancellationToken);
@@ -260,7 +260,7 @@ namespace Tgstation.Server.Host.Components.Session
 				string outputFilePath = null;
 				var preserveLogFile = true;
 
-				var hasStandardOutput = byondLock.HasStandardOutput;
+				var hasStandardOutput = engineLock.HasStandardOutput;
 				if (launchParameters.LogOutput.Value)
 				{
 					var now = DateTimeOffset.UtcNow;
@@ -287,7 +287,7 @@ namespace Tgstation.Server.Host.Components.Session
 				// launch dd
 				var process = await CreateGameServerProcess(
 					dmbProvider,
-					byondLock,
+					engineLock,
 					launchParameters,
 					accessIdentifier,
 					outputFilePath,
@@ -321,7 +321,7 @@ namespace Tgstation.Server.Host.Components.Session
 							reattachInformation,
 							instance,
 							process,
-							byondLock,
+							engineLock,
 							byondTopicSender,
 							chatTrackingContext,
 							bridgeRegistrar,
@@ -360,7 +360,7 @@ namespace Tgstation.Server.Host.Components.Session
 			catch
 			{
 				if (currentByondLock == null)
-					byondLock.Dispose();
+					engineLock.Dispose();
 				throw;
 			}
 		}
@@ -375,7 +375,7 @@ namespace Tgstation.Server.Host.Components.Session
 
 			logger.LogTrace("Begin session reattach...");
 			var byondTopicSender = topicClientFactory.CreateTopicClient(reattachInformation.TopicRequestTimeout);
-			var byondLock = await engineManager.UseExecutables(
+			var engineLock = await engineManager.UseExecutables(
 				reattachInformation.Dmb.EngineVersion,
 				null, // Doesn't matter if it's trusted or not on reattach
 				cancellationToken);
@@ -393,7 +393,7 @@ namespace Tgstation.Server.Host.Components.Session
 
 				try
 				{
-					if (byondLock.PromptsForNetworkAccess)
+					if (engineLock.PromptsForNetworkAccess)
 						networkPromptReaper.RegisterProcess(process);
 
 					var chatTrackingContext = chat.CreateTrackingContext();
@@ -410,7 +410,7 @@ namespace Tgstation.Server.Host.Components.Session
 							reattachInformation,
 							instance,
 							process,
-							byondLock,
+							engineLock,
 							byondTopicSender,
 							chatTrackingContext,
 							bridgeRegistrar,
@@ -424,7 +424,7 @@ namespace Tgstation.Server.Host.Components.Session
 							false);
 
 						process = null;
-						byondLock = null;
+						engineLock = null;
 						chatTrackingContext = null;
 
 						return controller;
@@ -443,7 +443,7 @@ namespace Tgstation.Server.Host.Components.Session
 			}
 			catch
 			{
-				byondLock.Dispose();
+				engineLock.Dispose();
 				throw;
 			}
 		}
@@ -452,7 +452,7 @@ namespace Tgstation.Server.Host.Components.Session
 		/// Creates the game server <see cref="IProcess"/>.
 		/// </summary>
 		/// <param name="dmbProvider">The <see cref="IDmbProvider"/>.</param>
-		/// <param name="byondLock">The <see cref="IEngineExecutableLock"/>.</param>
+		/// <param name="engineLock">The <see cref="IEngineExecutableLock"/>.</param>
 		/// <param name="launchParameters">The <see cref="DreamDaemonLaunchParameters"/>.</param>
 		/// <param name="accessIdentifier">The secure string to use for the session.</param>
 		/// <param name="logFilePath">The path to log DreamDaemon output to.</param>
@@ -461,7 +461,7 @@ namespace Tgstation.Server.Host.Components.Session
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the DreamDaemon <see cref="IProcess"/>.</returns>
 		async ValueTask<IProcess> CreateGameServerProcess(
 			IDmbProvider dmbProvider,
-			IEngineExecutableLock byondLock,
+			IEngineExecutableLock engineLock,
 			DreamDaemonLaunchParameters launchParameters,
 			string accessIdentifier,
 			string logFilePath,
@@ -469,7 +469,7 @@ namespace Tgstation.Server.Host.Components.Session
 			CancellationToken cancellationToken)
 		{
 			// important to run on all ports to allow port changing
-			var arguments = byondLock.FormatServerArguments(
+			var arguments = engineLock.FormatServerArguments(
 				dmbProvider,
 				new Dictionary<string, string>
 				{
@@ -478,16 +478,16 @@ namespace Tgstation.Server.Host.Components.Session
 					{ DMApiConstants.ParamAccessIdentifier, accessIdentifier },
 				},
 				launchParameters,
-				!byondLock.HasStandardOutput
+				!engineLock.HasStandardOutput
 					? logFilePath
 					: null);
 
 			var process = processExecutor.LaunchProcess(
-				byondLock.ServerExePath,
+				engineLock.ServerExePath,
 				dmbProvider.Directory,
 				arguments,
 				logFilePath,
-				byondLock.HasStandardOutput,
+				engineLock.HasStandardOutput,
 				true);
 
 			try
@@ -500,7 +500,7 @@ namespace Tgstation.Server.Host.Components.Session
 				else if (sessionConfiguration.LowPriorityDeploymentProcesses)
 					process.AdjustPriority(false);
 
-				if (!byondLock.HasStandardOutput)
+				if (!engineLock.HasStandardOutput)
 					networkPromptReaper.RegisterProcess(process);
 
 				// If this isnt a staging DD (From a Deployment), fire off an event

@@ -477,10 +477,10 @@ namespace Tgstation.Server.Host.Components.Deployment
 			var progressTask = ProgressTask(progressReporter, estimatedDuration, progressCts.Token);
 			try
 			{
-				using var byondLock = await engineManager.UseExecutables(null, null, cancellationToken);
+				using var engineLock = await engineManager.UseExecutables(null, null, cancellationToken);
 				currentChatCallback = chatManager.QueueDeploymentMessage(
 					revisionInformation,
-					byondLock.Version,
+					engineLock.Version,
 					DateTimeOffset.UtcNow + estimatedDuration,
 					repository.RemoteRepositoryOwner,
 					repository.RemoteRepositoryName,
@@ -491,7 +491,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 					DirectoryName = Guid.NewGuid(),
 					DmeName = dreamMakerSettings.ProjectName,
 					RevisionInformation = revisionInformation,
-					ByondVersion = byondLock.Version.ToString(),
+					ByondVersion = engineLock.Version.ToString(),
 					RepositoryOrigin = repository.Origin.ToString(),
 				};
 
@@ -514,7 +514,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 							job,
 							dreamMakerSettings,
 							launchParameters,
-							byondLock,
+							engineLock,
 							repository,
 							remoteDeploymentManager,
 							combinedTokenSource.Token);
@@ -764,7 +764,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 		/// <param name="timeout">The timeout in seconds for validation.</param>
 		/// <param name="securityLevel">The <see cref="DreamDaemonSecurity"/> level to use to validate the API.</param>
 		/// <param name="job">The <see cref="CompileJob"/> for the operation.</param>
-		/// <param name="byondLock">The current <see cref="IEngineExecutableLock"/>.</param>
+		/// <param name="engineLock">The current <see cref="IEngineExecutableLock"/>.</param>
 		/// <param name="portToUse">The port to use for API validation.</param>
 		/// <param name="requireValidate">If the API validation is required to complete the deployment.</param>
 		/// <param name="logOutput">If output should be logged to the DreamDaemon Diagnostics folder.</param>
@@ -774,7 +774,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 			uint timeout,
 			DreamDaemonSecurity securityLevel,
 			Models.CompileJob job,
-			IEngineExecutableLock byondLock,
+			IEngineExecutableLock engineLock,
 			ushort portToUse,
 			bool requireValidate,
 			bool logOutput,
@@ -801,8 +801,8 @@ namespace Tgstation.Server.Host.Components.Deployment
 			using (var provider = new TemporaryDmbProvider(
 				ioManager.ResolvePath(job.DirectoryName.ToString()),
 				job,
-				byondLock.Version))
-			await using (var controller = await sessionControllerFactory.LaunchNew(provider, byondLock, launchParameters, true, cancellationToken))
+				engineLock.Version))
+			await using (var controller = await sessionControllerFactory.LaunchNew(provider, engineLock, launchParameters, true, cancellationToken))
 			{
 				var launchResult = await controller.LaunchResult.WaitAsync(cancellationToken);
 
