@@ -311,7 +311,7 @@ namespace Tgstation.Server.Host.Controllers
 			// run the install through the job manager
 			var job = new Models.Job
 			{
-				Description = $"Delete installed engine version {model}",
+				Description = $"Delete installed engine version {model.EngineVersion}",
 				StartedBy = AuthenticationContext.User,
 				CancelRightsType = RightsType.Engine,
 				CancelRight = (ulong)(
