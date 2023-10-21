@@ -151,8 +151,15 @@ namespace Tgstation.Server.Host.Controllers
 			var uploadingZip = model.UploadCustomZip == true;
 
 			var userByondRights = AuthenticationContext.InstancePermissionSet.EngineRights.Value;
-			if ((!userByondRights.HasFlag(EngineRights.InstallOfficialOrChangeActiveByondVersion) && !uploadingZip)
-				|| (!userByondRights.HasFlag(EngineRights.InstallCustomByondVersion) && uploadingZip))
+			var isByondEngine = model.EngineVersion.Engine.Value == EngineType.Byond;
+			var officialPerm = isByondEngine
+				? EngineRights.InstallOfficialOrChangeActiveByondVersion
+				: EngineRights.InstallOfficialOrChangeActiveOpenDreamVersion;
+			var customPerm = isByondEngine
+				? EngineRights.InstallCustomByondVersion
+				: EngineRights.InstallCustomOpenDreamVersion;
+			if ((!userByondRights.HasFlag(officialPerm) && !uploadingZip)
+				|| (!userByondRights.HasFlag(customPerm) && uploadingZip))
 				return Forbid();
 
 			// remove cruff fields
