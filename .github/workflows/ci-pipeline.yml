@@ -365,7 +365,7 @@ jobs:
       fail-fast: false
       matrix:
         database-type: [ 'SqlServer', 'Sqlite', 'PostgresSql', 'MariaDB', 'MySql' ]
-        watchdog-type: [ 'Basic', 'System' ]
+        watchdog-type: [ 'Basic', 'Advanced' ]
         configuration: [ 'Debug', 'Release' ]
     runs-on: windows-latest
     steps:
@@ -735,25 +735,25 @@ jobs:
         name: linux-unit-test-coverage-Release
         path: ./code_coverage/unit_tests/linux_unit_tests_release
 
-    - name: Retrieve Linux Integration Test Coverage (Release, System, Sqlite)
+    - name: Retrieve Linux Integration Test Coverage (Release, Advanced, Sqlite)
       uses: actions/download-artifact@v3
       with:
         name: linux-integration-test-coverage-Release-System-Sqlite
         path: ./code_coverage/integration_tests/linux_integration_tests_release_system_sqlite
 
-    - name: Retrieve Linux Integration Test Coverage (Release, System, PostgresSql)
+    - name: Retrieve Linux Integration Test Coverage (Release, Advanced, PostgresSql)
       uses: actions/download-artifact@v3
       with:
         name: linux-integration-test-coverage-Release-System-PostgresSql
         path: ./code_coverage/integration_tests/linux_integration_tests_release_system_mariadb
 
-    - name: Retrieve Linux Integration Test Coverage (Release, System, MariaDB)
+    - name: Retrieve Linux Integration Test Coverage (Release, Advanced, MariaDB)
       uses: actions/download-artifact@v3
       with:
         name: linux-integration-test-coverage-Release-System-MariaDB
         path: ./code_coverage/integration_tests/linux_integration_tests_release_system_mysql
 
-    - name: Retrieve Linux Integration Test Coverage (Release, System, MySql)
+    - name: Retrieve Linux Integration Test Coverage (Release, Advanced, MySql)
       uses: actions/download-artifact@v3
       with:
         name: linux-integration-test-coverage-Release-System-MySql
@@ -789,13 +789,13 @@ jobs:
         name: linux-integration-test-coverage-Debug-System-Sqlite
         path: ./code_coverage/integration_tests/linux_integration_tests_debug_system_sqlite
 
-    - name: Retrieve Linux Integration Test Coverage (Debug, System, PostgresSql)
+    - name: Retrieve Linux Integration Test Coverage (Debug, Advanced, PostgresSql)
       uses: actions/download-artifact@v3
       with:
         name: linux-integration-test-coverage-Debug-System-PostgresSql
         path: ./code_coverage/integration_tests/linux_integration_tests_debug_system_mariadb
 
-    - name: Retrieve Linux Integration Test Coverage (Debug, System, MariaDB)
+    - name: Retrieve Linux Integration Test Coverage (Debug, Advanced, MariaDB)
       uses: actions/download-artifact@v3
       with:
         name: linux-integration-test-coverage-Debug-System-MariaDB
