@@ -631,7 +631,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 					cancellationToken);
 
 				// run compiler
-				progressReporter.StageName = "Running DreamMaker";
+				progressReporter.StageName = "Running Compiler";
 				var compileSuceeded = await RunDreamMaker(engineLock, job, cancellationToken);
 
 				// Session takes ownership of the lock and Disposes it so save this for later
