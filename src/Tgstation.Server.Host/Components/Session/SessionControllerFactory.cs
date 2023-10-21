@@ -628,7 +628,8 @@ namespace Tgstation.Server.Host.Components.Session
 		/// </summary>
 		/// <param name="dmbProvider">The <see cref="IDmbProvider"/>.</param>
 		/// <param name="chatTrackingContext">The <see cref="IChatTrackingContext"/>.</param>
-		/// <param name="launchParameters">The <see cref="DreamDaemonLaunchParameters"/> if any.</param>
+		/// <param name="securityLevel">The <see cref="DreamDaemonSecurity"/> the server was launched with.</param>
+		/// <param name="visibility">The <see cref="DreamDaemonVisibility"/> the server was launched with.</param>
 		/// <param name="apiValidateOnly">The value of <see cref="RuntimeInformation.ApiValidateOnly"/>.</param>
 		/// <returns>A new <see cref="RuntimeInformation"/> class.</returns>
 		RuntimeInformation CreateRuntimeInformation(
