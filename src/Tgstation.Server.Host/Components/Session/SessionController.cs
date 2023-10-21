@@ -350,8 +350,13 @@ namespace Tgstation.Server.Host.Components.Session
 			await process.DisposeAsync();
 			byondLock.Dispose();
 			bridgeRegistration?.Dispose();
-			ReattachInformation.Dmb.Dispose();
-			ReattachInformation.InitialDmb?.Dispose();
+			var regularDmbDisposeTask = ReattachInformation.Dmb.DisposeAsync();
+			var initialDmb = ReattachInformation.InitialDmb;
+			if (initialDmb != null)
+				await initialDmb.DisposeAsync();
+
+			await regularDmbDisposeTask;
+
 			chatTrackingContext.Dispose();
 			reattachTopicCts.Dispose();
 
@@ -552,7 +557,7 @@ namespace Tgstation.Server.Host.Components.Session
 		public void Resume() => process.Resume();
 
 		/// <inheritdoc />
-		public IDisposable ReplaceDmbProvider(IDmbProvider dmbProvider)
+		public IAsyncDisposable ReplaceDmbProvider(IDmbProvider dmbProvider)
 		{
 			var oldDmb = ReattachInformation.Dmb;
 			ReattachInformation.Dmb = dmbProvider ?? throw new ArgumentNullException(nameof(dmbProvider));

@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 
 using Microsoft.Extensions.Logging;
@@ -9,6 +10,7 @@ using Tgstation.Server.Host.Components.Deployment;
 using Tgstation.Server.Host.Components.Deployment.Remote;
 using Tgstation.Server.Host.Components.Events;
 using Tgstation.Server.Host.Components.Session;
+using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Jobs;
@@ -21,6 +23,11 @@ namespace Tgstation.Server.Host.Components.Watchdog
 	/// </summary>
 	sealed class PosixWatchdog : WindowsWatchdog
 	{
+		/// <summary>
+		/// The <see cref="GeneralConfiguration"/> for the <see cref="PosixWatchdog"/>.
+		/// </summary>
+		readonly GeneralConfiguration generalConfiguration;
+
 		/// <summary>
 		/// Initializes a new instance of the <see cref="PosixWatchdog"/> class.
 		/// </summary>
@@ -39,6 +46,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="WatchdogBase"/>.</param>
 		/// <param name="initialLaunchParameters">The <see cref="DreamDaemonLaunchParameters"/> for the <see cref="WatchdogBase"/>.</param>
 		/// <param name="instance">The <see cref="Api.Models.Instance"/> for the <see cref="WatchdogBase"/>.</param>
+		/// <param name="generalConfiguration">The value of <see cref="GeneralConfiguration"/>.</param>
 		/// <param name="autoStart">The autostart value for the <see cref="WatchdogBase"/>.</param>
 		public PosixWatchdog(
 			IChatManager chat,
@@ -56,6 +64,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			ILogger<PosixWatchdog> logger,
 			DreamDaemonLaunchParameters initialLaunchParameters,
 			Api.Models.Instance instance,
+			GeneralConfiguration generalConfiguration,
 			bool autoStart)
 			: base(
 				  chat,
@@ -75,13 +84,15 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				  instance,
 				  autoStart)
 		{
+			this.generalConfiguration = generalConfiguration ?? throw new ArgumentNullException(nameof(generalConfiguration));
 		}
 
 		/// <inheritdoc />
 		protected override Task ApplyInitialDmb(CancellationToken cancellationToken)
-		{
-			// not necessary to hold initial .dmb on Linux because of based inode deletes
-			return Task.CompletedTask;
-		}
+			=> Task.CompletedTask; // not necessary to hold initial .dmb on Linux because of based inode deletes
+
+		/// <inheritdoc />
+		protected override SwappableDmbProvider CreateSwappableDmbProvider(IDmbProvider dmbProvider)
+			=> new HardLinkDmbProvider(dmbProvider, GameIOManager, SymlinkFactory, Logger, generalConfiguration);
 	}
 }

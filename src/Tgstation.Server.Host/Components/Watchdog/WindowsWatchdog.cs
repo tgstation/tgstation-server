@@ -37,7 +37,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <summary>
 		/// The <see cref="ISymlinkFactory"/> for the <see cref="WindowsWatchdog"/>.
 		/// </summary>
-		readonly ISymlinkFactory symlinkFactory;
+		protected ISymlinkFactory SymlinkFactory { get; }
 
 		/// <summary>
 		/// <see cref="List{T}"/> of <see cref="Task"/>s that are waiting to clean up old deployments.
@@ -68,7 +68,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <param name="eventConsumer">The <see cref="IEventConsumer"/> for the <see cref="WatchdogBase"/>.</param>
 		/// <param name="remoteDeploymentManagerFactory">The <see cref="IRemoteDeploymentManagerFactory"/> for the <see cref="WatchdogBase"/>.</param>
 		/// <param name="gameIOManager">The value of <see cref="GameIOManager"/>.</param>
-		/// <param name="symlinkFactory">The value of <see cref="symlinkFactory"/>.</param>
+		/// <param name="symlinkFactory">The value of <see cref="SymlinkFactory"/>.</param>
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="WatchdogBase"/>.</param>
 		/// <param name="initialLaunchParameters">The <see cref="DreamDaemonLaunchParameters"/> for the <see cref="WatchdogBase"/>.</param>
 		/// <param name="instance">The <see cref="Api.Models.Instance"/> for the <see cref="WatchdogBase"/>.</param>
@@ -109,7 +109,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			try
 			{
 				GameIOManager = gameIOManager ?? throw new ArgumentNullException(nameof(gameIOManager));
-				this.symlinkFactory = symlinkFactory ?? throw new ArgumentNullException(nameof(symlinkFactory));
+				SymlinkFactory = symlinkFactory ?? throw new ArgumentNullException(nameof(symlinkFactory));
 
 				deploymentCleanupTasks = new List<Task>();
 			}
@@ -131,7 +131,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 
 			// If we reach this point, we can guarantee PrepServerForLaunch will be called before starting again.
 			ActiveSwappable = null;
-			pendingSwappable?.Dispose();
+			await (pendingSwappable?.DisposeAsync() ?? ValueTask.CompletedTask);
 			pendingSwappable = null;
 
 			await DrainDeploymentCleanupTasks(true);
@@ -142,9 +142,10 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		{
 			if (pendingSwappable != null)
 			{
-				var updateTask = BeforeApplyDmb(pendingSwappable.CompileJob, cancellationToken);
+				Task RunPrequel() => BeforeApplyDmb(pendingSwappable.CompileJob, cancellationToken);
 
-				if (!pendingSwappable.Swapped)
+				var needToSwap = !pendingSwappable.Swapped;
+				if (needToSwap)
 				{
 					// IMPORTANT: THE SESSIONCONTROLLER SHOULD STILL BE PROCESSING THE BRIDGE REQUEST SO WE KNOW DD IS SLEEPING
 					// OTHERWISE, IT COULD RETURN TO /world/Reboot() TOO EARLY AND LOAD THE WRONG .DMB
@@ -153,18 +154,29 @@ namespace Tgstation.Server.Host.Components.Watchdog
 						// integration test logging will catch this
 						Logger.LogError(
 							"The reboot bridge request completed before the watchdog could suspend the server! This can lead to buggy DreamDaemon behaviour and should be reported! To ensure stability, we will need to hard reboot the server");
-						await updateTask;
+						await RunPrequel();
 						return MonitorAction.Restart;
 					}
 
-					await PerformDmbSwap(pendingSwappable, cancellationToken);
+					// DCT: Not necessary
+					if (!pendingSwappable.FinishActivationPreparation(CancellationToken.None).IsCompleted)
+					{
+						// rare pokemon
+						Logger.LogInformation("Deployed .dme is not ready to swap, delaying until next reboot!");
+						Chat.QueueWatchdogMessage("The pending deployment was not ready to be activated this reboot. It will be applied at the next one.");
+						return MonitorAction.Continue;
+					}
 				}
+
+				var updateTask = RunPrequel();
+				if (needToSwap)
+					await PerformDmbSwap(pendingSwappable, cancellationToken);
 
 				var currentCompileJobId = Server.ReattachInformation.Dmb.CompileJob.Id;
 
 				await DrainDeploymentCleanupTasks(false);
 
-				IDisposable lingeringDeployment;
+				IAsyncDisposable lingeringDeployment;
 				var localDeploymentCleanupGate = new TaskCompletionSource();
 				async Task CleanupLingeringDeployment()
 				{
@@ -191,7 +203,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 							? " due to timeout!"
 							: "...");
 
-					lingeringDeployment.Dispose();
+					await lingeringDeployment.DisposeAsync();
 				}
 
 				var oldDeploymentCleanupGate = Interlocked.Exchange(ref deploymentCleanupGate, localDeploymentCleanupGate);
@@ -247,31 +259,31 @@ namespace Tgstation.Server.Host.Components.Watchdog
 
 			if (!canSeamlesslySwap)
 			{
-				compileJobProvider.Dispose();
+				await compileJobProvider.DisposeAsync();
 				await base.HandleNewDmbAvailable(cancellationToken);
 				return;
 			}
 
-			SwappableDmbProvider windowsProvider = null;
+			SwappableDmbProvider swappableProvider = null;
 			try
 			{
-				windowsProvider = new SwappableDmbProvider(compileJobProvider, GameIOManager, symlinkFactory);
+				swappableProvider = CreateSwappableDmbProvider(compileJobProvider);
 				if (ActiveCompileJob.DMApiVersion == null)
 				{
 					Logger.LogWarning("Active compile job has no DMAPI! Commencing immediate .dmb swap. Note this behavior is known to be buggy in some DM code contexts. See https://github.com/tgstation/tgstation-server/issues/1550");
-					await PerformDmbSwap(windowsProvider, cancellationToken);
+					await PerformDmbSwap(swappableProvider, cancellationToken);
 				}
 			}
 			catch (Exception ex)
 			{
 				Logger.LogError(ex, "Exception while swapping");
-				IDmbProvider providerToDispose = windowsProvider ?? compileJobProvider;
-				providerToDispose.Dispose();
+				IDmbProvider providerToDispose = swappableProvider ?? compileJobProvider;
+				await providerToDispose.DisposeAsync();
 				throw;
 			}
 
-			pendingSwappable?.Dispose();
-			pendingSwappable = windowsProvider;
+			await (pendingSwappable?.DisposeAsync() ?? ValueTask.CompletedTask);
+			pendingSwappable = swappableProvider;
 		}
 
 		/// <inheritdoc />
@@ -284,7 +296,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 
 			Logger.LogTrace("Prep for server launch");
 
-			ActiveSwappable = new SwappableDmbProvider(dmbToUse, GameIOManager, symlinkFactory);
+			ActiveSwappable = CreateSwappableDmbProvider(dmbToUse);
 			try
 			{
 				await InitialLink(cancellationToken);
@@ -310,6 +322,14 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			Server.ReattachInformation.InitialDmb = await DmbFactory.FromCompileJob(Server.CompileJob, cancellationToken);
 		}
 
+		/// <summary>
+		/// Create a <see cref="SwappableDmbProvider"/> for a given <paramref name="dmbProvider"/>.
+		/// </summary>
+		/// <param name="dmbProvider">The <see cref="IDmbProvider"/> to create a <see cref="SwappableDmbProvider"/> for.</param>
+		/// <returns>A new <see cref="SwappableDmbProvider"/>.</returns>
+		protected virtual SwappableDmbProvider CreateSwappableDmbProvider(IDmbProvider dmbProvider)
+			=> new SwappableDmbProvider(dmbProvider, GameIOManager, SymlinkFactory);
+
 		/// <inheritdoc />
 		protected override async Task SessionStartupPersist(CancellationToken cancellationToken)
 		{
@@ -332,10 +352,11 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		Task InitialLink(CancellationToken cancellationToken)
+		async ValueTask InitialLink(CancellationToken cancellationToken)
 		{
-			Logger.LogTrace("Symlinking compile job...");
-			return ActiveSwappable.MakeActive(cancellationToken);
+			await ActiveSwappable.FinishActivationPreparation(cancellationToken);
+			Logger.LogTrace("Linking compile job...");
+			await ActiveSwappable.MakeActive(cancellationToken);
 		}
 
 		/// <summary>
@@ -347,6 +368,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		async ValueTask PerformDmbSwap(SwappableDmbProvider newProvider, CancellationToken cancellationToken)
 		{
 			Logger.LogDebug("Swapping to compile job {id}...", newProvider.CompileJob.Id);
+
+			await newProvider.FinishActivationPreparation(cancellationToken);
 
 			var suspended = false;
 			var server = Server;

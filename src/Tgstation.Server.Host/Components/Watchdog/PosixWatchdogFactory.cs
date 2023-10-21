@@ -76,6 +76,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				LoggerFactory.CreateLogger<PosixWatchdog>(),
 				settings,
 				instance,
+				GeneralConfiguration,
 				settings.AutoStart ?? throw new ArgumentNullException(nameof(settings)));
 	}
 }

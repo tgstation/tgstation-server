@@ -17,6 +17,10 @@ namespace Tgstation.Server.Host.IO
 		public bool SymlinkedDirectoriesAreDeletedAsFiles => false;
 
 		/// <inheritdoc />
+		public Task CreateHardLink(string targetPath, string linkPath, CancellationToken cancellationToken)
+			=> throw new NotSupportedException();
+
+		/// <inheritdoc />
 		public Task CreateSymbolicLink(string targetPath, string linkPath, CancellationToken cancellationToken) => Task.Factory.StartNew(
 			() =>
 			{
