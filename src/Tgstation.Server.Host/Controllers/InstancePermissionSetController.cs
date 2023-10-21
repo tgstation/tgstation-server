@@ -141,7 +141,7 @@ namespace Tgstation.Server.Host.Controllers
 				return this.Gone();
 
 #pragma warning disable CS0618 // Type or member is obsolete
-			originalPermissionSet.ByondRights = RightsHelper.Clamp(model.EngineRights ?? model.ByondRights ?? originalPermissionSet.EngineRights.Value);
+			originalPermissionSet.EngineRights = RightsHelper.Clamp(model.EngineRights ?? model.ByondRights ?? originalPermissionSet.EngineRights.Value);
 #pragma warning restore CS0618 // Type or member is obsolete
 			originalPermissionSet.RepositoryRights = RightsHelper.Clamp(model.RepositoryRights ?? originalPermissionSet.RepositoryRights.Value);
 			originalPermissionSet.InstancePermissionSetRights = RightsHelper.Clamp(model.InstancePermissionSetRights ?? originalPermissionSet.InstancePermissionSetRights.Value);
