@@ -193,6 +193,11 @@ namespace Tgstation.Server.Host.Components.Session
 		volatile Task rebootGate;
 
 		/// <summary>
+		/// <see cref="Task"/> for shutting down the server if it is taking too long after validation.
+		/// </summary>
+		volatile Task postValidationShutdownTask;
+
+		/// <summary>
 		/// The number of currently active calls to <see cref="ProcessBridgeRequest(BridgeParameters, CancellationToken)"/> from TgsReboot().
 		/// </summary>
 		volatile uint rebootBridgeRequestsProcessing;
@@ -307,6 +312,9 @@ namespace Tgstation.Server.Host.Components.Session
 			{
 				var exitCode = await process.Lifetime;
 				await postLifetimeCallback();
+				if (postValidationShutdownTask != null)
+					await postValidationShutdownTask;
+
 				return exitCode;
 			}
 
@@ -656,11 +664,39 @@ namespace Tgstation.Server.Host.Components.Session
 		}
 
 		/// <summary>
+		/// Terminates the server after ten seconds if it does not exit.
+		/// </summary>
+		/// <param name="proceedTask">A <see cref="Task{TResult}"/> that this method <see langword="await"/>s before executing. If the <see cref="Task{TResult}.Result"/> is <see langword="false"/>, this method will return immediately.</param>
+		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
+		async Task PostValidationShutdown(Task<bool> proceedTask)
+		{
+			Logger.LogTrace("Entered post validation terminate task.");
+			if (!await proceedTask)
+			{
+				Logger.LogTrace("Not running post validation terminate task for repeated bridge request.");
+				return;
+			}
+
+			Logger.LogDebug("Server will terminated in 10s if it does not exit...");
+			var delayTask = asyncDelayer.Delay(TimeSpan.FromSeconds(10), CancellationToken.None); // DCT: None available
+			var completedTask = await Task.WhenAny(process.Lifetime, delayTask);
+			if (completedTask == delayTask)
+			{
+				Logger.LogWarning("DMAPI took too long to shutdown server after validation request!");
+				process.Terminate();
+				apiValidationStatus = ApiValidationStatus.BadValidationRequest;
+			}
+			else
+				Logger.LogTrace("Server exited properly post validation.");
+		}
+
+		/// <summary>
 		/// Handle a set of bridge <paramref name="parameters"/>.
 		/// </summary>
 		/// <param name="parameters">The <see cref="BridgeParameters"/> to handle.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="BridgeResponse"/> for the request or <see langword="null"/> if the request could not be dispatched.</returns>
+#pragma warning disable CA1502 // TODO: Decomplexify
 		async Task<BridgeResponse> ProcessBridgeCommand(BridgeParameters parameters, CancellationToken cancellationToken)
 		{
 			var response = new BridgeResponse();
@@ -734,7 +770,14 @@ namespace Tgstation.Server.Host.Components.Session
 
 					break;
 				case BridgeCommandType.Startup:
+					var proceedTcs = new TaskCompletionSource<bool>();
+					var firstValidationRequest = Interlocked.CompareExchange(ref postValidationShutdownTask, PostValidationShutdown(proceedTcs.Task), null) == null;
+					proceedTcs.SetResult(firstValidationRequest);
 					apiValidationStatus = ApiValidationStatus.BadValidationRequest;
+
+					if (!firstValidationRequest)
+						return BridgeError("Startup bridge request was repeated!");
+
 					if (parameters.Version == null)
 						return BridgeError("Missing dmApiVersion field!");
 
@@ -808,6 +851,7 @@ namespace Tgstation.Server.Host.Components.Session
 
 			return response;
 		}
+#pragma warning restore CA1502
 
 		/// <summary>
 		/// Log and return a <see cref="BridgeResponse"/> for a given <paramref name="message"/>.
