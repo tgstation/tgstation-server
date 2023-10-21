@@ -71,6 +71,7 @@ namespace Tgstation.Server.Host.Components.Engine
 		protected override async ValueTask HandleExtremelyLongPathOperation(Func<string, ValueTask> shortenedPathOperation, string originalPath, CancellationToken cancellationToken)
 		{
 			var shortPath = $"C:/{Guid.NewGuid()}";
+			Logger.LogDebug("Shortening path for build from {long} to {short}...", originalPath, shortPath);
 			await symlinkFactory.CreateSymbolicLink(originalPath, shortPath, cancellationToken);
 			try
 			{
