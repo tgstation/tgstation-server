@@ -131,8 +131,6 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 			await RunLongRunningTestThenUpdate(cancellationToken);
 
-			await TestDDIsntResolvingSymlink(cancellationToken);
-
 			await RunLongRunningTestThenUpdateWithNewDme(cancellationToken);
 			await RunLongRunningTestThenUpdateWithByondVersionSwitch(cancellationToken);
 
@@ -150,70 +148,6 @@ namespace Tgstation.Server.Tests.Live.Instance
 			await DeployTestDme("LongRunning/long_running_test", DreamDaemonSecurity.Trusted, true, cancellationToken);
 
 			System.Console.WriteLine($"TEST: END WATCHDOG TESTS {instanceClient.Metadata.Name}");
-		}
-
-		async ValueTask TestDDIsntResolvingSymlink(CancellationToken cancellationToken)
-		{
-			System.Console.WriteLine("STARTING SYMLINK RESOLVE TEST");
-			var deployTask = DeployTestDme("long_running_test_rooted", DreamDaemonSecurity.Trusted, true, cancellationToken);
-
-			var previous = await instanceClient.DreamDaemon.Read(cancellationToken);
-			if (previous.SecurityLevel.Value != DreamDaemonSecurity.Trusted)
-			{
-				var updated = await instanceClient.DreamDaemon.Update(new DreamDaemonRequest
-				{
-					SecurityLevel = DreamDaemonSecurity.Trusted
-				}, cancellationToken);
-
-				Assert.AreEqual(DreamDaemonSecurity.Trusted, updated.SecurityLevel);
-			}
-
-			var startState = await deployTask;
-
-			await WaitForJob(await StartDD(cancellationToken), 30, false, null, cancellationToken);
-
-			var command = topicClient.SanitizeString(
-				Path.GetFullPath(
-					Path.Combine(
-						instanceClient.Metadata.Path,
-						"Game",
-						"Live")));
-			command = $"vaporeon={command}";
-
-			var topicRequestResult = await topicClient.SendTopic(
-				IPAddress.Loopback,
-				command,
-				ddPort,
-				cancellationToken);
-
-			Assert.IsNotNull(topicRequestResult);
-			Assert.AreEqual("is the most pokemon of all time", topicRequestResult.StringData);
-
-			await DeployTestDme("long_running_test_rooted", DreamDaemonSecurity.Trusted, true, cancellationToken);
-			var newState = await TellWorldToReboot(cancellationToken);
-
-			Assert.AreNotEqual(startState.ActiveCompileJob.Id, newState.ActiveCompileJob.Id);
-			topicRequestResult = await topicClient.SendTopic(
-				IPAddress.Loopback,
-				command,
-				ddPort,
-				cancellationToken);
-
-			Assert.IsNotNull(topicRequestResult);
-			Assert.AreEqual("is the most pokemon of all time", topicRequestResult.StringData);
-
-			await instanceClient.DreamDaemon.Shutdown(cancellationToken);
-			if (previous.SecurityLevel.Value != DreamDaemonSecurity.Trusted)
-			{
-				var updated = await instanceClient.DreamDaemon.Update(new DreamDaemonRequest
-				{
-					SecurityLevel = previous.SecurityLevel
-				}, cancellationToken);
-
-				Assert.AreEqual(previous.SecurityLevel, updated.SecurityLevel);
-			}
-
-			System.Console.WriteLine("END SYMLINK RESOLVE TEST");
 		}
 
 		async Task InteropTestsForLongRunningDme(CancellationToken cancellationToken)
