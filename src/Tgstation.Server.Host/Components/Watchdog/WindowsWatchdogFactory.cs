@@ -78,7 +78,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				remoteDeploymentManagerFactory,
 				gameIOManager,
 				SymlinkFactory,
-				LoggerFactory.CreateLogger<AdvancedWatchdog>(),
+				LoggerFactory.CreateLogger<WindowsWatchdog>(),
 				settings,
 				instance,
 				settings.AutoStart ?? throw new ArgumentNullException(nameof(settings)));

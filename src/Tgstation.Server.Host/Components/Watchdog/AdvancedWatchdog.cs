@@ -22,7 +22,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 	/// <summary>
 	/// A <see cref="IWatchdog"/> that, instead of killing servers for updates, uses the wonders of filesystem links to swap out changes without killing the server process.
 	/// </summary>
-	class AdvancedWatchdog : BasicWatchdog
+	abstract class AdvancedWatchdog : BasicWatchdog
 	{
 		/// <summary>
 		/// The <see cref="SwappableDmbProvider"/> for <see cref="WatchdogBase.LastLaunchParameters"/>.
@@ -125,7 +125,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		}
 
 		/// <inheritdoc />
-		protected override async Task DisposeAndNullControllersImpl()
+		protected sealed override async Task DisposeAndNullControllersImpl()
 		{
 			await base.DisposeAndNullControllersImpl();
 
@@ -138,7 +138,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		}
 
 		/// <inheritdoc />
-		protected override async Task<MonitorAction> HandleNormalReboot(CancellationToken cancellationToken)
+		protected sealed override async Task<MonitorAction> HandleNormalReboot(CancellationToken cancellationToken)
 		{
 			if (pendingSwappable != null)
 			{
@@ -231,7 +231,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		}
 
 		/// <inheritdoc />
-		protected override async Task HandleNewDmbAvailable(CancellationToken cancellationToken)
+		protected sealed override async Task HandleNewDmbAvailable(CancellationToken cancellationToken)
 		{
 			IDmbProvider compileJobProvider = DmbFactory.LockNextDmb(1);
 			bool canSeamlesslySwap = true;
@@ -317,18 +317,14 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		protected virtual async Task ApplyInitialDmb(CancellationToken cancellationToken)
-		{
-			Server.ReattachInformation.InitialDmb = await DmbFactory.FromCompileJob(Server.CompileJob, cancellationToken);
-		}
+		protected abstract Task ApplyInitialDmb(CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Create a <see cref="SwappableDmbProvider"/> for a given <paramref name="dmbProvider"/>.
 		/// </summary>
 		/// <param name="dmbProvider">The <see cref="IDmbProvider"/> to create a <see cref="SwappableDmbProvider"/> for.</param>
 		/// <returns>A new <see cref="SwappableDmbProvider"/>.</returns>
-		protected virtual SwappableDmbProvider CreateSwappableDmbProvider(IDmbProvider dmbProvider)
-			=> new SwappableDmbProvider(dmbProvider, GameIOManager, SymlinkFactory);
+		protected abstract SwappableDmbProvider CreateSwappableDmbProvider(IDmbProvider dmbProvider);
 
 		/// <inheritdoc />
 		protected override async Task SessionStartupPersist(CancellationToken cancellationToken)
