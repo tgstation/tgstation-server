@@ -81,7 +81,7 @@ var searchData=
   ['runrequest_3c_20tbody_2c_20tresult_20_3e_78',['RunRequest&lt; TBody, TResult &gt;',['../class_tgstation_1_1_server_1_1_client_1_1_api_client.html#a1c261dc25810369214fc78f107b9e183',1,'Tgstation::Server::Client::ApiClient']]],
   ['runrequest_3c_20tresult_20_3e_79',['RunRequest&lt; TResult &gt;',['../class_tgstation_1_1_server_1_1_client_1_1_api_client.html#a890bb267ce0d788c2d9c0311873f6ade',1,'Tgstation::Server::Client::ApiClient']]],
   ['runresultlessrequest_3c_20tbody_20_3e_80',['RunResultlessRequest&lt; TBody &gt;',['../class_tgstation_1_1_server_1_1_client_1_1_api_client.html#a3e017660bfc8e295f18d668cd47852b5',1,'Tgstation::Server::Client::ApiClient']]],
-  ['runtimeinformation_81',['RuntimeInformation',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_bridge_1_1_runtime_information.html#a2ee7f4199aa6a56e3bb2aef424fd7f46',1,'Tgstation::Server::Host::Components::Interop::Bridge::RuntimeInformation']]],
+  ['runtimeinformation_81',['RuntimeInformation',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_bridge_1_1_runtime_information.html#a8480155fb1001c4b0b5196a1db2cb0ee',1,'Tgstation::Server::Host::Components::Interop::Bridge::RuntimeInformation']]],
   ['runwatchdog_82',['RunWatchdog',['../class_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service.html#a63313991bba1e6d1037bc635ddd4d4d8',1,'Tgstation::Server::Host::Service::ServerService']]],
   ['runwizard_83',['RunWizard',['../_setup_wizard_8cs.html#aada1bd5b44415cd45d3e19b0f03294b9',1,'SetupWizard.cs']]]
 ];
