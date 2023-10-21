@@ -1053,15 +1053,26 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 			Assert.AreEqual(initialStatus.ActiveCompileJob.Id, daemonStatus.ActiveCompileJob.Id);
 			var newerCompileJob = daemonStatus.StagedCompileJob;
-			Assert.AreNotEqual(daemonStatus.ActiveCompileJob.ByondVersion, newerCompileJob.ByondVersion);
-			Assert.AreEqual(versionToInstall, newerCompileJob.ByondVersion);
+			Assert.AreNotEqual(daemonStatus.ActiveCompileJob.EngineVersion, newerCompileJob.EngineVersion);
+			if (testVersion.Engine.Value == EngineType.Byond)
+#pragma warning disable CS0618 // Type or member is obsolete
+				Assert.AreEqual(
+					new Version(
+						daemonStatus.ActiveCompileJob.EngineVersion.Version.Major,
+						daemonStatus.ActiveCompileJob.EngineVersion.Version.Minor,
+						daemonStatus.ActiveCompileJob.EngineVersion.CustomIteration ?? 0)
+					.ToString(),
+					daemonStatus.ActiveCompileJob.ByondVersion.ToString());
+#pragma warning restore CS0618 // Type or member is obsolete
+
+			Assert.AreEqual(versionToInstall, newerCompileJob.EngineVersion);
 
 			Assert.AreEqual(true, daemonStatus.SoftRestart);
 
 			await CheckDMApiFail(daemonStatus.ActiveCompileJob, cancellationToken);
 			daemonStatus = await TellWorldToReboot(cancellationToken);
 
-			Assert.AreEqual(versionToInstall, daemonStatus.ActiveCompileJob.ByondVersion);
+			Assert.AreEqual(versionToInstall, daemonStatus.ActiveCompileJob.EngineVersion);
 			Assert.IsNull(daemonStatus.StagedCompileJob);
 
 			await instanceClient.DreamDaemon.Shutdown(cancellationToken);
