@@ -40,6 +40,7 @@ namespace Tgstation.Server.Host.Components.Engine.Tests
 
 			var cloneAttempts = 0;
 			var mockRepository = new Mock<IRepository>();
+			mockRepository.Setup(x => x.ShaIsParent(It.IsNotNull<string>(), It.IsAny<CancellationToken>())).ReturnsAsync(true);
 			var mockRepositoryManager = new Mock<IRepositoryManager>();
 			mockRepositoryManager.Setup(x => x.CloneRepository(
 				generalConfig.OpenDreamGitUrl,
