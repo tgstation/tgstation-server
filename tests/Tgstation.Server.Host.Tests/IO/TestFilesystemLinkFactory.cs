@@ -1,9 +1,11 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
+﻿using System;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Security.Principal;
+using System.Threading;
 using System.Threading.Tasks;
+
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Tgstation.Server.Host.IO.Tests
 {
@@ -28,6 +30,57 @@ namespace Tgstation.Server.Host.IO.Tests
 			var identity = WindowsIdentity.GetCurrent();
 			var principal = new WindowsPrincipal(identity);
 			return principal.IsInRole(WindowsBuiltInRole.Administrator);
+		}
+
+		[TestMethod]
+		public async Task TestHardLinkWorks()
+		{
+			string f2 = null;
+			var f1 = Path.GetTempFileName();
+			try
+			{
+				f2 = f1 + ".linked";
+				const string Text = "Hello world";
+				File.WriteAllText(f1, Text);
+
+				if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+				{
+					await Assert.ThrowsExceptionAsync<NotSupportedException>(() => linkFactory.CreateHardLink(f1, f2, CancellationToken.None));
+					Assert.Inconclusive("Windows does not support hardlinks");
+				}
+
+				await Assert.ThrowsExceptionAsync<ArgumentNullException>(() => linkFactory.CreateHardLink(null, null, CancellationToken.None));
+				await Assert.ThrowsExceptionAsync<ArgumentNullException>(() => linkFactory.CreateHardLink(f1, null, CancellationToken.None));
+
+				await linkFactory.CreateHardLink(f1, f2, default);
+				Assert.IsTrue(File.Exists(f2));
+
+				var f2Contents = File.ReadAllText(f2);
+				Assert.AreEqual(Text, f2Contents);
+
+				const string NewText = "asdf";
+				File.WriteAllText(f1, NewText);
+
+				f2Contents = File.ReadAllText(f2);
+				Assert.AreEqual(NewText, f2Contents);
+
+				const string NewText2 = "fdsa";
+				File.WriteAllText(f2, NewText2);
+
+				var f1Contents = File.ReadAllText(f1);
+				Assert.AreEqual(NewText2, f1Contents);
+
+				File.Delete(f1);
+				Assert.IsFalse(File.Exists(f1));
+				Assert.IsTrue(File.Exists(f2));
+				f2Contents = File.ReadAllText(f2);
+				Assert.AreEqual(NewText2, f2Contents);
+			}
+			finally
+			{
+				File.Delete(f2);
+				File.Delete(f1);
+			}
 		}
 
 		[TestMethod]
