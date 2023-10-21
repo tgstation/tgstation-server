@@ -383,7 +383,7 @@ Exposing the builtin Kestrel server to the internet directly over HTTP is highly
 
 System administrators will most likely have their own configuration plans, but here are some basic guides for beginners.
 
-Once complete, test that your configuration worked by visiting your proxy site from a browser on a different computer. You should recieve a 401 Unauthorized response.
+Once complete, test that your configuration worked by visiting your proxy site from a browser on a different computer. You should receive a 401 Unauthorized response.
 
 #### IIS (Reccommended for Windows)
 

@@ -140,7 +140,7 @@ var/run_bridge_test
 		kajigger_test = TRUE
 		return "we love casting spells"
 
-	TgsChatBroadcast(new /datum/tgs_message_content("Recieved non-tgs topic: `[T]`"))
+	TgsChatBroadcast(new /datum/tgs_message_content("Received non-tgs topic: `[T]`"))
 
 	return "feck"
 
@@ -179,7 +179,7 @@ var/received_health_check = FALSE
 /datum/tgs_event_handler/impl/HandleEvent(event_code, ...)
 	set waitfor = FALSE
 
-	world.TgsChatBroadcast(new /datum/tgs_message_content("Recieved event: `[json_encode(args)]`"))
+	world.TgsChatBroadcast(new /datum/tgs_message_content("Received event: `[json_encode(args)]`"))
 
 	if(event_code == TGS_EVENT_HEALTH_CHECK)
 		received_health_check = TRUE

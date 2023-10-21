@@ -8,7 +8,7 @@ namespace Tgstation.Server.Api.Models.Response
 	public sealed class AdministrationResponse
 	{
 		/// <summary>
-		/// The GitHub repository the server is built to recieve updates from.
+		/// The GitHub repository the server is built to receive updates from.
 		/// </summary>
 		public Uri? TrackedRepositoryUrl { get; set; }
 

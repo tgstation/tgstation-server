@@ -115,13 +115,13 @@ If the provided credentials are valid and your user account is enabled you will 
 }
 @endcode
 
-If your account is disabled, you will recieve a 403 response.
+If your account is disabled, you will receive a 403 response.
 
 You may recognize the bearer value as a <a href="https://jwt.io">Json Web Token</a>. This is a secure representation of your identity to the server. It expires after a set period of time or until your password changes. It must be present for requests made to all other APIs. To do so add the following header to your other requests
 
 - Authorization:Bearer `<your bearer token>`
 
-Continue to use this token until you begin to recieve 401 responses from the API. Then repeat the process to get a new one if your credentials are still valid
+Continue to use this token until you begin to receive 401 responses from the API. Then repeat the process to get a new one if your credentials are still valid
 
 @subsection api_auth_o OAuth 2.0
 
@@ -468,7 +468,7 @@ I POST "/Config" @ref Tgstation.Server.Api.Models.ConfigurationFile => @ref Tgst
 
 When creating a file, only @ref Tgstation.Server.Api.Models.ConfigurationFile.Path and @ref Tgstation.Server.Api.Models.ConfigurationFile.Content should be specified
 
-If the file already exists, the @ref Tgstation.Server.Api.Models.ConfigurationFile.LastReadHash field must also be present with the last version recieved from the server for that file. If this does not match at the time of the request, 409 will be returned, indicating the file has changed since it was last viewed by the client.
+If the file already exists, the @ref Tgstation.Server.Api.Models.ConfigurationFile.LastReadHash field must also be present with the last version received from the server for that file. If this does not match at the time of the request, 409 will be returned, indicating the file has changed since it was last viewed by the client.
 
 To delete a file set @ref Tgstation.Server.Api.Models.ConfigurationFile.Content to null in the request.
 

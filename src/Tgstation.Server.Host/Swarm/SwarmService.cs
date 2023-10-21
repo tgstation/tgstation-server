@@ -589,7 +589,7 @@ namespace Tgstation.Server.Host.Swarm
 		}
 
 		/// <inheritdoc />
-		public async ValueTask<bool> RemoteCommitRecieved(Guid registrationId, CancellationToken cancellationToken)
+		public async ValueTask<bool> RemoteCommitReceived(Guid registrationId, CancellationToken cancellationToken)
 		{
 			var localUpdateOperation = updateOperation;
 			if (!swarmController)

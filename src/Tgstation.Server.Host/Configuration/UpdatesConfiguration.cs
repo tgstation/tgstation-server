@@ -28,7 +28,7 @@ namespace Tgstation.Server.Host.Configuration
 		const string DefaultUpdatePackageAssetName = "ServerUpdatePackage.zip";
 
 		/// <summary>
-		/// The <see cref="Octokit.Repository.Id"/> of the tgstation-server fork to recieve updates from.
+		/// The <see cref="Octokit.Repository.Id"/> of the tgstation-server fork to receive updates from.
 		/// </summary>
 		public long GitHubRepositoryId { get; set; } = DefaultGitHubRepositoryId;
 

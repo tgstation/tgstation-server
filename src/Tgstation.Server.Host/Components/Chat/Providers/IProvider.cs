@@ -40,7 +40,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		void InitialMappingComplete();
 
 		/// <summary>
-		/// Get a <see cref="Task{TResult}"/> resulting in the next <see cref="Message"/> the <see cref="IProvider"/> recieves or <see langword="null"/> on a disconnect.
+		/// Get a <see cref="Task{TResult}"/> resulting in the next <see cref="Message"/> the <see cref="IProvider"/> receives or <see langword="null"/> on a disconnect.
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the next available <see cref="Message"/> or <see langword="null"/> if the <see cref="IProvider"/> needed to reconnect.</returns>

@@ -190,7 +190,7 @@ namespace Tgstation.Server.Host.Controllers
 			if (!ValidateRegistration())
 				return Forbid();
 
-			var result = await swarmOperations.RemoteCommitRecieved(RequestRegistrationId, cancellationToken);
+			var result = await swarmOperations.RemoteCommitReceived(RequestRegistrationId, cancellationToken);
 			if (!result)
 				return Conflict();
 			return NoContent();

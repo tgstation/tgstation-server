@@ -17,7 +17,7 @@ using Tgstation.Server.Host.Utils;
 namespace Tgstation.Server.Host.Controllers
 {
 	/// <summary>
-	/// <see cref="Controller"/> for recieving DMAPI requests from DreamDaemon.
+	/// <see cref="Controller"/> for receiving DMAPI requests from DreamDaemon.
 	/// </summary>
 	[Route("/Bridge")]
 	[Produces(MediaTypeNames.Application.Json)]
