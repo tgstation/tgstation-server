@@ -814,9 +814,6 @@ namespace Tgstation.Server.Host.Components.Deployment
 
 				validationStatus = controller.ApiValidationStatus;
 
-				if (requireValidate && validationStatus == ApiValidationStatus.NeverValidated)
-					throw new JobException(ErrorCode.DeploymentNeverValidated);
-
 				logger.LogTrace("API validation status: {validationStatus}", validationStatus);
 
 				job.DMApiVersion = controller.DMApiVersion;
