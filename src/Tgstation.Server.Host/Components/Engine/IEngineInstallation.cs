@@ -37,6 +37,11 @@ namespace Tgstation.Server.Host.Components.Engine
 		bool PromptsForNetworkAccess { get; }
 
 		/// <summary>
+		/// If <see cref="HasStandardOutput"/> is set, this indicates that the engine server has good file logging that should be preferred to ours.
+		/// </summary>
+		bool PreferFileLogging { get; }
+
+		/// <summary>
 		/// The <see cref="Task"/> that completes when the BYOND version finished installing.
 		/// </summary>
 		Task InstallationTask { get; }

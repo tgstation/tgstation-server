@@ -29,6 +29,9 @@ namespace Tgstation.Server.Host.Components.Engine
 		public override bool HasStandardOutput => true;
 
 		/// <inheritdoc />
+		public override bool PreferFileLogging => true;
+
+		/// <inheritdoc />
 		public override Task InstallationTask { get; }
 
 		/// <summary>
@@ -64,12 +67,10 @@ namespace Tgstation.Server.Host.Components.Engine
 			ArgumentNullException.ThrowIfNull(parameters);
 			ArgumentNullException.ThrowIfNull(launchParameters);
 
-			if (logFilePath != null)
-				throw new NotSupportedException("OpenDream does not support logging to a file!");
-
 			var parametersString = EncodeParameters(parameters, launchParameters);
 
-			var arguments = $"--cvar net.port={launchParameters.Port.Value} --cvar opendream.topic_port=0 --cvar opendream.world_params=\"{parametersString}\" \"{dmbProvider.DmbName}\"";
+			var loggingEnabled = logFilePath != null;
+			var arguments = $"--cvar {(loggingEnabled ? $"log.path=\"{logFilePath}\"" : "log.enabled=false")} --cvar net.port={launchParameters.Port.Value} --cvar opendream.topic_port=0 --cvar opendream.world_params=\"{parametersString}\" \"{dmbProvider.DmbName}\"";
 			return arguments;
 		}
 

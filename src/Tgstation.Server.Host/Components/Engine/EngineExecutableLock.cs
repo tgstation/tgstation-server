@@ -23,6 +23,9 @@ namespace Tgstation.Server.Host.Components.Engine
 		public bool HasStandardOutput => Instance.HasStandardOutput;
 
 		/// <inheritdoc />
+		public bool PreferFileLogging => Instance.PreferFileLogging;
+
+		/// <inheritdoc />
 		public bool PromptsForNetworkAccess => Instance.PromptsForNetworkAccess;
 
 		/// <inheritdoc />

@@ -25,6 +25,9 @@ namespace Tgstation.Server.Host.Components.Engine
 		public abstract bool HasStandardOutput { get; }
 
 		/// <inheritdoc />
+		public abstract bool PreferFileLogging { get; }
+
+		/// <inheritdoc />
 		public abstract bool PromptsForNetworkAccess { get; }
 
 		/// <inheritdoc />

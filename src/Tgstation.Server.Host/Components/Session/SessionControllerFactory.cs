@@ -130,12 +130,28 @@ namespace Tgstation.Server.Host.Components.Session
 		/// Check if a given <paramref name="port"/> can be bound to.
 		/// </summary>
 		/// <param name="port">The port number to test.</param>
-		void PortBindTest(ushort port)
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
+		async ValueTask PortBindTest(ushort port, CancellationToken cancellationToken)
 		{
+			logger.LogTrace("Bind test: {port}", port);
 			try
 			{
-				logger.LogTrace("Bind test: {port}", port);
-				SocketExtensions.BindTest(platformIdentifier, port, false);
+				// GIVE ME THE FUCKING PORT BACK WINDOWS!!!!
+				const int MaxAttempts = 5;
+				for (var i = 0; i < MaxAttempts; ++i)
+					try
+					{
+						SocketExtensions.BindTest(platformIdentifier, port, false);
+						if (i > 0)
+							logger.LogDebug("Clearing the socket took {iterations} attempts :/", i + 1);
+
+						break;
+					}
+					catch (SocketException ex) when (platformIdentifier.IsWindows && ex.SocketErrorCode == SocketError.AddressAlreadyInUse && i < (MaxAttempts - 1))
+					{
+						await asyncDelayer.Delay(TimeSpan.FromSeconds(1), cancellationToken);
+					}
 			}
 			catch (SocketException ex) when (ex.SocketErrorCode == SocketError.AddressAlreadyInUse)
 			{
@@ -255,7 +271,7 @@ namespace Tgstation.Server.Host.Components.Session
 				if (engineType == EngineType.Byond)
 					await CheckPagerIsNotRunning();
 
-				PortBindTest(launchParameters.Port.Value);
+				await PortBindTest(launchParameters.Port.Value, cancellationToken);
 
 				string outputFilePath = null;
 				var preserveLogFile = true;
@@ -269,13 +285,13 @@ namespace Tgstation.Server.Host.Components.Session
 					outputFilePath = diagnosticsIOManager.ResolvePath(
 						diagnosticsIOManager.ConcatPath(
 							dateDirectory,
-							$"dd-utc-{now.ToString("yyyy-MM-dd-HH-mm-ss", CultureInfo.InvariantCulture)}{(apiValidate ? "-dmapi" : String.Empty)}.log"));
+							$"server-utc-{now.ToString("yyyy-MM-dd-HH-mm-ss", CultureInfo.InvariantCulture)}{(apiValidate ? "-dmapi" : String.Empty)}.log"));
 
-					logger.LogInformation("Logging DreamDaemon output to {path}...", outputFilePath);
+					logger.LogInformation("Logging server output to {path}...", outputFilePath);
 				}
 				else if (!hasStandardOutput)
 				{
-					outputFilePath = gameIOManager.ConcatPath(dmbProvider.Directory, $"{Guid.NewGuid()}.dd.log");
+					outputFilePath = gameIOManager.ConcatPath(dmbProvider.Directory, $"{Guid.NewGuid()}.server.log");
 					preserveLogFile = false;
 				}
 
@@ -478,7 +494,7 @@ namespace Tgstation.Server.Host.Components.Session
 					{ DMApiConstants.ParamAccessIdentifier, accessIdentifier },
 				},
 				launchParameters,
-				!engineLock.HasStandardOutput
+				!engineLock.HasStandardOutput || engineLock.PreferFileLogging
 					? logFilePath
 					: null);
 
@@ -563,18 +579,20 @@ namespace Tgstation.Server.Host.Components.Session
 							}
 							catch (Exception ex)
 							{
-								logger.LogWarning(ex, "Failed to delete DreamDaemon log file {outputFilePath}!", outputFilePath);
+								// this is expected on OD at time of the support changes.
+								// I've open a change to fix it: https://github.com/space-wizards/RobustToolbox/pull/4501
+								logger.LogWarning(ex, "Failed to delete server log file {outputFilePath}!", outputFilePath);
 							}
 					}
 
 				logger.LogTrace(
-					"DreamDaemon Output:{newLine}{output}",
+					"Server Output:{newLine}{output}",
 					Environment.NewLine,
 					ddOutput);
 			}
 			catch (Exception ex)
 			{
-				logger.LogWarning(ex, "Error reading DreamDaemon output!");
+				logger.LogWarning(ex, "Error reading server output!");
 			}
 		}
 

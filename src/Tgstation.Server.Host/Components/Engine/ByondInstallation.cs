@@ -30,6 +30,9 @@ namespace Tgstation.Server.Host.Components.Engine
 		public override bool HasStandardOutput { get; }
 
 		/// <inheritdoc />
+		public override bool PreferFileLogging => false;
+
+		/// <inheritdoc />
 		public override Task InstallationTask { get; }
 
 		/// <summary>

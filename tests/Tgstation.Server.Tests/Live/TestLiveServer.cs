@@ -72,7 +72,7 @@ namespace Tgstation.Server.Tests.Live
 						result.AddRange(System.Diagnostics.Process.GetProcessesByName("dd"));
 					break;
 				case EngineType.OpenDream:
-					result.AddRange(System.Diagnostics.Process.GetProcessesByName("OpenDreamServer"));
+					result.AddRange(System.Diagnostics.Process.GetProcessesByName("Robust.Server"));
 					break;
 				default:
 					Assert.Fail($"Unknown engine type: {engineType}");
