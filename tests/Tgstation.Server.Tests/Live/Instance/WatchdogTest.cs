@@ -8,7 +8,6 @@ using Moq;
 using Newtonsoft.Json;
 
 using System;
-using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -25,7 +24,6 @@ using Tgstation.Server.Api.Models.Request;
 using Tgstation.Server.Api.Models.Response;
 using Tgstation.Server.Client;
 using Tgstation.Server.Client.Components;
-using Tgstation.Server.Common.Extensions;
 using Tgstation.Server.Host.Components;
 using Tgstation.Server.Host.Components.Chat;
 using Tgstation.Server.Host.Components.Interop;
