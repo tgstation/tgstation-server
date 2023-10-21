@@ -494,7 +494,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			var allPaths = new List<string>();
 			foreach (var fd in Directory.EnumerateFiles($"/proc/{pid}/fd"))
 			{
-				var sb = new StringBuilder();
+				var sb = new StringBuilder(UInt16.MaxValue);
 				if (Syscall.readlink(fd, sb) == -1)
 					throw new UnixIOException(Stdlib.GetLastError());
 
@@ -512,7 +512,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			}
 
 			if (!foundLivePath)
-				failingLinks.Add($"Failed to find a path containing the 'Live' directory! Found {allPaths.Count}: \"{String.Join("\", \"", allPaths)}\"");
+				failingLinks.Add($"Failed to find a path containing the 'Live' directory!");
 
 			Assert.IsTrue(failingLinks.Count == 0, String.Join(Environment.NewLine, failingLinks));
 		}
