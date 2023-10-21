@@ -378,22 +378,22 @@ namespace Tgstation.Server.Host.Database
 		/// <summary>
 		/// Used by unit tests to remind us to setup the correct MSSQL migration downgrades.
 		/// </summary>
-		internal static readonly Type MSLatestMigration = typeof(MSAddMapThreads);
+		internal static readonly Type MSLatestMigration = typeof(MSRenameByondColumnsToEngine);
 
 		/// <summary>
 		/// Used by unit tests to remind us to setup the correct MYSQL migration downgrades.
 		/// </summary>
-		internal static readonly Type MYLatestMigration = typeof(MYAddMapThreads);
+		internal static readonly Type MYLatestMigration = typeof(MYRenameByondColumnsToEngine);
 
 		/// <summary>
 		/// Used by unit tests to remind us to setup the correct PostgresSQL migration downgrades.
 		/// </summary>
-		internal static readonly Type PGLatestMigration = typeof(PGAddMapThreads);
+		internal static readonly Type PGLatestMigration = typeof(PGRenameByondColumnsToEngine);
 
 		/// <summary>
 		/// Used by unit tests to remind us to setup the correct SQLite migration downgrades.
 		/// </summary>
-		internal static readonly Type SLLatestMigration = typeof(SLAddMapThreads);
+		internal static readonly Type SLLatestMigration = typeof(SLRenameByondColumnsToEngine);
 
 		/// <inheritdoc />
 #pragma warning disable CA1502 // Cyclomatic complexity
@@ -421,6 +421,16 @@ namespace Tgstation.Server.Host.Database
 			string targetMigration = null;
 
 			string BadDatabaseType() => throw new ArgumentException($"Invalid DatabaseType: {currentDatabaseType}", nameof(currentDatabaseType));
+
+			if (targetVersion < new Version(6, 0, 0))
+				targetMigration = currentDatabaseType switch
+				{
+					DatabaseType.MySql => nameof(MYAddMapThreads),
+					DatabaseType.PostgresSql => nameof(PGAddMapThreads),
+					DatabaseType.SqlServer => nameof(MSAddMapThreads),
+					DatabaseType.Sqlite => nameof(SLAddMapThreads),
+					_ => BadDatabaseType(),
+				};
 
 			if (targetVersion < new Version(5, 13, 0))
 				targetMigration = currentDatabaseType switch

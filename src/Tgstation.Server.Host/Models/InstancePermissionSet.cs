@@ -1,8 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 using Tgstation.Server.Api.Models.Response;
-using Tgstation.Server.Api.Rights;
 
 namespace Tgstation.Server.Host.Models
 {
@@ -30,14 +28,6 @@ namespace Tgstation.Server.Host.Models
 		/// </summary>
 		[Required]
 		public PermissionSet PermissionSet { get; set; }
-
-		/// <inheritdoc />
-		[Column("ByondRights")]
-		public override EngineRights? EngineRights
-		{
-			get => base.EngineRights;
-			set => base.EngineRights = value;
-		}
 
 		/// <inheritdoc />
 		public InstancePermissionSetResponse ToApi() => new InstancePermissionSetResponse

@@ -26,18 +26,18 @@ namespace Tgstation.Server.Api.Models.Internal
 		public InstancePermissionSetRights? InstancePermissionSetRights { get; set; }
 
 		/// <summary>
+		/// The <see cref="Rights.EngineRights"/> of the <see cref="InstancePermissionSet"/>.
+		/// </summary>
+		[Required]
+		public EngineRights? EngineRights { get; set; }
+
+		/// <summary>
 		/// The legacy <see cref="Rights.EngineRights"/> of the <see cref="InstancePermissionSet"/>.
 		/// </summary>
 		[Required]
 		[Obsolete("Use EngineRights instead")]
 		[NotMapped]
 		public EngineRights? ByondRights { get; set; }
-
-		/// <summary>
-		/// The <see cref="Rights.EngineRights"/> of the <see cref="InstancePermissionSet"/>.
-		/// </summary>
-		[Required]
-		public virtual EngineRights? EngineRights { get; set; }
 
 		/// <summary>
 		/// The <see cref="Rights.DreamDaemonRights"/> of the <see cref="InstancePermissionSet"/>.

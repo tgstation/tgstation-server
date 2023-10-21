@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Response;
@@ -30,6 +31,7 @@ namespace Tgstation.Server.Host.Models
 		/// The <see cref="Version"/> the <see cref="CompileJob"/> was made with in string form.
 		/// </summary>
 		[Required]
+		[Column("EngineVersion")]
 		public string ByondVersion { get; set; }
 
 		/// <summary>

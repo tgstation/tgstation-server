@@ -16,7 +16,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 		{
 #pragma warning disable 612, 618
 			modelBuilder
-				.HasAnnotation("ProductVersion", "7.0.7")
+				.HasAnnotation("ProductVersion", "8.0.0-rc.1.23419.6")
 				.HasAnnotation("Relational:MaxIdentifierLength", 63);
 
 			NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -121,7 +121,8 @@ namespace Tgstation.Server.Host.Database.Migrations
 
 				b.Property<string>("ByondVersion")
 					.IsRequired()
-					.HasColumnType("text");
+					.HasColumnType("text")
+					.HasColumnName("EngineVersion");
 
 				b.Property<int?>("DMApiMajorVersion")
 					.HasColumnType("integer");
@@ -326,7 +327,8 @@ namespace Tgstation.Server.Host.Database.Migrations
 				NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
 				b.Property<decimal>("ByondRights")
-					.HasColumnType("numeric(20,0)");
+					.HasColumnType("numeric(20,0)")
+					.HasColumnName("EngineRights");
 
 				b.Property<decimal>("ChatBotRights")
 					.HasColumnType("numeric(20,0)");
