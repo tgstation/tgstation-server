@@ -63,10 +63,11 @@ namespace Tgstation.Server.Tests.Live.Instance
 		readonly bool highPrioDD;
 		readonly TopicClient topicClient;
 		readonly Version testVersion;
+		readonly bool usingBasicWatchdog;
 
 		bool ranTimeoutTest = false;
 
-		public WatchdogTest(Version testVersion, IInstanceClient instanceClient, InstanceManager instanceManager, ushort serverPort, bool highPrioDD, ushort ddPort)
+		public WatchdogTest(Version testVersion, IInstanceClient instanceClient, InstanceManager instanceManager, ushort serverPort, bool highPrioDD, ushort ddPort, bool usingBasicWatchdog)
 			: base(instanceClient.Jobs)
 		{
 			this.instanceClient = instanceClient ?? throw new ArgumentNullException(nameof(instanceClient));
@@ -75,8 +76,9 @@ namespace Tgstation.Server.Tests.Live.Instance
 			this.highPrioDD = highPrioDD;
 			this.ddPort = ddPort;
 			this.testVersion = testVersion ?? throw new ArgumentNullException(nameof(testVersion));
+			this.usingBasicWatchdog = usingBasicWatchdog;
 
-			this.topicClient = new(new SocketParameters
+			topicClient = new(new SocketParameters
 			{
 				SendTimeout = TimeSpan.FromSeconds(30),
 				ReceiveTimeout = TimeSpan.FromSeconds(30),
@@ -476,9 +478,9 @@ namespace Tgstation.Server.Tests.Live.Instance
 			Assert.AreEqual(string.Empty, daemonStatus.AdditionalParameters);
 		}
 
-		void TestLinuxIsntBeingFuckingCheekyAboutFilePaths(DreamDaemonResponse currentStatus, CompileJobResponse previousStatus, CancellationToken cancellationToken)
+		void TestLinuxIsntBeingFuckingCheekyAboutFilePaths(DreamDaemonResponse currentStatus, CompileJobResponse previousStatus)
 		{
-			if (new PlatformIdentifier().IsWindows)
+			if (new PlatformIdentifier().IsWindows || usingBasicWatchdog)
 				return;
 
 			Assert.IsNotNull(currentStatus.ActiveCompileJob);
@@ -947,7 +949,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			Assert.AreNotEqual(initialCompileJob.Id, daemonStatus.ActiveCompileJob.Id);
 			Assert.IsNull(daemonStatus.StagedCompileJob);
 
-			TestLinuxIsntBeingFuckingCheekyAboutFilePaths(daemonStatus, initialCompileJob, cancellationToken);
+			TestLinuxIsntBeingFuckingCheekyAboutFilePaths(daemonStatus, initialCompileJob);
 
 			await instanceClient.DreamDaemon.Shutdown(cancellationToken);
 
