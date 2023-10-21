@@ -3687,6 +3687,14 @@ Components:
       PullRequest: 987
   InteropApi: []
   NugetCommon:
+  - Version: 7.0.0
+    Changes:
+    - Descriptions:
+      - Added `ValueTask` `WhenAll` helpers.
+      - Changed return type of `CachedResponseStream.Create` from `Task<T>` to `ValueTask<T>`
+      Author: Cyberboss
+      PullRequest: 1679
+    Unreleased: true
   - Version: 6.0.1
     Changes:
     - Descriptions:
@@ -3716,4 +3724,11 @@ Components:
       - Made `DiscordConnectionStringBuilder.BasedMeme` obsolete.
       Author: Cyberboss
       PullRequest: 1629
-  NugetClient: []
+  NugetClient:
+  - Version: 13.0.0
+    Changes:
+    - Descriptions:
+      - Replaced most usages of `Task` with `ValueTask`.
+      Author: Cyberboss
+      PullRequest: 1679
+    Unreleased: true
