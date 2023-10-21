@@ -18,7 +18,7 @@ using Tgstation.Server.Host.Utils;
 namespace Tgstation.Server.Host.Components.Watchdog
 {
 	/// <summary>
-	/// <see cref="IWatchdogFactory"/> for creating <see cref="WindowsWatchdog"/>s.
+	/// <see cref="IWatchdogFactory"/> for creating <see cref="AdvancedWatchdog"/>s.
 	/// </summary>
 	class WindowsWatchdogFactory : WatchdogFactory
 	{
@@ -78,7 +78,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				remoteDeploymentManagerFactory,
 				gameIOManager,
 				SymlinkFactory,
-				LoggerFactory.CreateLogger<WindowsWatchdog>(),
+				LoggerFactory.CreateLogger<AdvancedWatchdog>(),
 				settings,
 				instance,
 				settings.AutoStart ?? throw new ArgumentNullException(nameof(settings)));

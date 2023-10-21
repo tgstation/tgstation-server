@@ -20,9 +20,9 @@ using Tgstation.Server.Host.Utils;
 namespace Tgstation.Server.Host.Components.Watchdog
 {
 	/// <summary>
-	/// A <see cref="IWatchdog"/> that, instead of killing servers for updates, uses the wonders of symlinks to swap out changes without killing DreamDaemon.
+	/// A <see cref="IWatchdog"/> that, instead of killing servers for updates, uses the wonders of filesystem links to swap out changes without killing the server process.
 	/// </summary>
-	class WindowsWatchdog : BasicWatchdog
+	class AdvancedWatchdog : BasicWatchdog
 	{
 		/// <summary>
 		/// The <see cref="SwappableDmbProvider"/> for <see cref="WatchdogBase.LastLaunchParameters"/>.
@@ -30,12 +30,12 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		protected SwappableDmbProvider ActiveSwappable { get; private set; }
 
 		/// <summary>
-		/// The <see cref="IIOManager"/> for the <see cref="WindowsWatchdog"/> pointing to the Game directory.
+		/// The <see cref="IIOManager"/> for the <see cref="AdvancedWatchdog"/> pointing to the Game directory.
 		/// </summary>
 		protected IIOManager GameIOManager { get; }
 
 		/// <summary>
-		/// The <see cref="ISymlinkFactory"/> for the <see cref="WindowsWatchdog"/>.
+		/// The <see cref="ISymlinkFactory"/> for the <see cref="AdvancedWatchdog"/>.
 		/// </summary>
 		protected ISymlinkFactory SymlinkFactory { get; }
 
@@ -55,7 +55,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		volatile TaskCompletionSource deploymentCleanupGate;
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="WindowsWatchdog"/> class.
+		/// Initializes a new instance of the <see cref="AdvancedWatchdog"/> class.
 		/// </summary>
 		/// <param name="chat">The <see cref="IChatManager"/> for the <see cref="WatchdogBase"/>.</param>
 		/// <param name="sessionControllerFactory">The <see cref="ISessionControllerFactory"/> for the <see cref="WatchdogBase"/>.</param>
@@ -73,7 +73,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <param name="initialLaunchParameters">The <see cref="DreamDaemonLaunchParameters"/> for the <see cref="WatchdogBase"/>.</param>
 		/// <param name="instance">The <see cref="Api.Models.Instance"/> for the <see cref="WatchdogBase"/>.</param>
 		/// <param name="autoStart">The autostart value for the <see cref="WatchdogBase"/>.</param>
-		public WindowsWatchdog(
+		public AdvancedWatchdog(
 			IChatManager chat,
 			ISessionControllerFactory sessionControllerFactory,
 			IDmbFactory dmbFactory,
@@ -86,7 +86,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			IRemoteDeploymentManagerFactory remoteDeploymentManagerFactory,
 			IIOManager gameIOManager,
 			ISymlinkFactory symlinkFactory,
-			ILogger<WindowsWatchdog> logger,
+			ILogger<AdvancedWatchdog> logger,
 			DreamDaemonLaunchParameters initialLaunchParameters,
 			Api.Models.Instance instance,
 			bool autoStart)
