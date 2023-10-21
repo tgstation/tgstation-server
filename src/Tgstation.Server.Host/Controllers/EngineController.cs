@@ -115,7 +115,7 @@ namespace Tgstation.Server.Host.Controllers
 									EngineVersion = x,
 								})
 								.AsQueryable()
-								.OrderBy(x => x.EngineVersion))),
+								.OrderBy(x => x.EngineVersion.ToString()))),
 					null,
 					page,
 					pageSize,
