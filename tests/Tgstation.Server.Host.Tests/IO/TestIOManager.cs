@@ -42,9 +42,9 @@ namespace Tgstation.Server.Host.IO.Tests
 		[TestMethod]
 		public async Task TestDeleteDirectoryWithSymlinkInsideDoesntRecurse()
 		{
-			var linkFactory = (ISymlinkFactory)(new PlatformIdentifier().IsWindows
-				? new WindowsSymlinkFactory()
-				: new PosixSymlinkFactory());
+			var linkFactory = (IFilesystemLinkFactory)(new PlatformIdentifier().IsWindows
+				? new WindowsFilesystemLinkFactory()
+				: new PosixFilesystemLinkFactory());
 
 			var tempPath = Path.GetTempFileName();
 			File.Delete(tempPath);

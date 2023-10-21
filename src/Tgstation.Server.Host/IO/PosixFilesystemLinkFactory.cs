@@ -8,9 +8,9 @@ using Mono.Unix;
 namespace Tgstation.Server.Host.IO
 {
 	/// <summary>
-	/// <see cref="ISymlinkFactory"/> for posix systems.
+	/// <see cref="IFilesystemLinkFactory"/> for POSIX systems.
 	/// </summary>
-	sealed class PosixSymlinkFactory : ISymlinkFactory
+	sealed class PosixFilesystemLinkFactory : IFilesystemLinkFactory
 	{
 		/// <inheritdoc />
 		public bool SymlinkedDirectoriesAreDeletedAsFiles => true;

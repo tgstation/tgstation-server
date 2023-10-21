@@ -6,7 +6,7 @@ namespace Tgstation.Server.Host.IO
 	/// <summary>
 	/// For creating filesystem symbolic links.
 	/// </summary>
-	interface ISymlinkFactory
+	interface IFilesystemLinkFactory
 	{
 		/// <summary>
 		/// If directory symlinks must be deleted as files would in the current environment.

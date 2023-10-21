@@ -35,9 +35,9 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		protected IIOManager GameIOManager { get; }
 
 		/// <summary>
-		/// The <see cref="ISymlinkFactory"/> for the <see cref="AdvancedWatchdog"/>.
+		/// The <see cref="IFilesystemLinkFactory"/> for the <see cref="AdvancedWatchdog"/>.
 		/// </summary>
-		protected ISymlinkFactory SymlinkFactory { get; }
+		protected IFilesystemLinkFactory LinkFactory { get; }
 
 		/// <summary>
 		/// <see cref="List{T}"/> of <see cref="Task"/>s that are waiting to clean up old deployments.
@@ -68,7 +68,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <param name="eventConsumer">The <see cref="IEventConsumer"/> for the <see cref="WatchdogBase"/>.</param>
 		/// <param name="remoteDeploymentManagerFactory">The <see cref="IRemoteDeploymentManagerFactory"/> for the <see cref="WatchdogBase"/>.</param>
 		/// <param name="gameIOManager">The value of <see cref="GameIOManager"/>.</param>
-		/// <param name="symlinkFactory">The value of <see cref="SymlinkFactory"/>.</param>
+		/// <param name="linkFactory">The value of <see cref="LinkFactory"/>.</param>
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="WatchdogBase"/>.</param>
 		/// <param name="initialLaunchParameters">The <see cref="DreamDaemonLaunchParameters"/> for the <see cref="WatchdogBase"/>.</param>
 		/// <param name="instance">The <see cref="Api.Models.Instance"/> for the <see cref="WatchdogBase"/>.</param>
@@ -85,7 +85,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			IEventConsumer eventConsumer,
 			IRemoteDeploymentManagerFactory remoteDeploymentManagerFactory,
 			IIOManager gameIOManager,
-			ISymlinkFactory symlinkFactory,
+			IFilesystemLinkFactory linkFactory,
 			ILogger<AdvancedWatchdog> logger,
 			DreamDaemonLaunchParameters initialLaunchParameters,
 			Api.Models.Instance instance,
@@ -109,7 +109,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			try
 			{
 				GameIOManager = gameIOManager ?? throw new ArgumentNullException(nameof(gameIOManager));
-				SymlinkFactory = symlinkFactory ?? throw new ArgumentNullException(nameof(symlinkFactory));
+				LinkFactory = linkFactory ?? throw new ArgumentNullException(nameof(linkFactory));
 
 				deploymentCleanupTasks = new List<Task>();
 			}

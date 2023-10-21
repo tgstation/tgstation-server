@@ -9,9 +9,9 @@ using Tgstation.Server.Host.System;
 namespace Tgstation.Server.Host.IO
 {
 	/// <summary>
-	/// <see cref="ISymlinkFactory"/> for windows systems.
+	/// <see cref="IFilesystemLinkFactory"/> for windows systems.
 	/// </summary>
-	sealed class WindowsSymlinkFactory : ISymlinkFactory
+	sealed class WindowsFilesystemLinkFactory : IFilesystemLinkFactory
 	{
 		/// <inheritdoc />
 		public bool SymlinkedDirectoriesAreDeletedAsFiles => false;

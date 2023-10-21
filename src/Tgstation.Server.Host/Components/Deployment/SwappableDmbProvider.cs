@@ -42,9 +42,9 @@ namespace Tgstation.Server.Host.Components.Deployment
 		protected IIOManager IOManager { get; }
 
 		/// <summary>
-		/// The <see cref="ISymlinkFactory"/> to use.
+		/// The <see cref="IFilesystemLinkFactory"/> to use.
 		/// </summary>
-		protected ISymlinkFactory SymlinkFactory { get; }
+		protected IFilesystemLinkFactory LinkFactory { get; }
 
 		/// <summary>
 		/// Backing field for <see cref="Swapped"/>.
@@ -56,12 +56,12 @@ namespace Tgstation.Server.Host.Components.Deployment
 		/// </summary>
 		/// <param name="baseProvider">The value of <see cref="BaseProvider"/>.</param>
 		/// <param name="ioManager">The value of <see cref="IOManager"/>.</param>
-		/// <param name="symlinkFactory">The value of <see cref="SymlinkFactory"/>.</param>
-		public SwappableDmbProvider(IDmbProvider baseProvider, IIOManager ioManager, ISymlinkFactory symlinkFactory)
+		/// <param name="symlinkFactory">The value of <see cref="LinkFactory"/>.</param>
+		public SwappableDmbProvider(IDmbProvider baseProvider, IIOManager ioManager, IFilesystemLinkFactory symlinkFactory)
 		{
 			BaseProvider = baseProvider ?? throw new ArgumentNullException(nameof(baseProvider));
 			IOManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
-			SymlinkFactory = symlinkFactory ?? throw new ArgumentNullException(nameof(symlinkFactory));
+			LinkFactory = symlinkFactory ?? throw new ArgumentNullException(nameof(symlinkFactory));
 		}
 
 		/// <inheritdoc />

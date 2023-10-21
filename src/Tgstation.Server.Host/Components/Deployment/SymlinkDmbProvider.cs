@@ -15,12 +15,12 @@ namespace Tgstation.Server.Host.Components.Deployment
 		/// </summary>
 		/// <param name="baseProvider">The <see cref="IDmbProvider"/> for the <see cref="SwappableDmbProvider"/>.</param>
 		/// <param name="ioManager">The <see cref="IIOManager"/> for the <see cref="SwappableDmbProvider"/>.</param>
-		/// <param name="symlinkFactory">The <see cref="ISymlinkFactory"/> for the <see cref="SwappableDmbProvider"/>.</param>
+		/// <param name="linkFactory">The <see cref="IFilesystemLinkFactory"/> for the <see cref="SwappableDmbProvider"/>.</param>
 		public SymlinkDmbProvider(
 			IDmbProvider baseProvider,
 			IIOManager ioManager,
-			ISymlinkFactory symlinkFactory)
-			: base(baseProvider, ioManager, symlinkFactory)
+			IFilesystemLinkFactory linkFactory)
+			: base(baseProvider, ioManager, linkFactory)
 		{
 		}
 
@@ -30,12 +30,12 @@ namespace Tgstation.Server.Host.Components.Deployment
 		/// <inheritdoc />
 		protected override async Task DoSwap(CancellationToken cancellationToken)
 		{
-			if (SymlinkFactory.SymlinkedDirectoriesAreDeletedAsFiles)
+			if (LinkFactory.SymlinkedDirectoriesAreDeletedAsFiles)
 				await IOManager.DeleteFile(LiveGameDirectory, cancellationToken);
 			else
 				await IOManager.DeleteDirectory(LiveGameDirectory, cancellationToken);
 
-			await SymlinkFactory.CreateSymbolicLink(
+			await LinkFactory.CreateSymbolicLink(
 				IOManager.ResolvePath(BaseProvider.Directory),
 				IOManager.ResolvePath(LiveGameDirectory),
 				cancellationToken);

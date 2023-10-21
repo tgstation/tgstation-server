@@ -8,17 +8,17 @@ using System.Threading.Tasks;
 namespace Tgstation.Server.Host.IO.Tests
 {
 	[TestClass]
-	public sealed class TestSymlinkFactory
+	public sealed class TestFilesystemLinkFactory
 	{
-		static ISymlinkFactory symlinkFactory;
+		static IFilesystemLinkFactory linkFactory;
 
 		[ClassInitialize]
 		public static void SelectFactory(TestContext _)
 		{
 			if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-				symlinkFactory = new WindowsSymlinkFactory();
+				linkFactory = new WindowsFilesystemLinkFactory();
 			else
-				symlinkFactory = new PosixSymlinkFactory();
+				linkFactory = new PosixFilesystemLinkFactory();
 		}
 
 		public static bool HasPermissionToMakeSymlinks()
@@ -43,10 +43,10 @@ namespace Tgstation.Server.Host.IO.Tests
 				f2 = f1 + ".linked";
 				File.WriteAllText(f1, Text);
 
-				await Assert.ThrowsExceptionAsync<ArgumentNullException>(() => symlinkFactory.CreateSymbolicLink(null, null, default));
-				await Assert.ThrowsExceptionAsync<ArgumentNullException>(() => symlinkFactory.CreateSymbolicLink(f1, null, default));
+				await Assert.ThrowsExceptionAsync<ArgumentNullException>(() => linkFactory.CreateSymbolicLink(null, null, default));
+				await Assert.ThrowsExceptionAsync<ArgumentNullException>(() => linkFactory.CreateSymbolicLink(f1, null, default));
 
-				await symlinkFactory.CreateSymbolicLink(f1, f2, default);
+				await linkFactory.CreateSymbolicLink(f1, f2, default);
 				Assert.IsTrue(File.Exists(f2));
 
 				var f2Contents = File.ReadAllText(f2);
@@ -76,10 +76,10 @@ namespace Tgstation.Server.Host.IO.Tests
 				var p1 = Path.Combine(f1, FileName);
 				File.WriteAllText(p1, Text);
 
-				await Assert.ThrowsExceptionAsync<ArgumentNullException>(() => symlinkFactory.CreateSymbolicLink(null, null, default));
-				await Assert.ThrowsExceptionAsync<ArgumentNullException>(() => symlinkFactory.CreateSymbolicLink(f1, null, default));
+				await Assert.ThrowsExceptionAsync<ArgumentNullException>(() => linkFactory.CreateSymbolicLink(null, null, default));
+				await Assert.ThrowsExceptionAsync<ArgumentNullException>(() => linkFactory.CreateSymbolicLink(f1, null, default));
 
-				await symlinkFactory.CreateSymbolicLink(f1, f2, default);
+				await linkFactory.CreateSymbolicLink(f1, f2, default);
 
 				var p2 = Path.Combine(f2, FileName);
 				Assert.IsTrue(File.Exists(p2));
@@ -104,7 +104,7 @@ namespace Tgstation.Server.Host.IO.Tests
 
 			try
 			{
-				await symlinkFactory.CreateSymbolicLink(BadPath, BadPath, default);
+				await linkFactory.CreateSymbolicLink(BadPath, BadPath, default);
 				Assert.Fail("No exception thrown!");
 			}
 			catch { }

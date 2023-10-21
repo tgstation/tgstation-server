@@ -40,19 +40,19 @@ namespace Tgstation.Server.Host.Components.Deployment
 		/// </summary>
 		/// <param name="baseProvider">The <see cref="IDmbProvider"/> for the <see cref="SwappableDmbProvider"/>.</param>
 		/// <param name="ioManager">The <see cref="IIOManager"/> for the <see cref="SwappableDmbProvider"/>.</param>
-		/// <param name="symlinkFactory">The <see cref="ISymlinkFactory"/> for the <see cref="SwappableDmbProvider"/>.</param>
+		/// <param name="linkFactory">The <see cref="IFilesystemLinkFactory"/> for the <see cref="SwappableDmbProvider"/>.</param>
 		/// <param name="logger">The value of <see cref="logger"/>.</param>
 		/// <param name="generalConfiguration">The <see cref="GeneralConfiguration"/> for the <see cref="HardLinkDmbProvider"/>.</param>
 		public HardLinkDmbProvider(
 			IDmbProvider baseProvider,
 			IIOManager ioManager,
-			ISymlinkFactory symlinkFactory,
+			IFilesystemLinkFactory linkFactory,
 			ILogger logger,
 			GeneralConfiguration generalConfiguration)
 			: base(
 				 baseProvider,
 				 ioManager,
-				 symlinkFactory)
+				 linkFactory)
 		{
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 			cancellationTokenSource = new CancellationTokenSource();
@@ -214,7 +214,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 					using var lockContext = semaphore != null
 						? await SemaphoreSlimContext.Lock(semaphore, cancellationToken)
 						: null;
-					await SymlinkFactory.CreateHardLink(sourceFile, destFile, cancellationToken);
+					await LinkFactory.CreateHardLink(sourceFile, destFile, cancellationToken);
 				}
 
 				yield return LinkThisFile();
