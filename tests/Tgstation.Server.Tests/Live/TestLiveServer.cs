@@ -40,6 +40,7 @@ using Tgstation.Server.Host.Components;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.Extensions;
+using Tgstation.Server.Host.Jobs;
 using Tgstation.Server.Host.System;
 using Tgstation.Server.Tests.Live.Instance;
 
@@ -1385,15 +1386,35 @@ namespace Tgstation.Server.Tests.Live
 						if (TestingUtils.RunningInGitHubActions) // they only have 2 cores, can't handle intense parallelization
 							await byondApiCompatTests;
 
-						var odCompatTests = FailFast(
-							instanceTest
+						async Task ODCompatTests()
+						{
+							var edgeODVersionTask = EngineTest.GetEdgeVersion(EngineType.OpenDream, fileDownloader, cancellationToken);
+							;
+
+							var ex = await Assert.ThrowsExceptionAsync<JobException>(
+								() => InstanceTest.DownloadEngineVersion(
+									new EngineVersion
+									{
+										Engine = EngineType.OpenDream,
+										SourceSHA = "f1dc153caf9d84cd1d0056e52286cc0163e3f4d3", // 1b4 verified version
+									},
+									instanceClient,
+									fileDownloader,
+									cancellationToken).AsTask());
+
+							Assert.AreEqual(ErrorCode.OpenDreamTooOld, ex.ErrorCode);
+
+							await instanceTest
 								.RunCompatTests(
-									await EngineTest.GetEdgeVersion(EngineType.OpenDream, fileDownloader, cancellationToken),
+									await edgeODVersionTask,
 									adminClient.Instances.CreateClient(odInstance),
 									odDMPort,
 									odDDPort,
 									server.HighPriorityDreamDaemon,
-									cancellationToken));
+									cancellationToken);
+						}
+
+						var odCompatTests = FailFast(ODCompatTests());
 
 						if (TestingUtils.RunningInGitHubActions) // they only have 2 cores, can't handle intense parallelization
 							await odCompatTests;

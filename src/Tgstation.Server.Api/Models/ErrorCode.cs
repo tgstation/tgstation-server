@@ -634,5 +634,11 @@ namespace Tgstation.Server.Api.Models
 		/// </summary>
 		[Description("OpenDream could not be compiled due to being unable to locate the dotnet executable!")]
 		OpenDreamCantFindDotnet,
+
+		/// <summary>
+		/// Could not install OpenDream due to it not meeting the minimum version requirements.
+		/// </summary>
+		[Description("The specified OpenDream version is too old!")]
+		OpenDreamTooOld,
 	}
 }

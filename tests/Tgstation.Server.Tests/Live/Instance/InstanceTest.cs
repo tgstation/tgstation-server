@@ -84,6 +84,55 @@ namespace Tgstation.Server.Tests.Live.Instance
 				.Run(cancellationToken);
 		}
 
+		public static async ValueTask<IEngineInstallationData> DownloadEngineVersion(
+			EngineVersion compatVersion,
+			IInstanceClient instanceClient,
+			IFileDownloader fileDownloader,
+			CancellationToken cancellationToken)
+		{
+			var odRepoDir = Path.GetFullPath(Path.Combine(instanceClient.Metadata.Path, "..", "OpenDreamRepo"));
+			var tmpIOManager = new ResolvingIOManager(new DefaultIOManager(), odRepoDir);
+
+			var mockOptions = new Mock<IOptions<GeneralConfiguration>>();
+			mockOptions.SetupGet(x => x.Value).Returns(new GeneralConfiguration());
+			IEngineInstaller byondInstaller =
+				compatVersion.Engine == EngineType.OpenDream
+				? new OpenDreamInstaller(
+					new DefaultIOManager(),
+					Mock.Of<ILogger<OpenDreamInstaller>>(),
+					new PlatformIdentifier(),
+					Mock.Of<IProcessExecutor>(),
+					new RepositoryManager(
+						new LibGit2RepositoryFactory(
+							Mock.Of<ILogger<LibGit2RepositoryFactory>>()),
+						new LibGit2Commands(),
+						tmpIOManager,
+						new NoopEventConsumer(),
+						Mock.Of<IPostWriteHandler>(),
+						Mock.Of<IGitRemoteFeaturesFactory>(),
+						Mock.Of<ILogger<Repository>>(),
+						Mock.Of<ILogger<RepositoryManager>>(),
+						new GeneralConfiguration()),
+					mockOptions.Object)
+				: new PlatformIdentifier().IsWindows
+					? new WindowsByondInstaller(
+						Mock.Of<IProcessExecutor>(),
+						Mock.Of<IIOManager>(),
+						fileDownloader,
+						Options.Create(new GeneralConfiguration()),
+						Mock.Of<ILogger<WindowsByondInstaller>>())
+					: new PosixByondInstaller(
+						Mock.Of<IPostWriteHandler>(),
+						Mock.Of<IIOManager>(),
+						fileDownloader,
+						Mock.Of<ILogger<PosixByondInstaller>>());
+
+			using var windowsByondInstaller = byondInstaller as WindowsByondInstaller;
+
+			// get the bytes for stable
+			return await byondInstaller.DownloadVersion(compatVersion, null, cancellationToken);
+		}
+		
 		public async Task RunCompatTests(
 			EngineVersion compatVersion,
 			IInstanceClient instanceClient,
@@ -147,49 +196,10 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 			var jrt = new JobsRequiredTest(instanceClient.Jobs);
 
-
-			var odRepoDir = Path.GetFullPath(Path.Combine(instanceClient.Metadata.Path, "..", "OpenDreamRepo"));
-			var tmpIOManager = new ResolvingIOManager(new DefaultIOManager(), odRepoDir);
-
-			var mockOptions = new Mock<IOptions<GeneralConfiguration>>();
-			mockOptions.SetupGet(x => x.Value).Returns(new GeneralConfiguration());
-			IEngineInstaller byondInstaller =
-				compatVersion.Engine == EngineType.OpenDream
-				? new OpenDreamInstaller(
-					new DefaultIOManager(),
-					Mock.Of<ILogger<OpenDreamInstaller>>(),
-					new PlatformIdentifier(),
-					Mock.Of<IProcessExecutor>(),
-					new RepositoryManager(
-						new LibGit2RepositoryFactory(
-							Mock.Of<ILogger<LibGit2RepositoryFactory>>()),
-						new LibGit2Commands(),
-						tmpIOManager,
-						new NoopEventConsumer(),
-						Mock.Of<IPostWriteHandler>(),
-						Mock.Of<IGitRemoteFeaturesFactory>(),
-						Mock.Of<ILogger<Repository>>(),
-						Mock.Of<ILogger<RepositoryManager>>(),
-						new GeneralConfiguration()),
-					mockOptions.Object)
-				: new PlatformIdentifier().IsWindows
-					? new WindowsByondInstaller(
-						Mock.Of<IProcessExecutor>(),
-						Mock.Of<IIOManager>(),
-						fileDownloader,
-						Options.Create(new GeneralConfiguration()),
-						Mock.Of<ILogger<WindowsByondInstaller>>())
-					: new PosixByondInstaller(
-						Mock.Of<IPostWriteHandler>(),
-						Mock.Of<IIOManager>(),
-						fileDownloader,
-						Mock.Of<ILogger<PosixByondInstaller>>());
-
-			using var windowsByondInstaller = byondInstaller as WindowsByondInstaller;
-
-			// get the bytes for stable
 			EngineInstallResponse installJob2;
-			await using (var stableBytesMs = await TestingUtils.ExtractMemoryStreamFromInstallationData(await byondInstaller.DownloadVersion(compatVersion, null, cancellationToken), cancellationToken))
+			await using (var stableBytesMs = await TestingUtils.ExtractMemoryStreamFromInstallationData(
+				await DownloadEngineVersion(compatVersion, instanceClient, fileDownloader, cancellationToken),
+				cancellationToken))
 			{
 				installJob2 = await instanceClient.Engine.SetActiveVersion(new EngineVersionRequest
 				{
