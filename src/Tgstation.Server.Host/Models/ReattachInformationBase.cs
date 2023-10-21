@@ -32,13 +32,13 @@ namespace Tgstation.Server.Host.Models
 		/// The <see cref="DreamDaemonSecurity"/> level DreamDaemon was launched with.
 		/// </summary>
 		[Required]
-		public DreamDaemonSecurity? LaunchSecurityLevel { get; set; }
+		public DreamDaemonSecurity LaunchSecurityLevel { get; set; }
 
 		/// <summary>
 		/// The <see cref="DreamDaemonVisibility"/> DreamDaemon was launched with.
 		/// </summary>
 		[Required]
-		public DreamDaemonVisibility? LaunchVisibility { get; set; }
+		public DreamDaemonVisibility LaunchVisibility { get; set; }
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="ReattachInformationBase"/> class.

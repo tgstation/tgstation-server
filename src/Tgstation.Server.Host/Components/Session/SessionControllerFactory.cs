@@ -336,7 +336,8 @@ namespace Tgstation.Server.Host.Components.Session
 						var runtimeInformation = CreateRuntimeInformation(
 							dmbProvider,
 							chatTrackingContext,
-							launchParameters,
+							launchParameters.SecurityLevel.Value,
+							launchParameters.Visibility.Value,
 							apiValidate);
 
 						var reattachInformation = new ReattachInformation(
@@ -430,7 +431,8 @@ namespace Tgstation.Server.Host.Components.Session
 						var runtimeInformation = CreateRuntimeInformation(
 							reattachInformation.Dmb,
 							chatTrackingContext,
-							null,
+							reattachInformation.LaunchSecurityLevel,
+							reattachInformation.LaunchVisibility,
 							false);
 						reattachInformation.SetRuntimeInformation(runtimeInformation);
 
@@ -632,15 +634,16 @@ namespace Tgstation.Server.Host.Components.Session
 		RuntimeInformation CreateRuntimeInformation(
 			IDmbProvider dmbProvider,
 			IChatTrackingContext chatTrackingContext,
-			DreamDaemonLaunchParameters launchParameters,
+			DreamDaemonSecurity securityLevel,
+			DreamDaemonVisibility visibility,
 			bool apiValidateOnly)
 			=> new (
 				chatTrackingContext,
 				dmbProvider,
 				assemblyInformationProvider.Version,
 				instance.Name,
-				launchParameters?.SecurityLevel,
-				launchParameters?.Visibility,
+				securityLevel,
+				visibility,
 				serverPortProvider.HttpApiPort,
 				apiValidateOnly);
 
