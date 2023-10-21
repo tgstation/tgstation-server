@@ -249,12 +249,10 @@ namespace Tgstation.Server.Host.Components.Engine
 				await Task.WhenAll(
 					dirs.Select(
 						dir => IOManager.MoveDirectory(
-							IOManager.ConcatPath(
-								deployPath,
-								dir),
+							dir,
 							IOManager.ConcatPath(
 								installPath,
-								dir),
+								IOManager.GetFileName(dir)),
 							cancellationToken)));
 			}
 
@@ -264,12 +262,10 @@ namespace Tgstation.Server.Host.Components.Engine
 				await Task.WhenAll(
 					files.Select(
 						file => IOManager.MoveFile(
-							IOManager.ConcatPath(
-								deployPath,
-								file),
+							file,
 							IOManager.ConcatPath(
 								installPath,
-								file),
+								IOManager.GetFileName(file)),
 							cancellationToken)));
 			}
 
@@ -321,7 +317,7 @@ namespace Tgstation.Server.Host.Components.Engine
 				installationPath,
 				BinDir,
 				ServerDir,
-				$"OpenDreamServer{exeExtension}");
+				$"Robust.Server{exeExtension}");
 
 			compilerExePath = IOManager.ConcatPath(
 				installationPath,
