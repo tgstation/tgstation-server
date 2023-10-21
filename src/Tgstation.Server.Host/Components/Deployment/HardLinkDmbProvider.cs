@@ -111,15 +111,17 @@ namespace Tgstation.Server.Host.Components.Deployment
 					goAheadTcs.SetResult();
 					await IOManager.DeleteDirectory(disposePath, CancellationToken.None); // DCT: We're detached at this point
 				}
+				catch (DirectoryNotFoundException ex)
+				{
+					logger.LogDebug(ex, "Live directory appears to not exist");
+					if (!directoryMoved)
+						goAheadTcs.SetResult();
+				}
 				catch (Exception ex)
 				{
-					if (directoryMoved)
-						logger.LogWarning(ex, "Failed to delete hard linked directory: {disposePath}", disposePath);
-					else
-					{
-						logger.LogDebug(ex, "Live directory appears to not exist");
-						goAheadTcs.SetResult();
-					}
+					logger.LogWarning(ex, "Failed to delete hard linked directory: {disposePath}", disposePath);
+					if (!directoryMoved)
+						goAheadTcs.SetException(ex);
 				}
 			}
 
