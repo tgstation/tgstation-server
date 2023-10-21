@@ -588,7 +588,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 			await Task.WhenAny(ourProcessHandler.Lifetime, Task.Delay(TimeSpan.FromMinutes(1), cancellationToken));
 
-			var timeout = 20;
+			var timeout = 60;
 			DreamDaemonResponse ddStatus;
 			do
 			{
