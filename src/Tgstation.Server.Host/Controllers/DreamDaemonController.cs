@@ -86,7 +86,7 @@ namespace Tgstation.Server.Host.Controllers
 
 				var job = new Job
 				{
-					Description = "Launch DreamDaemon",
+					Description = "Launch Watchdog",
 					CancelRight = (ulong)DreamDaemonRights.Shutdown,
 					CancelRightsType = RightsType.DreamDaemon,
 					Instance = Instance,
