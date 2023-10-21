@@ -20,12 +20,13 @@ namespace Tgstation.Server.Api.Models.Response
 		/// <summary>
 		/// The <see cref="EngineVersion.Version"/> the <see cref="CompileJobResponse"/> was made with.
 		/// </summary>
-		public EngineVersion? ByondVersion { get; set; }
+		[Obsolete("Use EngineVersion instead.")]
+		public string? ByondVersion { get; set; }
 
 		/// <summary>
-		/// The <see cref="EngineVersion.Engine"/> the <see cref="CompileJobResponse"/> was made with.
+		/// The <see cref="EngineVersion"/> the <see cref="CompileJobResponse"/> was made with.
 		/// </summary>
-		public EngineType? Engine { get; set; }
+		public EngineVersion? EngineVersion { get; set; }
 
 		/// <summary>
 		/// The origin <see cref="Uri"/> of the repository the compile job was built from.

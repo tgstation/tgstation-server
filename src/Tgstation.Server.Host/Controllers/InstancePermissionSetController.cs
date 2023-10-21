@@ -93,7 +93,9 @@ namespace Tgstation.Server.Host.Controllers
 
 			var dbUser = new InstancePermissionSet
 			{
-				EngineRights = RightsHelper.Clamp(model.EngineRights ?? EngineRights.None),
+#pragma warning disable CS0618 // Type or member is obsolete
+				EngineRights = RightsHelper.Clamp(model.EngineRights ?? model.ByondRights ?? EngineRights.None),
+#pragma warning restore CS0618 // Type or member is obsolete
 				ChatBotRights = RightsHelper.Clamp(model.ChatBotRights ?? ChatBotRights.None),
 				ConfigurationRights = RightsHelper.Clamp(model.ConfigurationRights ?? ConfigurationRights.None),
 				DreamDaemonRights = RightsHelper.Clamp(model.DreamDaemonRights ?? DreamDaemonRights.None),
@@ -138,7 +140,9 @@ namespace Tgstation.Server.Host.Controllers
 			if (originalPermissionSet == null)
 				return this.Gone();
 
-			originalPermissionSet.EngineRights = RightsHelper.Clamp(model.EngineRights ?? originalPermissionSet.EngineRights.Value);
+#pragma warning disable CS0618 // Type or member is obsolete
+			originalPermissionSet.ByondRights = RightsHelper.Clamp(model.EngineRights ?? model.ByondRights ?? originalPermissionSet.EngineRights.Value);
+#pragma warning restore CS0618 // Type or member is obsolete
 			originalPermissionSet.RepositoryRights = RightsHelper.Clamp(model.RepositoryRights ?? originalPermissionSet.RepositoryRights.Value);
 			originalPermissionSet.InstancePermissionSetRights = RightsHelper.Clamp(model.InstancePermissionSetRights ?? originalPermissionSet.InstancePermissionSetRights.Value);
 			originalPermissionSet.ChatBotRights = RightsHelper.Clamp(model.ChatBotRights ?? originalPermissionSet.ChatBotRights.Value);

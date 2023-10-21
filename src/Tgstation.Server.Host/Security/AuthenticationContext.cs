@@ -73,6 +73,7 @@ namespace Tgstation.Server.Host.Security
 
 			if (right == null)
 				throw new InvalidOperationException("A user right was null!");
+
 			return (ulong)right;
 		}
 	}

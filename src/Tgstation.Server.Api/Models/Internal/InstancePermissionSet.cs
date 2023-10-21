@@ -26,24 +26,17 @@ namespace Tgstation.Server.Api.Models.Internal
 		public InstancePermissionSetRights? InstancePermissionSetRights { get; set; }
 
 		/// <summary>
-		/// The <see cref="Rights.EngineRights"/> of the <see cref="InstancePermissionSet"/>.
-		/// </summary>
-		[NotMapped]
-		[JsonIgnore]
-		public EngineRights? EngineRights
-		{
-#pragma warning disable CS0618 // Type or member is obsolete
-			get => ByondRights;
-			set => ByondRights = value;
-#pragma warning restore CS0618 // Type or member is obsolete
-		}
-
-		/// <summary>
 		/// The legacy <see cref="Rights.EngineRights"/> of the <see cref="InstancePermissionSet"/>.
 		/// </summary>
 		[Required]
 		[Obsolete("Use EngineRights instead")]
 		public EngineRights? ByondRights { get; set; }
+
+		/// <summary>
+		/// The <see cref="Rights.EngineRights"/> of the <see cref="InstancePermissionSet"/>.
+		/// </summary>
+		[NotMapped]
+		public EngineRights? EngineRights { get; set; }
 
 		/// <summary>
 		/// The <see cref="Rights.DreamDaemonRights"/> of the <see cref="InstancePermissionSet"/>.

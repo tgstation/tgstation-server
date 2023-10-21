@@ -90,7 +90,10 @@ namespace Tgstation.Server.Host.Models
 			Job = Job.ToApi(),
 			Output = Output,
 			RevisionInformation = RevisionInformation.ToApi(),
-			ByondVersion = Api.Models.Internal.EngineVersion.TryParse(ByondVersion, out var version)
+#pragma warning disable CS0618 // Type or member is obsolete
+			ByondVersion = ByondVersion,
+#pragma warning restore CS0618 // Type or member is obsolete
+			EngineVersion = Api.Models.Internal.EngineVersion.TryParse(ByondVersion, out var version)
 				? version
 				: throw new InvalidOperationException($"Failed to parse BYOND version: {ByondVersion}"),
 			MinimumSecurityLevel = MinimumSecurityLevel,

@@ -32,7 +32,10 @@ namespace Tgstation.Server.Host.Models
 		/// <inheritdoc />
 		public InstancePermissionSetResponse ToApi() => new InstancePermissionSetResponse
 		{
-			EngineRights = EngineRights,
+#pragma warning disable CS0618 // Type or member is obsolete
+			ByondRights = ByondRights,
+			EngineRights = ByondRights,
+#pragma warning restore CS0618 // Type or member is obsolete
 			ChatBotRights = ChatBotRights,
 			ConfigurationRights = ConfigurationRights,
 			DreamDaemonRights = DreamDaemonRights,
