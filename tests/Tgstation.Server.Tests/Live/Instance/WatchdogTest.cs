@@ -1101,7 +1101,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			var refreshed = await instanceClient.DreamMaker.Update(new DreamMakerRequest
 			{
 				ApiValidationSecurityLevel = deploymentSecurity,
-				ProjectName = $"tests/DMAPI/{dmeName}",
+				ProjectName = dmeName.Contains("rooted") ? dmeName : $"tests/DMAPI/{dmeName}",
 				RequireDMApiValidation = requireApi,
 				Timeout = TimeSpan.FromMilliseconds(1),
 			}, cancellationToken);

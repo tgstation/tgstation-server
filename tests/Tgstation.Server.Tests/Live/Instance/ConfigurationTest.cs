@@ -92,7 +92,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			await configurationClient.CreateDirectory(staticDir, cancellationToken);
 		}
 
-		public Task SetupDMApiTests(CancellationToken cancellationToken)
+		public Task SetupDMApiTests(bool includingRoot, CancellationToken cancellationToken)
 		{
 			// just use an I/O manager here
 			var ioManager = new DefaultIOManager();
@@ -104,6 +104,12 @@ namespace Tgstation.Server.Tests.Live.Instance
 					ioManager.ConcatPath(instance.Path, "Repository", "tests", "DMAPI"),
 					null,
 					cancellationToken),
+				includingRoot
+					? ioManager.CopyFile(
+						"../../../../DMAPI/LongRunning/long_running_test_rooted.dme",
+						ioManager.ConcatPath(instance.Path, "Repository", "long_running_test_rooted.dme"),
+						cancellationToken)
+					: Task.CompletedTask,
 				ioManager.CopyDirectory(
 					Enumerable.Empty<string>(),
 					null,
@@ -175,8 +181,8 @@ namespace Tgstation.Server.Tests.Live.Instance
 		}
 
 		public Task RunPreWatchdog(CancellationToken cancellationToken) => Task.WhenAll(
+			SetupDMApiTests(false, cancellationToken),
 			SequencedApiTests(cancellationToken),
-			SetupDMApiTests(cancellationToken),
 			TestPregeneratedFilesExist(cancellationToken));
 	}
 }

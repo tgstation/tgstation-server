@@ -336,7 +336,8 @@ namespace Tgstation.Server.Host.Components.Session
 						var runtimeInformation = CreateRuntimeInformation(
 							dmbProvider,
 							chatTrackingContext,
-							launchParameters,
+							launchParameters.SecurityLevel.Value,
+							launchParameters.Visibility.Value,
 							apiValidate);
 
 						var reattachInformation = new ReattachInformation(
@@ -430,7 +431,8 @@ namespace Tgstation.Server.Host.Components.Session
 						var runtimeInformation = CreateRuntimeInformation(
 							reattachInformation.Dmb,
 							chatTrackingContext,
-							null,
+							reattachInformation.LaunchSecurityLevel,
+							reattachInformation.LaunchVisibility,
 							false);
 						reattachInformation.SetRuntimeInformation(runtimeInformation);
 
@@ -626,21 +628,23 @@ namespace Tgstation.Server.Host.Components.Session
 		/// </summary>
 		/// <param name="dmbProvider">The <see cref="IDmbProvider"/>.</param>
 		/// <param name="chatTrackingContext">The <see cref="IChatTrackingContext"/>.</param>
-		/// <param name="launchParameters">The <see cref="DreamDaemonLaunchParameters"/> if any.</param>
+		/// <param name="securityLevel">The <see cref="DreamDaemonSecurity"/> the server was launched with.</param>
+		/// <param name="visibility">The <see cref="DreamDaemonVisibility"/> the server was launched with.</param>
 		/// <param name="apiValidateOnly">The value of <see cref="RuntimeInformation.ApiValidateOnly"/>.</param>
 		/// <returns>A new <see cref="RuntimeInformation"/> class.</returns>
 		RuntimeInformation CreateRuntimeInformation(
 			IDmbProvider dmbProvider,
 			IChatTrackingContext chatTrackingContext,
-			DreamDaemonLaunchParameters launchParameters,
+			DreamDaemonSecurity securityLevel,
+			DreamDaemonVisibility visibility,
 			bool apiValidateOnly)
 			=> new (
 				chatTrackingContext,
 				dmbProvider,
 				assemblyInformationProvider.Version,
 				instance.Name,
-				launchParameters?.SecurityLevel,
-				launchParameters?.Visibility,
+				securityLevel,
+				visibility,
 				serverPortProvider.HttpApiPort,
 				apiValidateOnly);
 
