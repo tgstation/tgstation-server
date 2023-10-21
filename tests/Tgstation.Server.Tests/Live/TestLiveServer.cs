@@ -1027,7 +1027,7 @@ namespace Tgstation.Server.Tests.Live
 							if (postWriteHandler.NeedsPostWrite(src))
 								postWriteHandler.HandleWrite(dest);
 
-							return Task.CompletedTask;
+							return ValueTask.CompletedTask;
 						},
 						ioManager.ConcatPath(
 							localRepoPath,
@@ -1080,7 +1080,7 @@ namespace Tgstation.Server.Tests.Live
 					jobWaitTask = jobsTest.WaitForJob(repoResponse.ActiveJob, 300, false, null, cancellationToken);
 				}
 
-				await Task.WhenAll(jobWaitTask, ddUpdateTask, dmUpdateTask);
+				await Task.WhenAll(jobWaitTask, ddUpdateTask.AsTask(), dmUpdateTask.AsTask());
 
 				var depsBytesTask = ioManager.ReadAllBytes(
 					ioManager.ConcatPath(repoPath, "dependencies.sh"),
@@ -1093,7 +1093,7 @@ namespace Tgstation.Server.Tests.Live
 						if (postWriteHandler.NeedsPostWrite(src))
 							postWriteHandler.HandleWrite(dest);
 
-						return Task.CompletedTask;
+						return ValueTask.CompletedTask;
 					},
 					ioManager.ConcatPath(
 						repoPath,
@@ -1120,7 +1120,7 @@ namespace Tgstation.Server.Tests.Live
 
 				var byondJobTask = jobsTest.WaitForJob(byondJob.InstallJob, 60, false, null, cancellationToken);
 
-				await Task.WhenAll(scriptsCopyTask, byondJobTask);
+				await Task.WhenAll(scriptsCopyTask.AsTask(), byondJobTask);
 
 				var compileJob = await instanceClient.DreamMaker.Compile(cancellationToken);
 
