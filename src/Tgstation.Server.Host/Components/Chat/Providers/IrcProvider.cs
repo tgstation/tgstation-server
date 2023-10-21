@@ -262,13 +262,14 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 								return result;
 							})));
 
+			var prefix = GetEngineCompilerPrefix(engineVersion.Engine.Value);
 			await SendMessage(
 				null,
 				new MessageContent
 				{
 					Text = String.Format(
 						CultureInfo.InvariantCulture,
-						"DM: Deploying revision: {0}{1}{2} BYOND Version: {3}{4}",
+						$"{prefix}: Deploying revision: {0}{1}{2} BYOND Version: {3}{4}",
 						commitInsert,
 						testmergeInsert,
 						remoteCommitInsert,
@@ -286,7 +287,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 					null,
 					new MessageContent
 					{
-						Text = $"DM: Deployment {(errorMessage == null ? "complete" : "failed")}!",
+						Text = $"{prefix}: Deployment {(errorMessage == null ? "complete" : "failed")}!",
 					},
 					channelId,
 					cancellationToken);

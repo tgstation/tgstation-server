@@ -71,6 +71,19 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		CancellationTokenSource reconnectCts;
 
 		/// <summary>
+		/// Get the prefix for messages about deployments.
+		/// </summary>
+		/// <param name="engineType">The <see cref="Api.Models.EngineType"/> of the deployment.</param>
+		/// <returns>The <see cref="string"/> prefix.</returns>
+		protected static string GetEngineCompilerPrefix(Api.Models.EngineType engineType)
+			=> engineType switch
+			{
+				Api.Models.EngineType.Byond => "DM",
+				Api.Models.EngineType.OpenDream => "OD",
+				_ => throw new InvalidOperationException($"Unsupported engine type: {engineType}"),
+			};
+
+		/// <summary>
 		/// Initializes a new instance of the <see cref="Provider"/> class.
 		/// </summary>
 		/// <param name="jobManager">The value of <see cref="jobManager"/>.</param>

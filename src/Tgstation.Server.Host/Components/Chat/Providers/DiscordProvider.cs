@@ -322,9 +322,10 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			Logger.LogTrace("Attempting to post deploy embed to channel {channelId}...", channelId);
 			var channelsClient = serviceProvider.GetRequiredService<IDiscordRestChannelAPI>();
 
+			var prefix = GetEngineCompilerPrefix(engineVersion.Engine.Value);
 			var messageResponse = await channelsClient.CreateMessageAsync(
 				new Snowflake(channelId),
-				"DM: Deployment in progress...",
+				$"{prefix}: Deployment in progress...",
 				embeds: new List<IEmbed> { embed },
 				ct: cancellationToken);
 
@@ -371,7 +372,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 					showDMOutput = showDMOutput && dreamMakerOutput.Length < MaxFieldValueLength - (6 + Environment.NewLine.Length);
 					if (showDMOutput)
 						fields.Add(new EmbedField(
-							"DreamMaker Output",
+							"Compiler Output",
 							$"```{Environment.NewLine}{dreamMakerOutput}{Environment.NewLine}```",
 							false));
 				}
@@ -382,7 +383,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 						errorMessage,
 						false));
 
-				var updatedMessageText = errorMessage == null ? $"DM: Deployment pending reboot..." : $"DM: Deployment failed!";
+				var updatedMessageText = errorMessage == null ? $"{prefix}: Deployment pending reboot..." : $"{prefix}: Deployment failed!";
 
 				IMessage updatedMessage = null;
 				async ValueTask CreateUpdatedMessage()
@@ -432,7 +433,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 					if (active)
 					{
 						completionString = "Succeeded";
-						updatedMessageText = $"DM: Deployment succeeded!";
+						updatedMessageText = $"{prefix}: Deployment succeeded!";
 						embed = CreateUpdatedEmbed(
 							"The deployment completed successfully and was applied to server.",
 							Color.Green);
