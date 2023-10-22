@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System.Runtime.Versioning;
+using System.Threading;
 using System.Threading.Tasks;
 
 using Microsoft.Extensions.Logging;
@@ -19,6 +20,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 	/// <summary>
 	/// A variant of the <see cref="AdvancedWatchdog"/> that works on Windows systems.
 	/// </summary>
+	[SupportedOSPlatform("windows")]
 	sealed class WindowsWatchdog : AdvancedWatchdog
 	{
 		/// <summary>

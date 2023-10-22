@@ -22,6 +22,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 	/// <summary>
 	/// A variant of the <see cref="AdvancedWatchdog"/> that works on POSIX systems.
 	/// </summary>
+	[UnsupportedOSPlatform("windows")]
 	sealed class PosixWatchdog : AdvancedWatchdog
 	{
 		/// <summary>
