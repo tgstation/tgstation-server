@@ -502,7 +502,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 				var path = sb.ToString();
 
-				allPaths.Add(path);
+				allPaths.Add($"Path: {path}");
 				if (path.Contains($"Game/{previousStatus.DirectoryName}"))
 					failingLinks.Add($"Found fd {fd} resolving to previous absolute path game dir path: {path}");
 
@@ -516,7 +516,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			if (!foundLivePath)
 				failingLinks.Add($"Failed to find a path containing the 'Live' directory!");
 
-			Assert.IsTrue(failingLinks.Count == 0, String.Join(Environment.NewLine, failingLinks));
+			Assert.IsTrue(failingLinks.Count == 0, String.Join(Environment.NewLine, failingLinks.Concat(allPaths)));
 		}
 
 		async Task RunHealthCheckTest(bool checkDump, CancellationToken cancellationToken)
