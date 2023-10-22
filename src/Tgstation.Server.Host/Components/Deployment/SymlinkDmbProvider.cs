@@ -1,5 +1,4 @@
-﻿using System.Runtime.Versioning;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 
 using Tgstation.Server.Host.IO;
@@ -9,7 +8,6 @@ namespace Tgstation.Server.Host.Components.Deployment
 	/// <summary>
 	/// A <see cref="IDmbProvider"/> that uses symlinks.
 	/// </summary>
-	[SupportedOSPlatform("windows")]
 	sealed class SymlinkDmbProvider : SwappableDmbProvider
 	{
 		/// <summary>
