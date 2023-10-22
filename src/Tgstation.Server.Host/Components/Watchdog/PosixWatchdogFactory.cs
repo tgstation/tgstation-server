@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.Versioning;
 
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -20,6 +21,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 	/// <summary>
 	/// <see cref="IWatchdogFactory"/> for creating <see cref="PosixWatchdog"/>s.
 	/// </summary>
+	[UnsupportedOSPlatform("windows")]
 	sealed class PosixWatchdogFactory : WindowsWatchdogFactory
 	{
 		/// <summary>

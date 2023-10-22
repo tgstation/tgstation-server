@@ -114,7 +114,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 					Port = ddPort,
 					MapThreads = 2,
 					LogOutput = false,
-					AdditionalParameters = "expect_chat_channels=1"
+					AdditionalParameters = "expect_chat_channels=1&expect_static_files=1"
 				}, cancellationToken),
 				CheckByondVersions(),
 				ApiAssert.ThrowsException<ApiConflictException>(() => instanceClient.DreamDaemon.Update(new DreamDaemonRequest
@@ -157,8 +157,64 @@ namespace Tgstation.Server.Tests.Live.Instance
 			System.Console.WriteLine($"TEST: END WATCHDOG TESTS {instanceClient.Metadata.Name}");
 		}
 
+		async ValueTask RegressionTest1686(CancellationToken cancellationToken) 
+		{
+			async ValueTask RunTest(bool useTrusted)
+			{
+				System.Console.WriteLine($"TEST: RegressionTest1686 {useTrusted}...");
+				var ddUpdateTask = instanceClient.DreamDaemon.Update(new DreamDaemonRequest
+				{
+					SecurityLevel = useTrusted ? DreamDaemonSecurity.Trusted : DreamDaemonSecurity.Safe,
+					AdditionalParameters = "expect_chat_channels=1&expect_static_files=1",
+				}, cancellationToken);
+				var currentStatus = await DeployTestDme("long_running_test_rooted", DreamDaemonSecurity.Trusted, true, cancellationToken);
+				await ddUpdateTask;
+
+				Assert.AreEqual(WatchdogStatus.Offline, currentStatus.Status);
+
+				var startJob = await StartDD(cancellationToken);
+
+				await WaitForJob(startJob, 40, false, null, cancellationToken);
+
+				currentStatus = await instanceClient.DreamDaemon.Update(new DreamDaemonRequest
+				{
+					SoftShutdown = true,
+				}, cancellationToken);
+
+				Assert.AreEqual(WatchdogStatus.Online, currentStatus.Status);
+
+				// reimplement TellWorldToReboot because it expects a new deployment and we don't care
+				System.Console.WriteLine("TEST: Hack world reboot topic...");
+				var result = await topicClient.SendTopic(IPAddress.Loopback, "tgs_integration_test_special_tactics=1", ddPort, cancellationToken);
+				Assert.AreEqual("ack", result.StringData);
+
+				using var tempCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+				var tempToken = tempCts.Token;
+				using (tempToken.Register(() => System.Console.WriteLine("TEST ERROR: Timeout in RegressionTest1686!")))
+				{
+					tempCts.CancelAfter(TimeSpan.FromMinutes(2));
+
+					do
+					{
+						await Task.Delay(TimeSpan.FromSeconds(1), tempToken);
+						currentStatus = await instanceClient.DreamDaemon.Read(tempToken);
+					}
+					while (currentStatus.Status != WatchdogStatus.Offline);
+				}
+
+				await CheckDMApiFail(currentStatus.ActiveCompileJob, cancellationToken);
+			}
+
+			await RunTest(true);
+
+			if (new PlatformIdentifier().IsWindows || !usingBasicWatchdog)
+				await RunTest(false);
+		}
+
 		async Task InteropTestsForLongRunningDme(CancellationToken cancellationToken)
 		{
+			await RegressionTest1686(cancellationToken);
+
 			await StartAndLeaveRunning(cancellationToken);
 
 			await RegressionTest1550(cancellationToken);
@@ -191,8 +247,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 		async ValueTask RegressionTest1550(CancellationToken cancellationToken)
 		{
 			// we need to cycle deployments twice because TGS holds the initial deployment
-			await DeployTestDme("LongRunning/long_running_test", DreamDaemonSecurity.Trusted, true, cancellationToken);
-			var currentStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
+			var currentStatus = await DeployTestDme("LongRunning/long_running_test", DreamDaemonSecurity.Trusted, true, cancellationToken);
 
 			Assert.AreEqual(WatchdogStatus.Online, currentStatus.Status);
 			Assert.IsNotNull(currentStatus.StagedCompileJob);

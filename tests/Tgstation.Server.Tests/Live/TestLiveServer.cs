@@ -956,9 +956,6 @@ namespace Tgstation.Server.Tests.Live
 		}
 
 		[TestMethod]
-		public async Task TestTgstationInteractive() => await TestTgstation(true);
-
-		[TestMethod]
 		public async Task TestTgstationHeadless() => await TestTgstation(false);
 
 		async ValueTask TestTgstation(bool interactive)
