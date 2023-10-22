@@ -795,6 +795,8 @@ namespace Tgstation.Server.Host.Components.Session
 						if (!firstValidationRequest)
 							return BridgeError("Startup bridge request was repeated!");
 					}
+#else
+					postValidationShutdownTask = Task.CompletedTask;
 #endif
 
 					if (parameters.Version == null)
