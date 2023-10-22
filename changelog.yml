@@ -183,9 +183,12 @@ Components:
       Author: Cyberboss
       PullRequest: 1662
     Unreleased: true
+  - Version: 5.16.4
+    ComponentVersions: {}
+    Changes: []
+    Unreleased: true
   - Version: 5.16.3
     ComponentVersions:
-      Core: 5.16.2
       HttpApi: 9.12.0
       DreamMakerApi: 6.5.4
       Configuration: 4.7.1
@@ -195,8 +198,12 @@ Components:
       NugetApi: 11.1.2
       NugetClient: 12.1.2
       WebControlPanel: 4.25.2
-    Changes: []
-    Unreleased: true
+    Changes:
+    - Descriptions:
+      - Fixed issues with DreamDaemon referencing the original true path of instances when using the advanced watchdog on Linux. Hard linked copies of deployment directory structure are now used instead of symlinks.
+      - If a deployment completes on Linux right before a world with a valid DMAPI reboots it may not have enough time to be applied and delayed until the next reboot.
+      Author: Cyberboss
+      PullRequest: 1677
   - Version: 5.16.2
     ComponentVersions:
       HttpApi: 9.12.0
@@ -3706,7 +3713,6 @@ Components:
       - Fixed TGS not sending the current security level or world visibility to DreamDaemon after a reattach.
       Author: Cyberboss
       PullRequest: 1675
-    Unreleased: true
   NugetCommon:
   - Version: 7.0.0
     Changes:
