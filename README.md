@@ -407,7 +407,7 @@ https://your.site.here {
         reverse_proxy localhost:5000
 }
 ```
-3. For this setup, your PublicPath needs to be blank. If you have a path in PublicPath, it needs to be in "reverse_proxy PublicPathHere localhost:5000".
+3. For this setup, your configuration's `ControlPanel:PublicPath` needs to be blank. If you have a path in `PublicPath`, it needs to be in "reverse_proxy PublicPathHere localhost:5000".
 
 See https://caddyserver.com/docs/caddyfile/directives/reverse_proxy
 
