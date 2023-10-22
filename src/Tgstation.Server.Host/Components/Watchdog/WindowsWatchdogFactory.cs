@@ -18,14 +18,14 @@ using Tgstation.Server.Host.Utils;
 namespace Tgstation.Server.Host.Components.Watchdog
 {
 	/// <summary>
-	/// <see cref="IWatchdogFactory"/> for creating <see cref="WindowsWatchdog"/>s.
+	/// <see cref="IWatchdogFactory"/> for creating <see cref="AdvancedWatchdog"/>s.
 	/// </summary>
 	class WindowsWatchdogFactory : WatchdogFactory
 	{
 		/// <summary>
-		/// The <see cref="ISymlinkFactory"/> for the <see cref="WindowsWatchdogFactory"/>.
+		/// The <see cref="IFilesystemLinkFactory"/> for the <see cref="WindowsWatchdogFactory"/>.
 		/// </summary>
-		protected ISymlinkFactory SymlinkFactory { get; }
+		protected IFilesystemLinkFactory LinkFactory { get; }
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="WindowsWatchdogFactory"/> class.
@@ -34,14 +34,14 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <param name="loggerFactory">The <see cref="ILoggerFactory"/> for the <see cref="WatchdogFactory"/>.</param>
 		/// <param name="jobManager">The <see cref="IJobManager"/> for the <see cref="WatchdogFactory"/>.</param>
 		/// <param name="asyncDelayer">The <see cref="IAsyncDelayer"/> for the <see cref="WatchdogFactory"/>.</param>
-		/// <param name="symlinkFactory">The value of <see cref="SymlinkFactory"/>.</param>
+		/// <param name="symlinkFactory">The value of <see cref="LinkFactory"/>.</param>
 		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> for <see cref="GeneralConfiguration"/> for the <see cref="WatchdogFactory"/>.</param>
 		public WindowsWatchdogFactory(
 			IServerControl serverControl,
 			ILoggerFactory loggerFactory,
 			IJobManager jobManager,
 			IAsyncDelayer asyncDelayer,
-			ISymlinkFactory symlinkFactory,
+			IFilesystemLinkFactory symlinkFactory,
 			IOptions<GeneralConfiguration> generalConfigurationOptions)
 			: base(
 				serverControl,
@@ -50,7 +50,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				asyncDelayer,
 				generalConfigurationOptions)
 		{
-			SymlinkFactory = symlinkFactory ?? throw new ArgumentNullException(nameof(symlinkFactory));
+			LinkFactory = symlinkFactory ?? throw new ArgumentNullException(nameof(symlinkFactory));
 		}
 
 		/// <inheritdoc />
@@ -77,7 +77,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				eventConsumer,
 				remoteDeploymentManagerFactory,
 				gameIOManager,
-				SymlinkFactory,
+				LinkFactory,
 				LoggerFactory.CreateLogger<WindowsWatchdog>(),
 				settings,
 				instance,

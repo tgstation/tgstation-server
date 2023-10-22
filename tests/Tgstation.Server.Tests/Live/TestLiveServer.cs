@@ -1326,8 +1326,6 @@ namespace Tgstation.Server.Tests.Live
 
 					async Task RunInstanceTests()
 					{
-						// Some earlier linux BYOND versions have a critical bug where replacing the directory in non-basic watchdogs causes the DreamDaemon cwd to change
-						var canRunCompatTests = new PlatformIdentifier().IsWindows;
 						var compatTests = FailFast(
 							instanceTest
 								.RunCompatTests(
@@ -1338,6 +1336,7 @@ namespace Tgstation.Server.Tests.Live
 									compatDMPort,
 									compatDDPort,
 									server.HighPriorityDreamDaemon,
+									server.UsingBasicWatchdog,
 									cancellationToken));
 
 						if (TestingUtils.RunningInGitHubActions) // they only have 2 cores, can't handle intense parallelization
@@ -1351,6 +1350,7 @@ namespace Tgstation.Server.Tests.Live
 									mainDDPort,
 									server.HighPriorityDreamDaemon,
 									server.LowPriorityDeployments,
+									server.UsingBasicWatchdog,
 									cancellationToken));
 
 						await compatTests;
@@ -1531,7 +1531,7 @@ namespace Tgstation.Server.Tests.Live
 					Assert.AreEqual(WatchdogStatus.Online, dd.Status.Value);
 
 					var compileJob = await instanceClient.DreamMaker.Compile(cancellationToken);
-					var wdt = new WatchdogTest(edgeByond, instanceClient, GetInstanceManager(), (ushort)server.Url.Port, server.HighPriorityDreamDaemon, mainDDPort);
+					var wdt = new WatchdogTest(edgeByond, instanceClient, GetInstanceManager(), (ushort)server.Url.Port, server.HighPriorityDreamDaemon, mainDDPort, server.UsingBasicWatchdog);
 					await wdt.WaitForJob(compileJob, 30, false, null, cancellationToken);
 
 					dd = await instanceClient.DreamDaemon.Read(cancellationToken);
@@ -1578,7 +1578,7 @@ namespace Tgstation.Server.Tests.Live
 					Assert.AreEqual(WatchdogStatus.Online, currentDD.Status);
 					Assert.AreEqual(expectedStaged, currentDD.StagedCompileJob.Job.Id.Value);
 
-					var wdt = new WatchdogTest(edgeByond, instanceClient, GetInstanceManager(), (ushort)server.Url.Port, server.HighPriorityDreamDaemon, mainDDPort);
+					var wdt = new WatchdogTest(edgeByond, instanceClient, GetInstanceManager(), (ushort)server.Url.Port, server.HighPriorityDreamDaemon, mainDDPort, server.UsingBasicWatchdog);
 					currentDD = await wdt.TellWorldToReboot(cancellationToken);
 					Assert.AreEqual(expectedStaged, currentDD.ActiveCompileJob.Job.Id.Value);
 					Assert.IsNull(currentDD.StagedCompileJob);

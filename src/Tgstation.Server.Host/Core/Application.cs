@@ -336,7 +336,7 @@ namespace Tgstation.Server.Host.Core
 			{
 				AddWatchdog<WindowsWatchdogFactory>(services, postSetupServices);
 				services.AddSingleton<ISystemIdentityFactory, WindowsSystemIdentityFactory>();
-				services.AddSingleton<ISymlinkFactory, WindowsSymlinkFactory>();
+				services.AddSingleton<IFilesystemLinkFactory, WindowsFilesystemLinkFactory>();
 				services.AddSingleton<IByondInstaller, WindowsByondInstaller>();
 				services.AddSingleton<IPostWriteHandler, WindowsPostWriteHandler>();
 				services.AddSingleton<IProcessFeatures, WindowsProcessFeatures>();
@@ -349,7 +349,7 @@ namespace Tgstation.Server.Host.Core
 			{
 				AddWatchdog<PosixWatchdogFactory>(services, postSetupServices);
 				services.AddSingleton<ISystemIdentityFactory, PosixSystemIdentityFactory>();
-				services.AddSingleton<ISymlinkFactory, PosixSymlinkFactory>();
+				services.AddSingleton<IFilesystemLinkFactory, PosixFilesystemLinkFactory>();
 				services.AddSingleton<IByondInstaller, PosixByondInstaller>();
 				services.AddSingleton<IPostWriteHandler, PosixPostWriteHandler>();
 

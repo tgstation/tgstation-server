@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 
 using Tgstation.Server.Host.Models;
 
@@ -32,9 +33,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 		}
 
 		/// <inheritdoc />
-		public void Dispose()
-		{
-		}
+		public ValueTask DisposeAsync() => ValueTask.CompletedTask;
 
 		/// <inheritdoc />
 		public void KeepAlive() => throw new NotSupportedException();

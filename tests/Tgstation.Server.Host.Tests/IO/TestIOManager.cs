@@ -1,10 +1,11 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-
-using Remora.Discord.API.Objects;
-
-using System;
+﻿using System;
 using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
+
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using Tgstation.Server.Host.System;
 
@@ -30,6 +31,53 @@ namespace Tgstation.Server.Host.IO.Tests
 				await ioManager.DeleteDirectory(tempPath, default);
 
 				Assert.IsFalse(Directory.Exists(tempPath));
+			}
+			catch
+			{
+				Directory.Delete(tempPath, true);
+				throw;
+			}
+		}
+
+		[TestMethod]
+		public async Task TestDeleteDirectoryWithSymlinkInsideDoesntRecurse()
+		{
+			var linkFactory = (IFilesystemLinkFactory)(new PlatformIdentifier().IsWindows
+				? new WindowsFilesystemLinkFactory()
+				: new PosixFilesystemLinkFactory());
+
+			var tempPath = Path.GetTempFileName();
+			File.Delete(tempPath);
+			Directory.CreateDirectory(tempPath);
+			try
+			{
+				var targetDir = ioManager.ConcatPath(tempPath, "targetdir");
+				await ioManager.CreateDirectory(targetDir, CancellationToken.None);
+				var fileInTargetDir = ioManager.ConcatPath(targetDir, "test1.txt");
+
+				var expectedBytes = Encoding.UTF8.GetBytes("I want to live");
+				await ioManager.WriteAllBytes(fileInTargetDir, expectedBytes, CancellationToken.None);
+
+				var testDir = ioManager.ConcatPath(tempPath, "testdir");
+				await ioManager.CreateDirectory(testDir, CancellationToken.None);
+				var symlinkedFile = ioManager.ConcatPath(testDir, "test1.txt");
+				var symlinkedDir = ioManager.ConcatPath(testDir, "linkedDir");
+
+				await linkFactory.CreateSymbolicLink(targetDir, symlinkedDir, CancellationToken.None);
+				await linkFactory.CreateSymbolicLink(fileInTargetDir, symlinkedFile, CancellationToken.None);
+
+				Assert.IsTrue(await ioManager.DirectoryExists(symlinkedDir, CancellationToken.None));
+				Assert.IsTrue(await ioManager.FileExists(symlinkedFile, CancellationToken.None));
+				Assert.IsTrue(await ioManager.FileExists(ioManager.ConcatPath(symlinkedDir, "test1.txt"), CancellationToken.None));
+				Assert.IsTrue(await ioManager.FileExists(fileInTargetDir, CancellationToken.None));
+
+				await ioManager.DeleteDirectory(testDir, CancellationToken.None);
+
+				Assert.IsFalse(await ioManager.DirectoryExists(symlinkedDir, CancellationToken.None));
+				Assert.IsFalse(await ioManager.FileExists(symlinkedFile, CancellationToken.None));
+				Assert.IsFalse(await ioManager.FileExists(ioManager.ConcatPath(symlinkedDir, "test1.txt"), CancellationToken.None));
+				Assert.IsTrue(await ioManager.FileExists(fileInTargetDir, CancellationToken.None));
+				Assert.IsTrue(expectedBytes.SequenceEqual(await ioManager.ReadAllBytes(fileInTargetDir, CancellationToken.None)));
 			}
 			catch
 			{

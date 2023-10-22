@@ -9,12 +9,16 @@ using Tgstation.Server.Host.System;
 namespace Tgstation.Server.Host.IO
 {
 	/// <summary>
-	/// <see cref="ISymlinkFactory"/> for windows systems.
+	/// <see cref="IFilesystemLinkFactory"/> for windows systems.
 	/// </summary>
-	sealed class WindowsSymlinkFactory : ISymlinkFactory
+	sealed class WindowsFilesystemLinkFactory : IFilesystemLinkFactory
 	{
 		/// <inheritdoc />
 		public bool SymlinkedDirectoriesAreDeletedAsFiles => false;
+
+		/// <inheritdoc />
+		public Task CreateHardLink(string targetPath, string linkPath, CancellationToken cancellationToken)
+			=> throw new NotSupportedException();
 
 		/// <inheritdoc />
 		public Task CreateSymbolicLink(string targetPath, string linkPath, CancellationToken cancellationToken) => Task.Factory.StartNew(
