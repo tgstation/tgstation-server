@@ -3,17 +3,22 @@
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
+using Mono.Unix;
+using Mono.Unix.Native;
+
 using Moq;
 
 using Newtonsoft.Json;
 
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Runtime.InteropServices;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -58,10 +63,11 @@ namespace Tgstation.Server.Tests.Live.Instance
 		readonly bool highPrioDD;
 		readonly TopicClient topicClient;
 		readonly Version testVersion;
+		readonly bool usingBasicWatchdog;
 
 		bool ranTimeoutTest = false;
 
-		public WatchdogTest(Version testVersion, IInstanceClient instanceClient, InstanceManager instanceManager, ushort serverPort, bool highPrioDD, ushort ddPort)
+		public WatchdogTest(Version testVersion, IInstanceClient instanceClient, InstanceManager instanceManager, ushort serverPort, bool highPrioDD, ushort ddPort, bool usingBasicWatchdog)
 			: base(instanceClient.Jobs)
 		{
 			this.instanceClient = instanceClient ?? throw new ArgumentNullException(nameof(instanceClient));
@@ -70,8 +76,9 @@ namespace Tgstation.Server.Tests.Live.Instance
 			this.highPrioDD = highPrioDD;
 			this.ddPort = ddPort;
 			this.testVersion = testVersion ?? throw new ArgumentNullException(nameof(testVersion));
+			this.usingBasicWatchdog = usingBasicWatchdog;
 
-			this.topicClient = new(new SocketParameters
+			topicClient = new(new SocketParameters
 			{
 				SendTimeout = TimeSpan.FromSeconds(30),
 				ReceiveTimeout = TimeSpan.FromSeconds(30),
@@ -469,6 +476,47 @@ namespace Tgstation.Server.Tests.Live.Instance
 				LogOutput = true,
 			}, cancellationToken);
 			Assert.AreEqual(string.Empty, daemonStatus.AdditionalParameters);
+		}
+
+		void TestLinuxIsntBeingFuckingCheekyAboutFilePaths(DreamDaemonResponse currentStatus, CompileJobResponse previousStatus)
+		{
+			if (new PlatformIdentifier().IsWindows || usingBasicWatchdog)
+				return;
+
+			Assert.IsNotNull(currentStatus.ActiveCompileJob);
+			Assert.IsTrue(currentStatus.ActiveCompileJob.DmeName.Contains("long_running_test"));
+			Assert.AreEqual(WatchdogStatus.Online, currentStatus.Status);
+
+			var procs = TestLiveServer.GetDDProcessesOnPort(currentStatus.Port.Value);
+			Assert.AreEqual(1, procs.Count);
+			var failingLinks = new List<string>();
+			using var proc = procs[0];
+			var pid = proc.Id;
+			var foundLivePath = false;
+			var allPaths = new List<string>();
+			foreach (var fd in Directory.EnumerateFiles($"/proc/{pid}/fd"))
+			{
+				var sb = new StringBuilder(UInt16.MaxValue);
+				if (Syscall.readlink(fd, sb) == -1)
+					throw new UnixIOException(Stdlib.GetLastError());
+
+				var path = sb.ToString();
+
+				allPaths.Add($"Path: {path}");
+				if (path.Contains($"Game/{previousStatus.DirectoryName}"))
+					failingLinks.Add($"Found fd {fd} resolving to previous absolute path game dir path: {path}");
+
+				if (path.Contains($"Game/{currentStatus.ActiveCompileJob.DirectoryName}"))
+					failingLinks.Add($"Found fd {fd} resolving to current absolute path game dir path: {path}");
+
+				if (path.Contains($"Game/Live"))
+					foundLivePath = true;
+			}
+
+			if (!foundLivePath)
+				failingLinks.Add($"Failed to find a path containing the 'Live' directory!");
+
+			Assert.IsTrue(failingLinks.Count == 0, String.Join(Environment.NewLine, failingLinks.Concat(allPaths)));
 		}
 
 		async Task RunHealthCheckTest(bool checkDump, CancellationToken cancellationToken)
@@ -900,6 +948,8 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 			Assert.AreNotEqual(initialCompileJob.Id, daemonStatus.ActiveCompileJob.Id);
 			Assert.IsNull(daemonStatus.StagedCompileJob);
+
+			TestLinuxIsntBeingFuckingCheekyAboutFilePaths(daemonStatus, initialCompileJob);
 
 			await instanceClient.DreamDaemon.Shutdown(cancellationToken);
 
