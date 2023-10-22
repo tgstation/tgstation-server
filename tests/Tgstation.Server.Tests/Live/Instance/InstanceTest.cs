@@ -43,6 +43,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			ushort ddPort,
 			bool highPrioDD,
 			bool lowPrioDeployment,
+			bool usingBasicWatchdog,
 			CancellationToken cancellationToken)
 		{
 			var byondTest = new ByondTest(instanceClient.Byond, instanceClient.Jobs, fileDownloader, instanceClient.Metadata);
@@ -67,7 +68,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			await byondTask;
 
 			await new WatchdogTest(
-				await ByondTest.GetEdgeVersion(fileDownloader, cancellationToken), instanceClient, instanceManager, serverPort, highPrioDD, ddPort).Run(cancellationToken);
+				await ByondTest.GetEdgeVersion(fileDownloader, cancellationToken), instanceClient, instanceManager, serverPort, highPrioDD, ddPort, usingBasicWatchdog).Run(cancellationToken);
 		}
 
 		public async Task RunCompatTests(
@@ -76,6 +77,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			ushort dmPort,
 			ushort ddPort,
 			bool highPrioDD,
+			bool usingBasicWatchdog,
 			CancellationToken cancellationToken)
 		{
 			System.Console.WriteLine($"COMPAT TEST START: {compatVersion}");
@@ -189,7 +191,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 			await configSetupTask;
 
-			await new WatchdogTest(compatVersion, instanceClient, instanceManager, serverPort, highPrioDD, ddPort).Run(cancellationToken);
+			await new WatchdogTest(compatVersion, instanceClient, instanceManager, serverPort, highPrioDD, ddPort, usingBasicWatchdog).Run(cancellationToken);
 
 			await instanceManagerClient.Update(new InstanceUpdateRequest
 			{

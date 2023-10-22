@@ -164,7 +164,7 @@ namespace Tgstation.Server.Api
 		/// <param name="requestHeaders">The <see cref="RequestHeaders"/> containing the serialized <see cref="ApiHeaders"/>.</param>
 		/// <param name="ignoreMissingAuth">If a missing <see cref="HeaderNames.Authorization"/> should be ignored.</param>
 		/// <exception cref="HeadersException">Thrown if the <paramref name="requestHeaders"/> constitue invalid <see cref="ApiHeaders"/>.</exception>
-#pragma warning disable CA1502
+#pragma warning disable CA1502 // TODO: Decomplexify
 		public ApiHeaders(RequestHeaders requestHeaders, bool ignoreMissingAuth = false)
 		{
 			if (requestHeaders == null)
