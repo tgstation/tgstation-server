@@ -247,7 +247,6 @@ namespace Tgstation.Server.Host.Core
 			services
 				.AddMvc(options =>
 				{
-					options.EnableEndpointRouting = false;
 					options.ReturnHttpNotAcceptable = true;
 					options.RespectBrowserAcceptHeader = true;
 				})
@@ -517,14 +516,24 @@ namespace Tgstation.Server.Host.Core
 			// Do not cache a single thing beyond this point, it's all API
 			applicationBuilder.UseDisabledClientCache();
 
+			// Stack overflow said this needs to go here and removing it breaks things: https://stackoverflow.com/questions/73736879/invalidoperationexception-endpointroutingmiddleware-matches-endpoints-setup-by
+			applicationBuilder.UseRouting();
+
 			// authenticate JWT tokens using our security pipeline if present, returns 401 if bad
 			applicationBuilder.UseAuthentication();
+
+			// enable authorization on endpoints
+			applicationBuilder.UseAuthorization();
 
 			// suppress and log database exceptions
 			applicationBuilder.UseDbConflictHandling();
 
-			// majority of handling is done in the controllers
-			applicationBuilder.UseMvc();
+			// setup endpoints
+			applicationBuilder.UseEndpoints(endpoints =>
+			{
+				// majority of handling is done in the controllers
+				endpoints.MapControllers();
+			});
 
 			// 404 anything that gets this far
 			// End of request pipeline setup
