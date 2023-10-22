@@ -401,14 +401,15 @@ Once complete, test that your configuration worked by visiting your proxy site f
 #### Caddy (Reccommended for Linux, or those unfamilar with configuring NGINX or Apache)
 
 1. Setup a basic website configuration. Instructions on how to do so are out of scope.
-2. In your Caddyfile, under a server entry, add the following (replace 8080 with the port TGS is hosted on):
+2. In your Caddyfile, under a server entry, add the following (replace 5000 with the port TGS is hosted on):
 ```
-proxy /tgs localhost:8080 {
-	transparent
+https://your.site.here {
+        reverse_proxy localhost:5000
 }
 ```
+3. For this setup, your configuration's `ControlPanel:PublicPath` needs to be blank. If you have a path in `PublicPath`, it needs to be in "reverse_proxy PublicPathHere localhost:5000".
 
-See https://caddyserver.com/docs/proxy
+See https://caddyserver.com/docs/caddyfile/directives/reverse_proxy
 
 #### NGINX (Reccommended for Linux)
 
