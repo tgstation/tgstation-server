@@ -31,6 +31,23 @@
 	if(!fexists("[DME_NAME].rsc"))
 		FailTest("Failed to create .rsc!")
 
+#ifdef RUN_STATIC_FILE_TESTS
+	if(params["expect_static_files"])
+		if(!fexists("test2.txt"))
+			FailTest("Missing test2.txt")
+
+		var/f2content = file2text("test2.txt")
+		if(f2content != "bbb")
+			FailTest("Unexpected test2.txt content: [f2content]")
+
+		if(!fexists("data/test.txt"))
+			FailTest("Missing data/test.txt")
+
+		var/f1content = file2text("data/test.txt")
+		if(f1content != "aaa")
+			FailTest("Unexpected data/test.txt content: [f1content]")
+#endif
+
 	StartAsync()
 
 /proc/dab()
