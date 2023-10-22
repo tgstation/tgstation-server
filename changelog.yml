@@ -3536,6 +3536,13 @@ Components:
       Author: Cyberboss
       PullRequest: 991
   DreamMakerApi:
+  - Version: 6.6.0
+    Changes:
+    - Descriptions:
+      - Added `/world/proc/TgsVisibility()` which provides the DreamDaemon visibility level for the running server.
+      Author: Cyberboss
+      PullRequest: 1682
+    Unreleased: true
   - Version: 6.5.4
     Changes:
     - Descriptions:
