@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
+using System.Runtime.Versioning;
 using System.Threading;
 using System.Threading.Tasks;
 
 using Microsoft.Extensions.Logging;
 
+using Tgstation.Server.Api.Models;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.IO;
@@ -18,6 +20,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 	/// <summary>
 	/// A <see cref="IDmbProvider"/> that uses hard links.
 	/// </summary>
+	[UnsupportedOSPlatform("windows")]
 	sealed class HardLinkDmbProvider : SwappableDmbProvider
 	{
 		/// <summary>
@@ -96,6 +99,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 		/// <inheritdoc />
 		protected override async Task DoSwap(CancellationToken cancellationToken)
 		{
+			logger.LogTrace("Begin DoSwap, mirroring task complete: {complete}...", mirroringTask.IsCompleted);
 			var mirroredDir = await mirroringTask.WaitAsync(cancellationToken);
 			var goAheadTcs = new TaskCompletionSource();
 
@@ -103,12 +107,15 @@ namespace Tgstation.Server.Host.Components.Deployment
 			async void DisposeOfOldDirectory()
 			{
 				var directoryMoved = false;
-				var disposePath = Guid.NewGuid().ToString();
+				var disposeGuid = Guid.NewGuid();
+				var disposePath = disposeGuid.ToString();
+				logger.LogTrace("Moving Live directory to {path} for deletion...", disposeGuid);
 				try
 				{
 					await IOManager.MoveDirectory(LiveGameDirectory, disposePath, cancellationToken);
 					directoryMoved = true;
 					goAheadTcs.SetResult();
+					logger.LogTrace("Deleting old Live directory {path}...", disposePath);
 					await IOManager.DeleteDirectory(disposePath, CancellationToken.None); // DCT: We're detached at this point
 				}
 				catch (DirectoryNotFoundException ex)
@@ -127,7 +134,9 @@ namespace Tgstation.Server.Host.Components.Deployment
 
 			DisposeOfOldDirectory();
 			await goAheadTcs.Task;
+			logger.LogTrace("Moving mirror directory {path} to Live...", mirroredDir);
 			await IOManager.MoveDirectory(mirroredDir, LiveGameDirectory, cancellationToken);
+			logger.LogTrace("Swap complete!");
 		}
 
 		/// <summary>
@@ -173,17 +182,40 @@ namespace Tgstation.Server.Host.Components.Deployment
 		{
 			var dir = new DirectoryInfo(src);
 			Task subdirCreationTask = null;
+			var dreamDaemonWillAcceptOutOfDirectorySymlinks = CompileJob.MinimumSecurityLevel == DreamDaemonSecurity.Trusted;
 			foreach (var subDirectory in dir.EnumerateDirectories())
 			{
+				var mirroredName = Path.Combine(dest, subDirectory.Name);
+
 				// check if we are a symbolic link
-				if (!subDirectory.Attributes.HasFlag(FileAttributes.Directory) || subDirectory.Attributes.HasFlag(FileAttributes.ReparsePoint))
-				{
-					logger.LogTrace("Skipping symlink to {subdir}", subDirectory.Name);
-					continue;
-				}
+				if (subDirectory.Attributes.HasFlag(FileAttributes.ReparsePoint))
+					if (dreamDaemonWillAcceptOutOfDirectorySymlinks)
+					{
+						var target = subDirectory.ResolveLinkTarget(false);
+						logger.LogDebug("Recreating directory {name} as symlink to {target}", subDirectory.Name, target);
+						if (subdirCreationTask == null)
+						{
+							subdirCreationTask = IOManager.CreateDirectory(dest, cancellationToken);
+							yield return subdirCreationTask;
+						}
+
+						async Task CopyLink()
+						{
+							await subdirCreationTask.WaitAsync(cancellationToken);
+							using var lockContext = semaphore != null
+								? await SemaphoreSlimContext.Lock(semaphore, cancellationToken)
+								: null;
+							await LinkFactory.CreateSymbolicLink(target.FullName, mirroredName, cancellationToken);
+						}
+
+						yield return CopyLink();
+						continue;
+					}
+					else
+						logger.LogDebug("Recreating symlinked directory {name} as hard links...", subDirectory.Name);
 
 				var checkingSubdirCreationTask = true;
-				foreach (var copyTask in MirrorDirectoryImpl(subDirectory.FullName, Path.Combine(dest, subDirectory.Name), semaphore, cancellationToken))
+				foreach (var copyTask in MirrorDirectoryImpl(subDirectory.FullName, mirroredName, semaphore, cancellationToken))
 				{
 					if (subdirCreationTask == null)
 					{
@@ -214,7 +246,24 @@ namespace Tgstation.Server.Host.Components.Deployment
 					using var lockContext = semaphore != null
 						? await SemaphoreSlimContext.Lock(semaphore, cancellationToken)
 						: null;
-					await LinkFactory.CreateHardLink(sourceFile, destFile, cancellationToken);
+
+					if (fileInfo.Attributes.HasFlag(FileAttributes.ReparsePoint))
+					{
+						// AHHHHHHHHHHHHH
+						var target = fileInfo.ResolveLinkTarget(!dreamDaemonWillAcceptOutOfDirectorySymlinks);
+						if (dreamDaemonWillAcceptOutOfDirectorySymlinks)
+						{
+							logger.LogDebug("Recreating symlinked file {name} as symlink to {target}", fileInfo.Name, target.FullName);
+							await LinkFactory.CreateSymbolicLink(target.FullName, destFile, cancellationToken);
+						}
+						else
+						{
+							logger.LogDebug("Recreating symlinked file {name} as hard link to {target}", fileInfo.Name, target.FullName);
+							await LinkFactory.CreateHardLink(target.FullName, destFile, cancellationToken);
+						}
+					}
+					else
+						await LinkFactory.CreateHardLink(sourceFile, destFile, cancellationToken);
 				}
 
 				yield return LinkThisFile();
