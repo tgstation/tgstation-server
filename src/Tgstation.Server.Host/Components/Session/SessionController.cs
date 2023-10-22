@@ -168,6 +168,11 @@ namespace Tgstation.Server.Host.Components.Session
 		readonly object synchronizationLock;
 
 		/// <summary>
+		/// If this session is meant to validate the presence of the DMAPI.
+		/// </summary>
+		readonly bool apiValidationSession;
+
+		/// <summary>
 		/// The <see cref="TaskCompletionSource{TResult}"/> <see cref="SetPort(ushort, CancellationToken)"/> waits on when DreamDaemon currently has it's ports closed.
 		/// </summary>
 		TaskCompletionSource<bool> portAssignmentTcs;
@@ -244,7 +249,7 @@ namespace Tgstation.Server.Host.Components.Session
 		/// <param name="postLifetimeCallback">The <see cref="Func{TResult}"/> returning a <see cref="Task"/> to be run after the <paramref name="process"/> ends.</param>
 		/// <param name="startupTimeout">The optional time to wait before failing the <see cref="LaunchResult"/>.</param>
 		/// <param name="reattached">If this is a reattached session.</param>
-		/// <param name="apiValidate">If this is a DMAPI validation session.</param>
+		/// <param name="apiValidate">The value of <see cref="apiValidationSession"/>.</param>
 		public SessionController(
 			ReattachInformation reattachInformation,
 			Api.Models.Instance metadata,
@@ -276,6 +281,8 @@ namespace Tgstation.Server.Host.Components.Session
 
 			this.asyncDelayer = asyncDelayer ?? throw new ArgumentNullException(nameof(asyncDelayer));
 
+			apiValidationSession = apiValidate;
+
 			portClosedForReboot = false;
 			disposed = false;
 			apiValidationStatus = ApiValidationStatus.NeverValidated;
@@ -296,7 +303,7 @@ namespace Tgstation.Server.Host.Components.Session
 			topicSendSemaphore = new FifoSemaphore();
 			synchronizationLock = new object();
 
-			if (apiValidate || DMApiAvailable)
+			if (apiValidationSession || DMApiAvailable)
 			{
 				bridgeRegistration = bridgeRegistrar.RegisterHandler(this);
 				this.chatTrackingContext.SetChannelSink(this);
@@ -775,9 +782,16 @@ namespace Tgstation.Server.Host.Components.Session
 
 					break;
 				case BridgeCommandType.Startup:
-					var proceedTcs = new TaskCompletionSource<bool>();
-					var firstValidationRequest = Interlocked.CompareExchange(ref postValidationShutdownTask, PostValidationShutdown(proceedTcs.Task), null) == null;
-					proceedTcs.SetResult(firstValidationRequest);
+					bool firstValidationRequest;
+					if (apiValidationSession)
+					{
+						var proceedTcs = new TaskCompletionSource<bool>();
+						firstValidationRequest = Interlocked.CompareExchange(ref postValidationShutdownTask, PostValidationShutdown(proceedTcs.Task), null) == null;
+						proceedTcs.SetResult(firstValidationRequest);
+					}
+					else
+						firstValidationRequest = Interlocked.CompareExchange(ref postValidationShutdownTask, Task.CompletedTask, null) == null;
+
 					apiValidationStatus = ApiValidationStatus.BadValidationRequest;
 
 					if (!firstValidationRequest)
