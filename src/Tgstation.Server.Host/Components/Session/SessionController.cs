@@ -782,20 +782,16 @@ namespace Tgstation.Server.Host.Components.Session
 
 					break;
 				case BridgeCommandType.Startup:
-					bool firstValidationRequest;
+					apiValidationStatus = ApiValidationStatus.BadValidationRequest;
 					if (apiValidationSession)
 					{
 						var proceedTcs = new TaskCompletionSource<bool>();
-						firstValidationRequest = Interlocked.CompareExchange(ref postValidationShutdownTask, PostValidationShutdown(proceedTcs.Task), null) == null;
+						var firstValidationRequest = Interlocked.CompareExchange(ref postValidationShutdownTask, PostValidationShutdown(proceedTcs.Task), null) == null;
 						proceedTcs.SetResult(firstValidationRequest);
+
+						if (!firstValidationRequest)
+							return BridgeError("Startup bridge request was repeated!");
 					}
-					else
-						firstValidationRequest = Interlocked.CompareExchange(ref postValidationShutdownTask, Task.CompletedTask, null) == null;
-
-					apiValidationStatus = ApiValidationStatus.BadValidationRequest;
-
-					if (!firstValidationRequest)
-						return BridgeError("Startup bridge request was repeated!");
 
 					if (parameters.Version == null)
 						return BridgeError("Missing dmApiVersion field!");
