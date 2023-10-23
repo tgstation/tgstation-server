@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.16.2</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.16.4</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -102,6 +102,9 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">interface &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_file_stream_provider.html">IFileStreamProvider</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Interface for asynchronously consuming <a class="el" href="class_stream.html">Stream</a>s of files.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_file_stream_provider.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">interface &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_filesystem_link_factory.html">IFilesystemLinkFactory</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">For creating filesystem symbolic links.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_filesystem_link_factory.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">interface &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html">IIOManager</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Interface for using filesystems.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -111,17 +114,14 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">interface &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_seekable_file_stream_provider.html">ISeekableFileStreamProvider</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_file_stream_provider.html" title="Interface for asynchronously consuming Streams of files.">IFileStreamProvider</a> that provides MemoryStreams.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_seekable_file_stream_provider.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">interface &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_symlink_factory.html">ISymlinkFactory</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">For creating filesystem symbolic links.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_symlink_factory.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">interface &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_synchronous_i_o_manager.html">ISynchronousIOManager</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">For accessing the disk in a synchronous manner.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_synchronous_i_o_manager.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_posix_filesystem_link_factory.html">PosixFilesystemLinkFactory</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_filesystem_link_factory.html" title="For creating filesystem symbolic links.">IFilesystemLinkFactory</a> for POSIX systems.   <a href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_posix_filesystem_link_factory.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_posix_post_write_handler.html">PosixPostWriteHandler</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_post_write_handler.html" title="Handles changing file modes/permissions after writing.">IPostWriteHandler</a> for POSIX systems.   <a href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_posix_post_write_handler.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_posix_symlink_factory.html">PosixSymlinkFactory</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_symlink_factory.html" title="For creating filesystem symbolic links.">ISymlinkFactory</a> for posix systems.   <a href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_posix_symlink_factory.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_request_file_stream_provider.html">RequestFileStreamProvider</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_file_stream_provider.html" title="Interface for asynchronously consuming Streams of files.">IFileStreamProvider</a> that represents the response of HttpRequestMessages.   <a href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_request_file_stream_provider.html#details">More...</a><br /></td></tr>
@@ -131,11 +131,11 @@ Classes</h2></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_synchronous_i_o_manager.html">SynchronousIOManager</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_windows_filesystem_link_factory.html">WindowsFilesystemLinkFactory</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_filesystem_link_factory.html" title="For creating filesystem symbolic links.">IFilesystemLinkFactory</a> for windows systems.   <a href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_windows_filesystem_link_factory.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_windows_post_write_handler.html">WindowsPostWriteHandler</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_post_write_handler.html" title="Handles changing file modes/permissions after writing.">IPostWriteHandler</a> for Windows systems.   <a href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_windows_post_write_handler.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_windows_symlink_factory.html">WindowsSymlinkFactory</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_symlink_factory.html" title="For creating filesystem symbolic links.">ISymlinkFactory</a> for windows systems.   <a href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_windows_symlink_factory.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 </div><!-- contents -->

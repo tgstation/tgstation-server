@@ -1,4 +1,4 @@
 <map id="Tgstation.Server.Host.Components.Deployment.IDmbProvider" name="Tgstation.Server.Host.Components.Deployment.IDmbProvider">
 <area shape="rect" id="node1" title="Provides absolute paths to the latest compiled .dmbs." alt="" coords="5,79,232,119"/>
-<area shape="rect" id="node2" href="$class_i_disposable.html" title=" " alt="" coords="73,5,164,31"/>
+<area shape="rect" id="node2" href="$class_i_async_disposable.html" title=" " alt="" coords="55,5,182,31"/>
 </map>

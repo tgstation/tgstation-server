@@ -1,0 +1,5 @@
+<map id="Tgstation.Server.Host.Components.Session.SessionController.PostValidationShutdown" name="Tgstation.Server.Host.Components.Session.SessionController.PostValidationShutdown">
+<area shape="rect" id="node1" title="Terminates the server after ten seconds if it does not exit." alt="" coords="627,29,888,84"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#ad208c7227af2aa22764e76a693349584" title="Handle a set of bridge parameters ." alt="" coords="316,29,579,84"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#ae703bebe71c30945a241d2d3503353f4" title="Handle a set of bridge parameters . A ValueTask&lt;TResult&gt; resulting in the BridgeResponse for the requ..." alt="" coords="5,29,268,84"/>
+</map>

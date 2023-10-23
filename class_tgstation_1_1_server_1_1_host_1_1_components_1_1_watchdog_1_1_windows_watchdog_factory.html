@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.16.2</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.16.4</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -82,14 +82,14 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
-<p><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_watchdog_factory.html" title="For creating IWatchdogs.">IWatchdogFactory</a> for creating <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_windows_watchdog.html" title="A IWatchdog that, instead of killing servers for updates, uses the wonders of symlinks to swap out ch...">WindowsWatchdog</a>s.   
+<p><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_watchdog_factory.html" title="For creating IWatchdogs.">IWatchdogFactory</a> for creating <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_advanced_watchdog.html" title="A IWatchdog that, instead of killing servers for updates, uses the wonders of filesystem links to swa...">AdvancedWatchdog</a>s.   
  <a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_windows_watchdog_factory.html#details">More...</a></p>
 <div class="dynheader">
 Inheritance diagram for Tgstation.Server.Host.Components.Watchdog.WindowsWatchdogFactory:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_windows_watchdog_factory__inherit__graph.png" border="0" usemap="#a_tgstation_8_server_8_host_8_components_8_watchdog_8_windows_watchdog_factory_inherit__map" alt="Inheritance graph"/></div>
 <map name="a_tgstation_8_server_8_host_8_components_8_watchdog_8_windows_watchdog_factory_inherit__map" id="a_tgstation_8_server_8_host_8_components_8_watchdog_8_windows_watchdog_factory_inherit__map">
-<area shape="rect" title="IWatchdogFactory for creating WindowsWatchdogs." alt="" coords="5,152,243,192"/>
+<area shape="rect" title="IWatchdogFactory for creating AdvancedWatchdogs." alt="" coords="5,152,243,192"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_posix_watchdog_factory.html" title="IWatchdogFactory for creating PosixWatchdogs." alt="" coords="11,240,237,280"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_factory.html" title=" " alt="" coords="63,79,185,104"/>
 <area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_watchdog_factory.html" title="For creating IWatchdogs." alt="" coords="61,5,187,31"/>
@@ -100,7 +100,7 @@ Collaboration diagram for Tgstation.Server.Host.Components.Watchdog.WindowsWatch
 <div class="dyncontent">
 <div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_windows_watchdog_factory__coll__graph.png" border="0" usemap="#a_tgstation_8_server_8_host_8_components_8_watchdog_8_windows_watchdog_factory_coll__map" alt="Collaboration graph"/></div>
 <map name="a_tgstation_8_server_8_host_8_components_8_watchdog_8_windows_watchdog_factory_coll__map" id="a_tgstation_8_server_8_host_8_components_8_watchdog_8_windows_watchdog_factory_coll__map">
-<area shape="rect" title="IWatchdogFactory for creating WindowsWatchdogs." alt="" coords="5,152,243,192"/>
+<area shape="rect" title="IWatchdogFactory for creating AdvancedWatchdogs." alt="" coords="5,152,243,192"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_factory.html" title=" " alt="" coords="63,79,185,104"/>
 <area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_watchdog_factory.html" title="For creating IWatchdogs." alt="" coords="61,5,187,31"/>
 </map>
@@ -108,9 +108,9 @@ Collaboration diagram for Tgstation.Server.Host.Components.Watchdog.WindowsWatch
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a4d5807c151983860963c9562ec0cd8ef"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_windows_watchdog_factory.html#a4d5807c151983860963c9562ec0cd8ef">WindowsWatchdogFactory</a> (<a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_control.html">IServerControl</a> serverControl, ILoggerFactory loggerFactory, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html">IJobManager</a> jobManager, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_async_delayer.html">IAsyncDelayer</a> asyncDelayer, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_symlink_factory.html">ISymlinkFactory</a> symlinkFactory, IOptions&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html">GeneralConfiguration</a> &gt; generalConfigurationOptions)</td></tr>
-<tr class="memdesc:a4d5807c151983860963c9562ec0cd8ef"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes a new instance of the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_windows_watchdog_factory.html" title="IWatchdogFactory for creating WindowsWatchdogs.">WindowsWatchdogFactory</a> class.   <a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_windows_watchdog_factory.html#a4d5807c151983860963c9562ec0cd8ef">More...</a><br /></td></tr>
-<tr class="separator:a4d5807c151983860963c9562ec0cd8ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8652e317f9a3bed7f817dc9b8a7703d9"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_windows_watchdog_factory.html#a8652e317f9a3bed7f817dc9b8a7703d9">WindowsWatchdogFactory</a> (<a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_control.html">IServerControl</a> serverControl, ILoggerFactory loggerFactory, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html">IJobManager</a> jobManager, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_async_delayer.html">IAsyncDelayer</a> asyncDelayer, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_filesystem_link_factory.html">IFilesystemLinkFactory</a> symlinkFactory, IOptions&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html">GeneralConfiguration</a> &gt; generalConfigurationOptions)</td></tr>
+<tr class="memdesc:a8652e317f9a3bed7f817dc9b8a7703d9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes a new instance of the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_windows_watchdog_factory.html" title="IWatchdogFactory for creating AdvancedWatchdogs.">WindowsWatchdogFactory</a> class.   <a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_windows_watchdog_factory.html#a8652e317f9a3bed7f817dc9b8a7703d9">More...</a><br /></td></tr>
+<tr class="separator:a8652e317f9a3bed7f817dc9b8a7703d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7f0cf55892e0d05e4f1984e9fc516623"><td class="memItemLeft" align="right" valign="top">override <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_watchdog.html">IWatchdog</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_windows_watchdog_factory.html#a7f0cf55892e0d05e4f1984e9fc516623">CreateWatchdog</a> (<a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager.html">IChatManager</a> chat, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_dmb_factory.html">IDmbFactory</a> dmbFactory, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_i_session_persistor.html">ISessionPersistor</a> sessionPersistor, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_i_session_controller_factory.html">ISessionControllerFactory</a> sessionControllerFactory, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html">IIOManager</a> gameIOManager, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html">IIOManager</a> diagnosticsIOManager, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html">IEventConsumer</a> eventConsumer, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_i_remote_deployment_manager_factory.html">IRemoteDeploymentManagerFactory</a> remoteDeploymentManagerFactory, <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html">Api.Models.Instance</a> instance, <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_dream_daemon_settings.html">DreamDaemonSettings</a> settings)</td></tr>
 <tr class="memdesc:a7f0cf55892e0d05e4f1984e9fc516623"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_watchdog.html" title="Runs and monitors the twin server controllers.">IWatchdog</a>. <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -159,9 +159,9 @@ Public Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="properties" name="properties"></a>
 Properties</h2></td></tr>
-<tr class="memitem:a3fcbf9a187ea2b1d389a2543b841ccef"><td class="memItemLeft" align="right" valign="top"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_symlink_factory.html">ISymlinkFactory</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_windows_watchdog_factory.html#a3fcbf9a187ea2b1d389a2543b841ccef">SymlinkFactory</a><code> [get]</code></td></tr>
-<tr class="memdesc:a3fcbf9a187ea2b1d389a2543b841ccef"><td class="mdescLeft">&#160;</td><td class="mdescRight">The ISymlinkFactory for the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_windows_watchdog_factory.html" title="IWatchdogFactory for creating WindowsWatchdogs.">WindowsWatchdogFactory</a>.   <a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_windows_watchdog_factory.html#a3fcbf9a187ea2b1d389a2543b841ccef">More...</a><br /></td></tr>
-<tr class="separator:a3fcbf9a187ea2b1d389a2543b841ccef"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0efed4854e569515309f774969cca52e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_filesystem_link_factory.html">IFilesystemLinkFactory</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_windows_watchdog_factory.html#a0efed4854e569515309f774969cca52e">LinkFactory</a><code> [get]</code></td></tr>
+<tr class="memdesc:a0efed4854e569515309f774969cca52e"><td class="mdescLeft">&#160;</td><td class="mdescRight">The IFilesystemLinkFactory for the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_windows_watchdog_factory.html" title="IWatchdogFactory for creating AdvancedWatchdogs.">WindowsWatchdogFactory</a>.   <a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_windows_watchdog_factory.html#a0efed4854e569515309f774969cca52e">More...</a><br /></td></tr>
+<tr class="separator:a0efed4854e569515309f774969cca52e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header properties_class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_factory"><td colspan="2" onclick="javascript:toggleInherit('properties_class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_factory')"><img src="closed.png" alt="-"/>&#160;Properties inherited from <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_factory.html">Tgstation.Server.Host.Components.Watchdog.WatchdogFactory</a></td></tr>
 <tr class="memitem:a83607d97387c92ed33c6640f0cd4ee1a inherit properties_class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_factory"><td class="memItemLeft" align="right" valign="top"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_control.html">IServerControl</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_factory.html#a83607d97387c92ed33c6640f0cd4ee1a">ServerControl</a><code> [get]</code></td></tr>
 <tr class="memdesc:a83607d97387c92ed33c6640f0cd4ee1a inherit properties_class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_factory"><td class="mdescLeft">&#160;</td><td class="mdescRight">The IServerControl for the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_factory.html">WatchdogFactory</a>.   <a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_factory.html#a83607d97387c92ed33c6640f0cd4ee1a">More...</a><br /></td></tr>
@@ -180,12 +180,12 @@ Properties</h2></td></tr>
 <tr class="separator:aa163ef7f1b2ec0e29736e7cfcfd20f03 inherit properties_class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_factory"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p ><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_watchdog_factory.html" title="For creating IWatchdogs.">IWatchdogFactory</a> for creating <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_windows_watchdog.html" title="A IWatchdog that, instead of killing servers for updates, uses the wonders of symlinks to swap out ch...">WindowsWatchdog</a>s.  </p>
+<div class="textblock"><p ><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_watchdog_factory.html" title="For creating IWatchdogs.">IWatchdogFactory</a> for creating <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_advanced_watchdog.html" title="A IWatchdog that, instead of killing servers for updates, uses the wonders of filesystem links to swa...">AdvancedWatchdog</a>s.  </p>
 
 <p class="definition">Definition at line <a class="el" href="_windows_watchdog_factory_8cs_source.html#l00023">23</a> of file <a class="el" href="_windows_watchdog_factory_8cs_source.html">WindowsWatchdogFactory.cs</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a4d5807c151983860963c9562ec0cd8ef" name="a4d5807c151983860963c9562ec0cd8ef"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4d5807c151983860963c9562ec0cd8ef">&#9670;&#160;</a></span>WindowsWatchdogFactory()</h2>
+<a id="a8652e317f9a3bed7f817dc9b8a7703d9" name="a8652e317f9a3bed7f817dc9b8a7703d9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8652e317f9a3bed7f817dc9b8a7703d9">&#9670;&#160;</a></span>WindowsWatchdogFactory()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -217,7 +217,7 @@ Properties</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_symlink_factory.html">ISymlinkFactory</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_filesystem_link_factory.html">IFilesystemLinkFactory</a>&#160;</td>
           <td class="paramname"><em>symlinkFactory</em>, </td>
         </tr>
         <tr>
@@ -234,14 +234,14 @@ Properties</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Initializes a new instance of the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_windows_watchdog_factory.html" title="IWatchdogFactory for creating WindowsWatchdogs.">WindowsWatchdogFactory</a> class.  </p>
+<p>Initializes a new instance of the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_windows_watchdog_factory.html" title="IWatchdogFactory for creating AdvancedWatchdogs.">WindowsWatchdogFactory</a> class.  </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">serverControl</td><td>The IServerControl for the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_factory.html">WatchdogFactory</a>.</td></tr>
     <tr><td class="paramname">loggerFactory</td><td>The ILoggerFactory for the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_factory.html">WatchdogFactory</a>.</td></tr>
     <tr><td class="paramname">jobManager</td><td>The IJobManager for the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_factory.html">WatchdogFactory</a>.</td></tr>
     <tr><td class="paramname">asyncDelayer</td><td>The IAsyncDelayer for the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_factory.html">WatchdogFactory</a>.</td></tr>
-    <tr><td class="paramname">symlinkFactory</td><td>The value of <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_windows_watchdog_factory.html#a3fcbf9a187ea2b1d389a2543b841ccef" title="The ISymlinkFactory for the WindowsWatchdogFactory.">SymlinkFactory</a>.</td></tr>
+    <tr><td class="paramname">symlinkFactory</td><td>The value of <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_windows_watchdog_factory.html#a0efed4854e569515309f774969cca52e" title="The IFilesystemLinkFactory for the WindowsWatchdogFactory.">LinkFactory</a>.</td></tr>
     <tr><td class="paramname">generalConfigurationOptions</td><td>The IOptions&lt;TOptions&gt; for <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_factory.html#aa163ef7f1b2ec0e29736e7cfcfd20f03" title="The Configuration.GeneralConfiguration for the WatchdogFactory.">GeneralConfiguration</a> for the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_factory.html">WatchdogFactory</a>.</td></tr>
   </table>
   </dd>
@@ -255,11 +255,11 @@ Properties</h2></td></tr>
 <div class="line"><span class="lineno">   50</span>                asyncDelayer,</div>
 <div class="line"><span class="lineno">   51</span>                generalConfigurationOptions)</div>
 <div class="line"><span class="lineno">   52</span>        {</div>
-<div class="line"><span class="lineno">   53</span>            <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_windows_watchdog_factory.html#a3fcbf9a187ea2b1d389a2543b841ccef">SymlinkFactory</a> = symlinkFactory ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(symlinkFactory));</div>
+<div class="line"><span class="lineno">   53</span>            <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_windows_watchdog_factory.html#a0efed4854e569515309f774969cca52e">LinkFactory</a> = symlinkFactory ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(symlinkFactory));</div>
 <div class="line"><span class="lineno">   54</span>        }</div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_windows_watchdog_factory_html_a3fcbf9a187ea2b1d389a2543b841ccef"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_windows_watchdog_factory.html#a3fcbf9a187ea2b1d389a2543b841ccef">Tgstation.Server.Host.Components.Watchdog.WindowsWatchdogFactory.SymlinkFactory</a></div><div class="ttdeci">ISymlinkFactory SymlinkFactory</div><div class="ttdoc">The ISymlinkFactory for the WindowsWatchdogFactory.</div><div class="ttdef"><b>Definition:</b> <a href="_windows_watchdog_factory_8cs_source.html#l00028">WindowsWatchdogFactory.cs:28</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_windows_watchdog_factory_html_a0efed4854e569515309f774969cca52e"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_windows_watchdog_factory.html#a0efed4854e569515309f774969cca52e">Tgstation.Server.Host.Components.Watchdog.WindowsWatchdogFactory.LinkFactory</a></div><div class="ttdeci">IFilesystemLinkFactory LinkFactory</div><div class="ttdoc">The IFilesystemLinkFactory for the WindowsWatchdogFactory.</div><div class="ttdef"><b>Definition:</b> <a href="_windows_watchdog_factory_8cs_source.html#l00028">WindowsWatchdogFactory.cs:28</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_windows_watchdog_factory_8cs_source.html#l00028">Tgstation.Server.Host.Components.Watchdog.WindowsWatchdogFactory.SymlinkFactory</a>.</p>
+<p class="reference">References <a class="el" href="_windows_watchdog_factory_8cs_source.html#l00028">Tgstation.Server.Host.Components.Watchdog.WindowsWatchdogFactory.LinkFactory</a>.</p>
 
 </div>
 </div>
@@ -369,8 +369,8 @@ Properties</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Property Documentation</h2>
-<a id="a3fcbf9a187ea2b1d389a2543b841ccef" name="a3fcbf9a187ea2b1d389a2543b841ccef"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3fcbf9a187ea2b1d389a2543b841ccef">&#9670;&#160;</a></span>SymlinkFactory</h2>
+<a id="a0efed4854e569515309f774969cca52e" name="a0efed4854e569515309f774969cca52e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0efed4854e569515309f774969cca52e">&#9670;&#160;</a></span>LinkFactory</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -379,7 +379,7 @@ Properties</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_symlink_factory.html">ISymlinkFactory</a> Tgstation.Server.Host.Components.Watchdog.WindowsWatchdogFactory.SymlinkFactory</td>
+          <td class="memname"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_filesystem_link_factory.html">IFilesystemLinkFactory</a> Tgstation.Server.Host.Components.Watchdog.WindowsWatchdogFactory.LinkFactory</td>
         </tr>
       </table>
   </td>
@@ -389,7 +389,7 @@ Properties</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>The ISymlinkFactory for the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_windows_watchdog_factory.html" title="IWatchdogFactory for creating WindowsWatchdogs.">WindowsWatchdogFactory</a>.  </p>
+<p>The IFilesystemLinkFactory for the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_windows_watchdog_factory.html" title="IWatchdogFactory for creating AdvancedWatchdogs.">WindowsWatchdogFactory</a>.  </p>
 
 <p class="definition">Definition at line <a class="el" href="_windows_watchdog_factory_8cs_source.html#l00028">28</a> of file <a class="el" href="_windows_watchdog_factory_8cs_source.html">WindowsWatchdogFactory.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   28</span>{ <span class="keyword">get</span>; }</div>

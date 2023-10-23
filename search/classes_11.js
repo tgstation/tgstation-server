@@ -70,6 +70,7 @@ var searchData=
   ['swarmservice_67',['SwarmService',['../class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html',1,'Tgstation::Server::Host::Swarm']]],
   ['swarmupdateoperation_68',['SwarmUpdateOperation',['../class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_update_operation.html',1,'Tgstation::Server::Host::Swarm']]],
   ['swarmupdaterequest_69',['SwarmUpdateRequest',['../class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_update_request.html',1,'Tgstation::Server::Host::Swarm']]],
-  ['synchronousiomanager_70',['SynchronousIOManager',['../class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_synchronous_i_o_manager.html',1,'Tgstation::Server::Host::IO']]],
-  ['systemdmanager_71',['SystemDManager',['../class_tgstation_1_1_server_1_1_host_1_1_system_1_1_system_d_manager.html',1,'Tgstation::Server::Host::System']]]
+  ['symlinkdmbprovider_70',['SymlinkDmbProvider',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_symlink_dmb_provider.html',1,'Tgstation::Server::Host::Components::Deployment']]],
+  ['synchronousiomanager_71',['SynchronousIOManager',['../class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_synchronous_i_o_manager.html',1,'Tgstation::Server::Host::IO']]],
+  ['systemdmanager_72',['SystemDManager',['../class_tgstation_1_1_server_1_1_host_1_1_system_1_1_system_d_manager.html',1,'Tgstation::Server::Host::System']]]
 ];

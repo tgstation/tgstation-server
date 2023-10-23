@@ -52,6 +52,7 @@ var searchData=
   ['swarmupdateabortresult_2ecs_49',['SwarmUpdateAbortResult.cs',['../_swarm_update_abort_result_8cs.html',1,'']]],
   ['swarmupdateoperation_2ecs_50',['SwarmUpdateOperation.cs',['../_swarm_update_operation_8cs.html',1,'']]],
   ['swarmupdaterequest_2ecs_51',['SwarmUpdateRequest.cs',['../_swarm_update_request_8cs.html',1,'']]],
-  ['synchronousiomanager_2ecs_52',['SynchronousIOManager.cs',['../_synchronous_i_o_manager_8cs.html',1,'']]],
-  ['systemdmanager_2ecs_53',['SystemDManager.cs',['../_system_d_manager_8cs.html',1,'']]]
+  ['symlinkdmbprovider_2ecs_52',['SymlinkDmbProvider.cs',['../_symlink_dmb_provider_8cs.html',1,'']]],
+  ['synchronousiomanager_2ecs_53',['SynchronousIOManager.cs',['../_synchronous_i_o_manager_8cs.html',1,'']]],
+  ['systemdmanager_2ecs_54',['SystemDManager.cs',['../_system_d_manager_8cs.html',1,'']]]
 ];

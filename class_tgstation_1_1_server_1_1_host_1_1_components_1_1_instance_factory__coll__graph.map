@@ -10,7 +10,7 @@
 <area shape="rect" id="node9" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_i_topic_client_factory.html" title="Factory for ITopicClients." alt="" coords="579,311,805,351"/>
 <area shape="rect" id="node10" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_cryptography_suite.html" title="Contains various cryptographic functions." alt="" coords="591,375,793,415"/>
 <area shape="rect" id="node11" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_synchronous_i_o_manager.html" title="For accessing the disk in a synchronous manner." alt="" coords="608,439,776,479"/>
-<area shape="rect" id="node12" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_symlink_factory.html" title="For creating filesystem symbolic links." alt="" coords="608,503,776,543"/>
+<area shape="rect" id="node12" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_filesystem_link_factory.html" title="For creating filesystem symbolic links." alt="" coords="608,503,776,543"/>
 <area shape="rect" id="node13" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_i_byond_installer.html" title="For downloading and installing BYOND extractions for a given system." alt="" coords="579,567,805,607"/>
 <area shape="rect" id="node14" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager_factory.html" title="For creating IChatManagers." alt="" coords="579,631,805,671"/>
 <area shape="rect" id="node15" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_executor.html" title="For launching IProcess&#39;." alt="" coords="593,695,791,735"/>

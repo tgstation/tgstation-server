@@ -1,0 +1,7 @@
+<map id="Tgstation.Server.Host.Components.Watchdog.AdvancedWatchdog.PerformDmbSwap" name="Tgstation.Server.Host.Components.Watchdog.AdvancedWatchdog.PerformDmbSwap">
+<area shape="rect" id="node1" title="Suspends the BasicWatchdog.Server and calls SwappableDmbProvider.MakeActive(CancellationToken) on a n..." alt="" coords="5,85,313,125"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_swappable_dmb_provider.html#a62c2020413dd770a7b3b0482e91ffbf3" title="Should be await. before calling MakeActive(CancellationToken) to ensure the SwappableDmbProvider is r..." alt="" coords="378,5,649,60"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_swappable_dmb_provider.html#ad6e832b7e37fcfb95f47294a9a084c2e" title="Make the SwappableDmbProvider active by replacing the live link with our CompileJob." alt="" coords="361,85,665,125"/>
+<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_base.html#a50cf121e04a59decc0262d2eaef0845f" title="Suspends the process." alt="" coords="414,149,613,189"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_swappable_dmb_provider.html#a92d654ad97877a24e3abab5c0cd595ab" title="Perform the swapping action." alt="" coords="713,85,997,125"/>
+</map>

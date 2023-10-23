@@ -1,0 +1,6 @@
+<map id="Tgstation.Server.Host.Components.Watchdog.AdvancedWatchdog.DrainDeploymentCleanupTasks" name="Tgstation.Server.Host.Components.Watchdog.AdvancedWatchdog.DrainDeploymentCleanupTasks">
+<area shape="rect" id="node1" title="Asynchronously drain deploymentCleanupTasks." alt="" coords="387,77,687,132"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_advanced_watchdog.html#ad685dab25c922c43bff30f2822811c2b" title="Call IDisposable.Dispose and null the fields for all ISessionControllers. A ValueTask representing th..." alt="" coords="36,5,308,60"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_advanced_watchdog.html#af92913ca3e4ef60daa783fc3bc1a0807" title="Handles the actions to take when the monitor has to &quot;wake up&quot;. A ValueTask&lt;TResult&gt; resulting in the ..." alt="" coords="5,85,339,125"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_advanced_watchdog.html#a9a94dccebeb6abb16f75b2ad03a5eb28" title="Handler for MonitorActivationReason.ActiveServerRebooted when the RebootState is RebootState...." alt="" coords="9,149,335,189"/>
+</map>

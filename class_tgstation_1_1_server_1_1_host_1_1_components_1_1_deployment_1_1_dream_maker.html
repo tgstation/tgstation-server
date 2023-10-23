@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.16.2</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.16.4</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -1953,7 +1953,7 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">  803</span>            job.MinimumSecurityLevel = securityLevel; <span class="comment">// needed for the TempDmbProvider</span></div>
 <div class="line"><span class="lineno">  804</span> </div>
 <div class="line"><span class="lineno">  805</span>            <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_session.html#a9dd0e3dfc87080e8c7a91665b79891b3">ApiValidationStatus</a> validationStatus;</div>
-<div class="line"><span class="lineno">  806</span>            <span class="keyword">using</span> (var provider = <span class="keyword">new</span> TemporaryDmbProvider(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#a5f0da2a044d1b9df7e85492cb58c076c">ioManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a18a442b5dff16f5e7a730ec354e81d78">ResolvePath</a>(job.DirectoryName.ToString()), String.Concat(job.DmeName, <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#ad68af0912872eba94733cb322b08ecb3">DmbExtension</a>), job))</div>
+<div class="line"><span class="lineno">  806</span>            await <span class="keyword">using</span> (var provider = <span class="keyword">new</span> TemporaryDmbProvider(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#a5f0da2a044d1b9df7e85492cb58c076c">ioManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a18a442b5dff16f5e7a730ec354e81d78">ResolvePath</a>(job.DirectoryName.ToString()), String.Concat(job.DmeName, <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#ad68af0912872eba94733cb322b08ecb3">DmbExtension</a>), job))</div>
 <div class="line"><span class="lineno">  807</span>            await <span class="keyword">using</span> (var controller = await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#a8322a848923985ee4e06d792dccb8643">sessionControllerFactory</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_i_session_controller_factory.html#a79d9996cec5750e3ba3bd11d74abf534">LaunchNew</a>(provider, byondLock, launchParameters, <span class="keyword">true</span>, cancellationToken))</div>
 <div class="line"><span class="lineno">  808</span>            {</div>
 <div class="line"><span class="lineno">  809</span>                var launchResult = await controller.LaunchResult.WaitAsync(cancellationToken);</div>

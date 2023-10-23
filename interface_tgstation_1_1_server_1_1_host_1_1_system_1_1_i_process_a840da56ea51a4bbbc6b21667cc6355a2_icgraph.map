@@ -1,7 +1,8 @@
 <map id="Tgstation.Server.Host.System.IProcess.Terminate" name="Tgstation.Server.Host.System.IProcess.Terminate">
-<area shape="rect" id="node1" title="Asycnhronously terminates the process." alt="" coords="627,53,825,93"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#a0a6612e49a14544cad75292fba3798c1" title=" " alt="" coords="317,5,577,45"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#ad208c7227af2aa22764e76a693349584" title="Handle a set of bridge parameters ." alt="" coords="316,94,579,149"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#ac370a90bf019b15f2b189522320031ed" title="Releases the IProcess without terminating it. Also calls IDisposable.Dispose. A ValueTask representin..." alt="" coords="23,5,250,45"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#ae703bebe71c30945a241d2d3503353f4" title="Handle a set of bridge parameters . A ValueTask&lt;TResult&gt; resulting in the BridgeResponse for the requ..." alt="" coords="5,94,268,149"/>
+<area shape="rect" id="node1" title="Asycnhronously terminates the process." alt="" coords="936,77,1135,117"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#a0a6612e49a14544cad75292fba3798c1" title=" " alt="" coords="627,5,887,45"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#a942e01f9d2d1d1bea135e4edf5ce6656" title="Terminates the server after ten seconds if it does not exit." alt="" coords="627,70,888,125"/>
+<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#ad208c7227af2aa22764e76a693349584" title="Handle a set of bridge parameters ." alt="" coords="316,114,579,169"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#ac370a90bf019b15f2b189522320031ed" title="Releases the IProcess without terminating it. Also calls IDisposable.Dispose. A ValueTask representin..." alt="" coords="334,5,561,45"/>
+<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#ae703bebe71c30945a241d2d3503353f4" title="Handle a set of bridge parameters . A ValueTask&lt;TResult&gt; resulting in the BridgeResponse for the requ..." alt="" coords="5,114,268,169"/>
 </map>

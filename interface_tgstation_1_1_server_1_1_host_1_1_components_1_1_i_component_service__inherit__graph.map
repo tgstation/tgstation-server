@@ -7,7 +7,7 @@
 <area shape="rect" id="node11" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_factory.html" title="Factory for creating IInstances." alt="" coords="440,261,667,301"/>
 <area shape="rect" id="node13" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_i_configuration.html" title="For managing the Configuration directory." alt="" coords="440,325,667,365"/>
 <area shape="rect" id="node15" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_watchdog.html" title="Runs and monitors the twin server controllers." alt="" coords="440,389,667,429"/>
-<area shape="rect" id="node20" href="$interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_service.html" title="The service that manages everything to do with jobs." alt="" coords="462,453,645,493"/>
+<area shape="rect" id="node21" href="$interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_service.html" title="The service that manages everything to do with jobs." alt="" coords="462,453,645,493"/>
 <area shape="rect" id="node2" href="$class_i_hosted_service.html" title=" " alt="" coords="5,237,117,262"/>
 <area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_manager.html" title=" " alt="" coords="715,5,941,45"/>
 <area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html" title=" " alt="" coords="715,69,941,109"/>
@@ -17,7 +17,8 @@
 <area shape="rect" id="node14" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html" title=" " alt="" coords="715,325,941,365"/>
 <area shape="rect" id="node16" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html" title="Base class for IWatchdogs." alt="" coords="715,389,941,429"/>
 <area shape="rect" id="node17" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_basic_watchdog.html" title="A IWatchdog that manages one server." alt="" coords="989,389,1216,429"/>
-<area shape="rect" id="node18" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_windows_watchdog.html" title="A IWatchdog that, instead of killing servers for updates, uses the wonders of symlinks to swap out ch..." alt="" coords="1264,389,1491,429"/>
-<area shape="rect" id="node19" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_posix_watchdog.html" title="A variant of the WindowsWatchdog that works on POSIX systems." alt="" coords="1539,389,1765,429"/>
-<area shape="rect" id="node21" href="$class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html" title=" " alt="" coords="737,453,919,493"/>
+<area shape="rect" id="node18" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_advanced_watchdog.html" title="A IWatchdog that, instead of killing servers for updates, uses the wonders of filesystem links to swa..." alt="" coords="1264,389,1491,429"/>
+<area shape="rect" id="node19" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_posix_watchdog.html" title="A variant of the AdvancedWatchdog that works on POSIX systems." alt="" coords="1539,357,1765,397"/>
+<area shape="rect" id="node20" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_windows_watchdog.html" title="A variant of the AdvancedWatchdog that works on Windows systems." alt="" coords="1539,421,1765,461"/>
+<area shape="rect" id="node22" href="$class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html" title=" " alt="" coords="737,453,919,493"/>
 </map>

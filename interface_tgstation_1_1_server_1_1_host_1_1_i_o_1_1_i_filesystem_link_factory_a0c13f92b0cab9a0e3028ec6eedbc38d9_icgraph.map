@@ -1,0 +1,8 @@
+<map id="Tgstation.Server.Host.IO.IFilesystemLinkFactory.CreateSymbolicLink" name="Tgstation.Server.Host.IO.IFilesystemLinkFactory.CreateSymbolicLink">
+<area shape="rect" id="node1" title="Create a symbolic link." alt="" coords="925,101,1201,141"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_symlink_dmb_provider.html#a5567a14ec93603dae106d82f132e3bfc" title="Perform the swapping action. A ValueTask representing the running operation." alt="" coords="611,5,877,45"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider.html#aae8220d2c0976422584baddc6c4fdad3" title="Recursively create tasks to create a hard link directory mirror of src &#160;to dest ." alt="" coords="615,94,873,149"/>
+<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#a4bde2bc61aaf361c082bd9de17bf4157" title="Symlinks all directories in the GameData directory to destination . A ValueTask representing the runn..." alt="" coords="621,173,867,227"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider.html#a60789e1d63568e30a421feea4b16f2e8" title="Mirror the Models.CompileJob." alt="" coords="305,94,563,149"/>
+<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider.html#abcc67d374115f366f97a8016ec7e42ce" title="Initializes a new instance of the HardLinkDmbProvider class." alt="" coords="5,94,257,149"/>
+</map>

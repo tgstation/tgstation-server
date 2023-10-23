@@ -1,8 +1,8 @@
 <map id="Tgstation.Server.Host.Components.Deployment.DmbProvider" name="Tgstation.Server.Host.Components.Deployment.DmbProvider">
-<area shape="rect" id="node1" title=" " alt="" coords="176,183,403,223"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_dmb_provider.html" title="Provides absolute paths to the latest compiled .dmbs." alt="" coords="5,87,107,113"/>
-<area shape="rect" id="node3" href="$class_i_disposable.html" title=" " alt="" coords="11,5,101,31"/>
-<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html" title="Interface for using filesystems." alt="" coords="131,80,299,120"/>
-<area shape="rect" id="node5" title=" " alt="" coords="323,87,429,113"/>
-<area shape="rect" id="node6" title=" " alt="" coords="464,87,523,113"/>
+<area shape="rect" id="node1" title=" " alt="" coords="189,183,415,223"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_dmb_provider.html" title="Provides absolute paths to the latest compiled .dmbs." alt="" coords="18,87,119,113"/>
+<area shape="rect" id="node3" href="$class_i_async_disposable.html" title=" " alt="" coords="5,5,132,31"/>
+<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html" title="Interface for using filesystems." alt="" coords="143,80,311,120"/>
+<area shape="rect" id="node5" title=" " alt="" coords="336,87,441,113"/>
+<area shape="rect" id="node6" title=" " alt="" coords="477,87,535,113"/>
 </map>

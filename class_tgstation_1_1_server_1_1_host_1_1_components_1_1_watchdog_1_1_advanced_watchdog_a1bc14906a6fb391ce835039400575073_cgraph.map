@@ -1,0 +1,8 @@
+<map id="Tgstation.Server.Host.Components.Watchdog.AdvancedWatchdog.PrepServerForLaunch" name="Tgstation.Server.Host.Components.Watchdog.AdvancedWatchdog.PrepServerForLaunch">
+<area shape="rect" id="node1" title="Prepare the server to launch a new instance with the WatchdogBase.ActiveLaunchParameters and a given ..." alt="" coords="5,41,272,96"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_advanced_watchdog.html#afdc40d34050aab6b62e2f3b16482f27a" title="Create a SwappableDmbProvider for a given dmbProvider ." alt="" coords="320,5,624,60"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_advanced_watchdog.html#a1845f3dca4597a726053daa649565c5f" title="Create the initial link to the live game directory using ActiveSwappable." alt="" coords="343,85,601,125"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_swappable_dmb_provider.html#a62c2020413dd770a7b3b0482e91ffbf3" title="Should be await. before calling MakeActive(CancellationToken) to ensure the SwappableDmbProvider is r..." alt="" coords="689,41,959,96"/>
+<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_swappable_dmb_provider.html#ad6e832b7e37fcfb95f47294a9a084c2e" title="Make the SwappableDmbProvider active by replacing the live link with our CompileJob." alt="" coords="672,121,976,161"/>
+<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_swappable_dmb_provider.html#a92d654ad97877a24e3abab5c0cd595ab" title="Perform the swapping action." alt="" coords="1024,121,1308,161"/>
+</map>

@@ -1,0 +1,6 @@
+<map id="Tgstation.Server.Host.IO.IFilesystemLinkFactory.CreateHardLink" name="Tgstation.Server.Host.IO.IFilesystemLinkFactory.CreateHardLink">
+<area shape="rect" id="node1" title="Creates a hard link." alt="" coords="916,37,1167,77"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider.html#aae8220d2c0976422584baddc6c4fdad3" title="Recursively create tasks to create a hard link directory mirror of src &#160;to dest ." alt="" coords="611,29,868,84"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider.html#a60789e1d63568e30a421feea4b16f2e8" title="Mirror the Models.CompileJob." alt="" coords="305,29,563,84"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider.html#abcc67d374115f366f97a8016ec7e42ce" title="Initializes a new instance of the HardLinkDmbProvider class." alt="" coords="5,29,257,84"/>
+</map>

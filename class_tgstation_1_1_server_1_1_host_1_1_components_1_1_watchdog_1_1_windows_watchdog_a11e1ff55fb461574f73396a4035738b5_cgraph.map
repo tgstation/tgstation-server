@@ -1,8 +1,0 @@
-<map id="Tgstation.Server.Host.Components.Watchdog.WindowsWatchdog.InitialLink" name="Tgstation.Server.Host.Components.Watchdog.WindowsWatchdog.InitialLink">
-<area shape="rect" id="node1" title="Create the initial link to the live game directory using ActiveSwappable." alt="" coords="5,101,259,141"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_swappable_dmb_provider.html#a162a0cc6c94c11fd57696aa0e50b7af1" title="Make the SwappableDmbProvider active by replacing the live link with our CompileJob." alt="" coords="307,101,611,141"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_symlink_factory.html#a35bd8c53ef36c4a655e827750a40699c" title="Create a symbolic link." alt="" coords="659,5,893,45"/>
-<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ad3e0dda4b7fbad4c77f48ba3b2681dc7" title="Recursively delete a directory, removes and does not enter any symlinks encounterd." alt="" coords="685,69,867,109"/>
-<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a6ca322ea63f5693487917c1ee71c707a" title="Deletes a file at path ." alt="" coords="692,133,860,173"/>
-<area shape="rect" id="node6" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a18a442b5dff16f5e7a730ec354e81d78" title="Retrieve the full path of the current working directory." alt="" coords="692,197,860,237"/>
-</map>

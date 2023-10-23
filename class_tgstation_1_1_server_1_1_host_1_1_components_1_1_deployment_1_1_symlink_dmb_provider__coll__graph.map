@@ -1,0 +1,8 @@
+<map id="Tgstation.Server.Host.Components.Deployment.SymlinkDmbProvider" name="Tgstation.Server.Host.Components.Deployment.SymlinkDmbProvider">
+<area shape="rect" id="node1" title="A IDmbProvider that uses symlinks." alt="" coords="58,243,285,283"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_swappable_dmb_provider.html" title="A IDmbProvider that uses filesystem links to change directory structure underneath the server process..." alt="" coords="91,168,252,193"/>
+<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_dmb_provider.html" title="Provides absolute paths to the latest compiled .dmbs." alt="" coords="18,80,119,105"/>
+<area shape="rect" id="node4" href="$class_i_async_disposable.html" title=" " alt="" coords="5,5,132,31"/>
+<area shape="rect" id="node5" title=" " alt="" coords="144,80,199,105"/>
+<area shape="rect" id="node6" title=" " alt="" coords="277,80,357,105"/>
+</map>

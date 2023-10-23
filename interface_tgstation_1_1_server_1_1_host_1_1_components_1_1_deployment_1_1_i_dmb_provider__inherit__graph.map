@@ -1,7 +1,9 @@
 <map id="Tgstation.Server.Host.Components.Deployment.IDmbProvider" name="Tgstation.Server.Host.Components.Deployment.IDmbProvider">
-<area shape="rect" id="node1" title="Provides absolute paths to the latest compiled .dmbs." alt="" coords="144,69,371,109"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dmb_provider.html" title=" " alt="" coords="421,5,648,45"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_swappable_dmb_provider.html" title="A IDmbProvider that uses symlinks." alt="" coords="419,69,651,109"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_temporary_dmb_provider.html" title="Temporary IDmbProvider." alt="" coords="420,133,649,173"/>
-<area shape="rect" id="node2" href="$class_i_disposable.html" title=" " alt="" coords="5,77,96,102"/>
+<area shape="rect" id="node1" title="Provides absolute paths to the latest compiled .dmbs." alt="" coords="180,69,407,109"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dmb_provider.html" title=" " alt="" coords="457,5,684,45"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_swappable_dmb_provider.html" title="A IDmbProvider that uses filesystem links to change directory structure underneath the server process..." alt="" coords="455,69,687,109"/>
+<area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_temporary_dmb_provider.html" title="Temporary IDmbProvider." alt="" coords="456,133,685,173"/>
+<area shape="rect" id="node2" href="$class_i_async_disposable.html" title=" " alt="" coords="5,77,132,102"/>
+<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider.html" title="A IDmbProvider that uses hard links." alt="" coords="735,37,961,77"/>
+<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_symlink_dmb_provider.html" title="A IDmbProvider that uses symlinks." alt="" coords="735,101,961,141"/>
 </map>
