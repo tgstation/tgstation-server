@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 namespace Tgstation.Server.Host.Security
 {
 	/// <summary>
-	/// For injecting <see cref="global::System.Security.Claims.Claim"/>s that <see cref="Controllers.TgsAuthorizeAttribute"/> can look for.
+	/// For injecting <see cref="global::System.Security.Claims.Claim"/>s that <see cref="Security.TgsAuthorizeAttribute"/> can look for.
 	/// </summary>
 	interface IClaimsInjector
 	{
