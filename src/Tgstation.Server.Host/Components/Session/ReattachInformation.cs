@@ -76,13 +76,11 @@ namespace Tgstation.Server.Host.Components.Session
 			Dmb = dmb ?? throw new ArgumentNullException(nameof(dmb));
 			ProcessId = process?.Id ?? throw new ArgumentNullException(nameof(process));
 			RuntimeInformation = runtimeInformation ?? throw new ArgumentNullException(nameof(runtimeInformation));
-			if (!runtimeInformation.SecurityLevel.HasValue)
-				throw new ArgumentException("runtimeInformation must have a valid SecurityLevel!", nameof(runtimeInformation));
 
 			AccessIdentifier = accessIdentifier ?? throw new ArgumentNullException(nameof(accessIdentifier));
 
-			LaunchSecurityLevel = runtimeInformation.SecurityLevel.Value;
-			LaunchVisibility = runtimeInformation.Visibility.Value;
+			LaunchSecurityLevel = runtimeInformation.SecurityLevel;
+			LaunchVisibility = runtimeInformation.Visibility;
 			Port = port;
 
 			runtimeInformationLock = new object();

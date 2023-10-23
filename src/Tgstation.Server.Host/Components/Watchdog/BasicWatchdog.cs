@@ -268,7 +268,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 
 				// server didn't get control of this dmb
 				if (dmbToUse != null && !serverWasActive)
-					dmbToUse.Dispose();
+					await dmbToUse.DisposeAsync();
 
 				throw;
 			}

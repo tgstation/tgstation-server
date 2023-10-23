@@ -11,10 +11,48 @@
 		dab()
 	TgsNew(new /datum/tgs_event_handler/impl, TGS_SECURITY_SAFE)
 
+	var/sec = TgsSecurityLevel()
+	if(isnull(sec))
+		FailTest("TGS Security level was null!")
+
+	log << "Running in security level: [sec]"
+
+	var/vis = TgsVisibility()
+	if(isnull(vis))
+		FailTest("TGS Visibility was null!")
+
+	log << "Running in visibility: [vis]"
+
 	if(params["expect_chat_channels"])
 		var/list/channels = TgsChatChannelInfo()
 		if(!length(channels))
 			FailTest("Expected some chat channels!")
+
+	var/test_str = "aljsdhfjahsfkjnsalkjdfhskljdackmcnvxkljhvkjsdanv,jdshlkufhklasjeFDhfjkalhdkjlfhalksfdjh"
+	var/res_contents = file2text('resource.txt') // we need a .rsc to be generated
+
+	if(!findtext(res_contents, test_str))
+		FailTest("Failed to resource? Did not find magic: [res_contents]")
+
+	if(!fexists("[DME_NAME].rsc"))
+		FailTest("Failed to create .rsc!")
+
+#ifdef RUN_STATIC_FILE_TESTS
+	if(params["expect_static_files"])
+		if(!fexists("test2.txt"))
+			FailTest("Missing test2.txt")
+
+		var/f2content = file2text("test2.txt")
+		if(f2content != "bbb")
+			FailTest("Unexpected test2.txt content: [f2content]")
+
+		if(!fexists("data/test.txt"))
+			FailTest("Missing data/test.txt")
+
+		var/f1content = file2text("data/test.txt")
+		if(f1content != "aaa")
+			FailTest("Unexpected data/test.txt content: [f1content]")
+#endif
 
 	StartAsync()
 
