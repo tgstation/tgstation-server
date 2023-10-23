@@ -183,6 +183,10 @@ Components:
       Author: Cyberboss
       PullRequest: 1662
     Unreleased: true
+  - Version: 5.16.5
+    ComponentVersions: {}
+    Changes: []
+    Unreleased: true
   - Version: 5.16.4
     ComponentVersions:
       HttpApi: 9.12.0
@@ -199,7 +203,6 @@ Components:
       - Fixed regression in 5.16.3 preventing static files from working on Linux.
       Author: Cyberboss
       PullRequest: 1683
-    Unreleased: true
   - Version: 5.16.3
     ComponentVersions:
       HttpApi: 9.12.0
