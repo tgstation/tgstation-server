@@ -64,6 +64,8 @@ namespace Tgstation.Server.Tests.Live
 		public bool HighPriorityDreamDaemon { get; }
 		public bool LowPriorityDeployments { get; }
 
+		public bool UsingBasicWatchdog { get; }
+
 		public bool RestartRequested => RealServer.RestartRequested;
 
 		readonly List<string> args;
@@ -95,6 +97,8 @@ namespace Tgstation.Server.Tests.Live
 			var connectionString = Environment.GetEnvironmentVariable("TGS_TEST_CONNECTION_STRING");
 			var gitHubAccessToken = Environment.GetEnvironmentVariable("TGS_TEST_GITHUB_TOKEN");
 			var dumpOpenAPISpecPathEnvVar = Environment.GetEnvironmentVariable("TGS_TEST_DUMP_API_SPEC");
+
+			UsingBasicWatchdog = Boolean.TryParse(Environment.GetEnvironmentVariable("General__UseBasicWatchdog"), out var result) && result;
 
 			if (String.IsNullOrEmpty(DatabaseType))
 				Assert.Inconclusive("No database type configured in env var TGS_TEST_DATABASE_TYPE!");

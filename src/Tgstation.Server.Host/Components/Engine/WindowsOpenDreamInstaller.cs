@@ -22,9 +22,9 @@ namespace Tgstation.Server.Host.Components.Engine
 	sealed class WindowsOpenDreamInstaller : OpenDreamInstaller
 	{
 		/// <summary>
-		/// The <see cref="ISymlinkFactory"/> for the <see cref="WindowsOpenDreamInstaller"/>.
+		/// The <see cref="IFilesystemLinkFactory"/> for the <see cref="WindowsOpenDreamInstaller"/>.
 		/// </summary>
-		readonly ISymlinkFactory symlinkFactory;
+		readonly IFilesystemLinkFactory linkFactory;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="WindowsOpenDreamInstaller"/> class.
@@ -35,7 +35,7 @@ namespace Tgstation.Server.Host.Components.Engine
 		/// <param name="processExecutor">The <see cref="IProcessExecutor"/> for the <see cref="OpenDreamInstaller"/>.</param>
 		/// <param name="repositoryManager">The <see cref="IRepositoryManager"/> for the <see cref="OpenDreamInstaller"/>.</param>
 		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> of <see cref="GeneralConfiguration"/> for the <see cref="OpenDreamInstaller"/>.</param>
-		/// <param name="symlinkFactory">The value of <see cref="symlinkFactory"/>.</param>
+		/// <param name="linkFactory">The value of <see cref="linkFactory"/>.</param>
 		public WindowsOpenDreamInstaller(
 			IIOManager ioManager,
 			ILogger<WindowsOpenDreamInstaller> logger,
@@ -43,7 +43,7 @@ namespace Tgstation.Server.Host.Components.Engine
 			IProcessExecutor processExecutor,
 			IRepositoryManager repositoryManager,
 			IOptions<GeneralConfiguration> generalConfigurationOptions,
-			ISymlinkFactory symlinkFactory)
+			IFilesystemLinkFactory linkFactory)
 			: base(
 				ioManager,
 				logger,
@@ -52,7 +52,7 @@ namespace Tgstation.Server.Host.Components.Engine
 				repositoryManager,
 				generalConfigurationOptions)
 		{
-			this.symlinkFactory = symlinkFactory ?? throw new ArgumentNullException(nameof(symlinkFactory));
+			this.linkFactory = linkFactory ?? throw new ArgumentNullException(nameof(linkFactory));
 		}
 
 		/// <inheritdoc />
@@ -72,7 +72,7 @@ namespace Tgstation.Server.Host.Components.Engine
 		{
 			var shortPath = $"C:/{Guid.NewGuid()}";
 			Logger.LogDebug("Shortening path for build from {long} to {short}...", originalPath, shortPath);
-			await symlinkFactory.CreateSymbolicLink(originalPath, shortPath, cancellationToken);
+			await linkFactory.CreateSymbolicLink(originalPath, shortPath, cancellationToken);
 			try
 			{
 				await shortenedPathOperation(shortPath);

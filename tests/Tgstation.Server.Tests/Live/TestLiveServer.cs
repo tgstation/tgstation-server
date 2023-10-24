@@ -992,9 +992,6 @@ namespace Tgstation.Server.Tests.Live
 		}
 
 		[TestMethod]
-		public async Task TestTgstationInteractive() => await TestTgstation(true);
-
-		[TestMethod]
 		public async Task TestTgstationHeadless() => await TestTgstation(false);
 
 		async ValueTask TestTgstation(bool interactive)
@@ -1389,7 +1386,6 @@ namespace Tgstation.Server.Tests.Live
 						async Task ODCompatTests()
 						{
 							var edgeODVersionTask = EngineTest.GetEdgeVersion(EngineType.OpenDream, fileDownloader, cancellationToken);
-							;
 
 							var ex = await Assert.ThrowsExceptionAsync<JobException>(
 								() => InstanceTest.DownloadEngineVersion(
@@ -1411,6 +1407,7 @@ namespace Tgstation.Server.Tests.Live
 									odDMPort,
 									odDDPort,
 									server.HighPriorityDreamDaemon,
+									server.UsingBasicWatchdog,
 									cancellationToken);
 						}
 
@@ -1419,25 +1416,22 @@ namespace Tgstation.Server.Tests.Live
 						if (TestingUtils.RunningInGitHubActions) // they only have 2 cores, can't handle intense parallelization
 							await odCompatTests;
 
-						// Some earlier linux BYOND versions have a critical bug where replacing the directory in non-basic watchdogs causes the DreamDaemon cwd to change
-						var canRunCompatTests = new PlatformIdentifier().IsWindows;
-						var compatTests = canRunCompatTests
-							? FailFast(
-								instanceTest
-									.RunCompatTests(
-										new EngineVersion
-										{
-											Engine = EngineType.Byond,
-											Version = new PlatformIdentifier().IsWindows
-												? new Version(510, 1346)
-												: new Version(512, 1451) // http://www.byond.com/forum/?forum=5&command=search&scope=local&text=resolved%3a512.1451
-										},
-										adminClient.Instances.CreateClient(compatInstance),
-										compatDMPort,
-										compatDDPort,
-										server.HighPriorityDreamDaemon,
-										cancellationToken))
-							: Task.CompletedTask;
+						var compatTests = FailFast(
+							instanceTest
+								.RunCompatTests(
+									new EngineVersion
+									{
+										Engine = EngineType.Byond,
+										Version = new PlatformIdentifier().IsWindows
+											? new Version(510, 1346)
+											: new Version(512, 1451) // http://www.byond.com/forum/?forum=5&command=search&scope=local&text=resolved%3a512.1451
+									},
+									adminClient.Instances.CreateClient(compatInstance),
+									compatDMPort,
+									compatDDPort,
+									server.HighPriorityDreamDaemon,
+									server.UsingBasicWatchdog,
+									cancellationToken));
 
 						if (TestingUtils.RunningInGitHubActions) // they only have 2 cores, can't handle intense parallelization
 							await compatTests;
@@ -1450,6 +1444,7 @@ namespace Tgstation.Server.Tests.Live
 									mainDDPort,
 									server.HighPriorityDreamDaemon,
 									server.LowPriorityDeployments,
+									server.UsingBasicWatchdog,
 									cancellationToken));
 
 						await compatTests;
@@ -1570,7 +1565,7 @@ namespace Tgstation.Server.Tests.Live
 					await WatchdogTest.TellWorldToReboot2(instanceClient, WatchdogTest.StaticTopicClient, mainDDPort, cancellationToken);
 
 					dd = await instanceClient.DreamDaemon.Read(cancellationToken);
-					Assert.AreEqual(WatchdogStatus.Online, dd.Status.Value);
+					Assert.AreEqual(WatchdogStatus.Online, dd.Status.Value); // if this assert fails, you likely have to crack open the debugger and read test_fail_reason.txt manually
 					Assert.IsNull(dd.StagedCompileJob);
 					Assert.AreEqual(initialStaged, dd.ActiveCompileJob.Id);
 
@@ -1629,7 +1624,7 @@ namespace Tgstation.Server.Tests.Live
 					Assert.AreEqual(WatchdogStatus.Online, dd.Status.Value);
 
 					var compileJob = await instanceClient.DreamMaker.Compile(cancellationToken);
-					var wdt = new WatchdogTest(edgeVersion, instanceClient, GetInstanceManager(), (ushort)server.Url.Port, server.HighPriorityDreamDaemon, mainDDPort);
+					var wdt = new WatchdogTest(edgeVersion, instanceClient, GetInstanceManager(), (ushort)server.Url.Port, server.HighPriorityDreamDaemon, mainDDPort, server.UsingBasicWatchdog);
 					await wdt.WaitForJob(compileJob, 30, false, null, cancellationToken);
 
 					dd = await instanceClient.DreamDaemon.Read(cancellationToken);
@@ -1676,7 +1671,7 @@ namespace Tgstation.Server.Tests.Live
 					Assert.AreEqual(WatchdogStatus.Online, currentDD.Status);
 					Assert.AreEqual(expectedStaged, currentDD.StagedCompileJob.Job.Id.Value);
 
-					var wdt = new WatchdogTest(edgeVersion, instanceClient, GetInstanceManager(), (ushort)server.Url.Port, server.HighPriorityDreamDaemon, mainDDPort);
+					var wdt = new WatchdogTest(edgeVersion, instanceClient, GetInstanceManager(), (ushort)server.Url.Port, server.HighPriorityDreamDaemon, mainDDPort, server.UsingBasicWatchdog);
 					currentDD = await wdt.TellWorldToReboot(cancellationToken);
 					Assert.AreEqual(expectedStaged, currentDD.ActiveCompileJob.Job.Id.Value);
 					Assert.IsNull(currentDD.StagedCompileJob);

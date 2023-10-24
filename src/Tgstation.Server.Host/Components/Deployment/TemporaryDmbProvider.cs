@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 
 using Tgstation.Server.Api.Models.Internal;
 
@@ -32,9 +33,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 		}
 
 		/// <inheritdoc />
-		public override void Dispose()
-		{
-		}
+		public override ValueTask DisposeAsync() => ValueTask.CompletedTask;
 
 		/// <inheritdoc />
 		public override void KeepAlive() => throw new NotSupportedException();

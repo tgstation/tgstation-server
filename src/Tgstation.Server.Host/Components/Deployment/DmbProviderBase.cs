@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Internal;
@@ -29,7 +30,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 		public abstract EngineVersion EngineVersion { get; }
 
 		/// <inheritdoc />
-		public abstract void Dispose();
+		public abstract ValueTask DisposeAsync();
 
 		/// <inheritdoc />
 		public abstract void KeepAlive();

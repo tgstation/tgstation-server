@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 
 using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Host.IO;
@@ -28,7 +29,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 		readonly string directoryAppend;
 
 		/// <summary>
-		/// The <see cref="Action"/> to run when <see cref="Dispose"/> is called.
+		/// The <see cref="Action"/> to run when <see cref="DisposeAsync"/> is called.
 		/// </summary>
 		Action onDispose;
 
@@ -50,7 +51,11 @@ namespace Tgstation.Server.Host.Components.Deployment
 		}
 
 		/// <inheritdoc />
-		public override void Dispose() => onDispose?.Invoke();
+		public override ValueTask DisposeAsync()
+		{
+			onDispose?.Invoke();
+			return ValueTask.CompletedTask;
+		}
 
 		/// <inheritdoc />
 		public override void KeepAlive() => onDispose = null;

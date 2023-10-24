@@ -149,15 +149,18 @@ namespace Tgstation.Server.Host.Components.Deployment
 					cancellationToken);
 			}
 
+			ValueTask dmbDisposeTask;
 			lock (jobLockCounts)
 			{
-				nextDmbProvider?.Dispose();
+				dmbDisposeTask = nextDmbProvider?.DisposeAsync() ?? ValueTask.CompletedTask;
 				nextDmbProvider = newProvider;
 
 				// Oh god dammit
 				var temp = Interlocked.Exchange(ref newerDmbTcs, new TaskCompletionSource());
 				temp.SetResult();
 			}
+
+			await dmbDisposeTask;
 		}
 
 		/// <inheritdoc />
@@ -327,7 +330,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 			finally
 			{
 				if (!providerSubmitted)
-					newProvider.Dispose();
+					await newProvider.DisposeAsync();
 			}
 		}
 #pragma warning restore CA1506

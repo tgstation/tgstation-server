@@ -413,7 +413,7 @@ jobs:
       fail-fast: false
       matrix:
         database-type: [ 'SqlServer', 'Sqlite', 'PostgresSql', 'MariaDB', 'MySql' ]
-        watchdog-type: [ 'Basic', 'System' ]
+        watchdog-type: [ 'Basic', 'Advanced' ]
         configuration: [ 'Debug', 'Release' ]
     runs-on: windows-latest
     steps:
@@ -431,7 +431,7 @@ jobs:
         dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
 
     - name: Set TGS_TEST_DUMP_API_SPEC
-      if: ${{ matrix.configuration == 'Release' && matrix.watchdog-type == 'System' && matrix.database-type == 'SqlServer' }}
+      if: ${{ matrix.configuration == 'Release' && matrix.watchdog-type == 'Advanced' && matrix.database-type == 'SqlServer' }}
       run: echo "TGS_TEST_DUMP_API_SPEC=yes" >> $Env:GITHUB_ENV
 
     - name: Set General__UseBasicWatchdog
@@ -522,7 +522,7 @@ jobs:
         path: ./TestResults/
 
     - name: Store OpenAPI Spec
-      if: ${{ matrix.configuration == 'Release' && matrix.watchdog-type == 'System' && matrix.database-type == 'SqlServer' }}
+      if: ${{ matrix.configuration == 'Release' && matrix.watchdog-type == 'Advanced' && matrix.database-type == 'SqlServer' }}
       uses: actions/upload-artifact@v3
       with:
         name: openapi-spec
@@ -611,7 +611,7 @@ jobs:
       fail-fast: false
       matrix:
         database-type: [ 'Sqlite', 'PostgresSql', 'MariaDB', 'MySql' ]
-        watchdog-type: [ 'Basic', 'System' ]
+        watchdog-type: [ 'Basic', 'Advanced' ]
         configuration: [ 'Debug', 'Release' ]
     runs-on: ubuntu-latest
     steps:
@@ -695,7 +695,7 @@ jobs:
         path: ./TestResults/
 
     - name: Package Server Console
-      if: ${{ matrix.configuration == 'Release' && matrix.watchdog-type == 'System' && matrix.database-type == 'MariaDB' }}
+      if: ${{ matrix.configuration == 'Release' && matrix.watchdog-type == 'Advanced' && matrix.database-type == 'MariaDB' }}
       run: |
         cd src/Tgstation.Server.Host.Console
         dotnet publish -c ${{ matrix.configuration }} -o ../../artifacts/Console
@@ -707,7 +707,7 @@ jobs:
         build/RemoveUnsupportedRuntimes.sh artifacts/Console
 
     - name: Package Server Update Package
-      if: ${{ matrix.configuration == 'Release' && matrix.watchdog-type == 'System' && matrix.database-type == 'PostgresSql' }}
+      if: ${{ matrix.configuration == 'Release' && matrix.watchdog-type == 'Advanced' && matrix.database-type == 'PostgresSql' }}
       run: |
         cd src/Tgstation.Server.Host
         dotnet publish -c ${{ matrix.configuration }}NoWindows --no-build -o ../../artifacts/ServerUpdate
@@ -716,14 +716,14 @@ jobs:
         build/RemoveUnsupportedRuntimes.sh artifacts/ServerUpdate
 
     - name: Store Server Console
-      if: ${{ matrix.configuration == 'Release' && matrix.watchdog-type == 'System' && matrix.database-type == 'MariaDB' }}
+      if: ${{ matrix.configuration == 'Release' && matrix.watchdog-type == 'Advanced' && matrix.database-type == 'MariaDB' }}
       uses: actions/upload-artifact@v3
       with:
         name: ServerConsole
         path: artifacts/Console/
 
     - name: Store Server Update Package
-      if: ${{ matrix.configuration == 'Release' && matrix.watchdog-type == 'System' && matrix.database-type == 'PostgresSql' }}
+      if: ${{ matrix.configuration == 'Release' && matrix.watchdog-type == 'Advanced' && matrix.database-type == 'PostgresSql' }}
       uses: actions/upload-artifact@v3
       with:
         name: ServerUpdatePackage
@@ -785,100 +785,100 @@ jobs:
         name: linux-unit-test-coverage-Release
         path: ./code_coverage/unit_tests/linux_unit_tests_release
 
-    - name: Retrieve Linux Integration Test Coverage (Release, System, Sqlite)
+    - name: Retrieve Linux Integration Test Coverage (Release, Advanced, Sqlite)
       uses: actions/download-artifact@v3
       with:
-        name: linux-integration-test-coverage-Release-System-Sqlite
+        name: linux-integration-test-coverage-Release-Advanced-Sqlite
         path: ./code_coverage/integration_tests/linux_integration_tests_release_system_sqlite
 
-    - name: Retrieve Linux Integration Test Coverage (Release, System, PostgresSql)
+    - name: Retrieve Linux Integration Test Coverage (Release, Advanced, PostgresSql)
       uses: actions/download-artifact@v3
       with:
-        name: linux-integration-test-coverage-Release-System-PostgresSql
+        name: linux-integration-test-coverage-Release-Advanced-PostgresSql
         path: ./code_coverage/integration_tests/linux_integration_tests_release_system_mariadb
 
-    - name: Retrieve Linux Integration Test Coverage (Release, System, MariaDB)
+    - name: Retrieve Linux Integration Test Coverage (Release, Advanced, MariaDB)
       uses: actions/download-artifact@v3
       with:
-        name: linux-integration-test-coverage-Release-System-MariaDB
+        name: linux-integration-test-coverage-Release-Advanced-MariaDB
         path: ./code_coverage/integration_tests/linux_integration_tests_release_system_mysql
 
-    - name: Retrieve Linux Integration Test Coverage (Release, System, MySql)
+    - name: Retrieve Linux Integration Test Coverage (Release, Advanced, MySql)
       uses: actions/download-artifact@v3
       with:
-        name: linux-integration-test-coverage-Release-System-MySql
+        name: linux-integration-test-coverage-Release-Advanced-MySql
         path: ./code_coverage/integration_tests/linux_integration_tests_release_system_mysql
 
     - name: Retrieve Linux Integration Test Coverage (Release, Basic, Sqlite)
       uses: actions/download-artifact@v3
       with:
-        name: linux-integration-test-coverage-Release-System-Sqlite
+        name: linux-integration-test-coverage-Release-Advanced-Sqlite
         path: ./code_coverage/integration_tests/linux_integration_tests_release_basic_sqlite
 
     - name: Retrieve Linux Integration Test Coverage (Release, Basic, PostgresSql)
       uses: actions/download-artifact@v3
       with:
-        name: linux-integration-test-coverage-Release-System-PostgresSql
+        name: linux-integration-test-coverage-Release-Advanced-PostgresSql
         path: ./code_coverage/integration_tests/linux_integration_tests_release_basic_mariadb
 
     - name: Retrieve Linux Integration Test Coverage (Release, Basic, MariaDB)
       uses: actions/download-artifact@v3
       with:
-        name: linux-integration-test-coverage-Release-System-MariaDB
+        name: linux-integration-test-coverage-Release-Advanced-MariaDB
         path: ./code_coverage/integration_tests/linux_integration_tests_release_basic_mysql
 
     - name: Retrieve Linux Integration Test Coverage (Release, Basic, MySql)
       uses: actions/download-artifact@v3
       with:
-        name: linux-integration-test-coverage-Release-System-MySql
+        name: linux-integration-test-coverage-Release-Advanced-MySql
         path: ./code_coverage/integration_tests/linux_integration_tests_release_basic_mysql
 
-    - name: Retrieve Linux Integration Test Coverage (Debug, System, Sqlite)
+    - name: Retrieve Linux Integration Test Coverage (Debug, Advanced, Sqlite)
       uses: actions/download-artifact@v3
       with:
-        name: linux-integration-test-coverage-Debug-System-Sqlite
+        name: linux-integration-test-coverage-Debug-Advanced-Sqlite
         path: ./code_coverage/integration_tests/linux_integration_tests_debug_system_sqlite
 
-    - name: Retrieve Linux Integration Test Coverage (Debug, System, PostgresSql)
+    - name: Retrieve Linux Integration Test Coverage (Debug, Advanced, PostgresSql)
       uses: actions/download-artifact@v3
       with:
-        name: linux-integration-test-coverage-Debug-System-PostgresSql
+        name: linux-integration-test-coverage-Debug-Advanced-PostgresSql
         path: ./code_coverage/integration_tests/linux_integration_tests_debug_system_mariadb
 
-    - name: Retrieve Linux Integration Test Coverage (Debug, System, MariaDB)
+    - name: Retrieve Linux Integration Test Coverage (Debug, Advanced, MariaDB)
       uses: actions/download-artifact@v3
       with:
-        name: linux-integration-test-coverage-Debug-System-MariaDB
+        name: linux-integration-test-coverage-Debug-Advanced-MariaDB
         path: ./code_coverage/integration_tests/linux_integration_tests_debug_system_mysql
 
-    - name: Retrieve Linux Integration Test Coverage (Debug, System, MySql)
+    - name: Retrieve Linux Integration Test Coverage (Debug, Advanced, MySql)
       uses: actions/download-artifact@v3
       with:
-        name: linux-integration-test-coverage-Debug-System-MySql
+        name: linux-integration-test-coverage-Debug-Advanced-MySql
         path: ./code_coverage/integration_tests/linux_integration_tests_debug_system_mysql
 
     - name: Retrieve Linux Integration Test Coverage (Debug, Basic, Sqlite)
       uses: actions/download-artifact@v3
       with:
-        name: linux-integration-test-coverage-Debug-System-Sqlite
+        name: linux-integration-test-coverage-Debug-Advanced-Sqlite
         path: ./code_coverage/integration_tests/linux_integration_tests_debug_basic_sqlite
 
     - name: Retrieve Linux Integration Test Coverage (Debug, Basic, PostgresSql)
       uses: actions/download-artifact@v3
       with:
-        name: linux-integration-test-coverage-Debug-System-PostgresSql
+        name: linux-integration-test-coverage-Debug-Advanced-PostgresSql
         path: ./code_coverage/integration_tests/linux_integration_tests_debug_basic_mariadb
 
     - name: Retrieve Linux Integration Test Coverage (Debug, Basic, MariaDB)
       uses: actions/download-artifact@v3
       with:
-        name: linux-integration-test-coverage-Debug-System-MariaDB
+        name: linux-integration-test-coverage-Debug-Advanced-MariaDB
         path: ./code_coverage/integration_tests/linux_integration_tests_debug_basic_mysql
 
     - name: Retrieve Linux Integration Test Coverage (Debug, Basic, MySql)
       uses: actions/download-artifact@v3
       with:
-        name: linux-integration-test-coverage-Debug-System-MySql
+        name: linux-integration-test-coverage-Debug-Advanced-MySql
         path: ./code_coverage/integration_tests/linux_integration_tests_debug_basic_mysql
 
     - name: Retrieve Windows Unit Test Coverage (Release)
@@ -899,16 +899,16 @@ jobs:
         name: windows-integration-test-coverage-Release-Basic-SqlServer
         path: ./code_coverage/integration_tests/windows_integration_tests_release_basic_sqlserver
 
-    - name: Retrieve Windows Integration Test Coverage (Debug, System, SqlServer)
+    - name: Retrieve Windows Integration Test Coverage (Debug, Advanced, SqlServer)
       uses: actions/download-artifact@v3
       with:
-        name: windows-integration-test-coverage-Debug-System-SqlServer
+        name: windows-integration-test-coverage-Debug-Advanced-SqlServer
         path: ./code_coverage/integration_tests/windows_integration_tests_debug_system_sqlserver
 
-    - name: Retrieve Windows Integration Test Coverage (Release, System, SqlServer)
+    - name: Retrieve Windows Integration Test Coverage (Release, Advanced, SqlServer)
       uses: actions/download-artifact@v3
       with:
-        name: windows-integration-test-coverage-Release-System-SqlServer
+        name: windows-integration-test-coverage-Release-Advanced-SqlServer
         path: ./code_coverage/integration_tests/windows_integration_tests_release_system_sqlserver
 
     - name: Retrieve Windows Integration Test Coverage (Debug, Basic, MariaDB)
@@ -923,16 +923,16 @@ jobs:
         name: windows-integration-test-coverage-Release-Basic-MariaDB
         path: ./code_coverage/integration_tests/windows_integration_tests_release_basic_mariadb
 
-    - name: Retrieve Windows Integration Test Coverage (Debug, System, MariaDB)
+    - name: Retrieve Windows Integration Test Coverage (Debug, Advanced, MariaDB)
       uses: actions/download-artifact@v3
       with:
-        name: windows-integration-test-coverage-Debug-System-MariaDB
+        name: windows-integration-test-coverage-Debug-Advanced-MariaDB
         path: ./code_coverage/integration_tests/windows_integration_tests_debug_system_mariadb
 
-    - name: Retrieve Windows Integration Test Coverage (Release, System, MariaDB)
+    - name: Retrieve Windows Integration Test Coverage (Release, Advanced, MariaDB)
       uses: actions/download-artifact@v3
       with:
-        name: windows-integration-test-coverage-Release-System-MariaDB
+        name: windows-integration-test-coverage-Release-Advanced-MariaDB
         path: ./code_coverage/integration_tests/windows_integration_tests_release_system_mariadb
 
     - name: Retrieve Windows Integration Test Coverage (Debug, Basic, MySql)
@@ -947,16 +947,16 @@ jobs:
         name: windows-integration-test-coverage-Release-Basic-MySql
         path: ./code_coverage/integration_tests/windows_integration_tests_release_basic_mysql
 
-    - name: Retrieve Windows Integration Test Coverage (Debug, System, MySql)
+    - name: Retrieve Windows Integration Test Coverage (Debug, Advanced, MySql)
       uses: actions/download-artifact@v3
       with:
-        name: windows-integration-test-coverage-Debug-System-MySql
+        name: windows-integration-test-coverage-Debug-Advanced-MySql
         path: ./code_coverage/integration_tests/windows_integration_tests_debug_system_mysql
 
-    - name: Retrieve Windows Integration Test Coverage (Release, System, MySql)
+    - name: Retrieve Windows Integration Test Coverage (Release, Advanced, MySql)
       uses: actions/download-artifact@v3
       with:
-        name: windows-integration-test-coverage-Release-System-MySql
+        name: windows-integration-test-coverage-Release-Advanced-MySql
         path: ./code_coverage/integration_tests/windows_integration_tests_release_system_mysql
 
     - name: Retrieve Windows Integration Test Coverage (Debug, Basic, PostgresSql)
@@ -971,16 +971,16 @@ jobs:
         name: windows-integration-test-coverage-Release-Basic-PostgresSql
         path: ./code_coverage/integration_tests/windows_integration_tests_release_basic_postgressql
 
-    - name: Retrieve Windows Integration Test Coverage (Debug, System, PostgresSql)
+    - name: Retrieve Windows Integration Test Coverage (Debug, Advanced, PostgresSql)
       uses: actions/download-artifact@v3
       with:
-        name: windows-integration-test-coverage-Debug-System-PostgresSql
+        name: windows-integration-test-coverage-Debug-Advanced-PostgresSql
         path: ./code_coverage/integration_tests/windows_integration_tests_debug_system_postgressql
 
-    - name: Retrieve Windows Integration Test Coverage (Release, System, PostgresSql)
+    - name: Retrieve Windows Integration Test Coverage (Release, Advanced, PostgresSql)
       uses: actions/download-artifact@v3
       with:
-        name: windows-integration-test-coverage-Release-System-PostgresSql
+        name: windows-integration-test-coverage-Release-Advanced-PostgresSql
         path: ./code_coverage/integration_tests/windows_integration_tests_release_system_postgressql
 
     - name: Retrieve Windows Integration Test Coverage (Debug, Basic, Sqlite)
@@ -995,16 +995,16 @@ jobs:
         name: windows-integration-test-coverage-Release-Basic-Sqlite
         path: ./code_coverage/integration_tests/windows_integration_tests_release_basic_sqlite
 
-    - name: Retrieve Windows Integration Test Coverage (Debug, System, Sqlite)
+    - name: Retrieve Windows Integration Test Coverage (Debug, Advanced, Sqlite)
       uses: actions/download-artifact@v3
       with:
-        name: windows-integration-test-coverage-Debug-System-Sqlite
+        name: windows-integration-test-coverage-Debug-Advanced-Sqlite
         path: ./code_coverage/integration_tests/windows_integration_tests_debug_system_sqlite
 
-    - name: Retrieve Windows Integration Test Coverage (Release, System, Sqlite)
+    - name: Retrieve Windows Integration Test Coverage (Release, Advanced, Sqlite)
       uses: actions/download-artifact@v3
       with:
-        name: windows-integration-test-coverage-Release-System-Sqlite
+        name: windows-integration-test-coverage-Release-Advanced-Sqlite
         path: ./code_coverage/integration_tests/windows_integration_tests_release_system_sqlite
 
     - name: Upload Coverage to CodeCov
@@ -1832,5 +1832,5 @@ jobs:
     - name: Run ReleaseNotes with --link-winget
       shell: powershell
       run: |
-        Sleep 15
+        Sleep 600
         dotnet run -c Release --no-build --project tools/Tgstation.Server.ReleaseNotes --link-winget ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}

@@ -11,10 +11,9 @@
 // END_PREFERENCES
 
 // BEGIN_INCLUDE
-#include "Config.dm"
-#include "../test_prelude.dm"
-#ifndef DME_NAME
-#define DME_NAME "long_running_test"
-#endif
-#include "Test.dm"
+#define RUN_STATIC_FILE_TESTS
+#define DME_NAME "long_running_test_rooted"
+#include "tests/DMAPI/LongRunning/Config.dm"
+#include "tests/DMAPI/test_prelude.dm"
+#include "tests/DMAPI/LongRunning/Test.dm"
 // END_INCLUDE

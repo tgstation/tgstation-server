@@ -66,9 +66,9 @@ namespace Tgstation.Server.Host.Components
 		readonly ISynchronousIOManager synchronousIOManager;
 
 		/// <summary>
-		/// The <see cref="ISymlinkFactory"/> for the <see cref="InstanceFactory"/>.
+		/// The <see cref="IFilesystemLinkFactory"/> for the <see cref="InstanceFactory"/>.
 		/// </summary>
-		readonly ISymlinkFactory symlinkFactory;
+		readonly IFilesystemLinkFactory linkFactory;
 
 		/// <summary>
 		/// The <see cref="IEngineInstaller"/> for the <see cref="InstanceFactory"/>.
@@ -163,7 +163,7 @@ namespace Tgstation.Server.Host.Components
 		/// <param name="topicClientFactory">The value of <see cref="topicClientFactory"/>.</param>
 		/// <param name="cryptographySuite">The value of <see cref="cryptographySuite"/>.</param>
 		/// <param name="synchronousIOManager">The value of <see cref="synchronousIOManager"/>.</param>
-		/// <param name="symlinkFactory">The value of <see cref="symlinkFactory"/>.</param>
+		/// <param name="linkFactory">The value of <see cref="linkFactory"/>.</param>
 		/// <param name="engineInstaller">The value of <see cref="engineInstaller"/>.</param>
 		/// <param name="chatFactory">The value of <see cref="chatFactory"/>.</param>
 		/// <param name="processExecutor">The value of <see cref="processExecutor"/>.</param>
@@ -187,7 +187,7 @@ namespace Tgstation.Server.Host.Components
 			ITopicClientFactory topicClientFactory,
 			ICryptographySuite cryptographySuite,
 			ISynchronousIOManager synchronousIOManager,
-			ISymlinkFactory symlinkFactory,
+			IFilesystemLinkFactory linkFactory,
 			IEngineInstaller engineInstaller,
 			IChatManagerFactory chatFactory,
 			IProcessExecutor processExecutor,
@@ -211,7 +211,7 @@ namespace Tgstation.Server.Host.Components
 			this.topicClientFactory = topicClientFactory ?? throw new ArgumentNullException(nameof(topicClientFactory));
 			this.cryptographySuite = cryptographySuite ?? throw new ArgumentNullException(nameof(cryptographySuite));
 			this.synchronousIOManager = synchronousIOManager ?? throw new ArgumentNullException(nameof(synchronousIOManager));
-			this.symlinkFactory = symlinkFactory ?? throw new ArgumentNullException(nameof(symlinkFactory));
+			this.linkFactory = linkFactory ?? throw new ArgumentNullException(nameof(linkFactory));
 			this.engineInstaller = engineInstaller ?? throw new ArgumentNullException(nameof(engineInstaller));
 			this.chatFactory = chatFactory ?? throw new ArgumentNullException(nameof(chatFactory));
 			this.processExecutor = processExecutor ?? throw new ArgumentNullException(nameof(processExecutor));
@@ -259,7 +259,7 @@ namespace Tgstation.Server.Host.Components
 			var configuration = new StaticFiles.Configuration(
 				configurationIoManager,
 				synchronousIOManager,
-				symlinkFactory,
+				linkFactory,
 				processExecutor,
 				postWriteHandler,
 				platformIdentifier,

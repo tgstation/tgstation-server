@@ -7,7 +7,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 	/// <summary>
 	/// Provides absolute paths to the latest compiled .dmbs.
 	/// </summary>
-	public interface IDmbProvider : IDisposable
+	public interface IDmbProvider : IAsyncDisposable
 	{
 		/// <summary>
 		/// The file name of the .dmb.

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.Versioning;
 
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -20,6 +21,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 	/// <summary>
 	/// <see cref="IWatchdogFactory"/> for creating <see cref="PosixWatchdog"/>s.
 	/// </summary>
+	[UnsupportedOSPlatform("windows")]
 	sealed class PosixWatchdogFactory : WindowsWatchdogFactory
 	{
 		/// <summary>
@@ -29,21 +31,21 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <param name="loggerFactory">The <see cref="ILoggerFactory"/> for the <see cref="WatchdogFactory"/>.</param>
 		/// <param name="jobManager">The <see cref="IJobManager"/> for the <see cref="WatchdogFactory"/>.</param>
 		/// <param name="asyncDelayer">The <see cref="IAsyncDelayer"/> for the <see cref="WatchdogFactory"/>.</param>
-		/// <param name="symlinkFactory">The <see cref="ISymlinkFactory"/> for the <see cref="WindowsWatchdogFactory"/>.</param>
+		/// <param name="linkFactory">The <see cref="IFilesystemLinkFactory"/> for the <see cref="WindowsWatchdogFactory"/>.</param>
 		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> for <see cref="GeneralConfiguration"/> for the <see cref="WatchdogFactory"/>.</param>
 		public PosixWatchdogFactory(
 			IServerControl serverControl,
 			ILoggerFactory loggerFactory,
 			IJobManager jobManager,
 			IAsyncDelayer asyncDelayer,
-			ISymlinkFactory symlinkFactory,
+			IFilesystemLinkFactory linkFactory,
 			IOptions<GeneralConfiguration> generalConfigurationOptions)
 			: base(
 				serverControl,
 				loggerFactory,
 				jobManager,
 				asyncDelayer,
-				symlinkFactory,
+				linkFactory,
 				generalConfigurationOptions)
 		{
 		}
@@ -72,10 +74,11 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				eventConsumer,
 				remoteDeploymentManagerFactory,
 				gameIOManager,
-				SymlinkFactory,
+				LinkFactory,
 				LoggerFactory.CreateLogger<PosixWatchdog>(),
 				settings,
 				instance,
+				GeneralConfiguration,
 				settings.AutoStart ?? throw new ArgumentNullException(nameof(settings)));
 	}
 }

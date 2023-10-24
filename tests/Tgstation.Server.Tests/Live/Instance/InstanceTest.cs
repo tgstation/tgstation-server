@@ -57,6 +57,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			ushort ddPort,
 			bool highPrioDD,
 			bool lowPrioDeployment,
+			bool usingBasicWatchdog,
 			CancellationToken cancellationToken)
 		{
 			var testVersion = await EngineTest.GetEdgeVersion(EngineType.Byond, fileDownloader, cancellationToken);
@@ -78,9 +79,17 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 			await chatTask;
 			await dmTask;
+			await configTest.SetupDMApiTests(true, cancellationToken);
 			await byondTask;
 
-			await new WatchdogTest(testVersion, instanceClient, instanceManager, serverPort, highPrioDD, ddPort)
+			await new WatchdogTest(
+				testVersion,
+				instanceClient,
+				instanceManager,
+				serverPort,
+				highPrioDD,
+				ddPort,
+				usingBasicWatchdog)
 				.Run(cancellationToken);
 		}
 
@@ -132,13 +141,14 @@ namespace Tgstation.Server.Tests.Live.Instance
 			// get the bytes for stable
 			return await byondInstaller.DownloadVersion(compatVersion, null, cancellationToken);
 		}
-		
+
 		public async Task RunCompatTests(
 			EngineVersion compatVersion,
 			IInstanceClient instanceClient,
 			ushort dmPort,
 			ushort ddPort,
 			bool highPrioDD,
+			bool usingBasicWatchdog,
 			CancellationToken cancellationToken)
 		{
 			System.Console.WriteLine($"COMPAT TEST START: {compatVersion}");
@@ -237,7 +247,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 				Assert.AreEqual(1, activeVersion.EngineVersion.CustomIteration);
 			}
 
-			var configSetupTask = new ConfigurationTest(instanceClient.Configuration, instanceClient.Metadata).SetupDMApiTests(cancellationToken);
+			var configSetupTask = new ConfigurationTest(instanceClient.Configuration, instanceClient.Metadata).SetupDMApiTests(true, cancellationToken);
 
 			if (TestingUtils.RunningInGitHubActions
 				|| String.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("TGS_TEST_GITHUB_TOKEN"))
@@ -253,7 +263,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 			await configSetupTask;
 
-			await new WatchdogTest(compatVersion, instanceClient, instanceManager, serverPort, highPrioDD, ddPort).Run(cancellationToken);
+			await new WatchdogTest(compatVersion, instanceClient, instanceManager, serverPort, highPrioDD, ddPort, usingBasicWatchdog).Run(cancellationToken);
 
 			await instanceManagerClient.Update(new InstanceUpdateRequest
 			{

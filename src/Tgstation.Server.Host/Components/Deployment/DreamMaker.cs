@@ -798,7 +798,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 			job.MinimumSecurityLevel = securityLevel; // needed for the TempDmbProvider
 
 			ApiValidationStatus validationStatus;
-			using (var provider = new TemporaryDmbProvider(
+			await using (var provider = new TemporaryDmbProvider(
 				ioManager.ResolvePath(job.DirectoryName.ToString()),
 				job,
 				engineLock.Version))

@@ -130,6 +130,13 @@
 /// DreamDaemon Ultrasafe security level.
 #define TGS_SECURITY_ULTRASAFE 2
 
+/// DreamDaemon public visibility level.
+#define TGS_VISIBILITY_PUBLIC 0
+/// DreamDaemon private visibility level.
+#define TGS_VISIBILITY_PRIVATE 1
+/// DreamDaemon invisible visibility level.
+#define TGS_VISIBILITY_INVISIBLE 2
+
 /// The Build Your Own Net Dream engine.
 #define TGS_ENGINE_TYPE_BYOND 0
 /// The OpenDream engine.
@@ -466,6 +473,10 @@
 
 /// Returns the current BYOND security level as a TGS_SECURITY_ define if TGS is present, null otherwise. This function may sleep if the call to [/world/proc/TgsNew] is sleeping!
 /world/proc/TgsSecurityLevel()
+	return
+
+/// Returns the current BYOND visibility level as a TGS_VISIBILITY_ define if TGS is present, null otherwise. Requires TGS to be using interop API version 5 or higher otherwise the string "___unimplemented" wil be returned. This function may sleep if the call to [/world/proc/TgsNew] is sleeping!
+/world/proc/TgsVisibility()
 	return
 
 /// Returns a list of active [/datum/tgs_revision_information/test_merge]s if TGS is present, null otherwise. This function may sleep if the call to [/world/proc/TgsNew] is sleeping!
