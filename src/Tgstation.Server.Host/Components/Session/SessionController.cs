@@ -702,8 +702,6 @@ namespace Tgstation.Server.Host.Components.Session
 				case BridgeCommandType.Startup:
 					apiValidationStatus = ApiValidationStatus.BadValidationRequest;
 
-					// This business is is cancelled until this BYOND bug is resolved: https://www.byond.com/forum/post/2894866
-#if FALSE
 					if (apiValidationSession)
 					{
 						var proceedTcs = new TaskCompletionSource<bool>();
@@ -713,9 +711,6 @@ namespace Tgstation.Server.Host.Components.Session
 						if (!firstValidationRequest)
 							return BridgeError("Startup bridge request was repeated!");
 					}
-#else
-					postValidationShutdownTask = Task.CompletedTask;
-#endif
 
 					if (parameters.Version == null)
 						return BridgeError("Missing dmApiVersion field!");
