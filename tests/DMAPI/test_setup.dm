@@ -32,3 +32,4 @@
 	text2file(reason, "test_fail_reason.txt")
 	world.log << "Terminating..."
 	del(world)
+	sleep(1) // https://www.byond.com/forum/post/2894866
