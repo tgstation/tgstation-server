@@ -13,6 +13,7 @@ using Tgstation.Server.Client;
 using Tgstation.Server.Client.Components;
 using Tgstation.Server.Common.Extensions;
 using Tgstation.Server.Host.IO;
+using Tgstation.Server.Host.System;
 
 namespace Tgstation.Server.Tests.Live.Instance
 {
@@ -116,6 +117,19 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 				await using var memoryStream2 = new MemoryStream(Encoding.UTF8.GetBytes("bbb"));
 				await configurationClient.Write(staticFile2, memoryStream2, cancellationToken);
+
+				var shellScriptExtension = new PlatformIdentifier().IsWindows ? ".bat" : ".sh";
+				var scriptName = $"PreCompile-GenerateRandomResource{shellScriptExtension}";
+				var resourcingScript = new ConfigurationFileRequest
+				{
+					Path = $"/EventScripts/{scriptName}"
+				};
+
+				await using var readStream = ioManager.GetFileStream($"../../../../DMAPI/LongRunning/{scriptName}", false);
+				await configurationClient.Write(
+					resourcingScript,
+					readStream,
+					cancellationToken);
 			}
 
 			return ValueTaskExtensions.WhenAll(

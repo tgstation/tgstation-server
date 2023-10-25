@@ -1,8 +1,0 @@
-
-		if(!length(channels))
-			FailTest("Expected some chat channels!")
-
-	var/test_str = "aljsdhfjahsfkjnsalkjdfhskljdackmcnvxkljhvkjsdanv,jdshlkufhklasjeFDhfjkalhdkjlfhalksfdjh"
-	var/self_contents = file2text(file('Test.dm')) // we need a .rsc to be generated
-
-	if(!(test_str in self_contents))
