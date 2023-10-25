@@ -394,13 +394,17 @@ namespace Tgstation.Server.Tests.Live.Instance
 				KillDD(true);
 				var jobTcs = new TaskCompletionSource();
 				var killTaskStarted = new TaskCompletionSource();
-				var killTask = Task.Run(() =>
+				var killThread = new Thread(() =>
 				{
 					killTaskStarted.SetResult();
 					while (!jobTcs.Task.IsCompleted)
 						KillDD(false);
-				}, cancellationToken);
+				})
+				{
+					Priority = ThreadPriority.AboveNormal
+				};
 
+				killThread.Start();
 				try
 				{
 					await killTaskStarted.Task;
@@ -410,7 +414,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 				finally
 				{
 					jobTcs.SetResult();
-					await killTask;
+					killThread.Join();
 				}
 
 				// these can also happen
@@ -1133,9 +1137,11 @@ namespace Tgstation.Server.Tests.Live.Instance
 			Assert.AreEqual(ddPort, daemonStatus.CurrentPort);
 
 			// Try killing the DD process to ensure it gets set to the restoring state
+			bool firstTime = true;
 			do
 			{
-				KillDD(true);
+				KillDD(firstTime);
+				firstTime = false;
 				await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);
 				daemonStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
 			}
