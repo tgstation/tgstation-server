@@ -1137,9 +1137,11 @@ namespace Tgstation.Server.Tests.Live.Instance
 			Assert.AreEqual(ddPort, daemonStatus.CurrentPort);
 
 			// Try killing the DD process to ensure it gets set to the restoring state
+			bool firstTime = true;
 			do
 			{
-				KillDD(true);
+				KillDD(firstTime);
+				firstTime = false;
 				await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);
 				daemonStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
 			}
