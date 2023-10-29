@@ -113,6 +113,11 @@ namespace Tgstation.Server.Api
 		public string? Password { get; }
 
 		/// <summary>
+		/// The OAuth code in use.
+		/// </summary>
+		public string? OAuthCode { get; }
+
+		/// <summary>
 		/// The <see cref="Models.OAuthProvider"/> the <see cref="Token"/> is for, if any.
 		/// </summary>
 		public OAuthProvider? OAuthProvider { get; }
@@ -121,11 +126,6 @@ namespace Tgstation.Server.Api
 		/// If the header uses password or TGS JWT authentication.
 		/// </summary>
 		public bool IsTokenAuthentication => Token != null && !OAuthProvider.HasValue;
-
-		/// <summary>
-		/// The OAuth code in use.
-		/// </summary>
-		readonly string? oAuthCode;
 
 		/// <summary>
 		/// Checks if a given <paramref name="otherVersion"/> is compatible with our own.
@@ -154,7 +154,7 @@ namespace Tgstation.Server.Api
 		/// Initializes a new instance of the <see cref="ApiHeaders"/> class. Used for token authentication.
 		/// </summary>
 		/// <param name="userAgent">The value of <see cref="UserAgent"/>.</param>
-		/// <param name="oAuthCode">The value of <see cref="oAuthCode"/>.</param>
+		/// <param name="oAuthCode">The value of <see cref="OAuthCode"/>.</param>
 		/// <param name="oAuthProvider">The value of <see cref="OAuthProvider"/>.</param>
 		public ApiHeaders(ProductHeaderValue userAgent, string oAuthCode, OAuthProvider oAuthProvider)
 			: this(userAgent, null, null, null)
@@ -162,7 +162,7 @@ namespace Tgstation.Server.Api
 			if (userAgent == null)
 				throw new ArgumentNullException(nameof(userAgent));
 
-			this.oAuthCode = oAuthCode ?? throw new ArgumentNullException(nameof(oAuthCode));
+			OAuthCode = oAuthCode ?? throw new ArgumentNullException(nameof(oAuthCode));
 			OAuthProvider = oAuthProvider;
 		}
 
@@ -267,7 +267,8 @@ namespace Tgstation.Server.Api
 								else
 									AddError(HeaderTypes.OAuthProvider, $"Missing {OAuthProviderHeader} header!");
 
-								goto case BearerAuthenticationScheme;
+								OAuthCode = parameter;
+								break;
 							case BearerAuthenticationScheme:
 								var tokenSplits = parameter.Split('.');
 								DateTimeOffset? expiresAt = null;
@@ -379,7 +380,7 @@ namespace Tgstation.Server.Api
 			headers.Add(ApiVersionHeader, CreateApiVersionHeader());
 			if (OAuthProvider.HasValue)
 			{
-				headers.Authorization = new AuthenticationHeaderValue(OAuthAuthenticationScheme, Token!.Bearer);
+				headers.Authorization = new AuthenticationHeaderValue(OAuthAuthenticationScheme, OAuthCode!);
 				headers.Add(OAuthProviderHeader, OAuthProvider.ToString());
 			}
 			else if (!IsTokenAuthentication)
