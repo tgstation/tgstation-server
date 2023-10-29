@@ -3,16 +3,19 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Threading.Tasks;
 
 using Cyberboss.AspNetCore.AsyncInitializer;
 
 using Elastic.CommonSchema.Serilog;
 
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -115,7 +118,7 @@ namespace Tgstation.Server.Host.Core
 		}
 
 		/// <summary>
-		/// Configure the <see cref="Application"/>'s services.
+		/// Configure the <see cref="Application"/>'s <paramref name="services"/>.
 		/// </summary>
 		/// <param name="services">The <see cref="IServiceCollection"/> to configure.</param>
 		/// <param name="assemblyInformationProvider">The <see cref="IAssemblyInformationProvider"/> needed for configuration.</param>
@@ -217,34 +220,24 @@ namespace Tgstation.Server.Host.Core
 				postSetupServices.InternalConfiguration,
 				postSetupServices.FileLoggingConfiguration);
 
-			// configure bearer token validation
-			services
-				.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-				.AddJwtBearer(jwtBearerOptions =>
-				{
-					// this line isn't actually run until the first request is made
-					// at that point tokenFactory will be populated
-					jwtBearerOptions.TokenValidationParameters = tokenFactory.ValidationParameters;
-					jwtBearerOptions.Events = new JwtBearerEvents
-					{
-						// Application is our composition root so this monstrosity of a line is okay
-						// At least, that's what I tell myself to sleep at night
-						OnTokenValidated = ctx => ctx
-							.HttpContext
-							.RequestServices
-							.GetRequiredService<IClaimsInjector>()
-							.InjectClaimsIntoContext(
-								ctx,
-								ctx.HttpContext.RequestAborted),
-					};
-				});
-
-			// WARNING: STATIC CODE
-			// fucking prevents converting 'sub' to M$ bs
-			// can't be done in the above lambda, that's too late
-			JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
+			// configure authentication pipeline
+			ConfigureAuthenticationPipeline(services);
 
 			// add mvc, configure the json serializer settings
+			var jsonVersionConverterList = new List<JsonConverter>
+			{
+				new VersionConverter(),
+			};
+
+			void ConfigureNewtonsoftJsonSerializerSettingsForApi(JsonSerializerSettings settings)
+			{
+				settings.NullValueHandling = NullValueHandling.Ignore;
+				settings.CheckAdditionalContent = true;
+				settings.MissingMemberHandling = MissingMemberHandling.Error;
+				settings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+				settings.Converters = jsonVersionConverterList;
+			}
+
 			services
 				.AddMvc(options =>
 				{
@@ -254,14 +247,7 @@ namespace Tgstation.Server.Host.Core
 				.AddNewtonsoftJson(options =>
 				{
 					options.AllowInputFormatterExceptionMessages = true;
-					options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
-					options.SerializerSettings.CheckAdditionalContent = true;
-					options.SerializerSettings.MissingMemberHandling = MissingMemberHandling.Error;
-					options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-					options.SerializerSettings.Converters = new List<JsonConverter>
-					{
-						new VersionConverter(),
-					};
+					ConfigureNewtonsoftJsonSerializerSettingsForApi(options.SerializerSettings);
 				});
 
 			if (postSetupServices.GeneralConfiguration.HostApiDocumentation)
@@ -322,9 +308,7 @@ namespace Tgstation.Server.Host.Core
 			services.AddSingleton<IDatabaseContextFactory, DatabaseContextFactory>();
 			services.AddSingleton<IDatabaseSeeder, DatabaseSeeder>();
 
-			// configure security services
-			services.AddScoped<IAuthenticationContextFactory, AuthenticationContextFactory>();
-			services.AddScoped<IClaimsInjector, ClaimsInjector>();
+			// configure other security services
 			services.AddSingleton<IOAuthProviders, OAuthProviders>();
 			services.AddSingleton<IIdentityCache, IdentityCache>();
 			services.AddSingleton<ICryptographySuite, CryptographySuite>();
@@ -546,5 +530,46 @@ namespace Tgstation.Server.Host.Core
 		/// <inheritdoc />
 		protected override void ConfigureHostedService(IServiceCollection services)
 			=> services.AddSingleton<IHostedService>(x => x.GetRequiredService<InstanceManager>());
+
+		/// <summary>
+		/// Configure the <paramref name="services"/> for the authentication pipeline.
+		/// </summary>
+		/// <param name="services">The <see cref="IServiceCollection"/> to configure.</param>
+		void ConfigureAuthenticationPipeline(IServiceCollection services)
+		{
+			services.AddHttpContextAccessor();
+			services.AddScoped<IApiHeadersProvider, ApiHeadersProvider>();
+			services.AddScoped<AuthenticationContextFactory>();
+			services.AddScoped<IAuthenticationContextFactory>(provider => provider.GetRequiredService<AuthenticationContextFactory>());
+			services.AddScoped(provider =>
+			{
+				return provider.GetRequiredService<AuthenticationContextFactory>().CurrentAuthenticationContext;
+			});
+			services.AddScoped<IClaimsTransformation, AuthenticationContextClaimsTransformation>();
+			services.AddScoped<IAuthorizationFilter, AuthenticationContextAuthorizationFilter>();
+
+			services
+				.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+				.AddJwtBearer(jwtBearerOptions =>
+				{
+					// this line isn't actually run until the first request is made
+					// at that point tokenFactory will be populated
+					jwtBearerOptions.TokenValidationParameters = tokenFactory?.ValidationParameters ?? throw new InvalidOperationException("tokenFactory not initialized!");
+					jwtBearerOptions.Events = new JwtBearerEvents
+					{
+						OnTokenValidated = tokenValidatedContext =>
+						{
+							var acf = tokenValidatedContext.HttpContext.RequestServices.GetRequiredService<AuthenticationContextFactory>();
+							acf.SetTokenNbf(tokenValidatedContext.SecurityToken.ValidFrom);
+							return Task.CompletedTask;
+						},
+					};
+				});
+
+			// WARNING: STATIC CODE
+			// fucking prevents converting 'sub' to M$ bs
+			// can't be done in the above lambda, that's too late
+			JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
+		}
 	}
 }

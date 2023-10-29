@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -82,7 +82,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// Initializes a new instance of the <see cref="InstanceController"/> class.
 		/// </summary>
 		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> for the <see cref="ComponentInterfacingController"/>.</param>
-		/// <param name="authenticationContextFactory">The <see cref="IAuthenticationContextFactory"/> for the <see cref="ComponentInterfacingController"/>.</param>
+		/// <param name="authenticationContext">The <see cref="IAuthenticationContext"/> for the <see cref="ComponentInterfacingController"/>.</param>
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="ComponentInterfacingController"/>.</param>
 		/// <param name="instanceManager">The <see cref="IInstanceManager"/> for the <see cref="ComponentInterfacingController"/>.</param>
 		/// <param name="jobManager">The value of <see cref="jobManager"/>.</param>
@@ -91,9 +91,10 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="portAllocator">The value of <see cref="IPortAllocator"/>.</param>
 		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="generalConfiguration"/>.</param>
 		/// <param name="swarmConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="swarmConfiguration"/>.</param>
+		/// <param name="apiHeaders">The <see cref="IApiHeadersProvider"/> for the <see cref="ComponentInterfacingController"/>.</param>
 		public InstanceController(
 			IDatabaseContext databaseContext,
-			IAuthenticationContextFactory authenticationContextFactory,
+			IAuthenticationContext authenticationContext,
 			ILogger<InstanceController> logger,
 			IInstanceManager instanceManager,
 			IJobManager jobManager,
@@ -101,12 +102,15 @@ namespace Tgstation.Server.Host.Controllers
 			IPortAllocator portAllocator,
 			IPlatformIdentifier platformIdentifier,
 			IOptions<GeneralConfiguration> generalConfigurationOptions,
-			IOptions<SwarmConfiguration> swarmConfigurationOptions)
+			IOptions<SwarmConfiguration> swarmConfigurationOptions,
+			IApiHeadersProvider apiHeaders)
 			: base(
 				  databaseContext,
-				  authenticationContextFactory,
+				  authenticationContext,
 				  logger,
-				  instanceManager)
+				  instanceManager,
+				  apiHeaders,
+				  false)
 		{
 			this.jobManager = jobManager ?? throw new ArgumentNullException(nameof(jobManager));
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));

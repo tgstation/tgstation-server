@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Net;
 using System.Threading;
@@ -27,6 +27,7 @@ using Tgstation.Server.Host.Security;
 using Tgstation.Server.Host.Security.OAuth;
 using Tgstation.Server.Host.Swarm;
 using Tgstation.Server.Host.System;
+using Tgstation.Server.Host.Utils;
 
 namespace Tgstation.Server.Host.Controllers
 {
@@ -95,7 +96,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// Initializes a new instance of the <see cref="HomeController"/> class.
 		/// </summary>
 		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> for the <see cref="ApiController"/>.</param>
-		/// <param name="authenticationContextFactory">The <see cref="IAuthenticationContextFactory"/> for the <see cref="ApiController"/>.</param>
+		/// <param name="authenticationContext">The <see cref="IAuthenticationContext"/> for the <see cref="ApiController"/>.</param>
 		/// <param name="tokenFactory">The value of <see cref="tokenFactory"/>.</param>
 		/// <param name="systemIdentityFactory">The value of <see cref="systemIdentityFactory"/>.</param>
 		/// <param name="cryptographySuite">The value of <see cref="cryptographySuite"/>.</param>
@@ -108,9 +109,10 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="generalConfiguration"/>.</param>
 		/// <param name="controlPanelConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="controlPanelConfiguration"/>.</param>
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="ApiController"/>.</param>
+		/// <param name="apiHeadersProvider">The <see cref="IApiHeadersProvider"/> for the <see cref="ApiController"/>.</param>
 		public HomeController(
 			IDatabaseContext databaseContext,
-			IAuthenticationContextFactory authenticationContextFactory,
+			IAuthenticationContext authenticationContext,
 			ITokenFactory tokenFactory,
 			ISystemIdentityFactory systemIdentityFactory,
 			ICryptographySuite cryptographySuite,
@@ -122,10 +124,12 @@ namespace Tgstation.Server.Host.Controllers
 			IServerControl serverControl,
 			IOptions<GeneralConfiguration> generalConfigurationOptions,
 			IOptions<ControlPanelConfiguration> controlPanelConfigurationOptions,
-			ILogger<HomeController> logger)
+			ILogger<HomeController> logger,
+			IApiHeadersProvider apiHeadersProvider)
 			: base(
 				  databaseContext,
-				  authenticationContextFactory,
+				  authenticationContext,
+				  apiHeadersProvider,
 				  logger,
 				  false)
 		{

@@ -5,6 +5,7 @@ using System.Net.Mime;
 using System.Threading;
 using System.Threading.Tasks;
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -25,6 +26,7 @@ namespace Tgstation.Server.Host.Controllers
 	/// </summary>
 	[Route(SwarmConstants.ControllerRoute)]
 	[ApiExplorerSettings(IgnoreApi = true)]
+	[AllowAnonymous] // We have custom private key auth
 	public sealed class SwarmController : ApiControllerBase
 	{
 		/// <summary>

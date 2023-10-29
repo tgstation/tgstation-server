@@ -48,7 +48,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <summary>
 		/// The <see cref="Api.ApiHeaders"/> for the operation.
 		/// </summary>
-		protected ApiHeaders ApiHeaders { get; private set; }
+		protected ApiHeaders ApiHeaders { get; }
 
 		/// <summary>
 		/// The <see cref="IDatabaseContext"/> for the operation.
@@ -79,20 +79,24 @@ namespace Tgstation.Server.Host.Controllers
 		/// Initializes a new instance of the <see cref="ApiController"/> class.
 		/// </summary>
 		/// <param name="databaseContext">The value of <see cref="DatabaseContext"/>.</param>
-		/// <param name="authenticationContextFactory">The <see cref="IAuthenticationContextFactory"/> for the <see cref="ApiController"/>.</param>
+		/// <param name="authenticationContext">The <see cref="IAuthenticationContext"/> for the <see cref="ApiController"/>.</param>
 		/// <param name="logger">The value of <see cref="Logger"/>.</param>
+		/// <param name="apiHeadersProvider">The <see cref="IApiHeadersProvider"/> containing value of <see cref="ApiHeaders"/>.</param>
 		/// <param name="requireHeaders">The value of <see cref="requireHeaders"/>.</param>
 		protected ApiController(
 			IDatabaseContext databaseContext,
-			IAuthenticationContextFactory authenticationContextFactory,
+			IAuthenticationContext authenticationContext,
+			IApiHeadersProvider apiHeadersProvider,
 			ILogger<ApiController> logger,
 			bool requireHeaders)
 		{
 			DatabaseContext = databaseContext ?? throw new ArgumentNullException(nameof(databaseContext));
-			ArgumentNullException.ThrowIfNull(authenticationContextFactory);
+			AuthenticationContext = authenticationContext ?? throw new ArgumentNullException(nameof(authenticationContext));
+			ArgumentNullException.ThrowIfNull(apiHeadersProvider);
 			Logger = logger ?? throw new ArgumentNullException(nameof(logger));
-			AuthenticationContext = authenticationContextFactory.CurrentAuthenticationContext;
+
 			Instance = AuthenticationContext?.InstancePermissionSet?.Instance;
+			ApiHeaders = apiHeadersProvider.ApiHeaders;
 			this.requireHeaders = requireHeaders;
 		}
 
@@ -102,30 +106,20 @@ namespace Tgstation.Server.Host.Controllers
 		{
 			ArgumentNullException.ThrowIfNull(executeAction);
 
-			// ALL valid token and login requests that match a route go through this function
-			// 404 is returned before
-			if (AuthenticationContext != null && AuthenticationContext.User == null)
-				return Unauthorized(); // valid token, expired password
-
 			// validate the headers
-			try
-			{
-				ApiHeaders = new ApiHeaders(Request.GetTypedHeaders());
-
-				if (!ApiHeaders.Compatible())
-					return this.StatusCode(
-						HttpStatusCode.UpgradeRequired,
-						new ErrorMessageResponse(ErrorCode.ApiMismatch));
-
-				var errorCase = await ValidateRequest(cancellationToken);
-				if (errorCase != null)
-					return errorCase;
-			}
-			catch (HeadersException)
+			if (ApiHeaders == null)
 			{
 				if (requireHeaders)
 					return HeadersIssue(false);
 			}
+			else if (!ApiHeaders.Compatible())
+				return this.StatusCode(
+					HttpStatusCode.UpgradeRequired,
+					new ErrorMessageResponse(ErrorCode.ApiMismatch));
+
+			var errorCase = await ValidateRequest(cancellationToken);
+			if (errorCase != null)
+				return errorCase;
 
 			if (ModelState?.IsValid == false)
 			{
@@ -152,7 +146,7 @@ namespace Tgstation.Server.Host.Controllers
 			using (ApiHeaders?.InstanceId != null
 				? LogContext.PushProperty(SerilogContextHelper.InstanceIdContextProperty, ApiHeaders.InstanceId)
 				: null)
-			using (AuthenticationContext != null
+			using (AuthenticationContext.Valid
 				? LogContext.PushProperty(SerilogContextHelper.UserIdContextProperty, AuthenticationContext.User.Id)
 				: null)
 			using (LogContext.PushProperty(SerilogContextHelper.RequestPathContextProperty, $"{Request.Method} {Request.Path}"))
@@ -252,6 +246,7 @@ namespace Tgstation.Server.Host.Controllers
 			HeadersException headersException;
 			try
 			{
+				// TODO: Move this somewhere saner?
 				_ = new ApiHeaders(Request.GetTypedHeaders(), ignoreMissingAuth);
 				throw new InvalidOperationException("Expected a header parse exception!");
 			}

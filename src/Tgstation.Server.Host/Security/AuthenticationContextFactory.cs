@@ -13,11 +13,13 @@ using Tgstation.Server.Host.Models;
 
 namespace Tgstation.Server.Host.Security
 {
-	/// <inheritdoc cref="IAuthenticationContextFactory" />
+	/// <inheritdoc cref="IAuthenticationContext" />
 	sealed class AuthenticationContextFactory : IAuthenticationContextFactory, IDisposable
 	{
-		/// <inheritdoc />
-		public IAuthenticationContext CurrentAuthenticationContext { get; private set; }
+		/// <summary>
+		/// The <see cref="IAuthenticationContext"/> the <see cref="AuthenticationContextFactory"/> created.
+		/// </summary>
+		public IAuthenticationContext CurrentAuthenticationContext => currentAuthenticationContext;
 
 		/// <summary>
 		/// The <see cref="IDatabaseContext"/> for the <see cref="AuthenticationContextFactory"/>.
@@ -40,6 +42,21 @@ namespace Tgstation.Server.Host.Security
 		readonly SwarmConfiguration swarmConfiguration;
 
 		/// <summary>
+		/// Backing field for <see cref="CurrentAuthenticationContext"/>.
+		/// </summary>
+		readonly AuthenticationContext currentAuthenticationContext;
+
+		/// <summary>
+		/// The <see cref="DateTimeOffset"/> the request's token must be valid after.
+		/// </summary>
+		DateTimeOffset? validAfter;
+
+		/// <summary>
+		/// 1 if <see cref="currentAuthenticationContext"/> was initialized, 0 otherwise.
+		/// </summary>
+		int initialized;
+
+		/// <summary>
 		/// Initializes a new instance of the <see cref="AuthenticationContextFactory"/> class.
 		/// </summary>
 		/// <param name="databaseContext">The value of <see cref="databaseContext"/>.</param>
@@ -56,16 +73,33 @@ namespace Tgstation.Server.Host.Security
 			this.identityCache = identityCache ?? throw new ArgumentNullException(nameof(identityCache));
 			swarmConfiguration = swarmConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(swarmConfigurationOptions));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
+
+			currentAuthenticationContext = new AuthenticationContext();
 		}
 
 		/// <inheritdoc />
-		public void Dispose() => CurrentAuthenticationContext?.Dispose();
+		public void Dispose() => currentAuthenticationContext.Dispose();
+
+		/// <summary>
+		/// Populate <see cref="validAfter"/> with a given <paramref name="tokenNbf"/>.
+		/// </summary>
+		/// <param name="tokenNbf">The <see cref="DateTimeOffset"/> an issued token is not valid before.</param>
+		public void SetTokenNbf(DateTimeOffset tokenNbf)
+		{
+			if (validAfter.HasValue)
+				throw new InvalidOperationException("SetTokenNbf called multiple times!");
+
+			validAfter = tokenNbf;
+		}
 
 		/// <inheritdoc />
-		public async ValueTask CreateAuthenticationContext(long userId, long? instanceId, DateTimeOffset validAfter, CancellationToken cancellationToken)
+		public async ValueTask<IAuthenticationContext> CreateAuthenticationContext(long userId, long? instanceId, CancellationToken cancellationToken)
 		{
-			if (CurrentAuthenticationContext != null)
+			if (Interlocked.Exchange(ref initialized, 1) != 0)
 				throw new InvalidOperationException("Authentication context has already been loaded");
+
+			if (!validAfter.HasValue)
+				throw new InvalidOperationException("SetTokenNbf has not been called!");
 
 			var user = await databaseContext
 				.Users
@@ -79,9 +113,8 @@ namespace Tgstation.Server.Host.Security
 				.FirstOrDefaultAsync(cancellationToken);
 			if (user == default)
 			{
-				logger.LogWarning("Unable to find user with ID {0}!", userId);
-				CurrentAuthenticationContext = new AuthenticationContext();
-				return;
+				logger.LogWarning("Unable to find user with ID {userId}!", userId);
+				return currentAuthenticationContext;
 			}
 
 			ISystemIdentity systemIdentity;
@@ -89,11 +122,10 @@ namespace Tgstation.Server.Host.Security
 				systemIdentity = identityCache.LoadCachedIdentity(user);
 			else
 			{
-				if (user.LastPasswordUpdate.HasValue && user.LastPasswordUpdate > validAfter)
+				if (user.LastPasswordUpdate.HasValue && user.LastPasswordUpdate > validAfter.Value)
 				{
-					logger.LogDebug("Rejecting token for user {0} created before last password update: {1}", userId, user.LastPasswordUpdate.Value);
-					CurrentAuthenticationContext = new AuthenticationContext();
-					return;
+					logger.LogDebug("Rejecting token for user {userId} created before last password update: {lastPasswordUpdate}", userId, user.LastPasswordUpdate.Value);
+					return currentAuthenticationContext;
 				}
 
 				systemIdentity = null;
@@ -112,13 +144,14 @@ namespace Tgstation.Server.Host.Security
 						.FirstOrDefaultAsync(cancellationToken);
 
 					if (instancePermissionSet == null)
-						logger.LogDebug("User {0} does not have permissions on instance {1}!", userId, instanceId.Value);
+						logger.LogDebug("User {userId} does not have permissions on instance {instanceId}!", userId, instanceId.Value);
 				}
 
-				CurrentAuthenticationContext = new AuthenticationContext(
+				currentAuthenticationContext.Initialize(
 					systemIdentity,
 					user,
 					instancePermissionSet);
+				return currentAuthenticationContext;
 			}
 			catch
 			{

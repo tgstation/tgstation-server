@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 
 namespace Tgstation.Server.Host.Security
@@ -10,18 +9,12 @@ namespace Tgstation.Server.Host.Security
 	public interface IAuthenticationContextFactory
 	{
 		/// <summary>
-		/// The <see cref="IAuthenticationContext"/> the <see cref="IAuthenticationContextFactory"/> created.
+		/// Create an <see cref="IAuthenticationContext"/> in the request pipeline for a given <paramref name="userId"/> and <paramref name="instanceId"/>.
 		/// </summary>
-		IAuthenticationContext CurrentAuthenticationContext { get; }
-
-		/// <summary>
-		/// Create an <see cref="IAuthenticationContext"/> to populate <see cref="CurrentAuthenticationContext"/>.
-		/// </summary>
-		/// <param name="userId">The <see cref="Api.Models.EntityId.Id"/> of the <see cref="IAuthenticationContext.User"/>.</param>
-		/// <param name="instanceId">The <see cref="Api.Models.EntityId.Id"/> of the operation.</param>
-		/// <param name="validAfter">The <see cref="DateTimeOffset"/> the resulting <see cref="IAuthenticationContext.User"/>'s password must be valid after.</param>
+		/// <param name="userId">The <see cref="Api.Models.EntityId.Id"/> of the <see cref="Models.User"/>.</param>
+		/// <param name="instanceId">The <see cref="Api.Models.EntityId.Id"/> of the <see cref="Models.Instance"/> for the operation.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
-		ValueTask CreateAuthenticationContext(long userId, long? instanceId, DateTimeOffset validAfter, CancellationToken cancellationToken);
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the created <see cref="IAuthenticationContext"/>.</returns>
+		ValueTask<IAuthenticationContext> CreateAuthenticationContext(long userId, long? instanceId, CancellationToken cancellationToken);
 	}
 }

@@ -1,6 +1,4 @@
-﻿using System;
-
-using Tgstation.Server.Api.Rights;
+﻿using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Host.Models;
 
 namespace Tgstation.Server.Host.Security
@@ -8,8 +6,13 @@ namespace Tgstation.Server.Host.Security
 	/// <summary>
 	/// Represents the currently authenticated <see cref="Models.User"/>.
 	/// </summary>
-	public interface IAuthenticationContext : IDisposable
+	public interface IAuthenticationContext
 	{
+		/// <summary>
+		/// If the <see cref="IAuthenticationContext"/> is for a valid login.
+		/// </summary>
+		public bool Valid { get; }
+
 		/// <summary>
 		/// The authenticated user.
 		/// </summary>

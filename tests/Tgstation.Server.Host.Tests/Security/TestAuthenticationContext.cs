@@ -1,4 +1,4 @@
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System;
 
@@ -16,7 +16,7 @@ namespace Tgstation.Server.Host.Security.Tests
 		[TestMethod]
 		public void TestConstruction()
 		{
-			Assert.ThrowsException<ArgumentNullException>(() => new AuthenticationContext(null, null, null));
+			Assert.ThrowsException<ArgumentNullException>(() => new AuthenticationContext().Initialize(null, null, null));
 			var mockSystemIdentity = new Mock<ISystemIdentity>();
 
 			var user = new User()
@@ -24,18 +24,18 @@ namespace Tgstation.Server.Host.Security.Tests
 				PermissionSet = new PermissionSet()
 			};
 
-			var authContext = new AuthenticationContext(null, user, null);
-			Assert.ThrowsException<ArgumentNullException>(() => new AuthenticationContext(mockSystemIdentity.Object, null, null));
+			var authContext = new AuthenticationContext();
+			Assert.ThrowsException<ArgumentNullException>(() => new AuthenticationContext().Initialize(mockSystemIdentity.Object, null, null));
 
 			var instanceUser = new InstancePermissionSet();
 
-			Assert.ThrowsException<ArgumentNullException>(() => new AuthenticationContext(null, null, instanceUser));
-			Assert.ThrowsException<ArgumentNullException>(() => new AuthenticationContext(mockSystemIdentity.Object, null, instanceUser));
-			authContext = new AuthenticationContext(mockSystemIdentity.Object, user, null);
-			authContext = new AuthenticationContext(null, user, instanceUser);
-			authContext = new AuthenticationContext(mockSystemIdentity.Object, user, instanceUser);
+			Assert.ThrowsException<ArgumentNullException>(() => new AuthenticationContext().Initialize(null, null, instanceUser));
+			Assert.ThrowsException<ArgumentNullException>(() => new AuthenticationContext().Initialize(mockSystemIdentity.Object, null, instanceUser));
+			new AuthenticationContext().Initialize(mockSystemIdentity.Object, user, null);
+			new AuthenticationContext().Initialize(null, user, instanceUser);
+			new AuthenticationContext().Initialize(mockSystemIdentity.Object, user, instanceUser);
 			user.SystemIdentifier = "root";
-			Assert.ThrowsException<ArgumentNullException>(() => new AuthenticationContext(null, user, null));
+			Assert.ThrowsException<ArgumentNullException>(() => new AuthenticationContext().Initialize(null, user, null));
 		}
 
 
@@ -47,7 +47,8 @@ namespace Tgstation.Server.Host.Security.Tests
 				PermissionSet = new PermissionSet()
 			};
 			var instanceUser = new InstancePermissionSet();
-			var authContext = new AuthenticationContext(null, user, instanceUser);
+			var authContext = new AuthenticationContext();
+			authContext.Initialize(null, user, instanceUser);
 
 			user.PermissionSet.AdministrationRights = AdministrationRights.WriteUsers;
 			instanceUser.ByondRights = ByondRights.InstallOfficialOrChangeActiveVersion | ByondRights.ReadActive;
