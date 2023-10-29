@@ -48,7 +48,12 @@ namespace Tgstation.Server.Host.Controllers
 		/// <summary>
 		/// The <see cref="Api.ApiHeaders"/> for the operation.
 		/// </summary>
-		protected ApiHeaders ApiHeaders { get; }
+		protected ApiHeaders ApiHeaders => ApiHeadersProvider.ApiHeaders;
+
+		/// <summary>
+		/// The <see cref="IApiHeadersProvider"/> containing value of <see cref="ApiHeaders"/>.
+		/// </summary>
+		protected IApiHeadersProvider ApiHeadersProvider { get; }
 
 		/// <summary>
 		/// The <see cref="IDatabaseContext"/> for the operation.
@@ -81,7 +86,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="databaseContext">The value of <see cref="DatabaseContext"/>.</param>
 		/// <param name="authenticationContext">The <see cref="IAuthenticationContext"/> for the <see cref="ApiController"/>.</param>
 		/// <param name="logger">The value of <see cref="Logger"/>.</param>
-		/// <param name="apiHeadersProvider">The <see cref="IApiHeadersProvider"/> containing value of <see cref="ApiHeaders"/>.</param>
+		/// <param name="apiHeadersProvider">The value of <see cref="ApiHeadersProvider"/>..</param>
 		/// <param name="requireHeaders">The value of <see cref="requireHeaders"/>.</param>
 		protected ApiController(
 			IDatabaseContext databaseContext,
@@ -92,11 +97,10 @@ namespace Tgstation.Server.Host.Controllers
 		{
 			DatabaseContext = databaseContext ?? throw new ArgumentNullException(nameof(databaseContext));
 			AuthenticationContext = authenticationContext ?? throw new ArgumentNullException(nameof(authenticationContext));
-			ArgumentNullException.ThrowIfNull(apiHeadersProvider);
+			ApiHeadersProvider = apiHeadersProvider ?? throw new ArgumentNullException(nameof(apiHeadersProvider));
 			Logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
 			Instance = AuthenticationContext?.InstancePermissionSet?.Instance;
-			ApiHeaders = apiHeadersProvider.ApiHeaders;
 			this.requireHeaders = requireHeaders;
 		}
 
@@ -110,7 +114,7 @@ namespace Tgstation.Server.Host.Controllers
 			if (ApiHeaders == null)
 			{
 				if (requireHeaders)
-					return HeadersIssue(false);
+					return HeadersIssue(ApiHeadersProvider.HeadersException);
 			}
 			else if (!ApiHeaders.Compatible())
 				return this.StatusCode(
@@ -239,28 +243,19 @@ namespace Tgstation.Server.Host.Controllers
 		/// <summary>
 		/// Response for missing/Invalid headers.
 		/// </summary>
-		/// <param name="ignoreMissingAuth">Whether or not errors due to missing <see cref="HeaderNames.Authorization"/> should be thrown.</param>
+		/// <param name="headersException">The <see cref="HeadersException"/> that occurred while trying to parse the <see cref="ApiHeaders"/>.</param>
 		/// <returns>The appropriate <see cref="IActionResult"/>.</returns>
-		protected IActionResult HeadersIssue(bool ignoreMissingAuth)
+		protected IActionResult HeadersIssue(HeadersException headersException)
 		{
-			HeadersException headersException;
-			try
-			{
-				// TODO: Move this somewhere saner?
-				_ = new ApiHeaders(Request.GetTypedHeaders(), ignoreMissingAuth);
+			if (headersException == null)
 				throw new InvalidOperationException("Expected a header parse exception!");
-			}
-			catch (HeadersException ex)
-			{
-				headersException = ex;
-			}
 
 			var errorMessage = new ErrorMessageResponse(ErrorCode.BadHeaders)
 			{
 				AdditionalData = headersException.Message,
 			};
 
-			if (headersException.MissingOrMalformedHeaders.HasFlag(HeaderTypes.Accept))
+			if (headersException.ParseErrors.HasFlag(HeaderErrorTypes.Accept))
 				return this.StatusCode(HttpStatusCode.NotAcceptable, errorMessage);
 
 			return BadRequest(errorMessage);

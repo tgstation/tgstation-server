@@ -190,17 +190,17 @@ namespace Tgstation.Server.Api
 		/// <param name="ignoreMissingAuth">If a missing <see cref="HeaderNames.Authorization"/> should be ignored.</param>
 		/// <exception cref="HeadersException">Thrown if the <paramref name="requestHeaders"/> constitue invalid <see cref="ApiHeaders"/>.</exception>
 #pragma warning disable CA1502 // TODO: Decomplexify
-		public ApiHeaders(RequestHeaders requestHeaders, bool ignoreMissingAuth = false)
+		public ApiHeaders(RequestHeaders requestHeaders, bool ignoreMissingAuth)
 		{
 			if (requestHeaders == null)
 				throw new ArgumentNullException(nameof(requestHeaders));
 
-			var badHeaders = HeaderTypes.None;
+			var badHeaders = HeaderErrorTypes.None;
 			var errorBuilder = new StringBuilder();
 			var multipleErrors = false;
-			void AddError(HeaderTypes headerType, string message)
+			void AddError(HeaderErrorTypes headerType, string message)
 			{
-				if (badHeaders != HeaderTypes.None)
+				if (badHeaders != HeaderErrorTypes.None)
 				{
 					multipleErrors = true;
 					errorBuilder.AppendLine();
@@ -212,28 +212,28 @@ namespace Tgstation.Server.Api
 
 			var jsonAccept = new Microsoft.Net.Http.Headers.MediaTypeHeaderValue(ApplicationJsonMime);
 			if (!requestHeaders.Accept.Any(x => jsonAccept.IsSubsetOf(x)))
-				AddError(HeaderTypes.Accept, $"Client does not accept {ApplicationJsonMime}!");
+				AddError(HeaderErrorTypes.Accept, $"Client does not accept {ApplicationJsonMime}!");
 
 			if (!requestHeaders.Headers.TryGetValue(HeaderNames.UserAgent, out var userAgentValues) || userAgentValues.Count == 0)
-				AddError(HeaderTypes.UserAgent, $"Missing {HeaderNames.UserAgent} header!");
+				AddError(HeaderErrorTypes.UserAgent, $"Missing {HeaderNames.UserAgent} header!");
 			else
 			{
 				RawUserAgent = userAgentValues.First();
 				if (String.IsNullOrWhiteSpace(RawUserAgent))
-					AddError(HeaderTypes.UserAgent, $"Malformed {HeaderNames.UserAgent} header!");
+					AddError(HeaderErrorTypes.UserAgent, $"Malformed {HeaderNames.UserAgent} header!");
 			}
 
 			// make sure the api header matches ours
 			Version? apiVersion = null;
 			if (!requestHeaders.Headers.TryGetValue(ApiVersionHeader, out var apiUserAgentHeaderValues) || !ProductInfoHeaderValue.TryParse(apiUserAgentHeaderValues.FirstOrDefault(), out var apiUserAgent) || apiUserAgent.Product.Name != AssemblyName.Name)
-				AddError(HeaderTypes.Api, $"Missing {ApiVersionHeader} header!");
+				AddError(HeaderErrorTypes.Api, $"Missing {ApiVersionHeader} header!");
 			else if (!Version.TryParse(apiUserAgent.Product.Version, out apiVersion))
-				AddError(HeaderTypes.Api, $"Malformed {ApiVersionHeader} header!");
+				AddError(HeaderErrorTypes.Api, $"Malformed {ApiVersionHeader} header!");
 
 			if (!requestHeaders.Headers.TryGetValue(HeaderNames.Authorization, out StringValues authorization))
 			{
 				if (!ignoreMissingAuth)
-					AddError(HeaderTypes.Authorization, $"Missing {HeaderNames.Authorization} header!");
+					AddError(HeaderErrorTypes.AuthorizationMissing, $"Missing {HeaderNames.Authorization} header!");
 			}
 			else
 			{
@@ -241,13 +241,13 @@ namespace Tgstation.Server.Api
 				var splits = new List<string>(auth.Split(' '));
 				var scheme = splits.First();
 				if (String.IsNullOrWhiteSpace(scheme))
-					AddError(HeaderTypes.Authorization, "Missing authentication scheme!");
+					AddError(HeaderErrorTypes.AuthorizationInvalid, "Missing authentication scheme!");
 				else
 				{
 					splits.RemoveAt(0);
 					var parameter = String.Concat(splits);
 					if (String.IsNullOrEmpty(parameter))
-						AddError(HeaderTypes.Authorization, "Missing authentication parameter!");
+						AddError(HeaderErrorTypes.AuthorizationInvalid, "Missing authentication parameter!");
 					else
 					{
 						if (requestHeaders.Headers.TryGetValue(InstanceIdHeader, out var instanceIdValues))
@@ -266,10 +266,10 @@ namespace Tgstation.Server.Api
 									if (Enum.TryParse<OAuthProvider>(oauthProviderString, out var oauthProvider))
 										OAuthProvider = oauthProvider;
 									else
-										AddError(HeaderTypes.OAuthProvider, "Invalid OAuth provider!");
+										AddError(HeaderErrorTypes.OAuthProvider, "Invalid OAuth provider!");
 								}
 								else
-									AddError(HeaderTypes.OAuthProvider, $"Missing {OAuthProviderHeader} header!");
+									AddError(HeaderErrorTypes.OAuthProvider, $"Missing {OAuthProviderHeader} header!");
 
 								OAuthCode = parameter;
 								break;
@@ -277,7 +277,7 @@ namespace Tgstation.Server.Api
 								var tokenSplits = parameter.Split('.');
 								DateTimeOffset? expiresAt = null;
 								if (tokenSplits.Length != 3)
-									AddError(HeaderTypes.Authorization, "Invalid JWT!");
+									AddError(HeaderErrorTypes.AuthorizationInvalid, "Invalid JWT!");
 								else
 									try
 									{
@@ -290,13 +290,13 @@ namespace Tgstation.Server.Api
 											if (Int64.TryParse(nbf, out var unixTimeSeconds))
 												expiresAt = DateTimeOffset.FromUnixTimeSeconds(unixTimeSeconds);
 											else
-												AddError(HeaderTypes.Authorization, "'nbf' in JWT could not be parsed!");
+												AddError(HeaderErrorTypes.AuthorizationInvalid, "'nbf' in JWT could not be parsed!");
 										else
-											AddError(HeaderTypes.Authorization, "Missing 'nbf' in JWT payload!");
+											AddError(HeaderErrorTypes.AuthorizationInvalid, "Missing 'nbf' in JWT payload!");
 									}
 									catch
 									{
-										AddError(HeaderTypes.Authorization, "Invalid JWT payload!");
+										AddError(HeaderErrorTypes.AuthorizationInvalid, "Invalid JWT payload!");
 									}
 
 								Token = new TokenResponse
@@ -315,14 +315,14 @@ namespace Tgstation.Server.Api
 								}
 								catch
 								{
-									AddError(HeaderTypes.Authorization, badBasicAuthHeaderMessage);
+									AddError(HeaderErrorTypes.AuthorizationInvalid, badBasicAuthHeaderMessage);
 									break;
 								}
 
 								var basicAuthSplits = joinedString.Split(ColonSeparator, StringSplitOptions.RemoveEmptyEntries);
 								if (basicAuthSplits.Length < 2)
 								{
-									AddError(HeaderTypes.Authorization, badBasicAuthHeaderMessage);
+									AddError(HeaderErrorTypes.AuthorizationInvalid, badBasicAuthHeaderMessage);
 									break;
 								}
 
@@ -330,14 +330,14 @@ namespace Tgstation.Server.Api
 								Password = String.Concat(basicAuthSplits.Skip(1));
 								break;
 							default:
-								AddError(HeaderTypes.Authorization, "Invalid authentication scheme!");
+								AddError(HeaderErrorTypes.AuthorizationInvalid, "Invalid authentication scheme!");
 								break;
 						}
 					}
 				}
 			}
 
-			if (badHeaders != HeaderTypes.None)
+			if (badHeaders != HeaderErrorTypes.None)
 			{
 				if (multipleErrors)
 					errorBuilder.Insert(0, $"Multiple header validation errors occurred:{Environment.NewLine}");

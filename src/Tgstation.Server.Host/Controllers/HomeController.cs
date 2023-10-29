@@ -180,15 +180,15 @@ namespace Tgstation.Server.Host.Controllers
 				try
 				{
 					// we only allow authorization header issues
-					var headers = new ApiHeaders(Request.GetTypedHeaders(), true);
+					var headers = ApiHeadersProvider.CreateAuthlessHeaders();
 					if (!headers.Compatible())
 						return this.StatusCode(
 							HttpStatusCode.UpgradeRequired,
 							new ErrorMessageResponse(ErrorCode.ApiMismatch));
 				}
-				catch (HeadersException)
+				catch (HeadersException ex)
 				{
-					return HeadersIssue(true);
+					return HeadersIssue(ex);
 				}
 			}
 
@@ -228,7 +228,7 @@ namespace Tgstation.Server.Host.Controllers
 			if (ApiHeaders == null)
 			{
 				Response.Headers.Add(HeaderNames.WWWAuthenticate, new StringValues($"basic realm=\"Create TGS {ApiHeaders.BearerAuthenticationScheme} token\""));
-				return HeadersIssue(false);
+				return HeadersIssue(ApiHeadersProvider.HeadersException);
 			}
 
 			if (ApiHeaders.IsTokenAuthentication)

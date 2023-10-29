@@ -43,7 +43,7 @@ namespace Tgstation.Server.Api.Tests
 					{ "User-Agent", userAgent }
 				};
 
-				return new ApiHeaders(new RequestHeaders(headers));
+				return new ApiHeaders(new RequestHeaders(headers), false);
 			};
 
 			var header = TestHeader(BrowserHeader);
