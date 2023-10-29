@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <RuleSet Name="myrules" Description="My rule set" ToolsVersion="17.0">
   <Rules AnalyzerId="AsyncUsageAnalyzers" RuleNamespace="AsyncUsageAnalyzers">
     <Rule Id="UseConfigureAwait" Action="Warning" />
@@ -88,7 +88,7 @@
     <Rule Id="CA1414" Action="Warning" />
     <Rule Id="CA1415" Action="Warning" />
     <Rule Id="CA1500" Action="Warning" />
-    <Rule Id="CA1501" Action="Warning" />
+    <Rule Id="CA1501" Action="None" />
     <Rule Id="CA1502" Action="Warning" />
     <Rule Id="CA1504" Action="Warning" />
     <Rule Id="CA1505" Action="Warning" />
@@ -971,7 +971,7 @@
     <Rule Id="CA1033" Action="Warning" />
     <Rule Id="CA1050" Action="Warning" />
     <Rule Id="CA1060" Action="Warning" />
-    <Rule Id="CA1501" Action="Warning" />
+    <Rule Id="CA1501" Action="None" />
     <Rule Id="CA1502" Action="Warning" />
     <Rule Id="CA1505" Action="Warning" />
     <Rule Id="CA1506" Action="Warning" />

@@ -3,13 +3,11 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Net;
-using System.Net.Mime;
 using System.Threading;
 using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
 using Microsoft.Extensions.Logging;
@@ -35,9 +33,7 @@ namespace Tgstation.Server.Host.Controllers
 	/// <summary>
 	/// Base <see cref="Controller"/> for API functions.
 	/// </summary>
-	[Produces(MediaTypeNames.Application.Json)]
-	[ApiController]
-	public abstract class ApiController : Controller
+	public abstract class ApiController : ApiControllerBase
 	{
 		/// <summary>
 		/// Default size of <see cref="Paginated{TModel}"/> results.
@@ -102,18 +98,14 @@ namespace Tgstation.Server.Host.Controllers
 
 		/// <inheritdoc />
 #pragma warning disable CA1506 // TODO: Decomplexify
-		public override async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
+		protected override async ValueTask<IActionResult> HookExecuteAction(Func<Task> executeAction, CancellationToken cancellationToken)
 		{
-			ArgumentNullException.ThrowIfNull(context);
+			ArgumentNullException.ThrowIfNull(executeAction);
 
 			// ALL valid token and login requests that match a route go through this function
 			// 404 is returned before
 			if (AuthenticationContext != null && AuthenticationContext.User == null)
-			{
-				// valid token, expired password
-				await Unauthorized().ExecuteResultAsync(context);
-				return;
-			}
+				return Unauthorized(); // valid token, expired password
 
 			// validate the headers
 			try
@@ -121,29 +113,18 @@ namespace Tgstation.Server.Host.Controllers
 				ApiHeaders = new ApiHeaders(Request.GetTypedHeaders());
 
 				if (!ApiHeaders.Compatible())
-				{
-					await this.StatusCode(
+					return this.StatusCode(
 						HttpStatusCode.UpgradeRequired,
-						new ErrorMessageResponse(ErrorCode.ApiMismatch))
-						.ExecuteResultAsync(context);
-					return;
-				}
+						new ErrorMessageResponse(ErrorCode.ApiMismatch));
 
-				var errorCase = await ValidateRequest(context.HttpContext.RequestAborted);
+				var errorCase = await ValidateRequest(cancellationToken);
 				if (errorCase != null)
-				{
-					await errorCase.ExecuteResultAsync(context);
-					return;
-				}
+					return errorCase;
 			}
 			catch (HeadersException)
 			{
 				if (requireHeaders)
-				{
-					await HeadersIssue(false)
-						.ExecuteResultAsync(context);
-					return;
-				}
+					return HeadersIssue(false);
 			}
 
 			if (ModelState?.IsValid == false)
@@ -159,15 +140,11 @@ namespace Tgstation.Server.Host.Controllers
 					.Where(x => !x.EndsWith(" field is required.", StringComparison.Ordinal));
 
 				if (errorMessages.Any())
-				{
-					await BadRequest(
+					return BadRequest(
 						new ErrorMessageResponse(ErrorCode.ModelValidationFailure)
 						{
 							AdditionalData = String.Join(Environment.NewLine, errorMessages),
-						})
-						.ExecuteResultAsync(context);
-					return;
-				}
+						});
 
 				ModelState.Clear();
 			}
@@ -202,8 +179,11 @@ namespace Tgstation.Server.Host.Controllers
 					Logger.LogDebug(
 						"Starting unauthorized API request. No {userAgentHeaderName}!",
 						HeaderNames.UserAgent);
-				await base.OnActionExecutionAsync(context, next);
+
+				await executeAction();
 			}
+
+			return null;
 		}
 #pragma warning restore CA1506
 

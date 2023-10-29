@@ -20,10 +20,8 @@ namespace Tgstation.Server.Host.Controllers
 	/// <see cref="Controller"/> for recieving DMAPI requests from DreamDaemon.
 	/// </summary>
 	[Route("/Bridge")]
-	[Produces(MediaTypeNames.Application.Json)]
-	[ApiController]
 	[ApiExplorerSettings(IgnoreApi = true)]
-	public class BridgeController : Controller
+	public class BridgeController : ApiControllerBase
 	{
 		/// <summary>
 		/// If the content of bridge requests and responses should be logged.

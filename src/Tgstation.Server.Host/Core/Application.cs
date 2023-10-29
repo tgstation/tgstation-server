@@ -514,9 +514,6 @@ namespace Tgstation.Server.Host.Core
 				logger.LogTrace("Web control panel disabled!");
 #endif
 
-			// Do not cache a single thing beyond this point, it's all API
-			applicationBuilder.UseDisabledClientCache();
-
 			// Stack overflow said this needs to go here and removing it breaks things: https://stackoverflow.com/questions/73736879/invalidoperationexception-endpointroutingmiddleware-matches-endpoints-setup-by
 			applicationBuilder.UseRouting();
 

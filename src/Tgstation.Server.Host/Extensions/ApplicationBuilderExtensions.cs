@@ -8,8 +8,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Primitives;
-using Microsoft.Net.Http.Headers;
 
 using Serilog.Context;
 
@@ -63,20 +61,6 @@ namespace Tgstation.Server.Host.Extensions
 						HttpContext = context,
 					});
 				}
-			});
-		}
-
-		/// <summary>
-		/// Suppress any client side caching of API calls.
-		/// </summary>
-		/// <param name="applicationBuilder">The <see cref="IApplicationBuilder"/> to configure.</param>
-		public static void UseDisabledClientCache(this IApplicationBuilder applicationBuilder)
-		{
-			ArgumentNullException.ThrowIfNull(applicationBuilder);
-			applicationBuilder.Use(async (context, next) =>
-			{
-				context.Response.Headers.Add(HeaderNames.CacheControl, new StringValues("no-cache"));
-				await next();
 			});
 		}
 
