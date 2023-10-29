@@ -128,7 +128,6 @@ namespace Tgstation.Server.Host
 				try
 				{
 					using (Host = hostBuilder.Build())
-					{
 						try
 						{
 							logger = Host.Services.GetRequiredService<ILogger<Server>>();
@@ -155,7 +154,6 @@ namespace Tgstation.Server.Host
 						{
 							logger = null;
 						}
-					}
 				}
 				finally
 				{
