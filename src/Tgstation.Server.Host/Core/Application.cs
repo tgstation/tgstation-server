@@ -472,6 +472,9 @@ namespace Tgstation.Server.Host.Core
 				logger.LogTrace("Swagger API generation enabled");
 			}
 
+			// Enable endpoint routing
+			applicationBuilder.UseRouting();
+
 			// Set up CORS based on configuration if necessary
 			Action<CorsPolicyBuilder> corsBuilder = null;
 			if (controlPanelConfiguration.AllowAnyOrigin)
@@ -513,9 +516,6 @@ namespace Tgstation.Server.Host.Core
 #else
 				logger.LogTrace("Web control panel disabled!");
 #endif
-
-			// Stack overflow said this needs to go here and removing it breaks things: https://stackoverflow.com/questions/73736879/invalidoperationexception-endpointroutingmiddleware-matches-endpoints-setup-by
-			applicationBuilder.UseRouting();
 
 			// authenticate JWT tokens using our security pipeline if present, returns 401 if bad
 			applicationBuilder.UseAuthentication();
