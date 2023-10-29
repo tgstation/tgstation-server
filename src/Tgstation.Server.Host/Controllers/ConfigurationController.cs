@@ -103,10 +103,6 @@ namespace Tgstation.Server.Host.Controllers
 					AdditionalData = e.Message,
 				});
 			}
-			catch (NotImplementedException ex)
-			{
-				return RequiresPosixSystemIdentity(ex);
-			}
 		}
 
 		/// <summary>
@@ -150,10 +146,6 @@ namespace Tgstation.Server.Host.Controllers
 					AdditionalData = e.Message,
 				});
 			}
-			catch (NotImplementedException ex)
-			{
-				return RequiresPosixSystemIdentity(ex);
-			}
 		}
 
 		/// <summary>
@@ -195,11 +187,6 @@ namespace Tgstation.Server.Host.Controllers
 									Conflict(new ErrorMessageResponse(ErrorCode.ConfigurationContendedAccess)));
 
 							return new PaginatableResult<ConfigurationFileResponse>(result);
-						}
-						catch (NotImplementedException ex)
-						{
-							return new PaginatableResult<ConfigurationFileResponse>(
-								RequiresPosixSystemIdentity(ex));
 						}
 						catch (UnauthorizedAccessException)
 						{
@@ -287,10 +274,6 @@ namespace Tgstation.Server.Host.Controllers
 					Message = e.Message,
 				});
 			}
-			catch (NotImplementedException ex)
-			{
-				return RequiresPosixSystemIdentity(ex);
-			}
 			catch (UnauthorizedAccessException)
 			{
 				return Forbid();
@@ -334,10 +317,6 @@ namespace Tgstation.Server.Host.Controllers
 							? NoContent()
 							: Conflict(new ErrorMessageResponse(ErrorCode.ConfigurationDirectoryNotEmpty));
 					});
-			}
-			catch (NotImplementedException ex)
-			{
-				return RequiresPosixSystemIdentity(ex);
 			}
 			catch (UnauthorizedAccessException)
 			{
