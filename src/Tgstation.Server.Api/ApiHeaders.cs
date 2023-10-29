@@ -197,11 +197,15 @@ namespace Tgstation.Server.Api
 
 			var badHeaders = HeaderTypes.None;
 			var errorBuilder = new StringBuilder();
-
+			var multipleErrors = false;
 			void AddError(HeaderTypes headerType, string message)
 			{
 				if (badHeaders != HeaderTypes.None)
+				{
+					multipleErrors = true;
 					errorBuilder.AppendLine();
+				}
+
 				badHeaders |= headerType;
 				errorBuilder.Append(message);
 			}
@@ -334,7 +338,12 @@ namespace Tgstation.Server.Api
 			}
 
 			if (badHeaders != HeaderTypes.None)
+			{
+				if (multipleErrors)
+					errorBuilder.Insert(0, $"Multiple header validation errors occurred:{Environment.NewLine}");
+
 				throw new HeadersException(badHeaders, errorBuilder.ToString());
+			}
 
 			ApiVersion = apiVersion!.Semver();
 		}
