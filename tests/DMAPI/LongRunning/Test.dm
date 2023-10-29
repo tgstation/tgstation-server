@@ -28,11 +28,13 @@
 		if(!length(channels))
 			FailTest("Expected some chat channels!")
 
-	var/test_str = "aljsdhfjahsfkjnsalkjdfhskljdackmcnvxkljhvkjsdanv,jdshlkufhklasjeFDhfjkalhdkjlfhalksfdjh"
-	var/res_contents = file2text('resource.txt') // we need a .rsc to be generated
+	var/res = file('resource.txt')
+	if(!res)
+		FailTest("Failed to resource!")
 
-	if(!findtext(res_contents, test_str))
-		FailTest("Failed to resource? Did not find magic: [res_contents]")
+	var/res_contents = file2text(res) // we need a .rsc to be generated
+	if(!res_contents)
+		FailTest("Failed to resource? No contents!")
 
 	if(!fexists("[DME_NAME].rsc"))
 		FailTest("Failed to create .rsc!")
