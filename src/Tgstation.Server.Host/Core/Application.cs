@@ -509,7 +509,7 @@ namespace Tgstation.Server.Host.Core
 			}
 			else
 #if NO_WEBPANEL
-				logger.LogTrace("Web control panel was not included in TGS build!");
+				logger.LogDebug("Web control panel was not included in TGS build!");
 #else
 				logger.LogTrace("Web control panel disabled!");
 #endif
