@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -627,7 +627,9 @@ namespace Tgstation.Server.Host.Controllers
 			var moveJob = await QueryForUser()
 				.SelectMany(x => x.Jobs)
 				.Where(x => !x.StoppedAt.HasValue && x.Description.StartsWith(MoveInstanceJobPrefix))
-				.Include(x => x.StartedBy).ThenInclude(x => x.CreatedBy)
+				.Include(x => x.StartedBy)
+					.ThenInclude(x => x.CreatedBy)
+				.Include(x => x.Instance)
 				.FirstOrDefaultAsync(cancellationToken);
 			api.MoveJob = moveJob?.ToApi();
 			await CheckAccessible(api, cancellationToken);

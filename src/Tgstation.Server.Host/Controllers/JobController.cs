@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -78,6 +78,7 @@ namespace Tgstation.Server.Host.Controllers
 						.AsQueryable()
 						.Include(x => x.StartedBy)
 						.Include(x => x.CancelledBy)
+						.Include(x => x.Instance)
 						.Where(x => x.Instance.Id == Instance.Id && !x.StoppedAt.HasValue)
 						.OrderByDescending(x => x.StartedAt))),
 				AddJobProgressResponseTransformer,
@@ -105,6 +106,7 @@ namespace Tgstation.Server.Host.Controllers
 						.AsQueryable()
 						.Include(x => x.StartedBy)
 						.Include(x => x.CancelledBy)
+						.Include(x => x.Instance)
 						.Where(x => x.Instance.Id == Instance.Id)
 						.OrderByDescending(x => x.StartedAt))),
 				AddJobProgressResponseTransformer,
@@ -132,6 +134,7 @@ namespace Tgstation.Server.Host.Controllers
 				.Jobs
 				.AsQueryable()
 				.Include(x => x.StartedBy)
+				.Include(x => x.Instance)
 				.Where(x => x.Id == id && x.Instance.Id == Instance.Id)
 				.FirstOrDefaultAsync(cancellationToken);
 			if (job == default)
@@ -167,6 +170,7 @@ namespace Tgstation.Server.Host.Controllers
 				.Where(x => x.Id == id && x.Instance.Id == Instance.Id)
 				.Include(x => x.StartedBy)
 				.Include(x => x.CancelledBy)
+				.Include(x => x.Instance)
 				.FirstOrDefaultAsync(cancellationToken);
 			if (job == default)
 				return NotFound();

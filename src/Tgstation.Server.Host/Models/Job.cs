@@ -30,6 +30,7 @@ namespace Tgstation.Server.Host.Models
 		public JobResponse ToApi() => new ()
 		{
 			Id = Id,
+			InstanceId = Instance.Id.Value,
 			StartedAt = StartedAt,
 			StoppedAt = StoppedAt,
 			Cancelled = Cancelled,

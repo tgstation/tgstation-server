@@ -261,6 +261,8 @@ namespace Tgstation.Server.Host.Controllers
 			.AsQueryable()
 			.Include(x => x.Job)
 				.ThenInclude(x => x.StartedBy)
+			.Include(x => x.Job)
+				.ThenInclude(x => x.Instance)
 			.Include(x => x.RevisionInformation)
 				.ThenInclude(x => x.PrimaryTestMerge)
 					.ThenInclude(x => x.MergedBy)
