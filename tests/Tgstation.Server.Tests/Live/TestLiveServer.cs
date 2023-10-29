@@ -1106,9 +1106,9 @@ namespace Tgstation.Server.Tests.Live
 				var dependenciesSh = Encoding.UTF8.GetString(await depsBytesTask);
 				var lines = dependenciesSh.Split("\n", StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
 				const string MajorPrefix = "export BYOND_MAJOR=";
-				var major = Int32.Parse(lines.First(x => x.StartsWith(MajorPrefix)).Substring(MajorPrefix.Length));
+				var major = Int32.Parse(lines.First(x => x.StartsWith(MajorPrefix))[MajorPrefix.Length..]);
 				const string MinorPrefix = "export BYOND_MINOR=";
-				var minor = Int32.Parse(lines.First(x => x.StartsWith(MinorPrefix)).Substring(MinorPrefix.Length));
+				var minor = Int32.Parse(lines.First(x => x.StartsWith(MinorPrefix))[MinorPrefix.Length..]);
 
 				var byondJob = await instanceClient.Byond.SetActiveVersion(new ByondVersionRequest
 				{
