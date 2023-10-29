@@ -112,7 +112,7 @@ namespace Tgstation.Server.Host.Security
 			var nowUnix = now.ToUnixTimeSeconds();
 
 			// this prevents validation conflicts down the line
-			// tldr we can (theoretically) send a token the same second we receive it
+			// tldr we can (theoretically) receive a token the same second after we generate it
 			// since unix time rounds down, it looks like it came from before the user changed their password
 			// this happens occasionally in unit tests
 			// just delay a second so we can force a round up
@@ -125,9 +125,9 @@ namespace Tgstation.Server.Host.Security
 				: securityConfiguration.TokenExpiryMinutes);
 			var claims = new Claim[]
 			{
-				new Claim(JwtRegisteredClaimNames.Sub, user.Id.Value.ToString(CultureInfo.InvariantCulture)),
-				new Claim(JwtRegisteredClaimNames.Exp, expiry.ToUnixTimeSeconds().ToString(CultureInfo.InvariantCulture)),
-				new Claim(JwtRegisteredClaimNames.Nbf, nowUnix.ToString(CultureInfo.InvariantCulture)),
+				new (JwtRegisteredClaimNames.Sub, user.Id.Value.ToString(CultureInfo.InvariantCulture)),
+				new (JwtRegisteredClaimNames.Exp, expiry.ToUnixTimeSeconds().ToString(CultureInfo.InvariantCulture)),
+				new (JwtRegisteredClaimNames.Nbf, nowUnix.ToString(CultureInfo.InvariantCulture)),
 				issuerClaim,
 				audienceClaim,
 			};
