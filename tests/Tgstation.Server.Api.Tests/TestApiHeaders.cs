@@ -6,6 +6,7 @@ using System.Net.Http.Headers;
 using System.Net.Mime;
 
 using Tgstation.Server.Api.Models;
+using Tgstation.Server.Api.Models.Response;
 
 namespace Tgstation.Server.Api.Tests
 {
@@ -22,7 +23,7 @@ namespace Tgstation.Server.Api.Tests
 		{
 			Assert.ThrowsException<ArgumentNullException>(() => new ApiHeaders(null, null));
 			Assert.ThrowsException<ArgumentNullException>(() => new ApiHeaders(productHeaderValue, null));
-			var headers = new ApiHeaders(productHeaderValue, String.Empty);
+			var headers = new ApiHeaders(productHeaderValue, new TokenResponse { Bearer = String.Empty });
 			headers = new ApiHeaders(productHeaderValue, String.Empty, OAuthProvider.GitHub);
 		}
 
@@ -38,7 +39,7 @@ namespace Tgstation.Server.Api.Tests
 				{
 					{ "Accept", MediaTypeNames.Application.Json },
 					{ "Api", "Tgstation.Server.Api/4.0.0.0" },
-					{ "Authorization", "Bearer asdfasdf" },
+					{ "Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyLCJuYmYiOjEyMzR9.0CsmEwXt9oNTDisikbZ-MUr1eXSMKD8YKdZIOwMeLoc" }, // fake, but we need a valid token to avoid errors
 					{ "User-Agent", userAgent }
 				};
 

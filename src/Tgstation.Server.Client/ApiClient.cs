@@ -411,7 +411,7 @@ namespace Tgstation.Server.Client
 					return true;
 
 				var token = await RunRequest<object, TokenResponse>(Routes.Root, new object(), HttpMethod.Post, null, true, cancellationToken).ConfigureAwait(false);
-				headers = new ApiHeaders(headers.UserAgent!, token.Bearer!);
+				headers = new ApiHeaders(headers.UserAgent!, token);
 			}
 			catch (ClientException)
 			{

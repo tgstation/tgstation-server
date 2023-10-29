@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -16,12 +16,8 @@ namespace Tgstation.Server.Client
 		/// <inheritdoc />
 		public TokenResponse Token
 		{
-			get => token;
-			set
-			{
-				token = value ?? throw new InvalidOperationException("Cannot set a null Token!");
-				apiClient.Headers = new ApiHeaders(apiClient.Headers.UserAgent!, token.Bearer!);
-			}
+			get => apiClient.Headers.Token ?? throw new InvalidOperationException("apiClient.Headers.Token was null!");
+			set => apiClient.Headers = new ApiHeaders(apiClient.Headers.UserAgent!, value);
 		}
 
 		/// <inheritdoc />
@@ -49,22 +45,12 @@ namespace Tgstation.Server.Client
 		readonly IApiClient apiClient;
 
 		/// <summary>
-		/// Backing field for <see cref="Token"/>.
-		/// </summary>
-		TokenResponse token;
-
-		/// <summary>
 		/// Initializes a new instance of the <see cref="ServerClient"/> class.
 		/// </summary>
 		/// <param name="apiClient">The value of <see cref="apiClient"/>.</param>
-		/// <param name="token">The value of <see cref="Token"/>.</param>
-		public ServerClient(IApiClient apiClient, TokenResponse token)
+		public ServerClient(IApiClient apiClient)
 		{
 			this.apiClient = apiClient ?? throw new ArgumentNullException(nameof(apiClient));
-			this.token = token ?? throw new ArgumentNullException(nameof(token));
-
-			if (Token.Bearer != apiClient.Headers.Token)
-				throw new ArgumentOutOfRangeException(nameof(token), token, "Provided token does not match apiClient headers!");
 
 			Instances = new InstanceManagerClient(apiClient);
 			Users = new UsersClient(apiClient);

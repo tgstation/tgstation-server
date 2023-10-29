@@ -9,9 +9,14 @@ using System.Text;
 
 using Microsoft.AspNetCore.Http.Headers;
 using Microsoft.Extensions.Primitives;
+using Microsoft.IdentityModel.JsonWebTokens;
 using Microsoft.Net.Http.Headers;
 
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+
 using Tgstation.Server.Api.Models;
+using Tgstation.Server.Api.Models.Response;
 using Tgstation.Server.Api.Properties;
 using Tgstation.Server.Common.Extensions;
 
@@ -93,9 +98,9 @@ namespace Tgstation.Server.Api
 		public Version ApiVersion { get; }
 
 		/// <summary>
-		/// The client's JWT.
+		/// The client's <see cref="TokenResponse"/>.
 		/// </summary>
-		public string? Token { get; }
+		public TokenResponse? Token { get; }
 
 		/// <summary>
 		/// The client's username.
@@ -118,6 +123,11 @@ namespace Tgstation.Server.Api
 		public bool IsTokenAuthentication => Token != null && !OAuthProvider.HasValue;
 
 		/// <summary>
+		/// The OAuth code in use.
+		/// </summary>
+		readonly string? oAuthCode;
+
+		/// <summary>
 		/// Checks if a given <paramref name="otherVersion"/> is compatible with our own.
 		/// </summary>
 		/// <param name="otherVersion">The <see cref="Version"/> to test.</param>
@@ -129,16 +139,31 @@ namespace Tgstation.Server.Api
 		/// </summary>
 		/// <param name="userAgent">The value of <see cref="UserAgent"/>.</param>
 		/// <param name="token">The value of <see cref="Token"/>.</param>
-		/// <param name="oauthProvider">The value of <see cref="OAuthProvider"/>.</param>
-		public ApiHeaders(ProductHeaderValue userAgent, string token, OAuthProvider? oauthProvider = null)
+		public ApiHeaders(ProductHeaderValue userAgent, TokenResponse token)
 			: this(userAgent, token, null, null)
 		{
 			if (userAgent == null)
 				throw new ArgumentNullException(nameof(userAgent));
 			if (token == null)
 				throw new ArgumentNullException(nameof(token));
+			if (token.Bearer == null)
+				throw new InvalidOperationException("token.Bearer must be set!");
+		}
 
-			OAuthProvider = oauthProvider;
+		/// <summary>
+		/// Initializes a new instance of the <see cref="ApiHeaders"/> class. Used for token authentication.
+		/// </summary>
+		/// <param name="userAgent">The value of <see cref="UserAgent"/>.</param>
+		/// <param name="oAuthCode">The value of <see cref="oAuthCode"/>.</param>
+		/// <param name="oAuthProvider">The value of <see cref="OAuthProvider"/>.</param>
+		public ApiHeaders(ProductHeaderValue userAgent, string oAuthCode, OAuthProvider oAuthProvider)
+			: this(userAgent, null, null, null)
+		{
+			if (userAgent == null)
+				throw new ArgumentNullException(nameof(userAgent));
+
+			this.oAuthCode = oAuthCode ?? throw new ArgumentNullException(nameof(oAuthCode));
+			OAuthProvider = oAuthProvider;
 		}
 
 		/// <summary>
@@ -244,7 +269,36 @@ namespace Tgstation.Server.Api
 
 								goto case BearerAuthenticationScheme;
 							case BearerAuthenticationScheme:
-								Token = parameter;
+								var tokenSplits = parameter.Split('.');
+								DateTimeOffset? expiresAt = null;
+								if (tokenSplits.Length != 3)
+									AddError(HeaderTypes.Authorization, "Invalid JWT!");
+								else
+									try
+									{
+										var bytes = Convert.FromBase64String(tokenSplits[1]);
+										var json = Encoding.UTF8.GetString(bytes);
+										var jwt = JsonConvert.DeserializeObject<JObject>(json);
+										var nbf = jwt?.Value<string>(JwtRegisteredClaimNames.Nbf);
+
+										if (nbf != null)
+											if (Int64.TryParse(nbf, out var unixTimeSeconds))
+												expiresAt = DateTimeOffset.FromUnixTimeSeconds(unixTimeSeconds);
+											else
+												AddError(HeaderTypes.Authorization, "'nbf' in JWT could not be parsed!");
+										else
+											AddError(HeaderTypes.Authorization, "Missing 'nbf' in JWT payload!");
+									}
+									catch
+									{
+										AddError(HeaderTypes.Authorization, "Invalid JWT payload!");
+									}
+
+								Token = new TokenResponse
+								{
+									Bearer = parameter,
+									ExpiresAt = expiresAt,
+								};
 								break;
 							case BasicAuthenticationScheme:
 								string badBasicAuthHeaderMessage = $"Invalid basic {HeaderNames.Authorization} header!";
@@ -292,7 +346,7 @@ namespace Tgstation.Server.Api
 		/// <param name="token">The value of <see cref="Token"/>.</param>
 		/// <param name="username">The value of <see cref="Username"/>.</param>
 		/// <param name="password">The value of <see cref="Password"/>.</param>
-		ApiHeaders(ProductHeaderValue userAgent, string? token, string? username, string? password)
+		ApiHeaders(ProductHeaderValue userAgent, TokenResponse? token, string? username, string? password)
 		{
 			RawUserAgent = userAgent?.ToString();
 			Token = token;
@@ -322,10 +376,10 @@ namespace Tgstation.Server.Api
 			headers.Clear();
 			headers.Accept.Add(new MediaTypeWithQualityHeaderValue(ApplicationJsonMime));
 			headers.UserAgent.Add(new ProductInfoHeaderValue(UserAgent));
-			headers.Add(ApiVersionHeader, new ProductHeaderValue(AssemblyName.Name, ApiVersion.ToString()).ToString());
+			headers.Add(ApiVersionHeader, CreateApiVersionHeader());
 			if (OAuthProvider.HasValue)
 			{
-				headers.Authorization = new AuthenticationHeaderValue(OAuthAuthenticationScheme, Token);
+				headers.Authorization = new AuthenticationHeaderValue(OAuthAuthenticationScheme, Token!.Bearer);
 				headers.Add(OAuthProviderHeader, OAuthProvider.ToString());
 			}
 			else if (!IsTokenAuthentication)
@@ -333,11 +387,18 @@ namespace Tgstation.Server.Api
 					BasicAuthenticationScheme,
 					Convert.ToBase64String(Encoding.UTF8.GetBytes($"{Username}:{Password}")));
 			else
-				headers.Authorization = new AuthenticationHeaderValue(BearerAuthenticationScheme, Token);
+				headers.Authorization = new AuthenticationHeaderValue(BearerAuthenticationScheme, Token!.Bearer);
 
 			instanceId ??= InstanceId;
 			if (instanceId.HasValue)
 				headers.Add(InstanceIdHeader, instanceId.Value.ToString(CultureInfo.InvariantCulture));
 		}
+
+		/// <summary>
+		/// Create the <see cref="string"/>ified for of the <see cref="ApiVersionHeader"/>.
+		/// </summary>
+		/// <returns>A <see cref="string"/> representing the <see cref="ApiVersion"/>.</returns>
+		string CreateApiVersionHeader()
+			=> new ProductHeaderValue(AssemblyName.Name, ApiVersion.ToString()).ToString();
 	}
 }

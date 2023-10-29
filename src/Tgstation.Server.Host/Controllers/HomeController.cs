@@ -261,7 +261,7 @@ namespace Tgstation.Server.Host.Controllers
 							return BadRequest(new ErrorMessageResponse(ErrorCode.OAuthProviderDisabled));
 
 						externalUserId = await validator
-							.ValidateResponseCode(ApiHeaders.Token, cancellationToken);
+							.ValidateResponseCode(ApiHeaders.Token.Bearer!, cancellationToken);
 
 						Logger.LogTrace("External {oAuthProvider} UID: {externalUserId}", oAuthProvider, externalUserId);
 					}
@@ -373,7 +373,7 @@ namespace Tgstation.Server.Host.Controllers
 				if (usingSystemIdentity)
 				{
 					// expire the identity slightly after the auth token in case of lag
-					var identExpiry = token.ExpiresAt;
+					var identExpiry = token.ExpiresAt.Value;
 					identExpiry += tokenFactory.ValidationParameters.ClockSkew;
 					identExpiry += TimeSpan.FromSeconds(15);
 					identityCache.CacheSystemIdentity(user, systemIdentity, identExpiry);
