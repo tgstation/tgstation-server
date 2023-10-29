@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -98,7 +98,7 @@ namespace Tgstation.Server.Host.Controllers
 
 			DatabaseContext.Groups.Add(dbGroup);
 			await DatabaseContext.Save(cancellationToken);
-			Logger.LogInformation("Created new user group {0} ({1})", dbGroup.Name, dbGroup.Id);
+			Logger.LogInformation("Created new user group {groupName} ({groupId})", dbGroup.Name, dbGroup.Id);
 
 			return Created(dbGroup.ToApi(true));
 		}

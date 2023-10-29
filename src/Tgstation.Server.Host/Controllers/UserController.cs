@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -285,7 +285,7 @@ namespace Tgstation.Server.Host.Controllers
 				DatabaseContext.Groups.Attach(originalUser.Group);
 				if (originalUser.PermissionSet != null)
 				{
-					Logger.LogInformation("Deleting permission set {0}...", originalUser.PermissionSet.Id);
+					Logger.LogInformation("Deleting permission set {permissionSetId}...", originalUser.PermissionSet.Id);
 					DatabaseContext.PermissionSets.Remove(originalUser.PermissionSet);
 					originalUser.PermissionSet = null;
 				}
@@ -313,7 +313,7 @@ namespace Tgstation.Server.Host.Controllers
 
 			await DatabaseContext.Save(cancellationToken);
 
-			Logger.LogInformation("Updated user {0} ({1})", originalUser.Name, originalUser.Id);
+			Logger.LogInformation("Updated user {userName} ({userId})", originalUser.Name, originalUser.Id);
 
 			// return id only if not a self update and cannot read users
 			var canReadBack = AuthenticationContext.User.Id == originalUser.Id
