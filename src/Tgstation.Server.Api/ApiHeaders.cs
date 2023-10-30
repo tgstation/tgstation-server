@@ -9,11 +9,7 @@ using System.Text;
 
 using Microsoft.AspNetCore.Http.Headers;
 using Microsoft.Extensions.Primitives;
-using Microsoft.IdentityModel.JsonWebTokens;
 using Microsoft.Net.Http.Headers;
-
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Response;
@@ -274,36 +270,22 @@ namespace Tgstation.Server.Api
 								OAuthCode = parameter;
 								break;
 							case BearerAuthenticationScheme:
-								var tokenSplits = parameter.Split('.');
-								DateTimeOffset? expiresAt = null;
-								if (tokenSplits.Length != 3)
-									AddError(HeaderErrorTypes.AuthorizationInvalid, "Invalid JWT!");
-								else
-									try
-									{
-										var bytes = Convert.FromBase64String(tokenSplits[1]);
-										var json = Encoding.UTF8.GetString(bytes);
-										var jwt = JsonConvert.DeserializeObject<JObject>(json);
-										var nbf = jwt?.Value<string>(JwtRegisteredClaimNames.Nbf);
-
-										if (nbf != null)
-											if (Int64.TryParse(nbf, out var unixTimeSeconds))
-												expiresAt = DateTimeOffset.FromUnixTimeSeconds(unixTimeSeconds);
-											else
-												AddError(HeaderErrorTypes.AuthorizationInvalid, "'nbf' in JWT could not be parsed!");
-										else
-											AddError(HeaderErrorTypes.AuthorizationInvalid, "Missing 'nbf' in JWT payload!");
-									}
-									catch
-									{
-										AddError(HeaderErrorTypes.AuthorizationInvalid, "Invalid JWT payload!");
-									}
-
 								Token = new TokenResponse
 								{
 									Bearer = parameter,
-									ExpiresAt = expiresAt,
 								};
+
+								try
+								{
+#pragma warning disable CS0618 // Type or member is obsolete
+									Token.ExpiresAt = Token.ParseJwt().ValidTo;
+#pragma warning restore CS0618 // Type or member is obsolete
+								}
+								catch (ArgumentException ex) when (ex is not ArgumentNullException)
+								{
+									AddError(HeaderErrorTypes.AuthorizationInvalid, $"Invalid JWT: {ex.Message}");
+								}
+
 								break;
 							case BasicAuthenticationScheme:
 								string badBasicAuthHeaderMessage = $"Invalid basic {HeaderNames.Authorization} header!";

@@ -336,6 +336,32 @@ namespace Tgstation.Server.Client
 
 					if (authless)
 						request.Headers.Remove(HeaderNames.Authorization);
+					else
+					{
+						var bearer = headersToUse.Token?.Bearer;
+						if (bearer != null)
+						{
+							try
+							{
+								var parsed = headersToUse.Token!.ParseJwt();
+								var nbf = parsed.ValidFrom;
+								var now = DateTime.UtcNow;
+								if (nbf >= now)
+								{
+									var delay = (nbf - now).Add(TimeSpan.FromMilliseconds(1));
+									await Task.Delay(delay, cancellationToken);
+								}
+							}
+							catch (ArgumentException ex) when (ex is not ArgumentNullException)
+							{
+								// backwards compat, API <=9 put out invalid JWTs, remove in API 10
+							}
+#if DEBUG
+							if (ApiHeaders.Version.Major > 9)
+								throw new NotImplementedException();
+#endif
+						}
+					}
 
 					if (fileDownload)
 						request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(MediaTypeNames.Application.Octet));

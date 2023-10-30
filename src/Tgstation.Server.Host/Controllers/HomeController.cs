@@ -5,7 +5,6 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -373,11 +372,11 @@ namespace Tgstation.Server.Host.Controllers
 					return Forbid();
 				}
 
-				var token = await tokenFactory.CreateToken(user, oAuthLogin, cancellationToken);
+				var token = tokenFactory.CreateToken(user, oAuthLogin);
 				if (usingSystemIdentity)
 				{
 					// expire the identity slightly after the auth token in case of lag
-					var identExpiry = token.ExpiresAt.Value;
+					var identExpiry = token.ParseJwt().ValidTo;
 					identExpiry += tokenFactory.ValidationParameters.ClockSkew;
 					identExpiry += TimeSpan.FromSeconds(15);
 					identityCache.CacheSystemIdentity(user, systemIdentity, identExpiry);
