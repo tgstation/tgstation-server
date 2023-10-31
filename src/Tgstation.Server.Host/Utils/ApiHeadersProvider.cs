@@ -1,7 +1,6 @@
-﻿using System;
+using System;
 
 using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Logging;
 
 using Tgstation.Server.Api;
 
@@ -24,11 +23,6 @@ namespace Tgstation.Server.Host.Utils
 		readonly IHttpContextAccessor httpContextAccessor;
 
 		/// <summary>
-		/// The <see cref="ILogger"/> for the <see cref="ApiHeadersProvider"/>.
-		/// </summary>
-		readonly ILogger<ApiHeadersProvider> logger;
-
-		/// <summary>
 		/// Backing field for <see cref="ApiHeaders"/>.
 		/// </summary>
 		ApiHeaders apiHeaders;
@@ -42,11 +36,9 @@ namespace Tgstation.Server.Host.Utils
 		/// Initializes a new instance of the <see cref="ApiHeadersProvider"/> class.
 		/// </summary>
 		/// <param name="httpContextAccessor">The value of <see cref="httpContextAccessor"/>.</param>
-		/// <param name="logger">The value of <see cref="logger"/>.</param>
-		public ApiHeadersProvider(IHttpContextAccessor httpContextAccessor, ILogger<ApiHeadersProvider> logger)
+		public ApiHeadersProvider(IHttpContextAccessor httpContextAccessor)
 		{
 			this.httpContextAccessor = httpContextAccessor ?? throw new ArgumentNullException(nameof(httpContextAccessor));
-			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 		}
 
 		/// <inheritdoc />
@@ -78,7 +70,6 @@ namespace Tgstation.Server.Host.Utils
 			}
 			catch (HeadersException ex) when (includeAuthAndSetProperties)
 			{
-				logger.LogTrace(ex, "Failed to parse API headers!");
 				HeadersException = ex;
 				return null;
 			}
