@@ -116,10 +116,6 @@ namespace Tgstation.Server.Host.Controllers
 				if (requireHeaders)
 					return HeadersIssue(ApiHeadersProvider.HeadersException);
 			}
-			else if (!ApiHeaders.Compatible())
-				return this.StatusCode(
-					HttpStatusCode.UpgradeRequired,
-					new ErrorMessageResponse(ErrorCode.ApiMismatch));
 
 			var errorCase = await ValidateRequest(cancellationToken);
 			if (errorCase != null)

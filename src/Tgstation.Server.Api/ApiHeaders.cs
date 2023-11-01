@@ -59,6 +59,11 @@ namespace Tgstation.Server.Api
 		public const string ApplicationJsonMime = "application/json";
 
 		/// <summary>
+		/// Added to <see cref="MediaTypeNames.Application"/> in netstandard2.1. Can't use because of lack of .NET Framework support.
+		/// </summary>
+		const string TextEventStreamMime = "text/event-stream";
+
+		/// <summary>
 		/// Get the version of the <see cref="Api"/> the caller is using.
 		/// </summary>
 		public static readonly Version Version = Version.Parse(ApiVersionAttribute.Instance.RawApiVersion);
@@ -184,9 +189,10 @@ namespace Tgstation.Server.Api
 		/// </summary>
 		/// <param name="requestHeaders">The <see cref="RequestHeaders"/> containing the serialized <see cref="ApiHeaders"/>.</param>
 		/// <param name="ignoreMissingAuth">If a missing <see cref="HeaderNames.Authorization"/> should be ignored.</param>
+		/// <param name="allowEventStreamAccept">If <see cref="TextEventStreamMime"/> is a valid accept.</param>
 		/// <exception cref="HeadersException">Thrown if the <paramref name="requestHeaders"/> constitue invalid <see cref="ApiHeaders"/>.</exception>
 #pragma warning disable CA1502 // TODO: Decomplexify
-		public ApiHeaders(RequestHeaders requestHeaders, bool ignoreMissingAuth)
+		public ApiHeaders(RequestHeaders requestHeaders, bool ignoreMissingAuth, bool allowEventStreamAccept)
 		{
 			if (requestHeaders == null)
 				throw new ArgumentNullException(nameof(requestHeaders));
@@ -207,8 +213,12 @@ namespace Tgstation.Server.Api
 			}
 
 			var jsonAccept = new Microsoft.Net.Http.Headers.MediaTypeHeaderValue(ApplicationJsonMime);
-			if (!requestHeaders.Accept.Any(x => jsonAccept.IsSubsetOf(x)))
-				AddError(HeaderErrorTypes.Accept, $"Client does not accept {ApplicationJsonMime}!");
+			var eventStreamAccept = new Microsoft.Net.Http.Headers.MediaTypeHeaderValue(TextEventStreamMime);
+			if (!requestHeaders.Accept.Any(jsonAccept.IsSubsetOf))
+				if (!allowEventStreamAccept)
+					AddError(HeaderErrorTypes.Accept, $"Client does not accept {ApplicationJsonMime}!");
+				else if (!requestHeaders.Accept.Any(eventStreamAccept.IsSubsetOf))
+					AddError(HeaderErrorTypes.Accept, $"Client does not accept {ApplicationJsonMime} or {TextEventStreamMime}!");
 
 			if (!requestHeaders.Headers.TryGetValue(HeaderNames.UserAgent, out var userAgentValues) || userAgentValues.Count == 0)
 				AddError(HeaderErrorTypes.UserAgent, $"Missing {HeaderNames.UserAgent} header!");
@@ -384,6 +394,20 @@ namespace Tgstation.Server.Api
 			instanceId ??= InstanceId;
 			if (instanceId.HasValue)
 				headers.Add(InstanceIdHeader, instanceId.Value.ToString(CultureInfo.InvariantCulture));
+		}
+
+		/// <summary>
+		/// Adds the <paramref name="headers"/> necessary for a SignalR hub connection.
+		/// </summary>
+		/// <param name="headers">The headers <see cref="IDictionary{TKey, TValue}"/> to write to.</param>
+		public void SetHubConnectionHeaders(IDictionary<string, string> headers)
+		{
+			if (headers == null)
+				throw new ArgumentNullException(nameof(headers));
+
+			headers.Add(HeaderNames.UserAgent, RawUserAgent ?? throw new InvalidOperationException("Missing UserAgent!"));
+			headers.Add(HeaderNames.Accept, ApplicationJsonMime);
+			headers.Add(ApiVersionHeader, CreateApiVersionHeader());
 		}
 
 		/// <summary>

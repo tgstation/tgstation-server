@@ -120,6 +120,35 @@ namespace Tgstation.Server.Host.Extensions
 		}
 
 		/// <summary>
+		/// Check that the API version is the current major version if it's present in the headers.
+		/// </summary>
+		/// <param name="applicationBuilder">The <see cref="IApplicationBuilder"/> to configure.</param>
+		public static void UseApiCompatibility(this IApplicationBuilder applicationBuilder)
+		{
+			ArgumentNullException.ThrowIfNull(applicationBuilder);
+
+			applicationBuilder.Use(async (context, next) =>
+			{
+				var apiHeadersProvider = context.RequestServices.GetRequiredService<IApiHeadersProvider>();
+				if (apiHeadersProvider.ApiHeaders?.Compatible() == false)
+				{
+					await new JsonResult(
+						new ErrorMessageResponse(ErrorCode.ApiMismatch))
+					{
+						StatusCode = (int)HttpStatusCode.UpgradeRequired,
+					}
+					.ExecuteResultAsync(new ActionContext
+					{
+						HttpContext = context,
+					});
+					return;
+				}
+
+				await next();
+			});
+		}
+
+		/// <summary>
 		/// Add the X-Powered-By response header.
 		/// </summary>
 		/// <param name="applicationBuilder">The <see cref="IApplicationBuilder"/> to configure.</param>

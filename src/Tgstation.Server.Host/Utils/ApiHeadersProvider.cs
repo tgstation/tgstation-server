@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 
 using Microsoft.AspNetCore.Http;
 
@@ -12,7 +12,7 @@ namespace Tgstation.Server.Host.Utils
 		/// <inheritdoc />
 		public ApiHeaders ApiHeaders => attemptedApiHeadersCreation
 			? apiHeaders
-			: CreateApiHeaders(true);
+			: CreateApiHeaders(false);
 
 		/// <inheritdoc />
 		public HeadersException HeadersException { get; private set; }
@@ -42,33 +42,31 @@ namespace Tgstation.Server.Host.Utils
 		}
 
 		/// <inheritdoc />
-		public ApiHeaders CreateAuthlessHeaders() => CreateApiHeaders(false);
+		public ApiHeaders CreateAuthlessHeaders() => CreateApiHeaders(true);
 
 		/// <summary>
 		/// Attempt to parse <see cref="Api.ApiHeaders"/> from the <see cref="HttpContext"/>, optionally populating the <see langword="class"/> properties.
 		/// </summary>
-		/// <param name="includeAuthAndSetProperties">If the <see cref="HeaderErrorTypes.AuthorizationMissing"/> error should be ignored and <see cref="ApiHeaders"/>/<see cref="HeadersException"/> should be populated.</param>
-		/// <returns>A newly parsed <see cref="Api.ApiHeaders"/> <see langword="class"/> or <see langword="null"/> if <paramref name="includeAuthAndSetProperties"/> was set and the parse failed.</returns>
-		ApiHeaders CreateApiHeaders(bool includeAuthAndSetProperties)
+		/// <param name="authless">If the <see cref="HeaderErrorTypes.AuthorizationMissing"/> error should be ignored and <see cref="ApiHeaders"/>/<see cref="HeadersException"/> should not be populated.</param>
+		/// <returns>A newly parsed <see cref="Api.ApiHeaders"/> <see langword="class"/> or <see langword="null"/> if <paramref name="authless"/> was set and the parse failed.</returns>
+		ApiHeaders CreateApiHeaders(bool authless)
 		{
 			if (httpContextAccessor.HttpContext == null)
 				throw new InvalidOperationException("httpContextAccessor has no HttpContext!");
 
-			var request = httpContextAccessor.HttpContext.Request;
-			var ignoreMissingAuth = !includeAuthAndSetProperties;
-
-			if (includeAuthAndSetProperties)
+			var typedHeaders = httpContextAccessor.HttpContext.Request.GetTypedHeaders();
+			if (!authless)
 				attemptedApiHeadersCreation = true;
 
 			try
 			{
-				var headers = new ApiHeaders(request.GetTypedHeaders(), ignoreMissingAuth);
-				if (includeAuthAndSetProperties)
+				var headers = new ApiHeaders(typedHeaders, authless, !authless);
+				if (!authless)
 					apiHeaders = headers;
 
 				return headers;
 			}
-			catch (HeadersException ex) when (includeAuthAndSetProperties)
+			catch (HeadersException ex) when (!authless)
 			{
 				HeadersException = ex;
 				return null;

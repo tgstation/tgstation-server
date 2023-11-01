@@ -31,18 +31,25 @@ namespace Tgstation.Server.Host.Controllers
 	public sealed class InstancePermissionSetController : InstanceRequiredController
 	{
 		/// <summary>
+		/// The <see cref="IPermissionsUpdateNotifyee"/> for the <see cref="InstancePermissionSetController"/>.
+		/// </summary>
+		readonly IPermissionsUpdateNotifyee permissionsUpdateNotifyee;
+
+		/// <summary>
 		/// Initializes a new instance of the <see cref="InstancePermissionSetController"/> class.
 		/// </summary>
 		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> for the <see cref="InstanceRequiredController"/>.</param>
-		/// <param name="authenticationContext">The <see cref="IAuthenticationContextFactory"/> for the <see cref="InstanceRequiredController"/>.</param>
+		/// <param name="authenticationContext">The <see cref="IAuthenticationContext"/> for the <see cref="InstanceRequiredController"/>.</param>
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="InstanceRequiredController"/>.</param>
 		/// <param name="instanceManager">The <see cref="IInstanceManager"/> for the <see cref="InstanceRequiredController"/>.</param>
+		/// <param name="permissionsUpdateNotifyee">The value of <see cref="permissionsUpdateNotifyee"/>.</param>
 		/// <param name="apiHeaders">The <see cref="IApiHeadersProvider"/> for the <see cref="InstanceRequiredController"/>.</param>
 		public InstancePermissionSetController(
 			IDatabaseContext databaseContext,
 			IAuthenticationContext authenticationContext,
 			ILogger<InstancePermissionSetController> logger,
 			IInstanceManager instanceManager,
+			IPermissionsUpdateNotifyee permissionsUpdateNotifyee,
 			IApiHeadersProvider apiHeaders)
 			: base(
 				  databaseContext,
@@ -51,6 +58,7 @@ namespace Tgstation.Server.Host.Controllers
 				  instanceManager,
 				  apiHeaders)
 		{
+			this.permissionsUpdateNotifyee = permissionsUpdateNotifyee ?? throw new ArgumentNullException(nameof(permissionsUpdateNotifyee));
 		}
 
 		/// <summary>
@@ -76,6 +84,7 @@ namespace Tgstation.Server.Host.Controllers
 				.Where(x => x.Id == model.PermissionSetId)
 				.Select(x => new Models.PermissionSet
 				{
+					Id = x.Id,
 					UserId = x.UserId,
 				})
 				.FirstOrDefaultAsync(cancellationToken);
@@ -112,6 +121,10 @@ namespace Tgstation.Server.Host.Controllers
 			DatabaseContext.InstancePermissionSets.Add(dbUser);
 
 			await DatabaseContext.Save(cancellationToken);
+
+			// needs to be set for next call
+			dbUser.PermissionSet = existingPermissionSet;
+			await permissionsUpdateNotifyee.InstancePermissionSetCreated(dbUser, cancellationToken);
 			return Created(dbUser.ToApi());
 		}
 #pragma warning restore CA1506

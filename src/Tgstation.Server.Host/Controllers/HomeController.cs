@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -21,7 +20,6 @@ using Tgstation.Server.Host.Components.Interop;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.Database;
-using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.Security;
 using Tgstation.Server.Host.Security.OAuth;
@@ -182,11 +180,7 @@ namespace Tgstation.Server.Host.Controllers
 				try
 				{
 					// we only allow authorization header issues
-					var headers = ApiHeadersProvider.CreateAuthlessHeaders();
-					if (!headers.Compatible())
-						return this.StatusCode(
-							HttpStatusCode.UpgradeRequired,
-							new ErrorMessageResponse(ErrorCode.ApiMismatch));
+					ApiHeadersProvider.CreateAuthlessHeaders();
 				}
 				catch (HeadersException ex)
 				{

@@ -5,15 +5,25 @@ using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Net.Mime;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
+using Microsoft.AspNetCore.Http.Connections;
+using Microsoft.AspNetCore.SignalR.Client;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.Extensions.Logging;
+
 using Tgstation.Server.Api;
+using Tgstation.Server.Api.Hubs;
 using Tgstation.Server.Api.Models;
+using Tgstation.Server.Api.Models.Request;
 using Tgstation.Server.Api.Models.Response;
 using Tgstation.Server.Client;
+using Tgstation.Server.Client.Extensions;
 using Tgstation.Server.Common.Extensions;
 using Tgstation.Server.Host;
 
@@ -346,12 +356,132 @@ namespace Tgstation.Server.Tests.Live
 			}
 		}
 
+		class FuncProxiedJobsHub : IJobsHub
+		{
+			public Func<JobResponse, CancellationToken, Task> ProxyFunc { get; set; }
+			public Func<ConnectionAbortReason, Task> ErrorFunc { get; set; }
+
+			public Task AbortingConnection(ConnectionAbortReason reason, CancellationToken cancellationToken)
+				=> ErrorFunc(reason);
+
+			public Task ReceiveJobUpdate(JobResponse job, CancellationToken cancellationToken)
+				=> ProxyFunc(job, cancellationToken);
+		}
+
+		static async Task TestSignalRUsage(IServerClientFactory serverClientFactory, IServerClient serverClient, CancellationToken cancellationToken)
+		{
+			// test regular creation works without error
+			var hubConnectionBuilder = new HubConnectionBuilder();
+
+			var tokenRetrivalFunc = () => Task.FromResult("FakeToken");
+
+			hubConnectionBuilder.WithUrl(
+				new Uri(serverClient.Url, Routes.JobsHub),
+				HttpTransportType.ServerSentEvents,
+				options =>
+				{
+					options.AccessTokenProvider = () => tokenRetrivalFunc();
+					((IApiClient)typeof(ServerClient)
+						.GetField(
+							"apiClient",
+							BindingFlags.NonPublic | BindingFlags.Instance)
+						.GetValue(serverClient))
+						.Headers
+						.SetHubConnectionHeaders(options.Headers);
+				});
+
+			hubConnectionBuilder.ConfigureLogging(
+				loggingBuilder =>
+				{
+					loggingBuilder.SetMinimumLevel(LogLevel.Trace);
+					loggingBuilder.AddConsole();
+					loggingBuilder
+						.Services
+						.TryAddEnumerable(
+							ServiceDescriptor.Singleton<ILoggerProvider, HardFailLoggerProvider>());
+				});
+
+			var proxy = new FuncProxiedJobsHub();
+			var errorTcs = new TaskCompletionSource();
+			proxy.ErrorFunc = reason =>
+			{
+				errorTcs.SetException(new Exception($"Aborted: {reason}"));
+				return Task.CompletedTask;
+			};
+
+			HubConnection hubConnection;
+			HardFailLoggerProvider.BlockFails = true;
+			try
+			{
+				await using (hubConnection = hubConnectionBuilder.Build())
+				{
+					Assert.AreEqual(HubConnectionState.Disconnected, hubConnection.State);
+					hubConnection.ProxyOn<IJobsHub>(proxy);
+
+					var exception = await Assert.ThrowsExceptionAsync<HttpRequestException>(() => hubConnection.StartAsync(cancellationToken));
+
+					Assert.AreEqual(HttpStatusCode.Unauthorized, exception.StatusCode);
+					Assert.AreEqual(HubConnectionState.Disconnected, hubConnection.State);
+
+					tokenRetrivalFunc = () => Task.FromResult(serverClient.Token.Bearer);
+					await hubConnection.StartAsync(cancellationToken);
+
+					Assert.AreEqual(HubConnectionState.Connected, hubConnection.State);
+				}
+
+				Assert.AreEqual(HubConnectionState.Disconnected, hubConnection.State);
+
+				Assert.IsFalse(errorTcs.Task.IsCompleted);
+
+				var createRequest = new UserCreateRequest
+				{
+					Enabled = true,
+					Name = "SignalRTestUser",
+					Password = "asdfasdfasdfasdfasdf"
+				};
+
+				var testUser = await serverClient.Users.Create(createRequest, cancellationToken);
+				await using (var testUserClient = await serverClientFactory.CreateFromLogin(serverClient.Url, createRequest.Name, createRequest.Password, cancellationToken: cancellationToken))
+				{
+					errorTcs = new TaskCompletionSource();
+					await using var testUserConn1 = await testUserClient.SubscribeToJobUpdates(proxy, cancellationToken: cancellationToken);
+
+					Assert.IsFalse(errorTcs.Task.IsCompleted);
+
+					await serverClient.Users.Update(new UserUpdateRequest
+					{
+						Id = testUser.Id,
+						Enabled = false,
+					}, cancellationToken);
+
+					// need a second here
+					for (var i = 0; i < 10 && !errorTcs.Task.IsCompleted; ++i)
+						await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);
+
+					Assert.IsTrue(errorTcs.Task.IsCompleted);
+
+					errorTcs = new TaskCompletionSource();
+					await using var testUserConn2 = await testUserClient.SubscribeToJobUpdates(proxy, cancellationToken: cancellationToken);
+					for (var i = 0; i < 10 && !errorTcs.Task.IsCompleted; ++i)
+						await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);
+				}
+
+				Assert.IsTrue(errorTcs.Task.IsCompleted);
+				await Assert.ThrowsExceptionAsync<Exception>(() => errorTcs.Task);
+			}
+			finally
+			{
+				HardFailLoggerProvider.BlockFails = false;
+			}
+		}
+
 		public static Task Run(IServerClientFactory clientFactory, IServerClient serverClient, CancellationToken cancellationToken)
 			=> Task.WhenAll(
 				TestRequestValidation(serverClient, cancellationToken),
 				TestOAuthFails(serverClient, cancellationToken),
 				TestServerInformation(clientFactory, serverClient, cancellationToken),
 				TestInvalidTransfers(serverClient, cancellationToken),
-				RegressionTestForLeakedPasswordHashesBug(serverClient, cancellationToken));
+				RegressionTestForLeakedPasswordHashesBug(serverClient, cancellationToken),
+				TestSignalRUsage(clientFactory, serverClient, cancellationToken));
 	}
 }

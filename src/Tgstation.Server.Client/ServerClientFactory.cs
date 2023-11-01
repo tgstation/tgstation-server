@@ -120,7 +120,7 @@ namespace Tgstation.Server.Client
 			TimeSpan? timeout = null,
 			CancellationToken cancellationToken = default)
 		{
-			using var api = ApiClientFactory.CreateApiClient(
+			await using var api = ApiClientFactory.CreateApiClient(
 				host,
 				new ApiHeaders(
 					productHeaderValue,
@@ -162,7 +162,7 @@ namespace Tgstation.Server.Client
 			requestLoggers ??= Enumerable.Empty<IRequestLogger>();
 
 			TokenResponse token;
-			using (var api = ApiClientFactory.CreateApiClient(host, loginHeaders, null, false))
+			await using (var api = ApiClientFactory.CreateApiClient(host, loginHeaders, null, false))
 			{
 				foreach (var requestLogger in requestLoggers)
 					api.AddRequestLogger(requestLogger);

@@ -2,7 +2,11 @@
 using System.Threading;
 using System.Threading.Tasks;
 
+using Microsoft.AspNetCore.SignalR.Client;
+using Microsoft.Extensions.Logging;
+
 using Tgstation.Server.Api;
+using Tgstation.Server.Api.Hubs;
 using Tgstation.Server.Api.Models.Response;
 
 namespace Tgstation.Server.Client
@@ -59,12 +63,20 @@ namespace Tgstation.Server.Client
 		}
 
 		/// <inheritdoc />
-		public void Dispose() => apiClient.Dispose();
+		public ValueTask DisposeAsync() => apiClient.DisposeAsync();
 
 		/// <inheritdoc />
 		public ValueTask<ServerInformationResponse> ServerInformation(CancellationToken cancellationToken) => apiClient.Read<ServerInformationResponse>(Routes.Root, cancellationToken);
 
 		/// <inheritdoc />
 		public void AddRequestLogger(IRequestLogger requestLogger) => apiClient.AddRequestLogger(requestLogger);
+
+		/// <inheritdoc />
+		public ValueTask<IAsyncDisposable> SubscribeToJobUpdates(
+			IJobsHub jobsReceiver,
+			IRetryPolicy? retryPolicy,
+			Action<ILoggingBuilder>? loggingConfigureAction,
+			CancellationToken cancellationToken)
+			=> apiClient.CreateHubConnection(jobsReceiver, retryPolicy, loggingConfigureAction, cancellationToken);
 	}
 }

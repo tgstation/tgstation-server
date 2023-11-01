@@ -69,6 +69,11 @@ namespace Tgstation.Server.Host.Controllers
 		readonly IPortAllocator portAllocator;
 
 		/// <summary>
+		/// The <see cref="IPermissionsUpdateNotifyee"/> for the <see cref="InstanceController"/>.
+		/// </summary>
+		readonly IPermissionsUpdateNotifyee permissionsUpdateNotifyee;
+
+		/// <summary>
 		/// The <see cref="GeneralConfiguration"/> for the <see cref="InstanceController"/>.
 		/// </summary>
 		readonly GeneralConfiguration generalConfiguration;
@@ -88,7 +93,8 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="jobManager">The value of <see cref="jobManager"/>.</param>
 		/// <param name="ioManager">The value of <see cref="ioManager"/>.</param>
 		/// <param name="platformIdentifier">The value of <see cref="platformIdentifier"/>.</param>
-		/// <param name="portAllocator">The value of <see cref="IPortAllocator"/>.</param>
+		/// <param name="portAllocator">The value of <see cref="portAllocator"/>.</param>
+		/// <param name="permissionsUpdateNotifyee">The value of <see cref="permissionsUpdateNotifyee"/>.</param>
 		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="generalConfiguration"/>.</param>
 		/// <param name="swarmConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="swarmConfiguration"/>.</param>
 		/// <param name="apiHeaders">The <see cref="IApiHeadersProvider"/> for the <see cref="ComponentInterfacingController"/>.</param>
@@ -101,6 +107,7 @@ namespace Tgstation.Server.Host.Controllers
 			IIOManager ioManager,
 			IPortAllocator portAllocator,
 			IPlatformIdentifier platformIdentifier,
+			IPermissionsUpdateNotifyee permissionsUpdateNotifyee,
 			IOptions<GeneralConfiguration> generalConfigurationOptions,
 			IOptions<SwarmConfiguration> swarmConfigurationOptions,
 			IApiHeadersProvider apiHeaders)
@@ -116,6 +123,8 @@ namespace Tgstation.Server.Host.Controllers
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
 			this.platformIdentifier = platformIdentifier ?? throw new ArgumentNullException(nameof(platformIdentifier));
 			this.portAllocator = portAllocator ?? throw new ArgumentNullException(nameof(portAllocator));
+			this.permissionsUpdateNotifyee = permissionsUpdateNotifyee ?? throw new ArgumentNullException(nameof(permissionsUpdateNotifyee));
+
 			generalConfiguration = generalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
 			swarmConfiguration = swarmConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(swarmConfigurationOptions));
 		}
@@ -266,6 +275,10 @@ namespace Tgstation.Server.Host.Controllers
 				newInstance.Name,
 				newInstance.Id,
 				newInstance.Path);
+
+			await permissionsUpdateNotifyee.InstancePermissionSetCreated(
+				newInstance.InstancePermissionSets.First(),
+				cancellationToken);
 
 			var api = newInstance.ToApi();
 			api.Accessible = true; // instances are always accessible by their creator
@@ -770,6 +783,7 @@ namespace Tgstation.Server.Host.Controllers
 		{
 			permissionSetToModify ??= new InstancePermissionSet()
 			{
+				PermissionSet = AuthenticationContext.PermissionSet,
 				PermissionSetId = AuthenticationContext.PermissionSet.Id.Value,
 			};
 			permissionSetToModify.ByondRights = RightsHelper.AllRights<ByondRights>();

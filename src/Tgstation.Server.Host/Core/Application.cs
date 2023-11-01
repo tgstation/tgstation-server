@@ -14,9 +14,12 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Connections;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -31,6 +34,7 @@ using Serilog.Formatting.Display;
 using Serilog.Sinks.Elasticsearch;
 
 using Tgstation.Server.Api;
+using Tgstation.Server.Api.Hubs;
 using Tgstation.Server.Common.Http;
 using Tgstation.Server.Host.Components;
 using Tgstation.Server.Host.Components.Byond;
@@ -250,6 +254,18 @@ namespace Tgstation.Server.Host.Core
 					ConfigureNewtonsoftJsonSerializerSettingsForApi(options.SerializerSettings);
 				});
 
+			services.AddSignalR(
+				options =>
+				{
+					options.AddFilter<AuthorizationContextHubFilter>();
+				})
+				.AddNewtonsoftJsonProtocol(options =>
+				{
+					ConfigureNewtonsoftJsonSerializerSettingsForApi(options.PayloadSerializerSettings);
+				});
+
+			services.AddHub<JobsHub, IJobsHub>();
+
 			if (postSetupServices.GeneralConfiguration.HostApiDocumentation)
 			{
 				string GetDocumentationFilePath(string assemblyLocation) => ioManager.ConcatPath(ioManager.GetDirectoryName(assemblyLocation), String.Concat(ioManager.GetFileNameWithoutExtension(assemblyLocation), ".xml"));
@@ -386,6 +402,7 @@ namespace Tgstation.Server.Host.Core
 			// configure root services
 			services.AddSingleton<IJobService, JobService>();
 			services.AddSingleton<IJobManager>(x => x.GetRequiredService<IJobService>());
+			services.AddSingleton<IPermissionsUpdateNotifyee, JobsHubGroupMapper>();
 
 			services.AddSingleton<InstanceManager>();
 			services.AddSingleton<IBridgeDispatcher>(x => x.GetRequiredService<InstanceManager>());
@@ -501,6 +518,9 @@ namespace Tgstation.Server.Host.Core
 				logger.LogTrace("Web control panel disabled!");
 #endif
 
+			// validate the API version
+			applicationBuilder.UseApiCompatibility();
+
 			// authenticate JWT tokens using our security pipeline if present, returns 401 if bad
 			applicationBuilder.UseAuthentication();
 
@@ -513,6 +533,17 @@ namespace Tgstation.Server.Host.Core
 			// setup endpoints
 			applicationBuilder.UseEndpoints(endpoints =>
 			{
+				// access to the signalR jobs hub
+				endpoints.MapHub<JobsHub>(
+					Routes.JobsHub,
+					options =>
+					{
+						options.Transports = HttpTransportType.ServerSentEvents;
+						options.CloseOnAuthenticationExpiration = true;
+					})
+					.RequireAuthorization()
+					.RequireCors(corsBuilder);
+
 				// majority of handling is done in the controllers
 				endpoints.MapControllers();
 			});
@@ -541,10 +572,18 @@ namespace Tgstation.Server.Host.Core
 			services.AddScoped<IApiHeadersProvider, ApiHeadersProvider>();
 			services.AddScoped<AuthenticationContextFactory>();
 			services.AddScoped<IAuthenticationContextFactory>(provider => provider.GetRequiredService<AuthenticationContextFactory>());
-			services.AddScoped(provider =>
-			{
-				return provider.GetRequiredService<AuthenticationContextFactory>().CurrentAuthenticationContext;
-			});
+
+			// what if you
+			// wanted to just do this:
+			// return provider.GetRequiredService<AuthenticationContextFactory>().CurrentAuthenticationContext
+			// But M$ said
+			// https://stackoverflow.com/questions/56792917/scoped-services-in-asp-net-core-with-signalr-hubs
+			services.AddScoped(provider => provider
+				.GetRequiredService<IHttpContextAccessor>()
+				.HttpContext
+				.RequestServices
+				.GetRequiredService<AuthenticationContextFactory>()
+				.CurrentAuthenticationContext);
 			services.AddScoped<IClaimsTransformation, AuthenticationContextClaimsTransformation>();
 			services.AddScoped<IAuthorizationFilter, AuthenticationContextAuthorizationFilter>();
 
