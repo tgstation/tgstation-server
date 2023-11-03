@@ -119,7 +119,7 @@ namespace Tgstation.Server.Api
 		public OAuthProvider? OAuthProvider { get; }
 
 		/// <summary>
-		/// If the header uses password or TGS JWT authentication.
+		/// If the header uses OAuth or TGS JWT authentication.
 		/// </summary>
 		public bool IsTokenAuthentication => Token != null && !OAuthProvider.HasValue;
 
