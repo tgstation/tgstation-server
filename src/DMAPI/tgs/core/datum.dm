@@ -16,6 +16,7 @@ TGS_DEFINE_AND_SET_GLOBAL(tgs, null)
 		TGS_DEBUG_LOG("About to terminate world. Tick: [world.time], sleep_offline: [world.sleep_offline]")
 		world.sleep_offline = FALSE // https://www.byond.com/forum/post/2894866
 		del(world)
+		world.sleep_offline = FALSE // just in case, this is BYOND after all...
 		sleep(1)
 		TGS_DEBUG_LOG("BYOND DIDN'T TERMINATE THE WORLD!!! TICK IS: [world.time], sleep_offline: [world.sleep_offline]")
 

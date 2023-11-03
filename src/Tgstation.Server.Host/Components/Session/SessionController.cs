@@ -689,10 +689,12 @@ namespace Tgstation.Server.Host.Components.Session
 				return;
 			}
 
-			Logger.LogDebug("Server will terminated in 10s if it does not exit...");
-			var delayTask = asyncDelayer.Delay(TimeSpan.FromSeconds(10), CancellationToken.None); // DCT: None available
-			var completedTask = await Task.WhenAny(process.Lifetime, delayTask);
-			if (completedTask == delayTask)
+			const int GracePeriodSeconds = 30;
+			Logger.LogDebug("Server will terminated in {gracePeriodSeconds}s if it does not exit...", GracePeriodSeconds);
+			var delayTask = asyncDelayer.Delay(TimeSpan.FromSeconds(GracePeriodSeconds), CancellationToken.None); // DCT: None available
+			await Task.WhenAny(process.Lifetime, delayTask);
+
+			if (!process.Lifetime.IsCompleted)
 			{
 				Logger.LogWarning("DMAPI took too long to shutdown server after validation request!");
 				process.Terminate();
