@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Linq;
 using System.Net;
 using System.Threading;
@@ -164,6 +164,8 @@ namespace Tgstation.Server.Host.Controllers
 					HeaderNames.Vary,
 					new StringValues(ApiHeaders.ApiVersionHeader));
 
+			// if they tried to authenticate in any form and failed, let them know immediately
+			bool failIfUnauthed;
 			if (ApiHeaders == null)
 			{
 				if (controlPanelConfiguration.Enable && !Request.Headers.TryGetValue(ApiHeaders.ApiVersionHeader, out _))
@@ -190,7 +192,14 @@ namespace Tgstation.Server.Host.Controllers
 				{
 					return HeadersIssue(ex);
 				}
+
+				failIfUnauthed = Request.Headers.Authorization.Any();
 			}
+			else
+				failIfUnauthed = ApiHeaders.Token != null;
+
+			if (failIfUnauthed && !AuthenticationContext.Valid)
+				return Unauthorized();
 
 			return Json(new ServerInformationResponse
 			{
