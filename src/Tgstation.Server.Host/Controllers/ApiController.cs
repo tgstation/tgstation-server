@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -188,7 +188,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <summary>
 		/// Generic 404 response.
 		/// </summary>
-		/// <returns>An <see cref="ObjectResult"/> with <see cref="HttpStatusCode.NotFound"/>.</returns>
+		/// <returns>A <see cref="NotFoundObjectResult"/> with an appropriate <see cref="ErrorMessageResponse"/>.</returns>
 		protected new NotFoundObjectResult NotFound() => NotFound(new ErrorMessageResponse(ErrorCode.ResourceNeverPresent));
 
 		/// <summary>
