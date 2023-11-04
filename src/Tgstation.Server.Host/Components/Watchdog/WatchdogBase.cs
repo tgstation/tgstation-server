@@ -97,6 +97,11 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		protected IAsyncDelayer AsyncDelayer { get; }
 
 		/// <summary>
+		/// The <see cref="IIOManager"/> for the <see cref="WatchdogBase"/> pointing to the Game directory.
+		/// </summary>
+		protected IIOManager GameIOManager { get; }
+
+		/// <summary>
 		/// The <see cref="Api.Models.Instance"/> for the <see cref="WatchdogBase"/>.
 		/// </summary>
 		readonly Api.Models.Instance metadata;
@@ -184,6 +189,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <param name="diagnosticsIOManager">The value of <see cref="diagnosticsIOManager"/>.</param>
 		/// <param name="eventConsumer">The value of <see cref="EventConsumer"/>.</param>
 		/// <param name="remoteDeploymentManagerFactory">The value of <see cref="remoteDeploymentManagerFactory"/>.</param>
+		/// <param name="gameIOManager">The value of <see cref="GameIOManager"/>.</param>
 		/// <param name="logger">The value of <see cref="Logger"/>.</param>
 		/// <param name="initialLaunchParameters">The initial value of <see cref="ActiveLaunchParameters"/>. May be modified.</param>
 		/// <param name="metadata">The value of <see cref="metadata"/>.</param>
@@ -199,6 +205,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			IIOManager diagnosticsIOManager,
 			IEventConsumer eventConsumer,
 			IRemoteDeploymentManagerFactory remoteDeploymentManagerFactory,
+			IIOManager gameIOManager,
 			ILogger<WatchdogBase> logger,
 			DreamDaemonLaunchParameters initialLaunchParameters,
 			Api.Models.Instance metadata,
@@ -213,6 +220,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			this.diagnosticsIOManager = diagnosticsIOManager ?? throw new ArgumentNullException(nameof(diagnosticsIOManager));
 			this.eventConsumer = eventConsumer ?? throw new ArgumentNullException(nameof(eventConsumer));
 			this.remoteDeploymentManagerFactory = remoteDeploymentManagerFactory ?? throw new ArgumentNullException(nameof(remoteDeploymentManagerFactory));
+			GameIOManager = gameIOManager ?? throw new ArgumentNullException(nameof(gameIOManager));
 			Logger = logger ?? throw new ArgumentNullException(nameof(logger));
 			ActiveLaunchParameters = initialLaunchParameters ?? throw new ArgumentNullException(nameof(initialLaunchParameters));
 			this.metadata = metadata ?? throw new ArgumentNullException(nameof(metadata));
@@ -679,6 +687,15 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				metadata,
 				newCompileJob);
 
+			var eventTask = eventConsumer.HandleEvent(
+				EventType.DeploymentActivation,
+				new List<string>
+				{
+					GameIOManager.ResolvePath(newCompileJob.DirectoryName.ToString()),
+				},
+				false,
+				cancellationToken);
+
 			try
 			{
 				await remoteDeploymentManager.ApplyDeployment(newCompileJob, cancellationToken);
@@ -687,6 +704,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			{
 				Logger.LogWarning(ex, "Failed to apply remote deployment!");
 			}
+
+			await eventTask;
 		}
 
 		/// <summary>
