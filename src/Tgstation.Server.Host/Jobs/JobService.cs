@@ -120,7 +120,7 @@ namespace Tgstation.Server.Host.Jobs
 
 					job.Instance = new Models.Instance
 					{
-						Id = job.Instance.Id,
+						Id = job.Instance.Id ?? throw new InvalidOperationException("Instance associated with job does not have an Id!"),
 					};
 					databaseContext.Instances.Attach(job.Instance);
 
@@ -131,7 +131,7 @@ namespace Tgstation.Server.Host.Jobs
 					else
 						job.StartedBy = new User
 						{
-							Id = job.StartedBy.Id,
+							Id = job.StartedBy.Id ?? throw new InvalidOperationException("StartedBy User associated with job does not have an Id!"),
 						};
 					databaseContext.Users.Attach(job.StartedBy);
 
