@@ -24,7 +24,7 @@ using Tgstation.Server.Host.Utils.SignalR;
 namespace Tgstation.Server.Host.Jobs
 {
 	/// <inheritdoc cref="IJobService" />
-	sealed class JobService : IJobService, IDisposable
+	sealed class JobService : IJobService, IJobsHubUpdater, IDisposable
 	{
 		/// <summary>
 		/// The maximum rate at which hub clients can receive updates.
@@ -55,6 +55,11 @@ namespace Tgstation.Server.Host.Jobs
 		/// <see cref="Dictionary{TKey, TValue}"/> of <see cref="Job"/> <see cref="Api.Models.EntityId.Id"/>s to running <see cref="JobHandler"/>s.
 		/// </summary>
 		readonly Dictionary<long, JobHandler> jobs;
+
+		/// <summary>
+		/// <see cref="Dictionary{TKey, TValue}"/> of running <see cref="Job"/> <see cref="Api.Models.EntityId.Id"/>s to <see cref="Action"/>s that will push immediate <see cref="hub"/> updates.
+		/// </summary>
+		readonly Dictionary<long, Action> hubUpdateActions;
 
 		/// <summary>
 		/// <see cref="TaskCompletionSource{TResult}"/> to delay starting jobs until the server is ready.
@@ -95,6 +100,7 @@ namespace Tgstation.Server.Host.Jobs
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
 			jobs = new Dictionary<long, JobHandler>();
+			hubUpdateActions = new Dictionary<long, Action>();
 			activationTcs = new TaskCompletionSource<IInstanceCoreProvider>();
 			synchronizationLock = new object();
 			addCancelLock = new object();
@@ -305,6 +311,14 @@ namespace Tgstation.Server.Host.Jobs
 			activationTcs.SetResult(instanceCoreProvider);
 		}
 
+		/// <inheritdoc />
+		public void QueueActiveJobUpdates()
+		{
+			lock (hubUpdateActions)
+				foreach (var action in hubUpdateActions.Values)
+					action();
+		}
+
 		/// <summary>
 		/// Runner for <see cref="JobHandler"/>s.
 		/// </summary>
@@ -325,39 +339,51 @@ namespace Tgstation.Server.Host.Jobs
 					var result = false;
 
 					Stopwatch stopwatch = null;
-					void QueueHubUpdate(JobResponse update)
+					void QueueHubUpdate(JobResponse update, bool final)
 					{
-						var currentUpdatesTask = hubUpdatesTask;
-						async Task ChainHubUpdate()
+						void NextUpdate()
 						{
-							await currentUpdatesTask;
-
-							// DCT: Cancellation token is for job, operation should always run
-							await hub
-								.Clients
-								.Group(JobsHub.HubGroupName(job))
-								.ReceiveJobUpdate(update, CancellationToken.None);
-						}
-
-						Stopwatch enteredLock = null;
-						try
-						{
-							if (stopwatch != null)
+							var currentUpdatesTask = hubUpdatesTask;
+							async Task ChainHubUpdate()
 							{
-								Monitor.Enter(stopwatch);
-								enteredLock = stopwatch;
-								if (stopwatch.ElapsedMilliseconds * MaxHubUpdatesPerSecond < 1)
-									return; // don't spam client
+								await currentUpdatesTask;
+
+								// DCT: Cancellation token is for job, operation should always run
+								await hub
+									.Clients
+									.Group(JobsHub.HubGroupName(job))
+									.ReceiveJobUpdate(update, CancellationToken.None);
 							}
 
-							hubUpdatesTask = ChainHubUpdate();
-							stopwatch = Stopwatch.StartNew();
+							Stopwatch enteredLock = null;
+							try
+							{
+								if (stopwatch != null)
+								{
+									Monitor.Enter(stopwatch);
+									enteredLock = stopwatch;
+									if (stopwatch.ElapsedMilliseconds * MaxHubUpdatesPerSecond < 1)
+										return; // don't spam client
+								}
+
+								hubUpdatesTask = ChainHubUpdate();
+								stopwatch = Stopwatch.StartNew();
+							}
+							finally
+							{
+								if (enteredLock != null)
+									Monitor.Exit(enteredLock);
+							}
 						}
-						finally
-						{
-							if (enteredLock != null)
-								Monitor.Exit(enteredLock);
-						}
+
+						var jobId = update.Id.Value;
+						lock (hubUpdateActions)
+							if (final)
+								hubUpdateActions.Remove(jobId);
+							else
+								hubUpdateActions[jobId] = NextUpdate;
+
+						NextUpdate();
 					}
 
 					try
@@ -382,12 +408,12 @@ namespace Tgstation.Server.Host.Jobs
 									var updatedJob = job.ToApi();
 									updatedJob.Stage = stage;
 									updatedJob.Progress = newProgress;
-									QueueHubUpdate(updatedJob);
+									QueueHubUpdate(updatedJob, false);
 								}
 						}
 
 						var instanceCoreProvider = await activationTcs.Task.WaitAsync(cancellationToken);
-						QueueHubUpdate(job.ToApi());
+						QueueHubUpdate(job.ToApi(), false);
 
 						logger.LogTrace("Starting job...");
 						await operation(
@@ -420,35 +446,45 @@ namespace Tgstation.Server.Host.Jobs
 						LogException(e);
 					}
 
-					await databaseContextFactory.UseContext(async databaseContext =>
+					try
 					{
-						var attachedJob = new Job(job.Id.Value);
+						await databaseContextFactory.UseContext(async databaseContext =>
+						{
+							var attachedJob = new Job(job.Id.Value);
 
-						databaseContext.Jobs.Attach(attachedJob);
-						attachedJob.StoppedAt = DateTimeOffset.UtcNow;
-						attachedJob.ExceptionDetails = job.ExceptionDetails;
-						attachedJob.ErrorCode = job.ErrorCode;
-						attachedJob.Cancelled = job.Cancelled;
+							databaseContext.Jobs.Attach(attachedJob);
+							attachedJob.StoppedAt = DateTimeOffset.UtcNow;
+							attachedJob.ExceptionDetails = job.ExceptionDetails;
+							attachedJob.ErrorCode = job.ErrorCode;
+							attachedJob.Cancelled = job.Cancelled;
 
-						// DCT: Cancellation token is for job, operation should always run
-						await databaseContext.Save(CancellationToken.None);
-					});
+							// DCT: Cancellation token is for job, operation should always run
+							await databaseContext.Save(CancellationToken.None);
+						});
 
-					// Resetting the context here because I CBA to worry if the cache is being used
-					await databaseContextFactory.UseContext(async databaseContext =>
+						// Resetting the context here because I CBA to worry if the cache is being used
+						await databaseContextFactory.UseContext(async databaseContext =>
+						{
+							// Cancellation might be set in another async context, forced to reload here for the final hub update
+							// DCT: Cancellation token is for job, operation should always run
+							var finalJob = await databaseContext
+								.Jobs
+								.AsQueryable()
+								.Include(x => x.Instance)
+								.Include(x => x.StartedBy)
+								.Include(x => x.CancelledBy)
+								.Where(dbJob => dbJob.Id == job.Id.Value)
+								.FirstAsync(CancellationToken.None);
+							QueueHubUpdate(finalJob.ToApi(), true);
+						});
+					}
+					catch
 					{
-						// Cancellation might be set in another async context, forced to reload here for the final hub update
-						// DCT: Cancellation token is for job, operation should always run
-						var finalJob = await databaseContext
-							.Jobs
-							.AsQueryable()
-							.Include(x => x.Instance)
-							.Include(x => x.StartedBy)
-							.Include(x => x.CancelledBy)
-							.Where(dbJob => dbJob.Id == job.Id.Value)
-							.FirstAsync(CancellationToken.None);
-						QueueHubUpdate(finalJob.ToApi());
-					});
+						lock (hubUpdateActions)
+							hubUpdateActions.Remove(job.Id.Value);
+
+						throw;
+					}
 
 					try
 					{

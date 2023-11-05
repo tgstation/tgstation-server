@@ -27,9 +27,14 @@ namespace Tgstation.Server.Host.Jobs
 		readonly IConnectionMappedHubContext<JobsHub, IJobsHub> hub;
 
 		/// <summary>
-		/// The <see cref="IServiceProvider"/> for the <see cref="JobService"/>.
+		/// The <see cref="IDatabaseContextFactory"/> for the <see cref="JobService"/>.
 		/// </summary>
 		readonly IDatabaseContextFactory databaseContextFactory;
+
+		/// <summary>
+		/// The <see cref="IJobsHubUpdater"/> for the <see cref="JobService"/>.
+		/// </summary>
+		readonly IJobsHubUpdater jobsHubUpdater;
 
 		/// <summary>
 		/// The <see cref="ILogger"/> for the <see cref="JobService"/>.
@@ -41,11 +46,17 @@ namespace Tgstation.Server.Host.Jobs
 		/// </summary>
 		/// <param name="hub">The value of <see cref="hub"/>.</param>
 		/// <param name="databaseContextFactory">The value of <see cref="databaseContextFactory"/>.</param>
+		/// <param name="jobsHubUpdater">The value of <see cref="jobsHubUpdater"/>.</param>
 		/// <param name="logger">The value of <see cref="logger"/>.</param>
-		public JobsHubGroupMapper(IConnectionMappedHubContext<JobsHub, IJobsHub> hub, IDatabaseContextFactory databaseContextFactory, ILogger<JobsHubGroupMapper> logger)
+		public JobsHubGroupMapper(
+			IConnectionMappedHubContext<JobsHub, IJobsHub> hub,
+			IDatabaseContextFactory databaseContextFactory,
+			IJobsHubUpdater jobsHubUpdater,
+			ILogger<JobsHubGroupMapper> logger)
 		{
 			this.hub = hub ?? throw new ArgumentNullException(nameof(hub));
 			this.databaseContextFactory = databaseContextFactory ?? throw new ArgumentNullException(nameof(databaseContextFactory));
+			this.jobsHubUpdater = jobsHubUpdater ?? throw new ArgumentNullException(nameof(jobsHubUpdater));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
 			hub.OnConnectionMapGroups += MapConnectionGroups;
@@ -89,9 +100,13 @@ namespace Tgstation.Server.Host.Jobs
 		/// Implementation of <see cref="IConnectionMappedHubContext{THub, THubMethods}.OnConnectionMapGroups"/>.
 		/// </summary>
 		/// <param name="authenticationContext">The <see cref="IAuthenticationContext"/> to map the groups for.</param>
+		/// <param name="mappingFunc">The <see cref="Func{T, TResult}"/> taking the mapped group names as an <see cref="IEnumerable{T}"/> of <see cref="string"/> resulting in a <see cref="ValueTask"/> to be <see langword="await"/>ed.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in an <see cref="IEnumerable{T}"/> of the <see cref="JobsHub"/> group names the user belongs in.</returns>
-		async ValueTask<IEnumerable<string>> MapConnectionGroups(IAuthenticationContext authenticationContext, CancellationToken cancellationToken)
+		async ValueTask MapConnectionGroups(
+			IAuthenticationContext authenticationContext,
+			Func<IEnumerable<string>, Task> mappingFunc,
+			CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(authenticationContext);
 
@@ -105,7 +120,11 @@ namespace Tgstation.Server.Host.Jobs
 						.Select(ips => ips.Id)
 						.ToListAsync(cancellationToken));
 
-			return permedInstanceIds.Select(JobsHub.HubGroupName);
+			await mappingFunc(
+				permedInstanceIds.Select(
+					JobsHub.HubGroupName));
+
+			jobsHubUpdater.QueueActiveJobUpdates();
 		}
 
 		/// <summary>

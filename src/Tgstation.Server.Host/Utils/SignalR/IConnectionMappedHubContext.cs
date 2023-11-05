@@ -20,9 +20,14 @@ namespace Tgstation.Server.Host.Utils.SignalR
 		where THubMethods : class
 	{
 		/// <summary>
-		/// Called when a user connects. Should return an <see cref="IEnumerable{T}"/> of hub group names the given <see cref="IAuthenticationContext"/> belongs in.
+		/// Called when a user connects.
+		/// Parameters:
+		/// - The <see cref="IAuthenticationContext"/> of the authenticated user.
+		/// - An <see cref="Func{T, TResult}"/> accepting an <see cref="IEnumerable{T}"/> of the group names the user should have and returning a <see cref="Task"/> that should be <see langword="await"/>ed.
+		/// - The <see cref="CancellationToken"/> for the operation.
+		/// Returns: A <see cref="ValueTask"/> representing the running operation.
 		/// </summary>
-		event Func<IAuthenticationContext, CancellationToken, ValueTask<IEnumerable<string>>> OnConnectionMapGroups;
+		event Func<IAuthenticationContext, Func<IEnumerable<string>, Task>, CancellationToken, ValueTask> OnConnectionMapGroups;
 
 		/// <summary>
 		/// Gets a <see cref="List{T}"/> of current connection IDs for a given <paramref name="user"/>.

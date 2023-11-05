@@ -44,7 +44,7 @@ namespace Tgstation.Server.Host.Utils.SignalR
 		readonly ConcurrentDictionary<long, Dictionary<string, HubCallerContext>> userConnections;
 
 		/// <inheritdoc />
-		public event Func<IAuthenticationContext, CancellationToken, ValueTask<IEnumerable<string>>> OnConnectionMapGroups;
+		public event Func<IAuthenticationContext, Func<IEnumerable<string>, Task>, CancellationToken, ValueTask> OnConnectionMapGroups;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="ComprehensiveHubContext{THub, THubMethods}"/> class.
@@ -71,7 +71,7 @@ namespace Tgstation.Server.Host.Utils.SignalR
 		}
 
 		/// <inheritdoc />
-		public async ValueTask UserConnected(IAuthenticationContext authenticationContext, THub hub, CancellationToken cancellationToken)
+		public ValueTask UserConnected(IAuthenticationContext authenticationContext, THub hub, CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(authenticationContext);
 			ArgumentNullException.ThrowIfNull(hub);
@@ -83,7 +83,12 @@ namespace Tgstation.Server.Host.Utils.SignalR
 				userId,
 				context.ConnectionId);
 
-			var mappedGroupsTask = OnConnectionMapGroups(authenticationContext, cancellationToken);
+			var mappingTask = OnConnectionMapGroups(
+				authenticationContext,
+				mappedGroups => Task.WhenAll(
+					mappedGroups.Select(
+						group => hub.Groups.AddToGroupAsync(context.ConnectionId, group, cancellationToken))),
+				cancellationToken);
 			userConnections.AddOrUpdate(
 				userId,
 				_ => new Dictionary<string, HubCallerContext>
@@ -98,10 +103,7 @@ namespace Tgstation.Server.Host.Utils.SignalR
 					return old;
 				});
 
-			var mappedGroups = await mappedGroupsTask;
-			await Task.WhenAll(
-				mappedGroups.Select(
-					group => hub.Groups.AddToGroupAsync(context.ConnectionId, group, cancellationToken)));
+			return mappingTask;
 		}
 
 		/// <inheritdoc />
