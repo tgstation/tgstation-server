@@ -195,14 +195,14 @@ namespace Tgstation.Server.Host.Controllers
 							Instance.Id);
 
 						// run the install through the job manager
-						var job = new Job
-						{
-							Description = $"Install {(!uploadingZip ? String.Empty : "custom ")}BYOND version {version}",
-							StartedBy = AuthenticationContext.User,
-							CancelRightsType = RightsType.Byond,
-							CancelRight = (ulong)ByondRights.CancelInstall,
-							Instance = Instance,
-						};
+						var job = Job.Create(
+							uploadingZip
+								? JobCode.ByondCustomInstall
+								: JobCode.ByondOfficialInstall,
+							AuthenticationContext.User,
+							Instance,
+							ByondRights.CancelInstall);
+						job.Description += $" {version}";
 
 						IFileUploadTicket fileUploadTicket = null;
 						if (uploadingZip)
@@ -304,14 +304,8 @@ namespace Tgstation.Server.Host.Controllers
 			var isCustomVersion = version.Build != -1;
 
 			// run the install through the job manager
-			var job = new Job
-			{
-				Description = $"Delete installed BYOND version {version}",
-				StartedBy = AuthenticationContext.User,
-				CancelRightsType = RightsType.Byond,
-				CancelRight = (ulong)(isCustomVersion ? ByondRights.InstallOfficialOrChangeActiveVersion : ByondRights.InstallCustomVersion),
-				Instance = Instance,
-			};
+			var job = Job.Create(JobCode.ByondDelete, AuthenticationContext.User, Instance, isCustomVersion ? ByondRights.InstallOfficialOrChangeActiveVersion : ByondRights.InstallCustomVersion);
+			job.Description += $" {version}";
 
 			await jobManager.RegisterOperation(
 				job,

@@ -377,16 +377,13 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			if (!autoStart && !reattaching)
 				return;
 
-			var job = new Models.Job
-			{
-				Instance = new Models.Instance
-				{
-					Id = metadata.Id,
-				},
-				Description = $"Instance startup watchdog {(reattaching ? "reattach" : "launch")}",
-				CancelRight = (ulong)DreamDaemonRights.Shutdown,
-				CancelRightsType = RightsType.DreamDaemon,
-			};
+			var job = Models.Job.Create(
+				reattaching
+					? JobCode.StartupWatchdogReattach
+					: JobCode.StartupWatchdogLaunch,
+				null,
+				metadata,
+				DreamDaemonRights.Shutdown);
 			await jobManager.RegisterOperation(
 				job,
 				async (core, databaseContextFactory, paramJob, progressFunction, ct) =>

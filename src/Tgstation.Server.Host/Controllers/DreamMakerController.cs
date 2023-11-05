@@ -143,14 +143,7 @@ namespace Tgstation.Server.Host.Controllers
 		[ProducesResponseType(typeof(JobResponse), 202)]
 		public async ValueTask<IActionResult> Create(CancellationToken cancellationToken)
 		{
-			var job = new Job
-			{
-				Description = "Compile active repository code",
-				StartedBy = AuthenticationContext.User,
-				CancelRightsType = RightsType.DreamMaker,
-				CancelRight = (ulong)DreamMakerRights.CancelCompile,
-				Instance = Instance,
-			};
+			var job = Job.Create(JobCode.Deployment, AuthenticationContext.User, Instance, DreamMakerRights.CancelCompile);
 
 			await jobManager.RegisterOperation(
 				job,

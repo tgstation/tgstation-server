@@ -337,10 +337,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 						async databaseContext =>
 						{
 							var fullJob = compileJob.Job;
-							compileJob.Job = new Models.Job
-							{
-								Id = job.Id,
-							};
+							compileJob.Job = new Models.Job(job.Id.Value);
 							var fullRevInfo = compileJob.RevisionInformation;
 							compileJob.RevisionInformation = new Models.RevisionInformation
 							{
@@ -431,10 +428,10 @@ namespace Tgstation.Server.Host.Components.Deployment
 				.Where(x => x.Job.Instance.Id == metadata.Id)
 				.OrderByDescending(x => x.Job.StoppedAt)
 				.Take(10)
-				.Select(x => new Models.Job
+				.Select(x => new
 				{
-					StoppedAt = x.Job.StoppedAt,
-					StartedAt = x.Job.StartedAt,
+					x.Job.StoppedAt,
+					x.Job.StartedAt,
 				})
 				.ToListAsync(cancellationToken);
 

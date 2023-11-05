@@ -1,6 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
 
+using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Response;
+using Tgstation.Server.Api.Rights;
 
 namespace Tgstation.Server.Host.Models
 {
@@ -26,10 +31,88 @@ namespace Tgstation.Server.Host.Models
 		[Required]
 		public Instance Instance { get; set; }
 
+		/// <summary>
+		/// Creates a new job for registering in the <see cref="Jobs.IJobService"/>.
+		/// </summary>
+		/// <typeparam name="TRight">The <see cref="RightsType"/> of <paramref name="cancelRight"/>.</typeparam>
+		/// <param name="code">The value of <see cref="Api.Models.Internal.Job.JobCode"/>. <see cref="Api.Models.Internal.Job.Description"/> will be derived from this.</param>
+		/// <param name="startedBy">The value of <see cref="StartedBy"/>. If <see langword="null"/>, the <see cref="User.TgsSystemUserName"/> user will be used.</param>
+		/// <param name="instance">The <see cref="Api.Models.Instance"/> used to generate the value of <see cref="Instance"/>.</param>
+		/// <param name="cancelRight">The value of <see cref="Api.Models.Internal.Job.CancelRight"/>. <see cref="Api.Models.Internal.Job.CancelRightsType"/> will be derived from this.</param>
+		/// <returns>A new <see cref="Job"/> ready to be registered with the <see cref="Jobs.IJobService"/>.</returns>
+		public static Job Create<TRight>(JobCode code, User startedBy, Api.Models.Instance instance, TRight cancelRight)
+			where TRight : Enum
+			=> new (
+				code,
+				startedBy,
+				instance,
+				RightsHelper.TypeToRight<TRight>(),
+				(ulong)(object)cancelRight);
+
+		/// <summary>
+		/// Creates a new job for registering in the <see cref="Jobs.IJobService"/>.
+		/// </summary>
+		/// <param name="code">The value of <see cref="Api.Models.Internal.Job.JobCode"/>. <see cref="Api.Models.Internal.Job.Description"/> will be derived from this.</param>
+		/// <param name="startedBy">The value of <see cref="StartedBy"/>. If <see langword="null"/>, the <see cref="User.TgsSystemUserName"/> user will be used.</param>
+		/// <param name="instance">The <see cref="Api.Models.Instance"/> used to generate the value of <see cref="Instance"/>.</param>
+		/// <returns>A new <see cref="Job"/> ready to be registered with the <see cref="Jobs.IJobService"/>.</returns>
+		public static Job Create(JobCode code, User startedBy, Api.Models.Instance instance)
+			=> new (
+				code,
+				startedBy,
+				instance,
+				null,
+				null);
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="Job"/> class.
+		/// </summary>
+		[Obsolete("For use by EFCore only", true)]
+		public Job()
+		{
+		}
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="Job"/> class.
+		/// </summary>
+		/// <param name="id">The value of <see cref="EntityId.Id"/>.</param>
+		public Job(long id)
+		{
+			Id = id;
+		}
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="Job"/> class.
+		/// </summary>
+		/// <param name="code">The value of <see cref="Api.Models.Internal.Job.JobCode"/>.</param>
+		/// <param name="startedBy">The value of <see cref="StartedBy"/>.</param>
+		/// <param name="instance">The value of <see cref="Instance"/>.</param>
+		/// <param name="cancelRightsType">The value of <see cref="Api.Models.Internal.Job.CancelRightsType"/>.</param>
+		/// <param name="cancelRight">The value of <see cref="Api.Models.Internal.Job.CancelRight"/>.</param>
+		Job(JobCode code, User startedBy, Api.Models.Instance instance, RightsType? cancelRightsType, ulong? cancelRight)
+		{
+			StartedBy = startedBy;
+			ArgumentNullException.ThrowIfNull(instance);
+			Instance = new Instance
+			{
+				Id = instance.Id ?? throw new InvalidOperationException("Instance associated with job does not have an Id!"),
+			};
+			Description = typeof(JobCode)
+				.GetField(code.ToString())
+				.GetCustomAttributes(false)
+				.OfType<DescriptionAttribute>()
+				.First()
+				.Description;
+			JobCode = code;
+			CancelRight = cancelRight;
+			CancelRightsType = cancelRightsType;
+		}
+
 		/// <inheritdoc />
 		public JobResponse ToApi() => new ()
 		{
 			Id = Id,
+			JobCode = JobCode.Value,
 			InstanceId = Instance.Id.Value,
 			StartedAt = StartedAt,
 			StoppedAt = StoppedAt,

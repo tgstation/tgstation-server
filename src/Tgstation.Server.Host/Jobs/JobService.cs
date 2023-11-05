@@ -120,7 +120,7 @@ namespace Tgstation.Server.Host.Jobs
 
 					job.Instance = new Models.Instance
 					{
-						Id = job.Instance.Id ?? throw new InvalidOperationException("Instance associated with job does not have an Id!"),
+						Id = job.Instance.Id.Value,
 					};
 					databaseContext.Instances.Attach(job.Instance);
 
@@ -172,14 +172,14 @@ namespace Tgstation.Server.Host.Jobs
 					.Jobs
 					.AsQueryable()
 					.Where(y => !y.StoppedAt.HasValue)
-					.Select(y => y.Id)
+					.Select(y => y.Id.Value)
 					.ToListAsync(cancellationToken);
 				if (badJobIds.Count > 0)
 				{
 					logger.LogTrace("Cleaning {unfinishedJobCount} unfinished jobs...", badJobIds.Count);
 					foreach (var badJobId in badJobIds)
 					{
-						var job = new Job { Id = badJobId };
+						var job = new Job(badJobId);
 						databaseContext.Jobs.Attach(job);
 						job.Cancelled = true;
 						job.StoppedAt = DateTimeOffset.UtcNow;
@@ -201,10 +201,7 @@ namespace Tgstation.Server.Host.Jobs
 				{
 					noMoreJobsShouldStart = true;
 					joinTasks = jobs.Select(x => CancelJob(
-						new Job
-						{
-							Id = x.Key,
-						},
+						new Job(x.Key),
 						null,
 						true,
 						cancellationToken))
@@ -234,7 +231,7 @@ namespace Tgstation.Server.Host.Jobs
 			{
 				user ??= await databaseContext.Users.GetTgsUser(cancellationToken);
 
-				var updatedJob = new Job { Id = job.Id };
+				var updatedJob = new Job(job.Id.Value);
 				databaseContext.Jobs.Attach(updatedJob);
 				var attachedUser = new User { Id = user.Id };
 				databaseContext.Users.Attach(attachedUser);
@@ -425,10 +422,7 @@ namespace Tgstation.Server.Host.Jobs
 
 					await databaseContextFactory.UseContext(async databaseContext =>
 					{
-						var attachedJob = new Job
-						{
-							Id = job.Id,
-						};
+						var attachedJob = new Job(job.Id.Value);
 
 						databaseContext.Jobs.Attach(attachedJob);
 						attachedJob.StoppedAt = DateTimeOffset.UtcNow;

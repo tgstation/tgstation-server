@@ -87,14 +87,7 @@ namespace Tgstation.Server.Host.Controllers
 				if (instance.Watchdog.Status != WatchdogStatus.Offline)
 					return Conflict(new ErrorMessageResponse(ErrorCode.WatchdogRunning));
 
-				var job = new Job
-				{
-					Description = "Launch DreamDaemon",
-					CancelRight = (ulong)DreamDaemonRights.Shutdown,
-					CancelRightsType = RightsType.DreamDaemon,
-					Instance = Instance,
-					StartedBy = AuthenticationContext.User,
-				};
+				var job = Job.Create(JobCode.WatchdogLaunch, AuthenticationContext.User, Instance, DreamDaemonRights.Shutdown);
 				await jobManager.RegisterOperation(
 					job,
 					(core, databaseContextFactory, paramJob, progressHandler, innerCt) => core.Watchdog.Launch(innerCt),
@@ -270,14 +263,7 @@ namespace Tgstation.Server.Host.Controllers
 		public ValueTask<IActionResult> Restart(CancellationToken cancellationToken)
 			=> WithComponentInstance(async instance =>
 			{
-				var job = new Job
-				{
-					Instance = Instance,
-					CancelRightsType = RightsType.DreamDaemon,
-					CancelRight = (ulong)DreamDaemonRights.Shutdown,
-					StartedBy = AuthenticationContext.User,
-					Description = "Restart Watchdog",
-				};
+				var job = Job.Create(JobCode.WatchdogRestart, AuthenticationContext.User, Instance, DreamDaemonRights.Shutdown);
 
 				var watchdog = instance.Watchdog;
 
@@ -303,14 +289,7 @@ namespace Tgstation.Server.Host.Controllers
 		public ValueTask<IActionResult> CreateDump(CancellationToken cancellationToken)
 			=> WithComponentInstance(async instance =>
 			{
-				var job = new Job
-				{
-					Instance = Instance,
-					CancelRightsType = RightsType.DreamDaemon,
-					CancelRight = (ulong)DreamDaemonRights.CreateDump,
-					StartedBy = AuthenticationContext.User,
-					Description = "Create DreamDaemon Process Dump",
-				};
+				var job = Job.Create(JobCode.WatchdogDump, AuthenticationContext.User, Instance, DreamDaemonRights.CreateDump);
 
 				var watchdog = instance.Watchdog;
 

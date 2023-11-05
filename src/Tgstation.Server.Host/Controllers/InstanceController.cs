@@ -355,10 +355,7 @@ namespace Tgstation.Server.Host.Controllers
 			var moveJob = await InstanceQuery()
 				.SelectMany(x => x.Jobs).
 				Where(x => !x.StoppedAt.HasValue && x.Description.StartsWith(MoveInstanceJobPrefix))
-				.Select(x => new Job
-				{
-					Id = x.Id,
-				}).FirstOrDefaultAsync(cancellationToken);
+				.Select(x => new Job(x.Id.Value)).FirstOrDefaultAsync(cancellationToken);
 
 			if (moveJob != default)
 			{
@@ -490,14 +487,9 @@ namespace Tgstation.Server.Host.Controllers
 			var moving = originalModelPath != null;
 			if (moving)
 			{
-				var job = new Job
-				{
-					Description = $"{MoveInstanceJobPrefix}{originalModel.Id} from {originalModelPath} to {rawPath}",
-					Instance = originalModel,
-					CancelRightsType = RightsType.InstanceManager,
-					CancelRight = (ulong)InstanceManagerRights.Relocate,
-					StartedBy = AuthenticationContext.User,
-				};
+				var description = $"{MoveInstanceJobPrefix}{originalModel.Id} from {originalModelPath} to {rawPath}";
+				var job = Job.Create(JobCode.Move, AuthenticationContext.User, originalModel, InstanceManagerRights.Relocate);
+				job.Description = description;
 
 				await jobManager.RegisterOperation(
 					job,

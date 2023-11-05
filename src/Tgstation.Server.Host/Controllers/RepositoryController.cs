@@ -139,20 +139,15 @@ namespace Tgstation.Server.Host.Controllers
 					if (repo != null)
 						return Conflict(new ErrorMessageResponse(ErrorCode.RepoExists));
 
-					var job = new Job
-					{
-						Description = String.Format(
+					var description = String.Format(
 							CultureInfo.InvariantCulture,
 							"Clone{1} repository {0}",
 							origin,
 							cloneBranch != null
 								? $"\"{cloneBranch}\" branch of"
-								: String.Empty),
-						StartedBy = AuthenticationContext.User,
-						CancelRightsType = RightsType.Repository,
-						CancelRight = (ulong)RepositoryRights.CancelClone,
-						Instance = Instance,
-					};
+								: String.Empty);
+					var job = Job.Create(JobCode.RepositoryClone, AuthenticationContext.User, Instance, RepositoryRights.CancelClone);
+					job.Description = description;
 					var api = currentModel.ToApi();
 
 					await DatabaseContext.Save(cancellationToken);
@@ -222,12 +217,7 @@ namespace Tgstation.Server.Host.Controllers
 
 			Logger.LogInformation("Instance {instanceId} repository delete initiated by user {userId}", Instance.Id, AuthenticationContext.User.Id.Value);
 
-			var job = new Job
-			{
-				Description = "Delete repository",
-				StartedBy = AuthenticationContext.User,
-				Instance = Instance,
-			};
+			var job = Job.Create(JobCode.RepositoryDelete, AuthenticationContext.User, Instance);
 			var api = currentModel.ToApi();
 			await jobManager.RegisterOperation(
 				job,
@@ -454,14 +444,8 @@ namespace Tgstation.Server.Host.Controllers
 			if (description == null)
 				return Json(api); // no git changes
 
-			var job = new Job
-			{
-				Description = description,
-				StartedBy = AuthenticationContext.User,
-				Instance = Instance,
-				CancelRightsType = RightsType.Repository,
-				CancelRight = (ulong)RepositoryRights.CancelPendingChanges,
-			};
+			var job = Job.Create(JobCode.RepositoryUpdate, AuthenticationContext.User, Instance, RepositoryRights.CancelPendingChanges);
+			job.Description = description;
 
 			var repositoryUpdater = new RepositoryUpdateService(
 				model,

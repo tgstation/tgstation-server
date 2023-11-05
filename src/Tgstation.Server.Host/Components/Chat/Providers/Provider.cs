@@ -273,13 +273,8 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 						connectNow = false;
 					if (!Connected)
 					{
-						var job = new Job
-						{
-							Description = $"Reconnect chat bot: {ChatBot.Name}",
-							CancelRight = (ulong)ChatBotRights.WriteEnabled,
-							CancelRightsType = RightsType.ChatBots,
-							Instance = ChatBot.Instance,
-						};
+						var job = Job.Create(Api.Models.JobCode.ReconnectChatBot, null, ChatBot.Instance, ChatBotRights.WriteEnabled);
+						job.Description += $": {ChatBot.Name}";
 
 						await jobManager.RegisterOperation(
 							job,
