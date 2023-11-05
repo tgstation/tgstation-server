@@ -124,8 +124,7 @@ namespace Tgstation.Server.Api
 		/// <returns>The sanitized path.</returns>
 		public static string SanitizeGetPath(string path)
 		{
-			if (path == null)
-				path = String.Empty;
+			path ??= String.Empty;
 			if (path.Length == 0 || path[0] != '/')
 				path = '/' + path;
 			return path;
