@@ -35,22 +35,6 @@ namespace Tgstation.Server.Tests.Live.Instance
 		readonly InstanceManager instanceManager = instanceManager ?? throw new ArgumentNullException(nameof(instanceManager));
 		readonly ushort serverPort = serverPort;
 
-		public async Task RunLegacyByondTest(
-			IInstanceClient instanceClient,
-			CancellationToken cancellationToken)
-		{
-			var testVersion = await EngineTest.GetEdgeVersion(EngineType.Byond, fileDownloader, cancellationToken);
-			await new LegacyByondTest(
-				instanceClient.Jobs,
-				fileDownloader,
-				new LegacyByondClient(
-					(IApiClient)instanceClient.Engine.GetType().GetProperty("ApiClient", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(instanceClient.Engine),
-					instanceClient.Metadata),
-				testVersion.Version,
-				instanceClient.Metadata)
-				.Run(cancellationToken);
-		}
-
 		public async Task RunTests(
 			IInstanceClient instanceClient,
 			ushort dmPort,

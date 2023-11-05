@@ -1374,15 +1374,6 @@ namespace Tgstation.Server.Tests.Live
 
 					async Task RunInstanceTests()
 					{
-						var byondApiCompatTests = FailFast(
-							instanceTest
-								.RunLegacyByondTest(
-									adminClient.Instances.CreateClient(byondApiCompatInstance),
-									cancellationToken));
-
-						if (TestingUtils.RunningInGitHubActions) // they only have 2 cores, can't handle intense parallelization
-							await byondApiCompatTests;
-
 						async Task ODCompatTests()
 						{
 							var edgeODVersionTask = EngineTest.GetEdgeVersion(EngineType.OpenDream, fileDownloader, cancellationToken);
@@ -1449,7 +1440,6 @@ namespace Tgstation.Server.Tests.Live
 
 						await compatTests;
 						await odCompatTests;
-						await byondApiCompatTests;
 					}
 
 					var instanceTests = RunInstanceTests();
