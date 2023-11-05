@@ -92,13 +92,12 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 		public async Task Run(CancellationToken cancellationToken)
 		{
-			var neverReceiverTcs = new TaskCompletionSource();
 			var neverReceiver = new ShouldNeverReceiveUpdates()
 			{
 				Callback = job =>
 				{
 					if (!permlessIsPermed)
-						neverReceiverTcs.TrySetException(new Exception($"ShouldNeverReceiveUpdates received an update for job {job.Id}!"));
+						finishTcs.TrySetException(new Exception($"ShouldNeverReceiveUpdates received an update for job {job.Id}!"));
 					else
 						lock (permlessSeenJobs)
 							permlessSeenJobs.Add(job.Id.Value);
@@ -131,12 +130,8 @@ namespace Tgstation.Server.Tests.Live.Instance
 					return Task.CompletedTask;
 				};
 
-				var completedTask = await Task.WhenAny(finishTcs.Task, neverReceiverTcs.Task);
-				await completedTask;
+				await finishTcs.Task;
 			}
-
-			neverReceiverTcs.TrySetResult();
-			await neverReceiverTcs.Task;
 
 			var allInstances = await permedUser.Instances.List(null, cancellationToken);
 
