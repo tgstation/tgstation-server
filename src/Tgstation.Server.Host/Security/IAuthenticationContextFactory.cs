@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Tgstation.Server.Host.Security
@@ -13,8 +14,9 @@ namespace Tgstation.Server.Host.Security
 		/// </summary>
 		/// <param name="userId">The <see cref="Api.Models.EntityId.Id"/> of the <see cref="Models.User"/>.</param>
 		/// <param name="instanceId">The <see cref="Api.Models.EntityId.Id"/> of the <see cref="Models.Instance"/> for the operation.</param>
+		/// <param name="notBefore">The <see cref="DateTimeOffset"/> the login must not be from before.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the created <see cref="IAuthenticationContext"/>.</returns>
-		ValueTask<IAuthenticationContext> CreateAuthenticationContext(long userId, long? instanceId, CancellationToken cancellationToken);
+		ValueTask<IAuthenticationContext> CreateAuthenticationContext(long userId, long? instanceId, DateTimeOffset notBefore, CancellationToken cancellationToken);
 	}
 }

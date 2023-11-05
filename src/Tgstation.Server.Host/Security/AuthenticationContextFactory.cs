@@ -47,11 +47,6 @@ namespace Tgstation.Server.Host.Security
 		readonly AuthenticationContext currentAuthenticationContext;
 
 		/// <summary>
-		/// The <see cref="DateTimeOffset"/> the request's token must be valid after.
-		/// </summary>
-		DateTimeOffset? validAfter;
-
-		/// <summary>
 		/// 1 if <see cref="currentAuthenticationContext"/> was initialized, 0 otherwise.
 		/// </summary>
 		int initialized;
@@ -80,26 +75,11 @@ namespace Tgstation.Server.Host.Security
 		/// <inheritdoc />
 		public void Dispose() => currentAuthenticationContext.Dispose();
 
-		/// <summary>
-		/// Populate <see cref="validAfter"/> with a given <paramref name="tokenNbf"/>.
-		/// </summary>
-		/// <param name="tokenNbf">The <see cref="DateTimeOffset"/> an issued token is not valid before.</param>
-		public void SetTokenNbf(DateTimeOffset tokenNbf)
-		{
-			if (validAfter.HasValue)
-				throw new InvalidOperationException("SetTokenNbf called multiple times!");
-
-			validAfter = tokenNbf;
-		}
-
 		/// <inheritdoc />
-		public async ValueTask<IAuthenticationContext> CreateAuthenticationContext(long userId, long? instanceId, CancellationToken cancellationToken)
+		public async ValueTask<IAuthenticationContext> CreateAuthenticationContext(long userId, long? instanceId, DateTimeOffset notBefore, CancellationToken cancellationToken)
 		{
 			if (Interlocked.Exchange(ref initialized, 1) != 0)
 				throw new InvalidOperationException("Authentication context has already been loaded");
-
-			if (!validAfter.HasValue)
-				throw new InvalidOperationException("SetTokenNbf has not been called!");
 
 			var user = await databaseContext
 				.Users
@@ -122,7 +102,7 @@ namespace Tgstation.Server.Host.Security
 				systemIdentity = identityCache.LoadCachedIdentity(user);
 			else
 			{
-				if (user.LastPasswordUpdate.HasValue && user.LastPasswordUpdate > validAfter.Value)
+				if (user.LastPasswordUpdate.HasValue && user.LastPasswordUpdate > notBefore)
 				{
 					logger.LogDebug("Rejecting token for user {userId} created before last password update: {lastPasswordUpdate}", userId, user.LastPasswordUpdate.Value);
 					return currentAuthenticationContext;

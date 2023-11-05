@@ -7,6 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.IdentityModel.Tokens;
 
 using Tgstation.Server.Api;
 using Tgstation.Server.Api.Rights;
@@ -48,7 +49,7 @@ namespace Tgstation.Server.Host.Security
 
 			var userIdClaim = principal.FindFirst(JwtRegisteredClaimNames.Sub);
 			if (userIdClaim == default)
-				throw new InvalidOperationException("Missing required claim!");
+				throw new InvalidOperationException($"Missing '{JwtRegisteredClaimNames.Sub}' claim!");
 
 			long userId;
 			try
@@ -60,9 +61,26 @@ namespace Tgstation.Server.Host.Security
 				throw new InvalidOperationException("Failed to parse user ID!", e);
 			}
 
+			var nbfClaim = principal.FindFirst(JwtRegisteredClaimNames.Nbf);
+			if (nbfClaim == default)
+				throw new InvalidOperationException($"Missing '{JwtRegisteredClaimNames.Nbf}' claim!");
+
+			DateTimeOffset nbf;
+			try
+			{
+				nbf = new DateTimeOffset(
+					EpochTime.DateTime(
+						Int64.Parse(nbfClaim.Value, CultureInfo.InvariantCulture)));
+			}
+			catch (Exception ex)
+			{
+				throw new InvalidOperationException("Failed to parse nbf!", ex);
+			}
+
 			var authenticationContext = await authenticationContextFactory.CreateAuthenticationContext(
 				userId,
 				apiHeaders?.InstanceId,
+				nbf,
 				CancellationToken.None); // DCT: None available
 
 			if (authenticationContext.Valid)

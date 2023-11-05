@@ -473,33 +473,6 @@ namespace Tgstation.Server.Host.Core
 				logger.LogTrace("Swagger API generation enabled");
 			}
 
-			// Enable endpoint routing
-			applicationBuilder.UseRouting();
-
-			// Set up CORS based on configuration if necessary
-			Action<CorsPolicyBuilder> corsBuilder = null;
-			if (controlPanelConfiguration.AllowAnyOrigin)
-			{
-				logger.LogTrace("Access-Control-Allow-Origin: *");
-				corsBuilder = builder => builder.AllowAnyOrigin();
-			}
-			else if (controlPanelConfiguration.AllowedOrigins?.Count > 0)
-			{
-				logger.LogTrace("Access-Control-Allow-Origin: {allowedOrigins}", String.Join(',', controlPanelConfiguration.AllowedOrigins));
-				corsBuilder = builder => builder.WithOrigins(controlPanelConfiguration.AllowedOrigins.ToArray());
-			}
-
-			var originalBuilder = corsBuilder;
-			corsBuilder = builder =>
-			{
-				builder
-					.AllowAnyHeader()
-					.AllowAnyMethod()
-					.SetPreflightMaxAge(TimeSpan.FromDays(1));
-				originalBuilder?.Invoke(builder);
-			};
-			applicationBuilder.UseCors(corsBuilder);
-
 			// spa loading if necessary
 			if (controlPanelConfiguration.Enable)
 			{
@@ -517,6 +490,34 @@ namespace Tgstation.Server.Host.Core
 #else
 				logger.LogTrace("Web control panel disabled!");
 #endif
+
+			// Enable endpoint routing
+			applicationBuilder.UseRouting();
+
+			// Set up CORS based on configuration if necessary
+			Action<CorsPolicyBuilder> corsBuilder = null;
+			if (controlPanelConfiguration.AllowAnyOrigin)
+			{
+				logger.LogTrace("Access-Control-Allow-Origin: *");
+				corsBuilder = builder => builder.SetIsOriginAllowed(_ => true);
+			}
+			else if (controlPanelConfiguration.AllowedOrigins?.Count > 0)
+			{
+				logger.LogTrace("Access-Control-Allow-Origin: {allowedOrigins}", String.Join(',', controlPanelConfiguration.AllowedOrigins));
+				corsBuilder = builder => builder.WithOrigins(controlPanelConfiguration.AllowedOrigins.ToArray());
+			}
+
+			var originalBuilder = corsBuilder;
+			corsBuilder = builder =>
+			{
+				builder
+					.AllowAnyHeader()
+					.AllowAnyMethod()
+					.AllowCredentials()
+					.SetPreflightMaxAge(TimeSpan.FromDays(1));
+				originalBuilder?.Invoke(builder);
+			};
+			applicationBuilder.UseCors(corsBuilder);
 
 			// validate the API version
 			applicationBuilder.UseApiCompatibility();
@@ -596,10 +597,20 @@ namespace Tgstation.Server.Host.Core
 					jwtBearerOptions.TokenValidationParameters = tokenFactory?.ValidationParameters ?? throw new InvalidOperationException("tokenFactory not initialized!");
 					jwtBearerOptions.Events = new JwtBearerEvents
 					{
-						OnTokenValidated = tokenValidatedContext =>
+						OnMessageReceived = context =>
 						{
-							var acf = tokenValidatedContext.HttpContext.RequestServices.GetRequiredService<AuthenticationContextFactory>();
-							acf.SetTokenNbf(tokenValidatedContext.SecurityToken.ValidFrom);
+							if (String.IsNullOrWhiteSpace(context.Token))
+							{
+								var accessToken = context.Request.Query["access_token"];
+								var path = context.HttpContext.Request.Path;
+
+								if (!String.IsNullOrWhiteSpace(accessToken) &&
+									path.StartsWithSegments(Routes.HubsRoot, StringComparison.OrdinalIgnoreCase))
+								{
+									context.Token = accessToken;
+								}
+							}
+
 							return Task.CompletedTask;
 						},
 					};
