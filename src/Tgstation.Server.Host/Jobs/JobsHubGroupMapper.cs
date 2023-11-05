@@ -71,7 +71,8 @@ namespace Tgstation.Server.Host.Jobs
 				throw new InvalidOperationException("user.Id was null!");
 
 			logger.LogTrace("UserDisabled");
-			return hub.NotifyAndAbortUnauthedConnections(user, cancellationToken);
+			hub.AbortUnauthedConnections(user);
+			return ValueTask.CompletedTask;
 		}
 
 		/// <inheritdoc />

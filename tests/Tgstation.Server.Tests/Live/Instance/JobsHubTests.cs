@@ -19,8 +19,6 @@ namespace Tgstation.Server.Tests.Live.Instance
 {
 	sealed class JobsHubTests : IJobsHub
 	{
-		const int ActiveConnections = 2;
-
 		readonly IServerClient permedUser;
 		readonly IServerClient permlessUser;
 
@@ -31,7 +29,6 @@ namespace Tgstation.Server.Tests.Live.Instance
 		readonly HashSet<long> permlessSeenJobs;
 
 		HubConnection conn1, conn2;
-		int expectedReboots;
 		bool permlessIsPermed;
 
 		long? permlessPsId;
@@ -78,10 +75,6 @@ namespace Tgstation.Server.Tests.Live.Instance
 		class ShouldNeverReceiveUpdates : IJobsHub
 		{
 			public Action<JobResponse> Callback { get; set; }
-			public Func<ConnectionAbortReason, CancellationToken, Task> Error { get; set; }
-
-			public Task AbortingConnection(ConnectionAbortReason reason, CancellationToken cancellationToken)
-				=> Error(reason, cancellationToken);
 
 			public Task ReceiveJobUpdate(JobResponse job, CancellationToken cancellationToken)
 			{
@@ -102,7 +95,6 @@ namespace Tgstation.Server.Tests.Live.Instance
 						lock (permlessSeenJobs)
 							permlessSeenJobs.Add(job.Id.Value);
 				},
-				Error = AbortingConnection,
 			};
 
 			await using (conn1 = (HubConnection)await permedUser.SubscribeToJobUpdates(
@@ -208,19 +200,16 @@ namespace Tgstation.Server.Tests.Live.Instance
 			Assert.AreEqual(HubConnectionState.Connected, conn3.State);
 			await permlessUser.DisposeAsync();
 			await permedUser.DisposeAsync();
-			Assert.AreEqual(0, expectedReboots);
 		}
 
 		public void ExpectShutdown()
 		{
-			Assert.AreEqual(0, Interlocked.Exchange(ref expectedReboots, ActiveConnections));
 			Assert.AreEqual(HubConnectionState.Connected, conn1.State);
 			Assert.AreEqual(HubConnectionState.Connected, conn2.State);
 		}
 
 		public async ValueTask WaitForReconnect(CancellationToken cancellationToken)
 		{
-			Assert.AreEqual(0, expectedReboots);
 			await Task.WhenAll(conn1.StopAsync(cancellationToken), conn2.StopAsync(cancellationToken));
 
 			Assert.AreEqual(HubConnectionState.Disconnected, conn1.State);
@@ -270,20 +259,5 @@ namespace Tgstation.Server.Tests.Live.Instance
 		}
 
 		public void CompleteNow() => finishTcs.TrySetResult();
-
-		public Task AbortingConnection(ConnectionAbortReason reason, CancellationToken cancellationToken)
-		{
-			try
-			{
-				Assert.AreEqual(ConnectionAbortReason.ServerRestart, reason);
-				var remaining = Interlocked.Decrement(ref expectedReboots);
-				Assert.IsTrue(remaining >= 0);
-			}
-			catch (Exception ex)
-			{
-				finishTcs.TrySetException(ex);
-			}
-			return Task.CompletedTask;
-		}
 	}
 }

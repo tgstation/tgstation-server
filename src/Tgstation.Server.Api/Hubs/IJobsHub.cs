@@ -8,7 +8,7 @@ namespace Tgstation.Server.Api.Hubs
 	/// <summary>
 	/// SignalR client methods for receiving <see cref="JobResponse"/>s.
 	/// </summary>
-	public interface IJobsHub : IErrorHandlingHub
+	public interface IJobsHub
 	{
 		/// <summary>
 		/// Push a <paramref name="job"/> update to the client.

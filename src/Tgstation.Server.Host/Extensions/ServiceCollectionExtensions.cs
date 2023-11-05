@@ -11,7 +11,6 @@ using Serilog;
 using Serilog.Configuration;
 using Serilog.Sinks.Elasticsearch;
 
-using Tgstation.Server.Api.Hubs;
 using Tgstation.Server.Host.Components.Chat.Providers;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.IO;
@@ -230,7 +229,7 @@ namespace Tgstation.Server.Host.Extensions
 		/// <param name="services">The <see cref="IServiceCollection"/> to add the <typeparamref name="THub"/> to.</param>
 		public static void AddHub<THub, THubMethods>(this IServiceCollection services)
 			where THub : ConnectionMappingHub<THub, THubMethods>
-			where THubMethods : class, IErrorHandlingHub
+			where THubMethods : class
 		{
 			ArgumentNullException.ThrowIfNull(services);
 

@@ -359,10 +359,6 @@ namespace Tgstation.Server.Tests.Live
 		class FuncProxiedJobsHub : IJobsHub
 		{
 			public Func<JobResponse, CancellationToken, Task> ProxyFunc { get; set; }
-			public Func<ConnectionAbortReason, Task> ErrorFunc { get; set; }
-
-			public Task AbortingConnection(ConnectionAbortReason reason, CancellationToken cancellationToken)
-				=> ErrorFunc(reason);
 
 			public Task ReceiveJobUpdate(JobResponse job, CancellationToken cancellationToken)
 				=> ProxyFunc(job, cancellationToken);
@@ -402,13 +398,6 @@ namespace Tgstation.Server.Tests.Live
 				});
 
 			var proxy = new FuncProxiedJobsHub();
-			var errorTcs = new TaskCompletionSource();
-			proxy.ErrorFunc = reason =>
-			{
-				errorTcs.SetException(new Exception($"Aborted: {reason}"));
-				return Task.CompletedTask;
-			};
-
 			HubConnection hubConnection;
 			HardFailLoggerProvider.BlockFails = true;
 			try
@@ -431,8 +420,6 @@ namespace Tgstation.Server.Tests.Live
 
 				Assert.AreEqual(HubConnectionState.Disconnected, hubConnection.State);
 
-				Assert.IsFalse(errorTcs.Task.IsCompleted);
-
 				var createRequest = new UserCreateRequest
 				{
 					Enabled = true,
@@ -441,33 +428,27 @@ namespace Tgstation.Server.Tests.Live
 				};
 
 				var testUser = await serverClient.Users.Create(createRequest, cancellationToken);
-				await using (var testUserClient = await serverClientFactory.CreateFromLogin(serverClient.Url, createRequest.Name, createRequest.Password, cancellationToken: cancellationToken))
+				await using var testUserClient = await serverClientFactory.CreateFromLogin(serverClient.Url, createRequest.Name, createRequest.Password, cancellationToken: cancellationToken);
+				await using var testUserConn1 = (HubConnection)await testUserClient.SubscribeToJobUpdates(proxy, cancellationToken: cancellationToken);
+
+				await serverClient.Users.Update(new UserUpdateRequest
 				{
-					errorTcs = new TaskCompletionSource();
-					await using var testUserConn1 = await testUserClient.SubscribeToJobUpdates(proxy, cancellationToken: cancellationToken);
+					Id = testUser.Id,
+					Enabled = false,
+				}, cancellationToken);
 
-					Assert.IsFalse(errorTcs.Task.IsCompleted);
+				// need a second here
+				for (var i = 0; i < 10 && testUserConn1.State == HubConnectionState.Connected; ++i)
+					await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);
 
-					await serverClient.Users.Update(new UserUpdateRequest
-					{
-						Id = testUser.Id,
-						Enabled = false,
-					}, cancellationToken);
+				Assert.AreNotEqual(HubConnectionState.Connected, testUserConn1.State);
 
-					// need a second here
-					for (var i = 0; i < 10 && !errorTcs.Task.IsCompleted; ++i)
-						await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);
+				await using var testUserConn2 = (HubConnection)await testUserClient.SubscribeToJobUpdates(proxy, cancellationToken: cancellationToken);
 
-					Assert.IsTrue(errorTcs.Task.IsCompleted);
+				for (var i = 0; i < 10 && testUserConn2.State == HubConnectionState.Connected; ++i)
+					await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);
 
-					errorTcs = new TaskCompletionSource();
-					await using var testUserConn2 = await testUserClient.SubscribeToJobUpdates(proxy, cancellationToken: cancellationToken);
-					for (var i = 0; i < 10 && !errorTcs.Task.IsCompleted; ++i)
-						await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);
-				}
-
-				Assert.IsTrue(errorTcs.Task.IsCompleted);
-				await Assert.ThrowsExceptionAsync<Exception>(() => errorTcs.Task);
+				Assert.AreNotEqual(HubConnectionState.Connected, testUserConn2.State);
 			}
 			finally
 			{

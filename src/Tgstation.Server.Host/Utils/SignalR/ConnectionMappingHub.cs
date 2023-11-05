@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
 
-using Tgstation.Server.Api.Hubs;
 using Tgstation.Server.Host.Security;
 
 namespace Tgstation.Server.Host.Utils.SignalR
@@ -13,11 +12,11 @@ namespace Tgstation.Server.Host.Utils.SignalR
 	/// Base <see langword="class"/> for <see cref="Hub{T}"/>s that want to map their connection IDs to <see cref="Models.PermissionSet"/>s.
 	/// </summary>
 	/// <typeparam name="TChildHub">The child <see langword="class"/> inheriting from the <see cref="ConnectionMappingHub{TChildHub, THubMethods}"/>.</typeparam>
-	/// <typeparam name="THubMethods">The interface <see cref="IErrorHandlingHub"/> for implementing <see cref="Hub{T}"/> methods.</typeparam>
+	/// <typeparam name="THubMethods">The <see langword="interface"/> for implementing <see cref="Hub{T}"/> methods.</typeparam>
 	[TgsAuthorize]
 	abstract class ConnectionMappingHub<TChildHub, THubMethods> : Hub<THubMethods>
 		where TChildHub : ConnectionMappingHub<TChildHub, THubMethods>
-		where THubMethods : class, IErrorHandlingHub
+		where THubMethods : class
 	{
 		/// <summary>
 		/// The <see cref="IHubConnectionMapper{THub, THubMethods}"/> used to map connections.

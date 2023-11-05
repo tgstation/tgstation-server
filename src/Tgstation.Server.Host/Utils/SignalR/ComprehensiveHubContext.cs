@@ -8,9 +8,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Logging;
 
-using Tgstation.Server.Api.Hubs;
-using Tgstation.Server.Common.Extensions;
-using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.Security;
 
@@ -20,10 +17,10 @@ namespace Tgstation.Server.Host.Utils.SignalR
 	/// An implementation of <see cref="IHubContext{THub}"/> with <see cref="User"/> connection ID mapping.
 	/// </summary>
 	/// <typeparam name="THub">The <see cref="Hub"/> the <see cref="ComprehensiveHubContext{THub, THubMethods}"/> is for.</typeparam>
-	/// <typeparam name="THubMethods">The interface <see cref="IErrorHandlingHub"/> for implementing <see cref="Hub{T}"/> methods.</typeparam>
-	sealed class ComprehensiveHubContext<THub, THubMethods> : IConnectionMappedHubContext<THub, THubMethods>, IHubConnectionMapper<THub, THubMethods>, IRestartHandler
+	/// <typeparam name="THubMethods">The <see langword="interface"/> for implementing <see cref="Hub{T}"/> methods.</typeparam>
+	sealed class ComprehensiveHubContext<THub, THubMethods> : IConnectionMappedHubContext<THub, THubMethods>, IHubConnectionMapper<THub, THubMethods>
 		where THub : ConnectionMappingHub<THub, THubMethods>
-		where THubMethods : class, IErrorHandlingHub
+		where THubMethods : class
 	{
 		/// <inheritdoc />
 		public IHubClients<THubMethods> Clients => wrappedHubContext.Clients;
@@ -53,20 +50,15 @@ namespace Tgstation.Server.Host.Utils.SignalR
 		/// Initializes a new instance of the <see cref="ComprehensiveHubContext{THub, THubMethods}"/> class.
 		/// </summary>
 		/// <param name="wrappedHubContext">The value of <see cref="wrappedHubContext"/>.</param>
-		/// <param name="serverControl">The <see cref="IServerControl"/> to <see cref="IServerControl.RegisterForRestart(IRestartHandler)"/> with.</param>
 		/// <param name="logger">The value of <see cref="logger"/>.</param>
 		public ComprehensiveHubContext(
 			IHubContext<THub, THubMethods> wrappedHubContext,
-			IServerControl serverControl,
 			ILogger<ComprehensiveHubContext<THub, THubMethods>> logger)
 		{
 			this.wrappedHubContext = wrappedHubContext ?? throw new ArgumentNullException(nameof(wrappedHubContext));
-			ArgumentNullException.ThrowIfNull(serverControl);
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
 			userConnections = new ConcurrentDictionary<long, Dictionary<string, HubCallerContext>>();
-
-			serverControl.RegisterForRestart(this);
 		}
 
 		/// <inheritdoc />
@@ -123,7 +115,7 @@ namespace Tgstation.Server.Host.Utils.SignalR
 		}
 
 		/// <inheritdoc />
-		public ValueTask NotifyAndAbortUnauthedConnections(User user, CancellationToken cancellationToken)
+		public void AbortUnauthedConnections(User user)
 		{
 			ArgumentNullException.ThrowIfNull(user);
 			logger.LogTrace("NotifyAndAbortUnauthedConnections. UID {userId}", user.Id.Value);
@@ -143,23 +135,8 @@ namespace Tgstation.Server.Host.Utils.SignalR
 					return old;
 				});
 
-			async ValueTask NotifyAndAbortConnection(HubCallerContext context)
-			{
-				await Clients
-					.Client(context.ConnectionId)
-					.AbortingConnection(ConnectionAbortReason.TokenInvalid, cancellationToken);
+			foreach (var context in connections)
 				context.Abort();
-			}
-
-			return ValueTaskExtensions.WhenAll(connections.Select(NotifyAndAbortConnection));
-		}
-
-		/// <inheritdoc />
-		public async ValueTask HandleRestart(Version updateVersion, bool handlerMayDelayShutdownWithExtremelyLongRunningTasks, CancellationToken cancellationToken)
-		{
-			logger.LogTrace("HandleRestart. {connectionCount} active connections", userConnections.Count);
-			await Clients.All.AbortingConnection(ConnectionAbortReason.ServerRestart, cancellationToken);
-			userConnections.Clear();
 		}
 	}
 }

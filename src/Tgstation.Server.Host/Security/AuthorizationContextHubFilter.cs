@@ -5,8 +5,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Logging;
 
-using Tgstation.Server.Api.Hubs;
-
 namespace Tgstation.Server.Host.Security
 {
 	/// <summary>
@@ -41,7 +39,7 @@ namespace Tgstation.Server.Host.Security
 		public async Task OnConnectedAsync(HubLifetimeContext context, Func<HubLifetimeContext, Task> next)
 		{
 			ArgumentNullException.ThrowIfNull(context);
-			if (await ValidateAuthenticationContext(context.Hub))
+			if (ValidateAuthenticationContext(context.Hub))
 				await next(context);
 		}
 
@@ -49,7 +47,7 @@ namespace Tgstation.Server.Host.Security
 		public async ValueTask<object> InvokeMethodAsync(HubInvocationContext invocationContext, Func<HubInvocationContext, ValueTask<object>> next)
 		{
 			ArgumentNullException.ThrowIfNull(invocationContext);
-			if (await ValidateAuthenticationContext(invocationContext.Hub))
+			if (ValidateAuthenticationContext(invocationContext.Hub))
 				return await next(invocationContext);
 
 			return null;
@@ -60,7 +58,7 @@ namespace Tgstation.Server.Host.Security
 		/// </summary>
 		/// <param name="hub">The current <see cref="Hub"/>.</param>
 		/// <returns><see langword="true"/> if the hub call should continue, <see langword="false"/> if it shouldn't and has been aborted.</returns>
-		async ValueTask<bool> ValidateAuthenticationContext(Hub hub)
+		bool ValidateAuthenticationContext(Hub hub)
 		{
 			if (!authenticationContext.Valid)
 				logger.LogTrace("The token for connection {connectionId} is no longer authenticated! Aborting...", hub.Context.ConnectionId);
@@ -78,10 +76,6 @@ namespace Tgstation.Server.Host.Security
 			var callerProperty = clients.GetType().GetProperty(nameof(hub.Clients.Caller));
 			var caller = callerProperty.GetValue(clients);
 
-			if (caller is not IErrorHandlingHub specifiedHub)
-				throw new InvalidOperationException("This filter only supports IErrorHandlingHubs");
-
-			await specifiedHub.AbortingConnection(ConnectionAbortReason.TokenInvalid, hub.Context.ConnectionAborted);
 			hub.Context.Abort();
 			return false;
 		}

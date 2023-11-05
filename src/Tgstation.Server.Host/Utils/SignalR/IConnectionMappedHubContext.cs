@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.SignalR;
 
-using Tgstation.Server.Api.Hubs;
 using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.Security;
 
@@ -18,7 +17,7 @@ namespace Tgstation.Server.Host.Utils.SignalR
 	/// <typeparam name="THubMethods">The interface <see langword="class"/> for implementing <see cref="Hub{T}"/> methods.</typeparam>
 	interface IConnectionMappedHubContext<THub, THubMethods> : IHubContext<THub, THubMethods>
 		where THub : Hub<THubMethods>
-		where THubMethods : class, IErrorHandlingHub
+		where THubMethods : class
 	{
 		/// <summary>
 		/// Called when a user connects. Should return an <see cref="IEnumerable{T}"/> of hub group names the given <see cref="IAuthenticationContext"/> belongs in.
@@ -33,11 +32,9 @@ namespace Tgstation.Server.Host.Utils.SignalR
 		List<string> UserConnectionIds(User user);
 
 		/// <summary>
-		/// Calls <see cref="IErrorHandlingHub.AbortingConnection(ConnectionAbortReason, CancellationToken)"/> with <see cref="ConnectionAbortReason.TokenInvalid"/> on and aborts the connections associated with the given <paramref name="user"/>.
+		/// Aborts the connections associated with the given <paramref name="user"/>.
 		/// </summary>
 		/// <param name="user">The <see cref="User"/> to abort the connections of.</param>
-		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
-		ValueTask NotifyAndAbortUnauthedConnections(User user, CancellationToken cancellationToken);
+		void AbortUnauthedConnections(User user);
 	}
 }

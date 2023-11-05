@@ -67,7 +67,7 @@
 		1. It checks the validity of the scope's [IAuthenticationContext](./IAuthenticationContext.cs). If it is invalid (indicating the user is not authorized either due to not existing (Only possible with a forged and signed JWT) or if their token was outdated compared to the last time their password or `Enabled` status was updated), HTTP 401 will be returned.
 		1. It checks the user's `Enabled` status. If the user is disabled, HTTP 403 will be returned.
 	- For SignalR hub requests, this is the [AuthorizationContextHubFilter](./AuthorizationContextHubFilter.cs).
-		- If either [IAuthenticationContext](./IAuthenticationContext.cs) is either invalid OR unauthorized, it invokes `IErrorHandlingHub.AbortingConnection` with `ConnectionAbortReason.TokenInvalid` on the client before aborting the connection.
+		- If either [IAuthenticationContext](./IAuthenticationContext.cs) is either invalid OR unauthorized, it unceremoniously aborts the connection.
 1. The `ApiController` base class inspects the request.
 	1. If the `ApiHeaders` could not be properly parsed, HTTP 400 (or 406 if the `Accept` header was bad) with an `ErrorMessageResponse` is returned.
 	1. If the request is to an Instance component path:
