@@ -24,7 +24,8 @@
 	1. If the `ApiHeaders` could not be properly parsed, HTTP 400 (or 406 if the `Accept` header was bad) with an `ErrorMessageResponse` is returned.
 		- The `WWW-Authenticate` header will be set in this response.
 	1. If authentication succeeded using a JWT `Bearer` token, HTTP 400 with an `ErrorMessageResponse` is returned. Refreshing a login using a token is not permitted.
-		- If the user is using a username/password combo
+	1. At this point, the path diverges based on the credential type.
+		- If the user is using a username/password combo:
 			1. The username and password combination is tried against the OS authentication system (currently a no-op on Linux).
 				- If it succeeds, the session is held on to for future reference and the database is queried for a user matching the SID/UID of the login session.
 				- Otherwise, the database is queried for a user matching the canonicalized username.
