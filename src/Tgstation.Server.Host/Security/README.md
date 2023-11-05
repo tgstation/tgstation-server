@@ -39,7 +39,7 @@
 	1. For non-OAuth logins, maintenance is performed on the user's DB entry at this point
 		- For non-OS logins:
 			1. The provided password is hashed and checked against the database entry. If it does not match, HTTP 401 will be returned.
-				- This can potentially cause a change to the DB's stored `PasswordHash` if TGS has updated its dependencies and Microsoft has decided to deprecated the previous hashing method since the user last logged in.
+				- This can potentially cause a change to the DB's stored `PasswordHash` if TGS has updated its dependencies and Microsoft has decided to deprecate the previous hashing method since the user last logged in.
 					- If this occurs, it invalidates all previous logins for the user.
 		- For OS logins:
 			1. If the `PasswordHash` in the DB isn't null, it is set as such. This invalidates all previous logins for the user.
