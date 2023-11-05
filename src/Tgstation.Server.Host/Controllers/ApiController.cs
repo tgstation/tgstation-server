@@ -154,15 +154,14 @@ namespace Tgstation.Server.Host.Controllers
 				if (ApiHeaders != null)
 				{
 					var isGet = HttpMethods.IsGet(Request.Method);
-					if (!(isGet && Request.Path.StartsWithSegments(Routes.Jobs, StringComparison.OrdinalIgnoreCase)))
-						Logger.Log(
-							isGet
-								? LogLevel.Trace
-								: LogLevel.Debug,
-							"Starting API request: Version: {clientApiVersion}. {userAgentHeaderName}: {clientUserAgent}",
-							ApiHeaders.ApiVersion.Semver(),
-							HeaderNames.UserAgent,
-							ApiHeaders.RawUserAgent);
+					Logger.Log(
+						isGet
+							? LogLevel.Trace
+							: LogLevel.Debug,
+						"Starting API request: Version: {clientApiVersion}. {userAgentHeaderName}: {clientUserAgent}",
+						ApiHeaders.ApiVersion.Semver(),
+						HeaderNames.UserAgent,
+						ApiHeaders.RawUserAgent);
 				}
 				else if (Request.Headers.TryGetValue(HeaderNames.UserAgent, out var userAgents))
 					Logger.LogDebug(
