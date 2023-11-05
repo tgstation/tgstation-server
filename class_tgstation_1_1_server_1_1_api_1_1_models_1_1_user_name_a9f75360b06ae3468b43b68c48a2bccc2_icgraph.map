@@ -1,12 +1,16 @@
 <map id="Tgstation.Server.Api.Models.UserName.CreateUserName" name="Tgstation.Server.Api.Models.UserName.CreateUserName">
-<area shape="rect" id="node1" title="Create a copy of the UserName." alt="" coords="1041,69,1231,109"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html#aa71fac864062f40aa138f93476950d8b" title="Generate a UserResponse from this." alt="" coords="797,5,993,45"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_job.html#a26803af89e798afe4e8878b9bc2f213b" title=" " alt="" coords="797,69,993,109"/>
-<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_test_merge.html#ac2943458d2fc3077a6684408fb26ab09" title=" " alt="" coords="797,133,993,173"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#ac7a15de6e6b871bb48a39a4103fae82b" title="Begin cloning the repository if it doesn&#39;t exist." alt="" coords="533,16,749,56"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_compile_job.html#a4b92dec44bb4d23b320ea6a17263308e" title=" " alt="" coords="279,73,475,113"/>
-<area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_revision_information.html#a8e6f5b4375c0594f10c413c4119515b1" title=" " alt="" coords="543,133,739,173"/>
-<area shape="rect" id="node8" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#a16cc955ac08b286dc475b60b045d63e0" title="Populate a given apiResponse &#160;with the current state of a given repository ." alt="" coords="269,137,485,177"/>
-<area shape="rect" id="node9" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#a193a9906e18dd87c1f5d730bcd6f5613" title="Get the repository&#39;s status." alt="" coords="5,105,221,145"/>
-<area shape="rect" id="node10" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#ac4cbbd1105362b5a24122cac252143af" title="Perform updates to the repository." alt="" coords="5,169,221,209"/>
+<area shape="rect" id="node1" title="Create a copy of the UserName." alt="" coords="1041,163,1231,203"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html#aa71fac864062f40aa138f93476950d8b" title="Generate a UserResponse from this." alt="" coords="797,99,993,139"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_job.html#a26803af89e798afe4e8878b9bc2f213b" title=" " alt="" coords="797,163,993,203"/>
+<area shape="rect" id="node10" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_test_merge.html#ac2943458d2fc3077a6684408fb26ab09" title=" " alt="" coords="797,255,993,295"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_byond_controller.html#a7d2eeb3b2dff4a196ac9ac80f0afab05" title="Attempts to delete the BYOND version specified in a given model &#160;from the instance." alt="" coords="533,5,749,45"/>
+<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#adf927beefb84907b988ad6c473db0147" title="Delete the repository." alt="" coords="533,69,749,109"/>
+<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#a193b8881a4e6293ecbb071bdf0714ee0" title="Runner for JobHandlers." alt="" coords="550,133,733,173"/>
+<area shape="rect" id="node8" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_compile_job.html#a4b92dec44bb4d23b320ea6a17263308e" title=" " alt="" coords="279,223,475,263"/>
+<area shape="rect" id="node9" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_controller.html#a709c5985e78cdb8bde3f705869ddafb9" title="Modify an Api.Models.Instance&#39;s settings." alt="" coords="533,248,749,288"/>
+<area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#af2255b562972f70a638cf93cd830b6a9" title="Registers a given Job and begins running it. A ValueTask representing a running operation." alt="" coords="280,133,475,173"/>
+<area shape="rect" id="node11" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_revision_information.html#a8e6f5b4375c0594f10c413c4119515b1" title=" " alt="" coords="543,312,739,352"/>
+<area shape="rect" id="node12" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#a16cc955ac08b286dc475b60b045d63e0" title="Populate a given apiResponse &#160;with the current state of a given repository ." alt="" coords="269,312,485,352"/>
+<area shape="rect" id="node13" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#a193a9906e18dd87c1f5d730bcd6f5613" title="Get the repository&#39;s status." alt="" coords="5,280,221,320"/>
+<area shape="rect" id="node14" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#ac4cbbd1105362b5a24122cac252143af" title="Perform updates to the repository." alt="" coords="5,344,221,384"/>
 </map>

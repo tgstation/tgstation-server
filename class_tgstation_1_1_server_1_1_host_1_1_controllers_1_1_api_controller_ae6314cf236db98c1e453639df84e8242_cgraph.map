@@ -1,7 +1,0 @@
-<map id="Tgstation.Server.Host.Controllers.ApiController.OnActionExecutionAsync" name="Tgstation.Server.Host.Controllers.ApiController.OnActionExecutionAsync">
-<area shape="rect" id="node1" title=" " alt="" coords="5,99,251,139"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a305abd5b6b16230fb32f779af0a07d61" title="Checks if the ApiVersion is compatible with Version." alt="" coords="326,5,487,45"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a28d03a8af8e2ef025de2f0ac8e7a4221" title="Response for missing/Invalid headers." alt="" coords="299,69,515,109"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a978fe89eeaea424d7e034d2c7ab7b76e" title="Strongly type calls to ControllerBase.StatusCode(int)." alt="" coords="563,99,779,139"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a2f29c35abc04db25f02d207a7e671030" title="Performs validation a request." alt="" coords="299,184,515,224"/>
-</map>

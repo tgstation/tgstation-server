@@ -1,0 +1,4 @@
+<map id="Tgstation.Server.Host.Jobs.JobsHubGroupMapper" name="Tgstation.Server.Host.Jobs.JobsHubGroupMapper">
+<area shape="rect" id="node1" title="Handles mapping groups for the JobsHub." alt="" coords="8,79,191,119"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_permissions_update_notifyee.html" title="Receives notifications about permissions updates." alt="" coords="5,5,193,31"/>
+</map>

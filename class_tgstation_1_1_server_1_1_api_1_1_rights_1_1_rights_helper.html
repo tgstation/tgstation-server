@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.16.4</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.17.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -99,6 +99,9 @@ Static Public Member Functions</h2></td></tr>
 <tr class="memitem:ab694cd1b9b98a6be7d79f236a71b386c"><td class="memItemLeft" align="right" valign="top">static Type&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper.html#ab694cd1b9b98a6be7d79f236a71b386c">RightToType</a> (<a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a7b02c8c3dadd90810a9eaa24712a0a20">RightsType</a> rightsType)</td></tr>
 <tr class="memdesc:ab694cd1b9b98a6be7d79f236a71b386c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Map a given <em>rightsType</em>  to its respective Enum Type.   <a href="class_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper.html#ab694cd1b9b98a6be7d79f236a71b386c">More...</a><br /></td></tr>
 <tr class="separator:ab694cd1b9b98a6be7d79f236a71b386c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5766e9717674b0c56c369e75a3c939a1"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a7b02c8c3dadd90810a9eaa24712a0a20">RightsType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper.html#a5766e9717674b0c56c369e75a3c939a1">TypeToRight&lt; TRight &gt;</a> ()</td></tr>
+<tr class="memdesc:a5766e9717674b0c56c369e75a3c939a1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Map a given <em>TRight</em>  to its respective <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a7b02c8c3dadd90810a9eaa24712a0a20" title="The type of rights a model uses.">RightsType</a>.   <a href="class_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper.html#a5766e9717674b0c56c369e75a3c939a1">More...</a><br /></td></tr>
+<tr class="separator:a5766e9717674b0c56c369e75a3c939a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a08d444c5eb8868e931b37f11f9071f92"><td class="memItemLeft" align="right" valign="top">static string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper.html#a08d444c5eb8868e931b37f11f9071f92">RoleNames&lt; TRight &gt;</a> (TRight right)</td></tr>
 <tr class="memdesc:a08d444c5eb8868e931b37f11f9071f92"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the role claim name used for a given <em>right</em> .   <a href="class_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper.html#a08d444c5eb8868e931b37f11f9071f92">More...</a><br /></td></tr>
 <tr class="separator:a08d444c5eb8868e931b37f11f9071f92"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -124,7 +127,7 @@ Static Private Attributes</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p >Helper for <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a7b02c8c3dadd90810a9eaa24712a0a20" title="The type of rights a model uses.">RightsType</a>s.  </p>
 
-<p class="definition">Definition at line <a class="el" href="_rights_helper_8cs_source.html#l00010">10</a> of file <a class="el" href="_rights_helper_8cs_source.html">RightsHelper.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_rights_helper_8cs_source.html#l00011">11</a> of file <a class="el" href="_rights_helper_8cs_source.html">RightsHelper.cs</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a id="a0f8605b0068c15bb5e80fae8f858e0db" name="a0f8605b0068c15bb5e80fae8f858e0db"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a0f8605b0068c15bb5e80fae8f858e0db">&#9670;&#160;</a></span>AllRights&lt; TRight &gt;()</h2>
@@ -166,18 +169,18 @@ Static Private Attributes</h2></td></tr>
 </dl>
 </div>
 
-<p class="definition">Definition at line <a class="el" href="_rights_helper_8cs_source.html#l00079">79</a> of file <a class="el" href="_rights_helper_8cs_source.html">RightsHelper.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   80</span>                         : Enum</div>
-<div class="line"><span class="lineno">   81</span>        {</div>
-<div class="line"><span class="lineno">   82</span>            ulong rights = 0;</div>
-<div class="line"><span class="lineno">   83</span>            <span class="keywordflow">foreach</span> (Enum right <span class="keywordflow">in</span> Enum.GetValues(typeof(TRight)))</div>
-<div class="line"><span class="lineno">   84</span>                rights |= Convert.ToUInt64(right, CultureInfo.InvariantCulture);</div>
-<div class="line"><span class="lineno">   85</span> </div>
-<div class="line"><span class="lineno">   86</span>            <span class="comment">// cri evertim</span></div>
-<div class="line"><span class="lineno">   87</span>            <span class="keywordflow">return</span> (TRight)(object)rights;</div>
-<div class="line"><span class="lineno">   88</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_rights_helper_8cs_source.html#l00089">89</a> of file <a class="el" href="_rights_helper_8cs_source.html">RightsHelper.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   90</span>                         : Enum</div>
+<div class="line"><span class="lineno">   91</span>        {</div>
+<div class="line"><span class="lineno">   92</span>            ulong rights = 0;</div>
+<div class="line"><span class="lineno">   93</span>            <span class="keywordflow">foreach</span> (Enum right <span class="keywordflow">in</span> Enum.GetValues(typeof(TRight)))</div>
+<div class="line"><span class="lineno">   94</span>                rights |= Convert.ToUInt64(right, CultureInfo.InvariantCulture);</div>
+<div class="line"><span class="lineno">   95</span> </div>
+<div class="line"><span class="lineno">   96</span>            <span class="comment">// cri evertim</span></div>
+<div class="line"><span class="lineno">   97</span>            <span class="keywordflow">return</span> (TRight)(object)rights;</div>
+<div class="line"><span class="lineno">   98</span>        }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_rights_helper_8cs_source.html#l00096">Tgstation.Server.Api.Rights.RightsHelper.Clamp&lt; TRight &gt;()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_rights_helper_8cs_source.html#l00106">Tgstation.Server.Api.Rights.RightsHelper.Clamp&lt; TRight &gt;()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -237,19 +240,19 @@ Here is the caller graph for this function:</div>
 </dl>
 </div>
 
-<p class="definition">Definition at line <a class="el" href="_rights_helper_8cs_source.html#l00096">96</a> of file <a class="el" href="_rights_helper_8cs_source.html">RightsHelper.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   97</span>                         : Enum</div>
-<div class="line"><span class="lineno">   98</span>        {</div>
-<div class="line"><span class="lineno">   99</span>            var allRights = <a class="code hl_function" href="class_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper.html#a0f8605b0068c15bb5e80fae8f858e0db">AllRights&lt;TRight&gt;</a>();</div>
-<div class="line"><span class="lineno">  100</span> </div>
-<div class="line"><span class="lineno">  101</span>            var allAsUlong = Convert.ToUInt64(allRights, CultureInfo.InvariantCulture);</div>
-<div class="line"><span class="lineno">  102</span>            var rightsAsUlong = Convert.ToUInt64(rights, CultureInfo.InvariantCulture);</div>
-<div class="line"><span class="lineno">  103</span> </div>
-<div class="line"><span class="lineno">  104</span>            <span class="keywordflow">return</span> (TRight)(object)(allAsUlong &amp; rightsAsUlong);</div>
-<div class="line"><span class="lineno">  105</span>        }</div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper_html_a0f8605b0068c15bb5e80fae8f858e0db"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper.html#a0f8605b0068c15bb5e80fae8f858e0db">Tgstation.Server.Api.Rights.RightsHelper.AllRights&lt; TRight &gt;</a></div><div class="ttdeci">static TRight AllRights&lt; TRight &gt;()</div><div class="ttdoc">Get all rights for a given TRight .</div><div class="ttdef"><b>Definition:</b> <a href="_rights_helper_8cs_source.html#l00079">RightsHelper.cs:79</a></div></div>
+<p class="definition">Definition at line <a class="el" href="_rights_helper_8cs_source.html#l00106">106</a> of file <a class="el" href="_rights_helper_8cs_source.html">RightsHelper.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  107</span>                         : Enum</div>
+<div class="line"><span class="lineno">  108</span>        {</div>
+<div class="line"><span class="lineno">  109</span>            var allRights = <a class="code hl_function" href="class_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper.html#a0f8605b0068c15bb5e80fae8f858e0db">AllRights&lt;TRight&gt;</a>();</div>
+<div class="line"><span class="lineno">  110</span> </div>
+<div class="line"><span class="lineno">  111</span>            var allAsUlong = Convert.ToUInt64(allRights, CultureInfo.InvariantCulture);</div>
+<div class="line"><span class="lineno">  112</span>            var rightsAsUlong = Convert.ToUInt64(rights, CultureInfo.InvariantCulture);</div>
+<div class="line"><span class="lineno">  113</span> </div>
+<div class="line"><span class="lineno">  114</span>            <span class="keywordflow">return</span> (TRight)(object)(allAsUlong &amp; rightsAsUlong);</div>
+<div class="line"><span class="lineno">  115</span>        }</div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper_html_a0f8605b0068c15bb5e80fae8f858e0db"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper.html#a0f8605b0068c15bb5e80fae8f858e0db">Tgstation.Server.Api.Rights.RightsHelper.AllRights&lt; TRight &gt;</a></div><div class="ttdeci">static TRight AllRights&lt; TRight &gt;()</div><div class="ttdoc">Get all rights for a given TRight .</div><div class="ttdef"><b>Definition:</b> <a href="_rights_helper_8cs_source.html#l00089">RightsHelper.cs:89</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_rights_helper_8cs_source.html#l00079">Tgstation.Server.Api.Rights.RightsHelper.AllRights&lt; TRight &gt;()</a>.</p>
+<p class="reference">References <a class="el" href="_rights_helper_8cs_source.html#l00089">Tgstation.Server.Api.Rights.RightsHelper.AllRights&lt; TRight &gt;()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -295,15 +298,15 @@ Here is the call graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><code>true</code> if <em>rightsType</em>  is an instance right, <code>false</code> otherwise.</dd></dl>
 
-<p class="reference">Referenced by <a class="el" href="_authentication_context_8cs_source.html#l00053">Tgstation.Server.Host.Security.AuthenticationContext.GetRight()</a>, and <a class="el" href="_claims_injector_8cs_source.html#l00035">Tgstation.Server.Host.Security.ClaimsInjector.InjectClaimsIntoContext()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_authentication_context_8cs_source.html#l00058">Tgstation.Server.Host.Security.AuthenticationContext.GetRight()</a>, and <a class="el" href="_authentication_context_claims_transformation_8cs_source.html#l00046">Tgstation.Server.Host.Security.AuthenticationContextClaimsTransformation.TransformAsync()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper_a40d32838ff902da852c54215bd8e89fb_icgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper_a40d32838ff902da852c54215bd8e89fb_icgraph" alt=""/></div>
 <map name="aclass_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper_a40d32838ff902da852c54215bd8e89fb_icgraph" id="aclass_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper_a40d32838ff902da852c54215bd8e89fb_icgraph">
-<area shape="rect" title="Check if a given rightsType &#160;is meant for an Models.Instance." alt="" coords="869,415,1060,455"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html#ade8aeb7dd0a0e480f6f89bd5973703c7" title="Get the value of a given rightsType . The value of rightsType . Note that if InstancePermissionSet is..." alt="" coords="597,383,799,423"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_claims_injector.html#a68b33948ac77f08ab2dc17209ce78314" title="Setup the global::System.Security.Claims.Claims for a given tokenValidatedContext ...." alt="" coords="575,447,821,487"/>
+<area shape="rect" title="Check if a given rightsType &#160;is meant for an Models.Instance." alt="" coords="901,419,1092,459"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html#ade8aeb7dd0a0e480f6f89bd5973703c7" title="Get the value of a given rightsType . The value of rightsType . Note that if InstancePermissionSet is..." alt="" coords="613,383,815,423"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context_claims_transformation.html#af29fea3cb5950edb79795ed093ed2483" title=" " alt="" coords="575,447,853,502"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#ac7a15de6e6b871bb48a39a4103fae82b" title="Begin cloning the repository if it doesn&#39;t exist." alt="" coords="290,5,506,45"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_job_controller.html#a3f98fb2e4e46b96258839c5cfe3665c2" title="Cancel a running JobResponse." alt="" coords="290,69,506,109"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_chat_controller.html#a1bd9c6aaf5105f431b51f311754e68ac" title="Get a specific ChatBot." alt="" coords="290,133,506,173"/>
@@ -356,29 +359,29 @@ Here is the caller graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The Enum Type of the given <em>rightsType</em> .</dd></dl>
 
-<p class="reference">Referenced by <a class="el" href="_authentication_context_8cs_source.html#l00053">Tgstation.Server.Host.Security.AuthenticationContext.GetRight()</a>, <a class="el" href="_claims_injector_8cs_source.html#l00035">Tgstation.Server.Host.Security.ClaimsInjector.InjectClaimsIntoContext()</a>, and <a class="el" href="_rights_helper_8cs_source.html#l00061">Tgstation.Server.Api.Rights.RightsHelper.RoleName()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_authentication_context_8cs_source.html#l00058">Tgstation.Server.Host.Security.AuthenticationContext.GetRight()</a>, <a class="el" href="_rights_helper_8cs_source.html#l00071">Tgstation.Server.Api.Rights.RightsHelper.RoleName()</a>, and <a class="el" href="_authentication_context_claims_transformation_8cs_source.html#l00046">Tgstation.Server.Host.Security.AuthenticationContextClaimsTransformation.TransformAsync()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper_ab694cd1b9b98a6be7d79f236a71b386c_icgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper_ab694cd1b9b98a6be7d79f236a71b386c_icgraph" alt=""/></div>
 <map name="aclass_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper_ab694cd1b9b98a6be7d79f236a71b386c_icgraph" id="aclass_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper_ab694cd1b9b98a6be7d79f236a71b386c_icgraph">
-<area shape="rect" title="Map a given rightsType &#160;to its respective Enum Type." alt="" coords="825,767,1008,807"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html#ade8aeb7dd0a0e480f6f89bd5973703c7" title="Get the value of a given rightsType . The value of rightsType . Note that if InstancePermissionSet is..." alt="" coords="575,412,777,452"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_claims_injector.html#a68b33948ac77f08ab2dc17209ce78314" title="Setup the global::System.Security.Claims.Claims for a given tokenValidatedContext ...." alt="" coords="275,824,521,864"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper.html#acbf514eba48e29a2dc177eb5ae34edd7" title="Gets the role claim name used for a given rightsType &#160;and right ." alt="" coords="585,824,767,864"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#ac7a15de6e6b871bb48a39a4103fae82b" title="Begin cloning the repository if it doesn&#39;t exist." alt="" coords="290,5,506,45"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_job_controller.html#a3f98fb2e4e46b96258839c5cfe3665c2" title="Cancel a running JobResponse." alt="" coords="290,69,506,109"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_chat_controller.html#a1bd9c6aaf5105f431b51f311754e68ac" title="Get a specific ChatBot." alt="" coords="290,133,506,173"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_user_controller.html#a2918e163c7813f9862a677da59272edb" title="Get a specific User." alt="" coords="290,197,506,237"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_chat_controller.html#a944a576b697c4af886e9f0e675ec8d72" title="List ChatBots." alt="" coords="290,261,506,301"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_dream_daemon_controller.html#a0b37d45ec737631c297fcaf575a07389" title="Implementation of Read(CancellationToken)." alt="" coords="287,325,509,365"/>
+<area shape="rect" title="Map a given rightsType &#160;to its respective Enum Type." alt="" coords="847,775,1029,815"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html#ade8aeb7dd0a0e480f6f89bd5973703c7" title="Get the value of a given rightsType . The value of rightsType . Note that if InstancePermissionSet is..." alt="" coords="596,412,799,452"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper.html#acbf514eba48e29a2dc177eb5ae34edd7" title="Gets the role claim name used for a given rightsType &#160;and right ." alt="" coords="606,775,789,815"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context_claims_transformation.html#af29fea3cb5950edb79795ed093ed2483" title=" " alt="" coords="269,825,548,879"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#ac7a15de6e6b871bb48a39a4103fae82b" title="Begin cloning the repository if it doesn&#39;t exist." alt="" coords="301,5,517,45"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_job_controller.html#a3f98fb2e4e46b96258839c5cfe3665c2" title="Cancel a running JobResponse." alt="" coords="301,69,517,109"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_chat_controller.html#a1bd9c6aaf5105f431b51f311754e68ac" title="Get a specific ChatBot." alt="" coords="301,133,517,173"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_user_controller.html#a2918e163c7813f9862a677da59272edb" title="Get a specific User." alt="" coords="301,197,517,237"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_chat_controller.html#a944a576b697c4af886e9f0e675ec8d72" title="List ChatBots." alt="" coords="301,261,517,301"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_dream_daemon_controller.html#a0b37d45ec737631c297fcaf575a07389" title="Implementation of Read(CancellationToken)." alt="" coords="298,325,519,365"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_dream_daemon_controller.html#aedb524ec7c65c10a241fc3d177902995" title="Update watchdog settings to be applied at next server reboot." alt="" coords="5,353,221,393"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_chat_controller.html#a896419e100fc2c903dcebc89646cdf6a" title="Updates a chat bot model ." alt="" coords="290,440,506,480"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_dream_maker_controller.html#a8421542abdd5514d09ea500079bd7dd4" title="Update deployment settings." alt="" coords="290,504,506,544"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_permission_set_controller.html#a80244fbd7a6d0e78ab43d9f38247b1bf" title="Update the permissions for an InstancePermissionSet." alt="" coords="269,568,527,608"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_controller.html#a709c5985e78cdb8bde3f705869ddafb9" title="Modify an Api.Models.Instance&#39;s settings." alt="" coords="290,632,506,672"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#ac4cbbd1105362b5a24122cac252143af" title="Perform updates to the repository." alt="" coords="290,696,506,736"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_user_controller.html#aee7cad3caaeb3811cf8ead87ad266357" title="Update a User." alt="" coords="290,760,506,800"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_chat_controller.html#a896419e100fc2c903dcebc89646cdf6a" title="Updates a chat bot model ." alt="" coords="301,440,517,480"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_dream_maker_controller.html#a8421542abdd5514d09ea500079bd7dd4" title="Update deployment settings." alt="" coords="301,504,517,544"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_permission_set_controller.html#a80244fbd7a6d0e78ab43d9f38247b1bf" title="Update the permissions for an InstancePermissionSet." alt="" coords="280,568,537,608"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_controller.html#a709c5985e78cdb8bde3f705869ddafb9" title="Modify an Api.Models.Instance&#39;s settings." alt="" coords="301,632,517,672"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#ac4cbbd1105362b5a24122cac252143af" title="Perform updates to the repository." alt="" coords="301,696,517,736"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_user_controller.html#aee7cad3caaeb3811cf8ead87ad266357" title="Update a User." alt="" coords="301,760,517,800"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_chat_controller.html#a930c1ed07039457ab6f9a8751fd462a6" title="Create a new chat bot model ." alt="" coords="5,261,221,301"/>
 </map>
 </div>
@@ -429,16 +432,16 @@ Here is the caller graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A string representing the claim role name.</dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_rights_helper_8cs_source.html#l00061">61</a> of file <a class="el" href="_rights_helper_8cs_source.html">RightsHelper.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   62</span>        {</div>
-<div class="line"><span class="lineno">   63</span>            var enumType = <a class="code hl_function" href="class_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper.html#ab694cd1b9b98a6be7d79f236a71b386c">RightToType</a>(rightsType);</div>
-<div class="line"><span class="lineno">   64</span>            <span class="keywordflow">return</span> String.Concat(enumType.Name, <span class="charliteral">&#39;.&#39;</span>, Enum.GetName(enumType, right));</div>
-<div class="line"><span class="lineno">   65</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_rights_helper_8cs_source.html#l00071">71</a> of file <a class="el" href="_rights_helper_8cs_source.html">RightsHelper.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   72</span>        {</div>
+<div class="line"><span class="lineno">   73</span>            var enumType = <a class="code hl_function" href="class_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper.html#ab694cd1b9b98a6be7d79f236a71b386c">RightToType</a>(rightsType);</div>
+<div class="line"><span class="lineno">   74</span>            <span class="keywordflow">return</span> String.Concat(enumType.Name, <span class="charliteral">&#39;.&#39;</span>, Enum.GetName(enumType, right));</div>
+<div class="line"><span class="lineno">   75</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper_html_ab694cd1b9b98a6be7d79f236a71b386c"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper.html#ab694cd1b9b98a6be7d79f236a71b386c">Tgstation.Server.Api.Rights.RightsHelper.RightToType</a></div><div class="ttdeci">static Type RightToType(RightsType rightsType)</div><div class="ttdoc">Map a given rightsType  to its respective Enum Type.</div></div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper.html#ab694cd1b9b98a6be7d79f236a71b386c">Tgstation.Server.Api.Rights.RightsHelper.RightToType()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_claims_injector_8cs_source.html#l00035">Tgstation.Server.Host.Security.ClaimsInjector.InjectClaimsIntoContext()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_authentication_context_claims_transformation_8cs_source.html#l00046">Tgstation.Server.Host.Security.AuthenticationContextClaimsTransformation.TransformAsync()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -453,8 +456,8 @@ Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper_acbf514eba48e29a2dc177eb5ae34edd7_icgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper_acbf514eba48e29a2dc177eb5ae34edd7_icgraph" alt=""/></div>
 <map name="aclass_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper_acbf514eba48e29a2dc177eb5ae34edd7_icgraph" id="aclass_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper_acbf514eba48e29a2dc177eb5ae34edd7_icgraph">
-<area shape="rect" title="Gets the role claim name used for a given rightsType &#160;and right ." alt="" coords="300,5,483,45"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_claims_injector.html#a68b33948ac77f08ab2dc17209ce78314" title="Setup the global::System.Security.Claims.Claims for a given tokenValidatedContext ...." alt="" coords="5,5,252,45"/>
+<area shape="rect" title="Gets the role claim name used for a given rightsType &#160;and right ." alt="" coords="332,13,515,53"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context_claims_transformation.html#af29fea3cb5950edb79795ed093ed2483" title=" " alt="" coords="5,5,284,60"/>
 </map>
 </div>
 
@@ -507,20 +510,68 @@ Here is the caller graph for this function:</div>
 </dl>
 </div>
 
-<p class="definition">Definition at line <a class="el" href="_rights_helper_8cs_source.html#l00041">41</a> of file <a class="el" href="_rights_helper_8cs_source.html">RightsHelper.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   42</span>                         : Enum</div>
-<div class="line"><span class="lineno">   43</span>        {</div>
-<div class="line"><span class="lineno">   44</span>            IEnumerable&lt;string&gt; GetRoleNames()</div>
-<div class="line"><span class="lineno">   45</span>            {</div>
-<div class="line"><span class="lineno">   46</span>                <span class="keywordflow">foreach</span> (Enum rightValue <span class="keywordflow">in</span> Enum.GetValues(right.GetType()))</div>
-<div class="line"><span class="lineno">   47</span>                    <span class="keywordflow">if</span> (Convert.ToInt32(rightValue, CultureInfo.InvariantCulture) != 0 &amp;&amp; right.HasFlag(rightValue))</div>
-<div class="line"><span class="lineno">   48</span>                        yield <span class="keywordflow">return</span> String.Concat(typeof(TRight).Name, <span class="charliteral">&#39;.&#39;</span>, rightValue.ToString());</div>
-<div class="line"><span class="lineno">   49</span>            }</div>
-<div class="line"><span class="lineno">   50</span> </div>
-<div class="line"><span class="lineno">   51</span>            var names = GetRoleNames();</div>
-<div class="line"><span class="lineno">   52</span>            <span class="keywordflow">return</span> String.Join(<span class="stringliteral">&quot;,&quot;</span>, names);</div>
-<div class="line"><span class="lineno">   53</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_rights_helper_8cs_source.html#l00051">51</a> of file <a class="el" href="_rights_helper_8cs_source.html">RightsHelper.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   52</span>                         : Enum</div>
+<div class="line"><span class="lineno">   53</span>        {</div>
+<div class="line"><span class="lineno">   54</span>            IEnumerable&lt;string&gt; GetRoleNames()</div>
+<div class="line"><span class="lineno">   55</span>            {</div>
+<div class="line"><span class="lineno">   56</span>                <span class="keywordflow">foreach</span> (Enum rightValue <span class="keywordflow">in</span> Enum.GetValues(right.GetType()))</div>
+<div class="line"><span class="lineno">   57</span>                    <span class="keywordflow">if</span> (Convert.ToInt32(rightValue, CultureInfo.InvariantCulture) != 0 &amp;&amp; right.HasFlag(rightValue))</div>
+<div class="line"><span class="lineno">   58</span>                        yield <span class="keywordflow">return</span> String.Concat(typeof(TRight).Name, <span class="charliteral">&#39;.&#39;</span>, rightValue.ToString());</div>
+<div class="line"><span class="lineno">   59</span>            }</div>
+<div class="line"><span class="lineno">   60</span> </div>
+<div class="line"><span class="lineno">   61</span>            var names = GetRoleNames();</div>
+<div class="line"><span class="lineno">   62</span>            <span class="keywordflow">return</span> String.Join(<span class="stringliteral">&quot;,&quot;</span>, names);</div>
+<div class="line"><span class="lineno">   63</span>        }</div>
 </div><!-- fragment -->
+</div>
+</div>
+<a id="a5766e9717674b0c56c369e75a3c939a1" name="a5766e9717674b0c56c369e75a3c939a1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5766e9717674b0c56c369e75a3c939a1">&#9670;&#160;</a></span>TypeToRight&lt; TRight &gt;()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a7b02c8c3dadd90810a9eaa24712a0a20">RightsType</a> Tgstation.Server.Api.Rights.RightsHelper.TypeToRight&lt; TRight &gt; </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Map a given <em>TRight</em>  to its respective <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a7b02c8c3dadd90810a9eaa24712a0a20" title="The type of rights a model uses.">RightsType</a>.  </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">TRight</td><td>The Type of the right.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a7b02c8c3dadd90810a9eaa24712a0a20" title="The type of rights a model uses.">RightsType</a> of <em>TRight</em> .</dd></dl>
+<div class="typeconstraint">
+<dl><dt><b>Type Constraints</b></dt><dd>
+<table border="0" cellspacing="2" cellpadding="0">
+<tr><td valign="top"><em>TRight</em></td><td>&#160;:</td><td valign="top"><em>Enum</em></td><td>&#160;</td></tr>
+<tr><td valign="top"><em>TRight</em></td><td>&#160;:</td><td valign="top"><em>TypeMap.First</em></td><td>&#160;</td></tr>
+<tr><td valign="top"><em>TRight</em></td><td>&#160;:</td><td valign="top"><em>kvp</em></td><td>&#160;</td></tr>
+<tr><td valign="top"><em>TRight</em></td><td>&#160;:</td><td valign="top"><em>kvp.Value</em></td><td>&#160;</td></tr>
+<tr><td valign="top"><em>TRight</em></td><td>&#160;:</td><td valign="top"><em>typeof</em></td><td>&#160;</td></tr>
+<tr><td valign="top"><em>TRight</em></td><td>&#160;:</td><td valign="top"><em>TRight</em></td><td>&#160;</td></tr>
+<tr><td valign="top"><em>TRight</em></td><td>&#160;:</td><td valign="top"><em>Key</em></td><td>&#160;</td></tr>
+</table>
+</dd>
+</dl>
+</div>
+
 </div>
 </div>
 <h2 class="groupheader">Member Data Documentation</h2>
@@ -568,7 +619,7 @@ Here is the caller graph for this function:</div>
 </div><!-- fragment -->
 <p>Map of <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a7b02c8c3dadd90810a9eaa24712a0a20" title="The type of rights a model uses.">RightsType</a>s to their respective flag Enums.  </p>
 
-<p class="definition">Definition at line <a class="el" href="_rights_helper_8cs_source.html#l00015">15</a> of file <a class="el" href="_rights_helper_8cs_source.html">RightsHelper.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_rights_helper_8cs_source.html#l00016">16</a> of file <a class="el" href="_rights_helper_8cs_source.html">RightsHelper.cs</a>.</p>
 
 </div>
 </div>

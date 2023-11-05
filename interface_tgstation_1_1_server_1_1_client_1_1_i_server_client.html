@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.16.4</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.17.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -91,7 +91,7 @@ Inheritance diagram for Tgstation.Server.Client.IServerClient:</div>
 <map name="a_tgstation_8_server_8_client_8_i_server_client_inherit__map" id="a_tgstation_8_server_8_client_8_i_server_client_inherit__map">
 <area shape="rect" title="Main client for communicating with a server." alt="" coords="5,79,161,119"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_client_1_1_server_client.html" title=" " alt="" coords="5,167,161,207"/>
-<area shape="rect" href="class_i_disposable.html" title=" " alt="" coords="38,5,129,31"/>
+<area shape="rect" href="class_i_async_disposable.html" title=" " alt="" coords="20,5,147,31"/>
 </map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <div class="dynheader">
@@ -100,7 +100,7 @@ Collaboration diagram for Tgstation.Server.Client.IServerClient:</div>
 <div class="center"><img src="interface_tgstation_1_1_server_1_1_client_1_1_i_server_client__coll__graph.png" border="0" usemap="#a_tgstation_8_server_8_client_8_i_server_client_coll__map" alt="Collaboration graph"/></div>
 <map name="a_tgstation_8_server_8_client_8_i_server_client_coll__map" id="a_tgstation_8_server_8_client_8_i_server_client_coll__map">
 <area shape="rect" title="Main client for communicating with a server." alt="" coords="5,79,161,119"/>
-<area shape="rect" href="class_i_disposable.html" title=" " alt="" coords="38,5,129,31"/>
+<area shape="rect" href="class_i_async_disposable.html" title=" " alt="" coords="20,5,147,31"/>
 </map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
@@ -109,6 +109,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a16be4e2292d48d035bbe646c606336a5"><td class="memItemLeft" align="right" valign="top">ValueTask&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_server_information_response.html">ServerInformationResponse</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_server_client.html#a16be4e2292d48d035bbe646c606336a5">ServerInformation</a> (CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:a16be4e2292d48d035bbe646c606336a5"><td class="mdescLeft">&#160;</td><td class="mdescRight">The ServerInformationResponse of the <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_server_client.html" title="Main client for communicating with a server.">IServerClient</a>.   <a href="interface_tgstation_1_1_server_1_1_client_1_1_i_server_client.html#a16be4e2292d48d035bbe646c606336a5">More...</a><br /></td></tr>
 <tr class="separator:a16be4e2292d48d035bbe646c606336a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad705652ae7e66fb6ff8e89e41947b17c"><td class="memItemLeft" align="right" valign="top">ValueTask&lt; <a class="el" href="class_i_async_disposable.html">IAsyncDisposable</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_server_client.html#ad705652ae7e66fb6ff8e89e41947b17c">SubscribeToJobUpdates</a> (<a class="el" href="interface_tgstation_1_1_server_1_1_api_1_1_hubs_1_1_i_jobs_hub.html">IJobsHub</a> jobsReceiver, <a class="el" href="class_i_retry_policy.html">IRetryPolicy</a>? retryPolicy=null, Action&lt; ILoggingBuilder &gt;? loggingConfigureAction=null, CancellationToken cancellationToken=default)</td></tr>
+<tr class="memdesc:ad705652ae7e66fb6ff8e89e41947b17c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Subscribe to all job updates available to the <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_server_client.html" title="Main client for communicating with a server.">IServerClient</a>.   <a href="interface_tgstation_1_1_server_1_1_client_1_1_i_server_client.html#ad705652ae7e66fb6ff8e89e41947b17c">More...</a><br /></td></tr>
+<tr class="separator:ad705652ae7e66fb6ff8e89e41947b17c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa06d2eb21c87b01b2d195e3125cb7ccf"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_server_client.html#aa06d2eb21c87b01b2d195e3125cb7ccf">AddRequestLogger</a> (<a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_request_logger.html">IRequestLogger</a> requestLogger)</td></tr>
 <tr class="memdesc:aa06d2eb21c87b01b2d195e3125cb7ccf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds a <em>requestLogger</em>  to the request pipeline.   <a href="interface_tgstation_1_1_server_1_1_client_1_1_i_server_client.html#aa06d2eb21c87b01b2d195e3125cb7ccf">More...</a><br /></td></tr>
 <tr class="separator:aa06d2eb21c87b01b2d195e3125cb7ccf"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -140,7 +143,7 @@ Properties</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p >Main client for communicating with a server.  </p>
 
-<p class="definition">Definition at line <a class="el" href="_i_server_client_8cs_source.html#l00012">12</a> of file <a class="el" href="_i_server_client_8cs_source.html">IServerClient.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_i_server_client_8cs_source.html#l00016">16</a> of file <a class="el" href="_i_server_client_8cs_source.html">IServerClient.cs</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a id="aa06d2eb21c87b01b2d195e3125cb7ccf" name="aa06d2eb21c87b01b2d195e3125cb7ccf"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aa06d2eb21c87b01b2d195e3125cb7ccf">&#9670;&#160;</a></span>AddRequestLogger()</h2>
@@ -199,6 +202,60 @@ Properties</h2></td></tr>
 
 </div>
 </div>
+<a id="ad705652ae7e66fb6ff8e89e41947b17c" name="ad705652ae7e66fb6ff8e89e41947b17c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad705652ae7e66fb6ff8e89e41947b17c">&#9670;&#160;</a></span>SubscribeToJobUpdates()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">ValueTask&lt; <a class="el" href="class_i_async_disposable.html">IAsyncDisposable</a> &gt; Tgstation.Server.Client.IServerClient.SubscribeToJobUpdates </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="interface_tgstation_1_1_server_1_1_api_1_1_hubs_1_1_i_jobs_hub.html">IJobsHub</a>&#160;</td>
+          <td class="paramname"><em>jobsReceiver</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_i_retry_policy.html">IRetryPolicy</a>?&#160;</td>
+          <td class="paramname"><em>retryPolicy</em> = <code>null</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Action&lt; ILoggingBuilder &gt;?&#160;</td>
+          <td class="paramname"><em>loggingConfigureAction</em> = <code>null</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">CancellationToken&#160;</td>
+          <td class="paramname"><em>cancellationToken</em> = <code>default</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Subscribe to all job updates available to the <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_server_client.html" title="Main client for communicating with a server.">IServerClient</a>.  </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">jobsReceiver</td><td>The IJobsHub to use to subscribe to updates.</td></tr>
+    <tr><td class="paramname">retryPolicy</td><td>The optional <a class="el" href="class_i_retry_policy.html">IRetryPolicy</a> to use for the backing connection. The default retry policy waits for 1, 2, 4, 8, and 16 seconds, then 30s repeatedly.</td></tr>
+    <tr><td class="paramname">loggingConfigureAction</td><td>The optional Action&lt;T1&gt; used to configure a ILoggingBuilder.</td></tr>
+    <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>An <a class="el" href="class_i_async_disposable.html">IAsyncDisposable</a> representing the lifetime of the subscription.</dd></dl>
+
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_server_client.html#a8ea4bbb8a5c4103a27b3a62fecafff92">Tgstation.Server.Client.ServerClient</a>.</p>
+
+</div>
+</div>
 <h2 class="groupheader">Property Documentation</h2>
 <a id="a170097fe653238823c6a3c5a07c4ec94" name="a170097fe653238823c6a3c5a07c4ec94"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a170097fe653238823c6a3c5a07c4ec94">&#9670;&#160;</a></span>Administration</h2>
@@ -224,8 +281,8 @@ Properties</h2></td></tr>
 
 <p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_server_client.html#af81da913067b74f5e8098c6106fda1af">Tgstation.Server.Client.ServerClient</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_i_server_client_8cs_source.html#l00037">37</a> of file <a class="el" href="_i_server_client_8cs_source.html">IServerClient.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   37</span>{ <span class="keyword">get</span>; }</div>
+<p class="definition">Definition at line <a class="el" href="_i_server_client_8cs_source.html#l00041">41</a> of file <a class="el" href="_i_server_client_8cs_source.html">IServerClient.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   41</span>{ <span class="keyword">get</span>; }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -253,8 +310,8 @@ Properties</h2></td></tr>
 
 <p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_server_client.html#a85ea388f2d72c97e5c1bc47dc05963b3">Tgstation.Server.Client.ServerClient</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_i_server_client_8cs_source.html#l00047">47</a> of file <a class="el" href="_i_server_client_8cs_source.html">IServerClient.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   47</span>{ <span class="keyword">get</span>; }</div>
+<p class="definition">Definition at line <a class="el" href="_i_server_client_8cs_source.html#l00051">51</a> of file <a class="el" href="_i_server_client_8cs_source.html">IServerClient.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   51</span>{ <span class="keyword">get</span>; }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -282,8 +339,8 @@ Properties</h2></td></tr>
 
 <p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_server_client.html#a9eb413c086e3e6d25ec2c404611c2b31">Tgstation.Server.Client.ServerClient</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_i_server_client_8cs_source.html#l00032">32</a> of file <a class="el" href="_i_server_client_8cs_source.html">IServerClient.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   32</span>{ <span class="keyword">get</span>; }</div>
+<p class="definition">Definition at line <a class="el" href="_i_server_client_8cs_source.html#l00036">36</a> of file <a class="el" href="_i_server_client_8cs_source.html">IServerClient.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   36</span>{ <span class="keyword">get</span>; }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -311,8 +368,8 @@ Properties</h2></td></tr>
 
 <p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_server_client.html#a7d3be56a549f9aedb631bb3824dd5790">Tgstation.Server.Client.ServerClient</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_i_server_client_8cs_source.html#l00027">27</a> of file <a class="el" href="_i_server_client_8cs_source.html">IServerClient.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   27</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
+<p class="definition">Definition at line <a class="el" href="_i_server_client_8cs_source.html#l00031">31</a> of file <a class="el" href="_i_server_client_8cs_source.html">IServerClient.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   31</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -340,8 +397,8 @@ Properties</h2></td></tr>
 
 <p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_server_client.html#afc674dda55a0b66a02d805ac7f4f72e6">Tgstation.Server.Client.ServerClient</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_i_server_client_8cs_source.html#l00022">22</a> of file <a class="el" href="_i_server_client_8cs_source.html">IServerClient.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   22</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
+<p class="definition">Definition at line <a class="el" href="_i_server_client_8cs_source.html#l00026">26</a> of file <a class="el" href="_i_server_client_8cs_source.html">IServerClient.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   26</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -369,8 +426,8 @@ Properties</h2></td></tr>
 
 <p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_server_client.html#a7dcb54f317c73bd5a54f7856f0ef79fc">Tgstation.Server.Client.ServerClient</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_i_server_client_8cs_source.html#l00017">17</a> of file <a class="el" href="_i_server_client_8cs_source.html">IServerClient.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   17</span>{ <span class="keyword">get</span>; }</div>
+<p class="definition">Definition at line <a class="el" href="_i_server_client_8cs_source.html#l00021">21</a> of file <a class="el" href="_i_server_client_8cs_source.html">IServerClient.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   21</span>{ <span class="keyword">get</span>; }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -398,8 +455,8 @@ Properties</h2></td></tr>
 
 <p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_server_client.html#a6794b452542c1ee7c38c573e67e6aa83">Tgstation.Server.Client.ServerClient</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_i_server_client_8cs_source.html#l00042">42</a> of file <a class="el" href="_i_server_client_8cs_source.html">IServerClient.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   42</span>{ <span class="keyword">get</span>; }</div>
+<p class="definition">Definition at line <a class="el" href="_i_server_client_8cs_source.html#l00046">46</a> of file <a class="el" href="_i_server_client_8cs_source.html">IServerClient.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   46</span>{ <span class="keyword">get</span>; }</div>
 </div><!-- fragment -->
 </div>
 </div>

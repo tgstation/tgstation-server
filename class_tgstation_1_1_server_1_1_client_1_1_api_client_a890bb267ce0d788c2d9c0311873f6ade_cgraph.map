@@ -1,11 +1,7 @@
 <map id="Tgstation.Server.Client.ApiClient.RunRequest&lt; TResult &gt;" name="Tgstation.Server.Client.ApiClient.RunRequest&lt; TResult &gt;">
-<area shape="rect" id="node1" title="Main request method." alt="" coords="5,209,161,263"/>
+<area shape="rect" id="node1" title="Main request method." alt="" coords="5,62,161,117"/>
 <area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_common_1_1_http_1_1_cached_response_stream.html#a1c106673ce3f96456822b62e75b06774" title="Asyncronously creates a new CachedResponseStream." alt="" coords="209,5,444,45"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_client_1_1_api_client.html#aed28ea7a7fff4be99f3c65a8dcd0a47e" title="Get the JsonSerializerSettings to use." alt="" coords="492,92,691,132"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_client_1_1_api_client.html#a7b81831316898d1d92a5103d3ecf145b" title="Handle a bad HTTP response ." alt="" coords="227,120,426,160"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_client_1_1_api_client.html#af320dd9d2f015f987ae2782accc79b0d" title="Attempt to refresh the bearer token in the headers." alt="" coords="247,184,406,224"/>
-<area shape="rect" id="node6" href="$interface_tgstation_1_1_server_1_1_common_1_1_http_1_1_i_http_client.html#ade67e5a20b9f897d763517c700523a83" title="Send an HTTP request." alt="" coords="236,248,417,288"/>
-<area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a5f9f37923fe9811ceb4556af0ebfc8aa" title="Set HttpRequestHeaders using the ApiHeaders. This initially clears headers ." alt="" coords="231,312,422,352"/>
-<area shape="rect" id="node8" href="$class_tgstation_1_1_server_1_1_client_1_1_api_client.html#afb52c56fd5e4d691ac3924cc80323d19" title=" " alt="" coords="249,376,405,416"/>
-<area shape="rect" id="node9" href="$class_tgstation_1_1_server_1_1_common_1_1_extensions_1_1_value_task_extensions.html#a58adbd94d764754bd3e6c566a5fe7fe3" title="Fully await a given list of tasks ." alt="" coords="219,441,435,495"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a5f9f37923fe9811ceb4556af0ebfc8aa" title="Set HttpRequestHeaders using the ApiHeaders. This initially clears headers ." alt="" coords="231,69,422,109"/>
+<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_common_1_1_extensions_1_1_value_task_extensions.html#a58adbd94d764754bd3e6c566a5fe7fe3" title="Fully await a given list of tasks ." alt="" coords="219,134,435,189"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a879908a0994ff362021e3bc1303827a5" title="Create the stringified for of the ApiVersionHeader." alt="" coords="492,69,709,109"/>
 </map>

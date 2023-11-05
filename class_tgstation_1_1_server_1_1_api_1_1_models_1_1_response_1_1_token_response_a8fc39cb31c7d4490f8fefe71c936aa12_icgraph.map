@@ -1,0 +1,6 @@
+<map id="Tgstation.Server.Api.Models.Response.TokenResponse.ParseJwt" name="Tgstation.Server.Api.Models.Response.TokenResponse.ParseJwt">
+<area shape="rect" id="node1" title="Parses the Bearer as a JsonWebToken." alt="" coords="500,37,735,77"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a9734649a58c309192c6b42e658a9d90d" title="Initializes a new instance of the ApiHeaders class." alt="" coords="263,5,425,45"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_home_controller.html#ab27af7e209b6317022e3bb6a50977f5f" title="Attempt to authenticate a User using ApiController.ApiHeaders." alt="" coords="236,69,452,109"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_swagger_configuration.html#ad42b61af703046605dcf2c27a3a76e14" title=" " alt="" coords="5,69,188,109"/>
+</map>

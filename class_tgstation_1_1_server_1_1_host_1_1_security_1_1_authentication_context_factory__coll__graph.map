@@ -1,11 +1,14 @@
 <map id="Tgstation.Server.Host.Security.AuthenticationContextFactory" name="Tgstation.Server.Host.Security.AuthenticationContextFactory">
-<area shape="rect" id="node1" title=" " alt="" coords="597,137,799,177"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authentication_context_factory.html" title="For creating and accessing authentication contexts." alt="" coords="219,5,415,31"/>
-<area shape="rect" id="node3" href="$class_i_disposable.html" title=" " alt="" coords="272,55,363,80"/>
-<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context.html" title="Represents the database." alt="" coords="213,105,422,145"/>
-<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_identity_cache.html" title="For caching ISystemIdentitys." alt="" coords="217,169,418,209"/>
-<area shape="rect" id="node6" title=" " alt="" coords="204,233,431,288"/>
-<area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_swarm_configuration.html" title="Configuration for the server swarm system." alt="" coords="203,313,432,353"/>
-<area shape="rect" id="node8" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_swarm_server.html" title="Information about a server in the swarm." alt="" coords="5,295,107,320"/>
-<area shape="rect" id="node9" title=" " alt="" coords="29,344,83,369"/>
+<area shape="rect" id="node1" title=" " alt="" coords="703,202,904,242"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authentication_context_factory.html" title="For creating and accessing authentication contexts." alt="" coords="271,5,467,31"/>
+<area shape="rect" id="node3" href="$class_i_disposable.html" title=" " alt="" coords="37,64,127,89"/>
+<area shape="rect" id="node10" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html" title=" " alt="" coords="269,106,470,146"/>
+<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context.html" title="Represents the database." alt="" coords="265,170,474,210"/>
+<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_identity_cache.html" title="For caching ISystemIdentitys." alt="" coords="269,234,470,274"/>
+<area shape="rect" id="node6" title=" " alt="" coords="256,299,483,353"/>
+<area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_swarm_configuration.html" title="Configuration for the server swarm system." alt="" coords="255,378,484,418"/>
+<area shape="rect" id="node8" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_swarm_server.html" title="Information about a server in the swarm." alt="" coords="31,361,133,387"/>
+<area shape="rect" id="node9" title=" " alt="" coords="55,411,109,436"/>
+<area shape="rect" id="node11" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authentication_context.html" title="Represents the currently authenticated Models.User." alt="" coords="5,123,159,148"/>
+<area shape="rect" id="node12" title=" " alt="" coords="350,443,389,468"/>
 </map>

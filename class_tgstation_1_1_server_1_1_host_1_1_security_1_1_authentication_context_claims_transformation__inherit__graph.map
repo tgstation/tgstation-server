@@ -1,0 +1,4 @@
+<map id="Tgstation.Server.Host.Security.AuthenticationContextClaimsTransformation" name="Tgstation.Server.Host.Security.AuthenticationContextClaimsTransformation">
+<area shape="rect" id="node1" title="A IClaimsTransformation that maps Claims using an IAuthenticationContext." alt="" coords="5,79,281,119"/>
+<area shape="rect" id="node2" href="$class_i_claims_transformation.html" title=" " alt="" coords="67,5,220,31"/>
+</map>

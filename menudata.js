@@ -57,6 +57,7 @@ var menudata={children:[
 {text:"f",url:"namespacemembers_enum.html#index_f"},
 {text:"h",url:"namespacemembers_enum.html#index_h"},
 {text:"i",url:"namespacemembers_enum.html#index_i"},
+{text:"j",url:"namespacemembers_enum.html#index_j"},
 {text:"m",url:"namespacemembers_enum.html#index_m"},
 {text:"o",url:"namespacemembers_enum.html#index_o"},
 {text:"r",url:"namespacemembers_enum.html#index_r"},
@@ -164,7 +165,8 @@ var menudata={children:[
 {text:"t",url:"functions_prop_t.html#index_t"},
 {text:"u",url:"functions_prop_u.html#index_u"},
 {text:"v",url:"functions_prop_v.html#index_v"},
-{text:"w",url:"functions_prop_w.html#index_w"}]}]}]},
+{text:"w",url:"functions_prop_w.html#index_w"}]},
+{text:"Events",url:"functions_evnt.html"}]}]},
 {text:"Files",url:"files.html",children:[
 {text:"File List",url:"files.html"},
 {text:"File Members",url:"globals.html",children:[

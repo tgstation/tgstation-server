@@ -9,7 +9,7 @@ var searchData=
   ['testmergeparameters_6',['TestMergeParameters',['../class_tgstation_1_1_server_1_1_api_1_1_models_1_1_test_merge_parameters.html',1,'Tgstation::Server::Api::Models']]],
   ['testmergeresult_7',['TestMergeResult',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_test_merge_result.html',1,'Tgstation::Server::Host::Components::Repository']]],
   ['tgforumsoauthvalidator_8',['TGForumsOAuthValidator',['../class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_t_g_forums_o_auth_validator.html',1,'Tgstation::Server::Host::Security::OAuth']]],
-  ['tgsauthorizeattribute_9',['TgsAuthorizeAttribute',['../class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_tgs_authorize_attribute.html',1,'Tgstation::Server::Host::Controllers']]],
+  ['tgsauthorizeattribute_9',['TgsAuthorizeAttribute',['../class_tgstation_1_1_server_1_1_host_1_1_security_1_1_tgs_authorize_attribute.html',1,'Tgstation::Server::Host::Security']]],
   ['tokenfactory_10',['TokenFactory',['../class_tgstation_1_1_server_1_1_host_1_1_security_1_1_token_factory.html',1,'Tgstation::Server::Host::Security']]],
   ['tokenresponse_11',['TokenResponse',['../class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_token_response.html',1,'Tgstation::Server::Api::Models::Response']]],
   ['topicclientfactory_12',['TopicClientFactory',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_topic_client_factory.html',1,'Tgstation::Server::Host::Components::Session']]],

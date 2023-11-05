@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.16.4</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.17.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -89,7 +89,7 @@ Inheritance diagram for Tgstation.Server.Host.IO.IFileStreamProvider:</div>
 <div class="center"><img src="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_file_stream_provider__inherit__graph.png" border="0" usemap="#a_tgstation_8_server_8_host_8_i_o_8_i_file_stream_provider_inherit__map" alt="Inheritance graph"/></div>
 <map name="a_tgstation_8_server_8_host_8_i_o_8_i_file_stream_provider_inherit__map" id="a_tgstation_8_server_8_host_8_i_o_8_i_file_stream_provider_inherit__map">
 <area shape="rect" title="Interface for asynchronously consuming Streams of files." alt="" coords="180,101,348,141"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_limited_stream_result.html" title="Very similar to FileStreamResult except it&#39;s IActionResultExecutor&lt;TResult&gt; contains a fix for https:..." alt="" coords="396,5,612,45"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_results_1_1_limited_stream_result.html" title="Very similar to FileStreamResult except it&#39;s IActionResultExecutor&lt;TResult&gt; contains a fix for https:..." alt="" coords="396,5,612,45"/>
 <area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_seekable_file_stream_provider.html" title="IFileStreamProvider that provides MemoryStreams." alt="" coords="409,69,599,109"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_request_file_stream_provider.html" title="A IFileStreamProvider that represents the response of HttpRequestMessages." alt="" coords="413,133,595,173"/>
 <area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_i_file_upload_ticket.html" title="A FileTicketResponse that waits for a pending upload." alt="" coords="403,197,605,237"/>
@@ -145,7 +145,7 @@ Public Member Functions</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>A ValueTask&lt;TResult&gt; resulting in the provided <a class="el" href="class_stream.html">Stream</a> on success, <code>null</code> if it could not be provided.</dd></dl>
 <p >The resulting <a class="el" href="class_stream.html">Stream</a> is owned by the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_file_stream_provider.html" title="Interface for asynchronously consuming Streams of files.">IFileStreamProvider</a> and is short lived unless otherwise specified. It should be buffered if it needs use outside the lifetime of the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_file_stream_provider.html" title="Interface for asynchronously consuming Streams of files.">IFileStreamProvider</a>.</p>
 
-<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_limited_stream_result.html#a477350158b5ff69bef7daa61c73f823f">Tgstation.Server.Host.Controllers.LimitedStreamResult</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_buffered_file_stream_provider.html#a413ee02b56e08b0885d039dfc05f36de">Tgstation.Server.Host.IO.BufferedFileStreamProvider</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_request_file_stream_provider.html#afd6294b767b298ace3b91aef1accc5f6">Tgstation.Server.Host.IO.RequestFileStreamProvider</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_upload_provider.html#ab69896f76142e1f2668f8c8ad992fe06">Tgstation.Server.Host.Transfer.FileUploadProvider</a>.</p>
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_results_1_1_limited_stream_result.html#a7a426c34eac3920d440ac4ae0c93f62a">Tgstation.Server.Host.Controllers.Results.LimitedStreamResult</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_buffered_file_stream_provider.html#a413ee02b56e08b0885d039dfc05f36de">Tgstation.Server.Host.IO.BufferedFileStreamProvider</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_request_file_stream_provider.html#afd6294b767b298ace3b91aef1accc5f6">Tgstation.Server.Host.IO.RequestFileStreamProvider</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_upload_provider.html#ab69896f76142e1f2668f8c8ad992fe06">Tgstation.Server.Host.Transfer.FileUploadProvider</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="_swarm_service_8cs_source.html#l01064">Tgstation.Server.Host.Swarm.SwarmService.CreateDownloadTickets()</a>.</p>
 <div class="dynheader">

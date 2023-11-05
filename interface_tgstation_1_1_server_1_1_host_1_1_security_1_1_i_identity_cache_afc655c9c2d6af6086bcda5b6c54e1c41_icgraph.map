@@ -1,4 +1,4 @@
 <map id="Tgstation.Server.Host.Security.IIdentityCache.LoadCachedIdentity" name="Tgstation.Server.Host.Security.IIdentityCache.LoadCachedIdentity">
 <area shape="rect" id="node1" title="Attempt to load a cached ISystemIdentity." alt="" coords="287,13,509,53"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context_factory.html#a32678ee5fabedb7d4e5548a9a99bcd51" title="Create an IAuthenticationContext to populate CurrentAuthenticationContext. A ValueTask representing t..." alt="" coords="5,5,239,60"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context_factory.html#a6550be1a7bf08ec97575a060cb0aab40" title="Create an IAuthenticationContext in the request pipeline for a given userId &#160;and instanceId ...." alt="" coords="5,5,239,60"/>
 </map>

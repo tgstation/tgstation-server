@@ -1,0 +1,6 @@
+<map id="Tgstation.Server.Host.Jobs.JobsHubGroupMapper.MapConnectionGroups" name="Tgstation.Server.Host.Jobs.JobsHubGroupMapper.MapConnectionGroups">
+<area shape="rect" id="node1" title="Implementation of IConnectionMappedHubContext&lt;THub, THubMethods&gt;.OnConnectionMapGroups." alt="" coords="5,62,251,117"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_jobs_hub.html#a3919b07ebc527849918921a4d532dda4" title="Get the group name for a given instanceId ." alt="" coords="343,5,526,45"/>
+<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_jobs_hub_updater.html#aa0c9dbf78b005376137e8d89b57ec8ab" title="Queue a message to be sent to all clients with the current state of active jobs." alt="" coords="299,69,571,109"/>
+<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_factory.html#a1da664d7237dbec5a6cb9ce04b79ccc1" title="Run an operation &#160;in the scope of an IDatabaseContext." alt="" coords="315,133,554,173"/>
+</map>

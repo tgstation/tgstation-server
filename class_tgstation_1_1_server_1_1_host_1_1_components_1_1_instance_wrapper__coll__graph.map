@@ -1,9 +1,10 @@
 <map id="Tgstation.Server.Host.Components.InstanceWrapper" name="Tgstation.Server.Host.Components.InstanceWrapper">
-<area shape="rect" id="node1" title="ReferenceCounter&lt;TInstance&gt; for a given IInstance." alt="" coords="89,225,316,265"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_reference_counter.html" title=" " alt="" coords="5,152,208,177"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_reference.html" title="Controller version of IInstanceCore." alt="" coords="233,152,367,177"/>
-<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_core.html" title="For interacting with the instance services." alt="" coords="187,79,290,104"/>
-<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_latest_compile_job_provider.html" title="Provides the most recently deployed CompileJob." alt="" coords="63,5,241,31"/>
-<area shape="rect" id="node6" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_rename_notifyee.html" title="Handler for an instance being renamed." alt="" coords="265,5,388,31"/>
-<area shape="rect" id="node7" href="$class_i_disposable.html" title=" " alt="" coords="315,79,405,104"/>
+<area shape="rect" id="node1" title="ReferenceCounter&lt;TInstance&gt; for a given IInstance." alt="" coords="187,243,413,283"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_reference_counter.html" title=" " alt="" coords="5,155,208,180"/>
+<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_reference.html" title="Controller version of IInstanceCore." alt="" coords="233,155,367,180"/>
+<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_core.html" title="For interacting with the instance services." alt="" coords="166,80,269,105"/>
+<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_latest_compile_job_provider.html" title="Provides the most recently deployed CompileJob." alt="" coords="41,5,220,31"/>
+<area shape="rect" id="node6" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_rename_notifyee.html" title="Handler for an instance being renamed." alt="" coords="244,5,367,31"/>
+<area shape="rect" id="node7" href="$class_i_disposable.html" title=" " alt="" coords="293,80,384,105"/>
+<area shape="rect" id="node8" title=" " alt="" coords="392,155,445,180"/>
 </map>

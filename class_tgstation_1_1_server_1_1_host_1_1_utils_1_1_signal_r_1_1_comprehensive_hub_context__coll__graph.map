@@ -1,0 +1,9 @@
+<map id="Tgstation.Server.Host.Utils.SignalR.ComprehensiveHubContext&lt; THub, THubMethods &gt;" name="Tgstation.Server.Host.Utils.SignalR.ComprehensiveHubContext&lt; THub, THubMethods &gt;">
+<area shape="rect" id="node1" title="An implementation of IHubContext&lt;THub&gt; with User connection ID mapping." alt="" coords="628,126,856,181"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_signal_r_1_1_i_connection_mapped_hub_context.html" title="A IHubContext&lt;THub&gt; that maps Users to their connection IDs." alt="" coords="225,5,430,45"/>
+<area shape="rect" id="node3" href="$class_i_hub_context.html" title=" " alt="" coords="5,5,147,45"/>
+<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_signal_r_1_1_i_hub_connection_mapper.html" title="Handles mapping connection IDs to Users for a given THub ." alt="" coords="245,69,410,109"/>
+<area shape="rect" id="node5" title=" " alt="" coords="245,133,410,173"/>
+<area shape="rect" id="node6" title=" " alt="" coords="196,198,459,253"/>
+<area shape="rect" id="node7" title=" " alt="" coords="231,277,424,331"/>
+</map>

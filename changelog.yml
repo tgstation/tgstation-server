@@ -183,6 +183,13 @@ Components:
       Author: Cyberboss
       PullRequest: 1662
     - Descriptions:
+      - Fixed 301 redirect that occurred when accessing the webpanel via `/app` instead of `/app/`.
+      - Fixed `NotImplementedException` errors that would occur when attempting to deploy a repository not from GitHub or GitLab.
+      - Added `DeploymentActivation` event which will be called right before the game server uses a deployment. May be run multiple times for the same deployment. Parameter is the full path to the activating deployment.
+      - The error description for deployment DMAPI validation failures now contains a link to an FAQ with solutions.
+      Author: Cyberboss
+      PullRequest: 1685
+    - Descriptions:
       - Reduces time out for deployment DMAPI validation to 10s after receiving the initial bridge request. This should never be hit, as the DMAPI is meant to stop the world immediately after this.
       Author: Cyberboss
       PullRequest: 1690
@@ -3142,6 +3149,17 @@ Components:
       Author: Cyberboss
       PullRequest: 1628
     Unreleased: true
+  - Version: 9.13.0
+    Changes:
+    - Descriptions:
+      - Added a Server Sent Events SignalR hub to `/hubs/jobs`. It has one client callback, `ReceiveJobUpdate`, that takes a `JobsResponse` model. Clients connected to this hub will receive updates for all jobs they normally have permissions to view. It takes the same access token used for most TGS requests for authentication.
+      - Deprecated `expiresAt` field of `TokenResponse`. The same information is now properly encoded in the `bearer` JWT.
+      - Job response models now contain their associated `instanceId`.
+      - Job response models now contain a `jobCode` indicating the type of job it is.
+      - Fixed GET `/` with an invalid `Authorization` header set not returning an HTTP 401 response.
+      Author: Cyberboss
+      PullRequest: 1685
+    Unreleased: true
   - Version: 9.12.0
     Changes:
     - Descriptions:
@@ -3573,6 +3591,13 @@ Components:
       Author: Cyberboss
       PullRequest: 991
   DreamMakerApi:
+  - Version: 6.6.2
+    Changes:
+    - Descriptions:
+      - Adjusted workaround for `del(world)` not doing anything until the end of the tick to account for `world.sleep_offline`.
+      Author: Cyberboss
+      PullRequest: 1685
+    Unreleased: true
   - Version: 6.6.1
     Changes:
     - Descriptions:
@@ -3759,6 +3784,27 @@ Components:
       Author: Cyberboss
       PullRequest: 1636
   NugetApi:
+  - Version: 12.0.0
+    Changes:
+    - Descriptions:
+      - Updated to TGS API version 9.13.0.
+      - Renamed `HeaderTypes` to `HeaderErrorTypes`. Renamed `Authorization` to `AuthorizationInvalid` added `AuthorizationMissing`.
+      - '`HeadersException.MissingOrMalformedHeaders` renamed to `ParseErrors`.'
+      - Adjusted `Exception.Message` formatting of `HeadersException` when multiple errors occurred.
+      - '`ApiHeaders` now contains a `TokenResponse` `Token` and `string` `OAuthCode` properties depending on context.'
+      - Removed `ApiHeaders.Bearer`.
+      - ApiHeaders can now optionally accept `text/event-stream` MIMEs when parsing request headers.
+      - Added `Hubs` namespace which contains strong types for interacting with TGS SignalR hubs.
+      - Added `JobCode` enum for new field in `Job` model.
+      - Updated documentation for `Job.Description`.
+      - Added dependency on latest `Microsoft.IdentityModel.JsonWebTokens`.
+      - '`TokenRespose` now provides a member function for parsing out the contained JWT.'
+      - Added `RightsHelper.TypeToRight()` which is the inverse of `RightToType()`.
+      - Added new hub routes to `Routes` class.
+      - Changed description of `ErrorCode.DreamMakerNeverValidated`.
+      Author: Cyberboss
+      PullRequest: 1685
+    Unreleased: true
   - Version: 11.1.2
     Changes:
     - Descriptions:
@@ -3782,6 +3828,16 @@ Components:
       Author: Cyberboss
       PullRequest: 1629
   NugetClient:
+  - Version: 14.0.0
+    Changes:
+    - Descriptions:
+      - Updated TGS API library to latest.
+      - Added dependencies on latest `Microsoft.AspNetCore.SignalR.Client` and `Microsoft.AspNetCore.SignalR.Protocols.NewtonsoftJson`.
+      - Added `IServerClient.SubscribeToJobUpdates` which handles establishing a connection to a `IJobsHub` receiver that will receive job updates from TGS until it's disposed.
+      - Changed `IServerClient` from `IDisposable` to `IAsyncDisposable`. On disposal, all associated job update subscriptions will be aborted.
+      Author: Cyberboss
+      PullRequest: 1685
+    Unreleased: true
   - Version: 13.0.0
     Changes:
     - Descriptions:

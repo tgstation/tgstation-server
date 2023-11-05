@@ -1,0 +1,4 @@
+<map id="Tgstation.Server.Host.Security.IPermissionsUpdateNotifyee.InstancePermissionSetCreated" name="Tgstation.Server.Host.Security.IPermissionsUpdateNotifyee.InstancePermissionSetCreated">
+<area shape="rect" id="node1" title="Called when a given instancePermissionSet &#160;is successfully created." alt="" coords="307,5,548,60"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_permission_set_controller.html#aabc4f1547e00bad22bb4708bb168e882" title="Create an InstancePermissionSet." alt="" coords="5,13,259,53"/>
+</map>

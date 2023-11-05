@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.16.4</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.17.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -132,8 +132,8 @@ Server Initialization</h2>
 <li>Authenticate the JWT in Authentication header if present and run <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html">Tgstation.Server.Host.Controllers.ApiController</a> on success</li>
 <li>Catch database exceptions and convert to 409 responses with the exception's Tgstation.Server.Api.Models.ErrorMessage</li>
 <li>Check <a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_controllers.html">Tgstation.Server.Host.Controllers</a> for correct controller and run the action and use it's response.<ul>
-<li>If not properly authenticated beforehand and action has a <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_tgs_authorize_attribute.html">Tgstation.Server.Host.Controllers.TgsAuthorizeAttribute</a> return 401</li>
-<li>If not properly authorized beforehand according to the parameters of the action's <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_tgs_authorize_attribute.html">Tgstation.Server.Host.Controllers.TgsAuthorizeAttribute</a> (if present) return 403</li>
+<li>If not properly authenticated beforehand and action has a Tgstation.Server.Host.Controllers.TgsAuthorizeAttribute return 401</li>
+<li>If not properly authorized beforehand according to the parameters of the action's Tgstation.Server.Host.Controllers.TgsAuthorizeAttribute (if present) return 403</li>
 <li>If requested action does not exist return 404</li>
 </ul>
 </li>
@@ -153,7 +153,7 @@ Security</h1>
 <p >The authentication process begins in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_home_controller.html#ab27af7e209b6317022e3bb6a50977f5f">Tgstation.Server.Host.Controllers.HomeController.CreateToken</a> . This is where users log in. They must supply their username and password via correct <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html">Tgstation.Server.Api.ApiHeaders</a> . The server first attempts to use these credentials to login to the system. If that succeeds it checks if the system user's UID is registered in the database. Failing either of the previous two, it tries to match the username and password to an entry in the database. If either of these methods succeeds the user is considered authenticated and a token is generated and sent back to the user. If the user is a system user, the context of their login is kept for the amount of time until their token expires + 1 minute.</p>
 <p >The password hashing used for database users is the standard provided by ASP.Net Core. It utilizes PBKDF2 with HMAC-SHA256, 128-bit salt, 256-bit subkey, with 10000 iterations. Read about it here: <a href="https://andrewlock.net/exploring-the-asp-net-core-identity-passwordhasher/">https://andrewlock.net/exploring-the-asp-net-core-identity-passwordhasher/</a></p>
 <p >When this token is supplied in the <code>Authorization</code> header of a subsequent request, it is first cryptographically validated that it was sent by the current server. The token contain's the user's ID, and, using it, the user's info is retrieved from the database and put into an <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authentication_context.html">Tgstation.Server.Host.Security.IAuthenticationContext</a></p>
-<p >Nearly all exposed controller actions are decorated with a <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_tgs_authorize_attribute.html">Tgstation.Server.Host.Controllers.TgsAuthorizeAttribute</a> . This attribute does 2 things. 1. It ensures the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authentication_context.html">Tgstation.Server.Host.Security.IAuthenticationContext</a> is valid for the request before running the action. 2. If it contains a permission flag specification, it will 403 the request if the user doesn't have one of the listed permissions.</p>
+<p >Nearly all exposed controller actions are decorated with a Tgstation.Server.Host.Controllers.TgsAuthorizeAttribute . This attribute does 2 things. 1. It ensures the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authentication_context.html">Tgstation.Server.Host.Security.IAuthenticationContext</a> is valid for the request before running the action. 2. If it contains a permission flag specification, it will 403 the request if the user doesn't have one of the listed permissions.</p>
 <h1><a class="anchor" id="arch_jobs"></a>
 Jobs</h1>
 <p >Long running operations create <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_job.html">Tgstation.Server.Host.Models.Job</a> objects which represent information about long running tasks. These objects can be queried to find out who started them, if they've been completed, canceled, who cancelled them, their error message if any, and get their progress percentage in some cases. The job will be created and supplied by the request that started it, but active/all jobs may also be queried.</p>

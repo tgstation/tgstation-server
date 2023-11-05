@@ -1,0 +1,4 @@
+<map id="Tgstation.Server.Host.Jobs.JobsHub" name="Tgstation.Server.Host.Jobs.JobsHub">
+<area shape="rect" id="node1" title="A SignalR Hub for pushing job updates." alt="" coords="5,93,188,133"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_signal_r_1_1_connection_mapping_hub.html" title=" " alt="" coords="17,5,177,45"/>
+</map>

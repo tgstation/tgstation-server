@@ -1,0 +1,4 @@
+<map id="Tgstation.Server.Host.Utils.SignalR.IHubConnectionMapper.UserDisconnected" name="Tgstation.Server.Host.Utils.SignalR.IHubConnectionMapper.UserDisconnected">
+<area shape="rect" id="node1" title="To be called when a hub connection is terminated." alt="" coords="281,5,519,60"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_signal_r_1_1_connection_mapping_hub.html#a0ca7b3022ce1d7fd95e2867b631024d8" title=" " alt="" coords="5,5,233,60"/>
+</map>

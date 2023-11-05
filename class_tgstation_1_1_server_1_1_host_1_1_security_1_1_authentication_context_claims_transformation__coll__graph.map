@@ -1,0 +1,10 @@
+<map id="Tgstation.Server.Host.Security.AuthenticationContextClaimsTransformation" name="Tgstation.Server.Host.Security.AuthenticationContextClaimsTransformation">
+<area shape="rect" id="node1" title="A IClaimsTransformation that maps Claims using an IAuthenticationContext." alt="" coords="844,101,1120,141"/>
+<area shape="rect" id="node2" href="$class_i_claims_transformation.html" title=" " alt="" coords="447,51,600,77"/>
+<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authentication_context_factory.html" title="For creating and accessing authentication contexts." alt="" coords="423,101,624,141"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_api_1_1_api_headers.html" title="Represents the header that must be present for every server request." alt="" coords="443,165,604,205"/>
+<area shape="rect" id="node5" title=" " alt="" coords="61,98,150,123"/>
+<area shape="rect" id="node6" title=" " alt="" coords="29,147,181,173"/>
+<area shape="rect" id="node7" title=" " alt="" coords="5,197,205,222"/>
+<area shape="rect" id="node8" title=" " alt="" coords="35,246,176,271"/>
+</map>

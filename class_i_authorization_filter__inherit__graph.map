@@ -1,0 +1,4 @@
+<map id="IAuthorizationFilter" name="IAuthorizationFilter">
+<area shape="rect" id="node1" title=" " alt="" coords="67,5,197,31"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context_authorization_filter.html" title="An IAuthorizationFilter that maps Claims using an IAuthenticationContext." alt="" coords="5,79,259,119"/>
+</map>

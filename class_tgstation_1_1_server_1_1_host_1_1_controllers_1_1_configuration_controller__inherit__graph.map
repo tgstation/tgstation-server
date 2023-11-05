@@ -1,7 +1,8 @@
 <map id="Tgstation.Server.Host.Controllers.ConfigurationController" name="Tgstation.Server.Host.Controllers.ConfigurationController">
-<area shape="rect" id="node1" title="The ApiController for IConfigurationFiles." alt="" coords="5,299,221,339"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_required_controller.html" title="ComponentInterfacingController for operations that require an instance." alt="" coords="24,225,203,251"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_component_interfacing_controller.html" title="ApiController for operations on IInstanceCores." alt="" coords="11,152,215,177"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html" title="Base Controller for API functions." alt="" coords="65,79,161,104"/>
-<area shape="rect" id="node5" href="$class_controller.html" title=" " alt="" coords="75,5,152,31"/>
+<area shape="rect" id="node1" title="The ApiController for IConfigurationFiles." alt="" coords="5,372,221,412"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_required_controller.html" title="ComponentInterfacingController for operations that require an instance." alt="" coords="24,299,203,324"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_component_interfacing_controller.html" title="ApiController for operations on IInstanceCores." alt="" coords="11,225,215,251"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html" title="Base Controller for API functions." alt="" coords="65,152,161,177"/>
+<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller_base.html" title="Base class for all API style controllers." alt="" coords="50,79,177,104"/>
+<area shape="rect" id="node6" href="$class_controller.html" title=" " alt="" coords="75,5,152,31"/>
 </map>

@@ -1,0 +1,4 @@
+<map id="Tgstation.Server.Host.Jobs.JobsHub.HubGroupName" name="Tgstation.Server.Host.Jobs.JobsHub.HubGroupName">
+<area shape="rect" id="node1" title="Get the group name for a given job ." alt="" coords="5,5,188,45"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_jobs_hub.html#a3919b07ebc527849918921a4d532dda4" title="Get the group name for a given instanceId ." alt="" coords="236,5,419,45"/>
+</map>

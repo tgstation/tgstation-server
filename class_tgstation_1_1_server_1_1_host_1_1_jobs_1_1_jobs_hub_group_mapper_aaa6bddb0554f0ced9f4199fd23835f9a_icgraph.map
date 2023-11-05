@@ -1,0 +1,4 @@
+<map id="Tgstation.Server.Host.Jobs.JobsHubGroupMapper.MapConnectionGroups" name="Tgstation.Server.Host.Jobs.JobsHubGroupMapper.MapConnectionGroups">
+<area shape="rect" id="node1" title="Implementation of IConnectionMappedHubContext&lt;THub, THubMethods&gt;.OnConnectionMapGroups." alt="" coords="296,5,541,60"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_jobs_hub_group_mapper.html#a42ddb16818a44e29fad21d618248a508" title="Initializes a new instance of the JobsHubGroupMapper class." alt="" coords="5,5,248,60"/>
+</map>

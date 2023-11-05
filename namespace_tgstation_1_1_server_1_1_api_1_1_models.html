@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.16.4</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.17.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -172,6 +172,9 @@ Enumerations</h2></td></tr>
 <tr class="memitem:a0a41c646f859c99d437373d8e6e0545b"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a0a41c646f859c99d437373d8e6e0545b">IrcPasswordType</a> </td></tr>
 <tr class="memdesc:a0a41c646f859c99d437373d8e6e0545b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Represents the type of a password for a ChatProvider.Irc.   <a href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a0a41c646f859c99d437373d8e6e0545b">More...</a><br /></td></tr>
 <tr class="separator:a0a41c646f859c99d437373d8e6e0545b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7c8f30de4159253ce2ffec51771bed71"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a7c8f30de4159253ce2ffec51771bed71">JobCode</a> : byte </td></tr>
+<tr class="memdesc:a7c8f30de4159253ce2ffec51771bed71"><td class="mdescLeft">&#160;</td><td class="mdescRight">The different types of Response.JobResponse.   <a href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a7c8f30de4159253ce2ffec51771bed71">More...</a><br /></td></tr>
+<tr class="separator:a7c8f30de4159253ce2ffec51771bed71"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a49b1c1275c0d47d43360f8c7619ec901"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a49b1c1275c0d47d43360f8c7619ec901">OAuthProvider</a> </td></tr>
 <tr class="memdesc:a49b1c1275c0d47d43360f8c7619ec901"><td class="mdescLeft">&#160;</td><td class="mdescRight">List of OAuth providers supported by TGS.   <a href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a49b1c1275c0d47d43360f8c7619ec901">More...</a><br /></td></tr>
 <tr class="separator:a49b1c1275c0d47d43360f8c7619ec901"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -479,7 +482,7 @@ Enumerations</h2></td></tr>
 <div class="line"><span class="lineno">  323</span>        [Description(<span class="stringliteral">&quot;Could not acquire lock on BYOND installation as none exist!&quot;</span>)]</div>
 <div class="line"><span class="lineno">  324</span>        ByondNoVersionsInstalled,</div>
 <div class="line"><span class="lineno">  325</span> </div>
-<div class="line"><span class="lineno">  329</span>        [Description(<span class="stringliteral">&quot;DreamDaemon did not validate the DMAPI! This can occur if your world is encountering runtime errors during startup.&quot;</span>)]</div>
+<div class="line"><span class="lineno">  329</span>        [Description(<span class="stringliteral">&quot;DMAPI validation failed! See FAQ at https://github.com/tgstation/tgstation-server/discussions/1695&quot;</span>)]</div>
 <div class="line"><span class="lineno">  330</span>        DreamMakerNeverValidated,</div>
 <div class="line"><span class="lineno">  331</span> </div>
 <div class="line"><span class="lineno">  335</span>        [Description(<span class="stringliteral">&quot;The DMAPI sent an invalid validation request!&quot;</span>)]</div>
@@ -684,6 +687,76 @@ Enumerations</h2></td></tr>
 <div class="line"><span class="lineno">   17</span> </div>
 <div class="line"><span class="lineno">   21</span>        NickServ,</div>
 <div class="line"><span class="lineno">   22</span>    }</div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="a7c8f30de4159253ce2ffec51771bed71" name="a7c8f30de4159253ce2ffec51771bed71"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7c8f30de4159253ce2ffec51771bed71">&#9670;&#160;</a></span>JobCode</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a7c8f30de4159253ce2ffec51771bed71">Tgstation.Server.Api.Models.JobCode</a> : byte</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>The different types of <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_job_response.html" title="Represents a long running job on the server. Model is read-only, updates attempt to cancel the job.">Response.JobResponse</a>.  </p>
+
+<p class="definition">Definition at line <a class="el" href="_job_code_8cs_source.html#l00008">8</a> of file <a class="el" href="_job_code_8cs_source.html">JobCode.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">    9</span>    {</div>
+<div class="line"><span class="lineno">   13</span>        [Description(<span class="stringliteral">&quot;Legacy job&quot;</span>)]</div>
+<div class="line"><span class="lineno">   14</span>        Unknown,</div>
+<div class="line"><span class="lineno">   15</span> </div>
+<div class="line"><span class="lineno">   19</span>        [Description(<span class="stringliteral">&quot;Instance move&quot;</span>)]</div>
+<div class="line"><span class="lineno">   20</span>        Move,</div>
+<div class="line"><span class="lineno">   21</span> </div>
+<div class="line"><span class="lineno">   25</span>        [Description(<span class="stringliteral">&quot;Clone repository&quot;</span>)]</div>
+<div class="line"><span class="lineno">   26</span>        RepositoryClone,</div>
+<div class="line"><span class="lineno">   27</span> </div>
+<div class="line"><span class="lineno">   31</span>        [Description(<span class="stringliteral">&quot;Update repository&quot;</span>)]</div>
+<div class="line"><span class="lineno">   32</span>        RepositoryUpdate,</div>
+<div class="line"><span class="lineno">   33</span> </div>
+<div class="line"><span class="lineno">   37</span>        [Description(<span class="stringliteral">&quot;Scheduled repository update&quot;</span>)]</div>
+<div class="line"><span class="lineno">   38</span>        RepositoryAutoUpdate,</div>
+<div class="line"><span class="lineno">   39</span> </div>
+<div class="line"><span class="lineno">   43</span>        [Description(<span class="stringliteral">&quot;Delete repository&quot;</span>)]</div>
+<div class="line"><span class="lineno">   44</span>        RepositoryDelete,</div>
+<div class="line"><span class="lineno">   45</span> </div>
+<div class="line"><span class="lineno">   49</span>        [Description(<span class="stringliteral">&quot;Install BYOND version&quot;</span>)]</div>
+<div class="line"><span class="lineno">   50</span>        ByondOfficialInstall,</div>
+<div class="line"><span class="lineno">   51</span> </div>
+<div class="line"><span class="lineno">   55</span>        [Description(<span class="stringliteral">&quot;Install custom BYOND version&quot;</span>)]</div>
+<div class="line"><span class="lineno">   56</span>        ByondCustomInstall,</div>
+<div class="line"><span class="lineno">   57</span> </div>
+<div class="line"><span class="lineno">   61</span>        [Description(<span class="stringliteral">&quot;Delete installed BYOND version&quot;</span>)]</div>
+<div class="line"><span class="lineno">   62</span>        ByondDelete,</div>
+<div class="line"><span class="lineno">   63</span> </div>
+<div class="line"><span class="lineno">   67</span>        [Description(<span class="stringliteral">&quot;Compile active repository code&quot;</span>)]</div>
+<div class="line"><span class="lineno">   68</span>        Deployment,</div>
+<div class="line"><span class="lineno">   69</span> </div>
+<div class="line"><span class="lineno">   73</span>        [Description(<span class="stringliteral">&quot;Scheduled code deployment&quot;</span>)]</div>
+<div class="line"><span class="lineno">   74</span>        AutomaticDeployment,</div>
+<div class="line"><span class="lineno">   75</span> </div>
+<div class="line"><span class="lineno">   79</span>        [Description(<span class="stringliteral">&quot;Launch DreamDaemon&quot;</span>)]</div>
+<div class="line"><span class="lineno">   80</span>        WatchdogLaunch,</div>
+<div class="line"><span class="lineno">   81</span> </div>
+<div class="line"><span class="lineno">   85</span>        [Description(<span class="stringliteral">&quot;Restart Watchdog&quot;</span>)]</div>
+<div class="line"><span class="lineno">   86</span>        WatchdogRestart,</div>
+<div class="line"><span class="lineno">   87</span> </div>
+<div class="line"><span class="lineno">   91</span>        [Description(<span class="stringliteral">&quot;Create DreamDaemon Process Dump&quot;</span>)]</div>
+<div class="line"><span class="lineno">   92</span>        WatchdogDump,</div>
+<div class="line"><span class="lineno">   93</span> </div>
+<div class="line"><span class="lineno">   97</span>        [Description(<span class="stringliteral">&quot;Instance startup watchdog launch&quot;</span>)]</div>
+<div class="line"><span class="lineno">   98</span>        StartupWatchdogLaunch,</div>
+<div class="line"><span class="lineno">   99</span> </div>
+<div class="line"><span class="lineno">  103</span>        [Description(<span class="stringliteral">&quot;Instance startup watchdog reattach&quot;</span>)]</div>
+<div class="line"><span class="lineno">  104</span>        StartupWatchdogReattach,</div>
+<div class="line"><span class="lineno">  105</span> </div>
+<div class="line"><span class="lineno">  109</span>        [Description(<span class="stringliteral">&quot;Reconnect chat bot&quot;</span>)]</div>
+<div class="line"><span class="lineno">  110</span>        ReconnectChatBot,</div>
+<div class="line"><span class="lineno">  111</span>    }</div>
 </div><!-- fragment -->
 </div>
 </div>

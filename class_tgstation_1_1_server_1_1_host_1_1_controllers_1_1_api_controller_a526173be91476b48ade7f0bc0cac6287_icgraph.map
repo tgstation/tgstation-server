@@ -1,11 +1,4 @@
 <map id="Tgstation.Server.Host.Controllers.ApiController.RequiresPosixSystemIdentity" name="Tgstation.Server.Host.Controllers.ApiController.RequiresPosixSystemIdentity">
-<area shape="rect" id="node1" title="Generic 501 response." alt="" coords="528,197,796,237"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_user_controller.html#a8e5995b4418069992161fa60a9fef914" title="Create a new User." alt="" coords="250,5,466,45"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_configuration_controller.html#ad027b48cbc062a6a109c68c1f36db53e" title="Create a configuration directory." alt="" coords="236,69,480,109"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_home_controller.html#ab27af7e209b6317022e3bb6a50977f5f" title="Attempt to authenticate a User using ApiController.ApiHeaders." alt="" coords="250,133,466,173"/>
-<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_configuration_controller.html#a05490adb221b9e0954caa76167121d33" title="Deletes an empty directory ." alt="" coords="237,197,479,237"/>
-<area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_configuration_controller.html#a93bde836ddb1b91984bd3203373fab73" title="Get the contents of a directory at a directoryPath ." alt="" coords="250,261,466,301"/>
-<area shape="rect" id="node8" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_configuration_controller.html#aad0135f549d1c973f2a144b55fbf40b9" title="Get the contents of a file at a filePath ." alt="" coords="250,325,466,365"/>
-<area shape="rect" id="node9" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_configuration_controller.html#a2a376160593ef985968f01f7dd93d24f" title="Write to a configuration file." alt="" coords="250,389,466,429"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_swagger_configuration.html#ad42b61af703046605dcf2c27a3a76e14" title=" " alt="" coords="5,133,188,173"/>
+<area shape="rect" id="node1" title="Generic 501 response." alt="" coords="269,5,537,45"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_user_controller.html#a8e5995b4418069992161fa60a9fef914" title="Create a new User." alt="" coords="5,5,221,45"/>
 </map>

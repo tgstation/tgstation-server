@@ -1,5 +1,5 @@
 <map id="Tgstation.Server.Client.IApiClient" name="Tgstation.Server.Client.IApiClient">
 <area shape="rect" id="node1" title="Web interface for the API." alt="" coords="5,79,161,119"/>
 <area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_client_1_1_api_client.html" title=" " alt="" coords="5,167,161,207"/>
-<area shape="rect" id="node2" href="$class_i_disposable.html" title=" " alt="" coords="38,5,129,31"/>
+<area shape="rect" id="node2" href="$class_i_async_disposable.html" title=" " alt="" coords="20,5,147,31"/>
 </map>

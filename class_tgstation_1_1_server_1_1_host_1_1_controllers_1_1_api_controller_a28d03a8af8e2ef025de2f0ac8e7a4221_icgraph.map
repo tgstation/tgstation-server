@@ -1,7 +1,0 @@
-<map id="Tgstation.Server.Host.Controllers.ApiController.HeadersIssue" name="Tgstation.Server.Host.Controllers.ApiController.HeadersIssue">
-<area shape="rect" id="node1" title="Response for missing/Invalid headers." alt="" coords="529,69,745,109"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_home_controller.html#ab27af7e209b6317022e3bb6a50977f5f" title="Attempt to authenticate a User using ApiController.ApiHeaders." alt="" coords="251,5,467,45"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_home_controller.html#a03d7bf4a2c99507c1c69d1b76eee96c8" title="Main page of the Application." alt="" coords="251,69,467,109"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#ae6314cf236db98c1e453639df84e8242" title=" " alt="" coords="236,133,481,173"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_swagger_configuration.html#ad42b61af703046605dcf2c27a3a76e14" title=" " alt="" coords="5,5,188,45"/>
-</map>

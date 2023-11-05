@@ -1,0 +1,4 @@
+<map id="Tgstation.Server.Api.ApiHeaders.ApiHeaders" name="Tgstation.Server.Api.ApiHeaders.ApiHeaders">
+<area shape="rect" id="node1" title="Initializes a new instance of the ApiHeaders class." alt="" coords="5,5,167,45"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_token_response.html#a8fc39cb31c7d4490f8fefe71c936aa12" title="Parses the Bearer as a JsonWebToken." alt="" coords="215,5,449,45"/>
+</map>

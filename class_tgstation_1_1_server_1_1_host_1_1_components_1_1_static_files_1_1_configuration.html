@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.16.4</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.17.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -1982,7 +1982,7 @@ Here is the call graph for this function:</div>
 </div><div class="memdoc">
 <b>Initial value:</b><div class="fragment"><div class="line">= <span class="keyword">new</span> Dictionary&lt;EventType, string&gt;(</div>
 <div class="line">            Enum.GetValues(typeof(EventType))</div>
-<div class="line">                .OfType&lt;EventType&gt;()</div>
+<div class="line">                .Cast&lt;EventType&gt;()</div>
 <div class="line">                .Select(</div>
 <div class="line">                    eventType =&gt; <span class="keyword">new</span> KeyValuePair&lt;EventType, string&gt;(</div>
 <div class="line">                        eventType,</div>

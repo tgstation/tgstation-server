@@ -1,9 +1,7 @@
 var searchData=
 [
-  ['serverupdateresult_0',['ServerUpdateResult',['../namespace_tgstation_1_1_server_1_1_host_1_1_core.html#ae686e550e6b4c0a19a500e3dd9e4195c',1,'Tgstation::Server::Host::Core']]],
-  ['setupwizardmode_1',['SetupWizardMode',['../namespace_tgstation_1_1_server_1_1_host_1_1_setup.html#ada83b66b0eb589bb855302d25c41e4de',1,'Tgstation::Server::Host::Setup']]],
-  ['swarmcommitresult_2',['SwarmCommitResult',['../namespace_tgstation_1_1_server_1_1_host_1_1_swarm.html#a9923552cf79abff46ddf853f47b21446',1,'Tgstation::Server::Host::Swarm']]],
-  ['swarmprepareresult_3',['SwarmPrepareResult',['../namespace_tgstation_1_1_server_1_1_host_1_1_swarm.html#adb1c0a36372932f7245590d9892af263',1,'Tgstation::Server::Host::Swarm']]],
-  ['swarmregistrationresult_4',['SwarmRegistrationResult',['../namespace_tgstation_1_1_server_1_1_host_1_1_swarm.html#acfc07eda2ac8eff75a6eef3f90bdf3e0',1,'Tgstation::Server::Host::Swarm']]],
-  ['swarmupdateabortresult_5',['SwarmUpdateAbortResult',['../namespace_tgstation_1_1_server_1_1_host_1_1_swarm.html#a7a11b9a32d9e03b6e569935d6c16e189',1,'Tgstation::Server::Host::Swarm']]]
+  ['rebootstate_0',['RebootState',['../namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_session.html#a3a9adb69be732dbd67aef59559f830c2',1,'Tgstation::Server::Host::Components::Session']]],
+  ['remotegitprovider_1',['RemoteGitProvider',['../namespace_tgstation_1_1_server_1_1_api_1_1_models.html#aaff5188f30ee5c04c081684eb9672f17',1,'Tgstation::Server::Api::Models']]],
+  ['repositoryrights_2',['RepositoryRights',['../namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a95336db3db40dbae9701ef6e51240f39',1,'Tgstation::Server::Api::Rights']]],
+  ['rightstype_3',['RightsType',['../namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a7b02c8c3dadd90810a9eaa24712a0a20',1,'Tgstation::Server::Api::Rights']]]
 ];
