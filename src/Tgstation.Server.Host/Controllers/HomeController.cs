@@ -246,9 +246,9 @@ namespace Tgstation.Server.Host.Controllers
 					// trust the system over the database because a user's name can change while still having the same SID
 					systemIdentity = await systemIdentityFactory.CreateSystemIdentity(ApiHeaders.Username, ApiHeaders.Password, cancellationToken);
 				}
-				catch (NotImplementedException ex)
+				catch (NotImplementedException)
 				{
-					RequiresPosixSystemIdentity(ex);
+					// Intentionally suppressed
 				}
 
 			using (systemIdentity)
