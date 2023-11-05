@@ -341,7 +341,7 @@ namespace Tgstation.Server.Host.Jobs
 					Stopwatch stopwatch = null;
 					void QueueHubUpdate(JobResponse update, bool final)
 					{
-						void NextUpdate()
+						void NextUpdate(bool bypassRate)
 						{
 							var currentUpdatesTask = hubUpdatesTask;
 							async Task ChainHubUpdate()
@@ -358,7 +358,7 @@ namespace Tgstation.Server.Host.Jobs
 							Stopwatch enteredLock = null;
 							try
 							{
-								if (stopwatch != null)
+								if (!bypassRate && stopwatch != null)
 								{
 									Monitor.Enter(stopwatch);
 									enteredLock = stopwatch;
@@ -381,9 +381,9 @@ namespace Tgstation.Server.Host.Jobs
 							if (final)
 								hubUpdateActions.Remove(jobId);
 							else
-								hubUpdateActions[jobId] = NextUpdate;
+								hubUpdateActions[jobId] = () => NextUpdate(true);
 
-						NextUpdate();
+						NextUpdate(false);
 					}
 
 					try
