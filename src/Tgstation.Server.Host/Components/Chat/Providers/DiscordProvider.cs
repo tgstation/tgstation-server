@@ -380,7 +380,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			{
 				var completionString = errorMessage == null ? "Pending" : "Failed";
 
-				Embed CreateUpdatedEmbed(string message, Color color) => new Embed
+				Embed CreateUpdatedEmbed(string message, Color color) => new ()
 				{
 					Author = embed.Author,
 					Colour = color,

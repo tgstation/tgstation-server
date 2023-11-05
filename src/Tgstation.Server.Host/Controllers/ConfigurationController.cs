@@ -12,10 +12,12 @@ using Tgstation.Server.Api.Models.Request;
 using Tgstation.Server.Api.Models.Response;
 using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Host.Components;
+using Tgstation.Server.Host.Controllers.Results;
 using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.Security;
+using Tgstation.Server.Host.Utils;
 
 namespace Tgstation.Server.Host.Controllers
 {
@@ -34,21 +36,24 @@ namespace Tgstation.Server.Host.Controllers
 		/// Initializes a new instance of the <see cref="ConfigurationController"/> class.
 		/// </summary>
 		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> for the <see cref="InstanceRequiredController"/>.</param>
-		/// <param name="authenticationContextFactory">The <see cref="IAuthenticationContextFactory"/> for the <see cref="InstanceRequiredController"/>.</param>
+		/// <param name="authenticationContext">The <see cref="IAuthenticationContext"/> for the <see cref="InstanceRequiredController"/>.</param>
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="InstanceRequiredController"/>.</param>
 		/// <param name="instanceManager">The <see cref="IInstanceManager"/> for the <see cref="InstanceRequiredController"/>.</param>
 		/// <param name="ioManager">The value of <see cref="ioManager"/>.</param>
+		/// <param name="apiHeaders">The <see cref="IApiHeadersProvider"/> for the <see cref="InstanceRequiredController"/>.</param>
 		public ConfigurationController(
 			IDatabaseContext databaseContext,
-			IAuthenticationContextFactory authenticationContextFactory,
+			IAuthenticationContext authenticationContext,
 			ILogger<ConfigurationController> logger,
 			IInstanceManager instanceManager,
-			IIOManager ioManager)
+			IIOManager ioManager,
+			IApiHeadersProvider apiHeaders)
 			: base(
 				  databaseContext,
-				  authenticationContextFactory,
+				  authenticationContext,
 				  logger,
-				  instanceManager)
+				  instanceManager,
+				  apiHeaders)
 		{
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
 		}
@@ -98,10 +103,6 @@ namespace Tgstation.Server.Host.Controllers
 					AdditionalData = e.Message,
 				});
 			}
-			catch (NotImplementedException ex)
-			{
-				return RequiresPosixSystemIdentity(ex);
-			}
 		}
 
 		/// <summary>
@@ -145,10 +146,6 @@ namespace Tgstation.Server.Host.Controllers
 					AdditionalData = e.Message,
 				});
 			}
-			catch (NotImplementedException ex)
-			{
-				return RequiresPosixSystemIdentity(ex);
-			}
 		}
 
 		/// <summary>
@@ -190,11 +187,6 @@ namespace Tgstation.Server.Host.Controllers
 									Conflict(new ErrorMessageResponse(ErrorCode.ConfigurationContendedAccess)));
 
 							return new PaginatableResult<ConfigurationFileResponse>(result);
-						}
-						catch (NotImplementedException ex)
-						{
-							return new PaginatableResult<ConfigurationFileResponse>(
-								RequiresPosixSystemIdentity(ex));
 						}
 						catch (UnauthorizedAccessException)
 						{
@@ -282,10 +274,6 @@ namespace Tgstation.Server.Host.Controllers
 					Message = e.Message,
 				});
 			}
-			catch (NotImplementedException ex)
-			{
-				return RequiresPosixSystemIdentity(ex);
-			}
 			catch (UnauthorizedAccessException)
 			{
 				return Forbid();
@@ -329,10 +317,6 @@ namespace Tgstation.Server.Host.Controllers
 							? NoContent()
 							: Conflict(new ErrorMessageResponse(ErrorCode.ConfigurationDirectoryNotEmpty));
 					});
-			}
-			catch (NotImplementedException ex)
-			{
-				return RequiresPosixSystemIdentity(ex);
 			}
 			catch (UnauthorizedAccessException)
 			{

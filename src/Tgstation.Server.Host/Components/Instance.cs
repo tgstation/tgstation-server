@@ -501,17 +501,7 @@ namespace Tgstation.Server.Host.Components
 					await eventConsumer.HandleEvent(EventType.InstanceAutoUpdateStart, Enumerable.Empty<string>(), true, cancellationToken);
 					try
 					{
-						var repositoryUpdateJob = new Job
-						{
-							Instance = new Models.Instance
-							{
-								Id = metadata.Id,
-							},
-							Description = "Scheduled repository update",
-							CancelRightsType = RightsType.Repository,
-							CancelRight = (ulong)RepositoryRights.CancelPendingChanges,
-						};
-
+						var repositoryUpdateJob = Job.Create(Api.Models.JobCode.RepositoryAutoUpdate, null, metadata, RepositoryRights.CancelPendingChanges);
 						await jobManager.RegisterOperation(
 							repositoryUpdateJob,
 							RepositoryAutoUpdateJob,
@@ -541,14 +531,7 @@ namespace Tgstation.Server.Host.Components
 							}
 
 							// finally set up the job
-							compileProcessJob = new Job
-							{
-								Instance = repositoryUpdateJob.Instance,
-								Description = "Scheduled code deployment",
-								CancelRightsType = RightsType.DreamMaker,
-								CancelRight = (ulong)DreamMakerRights.CancelCompile,
-							};
-
+							compileProcessJob = Job.Create(Api.Models.JobCode.AutomaticDeployment, null, metadata, DreamMakerRights.CancelCompile);
 							await jobManager.RegisterOperation(
 								compileProcessJob,
 								(core, databaseContextFactory, job, progressReporter, jobCancellationToken) =>

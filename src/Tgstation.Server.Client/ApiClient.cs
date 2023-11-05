@@ -11,6 +11,10 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
 
+using Microsoft.AspNetCore.Http.Connections;
+using Microsoft.AspNetCore.SignalR.Client;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Microsoft.Net.Http.Headers;
 
 using Newtonsoft.Json;
@@ -20,6 +24,7 @@ using Newtonsoft.Json.Serialization;
 using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Response;
+using Tgstation.Server.Client.Extensions;
 using Tgstation.Server.Common.Extensions;
 using Tgstation.Server.Common.Http;
 
@@ -52,6 +57,18 @@ namespace Tgstation.Server.Client
 		}
 
 		/// <summary>
+		/// The <see cref="JsonSerializerSettings"/> to use.
+		/// </summary>
+		static readonly JsonSerializerSettings SerializerSettings = new ()
+		{
+			ContractResolver = new CamelCasePropertyNamesContractResolver(),
+			Converters = new[]
+			{
+				new VersionConverter(),
+			},
+		};
+
+		/// <summary>
 		/// The <see cref="IHttpClient"/> for the <see cref="ApiClient"/>.
 		/// </summary>
 		readonly IHttpClient httpClient;
@@ -60,6 +77,11 @@ namespace Tgstation.Server.Client
 		/// The <see cref="IRequestLogger"/>s used by the <see cref="ApiClient"/>.
 		/// </summary>
 		readonly List<IRequestLogger> requestLoggers;
+
+		/// <summary>
+		/// List of <see cref="HubConnection"/>s created by the <see cref="ApiClient"/>.
+		/// </summary>
+		readonly List<HubConnection> hubConnections;
 
 		/// <summary>
 		/// Backing field for <see cref="Headers"/>.
@@ -82,14 +104,9 @@ namespace Tgstation.Server.Client
 		ApiHeaders headers;
 
 		/// <summary>
-		/// Get the <see cref="JsonSerializerSettings"/> to use.
+		/// If the <see cref="ApiClient"/> is disposed.
 		/// </summary>
-		/// <returns>A new <see cref="JsonSerializerSettings"/> instance.</returns>
-		static JsonSerializerSettings GetSerializerSettings() => new ()
-		{
-			ContractResolver = new CamelCasePropertyNamesContractResolver(),
-			Converters = new[] { new VersionConverter() },
-		};
+		bool disposed;
 
 		/// <summary>
 		/// Handle a bad HTTP <paramref name="response"/>.
@@ -102,7 +119,7 @@ namespace Tgstation.Server.Client
 			try
 			{
 				// check if json serializes to an error message
-				errorMessage = JsonConvert.DeserializeObject<ErrorMessageResponse>(json, GetSerializerSettings());
+				errorMessage = JsonConvert.DeserializeObject<ErrorMessageResponse>(json, SerializerSettings);
 			}
 			catch (JsonException)
 			{
@@ -149,7 +166,12 @@ namespace Tgstation.Server.Client
 		/// <param name="apiHeaders">The value of <see cref="Headers"/>.</param>
 		/// <param name="tokenRefreshHeaders">The value of <see cref="tokenRefreshHeaders"/>.</param>
 		/// <param name="authless">The value of <see cref="authless"/>.</param>
-		public ApiClient(IHttpClient httpClient, Uri url, ApiHeaders apiHeaders, ApiHeaders? tokenRefreshHeaders, bool authless)
+		public ApiClient(
+			IHttpClient httpClient,
+			Uri url,
+			ApiHeaders apiHeaders,
+			ApiHeaders? tokenRefreshHeaders,
+			bool authless)
 		{
 			this.httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
 			Url = url ?? throw new ArgumentNullException(nameof(url));
@@ -158,12 +180,27 @@ namespace Tgstation.Server.Client
 			this.authless = authless;
 
 			requestLoggers = new List<IRequestLogger>();
+			hubConnections = new List<HubConnection>();
 			semaphoreSlim = new SemaphoreSlim(1);
 		}
 
 		/// <inheritdoc />
-		public void Dispose()
+		public async ValueTask DisposeAsync()
 		{
+			List<HubConnection> localHubConnections;
+			lock (hubConnections)
+			{
+				if (disposed)
+					return;
+
+				disposed = true;
+
+				localHubConnections = hubConnections.ToList();
+				hubConnections.Clear();
+			}
+
+			await ValueTaskExtensions.WhenAll(hubConnections.Select(connection => connection.DisposeAsync()));
+
 			httpClient.Dispose();
 			semaphoreSlim.Dispose();
 		}
@@ -295,6 +332,128 @@ namespace Tgstation.Server.Client
 		}
 
 		/// <summary>
+		/// Attempt to refresh the stored Bearer token in <see cref="Headers"/>.
+		/// </summary>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in <see langword="true"/> if the refresh was successful, <see langword="false"/> if a refresh is unable to be performed.</returns>
+		public async ValueTask<bool> RefreshToken(CancellationToken cancellationToken)
+		{
+			if (tokenRefreshHeaders == null)
+				return false;
+
+			var startingToken = headers.Token;
+			await semaphoreSlim.WaitAsync(cancellationToken).ConfigureAwait(false);
+			try
+			{
+				if (startingToken != headers.Token)
+					return true;
+
+				var token = await RunRequest<object, TokenResponse>(Routes.Root, new object(), HttpMethod.Post, null, true, cancellationToken).ConfigureAwait(false);
+				headers = new ApiHeaders(headers.UserAgent!, token);
+			}
+			finally
+			{
+				semaphoreSlim.Release();
+			}
+
+			return true;
+		}
+
+		/// <inheritdoc />
+		public async ValueTask<IAsyncDisposable> CreateHubConnection<THubImplementation>(
+			THubImplementation hubImplementation,
+			IRetryPolicy? retryPolicy,
+			Action<ILoggingBuilder>? loggingConfigureAction,
+			CancellationToken cancellationToken)
+			where THubImplementation : class
+		{
+			if (hubImplementation == null)
+				throw new ArgumentNullException(nameof(hubImplementation));
+
+			retryPolicy ??= new InfiniteThirtySecondMaxRetryPolicy();
+
+			HubConnection? hubConnection = null;
+			var hubConnectionBuilder = new HubConnectionBuilder()
+				.AddNewtonsoftJsonProtocol(options =>
+				{
+					options.PayloadSerializerSettings = SerializerSettings;
+				})
+				.WithAutomaticReconnect(retryPolicy)
+				.WithUrl(
+					new Uri(Url, Routes.JobsHub),
+					HttpTransportType.ServerSentEvents,
+					options =>
+					{
+						options.AccessTokenProvider = async () =>
+						{
+							// DCT: None available.
+							if (Headers.Token == null
+								|| (Headers.Token.ParseJwt().ValidTo <= DateTime.UtcNow
+								&& !await RefreshToken(CancellationToken.None)))
+							{
+								_ = hubConnection!.StopAsync(); // DCT: None available.
+								return null;
+							}
+
+							return Headers.Token.Bearer;
+						};
+
+						options.CloseTimeout = Timeout;
+
+						Headers.SetHubConnectionHeaders(options.Headers);
+					});
+
+			if (loggingConfigureAction != null)
+				hubConnectionBuilder.ConfigureLogging(loggingConfigureAction);
+
+			hubConnection = hubConnectionBuilder.Build();
+			try
+			{
+				hubConnection.Closed += async (error) =>
+				{
+					if (error is HttpRequestException httpRequestException)
+					{
+						// .StatusCode isn't in netstandard but fuck the police
+						var property = error.GetType().GetProperty("StatusCode");
+						if (property != null)
+						{
+							var statusCode = (HttpStatusCode?)property.GetValue(error);
+							if (statusCode == HttpStatusCode.Unauthorized
+								&& !await RefreshToken(CancellationToken.None))
+								_ = hubConnection!.StopAsync();
+						}
+					}
+				};
+
+				hubConnection.ProxyOn(hubImplementation);
+
+				Task startTask;
+				lock (hubConnections)
+				{
+					if (disposed)
+						throw new ObjectDisposedException(nameof(ApiClient));
+
+					hubConnections.Add(hubConnection);
+					startTask = hubConnection.StartAsync(cancellationToken);
+				}
+
+				await startTask;
+
+				return hubConnection;
+			}
+			catch
+			{
+				bool needsDispose;
+				lock (hubConnections)
+					needsDispose = hubConnections.Remove(hubConnection);
+
+				if (needsDispose)
+					await hubConnection.DisposeAsync();
+				throw;
+			}
+		}
+
+		/// <summary>
 		/// Main request method.
 		/// </summary>
 		/// <typeparam name="TResult">The resulting POCO type.</typeparam>
@@ -305,6 +464,7 @@ namespace Tgstation.Server.Client
 		/// <param name="tokenRefresh">If this is a token refresh operation.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the response on success.</returns>
+#pragma warning disable CA1506 // TODO: Decomplexify
 		protected virtual async ValueTask<TResult> RunRequest<TResult>(
 			string route,
 			HttpContent? content,
@@ -322,7 +482,7 @@ namespace Tgstation.Server.Client
 
 			HttpResponseMessage response;
 			var fullUri = new Uri(Url, route);
-			var serializerSettings = GetSerializerSettings();
+			var serializerSettings = SerializerSettings;
 			var fileDownload = typeof(TResult) == typeof(Stream);
 			using (var request = new HttpRequestMessage(method, fullUri))
 			{
@@ -336,6 +496,32 @@ namespace Tgstation.Server.Client
 
 					if (authless)
 						request.Headers.Remove(HeaderNames.Authorization);
+					else
+					{
+						var bearer = headersToUse.Token?.Bearer;
+						if (bearer != null)
+						{
+							try
+							{
+								var parsed = headersToUse.Token!.ParseJwt();
+								var nbf = parsed.ValidFrom;
+								var now = DateTime.UtcNow;
+								if (nbf >= now)
+								{
+									var delay = (nbf - now).Add(TimeSpan.FromMilliseconds(1));
+									await Task.Delay(delay, cancellationToken);
+								}
+							}
+							catch (ArgumentException ex) when (ex is not ArgumentNullException)
+							{
+								// backwards compat, API <=9 put out invalid JWTs, remove in API 10
+							}
+#if DEBUG
+							if (ApiHeaders.Version.Major > 9)
+								throw new NotImplementedException();
+#endif
+						}
+					}
 
 					if (fileDownload)
 						request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(MediaTypeNames.Application.Octet));
@@ -392,38 +578,7 @@ namespace Tgstation.Server.Client
 				}
 			}
 		}
-
-		/// <summary>
-		/// Attempt to refresh the bearer token in the <see cref="headers"/>.
-		/// </summary>
-		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in <see langword="true"/> if the refresh was successful, <see langword="false"/> otherwise.</returns>
-		async ValueTask<bool> RefreshToken(CancellationToken cancellationToken)
-		{
-			if (tokenRefreshHeaders == null)
-				return false;
-
-			var startingToken = headers.Token;
-			await semaphoreSlim.WaitAsync(cancellationToken).ConfigureAwait(false);
-			try
-			{
-				if (startingToken != headers.Token)
-					return true;
-
-				var token = await RunRequest<object, TokenResponse>(Routes.Root, new object(), HttpMethod.Post, null, true, cancellationToken).ConfigureAwait(false);
-				headers = new ApiHeaders(headers.UserAgent!, token.Bearer!);
-			}
-			catch (ClientException)
-			{
-				return false;
-			}
-			finally
-			{
-				semaphoreSlim.Release();
-			}
-
-			return true;
-		}
+#pragma warning restore CA1506
 
 		/// <summary>
 		/// Main request method.
@@ -449,7 +604,7 @@ namespace Tgstation.Server.Client
 			HttpContent? content = null;
 			if (body != null)
 				content = new StringContent(
-					JsonConvert.SerializeObject(body, typeof(TBody), Formatting.None, GetSerializerSettings()),
+					JsonConvert.SerializeObject(body, typeof(TBody), Formatting.None, SerializerSettings),
 					Encoding.UTF8,
 					ApiHeaders.ApplicationJsonMime);
 
