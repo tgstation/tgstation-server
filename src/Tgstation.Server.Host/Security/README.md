@@ -16,7 +16,7 @@
 
 ## For the login request (`POST /`)
 
-1. An attempt to parse the `ApiHeaders` is made. If they were valid. The API version check is performed. If it fails, HTTP 426 with an `ErrorMessageResponse` will be returned.
+1. An attempt to parse the `ApiHeaders` is made. If they were valid, the API version check is performed. If it fails, HTTP 426 with an `ErrorMessageResponse` will be returned.
 1. If, for some reason, the user attempts to use a JWT to authenticate this request, steps 2-4 of the non-login pipeline list below are performed.
 1. The `ApiController` base class inspects the request.
 	- At this point, if the `ApiHeaders` (MINUS the `Authorization` header) cannot be properly parsed, HTTP 400 with an `ErrorMessageResponse` is returned.
