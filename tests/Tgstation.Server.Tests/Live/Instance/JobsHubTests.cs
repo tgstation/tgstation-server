@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using Tgstation.Server.Api.Hubs;
+using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Request;
 using Tgstation.Server.Api.Models.Response;
 using Tgstation.Server.Client;
@@ -186,9 +187,9 @@ namespace Tgstation.Server.Tests.Live.Instance
 				}
 				else
 				{
-					var wasMissableJob = job.Description.StartsWith("Reconnect chat bot")
-						|| job.Description.StartsWith("Instance startup watchdog reattach")
-						|| job.Description.StartsWith("Instance startup watchdog launch");
+					var wasMissableJob = job.JobCode == JobCode.ReconnectChatBot
+						|| job.JobCode == JobCode.StartupWatchdogLaunch
+						|| job.JobCode == JobCode.StartupWatchdogReattach;
 					Assert.IsTrue(wasMissableJob);
 					++missableMissedJobs;
 				}
