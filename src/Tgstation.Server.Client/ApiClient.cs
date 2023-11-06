@@ -482,6 +482,9 @@ namespace Tgstation.Server.Client
 			if (content == null && (method == HttpMethod.Post || method == HttpMethod.Put))
 				throw new InvalidOperationException("content cannot be null for POST or PUT!");
 
+			if (disposed)
+				throw new ObjectDisposedException(nameof(ApiClient));
+
 			HttpResponseMessage response;
 			var fullUri = new Uri(Url, route);
 			var serializerSettings = SerializerSettings;
