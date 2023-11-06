@@ -48,7 +48,14 @@ namespace Tgstation.Server.Client
 		/// </summary>
 		async void AttemptTokenRefresh()
 		{
-			await apiClient.RefreshToken(CancellationToken.None);
+			try
+			{
+				await apiClient.RefreshToken(CancellationToken.None);
+			}
+			catch
+			{
+				// intentionally ignored
+			}
 		}
 	}
 }
