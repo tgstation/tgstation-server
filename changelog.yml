@@ -3011,6 +3011,16 @@ Components:
       Author: AffectedArc07
       PullRequest: 1408
   WebControlPanel:
+  - Version: 4.26.0
+    Changes:
+    - Descriptions:
+      - Added support for real-time job updates.
+      - Censored input for Discord bot token.
+      - Updated browser compatibility lists.
+      - Fixed another issue related to token expiration not being handled gracefully.
+      Author: Cyberboss
+      PullRequest: 1697
+    Unreleased: true
   - Version: 4.24.0
     Changes:
     - Descriptions:
