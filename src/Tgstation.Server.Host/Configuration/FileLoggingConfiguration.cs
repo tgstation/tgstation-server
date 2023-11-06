@@ -57,16 +57,17 @@ namespace Tgstation.Server.Host.Configuration
 			ArgumentNullException.ThrowIfNull(assemblyInformationProvider);
 			ArgumentNullException.ThrowIfNull(platformIdentifier);
 
-			var directoryToUse = platformIdentifier.IsWindows
-				? Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData) // C:/ProgramData
-				: "/var/log"; // :pain:
+			if (!String.IsNullOrEmpty(Directory))
+				return Directory;
 
-			return !String.IsNullOrEmpty(Directory)
-				? Directory
-				: ioManager.ConcatPath(
-					directoryToUse,
+			return platformIdentifier.IsWindows
+				? ioManager.ConcatPath(
+					Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData),
 					assemblyInformationProvider.VersionPrefix,
-					"logs");
+					"logs")
+				: ioManager.ConcatPath(
+					"/var/log",
+					assemblyInformationProvider.VersionPrefix);
 		}
 	}
 }

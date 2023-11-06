@@ -1,13 +1,12 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
 
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+using Moq;
+
 using Tgstation.Server.Api;
-using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Response;
 
 namespace Tgstation.Server.Client.Components.Tests

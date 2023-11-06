@@ -16,6 +16,7 @@ using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Utils;
 using Tgstation.Server.Host.Utils.GitHub;
+using Tgstation.Server.Host.Utils.SignalR;
 
 namespace Tgstation.Server.Host.Extensions
 {
@@ -218,6 +219,23 @@ namespace Tgstation.Server.Host.Extensions
 				if (additionalLoggerProvider != null)
 					builder.Services.TryAddEnumerable(additionalLoggerProvider);
 			});
+		}
+
+		/// <summary>
+		/// Attempt to add the given <typeparamref name="THub"/> to services.
+		/// </summary>
+		/// <typeparam name="THub">The <see cref="Type"/> of the <see cref="Microsoft.AspNetCore.SignalR.Hub{T}"/> being added.</typeparam>
+		/// <typeparam name="THubMethods">The implementation <see cref="Type"/> of the <typeparamref name="THub"/>.</typeparam>
+		/// <param name="services">The <see cref="IServiceCollection"/> to add the <typeparamref name="THub"/> to.</param>
+		public static void AddHub<THub, THubMethods>(this IServiceCollection services)
+			where THub : ConnectionMappingHub<THub, THubMethods>
+			where THubMethods : class
+		{
+			ArgumentNullException.ThrowIfNull(services);
+
+			services.TryAddSingleton(typeof(ComprehensiveHubContext<,>));
+			services.AddSingleton<IConnectionMappedHubContext<THub, THubMethods>>(provider => provider.GetRequiredService<ComprehensiveHubContext<THub, THubMethods>>());
+			services.AddSingleton<IHubConnectionMapper<THub, THubMethods>>(provider => provider.GetRequiredService<ComprehensiveHubContext<THub, THubMethods>>());
 		}
 
 		/// <summary>

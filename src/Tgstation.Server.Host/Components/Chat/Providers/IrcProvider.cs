@@ -352,7 +352,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 										dbChannel,
 										new List<ChannelRepresentation>
 										{
-											new ChannelRepresentation
+											new ()
 											{
 												RealId = id.Value,
 												IsAdminChannel = dbChannel.IsAdminChannel == true,

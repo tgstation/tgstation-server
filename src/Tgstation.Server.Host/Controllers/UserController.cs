@@ -15,10 +15,12 @@ using Tgstation.Server.Api.Models.Request;
 using Tgstation.Server.Api.Models.Response;
 using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Host.Configuration;
+using Tgstation.Server.Host.Controllers.Results;
 using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.Security;
+using Tgstation.Server.Host.Utils;
 
 namespace Tgstation.Server.Host.Controllers
 {
@@ -39,6 +41,11 @@ namespace Tgstation.Server.Host.Controllers
 		readonly ICryptographySuite cryptographySuite;
 
 		/// <summary>
+		/// The <see cref="IPermissionsUpdateNotifyee"/> for the <see cref="UserController"/>.
+		/// </summary>
+		readonly IPermissionsUpdateNotifyee permissionsUpdateNotifyee;
+
+		/// <summary>
 		/// The <see cref="GeneralConfiguration"/> for the <see cref="UserController"/>.
 		/// </summary>
 		readonly GeneralConfiguration generalConfiguration;
@@ -47,26 +54,32 @@ namespace Tgstation.Server.Host.Controllers
 		/// Initializes a new instance of the <see cref="UserController"/> class.
 		/// </summary>
 		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> for the <see cref="ApiController"/>.</param>
-		/// <param name="authenticationContextFactory">The <see cref="IAuthenticationContextFactory"/> for the <see cref="ApiController"/>.</param>
+		/// <param name="authenticationContext">The <see cref="IAuthenticationContext"/> for the <see cref="ApiController"/>.</param>
 		/// <param name="systemIdentityFactory">The value of <see cref="systemIdentityFactory"/>.</param>
 		/// <param name="cryptographySuite">The value of <see cref="cryptographySuite"/>.</param>
+		/// <param name="permissionsUpdateNotifyee">The value of <see cref="permissionsUpdateNotifyee"/>.</param>
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="ApiController"/>.</param>
 		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="generalConfiguration"/>.</param>
+		/// <param name="apiHeaders">The <see cref="IApiHeadersProvider"/> for the <see cref="ApiController"/>.</param>
 		public UserController(
 			IDatabaseContext databaseContext,
-			IAuthenticationContextFactory authenticationContextFactory,
+			IAuthenticationContext authenticationContext,
 			ISystemIdentityFactory systemIdentityFactory,
 			ICryptographySuite cryptographySuite,
+			IPermissionsUpdateNotifyee permissionsUpdateNotifyee,
 			ILogger<UserController> logger,
-			IOptions<GeneralConfiguration> generalConfigurationOptions)
+			IOptions<GeneralConfiguration> generalConfigurationOptions,
+			IApiHeadersProvider apiHeaders)
 			: base(
 				  databaseContext,
-				  authenticationContextFactory,
+				  authenticationContext,
+				  apiHeaders,
 				  logger,
 				  true)
 		{
 			this.systemIdentityFactory = systemIdentityFactory ?? throw new ArgumentNullException(nameof(systemIdentityFactory));
 			this.cryptographySuite = cryptographySuite ?? throw new ArgumentNullException(nameof(cryptographySuite));
+			this.permissionsUpdateNotifyee = permissionsUpdateNotifyee ?? throw new ArgumentNullException(nameof(permissionsUpdateNotifyee));
 			generalConfiguration = generalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
 		}
 
@@ -238,13 +251,17 @@ namespace Tgstation.Server.Host.Controllers
 			if (model.Name != null && Models.User.CanonicalizeName(model.Name) != originalUser.CanonicalName)
 				return BadRequest(new ErrorMessageResponse(ErrorCode.UserNameChange));
 
+			bool userWasDisabled;
 			if (model.Enabled.HasValue)
 			{
-				if (originalUser.Enabled.Value && !model.Enabled.Value)
+				userWasDisabled = originalUser.Enabled.Value && !model.Enabled.Value;
+				if (userWasDisabled)
 					originalUser.LastPasswordUpdate = DateTimeOffset.UtcNow;
 
 				originalUser.Enabled = model.Enabled.Value;
 			}
+			else
+				userWasDisabled = false;
 
 			if (model.OAuthConnections != null
 				&& (model.OAuthConnections.Count != originalUser.OAuthConnections.Count
@@ -280,7 +297,7 @@ namespace Tgstation.Server.Host.Controllers
 				DatabaseContext.Groups.Attach(originalUser.Group);
 				if (originalUser.PermissionSet != null)
 				{
-					Logger.LogInformation("Deleting permission set {0}...", originalUser.PermissionSet.Id);
+					Logger.LogInformation("Deleting permission set {permissionSetId}...", originalUser.PermissionSet.Id);
 					DatabaseContext.PermissionSets.Remove(originalUser.PermissionSet);
 					originalUser.PermissionSet = null;
 				}
@@ -308,7 +325,10 @@ namespace Tgstation.Server.Host.Controllers
 
 			await DatabaseContext.Save(cancellationToken);
 
-			Logger.LogInformation("Updated user {0} ({1})", originalUser.Name, originalUser.Id);
+			Logger.LogInformation("Updated user {userName} ({userId})", originalUser.Name, originalUser.Id);
+
+			if (userWasDisabled)
+				await permissionsUpdateNotifyee.UserDisabled(originalUser, cancellationToken);
 
 			// return id only if not a self update and cannot read users
 			var canReadBack = AuthenticationContext.User.Id == originalUser.Id

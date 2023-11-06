@@ -2,17 +2,23 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Threading.Tasks;
 
 using Cyberboss.AspNetCore.AsyncInitializer;
 
 using Elastic.CommonSchema.Serilog;
 
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Connections;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -27,6 +33,7 @@ using Serilog.Formatting.Display;
 using Serilog.Sinks.Elasticsearch;
 
 using Tgstation.Server.Api;
+using Tgstation.Server.Api.Hubs;
 using Tgstation.Server.Common.Http;
 using Tgstation.Server.Host.Components;
 using Tgstation.Server.Host.Components.Byond;
@@ -39,6 +46,7 @@ using Tgstation.Server.Host.Components.Session;
 using Tgstation.Server.Host.Components.Watchdog;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Controllers;
+using Tgstation.Server.Host.Controllers.Results;
 using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.Extensions.Converters;
@@ -113,7 +121,7 @@ namespace Tgstation.Server.Host.Core
 		}
 
 		/// <summary>
-		/// Configure the <see cref="Application"/>'s services.
+		/// Configure the <see cref="Application"/>'s <paramref name="services"/>.
 		/// </summary>
 		/// <param name="services">The <see cref="IServiceCollection"/> to configure.</param>
 		/// <param name="assemblyInformationProvider">The <see cref="IAssemblyInformationProvider"/> needed for configuration.</param>
@@ -215,49 +223,47 @@ namespace Tgstation.Server.Host.Core
 				postSetupServices.InternalConfiguration,
 				postSetupServices.FileLoggingConfiguration);
 
-			// configure bearer token validation
-			services
-				.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-				.AddJwtBearer(jwtBearerOptions =>
-				{
-					// this line isn't actually run until the first request is made
-					// at that point tokenFactory will be populated
-					jwtBearerOptions.TokenValidationParameters = tokenFactory.ValidationParameters;
-					jwtBearerOptions.MapInboundClaims = false;
-					jwtBearerOptions.Events = new JwtBearerEvents
-					{
-						// Application is our composition root so this monstrosity of a line is okay
-						// At least, that's what I tell myself to sleep at night
-						OnTokenValidated = ctx => ctx
-							.HttpContext
-							.RequestServices
-							.GetRequiredService<IClaimsInjector>()
-							.InjectClaimsIntoContext(
-								ctx,
-								ctx.HttpContext.RequestAborted),
-					};
-				});
+			// configure authentication pipeline
+			ConfigureAuthenticationPipeline(services);
 
 			// add mvc, configure the json serializer settings
+			var jsonVersionConverterList = new List<JsonConverter>
+			{
+				new VersionConverter(),
+			};
+
+			void ConfigureNewtonsoftJsonSerializerSettingsForApi(JsonSerializerSettings settings)
+			{
+				settings.NullValueHandling = NullValueHandling.Ignore;
+				settings.CheckAdditionalContent = true;
+				settings.MissingMemberHandling = MissingMemberHandling.Error;
+				settings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+				settings.Converters = jsonVersionConverterList;
+			}
+
 			services
 				.AddMvc(options =>
 				{
-					options.EnableEndpointRouting = false;
 					options.ReturnHttpNotAcceptable = true;
 					options.RespectBrowserAcceptHeader = true;
 				})
 				.AddNewtonsoftJson(options =>
 				{
 					options.AllowInputFormatterExceptionMessages = true;
-					options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
-					options.SerializerSettings.CheckAdditionalContent = true;
-					options.SerializerSettings.MissingMemberHandling = MissingMemberHandling.Error;
-					options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-					options.SerializerSettings.Converters = new List<JsonConverter>
-					{
-						new VersionConverter(),
-					};
+					ConfigureNewtonsoftJsonSerializerSettingsForApi(options.SerializerSettings);
 				});
+
+			services.AddSignalR(
+				options =>
+				{
+					options.AddFilter<AuthorizationContextHubFilter>();
+				})
+				.AddNewtonsoftJsonProtocol(options =>
+				{
+					ConfigureNewtonsoftJsonSerializerSettingsForApi(options.PayloadSerializerSettings);
+				});
+
+			services.AddHub<JobsHub, IJobsHub>();
 
 			if (postSetupServices.GeneralConfiguration.HostApiDocumentation)
 			{
@@ -317,9 +323,7 @@ namespace Tgstation.Server.Host.Core
 			services.AddSingleton<IDatabaseContextFactory, DatabaseContextFactory>();
 			services.AddSingleton<IDatabaseSeeder, DatabaseSeeder>();
 
-			// configure security services
-			services.AddScoped<IAuthenticationContextFactory, AuthenticationContextFactory>();
-			services.AddScoped<IClaimsInjector, ClaimsInjector>();
+			// configure other security services
 			services.AddSingleton<IOAuthProviders, OAuthProviders>();
 			services.AddSingleton<IIdentityCache, IdentityCache>();
 			services.AddSingleton<ICryptographySuite, CryptographySuite>();
@@ -395,8 +399,11 @@ namespace Tgstation.Server.Host.Core
 			services.AddGitHub();
 
 			// configure root services
-			services.AddSingleton<IJobService, JobService>();
+			services.AddSingleton<JobService>();
+			services.AddSingleton<IJobService>(provider => provider.GetRequiredService<JobService>());
+			services.AddSingleton<IJobsHubUpdater>(provider => provider.GetRequiredService<JobService>());
 			services.AddSingleton<IJobManager>(x => x.GetRequiredService<IJobService>());
+			services.AddSingleton<IPermissionsUpdateNotifyee, JobsHubGroupMapper>();
 
 			services.AddSingleton<InstanceManager>();
 			services.AddSingleton<IBridgeDispatcher>(x => x.GetRequiredService<InstanceManager>());
@@ -467,30 +474,6 @@ namespace Tgstation.Server.Host.Core
 				logger.LogTrace("Swagger API generation enabled");
 			}
 
-			// Set up CORS based on configuration if necessary
-			Action<CorsPolicyBuilder> corsBuilder = null;
-			if (controlPanelConfiguration.AllowAnyOrigin)
-			{
-				logger.LogTrace("Access-Control-Allow-Origin: *");
-				corsBuilder = builder => builder.AllowAnyOrigin();
-			}
-			else if (controlPanelConfiguration.AllowedOrigins?.Count > 0)
-			{
-				logger.LogTrace("Access-Control-Allow-Origin: {allowedOrigins}", String.Join(',', controlPanelConfiguration.AllowedOrigins));
-				corsBuilder = builder => builder.WithOrigins(controlPanelConfiguration.AllowedOrigins.ToArray());
-			}
-
-			var originalBuilder = corsBuilder;
-			corsBuilder = builder =>
-			{
-				builder
-					.AllowAnyHeader()
-					.AllowAnyMethod()
-					.SetPreflightMaxAge(TimeSpan.FromDays(1));
-				originalBuilder?.Invoke(builder);
-			};
-			applicationBuilder.UseCors(corsBuilder);
-
 			// spa loading if necessary
 			if (controlPanelConfiguration.Enable)
 			{
@@ -504,22 +487,68 @@ namespace Tgstation.Server.Host.Core
 			}
 			else
 #if NO_WEBPANEL
-				logger.LogTrace("Web control panel was not included in TGS build!");
+				logger.LogDebug("Web control panel was not included in TGS build!");
 #else
 				logger.LogTrace("Web control panel disabled!");
 #endif
 
-			// Do not cache a single thing beyond this point, it's all API
-			applicationBuilder.UseDisabledClientCache();
+			// Enable endpoint routing
+			applicationBuilder.UseRouting();
+
+			// Set up CORS based on configuration if necessary
+			Action<CorsPolicyBuilder> corsBuilder = null;
+			if (controlPanelConfiguration.AllowAnyOrigin)
+			{
+				logger.LogTrace("Access-Control-Allow-Origin: *");
+				corsBuilder = builder => builder.SetIsOriginAllowed(_ => true);
+			}
+			else if (controlPanelConfiguration.AllowedOrigins?.Count > 0)
+			{
+				logger.LogTrace("Access-Control-Allow-Origin: {allowedOrigins}", String.Join(',', controlPanelConfiguration.AllowedOrigins));
+				corsBuilder = builder => builder.WithOrigins(controlPanelConfiguration.AllowedOrigins.ToArray());
+			}
+
+			var originalBuilder = corsBuilder;
+			corsBuilder = builder =>
+			{
+				builder
+					.AllowAnyHeader()
+					.AllowAnyMethod()
+					.AllowCredentials()
+					.SetPreflightMaxAge(TimeSpan.FromDays(1));
+				originalBuilder?.Invoke(builder);
+			};
+			applicationBuilder.UseCors(corsBuilder);
+
+			// validate the API version
+			applicationBuilder.UseApiCompatibility();
 
 			// authenticate JWT tokens using our security pipeline if present, returns 401 if bad
 			applicationBuilder.UseAuthentication();
 
+			// enable authorization on endpoints
+			applicationBuilder.UseAuthorization();
+
 			// suppress and log database exceptions
 			applicationBuilder.UseDbConflictHandling();
 
-			// majority of handling is done in the controllers
-			applicationBuilder.UseMvc();
+			// setup endpoints
+			applicationBuilder.UseEndpoints(endpoints =>
+			{
+				// access to the signalR jobs hub
+				endpoints.MapHub<JobsHub>(
+					Routes.JobsHub,
+					options =>
+					{
+						options.Transports = HttpTransportType.ServerSentEvents;
+						options.CloseOnAuthenticationExpiration = true;
+					})
+					.RequireAuthorization()
+					.RequireCors(corsBuilder);
+
+				// majority of handling is done in the controllers
+				endpoints.MapControllers();
+			});
 
 			// 404 anything that gets this far
 			// End of request pipeline setup
@@ -534,5 +563,60 @@ namespace Tgstation.Server.Host.Core
 		/// <inheritdoc />
 		protected override void ConfigureHostedService(IServiceCollection services)
 			=> services.AddSingleton<IHostedService>(x => x.GetRequiredService<InstanceManager>());
+
+		/// <summary>
+		/// Configure the <paramref name="services"/> for the authentication pipeline.
+		/// </summary>
+		/// <param name="services">The <see cref="IServiceCollection"/> to configure.</param>
+		void ConfigureAuthenticationPipeline(IServiceCollection services)
+		{
+			services.AddHttpContextAccessor();
+			services.AddScoped<IApiHeadersProvider, ApiHeadersProvider>();
+			services.AddScoped<AuthenticationContextFactory>();
+			services.AddScoped<IAuthenticationContextFactory>(provider => provider.GetRequiredService<AuthenticationContextFactory>());
+
+			// what if you
+			// wanted to just do this:
+			// return provider.GetRequiredService<AuthenticationContextFactory>().CurrentAuthenticationContext
+			// But M$ said
+			// https://stackoverflow.com/questions/56792917/scoped-services-in-asp-net-core-with-signalr-hubs
+			services.AddScoped(provider => provider
+				.GetRequiredService<IHttpContextAccessor>()
+				.HttpContext
+				.RequestServices
+				.GetRequiredService<AuthenticationContextFactory>()
+				.CurrentAuthenticationContext);
+			services.AddScoped<IClaimsTransformation, AuthenticationContextClaimsTransformation>();
+			services.AddScoped<IAuthorizationFilter, AuthenticationContextAuthorizationFilter>();
+
+			services
+				.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+				.AddJwtBearer(jwtBearerOptions =>
+				{
+					// this line isn't actually run until the first request is made
+					// at that point tokenFactory will be populated
+					jwtBearerOptions.TokenValidationParameters = tokenFactory?.ValidationParameters ?? throw new InvalidOperationException("tokenFactory not initialized!");
+					jwtBearerOptions.MapInboundClaims = false;
+					jwtBearerOptions.Events = new JwtBearerEvents
+					{
+						OnMessageReceived = context =>
+						{
+							if (String.IsNullOrWhiteSpace(context.Token))
+							{
+								var accessToken = context.Request.Query["access_token"];
+								var path = context.HttpContext.Request.Path;
+
+								if (!String.IsNullOrWhiteSpace(accessToken) &&
+									path.StartsWithSegments(Routes.HubsRoot, StringComparison.OrdinalIgnoreCase))
+								{
+									context.Token = accessToken;
+								}
+							}
+
+							return Task.CompletedTask;
+						},
+					};
+				});
+		}
 	}
 }

@@ -4,6 +4,7 @@ using System.Net.Mime;
 using System.Threading;
 using System.Threading.Tasks;
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -20,10 +21,8 @@ namespace Tgstation.Server.Host.Controllers
 	/// <see cref="Controller"/> for recieving DMAPI requests from DreamDaemon.
 	/// </summary>
 	[Route("/Bridge")]
-	[Produces(MediaTypeNames.Application.Json)]
-	[ApiController]
 	[ApiExplorerSettings(IgnoreApi = true)]
-	public class BridgeController : Controller
+	public sealed class BridgeController : ApiControllerBase
 	{
 		/// <summary>
 		/// If the content of bridge requests and responses should be logged.
@@ -76,6 +75,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="IActionResult"/> for the operation.</returns>
 		[HttpGet]
+		[AllowAnonymous]
 		public async ValueTask<IActionResult> Process([FromQuery] string data, CancellationToken cancellationToken)
 		{
 			// Nothing to see here

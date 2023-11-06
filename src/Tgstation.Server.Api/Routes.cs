@@ -13,6 +13,11 @@ namespace Tgstation.Server.Api
 		public const string Root = "/";
 
 		/// <summary>
+		/// The root route of all hubs.
+		/// </summary>
+		public const string HubsRoot = Root + "hubs";
+
+		/// <summary>
 		/// The server administration controller.
 		/// </summary>
 		public const string Administration = Root + "Administration";
@@ -101,6 +106,11 @@ namespace Tgstation.Server.Api
 		/// The postfix for list operations.
 		/// </summary>
 		public const string List = "List";
+
+		/// <summary>
+		/// The root route of all hubs.
+		/// </summary>
+		public const string JobsHub = HubsRoot + "/jobs";
 
 		/// <summary>
 		/// Apply an <paramref name="id"/> postfix to a <paramref name="route"/>.

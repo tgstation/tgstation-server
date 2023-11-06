@@ -6,6 +6,11 @@
 	public sealed class JobResponse : Internal.Job
 	{
 		/// <summary>
+		/// The <see cref="EntityId.Id"/> of the <see cref="Instance"/>.
+		/// </summary>
+		public long? InstanceId { get; set; }
+
+		/// <summary>
 		/// The <see cref="UserResponse"/> that started the job.
 		/// </summary>
 		public UserName? StartedBy { get; set; }
