@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 
 using Tgstation.Server.Api.Rights;
 
-namespace Tgstation.Server.Host.Controllers
+namespace Tgstation.Server.Host.Security
 {
 	/// <summary>
 	/// Helper for using the <see cref="AuthorizeAttribute"/> with the <see cref="Api.Rights"/> system.

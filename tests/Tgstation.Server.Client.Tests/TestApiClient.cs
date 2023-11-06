@@ -41,7 +41,17 @@ namespace Tgstation.Server.Client.Tests
 			var httpClient = new Mock<IHttpClient>();
 			httpClient.Setup(x => x.SendAsync(It.IsNotNull<HttpRequestMessage>(), It.IsAny<HttpCompletionOption>(), It.IsAny<CancellationToken>())).Returns(Task.FromResult(response));
 
-			var client = new ApiClient(httpClient.Object, new Uri("http://fake.com"), new ApiHeaders(new ProductHeaderValue("fake"), "fake"), null, false);
+			var client = new ApiClient(
+				httpClient.Object,
+				new Uri("http://fake.com"),
+				new ApiHeaders(
+					new ProductHeaderValue("fake"),
+					new TokenResponse
+					{
+						Bearer = "fake",
+					}),
+				null,
+				false);
 
 			var result = await client.Read<ByondResponse>(Routes.Byond, default);
 			Assert.AreEqual(sample.Version, result.Version);
@@ -66,9 +76,19 @@ namespace Tgstation.Server.Client.Tests
 			var httpClient = new Mock<IHttpClient>();
 			httpClient.Setup(x => x.SendAsync(It.IsNotNull<HttpRequestMessage>(), It.IsAny<HttpCompletionOption>(), It.IsAny<CancellationToken>())).Returns(Task.FromResult(response));
 
-			var client = new ApiClient(httpClient.Object, new Uri("http://fake.com"), new ApiHeaders(new ProductHeaderValue("fake"), "fake"), null, true);
+			var client = new ApiClient(
+				httpClient.Object,
+				new Uri("http://fake.com"),
+				new ApiHeaders(
+					new ProductHeaderValue("fake"),
+					new TokenResponse
+					{
+						Bearer = "fake"
+					}),
+				null,
+				false);
 
-			await Assert.ThrowsExceptionAsync<UnrecognizedResponseException>(() => client.Read<ByondResponse>(Routes.Byond, default));
+			await Assert.ThrowsExceptionAsync<UnrecognizedResponseException>(() => client.Read<ByondResponse>(Routes.Byond, default).AsTask());
 		}
 	}
 }

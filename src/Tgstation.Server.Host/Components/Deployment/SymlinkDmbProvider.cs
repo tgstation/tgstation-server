@@ -28,7 +28,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 		public override Task FinishActivationPreparation(CancellationToken cancellationToken) => Task.CompletedTask;
 
 		/// <inheritdoc />
-		protected override async Task DoSwap(CancellationToken cancellationToken)
+		protected override async ValueTask DoSwap(CancellationToken cancellationToken)
 		{
 			if (LinkFactory.SymlinkedDirectoriesAreDeletedAsFiles)
 				await IOManager.DeleteFile(LiveGameDirectory, cancellationToken);

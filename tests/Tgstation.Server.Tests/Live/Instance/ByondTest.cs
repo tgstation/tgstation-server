@@ -14,6 +14,7 @@ using Moq;
 
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Request;
+using Tgstation.Server.Api.Models.Response;
 using Tgstation.Server.Client;
 using Tgstation.Server.Client.Components;
 using Tgstation.Server.Common.Extensions;
@@ -103,12 +104,12 @@ namespace Tgstation.Server.Tests.Live.Instance
 			}, cancellationToken);
 			await WaitForJob(deleteThisOneBecauseItWasntPartOfTheOriginalTest, 30, false, null, cancellationToken);
 
-			var nonExistentUninstallResponseTask = Assert.ThrowsExceptionAsync<ConflictException>(() => byondClient.DeleteVersion(
+			var nonExistentUninstallResponseTask = ApiAssert.ThrowsException<ConflictException, JobResponse>(() => byondClient.DeleteVersion(
 				new ByondVersionDeleteRequest
 				{
 					Version = new(509, 1000)
 				},
-				cancellationToken));
+				cancellationToken), ErrorCode.ResourceNotPresent);
 
 			var uninstallResponseTask = byondClient.DeleteVersion(
 				new ByondVersionDeleteRequest
@@ -117,7 +118,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 				},
 				cancellationToken);
 
-			var badBecauseActiveResponseTask = ApiAssert.ThrowsException<ConflictException>(() => byondClient.DeleteVersion(
+			var badBecauseActiveResponseTask = ApiAssert.ThrowsException<ConflictException, JobResponse>(() => byondClient.DeleteVersion(
 				new ByondVersionDeleteRequest
 				{
 					Version = new(testVersion.Major, testVersion.Minor, 1)
@@ -253,7 +254,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 				Version = testVersion
 			}, null, cancellationToken);
 			Assert.IsNull(installResponse.InstallJob);
-			await ApiAssert.ThrowsException<ApiConflictException>(() => byondClient.SetActiveVersion(new ByondVersionRequest
+			await ApiAssert.ThrowsException<ApiConflictException, ByondInstallResponse>(() => byondClient.SetActiveVersion(new ByondVersionRequest
 			{
 				Version = new Version(testVersion.Major, testVersion.Minor, 3)
 			}, null, cancellationToken), ErrorCode.ByondNonExistentCustomVersion);

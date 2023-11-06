@@ -163,7 +163,7 @@ namespace Tgstation.Server.Host.Transfer
 		}
 
 		/// <inheritdoc />
-		public async Task<Tuple<Stream, ErrorMessageResponse>> RetrieveDownloadStream(FileTicketResponse ticket, CancellationToken cancellationToken)
+		public async ValueTask<Tuple<Stream, ErrorMessageResponse>> RetrieveDownloadStream(FileTicketResponse ticket, CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(ticket);
 
@@ -217,7 +217,7 @@ namespace Tgstation.Server.Host.Transfer
 		}
 
 		/// <inheritdoc />
-		public async Task<ErrorMessageResponse> SetUploadStream(FileTicketResponse ticket, Stream stream, CancellationToken cancellationToken)
+		public async ValueTask<ErrorMessageResponse> SetUploadStream(FileTicketResponse ticket, Stream stream, CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(ticket);
 

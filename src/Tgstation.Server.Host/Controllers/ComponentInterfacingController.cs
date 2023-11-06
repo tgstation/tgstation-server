@@ -40,18 +40,21 @@ namespace Tgstation.Server.Host.Controllers
 		/// </summary>
 		/// <param name="instanceManager">The value of <see cref="instanceManager"/>.</param>
 		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> for the <see cref="ApiController"/>.</param>
-		/// <param name="authenticationContextFactory">The <see cref="IAuthenticationContextFactory"/> for the <see cref="ApiController"/>.</param>
+		/// <param name="authenticationContext">The <see cref="IAuthenticationContext"/> for the <see cref="ApiController"/>.</param>
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="ApiController"/>.</param>
+		/// <param name="apiHeaders">The <see cref="IApiHeadersProvider"/> for the <see cref="ApiController"/>.</param>
 		/// <param name="useInstanceRequestHeader">The value of <see cref="useInstanceRequestHeader"/>.</param>
 		protected ComponentInterfacingController(
 			IDatabaseContext databaseContext,
-			IAuthenticationContextFactory authenticationContextFactory,
+			IAuthenticationContext authenticationContext,
 			ILogger<ComponentInterfacingController> logger,
 			IInstanceManager instanceManager,
-			bool useInstanceRequestHeader = false)
+			IApiHeadersProvider apiHeaders,
+			bool useInstanceRequestHeader)
 			: base(
 				  databaseContext,
-				  authenticationContextFactory,
+				  authenticationContext,
+				  apiHeaders,
 				  logger,
 				  true)
 		{
@@ -60,7 +63,7 @@ namespace Tgstation.Server.Host.Controllers
 		}
 
 		/// <inheritdoc />
-		protected override async Task<IActionResult> ValidateRequest(CancellationToken cancellationToken)
+		protected override async ValueTask<IActionResult> ValidateRequest(CancellationToken cancellationToken)
 		{
 			if (!useInstanceRequestHeader)
 				return null;
@@ -113,11 +116,11 @@ namespace Tgstation.Server.Host.Controllers
 		/// <summary>
 		/// Run a given <paramref name="action"/> with the relevant <see cref="IInstance"/>.
 		/// </summary>
-		/// <param name="action">A <see cref="Func{T, TResult}"/> accepting the <see cref="IInstance"/> and returning a <see cref="Task{TResult}"/> with the <see cref="IActionResult"/>.</param>
+		/// <param name="action">A <see cref="Func{T, TResult}"/> accepting the <see cref="IInstance"/> and returning a <see cref="ValueTask{TResult}"/> with the <see cref="IActionResult"/>.</param>
 		/// <param name="instance">The <see cref="Models.Instance"/> to grab. If <see langword="null"/>, <see cref="ApiController.Instance"/> will be used.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> that should be returned.</returns>
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="IActionResult"/> that should be returned.</returns>
 		/// <remarks>The context of <paramref name="action"/> should be as small as possible so as to avoid race conditions. This function can return a <see cref="ConflictResult"/> if the requested instance was offline.</remarks>
-		protected async Task<IActionResult> WithComponentInstance(Func<IInstanceCore, Task<IActionResult>> action, Models.Instance instance = null)
+		protected async ValueTask<IActionResult> WithComponentInstance(Func<IInstanceCore, ValueTask<IActionResult>> action, Models.Instance instance = null)
 		{
 			ArgumentNullException.ThrowIfNull(action);
 

@@ -117,7 +117,7 @@ namespace Tgstation.Server.Host.Components.Repository
 		}
 
 		/// <inheritdoc />
-		public async Task<IRepository> CloneRepository(
+		public async ValueTask<IRepository> CloneRepository(
 			Uri url,
 			string initialBranch,
 			string username,
@@ -202,7 +202,7 @@ namespace Tgstation.Server.Host.Components.Repository
 		}
 
 		/// <inheritdoc />
-		public async Task<IRepository> LoadRepository(CancellationToken cancellationToken)
+		public async ValueTask<IRepository> LoadRepository(CancellationToken cancellationToken)
 		{
 			logger.LogTrace("Begin LoadRepository...");
 			lock (semaphore)
@@ -248,7 +248,7 @@ namespace Tgstation.Server.Host.Components.Repository
 		}
 
 		/// <inheritdoc />
-		public async Task DeleteRepository(CancellationToken cancellationToken)
+		public async ValueTask DeleteRepository(CancellationToken cancellationToken)
 		{
 			logger.LogInformation("Deleting repository...");
 			try

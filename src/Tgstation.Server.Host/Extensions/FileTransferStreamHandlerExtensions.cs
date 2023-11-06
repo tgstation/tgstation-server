@@ -11,7 +11,7 @@ using Microsoft.Net.Http.Headers;
 
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Response;
-using Tgstation.Server.Host.Controllers;
+using Tgstation.Server.Host.Controllers.Results;
 using Tgstation.Server.Host.Transfer;
 
 namespace Tgstation.Server.Host.Extensions
@@ -28,8 +28,8 @@ namespace Tgstation.Server.Host.Extensions
 		/// <param name="controller">The <see cref="ControllerBase"/> the request is coming from.</param>
 		/// <param name="ticket">The <see cref="FileTicketResponse.FileTicket"/> for the download.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the method.</returns>
-		public static async Task<IActionResult> GenerateDownloadResponse(
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="IActionResult"/> of the method.</returns>
+		public static async ValueTask<IActionResult> GenerateDownloadResponse(
 			this IFileTransferStreamHandler fileTransferService,
 			ControllerBase controller,
 			string ticket,

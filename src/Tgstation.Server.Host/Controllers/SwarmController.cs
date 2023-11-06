@@ -5,8 +5,8 @@ using System.Net.Mime;
 using System.Threading;
 using System.Threading.Tasks;
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
@@ -25,10 +25,9 @@ namespace Tgstation.Server.Host.Controllers
 	/// For swarm server communication.
 	/// </summary>
 	[Route(SwarmConstants.ControllerRoute)]
-	[Produces(MediaTypeNames.Application.Json)]
-	[ApiController]
 	[ApiExplorerSettings(IgnoreApi = true)]
-	public sealed class SwarmController : Controller
+	[AllowAnonymous] // We have custom private key auth
+	public sealed class SwarmController : ApiControllerBase
 	{
 		/// <summary>
 		/// Get the current registration <see cref="Guid"/> from the <see cref="ControllerBase.Request"/>.
@@ -89,7 +88,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>The <see cref="IActionResult"/> of the operation.</returns>
 		[HttpPost(SwarmConstants.RegisterRoute)]
-		public async Task<IActionResult> Register([FromBody] SwarmRegistrationRequest registrationRequest, CancellationToken cancellationToken)
+		public async ValueTask<IActionResult> Register([FromBody] SwarmRegistrationRequest registrationRequest, CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(registrationRequest);
 
@@ -108,7 +107,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation.</returns>
 		[HttpDelete(SwarmConstants.RegisterRoute)]
-		public async Task<IActionResult> UnregisterNode(CancellationToken cancellationToken)
+		public async ValueTask<IActionResult> UnregisterNode(CancellationToken cancellationToken)
 		{
 			if (!ValidateRegistration())
 				return Forbid();
@@ -138,7 +137,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation.</returns>
 		[HttpGet(SwarmConstants.UpdateRoute)]
 		[Produces(MediaTypeNames.Application.Octet)]
-		public Task<IActionResult> GetUpdatePackage([FromQuery] string ticket, CancellationToken cancellationToken)
+		public ValueTask<IActionResult> GetUpdatePackage([FromQuery] string ticket, CancellationToken cancellationToken)
 			=> transferService.GenerateDownloadResponse(this, ticket, cancellationToken);
 
 		/// <summary>
@@ -163,9 +162,9 @@ namespace Tgstation.Server.Host.Controllers
 		/// </summary>
 		/// <param name="updateRequest">The <see cref="SwarmUpdateRequest"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation.</returns>
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation.</returns>
 		[HttpPut(SwarmConstants.UpdateRoute)]
-		public async Task<IActionResult> PrepareUpdate([FromBody] SwarmUpdateRequest updateRequest, CancellationToken cancellationToken)
+		public async ValueTask<IActionResult> PrepareUpdate([FromBody] SwarmUpdateRequest updateRequest, CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(updateRequest);
 
@@ -183,9 +182,9 @@ namespace Tgstation.Server.Host.Controllers
 		/// Update commit endpoint.
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation.</returns>
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation.</returns>
 		[HttpPost(SwarmConstants.UpdateRoute)]
-		public async Task<IActionResult> CommitUpdate(CancellationToken cancellationToken)
+		public async ValueTask<IActionResult> CommitUpdate(CancellationToken cancellationToken)
 		{
 			if (!ValidateRegistration())
 				return Forbid();
@@ -199,9 +198,9 @@ namespace Tgstation.Server.Host.Controllers
 		/// <summary>
 		/// Update abort endpoint.
 		/// </summary>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation.</returns>
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation.</returns>
 		[HttpDelete(SwarmConstants.UpdateRoute)]
-		public async Task<IActionResult> AbortUpdate()
+		public async ValueTask<IActionResult> AbortUpdate()
 		{
 			if (!ValidateRegistration())
 				return Forbid();
@@ -211,7 +210,7 @@ namespace Tgstation.Server.Host.Controllers
 		}
 
 		/// <inheritdoc />
-		public override async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
+		protected override async ValueTask<IActionResult> HookExecuteAction(Func<Task> executeAction, CancellationToken cancellationToken)
 		{
 			using (LogContext.PushProperty(SerilogContextHelper.RequestPathContextProperty, $"{Request.Method} {Request.Path}"))
 			{
@@ -219,8 +218,7 @@ namespace Tgstation.Server.Host.Controllers
 				if (swarmConfiguration.PrivateKey == null)
 				{
 					logger.LogDebug("Attempted swarm request without private key configured!");
-					await Forbid().ExecuteResultAsync(context);
-					return;
+					return Forbid();
 				}
 
 				if (!(Request.Headers.TryGetValue(SwarmConstants.ApiKeyHeader, out var apiKeyHeaderValues)
@@ -228,8 +226,7 @@ namespace Tgstation.Server.Host.Controllers
 					&& apiKeyHeaderValues.First() == swarmConfiguration.PrivateKey))
 				{
 					logger.LogDebug("Unauthorized swarm request!");
-					await Unauthorized().ExecuteResultAsync(context);
-					return;
+					return Unauthorized();
 				}
 
 				if (!(Request.Headers.TryGetValue(SwarmConstants.RegistrationIdHeader, out var registrationHeaderValues)
@@ -237,8 +234,7 @@ namespace Tgstation.Server.Host.Controllers
 					&& Guid.TryParse(registrationHeaderValues.First(), out var registrationId)))
 				{
 					logger.LogDebug("Swarm request without registration ID!");
-					await BadRequest().ExecuteResultAsync(context);
-					return;
+					return BadRequest();
 				}
 
 				// we validate the registration itself on a case-by-case basis
@@ -252,12 +248,12 @@ namespace Tgstation.Server.Host.Controllers
 						"Swarm request model validation failed!{newLine}{messages}",
 						Environment.NewLine,
 						String.Join(Environment.NewLine, errorMessages));
-					await BadRequest().ExecuteResultAsync(context);
-					return;
+					return BadRequest();
 				}
 
 				logger.LogTrace("Starting swarm request processing...");
-				await base.OnActionExecutionAsync(context, next);
+				await executeAction();
+				return null;
 			}
 		}
 

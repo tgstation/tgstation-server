@@ -90,8 +90,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		}
 
 		/// <inheritdoc />
-		protected override Task ApplyInitialDmb(CancellationToken cancellationToken)
-			=> Task.CompletedTask; // not necessary to hold initial .dmb on Linux because of based inode deletes
+		protected override ValueTask ApplyInitialDmb(CancellationToken cancellationToken)
+			=> ValueTask.CompletedTask; // not necessary to hold initial .dmb on Linux because of based inode deletes
 
 		/// <inheritdoc />
 		protected override SwappableDmbProvider CreateSwappableDmbProvider(IDmbProvider dmbProvider)

@@ -10,6 +10,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
+using Tgstation.Server.Common.Extensions;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Core;
 
@@ -109,7 +110,7 @@ namespace Tgstation.Server.Host
 		}
 
 		/// <inheritdoc />
-		public async Task Run(CancellationToken cancellationToken)
+		public async ValueTask Run(CancellationToken cancellationToken)
 		{
 			using (cancellationTokenSource = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken))
 			using (var fsWatcher = updatePath != null ? new FileSystemWatcher(Path.GetDirectoryName(updatePath)) : null)
@@ -127,7 +128,6 @@ namespace Tgstation.Server.Host
 				try
 				{
 					using (Host = hostBuilder.Build())
-					{
 						try
 						{
 							logger = Host.Services.GetRequiredService<ILogger<Server>>();
@@ -154,7 +154,6 @@ namespace Tgstation.Server.Host
 						{
 							logger = null;
 						}
-					}
 				}
 				finally
 				{
@@ -239,19 +238,19 @@ namespace Tgstation.Server.Host
 		}
 
 		/// <inheritdoc />
-		public Task Restart() => RestartImpl(null, null, true, true);
+		public ValueTask Restart() => RestartImpl(null, null, true, true);
 
 		/// <inheritdoc />
-		public Task GracefulShutdown(bool detach) => RestartImpl(null, null, false, detach);
+		public ValueTask GracefulShutdown(bool detach) => RestartImpl(null, null, false, detach);
 
 		/// <inheritdoc />
-		public Task Die(Exception exception)
+		public ValueTask Die(Exception exception)
 		{
 			if (exception != null)
 				return RestartImpl(null, exception, false, true);
 
 			StopServerImmediate();
-			return Task.CompletedTask;
+			return ValueTask.CompletedTask;
 		}
 
 		/// <summary>
@@ -289,8 +288,8 @@ namespace Tgstation.Server.Host
 		/// <param name="exception">The potential value of <see cref="propagatedException"/>.</param>
 		/// <param name="requireWatchdog">If the host watchdog is required for this "restart".</param>
 		/// <param name="completeAsap">If the restart should wait for extremely long running tasks to complete (Like the current DreamDaemon world).</param>
-		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		async Task RestartImpl(Version newVersion, Exception exception, bool requireWatchdog, bool completeAsap)
+		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
+		async ValueTask RestartImpl(Version newVersion, Exception exception, bool requireWatchdog, bool completeAsap)
 		{
 			CheckSanity(requireWatchdog);
 
@@ -328,10 +327,13 @@ namespace Tgstation.Server.Host
 				var cancellationToken = cts.Token;
 				try
 				{
-					var eventsTask = Task.WhenAll(
-						restartHandlers.Select(
-							x => x.HandleRestart(newVersion, giveHandlersTimeToWaitAround, cancellationToken))
-						.ToList());
+					ValueTask eventsTask;
+					lock (restartLock)
+						eventsTask = ValueTaskExtensions.WhenAll(
+							restartHandlers
+								.Select(
+									x => x.HandleRestart(newVersion, giveHandlersTimeToWaitAround, cancellationToken))
+								.ToList());
 
 					logger.LogTrace("Joining restart handlers...");
 					await eventsTask;

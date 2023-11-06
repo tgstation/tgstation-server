@@ -36,7 +36,7 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 		}
 
 		/// <inheritdoc />
-		public override async Task<IReadOnlyCollection<TestMerge>> RemoveMergedTestMerges(
+		public override async ValueTask<IReadOnlyCollection<TestMerge>> RemoveMergedTestMerges(
 			IRepository repository,
 			RepositorySettings repositorySettings,
 			RevisionInformation revisionInformation,
@@ -76,7 +76,7 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 			var newList = revisionInformation.ActiveTestMerges.Select(x => x.TestMerge).ToList();
 
 			MergeRequest lastMerged = null;
-			async Task CheckRemoveMR(Task<MergeRequest> task)
+			async ValueTask CheckRemoveMR(Task<MergeRequest> task)
 			{
 				var mergeRequest = await task;
 				if (mergeRequest.State != MergeRequestState.Merged)
@@ -100,30 +100,30 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 		}
 
 		/// <inheritdoc />
-		public override Task FailDeployment(
+		public override ValueTask FailDeployment(
 			CompileJob compileJob,
 			string errorMessage,
-			CancellationToken cancellationToken) => Task.CompletedTask;
+			CancellationToken cancellationToken) => ValueTask.CompletedTask;
 
 		/// <inheritdoc />
-		public override Task StartDeployment(
+		public override ValueTask StartDeployment(
 			Api.Models.Internal.IGitRemoteInformation remoteInformation,
 			CompileJob compileJob,
-			CancellationToken cancellationToken) => Task.CompletedTask;
+			CancellationToken cancellationToken) => ValueTask.CompletedTask;
 
 		/// <inheritdoc />
-		protected override Task ApplyDeploymentImpl(
+		protected override ValueTask ApplyDeploymentImpl(
 			CompileJob compileJob,
-			CancellationToken cancellationToken) => Task.CompletedTask;
+			CancellationToken cancellationToken) => ValueTask.CompletedTask;
 
 		/// <inheritdoc />
-		protected override Task StageDeploymentImpl(CompileJob compileJob, CancellationToken cancellationToken) => Task.CompletedTask;
+		protected override ValueTask StageDeploymentImpl(CompileJob compileJob, CancellationToken cancellationToken) => ValueTask.CompletedTask;
 
 		/// <inheritdoc />
-		protected override Task MarkInactiveImpl(CompileJob compileJob, CancellationToken cancellationToken) => Task.CompletedTask;
+		protected override ValueTask MarkInactiveImpl(CompileJob compileJob, CancellationToken cancellationToken) => ValueTask.CompletedTask;
 
 		/// <inheritdoc />
-		protected override async Task CommentOnTestMergeSource(
+		protected override async ValueTask CommentOnTestMergeSource(
 			RepositorySettings repositorySettings,
 			string remoteRepositoryOwner,
 			string remoteRepositoryName,

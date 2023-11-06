@@ -10,6 +10,6 @@ namespace Tgstation.Server.Host.Components
 		/// <summary>
 		/// A unique ID for the <see cref="IInstanceReference"/>.
 		/// </summary>
-		public Guid Uid { get; }
+		public ulong Uid { get; }
 	}
 }

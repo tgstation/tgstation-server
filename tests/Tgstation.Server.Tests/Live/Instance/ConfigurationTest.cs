@@ -11,6 +11,7 @@ using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Request;
 using Tgstation.Server.Client;
 using Tgstation.Server.Client.Components;
+using Tgstation.Server.Common.Extensions;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.System;
 
@@ -86,12 +87,12 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 		}
 
-		public Task SetupDMApiTests(bool includingRoot, CancellationToken cancellationToken)
+		public ValueTask SetupDMApiTests(bool includingRoot, CancellationToken cancellationToken)
 		{
 			// just use an I/O manager here
 			var ioManager = new DefaultIOManager();
 
-			async Task TestStaticFileAndDir()
+			async ValueTask TestStaticFileAndDir()
 			{
 				// leave a file there to test the deployment process
 				var staticDir = new ConfigurationFileRequest
@@ -131,7 +132,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 					cancellationToken);
 			}
 
-			return Task.WhenAll(
+			return ValueTaskExtensions.WhenAll(
 				ioManager.CopyDirectory(
 					Enumerable.Empty<string>(),
 					null,
@@ -144,10 +145,10 @@ namespace Tgstation.Server.Tests.Live.Instance
 						"../../../../DMAPI/LongRunning/long_running_test_rooted.dme",
 						ioManager.ConcatPath(instance.Path, "Repository", "long_running_test_rooted.dme"),
 						cancellationToken)
-					: Task.CompletedTask,
+					: ValueTask.CompletedTask,
 				includingRoot
 					? TestStaticFileAndDir()
-					: Task.CompletedTask,
+					: ValueTask.CompletedTask,
 				ioManager.CopyDirectory(
 					Enumerable.Empty<string>(),
 					null,
@@ -219,7 +220,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 		}
 
 		public Task RunPreWatchdog(CancellationToken cancellationToken) => Task.WhenAll(
-			SetupDMApiTests(false, cancellationToken),
+			SetupDMApiTests(false, cancellationToken).AsTask(),
 			SequencedApiTests(cancellationToken),
 			TestPregeneratedFilesExist(cancellationToken));
 	}

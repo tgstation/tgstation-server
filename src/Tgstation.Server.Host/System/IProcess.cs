@@ -39,8 +39,7 @@ namespace Tgstation.Server.Host.System
 		/// <summary>
 		/// Get the name of the account executing the <see cref="IProcess"/>.
 		/// </summary>
-		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the name of the account executing the <see cref="IProcess"/>.</returns>
-		Task<string> GetExecutingUsername(CancellationToken cancellationToken);
+		/// <returns>The name of the account executing the <see cref="IProcess"/>.</returns>
+		string GetExecutingUsername();
 	}
 }

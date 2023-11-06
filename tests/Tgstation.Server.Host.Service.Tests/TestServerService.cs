@@ -46,8 +46,8 @@ namespace Tgstation.Server.Host.Service.Tests
 				{
 					childStarted = true;
 					return (123, Task.CompletedTask);
-				}, cancellationToken);
-			}).Returns(Task.FromResult(true)).Verifiable();
+				}, cancellationToken).AsTask();
+			}).ReturnsAsync(true).Verifiable();
 			var mockWatchdogFactory = new Mock<IWatchdogFactory>();
 
 			mockWatchdogFactory.Setup(x => x.CreateWatchdog(It.IsNotNull<ISignalChecker>(), It.IsNotNull<ILoggerFactory>()))

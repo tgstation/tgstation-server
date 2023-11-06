@@ -11,6 +11,7 @@ using Microsoft.Extensions.Options;
 
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Common;
+using Tgstation.Server.Common.Extensions;
 using Tgstation.Server.Host.Components.Interop;
 using Tgstation.Server.Host.Components.Interop.Bridge;
 using Tgstation.Server.Host.Configuration;
@@ -246,7 +247,7 @@ namespace Tgstation.Server.Host.Components
 		}
 
 		/// <inheritdoc />
-		public async Task MoveInstance(Models.Instance instance, string oldPath, CancellationToken cancellationToken)
+		public async ValueTask MoveInstance(Models.Instance instance, string oldPath, CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(oldPath);
 
@@ -274,7 +275,7 @@ namespace Tgstation.Server.Host.Components
 					logger.LogDebug("Reverting instance {instanceId}'s path to {oldPath} in the DB...", instance.Id, oldPath);
 
 					// DCT: Operation must always run
-					await databaseContextFactory.UseContext(db =>
+					await databaseContextFactory.UseContextTaskReturn(db =>
 					{
 						var targetInstance = new Models.Instance
 						{
@@ -317,7 +318,7 @@ namespace Tgstation.Server.Host.Components
 		}
 
 		/// <inheritdoc />
-		public async Task OfflineInstance(Models.Instance metadata, Models.User user, CancellationToken cancellationToken)
+		public async ValueTask OfflineInstance(Models.Instance metadata, Models.User user, CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(metadata);
 
@@ -342,7 +343,7 @@ namespace Tgstation.Server.Host.Components
 					await container.OnZeroReferences.WaitAsync(cancellationToken);
 
 					// we are the one responsible for cancelling his jobs
-					var tasks = new List<Task>();
+					var tasks = new List<ValueTask<Models.Job>>();
 					await databaseContextFactory.UseContext(
 						async db =>
 						{
@@ -350,16 +351,13 @@ namespace Tgstation.Server.Host.Components
 								.Jobs
 								.AsQueryable()
 								.Where(x => x.Instance.Id == metadata.Id && !x.StoppedAt.HasValue)
-								.Select(x => new Models.Job
-								{
-									Id = x.Id,
-								})
+								.Select(x => new Models.Job(x.Id.Value))
 								.ToListAsync(cancellationToken);
 							foreach (var job in jobs)
 								tasks.Add(jobService.CancelJob(job, user, true, cancellationToken));
 						});
 
-					await Task.WhenAll(tasks);
+					await ValueTaskExtensions.WhenAll(tasks);
 				}
 				catch
 				{
@@ -383,7 +381,7 @@ namespace Tgstation.Server.Host.Components
 		}
 
 		/// <inheritdoc />
-		public async Task OnlineInstance(Models.Instance metadata, CancellationToken cancellationToken)
+		public async ValueTask OnlineInstance(Models.Instance metadata, CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(metadata);
 
@@ -459,7 +457,7 @@ namespace Tgstation.Server.Host.Components
 						var instanceFactoryStopTask = instanceFactory.StopAsync(cancellationToken);
 						await jobService.StopAsync(cancellationToken);
 
-						async Task OfflineInstanceImmediate(IInstance instance, CancellationToken cancellationToken)
+						async ValueTask OfflineInstanceImmediate(IInstance instance, CancellationToken cancellationToken)
 						{
 							try
 							{
@@ -471,7 +469,7 @@ namespace Tgstation.Server.Host.Components
 							}
 						}
 
-						await Task.WhenAll(instances.Select(x => OfflineInstanceImmediate(x.Value.Instance, cancellationToken)));
+						await ValueTaskExtensions.WhenAll(instances.Select(x => OfflineInstanceImmediate(x.Value.Instance, cancellationToken)));
 						await instanceFactoryStopTask;
 
 						await swarmServiceController.Shutdown(cancellationToken);
@@ -489,7 +487,7 @@ namespace Tgstation.Server.Host.Components
 		}
 
 		/// <inheritdoc />
-		public async Task<BridgeResponse> ProcessBridgeRequest(BridgeParameters parameters, CancellationToken cancellationToken)
+		public async ValueTask<BridgeResponse> ProcessBridgeRequest(BridgeParameters parameters, CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(parameters);
 
@@ -569,8 +567,9 @@ namespace Tgstation.Server.Host.Components
 				await InitializeSwarm(cancellationToken);
 
 				List<Models.Instance> dbInstances = null;
-				var instanceEnumeration = databaseContextFactory.UseContext(
-					async databaseContext => dbInstances = await databaseContext
+
+				async ValueTask EnumerateInstances(IDatabaseContext databaseContext)
+					=> dbInstances = await databaseContext
 						.Instances
 						.AsQueryable()
 						.Where(x => x.Online.Value && x.SwarmIdentifer == swarmConfiguration.Identifier)
@@ -578,12 +577,14 @@ namespace Tgstation.Server.Host.Components
 						.Include(x => x.ChatSettings)
 							.ThenInclude(x => x.Channels)
 						.Include(x => x.DreamDaemonSettings)
-						.ToListAsync(cancellationToken));
+						.ToListAsync(cancellationToken);
+
+				var instanceEnumeration = databaseContextFactory.UseContext(EnumerateInstances);
 
 				var factoryStartup = instanceFactory.StartAsync(cancellationToken);
 				var jobManagerStartup = jobService.StartAsync(cancellationToken);
 
-				await Task.WhenAll(instanceEnumeration, factoryStartup, jobManagerStartup);
+				await Task.WhenAll(instanceEnumeration.AsTask(), factoryStartup, jobManagerStartup);
 
 				var instanceOnliningTasks = dbInstances.Select(
 					async metadata =>
@@ -646,8 +647,8 @@ namespace Tgstation.Server.Host.Components
 		/// Initializes the connection to the TGS swarm.
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		async Task InitializeSwarm(CancellationToken cancellationToken)
+		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
+		async ValueTask InitializeSwarm(CancellationToken cancellationToken)
 		{
 			SwarmRegistrationResult registrationResult;
 			do

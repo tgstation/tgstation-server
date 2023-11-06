@@ -202,15 +202,15 @@ namespace Tgstation.Server.Host.System
 		}
 
 		/// <inheritdoc />
-		public async Task<string> GetExecutingUsername(CancellationToken cancellationToken)
+		public string GetExecutingUsername()
 		{
-			var result = await processFeatures.GetExecutingUsername(handle, cancellationToken);
+			var result = processFeatures.GetExecutingUsername(handle);
 			logger.LogTrace("PID {pid} Username: {username}", Id, result);
 			return result;
 		}
 
 		/// <inheritdoc />
-		public Task CreateDump(string outputFile, CancellationToken cancellationToken)
+		public ValueTask CreateDump(string outputFile, CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(outputFile);
 

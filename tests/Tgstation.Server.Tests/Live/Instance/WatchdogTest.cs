@@ -115,19 +115,19 @@ namespace Tgstation.Server.Tests.Live.Instance
 					MapThreads = 2,
 					LogOutput = false,
 					AdditionalParameters = "expect_chat_channels=1&expect_static_files=1"
-				}, cancellationToken),
+				}, cancellationToken).AsTask(),
 				CheckByondVersions(),
-				ApiAssert.ThrowsException<ApiConflictException>(() => instanceClient.DreamDaemon.Update(new DreamDaemonRequest
+				ApiAssert.ThrowsException<ApiConflictException, DreamDaemonResponse>(() => instanceClient.DreamDaemon.Update(new DreamDaemonRequest
 				{
 					SoftShutdown = true,
 					SoftRestart = true
-				}, cancellationToken), ErrorCode.DreamDaemonDoubleSoft),
-				ApiAssert.ThrowsException<ApiConflictException>(() => instanceClient.DreamDaemon.Update(new DreamDaemonRequest
+				}, cancellationToken), ErrorCode.DreamDaemonDoubleSoft).AsTask(),
+				ApiAssert.ThrowsException<ApiConflictException, DreamDaemonResponse>(() => instanceClient.DreamDaemon.Update(new DreamDaemonRequest
 				{
 					Port = 0
-				}, cancellationToken), ErrorCode.ModelValidationFailure),
-				ApiAssert.ThrowsException<ConflictException>(() => instanceClient.DreamDaemon.CreateDump(cancellationToken), ErrorCode.WatchdogNotRunning),
-				ApiAssert.ThrowsException<ConflictException>(() => instanceClient.DreamDaemon.Restart(cancellationToken), ErrorCode.WatchdogNotRunning));
+				}, cancellationToken), ErrorCode.ModelValidationFailure).AsTask(),
+				ApiAssert.ThrowsException<ConflictException, JobResponse>(() => instanceClient.DreamDaemon.CreateDump(cancellationToken), ErrorCode.WatchdogNotRunning).AsTask(),
+				ApiAssert.ThrowsException<ConflictException, JobResponse>(() => instanceClient.DreamDaemon.Restart(cancellationToken), ErrorCode.WatchdogNotRunning).AsTask());
 
 			await RunBasicTest(cancellationToken);
 
@@ -157,7 +157,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			System.Console.WriteLine($"TEST: END WATCHDOG TESTS {instanceClient.Metadata.Name}");
 		}
 
-		async ValueTask RegressionTest1686(CancellationToken cancellationToken) 
+		async ValueTask RegressionTest1686(CancellationToken cancellationToken)
 		{
 			async ValueTask RunTest(bool useTrusted)
 			{

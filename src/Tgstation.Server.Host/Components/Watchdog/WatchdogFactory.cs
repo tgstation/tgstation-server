@@ -90,6 +90,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				diagnosticsIOManager,
 				eventConsumer,
 				remoteDeploymentManagerfactory,
+				gameIOManager,
 				LoggerFactory.CreateLogger<BasicWatchdog>(),
 				settings,
 				instance,

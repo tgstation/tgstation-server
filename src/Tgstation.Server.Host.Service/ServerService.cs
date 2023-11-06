@@ -90,7 +90,7 @@ namespace Tgstation.Server.Host.Service
 		}
 
 		/// <inheritdoc />
-		public async Task CheckSignals(Func<string, (int, Task)> startChildAndGetPid, CancellationToken cancellationToken)
+		public async ValueTask CheckSignals(Func<string, (int, Task)> startChildAndGetPid, CancellationToken cancellationToken)
 		{
 			await using (commandPipeServer = new AnonymousPipeServerStream(PipeDirection.Out, HandleInheritability.Inheritable))
 			await using (readyPipeServer = new AnonymousPipeServerStream(PipeDirection.In, HandleInheritability.Inheritable))

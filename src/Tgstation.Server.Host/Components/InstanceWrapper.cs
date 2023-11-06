@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 
 using Tgstation.Server.Host.Components.Byond;
@@ -18,8 +17,13 @@ namespace Tgstation.Server.Host.Components
 	/// </summary>
 	sealed class InstanceWrapper : ReferenceCounter<IInstance>, IInstanceReference
 	{
+		/// <summary>
+		/// Static counter for <see cref="Uid"/>.
+		/// </summary>
+		static ulong instanceWrapperInstances;
+
 		/// <inheritdoc />
-		public Guid Uid { get; }
+		public ulong Uid { get; }
 
 		/// <inheritdoc />
 		public IRepositoryManager RepositoryManager => Instance.RepositoryManager;
@@ -44,14 +48,14 @@ namespace Tgstation.Server.Host.Components
 		/// </summary>
 		public InstanceWrapper()
 		{
-			Uid = Guid.NewGuid();
+			Uid = Interlocked.Increment(ref instanceWrapperInstances);
 		}
 
 		/// <inheritdoc />
-		public Task InstanceRenamed(string newInstanceName, CancellationToken cancellationToken) => Instance.InstanceRenamed(newInstanceName, cancellationToken);
+		public ValueTask InstanceRenamed(string newInstanceName, CancellationToken cancellationToken) => Instance.InstanceRenamed(newInstanceName, cancellationToken);
 
 		/// <inheritdoc />
-		public Task SetAutoUpdateInterval(uint newInterval) => Instance.SetAutoUpdateInterval(newInterval);
+		public ValueTask SetAutoUpdateInterval(uint newInterval) => Instance.SetAutoUpdateInterval(newInterval);
 
 		/// <inheritdoc />
 		public CompileJob LatestCompileJob() => Instance.LatestCompileJob();

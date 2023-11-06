@@ -30,11 +30,6 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		protected SwappableDmbProvider ActiveSwappable { get; private set; }
 
 		/// <summary>
-		/// The <see cref="IIOManager"/> for the <see cref="AdvancedWatchdog"/> pointing to the Game directory.
-		/// </summary>
-		protected IIOManager GameIOManager { get; }
-
-		/// <summary>
 		/// The <see cref="IFilesystemLinkFactory"/> for the <see cref="AdvancedWatchdog"/>.
 		/// </summary>
 		protected IFilesystemLinkFactory LinkFactory { get; }
@@ -64,10 +59,10 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <param name="jobManager">The <see cref="IJobManager"/> for the <see cref="WatchdogBase"/>.</param>
 		/// <param name="serverControl">The <see cref="IServerControl"/> for the <see cref="WatchdogBase"/>.</param>
 		/// <param name="asyncDelayer">The <see cref="IAsyncDelayer"/> for the <see cref="WatchdogBase"/>.</param>
-		/// <param name="diagnosticsIOManager">The <see cref="IIOManager"/> for the <see cref="WatchdogBase"/>.</param>
+		/// <param name="diagnosticsIOManager">The 'Diagnostics' <see cref="IIOManager"/> for the <see cref="WatchdogBase"/>.</param>
 		/// <param name="eventConsumer">The <see cref="IEventConsumer"/> for the <see cref="WatchdogBase"/>.</param>
 		/// <param name="remoteDeploymentManagerFactory">The <see cref="IRemoteDeploymentManagerFactory"/> for the <see cref="WatchdogBase"/>.</param>
-		/// <param name="gameIOManager">The value of <see cref="GameIOManager"/>.</param>
+		/// <param name="gameIOManager">The 'Game' <see cref="IIOManager"/> for the <see cref="WatchdogBase"/>.</param>
 		/// <param name="linkFactory">The value of <see cref="LinkFactory"/>.</param>
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="WatchdogBase"/>.</param>
 		/// <param name="initialLaunchParameters">The <see cref="DreamDaemonLaunchParameters"/> for the <see cref="WatchdogBase"/>.</param>
@@ -101,6 +96,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				diagnosticsIOManager,
 				eventConsumer,
 				remoteDeploymentManagerFactory,
+				gameIOManager,
 				logger,
 				initialLaunchParameters,
 				instance,
@@ -108,7 +104,6 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		{
 			try
 			{
-				GameIOManager = gameIOManager ?? throw new ArgumentNullException(nameof(gameIOManager));
 				LinkFactory = linkFactory ?? throw new ArgumentNullException(nameof(linkFactory));
 
 				deploymentCleanupTasks = new List<Task>();
@@ -125,7 +120,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		}
 
 		/// <inheritdoc />
-		protected sealed override async Task DisposeAndNullControllersImpl()
+		protected sealed override async ValueTask DisposeAndNullControllersImpl()
 		{
 			await base.DisposeAndNullControllersImpl();
 
@@ -138,11 +133,11 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		}
 
 		/// <inheritdoc />
-		protected sealed override async Task<MonitorAction> HandleNormalReboot(CancellationToken cancellationToken)
+		protected sealed override async ValueTask<MonitorAction> HandleNormalReboot(CancellationToken cancellationToken)
 		{
 			if (pendingSwappable != null)
 			{
-				Task RunPrequel() => BeforeApplyDmb(pendingSwappable.CompileJob, cancellationToken);
+				ValueTask RunPrequel() => BeforeApplyDmb(pendingSwappable.CompileJob, cancellationToken);
 
 				var needToSwap = !pendingSwappable.Swapped;
 				if (needToSwap)
@@ -231,7 +226,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		}
 
 		/// <inheritdoc />
-		protected sealed override async Task HandleNewDmbAvailable(CancellationToken cancellationToken)
+		protected sealed override async ValueTask HandleNewDmbAvailable(CancellationToken cancellationToken)
 		{
 			IDmbProvider compileJobProvider = DmbFactory.LockNextDmb(1);
 			bool canSeamlesslySwap = true;
@@ -287,7 +282,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		}
 
 		/// <inheritdoc />
-		protected sealed override async Task<IDmbProvider> PrepServerForLaunch(IDmbProvider dmbToUse, CancellationToken cancellationToken)
+		protected sealed override async ValueTask<IDmbProvider> PrepServerForLaunch(IDmbProvider dmbToUse, CancellationToken cancellationToken)
 		{
 			if (ActiveSwappable != null)
 				throw new InvalidOperationException("Expected activeSwappable to be null!");
@@ -316,8 +311,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// Set the <see cref="ReattachInformation.InitialDmb"/> for the <see cref="BasicWatchdog.Server"/>.
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		protected abstract Task ApplyInitialDmb(CancellationToken cancellationToken);
+		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
+		protected abstract ValueTask ApplyInitialDmb(CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Create a <see cref="SwappableDmbProvider"/> for a given <paramref name="dmbProvider"/>.
@@ -327,14 +322,14 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		protected abstract SwappableDmbProvider CreateSwappableDmbProvider(IDmbProvider dmbProvider);
 
 		/// <inheritdoc />
-		protected override async Task SessionStartupPersist(CancellationToken cancellationToken)
+		protected override async ValueTask SessionStartupPersist(CancellationToken cancellationToken)
 		{
 			await ApplyInitialDmb(cancellationToken);
 			await base.SessionStartupPersist(cancellationToken);
 		}
 
 		/// <inheritdoc />
-		protected override async Task<MonitorAction> HandleMonitorWakeup(MonitorActivationReason reason, CancellationToken cancellationToken)
+		protected override async ValueTask<MonitorAction> HandleMonitorWakeup(MonitorActivationReason reason, CancellationToken cancellationToken)
 		{
 			var result = await base.HandleMonitorWakeup(reason, cancellationToken);
 			if (reason == MonitorActivationReason.ActiveServerStartup)
@@ -347,7 +342,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// Create the initial link to the live game directory using <see cref="ActiveSwappable"/>.
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
+		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
 		async ValueTask InitialLink(CancellationToken cancellationToken)
 		{
 			await ActiveSwappable.FinishActivationPreparation(cancellationToken);

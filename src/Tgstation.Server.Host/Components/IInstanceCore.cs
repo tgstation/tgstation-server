@@ -48,7 +48,7 @@ namespace Tgstation.Server.Host.Components
 		/// Change the <see cref="Api.Models.Instance.AutoUpdateInterval"/> for the <see cref="IInstanceCore"/>.
 		/// </summary>
 		/// <param name="newInterval">The new auto update inteval.</param>
-		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		Task SetAutoUpdateInterval(uint newInterval);
+		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
+		ValueTask SetAutoUpdateInterval(uint newInterval);
 	}
 }

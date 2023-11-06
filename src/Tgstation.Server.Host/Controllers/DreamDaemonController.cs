@@ -47,23 +47,26 @@ namespace Tgstation.Server.Host.Controllers
 		/// Initializes a new instance of the <see cref="DreamDaemonController"/> class.
 		/// </summary>
 		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> for the <see cref="InstanceRequiredController"/>.</param>
-		/// <param name="authenticationContextFactory">The <see cref="IAuthenticationContextFactory"/> for the <see cref="InstanceRequiredController"/>.</param>
+		/// <param name="authenticationContext">The <see cref="IAuthenticationContext"/> for the <see cref="InstanceRequiredController"/>.</param>
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="InstanceRequiredController"/>.</param>
 		/// <param name="instanceManager">The <see cref="IInstanceManager"/> for the <see cref="InstanceRequiredController"/>.</param>
 		/// <param name="jobManager">The value of <see cref="jobManager"/>.</param>
 		/// <param name="portAllocator">The value of <see cref="IPortAllocator"/>.</param>
+		/// <param name="apiHeaders">The <see cref="IApiHeadersProvider"/> for the <see cref="InstanceRequiredController"/>.</param>
 		public DreamDaemonController(
 			IDatabaseContext databaseContext,
-			IAuthenticationContextFactory authenticationContextFactory,
+			IAuthenticationContext authenticationContext,
 			ILogger<DreamDaemonController> logger,
 			IInstanceManager instanceManager,
 			IJobManager jobManager,
-			IPortAllocator portAllocator)
+			IPortAllocator portAllocator,
+			IApiHeadersProvider apiHeaders)
 			: base(
 				  databaseContext,
-				  authenticationContextFactory,
+				  authenticationContext,
 				  logger,
-				  instanceManager)
+				  instanceManager,
+				  apiHeaders)
 		{
 			this.jobManager = jobManager ?? throw new ArgumentNullException(nameof(jobManager));
 			this.portAllocator = portAllocator ?? throw new ArgumentNullException(nameof(portAllocator));
@@ -73,25 +76,18 @@ namespace Tgstation.Server.Host.Controllers
 		/// Launches the watchdog.
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation.</returns>
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation.</returns>
 		/// <response code="202">Watchdog launch started successfully.</response>
 		[HttpPut]
 		[TgsAuthorize(DreamDaemonRights.Start)]
 		[ProducesResponseType(typeof(JobResponse), 202)]
-		public Task<IActionResult> Create(CancellationToken cancellationToken)
+		public ValueTask<IActionResult> Create(CancellationToken cancellationToken)
 			=> WithComponentInstance(async instance =>
 			{
 				if (instance.Watchdog.Status != WatchdogStatus.Offline)
 					return Conflict(new ErrorMessageResponse(ErrorCode.WatchdogRunning));
 
-				var job = new Job
-				{
-					Description = "Launch DreamDaemon",
-					CancelRight = (ulong)DreamDaemonRights.Shutdown,
-					CancelRightsType = RightsType.DreamDaemon,
-					Instance = Instance,
-					StartedBy = AuthenticationContext.User,
-				};
+				var job = Job.Create(JobCode.WatchdogLaunch, AuthenticationContext.User, Instance, DreamDaemonRights.Shutdown);
 				await jobManager.RegisterOperation(
 					job,
 					(core, databaseContextFactory, paramJob, progressHandler, innerCt) => core.Watchdog.Launch(innerCt),
@@ -103,25 +99,25 @@ namespace Tgstation.Server.Host.Controllers
 		/// Get the watchdog status.
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation.</returns>
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation.</returns>
 		/// <response code="200">Read <see cref="DreamDaemonResponse"/> information successfully.</response>
 		/// <response code="410">The database entity for the requested instance could not be retrieved. The instance was likely detached.</response>
 		[HttpGet]
 		[TgsAuthorize(DreamDaemonRights.ReadMetadata | DreamDaemonRights.ReadRevision)]
 		[ProducesResponseType(typeof(DreamDaemonResponse), 200)]
 		[ProducesResponseType(typeof(ErrorMessageResponse), 410)]
-		public Task<IActionResult> Read(CancellationToken cancellationToken) => ReadImpl(null, cancellationToken);
+		public ValueTask<IActionResult> Read(CancellationToken cancellationToken) => ReadImpl(null, cancellationToken);
 
 		/// <summary>
 		/// Stops the Watchdog if it's running.
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation.</returns>
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation.</returns>
 		/// <response code="204">Watchdog terminated.</response>
 		[HttpDelete]
 		[TgsAuthorize(DreamDaemonRights.Shutdown)]
 		[ProducesResponseType(204)]
-		public Task<IActionResult> Delete(CancellationToken cancellationToken)
+		public ValueTask<IActionResult> Delete(CancellationToken cancellationToken)
 			=> WithComponentInstance(async instance =>
 			{
 				await instance.Watchdog.Terminate(false, cancellationToken);
@@ -133,7 +129,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// </summary>
 		/// <param name="model">The <see cref="DreamDaemonRequest"/> with updated settings.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation.</returns>
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation.</returns>
 		/// <response code="200">Settings applied successfully.</response>
 		/// <response code="410">The database entity for the requested instance could not be retrieved. The instance was likely detached.</response>
 		[HttpPost]
@@ -157,7 +153,7 @@ namespace Tgstation.Server.Host.Controllers
 		[ProducesResponseType(typeof(ErrorMessageResponse), 410)]
 #pragma warning disable CA1502 // TODO: Decomplexify
 #pragma warning disable CA1506
-		public async Task<IActionResult> Update([FromBody] DreamDaemonRequest model, CancellationToken cancellationToken)
+		public async ValueTask<IActionResult> Update([FromBody] DreamDaemonRequest model, CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(model);
 
@@ -259,22 +255,15 @@ namespace Tgstation.Server.Host.Controllers
 		/// Creates a <see cref="JobResponse"/> to restart the Watchdog. It will not start if it wasn't already running.
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the request.</returns>
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="IActionResult"/> of the request.</returns>
 		/// <response code="202">Restart <see cref="JobResponse"/> started successfully.</response>
 		[HttpPatch]
 		[TgsAuthorize(DreamDaemonRights.Restart)]
 		[ProducesResponseType(typeof(JobResponse), 202)]
-		public Task<IActionResult> Restart(CancellationToken cancellationToken)
+		public ValueTask<IActionResult> Restart(CancellationToken cancellationToken)
 			=> WithComponentInstance(async instance =>
 			{
-				var job = new Job
-				{
-					Instance = Instance,
-					CancelRightsType = RightsType.DreamDaemon,
-					CancelRight = (ulong)DreamDaemonRights.Shutdown,
-					StartedBy = AuthenticationContext.User,
-					Description = "Restart Watchdog",
-				};
+				var job = Job.Create(JobCode.WatchdogRestart, AuthenticationContext.User, Instance, DreamDaemonRights.Shutdown);
 
 				var watchdog = instance.Watchdog;
 
@@ -292,22 +281,15 @@ namespace Tgstation.Server.Host.Controllers
 		/// Creates a <see cref="JobResponse"/> to generate a DreamDaemon process dump.
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the request.</returns>
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="IActionResult"/> of the request.</returns>
 		/// <response code="202">Dump <see cref="JobResponse"/> started successfully.</response>
 		[HttpPatch(Routes.Diagnostics)]
 		[TgsAuthorize(DreamDaemonRights.CreateDump)]
 		[ProducesResponseType(typeof(JobResponse), 202)]
-		public Task<IActionResult> CreateDump(CancellationToken cancellationToken)
+		public ValueTask<IActionResult> CreateDump(CancellationToken cancellationToken)
 			=> WithComponentInstance(async instance =>
 			{
-				var job = new Job
-				{
-					Instance = Instance,
-					CancelRightsType = RightsType.DreamDaemon,
-					CancelRight = (ulong)DreamDaemonRights.CreateDump,
-					StartedBy = AuthenticationContext.User,
-					Description = "Create DreamDaemon Process Dump",
-				};
+				var job = Job.Create(JobCode.WatchdogDump, AuthenticationContext.User, Instance, DreamDaemonRights.CreateDump);
 
 				var watchdog = instance.Watchdog;
 
@@ -326,8 +308,8 @@ namespace Tgstation.Server.Host.Controllers
 		/// </summary>
 		/// <param name="settings">The <see cref="DreamDaemonSettings"/> to operate on if any.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation.</returns>
-		Task<IActionResult> ReadImpl(DreamDaemonSettings settings, CancellationToken cancellationToken)
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation.</returns>
+		ValueTask<IActionResult> ReadImpl(DreamDaemonSettings settings, CancellationToken cancellationToken)
 			=> WithComponentInstance(async instance =>
 			{
 				var dd = instance.Watchdog;

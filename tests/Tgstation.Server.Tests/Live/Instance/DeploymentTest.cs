@@ -9,8 +9,8 @@ using Tgstation.Server.Api.Models.Response;
 using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Client;
 using Tgstation.Server.Client.Components;
+using Tgstation.Server.Common.Extensions;
 using Tgstation.Server.Host.System;
-using Tgstation.Server.Tests.Live;
 
 namespace Tgstation.Server.Tests.Live.Instance
 {
@@ -41,7 +41,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			this.lowPriorityDeployments = lowPriorityDeployments;
 		}
 
-		public async Task RunPreRepoClone(CancellationToken cancellationToken)
+		public async ValueTask RunPreRepoClone(CancellationToken cancellationToken)
 		{
 			Assert.IsNull(vpTest);
 			vpTest = TestVisibilityPermission(cancellationToken);
@@ -56,7 +56,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			Assert.AreEqual(null, dmSettings.ProjectName);
 		}
 
-		async Task CheckDreamDaemonPriority(Task deploymentJobWaitTask, CancellationToken cancellationToken)
+		async ValueTask CheckDreamDaemonPriority(Task deploymentJobWaitTask, CancellationToken cancellationToken)
 		{
 			// this doesn't check dm's priority, but it really should
 			while (!deploymentJobWaitTask.IsCompleted)
@@ -153,16 +153,17 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 			await CheckDreamDaemonPriority(deploymentJobWaitTask, cancellationToken);
 
-			await Task.WhenAll(
-				ApiAssert.ThrowsException<ConflictException>(() => dreamDaemonClient.Update(new DreamDaemonRequest
-				{
-					Port = dmPort,
-				}, cancellationToken), ErrorCode.PortNotAvailable),
-				ApiAssert.ThrowsException<ConflictException>(() => dreamMakerClient.Update(new DreamMakerRequest
-				{
-					ApiValidationPort = ddPort
-				}, cancellationToken), ErrorCode.PortNotAvailable),
-				deploymentJobWaitTask);
+			var t1 = ApiAssert.ThrowsException<ConflictException, DreamDaemonResponse>(() => dreamDaemonClient.Update(new DreamDaemonRequest
+			{
+				Port = dmPort,
+			}, cancellationToken), ErrorCode.PortNotAvailable);
+			var t2 = ApiAssert.ThrowsException<ConflictException, DreamMakerResponse>(() => dreamMakerClient.Update(new DreamMakerRequest
+			{
+				ApiValidationPort = ddPort
+			}, cancellationToken), ErrorCode.PortNotAvailable);
+			await ValueTaskExtensions.WhenAll(t1, t2);
+
+			await deploymentJobWaitTask;
 
 			const string FailProject = "tests/DMAPI/BuildFail/build_fail";
 			var updated = await dreamMakerClient.Update(new DreamMakerRequest
@@ -207,10 +208,10 @@ namespace Tgstation.Server.Tests.Live.Instance
 			}, cancellationToken);
 			Assert.IsFalse((updatedPS.DreamDaemonRights.Value & DreamDaemonRights.SetVisibility) != 0);
 
-			await ApiAssert.ThrowsException<InsufficientPermissionsException>(() => dreamDaemonClient.Update(new DreamDaemonRequest
+			await ApiAssert.ThrowsException<InsufficientPermissionsException, DreamDaemonResponse>(() => dreamDaemonClient.Update(new DreamDaemonRequest
 			{
 				Visibility = DreamDaemonVisibility.Private
-			}, cancellationToken), null);
+			}, cancellationToken));
 
 			updatedPS = await instanceClient.PermissionSets.Update(new InstancePermissionSetRequest
 			{

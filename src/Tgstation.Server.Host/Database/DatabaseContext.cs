@@ -284,7 +284,7 @@ namespace Tgstation.Server.Host.Database
 		public Task Drop(CancellationToken cancellationToken) => Database.EnsureDeletedAsync(cancellationToken);
 
 		/// <inheritdoc />
-		public async Task<bool> Migrate(ILogger<DatabaseContext> logger, CancellationToken cancellationToken)
+		public async ValueTask<bool> Migrate(ILogger<DatabaseContext> logger, CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(logger);
 			var migrations = await Database.GetAppliedMigrationsAsync(cancellationToken);
@@ -378,26 +378,26 @@ namespace Tgstation.Server.Host.Database
 		/// <summary>
 		/// Used by unit tests to remind us to setup the correct MSSQL migration downgrades.
 		/// </summary>
-		internal static readonly Type MSLatestMigration = typeof(MSAddMapThreads);
+		internal static readonly Type MSLatestMigration = typeof(MSAddJobCodes);
 
 		/// <summary>
 		/// Used by unit tests to remind us to setup the correct MYSQL migration downgrades.
 		/// </summary>
-		internal static readonly Type MYLatestMigration = typeof(MYAddMapThreads);
+		internal static readonly Type MYLatestMigration = typeof(MYAddJobCodes);
 
 		/// <summary>
 		/// Used by unit tests to remind us to setup the correct PostgresSQL migration downgrades.
 		/// </summary>
-		internal static readonly Type PGLatestMigration = typeof(PGAddMapThreads);
+		internal static readonly Type PGLatestMigration = typeof(PGAddJobCodes);
 
 		/// <summary>
 		/// Used by unit tests to remind us to setup the correct SQLite migration downgrades.
 		/// </summary>
-		internal static readonly Type SLLatestMigration = typeof(SLAddMapThreads);
+		internal static readonly Type SLLatestMigration = typeof(SLAddJobCodes);
 
 		/// <inheritdoc />
 #pragma warning disable CA1502 // Cyclomatic complexity
-		public async Task SchemaDowngradeForServerVersion(
+		public async ValueTask SchemaDowngradeForServerVersion(
 			ILogger<DatabaseContext> logger,
 			Version targetVersion,
 			DatabaseType currentDatabaseType,
@@ -422,6 +422,15 @@ namespace Tgstation.Server.Host.Database
 
 			string BadDatabaseType() => throw new ArgumentException($"Invalid DatabaseType: {currentDatabaseType}", nameof(currentDatabaseType));
 
+			if (targetVersion < new Version(5, 17, 0))
+				targetMigration = currentDatabaseType switch
+				{
+					DatabaseType.MySql => nameof(MYAddMapThreads),
+					DatabaseType.PostgresSql => nameof(PGAddMapThreads),
+					DatabaseType.SqlServer => nameof(MSAddMapThreads),
+					DatabaseType.Sqlite => nameof(SLAddMapThreads),
+					_ => BadDatabaseType(),
+				};
 			if (targetVersion < new Version(5, 13, 0))
 				targetMigration = currentDatabaseType switch
 				{

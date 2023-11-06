@@ -58,7 +58,7 @@ namespace Tgstation.Server.Host.Utils
 		}
 
 		/// <inheritdoc />
-		public async Task<ushort?> GetAvailablePort(ushort basePort, bool checkOne, CancellationToken cancellationToken)
+		public async ValueTask<ushort?> GetAvailablePort(ushort basePort, bool checkOne, CancellationToken cancellationToken)
 		{
 			logger.LogTrace("Port allocation >= {basePort} requested...", basePort);
 

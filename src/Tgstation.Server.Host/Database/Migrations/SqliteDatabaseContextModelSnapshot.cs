@@ -11,11 +11,10 @@ namespace Tgstation.Server.Host.Database.Migrations
 	[DbContext(typeof(SqliteDatabaseContext))]
 	partial class SqliteDatabaseContextModelSnapshot : ModelSnapshot
 	{
-		/// <inheritdoc />
 		protected override void BuildModel(ModelBuilder modelBuilder)
 		{
 #pragma warning disable 612, 618
-			modelBuilder.HasAnnotation("ProductVersion", "7.0.7");
+			modelBuilder.HasAnnotation("ProductVersion", "7.0.13");
 
 			modelBuilder.Entity("Tgstation.Server.Host.Models.ChatBot", b =>
 			{
@@ -384,6 +383,9 @@ namespace Tgstation.Server.Host.Database.Migrations
 					.HasColumnType("TEXT");
 
 				b.Property<long>("InstanceId")
+					.HasColumnType("INTEGER");
+
+				b.Property<byte>("JobCode")
 					.HasColumnType("INTEGER");
 
 				b.Property<DateTimeOffset?>("StartedAt")

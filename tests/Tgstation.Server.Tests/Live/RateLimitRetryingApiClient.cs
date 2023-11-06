@@ -13,12 +13,22 @@ namespace Tgstation.Server.Tests.Live
 {
 	sealed class RateLimitRetryingApiClient : ApiClient
 	{
-		public RateLimitRetryingApiClient(IHttpClient httpClient, Uri url, ApiHeaders apiHeaders, ApiHeaders tokenRefreshHeaders, bool authless)
-			: base(httpClient, url, apiHeaders, tokenRefreshHeaders, authless)
+		public RateLimitRetryingApiClient(
+			IHttpClient httpClient,
+			Uri url,
+			ApiHeaders apiHeaders,
+			ApiHeaders tokenRefreshHeaders,
+			bool authless)
+			: base(
+				  httpClient,
+				  url,
+				  apiHeaders,
+				  tokenRefreshHeaders,
+				  authless)
 		{
 		}
 
-		protected override async Task<TResult> RunRequest<TResult>(string route, HttpContent content, HttpMethod method, long? instanceId, bool tokenRefresh, CancellationToken cancellationToken)
+		protected override async ValueTask<TResult> RunRequest<TResult>(string route, HttpContent content, HttpMethod method, long? instanceId, bool tokenRefresh, CancellationToken cancellationToken)
 		{
 			var hasGitHubToken = !String.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("TGS_TEST_GITHUB_TOKEN"));
 			while (true)

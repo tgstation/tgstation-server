@@ -32,31 +32,28 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 		}
 
 		/// <inheritdoc />
-		public override Task FailDeployment(Models.CompileJob compileJob, string errorMessage, CancellationToken cancellationToken)
-		{
-			throw new NotImplementedException();
-		}
+		public override ValueTask FailDeployment(Models.CompileJob compileJob, string errorMessage, CancellationToken cancellationToken) => ValueTask.CompletedTask;
 
 		/// <inheritdoc />
-		public override Task<IReadOnlyCollection<TestMerge>> RemoveMergedTestMerges(IRepository repository, Models.RepositorySettings repositorySettings, Models.RevisionInformation revisionInformation, CancellationToken cancellationToken)
-			=> Task.FromResult<IReadOnlyCollection<TestMerge>>(Array.Empty<TestMerge>());
+		public override ValueTask<IReadOnlyCollection<TestMerge>> RemoveMergedTestMerges(IRepository repository, Models.RepositorySettings repositorySettings, Models.RevisionInformation revisionInformation, CancellationToken cancellationToken)
+			=> ValueTask.FromResult<IReadOnlyCollection<TestMerge>>(Array.Empty<TestMerge>());
 
 		/// <inheritdoc />
-		public override Task StartDeployment(IGitRemoteInformation remoteInformation, Models.CompileJob compileJob, CancellationToken cancellationToken)
-			=> Task.CompletedTask;
+		public override ValueTask StartDeployment(IGitRemoteInformation remoteInformation, Models.CompileJob compileJob, CancellationToken cancellationToken)
+			=> ValueTask.CompletedTask;
 
 		/// <inheritdoc />
-		protected override Task ApplyDeploymentImpl(Models.CompileJob compileJob, CancellationToken cancellationToken) => Task.CompletedTask;
+		protected override ValueTask ApplyDeploymentImpl(Models.CompileJob compileJob, CancellationToken cancellationToken) => ValueTask.CompletedTask;
 
 		/// <inheritdoc />
-		protected override Task CommentOnTestMergeSource(
+		protected override ValueTask CommentOnTestMergeSource(
 			Models.RepositorySettings repositorySettings,
 			string remoteRepositoryOwner,
 			string remoteRepositoryName,
 			string comment,
 			int testMergeNumber,
 			CancellationToken cancellationToken)
-			=> Task.CompletedTask;
+			=> ValueTask.CompletedTask;
 
 		/// <inheritdoc />
 		protected override string FormatTestMerge(
@@ -69,12 +66,9 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 			=> String.Empty;
 
 		/// <inheritdoc />
-		protected override Task MarkInactiveImpl(Models.CompileJob compileJob, CancellationToken cancellationToken)
-		{
-			throw new NotImplementedException();
-		}
+		protected override ValueTask MarkInactiveImpl(Models.CompileJob compileJob, CancellationToken cancellationToken) => ValueTask.CompletedTask;
 
 		/// <inheritdoc />
-		protected override Task StageDeploymentImpl(Models.CompileJob compileJob, CancellationToken cancellationToken) => Task.CompletedTask;
+		protected override ValueTask StageDeploymentImpl(Models.CompileJob compileJob, CancellationToken cancellationToken) => ValueTask.CompletedTask;
 	}
 }

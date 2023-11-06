@@ -18,6 +18,7 @@ using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Response;
 using Tgstation.Server.Common.Extensions;
 using Tgstation.Server.Host.Controllers;
+using Tgstation.Server.Host.Security;
 
 namespace Tgstation.Server.Host.Utils
 {

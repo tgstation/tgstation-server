@@ -38,7 +38,7 @@ namespace Tgstation.Server.Host.Components.Repository
 		}
 
 		/// <inheritdoc />
-		public async Task<LibGit2Sharp.IRepository> CreateFromPath(string path, CancellationToken cancellationToken)
+		public async ValueTask<LibGit2Sharp.IRepository> CreateFromPath(string path, CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(path);
 

@@ -65,7 +65,7 @@ namespace Tgstation.Server.Host.Components.Session
 		}
 
 		/// <inheritdoc />
-		public Task Save(ReattachInformation reattachInformation, CancellationToken cancellationToken) => databaseContextFactory.UseContext(async (db) =>
+		public ValueTask Save(ReattachInformation reattachInformation, CancellationToken cancellationToken) => databaseContextFactory.UseContext(async (db) =>
 		{
 			ArgumentNullException.ThrowIfNull(reattachInformation);
 
@@ -90,12 +90,12 @@ namespace Tgstation.Server.Host.Components.Session
 		});
 
 		/// <inheritdoc />
-		public async Task<ReattachInformation> Load(CancellationToken cancellationToken)
+		public async ValueTask<ReattachInformation> Load(CancellationToken cancellationToken)
 		{
 			Models.ReattachInformation result = null;
 			TimeSpan? topicTimeout = null;
 
-			async Task KillProcess(Models.ReattachInformation reattachInfo)
+			async ValueTask KillProcess(Models.ReattachInformation reattachInfo)
 			{
 				try
 				{
@@ -212,7 +212,7 @@ namespace Tgstation.Server.Host.Components.Session
 		}
 
 		/// <inheritdoc />
-		public Task Clear(CancellationToken cancellationToken) => databaseContextFactory
+		public ValueTask Clear(CancellationToken cancellationToken) => databaseContextFactory
 			.UseContext(
 				db =>
 				{
@@ -226,8 +226,8 @@ namespace Tgstation.Server.Host.Components.Session
 		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> to use.</param>
 		/// <param name="instant">If an SQL DELETE WHERE command should be used rather than an Entity Framework transaction.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		async Task ClearImpl(IDatabaseContext databaseContext, bool instant, CancellationToken cancellationToken)
+		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
+		async ValueTask ClearImpl(IDatabaseContext databaseContext, bool instant, CancellationToken cancellationToken)
 		{
 			var baseQuery = databaseContext
 				.ReattachInformations

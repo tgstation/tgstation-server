@@ -14,15 +14,15 @@ namespace Tgstation.Server.Client
 		/// </summary>
 		/// <param name="requestMessage">The <see cref="HttpRequestMessage"/> representing the request.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		Task LogRequest(HttpRequestMessage requestMessage, CancellationToken cancellationToken);
+		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
+		ValueTask LogRequest(HttpRequestMessage requestMessage, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Log a response.
 		/// </summary>
 		/// <param name="responseMessage">The <see cref="HttpResponseMessage"/> representing the request.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		Task LogResponse(HttpResponseMessage responseMessage, CancellationToken cancellationToken);
+		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
+		ValueTask LogResponse(HttpResponseMessage responseMessage, CancellationToken cancellationToken);
 	}
 }

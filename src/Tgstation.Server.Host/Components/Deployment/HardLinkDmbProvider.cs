@@ -97,7 +97,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 		}
 
 		/// <inheritdoc />
-		protected override async Task DoSwap(CancellationToken cancellationToken)
+		protected override async ValueTask DoSwap(CancellationToken cancellationToken)
 		{
 			logger.LogTrace("Begin DoSwap, mirroring task complete: {complete}...", mirroringTask.IsCompleted);
 			var mirroredDir = await mirroringTask.WaitAsync(cancellationToken);

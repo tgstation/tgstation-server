@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -40,12 +41,12 @@ namespace Tgstation.Server.Tests.Live
 			Assert.IsTrue(logFile.LastModified <= downloadedTuple.Item1.LastModified);
 			Assert.IsNull(logFile.FileTicket);
 
-			await ApiAssert.ThrowsException<ConflictException>(() => client.GetLog(new LogFileResponse
+			await ApiAssert.ThrowsException<ConflictException, Tuple<LogFileResponse, Stream>>(() => client.GetLog(new LogFileResponse
 			{
 				Name = "very_fake_path.log"
 			}, cancellationToken), ErrorCode.IOError);
 
-			await Assert.ThrowsExceptionAsync<InsufficientPermissionsException>(() => client.GetLog(new LogFileResponse
+			await ApiAssert.ThrowsException<InsufficientPermissionsException, Tuple<LogFileResponse, Stream>>(() => client.GetLog(new LogFileResponse
 			{
 				Name = "../out_of_bounds.file"
 			}, cancellationToken));

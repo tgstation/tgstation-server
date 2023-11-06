@@ -36,21 +36,21 @@ namespace Tgstation.Server.Host.Core
 		/// <summary>
 		/// Restarts the <see cref="Host"/>.
 		/// </summary>
-		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		Task Restart();
+		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
+		ValueTask Restart();
 
 		/// <summary>
 		/// Gracefully shutsdown the <see cref="Host"/>.
 		/// </summary>
 		/// <param name="detach">If the graceful shutdown should detach any running watchdog. If <see langword="false"/> the server will wait for the next TgsReboot() or world exit before shutting down.</param>
-		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		Task GracefulShutdown(bool detach);
+		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
+		ValueTask GracefulShutdown(bool detach);
 
 		/// <summary>
 		/// Kill the server with a fatal exception.
 		/// </summary>
 		/// <param name="exception">The <see cref="Exception"/> to propagate to the watchdog if any.</param>
 		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		Task Die(Exception exception);
+		ValueTask Die(Exception exception);
 	}
 }

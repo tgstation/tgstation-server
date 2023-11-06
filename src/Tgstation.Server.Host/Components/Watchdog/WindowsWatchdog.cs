@@ -78,7 +78,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		}
 
 		/// <inheritdoc />
-		protected override async Task ApplyInitialDmb(CancellationToken cancellationToken)
+		protected override async ValueTask ApplyInitialDmb(CancellationToken cancellationToken)
 		{
 			Server.ReattachInformation.InitialDmb = await DmbFactory.FromCompileJob(Server.CompileJob, cancellationToken);
 		}

@@ -14,10 +14,12 @@ using Tgstation.Server.Api.Models.Request;
 using Tgstation.Server.Api.Models.Response;
 using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Host.Configuration;
+using Tgstation.Server.Host.Controllers.Results;
 using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.Security;
+using Tgstation.Server.Host.Utils;
 
 using Z.EntityFramework.Plus;
 
@@ -38,19 +40,22 @@ namespace Tgstation.Server.Host.Controllers
 		/// Initializes a new instance of the <see cref="UserGroupController"/> class.
 		/// </summary>
 		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> for the <see cref="ApiController"/>.</param>
-		/// <param name="authenticationContextFactory">The <see cref="IAuthenticationContextFactory"/> for the <see cref="ApiController"/>.</param>
+		/// <param name="authenticationContext">The <see cref="IAuthenticationContext"/> for the <see cref="ApiController"/>.</param>
 		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="generalConfiguration"/>.</param>
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="ApiController"/>.</param>
+		/// <param name="apiHeaders">The <see cref="IApiHeadersProvider"/> for the <see cref="ApiController"/>.</param>
 		public UserGroupController(
 			IDatabaseContext databaseContext,
-			IAuthenticationContextFactory authenticationContextFactory,
+			IAuthenticationContext authenticationContext,
 			IOptions<GeneralConfiguration> generalConfigurationOptions,
-			ILogger<UserGroupController> logger)
+			ILogger<UserGroupController> logger,
+			IApiHeadersProvider apiHeaders)
 			: base(
-				  databaseContext,
-				  authenticationContextFactory,
-				  logger,
-				  true)
+				databaseContext,
+				authenticationContext,
+				apiHeaders,
+				logger,
+				true)
 		{
 			generalConfiguration = generalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
 		}
@@ -60,12 +65,12 @@ namespace Tgstation.Server.Host.Controllers
 		/// </summary>
 		/// <param name="model">The <see cref="UserGroupCreateRequest"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation.</returns>
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation.</returns>
 		/// <response code="201"><see cref="UserGroup"/> created successfully.</response>
 		[HttpPut]
 		[TgsAuthorize(AdministrationRights.WriteUsers)]
 		[ProducesResponseType(typeof(UserGroupResponse), 201)]
-		public async Task<IActionResult> Create([FromBody] UserGroupCreateRequest model, CancellationToken cancellationToken)
+		public async ValueTask<IActionResult> Create([FromBody] UserGroupCreateRequest model, CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(model);
 
@@ -93,7 +98,7 @@ namespace Tgstation.Server.Host.Controllers
 
 			DatabaseContext.Groups.Add(dbGroup);
 			await DatabaseContext.Save(cancellationToken);
-			Logger.LogInformation("Created new user group {0} ({1})", dbGroup.Name, dbGroup.Id);
+			Logger.LogInformation("Created new user group {groupName} ({groupId})", dbGroup.Name, dbGroup.Id);
 
 			return Created(dbGroup.ToApi(true));
 		}
@@ -103,13 +108,13 @@ namespace Tgstation.Server.Host.Controllers
 		/// </summary>
 		/// <param name="model">The <see cref="UserGroupUpdateRequest"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation.</returns>
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation.</returns>
 		/// <response code="200"><see cref="UserGroup"/> updated successfully.</response>
 		/// <response code="410">The requested <see cref="UserGroup"/> does not currently exist.</response>
 		[HttpPost]
 		[TgsAuthorize(AdministrationRights.WriteUsers)]
 		[ProducesResponseType(typeof(UserGroupResponse), 200)]
-		public async Task<IActionResult> Update([FromBody] UserGroupUpdateRequest model, CancellationToken cancellationToken)
+		public async ValueTask<IActionResult> Update([FromBody] UserGroupUpdateRequest model, CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(model);
 
@@ -148,14 +153,14 @@ namespace Tgstation.Server.Host.Controllers
 		/// </summary>
 		/// <param name="id">The <see cref="EntityId.Id"/> of the <see cref="UserGroupResponse"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the request.</returns>
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="IActionResult"/> of the request.</returns>
 		/// <response code="200">Retrieve <see cref="UserGroup"/> successfully.</response>
 		/// <response code="410">The requested <see cref="UserGroup"/> does not currently exist.</response>
 		[HttpGet("{id}")]
 		[TgsAuthorize(AdministrationRights.ReadUsers)]
 		[ProducesResponseType(typeof(UserGroupResponse), 200)]
 		[ProducesResponseType(typeof(ErrorMessageResponse), 410)]
-		public async Task<IActionResult> GetId(long id, CancellationToken cancellationToken)
+		public async ValueTask<IActionResult> GetId(long id, CancellationToken cancellationToken)
 		{
 			// this functions as userId
 			var group = await DatabaseContext
@@ -176,14 +181,14 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="page">The current page.</param>
 		/// <param name="pageSize">The page size.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the request.</returns>
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="IActionResult"/> of the request.</returns>
 		/// <response code="200">Retrieved <see cref="UserGroup"/>s successfully.</response>
 		[HttpGet(Routes.List)]
 		[TgsAuthorize(AdministrationRights.ReadUsers)]
 		[ProducesResponseType(typeof(PaginatedResponse<UserGroupResponse>), 200)]
-		public Task<IActionResult> List([FromQuery] int? page, [FromQuery] int? pageSize, CancellationToken cancellationToken)
+		public ValueTask<IActionResult> List([FromQuery] int? page, [FromQuery] int? pageSize, CancellationToken cancellationToken)
 			=> Paginated<UserGroup, UserGroupResponse>(
-				() => Task.FromResult(
+				() => ValueTask.FromResult(
 					new PaginatableResult<UserGroup>(
 						DatabaseContext
 							.Groups
@@ -201,7 +206,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// </summary>
 		/// <param name="id">The <see cref="EntityId.Id"/> of the <see cref="UserGroup"/> to delete.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the request.</returns>
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="IActionResult"/> of the request.</returns>
 		/// <response code="204"><see cref="UserGroup"/> was deleted.</response>
 		/// <response code="409">The <see cref="UserGroup"/> is not empty.</response>
 		/// <response code="410">The <see cref="UserGroup"/> didn't exist.</response>
@@ -210,7 +215,7 @@ namespace Tgstation.Server.Host.Controllers
 		[ProducesResponseType(204)]
 		[ProducesResponseType(typeof(ErrorMessageResponse), 409)]
 		[ProducesResponseType(typeof(ErrorMessageResponse), 410)]
-		public async Task<IActionResult> Delete(long id, CancellationToken cancellationToken)
+		public async ValueTask<IActionResult> Delete(long id, CancellationToken cancellationToken)
 		{
 			var numDeleted = await DatabaseContext
 				.Groups

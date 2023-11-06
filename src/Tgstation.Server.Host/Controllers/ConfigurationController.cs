@@ -12,10 +12,12 @@ using Tgstation.Server.Api.Models.Request;
 using Tgstation.Server.Api.Models.Response;
 using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Host.Components;
+using Tgstation.Server.Host.Controllers.Results;
 using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.Security;
+using Tgstation.Server.Host.Utils;
 
 namespace Tgstation.Server.Host.Controllers
 {
@@ -34,21 +36,24 @@ namespace Tgstation.Server.Host.Controllers
 		/// Initializes a new instance of the <see cref="ConfigurationController"/> class.
 		/// </summary>
 		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> for the <see cref="InstanceRequiredController"/>.</param>
-		/// <param name="authenticationContextFactory">The <see cref="IAuthenticationContextFactory"/> for the <see cref="InstanceRequiredController"/>.</param>
+		/// <param name="authenticationContext">The <see cref="IAuthenticationContext"/> for the <see cref="InstanceRequiredController"/>.</param>
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="InstanceRequiredController"/>.</param>
 		/// <param name="instanceManager">The <see cref="IInstanceManager"/> for the <see cref="InstanceRequiredController"/>.</param>
 		/// <param name="ioManager">The value of <see cref="ioManager"/>.</param>
+		/// <param name="apiHeaders">The <see cref="IApiHeadersProvider"/> for the <see cref="InstanceRequiredController"/>.</param>
 		public ConfigurationController(
 			IDatabaseContext databaseContext,
-			IAuthenticationContextFactory authenticationContextFactory,
+			IAuthenticationContext authenticationContext,
 			ILogger<ConfigurationController> logger,
 			IInstanceManager instanceManager,
-			IIOManager ioManager)
+			IIOManager ioManager,
+			IApiHeadersProvider apiHeaders)
 			: base(
 				  databaseContext,
-				  authenticationContextFactory,
+				  authenticationContext,
 				  logger,
-				  instanceManager)
+				  instanceManager,
+				  apiHeaders)
 		{
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
 		}
@@ -58,14 +63,14 @@ namespace Tgstation.Server.Host.Controllers
 		/// </summary>
 		/// <param name="model">The <see cref="ConfigurationFileRequest"/> representing the file.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> for the operation.</returns>
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="IActionResult"/> for the operation.</returns>
 		/// <response code="200">File updated successfully.</response>
 		/// <response code="202">File upload ticket created successfully.</response>
 		[HttpPost]
 		[TgsAuthorize(ConfigurationRights.Write)]
 		[ProducesResponseType(typeof(ConfigurationFileResponse), 200)]
 		[ProducesResponseType(typeof(ConfigurationFileResponse), 202)]
-		public async Task<IActionResult> Update([FromBody] ConfigurationFileRequest model, CancellationToken cancellationToken)
+		public async ValueTask<IActionResult> Update([FromBody] ConfigurationFileRequest model, CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(model);
 			if (ForbidDueToModeConflicts(model.Path, out var systemIdentity))
@@ -98,10 +103,6 @@ namespace Tgstation.Server.Host.Controllers
 					AdditionalData = e.Message,
 				});
 			}
-			catch (NotImplementedException ex)
-			{
-				return RequiresPosixSystemIdentity(ex);
-			}
 		}
 
 		/// <summary>
@@ -109,7 +110,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// </summary>
 		/// <param name="filePath">The path of the file to get.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> for the operation.</returns>>
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="IActionResult"/> for the operation.</returns>>
 		/// <response code="200">File read successfully.</response>>
 		/// <response code="410">File does not currently exist.</response>
 		[HttpGet(Routes.File + "/{*filePath}")]
@@ -117,7 +118,7 @@ namespace Tgstation.Server.Host.Controllers
 		[ProducesResponseType(typeof(ConfigurationFileResponse), 200)]
 		[ProducesResponseType(typeof(ErrorMessageResponse), 409)]
 		[ProducesResponseType(typeof(ErrorMessageResponse), 410)]
-		public async Task<IActionResult> File(string filePath, CancellationToken cancellationToken)
+		public async ValueTask<IActionResult> File(string filePath, CancellationToken cancellationToken)
 		{
 			if (ForbidDueToModeConflicts(filePath, out var systemIdentity))
 				return Forbid();
@@ -145,10 +146,6 @@ namespace Tgstation.Server.Host.Controllers
 					AdditionalData = e.Message,
 				});
 			}
-			catch (NotImplementedException ex)
-			{
-				return RequiresPosixSystemIdentity(ex);
-			}
 		}
 
 		/// <summary>
@@ -158,7 +155,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="page">The current page.</param>
 		/// <param name="pageSize">The page size.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> for the operation.</returns>
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="IActionResult"/> for the operation.</returns>
 		/// <response code="200">Directory listed successfully.</response>>
 		/// <response code="410">Directory does not currently exist.</response>
 		[HttpGet(Routes.List + "/{*directoryPath}")]
@@ -166,7 +163,7 @@ namespace Tgstation.Server.Host.Controllers
 		[ProducesResponseType(typeof(PaginatedResponse<ConfigurationFileResponse>), 200)]
 		[ProducesResponseType(typeof(ErrorMessageResponse), 409)]
 		[ProducesResponseType(typeof(ErrorMessageResponse), 410)]
-		public Task<IActionResult> Directory(
+		public ValueTask<IActionResult> Directory(
 			string directoryPath,
 			[FromQuery] int? page,
 			[FromQuery] int? pageSize,
@@ -190,11 +187,6 @@ namespace Tgstation.Server.Host.Controllers
 									Conflict(new ErrorMessageResponse(ErrorCode.ConfigurationContendedAccess)));
 
 							return new PaginatableResult<ConfigurationFileResponse>(result);
-						}
-						catch (NotImplementedException ex)
-						{
-							return new PaginatableResult<ConfigurationFileResponse>(
-								RequiresPosixSystemIdentity(ex));
 						}
 						catch (UnauthorizedAccessException)
 						{
@@ -222,11 +214,11 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="page">The current page.</param>
 		/// <param name="pageSize">The page size.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> for the operation.</returns>
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="IActionResult"/> for the operation.</returns>
 		[HttpGet(Routes.List)]
 		[TgsAuthorize(ConfigurationRights.List)]
 		[ProducesResponseType(typeof(PaginatedResponse<ConfigurationFileResponse>), 200)]
-		public Task<IActionResult> List(
+		public ValueTask<IActionResult> List(
 			[FromQuery] int? page,
 			[FromQuery] int? pageSize,
 			CancellationToken cancellationToken) => Directory(null, page, pageSize, cancellationToken);
@@ -236,7 +228,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// </summary>
 		/// <param name="model">The <see cref="ConfigurationFileRequest"/> representing the directory.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> for the operation.</returns>
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="IActionResult"/> for the operation.</returns>
 		/// <response code="200">Directory already exists.</response>
 		/// <response code="201">Directory created successfully.</response>
 		[HttpPut]
@@ -244,7 +236,7 @@ namespace Tgstation.Server.Host.Controllers
 		[ProducesResponseType(typeof(ConfigurationFileResponse), 200)]
 		[ProducesResponseType(typeof(ConfigurationFileResponse), 201)]
 		[ProducesResponseType(typeof(ErrorMessageResponse), 409)]
-		public async Task<IActionResult> CreateDirectory([FromBody] ConfigurationFileRequest model, CancellationToken cancellationToken)
+		public async ValueTask<IActionResult> CreateDirectory([FromBody] ConfigurationFileRequest model, CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(model);
 
@@ -282,10 +274,6 @@ namespace Tgstation.Server.Host.Controllers
 					Message = e.Message,
 				});
 			}
-			catch (NotImplementedException ex)
-			{
-				return RequiresPosixSystemIdentity(ex);
-			}
 			catch (UnauthorizedAccessException)
 			{
 				return Forbid();
@@ -297,13 +285,13 @@ namespace Tgstation.Server.Host.Controllers
 		/// </summary>
 		/// <param name="directory">A <see cref="ConfigurationFileRequest"/> representing the path to the directory to delete.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation.</returns>
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation.</returns>
 		/// <response code="204">Empty directory deleted successfully.</response>
 		[HttpDelete]
 		[TgsAuthorize(ConfigurationRights.Delete)]
 		[ProducesResponseType(204)]
 		[ProducesResponseType(typeof(ErrorMessageResponse), 409)]
-		public async Task<IActionResult> DeleteDirectory([FromBody] ConfigurationFileRequest directory, CancellationToken cancellationToken)
+		public async ValueTask<IActionResult> DeleteDirectory([FromBody] ConfigurationFileRequest directory, CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(directory);
 
@@ -329,10 +317,6 @@ namespace Tgstation.Server.Host.Controllers
 							? NoContent()
 							: Conflict(new ErrorMessageResponse(ErrorCode.ConfigurationDirectoryNotEmpty));
 					});
-			}
-			catch (NotImplementedException ex)
-			{
-				return RequiresPosixSystemIdentity(ex);
 			}
 			catch (UnauthorizedAccessException)
 			{

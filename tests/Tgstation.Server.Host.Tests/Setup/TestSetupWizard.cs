@@ -104,10 +104,10 @@ namespace Tgstation.Server.Host.Setup.Tests
 				return $"{paths[0]}/{paths[1]}";
 			}).Verifiable();
 			mockIOManager.Setup(x => x.FileExists(It.IsNotNull<string>(), It.IsAny<CancellationToken>())).Returns(Task.FromResult(true)).Verifiable();
-			mockIOManager.Setup(x => x.ReadAllBytes(It.IsNotNull<string>(), It.IsAny<CancellationToken>())).Returns(Task.FromResult(Encoding.UTF8.GetBytes("less profane"))).Verifiable();
+			mockIOManager.Setup(x => x.ReadAllBytes(It.IsNotNull<string>(), It.IsAny<CancellationToken>())).Returns(ValueTask.FromResult(Encoding.UTF8.GetBytes("less profane"))).Verifiable();
 			mockIOManager
 				.Setup(x => x.WriteAllBytes(It.IsNotNull<string>(), It.IsNotNull<byte[]>(), It.IsAny<CancellationToken>()))
-				.Returns(Task.CompletedTask)
+				.Returns(ValueTask.CompletedTask)
 				.Verifiable();
 
 			var mockSuccessCommand = new Mock<DbCommand>();
@@ -306,7 +306,7 @@ namespace Tgstation.Server.Host.Setup.Tests
 			await RunWizard();
 
 			//second run
-			mockIOManager.Setup(x => x.ReadAllBytes(It.IsNotNull<string>(), It.IsAny<CancellationToken>())).Returns(Task.FromResult(Encoding.UTF8.GetBytes(String.Empty))).Verifiable();
+			mockIOManager.Setup(x => x.ReadAllBytes(It.IsNotNull<string>(), It.IsAny<CancellationToken>())).Returns(ValueTask.FromResult(Encoding.UTF8.GetBytes(String.Empty))).Verifiable();
 			await RunWizard();
 
 			//third run

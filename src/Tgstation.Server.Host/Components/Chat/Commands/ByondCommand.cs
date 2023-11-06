@@ -47,19 +47,19 @@ namespace Tgstation.Server.Host.Components.Chat.Commands
 		}
 
 		/// <inheritdoc />
-		public Task<MessageContent> Invoke(string arguments, ChatUser user, CancellationToken cancellationToken)
+		public ValueTask<MessageContent> Invoke(string arguments, ChatUser user, CancellationToken cancellationToken)
 		{
 			if (arguments.Split(' ').Any(x => x.ToUpperInvariant() == "--ACTIVE"))
-				return Task.FromResult(new MessageContent
+				return ValueTask.FromResult(new MessageContent
 				{
 					Text = byondManager.ActiveVersion == null ? "None!" : String.Format(CultureInfo.InvariantCulture, "{0}.{1}", byondManager.ActiveVersion.Major, byondManager.ActiveVersion.Minor),
 				});
 			if (watchdog.Status == WatchdogStatus.Offline)
-				return Task.FromResult(new MessageContent
+				return ValueTask.FromResult(new MessageContent
 				{
 					Text = "Server offline!",
 				});
-			return Task.FromResult(new MessageContent
+			return ValueTask.FromResult(new MessageContent
 			{
 				Text = watchdog.ActiveCompileJob?.ByondVersion ?? "None!",
 			});

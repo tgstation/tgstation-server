@@ -19,11 +19,12 @@ using Tgstation.Server.Api.Models.Request;
 using Tgstation.Server.Api.Models.Response;
 using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Host.Components;
+using Tgstation.Server.Host.Controllers.Results;
 using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.Security;
-
+using Tgstation.Server.Host.Utils;
 using Z.EntityFramework.Plus;
 
 namespace Tgstation.Server.Host.Controllers
@@ -39,19 +40,22 @@ namespace Tgstation.Server.Host.Controllers
 		/// Initializes a new instance of the <see cref="ChatController"/> class.
 		/// </summary>
 		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> for the <see cref="InstanceRequiredController"/>.</param>
-		/// <param name="authenticationContextFactory">The <see cref="IAuthenticationContextFactory"/> for the <see cref="InstanceRequiredController"/>.</param>
+		/// <param name="authenticationContext">The <see cref="IAuthenticationContext"/> for the <see cref="InstanceRequiredController"/>.</param>
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="InstanceRequiredController"/>.</param>
 		/// <param name="instanceManager">The <see cref="IInstanceManager"/> for the <see cref="InstanceRequiredController"/>.</param>
+		/// <param name="apiHeaders">The <see cref="IApiHeadersProvider"/> for the <see cref="InstanceRequiredController"/>.</param>
 		public ChatController(
 			IDatabaseContext databaseContext,
-			IAuthenticationContextFactory authenticationContextFactory,
+			IAuthenticationContext authenticationContext,
 			ILogger<ChatController> logger,
-			IInstanceManager instanceManager)
+			IInstanceManager instanceManager,
+			IApiHeadersProvider apiHeaders)
 			: base(
 				  databaseContext,
-				  authenticationContextFactory,
+				  authenticationContext,
 				  logger,
-				  instanceManager)
+				  instanceManager,
+				  apiHeaders)
 		{
 		}
 
@@ -99,12 +103,12 @@ namespace Tgstation.Server.Host.Controllers
 		/// </summary>
 		/// <param name="model">The <see cref="ChatBotCreateRequest"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> for the operation.</returns>
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="IActionResult"/> for the operation.</returns>
 		/// <response code="201">Created <see cref="ChatBot"/> successfully.</response>
 		[HttpPut]
 		[TgsAuthorize(ChatBotRights.Create)]
 		[ProducesResponseType(typeof(ChatBotResponse), 201)]
-		public async Task<IActionResult> Create([FromBody] ChatBotCreateRequest model, CancellationToken cancellationToken)
+		public async ValueTask<IActionResult> Create([FromBody] ChatBotCreateRequest model, CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(model);
 
@@ -173,12 +177,12 @@ namespace Tgstation.Server.Host.Controllers
 		/// </summary>
 		/// <param name="id">The <see cref="EntityId.Id"/> to delete.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> for the operation.</returns>
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="IActionResult"/> for the operation.</returns>
 		/// <response code="204">Chat bot deleted or does not exist.</response>
 		[HttpDelete("{id}")]
 		[TgsAuthorize(ChatBotRights.Delete)]
 		[ProducesResponseType(204)]
-		public async Task<IActionResult> Delete(long id, CancellationToken cancellationToken)
+		public async ValueTask<IActionResult> Delete(long id, CancellationToken cancellationToken)
 			=> await WithComponentInstance(
 				async instance =>
 				{
@@ -200,16 +204,16 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="page">The current page.</param>
 		/// <param name="pageSize">The page size.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> for the operation.</returns>
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="IActionResult"/> for the operation.</returns>
 		/// <response code="200">Listed chat bots successfully.</response>
 		[HttpGet(Routes.List)]
 		[TgsAuthorize(ChatBotRights.Read)]
 		[ProducesResponseType(typeof(PaginatedResponse<ChatBotResponse>), 200)]
-		public Task<IActionResult> List([FromQuery] int? page, [FromQuery] int? pageSize, CancellationToken cancellationToken)
+		public ValueTask<IActionResult> List([FromQuery] int? page, [FromQuery] int? pageSize, CancellationToken cancellationToken)
 		{
 			var connectionStrings = (AuthenticationContext.GetRight(RightsType.ChatBots) & (ulong)ChatBotRights.ReadConnectionString) != 0;
 			return Paginated<ChatBot, ChatBotResponse>(
-				() => Task.FromResult(
+				() => ValueTask.FromResult(
 					new PaginatableResult<ChatBot>(
 						DatabaseContext
 							.ChatBots
@@ -222,7 +226,7 @@ namespace Tgstation.Server.Host.Controllers
 					if (!connectionStrings)
 						chatBot.ConnectionString = null;
 
-					return Task.CompletedTask;
+					return ValueTask.CompletedTask;
 				},
 				page,
 				pageSize,
@@ -234,14 +238,14 @@ namespace Tgstation.Server.Host.Controllers
 		/// </summary>
 		/// <param name="id">The <see cref="EntityId.Id"/> to retrieve.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> for the operation.</returns>
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="IActionResult"/> for the operation.</returns>
 		/// <response code="200">Retrieved <see cref="ChatBot"/> successfully.</response>
 		/// <response code="410">The <see cref="ChatBot"/> with the given ID does not exist in this instance.</response>
 		[HttpGet("{id}")]
 		[TgsAuthorize(ChatBotRights.Read)]
 		[ProducesResponseType(typeof(ChatBotResponse), 200)]
 		[ProducesResponseType(typeof(ErrorMessageResponse), 410)]
-		public async Task<IActionResult> GetId(long id, CancellationToken cancellationToken)
+		public async ValueTask<IActionResult> GetId(long id, CancellationToken cancellationToken)
 		{
 			var query = DatabaseContext.ChatBots
 				.AsQueryable()
@@ -265,7 +269,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// </summary>
 		/// <param name="model">The <see cref="ChatBotUpdateRequest"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> for the operation.</returns>
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="IActionResult"/> for the operation.</returns>
 		/// <response code="200">Update applied successfully.</response>
 		/// <response code="204">Update applied successfully. <see cref="ChatBot"/> not returned based on user permissions.</response>
 		/// <response code="410">The <see cref="ChatBot"/> with the given ID does not exist in this instance.</response>
@@ -275,7 +279,7 @@ namespace Tgstation.Server.Host.Controllers
 		[ProducesResponseType(204)]
 		[ProducesResponseType(typeof(ErrorMessageResponse), 410)]
 #pragma warning disable CA1502, CA1506 // TODO: Decomplexify
-		public async Task<IActionResult> Update([FromBody] ChatBotUpdateRequest model, CancellationToken cancellationToken)
+		public async ValueTask<IActionResult> Update([FromBody] ChatBotUpdateRequest model, CancellationToken cancellationToken)
 #pragma warning restore CA1502, CA1506
 		{
 			ArgumentNullException.ThrowIfNull(model);

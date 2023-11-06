@@ -84,7 +84,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			ChatBot = chatBot ?? throw new ArgumentNullException(nameof(chatBot));
 
 			messageQueue = new Queue<Message>();
-			nextMessage = new TaskCompletionSource();
+			nextMessage = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
 			initialConnectionTcs = new TaskCompletionSource();
 			reconnectTaskLock = new object();
 
@@ -112,7 +112,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		}
 
 		/// <inheritdoc />
-		public async Task Disconnect(CancellationToken cancellationToken)
+		public async ValueTask Disconnect(CancellationToken cancellationToken)
 		{
 			await StopReconnectionTimer();
 
@@ -128,7 +128,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		public void InitialMappingComplete() => initialConnectionTcs.TrySetResult();
 
 		/// <inheritdoc />
-		public async Task<Dictionary<ChatChannel, IEnumerable<ChannelRepresentation>>> MapChannels(IEnumerable<ChatChannel> channels, CancellationToken cancellationToken)
+		public async ValueTask<Dictionary<ChatChannel, IEnumerable<ChannelRepresentation>>> MapChannels(IEnumerable<ChatChannel> channels, CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(channels);
 
@@ -178,10 +178,10 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		}
 
 		/// <inheritdoc />
-		public abstract Task SendMessage(Message replyTo, MessageContent message, ulong channelId, CancellationToken cancellationToken);
+		public abstract ValueTask SendMessage(Message replyTo, MessageContent message, ulong channelId, CancellationToken cancellationToken);
 
 		/// <inheritdoc />
-		public abstract Task<Func<string, string, Task<Func<bool, Task>>>> SendUpdateMessage(
+		public abstract ValueTask<Func<string, string, ValueTask<Func<bool, ValueTask>>>> SendUpdateMessage(
 			RevisionInformation revisionInformation,
 			Version byondVersion,
 			DateTimeOffset? estimatedCompletionTime,
@@ -195,23 +195,23 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// Attempt to connect the <see cref="Provider"/>.
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		protected abstract Task Connect(CancellationToken cancellationToken);
+		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
+		protected abstract ValueTask Connect(CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Gracefully disconnects the provider.
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		protected abstract Task DisconnectImpl(CancellationToken cancellationToken);
+		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
+		protected abstract ValueTask DisconnectImpl(CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Implementation of <see cref="MapChannels(IEnumerable{ChatChannel}, CancellationToken)"/>.
 		/// </summary>
 		/// <param name="channels">The <see cref="ChatChannel"/>s to map.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in a <see cref="Dictionary{TKey, TValue}"/> of the <see cref="ChatChannel"/>'s <see cref="ChannelRepresentation"/>s representing <paramref name="channels"/>.</returns>
-		protected abstract Task<Dictionary<ChatChannel, IEnumerable<ChannelRepresentation>>> MapChannelsImpl(
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in a <see cref="Dictionary{TKey, TValue}"/> of the <see cref="ChatChannel"/>'s <see cref="ChannelRepresentation"/>s representing <paramref name="channels"/>.</returns>
+		protected abstract ValueTask<Dictionary<ChatChannel, IEnumerable<ChannelRepresentation>>> MapChannelsImpl(
 			IEnumerable<ChatChannel> channels,
 			CancellationToken cancellationToken);
 
@@ -244,7 +244,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 					reconnectCts.Cancel();
 					reconnectCts.Dispose();
 					reconnectCts = null;
-					Task reconnectTask = this.reconnectTask;
+					var reconnectTask = this.reconnectTask;
 					this.reconnectTask = null;
 					return reconnectTask;
 				}
@@ -273,13 +273,8 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 						connectNow = false;
 					if (!Connected)
 					{
-						var job = new Job
-						{
-							Description = $"Reconnect chat bot: {ChatBot.Name}",
-							CancelRight = (ulong)ChatBotRights.WriteEnabled,
-							CancelRightsType = RightsType.ChatBots,
-							Instance = ChatBot.Instance,
-						};
+						var job = Job.Create(Api.Models.JobCode.ReconnectChatBot, null, ChatBot.Instance, ChatBotRights.WriteEnabled);
+						job.Description += $": {ChatBot.Name}";
 
 						await jobManager.RegisterOperation(
 							job,

@@ -246,7 +246,7 @@ namespace Tgstation.Server.Host.Components.Session
 		/// <param name="assemblyInformationProvider">The <see cref="IAssemblyInformationProvider"/> for the <see cref="SessionController"/>.</param>
 		/// <param name="asyncDelayer">The <see cref="IAsyncDelayer"/> for the <see cref="SessionController"/>.</param>
 		/// <param name="logger">The value of <see cref="Chunker.Logger"/>.</param>
-		/// <param name="postLifetimeCallback">The <see cref="Func{TResult}"/> returning a <see cref="Task"/> to be run after the <paramref name="process"/> ends.</param>
+		/// <param name="postLifetimeCallback">The <see cref="Func{TResult}"/> returning a <see cref="ValueTask"/> to be run after the <paramref name="process"/> ends.</param>
 		/// <param name="startupTimeout">The optional time to wait before failing the <see cref="LaunchResult"/>.</param>
 		/// <param name="reattached">If this is a reattached session.</param>
 		/// <param name="apiValidate">The value of <see cref="apiValidationSession"/>.</param>
@@ -262,7 +262,7 @@ namespace Tgstation.Server.Host.Components.Session
 			IAssemblyInformationProvider assemblyInformationProvider,
 			IAsyncDelayer asyncDelayer,
 			ILogger<SessionController> logger,
-			Func<Task> postLifetimeCallback,
+			Func<ValueTask> postLifetimeCallback,
 			uint? startupTimeout,
 			bool reattached,
 			bool apiValidate)
@@ -382,7 +382,7 @@ namespace Tgstation.Server.Host.Components.Session
 		}
 
 		/// <inheritdoc />
-		public async Task<BridgeResponse> ProcessBridgeRequest(BridgeParameters parameters, CancellationToken cancellationToken)
+		public async ValueTask<BridgeResponse> ProcessBridgeRequest(BridgeParameters parameters, CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(parameters);
 
@@ -405,7 +405,7 @@ namespace Tgstation.Server.Host.Components.Session
 		public void EnableCustomChatCommands() => chatTrackingContext.Active = DMApiAvailable;
 
 		/// <inheritdoc />
-		public async Task Release()
+		public ValueTask Release()
 		{
 			CheckDisposed();
 
@@ -413,11 +413,11 @@ namespace Tgstation.Server.Host.Components.Session
 			ReattachInformation.InitialDmb?.KeepAlive();
 			byondLock.DoNotDeleteThisSession();
 			released = true;
-			await DisposeAsync();
+			return DisposeAsync();
 		}
 
 		/// <inheritdoc />
-		public async Task<TopicResponse> SendCommand(TopicParameters parameters, CancellationToken cancellationToken)
+		public async ValueTask<TopicResponse> SendCommand(TopicParameters parameters, CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(parameters);
 
@@ -459,7 +459,7 @@ namespace Tgstation.Server.Host.Components.Session
 							(completedResponse, cancellationToken) =>
 							{
 								fullResponse = completedResponse;
-								return Task.FromResult<ChunkedTopicParameters>(null);
+								return ValueTask.FromResult<ChunkedTopicParameters>(null);
 							},
 							error =>
 							{
@@ -539,7 +539,7 @@ namespace Tgstation.Server.Host.Components.Session
 		}
 
 		/// <inheritdoc />
-		public async Task<bool> SetRebootState(RebootState newRebootState, CancellationToken cancellationToken)
+		public async ValueTask<bool> SetRebootState(RebootState newRebootState, CancellationToken cancellationToken)
 		{
 			if (RebootState == newRebootState)
 				return true;
@@ -580,21 +580,21 @@ namespace Tgstation.Server.Host.Components.Session
 		}
 
 		/// <inheritdoc />
-		public Task InstanceRenamed(string newInstanceName, CancellationToken cancellationToken)
+		public async ValueTask InstanceRenamed(string newInstanceName, CancellationToken cancellationToken)
 		{
 			ReattachInformation.RuntimeInformation.InstanceName = newInstanceName;
-			return SendCommand(new TopicParameters(newInstanceName), cancellationToken);
+			await SendCommand(new TopicParameters(newInstanceName), cancellationToken);
 		}
 
 		/// <inheritdoc />
-		public Task UpdateChannels(IEnumerable<ChannelRepresentation> newChannels, CancellationToken cancellationToken)
-			=> SendCommand(
+		public async ValueTask UpdateChannels(IEnumerable<ChannelRepresentation> newChannels, CancellationToken cancellationToken)
+			=> await SendCommand(
 				new TopicParameters(
 					new ChatUpdate(newChannels)),
 				cancellationToken);
 
 		/// <inheritdoc />
-		public Task CreateDump(string outputFile, CancellationToken cancellationToken) => process.CreateDump(outputFile, cancellationToken);
+		public ValueTask CreateDump(string outputFile, CancellationToken cancellationToken) => process.CreateDump(outputFile, cancellationToken);
 
 		/// <summary>
 		/// The <see cref="Task{TResult}"/> for <see cref="LaunchResult"/>.
@@ -689,10 +689,12 @@ namespace Tgstation.Server.Host.Components.Session
 				return;
 			}
 
-			Logger.LogDebug("Server will terminated in 10s if it does not exit...");
-			var delayTask = asyncDelayer.Delay(TimeSpan.FromSeconds(10), CancellationToken.None); // DCT: None available
-			var completedTask = await Task.WhenAny(process.Lifetime, delayTask);
-			if (completedTask == delayTask)
+			const int GracePeriodSeconds = 30;
+			Logger.LogDebug("Server will terminated in {gracePeriodSeconds}s if it does not exit...", GracePeriodSeconds);
+			var delayTask = asyncDelayer.Delay(TimeSpan.FromSeconds(GracePeriodSeconds), CancellationToken.None); // DCT: None available
+			await Task.WhenAny(process.Lifetime, delayTask);
+
+			if (!process.Lifetime.IsCompleted)
 			{
 				Logger.LogWarning("DMAPI took too long to shutdown server after validation request!");
 				process.Terminate();
@@ -707,9 +709,9 @@ namespace Tgstation.Server.Host.Components.Session
 		/// </summary>
 		/// <param name="parameters">The <see cref="BridgeParameters"/> to handle.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="BridgeResponse"/> for the request or <see langword="null"/> if the request could not be dispatched.</returns>
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="BridgeResponse"/> for the request or <see langword="null"/> if the request could not be dispatched.</returns>
 #pragma warning disable CA1502 // TODO: Decomplexify
-		async Task<BridgeResponse> ProcessBridgeCommand(BridgeParameters parameters, CancellationToken cancellationToken)
+		async ValueTask<BridgeResponse> ProcessBridgeCommand(BridgeParameters parameters, CancellationToken cancellationToken)
 		{
 			var response = new BridgeResponse();
 			switch (parameters.CommandType)
@@ -784,8 +786,6 @@ namespace Tgstation.Server.Host.Components.Session
 				case BridgeCommandType.Startup:
 					apiValidationStatus = ApiValidationStatus.BadValidationRequest;
 
-					// This business is is cancelled until this BYOND bug is resolved: https://www.byond.com/forum/post/2894866
-#if FALSE
 					if (apiValidationSession)
 					{
 						var proceedTcs = new TaskCompletionSource<bool>();
@@ -795,9 +795,6 @@ namespace Tgstation.Server.Host.Components.Session
 						if (!firstValidationRequest)
 							return BridgeError("Startup bridge request was repeated!");
 					}
-#else
-					postValidationShutdownTask = Task.CompletedTask;
-#endif
 
 					if (parameters.Version == null)
 						return BridgeError("Missing dmApiVersion field!");
@@ -893,8 +890,8 @@ namespace Tgstation.Server.Host.Components.Session
 		/// </summary>
 		/// <param name="parameters">The <see cref="TopicParameters"/> to send.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="CombinedTopicResponse"/> of the topic request.</returns>
-		async Task<CombinedTopicResponse> SendTopicRequest(TopicParameters parameters, CancellationToken cancellationToken)
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="CombinedTopicResponse"/> of the topic request.</returns>
+		async ValueTask<CombinedTopicResponse> SendTopicRequest(TopicParameters parameters, CancellationToken cancellationToken)
 		{
 			parameters.AccessIdentifier = ReattachInformation.AccessIdentifier;
 
@@ -1036,8 +1033,8 @@ namespace Tgstation.Server.Host.Components.Session
 		/// <param name="queryString">The sanitized topic query string to send.</param>
 		/// <param name="priority">If this is a priority message. If so, the topic will make 5 attempts to send unless BYOND reboots or exits.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="CombinedTopicResponse"/> of the topic request.</returns>
-		async Task<CombinedTopicResponse> SendRawTopic(string queryString, bool priority, CancellationToken cancellationToken)
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="CombinedTopicResponse"/> of the topic request.</returns>
+		async ValueTask<CombinedTopicResponse> SendRawTopic(string queryString, bool priority, CancellationToken cancellationToken)
 		{
 			if (disposed)
 			{

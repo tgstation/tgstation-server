@@ -52,7 +52,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers.Tests
 			await new IrcProvider(mockJobManager.Object, mockAsyncDelayer.Object, mockLogger.Object, mockAss.Object, mockBot).DisposeAsync();
 		}
 
-		static Task InvokeConnect(IProvider provider, CancellationToken cancellationToken = default) => (Task)provider.GetType().GetMethod("Connect", BindingFlags.Instance | BindingFlags.NonPublic).Invoke(provider, new object[] { cancellationToken });
+		static ValueTask InvokeConnect(IProvider provider, CancellationToken cancellationToken = default) => (ValueTask)provider.GetType().GetMethod("Connect", BindingFlags.Instance | BindingFlags.NonPublic).Invoke(provider, new object[] { cancellationToken });
 
 		[TestMethod]
 		public async Task TestConnectAndDisconnect()
@@ -73,10 +73,10 @@ namespace Tgstation.Server.Host.Components.Chat.Providers.Tests
 			mockSetup
 				.Setup(x => x.RegisterOperation(It.IsNotNull<Job>(), It.IsNotNull<JobEntrypoint>(), It.IsAny<CancellationToken>()))
 				.Callback<Job, JobEntrypoint, CancellationToken>((job, entrypoint, cancellationToken) => job.StartedBy ??= new User { })
-				.Returns(Task.CompletedTask);
+				.Returns(ValueTask.CompletedTask);
 			mockSetup
 				.Setup(x => x.WaitForJobCompletion(It.IsNotNull<Job>(), It.IsAny<User>(), It.IsAny<CancellationToken>(), It.IsAny<CancellationToken>()))
-				.Returns(Task.FromResult<bool?>(true));
+				.Returns(ValueTask.FromResult<bool?>(true));
 			var mockJobManager = mockSetup.Object;
 			await using var provider = new IrcProvider(mockJobManager, new AsyncDelayer(), loggerFactory.CreateLogger<IrcProvider>(), Mock.Of<IAssemblyInformationProvider>(), new ChatBot
 			{

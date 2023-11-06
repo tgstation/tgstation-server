@@ -23,19 +23,19 @@ namespace Tgstation.Server.Client
 		}
 
 		/// <inheritdoc />
-		public Task<UserGroupResponse> Create(UserGroupCreateRequest group, CancellationToken cancellationToken) => ApiClient.Create<UserGroupCreateRequest, UserGroupResponse>(Routes.UserGroup, group ?? throw new ArgumentNullException(nameof(group)), cancellationToken);
+		public ValueTask<UserGroupResponse> Create(UserGroupCreateRequest group, CancellationToken cancellationToken) => ApiClient.Create<UserGroupCreateRequest, UserGroupResponse>(Routes.UserGroup, group ?? throw new ArgumentNullException(nameof(group)), cancellationToken);
 
 		/// <inheritdoc />
-		public Task<UserGroupResponse> GetId(EntityId group, CancellationToken cancellationToken) => ApiClient.Read<UserGroupResponse>(Routes.SetID(Routes.UserGroup, group?.Id ?? throw new ArgumentNullException(nameof(group))), cancellationToken);
+		public ValueTask<UserGroupResponse> GetId(EntityId group, CancellationToken cancellationToken) => ApiClient.Read<UserGroupResponse>(Routes.SetID(Routes.UserGroup, group?.Id ?? throw new ArgumentNullException(nameof(group))), cancellationToken);
 
 		/// <inheritdoc />
-		public Task<IReadOnlyList<UserGroupResponse>> List(PaginationSettings? paginationSettings, CancellationToken cancellationToken)
+		public ValueTask<List<UserGroupResponse>> List(PaginationSettings? paginationSettings, CancellationToken cancellationToken)
 			=> ReadPaged<UserGroupResponse>(paginationSettings, Routes.ListRoute(Routes.UserGroup), null, cancellationToken);
 
 		/// <inheritdoc />
-		public Task<UserGroupResponse> Update(UserGroupUpdateRequest group, CancellationToken cancellationToken) => ApiClient.Update<UserGroupUpdateRequest, UserGroupResponse>(Routes.UserGroup, group ?? throw new ArgumentNullException(nameof(group)), cancellationToken);
+		public ValueTask<UserGroupResponse> Update(UserGroupUpdateRequest group, CancellationToken cancellationToken) => ApiClient.Update<UserGroupUpdateRequest, UserGroupResponse>(Routes.UserGroup, group ?? throw new ArgumentNullException(nameof(group)), cancellationToken);
 
 		/// <inheritdoc />
-		public Task Delete(EntityId group, CancellationToken cancellationToken) => ApiClient.Delete(Routes.SetID(Routes.UserGroup, group?.Id ?? throw new ArgumentNullException(nameof(group))), cancellationToken);
+		public ValueTask Delete(EntityId group, CancellationToken cancellationToken) => ApiClient.Delete(Routes.SetID(Routes.UserGroup, group?.Id ?? throw new ArgumentNullException(nameof(group))), cancellationToken);
 	}
 }

@@ -17,6 +17,12 @@
 
 	log << "Running in security level: [sec]"
 
+	var/vis = TgsVisibility()
+	if(isnull(vis))
+		FailTest("TGS Visibility was null!")
+
+	log << "Running in visibility: [vis]"
+
 	if(params["expect_chat_channels"])
 		var/list/channels = TgsChatChannelInfo()
 		if(!length(channels))

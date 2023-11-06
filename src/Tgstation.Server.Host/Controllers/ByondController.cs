@@ -13,12 +13,14 @@ using Tgstation.Server.Api.Models.Request;
 using Tgstation.Server.Api.Models.Response;
 using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Host.Components;
+using Tgstation.Server.Host.Controllers.Results;
 using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.Jobs;
 using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.Security;
 using Tgstation.Server.Host.Transfer;
+using Tgstation.Server.Host.Utils;
 
 namespace Tgstation.Server.Host.Controllers
 {
@@ -49,23 +51,26 @@ namespace Tgstation.Server.Host.Controllers
 		/// Initializes a new instance of the <see cref="ByondController"/> class.
 		/// </summary>
 		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> for the <see cref="InstanceRequiredController"/>.</param>
-		/// <param name="authenticationContextFactory">The <see cref="IAuthenticationContextFactory"/> for the <see cref="InstanceRequiredController"/>.</param>
+		/// <param name="authenticationContext">The <see cref="IAuthenticationContext"/> for the <see cref="InstanceRequiredController"/>.</param>
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="InstanceRequiredController"/>.</param>
 		/// <param name="instanceManager">The <see cref="IInstanceManager"/> for the <see cref="InstanceRequiredController"/>.</param>
 		/// <param name="jobManager">The value of <see cref="jobManager"/>.</param>
 		/// <param name="fileTransferService">The value of <see cref="fileTransferService"/>.</param>
+		/// <param name="apiHeadersProvider">The <see cref="IApiHeadersProvider"/> for the <see cref="InstanceRequiredController"/>.</param>
 		public ByondController(
 			IDatabaseContext databaseContext,
-			IAuthenticationContextFactory authenticationContextFactory,
+			IAuthenticationContext authenticationContext,
 			ILogger<ByondController> logger,
 			IInstanceManager instanceManager,
 			IJobManager jobManager,
-			IFileTransferTicketProvider fileTransferService)
+			IFileTransferTicketProvider fileTransferService,
+			IApiHeadersProvider apiHeadersProvider)
 			: base(
 				  databaseContext,
-				  authenticationContextFactory,
+				  authenticationContext,
 				  logger,
-				  instanceManager)
+				  instanceManager,
+				  apiHeadersProvider)
 		{
 			this.jobManager = jobManager ?? throw new ArgumentNullException(nameof(jobManager));
 			this.fileTransferService = fileTransferService ?? throw new ArgumentNullException(nameof(fileTransferService));
@@ -74,14 +79,14 @@ namespace Tgstation.Server.Host.Controllers
 		/// <summary>
 		/// Gets the active <see cref="ByondResponse.Version"/>.
 		/// </summary>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> for the operation.</returns>
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="IActionResult"/> for the operation.</returns>
 		/// <response code="200">Retrieved version information successfully.</response>
 		[HttpGet]
 		[TgsAuthorize(ByondRights.ReadActive)]
 		[ProducesResponseType(typeof(ByondResponse), 200)]
-		public Task<IActionResult> Read()
+		public ValueTask<IActionResult> Read()
 			=> WithComponentInstance(instance =>
-				Task.FromResult<IActionResult>(
+				ValueTask.FromResult<IActionResult>(
 					Json(new ByondResponse
 					{
 						Version = instance.ByondManager.ActiveVersion,
@@ -93,15 +98,15 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="page">The current page.</param>
 		/// <param name="pageSize">The page size.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> for the operation.</returns>
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="IActionResult"/> for the operation.</returns>
 		/// <response code="200">Retrieved version information successfully.</response>
 		[HttpGet(Routes.List)]
 		[TgsAuthorize(ByondRights.ListInstalled)]
 		[ProducesResponseType(typeof(PaginatedResponse<ByondResponse>), 200)]
-		public Task<IActionResult> List([FromQuery] int? page, [FromQuery] int? pageSize, CancellationToken cancellationToken)
+		public ValueTask<IActionResult> List([FromQuery] int? page, [FromQuery] int? pageSize, CancellationToken cancellationToken)
 			=> WithComponentInstance(
 				instance => Paginated(
-					() => Task.FromResult(
+					() => ValueTask.FromResult(
 						new PaginatableResult<ByondResponse>(
 							instance
 								.ByondManager
@@ -122,7 +127,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// </summary>
 		/// <param name="model">The <see cref="ByondVersionRequest"/> containing the <see cref="Version"/> to switch to.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> for the operation.</returns>
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="IActionResult"/> for the operation.</returns>
 		/// <response code="200">Switched active version successfully.</response>
 		/// <response code="202">Created <see cref="Job"/> to install and switch active version successfully.</response>
 		[HttpPost]
@@ -130,7 +135,7 @@ namespace Tgstation.Server.Host.Controllers
 		[ProducesResponseType(typeof(ByondInstallResponse), 200)]
 		[ProducesResponseType(typeof(ByondInstallResponse), 202)]
 #pragma warning disable CA1506 // TODO: Decomplexify
-		public async Task<IActionResult> Update([FromBody] ByondVersionRequest model, CancellationToken cancellationToken)
+		public async ValueTask<IActionResult> Update([FromBody] ByondVersionRequest model, CancellationToken cancellationToken)
 #pragma warning restore CA1506
 		{
 			ArgumentNullException.ThrowIfNull(model);
@@ -190,14 +195,14 @@ namespace Tgstation.Server.Host.Controllers
 							Instance.Id);
 
 						// run the install through the job manager
-						var job = new Job
-						{
-							Description = $"Install {(!uploadingZip ? String.Empty : "custom ")}BYOND version {version}",
-							StartedBy = AuthenticationContext.User,
-							CancelRightsType = RightsType.Byond,
-							CancelRight = (ulong)ByondRights.CancelInstall,
-							Instance = Instance,
-						};
+						var job = Job.Create(
+							uploadingZip
+								? JobCode.ByondCustomInstall
+								: JobCode.ByondOfficialInstall,
+							AuthenticationContext.User,
+							Instance,
+							ByondRights.CancelInstall);
+						job.Description += $" {version}";
 
 						IFileUploadTicket fileUploadTicket = null;
 						if (uploadingZip)
@@ -257,7 +262,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// </summary>
 		/// <param name="model">The <see cref="ByondVersionDeleteRequest"/> containing the <see cref="Version"/> to delete.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> for the operation.</returns>
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="IActionResult"/> for the operation.</returns>
 		/// <response code="202">Created <see cref="Job"/> to delete target version successfully.</response>
 		/// <response code="409">Attempted to delete the active BYOND <see cref="Version"/>.</response>
 		/// <response code="410">The <see cref="ByondVersionDeleteRequest.Version"/> specified was not installed.</response>
@@ -266,7 +271,7 @@ namespace Tgstation.Server.Host.Controllers
 		[ProducesResponseType(typeof(JobResponse), 202)]
 		[ProducesResponseType(typeof(ErrorMessageResponse), 409)]
 		[ProducesResponseType(typeof(ErrorMessageResponse), 410)]
-		public async Task<IActionResult> Delete([FromBody] ByondVersionDeleteRequest model, CancellationToken cancellationToken)
+		public async ValueTask<IActionResult> Delete([FromBody] ByondVersionDeleteRequest model, CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(model);
 
@@ -282,12 +287,12 @@ namespace Tgstation.Server.Host.Controllers
 					var byondManager = instance.ByondManager;
 
 					if (version == byondManager.ActiveVersion)
-						return Task.FromResult<IActionResult>(
+						return ValueTask.FromResult<IActionResult>(
 							Conflict(new ErrorMessageResponse(ErrorCode.ByondCannotDeleteActiveVersion)));
 
 					var versionNotInstalled = !byondManager.InstalledVersions.Any(x => x == version);
 
-					return Task.FromResult<IActionResult>(
+					return ValueTask.FromResult<IActionResult>(
 						versionNotInstalled
 							? this.Gone()
 							: null);
@@ -299,14 +304,8 @@ namespace Tgstation.Server.Host.Controllers
 			var isCustomVersion = version.Build != -1;
 
 			// run the install through the job manager
-			var job = new Job
-			{
-				Description = $"Delete installed BYOND version {version}",
-				StartedBy = AuthenticationContext.User,
-				CancelRightsType = RightsType.Byond,
-				CancelRight = (ulong)(isCustomVersion ? ByondRights.InstallOfficialOrChangeActiveVersion : ByondRights.InstallCustomVersion),
-				Instance = Instance,
-			};
+			var job = Job.Create(JobCode.ByondDelete, AuthenticationContext.User, Instance, isCustomVersion ? ByondRights.InstallOfficialOrChangeActiveVersion : ByondRights.InstallCustomVersion);
+			job.Description += $" {version}";
 
 			await jobManager.RegisterOperation(
 				job,

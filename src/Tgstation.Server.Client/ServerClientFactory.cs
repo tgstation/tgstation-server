@@ -42,7 +42,7 @@ namespace Tgstation.Server.Client
 		}
 
 		/// <inheritdoc />
-		public Task<IServerClient> CreateFromLogin(
+		public ValueTask<IServerClient> CreateFromLogin(
 			Uri host,
 			string username,
 			string password,
@@ -69,7 +69,7 @@ namespace Tgstation.Server.Client
 		}
 
 		/// <inheritdoc />
-		public Task<IServerClient> CreateFromOAuth(
+		public ValueTask<IServerClient> CreateFromOAuth(
 			Uri host,
 			string oAuthCode,
 			OAuthProvider oAuthProvider,
@@ -102,17 +102,34 @@ namespace Tgstation.Server.Client
 			if (token.Bearer == null)
 				throw new InvalidOperationException("token.Bearer should not be null!");
 
-			return new ServerClient(ApiClientFactory.CreateApiClient(host, new ApiHeaders(productHeaderValue, token.Bearer), null, false), token);
+			var serverClient = new ServerClient(
+				ApiClientFactory.CreateApiClient(
+					host,
+					new ApiHeaders(
+						productHeaderValue,
+						token),
+					null,
+					false));
+			return serverClient;
 		}
 
 		/// <inheritdoc />
-		public async Task<ServerInformationResponse> GetServerInformation(
+		public async ValueTask<ServerInformationResponse> GetServerInformation(
 			Uri host,
 			IEnumerable<IRequestLogger>? requestLoggers = null,
 			TimeSpan? timeout = null,
 			CancellationToken cancellationToken = default)
 		{
-			using var api = ApiClientFactory.CreateApiClient(host, new ApiHeaders(productHeaderValue, "fake"), null, true);
+			await using var api = ApiClientFactory.CreateApiClient(
+				host,
+				new ApiHeaders(
+					productHeaderValue,
+					new TokenResponse
+					{
+						Bearer = "unused",
+					}),
+				null,
+				true);
 
 			if (requestLoggers != null)
 				foreach (var requestLogger in requestLoggers)
@@ -133,8 +150,8 @@ namespace Tgstation.Server.Client
 		/// <param name="timeout">Optional <see cref="TimeSpan"/> representing timeout for the connection.</param>
 		/// <param name="attemptLoginRefresh">If <paramref name="loginHeaders"/> may be used to re-login in the future.</param>
 		/// <param name="cancellationToken">Optional <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in a new <see cref="IServerClient"/>.</returns>
-		async Task<IServerClient> CreateWithNewToken(
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in a new <see cref="IServerClient"/>.</returns>
+		async ValueTask<IServerClient> CreateWithNewToken(
 			Uri host,
 			ApiHeaders loginHeaders,
 			IEnumerable<IRequestLogger>? requestLoggers,
@@ -145,7 +162,7 @@ namespace Tgstation.Server.Client
 			requestLoggers ??= Enumerable.Empty<IRequestLogger>();
 
 			TokenResponse token;
-			using (var api = ApiClientFactory.CreateApiClient(host, loginHeaders, null, false))
+			await using (var api = ApiClientFactory.CreateApiClient(host, loginHeaders, null, false))
 			{
 				foreach (var requestLogger in requestLoggers)
 					api.AddRequestLogger(requestLogger);
@@ -155,14 +172,13 @@ namespace Tgstation.Server.Client
 				token = await api.Update<TokenResponse>(Routes.Root, cancellationToken).ConfigureAwait(false);
 			}
 
-			var apiHeaders = new ApiHeaders(productHeaderValue, token.Bearer!);
+			var apiHeaders = new ApiHeaders(productHeaderValue, token);
 			var client = new ServerClient(
 				ApiClientFactory.CreateApiClient(
 					host,
 					apiHeaders,
 					attemptLoginRefresh ? loginHeaders : null,
-					false),
-				token);
+					false));
 			if (timeout.HasValue)
 				client.Timeout = timeout.Value;
 

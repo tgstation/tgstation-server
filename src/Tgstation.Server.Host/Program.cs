@@ -40,7 +40,7 @@ namespace Tgstation.Server.Host
 		/// Entrypoint for the <see cref="Program"/>.
 		/// </summary>
 		/// <param name="args">The command line arguments.</param>
-		/// <returns>The <see cref="global::System.Diagnostics.Process.ExitCode"/>.</returns>
+		/// <returns>A <see cref="Task"/> resulting in the <see cref="global::System.Diagnostics.Process.ExitCode"/>.</returns>
 		public static async Task<int> Main(string[] args)
 		{
 			// first arg is 100% always the update path, starting it otherwise is solely for debugging purposes
@@ -76,8 +76,8 @@ namespace Tgstation.Server.Host
 		/// </summary>
 		/// <param name="args">The command line arguments, minus the <paramref name="updatePath"/>.</param>
 		/// <param name="updatePath">The path to extract server updates to be applied to.</param>
-		/// <returns>The <see cref="HostExitCode"/>.</returns>
-		internal async Task<HostExitCode> Main(string[] args, string updatePath)
+		/// <returns>A <see cref="ValueTask"/> resulting in the <see cref="HostExitCode"/>.</returns>
+		internal async ValueTask<HostExitCode> Main(string[] args, string updatePath)
 		{
 			try
 			{

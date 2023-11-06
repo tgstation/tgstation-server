@@ -74,8 +74,8 @@ namespace Tgstation.Server.Host.Components.Deployment
 		/// Make the <see cref="SwappableDmbProvider"/> active by replacing the live link with our <see cref="CompileJob"/>.
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		public Task MakeActive(CancellationToken cancellationToken)
+		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
+		public ValueTask MakeActive(CancellationToken cancellationToken)
 		{
 			if (Interlocked.Exchange(ref swapped, 1) != 0)
 				throw new InvalidOperationException("Already swapped!");
@@ -94,7 +94,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 		/// Perform the swapping action.
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		protected abstract Task DoSwap(CancellationToken cancellationToken);
+		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
+		protected abstract ValueTask DoSwap(CancellationToken cancellationToken);
 	}
 }

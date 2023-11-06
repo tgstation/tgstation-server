@@ -66,7 +66,7 @@ namespace Tgstation.Server.Host.Transfer
 		}
 
 		/// <inheritdoc />
-		public async Task<Stream> GetResult(CancellationToken cancellationToken)
+		public async ValueTask<Stream> GetResult(CancellationToken cancellationToken)
 		{
 			using (cancellationToken.Register(() => streamTcs.TrySetCanceled(cancellationToken)))
 			using (ticketExpiryCts.Token.Register(() => streamTcs.TrySetResult(null)))
@@ -88,7 +88,7 @@ namespace Tgstation.Server.Host.Transfer
 		/// <param name="stream">The <see cref="Stream"/> containing uploaded data.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in <see langword="null"/>, <see cref="ErrorMessageResponse"/> otherwise.</returns>
-		public async Task<ErrorMessageResponse> Completion(Stream stream, CancellationToken cancellationToken)
+		public async ValueTask<ErrorMessageResponse> Completion(Stream stream, CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(stream);
 

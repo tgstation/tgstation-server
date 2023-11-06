@@ -23,8 +23,8 @@ namespace Tgstation.Server.Host.Swarm
 		/// </summary>
 		/// <param name="updateRequest">The <see cref="SwarmUpdateRequest"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in <see langword="true"/> if the node is able to update, <see langword="false"/> otherwise.</returns>
-		Task<bool> PrepareUpdateFromController(SwarmUpdateRequest updateRequest, CancellationToken cancellationToken);
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in <see langword="true"/> if the node is able to update, <see langword="false"/> otherwise.</returns>
+		ValueTask<bool> PrepareUpdateFromController(SwarmUpdateRequest updateRequest, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Validate a given <paramref name="registrationId"/>.
@@ -39,23 +39,23 @@ namespace Tgstation.Server.Host.Swarm
 		/// <param name="node">The <see cref="SwarmServerResponse"/> that is registering.</param>
 		/// <param name="registrationId">The registration <see cref="Guid"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in <see langword="true"/> if the registration was successful, <see langword="false"/> otherwise.</returns>
-		Task<bool> RegisterNode(Api.Models.Internal.SwarmServer node, Guid registrationId, CancellationToken cancellationToken);
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in <see langword="true"/> if the registration was successful, <see langword="false"/> otherwise.</returns>
+		ValueTask<bool> RegisterNode(Api.Models.Internal.SwarmServer node, Guid registrationId, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Attempt to unregister a node with a given <paramref name="registrationId"/> with the controller.
 		/// </summary>
 		/// <param name="registrationId">The registration <see cref="Guid"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		Task UnregisterNode(Guid registrationId, CancellationToken cancellationToken);
+		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
+		ValueTask UnregisterNode(Guid registrationId, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Notify the controller that the node with the given <paramref name="registrationId"/> is ready to commit or notify the node of the controller telling it to commit.
 		/// </summary>
 		/// <param name="registrationId">The registration <see cref="Guid"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		Task<bool> RemoteCommitRecieved(Guid registrationId, CancellationToken cancellationToken);
+		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
+		ValueTask<bool> RemoteCommitRecieved(Guid registrationId, CancellationToken cancellationToken);
 	}
 }
