@@ -131,8 +131,6 @@ namespace Tgstation.Server.Client
 #pragma warning restore IDE0066 // Convert switch statement to expression
 #pragma warning restore IDE0010 // Add missing cases
 			{
-				case HttpStatusCode.UpgradeRequired:
-					throw new VersionMismatchException(errorMessage, response);
 				case HttpStatusCode.Unauthorized:
 					throw new UnauthorizedException(errorMessage, response);
 				case HttpStatusCode.InternalServerError:
@@ -154,6 +152,9 @@ namespace Tgstation.Server.Client
 				case (HttpStatusCode)429:
 					throw new RateLimitException(errorMessage, response);
 				default:
+					if (errorMessage?.ErrorCode == ErrorCode.ApiMismatch)
+						throw new VersionMismatchException(errorMessage, response);
+
 					throw new ApiConflictException(errorMessage, response);
 			}
 		}
