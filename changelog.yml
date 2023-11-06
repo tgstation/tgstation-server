@@ -161,17 +161,26 @@ Components:
       Author: Cyberboss
       PullRequest: 1628
     Unreleased: true
+  - Version: 5.18.0
+    ComponentVersions: {}
+    Changes: []
+    Unreleased: true
+  - Version: 5.17.1
+    ComponentVersions: {}
+    Changes: []
+    Unreleased: true
   - Version: 5.17.0
     ComponentVersions:
-      HttpApi: 9.12.0
-      DreamMakerApi: 6.6.1
+      Core: 5.17.0
+      HttpApi: 9.13.0
+      DreamMakerApi: 6.6.2
       Configuration: 4.7.1
       InteropApi: 5.6.2
       HostWatchdog: 1.4.0
       NugetCommon: 7.0.0
-      NugetApi: 11.1.2
-      NugetClient: 13.0.0
-      WebControlPanel: 4.25.5
+      NugetApi: 12.0.0
+      NugetClient: 14.0.0
+      WebControlPanel: 4.26.0
     Changes:
     - Descriptions:
       - Improved asynchronous task handling for minor performance gains.
@@ -193,21 +202,6 @@ Components:
       - Reduces time out for deployment DMAPI validation to 10s after receiving the initial bridge request. This should never be hit, as the DMAPI is meant to stop the world immediately after this.
       Author: Cyberboss
       PullRequest: 1690
-    Unreleased: true
-  - Version: 5.16.5
-    ComponentVersions:
-      Core: 5.16.4
-      HttpApi: 9.12.0
-      DreamMakerApi: 6.5.4
-      Configuration: 4.7.1
-      InteropApi: 5.6.2
-      HostWatchdog: 1.4.0
-      NugetCommon: 6.0.1
-      NugetApi: 11.1.2
-      NugetClient: 12.1.2
-      WebControlPanel: 4.25.2
-    Changes: []
-    Unreleased: true
   - Version: 5.16.4
     ComponentVersions:
       HttpApi: 9.12.0
@@ -3020,7 +3014,6 @@ Components:
       - Fixed another issue related to token expiration not being handled gracefully.
       Author: Cyberboss
       PullRequest: 1697
-    Unreleased: true
   - Version: 4.24.0
     Changes:
     - Descriptions:
@@ -3169,7 +3162,6 @@ Components:
       - Fixed GET `/` with an invalid `Authorization` header set not returning an HTTP 401 response.
       Author: Cyberboss
       PullRequest: 1685
-    Unreleased: true
   - Version: 9.12.0
     Changes:
     - Descriptions:
@@ -3607,21 +3599,18 @@ Components:
       - Adjusted workaround for `del(world)` not doing anything until the end of the tick to account for `world.sleep_offline`.
       Author: Cyberboss
       PullRequest: 1685
-    Unreleased: true
   - Version: 6.6.1
     Changes:
     - Descriptions:
       - Added workaround for `del(world)` not doing anything until the end of the tick. See https://www.byond.com/forum/post/2894866.
       Author: Cyberboss
       PullRequest: 1690
-    Unreleased: true
   - Version: 6.6.0
     Changes:
     - Descriptions:
       - Added `/world/proc/TgsVisibility()` which provides the DreamDaemon visibility level for the running server.
       Author: Cyberboss
       PullRequest: 1682
-    Unreleased: true
   - Version: 6.5.3
     Changes:
     - Descriptions:
@@ -3786,7 +3775,6 @@ Components:
       - Changed return type of `CachedResponseStream.Create` from `Task<T>` to `ValueTask<T>`
       Author: Cyberboss
       PullRequest: 1679
-    Unreleased: true
   - Version: 6.0.1
     Changes:
     - Descriptions:
@@ -3814,7 +3802,6 @@ Components:
       - Changed description of `ErrorCode.DreamMakerNeverValidated`.
       Author: Cyberboss
       PullRequest: 1685
-    Unreleased: true
   - Version: 11.1.2
     Changes:
     - Descriptions:
@@ -3841,17 +3828,14 @@ Components:
   - Version: 14.0.0
     Changes:
     - Descriptions:
+      - Replaced most usages of `Task` with `ValueTask`.
+      Author: Cyberboss
+      PullRequest: 1679
+    - Descriptions:
       - Updated TGS API library to latest.
       - Added dependencies on latest `Microsoft.AspNetCore.SignalR.Client` and `Microsoft.AspNetCore.SignalR.Protocols.NewtonsoftJson`.
       - Added `IServerClient.SubscribeToJobUpdates` which handles establishing a connection to a `IJobsHub` receiver that will receive job updates from TGS until it's disposed.
       - Changed `IServerClient` from `IDisposable` to `IAsyncDisposable`. On disposal, all associated job update subscriptions will be aborted.
       Author: Cyberboss
       PullRequest: 1685
-    Unreleased: true
-  - Version: 13.0.0
-    Changes:
-    - Descriptions:
-      - Replaced most usages of `Task` with `ValueTask`.
-      Author: Cyberboss
-      PullRequest: 1679
     Unreleased: true
