@@ -403,7 +403,9 @@ namespace Tgstation.Server.Host.Core
 			services.AddSingleton<IJobService>(provider => provider.GetRequiredService<JobService>());
 			services.AddSingleton<IJobsHubUpdater>(provider => provider.GetRequiredService<JobService>());
 			services.AddSingleton<IJobManager>(x => x.GetRequiredService<IJobService>());
-			services.AddSingleton<IPermissionsUpdateNotifyee, JobsHubGroupMapper>();
+			services.AddSingleton<JobsHubGroupMapper>();
+			services.AddSingleton<IPermissionsUpdateNotifyee>(provider => provider.GetRequiredService<JobsHubGroupMapper>());
+			services.AddSingleton<IHostedService>(x => x.GetRequiredService<JobsHubGroupMapper>()); // bit of a hack, but we need this to load immediated
 
 			services.AddSingleton<InstanceManager>();
 			services.AddSingleton<IBridgeDispatcher>(x => x.GetRequiredService<InstanceManager>());
