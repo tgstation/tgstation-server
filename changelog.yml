@@ -215,7 +215,7 @@ Components:
       Author: Cyberboss
       PullRequest: 1685
     - Descriptions:
-      - Reduces time out for deployment DMAPI validation to 10s after receiving the initial bridge request. This should never be hit, as the DMAPI is meant to stop the world immediately after this.
+      - Reduces time out for deployment DMAPI validation to 30s after receiving the initial bridge request. This should never be hit, as the DMAPI is meant to stop the world immediately after this.
       Author: Cyberboss
       PullRequest: 1690
   - Version: 5.16.4
