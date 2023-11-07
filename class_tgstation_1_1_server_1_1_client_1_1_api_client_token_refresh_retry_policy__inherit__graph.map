@@ -1,0 +1,4 @@
+<map id="Tgstation.Server.Client.ApiClientTokenRefreshRetryPolicy" name="Tgstation.Server.Client.ApiClientTokenRefreshRetryPolicy">
+<area shape="rect" id="node1" title="A IRetryPolicy that attempts to refresh a given apiClient&#39;s token on the first disconnect." alt="" coords="5,79,225,119"/>
+<area shape="rect" id="node2" href="$class_i_retry_policy.html" title=" " alt="" coords="70,5,161,31"/>
+</map>

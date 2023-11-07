@@ -1,0 +1,22 @@
+<map id="Tgstation.Server.Client.ApiClientTokenRefreshRetryPolicy" name="Tgstation.Server.Client.ApiClientTokenRefreshRetryPolicy">
+<area shape="rect" id="node1" title="A IRetryPolicy that attempts to refresh a given apiClient&#39;s token on the first disconnect." alt="" coords="1096,264,1316,304"/>
+<area shape="rect" id="node2" href="$class_i_retry_policy.html" title=" " alt="" coords="837,214,927,239"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_client_1_1_api_client.html" title=" " alt="" coords="804,264,960,304"/>
+<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_client_1_1_i_api_client.html" title="Web interface for the API." alt="" coords="487,9,565,34"/>
+<area shape="rect" id="node5" href="$class_i_async_disposable.html" title=" " alt="" coords="42,9,169,34"/>
+<area shape="rect" id="node6" title=" " alt="" coords="438,58,614,83"/>
+<area shape="rect" id="node7" title=" " alt="" coords="431,108,621,148"/>
+<area shape="rect" id="node8" href="$interface_tgstation_1_1_server_1_1_common_1_1_http_1_1_i_http_client.html" title="For sending HTTP requests." alt="" coords="439,172,613,212"/>
+<area shape="rect" id="node9" href="$class_i_disposable.html" title=" " alt="" coords="60,174,151,199"/>
+<area shape="rect" id="node10" title=" " alt="" coords="425,236,627,276"/>
+<area shape="rect" id="node11" title=" " alt="" coords="423,301,629,326"/>
+<area shape="rect" id="node12" href="$class_tgstation_1_1_server_1_1_api_1_1_api_headers.html" title="Represents the header that must be present for every server request." alt="" coords="445,351,607,391"/>
+<area shape="rect" id="node13" title=" " alt="" coords="61,309,150,334"/>
+<area shape="rect" id="node14" title=" " alt="" coords="29,358,181,383"/>
+<area shape="rect" id="node15" title=" " alt="" coords="5,407,205,433"/>
+<area shape="rect" id="node16" title=" " alt="" coords="35,457,176,482"/>
+<area shape="rect" id="node17" title=" " alt="" coords="443,415,609,441"/>
+<area shape="rect" id="node18" title=" " alt="" coords="477,465,575,490"/>
+<area shape="rect" id="node19" title=" " alt="" coords="503,514,549,539"/>
+<area shape="rect" id="node20" title=" " alt="" coords="811,329,953,354"/>
+</map>

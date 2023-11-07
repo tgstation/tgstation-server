@@ -1,8 +1,9 @@
 <map id="Tgstation.Server.Host.Jobs.JobsHubGroupMapper" name="Tgstation.Server.Host.Jobs.JobsHubGroupMapper">
-<area shape="rect" id="node1" title="Handles mapping groups for the JobsHub." alt="" coords="464,149,647,189"/>
+<area shape="rect" id="node1" title="Handles mapping groups for the JobsHub." alt="" coords="464,159,647,199"/>
 <area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_permissions_update_notifyee.html" title="Receives notifications about permissions updates." alt="" coords="45,5,233,31"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_signal_r_1_1_i_connection_mapped_hub_context.html" title=" " alt="" coords="12,55,265,125"/>
-<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_factory.html" title="Factory for scoping usage of IDatabaseContexts. Meant for use by Components." alt="" coords="34,149,243,189"/>
-<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_jobs_hub_updater.html" title="Allows manually triggering jobs hub updates." alt="" coords="47,213,230,253"/>
-<area shape="rect" id="node6" title=" " alt="" coords="5,277,272,317"/>
+<area shape="rect" id="node3" href="$class_i_hosted_service.html" title=" " alt="" coords="83,55,195,80"/>
+<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_signal_r_1_1_i_connection_mapped_hub_context.html" title=" " alt="" coords="12,105,265,174"/>
+<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_factory.html" title="Factory for scoping usage of IDatabaseContexts. Meant for use by Components." alt="" coords="34,198,243,238"/>
+<area shape="rect" id="node6" href="$interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_jobs_hub_updater.html" title="Allows manually triggering jobs hub updates." alt="" coords="47,262,230,302"/>
+<area shape="rect" id="node7" title=" " alt="" coords="5,326,272,366"/>
 </map>
