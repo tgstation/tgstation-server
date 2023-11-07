@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
 using Tgstation.Server.Api.Hubs;
@@ -19,7 +20,7 @@ namespace Tgstation.Server.Host.Jobs
 	/// <summary>
 	/// Handles mapping groups for the <see cref="JobsHub"/>.
 	/// </summary>
-	sealed class JobsHubGroupMapper : IPermissionsUpdateNotifyee
+	sealed class JobsHubGroupMapper : IPermissionsUpdateNotifyee, IHostedService
 	{
 		/// <summary>
 		/// The <see cref="IHubContext"/> for the <see cref="JobsHub"/>.
@@ -95,6 +96,12 @@ namespace Tgstation.Server.Host.Jobs
 				permissionSet.Id ?? throw new InvalidOperationException("permissionSet?.Id was null!"),
 				cancellationToken);
 		}
+
+		/// <inheritdoc />
+		public Task StartAsync(CancellationToken cancellationToken) => Task.CompletedTask;
+
+		/// <inheritdoc />
+		public Task StopAsync(CancellationToken cancellationToken) => Task.CompletedTask;
 
 		/// <summary>
 		/// Implementation of <see cref="IConnectionMappedHubContext{THub, THubMethods}.OnConnectionMapGroups"/>.
