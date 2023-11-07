@@ -165,6 +165,10 @@ Components:
     ComponentVersions: {}
     Changes: []
     Unreleased: true
+  - Version: 5.17.2
+    ComponentVersions: {}
+    Changes: []
+    Unreleased: true
   - Version: 5.17.1
     ComponentVersions:
       HttpApi: 9.13.0
@@ -181,7 +185,6 @@ Components:
       - Fixed an issue where SignalR connections may not be mapped into their appropriate groups for receiving jobs.
       Author: Cyberboss
       PullRequest: 1698
-    Unreleased: true
   - Version: 5.17.0
     ComponentVersions:
       Core: 5.17.0
@@ -3024,7 +3027,6 @@ Components:
       - Fixed issues relating to token expiry and instance identification with real-time jobs.
       Author: Cyberboss
       PullRequest: 1698
-    Unreleased: true
   - Version: 4.26.0
     Changes:
     - Descriptions:
@@ -3808,7 +3810,6 @@ Components:
       - Updated JWT parsing library.
       Author: Cyberboss
       PullRequest: 1698
-    Unreleased: true
   - Version: 12.0.0
     Changes:
     - Descriptions:
