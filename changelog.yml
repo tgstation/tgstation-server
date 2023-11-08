@@ -3852,11 +3852,4 @@ Components:
       - Made `DiscordConnectionStringBuilder.BasedMeme` obsolete.
       Author: Cyberboss
       PullRequest: 1629
-  NugetClient:
-  - Version: 14.1.0
-    Changes:
-    - Descriptions:
-      - Added a best effort automatic JWT refresh if SignalR connections attempt a reconnect. This might issue multiple login requests if there are multiple active job subscriptions.
-      Author: Cyberboss
-      PullRequest: 1698
-    Unreleased: true
+  NugetClient: []
