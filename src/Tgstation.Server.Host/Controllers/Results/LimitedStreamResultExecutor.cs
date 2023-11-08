@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.Extensions.Logging;
 
-namespace Tgstation.Server.Host.Controllers
+namespace Tgstation.Server.Host.Controllers.Results
 {
 	/// <summary>
 	/// <see cref="IActionResultExecutor{TResult}"/> for <see cref="LimitedStreamResult"/>s.

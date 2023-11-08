@@ -3,7 +3,7 @@ using System.Linq;
 
 using Microsoft.AspNetCore.Mvc;
 
-namespace Tgstation.Server.Host.Controllers
+namespace Tgstation.Server.Host.Controllers.Results
 {
 	/// <summary>
 	/// Helper for returning paginated models.

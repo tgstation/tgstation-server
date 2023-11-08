@@ -32,10 +32,7 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 		}
 
 		/// <inheritdoc />
-		public override ValueTask FailDeployment(Models.CompileJob compileJob, string errorMessage, CancellationToken cancellationToken)
-		{
-			throw new NotImplementedException();
-		}
+		public override ValueTask FailDeployment(Models.CompileJob compileJob, string errorMessage, CancellationToken cancellationToken) => ValueTask.CompletedTask;
 
 		/// <inheritdoc />
 		public override ValueTask<IReadOnlyCollection<TestMerge>> RemoveMergedTestMerges(IRepository repository, Models.RepositorySettings repositorySettings, Models.RevisionInformation revisionInformation, CancellationToken cancellationToken)
@@ -69,10 +66,7 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 			=> String.Empty;
 
 		/// <inheritdoc />
-		protected override ValueTask MarkInactiveImpl(Models.CompileJob compileJob, CancellationToken cancellationToken)
-		{
-			throw new NotImplementedException();
-		}
+		protected override ValueTask MarkInactiveImpl(Models.CompileJob compileJob, CancellationToken cancellationToken) => ValueTask.CompletedTask;
 
 		/// <inheritdoc />
 		protected override ValueTask StageDeploymentImpl(Models.CompileJob compileJob, CancellationToken cancellationToken) => ValueTask.CompletedTask;

@@ -3,6 +3,7 @@
 using Tgstation.Server.Host.Components;
 using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.Security;
+using Tgstation.Server.Host.Utils;
 
 namespace Tgstation.Server.Host.Controllers
 {
@@ -15,19 +16,22 @@ namespace Tgstation.Server.Host.Controllers
 		/// Initializes a new instance of the <see cref="InstanceRequiredController"/> class.
 		/// </summary>
 		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> for the <see cref="ComponentInterfacingController"/>.</param>
-		/// <param name="authenticationContextFactory">The <see cref="IAuthenticationContextFactory"/> for the <see cref="ComponentInterfacingController"/>.</param>
+		/// <param name="authenticationContext">The <see cref="IAuthenticationContext"/> for the <see cref="ComponentInterfacingController"/>.</param>
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="ComponentInterfacingController"/>.</param>
 		/// <param name="instanceManager">The <see cref="IInstanceManager"/> for the <see cref="ComponentInterfacingController"/>.</param>
+		/// <param name="apiHeaders">The <see cref="IApiHeadersProvider"/> for the <see cref="ComponentInterfacingController"/>.</param>
 		protected InstanceRequiredController(
 			IDatabaseContext databaseContext,
-			IAuthenticationContextFactory authenticationContextFactory,
+			IAuthenticationContext authenticationContext,
 			ILogger<InstanceRequiredController> logger,
-			IInstanceManager instanceManager)
+			IInstanceManager instanceManager,
+			IApiHeadersProvider apiHeaders)
 			: base(
 				  databaseContext,
-				  authenticationContextFactory,
+				  authenticationContext,
 				  logger,
 				  instanceManager,
+				  apiHeaders,
 				  true)
 		{
 		}

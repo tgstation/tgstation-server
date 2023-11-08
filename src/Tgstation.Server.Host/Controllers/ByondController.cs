@@ -13,12 +13,14 @@ using Tgstation.Server.Api.Models.Request;
 using Tgstation.Server.Api.Models.Response;
 using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Host.Components;
+using Tgstation.Server.Host.Controllers.Results;
 using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.Jobs;
 using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.Security;
 using Tgstation.Server.Host.Transfer;
+using Tgstation.Server.Host.Utils;
 
 namespace Tgstation.Server.Host.Controllers
 {
@@ -49,23 +51,26 @@ namespace Tgstation.Server.Host.Controllers
 		/// Initializes a new instance of the <see cref="ByondController"/> class.
 		/// </summary>
 		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> for the <see cref="InstanceRequiredController"/>.</param>
-		/// <param name="authenticationContextFactory">The <see cref="IAuthenticationContextFactory"/> for the <see cref="InstanceRequiredController"/>.</param>
+		/// <param name="authenticationContext">The <see cref="IAuthenticationContext"/> for the <see cref="InstanceRequiredController"/>.</param>
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="InstanceRequiredController"/>.</param>
 		/// <param name="instanceManager">The <see cref="IInstanceManager"/> for the <see cref="InstanceRequiredController"/>.</param>
 		/// <param name="jobManager">The value of <see cref="jobManager"/>.</param>
 		/// <param name="fileTransferService">The value of <see cref="fileTransferService"/>.</param>
+		/// <param name="apiHeadersProvider">The <see cref="IApiHeadersProvider"/> for the <see cref="InstanceRequiredController"/>.</param>
 		public ByondController(
 			IDatabaseContext databaseContext,
-			IAuthenticationContextFactory authenticationContextFactory,
+			IAuthenticationContext authenticationContext,
 			ILogger<ByondController> logger,
 			IInstanceManager instanceManager,
 			IJobManager jobManager,
-			IFileTransferTicketProvider fileTransferService)
+			IFileTransferTicketProvider fileTransferService,
+			IApiHeadersProvider apiHeadersProvider)
 			: base(
 				  databaseContext,
-				  authenticationContextFactory,
+				  authenticationContext,
 				  logger,
-				  instanceManager)
+				  instanceManager,
+				  apiHeadersProvider)
 		{
 			this.jobManager = jobManager ?? throw new ArgumentNullException(nameof(jobManager));
 			this.fileTransferService = fileTransferService ?? throw new ArgumentNullException(nameof(fileTransferService));
@@ -190,14 +195,14 @@ namespace Tgstation.Server.Host.Controllers
 							Instance.Id);
 
 						// run the install through the job manager
-						var job = new Job
-						{
-							Description = $"Install {(!uploadingZip ? String.Empty : "custom ")}BYOND version {version}",
-							StartedBy = AuthenticationContext.User,
-							CancelRightsType = RightsType.Byond,
-							CancelRight = (ulong)ByondRights.CancelInstall,
-							Instance = Instance,
-						};
+						var job = Job.Create(
+							uploadingZip
+								? JobCode.ByondCustomInstall
+								: JobCode.ByondOfficialInstall,
+							AuthenticationContext.User,
+							Instance,
+							ByondRights.CancelInstall);
+						job.Description += $" {version}";
 
 						IFileUploadTicket fileUploadTicket = null;
 						if (uploadingZip)
@@ -299,14 +304,8 @@ namespace Tgstation.Server.Host.Controllers
 			var isCustomVersion = version.Build != -1;
 
 			// run the install through the job manager
-			var job = new Job
-			{
-				Description = $"Delete installed BYOND version {version}",
-				StartedBy = AuthenticationContext.User,
-				CancelRightsType = RightsType.Byond,
-				CancelRight = (ulong)(isCustomVersion ? ByondRights.InstallOfficialOrChangeActiveVersion : ByondRights.InstallCustomVersion),
-				Instance = Instance,
-			};
+			var job = Job.Create(JobCode.ByondDelete, AuthenticationContext.User, Instance, isCustomVersion ? ByondRights.InstallOfficialOrChangeActiveVersion : ByondRights.InstallCustomVersion);
+			job.Description += $" {version}";
 
 			await jobManager.RegisterOperation(
 				job,

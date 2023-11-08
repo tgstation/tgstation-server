@@ -12,4 +12,3 @@ Some notable exceptions:
     - Returns 401 If an `IAuthenticationContext` could not be created for a request.
 - [BridgeController](./BridgeController.cs) is a special controller accessible only from localhost and is used to receive bridge request from DreamDaemon
 - [HomeController](./HomeController.cs) contains the code to initially log in and generate an API token for a user.
-- [TgsAuthorizeAttribute](./TgsAuthorizeAttribute.cs) is a special attribute applied to controller methods to define which rights are required to run a verb.
