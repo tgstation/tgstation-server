@@ -11,7 +11,6 @@ namespace Tgstation.Server.Host.Database.Migrations
 	[DbContext(typeof(SqlServerDatabaseContext))]
 	partial class SqlServerDatabaseContextModelSnapshot : ModelSnapshot
 	{
-		/// <inheritdoc />
 		protected override void BuildModel(ModelBuilder modelBuilder)
 		{
 #pragma warning disable 612, 618
@@ -329,10 +328,6 @@ namespace Tgstation.Server.Host.Database.Migrations
 
 				SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
-				b.Property<decimal>("ByondRights")
-					.HasColumnType("decimal(20,0)")
-					.HasColumnName("EngineRights");
-
 				b.Property<decimal>("ChatBotRights")
 					.HasColumnType("decimal(20,0)");
 
@@ -343,6 +338,9 @@ namespace Tgstation.Server.Host.Database.Migrations
 					.HasColumnType("decimal(20,0)");
 
 				b.Property<decimal>("DreamMakerRights")
+					.HasColumnType("decimal(20,0)");
+
+				b.Property<decimal>("EngineRights")
 					.HasColumnType("decimal(20,0)");
 
 				b.Property<long>("InstanceId")
@@ -400,6 +398,9 @@ namespace Tgstation.Server.Host.Database.Migrations
 
 				b.Property<long>("InstanceId")
 					.HasColumnType("bigint");
+
+				b.Property<byte>("JobCode")
+					.HasColumnType("tinyint");
 
 				b.Property<DateTimeOffset?>("StartedAt")
 					.IsRequired()

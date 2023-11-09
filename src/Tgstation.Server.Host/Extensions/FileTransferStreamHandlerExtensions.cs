@@ -11,7 +11,7 @@ using Microsoft.Net.Http.Headers;
 
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Response;
-using Tgstation.Server.Host.Controllers;
+using Tgstation.Server.Host.Controllers.Results;
 using Tgstation.Server.Host.Transfer;
 
 namespace Tgstation.Server.Host.Extensions

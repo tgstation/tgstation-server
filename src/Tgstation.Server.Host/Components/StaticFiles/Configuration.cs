@@ -73,7 +73,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 		/// </summary>
 		static readonly IReadOnlyDictionary<EventType, IReadOnlyList<string>> EventTypeScriptFileNameMap = new Dictionary<EventType, IReadOnlyList<string>>(
 			Enum.GetValues(typeof(EventType))
-				.OfType<EventType>()
+				.Cast<EventType>()
 				.Select(
 					eventType => new KeyValuePair<EventType, IReadOnlyList<string>>(
 						eventType,

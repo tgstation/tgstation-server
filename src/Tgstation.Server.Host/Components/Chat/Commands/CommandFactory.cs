@@ -92,7 +92,7 @@ namespace Tgstation.Server.Host.Components.Chat.Commands
 			return new List<ICommand>
 			{
 				new VersionCommand(assemblyInformationProvider),
-				new ByondCommand(engineManager, watchdog),
+				new EngineCommand(engineManager, watchdog),
 				new RevisionCommand(watchdog, repositoryManager),
 				new PullRequestsCommand(watchdog, repositoryManager, databaseContextFactory, compileJobProvider, instance),
 				new KekCommand(),

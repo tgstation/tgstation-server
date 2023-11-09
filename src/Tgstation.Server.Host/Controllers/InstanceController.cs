@@ -19,6 +19,7 @@ using Tgstation.Server.Api.Models.Response;
 using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Host.Components;
 using Tgstation.Server.Host.Configuration;
+using Tgstation.Server.Host.Controllers.Results;
 using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.IO;
@@ -68,6 +69,11 @@ namespace Tgstation.Server.Host.Controllers
 		readonly IPortAllocator portAllocator;
 
 		/// <summary>
+		/// The <see cref="IPermissionsUpdateNotifyee"/> for the <see cref="InstanceController"/>.
+		/// </summary>
+		readonly IPermissionsUpdateNotifyee permissionsUpdateNotifyee;
+
+		/// <summary>
 		/// The <see cref="GeneralConfiguration"/> for the <see cref="InstanceController"/>.
 		/// </summary>
 		readonly GeneralConfiguration generalConfiguration;
@@ -81,36 +87,44 @@ namespace Tgstation.Server.Host.Controllers
 		/// Initializes a new instance of the <see cref="InstanceController"/> class.
 		/// </summary>
 		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> for the <see cref="ComponentInterfacingController"/>.</param>
-		/// <param name="authenticationContextFactory">The <see cref="IAuthenticationContextFactory"/> for the <see cref="ComponentInterfacingController"/>.</param>
+		/// <param name="authenticationContext">The <see cref="IAuthenticationContext"/> for the <see cref="ComponentInterfacingController"/>.</param>
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="ComponentInterfacingController"/>.</param>
 		/// <param name="instanceManager">The <see cref="IInstanceManager"/> for the <see cref="ComponentInterfacingController"/>.</param>
 		/// <param name="jobManager">The value of <see cref="jobManager"/>.</param>
 		/// <param name="ioManager">The value of <see cref="ioManager"/>.</param>
 		/// <param name="platformIdentifier">The value of <see cref="platformIdentifier"/>.</param>
-		/// <param name="portAllocator">The value of <see cref="IPortAllocator"/>.</param>
+		/// <param name="portAllocator">The value of <see cref="portAllocator"/>.</param>
+		/// <param name="permissionsUpdateNotifyee">The value of <see cref="permissionsUpdateNotifyee"/>.</param>
 		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="generalConfiguration"/>.</param>
 		/// <param name="swarmConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="swarmConfiguration"/>.</param>
+		/// <param name="apiHeaders">The <see cref="IApiHeadersProvider"/> for the <see cref="ComponentInterfacingController"/>.</param>
 		public InstanceController(
 			IDatabaseContext databaseContext,
-			IAuthenticationContextFactory authenticationContextFactory,
+			IAuthenticationContext authenticationContext,
 			ILogger<InstanceController> logger,
 			IInstanceManager instanceManager,
 			IJobManager jobManager,
 			IIOManager ioManager,
 			IPortAllocator portAllocator,
 			IPlatformIdentifier platformIdentifier,
+			IPermissionsUpdateNotifyee permissionsUpdateNotifyee,
 			IOptions<GeneralConfiguration> generalConfigurationOptions,
-			IOptions<SwarmConfiguration> swarmConfigurationOptions)
+			IOptions<SwarmConfiguration> swarmConfigurationOptions,
+			IApiHeadersProvider apiHeaders)
 			: base(
 				  databaseContext,
-				  authenticationContextFactory,
+				  authenticationContext,
 				  logger,
-				  instanceManager)
+				  instanceManager,
+				  apiHeaders,
+				  false)
 		{
 			this.jobManager = jobManager ?? throw new ArgumentNullException(nameof(jobManager));
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
 			this.platformIdentifier = platformIdentifier ?? throw new ArgumentNullException(nameof(platformIdentifier));
 			this.portAllocator = portAllocator ?? throw new ArgumentNullException(nameof(portAllocator));
+			this.permissionsUpdateNotifyee = permissionsUpdateNotifyee ?? throw new ArgumentNullException(nameof(permissionsUpdateNotifyee));
+
 			generalConfiguration = generalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
 			swarmConfiguration = swarmConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(swarmConfigurationOptions));
 		}
@@ -262,6 +276,10 @@ namespace Tgstation.Server.Host.Controllers
 				newInstance.Id,
 				newInstance.Path);
 
+			await permissionsUpdateNotifyee.InstancePermissionSetCreated(
+				newInstance.InstancePermissionSets.First(),
+				cancellationToken);
+
 			var api = newInstance.ToApi();
 			api.Accessible = true; // instances are always accessible by their creator
 			return attached ? Json(api) : Created(api);
@@ -337,10 +355,7 @@ namespace Tgstation.Server.Host.Controllers
 			var moveJob = await InstanceQuery()
 				.SelectMany(x => x.Jobs).
 				Where(x => !x.StoppedAt.HasValue && x.Description.StartsWith(MoveInstanceJobPrefix))
-				.Select(x => new Job
-				{
-					Id = x.Id,
-				}).FirstOrDefaultAsync(cancellationToken);
+				.Select(x => new Job(x.Id.Value)).FirstOrDefaultAsync(cancellationToken);
 
 			if (moveJob != default)
 			{
@@ -472,14 +487,9 @@ namespace Tgstation.Server.Host.Controllers
 			var moving = originalModelPath != null;
 			if (moving)
 			{
-				var job = new Job
-				{
-					Description = $"{MoveInstanceJobPrefix}{originalModel.Id} from {originalModelPath} to {rawPath}",
-					Instance = originalModel,
-					CancelRightsType = RightsType.InstanceManager,
-					CancelRight = (ulong)InstanceManagerRights.Relocate,
-					StartedBy = AuthenticationContext.User,
-				};
+				var description = $"{MoveInstanceJobPrefix}{originalModel.Id} from {originalModelPath} to {rawPath}";
+				var job = Job.Create(JobCode.Move, AuthenticationContext.User, originalModel, InstanceManagerRights.Relocate);
+				job.Description = description;
 
 				await jobManager.RegisterOperation(
 					job,
@@ -622,7 +632,9 @@ namespace Tgstation.Server.Host.Controllers
 			var moveJob = await QueryForUser()
 				.SelectMany(x => x.Jobs)
 				.Where(x => !x.StoppedAt.HasValue && x.Description.StartsWith(MoveInstanceJobPrefix))
-				.Include(x => x.StartedBy).ThenInclude(x => x.CreatedBy)
+				.Include(x => x.StartedBy)
+					.ThenInclude(x => x.CreatedBy)
+				.Include(x => x.Instance)
 				.FirstOrDefaultAsync(cancellationToken);
 			api.MoveJob = moveJob?.ToApi();
 			await CheckAccessible(api, cancellationToken);
@@ -763,6 +775,7 @@ namespace Tgstation.Server.Host.Controllers
 		{
 			permissionSetToModify ??= new InstancePermissionSet()
 			{
+				PermissionSet = AuthenticationContext.PermissionSet,
 				PermissionSetId = AuthenticationContext.PermissionSet.Id.Value,
 			};
 			permissionSetToModify.EngineRights = RightsHelper.AllRights<EngineRights>();

@@ -22,6 +22,7 @@ using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.Jobs;
 using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.Security;
+using Tgstation.Server.Host.Utils;
 
 namespace Tgstation.Server.Host.Controllers
 {
@@ -46,23 +47,26 @@ namespace Tgstation.Server.Host.Controllers
 		/// Initializes a new instance of the <see cref="RepositoryController"/> class.
 		/// </summary>
 		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> for the <see cref="InstanceRequiredController"/>.</param>
-		/// <param name="authenticationContextFactory">The <see cref="IAuthenticationContextFactory"/> for the <see cref="InstanceRequiredController"/>.</param>
+		/// <param name="authenticationContext">The <see cref="IAuthenticationContext"/> for the <see cref="InstanceRequiredController"/>.</param>
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="InstanceRequiredController"/>.</param>
 		/// <param name="instanceManager">The <see cref="IInstanceManager"/> for the <see cref="InstanceRequiredController"/>.</param>
 		/// <param name="loggerFactory">The value of <see cref="loggerFactory"/>.</param>
 		/// <param name="jobManager">The value of <see cref="jobManager"/>.</param>
+		/// <param name="apiHeaders">The <see cref="IApiHeadersProvider"/> for the <see cref="InstanceRequiredController"/>.</param>
 		public RepositoryController(
 			IDatabaseContext databaseContext,
-			IAuthenticationContextFactory authenticationContextFactory,
+			IAuthenticationContext authenticationContext,
 			ILogger<RepositoryController> logger,
 			IInstanceManager instanceManager,
 			ILoggerFactory loggerFactory,
-			IJobManager jobManager)
+			IJobManager jobManager,
+			IApiHeadersProvider apiHeaders)
 			: base(
 				  databaseContext,
-				  authenticationContextFactory,
+				  authenticationContext,
 				  logger,
-				  instanceManager)
+				  instanceManager,
+				  apiHeaders)
 		{
 			this.loggerFactory = loggerFactory ?? throw new ArgumentNullException(nameof(loggerFactory));
 			this.jobManager = jobManager ?? throw new ArgumentNullException(nameof(jobManager));
@@ -135,20 +139,15 @@ namespace Tgstation.Server.Host.Controllers
 					if (repo != null)
 						return Conflict(new ErrorMessageResponse(ErrorCode.RepoExists));
 
-					var job = new Job
-					{
-						Description = String.Format(
+					var description = String.Format(
 							CultureInfo.InvariantCulture,
 							"Clone{1} repository {0}",
 							origin,
 							cloneBranch != null
 								? $"\"{cloneBranch}\" branch of"
-								: String.Empty),
-						StartedBy = AuthenticationContext.User,
-						CancelRightsType = RightsType.Repository,
-						CancelRight = (ulong)RepositoryRights.CancelClone,
-						Instance = Instance,
-					};
+								: String.Empty);
+					var job = Job.Create(JobCode.RepositoryClone, AuthenticationContext.User, Instance, RepositoryRights.CancelClone);
+					job.Description = description;
 					var api = currentModel.ToApi();
 
 					await DatabaseContext.Save(cancellationToken);
@@ -218,12 +217,7 @@ namespace Tgstation.Server.Host.Controllers
 
 			Logger.LogInformation("Instance {instanceId} repository delete initiated by user {userId}", Instance.Id, AuthenticationContext.User.Id.Value);
 
-			var job = new Job
-			{
-				Description = "Delete repository",
-				StartedBy = AuthenticationContext.User,
-				Instance = Instance,
-			};
+			var job = Job.Create(JobCode.RepositoryDelete, AuthenticationContext.User, Instance);
 			var api = currentModel.ToApi();
 			await jobManager.RegisterOperation(
 				job,
@@ -450,14 +444,8 @@ namespace Tgstation.Server.Host.Controllers
 			if (description == null)
 				return Json(api); // no git changes
 
-			var job = new Job
-			{
-				Description = description,
-				StartedBy = AuthenticationContext.User,
-				Instance = Instance,
-				CancelRightsType = RightsType.Repository,
-				CancelRight = (ulong)RepositoryRights.CancelPendingChanges,
-			};
+			var job = Job.Create(JobCode.RepositoryUpdate, AuthenticationContext.User, Instance, RepositoryRights.CancelPendingChanges);
+			job.Description = description;
 
 			var repositoryUpdater = new RepositoryUpdateService(
 				model,

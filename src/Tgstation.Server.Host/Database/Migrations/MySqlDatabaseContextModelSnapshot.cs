@@ -11,7 +11,6 @@ namespace Tgstation.Server.Host.Database.Migrations
 	[DbContext(typeof(MySqlDatabaseContext))]
 	partial class MySqlDatabaseContextModelSnapshot : ModelSnapshot
 	{
-		/// <inheritdoc />
 		protected override void BuildModel(ModelBuilder modelBuilder)
 		{
 #pragma warning disable 612, 618
@@ -344,10 +343,6 @@ namespace Tgstation.Server.Host.Database.Migrations
 					.ValueGeneratedOnAdd()
 					.HasColumnType("bigint");
 
-				b.Property<ulong>("ByondRights")
-					.HasColumnType("bigint unsigned")
-					.HasColumnName("EngineRights");
-
 				b.Property<ulong>("ChatBotRights")
 					.HasColumnType("bigint unsigned");
 
@@ -358,6 +353,9 @@ namespace Tgstation.Server.Host.Database.Migrations
 					.HasColumnType("bigint unsigned");
 
 				b.Property<ulong>("DreamMakerRights")
+					.HasColumnType("bigint unsigned");
+
+				b.Property<ulong>("EngineRights")
 					.HasColumnType("bigint unsigned");
 
 				b.Property<long>("InstanceId")
@@ -417,6 +415,9 @@ namespace Tgstation.Server.Host.Database.Migrations
 
 				b.Property<long>("InstanceId")
 					.HasColumnType("bigint");
+
+				b.Property<byte>("JobCode")
+					.HasColumnType("tinyint unsigned");
 
 				b.Property<DateTimeOffset?>("StartedAt")
 					.IsRequired()

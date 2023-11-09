@@ -239,6 +239,8 @@ namespace Tgstation.Server.Host.Components.Deployment
 					.Where(x => x.Id == compileJob.Id)
 					.Include(x => x.Job)
 						.ThenInclude(x => x.StartedBy)
+					.Include(x => x.Job)
+						.ThenInclude(x => x.Instance)
 					.Include(x => x.RevisionInformation)
 						.ThenInclude(x => x.PrimaryTestMerge)
 						.ThenInclude(x => x.MergedBy)
@@ -248,9 +250,9 @@ namespace Tgstation.Server.Host.Components.Deployment
 						.ThenInclude(x => x.MergedBy)
 					.FirstAsync(cancellationToken)); // can't wait to see that query
 
-			if (!Api.Models.Internal.EngineVersion.TryParse(compileJob.ByondVersion, out var engineVersion))
+			if (!Api.Models.Internal.EngineVersion.TryParse(compileJob.EngineVersion, out var engineVersion))
 			{
-				logger.LogWarning("Error loading compile job, bad engine version: {0}", compileJob.ByondVersion);
+				logger.LogWarning("Error loading compile job, bad engine version: {0}", compileJob.EngineVersion);
 				return null; // omae wa mou shinderu
 			}
 

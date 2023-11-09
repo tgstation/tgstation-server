@@ -14,12 +14,14 @@ using Tgstation.Server.Api.Models.Request;
 using Tgstation.Server.Api.Models.Response;
 using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Host.Components;
+using Tgstation.Server.Host.Controllers.Results;
 using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.Jobs;
 using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.Security;
 using Tgstation.Server.Host.Transfer;
+using Tgstation.Server.Host.Utils;
 
 namespace Tgstation.Server.Host.Controllers
 {
@@ -50,23 +52,26 @@ namespace Tgstation.Server.Host.Controllers
 		/// Initializes a new instance of the <see cref="EngineController"/> class.
 		/// </summary>
 		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> for the <see cref="InstanceRequiredController"/>.</param>
-		/// <param name="authenticationContextFactory">The <see cref="IAuthenticationContextFactory"/> for the <see cref="InstanceRequiredController"/>.</param>
+		/// <param name="authenticationContext">The <see cref="IAuthenticationContext"/> for the <see cref="InstanceRequiredController"/>.</param>
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="InstanceRequiredController"/>.</param>
 		/// <param name="instanceManager">The <see cref="IInstanceManager"/> for the <see cref="InstanceRequiredController"/>.</param>
 		/// <param name="jobManager">The value of <see cref="jobManager"/>.</param>
 		/// <param name="fileTransferService">The value of <see cref="fileTransferService"/>.</param>
+		/// <param name="apiHeadersProvider">The <see cref="IApiHeadersProvider"/> for the <see cref="InstanceRequiredController"/>.</param>
 		public EngineController(
 			IDatabaseContext databaseContext,
-			IAuthenticationContextFactory authenticationContextFactory,
+			IAuthenticationContext authenticationContext,
 			ILogger<EngineController> logger,
 			IInstanceManager instanceManager,
 			IJobManager jobManager,
-			IFileTransferTicketProvider fileTransferService)
+			IFileTransferTicketProvider fileTransferService,
+			IApiHeadersProvider apiHeadersProvider)
 			: base(
 				  databaseContext,
-				  authenticationContextFactory,
+				  authenticationContext,
 				  logger,
-				  instanceManager)
+				  instanceManager,
+				  apiHeadersProvider)
 		{
 			this.jobManager = jobManager ?? throw new ArgumentNullException(nameof(jobManager));
 			this.fileTransferService = fileTransferService ?? throw new ArgumentNullException(nameof(fileTransferService));
@@ -203,14 +208,14 @@ namespace Tgstation.Server.Host.Controllers
 							Instance.Id);
 
 						// run the install through the job manager
-						var job = new Models.Job
-						{
-							Description = $"Install {(!uploadingZip ? String.Empty : "custom ")}{model.EngineVersion.Engine.Value} version {model.EngineVersion.Version}",
-							StartedBy = AuthenticationContext.User,
-							CancelRightsType = RightsType.Engine,
-							CancelRight = (ulong)EngineRights.CancelInstall,
-							Instance = Instance,
-						};
+						var job = Models.Job.Create(
+							uploadingZip
+								? JobCode.EngineCustomInstall
+								: JobCode.EngineOfficialInstall,
+							AuthenticationContext.User,
+							Instance,
+							EngineRights.CancelInstall);
+						job.Description += $" {model.EngineVersion}";
 
 						IFileUploadTicket fileUploadTicket = null;
 						if (uploadingZip)
@@ -309,19 +314,16 @@ namespace Tgstation.Server.Host.Controllers
 			var isByondVersion = model.EngineVersion.Engine.Value == EngineType.Byond;
 
 			// run the install through the job manager
-			var job = new Models.Job
-			{
-				Description = $"Delete installed engine version {model.EngineVersion}",
-				StartedBy = AuthenticationContext.User,
-				CancelRightsType = RightsType.Engine,
-				CancelRight = (ulong)(
-					isByondVersion
-						? model.EngineVersion.Version.Build != -1
-							? EngineRights.InstallOfficialOrChangeActiveByondVersion
-							: EngineRights.InstallCustomByondVersion
-						: EngineRights.InstallCustomOpenDreamVersion | EngineRights.InstallOfficialOrChangeActiveOpenDreamVersion),
-				Instance = Instance,
-			};
+			var cancelRight = isByondVersion
+				? model.EngineVersion.CustomIteration.HasValue
+					? EngineRights.InstallCustomByondVersion
+					: EngineRights.InstallOfficialOrChangeActiveByondVersion
+				: model.EngineVersion.CustomIteration.HasValue
+					? EngineRights.InstallOfficialOrChangeActiveOpenDreamVersion
+					: EngineRights.InstallCustomOpenDreamVersion;
+
+			var job = Models.Job.Create(JobCode.EngineDelete, AuthenticationContext.User, Instance, cancelRight);
+			job.Description += $" {model.EngineVersion}";
 
 			await jobManager.RegisterOperation(
 				job,

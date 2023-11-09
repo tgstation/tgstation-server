@@ -1,6 +1,5 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Response;
@@ -31,8 +30,7 @@ namespace Tgstation.Server.Host.Models
 		/// The <see cref="Version"/> the <see cref="CompileJob"/> was made with in string form.
 		/// </summary>
 		[Required]
-		[Column("EngineVersion")]
-		public string ByondVersion { get; set; }
+		public string EngineVersion { get; set; }
 
 		/// <summary>
 		/// Backing field for <see cref="Version.Major"/> of <see cref="DMApiVersion"/>.
@@ -92,12 +90,9 @@ namespace Tgstation.Server.Host.Models
 			Job = Job.ToApi(),
 			Output = Output,
 			RevisionInformation = RevisionInformation.ToApi(),
-#pragma warning disable CS0618 // Type or member is obsolete
-			ByondVersion = ByondVersion,
-#pragma warning restore CS0618 // Type or member is obsolete
-			EngineVersion = Api.Models.Internal.EngineVersion.TryParse(ByondVersion, out var version)
+			EngineVersion = Api.Models.Internal.EngineVersion.TryParse(EngineVersion, out var version)
 				? version
-				: throw new InvalidOperationException($"Failed to parse BYOND version: {ByondVersion}"),
+				: throw new InvalidOperationException($"Failed to parse engine version: {EngineVersion}"),
 			MinimumSecurityLevel = MinimumSecurityLevel,
 			DMApiVersion = DMApiVersion,
 			RepositoryOrigin = RepositoryOrigin != null ? new Uri(RepositoryOrigin) : null,

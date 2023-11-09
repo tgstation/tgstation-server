@@ -13,6 +13,7 @@ using Tgstation.Server.Api.Models.Request;
 using Tgstation.Server.Api.Models.Response;
 using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Host.Components;
+using Tgstation.Server.Host.Controllers.Results;
 using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.Jobs;
@@ -43,23 +44,26 @@ namespace Tgstation.Server.Host.Controllers
 		/// Initializes a new instance of the <see cref="DreamMakerController"/> class.
 		/// </summary>
 		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> for the <see cref="InstanceRequiredController"/>.</param>
-		/// <param name="authenticationContextFactory">The <see cref="IAuthenticationContextFactory"/> for the <see cref="InstanceRequiredController"/>.</param>
+		/// <param name="authenticationContext">The <see cref="IAuthenticationContext"/> for the <see cref="InstanceRequiredController"/>.</param>
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="InstanceRequiredController"/>.</param>
 		/// <param name="instanceManager">The <see cref="IInstanceManager"/> for the <see cref="InstanceRequiredController"/>.</param>
 		/// <param name="jobManager">The value of <see cref="jobManager"/>.</param>
 		/// <param name="portAllocator">The value of <see cref="IPortAllocator"/>.</param>
+		/// <param name="apiHeaders">The <see cref="IApiHeadersProvider"/> for the <see cref="InstanceRequiredController"/>.</param>
 		public DreamMakerController(
 			IDatabaseContext databaseContext,
-			IAuthenticationContextFactory authenticationContextFactory,
+			IAuthenticationContext authenticationContext,
 			ILogger<DreamMakerController> logger,
 			IInstanceManager instanceManager,
 			IJobManager jobManager,
-			IPortAllocator portAllocator)
+			IPortAllocator portAllocator,
+			IApiHeadersProvider apiHeaders)
 			: base(
 				  databaseContext,
-				  authenticationContextFactory,
+				  authenticationContext,
 				  logger,
-				  instanceManager)
+				  instanceManager,
+				  apiHeaders)
 		{
 			this.jobManager = jobManager ?? throw new ArgumentNullException(nameof(jobManager));
 			this.portAllocator = portAllocator ?? throw new ArgumentNullException(nameof(portAllocator));
@@ -139,14 +143,7 @@ namespace Tgstation.Server.Host.Controllers
 		[ProducesResponseType(typeof(JobResponse), 202)]
 		public async ValueTask<IActionResult> Create(CancellationToken cancellationToken)
 		{
-			var job = new Job
-			{
-				Description = "Compile active repository code",
-				StartedBy = AuthenticationContext.User,
-				CancelRightsType = RightsType.DreamMaker,
-				CancelRight = (ulong)DreamMakerRights.CancelCompile,
-				Instance = Instance,
-			};
+			var job = Job.Create(JobCode.Deployment, AuthenticationContext.User, Instance, DreamMakerRights.CancelCompile);
 
 			await jobManager.RegisterOperation(
 				job,
@@ -257,6 +254,8 @@ namespace Tgstation.Server.Host.Controllers
 			.AsQueryable()
 			.Include(x => x.Job)
 				.ThenInclude(x => x.StartedBy)
+			.Include(x => x.Job)
+				.ThenInclude(x => x.Instance)
 			.Include(x => x.RevisionInformation)
 				.ThenInclude(x => x.PrimaryTestMerge)
 					.ThenInclude(x => x.MergedBy)

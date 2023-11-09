@@ -326,7 +326,7 @@ namespace Tgstation.Server.Api.Models
 		/// <summary>
 		/// The DMAPI never validated itself
 		/// </summary>
-		[Description("The server did not validate the DMAPI! This can occur if your world is encountering runtime errors during startup.")]
+		[Description("DMAPI validation failed! See FAQ at https://github.com/tgstation/tgstation-server/discussions/1695")]
 		DeploymentNeverValidated,
 
 		/// <summary>

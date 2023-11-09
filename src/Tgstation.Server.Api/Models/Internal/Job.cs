@@ -11,8 +11,15 @@ namespace Tgstation.Server.Api.Models.Internal
 	public class Job : EntityId
 	{
 		/// <summary>
+		/// The <see cref="Models.JobCode"/>.
+		/// </summary>
+		[Required]
+		public JobCode? JobCode { get; set; }
+
+		/// <summary>
 		/// English description of the <see cref="Job"/>.
 		/// </summary>
+		/// <remarks>May not match the <see cref="System.ComponentModel.DescriptionAttribute"/> listed on the <see cref="Models.JobCode"/>.</remarks>
 		[Required]
 		public string? Description { get; set; }
 

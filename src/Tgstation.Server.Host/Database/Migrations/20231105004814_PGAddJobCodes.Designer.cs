@@ -10,15 +10,15 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Tgstation.Server.Host.Database.Migrations
 {
 	[DbContext(typeof(PostgresSqlDatabaseContext))]
-	[Migration("20231021153316_PGRenameByondColumnsToEngine")]
-	partial class PGRenameByondColumnsToEngine
+	[Migration("20231105004814_PGAddJobCodes")]
+	partial class PGAddJobCodes
 	{
 		/// <inheritdoc />
 		protected override void BuildTargetModel(ModelBuilder modelBuilder)
 		{
 #pragma warning disable 612, 618
 			modelBuilder
-				.HasAnnotation("ProductVersion", "8.0.0-rc.1.23419.6")
+				.HasAnnotation("ProductVersion", "7.0.13")
 				.HasAnnotation("Relational:MaxIdentifierLength", 63);
 
 			NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -123,8 +123,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 
 				b.Property<string>("ByondVersion")
 					.IsRequired()
-					.HasColumnType("text")
-					.HasColumnName("EngineVersion");
+					.HasColumnType("text");
 
 				b.Property<int?>("DMApiMajorVersion")
 					.HasColumnType("integer");
@@ -329,8 +328,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 				NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
 				b.Property<decimal>("ByondRights")
-					.HasColumnType("numeric(20,0)")
-					.HasColumnName("EngineRights");
+					.HasColumnType("numeric(20,0)");
 
 				b.Property<decimal>("ChatBotRights")
 					.HasColumnType("numeric(20,0)");
@@ -399,6 +397,9 @@ namespace Tgstation.Server.Host.Database.Migrations
 
 				b.Property<long>("InstanceId")
 					.HasColumnType("bigint");
+
+				b.Property<byte>("JobCode")
+					.HasColumnType("smallint");
 
 				b.Property<DateTimeOffset?>("StartedAt")
 					.IsRequired()

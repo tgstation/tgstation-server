@@ -161,5 +161,11 @@
 		/// </summary>
 		[EventScript("DeploymentCleanup")]
 		DeploymentCleanup,
+
+		/// <summary>
+		/// Whenever a deployment is about to be used by the game server. May fire multiple times per deployment. Parameters: Game directory path
+		/// </summary>
+		[EventScript("DeploymentActivation")]
+		DeploymentActivation,
 	}
 }

@@ -291,7 +291,7 @@ namespace Tgstation.Server.Tests.Live
 					return await action();
 				}
 
-				using (var adminClient = await CreateAdminClient(server.Url, cancellationToken))
+				await using (var adminClient = await CreateAdminClient(server.Url, cancellationToken))
 				{
 					// Disabled OAuth test
 					using (var httpClient = new HttpClient())
@@ -372,7 +372,7 @@ namespace Tgstation.Server.Tests.Live
 				await new Host.IO.DefaultIOManager().DeleteDirectory(server.UpdatePath, cancellationToken);
 				serverTask = server.Run(cancellationToken).AsTask();
 
-				using (var adminClient = await CreateAdminClient(server.Url, cancellationToken))
+				await using (var adminClient = await CreateAdminClient(server.Url, cancellationToken))
 				{
 					// test we can't do this without the correct permission
 
@@ -428,7 +428,7 @@ namespace Tgstation.Server.Tests.Live
 			try
 			{
 				var testUpdateVersion = new Version(5, 11, 20);
-				using var adminClient = await CreateAdminClient(server.Url, cancellationToken);
+				await using var adminClient = await CreateAdminClient(server.Url, cancellationToken);
 				await ApiAssert.ThrowsException<ConflictException, ServerUpdateResponse>(
 					() => adminClient.Administration.Update(
 						new ServerUpdateRequest
@@ -478,7 +478,7 @@ namespace Tgstation.Server.Tests.Live
 
 				try
 				{
-					using var controllerClient = await CreateAdminClient(controller.Url, cancellationToken);
+					await using var controllerClient = await CreateAdminClient(controller.Url, cancellationToken);
 
 					var controllerInfo = await controllerClient.ServerInformation(cancellationToken);
 
@@ -580,9 +580,9 @@ namespace Tgstation.Server.Tests.Live
 
 				try
 				{
-					using var controllerClient = await CreateAdminClient(controller.Url, cancellationToken);
-					using var node1Client = await CreateAdminClient(node1.Url, cancellationToken);
-					using var node2Client = await CreateAdminClient(node2.Url, cancellationToken);
+					await using var controllerClient = await CreateAdminClient(controller.Url, cancellationToken);
+					await using var node1Client = await CreateAdminClient(node1.Url, cancellationToken);
+					await using var node2Client = await CreateAdminClient(node2.Url, cancellationToken);
 
 					var controllerInfo = await controllerClient.ServerInformation(cancellationToken);
 
@@ -646,12 +646,12 @@ namespace Tgstation.Server.Tests.Live
 					Assert.AreEqual(newUser.Name, node1User.Name);
 					Assert.AreEqual(newUser.Enabled, node1User.Enabled);
 
-					using var controllerUserClient = await clientFactory.CreateFromLogin(
+					await using var controllerUserClient = await clientFactory.CreateFromLogin(
 						controllerAddress,
 						newUser.Name,
 						"asdfasdfasdfasdf");
 
-					using var node1BadClient = clientFactory.CreateFromToken(node1.Url, controllerUserClient.Token);
+					await using var node1BadClient = clientFactory.CreateFromToken(node1.Url, controllerUserClient.Token);
 					await ApiAssert.ThrowsException<UnauthorizedException, AdministrationResponse>(() => node1BadClient.Administration.Read(cancellationToken));
 
 					// check instance info is not shared
@@ -721,8 +721,8 @@ namespace Tgstation.Server.Tests.Live
 						controller.Run(cancellationToken).AsTask(),
 						node1.Run(cancellationToken).AsTask());
 
-					using var controllerClient2 = await CreateAdminClient(controller.Url, cancellationToken);
-					using var node1Client2 = await CreateAdminClient(node1.Url, cancellationToken);
+					await using var controllerClient2 = await CreateAdminClient(controller.Url, cancellationToken);
+					await using var node1Client2 = await CreateAdminClient(node1.Url, cancellationToken);
 
 					await ApiAssert.ThrowsException<ApiConflictException, ServerUpdateResponse>(() => controllerClient2.Administration.Update(
 						new ServerUpdateRequest
@@ -737,7 +737,7 @@ namespace Tgstation.Server.Tests.Live
 						serverTask,
 						node2.Run(cancellationToken).AsTask());
 
-					using var node2Client2 = await CreateAdminClient(node2.Url, cancellationToken);
+					await using var node2Client2 = await CreateAdminClient(node2.Url, cancellationToken);
 
 					async Task WaitForSwarmServerUpdate2()
 					{
@@ -851,9 +851,9 @@ namespace Tgstation.Server.Tests.Live
 
 				try
 				{
-					using var controllerClient = await CreateAdminClient(controller.Url, cancellationToken);
-					using var node1Client = await CreateAdminClient(node1.Url, cancellationToken);
-					using var node2Client = await CreateAdminClient(node2.Url, cancellationToken);
+					await using var controllerClient = await CreateAdminClient(controller.Url, cancellationToken);
+					await using var node1Client = await CreateAdminClient(node1.Url, cancellationToken);
+					await using var node2Client = await CreateAdminClient(node2.Url, cancellationToken);
 
 					var controllerInfo = await controllerClient.ServerInformation(cancellationToken);
 
@@ -933,7 +933,7 @@ namespace Tgstation.Server.Tests.Live
 					Assert.IsTrue(controllerTask.IsCompleted);
 
 					controllerTask = controller.Run(cancellationToken).AsTask();
-					using var controllerClient2 = await CreateAdminClient(controller.Url, cancellationToken);
+					await using var controllerClient2 = await CreateAdminClient(controller.Url, cancellationToken);
 
 					// node 2 should reconnect once it's health check triggers
 					await Task.WhenAny(
@@ -970,7 +970,7 @@ namespace Tgstation.Server.Tests.Live
 						ErrorCode.SwarmIntegrityCheckFailed);
 
 					node2Task = node2.Run(cancellationToken).AsTask();
-					using var node2Client2 = await CreateAdminClient(node2.Url, cancellationToken);
+					await using var node2Client2 = await CreateAdminClient(node2.Url, cancellationToken);
 
 					// should re-register
 					await Task.WhenAny(
@@ -1027,7 +1027,7 @@ namespace Tgstation.Server.Tests.Live
 			var serverTask = server.Run(cancellationToken);
 			try
 			{
-				using var adminClient = await CreateAdminClient(server.Url, cancellationToken);
+				await using var adminClient = await CreateAdminClient(server.Url, cancellationToken);
 
 				var instanceManagerTest = new InstanceManagerTest(adminClient, server.Directory);
 				var instance = await instanceManagerTest.CreateTestInstance("TgTestInstance", cancellationToken);
@@ -1320,7 +1320,29 @@ namespace Tgstation.Server.Tests.Live
 			{
 				Api.Models.Instance instance;
 				long initialStaged, initialActive;
-				using (var adminClient = await CreateAdminClient(server.Url, cancellationToken))
+				await using var firstAdminClient = await CreateAdminClient(server.Url, cancellationToken);
+
+				async ValueTask<IServerClient> CreateUserWithNoInstancePerms()
+				{
+					var createRequest = new UserCreateRequest()
+					{
+						Name = "SomePermlessChum",
+						Password = "alidfjuwh84322r4yrkajhfdqh38hrfiouw4",
+						Enabled = true,
+						PermissionSet = new PermissionSet
+						{
+							InstanceManagerRights = InstanceManagerRights.Read,
+						}
+					};
+
+					var user = await firstAdminClient.Users.Create(createRequest, cancellationToken);
+					Assert.IsTrue(user.Enabled);
+
+					return await clientFactory.CreateFromLogin(server.Url, createRequest.Name, createRequest.Password, cancellationToken: cancellationToken);
+				}
+
+				var jobsHubTest = new JobsHubTests(firstAdminClient, await CreateUserWithNoInstancePerms());
+				Task jobsHubTestTask;
 				{
 					if (server.DumpOpenApiSpecpath)
 					{
@@ -1349,10 +1371,12 @@ namespace Tgstation.Server.Tests.Live
 						}
 					}
 
-					var rootTest = FailFast(RawRequestTests.Run(clientFactory, adminClient, cancellationToken));
-					var adminTest = FailFast(new AdministrationTest(adminClient.Administration).Run(cancellationToken));
-					var usersTest = FailFast(new UsersTest(adminClient).Run(cancellationToken));
-					var instanceManagerTest = new InstanceManagerTest(adminClient, server.Directory);
+					var rootTest = FailFast(RawRequestTests.Run(clientFactory, firstAdminClient, cancellationToken));
+					var adminTest = FailFast(new AdministrationTest(firstAdminClient.Administration).Run(cancellationToken));
+					var usersTest = FailFast(new UsersTest(firstAdminClient).Run(cancellationToken));
+
+					jobsHubTestTask = FailFast(jobsHubTest.Run(cancellationToken));
+					var instanceManagerTest = new InstanceManagerTest(firstAdminClient, server.Directory);
 					var compatInstanceTask = instanceManagerTest.CreateTestInstance("CompatTestsInstance", cancellationToken);
 					var odInstanceTask = instanceManagerTest.CreateTestInstance("OdTestsInstance", cancellationToken);
 					var byondApiCompatInstanceTask = instanceManagerTest.CreateTestInstance("BCAPITestsInstance", cancellationToken);
@@ -1362,12 +1386,12 @@ namespace Tgstation.Server.Tests.Live
 					var byondApiCompatInstance = await byondApiCompatInstanceTask;
 					var instancesTest = FailFast(instanceManagerTest.RunPreTest(cancellationToken));
 					Assert.IsTrue(Directory.Exists(instance.Path));
-					var instanceClient = adminClient.Instances.CreateClient(instance);
+					var instanceClient = firstAdminClient.Instances.CreateClient(instance);
 
 					Assert.IsTrue(Directory.Exists(instanceClient.Metadata.Path));
 
 					var instanceTest = new InstanceTest(
-							adminClient.Instances,
+							firstAdminClient.Instances,
 							fileDownloader,
 							GetInstanceManager(),
 							(ushort)server.Url.Port);
@@ -1394,7 +1418,7 @@ namespace Tgstation.Server.Tests.Live
 							await instanceTest
 								.RunCompatTests(
 									await edgeODVersionTask,
-									adminClient.Instances.CreateClient(odInstance),
+									firstAdminClient.Instances.CreateClient(odInstance),
 									odDMPort,
 									odDDPort,
 									server.HighPriorityDreamDaemon,
@@ -1417,7 +1441,7 @@ namespace Tgstation.Server.Tests.Live
 											? new Version(510, 1346)
 											: new Version(512, 1451) // http://www.byond.com/forum/?forum=5&command=search&scope=local&text=resolved%3a512.1451
 									},
-									adminClient.Instances.CreateClient(compatInstance),
+									firstAdminClient.Instances.CreateClient(compatInstance),
 									compatDMPort,
 									compatDDPort,
 									server.HighPriorityDreamDaemon,
@@ -1453,7 +1477,8 @@ namespace Tgstation.Server.Tests.Live
 					initialActive = dd.ActiveCompileJob.Id.Value;
 					initialStaged = dd.StagedCompileJob.Id.Value;
 
-					await adminClient.Administration.Restart(cancellationToken);
+					jobsHubTest.ExpectShutdown();
+					await firstAdminClient.Administration.Restart(cancellationToken);
 				}
 
 				await Task.WhenAny(serverTask, Task.Delay(TimeSpan.FromMinutes(1), cancellationToken));
@@ -1501,8 +1526,9 @@ namespace Tgstation.Server.Tests.Live
 
 				// chat bot start and DD reattach test
 				serverTask = server.Run(cancellationToken).AsTask();
-				using (var adminClient = await CreateAdminClient(server.Url, cancellationToken))
+				await using (var adminClient = await CreateAdminClient(server.Url, cancellationToken))
 				{
+					await jobsHubTest.WaitForReconnect(cancellationToken);
 					var instanceClient = adminClient.Instances.CreateClient(instance);
 
 					var jobs = await instanceClient.Jobs.ListActive(null, cancellationToken);
@@ -1567,6 +1593,7 @@ namespace Tgstation.Server.Tests.Live
 
 					Assert.AreEqual(WatchdogStatus.Offline, dd.Status);
 
+					jobsHubTest.ExpectShutdown();
 					await adminClient.Administration.Restart(cancellationToken);
 				}
 
@@ -1584,7 +1611,6 @@ namespace Tgstation.Server.Tests.Live
 						var getTasks = entities
 							.Select(e => instanceClient.Jobs.GetId(e, cancellationToken))
 							.ToList();
-
 
 						jobs = (await ValueTaskExtensions.WhenAll(getTasks))
 							.Where(x => x.StartedAt.Value > preStartupTime)
@@ -1604,10 +1630,11 @@ namespace Tgstation.Server.Tests.Live
 				serverTask = server.Run(cancellationToken).AsTask();
 				long expectedCompileJobId, expectedStaged;
 				var edgeVersion = await EngineTest.GetEdgeVersion(EngineType.Byond, fileDownloader, cancellationToken);
-				using (var adminClient = await CreateAdminClient(server.Url, cancellationToken))
+				await using (var adminClient = await CreateAdminClient(server.Url, cancellationToken))
 				{
 					var instanceClient = adminClient.Instances.CreateClient(instance);
 					await WaitForInitialJobs(instanceClient);
+					await jobsHubTest.WaitForReconnect(cancellationToken);
 
 					var dd = await instanceClient.DreamDaemon.Read(cancellationToken);
 
@@ -1643,6 +1670,7 @@ namespace Tgstation.Server.Tests.Live
 					await wdt.WaitForJob(compileJob, 30, false, null, cancellationToken);
 					expectedStaged = compileJob.Id.Value;
 
+					jobsHubTest.ExpectShutdown();
 					await adminClient.Administration.Restart(cancellationToken);
 				}
 
@@ -1651,10 +1679,11 @@ namespace Tgstation.Server.Tests.Live
 
 				// post/entity deletion tests
 				serverTask = server.Run(cancellationToken).AsTask();
-				using (var adminClient = await CreateAdminClient(server.Url, cancellationToken))
+				await using (var adminClient = await CreateAdminClient(server.Url, cancellationToken))
 				{
 					var instanceClient = adminClient.Instances.CreateClient(instance);
 					await WaitForInitialJobs(instanceClient);
+					await jobsHubTest.WaitForReconnect(cancellationToken);
 
 					var currentDD = await instanceClient.DreamDaemon.Read(cancellationToken);
 					Assert.AreEqual(expectedCompileJobId, currentDD.ActiveCompileJob.Id.Value);
@@ -1670,12 +1699,20 @@ namespace Tgstation.Server.Tests.Live
 					await new ChatTest(instanceClient.ChatBots, adminClient.Instances, instanceClient.Jobs, instance).RunPostTest(cancellationToken);
 					await repoTest;
 
+					jobsHubTest.CompleteNow();
+					await jobsHubTestTask;
+
 					await new InstanceManagerTest(adminClient, server.Directory).RunPostTest(instance, cancellationToken);
 				}
 			}
 			catch (ApiException ex)
 			{
 				Console.WriteLine($"[{DateTimeOffset.UtcNow}] TEST ERROR: {ex.ErrorCode}: {ex.Message}\n{ex.AdditionalServerData}");
+				throw;
+			}
+			catch(OperationCanceledException ex)
+			{
+				Console.WriteLine($"[{DateTimeOffset.UtcNow}] TEST ABORTED: {ex}");
 				throw;
 			}
 			catch (Exception ex)

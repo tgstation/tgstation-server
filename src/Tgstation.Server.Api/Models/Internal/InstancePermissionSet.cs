@@ -1,6 +1,4 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
 
 using Newtonsoft.Json;
 
@@ -30,14 +28,6 @@ namespace Tgstation.Server.Api.Models.Internal
 		/// </summary>
 		[Required]
 		public EngineRights? EngineRights { get; set; }
-
-		/// <summary>
-		/// The legacy <see cref="Rights.EngineRights"/> of the <see cref="InstancePermissionSet"/>.
-		/// </summary>
-		[Required]
-		[Obsolete("Use EngineRights instead")]
-		[NotMapped]
-		public EngineRights? ByondRights { get; set; }
 
 		/// <summary>
 		/// The <see cref="Rights.DreamDaemonRights"/> of the <see cref="InstancePermissionSet"/>.

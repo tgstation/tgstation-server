@@ -11,7 +11,6 @@ namespace Tgstation.Server.Host.Database.Migrations
 	[DbContext(typeof(SqliteDatabaseContext))]
 	partial class SqliteDatabaseContextModelSnapshot : ModelSnapshot
 	{
-		/// <inheritdoc />
 		protected override void BuildModel(ModelBuilder modelBuilder)
 		{
 #pragma warning disable 612, 618
@@ -318,10 +317,6 @@ namespace Tgstation.Server.Host.Database.Migrations
 					.ValueGeneratedOnAdd()
 					.HasColumnType("INTEGER");
 
-				b.Property<ulong>("ByondRights")
-					.HasColumnType("INTEGER")
-					.HasColumnName("EngineRights");
-
 				b.Property<ulong>("ChatBotRights")
 					.HasColumnType("INTEGER");
 
@@ -332,6 +327,9 @@ namespace Tgstation.Server.Host.Database.Migrations
 					.HasColumnType("INTEGER");
 
 				b.Property<ulong>("DreamMakerRights")
+					.HasColumnType("INTEGER");
+
+				b.Property<ulong>("EngineRights")
 					.HasColumnType("INTEGER");
 
 				b.Property<long>("InstanceId")
@@ -386,6 +384,9 @@ namespace Tgstation.Server.Host.Database.Migrations
 					.HasColumnType("TEXT");
 
 				b.Property<long>("InstanceId")
+					.HasColumnType("INTEGER");
+
+				b.Property<byte>("JobCode")
 					.HasColumnType("INTEGER");
 
 				b.Property<DateTimeOffset?>("StartedAt")

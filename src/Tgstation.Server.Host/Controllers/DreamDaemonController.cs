@@ -47,23 +47,26 @@ namespace Tgstation.Server.Host.Controllers
 		/// Initializes a new instance of the <see cref="DreamDaemonController"/> class.
 		/// </summary>
 		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> for the <see cref="InstanceRequiredController"/>.</param>
-		/// <param name="authenticationContextFactory">The <see cref="IAuthenticationContextFactory"/> for the <see cref="InstanceRequiredController"/>.</param>
+		/// <param name="authenticationContext">The <see cref="IAuthenticationContext"/> for the <see cref="InstanceRequiredController"/>.</param>
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="InstanceRequiredController"/>.</param>
 		/// <param name="instanceManager">The <see cref="IInstanceManager"/> for the <see cref="InstanceRequiredController"/>.</param>
 		/// <param name="jobManager">The value of <see cref="jobManager"/>.</param>
 		/// <param name="portAllocator">The value of <see cref="IPortAllocator"/>.</param>
+		/// <param name="apiHeaders">The <see cref="IApiHeadersProvider"/> for the <see cref="InstanceRequiredController"/>.</param>
 		public DreamDaemonController(
 			IDatabaseContext databaseContext,
-			IAuthenticationContextFactory authenticationContextFactory,
+			IAuthenticationContext authenticationContext,
 			ILogger<DreamDaemonController> logger,
 			IInstanceManager instanceManager,
 			IJobManager jobManager,
-			IPortAllocator portAllocator)
+			IPortAllocator portAllocator,
+			IApiHeadersProvider apiHeaders)
 			: base(
 				  databaseContext,
-				  authenticationContextFactory,
+				  authenticationContext,
 				  logger,
-				  instanceManager)
+				  instanceManager,
+				  apiHeaders)
 		{
 			this.jobManager = jobManager ?? throw new ArgumentNullException(nameof(jobManager));
 			this.portAllocator = portAllocator ?? throw new ArgumentNullException(nameof(portAllocator));
@@ -84,14 +87,7 @@ namespace Tgstation.Server.Host.Controllers
 				if (instance.Watchdog.Status != WatchdogStatus.Offline)
 					return Conflict(new ErrorMessageResponse(ErrorCode.WatchdogRunning));
 
-				var job = new Job
-				{
-					Description = "Launch Watchdog",
-					CancelRight = (ulong)DreamDaemonRights.Shutdown,
-					CancelRightsType = RightsType.DreamDaemon,
-					Instance = Instance,
-					StartedBy = AuthenticationContext.User,
-				};
+				var job = Job.Create(JobCode.WatchdogLaunch, AuthenticationContext.User, Instance, DreamDaemonRights.Shutdown);
 				await jobManager.RegisterOperation(
 					job,
 					(core, databaseContextFactory, paramJob, progressHandler, innerCt) => core.Watchdog.Launch(innerCt),
@@ -267,14 +263,7 @@ namespace Tgstation.Server.Host.Controllers
 		public ValueTask<IActionResult> Restart(CancellationToken cancellationToken)
 			=> WithComponentInstance(async instance =>
 			{
-				var job = new Job
-				{
-					Instance = Instance,
-					CancelRightsType = RightsType.DreamDaemon,
-					CancelRight = (ulong)DreamDaemonRights.Shutdown,
-					StartedBy = AuthenticationContext.User,
-					Description = "Restart Watchdog",
-				};
+				var job = Job.Create(JobCode.WatchdogRestart, AuthenticationContext.User, Instance, DreamDaemonRights.Shutdown);
 
 				var watchdog = instance.Watchdog;
 
@@ -300,14 +289,7 @@ namespace Tgstation.Server.Host.Controllers
 		public ValueTask<IActionResult> CreateDump(CancellationToken cancellationToken)
 			=> WithComponentInstance(async instance =>
 			{
-				var job = new Job
-				{
-					Instance = Instance,
-					CancelRightsType = RightsType.DreamDaemon,
-					CancelRight = (ulong)DreamDaemonRights.CreateDump,
-					StartedBy = AuthenticationContext.User,
-					Description = "Create DreamDaemon Process Dump",
-				};
+				var job = Job.Create(JobCode.WatchdogDump, AuthenticationContext.User, Instance, DreamDaemonRights.CreateDump);
 
 				var watchdog = instance.Watchdog;
 

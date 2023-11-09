@@ -359,10 +359,7 @@ namespace Tgstation.Server.Host.Components
 								.Jobs
 								.AsQueryable()
 								.Where(x => x.Instance.Id == metadata.Id && !x.StoppedAt.HasValue)
-								.Select(x => new Models.Job
-								{
-									Id = x.Id,
-								})
+								.Select(x => new Models.Job(x.Id.Value))
 								.ToListAsync(cancellationToken);
 							foreach (var job in jobs)
 								tasks.Add(jobService.CancelJob(job, user, true, cancellationToken));

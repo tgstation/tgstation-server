@@ -210,13 +210,10 @@ namespace Tgstation.Server.Tests.Live.Instance
 			await chatRequest;
 			await Task.Yield();
 
-			var jobs = await instanceClient.Jobs.List(null, cancellationToken);
-			var theJobWeWant = jobs.First(x => x.Description.Contains("Reconnect chat bot"));
 
 			await Task.WhenAll(
 				jrt.WaitForJob(installJob2.InstallJob, EngineTest.EngineInstallationTimeout(compatVersion) + 30, false, null, cancellationToken),
 				jrt.WaitForJob(cloneRequest.Result.ActiveJob, 60, false, null, cancellationToken),
-				jrt.WaitForJob(theJobWeWant, 30, false, null, cancellationToken),
 				dmUpdateRequest.AsTask(),
 				cloneRequest);
 
@@ -230,6 +227,12 @@ namespace Tgstation.Server.Tests.Live.Instance
 				Assert.AreEqual(compatVersion.Engine, activeVersion.EngineVersion.Engine);
 				Assert.AreEqual(1, activeVersion.EngineVersion.CustomIteration);
 			}
+
+			var jobs = await instanceClient.Jobs.List(null, cancellationToken);
+			var theJobWeWant = jobs
+				.OrderByDescending(x => x.StartedAt)
+				.First(x => x.Description.Contains("Reconnect chat bot"));
+			await jrt.WaitForJob(theJobWeWant, 30, false, null, cancellationToken);
 
 			var configSetupTask = new ConfigurationTest(instanceClient.Configuration, instanceClient.Metadata).SetupDMApiTests(true, cancellationToken);
 

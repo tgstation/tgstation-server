@@ -425,13 +425,21 @@ namespace Tgstation.Server.Host.Database
 			if (targetVersion < new Version(6, 0, 0))
 				targetMigration = currentDatabaseType switch
 				{
+					DatabaseType.MySql => nameof(MYAddJobCodes),
+					DatabaseType.PostgresSql => nameof(PGAddJobCodes),
+					DatabaseType.SqlServer => nameof(MSAddJobCodes),
+					DatabaseType.Sqlite => nameof(SLAddJobCodes),
+					_ => BadDatabaseType(),
+				};
+			if (targetVersion < new Version(5, 17, 0))
+				targetMigration = currentDatabaseType switch
+				{
 					DatabaseType.MySql => nameof(MYAddMapThreads),
 					DatabaseType.PostgresSql => nameof(PGAddMapThreads),
 					DatabaseType.SqlServer => nameof(MSAddMapThreads),
 					DatabaseType.Sqlite => nameof(SLAddMapThreads),
 					_ => BadDatabaseType(),
 				};
-
 			if (targetVersion < new Version(5, 13, 0))
 				targetMigration = currentDatabaseType switch
 				{

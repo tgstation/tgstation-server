@@ -11,7 +11,6 @@ namespace Tgstation.Server.Host.Database.Migrations
 	[DbContext(typeof(PostgresSqlDatabaseContext))]
 	partial class PostgresSqlDatabaseContextModelSnapshot : ModelSnapshot
 	{
-		/// <inheritdoc />
 		protected override void BuildModel(ModelBuilder modelBuilder)
 		{
 #pragma warning disable 612, 618
@@ -326,10 +325,6 @@ namespace Tgstation.Server.Host.Database.Migrations
 
 				NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
-				b.Property<decimal>("ByondRights")
-					.HasColumnType("numeric(20,0)")
-					.HasColumnName("EngineRights");
-
 				b.Property<decimal>("ChatBotRights")
 					.HasColumnType("numeric(20,0)");
 
@@ -340,6 +335,9 @@ namespace Tgstation.Server.Host.Database.Migrations
 					.HasColumnType("numeric(20,0)");
 
 				b.Property<decimal>("DreamMakerRights")
+					.HasColumnType("numeric(20,0)");
+
+				b.Property<decimal>("EngineRights")
 					.HasColumnType("numeric(20,0)");
 
 				b.Property<long>("InstanceId")
@@ -397,6 +395,9 @@ namespace Tgstation.Server.Host.Database.Migrations
 
 				b.Property<long>("InstanceId")
 					.HasColumnType("bigint");
+
+				b.Property<byte>("JobCode")
+					.HasColumnType("smallint");
 
 				b.Property<DateTimeOffset?>("StartedAt")
 					.IsRequired()

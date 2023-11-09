@@ -18,12 +18,6 @@ namespace Tgstation.Server.Api.Models.Response
 		public RevisionInformation? RevisionInformation { get; set; }
 
 		/// <summary>
-		/// The <see cref="EngineVersion.Version"/> the <see cref="CompileJobResponse"/> was made with.
-		/// </summary>
-		[Obsolete("Use EngineVersion instead.")]
-		public string? ByondVersion { get; set; }
-
-		/// <summary>
 		/// The <see cref="EngineVersion"/> the <see cref="CompileJobResponse"/> was made with.
 		/// </summary>
 		public EngineVersion? EngineVersion { get; set; }

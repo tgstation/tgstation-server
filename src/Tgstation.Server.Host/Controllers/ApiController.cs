@@ -3,13 +3,11 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Net;
-using System.Net.Mime;
 using System.Threading;
 using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
 using Microsoft.Extensions.Logging;
@@ -23,6 +21,7 @@ using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Response;
 using Tgstation.Server.Common.Extensions;
+using Tgstation.Server.Host.Controllers.Results;
 using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.Models;
@@ -34,9 +33,7 @@ namespace Tgstation.Server.Host.Controllers
 	/// <summary>
 	/// Base <see cref="Controller"/> for API functions.
 	/// </summary>
-	[Produces(MediaTypeNames.Application.Json)]
-	[ApiController]
-	public abstract class ApiController : Controller
+	public abstract class ApiController : ApiControllerBase
 	{
 		/// <summary>
 		/// Default size of <see cref="Paginated{TModel}"/> results.
@@ -51,7 +48,12 @@ namespace Tgstation.Server.Host.Controllers
 		/// <summary>
 		/// The <see cref="Api.ApiHeaders"/> for the operation.
 		/// </summary>
-		protected ApiHeaders ApiHeaders { get; private set; }
+		protected ApiHeaders ApiHeaders => ApiHeadersProvider.ApiHeaders;
+
+		/// <summary>
+		/// The <see cref="IApiHeadersProvider"/> containing value of <see cref="ApiHeaders"/>.
+		/// </summary>
+		protected IApiHeadersProvider ApiHeadersProvider { get; }
 
 		/// <summary>
 		/// The <see cref="IDatabaseContext"/> for the operation.
@@ -82,68 +84,42 @@ namespace Tgstation.Server.Host.Controllers
 		/// Initializes a new instance of the <see cref="ApiController"/> class.
 		/// </summary>
 		/// <param name="databaseContext">The value of <see cref="DatabaseContext"/>.</param>
-		/// <param name="authenticationContextFactory">The <see cref="IAuthenticationContextFactory"/> for the <see cref="ApiController"/>.</param>
+		/// <param name="authenticationContext">The <see cref="IAuthenticationContext"/> for the <see cref="ApiController"/>.</param>
 		/// <param name="logger">The value of <see cref="Logger"/>.</param>
+		/// <param name="apiHeadersProvider">The value of <see cref="ApiHeadersProvider"/>..</param>
 		/// <param name="requireHeaders">The value of <see cref="requireHeaders"/>.</param>
 		protected ApiController(
 			IDatabaseContext databaseContext,
-			IAuthenticationContextFactory authenticationContextFactory,
+			IAuthenticationContext authenticationContext,
+			IApiHeadersProvider apiHeadersProvider,
 			ILogger<ApiController> logger,
 			bool requireHeaders)
 		{
 			DatabaseContext = databaseContext ?? throw new ArgumentNullException(nameof(databaseContext));
-			ArgumentNullException.ThrowIfNull(authenticationContextFactory);
+			AuthenticationContext = authenticationContext ?? throw new ArgumentNullException(nameof(authenticationContext));
+			ApiHeadersProvider = apiHeadersProvider ?? throw new ArgumentNullException(nameof(apiHeadersProvider));
 			Logger = logger ?? throw new ArgumentNullException(nameof(logger));
-			AuthenticationContext = authenticationContextFactory.CurrentAuthenticationContext;
+
 			Instance = AuthenticationContext?.InstancePermissionSet?.Instance;
 			this.requireHeaders = requireHeaders;
 		}
 
 		/// <inheritdoc />
 #pragma warning disable CA1506 // TODO: Decomplexify
-		public override async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
+		protected override async ValueTask<IActionResult> HookExecuteAction(Func<Task> executeAction, CancellationToken cancellationToken)
 		{
-			ArgumentNullException.ThrowIfNull(context);
-
-			// ALL valid token and login requests that match a route go through this function
-			// 404 is returned before
-			if (AuthenticationContext != null && AuthenticationContext.User == null)
-			{
-				// valid token, expired password
-				await Unauthorized().ExecuteResultAsync(context);
-				return;
-			}
+			ArgumentNullException.ThrowIfNull(executeAction);
 
 			// validate the headers
-			try
-			{
-				ApiHeaders = new ApiHeaders(Request.GetTypedHeaders());
-
-				if (!ApiHeaders.Compatible())
-				{
-					await this.StatusCode(
-						HttpStatusCode.UpgradeRequired,
-						new ErrorMessageResponse(ErrorCode.ApiMismatch))
-						.ExecuteResultAsync(context);
-					return;
-				}
-
-				var errorCase = await ValidateRequest(context.HttpContext.RequestAborted);
-				if (errorCase != null)
-				{
-					await errorCase.ExecuteResultAsync(context);
-					return;
-				}
-			}
-			catch (HeadersException)
+			if (ApiHeaders == null)
 			{
 				if (requireHeaders)
-				{
-					await HeadersIssue(false)
-						.ExecuteResultAsync(context);
-					return;
-				}
+					return HeadersIssue(ApiHeadersProvider.HeadersException);
 			}
+
+			var errorCase = await ValidateRequest(cancellationToken);
+			if (errorCase != null)
+				return errorCase;
 
 			if (ModelState?.IsValid == false)
 			{
@@ -158,15 +134,11 @@ namespace Tgstation.Server.Host.Controllers
 					.Where(x => !x.EndsWith(" field is required.", StringComparison.Ordinal));
 
 				if (errorMessages.Any())
-				{
-					await BadRequest(
+					return BadRequest(
 						new ErrorMessageResponse(ErrorCode.ModelValidationFailure)
 						{
 							AdditionalData = String.Join(Environment.NewLine, errorMessages),
-						})
-						.ExecuteResultAsync(context);
-					return;
-				}
+						});
 
 				ModelState.Clear();
 			}
@@ -174,7 +146,7 @@ namespace Tgstation.Server.Host.Controllers
 			using (ApiHeaders?.InstanceId != null
 				? LogContext.PushProperty(SerilogContextHelper.InstanceIdContextProperty, ApiHeaders.InstanceId)
 				: null)
-			using (AuthenticationContext != null
+			using (AuthenticationContext.Valid
 				? LogContext.PushProperty(SerilogContextHelper.UserIdContextProperty, AuthenticationContext.User.Id)
 				: null)
 			using (LogContext.PushProperty(SerilogContextHelper.RequestPathContextProperty, $"{Request.Method} {Request.Path}"))
@@ -182,15 +154,14 @@ namespace Tgstation.Server.Host.Controllers
 				if (ApiHeaders != null)
 				{
 					var isGet = HttpMethods.IsGet(Request.Method);
-					if (!(isGet && Request.Path.StartsWithSegments(Routes.Jobs, StringComparison.OrdinalIgnoreCase)))
-						Logger.Log(
-							isGet
-								? LogLevel.Trace
-								: LogLevel.Debug,
-							"Starting API request: Version: {clientApiVersion}. {userAgentHeaderName}: {clientUserAgent}",
-							ApiHeaders.ApiVersion.Semver(),
-							HeaderNames.UserAgent,
-							ApiHeaders.RawUserAgent);
+					Logger.Log(
+						isGet
+							? LogLevel.Trace
+							: LogLevel.Debug,
+						"Starting API request: Version: {clientApiVersion}. {userAgentHeaderName}: {clientUserAgent}",
+						ApiHeaders.ApiVersion.Semver(),
+						HeaderNames.UserAgent,
+						ApiHeaders.RawUserAgent);
 				}
 				else if (Request.Headers.TryGetValue(HeaderNames.UserAgent, out var userAgents))
 					Logger.LogDebug(
@@ -201,16 +172,25 @@ namespace Tgstation.Server.Host.Controllers
 					Logger.LogDebug(
 						"Starting unauthorized API request. No {userAgentHeaderName}!",
 						HeaderNames.UserAgent);
-				await base.OnActionExecutionAsync(context, next);
+
+				await executeAction();
 			}
+
+			return null;
 		}
 #pragma warning restore CA1506
 
 		/// <summary>
 		/// Generic 404 response.
 		/// </summary>
-		/// <returns>An <see cref="ObjectResult"/> with <see cref="HttpStatusCode.NotFound"/>.</returns>
+		/// <returns>A <see cref="NotFoundObjectResult"/> with an appropriate <see cref="ErrorMessageResponse"/>.</returns>
 		protected new NotFoundObjectResult NotFound() => NotFound(new ErrorMessageResponse(ErrorCode.ResourceNeverPresent));
+
+		/// <summary>
+		/// Generic 401 response.
+		/// </summary>
+		/// <returns>An <see cref="ObjectResult"/> with <see cref="HttpStatusCode.NotFound"/>.</returns>
+		protected new ObjectResult Unauthorized() => this.StatusCode(HttpStatusCode.Unauthorized, null);
 
 		/// <summary>
 		/// Generic 501 response.
@@ -264,27 +244,19 @@ namespace Tgstation.Server.Host.Controllers
 		/// <summary>
 		/// Response for missing/Invalid headers.
 		/// </summary>
-		/// <param name="ignoreMissingAuth">Whether or not errors due to missing <see cref="HeaderNames.Authorization"/> should be thrown.</param>
+		/// <param name="headersException">The <see cref="HeadersException"/> that occurred while trying to parse the <see cref="ApiHeaders"/>.</param>
 		/// <returns>The appropriate <see cref="IActionResult"/>.</returns>
-		protected IActionResult HeadersIssue(bool ignoreMissingAuth)
+		protected IActionResult HeadersIssue(HeadersException headersException)
 		{
-			HeadersException headersException;
-			try
-			{
-				_ = new ApiHeaders(Request.GetTypedHeaders(), ignoreMissingAuth);
+			if (headersException == null)
 				throw new InvalidOperationException("Expected a header parse exception!");
-			}
-			catch (HeadersException ex)
-			{
-				headersException = ex;
-			}
 
 			var errorMessage = new ErrorMessageResponse(ErrorCode.BadHeaders)
 			{
 				AdditionalData = headersException.Message,
 			};
 
-			if (headersException.MissingOrMalformedHeaders.HasFlag(HeaderTypes.Accept))
+			if (headersException.ParseErrors.HasFlag(HeaderErrorTypes.Accept))
 				return this.StatusCode(HttpStatusCode.NotAcceptable, errorMessage);
 
 			return BadRequest(errorMessage);

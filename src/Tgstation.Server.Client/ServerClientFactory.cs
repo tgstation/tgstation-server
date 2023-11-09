@@ -102,7 +102,15 @@ namespace Tgstation.Server.Client
 			if (token.Bearer == null)
 				throw new InvalidOperationException("token.Bearer should not be null!");
 
-			return new ServerClient(ApiClientFactory.CreateApiClient(host, new ApiHeaders(productHeaderValue, token.Bearer), null, false), token);
+			var serverClient = new ServerClient(
+				ApiClientFactory.CreateApiClient(
+					host,
+					new ApiHeaders(
+						productHeaderValue,
+						token),
+					null,
+					false));
+			return serverClient;
 		}
 
 		/// <inheritdoc />
@@ -112,7 +120,16 @@ namespace Tgstation.Server.Client
 			TimeSpan? timeout = null,
 			CancellationToken cancellationToken = default)
 		{
-			using var api = ApiClientFactory.CreateApiClient(host, new ApiHeaders(productHeaderValue, "fake"), null, true);
+			await using var api = ApiClientFactory.CreateApiClient(
+				host,
+				new ApiHeaders(
+					productHeaderValue,
+					new TokenResponse
+					{
+						Bearer = "unused",
+					}),
+				null,
+				true);
 
 			if (requestLoggers != null)
 				foreach (var requestLogger in requestLoggers)
@@ -145,7 +162,7 @@ namespace Tgstation.Server.Client
 			requestLoggers ??= Enumerable.Empty<IRequestLogger>();
 
 			TokenResponse token;
-			using (var api = ApiClientFactory.CreateApiClient(host, loginHeaders, null, false))
+			await using (var api = ApiClientFactory.CreateApiClient(host, loginHeaders, null, false))
 			{
 				foreach (var requestLogger in requestLoggers)
 					api.AddRequestLogger(requestLogger);
@@ -155,14 +172,13 @@ namespace Tgstation.Server.Client
 				token = await api.Update<TokenResponse>(Routes.Root, cancellationToken).ConfigureAwait(false);
 			}
 
-			var apiHeaders = new ApiHeaders(productHeaderValue, token.Bearer!);
+			var apiHeaders = new ApiHeaders(productHeaderValue, token);
 			var client = new ServerClient(
 				ApiClientFactory.CreateApiClient(
 					host,
 					apiHeaders,
 					attemptLoginRefresh ? loginHeaders : null,
-					false),
-				token);
+					false));
 			if (timeout.HasValue)
 				client.Timeout = timeout.Value;
 

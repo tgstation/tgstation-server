@@ -30,11 +30,6 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		protected SwappableDmbProvider ActiveSwappable { get; private set; }
 
 		/// <summary>
-		/// The <see cref="IIOManager"/> for the <see cref="AdvancedWatchdog"/> pointing to the Game directory.
-		/// </summary>
-		protected IIOManager GameIOManager { get; }
-
-		/// <summary>
 		/// The <see cref="IFilesystemLinkFactory"/> for the <see cref="AdvancedWatchdog"/>.
 		/// </summary>
 		protected IFilesystemLinkFactory LinkFactory { get; }
@@ -64,10 +59,10 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <param name="jobManager">The <see cref="IJobManager"/> for the <see cref="WatchdogBase"/>.</param>
 		/// <param name="serverControl">The <see cref="IServerControl"/> for the <see cref="WatchdogBase"/>.</param>
 		/// <param name="asyncDelayer">The <see cref="IAsyncDelayer"/> for the <see cref="WatchdogBase"/>.</param>
-		/// <param name="diagnosticsIOManager">The <see cref="IIOManager"/> for the <see cref="WatchdogBase"/>.</param>
+		/// <param name="diagnosticsIOManager">The 'Diagnostics' <see cref="IIOManager"/> for the <see cref="WatchdogBase"/>.</param>
 		/// <param name="eventConsumer">The <see cref="IEventConsumer"/> for the <see cref="WatchdogBase"/>.</param>
 		/// <param name="remoteDeploymentManagerFactory">The <see cref="IRemoteDeploymentManagerFactory"/> for the <see cref="WatchdogBase"/>.</param>
-		/// <param name="gameIOManager">The value of <see cref="GameIOManager"/>.</param>
+		/// <param name="gameIOManager">The 'Game' <see cref="IIOManager"/> for the <see cref="WatchdogBase"/>.</param>
 		/// <param name="linkFactory">The value of <see cref="LinkFactory"/>.</param>
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="WatchdogBase"/>.</param>
 		/// <param name="initialLaunchParameters">The <see cref="DreamDaemonLaunchParameters"/> for the <see cref="WatchdogBase"/>.</param>
@@ -101,6 +96,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				diagnosticsIOManager,
 				eventConsumer,
 				remoteDeploymentManagerFactory,
+				gameIOManager,
 				logger,
 				initialLaunchParameters,
 				instance,
@@ -108,7 +104,6 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		{
 			try
 			{
-				GameIOManager = gameIOManager ?? throw new ArgumentNullException(nameof(gameIOManager));
 				LinkFactory = linkFactory ?? throw new ArgumentNullException(nameof(linkFactory));
 
 				deploymentCleanupTasks = new List<Task>();
@@ -236,14 +231,14 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			IDmbProvider compileJobProvider = DmbFactory.LockNextDmb(1);
 			bool canSeamlesslySwap = true;
 
-			if (compileJobProvider.CompileJob.ByondVersion != ActiveCompileJob.ByondVersion)
+			if (compileJobProvider.CompileJob.EngineVersion != ActiveCompileJob.EngineVersion)
 			{
 				// have to do a graceful restart
 				Logger.LogDebug(
 					"Not swapping to new compile job {0} as it uses a different BYOND version ({1}) than what is currently active {2}. Queueing graceful restart instead...",
 					compileJobProvider.CompileJob.Id,
-					compileJobProvider.CompileJob.ByondVersion,
-					ActiveCompileJob.ByondVersion);
+					compileJobProvider.CompileJob.EngineVersion,
+					ActiveCompileJob.EngineVersion);
 				canSeamlesslySwap = false;
 			}
 

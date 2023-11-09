@@ -7,19 +7,22 @@ using Tgstation.Server.Host.Models;
 namespace Tgstation.Server.Host.Security
 {
 	/// <inheritdoc />
-	sealed class AuthenticationContext : IAuthenticationContext
+	sealed class AuthenticationContext : IAuthenticationContext, IDisposable
 	{
 		/// <inheritdoc />
-		public User User { get; }
+		public bool Valid { get; private set; }
 
 		/// <inheritdoc />
-		public PermissionSet PermissionSet { get; }
+		public User User { get; private set; }
 
 		/// <inheritdoc />
-		public InstancePermissionSet InstancePermissionSet { get; }
+		public PermissionSet PermissionSet { get; private set; }
 
 		/// <inheritdoc />
-		public ISystemIdentity SystemIdentity { get; }
+		public InstancePermissionSet InstancePermissionSet { get; private set; }
+
+		/// <inheritdoc />
+		public ISystemIdentity SystemIdentity { get; private set; }
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="AuthenticationContext"/> class.
@@ -28,13 +31,16 @@ namespace Tgstation.Server.Host.Security
 		{
 		}
 
+		/// <inheritdoc />
+		public void Dispose() => SystemIdentity?.Dispose();
+
 		/// <summary>
-		/// Initializes a new instance of the <see cref="AuthenticationContext"/> class.
+		/// Initializes the <see cref="AuthenticationContext"/>.
 		/// </summary>
 		/// <param name="systemIdentity">The value of <see cref="SystemIdentity"/>.</param>
 		/// <param name="user">The value of <see cref="User"/>.</param>
 		/// <param name="instanceUser">The value of <see cref="InstancePermissionSet"/>.</param>
-		public AuthenticationContext(ISystemIdentity systemIdentity, User user, InstancePermissionSet instanceUser)
+		public void Initialize(ISystemIdentity systemIdentity, User user, InstancePermissionSet instanceUser)
 		{
 			User = user ?? throw new ArgumentNullException(nameof(user));
 			if (systemIdentity == null && User.SystemIdentifier != null)
@@ -44,10 +50,9 @@ namespace Tgstation.Server.Host.Security
 				?? throw new ArgumentException("No PermissionSet provider", nameof(user));
 			InstancePermissionSet = instanceUser;
 			SystemIdentity = systemIdentity;
-		}
 
-		/// <inheritdoc />
-		public void Dispose() => SystemIdentity?.Dispose();
+			Valid = true;
+		}
 
 		/// <inheritdoc />
 		public ulong GetRight(RightsType rightsType)
@@ -69,7 +74,11 @@ namespace Tgstation.Server.Host.Security
 
 			var prop = typeToCheck.GetProperties().Where(x => x.PropertyType == nullableRightsType).First();
 
-			var right = prop.GetMethod.Invoke(isInstance ? InstancePermissionSet : PermissionSet, Array.Empty<object>());
+			var right = prop.GetMethod.Invoke(
+				isInstance
+					? InstancePermissionSet
+					: PermissionSet,
+				Array.Empty<object>());
 
 			if (right == null)
 				throw new InvalidOperationException("A user right was null!");

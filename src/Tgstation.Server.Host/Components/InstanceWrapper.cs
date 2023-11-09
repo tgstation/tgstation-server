@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 
 using Tgstation.Server.Host.Components.Chat;
@@ -18,8 +17,13 @@ namespace Tgstation.Server.Host.Components
 	/// </summary>
 	sealed class InstanceWrapper : ReferenceCounter<IInstance>, IInstanceReference
 	{
+		/// <summary>
+		/// Static counter for <see cref="Uid"/>.
+		/// </summary>
+		static ulong instanceWrapperInstances;
+
 		/// <inheritdoc />
-		public Guid Uid { get; }
+		public ulong Uid { get; }
 
 		/// <inheritdoc />
 		public IRepositoryManager RepositoryManager => Instance.RepositoryManager;
@@ -44,7 +48,7 @@ namespace Tgstation.Server.Host.Components
 		/// </summary>
 		public InstanceWrapper()
 		{
-			Uid = Guid.NewGuid();
+			Uid = Interlocked.Increment(ref instanceWrapperInstances);
 		}
 
 		/// <inheritdoc />

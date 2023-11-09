@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 
 namespace Tgstation.Server.Api.Rights
 {
@@ -31,6 +32,15 @@ namespace Tgstation.Server.Api.Rights
 		/// <param name="rightsType">The <see cref="RightsType"/> to lookup.</param>
 		/// <returns>The <see cref="Enum"/> <see cref="Type"/> of the given <paramref name="rightsType"/>.</returns>
 		public static Type RightToType(RightsType rightsType) => TypeMap[rightsType];
+
+		/// <summary>
+		/// Map a given <typeparamref name="TRight"/> to its respective <see cref="RightsType"/>.
+		/// </summary>
+		/// <typeparam name="TRight">The <see cref="Type"/> of the right.</typeparam>
+		/// <returns>The <see cref="RightsType"/> of <typeparamref name="TRight"/>.</returns>
+		public static RightsType TypeToRight<TRight>()
+			where TRight : Enum
+			=> TypeMap.First(kvp => kvp.Value == typeof(TRight)).Key;
 
 		/// <summary>
 		/// Gets the role claim name used for a given <paramref name="right"/>.

@@ -5,8 +5,8 @@ using System.Net.Mime;
 using System.Threading;
 using System.Threading.Tasks;
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
@@ -25,10 +25,9 @@ namespace Tgstation.Server.Host.Controllers
 	/// For swarm server communication.
 	/// </summary>
 	[Route(SwarmConstants.ControllerRoute)]
-	[Produces(MediaTypeNames.Application.Json)]
-	[ApiController]
 	[ApiExplorerSettings(IgnoreApi = true)]
-	public sealed class SwarmController : Controller
+	[AllowAnonymous] // We have custom private key auth
+	public sealed class SwarmController : ApiControllerBase
 	{
 		/// <summary>
 		/// Get the current registration <see cref="Guid"/> from the <see cref="ControllerBase.Request"/>.
@@ -211,7 +210,7 @@ namespace Tgstation.Server.Host.Controllers
 		}
 
 		/// <inheritdoc />
-		public override async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
+		protected override async ValueTask<IActionResult> HookExecuteAction(Func<Task> executeAction, CancellationToken cancellationToken)
 		{
 			using (LogContext.PushProperty(SerilogContextHelper.RequestPathContextProperty, $"{Request.Method} {Request.Path}"))
 			{
@@ -219,8 +218,7 @@ namespace Tgstation.Server.Host.Controllers
 				if (swarmConfiguration.PrivateKey == null)
 				{
 					logger.LogDebug("Attempted swarm request without private key configured!");
-					await Forbid().ExecuteResultAsync(context);
-					return;
+					return Forbid();
 				}
 
 				if (!(Request.Headers.TryGetValue(SwarmConstants.ApiKeyHeader, out var apiKeyHeaderValues)
@@ -228,8 +226,7 @@ namespace Tgstation.Server.Host.Controllers
 					&& apiKeyHeaderValues.First() == swarmConfiguration.PrivateKey))
 				{
 					logger.LogDebug("Unauthorized swarm request!");
-					await Unauthorized().ExecuteResultAsync(context);
-					return;
+					return Unauthorized();
 				}
 
 				if (!(Request.Headers.TryGetValue(SwarmConstants.RegistrationIdHeader, out var registrationHeaderValues)
@@ -237,8 +234,7 @@ namespace Tgstation.Server.Host.Controllers
 					&& Guid.TryParse(registrationHeaderValues.First(), out var registrationId)))
 				{
 					logger.LogDebug("Swarm request without registration ID!");
-					await BadRequest().ExecuteResultAsync(context);
-					return;
+					return BadRequest();
 				}
 
 				// we validate the registration itself on a case-by-case basis
@@ -252,12 +248,12 @@ namespace Tgstation.Server.Host.Controllers
 						"Swarm request model validation failed!{newLine}{messages}",
 						Environment.NewLine,
 						String.Join(Environment.NewLine, errorMessages));
-					await BadRequest().ExecuteResultAsync(context);
-					return;
+					return BadRequest();
 				}
 
 				logger.LogTrace("Starting swarm request processing...");
-				await base.OnActionExecutionAsync(context, next);
+				await executeAction();
+				return null;
 			}
 		}
 
