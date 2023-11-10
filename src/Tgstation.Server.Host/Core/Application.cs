@@ -473,12 +473,12 @@ namespace Tgstation.Server.Host.Core
 			{
 				applicationBuilder.UseSwagger(options =>
 				{
-					options.RouteTemplate = Routes.Root + "doc/{documentName}.{json|yaml}";
+					options.RouteTemplate = Routes.ApiRoot + "doc/{documentName}.{json|yaml}";
 				});
 				applicationBuilder.UseSwaggerUI(options =>
 				{
-					options.RoutePrefix = "documentation";
-					options.SwaggerEndpoint(Routes.Root + $"doc/{SwaggerConfiguration.DocumentName}.json", "TGS API");
+					options.RoutePrefix = SwaggerConfiguration.DocumentationSiteRouteExtension;
+					options.SwaggerEndpoint(Routes.ApiRoot + $"doc/{SwaggerConfiguration.DocumentName}.json", "TGS API");
 				});
 				logger.LogTrace("Swagger API generation enabled");
 			}

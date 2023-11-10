@@ -10,6 +10,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
+using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Host;
 using Tgstation.Server.Host.Configuration;
@@ -50,7 +51,9 @@ namespace Tgstation.Server.Tests.Live
 				}
 		}
 
-		public Uri Url { get; }
+		public Uri ApiUrl { get; }
+
+		public Uri RootUrl { get; }
 
 		public string Directory { get; }
 
@@ -82,7 +85,8 @@ namespace Tgstation.Server.Tests.Live
 			Directory = Path.Combine(Directory, Guid.NewGuid().ToString());
 			System.IO.Directory.CreateDirectory(Directory);
 			string urlString = $"http://localhost:{port}";
-			Url = new Uri(urlString);
+			RootUrl = new Uri(urlString);
+			ApiUrl = new Uri(urlString + Routes.ApiRoot);
 
 			//so we need a db
 			//we have to rely on env vars

@@ -33,6 +33,11 @@ namespace Tgstation.Server.Host.Utils
 		public const string DocumentName = "tgs_api";
 
 		/// <summary>
+		/// The path to the hosted documentation site.
+		/// </summary>
+		public const string DocumentationSiteRouteExtension = "documentation";
+
+		/// <summary>
 		/// The <see cref="OpenApiSecurityScheme"/> name for password authentication.
 		/// </summary>
 		const string PasswordSecuritySchemeId = "Password_Login_Scheme";
@@ -410,7 +415,7 @@ namespace Tgstation.Server.Host.Utils
 						twoHundredResponseContents.Add(MediaTypeNames.Application.Octet, fileContent);
 					}
 			}
-			else if (context.MethodInfo.Name == nameof(HomeController.CreateToken))
+			else if (context.MethodInfo.Name == nameof(ApiRootController.CreateToken))
 			{
 				var passwordScheme = new OpenApiSecurityScheme
 				{
