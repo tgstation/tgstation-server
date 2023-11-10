@@ -169,12 +169,17 @@ namespace Tgstation.Server.Tests.Live.Instance
 						Assert.AreEqual(job.Cancelled, hubJob.Cancelled);
 					}
 
+					static DateTimeOffset PerformDBTruncation(DateTimeOffset original)
+						=> new DateTimeOffset(
+							original.Ticks - (original.Ticks % TimeSpan.TicksPerSecond),
+							original.Offset);
+
 					Assert.AreEqual(job.InstanceId, hubJob.InstanceId);
 					Assert.AreEqual(job.StartedBy?.Id, hubJob.StartedBy?.Id);
 					Assert.AreEqual(job.CancelRight, hubJob.CancelRight);
 					Assert.AreEqual(job.CancelRightsType, hubJob.CancelRightsType);
 					Assert.AreEqual(job.Description, hubJob.Description);
-					Assert.AreEqual(job.StartedAt, hubJob.StartedAt);
+					Assert.AreEqual(PerformDBTruncation(job.StartedAt.Value), PerformDBTruncation(hubJob.StartedAt.Value)); // RHS may NOT be DB truncated, both sides because not all DBs do this
 					Assert.AreEqual(job.JobCode, hubJob.JobCode);
 				}
 				else
