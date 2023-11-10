@@ -1302,11 +1302,11 @@ namespace Tgstation.Server.Tests.Live
 						// Dump swagger to disk
 						// This is purely for CI
 						using var httpClient = new HttpClient();
-						var webRequestTask = httpClient.GetAsync(server.Url.ToString() + "swagger/v1/swagger.json", cancellationToken);
+						var webRequestTask = httpClient.GetAsync(server.Url.ToString() + "doc/tgs_api.json", cancellationToken);
 						using var response = await webRequestTask;
 						response.EnsureSuccessStatusCode();
 						await using var content = await response.Content.ReadAsStreamAsync(cancellationToken);
-						await using var output = new FileStream(@"C:\swagger.json", FileMode.Create);
+						await using var output = new FileStream(@"C:\tgs_api.json", FileMode.Create);
 						await content.CopyToAsync(output, cancellationToken);
 					}
 

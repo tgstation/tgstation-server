@@ -28,6 +28,11 @@ namespace Tgstation.Server.Host.Utils
 	sealed class SwaggerConfiguration : IOperationFilter, IDocumentFilter, ISchemaFilter, IRequestBodyFilter
 	{
 		/// <summary>
+		/// The name of the swagger document.
+		/// </summary>
+		public const string DocumentName = "tgs_api";
+
+		/// <summary>
 		/// The <see cref="OpenApiSecurityScheme"/> name for password authentication.
 		/// </summary>
 		const string PasswordSecuritySchemeId = "Password_Login_Scheme";
@@ -51,7 +56,7 @@ namespace Tgstation.Server.Host.Utils
 		public static void Configure(SwaggerGenOptions swaggerGenOptions, string assemblyDocumentationPath, string apiDocumentationPath)
 		{
 			swaggerGenOptions.SwaggerDoc(
-				"v1",
+				DocumentName,
 				new OpenApiInfo
 				{
 					Title = "TGS API",
