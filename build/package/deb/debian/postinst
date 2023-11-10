@@ -1,9 +1,14 @@
 #!/bin/sh -e
 
+adduser --system tgstation-server
+mkdir -m 754 -p /var/log/tgstation-server
+chown -R tgstation-server /etc/tgstation-server
+chown -R tgstation-server /opt/tgstation-server
+chown -R tgstation-server /var/log/tgstation-server
+
 #DEBHELPER#
 
 if [ "$1" = "configure" ]; then
-	chmod 600 /etc/tgstation-server
 	deb-systemd-helper stop 'tgstation-server.service' >/dev/null || true
 
 	echo "  _            _        _   _                                                "

@@ -7,6 +7,7 @@ After=postgresql.service
 After=mssql-server.service
 
 [Service]
+User=tgstation-server
 Type=notify-reload
 NotifyAccess=all
 WorkingDirectory=/opt/tgstation-server
