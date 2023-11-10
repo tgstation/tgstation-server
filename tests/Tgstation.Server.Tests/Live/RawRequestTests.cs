@@ -87,7 +87,7 @@ namespace Tgstation.Server.Tests.Live
 				request.Headers.Add(ApiHeaders.ApiVersionHeader, "Tgstation.Server.Api/6.0.0");
 				request.Headers.Authorization = new AuthenticationHeaderValue(ApiHeaders.BearerAuthenticationScheme, token);
 				using var response = await httpClient.SendAsync(request, cancellationToken);
-				Assert.AreEqual(HttpStatusCode.UpgradeRequired, response.StatusCode);
+				Assert.AreEqual(HttpStatusCode.BadRequest, response.StatusCode);
 				var content = await response.Content.ReadAsStringAsync(cancellationToken);
 				var message = JsonConvert.DeserializeObject<ErrorMessageResponse>(content);
 				Assert.AreEqual(ErrorCode.ApiMismatch, message.ErrorCode);
@@ -101,7 +101,7 @@ namespace Tgstation.Server.Tests.Live
 				request.Headers.Add(ApiHeaders.ApiVersionHeader, "Tgstation.Server.Api/6.0.0");
 				request.Headers.Authorization = new AuthenticationHeaderValue(ApiHeaders.BearerAuthenticationScheme, token);
 				using var response = await httpClient.SendAsync(request, cancellationToken);
-				Assert.AreEqual(HttpStatusCode.UpgradeRequired, response.StatusCode);
+				Assert.AreEqual(HttpStatusCode.BadRequest, response.StatusCode);
 				var content = await response.Content.ReadAsStringAsync(cancellationToken);
 				var message = JsonConvert.DeserializeObject<ErrorMessageResponse>(content);
 				Assert.AreEqual(ErrorCode.ApiMismatch, message.ErrorCode);
