@@ -546,7 +546,6 @@ namespace Tgstation.Server.Tests.Live
 		{
 			// cleanup existing directories
 			new LiveTestingServer(null, false).Dispose();
-
 			const string PrivateKey = "adlfj73ywifhks7iwrgfegjs";
 
 			var controllerAddress = new Uri("http://localhost:15011");

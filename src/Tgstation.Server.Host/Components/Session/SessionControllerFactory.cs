@@ -130,9 +130,10 @@ namespace Tgstation.Server.Host.Components.Session
 		/// Check if a given <paramref name="port"/> can be bound to.
 		/// </summary>
 		/// <param name="port">The port number to test.</param>
+		/// <param name="engineType">The <see cref="EngineType"/> we're bind testing for.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
-		async ValueTask PortBindTest(ushort port, CancellationToken cancellationToken)
+		async ValueTask PortBindTest(ushort port, EngineType engineType, CancellationToken cancellationToken)
 		{
 			logger.LogTrace("Bind test: {port}", port);
 			try
@@ -142,7 +143,7 @@ namespace Tgstation.Server.Host.Components.Session
 				for (var i = 0; i < MaxAttempts; ++i)
 					try
 					{
-						SocketExtensions.BindTest(platformIdentifier, port, false);
+						SocketExtensions.BindTest(platformIdentifier, port, false, engineType == EngineType.OpenDream);
 						if (i > 0)
 							logger.LogDebug("Clearing the socket took {iterations} attempts :/", i + 1);
 
@@ -271,7 +272,7 @@ namespace Tgstation.Server.Host.Components.Session
 				if (engineType == EngineType.Byond)
 					await CheckPagerIsNotRunning();
 
-				await PortBindTest(launchParameters.Port.Value, cancellationToken);
+				await PortBindTest(launchParameters.Port.Value, engineType, cancellationToken);
 
 				string outputFilePath = null;
 				var preserveLogFile = true;

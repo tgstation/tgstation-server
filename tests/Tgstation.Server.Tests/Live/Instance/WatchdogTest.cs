@@ -1,5 +1,6 @@
 ﻿using Byond.TopicSender;
 
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -19,6 +20,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using System.Runtime.Intrinsics.Arm;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -38,6 +40,8 @@ using Tgstation.Server.Host.Controllers;
 using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.System;
+
+using static NuGet.Frameworks.FrameworkConstants;
 
 namespace Tgstation.Server.Tests.Live.Instance
 {
@@ -544,10 +548,19 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 			JobResponse startJob;
 			if (new PlatformIdentifier().IsWindows) // Can't get address reuse to trigger on linux for some reason
-				using (var blockSocket = new Socket(SocketType.Stream, ProtocolType.Tcp))
+				using (var blockSocket = new Socket(
+					testVersion.Engine.Value == EngineType.OpenDream
+						? SocketType.Dgram
+						: SocketType.Stream,
+					testVersion.Engine.Value == EngineType.OpenDream
+						? ProtocolType.Udp
+						: ProtocolType.Tcp))
 				{
 					blockSocket.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ExclusiveAddressUse, true);
 					blockSocket.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReuseAddress, false);
+					if (testVersion.Engine.Value != EngineType.OpenDream)
+						blockSocket.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.DontLinger, true);
+
 					blockSocket.Bind(new IPEndPoint(IPAddress.Any, ddPort));
 
 					// Don't use StartDD here
@@ -742,7 +755,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			{
 				try
 				{
-					SocketExtensions.BindTest(new PlatformIdentifier(), ddPort, false);
+					SocketExtensions.BindTest(new PlatformIdentifier(), ddPort, false, testVersion.Engine == EngineType.OpenDream);
 					break;
 				}
 				catch

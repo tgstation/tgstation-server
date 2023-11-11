@@ -17,7 +17,8 @@ namespace Tgstation.Server.Host.Extensions
 		/// <param name="platformIdentifier">The <see cref="PlatformIdentifier"/> to use.</param>
 		/// <param name="port">The port number to bind to.</param>
 		/// <param name="includeIPv6">If IPV6 should be tested as well.</param>
-		public static void BindTest(IPlatformIdentifier platformIdentifier, ushort port, bool includeIPv6)
+		/// <param name="udp">If we're bind testing for UDP. If <see langword="false"/> TCP will be checked.</param>
+		public static void BindTest(IPlatformIdentifier platformIdentifier, ushort port, bool includeIPv6, bool udp)
 		{
 			ArgumentNullException.ThrowIfNull(platformIdentifier);
 			ProcessExecutor.WithProcessLaunchExclusivity(() =>
@@ -26,12 +27,16 @@ namespace Tgstation.Server.Host.Extensions
 					includeIPv6
 						? AddressFamily.InterNetworkV6
 						: AddressFamily.InterNetwork,
-					SocketType.Stream,
-					ProtocolType.Tcp);
+					udp
+						? SocketType.Dgram
+						: SocketType.Stream,
+					udp
+						? ProtocolType.Udp
+						: ProtocolType.Tcp);
 
 				socket.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ExclusiveAddressUse, true);
 				socket.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReuseAddress, false);
-				if (platformIdentifier.IsWindows)
+				if (!udp && platformIdentifier.IsWindows)
 					socket.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.DontLinger, true);
 
 				if (includeIPv6)

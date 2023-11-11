@@ -101,7 +101,8 @@ namespace Tgstation.Server.Host.Utils
 
 					try
 					{
-						SocketExtensions.BindTest(platformIdentifier, port, false);
+						SocketExtensions.BindTest(platformIdentifier, port, false, true);
+						SocketExtensions.BindTest(platformIdentifier, port, false, false);
 					}
 					catch (Exception ex)
 					{
