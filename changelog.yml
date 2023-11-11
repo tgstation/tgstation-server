@@ -141,14 +141,14 @@ Components:
   - Version: 6.0.0
     ComponentVersions:
       HttpApi: 10.0.0
-      DreamMakerApi: 6.5.2
+      DreamMakerApi: 6.6.2
       Configuration: 5.0.0
-      InteropApi: 5.6.1
+      InteropApi: 5.7.0
       HostWatchdog: 1.4.0
-      NugetCommon: 6.0.0
-      NugetApi: 12.0.0
-      NugetClient: 13.0.0
-      WebControlPanel: 4.23.1
+      NugetCommon: 7.0.0
+      NugetApi: 13.0.0
+      NugetClient: 15.0.0
+      WebControlPanel: 4.26.2
     Changes:
     - Descriptions:
       - TGS now requires the ASP.NET 8 runtime.
@@ -160,14 +160,35 @@ Components:
       - '"Based on what?" meme for Discord chat provider removed.'
       Author: Cyberboss
       PullRequest: 1628
+    - Descriptions:
+      - The `.deb` package now runs tgstation-server as the user `tgstation-server`. This user has minimal permissions. More may be granted manually by system administrators.
+      Author: Cyberboss
+      PullRequest: 1692
+    - Descriptions:
+      - API documentation page moved to `/documentation`.
+      Author: Cyberboss
+      PullRequest: 1704
     Unreleased: true
   - Version: 5.18.0
     ComponentVersions: {}
     Changes: []
     Unreleased: true
   - Version: 5.17.2
-    ComponentVersions: {}
-    Changes: []
+    ComponentVersions:
+      HttpApi: 9.13.0
+      DreamMakerApi: 6.6.2
+      Configuration: 4.7.1
+      InteropApi: 5.6.2
+      HostWatchdog: 1.4.0
+      NugetCommon: 7.0.0
+      NugetApi: 12.0.1
+      NugetClient: 14.1.0
+      WebControlPanel: 4.26.2
+    Changes:
+    - Descriptions:
+      - Fixed upgrading on Debian/Ubuntu via `apt` always running first install steps.
+      Author: Cyberboss
+      PullRequest: 1705
     Unreleased: true
   - Version: 5.17.1
     ComponentVersions:
@@ -3173,6 +3194,15 @@ Components:
       - The chat bot connection string flag previously for the Discord "Based on what?" meme is now unused but still required.
       Author: Cyberboss
       PullRequest: 1628
+    - Descriptions:
+      - HTTP 426 will now no longer be sent. HTTP 400 will be used in its place. The error code returned in the body remains unchanged.
+      Author: Cyberboss
+      PullRequest: 1699
+    - Descriptions:
+      - All API endpoints have been moved to the `/api` subpath.
+      - API documentation json is now hosted at `/api/doc/tgs_api.json`.
+      Author: Cyberboss
+      PullRequest: 1704
     Unreleased: true
   - Version: 9.13.0
     Changes:
@@ -3783,6 +3813,13 @@ Components:
       Author: Cyberboss
       PullRequest: 987
   InteropApi:
+  - Version: 5.7.0
+    Changes:
+    - Descriptions:
+      - Switch to using new `/api/Bridge` endpoint when available.
+      Author: Cyberboss
+      PullRequest: 1704
+    Unreleased: true
   - Version: 5.6.2
     Changes:
     - Descriptions:
@@ -3804,6 +3841,13 @@ Components:
       Author: Cyberboss
       PullRequest: 1636
   NugetApi:
+  - Version: 13.0.0
+    Changes:
+    - Descriptions:
+      - Renamed `Routes.Root` to `Routes.ApiRoot` and now reflects the new API path.
+      Author: Cyberboss
+      PullRequest: 1704
+    Unreleased: true
   - Version: 12.0.1
     Changes:
     - Descriptions:
