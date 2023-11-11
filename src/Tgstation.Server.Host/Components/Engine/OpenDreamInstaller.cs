@@ -152,7 +152,7 @@ namespace Tgstation.Server.Host.Components.Engine
 					progressSection2,
 					cancellationToken);
 
-				if (!await repo.CommittishIsParent("fab769776dada6b9bcad546094d78c604049e0e9", cancellationToken))
+				if (!await repo.CommittishIsParent("tgs-min-compat", cancellationToken))
 					throw new JobException(ErrorCode.OpenDreamTooOld);
 
 				return new RepositoryEngineInstallationData(IOManager, repo, InstallationSourceSubDirectory);
