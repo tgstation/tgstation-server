@@ -2,7 +2,7 @@
 
 #DEBHELPER#
 
-if [ "$1" = "configure" ]; then
+if [ -z "$2" ]; then
 	chmod 600 /etc/tgstation-server
 	deb-systemd-helper stop 'tgstation-server.service' >/dev/null || true
 
