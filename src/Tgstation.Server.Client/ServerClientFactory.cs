@@ -138,7 +138,7 @@ namespace Tgstation.Server.Client
 			if (timeout.HasValue)
 				api.Timeout = timeout.Value;
 
-			return await api.Read<ServerInformationResponse>(Routes.Root, cancellationToken).ConfigureAwait(false);
+			return await api.Read<ServerInformationResponse>(Routes.ApiRoot, cancellationToken).ConfigureAwait(false);
 		}
 
 		/// <summary>
@@ -169,7 +169,7 @@ namespace Tgstation.Server.Client
 
 				if (timeout.HasValue)
 					api.Timeout = timeout.Value;
-				token = await api.Update<TokenResponse>(Routes.Root, cancellationToken).ConfigureAwait(false);
+				token = await api.Update<TokenResponse>(Routes.ApiRoot, cancellationToken).ConfigureAwait(false);
 			}
 
 			var apiHeaders = new ApiHeaders(productHeaderValue, token);

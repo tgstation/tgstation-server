@@ -88,7 +88,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 				Assert.AreEqual("payload", coreMessage);
 				var serializedRequest = JsonConvert.SerializeObject(parameters, DMApiConstants.SerializerSettings);
-				var actualLastRequest = $"http://127.0.0.1:{serverPort}/Bridge?data=" + HttpUtility.UrlEncode(serializedRequest);
+				var actualLastRequest = $"http://127.0.0.1:{serverPort}/api/Bridge?data=" + HttpUtility.UrlEncode(serializedRequest);
 				lastBridgeRequestSize = actualLastRequest.Length;
 				return new BridgeResponseHack
 				{

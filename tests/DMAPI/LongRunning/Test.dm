@@ -180,6 +180,11 @@ var/run_bridge_test
 		kajigger_test = TRUE
 		return "we love casting spells"
 
+	var/its_sad = data["im_out_of_memes"]
+	if(its_sad)
+		TestLegacyBridge()
+		return "yeah gimmie a sec"
+
 	TgsChatBroadcast(new /datum/tgs_message_content("Recieved non-tgs topic: `[T]`"))
 
 	return "feck"
@@ -349,3 +354,28 @@ var/suppress_bridge_spam = FALSE
 		FailTest("Failed to end bridge limit test! [(istype(final_result) ? json_encode(final_result): (final_result || "null"))]")
 
 	api.access_identifier = old_ai
+
+/proc/TestLegacyBridge()
+	set waitfor = FALSE
+
+	sleep(10)
+
+	var/datum/tgs_api/v5/api = TGS_READ_GLOBAL(tgs)
+	if(api.interop_version.suite != 5)
+		FailTest("Legacy bridge test not required anymore?")
+
+	var/old_minor_version = api.interop_version.minor
+	api.interop_version.minor = 6 // before api repath
+
+	var/result
+	var/bridge_request = api.CreateBridgeRequest(5, list("chatMessage" = list("text" = "legacy bridge test", "channelIds" = list())))
+	try
+		result = api.PerformBridgeRequest(bridge_request)
+	catch(var/exception/e2)
+		world.log << "Caught exception: [e2]"
+		result = null
+
+	if(!result || lastTgsError)
+		FailTest("Failed bridge request redirect test!")
+
+	api.interop_version.minor = old_minor_version

@@ -349,7 +349,7 @@ namespace Tgstation.Server.Client
 				if (startingToken != headers.Token)
 					return true;
 
-				var token = await RunRequest<object, TokenResponse>(Routes.Root, new object(), HttpMethod.Post, null, true, cancellationToken).ConfigureAwait(false);
+				var token = await RunRequest<object, TokenResponse>(Routes.ApiRoot, new object(), HttpMethod.Post, null, true, cancellationToken).ConfigureAwait(false);
 				headers = new ApiHeaders(headers.UserAgent!, token);
 			}
 			finally
