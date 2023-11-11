@@ -83,7 +83,7 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 					return;
 
 				// We don't just assume, actually check the repo contains the merge commit.
-				if (await repository.ShaIsParent(mergeRequest.MergeCommitSha, cancellationToken))
+				if (await repository.CommittishIsParent(mergeRequest.MergeCommitSha, cancellationToken))
 				{
 					if (lastMerged == null || lastMerged.ClosedAt < mergeRequest.ClosedAt)
 						lastMerged = mergeRequest;

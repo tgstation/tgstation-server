@@ -791,14 +791,32 @@ namespace Tgstation.Server.Host.Components.Repository
 			TaskScheduler.Current);
 
 		/// <inheritdoc />
-		public Task<bool> ShaIsParent(string sha, CancellationToken cancellationToken) => Task.Factory.StartNew(
+		public Task<bool> CommittishIsParent(string committish, CancellationToken cancellationToken) => Task.Factory.StartNew(
 			() =>
 			{
-				var targetCommit = libGitRepo.Lookup<Commit>(sha);
-				if (targetCommit == null)
+				var targetObject = libGitRepo.Lookup(committish);
+				if (targetObject == null)
 				{
-					logger.LogTrace("Commit {sha} not found in repository", sha);
+					logger.LogTrace("Committish {committish} not found in repository", committish);
 					return false;
+				}
+
+				if (targetObject is not Commit targetCommit)
+				{
+					if (targetObject is not TagAnnotation)
+					{
+						logger.LogTrace("Committish {committish} is a {type} and does not point to a commit!", committish, targetObject.GetType().Name);
+						return false;
+					}
+
+					targetCommit = targetObject.Peel<Commit>();
+					if (targetCommit == null)
+					{
+						logger.LogError(
+							"TagAnnotation {committish} was found but the commit associated with it could not be found in repository!",
+							committish);
+						return false;
+					}
 				}
 
 				cancellationToken.ThrowIfCancellationRequested();
