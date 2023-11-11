@@ -117,6 +117,8 @@ sudo dpkg --add-architecture i386 \
 && sudo systemctl start tgstation-server
 ```
 
+The service will execute as the newly created user: `tgstation-server`.
+
 ##### Debian
 
 The `aspnetcore-runtime-8.0` package isn't yet available on mainline Debian and must be [installed from Microsoft](https://learn.microsoft.com/en-us/dotnet/core/install/linux-debian) first. Use the following one-liner to add their packages repository.
@@ -143,7 +145,7 @@ The following dependencies are required.
 
 [Download the latest release .zip](https://github.com/tgstation/tgstation-server/releases/latest). Choose `ServerConsole`.
 
-If you have SystemD installed, we recommend installing the service unit [here](./build/tgstation-server.service). It assumes TGS is installed into `/opt/tgstation-server` and you will be using the  but feel free to adjust it to your needs. Note that the server will need to have it's configuration file setup before running with SystemD.
+If you have SystemD installed, we recommend installing the service unit [here](./build/tgstation-server.service). It assumes TGS is installed into `/opt/tgstation-server`, it is executing as the user `tgstation-server`, and you will be using the console runner, but feel free to adjust it to your needs. Note that the server will need to have it's configuration file setup before running with SystemD.
 
 Alternatively, to launch the server in the current shell, run `./tgs.sh` in the root of the installation directory. The process will run in a blocking fashion. SIGQUIT will close the server, terminating all live game instances.
 
