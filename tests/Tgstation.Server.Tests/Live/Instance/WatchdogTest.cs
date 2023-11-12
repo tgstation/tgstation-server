@@ -1386,7 +1386,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 		async ValueTask TestLegacyBridgeEndpoint(CancellationToken cancellationToken)
 		{
-			var result = await topicClient.SendTopic(IPAddress.Loopback, "im_out_of_memes=1", ddPort, cancellationToken);
+			var result = await topicClient.SendTopic(IPAddress.Loopback, "im_out_of_memes=1", FindTopicPort(), cancellationToken);
 			Assert.AreEqual("yeah gimmie a sec", result.StringData);
 			await Task.Delay(TimeSpan.FromSeconds(10), cancellationToken);
 			await CheckDMApiFail((await instanceClient.DreamDaemon.Read(cancellationToken)).ActiveCompileJob, cancellationToken);
