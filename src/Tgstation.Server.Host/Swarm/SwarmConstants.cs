@@ -14,7 +14,7 @@ namespace Tgstation.Server.Host.Swarm
 		/// <summary>
 		/// The base route for <see cref="Controllers.SwarmController"/>.
 		/// </summary>
-		public const string ControllerRoute = Routes.Root + "Swarm";
+		public const string ControllerRoute = Routes.ApiRoot + "Swarm";
 
 		/// <summary>
 		/// The header used to pass in the <see cref="Configuration.SwarmConfiguration.PrivateKey"/>.

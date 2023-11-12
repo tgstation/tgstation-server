@@ -40,18 +40,21 @@ namespace Tgstation.Server.Host.Controllers
 		/// </summary>
 		/// <param name="instanceManager">The value of <see cref="instanceManager"/>.</param>
 		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> for the <see cref="ApiController"/>.</param>
-		/// <param name="authenticationContextFactory">The <see cref="IAuthenticationContextFactory"/> for the <see cref="ApiController"/>.</param>
+		/// <param name="authenticationContext">The <see cref="IAuthenticationContext"/> for the <see cref="ApiController"/>.</param>
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="ApiController"/>.</param>
+		/// <param name="apiHeaders">The <see cref="IApiHeadersProvider"/> for the <see cref="ApiController"/>.</param>
 		/// <param name="useInstanceRequestHeader">The value of <see cref="useInstanceRequestHeader"/>.</param>
 		protected ComponentInterfacingController(
 			IDatabaseContext databaseContext,
-			IAuthenticationContextFactory authenticationContextFactory,
+			IAuthenticationContext authenticationContext,
 			ILogger<ComponentInterfacingController> logger,
 			IInstanceManager instanceManager,
-			bool useInstanceRequestHeader = false)
+			IApiHeadersProvider apiHeaders,
+			bool useInstanceRequestHeader)
 			: base(
 				  databaseContext,
-				  authenticationContextFactory,
+				  authenticationContext,
+				  apiHeaders,
 				  logger,
 				  true)
 		{

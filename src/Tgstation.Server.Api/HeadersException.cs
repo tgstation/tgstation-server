@@ -8,19 +8,19 @@ namespace Tgstation.Server.Api
 	public sealed class HeadersException : Exception
 	{
 		/// <summary>
-		/// The <see cref="HeaderTypes"/>s that are missing or malformed.
+		/// The <see cref="HeaderErrorTypes"/>s that are missing or malformed.
 		/// </summary>
-		public HeaderTypes MissingOrMalformedHeaders { get; }
+		public HeaderErrorTypes ParseErrors { get; }
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="HeadersException"/> class.
 		/// </summary>
-		/// <param name="missingOrMalformedHeaders">The value of <see cref="MissingOrMalformedHeaders"/>.</param>
+		/// <param name="parseErrors">The value of <see cref="ParseErrors"/>.</param>
 		/// <param name="message">The error message.</param>
-		public HeadersException(HeaderTypes missingOrMalformedHeaders, string message)
+		public HeadersException(HeaderErrorTypes parseErrors, string message)
 			: base(message)
 		{
-			MissingOrMalformedHeaders = missingOrMalformedHeaders;
+			ParseErrors = parseErrors;
 		}
 
 		/// <summary>

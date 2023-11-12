@@ -108,7 +108,7 @@ namespace Tgstation.Server.Host.Configuration
 		public bool UseBasicWatchdog { get; set; }
 
 		/// <summary>
-		/// If the swagger UI should be made avaiable.
+		/// If the swagger documentation and UI should be made avaiable.
 		/// </summary>
 		public bool HostApiDocumentation { get; set; }
 

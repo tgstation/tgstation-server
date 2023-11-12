@@ -13,6 +13,7 @@ using Tgstation.Server.Client;
 using Tgstation.Server.Client.Components;
 using Tgstation.Server.Common.Extensions;
 using Tgstation.Server.Host.IO;
+using Tgstation.Server.Host.System;
 
 namespace Tgstation.Server.Tests.Live.Instance
 {
@@ -84,19 +85,53 @@ namespace Tgstation.Server.Tests.Live.Instance
 			var path = Path.Combine(instance.Path, "Configuration", tmp);
 			Assert.IsFalse(Directory.Exists(path));
 
-			// leave a directory there to test the deployment process
-			var staticDir = new ConfigurationFileRequest
-			{
-				Path = "/GameStaticFiles/data"
-			};
-
-			await configurationClient.CreateDirectory(staticDir, cancellationToken);
 		}
 
-		public ValueTask SetupDMApiTests(CancellationToken cancellationToken)
+		public ValueTask SetupDMApiTests(bool includingRoot, CancellationToken cancellationToken)
 		{
 			// just use an I/O manager here
 			var ioManager = new DefaultIOManager();
+
+			async ValueTask TestStaticFileAndDir()
+			{
+				// leave a file there to test the deployment process
+				var staticDir = new ConfigurationFileRequest
+				{
+					Path = "/GameStaticFiles/data"
+				};
+
+				await configurationClient.CreateDirectory(staticDir, cancellationToken);
+
+				var staticFile = new ConfigurationFileRequest
+				{
+					Path = "/GameStaticFiles/data/test.txt"
+				};
+
+				await using var memoryStream = new MemoryStream(Encoding.UTF8.GetBytes("aaa"));
+				await configurationClient.Write(staticFile, memoryStream, cancellationToken);
+
+				var staticFile2 = new ConfigurationFileRequest
+				{
+					Path = "/GameStaticFiles/test2.txt"
+				};
+
+				await using var memoryStream2 = new MemoryStream(Encoding.UTF8.GetBytes("bbb"));
+				await configurationClient.Write(staticFile2, memoryStream2, cancellationToken);
+
+				var shellScriptExtension = new PlatformIdentifier().IsWindows ? ".bat" : ".sh";
+				var scriptName = $"PreCompile-GenerateRandomResource{shellScriptExtension}";
+				var resourcingScript = new ConfigurationFileRequest
+				{
+					Path = $"/EventScripts/{scriptName}"
+				};
+
+				await using var readStream = ioManager.GetFileStream($"../../../../DMAPI/LongRunning/{scriptName}", false);
+				await configurationClient.Write(
+					resourcingScript,
+					readStream,
+					cancellationToken);
+			}
+
 			return ValueTaskExtensions.WhenAll(
 				ioManager.CopyDirectory(
 					Enumerable.Empty<string>(),
@@ -105,6 +140,15 @@ namespace Tgstation.Server.Tests.Live.Instance
 					ioManager.ConcatPath(instance.Path, "Repository", "tests", "DMAPI"),
 					null,
 					cancellationToken),
+				includingRoot
+					? ioManager.CopyFile(
+						"../../../../DMAPI/LongRunning/long_running_test_rooted.dme",
+						ioManager.ConcatPath(instance.Path, "Repository", "long_running_test_rooted.dme"),
+						cancellationToken)
+					: ValueTask.CompletedTask,
+				includingRoot
+					? TestStaticFileAndDir()
+					: ValueTask.CompletedTask,
 				ioManager.CopyDirectory(
 					Enumerable.Empty<string>(),
 					null,
@@ -176,8 +220,8 @@ namespace Tgstation.Server.Tests.Live.Instance
 		}
 
 		public Task RunPreWatchdog(CancellationToken cancellationToken) => Task.WhenAll(
+			SetupDMApiTests(false, cancellationToken).AsTask(),
 			SequencedApiTests(cancellationToken),
-			SetupDMApiTests(cancellationToken).AsTask(),
 			TestPregeneratedFilesExist(cancellationToken));
 	}
 }

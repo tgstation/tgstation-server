@@ -82,7 +82,7 @@ namespace Tgstation.Server.Host.Models
 		}
 
 		/// <inheritdoc />
-		public CompileJobResponse ToApi() => new CompileJobResponse
+		public CompileJobResponse ToApi() => new ()
 		{
 			DirectoryName = DirectoryName,
 			DmeName = DmeName,

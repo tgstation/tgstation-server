@@ -11,10 +11,50 @@
 		dab()
 	TgsNew(new /datum/tgs_event_handler/impl, TGS_SECURITY_SAFE)
 
+	var/sec = TgsSecurityLevel()
+	if(isnull(sec))
+		FailTest("TGS Security level was null!")
+
+	log << "Running in security level: [sec]"
+
+	var/vis = TgsVisibility()
+	if(isnull(vis))
+		FailTest("TGS Visibility was null!")
+
+	log << "Running in visibility: [vis]"
+
 	if(params["expect_chat_channels"])
 		var/list/channels = TgsChatChannelInfo()
 		if(!length(channels))
 			FailTest("Expected some chat channels!")
+
+	var/res = file('resource.txt')
+	if(!res)
+		FailTest("Failed to resource!")
+
+	var/res_contents = file2text(res) // we need a .rsc to be generated
+	if(!res_contents)
+		FailTest("Failed to resource? No contents!")
+
+	if(!fexists("[DME_NAME].rsc"))
+		FailTest("Failed to create .rsc!")
+
+#ifdef RUN_STATIC_FILE_TESTS
+	if(params["expect_static_files"])
+		if(!fexists("test2.txt"))
+			FailTest("Missing test2.txt")
+
+		var/f2content = file2text("test2.txt")
+		if(f2content != "bbb")
+			FailTest("Unexpected test2.txt content: [f2content]")
+
+		if(!fexists("data/test.txt"))
+			FailTest("Missing data/test.txt")
+
+		var/f1content = file2text("data/test.txt")
+		if(f1content != "aaa")
+			FailTest("Unexpected data/test.txt content: [f1content]")
+#endif
 
 	StartAsync()
 
@@ -139,6 +179,11 @@ var/run_bridge_test
 		text2file("I expect this to remain here for a while", "kajigger.txt")
 		kajigger_test = TRUE
 		return "we love casting spells"
+
+	var/its_sad = data["im_out_of_memes"]
+	if(its_sad)
+		TestLegacyBridge()
+		return "yeah gimmie a sec"
 
 	TgsChatBroadcast(new /datum/tgs_message_content("Recieved non-tgs topic: `[T]`"))
 
@@ -309,3 +354,28 @@ var/suppress_bridge_spam = FALSE
 		FailTest("Failed to end bridge limit test! [(istype(final_result) ? json_encode(final_result): (final_result || "null"))]")
 
 	api.access_identifier = old_ai
+
+/proc/TestLegacyBridge()
+	set waitfor = FALSE
+
+	sleep(10)
+
+	var/datum/tgs_api/v5/api = TGS_READ_GLOBAL(tgs)
+	if(api.interop_version.suite != 5)
+		FailTest("Legacy bridge test not required anymore?")
+
+	var/old_minor_version = api.interop_version.minor
+	api.interop_version.minor = 6 // before api repath
+
+	var/result
+	var/bridge_request = api.CreateBridgeRequest(5, list("chatMessage" = list("text" = "legacy bridge test", "channelIds" = list())))
+	try
+		result = api.PerformBridgeRequest(bridge_request)
+	catch(var/exception/e2)
+		world.log << "Caught exception: [e2]"
+		result = null
+
+	if(!result || lastTgsError)
+		FailTest("Failed bridge request redirect test!")
+
+	api.interop_version.minor = old_minor_version

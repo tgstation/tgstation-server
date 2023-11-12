@@ -12,9 +12,9 @@ namespace Tgstation.Server.Host.System.Tests
 	[TestClass]
 	public sealed class TestSymlinkFactory
 	{
-		readonly ISymlinkFactory factory = new PlatformIdentifier().IsWindows
-			? new WindowsSymlinkFactory()
-			: new PosixSymlinkFactory();
+		readonly IFilesystemLinkFactory factory = new PlatformIdentifier().IsWindows
+			? new WindowsFilesystemLinkFactory()
+			: new PosixFilesystemLinkFactory();
 
 		[TestMethod]
 		public async Task TestSymlinks()

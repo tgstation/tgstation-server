@@ -73,11 +73,13 @@
     <!-- Usage: GitLab interop -->
     <PackageReference Include="GitLabApiClient" Version="1.8.0" />
     <!-- Usage: git interop -->
-    <PackageReference Include="LibGit2Sharp" Version="0.27.2" />
+    <PackageReference Include="LibGit2Sharp" Version="0.28.0" />
     <!-- Usage: JWT injection into HTTP pipeline -->
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.0-rc.2.23480.2" />
     <!-- Usage: Support ""legacy"" Newotonsoft.Json in HTTP pipeline. The rest of our codebase uses Newtonsoft. -->
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="8.0.0-rc.2.23480.2" />
+    <!-- Usage: Using target JSON serializer for API -->
+    <PackageReference Include="Microsoft.AspNetCore.SignalR.Protocols.NewtonsoftJson" Version="8.0.0-rc.2.23480.2" />
     <!-- Usage: Database ORM -->
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.0-rc.2.23480.1" />
     <!-- Usage: Automatic migration generation using command line -->
@@ -95,7 +97,7 @@
     <!-- Usage: PostgresSQL ORM plugin -->
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.0-rc.2" />
     <!-- Usage: GitHub.com interop -->
-    <PackageReference Include="Octokit" Version="8.1.1" />
+    <PackageReference Include="Octokit" Version="9.0.0" />
     <!-- Usage: MYSQL/MariaDB ORM plugin -->
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="8.0.0-beta.1" />
     <!-- Usage: Discord interop -->
@@ -116,6 +118,8 @@
     <PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" Version="6.5.0" />
     <!-- Usage: Windows authentication plugin allowing searching for users by name -->
     <PackageReference Include="System.DirectoryServices.AccountManagement" Version="8.0.0-rc.2.23479.6" />
+    <!-- Usage: JWT plugin needed to undo some Microsoft meddling in the HTTP pipeline -->
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="7.0.3" />
     <!-- Usage: Identifying owning user of Windows Process objects -->
     <PackageReference Include="System.Management" Version="8.0.0-rc.2.23479.6" />
     <!-- Usage: Temporary resolution to compatibility issues with EFCore 7 and .NET 8 -->

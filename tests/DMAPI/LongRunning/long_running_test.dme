@@ -13,5 +13,8 @@
 // BEGIN_INCLUDE
 #include "Config.dm"
 #include "../test_prelude.dm"
+#ifndef DME_NAME
+#define DME_NAME "long_running_test"
+#endif
 #include "Test.dm"
 // END_INCLUDE

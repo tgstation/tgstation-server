@@ -41,7 +41,17 @@ namespace Tgstation.Server.Client.Tests
 			var httpClient = new Mock<IHttpClient>();
 			httpClient.Setup(x => x.SendAsync(It.IsNotNull<HttpRequestMessage>(), It.IsAny<HttpCompletionOption>(), It.IsAny<CancellationToken>())).Returns(Task.FromResult(response));
 
-			var client = new ApiClient(httpClient.Object, new Uri("http://fake.com"), new ApiHeaders(new ProductHeaderValue("fake"), "fake"), null, false);
+			var client = new ApiClient(
+				httpClient.Object,
+				new Uri("http://fake.com"),
+				new ApiHeaders(
+					new ProductHeaderValue("fake"),
+					new TokenResponse
+					{
+						Bearer = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMyIsImV4cCI6IjE2OTkzOTUwNTIiLCJuYmYiOiIxNjk5MzA4NjUyIiwiaXNzIjoiVGdzdGF0aW9uLlNlcnZlci5Ib3N0IiwiYXVkIjoiVGdzdGF0aW9uLlNlcnZlci5BcGkifQ.GRqEd3LRYLkbzk7NHTqcBPX-Xc1vmE_zmbJEDowAXV4",
+					}),
+				null,
+				false);
 
 			var result = await client.Read<ByondResponse>(Routes.Byond, default);
 			Assert.AreEqual(sample.Version, result.Version);
@@ -66,7 +76,17 @@ namespace Tgstation.Server.Client.Tests
 			var httpClient = new Mock<IHttpClient>();
 			httpClient.Setup(x => x.SendAsync(It.IsNotNull<HttpRequestMessage>(), It.IsAny<HttpCompletionOption>(), It.IsAny<CancellationToken>())).Returns(Task.FromResult(response));
 
-			var client = new ApiClient(httpClient.Object, new Uri("http://fake.com"), new ApiHeaders(new ProductHeaderValue("fake"), "fake"), null, true);
+			var client = new ApiClient(
+				httpClient.Object,
+				new Uri("http://fake.com"),
+				new ApiHeaders(
+					new ProductHeaderValue("fake"),
+					new TokenResponse
+					{
+						Bearer = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMyIsImV4cCI6IjE2OTkzOTUwNTIiLCJuYmYiOiIxNjk5MzA4NjUyIiwiaXNzIjoiVGdzdGF0aW9uLlNlcnZlci5Ib3N0IiwiYXVkIjoiVGdzdGF0aW9uLlNlcnZlci5BcGkifQ.GRqEd3LRYLkbzk7NHTqcBPX-Xc1vmE_zmbJEDowAXV4"
+					}),
+				null,
+				false);
 
 			await Assert.ThrowsExceptionAsync<UnrecognizedResponseException>(() => client.Read<ByondResponse>(Routes.Byond, default).AsTask());
 		}

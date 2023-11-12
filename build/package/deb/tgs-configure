@@ -1,5 +1,3 @@
 #!/bin/sh
 
-cd /opt/tgstation-server
-export General__SetupWizardMode=Only
-exec /usr/bin/dotnet /opt/tgstation-server/lib/Default/Tgstation.Server.Host.dll /tmp/tgs_temp_should_not_be_used --appsettings-base-path=/etc/tgstation-server
+exec su -s /bin/sh -c "cd /opt/tgstation-server && export General__SetupWizardMode=Only && exec /usr/bin/dotnet /opt/tgstation-server/lib/Default/Tgstation.Server.Host.dll /tmp/tgs_temp_should_not_be_used --appsettings-base-path=/etc/tgstation-server" tgstation-server

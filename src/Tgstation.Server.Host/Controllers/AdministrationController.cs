@@ -18,6 +18,7 @@ using Tgstation.Server.Api.Models.Request;
 using Tgstation.Server.Api.Models.Response;
 using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Host.Configuration;
+using Tgstation.Server.Host.Controllers.Results;
 using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.Extensions;
@@ -25,6 +26,7 @@ using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Security;
 using Tgstation.Server.Host.System;
 using Tgstation.Server.Host.Transfer;
+using Tgstation.Server.Host.Utils;
 using Tgstation.Server.Host.Utils.GitHub;
 
 namespace Tgstation.Server.Host.Controllers
@@ -84,7 +86,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// Initializes a new instance of the <see cref="AdministrationController"/> class.
 		/// </summary>
 		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> for the <see cref="ApiController"/>.</param>
-		/// <param name="authenticationContextFactory">The <see cref="IAuthenticationContextFactory"/> for the <see cref="ApiController"/>.</param>
+		/// <param name="authenticationContext">The <see cref="IAuthenticationContext"/> for the <see cref="ApiController"/>.</param>
 		/// <param name="gitHubServiceFactory">The value of <see cref="gitHubServiceFactory"/>.</param>
 		/// <param name="serverControl">The value of <see cref="serverControl"/>.</param>
 		/// <param name="serverUpdateInitiator">The value of <see cref="serverUpdateInitiator"/>.</param>
@@ -94,9 +96,10 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="fileTransferService">The value of <see cref="fileTransferService"/>.</param>
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="ApiController"/>.</param>
 		/// <param name="fileLoggingConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing value of <see cref="fileLoggingConfiguration"/>.</param>
+		/// <param name="apiHeadersProvider">The <see cref="IApiHeadersProvider"/> for the <see cref="ApiController"/>.</param>
 		public AdministrationController(
 			IDatabaseContext databaseContext,
-			IAuthenticationContextFactory authenticationContextFactory,
+			IAuthenticationContext authenticationContext,
 			IGitHubServiceFactory gitHubServiceFactory,
 			IServerControl serverControl,
 			IServerUpdateInitiator serverUpdateInitiator,
@@ -105,10 +108,12 @@ namespace Tgstation.Server.Host.Controllers
 			IPlatformIdentifier platformIdentifier,
 			IFileTransferTicketProvider fileTransferService,
 			ILogger<AdministrationController> logger,
-			IOptions<FileLoggingConfiguration> fileLoggingConfigurationOptions)
+			IOptions<FileLoggingConfiguration> fileLoggingConfigurationOptions,
+			IApiHeadersProvider apiHeadersProvider)
 			: base(
 				databaseContext,
-				authenticationContextFactory,
+				authenticationContext,
+				apiHeadersProvider,
 				logger,
 				true)
 		{

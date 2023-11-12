@@ -10,7 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 using Tgstation.Server.Host.IO;
 
-namespace Tgstation.Server.Host.Controllers
+namespace Tgstation.Server.Host.Controllers.Results
 {
 	/// <summary>
 	/// Very similar to <see cref="FileStreamResult"/> except it's <see cref="IActionResultExecutor{TResult}"/> contains a fix for https://github.com/dotnet/aspnetcore/issues/28189.

@@ -73,7 +73,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 		/// </summary>
 		static readonly IReadOnlyDictionary<EventType, string> EventTypeScriptFileNameMap = new Dictionary<EventType, string>(
 			Enum.GetValues(typeof(EventType))
-				.OfType<EventType>()
+				.Cast<EventType>()
 				.Select(
 					eventType => new KeyValuePair<EventType, string>(
 						eventType,
@@ -95,9 +95,9 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 		readonly ISynchronousIOManager synchronousIOManager;
 
 		/// <summary>
-		/// The <see cref="ISymlinkFactory"/> for <see cref="Configuration"/>.
+		/// The <see cref="IFilesystemLinkFactory"/> for <see cref="Configuration"/>.
 		/// </summary>
-		readonly ISymlinkFactory symlinkFactory;
+		readonly IFilesystemLinkFactory linkFactory;
 
 		/// <summary>
 		/// The <see cref="IProcessExecutor"/> for <see cref="Configuration"/>.
@@ -154,7 +154,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 		/// </summary>
 		/// <param name="ioManager">The value of <see cref="ioManager"/>.</param>
 		/// <param name="synchronousIOManager">The value of <see cref="synchronousIOManager"/>.</param>
-		/// <param name="symlinkFactory">The value of <see cref="symlinkFactory"/>.</param>
+		/// <param name="linkFactory">The value of <see cref="linkFactory"/>.</param>
 		/// <param name="processExecutor">The value of <see cref="processExecutor"/>.</param>
 		/// <param name="postWriteHandler">The value of <see cref="postWriteHandler"/>.</param>
 		/// <param name="platformIdentifier">The value of <see cref="platformIdentifier"/>.</param>
@@ -165,7 +165,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 		public Configuration(
 			IIOManager ioManager,
 			ISynchronousIOManager synchronousIOManager,
-			ISymlinkFactory symlinkFactory,
+			IFilesystemLinkFactory linkFactory,
 			IProcessExecutor processExecutor,
 			IPostWriteHandler postWriteHandler,
 			IPlatformIdentifier platformIdentifier,
@@ -176,7 +176,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 		{
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
 			this.synchronousIOManager = synchronousIOManager ?? throw new ArgumentNullException(nameof(synchronousIOManager));
-			this.symlinkFactory = symlinkFactory ?? throw new ArgumentNullException(nameof(symlinkFactory));
+			this.linkFactory = linkFactory ?? throw new ArgumentNullException(nameof(linkFactory));
 			this.processExecutor = processExecutor ?? throw new ArgumentNullException(nameof(processExecutor));
 			this.postWriteHandler = postWriteHandler ?? throw new ArgumentNullException(nameof(postWriteHandler));
 			this.platformIdentifier = platformIdentifier ?? throw new ArgumentNullException(nameof(platformIdentifier));
@@ -432,7 +432,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 					var fileExists = await fileExistsTask;
 					if (fileExists)
 						await ioManager.DeleteFile(destPath, cancellationToken);
-					await symlinkFactory.CreateSymbolicLink(ioManager.ResolvePath(file), ioManager.ResolvePath(destPath), cancellationToken);
+					await linkFactory.CreateSymbolicLink(ioManager.ResolvePath(file), ioManager.ResolvePath(destPath), cancellationToken);
 				}));
 			}
 

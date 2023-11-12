@@ -5,15 +5,25 @@ using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Net.Mime;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
+using Microsoft.AspNetCore.Http.Connections;
+using Microsoft.AspNetCore.SignalR.Client;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.Extensions.Logging;
+
 using Tgstation.Server.Api;
+using Tgstation.Server.Api.Hubs;
 using Tgstation.Server.Api.Models;
+using Tgstation.Server.Api.Models.Request;
 using Tgstation.Server.Api.Models.Response;
 using Tgstation.Server.Client;
+using Tgstation.Server.Client.Extensions;
 using Tgstation.Server.Common.Extensions;
 using Tgstation.Server.Host;
 
@@ -27,7 +37,7 @@ namespace Tgstation.Server.Tests.Live
 			var token = serverClient.Token.Bearer;
 			// check that 400s are returned appropriately
 			using var httpClient = new HttpClient();
-			using (var request = new HttpRequestMessage(HttpMethod.Get, url.ToString()))
+			using (var request = new HttpRequestMessage(HttpMethod.Get, url.ToString() + Routes.ApiRoot.TrimStart('/')))
 			{
 				request.Headers.Accept.Clear();
 				request.Headers.UserAgent.Add(new ProductInfoHeaderValue("RootTest", "1.0.0"));
@@ -35,7 +45,7 @@ namespace Tgstation.Server.Tests.Live
 				Assert.AreEqual(HttpStatusCode.NotAcceptable, response.StatusCode);
 			}
 
-			using (var request = new HttpRequestMessage(HttpMethod.Get, url.ToString()))
+			using (var request = new HttpRequestMessage(HttpMethod.Get, url.ToString() + Routes.ApiRoot.TrimStart('/')))
 			{
 				request.Headers.Accept.Clear();
 				request.Headers.UserAgent.Add(new ProductInfoHeaderValue("RootTest", "1.0.0"));
@@ -44,7 +54,7 @@ namespace Tgstation.Server.Tests.Live
 				Assert.AreEqual(HttpStatusCode.NotAcceptable, response.StatusCode);
 			}
 
-			using (var request = new HttpRequestMessage(HttpMethod.Get, url.ToString()))
+			using (var request = new HttpRequestMessage(HttpMethod.Get, url.ToString() + Routes.ApiRoot.TrimStart('/')))
 			{
 				request.Headers.Accept.Clear();
 				request.Headers.UserAgent.Add(new ProductInfoHeaderValue("RootTest", "1.0.0"));
@@ -56,7 +66,7 @@ namespace Tgstation.Server.Tests.Live
 				Assert.AreEqual(ErrorCode.BadHeaders, message.ErrorCode);
 			}
 
-			using (var request = new HttpRequestMessage(HttpMethod.Get, url.ToString()))
+			using (var request = new HttpRequestMessage(HttpMethod.Get, url.ToString() + Routes.ApiRoot.TrimStart('/')))
 			{
 				request.Headers.Accept.Clear();
 				request.Headers.UserAgent.Add(new ProductInfoHeaderValue("RootTest", "1.0.0"));
@@ -69,7 +79,7 @@ namespace Tgstation.Server.Tests.Live
 				Assert.AreEqual(ApiHeaders.Version, message.ApiVersion);
 			}
 
-			using (var request = new HttpRequestMessage(HttpMethod.Get, url.ToString()))
+			using (var request = new HttpRequestMessage(HttpMethod.Get, url.ToString() + Routes.ApiRoot.TrimStart('/')))
 			{
 				request.Headers.Accept.Clear();
 				request.Headers.UserAgent.Add(new ProductInfoHeaderValue("RootTest", "1.0.0"));
@@ -77,7 +87,7 @@ namespace Tgstation.Server.Tests.Live
 				request.Headers.Add(ApiHeaders.ApiVersionHeader, "Tgstation.Server.Api/6.0.0");
 				request.Headers.Authorization = new AuthenticationHeaderValue(ApiHeaders.BearerAuthenticationScheme, token);
 				using var response = await httpClient.SendAsync(request, cancellationToken);
-				Assert.AreEqual(HttpStatusCode.UpgradeRequired, response.StatusCode);
+				Assert.AreEqual(HttpStatusCode.BadRequest, response.StatusCode);
 				var content = await response.Content.ReadAsStringAsync(cancellationToken);
 				var message = JsonConvert.DeserializeObject<ErrorMessageResponse>(content);
 				Assert.AreEqual(ErrorCode.ApiMismatch, message.ErrorCode);
@@ -91,7 +101,7 @@ namespace Tgstation.Server.Tests.Live
 				request.Headers.Add(ApiHeaders.ApiVersionHeader, "Tgstation.Server.Api/6.0.0");
 				request.Headers.Authorization = new AuthenticationHeaderValue(ApiHeaders.BearerAuthenticationScheme, token);
 				using var response = await httpClient.SendAsync(request, cancellationToken);
-				Assert.AreEqual(HttpStatusCode.UpgradeRequired, response.StatusCode);
+				Assert.AreEqual(HttpStatusCode.BadRequest, response.StatusCode);
 				var content = await response.Content.ReadAsStringAsync(cancellationToken);
 				var message = JsonConvert.DeserializeObject<ErrorMessageResponse>(content);
 				Assert.AreEqual(ErrorCode.ApiMismatch, message.ErrorCode);
@@ -139,7 +149,7 @@ namespace Tgstation.Server.Tests.Live
 				Assert.AreEqual(ErrorCode.InstanceHeaderRequired, message.ErrorCode);
 			}
 
-			using (var request = new HttpRequestMessage(HttpMethod.Get, url.ToString()))
+			using (var request = new HttpRequestMessage(HttpMethod.Get, url.ToString() + Routes.ApiRoot.TrimStart('/')))
 			{
 				request.Headers.Accept.Clear();
 				request.Headers.UserAgent.Add(new ProductInfoHeaderValue("RootTest", "1.0.0"));
@@ -153,7 +163,7 @@ namespace Tgstation.Server.Tests.Live
 				Assert.AreEqual(ErrorCode.BadHeaders, message.ErrorCode);
 			}
 
-			using (var request = new HttpRequestMessage(HttpMethod.Post, url.ToString()))
+			using (var request = new HttpRequestMessage(HttpMethod.Post, url.ToString() + Routes.ApiRoot.TrimStart('/')))
 			{
 				request.Headers.Accept.Clear();
 				request.Headers.UserAgent.Add(new ProductInfoHeaderValue("RootTest", "1.0.0"));
@@ -168,7 +178,7 @@ namespace Tgstation.Server.Tests.Live
 				Assert.AreEqual(ErrorCode.BadHeaders, message.ErrorCode);
 			}
 
-			using (var request = new HttpRequestMessage(HttpMethod.Get, url.ToString()))
+			using (var request = new HttpRequestMessage(HttpMethod.Get, url.ToString() + Routes.ApiRoot.TrimStart('/')))
 			{
 				request.Headers.Accept.Clear();
 				request.Headers.UserAgent.Add(new ProductInfoHeaderValue("RootTest", "1.0.0"));
@@ -200,14 +210,17 @@ namespace Tgstation.Server.Tests.Live
 			Assert.AreEqual(RuntimeInformation.IsOSPlatform(OSPlatform.Windows), serverInfo.WindowsHost);
 
 			//check that modifying the token even slightly fucks up the auth
+#pragma warning disable CS0618 // Type or member is obsolete
 			var newToken = new TokenResponse
 			{
 				ExpiresAt = serverClient.Token.ExpiresAt,
 				Bearer = serverClient.Token.Bearer + '0'
 			};
+#pragma warning restore CS0618 // Type or member is obsolete
 
 			var badClient = clientFactory.CreateFromToken(serverClient.Url, newToken);
 			await ApiAssert.ThrowsException<UnauthorizedException, AdministrationResponse>(() => badClient.Administration.Read(cancellationToken));
+			await ApiAssert.ThrowsException<UnauthorizedException, ServerInformationResponse>(() => badClient.ServerInformation(cancellationToken));
 		}
 
 		static async Task TestOAuthFails(IServerClient serverClient, CancellationToken cancellationToken)
@@ -219,7 +232,7 @@ namespace Tgstation.Server.Tests.Live
 
 			// just hitting each type of oauth provider for coverage
 			foreach (var I in Enum.GetValues(typeof(OAuthProvider)))
-				using (var request = new HttpRequestMessage(HttpMethod.Post, url.ToString()))
+				using (var request = new HttpRequestMessage(HttpMethod.Post, url.ToString() + Routes.ApiRoot.TrimStart('/')))
 				{
 					request.Headers.Accept.Clear();
 					request.Headers.UserAgent.Add(new ProductInfoHeaderValue("RootTest", "1.0.0"));
@@ -343,12 +356,117 @@ namespace Tgstation.Server.Tests.Live
 			}
 		}
 
+		class FuncProxiedJobsHub : IJobsHub
+		{
+			public Func<JobResponse, CancellationToken, Task> ProxyFunc { get; set; }
+
+			public Task ReceiveJobUpdate(JobResponse job, CancellationToken cancellationToken)
+				=> ProxyFunc(job, cancellationToken);
+		}
+
+		static async Task TestSignalRUsage(IServerClientFactory serverClientFactory, IServerClient serverClient, CancellationToken cancellationToken)
+		{
+			// test regular creation works without error
+			var hubConnectionBuilder = new HubConnectionBuilder();
+
+			var tokenRetrivalFunc = () => Task.FromResult("FakeToken");
+
+			hubConnectionBuilder.WithUrl(
+				new Uri(serverClient.Url, Routes.JobsHub),
+				HttpTransportType.ServerSentEvents,
+				options =>
+				{
+					options.AccessTokenProvider = () => tokenRetrivalFunc();
+					((IApiClient)typeof(ServerClient)
+						.GetField(
+							"apiClient",
+							BindingFlags.NonPublic | BindingFlags.Instance)
+						.GetValue(serverClient))
+						.Headers
+						.SetHubConnectionHeaders(options.Headers);
+				})
+				.AddNewtonsoftJsonProtocol(options =>
+				{
+					// we can get away without setting the serializer settings here
+				});
+
+			hubConnectionBuilder.ConfigureLogging(
+				loggingBuilder =>
+				{
+					loggingBuilder.SetMinimumLevel(LogLevel.Trace);
+					loggingBuilder.AddConsole();
+					loggingBuilder
+						.Services
+						.TryAddEnumerable(
+							ServiceDescriptor.Singleton<ILoggerProvider, HardFailLoggerProvider>());
+				});
+
+			var proxy = new FuncProxiedJobsHub();
+			HubConnection hubConnection;
+			HardFailLoggerProvider.BlockFails = true;
+			try
+			{
+				await using (hubConnection = hubConnectionBuilder.Build())
+				{
+					Assert.AreEqual(HubConnectionState.Disconnected, hubConnection.State);
+					hubConnection.ProxyOn<IJobsHub>(proxy);
+
+					var exception = await Assert.ThrowsExceptionAsync<HttpRequestException>(() => hubConnection.StartAsync(cancellationToken));
+
+					Assert.AreEqual(HttpStatusCode.Unauthorized, exception.StatusCode);
+					Assert.AreEqual(HubConnectionState.Disconnected, hubConnection.State);
+
+					tokenRetrivalFunc = () => Task.FromResult(serverClient.Token.Bearer);
+					await hubConnection.StartAsync(cancellationToken);
+
+					Assert.AreEqual(HubConnectionState.Connected, hubConnection.State);
+				}
+
+				Assert.AreEqual(HubConnectionState.Disconnected, hubConnection.State);
+
+				var createRequest = new UserCreateRequest
+				{
+					Enabled = true,
+					Name = "SignalRTestUser",
+					Password = "asdfasdfasdfasdfasdf"
+				};
+
+				var testUser = await serverClient.Users.Create(createRequest, cancellationToken);
+				await using var testUserClient = await serverClientFactory.CreateFromLogin(serverClient.Url, createRequest.Name, createRequest.Password, cancellationToken: cancellationToken);
+				await using var testUserConn1 = (HubConnection)await testUserClient.SubscribeToJobUpdates(proxy, cancellationToken: cancellationToken);
+
+				await serverClient.Users.Update(new UserUpdateRequest
+				{
+					Id = testUser.Id,
+					Enabled = false,
+				}, cancellationToken);
+
+				// need a second here
+				for (var i = 0; i < 10 && testUserConn1.State == HubConnectionState.Connected; ++i)
+					await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);
+
+				Assert.AreNotEqual(HubConnectionState.Connected, testUserConn1.State);
+
+				await using var testUserConn2 = (HubConnection)await testUserClient.SubscribeToJobUpdates(proxy, cancellationToken: cancellationToken);
+
+				for (var i = 0; i < 10 && testUserConn2.State == HubConnectionState.Connected; ++i)
+					await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);
+
+				Assert.AreNotEqual(HubConnectionState.Connected, testUserConn2.State);
+			}
+			finally
+			{
+				HardFailLoggerProvider.BlockFails = false;
+			}
+		}
+
 		public static Task Run(IServerClientFactory clientFactory, IServerClient serverClient, CancellationToken cancellationToken)
 			=> Task.WhenAll(
 				TestRequestValidation(serverClient, cancellationToken),
 				TestOAuthFails(serverClient, cancellationToken),
 				TestServerInformation(clientFactory, serverClient, cancellationToken),
 				TestInvalidTransfers(serverClient, cancellationToken),
-				RegressionTestForLeakedPasswordHashesBug(serverClient, cancellationToken));
+				RegressionTestForLeakedPasswordHashesBug(serverClient, cancellationToken),
+				TestSignalRUsage(clientFactory, serverClient, cancellationToken));
 	}
 }

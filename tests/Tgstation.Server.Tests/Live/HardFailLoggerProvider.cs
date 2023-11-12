@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 
 using Microsoft.Extensions.Logging;
 
@@ -15,7 +16,10 @@ namespace Tgstation.Server.Tests.Live
 		public ILogger CreateLogger(string categoryName) => new HardFailLogger(ex =>
 		{
 			if (!BlockFails)
+			{
+				Console.WriteLine("UNEXPECTED ERROR OCCURS NEAR HERE");
 				failureSink.TrySetException(ex);
+			}
 		});
 
 		public void Dispose() { }

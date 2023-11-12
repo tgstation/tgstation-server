@@ -1,0 +1,19 @@
+// Hand crafted DME, will not work if saved with DreamMaker
+
+// BEGIN_INTERNALS
+// END_INTERNALS
+
+// BEGIN_FILE_DIR
+#define FILE_DIR .
+// END_FILE_DIR
+
+// BEGIN_PREFERENCES
+// END_PREFERENCES
+
+// BEGIN_INCLUDE
+#define RUN_STATIC_FILE_TESTS
+#define DME_NAME "long_running_test_rooted"
+#include "tests/DMAPI/LongRunning/Config.dm"
+#include "tests/DMAPI/test_prelude.dm"
+#include "tests/DMAPI/LongRunning/Test.dm"
+// END_INCLUDE

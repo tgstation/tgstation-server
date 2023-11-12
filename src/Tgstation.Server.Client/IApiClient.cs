@@ -3,6 +3,9 @@ using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 
+using Microsoft.AspNetCore.SignalR.Client;
+using Microsoft.Extensions.Logging;
+
 using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Response;
@@ -12,7 +15,7 @@ namespace Tgstation.Server.Client
 	/// <summary>
 	/// Web interface for the API.
 	/// </summary>
-	interface IApiClient : IDisposable
+	interface IApiClient : IAsyncDisposable
 	{
 		/// <summary>
 		/// The <see cref="ApiHeaders"/> the <see cref="IApiClient"/> uses.
@@ -34,6 +37,22 @@ namespace Tgstation.Server.Client
 		/// </summary>
 		/// <param name="requestLogger">The <see cref="IRequestLogger"/> to add.</param>
 		void AddRequestLogger(IRequestLogger requestLogger);
+
+		/// <summary>
+		/// Subscribe to all job updates available to the <see cref="IServerClient"/>.
+		/// </summary>
+		/// <typeparam name="THubImplementation">The <see cref="Type"/> of the hub being implemented.</typeparam>
+		/// <param name="hubImplementation">The <typeparamref name="THubImplementation"/> to use for proxying the methods of the hub connection.</param>
+		/// <param name="retryPolicy">The optional <see cref="IRetryPolicy"/> to use for the backing connection. The default retry policy waits for 1, 2, 4, 8, and 16 seconds, then 30s repeatedly.</param>
+		/// <param name="loggingConfigureAction">The optional <see cref="Action{T1}"/> used to configure a <see cref="ILoggingBuilder"/>.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>An <see cref="IAsyncDisposable"/> representing the lifetime of the subscription.</returns>
+		ValueTask<IAsyncDisposable> CreateHubConnection<THubImplementation>(
+			THubImplementation hubImplementation,
+			IRetryPolicy? retryPolicy,
+			Action<ILoggingBuilder>? loggingConfigureAction,
+			CancellationToken cancellationToken)
+			where THubImplementation : class;
 
 		/// <summary>
 		/// Run an HTTP PUT request.

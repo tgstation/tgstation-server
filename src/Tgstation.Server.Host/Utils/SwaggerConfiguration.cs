@@ -18,6 +18,7 @@ using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Response;
 using Tgstation.Server.Common.Extensions;
 using Tgstation.Server.Host.Controllers;
+using Tgstation.Server.Host.Security;
 
 namespace Tgstation.Server.Host.Utils
 {
@@ -26,6 +27,16 @@ namespace Tgstation.Server.Host.Utils
 	/// </summary>
 	sealed class SwaggerConfiguration : IOperationFilter, IDocumentFilter, ISchemaFilter, IRequestBodyFilter
 	{
+		/// <summary>
+		/// The name of the swagger document.
+		/// </summary>
+		public const string DocumentName = "tgs_api";
+
+		/// <summary>
+		/// The path to the hosted documentation site.
+		/// </summary>
+		public const string DocumentationSiteRouteExtension = "documentation";
+
 		/// <summary>
 		/// The <see cref="OpenApiSecurityScheme"/> name for password authentication.
 		/// </summary>
@@ -50,7 +61,7 @@ namespace Tgstation.Server.Host.Utils
 		public static void Configure(SwaggerGenOptions swaggerGenOptions, string assemblyDocumentationPath, string apiDocumentationPath)
 		{
 			swaggerGenOptions.SwaggerDoc(
-				"v1",
+				DocumentName,
 				new OpenApiInfo
 				{
 					Title = "TGS API",
@@ -404,7 +415,7 @@ namespace Tgstation.Server.Host.Utils
 						twoHundredResponseContents.Add(MediaTypeNames.Application.Octet, fileContent);
 					}
 			}
-			else if (context.MethodInfo.Name == nameof(HomeController.CreateToken))
+			else if (context.MethodInfo.Name == nameof(ApiRootController.CreateToken))
 			{
 				var passwordScheme = new OpenApiSecurityScheme
 				{

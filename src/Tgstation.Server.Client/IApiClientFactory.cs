@@ -17,6 +17,10 @@ namespace Tgstation.Server.Client
 		/// <param name="tokenRefreshHeaders">The <see cref="ApiHeaders"/> to use to generate a new <see cref="Api.Models.Response.TokenResponse"/>.</param>
 		/// <param name="authless">If there should be no authentication performed.</param>
 		/// <returns>A new <see cref="IApiClient"/>.</returns>
-		IApiClient CreateApiClient(Uri url, ApiHeaders apiHeaders, ApiHeaders? tokenRefreshHeaders, bool authless);
+		IApiClient CreateApiClient(
+			Uri url,
+			ApiHeaders apiHeaders,
+			ApiHeaders? tokenRefreshHeaders,
+			bool authless);
 	}
 }

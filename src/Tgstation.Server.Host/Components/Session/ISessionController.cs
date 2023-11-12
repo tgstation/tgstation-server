@@ -128,7 +128,7 @@ namespace Tgstation.Server.Host.Components.Session
 		/// Replace the <see cref="IDmbProvider"/> in use with a given <paramref name="newProvider"/>, disposing the old one.
 		/// </summary>
 		/// <param name="newProvider">The new <see cref="IDmbProvider"/>.</param>
-		/// <returns>An <see cref="IDisposable"/> to be disposed once certain that the original <see cref="IDmbProvider"/> is no longer in use.</returns>
-		IDisposable ReplaceDmbProvider(IDmbProvider newProvider);
+		/// <returns>An <see cref="IAsyncDisposable"/> to be disposed once certain that the original <see cref="IDmbProvider"/> is no longer in use.</returns>
+		IAsyncDisposable ReplaceDmbProvider(IDmbProvider newProvider);
 	}
 }

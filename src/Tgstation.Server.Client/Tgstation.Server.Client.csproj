@@ -7,10 +7,19 @@
     <Description>Client library for tgstation-server.</Description>
     <PackageTags>json web api tgstation-server tgstation ss13 byond client http</PackageTags>
     <PackageReleaseNotes>$(TGS_NUGET_RELEASE_NOTES_CLIENT)</PackageReleaseNotes>
+    <NoWarn>NU5104</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
+    <!-- Usage: Connecting to SignalR hubs in API -->
+    <PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="8.0.0-rc.2.23480.2" />
+    <!-- Usage: Using target JSON serializer for API -->
+    <PackageReference Include="Microsoft.AspNetCore.SignalR.Protocols.NewtonsoftJson" Version="8.0.0-rc.2.23480.2" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Tgstation.Server.Api\Tgstation.Server.Api.csproj" />
+    <ProjectReference Include="..\Tgstation.Server.Common\Tgstation.Server.Common.csproj" /> <!-- Needed for explicit nuget versioning -->
   </ItemGroup>
 
 </Project>

@@ -11,12 +11,11 @@ namespace Tgstation.Server.Host.Database.Migrations
 	[DbContext(typeof(SqlServerDatabaseContext))]
 	partial class SqlServerDatabaseContextModelSnapshot : ModelSnapshot
 	{
-		/// <inheritdoc />
 		protected override void BuildModel(ModelBuilder modelBuilder)
 		{
 #pragma warning disable 612, 618
 			modelBuilder
-				.HasAnnotation("ProductVersion", "7.0.7")
+				.HasAnnotation("ProductVersion", "7.0.13")
 				.HasAnnotation("Relational:MaxIdentifierLength", 128);
 
 			SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -398,6 +397,9 @@ namespace Tgstation.Server.Host.Database.Migrations
 
 				b.Property<long>("InstanceId")
 					.HasColumnType("bigint");
+
+				b.Property<byte>("JobCode")
+					.HasColumnType("tinyint");
 
 				b.Property<DateTimeOffset?>("StartedAt")
 					.IsRequired()

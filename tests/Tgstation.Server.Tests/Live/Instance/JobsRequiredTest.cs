@@ -22,11 +22,15 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 		public async Task<JobResponse> WaitForJob(JobResponse originalJob, int timeout, bool? expectFailure, ErrorCode? expectedCode, CancellationToken cancellationToken)
 		{
+			Assert.IsNotNull(originalJob.Id);
+			Assert.IsNotNull(originalJob.JobCode);
 			var job = originalJob;
 			do
 			{
 				await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);
 				job = await JobsClient.GetId(job, cancellationToken);
+				Assert.IsNotNull(job.Id);
+				Assert.IsNotNull(job.JobCode);
 				--timeout;
 			}
 			while (!job.StoppedAt.HasValue && timeout > 0);
@@ -49,11 +53,15 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 		protected async Task<JobResponse> WaitForJobProgress(JobResponse originalJob, int timeout, CancellationToken cancellationToken)
 		{
+			Assert.IsNotNull(originalJob.Id);
+			Assert.IsNotNull(originalJob.JobCode);
 			var job = originalJob;
 			do
 			{
 				await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);
 				job = await JobsClient.GetId(job, cancellationToken);
+				Assert.IsNotNull(job.Id);
+				Assert.IsNotNull(job.JobCode);
 				--timeout;
 			}
 			while (!job.Progress.HasValue && job.Stage == null && timeout > 0);
@@ -66,6 +74,8 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 		protected async Task<JobResponse> WaitForJobProgressThenCancel(JobResponse originalJob, int timeout, CancellationToken cancellationToken)
 		{
+			Assert.IsNotNull(originalJob.Id);
+			Assert.IsNotNull(originalJob.JobCode);
 			var start = DateTimeOffset.UtcNow;
 			var job = await WaitForJobProgress(originalJob, timeout, cancellationToken);
 

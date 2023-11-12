@@ -1,17 +1,16 @@
 ﻿using System;
 using System.Linq;
-using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Primitives;
 using Microsoft.Net.Http.Headers;
+
 using Octokit;
 
 using Tgstation.Server.Api;
@@ -21,81 +20,81 @@ using Tgstation.Server.Host.Components.Interop;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.Database;
-using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.Security;
 using Tgstation.Server.Host.Security.OAuth;
 using Tgstation.Server.Host.Swarm;
 using Tgstation.Server.Host.System;
+using Tgstation.Server.Host.Utils;
 
 namespace Tgstation.Server.Host.Controllers
 {
 	/// <summary>
 	/// Root <see cref="ApiController"/> for the <see cref="Application"/>.
 	/// </summary>
-	[Route(Routes.Root)]
-	public sealed class HomeController : ApiController
+	[Route(Routes.ApiRoot)]
+	public sealed class ApiRootController : ApiController
 	{
 		/// <summary>
-		/// The <see cref="ITokenFactory"/> for the <see cref="HomeController"/>.
+		/// The <see cref="ITokenFactory"/> for the <see cref="ApiRootController"/>.
 		/// </summary>
 		readonly ITokenFactory tokenFactory;
 
 		/// <summary>
-		/// The <see cref="ISystemIdentityFactory"/> for the <see cref="HomeController"/>.
+		/// The <see cref="ISystemIdentityFactory"/> for the <see cref="ApiRootController"/>.
 		/// </summary>
 		readonly ISystemIdentityFactory systemIdentityFactory;
 
 		/// <summary>
-		/// The <see cref="ICryptographySuite"/> for the <see cref="HomeController"/>.
+		/// The <see cref="ICryptographySuite"/> for the <see cref="ApiRootController"/>.
 		/// </summary>
 		readonly ICryptographySuite cryptographySuite;
 
 		/// <summary>
-		/// The <see cref="IAssemblyInformationProvider"/> for the <see cref="HomeController"/>.
+		/// The <see cref="IAssemblyInformationProvider"/> for the <see cref="ApiRootController"/>.
 		/// </summary>
 		readonly IAssemblyInformationProvider assemblyInformationProvider;
 
 		/// <summary>
-		/// The <see cref="IIdentityCache"/> for the <see cref="HomeController"/>.
+		/// The <see cref="IIdentityCache"/> for the <see cref="ApiRootController"/>.
 		/// </summary>
 		readonly IIdentityCache identityCache;
 
 		/// <summary>
-		/// The <see cref="IOAuthProviders"/> for the <see cref="HomeController"/>.
+		/// The <see cref="IOAuthProviders"/> for the <see cref="ApiRootController"/>.
 		/// </summary>
 		readonly IOAuthProviders oAuthProviders;
 
 		/// <summary>
-		/// The <see cref="IPlatformIdentifier"/> for the <see cref="HomeController"/>.
+		/// The <see cref="IPlatformIdentifier"/> for the <see cref="ApiRootController"/>.
 		/// </summary>
 		readonly IPlatformIdentifier platformIdentifier;
 
 		/// <summary>
-		/// The <see cref="ISwarmService"/> for the <see cref="HomeController"/>.
+		/// The <see cref="ISwarmService"/> for the <see cref="ApiRootController"/>.
 		/// </summary>
 		readonly ISwarmService swarmService;
 
 		/// <summary>
-		/// The <see cref="IServerControl"/> for the <see cref="HomeController"/>.
+		/// The <see cref="IServerControl"/> for the <see cref="ApiRootController"/>.
 		/// </summary>
 		readonly IServerControl serverControl;
 
 		/// <summary>
-		/// The <see cref="GeneralConfiguration"/> for the <see cref="HomeController"/>.
+		/// The <see cref="GeneralConfiguration"/> for the <see cref="ApiRootController"/>.
 		/// </summary>
 		readonly GeneralConfiguration generalConfiguration;
 
 		/// <summary>
-		/// The <see cref="ControlPanelConfiguration"/> for the <see cref="HomeController"/>.
+		/// The <see cref="ControlPanelConfiguration"/> for the <see cref="ApiRootController"/>.
 		/// </summary>
 		readonly ControlPanelConfiguration controlPanelConfiguration;
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="HomeController"/> class.
+		/// Initializes a new instance of the <see cref="ApiRootController"/> class.
 		/// </summary>
 		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> for the <see cref="ApiController"/>.</param>
-		/// <param name="authenticationContextFactory">The <see cref="IAuthenticationContextFactory"/> for the <see cref="ApiController"/>.</param>
+		/// <param name="authenticationContext">The <see cref="IAuthenticationContext"/> for the <see cref="ApiController"/>.</param>
 		/// <param name="tokenFactory">The value of <see cref="tokenFactory"/>.</param>
 		/// <param name="systemIdentityFactory">The value of <see cref="systemIdentityFactory"/>.</param>
 		/// <param name="cryptographySuite">The value of <see cref="cryptographySuite"/>.</param>
@@ -108,9 +107,10 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="generalConfiguration"/>.</param>
 		/// <param name="controlPanelConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="controlPanelConfiguration"/>.</param>
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="ApiController"/>.</param>
-		public HomeController(
+		/// <param name="apiHeadersProvider">The <see cref="IApiHeadersProvider"/> for the <see cref="ApiController"/>.</param>
+		public ApiRootController(
 			IDatabaseContext databaseContext,
-			IAuthenticationContextFactory authenticationContextFactory,
+			IAuthenticationContext authenticationContext,
 			ITokenFactory tokenFactory,
 			ISystemIdentityFactory systemIdentityFactory,
 			ICryptographySuite cryptographySuite,
@@ -122,10 +122,12 @@ namespace Tgstation.Server.Host.Controllers
 			IServerControl serverControl,
 			IOptions<GeneralConfiguration> generalConfigurationOptions,
 			IOptions<ControlPanelConfiguration> controlPanelConfigurationOptions,
-			ILogger<HomeController> logger)
+			ILogger<ApiRootController> logger,
+			IApiHeadersProvider apiHeadersProvider)
 			: base(
 				  databaseContext,
-				  authenticationContextFactory,
+				  authenticationContext,
+				  apiHeadersProvider,
 				  logger,
 				  false)
 		{
@@ -152,41 +154,29 @@ namespace Tgstation.Server.Host.Controllers
 		[HttpGet]
 		[AllowAnonymous]
 		[ProducesResponseType(typeof(ServerInformationResponse), 200)]
-#pragma warning disable CA1506
-		public IActionResult Home()
+		public IActionResult ServerInfo()
 		{
-			if (controlPanelConfiguration.Enable)
-				Response.Headers.Add(
-					HeaderNames.Vary,
-					new StringValues(ApiHeaders.ApiVersionHeader));
-
+			// if they tried to authenticate in any form and failed, let them know immediately
+			bool failIfUnauthed;
 			if (ApiHeaders == null)
 			{
-				if (controlPanelConfiguration.Enable && !Request.Headers.TryGetValue(ApiHeaders.ApiVersionHeader, out _))
-				{
-					Logger.LogDebug("No API headers on request, redirecting to control panel...");
-
-					var controlPanelRoute = controlPanelConfiguration.PublicPath;
-					if (String.IsNullOrWhiteSpace(controlPanelRoute))
-						controlPanelRoute = ControlPanelController.ControlPanelRoute;
-
-					return Redirect(controlPanelRoute);
-				}
-
 				try
 				{
 					// we only allow authorization header issues
-					var headers = new ApiHeaders(Request.GetTypedHeaders(), true);
-					if (!headers.Compatible())
-						return this.StatusCode(
-							HttpStatusCode.UpgradeRequired,
-							new ErrorMessageResponse(ErrorCode.ApiMismatch));
+					ApiHeadersProvider.CreateAuthlessHeaders();
 				}
-				catch (HeadersException)
+				catch (HeadersException ex)
 				{
-					return HeadersIssue(true);
+					return HeadersIssue(ex);
 				}
+
+				failIfUnauthed = Request.Headers.Authorization.Any();
 			}
+			else
+				failIfUnauthed = ApiHeaders.Token != null;
+
+			if (failIfUnauthed && !AuthenticationContext.Valid)
+				return Unauthorized();
 
 			return Json(new ServerInformationResponse
 			{
@@ -204,7 +194,6 @@ namespace Tgstation.Server.Host.Controllers
 				UpdateInProgress = serverControl.UpdateInProgress,
 			});
 		}
-#pragma warning restore CA1506
 
 		/// <summary>
 		/// Attempt to authenticate a <see cref="User"/> using <see cref="ApiController.ApiHeaders"/>.
@@ -223,8 +212,8 @@ namespace Tgstation.Server.Host.Controllers
 		{
 			if (ApiHeaders == null)
 			{
-				Response.Headers.Add(HeaderNames.WWWAuthenticate, new StringValues("basic realm=\"Create TGS bearer token\""));
-				return HeadersIssue(false);
+				Response.Headers.Add(HeaderNames.WWWAuthenticate, new StringValues($"basic realm=\"Create TGS {ApiHeaders.BearerAuthenticationScheme} token\""));
+				return HeadersIssue(ApiHeadersProvider.HeadersException);
 			}
 
 			if (ApiHeaders.IsTokenAuthentication)
@@ -239,9 +228,9 @@ namespace Tgstation.Server.Host.Controllers
 					// trust the system over the database because a user's name can change while still having the same SID
 					systemIdentity = await systemIdentityFactory.CreateSystemIdentity(ApiHeaders.Username, ApiHeaders.Password, cancellationToken);
 				}
-				catch (NotImplementedException ex)
+				catch (NotImplementedException)
 				{
-					RequiresPosixSystemIdentity(ex);
+					// Intentionally suppressed
 				}
 
 			using (systemIdentity)
@@ -261,7 +250,7 @@ namespace Tgstation.Server.Host.Controllers
 							return BadRequest(new ErrorMessageResponse(ErrorCode.OAuthProviderDisabled));
 
 						externalUserId = await validator
-							.ValidateResponseCode(ApiHeaders.Token, cancellationToken);
+							.ValidateResponseCode(ApiHeaders.OAuthCode!, cancellationToken);
 
 						Logger.LogTrace("External {oAuthProvider} UID: {externalUserId}", oAuthProvider, externalUserId);
 					}
@@ -369,11 +358,11 @@ namespace Tgstation.Server.Host.Controllers
 					return Forbid();
 				}
 
-				var token = await tokenFactory.CreateToken(user, oAuthLogin, cancellationToken);
+				var token = tokenFactory.CreateToken(user, oAuthLogin);
 				if (usingSystemIdentity)
 				{
 					// expire the identity slightly after the auth token in case of lag
-					var identExpiry = token.ExpiresAt;
+					var identExpiry = token.ParseJwt().ValidTo;
 					identExpiry += tokenFactory.ValidationParameters.ClockSkew;
 					identExpiry += TimeSpan.FromSeconds(15);
 					identityCache.CacheSystemIdentity(user, systemIdentity, identExpiry);

@@ -8,8 +8,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Primitives;
-using Microsoft.Net.Http.Headers;
 
 using Serilog.Context;
 
@@ -67,20 +65,6 @@ namespace Tgstation.Server.Host.Extensions
 		}
 
 		/// <summary>
-		/// Suppress any client side caching of API calls.
-		/// </summary>
-		/// <param name="applicationBuilder">The <see cref="IApplicationBuilder"/> to configure.</param>
-		public static void UseDisabledClientCache(this IApplicationBuilder applicationBuilder)
-		{
-			ArgumentNullException.ThrowIfNull(applicationBuilder);
-			applicationBuilder.Use(async (context, next) =>
-			{
-				context.Response.Headers.Add(HeaderNames.CacheControl, new StringValues("no-cache"));
-				await next();
-			});
-		}
-
-		/// <summary>
 		/// Suppress <see cref="global::System.Threading.Tasks.TaskCanceledException"/> warnings when a user aborts a request.
 		/// </summary>
 		/// <param name="applicationBuilder">The <see cref="IApplicationBuilder"/> to configure.</param>
@@ -132,6 +116,32 @@ namespace Tgstation.Server.Host.Extensions
 						HttpContext = context,
 					});
 				}
+			});
+		}
+
+		/// <summary>
+		/// Check that the API version is the current major version if it's present in the headers.
+		/// </summary>
+		/// <param name="applicationBuilder">The <see cref="IApplicationBuilder"/> to configure.</param>
+		public static void UseApiCompatibility(this IApplicationBuilder applicationBuilder)
+		{
+			ArgumentNullException.ThrowIfNull(applicationBuilder);
+
+			applicationBuilder.Use(async (context, next) =>
+			{
+				var apiHeadersProvider = context.RequestServices.GetRequiredService<IApiHeadersProvider>();
+				if (apiHeadersProvider.ApiHeaders?.Compatible() == false)
+				{
+					await new BadRequestObjectResult(
+						new ErrorMessageResponse(ErrorCode.ApiMismatch))
+					.ExecuteResultAsync(new ActionContext
+					{
+						HttpContext = context,
+					});
+					return;
+				}
+
+				await next();
 			});
 		}
 

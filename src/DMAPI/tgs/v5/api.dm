@@ -4,6 +4,7 @@
 
 	var/instance_name
 	var/security_level
+	var/visibility
 
 	var/reboot_mode = TGS_REBOOT_MODE_NORMAL
 
@@ -16,6 +17,8 @@
 	var/list/chat_channels
 
 	var/initialized = FALSE
+	var/initial_bridge_request_received = FALSE
+	var/datum/tgs_version/interop_version
 
 	var/chunked_requests = 0
 	var/list/chunked_topics = list()
@@ -24,7 +27,8 @@
 
 /datum/tgs_api/v5/New()
 	. = ..()
-	TGS_DEBUG_LOG("V5 API created")
+	interop_version = version
+	TGS_DEBUG_LOG("V5 API created: [json_encode(args)]")
 
 /datum/tgs_api/v5/ApiVersion()
 	return new /datum/tgs_version(
@@ -37,7 +41,7 @@
 	access_identifier = world.params[DMAPI5_PARAM_ACCESS_IDENTIFIER]
 
 	var/datum/tgs_version/api_version = ApiVersion()
-	version = null
+	version = null // we want this to be the TGS version, not the interop version
 	var/list/bridge_response = Bridge(DMAPI5_BRIDGE_COMMAND_STARTUP, list(DMAPI5_BRIDGE_PARAMETER_MINIMUM_SECURITY_LEVEL = minimum_required_security_level, DMAPI5_BRIDGE_PARAMETER_VERSION = api_version.raw_parameter, DMAPI5_PARAMETER_CUSTOM_COMMANDS = ListCustomCommands()))
 	if(!istype(bridge_response))
 		TGS_ERROR_LOG("Failed initial bridge request!")
@@ -50,10 +54,12 @@
 
 	if(runtime_information[DMAPI5_RUNTIME_INFORMATION_API_VALIDATE_ONLY])
 		TGS_INFO_LOG("DMAPI validation, exiting...")
-		del(world)
+		TerminateWorld()
 
-	version = new /datum/tgs_version(runtime_information[DMAPI5_RUNTIME_INFORMATION_SERVER_VERSION])
+	initial_bridge_request_received = TRUE
+	version = new /datum/tgs_version(runtime_information[DMAPI5_RUNTIME_INFORMATION_SERVER_VERSION]) // reassigning this because it can change if TGS updates
 	security_level = runtime_information[DMAPI5_RUNTIME_INFORMATION_SECURITY_LEVEL]
+	visibility = runtime_information[DMAPI5_RUNTIME_INFORMATION_VISIBILITY]
 	instance_name = runtime_information[DMAPI5_RUNTIME_INFORMATION_INSTANCE_NAME]
 
 	var/list/revisionData = runtime_information[DMAPI5_RUNTIME_INFORMATION_REVISION]
@@ -103,7 +109,7 @@
 /datum/tgs_api/v5/proc/RequireInitialBridgeResponse()
 	TGS_DEBUG_LOG("RequireInitialBridgeResponse()")
 	var/logged = FALSE
-	while(!version)
+	while(!initial_bridge_request_received)
 		if(!logged)
 			TGS_DEBUG_LOG("RequireInitialBridgeResponse: Starting sleep")
 			logged = TRUE
@@ -252,3 +258,7 @@
 /datum/tgs_api/v5/SecurityLevel()
 	RequireInitialBridgeResponse()
 	return security_level
+
+/datum/tgs_api/v5/Visibility()
+	RequireInitialBridgeResponse()
+	return visibility

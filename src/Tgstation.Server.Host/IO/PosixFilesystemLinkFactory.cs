@@ -8,12 +8,28 @@ using Mono.Unix;
 namespace Tgstation.Server.Host.IO
 {
 	/// <summary>
-	/// <see cref="ISymlinkFactory"/> for posix systems.
+	/// <see cref="IFilesystemLinkFactory"/> for POSIX systems.
 	/// </summary>
-	sealed class PosixSymlinkFactory : ISymlinkFactory
+	sealed class PosixFilesystemLinkFactory : IFilesystemLinkFactory
 	{
 		/// <inheritdoc />
 		public bool SymlinkedDirectoriesAreDeletedAsFiles => true;
+
+		/// <inheritdoc />
+		public Task CreateHardLink(string targetPath, string linkPath, CancellationToken cancellationToken) => Task.Factory.StartNew(
+			() =>
+			{
+				ArgumentNullException.ThrowIfNull(targetPath);
+				ArgumentNullException.ThrowIfNull(linkPath);
+
+				cancellationToken.ThrowIfCancellationRequested();
+				var fsInfo = new UnixFileInfo(targetPath);
+				cancellationToken.ThrowIfCancellationRequested();
+				fsInfo.CreateLink(linkPath);
+			},
+			cancellationToken,
+			DefaultIOManager.BlockingTaskCreationOptions,
+			TaskScheduler.Current);
 
 		/// <inheritdoc />
 		public Task CreateSymbolicLink(string targetPath, string linkPath, CancellationToken cancellationToken) => Task.Factory.StartNew(

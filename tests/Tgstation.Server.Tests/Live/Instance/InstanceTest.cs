@@ -43,6 +43,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			ushort ddPort,
 			bool highPrioDD,
 			bool lowPrioDeployment,
+			bool usingBasicWatchdog,
 			CancellationToken cancellationToken)
 		{
 			var byondTest = new ByondTest(instanceClient.Byond, instanceClient.Jobs, fileDownloader, instanceClient.Metadata);
@@ -63,10 +64,11 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 			await chatTask;
 			await dmTask;
+			await configTest.SetupDMApiTests(true, cancellationToken);
 			await byondTask;
 
 			await new WatchdogTest(
-				await ByondTest.GetEdgeVersion(fileDownloader, cancellationToken), instanceClient, instanceManager, serverPort, highPrioDD, ddPort).Run(cancellationToken);
+				await ByondTest.GetEdgeVersion(fileDownloader, cancellationToken), instanceClient, instanceManager, serverPort, highPrioDD, ddPort, usingBasicWatchdog).Run(cancellationToken);
 		}
 
 		public async Task RunCompatTests(
@@ -75,6 +77,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			ushort dmPort,
 			ushort ddPort,
 			bool highPrioDD,
+			bool usingBasicWatchdog,
 			CancellationToken cancellationToken)
 		{
 			System.Console.WriteLine($"COMPAT TEST START: {compatVersion}");
@@ -162,17 +165,20 @@ namespace Tgstation.Server.Tests.Live.Instance
 			await chatRequest;
 			await Task.Yield();
 
-			var jobs = await instanceClient.Jobs.List(null, cancellationToken);
-			var theJobWeWant = jobs.First(x => x.Description.Contains("Reconnect chat bot"));
 
 			await Task.WhenAll(
 				jrt.WaitForJob(installJob2.InstallJob, 60, false, null, cancellationToken),
 				jrt.WaitForJob(cloneRequest.Result.ActiveJob, 60, false, null, cancellationToken),
-				jrt.WaitForJob(theJobWeWant, 30, false, null, cancellationToken),
 				dmUpdateRequest.AsTask(),
 				cloneRequest.AsTask());
 
-			var configSetupTask = new ConfigurationTest(instanceClient.Configuration, instanceClient.Metadata).SetupDMApiTests(cancellationToken);
+			var jobs = await instanceClient.Jobs.List(null, cancellationToken);
+			var theJobWeWant = jobs
+				.OrderByDescending(x => x.StartedAt)
+				.First(x => x.Description.Contains("Reconnect chat bot"));
+			await jrt.WaitForJob(theJobWeWant, 30, false, null, cancellationToken);
+
+			var configSetupTask = new ConfigurationTest(instanceClient.Configuration, instanceClient.Metadata).SetupDMApiTests(true, cancellationToken);
 
 			if (TestingUtils.RunningInGitHubActions
 				|| String.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("TGS_TEST_GITHUB_TOKEN"))
@@ -188,7 +194,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 			await configSetupTask;
 
-			await new WatchdogTest(compatVersion, instanceClient, instanceManager, serverPort, highPrioDD, ddPort).Run(cancellationToken);
+			await new WatchdogTest(compatVersion, instanceClient, instanceManager, serverPort, highPrioDD, ddPort, usingBasicWatchdog).Run(cancellationToken);
 
 			await instanceManagerClient.Update(new InstanceUpdateRequest
 			{

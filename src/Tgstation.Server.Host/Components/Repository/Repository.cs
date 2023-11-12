@@ -450,6 +450,7 @@ namespace Tgstation.Server.Host.Components.Repository
 								OnTransferProgress = TransferProgressHandler(progressReporter.CreateSection("Fetch Origin", 1.0), cancellationToken),
 								OnUpdateTips = (a, b, c) => !cancellationToken.IsCancellationRequested,
 								CredentialsProvider = credentialsProvider.GenerateCredentialsHandler(username, password),
+								TagFetchMode = TagFetchMode.All,
 							},
 							"Fetch origin commits");
 					}
