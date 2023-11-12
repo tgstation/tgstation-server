@@ -114,60 +114,81 @@ namespace Tgstation.Server.Host.Jobs
 		}
 
 		/// <inheritdoc />
-		public ValueTask RegisterOperation(Job job, JobEntrypoint operation, CancellationToken cancellationToken)
-			=> databaseContextFactory.UseContext(
+		public async ValueTask RegisterOperation(Job job, JobEntrypoint operation, CancellationToken cancellationToken)
+		{
+			ArgumentNullException.ThrowIfNull(job);
+			ArgumentNullException.ThrowIfNull(operation);
+
+			job.StartedAt = DateTimeOffset.UtcNow;
+			job.Cancelled = false;
+
+			if (job.StartedBy != null)
+			{
+				if (!job.StartedBy.Id.HasValue)
+					throw new InvalidOperationException("StartedBy User associated with job does not have an Id!");
+
+				if (job.StartedBy.Name == null)
+					throw new InvalidOperationException("StartedBy User associated with job does not have a Name!");
+			}
+
+			var originalStartedBy = job.StartedBy;
+			await databaseContextFactory.UseContext(
 				async databaseContext =>
 				{
-					ArgumentNullException.ThrowIfNull(job);
-					ArgumentNullException.ThrowIfNull(operation);
-
-					job.StartedAt = DateTimeOffset.UtcNow;
-					job.Cancelled = false;
-
 					job.Instance = new Models.Instance
 					{
 						Id = job.Instance.Id.Value,
 					};
+
 					databaseContext.Instances.Attach(job.Instance);
 
-					if (job.StartedBy == null)
-						job.StartedBy = await databaseContext
-							.Users
-							.GetTgsUser(cancellationToken);
-					else
-						job.StartedBy = new User
-						{
-							Id = job.StartedBy.Id ?? throw new InvalidOperationException("StartedBy User associated with job does not have an Id!"),
-						};
+					originalStartedBy ??= await databaseContext
+						.Users
+						.GetTgsUser(
+							dbUser => new User
+							{
+								Id = dbUser.Id.Value,
+								Name = dbUser.Name,
+							},
+							cancellationToken);
+
+					job.StartedBy = new User
+					{
+						Id = originalStartedBy.Id.Value,
+					};
+
 					databaseContext.Users.Attach(job.StartedBy);
 
 					databaseContext.Jobs.Add(job);
 
 					await databaseContext.Save(cancellationToken);
-
-					logger.LogDebug("Registering job {jobId}: {jobDesc}...", job.Id, job.Description);
-					var jobHandler = new JobHandler(jobCancellationToken => RunJob(job, operation, jobCancellationToken));
-					try
-					{
-						lock (addCancelLock)
-						{
-							bool jobShouldStart;
-							lock (synchronizationLock)
-							{
-								jobs.Add(job.Id.Value, jobHandler);
-								jobShouldStart = !noMoreJobsShouldStart;
-							}
-
-							if (jobShouldStart)
-								jobHandler.Start();
-						}
-					}
-					catch
-					{
-						jobHandler.Dispose();
-						throw;
-					}
 				});
+
+			job.StartedBy = originalStartedBy;
+
+			logger.LogDebug("Registering job {jobId}: {jobDesc}...", job.Id, job.Description);
+			var jobHandler = new JobHandler(jobCancellationToken => RunJob(job, operation, jobCancellationToken));
+			try
+			{
+				lock (addCancelLock)
+				{
+					bool jobShouldStart;
+					lock (synchronizationLock)
+					{
+						jobs.Add(job.Id.Value, jobHandler);
+						jobShouldStart = !noMoreJobsShouldStart;
+					}
+
+					if (jobShouldStart)
+						jobHandler.Start();
+				}
+			}
+			catch
+			{
+				jobHandler.Dispose();
+				throw;
+			}
+		}
 
 		/// <inheritdoc />
 		public Task StartAsync(CancellationToken cancellationToken)
@@ -235,11 +256,22 @@ namespace Tgstation.Server.Host.Jobs
 
 			await databaseContextFactory.UseContext(async databaseContext =>
 			{
-				user ??= await databaseContext.Users.GetTgsUser(cancellationToken);
-
 				var updatedJob = new Job(job.Id.Value);
 				databaseContext.Jobs.Attach(updatedJob);
-				var attachedUser = new User { Id = user.Id };
+				var attachedUser = user == null
+					? await databaseContext
+						.Users
+						.GetTgsUser(
+							dbUser => new User
+							{
+								Id = dbUser.Id.Value,
+							},
+							cancellationToken)
+					: new User
+					{
+						Id = user.Id.Value,
+					};
+
 				databaseContext.Users.Attach(attachedUser);
 				updatedJob.CancelledBy = attachedUser;
 
@@ -465,7 +497,9 @@ namespace Tgstation.Server.Host.Jobs
 						// Resetting the context here because I CBA to worry if the cache is being used
 						await databaseContextFactory.UseContext(async databaseContext =>
 						{
-							// Cancellation might be set in another async context, forced to reload here for the final hub update
+							// Cancellation might be set in another async context
+							// Also, startedby could have been renamed
+							// forced to reload here for the final hub update
 							// DCT: Cancellation token is for job, operation should always run
 							var finalJob = await databaseContext
 								.Jobs
