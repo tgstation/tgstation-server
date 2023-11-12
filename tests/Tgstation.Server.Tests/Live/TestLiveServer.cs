@@ -1610,6 +1610,8 @@ namespace Tgstation.Server.Tests.Live
 					await new ChatTest(instanceClient.ChatBots, adminClient.Instances, instanceClient.Jobs, instance).RunPostTest(cancellationToken);
 					await repoTest;
 
+					await DummyChatProvider.RandomDisconnections(false, cancellationToken);
+
 					jobsHubTest.CompleteNow();
 					await jobsHubTestTask;
 

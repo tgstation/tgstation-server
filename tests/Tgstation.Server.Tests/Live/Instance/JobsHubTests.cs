@@ -53,6 +53,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 				Assert.IsTrue(job.InstanceId.HasValue);
 				Assert.IsNotNull(job.StartedBy);
 				Assert.IsTrue(job.StartedBy.Id.HasValue);
+				Assert.IsNotNull(job.StartedBy.Name);
 				Assert.IsTrue(job.StartedAt.HasValue);
 				Assert.IsNotNull(job.Description);
 
