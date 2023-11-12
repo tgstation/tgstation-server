@@ -37,7 +37,7 @@ namespace Tgstation.Server.Tests.Live
 			var token = serverClient.Token.Bearer;
 			// check that 400s are returned appropriately
 			using var httpClient = new HttpClient();
-			using (var request = new HttpRequestMessage(HttpMethod.Get, url.ToString()))
+			using (var request = new HttpRequestMessage(HttpMethod.Get, url.ToString() + Routes.ApiRoot.TrimStart('/')))
 			{
 				request.Headers.Accept.Clear();
 				request.Headers.UserAgent.Add(new ProductInfoHeaderValue("RootTest", "1.0.0"));
@@ -45,7 +45,7 @@ namespace Tgstation.Server.Tests.Live
 				Assert.AreEqual(HttpStatusCode.NotAcceptable, response.StatusCode);
 			}
 
-			using (var request = new HttpRequestMessage(HttpMethod.Get, url.ToString()))
+			using (var request = new HttpRequestMessage(HttpMethod.Get, url.ToString() + Routes.ApiRoot.TrimStart('/')))
 			{
 				request.Headers.Accept.Clear();
 				request.Headers.UserAgent.Add(new ProductInfoHeaderValue("RootTest", "1.0.0"));
@@ -54,7 +54,7 @@ namespace Tgstation.Server.Tests.Live
 				Assert.AreEqual(HttpStatusCode.NotAcceptable, response.StatusCode);
 			}
 
-			using (var request = new HttpRequestMessage(HttpMethod.Get, url.ToString()))
+			using (var request = new HttpRequestMessage(HttpMethod.Get, url.ToString() + Routes.ApiRoot.TrimStart('/')))
 			{
 				request.Headers.Accept.Clear();
 				request.Headers.UserAgent.Add(new ProductInfoHeaderValue("RootTest", "1.0.0"));
@@ -66,7 +66,7 @@ namespace Tgstation.Server.Tests.Live
 				Assert.AreEqual(ErrorCode.BadHeaders, message.ErrorCode);
 			}
 
-			using (var request = new HttpRequestMessage(HttpMethod.Get, url.ToString()))
+			using (var request = new HttpRequestMessage(HttpMethod.Get, url.ToString() + Routes.ApiRoot.TrimStart('/')))
 			{
 				request.Headers.Accept.Clear();
 				request.Headers.UserAgent.Add(new ProductInfoHeaderValue("RootTest", "1.0.0"));
@@ -79,7 +79,7 @@ namespace Tgstation.Server.Tests.Live
 				Assert.AreEqual(ApiHeaders.Version, message.ApiVersion);
 			}
 
-			using (var request = new HttpRequestMessage(HttpMethod.Get, url.ToString()))
+			using (var request = new HttpRequestMessage(HttpMethod.Get, url.ToString() + Routes.ApiRoot.TrimStart('/')))
 			{
 				request.Headers.Accept.Clear();
 				request.Headers.UserAgent.Add(new ProductInfoHeaderValue("RootTest", "1.0.0"));
@@ -149,7 +149,7 @@ namespace Tgstation.Server.Tests.Live
 				Assert.AreEqual(ErrorCode.InstanceHeaderRequired, message.ErrorCode);
 			}
 
-			using (var request = new HttpRequestMessage(HttpMethod.Get, url.ToString()))
+			using (var request = new HttpRequestMessage(HttpMethod.Get, url.ToString() + Routes.ApiRoot.TrimStart('/')))
 			{
 				request.Headers.Accept.Clear();
 				request.Headers.UserAgent.Add(new ProductInfoHeaderValue("RootTest", "1.0.0"));
@@ -163,7 +163,7 @@ namespace Tgstation.Server.Tests.Live
 				Assert.AreEqual(ErrorCode.BadHeaders, message.ErrorCode);
 			}
 
-			using (var request = new HttpRequestMessage(HttpMethod.Post, url.ToString()))
+			using (var request = new HttpRequestMessage(HttpMethod.Post, url.ToString() + Routes.ApiRoot.TrimStart('/')))
 			{
 				request.Headers.Accept.Clear();
 				request.Headers.UserAgent.Add(new ProductInfoHeaderValue("RootTest", "1.0.0"));
@@ -178,7 +178,7 @@ namespace Tgstation.Server.Tests.Live
 				Assert.AreEqual(ErrorCode.BadHeaders, message.ErrorCode);
 			}
 
-			using (var request = new HttpRequestMessage(HttpMethod.Get, url.ToString()))
+			using (var request = new HttpRequestMessage(HttpMethod.Get, url.ToString() + Routes.ApiRoot.TrimStart('/')))
 			{
 				request.Headers.Accept.Clear();
 				request.Headers.UserAgent.Add(new ProductInfoHeaderValue("RootTest", "1.0.0"));
@@ -232,7 +232,7 @@ namespace Tgstation.Server.Tests.Live
 
 			// just hitting each type of oauth provider for coverage
 			foreach (var I in Enum.GetValues(typeof(OAuthProvider)))
-				using (var request = new HttpRequestMessage(HttpMethod.Post, url.ToString()))
+				using (var request = new HttpRequestMessage(HttpMethod.Post, url.ToString() + Routes.ApiRoot.TrimStart('/')))
 				{
 					request.Headers.Accept.Clear();
 					request.Headers.UserAgent.Add(new ProductInfoHeaderValue("RootTest", "1.0.0"));

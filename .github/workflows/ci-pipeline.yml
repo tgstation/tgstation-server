@@ -526,7 +526,7 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: openapi-spec
-        path: C:/swagger.json
+        path: C:/tgs_api.json
 
     - name: Package Server Service
       if: ${{ matrix.configuration == 'Release' && matrix.watchdog-type == 'Basic' }}
@@ -755,7 +755,7 @@ jobs:
         path: ./swagger
 
     - name: Lint OpenAPI Spec
-      run: npx lint-openapi -v -p -c build/OpenApiValidationSettings.json ./swagger/swagger.json
+      run: npx lint-openapi -v -p -c build/OpenApiValidationSettings.json ./swagger/tgs_api.json
 
   upload-code-coverage:
     name: Upload Code Coverage
@@ -1363,7 +1363,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.DEV_PUSH_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./swagger/swagger.json
+        asset_path: ./swagger/tgs_api.json
         asset_name: swagger.json
         asset_content_type: application/json
 
@@ -1671,7 +1671,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.DEV_PUSH_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./swagger/swagger.json
+        asset_path: ./swagger/tgs_api.json
         asset_name: swagger.json
         asset_content_type: application/json
 

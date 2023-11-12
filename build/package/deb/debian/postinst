@@ -1,14 +1,16 @@
 #!/bin/sh -e
 
-adduser --system tgstation-server
-mkdir -m 754 -p /var/log/tgstation-server
-chown -R tgstation-server /etc/tgstation-server
-chown -R tgstation-server /opt/tgstation-server
-chown -R tgstation-server /var/log/tgstation-server
+if [ -z "$2" ]; then
+	adduser --system tgstation-server
+	mkdir -m 754 -p /var/log/tgstation-server
+	chown -R tgstation-server /etc/tgstation-server
+	chown -R tgstation-server /opt/tgstation-server/lib
+	chown -R tgstation-server /var/log/tgstation-server
+fi
 
 #DEBHELPER#
 
-if [ "$1" = "configure" ]; then
+if [ -z "$2" ]; then
 	deb-systemd-helper stop 'tgstation-server.service' >/dev/null || true
 
 	echo "  _            _        _   _                                                "

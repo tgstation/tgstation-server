@@ -16,7 +16,7 @@ namespace Tgstation.Server.Client
 	public interface IServerClient : IAsyncDisposable
 	{
 		/// <summary>
-		/// The connected server <see cref="Uri"/>.
+		/// The connected server's root <see cref="Uri"/>.
 		/// </summary>
 		Uri Url { get; }
 

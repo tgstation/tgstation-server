@@ -48,7 +48,9 @@
 	var/json = CreateBridgeData(command, data, TRUE)
 	var/encoded_json = url_encode(json)
 
-	var/url = "http://127.0.0.1:[server_port]/Bridge?[DMAPI5_BRIDGE_DATA]=[encoded_json]"
+	var/api_prefix = interop_version.minor >= 7 ? "api/" : ""
+
+	var/url = "http://127.0.0.1:[server_port]/[api_prefix]Bridge?[DMAPI5_BRIDGE_DATA]=[encoded_json]"
 	return url
 
 /datum/tgs_api/v5/proc/CreateBridgeData(command, list/data, needs_auth)

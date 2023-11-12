@@ -233,6 +233,8 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 			await RegressionTest1550(cancellationToken);
 
+			await TestLegacyBridgeEndpoint(cancellationToken);
+
 			var deleteJobTask = TestDeleteByondInstallErrorCasesAndQueing(cancellationToken);
 
 			SessionController.LogTopicRequests = false;
@@ -1380,6 +1382,14 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 			var logtext = await File.ReadAllTextAsync(logfile.FullName, cancellationToken);
 			Assert.IsFalse(String.IsNullOrWhiteSpace(logtext));
+		}
+
+		async ValueTask TestLegacyBridgeEndpoint(CancellationToken cancellationToken)
+		{
+			var result = await topicClient.SendTopic(IPAddress.Loopback, "im_out_of_memes=1", ddPort, cancellationToken);
+			Assert.AreEqual("yeah gimmie a sec", result.StringData);
+			await Task.Delay(TimeSpan.FromSeconds(10), cancellationToken);
+			await CheckDMApiFail((await instanceClient.DreamDaemon.Read(cancellationToken)).ActiveCompileJob, cancellationToken);
 		}
 	}
 }

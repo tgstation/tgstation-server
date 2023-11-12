@@ -1,9 +1,11 @@
 ﻿using System;
 using System.IO;
 using System.IO.Compression;
+using System.Globalization;
 using System.Linq;
 using System.Net.Http;
 using System.Reflection;
+using System.Security.Cryptography;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Xml.Linq;
@@ -24,10 +26,10 @@ using Tgstation.Server.Host;
 using Tgstation.Server.Host.Components.Engine;
 using Tgstation.Server.Host.Components.Interop;
 using Tgstation.Server.Host.Configuration;
+using Tgstation.Server.Host.Controllers;
 using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.System;
-using System.Net;
 using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Tests.Live;
@@ -404,6 +406,29 @@ namespace Tgstation.Server.Tests
 			Assert.AreEqual(latestMigrationMY, DatabaseContext.MYLatestMigration);
 			Assert.AreEqual(latestMigrationPG, DatabaseContext.PGLatestMigration);
 			Assert.AreEqual(latestMigrationSL, DatabaseContext.SLLatestMigration);
+		}
+
+		[TestMethod]
+		public async Task CheckWebRootPathForTgsLogo()
+		{
+			var directory = Path.GetFullPath("../../../../../src/Tgstation.Server.Host/wwwroot");
+			if (!Directory.Exists(directory))
+				Assert.Inconclusive("Webpanel not built?");
+
+			var logo = new PlatformIdentifier().IsWindows
+				? RootController.ProjectLogoSvgRouteWindows
+				: RootController.ProjectLogoSvgRouteLinux;
+
+			var path = $"../../../../../src/Tgstation.Server.Host/wwwroot{logo}";
+			Assert.IsTrue(File.Exists(path));
+
+			var content = await File.ReadAllBytesAsync(path);
+			var hash = String.Join(String.Empty, SHA1.HashData(content).Select(b => b.ToString("x2", CultureInfo.InvariantCulture)));
+			Assert.AreEqual(
+				new PlatformIdentifier().IsWindows
+					? "c5e4709774c14a6f376dbb5100bd80a0114a2287"
+					: "9eba2fac24c5c7e0008721690d07c3df575a00d6",
+				hash);
 		}
 
 		static async Task<Tuple<Stream, EngineVersion>> GetByondVersionPriorTo(ByondInstallerBase byondInstaller, Version version)

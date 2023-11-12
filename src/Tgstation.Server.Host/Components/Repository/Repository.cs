@@ -442,6 +442,7 @@ namespace Tgstation.Server.Host.Components.Repository
 							OnProgress = (a) => !cancellationToken.IsCancellationRequested,
 							OnUpdateTips = (a, b, c) => !cancellationToken.IsCancellationRequested,
 							CredentialsProvider = credentialsProvider.GenerateCredentialsHandler(username, password),
+							TagFetchMode = TagFetchMode.All,
 						};
 
 						if (progressReporter != null)

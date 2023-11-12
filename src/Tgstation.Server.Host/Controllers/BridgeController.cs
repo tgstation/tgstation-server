@@ -8,9 +8,12 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+
 using Newtonsoft.Json;
+
 using Serilog.Context;
 
+using Tgstation.Server.Api;
 using Tgstation.Server.Host.Components.Interop;
 using Tgstation.Server.Host.Components.Interop.Bridge;
 using Tgstation.Server.Host.Utils;
@@ -20,10 +23,16 @@ namespace Tgstation.Server.Host.Controllers
 	/// <summary>
 	/// <see cref="Controller"/> for receiving DMAPI requests from DreamDaemon.
 	/// </summary>
-	[Route("/Bridge")]
+	[Route("/" + RouteExtension)] // obsolete route, but BYOND can't handle a simple fucking 301
+	[Route(Routes.ApiRoot + RouteExtension)]
 	[ApiExplorerSettings(IgnoreApi = true)]
 	public sealed class BridgeController : ApiControllerBase
 	{
+		/// <summary>
+		/// The route to the <see cref="BridgeController"/>.
+		/// </summary>
+		const string RouteExtension = "Bridge";
+
 		/// <summary>
 		/// If the content of bridge requests and responses should be logged.
 		/// </summary>
