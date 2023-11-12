@@ -460,11 +460,32 @@ jobs:
         path: ~/byond-zips-cache
         key: byond-zips
 
-    - name: Run Live Tests
+    - name: Run Live Tests # Logging here is weird because printing massive amounts of text on Windows runners is SLOW AS SHIT!!!
+      id: live-tests
       run: |
         cd tests/Tgstation.Server.Tests
         Start-Sleep -Seconds 10
-        dotnet test -c ${{ matrix.configuration }} --no-build --filter TestCategory=RequiresDatabase --logger "GitHubActions;summary.includePassedTests=true;summary.includeSkippedTests=true" --collect:"XPlat Code Coverage" --settings ../../build/ci.runsettings --results-directory ../../TestResults
+        $ErrorActionPreference="SilentlyContinue"
+        $test_output = dotnet test -c ${{ matrix.configuration }} --no-build --filter TestCategory=RequiresDatabase --logger "GitHubActions;summary.includePassedTests=true;summary.includeSkippedTests=true" --collect:"XPlat Code Coverage" --settings ../../build/ci.runsettings --results-directory ../../TestResults
+        $succeeded = $?
+        $ErrorActionPreference="Stop"
+        cd ../..
+        $test_output | Out-File -FilePath ./test_output.txt
+        if (-Not $succeeded) {
+          echo "succeeded=NO" >> $env:GITHUB_OUTPUT
+        } else {
+          echo "succeeded=YES" >> $env:GITHUB_OUTPUT
+        }
+
+    - name: Store Live Tests Output
+      uses: actions/upload-artifact@v3
+      with:
+        name: windows-integration-test-logs-${{ matrix.configuration }}-${{ matrix.watchdog-type }}-${{ matrix.database-type }}
+        path: ./test_output.txt
+
+    - name: Fail if Live Tests Failed
+      if: ${{ steps.live-tests.outputs.succeeded != 'YES' }}
+      run: exit 1
 
     - name: Store Code Coverage
       uses: actions/upload-artifact@v3
