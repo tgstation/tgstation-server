@@ -189,6 +189,10 @@ Components:
       - Fixed upgrading on Debian/Ubuntu via `apt` always running first install steps.
       Author: Cyberboss
       PullRequest: 1705
+    - Descriptions:
+      - Fixed repository not fetching new tags for commits that already existed locally.
+      Author: Cyberboss
+      PullRequest: 1707
     Unreleased: true
   - Version: 5.17.1
     ComponentVersions:
