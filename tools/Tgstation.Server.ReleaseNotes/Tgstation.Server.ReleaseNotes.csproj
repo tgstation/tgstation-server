@@ -8,7 +8,7 @@
 
   <ItemGroup>
     <!-- Usage: GitHub Discussions interop -->
-    <PackageReference Include="Octokit.GraphQL" Version="0.2.1-beta" />
+    <PackageReference Include="Octokit.GraphQL" Version="0.3.0-beta" />
   </ItemGroup>
 
   <ItemGroup>
