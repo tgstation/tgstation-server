@@ -99,7 +99,7 @@
     <!-- Usage: GitHub.com interop -->
     <PackageReference Include="Octokit" Version="9.0.0" />
     <!-- Usage: MYSQL/MariaDB ORM plugin -->
-    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="8.0.0-beta.1" />
+    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="8.0.0-beta.2.ci.20231014172607" />
     <!-- Usage: Discord interop -->
     <PackageReference Include="Remora.Discord" Version="2023.4.0" />
     <!-- Usage: Rich logger builder -->
