@@ -117,6 +117,8 @@ namespace Tgstation.Server.Host.Jobs
 		{
 			ArgumentNullException.ThrowIfNull(authenticationContext);
 
+			logger.LogTrace("MapConnectionGroups UID: {uid}", authenticationContext.User.Id.Value);
+
 			List<long> permedInstanceIds = null;
 			await databaseContextFactory.UseContext(
 				async databaseContext =>
