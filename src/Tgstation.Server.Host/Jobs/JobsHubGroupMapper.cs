@@ -126,7 +126,7 @@ namespace Tgstation.Server.Host.Jobs
 						.InstancePermissionSets
 						.AsQueryable()
 						.Where(ips => ips.PermissionSetId == authenticationContext.PermissionSet.Id.Value)
-						.Select(ips => ips.Id)
+						.Select(ips => ips.InstanceId)
 						.ToListAsync(cancellationToken));
 
 			await mappingFunc(
