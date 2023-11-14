@@ -47,7 +47,7 @@ namespace Tgstation.Server.Host.Database
 					databaseConfiguration.ServerVersion,
 					databaseConfiguration.DatabaseType == DatabaseType.MariaDB
 						? ServerType.MariaDb
-				: ServerType.MySql);
+						: ServerType.MySql);
 			}
 			else
 				serverVersion = ServerVersion.AutoDetect(databaseConfiguration.ConnectionString);

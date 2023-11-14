@@ -1518,7 +1518,9 @@ jobs:
       run: |
         [XML]$versionXML = Get-Content build/Version.props
         $tgsVersion = $versionXML.Project.PropertyGroup.TgsCoreVersion
+        $mariaDBVerison = $versionXML.Project.PropertyGroup.TgsMariaDBRedistVersion
         echo "TGS_VERSION=$tgsVersion" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf8 -Append
+        echo "MARIADB_VERSION=$mariaDBVerison" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf8 -Append
 
     - name: Upload .msi
       uses: actions/upload-artifact@v3
@@ -1659,6 +1661,16 @@ jobs:
         asset_path: ./packaging-debian/tgstation-server-v${{ env.TGS_VERSION }}.debian.packaging.tar.xz
         asset_name: tgstation-server-v${{ env.TGS_VERSION }}.debian.packaging.tar.xz
         asset_content_type: application/x-tar
+
+    - name: Upload MariaDB .msi
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.DEV_PUSH_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./build/package/winget/Tgstation.Server.Host.Service.Wix.Bundle/bin/Release/mariadb.msi
+        asset_name: mariadb-${{ env.MARIADB_VERSION }}-winx64.msi
+        asset_content_type: application/octet-stream
 
     - name: Upload Installer .exe
       uses: actions/upload-release-asset@v1
