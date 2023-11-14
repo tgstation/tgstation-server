@@ -85,9 +85,17 @@ namespace Tgstation.Server.Host.Utils.SignalR
 
 			var mappingTask = OnConnectionMapGroups?.Invoke(
 				authenticationContext,
-				mappedGroups => Task.WhenAll(
-					mappedGroups.Select(
-						group => hub.Groups.AddToGroupAsync(context.ConnectionId, group, cancellationToken))),
+				mappedGroups =>
+				{
+					mappedGroups = mappedGroups.ToList();
+					logger.LogTrace(
+						"Mapping connection ID {connectionId} with groups: {mappedGroups}",
+						context.ConnectionId,
+						String.Join(", ", mappedGroups));
+					return Task.WhenAll(
+						mappedGroups.Select(
+							group => hub.Groups.AddToGroupAsync(context.ConnectionId, group, cancellationToken)));
+				},
 				cancellationToken)
 				?? ValueTask.CompletedTask;
 			userConnections.AddOrUpdate(

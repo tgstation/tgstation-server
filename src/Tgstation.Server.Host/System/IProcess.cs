@@ -26,7 +26,7 @@ namespace Tgstation.Server.Host.System
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the stderr and stdout output of the <see cref="IProcess"/>.</returns>
 		/// <remarks>
 		/// To guarantee that all data is received from the <see cref="IProcess"/> when redirecting streams to a file
-		/// the result of this function must be <see langword="await"/>ed before <see cref="IDisposable.Dispose"/> is called.
+		/// the result of this function must be <see langword="await"/>ed before <see cref="IAsyncDisposable.DisposeAsync"/> is called.
 		/// </remarks>
 		Task<string> GetCombinedOutput(CancellationToken cancellationToken);
 
