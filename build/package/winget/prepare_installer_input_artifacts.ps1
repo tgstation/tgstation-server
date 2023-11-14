@@ -13,7 +13,21 @@ try
 
     [XML]$versionXML = Get-Content build/Version.props -ErrorAction Stop
     $redistUrl = $versionXML.Project.PropertyGroup.TgsDotnetRedistUrl
-    $dbRedistUrl = $versionXML.Project.PropertyGroup.TgsMariaDBRedistUrl
+
+    $dbRedistVersion = $versionXML.Project.PropertyGroup.TgsMariaDBRedistVersion
+
+    $dbRedistMinorVersion = $dbRedistVersion.Substring(0, $dbRedistVersion.LastIndexOf("."))
+
+    $ProgressPreference = 'SilentlyContinue'
+    try
+    {
+        $json=Invoke-RestMethod -Uri "https://downloads.mariadb.org/rest-api/mariadb/${dbRedistMinorVersion}/"
+    } finally {
+        $ProgressPreference = $previousProgressPreference
+    }
+
+    $msiFile = $json.releases.$dbRedistVersion.files | Where-Object { $_.package_type -eq "MSI Package" } | Select-Object -First 1
+    $dbRedistUrl = $msiFile.file_download_url
 
     mkdir artifacts
     $previousProgressPreference = $ProgressPreference
