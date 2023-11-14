@@ -5,5 +5,5 @@
 <area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#a193b8881a4e6293ecbb071bdf0714ee0" title="Runner for JobHandlers." alt="" coords="265,133,447,173"/>
 <area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_compile_job.html#a4b92dec44bb4d23b320ea6a17263308e" title=" " alt="" coords="258,197,454,237"/>
 <area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_controller.html#a709c5985e78cdb8bde3f705869ddafb9" title="Modify an Api.Models.Instance&#39;s settings." alt="" coords="248,261,464,301"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#af2255b562972f70a638cf93cd830b6a9" title="Registers a given Job and begins running it. A ValueTask representing a running operation." alt="" coords="5,133,200,173"/>
+<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#ac57bb62634696c6dd5d50f333c0bf4c3" title="Registers a given Job and begins running it. A ValueTask representing a running operation." alt="" coords="5,133,200,173"/>
 </map>

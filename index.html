@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.17.2</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.17.3</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -333,6 +333,7 @@ Remote Access</h2>
 <p >Exposing the builtin Kestrel server to the internet directly over HTTP is highly not reccommended due to the lack of security. The recommended way to expose tgstation-server to the internet is to host it through a reverse proxy with HTTPS support. Here are some step by step examples to achieve this for major web servers.</p>
 <p >System administrators will most likely have their own configuration plans, but here are some basic guides for beginners.</p>
 <p >Once complete, test that your configuration worked by visiting your proxy site from a browser on a different computer. You should recieve a 401 Unauthorized response.</p>
+<p ><em>NOTE: For SignalR to function properly, make sure your reverse proxy setup supports SSE (Server-Sent Events)</em></p>
 <h3><a class="anchor" id="autotoc_md23"></a>
 IIS (Reccommended for Windows)</h3>
 <ol type="1">

@@ -184,8 +184,25 @@ Components:
     Changes: []
     Unreleased: true
   - Version: 5.17.3
-    ComponentVersions: {}
-    Changes: []
+    ComponentVersions:
+      HttpApi: 9.13.0
+      DreamMakerApi: 6.6.2
+      Configuration: 4.7.1
+      InteropApi: 5.6.2
+      HostWatchdog: 1.4.0
+      NugetCommon: 7.0.0
+      NugetApi: 12.0.1
+      NugetClient: 14.1.0
+      WebControlPanel: 4.26.2
+    Changes:
+    - Descriptions:
+      - Fixed `startedBy.Name` not being set in jobs hub updates.
+      Author: Cyberboss
+      PullRequest: 1712
+    - Descriptions:
+      - Fixed logic error incorrectly mismatching users with the instances they should receive SignalR job updates for.
+      Author: Cyberboss
+      PullRequest: 1714
     Unreleased: true
   - Version: 5.17.2
     ComponentVersions:

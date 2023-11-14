@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.17.2</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.17.3</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -173,7 +173,7 @@ Properties</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in the stderr and stdout output of the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process.html" title="Abstraction over a global::System.Diagnostics.Process.">IProcess</a>.</dd></dl>
-<p >To guarantee that all data is received from the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process.html" title="Abstraction over a global::System.Diagnostics.Process.">IProcess</a> when redirecting streams to a file the result of this function must be <code>await</code>ed before IDisposable.Dispose is called. </p>
+<p >To guarantee that all data is received from the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process.html" title="Abstraction over a global::System.Diagnostics.Process.">IProcess</a> when redirecting streams to a file the result of this function must be <code>await</code>ed before IAsyncDisposable.DisposeAsync is called. </p>
 
 <p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process.html#a4a0ba919002a93e731f964d12dc67042">Tgstation.Server.Host.System.Process</a>.</p>
 

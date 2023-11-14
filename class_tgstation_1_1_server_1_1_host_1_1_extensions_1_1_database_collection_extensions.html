@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.17.2</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.17.3</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -86,17 +86,17 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
-<tr class="memitem:ae1e4ad6d26caa62e3d9e10267831b772"><td class="memItemLeft" align="right" valign="top">static Task&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html">User</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_database_collection_extensions.html#ae1e4ad6d26caa62e3d9e10267831b772">GetTgsUser</a> (this <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_collection.html">IDatabaseCollection</a>&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html">User</a> &gt; databaseCollection, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:ae1e4ad6d26caa62e3d9e10267831b772"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the unattached, unpopulated User with the name <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html#a2e68345f5d52c8ba64dca5ec061d029d" title="Username used when creating jobs automatically.">User.TgsSystemUserName</a>.   <a href="class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_database_collection_extensions.html#ae1e4ad6d26caa62e3d9e10267831b772">More...</a><br /></td></tr>
-<tr class="separator:ae1e4ad6d26caa62e3d9e10267831b772"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2589e6a00a1bb42aa95f8a1b863003ce"><td class="memItemLeft" align="right" valign="top">static Task&lt; TResult &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_database_collection_extensions.html#a2589e6a00a1bb42aa95f8a1b863003ce">GetTgsUser&lt; TResult &gt;</a> (this <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_collection.html">IDatabaseCollection</a>&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html">User</a> &gt; databaseCollection, Expression&lt; Func&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html">User</a>, TResult &gt; &gt; selector, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a2589e6a00a1bb42aa95f8a1b863003ce"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets User with the name <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html#a2e68345f5d52c8ba64dca5ec061d029d" title="Username used when creating jobs automatically.">User.TgsSystemUserName</a>.   <a href="class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_database_collection_extensions.html#a2589e6a00a1bb42aa95f8a1b863003ce">More...</a><br /></td></tr>
+<tr class="separator:a2589e6a00a1bb42aa95f8a1b863003ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p >Extension methods for the IDatabaseCollection&lt;TModel&gt; <code>interface</code>.  </p>
 
-<p class="definition">Definition at line <a class="el" href="_database_collection_extensions_8cs_source.html#l00015">15</a> of file <a class="el" href="_database_collection_extensions_8cs_source.html">DatabaseCollectionExtensions.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_database_collection_extensions_8cs_source.html#l00017">17</a> of file <a class="el" href="_database_collection_extensions_8cs_source.html">DatabaseCollectionExtensions.cs</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a id="ae1e4ad6d26caa62e3d9e10267831b772" name="ae1e4ad6d26caa62e3d9e10267831b772"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae1e4ad6d26caa62e3d9e10267831b772">&#9670;&#160;</a></span>GetTgsUser()</h2>
+<a id="a2589e6a00a1bb42aa95f8a1b863003ce" name="a2589e6a00a1bb42aa95f8a1b863003ce"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2589e6a00a1bb42aa95f8a1b863003ce">&#9670;&#160;</a></span>GetTgsUser&lt; TResult &gt;()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -105,10 +105,16 @@ Static Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static Task&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html">User</a> &gt; Tgstation.Server.Host.Extensions.DatabaseCollectionExtensions.GetTgsUser </td>
+          <td class="memname">static Task&lt; TResult &gt; Tgstation.Server.Host.Extensions.DatabaseCollectionExtensions.GetTgsUser&lt; TResult &gt; </td>
           <td>(</td>
           <td class="paramtype">this <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_collection.html">IDatabaseCollection</a>&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html">User</a> &gt;&#160;</td>
           <td class="paramname"><em>databaseCollection</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Expression&lt; Func&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html">User</a>, TResult &gt; &gt;&#160;</td>
+          <td class="paramname"><em>selector</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -129,17 +135,48 @@ Static Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Gets the unattached, unpopulated User with the name <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html#a2e68345f5d52c8ba64dca5ec061d029d" title="Username used when creating jobs automatically.">User.TgsSystemUserName</a>.  </p>
+<p>Gets User with the name <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html#a2e68345f5d52c8ba64dca5ec061d029d" title="Username used when creating jobs automatically.">User.TgsSystemUserName</a>.  </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">TResult</td><td>The transformed return Type.</td></tr>
+  </table>
+  </dd>
+</dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">databaseCollection</td><td>The IDatabaseCollection&lt;TModel&gt; of Users to operate on.</td></tr>
+    <tr><td class="paramname">selector</td><td>A selecting Expression for transforming the returned User into the <em>TResult</em> .</td></tr>
     <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in the unattached TGS User on success, <code>null</code> on failure.</dd></dl>
 
-<p class="reference">References <a class="el" href="_entity_id_8cs_source.html#l00013">Tgstation.Server.Api.Models.EntityId.Id</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_database_collection_extensions_8cs_source.html#l00027">27</a> of file <a class="el" href="_database_collection_extensions_8cs_source.html">DatabaseCollectionExtensions.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   31</span>        {</div>
+<div class="line"><span class="lineno">   32</span>            ArgumentNullException.ThrowIfNull(databaseCollection);</div>
+<div class="line"><span class="lineno">   33</span>            ArgumentNullException.ThrowIfNull(selector);</div>
+<div class="line"><span class="lineno">   34</span> </div>
+<div class="line"><span class="lineno">   35</span>            <span class="keywordflow">return</span> databaseCollection</div>
+<div class="line"><span class="lineno">   36</span>                .AsQueryable()</div>
+<div class="line"><span class="lineno">   37</span>                .Where(x =&gt; x.CanonicalName == <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html">User</a>.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html#a4b139051d0d6db501e37590fa1eabf16">CanonicalizeName</a>(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html">User</a>.<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html#a2e68345f5d52c8ba64dca5ec061d029d">TgsSystemUserName</a>))</div>
+<div class="line"><span class="lineno">   38</span>                .Select(selector)</div>
+<div class="line"><span class="lineno">   39</span>                .FirstAsync(cancellationToken);</div>
+<div class="line"><span class="lineno">   40</span>        }</div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_models_1_1_user_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html">Tgstation.Server.Host.Models.User</a></div><div class="ttdef"><b>Definition:</b> <a href="_user_8cs_source.html#l00012">User.cs:13</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_models_1_1_user_html_a2e68345f5d52c8ba64dca5ec061d029d"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html#a2e68345f5d52c8ba64dca5ec061d029d">Tgstation.Server.Host.Models.User.TgsSystemUserName</a></div><div class="ttdeci">const string TgsSystemUserName</div><div class="ttdoc">Username used when creating jobs automatically.</div><div class="ttdef"><b>Definition:</b> <a href="_user_8cs_source.html#l00017">User.cs:17</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_models_1_1_user_html_a4b139051d0d6db501e37590fa1eabf16"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html#a4b139051d0d6db501e37590fa1eabf16">Tgstation.Server.Host.Models.User.CanonicalizeName</a></div><div class="ttdeci">static string CanonicalizeName(string name)</div><div class="ttdoc">Change a UserName.Name into a CanonicalName.</div></div>
+</div><!-- fragment -->
+<p class="reference">References <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html#a4b139051d0d6db501e37590fa1eabf16">Tgstation.Server.Host.Models.User.CanonicalizeName()</a>, and <a class="el" href="_user_8cs_source.html#l00017">Tgstation.Server.Host.Models.User.TgsSystemUserName</a>.</p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_database_collection_extensions_a2589e6a00a1bb42aa95f8a1b863003ce_cgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_database_collection_extensions_a2589e6a00a1bb42aa95f8a1b863003ce_cgraph" alt=""/></div>
+<map name="aclass_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_database_collection_extensions_a2589e6a00a1bb42aa95f8a1b863003ce_cgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_database_collection_extensions_a2589e6a00a1bb42aa95f8a1b863003ce_cgraph">
+<area shape="rect" title="Gets User with the name User.TgsSystemUserName." alt="" coords="5,5,248,60"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html#a4b139051d0d6db501e37590fa1eabf16" title="Change a UserName.Name into a CanonicalName." alt="" coords="296,13,492,53"/>
+</map>
+</div>
 
 </div>
 </div>
