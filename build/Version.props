@@ -20,6 +20,6 @@
     <TgsDotnetRedistUrl>https://dotnetcli.azureedge.net/dotnet/aspnetcore/Runtime/6.0.24/dotnet-hosting-6.0.24-win.exe</TgsDotnetRedistUrl>
     <TgsMariaDBRedistVersion>10.11.5</TgsMariaDBRedistVersion>
     <!-- The two versions must match above, this is referenced by XML readers in scripts so we can't use an MSBuild property reference -->
-    <TgsMariaDBRedistUrl>https://ftp.osuosl.org/pub/mariadb//mariadb-10.11.5/winx64-packages/mariadb-10.11.5-winx64.msi</TgsMariaDBRedistUrl>
+    <TgsMariaDBRedistUrl>https://atl.mirrors.knownhost.com/mariadb//mariadb-10.11.5/winx64-packages/mariadb-10.11.5-winx64.msi</TgsMariaDBRedistUrl>
   </PropertyGroup>
 </Project>
