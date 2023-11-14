@@ -16,8 +16,7 @@ RUN . $NVM_DIR/nvm.sh \
 	&& apt-get update \
 	&& apt-get install -y \
 		dos2unix \
-	&& rm -rf /var/lib/apt/lists/* \
-	&& npm install -g npm
+	&& rm -rf /var/lib/apt/lists/*
 
 # Build web control panel
 WORKDIR /repo/build
