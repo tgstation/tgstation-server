@@ -39,6 +39,7 @@ on:
 
 env:
   TGS_DOTNET_VERSION: 8
+  OD_DOTNET_VERSION: 7
   TGS_DOTNET_QUALITY: preview
   TGS_TEST_GITHUB_TOKEN: ${{ secrets.LIVE_TESTS_TOKEN }}
   TGS_RELEASE_NOTES_TOKEN: ${{ secrets.DEV_PUSH_TOKEN }}
@@ -198,15 +199,15 @@ jobs:
         git checkout ${{ matrix.committish }}
         git submodule update --init --recursive
 
-    - name: Build OpenDream
+    - name: Create TGS Deployment
       run: |
         cd $HOME/OpenDream
-        dotnet build -c Release
+        dotnet run -c Release --project OpenDreamPackageTool -- --tgs -o tgs_deploy
 
     - name: Build DMAPI
       run: |
         cd tests/DMAPI/BasicOperation
-        $HOME/OpenDream/bin/DMCompiler/DMCompiler --verbose --notices-enabled basic_operation_test.dme
+        $HOME/OpenDream/tgs_deploy/bin/compiler/DMCompiler --verbose --notices-enabled basic_operation_test.dme
 
   pages-build:
     name: Build gh-pages
@@ -427,7 +428,8 @@ jobs:
     - name: Setup dotnet
       uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: '${{ env.TGS_DOTNET_VERSION }}.0.x'
+        dotnet-version:
+          '${{ env.TGS_DOTNET_VERSION }}.0.x'
         dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
 
     - name: Set TGS_TEST_DUMP_API_SPEC
