@@ -1,7 +1,7 @@
 <Project Sdk="WixToolset.Sdk/4.0.2" xmlns:bal="http://schemas.microsoft.com/wix/BalExtension">
   <Import Project="../../../Common.props" />
   <PropertyGroup>
-    <DefineConstants>ProductVersion=$(TgsCoreVersion);NetMajorVersion=$(TgsNetMajorVersion);DotnetRedistUrl=$(TgsDotnetRedistUrl);MariaDBRedistUrl=$(TgsMariaDBRedistUrl)</DefineConstants>
+    <DefineConstants>ProductVersion=$(TgsCoreVersion);NetMajorVersion=$(TgsNetMajorVersion);DotnetRedistUrl=$(TgsDotnetRedistUrl);MariaDBRedistUrl=https://github.com/tgstation/tgstation-server/releases/download/tgstation-server-v$(TgsCoreVersion)/mariadb-$(TgsMariaDBRedistVersion)-winx64.msi</DefineConstants>
     <OutputType>Bundle</OutputType>
     <Platforms>x86</Platforms>
     <OutputName>tgstation-server-installer</OutputName>
