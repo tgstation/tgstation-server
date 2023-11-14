@@ -387,6 +387,8 @@ System administrators will most likely have their own configuration plans, but h
 
 Once complete, test that your configuration worked by visiting your proxy site from a browser on a different computer. You should recieve a 401 Unauthorized response.
 
+_NOTE: For SignalR to function properly, make sure your reverse proxy setup supports SSE (Server-Sent Events)_
+
 #### IIS (Reccommended for Windows)
 
 1. Acquire an HTTPS certificate. The easiet free way for Windows is [win-acme](https://github.com/PKISharp/win-acme) (requires you to set up the website first)
