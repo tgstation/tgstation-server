@@ -52,7 +52,7 @@ RUN dotnet restore -nowarn:MSB3202,nu1503 -p:RestoreUseSkipNonexistentTargets=fa
 COPY . .
 
 #run dos2unix on tgs.docker.sh so we can build without issue on windows
-RUN dos2unix build/tgs.docker.sh
+RUN dos2unix build/tgs.docker.sh build/RemoveUnsupportedRuntimes.sh
 
 WORKDIR /repo/src/Tgstation.Server.Host.Console
 RUN dotnet publish -c Release -o /app \
