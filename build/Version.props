@@ -19,5 +19,6 @@
     <!-- Update this frequently with dotnet runtime patches. MAJOR MUST MATCH ABOVE! -->
     <TgsDotnetRedistUrl>https://dotnetcli.azureedge.net/dotnet/aspnetcore/Runtime/6.0.24/dotnet-hosting-6.0.24-win.exe</TgsDotnetRedistUrl>
     <TgsMariaDBRedistVersion>10.11.6</TgsMariaDBRedistVersion>
+    <TgsYarnVersion>1.22.19</TgsYarnVersion>
   </PropertyGroup>
 </Project>

@@ -19,9 +19,6 @@ RUN . $NVM_DIR/nvm.sh \
 	&& rm -rf /var/lib/apt/lists/* \
 	&& npm install -g npm
 
-#You may wonder why this needs to be in a seperate step. I don't know... It just works(tm)
-RUN npm install -g yarn
-
 # Build web control panel
 WORKDIR /repo/build
 
