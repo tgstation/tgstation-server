@@ -16,11 +16,7 @@ RUN . $NVM_DIR/nvm.sh \
 	&& apt-get update \
 	&& apt-get install -y \
 		dos2unix \
-	&& rm -rf /var/lib/apt/lists/* \
-	&& npm install -g npm
-
-#You may wonder why this needs to be in a seperate step. I don't know... It just works(tm)
-RUN npm install -g yarn
+	&& rm -rf /var/lib/apt/lists/*
 
 # Build web control panel
 WORKDIR /repo/build
@@ -40,7 +36,7 @@ WORKDIR /repo
 COPY . .
 
 #run dos2unix on tgs.docker.sh so we can build without issue on windows
-RUN dos2unix build/tgs.docker.sh && dotnet restore
+RUN dos2unix build/tgs.docker.sh build/RemoveUnsupportedRuntimes.sh && dotnet restore
 
 WORKDIR /repo/src/Tgstation.Server.Host.Console
 RUN dotnet publish -c Release -o /app \

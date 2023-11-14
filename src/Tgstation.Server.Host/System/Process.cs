@@ -131,7 +131,8 @@ namespace Tgstation.Server.Host.System
 		{
 			if (readTask == null)
 				throw new InvalidOperationException("Output/Error stream reading was not enabled!");
-			return readTask;
+
+			return readTask.WaitAsync(cancellationToken);
 		}
 
 		/// <inheritdoc />

@@ -369,6 +369,8 @@ namespace Tgstation.Server.Host.Jobs
 
 					var hubUpdatesTask = Task.CompletedTask;
 					var result = false;
+					var firstLogHappened = false;
+					var hubGroupName = JobsHub.HubGroupName(job);
 
 					Stopwatch stopwatch = null;
 					void QueueHubUpdate(JobResponse update, bool final)
@@ -380,10 +382,16 @@ namespace Tgstation.Server.Host.Jobs
 							{
 								await currentUpdatesTask;
 
+								if (!firstLogHappened)
+								{
+									logger.LogTrace("Sending updates for job {id} to hub group {group}", update.Id.Value, hubGroupName);
+									firstLogHappened = true;
+								}
+
 								// DCT: Cancellation token is for job, operation should always run
 								await hub
 									.Clients
-									.Group(JobsHub.HubGroupName(job))
+									.Group(hubGroupName)
 									.ReceiveJobUpdate(update, CancellationToken.None);
 							}
 

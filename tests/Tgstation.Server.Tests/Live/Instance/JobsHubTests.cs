@@ -229,13 +229,6 @@ namespace Tgstation.Server.Tests.Live.Instance
 			// force token refreshs
 			await Task.WhenAll(permedUser.Administration.Read(cancellationToken).AsTask(), permlessUser.Instances.List(null, cancellationToken).AsTask());
 
-			await Task.WhenAll(conn1.StartAsync(cancellationToken), conn2.StartAsync(cancellationToken));
-
-			Assert.AreEqual(HubConnectionState.Connected, conn1.State);
-			Assert.AreEqual(HubConnectionState.Connected, conn2.State);
-			Console.WriteLine($"New conn1: {conn1.ConnectionId}");
-			Console.WriteLine($"New conn2: {conn2.ConnectionId}");
-
 			if (!permlessPsId.HasValue)
 			{
 				var permlessUserId = long.Parse(permlessUser.Token.ParseJwt().Subject);
@@ -267,6 +260,13 @@ namespace Tgstation.Server.Tests.Live.Instance
 							PermissionSetId = permlessPsId.Value
 						}, cancellationToken);
 				}));
+
+			await Task.WhenAll(conn1.StartAsync(cancellationToken), conn2.StartAsync(cancellationToken));
+
+			Assert.AreEqual(HubConnectionState.Connected, conn1.State);
+			Assert.AreEqual(HubConnectionState.Connected, conn2.State);
+			Console.WriteLine($"New conn1: {conn1.ConnectionId}");
+			Console.WriteLine($"New conn2: {conn2.ConnectionId}");
 		}
 
 		public void CompleteNow() => finishTcs.TrySetResult();
