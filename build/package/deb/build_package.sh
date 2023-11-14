@@ -19,8 +19,8 @@ apt-get install -y \
     ca-certificates \
     curl \
     gnupg \
-    xmlstarlet
-#   dotnet-sdk-8.0 # Disabled while in preview
+    xmlstarlet \
+    dotnet-sdk-8.0
 
 # https://github.com/nodesource/distributions
 mkdir -p /etc/apt/keyrings

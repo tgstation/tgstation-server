@@ -16,7 +16,7 @@ on:
 
 env:
   TGS_DOTNET_VERSION: 8
-  TGS_DOTNET_QUALITY: preview
+  TGS_DOTNET_QUALITY: ga
 
 concurrency:
   group: "code-scanning-${{ github.head_ref || github.run_id }}-${{ github.event_name }}"
