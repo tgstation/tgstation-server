@@ -178,7 +178,7 @@ jobs:
     - name: Setup dotnet
       uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: '${{ env.TGS_DOTNET_VERSION }}.0.x'
+        dotnet-version: '${{ env.OD_DOTNET_VERSION }}.0.x'
         dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
 
     - name: Checkout (Branch)
@@ -428,8 +428,9 @@ jobs:
     - name: Setup dotnet
       uses: actions/setup-dotnet@v3
       with:
-        dotnet-version:
+        dotnet-version: |
           '${{ env.TGS_DOTNET_VERSION }}.0.x'
+          '${{ env.OD_DOTNET_VERSION }}.0.x'
         dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
 
     - name: Set TGS_TEST_DUMP_API_SPEC
@@ -650,7 +651,9 @@ jobs:
     - name: Setup dotnet
       uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: '${{ env.TGS_DOTNET_VERSION }}.0.x'
+        dotnet-version: |
+          '${{ env.TGS_DOTNET_VERSION }}.0.x'
+          '${{ env.OD_DOTNET_VERSION }}.0.x'
         dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
 
     - name: Set Sqlite Connection Info
