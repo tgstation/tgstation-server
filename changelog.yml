@@ -183,6 +183,10 @@ Components:
       WebControlPanel: 4.27.0
     Changes: []
     Unreleased: true
+  - Version: 5.17.4
+    ComponentVersions: {}
+    Changes: []
+    Unreleased: true
   - Version: 5.17.3
     ComponentVersions:
       HttpApi: 9.13.0
@@ -203,7 +207,11 @@ Components:
       - Fixed logic error incorrectly mismatching users with the instances they should receive SignalR job updates for.
       Author: Cyberboss
       PullRequest: 1714
-    Unreleased: true
+    - Descriptions:
+      - Older Windows installers would fail to install MariaDB if the mirror was taken down. The MariaDB .msi is now hosted on this GitHub to prevent this.
+      - MariaDB redistributable updated to 10.11.6.
+      Author: Cyberboss
+      PullRequest: 1715
   - Version: 5.17.2
     ComponentVersions:
       HttpApi: 9.13.0
