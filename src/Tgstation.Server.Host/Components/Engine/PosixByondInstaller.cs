@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 using Microsoft.Extensions.Logging;
 
-using Tgstation.Server.Api.Models.Internal;
+using Tgstation.Server.Api.Models;
 using Tgstation.Server.Common.Extensions;
 using Tgstation.Server.Host.IO;
 

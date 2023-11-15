@@ -12,7 +12,6 @@ using Moq;
 
 using Newtonsoft.Json;
 
-using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Host.Components.Chat;
 using Tgstation.Server.Host.Components.Chat.Commands;
 using Tgstation.Server.Host.Components.Chat.Providers;
@@ -103,8 +102,8 @@ namespace Tgstation.Server.Tests.Live
 		}
 
 		public override ValueTask<Func<string, string, ValueTask<Func<bool, ValueTask>>>> SendUpdateMessage(
-			Host.Models.RevisionInformation revisionInformation,
-			EngineVersion engineVersion,
+			RevisionInformation revisionInformation,
+			Api.Models.EngineVersion engineVersion,
 			DateTimeOffset? estimatedCompletionTime,
 			string gitHubOwner,
 			string gitHubRepo,

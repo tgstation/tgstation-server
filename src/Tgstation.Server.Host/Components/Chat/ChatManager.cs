@@ -11,6 +11,7 @@ using Newtonsoft.Json;
 
 using Serilog.Context;
 
+using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Common.Extensions;
 using Tgstation.Server.Host.Components.Chat.Commands;
@@ -62,7 +63,7 @@ namespace Tgstation.Server.Host.Components.Chat
 		readonly IDictionary<string, ICommand> builtinCommands;
 
 		/// <summary>
-		/// Map of <see cref="IProvider"/>s in use, keyed by <see cref="ChatBotSettings"/> <see cref="Api.Models.EntityId.Id"/>.
+		/// Map of <see cref="IProvider"/>s in use, keyed by <see cref="ChatBotSettings"/> <see cref="EntityId.Id"/>.
 		/// </summary>
 		readonly IDictionary<long, IProvider> providers;
 
@@ -586,7 +587,7 @@ namespace Tgstation.Server.Host.Components.Chat
 		/// <summary>
 		/// Remove a <see cref="IProvider"/> from <see cref="mappedChannels"/> optionally removing the provider itself from <see cref="providers"/> and updating the <see cref="trackingContexts"/> as well.
 		/// </summary>
-		/// <param name="connectionId">The <see cref="Api.Models.EntityId.Id"/> of the <see cref="IProvider"/> to delete.</param>
+		/// <param name="connectionId">The <see cref="EntityId.Id"/> of the <see cref="IProvider"/> to delete.</param>
 		/// <param name="removeProvider">If the provider should be removed from <see cref="providers"/> and <see cref="trackingContexts"/> should be update.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="IProvider"/> being removed if it exists, <see langword="null"/> otherwise.</returns>

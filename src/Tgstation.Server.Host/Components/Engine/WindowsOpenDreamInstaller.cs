@@ -6,7 +6,6 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
 using Tgstation.Server.Api.Models;
-using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Common.Extensions;
 using Tgstation.Server.Host.Components.Repository;
 using Tgstation.Server.Host.Configuration;

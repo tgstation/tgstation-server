@@ -1,6 +1,4 @@
-﻿using Tgstation.Server.Api.Models.Internal;
-
-namespace Tgstation.Server.Api.Models.Request
+﻿namespace Tgstation.Server.Api.Models.Request
 {
 	/// <summary>
 	/// A request to switch to a given <see cref="EngineVersion"/>.
@@ -8,7 +6,7 @@ namespace Tgstation.Server.Api.Models.Request
 	public sealed class EngineVersionRequest
 	{
 		/// <summary>
-		/// The <see cref="Internal.EngineVersion"/> to switch to.
+		/// The <see cref="Models.EngineVersion"/> to switch to.
 		/// </summary>
 		public EngineVersion? EngineVersion { get; set; }
 

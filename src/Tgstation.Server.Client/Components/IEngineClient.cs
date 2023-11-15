@@ -14,7 +14,7 @@ namespace Tgstation.Server.Client.Components
 	public interface IEngineClient
 	{
 		/// <summary>
-		/// Get the <see cref="EngineInstallResponse"/> active <see cref="Api.Models.Internal.EngineVersion"/>.
+		/// Get the <see cref="EngineInstallResponse"/> active <see cref="Api.Models.EngineVersion"/>.
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="EngineResponse"/>.</returns>
@@ -40,7 +40,7 @@ namespace Tgstation.Server.Client.Components
 		/// <summary>
 		/// Starts a job to delete a specific engine version.
 		/// </summary>
-		/// <param name="deleteRequest">The <see cref="EngineVersionDeleteRequest"/> specifying the <see cref="Api.Models.Internal.EngineVersion"/> to delete.</param>
+		/// <param name="deleteRequest">The <see cref="EngineVersionDeleteRequest"/> specifying the <see cref="Api.Models.EngineVersion"/> to delete.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="JobResponse"/> for the delete job.</returns>
 		ValueTask<JobResponse> DeleteVersion(EngineVersionDeleteRequest deleteRequest, CancellationToken cancellationToken);

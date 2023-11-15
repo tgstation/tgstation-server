@@ -90,7 +90,7 @@ namespace Tgstation.Server.Host.Models
 			Job = Job.ToApi(),
 			Output = Output,
 			RevisionInformation = RevisionInformation.ToApi(),
-			EngineVersion = Api.Models.Internal.EngineVersion.TryParse(EngineVersion, out var version)
+			EngineVersion = Api.Models.EngineVersion.TryParse(EngineVersion, out var version)
 				? version
 				: throw new InvalidOperationException($"Failed to parse engine version: {EngineVersion}"),
 			MinimumSecurityLevel = MinimumSecurityLevel,

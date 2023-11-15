@@ -5,7 +5,7 @@ using System.Linq;
 
 using Tgstation.Server.Common.Extensions;
 
-namespace Tgstation.Server.Api.Models.Internal
+namespace Tgstation.Server.Api.Models
 {
 	/// <summary>
 	/// Information about an engine installation.

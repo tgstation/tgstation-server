@@ -12,7 +12,6 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
 using Tgstation.Server.Api.Models;
-using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Host.Components.Interop;
 using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.IO;

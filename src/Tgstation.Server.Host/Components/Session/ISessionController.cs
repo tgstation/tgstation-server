@@ -2,7 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-using Tgstation.Server.Api.Models.Internal;
+using Tgstation.Server.Api.Models;
 using Tgstation.Server.Host.Components.Deployment;
 using Tgstation.Server.Host.Components.Interop.Topic;
 using Tgstation.Server.Host.System;
@@ -40,7 +40,7 @@ namespace Tgstation.Server.Host.Components.Session
 		Models.CompileJob CompileJob { get; }
 
 		/// <summary>
-		/// Gets the <see cref="Api.Models.Internal.EngineVersion"/> associated with the <see cref="ISessionController"/>.
+		/// Gets the <see cref="Api.Models.EngineVersion"/> associated with the <see cref="ISessionController"/>.
 		/// </summary>
 		EngineVersion EngineVersion { get; }
 

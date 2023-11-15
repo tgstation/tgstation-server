@@ -1,7 +1,7 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 
-using Tgstation.Server.Api.Models.Internal;
+using Tgstation.Server.Api.Models;
 using Tgstation.Server.Host.Jobs;
 
 namespace Tgstation.Server.Host.Components.Engine

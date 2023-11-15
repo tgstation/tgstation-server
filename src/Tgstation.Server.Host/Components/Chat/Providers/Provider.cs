@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 
 using Microsoft.Extensions.Logging;
 
-using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Host.Components.Interop;
 using Tgstation.Server.Host.Jobs;
@@ -196,8 +195,8 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 
 		/// <inheritdoc />
 		public abstract ValueTask<Func<string, string, ValueTask<Func<bool, ValueTask>>>> SendUpdateMessage(
-			Models.RevisionInformation revisionInformation,
-			EngineVersion engineVersion,
+			RevisionInformation revisionInformation,
+			Api.Models.EngineVersion engineVersion,
 			DateTimeOffset? estimatedCompletionTime,
 			string gitHubOwner,
 			string gitHubRepo,
@@ -287,7 +286,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 						connectNow = false;
 					if (!Connected)
 					{
-						var job = Models.Job.Create(Api.Models.JobCode.ReconnectChatBot, null, ChatBot.Instance, ChatBotRights.WriteEnabled);
+						var job = Job.Create(Api.Models.JobCode.ReconnectChatBot, null, ChatBot.Instance, ChatBotRights.WriteEnabled);
 						job.Description += $": {ChatBot.Name}";
 
 						await jobManager.RegisterOperation(

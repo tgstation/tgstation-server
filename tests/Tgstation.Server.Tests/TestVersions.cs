@@ -30,7 +30,6 @@ using Tgstation.Server.Host.Controllers;
 using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.System;
-using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Tests.Live;
 

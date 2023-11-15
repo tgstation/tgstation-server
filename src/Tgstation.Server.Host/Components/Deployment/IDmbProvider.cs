@@ -1,6 +1,6 @@
 ﻿using System;
 
-using Tgstation.Server.Api.Models.Internal;
+using Tgstation.Server.Api.Models;
 
 namespace Tgstation.Server.Host.Components.Deployment
 {
@@ -25,7 +25,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 		Models.CompileJob CompileJob { get; }
 
 		/// <summary>
-		/// The <see cref="Api.Models.Internal.EngineVersion"/> used to build the .dmb.
+		/// The <see cref="Api.Models.EngineVersion"/> used to build the .dmb.
 		/// </summary>
 		EngineVersion EngineVersion { get; }
 
