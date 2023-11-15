@@ -75,6 +75,7 @@ namespace Tgstation.Server.Host.Components.Chat.Commands
 			if (engineVersion == null)
 				text = "None!";
 			else
+			{
 				text = engineVersion.Engine.Value switch
 				{
 					EngineType.OpenDream => $"OpenDream: {engineVersion.SourceSHA}",
@@ -82,8 +83,9 @@ namespace Tgstation.Server.Host.Components.Chat.Commands
 					_ => throw new InvalidOperationException($"Invalid EngineType: {engineVersion.Engine.Value}"),
 				};
 
-			if (engineVersion.CustomIteration.HasValue)
-				text += $" (Custom Upload #{engineVersion.CustomIteration.Value})";
+				if (engineVersion.CustomIteration.HasValue)
+					text += $" (Custom Upload #{engineVersion.CustomIteration.Value})";
+			}
 
 			return ValueTask.FromResult(
 				new MessageContent
