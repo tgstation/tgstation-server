@@ -15,6 +15,7 @@ namespace Tgstation.Server.Host.Controllers
 	/// The root path <see cref="Controller"/>.
 	/// </summary>
 	[Route("/")]
+	[ApiExplorerSettings(IgnoreApi = true)]
 	public sealed class RootController : Controller
 	{
 		/// <summary>

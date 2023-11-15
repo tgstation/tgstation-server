@@ -6,7 +6,7 @@ Rules-Requires-Root: no
 Build-Depends:
  debhelper-compat (= 13),
  nodejs,
-#dotnet-sdk-8.0, Disabled while in preview
+ dotnet-sdk-8.0,
 Standards-Version: 4.6.2
 Homepage: https://tgstation.github.io/tgstation-server
 Vcs-Browser: https://github.com/tgstation/tgstation-server
@@ -16,7 +16,7 @@ Package: tgstation-server
 Architecture: any
 Depends:
  ${misc:Depends},
-#aspnetcore-runtime-8.0, Disabled while in preview
+ aspnetcore-runtime-8.0,
  libc6-i386,
  libstdc++6:i386 [amd64],
  libstdc++6 [i386],
