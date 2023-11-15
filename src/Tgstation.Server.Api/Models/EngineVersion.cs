@@ -10,7 +10,7 @@ namespace Tgstation.Server.Api.Models
 	/// <summary>
 	/// Information about an engine installation.
 	/// </summary>
-	public class EngineVersion : IEquatable<EngineVersion>
+	public sealed class EngineVersion : IEquatable<EngineVersion>
 	{
 		/// <summary>
 		/// The <see cref="EngineType"/>.
