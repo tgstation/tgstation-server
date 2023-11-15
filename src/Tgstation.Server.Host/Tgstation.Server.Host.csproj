@@ -101,9 +101,9 @@
     <!-- Usage: MYSQL/MariaDB ORM plugin -->
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="8.0.0-beta.2.ci.20231014172607" />
     <!-- Usage: Discord interop -->
-    <PackageReference Include="Remora.Discord" Version="2023.4.0" />
+    <PackageReference Include="Remora.Discord" Version="2023.5.0" />
     <!-- Usage: Rich logger builder -->
-    <PackageReference Include="Serilog.Extensions.Logging" Version="7.0.0" />
+    <PackageReference Include="Serilog.Extensions.Logging" Version="8.0.0" />
     <!-- Usage: Async logging plugin -->
     <PackageReference Include="Serilog.Sinks.Async" Version="1.5.0" />
     <!-- Usage: Console logging plugin -->
