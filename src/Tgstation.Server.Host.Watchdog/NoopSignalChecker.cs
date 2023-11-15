@@ -10,10 +10,10 @@ namespace Tgstation.Server.Host.Watchdog
 	public sealed class NoopSignalChecker : ISignalChecker
 	{
 		/// <inheritdoc />
-		public ValueTask CheckSignals(Func<string, (int, Task)> startChild, CancellationToken cancellationToken)
+		public ValueTask CheckSignals(Func<string?, (int, Task)> startChildAndGetPid, CancellationToken cancellationToken)
 		{
-			ArgumentNullException.ThrowIfNull(startChild);
-			startChild(null);
+			ArgumentNullException.ThrowIfNull(startChildAndGetPid);
+			startChildAndGetPid(null);
 			return ValueTask.CompletedTask;
 		}
 	}

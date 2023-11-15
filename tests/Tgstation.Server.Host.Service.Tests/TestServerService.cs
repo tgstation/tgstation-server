@@ -39,15 +39,25 @@ namespace Tgstation.Server.Host.Service.Tests
 			var childStarted = false;
 			ISignalChecker signalChecker = null;
 
-			mockWatchdog.Setup(x => x.RunAsync(false, It.IsNotNull<string[]>(), It.IsAny<CancellationToken>())).Callback((bool x, string[] _, CancellationToken token) =>
+			var hostVersionTcs = new TaskCompletionSource<Version>();
+			var hostLifetimeTcs = new TaskCompletionSource<bool>();
+
+			mockWatchdog.Setup(x => x.RunAsync(false, It.IsNotNull<string[]>(), It.IsAny<CancellationToken>())).Returns(async (bool x, string[] _, CancellationToken token) =>
 			{
+				hostVersionTcs.SetResult(typeof(ServerService).Assembly.GetName().Version);
+
 				cancellationToken = token;
+				cancellationToken.Register(() => hostLifetimeTcs.SetResult(true));
 				signalCheckerTask = signalChecker.CheckSignals(additionalArgs =>
 				{
 					childStarted = true;
-					return (123, Task.CompletedTask);
+					return (123, hostLifetimeTcs.Task);
 				}, cancellationToken).AsTask();
-			}).ReturnsAsync(true).Verifiable();
+
+				await signalCheckerTask;
+				return true;
+			}).Verifiable();
+			mockWatchdog.SetupGet(x => x.InitialHostVersion).Returns(hostVersionTcs.Task);
 			var mockWatchdogFactory = new Mock<IWatchdogFactory>();
 
 			mockWatchdogFactory.Setup(x => x.CreateWatchdog(It.IsNotNull<ISignalChecker>(), It.IsNotNull<ILoggerFactory>()))
@@ -68,6 +78,7 @@ namespace Tgstation.Server.Host.Service.Tests
 
 			mockWatchdogFactory.VerifyAll();
 			Assert.IsTrue(signalCheckerTask.IsCompleted);
+			Assert.IsTrue(cancellationToken.IsCancellationRequested);
 		}
 	}
 }

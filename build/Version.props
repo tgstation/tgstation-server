@@ -11,7 +11,7 @@
     <TgsClientVersion>15.0.0</TgsClientVersion>
     <TgsDmapiVersion>7.0.0</TgsDmapiVersion>
     <TgsInteropVersion>5.7.0</TgsInteropVersion>
-    <TgsHostWatchdogVersion>1.4.0</TgsHostWatchdogVersion>
+    <TgsHostWatchdogVersion>1.4.1</TgsHostWatchdogVersion>
     <TgsContainerScriptVersion>1.2.1</TgsContainerScriptVersion>
     <TgsMigratorVersion>2.0.0</TgsMigratorVersion>
     <TgsNugetNetFramework>netstandard2.0</TgsNugetNetFramework>

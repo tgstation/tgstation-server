@@ -20,7 +20,7 @@ namespace Tgstation.Server.Host.Watchdog
 	sealed class Watchdog : IWatchdog
 	{
 		/// <inheritdoc />
-		public Version InitialHostVersion { get; private set; }
+		public Task<Version> InitialHostVersion => initialHostVersionTcs.Task;
 
 		/// <summary>
 		/// The <see cref="ISignalChecker"/> for the <see cref="Watchdog"/>.
@@ -33,6 +33,11 @@ namespace Tgstation.Server.Host.Watchdog
 		readonly ILogger<Watchdog> logger;
 
 		/// <summary>
+		/// Backing <see cref="TaskCompletionSource{TResult}"/> for <see cref="InitialHostVersion"/>.
+		/// </summary>
+		readonly TaskCompletionSource<Version> initialHostVersionTcs;
+
+		/// <summary>
 		/// Initializes a new instance of the <see cref="Watchdog"/> class.
 		/// </summary>
 		/// <param name="signalChecker">The value of <see cref="signalChecker"/>.</param>
@@ -41,6 +46,8 @@ namespace Tgstation.Server.Host.Watchdog
 		{
 			this.signalChecker = signalChecker ?? throw new ArgumentNullException(nameof(signalChecker));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
+
+			initialHostVersionTcs = new TaskCompletionSource<Version>();
 		}
 
 		/// <inheritdoc />
@@ -54,7 +61,7 @@ namespace Tgstation.Server.Host.Watchdog
 				currentProcessId = currentProc.Id;
 
 			logger.LogDebug("PID: {pid}", currentProcessId);
-			string updateDirectory = null;
+			string? updateDirectory = null;
 			try
 			{
 				var isWindows = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
@@ -76,6 +83,11 @@ namespace Tgstation.Server.Host.Watchdog
 
 				var executingAssembly = Assembly.GetExecutingAssembly();
 				var rootLocation = Path.GetDirectoryName(executingAssembly.Location);
+				if (rootLocation == null)
+				{
+					logger.LogCritical("Failed to get the directory name of the executing assembly: {location}", executingAssembly.Location);
+					return false;
+				}
 
 				var assemblyStoragePath = Path.Combine(rootLocation, "lib"); // always always next to watchdog
 
@@ -119,9 +131,18 @@ namespace Tgstation.Server.Host.Watchdog
 					return false;
 				}
 
-				InitialHostVersion = Version.Parse(FileVersionInfo.GetVersionInfo(assemblyPath).FileVersion);
+				var fileVersion = FileVersionInfo.GetVersionInfo(assemblyPath).FileVersion;
+				if (fileVersion == null)
+				{
+					logger.LogCritical("Failed to parse version info from {assemblyPath}!", assemblyPath);
+					return false;
+				}
 
-				var watchdogVersion = executingAssembly.GetName().Version.Semver().ToString();
+				initialHostVersionTcs.SetResult(
+					Version.Parse(
+						fileVersion));
+
+				var watchdogVersion = executingAssembly.GetName().Version?.Semver().ToString();
 
 				while (!cancellationToken.IsCancellationRequested)
 					using (logger.BeginScope("Host invocation"))
@@ -158,8 +179,8 @@ namespace Tgstation.Server.Host.Watchdog
 							var killedHostProcess = false;
 							try
 							{
-								Task processTask = null;
-								(int, Task) StartProcess(string additionalArg)
+								Task? processTask = null;
+								(int, Task) StartProcess(string? additionalArg)
 								{
 									if (additionalArg != null)
 										process.StartInfo.Arguments += $" {additionalArg}";
@@ -199,7 +220,7 @@ namespace Tgstation.Server.Host.Watchdog
 									var checkerTask = signalChecker.CheckSignals(StartProcess, cts.Token);
 									try
 									{
-										await processTask;
+										await processTask!;
 									}
 									finally
 									{
@@ -338,10 +359,11 @@ namespace Tgstation.Server.Host.Watchdog
 			catch (OperationCanceledException ex)
 			{
 				logger.LogDebug(ex, "Exiting due to cancellation...");
-				if (!Directory.Exists(updateDirectory))
-					File.Delete(updateDirectory);
-				else
-					Directory.Delete(updateDirectory, true);
+				if (updateDirectory != null)
+					if (!Directory.Exists(updateDirectory))
+						File.Delete(updateDirectory);
+					else
+						Directory.Delete(updateDirectory, true);
 			}
 			catch (Exception ex)
 			{
