@@ -171,15 +171,15 @@ Components:
     Unreleased: true
   - Version: 5.18.0
     ComponentVersions:
-      Core: 5.17.2
-      HttpApi: 9.13.0
-      DreamMakerApi: 6.6.2
+      Core: 5.17.3
+      HttpApi: 9.14.0
+      DreamMakerApi: 6.7.0
       Configuration: 4.7.1
-      InteropApi: 5.6.2
+      InteropApi: 5.7.0
       HostWatchdog: 1.4.0
       NugetCommon: 7.0.0
-      NugetApi: 12.0.1
-      NugetClient: 14.1.0
+      NugetApi: 12.2.0
+      NugetClient: 14.2.0
       WebControlPanel: 4.27.0
     Changes: []
     Unreleased: true
@@ -3263,6 +3263,14 @@ Components:
       Author: Cyberboss
       PullRequest: 1704
     Unreleased: true
+  - Version: 9.14.0
+    Changes:
+    - Descriptions:
+      - Add `DreamDaemonRequest.broadcastMessage` for sending messages to the running game server's DMAPI.
+      - Added DreamDaemon right 1048576 for broadcast messages.
+      Author: Cyberboss
+      PullRequest: 1719
+    Unreleased: true
   - Version: 9.13.0
     Changes:
     - Descriptions:
@@ -3704,6 +3712,14 @@ Components:
       Author: Cyberboss
       PullRequest: 991
   DreamMakerApi:
+  - Version: 6.7.0
+    Changes:
+    - Descriptions:
+      - Added support for broadcast messages with Interop API 5.
+      - Added missing `#undef`s for some internal constants.
+      Author: Cyberboss
+      PullRequest: 1719
+    Unreleased: true
   - Version: 6.6.2
     Changes:
     - Descriptions:
@@ -3878,6 +3894,10 @@ Components:
       - Switch to using new `/api/Bridge` endpoint when available.
       Author: Cyberboss
       PullRequest: 1704
+    - Descriptions:
+      - Added topic command 11 for broadcast messages. Content stored in `broadcastMessage` parameter.
+      Author: Cyberboss
+      PullRequest: 1719
     Unreleased: true
   - Version: 5.6.2
     Changes:
@@ -3906,6 +3926,14 @@ Components:
       - Renamed `Routes.Root` to `Routes.ApiRoot` and now reflects the new API path.
       Author: Cyberboss
       PullRequest: 1704
+    Unreleased: true
+  - Version: 12.2.0
+    Changes:
+    - Descriptions:
+      - Added `DreamDaemonRequest.BroadcastMessage`.
+      - Added `DreamDaemonRights.BroadcastMessage`
+      Author: Cyberboss
+      PullRequest: 1719
     Unreleased: true
   - Version: 12.0.1
     Changes:
@@ -3955,4 +3983,11 @@ Components:
       - Made `DiscordConnectionStringBuilder.BasedMeme` obsolete.
       Author: Cyberboss
       PullRequest: 1629
-  NugetClient: []
+  NugetClient:
+  - Version: 14.2.0
+    Changes:
+    - Descriptions:
+      - Updated to HTTP API 9.14.0.
+      Author: Cyberboss
+      PullRequest: 1719
+    Unreleased: true
