@@ -32,6 +32,7 @@ using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.System;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Tests.Live;
+using Tgstation.Server.Host.Utils;
 
 namespace Tgstation.Server.Tests
 {
@@ -207,6 +208,7 @@ namespace Tgstation.Server.Tests
 						new Lazy<IProcessExecutor>(() => null),
 						Mock.Of<IIOManager>(),
 						loggerFactory.CreateLogger<PosixProcessFeatures>()),
+					Mock.Of<IAsyncDelayer>(),
 					Mock.Of<IIOManager>(),
 					loggerFactory.CreateLogger<ProcessExecutor>(),
 					loggerFactory);

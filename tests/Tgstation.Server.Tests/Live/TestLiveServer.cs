@@ -42,6 +42,7 @@ using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.Jobs;
 using Tgstation.Server.Host.System;
+using Tgstation.Server.Host.Utils;
 using Tgstation.Server.Tests.Live.Instance;
 
 namespace Tgstation.Server.Tests.Live
@@ -1075,6 +1076,7 @@ namespace Tgstation.Server.Tests.Live
 						new PlatformIdentifier().IsWindows
 							? new WindowsProcessFeatures(loggerFactory.CreateLogger<WindowsProcessFeatures>())
 							: new PosixProcessFeatures(new Lazy<IProcessExecutor>(() => processExecutor), ioManager, loggerFactory.CreateLogger<PosixProcessFeatures>()),
+						new AsyncDelayer(),
 						ioManager,
 						loggerFactory.CreateLogger<ProcessExecutor>(),
 						loggerFactory);

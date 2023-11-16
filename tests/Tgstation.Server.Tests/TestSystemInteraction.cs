@@ -10,6 +10,7 @@ using Moq;
 using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.System;
+using Tgstation.Server.Host.Utils;
 
 namespace Tgstation.Server.Tests
 {
@@ -23,6 +24,7 @@ namespace Tgstation.Server.Tests
 			var platformIdentifier = new PlatformIdentifier();
 			var processExecutor = new ProcessExecutor(
 				Mock.Of<IProcessFeatures>(),
+				Mock.Of<IAsyncDelayer>(),
 				new DefaultIOManager(),
 				Mock.Of<ILogger<ProcessExecutor>>(),
 				loggerFactory);
@@ -47,6 +49,7 @@ namespace Tgstation.Server.Tests
 			var platformIdentifier = new PlatformIdentifier();
 			var processExecutor = new ProcessExecutor(
 				Mock.Of<IProcessFeatures>(),
+				Mock.Of<IAsyncDelayer>(),
 				new DefaultIOManager(),
 				Mock.Of<ILogger<ProcessExecutor>>(),
 				loggerFactory);
