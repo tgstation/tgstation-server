@@ -534,7 +534,9 @@ namespace Tgstation.Server.Host.Components.Session
 		public async ValueTask InstanceRenamed(string newInstanceName, CancellationToken cancellationToken)
 		{
 			ReattachInformation.RuntimeInformation.InstanceName = newInstanceName;
-			await SendCommand(new TopicParameters(newInstanceName), cancellationToken);
+			await SendCommand(
+				TopicParameters.CreateInstanceRenamedTopicParameters(newInstanceName),
+				cancellationToken);
 		}
 
 		/// <inheritdoc />

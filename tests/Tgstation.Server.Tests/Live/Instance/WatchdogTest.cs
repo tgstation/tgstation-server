@@ -224,11 +224,45 @@ namespace Tgstation.Server.Tests.Live.Instance
 				await RunTest(false);
 		}
 
+		async ValueTask BroadcastTest(CancellationToken cancellationToken)
+		{
+			var topicRequestResult = await topicClient.SendTopic(
+				IPAddress.Loopback,
+				$"tgs_integration_test_tactics_broadcast=1",
+				FindTopicPort(),
+				cancellationToken);
+
+			Assert.IsNotNull(topicRequestResult);
+			Assert.AreEqual("!!NULL!!", topicRequestResult.StringData);
+
+			const string TestBroadcastMessage = "TGS: THIS IS A TEST OF THE EMERGENCY BROADCAST SYSTEM!";
+			await instanceClient.DreamDaemon.Update(new DreamDaemonRequest
+			{
+				BroadcastMessage = TestBroadcastMessage,
+			}, cancellationToken);
+
+			topicRequestResult = await topicClient.SendTopic(
+				IPAddress.Loopback,
+				$"tgs_integration_test_tactics_broadcast=1",
+				FindTopicPort(),
+				cancellationToken);
+
+			Assert.IsNotNull(topicRequestResult);
+			Assert.AreEqual(TestBroadcastMessage, topicRequestResult.StringData);
+		}
+
 		async Task InteropTestsForLongRunningDme(CancellationToken cancellationToken)
 		{
 			await RegressionTest1686(cancellationToken);
 
+			await ApiAssert.ThrowsException<ConflictException, DreamDaemonResponse>(() => instanceClient.DreamDaemon.Update(new DreamDaemonRequest
+			{
+				BroadcastMessage = "ksjfdksjf",
+			}, cancellationToken), ErrorCode.BroadcastFailure);
+
 			await StartAndLeaveRunning(cancellationToken);
+
+			await BroadcastTest(cancellationToken);
 
 			await RegressionTest1550(cancellationToken);
 

@@ -3,7 +3,8 @@
 #define TGS_READ_GLOBAL(Name) global.##Name
 #define TGS_WRITE_GLOBAL(Name, Value) global.##Name = ##Value
 #define TGS_PROTECT_DATUM(Path)
-#define TGS_WORLD_ANNOUNCE(message) world << ##message
+var/last_tgs_broadcast
+#define TGS_WORLD_ANNOUNCE(message) if(TRUE) { var/__tgs_announce_message_local = ##message; world << __tgs_announce_message_local; last_tgs_broadcast = __tgs_announce_message_local; }
 #define TGS_WARNING_LOG(message) world.log << "Warn: [##message]"
 #define TGS_NOTIFY_ADMINS(event)
 #define TGS_CLIENT_COUNT 0

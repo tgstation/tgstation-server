@@ -176,6 +176,10 @@ var/run_bridge_test
 	if(tactics8)
 		return received_health_check ? "received health check" : "did not receive health check"
 
+	var/tactics_broadcast = data["tgs_integration_test_tactics_broadcast"]
+	if(tactics_broadcast)
+		return last_tgs_broadcast || "!!NULL!!"
+
 	var/legalize_nuclear_bombs = data["shadow_wizard_money_gang"]
 	if(legalize_nuclear_bombs)
 		text2file("I expect this to remain here for a while", "kajigger.txt")

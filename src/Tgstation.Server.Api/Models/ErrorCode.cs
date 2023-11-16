@@ -630,6 +630,12 @@ namespace Tgstation.Server.Api.Models
 		DeploymentTimeout,
 
 		/// <summary>
+		/// Sending a broadcast message failed.
+		/// </summary>
+		[Description("Could not send broadcast to the DMAPI. This can happen either due to there being an insufficient DMAPI version, a communication failure, or the server being offline.")]
+		BroadcastFailure,
+
+		/// <summary>
 		/// Could not compile OpenDream due to a missing dotnet executable.
 		/// </summary>
 		[Description("OpenDream could not be compiled due to being unable to locate the dotnet executable!")]
