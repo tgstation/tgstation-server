@@ -87,4 +87,5 @@ tgstation-server is a BYOND server managment suite. It includes all the followin
 		- Functions with all 3 DreamDaemon security levels
 		- Provides notifications of TGS side events
 		- Allows specifying the .dmb's minimum required security level
+		- Broadcast messages to clients
 */
