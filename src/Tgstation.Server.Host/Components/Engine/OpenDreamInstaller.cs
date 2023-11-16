@@ -224,24 +224,42 @@ namespace Tgstation.Server.Host.Components.Engine
 				async shortenedPath =>
 				{
 					var shortenedDeployPath = IOManager.ConcatPath(shortenedPath, DeployDir);
-					await using var buildProcess = ProcessExecutor.LaunchProcess(
-						dotnetPath,
-						shortenedPath,
-						$"run -c Release --project OpenDreamPackageTool -- --tgs -o {shortenedDeployPath}",
-						null,
-						true,
-						true);
+					Task<string> outputTask = null;
+					try
+					{
+						await using (var buildProcess = ProcessExecutor.LaunchProcess(
+							dotnetPath,
+							shortenedPath,
+							$"run -c Release --project OpenDreamPackageTool -- --tgs -o {shortenedDeployPath}",
+							null,
+							true,
+							true))
+						{
+							using (cancellationToken.Register(() => buildProcess.Terminate()))
+								buildExitCode = await buildProcess.Lifetime;
 
-					using (cancellationToken.Register(() => buildProcess.Terminate()))
-						buildExitCode = await buildProcess.Lifetime;
+							Logger.LogTrace("OD build complete, waiting for output...");
 
-					Logger.LogTrace("OD build complete, waiting for output...");
+							outputTask = buildProcess
+								.GetCombinedOutput(CancellationToken.None); // DCT: Special tactics because of a (dotnet? https://github.com/dotnet/runtime/issues/28583) bug
 
-					Logger.LogDebug(
-						"OpenDream build exited with code {exitCode}:{newLine}{output}",
-						buildExitCode,
-						Environment.NewLine,
-						await buildProcess.GetCombinedOutput(cancellationToken));
+							await outputTask.WaitAsync(cancellationToken);
+						}
+					}
+					finally
+					{
+						if (outputTask != null)
+						{
+							if (!outputTask.IsCompleted)
+								await Task.Yield();
+							if (outputTask.IsCompleted)
+								Logger.LogDebug(
+									"OpenDream build exited with code {exitCode}:{newLine}{output}",
+									buildExitCode,
+									Environment.NewLine,
+									await outputTask);
+						}
+					}
 				},
 				sourcePath,
 				cancellationToken);
