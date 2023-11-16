@@ -112,5 +112,10 @@ namespace Tgstation.Server.Api.Rights
 		/// User can change <see cref="Models.Internal.DreamDaemonLaunchParameters.MapThreads"/>.
 		/// </summary>
 		SetMapThreads = 1 << 19,
+
+		/// <summary>
+		/// User can use <see cref="Models.Request.DreamDaemonRequest.BroadcastMessage"/>.
+		/// </summary>
+		BroadcastMessage = 1 << 20,
 	}
 }

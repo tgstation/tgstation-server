@@ -148,7 +148,8 @@ namespace Tgstation.Server.Host.Controllers
 			| DreamDaemonRights.SetVisibility
 			| DreamDaemonRights.SetProfiler
 			| DreamDaemonRights.SetLogOutput
-			| DreamDaemonRights.SetMapThreads)]
+			| DreamDaemonRights.SetMapThreads
+			| DreamDaemonRights.BroadcastMessage)]
 		[ProducesResponseType(typeof(DreamDaemonResponse), 200)]
 		[ProducesResponseType(typeof(ErrorMessageResponse), 410)]
 #pragma warning disable CA1502 // TODO: Decomplexify
@@ -208,36 +209,41 @@ namespace Tgstation.Server.Host.Controllers
 				return false;
 			}
 
+			if (CheckModified(x => x.AllowWebClient, DreamDaemonRights.SetWebClient)
+				|| CheckModified(x => x.AutoStart, DreamDaemonRights.SetAutoStart)
+				|| CheckModified(x => x.Port, DreamDaemonRights.SetPort)
+				|| CheckModified(x => x.SecurityLevel, DreamDaemonRights.SetSecurity)
+				|| CheckModified(x => x.Visibility, DreamDaemonRights.SetVisibility)
+				|| (model.SoftRestart.HasValue && !AuthenticationContext.InstancePermissionSet.DreamDaemonRights.Value.HasFlag(DreamDaemonRights.SoftRestart))
+				|| (model.SoftShutdown.HasValue && !AuthenticationContext.InstancePermissionSet.DreamDaemonRights.Value.HasFlag(DreamDaemonRights.SoftShutdown))
+				|| (model.BroadcastMessage != null && !AuthenticationContext.InstancePermissionSet.DreamDaemonRights.Value.HasFlag(DreamDaemonRights.BroadcastMessage))
+				|| CheckModified(x => x.StartupTimeout, DreamDaemonRights.SetStartupTimeout)
+				|| CheckModified(x => x.HealthCheckSeconds, DreamDaemonRights.SetHealthCheckInterval)
+				|| CheckModified(x => x.DumpOnHealthCheckRestart, DreamDaemonRights.CreateDump)
+				|| CheckModified(x => x.TopicRequestTimeout, DreamDaemonRights.SetTopicTimeout)
+				|| CheckModified(x => x.AdditionalParameters, DreamDaemonRights.SetAdditionalParameters)
+				|| CheckModified(x => x.StartProfiler, DreamDaemonRights.SetProfiler)
+				|| CheckModified(x => x.LogOutput, DreamDaemonRights.SetLogOutput)
+				|| CheckModified(x => x.MapThreads, DreamDaemonRights.SetMapThreads))
+				return Forbid();
+
 			return await WithComponentInstance(
 				async instance =>
 				{
 					var watchdog = instance.Watchdog;
-					var rebootState = watchdog.RebootState;
-					var oldSoftRestart = rebootState == RebootState.Restart;
-					var oldSoftShutdown = rebootState == RebootState.Shutdown;
-
-					if (CheckModified(x => x.AllowWebClient, DreamDaemonRights.SetWebClient)
-						|| CheckModified(x => x.AutoStart, DreamDaemonRights.SetAutoStart)
-						|| CheckModified(x => x.Port, DreamDaemonRights.SetPort)
-						|| CheckModified(x => x.SecurityLevel, DreamDaemonRights.SetSecurity)
-						|| CheckModified(x => x.Visibility, DreamDaemonRights.SetVisibility)
-						|| (model.SoftRestart.HasValue && !AuthenticationContext.InstancePermissionSet.DreamDaemonRights.Value.HasFlag(DreamDaemonRights.SoftRestart))
-						|| (model.SoftShutdown.HasValue && !AuthenticationContext.InstancePermissionSet.DreamDaemonRights.Value.HasFlag(DreamDaemonRights.SoftShutdown))
-						|| CheckModified(x => x.StartupTimeout, DreamDaemonRights.SetStartupTimeout)
-						|| CheckModified(x => x.HealthCheckSeconds, DreamDaemonRights.SetHealthCheckInterval)
-						|| CheckModified(x => x.DumpOnHealthCheckRestart, DreamDaemonRights.CreateDump)
-						|| CheckModified(x => x.TopicRequestTimeout, DreamDaemonRights.SetTopicTimeout)
-						|| CheckModified(x => x.AdditionalParameters, DreamDaemonRights.SetAdditionalParameters)
-						|| CheckModified(x => x.StartProfiler, DreamDaemonRights.SetProfiler)
-						|| CheckModified(x => x.LogOutput, DreamDaemonRights.SetLogOutput)
-						|| CheckModified(x => x.MapThreads, DreamDaemonRights.SetMapThreads))
-						return Forbid();
+					if (model.BroadcastMessage != null
+						&& !await watchdog.Broadcast(model.BroadcastMessage, cancellationToken))
+						return Conflict(new ErrorMessageResponse(ErrorCode.BroadcastFailure));
 
 					await DatabaseContext.Save(cancellationToken);
 
 					// run this second because current may be modified by it
+					// slight race condition with request cancellation, but I CANNOT be assed right now
 					await watchdog.ChangeSettings(current, cancellationToken);
 
+					var rebootState = watchdog.RebootState;
+					var oldSoftRestart = rebootState == RebootState.Restart;
+					var oldSoftShutdown = rebootState == RebootState.Shutdown;
 					if (!oldSoftRestart && model.SoftRestart == true && watchdog.Status == WatchdogStatus.Online)
 						await watchdog.Restart(true, cancellationToken);
 					else if (!oldSoftShutdown && model.SoftShutdown == true)
