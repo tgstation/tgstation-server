@@ -462,20 +462,21 @@ jobs:
 
     - name: Run Live Tests # Logging here is weird because printing massive amounts of text on Windows runners is SLOW AS SHIT!!!
       id: live-tests
+      shell: bash
       run: |
         cd tests/Tgstation.Server.Tests
-        Start-Sleep -Seconds 10
-        $ErrorActionPreference="SilentlyContinue"
-        $test_output = dotnet test -c ${{ matrix.configuration }} --no-build --filter TestCategory=RequiresDatabase --logger "GitHubActions;summary.includePassedTests=true;summary.includeSkippedTests=true" --collect:"XPlat Code Coverage" --settings ../../build/ci.runsettings --results-directory ../../TestResults
-        $succeeded = $?
-        $ErrorActionPreference="Stop"
+        sleep 10
+        set +e
+        test_output=$(dotnet test -c ${{ matrix.configuration }} --no-build --filter TestCategory=RequiresDatabase --logger "GitHubActions;summary.includePassedTests=true;summary.includeSkippedTests=true" --collect:"XPlat Code Coverage" --settings ../../build/ci.runsettings --results-directory ../../TestResults)
+        succeeded=$?
+        set -e
         cd ../..
-        $test_output | Out-File -FilePath ./test_output.txt
-        if (-Not $succeeded) {
-          echo "succeeded=NO" >> $env:GITHUB_OUTPUT
-        } else {
-          echo "succeeded=YES" >> $env:GITHUB_OUTPUT
-        }
+        echo $test_output > ./test_output.txt
+        if [[ $retVal -ne 0 ]]; then
+          echo "succeeded=NO" >> $GITHUB_OUTPUT
+        else
+          echo "succeeded=YES" >> $GITHUB_OUTPUT
+        fi
 
     - name: Store Live Tests Output
       uses: actions/upload-artifact@v3
