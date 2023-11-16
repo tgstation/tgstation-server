@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
@@ -208,6 +208,25 @@ namespace Tgstation.Server.Host.Controllers
 				return false;
 			}
 
+			if (CheckModified(x => x.AllowWebClient, DreamDaemonRights.SetWebClient)
+				|| CheckModified(x => x.AutoStart, DreamDaemonRights.SetAutoStart)
+				|| CheckModified(x => x.Port, DreamDaemonRights.SetPort)
+				|| CheckModified(x => x.SecurityLevel, DreamDaemonRights.SetSecurity)
+				|| CheckModified(x => x.Visibility, DreamDaemonRights.SetVisibility)
+				|| (model.SoftRestart.HasValue && !AuthenticationContext.InstancePermissionSet.DreamDaemonRights.Value.HasFlag(DreamDaemonRights.SoftRestart))
+				|| (model.SoftShutdown.HasValue && !AuthenticationContext.InstancePermissionSet.DreamDaemonRights.Value.HasFlag(DreamDaemonRights.SoftShutdown))
+				|| CheckModified(x => x.StartupTimeout, DreamDaemonRights.SetStartupTimeout)
+				|| CheckModified(x => x.HealthCheckSeconds, DreamDaemonRights.SetHealthCheckInterval)
+				|| CheckModified(x => x.DumpOnHealthCheckRestart, DreamDaemonRights.CreateDump)
+				|| CheckModified(x => x.TopicRequestTimeout, DreamDaemonRights.SetTopicTimeout)
+				|| CheckModified(x => x.AdditionalParameters, DreamDaemonRights.SetAdditionalParameters)
+				|| CheckModified(x => x.StartProfiler, DreamDaemonRights.SetProfiler)
+				|| CheckModified(x => x.LogOutput, DreamDaemonRights.SetLogOutput)
+				|| CheckModified(x => x.MapThreads, DreamDaemonRights.SetMapThreads))
+				return Forbid();
+
+			await DatabaseContext.Save(cancellationToken);
+
 			return await WithComponentInstance(
 				async instance =>
 				{
@@ -215,25 +234,6 @@ namespace Tgstation.Server.Host.Controllers
 					var rebootState = watchdog.RebootState;
 					var oldSoftRestart = rebootState == RebootState.Restart;
 					var oldSoftShutdown = rebootState == RebootState.Shutdown;
-
-					if (CheckModified(x => x.AllowWebClient, DreamDaemonRights.SetWebClient)
-						|| CheckModified(x => x.AutoStart, DreamDaemonRights.SetAutoStart)
-						|| CheckModified(x => x.Port, DreamDaemonRights.SetPort)
-						|| CheckModified(x => x.SecurityLevel, DreamDaemonRights.SetSecurity)
-						|| CheckModified(x => x.Visibility, DreamDaemonRights.SetVisibility)
-						|| (model.SoftRestart.HasValue && !AuthenticationContext.InstancePermissionSet.DreamDaemonRights.Value.HasFlag(DreamDaemonRights.SoftRestart))
-						|| (model.SoftShutdown.HasValue && !AuthenticationContext.InstancePermissionSet.DreamDaemonRights.Value.HasFlag(DreamDaemonRights.SoftShutdown))
-						|| CheckModified(x => x.StartupTimeout, DreamDaemonRights.SetStartupTimeout)
-						|| CheckModified(x => x.HealthCheckSeconds, DreamDaemonRights.SetHealthCheckInterval)
-						|| CheckModified(x => x.DumpOnHealthCheckRestart, DreamDaemonRights.CreateDump)
-						|| CheckModified(x => x.TopicRequestTimeout, DreamDaemonRights.SetTopicTimeout)
-						|| CheckModified(x => x.AdditionalParameters, DreamDaemonRights.SetAdditionalParameters)
-						|| CheckModified(x => x.StartProfiler, DreamDaemonRights.SetProfiler)
-						|| CheckModified(x => x.LogOutput, DreamDaemonRights.SetLogOutput)
-						|| CheckModified(x => x.MapThreads, DreamDaemonRights.SetMapThreads))
-						return Forbid();
-
-					await DatabaseContext.Save(cancellationToken);
 
 					// run this second because current may be modified by it
 					await watchdog.ChangeSettings(current, cancellationToken);
