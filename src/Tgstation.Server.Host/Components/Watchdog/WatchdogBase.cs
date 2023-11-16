@@ -458,6 +458,43 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		}
 
 		/// <inheritdoc />
+		public async ValueTask<bool> Broadcast(string message, CancellationToken cancellationToken)
+		{
+			ArgumentNullException.ThrowIfNull(message);
+
+			var activeServer = GetActiveController();
+			if (activeServer == null)
+			{
+				Logger.LogInformation("Attempted broadcast failed, no active server!");
+				return false;
+			}
+
+			if (!activeServer.DMApiAvailable)
+			{
+				Logger.LogInformation("Attempted broadcast failed, no DMAPI!");
+				return false;
+			}
+
+			var minimumRequiredVersion = new Version(5, 7, 0);
+			if (activeServer.DMApiVersion < minimumRequiredVersion)
+			{
+				Logger.LogInformation(
+					"Attempted broadcast failed, insufficient interop version: {interopVersion}. Requires {minimumRequiredVersion}!",
+					activeServer.DMApiVersion,
+					minimumRequiredVersion);
+				return false;
+			}
+
+			Logger.LogInformation("Broadcasting: {message}", message);
+
+			var response = await activeServer.SendCommand(
+				TopicParameters.CreateBroadcastParameters(message),
+				cancellationToken);
+
+			return response != null && response.ErrorMessage == null;
+		}
+
+		/// <inheritdoc />
 		async ValueTask IEventConsumer.HandleEvent(EventType eventType, IEnumerable<string> parameters, bool deploymentPipeline, CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(parameters);

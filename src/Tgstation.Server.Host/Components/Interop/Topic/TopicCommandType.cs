@@ -62,5 +62,10 @@ namespace Tgstation.Server.Host.Components.Interop.Topic
 		/// Receive additional data for a previous response.
 		/// </summary>
 		ReceiveChunk,
+
+		/// <summary>
+		/// Sending a broadcast message.
+		/// </summary>
+		Broadcast,
 	}
 }
