@@ -161,7 +161,7 @@ Components:
       Author: Cyberboss
       PullRequest: 1628
     - Descriptions:
-      - The `.deb` package now runs tgstation-server as the user `tgstation-server`. This user has minimal permissions. More may be granted manually by system administrators.
+      - The `.deb` package now runs tgstation-server as the user `tgstation-server`. This user has minimal permissions. More may be granted manually by system administrators. **IF YOU OPT TO UPDATE VIA APT, YOU MAY HAVE THIS USER AUTOMATICALLY SET AS THE SERVICE RUNNER, EVEN IF IT DOES NOT EXIST!** To fix this, edit `/etc/lib/systemd/system/tgstation-server.service` and remove the `User=tgstation-server` line.
       Author: Cyberboss
       PullRequest: 1692
     - Descriptions:
@@ -184,7 +184,17 @@ Components:
     Changes: []
     Unreleased: true
   - Version: 5.17.4
-    ComponentVersions: {}
+    ComponentVersions:
+      Core: 5.17.3
+      HttpApi: 9.13.0
+      DreamMakerApi: 6.6.2
+      Configuration: 4.7.1
+      InteropApi: 5.6.2
+      HostWatchdog: 1.4.0
+      NugetCommon: 7.0.0
+      NugetApi: 12.0.1
+      NugetClient: 14.1.0
+      WebControlPanel: 4.26.2
     Changes: []
     Unreleased: true
   - Version: 5.17.3
