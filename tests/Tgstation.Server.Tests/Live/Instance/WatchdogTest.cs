@@ -617,24 +617,20 @@ namespace Tgstation.Server.Tests.Live.Instance
 		async Task RunHealthCheckTest(bool checkDump, CancellationToken cancellationToken)
 		{
 			System.Console.WriteLine("TEST: WATCHDOG HEALTH CHECK TEST");
-#pragma warning disable CS0618 // Type or member is obsolete
+
 			// Check reverse mapping
 			var status = await instanceClient.DreamDaemon.Update(new DreamDaemonRequest
 			{
 				DumpOnHealthCheckRestart = !checkDump,
 			}, cancellationToken);
 
-			Assert.AreEqual(!checkDump, status.DumpOnHeartbeatRestart);
-
 			// enable health checks
 			status = await instanceClient.DreamDaemon.Update(new DreamDaemonRequest
 			{
 				HealthCheckSeconds = 1,
-				DumpOnHeartbeatRestart = checkDump,
+				DumpOnHealthCheckRestart = checkDump,
 			}, cancellationToken);
 
-			Assert.AreEqual(checkDump, status.DumpOnHeartbeatRestart);
-#pragma warning restore CS0618 // Type or member is obsolete
 			Assert.AreEqual(checkDump, status.DumpOnHealthCheckRestart);
 
 			var startJob = await StartDD(cancellationToken);
@@ -692,8 +688,6 @@ namespace Tgstation.Server.Tests.Live.Instance
 				await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);
 				ddStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
 				Assert.AreEqual(1U, ddStatus.HealthCheckSeconds.Value);
-#pragma warning disable CS0618 // Type or member is obsolete
-				Assert.AreEqual(1U, ddStatus.HeartbeatSeconds.Value);
 				if (ddStatus.Status.Value == WatchdogStatus.Offline)
 				{
 					await CheckDMApiFail(ddStatus.ActiveCompileJob, cancellationToken);
@@ -708,11 +702,9 @@ namespace Tgstation.Server.Tests.Live.Instance
 			// disable health checks
 			ddStatus = await instanceClient.DreamDaemon.Update(new DreamDaemonRequest
 			{
-				HeartbeatSeconds = 0,
+				HealthCheckSeconds = 0,
 			}, cancellationToken);
 			Assert.AreEqual(0U, ddStatus.HealthCheckSeconds.Value);
-			Assert.AreEqual(0U, ddStatus.HeartbeatSeconds.Value);
-#pragma warning restore CS0618 // Type or member is obsolete
 
 			if (checkDump)
 			{

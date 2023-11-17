@@ -20,13 +20,13 @@ namespace Tgstation.Server.Host.Models
 		public long ChatSettingsId { get; set; }
 
 		/// <summary>
-		/// See <see cref="Api.Models.ChatChannel.IrcChannel"/>.
+		/// The IRC channel name.
 		/// </summary>
 		[StringLength(Limits.MaximumIndexableStringLength, MinimumLength = 1)]
 		public string IrcChannel { get; set; }
 
 		/// <summary>
-		/// See <see cref="Api.Models.ChatChannel.DiscordChannelId"/>.
+		/// The Discord channel snowflake.
 		/// </summary>
 		public ulong? DiscordChannelId { get; set; }
 
@@ -43,10 +43,6 @@ namespace Tgstation.Server.Host.Models
 		public Api.Models.ChatChannel ToApi(ChatProvider chatProvider) => new Api.Models.ChatChannel
 		{
 			ChannelData = chatProvider == ChatProvider.Discord ? DiscordChannelId.Value.ToString(CultureInfo.InvariantCulture) : IrcChannel,
-#pragma warning disable CS0618
-			IrcChannel = IrcChannel,
-			DiscordChannelId = DiscordChannelId,
-#pragma warning restore CS0618
 			IsAdminChannel = IsAdminChannel,
 			IsWatchdogChannel = IsWatchdogChannel,
 			IsUpdatesChannel = IsUpdatesChannel,

@@ -287,9 +287,7 @@ namespace Tgstation.Server.Api
 
 								try
 								{
-#pragma warning disable CS0618 // Type or member is obsolete
-									Token.ExpiresAt = Token.ParseJwt().ValidTo;
-#pragma warning restore CS0618 // Type or member is obsolete
+									Token.ParseJwt();
 								}
 								catch (ArgumentException ex) when (ex is not ArgumentNullException)
 								{

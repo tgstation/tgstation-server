@@ -99,10 +99,6 @@ namespace Tgstation.Server.Host.Controllers
 				|| ((model.CommitterEmail ?? model.CommitterName) != null && !userRights.HasFlag(RepositoryRights.ChangeCommitter)))
 				return Forbid();
 
-			#pragma warning disable CS0618 // Support for obsolete API field
-			model.UpdateSubmodules ??= model.RecurseSubmodules;
-			#pragma warning restore CS0618
-
 			var currentModel = await DatabaseContext
 				.RepositorySettings
 				.AsQueryable()
