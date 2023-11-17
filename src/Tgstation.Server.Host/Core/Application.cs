@@ -564,7 +564,7 @@ namespace Tgstation.Server.Host.Core
 			logger.LogTrace("Configuration version: {configVersion}", GeneralConfiguration.CurrentConfigVersion);
 			logger.LogTrace("DMAPI Interop version: {interopVersion}", DMApiConstants.InteropVersion);
 			if (controlPanelConfiguration.Enable)
-				logger.LogTrace("Web control panel version: {webCPVersion}", MasterVersionsAttribute.Instance.RawControlPanelVersion);
+				logger.LogTrace("Webpanel version: {webCPVersion}", MasterVersionsAttribute.Instance.RawWebpanelVersion);
 
 			logger.LogDebug("Starting hosting on port {httpApiPort}...", serverPortProvider.HttpApiPort);
 		}

@@ -216,7 +216,7 @@ namespace Tgstation.Server.Host.Controllers
 				|| CheckModified(x => x.Visibility, DreamDaemonRights.SetVisibility)
 				|| (model.SoftRestart.HasValue && !AuthenticationContext.InstancePermissionSet.DreamDaemonRights.Value.HasFlag(DreamDaemonRights.SoftRestart))
 				|| (model.SoftShutdown.HasValue && !AuthenticationContext.InstancePermissionSet.DreamDaemonRights.Value.HasFlag(DreamDaemonRights.SoftShutdown))
-				|| (model.BroadcastMessage != null && !AuthenticationContext.InstancePermissionSet.DreamDaemonRights.Value.HasFlag(DreamDaemonRights.BroadcastMessage))
+				|| (!String.IsNullOrWhiteSpace(model.BroadcastMessage) && !AuthenticationContext.InstancePermissionSet.DreamDaemonRights.Value.HasFlag(DreamDaemonRights.BroadcastMessage))
 				|| CheckModified(x => x.StartupTimeout, DreamDaemonRights.SetStartupTimeout)
 				|| CheckModified(x => x.HealthCheckSeconds, DreamDaemonRights.SetHealthCheckInterval)
 				|| CheckModified(x => x.DumpOnHealthCheckRestart, DreamDaemonRights.CreateDump)
@@ -231,7 +231,7 @@ namespace Tgstation.Server.Host.Controllers
 				async instance =>
 				{
 					var watchdog = instance.Watchdog;
-					if (model.BroadcastMessage != null
+					if (!String.IsNullOrWhiteSpace(model.BroadcastMessage)
 						&& !await watchdog.Broadcast(model.BroadcastMessage, cancellationToken))
 						return Conflict(new ErrorMessageResponse(ErrorCode.BroadcastFailure));
 

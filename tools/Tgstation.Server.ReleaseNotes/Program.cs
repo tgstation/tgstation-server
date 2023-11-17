@@ -223,7 +223,7 @@ namespace Tgstation.Server.ReleaseNotes
 
 				string prefix;
 				const string PropsPath = "build/Version.props";
-				const string ControlPanelPropsPath = "build/ControlPanelVersion.props";
+				const string ControlPanelPropsPath = "build/WebpanelVersion.props";
 
 				var doc = XDocument.Load(PropsPath);
 				var project = doc.Root;
@@ -246,7 +246,7 @@ namespace Tgstation.Server.ReleaseNotes
 				var configVersion = Version.Parse(versionsPropertyGroup.Element(xmlNamespace + "TgsConfigVersion").Value);
 				var dmApiVersion = Version.Parse(versionsPropertyGroup.Element(xmlNamespace + "TgsDmapiVersion").Value);
 				var interopVersion = Version.Parse(versionsPropertyGroup.Element(xmlNamespace + "TgsInteropVersion").Value);
-				var webControlVersion = Version.Parse(controlPanelVersionsPropertyGroup.Element(controlPanelXmlNamespace + "TgsControlPanelVersion").Value);
+				var webControlVersion = Version.Parse(controlPanelVersionsPropertyGroup.Element(controlPanelXmlNamespace + "TgsWebpanelVersion").Value);
 				var hostWatchdogVersion = Version.Parse(versionsPropertyGroup.Element(xmlNamespace + "TgsHostWatchdogVersion").Value);
 
 				if (webControlVersion.Major == 0)
@@ -608,14 +608,14 @@ namespace Tgstation.Server.ReleaseNotes
 						dict.Add(Component.NugetApi, Parse("TgsApiLibraryVersion"));
 						dict.Add(Component.NugetClient, Parse("TgsClientVersion"));
 
-						var webVersion = Parse("TgsControlPanelVersion");
+						var webVersion = Parse("TgsWebpanelVersion");
 						if (webVersion != null)
 						{
 							dict.Add(Component.WebControlPanel, webVersion);
 						}
 						else
 						{
-							var controlPanelVersionBytes = await RLR(() => client.Repository.Content.GetRawContentByRef(RepoOwner, RepoName, "build/ControlPanelVersion.props", mergeCommit));
+							var controlPanelVersionBytes = await RLR(() => client.Repository.Content.GetRawContentByRef(RepoOwner, RepoName, "build/WebpanelVersion.props", mergeCommit));
 							using (var ms = new MemoryStream(controlPanelVersionBytes))
 								doc = XDocument.Load(ms);
 
@@ -623,7 +623,7 @@ namespace Tgstation.Server.ReleaseNotes
 							project = doc.Root;
 							var controlPanelXmlNamespace = project.GetDefaultNamespace();
 							var controlPanelVersionsPropertyGroup = project.Elements().First(x => x.Name == controlPanelXmlNamespace + "PropertyGroup");
-							dict.Add(Component.WebControlPanel, Version.Parse(controlPanelVersionsPropertyGroup.Element(controlPanelXmlNamespace + "TgsControlPanelVersion").Value));
+							dict.Add(Component.WebControlPanel, Version.Parse(controlPanelVersionsPropertyGroup.Element(controlPanelXmlNamespace + "TgsWebpanelVersion").Value));
 						}
 					}
 
