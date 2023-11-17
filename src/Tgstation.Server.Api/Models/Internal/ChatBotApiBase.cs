@@ -22,10 +22,8 @@ namespace Tgstation.Server.Api.Models.Internal
 				return true;
 			return Provider.Value switch
 			{
-#pragma warning disable CS0618
-				ChatProvider.Discord => Channels?.Select(x => (x.DiscordChannelId.HasValue || ulong.TryParse(x.ChannelData, out _)) && x.IrcChannel == null).All(x => x) ?? true,
-				ChatProvider.Irc => Channels?.Select(x => !x.DiscordChannelId.HasValue && (x.IrcChannel != null || x.ChannelData != null)).All(x => x) ?? true,
-#pragma warning restore CS0618
+				ChatProvider.Discord => Channels?.All(x => UInt64.TryParse(x.ChannelData, out _)) ?? true,
+				ChatProvider.Irc => Channels?.All(x => x.ChannelData != null && x.ChannelData[0] == '#') ?? true,
 				_ => throw new InvalidOperationException("Invalid provider type!"),
 			};
 		}

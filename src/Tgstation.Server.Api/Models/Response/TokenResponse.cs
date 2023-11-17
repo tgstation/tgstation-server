@@ -1,6 +1,4 @@
-﻿using System;
-
-using Microsoft.IdentityModel.JsonWebTokens;
+﻿using Microsoft.IdentityModel.JsonWebTokens;
 
 namespace Tgstation.Server.Api.Models.Response
 {
@@ -13,12 +11,6 @@ namespace Tgstation.Server.Api.Models.Response
 		/// The value of the JWT.
 		/// </summary>
 		public string? Bearer { get; set; }
-
-		/// <summary>
-		/// When the <see cref="TokenResponse"/> expires.
-		/// </summary>
-		[Obsolete("Will be removed in a future API version")]
-		public DateTimeOffset? ExpiresAt { get; set; }
 
 		/// <summary>
 		/// Parses the <see cref="Bearer"/> as a <see cref="JsonWebToken"/>.
