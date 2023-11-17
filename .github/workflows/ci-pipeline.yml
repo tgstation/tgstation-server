@@ -520,11 +520,11 @@ jobs:
         sleep 10
         set +e
         test_output=$(dotnet test -c ${{ matrix.configuration }} --no-build --filter TestCategory=RequiresDatabase --logger "GitHubActions;summary.includePassedTests=true;summary.includeSkippedTests=true" --collect:"XPlat Code Coverage" --settings ../../build/ci.runsettings --results-directory ../../TestResults)
-        succeeded=$?
+        retval=$?
         set -e
         cd ../..
         echo $test_output > ./test_output.txt
-        if [[ $retVal -ne 0 ]]; then
+        if [[ $retval -ne 0 ]]; then
           echo "succeeded=NO" >> $GITHUB_OUTPUT
         else
           echo "succeeded=YES" >> $GITHUB_OUTPUT

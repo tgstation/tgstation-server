@@ -313,11 +313,11 @@ namespace Tgstation.Server.Tests
 		[TestMethod]
 		public void TestControlPanelVersion()
 		{
-			var doc = XDocument.Load("../../../../../build/ControlPanelVersion.props");
+			var doc = XDocument.Load("../../../../../build/WebpanelVersion.props");
 			var project = doc.Root;
 			var controlPanelXmlNamespace = project.GetDefaultNamespace();
 			var controlPanelVersionsPropertyGroup = project.Elements().First(x => x.Name == controlPanelXmlNamespace + "PropertyGroup");
-			var versionString = controlPanelVersionsPropertyGroup.Element(controlPanelXmlNamespace + "TgsControlPanelVersion").Value;
+			var versionString = controlPanelVersionsPropertyGroup.Element(controlPanelXmlNamespace + "TgsWebpanelVersion").Value;
 			Assert.IsNotNull(versionString);
 			Assert.IsTrue(Version.TryParse(versionString, out var expected));
 
