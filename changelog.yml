@@ -135,6 +135,14 @@ Components:
     ComponentVersions: {}
     Changes: []
     Unreleased: true
+  - Version: 5.19.0
+    ComponentVersions: {}
+    Changes: []
+    Unreleased: true
+  - Version: 5.18.1
+    ComponentVersions: {}
+    Changes: []
+    Unreleased: true
   - Version: 5.18.0
     ComponentVersions:
       Core: 5.18.0
@@ -148,11 +156,6 @@ Components:
       NugetClient: 14.2.0
       WebControlPanel: 5.1.0
     Changes: []
-    Unreleased: true
-  - Version: 5.17.4
-    ComponentVersions: {}
-    Changes: []
-    Unreleased: true
   - Version: 5.17.3
     ComponentVersions:
       HttpApi: 9.13.0
@@ -3060,7 +3063,6 @@ Components:
       - Added support for sending broadcast messages to servers.
       Author: Cyberboss
       PullRequest: 1720
-    Unreleased: true
   - Version: 4.26.2
     Changes:
     - Descriptions:
@@ -3214,7 +3216,6 @@ Components:
       - Added DreamDaemon right 1048576 for broadcast messages.
       Author: Cyberboss
       PullRequest: 1719
-    Unreleased: true
   - Version: 9.13.0
     Changes:
     - Descriptions:
@@ -3663,7 +3664,6 @@ Components:
       - Added missing `#undef`s for some internal constants.
       Author: Cyberboss
       PullRequest: 1719
-    Unreleased: true
   - Version: 6.6.2
     Changes:
     - Descriptions:
@@ -3838,7 +3838,6 @@ Components:
       - Added topic command 11 for broadcast messages. Content stored in `broadcastMessage` parameter.
       Author: Cyberboss
       PullRequest: 1719
-    Unreleased: true
   - Version: 5.6.2
     Changes:
     - Descriptions:
@@ -3867,7 +3866,6 @@ Components:
       - Added `DreamDaemonRights.BroadcastMessage`
       Author: Cyberboss
       PullRequest: 1719
-    Unreleased: true
   - Version: 12.0.1
     Changes:
     - Descriptions:
