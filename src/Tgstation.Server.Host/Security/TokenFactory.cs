@@ -119,13 +119,10 @@ namespace Tgstation.Server.Host.Security
 					expiry.UtcDateTime,
 					now.UtcDateTime));
 
-#pragma warning disable CS0618 // Type or member is obsolete
 			var tokenResponse = new TokenResponse
 			{
 				Bearer = tokenHandler.WriteToken(securityToken),
-				ExpiresAt = expiry,
 			};
-#pragma warning restore CS0618 // Type or member is obsolete
 
 			return tokenResponse;
 		}

@@ -210,13 +210,10 @@ namespace Tgstation.Server.Tests.Live
 			Assert.AreEqual(RuntimeInformation.IsOSPlatform(OSPlatform.Windows), serverInfo.WindowsHost);
 
 			//check that modifying the token even slightly fucks up the auth
-#pragma warning disable CS0618 // Type or member is obsolete
 			var newToken = new TokenResponse
 			{
-				ExpiresAt = serverClient.Token.ExpiresAt,
 				Bearer = serverClient.Token.Bearer + '0'
 			};
-#pragma warning restore CS0618 // Type or member is obsolete
 
 			var badClient = clientFactory.CreateFromToken(serverClient.Url, newToken);
 			await ApiAssert.ThrowsException<UnauthorizedException, AdministrationResponse>(() => badClient.Administration.Read(cancellationToken));
