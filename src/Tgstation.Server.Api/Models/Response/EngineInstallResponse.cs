@@ -6,7 +6,7 @@
 	public sealed class EngineInstallResponse : FileTicketResponse
 	{
 		/// <summary>
-		/// The <see cref="JobResponse"/> being used to install a new <see cref="Models.EngineVersion"/>.
+		/// The <see cref="JobResponse"/> being used to install a new <see cref="EngineVersion"/>.
 		/// </summary>
 		[ResponseOptions]
 		public JobResponse? InstallJob { get; set; }
