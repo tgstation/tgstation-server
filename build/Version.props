@@ -1,7 +1,7 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <!-- This is the authorative version list -->
   <!-- Integration tests will ensure they match across the board -->
-  <Import Project="ControlPanelVersion.props" />
+  <Import Project="WebpanelVersion.props" />
   <PropertyGroup>
     <TgsCoreVersion>5.17.3</TgsCoreVersion>
     <TgsConfigVersion>4.7.1</TgsConfigVersion>

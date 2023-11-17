@@ -29,7 +29,7 @@ namespace Tgstation.Server.Host.Properties
 		/// <summary>
 		/// The <see cref="Version"/> <see cref="string"/> of the control panel version built.
 		/// </summary>
-		public string RawControlPanelVersion { get; }
+		public string RawWebpanelVersion { get; }
 
 		/// <summary>
 		/// The <see cref="Version"/> <see cref="string"/> of the control panel version built.
@@ -46,19 +46,19 @@ namespace Tgstation.Server.Host.Properties
 		/// </summary>
 		/// <param name="rawConfigurationVersion">The value of <see cref="RawConfigurationVersion"/>.</param>
 		/// <param name="rawInteropVersion">The value of <see cref="RawInteropVersion"/>.</param>
-		/// <param name="rawControlPanelVersion">The value of <see cref="RawControlPanelVersion"/>.</param>
+		/// <param name="rawWebpanelVersion">The value of <see cref="RawWebpanelVersion"/>.</param>
 		/// <param name="rawHostWatchdogVersion">The value of <see cref="RawHostWatchdogVersion"/>.</param>
 		/// <param name="rawMariaDBRedistVersion">The value of <see cref="RawMariaDBRedistVersion"/>.</param>
 		public MasterVersionsAttribute(
 			string rawConfigurationVersion,
 			string rawInteropVersion,
-			string rawControlPanelVersion,
+			string rawWebpanelVersion,
 			string rawHostWatchdogVersion,
 			string rawMariaDBRedistVersion)
 		{
 			RawConfigurationVersion = rawConfigurationVersion ?? throw new ArgumentNullException(nameof(rawConfigurationVersion));
 			RawInteropVersion = rawInteropVersion ?? throw new ArgumentNullException(nameof(rawInteropVersion));
-			RawControlPanelVersion = rawControlPanelVersion ?? throw new ArgumentNullException(nameof(rawControlPanelVersion));
+			RawWebpanelVersion = rawWebpanelVersion ?? throw new ArgumentNullException(nameof(rawWebpanelVersion));
 			RawHostWatchdogVersion = rawHostWatchdogVersion ?? throw new ArgumentNullException(nameof(rawHostWatchdogVersion));
 			RawMariaDBRedistVersion = rawMariaDBRedistVersion ?? throw new ArgumentNullException(nameof(rawMariaDBRedistVersion));
 		}
