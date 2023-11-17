@@ -88,5 +88,13 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
 		ValueTask CreateDump(CancellationToken cancellationToken);
+
+		/// <summary>
+		/// Send a broadcast <paramref name="message"/> to the DMAPI.
+		/// </summary>
+		/// <param name="message">The message to broadcast.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in <see langword="true"/> if the broadcast succeeded., <see langword="false"/> otherwise.</returns>
+		ValueTask<bool> Broadcast(string message, CancellationToken cancellationToken);
 	}
 }

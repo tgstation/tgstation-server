@@ -43,6 +43,11 @@ namespace Tgstation.Server.Host.Components.Interop.Topic
 		public string NewInstanceName { get; }
 
 		/// <summary>
+		/// The message to broadcast for <see cref="TopicCommandType.Broadcast"/> requests.
+		/// </summary>
+		public string BroadcastMessage { get; }
+
+		/// <summary>
 		/// The <see cref="Interop.ChatUpdate"/> for <see cref="TopicCommandType.ChatChannelsUpdate"/> requests.
 		/// </summary>
 		public ChatUpdate ChatUpdate { get; }
@@ -68,6 +73,7 @@ namespace Tgstation.Server.Host.Components.Interop.Topic
 			or TopicCommandType.ChangeRebootState
 			or TopicCommandType.InstanceRenamed
 			or TopicCommandType.ChatChannelsUpdate
+			or TopicCommandType.Broadcast
 			or TopicCommandType.ServerRestarted => true,
 			TopicCommandType.ChatCommand
 			or TopicCommandType.HealthCheck
@@ -75,6 +81,26 @@ namespace Tgstation.Server.Host.Components.Interop.Topic
 			TopicCommandType.SendChunk => throw new InvalidOperationException("SendChunk topic priority should be based on the original TopicParameters!"),
 			_ => throw new InvalidOperationException($"Invalid value for {nameof(CommandType)}: {CommandType}"),
 		};
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="TopicParameters"/> class.
+		/// </summary>
+		/// <param name="newInstanceName">The value of <see cref="NewInstanceName"/>.</param>
+		/// <returns>The created <see cref="TopicParameters"/>.</returns>
+		public static TopicParameters CreateInstanceRenamedTopicParameters(string newInstanceName)
+			=> new (
+				newInstanceName ?? throw new ArgumentNullException(nameof(newInstanceName)),
+				TopicCommandType.InstanceRenamed);
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="TopicParameters"/> class.
+		/// </summary>
+		/// <param name="broadcastMessage">The value of <see cref="BroadcastMessage"/>.</param>
+		/// <returns>The created <see cref="TopicParameters"/>.</returns>
+		public static TopicParameters CreateBroadcastParameters(string broadcastMessage)
+			=> new (
+				broadcastMessage ?? throw new ArgumentNullException(nameof(broadcastMessage)),
+				TopicCommandType.Broadcast);
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="TopicParameters"/> class.
@@ -114,16 +140,6 @@ namespace Tgstation.Server.Host.Components.Interop.Topic
 			: this(TopicCommandType.ChangeRebootState)
 		{
 			NewRebootState = newRebootState;
-		}
-
-		/// <summary>
-		/// Initializes a new instance of the <see cref="TopicParameters"/> class.
-		/// </summary>
-		/// <param name="newInstanceName">The value of <see cref="NewInstanceName"/>.</param>
-		public TopicParameters(string newInstanceName)
-			: this(TopicCommandType.InstanceRenamed)
-		{
-			NewInstanceName = newInstanceName ?? throw new ArgumentNullException(nameof(newInstanceName));
 		}
 
 		/// <summary>
@@ -174,6 +190,29 @@ namespace Tgstation.Server.Host.Components.Interop.Topic
 		protected TopicParameters(TopicCommandType commandType)
 		{
 			CommandType = commandType;
+		}
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="TopicParameters"/> class.
+		/// </summary>
+		/// <param name="stringCommand">The <see cref="string"/> parameter for the property designated by <paramref name="stringCommandType"/>.</param>
+		/// <param name="stringCommandType">The value of <see cref="CommandType"/>.</param>
+		TopicParameters(string stringCommand, TopicCommandType stringCommandType)
+			: this(stringCommandType)
+		{
+#pragma warning disable IDE0010 // Add missing cases
+			switch (stringCommandType)
+			{
+				case TopicCommandType.InstanceRenamed:
+					NewInstanceName = stringCommand;
+					break;
+				case TopicCommandType.Broadcast:
+					BroadcastMessage = stringCommand;
+					break;
+				default:
+					throw new InvalidOperationException($"Invalid string TopicCommandType: {stringCommandType}");
+			}
+#pragma warning restore IDE0010 // Add missing cases
 		}
 	}
 }

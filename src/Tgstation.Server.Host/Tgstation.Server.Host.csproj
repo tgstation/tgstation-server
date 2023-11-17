@@ -22,17 +22,17 @@
     <DefineConstants>$(DefineConstants);NO_WEBPANEL</DefineConstants>
   </PropertyGroup>
 
-  <Target Condition="'$(TGS_HOST_NO_WEBPANEL)' != 'true'" Name="ClientInstall" BeforeTargets="ResolveAssemblyReferences" Inputs="../../build/ControlPanelVersion.props" Outputs="$(NpmInstallStampFile)">
+  <Target Condition="'$(TGS_HOST_NO_WEBPANEL)' != 'true'" Name="ClientInstall" BeforeTargets="ResolveAssemblyReferences" Inputs="../../build/WebpanelVersion.props" Outputs="$(NpmInstallStampFile)">
     <Message Text="Pulling web control panel..." Importance="high" />
     <RemoveDir Directories="ClientApp" />
-    <Exec Command="git clone https://github.com/tgstation/tgstation-server-webpanel --branch v$(TgsControlPanelVersion) --depth 1 ClientApp" />
+    <Exec Command="git clone https://github.com/tgstation/tgstation-server-webpanel --branch v$(TgsWebpanelVersion) --depth 1 ClientApp" />
     <RemoveDir Directories="ClientApp/.git" /> <!-- Allows git clean to clean it out -->
     <Message Text="Restoring yarn packages..." Importance="high" />
     <Exec WorkingDirectory="ClientApp" Command="npx --yes yarn@$(TgsYarnVersion) install --immutable" />
     <Touch Files="$(NpmInstallStampFile)" AlwaysCreate="true" />
   </Target>
 
-  <Target Condition="'$(TGS_HOST_NO_WEBPANEL)' != 'true'" Name="NpmBuild" BeforeTargets="BeforeBuild" DependsOnTargets="ClientInstall" Inputs="../../build/ControlPanelVersion.props" Outputs="wwwroot\index.html">
+  <Target Condition="'$(TGS_HOST_NO_WEBPANEL)' != 'true'" Name="NpmBuild" BeforeTargets="BeforeBuild" DependsOnTargets="ClientInstall" Inputs="../../build/WebpanelVersion.props" Outputs="wwwroot\index.html">
     <Message Text="Building web control panel..." Importance="high" />
     <Exec WorkingDirectory="ClientApp" Command="npx --yes yarn@$(TgsYarnVersion) run msbuild" />
   </Target>
@@ -47,7 +47,7 @@
       <AssemblyAttributes Include="Tgstation.Server.Host.Properties.MasterVersionsAttribute">
         <_Parameter1>$(TgsConfigVersion)</_Parameter1>
         <_Parameter2>$(TgsInteropVersion)</_Parameter2>
-        <_Parameter3>$(TgsControlPanelVersion)</_Parameter3>
+        <_Parameter3>$(TgsWebpanelVersion)</_Parameter3>
         <_Parameter4>$(TgsHostWatchdogVersion)</_Parameter4>
         <_Parameter5>$(TgsMariaDBRedistVersion)</_Parameter5>
       </AssemblyAttributes>
@@ -107,7 +107,7 @@
     <!-- Usage: Async logging plugin -->
     <PackageReference Include="Serilog.Sinks.Async" Version="1.5.0" />
     <!-- Usage: Console logging plugin -->
-    <PackageReference Include="Serilog.Sinks.Console" Version="4.1.0" />
+    <PackageReference Include="Serilog.Sinks.Console" Version="5.0.0" />
     <!-- Usage: Elasticsearch logging plugin -->
     <PackageReference Include="Serilog.Sinks.Elasticsearch" Version="9.0.3" />
     <!-- Usage: File logging plugin -->

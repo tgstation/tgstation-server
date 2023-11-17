@@ -629,6 +629,10 @@ namespace Tgstation.Server.Api.Models
 		[Description("The deployment took longer than the configured timeout!")]
 		DeploymentTimeout,
 
-		// This comment is here to remind you that there is one more unused error code above and you should use it first
+		/// <summary>
+		/// Sending a broadcast message failed.
+		/// </summary>
+		[Description("Could not send broadcast to the DMAPI. This can happen either due to there being an insufficient DMAPI version, a communication failure, or the server being offline.")]
+		BroadcastFailure,
 	}
 }
