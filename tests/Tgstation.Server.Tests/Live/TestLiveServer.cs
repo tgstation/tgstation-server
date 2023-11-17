@@ -1583,9 +1583,8 @@ namespace Tgstation.Server.Tests.Live
 
 					Assert.AreEqual(connectedChannelCount, channelsPresent);
 
-					await WatchdogTest.TellWorldToReboot2(instanceClient, WatchdogTest.StaticTopicClient, mainDDPort, cancellationToken);
+					dd = await WatchdogTest.TellWorldToReboot2(instanceClient, WatchdogTest.StaticTopicClient, mainDDPort, false, cancellationToken);
 
-					dd = await instanceClient.DreamDaemon.Read(cancellationToken);
 					Assert.AreEqual(WatchdogStatus.Online, dd.Status.Value); // if this assert fails, you likely have to crack open the debugger and read test_fail_reason.txt manually
 					Assert.IsNull(dd.StagedCompileJob);
 					Assert.AreEqual(initialStaged, dd.ActiveCompileJob.Id);
@@ -1653,13 +1652,7 @@ namespace Tgstation.Server.Tests.Live
 					Assert.AreEqual(dd.StagedCompileJob.Job.Id, compileJob.Id);
 
 					expectedCompileJobId = compileJob.Id.Value;
-					dd = await wdt.TellWorldToReboot(cancellationToken);
-
-					while (dd.Status.Value == WatchdogStatus.Restoring)
-					{
-						await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);
-						dd = await instanceClient.DreamDaemon.Read(cancellationToken);
-					}
+					dd = await wdt.TellWorldToReboot(false, cancellationToken);
 
 					Assert.AreEqual(dd.ActiveCompileJob.Job.Id, expectedCompileJobId);
 					Assert.AreEqual(WatchdogStatus.Online, dd.Status.Value);
@@ -1696,7 +1689,7 @@ namespace Tgstation.Server.Tests.Live
 					Assert.AreEqual(expectedStaged, currentDD.StagedCompileJob.Job.Id.Value);
 
 					var wdt = new WatchdogTest(edgeVersion, instanceClient, GetInstanceManager(), (ushort)server.ApiUrl.Port, server.HighPriorityDreamDaemon, mainDDPort, server.UsingBasicWatchdog);
-					currentDD = await wdt.TellWorldToReboot(cancellationToken);
+					currentDD = await wdt.TellWorldToReboot(true, cancellationToken);
 					Assert.AreEqual(expectedStaged, currentDD.ActiveCompileJob.Job.Id.Value);
 					Assert.IsNull(currentDD.StagedCompileJob);
 

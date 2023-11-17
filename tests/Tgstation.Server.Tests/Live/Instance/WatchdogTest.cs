@@ -304,7 +304,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			var expectedStaged = currentStatus.StagedCompileJob;
 			Assert.AreNotEqual(expectedStaged.Id, currentStatus.ActiveCompileJob.Id);
 
-			await TellWorldToReboot(cancellationToken);
+			await TellWorldToReboot(false, cancellationToken);
 
 			currentStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
 			Assert.AreEqual(expectedStaged.Id, currentStatus.ActiveCompileJob.Id);
@@ -330,17 +330,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			expectedStaged = currentStatus.StagedCompileJob;
 			Assert.AreNotEqual(expectedStaged.Id, currentStatus.ActiveCompileJob.Id);
 
-			await TellWorldToReboot(cancellationToken);
-
-			if (testVersion.Engine == EngineType.OpenDream)
-				do
-				{
-					await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);
-					currentStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
-				}
-				while (currentStatus.Status == WatchdogStatus.Restoring);
-			else
-				currentStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
+			currentStatus = await TellWorldToReboot(false, cancellationToken);
 
 			Assert.AreEqual(WatchdogStatus.Online, currentStatus.Status);
 			Assert.IsNull(currentStatus.StagedCompileJob);
@@ -1111,7 +1101,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			Assert.AreEqual(DreamDaemonSecurity.Safe, newerCompileJob.MinimumSecurityLevel);
 
 			await CheckDMApiFail(daemonStatus.ActiveCompileJob, cancellationToken);
-			daemonStatus = await TellWorldToReboot(cancellationToken);
+			daemonStatus = await TellWorldToReboot(false, cancellationToken);
 
 			Assert.AreNotEqual(initialCompileJob.Id, daemonStatus.ActiveCompileJob.Id);
 			Assert.IsNull(daemonStatus.StagedCompileJob);
@@ -1156,7 +1146,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			Assert.AreEqual(DreamDaemonSecurity.Safe, newerCompileJob.MinimumSecurityLevel);
 
 			await CheckDMApiFail(daemonStatus.ActiveCompileJob, cancellationToken);
-			daemonStatus = await TellWorldToReboot(cancellationToken);
+			daemonStatus = await TellWorldToReboot(true, cancellationToken);
 
 			Assert.AreNotEqual(initialCompileJob.Id, daemonStatus.ActiveCompileJob.Id);
 			Assert.IsNull(daemonStatus.StagedCompileJob);
@@ -1220,7 +1210,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			Assert.AreEqual(true, daemonStatus.SoftRestart);
 
 			await CheckDMApiFail(daemonStatus.ActiveCompileJob, cancellationToken);
-			daemonStatus = await TellWorldToReboot(cancellationToken);
+			daemonStatus = await TellWorldToReboot(true, cancellationToken);
 
 			Assert.AreEqual(versionToInstall, daemonStatus.ActiveCompileJob.EngineVersion);
 			Assert.IsNull(daemonStatus.StagedCompileJob);
@@ -1290,8 +1280,9 @@ namespace Tgstation.Server.Tests.Live.Instance
 			return ddProc != null;
 		}
 
-		public Task<DreamDaemonResponse> TellWorldToReboot(CancellationToken cancellationToken) => TellWorldToReboot2(instanceClient, topicClient, FindTopicPort(), cancellationToken);
-		public static async Task<DreamDaemonResponse> TellWorldToReboot2(IInstanceClient instanceClient, ITopicClient topicClient, ushort topicPort, CancellationToken cancellationToken)
+		public Task<DreamDaemonResponse> TellWorldToReboot(bool allowRestoring, CancellationToken cancellationToken)
+			=> TellWorldToReboot2(instanceClient, topicClient, FindTopicPort(), allowRestoring ? true : testVersion.Engine.Value == EngineType.OpenDream, cancellationToken);
+		public static async Task<DreamDaemonResponse> TellWorldToReboot2(IInstanceClient instanceClient, ITopicClient topicClient, ushort topicPort, bool allowRestoring, CancellationToken cancellationToken)
 		{
 			var daemonStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
 			Assert.IsNotNull(daemonStatus.StagedCompileJob);
@@ -1317,6 +1308,16 @@ namespace Tgstation.Server.Tests.Live.Instance
 			}
 
 			await Task.Delay(TimeSpan.FromSeconds(3), cancellationToken);
+
+			if (allowRestoring && daemonStatus.Status == WatchdogStatus.Restoring)
+			{
+				do
+				{
+					await Task.Delay(TimeSpan.FromSeconds(1), tempToken);
+					daemonStatus = await instanceClient.DreamDaemon.Read(tempToken);
+				}
+				while (daemonStatus.Status == WatchdogStatus.Restoring);
+			}
 
 			return daemonStatus;
 		}
