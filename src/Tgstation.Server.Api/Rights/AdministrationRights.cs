@@ -9,7 +9,7 @@ namespace Tgstation.Server.Api.Rights
 	public enum AdministrationRights : ulong
 	{
 		/// <summary>
-		/// User has no rights
+		/// User has no rights.
 		/// </summary>
 		None = 0,
 

@@ -26,7 +26,7 @@ namespace Tgstation.Server.Host.System
 		public string VersionString { get; }
 
 		/// <inheritdoc />
-		public ProductInfoHeaderValue ProductInfoHeaderValue => new (
+		public ProductInfoHeaderValue ProductInfoHeaderValue => new(
 			VersionPrefix,
 			Version.ToString());
 

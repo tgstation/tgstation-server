@@ -29,7 +29,7 @@ namespace Tgstation.Server.Api.Rights
 		WriteChannels = 1 << 2,
 
 		/// <summary>
-		/// User can change <see cref="Models.Internal.ChatBotSettings.ConnectionString"/>
+		/// User can change <see cref="Models.Internal.ChatBotSettings.ConnectionString"/>.
 		/// </summary>
 		WriteConnectionString = 1 << 3,
 
@@ -39,7 +39,7 @@ namespace Tgstation.Server.Api.Rights
 		ReadConnectionString = 1 << 4,
 
 		/// <summary>
-		/// User can read all chat bot properties except <see cref="Models.Internal.ChatBotSettings.ConnectionString"/>
+		/// User can read all chat bot properties except <see cref="Models.Internal.ChatBotSettings.ConnectionString"/>.
 		/// </summary>
 		Read = 1 << 5,
 

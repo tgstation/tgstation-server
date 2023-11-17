@@ -42,7 +42,7 @@ namespace Tgstation.Server.Host.Models
 		/// <returns>A new <see cref="Job"/> ready to be registered with the <see cref="Jobs.IJobService"/>.</returns>
 		public static Job Create<TRight>(JobCode code, User startedBy, Api.Models.Instance instance, TRight cancelRight)
 			where TRight : Enum
-			=> new (
+			=> new(
 				code,
 				startedBy,
 				instance,
@@ -57,7 +57,7 @@ namespace Tgstation.Server.Host.Models
 		/// <param name="instance">The <see cref="Api.Models.Instance"/> used to generate the value of <see cref="Instance"/>.</param>
 		/// <returns>A new <see cref="Job"/> ready to be registered with the <see cref="Jobs.IJobService"/>.</returns>
 		public static Job Create(JobCode code, User startedBy, Api.Models.Instance instance)
-			=> new (
+			=> new(
 				code,
 				startedBy,
 				instance,
@@ -109,7 +109,7 @@ namespace Tgstation.Server.Host.Models
 		}
 
 		/// <inheritdoc />
-		public JobResponse ToApi() => new ()
+		public JobResponse ToApi() => new()
 		{
 			Id = Id,
 			JobCode = JobCode.Value,

@@ -6,32 +6,32 @@
 	enum ApiValidationStatus
 	{
 		/// <summary>
-		/// The DMAPI never contacted the server for validation
+		/// The DMAPI never contacted the server for validation.
 		/// </summary>
 		NeverValidated,
 
 		/// <summary>
-		/// The server was contacted for validation but it was never requested
+		/// The server was contacted for validation but it was never requested.
 		/// </summary>
 		UnaskedValidationRequest,
 
 		/// <summary>
-		/// The validation request was malformed
+		/// The validation request was malformed.
 		/// </summary>
 		BadValidationRequest,
 
 		/// <summary>
-		/// Valid API. The game must be run with a minimum security level of <see cref="Api.Models.DreamDaemonSecurity.Safe"/>
+		/// Valid API. The game must be run with a minimum security level of <see cref="Api.Models.DreamDaemonSecurity.Safe"/>.
 		/// </summary>
 		RequiresSafe,
 
 		/// <summary>
-		/// Valid API. The game must be run with a security level of <see cref="Api.Models.DreamDaemonSecurity.Trusted"/>
+		/// Valid API. The game must be run with a security level of <see cref="Api.Models.DreamDaemonSecurity.Trusted"/>.
 		/// </summary>
 		RequiresTrusted,
 
 		/// <summary>
-		/// Valid API. The game must be run with a minimum security level of <see cref="Api.Models.DreamDaemonSecurity.Ultrasafe"/>
+		/// Valid API. The game must be run with a minimum security level of <see cref="Api.Models.DreamDaemonSecurity.Ultrasafe"/>.
 		/// </summary>
 		RequiresUltrasafe,
 

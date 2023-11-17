@@ -36,7 +36,7 @@ namespace Tgstation.Server.Api.Models
 		IOError,
 
 		/// <summary>
-		/// The <see cref="ApiHeaders"/> failed to validate!
+		/// The <see cref="ApiHeaders"/> failed to validate.
 		/// </summary>
 		[Description("A header validation error occurred!")]
 		BadHeaders,
@@ -324,7 +324,7 @@ namespace Tgstation.Server.Api.Models
 		EngineNoVersionsInstalled,
 
 		/// <summary>
-		/// The DMAPI never validated itself
+		/// The DMAPI never validated itself.
 		/// </summary>
 		[Description("DMAPI validation failed! See FAQ at https://github.com/tgstation/tgstation-server/discussions/1695")]
 		DeploymentNeverValidated,
@@ -360,7 +360,7 @@ namespace Tgstation.Server.Api.Models
 		DeploymentExitCode,
 
 		/// <summary>
-		/// Deployment already in progress
+		/// Deployment already in progress.
 		/// </summary>
 		[Description("There is already a deployment operation in progress!")]
 		DeploymentInProgress,
@@ -600,7 +600,7 @@ namespace Tgstation.Server.Api.Models
 		FileUploadExpired,
 
 		/// <summary>
-		/// Tried to update a user to have both a <see cref="Internal.UserApiBase.Group"/> and <see cref="Internal.UserApiBase.PermissionSet"/>
+		/// Tried to update a user to have both a <see cref="Internal.UserApiBase.Group"/> and <see cref="Internal.UserApiBase.PermissionSet"/>.
 		/// </summary>
 		[Description("A user may not have both a permissionSet and group!")]
 		UserGroupAndPermissionSet,

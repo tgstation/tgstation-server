@@ -6,17 +6,17 @@
 	public enum IrcPasswordType
 	{
 		/// <summary>
-		/// Use server authentication
+		/// Use server authentication.
 		/// </summary>
 		Server,
 
 		/// <summary>
-		/// Use PLAIN sasl authentication
+		/// Use PLAIN sasl authentication.
 		/// </summary>
 		Sasl,
 
 		/// <summary>
-		/// Use NickServ authentication
+		/// Use NickServ authentication.
 		/// </summary>
 		NickServ,
 	}

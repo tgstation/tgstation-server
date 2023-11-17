@@ -6,47 +6,47 @@
 	public enum RightsType : ulong
 	{
 		/// <summary>
-		/// <see cref="AdministrationRights"/>
+		/// <see cref="AdministrationRights"/>.
 		/// </summary>
 		Administration,
 
 		/// <summary>
-		/// <see cref="InstanceManagerRights"/>
+		/// <see cref="InstanceManagerRights"/>.
 		/// </summary>
 		InstanceManager,
 
 		/// <summary>
-		/// <see cref="RepositoryRights"/>
+		/// <see cref="RepositoryRights"/>.
 		/// </summary>
 		Repository,
 
 		/// <summary>
-		/// <see cref="EngineRights"/>
+		/// <see cref="EngineRights"/>.
 		/// </summary>
 		Engine,
 
 		/// <summary>
-		/// <see cref="DreamMakerRights"/>
+		/// <see cref="DreamMakerRights"/>.
 		/// </summary>
 		DreamMaker,
 
 		/// <summary>
-		/// <see cref="DreamDaemonRights"/>
+		/// <see cref="DreamDaemonRights"/>.
 		/// </summary>
 		DreamDaemon,
 
 		/// <summary>
-		/// <see cref="ChatBotRights"/>
+		/// <see cref="ChatBotRights"/>.
 		/// </summary>
 		ChatBots,
 
 		/// <summary>
-		/// <see cref="ConfigurationRights"/>
+		/// <see cref="ConfigurationRights"/>.
 		/// </summary>
 		Configuration,
 
 		/// <summary>
-		/// <see cref="InstancePermissionSetRights"/>
+		/// <see cref="InstancePermissionSetRights"/>.
 		/// </summary>
 		InstancePermissionSet,
 	}

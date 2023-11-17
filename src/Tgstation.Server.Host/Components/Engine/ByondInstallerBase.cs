@@ -41,12 +41,12 @@ namespace Tgstation.Server.Host.Components.Engine
 		/// <summary>
 		/// The first <see cref="Version"/> of BYOND that supports the '-map-threads' parameter on DreamDaemon.
 		/// </summary>
-		static readonly Version MapThreadsVersion = new (515, 1609);
+		static readonly Version MapThreadsVersion = new(515, 1609);
 
 		/// <summary>
 		/// <see cref="SemaphoreSlim"/> for writing to files in the user's BYOND directory.
 		/// </summary>
-		static readonly SemaphoreSlim UserFilesSemaphore = new (1);
+		static readonly SemaphoreSlim UserFilesSemaphore = new(1);
 
 		/// <inheritdoc />
 		protected override EngineType TargetEngineType => EngineType.Byond;

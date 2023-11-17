@@ -109,7 +109,7 @@ namespace Tgstation.Server.Host.Swarm
 		/// <summary>
 		/// <see cref="Dictionary{TKey, TValue}"/> of <see cref="Api.Models.Internal.SwarmServer.Identifier"/>s to registration <see cref="Guid"/>s and when they were created.
 		/// </summary>
-		readonly Dictionary<string, (Guid, DateTimeOffset)> registrationIdsAndTimes;
+		readonly Dictionary<string, (Guid RegistrationId, DateTimeOffset RegisteredAt)> registrationIdsAndTimes;
 
 		/// <summary>
 		/// If the current server is the swarm controller.
@@ -193,7 +193,7 @@ namespace Tgstation.Server.Host.Swarm
 				serverHealthCheckCancellationTokenSource = new CancellationTokenSource();
 				forceHealthCheckTcs = new TaskCompletionSource();
 				if (swarmController)
-					registrationIdsAndTimes = new ();
+					registrationIdsAndTimes = new();
 
 				swarmServers = new List<SwarmServerResponse>
 				{
@@ -520,7 +520,7 @@ namespace Tgstation.Server.Host.Swarm
 		{
 			if (swarmController)
 				lock (swarmServers)
-					return registrationIdsAndTimes.Values.Any(x => x.Item1 == registrationId);
+					return registrationIdsAndTimes.Values.Any(x => x.RegistrationId == registrationId);
 
 			if (registrationId != controllerRegistration)
 				return false;
@@ -549,9 +549,9 @@ namespace Tgstation.Server.Host.Swarm
 
 			lock (swarmServers)
 			{
-				if (registrationIdsAndTimes.Any(x => x.Value.Item1 == registrationId))
+				if (registrationIdsAndTimes.Any(x => x.Value.RegistrationId == registrationId))
 				{
-					var preExistingRegistrationKvp = registrationIdsAndTimes.FirstOrDefault(x => x.Value.Item1 == registrationId);
+					var preExistingRegistrationKvp = registrationIdsAndTimes.FirstOrDefault(x => x.Value.RegistrationId == registrationId);
 					if (preExistingRegistrationKvp.Key == node.Identifier)
 					{
 						logger.LogWarning("Node {nodeId} has already registered!", node.Identifier);
@@ -580,7 +580,7 @@ namespace Tgstation.Server.Host.Swarm
 					Identifier = node.Identifier,
 					Controller = false,
 				});
-				registrationIdsAndTimes.Add(node.Identifier, (registrationId, DateTimeOffset.UtcNow));
+				registrationIdsAndTimes.Add(node.Identifier, (RegistrationId: registrationId, DateTimeOffset.UtcNow));
 			}
 
 			logger.LogInformation("Registered node {nodeId} ({nodeIP}) with ID {registrationId}", node.Identifier, node.Address, registrationId);
@@ -1139,7 +1139,7 @@ namespace Tgstation.Server.Host.Swarm
 				currentSwarmServers
 					.Where(node => !node.Controller
 						&& registrationIdsAndTimes.TryGetValue(node.Identifier, out var registrationAndTime)
-						&& registrationAndTime.Item2.AddMinutes(SwarmConstants.ControllerHealthCheckIntervalMinutes) < DateTimeOffset.UtcNow)
+						&& registrationAndTime.RegisteredAt.AddMinutes(SwarmConstants.ControllerHealthCheckIntervalMinutes) < DateTimeOffset.UtcNow)
 					.Select(HealthRequestForServer));
 
 			lock (swarmServers)
@@ -1390,7 +1390,7 @@ namespace Tgstation.Server.Host.Swarm
 				{
 					lock (swarmServers)
 						if (registrationIdsAndTimes.TryGetValue(swarmServer.Identifier, out var registrationIdAndTime))
-							request.Headers.Add(SwarmConstants.RegistrationIdHeader, registrationIdAndTime.Item1.ToString());
+							request.Headers.Add(SwarmConstants.RegistrationIdHeader, registrationIdAndTime.RegistrationId.ToString());
 				}
 				else if (controllerRegistration.HasValue)
 					request.Headers.Add(SwarmConstants.RegistrationIdHeader, controllerRegistration.Value.ToString());
@@ -1505,14 +1505,14 @@ namespace Tgstation.Server.Host.Swarm
 
 			lock (swarmServers)
 			{
-				var exists = registrationIdsAndTimes.Any(x => x.Value.Item1 == registrationId);
+				var exists = registrationIdsAndTimes.Any(x => x.Value.RegistrationId == registrationId);
 				if (!exists)
 				{
 					logger.LogWarning("A node that was to be looked up ({registrationId}) disappeared from our records!", registrationId);
 					return null;
 				}
 
-				return registrationIdsAndTimes.First(x => x.Value.Item1 == registrationId).Key;
+				return registrationIdsAndTimes.First(x => x.Value.RegistrationId == registrationId).Key;
 			}
 		}
 	}

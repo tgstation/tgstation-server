@@ -58,7 +58,7 @@ namespace Tgstation.Server.Host.Utils.GitHub
 		/// <param name="gitHubClient">The <see cref="IGitHubClient"/> for the <see cref="GitHubService"/>.</param>
 		/// <returns>A new <see cref="GitHubService"/>.</returns>
 		GitHubService CreateServiceImpl(IGitHubClient gitHubClient)
-			=> new (
+			=> new(
 				gitHubClient,
 				loggerFactory.CreateLogger<GitHubService>(),
 				updatesConfiguration);

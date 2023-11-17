@@ -28,7 +28,7 @@ namespace Tgstation.Server.Host.Models
 		/// </summary>
 		/// <param name="showUsers">If <see cref="UserGroupResponse.Users"/> should be populated.</param>
 		/// <returns>A new <see cref="UserGroupResponse"/>.</returns>
-		public UserGroupResponse ToApi(bool showUsers) => new ()
+		public UserGroupResponse ToApi(bool showUsers) => new()
 		{
 			Id = Id,
 			Name = Name,

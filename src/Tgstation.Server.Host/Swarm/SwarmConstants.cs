@@ -66,7 +66,7 @@ namespace Tgstation.Server.Host.Swarm
 		/// </summary>
 		static SwarmConstants()
 		{
-			SerializerSettings = new ()
+			SerializerSettings = new()
 			{
 				ContractResolver = new DefaultContractResolver
 				{

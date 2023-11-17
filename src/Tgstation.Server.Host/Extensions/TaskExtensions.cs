@@ -10,7 +10,7 @@ namespace Tgstation.Server.Host.Extensions
 		/// <summary>
 		/// A <see cref="TaskCompletionSource"/> that never completes.
 		/// </summary>
-		static readonly TaskCompletionSource InfiniteTaskCompletionSource = new ();
+		static readonly TaskCompletionSource InfiniteTaskCompletionSource = new();
 
 		/// <summary>
 		/// Gets a <see cref="Task"/> that never completes.

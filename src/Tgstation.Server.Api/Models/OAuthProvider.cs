@@ -10,27 +10,27 @@ namespace Tgstation.Server.Api.Models
 	public enum OAuthProvider
 	{
 		/// <summary>
-		/// https://github.com
+		/// https://github.com.
 		/// </summary>
 		GitHub,
 
 		/// <summary>
-		/// https://discord.com
+		/// https://discord.com.
 		/// </summary>
 		Discord,
 
 		/// <summary>
-		/// https://tgstation13.org
+		/// https://tgstation13.org.
 		/// </summary>
 		TGForums,
 
 		/// <summary>
-		/// https://www.keycloak.org
+		/// https://www.keycloak.org.
 		/// </summary>
 		Keycloak,
 
 		/// <summary>
-		/// https://invisioncommunity.com/
+		/// https://invisioncommunity.com.
 		/// </summary>
 		InvisionCommunity,
 	}

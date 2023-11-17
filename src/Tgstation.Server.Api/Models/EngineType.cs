@@ -6,7 +6,7 @@
 	public enum EngineType
 	{
 		/// <summary>
-		/// Build your own net dream,
+		/// Build your own net dream.
 		/// </summary>
 		Byond,
 

@@ -50,7 +50,7 @@ namespace Tgstation.Server.Host.Components.Engine
 		/// <summary>
 		/// The first version of BYOND to ship with dd.exe on the Windows build.
 		/// </summary>
-		public static Version DDExeVersion => new (515, 1598);
+		public static Version DDExeVersion => new(515, 1598);
 
 		/// <inheritdoc />
 		protected override string DreamMakerName => "dm.exe";

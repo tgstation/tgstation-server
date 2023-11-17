@@ -88,7 +88,7 @@ namespace Tgstation.Server.Host.Components.Interop.Topic
 		/// <param name="newInstanceName">The value of <see cref="NewInstanceName"/>.</param>
 		/// <returns>The created <see cref="TopicParameters"/>.</returns>
 		public static TopicParameters CreateInstanceRenamedTopicParameters(string newInstanceName)
-			=> new (
+			=> new(
 				newInstanceName ?? throw new ArgumentNullException(nameof(newInstanceName)),
 				TopicCommandType.InstanceRenamed);
 
@@ -98,7 +98,7 @@ namespace Tgstation.Server.Host.Components.Interop.Topic
 		/// <param name="broadcastMessage">The value of <see cref="BroadcastMessage"/>.</param>
 		/// <returns>The created <see cref="TopicParameters"/>.</returns>
 		public static TopicParameters CreateBroadcastParameters(string broadcastMessage)
-			=> new (
+			=> new(
 				broadcastMessage ?? throw new ArgumentNullException(nameof(broadcastMessage)),
 				TopicCommandType.Broadcast);
 

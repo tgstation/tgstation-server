@@ -68,7 +68,7 @@ namespace Tgstation.Server.Host.Components.Repository
 		public string Reference => libGitRepo.Head.FriendlyName;
 
 		/// <inheritdoc />
-		public Uri Origin => new (libGitRepo.Network.Remotes.First().Url);
+		public Uri Origin => new(libGitRepo.Network.Remotes.First().Url);
 
 		/// <summary>
 		/// The <see cref="LibGit2Sharp.IRepository"/> for the <see cref="Repository"/>.

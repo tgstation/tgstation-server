@@ -16,6 +16,6 @@ namespace Tgstation.Server.Api.Models.Response
 		/// Parses the <see cref="Bearer"/> as a <see cref="JsonWebToken"/>.
 		/// </summary>
 		/// <returns>A new <see cref="JsonWebToken"/> based on <see cref="Bearer"/>.</returns>
-		public JsonWebToken ParseJwt() => new (Bearer);
+		public JsonWebToken ParseJwt() => new(Bearer);
 	}
 }
