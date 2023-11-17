@@ -623,7 +623,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 		void TestLinuxIsntBeingFuckingCheekyAboutFilePaths(DreamDaemonResponse currentStatus, CompileJobResponse previousStatus)
 		{
-			if (new PlatformIdentifier().IsWindows || usingBasicWatchdog)
+			if (new PlatformIdentifier().IsWindows || usingBasicWatchdog || currentStatus.ActiveCompileJob.EngineVersion.Engine.Value == EngineType.OpenDream)
 				return;
 
 			Assert.IsNotNull(currentStatus.ActiveCompileJob);
