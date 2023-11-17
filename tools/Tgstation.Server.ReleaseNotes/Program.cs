@@ -1322,6 +1322,12 @@ The user account that created this pull request is available to correct any issu
 				PrintChanges(newNotes, relevantChangelog);
 			}
 
+			if(component == Component.DreamMakerApi)
+			{
+				newNotes.AppendLine();
+				newNotes.AppendLine("#tgs-dmapi-release");
+			}
+
 			var markdown = newNotes.ToString();
 			return markdown;
 		}
