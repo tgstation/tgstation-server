@@ -181,6 +181,10 @@ namespace Tgstation.Server.Tests.Live
 		[ClassInitialize]
 		public static async Task Initialize(TestContext _)
 		{
+			// Clear problematic environment variables
+			Environment.SetEnvironmentVariable("MSBuildExtensionsPath", null);
+			Environment.SetEnvironmentVariable("MSBuildSDKsPath", null);
+
 			if (TestingUtils.RunningInGitHubActions || String.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("TGS_TEST_GITHUB_TOKEN")))
 				await TestingGitHubService.InitializeAndInject(default);
 
