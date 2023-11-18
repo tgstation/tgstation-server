@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 using Microsoft.Extensions.Logging;
 
+using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Host.Components.Chat;
 using Tgstation.Server.Host.Components.Deployment;
@@ -290,6 +291,11 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				throw new InvalidOperationException("Expected pendingSwappable to be null!");
 
 			Logger.LogTrace("Prep for server launch");
+			if (dmbToUse.EngineVersion.Engine.Value != EngineType.Byond)
+			{
+				Logger.LogDebug("Not using SwappableDmbProvider for engine type {engineType}", dmbToUse.EngineVersion.Engine.Value);
+				return dmbToUse;
+			}
 
 			ActiveSwappable = CreateSwappableDmbProvider(dmbToUse);
 			try
