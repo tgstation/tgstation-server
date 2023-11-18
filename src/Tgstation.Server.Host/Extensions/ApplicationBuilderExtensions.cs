@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Globalization;
 using System.Net;
 
@@ -161,6 +161,23 @@ namespace Tgstation.Server.Host.Extensions
 			applicationBuilder.Use((context, next) =>
 			{
 				context.Response.Headers.Add("X-Powered-By", assemblyInformationProvider.VersionPrefix);
+				return next();
+			});
+		}
+
+		/// <summary>
+		/// Add the X-Accel-Buffering response header.
+		/// </summary>
+		/// <param name="applicationBuilder">The <see cref="IApplicationBuilder"/> to configure.</param>
+		/// <remarks>This is used to avoid interruption to SignalR streams by Nginx.</remarks>
+		public static void UseDisabledNginxProxyBuffering(this IApplicationBuilder applicationBuilder)
+		{
+			ArgumentNullException.ThrowIfNull(applicationBuilder);
+
+			// https://www.nginx.com/resources/wiki/start/topics/examples/x-accel/#x-accel-buffering
+			applicationBuilder.Use((context, next) =>
+			{
+				context.Response.Headers.Add("X-Accel-Buffering", "no");
 				return next();
 			});
 		}
