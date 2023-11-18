@@ -1,5 +1,12 @@
 Components:
   Configuration:
+  - Version: 5.0.0
+    Changes:
+    - Descriptions:
+      - Microsoft SQL Server database connections no longer have `Encrypt=false` set by default. If your MSSQL server doesn't support encryption, you will need to unset this flag manually by adding `;Encrypt=false` to the end of your existing connection string.
+      Author: Cyberboss
+      PullRequest: 1614
+    Unreleased: true
   - Version: 4.7.1
     Changes:
     - Descriptions:
@@ -133,16 +140,51 @@ Components:
   Core:
   - Version: 6.0.0
     ComponentVersions: {}
-    Changes: []
+    Changes:
+    - Descriptions:
+      - TGS now requires the ASP.NET 8 runtime.
+      - The setup wizard will now ask if you want to use encryption when connection to a Microsoft SQL Server.
+      - The Windows installer `.exe` and `ServerService` packages now ship with portable `.pdb` files instead of Windows specific ones.
+      Author: Cyberboss
+      PullRequest: 1614
+    - Descriptions:
+      - '"Based on what?" meme for Discord chat provider removed.'
+      Author: Cyberboss
+      PullRequest: 1628
+    - Descriptions:
+      - The `.deb` package now runs tgstation-server as the user `tgstation-server`. This user has minimal permissions. More may be granted manually by system administrators. **IF YOU OPT TO UPDATE VIA APT, YOU MAY HAVE THIS USER AUTOMATICALLY SET AS THE SERVICE RUNNER, EVEN IF IT DOES NOT EXIST!** To fix this, edit `/etc/lib/systemd/system/tgstation-server.service` and remove the `User=tgstation-server` line.
+      Author: Cyberboss
+      PullRequest: 1692
+    - Descriptions:
+      - API documentation page moved to `/documentation`.
+      Author: Cyberboss
+      PullRequest: 1704
     Unreleased: true
   - Version: 5.19.0
     ComponentVersions: {}
     Changes: []
     Unreleased: true
-  - Version: 5.18.1
+  - Version: 5.18.2
     ComponentVersions: {}
     Changes: []
     Unreleased: true
+  - Version: 5.18.1
+    ComponentVersions:
+      HttpApi: 9.14.0
+      DreamMakerApi: 6.7.0
+      Configuration: 4.7.1
+      InteropApi: 5.7.0
+      HostWatchdog: 1.4.0
+      NugetCommon: 7.0.0
+      NugetApi: 12.2.0
+      NugetClient: 14.2.0
+      WebControlPanel: 5.1.0
+    Changes:
+    - Descriptions:
+      - 'Added the `X-Accel-Buffering: no` response header to requests to prevent NGINX from interfering with SignalR SSE hubs.'
+      - Fixed changing server settings with the advanced watchdog not automatically queuing a graceful reboot.
+      Author: Cyberboss
+      PullRequest: 1721
   - Version: 5.18.0
     ComponentVersions:
       Core: 5.18.0
@@ -3209,6 +3251,26 @@ Components:
       Author: alexkar598
       PullRequest: 1133
   HttpApi:
+  - Version: 10.0.0
+    Changes:
+    - Descriptions:
+      - The chat bot connection string flag previously for the Discord "Based on what?" meme is now unused but still required.
+      Author: Cyberboss
+      PullRequest: 1628
+    - Descriptions:
+      - HTTP 426 will now no longer be sent. HTTP 400 will be used in its place. The error code returned in the body remains unchanged.
+      Author: Cyberboss
+      PullRequest: 1699
+    - Descriptions:
+      - All API endpoints have been moved to the `/api` subpath.
+      - API documentation json is now hosted at `/api/doc/tgs_api.json`.
+      Author: Cyberboss
+      PullRequest: 1704
+    - Descriptions:
+      - All deprecated fields have been removed.
+      Author: Cyberboss
+      PullRequest: 1722
+    Unreleased: true
   - Version: 9.14.0
     Changes:
     - Descriptions:
@@ -3835,9 +3897,14 @@ Components:
   - Version: 5.7.0
     Changes:
     - Descriptions:
+      - Switch to using new `/api/Bridge` endpoint when available.
+      Author: Cyberboss
+      PullRequest: 1704
+    - Descriptions:
       - Added topic command 11 for broadcast messages. Content stored in `broadcastMessage` parameter.
       Author: Cyberboss
       PullRequest: 1719
+    Unreleased: true
   - Version: 5.6.2
     Changes:
     - Descriptions:
@@ -3859,6 +3926,13 @@ Components:
       Author: Cyberboss
       PullRequest: 1636
   NugetApi:
+  - Version: 13.0.0
+    Changes:
+    - Descriptions:
+      - Renamed `Routes.Root` to `Routes.ApiRoot` and now reflects the new API path.
+      Author: Cyberboss
+      PullRequest: 1704
+    Unreleased: true
   - Version: 12.2.0
     Changes:
     - Descriptions:
@@ -3914,11 +3988,4 @@ Components:
       - Made `DiscordConnectionStringBuilder.BasedMeme` obsolete.
       Author: Cyberboss
       PullRequest: 1629
-  NugetClient:
-  - Version: 14.2.0
-    Changes:
-    - Descriptions:
-      - Updated to HTTP API 9.14.0.
-      Author: Cyberboss
-      PullRequest: 1719
-    Unreleased: true
+  NugetClient: []
