@@ -30,7 +30,7 @@ namespace Tgstation.Server.Tests.Live
 				&& !(logMessage.StartsWith("An exception occurred in the database while saving changes for context type") && (exception is OperationCanceledException || exception?.InnerException is OperationCanceledException)))
 				|| (logLevel == LogLevel.Critical && logMessage != "DropDatabase configuration option set! Dropping any existing database..."))
 			{
-				failureSink(new AssertFailedException("TGS logged an unexpected error!"));
+				failureSink(new AssertFailedException($"TGS ERR: {logMessage}"));
 			}
 		}
 	}
