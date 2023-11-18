@@ -474,7 +474,7 @@ namespace Tgstation.Server.Host.Components.Session
 		/// <param name="engineLock">The <see cref="IEngineExecutableLock"/>.</param>
 		/// <param name="launchParameters">The <see cref="DreamDaemonLaunchParameters"/>.</param>
 		/// <param name="accessIdentifier">The secure string to use for the session.</param>
-		/// <param name="logFilePath">The path to log DreamDaemon output to.</param>
+		/// <param name="logFilePath">The full path to log DreamDaemon output to.</param>
 		/// <param name="apiValidate">If we are only validating the DMAPI then exiting.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the DreamDaemon <see cref="IProcess"/>.</returns>

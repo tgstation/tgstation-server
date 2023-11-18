@@ -53,7 +53,7 @@ namespace Tgstation.Server.Host.Components.Engine
 		/// <param name="dmbProvider">The <see cref="IDmbProvider"/>.</param>
 		/// <param name="parameters">The map of parameter <see cref="string"/>s as a <see cref="IReadOnlyDictionary{TKey, TValue}"/>. Should NOT include the <see cref="DreamDaemonLaunchParameters.AdditionalParameters"/> of <paramref name="launchParameters"/>.</param>
 		/// <param name="launchParameters">The <see cref="DreamDaemonLaunchParameters"/>.</param>
-		/// <param name="logFilePath">The path to the log file, if any.</param>
+		/// <param name="logFilePath">The full path to the log file, if any.</param>
 		/// <returns>The formatted arguments <see cref="string"/>.</returns>
 		string FormatServerArguments(
 			IDmbProvider dmbProvider,

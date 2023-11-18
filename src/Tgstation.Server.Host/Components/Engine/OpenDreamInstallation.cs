@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Host.Components.Deployment;
+using Tgstation.Server.Host.IO;
 
 namespace Tgstation.Server.Host.Components.Engine
 {
@@ -35,18 +36,26 @@ namespace Tgstation.Server.Host.Components.Engine
 		public override Task InstallationTask { get; }
 
 		/// <summary>
+		/// The <see cref="IIOManager"/> for the <see cref="OpenDreamInstallation"/>.
+		/// </summary>
+		readonly IIOManager ioManager;
+
+		/// <summary>
 		/// Initializes a new instance of the <see cref="OpenDreamInstallation"/> class.
 		/// </summary>
+		/// <param name="ioManager">The value of <see cref="ioManager"/>.</param>
 		/// <param name="serverExePath">The value of <see cref="ServerExePath"/>.</param>
 		/// <param name="compilerExePath">The value of <see cref="CompilerExePath"/>.</param>
 		/// <param name="installationTask">The value of <see cref="InstallationTask"/>.</param>
 		/// <param name="version">The value of <see cref="Version"/>.</param>
 		public OpenDreamInstallation(
+			IIOManager ioManager,
 			string serverExePath,
 			string compilerExePath,
 			Task installationTask,
 			EngineVersion version)
 		{
+			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
 			ServerExePath = serverExePath ?? throw new ArgumentNullException(nameof(serverExePath));
 			CompilerExePath = compilerExePath ?? throw new ArgumentNullException(nameof(compilerExePath));
 			InstallationTask = installationTask ?? throw new ArgumentNullException(nameof(installationTask));
@@ -70,7 +79,7 @@ namespace Tgstation.Server.Host.Components.Engine
 			var parametersString = EncodeParameters(parameters, launchParameters);
 
 			var loggingEnabled = logFilePath != null;
-			var arguments = $"--cvar {(loggingEnabled ? $"log.path=\"{logFilePath}\"" : "log.enabled=false")} --cvar net.port={launchParameters.Port.Value} --cvar opendream.topic_port=0 --cvar opendream.world_params=\"{parametersString}\" --cvar opendream.json_path=\"./{dmbProvider.DmbName}\"";
+			var arguments = $"--cvar {(loggingEnabled ? $"log.path=\"{ioManager.GetDirectoryName(logFilePath)}\" --cvar log.format=\"{ioManager.GetFileName(logFilePath)}\"" : "log.enabled=false")} --cvar log.runtimelog=false --cvar net.port={launchParameters.Port.Value} --cvar opendream.topic_port=0 --cvar opendream.world_params=\"{parametersString}\" --cvar opendream.json_path=\"./{dmbProvider.DmbName}\"";
 			return arguments;
 		}
 
