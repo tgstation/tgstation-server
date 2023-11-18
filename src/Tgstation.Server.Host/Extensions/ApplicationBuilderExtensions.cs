@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Globalization;
 using System.Net;
 
@@ -158,10 +158,10 @@ namespace Tgstation.Server.Host.Extensions
 			ArgumentNullException.ThrowIfNull(applicationBuilder);
 			ArgumentNullException.ThrowIfNull(assemblyInformationProvider);
 
-			applicationBuilder.Use(async (context, next) =>
+			applicationBuilder.Use((context, next) =>
 			{
 				context.Response.Headers.Add("X-Powered-By", assemblyInformationProvider.VersionPrefix);
-				await next();
+				return next();
 			});
 		}
 
