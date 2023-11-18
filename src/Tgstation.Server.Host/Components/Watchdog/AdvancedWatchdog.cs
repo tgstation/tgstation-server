@@ -223,7 +223,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			else
 				Logger.LogTrace("Nothing to do as pendingSwappable is null.");
 
-			return MonitorAction.Continue;
+			return await base.HandleNormalReboot(cancellationToken);
 		}
 
 		/// <inheritdoc />

@@ -489,6 +489,9 @@ namespace Tgstation.Server.Host.Core
 			// Add the X-Powered-By response header
 			applicationBuilder.UseServerBranding(assemblyInformationProvider);
 
+			// Add the X-Accel-Buffering response header
+			applicationBuilder.UseDisabledNginxProxyBuffering();
+
 			// suppress OperationCancelledExceptions, they are just aborted HTTP requests
 			applicationBuilder.UseCancelledRequestSuppression();
 
