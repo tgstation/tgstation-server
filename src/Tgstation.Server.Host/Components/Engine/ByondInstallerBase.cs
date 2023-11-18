@@ -151,8 +151,11 @@ namespace Tgstation.Server.Host.Components.Engine
 		}
 
 		/// <inheritdoc />
-		public override async ValueTask TrustDmbPath(string fullDmbPath, CancellationToken cancellationToken)
+		public override async ValueTask TrustDmbPath(EngineVersion version, string fullDmbPath, CancellationToken cancellationToken)
 		{
+			ArgumentNullException.ThrowIfNull(version);
+			ArgumentNullException.ThrowIfNull(fullDmbPath);
+
 			var byondDir = PathToUserFolder;
 			if (String.IsNullOrWhiteSpace(byondDir))
 			{

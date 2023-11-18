@@ -5,7 +5,6 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using Tgstation.Server.Api.Models;
-using Tgstation.Server.Common.Extensions;
 using Tgstation.Server.Host.Jobs;
 
 namespace Tgstation.Server.Host.Components.Engine
@@ -46,8 +45,8 @@ namespace Tgstation.Server.Host.Components.Engine
 			=> DelegateCall(version, installer => installer.Install(version, path, cancellationToken));
 
 		/// <inheritdoc />
-		public ValueTask TrustDmbPath(string fullDmbPath, CancellationToken cancellationToken)
-			=> ValueTaskExtensions.WhenAll(delegatedInstallers.Values.Select(installer => installer.TrustDmbPath(fullDmbPath, cancellationToken)));
+		public ValueTask TrustDmbPath(EngineVersion version, string fullDmbPath, CancellationToken cancellationToken)
+			=> DelegateCall(version, installer => installer.TrustDmbPath(version, fullDmbPath, cancellationToken));
 
 		/// <inheritdoc />
 		public ValueTask UpgradeInstallation(EngineVersion version, string path, CancellationToken cancellationToken)

@@ -176,7 +176,7 @@ namespace Tgstation.Server.Host.Components.Engine
 			try
 			{
 				if (trustDmbFullPath != null)
-					await engineInstaller.TrustDmbPath(trustDmbFullPath, cancellationToken);
+					await engineInstaller.TrustDmbPath(installLock.Version, trustDmbFullPath, cancellationToken);
 
 				return installLock;
 			}

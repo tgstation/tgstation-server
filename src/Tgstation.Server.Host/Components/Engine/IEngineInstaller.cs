@@ -50,10 +50,11 @@ namespace Tgstation.Server.Host.Components.Engine
 		/// <summary>
 		/// Add a given <paramref name="fullDmbPath"/> to the trusted DMBs list in BYOND's config.
 		/// </summary>
+		/// <param name="version">The <see cref="EngineVersion"/> being used.</param>
 		/// <param name="fullDmbPath">Full path to the .dmb that should be trusted.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
-		ValueTask TrustDmbPath(string fullDmbPath, CancellationToken cancellationToken);
+		ValueTask TrustDmbPath(EngineVersion version, string fullDmbPath, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Attempts to cleans the engine's cache folder for the system.

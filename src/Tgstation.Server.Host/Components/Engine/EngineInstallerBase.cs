@@ -55,7 +55,7 @@ namespace Tgstation.Server.Host.Components.Engine
 		public abstract ValueTask<IEngineInstallationData> DownloadVersion(EngineVersion version, JobProgressReporter jobProgressReporter, CancellationToken cancellationToken);
 
 		/// <inheritdoc />
-		public abstract ValueTask TrustDmbPath(string fullDmbPath, CancellationToken cancellationToken);
+		public abstract ValueTask TrustDmbPath(EngineVersion version, string fullDmbPath, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Check that a given <paramref name="version"/> is of type <see cref="EngineType.Byond"/>.

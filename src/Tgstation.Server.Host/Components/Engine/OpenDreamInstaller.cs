@@ -289,9 +289,12 @@ namespace Tgstation.Server.Host.Components.Engine
 		}
 
 		/// <inheritdoc />
-		public override ValueTask TrustDmbPath(string fullDmbPath, CancellationToken cancellationToken)
+		public override ValueTask TrustDmbPath(EngineVersion engineVersion, string fullDmbPath, CancellationToken cancellationToken)
 		{
+			ArgumentNullException.ThrowIfNull(engineVersion);
 			ArgumentNullException.ThrowIfNull(fullDmbPath);
+
+			Logger.LogTrace("TrustDmbPath is a no-op: {path}", fullDmbPath);
 			return ValueTask.CompletedTask;
 		}
 
