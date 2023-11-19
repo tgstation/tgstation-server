@@ -99,7 +99,7 @@
     <!-- Usage: GitHub.com interop -->
     <PackageReference Include="Octokit" Version="9.0.0" />
     <!-- Usage: MYSQL/MariaDB ORM plugin -->
-    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="8.0.0-beta.2.ci.20231014172607" />
+    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="8.0.0-beta.2" />
     <!-- Usage: Discord interop -->
     <PackageReference Include="Remora.Discord" Version="2023.5.0" />
     <!-- Usage: Rich logger builder -->
@@ -125,7 +125,7 @@
     <!-- Usage: Temporary resolution to compatibility issues with EFCore 7 and .NET 8 -->
     <PackageReference Include="System.Security.Permissions" Version="8.0.0" />
     <!-- Usage: .DeleteAsync() support for IQueryable<T>s -->
-    <PackageReference Include="Z.EntityFramework.Plus.EFCore" Version="8.0.0-rc.2.23480.1-02" />
+    <PackageReference Include="Z.EntityFramework.Plus.EFCore" Version="8.101.0" />
   </ItemGroup>
 
   <ItemGroup>
