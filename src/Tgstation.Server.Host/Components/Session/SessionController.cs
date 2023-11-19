@@ -432,10 +432,38 @@ namespace Tgstation.Server.Host.Components.Session
 				return null;
 			}
 
+			using var cts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+			var combinedCancellationToken = cts.Token;
+			async ValueTask CancelIfLifetimeElapses()
+			{
+				try
+				{
+					var lifetime = Lifetime;
+					var completed = await Task.WhenAny(lifetime, RebootGate).WaitAsync(combinedCancellationToken);
+
+					Logger.LogDebug(
+						"Server {action}, cancelling pending command: {commandType}",
+						completed == lifetime
+							? "process ended"
+							: "rebooting",
+						parameters.CommandType);
+					cts.Cancel();
+				}
+				catch (OperationCanceledException)
+				{
+					// expected, not even worth tracing
+				}
+				catch (Exception ex)
+				{
+					Logger.LogError(ex, "Error in CancelIfLifetimeElapses!");
+				}
+			}
+
 			TopicResponse fullResponse = null;
+			var lifetimeWatchingTask = CancelIfLifetimeElapses();
 			try
 			{
-				var combinedResponse = await SendTopicRequest(parameters, cancellationToken);
+				var combinedResponse = await SendTopicRequest(parameters, combinedCancellationToken);
 
 				void LogCombinedResponse()
 				{
@@ -453,7 +481,7 @@ namespace Tgstation.Server.Host.Components.Session
 					do
 					{
 						var nextRequest = await ProcessChunk<TopicResponse, ChunkedTopicParameters>(
-							(completedResponse, cancellationToken) =>
+							(completedResponse, _) =>
 							{
 								fullResponse = completedResponse;
 								return ValueTask.FromResult<ChunkedTopicParameters>(null);
@@ -464,12 +492,12 @@ namespace Tgstation.Server.Host.Components.Session
 								return null;
 							},
 							combinedResponse?.InteropResponse?.Chunk,
-							cancellationToken);
+							combinedCancellationToken);
 
 						if (nextRequest != null)
 						{
 							nextRequest.PayloadId = nextChunk.PayloadId;
-							combinedResponse = await SendTopicRequest(nextRequest, cancellationToken);
+							combinedResponse = await SendTopicRequest(nextRequest, combinedCancellationToken);
 							LogCombinedResponse();
 							nextChunk = combinedResponse?.InteropResponse?.Chunk;
 						}
@@ -486,10 +514,19 @@ namespace Tgstation.Server.Host.Components.Session
 				Logger.LogDebug(
 					ex,
 					"Topic request {cancellationType}!",
-					cancellationToken.IsCancellationRequested
-						? "aborted"
+					combinedCancellationToken.IsCancellationRequested
+						? cancellationToken.IsCancellationRequested
+							? "cancelled"
+							: "aborted"
 						: "timed out");
+
+				// throw only if the original token was the trigger
 				cancellationToken.ThrowIfCancellationRequested();
+			}
+			finally
+			{
+				cts.Cancel();
+				await lifetimeWatchingTask;
 			}
 
 			if (fullResponse?.ErrorMessage != null)
