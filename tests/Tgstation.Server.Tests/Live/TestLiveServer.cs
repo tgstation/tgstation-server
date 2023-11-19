@@ -104,7 +104,10 @@ namespace Tgstation.Server.Tests.Live
 		{
 			foreach (var proc in GetDDProcessesOnPort(null))
 				using (proc)
+				{
 					proc.Kill();
+					proc.WaitForExit();
+				}
 		}
 
 		static ushort FreeTcpPort(params ushort[] usedPorts)
