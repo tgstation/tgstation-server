@@ -414,143 +414,8 @@ namespace Tgstation.Server.Host.Components.Session
 		}
 
 		/// <inheritdoc />
-		public async ValueTask<TopicResponse> SendCommand(TopicParameters parameters, CancellationToken cancellationToken)
-		{
-			ArgumentNullException.ThrowIfNull(parameters);
-
-			if (Lifetime.IsCompleted || disposed)
-			{
-				Logger.LogWarning(
-					"Attempted to send a command to an inactive SessionController: {commandType}",
-					parameters.CommandType);
-				return null;
-			}
-
-			if (!DMApiAvailable)
-			{
-				Logger.LogTrace("Not sending topic request {commandType} to server without/with incompatible DMAPI!", parameters.CommandType);
-				return null;
-			}
-
-			var rebootGate = RebootGate;
-			var launchResult = await LaunchResult.WaitAsync(cancellationToken);
-			if (launchResult.ExitCode.HasValue)
-			{
-				Logger.LogDebug("Not sending topic request {commandType} to server that failed to launch!", parameters.CommandType);
-				return null;
-			}
-
-			// meh, this is kind of a hack, but it works
-			if (!chatTrackingContext.Active)
-			{
-				Logger.LogDebug("Not sending topic request {commandType} to server that is rebooting/starting.", parameters.CommandType);
-				return null;
-			}
-
-			using var cts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
-			var combinedCancellationToken = cts.Token;
-			async ValueTask CancelIfLifetimeElapses()
-			{
-				try
-				{
-					var completed = await Task.WhenAny(Lifetime, rebootGate).WaitAsync(combinedCancellationToken);
-
-					Logger.LogDebug(
-						"Server {action}, cancelling pending command: {commandType}",
-						completed != rebootGate
-							? "process ended"
-							: "rebooting",
-						parameters.CommandType);
-					cts.Cancel();
-				}
-				catch (OperationCanceledException)
-				{
-					// expected, not even worth tracing
-				}
-				catch (Exception ex)
-				{
-					Logger.LogError(ex, "Error in CancelIfLifetimeElapses!");
-				}
-			}
-
-			TopicResponse fullResponse = null;
-			var lifetimeWatchingTask = CancelIfLifetimeElapses();
-			try
-			{
-				var combinedResponse = await SendTopicRequest(parameters, combinedCancellationToken);
-
-				void LogCombinedResponse()
-				{
-					if (LogTopicRequests && combinedResponse != null)
-						Logger.LogTrace("Topic response: {topicString}", combinedResponse.ByondTopicResponse.StringData ?? "(NO STRING DATA)");
-				}
-
-				LogCombinedResponse();
-
-				if (combinedResponse?.InteropResponse?.Chunk != null)
-				{
-					Logger.LogTrace("Topic response is chunked...");
-
-					ChunkData nextChunk = combinedResponse.InteropResponse.Chunk;
-					do
-					{
-						var nextRequest = await ProcessChunk<TopicResponse, ChunkedTopicParameters>(
-							(completedResponse, _) =>
-							{
-								fullResponse = completedResponse;
-								return ValueTask.FromResult<ChunkedTopicParameters>(null);
-							},
-							error =>
-							{
-								Logger.LogWarning("Topic response chunking error: {message}", error);
-								return null;
-							},
-							combinedResponse?.InteropResponse?.Chunk,
-							combinedCancellationToken);
-
-						if (nextRequest != null)
-						{
-							nextRequest.PayloadId = nextChunk.PayloadId;
-							combinedResponse = await SendTopicRequest(nextRequest, combinedCancellationToken);
-							LogCombinedResponse();
-							nextChunk = combinedResponse?.InteropResponse?.Chunk;
-						}
-						else
-							nextChunk = null;
-					}
-					while (nextChunk != null);
-				}
-				else
-					fullResponse = combinedResponse?.InteropResponse;
-			}
-			catch (OperationCanceledException ex)
-			{
-				Logger.LogDebug(
-					ex,
-					"Topic request {cancellationType}!",
-					combinedCancellationToken.IsCancellationRequested
-						? cancellationToken.IsCancellationRequested
-							? "cancelled"
-							: "aborted"
-						: "timed out");
-
-				// throw only if the original token was the trigger
-				cancellationToken.ThrowIfCancellationRequested();
-			}
-			finally
-			{
-				cts.Cancel();
-				await lifetimeWatchingTask;
-			}
-
-			if (fullResponse?.ErrorMessage != null)
-				Logger.LogWarning(
-					"Errored topic response for command {commandType}: {errorMessage}",
-					parameters.CommandType,
-					fullResponse.ErrorMessage);
-
-			return fullResponse;
-		}
+		public ValueTask<TopicResponse> SendCommand(TopicParameters parameters, CancellationToken cancellationToken)
+			=> SendCommand(parameters, false, cancellationToken);
 
 		/// <inheritdoc />
 		public Task<bool> SetPort(ushort port, CancellationToken cancellationToken)
@@ -697,6 +562,7 @@ namespace Tgstation.Server.Host.Components.Session
 					new TopicParameters(
 						assemblyInformationProvider.Version,
 						ReattachInformation.RuntimeInformation.ServerPort),
+					true,
 					reattachTopicCts.Token);
 
 				if (reattachResponse != null)
@@ -1151,6 +1017,154 @@ namespace Tgstation.Server.Host.Components.Session
 				}
 
 			return new CombinedTopicResponse(byondResponse, interopResponse);
+		}
+
+		/// <summary>
+		/// Sends a command to DreamDaemon through /world/Topic().
+		/// </summary>
+		/// <param name="parameters">The <see cref="TopicParameters"/> to send.</param>
+		/// <param name="bypassLaunchResult">If waiting for the <see cref="LaunchResult"/> should be bypassed.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="TopicResponse"/> of /world/Topic().</returns>
+		async ValueTask<TopicResponse> SendCommand(TopicParameters parameters, bool bypassLaunchResult, CancellationToken cancellationToken)
+		{
+			ArgumentNullException.ThrowIfNull(parameters);
+
+			if (Lifetime.IsCompleted || disposed)
+			{
+				Logger.LogWarning(
+					"Attempted to send a command to an inactive SessionController: {commandType}",
+					parameters.CommandType);
+				return null;
+			}
+
+			if (!DMApiAvailable)
+			{
+				Logger.LogTrace("Not sending topic request {commandType} to server without/with incompatible DMAPI!", parameters.CommandType);
+				return null;
+			}
+
+			var rebootGate = RebootGate;
+			if (!bypassLaunchResult)
+			{
+				var launchResult = await LaunchResult.WaitAsync(cancellationToken);
+				if (launchResult.ExitCode.HasValue)
+				{
+					Logger.LogDebug("Not sending topic request {commandType} to server that failed to launch!", parameters.CommandType);
+					return null;
+				}
+			}
+
+			// meh, this is kind of a hack, but it works
+			if (!chatTrackingContext.Active)
+			{
+				Logger.LogDebug("Not sending topic request {commandType} to server that is rebooting/starting.", parameters.CommandType);
+				return null;
+			}
+
+			using var cts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+			var combinedCancellationToken = cts.Token;
+			async ValueTask CancelIfLifetimeElapses()
+			{
+				try
+				{
+					var completed = await Task.WhenAny(Lifetime, rebootGate).WaitAsync(combinedCancellationToken);
+
+					Logger.LogDebug(
+						"Server {action}, cancelling pending command: {commandType}",
+						completed != rebootGate
+							? "process ended"
+							: "rebooting",
+						parameters.CommandType);
+					cts.Cancel();
+				}
+				catch (OperationCanceledException)
+				{
+					// expected, not even worth tracing
+				}
+				catch (Exception ex)
+				{
+					Logger.LogError(ex, "Error in CancelIfLifetimeElapses!");
+				}
+			}
+
+			TopicResponse fullResponse = null;
+			var lifetimeWatchingTask = CancelIfLifetimeElapses();
+			try
+			{
+				var combinedResponse = await SendTopicRequest(parameters, combinedCancellationToken);
+
+				void LogCombinedResponse()
+				{
+					if (LogTopicRequests && combinedResponse != null)
+						Logger.LogTrace("Topic response: {topicString}", combinedResponse.ByondTopicResponse.StringData ?? "(NO STRING DATA)");
+				}
+
+				LogCombinedResponse();
+
+				if (combinedResponse?.InteropResponse?.Chunk != null)
+				{
+					Logger.LogTrace("Topic response is chunked...");
+
+					ChunkData nextChunk = combinedResponse.InteropResponse.Chunk;
+					do
+					{
+						var nextRequest = await ProcessChunk<TopicResponse, ChunkedTopicParameters>(
+							(completedResponse, _) =>
+							{
+								fullResponse = completedResponse;
+								return ValueTask.FromResult<ChunkedTopicParameters>(null);
+							},
+							error =>
+							{
+								Logger.LogWarning("Topic response chunking error: {message}", error);
+								return null;
+							},
+							combinedResponse?.InteropResponse?.Chunk,
+							combinedCancellationToken);
+
+						if (nextRequest != null)
+						{
+							nextRequest.PayloadId = nextChunk.PayloadId;
+							combinedResponse = await SendTopicRequest(nextRequest, combinedCancellationToken);
+							LogCombinedResponse();
+							nextChunk = combinedResponse?.InteropResponse?.Chunk;
+						}
+						else
+							nextChunk = null;
+					}
+					while (nextChunk != null);
+				}
+				else
+					fullResponse = combinedResponse?.InteropResponse;
+			}
+			catch (OperationCanceledException ex)
+			{
+				Logger.LogDebug(
+					ex,
+					"Topic request {cancellationType}!",
+					combinedCancellationToken.IsCancellationRequested
+						? cancellationToken.IsCancellationRequested
+							? "cancelled"
+							: "aborted"
+						: "timed out");
+
+				// throw only if the original token was the trigger
+				cancellationToken.ThrowIfCancellationRequested();
+			}
+			finally
+			{
+				cts.Cancel();
+				await lifetimeWatchingTask;
+			}
+
+			if (fullResponse?.ErrorMessage != null)
+				Logger.LogWarning(
+					"Errored topic response for command {commandType}: {errorMessage}",
+					parameters.CommandType,
+					fullResponse.ErrorMessage);
+
+			return fullResponse;
 		}
 	}
 }
