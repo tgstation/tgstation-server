@@ -1044,7 +1044,7 @@ namespace Tgstation.Server.Host.Components.Session
 				return null;
 			}
 
-			var rebootGate = RebootGate;
+			var reboot = OnReboot;
 			if (!bypassLaunchResult)
 			{
 				var launchResult = await LaunchResult.WaitAsync(cancellationToken);
@@ -1068,11 +1068,11 @@ namespace Tgstation.Server.Host.Components.Session
 			{
 				try
 				{
-					var completed = await Task.WhenAny(Lifetime, rebootGate).WaitAsync(combinedCancellationToken);
+					var completed = await Task.WhenAny(Lifetime, reboot).WaitAsync(combinedCancellationToken);
 
 					Logger.LogDebug(
 						"Server {action}, cancelling pending command: {commandType}",
-						completed != rebootGate
+						completed != reboot
 							? "process ended"
 							: "rebooting",
 						parameters.CommandType);

@@ -1478,24 +1478,11 @@ namespace Tgstation.Server.Tests.Live
 					var chatReadTask = instanceClient.ChatBots.List(null, cancellationToken);
 
 					// Check the DMAPI got the channels again https://github.com/tgstation/tgstation-server/issues/1490
-					var tries = 3;
-					while (true)
-						try
-						{
-							// HEY I THINK I FOUND A WAY TO RELIABLY REPRODUCE THE TOPIC HANG
-							// JUST SET A BREAKPOINT IN THE CATCH
-							// Maybe, with enough investigation, either I can figure out the cause or get Lummox to tell me
-							topicRequestResult = await WatchdogTest.StaticTopicClient.SendTopic(
-								IPAddress.Loopback,
-								$"tgs_integration_test_tactics7=1",
-								mainDDPort,
-								cancellationToken);
-							break;
-						}
-						catch (OperationCanceledException) when (--tries > 0)
-						{
-							await Task.Delay(TimeSpan.FromSeconds(5), cancellationToken);
-						}
+					topicRequestResult = await WatchdogTest.StaticTopicClient.SendTopic(
+						IPAddress.Loopback,
+						$"tgs_integration_test_tactics7=1",
+						mainDDPort,
+						cancellationToken);
 
 					Assert.IsNotNull(topicRequestResult);
 					if(!Int32.TryParse(topicRequestResult.StringData, out var channelsPresent))
