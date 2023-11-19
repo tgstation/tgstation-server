@@ -13,6 +13,7 @@ namespace Tgstation.Server.Host.Components.Chat
 		/// <summary>
 		/// If the <see cref="CustomCommands"/> should be used.
 		/// </summary>
+		/// <remarks>This should only be set by the <see cref="object"/> that sets the <see cref="CustomCommands"/>.</remarks>
 		bool Active { get; set; }
 
 		/// <summary>
