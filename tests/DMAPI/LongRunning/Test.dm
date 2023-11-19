@@ -98,11 +98,11 @@
 
 /world/Topic(T, Addr, Master, Keys)
 	if(findtext(T, "tgs_integration_test_tactics3") == 0)
-		log << "Topic: [T]"
+		log << "Topic (sleep_offline: [sleep_offline]): [T]"
 	else
 		log << "tgs_integration_test_tactics3 <TOPIC SUPPRESSED>"
 	. =  HandleTopic(T)
-	log << "Response: [.]"
+	log << "Response (sleep_offline: [sleep_offline]): [.]"
 
 var/startup_complete
 var/run_bridge_test
@@ -246,9 +246,9 @@ var/received_health_check = FALSE
 
 /world/Export(url)
 	var/redact = length(url) > 1000
-	log << "Export: [redact ? "<REDACTED>" : url]"
+	log << "Export (sleep_offline: [sleep_offline]): [redact ? "<REDACTED>" : url]"
 	. = ..()
-	log << "Export completed: [redact ? "<REDACTED>" : json_encode(.)]"
+	log << "Export completed (sleep_offline: [sleep_offline]): [redact ? "<REDACTED>" : json_encode(.)]"
 
 /proc/RebootAsync()
 	set waitfor = FALSE
