@@ -154,7 +154,7 @@ namespace Tgstation.Server.Host.Components.Chat
 
 			synchronizationLock = new object();
 
-			builtinCommands = new Dictionary<string, ICommand>();
+			builtinCommands = new Dictionary<string, ICommand>(StringComparer.OrdinalIgnoreCase);
 			providers = new Dictionary<long, IProvider>();
 			mappedChannels = new Dictionary<ulong, ChannelMapping>();
 			trackingContexts = new List<IChatTrackingContext>();
@@ -713,6 +713,18 @@ namespace Tgstation.Server.Host.Components.Chat
 				return;
 			}
 
+			ValueTask TextReply(string reply) => SendMessage(
+				new List<ulong>
+				{
+					message.User.Channel.RealId,
+				},
+				message,
+				new MessageContent
+				{
+					Text = reply,
+				},
+				cancellationToken);
+
 			if (message.User.Channel.IsPrivateChannel)
 				lock (mappedChannels)
 					if (!mappedChannel.HasValue)
@@ -753,17 +765,7 @@ namespace Tgstation.Server.Host.Components.Chat
 					logger.LogTrace("message: {messageJson}", JsonConvert.SerializeObject(message));
 					lock (mappedChannels)
 						logger.LogTrace("mappedChannels: {mappedChannelsJson}", JsonConvert.SerializeObject(mappedChannels));
-					await SendMessage(
-						new List<ulong>
-						{
-							message.User.Channel.RealId,
-						},
-						message,
-						new MessageContent
-						{
-							Text = "TGS: Processing error, check logs!",
-						},
-						cancellationToken);
+					await TextReply("TGS: Processing error, check logs!");
 					return;
 				}
 
@@ -805,41 +807,29 @@ namespace Tgstation.Server.Host.Components.Chat
 				if (splits.Count == 0)
 				{
 					// just a mention
-					await SendMessage(
-						new List<ulong>
-						{
-							message.User.Channel.RealId,
-						},
-						message,
-						new MessageContent
-						{
-							Text = "Hi!",
-						},
-						cancellationToken);
+					await TextReply("Hi!");
 					return;
 				}
 
-				var command = splits[0].ToUpperInvariant();
+				var command = splits[0];
 				splits.RemoveAt(0);
 				var arguments = String.Join(" ", splits);
 
-				ICommand GetCommand(string commandName)
+				Tuple<ICommand, IChatTrackingContext> GetCommand()
 				{
-					if (!builtinCommands.TryGetValue(commandName, out var handler))
-					{
-						handler = trackingContexts
-							.Where(x => x.CustomCommands != null)
-							.SelectMany(x => x.CustomCommands)
-							.Where(x => x.Name.ToUpperInvariant() == commandName)
+					if (!builtinCommands.TryGetValue(command, out var handler))
+						return trackingContexts
+							.Where(trackingContext => trackingContext.Active)
+							.SelectMany(trackingContext => trackingContext.CustomCommands.Select(customCommand => Tuple.Create<ICommand, IChatTrackingContext>(customCommand, trackingContext)))
+							.Where(tuple => tuple.Item1.Name.Equals(command, StringComparison.OrdinalIgnoreCase))
 							.FirstOrDefault();
-					}
 
-					return handler;
+					return Tuple.Create<ICommand, IChatTrackingContext>(handler, null);
 				}
 
-				const string UnknownCommandMessage = "Unknown command! Type '?' or 'help' for available commands.";
+				const string UnknownCommandMessage = "TGS: Unknown command! Type '?' or 'help' for available commands.";
 
-				if (command == "HELP" || command == "?")
+				if (command.Equals("help", StringComparison.OrdinalIgnoreCase) || command == "?")
 				{
 					string helpText;
 					if (splits.Count == 0)
@@ -847,56 +837,40 @@ namespace Tgstation.Server.Host.Components.Chat
 						var allCommands = builtinCommands.Select(x => x.Value).ToList();
 						allCommands.AddRange(
 							trackingContexts
-								.Where(x => x.CustomCommands != null)
 								.SelectMany(
 									x => x.CustomCommands));
 						helpText = String.Format(CultureInfo.InvariantCulture, "Available commands (Type '?' or 'help' and then a command name for more details): {0}", String.Join(", ", allCommands.Select(x => x.Name)));
 					}
 					else
 					{
-						var helpHandler = GetCommand(splits[0].ToUpperInvariant());
+						var (helpHandler, _) = GetCommand();
 						if (helpHandler != default)
 							helpText = String.Format(CultureInfo.InvariantCulture, "{0}: {1}{2}", helpHandler.Name, helpHandler.HelpText, helpHandler.AdminOnly ? " - May only be used in admin channels" : String.Empty);
 						else
 							helpText = UnknownCommandMessage;
 					}
 
-					await SendMessage(
-						new List<ulong> { message.User.Channel.RealId },
-						message,
-						new MessageContent
-						{
-							Text = helpText,
-						},
-						cancellationToken);
+					await TextReply(helpText);
 					return;
 				}
 
-				var commandHandler = GetCommand(command);
+				var (commandHandler, trackingContext) = GetCommand();
 
 				if (commandHandler == default)
 				{
-					await SendMessage(
-						new List<ulong> { message.User.Channel.RealId },
-						message,
-						new MessageContent
-						{
-							Text = UnknownCommandMessage,
-						},
-						cancellationToken);
+					await TextReply(UnknownCommandMessage);
+					return;
+				}
+
+				if (trackingContext?.Active == false)
+				{
+					await TextReply("TGS: The server is rebooting, please try again later");
 					return;
 				}
 
 				if (commandHandler.AdminOnly && !message.User.Channel.IsAdminChannel)
 				{
-					await SendMessage(
-						new List<ulong> { message.User.Channel.RealId },
-						message,
-						new MessageContent
-						{
-							Text = "Use this command in an admin channel!",
-						},
-						cancellationToken);
+					await TextReply("TGS: Use this command in an admin channel!");
 					return;
 				}
 
@@ -912,14 +886,7 @@ namespace Tgstation.Server.Host.Components.Chat
 			{
 				// error bc custom commands should reply about why it failed
 				logger.LogError(e, "Error processing chat command");
-				await SendMessage(
-					new List<ulong> { message.User.Channel.RealId },
-					message,
-					new MessageContent
-					{
-						Text = "TGS: Internal error processing command! Check server logs!",
-					},
-					cancellationToken);
+				await TextReply("TGS: Internal error processing command! Check server logs!");
 			}
 			finally
 			{

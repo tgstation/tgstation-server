@@ -256,8 +256,6 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					await SessionStartupPersist(cancellationToken);
 
 				await CheckLaunchResult(Server, "Server", cancellationToken);
-
-				Server.EnableCustomChatCommands();
 			}
 			catch (Exception ex)
 			{

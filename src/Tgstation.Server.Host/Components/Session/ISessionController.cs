@@ -120,11 +120,6 @@ namespace Tgstation.Server.Host.Components.Session
 		void ResetRebootState();
 
 		/// <summary>
-		/// Enables the reading of custom chat commands from the <see cref="ISessionController"/>.
-		/// </summary>
-		void EnableCustomChatCommands();
-
-		/// <summary>
 		/// Replace the <see cref="IDmbProvider"/> in use with a given <paramref name="newProvider"/>, disposing the old one.
 		/// </summary>
 		/// <param name="newProvider">The new <see cref="IDmbProvider"/>.</param>

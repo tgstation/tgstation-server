@@ -402,9 +402,6 @@ namespace Tgstation.Server.Host.Components.Session
 		}
 
 		/// <inheritdoc />
-		public void EnableCustomChatCommands() => chatTrackingContext.Active = DMApiAvailable;
-
-		/// <inheritdoc />
 		public ValueTask Release()
 		{
 			CheckDisposed();
@@ -751,6 +748,7 @@ namespace Tgstation.Server.Host.Components.Session
 					break;
 				case BridgeCommandType.Kill:
 					Logger.LogInformation("Bridge requested process termination!");
+					chatTrackingContext.Active = false;
 					TerminationWasRequested = true;
 					process.Terminate();
 					break;
@@ -839,15 +837,17 @@ namespace Tgstation.Server.Host.Components.Session
 
 					// Load custom commands
 					chatTrackingContext.CustomCommands = parameters.CustomCommands;
+					chatTrackingContext.Active = true;
 					Interlocked.Exchange(ref startupTcs, new TaskCompletionSource()).SetResult();
 					break;
 				case BridgeCommandType.Reboot:
 					Interlocked.Increment(ref rebootBridgeRequestsProcessing);
 					try
 					{
+						chatTrackingContext.Active = false;
+
 						if (ClosePortOnReboot)
 						{
-							chatTrackingContext.Active = false;
 							response.NewPort = 0;
 							portClosedForReboot = true;
 						}
