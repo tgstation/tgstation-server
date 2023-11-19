@@ -37,6 +37,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <summary>
 		/// The <see cref="DreamDaemonLaunchParameters"/> the active server is using.
 		/// </summary>
+		/// <remarks>This may not be the exact same as <see cref="ActiveLaunchParameters"/> but still be associated with the same session.</remarks>
 		DreamDaemonLaunchParameters LastLaunchParameters { get; }
 
 		/// <summary>
