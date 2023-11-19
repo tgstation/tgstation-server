@@ -217,7 +217,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				ActiveSwappable = pendingSwappable;
 				pendingSwappable = null;
 
-				await SessionPersistor.Save(Server.ReattachInformation, cancellationToken);
+				await SessionPersistor.Update(Server.ReattachInformation, cancellationToken);
 				await updateTask;
 			}
 			else

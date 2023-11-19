@@ -29,7 +29,6 @@ using Npgsql;
 
 using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
-using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Api.Models.Request;
 using Tgstation.Server.Api.Models.Response;
 using Tgstation.Server.Api.Rights;
@@ -1324,7 +1323,7 @@ namespace Tgstation.Server.Tests.Live
 			try
 			{
 				Api.Models.Instance instance;
-				long initialStaged, initialActive;
+				long initialStaged, initialActive, initialSessionId;
 				await using var firstAdminClient = await CreateAdminClient(server.ApiUrl, cancellationToken);
 
 				async ValueTask<IServerClient> CreateUserWithNoInstancePerms()
@@ -1403,6 +1402,7 @@ namespace Tgstation.Server.Tests.Live
 
 					async Task RunInstanceTests()
 					{
+						var testSerialized = TestingUtils.RunningInGitHubActions; // they only have 2 cores, can't handle intense parallelization
 						async Task ODCompatTests()
 						{
 							var edgeODVersionTask = EngineTest.GetEdgeVersion(EngineType.OpenDream, fileDownloader, cancellationToken);
@@ -1433,7 +1433,7 @@ namespace Tgstation.Server.Tests.Live
 
 						var odCompatTests = FailFast(ODCompatTests());
 
-						if (TestingUtils.RunningInGitHubActions) // they only have 2 cores, can't handle intense parallelization
+						if (testSerialized) // they only have 2 cores, can't handle intense parallelization
 							await odCompatTests;
 
 						var compatTests = FailFast(
@@ -1453,7 +1453,7 @@ namespace Tgstation.Server.Tests.Live
 									server.UsingBasicWatchdog,
 									cancellationToken));
 
-						if (TestingUtils.RunningInGitHubActions) // they only have 2 cores, can't handle intense parallelization
+						if (testSerialized)
 							await compatTests;
 
 						await FailFast(
@@ -1481,6 +1481,7 @@ namespace Tgstation.Server.Tests.Live
 					Assert.AreNotEqual(dd.StagedCompileJob.Id, dd.ActiveCompileJob.Id);
 					initialActive = dd.ActiveCompileJob.Id.Value;
 					initialStaged = dd.StagedCompileJob.Id.Value;
+					initialSessionId = dd.SessionId.Value;
 
 					jobsHubTest.ExpectShutdown();
 					await firstAdminClient.Administration.Restart(cancellationToken);
@@ -1562,6 +1563,7 @@ namespace Tgstation.Server.Tests.Live
 					Assert.AreNotEqual(dd.StagedCompileJob.Id, dd.ActiveCompileJob.Id);
 					Assert.AreEqual(initialStaged, dd.StagedCompileJob.Id);
 					Assert.AreEqual(initialActive, dd.ActiveCompileJob.Id);
+					Assert.AreEqual(initialSessionId, dd.SessionId);
 
 					var chatReadTask = instanceClient.ChatBots.List(null, cancellationToken);
 

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Globalization;
 
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Host.Components.Interop;
@@ -12,6 +11,11 @@ namespace Tgstation.Server.Host.Models
 	/// </summary>
 	public abstract class ReattachInformationBase : DMApiParameters
 	{
+		/// <summary>
+		/// The database row Id.
+		/// </summary>
+		public long? Id { get; set; }
+
 		/// <summary>
 		/// The system process ID.
 		/// </summary>
@@ -51,6 +55,7 @@ namespace Tgstation.Server.Host.Models
 		protected ReattachInformationBase(ReattachInformationBase copy)
 		{
 			ArgumentNullException.ThrowIfNull(copy);
+			Id = copy.Id;
 			AccessIdentifier = copy.AccessIdentifier;
 			Port = copy.Port;
 			ProcessId = copy.ProcessId;
@@ -60,6 +65,6 @@ namespace Tgstation.Server.Host.Models
 		}
 
 		/// <inheritdoc />
-		public override string ToString() => String.Format(CultureInfo.InvariantCulture, "Process ID: {0}, Access Identifier {1}, RebootState: {2}, Port: {3}", ProcessId, AccessIdentifier, RebootState, Port);
+		public override string ToString() => $"Session: {Id}, PID: {ProcessId}, Access Identifier {AccessIdentifier}, RebootState: {RebootState}, Port: {Port}";
 	}
 }

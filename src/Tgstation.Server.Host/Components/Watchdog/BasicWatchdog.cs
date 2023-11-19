@@ -255,6 +255,11 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				if (!reattachInProgress)
 					await SessionStartupPersist(cancellationToken);
 
+				if (!SessionId.HasValue)
+					Logger.LogError("Server should have a session ID allocated by now but it doesn't!");
+				else
+					Logger.LogInformation("Watchdog starting session ID {id}", SessionId.Value);
+
 				await CheckLaunchResult(Server, "Server", cancellationToken);
 
 				Server.EnableCustomChatCommands();
@@ -262,7 +267,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				// persist again, because the DMAPI can say we need a different topic port (Original OD behavior)
 				// kinda hacky imo, but at least we can safely forget about this
 				if (!reattachInProgress)
-					await SessionPersistor.Save(Server.ReattachInformation, cancellationToken);
+					await SessionPersistor.Update(Server.ReattachInformation, cancellationToken);
 			}
 			catch (Exception ex)
 			{
@@ -298,7 +303,15 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		protected virtual ValueTask<MonitorAction> HandleNormalReboot(CancellationToken cancellationToken)
 		{
 			var settingsUpdatePending = ActiveLaunchParameters != LastLaunchParameters;
-			var result = settingsUpdatePending ? MonitorAction.Restart : MonitorAction.Continue;
+			MonitorAction result;
+			if (settingsUpdatePending)
+			{
+				Logger.LogTrace("There is a settings update pending");
+				result = MonitorAction.Restart;
+			}
+			else
+				result = MonitorAction.Continue;
+
 			return ValueTask.FromResult(result);
 		}
 
