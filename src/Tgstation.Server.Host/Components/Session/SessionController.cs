@@ -1097,7 +1097,6 @@ namespace Tgstation.Server.Host.Components.Session
 			}
 
 			var targetPort = ReattachInformation.Port;
-			var killedOrRebootedTask = Task.WhenAny(Lifetime, OnReboot);
 			global::Byond.TopicSender.TopicResponse byondResponse = null;
 			var firstSend = true;
 
@@ -1109,43 +1108,31 @@ namespace Tgstation.Server.Host.Components.Session
 					try
 					{
 						firstSend = false;
-						if (!killedOrRebootedTask.IsCompleted)
-						{
-							Logger.LogTrace("Begin topic request");
-							byondResponse = await byondTopicSender.SendTopic(
-								endpoint,
-								queryString,
-								cancellationToken);
 
-							Logger.LogTrace("End topic request");
-						}
+						Logger.LogTrace("Begin topic request");
+						byondResponse = await byondTopicSender.SendTopic(
+							endpoint,
+							queryString,
+							cancellationToken);
 
+						Logger.LogTrace("End topic request");
 						break;
 					}
-					catch (Exception ex) when (!cancellationToken.IsCancellationRequested)
+					catch (Exception ex) when (ex is not OperationCanceledException)
 					{
 						Logger.LogWarning(ex, "SendTopic exception!{retryDetails}", priority ? $" {i} attempts remaining." : String.Empty);
 
 						if (priority && i > 0)
-						{
-							var delayTask = asyncDelayer.Delay(TimeSpan.FromSeconds(2), cancellationToken);
-							await Task.WhenAny(killedOrRebootedTask, delayTask);
-						}
+							await asyncDelayer.Delay(TimeSpan.FromSeconds(2), cancellationToken);
 					}
 			}
 
 			if (byondResponse == null)
 			{
 				if (priority)
-					if (killedOrRebootedTask.IsCompleted)
-						Logger.LogWarning(
-							"Unable to send priority topic \"{queryString}\" DreamDaemon {stateClearAction}!",
-							queryString,
-							Lifetime.IsCompleted ? "process ended" : "rebooted");
-					else
-						Logger.LogError(
-							"Unable to send priority topic \"{queryString}\"!",
-							queryString);
+					Logger.LogError(
+						"Unable to send priority topic \"{queryString}\"!",
+						queryString);
 
 				return null;
 			}
