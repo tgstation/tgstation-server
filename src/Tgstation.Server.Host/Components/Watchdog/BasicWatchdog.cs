@@ -262,8 +262,6 @@ namespace Tgstation.Server.Host.Components.Watchdog
 
 				await CheckLaunchResult(Server, "Server", cancellationToken);
 
-				Server.EnableCustomChatCommands();
-
 				// persist again, because the DMAPI can say we need a different topic port (Original OD behavior)
 				// kinda hacky imo, but at least we can safely forget about this
 				if (!reattachInProgress)
@@ -301,19 +299,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="MonitorAction"/> to take.</returns>
 		protected virtual ValueTask<MonitorAction> HandleNormalReboot(CancellationToken cancellationToken)
-		{
-			var settingsUpdatePending = ActiveLaunchParameters != LastLaunchParameters;
-			MonitorAction result;
-			if (settingsUpdatePending)
-			{
-				Logger.LogTrace("There is a settings update pending");
-				result = MonitorAction.Restart;
-			}
-			else
-				result = MonitorAction.Continue;
-
-			return ValueTask.FromResult(result);
-		}
+			=> ValueTask.FromResult(MonitorAction.Continue);
 
 		/// <summary>
 		/// Handler for <see cref="MonitorActivationReason.NewDmbAvailable"/>.

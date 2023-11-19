@@ -137,6 +137,7 @@ namespace Tgstation.Server.Tests.Live
 					using (proc)
 					{
 						proc.Kill();
+						proc.WaitForExit();
 						result = true;
 					}
 
@@ -1279,6 +1280,9 @@ namespace Tgstation.Server.Tests.Live
 			// uncomment to force this test to run with DummyChatProviders
 			// missingChatVarsCount = TotalChatVars;
 
+			// uncomment to force this test to run with pasic watchdog
+			// Environment.SetEnvironmentVariable("General__UseBasicWatchdog", "true");
+
 			if (missingChatVarsCount != 0)
 			{
 				if (missingChatVarsCount != TotalChatVars)
@@ -1575,15 +1579,12 @@ namespace Tgstation.Server.Tests.Live
 						cancellationToken);
 
 					Assert.IsNotNull(topicRequestResult);
-					if(!Int32.TryParse(topicRequestResult.StringData, out var channelsPresent))
-					{
-						Assert.Fail("Expected DD to send us an int!");
-					}
+					Assert.IsTrue(topicRequestResult.FloatData.HasValue);
 
 					var currentChatBots = await chatReadTask;
 					var connectedChannelCount = currentChatBots.Where(x => x.Enabled.Value).SelectMany(x => x.Channels).Count();
 
-					Assert.AreEqual(connectedChannelCount, channelsPresent);
+					Assert.AreEqual(connectedChannelCount, topicRequestResult.FloatData.Value);
 
 					dd = await WatchdogTest.TellWorldToReboot2(instanceClient, WatchdogTest.StaticTopicClient, mainDDPort, false, cancellationToken);
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Globalization;
@@ -659,6 +660,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 
 			var remapRequired = false;
 			var guildsClient = serviceProvider.GetRequiredService<IDiscordRestGuildAPI>();
+			var guildTasks = new ConcurrentDictionary<Snowflake, Task<Result<IGuild>>>();
 
 			async ValueTask<Tuple<Models.ChatChannel, IEnumerable<ChannelRepresentation>>> GetModelChannelFromDBChannel(Models.ChatChannel channelFromDB)
 			{
@@ -690,17 +692,28 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 
 				var guildId = discordChannelResponse.Entity.GuildID.Value;
 
-				var guildsResponse = await guildsClient.GetGuildAsync(
+				var added = false;
+				var guildsResponse = await guildTasks.GetOrAdd(
 					guildId,
-					false,
-					cancellationToken);
+					localGuildId =>
+					{
+						added = true;
+						return guildsClient.GetGuildAsync(
+							localGuildId,
+							false,
+							cancellationToken);
+					});
 				if (!guildsResponse.IsSuccess)
 				{
-					Logger.LogWarning(
-						"Error retrieving discord guild {guildID}: {result}",
-						guildId,
-						guildsResponse.LogFormat());
-					remapRequired |= true;
+					if (added)
+					{
+						Logger.LogWarning(
+							"Error retrieving discord guild {guildID}: {result}",
+							guildId,
+							guildsResponse.LogFormat());
+						remapRequired |= true;
+					}
+
 					return null;
 				}
 

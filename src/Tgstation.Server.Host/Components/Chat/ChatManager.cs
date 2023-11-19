@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -60,32 +61,37 @@ namespace Tgstation.Server.Host.Components.Chat
 		/// <summary>
 		/// Unchanging <see cref="ICommand"/>s in the <see cref="ChatManager"/> mapped by <see cref="ICommand.Name"/>.
 		/// </summary>
-		readonly IDictionary<string, ICommand> builtinCommands;
+		readonly Dictionary<string, ICommand> builtinCommands;
 
 		/// <summary>
 		/// Map of <see cref="IProvider"/>s in use, keyed by <see cref="ChatBotSettings"/> <see cref="EntityId.Id"/>.
 		/// </summary>
-		readonly IDictionary<long, IProvider> providers;
+		readonly Dictionary<long, IProvider> providers;
+
+		/// <summary>
+		/// Map of <see cref="SemaphoreSlim"/>s used to guard concurrent access to <see cref="ChangeChannels(long, IEnumerable{Models.ChatChannel}, CancellationToken)"/>, keyed by <see cref="ChatBotSettings"/> <see cref="Api.Models.EntityId.Id"/>.
+		/// </summary>
+		readonly ConcurrentDictionary<long, SemaphoreSlim> changeChannelSemaphores;
 
 		/// <summary>
 		/// Map of <see cref="ChannelRepresentation.RealId"/>s to <see cref="ChannelMapping"/>s.
 		/// </summary>
-		readonly IDictionary<ulong, ChannelMapping> mappedChannels;
+		readonly Dictionary<ulong, ChannelMapping> mappedChannels;
 
 		/// <summary>
 		/// The active <see cref="IChatTrackingContext"/>s for the <see cref="ChatManager"/>.
 		/// </summary>
-		readonly IList<IChatTrackingContext> trackingContexts;
-
-		/// <summary>
-		/// The <see cref="CancellationTokenSource"/> for <see cref="chatHandler"/>.
-		/// </summary>
-		readonly CancellationTokenSource handlerCts;
+		readonly List<IChatTrackingContext> trackingContexts;
 
 		/// <summary>
 		/// The active <see cref="Models.ChatBot"/> for the <see cref="ChatManager"/>.
 		/// </summary>
 		readonly List<Models.ChatBot> activeChatBots;
+
+		/// <summary>
+		/// The <see cref="CancellationTokenSource"/> for <see cref="chatHandler"/>.
+		/// </summary>
+		readonly CancellationTokenSource handlerCts;
 
 		/// <summary>
 		/// Used for various lock statements throughout this <see langword="class"/>.
@@ -155,8 +161,9 @@ namespace Tgstation.Server.Host.Components.Chat
 
 			synchronizationLock = new object();
 
-			builtinCommands = new Dictionary<string, ICommand>();
+			builtinCommands = new Dictionary<string, ICommand>(StringComparer.OrdinalIgnoreCase);
 			providers = new Dictionary<long, IProvider>();
+			changeChannelSemaphores = new ConcurrentDictionary<long, SemaphoreSlim>();
 			mappedChannels = new Dictionary<ulong, ChannelMapping>();
 			trackingContexts = new List<IChatTrackingContext>();
 			handlerCts = new CancellationTokenSource();
@@ -175,6 +182,9 @@ namespace Tgstation.Server.Host.Components.Chat
 			foreach (var providerKvp in providers)
 				await providerKvp.Value.DisposeAsync();
 
+			foreach (var providerKvp in changeChannelSemaphores)
+				providerKvp.Value.Dispose();
+
 			await messageSendTask;
 		}
 
@@ -184,80 +194,88 @@ namespace Tgstation.Server.Host.Components.Chat
 			ArgumentNullException.ThrowIfNull(newChannels);
 
 			logger.LogTrace("ChangeChannels {connectionId}...", connectionId);
-			var provider = await RemoveProviderChannels(connectionId, false, cancellationToken);
-			if (provider == null)
-				return;
-
-			if (!provider.Connected)
+			var semaphore = changeChannelSemaphores.GetOrAdd(connectionId, _ =>
 			{
-				logger.LogDebug("Cannot map channels, provider {providerId} disconnected!", connectionId);
-				return;
-			}
-
-			var results = await provider.MapChannels(newChannels, cancellationToken);
-			try
+				logger.LogTrace("Creating ChangeChannels semaphore for connection ID {connectionId}...", connectionId);
+				return new SemaphoreSlim(1);
+			});
+			using (await SemaphoreSlimContext.Lock(semaphore, cancellationToken))
 			{
-				lock (activeChatBots)
+				var provider = await RemoveProviderChannels(connectionId, false, cancellationToken);
+				if (provider == null)
+					return;
+
+				if (!provider.Connected)
 				{
-					var botToUpdate = activeChatBots.FirstOrDefault(bot => bot.Id == connectionId);
-					if (botToUpdate != null)
-						botToUpdate.Channels = newChannels
-							.Select(apiModel => new Models.ChatChannel
-							{
-								DiscordChannelId = apiModel.DiscordChannelId,
-								IrcChannel = apiModel.IrcChannel,
-								IsAdminChannel = apiModel.IsAdminChannel,
-								IsUpdatesChannel = apiModel.IsUpdatesChannel,
-								IsSystemChannel = apiModel.IsSystemChannel,
-								IsWatchdogChannel = apiModel.IsWatchdogChannel,
-								Tag = apiModel.Tag,
-							})
-							.ToList();
+					logger.LogDebug("Cannot map channels, provider {providerId} disconnected!", connectionId);
+					return;
 				}
 
-				var newMappings = results.SelectMany(
-					kvp => kvp.Value.Select(
-						channelRepresentation => new ChannelMapping
-						{
-							IsWatchdogChannel = kvp.Key.IsWatchdogChannel == true,
-							IsUpdatesChannel = kvp.Key.IsUpdatesChannel == true,
-							IsAdminChannel = kvp.Key.IsAdminChannel == true,
-							IsSystemChannel = kvp.Key.IsSystemChannel == true,
-							ProviderChannelId = channelRepresentation.RealId,
-							ProviderId = connectionId,
-							Channel = channelRepresentation,
-						}));
-
-				ulong baseId;
-				lock (synchronizationLock)
+				var results = await provider.MapChannels(newChannels, cancellationToken);
+				try
 				{
-					baseId = channelIdCounter;
-					channelIdCounter += (ulong)results.Count;
-				}
-
-				lock (mappedChannels)
-				{
-					lock (providers)
-						if (!providers.TryGetValue(connectionId, out IProvider verify) || verify != provider) // aborted again
-							return;
-					foreach (var newMapping in newMappings)
+					lock (activeChatBots)
 					{
-						var newId = baseId++;
-						logger.LogTrace("Mapping channel {connectionName}:{channelFriendlyName} as {newId}", newMapping.Channel.ConnectionName, newMapping.Channel.FriendlyName, newId);
-						mappedChannels.Add(newId, newMapping);
-						newMapping.Channel.RealId = newId;
+						var botToUpdate = activeChatBots.FirstOrDefault(bot => bot.Id == connectionId);
+						if (botToUpdate != null)
+							botToUpdate.Channels = newChannels
+								.Select(apiModel => new Models.ChatChannel
+								{
+									DiscordChannelId = apiModel.DiscordChannelId,
+									IrcChannel = apiModel.IrcChannel,
+									IsAdminChannel = apiModel.IsAdminChannel,
+									IsUpdatesChannel = apiModel.IsUpdatesChannel,
+									IsSystemChannel = apiModel.IsSystemChannel,
+									IsWatchdogChannel = apiModel.IsWatchdogChannel,
+									Tag = apiModel.Tag,
+								})
+								.ToList();
 					}
-				}
 
-				// we only want to update contexts if everything at startup has connected once already
-				// otherwise we could send an incomplete channel set to the DMAPI, which will then spout all its queued messages into it instead of all relevant chatbots
-				// The watchdog can call this if it needs to after starting up
-				if (initialProviderConnectionsTask.IsCompleted)
-					await UpdateTrackingContexts(cancellationToken);
-			}
-			finally
-			{
-				provider.InitialMappingComplete();
+					var newMappings = results.SelectMany(
+						kvp => kvp.Value.Select(
+							channelRepresentation => new ChannelMapping
+							{
+								IsWatchdogChannel = kvp.Key.IsWatchdogChannel == true,
+								IsUpdatesChannel = kvp.Key.IsUpdatesChannel == true,
+								IsAdminChannel = kvp.Key.IsAdminChannel == true,
+								IsSystemChannel = kvp.Key.IsSystemChannel == true,
+								ProviderChannelId = channelRepresentation.RealId,
+								ProviderId = connectionId,
+								Channel = channelRepresentation,
+							}));
+
+					ulong baseId;
+					lock (synchronizationLock)
+					{
+						baseId = channelIdCounter;
+						channelIdCounter += (ulong)results.Count;
+					}
+
+					lock (mappedChannels)
+					{
+						lock (providers)
+							if (!providers.TryGetValue(connectionId, out IProvider verify) || verify != provider) // aborted again
+								return;
+						foreach (var newMapping in newMappings)
+						{
+							var newId = baseId++;
+							logger.LogTrace("Mapping channel {connectionName}:{channelFriendlyName} as {newId}", newMapping.Channel.ConnectionName, newMapping.Channel.FriendlyName, newId);
+							mappedChannels.Add(newId, newMapping);
+							newMapping.Channel.RealId = newId;
+						}
+					}
+
+					// we only want to update contexts if everything at startup has connected once already
+					// otherwise we could send an incomplete channel set to the DMAPI, which will then spout all its queued messages into it instead of all relevant chatbots
+					// The watchdog can call this if it needs to after starting up
+					if (initialProviderConnectionsTask.IsCompleted)
+						await UpdateTrackingContexts(cancellationToken);
+				}
+				finally
+				{
+					provider.InitialMappingComplete();
+				}
 			}
 		}
 
@@ -539,26 +557,35 @@ namespace Tgstation.Server.Host.Components.Chat
 		public async Task DeleteConnection(long connectionId, CancellationToken cancellationToken)
 		{
 			logger.LogTrace("DeleteConnection {connectionId}", connectionId);
-			var provider = await RemoveProviderChannels(connectionId, true, cancellationToken);
-			if (provider != null)
+			var hasSemaphore = changeChannelSemaphores.TryRemove(connectionId, out var semaphore);
+			using (hasSemaphore
+				? semaphore
+				: null)
+			using (hasSemaphore
+				? await SemaphoreSlimContext.Lock(semaphore, cancellationToken)
+				: null)
 			{
-				var startTime = DateTimeOffset.UtcNow;
-				try
+				var provider = await RemoveProviderChannels(connectionId, true, cancellationToken);
+				if (provider != null)
 				{
-					await provider.Disconnect(cancellationToken);
-				}
-				catch (Exception ex)
-				{
-					logger.LogError(ex, "Error disconnecting connection {connectionId}!", connectionId);
-				}
+					var startTime = DateTimeOffset.UtcNow;
+					try
+					{
+						await provider.Disconnect(cancellationToken);
+					}
+					catch (Exception ex)
+					{
+						logger.LogError(ex, "Error disconnecting connection {connectionId}!", connectionId);
+					}
 
-				await provider.DisposeAsync();
-				var duration = DateTimeOffset.UtcNow - startTime;
-				if (duration.TotalSeconds > 3)
-					logger.LogWarning("Disconnecting a {providerType} took {totalSeconds}s!", provider.GetType().Name, duration.TotalSeconds);
+					await provider.DisposeAsync();
+					var duration = DateTimeOffset.UtcNow - startTime;
+					if (duration.TotalSeconds > 3)
+						logger.LogWarning("Disconnecting a {providerType} took {totalSeconds}s!", provider.GetType().Name, duration.TotalSeconds);
+				}
+				else
+					logger.LogTrace("DeleteConnection: ID {connectionId} doesn't exist!", connectionId);
 			}
-			else
-				logger.LogTrace("DeleteConnection: ID {connectionId} doesn't exist!", connectionId);
 		}
 
 		/// <inheritdoc />
@@ -714,6 +741,18 @@ namespace Tgstation.Server.Host.Components.Chat
 				return;
 			}
 
+			ValueTask TextReply(string reply) => SendMessage(
+				new List<ulong>
+				{
+					message.User.Channel.RealId,
+				},
+				message,
+				new MessageContent
+				{
+					Text = reply,
+				},
+				cancellationToken);
+
 			if (message.User.Channel.IsPrivateChannel)
 				lock (mappedChannels)
 					if (!mappedChannel.HasValue)
@@ -754,17 +793,7 @@ namespace Tgstation.Server.Host.Components.Chat
 					logger.LogTrace("message: {messageJson}", JsonConvert.SerializeObject(message));
 					lock (mappedChannels)
 						logger.LogTrace("mappedChannels: {mappedChannelsJson}", JsonConvert.SerializeObject(mappedChannels));
-					await SendMessage(
-						new List<ulong>
-						{
-							message.User.Channel.RealId,
-						},
-						message,
-						new MessageContent
-						{
-							Text = "TGS: Processing error, check logs!",
-						},
-						cancellationToken);
+					await TextReply("TGS: Processing error, check logs!");
 					return;
 				}
 
@@ -806,41 +835,29 @@ namespace Tgstation.Server.Host.Components.Chat
 				if (splits.Count == 0)
 				{
 					// just a mention
-					await SendMessage(
-						new List<ulong>
-						{
-							message.User.Channel.RealId,
-						},
-						message,
-						new MessageContent
-						{
-							Text = "Hi!",
-						},
-						cancellationToken);
+					await TextReply("Hi!");
 					return;
 				}
 
-				var command = splits[0].ToUpperInvariant();
+				var command = splits[0];
 				splits.RemoveAt(0);
 				var arguments = String.Join(" ", splits);
 
-				ICommand GetCommand(string commandName)
+				Tuple<ICommand, IChatTrackingContext> GetCommand()
 				{
-					if (!builtinCommands.TryGetValue(commandName, out var handler))
-					{
-						handler = trackingContexts
-							.Where(x => x.CustomCommands != null)
-							.SelectMany(x => x.CustomCommands)
-							.Where(x => x.Name.ToUpperInvariant() == commandName)
+					if (!builtinCommands.TryGetValue(command, out var handler))
+						return trackingContexts
+							.Where(trackingContext => trackingContext.Active)
+							.SelectMany(trackingContext => trackingContext.CustomCommands.Select(customCommand => Tuple.Create<ICommand, IChatTrackingContext>(customCommand, trackingContext)))
+							.Where(tuple => tuple.Item1.Name.Equals(command, StringComparison.OrdinalIgnoreCase))
 							.FirstOrDefault();
-					}
 
-					return handler;
+					return Tuple.Create<ICommand, IChatTrackingContext>(handler, null);
 				}
 
-				const string UnknownCommandMessage = "Unknown command! Type '?' or 'help' for available commands.";
+				const string UnknownCommandMessage = "TGS: Unknown command! Type '?' or 'help' for available commands.";
 
-				if (command == "HELP" || command == "?")
+				if (command.Equals("help", StringComparison.OrdinalIgnoreCase) || command == "?")
 				{
 					string helpText;
 					if (splits.Count == 0)
@@ -848,56 +865,45 @@ namespace Tgstation.Server.Host.Components.Chat
 						var allCommands = builtinCommands.Select(x => x.Value).ToList();
 						allCommands.AddRange(
 							trackingContexts
-								.Where(x => x.CustomCommands != null)
 								.SelectMany(
 									x => x.CustomCommands));
 						helpText = String.Format(CultureInfo.InvariantCulture, "Available commands (Type '?' or 'help' and then a command name for more details): {0}", String.Join(", ", allCommands.Select(x => x.Name)));
 					}
 					else
 					{
-						var helpHandler = GetCommand(splits[0].ToUpperInvariant());
-						if (helpHandler != default)
+						var helpTuple = GetCommand();
+						if (helpTuple != default)
+						{
+							var (helpHandler, _) = helpTuple;
 							helpText = String.Format(CultureInfo.InvariantCulture, "{0}: {1}{2}", helpHandler.Name, helpHandler.HelpText, helpHandler.AdminOnly ? " - May only be used in admin channels" : String.Empty);
+						}
 						else
 							helpText = UnknownCommandMessage;
 					}
 
-					await SendMessage(
-						new List<ulong> { message.User.Channel.RealId },
-						message,
-						new MessageContent
-						{
-							Text = helpText,
-						},
-						cancellationToken);
+					await TextReply(helpText);
 					return;
 				}
 
-				var commandHandler = GetCommand(command);
+				var tuple = GetCommand();
 
-				if (commandHandler == default)
+				if (tuple == default)
 				{
-					await SendMessage(
-						new List<ulong> { message.User.Channel.RealId },
-						message,
-						new MessageContent
-						{
-							Text = UnknownCommandMessage,
-						},
-						cancellationToken);
+					await TextReply(UnknownCommandMessage);
+					return;
+				}
+
+				var (commandHandler, trackingContext) = tuple;
+
+				if (trackingContext?.Active == false)
+				{
+					await TextReply("TGS: The server is rebooting, please try again later");
 					return;
 				}
 
 				if (commandHandler.AdminOnly && !message.User.Channel.IsAdminChannel)
 				{
-					await SendMessage(
-						new List<ulong> { message.User.Channel.RealId },
-						message,
-						new MessageContent
-						{
-							Text = "Use this command in an admin channel!",
-						},
-						cancellationToken);
+					await TextReply("TGS: Use this command in an admin channel!");
 					return;
 				}
 
@@ -913,14 +919,7 @@ namespace Tgstation.Server.Host.Components.Chat
 			{
 				// error bc custom commands should reply about why it failed
 				logger.LogError(e, "Error processing chat command");
-				await SendMessage(
-					new List<ulong> { message.User.Channel.RealId },
-					message,
-					new MessageContent
-					{
-						Text = "TGS: Internal error processing command! Check server logs!",
-					},
-					cancellationToken);
+				await TextReply("TGS: Internal error processing command! Check server logs!");
 			}
 			finally
 			{

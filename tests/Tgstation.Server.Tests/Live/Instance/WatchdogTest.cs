@@ -1,4 +1,4 @@
-using Byond.TopicSender;
+﻿using Byond.TopicSender;
 
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.Extensions.Logging;
@@ -544,13 +544,14 @@ namespace Tgstation.Server.Tests.Live.Instance
 			Assert.AreEqual(false, daemonStatus.SoftRestart);
 			Assert.AreEqual(false, daemonStatus.SoftShutdown);
 			Assert.AreEqual(string.Empty, daemonStatus.AdditionalParameters);
+			Assert.AreEqual(false, daemonStatus.SoftRestart);
 			var initialCompileJob = daemonStatus.ActiveCompileJob;
 			await CheckDMApiFail(daemonStatus.ActiveCompileJob, cancellationToken);
 
 			daemonStatus = await DeployTestDme("BasicOperation/basic_operation_test", DreamDaemonSecurity.Trusted, true, cancellationToken);
 
 			Assert.AreEqual(WatchdogStatus.Online, daemonStatus.Status.Value);
-
+			Assert.AreEqual(false, daemonStatus.SoftRestart); // dme name change triggered, instant reboot
 			Assert.AreEqual(initialCompileJob.Id, daemonStatus.ActiveCompileJob.Id);
 			var newerCompileJob = daemonStatus.StagedCompileJob;
 
@@ -1148,6 +1149,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			Assert.IsNull(daemonStatus.StagedCompileJob);
 			Assert.AreEqual(DMApiConstants.InteropVersion, daemonStatus.ActiveCompileJob.DMApiVersion);
 			Assert.AreEqual(DreamDaemonSecurity.Safe, daemonStatus.ActiveCompileJob.MinimumSecurityLevel);
+			Assert.AreEqual(false, daemonStatus.SoftRestart);
 
 			var startJob = await StartDD(cancellationToken);
 
@@ -1157,6 +1159,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 			ValidateSessionId(daemonStatus, true);
 			Assert.AreEqual(WatchdogStatus.Online, daemonStatus.Status.Value);
+			Assert.AreEqual(true, daemonStatus.SoftRestart);
 			CheckDDPriority();
 
 			Assert.AreEqual(initialCompileJob.Id, daemonStatus.ActiveCompileJob.Id);
@@ -1171,6 +1174,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 			ValidateSessionId(daemonStatus, true); // remember, dme name change triggers reboot
 			Assert.AreNotEqual(initialCompileJob.Id, daemonStatus.ActiveCompileJob.Id);
+			Assert.AreEqual(false, daemonStatus.SoftRestart);
 			Assert.IsNull(daemonStatus.StagedCompileJob);
 
 			await instanceClient.DreamDaemon.Shutdown(cancellationToken);

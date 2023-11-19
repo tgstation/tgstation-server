@@ -170,7 +170,7 @@ var/run_bridge_test
 	var/tactics7 = data["tgs_integration_test_tactics7"]
 	if(tactics7)
 		var/list/channels = TgsChatChannelInfo()
-		return "[length(channels)]"
+		return length(channels)
 
 	var/tactics8 = data["tgs_integration_test_tactics8"]
 	if(tactics8)
