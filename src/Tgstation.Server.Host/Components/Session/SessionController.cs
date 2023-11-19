@@ -432,18 +432,32 @@ namespace Tgstation.Server.Host.Components.Session
 				return null;
 			}
 
+			var rebootGate = RebootGate;
+			var launchResult = await LaunchResult.WaitAsync(cancellationToken);
+			if (launchResult.ExitCode.HasValue)
+			{
+				Logger.LogDebug("Not sending topic request {commandType} to server that failed to launch!", parameters.CommandType);
+				return null;
+			}
+
+			// meh, this is kind of a hack, but it works
+			if (!chatTrackingContext.Active)
+			{
+				Logger.LogDebug("Not sending topic request {commandType} to server that is rebooting/starting.", parameters.CommandType);
+				return null;
+			}
+
 			using var cts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
 			var combinedCancellationToken = cts.Token;
 			async ValueTask CancelIfLifetimeElapses()
 			{
 				try
 				{
-					var lifetime = Lifetime;
-					var completed = await Task.WhenAny(lifetime, RebootGate).WaitAsync(combinedCancellationToken);
+					var completed = await Task.WhenAny(Lifetime, rebootGate).WaitAsync(combinedCancellationToken);
 
 					Logger.LogDebug(
 						"Server {action}, cancelling pending command: {commandType}",
-						completed == lifetime
+						completed != rebootGate
 							? "process ended"
 							: "rebooting",
 						parameters.CommandType);
