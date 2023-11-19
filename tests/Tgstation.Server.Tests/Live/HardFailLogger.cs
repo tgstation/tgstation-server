@@ -27,6 +27,7 @@ namespace Tgstation.Server.Tests.Live
 				&& !((exception is BadHttpRequestException) && logMessage.Contains("Unexpected end of request content.")) // canceled request
 				&& !logMessage.StartsWith("Error disconnecting connection ")
 				&& !(logMessage.StartsWith("An exception occurred while iterating over the results of a query for context type") && (exception is OperationCanceledException || exception?.InnerException is OperationCanceledException))
+				&& !(logMessage.StartsWith("An error occurred using the connection to database ") && (exception is OperationCanceledException || exception?.InnerException is OperationCanceledException))
 				&& !(logMessage.StartsWith("An exception occurred in the database while saving changes for context type") && (exception is OperationCanceledException || exception?.InnerException is OperationCanceledException)))
 				|| (logLevel == LogLevel.Critical && logMessage != "DropDatabase configuration option set! Dropping any existing database..."))
 			{
