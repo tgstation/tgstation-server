@@ -242,8 +242,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					ActiveCompileJob.EngineVersion);
 				canSeamlesslySwap = false;
 			}
-
-			if (compileJobProvider.CompileJob.DmeName != ActiveCompileJob.DmeName)
+			else if (compileJobProvider.CompileJob.DmeName != ActiveCompileJob.DmeName)
 			{
 				Logger.LogDebug(
 					"Not swapping to new compile job {0} as it uses a different .dmb name ({1}) than what is currently active {2}. Queueing graceful restart instead...",
