@@ -843,9 +843,12 @@ namespace Tgstation.Server.Host.Components.Chat
 					}
 					else
 					{
-						var (helpHandler, _) = GetCommand();
-						if (helpHandler != default)
+						var helpTuple = GetCommand();
+						if (helpTuple != default)
+						{
+							var (helpHandler, _) = helpTuple;
 							helpText = String.Format(CultureInfo.InvariantCulture, "{0}: {1}{2}", helpHandler.Name, helpHandler.HelpText, helpHandler.AdminOnly ? " - May only be used in admin channels" : String.Empty);
+						}
 						else
 							helpText = UnknownCommandMessage;
 					}
@@ -854,13 +857,15 @@ namespace Tgstation.Server.Host.Components.Chat
 					return;
 				}
 
-				var (commandHandler, trackingContext) = GetCommand();
+				var tuple = GetCommand();
 
-				if (commandHandler == default)
+				if (tuple == default)
 				{
 					await TextReply(UnknownCommandMessage);
 					return;
 				}
+
+				var (commandHandler, trackingContext) = tuple;
 
 				if (trackingContext?.Active == false)
 				{
