@@ -9,6 +9,8 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using Moq;
 
+using Tgstation.Server.Api.Models;
+using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Common.Http;
 using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.IO;
@@ -42,9 +44,9 @@ namespace Tgstation.Server.Tests
 			var logger = loggerFactory.CreateLogger("CachingFileDownloader");
 
 			var cfd = new CachingFileDownloader(loggerFactory.CreateLogger<CachingFileDownloader>());
-			var edgeVersion = await ByondTest.GetEdgeVersion(cfd, cancellationToken);
+			var edgeVersion = await EngineTest.GetEdgeVersion(Api.Models.EngineType.Byond, cfd, cancellationToken);
 
-			await InitializeByondVersion(logger, edgeVersion, new PlatformIdentifier().IsWindows, cancellationToken);
+			await InitializeByondVersion(logger, edgeVersion.Version, new PlatformIdentifier().IsWindows, cancellationToken);
 
 			// predownload the target github release update asset
 			var gitHubToken = Environment.GetEnvironmentVariable("TGS_TEST_GITHUB_TOKEN");
@@ -76,10 +78,16 @@ namespace Tgstation.Server.Tests
 			ServiceCollectionExtensions.UseFileDownloader<CachingFileDownloader>();
 		}
 
-		public static async ValueTask InitializeByondVersion(ILogger logger, Version version, bool windows, CancellationToken cancellationToken)
+		public static async ValueTask InitializeByondVersion(ILogger logger, Version byondVersion, bool windows, CancellationToken cancellationToken)
 		{
+			var version = new EngineVersion
+			{
+				Engine = Api.Models.EngineType.Byond,
+				Version = byondVersion,
+			};
+
 			var url = new Uri(
-				$"https://www.byond.com/download/build/{version.Major}/{version.Major}.{version.Minor}_byond{(!windows ? "_linux" : string.Empty)}.zip");
+				$"https://www.byond.com/download/build/{version.Version.Major}/{version.Version.Major}.{version.Version.Minor}_byond{(!windows ? "_linux" : string.Empty)}.zip");
 			string path = null;
 			if (TestingUtils.RunningInGitHubActions)
 			{
@@ -91,7 +99,7 @@ namespace Tgstation.Server.Tests
 					windows ? "windows" : "linux");
 				path = Path.Combine(
 					dir,
-					$"{version.Major}.{version.Minor}.zip");
+					$"{version.Version.Major}.{version.Version.Minor}.zip");
 			}
 
 			await (await CacheFile(logger, url, null, path, cancellationToken)).DisposeAsync();

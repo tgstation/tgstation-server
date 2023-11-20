@@ -43,9 +43,9 @@ namespace Tgstation.Server.Api
 		public const string InstanceManager = ApiRoot + "Instance";
 
 		/// <summary>
-		/// The BYOND controller.
+		/// The engine controller.
 		/// </summary>
-		public const string Byond = ApiRoot + "Byond";
+		public const string Engine = ApiRoot + "Engine";
 
 		/// <summary>
 		/// The git repository controller.
@@ -134,8 +134,7 @@ namespace Tgstation.Server.Api
 		/// <returns>The sanitized path.</returns>
 		public static string SanitizeGetPath(string path)
 		{
-			if (path == null)
-				path = String.Empty;
+			path ??= String.Empty;
 			if (path.Length == 0 || path[0] != '/')
 				path = '/' + path;
 			return path;

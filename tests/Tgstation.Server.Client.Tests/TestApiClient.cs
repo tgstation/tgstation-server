@@ -11,6 +11,8 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using Tgstation.Server.Api;
+using Tgstation.Server.Api.Models;
+using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Api.Models.Response;
 using Tgstation.Server.Common.Http;
 
@@ -22,9 +24,13 @@ namespace Tgstation.Server.Client.Tests
 		[TestMethod]
 		public async Task TestDeserializingByondModelsWork()
 		{
-			var sample = new ByondResponse
+			var sample = new EngineResponse
 			{
-				Version = new Version(511, 1385, 0)
+				EngineVersion = new EngineVersion
+				{
+					Engine = EngineType.Byond,
+					Version = new Version(511, 1385)
+				}
 			};
 
 			var sampleJson = JsonConvert.SerializeObject(sample, new JsonSerializerSettings
@@ -53,17 +59,22 @@ namespace Tgstation.Server.Client.Tests
 				null,
 				false);
 
-			var result = await client.Read<ByondResponse>(Routes.Byond, default);
-			Assert.AreEqual(sample.Version, result.Version);
-			Assert.AreEqual(0, result.Version.Build);
+			var result = await client.Read<EngineResponse>(Routes.Engine, default);
+			Assert.AreEqual(sample.EngineVersion, result.EngineVersion);
+			Assert.AreEqual(-1, result.EngineVersion.Version.Build);
+			Assert.IsFalse(result.EngineVersion.CustomIteration.HasValue);
 		}
 
 		[TestMethod]
 		public async Task TestUnrecognizedResponse()
 		{
-			var sample = new ByondResponse
+			var sample = new EngineResponse
 			{
-				Version = new Version(511, 1385)
+				EngineVersion = new EngineVersion
+				{
+					Engine = EngineType.Byond,
+					Version = new Version(511, 1385)
+				}
 			};
 
 			var fakeJson = "asdfasd <>F#(*)U*#JLI";
@@ -88,7 +99,7 @@ namespace Tgstation.Server.Client.Tests
 				null,
 				false);
 
-			await Assert.ThrowsExceptionAsync<UnrecognizedResponseException>(() => client.Read<ByondResponse>(Routes.Byond, default).AsTask());
+			await Assert.ThrowsExceptionAsync<UnrecognizedResponseException>(() => client.Read<EngineResponse>(Routes.Engine, default).AsTask());
 		}
 	}
 }

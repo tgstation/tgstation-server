@@ -107,7 +107,7 @@ namespace Tgstation.Server.Host.Controllers
 
 			var dbUser = new InstancePermissionSet
 			{
-				ByondRights = RightsHelper.Clamp(model.ByondRights ?? ByondRights.None),
+				EngineRights = RightsHelper.Clamp(model.EngineRights ?? EngineRights.None),
 				ChatBotRights = RightsHelper.Clamp(model.ChatBotRights ?? ChatBotRights.None),
 				ConfigurationRights = RightsHelper.Clamp(model.ConfigurationRights ?? ConfigurationRights.None),
 				DreamDaemonRights = RightsHelper.Clamp(model.DreamDaemonRights ?? DreamDaemonRights.None),
@@ -156,7 +156,7 @@ namespace Tgstation.Server.Host.Controllers
 			if (originalPermissionSet == null)
 				return this.Gone();
 
-			originalPermissionSet.ByondRights = RightsHelper.Clamp(model.ByondRights ?? originalPermissionSet.ByondRights.Value);
+			originalPermissionSet.EngineRights = RightsHelper.Clamp(model.EngineRights ?? originalPermissionSet.EngineRights.Value);
 			originalPermissionSet.RepositoryRights = RightsHelper.Clamp(model.RepositoryRights ?? originalPermissionSet.RepositoryRights.Value);
 			originalPermissionSet.InstancePermissionSetRights = RightsHelper.Clamp(model.InstancePermissionSetRights ?? originalPermissionSet.InstancePermissionSetRights.Value);
 			originalPermissionSet.ChatBotRights = RightsHelper.Clamp(model.ChatBotRights ?? originalPermissionSet.ChatBotRights.Value);

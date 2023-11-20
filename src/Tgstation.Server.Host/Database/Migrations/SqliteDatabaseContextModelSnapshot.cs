@@ -14,7 +14,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 		protected override void BuildModel(ModelBuilder modelBuilder)
 		{
 #pragma warning disable 612, 618
-			modelBuilder.HasAnnotation("ProductVersion", "7.0.13");
+			modelBuilder.HasAnnotation("ProductVersion", "8.0.0-rc.1.23419.6");
 
 			modelBuilder.Entity("Tgstation.Server.Host.Models.ChatBot", b =>
 			{
@@ -112,7 +112,8 @@ namespace Tgstation.Server.Host.Database.Migrations
 
 				b.Property<string>("ByondVersion")
 					.IsRequired()
-					.HasColumnType("TEXT");
+					.HasColumnType("TEXT")
+					.HasColumnName("EngineVersion");
 
 				b.Property<int?>("DMApiMajorVersion")
 					.HasColumnType("INTEGER");
@@ -316,9 +317,6 @@ namespace Tgstation.Server.Host.Database.Migrations
 					.ValueGeneratedOnAdd()
 					.HasColumnType("INTEGER");
 
-				b.Property<ulong>("ByondRights")
-					.HasColumnType("INTEGER");
-
 				b.Property<ulong>("ChatBotRights")
 					.HasColumnType("INTEGER");
 
@@ -329,6 +327,9 @@ namespace Tgstation.Server.Host.Database.Migrations
 					.HasColumnType("INTEGER");
 
 				b.Property<ulong>("DreamMakerRights")
+					.HasColumnType("INTEGER");
+
+				b.Property<ulong>("EngineRights")
 					.HasColumnType("INTEGER");
 
 				b.Property<long>("InstanceId")

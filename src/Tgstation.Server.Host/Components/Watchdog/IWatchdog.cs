@@ -15,6 +15,11 @@ namespace Tgstation.Server.Host.Components.Watchdog
 	public interface IWatchdog : IComponentService, IAsyncDisposable, IEventConsumer, IRenameNotifyee
 	{
 		/// <summary>
+		/// An incrementing ID for representing current server execution.
+		/// </summary>
+		long? SessionId { get; }
+
+		/// <summary>
 		/// The current <see cref="WatchdogStatus"/>.
 		/// </summary>
 		WatchdogStatus Status { get; }
@@ -37,6 +42,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <summary>
 		/// The <see cref="DreamDaemonLaunchParameters"/> the active server is using.
 		/// </summary>
+		/// <remarks>This may not be the exact same as <see cref="ActiveLaunchParameters"/> but still be associated with the same session.</remarks>
 		DreamDaemonLaunchParameters LastLaunchParameters { get; }
 
 		/// <summary>

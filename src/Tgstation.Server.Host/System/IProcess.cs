@@ -23,12 +23,13 @@ namespace Tgstation.Server.Host.System
 		/// Get the stderr and stdout output of the <see cref="IProcess"/>.
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the stderr and stdout output of the <see cref="IProcess"/>.</returns>
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the stderr and stdout output of the <see cref="IProcess"/>.</returns>
 		/// <remarks>
 		/// To guarantee that all data is received from the <see cref="IProcess"/> when redirecting streams to a file
 		/// the result of this function must be <see langword="await"/>ed before <see cref="IAsyncDisposable.DisposeAsync"/> is called.
+		/// May call <see cref="IAsyncDisposable.DisposeAsync"/> internally if the process has exited.
 		/// </remarks>
-		Task<string> GetCombinedOutput(CancellationToken cancellationToken);
+		ValueTask<string> GetCombinedOutput(CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Asycnhronously terminates the process.

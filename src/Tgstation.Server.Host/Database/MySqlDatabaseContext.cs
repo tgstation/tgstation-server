@@ -73,7 +73,7 @@ namespace Tgstation.Server.Host.Database
 				.MapMySqlTextField<ChatBot>(x => x.ConnectionString)
 				.MapMySqlTextField<ChatChannel>(x => x.Tag)
 				.MapMySqlTextField<ChatChannel>(x => x.IrcChannel)
-				.MapMySqlTextField<CompileJob>(x => x.ByondVersion)
+				.MapMySqlTextField<CompileJob>(x => x.EngineVersion)
 				.MapMySqlTextField<CompileJob>(x => x.DmeName)
 				.MapMySqlTextField<CompileJob>(x => x.Output)
 				.MapMySqlTextField<CompileJob>(x => x.RepositoryOrigin)

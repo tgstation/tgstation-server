@@ -22,7 +22,8 @@ namespace Tgstation.Server.Host.Components.Events.Tests
 				Assert.AreEqual(1, list.Count, $"EventType: {eventType}");
 
 				var attribute = list.First();
-				Assert.IsTrue(allScripts.Add(attribute.ScriptName), $"Non-unique script Name: {attribute.ScriptName}");
+				foreach (var scriptName in attribute.ScriptNames)
+					Assert.IsTrue(allScripts.Add(scriptName), $"Non-unique script Names: {scriptName}");
 			}
 		}
 	}

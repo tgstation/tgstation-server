@@ -21,9 +21,9 @@
 		Repository,
 
 		/// <summary>
-		/// <see cref="ByondRights"/>
+		/// <see cref="EngineRights"/>
 		/// </summary>
-		Byond,
+		Engine,
 
 		/// <summary>
 		/// <see cref="DreamMakerRights"/>

@@ -6,6 +6,12 @@
 	public abstract class DreamDaemonApiBase : DreamDaemonSettings
 	{
 		/// <summary>
+		/// An incrementing ID for representing current server execution.
+		/// </summary>
+		[ResponseOptions]
+		public long? SessionId { get; set; }
+
+		/// <summary>
 		/// If the server is undergoing a soft reset. This may be automatically set by changes to other fields.
 		/// </summary>
 		[ResponseOptions]

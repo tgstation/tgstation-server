@@ -58,11 +58,11 @@ namespace Tgstation.Server.Host.Security
 		/// <summary>
 		/// Initializes a new instance of the <see cref="TgsAuthorizeAttribute"/> class.
 		/// </summary>
-		/// <param name="requiredRights">The <see cref="ByondRights"/> required.</param>
-		public TgsAuthorizeAttribute(ByondRights requiredRights)
+		/// <param name="requiredRights">The <see cref="EngineRights"/> required.</param>
+		public TgsAuthorizeAttribute(EngineRights requiredRights)
 		{
 			Roles = RightsHelper.RoleNames(requiredRights);
-			RightsType = Api.Rights.RightsType.Byond;
+			RightsType = Api.Rights.RightsType.Engine;
 		}
 
 		/// <summary>

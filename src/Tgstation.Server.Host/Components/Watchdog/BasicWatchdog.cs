@@ -255,9 +255,17 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				if (!reattachInProgress)
 					await SessionStartupPersist(cancellationToken);
 
+				if (!SessionId.HasValue)
+					Logger.LogError("Server should have a session ID allocated by now but it doesn't!");
+				else
+					Logger.LogInformation("Watchdog starting session ID {id}", SessionId.Value);
+
 				await CheckLaunchResult(Server, "Server", cancellationToken);
 
-				Server.EnableCustomChatCommands();
+				// persist again, because the DMAPI can say we need a different topic port (Original OD behavior)
+				// kinda hacky imo, but at least we can safely forget about this
+				if (!reattachInProgress)
+					await SessionPersistor.Update(Server.ReattachInformation, cancellationToken);
 			}
 			catch (Exception ex)
 			{
@@ -291,11 +299,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="MonitorAction"/> to take.</returns>
 		protected virtual ValueTask<MonitorAction> HandleNormalReboot(CancellationToken cancellationToken)
-		{
-			var settingsUpdatePending = ActiveLaunchParameters != LastLaunchParameters;
-			var result = settingsUpdatePending ? MonitorAction.Restart : MonitorAction.Continue;
-			return ValueTask.FromResult(result);
-		}
+			=> ValueTask.FromResult(MonitorAction.Continue);
 
 		/// <summary>
 		/// Handler for <see cref="MonitorActivationReason.NewDmbAvailable"/>.

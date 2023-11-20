@@ -17,7 +17,7 @@ namespace Tgstation.Server.Host.Components.Interop.Bridge
 		public BridgeCommandType? CommandType { get; set; }
 
 		/// <summary>
-		/// The current port for <see cref="BridgeCommandType.PortUpdate"/> requests.
+		/// The current port for <see cref="BridgeCommandType.DeprecatedPortUpdate"/> requests.
 		/// </summary>
 		public ushort? CurrentPort { get; set; }
 
@@ -45,5 +45,10 @@ namespace Tgstation.Server.Host.Components.Interop.Bridge
 		/// The <see cref="ChunkData"/> for <see cref="BridgeCommandType.Chunk"/> requests.
 		/// </summary>
 		public ChunkData Chunk { get; set; }
+
+		/// <summary>
+		/// The port that should be used to send world topics, if not the default.
+		/// </summary>
+		public ushort? TopicPort { get; set; }
 	}
 }

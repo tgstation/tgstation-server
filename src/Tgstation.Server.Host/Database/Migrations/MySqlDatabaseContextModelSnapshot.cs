@@ -15,7 +15,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 		{
 #pragma warning disable 612, 618
 			modelBuilder
-				.HasAnnotation("ProductVersion", "7.0.13")
+				.HasAnnotation("ProductVersion", "8.0.0-rc.1.23419.6")
 				.HasAnnotation("Relational:MaxIdentifierLength", 64);
 
 			modelBuilder.Entity("Tgstation.Server.Host.Models.ChatBot", b =>
@@ -120,7 +120,8 @@ namespace Tgstation.Server.Host.Database.Migrations
 
 				b.Property<string>("ByondVersion")
 					.IsRequired()
-					.HasColumnType("longtext");
+					.HasColumnType("longtext")
+					.HasColumnName("EngineVersion");
 
 				MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("ByondVersion"), "utf8mb4");
 
@@ -342,9 +343,6 @@ namespace Tgstation.Server.Host.Database.Migrations
 					.ValueGeneratedOnAdd()
 					.HasColumnType("bigint");
 
-				b.Property<ulong>("ByondRights")
-					.HasColumnType("bigint unsigned");
-
 				b.Property<ulong>("ChatBotRights")
 					.HasColumnType("bigint unsigned");
 
@@ -355,6 +353,9 @@ namespace Tgstation.Server.Host.Database.Migrations
 					.HasColumnType("bigint unsigned");
 
 				b.Property<ulong>("DreamMakerRights")
+					.HasColumnType("bigint unsigned");
+
+				b.Property<ulong>("EngineRights")
 					.HasColumnType("bigint unsigned");
 
 				b.Property<long>("InstanceId")

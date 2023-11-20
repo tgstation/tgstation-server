@@ -21,7 +21,7 @@ using Tgstation.Server.Host.Utils;
 namespace Tgstation.Server.Host.Controllers
 {
 	/// <summary>
-	/// <see cref="Controller"/> for recieving DMAPI requests from DreamDaemon.
+	/// <see cref="Controller"/> for receiving DMAPI requests from DreamDaemon.
 	/// </summary>
 	[Route("/" + RouteExtension)] // obsolete route, but BYOND can't handle a simple fucking 301
 	[Route(Routes.ApiRoot + RouteExtension)]

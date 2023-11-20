@@ -159,7 +159,7 @@ namespace Tgstation.Server.Host.Controllers
 			ArgumentNullException.ThrowIfNull(model);
 
 			if (model.SoftShutdown == true && model.SoftRestart == true)
-				return BadRequest(new ErrorMessageResponse(ErrorCode.DreamDaemonDoubleSoft));
+				return BadRequest(new ErrorMessageResponse(ErrorCode.GameServerDoubleSoft));
 
 			// alias for changing DD settings
 			var current = await DatabaseContext
@@ -340,7 +340,22 @@ namespace Tgstation.Server.Host.Controllers
 					result.CurrentAllowWebclient = llp?.AllowWebClient.Value;
 					result.Port = settings.Port.Value;
 					result.AllowWebClient = settings.AllowWebClient.Value;
-					result.Status = dd.Status;
+
+					var firstIteration = true;
+					do
+					{
+						if (!firstIteration)
+						{
+							cancellationToken.ThrowIfCancellationRequested();
+							await Task.Yield();
+						}
+
+						firstIteration = false;
+						result.Status = dd.Status;
+						result.SessionId = dd.SessionId;
+					}
+					while (result.Status == WatchdogStatus.Online && !result.SessionId.HasValue); // this is the one invalid combo, it's not that racy
+
 					result.SecurityLevel = settings.SecurityLevel.Value;
 					result.Visibility = settings.Visibility.Value;
 					result.SoftRestart = rstate == RebootState.Restart;

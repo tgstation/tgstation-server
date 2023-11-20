@@ -1,6 +1,6 @@
 ﻿using System;
 
-using Tgstation.Server.Host.Models;
+using Tgstation.Server.Api.Models;
 
 namespace Tgstation.Server.Host.Components.Deployment
 {
@@ -22,7 +22,12 @@ namespace Tgstation.Server.Host.Components.Deployment
 		/// <summary>
 		/// The <see cref="CompileJob"/> of the .dmb.
 		/// </summary>
-		CompileJob CompileJob { get; }
+		Models.CompileJob CompileJob { get; }
+
+		/// <summary>
+		/// The <see cref="Api.Models.EngineVersion"/> used to build the .dmb.
+		/// </summary>
+		EngineVersion EngineVersion { get; }
 
 		/// <summary>
 		/// Disposing the <see cref="IDmbProvider"/> won't cause a cleanup of the working directory.

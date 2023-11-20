@@ -385,7 +385,7 @@ Exposing the builtin Kestrel server to the internet directly over HTTP is highly
 
 System administrators will most likely have their own configuration plans, but here are some basic guides for beginners.
 
-Once complete, test that your configuration worked by visiting your proxy site from a browser on a different computer. You should recieve a 401 Unauthorized response.
+Once complete, test that your configuration worked by visiting your proxy site from a browser on a different computer. You should receive a 401 Unauthorized response.
 
 _NOTE: Your reverse proxy setup may interfere with SSE (Server-Sent Events) which is used for real-time job updates. If you find this to be the case, please open an issue describing what you did to fix it as there may be a way for us to bypass the need for a workaround from our end._
 

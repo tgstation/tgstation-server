@@ -42,7 +42,7 @@
 
 	var/datum/tgs_version/api_version = ApiVersion()
 	version = null // we want this to be the TGS version, not the interop version
-	var/list/bridge_response = Bridge(DMAPI5_BRIDGE_COMMAND_STARTUP, list(DMAPI5_BRIDGE_PARAMETER_MINIMUM_SECURITY_LEVEL = minimum_required_security_level, DMAPI5_BRIDGE_PARAMETER_VERSION = api_version.raw_parameter, DMAPI5_PARAMETER_CUSTOM_COMMANDS = ListCustomCommands()))
+	var/list/bridge_response = Bridge(DMAPI5_BRIDGE_COMMAND_STARTUP, list(DMAPI5_BRIDGE_PARAMETER_MINIMUM_SECURITY_LEVEL = minimum_required_security_level, DMAPI5_BRIDGE_PARAMETER_VERSION = api_version.raw_parameter, DMAPI5_PARAMETER_CUSTOM_COMMANDS = ListCustomCommands(), DMAPI5_PARAMETER_TOPIC_PORT = GetTopicPort()))
 	if(!istype(bridge_response))
 		TGS_ERROR_LOG("Failed initial bridge request!")
 		return FALSE
@@ -105,6 +105,13 @@
 
 	initialized = TRUE
 	return TRUE
+
+/datum/tgs_api/v5/proc/GetTopicPort()
+#if defined(OPENDREAM) && defined(OPENDREAM_TOPIC_PORT_EXISTS)
+	return "[world.opendream_topic_port]"
+#else
+	return null
+#endif
 
 /datum/tgs_api/v5/proc/RequireInitialBridgeResponse()
 	TGS_DEBUG_LOG("RequireInitialBridgeResponse()")

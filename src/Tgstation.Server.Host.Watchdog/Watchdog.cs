@@ -58,7 +58,14 @@ namespace Tgstation.Server.Host.Watchdog
 			try
 			{
 				var isWindows = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
-				var dotnetPath = GetDotnetPath(isWindows);
+				var dotnetPath = DotnetHelper.GetPotentialDotnetPaths(isWindows)
+					.Where(potentialDotnetPath =>
+					{
+						logger.LogTrace("Checking for dotnet at {potentialDotnetPath}", potentialDotnetPath);
+						return File.Exists(potentialDotnetPath);
+					})
+					.FirstOrDefault();
+
 				if (dotnetPath == default)
 				{
 					logger.LogCritical("Unable to locate dotnet executable in PATH! Please ensure the .NET Core runtime is installed and is in your PATH!");
@@ -350,48 +357,5 @@ namespace Tgstation.Server.Host.Watchdog
 		}
 #pragma warning restore CA1502
 #pragma warning restore CA1506
-
-		/// <summary>
-		/// Gets the path to the dotnet executable.
-		/// </summary>
-		/// <param name="isWindows">If the current system is a Windows OS.</param>
-		/// <returns>The path to the dotnet executable.</returns>
-		string GetDotnetPath(bool isWindows)
-		{
-			var enviromentPath = Environment.GetEnvironmentVariable("PATH");
-			var paths = enviromentPath.Split(';');
-
-			var exeName = "dotnet";
-			IEnumerable<string> enumerator;
-			if (isWindows)
-			{
-				exeName += ".exe";
-				enumerator = new List<string>(paths)
-				{
-					"C:/Program Files/dotnet",
-					"C:/Program Files (x86)/dotnet",
-				};
-			}
-			else
-				enumerator = paths
-					.Select(x => x.Split(':'))
-					.SelectMany(x => x)
-					.Concat(new List<string>(2)
-					{
-						"/usr/bin",
-						"/usr/share/bin",
-						"/usr/local/share/dotnet",
-					});
-
-			enumerator = enumerator.Select(x => Path.Combine(x, exeName));
-
-			return enumerator
-				.Where(potentialDotnetPath =>
-				{
-					logger.LogTrace("Checking for dotnet at {potentialDotnetPath}", potentialDotnetPath);
-					return File.Exists(potentialDotnetPath);
-				})
-				.FirstOrDefault();
-		}
 	}
 }

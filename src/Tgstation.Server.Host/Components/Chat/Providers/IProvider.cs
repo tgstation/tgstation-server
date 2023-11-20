@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
+using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Host.Components.Interop;
 using Tgstation.Server.Host.Models;
 
@@ -39,7 +40,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		void InitialMappingComplete();
 
 		/// <summary>
-		/// Get a <see cref="Task{TResult}"/> resulting in the next <see cref="Message"/> the <see cref="IProvider"/> recieves or <see langword="null"/> on a disconnect.
+		/// Get a <see cref="Task{TResult}"/> resulting in the next <see cref="Message"/> the <see cref="IProvider"/> receives or <see langword="null"/> on a disconnect.
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the next available <see cref="Message"/> or <see langword="null"/> if the <see cref="IProvider"/> needed to reconnect.</returns>
@@ -83,7 +84,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// Send the message for a deployment.
 		/// </summary>
 		/// <param name="revisionInformation">The <see cref="RevisionInformation"/> of the deployment.</param>
-		/// <param name="byondVersion">The BYOND <see cref="Version"/> of the deployment.</param>
+		/// <param name="engineVersion">The <see cref="Api.Models.EngineVersion"/> of the deployment.</param>
 		/// <param name="estimatedCompletionTime">The optional <see cref="DateTimeOffset"/> the deployment is expected to be completed at.</param>
 		/// <param name="gitHubOwner">The repository GitHub owner, if any.</param>
 		/// <param name="gitHubRepo">The repository GitHub name, if any.</param>
@@ -92,8 +93,8 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in a <see cref="Func{T1, T2, TResult}"/> to call to update the message at the deployment's conclusion. Parameters: Error message if any, DreamMaker output if any. Returns another callback which should be called to mark the deployment as active.</returns>
 		ValueTask<Func<string, string, ValueTask<Func<bool, ValueTask>>>> SendUpdateMessage(
-			RevisionInformation revisionInformation,
-			Version byondVersion,
+			Models.RevisionInformation revisionInformation,
+			Api.Models.EngineVersion engineVersion,
 			DateTimeOffset? estimatedCompletionTime,
 			string gitHubOwner,
 			string gitHubRepo,

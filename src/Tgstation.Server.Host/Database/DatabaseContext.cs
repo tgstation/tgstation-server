@@ -378,22 +378,22 @@ namespace Tgstation.Server.Host.Database
 		/// <summary>
 		/// Used by unit tests to remind us to setup the correct MSSQL migration downgrades.
 		/// </summary>
-		internal static readonly Type MSLatestMigration = typeof(MSAddJobCodes);
+		internal static readonly Type MSLatestMigration = typeof(MSRenameByondColumnsToEngine);
 
 		/// <summary>
 		/// Used by unit tests to remind us to setup the correct MYSQL migration downgrades.
 		/// </summary>
-		internal static readonly Type MYLatestMigration = typeof(MYAddJobCodes);
+		internal static readonly Type MYLatestMigration = typeof(MYRenameByondColumnsToEngine);
 
 		/// <summary>
 		/// Used by unit tests to remind us to setup the correct PostgresSQL migration downgrades.
 		/// </summary>
-		internal static readonly Type PGLatestMigration = typeof(PGAddJobCodes);
+		internal static readonly Type PGLatestMigration = typeof(PGRenameByondColumnsToEngine);
 
 		/// <summary>
 		/// Used by unit tests to remind us to setup the correct SQLite migration downgrades.
 		/// </summary>
-		internal static readonly Type SLLatestMigration = typeof(SLAddJobCodes);
+		internal static readonly Type SLLatestMigration = typeof(SLRenameByondColumnsToEngine);
 
 		/// <inheritdoc />
 #pragma warning disable CA1502 // Cyclomatic complexity
@@ -422,6 +422,15 @@ namespace Tgstation.Server.Host.Database
 
 			string BadDatabaseType() => throw new ArgumentException($"Invalid DatabaseType: {currentDatabaseType}", nameof(currentDatabaseType));
 
+			if (targetVersion < new Version(6, 0, 0))
+				targetMigration = currentDatabaseType switch
+				{
+					DatabaseType.MySql => nameof(MYAddJobCodes),
+					DatabaseType.PostgresSql => nameof(PGAddJobCodes),
+					DatabaseType.SqlServer => nameof(MSAddJobCodes),
+					DatabaseType.Sqlite => nameof(SLAddJobCodes),
+					_ => BadDatabaseType(),
+				};
 			if (targetVersion < new Version(5, 17, 0))
 				targetMigration = currentDatabaseType switch
 				{

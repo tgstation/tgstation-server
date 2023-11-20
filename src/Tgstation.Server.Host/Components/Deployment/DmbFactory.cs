@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
+using Tgstation.Server.Api.Models;
 using Tgstation.Server.Common.Extensions;
 using Tgstation.Server.Host.Components.Deployment.Remote;
 using Tgstation.Server.Host.Components.Events;
@@ -250,6 +251,12 @@ namespace Tgstation.Server.Host.Components.Deployment
 						.ThenInclude(x => x.MergedBy)
 					.FirstAsync(cancellationToken)); // can't wait to see that query
 
+			if (!EngineVersion.TryParse(compileJob.EngineVersion, out var engineVersion))
+			{
+				logger.LogWarning("Error loading compile job, bad engine version: {0}", compileJob.EngineVersion);
+				return null; // omae wa mou shinderu
+			}
+
 			if (!compileJob.Job.StoppedAt.HasValue)
 			{
 				// This happens when we're told to load the compile job that is currently finished up
@@ -267,7 +274,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 					CleanRegisteredCompileJob(compileJob);
 			}
 
-			var newProvider = new DmbProvider(compileJob, ioManager, CleanupAction);
+			var newProvider = new DmbProvider(compileJob, engineVersion, ioManager, CleanupAction);
 			try
 			{
 				const string LegacyADirectoryName = "A";
@@ -304,7 +311,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 					// rebuild the provider because it's using the legacy style directories
 					// Don't dispose it
 					logger.LogDebug("Creating legacy two folder .dmb provider targeting {aDirName} directory...", LegacyADirectoryName);
-					newProvider = new DmbProvider(compileJob, ioManager, CleanupAction, Path.DirectorySeparatorChar + LegacyADirectoryName);
+					newProvider = new DmbProvider(compileJob, engineVersion, ioManager, CleanupAction, Path.DirectorySeparatorChar + LegacyADirectoryName);
 				}
 
 				lock (jobLockCounts)

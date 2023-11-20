@@ -1,8 +1,8 @@
 ﻿using System.Threading.Tasks;
 
-using Tgstation.Server.Host.Components.Byond;
 using Tgstation.Server.Host.Components.Chat;
 using Tgstation.Server.Host.Components.Deployment;
+using Tgstation.Server.Host.Components.Engine;
 using Tgstation.Server.Host.Components.Repository;
 using Tgstation.Server.Host.Components.StaticFiles;
 using Tgstation.Server.Host.Components.Watchdog;
@@ -20,9 +20,9 @@ namespace Tgstation.Server.Host.Components
 		IRepositoryManager RepositoryManager { get; }
 
 		/// <summary>
-		/// The <see cref="IByondManager"/> for the <see cref="IInstanceCore"/>.
+		/// The <see cref="IEngineManager"/> for the <see cref="IInstanceCore"/>.
 		/// </summary>
-		IByondManager ByondManager { get; }
+		IEngineManager EngineManager { get; }
 
 		/// <summary>
 		/// The <see cref="IDreamMaker"/> for the <see cref="IInstanceCore"/>.

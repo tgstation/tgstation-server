@@ -1,5 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
+using Newtonsoft.Json;
+
 using Tgstation.Server.Api.Rights;
 
 namespace Tgstation.Server.Api.Models.Internal
@@ -22,10 +24,10 @@ namespace Tgstation.Server.Api.Models.Internal
 		public InstancePermissionSetRights? InstancePermissionSetRights { get; set; }
 
 		/// <summary>
-		/// The <see cref="Rights.ByondRights"/> of the <see cref="InstancePermissionSet"/>.
+		/// The <see cref="Rights.EngineRights"/> of the <see cref="InstancePermissionSet"/>.
 		/// </summary>
 		[Required]
-		public ByondRights? ByondRights { get; set; }
+		public EngineRights? EngineRights { get; set; }
 
 		/// <summary>
 		/// The <see cref="Rights.DreamDaemonRights"/> of the <see cref="InstancePermissionSet"/>.

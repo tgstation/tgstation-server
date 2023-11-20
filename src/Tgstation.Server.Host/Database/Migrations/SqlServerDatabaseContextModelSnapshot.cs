@@ -15,7 +15,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 		{
 #pragma warning disable 612, 618
 			modelBuilder
-				.HasAnnotation("ProductVersion", "7.0.13")
+				.HasAnnotation("ProductVersion", "8.0.0-rc.1.23419.6")
 				.HasAnnotation("Relational:MaxIdentifierLength", 128);
 
 			SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -122,7 +122,8 @@ namespace Tgstation.Server.Host.Database.Migrations
 
 				b.Property<string>("ByondVersion")
 					.IsRequired()
-					.HasColumnType("nvarchar(max)");
+					.HasColumnType("nvarchar(max)")
+					.HasColumnName("EngineVersion");
 
 				b.Property<int?>("DMApiMajorVersion")
 					.HasColumnType("int");
@@ -327,9 +328,6 @@ namespace Tgstation.Server.Host.Database.Migrations
 
 				SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
-				b.Property<decimal>("ByondRights")
-					.HasColumnType("decimal(20,0)");
-
 				b.Property<decimal>("ChatBotRights")
 					.HasColumnType("decimal(20,0)");
 
@@ -340,6 +338,9 @@ namespace Tgstation.Server.Host.Database.Migrations
 					.HasColumnType("decimal(20,0)");
 
 				b.Property<decimal>("DreamMakerRights")
+					.HasColumnType("decimal(20,0)");
+
+				b.Property<decimal>("EngineRights")
 					.HasColumnType("decimal(20,0)");
 
 				b.Property<long>("InstanceId")

@@ -9,10 +9,10 @@ using Microsoft.Extensions.Logging;
 using Serilog.Context;
 
 using Tgstation.Server.Api.Rights;
-using Tgstation.Server.Host.Components.Byond;
 using Tgstation.Server.Host.Components.Chat;
 using Tgstation.Server.Host.Components.Deployment;
 using Tgstation.Server.Host.Components.Deployment.Remote;
+using Tgstation.Server.Host.Components.Engine;
 using Tgstation.Server.Host.Components.Events;
 using Tgstation.Server.Host.Components.Repository;
 using Tgstation.Server.Host.Components.Watchdog;
@@ -36,7 +36,7 @@ namespace Tgstation.Server.Host.Components
 		public IRepositoryManager RepositoryManager { get; }
 
 		/// <inheritdoc />
-		public IByondManager ByondManager { get; }
+		public IEngineManager EngineManager { get; }
 
 		/// <inheritdoc />
 		public IWatchdog Watchdog { get; }
@@ -105,7 +105,7 @@ namespace Tgstation.Server.Host.Components
 		/// </summary>
 		/// <param name="metadata">The value of <see cref="metadata"/>.</param>
 		/// <param name="repositoryManager">The value of <see cref="RepositoryManager"/>.</param>
-		/// <param name="byondManager">The value of <see cref="ByondManager"/>.</param>
+		/// <param name="engineManager">The value of <see cref="EngineManager"/>.</param>
 		/// <param name="dreamMaker">The value of <see cref="DreamMaker"/>.</param>
 		/// <param name="watchdog">The value of <see cref="Watchdog"/>.</param>
 		/// <param name="chat">The value of <see cref="Chat"/>.</param>
@@ -119,7 +119,7 @@ namespace Tgstation.Server.Host.Components
 		public Instance(
 			Api.Models.Instance metadata,
 			IRepositoryManager repositoryManager,
-			IByondManager byondManager,
+			IEngineManager engineManager,
 			IDreamMaker dreamMaker,
 			IWatchdog watchdog,
 			IChatManager chat,
@@ -134,7 +134,7 @@ namespace Tgstation.Server.Host.Components
 		{
 			this.metadata = metadata ?? throw new ArgumentNullException(nameof(metadata));
 			RepositoryManager = repositoryManager ?? throw new ArgumentNullException(nameof(repositoryManager));
-			ByondManager = byondManager ?? throw new ArgumentNullException(nameof(byondManager));
+			EngineManager = engineManager ?? throw new ArgumentNullException(nameof(engineManager));
 			DreamMaker = dreamMaker ?? throw new ArgumentNullException(nameof(dreamMaker));
 			Watchdog = watchdog ?? throw new ArgumentNullException(nameof(watchdog));
 			Chat = chat ?? throw new ArgumentNullException(nameof(chat));
@@ -160,7 +160,7 @@ namespace Tgstation.Server.Host.Components
 				Configuration.Dispose();
 				dmbFactory.Dispose();
 				RepositoryManager.Dispose();
-				ByondManager.Dispose();
+				EngineManager.Dispose();
 				await chatDispose;
 				await watchdogDispose;
 			}
@@ -185,7 +185,7 @@ namespace Tgstation.Server.Host.Components
 				await Task.WhenAll(
 					SetAutoUpdateInterval(metadata.AutoUpdateInterval.Value).AsTask(),
 					Configuration.StartAsync(cancellationToken),
-					ByondManager.StartAsync(cancellationToken),
+					EngineManager.StartAsync(cancellationToken),
 					Chat.StartAsync(cancellationToken),
 					dmbFactory.StartAsync(cancellationToken));
 
@@ -206,7 +206,7 @@ namespace Tgstation.Server.Host.Components
 				await Watchdog.StopAsync(cancellationToken);
 				await Task.WhenAll(
 					Configuration.StopAsync(cancellationToken),
-					ByondManager.StopAsync(cancellationToken),
+					EngineManager.StopAsync(cancellationToken),
 					Chat.StopAsync(cancellationToken),
 					dmbFactory.StopAsync(cancellationToken));
 			}

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 using Microsoft.Extensions.Logging;
 
+using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Host.Components.Chat;
 using Tgstation.Server.Host.Components.Deployment;
@@ -216,7 +217,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				ActiveSwappable = pendingSwappable;
 				pendingSwappable = null;
 
-				await SessionPersistor.Save(Server.ReattachInformation, cancellationToken);
+				await SessionPersistor.Update(Server.ReattachInformation, cancellationToken);
 				await updateTask;
 			}
 			else
@@ -229,31 +230,31 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		protected sealed override async ValueTask HandleNewDmbAvailable(CancellationToken cancellationToken)
 		{
 			IDmbProvider compileJobProvider = DmbFactory.LockNextDmb(1);
-			bool canSeamlesslySwap = true;
-
-			if (compileJobProvider.CompileJob.ByondVersion != ActiveCompileJob.ByondVersion)
-			{
-				// have to do a graceful restart
-				Logger.LogDebug(
-					"Not swapping to new compile job {0} as it uses a different BYOND version ({1}) than what is currently active {2}. Queueing graceful restart instead...",
-					compileJobProvider.CompileJob.Id,
-					compileJobProvider.CompileJob.ByondVersion,
-					ActiveCompileJob.ByondVersion);
-				canSeamlesslySwap = false;
-			}
-
-			if (compileJobProvider.CompileJob.DmeName != ActiveCompileJob.DmeName)
-			{
-				Logger.LogDebug(
-					"Not swapping to new compile job {0} as it uses a different .dmb name ({1}) than what is currently active {2}. Queueing graceful restart instead...",
-					compileJobProvider.CompileJob.Id,
-					compileJobProvider.CompileJob.DmeName,
-					ActiveCompileJob.DmeName);
-				canSeamlesslySwap = false;
-			}
+			bool canSeamlesslySwap = CanUseSwappableDmbProvider(compileJobProvider);
+			if (canSeamlesslySwap)
+				if (compileJobProvider.CompileJob.EngineVersion != ActiveCompileJob.EngineVersion)
+				{
+					// have to do a graceful restart
+					Logger.LogDebug(
+						"Not swapping to new compile job {compileJobId} as it uses a different engine version ({newEngineVersion}) than what is currently active {oldEngineVersion}.",
+						compileJobProvider.CompileJob.Id,
+						compileJobProvider.CompileJob.EngineVersion,
+						ActiveCompileJob.EngineVersion);
+					canSeamlesslySwap = false;
+				}
+				else if (compileJobProvider.CompileJob.DmeName != ActiveCompileJob.DmeName)
+				{
+					Logger.LogDebug(
+						"Not swapping to new compile job {compileJobId} as it uses a different .dmb name ({newDmbName}) than what is currently active {oldDmbName}.",
+						compileJobProvider.CompileJob.Id,
+						compileJobProvider.CompileJob.DmeName,
+						ActiveCompileJob.DmeName);
+					canSeamlesslySwap = false;
+				}
 
 			if (!canSeamlesslySwap)
 			{
+				Logger.LogDebug("Queueing graceful restart instead...");
 				await compileJobProvider.DisposeAsync();
 				await base.HandleNewDmbAvailable(cancellationToken);
 				return;
@@ -290,6 +291,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				throw new InvalidOperationException("Expected pendingSwappable to be null!");
 
 			Logger.LogTrace("Prep for server launch");
+			if (!CanUseSwappableDmbProvider(dmbToUse))
+				return dmbToUse;
 
 			ActiveSwappable = CreateSwappableDmbProvider(dmbToUse);
 			try
@@ -336,6 +339,22 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				await DrainDeploymentCleanupTasks(false);
 
 			return result;
+		}
+
+		/// <summary>
+		/// If the <see cref="SwappableDmbProvider"/> feature of the <see cref="AdvancedWatchdog"/> can be used with a given <paramref name="dmbProvider"/>.
+		/// </summary>
+		/// <param name="dmbProvider">The <see cref="IDmbProvider"/> that is to be activated.</param>
+		/// <returns><see langword="true"/> if swapping is possible, <see langword="false"/> otherwise.</returns>
+		bool CanUseSwappableDmbProvider(IDmbProvider dmbProvider)
+		{
+			if (dmbProvider.EngineVersion.Engine.Value != EngineType.Byond)
+			{
+				Logger.LogDebug("Not using SwappableDmbProvider for engine type {engineType}", dmbProvider.EngineVersion.Engine.Value);
+				return false;
+			}
+
+			return true;
 		}
 
 		/// <summary>

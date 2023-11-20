@@ -56,6 +56,6 @@ namespace Tgstation.Server.Host.Swarm
 		/// <param name="registrationId">The registration <see cref="Guid"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
-		ValueTask<bool> RemoteCommitRecieved(Guid registrationId, CancellationToken cancellationToken);
+		ValueTask<bool> RemoteCommitReceived(Guid registrationId, CancellationToken cancellationToken);
 	}
 }

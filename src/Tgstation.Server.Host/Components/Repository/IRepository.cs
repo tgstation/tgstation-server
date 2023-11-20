@@ -47,7 +47,7 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// <param name="username">The username used for fetching from submodule repositories.</param>
 		/// <param name="password">The password used for fetching from submodule repositories.</param>
 		/// <param name="updateSubmodules">If a submodule update should be attempted after the merge.</param>
-		/// <param name="progressReporter">The <see cref="JobProgressReporter"/> to report progress of the operation.</param>
+		/// <param name="progressReporter">The optional <see cref="JobProgressReporter"/> to report progress of the operation.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
 		ValueTask CheckoutObject(
@@ -83,7 +83,7 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// <summary>
 		/// Fetch commits from the origin repository.
 		/// </summary>
-		/// <param name="progressReporter">The <see cref="JobProgressReporter"/> to report progress of the operation.</param>
+		/// <param name="progressReporter">The optional <see cref="JobProgressReporter"/> to report progress of the operation.</param>
 		/// <param name="username">The username to fetch from the origin repository.</param>
 		/// <param name="password">The password to fetch from the origin repository.</param>
 		/// <param name="deploymentPipeline">If any events created should be marked as part of the deployment pipeline.</param>
@@ -170,13 +170,13 @@ namespace Tgstation.Server.Host.Components.Repository
 		ValueTask CopyTo(string path, CancellationToken cancellationToken);
 
 		/// <summary>
-		/// Check if a given <paramref name="sha"/> is a parent of the current <see cref="Head"/>.
+		/// Check if a given <paramref name="committish"/> is a parent of the current <see cref="Head"/>.
 		/// </summary>
-		/// <param name="sha">The SHA to check.</param>
+		/// <param name="committish">The committish of the SHA to check.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in <see langword="true"/> if <paramref name="sha"/> is a parent of <see cref="Head"/>, <see langword="false"/> otherwise.</returns>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in <see langword="true"/> if <paramref name="committish"/> is a parent of <see cref="Head"/>, <see langword="false"/> otherwise.</returns>
 		/// <remarks>This function is NOT reentrant.</remarks>
-		Task<bool> ShaIsParent(string sha, CancellationToken cancellationToken);
+		Task<bool> CommittishIsParent(string committish, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Get the tracked reference's current SHA.

@@ -32,7 +32,7 @@ namespace Tgstation.Server.Host.Models
 		/// <inheritdoc />
 		public InstancePermissionSetResponse ToApi() => new InstancePermissionSetResponse
 		{
-			ByondRights = ByondRights,
+			EngineRights = EngineRights,
 			ChatBotRights = ChatBotRights,
 			ConfigurationRights = ConfigurationRights,
 			DreamDaemonRights = DreamDaemonRights,

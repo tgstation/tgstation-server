@@ -8,11 +8,6 @@ namespace Tgstation.Server.Host.Models
 	public sealed class ReattachInformation : ReattachInformationBase
 	{
 		/// <summary>
-		/// The row Id.
-		/// </summary>
-		public long Id { get; set; }
-
-		/// <summary>
 		/// The <see cref="Models.CompileJob"/> for the <see cref="Components.Session.ReattachInformation.Dmb"/>.
 		/// </summary>
 		[Required]

@@ -220,7 +220,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// <inheritdoc />
 		public override async ValueTask<Func<string, string, ValueTask<Func<bool, ValueTask>>>> SendUpdateMessage(
 			Models.RevisionInformation revisionInformation,
-			Version byondVersion,
+			EngineVersion engineVersion,
 			DateTimeOffset? estimatedCompletionTime,
 			string gitHubOwner,
 			string gitHubRepo,
@@ -229,7 +229,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(revisionInformation);
-			ArgumentNullException.ThrowIfNull(byondVersion);
+			ArgumentNullException.ThrowIfNull(engineVersion);
 			ArgumentNullException.ThrowIfNull(gitHubOwner);
 			ArgumentNullException.ThrowIfNull(gitHubRepo);
 
@@ -261,19 +261,18 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 								return result;
 							})));
 
+			var prefix = GetEngineCompilerPrefix(engineVersion.Engine.Value);
 			await SendMessage(
 				null,
 				new MessageContent
 				{
 					Text = String.Format(
 						CultureInfo.InvariantCulture,
-						"DM: Deploying revision: {0}{1}{2} BYOND Version: {3}{4}",
+						$"{prefix}: Deploying revision: {0}{1}{2} BYOND Version: {3}{4}",
 						commitInsert,
 						testmergeInsert,
 						remoteCommitInsert,
-						byondVersion.Build > 0
-							? byondVersion.ToString()
-							: $"{byondVersion.Major}.{byondVersion.Minor}",
+						engineVersion.ToString(),
 						estimatedCompletionTime.HasValue
 							? $" ETA: {estimatedCompletionTime - DateTimeOffset.UtcNow}"
 							: String.Empty),
@@ -287,7 +286,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 					null,
 					new MessageContent
 					{
-						Text = $"DM: Deployment {(errorMessage == null ? "complete" : "failed")}!",
+						Text = $"{prefix}: Deployment {(errorMessage == null ? "complete" : "failed")}!",
 					},
 					channelId,
 					cancellationToken);

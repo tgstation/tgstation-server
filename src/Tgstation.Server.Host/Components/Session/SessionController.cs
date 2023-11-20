@@ -14,10 +14,11 @@ using Newtonsoft.Json;
 using Serilog.Context;
 
 using Tgstation.Server.Api.Models;
+using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Common.Extensions;
-using Tgstation.Server.Host.Components.Byond;
 using Tgstation.Server.Host.Components.Chat;
 using Tgstation.Server.Host.Components.Deployment;
+using Tgstation.Server.Host.Components.Engine;
 using Tgstation.Server.Host.Components.Interop;
 using Tgstation.Server.Host.Components.Interop.Bridge;
 using Tgstation.Server.Host.Components.Interop.Topic;
@@ -52,13 +53,13 @@ namespace Tgstation.Server.Host.Components.Session
 		public Models.CompileJob CompileJob => ReattachInformation.Dmb.CompileJob;
 
 		/// <inheritdoc />
+		public EngineVersion EngineVersion => ReattachInformation.Dmb.EngineVersion;
+
+		/// <inheritdoc />
 		public RebootState RebootState => ReattachInformation.RebootState;
 
 		/// <inheritdoc />
 		public Version DMApiVersion { get; private set; }
-
-		/// <inheritdoc />
-		public bool ClosePortOnReboot { get; set; }
 
 		/// <inheritdoc />
 		public bool TerminationWasRequested { get; private set; }
@@ -108,9 +109,9 @@ namespace Tgstation.Server.Host.Components.Session
 		public ReattachInformation ReattachInformation { get; }
 
 		/// <summary>
-		/// The <see cref="global::Byond.TopicSender.ITopicClient"/> for the <see cref="SessionController"/>.
+		/// The <see cref="Byond.TopicSender.ITopicClient"/> for the <see cref="SessionController"/>.
 		/// </summary>
-		readonly global::Byond.TopicSender.ITopicClient byondTopicSender;
+		readonly Byond.TopicSender.ITopicClient byondTopicSender;
 
 		/// <summary>
 		/// The <see cref="IBridgeRegistration"/> for the <see cref="SessionController"/>.
@@ -123,9 +124,9 @@ namespace Tgstation.Server.Host.Components.Session
 		readonly IProcess process;
 
 		/// <summary>
-		/// The <see cref="IByondExecutableLock"/> for the <see cref="SessionController"/>.
+		/// The <see cref="IEngineExecutableLock"/> for the <see cref="SessionController"/>.
 		/// </summary>
-		readonly IByondExecutableLock byondLock;
+		readonly IEngineExecutableLock byondLock;
 
 		/// <summary>
 		/// The <see cref="IChatTrackingContext"/> for the <see cref="SessionController"/>.
@@ -173,11 +174,6 @@ namespace Tgstation.Server.Host.Components.Session
 		readonly bool apiValidationSession;
 
 		/// <summary>
-		/// The <see cref="TaskCompletionSource{TResult}"/> <see cref="SetPort(ushort, CancellationToken)"/> waits on when DreamDaemon currently has it's ports closed.
-		/// </summary>
-		TaskCompletionSource<bool> portAssignmentTcs;
-
-		/// <summary>
 		/// The <see cref="TaskCompletionSource"/> that completes when DD sends a valid startup bridge request.
 		/// </summary>
 		volatile TaskCompletionSource startupTcs;
@@ -208,19 +204,9 @@ namespace Tgstation.Server.Host.Components.Session
 		volatile uint rebootBridgeRequestsProcessing;
 
 		/// <summary>
-		/// The port to assign DreamDaemon when it queries for it.
-		/// </summary>
-		ushort? nextPort;
-
-		/// <summary>
 		/// The <see cref="ApiValidationStatus"/> for the <see cref="SessionController"/>.
 		/// </summary>
 		ApiValidationStatus apiValidationStatus;
-
-		/// <summary>
-		/// If we know DreamDaemon currently has it's port closed.
-		/// </summary>
-		bool portClosedForReboot;
 
 		/// <summary>
 		/// If the <see cref="SessionController"/> has been disposed.
@@ -254,8 +240,8 @@ namespace Tgstation.Server.Host.Components.Session
 			ReattachInformation reattachInformation,
 			Api.Models.Instance metadata,
 			IProcess process,
-			IByondExecutableLock byondLock,
-			global::Byond.TopicSender.ITopicClient byondTopicSender,
+			IEngineExecutableLock byondLock,
+			Byond.TopicSender.ITopicClient byondTopicSender,
 			IChatTrackingContext chatTrackingContext,
 			IBridgeRegistrar bridgeRegistrar,
 			IChatManager chat,
@@ -283,7 +269,6 @@ namespace Tgstation.Server.Host.Components.Session
 
 			apiValidationSession = apiValidate;
 
-			portClosedForReboot = false;
 			disposed = false;
 			apiValidationStatus = ApiValidationStatus.NeverValidated;
 			released = false;
@@ -402,9 +387,6 @@ namespace Tgstation.Server.Host.Components.Session
 		}
 
 		/// <inheritdoc />
-		public void EnableCustomChatCommands() => chatTrackingContext.Active = DMApiAvailable;
-
-		/// <inheritdoc />
 		public ValueTask Release()
 		{
 			CheckDisposed();
@@ -417,126 +399,8 @@ namespace Tgstation.Server.Host.Components.Session
 		}
 
 		/// <inheritdoc />
-		public async ValueTask<TopicResponse> SendCommand(TopicParameters parameters, CancellationToken cancellationToken)
-		{
-			ArgumentNullException.ThrowIfNull(parameters);
-
-			if (Lifetime.IsCompleted || disposed)
-			{
-				Logger.LogWarning(
-					"Attempted to send a command to an inactive SessionController: {commandType}",
-					parameters.CommandType);
-				return null;
-			}
-
-			if (!DMApiAvailable)
-			{
-				Logger.LogTrace("Not sending topic request {commandType} to server without/with incompatible DMAPI!", parameters.CommandType);
-				return null;
-			}
-
-			TopicResponse fullResponse = null;
-			try
-			{
-				var combinedResponse = await SendTopicRequest(parameters, cancellationToken);
-
-				void LogCombinedResponse()
-				{
-					if (LogTopicRequests && combinedResponse != null)
-						Logger.LogTrace("Topic response: {topicString}", combinedResponse.ByondTopicResponse.StringData ?? "(NO STRING DATA)");
-				}
-
-				LogCombinedResponse();
-
-				if (combinedResponse?.InteropResponse?.Chunk != null)
-				{
-					Logger.LogTrace("Topic response is chunked...");
-
-					ChunkData nextChunk = combinedResponse.InteropResponse.Chunk;
-					do
-					{
-						var nextRequest = await ProcessChunk<TopicResponse, ChunkedTopicParameters>(
-							(completedResponse, cancellationToken) =>
-							{
-								fullResponse = completedResponse;
-								return ValueTask.FromResult<ChunkedTopicParameters>(null);
-							},
-							error =>
-							{
-								Logger.LogWarning("Topic response chunking error: {message}", error);
-								return null;
-							},
-							combinedResponse?.InteropResponse?.Chunk,
-							cancellationToken);
-
-						if (nextRequest != null)
-						{
-							nextRequest.PayloadId = nextChunk.PayloadId;
-							combinedResponse = await SendTopicRequest(nextRequest, cancellationToken);
-							LogCombinedResponse();
-							nextChunk = combinedResponse?.InteropResponse?.Chunk;
-						}
-						else
-							nextChunk = null;
-					}
-					while (nextChunk != null);
-				}
-				else
-					fullResponse = combinedResponse?.InteropResponse;
-			}
-			catch (OperationCanceledException ex)
-			{
-				Logger.LogDebug(
-					ex,
-					"Topic request {cancellationType}!",
-					cancellationToken.IsCancellationRequested
-						? "aborted"
-						: "timed out");
-				cancellationToken.ThrowIfCancellationRequested();
-			}
-
-			if (fullResponse?.ErrorMessage != null)
-				Logger.LogWarning(
-					"Errored topic response for command {commandType}: {errorMessage}",
-					parameters.CommandType,
-					fullResponse.ErrorMessage);
-
-			return fullResponse;
-		}
-
-		/// <inheritdoc />
-		public Task<bool> SetPort(ushort port, CancellationToken cancellationToken)
-		{
-			CheckDisposed();
-
-			if (port == 0)
-				throw new ArgumentOutOfRangeException(nameof(port), port, "port must not be zero!");
-
-			async Task<bool> ImmediateTopicPortChange()
-			{
-				var commandResult = await SendCommand(
-					new TopicParameters(port),
-					cancellationToken);
-
-				if (commandResult?.ErrorMessage != null)
-					return false;
-
-				ReattachInformation.Port = port;
-				return true;
-			}
-
-			lock (synchronizationLock)
-				if (portClosedForReboot)
-				{
-					if (portAssignmentTcs != null)
-						throw new InvalidOperationException("A port change operation is already in progress!");
-					nextPort = port;
-					portAssignmentTcs = new TaskCompletionSource<bool>();
-					return portAssignmentTcs.Task;
-				}
-				else
-					return ImmediateTopicPortChange();
-		}
+		public ValueTask<TopicResponse> SendCommand(TopicParameters parameters, CancellationToken cancellationToken)
+			=> SendCommand(parameters, false, cancellationToken);
 
 		/// <inheritdoc />
 		public async ValueTask<bool> SetRebootState(RebootState newRebootState, CancellationToken cancellationToken)
@@ -649,6 +513,7 @@ namespace Tgstation.Server.Host.Components.Session
 					new TopicParameters(
 						assemblyInformationProvider.Version,
 						ReattachInformation.RuntimeInformation.ServerPort),
+					true,
 					reattachTopicCts.Token);
 
 				if (reattachResponse != null)
@@ -671,11 +536,7 @@ namespace Tgstation.Server.Host.Components.Session
 		/// <summary>
 		/// Throws an <see cref="ObjectDisposedException"/> if <see cref="DisposeAsync"/> has been called.
 		/// </summary>
-		void CheckDisposed()
-		{
-			if (disposed)
-				throw new ObjectDisposedException(nameof(SessionController));
-		}
+		void CheckDisposed() => ObjectDisposedException.ThrowIf(disposed, this);
 
 		/// <summary>
 		/// Terminates the server after ten seconds if it does not exit.
@@ -751,40 +612,12 @@ namespace Tgstation.Server.Host.Components.Session
 					break;
 				case BridgeCommandType.Kill:
 					Logger.LogInformation("Bridge requested process termination!");
+					chatTrackingContext.Active = false;
 					TerminationWasRequested = true;
 					process.Terminate();
 					break;
-				case BridgeCommandType.PortUpdate:
-					lock (synchronizationLock)
-					{
-						if (!parameters.CurrentPort.HasValue)
-						{
-							/////UHHHH
-							Logger.LogWarning("DreamDaemon sent new port command without providing it's own!");
-							return BridgeError("Missing stringified port as data parameter!");
-						}
-
-						var currentPort = parameters.CurrentPort.Value;
-						if (!nextPort.HasValue)
-							ReattachInformation.Port = parameters.CurrentPort.Value; // not ready yet, so what we'll do is accept the random port DD opened on for now and change it later when we decide to
-						else
-						{
-							// nextPort is ready, tell DD to switch to that
-							// if it fails it'll kill itself
-							response.NewPort = nextPort.Value;
-							ReattachInformation.Port = nextPort.Value;
-							nextPort = null;
-
-							// we'll also get here from SetPort so complete that task
-							var tmpTcs = portAssignmentTcs;
-							portAssignmentTcs = null;
-							tmpTcs.SetResult(true);
-						}
-
-						portClosedForReboot = false;
-					}
-
-					break;
+				case BridgeCommandType.DeprecatedPortUpdate:
+					return BridgeError("Port switching is no longer supported!");
 				case BridgeCommandType.Startup:
 					apiValidationStatus = ApiValidationStatus.BadValidationRequest;
 
@@ -802,7 +635,10 @@ namespace Tgstation.Server.Host.Components.Session
 						return BridgeError("Missing dmApiVersion field!");
 
 					DMApiVersion = parameters.Version;
-					if (DMApiVersion.Major != DMApiConstants.InteropVersion.Major)
+
+					// TODO: When OD figures out how to unite port and topic_port, set an upper version bound on OD for this check
+					if (DMApiVersion.Major != DMApiConstants.InteropVersion.Major
+						|| (EngineVersion.Engine.Value == EngineType.OpenDream && DMApiVersion < new Version(5, 7)))
 					{
 						apiValidationStatus = ApiValidationStatus.Incompatible;
 						return BridgeError("Incompatible dmApiVersion!");
@@ -837,21 +673,23 @@ namespace Tgstation.Server.Host.Components.Session
 						ReattachInformation.RuntimeInformation.ServerPort,
 						ReattachInformation.RuntimeInformation.ApiValidateOnly);
 
+					if (parameters.TopicPort.HasValue)
+					{
+						var newTopicPort = parameters.TopicPort.Value;
+						Logger.LogInformation("Server is requesting use of port {topicPort} for topic communications", newTopicPort);
+						ReattachInformation.Port = newTopicPort;
+					}
+
 					// Load custom commands
 					chatTrackingContext.CustomCommands = parameters.CustomCommands;
+					chatTrackingContext.Active = true;
 					Interlocked.Exchange(ref startupTcs, new TaskCompletionSource()).SetResult();
 					break;
 				case BridgeCommandType.Reboot:
 					Interlocked.Increment(ref rebootBridgeRequestsProcessing);
 					try
 					{
-						if (ClosePortOnReboot)
-						{
-							chatTrackingContext.Active = false;
-							response.NewPort = 0;
-							portClosedForReboot = true;
-						}
-
+						chatTrackingContext.Active = false;
 						Interlocked.Exchange(ref rebootTcs, new TaskCompletionSource()).SetResult();
 						await RebootGate.WaitAsync(cancellationToken);
 					}
@@ -880,7 +718,7 @@ namespace Tgstation.Server.Host.Components.Session
 		/// <returns>A new errored <see cref="BridgeResponse"/>.</returns>
 		BridgeResponse BridgeError(string message)
 		{
-			Logger.LogWarning("Bridge request chunking error: {message}", message);
+			Logger.LogWarning("Bridge request error: {message}", message);
 			return new BridgeResponse
 			{
 				ErrorMessage = message,
@@ -1013,11 +851,11 @@ namespace Tgstation.Server.Host.Components.Session
 		}
 
 		/// <summary>
-		/// Generates a <see cref="global::Byond.TopicSender.ITopicClient"/> query string for a given set of <paramref name="parameters"/>.
+		/// Generates a <see cref="Byond.TopicSender.ITopicClient"/> query string for a given set of <paramref name="parameters"/>.
 		/// </summary>
 		/// <param name="parameters">The <see cref="TopicParameters"/> to serialize.</param>
 		/// <param name="json">The intermediate JSON <see cref="string"/> prior to URL encoding.</param>
-		/// <returns>The <see cref="global::Byond.TopicSender.ITopicClient"/> query string for the given <paramref name="parameters"/>.</returns>
+		/// <returns>The <see cref="Byond.TopicSender.ITopicClient"/> query string for the given <paramref name="parameters"/>.</returns>
 		string GenerateQueryString(TopicParameters parameters, out string json)
 		{
 			json = JsonConvert.SerializeObject(parameters, DMApiConstants.SerializerSettings);
@@ -1046,8 +884,7 @@ namespace Tgstation.Server.Host.Components.Session
 			}
 
 			var targetPort = ReattachInformation.Port;
-			var killedOrRebootedTask = Task.WhenAny(Lifetime, OnReboot);
-			global::Byond.TopicSender.TopicResponse byondResponse = null;
+			Byond.TopicSender.TopicResponse byondResponse = null;
 			var firstSend = true;
 
 			using (await topicSendSemaphore.Lock(cancellationToken))
@@ -1058,43 +895,31 @@ namespace Tgstation.Server.Host.Components.Session
 					try
 					{
 						firstSend = false;
-						if (!killedOrRebootedTask.IsCompleted)
-						{
-							Logger.LogTrace("Begin topic request");
-							byondResponse = await byondTopicSender.SendTopic(
-								endpoint,
-								queryString,
-								cancellationToken);
 
-							Logger.LogTrace("End topic request");
-						}
+						Logger.LogTrace("Begin topic request");
+						byondResponse = await byondTopicSender.SendTopic(
+							endpoint,
+							queryString,
+							cancellationToken);
 
+						Logger.LogTrace("End topic request");
 						break;
 					}
-					catch (Exception ex) when (!cancellationToken.IsCancellationRequested)
+					catch (Exception ex) when (ex is not OperationCanceledException)
 					{
 						Logger.LogWarning(ex, "SendTopic exception!{retryDetails}", priority ? $" {i} attempts remaining." : String.Empty);
 
 						if (priority && i > 0)
-						{
-							var delayTask = asyncDelayer.Delay(TimeSpan.FromSeconds(2), cancellationToken);
-							await Task.WhenAny(killedOrRebootedTask, delayTask);
-						}
+							await asyncDelayer.Delay(TimeSpan.FromSeconds(2), cancellationToken);
 					}
 			}
 
 			if (byondResponse == null)
 			{
 				if (priority)
-					if (killedOrRebootedTask.IsCompleted)
-						Logger.LogWarning(
-							"Unable to send priority topic \"{queryString}\" DreamDaemon {stateClearAction}!",
-							queryString,
-							Lifetime.IsCompleted ? "process ended" : "rebooted");
-					else
-						Logger.LogError(
-							"Unable to send priority topic \"{queryString}\"!",
-							queryString);
+					Logger.LogError(
+						"Unable to send priority topic \"{queryString}\"!",
+						queryString);
 
 				return null;
 			}
@@ -1113,6 +938,154 @@ namespace Tgstation.Server.Host.Components.Session
 				}
 
 			return new CombinedTopicResponse(byondResponse, interopResponse);
+		}
+
+		/// <summary>
+		/// Sends a command to DreamDaemon through /world/Topic().
+		/// </summary>
+		/// <param name="parameters">The <see cref="TopicParameters"/> to send.</param>
+		/// <param name="bypassLaunchResult">If waiting for the <see cref="LaunchResult"/> should be bypassed.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="TopicResponse"/> of /world/Topic().</returns>
+		async ValueTask<TopicResponse> SendCommand(TopicParameters parameters, bool bypassLaunchResult, CancellationToken cancellationToken)
+		{
+			ArgumentNullException.ThrowIfNull(parameters);
+
+			if (Lifetime.IsCompleted || disposed)
+			{
+				Logger.LogWarning(
+					"Attempted to send a command to an inactive SessionController: {commandType}",
+					parameters.CommandType);
+				return null;
+			}
+
+			if (!DMApiAvailable)
+			{
+				Logger.LogTrace("Not sending topic request {commandType} to server without/with incompatible DMAPI!", parameters.CommandType);
+				return null;
+			}
+
+			var reboot = OnReboot;
+			if (!bypassLaunchResult)
+			{
+				var launchResult = await LaunchResult.WaitAsync(cancellationToken);
+				if (launchResult.ExitCode.HasValue)
+				{
+					Logger.LogDebug("Not sending topic request {commandType} to server that failed to launch!", parameters.CommandType);
+					return null;
+				}
+			}
+
+			// meh, this is kind of a hack, but it works
+			if (!chatTrackingContext.Active)
+			{
+				Logger.LogDebug("Not sending topic request {commandType} to server that is rebooting/starting.", parameters.CommandType);
+				return null;
+			}
+
+			using var cts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+			var combinedCancellationToken = cts.Token;
+			async ValueTask CancelIfLifetimeElapses()
+			{
+				try
+				{
+					var completed = await Task.WhenAny(Lifetime, reboot).WaitAsync(combinedCancellationToken);
+
+					Logger.LogDebug(
+						"Server {action}, cancelling pending command: {commandType}",
+						completed != reboot
+							? "process ended"
+							: "rebooting",
+						parameters.CommandType);
+					cts.Cancel();
+				}
+				catch (OperationCanceledException)
+				{
+					// expected, not even worth tracing
+				}
+				catch (Exception ex)
+				{
+					Logger.LogError(ex, "Error in CancelIfLifetimeElapses!");
+				}
+			}
+
+			TopicResponse fullResponse = null;
+			var lifetimeWatchingTask = CancelIfLifetimeElapses();
+			try
+			{
+				var combinedResponse = await SendTopicRequest(parameters, combinedCancellationToken);
+
+				void LogCombinedResponse()
+				{
+					if (LogTopicRequests && combinedResponse != null)
+						Logger.LogTrace("Topic response: {topicString}", combinedResponse.ByondTopicResponse.StringData ?? "(NO STRING DATA)");
+				}
+
+				LogCombinedResponse();
+
+				if (combinedResponse?.InteropResponse?.Chunk != null)
+				{
+					Logger.LogTrace("Topic response is chunked...");
+
+					ChunkData nextChunk = combinedResponse.InteropResponse.Chunk;
+					do
+					{
+						var nextRequest = await ProcessChunk<TopicResponse, ChunkedTopicParameters>(
+							(completedResponse, _) =>
+							{
+								fullResponse = completedResponse;
+								return ValueTask.FromResult<ChunkedTopicParameters>(null);
+							},
+							error =>
+							{
+								Logger.LogWarning("Topic response chunking error: {message}", error);
+								return null;
+							},
+							combinedResponse?.InteropResponse?.Chunk,
+							combinedCancellationToken);
+
+						if (nextRequest != null)
+						{
+							nextRequest.PayloadId = nextChunk.PayloadId;
+							combinedResponse = await SendTopicRequest(nextRequest, combinedCancellationToken);
+							LogCombinedResponse();
+							nextChunk = combinedResponse?.InteropResponse?.Chunk;
+						}
+						else
+							nextChunk = null;
+					}
+					while (nextChunk != null);
+				}
+				else
+					fullResponse = combinedResponse?.InteropResponse;
+			}
+			catch (OperationCanceledException ex)
+			{
+				Logger.LogDebug(
+					ex,
+					"Topic request {cancellationType}!",
+					combinedCancellationToken.IsCancellationRequested
+						? cancellationToken.IsCancellationRequested
+							? "cancelled"
+							: "aborted"
+						: "timed out");
+
+				// throw only if the original token was the trigger
+				cancellationToken.ThrowIfCancellationRequested();
+			}
+			finally
+			{
+				cts.Cancel();
+				await lifetimeWatchingTask;
+			}
+
+			if (fullResponse?.ErrorMessage != null)
+				Logger.LogWarning(
+					"Errored topic response for command {commandType}: {errorMessage}",
+					parameters.CommandType,
+					fullResponse.ErrorMessage);
+
+			return fullResponse;
 		}
 	}
 }

@@ -36,6 +36,9 @@ namespace Tgstation.Server.Host.Components.Watchdog
 	abstract class WatchdogBase : IWatchdog, ICustomCommandHandler, IRestartHandler
 	{
 		/// <inheritdoc />
+		public long? SessionId => GetActiveController()?.ReattachInformation.Id;
+
+		/// <inheritdoc />
 		public WatchdogStatus Status
 		{
 			get => status;
@@ -60,11 +63,6 @@ namespace Tgstation.Server.Host.Components.Watchdog
 
 		/// <inheritdoc />
 		public abstract RebootState? RebootState { get; }
-
-		/// <summary>
-		/// <see cref="TaskCompletionSource"/> that completes when <see cref="ActiveLaunchParameters"/> are changed and we are running.
-		/// </summary>
-		protected TaskCompletionSource ActiveParametersUpdated { get; set; }
 
 		/// <summary>
 		/// The <see cref="ISessionPersistor"/> for the <see cref="WatchdogBase"/>.
@@ -145,6 +143,11 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// If the <see cref="WatchdogBase"/> should <see cref="LaunchNoLock(bool, bool, bool, ReattachInformation, CancellationToken)"/> in <see cref="StartAsync(CancellationToken)"/>.
 		/// </summary>
 		readonly bool autoStart;
+
+		/// <summary>
+		/// <see cref="TaskCompletionSource"/> that completes when <see cref="ActiveLaunchParameters"/> are changed and we are running.
+		/// </summary>
+		volatile TaskCompletionSource activeParametersUpdated;
 
 		/// <summary>
 		/// The <see cref="CancellationTokenSource"/> for the monitor loop.
@@ -232,7 +235,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 
 			ActiveLaunchParameters = initialLaunchParameters;
 			releaseServers = false;
-			ActiveParametersUpdated = new TaskCompletionSource();
+			activeParametersUpdated = new TaskCompletionSource();
 
 			restartRegistration = serverControl.RegisterForRestart(this);
 			try
@@ -273,8 +276,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				if (match || Status == WatchdogStatus.Offline)
 					return;
 
-				ActiveParametersUpdated.TrySetResult(); // queue an update
-				ActiveParametersUpdated = new TaskCompletionSource();
+				var oldTcs = Interlocked.Exchange(ref activeParametersUpdated, new TaskCompletionSource());
+				oldTcs.SetResult();
 			}
 		}
 
@@ -451,7 +454,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 
 			var session = GetActiveController();
 			if (session?.Lifetime.IsCompleted != false)
-				throw new JobException(ErrorCode.DreamDaemonOffline);
+				throw new JobException(ErrorCode.GameServerOffline);
 
 			Logger.LogInformation("Dumping session to {dumpFileName}...", dumpFileName);
 			await session.CreateDump(dumpFileName, cancellationToken);
@@ -870,32 +873,26 @@ namespace Tgstation.Server.Host.Components.Watchdog
 
 							void UpdateMonitoredTasks()
 							{
-								static void TryUpdateTask(ref Task oldTask, Func<Task> newTaskFactory)
+								var sameController = lastController == controller;
+								void TryUpdateTask(ref Task oldTask, Func<Task> newTaskFactory)
 								{
-									if (oldTask?.IsCompleted == true)
+									if (sameController && oldTask?.IsCompleted == true)
 										return;
 
 									oldTask = newTaskFactory();
 								}
 
 								controller.RebootGate = nextMonitorWakeupTcs.Task;
-								if (lastController == controller)
-								{
-									TryUpdateTask(ref activeServerLifetime, () => controller.Lifetime);
-									TryUpdateTask(ref activeServerReboot, () => controller.OnReboot);
-									TryUpdateTask(ref serverPrimed, () => controller.OnPrime);
-									TryUpdateTask(ref activeServerStartup, () => controller.OnStartup);
-								}
-								else
-								{
-									activeServerLifetime = controller.Lifetime;
-									activeServerReboot = controller.OnReboot;
-									serverPrimed = controller.OnPrime;
-									activeServerStartup = controller.OnStartup;
-									lastController = controller;
-								}
 
-								TryUpdateTask(ref activeLaunchParametersChanged, () => ActiveParametersUpdated.Task);
+								TryUpdateTask(ref activeServerLifetime, () => controller.Lifetime);
+								TryUpdateTask(ref activeServerReboot, () => controller.OnReboot);
+								TryUpdateTask(ref serverPrimed, () => controller.OnPrime);
+								TryUpdateTask(ref activeServerStartup, () => controller.OnStartup);
+
+								if (!sameController)
+									lastController = controller;
+
+								TryUpdateTask(ref activeLaunchParametersChanged, () => activeParametersUpdated.Task);
 								TryUpdateTask(
 									ref newDmbAvailable,
 									() =>

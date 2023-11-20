@@ -95,6 +95,11 @@ namespace Tgstation.Server.Host.Components
 		readonly IConsole console;
 
 		/// <summary>
+		/// The <see cref="IPlatformIdentifier"/> for the <see cref="InstanceManager"/>.
+		/// </summary>
+		readonly IPlatformIdentifier platformIdentifier;
+
+		/// <summary>
 		/// The <see cref="ILogger"/> for the <see cref="InstanceManager"/>.
 		/// </summary>
 		readonly ILogger<InstanceManager> logger;
@@ -168,6 +173,7 @@ namespace Tgstation.Server.Host.Components
 		/// <param name="serverPortProvider">The value of <see cref="serverPortProvider"/>.</param>
 		/// <param name="swarmServiceController">The value of <see cref="swarmServiceController"/>.</param>
 		/// <param name="console">The value of <see cref="console"/>.</param>
+		/// <param name="platformIdentifier">The value of <see cref="platformIdentifier"/>.</param>
 		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="generalConfiguration"/>.</param>
 		/// <param name="swarmConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="swarmConfiguration"/>.</param>
 		/// <param name="logger">The value of <see cref="logger"/>.</param>
@@ -183,6 +189,7 @@ namespace Tgstation.Server.Host.Components
 			IServerPortProvider serverPortProvider,
 			ISwarmServiceController swarmServiceController,
 			IConsole console,
+			IPlatformIdentifier platformIdentifier,
 			IOptions<GeneralConfiguration> generalConfigurationOptions,
 			IOptions<SwarmConfiguration> swarmConfigurationOptions,
 			ILogger<InstanceManager> logger)
@@ -198,6 +205,7 @@ namespace Tgstation.Server.Host.Components
 			this.serverPortProvider = serverPortProvider ?? throw new ArgumentNullException(nameof(serverPortProvider));
 			this.swarmServiceController = swarmServiceController ?? throw new ArgumentNullException(nameof(swarmServiceController));
 			this.console = console ?? throw new ArgumentNullException(nameof(console));
+			this.platformIdentifier = platformIdentifier ?? throw new ArgumentNullException(nameof(platformIdentifier));
 			generalConfiguration = generalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
 			swarmConfiguration = swarmConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(swarmConfigurationOptions));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
@@ -508,7 +516,7 @@ namespace Tgstation.Server.Host.Components
 				lock (bridgeHandlers)
 					if (!bridgeHandlers.TryGetValue(parameters.AccessIdentifier, out bridgeHandler))
 					{
-						logger.LogWarning("Recieved invalid bridge request with access identifier: {accessIdentifier}", parameters.AccessIdentifier);
+						logger.LogWarning("Received invalid bridge request with access identifier: {accessIdentifier}", parameters.AccessIdentifier);
 						return null;
 					}
 
@@ -640,7 +648,7 @@ namespace Tgstation.Server.Host.Components
 
 			// This runs before the real socket is opened, ensures we don't perform reattaches unless we're fairly certain the bind won't fail
 			// If it does fail, DD will be killed.
-			SocketExtensions.BindTest(serverPortProvider.HttpApiPort, true);
+			SocketExtensions.BindTest(platformIdentifier, serverPortProvider.HttpApiPort, true, false);
 		}
 
 		/// <summary>

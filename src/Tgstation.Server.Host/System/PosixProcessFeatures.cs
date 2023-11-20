@@ -77,13 +77,13 @@ namespace Tgstation.Server.Host.System
 			try
 			{
 				if (process.HasExited)
-					throw new JobException(ErrorCode.DreamDaemonOffline);
+					throw new JobException(ErrorCode.GameServerOffline);
 
 				pid = process.Id;
 			}
 			catch (InvalidOperationException ex)
 			{
-				throw new JobException(ErrorCode.DreamDaemonOffline, ex);
+				throw new JobException(ErrorCode.GameServerOffline, ex);
 			}
 
 			string output;

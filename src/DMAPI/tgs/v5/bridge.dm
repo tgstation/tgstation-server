@@ -83,9 +83,14 @@
 		TGS_ERROR_LOG("Failed bridge request: [bridge_request]")
 		return
 
-	var/response_json = file2text(export_response["CONTENT"])
-	if(!response_json)
+	var/content = export_response["CONTENT"]
+	if(!content)
 		TGS_ERROR_LOG("Failed bridge request, missing content!")
+		return
+
+	var/response_json = file2text(content)
+	if(!response_json)
+		TGS_ERROR_LOG("Failed bridge request, failed to load content!")
 		return
 
 	var/list/bridge_response = json_decode(response_json)

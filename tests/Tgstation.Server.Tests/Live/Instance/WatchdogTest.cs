@@ -1,5 +1,6 @@
 ﻿using Byond.TopicSender;
 
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -17,7 +18,9 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
+using System.Reflection;
 using System.Runtime.InteropServices;
+using System.Runtime.Intrinsics.Arm;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -27,7 +30,6 @@ using Tgstation.Server.Api.Models.Request;
 using Tgstation.Server.Api.Models.Response;
 using Tgstation.Server.Client;
 using Tgstation.Server.Client.Components;
-using Tgstation.Server.Common.Extensions;
 using Tgstation.Server.Host.Components;
 using Tgstation.Server.Host.Components.Chat;
 using Tgstation.Server.Host.Components.Interop;
@@ -37,6 +39,9 @@ using Tgstation.Server.Host.Controllers;
 using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.System;
+using Tgstation.Server.Host.Utils;
+
+using static NuGet.Frameworks.FrameworkConstants;
 
 namespace Tgstation.Server.Tests.Live.Instance
 {
@@ -62,12 +67,12 @@ namespace Tgstation.Server.Tests.Live.Instance
 		readonly ushort ddPort;
 		readonly bool highPrioDD;
 		readonly TopicClient topicClient;
-		readonly Version testVersion;
-		readonly bool usingBasicWatchdog;
+		readonly EngineVersion testVersion;
+		readonly bool watchdogRestartsProcess;
 
 		bool ranTimeoutTest = false;
 
-		public WatchdogTest(Version testVersion, IInstanceClient instanceClient, InstanceManager instanceManager, ushort serverPort, bool highPrioDD, ushort ddPort, bool usingBasicWatchdog)
+		public WatchdogTest(EngineVersion testVersion, IInstanceClient instanceClient, InstanceManager instanceManager, ushort serverPort, bool highPrioDD, ushort ddPort, bool watchdogRestartsProcess)
 			: base(instanceClient.Jobs)
 		{
 			this.instanceClient = instanceClient ?? throw new ArgumentNullException(nameof(instanceClient));
@@ -76,7 +81,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			this.highPrioDD = highPrioDD;
 			this.ddPort = ddPort;
 			this.testVersion = testVersion ?? throw new ArgumentNullException(nameof(testVersion));
-			this.usingBasicWatchdog = usingBasicWatchdog;
+			this.watchdogRestartsProcess = watchdogRestartsProcess || testVersion.Engine.Value == EngineType.OpenDream;
 
 			topicClient = new(new SocketParameters
 			{
@@ -93,16 +98,25 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 			async Task CheckByondVersions()
 			{
-				var listTask = instanceClient.Byond.InstalledVersions(null, cancellationToken);
+				var listTask = instanceClient.Engine.InstalledVersions(null, cancellationToken);
 
 				var list = await listTask;
 
 				Assert.AreEqual(1, list.Count);
 				var byondVersion = list[0];
 
-				Assert.AreEqual(1, byondVersion.Version.Build);
-				Assert.AreEqual(testVersion.Major, byondVersion.Version.Major);
-				Assert.AreEqual(testVersion.Minor, byondVersion.Version.Minor);
+				Assert.AreEqual(1, byondVersion.EngineVersion.CustomIteration);
+				Assert.AreEqual(testVersion.Engine, byondVersion.EngineVersion.Engine);
+				if (testVersion.Version != null)
+				{
+					Assert.AreEqual(testVersion.Version.Major, byondVersion.EngineVersion.Version.Major);
+					Assert.AreEqual(testVersion.Version.Minor, byondVersion.EngineVersion.Version.Minor);
+				}
+				else
+				{
+					Assert.IsNull(byondVersion.EngineVersion.Version);
+					Assert.AreEqual(testVersion.SourceSHA, byondVersion.EngineVersion.SourceSHA);
+				}
 			}
 
 			await Task.WhenAll(
@@ -121,7 +135,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 				{
 					SoftShutdown = true,
 					SoftRestart = true
-				}, cancellationToken), ErrorCode.DreamDaemonDoubleSoft).AsTask(),
+				}, cancellationToken), ErrorCode.GameServerDoubleSoft).AsTask(),
 				ApiAssert.ThrowsException<ApiConflictException, DreamDaemonResponse>(() => instanceClient.DreamDaemon.Update(new DreamDaemonRequest
 				{
 					Port = 0
@@ -180,12 +194,13 @@ namespace Tgstation.Server.Tests.Live.Instance
 				{
 					SoftShutdown = true,
 				}, cancellationToken);
+				ValidateSessionId(currentStatus, true);
 
 				Assert.AreEqual(WatchdogStatus.Online, currentStatus.Status);
 
 				// reimplement TellWorldToReboot because it expects a new deployment and we don't care
 				System.Console.WriteLine("TEST: Hack world reboot topic...");
-				var result = await topicClient.SendTopic(IPAddress.Loopback, "tgs_integration_test_special_tactics=1", ddPort, cancellationToken);
+				var result = await topicClient.SendTopic(IPAddress.Loopback, "tgs_integration_test_special_tactics=1", FindTopicPort(), cancellationToken);
 				Assert.AreEqual("ack", result.StringData);
 
 				using var tempCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
@@ -207,7 +222,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 			await RunTest(true);
 
-			if (new PlatformIdentifier().IsWindows || !usingBasicWatchdog)
+			if (new PlatformIdentifier().IsWindows || !watchdogRestartsProcess)
 				await RunTest(false);
 		}
 
@@ -216,7 +231,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			var topicRequestResult = await topicClient.SendTopic(
 				IPAddress.Loopback,
 				$"tgs_integration_test_tactics_broadcast=1",
-				ddPort,
+				FindTopicPort(),
 				cancellationToken);
 
 			Assert.IsNotNull(topicRequestResult);
@@ -231,7 +246,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			topicRequestResult = await topicClient.SendTopic(
 				IPAddress.Loopback,
 				$"tgs_integration_test_tactics_broadcast=1",
-				ddPort,
+				FindTopicPort(),
 				cancellationToken);
 
 			Assert.IsNotNull(topicRequestResult);
@@ -287,12 +302,15 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 			Assert.AreEqual(WatchdogStatus.Online, currentStatus.Status);
 			Assert.IsNotNull(currentStatus.StagedCompileJob);
+			ValidateSessionId(currentStatus, false);
 			var expectedStaged = currentStatus.StagedCompileJob;
 			Assert.AreNotEqual(expectedStaged.Id, currentStatus.ActiveCompileJob.Id);
 
-			await TellWorldToReboot(cancellationToken);
+			Assert.AreEqual(watchdogRestartsProcess, currentStatus.SoftRestart);
+			Assert.IsFalse(currentStatus.SoftShutdown.Value);
 
-			currentStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
+			currentStatus = await TellWorldToReboot(true, cancellationToken);
+			ValidateSessionId(currentStatus, watchdogRestartsProcess);
 			Assert.AreEqual(expectedStaged.Id, currentStatus.ActiveCompileJob.Id);
 
 			await Task.Delay(TimeSpan.FromSeconds(3), cancellationToken);
@@ -300,15 +318,14 @@ namespace Tgstation.Server.Tests.Live.Instance
 			var topicRequestResult = await topicClient.SendTopic(
 				IPAddress.Loopback,
 				$"shadow_wizard_money_gang=1",
-				ddPort,
+				FindTopicPort(),
 				cancellationToken);
 
 			Assert.IsNotNull(topicRequestResult);
 			Assert.AreEqual("we love casting spells", topicRequestResult.StringData);
 
-			await DeployTestDme("LongRunning/long_running_test", DreamDaemonSecurity.Trusted, true, cancellationToken);
-
-			currentStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
+			currentStatus = await DeployTestDme("LongRunning/long_running_test", DreamDaemonSecurity.Trusted, true, cancellationToken);
+			ValidateSessionId(currentStatus, false);
 
 			Assert.AreEqual(WatchdogStatus.Online, currentStatus.Status);
 			Assert.IsNotNull(currentStatus.StagedCompileJob);
@@ -316,9 +333,9 @@ namespace Tgstation.Server.Tests.Live.Instance
 			expectedStaged = currentStatus.StagedCompileJob;
 			Assert.AreNotEqual(expectedStaged.Id, currentStatus.ActiveCompileJob.Id);
 
-			await TellWorldToReboot(cancellationToken);
+			currentStatus = await TellWorldToReboot(true, cancellationToken);
 
-			currentStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
+			ValidateSessionId(currentStatus, watchdogRestartsProcess);
 			Assert.AreEqual(WatchdogStatus.Online, currentStatus.Status);
 			Assert.IsNull(currentStatus.StagedCompileJob);
 			Assert.AreEqual(expectedStaged.Id, currentStatus.ActiveCompileJob.Id);
@@ -329,16 +346,21 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 		async Task<JobResponse> TestDeleteByondInstallErrorCasesAndQueing(CancellationToken cancellationToken)
 		{
-			var testCustomVersion = new Version(testVersion.Major, testVersion.Minor, 1);
-			var currentByond = await instanceClient.Byond.ActiveVersion(cancellationToken);
+			var currentByond = await instanceClient.Engine.ActiveVersion(cancellationToken);
 			Assert.IsNotNull(currentByond);
-			Assert.AreEqual(testVersion.Semver(), currentByond.Version);
+			Assert.AreEqual(testVersion, currentByond.EngineVersion);
 
 			// Change the active version and check we get delayed while deleting the old one because the watchdog is using it
-			var setActiveResponse = await instanceClient.Byond.SetActiveVersion(
-				new ByondVersionRequest
+			var setActiveResponse = await instanceClient.Engine.SetActiveVersion(
+				new EngineVersionRequest
 				{
-					Version = testCustomVersion,
+					EngineVersion = new EngineVersion
+					{
+						Version = testVersion.Version,
+						SourceSHA = testVersion.SourceSHA,
+						Engine = testVersion.Engine,
+						CustomIteration = 1,
+					}
 				},
 				null,
 				cancellationToken);
@@ -346,10 +368,15 @@ namespace Tgstation.Server.Tests.Live.Instance
 			Assert.IsNotNull(setActiveResponse);
 			Assert.IsNull(setActiveResponse.InstallJob);
 
-			var deleteJob = await instanceClient.Byond.DeleteVersion(
-				new ByondVersionDeleteRequest
+			var deleteJob = await instanceClient.Engine.DeleteVersion(
+				new EngineVersionDeleteRequest
 				{
-					Version = testVersion,
+					EngineVersion = new EngineVersion
+					{
+						Version = testVersion.Version,
+						SourceSHA = testVersion.SourceSHA,
+						Engine = testVersion.Engine,
+					}
 				},
 				cancellationToken);
 
@@ -361,10 +388,15 @@ namespace Tgstation.Server.Tests.Live.Instance
 			Assert.IsTrue(deleteJob.Stage.Contains("Waiting"));
 
 			// then change it back and check it fails the job because it's active again
-			setActiveResponse = await instanceClient.Byond.SetActiveVersion(
-				new ByondVersionRequest
+			setActiveResponse = await instanceClient.Engine.SetActiveVersion(
+				new EngineVersionRequest
 				{
-					Version = testVersion,
+					EngineVersion = new EngineVersion
+					{
+						Version = testVersion.Version,
+						Engine = testVersion.Engine,
+						SourceSHA = testVersion.SourceSHA
+					}
 				},
 				null,
 				cancellationToken);
@@ -372,14 +404,20 @@ namespace Tgstation.Server.Tests.Live.Instance
 			Assert.IsNotNull(setActiveResponse);
 			Assert.IsNull(setActiveResponse.InstallJob);
 
-			await WaitForJob(deleteJob, 5, true, ErrorCode.ByondCannotDeleteActiveVersion, cancellationToken);
+			await WaitForJob(deleteJob, 5, true, ErrorCode.EngineCannotDeleteActiveVersion, cancellationToken);
 
 			// finally, queue the last delete job which should complete when the watchdog restarts with a newly deployed .dmb
 			// queue the byond change followed by the deployment for that first
-			setActiveResponse = await instanceClient.Byond.SetActiveVersion(
-				new ByondVersionRequest
+			setActiveResponse = await instanceClient.Engine.SetActiveVersion(
+				new EngineVersionRequest
 				{
-					Version = testCustomVersion,
+					EngineVersion = new EngineVersion
+					{
+						Version = testVersion.Version,
+						Engine = testVersion.Engine,
+						SourceSHA = testVersion.SourceSHA,
+						CustomIteration = 1,
+					}
 				},
 				null,
 				cancellationToken);
@@ -387,10 +425,15 @@ namespace Tgstation.Server.Tests.Live.Instance
 			Assert.IsNotNull(setActiveResponse);
 			Assert.IsNull(setActiveResponse.InstallJob);
 
-			deleteJob = await instanceClient.Byond.DeleteVersion(
-				new ByondVersionDeleteRequest
+			deleteJob = await instanceClient.Engine.DeleteVersion(
+				new EngineVersionDeleteRequest
 				{
-					Version = testVersion,
+					EngineVersion = new EngineVersion
+					{
+						Version = testVersion.Version,
+						Engine = testVersion.Engine,
+						SourceSHA = testVersion.SourceSHA,
+					}
 				},
 				cancellationToken);
 
@@ -406,7 +449,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			var topicRequestResult = await topicClient.SendTopic(
 				IPAddress.Loopback,
 				$"tgs_integration_test_tactics5=1",
-				ddPort,
+				FindTopicPort(),
 				cancellationToken);
 
 			Assert.IsNotNull(topicRequestResult);
@@ -469,11 +512,12 @@ namespace Tgstation.Server.Tests.Live.Instance
 				await WaitForJob(restartJob, 20, false, null, cancellationToken);
 			}
 
-			Assert.IsTrue(job.ErrorCode == ErrorCode.DreamDaemonOffline || job.ErrorCode == ErrorCode.GCoreFailure, $"{job.ErrorCode}: {job.ExceptionDetails}");
+			Assert.IsTrue(job.ErrorCode == ErrorCode.GameServerOffline || job.ErrorCode == ErrorCode.GCoreFailure, $"{job.ErrorCode}: {job.ExceptionDetails}");
 
 			await Task.Delay(TimeSpan.FromSeconds(20), cancellationToken);
 
 			var ddStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
+			ValidateSessionId(ddStatus, true);
 			Assert.AreEqual(WatchdogStatus.Online, ddStatus.Status.Value);
 		}
 
@@ -495,17 +539,19 @@ namespace Tgstation.Server.Tests.Live.Instance
 			daemonStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
 
 			Assert.AreEqual(WatchdogStatus.Online, daemonStatus.Status.Value);
+			ValidateSessionId(daemonStatus, true);
 			CheckDDPriority();
 			Assert.AreEqual(false, daemonStatus.SoftRestart);
 			Assert.AreEqual(false, daemonStatus.SoftShutdown);
 			Assert.AreEqual(string.Empty, daemonStatus.AdditionalParameters);
+			Assert.AreEqual(false, daemonStatus.SoftRestart);
 			var initialCompileJob = daemonStatus.ActiveCompileJob;
 			await CheckDMApiFail(daemonStatus.ActiveCompileJob, cancellationToken);
 
 			daemonStatus = await DeployTestDme("BasicOperation/basic_operation_test", DreamDaemonSecurity.Trusted, true, cancellationToken);
 
 			Assert.AreEqual(WatchdogStatus.Online, daemonStatus.Status.Value);
-
+			Assert.AreEqual(false, daemonStatus.SoftRestart); // dme name change triggered, instant reboot
 			Assert.AreEqual(initialCompileJob.Id, daemonStatus.ActiveCompileJob.Id);
 			var newerCompileJob = daemonStatus.StagedCompileJob;
 
@@ -529,22 +575,32 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 			Assert.AreEqual(WatchdogStatus.Offline, daemonStatus.Status.Value);
 			Assert.IsNotNull(daemonStatus.ActiveCompileJob);
+			Assert.IsFalse(daemonStatus.SessionId.HasValue);
 			Assert.IsNull(daemonStatus.StagedCompileJob);
 			Assert.AreEqual(DMApiConstants.InteropVersion, daemonStatus.ActiveCompileJob.DMApiVersion);
 			Assert.AreEqual(DreamDaemonSecurity.Trusted, daemonStatus.ActiveCompileJob.MinimumSecurityLevel);
 
 			JobResponse startJob;
 			if (new PlatformIdentifier().IsWindows) // Can't get address reuse to trigger on linux for some reason
-				using (var blockSocket = new Socket(SocketType.Stream, ProtocolType.Tcp))
+				using (var blockSocket = new Socket(
+					testVersion.Engine.Value == EngineType.OpenDream
+						? SocketType.Dgram
+						: SocketType.Stream,
+					testVersion.Engine.Value == EngineType.OpenDream
+						? ProtocolType.Udp
+						: ProtocolType.Tcp))
 				{
 					blockSocket.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ExclusiveAddressUse, true);
 					blockSocket.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReuseAddress, false);
+					if (testVersion.Engine.Value != EngineType.OpenDream)
+						blockSocket.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.DontLinger, true);
+
 					blockSocket.Bind(new IPEndPoint(IPAddress.Any, ddPort));
 
 					// Don't use StartDD here
 					startJob = await instanceClient.DreamDaemon.Start(cancellationToken);
 
-					await WaitForJob(startJob, 40, true, ErrorCode.DreamDaemonPortInUse, cancellationToken);
+					await WaitForJob(startJob, 40, true, ErrorCode.GameServerPortInUse, cancellationToken);
 				}
 
 			startJob = await StartDD(cancellationToken);
@@ -554,6 +610,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			daemonStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
 
 			Assert.AreEqual(WatchdogStatus.Online, daemonStatus.Status.Value);
+			ValidateSessionId(daemonStatus, true);
 			CheckDDPriority();
 			Assert.AreEqual(false, daemonStatus.SoftRestart);
 			Assert.AreEqual(false, daemonStatus.SoftShutdown);
@@ -562,6 +619,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 			daemonStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
 			Assert.AreEqual(WatchdogStatus.Offline, daemonStatus.Status.Value);
+			Assert.IsFalse(daemonStatus.SessionId.HasValue);
 
 			await CheckDMApiFail(daemonStatus.ActiveCompileJob, cancellationToken, false);
 
@@ -571,18 +629,36 @@ namespace Tgstation.Server.Tests.Live.Instance
 				LogOutput = true,
 			}, cancellationToken);
 			Assert.AreEqual(string.Empty, daemonStatus.AdditionalParameters);
+			Assert.IsFalse(daemonStatus.SessionId.HasValue);
+		}
+
+		long? sessionIdTracker;
+		void ValidateSessionId(DreamDaemonResponse daemonStatus, bool? knownIncrease)
+		{
+			Assert.IsTrue(daemonStatus.SessionId.HasValue, $"Expected a session ID in the DreamDaemonResponse");
+
+			if (sessionIdTracker.HasValue)
+				if (knownIncrease.HasValue)
+					if (knownIncrease.Value)
+						Assert.IsTrue(daemonStatus.SessionId.Value > sessionIdTracker.Value, $"Expected a session ID > {sessionIdTracker.Value}, got {daemonStatus.SessionId.Value} instead");
+					else
+						Assert.AreEqual(sessionIdTracker.Value, daemonStatus.SessionId.Value);
+				else
+					Assert.IsTrue(daemonStatus.SessionId.Value >= sessionIdTracker.Value, $"Expected a session ID >= {sessionIdTracker.Value}, got {daemonStatus.SessionId.Value} instead");
+
+			sessionIdTracker = daemonStatus.SessionId.Value;
 		}
 
 		void TestLinuxIsntBeingFuckingCheekyAboutFilePaths(DreamDaemonResponse currentStatus, CompileJobResponse previousStatus)
 		{
-			if (new PlatformIdentifier().IsWindows || usingBasicWatchdog)
+			if (new PlatformIdentifier().IsWindows || watchdogRestartsProcess)
 				return;
 
 			Assert.IsNotNull(currentStatus.ActiveCompileJob);
 			Assert.IsTrue(currentStatus.ActiveCompileJob.DmeName.Contains("long_running_test"));
 			Assert.AreEqual(WatchdogStatus.Online, currentStatus.Status);
 
-			var procs = TestLiveServer.GetDDProcessesOnPort(currentStatus.Port.Value);
+			var procs = TestLiveServer.GetEngineServerProcessesOnPort(testVersion.Engine.Value, currentStatus.Port.Value);
 			Assert.AreEqual(1, procs.Count);
 			var failingLinks = new List<string>();
 			using var proc = procs[0];
@@ -640,16 +716,17 @@ namespace Tgstation.Server.Tests.Live.Instance
 			CheckDDPriority();
 
 			// lock on to DD and pause it so it can't health check
-			var ddProcs = TestLiveServer.GetDDProcessesOnPort(ddPort).Where(x => !x.HasExited).ToList();
+			var ddProcs = TestLiveServer.GetEngineServerProcessesOnPort(testVersion.Engine.Value, ddPort).Where(x => !x.HasExited).ToList();
 			if (ddProcs.Count != 1)
 				Assert.Fail($"Incorrect number of DD processes: {ddProcs.Count}");
 
 			using var ddProc = ddProcs.Single();
-			IProcessExecutor executor = null;
+			ProcessExecutor executor = null;
 			executor = new ProcessExecutor(
 				RuntimeInformation.IsOSPlatform(OSPlatform.Windows)
 					? new WindowsProcessFeatures(Mock.Of<ILogger<WindowsProcessFeatures>>())
 					: new PosixProcessFeatures(new Lazy<IProcessExecutor>(() => executor), Mock.Of<IIOManager>(), Mock.Of<ILogger<PosixProcessFeatures>>()),
+				Mock.Of<IAsyncDelayer>(),
 				Mock.Of<IIOManager>(),
 				Mock.Of<ILogger<ProcessExecutor>>(),
 				LoggerFactory.Create(x => { }));
@@ -664,7 +741,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			var topicRequestResult = await topicClient.SendTopic(
 				IPAddress.Loopback,
 				$"tgs_integration_test_tactics8=1",
-				ddPort,
+				FindTopicPort(),
 				cancellationToken);
 
 			Assert.IsNotNull(topicRequestResult);
@@ -672,17 +749,17 @@ namespace Tgstation.Server.Tests.Live.Instance
 			Assert.IsNotNull(topicRequestResult.StringData);
 			Assert.AreEqual(topicRequestResult.StringData, "received health check");
 
-			await instanceClient.DreamDaemon.Update(new DreamDaemonRequest
+			var ddStatus = await instanceClient.DreamDaemon.Update(new DreamDaemonRequest
 			{
 				SoftShutdown = true
 			}, cancellationToken);
+			ValidateSessionId(ddStatus, true);
 
 			ourProcessHandler.Suspend();
 
 			await Task.WhenAny(ourProcessHandler.Lifetime, Task.Delay(TimeSpan.FromMinutes(1), cancellationToken));
 
 			var timeout = 60;
-			DreamDaemonResponse ddStatus;
 			do
 			{
 				await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);
@@ -725,7 +802,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			{
 				try
 				{
-					SocketExtensions.BindTest(ddPort, false);
+					SocketExtensions.BindTest(new PlatformIdentifier(), ddPort, false, testVersion.Engine == EngineType.OpenDream);
 					break;
 				}
 				catch
@@ -772,7 +849,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 				System.Console.WriteLine("TEST: Sending Bridge tests topic...");
 
-				var bridgeTestTopicResult = await topicClient.SendTopic(IPAddress.Loopback, $"tgs_integration_test_tactics2={accessIdentifier}", ddPort, cancellationToken);
+				var bridgeTestTopicResult = await topicClient.SendTopic(IPAddress.Loopback, $"tgs_integration_test_tactics2={accessIdentifier}", FindTopicPort(), cancellationToken);
 				Assert.AreEqual("ack2", bridgeTestTopicResult.StringData);
 
 				await bridgeTestsTcs.Task.WaitAsync(cancellationToken);
@@ -825,7 +902,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 					topicRequestResult = await topicClient.SendTopic(
 						IPAddress.Loopback,
 						$"tgs_integration_test_tactics3={topicClient.SanitizeString(JsonConvert.SerializeObject(topic, DMApiConstants.SerializerSettings))}",
-						ddPort,
+						FindTopicPort(),
 						cancellationToken);
 				}
 				catch (ArgumentOutOfRangeException)
@@ -866,7 +943,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 				var topicRequestResult = await topicClient.SendTopic(
 					IPAddress.Loopback,
 					$"tgs_integration_test_tactics4={topicClient.SanitizeString(currentSize.ToString())}",
-					ddPort,
+					FindTopicPort(),
 					cancellationToken);
 
 				if (topicRequestResult.ResponseType != TopicResponseType.StringResponse
@@ -885,6 +962,18 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 			cancellationToken.ThrowIfCancellationRequested();
 			Assert.AreEqual(DMApiConstants.MaximumTopicResponseLength, (uint)lastSize);
+		}
+
+		ushort FindTopicPort()
+		{
+			using var instanceReference = instanceManager.GetInstanceReference(instanceClient.Metadata);
+			var watchdog = instanceReference.Watchdog;
+
+			var sessionObj = watchdog.GetType().GetProperty("Server", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(watchdog);
+			Assert.IsNotNull(sessionObj);
+
+			var session = (ISessionController)sessionObj;
+			return session.ReattachInformation.Port;
 		}
 
 		// - Uses instance manager concrete
@@ -966,7 +1055,8 @@ namespace Tgstation.Server.Tests.Live.Instance
 			Assert.AreEqual("Dominion", embedsResponse.Embed.Author?.Name);
 			Assert.AreEqual("https://github.com/Cyberboss", embedsResponse.Embed.Author.Url);
 			Assert.IsTrue(DateTimeOffset.TryParse(embedsResponse.Embed.Timestamp, CultureInfo.InvariantCulture, DateTimeStyles.AssumeLocal, out var timestamp));
-			Assert.IsTrue(startTime < timestamp && endTime > timestamp);
+			var timestampCheck = startTime < timestamp && endTime > timestamp;
+			Assert.IsTrue(timestampCheck);
 			Assert.AreEqual("https://github.com/tgstation/tgstation-server", embedsResponse.Embed.Url);
 			Assert.AreEqual(3, embedsResponse.Embed.Fields?.Count);
 			Assert.AreEqual("field1", embedsResponse.Embed.Fields.ElementAt(0).Name);
@@ -983,12 +1073,12 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 		void CheckDDPriority()
 		{
-			var allProcesses = TestLiveServer.GetDDProcessesOnPort(ddPort).Where(x => !x.HasExited).ToList();
+			var allProcesses = TestLiveServer.GetEngineServerProcessesOnPort(testVersion.Engine.Value, ddPort).Where(x => !x.HasExited).ToList();
 			if (allProcesses.Count == 0)
-				Assert.Fail("Expected DreamDaemon to be running here");
+				Assert.Fail("Expected engine server to be running here");
 
 			if (allProcesses.Count > 1)
-				Assert.Fail("Multiple DreamDaemon-like processes running!");
+				Assert.Fail("Multiple engine server-like processes running!");
 
 			using var process = allProcesses[0];
 
@@ -1021,6 +1111,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			daemonStatus = await DeployTestDme(DmeName, DreamDaemonSecurity.Safe, true, cancellationToken);
 
 			Assert.AreEqual(WatchdogStatus.Online, daemonStatus.Status.Value);
+			ValidateSessionId(daemonStatus, true);
 			CheckDDPriority();
 
 			Assert.AreEqual(initialCompileJob.Id, daemonStatus.ActiveCompileJob.Id);
@@ -1031,8 +1122,9 @@ namespace Tgstation.Server.Tests.Live.Instance
 			Assert.AreEqual(DreamDaemonSecurity.Safe, newerCompileJob.MinimumSecurityLevel);
 
 			await CheckDMApiFail(daemonStatus.ActiveCompileJob, cancellationToken);
-			daemonStatus = await TellWorldToReboot(cancellationToken);
+			daemonStatus = await TellWorldToReboot(true, cancellationToken);
 
+			ValidateSessionId(daemonStatus, watchdogRestartsProcess);
 			Assert.AreNotEqual(initialCompileJob.Id, daemonStatus.ActiveCompileJob.Id);
 			Assert.IsNull(daemonStatus.StagedCompileJob);
 
@@ -1057,6 +1149,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			Assert.IsNull(daemonStatus.StagedCompileJob);
 			Assert.AreEqual(DMApiConstants.InteropVersion, daemonStatus.ActiveCompileJob.DMApiVersion);
 			Assert.AreEqual(DreamDaemonSecurity.Safe, daemonStatus.ActiveCompileJob.MinimumSecurityLevel);
+			Assert.AreEqual(false, daemonStatus.SoftRestart);
 
 			var startJob = await StartDD(cancellationToken);
 
@@ -1064,8 +1157,9 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 			daemonStatus = await DeployTestDme("LongRunning/long_running_test_copy", DreamDaemonSecurity.Safe, true, cancellationToken);
 
-
+			ValidateSessionId(daemonStatus, true);
 			Assert.AreEqual(WatchdogStatus.Online, daemonStatus.Status.Value);
+			Assert.AreEqual(true, daemonStatus.SoftRestart);
 			CheckDDPriority();
 
 			Assert.AreEqual(initialCompileJob.Id, daemonStatus.ActiveCompileJob.Id);
@@ -1076,9 +1170,11 @@ namespace Tgstation.Server.Tests.Live.Instance
 			Assert.AreEqual(DreamDaemonSecurity.Safe, newerCompileJob.MinimumSecurityLevel);
 
 			await CheckDMApiFail(daemonStatus.ActiveCompileJob, cancellationToken);
-			daemonStatus = await TellWorldToReboot(cancellationToken);
+			daemonStatus = await TellWorldToReboot(true, cancellationToken);
 
+			ValidateSessionId(daemonStatus, true); // remember, dme name change triggers reboot
 			Assert.AreNotEqual(initialCompileJob.Id, daemonStatus.ActiveCompileJob.Id);
+			Assert.AreEqual(false, daemonStatus.SoftRestart);
 			Assert.IsNull(daemonStatus.StagedCompileJob);
 
 			await instanceClient.DreamDaemon.Shutdown(cancellationToken);
@@ -1093,9 +1189,8 @@ namespace Tgstation.Server.Tests.Live.Instance
 			System.Console.WriteLine("TEST: WATCHDOG BYOND VERSION UPDATE TEST");
 			var versionToInstall = testVersion;
 
-			versionToInstall = versionToInstall.Semver();
-			var currentByondVersion = await instanceClient.Byond.ActiveVersion(cancellationToken);
-			Assert.AreNotEqual(versionToInstall, currentByondVersion.Version);
+			var currentByondVersion = await instanceClient.Engine.ActiveVersion(cancellationToken);
+			Assert.AreNotEqual(versionToInstall, currentByondVersion.EngineVersion);
 
 			var initialStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
 
@@ -1105,10 +1200,15 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 			CheckDDPriority();
 
-			var byondInstallJobTask = instanceClient.Byond.SetActiveVersion(
-				new ByondVersionRequest
+			var byondInstallJobTask = instanceClient.Engine.SetActiveVersion(
+				new EngineVersionRequest
 				{
-					Version = versionToInstall
+					EngineVersion = new EngineVersion
+					{
+						Version = versionToInstall.Version,
+						Engine = versionToInstall.Engine,
+						SourceSHA = versionToInstall.SourceSHA,
+					}
 				},
 				null,
 				cancellationToken);
@@ -1116,7 +1216,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 			// This used to be the case but it gets deleted now that we have and test that
 			// Assert.IsNull(byondInstallJob.InstallJob);
-			await WaitForJob(byondInstallJob.InstallJob, 60, false, null, cancellationToken);
+			await WaitForJob(byondInstallJob.InstallJob, EngineTest.EngineInstallationTimeout(versionToInstall) + 30, false, null, cancellationToken);
 
 			const string DmeName = "LongRunning/long_running_test";
 
@@ -1125,20 +1225,22 @@ namespace Tgstation.Server.Tests.Live.Instance
 			var daemonStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
 			Assert.AreEqual(WatchdogStatus.Online, daemonStatus.Status.Value);
 			Assert.IsNotNull(daemonStatus.ActiveCompileJob);
-
+			ValidateSessionId(daemonStatus, true);
 
 			Assert.AreEqual(initialStatus.ActiveCompileJob.Id, daemonStatus.ActiveCompileJob.Id);
 			var newerCompileJob = daemonStatus.StagedCompileJob;
-			Assert.AreNotEqual(daemonStatus.ActiveCompileJob.ByondVersion, newerCompileJob.ByondVersion);
-			Assert.AreEqual(versionToInstall, newerCompileJob.ByondVersion);
+			Assert.AreNotEqual(daemonStatus.ActiveCompileJob.EngineVersion, newerCompileJob.EngineVersion);
+
+			Assert.AreEqual(versionToInstall, newerCompileJob.EngineVersion);
 
 			Assert.AreEqual(true, daemonStatus.SoftRestart);
 
 			await CheckDMApiFail(daemonStatus.ActiveCompileJob, cancellationToken);
-			daemonStatus = await TellWorldToReboot(cancellationToken);
+			daemonStatus = await TellWorldToReboot(true, cancellationToken);
 
-			Assert.AreEqual(versionToInstall, daemonStatus.ActiveCompileJob.ByondVersion);
+			Assert.AreEqual(versionToInstall, daemonStatus.ActiveCompileJob.EngineVersion);
 			Assert.IsNull(daemonStatus.StagedCompileJob);
+			ValidateSessionId(daemonStatus, true);
 
 			await instanceClient.DreamDaemon.Shutdown(cancellationToken);
 			await CheckDMApiFail(daemonStatus.ActiveCompileJob, cancellationToken);
@@ -1150,9 +1252,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 		public async Task StartAndLeaveRunning(CancellationToken cancellationToken)
 		{
 			System.Console.WriteLine("TEST: WATCHDOG STARTING ENDLESS");
-			var dd = await instanceClient.DreamDaemon.Read(cancellationToken);
-			if (dd.ActiveCompileJob == null)
-				await DeployTestDme("LongRunning/long_running_test", DreamDaemonSecurity.Trusted, true, cancellationToken);
+			await DeployTestDme("LongRunning/long_running_test", DreamDaemonSecurity.Trusted, true, cancellationToken);
 
 			var startJob = await StartDD(cancellationToken);
 
@@ -1168,6 +1268,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			bool firstTime = true;
 			do
 			{
+				ValidateSessionId(daemonStatus, true);
 				KillDD(firstTime);
 				firstTime = false;
 				await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);
@@ -1188,13 +1289,14 @@ namespace Tgstation.Server.Tests.Live.Instance
 			await Task.Delay(TimeSpan.FromSeconds(15), cancellationToken);
 
 			daemonStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
+			ValidateSessionId(daemonStatus, true);
 			Assert.AreEqual(WatchdogStatus.Online, daemonStatus.Status.Value);
 			await CheckDMApiFail(daemonStatus.ActiveCompileJob, cancellationToken);
 		}
 
 		bool KillDD(bool require)
 		{
-			var ddProcs = TestLiveServer.GetDDProcessesOnPort(ddPort).Where(x => !x.HasExited).ToList();
+			var ddProcs = TestLiveServer.GetEngineServerProcessesOnPort(testVersion.Engine.Value, ddPort).Where(x => !x.HasExited).ToList();
 			if (require && ddProcs.Count == 0 || ddProcs.Count > 1)
 				Assert.Fail($"Incorrect number of DD processes: {ddProcs.Count}");
 
@@ -1205,15 +1307,17 @@ namespace Tgstation.Server.Tests.Live.Instance
 			return ddProc != null;
 		}
 
-		public Task<DreamDaemonResponse> TellWorldToReboot(CancellationToken cancellationToken) => TellWorldToReboot2(instanceClient, topicClient, ddPort, cancellationToken);
-		public static async Task<DreamDaemonResponse> TellWorldToReboot2(IInstanceClient instanceClient, ITopicClient topicClient, ushort ddPort, CancellationToken cancellationToken)
+		public Task<DreamDaemonResponse> TellWorldToReboot(bool waitForOnlineIfRestoring, CancellationToken cancellationToken)
+			=> TellWorldToReboot2(instanceClient, topicClient, FindTopicPort(), waitForOnlineIfRestoring ? true : testVersion.Engine.Value == EngineType.OpenDream, cancellationToken);
+		public static async Task<DreamDaemonResponse> TellWorldToReboot2(IInstanceClient instanceClient, ITopicClient topicClient, ushort topicPort, bool waitForOnlineIfRestoring, CancellationToken cancellationToken)
 		{
 			var daemonStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
 			Assert.IsNotNull(daemonStatus.StagedCompileJob);
 			var initialCompileJob = daemonStatus.ActiveCompileJob;
 
 			System.Console.WriteLine("TEST: Sending world reboot topic...");
-			var result = await topicClient.SendTopic(IPAddress.Loopback, "tgs_integration_test_special_tactics=1", ddPort, cancellationToken);
+
+			var result = await topicClient.SendTopic(IPAddress.Loopback, "tgs_integration_test_special_tactics=1", topicPort, cancellationToken);
 			Assert.AreEqual("ack", result.StringData);
 
 			using var tempCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
@@ -1231,6 +1335,16 @@ namespace Tgstation.Server.Tests.Live.Instance
 			}
 
 			await Task.Delay(TimeSpan.FromSeconds(3), cancellationToken);
+
+			if (waitForOnlineIfRestoring && daemonStatus.Status == WatchdogStatus.Restoring)
+			{
+				do
+				{
+					await Task.Delay(TimeSpan.FromSeconds(1), tempToken);
+					daemonStatus = await instanceClient.DreamDaemon.Read(tempToken);
+				}
+				while (daemonStatus.Status == WatchdogStatus.Restoring);
+			}
 
 			return daemonStatus;
 		}
@@ -1268,7 +1382,12 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 			var ddInfo = await instanceClient.DreamDaemon.Read(cancellationToken);
 			if (requireApi)
-				Assert.IsNotNull((ddInfo.StagedCompileJob ?? ddInfo.ActiveCompileJob).DMApiVersion);
+			{
+				var targetJob = ddInfo.StagedCompileJob ?? ddInfo.ActiveCompileJob;
+				Assert.IsNotNull(targetJob);
+				Assert.IsNotNull(targetJob.DMApiVersion);
+			}
+
 			return ddInfo;
 		}
 
@@ -1330,7 +1449,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 		async ValueTask TestLegacyBridgeEndpoint(CancellationToken cancellationToken)
 		{
-			var result = await topicClient.SendTopic(IPAddress.Loopback, "im_out_of_memes=1", ddPort, cancellationToken);
+			var result = await topicClient.SendTopic(IPAddress.Loopback, "im_out_of_memes=1", FindTopicPort(), cancellationToken);
 			Assert.AreEqual("yeah gimmie a sec", result.StringData);
 			await Task.Delay(TimeSpan.FromSeconds(10), cancellationToken);
 			await CheckDMApiFail((await instanceClient.DreamDaemon.Read(cancellationToken)).ActiveCompileJob, cancellationToken);

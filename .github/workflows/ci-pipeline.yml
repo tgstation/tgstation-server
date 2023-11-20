@@ -39,6 +39,7 @@ on:
 
 env:
   TGS_DOTNET_VERSION: 8
+  OD_DOTNET_VERSION: 7
   TGS_DOTNET_QUALITY: ga
   TGS_TEST_GITHUB_TOKEN: ${{ secrets.LIVE_TESTS_TOKEN }}
   TGS_RELEASE_NOTES_TOKEN: ${{ secrets.DEV_PUSH_TOKEN }}
@@ -164,6 +165,50 @@ jobs:
         fi
         exit $retval
 
+  opendream-build:
+    name: Build DMAPI (OpenDream)
+    needs: start-ci-run-gate
+    if: (!(cancelled() || failure()) && needs.start-ci-run-gate.result == 'success')
+    strategy:
+      fail-fast: false
+      matrix:
+        committish: [ 'master', 'tgs-min-compat' ]
+    runs-on: ubuntu-latest
+    steps:
+    - name: Setup dotnet
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: '${{ env.OD_DOTNET_VERSION }}.0.x'
+        dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
+
+    - name: Checkout (Branch)
+      uses: actions/checkout@v3
+      if: github.event_name == 'push' || github.event_name == 'schedule'
+
+    - name: Checkout (PR Merge)
+      uses: actions/checkout@v3
+      if: github.event_name != 'push' && github.event_name != 'schedule'
+      with:
+        ref: "refs/pull/${{ github.event.number }}/merge"
+
+    - name: Checkout OpenDream
+      run: |
+        cd $HOME
+        git clone https://github.com/OpenDreamProject/OpenDream
+        cd OpenDream
+        git checkout ${{ matrix.committish }}
+        git submodule update --init --recursive
+
+    - name: Create TGS Deployment
+      run: |
+        cd $HOME/OpenDream
+        dotnet run -c Release --project OpenDreamPackageTool -- --tgs -o tgs_deploy
+
+    - name: Build DMAPI
+      run: |
+        cd tests/DMAPI/BasicOperation
+        $HOME/OpenDream/tgs_deploy/bin/compiler/DMCompiler --verbose --notices-enabled basic_operation_test.dme
+
   pages-build:
     name: Build gh-pages
     runs-on: ubuntu-latest
@@ -173,7 +218,8 @@ jobs:
     - name: Setup dotnet
       uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: ${{ env.TGS_DOTNET_VERSION }}
+        dotnet-version: '${{ env.TGS_DOTNET_VERSION }}.0.x'
+        dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
 
     - name: Checkout (Branch)
       uses: actions/checkout@v3
@@ -275,6 +321,7 @@ jobs:
       uses: actions/setup-dotnet@v3
       with:
         dotnet-version: '${{ env.TGS_DOTNET_VERSION }}.0.x'
+        dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
 
     - name: Checkout (Branch)
       uses: actions/checkout@v3
@@ -325,6 +372,7 @@ jobs:
       uses: actions/setup-dotnet@v3
       with:
         dotnet-version: '${{ env.TGS_DOTNET_VERSION }}.0.x'
+        dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
 
     - name: Checkout (Branch)
       uses: actions/checkout@v3
@@ -360,8 +408,8 @@ jobs:
 
   windows-integration-test:
     name: Windows Live Tests
-    needs: dmapi-build
-    if: (!(cancelled() || failure()) && needs.dmapi-build.result == 'success')
+    needs: [dmapi-build, opendream-build]
+    if: (!(cancelled() || failure()) && needs.dmapi-build.result == 'success' && needs.opendream-build.result == 'success')
     strategy:
       fail-fast: false
       matrix:
@@ -380,7 +428,10 @@ jobs:
     - name: Setup dotnet
       uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: '${{ env.TGS_DOTNET_VERSION }}.0.x'
+        dotnet-version: |
+          ${{ env.TGS_DOTNET_VERSION }}.0.x
+          ${{ env.OD_DOTNET_VERSION }}.0.x
+        dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
 
     - name: Set TGS_TEST_DUMP_API_SPEC
       if: ${{ matrix.configuration == 'Release' && matrix.watchdog-type == 'Advanced' && matrix.database-type == 'SqlServer' }}
@@ -538,8 +589,8 @@ jobs:
 
   linux-integration-tests:
     name: Linux Live Tests
-    needs: dmapi-build
-    if: (!(cancelled() || failure()) && needs.dmapi-build.result == 'success')
+    needs: [dmapi-build, opendream-build]
+    if: (!(cancelled() || failure()) && needs.dmapi-build.result == 'success' && needs.opendream-build.result == 'success')
     services: # We start all dbs here so we can just code the stuff once
       mssql:
         image: mcr.microsoft.com/mssql/server:2019-latest
@@ -601,7 +652,10 @@ jobs:
     - name: Setup dotnet
       uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: '${{ env.TGS_DOTNET_VERSION }}.0.x'
+        dotnet-version: |
+          ${{ env.TGS_DOTNET_VERSION }}.0.x
+          ${{ env.OD_DOTNET_VERSION }}.0.x
+        dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
 
     - name: Set Sqlite Connection Info
       if: ${{ matrix.database-type == 'Sqlite' }}
@@ -1105,6 +1159,7 @@ jobs:
       uses: actions/setup-dotnet@v3
       with:
         dotnet-version: '${{ env.TGS_DOTNET_VERSION }}.0.x'
+        dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
 
     - name: Checkout (Branch)
       uses: actions/checkout@v3
@@ -1230,6 +1285,7 @@ jobs:
       uses: actions/setup-dotnet@v3
       with:
         dotnet-version: '${{ env.TGS_DOTNET_VERSION }}.0.x'
+        dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
 
     - name: Retrieve Latest winget-pkgs PULL_REQUEST_TEMPLATE commit SHA from GitHub API
       id: get-sha
@@ -1283,7 +1339,8 @@ jobs:
     - name: Setup dotnet
       uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: ${{ env.TGS_DOTNET_VERSION }}
+        dotnet-version: '${{ env.TGS_DOTNET_VERSION }}.0.x'
+        dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
 
     - name: Checkout
       uses: actions/checkout@v3
@@ -1346,7 +1403,8 @@ jobs:
     - name: Setup dotnet
       uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: ${{ env.TGS_DOTNET_VERSION }}
+        dotnet-version: '${{ env.TGS_DOTNET_VERSION }}.0.x'
+        dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
 
     - name: Checkout
       uses: actions/checkout@v3
@@ -1409,6 +1467,7 @@ jobs:
       uses: actions/setup-dotnet@v3
       with:
         dotnet-version: '${{ env.TGS_DOTNET_VERSION }}.0.x'
+        dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
 
     - name: Checkout
       uses: actions/checkout@v3
@@ -1459,6 +1518,7 @@ jobs:
       uses: actions/setup-dotnet@v3
       with:
         dotnet-version: '${{ env.TGS_DOTNET_VERSION }}.0.x'
+        dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
 
     - name: Checkout
       uses: actions/checkout@v3
@@ -1482,6 +1542,7 @@ jobs:
       uses: actions/setup-dotnet@v3
       with:
         dotnet-version: '${{ env.TGS_DOTNET_VERSION }}.0.x'
+        dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
 
     - name: Checkout
       uses: actions/checkout@v3
@@ -1690,9 +1751,10 @@ jobs:
     if: (!(cancelled() || failure()) && needs.deploy-tgs.result == 'success')
     steps:
     - name: Setup dotnet
-      uses: actions/setup-dotnet@v2
+      uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: ${{ env.TGS_DOTNET_VERSION }}
+        dotnet-version: '${{ env.TGS_DOTNET_VERSION }}.0.x'
+        dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
 
     - name: Checkout
       uses: actions/checkout@v3
@@ -1780,6 +1842,7 @@ jobs:
       uses: actions/setup-dotnet@v3
       with:
         dotnet-version: '${{ env.TGS_DOTNET_VERSION }}.0.x'
+        dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
 
     - name: Install winget
       uses: Cyberboss/install-winget@v1

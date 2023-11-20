@@ -24,6 +24,7 @@ namespace Tgstation.Server.Tests.Live
 {
 	sealed class LiveTestingServer : IServer, IDisposable
 	{
+		static bool needCleanup = false;
 		public static string BaseDirectory { get; }
 
 		static LiveTestingServer()
@@ -33,7 +34,7 @@ namespace Tgstation.Server.Tests.Live
 			if (string.IsNullOrWhiteSpace(BaseDirectory))
 			{
 				BaseDirectory = Path.Combine(Path.GetTempPath(), "TGS_INTEGRATION_TEST");
-				Cleanup(BaseDirectory).GetAwaiter().GetResult();
+				needCleanup = true;
 			}
 		}
 
@@ -79,10 +80,16 @@ namespace Tgstation.Server.Tests.Live
 
 		public LiveTestingServer(SwarmConfiguration swarmConfiguration, bool enableOAuth, ushort port = 15010)
 		{
+			if (needCleanup)
+			{
+				needCleanup = false;
+				Cleanup(BaseDirectory).GetAwaiter().GetResult();
+			}
+
 			Assert.IsTrue(port >= 10000); // for testing bridge request limit
 			Directory = BaseDirectory;
 
-			Directory = Path.Combine(Directory, Guid.NewGuid().ToString());
+			Directory = Path.Combine(Directory, swarmConfiguration?.Identifier ?? "default");
 			System.IO.Directory.CreateDirectory(Directory);
 			string urlString = $"http://localhost:{port}";
 			RootUrl = new Uri(urlString);
@@ -136,6 +143,7 @@ namespace Tgstation.Server.Tests.Live
 				"General:ByondTopicTimeout=10000",
 				$"Session:HighPriorityLiveDreamDaemon={HighPriorityDreamDaemon}",
 				$"Session:LowPriorityDeploymentProcesses={LowPriorityDeployments}",
+				$"General:SkipAddingByondFirewallException={!TestingUtils.RunningInGitHubActions}",
 			};
 
 			swarmArgs = new List<string>();

@@ -36,8 +36,10 @@
 	if(!res_contents)
 		FailTest("Failed to resource? No contents!")
 
+#ifndef OPENDREAM
 	if(!fexists("[DME_NAME].rsc"))
 		FailTest("Failed to create .rsc!")
+#endif
 
 #ifdef RUN_STATIC_FILE_TESTS
 	if(params["expect_static_files"])
@@ -96,11 +98,11 @@
 
 /world/Topic(T, Addr, Master, Keys)
 	if(findtext(T, "tgs_integration_test_tactics3") == 0)
-		log << "Topic: [T]"
+		log << "Topic (sleep_offline: [sleep_offline]): [T]"
 	else
 		log << "tgs_integration_test_tactics3 <TOPIC SUPPRESSED>"
 	. =  HandleTopic(T)
-	log << "Response: [.]"
+	log << "Response (sleep_offline: [sleep_offline]): [.]"
 
 var/startup_complete
 var/run_bridge_test
@@ -168,7 +170,7 @@ var/run_bridge_test
 	var/tactics7 = data["tgs_integration_test_tactics7"]
 	if(tactics7)
 		var/list/channels = TgsChatChannelInfo()
-		return "[length(channels)]"
+		return length(channels)
 
 	var/tactics8 = data["tgs_integration_test_tactics8"]
 	if(tactics8)
@@ -189,7 +191,7 @@ var/run_bridge_test
 		TestLegacyBridge()
 		return "yeah gimmie a sec"
 
-	TgsChatBroadcast(new /datum/tgs_message_content("Recieved non-tgs topic: `[T]`"))
+	TgsChatBroadcast(new /datum/tgs_message_content("Received non-tgs topic: `[T]`"))
 
 	return "feck"
 
@@ -228,7 +230,7 @@ var/received_health_check = FALSE
 /datum/tgs_event_handler/impl/HandleEvent(event_code, ...)
 	set waitfor = FALSE
 
-	world.TgsChatBroadcast(new /datum/tgs_message_content("Recieved event: `[json_encode(args)]`"))
+	world.TgsChatBroadcast(new /datum/tgs_message_content("Received event: `[json_encode(args)]`"))
 
 	if(event_code == TGS_EVENT_HEALTH_CHECK)
 		received_health_check = TRUE
@@ -244,9 +246,9 @@ var/received_health_check = FALSE
 
 /world/Export(url)
 	var/redact = length(url) > 1000
-	log << "Export: [redact ? "<REDACTED>" : url]"
+	log << "Export (sleep_offline: [sleep_offline]): [redact ? "<REDACTED>" : url]"
 	. = ..()
-	log << "Export completed: [redact ? "<REDACTED>" : json_encode(.)]"
+	log << "Export completed (sleep_offline: [sleep_offline]): [redact ? "<REDACTED>" : json_encode(.)]"
 
 /proc/RebootAsync()
 	set waitfor = FALSE

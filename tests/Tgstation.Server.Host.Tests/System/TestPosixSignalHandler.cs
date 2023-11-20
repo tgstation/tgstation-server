@@ -60,6 +60,7 @@ namespace Tgstation.Server.Host.System.Tests
 					new Lazy<IProcessExecutor>(() => processExecutor),
 					new DefaultIOManager(),
 					loggerFactory.CreateLogger<PosixProcessFeatures>()),
+				new AsyncDelayer(),
 				Mock.Of<IIOManager>(),
 				loggerFactory.CreateLogger<ProcessExecutor>(),
 				loggerFactory);

@@ -30,7 +30,7 @@ namespace Tgstation.Server.Host.Models
 		/// The <see cref="Version"/> the <see cref="CompileJob"/> was made with in string form.
 		/// </summary>
 		[Required]
-		public string ByondVersion { get; set; }
+		public string EngineVersion { get; set; }
 
 		/// <summary>
 		/// Backing field for <see cref="Version.Major"/> of <see cref="DMApiVersion"/>.
@@ -90,7 +90,9 @@ namespace Tgstation.Server.Host.Models
 			Job = Job.ToApi(),
 			Output = Output,
 			RevisionInformation = RevisionInformation.ToApi(),
-			ByondVersion = Version.Parse(ByondVersion),
+			EngineVersion = Api.Models.EngineVersion.TryParse(EngineVersion, out var version)
+				? version
+				: throw new InvalidOperationException($"Failed to parse engine version: {EngineVersion}"),
 			MinimumSecurityLevel = MinimumSecurityLevel,
 			DMApiVersion = DMApiVersion,
 			RepositoryOrigin = RepositoryOrigin != null ? new Uri(RepositoryOrigin) : null,

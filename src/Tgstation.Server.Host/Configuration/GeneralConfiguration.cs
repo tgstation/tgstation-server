@@ -9,6 +9,8 @@ using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.Properties;
 using Tgstation.Server.Host.Setup;
 
+using YamlDotNet.Serialization;
+
 namespace Tgstation.Server.Host.Configuration
 {
 	/// <summary>
@@ -60,6 +62,16 @@ namespace Tgstation.Server.Host.Configuration
 		/// The default value for <see cref="ShutdownTimeoutMinutes"/>.
 		/// </summary>
 		const uint DefaultShutdownTimeoutMinutes = 300;
+
+		/// <summary>
+		/// The default value for <see cref="OpenDreamGitUrl"/>.
+		/// </summary>
+		const string DefaultOpenDreamGitUrl = "https://github.com/OpenDreamProject/OpenDream";
+
+		/// <summary>
+		/// The default value for <see cref="OpenDreamGitTagPrefix"/>.
+		/// </summary>
+		const string DefaultOpenDreamGitTagPrefix = "v";
 
 		/// <summary>
 		/// The current <see cref="ConfigVersion"/>.
@@ -121,6 +133,17 @@ namespace Tgstation.Server.Host.Configuration
 		/// A limit on the amount of tasks used for asynchronous I/O when copying directories during the deployment process as a multiplier to the machine's <see cref="Environment.ProcessorCount"/>. Too few can significantly increase deployment times, too many can make TGS unresponsive and slowdown other I/O operations on the machine.
 		/// </summary>
 		public uint? DeploymentDirectoryCopyTasksPerCore { get; set; }
+
+		/// <summary>
+		/// Location of a publically accessible OpenDream repository.
+		/// </summary>
+		[YamlMember(SerializeAs = typeof(string))]
+		public Uri OpenDreamGitUrl { get; set; } = new Uri(DefaultOpenDreamGitUrl);
+
+		/// <summary>
+		/// The prefix to the OpenDream semver as tags appear in the git repository.
+		/// </summary>
+		public string OpenDreamGitTagPrefix { get; set; } = DefaultOpenDreamGitTagPrefix;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="GeneralConfiguration"/> class.

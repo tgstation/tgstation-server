@@ -69,7 +69,7 @@ namespace Tgstation.Server.Host.Components.Session
 		{
 			ArgumentNullException.ThrowIfNull(reattachInformation);
 
-			logger.LogDebug("Saving reattach information: {info}...", reattachInformation);
+			logger.LogTrace("Saving reattach information: {info}...", reattachInformation);
 
 			await ClearImpl(db, false, cancellationToken);
 
@@ -87,6 +87,39 @@ namespace Tgstation.Server.Host.Components.Session
 
 			db.ReattachInformations.Add(dbReattachInfo);
 			await db.Save(cancellationToken);
+
+			reattachInformation.Id = dbReattachInfo.Id.Value;
+			logger.LogDebug("Saved reattach information: {info}", reattachInformation);
+		});
+
+		/// <inheritdoc />
+		public ValueTask Update(ReattachInformation reattachInformation, CancellationToken cancellationToken) => databaseContextFactory.UseContextTaskReturn(async db =>
+		{
+			ArgumentNullException.ThrowIfNull(reattachInformation);
+			if (!reattachInformation.Id.HasValue)
+				throw new InvalidOperationException("Provided reattachInformation has no Id!");
+
+			logger.LogTrace("Updating reattach information: {info}...", reattachInformation);
+
+			var dbReattachInfo = new Models.ReattachInformation
+			{
+				Id = reattachInformation.Id.Value,
+			};
+
+			db.ReattachInformations.Attach(dbReattachInfo);
+
+			dbReattachInfo.AccessIdentifier = reattachInformation.AccessIdentifier;
+			dbReattachInfo.CompileJobId = reattachInformation.Dmb.CompileJob.Id.Value;
+			dbReattachInfo.InitialCompileJobId = reattachInformation.InitialDmb?.CompileJob.Id.Value;
+			dbReattachInfo.Port = reattachInformation.Port;
+			dbReattachInfo.ProcessId = reattachInformation.ProcessId;
+			dbReattachInfo.RebootState = reattachInformation.RebootState;
+			dbReattachInfo.LaunchSecurityLevel = reattachInformation.LaunchSecurityLevel;
+			dbReattachInfo.LaunchVisibility = reattachInformation.LaunchVisibility;
+
+			await db.Save(cancellationToken);
+
+			logger.LogDebug("Updated reattach information: {info}", reattachInformation);
 		});
 
 		/// <inheritdoc />

@@ -63,5 +63,15 @@ namespace Tgstation.Server.Host.Utils.GitHub
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the target <see cref="PullRequest"/>.</returns>
 		Task<PullRequest> GetPullRequest(string repoOwner, string repoName, int pullRequestNumber, CancellationToken cancellationToken);
+
+		/// <summary>
+		/// Get a given <paramref name="committish"/>.
+		/// </summary>
+		/// <param name="repoOwner">The owner of the target repository.</param>
+		/// <param name="repoName">The name of the target repository.</param>
+		/// <param name="committish">The target SHA or ref to get the commit for.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the target <see cref="GitHubCommit"/>.</returns>
+		Task<GitHubCommit> GetCommit(string repoOwner, string repoName, string committish, CancellationToken cancellationToken);
 	}
 }
