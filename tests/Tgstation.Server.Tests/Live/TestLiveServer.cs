@@ -1281,7 +1281,7 @@ namespace Tgstation.Server.Tests.Live
 			// missingChatVarsCount = TotalChatVars;
 
 			// uncomment to force this test to run with basic watchdog
-			Environment.SetEnvironmentVariable("General__UseBasicWatchdog", "true");
+			// Environment.SetEnvironmentVariable("General__UseBasicWatchdog", "true");
 
 			if (missingChatVarsCount != 0)
 			{
