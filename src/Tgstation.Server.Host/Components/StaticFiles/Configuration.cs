@@ -326,16 +326,10 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 									result = ioManager.GetFileStream(path, false);
 								}
 
-								using (SemaphoreSlimContext.TryLock(semaphore, out var locked))
-								{
-									if (!locked)
-										return null;
-
-									if (systemIdentity == null)
-										await Task.Factory.StartNew(GetFileStream, cancellationToken, DefaultIOManager.BlockingTaskCreationOptions, TaskScheduler.Current);
-									else
-										await systemIdentity.RunImpersonated(GetFileStream, cancellationToken);
-								}
+								if (systemIdentity == null)
+									await Task.Factory.StartNew(GetFileStream, cancellationToken, DefaultIOManager.BlockingTaskCreationOptions, TaskScheduler.Current);
+								else
+									await systemIdentity.RunImpersonated(GetFileStream, cancellationToken);
 
 								return result;
 							},

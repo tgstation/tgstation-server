@@ -256,8 +256,6 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					await SessionStartupPersist(cancellationToken);
 
 				await CheckLaunchResult(Server, "Server", cancellationToken);
-
-				Server.EnableCustomChatCommands();
 			}
 			catch (Exception ex)
 			{
@@ -291,11 +289,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="MonitorAction"/> to take.</returns>
 		protected virtual ValueTask<MonitorAction> HandleNormalReboot(CancellationToken cancellationToken)
-		{
-			var settingsUpdatePending = ActiveLaunchParameters != LastLaunchParameters;
-			var result = settingsUpdatePending ? MonitorAction.Restart : MonitorAction.Continue;
-			return ValueTask.FromResult(result);
-		}
+			=> ValueTask.FromResult(MonitorAction.Continue);
 
 		/// <summary>
 		/// Handler for <see cref="MonitorActivationReason.NewDmbAvailable"/>.

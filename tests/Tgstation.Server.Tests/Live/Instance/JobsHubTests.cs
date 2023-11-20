@@ -28,7 +28,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 		readonly HashSet<long> permlessSeenJobs;
 
-		HubConnection conn1, conn2;
+		HubConnection permedConn, permlessConn;
 		bool permlessIsPermed;
 
 		long? permlessPsId;
@@ -98,26 +98,26 @@ namespace Tgstation.Server.Tests.Live.Instance
 				},
 			};
 
-			await using (conn1 = (HubConnection)await permedUser.SubscribeToJobUpdates(
+			await using (permedConn = (HubConnection)await permedUser.SubscribeToJobUpdates(
 				this,
 				null,
 				null,
 				cancellationToken))
-			await using (conn2 = (HubConnection)await permlessUser.SubscribeToJobUpdates(
+			await using (permlessConn = (HubConnection)await permlessUser.SubscribeToJobUpdates(
 				neverReceiver,
 				null,
 				null,
 				cancellationToken))
 			{
-				Console.WriteLine($"Initial conn1: {conn1.ConnectionId}");
-				Console.WriteLine($"Initial conn2: {conn2.ConnectionId}");
+				Console.WriteLine($"Initial conn1: {permedConn.ConnectionId}");
+				Console.WriteLine($"Initial conn2: {permlessConn.ConnectionId}");
 
-				conn1.Reconnected += (newId) =>
+				permedConn.Reconnected += (newId) =>
 				{
 					Console.WriteLine($"conn1 reconnected: {newId}");
 					return Task.CompletedTask;
 				};
-				conn2.Reconnected += (newId) =>
+				permlessConn.Reconnected += (newId) =>
 				{
 					Console.WriteLine($"conn1 reconnected: {newId}");
 					return Task.CompletedTask;
@@ -215,16 +215,17 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 		public void ExpectShutdown()
 		{
-			Assert.AreEqual(HubConnectionState.Connected, conn1.State);
-			Assert.AreEqual(HubConnectionState.Connected, conn2.State);
+			Assert.AreEqual(HubConnectionState.Connected, permedConn.State);
+			Assert.AreEqual(HubConnectionState.Connected, permlessConn.State);
 		}
 
 		public async ValueTask WaitForReconnect(CancellationToken cancellationToken)
 		{
-			await Task.WhenAll(conn1.StopAsync(cancellationToken), conn2.StopAsync(cancellationToken));
+			await permlessConn.StopAsync(cancellationToken);
+			await permedConn.StopAsync(cancellationToken);
 
-			Assert.AreEqual(HubConnectionState.Disconnected, conn1.State);
-			Assert.AreEqual(HubConnectionState.Disconnected, conn2.State);
+			Assert.AreEqual(HubConnectionState.Disconnected, permedConn.State);
+			Assert.AreEqual(HubConnectionState.Disconnected, permlessConn.State);
 
 			// force token refreshs
 			await Task.WhenAll(permedUser.Administration.Read(cancellationToken).AsTask(), permlessUser.Instances.List(null, cancellationToken).AsTask());
@@ -261,12 +262,13 @@ namespace Tgstation.Server.Tests.Live.Instance
 						}, cancellationToken);
 				}));
 
-			await Task.WhenAll(conn1.StartAsync(cancellationToken), conn2.StartAsync(cancellationToken));
+			await permedConn.StartAsync(cancellationToken);
+			await permlessConn.StartAsync(cancellationToken);
 
-			Assert.AreEqual(HubConnectionState.Connected, conn1.State);
-			Assert.AreEqual(HubConnectionState.Connected, conn2.State);
-			Console.WriteLine($"New conn1: {conn1.ConnectionId}");
-			Console.WriteLine($"New conn2: {conn2.ConnectionId}");
+			Assert.AreEqual(HubConnectionState.Connected, permedConn.State);
+			Assert.AreEqual(HubConnectionState.Connected, permlessConn.State);
+			Console.WriteLine($"New conn1: {permedConn.ConnectionId}");
+			Console.WriteLine($"New conn2: {permlessConn.ConnectionId}");
 		}
 
 		public void CompleteNow() => finishTcs.TrySetResult();
