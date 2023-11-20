@@ -164,10 +164,30 @@ Components:
     ComponentVersions: {}
     Changes: []
     Unreleased: true
-  - Version: 5.18.2
+  - Version: 5.18.3
     ComponentVersions: {}
     Changes: []
     Unreleased: true
+  - Version: 5.18.2
+    ComponentVersions:
+      HttpApi: 9.14.0
+      DreamMakerApi: 6.7.0
+      Configuration: 4.7.1
+      InteropApi: 5.7.0
+      HostWatchdog: 1.4.0
+      NugetCommon: 7.0.0
+      NugetApi: 12.2.0
+      NugetClient: 14.2.0
+      WebControlPanel: 5.1.0
+    Changes:
+    - Descriptions:
+      - Cleaned up handling of topic requests while the server is starting/rebooting.
+      - Reduced Discord API spam when connecting to a guild with many mapped channels.
+      - Fixed race condition that could result in TGS having multiple mappings of the same chat channel.
+      - Fixed downloading instance `Configuration` files requiring exclusive access.
+      - The previous patch erroneously caused full watchdog restarts whenever any setting was changed. This has been rectified.
+      Author: Cyberboss
+      PullRequest: 1724
   - Version: 5.18.1
     ComponentVersions:
       HttpApi: 9.14.0
@@ -3900,10 +3920,6 @@ Components:
       - Switch to using new `/api/Bridge` endpoint when available.
       Author: Cyberboss
       PullRequest: 1704
-    - Descriptions:
-      - Added topic command 11 for broadcast messages. Content stored in `broadcastMessage` parameter.
-      Author: Cyberboss
-      PullRequest: 1719
     Unreleased: true
   - Version: 5.6.2
     Changes:
