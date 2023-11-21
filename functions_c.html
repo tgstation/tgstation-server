@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.18.0</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.18.2</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -103,6 +103,7 @@ $(function() {
 <li>catch()&#160;:&#160;<a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_setup_1_1_setup_wizard.html#a7078a7f664fc613142a97ddabebcef44">Tgstation.Server.Host.Setup.SetupWizard</a></li>
 <li>CfgDirectoryName&#160;:&#160;<a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_manager.html#adbe97e65b8edae12e2f41947ed94dfc1">Tgstation.Server.Host.Components.Byond.ByondManager</a></li>
 <li>ChangeChannels()&#160;:&#160;<a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a627c57e5a0a6cc6f52a9f7f09cfa5694">Tgstation.Server.Host.Components.Chat.ChatManager</a>, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager.html#a26ee474703de8b7cc4cf94f550b5322f">Tgstation.Server.Host.Components.Chat.IChatManager</a></li>
+<li>changeChannelSemaphores&#160;:&#160;<a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#abef5c8cc20c6ed55f7393272cc5e5cbe">Tgstation.Server.Host.Components.Chat.ChatManager</a></li>
 <li>changeDeleteSemaphore&#160;:&#160;<a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_manager.html#a61a454bb64c01495c147bad12996d46b">Tgstation.Server.Host.Components.Byond.ByondManager</a></li>
 <li>ChangeSettings()&#160;:&#160;<a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a8d3eb0ce3398090f2f26241f515845fb">Tgstation.Server.Host.Components.Chat.ChatManager</a>, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager.html#ad6def737362e62bcf63b35d772b01d50">Tgstation.Server.Host.Components.Chat.IChatManager</a>, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_watchdog.html#acfc0623c901f542c2b036c8c9c72f1a1">Tgstation.Server.Host.Components.Watchdog.IWatchdog</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#ad8969d9f92e086a69dd1e937d6affffa">Tgstation.Server.Host.Components.Watchdog.WatchdogBase</a></li>
 <li>ChangeVersion()&#160;:&#160;<a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_manager.html#a59f8a7d39d80d876f2ee18079a65dde1">Tgstation.Server.Host.Components.Byond.ByondManager</a>, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_i_byond_manager.html#a6b18704e7d2e037f654994ff8961c451">Tgstation.Server.Host.Components.Byond.IByondManager</a></li>
@@ -361,8 +362,8 @@ $(function() {
 <li>CryptographySuite()&#160;:&#160;<a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_cryptography_suite.html#a57c7a5016e948842f6d52697f806614b">Tgstation.Server.Host.Security.CryptographySuite</a></li>
 <li>cryptographySuite&#160;:&#160;<a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_transfer_service.html#abe6e411c48aa66711b0bb9ceddf57f25">Tgstation.Server.Host.Transfer.FileTransferService</a></li>
 <li>CurrentAllowWebclient&#160;:&#160;<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_dream_daemon_response.html#aa408c9f8e9f69e821167bbc59a2c5c90">Tgstation.Server.Api.Models.Response.DreamDaemonResponse</a></li>
-<li>CurrentAuthenticationContext&#160;:&#160;<a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context_factory.html#a37a564f1b33b53dc2af9fb751b5a7e9b">Tgstation.Server.Host.Security.AuthenticationContextFactory</a></li>
 <li>currentAuthenticationContext&#160;:&#160;<a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context_factory.html#ab6f08f16e79b7a7d5d18acea67cc3fed">Tgstation.Server.Host.Security.AuthenticationContextFactory</a></li>
+<li>CurrentAuthenticationContext&#160;:&#160;<a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context_factory.html#a37a564f1b33b53dc2af9fb751b5a7e9b">Tgstation.Server.Host.Security.AuthenticationContextFactory</a></li>
 <li>currentChatCallback&#160;:&#160;<a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#aff9016667aa6d44521b50e86d51562e2">Tgstation.Server.Host.Components.Deployment.DreamMaker</a></li>
 <li>CurrentConfigVersion&#160;:&#160;<a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#a11cacc87b093badf8b45cc9fd858df54">Tgstation.Server.Host.Configuration.GeneralConfiguration</a></li>
 <li>CurrentDirectory&#160;:&#160;<a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a984a32ee93a073036f63d543ad9a6cdd">Tgstation.Server.Host.IO.DefaultIOManager</a></li>

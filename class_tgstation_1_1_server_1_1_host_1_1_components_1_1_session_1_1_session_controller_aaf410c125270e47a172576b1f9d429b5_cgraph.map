@@ -1,5 +1,5 @@
 <map id="Tgstation.Server.Host.Components.Session.SessionController.SendCommand" name="Tgstation.Server.Host.Components.Session.SessionController.SendCommand">
-<area shape="rect" id="node1" title="Sends a command to DreamDaemon through /world/Topic(). A ValueTask&lt;TResult&gt; resulting in the TopicRes..." alt="" coords="5,37,272,77"/>
+<area shape="rect" id="node1" title="Sends a command to DreamDaemon through /world/Topic()." alt="" coords="5,37,272,77"/>
 <area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#a6225fe8db4178cdd406eecd38ecb07bd" title="Send a topic request for given parameters &#160;to DreamDaemon, chunking it if necessary." alt="" coords="320,30,559,85"/>
 <area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#aa52ad932cbc8ea5dd407814acd421b65" title="Generates a global::Byond.TopicSender.ITopicClient query string for a given set of parameters ." alt="" coords="607,5,905,45"/>
 <area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#a9e78f3b0093fb0880db77bc6cde8deee" title="Send a given queryString &#160;to DreamDaemon&#39;s /world/Topic." alt="" coords="623,69,889,109"/>

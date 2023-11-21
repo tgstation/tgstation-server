@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.18.0</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.18.2</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -262,7 +262,7 @@ $(function() {
 <div class="line"><a id="l00222" name="l00222"></a><span class="lineno">  222</span>            <span class="keywordflow">else</span></div>
 <div class="line"><a id="l00223" name="l00223"></a><span class="lineno">  223</span>                <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a2143ec7079d0ffd42c76f61cf7b71cf6">Logger</a>.LogTrace(<span class="stringliteral">&quot;Nothing to do as pendingSwappable is null.&quot;</span>);</div>
 <div class="line"><a id="l00224" name="l00224"></a><span class="lineno">  224</span> </div>
-<div class="line"><a id="l00225" name="l00225"></a><span class="lineno">  225</span>            <span class="keywordflow">return</span> <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog.html#a97c1a4a168451bd7e3be23c467aa2812">MonitorAction</a>.Continue;</div>
+<div class="line"><a id="l00225" name="l00225"></a><span class="lineno">  225</span>            <span class="keywordflow">return</span> await base.HandleNormalReboot(cancellationToken);</div>
 <div class="line"><a id="l00226" name="l00226"></a><span class="lineno">  226</span>        }</div>
 <div class="line"><a id="l00227" name="l00227"></a><span class="lineno">  227</span> </div>
 <div class="line"><a id="l00229" name="l00229"></a><span class="lineno"><a class="line" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_advanced_watchdog.html#abc18654a9da3b33e0c5201fe3c376374">  229</a></span>        <span class="keyword">protected</span> sealed <span class="keyword">override</span> async ValueTask <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_advanced_watchdog.html#abc18654a9da3b33e0c5201fe3c376374">HandleNewDmbAvailable</a>(CancellationToken cancellationToken)</div>

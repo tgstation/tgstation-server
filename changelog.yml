@@ -152,6 +152,15 @@ Components:
       Author: Cyberboss
       PullRequest: 1628
     - Descriptions:
+      - TGS now supports running DreamMaker coded games with OpenDream, the open source reimplementation of BYOND. Note that TGS requires the dotnet SDK version supported by the OpenDream version you'd like to use alongside it's normal ASP.NET Core runtime to build it.
+      - The repository cloning job now reports checkout progress.
+      - Fixed rare DreamDaemon startup failure that may occur due to a lingering socket.
+      - Event scripts containing "Byond" in their names have been updated to use "Engine" instead. Old names will continue function.
+      - Socket bind tests will now retry for up to 5s before failing with an AddressInUse exception.
+      - Added a workaround for a potential hang while recording process output.
+      Author: Cyberboss
+      PullRequest: 1666
+    - Descriptions:
       - The `.deb` package now runs tgstation-server as the user `tgstation-server`. This user has minimal permissions. More may be granted manually by system administrators. **IF YOU OPT TO UPDATE VIA APT, YOU MAY HAVE THIS USER AUTOMATICALLY SET AS THE SERVICE RUNNER, EVEN IF IT DOES NOT EXIST!** To fix this, edit `/etc/lib/systemd/system/tgstation-server.service` and remove the `User=tgstation-server` line.
       Author: Cyberboss
       PullRequest: 1692
@@ -165,7 +174,17 @@ Components:
     Changes: []
     Unreleased: true
   - Version: 5.18.3
-    ComponentVersions: {}
+    ComponentVersions:
+      Core: 5.18.2
+      HttpApi: 9.14.0
+      DreamMakerApi: 6.7.0
+      Configuration: 4.7.1
+      InteropApi: 5.7.0
+      HostWatchdog: 1.4.0
+      NugetCommon: 7.0.0
+      NugetApi: 12.2.0
+      NugetClient: 14.2.0
+      WebControlPanel: 5.1.0
     Changes: []
     Unreleased: true
   - Version: 5.18.2
@@ -3278,6 +3297,15 @@ Components:
       Author: Cyberboss
       PullRequest: 1628
     - Descriptions:
+      - '**There has been a major version bump to API version 10.**'
+      - The entire `/Byond` route has been removed.
+      - Added new `/Engine` route and associated models. This has similar functions to the old `/Byond` route while being engine agnostic so as to support OpenDream.
+      - '`InstancePermissionSet.byondRights` has been renamed to `InstancePermissionSet.engineRights`.'
+      - '`CompileJobResponse.byondVersion` changed to new `CompileJobResponse.engineVersion` model.'
+      - Added `DreamDaemonResponse.sessionId` which is a unique ID for the current server execution.
+      Author: Cyberboss
+      PullRequest: 1666
+    - Descriptions:
       - HTTP 426 will now no longer be sent. HTTP 400 will be used in its place. The error code returned in the body remains unchanged.
       Author: Cyberboss
       PullRequest: 1699
@@ -3739,6 +3767,15 @@ Components:
       Author: Cyberboss
       PullRequest: 991
   DreamMakerApi:
+  - Version: 7.0.0
+    Changes:
+    - Descriptions:
+      - Various event names changed to be engine agnostic.
+      - Corrected documentation that stated a `/datum/tgs_version` engine version would be returned to properly say they will be stringified.
+      - Added enums and function for retrieving the current engine version.
+      Author: Cyberboss
+      PullRequest: 1666
+    Unreleased: true
   - Version: 6.7.0
     Changes:
     - Descriptions:
@@ -3945,6 +3982,10 @@ Components:
   - Version: 13.0.0
     Changes:
     - Descriptions:
+      - Performed all API 10 model changes.
+      Author: Cyberboss
+      PullRequest: 1666
+    - Descriptions:
       - Renamed `Routes.Root` to `Routes.ApiRoot` and now reflects the new API path.
       Author: Cyberboss
       PullRequest: 1704
@@ -4004,4 +4045,11 @@ Components:
       - Made `DiscordConnectionStringBuilder.BasedMeme` obsolete.
       Author: Cyberboss
       PullRequest: 1629
-  NugetClient: []
+  NugetClient:
+  - Version: 15.0.0
+    Changes:
+    - Descriptions:
+      - Performed all API 10 client changes.
+      Author: Cyberboss
+      PullRequest: 1666
+    Unreleased: true

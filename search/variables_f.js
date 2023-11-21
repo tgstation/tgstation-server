@@ -25,5 +25,5 @@ var searchData=
   ['productheadervalue_22',['productHeaderValue',['../class_tgstation_1_1_server_1_1_client_1_1_server_client_factory.html#a5db19a315f04b37200db2761f678661b',1,'Tgstation::Server::Client::ServerClientFactory']]],
   ['propagatedexception_23',['propagatedException',['../class_tgstation_1_1_server_1_1_host_1_1_server.html#a6541983f401f2c25c474573a2d28235c',1,'Tgstation::Server::Host::Server']]],
   ['providerfactory_24',['providerFactory',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a13f4e387e7b5419193b74e1ae3cd0fb5',1,'Tgstation.Server.Host.Components.Chat.ChatManager.providerFactory()'],['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager_factory.html#aed9aa464cbd392d024e4247355aa0cb8',1,'Tgstation.Server.Host.Components.Chat.ChatManagerFactory.providerFactory()']]],
-  ['providers_25',['providers',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a38995278392e0456fe18f7605959099a',1,'Tgstation::Server::Host::Components::Chat::ChatManager']]]
+  ['providers_25',['providers',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a4cad1103e8e6752fa1772016effff937',1,'Tgstation::Server::Host::Components::Chat::ChatManager']]]
 ];

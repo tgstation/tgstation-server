@@ -2,4 +2,5 @@
 <area shape="rect" id="node1" title="Change chat settings. If the Api.Models.EntityId.Id is not currently in use, a new connection will be..." alt="" coords="5,49,232,89"/>
 <area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_i_provider_factory.html#a4250fc0dc09258c391507fbf29977758" title="Create a IProvider." alt="" coords="280,5,527,60"/>
 <area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#ae8f42e9fc59f0aa9d70de26a4b6600b7" title="Disconnects and deletes a given connection. A Task representing the running operation." alt="" coords="286,85,521,125"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html#a29773d588476671bbe480f096d839c91" title="Asyncronously locks a semaphore ." alt="" coords="575,85,765,125"/>
 </map>
