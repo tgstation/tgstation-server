@@ -176,6 +176,9 @@ namespace Tgstation.Server.Host
 
 			CheckSanity(true);
 
+			if (updatePath == null)
+				throw new InvalidOperationException("Tried to start update when server was initialized without an updatePath set!");
+
 			var logger = this.logger!;
 			logger.LogTrace("Begin ApplyUpdate...");
 
