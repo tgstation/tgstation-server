@@ -11,8 +11,6 @@ using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.Properties;
 using Tgstation.Server.Host.System;
 
-#nullable disable
-
 namespace Tgstation.Server.Host
 {
 	/// <summary>
@@ -46,7 +44,7 @@ namespace Tgstation.Server.Host
 		public static async Task<int> Main(string[] args)
 		{
 			// first arg is 100% always the update path, starting it otherwise is solely for debugging purposes
-			string updatePath = null;
+			string? updatePath = null;
 			if (args.Length > 0)
 			{
 				var listArgs = new List<string>(args);
@@ -79,7 +77,7 @@ namespace Tgstation.Server.Host
 		/// <param name="args">The command line arguments, minus the <paramref name="updatePath"/>.</param>
 		/// <param name="updatePath">The path to extract server updates to be applied to.</param>
 		/// <returns>A <see cref="ValueTask"/> resulting in the <see cref="HostExitCode"/>.</returns>
-		internal async ValueTask<HostExitCode> Main(string[] args, string updatePath)
+		internal async ValueTask<HostExitCode> Main(string[] args, string? updatePath)
 		{
 			try
 			{
