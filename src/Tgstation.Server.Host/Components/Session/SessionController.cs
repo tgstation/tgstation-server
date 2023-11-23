@@ -337,9 +337,8 @@ namespace Tgstation.Server.Host.Components.Session
 
 			Logger.LogTrace("Disposing...");
 
-			// yield then acquire the topic semaphore to prevent new calls from starting
-			await Task.Yield();
-			(await topicSendSemaphore.Lock(CancellationToken.None)).Dispose(); // DCT: None available
+			reattachTopicCts.Cancel();
+			var semaphoreLockTask = topicSendSemaphore.Lock(CancellationToken.None); // DCT: None available
 
 			if (!released)
 			{
@@ -363,6 +362,7 @@ namespace Tgstation.Server.Host.Components.Session
 			if (!released)
 				await Lifetime; // finish the async callback
 
+			(await semaphoreLockTask).Dispose();
 			topicSendSemaphore.Dispose();
 		}
 
