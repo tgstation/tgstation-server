@@ -250,7 +250,7 @@ namespace Tgstation.Server.Host
 		public ValueTask GracefulShutdown(bool detach) => RestartImpl(null, null, false, detach);
 
 		/// <inheritdoc />
-		public ValueTask Die(Exception exception)
+		public ValueTask Die(Exception? exception)
 		{
 			if (exception != null)
 				return RestartImpl(null, exception, false, true);
