@@ -5,8 +5,6 @@ using System.Threading.Tasks;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Swarm;
 
-#nullable disable
-
 namespace Tgstation.Server.Host.Core
 {
 	/// <summary>
@@ -22,6 +20,6 @@ namespace Tgstation.Server.Host.Core
 		/// <param name="version">The TGS <see cref="Version"/> to update to.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="ServerUpdateResult"/>.</returns>
-		ValueTask<ServerUpdateResult> BeginUpdate(ISwarmService swarmService, IFileStreamProvider fileStreamProvider, Version version, CancellationToken cancellationToken);
+		ValueTask<ServerUpdateResult> BeginUpdate(ISwarmService swarmService, IFileStreamProvider? fileStreamProvider, Version version, CancellationToken cancellationToken);
 	}
 }
