@@ -100,7 +100,7 @@ namespace Tgstation.Server.Host.Core
 				while (!cancellationToken.IsCancellationRequested)
 				{
 					logger.LogTrace("Waiting to read command line...");
-					var line = await streamReader.ReadLineAsync().WaitAsync(cancellationToken);
+					var line = await streamReader.ReadLineAsync(cancellationToken);
 
 					logger?.LogInformation("Received pipe command: {command}", line);
 					switch (line)
