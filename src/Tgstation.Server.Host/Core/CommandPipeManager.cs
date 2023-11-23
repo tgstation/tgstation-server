@@ -13,8 +13,6 @@ using Tgstation.Server.Host.Common;
 using Tgstation.Server.Host.Components;
 using Tgstation.Server.Host.Configuration;
 
-#nullable disable
-
 namespace Tgstation.Server.Host.Core
 {
 	/// <summary>
@@ -98,13 +96,13 @@ namespace Tgstation.Server.Host.Core
 
 			try
 			{
-				using var streamReader = new StreamReader(commandPipeClient, Encoding.UTF8, leaveOpen: true);
+				using var streamReader = new StreamReader(commandPipeClient!, Encoding.UTF8, leaveOpen: true);
 				while (!cancellationToken.IsCancellationRequested)
 				{
 					logger.LogTrace("Waiting to read command line...");
 					var line = await streamReader.ReadLineAsync().WaitAsync(cancellationToken);
 
-					logger?.LogInformation("Received pipe command: {command}", line);
+					logger.LogInformation("Received pipe command: {command}", line);
 					switch (line)
 					{
 						case PipeCommands.CommandStop:
@@ -120,22 +118,22 @@ namespace Tgstation.Server.Host.Core
 							logger.LogError("Read null from pipe!");
 							return;
 						default:
-							logger?.LogWarning("Unrecognized pipe command: {command}", line);
+							logger.LogWarning("Unrecognized pipe command: {command}", line);
 							break;
 					}
 				}
 			}
 			catch (OperationCanceledException ex)
 			{
-				logger?.LogTrace(ex, "Command read task cancelled!");
+				logger.LogTrace(ex, "Command read task cancelled!");
 			}
 			catch (Exception ex)
 			{
-				logger?.LogError(ex, "Command read task errored!");
+				logger.LogError(ex, "Command read task errored!");
 			}
 			finally
 			{
-				logger?.LogTrace("Command read task exiting...");
+				logger.LogTrace("Command read task exiting...");
 			}
 		}
 	}
