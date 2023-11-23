@@ -63,8 +63,6 @@ using Tgstation.Server.Host.System;
 using Tgstation.Server.Host.Transfer;
 using Tgstation.Server.Host.Utils;
 
-#nullable disable
-
 namespace Tgstation.Server.Host.Core
 {
 	/// <summary>
@@ -81,7 +79,7 @@ namespace Tgstation.Server.Host.Core
 		/// <summary>
 		/// The <see cref="ITokenFactory"/> for the <see cref="Application"/>.
 		/// </summary>
-		ITokenFactory tokenFactory;
+		ITokenFactory? tokenFactory;
 
 		/// <summary>
 		/// Create the default <see cref="IServerFactory"/>.
@@ -537,7 +535,7 @@ namespace Tgstation.Server.Host.Core
 			applicationBuilder.UseRouting();
 
 			// Set up CORS based on configuration if necessary
-			Action<CorsPolicyBuilder> corsBuilder = null;
+			Action<CorsPolicyBuilder>? corsBuilder = null;
 			if (controlPanelConfiguration.AllowAnyOrigin)
 			{
 				logger.LogTrace("Access-Control-Allow-Origin: *");
@@ -621,9 +619,9 @@ namespace Tgstation.Server.Host.Core
 			// return provider.GetRequiredService<AuthenticationContextFactory>().CurrentAuthenticationContext
 			// But M$ said
 			// https://stackoverflow.com/questions/56792917/scoped-services-in-asp-net-core-with-signalr-hubs
-			services.AddScoped(provider => provider
+			services.AddScoped(provider => (provider
 				.GetRequiredService<IHttpContextAccessor>()
-				.HttpContext
+				.HttpContext ?? throw new InvalidOperationException($"Unable to resolve {nameof(IAuthenticationContext)} due to no HttpContext being available!"))
 				.RequestServices
 				.GetRequiredService<AuthenticationContextFactory>()
 				.CurrentAuthenticationContext);
