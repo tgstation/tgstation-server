@@ -5,8 +5,6 @@ using System.Threading.Tasks;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Swarm;
 
-#nullable disable
-
 namespace Tgstation.Server.Host.Core
 {
 	/// <inheritdoc />
@@ -34,7 +32,7 @@ namespace Tgstation.Server.Host.Core
 		}
 
 		/// <inheritdoc />
-		public ValueTask<ServerUpdateResult> InitiateUpdate(IFileStreamProvider fileStreamProvider, Version version, CancellationToken cancellationToken)
+		public ValueTask<ServerUpdateResult> InitiateUpdate(IFileStreamProvider? fileStreamProvider, Version version, CancellationToken cancellationToken)
 			=> serverUpdater.BeginUpdate(swarmService, fileStreamProvider, version, cancellationToken);
 	}
 }
