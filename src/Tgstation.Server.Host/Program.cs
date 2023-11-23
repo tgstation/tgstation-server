@@ -83,7 +83,7 @@ namespace Tgstation.Server.Host
 			{
 				using var shutdownNotifier = new ProgramShutdownTokenSource();
 				var cancellationToken = shutdownNotifier.Token;
-				IServer server;
+				IServer? server;
 				try
 				{
 					server = await ServerFactory.CreateServer(

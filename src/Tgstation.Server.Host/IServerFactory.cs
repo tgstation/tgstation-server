@@ -3,8 +3,6 @@ using System.Threading.Tasks;
 
 using Tgstation.Server.Host.IO;
 
-#nullable disable
-
 namespace Tgstation.Server.Host
 {
 	/// <summary>
@@ -24,6 +22,6 @@ namespace Tgstation.Server.Host
 		/// <param name="updatePath">The directory in which to install server updates.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in a new <see cref="IServer"/> if it should be run, <see langword="null"/> otherwise.</returns>
-		ValueTask<IServer> CreateServer(string[] args, string updatePath, CancellationToken cancellationToken);
+		ValueTask<IServer?> CreateServer(string[] args, string? updatePath, CancellationToken cancellationToken);
 	}
 }
