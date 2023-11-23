@@ -11,8 +11,6 @@ using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Swarm;
 using Tgstation.Server.Host.Utils.GitHub;
 
-#nullable disable
-
 namespace Tgstation.Server.Host.Core
 {
 	/// <inheritdoc cref="IServerUpdater" />
@@ -61,7 +59,7 @@ namespace Tgstation.Server.Host.Core
 		/// <summary>
 		/// <see cref="ServerUpdateOperation"/> for an in-progress update operation.
 		/// </summary>
-		ServerUpdateOperation serverUpdateOperation;
+		ServerUpdateOperation? serverUpdateOperation;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="ServerUpdater"/> class.
@@ -94,7 +92,7 @@ namespace Tgstation.Server.Host.Core
 		}
 
 		/// <inheritdoc />
-		public async ValueTask<ServerUpdateResult> BeginUpdate(ISwarmService swarmService, IFileStreamProvider fileStreamProvider, Version version, CancellationToken cancellationToken)
+		public async ValueTask<ServerUpdateResult> BeginUpdate(ISwarmService swarmService, IFileStreamProvider? fileStreamProvider, Version version, CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(swarmService);
 
@@ -203,7 +201,7 @@ namespace Tgstation.Server.Host.Core
 		{
 			try
 			{
-				await serverUpdateOperation.SwarmService.AbortUpdate();
+				await serverUpdateOperation!.SwarmService.AbortUpdate();
 			}
 			catch (Exception e2)
 			{
@@ -216,11 +214,11 @@ namespace Tgstation.Server.Host.Core
 		/// </summary>
 		/// <param name="stagingDirectory">The directory the server update is initially extracted to.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in <see cref="Tuple{T1, T2}"/> containing a new <see cref="BufferedFileStreamProvider"/> based on the <see cref="ServerUpdateOperation.FileStreamProvider"/> of <see cref="serverUpdateOperation"/> and <see langword="true"/> if it needs to be kept active until the swarm commit.</returns>
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in <see cref="Tuple{T1, T2}"/> containing a new <see cref="BufferedFileStreamProvider"/> based on the <see cref="ServerUpdateOperation.FileStreamProvider"/> of <see cref="serverUpdateOperation"/> and <see langword="true"/> if it needs to be kept active until the swarm commit. If <see langword="null"/>, the update failed to prepare.</returns>
 		/// <remarks>Requires <see cref="serverUpdateOperation"/> to be populated.</remarks>
-		async ValueTask<Tuple<BufferedFileStreamProvider, bool>> PrepareUpdateClearStagingAndBufferStream(string stagingDirectory, CancellationToken cancellationToken)
+		async ValueTask<Tuple<BufferedFileStreamProvider, bool>?> PrepareUpdateClearStagingAndBufferStream(string stagingDirectory, CancellationToken cancellationToken)
 		{
-			await using var fileStreamProvider = serverUpdateOperation.FileStreamProvider;
+			await using var fileStreamProvider = serverUpdateOperation!.FileStreamProvider;
 
 			var bufferedStream = new BufferedFileStreamProvider(
 				await fileStreamProvider.GetResult(cancellationToken));
@@ -278,12 +276,12 @@ namespace Tgstation.Server.Host.Core
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="ServerUpdateResult"/>.</returns>
 		async ValueTask<ServerUpdateResult> BeginUpdateImpl(
 			ISwarmService swarmService,
-			IFileStreamProvider fileStreamProvider,
+			IFileStreamProvider? fileStreamProvider,
 			Version newVersion,
 			bool recursed,
 			CancellationToken cancellationToken)
 		{
-			ServerUpdateOperation ourUpdateOperation = null;
+			ServerUpdateOperation? ourUpdateOperation = null;
 			try
 			{
 				if (fileStreamProvider == null)
