@@ -45,11 +45,11 @@ namespace Tgstation.Server.Tests.Live.Instance
 			CancellationToken cancellationToken)
 		{
 			var testVersion = await EngineTest.GetEdgeVersion(EngineType.Byond, fileDownloader, cancellationToken);
-			var engineTest = new EngineTest(instanceClient.Engine, instanceClient.Jobs, fileDownloader, instanceClient.Metadata, testVersion.Engine.Value);
-			var chatTest = new ChatTest(instanceClient.ChatBots, instanceManagerClient, instanceClient.Jobs, instanceClient.Metadata);
+			await using var engineTest = new EngineTest(instanceClient.Engine, instanceClient.Jobs, fileDownloader, instanceClient.Metadata, testVersion.Engine.Value);
+			await using var chatTest = new ChatTest(instanceClient.ChatBots, instanceManagerClient, instanceClient.Jobs, instanceClient.Metadata);
 			var configTest = new ConfigurationTest(instanceClient.Configuration, instanceClient.Metadata);
-			var repoTest = new RepositoryTest(instanceClient.Repository, instanceClient.Jobs);
-			var dmTest = new DeploymentTest(instanceClient, instanceClient.Jobs, dmPort, ddPort, lowPrioDeployment, testVersion.Engine.Value);
+			await using var repoTest = new RepositoryTest(instanceClient.Repository, instanceClient.Jobs);
+			await using var dmTest = new DeploymentTest(instanceClient, instanceClient.Jobs, dmPort, ddPort, lowPrioDeployment, testVersion.Engine.Value);
 
 			var byondTask = engineTest.Run(cancellationToken, out var firstInstall);
 			var chatTask = chatTest.RunPreWatchdog(cancellationToken);
@@ -66,15 +66,15 @@ namespace Tgstation.Server.Tests.Live.Instance
 			await configTest.SetupDMApiTests(true, cancellationToken);
 			await byondTask;
 
-			await new WatchdogTest(
+			await using var wdt = new WatchdogTest(
 				testVersion,
 				instanceClient,
 				instanceManager,
 				serverPort,
 				highPrioDD,
 				ddPort,
-				usingBasicWatchdog)
-				.Run(cancellationToken);
+				usingBasicWatchdog);
+			await wdt.Run(cancellationToken);
 		}
 
 		public static async ValueTask<IEngineInstallationData> DownloadEngineVersion(
@@ -197,7 +197,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 				ReconnectionInterval = 1,
 			}, cancellationToken);
 
-			var jrt = new JobsRequiredTest(instanceClient.Jobs);
+			await using var jrt = new JobsRequiredTest(instanceClient.Jobs);
 
 			EngineInstallResponse installJob2;
 			await using (var stableBytesMs = await TestingUtils.ExtractMemoryStreamFromInstallationData(
@@ -257,7 +257,8 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 			await configSetupTask;
 
-			await new WatchdogTest(compatVersion, instanceClient, instanceManager, serverPort, highPrioDD, ddPort, usingBasicWatchdog).Run(cancellationToken);
+			await using var wdt = new WatchdogTest(compatVersion, instanceClient, instanceManager, serverPort, highPrioDD, ddPort, usingBasicWatchdog);
+			await wdt.Run(cancellationToken);
 
 			await instanceManagerClient.Update(new InstanceUpdateRequest
 			{

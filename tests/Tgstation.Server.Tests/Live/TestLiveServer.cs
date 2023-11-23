@@ -1049,7 +1049,7 @@ namespace Tgstation.Server.Tests.Live
 
 				var ioManager = new Host.IO.DefaultIOManager();
 				var repoPath = ioManager.ConcatPath(instance.Path, "Repository");
-				var jobsTest = new JobsRequiredTest(instanceClient.Jobs);
+				await using var jobsTest = new JobsRequiredTest(instanceClient.Jobs);
 				var postWriteHandler = (Host.IO.IPostWriteHandler)(new PlatformIdentifier().IsWindows
 					? new Host.IO.WindowsPostWriteHandler()
 					: new Host.IO.PosixPostWriteHandler(loggerFactory.CreateLogger<Host.IO.PosixPostWriteHandler>()));
@@ -1590,7 +1590,7 @@ namespace Tgstation.Server.Tests.Live
 							.ToList();
 					}
 
-					var jrt = new JobsRequiredTest(instanceClient.Jobs);
+					await using var jrt = new JobsRequiredTest(instanceClient.Jobs);
 					foreach (var job in jobs)
 					{
 						Assert.IsTrue(job.StartedAt.Value >= preStartupTime);
@@ -1660,11 +1660,11 @@ namespace Tgstation.Server.Tests.Live
 						.ToList();
 					}
 
-					var jrt = new JobsRequiredTest(instanceClient.Jobs);
+					await using var jrt = new JobsRequiredTest(instanceClient.Jobs);
 					foreach (var job in jobs)
 					{
 						Assert.IsTrue(job.StartedAt.Value >= preStartupTime);
-						await jrt.WaitForJob(job, 140, job.Description.Contains("Reconnect chat bot") ? null : false, null, cancellationToken);
+						await jrt.WaitForJob(job, 140, job.JobCode == JobCode.ReconnectChatBot ? null : false, null, cancellationToken);
 					}
 				}
 
@@ -1684,7 +1684,7 @@ namespace Tgstation.Server.Tests.Live
 					Assert.AreEqual(WatchdogStatus.Online, dd.Status.Value);
 
 					var compileJob = await instanceClient.DreamMaker.Compile(cancellationToken);
-					var wdt = new WatchdogTest(edgeVersion, instanceClient, GetInstanceManager(), (ushort)server.ApiUrl.Port, server.HighPriorityDreamDaemon, mainDDPort, server.UsingBasicWatchdog);
+					await using var wdt = new WatchdogTest(edgeVersion, instanceClient, GetInstanceManager(), (ushort)server.ApiUrl.Port, server.HighPriorityDreamDaemon, mainDDPort, server.UsingBasicWatchdog);
 					await wdt.WaitForJob(compileJob, 30, false, null, cancellationToken);
 
 					dd = await instanceClient.DreamDaemon.Read(cancellationToken);
@@ -1727,13 +1727,15 @@ namespace Tgstation.Server.Tests.Live
 					Assert.AreEqual(WatchdogStatus.Online, currentDD.Status);
 					Assert.AreEqual(expectedStaged, currentDD.StagedCompileJob.Job.Id.Value);
 
-					var wdt = new WatchdogTest(edgeVersion, instanceClient, GetInstanceManager(), (ushort)server.ApiUrl.Port, server.HighPriorityDreamDaemon, mainDDPort, server.UsingBasicWatchdog);
-					currentDD = await wdt.TellWorldToReboot(true, cancellationToken);
+					await using var wdt = new WatchdogTest(edgeVersion, instanceClient, GetInstanceManager(), (ushort)server.ApiUrl.Port, server.HighPriorityDreamDaemon, mainDDPort, server.UsingBasicWatchdog);
+					currentDD = await wdt.TellWorldToReboot(false, cancellationToken);
 					Assert.AreEqual(expectedStaged, currentDD.ActiveCompileJob.Job.Id.Value);
 					Assert.IsNull(currentDD.StagedCompileJob);
 
-					var repoTest = new RepositoryTest(instanceClient.Repository, instanceClient.Jobs).RunPostTest(cancellationToken);
-					await new ChatTest(instanceClient.ChatBots, adminClient.Instances, instanceClient.Jobs, instance).RunPostTest(cancellationToken);
+					await using var repoTestObj = new RepositoryTest(instanceClient.Repository, instanceClient.Jobs);
+					var repoTest = repoTestObj.RunPostTest(cancellationToken);
+					await using var chatTestObj = new ChatTest(instanceClient.ChatBots, adminClient.Instances, instanceClient.Jobs, instance);
+					await chatTestObj.RunPostTest(cancellationToken);
 					await repoTest;
 
 					await DummyChatProvider.RandomDisconnections(false, cancellationToken);
