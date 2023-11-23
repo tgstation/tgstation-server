@@ -11,6 +11,8 @@ using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.Properties;
 using Tgstation.Server.Host.System;
 
+#nullable disable
+
 namespace Tgstation.Server.Host
 {
 	/// <summary>

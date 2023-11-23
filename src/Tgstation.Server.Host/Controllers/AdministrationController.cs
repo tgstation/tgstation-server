@@ -29,6 +29,8 @@ using Tgstation.Server.Host.Transfer;
 using Tgstation.Server.Host.Utils;
 using Tgstation.Server.Host.Utils.GitHub;
 
+#nullable disable
+
 namespace Tgstation.Server.Host.Controllers
 {
 	/// <summary>

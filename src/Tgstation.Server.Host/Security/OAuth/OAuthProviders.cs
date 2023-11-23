@@ -10,6 +10,8 @@ using Tgstation.Server.Common.Http;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Utils.GitHub;
 
+#nullable disable
+
 namespace Tgstation.Server.Host.Security.OAuth
 {
 	/// <inheritdoc />

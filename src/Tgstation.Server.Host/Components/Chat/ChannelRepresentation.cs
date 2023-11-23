@@ -3,6 +3,8 @@ using System.Globalization;
 
 using Newtonsoft.Json;
 
+#nullable disable
+
 namespace Tgstation.Server.Host.Components.Chat
 {
 	/// <summary>

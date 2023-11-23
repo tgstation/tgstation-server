@@ -14,6 +14,8 @@ using Microsoft.Extensions.Logging;
 using Tgstation.Server.Host.Components.Repository;
 using Tgstation.Server.Host.Models;
 
+#nullable disable
+
 namespace Tgstation.Server.Host.Components.Deployment.Remote
 {
 	/// <summary>

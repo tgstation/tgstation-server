@@ -6,6 +6,8 @@ using Remora.Discord.API.Abstractions.Gateway.Events;
 using Remora.Discord.Gateway.Responders;
 using Remora.Results;
 
+#nullable disable
+
 namespace Tgstation.Server.Host.Components.Chat.Providers
 {
 	/// <summary>

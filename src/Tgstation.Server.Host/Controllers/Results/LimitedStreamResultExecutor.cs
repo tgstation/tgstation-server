@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.Extensions.Logging;
 
+#nullable disable
+
 namespace Tgstation.Server.Host.Controllers.Results
 {
 	/// <summary>

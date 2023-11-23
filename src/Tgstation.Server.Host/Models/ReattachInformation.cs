@@ -1,5 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
+#nullable disable
+
 namespace Tgstation.Server.Host.Models
 {
 	/// <summary>

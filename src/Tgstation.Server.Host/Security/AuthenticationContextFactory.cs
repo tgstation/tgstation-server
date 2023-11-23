@@ -11,6 +11,8 @@ using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.Models;
 
+#nullable disable
+
 namespace Tgstation.Server.Host.Security
 {
 	/// <inheritdoc cref="IAuthenticationContext" />

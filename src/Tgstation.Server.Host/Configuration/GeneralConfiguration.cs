@@ -11,6 +11,8 @@ using Tgstation.Server.Host.Setup;
 
 using YamlDotNet.Serialization;
 
+#nullable disable
+
 namespace Tgstation.Server.Host.Configuration
 {
 	/// <summary>

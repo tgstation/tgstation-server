@@ -20,6 +20,8 @@ using Tgstation.Server.Common.Extensions;
 using Tgstation.Server.Host.Controllers;
 using Tgstation.Server.Host.Security;
 
+#nullable disable
+
 namespace Tgstation.Server.Host.Utils
 {
 	/// <summary>

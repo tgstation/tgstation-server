@@ -4,6 +4,8 @@ using Newtonsoft.Json;
 
 using Tgstation.Server.Host.Components.Session;
 
+#nullable disable
+
 namespace Tgstation.Server.Host.Components.Interop.Topic
 {
 	/// <summary>

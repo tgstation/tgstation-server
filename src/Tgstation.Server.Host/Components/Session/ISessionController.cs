@@ -7,6 +7,8 @@ using Tgstation.Server.Host.Components.Deployment;
 using Tgstation.Server.Host.Components.Interop.Topic;
 using Tgstation.Server.Host.System;
 
+#nullable disable
+
 namespace Tgstation.Server.Host.Components.Session
 {
 	/// <summary>

@@ -18,6 +18,8 @@ using Tgstation.Server.Host.Components.Interop;
 using Tgstation.Server.Host.Components.Interop.Bridge;
 using Tgstation.Server.Host.Utils;
 
+#nullable disable
+
 namespace Tgstation.Server.Host.Controllers
 {
 	/// <summary>

@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 using Tgstation.Server.Api.Models.Response;
 using Tgstation.Server.Host.Models;
 
+#nullable disable
+
 namespace Tgstation.Server.Host.Jobs
 {
 	/// <summary>

@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using Tgstation.Server.Host.Components.Repository;
 using Tgstation.Server.Host.IO;
 
+#nullable disable
+
 namespace Tgstation.Server.Host.Components.Engine
 {
 	/// <summary>

@@ -1,4 +1,6 @@
-﻿namespace Tgstation.Server.Host.Configuration
+﻿#nullable disable
+
+namespace Tgstation.Server.Host.Configuration
 {
 	/// <summary>
 	/// Unstable configuration options used internally by TGS.

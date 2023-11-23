@@ -9,6 +9,8 @@ using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Host.Utils.GitHub;
 
+#nullable disable
+
 namespace Tgstation.Server.Host.Components.Repository
 {
 	/// <summary>

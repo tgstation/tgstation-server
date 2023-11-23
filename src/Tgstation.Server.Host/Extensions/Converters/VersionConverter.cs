@@ -8,6 +8,8 @@ using YamlDotNet.Core;
 using YamlDotNet.Core.Events;
 using YamlDotNet.Serialization;
 
+#nullable disable
+
 namespace Tgstation.Server.Host.Extensions.Converters
 {
 	/// <summary>

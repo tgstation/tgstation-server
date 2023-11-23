@@ -1,6 +1,8 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 
+#nullable disable
+
 namespace Tgstation.Server.Host.Swarm
 {
 	/// <summary>

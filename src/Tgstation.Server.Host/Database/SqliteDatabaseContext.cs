@@ -6,6 +6,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 using Tgstation.Server.Host.Configuration;
 
+#nullable disable
+
 namespace Tgstation.Server.Host.Database
 {
 	/// <summary>

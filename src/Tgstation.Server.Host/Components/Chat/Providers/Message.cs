@@ -1,4 +1,6 @@
-﻿namespace Tgstation.Server.Host.Components.Chat.Providers
+﻿#nullable disable
+
+namespace Tgstation.Server.Host.Components.Chat.Providers
 {
 	/// <summary>
 	/// Represents a message received by a <see cref="IProvider"/>.

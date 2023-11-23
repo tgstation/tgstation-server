@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 
 using Tgstation.Server.Api.Models.Response;
 
+#nullable disable
+
 namespace Tgstation.Server.Host.Swarm
 {
 	/// <summary>

@@ -17,6 +17,8 @@ using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.Utils.GitHub;
 
+#nullable disable
+
 namespace Tgstation.Server.Host.Components.Deployment.Remote
 {
 	/// <summary>

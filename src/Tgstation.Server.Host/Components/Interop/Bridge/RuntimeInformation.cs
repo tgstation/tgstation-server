@@ -9,6 +9,8 @@ using Tgstation.Server.Host.Components.Chat;
 using Tgstation.Server.Host.Components.Deployment;
 using Tgstation.Server.Host.System;
 
+#nullable disable
+
 namespace Tgstation.Server.Host.Components.Interop.Bridge
 {
 	/// <summary>

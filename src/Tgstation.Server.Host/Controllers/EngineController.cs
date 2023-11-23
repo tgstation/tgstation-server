@@ -23,6 +23,8 @@ using Tgstation.Server.Host.Security;
 using Tgstation.Server.Host.Transfer;
 using Tgstation.Server.Host.Utils;
 
+#nullable disable
+
 namespace Tgstation.Server.Host.Controllers
 {
 	/// <summary>

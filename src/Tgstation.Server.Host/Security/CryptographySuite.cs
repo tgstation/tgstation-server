@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Identity;
 
 using Tgstation.Server.Host.Models;
 
+#nullable disable
+
 namespace Tgstation.Server.Host.Security
 {
 	/// <inheritdoc />

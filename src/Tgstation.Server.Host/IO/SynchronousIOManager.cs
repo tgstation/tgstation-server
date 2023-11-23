@@ -6,6 +6,8 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Threading;
 
+#nullable disable
+
 namespace Tgstation.Server.Host.IO
 {
 	/// <inheritdoc />

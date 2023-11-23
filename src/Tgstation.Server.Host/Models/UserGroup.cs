@@ -5,6 +5,8 @@ using System.Linq;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Response;
 
+#nullable disable
+
 namespace Tgstation.Server.Host.Models
 {
 	/// <summary>

@@ -8,6 +8,8 @@ using Tgstation.Server.Host.Components.Watchdog;
 using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.System;
 
+#nullable disable
+
 namespace Tgstation.Server.Host.Components.Chat.Commands
 {
 	/// <inheritdoc />

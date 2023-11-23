@@ -16,6 +16,8 @@ using Tgstation.Server.Host.System;
 
 using Z.EntityFramework.Plus;
 
+#nullable disable
+
 namespace Tgstation.Server.Host.Database
 {
 	/// <inheritdoc />

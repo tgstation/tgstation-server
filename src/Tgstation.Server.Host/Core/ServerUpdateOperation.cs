@@ -3,6 +3,8 @@
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Swarm;
 
+#nullable disable
+
 namespace Tgstation.Server.Host.Core
 {
 	/// <summary>

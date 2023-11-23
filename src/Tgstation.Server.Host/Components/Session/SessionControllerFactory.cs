@@ -26,6 +26,8 @@ using Tgstation.Server.Host.Security;
 using Tgstation.Server.Host.System;
 using Tgstation.Server.Host.Utils;
 
+#nullable disable
+
 namespace Tgstation.Server.Host.Components.Session
 {
 	/// <inheritdoc />

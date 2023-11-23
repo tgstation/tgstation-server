@@ -1,4 +1,6 @@
-﻿namespace Tgstation.Server.Host.Components.Chat
+﻿#nullable disable
+
+namespace Tgstation.Server.Host.Components.Chat
 {
 	/// <summary>
 	/// Represents a mapping of a <see cref="ChannelRepresentation.RealId"/>.

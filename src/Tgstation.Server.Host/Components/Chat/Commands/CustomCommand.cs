@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 
 using Tgstation.Server.Host.Components.Interop;
 
+#nullable disable
+
 namespace Tgstation.Server.Host.Components.Chat.Commands
 {
 	/// <summary>

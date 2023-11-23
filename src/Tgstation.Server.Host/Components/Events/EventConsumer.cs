@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using Tgstation.Server.Host.Components.StaticFiles;
 using Tgstation.Server.Host.Components.Watchdog;
 
+#nullable disable
+
 namespace Tgstation.Server.Host.Components.Events
 {
 	/// <inheritdoc />

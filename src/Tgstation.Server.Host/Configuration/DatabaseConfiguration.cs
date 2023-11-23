@@ -1,6 +1,8 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
+#nullable disable
+
 namespace Tgstation.Server.Host.Configuration
 {
 	/// <summary>

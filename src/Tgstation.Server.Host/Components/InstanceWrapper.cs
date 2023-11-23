@@ -10,6 +10,8 @@ using Tgstation.Server.Host.Components.Watchdog;
 using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.Utils;
 
+#nullable disable
+
 namespace Tgstation.Server.Host.Components
 {
 	/// <summary>

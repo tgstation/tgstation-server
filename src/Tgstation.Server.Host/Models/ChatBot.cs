@@ -4,6 +4,8 @@ using System.Linq;
 
 using Tgstation.Server.Api.Models.Response;
 
+#nullable disable
+
 namespace Tgstation.Server.Host.Models
 {
 	/// <inheritdoc cref="Api.Models.Internal.ChatBotSettings" />

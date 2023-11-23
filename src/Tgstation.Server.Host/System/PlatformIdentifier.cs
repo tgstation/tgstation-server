@@ -1,6 +1,8 @@
 ﻿using System.Runtime.InteropServices;
 using System.Runtime.Versioning;
 
+#nullable disable
+
 namespace Tgstation.Server.Host.System
 {
 	/// <inheritdoc />

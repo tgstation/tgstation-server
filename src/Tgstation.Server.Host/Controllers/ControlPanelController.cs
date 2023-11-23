@@ -16,6 +16,8 @@ using Microsoft.Net.Http.Headers;
 using Tgstation.Server.Api;
 using Tgstation.Server.Host.Configuration;
 
+#nullable disable
+
 namespace Tgstation.Server.Host.Controllers
 {
 	/// <summary>

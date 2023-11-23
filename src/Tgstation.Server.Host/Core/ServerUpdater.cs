@@ -11,6 +11,8 @@ using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Swarm;
 using Tgstation.Server.Host.Utils.GitHub;
 
+#nullable disable
+
 namespace Tgstation.Server.Host.Core
 {
 	/// <inheritdoc cref="IServerUpdater" />

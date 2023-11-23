@@ -3,6 +3,8 @@ using System.Threading.Tasks;
 
 using Microsoft.Extensions.DependencyInjection;
 
+#nullable disable
+
 namespace Tgstation.Server.Host.Database
 {
 	/// <inheritdoc />

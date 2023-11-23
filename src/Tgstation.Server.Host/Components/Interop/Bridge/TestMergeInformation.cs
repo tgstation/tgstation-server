@@ -3,6 +3,8 @@ using System.Globalization;
 
 using Tgstation.Server.Api.Models.Internal;
 
+#nullable disable
+
 namespace Tgstation.Server.Host.Components.Interop.Bridge
 {
 	/// <summary>

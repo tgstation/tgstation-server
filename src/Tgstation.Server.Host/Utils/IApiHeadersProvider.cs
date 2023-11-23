@@ -1,5 +1,7 @@
 ﻿using Tgstation.Server.Api;
 
+#nullable disable
+
 namespace Tgstation.Server.Host.Utils
 {
 	/// <summary>

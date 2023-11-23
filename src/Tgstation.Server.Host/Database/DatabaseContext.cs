@@ -15,6 +15,8 @@ using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Database.Migrations;
 using Tgstation.Server.Host.Models;
 
+#nullable disable
+
 namespace Tgstation.Server.Host.Database
 {
 	/// <summary>

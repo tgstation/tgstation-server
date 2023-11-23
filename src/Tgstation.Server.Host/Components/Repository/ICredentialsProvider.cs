@@ -3,6 +3,8 @@ using LibGit2Sharp.Handlers;
 
 using Tgstation.Server.Host.Jobs;
 
+#nullable disable
+
 namespace Tgstation.Server.Host.Components.Repository
 {
 	/// <summary>

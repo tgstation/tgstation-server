@@ -1,6 +1,8 @@
 ﻿using Tgstation.Server.Host.Components.Events;
 using Tgstation.Server.Host.IO;
 
+#nullable disable
+
 namespace Tgstation.Server.Host.Components.Repository
 {
 	/// <summary>

@@ -8,6 +8,8 @@ using Tgstation.Server.Api.Models;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Jobs;
 
+#nullable disable
+
 namespace Tgstation.Server.Host.Components.Engine
 {
 	/// <inheritdoc />

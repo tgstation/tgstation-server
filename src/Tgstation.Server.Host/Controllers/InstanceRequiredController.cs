@@ -5,6 +5,8 @@ using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.Security;
 using Tgstation.Server.Host.Utils;
 
+#nullable disable
+
 namespace Tgstation.Server.Host.Controllers
 {
 	/// <summary>

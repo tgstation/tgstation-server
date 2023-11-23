@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using BetterWin32Errors;
 using Tgstation.Server.Host.System;
 
+#nullable disable
+
 namespace Tgstation.Server.Host.IO
 {
 	/// <summary>

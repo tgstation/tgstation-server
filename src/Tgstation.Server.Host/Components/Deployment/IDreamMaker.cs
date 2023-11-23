@@ -5,6 +5,8 @@ using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.Jobs;
 using Tgstation.Server.Host.Models;
 
+#nullable disable
+
 namespace Tgstation.Server.Host.Components.Deployment
 {
 	/// <summary>

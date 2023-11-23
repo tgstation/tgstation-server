@@ -4,6 +4,8 @@ using Microsoft.Extensions.Logging;
 using Mono.Unix;
 using Mono.Unix.Native;
 
+#nullable disable
+
 namespace Tgstation.Server.Host.IO
 {
 	/// <summary>

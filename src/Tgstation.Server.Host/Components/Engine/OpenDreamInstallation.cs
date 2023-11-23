@@ -7,6 +7,8 @@ using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Host.Components.Deployment;
 using Tgstation.Server.Host.IO;
 
+#nullable disable
+
 namespace Tgstation.Server.Host.Components.Engine
 {
 	/// <summary>

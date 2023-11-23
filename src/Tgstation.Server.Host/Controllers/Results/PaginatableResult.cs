@@ -3,6 +3,8 @@ using System.Linq;
 
 using Microsoft.AspNetCore.Mvc;
 
+#nullable disable
+
 namespace Tgstation.Server.Host.Controllers.Results
 {
 	/// <summary>

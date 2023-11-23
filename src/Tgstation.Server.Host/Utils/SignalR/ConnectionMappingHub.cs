@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.SignalR;
 
 using Tgstation.Server.Host.Security;
 
+#nullable disable
+
 namespace Tgstation.Server.Host.Utils.SignalR
 {
 	/// <summary>

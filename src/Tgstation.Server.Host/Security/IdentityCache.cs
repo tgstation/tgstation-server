@@ -7,6 +7,8 @@ using Microsoft.Extensions.Logging;
 using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.Utils;
 
+#nullable disable
+
 namespace Tgstation.Server.Host.Security
 {
 	/// <inheritdoc cref="IIdentityCache" />

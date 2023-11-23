@@ -21,6 +21,8 @@ using Tgstation.Server.Host.Components.Interop;
 using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.Utils;
 
+#nullable disable
+
 namespace Tgstation.Server.Host.Components.Chat
 {
 	/// <inheritdoc cref="IChatManager" />

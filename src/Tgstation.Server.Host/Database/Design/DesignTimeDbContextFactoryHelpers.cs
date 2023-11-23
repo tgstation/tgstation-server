@@ -3,6 +3,8 @@ using Microsoft.Extensions.Options;
 
 using Tgstation.Server.Host.Configuration;
 
+#nullable disable
+
 namespace Tgstation.Server.Host.Database.Design
 {
 	/// <summary>

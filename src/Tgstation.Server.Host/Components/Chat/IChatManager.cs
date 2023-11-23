@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Host.Components.Interop;
 
+#nullable disable
+
 namespace Tgstation.Server.Host.Components.Chat
 {
 	/// <summary>

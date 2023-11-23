@@ -25,6 +25,8 @@ using Tgstation.Server.Host.Components.Interop.Topic;
 using Tgstation.Server.Host.System;
 using Tgstation.Server.Host.Utils;
 
+#nullable disable
+
 namespace Tgstation.Server.Host.Components.Session
 {
 	/// <inheritdoc cref="ISessionController" />

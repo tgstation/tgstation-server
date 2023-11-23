@@ -12,6 +12,8 @@ using Tgstation.Server.Api.Models.Response;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.System;
 
+#nullable disable
+
 namespace Tgstation.Server.Host.Security
 {
 	/// <inheritdoc />

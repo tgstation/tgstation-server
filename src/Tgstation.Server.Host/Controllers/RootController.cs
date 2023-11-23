@@ -9,6 +9,8 @@ using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.System;
 using Tgstation.Server.Host.Utils;
 
+#nullable disable
+
 namespace Tgstation.Server.Host.Controllers
 {
 	/// <summary>

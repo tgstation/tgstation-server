@@ -8,6 +8,8 @@ using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Host.Components.Deployment;
 
+#nullable disable
+
 namespace Tgstation.Server.Host.Components.Engine
 {
 	/// <inheritdoc />

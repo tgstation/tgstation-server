@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Logging;
 
+#nullable disable
+
 namespace Tgstation.Server.Host.Security
 {
 	/// <summary>

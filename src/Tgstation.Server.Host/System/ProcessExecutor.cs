@@ -9,6 +9,8 @@ using Microsoft.Extensions.Logging;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Utils;
 
+#nullable disable
+
 namespace Tgstation.Server.Host.System
 {
 	/// <inheritdoc />

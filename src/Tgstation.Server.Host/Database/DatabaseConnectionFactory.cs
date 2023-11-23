@@ -10,6 +10,8 @@ using Npgsql;
 
 using Tgstation.Server.Host.Configuration;
 
+#nullable disable
+
 namespace Tgstation.Server.Host.Database
 {
 	/// <inheritdoc />

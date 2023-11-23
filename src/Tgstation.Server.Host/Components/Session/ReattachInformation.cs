@@ -5,6 +5,8 @@ using Tgstation.Server.Host.Components.Interop.Bridge;
 using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.System;
 
+#nullable disable
+
 namespace Tgstation.Server.Host.Components.Session
 {
 	/// <summary>

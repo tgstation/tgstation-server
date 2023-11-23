@@ -9,6 +9,8 @@ using Octokit;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.System;
 
+#nullable disable
+
 namespace Tgstation.Server.Host.Utils.GitHub
 {
 	/// <inheritdoc />

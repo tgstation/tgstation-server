@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Logging;
 
+#nullable disable
+
 namespace Tgstation.Server.Host.Security
 {
 	/// <summary>

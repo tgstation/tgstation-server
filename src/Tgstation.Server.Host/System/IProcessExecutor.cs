@@ -1,4 +1,6 @@
-﻿namespace Tgstation.Server.Host.System
+﻿#nullable disable
+
+namespace Tgstation.Server.Host.System
 {
 	/// <summary>
 	/// For launching <see cref="IProcess"/>'.

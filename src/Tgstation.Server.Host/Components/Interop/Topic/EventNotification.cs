@@ -4,6 +4,8 @@ using System.Linq;
 
 using Tgstation.Server.Host.Components.Events;
 
+#nullable disable
+
 namespace Tgstation.Server.Host.Components.Interop.Topic
 {
 	/// <summary>

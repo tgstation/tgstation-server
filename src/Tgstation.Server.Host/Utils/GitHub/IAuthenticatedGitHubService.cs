@@ -3,6 +3,8 @@ using System.Threading.Tasks;
 
 using Octokit;
 
+#nullable disable
+
 namespace Tgstation.Server.Host.Utils.GitHub
 {
 	/// <summary>

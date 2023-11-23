@@ -8,6 +8,8 @@ using Tgstation.Server.Host.Components.Chat.Commands;
 using Tgstation.Server.Host.Components.Chat.Providers;
 using Tgstation.Server.Host.Core;
 
+#nullable disable
+
 namespace Tgstation.Server.Host.Components.Chat
 {
 	/// <inheritdoc />

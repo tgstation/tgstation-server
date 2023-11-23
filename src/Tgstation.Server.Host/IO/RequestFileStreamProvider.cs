@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 
 using Tgstation.Server.Common.Http;
 
+#nullable disable
+
 namespace Tgstation.Server.Host.IO
 {
 	/// <summary>

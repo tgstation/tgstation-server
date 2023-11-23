@@ -31,6 +31,8 @@ using Tgstation.Server.Host.Utils;
 
 using YamlDotNet.Serialization;
 
+#nullable disable
+
 namespace Tgstation.Server.Host.Setup
 {
 	/// <inheritdoc />

@@ -2,6 +2,8 @@
 
 using Tgstation.Server.Host.Components.Interop.Bridge;
 
+#nullable disable
+
 namespace Tgstation.Server.Host.Components
 {
 	/// <summary>

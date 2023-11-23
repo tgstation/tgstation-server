@@ -3,6 +3,8 @@
 using Tgstation.Server.Api.Models.Internal;
 using YamlDotNet.Serialization;
 
+#nullable disable
+
 namespace Tgstation.Server.Host.Configuration
 {
 	/// <summary>

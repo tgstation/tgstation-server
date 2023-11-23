@@ -5,6 +5,8 @@ using System.Reflection;
 using Tgstation.Server.Common;
 using Tgstation.Server.Common.Extensions;
 
+#nullable disable
+
 namespace Tgstation.Server.Host.System
 {
 	/// <inheritdoc />

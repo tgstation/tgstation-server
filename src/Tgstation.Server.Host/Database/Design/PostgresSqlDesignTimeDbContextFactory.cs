@@ -3,6 +3,8 @@
 using Tgstation.Server.Common;
 using Tgstation.Server.Host.Configuration;
 
+#nullable disable
+
 namespace Tgstation.Server.Host.Database.Design
 {
 	/// <summary>

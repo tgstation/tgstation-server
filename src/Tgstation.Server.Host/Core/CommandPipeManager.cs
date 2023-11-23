@@ -13,6 +13,8 @@ using Tgstation.Server.Host.Common;
 using Tgstation.Server.Host.Components;
 using Tgstation.Server.Host.Configuration;
 
+#nullable disable
+
 namespace Tgstation.Server.Host.Core
 {
 	/// <summary>

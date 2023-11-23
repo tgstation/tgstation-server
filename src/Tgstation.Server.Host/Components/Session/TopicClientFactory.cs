@@ -3,6 +3,8 @@
 using Byond.TopicSender;
 using Microsoft.Extensions.Logging;
 
+#nullable disable
+
 namespace Tgstation.Server.Host.Components.Session
 {
 	/// <inheritdoc />

@@ -2,6 +2,8 @@
 using System.IO;
 using System.Threading;
 
+#nullable disable
+
 namespace Tgstation.Server.Host.IO
 {
 	/// <summary>

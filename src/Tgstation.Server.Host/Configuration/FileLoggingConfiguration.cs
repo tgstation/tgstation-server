@@ -7,6 +7,8 @@ using Newtonsoft.Json.Converters;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.System;
 
+#nullable disable
+
 namespace Tgstation.Server.Host.Configuration
 {
 	/// <summary>

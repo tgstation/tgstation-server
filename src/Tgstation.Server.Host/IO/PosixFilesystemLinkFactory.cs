@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 
 using Mono.Unix;
 
+#nullable disable
+
 namespace Tgstation.Server.Host.IO
 {
 	/// <summary>

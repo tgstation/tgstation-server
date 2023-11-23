@@ -7,6 +7,8 @@ using Remora.Discord.API.Objects;
 using Remora.Rest.Results;
 using Remora.Results;
 
+#nullable disable
+
 namespace Tgstation.Server.Host.Extensions
 {
 	/// <summary>

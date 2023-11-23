@@ -1,5 +1,7 @@
 ﻿using Tgstation.Server.Api.Models.Response;
 
+#nullable disable
+
 namespace Tgstation.Server.Host.Transfer
 {
 	/// <summary>

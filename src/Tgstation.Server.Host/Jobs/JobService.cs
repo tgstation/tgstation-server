@@ -21,6 +21,8 @@ using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.Utils;
 using Tgstation.Server.Host.Utils.SignalR;
 
+#nullable disable
+
 namespace Tgstation.Server.Host.Jobs
 {
 	/// <inheritdoc cref="IJobService" />

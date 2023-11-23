@@ -27,6 +27,8 @@ using Tgstation.Server.Host.Security;
 using Tgstation.Server.Host.Utils;
 using Z.EntityFramework.Plus;
 
+#nullable disable
+
 namespace Tgstation.Server.Host.Controllers
 {
 	/// <summary>

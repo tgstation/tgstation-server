@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Authorization;
 
 using Tgstation.Server.Api.Rights;
 
+#nullable disable
+
 namespace Tgstation.Server.Host.Security
 {
 	/// <summary>

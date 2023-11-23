@@ -2,6 +2,8 @@
 
 using Tgstation.Server.Host.Components.Interop.Topic;
 
+#nullable disable
+
 namespace Tgstation.Server.Host.Components.Session
 {
 	/// <summary>

@@ -1,6 +1,8 @@
 ﻿using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Host.Models;
 
+#nullable disable
+
 namespace Tgstation.Server.Host.Security
 {
 	/// <summary>

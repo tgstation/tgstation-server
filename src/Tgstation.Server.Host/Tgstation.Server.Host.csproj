@@ -9,6 +9,7 @@
     <NoWarn>API1000;ASP0019</NoWarn>
     <NodeModulesFolder>ClientApp/node_modules</NodeModulesFolder>
     <NpmInstallStampFile>ClientApp/node_modules/.install-stamp</NpmInstallStampFile>
+    <Nullable>enable</Nullable>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <DockerfileContext>..\..</DockerfileContext>
     <ApplicationManifest>../../build/uac_elevation_manifest.xml</ApplicationManifest>

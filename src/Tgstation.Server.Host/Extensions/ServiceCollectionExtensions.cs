@@ -18,6 +18,8 @@ using Tgstation.Server.Host.Utils;
 using Tgstation.Server.Host.Utils.GitHub;
 using Tgstation.Server.Host.Utils.SignalR;
 
+#nullable disable
+
 namespace Tgstation.Server.Host.Extensions
 {
 	/// <summary>

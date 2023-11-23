@@ -2,6 +2,8 @@
 
 using Newtonsoft.Json;
 
+#nullable disable
+
 namespace Tgstation.Server.Host.Extensions.Converters
 {
 	/// <summary>

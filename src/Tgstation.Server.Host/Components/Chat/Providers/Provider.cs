@@ -11,6 +11,8 @@ using Tgstation.Server.Host.Jobs;
 using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.Utils;
 
+#nullable disable
+
 namespace Tgstation.Server.Host.Components.Chat.Providers
 {
 	/// <inheritdoc />

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Reflection;
 
+#nullable disable
+
 namespace Tgstation.Server.Host.Properties
 {
 	/// <summary>

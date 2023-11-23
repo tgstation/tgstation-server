@@ -9,6 +9,8 @@ using Tgstation.Server.Host.Components.Interop;
 using Tgstation.Server.Host.Components.Repository;
 using Tgstation.Server.Host.Components.Watchdog;
 
+#nullable disable
+
 namespace Tgstation.Server.Host.Components.Chat.Commands
 {
 	/// <summary>

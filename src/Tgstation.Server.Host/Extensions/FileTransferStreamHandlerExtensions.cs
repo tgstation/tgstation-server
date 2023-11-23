@@ -14,6 +14,8 @@ using Tgstation.Server.Api.Models.Response;
 using Tgstation.Server.Host.Controllers.Results;
 using Tgstation.Server.Host.Transfer;
 
+#nullable disable
+
 namespace Tgstation.Server.Host.Extensions
 {
 	/// <summary>

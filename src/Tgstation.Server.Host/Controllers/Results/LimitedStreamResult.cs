@@ -10,6 +10,8 @@ using Microsoft.Extensions.DependencyInjection;
 
 using Tgstation.Server.Host.IO;
 
+#nullable disable
+
 namespace Tgstation.Server.Host.Controllers.Results
 {
 	/// <summary>

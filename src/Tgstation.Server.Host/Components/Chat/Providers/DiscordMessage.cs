@@ -1,6 +1,8 @@
 ﻿using Remora.Discord.API.Abstractions.Objects;
 using Remora.Rest.Core;
 
+#nullable disable
+
 namespace Tgstation.Server.Host.Components.Chat.Providers
 {
 	/// <summary>

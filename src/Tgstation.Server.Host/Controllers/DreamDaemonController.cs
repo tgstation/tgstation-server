@@ -25,6 +25,8 @@ using Tgstation.Server.Host.Utils;
 
 #pragma warning disable API1001 // Action method returns a success result without a corresponding ProducesResponseType. Somehow this happens ONLY IN THIS CONTROLLER???
 
+#nullable disable
+
 namespace Tgstation.Server.Host.Controllers
 {
 	/// <summary>

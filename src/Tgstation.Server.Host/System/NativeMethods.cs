@@ -2,6 +2,8 @@
 using System.Runtime.InteropServices;
 using System.Text;
 
+#nullable disable
+
 namespace Tgstation.Server.Host.System
 {
 	/// <summary>

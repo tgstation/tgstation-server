@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
+#nullable disable
+
 namespace Tgstation.Server.Host.Utils
 {
 	/// <summary>

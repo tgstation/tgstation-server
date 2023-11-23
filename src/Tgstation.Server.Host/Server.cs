@@ -14,6 +14,8 @@ using Tgstation.Server.Common.Extensions;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Core;
 
+#nullable disable
+
 namespace Tgstation.Server.Host
 {
 	/// <inheritdoc cref="IServer" />

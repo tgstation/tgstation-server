@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Response;
 
+#nullable disable
+
 namespace Tgstation.Server.Host.Extensions
 {
 	/// <summary>

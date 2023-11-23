@@ -5,6 +5,8 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 
 using Tgstation.Server.Api.Models;
 
+#nullable disable
+
 namespace Tgstation.Server.Host.Configuration
 {
 	/// <summary>

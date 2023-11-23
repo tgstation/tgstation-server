@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Threading;
 
+#nullable disable
+
 namespace Tgstation.Server.Host.System
 {
 	/// <summary>

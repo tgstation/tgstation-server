@@ -1,5 +1,7 @@
 ﻿using Tgstation.Server.Common;
 
+#nullable disable
+
 namespace Tgstation.Server.Host.Configuration
 {
 	/// <summary>
