@@ -267,18 +267,20 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		}
 
 		/// <inheritdoc />
-		public async ValueTask ChangeSettings(DreamDaemonLaunchParameters launchParameters, CancellationToken cancellationToken)
+		public async ValueTask<bool> ChangeSettings(DreamDaemonLaunchParameters launchParameters, CancellationToken cancellationToken)
 		{
 			using (await SemaphoreSlimContext.Lock(synchronizationSemaphore, cancellationToken))
 			{
 				bool match = launchParameters.CanApplyWithoutReboot(ActiveLaunchParameters);
 				ActiveLaunchParameters = launchParameters;
-				if (match || Status == WatchdogStatus.Offline)
-					return;
+				if (match || Status == WatchdogStatus.Offline || Status == WatchdogStatus.DelayedRestart)
+					return false;
 
 				var oldTcs = Interlocked.Exchange(ref activeParametersUpdated, new TaskCompletionSource());
 				oldTcs.SetResult();
 			}
+
+			return true;
 		}
 
 		/// <inheritdoc />
