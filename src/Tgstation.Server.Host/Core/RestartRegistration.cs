@@ -1,7 +1,5 @@
 ﻿using System;
 
-#nullable disable
-
 namespace Tgstation.Server.Host.Core
 {
 	/// <inheritdoc />
@@ -10,13 +8,13 @@ namespace Tgstation.Server.Host.Core
 		/// <summary>
 		/// The <see cref="Dispose"/> <see cref="Action"/>.
 		/// </summary>
-		readonly Action onDispose;
+		readonly Action? onDispose;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="RestartRegistration"/> class.
 		/// </summary>
 		/// <param name="onDispose">The value of <see cref="onDispose"/>.</param>
-		public RestartRegistration(Action onDispose)
+		public RestartRegistration(Action? onDispose)
 		{
 			this.onDispose = onDispose;
 		}
