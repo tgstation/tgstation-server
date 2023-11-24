@@ -65,22 +65,24 @@ namespace Tgstation.Server.Host.Core
 			logger.LogTrace("Starting...");
 
 			// grab both pipes asap so we can close them on error
-			var supportsPipeCommands = !String.IsNullOrWhiteSpace(internalConfiguration.CommandPipe);
+			var commandPipe = internalConfiguration.CommandPipe;
+			var supportsPipeCommands = !String.IsNullOrWhiteSpace(commandPipe);
 			await using var commandPipeClient = supportsPipeCommands
 				? new AnonymousPipeClientStream(
 					PipeDirection.In,
-					internalConfiguration.CommandPipe)
+					commandPipe!)
 				: null;
 
 			if (!supportsPipeCommands)
 				logger.LogDebug("No command pipe name specified in configuration");
 
-			var supportsReadyNotification = !String.IsNullOrWhiteSpace(internalConfiguration.ReadyPipe);
+			var readyPipe = internalConfiguration.ReadyPipe;
+			var supportsReadyNotification = !String.IsNullOrWhiteSpace(readyPipe);
 			if (supportsReadyNotification)
 			{
 				await using var readyPipeClient = new AnonymousPipeClientStream(
 					PipeDirection.Out,
-					internalConfiguration.ReadyPipe);
+					readyPipe!);
 
 				logger.LogTrace("Waiting to send ready notification...");
 				await instanceManager.Ready.WaitAsync(cancellationToken);
