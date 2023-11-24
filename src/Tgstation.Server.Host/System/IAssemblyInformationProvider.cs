@@ -2,8 +2,6 @@
 using System.Net.Http.Headers;
 using System.Reflection;
 
-#nullable disable
-
 namespace Tgstation.Server.Host.System
 {
 	/// <summary>
