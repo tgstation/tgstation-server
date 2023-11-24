@@ -2,8 +2,6 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-#nullable disable
-
 namespace Tgstation.Server.Host.Jobs
 {
 	/// <summary>
@@ -24,7 +22,7 @@ namespace Tgstation.Server.Host.Jobs
 		/// <summary>
 		/// The stage of the job.
 		/// </summary>
-		public string Stage { get; set; }
+		public string? Stage { get; set; }
 
 		/// <summary>
 		/// The <see cref="CancellationTokenSource"/> for <see cref="task"/>.
@@ -39,7 +37,7 @@ namespace Tgstation.Server.Host.Jobs
 		/// <summary>
 		/// The <see cref="Task"/> being run.
 		/// </summary>
-		Task<bool> task;
+		Task<bool>? task;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="JobHandler"/> class.
