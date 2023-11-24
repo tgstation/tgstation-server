@@ -50,7 +50,7 @@ namespace Tgstation.Server.Host.Security
 		/// <param name="systemIdentity">The value of <see cref="SystemIdentity"/>.</param>
 		/// <param name="user">The value of <see cref="User"/>.</param>
 		/// <param name="instanceUser">The value of <see cref="InstancePermissionSet"/>.</param>
-		public void Initialize(ISystemIdentity systemIdentity, User user, InstancePermissionSet instanceUser)
+		public void Initialize(ISystemIdentity? systemIdentity, User user, InstancePermissionSet? instanceUser)
 		{
 			this.user = user ?? throw new ArgumentNullException(nameof(user));
 			if (systemIdentity == null && User.SystemIdentifier != null)

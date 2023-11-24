@@ -11,8 +11,6 @@ using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.Models;
 
-#nullable disable
-
 namespace Tgstation.Server.Host.Security
 {
 	/// <inheritdoc cref="IAuthenticationContext" />
@@ -99,7 +97,7 @@ namespace Tgstation.Server.Host.Security
 				return currentAuthenticationContext;
 			}
 
-			ISystemIdentity systemIdentity;
+			ISystemIdentity? systemIdentity;
 			if (user.SystemIdentifier != null)
 				systemIdentity = identityCache.LoadCachedIdentity(user);
 			else
@@ -116,7 +114,7 @@ namespace Tgstation.Server.Host.Security
 			var userPermissionSet = user.PermissionSet ?? user.Group.PermissionSet;
 			try
 			{
-				InstancePermissionSet instancePermissionSet = null;
+				InstancePermissionSet? instancePermissionSet = null;
 				if (instanceId.HasValue)
 				{
 					instancePermissionSet = await databaseContext.InstancePermissionSets
