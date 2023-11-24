@@ -131,7 +131,7 @@ namespace Tgstation.Server.Host.Transfer
 		}
 
 		/// <inheritdoc />
-		public void SetError(ErrorCode errorCode, string additionalData)
+		public void SetError(ErrorCode errorCode, string? additionalData)
 		{
 			if (errorMessage != null)
 				throw new InvalidOperationException("Error already set!");
