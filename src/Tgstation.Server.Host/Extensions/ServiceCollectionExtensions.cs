@@ -18,8 +18,6 @@ using Tgstation.Server.Host.Utils;
 using Tgstation.Server.Host.Utils.GitHub;
 using Tgstation.Server.Host.Utils.SignalR;
 
-#nullable disable
-
 namespace Tgstation.Server.Host.Extensions
 {
 	/// <summary>
@@ -30,22 +28,22 @@ namespace Tgstation.Server.Host.Extensions
 		/// <summary>
 		/// The <see cref="IProviderFactory"/> implementation used in calls to <see cref="AddChatProviderFactory(IServiceCollection)"/>.
 		/// </summary>
-		static Type chatProviderFactoryType;
+		static Type? chatProviderFactoryType;
 
 		/// <summary>
 		/// The <see cref="IGitHubServiceFactory"/> implementation used in calls to <see cref="AddGitHub(IServiceCollection)"/>.
 		/// </summary>
-		static Type gitHubServiceFactoryType;
+		static Type? gitHubServiceFactoryType;
 
 		/// <summary>
 		/// The <see cref="IFileDownloader"/> implementation used in calls to <see cref="AddFileDownloader(IServiceCollection)"/>.
 		/// </summary>
-		static Type fileDownloaderType;
+		static Type? fileDownloaderType;
 
 		/// <summary>
 		/// A <see cref="ServiceDescriptor"/> for an additional <see cref="ILoggerProvider"/> to use.
 		/// </summary>
-		static ServiceDescriptor additionalLoggerProvider;
+		static ServiceDescriptor? additionalLoggerProvider;
 
 		/// <summary>
 		/// Initializes static members of the <see cref="ServiceCollectionExtensions"/> class.
@@ -94,7 +92,7 @@ namespace Tgstation.Server.Host.Extensions
 		{
 			ArgumentNullException.ThrowIfNull(serviceCollection);
 
-			serviceCollection.AddSingleton(typeof(IFileDownloader), fileDownloaderType);
+			serviceCollection.AddSingleton(typeof(IFileDownloader), fileDownloaderType ?? throw new InvalidOperationException("fileDownloaderType not set!"));
 
 			return serviceCollection;
 		}
@@ -109,7 +107,7 @@ namespace Tgstation.Server.Host.Extensions
 			ArgumentNullException.ThrowIfNull(serviceCollection);
 
 			serviceCollection.AddSingleton<IGitHubClientFactory, GitHubClientFactory>();
-			serviceCollection.AddSingleton(typeof(IGitHubServiceFactory), gitHubServiceFactoryType);
+			serviceCollection.AddSingleton(typeof(IGitHubServiceFactory), gitHubServiceFactoryType ?? throw new InvalidOperationException("gitHubServiceFactoryType not set!"));
 
 			return serviceCollection;
 		}
@@ -135,7 +133,7 @@ namespace Tgstation.Server.Host.Extensions
 		{
 			ArgumentNullException.ThrowIfNull(serviceCollection);
 
-			return serviceCollection.AddSingleton(typeof(IProviderFactory), chatProviderFactoryType);
+			return serviceCollection.AddSingleton(typeof(IProviderFactory), chatProviderFactoryType ?? throw new InvalidOperationException("chatProviderFactoryType not set!"));
 		}
 
 		/// <summary>
@@ -160,7 +158,7 @@ namespace Tgstation.Server.Host.Extensions
 			if (sectionField.FieldType != stringType)
 				throw new InvalidOperationException(String.Format(CultureInfo.InvariantCulture, "{0} has invalid {1} field type, must be {2}!", configType, SectionFieldName, stringType));
 
-			var sectionName = (string)sectionField.GetValue(null);
+			var sectionName = (string)sectionField.GetValue(null)!;
 
 			return serviceCollection.Configure<TConfig>(configuration.GetSection(sectionName));
 		}
@@ -178,10 +176,10 @@ namespace Tgstation.Server.Host.Extensions
 		public static IServiceCollection SetupLogging(
 			this IServiceCollection serviceCollection,
 			Action<LoggerConfiguration> configurationAction,
-			Action<LoggerSinkConfiguration> sinkConfigurationAction = null,
-			ElasticsearchSinkOptions elasticsearchSinkOptions = null,
-			InternalConfiguration internalConfiguration = null,
-			FileLoggingConfiguration fileLoggingConfiguration = null)
+			Action<LoggerSinkConfiguration>? sinkConfigurationAction = null,
+			ElasticsearchSinkOptions? elasticsearchSinkOptions = null,
+			InternalConfiguration? internalConfiguration = null,
+			FileLoggingConfiguration? fileLoggingConfiguration = null)
 		{
 			if (internalConfiguration != null)
 				ArgumentNullException.ThrowIfNull(fileLoggingConfiguration);
@@ -205,7 +203,7 @@ namespace Tgstation.Server.Host.Extensions
 								+ SerilogContextHelper.Template
 								+ "){NewLine}    {Message:lj}{NewLine}{Exception}";
 
-						if (!((internalConfiguration?.UsingSystemD ?? false) && !fileLoggingConfiguration.Disable))
+						if (!((internalConfiguration?.UsingSystemD ?? false) && !(fileLoggingConfiguration?.Disable ?? false)))
 							sinkConfiguration.Console(outputTemplate: template, formatProvider: CultureInfo.InvariantCulture);
 						sinkConfigurationAction?.Invoke(sinkConfiguration);
 					});
