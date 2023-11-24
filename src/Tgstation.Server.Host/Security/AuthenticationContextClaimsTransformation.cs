@@ -13,8 +13,6 @@ using Tgstation.Server.Api;
 using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Host.Utils;
 
-#nullable disable
-
 namespace Tgstation.Server.Host.Security
 {
 	/// <summary>
@@ -30,7 +28,7 @@ namespace Tgstation.Server.Host.Security
 		/// <summary>
 		/// The <see cref="ApiHeaders"/> for the <see cref="AuthenticationContextClaimsTransformation"/>.
 		/// </summary>
-		readonly ApiHeaders apiHeaders;
+		readonly ApiHeaders? apiHeaders;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="AuthenticationContextClaimsTransformation"/> class.
