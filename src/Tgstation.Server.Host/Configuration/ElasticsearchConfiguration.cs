@@ -1,9 +1,7 @@
 ﻿using System;
 
-#nullable disable
-
 namespace Tgstation.Server.Host.Configuration
-	{
+{
 	/// <summary>
 	/// Configuration options pertaining to elasticsearch log storage.
 	/// </summary>
@@ -22,16 +20,16 @@ namespace Tgstation.Server.Host.Configuration
 		/// <summary>
 		/// The host of the elasticsearch endpoint.
 		/// </summary>
-		public Uri Host { get; set; }
+		public Uri? Host { get; set; }
 
 		/// <summary>
 		/// Username for elasticsearch.
 		/// </summary>
-		public string Username { get; set; }
+		public string? Username { get; set; }
 
 		/// <summary>
 		/// Password for elasticsearch.
 		/// </summary>
-		public string Password { get; set; }
+		public string? Password { get; set; }
 	}
 }
