@@ -1,6 +1,4 @@
-﻿#nullable disable
-
-namespace Tgstation.Server.Host.System
+﻿namespace Tgstation.Server.Host.System
 {
 	/// <summary>
 	/// For launching <see cref="IProcess"/>'.
@@ -20,8 +18,8 @@ namespace Tgstation.Server.Host.System
 		IProcess LaunchProcess(
 			string fileName,
 			string workingDirectory,
-			string arguments = null,
-			string fileRedirect = null,
+			string? arguments = null,
+			string? fileRedirect = null,
 			bool readStandardHandles = false,
 			bool noShellExecute = false);
 
