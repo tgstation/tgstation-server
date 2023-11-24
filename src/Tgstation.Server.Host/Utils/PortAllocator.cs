@@ -14,8 +14,6 @@ using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.System;
 
-#nullable disable
-
 namespace Tgstation.Server.Host.Utils
 {
 	/// <inheritdoc />
