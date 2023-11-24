@@ -8,8 +8,6 @@ using YamlDotNet.Core;
 using YamlDotNet.Core.Events;
 using YamlDotNet.Serialization;
 
-#nullable disable
-
 namespace Tgstation.Server.Host.Extensions.Converters
 {
 	/// <summary>
@@ -23,7 +21,7 @@ namespace Tgstation.Server.Host.Extensions.Converters
 		/// <param name="type">The <see cref="Type"/> to check.</param>
 		/// <param name="validate">If the method should <see langword="throw"/> if validation fails.</param>
 		/// <returns><see langword="true"/> if <paramref name="type"/> is a <see cref="global::System.Version"/>, <see langword="false"/> otherwise.</returns>
-		static bool CheckSupportsType(Type type, bool validate)
+		static bool CheckSupportsType(Type? type, bool validate)
 		{
 			ArgumentNullException.ThrowIfNull(type);
 
@@ -35,7 +33,7 @@ namespace Tgstation.Server.Host.Extensions.Converters
 		}
 
 		/// <inheritdoc />
-		public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+		public override void WriteJson(JsonWriter? writer, object? value, JsonSerializer serializer)
 		{
 			ArgumentNullException.ThrowIfNull(writer);
 
@@ -54,7 +52,7 @@ namespace Tgstation.Server.Host.Extensions.Converters
 		}
 
 		/// <inheritdoc />
-		public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+		public override object? ReadJson(JsonReader? reader, Type? objectType, object? existingValue, JsonSerializer serializer)
 		{
 			ArgumentNullException.ThrowIfNull(reader);
 
@@ -67,7 +65,7 @@ namespace Tgstation.Server.Host.Extensions.Converters
 			{
 				try
 				{
-					var v = global::System.Version.Parse((string)reader.Value);
+					var v = global::System.Version.Parse((string)reader.Value!);
 					return v.Semver();
 				}
 				catch (Exception ex)
@@ -90,7 +88,7 @@ namespace Tgstation.Server.Host.Extensions.Converters
 		public object ReadYaml(IParser parser, Type type) => throw new NotSupportedException("Deserialization not supported!"); // The default implementation is fine at handling this
 
 		/// <inheritdoc />
-		public void WriteYaml(IEmitter emitter, object value, Type type)
+		public void WriteYaml(IEmitter? emitter, object? value, Type type)
 		{
 			ArgumentNullException.ThrowIfNull(emitter);
 
