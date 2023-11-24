@@ -1,9 +1,8 @@
 ﻿using System;
 
 using Tgstation.Server.Api.Models.Internal;
-using YamlDotNet.Serialization;
 
-#nullable disable
+using YamlDotNet.Serialization;
 
 namespace Tgstation.Server.Host.Configuration
 {
@@ -19,7 +18,7 @@ namespace Tgstation.Server.Host.Configuration
 
 		/// <inheritdoc />
 		[YamlMember(SerializeAs = typeof(string))]
-		public override Uri Address
+		public override Uri? Address
 		{
 			get => base.Address;
 			set => base.Address = value;
@@ -27,7 +26,7 @@ namespace Tgstation.Server.Host.Configuration
 
 		/// <inheritdoc />
 		[YamlMember(SerializeAs = typeof(string))]
-		public override Uri PublicAddress
+		public override Uri? PublicAddress
 		{
 			get => base.PublicAddress;
 			set => base.PublicAddress = value;
@@ -37,12 +36,12 @@ namespace Tgstation.Server.Host.Configuration
 		/// The <see cref="SwarmServer.Address"/> of the swarm controller. If <see langword="null"/>, the current server is considered the controller.
 		/// </summary>
 		[YamlMember(SerializeAs = typeof(string))]
-		public Uri ControllerAddress { get; set; }
+		public Uri? ControllerAddress { get; set; }
 
 		/// <summary>
 		/// The private key used for swarm communication.
 		/// </summary>
-		public string PrivateKey { get; set; }
+		public string? PrivateKey { get; set; }
 
 		/// <summary>
 		/// The number of nodes in addition to the controller required to be connected a server swarm before performing an update.
