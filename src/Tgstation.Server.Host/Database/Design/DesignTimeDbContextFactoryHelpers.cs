@@ -3,8 +3,6 @@ using Microsoft.Extensions.Options;
 
 using Tgstation.Server.Host.Configuration;
 
-#nullable disable
-
 namespace Tgstation.Server.Host.Database.Design
 {
 	/// <summary>
@@ -23,7 +21,7 @@ namespace Tgstation.Server.Host.Database.Design
 		public static DbContextOptions<TDatabaseContext> CreateDatabaseContextOptions<TDatabaseContext>(
 			DatabaseType databaseType,
 			string connectionString,
-			string serverVersion = null)
+			string? serverVersion = null)
 			where TDatabaseContext : DatabaseContext
 		{
 			var dbConfig = new DatabaseConfiguration
