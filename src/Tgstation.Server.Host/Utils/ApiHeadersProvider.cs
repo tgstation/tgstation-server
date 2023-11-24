@@ -4,20 +4,18 @@ using Microsoft.AspNetCore.Http;
 
 using Tgstation.Server.Api;
 
-#nullable disable
-
 namespace Tgstation.Server.Host.Utils
 {
 	/// <inheritdoc />
 	sealed class ApiHeadersProvider : IApiHeadersProvider
 	{
 		/// <inheritdoc />
-		public ApiHeaders ApiHeaders => attemptedApiHeadersCreation
+		public ApiHeaders? ApiHeaders => attemptedApiHeadersCreation
 			? apiHeaders
 			: CreateApiHeaders(false);
 
 		/// <inheritdoc />
-		public HeadersException HeadersException { get; private set; }
+		public HeadersException? HeadersException { get; private set; }
 
 		/// <summary>
 		/// The <see cref="IHttpContextAccessor"/> for the <see cref="ApiHeadersProvider"/>.
@@ -27,7 +25,7 @@ namespace Tgstation.Server.Host.Utils
 		/// <summary>
 		/// Backing field for <see cref="ApiHeaders"/>.
 		/// </summary>
-		ApiHeaders apiHeaders;
+		ApiHeaders? apiHeaders;
 
 		/// <summary>
 		/// If populating <see cref="ApiHeaders"/> was previously attempted.
@@ -44,14 +42,14 @@ namespace Tgstation.Server.Host.Utils
 		}
 
 		/// <inheritdoc />
-		public ApiHeaders CreateAuthlessHeaders() => CreateApiHeaders(true);
+		public ApiHeaders CreateAuthlessHeaders() => CreateApiHeaders(true)!;
 
 		/// <summary>
 		/// Attempt to parse <see cref="Api.ApiHeaders"/> from the <see cref="HttpContext"/>, optionally populating the <see langword="class"/> properties.
 		/// </summary>
 		/// <param name="authless">If the <see cref="HeaderErrorTypes.AuthorizationMissing"/> error should be ignored and <see cref="ApiHeaders"/>/<see cref="HeadersException"/> should not be populated.</param>
 		/// <returns>A newly parsed <see cref="Api.ApiHeaders"/> <see langword="class"/> or <see langword="null"/> if <paramref name="authless"/> was set and the parse failed.</returns>
-		ApiHeaders CreateApiHeaders(bool authless)
+		ApiHeaders? CreateApiHeaders(bool authless)
 		{
 			if (httpContextAccessor.HttpContext == null)
 				throw new InvalidOperationException("httpContextAccessor has no HttpContext!");
