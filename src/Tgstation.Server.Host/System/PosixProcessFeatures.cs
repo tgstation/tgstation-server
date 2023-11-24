@@ -86,7 +86,7 @@ namespace Tgstation.Server.Host.System
 				throw new JobException(ErrorCode.GameServerOffline, ex);
 			}
 
-			string output;
+			string? output;
 			int exitCode;
 			await using (var gcoreProc = lazyLoadedProcessExecutor.Value.LaunchProcess(
 				GCorePath,

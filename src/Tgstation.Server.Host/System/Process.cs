@@ -57,7 +57,7 @@ namespace Tgstation.Server.Host.System
 		/// <summary>
 		/// The <see cref="Task{TResult}"/> resulting in the process' standard output/error text.
 		/// </summary>
-		readonly Task<string> readTask;
+		readonly Task<string?>? readTask;
 
 		/// <summary>
 		/// If the <see cref="Process"/> was disposed.
@@ -78,8 +78,8 @@ namespace Tgstation.Server.Host.System
 			IProcessFeatures processFeatures,
 			IAsyncDelayer asyncDelayer,
 			global::System.Diagnostics.Process handle,
-			CancellationTokenSource readerCts,
-			Task<string> readTask,
+			CancellationTokenSource? readerCts,
+			Task<string?>? readTask,
 			ILogger<Process> logger,
 			bool preExisting)
 		{
@@ -144,7 +144,7 @@ namespace Tgstation.Server.Host.System
 		}
 
 		/// <inheritdoc />
-		public async ValueTask<string> GetCombinedOutput(CancellationToken cancellationToken)
+		public async ValueTask<string?> GetCombinedOutput(CancellationToken cancellationToken)
 		{
 			if (readTask == null)
 				throw new InvalidOperationException("Output/Error stream reading was not enabled!");

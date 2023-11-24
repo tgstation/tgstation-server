@@ -9,8 +9,6 @@ using Microsoft.Extensions.Logging;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Utils;
 
-#nullable disable
-
 namespace Tgstation.Server.Host.System
 {
 	/// <inheritdoc />
@@ -86,7 +84,7 @@ namespace Tgstation.Server.Host.System
 		}
 
 		/// <inheritdoc />
-		public IProcess GetProcess(int id)
+		public IProcess? GetProcess(int id)
 		{
 			logger.LogDebug("Attaching to process {pid}...", id);
 			global::System.Diagnostics.Process handle;
@@ -116,7 +114,7 @@ namespace Tgstation.Server.Host.System
 			string fileName,
 			string workingDirectory,
 			string arguments,
-			string fileRedirect,
+			string? fileRedirect,
 			bool readStandardHandles,
 			bool noShellExecute)
 		{
@@ -143,11 +141,11 @@ namespace Tgstation.Server.Host.System
 
 				handle.StartInfo.UseShellExecute = !noShellExecute;
 
-				Task<string> readTask = null;
-				CancellationTokenSource disposeCts = null;
+				Task<string?>? readTask = null;
+				CancellationTokenSource? disposeCts = null;
 				try
 				{
-					TaskCompletionSource processStartTcs = null;
+					TaskCompletionSource? processStartTcs = null;
 					if (readStandardHandles)
 					{
 						processStartTcs = new TaskCompletionSource();
@@ -203,11 +201,11 @@ namespace Tgstation.Server.Host.System
 		}
 
 		/// <inheritdoc />
-		public IProcess GetProcessByName(string name)
+		public IProcess? GetProcessByName(string name)
 		{
 			logger.LogTrace("GetProcessByName: {processName}...", name ?? throw new ArgumentNullException(nameof(name)));
 			var procs = global::System.Diagnostics.Process.GetProcessesByName(name);
-			global::System.Diagnostics.Process handle = null;
+			global::System.Diagnostics.Process? handle = null;
 			foreach (var proc in procs)
 				if (handle == null)
 					handle = proc;
@@ -231,7 +229,7 @@ namespace Tgstation.Server.Host.System
 		/// <param name="fileRedirect">The optional path to redirect the streams to.</param>
 		/// <param name="disposeToken">The <see cref="CancellationToken"/> that triggers when the <see cref="Process"/> is disposed.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the program's output/error text if <paramref name="fileRedirect"/> is <see langword="null"/>, <see langword="null"/> otherwise.</returns>
-		async Task<string> ConsumeReaders(global::System.Diagnostics.Process handle, Task startTask, string fileRedirect, CancellationToken disposeToken)
+		async Task<string?> ConsumeReaders(global::System.Diagnostics.Process handle, Task startTask, string? fileRedirect, CancellationToken disposeToken)
 		{
 			await startTask;
 
@@ -241,9 +239,9 @@ namespace Tgstation.Server.Host.System
 			// once we obtain these handles we're responsible for them
 			using var stdOutHandle = handle.StandardOutput;
 			using var stdErrHandle = handle.StandardError;
-			Task<string> outputReadTask = null, errorReadTask = null;
+			Task<string?>? outputReadTask = null, errorReadTask = null;
 			bool outputOpen = true, errorOpen = true;
-			async Task<string> GetNextLine()
+			async Task<string?> GetNextLine()
 			{
 				if (outputOpen && outputReadTask == null)
 					outputReadTask = stdOutHandle.ReadLineAsync(disposeToken).AsTask();
@@ -251,7 +249,7 @@ namespace Tgstation.Server.Host.System
 				if (errorOpen && errorReadTask == null)
 					errorReadTask = stdErrHandle.ReadLineAsync(disposeToken).AsTask();
 
-				var completedTask = await Task.WhenAny(outputReadTask ?? errorReadTask, errorReadTask ?? outputReadTask);
+				var completedTask = await Task.WhenAny(outputReadTask ?? errorReadTask!, errorReadTask ?? outputReadTask!);
 				var line = await completedTask;
 				if (completedTask == outputReadTask)
 				{
@@ -275,7 +273,7 @@ namespace Tgstation.Server.Host.System
 			await using var fileStream = fileRedirect != null ? ioManager.CreateAsyncSequentialWriteStream(fileRedirect) : null;
 			await using var writer = fileStream != null ? new StreamWriter(fileStream) : null;
 
-			string text;
+			string? text;
 			var stringBuilder = fileStream == null ? new StringBuilder() : null;
 			try
 			{
@@ -283,11 +281,11 @@ namespace Tgstation.Server.Host.System
 				{
 					if (fileStream != null)
 					{
-						await writer.WriteLineAsync(text.AsMemory(), disposeToken);
+						await writer!.WriteLineAsync(text.AsMemory(), disposeToken);
 						await writer.FlushAsync(disposeToken);
 					}
 					else
-						stringBuilder.AppendLine(text);
+						stringBuilder!.AppendLine(text);
 				}
 
 				logger.LogTrace("Finished read for PID {pid}", pid);
@@ -296,7 +294,7 @@ namespace Tgstation.Server.Host.System
 			{
 				logger.LogWarning(ex, "PID {pid} stream reading interrupted!", pid);
 				if (fileStream != null)
-					await writer.WriteLineAsync("-- Process detached, log truncated. This is likely due a to TGS restart --");
+					await writer!.WriteLineAsync("-- Process detached, log truncated. This is likely due a to TGS restart --");
 			}
 
 			return stringBuilder?.ToString();

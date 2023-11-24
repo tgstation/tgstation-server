@@ -29,7 +29,7 @@ namespace Tgstation.Server.Host.System
 		/// the result of this function must be <see langword="await"/>ed before <see cref="IAsyncDisposable.DisposeAsync"/> is called.
 		/// May call <see cref="IAsyncDisposable.DisposeAsync"/> internally if the process has exited.
 		/// </remarks>
-		ValueTask<string> GetCombinedOutput(CancellationToken cancellationToken);
+		ValueTask<string?> GetCombinedOutput(CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Asycnhronously terminates the process.
