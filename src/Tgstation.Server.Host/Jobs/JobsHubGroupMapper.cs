@@ -15,8 +15,6 @@ using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.Security;
 using Tgstation.Server.Host.Utils.SignalR;
 
-#nullable disable
-
 namespace Tgstation.Server.Host.Jobs
 {
 	/// <summary>
@@ -119,20 +117,24 @@ namespace Tgstation.Server.Host.Jobs
 		{
 			ArgumentNullException.ThrowIfNull(authenticationContext);
 
-			logger.LogTrace("MapConnectionGroups UID: {uid}", authenticationContext.User.Id.Value);
+			var pid = authenticationContext.PermissionSet.Require(x => x.Id);
+			logger.LogTrace(
+				"MapConnectionGroups UID: {uid} PID: {pid}",
+				authenticationContext.User.Require(x => x.Id),
+				pid);
 
-			List<long> permedInstanceIds = null;
+			List<long>? permedInstanceIds = null;
 			await databaseContextFactory.UseContext(
 				async databaseContext =>
 					permedInstanceIds = await databaseContext
 						.InstancePermissionSets
 						.AsQueryable()
-						.Where(ips => ips.PermissionSetId == authenticationContext.PermissionSet.Id.Value)
+						.Where(ips => ips.PermissionSetId == pid)
 						.Select(ips => ips.InstanceId)
 						.ToListAsync(cancellationToken));
 
 			await mappingFunc(
-				permedInstanceIds.Select(
+				permedInstanceIds!.Select(
 					JobsHub.HubGroupName));
 
 			jobsHubUpdater.QueueActiveJobUpdates();
@@ -156,7 +158,7 @@ namespace Tgstation.Server.Host.Jobs
 					var allInstanceIds = await databaseContext
 						.Instances
 						.Select(
-							instance => instance.Id.Value)
+							instance => instance.Id!.Value)
 						.ToListAsync(cancellationToken);
 					var permissionSetAccessibleInstanceIds = await databaseContext
 						.InstancePermissionSets
