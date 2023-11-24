@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Logging;
 
-#nullable disable
+using Tgstation.Server.Host.Models;
 
 namespace Tgstation.Server.Host.Security
 {
@@ -45,7 +45,7 @@ namespace Tgstation.Server.Host.Security
 				return;
 			}
 
-			if (authenticationContext.User.Enabled.Value)
+			if (authenticationContext.User.Require(x => x.Enabled))
 				return;
 
 			logger.LogTrace("authenticationContext is for a disabled user!");
