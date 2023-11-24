@@ -4,8 +4,6 @@ using System.Linq;
 using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Host.Models;
 
-#nullable disable
-
 namespace Tgstation.Server.Host.Security
 {
 	/// <inheritdoc />
@@ -15,16 +13,26 @@ namespace Tgstation.Server.Host.Security
 		public bool Valid { get; private set; }
 
 		/// <inheritdoc />
-		public User User { get; private set; }
+		public User User => user ?? throw new InvalidOperationException("AuthenticationContext is invalid!");
 
 		/// <inheritdoc />
-		public PermissionSet PermissionSet { get; private set; }
+		public PermissionSet PermissionSet => permissionSet ?? throw new InvalidOperationException("AuthenticationContext is invalid!");
 
 		/// <inheritdoc />
-		public InstancePermissionSet InstancePermissionSet { get; private set; }
+		public InstancePermissionSet? InstancePermissionSet { get; private set; }
 
 		/// <inheritdoc />
-		public ISystemIdentity SystemIdentity { get; private set; }
+		public ISystemIdentity? SystemIdentity { get; private set; }
+
+		/// <summary>
+		/// Backing field for <see cref="User"/>.
+		/// </summary>
+		User? user;
+
+		/// <summary>
+		/// Backing field for <see cref="PermissionSet"/>.
+		/// </summary>
+		PermissionSet? permissionSet;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="AuthenticationContext"/> class.
@@ -44,10 +52,10 @@ namespace Tgstation.Server.Host.Security
 		/// <param name="instanceUser">The value of <see cref="InstancePermissionSet"/>.</param>
 		public void Initialize(ISystemIdentity systemIdentity, User user, InstancePermissionSet instanceUser)
 		{
-			User = user ?? throw new ArgumentNullException(nameof(user));
+			this.user = user ?? throw new ArgumentNullException(nameof(user));
 			if (systemIdentity == null && User.SystemIdentifier != null)
 				throw new ArgumentNullException(nameof(systemIdentity));
-			PermissionSet = user.PermissionSet
+			permissionSet = user.PermissionSet
 				?? user.Group.PermissionSet
 				?? throw new ArgumentException("No PermissionSet provider", nameof(user));
 			InstancePermissionSet = instanceUser;
@@ -74,9 +82,9 @@ namespace Tgstation.Server.Host.Security
 			var nullableType = typeof(Nullable<>);
 			var nullableRightsType = nullableType.MakeGenericType(rightsEnum);
 
-			var prop = typeToCheck.GetProperties().Where(x => x.PropertyType == nullableRightsType).First();
+			var prop = typeToCheck.GetProperties().Where(x => x.PropertyType == nullableRightsType && x.CanRead).First();
 
-			var right = prop.GetMethod.Invoke(
+			var right = prop.GetMethod!.Invoke(
 				isInstance
 					? InstancePermissionSet
 					: PermissionSet,
