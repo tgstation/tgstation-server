@@ -82,13 +82,25 @@ namespace Tgstation.Server.Tests.Live.Instance
 			}
 			else if (engineType == EngineType.OpenDream)
 			{
-				var masterBranch = await TestingGitHubService.RealTestClient.Repository.Branch.Get("OpenDreamProject", "OpenDream", "master");
-
-				engineVersion = new EngineVersion
+				var forcedVersion = Environment.GetEnvironmentVariable("TGS_TEST_OD_ENGINE_VERSION");
+				if (!String.IsNullOrWhiteSpace(forcedVersion))
 				{
-					Engine = EngineType.OpenDream,
-					SourceSHA = masterBranch.Commit.Sha,
-				};
+					engineVersion = new EngineVersion
+					{
+						Engine = EngineType.OpenDream,
+						SourceSHA = forcedVersion,
+					};
+				}
+				else
+				{
+					var masterBranch = await TestingGitHubService.RealTestClient.Repository.Branch.Get("OpenDreamProject", "OpenDream", "master");
+
+					engineVersion = new EngineVersion
+					{
+						Engine = EngineType.OpenDream,
+						SourceSHA = masterBranch.Commit.Sha,
+					};
+				}
 			}
 			else
 			{

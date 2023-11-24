@@ -1208,7 +1208,18 @@ namespace Tgstation.Server.Tests.Live
 		}
 
 		[TestMethod]
-		public async Task TestStandardTgsOperation()
+		public Task TestStandardTgsOperation() => TestStandardTgsOperation(false);
+
+		[TestMethod]
+		public Task TestOpenDreamExclusiveTgsOperation()
+		{
+			if (String.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("TGS_TEST_OD_EXCLUSIVE")))
+				Assert.Inconclusive("This test is covered by TestStandardTgsOperation");
+
+			return TestStandardTgsOperation(true);
+		}
+
+		async Task TestStandardTgsOperation(bool openDreamOnly)
 		{
 			using(var currentProcess = System.Diagnostics.Process.GetCurrentProcess())
 			{
@@ -1233,7 +1244,7 @@ namespace Tgstation.Server.Tests.Live
 			ServiceCollectionExtensions.UseAdditionalLoggerProvider<HardFailLoggerProvider>();
 
 			var failureTask = HardFailLoggerProvider.FailureSource;
-			var internalTask = TestTgsInternal(hardCancellationToken);
+			var internalTask = TestTgsInternal(openDreamOnly, hardCancellationToken);
 			await Task.WhenAny(
 				internalTask,
 				failureTask);
@@ -1266,7 +1277,7 @@ namespace Tgstation.Server.Tests.Live
 				await internalTask;
 		}
 
-		async Task TestTgsInternal(CancellationToken hardCancellationToken)
+		async Task TestTgsInternal(bool openDreamOnly, CancellationToken hardCancellationToken)
 		{
 			var discordConnectionString = Environment.GetEnvironmentVariable("TGS_TEST_DISCORD_TOKEN");
 			var ircConnectionString = Environment.GetEnvironmentVariable("TGS_TEST_IRC_CONNECTION_STRING");
@@ -1379,24 +1390,41 @@ namespace Tgstation.Server.Tests.Live
 						}
 					}
 
-					var rootTest = FailFast(RawRequestTests.Run(clientFactory, firstAdminClient, cancellationToken));
-					var adminTest = FailFast(new AdministrationTest(firstAdminClient.Administration).Run(cancellationToken));
-					var usersTest = FailFast(new UsersTest(firstAdminClient).Run(cancellationToken));
+					Task nonInstanceTests;
+					IInstanceClient instanceClient = null;
+					InstanceResponse odInstance, compatInstance;
+					if (!openDreamOnly)
+					{
+						var rootTest = FailFast(RawRequestTests.Run(clientFactory, firstAdminClient, cancellationToken));
+						var adminTest = FailFast(new AdministrationTest(firstAdminClient.Administration).Run(cancellationToken));
+						var usersTest = FailFast(new UsersTest(firstAdminClient).Run(cancellationToken));
 
-					jobsHubTestTask = FailFast(jobsHubTest.Run(cancellationToken));
-					var instanceManagerTest = new InstanceManagerTest(firstAdminClient, server.Directory);
-					var compatInstanceTask = instanceManagerTest.CreateTestInstance("CompatTestsInstance", cancellationToken);
-					var odInstanceTask = instanceManagerTest.CreateTestInstance("OdTestsInstance", cancellationToken);
-					var byondApiCompatInstanceTask = instanceManagerTest.CreateTestInstance("BCAPITestsInstance", cancellationToken);
-					instance = await instanceManagerTest.CreateTestInstance("LiveTestsInstance", cancellationToken);
-					var compatInstance = await compatInstanceTask;
-					var odInstance = await odInstanceTask;
-					var byondApiCompatInstance = await byondApiCompatInstanceTask;
-					var instancesTest = FailFast(instanceManagerTest.RunPreTest(cancellationToken));
-					Assert.IsTrue(Directory.Exists(instance.Path));
-					var instanceClient = firstAdminClient.Instances.CreateClient(instance);
+						jobsHubTestTask = FailFast(jobsHubTest.Run(cancellationToken));
+						var instanceManagerTest = new InstanceManagerTest(firstAdminClient, server.Directory);
+						var compatInstanceTask = instanceManagerTest.CreateTestInstance("CompatTestsInstance", cancellationToken);
+						var odInstanceTask = instanceManagerTest.CreateTestInstance("OdTestsInstance", cancellationToken);
+						var byondApiCompatInstanceTask = instanceManagerTest.CreateTestInstance("BCAPITestsInstance", cancellationToken);
+						instance = await instanceManagerTest.CreateTestInstance("LiveTestsInstance", cancellationToken);
+						compatInstance = await compatInstanceTask;
+						odInstance = await odInstanceTask;
+						var byondApiCompatInstance = await byondApiCompatInstanceTask;
+						var instancesTest = FailFast(instanceManagerTest.RunPreTest(cancellationToken));
+						Assert.IsTrue(Directory.Exists(instance.Path));
+						instanceClient = firstAdminClient.Instances.CreateClient(instance);
 
-					Assert.IsTrue(Directory.Exists(instanceClient.Metadata.Path));
+						Assert.IsTrue(Directory.Exists(instanceClient.Metadata.Path));
+						nonInstanceTests = Task.WhenAll(instancesTest, adminTest, rootTest, usersTest);
+					}
+					else
+					{
+						compatInstance = null;
+						nonInstanceTests = Task.CompletedTask;
+						jobsHubTestTask = null;
+						instance = null;
+						var instanceManagerTest = new InstanceManagerTest(firstAdminClient, server.Directory);
+						var odInstanceTask = instanceManagerTest.CreateTestInstance("OdTestsInstance", cancellationToken);
+						odInstance = await odInstanceTask;
+					}
 
 					var instanceTest = new InstanceTest(
 							firstAdminClient.Instances,
@@ -1418,8 +1446,8 @@ namespace Tgstation.Server.Tests.Live
 										Engine = EngineType.OpenDream,
 										SourceSHA = "f1dc153caf9d84cd1d0056e52286cc0163e3f4d3", // 1b4 verified version
 									},
-									instanceClient,
 									fileDownloader,
+									server.OpenDreamUrl,
 									cancellationToken).AsTask());
 
 							Assert.AreEqual(ErrorCode.OpenDreamTooOld, ex.ErrorCode);
@@ -1427,6 +1455,7 @@ namespace Tgstation.Server.Tests.Live
 							await instanceTest
 								.RunCompatTests(
 									await edgeODVersionTask,
+									server.OpenDreamUrl,
 									firstAdminClient.Instances.CreateClient(odInstance),
 									odDMPort,
 									odDDPort,
@@ -1437,8 +1466,11 @@ namespace Tgstation.Server.Tests.Live
 
 						var odCompatTests = FailFast(ODCompatTests());
 
-						if (testSerialized) // they only have 2 cores, can't handle intense parallelization
+						if (openDreamOnly || testSerialized)
 							await odCompatTests;
+
+						if (openDreamOnly)
+							return;
 
 						var compatTests = FailFast(
 							instanceTest
@@ -1450,6 +1482,7 @@ namespace Tgstation.Server.Tests.Live
 											? new Version(510, 1346)
 											: new Version(512, 1451) // http://www.byond.com/forum/?forum=5&command=search&scope=local&text=resolved%3a512.1451
 									},
+									server.OpenDreamUrl,
 									firstAdminClient.Instances.CreateClient(compatInstance),
 									compatDMPort,
 									compatDDPort,
@@ -1477,7 +1510,10 @@ namespace Tgstation.Server.Tests.Live
 
 					var instanceTests = RunInstanceTests();
 
-					await Task.WhenAll(rootTest, adminTest, instancesTest, instanceTests, usersTest);
+					await Task.WhenAll(nonInstanceTests, instanceTests);
+
+					if (openDreamOnly)
+						return;
 
 					var dd = await instanceClient.DreamDaemon.Read(cancellationToken);
 					Assert.AreEqual(WatchdogStatus.Online, dd.Status.Value);

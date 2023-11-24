@@ -23,6 +23,7 @@ using Tgstation.Server.Host.Components.Events;
 using Tgstation.Server.Host.Components.Repository;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.IO;
+using Tgstation.Server.Host.Jobs;
 using Tgstation.Server.Host.System;
 
 namespace Tgstation.Server.Tests.Live.Instance
@@ -78,15 +79,23 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 		public static async ValueTask<IEngineInstallationData> DownloadEngineVersion(
 			EngineVersion compatVersion,
-			IInstanceClient instanceClient,
 			IFileDownloader fileDownloader,
+			Uri openDreamUrl,
 			CancellationToken cancellationToken)
 		{
-			var odRepoDir = Path.GetFullPath(Path.Combine(instanceClient.Metadata.Path, "..", "OpenDreamRepo"));
-			var tmpIOManager = new ResolvingIOManager(new DefaultIOManager(), odRepoDir);
+			var ioManager = new DefaultIOManager();
+			var odRepoDir = ioManager.ConcatPath(
+				Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+				new AssemblyInformationProvider().VersionPrefix,
+				"OpenDreamRepository");
+			var odRepoIoManager = new ResolvingIOManager(ioManager, odRepoDir);
 
 			var mockOptions = new Mock<IOptions<GeneralConfiguration>>();
-			mockOptions.SetupGet(x => x.Value).Returns(new GeneralConfiguration());
+			var genConfig = new GeneralConfiguration
+			{
+				OpenDreamGitUrl = openDreamUrl,
+			};
+			mockOptions.SetupGet(x => x.Value).Returns(genConfig);
 			IEngineInstaller byondInstaller =
 				compatVersion.Engine == EngineType.OpenDream
 				? new OpenDreamInstaller(
@@ -98,20 +107,20 @@ namespace Tgstation.Server.Tests.Live.Instance
 						new LibGit2RepositoryFactory(
 							Mock.Of<ILogger<LibGit2RepositoryFactory>>()),
 						new LibGit2Commands(),
-						tmpIOManager,
+						odRepoIoManager,
 						new NoopEventConsumer(),
 						Mock.Of<IPostWriteHandler>(),
 						Mock.Of<IGitRemoteFeaturesFactory>(),
 						Mock.Of<ILogger<Repository>>(),
 						Mock.Of<ILogger<RepositoryManager>>(),
-						new GeneralConfiguration()),
+						genConfig),
 					mockOptions.Object)
 				: new PlatformIdentifier().IsWindows
 					? new WindowsByondInstaller(
 						Mock.Of<IProcessExecutor>(),
 						Mock.Of<IIOManager>(),
 						fileDownloader,
-						Options.Create(new GeneralConfiguration()),
+						Options.Create(genConfig),
 						Mock.Of<ILogger<WindowsByondInstaller>>())
 					: new PosixByondInstaller(
 						Mock.Of<IPostWriteHandler>(),
@@ -127,6 +136,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 		public async Task RunCompatTests(
 			EngineVersion compatVersion,
+			Uri openDreamUrl,
 			IInstanceClient instanceClient,
 			ushort dmPort,
 			ushort ddPort,
@@ -191,7 +201,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 			EngineInstallResponse installJob2;
 			await using (var stableBytesMs = await TestingUtils.ExtractMemoryStreamFromInstallationData(
-				await DownloadEngineVersion(compatVersion, instanceClient, fileDownloader, cancellationToken),
+				await DownloadEngineVersion(compatVersion, fileDownloader, openDreamUrl, cancellationToken),
 				cancellationToken))
 			{
 				installJob2 = await instanceClient.Engine.SetActiveVersion(new EngineVersionRequest
@@ -235,9 +245,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 			var configSetupTask = new ConfigurationTest(instanceClient.Configuration, instanceClient.Metadata).SetupDMApiTests(true, cancellationToken);
 
-			if (TestingUtils.RunningInGitHubActions
-				|| String.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("TGS_TEST_GITHUB_TOKEN"))
-				|| Environment.MachineName.Equals("CYBERSTATIONXVI", StringComparison.OrdinalIgnoreCase))
+			if (!String.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("TGS_TEST_GITHUB_TOKEN")))
 				await instanceClient.Repository.Update(new RepositoryUpdateRequest
 				{
 					CreateGitHubDeployments = true,
