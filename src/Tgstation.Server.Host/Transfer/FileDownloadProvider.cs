@@ -5,8 +5,6 @@ using System.Threading.Tasks;
 
 using Tgstation.Server.Api.Models;
 
-#nullable disable
-
 namespace Tgstation.Server.Host.Transfer
 {
 	/// <summary>
@@ -22,7 +20,7 @@ namespace Tgstation.Server.Host.Transfer
 		/// <summary>
 		/// A <see cref="Func{T, TResult}"/> to specially provide a <see cref="Task{TResult}"/> returning the <see cref="Stream"/> of the file download. The caller will own the resulting <see cref="Stream"/>.
 		/// </summary>
-		public Func<CancellationToken, Task<Stream>> StreamProvider { get; }
+		public Func<CancellationToken, Task<Stream>>? StreamProvider { get; }
 
 		/// <summary>
 		/// The full path to the file on disk to download.
@@ -43,7 +41,7 @@ namespace Tgstation.Server.Host.Transfer
 		/// <param name="shareWrite">The value of <see cref="ShareWrite"/>.</param>
 		public FileDownloadProvider(
 			Func<ErrorCode?> activationCallback,
-			Func<CancellationToken, Task<Stream>> streamProvider,
+			Func<CancellationToken, Task<Stream>>? streamProvider,
 			string filePath,
 			bool shareWrite)
 		{
