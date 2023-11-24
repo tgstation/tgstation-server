@@ -1,7 +1,5 @@
 ﻿using System.Runtime.Versioning;
 
-#nullable disable
-
 namespace Tgstation.Server.Host.System
 {
 	/// <summary>
