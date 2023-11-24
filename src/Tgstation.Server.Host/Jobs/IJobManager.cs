@@ -44,6 +44,6 @@ namespace Tgstation.Server.Host.Jobs
 		/// <param name="blocking">If the operation should wait until the job exits before completing.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the updated <paramref name="job"/> if it was cancelled, <see langword="null"/> if it couldn't be found.</returns>
-		ValueTask<Job> CancelJob(Job job, User? user, bool blocking, CancellationToken cancellationToken);
+		ValueTask<Job?> CancelJob(Job job, User? user, bool blocking, CancellationToken cancellationToken);
 	}
 }
