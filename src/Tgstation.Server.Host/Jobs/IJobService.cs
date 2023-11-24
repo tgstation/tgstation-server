@@ -1,7 +1,5 @@
 ﻿using Tgstation.Server.Host.Components;
 
-#nullable disable
-
 namespace Tgstation.Server.Host.Jobs
 {
 	/// <summary>
