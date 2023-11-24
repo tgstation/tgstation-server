@@ -7,8 +7,6 @@ using System.Threading;
 
 using Microsoft.EntityFrameworkCore;
 
-#nullable disable
-
 namespace Tgstation.Server.Host.Database
 {
 	/// <inheritdoc />
