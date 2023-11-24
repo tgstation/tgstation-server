@@ -20,8 +20,6 @@ using Tgstation.Server.Common.Extensions;
 using Tgstation.Server.Host.Controllers;
 using Tgstation.Server.Host.Security;
 
-#nullable disable
-
 namespace Tgstation.Server.Host.Utils
 {
 	/// <summary>
@@ -347,7 +345,7 @@ namespace Tgstation.Server.Host.Utils
 			ArgumentNullException.ThrowIfNull(operation);
 			ArgumentNullException.ThrowIfNull(context);
 
-			operation.OperationId = $"{context.MethodInfo.DeclaringType.Name}.{context.MethodInfo.Name}";
+			operation.OperationId = $"{context.MethodInfo.DeclaringType!.Name}.{context.MethodInfo.Name}";
 
 			var authAttributes = context
 				.MethodInfo
