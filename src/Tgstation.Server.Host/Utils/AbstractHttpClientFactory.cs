@@ -6,8 +6,6 @@ using Microsoft.Extensions.Logging;
 using Tgstation.Server.Common.Http;
 using Tgstation.Server.Host.System;
 
-#nullable disable
-
 namespace Tgstation.Server.Host.Utils
 {
 	/// <inheritdoc />
