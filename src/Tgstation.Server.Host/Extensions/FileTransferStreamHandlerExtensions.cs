@@ -14,8 +14,6 @@ using Tgstation.Server.Api.Models.Response;
 using Tgstation.Server.Host.Controllers.Results;
 using Tgstation.Server.Host.Transfer;
 
-#nullable disable
-
 namespace Tgstation.Server.Host.Extensions
 {
 	/// <summary>
@@ -69,7 +67,9 @@ namespace Tgstation.Server.Host.Extensions
 			}
 			catch
 			{
-				await stream.DisposeAsync();
+				if (stream != null)
+					await stream.DisposeAsync();
+
 				throw;
 			}
 		}
