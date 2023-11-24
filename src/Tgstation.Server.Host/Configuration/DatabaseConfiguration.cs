@@ -1,8 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
-#nullable disable
-
 namespace Tgstation.Server.Host.Configuration
 {
 	/// <summary>
@@ -29,7 +27,7 @@ namespace Tgstation.Server.Host.Configuration
 		/// <summary>
 		/// The connection string for the database.
 		/// </summary>
-		public string ConnectionString { get; set; }
+		public string? ConnectionString { get; set; }
 
 		/// <summary>
 		/// If the database should be deleted on application startup. Should not be used in production!.
@@ -39,6 +37,6 @@ namespace Tgstation.Server.Host.Configuration
 		/// <summary>
 		/// The <see cref="string"/> form of the <see cref="global::System.Version"/> of the target server.
 		/// </summary>
-		public string ServerVersion { get; set; }
+		public string? ServerVersion { get; set; }
 	}
 }
