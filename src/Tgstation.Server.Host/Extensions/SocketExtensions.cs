@@ -4,8 +4,6 @@ using System.Net.Sockets;
 
 using Tgstation.Server.Host.System;
 
-#nullable disable
-
 namespace Tgstation.Server.Host.Extensions
 {
 	/// <summary>
