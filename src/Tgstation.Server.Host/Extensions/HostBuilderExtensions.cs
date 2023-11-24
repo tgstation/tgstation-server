@@ -6,8 +6,6 @@ using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Setup;
 using Tgstation.Server.Host.System;
 
-#nullable disable
-
 namespace Tgstation.Server.Host.Extensions
 {
 	/// <summary>
