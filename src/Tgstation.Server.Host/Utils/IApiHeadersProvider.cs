@@ -1,7 +1,5 @@
 ﻿using Tgstation.Server.Api;
 
-#nullable disable
-
 namespace Tgstation.Server.Host.Utils
 {
 	/// <summary>
@@ -12,12 +10,12 @@ namespace Tgstation.Server.Host.Utils
 		/// <summary>
 		/// The created <see cref="Api.ApiHeaders"/>, if any.
 		/// </summary>
-		ApiHeaders ApiHeaders { get; }
+		ApiHeaders? ApiHeaders { get; }
 
 		/// <summary>
 		/// The <see cref="Api.HeadersException"/> thrown when attempting to parse the <see cref="ApiHeaders"/> if any.
 		/// </summary>
-		HeadersException HeadersException { get; }
+		HeadersException? HeadersException { get; }
 
 		/// <summary>
 		/// Attempt to create <see cref="Api.ApiHeaders"/> without checking for the presence of an <see cref="Microsoft.Net.Http.Headers.HeaderNames.Authorization"/> header.
