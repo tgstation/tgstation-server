@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Globalization;
 
-#nullable disable
-
 namespace Tgstation.Server.Host.Extensions
 {
 	/// <summary>
