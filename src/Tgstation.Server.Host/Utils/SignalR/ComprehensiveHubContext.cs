@@ -11,8 +11,6 @@ using Microsoft.Extensions.Logging;
 using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.Security;
 
-#nullable disable
-
 namespace Tgstation.Server.Host.Utils.SignalR
 {
 	/// <summary>
@@ -46,7 +44,7 @@ namespace Tgstation.Server.Host.Utils.SignalR
 		readonly ConcurrentDictionary<long, Dictionary<string, HubCallerContext>> userConnections;
 
 		/// <inheritdoc />
-		public event Func<IAuthenticationContext, Func<IEnumerable<string>, Task>, CancellationToken, ValueTask> OnConnectionMapGroups;
+		public event Func<IAuthenticationContext, Func<IEnumerable<string>, Task>, CancellationToken, ValueTask>? OnConnectionMapGroups;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="ComprehensiveHubContext{THub, THubMethods}"/> class.
@@ -67,7 +65,7 @@ namespace Tgstation.Server.Host.Utils.SignalR
 		public List<string> UserConnectionIds(User user)
 		{
 			ArgumentNullException.ThrowIfNull(user);
-			var connectionIds = userConnections.GetOrAdd(user.Id.Value, _ => new Dictionary<string, HubCallerContext>());
+			var connectionIds = userConnections.GetOrAdd(user.Require(x => x.Id), _ => new Dictionary<string, HubCallerContext>());
 			lock (connectionIds)
 				return connectionIds.Keys.ToList();
 		}
@@ -78,7 +76,7 @@ namespace Tgstation.Server.Host.Utils.SignalR
 			ArgumentNullException.ThrowIfNull(authenticationContext);
 			ArgumentNullException.ThrowIfNull(hub);
 
-			var userId = authenticationContext.User.Id.Value;
+			var userId = authenticationContext.User.Require(x => x.Id);
 			var context = hub.Context;
 			logger.LogTrace(
 				"Mapping user {userId} to hub connection ID: {connectionId}",
@@ -131,11 +129,12 @@ namespace Tgstation.Server.Host.Utils.SignalR
 		public void AbortUnauthedConnections(User user)
 		{
 			ArgumentNullException.ThrowIfNull(user);
-			logger.LogTrace("NotifyAndAbortUnauthedConnections. UID {userId}", user.Id.Value);
+			var uid = user.Require(x => x.Id);
+			logger.LogTrace("NotifyAndAbortUnauthedConnections. UID {userId}", uid);
 
-			List<HubCallerContext> connections = null;
+			List<HubCallerContext>? connections = null;
 			userConnections.AddOrUpdate(
-				user.Id.Value,
+				uid,
 				_ => new Dictionary<string, HubCallerContext>(),
 				(_, old) =>
 				{
@@ -148,7 +147,7 @@ namespace Tgstation.Server.Host.Utils.SignalR
 					return old;
 				});
 
-			foreach (var context in connections)
+			foreach (var context in connections!)
 				context.Abort();
 		}
 	}
