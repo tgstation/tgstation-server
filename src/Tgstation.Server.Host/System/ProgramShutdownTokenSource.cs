@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Threading;
 
-#nullable disable
-
 namespace Tgstation.Server.Host.System
 {
 	/// <summary>
@@ -18,7 +16,7 @@ namespace Tgstation.Server.Host.System
 		/// <summary>
 		/// The <see cref="CancellationTokenSource"/> for the <see cref="ProgramShutdownTokenSource"/>.
 		/// </summary>
-		CancellationTokenSource cancellationTokenSource;
+		CancellationTokenSource? cancellationTokenSource;
 
 		/// <summary>
 		/// Gets the <see cref="CancellationToken"/>.
