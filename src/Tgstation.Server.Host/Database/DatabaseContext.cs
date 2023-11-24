@@ -15,8 +15,6 @@ using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Database.Migrations;
 using Tgstation.Server.Host.Models;
 
-#nullable disable
-
 namespace Tgstation.Server.Host.Database
 {
 	/// <summary>
@@ -262,21 +260,21 @@ namespace Tgstation.Server.Host.Database
 		protected DatabaseContext(DbContextOptions dbContextOptions)
 			: base(dbContextOptions)
 		{
-			usersCollection = new DatabaseCollection<User>(Users);
-			instancesCollection = new DatabaseCollection<Instance>(Instances);
-			instancePermissionSetsCollection = new DatabaseCollection<InstancePermissionSet>(InstancePermissionSets);
-			compileJobsCollection = new DatabaseCollection<CompileJob>(CompileJobs);
-			repositorySettingsCollection = new DatabaseCollection<RepositorySettings>(RepositorySettings);
-			dreamMakerSettingsCollection = new DatabaseCollection<DreamMakerSettings>(DreamMakerSettings);
-			dreamDaemonSettingsCollection = new DatabaseCollection<DreamDaemonSettings>(DreamDaemonSettings);
-			chatBotsCollection = new DatabaseCollection<ChatBot>(ChatBots);
-			chatChannelsCollection = new DatabaseCollection<ChatChannel>(ChatChannels);
-			revisionInformationsCollection = new DatabaseCollection<RevisionInformation>(RevisionInformations);
-			jobsCollection = new DatabaseCollection<Job>(Jobs);
-			reattachInformationsCollection = new DatabaseCollection<ReattachInformation>(ReattachInformations);
-			oAuthConnections = new DatabaseCollection<OAuthConnection>(OAuthConnections);
-			groups = new DatabaseCollection<UserGroup>(Groups);
-			permissionSets = new DatabaseCollection<PermissionSet>(PermissionSets);
+			usersCollection = new DatabaseCollection<User>(Users!);
+			instancesCollection = new DatabaseCollection<Instance>(Instances!);
+			instancePermissionSetsCollection = new DatabaseCollection<InstancePermissionSet>(InstancePermissionSets!);
+			compileJobsCollection = new DatabaseCollection<CompileJob>(CompileJobs!);
+			repositorySettingsCollection = new DatabaseCollection<RepositorySettings>(RepositorySettings!);
+			dreamMakerSettingsCollection = new DatabaseCollection<DreamMakerSettings>(DreamMakerSettings!);
+			dreamDaemonSettingsCollection = new DatabaseCollection<DreamDaemonSettings>(DreamDaemonSettings!);
+			chatBotsCollection = new DatabaseCollection<ChatBot>(ChatBots!);
+			chatChannelsCollection = new DatabaseCollection<ChatChannel>(ChatChannels!);
+			revisionInformationsCollection = new DatabaseCollection<RevisionInformation>(RevisionInformations!);
+			jobsCollection = new DatabaseCollection<Job>(Jobs!);
+			reattachInformationsCollection = new DatabaseCollection<ReattachInformation>(ReattachInformations!);
+			oAuthConnections = new DatabaseCollection<OAuthConnection>(OAuthConnections!);
+			groups = new DatabaseCollection<UserGroup>(Groups!);
+			permissionSets = new DatabaseCollection<PermissionSet>(PermissionSets!);
 		}
 
 		/// <inheritdoc />
@@ -420,7 +418,7 @@ namespace Tgstation.Server.Host.Database
 				throw new NotSupportedException("Cannot migrate below version 4.1.0!");
 
 			// Update this with new migrations as they are made
-			string targetMigration = null;
+			string? targetMigration = null;
 
 			string BadDatabaseType() => throw new ArgumentException($"Invalid DatabaseType: {currentDatabaseType}", nameof(currentDatabaseType));
 
