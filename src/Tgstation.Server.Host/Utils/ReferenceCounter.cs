@@ -1,7 +1,5 @@
 ﻿using System;
 
-#nullable disable
-
 namespace Tgstation.Server.Host.Utils
 {
 	/// <summary>
@@ -24,12 +22,12 @@ namespace Tgstation.Server.Host.Utils
 		/// <summary>
 		/// Backing field for <see cref="Instance"/>.
 		/// </summary>
-		TInstance actualInstance;
+		TInstance? actualInstance;
 
 		/// <summary>
 		/// The <see cref="Action"/> to take when <see cref="Dispose"/> is called.
 		/// </summary>
-		Action referenceCleanupAction;
+		Action? referenceCleanupAction;
 
 		/// <summary>
 		/// If the <see cref="ReferenceCounter{TInstance}"/> was initialized.
