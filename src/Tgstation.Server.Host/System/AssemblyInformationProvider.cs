@@ -5,8 +5,6 @@ using System.Reflection;
 using Tgstation.Server.Common;
 using Tgstation.Server.Common.Extensions;
 
-#nullable disable
-
 namespace Tgstation.Server.Host.System
 {
 	/// <inheritdoc />
@@ -40,7 +38,7 @@ namespace Tgstation.Server.Host.System
 			Assembly assembly = Assembly.GetExecutingAssembly();
 			Path = assembly.Location;
 			AssemblyName = assembly.GetName();
-			Version = AssemblyName.Version.Semver();
+			Version = AssemblyName.Version!.Semver();
 			VersionString = String.Concat(VersionPrefix, "-v", Version);
 		}
 	}
