@@ -10,8 +10,6 @@ using Mono.Unix.Native;
 using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.Utils;
 
-#nullable disable
-
 namespace Tgstation.Server.Host.System
 {
 	/// <summary>
@@ -47,7 +45,7 @@ namespace Tgstation.Server.Host.System
 		/// <summary>
 		/// The thread used to check the signal. See http://docs.go-mono.com/?link=T%3aMono.Unix.UnixSignal.
 		/// </summary>
-		Task signalCheckerTask;
+		Task? signalCheckerTask;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="PosixSignalHandler"/> class.
