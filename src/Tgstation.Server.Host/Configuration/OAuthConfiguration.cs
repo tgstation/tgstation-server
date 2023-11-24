@@ -1,7 +1,5 @@
 ﻿using System;
 
-#nullable disable
-
 namespace Tgstation.Server.Host.Configuration
 {
 	/// <summary>
@@ -12,16 +10,16 @@ namespace Tgstation.Server.Host.Configuration
 		/// <summary>
 		/// The client redirect URL. Not used by all providers.
 		/// </summary>
-		public Uri ServerUrl { get; set; }
+		public Uri? ServerUrl { get; set; }
 
 		/// <summary>
 		/// The authentication server URL. Not used by all providers.
 		/// </summary>
-		public Uri RedirectUrl { get; set; }
+		public Uri? RedirectUrl { get; set; }
 
 		/// <summary>
 		/// User information URL override. Not supported by the <see cref="Api.Models.OAuthProvider.GitHub"/> provider.
 		/// </summary>
-		public Uri UserInformationUrlOverride { get; set; }
+		public Uri? UserInformationUrlOverride { get; set; }
 	}
 }
