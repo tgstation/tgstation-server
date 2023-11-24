@@ -4,8 +4,6 @@ using Microsoft.Extensions.Logging;
 
 using Tgstation.Server.Host.Models;
 
-#nullable disable
-
 namespace Tgstation.Server.Host.Jobs
 {
 	/// <summary>
@@ -16,7 +14,7 @@ namespace Tgstation.Server.Host.Jobs
 		/// <summary>
 		/// The name of the current stage.
 		/// </summary>
-		public string StageName
+		public string? StageName
 		{
 			get => stageName;
 			set
@@ -37,12 +35,12 @@ namespace Tgstation.Server.Host.Jobs
 		/// <summary>
 		/// Progress reporter callback taking a description of what the job is currently doing and the (optional) progress of the job on a scale from 0.0-1.0.
 		/// </summary>
-		readonly Action<string, double?> callback;
+		readonly Action<string?, double?> callback;
 
 		/// <summary>
 		/// Backing field for <see cref="StageName"/>.
 		/// </summary>
-		string stageName;
+		string? stageName;
 
 		/// <summary>
 		/// The last progress value pushed into the <see cref="callback"/>.
@@ -60,7 +58,7 @@ namespace Tgstation.Server.Host.Jobs
 		/// <param name="logger">The value of <see cref="logger"/>.</param>
 		/// <param name="stageName">The value of <see cref="StageName"/>.</param>
 		/// <param name="callback">The value of <see cref="callback"/>.</param>
-		public JobProgressReporter(ILogger<JobProgressReporter> logger, string stageName, Action<string, double?> callback)
+		public JobProgressReporter(ILogger<JobProgressReporter> logger, string? stageName, Action<string?, double?> callback)
 		{
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 			this.callback = callback ?? throw new ArgumentNullException(nameof(callback));
@@ -99,7 +97,7 @@ namespace Tgstation.Server.Host.Jobs
 		/// <param name="percentage">The 0.0f-1.0f percentage of the current <see cref="JobProgressReporter"/>'s percentage should be given to the section.</param>
 		/// <returns>A new <see cref="JobProgressReporter"/> that is a subsection of this one.</returns>
 		/// <remarks>A <see cref="JobProgressReporter"/> should only have one active child at a time.</remarks>
-		public JobProgressReporter CreateSection(string newStageName, double percentage)
+		public JobProgressReporter CreateSection(string? newStageName, double percentage)
 		{
 			if (percentage > 1 || percentage < 0)
 			{
