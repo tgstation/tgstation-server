@@ -4,8 +4,6 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 
-#nullable disable
-
 namespace Tgstation.Server.Host.Database.Migrations
 {
 	[DbContext(typeof(SqliteDatabaseContext))]
