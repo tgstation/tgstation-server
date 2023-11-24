@@ -1,7 +1,5 @@
 ﻿using System;
 
-#nullable disable
-
 namespace Tgstation.Server.Host.Configuration
 {
 	/// <summary>
@@ -12,12 +10,12 @@ namespace Tgstation.Server.Host.Configuration
 		/// <summary>
 		/// The client ID.
 		/// </summary>
-		public string ClientId { get; set; }
+		public string? ClientId { get; set; }
 
 		/// <summary>
 		/// The client secret.
 		/// </summary>
-		public string ClientSecret { get; set; }
+		public string? ClientSecret { get; set; }
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="OAuthConfigurationBase"/> class.
