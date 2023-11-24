@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
-#nullable disable
-
 namespace Tgstation.Server.Host.Utils
 {
 	/// <summary>
@@ -53,7 +51,7 @@ namespace Tgstation.Server.Host.Utils
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the locked <see cref="SemaphoreSlimContext"/>.</returns>
 		public async ValueTask<SemaphoreSlimContext> Lock(CancellationToken cancellationToken)
 		{
-			FifoSemaphoreTicket ticket = null;
+			FifoSemaphoreTicket? ticket = null;
 			using (cancellationToken.Register(
 				() =>
 				{
@@ -65,7 +63,7 @@ namespace Tgstation.Server.Host.Utils
 					var context = await SemaphoreSlimContext.Lock(semaphore, cancellationToken);
 					try
 					{
-						FifoSemaphoreTicket peekedTicket = null;
+						FifoSemaphoreTicket? peekedTicket = null;
 						while (ticketQueue.Count > 0)
 						{
 							peekedTicket = ticketQueue.Peek();
