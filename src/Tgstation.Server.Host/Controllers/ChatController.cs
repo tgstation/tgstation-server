@@ -141,7 +141,7 @@ namespace Tgstation.Server.Host.Controllers
 			DatabaseContext.ChatBots.Add(dbModel);
 
 			await DatabaseContext.Save(cancellationToken);
-			return await WithComponentInstance(
+			return await WithComponentInstanceNullable(
 				async instance =>
 				{
 					try
@@ -180,7 +180,7 @@ namespace Tgstation.Server.Host.Controllers
 		[TgsAuthorize(ChatBotRights.Delete)]
 		[ProducesResponseType(204)]
 		public async ValueTask<IActionResult> Delete(long id, CancellationToken cancellationToken)
-			=> await WithComponentInstance(
+			=> await WithComponentInstanceNullable(
 				async instance =>
 				{
 					await Task.WhenAll(
@@ -352,7 +352,7 @@ namespace Tgstation.Server.Host.Controllers
 
 			await DatabaseContext.Save(cancellationToken);
 
-			earlyOut = await WithComponentInstance(
+			earlyOut = await WithComponentInstanceNullable(
 				async instance =>
 				{
 					var chat = instance.Chat;
