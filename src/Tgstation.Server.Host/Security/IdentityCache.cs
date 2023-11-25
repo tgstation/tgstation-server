@@ -7,8 +7,6 @@ using Microsoft.Extensions.Logging;
 using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.Utils;
 
-#nullable disable
-
 namespace Tgstation.Server.Host.Security
 {
 	/// <inheritdoc cref="IIdentityCache" />
@@ -56,12 +54,14 @@ namespace Tgstation.Server.Host.Security
 			ArgumentNullException.ThrowIfNull(user);
 			ArgumentNullException.ThrowIfNull(systemIdentity);
 
+			var uid = user.Require(x => x.Id);
+			var sysId = systemIdentity.Uid;
+
 			lock (cachedIdentities)
 			{
-				var uid = systemIdentity.Uid;
-				logger.LogDebug("Caching system identity {0} of user {1}", uid, user.Id);
+				logger.LogDebug("Caching system identity {sysId} of user {uid}", sysId, uid);
 
-				if (cachedIdentities.TryGetValue(user.Id.Value, out var identCache))
+				if (cachedIdentities.TryGetValue(uid, out var identCache))
 				{
 					logger.LogTrace("Expiring previously cached identity...");
 					identCache.Dispose(); // also clears it out
@@ -72,12 +72,12 @@ namespace Tgstation.Server.Host.Security
 					asyncDelayer,
 					() =>
 					{
-						logger.LogDebug("Expiring system identity cache for user {0}", user.Id);
+						logger.LogDebug("Expiring system identity cache for user {uid}", uid);
 						lock (cachedIdentities)
-							cachedIdentities.Remove(user.Id.Value);
+							cachedIdentities.Remove(uid);
 					},
 					expiry);
-				cachedIdentities.Add(user.Id.Value, identCache);
+				cachedIdentities.Add(uid, identCache);
 			}
 		}
 
@@ -85,9 +85,11 @@ namespace Tgstation.Server.Host.Security
 		public ISystemIdentity LoadCachedIdentity(User user)
 		{
 			ArgumentNullException.ThrowIfNull(user);
+			var uid = user.Require(x => x.Id);
 			lock (cachedIdentities)
-				if (cachedIdentities.TryGetValue(user.Id.Value, out var identity))
+				if (cachedIdentities.TryGetValue(uid, out var identity))
 					return identity.SystemIdentity.Clone();
+
 			throw new InvalidOperationException("Cached system identity has expired!");
 		}
 	}
