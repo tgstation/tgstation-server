@@ -60,7 +60,7 @@ namespace Tgstation.Server.Host.Swarm
 		/// Initializes a new instance of the <see cref="SwarmUpdateOperation"/> class.
 		/// </summary>
 		/// <param name="targetVersion">The value of <see cref="TargetVersion"/>.</param>
-		/// <param name="currentNodes">An <see cref="IEnumerable{T}"/> of the controller's current nodes as <see cref="SwarmServerResponse"/>s.</param>
+		/// <param name="currentNodes">An <see cref="IEnumerable{T}"/> of the controller's current nodes as <see cref="SwarmServerResponse"/>s. Must have <see cref="SwarmServer.Address"/> and <see cref="SwarmServer.Identifier"/> set.</param>
 		/// <remarks>This is the variant for use by the controller.</remarks>
 		public SwarmUpdateOperation(Version targetVersion, IEnumerable<SwarmServerResponse> currentNodes)
 			: this(targetVersion)
