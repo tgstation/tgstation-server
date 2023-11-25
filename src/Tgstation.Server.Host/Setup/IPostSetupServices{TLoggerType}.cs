@@ -1,7 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
 
-#nullable disable
-
 namespace Tgstation.Server.Host.Setup
 {
 	/// <summary>
