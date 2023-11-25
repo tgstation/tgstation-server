@@ -3,8 +3,6 @@ using System.Threading.Tasks;
 
 using Tgstation.Server.Host.Models;
 
-#nullable disable
-
 namespace Tgstation.Server.Host.Security
 {
 	/// <summary>
@@ -32,7 +30,7 @@ namespace Tgstation.Server.Host.Security
 		/// <param name="username">The username of the user.</param>
 		/// <param name="password">The password of the user.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in a new <see cref="ISystemIdentity"/> based on the given credentials.</returns>
-		Task<ISystemIdentity> CreateSystemIdentity(string username, string password, CancellationToken cancellationToken);
+		/// <returns>A <see cref="Task{TResult}"/> resulting in a new <see cref="ISystemIdentity"/> based on the given credentials on success, <see langword="null"/> on failure.</returns>
+		Task<ISystemIdentity?> CreateSystemIdentity(string username, string password, CancellationToken cancellationToken);
 	}
 }
