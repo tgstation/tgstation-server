@@ -6,15 +6,13 @@ using Tgstation.Server.Api.Models;
 using Tgstation.Server.Common.Http;
 using Tgstation.Server.Host.Configuration;
 
-#nullable disable
-
 namespace Tgstation.Server.Host.Security.OAuth
 {
 	/// <summary>
 	/// OAuth validator for Invision Community (selfhosted).
 	/// </summary>
 	sealed class InvisionCommunityOAuthValidator : GenericOAuthValidator
-		{
+	{
 		/// <inheritdoc />
 		public override OAuthProvider Provider => OAuthProvider.InvisionCommunity;
 
