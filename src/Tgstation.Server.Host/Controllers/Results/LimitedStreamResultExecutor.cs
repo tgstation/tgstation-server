@@ -7,8 +7,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.Extensions.Logging;
 
-#nullable disable
-
 namespace Tgstation.Server.Host.Controllers.Results
 {
 	/// <summary>
@@ -55,7 +53,7 @@ namespace Tgstation.Server.Host.Controllers.Results
 					}
 					else
 					{
-						stream.Seek(range.From.Value, SeekOrigin.Begin);
+						stream.Seek(range.From ?? 0, SeekOrigin.Begin);
 						await StreamCopyOperation.CopyToAsync(
 							stream,
 							outputStream,
