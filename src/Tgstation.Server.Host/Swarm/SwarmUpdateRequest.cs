@@ -4,8 +4,6 @@ using System.ComponentModel.DataAnnotations;
 
 using Tgstation.Server.Api.Models.Response;
 
-#nullable disable
-
 namespace Tgstation.Server.Host.Swarm
 {
 	/// <summary>
@@ -17,17 +15,17 @@ namespace Tgstation.Server.Host.Swarm
 		/// The TGS <see cref="Version"/> to update to.
 		/// </summary>
 		[Required]
-		public Version UpdateVersion { get; init; }
+		public Version? UpdateVersion { get; init; }
 
 		/// <summary>
 		/// The <see cref="Api.Models.Internal.SwarmServer.Identifier"/> of the node to download the update package from.
 		/// </summary>
 		[Required]
-		public string SourceNode { get; init; }
+		public string? SourceNode { get; init; }
 
 		/// <summary>
 		/// The map of <see cref="Api.Models.Internal.SwarmServer.Identifier"/>s to <see cref="FileTicketResponse"/>s for retrieving the update package from the initiating server.
 		/// </summary>
-		public Dictionary<string, FileTicketResponse> DownloadTickets { get; init; }
+		public Dictionary<string, FileTicketResponse>? DownloadTickets { get; init; }
 	}
 }

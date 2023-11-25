@@ -776,14 +776,14 @@ namespace Tgstation.Server.Host.Swarm
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="SwarmPrepareResult"/>.</returns>
 		async ValueTask<SwarmPrepareResult> PrepareUpdateImpl(ISeekableFileStreamProvider? initiatorProvider, SwarmUpdateRequest updateRequest, CancellationToken cancellationToken)
 		{
+			var version = updateRequest.UpdateVersion!;
 			if (!SwarmMode)
 			{
 				// we still need an active update operation for the TargetVersion
-				updateOperation = new SwarmUpdateOperation(updateRequest.UpdateVersion);
+				updateOperation = new SwarmUpdateOperation(version);
 				return SwarmPrepareResult.SuccessProviderNotRequired;
 			}
 
-			var version = updateRequest.UpdateVersion;
 			var initiator = initiatorProvider != null;
 			logger.LogTrace("PrepareUpdateImpl {version}...", version);
 
@@ -865,6 +865,12 @@ namespace Tgstation.Server.Host.Swarm
 							"Missing local node entry for update source node: {sourceNode}",
 							updateRequest.SourceNode);
 						shouldAbort = true;
+						return SwarmPrepareResult.Failure;
+					}
+
+					if (updateRequest.DownloadTickets == null)
+					{
+						logger.LogError("Missing download tickets in update request!");
 						return SwarmPrepareResult.Failure;
 					}
 
@@ -970,7 +976,7 @@ namespace Tgstation.Server.Host.Swarm
 				}
 
 				// The initiator node obviously doesn't create a ticket for itself
-				else if (!weAreInitiator && updateRequest.DownloadTickets.Count != currentUpdateOperation.InvolvedServers.Count - 1)
+				else if (!weAreInitiator && updateRequest.DownloadTickets!.Count != currentUpdateOperation.InvolvedServers.Count - 1)
 				{
 					logger.LogWarning(
 						"Aborting update, {receivedTickets} download tickets were provided but there are {nodesToUpdate} nodes in the swarm that require the package!",
@@ -982,7 +988,7 @@ namespace Tgstation.Server.Host.Swarm
 
 				var downloadTicketDictionary = weAreInitiator
 					? await CreateDownloadTickets(initiatorProvider!, currentUpdateOperation.InvolvedServers, cancellationToken)
-					: updateRequest.DownloadTickets;
+					: updateRequest.DownloadTickets!;
 
 				var sourceNode = weAreInitiator
 					? swarmConfiguration.Identifier
@@ -998,17 +1004,18 @@ namespace Tgstation.Server.Host.Swarm
 					.Select(node =>
 					{
 						// only send the necessary ticket to each node from the controller
-						Dictionary<string, FileTicketResponse?> localTicketDictionary;
+						Dictionary<string, FileTicketResponse>? localTicketDictionary;
 						var nodeId = node.Identifier!;
-						if (!downloadTicketDictionary.TryGetValue(nodeId, out var ticket)
-							&& nodeId != sourceNode)
+						if (nodeId == sourceNode)
+							localTicketDictionary = null;
+						else if (!downloadTicketDictionary.TryGetValue(nodeId, out var ticket))
 						{
 							logger.LogError("Missing download ticket for node {missingNodeId}!", nodeId);
 							anyFailed = true;
 							return null;
 						}
 						else
-							localTicketDictionary = new Dictionary<string, FileTicketResponse?>
+							localTicketDictionary = new Dictionary<string, FileTicketResponse>
 							{
 								{ nodeId, ticket },
 							};
