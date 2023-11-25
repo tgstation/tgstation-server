@@ -4,8 +4,6 @@ using System.Threading.Tasks;
 
 using Tgstation.Server.Host.Models;
 
-#nullable disable
-
 namespace Tgstation.Server.Host.Security
 {
 	/// <summary>
@@ -21,6 +19,6 @@ namespace Tgstation.Server.Host.Security
 		public Task<ISystemIdentity> CreateSystemIdentity(User user, CancellationToken cancellationToken) => throw new NotImplementedException();
 
 		/// <inheritdoc />
-		public Task<ISystemIdentity> CreateSystemIdentity(string username, string password, CancellationToken cancellationToken) => throw new NotImplementedException();
+		public Task<ISystemIdentity?> CreateSystemIdentity(string username, string password, CancellationToken cancellationToken) => throw new NotImplementedException();
 	}
 }
