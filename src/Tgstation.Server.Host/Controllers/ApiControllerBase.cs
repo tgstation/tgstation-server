@@ -8,8 +8,6 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Primitives;
 using Microsoft.Net.Http.Headers;
 
-#nullable disable
-
 namespace Tgstation.Server.Host.Controllers
 {
 	/// <summary>
@@ -39,7 +37,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="executeAction">A <see cref="Func{TResult}"/> that should be invoked and its response awaited to continue normal execution of the request. Should NOT be called if this method returns a non-<see langword="null"/> value.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in an <see cref="IActionResult"/> that, if not <see langword="null"/>, is executed.</returns>
-		protected virtual async ValueTask<IActionResult> HookExecuteAction(Func<Task> executeAction, CancellationToken cancellationToken)
+		protected virtual async ValueTask<IActionResult?> HookExecuteAction(Func<Task> executeAction, CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(executeAction);
 
