@@ -4,8 +4,6 @@ using Newtonsoft.Json.Serialization;
 using Tgstation.Server.Api;
 using Tgstation.Server.Host.Extensions.Converters;
 
-#nullable disable
-
 namespace Tgstation.Server.Host.Swarm
 {
 	/// <summary>
