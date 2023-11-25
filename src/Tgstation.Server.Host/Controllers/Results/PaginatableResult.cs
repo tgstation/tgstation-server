@@ -1,9 +1,8 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
 using Microsoft.AspNetCore.Mvc;
-
-#nullable disable
 
 namespace Tgstation.Server.Host.Controllers.Results
 {
@@ -14,14 +13,21 @@ namespace Tgstation.Server.Host.Controllers.Results
 	public sealed class PaginatableResult<TModel>
 	{
 		/// <summary>
+		/// Whether or not the <see cref="PaginatableResult{TModel}"/> is valid.
+		/// </summary>
+		[MemberNotNullWhen(true, nameof(Results))]
+		[MemberNotNullWhen(false, nameof(EarlyOut))]
+		public bool Valid => EarlyOut == null;
+
+		/// <summary>
 		/// The <see cref="IOrderedQueryable{T}"/> <typeparamref name="TModel"/> results.
 		/// </summary>
-		public IOrderedQueryable<TModel> Results { get; }
+		public IOrderedQueryable<TModel>? Results { get; }
 
 		/// <summary>
 		/// An <see cref="IActionResult"/> to return immediately.
 		/// </summary>
-		public IActionResult EarlyOut { get; }
+		public IActionResult? EarlyOut { get; }
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="PaginatableResult{TModel}"/> class.
