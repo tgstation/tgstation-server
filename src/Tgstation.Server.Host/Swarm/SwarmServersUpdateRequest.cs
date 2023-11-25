@@ -3,8 +3,6 @@ using System.ComponentModel.DataAnnotations;
 
 using Tgstation.Server.Api.Models.Response;
 
-#nullable disable
-
 namespace Tgstation.Server.Host.Swarm
 {
 	/// <summary>
@@ -16,6 +14,6 @@ namespace Tgstation.Server.Host.Swarm
 		/// The <see cref="ICollection{T}"/> of updated <see cref="SwarmServerResponse"/>s.
 		/// </summary>
 		[Required]
-		public ICollection<SwarmServerResponse> SwarmServers { get; set; }
+		public ICollection<SwarmServerResponse>? SwarmServers { get; set; }
 	}
 }
