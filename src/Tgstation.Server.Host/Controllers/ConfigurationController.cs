@@ -19,8 +19,6 @@ using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.Security;
 using Tgstation.Server.Host.Utils;
 
-#nullable disable
-
 namespace Tgstation.Server.Host.Controllers
 {
 	/// <summary>
@@ -75,7 +73,7 @@ namespace Tgstation.Server.Host.Controllers
 		public async ValueTask<IActionResult> Update([FromBody] ConfigurationFileRequest model, CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(model);
-			if (ForbidDueToModeConflicts(model.Path, out var systemIdentity))
+			if (ForbidDueToModeConflicts(model.Path!, out var systemIdentity))
 				return Forbid();
 
 			try
@@ -166,7 +164,7 @@ namespace Tgstation.Server.Host.Controllers
 		[ProducesResponseType(typeof(ErrorMessageResponse), 409)]
 		[ProducesResponseType(typeof(ErrorMessageResponse), 410)]
 		public ValueTask<IActionResult> Directory(
-			string directoryPath,
+			string? directoryPath,
 			[FromQuery] int? page,
 			[FromQuery] int? pageSize,
 			CancellationToken cancellationToken)
@@ -340,7 +338,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="path">The path to validate if any.</param>
 		/// <param name="systemIdentityToUse">The <see cref="ISystemIdentity"/> to use when calling into <see cref="Components.StaticFiles.IConfiguration"/>.</param>
 		/// <returns><see langword="true"/> if a <see cref="ForbidResult"/> should be returned, <see langword="false"/> otherwise.</returns>
-		bool ForbidDueToModeConflicts(string path, out ISystemIdentity systemIdentityToUse)
+		bool ForbidDueToModeConflicts(string? path, out ISystemIdentity? systemIdentityToUse)
 		{
 			if (Instance.ConfigurationType == ConfigurationType.Disallowed
 				|| (Instance.ConfigurationType == ConfigurationType.SystemIdentityWrite && AuthenticationContext.SystemIdentity == null)
