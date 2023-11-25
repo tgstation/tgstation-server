@@ -6,8 +6,6 @@ using Tgstation.Server.Api.Models;
 using Tgstation.Server.Common.Http;
 using Tgstation.Server.Host.Configuration;
 
-#nullable disable
-
 namespace Tgstation.Server.Host.Security.OAuth
 {
 	/// <summary>
