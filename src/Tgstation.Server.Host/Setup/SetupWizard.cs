@@ -31,8 +31,6 @@ using Tgstation.Server.Host.Utils;
 
 using YamlDotNet.Serialization;
 
-#nullable disable
-
 namespace Tgstation.Server.Host.Setup
 {
 	/// <inheritdoc />
@@ -222,8 +220,11 @@ namespace Tgstation.Server.Host.Setup
 					await console.WriteAsync($"Checking {databaseConfiguration.DatabaseType} version...", true, cancellationToken);
 					using var command = testConnection.CreateCommand();
 					command.CommandText = "SELECT VERSION()";
-					var fullVersion = (string)await command.ExecuteScalarAsync(cancellationToken);
+					var fullVersion = (string?)await command.ExecuteScalarAsync(cancellationToken);
 					await console.WriteAsync(String.Format(CultureInfo.InvariantCulture, "Found {0}", fullVersion), true, cancellationToken);
+
+					if (fullVersion == null)
+						throw new InvalidOperationException($"\"{command.CommandText}\" returned null!");
 
 					if (databaseConfiguration.DatabaseType == DatabaseType.PostgresSql)
 					{
@@ -293,7 +294,7 @@ namespace Tgstation.Server.Host.Setup
 		/// <param name="databaseName">The path to the potential SQLite database file.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the SQLite database path to store in the configuration.</returns>
-		async ValueTask<string> ValidateNonExistantSqliteDBName(string databaseName, CancellationToken cancellationToken)
+		async ValueTask<string?> ValidateNonExistantSqliteDBName(string databaseName, CancellationToken cancellationToken)
 		{
 			var dbPathIsRooted = Path.IsPathRooted(databaseName);
 			var resolvedPath = ioManager.ResolvePath(
@@ -408,12 +409,12 @@ namespace Tgstation.Server.Host.Setup
 					DatabaseType = await PromptDatabaseType(firstTime, cancellationToken),
 				};
 
-				string serverAddress = null;
+				string? serverAddress = null;
 				ushort? serverPort = null;
 
 				var definitelyLocalMariaDB = firstTime && internalConfiguration.MariaDBSetup;
 				var isSqliteDB = databaseConfiguration.DatabaseType == DatabaseType.Sqlite;
-				IPHostEntry serverAddressEntry = null;
+				IPHostEntry? serverAddressEntry = null;
 				if (!isSqliteDB)
 					do
 					{
@@ -470,7 +471,7 @@ namespace Tgstation.Server.Host.Setup
 				await console.WriteAsync(null, true, cancellationToken);
 				await console.WriteAsync($"Enter the database {(isSqliteDB ? "file path" : "name")} ({(definitelyLocalMariaDB ? "leave blank for \"tgs\")" : "Can be from previous installation. Otherwise, should not exist")}): ", false, cancellationToken);
 
-				string databaseName;
+				string? databaseName;
 				bool dbExists = false;
 				do
 				{
@@ -512,8 +513,8 @@ namespace Tgstation.Server.Host.Setup
 
 				await console.WriteAsync(null, true, cancellationToken);
 
-				string username = null;
-				string password = null;
+				string? username = null;
+				string? password = null;
 				if (!isSqliteDB)
 					if (!useWinAuth)
 					{
@@ -885,7 +886,7 @@ namespace Tgstation.Server.Host.Setup
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the new <see cref="SwarmConfiguration"/>.</returns>
-		async ValueTask<SwarmConfiguration> ConfigureSwarm(CancellationToken cancellationToken)
+		async ValueTask<SwarmConfiguration?> ConfigureSwarm(CancellationToken cancellationToken)
 		{
 			var enable = await PromptYesNo("Enable swarm mode?", false, cancellationToken);
 			if (!enable)
@@ -902,7 +903,7 @@ namespace Tgstation.Server.Host.Setup
 			async ValueTask<Uri> ParseAddress(string question)
 			{
 				var first = true;
-				Uri address;
+				Uri? address;
 				do
 				{
 					if (first)
@@ -933,7 +934,7 @@ namespace Tgstation.Server.Host.Setup
 			while (String.IsNullOrWhiteSpace(privateKey));
 
 			var controller = await PromptYesNo("Is this server the swarm's controller? (y/n): ", null, cancellationToken);
-			Uri controllerAddress = null;
+			Uri? controllerAddress = null;
 			if (!controller)
 				controllerAddress = await ParseAddress("Enter the swarm controller's HTTP(S) address: ");
 
@@ -965,15 +966,15 @@ namespace Tgstation.Server.Host.Setup
 			ushort? hostingPort,
 			DatabaseConfiguration databaseConfiguration,
 			GeneralConfiguration newGeneralConfiguration,
-			FileLoggingConfiguration fileLoggingConfiguration,
-			ElasticsearchConfiguration elasticsearchConfiguration,
+			FileLoggingConfiguration? fileLoggingConfiguration,
+			ElasticsearchConfiguration? elasticsearchConfiguration,
 			ControlPanelConfiguration controlPanelConfiguration,
-			SwarmConfiguration swarmConfiguration,
+			SwarmConfiguration? swarmConfiguration,
 			CancellationToken cancellationToken)
 		{
 			newGeneralConfiguration.ApiPort = hostingPort ?? GeneralConfiguration.DefaultApiPort;
 			newGeneralConfiguration.ConfigVersion = GeneralConfiguration.CurrentConfigVersion;
-			var map = new Dictionary<string, object>()
+			var map = new Dictionary<string, object?>()
 			{
 				{ DatabaseConfiguration.Section, databaseConfiguration },
 				{ GeneralConfiguration.Section, newGeneralConfiguration },
@@ -1097,7 +1098,7 @@ namespace Tgstation.Server.Host.Setup
 			}
 
 			Task finalTask = Task.CompletedTask;
-			string originalConsoleTitle = null;
+			string? originalConsoleTitle = null;
 			void SetConsoleTitle()
 			{
 				if (originalConsoleTitle != null)
