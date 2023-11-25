@@ -28,7 +28,7 @@ namespace Tgstation.Server.Host.Extensions
 		/// <param name="statusCode">The <see cref="HttpStatusCode"/>.</param>
 		/// <param name="errorMessage">The accompanying <see cref="ErrorMessageResponse"/> payload.</param>
 		/// <returns>A <see cref="StatusCodeResult"/> with the given <paramref name="statusCode"/>.</returns>
-		public static ObjectResult StatusCode(this ControllerBase controller, HttpStatusCode statusCode, object errorMessage)
+		public static ObjectResult StatusCode(this ControllerBase controller, HttpStatusCode statusCode, object? errorMessage)
 			=> controller?.StatusCode((int)statusCode, errorMessage) ?? throw new ArgumentNullException(nameof(controller));
 	}
 }

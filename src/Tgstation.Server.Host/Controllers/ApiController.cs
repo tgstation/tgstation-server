@@ -28,8 +28,6 @@ using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.Security;
 using Tgstation.Server.Host.Utils;
 
-#nullable disable
-
 namespace Tgstation.Server.Host.Controllers
 {
 	/// <summary>
@@ -50,7 +48,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <summary>
 		/// The <see cref="Api.ApiHeaders"/> for the operation.
 		/// </summary>
-		protected ApiHeaders ApiHeaders => ApiHeadersProvider.ApiHeaders;
+		protected ApiHeaders? ApiHeaders => ApiHeadersProvider.ApiHeaders;
 
 		/// <summary>
 		/// The <see cref="IApiHeadersProvider"/> containing value of <see cref="ApiHeaders"/>.
@@ -75,7 +73,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <summary>
 		/// The <see cref="Instance"/> for the operation.
 		/// </summary>
-		protected Models.Instance Instance { get; }
+		protected Models.Instance? Instance { get; }
 
 		/// <summary>
 		/// If <see cref="ApiHeaders"/> are required.
@@ -102,13 +100,13 @@ namespace Tgstation.Server.Host.Controllers
 			ApiHeadersProvider = apiHeadersProvider ?? throw new ArgumentNullException(nameof(apiHeadersProvider));
 			Logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
-			Instance = AuthenticationContext?.InstancePermissionSet?.Instance;
+			Instance = AuthenticationContext.InstancePermissionSet?.Instance;
 			this.requireHeaders = requireHeaders;
 		}
 
 		/// <inheritdoc />
 #pragma warning disable CA1506 // TODO: Decomplexify
-		protected override async ValueTask<IActionResult> HookExecuteAction(Func<Task> executeAction, CancellationToken cancellationToken)
+		protected override async ValueTask<IActionResult?> HookExecuteAction(Func<Task> executeAction, CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(executeAction);
 
@@ -116,7 +114,7 @@ namespace Tgstation.Server.Host.Controllers
 			if (ApiHeaders == null)
 			{
 				if (requireHeaders)
-					return HeadersIssue(ApiHeadersProvider.HeadersException);
+					return HeadersIssue(ApiHeadersProvider.HeadersException!);
 			}
 
 			var errorCase = await ValidateRequest(cancellationToken);
@@ -126,7 +124,7 @@ namespace Tgstation.Server.Host.Controllers
 			if (ModelState?.IsValid == false)
 			{
 				var errorMessages = ModelState
-					.SelectMany(x => x.Value.Errors)
+					.SelectMany(x => x.Value!.Errors)
 					.Select(x => x.ErrorMessage)
 
 					// We use RequiredAttributes purely for preventing properties from becoming nullable in the databases
@@ -240,8 +238,8 @@ namespace Tgstation.Server.Host.Controllers
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in an appropriate <see cref="IActionResult"/> on validation failure, <see langword="null"/> otherwise.</returns>
-		protected virtual ValueTask<IActionResult> ValidateRequest(CancellationToken cancellationToken)
-			=> ValueTask.FromResult<IActionResult>(null);
+		protected virtual ValueTask<IActionResult?> ValidateRequest(CancellationToken cancellationToken)
+			=> ValueTask.FromResult<IActionResult?>(null);
 
 		/// <summary>
 		/// Response for missing/Invalid headers.
@@ -276,7 +274,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="IActionResult"/> for the operation.</returns>
 		protected ValueTask<IActionResult> Paginated<TModel>(
 			Func<ValueTask<PaginatableResult<TModel>>> queryGenerator,
-			Func<TModel, ValueTask> resultTransformer,
+			Func<TModel, ValueTask>? resultTransformer,
 			int? pageQuery,
 			int? pageSizeQuery,
 			CancellationToken cancellationToken) => PaginatedImpl(
@@ -324,7 +322,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="IActionResult"/> for the operation.</returns>
 		async ValueTask<IActionResult> PaginatedImpl<TModel, TResultModel>(
 			Func<ValueTask<PaginatableResult<TModel>>> queryGenerator,
-			Func<TResultModel, ValueTask> resultTransformer,
+			Func<TResultModel, ValueTask>? resultTransformer,
 			int? pageQuery,
 			int? pageSizeQuery,
 			CancellationToken cancellationToken)
@@ -344,7 +342,7 @@ namespace Tgstation.Server.Host.Controllers
 			var page = pageQuery ?? 1;
 
 			var paginationResult = await queryGenerator();
-			if (paginationResult.EarlyOut != null)
+			if (!paginationResult.Valid)
 				return paginationResult.EarlyOut;
 
 			var queriedResults = paginationResult
