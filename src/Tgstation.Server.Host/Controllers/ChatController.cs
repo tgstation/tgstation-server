@@ -25,9 +25,8 @@ using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.Security;
 using Tgstation.Server.Host.Utils;
-using Z.EntityFramework.Plus;
 
-#nullable disable
+using Z.EntityFramework.Plus;
 
 namespace Tgstation.Server.Host.Controllers
 {
@@ -120,7 +119,7 @@ namespace Tgstation.Server.Host.Controllers
 				.Where(x => x.InstanceId == Instance.Id)
 				.CountAsync(cancellationToken);
 
-			if (countOfExistingBotsInInstance >= Instance.ChatBotLimit.Value)
+			if (countOfExistingBotsInInstance >= Instance.ChatBotLimit!.Value)
 				return Conflict(new ErrorMessageResponse(ErrorCode.ChatBotMax));
 
 			model.Enabled ??= false;
@@ -132,8 +131,8 @@ namespace Tgstation.Server.Host.Controllers
 				Name = model.Name,
 				ConnectionString = model.ConnectionString,
 				Enabled = model.Enabled,
-				Channels = model.Channels?.Select(x => ConvertApiChatChannel(x, model.Provider.Value)).ToList() ?? new List<Models.ChatChannel>(), // important that this isn't null
-				InstanceId = Instance.Id.Value,
+				Channels = model.Channels?.Select(x => ConvertApiChatChannel(x, model.Provider!.Value)).ToList() ?? new List<Models.ChatChannel>(), // important that this isn't null
+				InstanceId = Instance.Id!.Value,
 				Provider = model.Provider,
 				ReconnectionInterval = model.ReconnectionInterval,
 				ChannelLimit = model.ChannelLimit,
@@ -151,7 +150,7 @@ namespace Tgstation.Server.Host.Controllers
 						await instance.Chat.ChangeSettings(dbModel, cancellationToken);
 
 						if (dbModel.Channels.Count > 0)
-							await instance.Chat.ChangeChannels(dbModel.Id.Value, dbModel.Channels, cancellationToken);
+							await instance.Chat.ChangeChannels(dbModel.Id!.Value, dbModel.Channels, cancellationToken);
 					}
 					catch
 					{
@@ -160,7 +159,7 @@ namespace Tgstation.Server.Host.Controllers
 
 						// DCTx2: Operations must always run
 						await DatabaseContext.Save(default);
-						await instance.Chat.DeleteConnection(dbModel.Id.Value, default);
+						await instance.Chat.DeleteConnection(dbModel.Id!.Value, default);
 						throw;
 					}
 
@@ -297,7 +296,7 @@ namespace Tgstation.Server.Host.Controllers
 			if (current == default)
 				return this.Gone();
 
-			if ((model.Channels?.Count ?? current.Channels.Count) > (model.ChannelLimit ?? current.ChannelLimit.Value))
+			if ((model.Channels?.Count ?? current.Channels.Count) > (model.ChannelLimit ?? current.ChannelLimit!.Value))
 			{
 				// 400 or 409 depends on if the client sent both
 				var errorMessage = new ErrorMessageResponse(ErrorCode.ChatBotMaxChannels);
@@ -343,7 +342,7 @@ namespace Tgstation.Server.Host.Controllers
 				DatabaseContext.ChatChannels.RemoveRange(current.Channels);
 				if (hasChannels)
 				{
-					var dbChannels = model.Channels.Select(x => ConvertApiChatChannel(x, model.Provider ?? current.Provider.Value)).ToList();
+					var dbChannels = model.Channels!.Select(x => ConvertApiChatChannel(x, model.Provider ?? current.Provider!.Value)).ToList();
 					DatabaseContext.ChatChannels.AddRange(dbChannels);
 					current.Channels = dbChannels;
 				}
@@ -360,8 +359,8 @@ namespace Tgstation.Server.Host.Controllers
 					if (anySettingsModified)
 						await chat.ChangeSettings(current, cancellationToken); // have to rebuild the thing first
 
-					if ((model.Channels != null || anySettingsModified) && current.Enabled.Value)
-						await chat.ChangeChannels(current.Id.Value, current.Channels, cancellationToken);
+					if ((model.Channels != null || anySettingsModified) && current.Enabled!.Value)
+						await chat.ChangeChannels(current.Id!.Value, current.Channels, cancellationToken);
 
 					return null;
 				});
@@ -384,7 +383,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="model">The <see cref="ChatBotApiBase"/> to validate.</param>
 		/// <param name="forCreation">If the <paramref name="model"/> is being created.</param>
 		/// <returns>An <see cref="IActionResult"/> to respond with or <see langword="null"/>.</returns>
-		IActionResult StandardModelChecks(ChatBotApiBase model, bool forCreation)
+		IActionResult? StandardModelChecks(ChatBotApiBase model, bool forCreation)
 		{
 			if (model.ReconnectionInterval == 0)
 				throw new InvalidOperationException("RecconnectionInterval cannot be zero!");
