@@ -10,8 +10,6 @@ using Tgstation.Server.Common.Http;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Utils.GitHub;
 
-#nullable disable
-
 namespace Tgstation.Server.Host.Security.OAuth
 {
 	/// <inheritdoc />
@@ -82,7 +80,7 @@ namespace Tgstation.Server.Host.Security.OAuth
 		}
 
 		/// <inheritdoc />
-		public IOAuthValidator GetValidator(OAuthProvider oAuthProvider) => validators.FirstOrDefault(x => x.Provider == oAuthProvider);
+		public IOAuthValidator? GetValidator(OAuthProvider oAuthProvider) => validators.FirstOrDefault(x => x.Provider == oAuthProvider);
 
 		/// <inheritdoc />
 		public Dictionary<OAuthProvider, OAuthProviderInfo> ProviderInfos()
