@@ -18,8 +18,6 @@ using Tgstation.Server.Host.Components.Interop;
 using Tgstation.Server.Host.Components.Interop.Bridge;
 using Tgstation.Server.Host.Utils;
 
-#nullable disable
-
 namespace Tgstation.Server.Host.Controllers
 {
 	/// <summary>
@@ -91,7 +89,7 @@ namespace Tgstation.Server.Host.Controllers
 		{
 			// Nothing to see here
 			var remoteIP = Request.HttpContext.Connection.RemoteIpAddress;
-			if (!IPAddress.IsLoopback(remoteIP))
+			if (remoteIP == null || !IPAddress.IsLoopback(remoteIP))
 			{
 				logger.LogTrace("Rejecting remote bridge request from {remoteIP}", remoteIP);
 				return Forbid();
@@ -99,7 +97,7 @@ namespace Tgstation.Server.Host.Controllers
 
 			using (LogContext.PushProperty(SerilogContextHelper.BridgeRequestIterationContextProperty, Interlocked.Increment(ref requestsProcessed)))
 			{
-				BridgeParameters request;
+				BridgeParameters? request;
 				try
 				{
 					request = JsonConvert.DeserializeObject<BridgeParameters>(data, DMApiConstants.SerializerSettings);
@@ -108,6 +106,13 @@ namespace Tgstation.Server.Host.Controllers
 				{
 					if (LogContent)
 						logger.LogWarning(ex, "Error deserializing bridge request: {badJson}", data);
+					return BadRequest();
+				}
+
+				if (request == null)
+				{
+					if (LogContent)
+						logger.LogWarning("Error deserializing bridge request: {badJson}", data);
 					return BadRequest();
 				}
 
