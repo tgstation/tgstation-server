@@ -10,9 +10,8 @@ using Microsoft.IdentityModel.Tokens;
 
 using Tgstation.Server.Api.Models.Response;
 using Tgstation.Server.Host.Configuration;
+using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.System;
-
-#nullable disable
 
 namespace Tgstation.Server.Host.Security
 {
@@ -84,10 +83,11 @@ namespace Tgstation.Server.Host.Security
 		}
 
 		/// <inheritdoc />
-		public TokenResponse CreateToken(Models.User user, bool oAuth)
+		public TokenResponse CreateToken(User user, bool oAuth)
 		{
 			ArgumentNullException.ThrowIfNull(user);
 
+			var uid = user.Require(x => x.Id);
 			var now = DateTimeOffset.UtcNow;
 			var nowUnix = now.ToUnixTimeSeconds();
 
@@ -115,7 +115,7 @@ namespace Tgstation.Server.Host.Security
 					Enumerable.Empty<Claim>(),
 					new Dictionary<string, object>
 					{
-						{ JwtRegisteredClaimNames.Sub, user.Id.Value.ToString(CultureInfo.InvariantCulture) },
+						{ JwtRegisteredClaimNames.Sub, uid.ToString(CultureInfo.InvariantCulture) },
 					},
 					notBefore.UtcDateTime,
 					expiry.UtcDateTime,
