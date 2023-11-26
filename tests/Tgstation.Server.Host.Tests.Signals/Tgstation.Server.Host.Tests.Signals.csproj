@@ -1,4 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TgsTestNoSdk>true</TgsTestNoSdk>
+  </PropertyGroup>
+
   <Import Project="../../build/TestCommon.props" />
 
   <PropertyGroup>

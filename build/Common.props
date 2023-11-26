@@ -4,6 +4,7 @@
   <PropertyGroup>
     <TgsFrameworkVersion>net$(TgsNetMajorVersion).0</TgsFrameworkVersion>
     <LangVersion>latest</LangVersion>
+    <AccelerateBuildsInVisualStudio>true</AccelerateBuildsInVisualStudio>
     <!-- This is the default but Wix hates it -->
     <!--<DebugType>Portable</DebugType> -->
   </PropertyGroup>

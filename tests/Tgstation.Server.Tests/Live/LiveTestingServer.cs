@@ -56,6 +56,8 @@ namespace Tgstation.Server.Tests.Live
 
 		public Uri RootUrl { get; }
 
+		public Uri OpenDreamUrl { get; }
+
 		public string Directory { get; }
 
 		public string UpdatePath { get; }
@@ -123,6 +125,12 @@ namespace Tgstation.Server.Tests.Live
 			HighPriorityDreamDaemon = nicingAllowed;
 			LowPriorityDeployments = nicingAllowed;
 
+			var odGitDir = Environment.GetEnvironmentVariable("TGS_TEST_OD_GIT_DIRECTORY");
+			if (!String.IsNullOrWhiteSpace(odGitDir))
+				OpenDreamUrl = new Uri($"file://{Path.GetFullPath(odGitDir).Replace('\\', '/')}");
+			else
+				OpenDreamUrl = new GeneralConfiguration().OpenDreamGitUrl;
+
 			args = new List<string>()
 			{
 				String.Format(CultureInfo.InvariantCulture, "Database:DropDatabase={0}", true), // Replaced after first Run
@@ -144,6 +152,7 @@ namespace Tgstation.Server.Tests.Live
 				$"Session:HighPriorityLiveDreamDaemon={HighPriorityDreamDaemon}",
 				$"Session:LowPriorityDeploymentProcesses={LowPriorityDeployments}",
 				$"General:SkipAddingByondFirewallException={!TestingUtils.RunningInGitHubActions}",
+				$"General:OpenDreamGitUrl={OpenDreamUrl}",
 			};
 
 			swarmArgs = new List<string>();
