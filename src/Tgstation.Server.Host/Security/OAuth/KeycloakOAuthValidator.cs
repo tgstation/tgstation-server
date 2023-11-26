@@ -17,10 +17,10 @@ namespace Tgstation.Server.Host.Security.OAuth
 		public override OAuthProvider Provider => OAuthProvider.Keycloak;
 
 		/// <inheritdoc />
-		protected override Uri TokenUrl => new ($"{BaseProtocolPath}/token");
+		protected override Uri TokenUrl => new($"{BaseProtocolPath}/token");
 
 		/// <inheritdoc />
-		protected override Uri UserInformationUrl => new ($"{BaseProtocolPath}/userinfo");
+		protected override Uri UserInformationUrl => new($"{BaseProtocolPath}/userinfo");
 
 		/// <summary>
 		/// Base path to the server's OAuth endpoint.
@@ -42,7 +42,7 @@ namespace Tgstation.Server.Host.Security.OAuth
 		}
 
 		/// <inheritdoc />
-		protected override OAuthTokenRequest CreateTokenRequest(string code) => new (OAuthConfiguration, code, "openid");
+		protected override OAuthTokenRequest CreateTokenRequest(string code) => new(OAuthConfiguration, code, "openid");
 
 		/// <inheritdoc />
 		protected override string DecodeTokenPayload(dynamic responseJson) => responseJson.access_token;

@@ -614,7 +614,7 @@ namespace Tgstation.Server.Host.Components.Session
 			DreamDaemonSecurity securityLevel,
 			DreamDaemonVisibility visibility,
 			bool apiValidateOnly)
-			=> new (
+			=> new(
 				chatTrackingContext,
 				dmbProvider,
 				assemblyInformationProvider.Version,

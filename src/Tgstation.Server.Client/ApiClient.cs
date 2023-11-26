@@ -37,7 +37,7 @@ namespace Tgstation.Server.Client
 		/// PATCH <see cref="HttpMethod"/>.
 		/// </summary>
 		/// <remarks>HOW IS THIS NOT INCLUDED IN THE FRAMEWORK??!?!?</remarks>
-		static readonly HttpMethod HttpPatch = new ("PATCH");
+		static readonly HttpMethod HttpPatch = new("PATCH");
 
 		/// <inheritdoc />
 		public Uri Url { get; }
@@ -59,7 +59,7 @@ namespace Tgstation.Server.Client
 		/// <summary>
 		/// The <see cref="JsonSerializerSettings"/> to use.
 		/// </summary>
-		static readonly JsonSerializerSettings SerializerSettings = new ()
+		static readonly JsonSerializerSettings SerializerSettings = new()
 		{
 			ContractResolver = new CamelCasePropertyNamesContractResolver(),
 			Converters = new[]
@@ -126,9 +126,7 @@ namespace Tgstation.Server.Client
 			}
 
 #pragma warning disable IDE0010 // Add missing cases
-#pragma warning disable IDE0066 // Convert switch statement to expression
 			switch (response.StatusCode)
-#pragma warning restore IDE0066 // Convert switch statement to expression
 #pragma warning restore IDE0010 // Add missing cases
 			{
 				case HttpStatusCode.Unauthorized:
@@ -310,9 +308,7 @@ namespace Tgstation.Server.Client
 
 			using (memoryStream)
 			{
-#pragma warning disable CA2000 // Dispose objects before losing scope
 				var streamContent = new StreamContent(uploadStream ?? memoryStream);
-#pragma warning restore CA2000 // Dispose objects before losing scope
 				try
 				{
 					await RunRequest<object>(

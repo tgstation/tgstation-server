@@ -43,7 +43,7 @@ namespace Tgstation.Server.Host.Utils.GitHub
 		/// <summary>
 		/// Cache of created <see cref="GitHubClient"/>s and last used times, keyed by access token.
 		/// </summary>
-		readonly Dictionary<string, (GitHubClient, DateTimeOffset)> clientCache;
+		readonly Dictionary<string, (GitHubClient Client, DateTimeOffset LastUsed)> clientCache;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="GitHubClientFactory"/> class.
@@ -105,15 +105,15 @@ namespace Tgstation.Server.Host.Utils.GitHub
 					if (accessToken != null)
 						client.Credentials = new Credentials(accessToken);
 
-					clientCache.Add(cacheKey, (client, now));
+					clientCache.Add(cacheKey, (Client: client, LastUsed: now));
 					lastUsed = null;
 				}
 				else
 				{
 					logger.LogTrace("Cache hit for GitHubClient");
-					client = tuple.Item1;
-					lastUsed = tuple.Item2;
-					tuple.Item2 = now;
+					client = tuple.Client;
+					lastUsed = tuple.LastUsed;
+					tuple.LastUsed = now;
 				}
 
 				// Prune the cache
@@ -125,7 +125,7 @@ namespace Tgstation.Server.Host.Utils.GitHub
 						continue; // save the hash lookup
 
 					tuple = clientCache[key];
-					if (tuple.Item2 <= purgeAfter)
+					if (tuple.LastUsed <= purgeAfter)
 					{
 						clientCache.Remove(key);
 						++purgeCount;

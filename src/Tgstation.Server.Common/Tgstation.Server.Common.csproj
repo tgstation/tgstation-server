@@ -4,6 +4,7 @@
   <PropertyGroup>
     <TargetFrameworks>$(TgsNugetNetFramework)</TargetFrameworks>
     <Version>$(TgsCommonLibraryVersion)</Version>
+    <Nullable>enable</Nullable>
     <Description>Common functions for tgstation-server.</Description>
     <PackageTags>web tgstation-server tgstation ss13 byond client http</PackageTags>
     <PackageReleaseNotes>$(TGS_NUGET_RELEASE_NOTES_COMMON)</PackageReleaseNotes>

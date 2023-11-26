@@ -38,7 +38,7 @@ namespace Tgstation.Server.Host.Console
 		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
 		internal static async Task<int> Main(string[] args)
 		{
-			System.Console.Title = $"{Constants.CanonicalPackageName} Host Watchdog v{Assembly.GetExecutingAssembly().GetName().Version.Semver()}";
+			System.Console.Title = $"{Constants.CanonicalPackageName} Host Watchdog v{Assembly.GetExecutingAssembly().GetName().Version?.Semver()}";
 
 			var arguments = new List<string>(args);
 			var trace = arguments.Remove("--trace-host-watchdog");
@@ -61,7 +61,7 @@ namespace Tgstation.Server.Host.Console
 			}
 
 			using var cts = new CancellationTokenSource();
-			void AppDomainHandler(object a, EventArgs b) => cts.Cancel();
+			void AppDomainHandler(object? a, EventArgs b) => cts.Cancel();
 			AppDomain.CurrentDomain.ProcessExit += AppDomainHandler;
 			try
 			{

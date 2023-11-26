@@ -5,6 +5,7 @@
     <OutputType>Exe</OutputType>
     <TargetFramework>$(TgsFrameworkVersion)</TargetFramework>
     <Version>$(TgsCoreVersion)</Version>
+    <Nullable>enable</Nullable>
     <UseAppHost>false</UseAppHost>
     <ApplicationManifest>../../build/uac_elevation_manifest.xml</ApplicationManifest>
   </PropertyGroup>

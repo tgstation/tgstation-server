@@ -57,7 +57,7 @@ namespace Tgstation.Server.Host.Components.Interop
 		/// <summary>
 		/// <see cref="JsonSerializerSettings"/> for use when communicating with the DMAPI.
 		/// </summary>
-		public static readonly JsonSerializerSettings SerializerSettings = new ()
+		public static readonly JsonSerializerSettings SerializerSettings = new()
 		{
 			ContractResolver = new DefaultContractResolver
 			{

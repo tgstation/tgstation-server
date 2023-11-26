@@ -17,7 +17,7 @@ namespace Tgstation.Server.Host.System
 		/// <summary>
 		/// <see cref="ReaderWriterLockSlim"/> for <see cref="WithProcessLaunchExclusivity(Action)"/>.
 		/// </summary>
-		static readonly ReaderWriterLockSlim ExclusiveProcessLaunchLock = new ();
+		static readonly ReaderWriterLockSlim ExclusiveProcessLaunchLock = new();
 
 		/// <summary>
 		/// The <see cref="IProcessFeatures"/> for the <see cref="ProcessExecutor"/>.

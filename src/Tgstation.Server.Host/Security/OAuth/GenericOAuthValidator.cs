@@ -55,7 +55,7 @@ namespace Tgstation.Server.Host.Security.OAuth
 		/// Gets <see cref="JsonSerializerSettings"/> that should be used.
 		/// </summary>
 		/// <returns>A new <see cref="JsonSerializerSettings"/> <see cref="object"/>.</returns>
-		protected static JsonSerializerSettings SerializerSettings() => new ()
+		protected static JsonSerializerSettings SerializerSettings() => new()
 		{
 			ContractResolver = new DefaultContractResolver
 			{
@@ -141,7 +141,7 @@ namespace Tgstation.Server.Host.Security.OAuth
 
 		/// <inheritdoc />
 		public OAuthProviderInfo GetProviderInfo()
-			=> new ()
+			=> new()
 			{
 				ClientId = OAuthConfiguration.ClientId,
 				RedirectUri = OAuthConfiguration.RedirectUrl,

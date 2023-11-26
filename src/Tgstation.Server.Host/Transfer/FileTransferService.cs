@@ -240,7 +240,7 @@ namespace Tgstation.Server.Host.Transfer
 		/// Creates a new <see cref="FileTicketResponse"/>.
 		/// </summary>
 		/// <returns>A new <see cref="FileTicketResponse"/>.</returns>
-		FileTicketResponse CreateTicket() => new ()
+		FileTicketResponse CreateTicket() => new()
 		{
 			FileTicket = cryptographySuite.GetSecureString(),
 		};

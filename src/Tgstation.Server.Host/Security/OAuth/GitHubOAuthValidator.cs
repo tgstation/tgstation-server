@@ -85,7 +85,7 @@ namespace Tgstation.Server.Host.Security.OAuth
 
 		/// <inheritdoc />
 		public OAuthProviderInfo GetProviderInfo()
-			=> new ()
+			=> new()
 			{
 				ClientId = oAuthConfiguration.ClientId,
 				RedirectUri = oAuthConfiguration.RedirectUrl,

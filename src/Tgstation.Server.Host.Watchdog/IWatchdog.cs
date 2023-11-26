@@ -10,9 +10,9 @@ namespace Tgstation.Server.Host.Watchdog
 	public interface IWatchdog
 	{
 		/// <summary>
-		/// Gets the current version of the host process. Set once <see cref="RunAsync(bool, string[], CancellationToken)"/> begins and doesn't immediately return <see langword="false"/>.
+		/// Gets a <see cref="Task{TResult}"/> resulting in the current version of the host process. Guaranteed to complete once <see cref="RunAsync(bool, string[], CancellationToken)"/> begins and doesn't immediately return <see langword="false"/>.
 		/// </summary>
-		Version InitialHostVersion { get; }
+		Task<Version> InitialHostVersion { get; }
 
 		/// <summary>
 		/// Run the <see cref="IWatchdog"/>.
