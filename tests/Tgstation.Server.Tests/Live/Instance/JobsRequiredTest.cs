@@ -50,7 +50,14 @@ namespace Tgstation.Server.Tests.Live.Instance
 		{
 			cancellationTokenSource.Cancel();
 			cancellationTokenSource.Dispose();
-			await hubConnectionTask;
+			try
+			{
+				await hubConnectionTask;
+			}
+			catch (OperationCanceledException)
+			{
+			}
+
 			if (hubConnection != null)
 				await hubConnection.DisposeAsync();
 		}
