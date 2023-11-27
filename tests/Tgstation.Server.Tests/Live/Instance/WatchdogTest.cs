@@ -547,7 +547,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 			Assert.AreEqual(WatchdogStatus.Online, daemonStatus.Status.Value);
 			ValidateSessionId(daemonStatus, true);
-			CheckDDPriority();
+			await CheckDDPriority();
 			Assert.AreEqual(false, daemonStatus.SoftRestart);
 			Assert.AreEqual(false, daemonStatus.SoftShutdown);
 			Assert.AreEqual(string.Empty, daemonStatus.AdditionalParameters);
@@ -618,7 +618,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 			Assert.AreEqual(WatchdogStatus.Online, daemonStatus.Status.Value);
 			ValidateSessionId(daemonStatus, true);
-			CheckDDPriority();
+			await CheckDDPriority();
 			Assert.AreEqual(false, daemonStatus.SoftRestart);
 			Assert.AreEqual(false, daemonStatus.SoftShutdown);
 
@@ -715,7 +715,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 			await WaitForJob(startJob, 40, false, null, cancellationToken);
 
-			CheckDDPriority();
+			await CheckDDPriority();
 
 			// lock on to DD and pause it so it can't health check
 			var ddProcs = TestLiveServer.GetEngineServerProcessesOnPort(testVersion.Engine.Value, ddPort).Where(x => !x.HasExited).ToList();
@@ -1074,8 +1074,9 @@ namespace Tgstation.Server.Tests.Live.Instance
 			Assert.AreEqual("Footer text", embedsResponse.Embed.Footer?.Text);
 		}
 
-		void CheckDDPriority()
+		async ValueTask CheckDDPriority()
 		{
+			await Task.Yield();
 			var allProcesses = TestLiveServer.GetEngineServerProcessesOnPort(testVersion.Engine.Value, ddPort).Where(x => !x.HasExited).ToList();
 			if (allProcesses.Count == 0)
 				Assert.Fail("Expected engine server to be running here");
@@ -1115,7 +1116,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 			Assert.AreEqual(WatchdogStatus.Online, daemonStatus.Status.Value);
 			ValidateSessionId(daemonStatus, true);
-			CheckDDPriority();
+			await CheckDDPriority();
 
 			Assert.AreEqual(initialCompileJob.Id, daemonStatus.ActiveCompileJob.Id);
 			var newerCompileJob = daemonStatus.StagedCompileJob;
@@ -1163,7 +1164,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			ValidateSessionId(daemonStatus, true);
 			Assert.AreEqual(WatchdogStatus.Online, daemonStatus.Status.Value);
 			Assert.AreEqual(true, daemonStatus.SoftRestart);
-			CheckDDPriority();
+			await CheckDDPriority();
 
 			Assert.AreEqual(initialCompileJob.Id, daemonStatus.ActiveCompileJob.Id);
 			var newerCompileJob = daemonStatus.StagedCompileJob;
@@ -1201,7 +1202,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 			await WaitForJob(startJob, 70, false, null, cancellationToken);
 
-			CheckDDPriority();
+			await CheckDDPriority();
 
 			var byondInstallJobTask = instanceClient.Engine.SetActiveVersion(
 				new EngineVersionRequest
@@ -1267,7 +1268,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 			Assert.AreEqual(WatchdogStatus.Online, daemonStatus.Status);
 			Assert.IsTrue(daemonStatus.SoftRestart);
-			CheckDDPriority();
+			await CheckDDPriority();
 			Assert.AreEqual(ddPort, daemonStatus.CurrentPort);
 
 			// Try killing the DD process to ensure it gets set to the restoring state
