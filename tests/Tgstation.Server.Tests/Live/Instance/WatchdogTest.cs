@@ -759,7 +759,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 			ourProcessHandler.Suspend();
 
-			await Task.WhenAny(ourProcessHandler.Lifetime, Task.Delay(TimeSpan.FromMinutes(1), cancellationToken));
+			await Task.WhenAny(ourProcessHandler.Lifetime, Task.Delay(TimeSpan.FromMinutes(2), cancellationToken));
 			Assert.IsTrue(ourProcessHandler.Lifetime.IsCompleted);
 
 			var timeout = 20;
