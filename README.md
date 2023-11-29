@@ -12,7 +12,7 @@ This is a toolset to manage production BYOND servers. It includes the ability to
 
 ### Pre-Requisites
 
-_Note: If you opt to use the Windows installer, all pre-requisites (including MariaDB) are provided out of the box._
+_Note: If you opt to use the Windows installer, all pre-requisites for running BYOND servers (including MariaDB) are provided out of the box. If you wish to use OpenDream you will need to install the required dotnet SDK manually._
 
 tgstation-server needs a relational database to store it's data.
 
@@ -101,9 +101,19 @@ If using the console version, run `./tgs.bat` in the root of the installation di
 
 Installing natively is the recommended way to run tgstation-server on Linux.
 
-##### Ubuntu
+##### Ubuntu/Debian Package
 
-Install TGS and all it's dependencies via our apt repository, interactively configure it, and start the service with this one-liner:
+You first need to add the appropriate Microsoft package repository for your distribution
+
+Refer to the Microsoft website for steps for
+
+- [Ubuntu](https://learn.microsoft.com/en-us/dotnet/core/install/linux-ubuntu#register-the-microsoft-package-repository)
+- [Debian 12](https://learn.microsoft.com/en-us/dotnet/core/install/linux-debian#debian-12)
+- [Debian 11](https://learn.microsoft.com/en-us/dotnet/core/install/linux-debian#debian-11)
+- [Debian 10](https://learn.microsoft.com/en-us/dotnet/core/install/linux-debian#debian-10)
+- [Other Distros](https://learn.microsoft.com/en-us/dotnet/core/install/linux-scripted-manual#manual-install)
+
+After that, install TGS and all it's dependencies via our apt repository, interactively configure it, and start the service with this one-liner:
 
 ```sh
 sudo dpkg --add-architecture i386 \
@@ -119,25 +129,11 @@ sudo dpkg --add-architecture i386 \
 
 The service will execute as the newly created user: `tgstation-server`.
 
-##### Debian
-
-The `aspnetcore-runtime-8.0` package isn't yet available on mainline Debian and must be [installed from Microsoft](https://learn.microsoft.com/en-us/dotnet/core/install/linux-debian) first. Use the following one-liner to add their packages repository.
-
-```sh
-curl -L https://packages.microsoft.com/config/debian/11/packages-microsoft-prod.deb -o packages-microsoft-prod.deb \
-&& sudo dpkg -i packages-microsoft-prod.deb \
-&& rm packages-microsoft-prod.deb
-```
-
-After that, run the same command as the Ubuntu installation.
-
-_Support for more distros coming soon_
-
-##### Manual
+##### Manual Setup
 
 The following dependencies are required.
 
-- aspnetcore-runtime-8.0 (Note, not all supported distros have this package, see the links above for official Microsoft installation instructions)
+- aspnetcore-runtime-8.0 (See Prerequisites under the `Ubuntu/Debian Package` section)
 - libc6-i386
 - libstdc++6:i386
 - gcc-multilib (Only on 64-bit systems)
@@ -184,6 +180,21 @@ Note that this container is meant to be long running. Updates are handled intern
 Note that automatic configuration reloading is currently not supported in the container. See #1143
 
 If using manual configuration, before starting your container make sure the aforementioned `appsettings.Production.yml` is setup properly. See below
+
+#### OpenDream
+
+In order for TGS to use [OpenDream](https://github.com/OpenDreamProject/OpenDream), it requires the full .NET SDK to build whichever version your servers target. Whatever that is, it must be available using the `dotnet` command for whichever user runs TGS.
+
+OpenDream currently requires [.NET SDK 7.0](https://dotnet.microsoft.com/en-us/download/dotnet/7.0) at the time of this writing. You must install this manually.
+
+On Linux, as long as OpenDream and TGS do not use the same .NET major version, you cannot achieve this with the package manager as they will conflict. The 7.0 SDK can be added to an 8.0 runtime installation via the following steps.
+
+1. Install `tgstation-server` using any of the above methods.
+1. [Download the Linux SDK binaries](https://dotnet.microsoft.com/en-us/download/dotnet/7.0) for your selected architecture.
+1. Extract ONLY the contents of the `sdk` directory in the `.tar.gz` to `/usr/share/dotnet/sdk/`
+1. Run `sudo chown -R root /usr/share/dotnet/sdk`
+
+You should now be able to run the `dotnet --list-sdks` command and see an entry for `7.0.XXX [/usr/share/dotnet/sdk]`.
 
 ### Configuring
 
