@@ -127,8 +127,6 @@ namespace Tgstation.Server.Host.Components.Repository
 			CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(url);
-
-			logger.LogInformation("Begin clone {url} (Branch: {initialBranch})", url, initialBranch);
 			lock (semaphore)
 			{
 				if (CloneInProgress)
@@ -136,12 +134,14 @@ namespace Tgstation.Server.Host.Components.Repository
 				CloneInProgress = true;
 			}
 
+			var repositoryPath = ioManager.ResolvePath();
+			logger.LogInformation("Begin clone {url} to {path} (Branch: {initialBranch})", url, repositoryPath, initialBranch);
+
 			try
 			{
 				using (await SemaphoreSlimContext.Lock(semaphore, cancellationToken))
 				{
 					logger.LogTrace("Semaphore acquired for clone");
-					var repositoryPath = ioManager.ResolvePath();
 					if (!await ioManager.DirectoryExists(repositoryPath, cancellationToken))
 						try
 						{
