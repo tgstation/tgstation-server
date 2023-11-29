@@ -130,16 +130,11 @@ namespace Tgstation.Server.Host.Controllers
 		[HttpGet("logo.svg")]
 		public IActionResult GetLogo()
 		{
-#if NO_WEBPANEL
-			logger.LogTrace("Cannot serve project logo as TGS was built without the webpanel!");
-			return NotFound();
-#else
 			var logoFileName = platformIdentifier.IsWindows // these are different because of motherfucking line endings -_-
 				? LogoSvgWindowsName
 				: LogoSvgLinuxName;
 
-			return (IActionResult)this.TryServeFile(hostEnvironment, logger, $"{logoFileName}.svg");
-#endif
+			return (IActionResult)this.TryServeFile(hostEnvironment, logger, $"{logoFileName}.svg") ?? NotFound();
 		}
 	}
 }
