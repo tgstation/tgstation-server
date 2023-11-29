@@ -2,6 +2,7 @@
 # Does CI on push/PR/cron. Deployments on push when triggered
 # - Validates Documentation
 # - Builds C# and DMAPI
+# - Runs CodeQL Anaylsis
 # - Tests everything on massive matrix
 # - Packages
 # - Tests package installs/services/uninstalls
