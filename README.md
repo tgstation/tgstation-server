@@ -201,7 +201,7 @@ The latter two are not recommended as they cannot be dynamically changed at runt
 
 #### Manual Configuration
 
-Create an `appsettings.Production.yml` file next to `appsettings.yml`. This will override the default settings in `appsettings.yml` with your production settings. There are a few keys meant to be changed by hosts. Modifying any config files while the server is running will trigger a safe restart (Keeps DreamDaemon instances running). Note these are all case-sensitive:
+Create an `appsettings.Production.yml` file next to `appsettings.yml`. This will override the default settings in `appsettings.yml` with your production settings. There are a few keys meant to be changed by hosts. The configuration is only read after server statup. To reload it you must restart TGS. This can be done while your game servers are running by using the Administrative restart function (as opposed to an OS service restart). Note these are all case-sensitive:
 
 - `General:ConfigVersion`: Suppresses warnings about out of date config versions. You should change this after updating TGS to one with a new config version. The current version can be found on the releases page for your server version.
 
