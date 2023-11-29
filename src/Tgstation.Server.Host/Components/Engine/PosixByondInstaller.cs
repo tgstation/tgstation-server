@@ -65,7 +65,8 @@ namespace Tgstation.Server.Host.Components.Engine
 			PathToUserFolder = IOManager.ResolvePath(
 				IOManager.ConcatPath(
 					Environment.GetFolderPath(
-						Environment.SpecialFolder.UserProfile),
+						Environment.SpecialFolder.UserProfile,
+						Environment.SpecialFolderOption.DoNotVerify),
 					"./byond/cache"));
 		}
 

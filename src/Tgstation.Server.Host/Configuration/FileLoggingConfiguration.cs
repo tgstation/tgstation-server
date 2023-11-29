@@ -62,7 +62,9 @@ namespace Tgstation.Server.Host.Configuration
 
 			return platformIdentifier.IsWindows
 				? ioManager.ConcatPath(
-					Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData),
+					Environment.GetFolderPath(
+						Environment.SpecialFolder.CommonApplicationData,
+						Environment.SpecialFolderOption.DoNotVerify),
 					assemblyInformationProvider.VersionPrefix,
 					"logs")
 				: ioManager.ConcatPath(

@@ -85,7 +85,9 @@ namespace Tgstation.Server.Tests.Live.Instance
 		{
 			var ioManager = new DefaultIOManager();
 			var odRepoDir = ioManager.ConcatPath(
-				Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+				Environment.GetFolderPath(
+					Environment.SpecialFolder.LocalApplicationData,
+					Environment.SpecialFolderOption.DoNotVerify),
 				new AssemblyInformationProvider().VersionPrefix,
 				"OpenDreamRepository");
 			var odRepoIoManager = new ResolvingIOManager(ioManager, odRepoDir);
