@@ -625,14 +625,14 @@ jobs:
     if: (!(cancelled() || failure()) && needs.dmapi-build.result == 'success' && needs.opendream-build.result == 'success')
     services: # We start all dbs here so we can just code the stuff once
       mssql:
-        image: mcr.microsoft.com/mssql/server:2019-latest
+        image: ${{ (matrix.database-type == 'SqlServer') && 'mcr.microsoft.com/mssql/server:2019-latest' || '' }}
         env:
           SA_PASSWORD: myPassword
           ACCEPT_EULA: 'Y'
         ports:
         - 1433:1433
       postgres:
-        image: cyberboss/postgres-max-connections # Fork of _/postgres:latest with max_connections=500 becuase GitHub actions service containers have no way to set command lines. Rebuilds with updates.
+        image: ${{ (matrix.database-type == 'PostgresSql') && 'cyberboss/postgres-max-connections' || '' }} # Fork of _/postgres:latest with max_connections=500 becuase GitHub actions service containers have no way to set command lines. Rebuilds with updates.
         ports:
           - 5432:5432
         env:
@@ -643,7 +643,7 @@ jobs:
           --health-timeout 5s
           --health-retries 5
       mariadb:
-        image: mariadb
+        image: ${{ (matrix.database-type == 'MariaDB') && 'mariadb' || '' }}
         ports:
           - 3306:3306
         env:
@@ -654,7 +654,7 @@ jobs:
           --health-timeout=2s
           --health-retries=3
       mysql:
-        image: mysql:5.7.31
+        image: ${{ (matrix.database-type == 'MySql') && 'mysql:5.7.31' || '' }}
         ports:
           - 3307:3306
         env:
