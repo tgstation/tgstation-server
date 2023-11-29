@@ -208,7 +208,7 @@ Configuration Methods</h3>
 <p >The latter two are not recommended as they cannot be dynamically changed at runtime. See more on ASP.NET core configuration <a href="https://docs.microsoft.com/en-us/aspnet/core/fundamentals/configuration/?view=aspnetcore-6.0">here</a>.</p>
 <h3><a class="anchor" id="autotoc_md15"></a>
 Manual Configuration</h3>
-<p >Create an <code>appsettings.Production.yml</code> file next to <code>appsettings.yml</code>. This will override the default settings in <code>appsettings.yml</code> with your production settings. There are a few keys meant to be changed by hosts. Modifying any config files while the server is running will trigger a safe restart (Keeps DreamDaemon instances running). Note these are all case-sensitive:</p>
+<p >Create an <code>appsettings.Production.yml</code> file next to <code>appsettings.yml</code>. This will override the default settings in <code>appsettings.yml</code> with your production settings. There are a few keys meant to be changed by hosts. The configuration is only read after server statup. To reload it you must restart TGS. This can be done while your game servers are running by using the Administrative restart function (as opposed to an OS service restart). Note these are all case-sensitive:</p>
 <ul>
 <li><code>General:ConfigVersion</code>: Suppresses warnings about out of date config versions. You should change this after updating TGS to one with a new config version. The current version can be found on the releases page for your server version.</li>
 <li><code>General:MinimumPasswordLength</code>: Minimum password length requirement for database users</li>
