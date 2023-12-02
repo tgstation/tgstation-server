@@ -191,8 +191,8 @@ On Linux, as long as OpenDream and TGS do not use the same .NET major version, y
 
 1. Install `tgstation-server` using any of the above methods.
 1. [Download the Linux SDK binaries](https://dotnet.microsoft.com/en-us/download/dotnet/7.0) for your selected architecture.
-1. Extract ONLY the contents of the `sdk` directory in the `.tar.gz` to `/usr/share/dotnet/sdk/`
-1. Run `sudo chown -R root /usr/share/dotnet/sdk`
+1. Extract everything EXCEPT the `dotnet` executable, `LICENSE.txt``, and `ThirdPartyNotices.txt` in the `.tar.gz` on top of the existing installation directory `/usr/share/dotnet/`
+1. Run `sudo chown -R root /usr/share/dotnet`
 
 You should now be able to run the `dotnet --list-sdks` command and see an entry for `7.0.XXX [/usr/share/dotnet/sdk]`.
 
