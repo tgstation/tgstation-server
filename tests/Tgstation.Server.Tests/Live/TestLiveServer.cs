@@ -1395,11 +1395,11 @@ namespace Tgstation.Server.Tests.Live
 					InstanceResponse odInstance, compatInstance;
 					if (!openDreamOnly)
 					{
+						jobsHubTestTask = FailFast(await jobsHubTest.Run(cancellationToken)); // returns Task<Task>
 						var rootTest = FailFast(RawRequestTests.Run(clientFactory, firstAdminClient, cancellationToken));
 						var adminTest = FailFast(new AdministrationTest(firstAdminClient.Administration).Run(cancellationToken));
 						var usersTest = FailFast(new UsersTest(firstAdminClient).Run(cancellationToken));
 
-						jobsHubTestTask = FailFast(jobsHubTest.Run(cancellationToken));
 						var instanceManagerTest = new InstanceManagerTest(firstAdminClient, server.Directory);
 						var compatInstanceTask = instanceManagerTest.CreateTestInstance("CompatTestsInstance", cancellationToken);
 						var odInstanceTask = instanceManagerTest.CreateTestInstance("OdTestsInstance", cancellationToken);

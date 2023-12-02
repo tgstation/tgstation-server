@@ -84,7 +84,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			}
 		}
 
-		public async Task Run(CancellationToken cancellationToken)
+		public async Task<Task> Run(CancellationToken cancellationToken)
 		{
 			var neverReceiver = new ShouldNeverReceiveUpdates()
 			{
@@ -98,16 +98,32 @@ namespace Tgstation.Server.Tests.Live.Instance
 				},
 			};
 
-			await using (permedConn = (HubConnection)await permedUser.SubscribeToJobUpdates(
+			permedConn = (HubConnection)await permedUser.SubscribeToJobUpdates(
 				this,
 				null,
 				null,
-				cancellationToken))
-			await using (permlessConn = (HubConnection)await permlessUser.SubscribeToJobUpdates(
-				neverReceiver,
-				null,
-				null,
-				cancellationToken))
+				cancellationToken);
+
+			try
+			{
+				permlessConn = (HubConnection)await permlessUser.SubscribeToJobUpdates(
+					neverReceiver,
+					null,
+					null,
+					cancellationToken);
+			}
+			catch
+			{
+				await permedConn.DisposeAsync();
+			}
+
+			return FinishAsync(cancellationToken);
+		}
+
+		async Task FinishAsync(CancellationToken cancellationToken)
+		{
+			await using (permedConn)
+			await using (permlessConn)
 			{
 				Console.WriteLine($"Initial conn1: {permedConn.ConnectionId}");
 				Console.WriteLine($"Initial conn2: {permlessConn.ConnectionId}");
@@ -193,10 +209,15 @@ namespace Tgstation.Server.Tests.Live.Instance
 				}
 			}
 
+			static string JobListFormatter(IEnumerable<JobResponse> jobs) => String.Join(Environment.NewLine, jobs.Select(x => $"- I:{x.InstanceId}|JID:{x.Id}|JC:{x.JobCode}|Desc:{x.Description}"));
+
 			// some instances may be detached, but our cache remains
 			var accountedJobs = allJobs.Count - missableMissedJobs;
 			var accountedSeenJobs = seenJobs.Where(x => allInstances.Any(i => i.Id.Value == x.Value.InstanceId)).ToList();
-			Assert.AreEqual(accountedJobs, accountedSeenJobs.Count, $"Mismatch in seen jobs:{Environment.NewLine}{String.Join(Environment.NewLine, allJobs.Where(x => !seenJobs.Any(y => y.Key == x.Id.Value)).Select(x => $"- I:{x.InstanceId}|JID:{x.Id}|JC:{x.JobCode}|Desc:{x.Description}"))}");
+			Assert.AreEqual(
+				accountedJobs,
+				accountedSeenJobs.Count,
+				$"Mismatch in seen jobs:{Environment.NewLine}Not seen in seen:{Environment.NewLine}{JobListFormatter(allJobs.Where(x => !seenJobs.Any(y => y.Key == x.Id.Value)))}{Environment.NewLine}Seen not in all:{Environment.NewLine}{JobListFormatter(seenJobs.Values.Where(x => !allJobs.Any(y => y.Id.Value == x.Id.Value)))}");
 			Assert.IsTrue(accountedJobs <= seenJobs.Count);
 			Assert.AreNotEqual(0, permlessSeenJobs.Count);
 			Assert.IsTrue(permlessSeenJobs.Count < seenJobs.Count);
