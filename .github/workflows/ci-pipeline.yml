@@ -564,9 +564,17 @@ jobs:
         fi
 
     - name: Store Live Tests Output
+      if: ${{ steps.live-tests.outputs.succeeded == 'YES' }}
       uses: actions/upload-artifact@v3
       with:
         name: windows-integration-test-logs-${{ matrix.configuration }}-${{ matrix.watchdog-type }}-${{ matrix.database-type }}
+        path: ./test_output.txt
+
+    - name: Store Errored Live Tests Output
+      if: ${{ steps.live-tests.outputs.succeeded != 'YES' }}
+      uses: actions/upload-artifact@v3
+      with:
+        name: errored-windows-test-logs-${{ matrix.configuration }}-${{ matrix.watchdog-type }}-${{ matrix.database-type }}
         path: ./test_output.txt
 
     - name: Fail if Live Tests Failed
