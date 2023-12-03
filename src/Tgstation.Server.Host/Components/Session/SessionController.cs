@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Net;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -22,6 +21,7 @@ using Tgstation.Server.Host.Components.Engine;
 using Tgstation.Server.Host.Components.Interop;
 using Tgstation.Server.Host.Components.Interop.Bridge;
 using Tgstation.Server.Host.Components.Interop.Topic;
+using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.System;
 using Tgstation.Server.Host.Utils;
 
@@ -884,35 +884,15 @@ namespace Tgstation.Server.Host.Components.Session
 			}
 
 			var targetPort = ReattachInformation.Port;
-			Byond.TopicSender.TopicResponse byondResponse = null;
-			var firstSend = true;
-
+			Byond.TopicSender.TopicResponse byondResponse;
 			using (await topicSendSemaphore.Lock(cancellationToken))
-			{
-				const int PrioritySendAttempts = 5;
-				var endpoint = new IPEndPoint(IPAddress.Loopback, targetPort);
-				for (var i = PrioritySendAttempts - 1; i >= 0 && (priority || firstSend); --i)
-					try
-					{
-						firstSend = false;
-
-						Logger.LogTrace("Begin topic request");
-						byondResponse = await byondTopicSender.SendTopic(
-							endpoint,
-							queryString,
-							cancellationToken);
-
-						Logger.LogTrace("End topic request");
-						break;
-					}
-					catch (Exception ex) when (ex is not OperationCanceledException)
-					{
-						Logger.LogWarning(ex, "SendTopic exception!{retryDetails}", priority ? $" {i} attempts remaining." : String.Empty);
-
-						if (priority && i > 0)
-							await asyncDelayer.Delay(TimeSpan.FromSeconds(2), cancellationToken);
-					}
-			}
+				byondResponse = await byondTopicSender.SendWithOptionalPriority(
+					asyncDelayer,
+					Logger,
+					queryString,
+					targetPort,
+					priority,
+					cancellationToken);
 
 			if (byondResponse == null)
 			{
