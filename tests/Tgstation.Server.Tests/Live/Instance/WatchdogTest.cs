@@ -208,7 +208,9 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 				// reimplement TellWorldToReboot because it expects a new deployment and we don't care
 				System.Console.WriteLine("TEST: Hack world reboot topic...");
-				var result = await topicClient.SendTopic(IPAddress.Loopback, "tgs_integration_test_special_tactics=1", FindTopicPort(), cancellationToken);
+				var result = await SendTestTopic(
+					"tgs_integration_test_special_tactics=1",
+					cancellationToken);
 				Assert.AreEqual("ack", result.StringData);
 
 				using var tempCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
@@ -234,13 +236,25 @@ namespace Tgstation.Server.Tests.Live.Instance
 				await RunTest(false);
 		}
 
+		async ValueTask<TopicResponse> SendTestTopic(string queryString, CancellationToken cancellationToken)
+		{
+			using var loggerFactory = LoggerFactory.Create(builder =>
+			{
+				builder.AddConsole();
+				builder.SetMinimumLevel(LogLevel.Trace);
+			});
+			return await topicClient.SendWithOptionalPriority(
+				new AsyncDelayer(),
+				loggerFactory.CreateLogger<WatchdogTest>(),
+				queryString,
+				FindTopicPort(),
+				true,
+				cancellationToken);
+		}
+
 		async ValueTask BroadcastTest(CancellationToken cancellationToken)
 		{
-			var topicRequestResult = await topicClient.SendTopic(
-				IPAddress.Loopback,
-				$"tgs_integration_test_tactics_broadcast=1",
-				FindTopicPort(),
-				cancellationToken);
+			var topicRequestResult = await SendTestTopic("tgs_integration_test_tactics_broadcast=1", cancellationToken);
 
 			Assert.IsNotNull(topicRequestResult);
 			Assert.AreEqual("!!NULL!!", topicRequestResult.StringData);
@@ -251,10 +265,8 @@ namespace Tgstation.Server.Tests.Live.Instance
 				BroadcastMessage = TestBroadcastMessage,
 			}, cancellationToken);
 
-			topicRequestResult = await topicClient.SendTopic(
-				IPAddress.Loopback,
-				$"tgs_integration_test_tactics_broadcast=1",
-				FindTopicPort(),
+			topicRequestResult = await SendTestTopic(
+				"tgs_integration_test_tactics_broadcast=1",
 				cancellationToken);
 
 			Assert.IsNotNull(topicRequestResult);
@@ -324,10 +336,8 @@ namespace Tgstation.Server.Tests.Live.Instance
 			ValidateSessionId(currentStatus, true);
 			Assert.AreEqual(expectedStaged.Id, currentStatus.ActiveCompileJob.Id);
 
-			var topicRequestResult = await topicClient.SendTopic(
-				IPAddress.Loopback,
-				$"shadow_wizard_money_gang=1",
-				FindTopicPort(),
+			var topicRequestResult = await SendTestTopic(
+				"shadow_wizard_money_gang=1",
 				cancellationToken);
 
 			Assert.IsNotNull(topicRequestResult);
@@ -456,10 +466,8 @@ namespace Tgstation.Server.Tests.Live.Instance
 		async Task SendChatOverloadCommand(CancellationToken cancellationToken)
 		{
 			// for the code coverage really...
-			var topicRequestResult = await topicClient.SendTopic(
-				IPAddress.Loopback,
-				$"tgs_integration_test_tactics5=1",
-				FindTopicPort(),
+			var topicRequestResult = await SendTestTopic(
+				"tgs_integration_test_tactics5=1",
 				cancellationToken);
 
 			Assert.IsNotNull(topicRequestResult);
@@ -740,10 +748,8 @@ namespace Tgstation.Server.Tests.Live.Instance
 			Assert.IsFalse(ddProc.HasExited);
 
 			// check DD agrees
-			var topicRequestResult = await topicClient.SendTopic(
-				IPAddress.Loopback,
-				$"tgs_integration_test_tactics8=1",
-				FindTopicPort(),
+			var topicRequestResult = await SendTestTopic(
+				"tgs_integration_test_tactics8=1",
 				cancellationToken);
 
 			Assert.IsNotNull(topicRequestResult);
@@ -852,7 +858,9 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 				System.Console.WriteLine("TEST: Sending Bridge tests topic...");
 
-				var bridgeTestTopicResult = await topicClient.SendTopic(IPAddress.Loopback, $"tgs_integration_test_tactics2={accessIdentifier}", FindTopicPort(), cancellationToken);
+				var bridgeTestTopicResult = await SendTestTopic(
+					$"tgs_integration_test_tactics2={accessIdentifier}",
+					cancellationToken);
 				Assert.AreEqual("ack2", bridgeTestTopicResult.StringData);
 
 				await bridgeTestsTcs.Task.WaitAsync(cancellationToken);
@@ -902,10 +910,8 @@ namespace Tgstation.Server.Tests.Live.Instance
 				try
 				{
 					System.Console.WriteLine($"Topic send limit test S:{currentSize}...");
-					topicRequestResult = await topicClient.SendTopic(
-						IPAddress.Loopback,
+					topicRequestResult = await SendTestTopic(
 						$"tgs_integration_test_tactics3={topicClient.SanitizeString(JsonConvert.SerializeObject(topic, DMApiConstants.SerializerSettings))}",
-						FindTopicPort(),
 						cancellationToken);
 				}
 				catch (ArgumentOutOfRangeException)
@@ -943,10 +949,8 @@ namespace Tgstation.Server.Tests.Live.Instance
 			{
 				var currentSize = baseSize + (int)Math.Pow(2, nextPow);
 				System.Console.WriteLine($"Topic recieve limit test S:{currentSize}...");
-				var topicRequestResult = await topicClient.SendTopic(
-					IPAddress.Loopback,
+				var topicRequestResult = await SendTestTopic(
 					$"tgs_integration_test_tactics4={topicClient.SanitizeString(currentSize.ToString())}",
-					FindTopicPort(),
 					cancellationToken);
 
 				if (topicRequestResult.ResponseType != TopicResponseType.StringResponse
@@ -1332,7 +1336,13 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 			System.Console.WriteLine("TEST: Sending world reboot topic...");
 
-			var result = await topicClient.SendTopic(IPAddress.Loopback, "tgs_integration_test_special_tactics=1", topicPort, cancellationToken);
+			var result = await topicClient.SendWithOptionalPriority(
+				new AsyncDelayer(),
+				Mock.Of<ILogger>(),
+				$"tgs_integration_test_special_tactics=1",
+				topicPort,
+				true,
+				cancellationToken);
 			Assert.AreEqual("ack", result.StringData);
 
 			using var tempCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
@@ -1468,7 +1478,9 @@ namespace Tgstation.Server.Tests.Live.Instance
 		async ValueTask TestLegacyBridgeEndpoint(CancellationToken cancellationToken)
 		{
 			System.Console.WriteLine("TEST: TestLegacyBridgeEndpoint");
-			var result = await topicClient.SendTopic(IPAddress.Loopback, "im_out_of_memes=1", FindTopicPort(), cancellationToken);
+			var result = await SendTestTopic(
+				"im_out_of_memes=1",
+				cancellationToken);
 			Assert.IsNotNull(result);
 			Assert.AreEqual("all gucci", result.StringData);
 			await CheckDMApiFail((await instanceClient.DreamDaemon.Read(cancellationToken)).ActiveCompileJob, cancellationToken);

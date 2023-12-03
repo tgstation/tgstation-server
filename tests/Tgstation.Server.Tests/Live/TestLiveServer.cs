@@ -1532,10 +1532,12 @@ namespace Tgstation.Server.Tests.Live
 
 				// test the reattach message queueing
 				// for the code coverage really...
-				var topicRequestResult = await WatchdogTest.StaticTopicClient.SendTopic(
-					IPAddress.Loopback,
+				var topicRequestResult = await WatchdogTest.StaticTopicClient.SendWithOptionalPriority(
+					new AsyncDelayer(),
+					Mock.Of<ILogger>(),
 					$"tgs_integration_test_tactics6=1",
 					mainDDPort,
+					true,
 					cancellationToken);
 
 				Assert.IsNotNull(topicRequestResult);
@@ -1608,10 +1610,12 @@ namespace Tgstation.Server.Tests.Live
 					var chatReadTask = instanceClient.ChatBots.List(null, cancellationToken);
 
 					// Check the DMAPI got the channels again https://github.com/tgstation/tgstation-server/issues/1490
-					topicRequestResult = await WatchdogTest.StaticTopicClient.SendTopic(
-						IPAddress.Loopback,
+					topicRequestResult = await WatchdogTest.StaticTopicClient.SendWithOptionalPriority(
+						new AsyncDelayer(),
+						Mock.Of<ILogger>(),
 						$"tgs_integration_test_tactics7=1",
 						mainDDPort,
+						true,
 						cancellationToken);
 
 					Assert.IsNotNull(topicRequestResult);
