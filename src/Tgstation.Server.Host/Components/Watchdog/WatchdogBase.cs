@@ -447,19 +447,28 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		public async ValueTask CreateDump(CancellationToken cancellationToken)
 		{
 			const string DumpDirectory = "ProcessDumps";
-			await diagnosticsIOManager.CreateDirectory(DumpDirectory, cancellationToken);
+			using (await SemaphoreSlimContext.Lock(synchronizationSemaphore, cancellationToken))
+			{
+				var dumpFileNameTemplate = diagnosticsIOManager.ResolvePath(
+					diagnosticsIOManager.ConcatPath(
+						DumpDirectory,
+						$"DreamDaemon-{DateTimeOffset.UtcNow.ToFileStamp()}.dmp"));
 
-			var dumpFileName = diagnosticsIOManager.ResolvePath(
-				diagnosticsIOManager.ConcatPath(
-					DumpDirectory,
-					$"DreamDaemon-{DateTimeOffset.UtcNow.ToFileStamp()}.dmp"));
+				var dumpFileName = dumpFileNameTemplate;
+				var iteration = 0;
+				while (await diagnosticsIOManager.FileExists(dumpFileName, cancellationToken))
+					dumpFileName = $"{dumpFileNameTemplate} ({++iteration})";
 
-			var session = GetActiveController();
-			if (session?.Lifetime.IsCompleted != false)
-				throw new JobException(ErrorCode.GameServerOffline);
+				if (iteration == 0)
+					await diagnosticsIOManager.CreateDirectory(DumpDirectory, cancellationToken);
 
-			Logger.LogInformation("Dumping session to {dumpFileName}...", dumpFileName);
-			await session.CreateDump(dumpFileName, cancellationToken);
+				var session = GetActiveController();
+				if (session?.Lifetime.IsCompleted != false)
+					throw new JobException(ErrorCode.GameServerOffline);
+
+				Logger.LogInformation("Dumping session to {dumpFileName}...", dumpFileName);
+				await session.CreateDump(dumpFileName, cancellationToken);
+			}
 		}
 
 		/// <inheritdoc />
