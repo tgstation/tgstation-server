@@ -923,7 +923,11 @@ namespace Tgstation.Server.Tests.Live.Instance
 					|| topicRequestResult.StringData != "pass")
 				{
 					if (topicRequestResult != null)
+					{
+						Assert.AreEqual(TopicResponseType.StringResponse, topicRequestResult.ResponseType, $"String data is: {topicRequestResult.StringData ?? "<<NULL>>"}");
 						Assert.AreEqual("fail", topicRequestResult.StringData);
+					}
+
 					if (currentSize == lastSize + 1)
 						break;
 					baseSize = lastSize;
