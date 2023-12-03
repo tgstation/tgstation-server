@@ -57,15 +57,15 @@ namespace Tgstation.Server.Host.Components.Interop
 		/// <summary>
 		/// Process a given <paramref name="chunk"/>.
 		/// </summary>
-		/// <typeparam name="TCommnication">The <see cref="Type"/> of communication that was chunked.</typeparam>
+		/// <typeparam name="TCommunication">The <see cref="Type"/> of communication that was chunked.</typeparam>
 		/// <typeparam name="TResponse">The <see cref="Type"/> of <see cref="IMissingPayloadsCommunication"/> expected.</typeparam>
-		/// <param name="completionCallback">The callback that receives the completed <typeparamref name="TCommnication"/>.</param>
+		/// <param name="completionCallback">The callback that receives the completed <typeparamref name="TCommunication"/>.</param>
 		/// <param name="chunkErrorCallback">The callback that generates a <typeparamref name="TResponse"/> for a given error.</param>
 		/// <param name="chunk">The <see cref="ChunkData"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <typeparamref name="TResponse"/> for the chunked request.</returns>
-		protected async ValueTask<TResponse> ProcessChunk<TCommnication, TResponse>(
-			Func<TCommnication, CancellationToken, ValueTask<TResponse>> completionCallback,
+		protected async ValueTask<TResponse> ProcessChunk<TCommunication, TResponse>(
+			Func<TCommunication, CancellationToken, ValueTask<TResponse>> completionCallback,
 			Func<string, TResponse> chunkErrorCallback,
 			ChunkData chunk,
 			CancellationToken cancellationToken)
@@ -128,11 +128,11 @@ namespace Tgstation.Server.Host.Components.Interop
 				chunkSets.Remove(requestInfo.PayloadId.Value);
 			}
 
-			TCommnication completedCommunication;
+			TCommunication completedCommunication;
 			var fullCommunicationJson = String.Concat(payloads);
 			try
 			{
-				completedCommunication = JsonConvert.DeserializeObject<TCommnication>(fullCommunicationJson, DMApiConstants.SerializerSettings);
+				completedCommunication = JsonConvert.DeserializeObject<TCommunication>(fullCommunicationJson, DMApiConstants.SerializerSettings);
 			}
 			catch (Exception ex)
 			{
