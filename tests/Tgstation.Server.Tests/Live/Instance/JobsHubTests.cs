@@ -211,13 +211,18 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 			static string JobListFormatter(IEnumerable<JobResponse> jobs) => String.Join(Environment.NewLine, jobs.Select(x => $"- I:{x.InstanceId}|JID:{x.Id}|JC:{x.JobCode}|Desc:{x.Description}"));
 
+			var jobsSeenByHubButNotInAllJobs = seenJobs.Values.Where(x => !allJobs.Any(y => y.Id.Value == x.Id.Value)).ToList();
+
 			// some instances may be detached, but our cache remains
 			var accountedJobs = allJobs.Count - missableMissedJobs;
-			var accountedSeenJobs = seenJobs.Where(x => allInstances.Any(i => i.Id.Value == x.Value.InstanceId)).ToList();
+			var errorMessage = $"Mismatch in seen jobs:{Environment.NewLine}Not seen in seen:{Environment.NewLine}{JobListFormatter(allJobs.Where(x => !seenJobs.Any(y => y.Key == x.Id.Value)))}{Environment.NewLine}Seen not in all:{Environment.NewLine}{JobListFormatter(jobsSeenByHubButNotInAllJobs)}";
 			Assert.AreEqual(
 				accountedJobs,
-				accountedSeenJobs.Count,
-				$"Mismatch in seen jobs:{Environment.NewLine}Not seen in seen:{Environment.NewLine}{JobListFormatter(allJobs.Where(x => !seenJobs.Any(y => y.Key == x.Id.Value)))}{Environment.NewLine}Seen not in all:{Environment.NewLine}{JobListFormatter(seenJobs.Values.Where(x => !allJobs.Any(y => y.Id.Value == x.Id.Value)))}");
+				seenJobs.Count - jobsSeenByHubButNotInAllJobs.Count,
+				errorMessage);
+			Assert.IsTrue(
+				jobsSeenByHubButNotInAllJobs.All(job => job.JobCode.Value == JobCode.Move),
+				errorMessage);
 			Assert.IsTrue(accountedJobs <= seenJobs.Count);
 			Assert.AreNotEqual(0, permlessSeenJobs.Count);
 			Assert.IsTrue(permlessSeenJobs.Count < seenJobs.Count);
