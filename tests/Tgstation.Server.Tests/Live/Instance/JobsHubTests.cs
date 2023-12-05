@@ -204,7 +204,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 					var wasMissableJob = job.JobCode == JobCode.ReconnectChatBot
 						|| job.JobCode == JobCode.StartupWatchdogLaunch
 						|| job.JobCode == JobCode.StartupWatchdogReattach;
-					Assert.IsTrue(wasMissableJob);
+					Assert.IsTrue(wasMissableJob, $"Found unexpected missed job: {job.Description}");
 					++missableMissedJobs;
 				}
 			}
