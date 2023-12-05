@@ -680,7 +680,9 @@ namespace Tgstation.Server.Tests.Live.Instance
 			var pid = proc.Id;
 			var foundLivePath = false;
 			var allPaths = new List<string>();
-			foreach (var fd in Directory.EnumerateFiles($"/proc/{pid}/fd"))
+
+			Assert.IsFalse(proc.HasExited);
+			foreach (var fd in Directory.GetFiles($"/proc/{pid}/fd"))
 			{
 				var sb = new StringBuilder(UInt16.MaxValue);
 				if (Syscall.readlink(fd, sb) == -1)
