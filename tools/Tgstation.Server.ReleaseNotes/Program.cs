@@ -682,7 +682,7 @@ namespace Tgstation.Server.ReleaseNotes
 					var trimmedLine = line.Trim();
 					if (targetComponent == null)
 					{
-						if (trimmedLine.StartsWith(":cl:", StringComparison.Ordinal))
+						if (trimmedLine.StartsWith(":cl:", StringComparison.Ordinal) || trimmedLine.StartsWith("🆑", StringComparison.Ordinal))
 						{
 							targetComponent = trimmedLine[4..].Trim();
 							if (targetComponent.Length == 0)
@@ -690,7 +690,7 @@ namespace Tgstation.Server.ReleaseNotes
 						}
 						continue;
 					}
-					if (trimmedLine.StartsWith("/:cl:", StringComparison.Ordinal))
+					if (trimmedLine.StartsWith("/:cl:", StringComparison.Ordinal) || trimmedLine.StartsWith("/🆑", StringComparison.Ordinal))
 					{
 						if(!Enum.TryParse<Component>(targetComponent, out var component))
 							component = targetComponent.ToUpperInvariant() switch
