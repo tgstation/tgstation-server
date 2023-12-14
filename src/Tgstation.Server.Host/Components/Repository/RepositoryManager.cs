@@ -9,6 +9,7 @@ using Microsoft.Extensions.Logging;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Host.Components.Events;
 using Tgstation.Server.Host.Configuration;
+using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Jobs;
 using Tgstation.Server.Host.Utils;
@@ -149,20 +150,7 @@ namespace Tgstation.Server.Host.Components.Repository
 							var checkoutProgressReporter = progressReporter?.CreateSection(null, 0.25f);
 							var cloneOptions = new CloneOptions
 							{
-								OnProgress = (a) => !cancellationToken.IsCancellationRequested,
-								OnTransferProgress = (a) =>
-								{
-									if (cloneProgressReporter != null)
-									{
-										var percentage = ((double)a.IndexedObjects + a.ReceivedObjects) / (a.TotalObjects * 2);
-										cloneProgressReporter.ReportProgress(percentage);
-									}
-
-									return !cancellationToken.IsCancellationRequested;
-								},
 								RecurseSubmodules = recurseSubmodules,
-								OnUpdateTips = (a, b, c) => !cancellationToken.IsCancellationRequested,
-								RepositoryOperationStarting = (a) => !cancellationToken.IsCancellationRequested,
 								OnCheckoutProgress = (path, completed, remaining) =>
 								{
 									if (checkoutProgressReporter == null)
@@ -172,8 +160,13 @@ namespace Tgstation.Server.Host.Components.Repository
 									checkoutProgressReporter.ReportProgress(percentage);
 								},
 								BranchName = initialBranch,
-								CredentialsProvider = repositoryFactory.GenerateCredentialsHandler(username, password),
 							};
+
+							cloneOptions.FetchOptions.Hydrate(
+								logger,
+								cloneProgressReporter,
+								repositoryFactory.GenerateCredentialsHandler(username, password),
+								cancellationToken);
 
 							await repositoryFactory.Clone(
 								url,
