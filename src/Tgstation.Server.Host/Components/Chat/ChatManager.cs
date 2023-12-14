@@ -71,7 +71,7 @@ namespace Tgstation.Server.Host.Components.Chat
 		readonly Dictionary<long, IProvider> providers;
 
 		/// <summary>
-		/// Map of <see cref="SemaphoreSlim"/>s used to guard concurrent access to <see cref="ChangeChannels(long, IEnumerable{Models.ChatChannel}, CancellationToken)"/>, keyed by <see cref="ChatBotSettings"/> <see cref="Api.Models.EntityId.Id"/>.
+		/// Map of <see cref="SemaphoreSlim"/>s used to guard concurrent access to <see cref="ChangeChannels(long, IEnumerable{Models.ChatChannel}, CancellationToken)"/>, keyed by <see cref="ChatBotSettings"/> <see cref="EntityId.Id"/>.
 		/// </summary>
 		readonly ConcurrentDictionary<long, SemaphoreSlim> changeChannelSemaphores;
 
@@ -236,7 +236,7 @@ namespace Tgstation.Server.Host.Components.Chat
 
 					var newMappings = results.SelectMany(
 						kvp => kvp.Value.Select(
-							channelRepresentation => new ChannelMapping
+							channelRepresentation => new ChannelMapping(channelRepresentation)
 							{
 								IsWatchdogChannel = kvp.Key.IsWatchdogChannel == true,
 								IsUpdatesChannel = kvp.Key.IsUpdatesChannel == true,
@@ -244,7 +244,6 @@ namespace Tgstation.Server.Host.Components.Chat
 								IsSystemChannel = kvp.Key.IsSystemChannel == true,
 								ProviderChannelId = channelRepresentation.RealId,
 								ProviderId = connectionId,
-								Channel = channelRepresentation,
 							}));
 
 					ulong baseId;
@@ -767,11 +766,10 @@ namespace Tgstation.Server.Host.Components.Chat
 							message.User.Channel.ConnectionName,
 							message.User.FriendlyName,
 							newId);
-						mappedChannels.Add(newId, new ChannelMapping
+						mappedChannels.Add(newId, new ChannelMapping(message.User.Channel)
 						{
 							ProviderChannelId = message.User.Channel.RealId,
 							ProviderId = providerId,
-							Channel = message.User.Channel,
 						});
 
 						logger.LogTrace(
