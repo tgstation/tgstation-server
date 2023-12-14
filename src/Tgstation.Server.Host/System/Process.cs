@@ -153,7 +153,7 @@ namespace Tgstation.Server.Host.System
 			if (handle.HasExited)
 			{
 				handle.WaitForExit();
-				await Task.WhenAny(readTask, asyncDelayer.Delay(TimeSpan.FromSeconds(10), cancellationToken));
+				await Task.WhenAny(readTask, asyncDelayer.Delay(TimeSpan.FromSeconds(30), cancellationToken));
 
 				if (!readTask.IsCompleted)
 				{

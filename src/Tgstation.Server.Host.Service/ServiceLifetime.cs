@@ -152,14 +152,24 @@ namespace Tgstation.Server.Host.Service
 
 			await localWatchdogTask;
 
-			try
+			async void StopServiceAsync()
 			{
-				stopService();
+				try
+				{
+					// This can call OnStop which waits on this task to complete, must be threaded off or it will deadlock
+					await Task.Run(stopService, cancellationToken);
+				}
+				catch (OperationCanceledException ex)
+				{
+					logger.LogDebug(ex, "Stopping service cancelled!");
+				}
+				catch (Exception ex)
+				{
+					logger.LogError(ex, "Error stopping service!");
+				}
 			}
-			catch (Exception ex)
-			{
-				logger.LogError(ex, "Error stopping service!");
-			}
+
+			StopServiceAsync();
 		}
 
 		/// <summary>

@@ -104,7 +104,7 @@ namespace Tgstation.Server.Host.Service
 				Stop,
 				signalChecker => watchdogFactory.CreateWatchdog(signalChecker, loggerFactory.Value),
 				loggerFactory.Value.CreateLogger<ServiceLifetime>(),
-				args);
+				newArgs.ToArray());
 		}
 
 		/// <inheritdoc />

@@ -97,10 +97,10 @@ namespace Tgstation.Server.Host.Controllers
 
 			using (LogContext.PushProperty(SerilogContextHelper.BridgeRequestIterationContextProperty, Interlocked.Increment(ref requestsProcessed)))
 			{
-				BridgeParameters? request;
+				var request = new BridgeParameters();
 				try
 				{
-					request = JsonConvert.DeserializeObject<BridgeParameters>(data, DMApiConstants.SerializerSettings);
+					JsonConvert.PopulateObject(data, request, DMApiConstants.SerializerSettings);
 				}
 				catch (Exception ex)
 				{

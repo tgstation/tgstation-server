@@ -38,12 +38,12 @@ namespace Tgstation.Server.Tests
 			if (engineInstallationData is ZipStreamEngineInstallationData zipStreamData)
 				return (MemoryStream)zipStreamData.GetType().GetField("zipStream", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(zipStreamData);
 
-			await using var repoData = (RepositoryEngineInstallationData)engineInstallationData;
+			await using var grabby = engineInstallationData;
 			var tempFolder = Path.GetTempFileName();
 			File.Delete(tempFolder);
 			try
 			{
-				await repoData.ExtractToPath(tempFolder, cancellationToken);
+				await engineInstallationData.ExtractToPath(tempFolder, cancellationToken);
 				var resultStream = new FileStream(
 					$"{tempFolder}.zip",
 					FileMode.Create,

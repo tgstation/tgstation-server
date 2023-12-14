@@ -195,8 +195,8 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 			// some instances may be detached, but our cache remains
 			var accountedJobs = allJobs.Count - missableMissedJobs;
-			var accountedSeenJobs = seenJobs.Where(x => allInstances.Any(i => i.Id.Value == x.Value.InstanceId)).Count();
-			Assert.AreEqual(accountedJobs, accountedSeenJobs);
+			var accountedSeenJobs = seenJobs.Where(x => allInstances.Any(i => i.Id.Value == x.Value.InstanceId)).ToList();
+			Assert.AreEqual(accountedJobs, accountedSeenJobs.Count, $"Mismatch in seen jobs:{Environment.NewLine}{String.Join(Environment.NewLine, allJobs.Where(x => !seenJobs.Any(y => y.Key == x.Id.Value)).Select(x => $"- I:{x.InstanceId}|JID:{x.Id}|JC:{x.JobCode}|Desc:{x.Description}"))}");
 			Assert.IsTrue(accountedJobs <= seenJobs.Count);
 			Assert.AreNotEqual(0, permlessSeenJobs.Count);
 			Assert.IsTrue(permlessSeenJobs.Count < seenJobs.Count);

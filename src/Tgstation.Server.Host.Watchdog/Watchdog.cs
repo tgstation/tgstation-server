@@ -101,7 +101,10 @@ namespace Tgstation.Server.Host.Watchdog
 						Directory.Delete(assemblyStoragePath, true);
 					Directory.CreateDirectory(defaultAssemblyPath);
 
-					var sourcePath = "../../../../Tgstation.Server.Host/bin/Debug/net8.0";
+					var sourcePath = Path.GetFullPath(
+						Path.Combine(
+							rootLocation,
+							"../../../../Tgstation.Server.Host/bin/Debug/net8.0"));
 					foreach (string dirPath in Directory.GetDirectories(sourcePath, "*", SearchOption.AllDirectories))
 						Directory.CreateDirectory(dirPath.Replace(sourcePath, defaultAssemblyPath, StringComparison.Ordinal));
 
