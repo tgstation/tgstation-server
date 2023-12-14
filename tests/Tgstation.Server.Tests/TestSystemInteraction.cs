@@ -69,12 +69,12 @@ namespace Tgstation.Server.Tests
 					Assert.AreEqual(0, exitCode);
 				}
 
-				Assert.IsTrue(File.Exists(tempFile));
+				Assert.IsTrue(File.Exists(tempFile), $"Could not find temp file: {tempFile}");
 				var result = File.ReadAllText(tempFile).Trim();
 
 				// no guarantees about order
-				Assert.IsTrue(result.Contains("Hello World!"));
-				Assert.IsTrue(result.Contains("Hello Error!"));
+				Assert.IsTrue(result.Contains("Hello World!"), $"Result: {result}");
+				Assert.IsTrue(result.Contains("Hello Error!"), $"Result: {result}");
 			}
 			finally
 			{
