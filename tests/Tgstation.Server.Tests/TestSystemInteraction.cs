@@ -45,13 +45,17 @@ namespace Tgstation.Server.Tests
 		[TestMethod]
 		public async Task TestScriptExecutionWithFileOutput()
 		{
-			using var loggerFactory = LoggerFactory.Create(x => { });
+			using var loggerFactory = LoggerFactory.Create(builder =>
+			{
+				builder.AddConsole();
+				builder.SetMinimumLevel(LogLevel.Trace);
+			});
 			var platformIdentifier = new PlatformIdentifier();
 			var processExecutor = new ProcessExecutor(
 				Mock.Of<IProcessFeatures>(),
 				Mock.Of<IAsyncDelayer>(),
 				new DefaultIOManager(),
-				Mock.Of<ILogger<ProcessExecutor>>(),
+				loggerFactory.CreateLogger<ProcessExecutor>(),
 				loggerFactory);
 
 			var tempFile = Path.GetTempFileName();
