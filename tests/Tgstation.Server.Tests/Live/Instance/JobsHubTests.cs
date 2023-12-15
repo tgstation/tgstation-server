@@ -215,7 +215,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 			// some instances may be detached, but our cache remains
 			var accountedJobs = allJobs.Count - missableMissedJobs;
-			var errorMessage = $"Mismatch in seen jobs:{Environment.NewLine}Not seen in seen:{Environment.NewLine}{JobListFormatter(allJobs.Where(x => !seenJobs.Any(y => y.Key == x.Id.Value)))}{Environment.NewLine}Seen not in all:{Environment.NewLine}{JobListFormatter(jobsSeenByHubButNotInAllJobs)}";
+			var errorMessage = $"Mismatch in seen jobs:{Environment.NewLine}Not seen in seen:{Environment.NewLine}{JobListFormatter(allJobs.Where(x => !seenJobs.Any(y => y.Key == x.Id.Value)))}{Environment.NewLine}Seen not in all:{Environment.NewLine}{JobListFormatter(jobsSeenByHubButNotInAllJobs)}{Environment.NewLine}Current Instances: {String.Join(", ", allInstances.Select(i => i.Id.Value))}";
 			Assert.AreEqual(
 				accountedJobs,
 				seenJobs.Count - jobsSeenByHubButNotInAllJobs.Count,
