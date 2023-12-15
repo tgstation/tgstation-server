@@ -18,6 +18,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
@@ -1334,15 +1335,15 @@ namespace Tgstation.Server.Tests.Live.Instance
 			return ddProc != null;
 		}
 
-		public Task<DreamDaemonResponse> TellWorldToReboot(bool waitForOnlineIfRestoring, CancellationToken cancellationToken)
-			=> TellWorldToReboot2(instanceClient, topicClient, FindTopicPort(), waitForOnlineIfRestoring || testVersion.Engine.Value == EngineType.OpenDream, cancellationToken);
-		public static async Task<DreamDaemonResponse> TellWorldToReboot2(IInstanceClient instanceClient, ITopicClient topicClient, ushort topicPort, bool waitForOnlineIfRestoring, CancellationToken cancellationToken)
+		public Task<DreamDaemonResponse> TellWorldToReboot(bool waitForOnlineIfRestoring, CancellationToken cancellationToken, [CallerLineNumber]int source = 0)
+			=> TellWorldToReboot2(instanceClient, topicClient, FindTopicPort(), waitForOnlineIfRestoring || testVersion.Engine.Value == EngineType.OpenDream, cancellationToken, source);
+		public static async Task<DreamDaemonResponse> TellWorldToReboot2(IInstanceClient instanceClient, ITopicClient topicClient, ushort topicPort, bool waitForOnlineIfRestoring, CancellationToken cancellationToken, [CallerLineNumber]int source = 0, [CallerFilePath]string path = null)
 		{
 			var daemonStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
 			Assert.IsNotNull(daemonStatus.StagedCompileJob);
 			var initialSession = daemonStatus.ActiveCompileJob;
 
-			System.Console.WriteLine("TEST: Sending world reboot topic...");
+			System.Console.WriteLine($"TEST: Sending world reboot topic @ {path}#L{source}");
 
 			var result = await topicClient.SendWithOptionalPriority(
 				new AsyncDelayer(),
