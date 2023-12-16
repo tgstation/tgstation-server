@@ -1,8 +1,6 @@
 name: 'Code Scanning'
 
 on:
-  schedule:
-    - cron: 0 23 * * 1
   push:
     branches:
     - dev
