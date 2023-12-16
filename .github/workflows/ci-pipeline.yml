@@ -83,38 +83,6 @@ jobs:
     - name: GitHub Requires at Least One Step for a Job
       run: exit 0
 
-  analyze:
-    name: Code Scanning
-    needs: start-ci-run-gate
-    runs-on: ubuntu-latest
-    permissions:
-      actions: read
-      contents: read
-      security-events: write
-    if: (!(cancelled() || failure()) && needs.start-ci-run-gate.result == 'success' && ${{ vars.TGS_ENABLE_CODE_QL }} == 'true')
-    steps:
-    - name: Setup dotnet
-      uses: actions/setup-dotnet@v3
-      with:
-        dotnet-version: '${{ env.TGS_DOTNET_VERSION }}.0.x'
-        dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
-
-    - name: Checkout
-      uses: actions/checkout@v3
-
-    - name: Initialize CodeQL
-      uses: github/codeql-action/init@v2
-      with:
-        languages: csharp
-
-    - name: Build
-      run: dotnet build -c ReleaseNoWindows -p:TGS_HOST_NO_WEBPANEL=true
-
-    - name: Perform CodeQL Analysis
-      uses: github/codeql-action/analyze@v2
-      with:
-        category: "/language:csharp"
-
   dmapi-build:
     name: Build DMAPI
     needs: start-ci-run-gate
@@ -1355,7 +1323,7 @@ jobs:
 
   ci-completion-gate: # This job exists so there isn't a moving target for branch protections
     name: CI Completion Gate
-    needs: [ pages-build, docker-build, build-deb, build-msi, validate-openapi-spec, upload-code-coverage, check-winget-pr-template, analyze ]
+    needs: [ pages-build, docker-build, build-deb, build-msi, validate-openapi-spec, upload-code-coverage, check-winget-pr-template ]
     runs-on: ubuntu-latest
     if: (!(cancelled() || failure()) && needs.pages-build.result == 'success' && needs.docker-build.result == 'success' && needs.build-deb.result == 'success' && needs.build-msi.result == 'success' && needs.validate-openapi-spec.result == 'success' && needs.upload-code-coverage.result == 'success' && needs.check-winget-pr-template.result == 'success')
     steps:
