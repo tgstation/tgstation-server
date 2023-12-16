@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.IO;
 using System.IO.Compression;
 using System.Globalization;
@@ -463,8 +463,8 @@ namespace Tgstation.Server.Tests
 			EngineVersion engineVersion,
 			Stream byondBytes,
 			ByondInstallerBase byondInstaller,
-			IIOManager ioManager,
-			IProcessExecutor processExecutor,
+			DefaultIOManager ioManager,
+			ProcessExecutor processExecutor,
 			string tempPath)
 		{
 			using (byondBytes)

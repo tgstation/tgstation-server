@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.IO;
 using System.Reflection;
 using System.Threading;
@@ -54,7 +54,7 @@ namespace Tgstation.Server.Host.System.Tests
 				builder.SetMinimumLevel(LogLevel.Trace);
 			});
 
-			IProcessExecutor processExecutor = null;
+			ProcessExecutor processExecutor = null;
 			processExecutor = new ProcessExecutor(
 				new PosixProcessFeatures(
 					new Lazy<IProcessExecutor>(() => processExecutor),
