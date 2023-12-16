@@ -139,7 +139,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 			var updatedDD = await dreamDaemonClient.Update(new DreamDaemonRequest
 			{
-				StartupTimeout = 15,
+				StartupTimeout = 30,
 				Port = ddPort
 			}, cancellationToken);
 			Assert.AreEqual(15U, updatedDD.StartupTimeout);

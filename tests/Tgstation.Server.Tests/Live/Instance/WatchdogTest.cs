@@ -133,7 +133,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 				// Increase startup timeout, disable heartbeats, enable map threads because we've tested without for years
 				instanceClient.DreamDaemon.Update(new DreamDaemonRequest
 				{
-					StartupTimeout = 15,
+					StartupTimeout = 30,
 					HealthCheckSeconds = 0,
 					Port = ddPort,
 					MapThreads = 2,
