@@ -7,7 +7,6 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Win32.SafeHandles;
 
 using Tgstation.Server.Host.IO;
-using Tgstation.Server.Host.Utils;
 
 namespace Tgstation.Server.Host.System
 {
@@ -27,11 +26,6 @@ namespace Tgstation.Server.Host.System
 		/// The <see cref="IProcessFeatures"/> for the <see cref="Process"/>.
 		/// </summary>
 		readonly IProcessFeatures processFeatures;
-
-		/// <summary>
-		/// The <see cref="IAsyncDelayer"/> for the <see cref="Process"/>.
-		/// </summary>
-		readonly IAsyncDelayer asyncDelayer;
 
 		/// <summary>
 		/// The <see cref="ILogger"/> for the <see cref="Process"/>.
@@ -68,7 +62,6 @@ namespace Tgstation.Server.Host.System
 		/// Initializes a new instance of the <see cref="Process"/> class.
 		/// </summary>
 		/// <param name="processFeatures">The value of <see cref="processFeatures"/>.</param>
-		/// <param name="asyncDelayer">The value of <see cref="asyncDelayer"/>.</param>
 		/// <param name="handle">The value of <see cref="handle"/>.</param>
 		/// <param name="readerCts">The override value of <see cref="cancellationTokenSource"/>.</param>
 		/// <param name="readTask">The value of <see cref="readTask"/>.</param>
@@ -76,7 +69,6 @@ namespace Tgstation.Server.Host.System
 		/// <param name="preExisting">If <paramref name="handle"/> was NOT just created.</param>
 		public Process(
 			IProcessFeatures processFeatures,
-			IAsyncDelayer asyncDelayer,
 			global::System.Diagnostics.Process handle,
 			CancellationTokenSource readerCts,
 			Task<string> readTask,
@@ -92,7 +84,6 @@ namespace Tgstation.Server.Host.System
 			cancellationTokenSource = readerCts ?? new CancellationTokenSource();
 
 			this.processFeatures = processFeatures ?? throw new ArgumentNullException(nameof(processFeatures));
-			this.asyncDelayer = asyncDelayer ?? throw new ArgumentNullException(nameof(asyncDelayer));
 
 			this.readTask = readTask;
 
@@ -144,26 +135,12 @@ namespace Tgstation.Server.Host.System
 		}
 
 		/// <inheritdoc />
-		public async ValueTask<string> GetCombinedOutput(CancellationToken cancellationToken)
+		public Task<string> GetCombinedOutput(CancellationToken cancellationToken)
 		{
-			CheckDisposed();
 			if (readTask == null)
 				throw new InvalidOperationException("Output/Error stream reading was not enabled!");
 
-			// workaround for https://github.com/dotnet/runtime/issues/28583 (?)
-			if (handle.HasExited)
-			{
-				handle.WaitForExit();
-				await Task.WhenAny(readTask, asyncDelayer.Delay(TimeSpan.FromSeconds(30), cancellationToken));
-
-				if (!readTask.IsCompleted)
-				{
-					logger.LogWarning("Detected process output read hang on PID {pid}! Closing handle as a workaround...", Id);
-					cancellationTokenSource.Cancel();
-				}
-			}
-
-			return await readTask.WaitAsync(cancellationToken);
+			return readTask.WaitAsync(cancellationToken);
 		}
 
 		/// <inheritdoc />

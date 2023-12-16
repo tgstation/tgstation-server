@@ -1081,7 +1081,6 @@ namespace Tgstation.Server.Tests.Live
 						new PlatformIdentifier().IsWindows
 							? new WindowsProcessFeatures(loggerFactory.CreateLogger<WindowsProcessFeatures>())
 							: new PosixProcessFeatures(new Lazy<IProcessExecutor>(() => processExecutor), ioManager, loggerFactory.CreateLogger<PosixProcessFeatures>()),
-						new AsyncDelayer(),
 						ioManager,
 						loggerFactory.CreateLogger<ProcessExecutor>(),
 						loggerFactory);

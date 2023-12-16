@@ -739,7 +739,6 @@ namespace Tgstation.Server.Tests.Live.Instance
 				RuntimeInformation.IsOSPlatform(OSPlatform.Windows)
 					? new WindowsProcessFeatures(Mock.Of<ILogger<WindowsProcessFeatures>>())
 					: new PosixProcessFeatures(new Lazy<IProcessExecutor>(() => executor), Mock.Of<IIOManager>(), Mock.Of<ILogger<PosixProcessFeatures>>()),
-				Mock.Of<IAsyncDelayer>(),
 				Mock.Of<IIOManager>(),
 				Mock.Of<ILogger<ProcessExecutor>>(),
 				LoggerFactory.Create(x => { }));

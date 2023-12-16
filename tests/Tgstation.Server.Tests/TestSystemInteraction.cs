@@ -24,7 +24,6 @@ namespace Tgstation.Server.Tests
 			var platformIdentifier = new PlatformIdentifier();
 			var processExecutor = new ProcessExecutor(
 				Mock.Of<IProcessFeatures>(),
-				Mock.Of<IAsyncDelayer>(),
 				new DefaultIOManager(),
 				Mock.Of<ILogger<ProcessExecutor>>(),
 				loggerFactory);
@@ -53,36 +52,39 @@ namespace Tgstation.Server.Tests
 			var platformIdentifier = new PlatformIdentifier();
 			var processExecutor = new ProcessExecutor(
 				Mock.Of<IProcessFeatures>(),
-				Mock.Of<IAsyncDelayer>(),
 				new DefaultIOManager(),
 				loggerFactory.CreateLogger<ProcessExecutor>(),
 				loggerFactory);
 
-			var tempFile = Path.GetTempFileName();
-			File.Delete(tempFile);
-			try
+			// run on a loop to spot the hang
+			for (var i = 0; i < 1000; ++i)
 			{
-				await using (var process = processExecutor.LaunchProcess("test." + platformIdentifier.ScriptFileExtension, ".", string.Empty, tempFile, true, true))
-				{
-					using var cts = new CancellationTokenSource();
-					cts.CancelAfter(3000);
-					var exitCode = await process.Lifetime.WaitAsync(cts.Token);
-
-					await process.GetCombinedOutput(cts.Token);
-
-					Assert.AreEqual(0, exitCode);
-				}
-
-				Assert.IsTrue(File.Exists(tempFile), $"Could not find temp file: {tempFile}");
-				var result = File.ReadAllText(tempFile).Trim();
-
-				// no guarantees about order
-				Assert.IsTrue(result.Contains("Hello World!"), $"Result: {result}");
-				Assert.IsTrue(result.Contains("Hello Error!"), $"Result: {result}");
-			}
-			finally
-			{
+				var tempFile = Path.GetTempFileName();
 				File.Delete(tempFile);
+				try
+				{
+					await using (var process = processExecutor.LaunchProcess("test." + platformIdentifier.ScriptFileExtension, ".", string.Empty, tempFile, true, true))
+					{
+						using var cts = new CancellationTokenSource();
+						cts.CancelAfter(3000);
+						var exitCode = await process.Lifetime.WaitAsync(cts.Token);
+
+						await process.GetCombinedOutput(cts.Token);
+
+						Assert.AreEqual(0, exitCode);
+					}
+
+					Assert.IsTrue(File.Exists(tempFile), $"Could not find temp file: {tempFile}");
+					var result = File.ReadAllText(tempFile).Trim();
+
+					// no guarantees about order
+					Assert.IsTrue(result.Contains("Hello World!"), $"Result: {result}");
+					Assert.IsTrue(result.Contains("Hello Error!"), $"Result: {result}");
+				}
+				finally
+				{
+					File.Delete(tempFile);
+				}
 			}
 		}
 	}

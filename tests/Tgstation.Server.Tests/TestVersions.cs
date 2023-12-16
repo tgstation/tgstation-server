@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using System.IO.Compression;
 using System.Globalization;
@@ -208,7 +208,6 @@ namespace Tgstation.Server.Tests
 						new Lazy<IProcessExecutor>(() => null),
 						Mock.Of<IIOManager>(),
 						loggerFactory.CreateLogger<PosixProcessFeatures>()),
-					Mock.Of<IAsyncDelayer>(),
 					Mock.Of<IIOManager>(),
 					loggerFactory.CreateLogger<ProcessExecutor>(),
 					loggerFactory);

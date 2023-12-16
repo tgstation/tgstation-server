@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 
 using Tgstation.Server.Host.IO;
-using Tgstation.Server.Host.Utils;
 
 namespace Tgstation.Server.Host.System
 {
@@ -23,11 +22,6 @@ namespace Tgstation.Server.Host.System
 		/// The <see cref="IProcessFeatures"/> for the <see cref="ProcessExecutor"/>.
 		/// </summary>
 		readonly IProcessFeatures processFeatures;
-
-		/// <summary>
-		/// The <see cref="IAsyncDelayer"/> for the <see cref="ProcessExecutor"/>.
-		/// </summary>
-		readonly IAsyncDelayer asyncDelayer;
 
 		/// <summary>
 		/// The <see cref="IIOManager"/> for the <see cref="ProcessExecutor"/>.
@@ -65,19 +59,16 @@ namespace Tgstation.Server.Host.System
 		/// Initializes a new instance of the <see cref="ProcessExecutor"/> class.
 		/// </summary>
 		/// <param name="processFeatures">The value of <see cref="processFeatures"/>.</param>
-		/// <param name="asyncDelayer">The value of <see cref="asyncDelayer"/>.</param>
 		/// <param name="ioManager">The value of <see cref="ioManager"/>.</param>
 		/// <param name="logger">The value of <see cref="logger"/>.</param>
 		/// <param name="loggerFactory">The value of <see cref="loggerFactory"/>.</param>
 		public ProcessExecutor(
 			IProcessFeatures processFeatures,
-			IAsyncDelayer asyncDelayer,
 			IIOManager ioManager,
 			ILogger<ProcessExecutor> logger,
 			ILoggerFactory loggerFactory)
 		{
 			this.processFeatures = processFeatures ?? throw new ArgumentNullException(nameof(processFeatures));
-			this.asyncDelayer = asyncDelayer ?? throw new ArgumentNullException(nameof(asyncDelayer));
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 			this.loggerFactory = loggerFactory ?? throw new ArgumentNullException(nameof(loggerFactory));
@@ -122,9 +113,6 @@ namespace Tgstation.Server.Host.System
 			ArgumentNullException.ThrowIfNull(workingDirectory);
 			ArgumentNullException.ThrowIfNull(arguments);
 
-			if (!noShellExecute && readStandardHandles)
-				throw new InvalidOperationException("Requesting output/error reading requires noShellExecute to be true!");
-
 			if (noShellExecute)
 				logger.LogDebug(
 				"Launching process in {workingDirectory}: {exe} {arguments}",
@@ -151,10 +139,10 @@ namespace Tgstation.Server.Host.System
 				CancellationTokenSource disposeCts = null;
 				try
 				{
-					TaskCompletionSource processStartTcs = null;
+					TaskCompletionSource<int> processStartTcs = null;
 					if (readStandardHandles)
 					{
-						processStartTcs = new TaskCompletionSource();
+						processStartTcs = new TaskCompletionSource<int>();
 						handle.StartInfo.RedirectStandardOutput = true;
 						handle.StartInfo.RedirectStandardError = true;
 
@@ -162,6 +150,7 @@ namespace Tgstation.Server.Host.System
 						readTask = ConsumeReaders(handle, processStartTcs.Task, fileRedirect, disposeCts.Token);
 					}
 
+					int pid;
 					try
 					{
 						ExclusiveProcessLaunchLock.EnterReadLock();
@@ -174,7 +163,8 @@ namespace Tgstation.Server.Host.System
 							ExclusiveProcessLaunchLock.ExitReadLock();
 						}
 
-						processStartTcs?.SetResult();
+						pid = handle.Id;
+						processStartTcs?.SetResult(pid);
 					}
 					catch (Exception ex)
 					{
@@ -184,7 +174,6 @@ namespace Tgstation.Server.Host.System
 
 					var process = new Process(
 						processFeatures,
-						asyncDelayer,
 						handle,
 						disposeCts,
 						readTask,
@@ -231,43 +220,53 @@ namespace Tgstation.Server.Host.System
 		/// Consume the stdout/stderr streams into a <see cref="Task"/>.
 		/// </summary>
 		/// <param name="handle">The <see cref="global::System.Diagnostics.Process"/>.</param>
-		/// <param name="startTask">The <see cref="Task"/> that completes when <paramref name="handle"/> starts.</param>
+		/// <param name="startupAndPid">The <see cref="Task{TResult}"/> resulting in the <see cref="global::System.Diagnostics.Process.Id"/> of the started process.</param>
 		/// <param name="fileRedirect">The optional path to redirect the streams to.</param>
 		/// <param name="disposeToken">The <see cref="CancellationToken"/> that triggers when the <see cref="Process"/> is disposed.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the program's output/error text if <paramref name="fileRedirect"/> is <see langword="null"/>, <see langword="null"/> otherwise.</returns>
-		async Task<string> ConsumeReaders(global::System.Diagnostics.Process handle, Task startTask, string fileRedirect, CancellationToken disposeToken)
+		async Task<string> ConsumeReaders(global::System.Diagnostics.Process handle, Task<int> startupAndPid, string fileRedirect, CancellationToken disposeToken)
 		{
-			await startTask;
-
-			var pid = handle.Id;
+			var pid = await startupAndPid;
 			logger.LogTrace("Starting read for PID {pid}...", pid);
 
-			// once we obtain these handles we're responsible for them
-			using var stdOutHandle = handle.StandardOutput;
-			using var stdErrHandle = handle.StandardError;
-			Task<string> outputReadTask = null, errorReadTask = null;
+			var stdOutHandle = handle.StandardOutput;
+			var stdErrHandle = handle.StandardError;
 			bool outputOpen = true, errorOpen = true;
-			async Task<string> GetNextLine()
+			var outputReadTask = stdOutHandle.ReadLineAsync(disposeToken).AsTask();
+			var errorReadTask = stdErrHandle.ReadLineAsync(disposeToken).AsTask();
+
+			async ValueTask<string> GetNextLine()
 			{
-				if (outputOpen && outputReadTask == null)
-					outputReadTask = stdOutHandle.ReadLineAsync(disposeToken).AsTask();
+				var nextLineTask = outputOpen
+					? errorOpen
+						? await Task.WhenAny(outputReadTask, errorReadTask)
+						: outputReadTask
+					: errorReadTask;
 
-				if (errorOpen && errorReadTask == null)
-					errorReadTask = stdErrHandle.ReadLineAsync(disposeToken).AsTask();
+				var line = await nextLineTask;
 
-				var completedTask = await Task.WhenAny(outputReadTask ?? errorReadTask, errorReadTask ?? outputReadTask);
-				var line = await completedTask.WaitAsync(disposeToken);
-				if (completedTask == outputReadTask)
+				// Important to retrigger the reading block asap after pushing
+				if (nextLineTask == outputReadTask)
 				{
-					outputReadTask = null;
 					if (line == null)
+					{
 						outputOpen = false;
+						outputReadTask = null;
+					}
+					else
+						outputReadTask = stdOutHandle.ReadLineAsync(disposeToken).AsTask();
 				}
 				else
 				{
-					errorReadTask = null;
+					global::System.Diagnostics.Debug.Assert(nextLineTask == errorReadTask, "How is this incorrect?");
+
 					if (line == null)
+					{
 						errorOpen = false;
+						errorReadTask = null;
+					}
+					else
+						errorReadTask = stdErrHandle.ReadLineAsync(disposeToken).AsTask();
 				}
 
 				if (line == null && (errorOpen || outputOpen))
@@ -279,20 +278,32 @@ namespace Tgstation.Server.Host.System
 			await using var fileStream = fileRedirect != null ? ioManager.CreateAsyncSequentialWriteStream(fileRedirect) : null;
 			await using var writer = fileStream != null ? new StreamWriter(fileStream) : null;
 
-			string text;
 			var stringBuilder = fileStream == null ? new StringBuilder() : null;
+			ulong fileFlushToken = 0;
+			async ValueTask QueueWrite(ValueTask previous, string text)
+			{
+				if (fileStream != null)
+				{
+					var startFlushToken = Interlocked.Increment(ref fileFlushToken);
+					await previous;
+					await writer.WriteLineAsync(text.AsMemory(), disposeToken);
+
+					// only flush if there isn't anything rapidly coming in
+					if (fileFlushToken == startFlushToken)
+						await writer.FlushAsync(disposeToken);
+				}
+				else
+					stringBuilder.AppendLine(text);
+			}
+
+			ValueTask writeQueue = ValueTask.CompletedTask;
 			try
 			{
+				string text;
 				while ((text = await GetNextLine()) != null)
-				{
-					if (fileStream != null)
-					{
-						await writer.WriteLineAsync(text.AsMemory(), disposeToken);
-						await writer.FlushAsync(disposeToken);
-					}
-					else
-						stringBuilder.AppendLine(text);
-				}
+					writeQueue = QueueWrite(writeQueue, text);
+
+				await writeQueue;
 
 				logger.LogTrace("Finished read for PID {pid}", pid);
 			}
@@ -318,7 +329,6 @@ namespace Tgstation.Server.Host.System
 				var pid = handle.Id;
 				return new Process(
 					processFeatures,
-					asyncDelayer,
 					handle,
 					null,
 					null,
