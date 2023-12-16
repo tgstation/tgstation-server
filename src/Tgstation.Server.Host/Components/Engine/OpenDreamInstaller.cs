@@ -276,7 +276,9 @@ namespace Tgstation.Server.Host.Components.Engine
 							cancellationToken)));
 			}
 
-			await ValueTaskExtensions.WhenAll(MoveDirs(), MoveFiles());
+			var dirsMoveTask = MoveDirs();
+			var outputFilesMoveTask = MoveFiles();
+			await ValueTaskExtensions.WhenAll(dirsMoveTask, outputFilesMoveTask);
 			await IOManager.DeleteDirectory(sourcePath, cancellationToken);
 		}
 

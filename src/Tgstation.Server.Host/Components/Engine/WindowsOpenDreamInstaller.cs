@@ -56,15 +56,18 @@ namespace Tgstation.Server.Host.Components.Engine
 
 		/// <inheritdoc />
 		public override ValueTask Install(EngineVersion version, string installPath, CancellationToken cancellationToken)
-			=> ValueTaskExtensions.WhenAll(
-				base.Install(
-					version,
-					installPath,
-					cancellationToken),
-				AddServerFirewallException(
-					version,
-					installPath,
-					cancellationToken));
+		{
+			var installTask = base.Install(
+				version,
+				installPath,
+				cancellationToken);
+			var firewallTask = AddServerFirewallException(
+				version,
+				installPath,
+				cancellationToken);
+
+			return ValueTaskExtensions.WhenAll(installTask, firewallTask);
+		}
 
 		/// <inheritdoc />
 		protected override async ValueTask HandleExtremelyLongPathOperation(Func<string, ValueTask> shortenedPathOperation, string originalPath, CancellationToken cancellationToken)
