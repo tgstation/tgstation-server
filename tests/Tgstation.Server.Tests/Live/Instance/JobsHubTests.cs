@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
@@ -66,7 +66,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			}
 			catch(Exception ex)
 			{
-				finishTcs.SetException(ex);
+				finishTcs.TrySetException(ex);
 			}
 
 			return Task.CompletedTask;
