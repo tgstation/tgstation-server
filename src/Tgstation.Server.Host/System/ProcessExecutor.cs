@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.IO;
 using System.Text;
 using System.Threading;
@@ -8,6 +7,7 @@ using System.Threading.Tasks;
 
 using Microsoft.Extensions.Logging;
 
+using Tgstation.Server.Common.Extensions;
 using Tgstation.Server.Host.IO;
 
 namespace Tgstation.Server.Host.System
@@ -233,50 +233,9 @@ namespace Tgstation.Server.Host.System
 
 			var stdOutHandle = handle.StandardOutput;
 			var stdErrHandle = handle.StandardError;
-			bool outputOpen = true, errorOpen = true;
 
-			Task<string> ReadHandle(StreamReader handle) => handle.ReadLineAsync(cancellationToken).AsTask();
-
-			var outputReadTask = ReadHandle(stdOutHandle);
-			var errorReadTask = ReadHandle(stdErrHandle);
-
-			async ValueTask<string> GetNextLine()
-			{
-				Debug.Assert(outputOpen || errorOpen, "We shouldn't be here if neither stream is open");
-				Debug.Assert(outputOpen || outputReadTask.IsCompleted, "Output open flag mismatch");
-				Debug.Assert(errorOpen || errorReadTask.IsCompleted, "Error open flag mismatch");
-
-				var nextLineTask = outputOpen
-					? errorOpen
-						? await Task.WhenAny(outputReadTask, errorReadTask)
-						: outputReadTask
-					: errorReadTask;
-
-				var line = await nextLineTask;
-
-				// Important to retrigger the reading block asap after pushing
-				if (nextLineTask == outputReadTask)
-					if (line == null)
-						outputOpen = false;
-					else
-						outputReadTask = ReadHandle(stdOutHandle);
-				else
-				{
-					Debug.Assert(nextLineTask == errorReadTask, "How is this incorrect?");
-
-					if (line == null)
-						errorOpen = false;
-					else
-						errorReadTask = ReadHandle(stdErrHandle);
-				}
-
-				if (line == null && (errorOpen || outputOpen))
-					return await GetNextLine();
-
-				return line;
-			}
-
-			await using var fileStream = fileRedirect != null ? ioManager.CreateAsyncSequentialWriteStream(fileRedirect) : null;
+			bool writingToFile;
+			await using var fileStream = (writingToFile = fileRedirect != null) ? ioManager.CreateAsyncSequentialWriteStream(fileRedirect) : null;
 			await using var writer = fileStream != null ? new StreamWriter(fileStream) : null;
 
 			var stringBuilder = fileStream == null ? new StringBuilder() : null;
@@ -284,15 +243,34 @@ namespace Tgstation.Server.Host.System
 			var dataChannel = Channel.CreateUnbounded<string>(
 				new UnboundedChannelOptions
 				{
-					AllowSynchronousContinuations = false,
+					AllowSynchronousContinuations = !writingToFile,
 					SingleReader = true,
-					SingleWriter = true,
+					SingleWriter = false,
 				});
+
+			var handlesOpen = 2;
+			async ValueTask DrainHandle(StreamReader reader)
+			{
+				while (true)
+				{
+					var line = await reader.ReadLineAsync(cancellationToken);
+					if (line == null)
+					{
+						var handlesRemaining = Interlocked.Decrement(ref handlesOpen);
+						if (handlesRemaining == 0)
+							dataChannel.Writer.Complete();
+
+						break;
+					}
+
+					await dataChannel.Writer.WriteAsync(line, cancellationToken);
+				}
+			}
 
 			async ValueTask OutputWriter()
 			{
 				var enumerable = dataChannel.Reader.ReadAllAsync(cancellationToken);
-				if (fileStream != null)
+				if (writingToFile)
 				{
 					var enumerator = enumerable.GetAsyncEnumerator(cancellationToken);
 					var nextEnumeration = enumerator.MoveNextAsync();
@@ -316,11 +294,10 @@ namespace Tgstation.Server.Host.System
 				var outputWriterTask = OutputWriter();
 				try
 				{
-					string text;
-					while ((text = await GetNextLine()) != null)
-						await dataChannel.Writer.WriteAsync(text, cancellationToken);
+					var outputReadTask = DrainHandle(stdOutHandle);
+					var errorReadTask = DrainHandle(stdErrHandle);
 
-					dataChannel.Writer.Complete();
+					await ValueTaskExtensions.WhenAll(outputReadTask, errorReadTask);
 				}
 				finally
 				{
