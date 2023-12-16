@@ -238,6 +238,10 @@ namespace Tgstation.Server.Host.System
 
 			async ValueTask<string> GetNextLine()
 			{
+				Debug.Assert(outputOpen || errorOpen, "We shouldn't be here if neither stream is open");
+				Debug.Assert(outputOpen || outputReadTask.IsCompleted, "Output open flag mismatch");
+				Debug.Assert(errorOpen || errorReadTask.IsCompleted, "Error open flag mismatch");
+
 				var nextLineTask = outputOpen
 					? errorOpen
 						? await Task.WhenAny(outputReadTask, errorReadTask)
