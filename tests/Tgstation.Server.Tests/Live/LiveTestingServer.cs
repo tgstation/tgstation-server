@@ -153,6 +153,7 @@ namespace Tgstation.Server.Tests.Live
 				$"Session:LowPriorityDeploymentProcesses={LowPriorityDeployments}",
 				$"General:SkipAddingByondFirewallException={!TestingUtils.RunningInGitHubActions}",
 				$"General:OpenDreamGitUrl={OpenDreamUrl}",
+				$"Security:TokenExpiryMinutes=120", // timeouts are useless for us
 			};
 
 			swarmArgs = new List<string>();
