@@ -115,6 +115,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			catch
 			{
 				await permedConn.DisposeAsync();
+				throw;
 			}
 
 			return FinishAsync(cancellationToken);
