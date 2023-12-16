@@ -170,9 +170,11 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 			var allJobs = (await ValueTaskExtensions.WhenAll(allJobsTask, allInstances.Count)).SelectMany(x => x).ToList();
 
-			var uniqueAllJobs = allJobs.GroupBy(x => x.Id.Value).Select(x => x.First()).ToList();
+			var groups = allJobs.GroupBy(x => x.Id.Value).ToList();
+			var uniqueAllJobs = groups.Select(x => x.First()).ToList();
 
-			Assert.AreEqual(allJobs.Count, uniqueAllJobs.Count);
+			static string JobListFormatter(IEnumerable<JobResponse> jobs) => String.Join(Environment.NewLine, jobs.Select(x => $"- I:{x.InstanceId}|JID:{x.Id}|JC:{x.JobCode}|Desc:{x.Description}"));
+			Assert.AreEqual(allJobs.Count, uniqueAllJobs.Count, $"Duplicated Jobs:{Environment.NewLine}{JobListFormatter(groups.Where(x => x.Count() > 1).Select(x => x.First()))}");
 
 			var missableMissedJobs = 0;
 			foreach (var job in allJobs)
@@ -213,8 +215,6 @@ namespace Tgstation.Server.Tests.Live.Instance
 					++missableMissedJobs;
 				}
 			}
-
-			static string JobListFormatter(IEnumerable<JobResponse> jobs) => String.Join(Environment.NewLine, jobs.Select(x => $"- I:{x.InstanceId}|JID:{x.Id}|JC:{x.JobCode}|Desc:{x.Description}"));
 
 			var jobsSeenByHubButNotInAllJobs = seenJobs.Values.Where(x => !allJobs.Any(y => y.Id.Value == x.Id.Value)).ToList();
 
