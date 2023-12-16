@@ -221,7 +221,6 @@ namespace Tgstation.Server.Tests.Live.Instance
 			await chatRequest;
 			await Task.Yield();
 
-
 			await Task.WhenAll(
 				jrt.WaitForJob(installJob2.InstallJob, EngineTest.EngineInstallationTimeout(compatVersion) + 30, false, null, cancellationToken),
 				jrt.WaitForJob(cloneRequest.Result.ActiveJob, 60, false, null, cancellationToken),
