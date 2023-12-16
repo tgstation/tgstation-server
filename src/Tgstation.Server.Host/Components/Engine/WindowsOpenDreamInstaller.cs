@@ -102,7 +102,7 @@ namespace Tgstation.Server.Host.Components.Engine
 				// I really wish we could add the instance name here but
 				// 1. It'd make IByondInstaller need to be transient per-instance and WindowsByondInstaller relys on being a singleton for its DX installer call
 				// 2. The instance could be renamed, so it'd have to be an unfriendly ID anyway.
-				var ruleName = $"TGS DreamDaemon {version}";
+				var ruleName = $"TGS OpenDream {version}";
 
 				exitCode = await WindowsFirewallHelper.AddFirewallException(
 					ProcessExecutor,
