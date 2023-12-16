@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
+using Tgstation.Server.Api.Extensions;
 using Tgstation.Server.Api.Hubs;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Request;
@@ -209,9 +210,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 				}
 				else
 				{
-					var wasMissableJob = job.JobCode == JobCode.ReconnectChatBot
-						|| job.JobCode == JobCode.StartupWatchdogLaunch
-						|| job.JobCode == JobCode.StartupWatchdogReattach;
+					var wasMissableJob = job.JobCode.Value.IsServerStartupJob();
 					Assert.IsTrue(wasMissableJob, $"Found unexpected missed job: #{job.Id.Value} - {job.JobCode} - {job.Description}");
 					++missableMissedJobs;
 				}

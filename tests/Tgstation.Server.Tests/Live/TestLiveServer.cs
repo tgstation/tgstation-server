@@ -28,6 +28,7 @@ using Newtonsoft.Json;
 using Npgsql;
 
 using Tgstation.Server.Api;
+using Tgstation.Server.Api.Extensions;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Request;
 using Tgstation.Server.Api.Models.Response;
@@ -1653,16 +1654,11 @@ namespace Tgstation.Server.Tests.Live
 				{
 					var jobs = await instanceClient.Jobs.ListActive(null, cancellationToken);
 					if (jobs.Count == 0)
-					{
-						var entities = await instanceClient.Jobs.List(null, cancellationToken);
-						var getTasks = entities
-							.Select(e => instanceClient.Jobs.GetId(e, cancellationToken))
-							.ToList();
-
-						jobs = (await ValueTaskExtensions.WhenAll(getTasks))
+						jobs = (await instanceClient.Jobs.List(null, cancellationToken))
 							.Where(x => x.StartedAt.Value > preStartupTime)
-						.ToList();
-					}
+							.ToList();
+					else
+						jobs = jobs.Where(x => x.JobCode.Value.IsServerStartupJob()).ToList();
 
 					await using var jrt = new JobsRequiredTest(instanceClient.Jobs);
 					foreach (var job in jobs)
@@ -1679,9 +1675,9 @@ namespace Tgstation.Server.Tests.Live
 				var edgeVersion = await EngineTest.GetEdgeVersion(EngineType.Byond, fileDownloader, cancellationToken);
 				await using (var adminClient = await CreateAdminClient(server.ApiUrl, cancellationToken))
 				{
+					await jobsHubTest.WaitForReconnect(cancellationToken);
 					var instanceClient = adminClient.Instances.CreateClient(instance);
 					await WaitForInitialJobs(instanceClient);
-					await jobsHubTest.WaitForReconnect(cancellationToken);
 
 					var dd = await instanceClient.DreamDaemon.Read(cancellationToken);
 
@@ -1722,9 +1718,9 @@ namespace Tgstation.Server.Tests.Live
 				serverTask = server.Run(cancellationToken).AsTask();
 				await using (var adminClient = await CreateAdminClient(server.ApiUrl, cancellationToken))
 				{
+					await jobsHubTest.WaitForReconnect(cancellationToken);
 					var instanceClient = adminClient.Instances.CreateClient(instance);
 					await WaitForInitialJobs(instanceClient);
-					await jobsHubTest.WaitForReconnect(cancellationToken);
 
 					var currentDD = await instanceClient.DreamDaemon.Read(cancellationToken);
 					Assert.AreEqual(expectedCompileJobId, currentDD.ActiveCompileJob.Id.Value);
