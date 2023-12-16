@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Text;
 using System.Threading;
+using System.Threading.Channels;
 using System.Threading.Tasks;
 
 using Microsoft.Extensions.Logging;
@@ -223,9 +224,9 @@ namespace Tgstation.Server.Host.System
 		/// <param name="handle">The <see cref="global::System.Diagnostics.Process"/>.</param>
 		/// <param name="startupAndPid">The <see cref="Task{TResult}"/> resulting in the <see cref="global::System.Diagnostics.Process.Id"/> of the started process.</param>
 		/// <param name="fileRedirect">The optional path to redirect the streams to.</param>
-		/// <param name="disposeToken">The <see cref="CancellationToken"/> that triggers when the <see cref="Process"/> is disposed.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the program's output/error text if <paramref name="fileRedirect"/> is <see langword="null"/>, <see langword="null"/> otherwise.</returns>
-		async Task<string> ConsumeReaders(global::System.Diagnostics.Process handle, Task<int> startupAndPid, string fileRedirect, CancellationToken disposeToken)
+		async Task<string> ConsumeReaders(global::System.Diagnostics.Process handle, Task<int> startupAndPid, string fileRedirect, CancellationToken cancellationToken)
 		{
 			var pid = await startupAndPid;
 			logger.LogTrace("Starting read for PID {pid}...", pid);
@@ -233,8 +234,11 @@ namespace Tgstation.Server.Host.System
 			var stdOutHandle = handle.StandardOutput;
 			var stdErrHandle = handle.StandardError;
 			bool outputOpen = true, errorOpen = true;
-			var outputReadTask = stdOutHandle.ReadLineAsync(disposeToken).AsTask();
-			var errorReadTask = stdErrHandle.ReadLineAsync(disposeToken).AsTask();
+
+			Task<string> ReadHandle(StreamReader handle) => handle.ReadLineAsync(cancellationToken).AsTask();
+
+			var outputReadTask = ReadHandle(stdOutHandle);
+			var errorReadTask = ReadHandle(stdErrHandle);
 
 			async ValueTask<string> GetNextLine()
 			{
@@ -255,7 +259,7 @@ namespace Tgstation.Server.Host.System
 					if (line == null)
 						outputOpen = false;
 					else
-						outputReadTask = stdOutHandle.ReadLineAsync(disposeToken).AsTask();
+						outputReadTask = ReadHandle(stdOutHandle);
 				else
 				{
 					Debug.Assert(nextLineTask == errorReadTask, "How is this incorrect?");
@@ -263,7 +267,7 @@ namespace Tgstation.Server.Host.System
 					if (line == null)
 						errorOpen = false;
 					else
-						errorReadTask = stdErrHandle.ReadLineAsync(disposeToken).AsTask();
+						errorReadTask = ReadHandle(stdErrHandle);
 				}
 
 				if (line == null && (errorOpen || outputOpen))
@@ -276,31 +280,52 @@ namespace Tgstation.Server.Host.System
 			await using var writer = fileStream != null ? new StreamWriter(fileStream) : null;
 
 			var stringBuilder = fileStream == null ? new StringBuilder() : null;
-			ulong fileFlushToken = 0;
-			async ValueTask QueueWrite(ValueTask previous, string text)
+
+			var dataChannel = Channel.CreateUnbounded<string>(
+				new UnboundedChannelOptions
+				{
+					AllowSynchronousContinuations = false,
+					SingleReader = true,
+					SingleWriter = true,
+				});
+
+			async ValueTask OutputWriter()
 			{
+				var enumerable = dataChannel.Reader.ReadAllAsync(cancellationToken);
 				if (fileStream != null)
 				{
-					var startFlushToken = Interlocked.Increment(ref fileFlushToken);
-					await previous;
-					await writer.WriteLineAsync(text.AsMemory(), disposeToken);
+					var enumerator = enumerable.GetAsyncEnumerator(cancellationToken);
+					var nextEnumeration = enumerator.MoveNextAsync();
+					while (await nextEnumeration)
+					{
+						var text = enumerator.Current;
+						nextEnumeration = enumerator.MoveNextAsync();
+						await writer.WriteLineAsync(text.AsMemory(), cancellationToken);
 
-					// only flush if there isn't anything rapidly coming in
-					if (fileFlushToken == startFlushToken)
-						await writer.FlushAsync(disposeToken);
+						if (!nextEnumeration.IsCompleted)
+							await writer.FlushAsync(cancellationToken);
+					}
 				}
 				else
-					stringBuilder.AppendLine(text);
+					await foreach (var text in enumerable)
+						stringBuilder.AppendLine(text);
 			}
 
-			ValueTask writeQueue = ValueTask.CompletedTask;
 			try
 			{
-				string text;
-				while ((text = await GetNextLine()) != null)
-					writeQueue = QueueWrite(writeQueue, text);
+				var outputWriterTask = OutputWriter();
+				try
+				{
+					string text;
+					while ((text = await GetNextLine()) != null)
+						await dataChannel.Writer.WriteAsync(text, cancellationToken);
 
-				await writeQueue;
+					dataChannel.Writer.Complete();
+				}
+				finally
+				{
+					await outputWriterTask;
+				}
 
 				logger.LogTrace("Finished read for PID {pid}", pid);
 			}
