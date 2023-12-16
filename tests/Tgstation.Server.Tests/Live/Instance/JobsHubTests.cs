@@ -169,6 +169,11 @@ namespace Tgstation.Server.Tests.Live.Instance
 				.Select(CheckInstance);
 
 			var allJobs = (await ValueTaskExtensions.WhenAll(allJobsTask, allInstances.Count)).SelectMany(x => x).ToList();
+
+			var uniqueAllJobs = allJobs.GroupBy(x => x.Id.Value).Select(x => x.First()).ToList();
+
+			Assert.AreEqual(allJobs.Count, uniqueAllJobs.Count);
+
 			var missableMissedJobs = 0;
 			foreach (var job in allJobs)
 			{
@@ -204,7 +209,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 					var wasMissableJob = job.JobCode == JobCode.ReconnectChatBot
 						|| job.JobCode == JobCode.StartupWatchdogLaunch
 						|| job.JobCode == JobCode.StartupWatchdogReattach;
-					Assert.IsTrue(wasMissableJob, $"Found unexpected missed job: {job.Description}");
+					Assert.IsTrue(wasMissableJob, $"Found unexpected missed job: #{job.Id.Value} - {job.JobCode} - {job.Description}");
 					++missableMissedJobs;
 				}
 			}
