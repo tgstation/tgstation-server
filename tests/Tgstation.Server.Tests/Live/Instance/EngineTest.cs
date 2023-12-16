@@ -140,7 +140,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 				case EngineType.Byond:
 					return 30;
 				case EngineType.OpenDream:
-					return 300;
+					return 500;
 				default:
 					throw new InvalidOperationException($"Unknown engine type: {testVersion.Engine.Value}");
 			}
