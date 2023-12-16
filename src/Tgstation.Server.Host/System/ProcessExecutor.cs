@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Text;
 using System.Threading;
@@ -247,24 +248,16 @@ namespace Tgstation.Server.Host.System
 
 				// Important to retrigger the reading block asap after pushing
 				if (nextLineTask == outputReadTask)
-				{
 					if (line == null)
-					{
 						outputOpen = false;
-						outputReadTask = null;
-					}
 					else
 						outputReadTask = stdOutHandle.ReadLineAsync(disposeToken).AsTask();
-				}
 				else
 				{
-					global::System.Diagnostics.Debug.Assert(nextLineTask == errorReadTask, "How is this incorrect?");
+					Debug.Assert(nextLineTask == errorReadTask, "How is this incorrect?");
 
 					if (line == null)
-					{
 						errorOpen = false;
-						errorReadTask = null;
-					}
 					else
 						errorReadTask = stdErrHandle.ReadLineAsync(disposeToken).AsTask();
 				}
