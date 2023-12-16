@@ -142,7 +142,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 				StartupTimeout = 30,
 				Port = ddPort
 			}, cancellationToken);
-			Assert.AreEqual(15U, updatedDD.StartupTimeout);
+			Assert.AreEqual(30U, updatedDD.StartupTimeout);
 			Assert.AreEqual(ddPort, updatedDD.Port);
 
 			async Task<JobResponse> CompileAfterByondInstall()
