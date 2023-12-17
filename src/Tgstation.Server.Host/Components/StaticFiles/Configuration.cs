@@ -71,7 +71,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 		/// <summary>
 		/// Map of <see cref="EventType"/>s to the filename of the event scripts they trigger.
 		/// </summary>
-		static readonly IReadOnlyDictionary<EventType, IReadOnlyList<string>> EventTypeScriptFileNameMap = new Dictionary<EventType, IReadOnlyList<string>>(
+		public static IReadOnlyDictionary<EventType, IReadOnlyList<string>> EventTypeScriptFileNameMap { get; } = new Dictionary<EventType, IReadOnlyList<string>>(
 			Enum.GetValues(typeof(EventType))
 				.Cast<EventType>()
 				.Select(
