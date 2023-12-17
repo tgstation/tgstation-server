@@ -109,6 +109,11 @@ namespace Tgstation.Server.Host.Components.Session
 		public ReattachInformation ReattachInformation { get; }
 
 		/// <summary>
+		/// The <see cref="FifoSemaphore"/> used to prevent concurrent calls into /world/Topic().
+		/// </summary>
+		public FifoSemaphore TopicSendSemaphore { get; }
+
+		/// <summary>
 		/// The <see cref="Byond.TopicSender.ITopicClient"/> for the <see cref="SessionController"/>.
 		/// </summary>
 		readonly Byond.TopicSender.ITopicClient byondTopicSender;
@@ -147,11 +152,6 @@ namespace Tgstation.Server.Host.Components.Session
 		/// The <see cref="TaskCompletionSource"/> that completes when DD makes it's first bridge request.
 		/// </summary>
 		readonly TaskCompletionSource initialBridgeRequestTcs;
-
-		/// <summary>
-		/// The <see cref="FifoSemaphore"/> used to prevent concurrent calls into /world/Topic().
-		/// </summary>
-		readonly FifoSemaphore topicSendSemaphore;
 
 		/// <summary>
 		/// The <see cref="Instance"/> metadata.
@@ -285,7 +285,7 @@ namespace Tgstation.Server.Host.Components.Session
 			initialBridgeRequestTcs = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
 			reattachTopicCts = new CancellationTokenSource();
 
-			topicSendSemaphore = new FifoSemaphore();
+			TopicSendSemaphore = new FifoSemaphore();
 			synchronizationLock = new object();
 
 			if (apiValidationSession || DMApiAvailable)
@@ -338,7 +338,7 @@ namespace Tgstation.Server.Host.Components.Session
 			Logger.LogTrace("Disposing...");
 
 			reattachTopicCts.Cancel();
-			var semaphoreLockTask = topicSendSemaphore.Lock(CancellationToken.None); // DCT: None available
+			var semaphoreLockTask = TopicSendSemaphore.Lock(CancellationToken.None); // DCT: None available
 
 			if (!released)
 			{
@@ -363,7 +363,7 @@ namespace Tgstation.Server.Host.Components.Session
 				await Lifetime; // finish the async callback
 
 			(await semaphoreLockTask).Dispose();
-			topicSendSemaphore.Dispose();
+			TopicSendSemaphore.Dispose();
 		}
 
 		/// <inheritdoc />
@@ -885,7 +885,7 @@ namespace Tgstation.Server.Host.Components.Session
 
 			var targetPort = ReattachInformation.Port;
 			Byond.TopicSender.TopicResponse byondResponse;
-			using (await topicSendSemaphore.Lock(cancellationToken))
+			using (await TopicSendSemaphore.Lock(cancellationToken))
 				byondResponse = await byondTopicSender.SendWithOptionalPriority(
 					asyncDelayer,
 					Logger,

@@ -237,20 +237,33 @@ namespace Tgstation.Server.Tests.Live.Instance
 				await RunTest(false);
 		}
 
-		async ValueTask<TopicResponse> SendTestTopic(string queryString, CancellationToken cancellationToken)
+		ValueTask<TopicResponse> SendTestTopic(string queryString, CancellationToken cancellationToken)
+			=> SendTestTopic(queryString, topicClient, instanceManager.GetInstanceReference(instanceClient.Metadata), FindTopicPort(), cancellationToken);
+
+		public static async ValueTask<TopicResponse> SendTestTopic(string queryString, ITopicClient topicClient, IInstanceReference instanceReference, ushort topicPort, CancellationToken cancellationToken)
 		{
-			using var loggerFactory = LoggerFactory.Create(builder =>
+			using (instanceReference)
 			{
-				builder.AddConsole();
-				builder.SetMinimumLevel(LogLevel.Trace);
-			});
-			return await topicClient.SendWithOptionalPriority(
-				new AsyncDelayer(),
-				loggerFactory.CreateLogger<WatchdogTest>(),
-				queryString,
-				FindTopicPort(),
-				true,
-				cancellationToken);
+				using var loggerFactory = LoggerFactory.Create(builder =>
+				{
+					builder.AddConsole();
+					builder.SetMinimumLevel(LogLevel.Trace);
+				});
+
+				var watchdog = instanceReference?.Watchdog;
+				var session = (SessionController)watchdog?.GetType().GetMethod("GetActiveController", BindingFlags.Instance | BindingFlags.NonPublic)?.Invoke(watchdog, null);
+
+				using (session != null
+					? await session.TopicSendSemaphore.Lock(cancellationToken)
+					: null)
+					return await topicClient.SendWithOptionalPriority(
+						new AsyncDelayer(),
+						loggerFactory.CreateLogger<WatchdogTest>(),
+						queryString,
+						topicPort,
+						true,
+						cancellationToken);
+			}
 		}
 
 		async ValueTask BroadcastTest(CancellationToken cancellationToken)
@@ -1335,8 +1348,8 @@ namespace Tgstation.Server.Tests.Live.Instance
 		}
 
 		public Task<DreamDaemonResponse> TellWorldToReboot(bool waitForOnlineIfRestoring, CancellationToken cancellationToken, [CallerLineNumber]int source = 0)
-			=> TellWorldToReboot2(instanceClient, topicClient, FindTopicPort(), waitForOnlineIfRestoring || testVersion.Engine.Value == EngineType.OpenDream, cancellationToken, source);
-		public static async Task<DreamDaemonResponse> TellWorldToReboot2(IInstanceClient instanceClient, ITopicClient topicClient, ushort topicPort, bool waitForOnlineIfRestoring, CancellationToken cancellationToken, [CallerLineNumber]int source = 0, [CallerFilePath]string path = null)
+			=> TellWorldToReboot2(instanceClient, instanceManager, topicClient, FindTopicPort(), waitForOnlineIfRestoring || testVersion.Engine.Value == EngineType.OpenDream, cancellationToken, source);
+		public static async Task<DreamDaemonResponse> TellWorldToReboot2(IInstanceClient instanceClient, IInstanceManager instanceManager, ITopicClient topicClient, ushort topicPort, bool waitForOnlineIfRestoring, CancellationToken cancellationToken, [CallerLineNumber]int source = 0, [CallerFilePath]string path = null)
 		{
 			var daemonStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
 			Assert.IsNotNull(daemonStatus.StagedCompileJob);
@@ -1344,13 +1357,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 			System.Console.WriteLine($"TEST: Sending world reboot topic @ {path}#L{source}");
 
-			var result = await topicClient.SendWithOptionalPriority(
-				new AsyncDelayer(),
-				Mock.Of<ILogger>(),
-				$"tgs_integration_test_special_tactics=1",
-				topicPort,
-				true,
-				cancellationToken);
+			var result = await SendTestTopic("tgs_integration_test_special_tactics=1", topicClient, instanceManager.GetInstanceReference(instanceClient.Metadata), topicPort, cancellationToken);
 			Assert.AreEqual("ack", result.StringData);
 
 			using var tempCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);

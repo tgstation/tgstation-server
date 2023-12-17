@@ -1532,12 +1532,11 @@ namespace Tgstation.Server.Tests.Live
 
 				// test the reattach message queueing
 				// for the code coverage really...
-				var topicRequestResult = await WatchdogTest.StaticTopicClient.SendWithOptionalPriority(
-					new AsyncDelayer(),
-					Mock.Of<ILogger>(),
-					$"tgs_integration_test_tactics6=1",
+				var topicRequestResult = await WatchdogTest.SendTestTopic(
+					"tgs_integration_test_tactics6=1",
+					WatchdogTest.StaticTopicClient,
+					null,
 					mainDDPort,
-					true,
 					cancellationToken);
 
 				Assert.IsNotNull(topicRequestResult);
@@ -1610,12 +1609,11 @@ namespace Tgstation.Server.Tests.Live
 					var chatReadTask = instanceClient.ChatBots.List(null, cancellationToken);
 
 					// Check the DMAPI got the channels again https://github.com/tgstation/tgstation-server/issues/1490
-					topicRequestResult = await WatchdogTest.StaticTopicClient.SendWithOptionalPriority(
-						new AsyncDelayer(),
-						Mock.Of<ILogger>(),
-						$"tgs_integration_test_tactics7=1",
+					topicRequestResult = await WatchdogTest.SendTestTopic(
+						"tgs_integration_test_tactics7=1",
+						WatchdogTest.StaticTopicClient,
+						GetInstanceManager().GetInstanceReference(instanceClient.Metadata),
 						mainDDPort,
-						true,
 						cancellationToken);
 
 					Assert.IsNotNull(topicRequestResult);
@@ -1626,7 +1624,13 @@ namespace Tgstation.Server.Tests.Live
 
 					Assert.AreEqual(connectedChannelCount, topicRequestResult.FloatData.Value);
 
-					dd = await WatchdogTest.TellWorldToReboot2(instanceClient, WatchdogTest.StaticTopicClient, mainDDPort, true, cancellationToken);
+					dd = await WatchdogTest.TellWorldToReboot2(
+						instanceClient,
+						GetInstanceManager(),
+						WatchdogTest.StaticTopicClient,
+						mainDDPort,
+						true,
+						cancellationToken);
 
 					Assert.AreEqual(WatchdogStatus.Online, dd.Status.Value); // if this assert fails, you likely have to crack open the debugger and read test_fail_reason.txt manually
 					Assert.IsNull(dd.StagedCompileJob);
