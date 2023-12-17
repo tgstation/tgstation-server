@@ -54,12 +54,12 @@ namespace Tgstation.Server.Tests.Live
 	{
 		public static readonly Version TestUpdateVersion = new(5, 11, 0);
 
-		static readonly ushort mainDDPort = FreeTcpPort();
-		static readonly ushort mainDMPort = FreeTcpPort(mainDDPort);
-		static readonly ushort compatDMPort = FreeTcpPort(mainDDPort, mainDMPort);
-		static readonly ushort compatDDPort = FreeTcpPort(mainDDPort, mainDMPort, compatDMPort);
-		static readonly ushort odDMPort = FreeTcpPort(mainDDPort, mainDMPort, compatDMPort, compatDDPort);
-		static readonly ushort odDDPort = FreeTcpPort(mainDDPort, mainDMPort, compatDMPort, compatDDPort, odDMPort);
+		static readonly Lazy<ushort> odDMPort = new Lazy<ushort>(() => FreeTcpPort());
+		static readonly Lazy<ushort> odDDPort = new Lazy<ushort>(() => FreeTcpPort(odDMPort.Value));
+		static readonly Lazy<ushort> compatDMPort = new Lazy<ushort>(() => FreeTcpPort(odDDPort.Value, odDMPort.Value));
+		static readonly Lazy<ushort> compatDDPort = new Lazy<ushort>(() => FreeTcpPort(odDDPort.Value, odDMPort.Value, compatDMPort.Value));
+		static readonly Lazy<ushort> mainDDPort = new Lazy<ushort>(() => FreeTcpPort(odDDPort.Value, odDMPort.Value, compatDMPort.Value, compatDDPort.Value));
+		static readonly Lazy<ushort> mainDMPort = new Lazy<ushort>(() => FreeTcpPort(odDDPort.Value, odDMPort.Value, compatDMPort.Value, compatDDPort.Value, mainDDPort.Value));
 
 		readonly ServerClientFactory clientFactory = new (new ProductHeaderValue(Assembly.GetExecutingAssembly().GetName().Name, Assembly.GetExecutingAssembly().GetName().Version.ToString()));
 
@@ -167,7 +167,7 @@ namespace Tgstation.Server.Tests.Live
 
 					result = (ushort)((IPEndPoint)l.LocalEndpoint).Port;
 				}
-				while (usedPorts.Contains(result));
+				while (usedPorts.Contains(result) || result < 10000);
 			}
 			finally
 			{
@@ -1457,8 +1457,8 @@ namespace Tgstation.Server.Tests.Live
 									await edgeODVersionTask,
 									server.OpenDreamUrl,
 									firstAdminClient.Instances.CreateClient(odInstance),
-									odDMPort,
-									odDDPort,
+									odDMPort.Value,
+									odDDPort.Value,
 									server.HighPriorityDreamDaemon,
 									server.UsingBasicWatchdog,
 									cancellationToken);
@@ -1484,8 +1484,8 @@ namespace Tgstation.Server.Tests.Live
 									},
 									server.OpenDreamUrl,
 									firstAdminClient.Instances.CreateClient(compatInstance),
-									compatDMPort,
-									compatDDPort,
+									compatDMPort.Value,
+									compatDDPort.Value,
 									server.HighPriorityDreamDaemon,
 									server.UsingBasicWatchdog,
 									cancellationToken));
@@ -1497,8 +1497,8 @@ namespace Tgstation.Server.Tests.Live
 							instanceTest
 								.RunTests(
 									instanceClient,
-									mainDMPort,
-									mainDDPort,
+									mainDMPort.Value,
+									mainDDPort.Value,
 									server.HighPriorityDreamDaemon,
 									server.LowPriorityDeployments,
 									server.UsingBasicWatchdog,
@@ -1536,7 +1536,7 @@ namespace Tgstation.Server.Tests.Live
 					"tgs_integration_test_tactics6=1",
 					WatchdogTest.StaticTopicClient,
 					null,
-					mainDDPort,
+					mainDDPort.Value,
 					cancellationToken);
 
 				Assert.IsNotNull(topicRequestResult);
@@ -1613,7 +1613,7 @@ namespace Tgstation.Server.Tests.Live
 						"tgs_integration_test_tactics7=1",
 						WatchdogTest.StaticTopicClient,
 						GetInstanceManager().GetInstanceReference(instanceClient.Metadata),
-						mainDDPort,
+						mainDDPort.Value,
 						cancellationToken);
 
 					Assert.IsNotNull(topicRequestResult);
@@ -1628,7 +1628,7 @@ namespace Tgstation.Server.Tests.Live
 						instanceClient,
 						GetInstanceManager(),
 						WatchdogTest.StaticTopicClient,
-						mainDDPort,
+						mainDDPort.Value,
 						true,
 						cancellationToken);
 
@@ -1687,7 +1687,7 @@ namespace Tgstation.Server.Tests.Live
 					Assert.AreEqual(WatchdogStatus.Online, dd.Status.Value);
 
 					var compileJob = await instanceClient.DreamMaker.Compile(cancellationToken);
-					await using var wdt = new WatchdogTest(edgeVersion, instanceClient, GetInstanceManager(), (ushort)server.ApiUrl.Port, server.HighPriorityDreamDaemon, mainDDPort, server.UsingBasicWatchdog);
+					await using var wdt = new WatchdogTest(edgeVersion, instanceClient, GetInstanceManager(), (ushort)server.ApiUrl.Port, server.HighPriorityDreamDaemon, mainDDPort.Value, server.UsingBasicWatchdog);
 					await wdt.WaitForJob(compileJob, 30, false, null, cancellationToken);
 
 					dd = await instanceClient.DreamDaemon.Read(cancellationToken);
@@ -1730,7 +1730,7 @@ namespace Tgstation.Server.Tests.Live
 					Assert.AreEqual(WatchdogStatus.Online, currentDD.Status);
 					Assert.AreEqual(expectedStaged, currentDD.StagedCompileJob.Job.Id.Value);
 
-					await using var wdt = new WatchdogTest(edgeVersion, instanceClient, GetInstanceManager(), (ushort)server.ApiUrl.Port, server.HighPriorityDreamDaemon, mainDDPort, server.UsingBasicWatchdog);
+					await using var wdt = new WatchdogTest(edgeVersion, instanceClient, GetInstanceManager(), (ushort)server.ApiUrl.Port, server.HighPriorityDreamDaemon, mainDDPort.Value, server.UsingBasicWatchdog);
 					currentDD = await wdt.TellWorldToReboot(false, cancellationToken);
 					Assert.AreEqual(expectedStaged, currentDD.ActiveCompileJob.Job.Id.Value);
 					Assert.IsNull(currentDD.StagedCompileJob);
