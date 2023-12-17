@@ -541,12 +541,12 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				User = new ChatUser
 				{
 					RealId = messageCreateEvent.Author.ID.Value,
-					Channel = new ChannelRepresentation
+					Channel = new ChannelRepresentation(
+						pm ? messageCreateEvent.Author.Username : guildName,
+						channelResponse.Entity.Name.Value,
+						messageCreateEvent.ChannelID.Value)
 					{
-						RealId = messageCreateEvent.ChannelID.Value,
 						IsPrivateChannel = pm,
-						ConnectionName = pm ? messageCreateEvent.Author.Username : guildName,
-						FriendlyName = channelResponse.Entity.Name.Value,
 						EmbedsSupported = true,
 
 						// isAdmin and Tag populated by manager
@@ -721,12 +721,12 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 
 				var connectionName = guildsResponse.Entity.Name;
 
-				var channelModel = new ChannelRepresentation
+				var channelModel = new ChannelRepresentation(
+					guildsResponse.Entity.Name,
+					discordChannelResponse.Entity.Name.Value,
+					channelId)
 				{
-					RealId = channelId,
 					IsAdminChannel = channelFromDB.IsAdminChannel == true,
-					ConnectionName = guildsResponse.Entity.Name,
-					FriendlyName = discordChannelResponse.Entity.Name.Value,
 					IsPrivateChannel = false,
 					Tag = channelFromDB.Tag,
 					EmbedsSupported = true,
@@ -776,13 +776,13 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 
 					// Add catch-all channel
 					unmappedTasks.Add(Task.FromResult(
-						new ChannelRepresentation
+						new ChannelRepresentation(
+							"(Unknown Discord Guilds)",
+							"(Unknown Discord Channels)",
+							0)
 						{
 							IsAdminChannel = channelIdZeroModel.IsAdminChannel.Value,
-							ConnectionName = "(Unknown Discord Guilds)",
 							EmbedsSupported = true,
-							FriendlyName = "(Unknown Discord Channels)",
-							RealId = 0,
 							Tag = channelIdZeroModel.Tag,
 						}));
 

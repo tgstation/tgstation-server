@@ -353,14 +353,11 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 										dbChannel,
 										new List<ChannelRepresentation>
 										{
-											new()
+											new(address, channelIdMap[id.Value], id.Value)
 											{
-												RealId = id.Value,
-												IsAdminChannel = dbChannel.IsAdminChannel == true,
-												ConnectionName = address,
-												FriendlyName = channelIdMap[id.Value],
-												IsPrivateChannel = false,
 												Tag = dbChannel.Tag,
+												IsAdminChannel = dbChannel.IsAdminChannel == true,
+												IsPrivateChannel = false,
 												EmbedsSupported = false,
 											},
 										});
@@ -532,16 +529,14 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				channelId = isPrivate ? userId : MapAndGetChannelId(channelIdMap);
 			}
 
+			var channelFriendlyName = isPrivate ? String.Format(CultureInfo.InvariantCulture, "PM: {0}", channelName) : channelName;
 			var message = new Message
 			{
 				Content = e.Data.Message,
 				User = new ChatUser
 				{
-					Channel = new ChannelRepresentation
+					Channel = new ChannelRepresentation(address, channelFriendlyName, channelId)
 					{
-						ConnectionName = address,
-						FriendlyName = isPrivate ? String.Format(CultureInfo.InvariantCulture, "PM: {0}", channelName) : channelName,
-						RealId = channelId,
 						IsPrivateChannel = isPrivate,
 						EmbedsSupported = false,
 

@@ -188,14 +188,14 @@ namespace Tgstation.Server.Tests.Live
 			else
 				channelId = (ulong)channel.IrcChannel.GetHashCode();
 
-			var entry = new ChannelRepresentation
+			var entry = new ChannelRepresentation(
+				$"Connection_{channelId}",
+				$"(Friendly) Channel_ID_{channelId}",
+				channelId)
 			{
 				IsAdminChannel = channel.IsAdminChannel.Value,
-				ConnectionName = $"Connection_{channelId}",
 				EmbedsSupported = ChatBot.Provider.Value != Api.Models.ChatProvider.Irc,
-				FriendlyName = $"(Friendly) Channel_ID_{channelId}",
 				IsPrivateChannel = false,
-				RealId = channelId,
 				Tag = channel.Tag,
 			};
 
@@ -253,12 +253,9 @@ namespace Tgstation.Server.Tests.Live
 							}
 							while (knownChannels.ContainsKey(channelId));
 
-							channel = new ChannelRepresentation
+							channel = new ChannelRepresentation($"{username}_Connection", $"{username}_Channel", channelId)
 							{
-								RealId = channelId,
 								IsPrivateChannel = true,
-								ConnectionName = $"{username}_Connection",
-								FriendlyName = $"{username}_Channel",
 								EmbedsSupported = ChatBot.Provider.Value != Api.Models.ChatProvider.Irc,
 
 								// isAdmin and Tag populated by manager

@@ -983,12 +983,10 @@ namespace Tgstation.Server.Tests.Live.Instance
 			{
 				var mockChatUser = new ChatUser
 				{
-					Channel = new ChannelRepresentation
+					Channel = new ChannelRepresentation("test_connection", "Test Connection", 0)
 					{
 						IsAdminChannel = true,
-						ConnectionName = "test_connection",
 						EmbedsSupported = true,
-						FriendlyName = "Test Connection",
 						Id = "test_channel_id",
 						IsPrivateChannel = false,
 					},

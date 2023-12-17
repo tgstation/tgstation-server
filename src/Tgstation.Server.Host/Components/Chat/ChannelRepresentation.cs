@@ -3,8 +3,6 @@ using System.Globalization;
 
 using Newtonsoft.Json;
 
-#nullable disable
-
 namespace Tgstation.Server.Host.Components.Chat
 {
 	/// <summary>
@@ -32,12 +30,12 @@ namespace Tgstation.Server.Host.Components.Chat
 		/// <summary>
 		/// The user friendly name of the <see cref="ChannelRepresentation"/>.
 		/// </summary>
-		public string FriendlyName { get; set; }
+		public string FriendlyName { get; }
 
 		/// <summary>
 		/// The name of the connection the <see cref="ChannelRepresentation"/> belongs to.
 		/// </summary>
-		public string ConnectionName { get; set; }
+		public string ConnectionName { get; }
 
 		/// <summary>
 		/// If this is considered a channel for admin commands.
@@ -52,11 +50,25 @@ namespace Tgstation.Server.Host.Components.Chat
 		/// <summary>
 		/// For user use.
 		/// </summary>
-		public string Tag { get; set; }
+		public string? Tag { get; set; }
 
 		/// <summary>
 		/// If this channel supports embeds.
 		/// </summary>
 		public bool EmbedsSupported { get; set; }
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="ChannelRepresentation"/> class.
+		/// </summary>
+		/// <param name="connectionName">The value of <see cref="ConnectionName"/>.</param>
+		/// <param name="friendlyName">The value of <see cref="FriendlyName"/>.</param>
+		/// <param name="id">The value of <see cref="RealId"/>/<see cref="Id"/>.</param>
+		public ChannelRepresentation(string connectionName, string friendlyName, ulong id)
+		{
+			ConnectionName = connectionName ?? throw new ArgumentNullException(nameof(connectionName));
+			FriendlyName = friendlyName ?? throw new ArgumentNullException(nameof(friendlyName));
+			Id = null!;
+			RealId = id;
+		}
 	}
 }
