@@ -165,8 +165,20 @@ namespace Tgstation.Server.Tests.Live.Instance
 			await RunLongRunningTestThenUpdateWithNewDme(cancellationToken);
 			await RunLongRunningTestThenUpdateWithByondVersionSwitch(cancellationToken);
 
+			// no chatty bullshit while we test health checks
+			var tcs = new TaskCompletionSource();
+			var oldTask = Interlocked.Exchange(ref DummyChatProvider.MessageGuard, tcs.Task);
+
 			await RunHealthCheckTest(true, cancellationToken);
 			await RunHealthCheckTest(false, cancellationToken);
+
+			async void Cleanup()
+			{
+				await oldTask;
+				tcs.SetResult();
+			}
+
+			Cleanup();
 
 			await InteropTestsForLongRunningDme(cancellationToken);
 
