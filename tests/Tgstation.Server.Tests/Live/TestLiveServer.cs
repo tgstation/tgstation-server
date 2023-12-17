@@ -147,8 +147,12 @@ namespace Tgstation.Server.Tests.Live
 
 		static ushort FreeTcpPort(params ushort[] usedPorts)
 		{
+			var portList = new ushort[] { 42069, 42070, 42071, 42072, 42073, 42074 };
+			return portList.First(x => !usedPorts.Contains(x));
+			/*
 			ushort result;
 			var listeners = new List<TcpListener>();
+
 			try
 			{
 				do
@@ -177,6 +181,7 @@ namespace Tgstation.Server.Tests.Live
 				}
 			}
 			return result;
+			*/
 		}
 
 		[ClassInitialize]
