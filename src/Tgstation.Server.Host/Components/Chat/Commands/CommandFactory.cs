@@ -8,8 +8,6 @@ using Tgstation.Server.Host.Components.Watchdog;
 using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.System;
 
-#nullable disable
-
 namespace Tgstation.Server.Host.Components.Chat.Commands
 {
 	/// <inheritdoc />
@@ -48,7 +46,7 @@ namespace Tgstation.Server.Host.Components.Chat.Commands
 		/// <summary>
 		/// The <see cref="IWatchdog"/> for the <see cref="CommandFactory"/>.
 		/// </summary>
-		IWatchdog watchdog;
+		IWatchdog? watchdog;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="CommandFactory"/> class.
