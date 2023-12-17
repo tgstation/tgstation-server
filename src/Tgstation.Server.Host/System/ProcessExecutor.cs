@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Text;
 using System.Threading;
@@ -7,7 +8,6 @@ using System.Threading.Tasks;
 
 using Microsoft.Extensions.Logging;
 
-using Tgstation.Server.Common.Extensions;
 using Tgstation.Server.Host.IO;
 
 namespace Tgstation.Server.Host.System
@@ -145,9 +145,6 @@ namespace Tgstation.Server.Host.System
 					if (readStandardHandles)
 					{
 						processStartTcs = new TaskCompletionSource<int>();
-						handle.StartInfo.RedirectStandardOutput = true;
-						handle.StartInfo.RedirectStandardError = true;
-
 						disposeCts = new CancellationTokenSource();
 						readTask = ConsumeReaders(handle, processStartTcs.Task, fileRedirect, disposeCts.Token);
 					}
@@ -228,11 +225,8 @@ namespace Tgstation.Server.Host.System
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the program's output/error text if <paramref name="fileRedirect"/> is <see langword="null"/>, <see langword="null"/> otherwise.</returns>
 		async Task<string> ConsumeReaders(global::System.Diagnostics.Process handle, Task<int> startupAndPid, string fileRedirect, CancellationToken cancellationToken)
 		{
-			var pid = await startupAndPid;
-			logger.LogTrace("Starting read for PID {pid}...", pid);
-
-			var stdOutHandle = handle.StandardOutput;
-			var stdErrHandle = handle.StandardError;
+			handle.StartInfo.RedirectStandardOutput = true;
+			handle.StartInfo.RedirectStandardError = true;
 
 			bool writingToFile;
 			await using var fileStream = (writingToFile = fileRedirect != null) ? ioManager.CreateAsyncSequentialWriteStream(fileRedirect) : null;
@@ -249,23 +243,30 @@ namespace Tgstation.Server.Host.System
 				});
 
 			var handlesOpen = 2;
-			async ValueTask DrainHandle(StreamReader reader)
+			async void DataReceivedHandler(object sender, DataReceivedEventArgs eventArgs)
 			{
-				while (true)
+				var line = eventArgs.Data;
+				if (line == null)
 				{
-					var line = await reader.ReadLineAsync(cancellationToken);
-					if (line == null)
-					{
-						var handlesRemaining = Interlocked.Decrement(ref handlesOpen);
-						if (handlesRemaining == 0)
-							dataChannel.Writer.Complete();
+					var handlesRemaining = Interlocked.Decrement(ref handlesOpen);
+					if (handlesRemaining == 0)
+						dataChannel.Writer.Complete();
 
-						break;
-					}
+					return;
+				}
 
+				try
+				{
 					await dataChannel.Writer.WriteAsync(line, cancellationToken);
 				}
+				catch (OperationCanceledException ex)
+				{
+					logger.LogWarning(ex, "Handle channel write interrupted!");
+				}
 			}
+
+			handle.OutputDataReceived += DataReceivedHandler;
+			handle.ErrorDataReceived += DataReceivedHandler;
 
 			async ValueTask OutputWriter()
 			{
@@ -289,28 +290,31 @@ namespace Tgstation.Server.Host.System
 						stringBuilder.AppendLine(text);
 			}
 
-			try
-			{
-				var outputWriterTask = OutputWriter();
-				try
-				{
-					var outputReadTask = DrainHandle(stdOutHandle);
-					var errorReadTask = DrainHandle(stdErrHandle);
+			var pid = await startupAndPid;
+			logger.LogTrace("Starting read for PID {pid}...", pid);
 
-					await ValueTaskExtensions.WhenAll(outputReadTask, errorReadTask);
-				}
-				finally
-				{
-					await outputWriterTask;
-				}
-
-				logger.LogTrace("Finished read for PID {pid}", pid);
-			}
-			catch (OperationCanceledException ex)
+			using (cancellationToken.Register(() => dataChannel.Writer.TryComplete()))
 			{
-				logger.LogWarning(ex, "PID {pid} stream reading interrupted!", pid);
-				if (fileStream != null)
-					await writer.WriteLineAsync("-- Process detached, log truncated. This is likely due a to TGS restart --");
+				handle.BeginOutputReadLine();
+				using (cancellationToken.Register(handle.CancelOutputRead))
+				{
+					handle.BeginErrorReadLine();
+					using (cancellationToken.Register(handle.CancelErrorRead))
+					{
+						try
+						{
+							await OutputWriter();
+
+							logger.LogTrace("Finished read for PID {pid}", pid);
+						}
+						catch (OperationCanceledException ex)
+						{
+							logger.LogWarning(ex, "PID {pid} stream reading interrupted!", pid);
+							if (fileStream != null)
+								await writer.WriteLineAsync("-- Process detached, log truncated. This is likely due a to TGS restart --");
+						}
+					}
+				}
 			}
 
 			return stringBuilder?.ToString();
