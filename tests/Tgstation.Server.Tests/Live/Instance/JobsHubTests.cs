@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
@@ -179,7 +179,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			var uniqueAllJobs = groups.Select(x => x.First()).ToList();
 
 			static string JobListFormatter(IEnumerable<JobResponse> jobs) => String.Join(Environment.NewLine, jobs.Select(x => $"- I:{x.InstanceId}|JID:{x.Id}|JC:{x.JobCode}|Desc:{x.Description}"));
-			Assert.AreEqual(allJobs.Count, uniqueAllJobs.Count, $"Duplicated Jobs:{Environment.NewLine}{JobListFormatter(groups.Where(x => x.Count() > 1).Select(x => x.First()))}");
+			Assert.AreEqual(allJobs.Count, uniqueAllJobs.Count, $"Duplicated Jobs:{Environment.NewLine}{JobListFormatter(groups.Where(x => x.Count() > 1).SelectMany(x => x))}");
 
 			var missableMissedJobs = 0;
 			foreach (var job in allJobs)
