@@ -8,8 +8,6 @@ using Microsoft.Extensions.Logging;
 
 using Tgstation.Server.Host.Components.Chat.Commands;
 
-#nullable disable
-
 namespace Tgstation.Server.Host.Components.Chat
 {
 	/// <inheritdoc />
@@ -75,12 +73,12 @@ namespace Tgstation.Server.Host.Components.Chat
 		/// <summary>
 		/// The <see cref="IChannelSink"/> if any.
 		/// </summary>
-		IChannelSink channelSink;
+		IChannelSink? channelSink;
 
 		/// <summary>
 		/// The <see cref="Action"/> to run when <see cref="Dispose"/>d.
 		/// </summary>
-		Action onDispose;
+		Action? onDispose;
 
 		/// <summary>
 		/// Backing field for <see cref="Active"/>.
