@@ -668,7 +668,9 @@
     <Rule Id="CS9179" Action="None" />
   </Rules>
   <Rules AnalyzerId="Microsoft.CodeAnalysis.CSharp.CodeStyle" RuleNamespace="Microsoft.CodeAnalysis.CSharp.CodeStyle">
+    <Rule Id="IDE0028" Action="None" />
     <Rule Id="IDE0290" Action="None" />
+    <Rule Id="IDE0301" Action="None" />
   </Rules>
   <Rules AnalyzerId="Microsoft.CodeAnalysis.CSharp.EditorFeatures" RuleNamespace="Microsoft.CodeAnalysis.CSharp.EditorFeatures">
     <Rule Id="IDE0032" Action="Warning" />
@@ -718,8 +720,8 @@
     <Rule Id="IDE0026WithoutSuggestion" Action="Warning" />
     <Rule Id="IDE0027" Action="Warning" />
     <Rule Id="IDE0027WithoutSuggestion" Action="Warning" />
-    <Rule Id="IDE0028" Action="Info" />
-    <Rule Id="IDE0028WithoutSuggestion" Action="Info" />
+    <Rule Id="IDE0028" Action="None" />
+    <Rule Id="IDE0028WithoutSuggestion" Action="None" />
     <Rule Id="IDE0029" Action="Warning" />
     <Rule Id="IDE0029WithoutSuggestion" Action="Warning" />
     <Rule Id="IDE0030" Action="Warning" />
@@ -755,6 +757,7 @@
     <Rule Id="IDE0049" Action="None" />
     <Rule Id="IDE0049WithoutSuggestion" Action="None" />
     <Rule Id="IDE0290" Action="None" />
+    <Rule Id="IDE0301" Action="None" />
     <Rule Id="IDE1005" Action="Warning" />
     <Rule Id="IDE1005WithoutSuggestion" Action="Warning" />
     <Rule Id="IDE1006" Action="Warning" />
@@ -956,8 +959,8 @@
     <Rule Id="IDE0015" Action="Warning" />
     <Rule Id="IDE0017" Action="Warning" />
     <Rule Id="IDE0017WithoutSuggestion" Action="Warning" />
-    <Rule Id="IDE0028" Action="Info" />
-    <Rule Id="IDE0028WithoutSuggestion" Action="Info" />
+    <Rule Id="IDE0028" Action="None" />
+    <Rule Id="IDE0028WithoutSuggestion" Action="None" />
     <Rule Id="IDE0029" Action="Warning" />
     <Rule Id="IDE0029WithoutSuggestion" Action="Warning" />
     <Rule Id="IDE0030" Action="Warning" />
