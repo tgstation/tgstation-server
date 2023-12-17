@@ -748,8 +748,9 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			try
 			{
 				var sessionEventTask = relayToSession ? ((IEventConsumer)this).HandleEvent(eventType, parameters, false, cancellationToken) : ValueTask.CompletedTask;
+				var eventConsumerTask = eventConsumer.HandleEvent(eventType, parameters, false, cancellationToken);
 				await ValueTaskExtensions.WhenAll(
-					eventConsumer.HandleEvent(eventType, parameters, false, cancellationToken),
+					eventConsumerTask,
 					sessionEventTask);
 			}
 			catch (JobException ex)
