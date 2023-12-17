@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
@@ -156,7 +156,10 @@ namespace Tgstation.Server.Tests.Live.Instance
 						Online = true,
 					}, cancellationToken);
 
-				var jobs = await permedUser.Instances.CreateClient(instance).Jobs.List(null, cancellationToken);
+				var jobs = await permedUser.Instances.CreateClient(instance).Jobs.List(new PaginationSettings
+				{
+					PageSize = 100
+				}, cancellationToken);
 				if (wasOffline)
 					await permedUser.Instances.Update(new InstanceUpdateRequest
 					{
