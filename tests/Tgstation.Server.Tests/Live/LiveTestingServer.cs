@@ -154,6 +154,7 @@ namespace Tgstation.Server.Tests.Live
 				$"General:SkipAddingByondFirewallException={!TestingUtils.RunningInGitHubActions}",
 				$"General:OpenDreamGitUrl={OpenDreamUrl}",
 				$"Security:TokenExpiryMinutes=120", // timeouts are useless for us
+				$"General:OpenDreamSuppressInstallOutput={TestingUtils.RunningInGitHubActions}",
 			};
 
 			swarmArgs = new List<string>();

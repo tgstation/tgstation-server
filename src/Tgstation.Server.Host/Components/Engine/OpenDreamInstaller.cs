@@ -230,18 +230,28 @@ namespace Tgstation.Server.Host.Components.Engine
 						shortenedPath,
 						$"run -c Release --project OpenDreamPackageTool -- --tgs -o {shortenedDeployPath}",
 						null,
-						true,
-						true);
+						!GeneralConfiguration.OpenDreamSuppressInstallOutput,
+						!GeneralConfiguration.OpenDreamSuppressInstallOutput);
 					using (cancellationToken.Register(() => buildProcess.Terminate()))
 						buildExitCode = await buildProcess.Lifetime;
 
-					Logger.LogTrace("OD build complete, waiting for output...");
+					string output;
+
+					if (!GeneralConfiguration.OpenDreamSuppressInstallOutput)
+					{
+						var buildOutputTask = buildProcess.GetCombinedOutput(cancellationToken);
+						if (!buildOutputTask.IsCompleted)
+							Logger.LogTrace("OD build complete, waiting for output...");
+						output = await buildOutputTask;
+					}
+					else
+						output = "<Build output suppressed by configuration due to not being immediately available>";
 
 					Logger.LogDebug(
 						"OpenDream build exited with code {exitCode}:{newLine}{output}",
 						buildExitCode,
 						Environment.NewLine,
-						await buildProcess.GetCombinedOutput(cancellationToken));
+						output);
 				},
 				sourcePath,
 				cancellationToken);
