@@ -1,4 +1,4 @@
-// This program is minimal effort and should be sent to remedial school
+﻿// This program is minimal effort and should be sent to remedial school
 
 using System;
 using System.Collections.Concurrent;
@@ -567,72 +567,76 @@ namespace Tgstation.Server.ReleaseNotes
 				var mergeCommit = fullPR.MergeCommitSha;
 				// we don't care about unreleased web control panel changes
 
-				try
+				needExtendedComponentVersions = ShouldGetExtendedComponentVersions();
+
+				var versionsBytes = await RLR(() => client.Repository.Content.GetRawContentByRef(RepoOwner, RepoName, "build/Version.props", mergeCommit));
+
+				XDocument doc;
+				using (var ms = new MemoryStream(versionsBytes))
+					doc = XDocument.Load(ms);
+
+				var project = doc.Root;
+				var xmlNamespace = project.GetDefaultNamespace();
+				var versionsPropertyGroup = project.Elements().First(x => x.Name == xmlNamespace + "PropertyGroup");
+
+				Version Parse(string elemName, bool controlPanel = false)
 				{
-					needExtendedComponentVersions = ShouldGetExtendedComponentVersions();
+					var element = versionsPropertyGroup.Element(xmlNamespace + elemName);
+					if (element == null)
+						return null;
 
-					var versionsBytes = await RLR(() => client.Repository.Content.GetRawContentByRef(RepoOwner, RepoName, "build/Version.props", mergeCommit));
-
-					XDocument doc;
-					using (var ms = new MemoryStream(versionsBytes))
-						doc = XDocument.Load(ms);
-
-					var project = doc.Root;
-					var xmlNamespace = project.GetDefaultNamespace();
-					var versionsPropertyGroup = project.Elements().First(x => x.Name == xmlNamespace + "PropertyGroup");
-
-					Version Parse(string elemName, bool controlPanel = false)
-					{
-						var element = versionsPropertyGroup.Element(xmlNamespace + elemName);
-						if (element == null)
-							return null;
-
-						return Version.Parse(element.Value);
-					}
-
-					var dict = new Dictionary<Component, Version>
-					{
-						{ Component.Core, Parse("TgsCoreVersion") },
-						{ Component.HttpApi, Parse("TgsApiVersion") },
-						{ Component.DreamMakerApi, Parse("TgsDmapiVersion") },
-					};
-
-					if (await needExtendedComponentVersions)
-					{
-						// only grab some versions at release time
-						// we aggregate later
-						dict.Add(Component.Configuration, Parse("TgsConfigVersion"));
-						dict.Add(Component.InteropApi, Parse("TgsInteropVersion"));
-						dict.Add(Component.HostWatchdog, Parse("TgsHostWatchdogVersion"));
-						dict.Add(Component.NugetCommon, Parse("TgsCommonLibraryVersion"));
-						dict.Add(Component.NugetApi, Parse("TgsApiLibraryVersion"));
-						dict.Add(Component.NugetClient, Parse("TgsClientVersion"));
-
-						var webVersion = Parse("TgsWebpanelVersion");
-						if (webVersion != null)
-						{
-							dict.Add(Component.WebControlPanel, webVersion);
-						}
-						else
-						{
-							var controlPanelVersionBytes = await RLR(() => client.Repository.Content.GetRawContentByRef(RepoOwner, RepoName, "build/WebpanelVersion.props", mergeCommit));
-							using (var ms = new MemoryStream(controlPanelVersionBytes))
-								doc = XDocument.Load(ms);
-
-
-							project = doc.Root;
-							var controlPanelXmlNamespace = project.GetDefaultNamespace();
-							var controlPanelVersionsPropertyGroup = project.Elements().First(x => x.Name == controlPanelXmlNamespace + "PropertyGroup");
-							dict.Add(Component.WebControlPanel, Version.Parse(controlPanelVersionsPropertyGroup.Element(controlPanelXmlNamespace + "TgsWebpanelVersion").Value));
-						}
-					}
-
-					return dict;
+					return Version.Parse(element.Value);
 				}
-				catch
+
+				var dict = new Dictionary<Component, Version>
 				{
-					return new Dictionary<Component, Version>();
+					{ Component.Core, Parse("TgsCoreVersion") },
+					{ Component.HttpApi, Parse("TgsApiVersion") },
+					{ Component.DreamMakerApi, Parse("TgsDmapiVersion") },
+				};
+
+				if (await needExtendedComponentVersions)
+				{
+					// only grab some versions at release time
+					// we aggregate later
+					dict.Add(Component.Configuration, Parse("TgsConfigVersion"));
+					dict.Add(Component.InteropApi, Parse("TgsInteropVersion"));
+					dict.Add(Component.HostWatchdog, Parse("TgsHostWatchdogVersion"));
+					dict.Add(Component.NugetCommon, Parse("TgsCommonLibraryVersion"));
+					dict.Add(Component.NugetApi, Parse("TgsApiLibraryVersion"));
+					dict.Add(Component.NugetClient, Parse("TgsClientVersion"));
+
+					var webVersion = Parse("TgsControlPanelVersion");
+					if (webVersion != null)
+					{
+						dict.Add(Component.WebControlPanel, webVersion);
+					}
+					else
+					{
+						byte[] controlPanelVersionBytes;
+						string elementName;
+						try
+						{
+							controlPanelVersionBytes = await RLR(() => client.Repository.Content.GetRawContentByRef(RepoOwner, RepoName, "build/WebpanelVersion.props", mergeCommit));
+							elementName = "TgsWebpanelVersion";
+						}
+						catch (NotFoundException)
+						{
+							controlPanelVersionBytes = await RLR(() => client.Repository.Content.GetRawContentByRef(RepoOwner, RepoName, "build/ControlPanelVersion.props", mergeCommit));
+							elementName = "TgsControlPanelVersion";
+						}
+
+						using (var ms = new MemoryStream(controlPanelVersionBytes))
+							doc = XDocument.Load(ms);
+
+						project = doc.Root;
+						var controlPanelXmlNamespace = project.GetDefaultNamespace();
+						var controlPanelVersionsPropertyGroup = project.Elements().First(x => x.Name == controlPanelXmlNamespace + "PropertyGroup");
+						dict.Add(Component.WebControlPanel, Version.Parse(controlPanelVersionsPropertyGroup.Element(controlPanelXmlNamespace + elementName).Value));
+					}
 				}
+
+				return dict;
 			}
 
 			var componentVersions = needComponentExactVersions ? GetComponentVersions() : Task.FromResult<Dictionary<Component, Version>>(null);
