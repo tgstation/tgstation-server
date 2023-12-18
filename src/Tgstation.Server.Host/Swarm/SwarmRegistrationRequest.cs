@@ -3,8 +3,6 @@ using System.ComponentModel.DataAnnotations;
 
 using Tgstation.Server.Api.Models.Internal;
 
-#nullable disable
-
 namespace Tgstation.Server.Host.Swarm
 {
 	/// <summary>
@@ -16,6 +14,15 @@ namespace Tgstation.Server.Host.Swarm
 		/// The TGS <see cref="Version"/> of the sending server.
 		/// </summary>
 		[Required]
-		public Version ServerVersion { get; set; }
+		public Version ServerVersion { get; }
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="SwarmRegistrationRequest"/> class.
+		/// </summary>
+		/// <param name="serverVersion">The value of <see cref="ServerVersion"/>.</param>
+		public SwarmRegistrationRequest(Version serverVersion)
+		{
+			ServerVersion = serverVersion ?? throw new ArgumentNullException(nameof(serverVersion));
+		}
 	}
 }

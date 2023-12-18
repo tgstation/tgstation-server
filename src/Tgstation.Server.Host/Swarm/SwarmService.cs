@@ -1267,9 +1267,8 @@ namespace Tgstation.Server.Host.Swarm
 				null,
 				HttpMethod.Post,
 				SwarmConstants.RegisterRoute,
-				new SwarmRegistrationRequest
+				new SwarmRegistrationRequest(assemblyInformationProvider.Version)
 				{
-					ServerVersion = assemblyInformationProvider.Version,
 					Identifier = swarmConfiguration.Identifier,
 					Address = swarmConfiguration.Address,
 					PublicAddress = swarmConfiguration.PublicAddress,
