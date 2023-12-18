@@ -2,8 +2,6 @@
 using System.IO;
 using System.Threading;
 
-#nullable disable
-
 namespace Tgstation.Server.Host.IO
 {
 	/// <summary>
@@ -57,7 +55,7 @@ namespace Tgstation.Server.Host.IO
 		/// <param name="sha1InOut">The function only succeeds if this parameter matches the SHA-1 hash of the contents of the current file. Contains the SHA1 of the file on disk once the function returns.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns><see langword="true"/> on success, <see langword="false"/> if the operation failed due to <paramref name="sha1InOut"/> not matching the file's contents.</returns>
-		bool WriteFileChecked(string path, Stream data, ref string sha1InOut, CancellationToken cancellationToken);
+		bool WriteFileChecked(string path, Stream data, ref string? sha1InOut, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Checks if a given <paramref name="path"/> is a directory.
