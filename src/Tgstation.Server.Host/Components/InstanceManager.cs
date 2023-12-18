@@ -489,7 +489,7 @@ namespace Tgstation.Server.Host.Components
 					finally
 					{
 						if (originalConsoleTitle != null)
-							console.Title = originalConsoleTitle;
+							console.SetTitle(originalConsoleTitle);
 					}
 			}
 			catch (Exception ex)
@@ -569,7 +569,7 @@ namespace Tgstation.Server.Host.Components
 			try
 			{
 				logger.LogInformation("{versionString}", assemblyInformationProvider.VersionString);
-				console.Title = assemblyInformationProvider.VersionString;
+				console.SetTitle(assemblyInformationProvider.VersionString);
 
 				CheckSystemCompatibility();
 

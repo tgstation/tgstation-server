@@ -1107,7 +1107,7 @@ namespace Tgstation.Server.Host.Setup
 					return;
 
 				originalConsoleTitle = console.Title;
-				console.Title = $"{assemblyInformationProvider.VersionString} Setup Wizard";
+				console.SetTitle($"{assemblyInformationProvider.VersionString} Setup Wizard");
 			}
 
 			// Link passed cancellationToken with cancel key press
@@ -1197,7 +1197,7 @@ namespace Tgstation.Server.Host.Setup
 				{
 					await finalTask;
 					if (originalConsoleTitle != null)
-						console.Title = originalConsoleTitle;
+						console.SetTitle(originalConsoleTitle);
 				}
 		}
 	}

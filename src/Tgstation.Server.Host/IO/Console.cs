@@ -5,8 +5,6 @@ using System.Threading.Tasks;
 
 using Tgstation.Server.Host.System;
 
-#nullable disable
-
 namespace Tgstation.Server.Host.IO
 {
 	/// <summary>
@@ -15,13 +13,9 @@ namespace Tgstation.Server.Host.IO
 	sealed class Console : IConsole, IDisposable
 	{
 		/// <inheritdoc />
-		public string Title
-		{
-			get => platformIdentifier.IsWindows
-				? global::System.Console.Title
-				: null;
-			set => global::System.Console.Title = value;
-		}
+		public string? Title => platformIdentifier.IsWindows
+			? global::System.Console.Title
+			: null;
 
 		/// <inheritdoc />
 		public bool Available => Environment.UserInteractive;
@@ -91,7 +85,8 @@ namespace Tgstation.Server.Host.IO
 				// TODO: Make this better: https://stackoverflow.com/questions/9479573/how-to-interrupt-console-readline
 				CheckAvailable();
 				if (!usePasswordChar)
-					return global::System.Console.ReadLine();
+					return global::System.Console.ReadLine()
+					?? throw new InvalidOperationException("Console input has been closed!");
 
 				var passwordBuilder = new StringBuilder();
 				do
@@ -126,7 +121,7 @@ namespace Tgstation.Server.Host.IO
 			.WaitAsync(cancellationToken);
 
 		/// <inheritdoc />
-		public Task WriteAsync(string text, bool newLine, CancellationToken cancellationToken) => Task.Factory.StartNew(
+		public Task WriteAsync(string? text, bool newLine, CancellationToken cancellationToken) => Task.Factory.StartNew(
 			() =>
 			{
 				CheckAvailable();
@@ -144,6 +139,13 @@ namespace Tgstation.Server.Host.IO
 			cancellationToken,
 			DefaultIOManager.BlockingTaskCreationOptions,
 			TaskScheduler.Current);
+
+		/// <inheritdoc />
+		public void SetTitle(string newTitle)
+		{
+			ArgumentNullException.ThrowIfNull(newTitle);
+			global::System.Console.Title = newTitle;
+		}
 
 		/// <summary>
 		/// Assert that the <see cref="Console"/> is available, throwing an <see cref="InvalidOperationException"/> otherwise.
