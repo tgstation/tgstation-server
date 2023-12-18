@@ -10,8 +10,6 @@ using Tgstation.Server.Host.Jobs;
 using Tgstation.Server.Host.System;
 using Tgstation.Server.Host.Utils;
 
-#nullable disable
-
 namespace Tgstation.Server.Host.Components.Chat.Providers
 {
 	/// <inheritdoc />
