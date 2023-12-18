@@ -229,7 +229,7 @@ namespace Tgstation.Server.Host.System
 			handle.StartInfo.RedirectStandardError = true;
 
 			bool writingToFile;
-			await using var fileStream = (writingToFile = fileRedirect != null) ? ioManager.CreateAsyncSequentialWriteStream(fileRedirect) : null;
+			await using var fileStream = (writingToFile = fileRedirect != null) ? ioManager.CreateAsyncSequentialWriteStream(fileRedirect!) : null;
 			await using var fileWriter = fileStream != null ? new StreamWriter(fileStream) : null;
 
 			var stringBuilder = fileStream == null ? new StringBuilder() : null;

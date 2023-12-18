@@ -133,6 +133,7 @@ namespace Tgstation.Server.Host.IO
 		/// </summary>
 		/// <param name="path">A path to check.</param>
 		/// <returns>The directory portion of the given <paramref name="path"/>.</returns>
+		/// <exception cref="InvalidOperationException">If <paramref name="path"/> is rooted.</exception>
 		string GetDirectoryName(string path);
 
 		/// <summary>
