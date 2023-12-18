@@ -6,8 +6,6 @@ using System.Threading.Tasks;
 
 using Tgstation.Server.Common.Http;
 
-#nullable disable
-
 namespace Tgstation.Server.Host.IO
 {
 	/// <summary>
@@ -33,7 +31,7 @@ namespace Tgstation.Server.Host.IO
 		/// <summary>
 		/// The <see cref="Task{TResult}"/> resulting in the downloaded <see cref="MemoryStream"/>.
 		/// </summary>
-		Task<CachedResponseStream> downloadTask;
+		Task<CachedResponseStream>? downloadTask;
 
 		/// <summary>
 		/// If <see cref="DisposeAsync"/> has been called.
@@ -56,7 +54,7 @@ namespace Tgstation.Server.Host.IO
 		/// <inheritdoc />
 		public async ValueTask DisposeAsync()
 		{
-			Task<CachedResponseStream> localDownloadTask;
+			Task<CachedResponseStream>? localDownloadTask;
 			lock (downloadCts)
 			{
 				if (disposed)
