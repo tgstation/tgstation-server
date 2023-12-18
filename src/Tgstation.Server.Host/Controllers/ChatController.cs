@@ -281,7 +281,7 @@ namespace Tgstation.Server.Host.Controllers
 		{
 			ArgumentNullException.ThrowIfNull(model);
 
-			var earlyOut = StandardModelChecks(model, false);
+			IActionResult? earlyOut = StandardModelChecks(model, false);
 			if (earlyOut != null)
 				return earlyOut;
 
@@ -382,8 +382,8 @@ namespace Tgstation.Server.Host.Controllers
 		/// </summary>
 		/// <param name="model">The <see cref="ChatBotApiBase"/> to validate.</param>
 		/// <param name="forCreation">If the <paramref name="model"/> is being created.</param>
-		/// <returns>An <see cref="IActionResult"/> to respond with or <see langword="null"/>.</returns>
-		IActionResult? StandardModelChecks(ChatBotApiBase model, bool forCreation)
+		/// <returns>An <see cref="BadRequestObjectResult"/> to respond with or <see langword="null"/>.</returns>
+		BadRequestObjectResult? StandardModelChecks(ChatBotApiBase model, bool forCreation)
 		{
 			if (model.ReconnectionInterval == 0)
 				throw new InvalidOperationException("RecconnectionInterval cannot be zero!");
