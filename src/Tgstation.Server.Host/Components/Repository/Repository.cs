@@ -249,20 +249,16 @@ namespace Tgstation.Server.Host.Components.Repository
 								libGitRepo,
 								refSpecList,
 								remote,
-								new FetchOptions
-								{
-									Prune = true,
-									OnProgress = (a) => !cancellationToken.IsCancellationRequested,
-									OnTransferProgress = TransferProgressHandler(
-										progressReporter.CreateSection($"Fetch {refSpec}", progressFactor),
-										cancellationToken),
-									OnUpdateTips = (a, b, c) => !cancellationToken.IsCancellationRequested,
-									CredentialsProvider = credentialsProvider.GenerateCredentialsHandler(username, password),
-								},
+								new FetchOptions().Hydrate(
+									logger,
+									progressReporter.CreateSection($"Fetch {refSpec}", progressFactor),
+									credentialsProvider.GenerateCredentialsHandler(username, password),
+									cancellationToken),
 								logMessage);
 						}
-						catch (UserCancelledException)
+						catch (UserCancelledException ex)
 						{
+							logger.LogTrace(ex, "Suppressing fetch cancel exception");
 						}
 						catch (LibGit2SharpException ex)
 						{
@@ -441,14 +437,12 @@ namespace Tgstation.Server.Host.Components.Repository
 						var fetchOptions = new FetchOptions
 						{
 							Prune = true,
-							OnProgress = (a) => !cancellationToken.IsCancellationRequested,
-							OnUpdateTips = (a, b, c) => !cancellationToken.IsCancellationRequested,
-							CredentialsProvider = credentialsProvider.GenerateCredentialsHandler(username, password),
 							TagFetchMode = TagFetchMode.All,
-						};
-
-						if (progressReporter != null)
-							fetchOptions.OnTransferProgress = TransferProgressHandler(progressReporter.CreateSection("Fetch Origin", 1.0), cancellationToken);
+						}.Hydrate(
+							logger,
+							progressReporter?.CreateSection("Fetch Origin", 1.0),
+							credentialsProvider.GenerateCredentialsHandler(username, password),
+							cancellationToken);
 
 						commands.Fetch(
 							libGitRepo,
@@ -1043,19 +1037,18 @@ namespace Tgstation.Server.Host.Components.Repository
 				var submoduleUpdateOptions = new SubmoduleUpdateOptions
 				{
 					Init = true,
-					OnProgress = output => !cancellationToken.IsCancellationRequested,
-					OnUpdateTips = (a, b, c) => !cancellationToken.IsCancellationRequested,
-					CredentialsProvider = credentialsProvider.GenerateCredentialsHandler(username, password),
+					OnCheckoutNotify = (_, _) => !cancellationToken.IsCancellationRequested,
 				};
 
+				submoduleUpdateOptions.FetchOptions.Hydrate(
+					logger,
+					progressReporter?.CreateSection($"Fetch submodule {submodule.Name}", factor),
+					credentialsProvider.GenerateCredentialsHandler(username, password),
+					cancellationToken);
+
 				if (progressReporter != null)
-				{
-					submoduleUpdateOptions.OnTransferProgress = TransferProgressHandler(
-						progressReporter.CreateSection($"Fetch submodule {submodule.Name}", factor),
-						cancellationToken);
 					submoduleUpdateOptions.OnCheckoutProgress = CheckoutProgressHandler(
 						progressReporter.CreateSection($"Checkout submodule {submodule.Name}", factor));
-				}
 
 				logger.LogDebug("Updating submodule {submoduleName}...", submodule.Name);
 				Task RawSubModuleUpdate() => Task.Factory.StartNew(
@@ -1132,37 +1125,6 @@ namespace Tgstation.Server.Host.Components.Repository
 					totalSteps);
 
 			progressReporter.ReportProgress(percentage);
-		};
-
-		/// <summary>
-		/// Generate a <see cref="LibGit2Sharp.Handlers.TransferProgressHandler"/> from a given <paramref name="progressReporter"/> and <paramref name="cancellationToken"/>.
-		/// </summary>
-		/// <param name="progressReporter">The <see cref="JobProgressReporter"/> of the operation.</param>
-		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A new <see cref="LibGit2Sharp.Handlers.TransferProgressHandler"/> based on <paramref name="progressReporter"/>.</returns>
-		TransferProgressHandler TransferProgressHandler(JobProgressReporter progressReporter, CancellationToken cancellationToken) => (transferProgress) =>
-		{
-			double? percentage;
-			var totalObjectsToProcess = transferProgress.TotalObjects * 2;
-			var processedObjects = transferProgress.IndexedObjects + transferProgress.ReceivedObjects;
-			if (totalObjectsToProcess < processedObjects || totalObjectsToProcess == 0)
-				percentage = null;
-			else
-			{
-				percentage = (double)processedObjects / totalObjectsToProcess;
-				if (percentage < 0)
-					percentage = null;
-			}
-
-			if (percentage == null)
-				logger.LogDebug(
-					"Bad transfer progress values (Please tell Cyberboss)! Indexed: {indexed}, Received: {received}, Total: {total}",
-					transferProgress.IndexedObjects,
-					transferProgress.ReceivedObjects,
-					transferProgress.TotalObjects);
-
-			progressReporter.ReportProgress(percentage);
-			return !cancellationToken.IsCancellationRequested;
 		};
 	}
 #pragma warning restore CA1506

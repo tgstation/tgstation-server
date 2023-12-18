@@ -603,6 +603,8 @@ namespace Tgstation.Server.Host.Setup
 							};
 
 							CreateTestConnection(csb.ConnectionString);
+
+							csb.Mode = SqliteOpenMode.ReadWriteCreate;
 							databaseConfiguration.ConnectionString = csb.ConnectionString;
 						}
 

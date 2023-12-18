@@ -73,7 +73,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 		/// <summary>
 		/// Map of <see cref="EventType"/>s to the filename of the event scripts they trigger.
 		/// </summary>
-		static readonly IReadOnlyDictionary<EventType, IReadOnlyList<string>> EventTypeScriptFileNameMap = new Dictionary<EventType, IReadOnlyList<string>>(
+		public static IReadOnlyDictionary<EventType, IReadOnlyList<string>> EventTypeScriptFileNameMap { get; } = new Dictionary<EventType, IReadOnlyList<string>>(
 			Enum.GetValues(typeof(EventType))
 				.Cast<EventType>()
 				.Select(
@@ -300,8 +300,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 					string GetFileSha()
 					{
 						var content = synchronousIOManager.ReadFile(path);
-						using var sha1 = SHA1.Create();
-						return String.Join(String.Empty, sha1.ComputeHash(content).Select(b => b.ToString("x2", CultureInfo.InvariantCulture)));
+						return String.Join(String.Empty, SHA1.HashData(content).Select(b => b.ToString("x2", CultureInfo.InvariantCulture)));
 					}
 
 					var originalSha = GetFileSha();
@@ -408,12 +407,10 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 					var fileName = ioManager.GetFileName(file);
 
 					// need to normalize
-					bool ignored;
-					if (platformIdentifier.IsWindows)
-						ignored = ignoreFiles.Any(y => fileName.ToUpperInvariant() == y.ToUpperInvariant());
-					else
-						ignored = ignoreFiles.Any(y => fileName == y);
-
+					var fileComparison = platformIdentifier.IsWindows
+						? StringComparison.OrdinalIgnoreCase
+						: StringComparison.Ordinal;
+					var ignored = ignoreFiles.Any(y => fileName.Equals(y, fileComparison));
 					if (ignored)
 					{
 						logger.LogTrace("Ignoring static file {fileName}...", fileName);
@@ -444,12 +441,14 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 				using (var reader = new StringReader(ignoreFileText))
 				{
 					cancellationToken.ThrowIfCancellationRequested();
-					var line = await reader.ReadLineAsync();
+					var line = await reader.ReadLineAsync(cancellationToken);
 					if (!String.IsNullOrEmpty(line))
 						ignoreFiles.Add(line);
 				}
 
-				await ValueTaskExtensions.WhenAll(SymlinkBase(true), SymlinkBase(false));
+				var filesSymlinkTask = SymlinkBase(true);
+				var dirsSymlinkTask = SymlinkBase(false);
+				await ValueTaskExtensions.WhenAll(filesSymlinkTask, dirsSymlinkTask);
 			}
 		}
 
@@ -617,7 +616,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 						scriptName => x.StartsWith(scriptName, StringComparison.Ordinal)))
 					.ToList();
 
-				if (!scriptFiles.Any())
+				if (scriptFiles.Count == 0)
 				{
 					logger.LogTrace("No event scripts starting with \"{scriptName}\" detected", String.Join("\" or \"", scriptNames));
 					return;
@@ -712,19 +711,19 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 					return;
 
 				await ioManager.CreateDirectory(CodeModificationsSubdirectory, cancellationToken);
-				await ValueTaskExtensions.WhenAll(
-					ioManager.WriteAllBytes(
-						ioManager.ConcatPath(
-							CodeModificationsSubdirectory,
-							CodeModificationsHeadFile),
-						Encoding.UTF8.GetBytes(DefaultHeadInclude),
-						cancellationToken),
-					ioManager.WriteAllBytes(
-						ioManager.ConcatPath(
-							CodeModificationsSubdirectory,
-							CodeModificationsTailFile),
-						Encoding.UTF8.GetBytes(DefaultTailInclude),
-						cancellationToken));
+				var headWriteTask = ioManager.WriteAllBytes(
+					ioManager.ConcatPath(
+						CodeModificationsSubdirectory,
+						CodeModificationsHeadFile),
+					Encoding.UTF8.GetBytes(DefaultHeadInclude),
+					cancellationToken);
+				var tailWriteTask = ioManager.WriteAllBytes(
+					ioManager.ConcatPath(
+						CodeModificationsSubdirectory,
+						CodeModificationsTailFile),
+					Encoding.UTF8.GetBytes(DefaultTailInclude),
+					cancellationToken);
+				await ValueTaskExtensions.WhenAll(headWriteTask, tailWriteTask);
 			}
 
 			return Task.WhenAll(

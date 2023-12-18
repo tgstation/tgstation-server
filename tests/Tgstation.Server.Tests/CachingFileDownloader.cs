@@ -94,7 +94,9 @@ namespace Tgstation.Server.Tests
 				// actions is supposed to cache BYOND for us
 
 				var dir = Path.Combine(
-					Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
+					Environment.GetFolderPath(
+						Environment.SpecialFolder.UserProfile,
+						Environment.SpecialFolderOption.DoNotVerify),
 					"byond-zips-cache",
 					windows ? "windows" : "linux");
 				path = Path.Combine(

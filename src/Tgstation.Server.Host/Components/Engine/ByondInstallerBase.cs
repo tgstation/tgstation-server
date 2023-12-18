@@ -54,7 +54,7 @@ namespace Tgstation.Server.Host.Components.Engine
 		protected override EngineType TargetEngineType => EngineType.Byond;
 
 		/// <summary>
-		/// Bath to the system user's local BYOND folder.
+		/// Path to the system user's local BYOND folder.
 		/// </summary>
 		protected abstract string PathToUserFolder { get; }
 
@@ -159,12 +159,6 @@ namespace Tgstation.Server.Host.Components.Engine
 			ArgumentNullException.ThrowIfNull(fullDmbPath);
 
 			var byondDir = PathToUserFolder;
-			if (String.IsNullOrWhiteSpace(byondDir))
-			{
-				Logger.LogTrace("No relevant user BYOND directory to install a \"{fileName}\" in", TrustedDmbFileName);
-				return;
-			}
-
 			var cfgDir = IOManager.ConcatPath(
 				byondDir,
 				CfgDirectoryName);

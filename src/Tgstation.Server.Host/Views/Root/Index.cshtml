@@ -1,5 +1,4 @@
 @{
-    var svgPath = Model.Svg;
     var title = Model.Title;
     <!DOCTYPE html>
     <html>
@@ -13,7 +12,7 @@
         </style>
     </head>
     <body>
-        <img src="@svgPath"/>
+        <img src="logo.svg"/>
         @{
             if (Model.Links != null)
                 foreach (KeyValuePair<string, string> kvp in Model.Links)

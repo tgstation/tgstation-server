@@ -146,6 +146,11 @@ namespace Tgstation.Server.Host.Configuration
 		public string OpenDreamGitTagPrefix { get; set; } = DefaultOpenDreamGitTagPrefix;
 
 		/// <summary>
+		/// If the dotnet output of creating an OpenDream installation should be suppressed. Known to cause issues in CI.
+		/// </summary>
+		public bool OpenDreamSuppressInstallOutput { get; set; }
+
+		/// <summary>
 		/// Initializes a new instance of the <see cref="GeneralConfiguration"/> class.
 		/// </summary>
 		public GeneralConfiguration()

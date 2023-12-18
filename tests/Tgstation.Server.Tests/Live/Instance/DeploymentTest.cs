@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using Tgstation.Server.Api.Models;
@@ -138,10 +139,10 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 			var updatedDD = await dreamDaemonClient.Update(new DreamDaemonRequest
 			{
-				StartupTimeout = 15,
+				StartupTimeout = 30,
 				Port = ddPort
 			}, cancellationToken);
-			Assert.AreEqual(15U, updatedDD.StartupTimeout);
+			Assert.AreEqual(30U, updatedDD.StartupTimeout);
 			Assert.AreEqual(ddPort, updatedDD.Port);
 
 			async Task<JobResponse> CompileAfterByondInstall()

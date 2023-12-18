@@ -367,7 +367,9 @@ namespace Tgstation.Server.Host.Core
 
 			// only global repo manager should be for the OD repo
 			var openDreamRepositoryDirectory = ioManager.ConcatPath(
-				Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+				Environment.GetFolderPath(
+					Environment.SpecialFolder.LocalApplicationData,
+					Environment.SpecialFolderOption.DoNotVerify),
 				assemblyInformationProvider.VersionPrefix,
 				"OpenDreamRepository");
 			services.AddSingleton(

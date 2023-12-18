@@ -7,7 +7,6 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Win32.SafeHandles;
 
 using Tgstation.Server.Host.IO;
-using Tgstation.Server.Host.Utils;
 
 namespace Tgstation.Server.Host.System
 {
@@ -27,11 +26,6 @@ namespace Tgstation.Server.Host.System
 		/// The <see cref="IProcessFeatures"/> for the <see cref="Process"/>.
 		/// </summary>
 		readonly IProcessFeatures processFeatures;
-
-		/// <summary>
-		/// The <see cref="IAsyncDelayer"/> for the <see cref="Process"/>.
-		/// </summary>
-		readonly IAsyncDelayer asyncDelayer;
 
 		/// <summary>
 		/// The <see cref="ILogger"/> for the <see cref="Process"/>.
@@ -68,7 +62,6 @@ namespace Tgstation.Server.Host.System
 		/// Initializes a new instance of the <see cref="Process"/> class.
 		/// </summary>
 		/// <param name="processFeatures">The value of <see cref="processFeatures"/>.</param>
-		/// <param name="asyncDelayer">The value of <see cref="asyncDelayer"/>.</param>
 		/// <param name="handle">The value of <see cref="handle"/>.</param>
 		/// <param name="readerCts">The override value of <see cref="cancellationTokenSource"/>.</param>
 		/// <param name="readTask">The value of <see cref="readTask"/>.</param>
@@ -76,7 +69,6 @@ namespace Tgstation.Server.Host.System
 		/// <param name="preExisting">If <paramref name="handle"/> was NOT just created.</param>
 		public Process(
 			IProcessFeatures processFeatures,
-			IAsyncDelayer asyncDelayer,
 			global::System.Diagnostics.Process handle,
 			CancellationTokenSource? readerCts,
 			Task<string?>? readTask,
@@ -92,7 +84,6 @@ namespace Tgstation.Server.Host.System
 			cancellationTokenSource = readerCts ?? new CancellationTokenSource();
 
 			this.processFeatures = processFeatures ?? throw new ArgumentNullException(nameof(processFeatures));
-			this.asyncDelayer = asyncDelayer ?? throw new ArgumentNullException(nameof(asyncDelayer));
 
 			this.readTask = readTask;
 
@@ -128,7 +119,7 @@ namespace Tgstation.Server.Host.System
 		/// <inheritdoc />
 		public async ValueTask DisposeAsync()
 		{
-			if (Interlocked.Exchange(ref disposed, 1) == 1)
+			if (Interlocked.Exchange(ref disposed, 1) != 0)
 				return;
 
 			logger.LogTrace("Disposing PID {pid}...", Id);
@@ -144,30 +135,18 @@ namespace Tgstation.Server.Host.System
 		}
 
 		/// <inheritdoc />
-		public async ValueTask<string?> GetCombinedOutput(CancellationToken cancellationToken)
+		public Task<string?> GetCombinedOutput(CancellationToken cancellationToken)
 		{
 			if (readTask == null)
 				throw new InvalidOperationException("Output/Error stream reading was not enabled!");
 
-			// workaround for https://github.com/dotnet/runtime/issues/28583 (?)
-			if (handle.HasExited)
-			{
-				handle.WaitForExit();
-				await Task.WhenAny(readTask, asyncDelayer.Delay(TimeSpan.FromSeconds(30), cancellationToken));
-
-				if (!readTask.IsCompleted)
-				{
-					logger.LogWarning("Detected process output read hang on PID {pid}! Closing handle as a workaround...", Id);
-					await DisposeAsync();
-				}
-			}
-
-			return await readTask.WaitAsync(cancellationToken);
+			return readTask.WaitAsync(cancellationToken);
 		}
 
 		/// <inheritdoc />
 		public void Terminate()
 		{
+			CheckDisposed();
 			if (handle.HasExited)
 			{
 				logger.LogTrace("PID {pid} already exited", Id);
@@ -190,6 +169,7 @@ namespace Tgstation.Server.Host.System
 		/// <inheritdoc />
 		public void AdjustPriority(bool higher)
 		{
+			CheckDisposed();
 			var targetPriority = higher ? ProcessPriorityClass.AboveNormal : ProcessPriorityClass.BelowNormal;
 			try
 			{
@@ -205,6 +185,7 @@ namespace Tgstation.Server.Host.System
 		/// <inheritdoc />
 		public void Suspend()
 		{
+			CheckDisposed();
 			try
 			{
 				processFeatures.SuspendProcess(handle);
@@ -220,6 +201,7 @@ namespace Tgstation.Server.Host.System
 		/// <inheritdoc />
 		public void Resume()
 		{
+			CheckDisposed();
 			try
 			{
 				processFeatures.ResumeProcess(handle);
@@ -235,6 +217,7 @@ namespace Tgstation.Server.Host.System
 		/// <inheritdoc />
 		public string GetExecutingUsername()
 		{
+			CheckDisposed();
 			var result = processFeatures.GetExecutingUsername(handle);
 			logger.LogTrace("PID {pid} Username: {username}", Id, result);
 			return result;
@@ -244,6 +227,7 @@ namespace Tgstation.Server.Host.System
 		public ValueTask CreateDump(string outputFile, CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(outputFile);
+			CheckDisposed();
 
 			logger.LogTrace("Dumping PID {pid} to {dumpFilePath}...", Id, outputFile);
 			return processFeatures.CreateDump(handle, outputFile, cancellationToken);
@@ -255,18 +239,29 @@ namespace Tgstation.Server.Host.System
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="global::System.Diagnostics.Process.ExitCode"/> or <see langword="null"/> if the process was detached.</returns>
 		async Task<int?> WrapLifetimeTask()
 		{
+			bool hasExited;
 			try
 			{
 				await handle.WaitForExitAsync(cancellationTokenSource.Token);
-				var exitCode = handle.ExitCode;
-				logger.LogTrace("PID {pid} exited with code {exitCode}", Id, exitCode);
-				return exitCode;
+				hasExited = true;
 			}
 			catch (OperationCanceledException ex)
 			{
 				logger.LogTrace(ex, "Process lifetime task cancelled!");
-				return null;
+				hasExited = handle.HasExited;
 			}
+
+			if (!hasExited)
+				return null;
+
+			var exitCode = handle.ExitCode;
+			logger.LogTrace("PID {pid} exited with code {exitCode}", Id, exitCode);
+			return exitCode;
 		}
+
+		/// <summary>
+		/// Throws an <see cref="ObjectDisposedException"/> if a method of the <see cref="Process"/> was called after <see cref="DisposeAsync"/>.
+		/// </summary>
+		void CheckDisposed() => ObjectDisposedException.ThrowIf(disposed != 0, this);
 	}
 }

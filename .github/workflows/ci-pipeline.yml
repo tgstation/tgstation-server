@@ -2,6 +2,7 @@
 # Does CI on push/PR/cron. Deployments on push when triggered
 # - Validates Documentation
 # - Builds C# and DMAPI
+# - Runs CodeQL Anaylsis
 # - Tests everything on massive matrix
 # - Packages
 # - Tests package installs/services/uninstalls
@@ -19,7 +20,7 @@ name: 'CI Pipeline'
 
 on:
   schedule:
-    - cron: 0 23 * * *
+    - cron: 0 9 * * *
   push:
     branches:
     - dev
@@ -136,11 +137,11 @@ jobs:
         exit 0
 
     - name: Checkout (Branch)
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       if: github.event_name == 'push' || github.event_name == 'schedule'
 
     - name: Checkout (PR Merge)
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       if: github.event_name != 'push' && github.event_name != 'schedule'
       with:
         ref: "refs/pull/${{ github.event.number }}/merge"
@@ -182,11 +183,11 @@ jobs:
         dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
 
     - name: Checkout (Branch)
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       if: github.event_name == 'push' || github.event_name == 'schedule'
 
     - name: Checkout (PR Merge)
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       if: github.event_name != 'push' && github.event_name != 'schedule'
       with:
         ref: "refs/pull/${{ github.event.number }}/merge"
@@ -222,11 +223,11 @@ jobs:
         dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
 
     - name: Checkout (Branch)
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       if: github.event_name == 'push' || github.event_name == 'schedule'
 
     - name: Checkout (PR Merge)
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       if: github.event_name != 'push' && github.event_name != 'schedule'
       with:
         ref: "refs/pull/${{ github.event.number }}/merge"
@@ -286,11 +287,11 @@ jobs:
     if: (!(cancelled() || failure()) && needs.start-ci-run-gate.result == 'success')
     steps:
     - name: Checkout (Branch)
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       if: github.event_name == 'push' || github.event_name == 'schedule'
 
     - name: Checkout (PR Merge)
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       if: github.event_name != 'push' && github.event_name != 'schedule'
       with:
         ref: "refs/pull/${{ github.event.number }}/merge"
@@ -324,11 +325,11 @@ jobs:
         dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
 
     - name: Checkout (Branch)
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       if: github.event_name == 'push' || github.event_name == 'schedule'
 
     - name: Checkout (PR Merge)
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       if: github.event_name != 'push' && github.event_name != 'schedule'
       with:
         ref: "refs/pull/${{ github.event.number }}/merge"
@@ -375,11 +376,11 @@ jobs:
         dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
 
     - name: Checkout (Branch)
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       if: github.event_name == 'push' || github.event_name == 'schedule'
 
     - name: Checkout (PR Merge)
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       if: github.event_name != 'push' && github.event_name != 'schedule'
       with:
         ref: "refs/pull/${{ github.event.number }}/merge"
@@ -490,11 +491,11 @@ jobs:
         echo "TGS_TEST_DATABASE_TYPE=SqlServer" >> $GITHUB_ENV
 
     - name: Checkout (Branch)
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       if: github.event_name == 'push' || github.event_name == 'schedule'
 
     - name: Checkout (PR Merge)
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       if: github.event_name != 'push' && github.event_name != 'schedule'
       with:
         ref: "refs/pull/${{ github.event.number }}/merge"
@@ -531,9 +532,17 @@ jobs:
         fi
 
     - name: Store Live Tests Output
+      if: ${{ steps.live-tests.outputs.succeeded == 'YES' }}
       uses: actions/upload-artifact@v3
       with:
         name: windows-integration-test-logs-${{ matrix.configuration }}-${{ matrix.watchdog-type }}-${{ matrix.database-type }}
+        path: ./test_output.txt
+
+    - name: Store Errored Live Tests Output
+      if: ${{ steps.live-tests.outputs.succeeded != 'YES' }}
+      uses: actions/upload-artifact@v3
+      with:
+        name: errored-windows-test-logs-${{ matrix.configuration }}-${{ matrix.watchdog-type }}-${{ matrix.database-type }}
         path: ./test_output.txt
 
     - name: Fail if Live Tests Failed
@@ -593,14 +602,14 @@ jobs:
     if: (!(cancelled() || failure()) && needs.dmapi-build.result == 'success' && needs.opendream-build.result == 'success')
     services: # We start all dbs here so we can just code the stuff once
       mssql:
-        image: mcr.microsoft.com/mssql/server:2019-latest
+        image: ${{ (matrix.database-type == 'SqlServer') && 'mcr.microsoft.com/mssql/server:2019-latest' || '' }}
         env:
           SA_PASSWORD: myPassword
           ACCEPT_EULA: 'Y'
         ports:
         - 1433:1433
       postgres:
-        image: cyberboss/postgres-max-connections # Fork of _/postgres:latest with max_connections=500 becuase GitHub actions service containers have no way to set command lines. Rebuilds with updates.
+        image: ${{ (matrix.database-type == 'PostgresSql') && 'cyberboss/postgres-max-connections' || '' }} # Fork of _/postgres:latest with max_connections=500 becuase GitHub actions service containers have no way to set command lines. Rebuilds with updates.
         ports:
           - 5432:5432
         env:
@@ -611,7 +620,7 @@ jobs:
           --health-timeout 5s
           --health-retries 5
       mariadb:
-        image: mariadb
+        image: ${{ (matrix.database-type == 'MariaDB') && 'mariadb' || '' }}
         ports:
           - 3306:3306
         env:
@@ -622,7 +631,7 @@ jobs:
           --health-timeout=2s
           --health-retries=3
       mysql:
-        image: mysql:5.7.31
+        image: ${{ (matrix.database-type == 'MySql') && 'mysql:5.7.31' || '' }}
         ports:
           - 3307:3306
         env:
@@ -687,11 +696,11 @@ jobs:
       run: echo "General__UseBasicWatchdog=true" >> $GITHUB_ENV
 
     - name: Checkout (Branch)
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       if: github.event_name == 'push' || github.event_name == 'schedule'
 
     - name: Checkout (PR Merge)
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       if: github.event_name != 'push' && github.event_name != 'schedule'
       with:
         ref: "refs/pull/${{ github.event.number }}/merge"
@@ -766,11 +775,11 @@ jobs:
       run: npm i -g ibm-openapi-validator@0.51.3
 
     - name: Checkout (Branch)
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       if: github.event_name == 'push' || github.event_name == 'schedule'
 
     - name: Checkout (PR Merge)
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       if: github.event_name != 'push' && github.event_name != 'schedule'
       with:
         ref: "refs/pull/${{ github.event.number }}/merge"
@@ -791,11 +800,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout (Branch)
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       if: github.event_name == 'push' || github.event_name == 'schedule'
 
     - name: Checkout (PR Merge)
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       if: github.event_name != 'push' && github.event_name != 'schedule'
       with:
         ref: "refs/pull/${{ github.event.number }}/merge"
@@ -1079,11 +1088,11 @@ jobs:
         echo "New dotnet path should be $DOTNET_PATH"
 
     - name: Checkout (Branch)
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       if: github.event_name == 'push' || github.event_name == 'schedule'
 
     - name: Checkout (PR Merge)
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       if: github.event_name != 'push' && github.event_name != 'schedule'
       with:
         ref: "refs/pull/${{ github.event.number }}/merge"
@@ -1162,11 +1171,11 @@ jobs:
         dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
 
     - name: Checkout (Branch)
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       if: github.event_name == 'push' || github.event_name == 'schedule'
 
     - name: Checkout (PR Merge)
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       if: github.event_name != 'push' && github.event_name != 'schedule'
       with:
         ref: "refs/pull/${{ github.event.number }}/merge"
@@ -1294,11 +1303,11 @@ jobs:
         echo "pr_template_sha=$(cat commits.json | jq '.[0].sha')" >> $GITHUB_OUTPUT
 
     - name: Checkout (Branch)
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       if: github.event_name == 'push' || github.event_name == 'schedule'
 
     - name: Checkout (PR Merge)
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       if: github.event_name != 'push' && github.event_name != 'schedule'
       with:
         ref: "refs/pull/${{ github.event.number }}/merge"
@@ -1343,7 +1352,7 @@ jobs:
         dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
 
     - name: Checkout
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     - name: Restore
       run: dotnet restore
@@ -1407,7 +1416,7 @@ jobs:
         dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
 
     - name: Checkout
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     - name: Restore
       run: dotnet restore
@@ -1470,7 +1479,7 @@ jobs:
         dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
 
     - name: Checkout
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     - name: Restore
       run: dotnet restore
@@ -1521,7 +1530,7 @@ jobs:
         dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
 
     - name: Checkout
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     - name: Restore
       run: dotnet restore
@@ -1545,7 +1554,7 @@ jobs:
         dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
 
     - name: Checkout
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     - name: Restore
       run: dotnet restore
@@ -1757,7 +1766,7 @@ jobs:
         dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
 
     - name: Checkout
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     - name: Restore
       run: dotnet restore
@@ -1796,7 +1805,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     - name: Parse TGS version
       run: |
@@ -1820,7 +1829,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     - name: Parse TGS version
       run: |
@@ -1853,7 +1862,7 @@ jobs:
       run: winget install wingetcreate --version 1.2.8.0 --disable-interactivity --accept-source-agreements # Pinned due to breaking every other version
 
     - name: Checkout
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     - name: Build ReleaseNotes
       run: dotnet build -c Release -p:TGS_HOST_NO_WEBPANEL=true tools/Tgstation.Server.ReleaseNotes

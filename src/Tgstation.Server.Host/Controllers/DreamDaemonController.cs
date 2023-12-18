@@ -108,7 +108,7 @@ namespace Tgstation.Server.Host.Controllers
 		[TgsAuthorize(DreamDaemonRights.ReadMetadata | DreamDaemonRights.ReadRevision)]
 		[ProducesResponseType(typeof(DreamDaemonResponse), 200)]
 		[ProducesResponseType(typeof(ErrorMessageResponse), 410)]
-		public ValueTask<IActionResult> Read(CancellationToken cancellationToken) => ReadImpl(null, cancellationToken);
+		public ValueTask<IActionResult> Read(CancellationToken cancellationToken) => ReadImpl(null, false, cancellationToken);
 
 		/// <summary>
 		/// Stops the Watchdog if it's running.
@@ -233,7 +233,7 @@ namespace Tgstation.Server.Host.Controllers
 
 					// run this second because current may be modified by it
 					// slight race condition with request cancellation, but I CANNOT be assed right now
-					await watchdog.ChangeSettings(current, cancellationToken);
+					var rebootRequired = await watchdog.ChangeSettings(current, cancellationToken);
 
 					var rebootState = watchdog.RebootState;
 					var oldSoftRestart = rebootState == RebootState.Restart;
@@ -245,7 +245,7 @@ namespace Tgstation.Server.Host.Controllers
 					else if ((oldSoftRestart && model.SoftRestart == false) || (oldSoftShutdown && model.SoftShutdown == false))
 						await watchdog.ResetRebootState(cancellationToken);
 
-					return await ReadImpl(current, cancellationToken);
+					return await ReadImpl(current, rebootRequired, cancellationToken);
 				});
 		}
 #pragma warning restore CA1506
@@ -307,9 +307,10 @@ namespace Tgstation.Server.Host.Controllers
 		/// Implementation of <see cref="Read(CancellationToken)"/>.
 		/// </summary>
 		/// <param name="settings">The <see cref="DreamDaemonSettings"/> to operate on if any.</param>
+		/// <param name="knownForcedReboot">If there was a settings change made that forced a switch to <see cref="RebootState.Restart"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation.</returns>
-		ValueTask<IActionResult> ReadImpl(DreamDaemonSettings settings, CancellationToken cancellationToken)
+		ValueTask<IActionResult> ReadImpl(DreamDaemonSettings settings, bool knownForcedReboot, CancellationToken cancellationToken)
 			=> WithComponentInstance(async instance =>
 			{
 				var dd = instance.Watchdog;
@@ -362,6 +363,10 @@ namespace Tgstation.Server.Host.Controllers
 					result.Visibility = settings.Visibility.Value;
 					result.SoftRestart = rstate == RebootState.Restart;
 					result.SoftShutdown = rstate == RebootState.Shutdown;
+
+					if (rstate == RebootState.Normal && knownForcedReboot)
+						result.SoftRestart = true;
+
 					result.StartupTimeout = settings.StartupTimeout.Value;
 					result.HealthCheckSeconds = settings.HealthCheckSeconds.Value;
 					result.DumpOnHealthCheckRestart = settings.DumpOnHealthCheckRestart.Value;

@@ -7,7 +7,6 @@
     <Description>Client library for tgstation-server.</Description>
     <PackageTags>json web api tgstation-server tgstation ss13 byond client http</PackageTags>
     <PackageReleaseNotes>$(TGS_NUGET_RELEASE_NOTES_CLIENT)</PackageReleaseNotes>
-    <NoWarn>NU5104</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>

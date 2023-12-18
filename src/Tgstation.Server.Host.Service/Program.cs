@@ -179,7 +179,9 @@ namespace Tgstation.Server.Host.Service
 			var exePath = Path.Combine(assemblyDirectory, $"{assemblyNameWithoutExtension}.exe");
 
 			var programDataDirectory = Path.Combine(
-				Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData),
+				Environment.GetFolderPath(
+					Environment.SpecialFolder.CommonApplicationData,
+					Environment.SpecialFolderOption.DoNotVerify),
 				Server.Common.Constants.CanonicalPackageName);
 
 			using var processInstaller = new ServiceProcessInstaller();

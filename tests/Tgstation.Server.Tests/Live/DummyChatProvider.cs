@@ -44,6 +44,8 @@ namespace Tgstation.Server.Tests.Live
 
 		ulong channelIdAllocator;
 
+		public static Task MessageGuard = Task.CompletedTask;
+
 		static IAsyncDelayer CreateMockDelayer()
 		{
 			// at time of writing, this is used exclusively for the reconnection interval which works in minutes
@@ -218,6 +220,8 @@ namespace Tgstation.Server.Tests.Live
 					// random intervals under 10s
 					var delay = random.Next(0, 10000);
 					await Task.Delay(delay, cancellationToken);
+
+					await MessageGuard;
 
 					// %5 chance to disconnect randomly
 					if (enableRandomDisconnections != 0 && random.Next(0, 100) > 95)

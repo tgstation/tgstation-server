@@ -64,8 +64,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// </summary>
 		/// <param name="launchParameters">The new <see cref="DreamDaemonLaunchParameters"/>. May be modified.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
-		ValueTask ChangeSettings(DreamDaemonLaunchParameters launchParameters, CancellationToken cancellationToken);
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in <see langword="true"/> if a reboot is required, <see langword="false"/> otherwise.</returns>
+		ValueTask<bool> ChangeSettings(DreamDaemonLaunchParameters launchParameters, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Restarts the watchdog.

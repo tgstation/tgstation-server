@@ -28,6 +28,7 @@ using Newtonsoft.Json;
 using Npgsql;
 
 using Tgstation.Server.Api;
+using Tgstation.Server.Api.Extensions;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Request;
 using Tgstation.Server.Api.Models.Response;
@@ -53,12 +54,12 @@ namespace Tgstation.Server.Tests.Live
 	{
 		public static readonly Version TestUpdateVersion = new(5, 11, 0);
 
-		static readonly ushort mainDDPort = FreeTcpPort();
-		static readonly ushort mainDMPort = FreeTcpPort(mainDDPort);
-		static readonly ushort compatDMPort = FreeTcpPort(mainDDPort, mainDMPort);
-		static readonly ushort compatDDPort = FreeTcpPort(mainDDPort, mainDMPort, compatDMPort);
-		static readonly ushort odDMPort = FreeTcpPort(mainDDPort, mainDMPort, compatDMPort, compatDDPort);
-		static readonly ushort odDDPort = FreeTcpPort(mainDDPort, mainDMPort, compatDMPort, compatDDPort, odDMPort);
+		static readonly Lazy<ushort> odDMPort = new Lazy<ushort>(() => FreeTcpPort());
+		static readonly Lazy<ushort> odDDPort = new Lazy<ushort>(() => FreeTcpPort(odDMPort.Value));
+		static readonly Lazy<ushort> compatDMPort = new Lazy<ushort>(() => FreeTcpPort(odDDPort.Value, odDMPort.Value));
+		static readonly Lazy<ushort> compatDDPort = new Lazy<ushort>(() => FreeTcpPort(odDDPort.Value, odDMPort.Value, compatDMPort.Value));
+		static readonly Lazy<ushort> mainDDPort = new Lazy<ushort>(() => FreeTcpPort(odDDPort.Value, odDMPort.Value, compatDMPort.Value, compatDDPort.Value));
+		static readonly Lazy<ushort> mainDMPort = new Lazy<ushort>(() => FreeTcpPort(odDDPort.Value, odDMPort.Value, compatDMPort.Value, compatDDPort.Value, mainDDPort.Value));
 
 		readonly ServerClientFactory clientFactory = new (new ProductHeaderValue(Assembly.GetExecutingAssembly().GetName().Name, Assembly.GetExecutingAssembly().GetName().Version.ToString()));
 
@@ -146,8 +147,12 @@ namespace Tgstation.Server.Tests.Live
 
 		static ushort FreeTcpPort(params ushort[] usedPorts)
 		{
+			var portList = new ushort[] { 42069, 42070, 42071, 42072, 42073, 42074 };
+			return portList.First(x => !usedPorts.Contains(x));
+			/*
 			ushort result;
 			var listeners = new List<TcpListener>();
+
 			try
 			{
 				do
@@ -166,7 +171,7 @@ namespace Tgstation.Server.Tests.Live
 
 					result = (ushort)((IPEndPoint)l.LocalEndpoint).Port;
 				}
-				while (usedPorts.Contains(result));
+				while (usedPorts.Contains(result) || result < 10000);
 			}
 			finally
 			{
@@ -176,6 +181,7 @@ namespace Tgstation.Server.Tests.Live
 				}
 			}
 			return result;
+			*/
 		}
 
 		[ClassInitialize]
@@ -1049,7 +1055,7 @@ namespace Tgstation.Server.Tests.Live
 
 				var ioManager = new Host.IO.DefaultIOManager();
 				var repoPath = ioManager.ConcatPath(instance.Path, "Repository");
-				var jobsTest = new JobsRequiredTest(instanceClient.Jobs);
+				await using var jobsTest = new JobsRequiredTest(instanceClient.Jobs);
 				var postWriteHandler = (Host.IO.IPostWriteHandler)(new PlatformIdentifier().IsWindows
 					? new Host.IO.WindowsPostWriteHandler()
 					: new Host.IO.PosixPostWriteHandler(loggerFactory.CreateLogger<Host.IO.PosixPostWriteHandler>()));
@@ -1080,7 +1086,6 @@ namespace Tgstation.Server.Tests.Live
 						new PlatformIdentifier().IsWindows
 							? new WindowsProcessFeatures(loggerFactory.CreateLogger<WindowsProcessFeatures>())
 							: new PosixProcessFeatures(new Lazy<IProcessExecutor>(() => processExecutor), ioManager, loggerFactory.CreateLogger<PosixProcessFeatures>()),
-						new AsyncDelayer(),
 						ioManager,
 						loggerFactory.CreateLogger<ProcessExecutor>(),
 						loggerFactory);
@@ -1213,7 +1218,7 @@ namespace Tgstation.Server.Tests.Live
 		[TestMethod]
 		public Task TestOpenDreamExclusiveTgsOperation()
 		{
-			if (String.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("TGS_TEST_OD_EXCLUSIVE")))
+			if (Environment.GetEnvironmentVariable("TGS_TEST_OD_EXCLUSIVE") != "true")
 				Assert.Inconclusive("This test is covered by TestStandardTgsOperation");
 
 			return TestStandardTgsOperation(true);
@@ -1395,11 +1400,11 @@ namespace Tgstation.Server.Tests.Live
 					InstanceResponse odInstance, compatInstance;
 					if (!openDreamOnly)
 					{
+						jobsHubTestTask = FailFast(await jobsHubTest.Run(cancellationToken)); // returns Task<Task>
 						var rootTest = FailFast(RawRequestTests.Run(clientFactory, firstAdminClient, cancellationToken));
 						var adminTest = FailFast(new AdministrationTest(firstAdminClient.Administration).Run(cancellationToken));
 						var usersTest = FailFast(new UsersTest(firstAdminClient).Run(cancellationToken));
 
-						jobsHubTestTask = FailFast(jobsHubTest.Run(cancellationToken));
 						var instanceManagerTest = new InstanceManagerTest(firstAdminClient, server.Directory);
 						var compatInstanceTask = instanceManagerTest.CreateTestInstance("CompatTestsInstance", cancellationToken);
 						var odInstanceTask = instanceManagerTest.CreateTestInstance("OdTestsInstance", cancellationToken);
@@ -1457,8 +1462,8 @@ namespace Tgstation.Server.Tests.Live
 									await edgeODVersionTask,
 									server.OpenDreamUrl,
 									firstAdminClient.Instances.CreateClient(odInstance),
-									odDMPort,
-									odDDPort,
+									odDMPort.Value,
+									odDDPort.Value,
 									server.HighPriorityDreamDaemon,
 									server.UsingBasicWatchdog,
 									cancellationToken);
@@ -1484,8 +1489,8 @@ namespace Tgstation.Server.Tests.Live
 									},
 									server.OpenDreamUrl,
 									firstAdminClient.Instances.CreateClient(compatInstance),
-									compatDMPort,
-									compatDDPort,
+									compatDMPort.Value,
+									compatDDPort.Value,
 									server.HighPriorityDreamDaemon,
 									server.UsingBasicWatchdog,
 									cancellationToken));
@@ -1497,8 +1502,8 @@ namespace Tgstation.Server.Tests.Live
 							instanceTest
 								.RunTests(
 									instanceClient,
-									mainDMPort,
-									mainDDPort,
+									mainDMPort.Value,
+									mainDDPort.Value,
 									server.HighPriorityDreamDaemon,
 									server.LowPriorityDeployments,
 									server.UsingBasicWatchdog,
@@ -1532,10 +1537,11 @@ namespace Tgstation.Server.Tests.Live
 
 				// test the reattach message queueing
 				// for the code coverage really...
-				var topicRequestResult = await WatchdogTest.StaticTopicClient.SendTopic(
-					IPAddress.Loopback,
-					$"tgs_integration_test_tactics6=1",
-					mainDDPort,
+				var topicRequestResult = await WatchdogTest.SendTestTopic(
+					"tgs_integration_test_tactics6=1",
+					WatchdogTest.StaticTopicClient,
+					null,
+					mainDDPort.Value,
 					cancellationToken);
 
 				Assert.IsNotNull(topicRequestResult);
@@ -1590,7 +1596,7 @@ namespace Tgstation.Server.Tests.Live
 							.ToList();
 					}
 
-					var jrt = new JobsRequiredTest(instanceClient.Jobs);
+					await using var jrt = new JobsRequiredTest(instanceClient.Jobs);
 					foreach (var job in jobs)
 					{
 						Assert.IsTrue(job.StartedAt.Value >= preStartupTime);
@@ -1608,10 +1614,11 @@ namespace Tgstation.Server.Tests.Live
 					var chatReadTask = instanceClient.ChatBots.List(null, cancellationToken);
 
 					// Check the DMAPI got the channels again https://github.com/tgstation/tgstation-server/issues/1490
-					topicRequestResult = await WatchdogTest.StaticTopicClient.SendTopic(
-						IPAddress.Loopback,
-						$"tgs_integration_test_tactics7=1",
-						mainDDPort,
+					topicRequestResult = await WatchdogTest.SendTestTopic(
+						"tgs_integration_test_tactics7=1",
+						WatchdogTest.StaticTopicClient,
+						GetInstanceManager().GetInstanceReference(instanceClient.Metadata),
+						mainDDPort.Value,
 						cancellationToken);
 
 					Assert.IsNotNull(topicRequestResult);
@@ -1622,7 +1629,13 @@ namespace Tgstation.Server.Tests.Live
 
 					Assert.AreEqual(connectedChannelCount, topicRequestResult.FloatData.Value);
 
-					dd = await WatchdogTest.TellWorldToReboot2(instanceClient, WatchdogTest.StaticTopicClient, mainDDPort, true, cancellationToken);
+					dd = await WatchdogTest.TellWorldToReboot2(
+						instanceClient,
+						GetInstanceManager(),
+						WatchdogTest.StaticTopicClient,
+						mainDDPort.Value,
+						true,
+						cancellationToken);
 
 					Assert.AreEqual(WatchdogStatus.Online, dd.Status.Value); // if this assert fails, you likely have to crack open the debugger and read test_fail_reason.txt manually
 					Assert.IsNull(dd.StagedCompileJob);
@@ -1649,22 +1662,17 @@ namespace Tgstation.Server.Tests.Live
 				{
 					var jobs = await instanceClient.Jobs.ListActive(null, cancellationToken);
 					if (jobs.Count == 0)
-					{
-						var entities = await instanceClient.Jobs.List(null, cancellationToken);
-						var getTasks = entities
-							.Select(e => instanceClient.Jobs.GetId(e, cancellationToken))
-							.ToList();
-
-						jobs = (await ValueTaskExtensions.WhenAll(getTasks))
+						jobs = (await instanceClient.Jobs.List(null, cancellationToken))
 							.Where(x => x.StartedAt.Value > preStartupTime)
-						.ToList();
-					}
+							.ToList();
+					else
+						jobs = jobs.Where(x => x.JobCode.Value.IsServerStartupJob()).ToList();
 
-					var jrt = new JobsRequiredTest(instanceClient.Jobs);
+					await using var jrt = new JobsRequiredTest(instanceClient.Jobs);
 					foreach (var job in jobs)
 					{
 						Assert.IsTrue(job.StartedAt.Value >= preStartupTime);
-						await jrt.WaitForJob(job, 140, job.Description.Contains("Reconnect chat bot") ? null : false, null, cancellationToken);
+						await jrt.WaitForJob(job, 140, job.JobCode == JobCode.ReconnectChatBot ? null : false, null, cancellationToken);
 					}
 				}
 
@@ -1675,16 +1683,16 @@ namespace Tgstation.Server.Tests.Live
 				var edgeVersion = await EngineTest.GetEdgeVersion(EngineType.Byond, fileDownloader, cancellationToken);
 				await using (var adminClient = await CreateAdminClient(server.ApiUrl, cancellationToken))
 				{
+					await jobsHubTest.WaitForReconnect(cancellationToken);
 					var instanceClient = adminClient.Instances.CreateClient(instance);
 					await WaitForInitialJobs(instanceClient);
-					await jobsHubTest.WaitForReconnect(cancellationToken);
 
 					var dd = await instanceClient.DreamDaemon.Read(cancellationToken);
 
 					Assert.AreEqual(WatchdogStatus.Online, dd.Status.Value);
 
 					var compileJob = await instanceClient.DreamMaker.Compile(cancellationToken);
-					var wdt = new WatchdogTest(edgeVersion, instanceClient, GetInstanceManager(), (ushort)server.ApiUrl.Port, server.HighPriorityDreamDaemon, mainDDPort, server.UsingBasicWatchdog);
+					await using var wdt = new WatchdogTest(edgeVersion, instanceClient, GetInstanceManager(), (ushort)server.ApiUrl.Port, server.HighPriorityDreamDaemon, mainDDPort.Value, server.UsingBasicWatchdog);
 					await wdt.WaitForJob(compileJob, 30, false, null, cancellationToken);
 
 					dd = await instanceClient.DreamDaemon.Read(cancellationToken);
@@ -1718,22 +1726,24 @@ namespace Tgstation.Server.Tests.Live
 				serverTask = server.Run(cancellationToken).AsTask();
 				await using (var adminClient = await CreateAdminClient(server.ApiUrl, cancellationToken))
 				{
+					await jobsHubTest.WaitForReconnect(cancellationToken);
 					var instanceClient = adminClient.Instances.CreateClient(instance);
 					await WaitForInitialJobs(instanceClient);
-					await jobsHubTest.WaitForReconnect(cancellationToken);
 
 					var currentDD = await instanceClient.DreamDaemon.Read(cancellationToken);
 					Assert.AreEqual(expectedCompileJobId, currentDD.ActiveCompileJob.Id.Value);
 					Assert.AreEqual(WatchdogStatus.Online, currentDD.Status);
 					Assert.AreEqual(expectedStaged, currentDD.StagedCompileJob.Job.Id.Value);
 
-					var wdt = new WatchdogTest(edgeVersion, instanceClient, GetInstanceManager(), (ushort)server.ApiUrl.Port, server.HighPriorityDreamDaemon, mainDDPort, server.UsingBasicWatchdog);
-					currentDD = await wdt.TellWorldToReboot(true, cancellationToken);
+					await using var wdt = new WatchdogTest(edgeVersion, instanceClient, GetInstanceManager(), (ushort)server.ApiUrl.Port, server.HighPriorityDreamDaemon, mainDDPort.Value, server.UsingBasicWatchdog);
+					currentDD = await wdt.TellWorldToReboot(false, cancellationToken);
 					Assert.AreEqual(expectedStaged, currentDD.ActiveCompileJob.Job.Id.Value);
 					Assert.IsNull(currentDD.StagedCompileJob);
 
-					var repoTest = new RepositoryTest(instanceClient.Repository, instanceClient.Jobs).RunPostTest(cancellationToken);
-					await new ChatTest(instanceClient.ChatBots, adminClient.Instances, instanceClient.Jobs, instance).RunPostTest(cancellationToken);
+					await using var repoTestObj = new RepositoryTest(instanceClient.Repository, instanceClient.Jobs);
+					var repoTest = repoTestObj.RunPostTest(cancellationToken);
+					await using var chatTestObj = new ChatTest(instanceClient.ChatBots, adminClient.Instances, instanceClient.Jobs, instance);
+					await chatTestObj.RunPostTest(cancellationToken);
 					await repoTest;
 
 					await DummyChatProvider.RandomDisconnections(false, cancellationToken);

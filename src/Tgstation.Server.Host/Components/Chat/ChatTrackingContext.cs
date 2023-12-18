@@ -16,7 +16,7 @@ namespace Tgstation.Server.Host.Components.Chat
 		/// <inheritdoc />
 		public bool Active
 		{
-			get => active;
+			get => active && onDispose != null;
 			set
 			{
 				if (active == value)

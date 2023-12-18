@@ -269,18 +269,20 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		}
 
 		/// <inheritdoc />
-		public async ValueTask ChangeSettings(DreamDaemonLaunchParameters launchParameters, CancellationToken cancellationToken)
+		public async ValueTask<bool> ChangeSettings(DreamDaemonLaunchParameters launchParameters, CancellationToken cancellationToken)
 		{
 			using (await SemaphoreSlimContext.Lock(synchronizationSemaphore, cancellationToken))
 			{
 				bool match = launchParameters.CanApplyWithoutReboot(ActiveLaunchParameters);
 				ActiveLaunchParameters = launchParameters;
-				if (match || Status == WatchdogStatus.Offline)
-					return;
+				if (match || Status == WatchdogStatus.Offline || Status == WatchdogStatus.DelayedRestart)
+					return false;
 
 				var oldTcs = Interlocked.Exchange(ref activeParametersUpdated, new TaskCompletionSource());
 				oldTcs.SetResult();
 			}
+
+			return true;
 		}
 
 		/// <inheritdoc />
@@ -446,20 +448,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <inheritdoc />
 		public async ValueTask CreateDump(CancellationToken cancellationToken)
 		{
-			const string DumpDirectory = "ProcessDumps";
-			await diagnosticsIOManager.CreateDirectory(DumpDirectory, cancellationToken);
-
-			var dumpFileName = diagnosticsIOManager.ResolvePath(
-				diagnosticsIOManager.ConcatPath(
-					DumpDirectory,
-					$"DreamDaemon-{DateTimeOffset.UtcNow.ToFileStamp()}.dmp"));
-
-			var session = GetActiveController();
-			if (session?.Lifetime.IsCompleted != false)
-				throw new JobException(ErrorCode.GameServerOffline);
-
-			Logger.LogInformation("Dumping session to {dumpFileName}...", dumpFileName);
-			await session.CreateDump(dumpFileName, cancellationToken);
+			using (await SemaphoreSlimContext.Lock(synchronizationSemaphore, cancellationToken))
+				await CreateDumpNoLock(cancellationToken);
 		}
 
 		/// <inheritdoc />
@@ -760,8 +750,9 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			try
 			{
 				var sessionEventTask = relayToSession ? ((IEventConsumer)this).HandleEvent(eventType, parameters, false, cancellationToken) : ValueTask.CompletedTask;
+				var eventConsumerTask = eventConsumer.HandleEvent(eventType, parameters, false, cancellationToken);
 				await ValueTaskExtensions.WhenAll(
-					eventConsumer.HandleEvent(eventType, parameters, false, cancellationToken),
+					eventConsumerTask,
 					sessionEventTask);
 			}
 			catch (JobException ex)
@@ -1144,7 +1135,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 							Logger.LogDebug("DumpOnHealthCheckRestart enabled.");
 							try
 							{
-								await CreateDump(cancellationToken);
+								await CreateDumpNoLock(cancellationToken);
 							}
 							catch (JobException ex)
 							{
@@ -1193,6 +1184,35 @@ namespace Tgstation.Server.Host.Components.Watchdog
 							})
 							.Where(nullableChannelId => nullableChannelId.HasValue)
 							.Select(nullableChannelId => nullableChannelId.Value));
+		}
+
+		/// <summary>
+		/// Attempt to create a process dump for the game server. Requires a lock on <see cref="synchronizationSemaphore"/>.
+		/// </summary>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
+		async ValueTask CreateDumpNoLock(CancellationToken cancellationToken)
+		{
+			const string DumpDirectory = "ProcessDumps";
+			var dumpFileNameTemplate = diagnosticsIOManager.ResolvePath(
+				diagnosticsIOManager.ConcatPath(
+					DumpDirectory,
+					$"DreamDaemon-{DateTimeOffset.UtcNow.ToFileStamp()}.dmp"));
+
+			var dumpFileName = dumpFileNameTemplate;
+			var iteration = 0;
+			while (await diagnosticsIOManager.FileExists(dumpFileName, cancellationToken))
+				dumpFileName = $"{dumpFileNameTemplate} ({++iteration})";
+
+			if (iteration == 0)
+				await diagnosticsIOManager.CreateDirectory(DumpDirectory, cancellationToken);
+
+			var session = GetActiveController();
+			if (session?.Lifetime.IsCompleted != false)
+				throw new JobException(ErrorCode.GameServerOffline);
+
+			Logger.LogInformation("Dumping session to {dumpFileName}...", dumpFileName);
+			await session.CreateDump(dumpFileName, cancellationToken);
 		}
 	}
 }

@@ -64,7 +64,7 @@
     <!-- Usage: Concise throw statements for native Win32 errors -->
     <PackageReference Include="BetterWin32Errors" Version="0.2.0" />
     <!-- Usage: Interop with BYOND's /world/Topic -->
-    <PackageReference Include="Byond.TopicSender" Version="7.0.8" />
+    <PackageReference Include="Byond.TopicSender" Version="8.0.0" />
     <!-- Usage: 503'ing request pipeline until server is finished initializing -->
     <PackageReference Include="Cyberboss.AspNetCore.AsyncInitializer" Version="1.2.0" />
     <!-- Usage: IRC interop -->
@@ -74,7 +74,7 @@
     <!-- Usage: GitLab interop -->
     <PackageReference Include="GitLabApiClient" Version="1.8.0" />
     <!-- Usage: git interop -->
-    <PackageReference Include="LibGit2Sharp" Version="0.28.0" />
+    <PackageReference Include="LibGit2Sharp" Version="0.29.0" />
     <!-- Usage: JWT injection into HTTP pipeline -->
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.0" />
     <!-- Usage: Support ""legacy"" Newotonsoft.Json in HTTP pipeline. The rest of our codebase uses Newtonsoft. -->
@@ -96,7 +96,7 @@
     <!-- Usage: YAML config plugin -->
     <PackageReference Include="NetEscapades.Configuration.Yaml" Version="3.1.0" />
     <!-- Usage: PostgresSQL ORM plugin -->
-    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.0-rc.2" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.0" />
     <!-- Usage: GitHub.com interop -->
     <PackageReference Include="Octokit" Version="9.0.0" />
     <!-- Usage: MYSQL/MariaDB ORM plugin -->
@@ -108,7 +108,7 @@
     <!-- Usage: Async logging plugin -->
     <PackageReference Include="Serilog.Sinks.Async" Version="1.5.0" />
     <!-- Usage: Console logging plugin -->
-    <PackageReference Include="Serilog.Sinks.Console" Version="5.0.0" />
+    <PackageReference Include="Serilog.Sinks.Console" Version="5.0.1" />
     <!-- Usage: Elasticsearch logging plugin -->
     <PackageReference Include="Serilog.Sinks.Elasticsearch" Version="9.0.3" />
     <!-- Usage: File logging plugin -->
@@ -126,7 +126,7 @@
     <!-- Usage: Temporary resolution to compatibility issues with EFCore 7 and .NET 8 -->
     <PackageReference Include="System.Security.Permissions" Version="8.0.0" />
     <!-- Usage: .DeleteAsync() support for IQueryable<T>s -->
-    <PackageReference Include="Z.EntityFramework.Plus.EFCore" Version="8.101.0" />
+    <PackageReference Include="Z.EntityFramework.Plus.EFCore" Version="8.101.1.2" />
   </ItemGroup>
 
   <ItemGroup>
