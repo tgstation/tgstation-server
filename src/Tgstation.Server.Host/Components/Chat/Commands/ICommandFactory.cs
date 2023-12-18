@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
 
-#nullable disable
-
 namespace Tgstation.Server.Host.Components.Chat.Commands
 {
 	/// <summary>
