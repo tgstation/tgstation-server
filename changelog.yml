@@ -139,7 +139,16 @@ Components:
       PullRequest: 1070
   Core:
   - Version: 6.0.0
-    ComponentVersions: {}
+    ComponentVersions:
+      HttpApi: 10.0.0
+      DreamMakerApi: 7.0.0
+      Configuration: 5.0.0
+      InteropApi: 5.7.0
+      HostWatchdog: 1.4.1
+      NugetCommon: 7.0.0
+      NugetApi: 13.0.0
+      NugetClient: 15.0.0
+      WebControlPanel: 5.1.0
     Changes:
     - Descriptions:
       - TGS now requires the ASP.NET 8 runtime.
@@ -168,6 +177,12 @@ Components:
       - API documentation page moved to `/documentation`.
       Author: Cyberboss
       PullRequest: 1704
+    - Descriptions:
+      - 'Fixed changing launch-only watchdog settings with POST `/DreamDaemon` not immediately returning `"softRestart": true`.'
+      - Fixed an error that could happen if two requests to dump the game server process happened in the same second.
+      - Fixed setup wizard generating invalid connection strings for existing Sqlite databases.
+      Author: Cyberboss
+      PullRequest: 1728
     Unreleased: true
   - Version: 5.19.0
     ComponentVersions: {}
@@ -3989,6 +4004,10 @@ Components:
       - Renamed `Routes.Root` to `Routes.ApiRoot` and now reflects the new API path.
       Author: Cyberboss
       PullRequest: 1704
+    - Descriptions:
+      - Added `JobCode` extension method `IsServerStartupJob`.
+      Author: Cyberboss
+      PullRequest: 1728
     Unreleased: true
   - Version: 12.2.0
     Changes:

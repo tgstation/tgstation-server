@@ -99,7 +99,7 @@ var searchData=
   ['instancemanager_2ecs_96',['InstanceManager.cs',['../_instance_manager_8cs.html',1,'']]],
   ['instancemanagerclient_2ecs_97',['InstanceManagerClient.cs',['../_instance_manager_client_8cs.html',1,'']]],
   ['instancemanagerrights_2ecs_98',['InstanceManagerRights.cs',['../_instance_manager_rights_8cs.html',1,'']]],
-  ['instancepermissionset_2ecs_99',['InstancePermissionSet.cs',['../_tgstation_8_server_8_host_2_models_2_instance_permission_set_8cs.html',1,'(Global Namespace)'],['../_tgstation_8_server_8_api_2_models_2_internal_2_instance_permission_set_8cs.html',1,'(Global Namespace)']]],
+  ['instancepermissionset_2ecs_99',['InstancePermissionSet.cs',['../_tgstation_8_server_8_api_2_models_2_internal_2_instance_permission_set_8cs.html',1,'(Global Namespace)'],['../_tgstation_8_server_8_host_2_models_2_instance_permission_set_8cs.html',1,'(Global Namespace)']]],
   ['instancepermissionsetclient_2ecs_100',['InstancePermissionSetClient.cs',['../_instance_permission_set_client_8cs.html',1,'']]],
   ['instancepermissionsetcontroller_2ecs_101',['InstancePermissionSetController.cs',['../_instance_permission_set_controller_8cs.html',1,'']]],
   ['instancepermissionsetrequest_2ecs_102',['InstancePermissionSetRequest.cs',['../_instance_permission_set_request_8cs.html',1,'']]],
@@ -164,5 +164,5 @@ var searchData=
   ['iusergroupsclient_2ecs_161',['IUserGroupsClient.cs',['../_i_user_groups_client_8cs.html',1,'']]],
   ['iusersclient_2ecs_162',['IUsersClient.cs',['../_i_users_client_8cs.html',1,'']]],
   ['iwatchdog_2ecs_163',['IWatchdog.cs',['../_tgstation_8_server_8_host_2_components_2_watchdog_2_i_watchdog_8cs.html',1,'(Global Namespace)'],['../_tgstation_8_server_8_host_8_watchdog_2_i_watchdog_8cs.html',1,'(Global Namespace)']]],
-  ['iwatchdogfactory_2ecs_164',['IWatchdogFactory.cs',['../_tgstation_8_server_8_host_8_watchdog_2_i_watchdog_factory_8cs.html',1,'(Global Namespace)'],['../_tgstation_8_server_8_host_2_components_2_watchdog_2_i_watchdog_factory_8cs.html',1,'(Global Namespace)']]]
+  ['iwatchdogfactory_2ecs_164',['IWatchdogFactory.cs',['../_tgstation_8_server_8_host_2_components_2_watchdog_2_i_watchdog_factory_8cs.html',1,'(Global Namespace)'],['../_tgstation_8_server_8_host_8_watchdog_2_i_watchdog_factory_8cs.html',1,'(Global Namespace)']]]
 ];
