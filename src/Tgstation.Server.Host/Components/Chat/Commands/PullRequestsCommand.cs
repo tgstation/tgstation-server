@@ -13,8 +13,6 @@ using Tgstation.Server.Host.Components.Repository;
 using Tgstation.Server.Host.Components.Watchdog;
 using Tgstation.Server.Host.Database;
 
-#nullable disable
-
 namespace Tgstation.Server.Host.Components.Chat.Commands
 {
 	/// <summary>
@@ -83,7 +81,7 @@ namespace Tgstation.Server.Host.Components.Chat.Commands
 #pragma warning disable CA1506
 		public async ValueTask<MessageContent> Invoke(string arguments, ChatUser user, CancellationToken cancellationToken)
 		{
-			IEnumerable<Models.TestMerge> results = null;
+			IEnumerable<Models.TestMerge> results;
 			var splits = arguments.Split(' ');
 			var hasRepo = splits.Any(x => x.Equals("--repo", StringComparison.OrdinalIgnoreCase));
 			var hasStaged = splits.Any(x => x.Equals("--staged", StringComparison.OrdinalIgnoreCase));
@@ -114,6 +112,7 @@ namespace Tgstation.Server.Host.Components.Chat.Commands
 					head = repo.Head;
 				}
 
+				results = null!;
 				await databaseContextFactory.UseContext(
 					async db => results = await db
 						.RevisionInformations
@@ -155,7 +154,7 @@ namespace Tgstation.Server.Host.Components.Chat.Commands
 					: String.Join(
 						", ",
 						results.Select(
-							x => $"#{x.Number} at {x.TargetCommitSha[..7]}")),
+							x => $"#{x.Number} at {x.TargetCommitSha![..7]}")),
 			};
 		}
 #pragma warning restore CA1506
