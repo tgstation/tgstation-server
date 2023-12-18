@@ -967,13 +967,16 @@ namespace Tgstation.Server.Host.Components.Deployment
 				}
 			}
 
-			// DCT: None available
+			var dirCleanTask = CleanDir();
+
+			var failRemoteDeployTask = remoteDeploymentManager.FailDeployment(
+				job,
+				FormatExceptionForUsers(exception),
+				CancellationToken.None); // DCT: None available
+
 			return ValueTaskExtensions.WhenAll(
-				CleanDir(),
-				remoteDeploymentManager.FailDeployment(
-					job,
-					FormatExceptionForUsers(exception),
-					CancellationToken.None));
+				dirCleanTask,
+				failRemoteDeployTask);
 		}
 	}
 }
