@@ -24,7 +24,7 @@ namespace Tgstation.Server.Host.Models
 		public Instance? Instance { get; set; }
 
 		/// <inheritdoc />
-		public DreamMakerResponse ToApi() => new DreamMakerResponse
+		public DreamMakerResponse ToApi() => new()
 		{
 			ProjectName = ProjectName,
 			ApiValidationPort = ApiValidationPort,
