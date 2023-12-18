@@ -315,13 +315,8 @@ namespace Tgstation.Server.Tests.Live
 						else
 							content = $"{content} embeds_test"; // NEVER send the response_overload_test, it causes so much havoc in CI and we test it manually
 
-					EnqueueMessage(new Message
-					{
-						Content = content,
-						User = sender,
-					});
+					EnqueueMessage(new Message(sender, content));
 				}
-
 			}
 			catch (OperationCanceledException)
 			{

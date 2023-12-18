@@ -534,11 +534,8 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 						messageGuildResponse.LogFormat());
 			}
 
-			var result = new DiscordMessage
-			{
-				MessageReference = messageReference,
-				Content = content,
-				User = new ChatUser
+			var result = new DiscordMessage(
+				new ChatUser
 				{
 					RealId = messageCreateEvent.Author.ID.Value,
 					Channel = new ChannelRepresentation(
@@ -554,7 +551,8 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 					FriendlyName = messageCreateEvent.Author.Username,
 					Mention = NormalizeMentions($"<@{messageCreateEvent.Author.ID}>"),
 				},
-			};
+				content,
+				messageReference);
 
 			EnqueueMessage(result);
 			return Result.FromSuccess();
