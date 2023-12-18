@@ -7,8 +7,6 @@ using Microsoft.Extensions.Logging;
 using Tgstation.Server.Api;
 using Tgstation.Server.Common.Http;
 
-#nullable disable
-
 namespace Tgstation.Server.Host.IO
 {
 	/// <inheritdoc />
@@ -36,7 +34,7 @@ namespace Tgstation.Server.Host.IO
 		}
 
 		/// <inheritdoc />
-		public IFileStreamProvider DownloadFile(Uri url, string bearerToken)
+		public IFileStreamProvider DownloadFile(Uri url, string? bearerToken)
 		{
 			ArgumentNullException.ThrowIfNull(url);
 
