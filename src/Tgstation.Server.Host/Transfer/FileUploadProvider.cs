@@ -65,14 +65,6 @@ namespace Tgstation.Server.Host.Transfer
 			return ValueTask.CompletedTask;
 		}
 
-		/// <inheritdoc />
-		public async ValueTask<Stream?> GetResult(CancellationToken cancellationToken)
-		{
-			using (cancellationToken.Register(() => streamTcs.TrySetCanceled(cancellationToken)))
-			using (ticketExpiryCts.Token.Register(() => streamTcs.TrySetResult(null)))
-				return await streamTcs.Task;
-		}
-
 		/// <summary>
 		/// Expire the <see cref="FileUploadProvider"/>.
 		/// </summary>
@@ -141,6 +133,19 @@ namespace Tgstation.Server.Host.Transfer
 				AdditionalData = additionalData,
 			};
 			completionTcs.TrySetResult();
+		}
+
+		/// <inheritdoc />
+		public async ValueTask<Stream> GetResult(CancellationToken cancellationToken)
+			=> await ((IFileUploadTicket)this).GetResult(cancellationToken)
+			?? throw new InvalidOperationException("Upload ticket expired!");
+
+		/// <inheritdoc />
+		async ValueTask<Stream?> IFileUploadTicket.GetResult(CancellationToken cancellationToken)
+		{
+			using (cancellationToken.Register(() => streamTcs.TrySetCanceled(cancellationToken)))
+			using (ticketExpiryCts.Token.Register(() => streamTcs.TrySetResult(null)))
+				return await streamTcs.Task;
 		}
 	}
 }
