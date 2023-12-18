@@ -1,7 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-#nullable disable
-
 namespace Tgstation.Server.Host.Models
 {
 	/// <inheritdoc />
@@ -21,6 +19,6 @@ namespace Tgstation.Server.Host.Models
 		/// The parent <see cref="Models.Instance"/>.
 		/// </summary>
 		[Required]
-		public Instance Instance { get; set; }
+		public Instance? Instance { get; set; }
 	}
 }

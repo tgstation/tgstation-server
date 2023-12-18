@@ -74,14 +74,14 @@ namespace Tgstation.Server.Host.Utils
 			var ddPorts = await databaseContext
 				.DreamDaemonSettings
 				.AsQueryable()
-				.Where(x => x.Instance.SwarmIdentifer == swarmConfiguration.Identifier)
+				.Where(x => x.Instance!.SwarmIdentifer == swarmConfiguration.Identifier)
 				.Select(x => x.Port)
 				.ToListAsync(cancellationToken);
 
 			var dmPorts = await databaseContext
 				.DreamMakerSettings
 				.AsQueryable()
-				.Where(x => x.Instance.SwarmIdentifer == swarmConfiguration.Identifier)
+				.Where(x => x.Instance!.SwarmIdentifer == swarmConfiguration.Identifier)
 				.Select(x => x.ApiValidationPort)
 				.ToListAsync(cancellationToken);
 
