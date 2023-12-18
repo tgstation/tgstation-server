@@ -771,7 +771,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 				.GetProcess(ddProc.Id);
 
 			// Ensure it's responding to health checks
-			await Task.WhenAny(Task.Delay(6000, cancellationToken), ourProcessHandler.Lifetime);
+			await Task.WhenAny(Task.Delay(7000, cancellationToken), ourProcessHandler.Lifetime);
 			Assert.IsFalse(ddProc.HasExited);
 
 			// check DD agrees
