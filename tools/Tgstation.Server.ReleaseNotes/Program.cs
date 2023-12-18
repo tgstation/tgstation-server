@@ -1,4 +1,4 @@
-﻿// This program is minimal effort and should be sent to remedial school
+// This program is minimal effort and should be sent to remedial school
 
 using System;
 using System.Collections.Concurrent;
@@ -684,7 +684,11 @@ namespace Tgstation.Server.ReleaseNotes
 					{
 						if (trimmedLine.StartsWith(":cl:", StringComparison.Ordinal) || trimmedLine.StartsWith("🆑", StringComparison.Ordinal))
 						{
-							targetComponent = trimmedLine[4..].Trim();
+							var matchLength = trimmedLine.StartsWith("🆑", StringComparison.Ordinal)
+								? "🆑".Length
+								: 4;
+
+							targetComponent = trimmedLine[matchLength..].Trim();
 							if (targetComponent.Length == 0)
 								targetComponent = "Core";
 						}
