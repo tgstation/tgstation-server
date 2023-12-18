@@ -611,10 +611,11 @@ namespace Tgstation.Server.Host.Components
 
 				await Task.WhenAll(instanceOnliningTasks);
 
-				jobService.Activate(this);
-
 				logger.LogInformation("Server ready!");
 				readyTcs.SetResult();
+
+				// this needs to happen after the HTTP API opens with readyTcs otherwise it can race and cause failed bridge requests with 503's
+				jobService.Activate(this);
 			}
 			catch (OperationCanceledException ex)
 			{
