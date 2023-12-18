@@ -200,7 +200,7 @@ namespace Tgstation.Server.Host.Components.Engine
 		{
 			CheckVersionValidity(version);
 
-			var url = await GetDownloadZipUrl(version, cancellationToken);
+			var url = GetDownloadZipUrl(version);
 			Logger.LogTrace("Downloading {engineType} version {version} from {url}...", TargetEngineType, version, url);
 
 			await using var download = fileDownloader.DownloadFile(url, null);
@@ -233,13 +233,12 @@ namespace Tgstation.Server.Host.Components.Engine
 		/// Create a <see cref="Uri"/> pointing to the location of the download for a given <paramref name="version"/>.
 		/// </summary>
 		/// <param name="version">The <see cref="EngineVersion"/> to create a <see cref="Uri"/> for.</param>
-		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in a new <see cref="Uri"/> pointing to the version download location.</returns>
-		ValueTask<Uri> GetDownloadZipUrl(EngineVersion version, CancellationToken cancellationToken)
+		/// <returns>A <see cref="Uri"/> pointing to the version download location.</returns>
+		Uri GetDownloadZipUrl(EngineVersion version)
 		{
 			CheckVersionValidity(version);
 			var url = String.Format(CultureInfo.InvariantCulture, ByondRevisionsUrlTemplate, version.Version.Major, version.Version.Minor);
-			return ValueTask.FromResult(new Uri(url));
+			return new Uri(url);
 		}
 	}
 }
