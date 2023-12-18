@@ -4,8 +4,6 @@ using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 
-#nullable disable
-
 namespace Tgstation.Server.Host.IO
 {
 	/// <summary>
@@ -59,7 +57,7 @@ namespace Tgstation.Server.Host.IO
 		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
 		ValueTask CopyDirectory(
 			IEnumerable<string> ignore,
-			Func<string, string, ValueTask> postCopyCallback,
+			Func<string, string, ValueTask>? postCopyCallback,
 			string src,
 			string dest,
 			int? taskThrottle,

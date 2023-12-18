@@ -28,7 +28,7 @@
 		/// <summary>
 		/// The base path for the app settings configuration files.
 		/// </summary>
-		public string? AppSettingsBasePath { get; set; }
+		public string AppSettingsBasePath { get; set; } = "UNINITIALIZED"; // this is set in a hacky way in ServerFactory
 
 		/// <summary>
 		/// Coerce the <see cref="Setup.SetupWizard"/> to select <see cref="DatabaseType.MariaDB"/>.
