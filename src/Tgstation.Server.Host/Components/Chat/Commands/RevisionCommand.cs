@@ -9,8 +9,6 @@ using Tgstation.Server.Host.Components.Interop;
 using Tgstation.Server.Host.Components.Repository;
 using Tgstation.Server.Host.Components.Watchdog;
 
-#nullable disable
-
 namespace Tgstation.Server.Host.Components.Chat.Commands
 {
 	/// <summary>
@@ -77,7 +75,7 @@ namespace Tgstation.Server.Host.Components.Chat.Commands
 					{
 						Text = "Server offline!",
 					};
-				result = watchdog.ActiveCompileJob?.RevisionInformation.OriginCommitSha;
+				result = watchdog.ActiveCompileJob?.RevisionInformation.OriginCommitSha!;
 			}
 
 			return new MessageContent
