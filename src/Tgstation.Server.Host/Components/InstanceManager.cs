@@ -353,7 +353,7 @@ namespace Tgstation.Server.Host.Components
 					await container.OnZeroReferences.WaitAsync(cancellationToken);
 
 					// we are the one responsible for cancelling his jobs
-					var tasks = new List<ValueTask<Models.Job>>();
+					ValueTask<Models.Job[]> groupedTask = default;
 					await databaseContextFactory.UseContext(
 						async db =>
 						{
@@ -363,11 +363,13 @@ namespace Tgstation.Server.Host.Components
 								.Where(x => x.Instance.Id == metadata.Id && !x.StoppedAt.HasValue)
 								.Select(x => new Models.Job(x.Id.Value))
 								.ToListAsync(cancellationToken);
-							foreach (var job in jobs)
-								tasks.Add(jobService.CancelJob(job, user, true, cancellationToken));
+
+							groupedTask = ValueTaskExtensions.WhenAll(
+								jobs.Select(job => jobService.CancelJob(job, user, true, cancellationToken)),
+								jobs.Count);
 						});
 
-					await ValueTaskExtensions.WhenAll(tasks);
+					await groupedTask;
 				}
 				catch
 				{
