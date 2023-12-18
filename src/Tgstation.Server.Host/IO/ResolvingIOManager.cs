@@ -1,8 +1,6 @@
 ﻿using System;
 using System.IO;
 
-#nullable disable
-
 namespace Tgstation.Server.Host.IO
 {
 	/// <summary>
