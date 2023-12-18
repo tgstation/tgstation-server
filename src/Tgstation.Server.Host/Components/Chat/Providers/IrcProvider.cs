@@ -19,8 +19,6 @@ using Tgstation.Server.Host.Jobs;
 using Tgstation.Server.Host.System;
 using Tgstation.Server.Host.Utils;
 
-#nullable disable
-
 namespace Tgstation.Server.Host.Components.Chat.Providers
 {
 	/// <summary>
@@ -77,7 +75,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// <summary>
 		/// Map of <see cref="ChannelRepresentation.RealId"/>s to channel names.
 		/// </summary>
-		readonly Dictionary<ulong, string> channelIdMap;
+		readonly Dictionary<ulong, string?> channelIdMap;
 
 		/// <summary>
 		/// Map of <see cref="ChannelRepresentation.RealId"/>s to query users.
@@ -85,14 +83,14 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		readonly Dictionary<ulong, string> queryChannelIdMap;
 
 		/// <summary>
+		/// The <see cref="ValueTask"/> used for <see cref="IrcConnection.Listen(bool)"/>.
+		/// </summary>
+		Task? listenTask;
+
+		/// <summary>
 		/// Id counter for <see cref="channelIdMap"/>.
 		/// </summary>
 		ulong channelIdCounter;
-
-		/// <summary>
-		/// The <see cref="ValueTask"/> used for <see cref="IrcConnection.Listen(bool)"/>.
-		/// </summary>
-		Task listenTask;
 
 		/// <summary>
 		/// If we are disconnecting.
@@ -121,11 +119,11 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			if (builder == null || !builder.Valid || builder is not IrcConnectionStringBuilder ircBuilder)
 				throw new InvalidOperationException("Invalid ChatConnectionStringBuilder!");
 
-			address = ircBuilder.Address;
-			port = ircBuilder.Port.Value;
-			nickname = ircBuilder.Nickname;
+			address = ircBuilder.Address!;
+			port = ircBuilder.Port!.Value;
+			nickname = ircBuilder.Nickname!;
 
-			password = ircBuilder.Password;
+			password = ircBuilder.Password!;
 			passwordType = ircBuilder.PasswordType;
 
 			client = new IrcFeatures
@@ -140,7 +138,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				ActiveChannelSyncing = true,
 				AutoNickHandling = true,
 				CtcpVersion = assemblyInformationProvider.VersionString,
-				UseSsl = ircBuilder.UseSsl.Value,
+				UseSsl = ircBuilder.UseSsl!.Value,
 			};
 			if (ircBuilder.UseSsl.Value)
 				client.ValidateServerCertificate = true; // dunno if it defaults to that or what
@@ -151,7 +149,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			/*client.OnReadLine += (sender, e) => Logger.LogTrace("READ: {line}", e.Line);
 			client.OnWriteLine += (sender, e) => Logger.LogTrace("WRITE: {line}", e.Line);*/
 
-			channelIdMap = new Dictionary<ulong, string>();
+			channelIdMap = new Dictionary<ulong, string?>();
 			queryChannelIdMap = new Dictionary<ulong, string>();
 			channelIdCounter = 1;
 		}
@@ -166,7 +164,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		}
 
 		/// <inheritdoc />
-		public override async ValueTask SendMessage(Message replyTo, MessageContent message, ulong channelId, CancellationToken cancellationToken)
+		public override async ValueTask SendMessage(Message? replyTo, MessageContent message, ulong channelId, CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(message);
 
@@ -224,8 +222,8 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			Models.RevisionInformation revisionInformation,
 			EngineVersion engineVersion,
 			DateTimeOffset? estimatedCompletionTime,
-			string gitHubOwner,
-			string gitHubRepo,
+			string? gitHubOwner,
+			string? gitHubRepo,
 			ulong channelId,
 			bool localCommitPushed,
 			CancellationToken cancellationToken)
@@ -235,7 +233,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			ArgumentNullException.ThrowIfNull(gitHubOwner);
 			ArgumentNullException.ThrowIfNull(gitHubRepo);
 
-			var commitInsert = revisionInformation.CommitSha[..7];
+			var commitInsert = revisionInformation.CommitSha![..7];
 			string remoteCommitInsert;
 			if (revisionInformation.CommitSha == revisionInformation.OriginCommitSha)
 			{
@@ -243,7 +241,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				remoteCommitInsert = String.Empty;
 			}
 			else
-				remoteCommitInsert = String.Format(CultureInfo.InvariantCulture, ". Remote commit: ^{0}", revisionInformation.OriginCommitSha[..7]);
+				remoteCommitInsert = String.Format(CultureInfo.InvariantCulture, ". Remote commit: ^{0}", revisionInformation.OriginCommitSha![..7]);
 
 			var testmergeInsert = (revisionInformation.ActiveTestMerges?.Count ?? 0) == 0
 				? String.Empty
@@ -253,17 +251,17 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 					String.Join(
 						", ",
 						revisionInformation
-							.ActiveTestMerges
+							.ActiveTestMerges!
 							.Select(x => x.TestMerge)
 							.Select(x =>
 							{
-								var result = String.Format(CultureInfo.InvariantCulture, "#{0} at {1}", x.Number, x.TargetCommitSha[..7]);
+								var result = String.Format(CultureInfo.InvariantCulture, "#{0} at {1}", x.Number, x.TargetCommitSha![..7]);
 								if (x.Comment != null)
 									result += String.Format(CultureInfo.InvariantCulture, " ({0})", x.Comment);
 								return result;
 							})));
 
-			var prefix = GetEngineCompilerPrefix(engineVersion.Engine.Value);
+			var prefix = GetEngineCompilerPrefix(engineVersion.Engine!.Value);
 			await SendMessage(
 				null,
 				new MessageContent
@@ -353,7 +351,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 										dbChannel,
 										new List<ChannelRepresentation>
 										{
-											new(address, channelIdMap[id.Value], id.Value)
+											new(address, channelName, id!.Value)
 											{
 												Tag = dbChannel.Tag,
 												IsAdminChannel = dbChannel.IsAdminChannel == true,
@@ -502,7 +500,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			var username = e.Data.Nick;
 			var channelName = isPrivate ? username : e.Data.Channel;
 
-			ulong MapAndGetChannelId(Dictionary<ulong, string> dicToCheck)
+			ulong MapAndGetChannelId(Dictionary<ulong, string?> dicToCheck)
 			{
 				ulong? resultId = null;
 				if (!dicToCheck.Any(x =>
@@ -519,13 +517,14 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 						channelIdMap.Add(resultId.Value, null);
 				}
 
-				return resultId.Value;
+				return resultId!.Value;
 			}
 
 			ulong userId, channelId;
 			lock (client)
 			{
-				userId = MapAndGetChannelId(queryChannelIdMap);
+				userId = MapAndGetChannelId(new Dictionary<ulong, string?>(queryChannelIdMap
+					.Cast<KeyValuePair<ulong, string?>>())); // NRT my beloathed
 				channelId = isPrivate ? userId : MapAndGetChannelId(channelIdMap);
 			}
 
