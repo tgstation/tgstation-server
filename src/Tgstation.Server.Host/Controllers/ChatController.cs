@@ -126,12 +126,12 @@ namespace Tgstation.Server.Host.Controllers
 			model.ReconnectionInterval ??= 1;
 
 			// try to update das db first
-			var dbModel = new ChatBot
+			var newChannels = model.Channels?.Select(x => ConvertApiChatChannel(x, model.Provider!.Value)).ToList() ?? new List<Models.ChatChannel>(); // important that this isn't null
+			var dbModel = new ChatBot(newChannels)
 			{
 				Name = model.Name,
 				ConnectionString = model.ConnectionString,
 				Enabled = model.Enabled,
-				Channels = model.Channels?.Select(x => ConvertApiChatChannel(x, model.Provider!.Value)).ToList() ?? new List<Models.ChatChannel>(), // important that this isn't null
 				InstanceId = Instance.Id!.Value,
 				Provider = model.Provider,
 				ReconnectionInterval = model.ReconnectionInterval,
@@ -296,7 +296,7 @@ namespace Tgstation.Server.Host.Controllers
 			if (current == default)
 				return this.Gone();
 
-			if ((model.Channels?.Count ?? current.Channels.Count) > (model.ChannelLimit ?? current.ChannelLimit!.Value))
+			if ((model.Channels?.Count ?? current.Channels!.Count) > (model.ChannelLimit ?? current.ChannelLimit!.Value))
 			{
 				// 400 or 409 depends on if the client sent both
 				var errorMessage = new ErrorMessageResponse(ErrorCode.ChatBotMaxChannels);
@@ -339,7 +339,7 @@ namespace Tgstation.Server.Host.Controllers
 			var hasChannels = model.Channels != null;
 			if (hasChannels || (model.Provider.HasValue && model.Provider != oldProvider))
 			{
-				DatabaseContext.ChatChannels.RemoveRange(current.Channels);
+				DatabaseContext.ChatChannels.RemoveRange(current.Channels!);
 				if (hasChannels)
 				{
 					var dbChannels = model.Channels!.Select(x => ConvertApiChatChannel(x, model.Provider ?? current.Provider!.Value)).ToList();
@@ -347,7 +347,7 @@ namespace Tgstation.Server.Host.Controllers
 					current.Channels = dbChannels;
 				}
 				else
-					current.Channels.Clear();
+					current.Channels!.Clear();
 			}
 
 			await DatabaseContext.Save(cancellationToken);
