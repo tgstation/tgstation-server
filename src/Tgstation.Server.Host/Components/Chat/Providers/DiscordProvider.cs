@@ -60,13 +60,13 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// <summary>
 		/// The <see cref="ChannelType"/>s supported by the <see cref="DiscordProvider"/> for mapping.
 		/// </summary>
-		static readonly ChannelType[] SupportedGuildChannelTypes = new[]
-		{
+		static readonly ChannelType[] SupportedGuildChannelTypes =
+		[
 			ChannelType.GuildText,
 			ChannelType.GuildAnnouncement,
 			ChannelType.PrivateThread,
 			ChannelType.PublicThread,
-		};
+		];
 
 		/// <summary>
 		/// The <see cref="IAssemblyInformationProvider"/> for the <see cref="DiscordProvider"/>.

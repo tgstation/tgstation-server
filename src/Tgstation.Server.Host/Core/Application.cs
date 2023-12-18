@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
 using System.Threading.Tasks;
 
 using Cyberboss.AspNetCore.AsyncInitializer;
@@ -546,7 +545,7 @@ namespace Tgstation.Server.Host.Core
 			else if (controlPanelConfiguration.AllowedOrigins?.Count > 0)
 			{
 				logger.LogTrace("Access-Control-Allow-Origin: {allowedOrigins}", String.Join(',', controlPanelConfiguration.AllowedOrigins));
-				corsBuilder = builder => builder.WithOrigins(controlPanelConfiguration.AllowedOrigins.ToArray());
+				corsBuilder = builder => builder.WithOrigins([.. controlPanelConfiguration.AllowedOrigins]);
 			}
 
 			var originalBuilder = corsBuilder;
