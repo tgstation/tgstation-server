@@ -4,8 +4,6 @@ using System.ComponentModel.DataAnnotations;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Response;
 
-#nullable disable
-
 namespace Tgstation.Server.Host.Models
 {
 	/// <inheritdoc cref="Api.Models.Internal.CompileJob" />
@@ -65,14 +63,14 @@ namespace Tgstation.Server.Host.Models
 		public int? GitHubDeploymentId { get; set; }
 
 		/// <inheritdoc />
-		public override Version DMApiVersion
+		public override Version? DMApiVersion
 		{
 			get
 			{
 				if (!DMApiMajorVersion.HasValue)
 					return null;
 
-				return new Version(DMApiMajorVersion.Value, DMApiMinorVersion.Value, DMApiPatchVersion.Value);
+				return new Version(DMApiMajorVersion.Value, DMApiMinorVersion!.Value, DMApiPatchVersion!.Value);
 			}
 
 			set
@@ -81,6 +79,51 @@ namespace Tgstation.Server.Host.Models
 				DMApiMinorVersion = value?.Minor;
 				DMApiPatchVersion = value?.Build;
 			}
+		}
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="CompileJob"/> class.
+		/// </summary>
+		[Obsolete("For use by EFCore only", true)]
+		public CompileJob()
+			: this(null!, null!, null!, null!, false)
+		{
+		}
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="CompileJob"/> class.
+		/// </summary>
+		/// <param name="job">The value of <see cref="Job"/>.</param>
+		/// <param name="revisionInformation">The value of <see cref="RevisionInformation"/>.</param>
+		/// <param name="engineVersion">The value of <see cref="EngineVersion"/>.</param>
+		/// <param name="repositoryOrigin">The value of <see cref="RepositoryOrigin"/>.</param>
+		public CompileJob(Job job, RevisionInformation revisionInformation, string engineVersion, string repositoryOrigin)
+			: this(job, revisionInformation, engineVersion, repositoryOrigin, true)
+		{
+		}
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="CompileJob"/> class.
+		/// </summary>
+		/// <param name="job">The value of <see cref="Job"/>.</param>
+		/// <param name="revisionInformation">The value of <see cref="RevisionInformation"/>.</param>
+		/// <param name="engineVersion">The value of <see cref="EngineVersion"/>.</param>
+		/// <param name="repositoryOrigin">The value of <see cref="RepositoryOrigin"/>.</param>
+		/// <param name="nullChecks">If <paramref name="job"/>, <paramref name="revisionInformation"/>, and <paramref name="repositoryOrigin"/> should be checked for nulls.</param>
+		CompileJob(Job job, RevisionInformation revisionInformation, string engineVersion, string repositoryOrigin, bool nullChecks)
+		{
+			if (nullChecks)
+			{
+				ArgumentNullException.ThrowIfNull(job);
+				ArgumentNullException.ThrowIfNull(revisionInformation);
+				ArgumentNullException.ThrowIfNull(engineVersion);
+				ArgumentNullException.ThrowIfNull(repositoryOrigin);
+			}
+
+			Job = job;
+			RevisionInformation = revisionInformation;
+			EngineVersion = engineVersion;
+			RepositoryOrigin = repositoryOrigin;
 		}
 
 		/// <inheritdoc />

@@ -317,6 +317,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 					&& repositorySettings.AccessUser != null;
 				using (repo)
 					compileJob = await Compile(
+						job,
 						revInfo,
 						dreamMakerSettings,
 						ddSettings,
@@ -447,6 +448,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 		/// <summary>
 		/// Run the compile implementation.
 		/// </summary>
+		/// <param name="job">The currently running <see cref="Job"/>.</param>
 		/// <param name="revisionInformation">The <see cref="RevisionInformation"/>.</param>
 		/// <param name="dreamMakerSettings">The <see cref="Api.Models.Internal.DreamMakerSettings"/>.</param>
 		/// <param name="launchParameters">The <see cref="DreamDaemonLaunchParameters"/>.</param>
@@ -458,6 +460,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the completed <see cref="CompileJob"/>.</returns>
 		async ValueTask<Models.CompileJob> Compile(
+			Models.Job job,
 			Models.RevisionInformation revisionInformation,
 			Api.Models.Internal.DreamMakerSettings dreamMakerSettings,
 			DreamDaemonLaunchParameters launchParameters,
@@ -485,19 +488,16 @@ namespace Tgstation.Server.Host.Components.Deployment
 					repository.RemoteRepositoryName,
 					localCommitExistsOnRemote);
 
-				var job = new Models.CompileJob
+				var compileJob = new Models.CompileJob(job, revisionInformation, engineLock.Version.ToString(), repository.Origin.ToString())
 				{
 					DirectoryName = Guid.NewGuid(),
 					DmeName = dreamMakerSettings.ProjectName,
-					RevisionInformation = revisionInformation,
-					EngineVersion = engineLock.Version.ToString(),
-					RepositoryOrigin = repository.Origin.ToString(),
 				};
 
 				progressReporter.StageName = "Creating remote deployment notification";
 				await remoteDeploymentManager.StartDeployment(
 					repository,
-					job,
+					compileJob,
 					cancellationToken);
 
 				logger.LogTrace("Deployment will timeout at {timeoutTime}", DateTimeOffset.UtcNow + dreamMakerSettings.Timeout.Value);
@@ -510,7 +510,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 					{
 						await RunCompileJob(
 							progressReporter,
-							job,
+							compileJob,
 							dreamMakerSettings,
 							launchParameters,
 							engineLock,
@@ -524,7 +524,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 					}
 				}
 
-				return job;
+				return compileJob;
 			}
 			catch (OperationCanceledException)
 			{
