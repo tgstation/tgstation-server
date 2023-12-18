@@ -11,6 +11,7 @@ using Microsoft.Extensions.Logging;
 
 using Serilog.Context;
 
+using Tgstation.Server.Api.Extensions;
 using Tgstation.Server.Api.Hubs;
 using Tgstation.Server.Api.Models.Response;
 using Tgstation.Server.Common.Extensions;
@@ -452,7 +453,12 @@ namespace Tgstation.Server.Host.Jobs
 								}
 						}
 
-						var instanceCoreProvider = await activationTcs.Task.WaitAsync(cancellationToken);
+						var activationTask = activationTcs.Task;
+
+						Debug.Assert(activationTask.IsCompleted || job.JobCode.Value.IsServerStartupJob(), "Non-server startup job registered before activation!");
+
+						var instanceCoreProvider = await activationTask.WaitAsync(cancellationToken);
+
 						QueueHubUpdate(job.ToApi(), false);
 
 						logger.LogTrace("Starting job...");

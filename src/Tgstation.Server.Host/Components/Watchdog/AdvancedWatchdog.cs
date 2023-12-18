@@ -395,6 +395,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 
 			try
 			{
+				Logger.LogTrace("Making new provider {id} active...", newProvider.CompileJob.Id);
 				await newProvider.MakeActive(cancellationToken);
 			}
 			finally

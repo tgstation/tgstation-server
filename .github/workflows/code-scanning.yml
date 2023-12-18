@@ -1,8 +1,6 @@
 name: 'Code Scanning'
 
 on:
-  schedule:
-    - cron: 0 23 * * 1
   push:
     branches:
     - dev
@@ -39,7 +37,7 @@ jobs:
         dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
 
     - name: Checkout
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     - name: Initialize CodeQL
       uses: github/codeql-action/init@v2

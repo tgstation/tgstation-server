@@ -100,11 +100,12 @@ namespace Tgstation.Server.Host.Components.Engine
 			this.processExecutor = processExecutor ?? throw new ArgumentNullException(nameof(processExecutor));
 			generalConfiguration = generalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
 
-			var documentsDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-			if (String.IsNullOrWhiteSpace(documentsDirectory))
-				PathToUserFolder = null; // happens with the service account
-			else
-				PathToUserFolder = IOManager.ResolvePath(IOManager.ConcatPath(documentsDirectory, "BYOND"));
+			var documentsDirectory = Environment.GetFolderPath(
+				Environment.SpecialFolder.MyDocuments,
+				Environment.SpecialFolderOption.DoNotVerify);
+
+			PathToUserFolder = IOManager.ResolvePath(
+				IOManager.ConcatPath(documentsDirectory, "BYOND"));
 
 			semaphore = new SemaphoreSlim(1);
 			installedDirectX = false;

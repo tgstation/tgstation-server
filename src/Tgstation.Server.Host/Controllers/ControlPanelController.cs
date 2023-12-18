@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Primitives;
@@ -15,6 +14,7 @@ using Microsoft.Net.Http.Headers;
 
 using Tgstation.Server.Api;
 using Tgstation.Server.Host.Configuration;
+using Tgstation.Server.Host.Extensions;
 
 namespace Tgstation.Server.Host.Controllers
 {
@@ -136,22 +136,11 @@ namespace Tgstation.Server.Host.Controllers
 			if (Request.Headers.ContainsKey(FetchChannelVaryHeader))
 				return GetChannelJson();
 
-			var fileInfo = hostEnvironment.WebRootFileProvider.GetFileInfo(appRoute);
-			if (fileInfo.Exists)
-			{
-				logger.LogTrace("Serving static file \"{filename}\"...", appRoute);
-				var contentTypeProvider = new FileExtensionContentTypeProvider();
-				if (!contentTypeProvider.TryGetContentType(fileInfo.Name, out var contentType))
-					contentType = MediaTypeNames.Application.Octet;
-				else if (contentType == MediaTypeNames.Application.Json)
-					Response.Headers.Add(
-						HeaderNames.CacheControl,
-						new StringValues(new[] { "public", "max-age=31536000", "immutable" }));
+			var foundFile = this.TryServeFile(hostEnvironment, logger, appRoute);
+			if (foundFile != null)
+				return foundFile;
 
-				return File(appRoute, contentType);
-			}
-			else
-				logger.LogTrace("Requested static file \"{filename}\" does not exist! Redirecting to index...", appRoute);
+			logger.LogTrace("Requested static file \"{filename}\" does not exist! Redirecting to index...", appRoute);
 
 			return File("index.html", MediaTypeNames.Text.Html);
 		}

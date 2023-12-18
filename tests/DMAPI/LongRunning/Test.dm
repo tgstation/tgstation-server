@@ -6,9 +6,11 @@
 	log << "Initial value of sleep_offline: [sleep_offline]"
 	sleep_offline = FALSE
 
-	// Intentionally slow down startup for testing purposes
-	for(var/i in 1 to 10000000)
-		dab()
+	if(params["slow_start"])
+		// Intentionally slow down startup for health check testing purposes
+		for(var/i in 1 to 10000000)
+			dab()
+
 	TgsNew(new /datum/tgs_event_handler/impl, TGS_SECURITY_SAFE)
 
 	var/sec = TgsSecurityLevel()
@@ -189,7 +191,7 @@ var/run_bridge_test
 	var/its_sad = data["im_out_of_memes"]
 	if(its_sad)
 		TestLegacyBridge()
-		return "yeah gimmie a sec"
+		return "all gucci"
 
 	TgsChatBroadcast(new /datum/tgs_message_content("Received non-tgs topic: `[T]`"))
 
@@ -252,9 +254,9 @@ var/received_health_check = FALSE
 
 /proc/RebootAsync()
 	set waitfor = FALSE
-	world.TgsChatBroadcast(new /datum/tgs_message_content("Rebooting after 3 seconds"));
+	world.TgsChatBroadcast(new /datum/tgs_message_content("Rebooting after 1 seconds"));
 	world.log << "About to sleep. sleep_offline: [world.sleep_offline]"
-	sleep(30)
+	sleep(10)
 	world.log << "Done sleep, calling Reboot"
 	world.Reboot()
 
@@ -362,10 +364,6 @@ var/suppress_bridge_spam = FALSE
 	api.access_identifier = old_ai
 
 /proc/TestLegacyBridge()
-	set waitfor = FALSE
-
-	sleep(10)
-
 	var/datum/tgs_api/v5/api = TGS_READ_GLOBAL(tgs)
 	if(api.interop_version.suite != 5)
 		FailTest("Legacy bridge test not required anymore?")

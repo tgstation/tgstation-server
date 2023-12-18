@@ -208,7 +208,6 @@ namespace Tgstation.Server.Tests
 						new Lazy<IProcessExecutor>(() => null),
 						Mock.Of<IIOManager>(),
 						loggerFactory.CreateLogger<PosixProcessFeatures>()),
-					Mock.Of<IAsyncDelayer>(),
 					Mock.Of<IIOManager>(),
 					loggerFactory.CreateLogger<ProcessExecutor>(),
 					loggerFactory);
@@ -416,11 +415,13 @@ namespace Tgstation.Server.Tests
 			if (!Directory.Exists(directory))
 				Assert.Inconclusive("Webpanel not built?");
 
-			var logo = new PlatformIdentifier().IsWindows
-				? RootController.ProjectLogoSvgRouteWindows
-				: RootController.ProjectLogoSvgRouteLinux;
+			static string GetConstField(string name) => (string)typeof(RootController).GetField(name, BindingFlags.NonPublic | BindingFlags.Static).GetValue(null);
 
-			var path = $"../../../../../src/Tgstation.Server.Host/wwwroot{logo}";
+			var logo = new PlatformIdentifier().IsWindows
+				? GetConstField("LogoSvgWindowsName")
+				: GetConstField("LogoSvgLinuxName");
+
+			var path = $"../../../../../src/Tgstation.Server.Host/wwwroot/{logo}.svg";
 			Assert.IsTrue(File.Exists(path));
 
 			var content = await File.ReadAllBytesAsync(path);
@@ -462,8 +463,8 @@ namespace Tgstation.Server.Tests
 			EngineVersion engineVersion,
 			Stream byondBytes,
 			ByondInstallerBase byondInstaller,
-			IIOManager ioManager,
-			IProcessExecutor processExecutor,
+			DefaultIOManager ioManager,
+			ProcessExecutor processExecutor,
 			string tempPath)
 		{
 			using (byondBytes)

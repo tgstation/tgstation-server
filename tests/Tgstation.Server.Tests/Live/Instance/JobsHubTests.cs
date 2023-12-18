@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
+using Tgstation.Server.Api.Extensions;
 using Tgstation.Server.Api.Hubs;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Request;
@@ -66,7 +67,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			}
 			catch(Exception ex)
 			{
-				finishTcs.SetException(ex);
+				finishTcs.TrySetException(ex);
 			}
 
 			return Task.CompletedTask;
@@ -84,7 +85,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			}
 		}
 
-		public async Task Run(CancellationToken cancellationToken)
+		public async Task<Task> Run(CancellationToken cancellationToken)
 		{
 			var neverReceiver = new ShouldNeverReceiveUpdates()
 			{
@@ -98,16 +99,33 @@ namespace Tgstation.Server.Tests.Live.Instance
 				},
 			};
 
-			await using (permedConn = (HubConnection)await permedUser.SubscribeToJobUpdates(
+			permedConn = (HubConnection)await permedUser.SubscribeToJobUpdates(
 				this,
 				null,
 				null,
-				cancellationToken))
-			await using (permlessConn = (HubConnection)await permlessUser.SubscribeToJobUpdates(
-				neverReceiver,
-				null,
-				null,
-				cancellationToken))
+				cancellationToken);
+
+			try
+			{
+				permlessConn = (HubConnection)await permlessUser.SubscribeToJobUpdates(
+					neverReceiver,
+					null,
+					null,
+					cancellationToken);
+			}
+			catch
+			{
+				await permedConn.DisposeAsync();
+				throw;
+			}
+
+			return FinishAsync(cancellationToken);
+		}
+
+		async Task FinishAsync(CancellationToken cancellationToken)
+		{
+			await using (permedConn)
+			await using (permlessConn)
 			{
 				Console.WriteLine($"Initial conn1: {permedConn.ConnectionId}");
 				Console.WriteLine($"Initial conn2: {permlessConn.ConnectionId}");
@@ -138,7 +156,10 @@ namespace Tgstation.Server.Tests.Live.Instance
 						Online = true,
 					}, cancellationToken);
 
-				var jobs = await permedUser.Instances.CreateClient(instance).Jobs.List(null, cancellationToken);
+				var jobs = await permedUser.Instances.CreateClient(instance).Jobs.List(new PaginationSettings
+				{
+					PageSize = 100
+				}, cancellationToken);
 				if (wasOffline)
 					await permedUser.Instances.Update(new InstanceUpdateRequest
 					{
@@ -153,6 +174,13 @@ namespace Tgstation.Server.Tests.Live.Instance
 				.Select(CheckInstance);
 
 			var allJobs = (await ValueTaskExtensions.WhenAll(allJobsTask, allInstances.Count)).SelectMany(x => x).ToList();
+
+			var groups = allJobs.GroupBy(x => x.Id.Value).ToList();
+			var uniqueAllJobs = groups.Select(x => x.First()).ToList();
+
+			static string JobListFormatter(IEnumerable<JobResponse> jobs) => String.Join(Environment.NewLine, jobs.Select(x => $"- I:{x.InstanceId}|JID:{x.Id}|JC:{x.JobCode}|Desc:{x.Description}"));
+			Assert.AreEqual(allJobs.Count, uniqueAllJobs.Count, $"Duplicated Jobs:{Environment.NewLine}{JobListFormatter(groups.Where(x => x.Count() > 1).SelectMany(x => x))}");
+
 			var missableMissedJobs = 0;
 			foreach (var job in allJobs)
 			{
@@ -185,18 +213,24 @@ namespace Tgstation.Server.Tests.Live.Instance
 				}
 				else
 				{
-					var wasMissableJob = job.JobCode == JobCode.ReconnectChatBot
-						|| job.JobCode == JobCode.StartupWatchdogLaunch
-						|| job.JobCode == JobCode.StartupWatchdogReattach;
-					Assert.IsTrue(wasMissableJob);
+					var wasMissableJob = job.JobCode.Value.IsServerStartupJob();
+					Assert.IsTrue(wasMissableJob, $"Found unexpected missed job: #{job.Id.Value} - {job.JobCode} - {job.Description}");
 					++missableMissedJobs;
 				}
 			}
 
+			var jobsSeenByHubButNotInAllJobs = seenJobs.Values.Where(x => !allJobs.Any(y => y.Id.Value == x.Id.Value)).ToList();
+
 			// some instances may be detached, but our cache remains
 			var accountedJobs = allJobs.Count - missableMissedJobs;
-			var accountedSeenJobs = seenJobs.Where(x => allInstances.Any(i => i.Id.Value == x.Value.InstanceId)).ToList();
-			Assert.AreEqual(accountedJobs, accountedSeenJobs.Count, $"Mismatch in seen jobs:{Environment.NewLine}{String.Join(Environment.NewLine, allJobs.Where(x => !seenJobs.Any(y => y.Key == x.Id.Value)).Select(x => $"- I:{x.InstanceId}|JID:{x.Id}|JC:{x.JobCode}|Desc:{x.Description}"))}");
+			var errorMessage = $"Mismatch in seen jobs:{Environment.NewLine}Not seen in seen:{Environment.NewLine}{JobListFormatter(allJobs.Where(x => !seenJobs.Any(y => y.Key == x.Id.Value)))}{Environment.NewLine}Seen not in all:{Environment.NewLine}{JobListFormatter(jobsSeenByHubButNotInAllJobs)}{Environment.NewLine}Current Instances: {String.Join(", ", allInstances.Select(i => i.Id.Value))}";
+			Assert.AreEqual(
+				accountedJobs,
+				seenJobs.Count - jobsSeenByHubButNotInAllJobs.Count,
+				errorMessage);
+			Assert.IsTrue(
+				jobsSeenByHubButNotInAllJobs.All(job => job.JobCode.Value == JobCode.Move),
+				errorMessage);
 			Assert.IsTrue(accountedJobs <= seenJobs.Count);
 			Assert.AreNotEqual(0, permlessSeenJobs.Count);
 			Assert.IsTrue(permlessSeenJobs.Count < seenJobs.Count);
