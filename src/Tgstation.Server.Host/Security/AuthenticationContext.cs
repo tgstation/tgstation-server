@@ -88,10 +88,8 @@ namespace Tgstation.Server.Host.Security
 				isInstance
 					? InstancePermissionSet
 					: PermissionSet,
-				Array.Empty<object>());
-
-			if (right == null)
-				throw new InvalidOperationException("A user right was null!");
+				Array.Empty<object>())
+				?? throw new InvalidOperationException("A user right was null!");
 
 			return (ulong)right;
 		}
