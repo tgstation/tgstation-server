@@ -67,7 +67,7 @@ namespace Tgstation.Server.Host.Jobs
 		public ValueTask InstancePermissionSetCreated(InstancePermissionSet instancePermissionSet, CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(instancePermissionSet);
-			var permissionSetId = instancePermissionSet.PermissionSet.Id ?? instancePermissionSet.PermissionSetId;
+			var permissionSetId = instancePermissionSet.PermissionSetId;
 
 			logger.LogTrace("InstancePermissionSetCreated");
 			return RefreshHubGroups(
