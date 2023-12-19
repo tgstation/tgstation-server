@@ -812,11 +812,9 @@ namespace Tgstation.Server.Host.Components.Chat
 			if (address.Length > 1 && (address.Last() == ':' || address.Last() == ','))
 				address = address[0..^1];
 
-			address = address.ToUpperInvariant();
-
 			var addressed =
-				address == CommonMention.ToUpperInvariant()
-				|| address == provider.BotMention.ToUpperInvariant();
+				address.Equals(CommonMention, StringComparison.OrdinalIgnoreCase)
+				|| address.Equals(provider.BotMention, StringComparison.OrdinalIgnoreCase);
 
 			// no mention
 			if (!addressed && !message.User.Channel.IsPrivateChannel)
@@ -1034,7 +1032,7 @@ namespace Tgstation.Server.Host.Components.Chat
 				message.Embed != null ? " (with embed)" : String.Empty,
 				String.Join(", ", channelIdsList));
 
-			if (!channelIdsList.Any())
+			if (channelIdsList.Count == 0)
 				return ValueTask.CompletedTask;
 
 			return ValueTaskExtensions.WhenAll(
