@@ -4,8 +4,6 @@ using Tgstation.Server.Api.Models;
 using Tgstation.Server.Host.Components.Interop;
 using Tgstation.Server.Host.Components.Session;
 
-#nullable disable
-
 namespace Tgstation.Server.Host.Models
 {
 	/// <summary>
