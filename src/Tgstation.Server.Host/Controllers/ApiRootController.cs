@@ -86,11 +86,6 @@ namespace Tgstation.Server.Host.Controllers
 		readonly GeneralConfiguration generalConfiguration;
 
 		/// <summary>
-		/// The <see cref="ControlPanelConfiguration"/> for the <see cref="ApiRootController"/>.
-		/// </summary>
-		readonly ControlPanelConfiguration controlPanelConfiguration;
-
-		/// <summary>
 		/// Initializes a new instance of the <see cref="ApiRootController"/> class.
 		/// </summary>
 		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> for the <see cref="ApiController"/>.</param>
@@ -105,7 +100,6 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="swarmService">The value of <see cref="swarmService"/>.</param>
 		/// <param name="serverControl">The value of <see cref="serverControl"/>.</param>
 		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="generalConfiguration"/>.</param>
-		/// <param name="controlPanelConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="controlPanelConfiguration"/>.</param>
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="ApiController"/>.</param>
 		/// <param name="apiHeadersProvider">The <see cref="IApiHeadersProvider"/> for the <see cref="ApiController"/>.</param>
 		public ApiRootController(
@@ -121,7 +115,6 @@ namespace Tgstation.Server.Host.Controllers
 			ISwarmService swarmService,
 			IServerControl serverControl,
 			IOptions<GeneralConfiguration> generalConfigurationOptions,
-			IOptions<ControlPanelConfiguration> controlPanelConfigurationOptions,
 			ILogger<ApiRootController> logger,
 			IApiHeadersProvider apiHeadersProvider)
 			: base(
@@ -141,7 +134,6 @@ namespace Tgstation.Server.Host.Controllers
 			this.swarmService = swarmService ?? throw new ArgumentNullException(nameof(swarmService));
 			this.serverControl = serverControl ?? throw new ArgumentNullException(nameof(serverControl));
 			generalConfiguration = generalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
-			controlPanelConfiguration = controlPanelConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(controlPanelConfigurationOptions));
 		}
 
 		/// <summary>
