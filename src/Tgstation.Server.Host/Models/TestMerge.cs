@@ -1,7 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-
-#nullable disable
 
 namespace Tgstation.Server.Host.Models
 {
@@ -12,13 +11,13 @@ namespace Tgstation.Server.Host.Models
 		/// See <see cref="Api.Models.TestMerge.MergedBy"/>.
 		/// </summary>
 		[Required]
-		public User MergedBy { get; set; }
+		public User? MergedBy { get; set; }
 
 		/// <summary>
 		/// The initial <see cref="RevisionInformation"/> the <see cref="TestMerge"/> was merged with.
 		/// </summary>
 		[Required]
-		public RevisionInformation PrimaryRevisionInformation { get; set; }
+		public RevisionInformation? PrimaryRevisionInformation { get; set; }
 
 		/// <summary>
 		/// Foreign key for <see cref="PrimaryRevisionInformation"/>.
@@ -28,10 +27,10 @@ namespace Tgstation.Server.Host.Models
 		/// <summary>
 		/// All the <see cref="RevInfoTestMerge"/> for the <see cref="TestMerge"/>.
 		/// </summary>
-		public ICollection<RevInfoTestMerge> RevisonInformations { get; set; }
+		public ICollection<RevInfoTestMerge>? RevisonInformations { get; set; }
 
 		/// <inheritdoc />
-		public Api.Models.TestMerge ToApi() => new Api.Models.TestMerge
+		public Api.Models.TestMerge ToApi() => new()
 		{
 			Author = Author,
 			BodyAtMerge = BodyAtMerge,
@@ -39,7 +38,7 @@ namespace Tgstation.Server.Host.Models
 			TitleAtMerge = TitleAtMerge,
 			Comment = Comment,
 			Id = Id,
-			MergedBy = MergedBy.CreateUserName(),
+			MergedBy = (MergedBy ?? throw new InvalidOperationException("MergedBy must be set!")).CreateUserName(),
 			Number = Number,
 			TargetCommitSha = TargetCommitSha,
 			Url = Url,
