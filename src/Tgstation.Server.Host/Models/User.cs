@@ -6,8 +6,6 @@ using System.Linq;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Response;
 
-#nullable disable
-
 namespace Tgstation.Server.Host.Models
 {
 	/// <inheritdoc cref="Api.Models.Internal.UserModelBase" />
@@ -21,17 +19,17 @@ namespace Tgstation.Server.Host.Models
 		/// <summary>
 		/// The hash of the user's password.
 		/// </summary>
-		public string PasswordHash { get; set; }
+		public string? PasswordHash { get; set; }
 
 		/// <summary>
 		/// See <see cref="UserResponse"/>.
 		/// </summary>
-		public User CreatedBy { get; set; }
+		public User? CreatedBy { get; set; }
 
 		/// <summary>
 		/// The <see cref="UserGroup"/> the <see cref="User"/> belongs to, if any.
 		/// </summary>
-		public UserGroup Group { get; set; }
+		public UserGroup? Group { get; set; }
 
 		/// <summary>
 		/// The ID of the <see cref="User"/>'s <see cref="UserGroup"/>.
@@ -41,14 +39,14 @@ namespace Tgstation.Server.Host.Models
 		/// <summary>
 		/// The <see cref="PermissionSet"/> the <see cref="User"/> has, if any.
 		/// </summary>
-		public PermissionSet PermissionSet { get; set; }
+		public PermissionSet? PermissionSet { get; set; }
 
 		/// <summary>
 		/// The uppercase invariant of <see cref="UserName.Name"/>.
 		/// </summary>
 		[Required]
 		[StringLength(Limits.MaximumIndexableStringLength, MinimumLength = 1)]
-		public string CanonicalName { get; set; }
+		public string? CanonicalName { get; set; }
 
 		/// <summary>
 		/// When <see cref="PasswordHash"/> was last changed.
@@ -58,17 +56,17 @@ namespace Tgstation.Server.Host.Models
 		/// <summary>
 		/// <see cref="User"/>s created by this <see cref="User"/>.
 		/// </summary>
-		public ICollection<User> CreatedUsers { get; set; }
+		public ICollection<User>? CreatedUsers { get; set; }
 
 		/// <summary>
 		/// The <see cref="TestMerge"/>s made by the <see cref="User"/>.
 		/// </summary>
-		public ICollection<TestMerge> TestMerges { get; set; }
+		public ICollection<TestMerge>? TestMerges { get; set; }
 
 		/// <summary>
 		/// The <see cref="TestMerge"/>s made by the <see cref="User"/>.
 		/// </summary>
-		public ICollection<OAuthConnection> OAuthConnections { get; set; }
+		public ICollection<OAuthConnection>? OAuthConnections { get; set; }
 
 		/// <summary>
 		/// Change a <see cref="UserName.Name"/> into a <see cref="CanonicalName"/>.

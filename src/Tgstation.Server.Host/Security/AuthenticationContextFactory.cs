@@ -88,7 +88,7 @@ namespace Tgstation.Server.Host.Security
 				.Include(x => x.CreatedBy)
 				.Include(x => x.PermissionSet)
 				.Include(x => x.Group)
-					.ThenInclude(x => x.PermissionSet)
+					.ThenInclude(x => x!.PermissionSet)
 				.Include(x => x.OAuthConnections)
 				.FirstOrDefaultAsync(cancellationToken);
 			if (user == default)
@@ -111,7 +111,7 @@ namespace Tgstation.Server.Host.Security
 				systemIdentity = null;
 			}
 
-			var userPermissionSet = user.PermissionSet ?? user.Group.PermissionSet;
+			var userPermissionSet = user.PermissionSet ?? user.Group!.PermissionSet;
 			try
 			{
 				InstancePermissionSet? instancePermissionSet = null;

@@ -263,13 +263,13 @@ namespace Tgstation.Server.Host.Controllers
 						return Unauthorized();
 
 					query = query.Where(
-						x => x.OAuthConnections.Any(
+						x => x.OAuthConnections!.Any(
 							y => y.Provider == oAuthProvider
 							&& y.ExternalUserId == externalUserId));
 				}
 				else
 				{
-					var canonicalUserName = Models.User.CanonicalizeName(ApiHeaders.Username);
+					var canonicalUserName = Models.User.CanonicalizeName(ApiHeaders.Username!);
 					if (canonicalUserName == Models.User.CanonicalizeName(Models.User.TgsSystemUserName))
 						return Unauthorized();
 

@@ -153,7 +153,7 @@ namespace Tgstation.Server.Host.Jobs
 					logger.LogTrace("RefreshHubGroups");
 					var permissionSetUsers = await databaseContext
 						.Users
-						.Where(x => x.PermissionSet.Id == permissionSetId)
+						.Where(x => x.PermissionSet!.Id == permissionSetId)
 						.ToListAsync(cancellationToken);
 					var allInstanceIds = await databaseContext
 						.Instances

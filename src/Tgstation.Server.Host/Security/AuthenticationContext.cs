@@ -56,7 +56,7 @@ namespace Tgstation.Server.Host.Security
 			if (systemIdentity == null && User.SystemIdentifier != null)
 				throw new ArgumentNullException(nameof(systemIdentity));
 			permissionSet = user.PermissionSet
-				?? user.Group.PermissionSet
+				?? user.Group!.PermissionSet
 				?? throw new ArgumentException("No PermissionSet provider", nameof(user));
 			InstancePermissionSet = instanceUser;
 			SystemIdentity = systemIdentity;
