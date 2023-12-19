@@ -2,8 +2,6 @@
 
 using Tgstation.Server.Api.Models.Response;
 
-#nullable disable
-
 namespace Tgstation.Server.Host.Models
 {
 	/// <inheritdoc cref="Api.Models.Internal.RepositorySettings" />
@@ -23,7 +21,7 @@ namespace Tgstation.Server.Host.Models
 		/// The parent <see cref="Models.Instance"/>.
 		/// </summary>
 		[Required]
-		public Instance Instance { get; set; }
+		public Instance? Instance { get; set; }
 
 		/// <inheritdoc />
 		public RepositoryResponse ToApi() => new RepositoryResponse
