@@ -117,8 +117,8 @@ namespace Tgstation.Server.Host.Components.Chat.Commands
 					async db => results = await db
 						.RevisionInformations
 						.AsQueryable()
-						.Where(x => x.Instance.Id == instance.Id && x.CommitSha == head)
-						.SelectMany(x => x.ActiveTestMerges)
+						.Where(x => x.Instance!.Id == instance.Id && x.CommitSha == head)
+						.SelectMany(x => x.ActiveTestMerges!)
 						.Select(x => x.TestMerge)
 						.Select(x => new Models.TestMerge
 						{
@@ -144,7 +144,7 @@ namespace Tgstation.Server.Host.Components.Chat.Commands
 						compileJobToUse = null;
 				}
 
-				results = compileJobToUse?.RevisionInformation.ActiveTestMerges.Select(x => x.TestMerge).ToList() ?? Enumerable.Empty<Models.TestMerge>();
+				results = compileJobToUse?.RevisionInformation.ActiveTestMerges?.Select(x => x.TestMerge).ToList() ?? Enumerable.Empty<Models.TestMerge>();
 			}
 
 			return new MessageContent
