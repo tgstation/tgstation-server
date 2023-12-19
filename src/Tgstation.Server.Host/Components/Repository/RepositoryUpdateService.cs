@@ -228,10 +228,7 @@ namespace Tgstation.Server.Host.Components.Repository
 							foreach (var activeTestMerge in previousRevInfo.ActiveTestMerges)
 								lastRevisionInfo.ActiveTestMerges.Add(activeTestMerge);
 
-							lastRevisionInfo.ActiveTestMerges.Add(new RevInfoTestMerge
-							{
-								TestMerge = testMergeToAdd,
-							});
+							lastRevisionInfo.ActiveTestMerges.Add(new RevInfoTestMerge(testMergeToAdd, lastRevisionInfo));
 							lastRevisionInfo.PrimaryTestMerge = testMergeToAdd;
 
 							needsUpdate = true;

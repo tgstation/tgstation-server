@@ -368,10 +368,7 @@ namespace Tgstation.Server.Host.Components
 						{
 							var testMerges = updatedTestMerges ?? oldRevInfo.ActiveTestMerges.Select(x => x.TestMerge);
 							var revInfoTestMerges = testMerges.Select(
-								testMerge => new RevInfoTestMerge
-								{
-									TestMerge = testMerge,
-								})
+								testMerge => new RevInfoTestMerge(testMerge, currentRevInfo))
 								.ToList();
 
 							currentRevInfo.ActiveTestMerges = revInfoTestMerges;
