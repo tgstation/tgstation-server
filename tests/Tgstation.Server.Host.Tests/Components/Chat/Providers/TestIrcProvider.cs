@@ -1,14 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Xml.Linq;
 
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+
 using Moq;
-using Serilog.Parsing;
 
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Host.Jobs;
@@ -37,6 +35,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers.Tests
 			var mockBot = new ChatBot
 			{
 				Name = "test",
+				Instance = new Models.Instance(),
 				Provider = ChatProvider.Irc
 			};
 
@@ -83,6 +82,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers.Tests
 			{
 				ConnectionString = actualToken,
 				Provider = ChatProvider.Irc,
+				Instance = new Models.Instance(),
 			});
 			Assert.IsFalse(provider.Connected);
 			await InvokeConnect(provider);

@@ -1,11 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+
 using Moq;
 
 using Tgstation.Server.Api.Models;
@@ -31,7 +31,8 @@ namespace Tgstation.Server.Host.Components.Chat.Providers.Tests
 				testToken1 = new ChatBot
 				{
 					ConnectionString = actualToken,
-					ReconnectionInterval = 1
+					ReconnectionInterval = 1,
+					Instance = new Models.Instance()
 				};
 
 			var mockSetup = new Mock<IJobManager>();
@@ -52,6 +53,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers.Tests
 			{
 				ConnectionString = "fake_token",
 				ReconnectionInterval = 1,
+				Instance = new Models.Instance(),
 			};
 
 			Assert.ThrowsException<ArgumentNullException>(() => new DiscordProvider(null, null, null, null, null, null));
@@ -76,7 +78,8 @@ namespace Tgstation.Server.Host.Components.Chat.Providers.Tests
 			await using var provider = new DiscordProvider(mockJobManager, Mock.Of<IAsyncDelayer>(), mockLogger.Object, Mock.Of<IAssemblyInformationProvider>(), new ChatBot
 			{
 				ReconnectionInterval = 1,
-				ConnectionString = "asdf"
+				ConnectionString = "asdf",
+				Instance = new Models.Instance(),
 			}, new GeneralConfiguration());
 			await Assert.ThrowsExceptionAsync<JobException>(async () => await InvokeConnect(provider));
 			Assert.IsFalse(provider.Connected);

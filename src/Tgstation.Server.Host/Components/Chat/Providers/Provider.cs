@@ -96,6 +96,9 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			Logger = logger ?? throw new ArgumentNullException(nameof(logger));
 			ChatBot = chatBot ?? throw new ArgumentNullException(nameof(chatBot));
 
+			if (chatBot.Instance == null)
+				throw new ArgumentException("chatBot must have Instance!", nameof(chatBot));
+
 			messageQueue = new Queue<Message?>();
 			nextMessage = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
 			initialConnectionTcs = new TaskCompletionSource();
@@ -286,7 +289,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 						connectNow = false;
 					if (!Connected)
 					{
-						var job = Job.Create(Api.Models.JobCode.ReconnectChatBot, null, ChatBot.Instance, ChatBotRights.WriteEnabled);
+						var job = Job.Create(Api.Models.JobCode.ReconnectChatBot, null, ChatBot.Instance!, ChatBotRights.WriteEnabled);
 						job.Description += $": {ChatBot.Name}";
 
 						await jobManager.RegisterOperation(

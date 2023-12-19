@@ -123,6 +123,9 @@ namespace Tgstation.Server.Host.Jobs
 			if (job.StartedBy != null && job.StartedBy.Name == null)
 				throw new InvalidOperationException("StartedBy User associated with job does not have a Name!");
 
+			if (job.Instance == null)
+				throw new InvalidOperationException("No Instance associated with job!");
+
 			job.StartedAt = DateTimeOffset.UtcNow;
 			job.Cancelled = false;
 
@@ -458,7 +461,7 @@ namespace Tgstation.Server.Host.Jobs
 
 						logger.LogTrace("Starting job...");
 						await operation(
-							instanceCoreProvider.GetInstance(job.Instance),
+							instanceCoreProvider.GetInstance(job.Instance!),
 							databaseContextFactory,
 							job,
 							new JobProgressReporter(
