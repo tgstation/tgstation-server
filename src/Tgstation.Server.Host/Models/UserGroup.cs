@@ -1,11 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Response;
-
-#nullable disable
 
 namespace Tgstation.Server.Host.Models
 {
@@ -18,12 +17,12 @@ namespace Tgstation.Server.Host.Models
 		/// The <see cref="Models.PermissionSet"/> the <see cref="UserGroup"/> has.
 		/// </summary>
 		[Required]
-		public PermissionSet PermissionSet { get; set; }
+		public PermissionSet? PermissionSet { get; set; }
 
 		/// <summary>
 		/// The <see cref="User"/>s the <see cref="UserGroup"/> has.
 		/// </summary>
-		public ICollection<User> Users { get; set; }
+		public ICollection<User>? Users { get; set; }
 
 		/// <summary>
 		/// Convert the <see cref="UserGroup"/> to it's API form.
@@ -34,7 +33,7 @@ namespace Tgstation.Server.Host.Models
 		{
 			Id = Id,
 			Name = Name,
-			PermissionSet = PermissionSet.ToApi(),
+			PermissionSet = (PermissionSet ?? throw new InvalidOperationException("PermissionSet must be set!")).ToApi(),
 			Users = showUsers
 				? Users
 					?.Select(x => x.CreateUserName())

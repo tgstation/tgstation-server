@@ -119,7 +119,7 @@ namespace Tgstation.Server.Host.Security
 				{
 					instancePermissionSet = await databaseContext.InstancePermissionSets
 						.AsQueryable()
-						.Where(x => x.PermissionSetId == userPermissionSet.Id && x.InstanceId == instanceId && x.Instance!.SwarmIdentifer == swarmConfiguration.Identifier)
+						.Where(x => x.PermissionSetId == userPermissionSet!.Id && x.InstanceId == instanceId && x.Instance!.SwarmIdentifer == swarmConfiguration.Identifier)
 						.Include(x => x.Instance)
 						.FirstOrDefaultAsync(cancellationToken);
 
