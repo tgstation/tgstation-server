@@ -1,7 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-#nullable disable
-
 namespace Tgstation.Server.Host.Models
 {
 	/// <summary>
@@ -13,7 +11,7 @@ namespace Tgstation.Server.Host.Models
 		/// The <see cref="Models.CompileJob"/> for the <see cref="Components.Session.ReattachInformation.Dmb"/>.
 		/// </summary>
 		[Required]
-		public CompileJob CompileJob { get; set; }
+		public CompileJob? CompileJob { get; set; }
 
 		/// <summary>
 		/// The <see cref="Api.Models.EntityId.Id"/> of <see cref="CompileJob"/>.
@@ -23,7 +21,7 @@ namespace Tgstation.Server.Host.Models
 		/// <summary>
 		/// The <see cref="Models.CompileJob"/> the server was initially launched with in the case of Windows.
 		/// </summary>
-		public CompileJob InitialCompileJob { get; set; }
+		public CompileJob? InitialCompileJob { get; set; }
 
 		/// <summary>
 		/// The <see cref="Api.Models.EntityId.Id"/> of <see cref="InitialCompileJob"/>.
