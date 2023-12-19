@@ -40,7 +40,7 @@ namespace Tgstation.Server.Host.Models
 		public ICollection<CompileJob>? CompileJobs { get; set; }
 
 		/// <inheritdoc />
-		public Api.Models.RevisionInformation ToApi() => new Api.Models.RevisionInformation
+		public Api.Models.RevisionInformation ToApi() => new()
 		{
 			CommitSha = CommitSha,
 			Timestamp = Timestamp,

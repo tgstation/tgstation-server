@@ -24,7 +24,7 @@ namespace Tgstation.Server.Host.Models
 		public Instance? Instance { get; set; }
 
 		/// <inheritdoc />
-		public RepositoryResponse ToApi() => new RepositoryResponse
+		public RepositoryResponse ToApi() => new()
 		{
 			// AccessToken = AccessToken, // never show this
 			AccessUser = AccessUser,

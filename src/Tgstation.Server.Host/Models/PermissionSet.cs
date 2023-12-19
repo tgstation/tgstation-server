@@ -34,7 +34,7 @@ namespace Tgstation.Server.Host.Models
 		/// Convert the <see cref="PermissionSet"/> to it's API form.
 		/// </summary>
 		/// <returns>A new <see cref="Api.Models.PermissionSet"/>.</returns>
-		public Api.Models.PermissionSet ToApi() => new Api.Models.PermissionSet
+		public Api.Models.PermissionSet ToApi() => new()
 		{
 			Id = Id,
 			AdministrationRights = AdministrationRights,
