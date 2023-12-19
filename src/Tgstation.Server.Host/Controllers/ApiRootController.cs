@@ -162,7 +162,7 @@ namespace Tgstation.Server.Host.Controllers
 					return HeadersIssue(ex);
 				}
 
-				failIfUnauthed = Request.Headers.Authorization.Any();
+				failIfUnauthed = Request.Headers.Authorization.Count > 0;
 			}
 			else
 				failIfUnauthed = ApiHeaders.Token != null;
