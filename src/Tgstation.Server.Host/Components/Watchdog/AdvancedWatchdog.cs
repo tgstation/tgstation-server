@@ -387,7 +387,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			var server = Server;
 			try
 			{
-				server.Suspend();
+				server.SuspendProcess();
 				suspended = true;
 			}
 			catch (Exception ex)
@@ -404,7 +404,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			{
 				// Let this throw hard if it fails
 				if (suspended)
-					server.Resume();
+					server.ResumeProcess();
 			}
 		}
 

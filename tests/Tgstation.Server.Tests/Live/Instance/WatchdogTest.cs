@@ -791,7 +791,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			ValidateSessionId(ddStatus, true);
 
 			global::System.Console.WriteLine($"WATCHDOG TEST {instanceClient.Metadata.Id}: COMMENCE PROCESS SUSPEND FOR HEALTH CHECK DEATH PID {ourProcessHandler.Id}.");
-			ourProcessHandler.Suspend();
+			ourProcessHandler.SuspendProcess();
 			global::System.Console.WriteLine($"WATCHDOG TEST {instanceClient.Metadata.Id}: FINISH PROCESS SUSPEND FOR HEALTH CHECK DEATH. WAITING FOR LIFETIME {ourProcessHandler.Id}.");
 
 			await Task.WhenAny(ourProcessHandler.Lifetime, Task.Delay(TimeSpan.FromMinutes(4), cancellationToken));

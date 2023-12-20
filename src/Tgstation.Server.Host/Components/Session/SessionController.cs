@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -432,10 +432,10 @@ namespace Tgstation.Server.Host.Components.Session
 		public void AdjustPriority(bool higher) => process.AdjustPriority(higher);
 
 		/// <inheritdoc />
-		public void Suspend() => process.Suspend();
+		public void SuspendProcess() => process.SuspendProcess();
 
 		/// <inheritdoc />
-		public void Resume() => process.Resume();
+		public void ResumeProcess() => process.ResumeProcess();
 
 		/// <inheritdoc />
 		public IAsyncDisposable ReplaceDmbProvider(IDmbProvider dmbProvider)

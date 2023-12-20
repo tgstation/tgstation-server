@@ -183,7 +183,7 @@ namespace Tgstation.Server.Host.System
 		}
 
 		/// <inheritdoc />
-		public void Suspend()
+		public void SuspendProcess()
 		{
 			CheckDisposed();
 			try
@@ -199,7 +199,7 @@ namespace Tgstation.Server.Host.System
 		}
 
 		/// <inheritdoc />
-		public void Resume()
+		public void ResumeProcess()
 		{
 			CheckDisposed();
 			try
