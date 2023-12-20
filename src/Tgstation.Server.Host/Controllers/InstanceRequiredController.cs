@@ -20,6 +20,11 @@ namespace Tgstation.Server.Host.Controllers
 		protected new Models.Instance Instance => base.Instance!;
 
 		/// <summary>
+		/// The <see cref="Models.InstancePermissionSet"/> for the request.
+		/// </summary>
+		protected Models.InstancePermissionSet InstancePermissionSet => AuthenticationContext.InstancePermissionSet!;
+
+		/// <summary>
 		/// Initializes a new instance of the <see cref="InstanceRequiredController"/> class.
 		/// </summary>
 		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> for the <see cref="ComponentInterfacingController"/>.</param>
