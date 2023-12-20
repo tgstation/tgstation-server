@@ -74,6 +74,11 @@ namespace Tgstation.Server.Host.Components.Engine
 		readonly GeneralConfiguration generalConfiguration;
 
 		/// <summary>
+		/// The <see cref="SessionConfiguration"/> for the <see cref="WindowsByondInstaller"/>.
+		/// </summary>
+		readonly SessionConfiguration sessionConfiguration;
+
+		/// <summary>
 		/// The <see cref="SemaphoreSlim"/> for the <see cref="WindowsByondInstaller"/>.
 		/// </summary>
 		readonly SemaphoreSlim semaphore;
@@ -88,6 +93,7 @@ namespace Tgstation.Server.Host.Components.Engine
 		/// </summary>
 		/// <param name="processExecutor">The value of <see cref="processExecutor"/>.</param>
 		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="generalConfiguration"/>.</param>
+		/// <param name="sessionConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="sessionConfiguration"/>.</param>
 		/// <param name="ioManager">The <see cref="IIOManager"/> for the <see cref="ByondInstallerBase"/>.</param>
 		/// <param name="fileDownloader">The <see cref="IFileDownloader"/> for the <see cref="ByondInstallerBase"/>.</param>
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="ByondInstallerBase"/>.</param>
@@ -96,11 +102,13 @@ namespace Tgstation.Server.Host.Components.Engine
 			IIOManager ioManager,
 			IFileDownloader fileDownloader,
 			IOptions<GeneralConfiguration> generalConfigurationOptions,
+			IOptions<SessionConfiguration> sessionConfigurationOptions,
 			ILogger<WindowsByondInstaller> logger)
 			: base(ioManager, logger, fileDownloader)
 		{
 			this.processExecutor = processExecutor ?? throw new ArgumentNullException(nameof(processExecutor));
 			generalConfiguration = generalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
+			sessionConfiguration = sessionConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(sessionConfigurationOptions));
 
 			var documentsDirectory = Environment.GetFolderPath(
 				Environment.SpecialFolder.MyDocuments,
@@ -253,6 +261,7 @@ namespace Tgstation.Server.Host.Components.Engine
 					Logger,
 					ruleName,
 					dreamDaemonPath,
+					sessionConfiguration.LowPriorityDeploymentProcesses,
 					cancellationToken);
 			}
 			catch (Exception ex)

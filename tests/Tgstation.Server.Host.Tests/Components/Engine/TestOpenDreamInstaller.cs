@@ -37,8 +37,11 @@ namespace Tgstation.Server.Host.Components.Engine.Tests
 		{
 			var mockGeneralConfigOptions = new Mock<IOptions<GeneralConfiguration>>();
 			var generalConfig = new GeneralConfiguration();
+			var mockSessionConfigOptions = new Mock<IOptions<SessionConfiguration>>();
+			var sessionConfig = new SessionConfiguration();
 			Assert.IsNotNull(generalConfig.OpenDreamGitUrl);
 			mockGeneralConfigOptions.SetupGet(x => x.Value).Returns(generalConfig);
+			mockSessionConfigOptions.SetupGet(x => x.Value).Returns(sessionConfig);
 
 			var cloneAttempts = 0;
 			var mockRepository = new Mock<IRepository>();
@@ -73,7 +76,8 @@ namespace Tgstation.Server.Host.Components.Engine.Tests
 				mockRepositoryManager.Object,
 				Mock.Of<IAsyncDelayer>(),
 				Mock.Of<IAbstractHttpClientFactory>(),
-				mockGeneralConfigOptions.Object);
+				mockGeneralConfigOptions.Object,
+				mockSessionConfigOptions.Object);
 
 			var data = await installer.DownloadVersion(
 				new EngineVersion

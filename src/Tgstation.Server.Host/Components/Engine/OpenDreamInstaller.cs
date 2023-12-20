@@ -60,6 +60,11 @@ namespace Tgstation.Server.Host.Components.Engine
 		protected GeneralConfiguration GeneralConfiguration { get; }
 
 		/// <summary>
+		/// The <see cref="Configuration.SessionConfiguration"/> for the <see cref="OpenDreamInstaller"/>.
+		/// </summary>
+		protected SessionConfiguration SessionConfiguration { get; }
+
+		/// <summary>
 		/// The <see cref="IPlatformIdentifier"/> for the <see cref="OpenDreamInstaller"/>.
 		/// </summary>
 		readonly IPlatformIdentifier platformIdentifier;
@@ -90,6 +95,7 @@ namespace Tgstation.Server.Host.Components.Engine
 		/// <param name="asyncDelayer">The value of <see cref="asyncDelayer"/>.</param>
 		/// <param name="httpClientFactory">The value of <see cref="httpClientFactory"/>.</param>
 		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing value of <see cref="GeneralConfiguration"/>.</param>
+		/// <param name="sessionConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing value of <see cref="SessionConfiguration"/>.</param>
 		public OpenDreamInstaller(
 			IIOManager ioManager,
 			ILogger<OpenDreamInstaller> logger,
@@ -98,7 +104,8 @@ namespace Tgstation.Server.Host.Components.Engine
 			IRepositoryManager repositoryManager,
 			IAsyncDelayer asyncDelayer,
 			IAbstractHttpClientFactory httpClientFactory,
-			IOptions<GeneralConfiguration> generalConfigurationOptions)
+			IOptions<GeneralConfiguration> generalConfigurationOptions,
+			IOptions<SessionConfiguration> sessionConfigurationOptions)
 			: base(ioManager, logger)
 		{
 			this.platformIdentifier = platformIdentifier ?? throw new ArgumentNullException(nameof(platformIdentifier));
@@ -107,6 +114,7 @@ namespace Tgstation.Server.Host.Components.Engine
 			this.asyncDelayer = asyncDelayer ?? throw new ArgumentNullException(nameof(asyncDelayer));
 			this.httpClientFactory = httpClientFactory ?? throw new ArgumentNullException(nameof(httpClientFactory));
 			GeneralConfiguration = generalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
+			SessionConfiguration = sessionConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(sessionConfigurationOptions));
 		}
 
 		/// <inheritdoc />
@@ -254,6 +262,10 @@ namespace Tgstation.Server.Host.Components.Engine
 						null,
 						!GeneralConfiguration.OpenDreamSuppressInstallOutput,
 						!GeneralConfiguration.OpenDreamSuppressInstallOutput);
+
+					if (SessionConfiguration.LowPriorityDeploymentProcesses)
+						buildProcess.AdjustPriority(false);
+
 					using (cancellationToken.Register(() => buildProcess.Terminate()))
 						buildExitCode = await buildProcess.Lifetime;
 

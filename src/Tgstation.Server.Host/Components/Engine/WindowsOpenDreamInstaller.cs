@@ -40,6 +40,7 @@ namespace Tgstation.Server.Host.Components.Engine
 		/// <param name="asyncDelayer">The <see cref="IAsyncDelayer"/> for the <see cref="OpenDreamInstaller"/>.</param>
 		/// <param name="httpClientFactory">The <see cref="IAbstractHttpClientFactory"/> for the <see cref="OpenDreamInstaller"/>.</param>
 		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> of <see cref="GeneralConfiguration"/> for the <see cref="OpenDreamInstaller"/>.</param>
+		/// <param name="sessionConfigurationOptions">The <see cref="IOptions{TOptions}"/> of <see cref="SessionConfiguration"/> for the <see cref="OpenDreamInstaller"/>.</param>
 		/// <param name="linkFactory">The value of <see cref="linkFactory"/>.</param>
 		public WindowsOpenDreamInstaller(
 			IIOManager ioManager,
@@ -50,6 +51,7 @@ namespace Tgstation.Server.Host.Components.Engine
 			IAsyncDelayer asyncDelayer,
 			IAbstractHttpClientFactory httpClientFactory,
 			IOptions<GeneralConfiguration> generalConfigurationOptions,
+			IOptions<SessionConfiguration> sessionConfigurationOptions,
 			IFilesystemLinkFactory linkFactory)
 			: base(
 				ioManager,
@@ -59,7 +61,8 @@ namespace Tgstation.Server.Host.Components.Engine
 				repositoryManager,
 				asyncDelayer,
 				httpClientFactory,
-				generalConfigurationOptions)
+				generalConfigurationOptions,
+				sessionConfigurationOptions)
 		{
 			this.linkFactory = linkFactory ?? throw new ArgumentNullException(nameof(linkFactory));
 		}
@@ -122,6 +125,7 @@ namespace Tgstation.Server.Host.Components.Engine
 					Logger,
 					ruleName,
 					serverExePath,
+					SessionConfiguration.LowPriorityDeploymentProcesses,
 					cancellationToken);
 			}
 			catch (Exception ex)

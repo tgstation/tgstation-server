@@ -302,6 +302,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 					Mock.Of<IIOManager>(),
 					fileDownloader,
 					generalConfigOptionsMock.Object,
+					sessionConfigOptionsMock.Object,
 					Mock.Of<ILogger<WindowsByondInstaller>>())
 				: new PosixByondInstaller(
 					Mock.Of<IPostWriteHandler>(),

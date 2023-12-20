@@ -120,13 +120,15 @@ namespace Tgstation.Server.Tests.Live.Instance
 						genConfig),
 					Mock.Of<IAsyncDelayer>(),
 					Mock.Of<IAbstractHttpClientFactory>(),
-					mockOptions.Object)
+					mockOptions.Object,
+					Options.Create(new SessionConfiguration()))
 				: new PlatformIdentifier().IsWindows
 					? new WindowsByondInstaller(
 						Mock.Of<IProcessExecutor>(),
 						Mock.Of<IIOManager>(),
 						fileDownloader,
 						Options.Create(genConfig),
+						Options.Create(new SessionConfiguration()),
 						Mock.Of<ILogger<WindowsByondInstaller>>())
 					: new PosixByondInstaller(
 						Mock.Of<IPostWriteHandler>(),
