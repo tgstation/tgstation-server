@@ -19,8 +19,6 @@ using Tgstation.Server.Host.System;
 using Tgstation.Server.Host.Transfer;
 using Tgstation.Server.Host.Utils;
 
-#nullable disable
-
 namespace Tgstation.Server.Host.Controllers
 {
 	/// <summary>
@@ -34,7 +32,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <summary>
 		/// Get the current registration <see cref="Guid"/> from the <see cref="ControllerBase.Request"/>.
 		/// </summary>
-		internal Guid RequestRegistrationId => Guid.Parse(Request.Headers[SwarmConstants.RegistrationIdHeader].First());
+		internal Guid RequestRegistrationId => Guid.Parse(Request.Headers[SwarmConstants.RegistrationIdHeader].First()!);
 
 		/// <summary>
 		/// The <see cref="ISwarmOperations"/> for the <see cref="SwarmController"/>.
@@ -152,6 +150,9 @@ namespace Tgstation.Server.Host.Controllers
 		{
 			ArgumentNullException.ThrowIfNull(serversUpdateRequest);
 
+			if (serversUpdateRequest.SwarmServers == null)
+				return BadRequest();
+
 			if (!ValidateRegistration())
 				return Forbid();
 
@@ -212,7 +213,7 @@ namespace Tgstation.Server.Host.Controllers
 		}
 
 		/// <inheritdoc />
-		protected override async ValueTask<IActionResult> HookExecuteAction(Func<Task> executeAction, CancellationToken cancellationToken)
+		protected override async ValueTask<IActionResult?> HookExecuteAction(Func<Task> executeAction, CancellationToken cancellationToken)
 		{
 			using (LogContext.PushProperty(SerilogContextHelper.RequestPathContextProperty, $"{Request.Method} {Request.Path}"))
 			{
@@ -243,7 +244,7 @@ namespace Tgstation.Server.Host.Controllers
 				if (ModelState?.IsValid == false)
 				{
 					var errorMessages = ModelState
-						.SelectMany(x => x.Value.Errors)
+						.SelectMany(x => x.Value!.Errors)
 						.Select(x => x.ErrorMessage);
 
 					logger.LogDebug(
