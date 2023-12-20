@@ -22,9 +22,14 @@ namespace Tgstation.Server.Host.Models
 		public int ProcessId { get; set; }
 
 		/// <summary>
-		/// The port DreamDaemon was last listening on.
+		/// The port the game server was last listening on.
 		/// </summary>
 		public ushort Port { get; set; }
+
+		/// <summary>
+		/// The port the game server was last listening on for topics.
+		/// </summary>
+		public ushort? TopicPort { get; set; }
 
 		/// <summary>
 		/// The current DreamDaemon reboot state.
@@ -58,6 +63,7 @@ namespace Tgstation.Server.Host.Models
 			Id = copy.Id;
 			AccessIdentifier = copy.AccessIdentifier;
 			Port = copy.Port;
+			TopicPort = copy.TopicPort;
 			ProcessId = copy.ProcessId;
 			RebootState = copy.RebootState;
 			LaunchSecurityLevel = copy.LaunchSecurityLevel;

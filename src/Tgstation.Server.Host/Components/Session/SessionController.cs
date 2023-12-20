@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -679,7 +679,7 @@ namespace Tgstation.Server.Host.Components.Session
 					{
 						var newTopicPort = parameters.TopicPort.Value;
 						Logger.LogInformation("Server is requesting use of port {topicPort} for topic communications", newTopicPort);
-						ReattachInformation.Port = newTopicPort;
+						ReattachInformation.TopicPort = newTopicPort;
 					}
 
 					// Load custom commands
@@ -885,7 +885,7 @@ namespace Tgstation.Server.Host.Components.Session
 				return null;
 			}
 
-			var targetPort = ReattachInformation.Port;
+			var targetPort = ReattachInformation.TopicPort ?? ReattachInformation.Port;
 			Byond.TopicSender.TopicResponse byondResponse;
 			using (await TopicSendSemaphore.Lock(cancellationToken))
 				byondResponse = await byondTopicSender.SendWithOptionalPriority(

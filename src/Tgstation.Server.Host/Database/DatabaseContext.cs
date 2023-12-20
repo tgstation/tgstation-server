@@ -375,22 +375,22 @@ namespace Tgstation.Server.Host.Database
 		/// <summary>
 		/// Used by unit tests to remind us to setup the correct MSSQL migration downgrades.
 		/// </summary>
-		internal static readonly Type MSLatestMigration = typeof(MSRenameByondColumnsToEngine);
+		internal static readonly Type MSLatestMigration = typeof(MSAddTopicPort);
 
 		/// <summary>
 		/// Used by unit tests to remind us to setup the correct MYSQL migration downgrades.
 		/// </summary>
-		internal static readonly Type MYLatestMigration = typeof(MYRenameByondColumnsToEngine);
+		internal static readonly Type MYLatestMigration = typeof(MYAddTopicPort);
 
 		/// <summary>
 		/// Used by unit tests to remind us to setup the correct PostgresSQL migration downgrades.
 		/// </summary>
-		internal static readonly Type PGLatestMigration = typeof(PGRenameByondColumnsToEngine);
+		internal static readonly Type PGLatestMigration = typeof(PGAddTopicPort);
 
 		/// <summary>
 		/// Used by unit tests to remind us to setup the correct SQLite migration downgrades.
 		/// </summary>
-		internal static readonly Type SLLatestMigration = typeof(SLRenameByondColumnsToEngine);
+		internal static readonly Type SLLatestMigration = typeof(SLAddTopicPort);
 
 		/// <inheritdoc />
 #pragma warning disable CA1502 // Cyclomatic complexity

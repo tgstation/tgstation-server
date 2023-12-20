@@ -12,7 +12,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 		protected override void BuildModel(ModelBuilder modelBuilder)
 		{
 #pragma warning disable 612, 618
-			modelBuilder.HasAnnotation("ProductVersion", "8.0.0-rc.1.23419.6");
+			modelBuilder.HasAnnotation("ProductVersion", "8.0.0");
 
 			modelBuilder.Entity("Tgstation.Server.Host.Models.ChatBot", b =>
 			{
@@ -108,11 +108,6 @@ namespace Tgstation.Server.Host.Database.Migrations
 					.ValueGeneratedOnAdd()
 					.HasColumnType("INTEGER");
 
-				b.Property<string>("ByondVersion")
-					.IsRequired()
-					.HasColumnType("TEXT")
-					.HasColumnName("EngineVersion");
-
 				b.Property<int?>("DMApiMajorVersion")
 					.HasColumnType("INTEGER");
 
@@ -127,6 +122,10 @@ namespace Tgstation.Server.Host.Database.Migrations
 					.HasColumnType("TEXT");
 
 				b.Property<string>("DmeName")
+					.IsRequired()
+					.HasColumnType("TEXT");
+
+				b.Property<string>("EngineVersion")
 					.IsRequired()
 					.HasColumnType("TEXT");
 
@@ -466,7 +465,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 
 			modelBuilder.Entity("Tgstation.Server.Host.Models.ReattachInformation", b =>
 			{
-				b.Property<long>("Id")
+				b.Property<long?>("Id")
 					.ValueGeneratedOnAdd()
 					.HasColumnType("INTEGER");
 
@@ -493,6 +492,9 @@ namespace Tgstation.Server.Host.Database.Migrations
 					.HasColumnType("INTEGER");
 
 				b.Property<int>("RebootState")
+					.HasColumnType("INTEGER");
+
+				b.Property<ushort?>("TopicPort")
 					.HasColumnType("INTEGER");
 
 				b.HasKey("Id");
