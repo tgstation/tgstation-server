@@ -488,10 +488,11 @@ namespace Tgstation.Server.Host.Components.Deployment
 					repository.RemoteRepositoryName,
 					localCommitExistsOnRemote);
 
-				var compileJob = new Models.CompileJob(job, revisionInformation, engineLock.Version.ToString(), repository.Origin.ToString())
+				var compileJob = new Models.CompileJob(job, revisionInformation, engineLock.Version.ToString())
 				{
 					DirectoryName = Guid.NewGuid(),
 					DmeName = dreamMakerSettings.ProjectName,
+					RepositoryOrigin = repository.Origin.ToString(),
 				};
 
 				progressReporter.StageName = "Creating remote deployment notification";

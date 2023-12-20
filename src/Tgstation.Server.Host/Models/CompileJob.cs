@@ -50,7 +50,7 @@ namespace Tgstation.Server.Host.Models
 		/// <summary>
 		/// The origin <see cref="Uri"/> of the repository the compile job was built from.
 		/// </summary>
-		public string RepositoryOrigin { get; set; }
+		public string? RepositoryOrigin { get; set; }
 
 		/// <summary>
 		/// The source GitHub repository the deployment came from if any.
@@ -86,7 +86,7 @@ namespace Tgstation.Server.Host.Models
 		/// </summary>
 		[Obsolete("For use by EFCore only", true)]
 		public CompileJob()
-			: this(null!, null!, null!, null!, false)
+			: this(null!, null!, null!, false)
 		{
 		}
 
@@ -96,9 +96,8 @@ namespace Tgstation.Server.Host.Models
 		/// <param name="job">The value of <see cref="Job"/>.</param>
 		/// <param name="revisionInformation">The value of <see cref="RevisionInformation"/>.</param>
 		/// <param name="engineVersion">The value of <see cref="EngineVersion"/>.</param>
-		/// <param name="repositoryOrigin">The value of <see cref="RepositoryOrigin"/>.</param>
-		public CompileJob(Job job, RevisionInformation revisionInformation, string engineVersion, string repositoryOrigin)
-			: this(job, revisionInformation, engineVersion, repositoryOrigin, true)
+		public CompileJob(Job job, RevisionInformation revisionInformation, string engineVersion)
+			: this(job, revisionInformation, engineVersion, true)
 		{
 		}
 
@@ -108,22 +107,19 @@ namespace Tgstation.Server.Host.Models
 		/// <param name="job">The value of <see cref="Job"/>.</param>
 		/// <param name="revisionInformation">The value of <see cref="RevisionInformation"/>.</param>
 		/// <param name="engineVersion">The value of <see cref="EngineVersion"/>.</param>
-		/// <param name="repositoryOrigin">The value of <see cref="RepositoryOrigin"/>.</param>
-		/// <param name="nullChecks">If <paramref name="job"/>, <paramref name="revisionInformation"/>, and <paramref name="repositoryOrigin"/> should be checked for nulls.</param>
-		CompileJob(Job job, RevisionInformation revisionInformation, string engineVersion, string repositoryOrigin, bool nullChecks)
+		/// <param name="nullChecks">If <paramref name="job"/>, <paramref name="revisionInformation"/>, and <paramref name="engineVersion"/> should be checked for nulls.</param>
+		CompileJob(Job job, RevisionInformation revisionInformation, string engineVersion, bool nullChecks)
 		{
 			if (nullChecks)
 			{
 				ArgumentNullException.ThrowIfNull(job);
 				ArgumentNullException.ThrowIfNull(revisionInformation);
 				ArgumentNullException.ThrowIfNull(engineVersion);
-				ArgumentNullException.ThrowIfNull(repositoryOrigin);
 			}
 
 			Job = job;
 			RevisionInformation = revisionInformation;
 			EngineVersion = engineVersion;
-			RepositoryOrigin = repositoryOrigin;
 		}
 
 		/// <inheritdoc />
