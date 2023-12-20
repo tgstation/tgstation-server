@@ -130,14 +130,19 @@ namespace Tgstation.Server.Host.Components.Engine
 			CheckVersionValidity(version);
 			ArgumentNullException.ThrowIfNull(path);
 
+			var noPromptTrustedTask = SetNoPromptTrusted(path, cancellationToken);
+			var installDirectXTask = InstallDirectX(path, cancellationToken);
 			var tasks = new List<ValueTask>(3)
 			{
-				SetNoPromptTrusted(path, cancellationToken),
-				InstallDirectX(path, cancellationToken),
+				noPromptTrustedTask,
+				installDirectXTask,
 			};
 
 			if (!generalConfiguration.SkipAddingByondFirewallException)
-				tasks.Add(AddDreamDaemonToFirewall(version, path, cancellationToken));
+			{
+				var firewallTask = AddDreamDaemonToFirewall(version, path, cancellationToken);
+				tasks.Add(firewallTask);
+			}
 
 			return ValueTaskExtensions.WhenAll(tasks);
 		}
