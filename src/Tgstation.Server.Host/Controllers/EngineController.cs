@@ -23,8 +23,6 @@ using Tgstation.Server.Host.Security;
 using Tgstation.Server.Host.Transfer;
 using Tgstation.Server.Host.Utils;
 
-#nullable disable
-
 namespace Tgstation.Server.Host.Controllers
 {
 	/// <summary>
@@ -122,7 +120,7 @@ namespace Tgstation.Server.Host.Controllers
 									EngineVersion = x,
 								})
 								.AsQueryable()
-								.OrderBy(x => x.EngineVersion.ToString()))),
+								.OrderBy(x => x.EngineVersion!.ToString()))),
 					null,
 					page,
 					pageSize,
@@ -157,16 +155,16 @@ namespace Tgstation.Server.Host.Controllers
 
 			var uploadingZip = model.UploadCustomZip == true;
 
-			var userByondRights = AuthenticationContext.InstancePermissionSet.EngineRights.Value;
-			var isByondEngine = model.EngineVersion.Engine.Value == EngineType.Byond;
+			var engineRights = InstancePermissionSet.EngineRights!.Value;
+			var isByondEngine = model.EngineVersion!.Engine!.Value == EngineType.Byond;
 			var officialPerm = isByondEngine
 				? EngineRights.InstallOfficialOrChangeActiveByondVersion
 				: EngineRights.InstallOfficialOrChangeActiveOpenDreamVersion;
 			var customPerm = isByondEngine
 				? EngineRights.InstallCustomByondVersion
 				: EngineRights.InstallCustomOpenDreamVersion;
-			if ((!userByondRights.HasFlag(officialPerm) && !uploadingZip)
-				|| (!userByondRights.HasFlag(customPerm) && uploadingZip))
+			if ((!engineRights.HasFlag(officialPerm) && !uploadingZip)
+				|| (!engineRights.HasFlag(customPerm) && uploadingZip))
 				return Forbid();
 
 			// remove cruff fields
@@ -219,7 +217,7 @@ namespace Tgstation.Server.Host.Controllers
 							EngineRights.CancelInstall);
 						job.Description += $" {model.EngineVersion}";
 
-						IFileUploadTicket fileUploadTicket = null;
+						IFileUploadTicket? fileUploadTicket = null;
 						if (uploadingZip)
 							fileUploadTicket = fileTransferService.CreateUpload(FileUploadStreamKind.None);
 
@@ -229,7 +227,7 @@ namespace Tgstation.Server.Host.Controllers
 								job,
 								async (core, databaseContextFactory, paramJob, progressHandler, jobCancellationToken) =>
 								{
-									MemoryStream zipFileStream = null;
+									MemoryStream? zipFileStream = null;
 									if (fileUploadTicket != null)
 										await using (fileUploadTicket)
 										{
@@ -293,18 +291,19 @@ namespace Tgstation.Server.Host.Controllers
 			if (earlyOut != null)
 				return earlyOut;
 
-			var notInstalledResponse = await WithComponentInstance(
+			var engineVersion = model.EngineVersion!;
+			var notInstalledResponse = await WithComponentInstanceNullable(
 				instance =>
 				{
 					var byondManager = instance.EngineManager;
 
-					if (model.EngineVersion.Equals(byondManager.ActiveVersion))
-						return ValueTask.FromResult<IActionResult>(
+					if (engineVersion.Equals(byondManager.ActiveVersion))
+						return ValueTask.FromResult<IActionResult?>(
 							Conflict(new ErrorMessageResponse(ErrorCode.EngineCannotDeleteActiveVersion)));
 
-					var versionNotInstalled = !byondManager.InstalledVersions.Any(x => x.Equals(model.EngineVersion));
+					var versionNotInstalled = !byondManager.InstalledVersions.Any(x => x.Equals(engineVersion));
 
-					return ValueTask.FromResult<IActionResult>(
+					return ValueTask.FromResult<IActionResult?>(
 						versionNotInstalled
 							? this.Gone()
 							: null);
@@ -313,24 +312,24 @@ namespace Tgstation.Server.Host.Controllers
 			if (notInstalledResponse != null)
 				return notInstalledResponse;
 
-			var isByondVersion = model.EngineVersion.Engine.Value == EngineType.Byond;
+			var isByondVersion = engineVersion.Engine!.Value == EngineType.Byond;
 
 			// run the install through the job manager
 			var cancelRight = isByondVersion
-				? model.EngineVersion.CustomIteration.HasValue
+				? engineVersion.CustomIteration.HasValue
 					? EngineRights.InstallCustomByondVersion
 					: EngineRights.InstallOfficialOrChangeActiveByondVersion
-				: model.EngineVersion.CustomIteration.HasValue
+				: engineVersion.CustomIteration.HasValue
 					? EngineRights.InstallOfficialOrChangeActiveOpenDreamVersion
 					: EngineRights.InstallCustomOpenDreamVersion;
 
 			var job = Models.Job.Create(JobCode.EngineDelete, AuthenticationContext.User, Instance, cancelRight);
-			job.Description += $" {model.EngineVersion}";
+			job.Description += $" {engineVersion}";
 
 			await jobManager.RegisterOperation(
 				job,
 				(instanceCore, databaseContextFactory, job, progressReporter, jobCancellationToken)
-					=> instanceCore.EngineManager.DeleteVersion(progressReporter, model.EngineVersion, jobCancellationToken),
+					=> instanceCore.EngineManager.DeleteVersion(progressReporter, engineVersion, jobCancellationToken),
 				cancellationToken);
 
 			var apiResponse = job.ToApi();
@@ -341,8 +340,8 @@ namespace Tgstation.Server.Host.Controllers
 		/// Validate and normalize a given <paramref name="version"/>.
 		/// </summary>
 		/// <param name="version">The <see cref="EngineVersion"/> to validate and normalize.</param>
-		/// <returns>The <see cref="BadRequestObjectResult"/> to return, if any.</returns>
-		BadRequestObjectResult ValidateEngineVersion(EngineVersion version)
+		/// <returns>The <see cref="BadRequestObjectResult"/> to return, if any. <see langword="null"/> otherwise.</returns>
+		BadRequestObjectResult? ValidateEngineVersion(EngineVersion? version)
 		{
 			if (version == null || !version.Engine.HasValue)
 				return BadRequest(new ErrorMessageResponse(ErrorCode.ModelValidationFailure));
@@ -359,7 +358,7 @@ namespace Tgstation.Server.Host.Controllers
 
 			if (isByond)
 			{
-				version.Version = NormalizeByondVersion(version.Version);
+				version.Version = NormalizeByondVersion(version.Version!);
 				if (version.Version.Build != -1)
 					return BadRequest(new ErrorMessageResponse(ErrorCode.ModelValidationFailure));
 			}
