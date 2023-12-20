@@ -53,7 +53,7 @@ namespace Tgstation.Server.Host.Components.Engine.Tests
 				true,
 				It.IsAny<CancellationToken>()))
 				.Callback(() => ++cloneAttempts)
-				.Returns(ValueTask.FromResult(needsClone ? mockRepository.Object : null))
+				.ReturnsAsync(needsClone ? mockRepository.Object : null)
 				.Verifiable(Times.Exactly(1));
 
 			mockRepositoryManager.Setup(x => x.LoadRepository(
