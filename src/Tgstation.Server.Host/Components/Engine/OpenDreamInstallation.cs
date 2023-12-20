@@ -144,25 +144,33 @@ namespace Tgstation.Server.Host.Components.Engine
 			request.Method = HttpMethod.Post;
 
 			var responseTask = httpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, cancellationToken);
-
-			await Task.WhenAny(timeout, lifetime, responseTask);
-			if (responseTask.IsCompleted)
+			try
 			{
-				using var response = await responseTask;
-				if (response.IsSuccessStatusCode)
+				await Task.WhenAny(timeout, lifetime, responseTask);
+				if (responseTask.IsCompleted)
 				{
-					logger.LogDebug("Robust.Server responded to the shutdown command successfully. Waiting for exit...");
-					await Task.WhenAny(timeout, lifetime);
+					using var response = await responseTask;
+					if (response.IsSuccessStatusCode)
+					{
+						logger.LogDebug("Robust.Server responded to the shutdown command successfully. Waiting for exit...");
+						await Task.WhenAny(timeout, lifetime);
+					}
 				}
+
+				if (!lifetime.IsCompleted)
+					logger.LogWarning("Robust.Server graceful exit timed out!");
+			}
+			catch (HttpRequestException ex)
+			{
+				logger.LogDebug(ex, "Unable to send graceful exit request to Robust.Server watchdog API!");
 			}
 
 			if (lifetime.IsCompleted)
 			{
-				logger.LogTrace("Robust.Server gracefully exited");
+				logger.LogTrace("Robust.Server exited without termination");
 				return;
 			}
 
-			logger.LogWarning("Robust.Server graceful exit timed out!");
 			await base.StopServerProcess(logger, process, accessIdentifier, port, cancellationToken);
 		}
 	}
