@@ -8,12 +8,14 @@ using Microsoft.Extensions.Options;
 
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Common.Extensions;
+using Tgstation.Server.Common.Http;
 using Tgstation.Server.Host.Common;
 using Tgstation.Server.Host.Components.Repository;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Jobs;
 using Tgstation.Server.Host.System;
+using Tgstation.Server.Host.Utils;
 
 #nullable disable
 
@@ -53,6 +55,11 @@ namespace Tgstation.Server.Host.Components.Engine
 		protected IProcessExecutor ProcessExecutor { get; }
 
 		/// <summary>
+		/// The <see cref="GeneralConfiguration"/> for the <see cref="OpenDreamInstaller"/>.
+		/// </summary>
+		protected GeneralConfiguration GeneralConfiguration { get; }
+
+		/// <summary>
 		/// The <see cref="IPlatformIdentifier"/> for the <see cref="OpenDreamInstaller"/>.
 		/// </summary>
 		readonly IPlatformIdentifier platformIdentifier;
@@ -63,9 +70,14 @@ namespace Tgstation.Server.Host.Components.Engine
 		readonly IRepositoryManager repositoryManager;
 
 		/// <summary>
-		/// The <see cref="GeneralConfiguration"/> for the <see cref="OpenDreamInstaller"/>.
+		/// The <see cref="IAsyncDelayer"/> for the <see cref="OpenDreamInstaller"/>.
 		/// </summary>
-		protected GeneralConfiguration GeneralConfiguration { get; }
+		readonly IAsyncDelayer asyncDelayer;
+
+		/// <summary>
+		/// The <see cref="IAbstractHttpClientFactory"/> for the <see cref="OpenDreamInstaller"/>.
+		/// </summary>
+		readonly IAbstractHttpClientFactory httpClientFactory;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="OpenDreamInstaller"/> class.
@@ -75,6 +87,8 @@ namespace Tgstation.Server.Host.Components.Engine
 		/// <param name="platformIdentifier">The value of <see cref="platformIdentifier"/>.</param>
 		/// <param name="processExecutor">The value of <see cref="ProcessExecutor"/>.</param>
 		/// <param name="repositoryManager">The value of <see cref="repositoryManager"/>.</param>
+		/// <param name="asyncDelayer">The value of <see cref="asyncDelayer"/>.</param>
+		/// <param name="httpClientFactory">The value of <see cref="httpClientFactory"/>.</param>
 		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing value of <see cref="GeneralConfiguration"/>.</param>
 		public OpenDreamInstaller(
 			IIOManager ioManager,
@@ -82,12 +96,16 @@ namespace Tgstation.Server.Host.Components.Engine
 			IPlatformIdentifier platformIdentifier,
 			IProcessExecutor processExecutor,
 			IRepositoryManager repositoryManager,
+			IAsyncDelayer asyncDelayer,
+			IAbstractHttpClientFactory httpClientFactory,
 			IOptions<GeneralConfiguration> generalConfigurationOptions)
 			: base(ioManager, logger)
 		{
 			this.platformIdentifier = platformIdentifier ?? throw new ArgumentNullException(nameof(platformIdentifier));
 			ProcessExecutor = processExecutor ?? throw new ArgumentNullException(nameof(processExecutor));
 			this.repositoryManager = repositoryManager ?? throw new ArgumentNullException(nameof(repositoryManager));
+			this.asyncDelayer = asyncDelayer ?? throw new ArgumentNullException(nameof(asyncDelayer));
+			this.httpClientFactory = httpClientFactory ?? throw new ArgumentNullException(nameof(httpClientFactory));
 			GeneralConfiguration = generalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
 		}
 
@@ -101,6 +119,8 @@ namespace Tgstation.Server.Host.Components.Engine
 			GetExecutablePaths(path, out var serverExePath, out var compilerExePath);
 			return new OpenDreamInstallation(
 				IOManager,
+				asyncDelayer,
+				httpClientFactory,
 				serverExePath,
 				compilerExePath,
 				installationTask,

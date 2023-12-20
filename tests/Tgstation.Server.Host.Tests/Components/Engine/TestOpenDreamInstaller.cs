@@ -9,10 +9,12 @@ using Moq;
 
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Internal;
+using Tgstation.Server.Common.Http;
 using Tgstation.Server.Host.Components.Repository;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.System;
+using Tgstation.Server.Host.Utils;
 
 namespace Tgstation.Server.Host.Components.Engine.Tests
 {
@@ -69,6 +71,8 @@ namespace Tgstation.Server.Host.Components.Engine.Tests
 				Mock.Of<IPlatformIdentifier>(),
 				Mock.Of<IProcessExecutor>(),
 				mockRepositoryManager.Object,
+				Mock.Of<IAsyncDelayer>(),
+				Mock.Of<IAbstractHttpClientFactory>(),
 				mockGeneralConfigOptions.Object);
 
 			var data = await installer.DownloadVersion(

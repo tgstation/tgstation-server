@@ -1013,7 +1013,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			Assert.IsNotNull(sessionObj);
 
 			var session = (ISessionController)sessionObj;
-			return session.ReattachInformation.Port;
+			return session.ReattachInformation.TopicPort ?? session.ReattachInformation.Port;
 		}
 
 		// - Uses instance manager concrete

@@ -1,12 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
+
+using Microsoft.Extensions.Logging;
 
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Host.Components.Deployment;
+using Tgstation.Server.Host.System;
 
 #nullable disable
 
@@ -58,6 +62,18 @@ namespace Tgstation.Server.Host.Components.Engine
 		public abstract string FormatCompilerArguments(string dmePath);
 
 		/// <inheritdoc />
-		public abstract string FormatServerArguments(IDmbProvider dmbProvider, IReadOnlyDictionary<string, string> parameters, DreamDaemonLaunchParameters launchParameters, string logFilePath);
+		public abstract string FormatServerArguments(
+			IDmbProvider dmbProvider,
+			IReadOnlyDictionary<string, string> parameters,
+			DreamDaemonLaunchParameters launchParameters,
+			string logFilePath);
+
+		/// <inheritdoc />
+		public virtual async ValueTask StopServerProcess(ILogger logger, IProcess process, string accessIdentifier, ushort port, CancellationToken cancellationToken)
+		{
+			logger.LogTrace("Terminating engine server process...");
+			process.Terminate();
+			await process.Lifetime;
+		}
 	}
 }

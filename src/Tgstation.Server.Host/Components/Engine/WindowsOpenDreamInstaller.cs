@@ -7,11 +7,13 @@ using Microsoft.Extensions.Options;
 
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Common.Extensions;
+using Tgstation.Server.Common.Http;
 using Tgstation.Server.Host.Components.Repository;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Jobs;
 using Tgstation.Server.Host.System;
+using Tgstation.Server.Host.Utils;
 
 #nullable disable
 
@@ -35,6 +37,8 @@ namespace Tgstation.Server.Host.Components.Engine
 		/// <param name="platformIdentifier">The <see cref="IPlatformIdentifier"/> for the <see cref="OpenDreamInstaller"/>.</param>
 		/// <param name="processExecutor">The <see cref="IProcessExecutor"/> for the <see cref="OpenDreamInstaller"/>.</param>
 		/// <param name="repositoryManager">The <see cref="IRepositoryManager"/> for the <see cref="OpenDreamInstaller"/>.</param>
+		/// <param name="asyncDelayer">The <see cref="IAsyncDelayer"/> for the <see cref="OpenDreamInstaller"/>.</param>
+		/// <param name="httpClientFactory">The <see cref="IAbstractHttpClientFactory"/> for the <see cref="OpenDreamInstaller"/>.</param>
 		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> of <see cref="GeneralConfiguration"/> for the <see cref="OpenDreamInstaller"/>.</param>
 		/// <param name="linkFactory">The value of <see cref="linkFactory"/>.</param>
 		public WindowsOpenDreamInstaller(
@@ -43,6 +47,8 @@ namespace Tgstation.Server.Host.Components.Engine
 			IPlatformIdentifier platformIdentifier,
 			IProcessExecutor processExecutor,
 			IRepositoryManager repositoryManager,
+			IAsyncDelayer asyncDelayer,
+			IAbstractHttpClientFactory httpClientFactory,
 			IOptions<GeneralConfiguration> generalConfigurationOptions,
 			IFilesystemLinkFactory linkFactory)
 			: base(
@@ -51,6 +57,8 @@ namespace Tgstation.Server.Host.Components.Engine
 				platformIdentifier,
 				processExecutor,
 				repositoryManager,
+				asyncDelayer,
+				httpClientFactory,
 				generalConfigurationOptions)
 		{
 			this.linkFactory = linkFactory ?? throw new ArgumentNullException(nameof(linkFactory));

@@ -7,7 +7,7 @@ namespace Tgstation.Server.Host.System
 	/// <summary>
 	/// Abstraction over a <see cref="global::System.Diagnostics.Process"/>.
 	/// </summary>
-	interface IProcess : IProcessBase, IAsyncDisposable
+	public interface IProcess : IProcessBase, IAsyncDisposable
 	{
 		/// <summary>
 		/// The <see cref="IProcess"/>' ID.

@@ -17,6 +17,7 @@ using Tgstation.Server.Api.Models.Request;
 using Tgstation.Server.Api.Models.Response;
 using Tgstation.Server.Client;
 using Tgstation.Server.Client.Components;
+using Tgstation.Server.Common.Http;
 using Tgstation.Server.Host.Components;
 using Tgstation.Server.Host.Components.Engine;
 using Tgstation.Server.Host.Components.Events;
@@ -25,6 +26,7 @@ using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Jobs;
 using Tgstation.Server.Host.System;
+using Tgstation.Server.Host.Utils;
 
 namespace Tgstation.Server.Tests.Live.Instance
 {
@@ -116,6 +118,8 @@ namespace Tgstation.Server.Tests.Live.Instance
 						Mock.Of<ILogger<Repository>>(),
 						Mock.Of<ILogger<RepositoryManager>>(),
 						genConfig),
+					Mock.Of<IAsyncDelayer>(),
+					Mock.Of<IAbstractHttpClientFactory>(),
 					mockOptions.Object)
 				: new PlatformIdentifier().IsWindows
 					? new WindowsByondInstaller(

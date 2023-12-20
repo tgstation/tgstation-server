@@ -133,7 +133,7 @@ namespace Tgstation.Server.Host.Components.Session
 		/// <summary>
 		/// The <see cref="IEngineExecutableLock"/> for the <see cref="SessionController"/>.
 		/// </summary>
-		readonly IEngineExecutableLock byondLock;
+		readonly IEngineExecutableLock engineLock;
 
 		/// <summary>
 		/// The <see cref="IChatTrackingContext"/> for the <see cref="SessionController"/>.
@@ -226,7 +226,7 @@ namespace Tgstation.Server.Host.Components.Session
 		/// <param name="reattachInformation">The value of <see cref="ReattachInformation"/>.</param>
 		/// <param name="metadata">The owning <see cref="Instance"/>.</param>
 		/// <param name="process">The value of <see cref="process"/>.</param>
-		/// <param name="byondLock">The value of <see cref="byondLock"/>.</param>
+		/// <param name="engineLock">The value of <see cref="engineLock"/>.</param>
 		/// <param name="byondTopicSender">The value of <see cref="byondTopicSender"/>.</param>
 		/// <param name="bridgeRegistrar">The <see cref="IBridgeRegistrar"/> used to populate <see cref="bridgeRegistration"/>.</param>
 		/// <param name="chat">The value of <see cref="chat"/>.</param>
@@ -242,7 +242,7 @@ namespace Tgstation.Server.Host.Components.Session
 			ReattachInformation reattachInformation,
 			Api.Models.Instance metadata,
 			IProcess process,
-			IEngineExecutableLock byondLock,
+			IEngineExecutableLock engineLock,
 			Byond.TopicSender.ITopicClient byondTopicSender,
 			IChatTrackingContext chatTrackingContext,
 			IBridgeRegistrar bridgeRegistrar,
@@ -259,7 +259,7 @@ namespace Tgstation.Server.Host.Components.Session
 			ReattachInformation = reattachInformation ?? throw new ArgumentNullException(nameof(reattachInformation));
 			this.metadata = metadata ?? throw new ArgumentNullException(nameof(metadata));
 			this.process = process ?? throw new ArgumentNullException(nameof(process));
-			this.byondLock = byondLock ?? throw new ArgumentNullException(nameof(byondLock));
+			this.engineLock = engineLock ?? throw new ArgumentNullException(nameof(engineLock));
 			this.byondTopicSender = byondTopicSender ?? throw new ArgumentNullException(nameof(byondTopicSender));
 			this.chatTrackingContext = chatTrackingContext ?? throw new ArgumentNullException(nameof(chatTrackingContext));
 			ArgumentNullException.ThrowIfNull(bridgeRegistrar);
@@ -340,16 +340,21 @@ namespace Tgstation.Server.Host.Components.Session
 			Logger.LogTrace("Disposing...");
 
 			reattachTopicCts.Cancel();
-			var semaphoreLockTask = TopicSendSemaphore.Lock(CancellationToken.None); // DCT: None available
+			var cancellationToken = CancellationToken.None; // DCT: None available
+			var semaphoreLockTask = TopicSendSemaphore.Lock(cancellationToken);
 
 			if (!released)
 			{
-				process.Terminate();
-				await process.Lifetime;
+				await engineLock.StopServerProcess(
+					Logger,
+					process,
+					ReattachInformation.AccessIdentifier,
+					ReattachInformation.Port,
+					cancellationToken);
 			}
 
 			await process.DisposeAsync();
-			byondLock.Dispose();
+			engineLock.Dispose();
 			bridgeRegistration?.Dispose();
 			var regularDmbDisposeTask = ReattachInformation.Dmb.DisposeAsync();
 			var initialDmb = ReattachInformation.InitialDmb;
@@ -395,7 +400,7 @@ namespace Tgstation.Server.Host.Components.Session
 
 			ReattachInformation.Dmb.KeepAlive();
 			ReattachInformation.InitialDmb?.KeepAlive();
-			byondLock.DoNotDeleteThisSession();
+			engineLock.DoNotDeleteThisSession();
 			released = true;
 			return DisposeAsync();
 		}
