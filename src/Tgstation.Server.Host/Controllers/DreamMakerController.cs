@@ -27,7 +27,6 @@ namespace Tgstation.Server.Host.Controllers
 	/// <see cref="ApiController"/> for managing the deployment system.
 	/// </summary>
 	[Route(Routes.DreamMaker)]
-#pragma warning disable CA1506 // TODO: Decomplexify
 	public sealed class DreamMakerController : InstanceRequiredController
 	{
 		/// <summary>
