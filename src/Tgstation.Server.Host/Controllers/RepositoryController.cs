@@ -24,8 +24,6 @@ using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.Security;
 using Tgstation.Server.Host.Utils;
 
-#nullable disable
-
 namespace Tgstation.Server.Host.Controllers
 {
 	/// <summary>
@@ -213,7 +211,7 @@ namespace Tgstation.Server.Host.Controllers
 
 			await DatabaseContext.Save(cancellationToken);
 
-			Logger.LogInformation("Instance {instanceId} repository delete initiated by user {userId}", Instance.Id, AuthenticationContext.User.Id.Value);
+			Logger.LogInformation("Instance {instanceId} repository delete initiated by user {userId}", Instance.Id, AuthenticationContext.User.Require(x => x.Id));
 
 			var job = Job.Create(JobCode.RepositoryDelete, AuthenticationContext.User, Instance);
 			var api = currentModel.ToApi();
@@ -378,23 +376,23 @@ namespace Tgstation.Server.Host.Controllers
 			var api = canRead ? currentModel.ToApi() : new RepositoryResponse();
 			if (canRead)
 			{
-				var earlyOut = await WithComponentInstance(
-				async instance =>
-				{
-					var repoManager = instance.RepositoryManager;
-					if (repoManager.CloneInProgress)
-						return Conflict(new ErrorMessageResponse(ErrorCode.RepoCloning));
+				var earlyOut = await WithComponentInstanceNullable(
+					async instance =>
+					{
+						var repoManager = instance.RepositoryManager;
+						if (repoManager.CloneInProgress)
+							return Conflict(new ErrorMessageResponse(ErrorCode.RepoCloning));
 
-					if (repoManager.InUse)
-						return Conflict(new ErrorMessageResponse(ErrorCode.RepoBusy));
+						if (repoManager.InUse)
+							return Conflict(new ErrorMessageResponse(ErrorCode.RepoBusy));
 
-					using var repo = await repoManager.LoadRepository(cancellationToken);
-					if (repo == null)
-						return Conflict(new ErrorMessageResponse(ErrorCode.RepoMissing));
-					await PopulateApi(api, repo, DatabaseContext, Instance, cancellationToken);
+						using var repo = await repoManager.LoadRepository(cancellationToken);
+						if (repo == null)
+							return Conflict(new ErrorMessageResponse(ErrorCode.RepoMissing));
+						await PopulateApi(api, repo, DatabaseContext, Instance, cancellationToken);
 
-					return null;
-				});
+						return null;
+					});
 
 				if (earlyOut != null)
 					return earlyOut;
@@ -404,7 +402,7 @@ namespace Tgstation.Server.Host.Controllers
 			await DatabaseContext.Save(cancellationToken);
 
 			// format the job description
-			string description = null;
+			string? description = null;
 			if (model.UpdateFromOrigin == true)
 				if (model.Reference != null)
 					description = String.Format(CultureInfo.InvariantCulture, "Fetch and hard reset repository to origin/{0}", model.Reference);
@@ -424,7 +422,7 @@ namespace Tgstation.Server.Host.Controllers
 						: "T",
 					String.Join(
 						", ",
-						model.NewTestMerges.Select(
+						model.NewTestMerges!.Select(
 							x => String.Format(
 								CultureInfo.InvariantCulture,
 								"#{0}{1}",
@@ -450,7 +448,7 @@ namespace Tgstation.Server.Host.Controllers
 				currentModel,
 				AuthenticationContext.User,
 				loggerFactory.CreateLogger<RepositoryUpdateService>(),
-				Instance.Id.Value);
+				Instance.Require(x => x.Id));
 
 			// Time to access git, do it in a job
 			await jobManager.RegisterOperation(
@@ -486,16 +484,14 @@ namespace Tgstation.Server.Host.Controllers
 			apiResponse.Reference = repository.Reference;
 
 			// rev info stuff
-			Models.RevisionInformation revisionInfo = null;
 			var needsDbUpdate = await RepositoryUpdateService.LoadRevisionInformation(
 				repository,
 				databaseContext,
 				Logger,
 				instance,
 				null,
-				newRevInfo => revisionInfo = newRevInfo,
+				newRevInfo => apiResponse.RevisionInformation = newRevInfo.ToApi(),
 				cancellationToken);
-			apiResponse.RevisionInformation = revisionInfo.ToApi();
 			return needsDbUpdate;
 		}
 	}
