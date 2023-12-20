@@ -267,7 +267,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// </summary>
 		/// <typeparam name="TModel">The <see cref="Type"/> of model being generated and returned.</typeparam>
 		/// <param name="queryGenerator">A <see cref="Func{TResult}"/> resulting in a <see cref="Task{TResult}"/> resulting in the generated <see cref="PaginatableResult{TModel}"/>.</param>
-		/// <param name="resultTransformer">A <see cref="Func{T, TResult}"/> to transform the <typeparamref name="TModel"/>s after being queried.</param>
+		/// <param name="resultTransformer">Optional <see cref="Func{T, TResult}"/> to transform the <typeparamref name="TModel"/>s after being queried.</param>
 		/// <param name="pageQuery">The requested page from the query.</param>
 		/// <param name="pageSizeQuery">The requested page size from the query.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
@@ -297,7 +297,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="IActionResult"/> for the operation.</returns>
 		protected ValueTask<IActionResult> Paginated<TModel, TApiModel>(
 			Func<ValueTask<PaginatableResult<TModel>>> queryGenerator,
-			Func<TApiModel, ValueTask> resultTransformer,
+			Func<TApiModel, ValueTask>? resultTransformer,
 			int? pageQuery,
 			int? pageSizeQuery,
 			CancellationToken cancellationToken)
