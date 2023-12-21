@@ -303,11 +303,10 @@ namespace Tgstation.Server.Host.IO
 		/// <inheritdoc />
 		public bool PathContainsParentAccess(string path) => path
 			?.Split(
-				new[]
-				{
+				[
 					Path.DirectorySeparatorChar,
 					Path.AltDirectorySeparatorChar,
-				})
+				])
 			.Any(x => x == "..")
 			?? throw new ArgumentNullException(nameof(path));
 
