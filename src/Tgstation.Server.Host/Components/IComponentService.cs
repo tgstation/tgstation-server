@@ -1,7 +1,5 @@
 ﻿using Microsoft.Extensions.Hosting;
 
-#nullable disable
-
 namespace Tgstation.Server.Host.Components
 {
 	/// <summary>
