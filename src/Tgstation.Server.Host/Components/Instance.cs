@@ -387,7 +387,7 @@ namespace Tgstation.Server.Host.Components
 					var updatedTestMerges = await remoteDeploymentManager.RemoveMergedTestMerges(
 						repo,
 						repositorySettings,
-						currentRevInfo,
+						currentRevInfo!,
 						cancellationToken);
 
 					var result = await repo.MergeOrigin(

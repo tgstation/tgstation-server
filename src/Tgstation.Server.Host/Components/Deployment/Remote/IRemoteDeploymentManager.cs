@@ -6,8 +6,6 @@ using System.Threading.Tasks;
 using Tgstation.Server.Host.Components.Repository;
 using Tgstation.Server.Host.Models;
 
-#nullable disable
-
 namespace Tgstation.Server.Host.Components.Deployment.Remote
 {
 	/// <summary>
@@ -36,7 +34,7 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
 		ValueTask StageDeployment(
 			CompileJob compileJob,
-			Action<bool> activationCallback,
+			Action<bool>? activationCallback,
 			CancellationToken cancellationToken);
 
 		/// <summary>
@@ -70,8 +68,8 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 		/// <param name="compileJob">The deployed <see cref="CompileJob"/>.</param>
 		/// <param name="previousRevisionInformation">The <see cref="RevisionInformation"/> of the previous deployment.</param>
 		/// <param name="repositorySettings">The <see cref="RepositorySettings"/>.</param>
-		/// <param name="repoOwner">The GitHub repostiory owner.</param>
-		/// <param name="repoName">The GitHub repostiory name.</param>
+		/// <param name="repoOwner">The remote repostiory owner.</param>
+		/// <param name="repoName">The remote repostiory name.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
 		ValueTask PostDeploymentComments(
