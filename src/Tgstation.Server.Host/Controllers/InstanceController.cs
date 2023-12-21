@@ -444,7 +444,7 @@ namespace Tgstation.Server.Host.Controllers
 				await WithComponentInstanceNullable(
 					async componentInstance =>
 					{
-						await componentInstance.InstanceRenamed(originalModel.Name, cancellationToken);
+						await componentInstance.InstanceRenamed(originalModel.Name!, cancellationToken);
 						return null;
 					},
 					originalModel);
