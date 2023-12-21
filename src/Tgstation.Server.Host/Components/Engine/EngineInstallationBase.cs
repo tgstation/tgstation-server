@@ -71,6 +71,7 @@ namespace Tgstation.Server.Host.Components.Engine
 		/// <inheritdoc />
 		public virtual async ValueTask StopServerProcess(ILogger logger, IProcess process, string accessIdentifier, ushort port, CancellationToken cancellationToken)
 		{
+			cancellationToken.ThrowIfCancellationRequested();
 			logger.LogTrace("Terminating engine server process...");
 			process.Terminate();
 			await process.Lifetime;
