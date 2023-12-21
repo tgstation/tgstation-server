@@ -6,8 +6,6 @@ using System.Threading.Tasks;
 using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Host.Components.Interop;
 
-#nullable disable
-
 namespace Tgstation.Server.Host.Components.Chat
 {
 	/// <summary>
@@ -73,8 +71,8 @@ namespace Tgstation.Server.Host.Components.Chat
 			Models.RevisionInformation revisionInformation,
 			Api.Models.EngineVersion engineVersion,
 			DateTimeOffset? estimatedCompletionTime,
-			string gitHubOwner,
-			string gitHubRepo,
+			string? gitHubOwner,
+			string? gitHubRepo,
 			bool localCommitPushed);
 
 		/// <summary>

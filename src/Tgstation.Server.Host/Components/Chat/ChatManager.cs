@@ -380,8 +380,8 @@ namespace Tgstation.Server.Host.Components.Chat
 			Models.RevisionInformation revisionInformation,
 			EngineVersion engineVersion,
 			DateTimeOffset? estimatedCompletionTime,
-			string gitHubOwner,
-			string gitHubRepo,
+			string? gitHubOwner,
+			string? gitHubRepo,
 			bool localCommitPushed)
 		{
 			List<ulong> wdChannels;
