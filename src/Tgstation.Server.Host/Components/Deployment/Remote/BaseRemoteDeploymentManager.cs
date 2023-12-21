@@ -96,7 +96,7 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 					.Any(y => y.TestMerge.Number == x.Number))
 				.ToList();
 
-			if (!addedTestMerges.Any() && !removedTestMerges.Any() && !updatedTestMerges.Any())
+			if (addedTestMerges.Count == 0 && removedTestMerges.Count == 0 && updatedTestMerges.Count == 0)
 				return;
 
 			Logger.LogTrace(
@@ -107,48 +107,54 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 
 			var tasks = new List<ValueTask>(addedTestMerges.Count + updatedTestMerges.Count + removedTestMerges.Count);
 			foreach (var addedTestMerge in addedTestMerges)
-				tasks.Add(
-					CommentOnTestMergeSource(
+			{
+				var addCommentTask = CommentOnTestMergeSource(
+					repositorySettings,
+					repoOwner,
+					repoName,
+					FormatTestMerge(
 						repositorySettings,
+						compileJob,
+						addedTestMerge,
 						repoOwner,
 						repoName,
-						FormatTestMerge(
-							repositorySettings,
-							compileJob,
-							addedTestMerge,
-							repoOwner,
-							repoName,
-							false),
-						addedTestMerge.Number,
-						cancellationToken));
+						false),
+					addedTestMerge.Number,
+					cancellationToken);
+				tasks.Add(addCommentTask);
+			}
 
 			foreach (var removedTestMerge in removedTestMerges)
-				tasks.Add(
-					CommentOnTestMergeSource(
-						repositorySettings,
-						repoOwner,
-						repoName,
-						"#### Test Merge Removed",
-						removedTestMerge.Number,
-						cancellationToken));
+			{
+				var removeCommentTask = CommentOnTestMergeSource(
+					repositorySettings,
+					repoOwner,
+					repoName,
+					"#### Test Merge Removed",
+					removedTestMerge.Number,
+					cancellationToken);
+				tasks.Add(removeCommentTask);
+			}
 
 			foreach (var updatedTestMerge in updatedTestMerges)
-				tasks.Add(
-					CommentOnTestMergeSource(
+			{
+				var updateCommentTask = CommentOnTestMergeSource(
+					repositorySettings,
+					repoOwner,
+					repoName,
+					FormatTestMerge(
 						repositorySettings,
+						compileJob,
+						updatedTestMerge,
 						repoOwner,
 						repoName,
-						FormatTestMerge(
-							repositorySettings,
-							compileJob,
-							updatedTestMerge,
-							repoOwner,
-							repoName,
-							true),
-						updatedTestMerge.Number,
-						cancellationToken));
+						true),
+					updatedTestMerge.Number,
+					cancellationToken);
+				tasks.Add(updateCommentTask);
+			}
 
-			if (tasks.Any())
+			if (tasks.Count > 0)
 				await ValueTaskExtensions.WhenAll(tasks);
 		}
 
