@@ -11,8 +11,6 @@ using Tgstation.Server.Common.Extensions;
 using Tgstation.Server.Host.Components.Repository;
 using Tgstation.Server.Host.Models;
 
-#nullable disable
-
 namespace Tgstation.Server.Host.Components.Deployment.Remote
 {
 	/// <summary>
@@ -65,7 +63,7 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 
 			var deployedRevisionInformation = compileJob.RevisionInformation;
 			if ((previousRevisionInformation != null && previousRevisionInformation.CommitSha == deployedRevisionInformation.CommitSha)
-				|| !repositorySettings.PostTestMergeComment.Value)
+				|| !repositorySettings.PostTestMergeComment!.Value)
 				return;
 
 			previousRevisionInformation ??= new RevisionInformation();
@@ -163,7 +161,7 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 		{
 			ArgumentNullException.ThrowIfNull(compileJob);
 
-			if (activationCallbacks.TryGetValue(compileJob.Id.Value, out var activationCallback))
+			if (activationCallbacks.TryGetValue(compileJob.Require(x => x.Id), out var activationCallback))
 				activationCallback(true);
 
 			return ApplyDeploymentImpl(compileJob, cancellationToken);
@@ -177,7 +175,7 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 		{
 			ArgumentNullException.ThrowIfNull(compileJob);
 
-			if (activationCallbacks.TryRemove(compileJob.Id.Value, out var activationCallback))
+			if (activationCallbacks.TryRemove(compileJob.Require(x => x.Id), out var activationCallback))
 				activationCallback(false);
 
 			return MarkInactiveImpl(compileJob, cancellationToken);
@@ -191,12 +189,13 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 			CancellationToken cancellationToken);
 
 		/// <inheritdoc />
-		public ValueTask StageDeployment(CompileJob compileJob, Action<bool> activationCallback, CancellationToken cancellationToken)
+		public ValueTask StageDeployment(CompileJob compileJob, Action<bool>? activationCallback, CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(compileJob);
 
-			if (activationCallback != null && !activationCallbacks.TryAdd(compileJob.Id.Value, activationCallback))
-				Logger.LogError("activationCallbacks conflicted on CompileJob #{id}!", compileJob.Id.Value);
+			var compileJobId = compileJob.Require(x => x.Id);
+			if (activationCallback != null && !activationCallbacks.TryAdd(compileJobId, activationCallback))
+				Logger.LogError("activationCallbacks conflicted on CompileJob #{id}!", compileJobId);
 
 			return StageDeploymentImpl(compileJob, cancellationToken);
 		}
