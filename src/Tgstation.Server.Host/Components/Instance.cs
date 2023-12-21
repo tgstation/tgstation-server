@@ -21,8 +21,6 @@ using Tgstation.Server.Host.Jobs;
 using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.Utils;
 
-#nullable disable
-
 namespace Tgstation.Server.Host.Components
 {
 	/// <inheritdoc />
@@ -95,12 +93,12 @@ namespace Tgstation.Server.Host.Components
 		/// <summary>
 		/// The auto update <see cref="Task"/>.
 		/// </summary>
-		Task timerTask;
+		Task? timerTask;
 
 		/// <summary>
 		/// <see cref="CancellationTokenSource"/> for <see cref="timerTask"/>.
 		/// </summary>
-		CancellationTokenSource timerCts;
+		CancellationTokenSource? timerCts;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="Instance"/> class.
@@ -185,7 +183,7 @@ namespace Tgstation.Server.Host.Components
 			using (LogContext.PushProperty(SerilogContextHelper.InstanceIdContextProperty, metadata.Id))
 			{
 				await Task.WhenAll(
-					SetAutoUpdateInterval(metadata.AutoUpdateInterval.Value).AsTask(),
+					SetAutoUpdateInterval(metadata.Require(x => x.AutoUpdateInterval)).AsTask(),
 					Configuration.StartAsync(cancellationToken),
 					EngineManager.StartAsync(cancellationToken),
 					Chat.StartAsync(cancellationToken),
@@ -223,7 +221,7 @@ namespace Tgstation.Server.Host.Components
 				if (timerTask != null)
 				{
 					logger.LogTrace("Cancelling auto-update task");
-					timerCts.Cancel();
+					timerCts!.Cancel();
 					timerCts.Dispose();
 					toWait = timerTask;
 					timerTask = null;
@@ -317,18 +315,18 @@ namespace Tgstation.Server.Host.Components
 						cancellationToken);
 
 					var hasDbChanges = false;
-					RevisionInformation currentRevInfo = null;
-					Models.Instance attachedInstance = null;
-					async ValueTask UpdateRevInfo(string currentHead, bool onOrigin, IEnumerable<TestMerge> updatedTestMerges)
+					RevisionInformation? currentRevInfo = null;
+					Models.Instance? attachedInstance = null;
+					async ValueTask UpdateRevInfo(string currentHead, bool onOrigin, IEnumerable<TestMerge>? updatedTestMerges)
 					{
 						if (currentRevInfo == null)
 						{
 							logger.LogTrace("Loading revision info for commit {sha}...", startSha[..7]);
 							currentRevInfo = await databaseContext
-							.RevisionInformations
+								.RevisionInformations
 								.AsQueryable()
-								.Where(x => x.CommitSha == startSha && x.Instance.Id == metadata.Id)
-								.Include(x => x.ActiveTestMerges)
+								.Where(x => x.CommitSha == startSha && x.InstanceId == metadata.Id)
+								.Include(x => x.ActiveTestMerges!)
 									.ThenInclude(x => x.TestMerge)
 								.FirstOrDefaultAsync(cancellationToken);
 						}
@@ -366,7 +364,7 @@ namespace Tgstation.Server.Host.Components
 
 						if (!onOrigin)
 						{
-							var testMerges = updatedTestMerges ?? oldRevInfo.ActiveTestMerges.Select(x => x.TestMerge);
+							var testMerges = updatedTestMerges ?? oldRevInfo!.ActiveTestMerges!.Select(x => x.TestMerge);
 							var revInfoTestMerges = testMerges.Select(
 								testMerge => new RevInfoTestMerge(testMerge, currentRevInfo))
 								.ToList();
@@ -381,10 +379,10 @@ namespace Tgstation.Server.Host.Components
 					// build current commit data if it's missing
 					await UpdateRevInfo(repo.Head, false, null);
 
-					var preserveTestMerges = repositorySettings.AutoUpdatesKeepTestMerges.Value;
+					var preserveTestMerges = repositorySettings.AutoUpdatesKeepTestMerges!.Value;
 					var remoteDeploymentManager = remoteDeploymentManagerFactory.CreateRemoteDeploymentManager(
 						metadata,
-						repo.RemoteGitProvider.Value);
+						repo.RemoteGitProvider!.Value);
 
 					var updatedTestMerges = await remoteDeploymentManager.RemoveMergedTestMerges(
 						repo,
@@ -434,7 +432,7 @@ namespace Tgstation.Server.Host.Components
 							NextProgressReporter(StageName),
 							repositorySettings.AccessUser,
 							repositorySettings.AccessToken,
-							repositorySettings.UpdateSubmodules.Value,
+							repositorySettings.UpdateSubmodules!.Value,
 							true,
 							cancellationToken);
 
@@ -442,7 +440,7 @@ namespace Tgstation.Server.Host.Components
 
 						currentRevInfo = await databaseContext.RevisionInformations
 							.AsQueryable()
-							.Where(x => x.CommitSha == currentHead && x.Instance.Id == metadata.Id)
+							.Where(x => x.CommitSha == currentHead && x.InstanceId == metadata.Id)
 							.FirstOrDefaultAsync(cancellationToken);
 
 						if (currentHead != startSha && currentRevInfo == default)
@@ -452,7 +450,7 @@ namespace Tgstation.Server.Host.Components
 					}
 
 					// synch if necessary
-					if (repositorySettings.AutoUpdatesSynchronize.Value && startSha != repo.Head && (shouldSyncTracked || repositorySettings.PushTestMergeCommits.Value))
+					if (repositorySettings.AutoUpdatesSynchronize!.Value && startSha != repo.Head && (shouldSyncTracked || repositorySettings.PushTestMergeCommits!.Value))
 					{
 						var pushedOrigin = await repo.Sychronize(
 							NextProgressReporter("Synchronize"),
@@ -464,7 +462,7 @@ namespace Tgstation.Server.Host.Components
 							true,
 							cancellationToken);
 						var currentHead = repo.Head;
-						if (currentHead != currentRevInfo.CommitSha)
+						if (currentHead != currentRevInfo!.CommitSha)
 							await UpdateRevInfo(currentHead, pushedOrigin, null);
 					}
 
