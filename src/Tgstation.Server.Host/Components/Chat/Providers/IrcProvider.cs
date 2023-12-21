@@ -530,19 +530,17 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 
 			var channelFriendlyName = isPrivate ? String.Format(CultureInfo.InvariantCulture, "PM: {0}", channelName) : channelName;
 			var message = new Message(
-				new ChatUser
-				{
-					Channel = new ChannelRepresentation(address, channelFriendlyName, channelId)
+				new ChatUser(
+					new ChannelRepresentation(address, channelFriendlyName, channelId)
 					{
 						IsPrivateChannel = isPrivate,
 						EmbedsSupported = false,
 
 						// isAdmin and Tag populated by manager
 					},
-					FriendlyName = username,
-					RealId = userId,
-					Mention = username,
-				},
+					username,
+					username,
+					userId),
 				e.Data.Message);
 
 			EnqueueMessage(message);

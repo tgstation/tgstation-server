@@ -531,10 +531,8 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			}
 
 			var result = new DiscordMessage(
-				new ChatUser
-				{
-					RealId = messageCreateEvent.Author.ID.Value,
-					Channel = new ChannelRepresentation(
+				new ChatUser(
+					new ChannelRepresentation(
 						pm ? messageCreateEvent.Author.Username : guildName,
 						channelResponse.Entity.Name.Value!,
 						messageCreateEvent.ChannelID.Value)
@@ -544,9 +542,9 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 
 						// isAdmin and Tag populated by manager
 					},
-					FriendlyName = messageCreateEvent.Author.Username,
-					Mention = NormalizeMentions($"<@{messageCreateEvent.Author.ID}>"),
-				},
+					messageCreateEvent.Author.Username,
+					NormalizeMentions($"<@{messageCreateEvent.Author.ID}>"),
+					messageCreateEvent.Author.ID.Value),
 				content,
 				messageReference);
 

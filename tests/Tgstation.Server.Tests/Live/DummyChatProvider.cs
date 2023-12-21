@@ -279,13 +279,11 @@ namespace Tgstation.Server.Tests.Live
 						channel = enumerator[index].Value;
 					}
 
-					var sender = new ChatUser
-					{
-						Channel = CloneChannel(channel),
-						FriendlyName = username,
-						RealId = i + 50000,
-						Mention = $"@{username}",
-					};
+					var sender = new ChatUser(
+						CloneChannel(channel),
+						username,
+						$"@{username}",
+						i + 50000);
 
 					var dice = random.Next(0, 100);
 					string content;

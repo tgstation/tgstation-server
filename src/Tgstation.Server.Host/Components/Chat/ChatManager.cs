@@ -798,7 +798,7 @@ namespace Tgstation.Server.Host.Components.Chat
 
 				var mappingChannelRepresentation = mappedChannel.Value.Value.Channel;
 
-				message.User.Channel.Id = mappingChannelRepresentation.Id;
+				message.User.Channel.RealId = mappingChannelRepresentation.RealId;
 				message.User.Channel.Tag = mappingChannelRepresentation.Tag;
 				message.User.Channel.IsAdminChannel = mappingChannelRepresentation.IsAdminChannel;
 			}

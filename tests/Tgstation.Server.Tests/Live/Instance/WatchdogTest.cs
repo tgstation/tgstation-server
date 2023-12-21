@@ -1024,20 +1024,16 @@ namespace Tgstation.Server.Tests.Live.Instance
 			var startTime = DateTimeOffset.UtcNow - TimeSpan.FromSeconds(5);
 			using (var instanceReference = instanceManager.GetInstanceReference(instanceClient.Metadata))
 			{
-				var mockChatUser = new ChatUser
-				{
-					Channel = new ChannelRepresentation("test_connection", "Test Connection", 0)
+				var mockChatUser = new ChatUser(
+					new ChannelRepresentation("test_connection", "Test Connection", 42)
 					{
 						IsAdminChannel = true,
 						EmbedsSupported = true,
-						Id = "test_channel_id",
 						IsPrivateChannel = false,
 					},
-					FriendlyName = "Test Sender",
-					Id = "test_user_id",
-					Mention = "test_user_mention",
-					RealId = 1234,
-				};
+					"Test Sender",
+					"test_user_mention",
+					1234);
 
 				var embedsResponseTask = ((WatchdogBase)instanceReference.Watchdog).HandleChatCommand(
 					"embeds_test",

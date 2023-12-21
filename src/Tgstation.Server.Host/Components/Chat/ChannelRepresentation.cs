@@ -14,7 +14,7 @@ namespace Tgstation.Server.Host.Components.Chat
 		/// <summary>
 		/// Backing field for <see cref="RealId"/>. Represented as a <see cref="string"/> to avoid BYOND percision loss.
 		/// </summary>
-		public string Id { get; set; }
+		public string Id { get; private set; }
 
 		/// <summary>
 		/// The <see cref="Providers.IProvider"/> channel Id.
@@ -45,7 +45,7 @@ namespace Tgstation.Server.Host.Components.Chat
 		/// <summary>
 		/// If this is a 1-to-1 chat channel.
 		/// </summary>
-		public bool IsPrivateChannel { get; set; }
+		public bool IsPrivateChannel { get; init; }
 
 		/// <summary>
 		/// For user use.
@@ -55,7 +55,7 @@ namespace Tgstation.Server.Host.Components.Chat
 		/// <summary>
 		/// If this channel supports embeds.
 		/// </summary>
-		public bool EmbedsSupported { get; set; }
+		public bool EmbedsSupported { get; init; }
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="ChannelRepresentation"/> class.
