@@ -84,7 +84,7 @@ namespace Tgstation.Server.Host.Controllers
 						var newFile = await instance
 							.Configuration
 							.Write(
-								model.Path,
+								model.Path!,
 								systemIdentity,
 								model.LastReadHash,
 								cancellationToken);
@@ -239,6 +239,9 @@ namespace Tgstation.Server.Host.Controllers
 		public async ValueTask<IActionResult> CreateDirectory([FromBody] ConfigurationFileRequest model, CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(model);
+
+			if (model.Path == null)
+				return BadRequest(new ErrorMessageResponse(ErrorCode.ModelValidationFailure));
 
 			if (ForbidDueToModeConflicts(model.Path, out var systemIdentity))
 				return Forbid();
