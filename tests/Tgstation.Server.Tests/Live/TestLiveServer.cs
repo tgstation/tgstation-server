@@ -147,9 +147,6 @@ namespace Tgstation.Server.Tests.Live
 
 		static ushort FreeTcpPort(params ushort[] usedPorts)
 		{
-			var portList = new ushort[] { 42069, 42070, 42071, 42072, 42073, 42074 };
-			return portList.First(x => !usedPorts.Contains(x));
-			/*
 			ushort result;
 			var listeners = new List<TcpListener>();
 
@@ -171,7 +168,7 @@ namespace Tgstation.Server.Tests.Live
 
 					result = (ushort)((IPEndPoint)l.LocalEndpoint).Port;
 				}
-				while (usedPorts.Contains(result) || result < 10000);
+				while (usedPorts.Contains(result) || result < 20000);
 			}
 			finally
 			{
@@ -180,8 +177,9 @@ namespace Tgstation.Server.Tests.Live
 					l.Stop();
 				}
 			}
+
+			Console.WriteLine($"Allocated port: {result}");
 			return result;
-			*/
 		}
 
 		[ClassInitialize]
