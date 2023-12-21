@@ -25,8 +25,6 @@ using Tgstation.Server.Host.System;
 using Tgstation.Server.Host.Transfer;
 using Tgstation.Server.Host.Utils;
 
-#nullable disable
-
 namespace Tgstation.Server.Host.Components
 {
 	/// <inheritdoc />
@@ -332,7 +330,7 @@ namespace Tgstation.Server.Host.Components
 							eventConsumer.SetWatchdog(watchdog);
 							commandFactory.SetWatchdog(watchdog);
 
-							Instance instance = null;
+							Instance? instance = null;
 							var dreamMaker = new DreamMaker(
 								engineManager,
 								gameIoManager,
@@ -406,6 +404,6 @@ namespace Tgstation.Server.Host.Components
 		/// </summary>
 		/// <param name="metadata">The <see cref="Models.Instance"/>.</param>
 		/// <returns>The <see cref="IIOManager"/> for the <paramref name="metadata"/>.</returns>
-		IIOManager CreateInstanceIOManager(Models.Instance metadata) => new ResolvingIOManager(ioManager, metadata.Path);
+		IIOManager CreateInstanceIOManager(Models.Instance metadata) => new ResolvingIOManager(ioManager, metadata.Path!);
 	}
 }
