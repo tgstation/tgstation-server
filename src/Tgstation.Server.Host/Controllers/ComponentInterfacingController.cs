@@ -75,10 +75,11 @@ namespace Tgstation.Server.Host.Controllers
 			if (AuthenticationContext.InstancePermissionSet == null)
 				return Forbid();
 
-			if (ValidateInstanceOnlineStatus(Instance!))
+			var instance = Instance!;
+			if (ValidateInstanceOnlineStatus(instance))
 				await DatabaseContext.Save(cancellationToken);
 
-			using var instanceReferenceCheck = instanceManager.GetInstanceReference(Instance);
+			using var instanceReferenceCheck = instanceManager.GetInstanceReference(instance);
 			if (instanceReferenceCheck == null)
 				return Conflict(new ErrorMessageResponse(ErrorCode.InstanceOffline));
 

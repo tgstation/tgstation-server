@@ -492,7 +492,7 @@ namespace Tgstation.Server.Host.Controllers
 				await jobManager.RegisterOperation(
 					job,
 					(core, databaseContextFactory, paramJob, progressHandler, ct) // core will be null here since the instance is offline
-						=> InstanceOperations.MoveInstance(originalModel, originalModelPath, ct),
+						=> InstanceOperations.MoveInstance(originalModel, originalModelPath!, ct),
 					cancellationToken);
 				api.MoveJob = job.ToApi();
 			}
