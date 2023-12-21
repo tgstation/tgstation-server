@@ -54,12 +54,12 @@ namespace Tgstation.Server.Tests.Live
 	{
 		public static readonly Version TestUpdateVersion = new(5, 11, 0);
 
-		static readonly Lazy<ushort> odDMPort = new Lazy<ushort>(() => FreeTcpPort());
-		static readonly Lazy<ushort> odDDPort = new Lazy<ushort>(() => FreeTcpPort(odDMPort.Value));
-		static readonly Lazy<ushort> compatDMPort = new Lazy<ushort>(() => FreeTcpPort(odDDPort.Value, odDMPort.Value));
-		static readonly Lazy<ushort> compatDDPort = new Lazy<ushort>(() => FreeTcpPort(odDDPort.Value, odDMPort.Value, compatDMPort.Value));
-		static readonly Lazy<ushort> mainDDPort = new Lazy<ushort>(() => FreeTcpPort(odDDPort.Value, odDMPort.Value, compatDMPort.Value, compatDDPort.Value));
-		static readonly Lazy<ushort> mainDMPort = new Lazy<ushort>(() => FreeTcpPort(odDDPort.Value, odDMPort.Value, compatDMPort.Value, compatDDPort.Value, mainDDPort.Value));
+		static readonly Lazy<ushort> odDMPort = new(() => FreeTcpPort());
+		static readonly Lazy<ushort> odDDPort = new(() => FreeTcpPort(odDMPort.Value));
+		static readonly Lazy<ushort> compatDMPort = new(() => FreeTcpPort(odDDPort.Value, odDMPort.Value));
+		static readonly Lazy<ushort> compatDDPort = new(() => FreeTcpPort(odDDPort.Value, odDMPort.Value, compatDMPort.Value));
+		static readonly Lazy<ushort> mainDDPort = new(() => FreeTcpPort(odDDPort.Value, odDMPort.Value, compatDMPort.Value, compatDDPort.Value));
+		static readonly Lazy<ushort> mainDMPort = new(() => FreeTcpPort(odDDPort.Value, odDMPort.Value, compatDMPort.Value, compatDDPort.Value, mainDDPort.Value));
 
 		readonly ServerClientFactory clientFactory = new (new ProductHeaderValue(Assembly.GetExecutingAssembly().GetName().Name, Assembly.GetExecutingAssembly().GetName().Version.ToString()));
 

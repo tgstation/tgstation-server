@@ -494,7 +494,7 @@ namespace Tgstation.Server.Tests
 
 			var shouldSupportMapThreads = engineVersion.Version >= MapThreadsVersion();
 
-			await File.WriteAllBytesAsync("fake.dmb", Array.Empty<byte>(), CancellationToken.None);
+			await File.WriteAllBytesAsync("fake.dmb", [], CancellationToken.None);
 
 			try
 			{
