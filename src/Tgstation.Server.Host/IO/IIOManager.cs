@@ -56,7 +56,7 @@ namespace Tgstation.Server.Host.IO
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
 		ValueTask CopyDirectory(
-			IEnumerable<string> ignore,
+			IEnumerable<string>? ignore,
 			Func<string, string, ValueTask>? postCopyCallback,
 			string src,
 			string dest,

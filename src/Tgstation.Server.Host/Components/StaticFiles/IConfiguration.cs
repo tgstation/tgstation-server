@@ -39,7 +39,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 		/// <param name="systemIdentity">The <see cref="ISystemIdentity"/> for the operation. If <see langword="null"/>, the operation will be performed as the user of the <see cref="Core.Application"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in an <see cref="IOrderedQueryable{T}"/> of the <see cref="ConfigurationFileResponse"/>s for the items in the directory. <see cref="FileTicketResponse.FileTicket"/> and <see cref="IConfigurationFile.LastReadHash"/> will both be <see langword="null"/>. <see langword="null"/> will be returned if the operation failed due to access contention.</returns>
-		ValueTask<IOrderedQueryable<ConfigurationFileResponse>> ListDirectory(string? configurationRelativePath, ISystemIdentity? systemIdentity, CancellationToken cancellationToken);
+		ValueTask<IOrderedQueryable<ConfigurationFileResponse>?> ListDirectory(string? configurationRelativePath, ISystemIdentity? systemIdentity, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Reads a given <paramref name="configurationRelativePath"/>.

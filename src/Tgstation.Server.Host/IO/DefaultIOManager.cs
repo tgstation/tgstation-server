@@ -69,7 +69,7 @@ namespace Tgstation.Server.Host.IO
 
 		/// <inheritdoc />
 		public async ValueTask CopyDirectory(
-			IEnumerable<string> ignore,
+			IEnumerable<string>? ignore,
 			Func<string, string, ValueTask>? postCopyCallback,
 			string src,
 			string dest,
