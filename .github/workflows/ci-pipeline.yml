@@ -203,7 +203,7 @@ jobs:
     - name: Create TGS Deployment
       run: |
         cd $HOME/OpenDream
-        dotnet run -c Release --project OpenDreamPackageTool -- --tgs -o tgs_deploy
+        dotnet run -c Release --project OpenDreamPackageTool --property WarningLevel=0 -- --tgs -o tgs_deploy
 
     - name: Build DMAPI
       run: |
