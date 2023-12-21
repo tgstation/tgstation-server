@@ -158,7 +158,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			await TestDMApiFreeDeploy(cancellationToken);
 
 			// long running test likes consistency with the channels
-			await DummyChatProvider.RandomDisconnections(false, cancellationToken);
+			DummyChatProvider.RandomDisconnections(false);
 
 			await RunLongRunningTestThenUpdate(cancellationToken);
 

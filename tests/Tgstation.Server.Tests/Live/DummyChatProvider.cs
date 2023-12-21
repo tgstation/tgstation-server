@@ -55,10 +55,10 @@ namespace Tgstation.Server.Tests.Live
 			return mock.Object;
 		}
 
-		public static Task RandomDisconnections(bool enabled, CancellationToken cancellationToken)
+		public static void RandomDisconnections(bool enabled)
 		{
 			// we just don't do random disconnections when live testing these days, too many potential issue vectors like thread exhaustion on actions runners
-			return Task.CompletedTask;
+			enableRandomDisconnections = enabled ? 1 : 0;
 		}
 
 		public DummyChatProvider(

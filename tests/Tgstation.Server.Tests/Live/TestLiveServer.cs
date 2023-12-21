@@ -194,7 +194,7 @@ namespace Tgstation.Server.Tests.Live
 
 			await CachingFileDownloader.InitializeAndInjectForLiveTests(default);
 
-			await DummyChatProvider.RandomDisconnections(true, default);
+			DummyChatProvider.RandomDisconnections(true);
 			ServerClientFactory.ApiClientFactory = new RateLimitRetryingApiClientFactory();
 
 			var connectionString = Environment.GetEnvironmentVariable("TGS_TEST_CONNECTION_STRING");
@@ -1744,7 +1744,7 @@ namespace Tgstation.Server.Tests.Live
 					await chatTestObj.RunPostTest(cancellationToken);
 					await repoTest;
 
-					await DummyChatProvider.RandomDisconnections(false, cancellationToken);
+					DummyChatProvider.RandomDisconnections(false);
 
 					jobsHubTest.CompleteNow();
 					await jobsHubTestTask;
