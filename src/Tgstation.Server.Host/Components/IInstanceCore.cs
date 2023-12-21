@@ -7,8 +7,6 @@ using Tgstation.Server.Host.Components.Repository;
 using Tgstation.Server.Host.Components.StaticFiles;
 using Tgstation.Server.Host.Components.Watchdog;
 
-#nullable disable
-
 namespace Tgstation.Server.Host.Components
 {
 	/// <summary>
