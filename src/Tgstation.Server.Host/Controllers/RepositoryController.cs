@@ -151,7 +151,7 @@ namespace Tgstation.Server.Host.Controllers
 						job,
 						async (core, databaseContextFactory, paramJob, progressReporter, ct) =>
 						{
-							var repoManager = core.RepositoryManager;
+							var repoManager = core!.RepositoryManager;
 							using var repos = await repoManager.CloneRepository(
 								origin,
 								cloneBranch,
@@ -217,7 +217,7 @@ namespace Tgstation.Server.Host.Controllers
 			var api = currentModel.ToApi();
 			await jobManager.RegisterOperation(
 				job,
-				(core, databaseContextFactory, paramJob, progressReporter, ct) => core.RepositoryManager.DeleteRepository(ct),
+				(core, databaseContextFactory, paramJob, progressReporter, ct) => core!.RepositoryManager.DeleteRepository(ct),
 				cancellationToken);
 			api.ActiveJob = job.ToApi();
 			return Accepted(api);

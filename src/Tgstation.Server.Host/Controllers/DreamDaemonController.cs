@@ -90,7 +90,7 @@ namespace Tgstation.Server.Host.Controllers
 				var job = Job.Create(JobCode.WatchdogLaunch, AuthenticationContext.User, Instance, DreamDaemonRights.Shutdown);
 				await jobManager.RegisterOperation(
 					job,
-					(core, databaseContextFactory, paramJob, progressHandler, innerCt) => core.Watchdog.Launch(innerCt),
+					(core, databaseContextFactory, paramJob, progressHandler, innerCt) => core!.Watchdog.Launch(innerCt),
 					cancellationToken);
 				return Accepted(job.ToApi());
 			});
@@ -271,7 +271,7 @@ namespace Tgstation.Server.Host.Controllers
 
 				await jobManager.RegisterOperation(
 					job,
-					(core, paramJob, databaseContextFactory, progressReporter, ct) => core.Watchdog.Restart(false, ct),
+					(core, paramJob, databaseContextFactory, progressReporter, ct) => core!.Watchdog.Restart(false, ct),
 					cancellationToken);
 				return Accepted(job.ToApi());
 			});
@@ -297,7 +297,7 @@ namespace Tgstation.Server.Host.Controllers
 
 				await jobManager.RegisterOperation(
 					job,
-					(core, databaseContextFactory, paramJob, progressReporter, ct) => core.Watchdog.CreateDump(ct),
+					(core, databaseContextFactory, paramJob, progressReporter, ct) => core!.Watchdog.CreateDump(ct),
 					cancellationToken);
 				return Accepted(job.ToApi());
 			});

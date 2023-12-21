@@ -151,7 +151,7 @@ namespace Tgstation.Server.Host.Controllers
 			await jobManager.RegisterOperation(
 				job,
 				(core, databaseContextFactory, paramJob, progressReporter, jobCancellationToken)
-					=> core.DreamMaker.DeploymentProcess(paramJob, databaseContextFactory, progressReporter, jobCancellationToken),
+					=> core!.DreamMaker.DeploymentProcess(paramJob, databaseContextFactory, progressReporter, jobCancellationToken),
 				cancellationToken);
 			return Accepted(job.ToApi());
 		}

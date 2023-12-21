@@ -245,7 +245,7 @@ namespace Tgstation.Server.Host.Controllers
 										}
 
 									await using (zipFileStream)
-										await core.EngineManager.ChangeVersion(
+										await core!.EngineManager.ChangeVersion(
 											progressHandler,
 											model.EngineVersion,
 											zipFileStream,
@@ -329,7 +329,7 @@ namespace Tgstation.Server.Host.Controllers
 			await jobManager.RegisterOperation(
 				job,
 				(instanceCore, databaseContextFactory, job, progressReporter, jobCancellationToken)
-					=> instanceCore.EngineManager.DeleteVersion(progressReporter, engineVersion, jobCancellationToken),
+					=> instanceCore!.EngineManager.DeleteVersion(progressReporter, engineVersion, jobCancellationToken),
 				cancellationToken);
 
 			var apiResponse = job.ToApi();

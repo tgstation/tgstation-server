@@ -266,7 +266,7 @@ namespace Tgstation.Server.Host.Components
 		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
 #pragma warning disable CA1502 // Cyclomatic complexity
 		ValueTask RepositoryAutoUpdateJob(
-			IInstanceCore core,
+			IInstanceCore? core,
 			IDatabaseContextFactory databaseContextFactory,
 			Job job,
 			JobProgressReporter progressReporter,
