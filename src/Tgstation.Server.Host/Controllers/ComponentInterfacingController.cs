@@ -129,7 +129,7 @@ namespace Tgstation.Server.Host.Controllers
 			instance ??= Instance ?? throw new InvalidOperationException("ComponentInterfacingController has no Instance!");
 
 			using var instanceReference = instanceManager.GetInstanceReference(instance);
-			using (LogContext.PushProperty(SerilogContextHelper.InstanceReferenceContextProperty, instanceReference.Uid))
+			using (LogContext.PushProperty(SerilogContextHelper.InstanceReferenceContextProperty, instanceReference?.Uid))
 			{
 				if (instanceReference == null)
 					return Conflict(new ErrorMessageResponse(ErrorCode.InstanceOffline));

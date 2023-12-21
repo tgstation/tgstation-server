@@ -460,8 +460,10 @@ namespace Tgstation.Server.Host.Jobs
 						QueueHubUpdate(job.ToApi(), false);
 
 						logger.LogTrace("Starting job...");
+						var instanceCore = instanceCoreProvider.GetInstance(job.Instance!)
+							?? throw new JobException("Could not retrieve instance core for job!");
 						await operation(
-							instanceCoreProvider.GetInstance(job.Instance!),
+							instanceCore,
 							databaseContextFactory,
 							job,
 							new JobProgressReporter(
