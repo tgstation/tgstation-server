@@ -6,8 +6,6 @@ using System.Threading.Tasks;
 using Tgstation.Server.Host.Components.StaticFiles;
 using Tgstation.Server.Host.Components.Watchdog;
 
-#nullable disable
-
 namespace Tgstation.Server.Host.Components.Events
 {
 	/// <inheritdoc />
@@ -21,7 +19,7 @@ namespace Tgstation.Server.Host.Components.Events
 		/// <summary>
 		/// The <see cref="IWatchdog"/> for the <see cref="EventConsumer"/>.
 		/// </summary>
-		IWatchdog watchdog;
+		IWatchdog? watchdog;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="EventConsumer"/> class.
