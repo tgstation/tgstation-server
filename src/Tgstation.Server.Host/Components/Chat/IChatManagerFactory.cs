@@ -2,8 +2,6 @@
 
 using Tgstation.Server.Host.Components.Chat.Commands;
 
-#nullable disable
-
 namespace Tgstation.Server.Host.Components.Chat
 {
 	/// <summary>
