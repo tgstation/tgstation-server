@@ -8,8 +8,6 @@ using Tgstation.Server.Api.Models;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Jobs;
 
-#nullable disable
-
 namespace Tgstation.Server.Host.Components.Engine
 {
 	/// <inheritdoc />
@@ -66,7 +64,7 @@ namespace Tgstation.Server.Host.Components.Engine
 		protected void CheckVersionValidity(EngineVersion version)
 		{
 			ArgumentNullException.ThrowIfNull(version);
-			if (version.Engine.Value != TargetEngineType)
+			if (version.Engine!.Value != TargetEngineType)
 				throw new InvalidOperationException($"Non-{TargetEngineType} engine specified: {version.Engine.Value}");
 		}
 	}
