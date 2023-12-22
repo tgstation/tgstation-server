@@ -253,7 +253,7 @@ namespace Tgstation.Server.Host.Components
 		}
 
 		/// <inheritdoc />
-		public CompileJob LatestCompileJob() => dmbFactory.LatestCompileJob();
+		public CompileJob? LatestCompileJob() => dmbFactory.LatestCompileJob();
 
 		/// <summary>
 		/// The <see cref="JobEntrypoint"/> for updating the repository.

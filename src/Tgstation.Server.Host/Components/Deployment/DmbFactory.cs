@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -15,8 +16,6 @@ using Tgstation.Server.Host.Components.Events;
 using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Models;
-
-#nullable disable
 
 namespace Tgstation.Server.Host.Components.Deployment
 {
@@ -36,6 +35,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 		}
 
 		/// <inheritdoc />
+		[MemberNotNullWhen(true, nameof(nextDmbProvider))]
 		public bool DmbAvailable => nextDmbProvider != null;
 
 		/// <summary>
@@ -91,7 +91,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 		/// <summary>
 		/// The latest <see cref="DmbProvider"/>.
 		/// </summary>
-		IDmbProvider nextDmbProvider;
+		IDmbProvider? nextDmbProvider;
 
 		/// <summary>
 		/// If the <see cref="DmbFactory"/> is "started" via <see cref="IComponentService"/>.
@@ -132,7 +132,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 		public void Dispose() => cleanupCts.Dispose(); // we don't dispose nextDmbProvider here, since it might be the only thing we have
 
 		/// <inheritdoc />
-		public async ValueTask LoadCompileJob(CompileJob job, Action<bool> activationAction, CancellationToken cancellationToken)
+		public async ValueTask LoadCompileJob(CompileJob job, Action<bool>? activationAction, CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(job);
 
@@ -175,8 +175,8 @@ namespace Tgstation.Server.Host.Components.Deployment
 				throw new ArgumentOutOfRangeException(nameof(lockCount), lockCount, "lockCount must be greater than or equal to 0!");
 			lock (jobLockCounts)
 			{
-				var jobId = nextDmbProvider.CompileJob.Id;
-				var incremented = jobLockCounts[jobId.Value] += lockCount;
+				var jobId = nextDmbProvider.CompileJob.Require(x => x.Id);
+				var incremented = jobLockCounts[jobId] += lockCount;
 				logger.LogTrace("Compile job {jobId} lock count now: {lockCount}", jobId, incremented);
 				return nextDmbProvider;
 			}
@@ -185,16 +185,15 @@ namespace Tgstation.Server.Host.Components.Deployment
 		/// <inheritdoc />
 		public async Task StartAsync(CancellationToken cancellationToken)
 		{
-			CompileJob cj = null;
-			await databaseContextFactory.UseContext(async (db) =>
-			{
-				cj = await db
-					.CompileJobs
-					.AsQueryable()
-					.Where(x => x.Job.Instance.Id == metadata.Id)
-					.OrderByDescending(x => x.Job.StoppedAt)
-					.FirstOrDefaultAsync(cancellationToken);
-			});
+			CompileJob? cj = null;
+			await databaseContextFactory.UseContext(
+				async (db) =>
+					cj = await db
+						.CompileJobs
+						.AsQueryable()
+						.Where(x => x.Job.Instance!.Id == metadata.Id)
+						.OrderByDescending(x => x.Job.StoppedAt)
+						.FirstOrDefaultAsync(cancellationToken));
 
 			try
 			{
@@ -229,28 +228,29 @@ namespace Tgstation.Server.Host.Components.Deployment
 
 		/// <inheritdoc />
 #pragma warning disable CA1506 // TODO: Decomplexify
-		public async ValueTask<IDmbProvider> FromCompileJob(CompileJob compileJob, CancellationToken cancellationToken)
+		public async ValueTask<IDmbProvider?> FromCompileJob(CompileJob compileJob, CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(compileJob);
 
 			// ensure we have the entire metadata tree
-			logger.LogTrace("Loading compile job {id}...", compileJob.Id);
+			var compileJobId = compileJob.Require(x => x.Id);
+			logger.LogTrace("Loading compile job {id}...", compileJobId);
 			await databaseContextFactory.UseContext(
 				async db => compileJob = await db
 					.CompileJobs
 					.AsQueryable()
-					.Where(x => x.Id == compileJob.Id)
-					.Include(x => x.Job)
+					.Where(x => x!.Id == compileJobId)
+					.Include(x => x.Job!)
 						.ThenInclude(x => x.StartedBy)
-					.Include(x => x.Job)
+					.Include(x => x.Job!)
 						.ThenInclude(x => x.Instance)
-					.Include(x => x.RevisionInformation)
-						.ThenInclude(x => x.PrimaryTestMerge)
-						.ThenInclude(x => x.MergedBy)
-					.Include(x => x.RevisionInformation)
-						.ThenInclude(x => x.ActiveTestMerges)
-						.ThenInclude(x => x.TestMerge)
-						.ThenInclude(x => x.MergedBy)
+					.Include(x => x.RevisionInformation!)
+						.ThenInclude(x => x.PrimaryTestMerge!)
+							.ThenInclude(x => x.MergedBy)
+					.Include(x => x.RevisionInformation!)
+						.ThenInclude(x => x.ActiveTestMerges!)
+							.ThenInclude(x => x.TestMerge!)
+								.ThenInclude(x => x.MergedBy)
 					.FirstAsync(cancellationToken)); // can't wait to see that query
 
 			if (!EngineVersion.TryParse(compileJob.EngineVersion, out var engineVersion))
@@ -318,17 +318,17 @@ namespace Tgstation.Server.Host.Components.Deployment
 
 				lock (jobLockCounts)
 				{
-					if (!jobLockCounts.TryGetValue(compileJob.Id.Value, out int value))
+					if (!jobLockCounts.TryGetValue(compileJobId, out int value))
 					{
 						value = 1;
-						jobLockCounts.Add(compileJob.Id.Value, 1);
+						jobLockCounts.Add(compileJobId, 1);
 					}
 					else
-						jobLockCounts[compileJob.Id.Value] = ++value;
+						jobLockCounts[compileJobId] = ++value;
 
 					providerSubmitted = true;
 
-					logger.LogTrace("Compile job {id} lock count now: {lockCount}", compileJob.Id, value);
+					logger.LogTrace("Compile job {id} lock count now: {lockCount}", compileJobId, value);
 					return newProvider;
 				}
 			}
@@ -350,7 +350,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 			lock (jobLockCounts)
 				jobIdsToSkip = jobLockCounts.Keys.ToList();
 
-			List<string> jobUidsToNotErase = null;
+			List<string>? jobUidsToNotErase = null;
 
 			// find the uids of locked directories
 			if (jobIdsToSkip.Count > 0)
@@ -361,9 +361,9 @@ namespace Tgstation.Server.Host.Components.Deployment
 							.CompileJobs
 							.AsQueryable()
 							.Where(
-								x => x.Job.Instance.Id == metadata.Id
-								&& jobIdsToSkip.Contains(x.Id.Value))
-							.Select(x => x.DirectoryName.Value)
+								x => x.Job.Instance!.Id == metadata.Id
+								&& jobIdsToSkip.Contains(x.Id!.Value))
+							.Select(x => x.DirectoryName!.Value)
 							.ToListAsync(cancellationToken))
 						.Select(x => x.ToString())
 						.ToList();
@@ -372,7 +372,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 			else
 				jobUidsToNotErase = new List<string>();
 
-			jobUidsToNotErase.Add(SwappableDmbProvider.LiveGameDirectory);
+			jobUidsToNotErase!.Add(SwappableDmbProvider.LiveGameDirectory);
 
 			logger.LogTrace("We will not clean the following directories: {directoriesToNotClean}", String.Join(", ", jobUidsToNotErase));
 
@@ -407,7 +407,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 #pragma warning restore CA1506
 
 		/// <inheritdoc />
-		public CompileJob LatestCompileJob()
+		public CompileJob? LatestCompileJob()
 		{
 			if (!DmbAvailable)
 				return null;
@@ -428,7 +428,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 				// DCT: None available
 				var deploymentJob = remoteDeploymentManager.MarkInactive(job, CancellationToken.None);
 
-				var deleteTask = DeleteCompileJobContent(job.DirectoryName.ToString(), cleanupCts.Token);
+				var deleteTask = DeleteCompileJobContent(job.DirectoryName!.Value.ToString(), cleanupCts.Token);
 				var otherTask = cleanupTask;
 
 				async Task WrapThrowableTasks()
@@ -447,20 +447,23 @@ namespace Tgstation.Server.Host.Components.Deployment
 			}
 
 			lock (jobLockCounts)
-				if (jobLockCounts.TryGetValue(job.Id.Value, out var currentVal))
+			{
+				var jobId = job.Require(x => x.Id);
+				if (jobLockCounts.TryGetValue(jobId, out var currentVal))
 					if (currentVal == 1)
 					{
-						jobLockCounts.Remove(job.Id.Value);
-						logger.LogDebug("Cleaning lock-free compile job {id} => {dirName}", job.Id, job.DirectoryName);
+						jobLockCounts.Remove(jobId);
+						logger.LogDebug("Cleaning lock-free compile job {id} => {dirName}", jobId, job.DirectoryName);
 						cleanupTask = HandleCleanup();
 					}
 					else
 					{
-						var decremented = --jobLockCounts[job.Id.Value];
-						logger.LogTrace("Compile job {id} lock count now: {lockCount}", job.Id, decremented);
+						var decremented = --jobLockCounts[jobId];
+						logger.LogTrace("Compile job {id} lock count now: {lockCount}", jobId, decremented);
 					}
 				else
-					logger.LogError("Extra Dispose of DmbProvider for CompileJob {compileJobId}!", job.Id);
+					logger.LogError("Extra Dispose of DmbProvider for CompileJob {compileJobId}!", jobId);
+			}
 		}
 
 		/// <summary>

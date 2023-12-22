@@ -58,6 +58,6 @@ namespace Tgstation.Server.Host.Components
 		public ValueTask SetAutoUpdateInterval(uint newInterval) => Instance.SetAutoUpdateInterval(newInterval);
 
 		/// <inheritdoc />
-		public CompileJob LatestCompileJob() => Instance.LatestCompileJob();
+		public CompileJob? LatestCompileJob() => Instance.LatestCompileJob();
 	}
 }
