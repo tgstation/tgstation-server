@@ -17,6 +17,7 @@ using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Jobs;
+using Tgstation.Server.Host.Utils;
 
 #nullable disable
 
@@ -24,7 +25,7 @@ namespace Tgstation.Server.Host.Components.Repository
 {
 	/// <inheritdoc />
 #pragma warning disable CA1506 // TODO: Decomplexify
-	sealed class Repository : IRepository
+	sealed class Repository : DisposeInvoker, IRepository
 	{
 		/// <summary>
 		/// The default username for committers.
@@ -118,16 +119,6 @@ namespace Tgstation.Server.Host.Components.Repository
 		readonly GeneralConfiguration generalConfiguration;
 
 		/// <summary>
-		/// <see cref="Action"/> to be taken when <see cref="Dispose"/> is called.
-		/// </summary>
-		readonly Action onDispose;
-
-		/// <summary>
-		/// If the <see cref="Repository"/> was disposed.
-		/// </summary>
-		bool disposed;
-
-		/// <summary>
 		/// Initializes a new instance of the <see cref="Repository"/> class.
 		/// </summary>
 		/// <param name="libGitRepo">The value of <see cref="libGitRepo"/>.</param>
@@ -139,7 +130,7 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// <param name="gitRemoteFeaturesFactory">The <see cref="IGitRemoteFeaturesFactory"/> to provide the value of <see cref="gitRemoteFeatures"/>.</param>
 		/// <param name="logger">The value of <see cref="logger"/>.</param>
 		/// <param name="generalConfiguration">The value of <see cref="generalConfiguration"/>.</param>
-		/// <param name="onDispose">The value if <see cref="onDispose"/>.</param>
+		/// <param name="disposeAction">The <see cref="IDisposable.Dispose"/> action for the <see cref="DisposeInvoker"/>.</param>
 		public Repository(
 			LibGit2Sharp.IRepository libGitRepo,
 			ILibGit2Commands commands,
@@ -150,7 +141,8 @@ namespace Tgstation.Server.Host.Components.Repository
 			IGitRemoteFeaturesFactory gitRemoteFeaturesFactory,
 			ILogger<Repository> logger,
 			GeneralConfiguration generalConfiguration,
-			Action onDispose)
+			Action disposeAction)
+			: base(disposeAction)
 		{
 			this.libGitRepo = libGitRepo ?? throw new ArgumentNullException(nameof(libGitRepo));
 			this.commands = commands ?? throw new ArgumentNullException(nameof(commands));
@@ -162,25 +154,8 @@ namespace Tgstation.Server.Host.Components.Repository
 
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 			this.generalConfiguration = generalConfiguration ?? throw new ArgumentNullException(nameof(generalConfiguration));
-			this.onDispose = onDispose ?? throw new ArgumentNullException(nameof(onDispose));
 
 			gitRemoteFeatures = gitRemoteFeaturesFactory.CreateGitRemoteFeatures(this);
-		}
-
-		/// <inheritdoc />
-		public void Dispose()
-		{
-			lock (onDispose)
-			{
-				if (disposed)
-					return;
-
-				disposed = true;
-			}
-
-			logger.LogTrace("Disposing...");
-			libGitRepo.Dispose();
-			onDispose();
 		}
 
 		/// <inheritdoc />
@@ -868,6 +843,14 @@ namespace Tgstation.Server.Host.Components.Repository
 			cancellationToken,
 			DefaultIOManager.BlockingTaskCreationOptions,
 			TaskScheduler.Current);
+
+		/// <inheritdoc />
+		protected override void DisposeImpl()
+		{
+			logger.LogTrace("Disposing...");
+			libGitRepo.Dispose();
+			base.DisposeImpl();
+		}
 
 		/// <summary>
 		/// Runs a blocking force checkout to <paramref name="committish"/>.

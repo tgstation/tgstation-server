@@ -16,6 +16,7 @@ using Tgstation.Server.Host.Components.Events;
 using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Models;
+using Tgstation.Server.Host.Utils;
 
 namespace Tgstation.Server.Host.Components.Deployment
 {
@@ -279,7 +280,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 					CleanRegisteredCompileJob(compileJob);
 			}
 
-			var newProvider = new DmbProvider(compileJob, engineVersion, ioManager, CleanupAction);
+			var newProvider = new DmbProvider(compileJob, engineVersion, ioManager, new DisposeInvoker(CleanupAction));
 			try
 			{
 				const string LegacyADirectoryName = "A";
@@ -316,7 +317,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 					// rebuild the provider because it's using the legacy style directories
 					// Don't dispose it
 					logger.LogDebug("Creating legacy two folder .dmb provider targeting {aDirName} directory...", LegacyADirectoryName);
-					newProvider = new DmbProvider(compileJob, engineVersion, ioManager, CleanupAction, Path.DirectorySeparatorChar + LegacyADirectoryName);
+					newProvider = new DmbProvider(compileJob, engineVersion, ioManager, new DisposeInvoker(CleanupAction), Path.DirectorySeparatorChar + LegacyADirectoryName);
 				}
 
 				lock (jobLockCounts)

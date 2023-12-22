@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Host.IO;
+using Tgstation.Server.Host.Utils;
 
 namespace Tgstation.Server.Host.Components.Deployment
 {
@@ -32,7 +33,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 		/// <summary>
 		/// The <see cref="Action"/> to run when <see cref="DisposeAsync"/> is called.
 		/// </summary>
-		Action? onDispose;
+		DisposeInvoker? onDispose;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="DmbProvider"/> class.
@@ -42,7 +43,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 		/// <param name="ioManager">The value of <see cref="ioManager"/>.</param>
 		/// <param name="onDispose">The value of <see cref="onDispose"/>.</param>
 		/// <param name="directoryAppend">The optional value of <see cref="directoryAppend"/>.</param>
-		public DmbProvider(Models.CompileJob compileJob, EngineVersion engineVersion, IIOManager ioManager, Action onDispose, string? directoryAppend = null)
+		public DmbProvider(Models.CompileJob compileJob, EngineVersion engineVersion, IIOManager ioManager, DisposeInvoker onDispose, string? directoryAppend = null)
 		{
 			CompileJob = compileJob ?? throw new ArgumentNullException(nameof(compileJob));
 			EngineVersion = engineVersion ?? throw new ArgumentNullException(nameof(engineVersion));
@@ -54,7 +55,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 		/// <inheritdoc />
 		public override ValueTask DisposeAsync()
 		{
-			onDispose?.Invoke();
+			onDispose?.Dispose();
 			return ValueTask.CompletedTask;
 		}
 

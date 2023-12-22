@@ -1,40 +1,21 @@
 ﻿using System;
 
+using Tgstation.Server.Host.Utils;
+
 #nullable disable
 
 namespace Tgstation.Server.Host.Components.Interop.Bridge
 {
 	/// <inheritdoc />
-	sealed class BridgeRegistration : IBridgeRegistration
+	sealed class BridgeRegistration : DisposeInvoker, IBridgeRegistration
 	{
-		/// <summary>
-		/// <see langword="lock"/> <see cref="object"/> for accessing <see cref="onDispose"/>.
-		/// </summary>
-		readonly object lockObject;
-
-		/// <summary>
-		/// <see cref="Action"/> to run when <see cref="Dispose"/>d.
-		/// </summary>
-		Action onDispose;
-
 		/// <summary>
 		/// Initializes a new instance of the <see cref="BridgeRegistration"/> class.
 		/// </summary>
-		/// <param name="onDispose">The value of <see cref="onDispose"/>.</param>
-		public BridgeRegistration(Action onDispose)
+		/// <param name="disposeAction">The <see cref="IDisposable.Dispose"/> action for the <see cref="DisposeInvoker"/>.</param>
+		public BridgeRegistration(Action disposeAction)
+			: base(disposeAction)
 		{
-			this.onDispose = onDispose ?? throw new ArgumentNullException(nameof(onDispose));
-			lockObject = new object();
-		}
-
-		/// <inheritdoc />
-		public void Dispose()
-		{
-			lock (lockObject)
-			{
-				onDispose?.Invoke();
-				onDispose = null;
-			}
 		}
 	}
 }

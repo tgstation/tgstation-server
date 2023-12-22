@@ -13,6 +13,7 @@ using Microsoft.Extensions.Options;
 using Tgstation.Server.Common.Extensions;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Core;
+using Tgstation.Server.Host.Utils;
 
 namespace Tgstation.Server.Host
 {
@@ -234,12 +235,13 @@ namespace Tgstation.Server.Host
 				{
 					logger.LogTrace("Registering restart handler {handlerImplementationName}...", handler);
 					restartHandlers.Add(handler);
-					return new RestartRegistration(() =>
-					{
-						lock (restartLock)
-							if (!shutdownInProgress)
-								restartHandlers.Remove(handler);
-					});
+					return new RestartRegistration(
+						new DisposeInvoker(() =>
+						{
+							lock (restartLock)
+								if (!shutdownInProgress)
+									restartHandlers.Remove(handler);
+						}));
 				}
 
 			logger.LogWarning("Restart handler {handlerImplementationName} register after a shutdown had begun!", handler);
