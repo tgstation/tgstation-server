@@ -76,7 +76,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 		/// <summary>
 		/// Map of <see cref="CompileJob.JobId"/>s to locks on them.
 		/// </summary>
-		readonly IDictionary<long, int> jobLockCounts;
+		readonly Dictionary<long, int> jobLockCounts;
 
 		/// <summary>
 		/// <see cref="TaskCompletionSource"/> resulting in the latest <see cref="DmbProvider"/> yet to exist.
@@ -255,7 +255,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 
 			if (!EngineVersion.TryParse(compileJob.EngineVersion, out var engineVersion))
 			{
-				logger.LogWarning("Error loading compile job, bad engine version: {0}", compileJob.EngineVersion);
+				logger.LogWarning("Error loading compile job, bad engine version: {engineVersion}", compileJob.EngineVersion);
 				return null; // omae wa mou shinderu
 			}
 
@@ -353,7 +353,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 			List<string> jobUidsToNotErase = null;
 
 			// find the uids of locked directories
-			if (jobIdsToSkip.Any())
+			if (jobIdsToSkip.Count > 0)
 			{
 				await databaseContextFactory.UseContext(async db =>
 				{
