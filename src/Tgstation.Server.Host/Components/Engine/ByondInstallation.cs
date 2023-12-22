@@ -7,8 +7,6 @@ using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Host.Components.Deployment;
 
-#nullable disable
-
 namespace Tgstation.Server.Host.Components.Engine
 {
 	/// <summary>
@@ -94,8 +92,8 @@ namespace Tgstation.Server.Host.Components.Engine
 			InstallationTask = installationTask ?? throw new ArgumentNullException(nameof(installationTask));
 			ArgumentNullException.ThrowIfNull(version);
 
-			if (version.Engine.Value != EngineType.Byond)
-				throw new ArgumentException($"Invalid EngineType: {version.Engine.Value}", nameof(version));
+			if (version.Engine != EngineType.Byond)
+				throw new ArgumentException($"Invalid EngineType: {version.Engine}", nameof(version));
 
 			Version = version ?? throw new ArgumentNullException(nameof(version));
 			ServerExePath = dreamDaemonPath ?? throw new ArgumentNullException(nameof(dreamDaemonPath));
@@ -122,19 +120,19 @@ namespace Tgstation.Server.Host.Components.Engine
 				CultureInfo.InvariantCulture,
 				"{0} -port {1} -ports 1-65535 {2}-close -verbose -{3} -{4}{5}{6}{7} -params \"{8}\"",
 				dmbProvider.DmbName,
-				launchParameters.Port.Value,
-				launchParameters.AllowWebClient.Value
+				launchParameters.Port!.Value,
+				launchParameters.AllowWebClient!.Value
 					? "-webclient "
 					: String.Empty,
-				SecurityWord(launchParameters.SecurityLevel.Value),
-				VisibilityWord(launchParameters.Visibility.Value),
+				SecurityWord(launchParameters.SecurityLevel!.Value),
+				VisibilityWord(launchParameters.Visibility!.Value),
 				logFilePath != null
 					? $" -logself -log {logFilePath}"
 					: String.Empty, // DD doesn't output anything if -logself is set???
-				launchParameters.StartProfiler.Value
+				launchParameters.StartProfiler!.Value
 					? " -profile"
 					: String.Empty,
-				supportsMapThreads && launchParameters.MapThreads.Value != 0
+				supportsMapThreads && launchParameters.MapThreads!.Value != 0
 					? $" -map-threads {launchParameters.MapThreads.Value}"
 					: String.Empty,
 				parametersString);
