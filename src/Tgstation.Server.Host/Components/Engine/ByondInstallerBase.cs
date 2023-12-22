@@ -11,8 +11,6 @@ using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Jobs;
 using Tgstation.Server.Host.Utils;
 
-#nullable disable
-
 namespace Tgstation.Server.Host.Components.Engine
 {
 	/// <summary>
@@ -100,7 +98,7 @@ namespace Tgstation.Server.Host.Components.Engine
 					IOManager.ConcatPath(
 						binPathForVersion,
 						GetDreamDaemonName(
-							version.Version,
+							version.Version!,
 							out var supportsCli))),
 				IOManager.ResolvePath(
 					IOManager.ConcatPath(
@@ -237,7 +235,7 @@ namespace Tgstation.Server.Host.Components.Engine
 		Uri GetDownloadZipUrl(EngineVersion version)
 		{
 			CheckVersionValidity(version);
-			var url = String.Format(CultureInfo.InvariantCulture, ByondRevisionsUrlTemplate, version.Version.Major, version.Version.Minor);
+			var url = String.Format(CultureInfo.InvariantCulture, ByondRevisionsUrlTemplate, version.Version!.Major, version.Version.Minor);
 			return new Uri(url);
 		}
 	}
