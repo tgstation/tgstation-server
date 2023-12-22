@@ -7,8 +7,6 @@ using System.Threading.Tasks;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Host.Jobs;
 
-#nullable disable
-
 namespace Tgstation.Server.Host.Components.Engine
 {
 	/// <summary>
@@ -64,7 +62,7 @@ namespace Tgstation.Server.Host.Components.Engine
 		TReturn DelegateCall<TReturn>(EngineVersion version, Func<IEngineInstaller, TReturn> call)
 		{
 			ArgumentNullException.ThrowIfNull(version);
-			return call(delegatedInstallers[version.Engine.Value]);
+			return call(delegatedInstallers[version.Engine!.Value]);
 		}
 	}
 }
