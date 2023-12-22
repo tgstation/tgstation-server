@@ -375,7 +375,7 @@ namespace Tgstation.Server.Host.Components.Chat
 		}
 
 		/// <inheritdoc />
-		public Func<string, string, Action<bool>> QueueDeploymentMessage(
+		public Func<string?, string, Action<bool>> QueueDeploymentMessage(
 			Models.RevisionInformation revisionInformation,
 			EngineVersion engineVersion,
 			DateTimeOffset? estimatedCompletionTime,
@@ -389,7 +389,7 @@ namespace Tgstation.Server.Host.Components.Chat
 
 			logger.LogTrace("Sending deployment message for RevisionInformation: {revisionInfoId}", revisionInformation.Id);
 
-			var callbacks = new List<Func<string, string, ValueTask<Func<bool, ValueTask>>>>();
+			var callbacks = new List<Func<string?, string, ValueTask<Func<bool, ValueTask>>>>();
 
 			var task = Task.WhenAll(
 				wdChannels.Select(
@@ -431,7 +431,7 @@ namespace Tgstation.Server.Host.Components.Chat
 
 			Task callbackTask;
 			Func<bool, Task>? finalUpdateAction = null;
-			async Task CallbackTask(string errorMessage, string dreamMakerOutput)
+			async Task CallbackTask(string? errorMessage, string dreamMakerOutput)
 			{
 				await task;
 				var callbackResults = await ValueTaskExtensions.WhenAll(

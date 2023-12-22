@@ -25,8 +25,6 @@ using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.System;
 using Tgstation.Server.Host.Utils;
 
-#nullable disable
-
 namespace Tgstation.Server.Host.Components.Deployment
 {
 	/// <inheritdoc />
@@ -115,12 +113,12 @@ namespace Tgstation.Server.Host.Components.Deployment
 		/// <summary>
 		/// The active callback from <see cref="IChatManager.QueueDeploymentMessage"/>.
 		/// </summary>
-		Func<string, string, Action<bool>> currentChatCallback;
+		Func<string?, string, Action<bool>>? currentChatCallback;
 
 		/// <summary>
 		/// Cached for <see cref="currentChatCallback"/>.
 		/// </summary>
-		string currentDreamMakerOutput;
+		string? currentDreamMakerOutput;
 
 		/// <summary>
 		/// If a compile job is running.
@@ -209,18 +207,18 @@ namespace Tgstation.Server.Host.Components.Deployment
 
 			currentChatCallback = null;
 			currentDreamMakerOutput = null;
-			Models.CompileJob compileJob = null;
+			Models.CompileJob? compileJob = null;
 			try
 			{
-				string repoOwner = null;
-				string repoName = null;
+				string? repoOwner = null;
+				string? repoName = null;
 				TimeSpan? averageSpan = null;
-				Models.RepositorySettings repositorySettings = null;
-				Models.DreamDaemonSettings ddSettings = null;
-				Models.DreamMakerSettings dreamMakerSettings = null;
-				IRepository repo = null;
-				IRemoteDeploymentManager remoteDeploymentManager = null;
-				Models.RevisionInformation revInfo = null;
+				Models.RepositorySettings? repositorySettings = null;
+				Models.DreamDaemonSettings? ddSettings = null;
+				Models.DreamMakerSettings? dreamMakerSettings = null;
+				IRepository? repo = null;
+				IRemoteDeploymentManager? remoteDeploymentManager = null;
+				Models.RevisionInformation? revInfo = null;
 				await databaseContextFactory.UseContext(
 					async databaseContext =>
 					{
@@ -270,7 +268,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 								throw new JobException(ErrorCode.RepoMissing);
 
 							remoteDeploymentManager = remoteDeploymentManagerFactory
-								.CreateRemoteDeploymentManager(metadata, repo.RemoteGitProvider.Value);
+								.CreateRemoteDeploymentManager(metadata, repo.RemoteGitProvider!.Value);
 
 							var repoSha = repo.Head;
 							repoOwner = repo.RemoteRepositoryOwner;
@@ -278,13 +276,13 @@ namespace Tgstation.Server.Host.Components.Deployment
 							revInfo = await databaseContext
 								.RevisionInformations
 								.AsQueryable()
-								.Where(x => x.CommitSha == repoSha && x.Instance.Id == metadata.Id)
-								.Include(x => x.ActiveTestMerges)
-									.ThenInclude(x => x.TestMerge)
-									.ThenInclude(x => x.MergedBy)
+								.Where(x => x.CommitSha == repoSha && x.InstanceId == metadata.Id)
+								.Include(x => x.ActiveTestMerges!)
+									.ThenInclude(x => x.TestMerge!)
+										.ThenInclude(x => x.MergedBy)
 								.FirstOrDefaultAsync(cancellationToken);
 
-							if (revInfo == default)
+							if (revInfo == null)
 							{
 								revInfo = new Models.RevisionInformation
 								{
@@ -312,17 +310,17 @@ namespace Tgstation.Server.Host.Components.Deployment
 					});
 
 				var likelyPushedTestMergeCommit =
-					repositorySettings.PushTestMergeCommits.Value
+					repositorySettings!.PushTestMergeCommits!.Value
 					&& repositorySettings.AccessToken != null
 					&& repositorySettings.AccessUser != null;
 				using (repo)
 					compileJob = await Compile(
 						job,
-						revInfo,
-						dreamMakerSettings,
-						ddSettings,
-						repo,
-						remoteDeploymentManager,
+						revInfo!,
+						dreamMakerSettings!,
+						ddSettings!,
+						repo!,
+						remoteDeploymentManager!,
 						progressReporter,
 						averageSpan,
 						likelyPushedTestMergeCommit,
@@ -335,11 +333,11 @@ namespace Tgstation.Server.Host.Components.Deployment
 						async databaseContext =>
 						{
 							var fullJob = compileJob.Job;
-							compileJob.Job = new Models.Job(job.Id.Value);
+							compileJob.Job = new Models.Job(job.Require(x => x.Id));
 							var fullRevInfo = compileJob.RevisionInformation;
 							compileJob.RevisionInformation = new Models.RevisionInformation
 							{
-								Id = revInfo.Id,
+								Id = revInfo!.Id,
 							};
 
 							databaseContext.Jobs.Attach(compileJob.Job);
@@ -351,7 +349,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 							logger.LogTrace("Created CompileJob {compileJobId}", compileJob.Id);
 							try
 							{
-								var chatNotificationAction = currentChatCallback(null, compileJob.Output);
+								var chatNotificationAction = currentChatCallback!(null, compileJob.Output!);
 								await compileJobConsumer.LoadCompileJob(compileJob, chatNotificationAction, cancellationToken);
 							}
 							catch
@@ -370,11 +368,11 @@ namespace Tgstation.Server.Host.Components.Deployment
 				}
 				catch (Exception ex)
 				{
-					await CleanupFailedCompile(compileJob, remoteDeploymentManager, ex);
+					await CleanupFailedCompile(compileJob, remoteDeploymentManager!, ex);
 					throw;
 				}
 
-				var commentsTask = remoteDeploymentManager.PostDeploymentComments(
+				var commentsTask = remoteDeploymentManager!.PostDeploymentComments(
 					compileJob,
 					activeCompileJob?.RevisionInformation,
 					repositorySettings,
@@ -401,7 +399,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 			{
 				currentChatCallback?.Invoke(
 					FormatExceptionForUsers(ex),
-					currentDreamMakerOutput);
+					currentDreamMakerOutput!);
 
 				throw;
 			}
@@ -423,13 +421,13 @@ namespace Tgstation.Server.Host.Components.Deployment
 			var previousCompileJobs = await databaseContext
 				.CompileJobs
 				.AsQueryable()
-				.Where(x => x.Job.Instance.Id == metadata.Id)
+				.Where(x => x.Job.Instance!.Id == metadata.Id)
 				.OrderByDescending(x => x.Job.StoppedAt)
 				.Take(10)
 				.Select(x => new
 				{
-					x.Job.StoppedAt,
-					x.Job.StartedAt,
+					StoppedAt = x.Job.StoppedAt!.Value,
+					StartedAt = x.Job.StartedAt!.Value,
 				})
 				.ToListAsync(cancellationToken);
 
@@ -438,7 +436,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 			{
 				var totalSpan = TimeSpan.Zero;
 				foreach (var previousCompileJob in previousCompileJobs)
-					totalSpan += previousCompileJob.StoppedAt.Value - previousCompileJob.StartedAt.Value;
+					totalSpan += previousCompileJob.StoppedAt - previousCompileJob.StartedAt;
 				averageSpan = totalSpan / previousCompileJobs.Count;
 			}
 
@@ -501,7 +499,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 					compileJob,
 					cancellationToken);
 
-				logger.LogTrace("Deployment will timeout at {timeoutTime}", DateTimeOffset.UtcNow + dreamMakerSettings.Timeout.Value);
+				logger.LogTrace("Deployment will timeout at {timeoutTime}", DateTimeOffset.UtcNow + dreamMakerSettings.Timeout!.Value);
 				using var timeoutTokenSource = new CancellationTokenSource(dreamMakerSettings.Timeout.Value);
 				var timeoutToken = timeoutTokenSource.Token;
 				using (timeoutToken.Register(() => logger.LogWarning("Deployment timed out!")))
@@ -563,7 +561,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 			IRemoteDeploymentManager remoteDeploymentManager,
 			CancellationToken cancellationToken)
 		{
-			var outputDirectory = job.DirectoryName.ToString();
+			var outputDirectory = job.DirectoryName!.Value.ToString();
 			logger.LogTrace("Compile output GUID: {dirGuid}", outputDirectory);
 
 			try
@@ -647,13 +645,13 @@ namespace Tgstation.Server.Host.Components.Deployment
 
 					progressReporter.StageName = "Validating DMAPI";
 					await VerifyApi(
-						launchParameters.StartupTimeout.Value,
-						dreamMakerSettings.ApiValidationSecurityLevel.Value,
+						launchParameters.StartupTimeout!.Value,
+						dreamMakerSettings.ApiValidationSecurityLevel!.Value,
 						job,
 						engineLock,
-						dreamMakerSettings.ApiValidationPort.Value,
-						dreamMakerSettings.RequireDMApiValidation.Value,
-						launchParameters.LogOutput.Value,
+						dreamMakerSettings.ApiValidationPort!.Value,
+						dreamMakerSettings.RequireDMApiValidation!.Value,
+						launchParameters.LogOutput!.Value,
 						cancellationToken);
 				}
 				catch (JobException)
@@ -799,7 +797,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 
 			ApiValidationStatus validationStatus;
 			await using (var provider = new TemporaryDmbProvider(
-				ioManager.ResolvePath(job.DirectoryName.ToString()),
+				ioManager.ResolvePath(job.DirectoryName!.Value.ToString()),
 				job,
 				engineLock.Version))
 			await using (var controller = await sessionControllerFactory.LaunchNew(provider, engineLock, launchParameters, true, cancellationToken))
@@ -859,7 +857,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 			await using var dm = processExecutor.LaunchProcess(
 				engineLock.CompilerExePath,
 				ioManager.ResolvePath(
-					job.DirectoryName.ToString()),
+					job.DirectoryName!.Value.ToString()),
 				arguments,
 				readStandardHandles: true,
 				noShellExecute: true);
@@ -889,14 +887,15 @@ namespace Tgstation.Server.Host.Components.Deployment
 		async ValueTask ModifyDme(Models.CompileJob job, CancellationToken cancellationToken)
 		{
 			var dmeFileName = String.Join('.', job.DmeName, DmeExtension);
-			var dmePath = ioManager.ConcatPath(job.DirectoryName.ToString(), dmeFileName);
+			var stringDirectoryName = job.DirectoryName!.Value.ToString();
+			var dmePath = ioManager.ConcatPath(stringDirectoryName, dmeFileName);
 			var dmeReadTask = ioManager.ReadAllBytes(dmePath, cancellationToken);
 
 			var dmeModificationsTask = configuration.CopyDMFilesTo(
 				dmeFileName,
 				ioManager.ResolvePath(
 					ioManager.ConcatPath(
-						job.DirectoryName.ToString(),
+						stringDirectoryName,
 						ioManager.GetDirectoryName(dmeFileName))),
 				cancellationToken);
 
@@ -955,7 +954,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 			async ValueTask CleanDir()
 			{
 				logger.LogTrace("Cleaning compile directory...");
-				var jobPath = job.DirectoryName.ToString();
+				var jobPath = job.DirectoryName!.Value.ToString();
 				try
 				{
 					// DCT: None available

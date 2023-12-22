@@ -52,13 +52,18 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 		/// <inheritdoc />
 		public async ValueTask PostDeploymentComments(
 			CompileJob compileJob,
-			RevisionInformation previousRevisionInformation,
+			RevisionInformation? previousRevisionInformation,
 			RepositorySettings repositorySettings,
-			string repoOwner,
-			string repoName,
+			string? repoOwner,
+			string? repoName,
 			CancellationToken cancellationToken)
 		{
-			if (repositorySettings?.AccessToken == null)
+			ArgumentNullException.ThrowIfNull(compileJob);
+			ArgumentNullException.ThrowIfNull(repositorySettings);
+			ArgumentNullException.ThrowIfNull(repoOwner);
+			ArgumentNullException.ThrowIfNull(repoName);
+
+			if (repositorySettings.AccessToken == null)
 				return;
 
 			var deployedRevisionInformation = compileJob.RevisionInformation;
