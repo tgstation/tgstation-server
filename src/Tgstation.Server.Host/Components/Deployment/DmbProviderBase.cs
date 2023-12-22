@@ -5,8 +5,6 @@ using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Host.Models;
 
-#nullable disable
-
 namespace Tgstation.Server.Host.Components.Deployment
 {
 	/// <inheritdoc />
@@ -15,11 +13,11 @@ namespace Tgstation.Server.Host.Components.Deployment
 		/// <inheritdoc />
 		public string DmbName => String.Concat(
 			CompileJob.DmeName,
-			EngineVersion.Engine.Value switch
+			EngineVersion.Engine switch
 			{
 				EngineType.Byond => ".dmb",
 				EngineType.OpenDream => ".json",
-				_ => throw new InvalidOperationException($"Invalid EngineType: {EngineVersion.Engine.Value}"),
+				_ => throw new InvalidOperationException($"Invalid EngineType: {EngineVersion.Engine}"),
 			});
 
 		/// <inheritdoc />
