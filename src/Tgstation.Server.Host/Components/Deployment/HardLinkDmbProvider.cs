@@ -15,8 +15,6 @@ using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Utils;
 
-#nullable disable
-
 namespace Tgstation.Server.Host.Components.Deployment
 {
 	/// <summary>
@@ -155,7 +153,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 			if (taskThrottle.HasValue && taskThrottle < 1)
 				throw new ArgumentOutOfRangeException(nameof(taskThrottle), taskThrottle, "taskThrottle must be at least 1!");
 
-			var src = IOManager.ResolvePath(CompileJob.DirectoryName.ToString());
+			var src = IOManager.ResolvePath(CompileJob.DirectoryName!.Value.ToString());
 			var dest = IOManager.ResolvePath(mirrorGuid.ToString());
 
 			using var semaphore = taskThrottle.HasValue ? new SemaphoreSlim(taskThrottle.Value) : null;
@@ -180,10 +178,10 @@ namespace Tgstation.Server.Host.Components.Deployment
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="IEnumerable{T}"/> of <see cref="Task"/>s representing the running operations. The first <see cref="Task"/> returned is always the necessary call to <see cref="IIOManager.CreateDirectory(string, CancellationToken)"/>.</returns>
 		/// <remarks>I genuinely don't know how this will work with symlinked files. Waiting for the issue report I guess.</remarks>
-		IEnumerable<Task> MirrorDirectoryImpl(string src, string dest, SemaphoreSlim semaphore, CancellationToken cancellationToken)
+		IEnumerable<Task> MirrorDirectoryImpl(string src, string dest, SemaphoreSlim? semaphore, CancellationToken cancellationToken)
 		{
 			var dir = new DirectoryInfo(src);
-			Task subdirCreationTask = null;
+			Task? subdirCreationTask = null;
 			var dreamDaemonWillAcceptOutOfDirectorySymlinks = CompileJob.MinimumSecurityLevel == DreamDaemonSecurity.Trusted;
 			foreach (var subDirectory in dir.EnumerateDirectories())
 			{
@@ -193,7 +191,8 @@ namespace Tgstation.Server.Host.Components.Deployment
 				if (subDirectory.Attributes.HasFlag(FileAttributes.ReparsePoint))
 					if (dreamDaemonWillAcceptOutOfDirectorySymlinks)
 					{
-						var target = subDirectory.ResolveLinkTarget(false);
+						var target = subDirectory.ResolveLinkTarget(false)
+							?? throw new InvalidOperationException($"\"{subDirectory.FullName}\" was incorrectly identified as a symlinked directory!");
 						logger.LogDebug("Recreating directory {name} as symlink to {target}", subDirectory.Name, target);
 						if (subdirCreationTask == null)
 						{
@@ -252,7 +251,9 @@ namespace Tgstation.Server.Host.Components.Deployment
 					if (fileInfo.Attributes.HasFlag(FileAttributes.ReparsePoint))
 					{
 						// AHHHHHHHHHHHHH
-						var target = fileInfo.ResolveLinkTarget(!dreamDaemonWillAcceptOutOfDirectorySymlinks);
+						var target = fileInfo.ResolveLinkTarget(!dreamDaemonWillAcceptOutOfDirectorySymlinks)
+							?? throw new InvalidOperationException($"\"{fileInfo.FullName}\" was incorrectly identified as a symlinked file!");
+
 						if (dreamDaemonWillAcceptOutOfDirectorySymlinks)
 						{
 							logger.LogDebug("Recreating symlinked file {name} as symlink to {target}", fileInfo.Name, target.FullName);
