@@ -4,8 +4,6 @@ using System.Threading.Tasks;
 
 using Tgstation.Server.Host.Models;
 
-#nullable disable
-
 namespace Tgstation.Server.Host.Components.Deployment
 {
 	/// <summary>
@@ -17,9 +15,9 @@ namespace Tgstation.Server.Host.Components.Deployment
 		/// Load a new <paramref name="job"/> into the <see cref="ICompileJobSink"/>.
 		/// </summary>
 		/// <param name="job">The <see cref="CompileJob"/> to load.</param>
-		/// <param name="activationAction">An <see cref="Action{T1}"/> to be called when the <see cref="CompileJob"/> becomes active or is discarded with <see langword="true"/> or <see langword="false"/> respectively.</param>
+		/// <param name="activationAction">An optional <see cref="Action{T1}"/> to be called when the <see cref="CompileJob"/> becomes active or is discarded with <see langword="true"/> or <see langword="false"/> respectively.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
-		ValueTask LoadCompileJob(CompileJob job, Action<bool> activationAction, CancellationToken cancellationToken);
+		ValueTask LoadCompileJob(CompileJob job, Action<bool>? activationAction, CancellationToken cancellationToken);
 	}
 }
