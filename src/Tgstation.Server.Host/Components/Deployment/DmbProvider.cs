@@ -5,15 +5,13 @@ using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Host.IO;
 
-#nullable disable
-
 namespace Tgstation.Server.Host.Components.Deployment
 {
 	/// <inheritdoc />
 	sealed class DmbProvider : DmbProviderBase, IDmbProvider
 	{
 		/// <inheritdoc />
-		public override string Directory => ioManager.ResolvePath(CompileJob.DirectoryName.ToString() + directoryAppend);
+		public override string Directory => ioManager.ResolvePath(CompileJob.DirectoryName!.Value.ToString() + directoryAppend);
 
 		/// <inheritdoc />
 		public override Models.CompileJob CompileJob { get; }
@@ -34,7 +32,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 		/// <summary>
 		/// The <see cref="Action"/> to run when <see cref="DisposeAsync"/> is called.
 		/// </summary>
-		Action onDispose;
+		Action? onDispose;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="DmbProvider"/> class.
@@ -44,7 +42,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 		/// <param name="ioManager">The value of <see cref="ioManager"/>.</param>
 		/// <param name="onDispose">The value of <see cref="onDispose"/>.</param>
 		/// <param name="directoryAppend">The optional value of <see cref="directoryAppend"/>.</param>
-		public DmbProvider(Models.CompileJob compileJob, EngineVersion engineVersion, IIOManager ioManager, Action onDispose, string directoryAppend = null)
+		public DmbProvider(Models.CompileJob compileJob, EngineVersion engineVersion, IIOManager ioManager, Action onDispose, string? directoryAppend = null)
 		{
 			CompileJob = compileJob ?? throw new ArgumentNullException(nameof(compileJob));
 			EngineVersion = engineVersion ?? throw new ArgumentNullException(nameof(engineVersion));

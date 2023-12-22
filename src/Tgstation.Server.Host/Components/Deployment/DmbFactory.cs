@@ -253,11 +253,14 @@ namespace Tgstation.Server.Host.Components.Deployment
 								.ThenInclude(x => x.MergedBy)
 					.FirstAsync(cancellationToken)); // can't wait to see that query
 
-			if (!EngineVersion.TryParse(compileJob.EngineVersion, out var engineVersion))
+			EngineVersion engineVersion;
+			if (!EngineVersion.TryParse(compileJob.EngineVersion, out var engineVersionNullable))
 			{
 				logger.LogWarning("Error loading compile job, bad engine version: {engineVersion}", compileJob.EngineVersion);
 				return null; // omae wa mou shinderu
 			}
+			else
+				engineVersion = engineVersionNullable!;
 
 			if (!compileJob.Job.StoppedAt.HasValue)
 			{
