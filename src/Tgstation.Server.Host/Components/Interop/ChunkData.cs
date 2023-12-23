@@ -1,6 +1,4 @@
-﻿#nullable disable
-
-namespace Tgstation.Server.Host.Components.Interop
+﻿namespace Tgstation.Server.Host.Components.Interop
 {
 	/// <summary>
 	/// A packet of a split serialized set of data.
@@ -16,6 +14,6 @@ namespace Tgstation.Server.Host.Components.Interop
 		/// <summary>
 		/// The partial JSON payload of the chunk.
 		/// </summary>
-		public string Payload { get; set; }
+		public string? Payload { get; set; }
 	}
 }
