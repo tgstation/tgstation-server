@@ -995,7 +995,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 					if (invalid)
 						continue;
 
-					fields.Add(new EmbedField(field.Name, field.Value)
+					fields.Add(new EmbedField(field.Name!, field.Value!)
 					{
 						IsInline = field.IsInline ?? default(Optional<bool>),
 					});

@@ -1,6 +1,4 @@
-﻿#nullable disable
-
-namespace Tgstation.Server.Host.Components.Interop
+﻿namespace Tgstation.Server.Host.Components.Interop
 {
 	/// <summary>
 	/// Represents a field in a <see cref="ChatEmbed"/>.
@@ -10,12 +8,12 @@ namespace Tgstation.Server.Host.Components.Interop
 		/// <summary>
 		/// Gets the name of the field.
 		/// </summary>
-		public string Name { get; set; }
+		public string? Name { get; set; }
 
 		/// <summary>
 		/// Gets the value of the field.
 		/// </summary>
-		public string Value { get; set; }
+		public string? Value { get; set; }
 
 		/// <summary>
 		/// Gets a value indicating whether the field should display inline.
