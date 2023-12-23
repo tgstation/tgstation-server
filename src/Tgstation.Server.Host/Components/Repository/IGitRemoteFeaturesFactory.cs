@@ -2,8 +2,6 @@
 
 using Tgstation.Server.Api.Models;
 
-#nullable disable
-
 namespace Tgstation.Server.Host.Components.Repository
 {
 	/// <summary>
