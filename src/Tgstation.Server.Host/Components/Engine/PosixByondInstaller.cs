@@ -10,8 +10,6 @@ using Tgstation.Server.Api.Models;
 using Tgstation.Server.Common.Extensions;
 using Tgstation.Server.Host.IO;
 
-#nullable disable
-
 namespace Tgstation.Server.Host.Components.Engine
 {
 	/// <summary>
@@ -95,7 +93,7 @@ namespace Tgstation.Server.Host.Components.Engine
 			var basePath = IOManager.ConcatPath(path, ByondBinPath);
 
 			var ddTask = WriteAndMakeExecutable(
-				IOManager.ConcatPath(basePath, GetDreamDaemonName(version.Version, out _)),
+				IOManager.ConcatPath(basePath, GetDreamDaemonName(version.Version!, out _)),
 				dreamDaemonScript);
 
 			var dmTask = WriteAndMakeExecutable(
