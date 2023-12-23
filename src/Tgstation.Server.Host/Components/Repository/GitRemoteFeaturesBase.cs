@@ -8,8 +8,6 @@ using Microsoft.Extensions.Logging;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Internal;
 
-#nullable disable
-
 namespace Tgstation.Server.Host.Components.Repository
 {
 	/// <summary>
@@ -64,7 +62,7 @@ namespace Tgstation.Server.Host.Components.Repository
 			ArgumentNullException.ThrowIfNull(parameters);
 			ArgumentNullException.ThrowIfNull(repositorySettings);
 
-			Models.TestMerge result;
+			Models.TestMerge? result;
 			lock (cachedLookups)
 				if (cachedLookups.TryGetValue(parameters, out result))
 					Logger.LogTrace("Using cache for test merge #{0}", parameters.Number);
