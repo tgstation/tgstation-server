@@ -1034,7 +1034,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			var discordEmbed = new Embed
 			{
 				Author = embed.Author != null
-					? new EmbedAuthor(embed.Author.Name)
+					? new EmbedAuthor(embed.Author.Name!)
 					{
 						IconUrl = embed.Author.IconUrl ?? default(Optional<string>),
 						ProxyIconUrl = embed.Author.ProxyIconUrl ?? default(Optional<string>),
