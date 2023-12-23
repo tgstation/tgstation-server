@@ -296,8 +296,8 @@ namespace Tgstation.Server.Host.Controllers
 				instance =>
 				{
 					var byondManager = instance.EngineManager;
-
-					if (engineVersion.Equals(byondManager.ActiveVersion))
+					var activeVersion = byondManager.ActiveVersion;
+					if (activeVersion != null && engineVersion.Equals(activeVersion))
 						return ValueTask.FromResult<IActionResult?>(
 							Conflict(new ErrorMessageResponse(ErrorCode.EngineCannotDeleteActiveVersion)));
 

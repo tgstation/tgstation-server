@@ -600,7 +600,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 		public Task StopAsync(CancellationToken cancellationToken) => EnsureDirectories(cancellationToken);
 
 		/// <inheritdoc />
-		public async ValueTask HandleEvent(EventType eventType, IEnumerable<string> parameters, bool deploymentPipeline, CancellationToken cancellationToken)
+		public async ValueTask HandleEvent(EventType eventType, IEnumerable<string?> parameters, bool deploymentPipeline, CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(parameters);
 
@@ -637,6 +637,9 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 							' ',
 							parameters.Select(arg =>
 							{
+								if (arg == null)
+									return "(NULL)";
+
 								if (!arg.Contains(' ', StringComparison.Ordinal))
 									return arg;
 

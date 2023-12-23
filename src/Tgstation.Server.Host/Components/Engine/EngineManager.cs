@@ -16,8 +16,6 @@ using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Jobs;
 using Tgstation.Server.Host.Utils;
 
-#nullable disable
-
 namespace Tgstation.Server.Host.Components.Engine
 {
 	/// <inheritdoc />
@@ -34,7 +32,7 @@ namespace Tgstation.Server.Host.Components.Engine
 		const string ActiveVersionFileName = "ActiveVersion.txt";
 
 		/// <inheritdoc />
-		public EngineVersion ActiveVersion { get; private set; }
+		public EngineVersion? ActiveVersion { get; private set; }
 
 		/// <inheritdoc />
 		public IReadOnlyList<EngineVersion> InstalledVersions
@@ -120,9 +118,9 @@ namespace Tgstation.Server.Host.Components.Engine
 
 		/// <inheritdoc />
 		public async ValueTask ChangeVersion(
-			JobProgressReporter progressReporter,
+			JobProgressReporter? progressReporter,
 			EngineVersion version,
-			Stream customVersionStream,
+			Stream? customVersionStream,
 			bool allowInstallation,
 			CancellationToken cancellationToken)
 		{
@@ -145,7 +143,7 @@ namespace Tgstation.Server.Host.Components.Engine
 				await ioManager.WriteAllBytes(ActiveVersionFileName, Encoding.UTF8.GetBytes(stringVersion), cancellationToken);
 				await eventConsumer.HandleEvent(
 					EventType.EngineActiveVersionChange,
-					new List<string>
+					new List<string?>
 					{
 						ActiveVersion?.ToString(),
 						stringVersion,
@@ -162,7 +160,7 @@ namespace Tgstation.Server.Host.Components.Engine
 		}
 
 		/// <inheritdoc />
-		public async ValueTask<IEngineExecutableLock> UseExecutables(EngineVersion requiredVersion, string trustDmbFullPath, CancellationToken cancellationToken)
+		public async ValueTask<IEngineExecutableLock> UseExecutables(EngineVersion? requiredVersion, string? trustDmbFullPath, CancellationToken cancellationToken)
 		{
 			logger.LogTrace(
 				"Acquiring lock on BYOND version {version}...",
@@ -198,19 +196,21 @@ namespace Tgstation.Server.Host.Components.Engine
 
 			logger.LogTrace("DeleteVersion {version}", version);
 
-			if (version.Equals(ActiveVersion))
+			var activeVersion = ActiveVersion;
+			if (activeVersion != null && version.Equals(activeVersion))
 				throw new JobException(ErrorCode.EngineCannotDeleteActiveVersion);
 
 			ReferenceCountingContainer<IEngineInstallation, EngineExecutableLock> container;
 			logger.LogTrace("Waiting to acquire installedVersions lock...");
 			lock (installedVersions)
 			{
-				if (!installedVersions.TryGetValue(version, out container))
+				if (!installedVersions.TryGetValue(version, out var containerNullable))
 				{
 					logger.LogTrace("Version {version} already deleted.", version);
 					return;
 				}
 
+				container = containerNullable;
 				logger.LogTrace("Installation container acquired for deletion");
 			}
 
@@ -238,7 +238,8 @@ namespace Tgstation.Server.Host.Components.Engine
 				using (await SemaphoreSlimContext.Lock(changeDeleteSemaphore, cancellationToken))
 				{
 					// check again because it could have become the active version.
-					if (version.Equals(ActiveVersion))
+					activeVersion = ActiveVersion;
+					if (activeVersion != null && version.Equals(activeVersion))
 						throw new JobException(ErrorCode.EngineCannotDeleteActiveVersion);
 
 					bool proceed;
@@ -296,7 +297,7 @@ namespace Tgstation.Server.Host.Components.Engine
 		/// <inheritdoc />
 		public async Task StartAsync(CancellationToken cancellationToken)
 		{
-			async ValueTask<byte[]> GetActiveVersion()
+			async ValueTask<byte[]?> GetActiveVersion()
 			{
 				var activeVersionFileExists = await ioManager.FileExists(ActiveVersionFileName, cancellationToken);
 				return !activeVersionFileExists ? null : await ioManager.ReadAllBytes(ActiveVersionFileName, cancellationToken);
@@ -321,12 +322,15 @@ namespace Tgstation.Server.Host.Components.Engine
 
 				var bytes = await ioManager.ReadAllBytes(versionFile, cancellationToken);
 				var text = Encoding.UTF8.GetString(bytes);
-				if (!EngineVersion.TryParse(text, out var version))
+				EngineVersion version;
+				if (!EngineVersion.TryParse(text, out var versionNullable))
 				{
 					logger.LogWarning("Cleaning path with unparsable version file: {versionPath}", ioManager.ResolvePath(path));
 					await ioManager.DeleteDirectory(path, cancellationToken); // cleanup
 					return;
 				}
+				else
+					version = versionNullable!;
 
 				try
 				{
@@ -362,11 +366,11 @@ namespace Tgstation.Server.Host.Components.Engine
 			{
 				var activeVersionString = Encoding.UTF8.GetString(activeVersionBytes);
 
-				EngineVersion activeVersion;
+				EngineVersion? activeVersion;
 				bool hasRequestedActiveVersion;
 				lock (installedVersions)
 					hasRequestedActiveVersion = EngineVersion.TryParse(activeVersionString, out activeVersion)
-						&& installedVersions.ContainsKey(activeVersion);
+						&& installedVersions.ContainsKey(activeVersion!);
 
 				if (hasRequestedActiveVersion)
 					ActiveVersion = activeVersion; // not setting TCS because there's no need during init
@@ -386,15 +390,15 @@ namespace Tgstation.Server.Host.Components.Engine
 		/// </summary>
 		/// <param name="progressReporter">The optional <see cref="JobProgressReporter"/> for the operation.</param>
 		/// <param name="version">The <see cref="EngineVersion"/> to install.</param>
-		/// <param name="customVersionStream">Custom zip file <see cref="Stream"/> to use. Will cause a <see cref="Version.Build"/> number to be added.</param>
+		/// <param name="customVersionStream">Optional custom zip file <see cref="Stream"/> to use. Will cause a <see cref="Version.Build"/> number to be added.</param>
 		/// <param name="neededForLock">If this BYOND version is required as part of a locking operation.</param>
 		/// <param name="allowInstallation">If an installation should be performed if the <paramref name="version"/> is not installed. If <see langword="false"/> and an installation is required an <see cref="InvalidOperationException"/> will be thrown.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="EngineExecutableLock"/>.</returns>
 		async ValueTask<EngineExecutableLock> AssertAndLockVersion(
-			JobProgressReporter progressReporter,
+			JobProgressReporter? progressReporter,
 			EngineVersion version,
-			Stream customVersionStream,
+			Stream? customVersionStream,
 			bool neededForLock,
 			bool allowInstallation,
 			CancellationToken cancellationToken)
@@ -415,7 +419,8 @@ namespace Tgstation.Server.Host.Components.Engine
 					while (installedVersions.ContainsKey(version));
 				}
 
-				installedOrInstalling = installedVersions.TryGetValue(version, out var installationContainer);
+				installedOrInstalling = installedVersions.TryGetValue(version, out var installationContainerNullable);
+				ReferenceCountingContainer<IEngineInstallation, EngineExecutableLock> installationContainer;
 				if (!installedOrInstalling)
 				{
 					if (!allowInstallation)
@@ -426,6 +431,8 @@ namespace Tgstation.Server.Host.Components.Engine
 						ioManager.ResolvePath(version.ToString()),
 						ourTcs.Task);
 				}
+				else
+					installationContainer = installationContainerNullable!;
 
 				installation = installationContainer.Instance;
 				installLock = installationContainer.AddReference();
@@ -499,7 +506,7 @@ namespace Tgstation.Server.Host.Components.Engine
 		/// <param name="customVersionStream">Custom zip file <see cref="Stream"/> to use. Will cause a <see cref="Version.Build"/> number to be added.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
-		async ValueTask InstallVersionFiles(JobProgressReporter progressReporter, EngineVersion version, Stream customVersionStream, CancellationToken cancellationToken)
+		async ValueTask InstallVersionFiles(JobProgressReporter? progressReporter, EngineVersion version, Stream? customVersionStream, CancellationToken cancellationToken)
 		{
 			var installFullPath = ioManager.ResolvePath(version.ToString());
 			async ValueTask DirectoryCleanup()
@@ -519,7 +526,7 @@ namespace Tgstation.Server.Host.Components.Engine
 
 					engineInstallationData = await engineInstaller.DownloadVersion(version, progressReporter, cancellationToken);
 
-					progressReporter.ReportProgress(null);
+					progressReporter?.ReportProgress(null);
 				}
 				else
 #pragma warning disable CA2000 // Dispose objects before losing scope, false positive

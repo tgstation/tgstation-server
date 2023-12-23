@@ -7,8 +7,6 @@ using System.Threading.Tasks;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Host.Jobs;
 
-#nullable disable
-
 namespace Tgstation.Server.Host.Components.Engine
 {
 	/// <summary>
@@ -20,7 +18,7 @@ namespace Tgstation.Server.Host.Components.Engine
 		/// <summary>
 		/// The currently active <see cref="EngineVersion"/>.
 		/// </summary>
-		EngineVersion ActiveVersion { get; }
+		EngineVersion? ActiveVersion { get; }
 
 		/// <summary>
 		/// The installed <see cref="EngineVersion"/>s.
@@ -37,9 +35,9 @@ namespace Tgstation.Server.Host.Components.Engine
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
 		ValueTask ChangeVersion(
-			JobProgressReporter progressReporter,
+			JobProgressReporter? progressReporter,
 			EngineVersion version,
-			Stream customVersionStream,
+			Stream? customVersionStream,
 			bool allowInstallation,
 			CancellationToken cancellationToken);
 
@@ -60,8 +58,8 @@ namespace Tgstation.Server.Host.Components.Engine
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the requested <see cref="IEngineExecutableLock"/>.</returns>
 		ValueTask<IEngineExecutableLock> UseExecutables(
-			EngineVersion requiredVersion,
-			string trustDmbFullPath,
+			EngineVersion? requiredVersion,
+			string? trustDmbFullPath,
 			CancellationToken cancellationToken);
 	}
 }

@@ -48,7 +48,7 @@ namespace Tgstation.Server.Host.Components.Chat.Commands
 		/// <inheritdoc />
 		public ValueTask<MessageContent> Invoke(string arguments, ChatUser user, CancellationToken cancellationToken)
 		{
-			EngineVersion engineVersion;
+			EngineVersion? engineVersion;
 			if (arguments.Split(' ').Any(x => x.Equals("--active", StringComparison.OrdinalIgnoreCase)))
 				engineVersion = engineManager.ActiveVersion;
 			else
