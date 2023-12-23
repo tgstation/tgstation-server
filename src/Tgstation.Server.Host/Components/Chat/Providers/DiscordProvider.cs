@@ -1045,7 +1045,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				Description = embed.Description ?? default(Optional<string>),
 				Fields = fields ?? default(Optional<IReadOnlyList<IEmbedField>>),
 				Footer = embed.Footer != null
-					? (Optional<IEmbedFooter>)new EmbedFooter(embed.Footer.Text)
+					? (Optional<IEmbedFooter>)new EmbedFooter(embed.Footer.Text!)
 					{
 						IconUrl = embed.Footer.IconUrl ?? default(Optional<string>),
 						ProxyIconUrl = embed.Footer.ProxyIconUrl ?? default(Optional<string>),
