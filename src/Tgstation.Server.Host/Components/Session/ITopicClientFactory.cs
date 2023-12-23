@@ -2,8 +2,6 @@
 
 using Byond.TopicSender;
 
-#nullable disable
-
 namespace Tgstation.Server.Host.Components.Session
 {
 	/// <summary>
