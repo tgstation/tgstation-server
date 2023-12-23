@@ -2,8 +2,6 @@
 
 using Tgstation.Server.Host.Utils;
 
-#nullable disable
-
 namespace Tgstation.Server.Host.Components.Interop.Bridge
 {
 	/// <inheritdoc />
