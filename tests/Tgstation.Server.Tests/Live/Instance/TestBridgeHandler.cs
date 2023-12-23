@@ -15,17 +15,20 @@ namespace Tgstation.Server.Tests.Live.Instance
 {
 	sealed class TestBridgeHandler : Chunker, IBridgeHandler
 	{
-		class DMApiParametersImpl : DMApiParameters { }
+		class DMApiParametersImpl : DMApiParameters
+		{
+			public DMApiParametersImpl(string accessIdentifier)
+				: base(accessIdentifier)
+			{
+			}
+		}
 
 		class BridgeResponseHack : BridgeResponse
 		{
 			public string IntegrationHack { get; set; }
 		}
 
-		public DMApiParameters DMApiParameters => new DMApiParametersImpl
-		{
-			AccessIdentifier = accessIdentifier
-		};
+		public DMApiParameters DMApiParameters => new DMApiParametersImpl(accessIdentifier);
 
 		long lastBridgeRequestSize = 0;
 

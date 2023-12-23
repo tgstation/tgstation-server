@@ -74,12 +74,11 @@ namespace Tgstation.Server.Host.Components.Session
 			RuntimeInformation runtimeInformation,
 			string accessIdentifier,
 			ushort port)
+			: base(accessIdentifier)
 		{
 			Dmb = dmb ?? throw new ArgumentNullException(nameof(dmb));
 			ProcessId = process?.Id ?? throw new ArgumentNullException(nameof(process));
 			RuntimeInformation = runtimeInformation ?? throw new ArgumentNullException(nameof(runtimeInformation));
-
-			AccessIdentifier = accessIdentifier ?? throw new ArgumentNullException(nameof(accessIdentifier));
 
 			LaunchSecurityLevel = runtimeInformation.SecurityLevel;
 			LaunchVisibility = runtimeInformation.Visibility;

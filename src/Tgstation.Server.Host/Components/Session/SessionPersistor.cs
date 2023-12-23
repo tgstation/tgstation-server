@@ -75,9 +75,8 @@ namespace Tgstation.Server.Host.Components.Session
 
 			await ClearImpl(db, false, cancellationToken);
 
-			var dbReattachInfo = new Models.ReattachInformation
+			var dbReattachInfo = new Models.ReattachInformation(reattachInformation.AccessIdentifier)
 			{
-				AccessIdentifier = reattachInformation.AccessIdentifier,
 				CompileJobId = reattachInformation.Dmb.CompileJob.Id.Value,
 				InitialCompileJobId = reattachInformation.InitialDmb?.CompileJob.Id.Value,
 				Port = reattachInformation.Port,
@@ -103,7 +102,7 @@ namespace Tgstation.Server.Host.Components.Session
 
 			logger.LogTrace("Updating reattach information: {info}...", reattachInformation);
 
-			var dbReattachInfo = new Models.ReattachInformation
+			var dbReattachInfo = new Models.ReattachInformation(String.Empty)
 			{
 				Id = reattachInformation.Id.Value,
 			};

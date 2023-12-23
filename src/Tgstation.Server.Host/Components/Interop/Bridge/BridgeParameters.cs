@@ -50,5 +50,14 @@ namespace Tgstation.Server.Host.Components.Interop.Bridge
 		/// The port that should be used to send world topics, if not the default.
 		/// </summary>
 		public ushort? TopicPort { get; set; }
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="BridgeParameters"/> class.
+		/// </summary>
+		/// <param name="accessIdentifier">The access identifier for the <see cref="DMApiParameters"/>.</param>
+		public BridgeParameters(string accessIdentifier)
+			: base(accessIdentifier)
+		{
+		}
 	}
 }

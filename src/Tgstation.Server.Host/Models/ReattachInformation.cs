@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace Tgstation.Server.Host.Models
 {
@@ -27,5 +28,22 @@ namespace Tgstation.Server.Host.Models
 		/// The <see cref="Api.Models.EntityId.Id"/> of <see cref="InitialCompileJob"/>.
 		/// </summary>
 		public long? InitialCompileJobId { get; set; }
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="ReattachInformation"/> class.
+		/// </summary>
+		[Obsolete("For use by EFCore only", true)]
+		public ReattachInformation()
+		{
+		}
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="ReattachInformation"/> class.
+		/// </summary>
+		/// <param name="accessIdentifier">The access identifier for the <see cref="ReattachInformationBase"/>.</param>
+		public ReattachInformation(string accessIdentifier)
+			: base(accessIdentifier)
+		{
+		}
 	}
 }
