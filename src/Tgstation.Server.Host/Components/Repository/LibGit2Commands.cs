@@ -3,8 +3,6 @@ using System.Collections.Generic;
 
 using LibGit2Sharp;
 
-#nullable disable
-
 namespace Tgstation.Server.Host.Components.Repository
 {
 	/// <inheritdoc />
