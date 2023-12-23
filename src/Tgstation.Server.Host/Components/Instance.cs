@@ -392,8 +392,8 @@ namespace Tgstation.Server.Host.Components
 
 					var result = await repo.MergeOrigin(
 						NextProgressReporter("Merge Origin"),
-						repositorySettings.CommitterName,
-						repositorySettings.CommitterEmail,
+						repositorySettings.CommitterName!,
+						repositorySettings.CommitterEmail!,
 						true,
 						cancellationToken);
 
@@ -456,8 +456,8 @@ namespace Tgstation.Server.Host.Components
 							NextProgressReporter("Synchronize"),
 							repositorySettings.AccessUser,
 							repositorySettings.AccessToken,
-							repositorySettings.CommitterName,
-							repositorySettings.CommitterEmail,
+							repositorySettings.CommitterName!,
+							repositorySettings.CommitterEmail!,
 							shouldSyncTracked,
 							true,
 							cancellationToken);
