@@ -17,8 +17,6 @@ using Tgstation.Server.Host.Jobs;
 using Tgstation.Server.Host.System;
 using Tgstation.Server.Host.Utils;
 
-#nullable disable
-
 namespace Tgstation.Server.Host.Components.Engine
 {
 	/// <summary>
@@ -136,7 +134,7 @@ namespace Tgstation.Server.Host.Components.Engine
 		}
 
 		/// <inheritdoc />
-		public override async ValueTask<IEngineInstallationData> DownloadVersion(EngineVersion version, JobProgressReporter jobProgressReporter, CancellationToken cancellationToken)
+		public override async ValueTask<IEngineInstallationData> DownloadVersion(EngineVersion version, JobProgressReporter? jobProgressReporter, CancellationToken cancellationToken)
 		{
 			CheckVersionValidity(version);
 
@@ -172,7 +170,7 @@ namespace Tgstation.Server.Host.Components.Engine
 				var progressSection2 = jobProgressReporter?.CreateSection("Checking out OpenDream version", 0.5f);
 
 				var committish = version.SourceSHA
-					?? $"{GeneralConfiguration.OpenDreamGitTagPrefix}{version.Version.Semver()}";
+					?? $"{GeneralConfiguration.OpenDreamGitTagPrefix}{version.Version!.Semver()}";
 
 				await repo.CheckoutObject(
 					committish,
@@ -269,8 +267,7 @@ namespace Tgstation.Server.Host.Components.Engine
 					using (cancellationToken.Register(() => buildProcess.Terminate()))
 						buildExitCode = await buildProcess.Lifetime;
 
-					string output;
-
+					string? output;
 					if (!GeneralConfiguration.OpenDreamSuppressInstallOutput)
 					{
 						var buildOutputTask = buildProcess.GetCombinedOutput(cancellationToken);
