@@ -15,8 +15,6 @@ using Tgstation.Server.Host.Jobs;
 using Tgstation.Server.Host.System;
 using Tgstation.Server.Host.Utils;
 
-#nullable disable
-
 namespace Tgstation.Server.Host.Components.Engine
 {
 	/// <summary>
@@ -245,7 +243,7 @@ namespace Tgstation.Server.Host.Components.Engine
 		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
 		async ValueTask AddDreamDaemonToFirewall(EngineVersion version, string path, CancellationToken cancellationToken)
 		{
-			var dreamDaemonName = GetDreamDaemonName(version.Version, out var usesDDExe);
+			var dreamDaemonName = GetDreamDaemonName(version.Version!, out var usesDDExe);
 
 			var dreamDaemonPath = IOManager.ResolvePath(
 				IOManager.ConcatPath(
