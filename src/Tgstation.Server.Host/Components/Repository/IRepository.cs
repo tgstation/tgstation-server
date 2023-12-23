@@ -151,7 +151,7 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// <param name="deploymentPipeline">If any events created should be marked as part of the deployment pipeline.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in <see langword="true"/> if commits were pushed to the tracked origin reference, <see langword="false"/> otherwise.</returns>
-		ValueTask<bool> Sychronize(
+		ValueTask<bool> Synchronize(
 			JobProgressReporter progressReporter,
 			string? username,
 			string? password,

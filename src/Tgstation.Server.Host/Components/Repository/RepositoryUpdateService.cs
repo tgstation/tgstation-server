@@ -271,7 +271,7 @@ namespace Tgstation.Server.Host.Components.Repository
 						await UpdateRevInfo();
 						if (fastForward.Value)
 						{
-							await repo.Sychronize(
+							await repo.Synchronize(
 								NextProgressReporter("Sychronize"),
 								currentModel.AccessUser,
 								currentModel.AccessToken,
@@ -330,7 +330,7 @@ namespace Tgstation.Server.Host.Components.Repository
 							updateSubmodules,
 							false,
 							cancellationToken);
-						await repo.Sychronize(
+						await repo.Synchronize(
 							NextProgressReporter("Synchronize"),
 							currentModel.AccessUser,
 							currentModel.AccessToken,
@@ -545,7 +545,7 @@ namespace Tgstation.Server.Host.Components.Repository
 				var currentHead = repo.Head;
 				if (currentModel.PushTestMergeCommits.Value && (startSha != currentHead || (postUpdateSha != null && postUpdateSha != currentHead)))
 				{
-					await repo.Sychronize(
+					await repo.Synchronize(
 						NextProgressReporter("Synchronize"),
 						currentModel.AccessUser,
 						currentModel.AccessToken,

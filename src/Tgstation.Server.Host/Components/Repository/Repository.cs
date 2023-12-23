@@ -613,7 +613,7 @@ namespace Tgstation.Server.Host.Components.Repository
 		}
 
 		/// <inheritdoc />
-		public async ValueTask<bool> Sychronize(
+		public async ValueTask<bool> Synchronize(
 			JobProgressReporter progressReporter,
 			string username,
 			string password,
