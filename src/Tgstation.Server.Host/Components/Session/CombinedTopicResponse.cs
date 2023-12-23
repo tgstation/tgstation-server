@@ -2,8 +2,6 @@
 
 using Tgstation.Server.Host.Components.Interop.Topic;
 
-#nullable disable
-
 namespace Tgstation.Server.Host.Components.Session
 {
 	/// <summary>
@@ -19,14 +17,14 @@ namespace Tgstation.Server.Host.Components.Session
 		/// <summary>
 		/// The interop <see cref="TopicResponse"/>, if any.
 		/// </summary>
-		public TopicResponse InteropResponse { get; }
+		public TopicResponse? InteropResponse { get; }
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="CombinedTopicResponse"/> class.
 		/// </summary>
 		/// <param name="byondTopicResponse">The value of <see cref="ByondTopicResponse"/>.</param>
 		/// <param name="interopResponse">The optional value of <see cref="InteropResponse"/>.</param>
-		public CombinedTopicResponse(global::Byond.TopicSender.TopicResponse byondTopicResponse, TopicResponse interopResponse)
+		public CombinedTopicResponse(global::Byond.TopicSender.TopicResponse byondTopicResponse, TopicResponse? interopResponse)
 		{
 			ByondTopicResponse = byondTopicResponse ?? throw new ArgumentNullException(nameof(byondTopicResponse));
 			InteropResponse = interopResponse;
