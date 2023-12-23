@@ -4,8 +4,6 @@ using System.Threading.Tasks;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Internal;
 
-#nullable disable
-
 namespace Tgstation.Server.Host.Components.Repository
 {
 	/// <summary>
