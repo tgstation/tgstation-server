@@ -4,8 +4,6 @@ using System.Linq;
 
 using Tgstation.Server.Host.Components.Chat;
 
-#nullable disable
-
 namespace Tgstation.Server.Host.Components.Interop
 {
 	/// <summary>
