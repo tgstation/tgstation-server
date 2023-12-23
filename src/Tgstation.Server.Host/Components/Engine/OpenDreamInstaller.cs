@@ -159,7 +159,7 @@ namespace Tgstation.Server.Host.Components.Engine
 					Logger.LogTrace("OD repo seems to already exist, attempting load and fetch...");
 					repo = await repositoryManager.LoadRepository(cancellationToken);
 
-					await repo.FetchOrigin(
+					await repo!.FetchOrigin(
 						progressSection1,
 						null,
 						null,

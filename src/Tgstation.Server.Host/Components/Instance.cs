@@ -514,6 +514,9 @@ namespace Tgstation.Server.Host.Components
 						Job compileProcessJob;
 						using (var repo = await RepositoryManager.LoadRepository(cancellationToken))
 						{
+							if (repo == null)
+								throw new JobException(Api.Models.ErrorCode.RepoMissing);
+
 							var deploySha = repo.Head;
 							if (deploySha == null)
 							{
