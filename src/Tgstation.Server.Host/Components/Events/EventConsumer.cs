@@ -50,10 +50,9 @@ namespace Tgstation.Server.Host.Components.Events
 		public void SetWatchdog(IWatchdog watchdog)
 		{
 			ArgumentNullException.ThrowIfNull(watchdog);
-			if (this.watchdog != null)
+			var oldWatchdog = Interlocked.CompareExchange(ref this.watchdog, watchdog, null);
+			if (oldWatchdog != null)
 				throw new InvalidOperationException("watchdog already set!");
-
-			this.watchdog = watchdog;
 		}
 	}
 }
