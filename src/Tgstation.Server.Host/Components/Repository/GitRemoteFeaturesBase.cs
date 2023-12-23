@@ -25,10 +25,10 @@ namespace Tgstation.Server.Host.Components.Repository
 		public abstract RemoteGitProvider? RemoteGitProvider { get; }
 
 		/// <inheritdoc />
-		public abstract string RemoteRepositoryOwner { get; }
+		public string RemoteRepositoryOwner { get; }
 
 		/// <inheritdoc />
-		public abstract string RemoteRepositoryName { get; }
+		public string RemoteRepositoryName { get; }
 
 		/// <summary>
 		/// The <see cref="ILogger"/> for the <see cref="GitRemoteFeaturesBase"/>.
@@ -50,6 +50,11 @@ namespace Tgstation.Server.Host.Components.Repository
 			Logger = logger ?? throw new ArgumentNullException(nameof(logger));
 			ArgumentNullException.ThrowIfNull(remoteUrl);
 
+			RemoteRepositoryOwner = remoteUrl.Segments[1].TrimEnd('/');
+			RemoteRepositoryName = remoteUrl.Segments[2].TrimEnd('/');
+			if (RemoteRepositoryName.EndsWith(".git", StringComparison.OrdinalIgnoreCase))
+				RemoteRepositoryName = RemoteRepositoryName[0..^4];
+
 			cachedLookups = new Dictionary<TestMergeParameters, Models.TestMerge>();
 		}
 
@@ -65,15 +70,15 @@ namespace Tgstation.Server.Host.Components.Repository
 			Models.TestMerge? result;
 			lock (cachedLookups)
 				if (cachedLookups.TryGetValue(parameters, out result))
-					Logger.LogTrace("Using cache for test merge #{0}", parameters.Number);
+					Logger.LogTrace("Using cache for test merge #{testMergeNumber}", parameters.Number);
 
 			if (result == null)
 			{
-				Logger.LogTrace("Retrieving metadata for test merge #{0}...", parameters.Number);
+				Logger.LogTrace("Retrieving metadata for test merge #{testMergeNumber}...", parameters.Number);
 				result = await GetTestMergeImpl(parameters, repositorySettings, cancellationToken);
 				lock (cachedLookups)
 					if (!cachedLookups.TryAdd(parameters, result))
-						Logger.LogError("Race condition on adding test merge #{0}!", parameters.Number);
+						Logger.LogError("Race condition on adding test merge #{testMergeNumber}!", parameters.Number);
 			}
 
 			return result;
