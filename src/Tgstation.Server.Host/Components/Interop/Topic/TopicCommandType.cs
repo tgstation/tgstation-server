@@ -1,7 +1,5 @@
 ﻿using System;
 
-#nullable disable
-
 namespace Tgstation.Server.Host.Components.Interop.Topic
 {
 	/// <summary>
