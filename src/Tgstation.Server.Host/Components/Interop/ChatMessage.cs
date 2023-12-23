@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
 
-#nullable disable
-
 namespace Tgstation.Server.Host.Components.Interop
 {
 	/// <summary>
@@ -12,6 +10,6 @@ namespace Tgstation.Server.Host.Components.Interop
 		/// <summary>
 		/// The <see cref="ICollection{T}"/> of <see cref="Chat.ChannelRepresentation.Id"/>s to sent the <see cref="MessageContent"/> to. Must be safe to parse as <see cref="ulong"/>s.
 		/// </summary>
-		public ICollection<string> ChannelIds { get; set; }
+		public ICollection<string>? ChannelIds { get; set; }
 	}
 }
