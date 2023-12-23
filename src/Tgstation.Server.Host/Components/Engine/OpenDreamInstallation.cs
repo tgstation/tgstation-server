@@ -19,8 +19,6 @@ using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.System;
 using Tgstation.Server.Host.Utils;
 
-#nullable disable
-
 namespace Tgstation.Server.Host.Components.Engine
 {
 	/// <summary>
@@ -91,7 +89,7 @@ namespace Tgstation.Server.Host.Components.Engine
 			InstallationTask = installationTask ?? throw new ArgumentNullException(nameof(installationTask));
 			Version = version ?? throw new ArgumentNullException(nameof(version));
 
-			if (version.Engine.Value != EngineType.OpenDream)
+			if (version.Engine!.Value != EngineType.OpenDream)
 				throw new ArgumentException($"Invalid EngineType: {version.Engine.Value}", nameof(version));
 		}
 
@@ -100,7 +98,7 @@ namespace Tgstation.Server.Host.Components.Engine
 			IDmbProvider dmbProvider,
 			IReadOnlyDictionary<string, string> parameters,
 			DreamDaemonLaunchParameters launchParameters,
-			string logFilePath)
+			string? logFilePath)
 		{
 			ArgumentNullException.ThrowIfNull(dmbProvider);
 			ArgumentNullException.ThrowIfNull(parameters);
@@ -111,8 +109,7 @@ namespace Tgstation.Server.Host.Components.Engine
 
 			var parametersString = EncodeParameters(parameters, launchParameters);
 
-			var loggingEnabled = logFilePath != null;
-			var arguments = $"--cvar {(loggingEnabled ? $"log.path=\"{ioManager.GetDirectoryName(logFilePath)}\" --cvar log.format=\"{ioManager.GetFileName(logFilePath)}\"" : "log.enabled=false")} --cvar watchdog.token={accessIdentifier} --cvar log.runtimelog=false --cvar net.port={launchParameters.Port.Value} --cvar opendream.topic_port=0 --cvar opendream.world_params=\"{parametersString}\" --cvar opendream.json_path=\"./{dmbProvider.DmbName}\"";
+			var arguments = $"--cvar {(logFilePath != null ? $"log.path=\"{ioManager.GetDirectoryName(logFilePath)}\" --cvar log.format=\"{ioManager.GetFileName(logFilePath)}\"" : "log.enabled=false")} --cvar watchdog.token={accessIdentifier} --cvar log.runtimelog=false --cvar net.port={launchParameters.Port!.Value} --cvar opendream.topic_port=0 --cvar opendream.world_params=\"{parametersString}\" --cvar opendream.json_path=\"./{dmbProvider.DmbName}\"";
 			return arguments;
 		}
 
