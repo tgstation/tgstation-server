@@ -4,8 +4,6 @@ using System.Threading.Tasks;
 
 using LibGit2Sharp;
 
-#nullable disable
-
 namespace Tgstation.Server.Host.Components.Repository
 {
 	/// <summary>
