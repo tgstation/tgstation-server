@@ -9,8 +9,6 @@ using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Host.Utils.GitHub;
 
-#nullable disable
-
 namespace Tgstation.Server.Host.Components.Repository
 {
 	/// <summary>
@@ -67,9 +65,9 @@ namespace Tgstation.Server.Host.Components.Repository
 				? gitHubServiceFactory.CreateService(repositorySettings.AccessToken)
 				: gitHubServiceFactory.CreateService();
 
-			PullRequest pr = null;
-			ApiException exception = null;
-			string errorMessage = null;
+			PullRequest? pr = null;
+			ApiException? exception = null;
+			string? errorMessage = null;
 			try
 			{
 				pr = await gitHubService.GetPullRequest(RemoteRepositoryOwner, RemoteRepositoryName, parameters.Number, cancellationToken);
