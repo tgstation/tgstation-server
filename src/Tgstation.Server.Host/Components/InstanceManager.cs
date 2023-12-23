@@ -510,6 +510,13 @@ namespace Tgstation.Server.Host.Components
 		{
 			ArgumentNullException.ThrowIfNull(parameters);
 
+			var accessIdentifier = parameters.AccessIdentifier;
+			if (accessIdentifier == null)
+			{
+				logger.LogWarning("Received invalid bridge request with null access identifier!");
+				return null;
+			}
+
 			IBridgeHandler? bridgeHandler = null;
 			for (var i = 0; bridgeHandler == null && i < 30; ++i)
 			{
@@ -517,7 +524,7 @@ namespace Tgstation.Server.Host.Components
 				// This is a stopgap
 				Task delayTask = Task.CompletedTask;
 				lock (bridgeHandlers)
-					if (!bridgeHandlers.TryGetValue(parameters.AccessIdentifier, out bridgeHandler))
+					if (!bridgeHandlers.TryGetValue(accessIdentifier, out bridgeHandler))
 						delayTask = asyncDelayer.Delay(TimeSpan.FromMilliseconds(100), cancellationToken);
 
 				await delayTask;
@@ -525,9 +532,9 @@ namespace Tgstation.Server.Host.Components
 
 			if (bridgeHandler == null)
 				lock (bridgeHandlers)
-					if (!bridgeHandlers.TryGetValue(parameters.AccessIdentifier, out bridgeHandler))
+					if (!bridgeHandlers.TryGetValue(accessIdentifier, out bridgeHandler))
 					{
-						logger.LogWarning("Received invalid bridge request with access identifier: {accessIdentifier}", parameters.AccessIdentifier);
+						logger.LogWarning("Received invalid bridge request with access identifier: {accessIdentifier}", accessIdentifier);
 						return null;
 					}
 
@@ -540,6 +547,9 @@ namespace Tgstation.Server.Host.Components
 			ArgumentNullException.ThrowIfNull(bridgeHandler);
 
 			var accessIdentifier = bridgeHandler.DMApiParameters.AccessIdentifier;
+			if (accessIdentifier == null)
+				throw new InvalidOperationException("Attempted bridge registration with null AccessIdentifier!");
+
 			lock (bridgeHandlers)
 			{
 				bridgeHandlers.Add(accessIdentifier, bridgeHandler);

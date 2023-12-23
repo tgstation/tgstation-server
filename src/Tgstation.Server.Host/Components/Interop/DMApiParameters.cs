@@ -1,7 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-#nullable disable
-
 namespace Tgstation.Server.Host.Components.Interop
 {
 	/// <summary>
@@ -13,6 +11,6 @@ namespace Tgstation.Server.Host.Components.Interop
 		/// Used to identify and authenticate the DreamDaemon instance.
 		/// </summary>
 		[Required]
-		public string AccessIdentifier { get; set; }
+		public string? AccessIdentifier { get; set; }
 	}
 }
