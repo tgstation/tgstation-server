@@ -108,7 +108,7 @@ namespace Tgstation.Server.Host.Components.Engine
 			IDmbProvider dmbProvider,
 			IReadOnlyDictionary<string, string> parameters,
 			DreamDaemonLaunchParameters launchParameters,
-			string logFilePath)
+			string? logFilePath)
 		{
 			ArgumentNullException.ThrowIfNull(dmbProvider);
 			ArgumentNullException.ThrowIfNull(parameters);

@@ -64,7 +64,7 @@ namespace Tgstation.Server.Host.Components.Engine
 			IDmbProvider dmbProvider,
 			IReadOnlyDictionary<string, string> parameters,
 			DreamDaemonLaunchParameters launchParameters,
-			string logFilePath);
+			string? logFilePath);
 
 		/// <inheritdoc />
 		public virtual async ValueTask StopServerProcess(ILogger logger, IProcess process, string accessIdentifier, ushort port, CancellationToken cancellationToken)

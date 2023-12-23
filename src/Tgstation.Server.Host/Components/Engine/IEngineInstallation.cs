@@ -9,8 +9,6 @@ using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Host.Components.Deployment;
 using Tgstation.Server.Host.System;
 
-#nullable disable
-
 namespace Tgstation.Server.Host.Components.Engine
 {
 	/// <summary>
@@ -65,7 +63,7 @@ namespace Tgstation.Server.Host.Components.Engine
 			IDmbProvider dmbProvider,
 			IReadOnlyDictionary<string, string> parameters,
 			DreamDaemonLaunchParameters launchParameters,
-			string logFilePath);
+			string? logFilePath);
 
 		/// <summary>
 		/// Return the command line arguments for compiling a given <paramref name="dmePath"/> if compilation is necessary.

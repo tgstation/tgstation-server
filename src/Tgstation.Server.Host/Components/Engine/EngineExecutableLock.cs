@@ -44,7 +44,7 @@ namespace Tgstation.Server.Host.Components.Engine
 			IDmbProvider dmbProvider,
 			IReadOnlyDictionary<string, string> parameters,
 			DreamDaemonLaunchParameters launchParameters,
-			string logFilePath)
+			string? logFilePath)
 			=> Instance.FormatServerArguments(
 				dmbProvider,
 				parameters,
