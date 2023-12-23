@@ -546,10 +546,8 @@ namespace Tgstation.Server.Host.Components
 		{
 			ArgumentNullException.ThrowIfNull(bridgeHandler);
 
-			var accessIdentifier = bridgeHandler.DMApiParameters.AccessIdentifier;
-			if (accessIdentifier == null)
-				throw new InvalidOperationException("Attempted bridge registration with null AccessIdentifier!");
-
+			var accessIdentifier = bridgeHandler.DMApiParameters.AccessIdentifier
+				?? throw new InvalidOperationException("Attempted bridge registration with null AccessIdentifier!");
 			lock (bridgeHandlers)
 			{
 				bridgeHandlers.Add(accessIdentifier, bridgeHandler);
