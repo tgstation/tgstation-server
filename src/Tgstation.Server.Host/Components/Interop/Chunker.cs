@@ -7,8 +7,6 @@ using Microsoft.Extensions.Logging;
 
 using Newtonsoft.Json;
 
-#nullable disable
-
 namespace Tgstation.Server.Host.Components.Interop
 {
 	/// <summary>
@@ -16,6 +14,11 @@ namespace Tgstation.Server.Host.Components.Interop
 	/// </summary>
 	abstract class Chunker
 	{
+		/// <summary>
+		/// The <see cref="ILogger"/> for the <see cref="Chunker"/>.
+		/// </summary>
+		protected ILogger<Chunker> Logger { get; }
+
 		/// <summary>
 		/// Gets a payload ID for use in a new <see cref="ChunkSetInfo"/>.
 		/// </summary>
@@ -42,11 +45,6 @@ namespace Tgstation.Server.Host.Components.Interop
 		uint highestSeenPayloadId;
 
 		/// <summary>
-		/// The <see cref="ILogger"/> for the <see cref="Chunker"/>.
-		/// </summary>
-		protected ILogger<Chunker> Logger { get; }
-
-		/// <summary>
 		/// Initializes a new instance of the <see cref="Chunker"/> class.
 		/// </summary>
 		/// <param name="logger">The value of <see cref="Logger"/>.</param>
@@ -67,7 +65,7 @@ namespace Tgstation.Server.Host.Components.Interop
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <typeparamref name="TResponse"/> for the chunked request.</returns>
 		protected async ValueTask<TResponse> ProcessChunk<TCommunication, TResponse>(
-			Func<TCommunication, CancellationToken, ValueTask<TResponse>> completionCallback,
+			Func<TCommunication?, CancellationToken, ValueTask<TResponse>> completionCallback,
 			Func<string, TResponse> chunkErrorCallback,
 			ChunkData chunk,
 			CancellationToken cancellationToken)
@@ -81,6 +79,9 @@ namespace Tgstation.Server.Host.Components.Interop
 
 			if (!chunk.SequenceId.HasValue)
 				return chunkErrorCallback("Missing chunk sequenceId!");
+
+			if (chunk.Payload == null)
+				return chunkErrorCallback("Missing chunk payload!");
 
 			ChunkSetInfo requestInfo;
 			string[] payloads;
@@ -104,13 +105,13 @@ namespace Tgstation.Server.Host.Components.Interop
 
 				if (chunk.TotalChunks != requestInfo.TotalChunks)
 				{
-					chunkSets.Remove(requestInfo.PayloadId.Value);
+					chunkSets.Remove(requestInfo.PayloadId!.Value);
 					return chunkErrorCallback("Received differing total chunks for same payloadId! Invalidating payloadId!");
 				}
 
 				if (payloads[chunk.SequenceId.Value] != null && payloads[chunk.SequenceId.Value] != chunk.Payload)
 				{
-					chunkSets.Remove(requestInfo.PayloadId.Value);
+					chunkSets.Remove(requestInfo.PayloadId!.Value);
 					return chunkErrorCallback("Received differing payload for same sequenceId! Invalidating payloadId!");
 				}
 
@@ -127,10 +128,10 @@ namespace Tgstation.Server.Host.Components.Interop
 					};
 
 				Logger.LogTrace("Received all chunks for P{payloadId}, processing request...", requestInfo.PayloadId);
-				chunkSets.Remove(requestInfo.PayloadId.Value);
+				chunkSets.Remove(requestInfo.PayloadId!.Value);
 			}
 
-			TCommunication completedCommunication;
+			TCommunication? completedCommunication;
 			var fullCommunicationJson = String.Concat(payloads);
 			try
 			{
