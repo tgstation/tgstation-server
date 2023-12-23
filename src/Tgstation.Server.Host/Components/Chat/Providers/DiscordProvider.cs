@@ -218,6 +218,22 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			var channelsClient = serviceProvider.GetRequiredService<IDiscordRestChannelAPI>();
 			async ValueTask SendToChannel(Snowflake channelId)
 			{
+				if (message.Text == null)
+				{
+					Logger.LogWarning(
+						"Failed to send to channel {channelId}: Message was null!",
+						channelId);
+
+					await channelsClient.CreateMessageAsync(
+						channelId,
+						"TGS: Could not send message to Discord. Message was `null`!",
+						messageReference: replyToReference,
+						allowedMentions: allowedMentions,
+						ct: cancellationToken);
+
+					return;
+				}
+
 				var result = await channelsClient.CreateMessageAsync(
 					channelId,
 					message.Text,
@@ -940,7 +956,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// <param name="embed">The <see cref="ChatEmbed"/> to convert.</param>
 		/// <returns>The parameter for sending a single <see cref="IEmbed"/>.</returns>
 #pragma warning disable CA1502
-		Optional<IReadOnlyList<IEmbed>> ConvertEmbed(ChatEmbed embed)
+		Optional<IReadOnlyList<IEmbed>> ConvertEmbed(ChatEmbed? embed)
 		{
 			if (embed == null)
 				return default;

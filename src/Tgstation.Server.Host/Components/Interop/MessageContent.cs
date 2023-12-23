@@ -1,6 +1,4 @@
-﻿#nullable disable
-
-namespace Tgstation.Server.Host.Components.Interop
+﻿namespace Tgstation.Server.Host.Components.Interop
 {
 	/// <summary>
 	/// Represents a message to send to a chat provider.
@@ -10,11 +8,11 @@ namespace Tgstation.Server.Host.Components.Interop
 		/// <summary>
 		/// The message <see cref="string"/>.
 		/// </summary>
-		public string Text { get; set; }
+		public string? Text { get; set; }
 
 		/// <summary>
 		/// The <see cref="ChatEmbed"/>.
 		/// </summary>
-		public ChatEmbed Embed { get; set; }
+		public ChatEmbed? Embed { get; set; }
 	}
 }
