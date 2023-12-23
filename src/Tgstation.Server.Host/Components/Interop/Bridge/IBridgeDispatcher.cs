@@ -1,8 +1,6 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 
-#nullable disable
-
 namespace Tgstation.Server.Host.Components.Interop.Bridge
 {
 	/// <summary>
@@ -16,6 +14,6 @@ namespace Tgstation.Server.Host.Components.Interop.Bridge
 		/// <param name="parameters">The <see cref="BridgeParameters"/> to handle.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="BridgeResponse"/> for the request or <see langword="null"/> if the request could not be dispatched.</returns>
-		ValueTask<BridgeResponse> ProcessBridgeRequest(BridgeParameters parameters, CancellationToken cancellationToken);
+		ValueTask<BridgeResponse?> ProcessBridgeRequest(BridgeParameters parameters, CancellationToken cancellationToken);
 	}
 }
