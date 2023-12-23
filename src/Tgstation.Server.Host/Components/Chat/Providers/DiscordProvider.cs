@@ -1052,7 +1052,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 					}
 					: default,
 				Image = embed.Image != null
-					? new EmbedImage(embed.Image.Url)
+					? new EmbedImage(embed.Image.Url!)
 					{
 						Width = embed.Image.Width ?? default(Optional<int>),
 						Height = embed.Image.Height ?? default(Optional<int>),
@@ -1067,7 +1067,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 					}
 					: default(Optional<IEmbedProvider>),
 				Thumbnail = embed.Thumbnail != null
-					? new EmbedThumbnail(embed.Thumbnail.Url)
+					? new EmbedThumbnail(embed.Thumbnail.Url!)
 					{
 						Width = embed.Thumbnail.Width ?? default(Optional<int>),
 						Height = embed.Thumbnail.Height ?? default(Optional<int>),
