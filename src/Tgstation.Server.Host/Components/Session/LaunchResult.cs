@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Globalization;
 
-#nullable disable
-
 namespace Tgstation.Server.Host.Components.Session
 {
 	/// <summary>
@@ -13,12 +11,12 @@ namespace Tgstation.Server.Host.Components.Session
 		/// <summary>
 		/// The time it took for <see cref="global::System.Diagnostics.Process.WaitForInputIdle()"/> to return or the initial bridge request to process. If <see langword="null"/> the startup timed out.
 		/// </summary>
-		public TimeSpan? StartupTime { get; set; }
+		public TimeSpan? StartupTime { get; init; }
 
 		/// <summary>
 		/// The <see cref="global::System.Diagnostics.Process.ExitCode"/> if it exited.
 		/// </summary>
-		public int? ExitCode { get; set; }
+		public int? ExitCode { get; init; }
 
 		/// <inheritdoc />
 		public override string ToString() => String.Format(CultureInfo.InvariantCulture, "Exit Code: {0}, Time {1}ms", ExitCode, StartupTime?.TotalMilliseconds);
