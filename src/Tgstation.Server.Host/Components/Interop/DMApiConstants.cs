@@ -6,8 +6,6 @@ using Newtonsoft.Json.Serialization;
 using Tgstation.Server.Host.Extensions.Converters;
 using Tgstation.Server.Host.Properties;
 
-#nullable disable
-
 namespace Tgstation.Server.Host.Components.Interop
 {
 	/// <summary>
@@ -42,12 +40,12 @@ namespace Tgstation.Server.Host.Components.Interop
 		public const uint MaximumBridgeRequestLength = 8198;
 
 		/// <summary>
-		/// The maximum length in bytes of a <see cref="global::Byond.TopicSender.ITopicClient"/> payload.
+		/// The maximum length in bytes of a <see cref="Byond.TopicSender.ITopicClient"/> payload.
 		/// </summary>
 		public const uint MaximumTopicRequestLength = 65528;
 
 		/// <summary>
-		/// The maximum length in bytes of a <see cref="global::Byond.TopicSender.ITopicClient"/> response.
+		/// The maximum length in bytes of a <see cref="Byond.TopicSender.ITopicClient"/> response.
 		/// </summary>
 		public const uint MaximumTopicResponseLength = 65529;
 
