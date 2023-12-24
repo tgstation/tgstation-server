@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.18.2</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.0.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -314,7 +314,7 @@ Here is the call graph for this function:</div>
 <div class="line"><span class="lineno">   78</span>                <span class="keywordflow">case</span> <span class="stringliteral">&quot;GIT.GITLAB.COM&quot;</span>:</div>
 <div class="line"><span class="lineno">   79</span>                    <span class="keywordflow">return</span> <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#aaff5188f30ee5c04c081684eb9672f17">RemoteGitProvider</a>.GitLab;</div>
 <div class="line"><span class="lineno">   80</span>                <span class="keywordflow">default</span>:</div>
-<div class="line"><span class="lineno">   81</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_git_remote_features_factory.html#a590455e46a1b07cc20bbc598a9f70c48">logger</a>.LogTrace(<span class="stringliteral">&quot;Unknown git remote: {0}&quot;</span>, origin);</div>
+<div class="line"><span class="lineno">   81</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_git_remote_features_factory.html#a590455e46a1b07cc20bbc598a9f70c48">logger</a>.LogDebug(<span class="stringliteral">&quot;Unknown git remote: {origin}&quot;</span>, origin);</div>
 <div class="line"><span class="lineno">   82</span>                    <span class="keywordflow">return</span> <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#aaff5188f30ee5c04c081684eb9672f17">RemoteGitProvider</a>.Unknown;</div>
 <div class="line"><span class="lineno">   83</span>            }</div>
 <div class="line"><span class="lineno">   84</span>        }</div>

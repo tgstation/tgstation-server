@@ -1,10 +1,10 @@
 <map id="Tgstation.Server.Host.Components.Session.SessionControllerFactory" name="Tgstation.Server.Host.Components.Session.SessionControllerFactory">
 <area shape="rect" id="node1" title=" " alt="" coords="975,571,1201,611"/>
 <area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_i_session_controller_factory.html" title="Factory for ISessionControllers." alt="" coords="555,11,725,36"/>
-<area shape="rect" id="node3" title=" " alt="" coords="207,80,262,105"/>
+<area shape="rect" id="node3" title=" " alt="" coords="190,80,279,105"/>
 <area shape="rect" id="node23" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_session_configuration.html" title="Configuration options for the game sessions." alt="" coords="525,123,755,163"/>
 <area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_executor.html" title="For launching IProcess&#39;." alt="" coords="541,187,739,227"/>
-<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_i_byond_manager.html" title="For managing the BYOND installation." alt="" coords="527,315,753,355"/>
+<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_manager.html" title="For managing the engine installations." alt="" coords="527,315,753,355"/>
 <area shape="rect" id="node6" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_component_service.html" title="Represents a component meant to be started and stopped by its parent component." alt="" coords="167,291,303,316"/>
 <area shape="rect" id="node13" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager.html" title="For managing connected chat services." alt="" coords="527,251,753,291"/>
 <area shape="rect" id="node7" href="$class_i_hosted_service.html" title=" " alt="" coords="5,291,117,316"/>

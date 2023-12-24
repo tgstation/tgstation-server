@@ -1,5 +1,5 @@
 <map id="Tgstation.Server.Host.Components.Deployment.DmbFactory.DeleteCompileJobContent" name="Tgstation.Server.Host.Components.Deployment.DmbFactory.DeleteCompileJobContent">
 <area shape="rect" id="node1" title="Handles cleaning the resources of a CompileJob." alt="" coords="5,30,256,85"/>
 <area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ad3e0dda4b7fbad4c77f48ba3b2681dc7" title="Recursively delete a directory, removes and does not enter any symlinks encounterd." alt="" coords="333,5,514,45"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html#a7a338bb40621b86f0e88674a193f144f" title="Handle a given eventType ." alt="" coords="304,69,543,109"/>
+<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html#a564f82eb43566dabd77e37191b4e3d37" title="Handle a given eventType ." alt="" coords="304,69,543,109"/>
 </map>

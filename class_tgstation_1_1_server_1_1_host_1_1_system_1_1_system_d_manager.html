@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.18.2</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.0.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -109,7 +109,7 @@ Collaboration diagram for Tgstation.Server.Host.System.SystemDManager:</div>
 <area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_restart_handler.html" title="Handler for server restarts." alt="" coords="264,55,377,80"/>
 <area shape="rect" href="class_i_disposable.html" title=" " alt="" coords="29,123,120,148"/>
 <area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_restart_registration.html" title="Represents the lifetime of a IRestartHandler registration." alt="" coords="230,155,411,195"/>
-<area shape="rect" title=" " alt="" coords="293,220,348,245"/>
+<area shape="rect" title=" " alt="" coords="276,220,365,245"/>
 <area shape="rect" title=" " alt="" coords="236,270,405,310"/>
 <area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_manager.html" title="For managing IInstances." alt="" coords="207,334,434,374"/>
 <area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_operations.html" title="Operations that can be performed on a given Models.Instance." alt="" coords="5,317,144,343"/>
@@ -126,8 +126,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a6f58815e073d27699e473c74617f0fdc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa03bf7c23b1ca8beae299f5c358a55ee"><td class="memItemLeft" align="right" valign="top">override void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_system_d_manager.html#aa03bf7c23b1ca8beae299f5c358a55ee">Dispose</a> ()</td></tr>
 <tr class="separator:aa03bf7c23b1ca8beae299f5c358a55ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aeb01775289ed2a3bce83a9e30268e5da"><td class="memItemLeft" align="right" valign="top">ValueTask&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_system_d_manager.html#aeb01775289ed2a3bce83a9e30268e5da">HandleRestart</a> (Version updateVersion, bool handlerMayDelayShutdownWithExtremelyLongRunningTasks, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:aeb01775289ed2a3bce83a9e30268e5da"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handle a restart of the server. <dl class="params"><dt>Parameters</dt><dd>
+<tr class="memitem:a729a7b49b44d5f74f7dbc0d2d9c1ae7d"><td class="memItemLeft" align="right" valign="top">ValueTask&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_system_d_manager.html#a729a7b49b44d5f74f7dbc0d2d9c1ae7d">HandleRestart</a> (Version? updateVersion, bool handlerMayDelayShutdownWithExtremelyLongRunningTasks, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a729a7b49b44d5f74f7dbc0d2d9c1ae7d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handle a restart of the server. <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">updateVersion</td><td>The Version being updated to, <code>null</code> if not being changed.</td></tr>
     <tr><td class="paramname">handlerMayDelayShutdownWithExtremelyLongRunningTasks</td><td>If <code>false</code> the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_restart_handler.html" title="Handler for server restarts.">IRestartHandler</a> should aim to complete the Task returned from this function ASAP.</td></tr>
@@ -136,11 +136,11 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A ValueTask representing the running operation.</dd></dl>
-  <a href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_system_d_manager.html#aeb01775289ed2a3bce83a9e30268e5da">More...</a><br /></td></tr>
-<tr class="separator:aeb01775289ed2a3bce83a9e30268e5da"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a599c07577acdbea19a8eeb83304fdece"><td class="memItemLeft" align="right" valign="top">ValueTask&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_restart_handler.html#a599c07577acdbea19a8eeb83304fdece">HandleRestart</a> (Version updateVersion, bool handlerMayDelayShutdownWithExtremelyLongRunningTasks, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a599c07577acdbea19a8eeb83304fdece"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handle a restart of the server.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_restart_handler.html#a599c07577acdbea19a8eeb83304fdece">More...</a><br /></td></tr>
-<tr class="separator:a599c07577acdbea19a8eeb83304fdece"><td class="memSeparator" colspan="2">&#160;</td></tr>
+  <a href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_system_d_manager.html#a729a7b49b44d5f74f7dbc0d2d9c1ae7d">More...</a><br /></td></tr>
+<tr class="separator:a729a7b49b44d5f74f7dbc0d2d9c1ae7d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a876fb70e47b6d6c39d7016b0b77d5f75"><td class="memItemLeft" align="right" valign="top">ValueTask&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_restart_handler.html#a876fb70e47b6d6c39d7016b0b77d5f75">HandleRestart</a> (Version? updateVersion, bool handlerMayDelayShutdownWithExtremelyLongRunningTasks, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a876fb70e47b6d6c39d7016b0b77d5f75"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handle a restart of the server.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_restart_handler.html#a876fb70e47b6d6c39d7016b0b77d5f75">More...</a><br /></td></tr>
+<tr class="separator:a876fb70e47b6d6c39d7016b0b77d5f75"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pro-methods" name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
@@ -393,13 +393,14 @@ Here is the call graph for this function:</div>
 <div class="line"><span class="lineno">  166</span>            {</div>
 <div class="line"><span class="lineno">  167</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_system_d_manager.html#a645054dbca104fe9f1ff3bec5b1b3ce9">logger</a>.LogTrace(ex, <span class="stringliteral">&quot;Watchdog loop cancelled!&quot;</span>);</div>
 <div class="line"><span class="lineno">  168</span>            }</div>
-<div class="line"><span class="lineno">  169</span>            <span class="keywordflow">catch</span> (Exception ex)</div>
+<div class="line"><span class="lineno">  169</span>            <span class="keywordflow">catch</span> (<a class="code hl_class" href="class_exception.html">Exception</a> ex)</div>
 <div class="line"><span class="lineno">  170</span>            {</div>
 <div class="line"><span class="lineno">  171</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_system_d_manager.html#a645054dbca104fe9f1ff3bec5b1b3ce9">logger</a>.LogError(ex, <span class="stringliteral">&quot;Watchdog loop crashed!&quot;</span>);</div>
 <div class="line"><span class="lineno">  172</span>            }</div>
 <div class="line"><span class="lineno">  173</span> </div>
 <div class="line"><span class="lineno">  174</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_system_d_manager.html#a645054dbca104fe9f1ff3bec5b1b3ce9">logger</a>.LogDebug(<span class="stringliteral">&quot;Exited watchdog loop&quot;</span>);</div>
 <div class="line"><span class="lineno">  175</span>        }</div>
+<div class="ttc" id="aclass_exception_html"><div class="ttname"><a href="class_exception.html">Exception</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_system_1_1_system_d_manager_html_a7326ada5fcd6a23c94116325b799f327"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_system_d_manager.html#a7326ada5fcd6a23c94116325b799f327">Tgstation.Server.Host.System.SystemDManager.SDNotifyWatchdog</a></div><div class="ttdeci">const string SDNotifyWatchdog</div><div class="ttdoc">The sd_notify command for notifying the watchdog we are alive.</div><div class="ttdef"><b>Definition:</b> <a href="_system_d_manager_8cs_source.html#l00024">SystemDManager.cs:24</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_system_1_1_system_d_manager_html_a7d5659d722a690da2b6fe6b243648f87"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_system_d_manager.html#a7d5659d722a690da2b6fe6b243648f87">Tgstation.Server.Host.System.SystemDManager.restartInProgress</a></div><div class="ttdeci">bool restartInProgress</div><div class="ttdoc">If TGS is going to restart.</div><div class="ttdef"><b>Definition:</b> <a href="_system_d_manager_8cs_source.html#l00049">SystemDManager.cs:49</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_system_1_1_system_d_manager_html_ae11ee32aa27a117987d833967fd14b11"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_system_d_manager.html#ae11ee32aa27a117987d833967fd14b11">Tgstation.Server.Host.System.SystemDManager.SendSDNotify</a></div><div class="ttdeci">bool SendSDNotify(string command)</div><div class="ttdoc">Send a sd_notify command .</div><div class="ttdef"><b>Definition:</b> <a href="_system_d_manager_8cs_source.html#l00182">SystemDManager.cs:182</a></div></div>
@@ -448,8 +449,8 @@ Here is the call graph for this function:</div>
 
 </div>
 </div>
-<a id="aeb01775289ed2a3bce83a9e30268e5da" name="aeb01775289ed2a3bce83a9e30268e5da"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aeb01775289ed2a3bce83a9e30268e5da">&#9670;&#160;</a></span>HandleRestart()</h2>
+<a id="a729a7b49b44d5f74f7dbc0d2d9c1ae7d" name="a729a7b49b44d5f74f7dbc0d2d9c1ae7d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a729a7b49b44d5f74f7dbc0d2d9c1ae7d">&#9670;&#160;</a></span>HandleRestart()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -457,7 +458,7 @@ Here is the call graph for this function:</div>
         <tr>
           <td class="memname">ValueTask Tgstation.Server.Host.System.SystemDManager.HandleRestart </td>
           <td>(</td>
-          <td class="paramtype">Version&#160;</td>
+          <td class="paramtype">Version?&#160;</td>
           <td class="paramname"><em>updateVersion</em>, </td>
         </tr>
         <tr>
@@ -491,7 +492,7 @@ Here is the call graph for this function:</div>
 <dl class="section return"><dt>Returns</dt><dd>A ValueTask representing the running operation.</dd></dl>
  </p>
 
-<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_restart_handler.html#a599c07577acdbea19a8eeb83304fdece">Tgstation.Server.Host.Core.IRestartHandler</a>.</p>
+<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_restart_handler.html#a876fb70e47b6d6c39d7016b0b77d5f75">Tgstation.Server.Host.Core.IRestartHandler</a>.</p>
 
 <p class="definition">Definition at line <a class="el" href="_system_d_manager_8cs_source.html#l00089">89</a> of file <a class="el" href="_system_d_manager_8cs_source.html">SystemDManager.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   90</span>        {</div>
@@ -545,7 +546,7 @@ Here is the call graph for this function:</div>
 <div class="line"><span class="lineno">  187</span>            {</div>
 <div class="line"><span class="lineno">  188</span>                result = NativeMethods.sd_notify(0, command);</div>
 <div class="line"><span class="lineno">  189</span>            }</div>
-<div class="line"><span class="lineno">  190</span>            <span class="keywordflow">catch</span> (Exception ex)</div>
+<div class="line"><span class="lineno">  190</span>            <span class="keywordflow">catch</span> (<a class="code hl_class" href="class_exception.html">Exception</a> ex)</div>
 <div class="line"><span class="lineno">  191</span>            {</div>
 <div class="line"><span class="lineno">  192</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_system_d_manager.html#a645054dbca104fe9f1ff3bec5b1b3ce9">logger</a>.LogInformation(ex, <span class="stringliteral">&quot;Exception attempting to invoke sd_notify!&quot;</span>);</div>
 <div class="line"><span class="lineno">  193</span>                <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>

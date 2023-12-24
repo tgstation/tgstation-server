@@ -1,7 +1,0 @@
-<map id="Tgstation.Server.Host.Components.InstanceManager.OfflineInstance" name="Tgstation.Server.Host.Components.InstanceManager.OfflineInstance">
-<area shape="rect" id="node1" title=" " alt="" coords="5,101,232,141"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html#a2ba74523096516f2790a792c9f6bc094" title="Cancels a give job ." alt="" coords="308,5,491,45"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html#a29773d588476671bbe480f096d839c91" title="Asyncronously locks a semaphore ." alt="" coords="304,69,495,109"/>
-<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_factory.html#a1da664d7237dbec5a6cb9ce04b79ccc1" title="Run an operation &#160;in the scope of an IDatabaseContext." alt="" coords="280,133,519,173"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_common_1_1_extensions_1_1_value_task_extensions.html#a58adbd94d764754bd3e6c566a5fe7fe3" title="Fully await a given list of tasks ." alt="" coords="291,198,507,253"/>
-</map>

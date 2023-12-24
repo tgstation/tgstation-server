@@ -1,8 +1,5 @@
 <map id="Tgstation.Server.Host.Models.TestMerge.ToApi" name="Tgstation.Server.Host.Models.TestMerge.ToApi">
-<area shape="rect" id="node1" title=" " alt="" coords="777,69,973,109"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_revision_information.html#a8e6f5b4375c0594f10c413c4119515b1" title=" " alt="" coords="533,69,729,109"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#a16cc955ac08b286dc475b60b045d63e0" title="Populate a given apiResponse &#160;with the current state of a given repository ." alt="" coords="269,37,485,77"/>
-<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_compile_job.html#a4b92dec44bb4d23b320ea6a17263308e" title=" " alt="" coords="279,101,475,141"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#a193a9906e18dd87c1f5d730bcd6f5613" title="Get the repository&#39;s status." alt="" coords="5,5,221,45"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#ac4cbbd1105362b5a24122cac252143af" title="Perform updates to the repository." alt="" coords="5,69,221,109"/>
+<area shape="rect" id="node1" title=" " alt="" coords="493,5,689,45"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_revision_information.html#a8e6f5b4375c0594f10c413c4119515b1" title=" " alt="" coords="249,5,445,45"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_compile_job.html#a4b92dec44bb4d23b320ea6a17263308e" title=" " alt="" coords="5,5,201,45"/>
 </map>

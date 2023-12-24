@@ -1,9 +1,0 @@
-<map id="Tgstation.Server.Host.Components.Session.SessionControllerFactory.CreateDreamDaemonProcess" name="Tgstation.Server.Host.Components.Session.SessionControllerFactory.CreateDreamDaemonProcess">
-<area shape="rect" id="node1" title="Creates the DreamDaemon IProcess." alt="" coords="5,158,264,213"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_base.html#a9d860a501568835fac115772ee87902d" title="Set&#39;s the owned global::System.Diagnostics.Process.PriorityClass to a non&#45;normal value." alt="" coords="362,5,561,45"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html#a7a338bb40621b86f0e88674a193f144f" title="Handle a given eventType ." alt="" coords="342,69,581,109"/>
-<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_executor.html#a5e48f8c3170b82398e88c55724c3941a" title="Launch a IProcess." alt="" coords="352,133,571,173"/>
-<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_network_prompt_reaper.html#a3493714e50b54482ee2739479cf02d56" title="Register a given process &#160;for network prompt reaping." alt="" coords="333,197,590,237"/>
-<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller_factory.html#a25959f5d45d10e44c570751a957a3f43" title="Change a given securityLevel &#160;into the appropriate DreamDaemon command line word." alt="" coords="313,261,610,301"/>
-<area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller_factory.html#a828fe95e7e9440cadd1ab7f3cb0ca715" title="Change a given visibility &#160;into the appropriate DreamDaemon command line word." alt="" coords="312,325,611,365"/>
-</map>

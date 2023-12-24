@@ -4,6 +4,6 @@
 <area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#ac4194e4d0fb3cad95550e55859228529" title="Set serversDirty and complete the current forceHealthCheckTcs." alt="" coords="248,149,459,189"/>
 <area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a2d25eadf43c0a581335ab5f4dba51e5f" title="Sends out remote abort update requests." alt="" coords="507,85,735,125"/>
 <area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_common_1_1_http_1_1_i_abstract_http_client_factory.html#a668eebb48c5c60a848376d9a00a9ecc9" title="Create a IHttpClient." alt="" coords="801,5,1008,60"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a82eee947c75e6a064ead15845d08f4fb" title="Prepares a HttpRequestMessage for swarm communication." alt="" coords="783,85,1027,125"/>
+<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#aa9e9a887a475c9bbb5f90ae89867b350" title="Prepares a HttpRequestMessage for swarm communication." alt="" coords="783,85,1027,125"/>
 <area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_common_1_1_extensions_1_1_value_task_extensions.html#a58adbd94d764754bd3e6c566a5fe7fe3" title="Fully await a given list of tasks ." alt="" coords="797,149,1013,204"/>
 </map>

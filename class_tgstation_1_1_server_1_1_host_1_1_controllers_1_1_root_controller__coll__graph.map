@@ -1,0 +1,15 @@
+<map id="Tgstation.Server.Host.Controllers.RootController" name="Tgstation.Server.Host.Controllers.RootController">
+<area shape="rect" id="node1" title="The root path Controller." alt="" coords="873,245,1089,285"/>
+<area shape="rect" id="node2" href="$class_controller.html" title=" " alt="" coords="489,5,566,31"/>
+<area shape="rect" id="node3" title=" " alt="" coords="38,107,127,132"/>
+<area shape="rect" id="node8" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html" title="General configuration options." alt="" coords="413,213,642,253"/>
+<area shape="rect" id="node13" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_control_panel_configuration.html" title="Configuration options for the web control panel." alt="" coords="413,143,642,183"/>
+<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_assembly_information_provider.html" title="For retrieving the Assembly&#39;s location." alt="" coords="428,277,627,317"/>
+<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_platform_identifier.html" title="For identifying the current platform." alt="" coords="428,341,627,381"/>
+<area shape="rect" id="node6" title=" " alt="" coords="426,405,629,431"/>
+<area shape="rect" id="node7" title=" " alt="" coords="401,455,653,495"/>
+<area shape="rect" id="node9" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_server_information_base.html" title="Base class for Response.ServerInformationResponse." alt="" coords="5,219,160,244"/>
+<area shape="rect" id="node10" title=" " alt="" coords="36,268,129,293"/>
+<area shape="rect" id="node11" title=" " alt="" coords="61,393,104,419"/>
+<area shape="rect" id="node12" title=" " alt="" coords="7,443,159,468"/>
+</map>

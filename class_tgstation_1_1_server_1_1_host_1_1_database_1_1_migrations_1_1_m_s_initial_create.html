@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.18.2</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.0.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -1110,7 +1110,7 @@ Protected Member Functions</h2></td></tr>
 <div class="line"><span class="lineno">  214</span>                {</div>
 <div class="line"><span class="lineno">  215</span>                    UserId = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">false</span>),</div>
 <div class="line"><span class="lineno">  216</span>                    InstanceUserRights = table.Column&lt;decimal&gt;(nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">  217</span>                    <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a2a217a19e652f117e2324fb79ed838b9">ByondRights</a> = table.Column&lt;decimal&gt;(nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">  217</span>                    ByondRights = table.Column&lt;decimal&gt;(nullable: <span class="keyword">false</span>),</div>
 <div class="line"><span class="lineno">  218</span>                    DreamDaemonRights = table.Column&lt;decimal&gt;(nullable: <span class="keyword">false</span>),</div>
 <div class="line"><span class="lineno">  219</span>                    <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a6aac419b6a793fe07657d96ac48dee5d">DreamMakerRights</a> = table.Column&lt;decimal&gt;(nullable: <span class="keyword">false</span>),</div>
 <div class="line"><span class="lineno">  220</span>                    RepositoryRights = table.Column&lt;decimal&gt;(nullable: <span class="keyword">false</span>),</div>
@@ -1485,7 +1485,6 @@ Protected Member Functions</h2></td></tr>
 <div class="line"><span class="lineno">  589</span>                principalColumn: <span class="stringliteral">&quot;Id&quot;</span>,</div>
 <div class="line"><span class="lineno">  590</span>                onDelete: ReferentialAction.Restrict);</div>
 <div class="line"><span class="lineno">  591</span>        }</div>
-<div class="ttc" id="anamespace_tgstation_1_1_server_1_1_api_1_1_rights_html_a2a217a19e652f117e2324fb79ed838b9"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a2a217a19e652f117e2324fb79ed838b9">Tgstation.Server.Api.Rights.ByondRights</a></div><div class="ttdeci">ByondRights</div><div class="ttdoc">Rights for BYOND version management.</div><div class="ttdef"><b>Definition:</b> <a href="_byond_rights_8cs_source.html#l00009">ByondRights.cs:10</a></div></div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_api_1_1_rights_html_a580a36a11165b2590be342b45c31ec72"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a580a36a11165b2590be342b45c31ec72">Tgstation.Server.Api.Rights.ChatBotRights</a></div><div class="ttdeci">ChatBotRights</div><div class="ttdoc">Rights for chat bots.</div><div class="ttdef"><b>Definition:</b> <a href="_chat_bot_rights_8cs_source.html#l00009">ChatBotRights.cs:10</a></div></div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_api_1_1_rights_html_a6aac419b6a793fe07657d96ac48dee5d"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a6aac419b6a793fe07657d96ac48dee5d">Tgstation.Server.Api.Rights.DreamMakerRights</a></div><div class="ttdeci">DreamMakerRights</div><div class="ttdoc">Rights for deployment.</div><div class="ttdef"><b>Definition:</b> <a href="_dream_maker_rights_8cs_source.html#l00009">DreamMakerRights.cs:10</a></div></div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_api_1_1_rights_html_affda1440f9c5e2dfcca65138d2f89a21"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#affda1440f9c5e2dfcca65138d2f89a21">Tgstation.Server.Api.Rights.AdministrationRights</a></div><div class="ttdeci">AdministrationRights</div><div class="ttdoc">Administration rights for the server.</div><div class="ttdef"><b>Definition:</b> <a href="_administration_rights_8cs_source.html#l00009">AdministrationRights.cs:10</a></div></div>

@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.18.2</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.0.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -120,9 +120,9 @@ Private Attributes</h2></td></tr>
 <tr class="memitem:af45daefc08539629fa9bc5cfeb92a981"><td class="memItemLeft" align="right" valign="top">readonly object&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_reference_counting_container.html#af45daefc08539629fa9bc5cfeb92a981">referenceCountLock</a></td></tr>
 <tr class="memdesc:af45daefc08539629fa9bc5cfeb92a981"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>lock</code> object for <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_reference_counting_container.html#a250dd63d9b1bfb47b3814ee791d04c0a" title="Count of active Instances.">referenceCount</a>.   <a href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_reference_counting_container.html#af45daefc08539629fa9bc5cfeb92a981">More...</a><br /></td></tr>
 <tr class="separator:af45daefc08539629fa9bc5cfeb92a981"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a839c2f0fdbd3b238c978709ffda79c76"><td class="memItemLeft" align="right" valign="top">TaskCompletionSource&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_reference_counting_container.html#a839c2f0fdbd3b238c978709ffda79c76">onZeroReferencesTcs</a></td></tr>
-<tr class="memdesc:a839c2f0fdbd3b238c978709ffda79c76"><td class="mdescLeft">&#160;</td><td class="mdescRight">Backing TaskCompletionSource for <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_reference_counting_container.html#aa313916be969b264bc13c54b69976b17" title="A Task that completes when there are no TReference s active for the Instance.">OnZeroReferences</a>.   <a href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_reference_counting_container.html#a839c2f0fdbd3b238c978709ffda79c76">More...</a><br /></td></tr>
-<tr class="separator:a839c2f0fdbd3b238c978709ffda79c76"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0850503053d3a6538454590ab061525a"><td class="memItemLeft" align="right" valign="top">TaskCompletionSource?&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_reference_counting_container.html#a0850503053d3a6538454590ab061525a">onZeroReferencesTcs</a></td></tr>
+<tr class="memdesc:a0850503053d3a6538454590ab061525a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Backing TaskCompletionSource for <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_reference_counting_container.html#aa313916be969b264bc13c54b69976b17" title="A Task that completes when there are no TReference s active for the Instance.">OnZeroReferences</a>.   <a href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_reference_counting_container.html#a0850503053d3a6538454590ab061525a">More...</a><br /></td></tr>
+<tr class="separator:a0850503053d3a6538454590ab061525a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a250dd63d9b1bfb47b3814ee791d04c0a"><td class="memItemLeft" align="right" valign="top">ulong&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_reference_counting_container.html#a250dd63d9b1bfb47b3814ee791d04c0a">referenceCount</a></td></tr>
 <tr class="memdesc:a250dd63d9b1bfb47b3814ee791d04c0a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Count of active <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_reference_counting_container.html#a54d1a80d386b5d827108e8d7d93064c3" title="The TWrapped .">Instance</a>s.   <a href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_reference_counting_container.html#a250dd63d9b1bfb47b3814ee791d04c0a">More...</a><br /></td></tr>
 <tr class="separator:a250dd63d9b1bfb47b3814ee791d04c0a"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -210,7 +210,7 @@ Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">   68</span>            lock (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_reference_counting_container.html#af45daefc08539629fa9bc5cfeb92a981">referenceCountLock</a>)</div>
 <div class="line"><span class="lineno">   69</span>            {</div>
 <div class="line"><span class="lineno">   70</span>                <span class="keywordflow">if</span> (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_reference_counting_container.html#a250dd63d9b1bfb47b3814ee791d04c0a">referenceCount</a>++ == 0)</div>
-<div class="line"><span class="lineno">   71</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_reference_counting_container.html#a839c2f0fdbd3b238c978709ffda79c76">onZeroReferencesTcs</a> = <span class="keyword">new</span> TaskCompletionSource();</div>
+<div class="line"><span class="lineno">   71</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_reference_counting_container.html#a0850503053d3a6538454590ab061525a">onZeroReferencesTcs</a> = <span class="keyword">new</span> TaskCompletionSource();</div>
 <div class="line"><span class="lineno">   72</span> </div>
 <div class="line"><span class="lineno">   73</span>                <span class="keywordflow">try</span></div>
 <div class="line"><span class="lineno">   74</span>                {</div>
@@ -219,7 +219,7 @@ Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">   77</span>                    {</div>
 <div class="line"><span class="lineno">   78</span>                        lock (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_reference_counting_container.html#af45daefc08539629fa9bc5cfeb92a981">referenceCountLock</a>)</div>
 <div class="line"><span class="lineno">   79</span>                            <span class="keywordflow">if</span> (--<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_reference_counting_container.html#a250dd63d9b1bfb47b3814ee791d04c0a">referenceCount</a> == 0)</div>
-<div class="line"><span class="lineno">   80</span>                                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_reference_counting_container.html#a839c2f0fdbd3b238c978709ffda79c76">onZeroReferencesTcs</a>.SetResult();</div>
+<div class="line"><span class="lineno">   80</span>                                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_reference_counting_container.html#a0850503053d3a6538454590ab061525a">onZeroReferencesTcs</a>!.SetResult();</div>
 <div class="line"><span class="lineno">   81</span>                    });</div>
 <div class="line"><span class="lineno">   82</span>                    <span class="keywordflow">return</span> reference;</div>
 <div class="line"><span class="lineno">   83</span>                }</div>
@@ -230,16 +230,29 @@ Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">   88</span>                }</div>
 <div class="line"><span class="lineno">   89</span>            }</div>
 <div class="line"><span class="lineno">   90</span>        }</div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_utils_1_1_reference_counting_container_html_a0850503053d3a6538454590ab061525a"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_reference_counting_container.html#a0850503053d3a6538454590ab061525a">Tgstation.Server.Host.Utils.ReferenceCountingContainer.onZeroReferencesTcs</a></div><div class="ttdeci">TaskCompletionSource? onZeroReferencesTcs</div><div class="ttdoc">Backing TaskCompletionSource for OnZeroReferences.</div><div class="ttdef"><b>Definition:</b> <a href="_reference_counting_container_8cs_source.html#l00044">ReferenceCountingContainer.cs:44</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_utils_1_1_reference_counting_container_html_a250dd63d9b1bfb47b3814ee791d04c0a"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_reference_counting_container.html#a250dd63d9b1bfb47b3814ee791d04c0a">Tgstation.Server.Host.Utils.ReferenceCountingContainer.referenceCount</a></div><div class="ttdeci">ulong referenceCount</div><div class="ttdoc">Count of active Instances.</div><div class="ttdef"><b>Definition:</b> <a href="_reference_counting_container_8cs_source.html#l00049">ReferenceCountingContainer.cs:49</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_utils_1_1_reference_counting_container_html_a839c2f0fdbd3b238c978709ffda79c76"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_reference_counting_container.html#a839c2f0fdbd3b238c978709ffda79c76">Tgstation.Server.Host.Utils.ReferenceCountingContainer.onZeroReferencesTcs</a></div><div class="ttdeci">TaskCompletionSource onZeroReferencesTcs</div><div class="ttdoc">Backing TaskCompletionSource for OnZeroReferences.</div><div class="ttdef"><b>Definition:</b> <a href="_reference_counting_container_8cs_source.html#l00044">ReferenceCountingContainer.cs:44</a></div></div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="_reference_counting_container_8cs_source.html#l00018">Tgstation.Server.Host.Utils.ReferenceCountingContainer&lt; TWrapped, TReference &gt;.Instance</a>, <a class="el" href="_reference_counting_container_8cs_source.html#l00044">Tgstation.Server.Host.Utils.ReferenceCountingContainer&lt; TWrapped, TReference &gt;.onZeroReferencesTcs</a>, <a class="el" href="_reference_counting_container_8cs_source.html#l00049">Tgstation.Server.Host.Utils.ReferenceCountingContainer&lt; TWrapped, TReference &gt;.referenceCount</a>, and <a class="el" href="_reference_counting_container_8cs_source.html#l00039">Tgstation.Server.Host.Utils.ReferenceCountingContainer&lt; TWrapped, TReference &gt;.referenceCountLock</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="_engine_manager_8cs_source.html#l00398">Tgstation.Server.Host.Components.Engine.EngineManager.AssertAndLockVersion()</a>.</p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_reference_counting_container_a1a512890f504f0e2fa9593bbd5ab851f_icgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_utils_1_1_reference_counting_container_a1a512890f504f0e2fa9593bbd5ab851f_icgraph" alt=""/></div>
+<map name="aclass_tgstation_1_1_server_1_1_host_1_1_utils_1_1_reference_counting_container_a1a512890f504f0e2fa9593bbd5ab851f_icgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_utils_1_1_reference_counting_container_a1a512890f504f0e2fa9593bbd5ab851f_icgraph">
+<area shape="rect" title="Create a new TReference &#160;to the Instance." alt="" coords="643,37,915,77"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_manager.html#a3d2a758adff2c72db49e822c8f6ceccf" title="Ensures a BYOND version &#160;is installed if it isn&#39;t already." alt="" coords="304,37,595,77"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_manager.html#ad2cedaccbf100b9dcf3922a9443f8f19" title="Change the active EngineVersion. A ValueTask representing the running operation." alt="" coords="9,5,253,45"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_manager.html#a803c2123e6edceee48d8b4897be532c6" title="Lock the current installation&#39;s location and return a IEngineExecutableLock. A ValueTask&lt;TResult&gt; res..." alt="" coords="5,69,256,109"/>
+</map>
+</div>
 
 </div>
 </div>
 <h2 class="groupheader">Member Data Documentation</h2>
-<a id="a839c2f0fdbd3b238c978709ffda79c76" name="a839c2f0fdbd3b238c978709ffda79c76"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a839c2f0fdbd3b238c978709ffda79c76">&#9670;&#160;</a></span>onZeroReferencesTcs</h2>
+<a id="a0850503053d3a6538454590ab061525a" name="a0850503053d3a6538454590ab061525a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0850503053d3a6538454590ab061525a">&#9670;&#160;</a></span>onZeroReferencesTcs</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -248,7 +261,7 @@ Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">TaskCompletionSource <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_reference_counting_container.html">Tgstation.Server.Host.Utils.ReferenceCountingContainer</a>&lt; TWrapped, TReference &gt;.onZeroReferencesTcs</td>
+          <td class="memname">TaskCompletionSource? <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_reference_counting_container.html">Tgstation.Server.Host.Utils.ReferenceCountingContainer</a>&lt; TWrapped, TReference &gt;.onZeroReferencesTcs</td>
         </tr>
       </table>
   </td>
@@ -348,7 +361,7 @@ Private Attributes</h2></td></tr>
 <p class="definition">Definition at line <a class="el" href="_reference_counting_container_8cs_source.html#l00018">18</a> of file <a class="el" href="_reference_counting_container_8cs_source.html">ReferenceCountingContainer.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   18</span>{ <span class="keyword">get</span>; }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_reference_counting_container_8cs_source.html#l00066">Tgstation.Server.Host.Utils.ReferenceCountingContainer&lt; TWrapped, TReference &gt;.AddReference()</a>, <a class="el" href="_instance_manager_8cs_source.html#l00321">Tgstation.Server.Host.Components.InstanceManager.OfflineInstance()</a>, and <a class="el" href="_reference_counting_container_8cs_source.html#l00055">Tgstation.Server.Host.Utils.ReferenceCountingContainer&lt; TWrapped, TReference &gt;.ReferenceCountingContainer()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_reference_counting_container_8cs_source.html#l00066">Tgstation.Server.Host.Utils.ReferenceCountingContainer&lt; TWrapped, TReference &gt;.AddReference()</a>, <a class="el" href="_engine_manager_8cs_source.html#l00398">Tgstation.Server.Host.Components.Engine.EngineManager.AssertAndLockVersion()</a>, <a class="el" href="_instance_manager_8cs_source.html#l00330">Tgstation.Server.Host.Components.InstanceManager.OfflineInstance()</a>, and <a class="el" href="_reference_counting_container_8cs_source.html#l00055">Tgstation.Server.Host.Utils.ReferenceCountingContainer&lt; TWrapped, TReference &gt;.ReferenceCountingContainer()</a>.</p>
 
 </div>
 </div>
@@ -382,12 +395,12 @@ Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">   28</span>                {</div>
 <div class="line"><span class="lineno">   29</span>                    <span class="keywordflow">if</span> (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_reference_counting_container.html#a250dd63d9b1bfb47b3814ee791d04c0a">referenceCount</a> == 0)</div>
 <div class="line"><span class="lineno">   30</span>                        <span class="keywordflow">return</span> Task.CompletedTask;</div>
-<div class="line"><span class="lineno">   31</span>                    <span class="keywordflow">return</span> <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_reference_counting_container.html#a839c2f0fdbd3b238c978709ffda79c76">onZeroReferencesTcs</a>.Task;</div>
+<div class="line"><span class="lineno">   31</span>                    <span class="keywordflow">return</span> <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_reference_counting_container.html#a0850503053d3a6538454590ab061525a">onZeroReferencesTcs</a>!.Task;</div>
 <div class="line"><span class="lineno">   32</span>                }</div>
 <div class="line"><span class="lineno">   33</span>            }</div>
 <div class="line"><span class="lineno">   34</span>        }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_byond_manager_8cs_source.html#l00208">Tgstation.Server.Host.Components.Byond.ByondManager.DeleteVersion()</a>, and <a class="el" href="_instance_manager_8cs_source.html#l00321">Tgstation.Server.Host.Components.InstanceManager.OfflineInstance()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_engine_manager_8cs_source.html#l00191">Tgstation.Server.Host.Components.Engine.EngineManager.DeleteVersion()</a>, and <a class="el" href="_instance_manager_8cs_source.html#l00330">Tgstation.Server.Host.Components.InstanceManager.OfflineInstance()</a>.</p>
 
 </div>
 </div>

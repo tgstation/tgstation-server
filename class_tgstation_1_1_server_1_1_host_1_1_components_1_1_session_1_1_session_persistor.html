@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.18.2</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.0.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -121,7 +121,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:acf4ff5319507dc5a79726921ab341187"><td class="memItemLeft" align="right" valign="top">ValueTask&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor.html#acf4ff5319507dc5a79726921ab341187">Save</a> (<a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_reattach_information.html">ReattachInformation</a> reattachInformation, CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:acf4ff5319507dc5a79726921ab341187"><td class="mdescLeft">&#160;</td><td class="mdescRight">Save some <em>reattachInformation</em> . <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">reattachInformation</td><td>The <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_reattach_information.html" title="Parameters necessary for duplicating a ISessionController session.">ReattachInformation</a> to save.</td></tr>
+    <tr><td class="paramname">reattachInformation</td><td>The <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_reattach_information.html" title="Parameters necessary for duplicating a ISessionController session.">ReattachInformation</a> to save. <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_reattach_information_base.html#a12bfa740c98c035bea8ff4f68fd49dab" title="The database row Id.">Models.ReattachInformationBase.Id</a> will be written back into it.</td></tr>
     <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
   </table>
   </dd>
@@ -129,16 +129,27 @@ Public Member Functions</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>A ValueTask representing the running operation.</dd></dl>
   <a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor.html#acf4ff5319507dc5a79726921ab341187">More...</a><br /></td></tr>
 <tr class="separator:acf4ff5319507dc5a79726921ab341187"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a587e482efa7ee7c46d99f12738f33e1d"><td class="memItemLeft" align="right" valign="top">async ValueTask&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_reattach_information.html">ReattachInformation</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor.html#a587e482efa7ee7c46d99f12738f33e1d">Load</a> (CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a587e482efa7ee7c46d99f12738f33e1d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load a saved <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_reattach_information.html" title="Parameters necessary for duplicating a ISessionController session.">ReattachInformation</a>. <dl class="params"><dt>Parameters</dt><dd>
+<tr class="memitem:a5b474f446d9e672be12af82e7f7213bd"><td class="memItemLeft" align="right" valign="top">ValueTask&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor.html#a5b474f446d9e672be12af82e7f7213bd">Update</a> (<a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_reattach_information.html">ReattachInformation</a> reattachInformation, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a5b474f446d9e672be12af82e7f7213bd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Update some <em>reattachInformation</em> . <dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">reattachInformation</td><td>The <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_reattach_information.html" title="Parameters necessary for duplicating a ISessionController session.">ReattachInformation</a> to update. Requires <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_i_session_persistor.html#ae3171ed595fe6b5bec90c625f50309f0" title="Save some reattachInformation .">Save(ReattachInformation, CancellationToken)</a> to have been called on it previously or it was retrieved from <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_i_session_persistor.html#aa7e9d2ae68c58d9ca017a8742bf6506d" title="Load a saved ReattachInformation.">Load(CancellationToken)</a>.</td></tr>
+    <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A ValueTask representing the running operation.</dd></dl>
+  <a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor.html#a5b474f446d9e672be12af82e7f7213bd">More...</a><br /></td></tr>
+<tr class="separator:a5b474f446d9e672be12af82e7f7213bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a89dd7970dd66a8630f036c9ecc67e834"><td class="memItemLeft" align="right" valign="top">async ValueTask&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_reattach_information.html">ReattachInformation</a>?&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor.html#a89dd7970dd66a8630f036c9ecc67e834">Load</a> (CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a89dd7970dd66a8630f036c9ecc67e834"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load a saved <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_reattach_information.html" title="Parameters necessary for duplicating a ISessionController session.">ReattachInformation</a>. <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A ValueTask&lt;TResult&gt; resulting in the stored <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_reattach_information.html" title="Parameters necessary for duplicating a ISessionController session.">ReattachInformation</a> if any.</dd></dl>
-  <a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor.html#a587e482efa7ee7c46d99f12738f33e1d">More...</a><br /></td></tr>
-<tr class="separator:a587e482efa7ee7c46d99f12738f33e1d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+  <a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor.html#a89dd7970dd66a8630f036c9ecc67e834">More...</a><br /></td></tr>
+<tr class="separator:a89dd7970dd66a8630f036c9ecc67e834"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac3551d3e6a6a17ef85ac39c506c32d5f"><td class="memItemLeft" align="right" valign="top">ValueTask&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor.html#ac3551d3e6a6a17ef85ac39c506c32d5f">Clear</a> (CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:ac3551d3e6a6a17ef85ac39c506c32d5f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clear any stored <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_reattach_information.html" title="Parameters necessary for duplicating a ISessionController session.">ReattachInformation</a>. <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -152,9 +163,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ae3171ed595fe6b5bec90c625f50309f0"><td class="memItemLeft" align="right" valign="top">ValueTask&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_i_session_persistor.html#ae3171ed595fe6b5bec90c625f50309f0">Save</a> (<a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_reattach_information.html">ReattachInformation</a> reattachInformation, CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:ae3171ed595fe6b5bec90c625f50309f0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Save some <em>reattachInformation</em> .   <a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_i_session_persistor.html#ae3171ed595fe6b5bec90c625f50309f0">More...</a><br /></td></tr>
 <tr class="separator:ae3171ed595fe6b5bec90c625f50309f0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aba354867e0e9e7e8065a8f7b0c078d5d"><td class="memItemLeft" align="right" valign="top">ValueTask&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_reattach_information.html">ReattachInformation</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_i_session_persistor.html#aba354867e0e9e7e8065a8f7b0c078d5d">Load</a> (CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:aba354867e0e9e7e8065a8f7b0c078d5d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load a saved <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_reattach_information.html" title="Parameters necessary for duplicating a ISessionController session.">ReattachInformation</a>.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_i_session_persistor.html#aba354867e0e9e7e8065a8f7b0c078d5d">More...</a><br /></td></tr>
-<tr class="separator:aba354867e0e9e7e8065a8f7b0c078d5d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3619aa6de7ee045dfe4c8627716ab63b"><td class="memItemLeft" align="right" valign="top">ValueTask&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_i_session_persistor.html#a3619aa6de7ee045dfe4c8627716ab63b">Update</a> (<a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_reattach_information.html">ReattachInformation</a> reattachInformation, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a3619aa6de7ee045dfe4c8627716ab63b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Update some <em>reattachInformation</em> .   <a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_i_session_persistor.html#a3619aa6de7ee045dfe4c8627716ab63b">More...</a><br /></td></tr>
+<tr class="separator:a3619aa6de7ee045dfe4c8627716ab63b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa7e9d2ae68c58d9ca017a8742bf6506d"><td class="memItemLeft" align="right" valign="top">ValueTask&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_reattach_information.html">ReattachInformation</a>?&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_i_session_persistor.html#aa7e9d2ae68c58d9ca017a8742bf6506d">Load</a> (CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:aa7e9d2ae68c58d9ca017a8742bf6506d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load a saved <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_reattach_information.html" title="Parameters necessary for duplicating a ISessionController session.">ReattachInformation</a>.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_i_session_persistor.html#aa7e9d2ae68c58d9ca017a8742bf6506d">More...</a><br /></td></tr>
+<tr class="separator:aa7e9d2ae68c58d9ca017a8742bf6506d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4994a02e958a3f9db6d0a2f0022c0786"><td class="memItemLeft" align="right" valign="top">ValueTask&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_i_session_persistor.html#a4994a02e958a3f9db6d0a2f0022c0786">Clear</a> (CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:a4994a02e958a3f9db6d0a2f0022c0786"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clear any stored <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_reattach_information.html" title="Parameters necessary for duplicating a ISessionController session.">ReattachInformation</a>.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_i_session_persistor.html#a4994a02e958a3f9db6d0a2f0022c0786">More...</a><br /></td></tr>
 <tr class="separator:a4994a02e958a3f9db6d0a2f0022c0786"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -185,7 +199,7 @@ Private Attributes</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p class="definition">Definition at line <a class="el" href="_session_persistor_8cs_source.html#l00018">18</a> of file <a class="el" href="_session_persistor_8cs_source.html">SessionPersistor.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_session_persistor_8cs_source.html#l00019">19</a> of file <a class="el" href="_session_persistor_8cs_source.html">SessionPersistor.cs</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="abe5082b7b4dc502b717e946a90349bb6" name="abe5082b7b4dc502b717e946a90349bb6"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#abe5082b7b4dc502b717e946a90349bb6">&#9670;&#160;</a></span>SessionPersistor()</h2>
@@ -243,21 +257,21 @@ Private Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_session_persistor_8cs_source.html#l00053">53</a> of file <a class="el" href="_session_persistor_8cs_source.html">SessionPersistor.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   59</span>        {</div>
-<div class="line"><span class="lineno">   60</span>            this.databaseContextFactory = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor.html#a2227915dc11711ab8eac49598f9bda08">databaseContextFactory</a> ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor.html#a2227915dc11711ab8eac49598f9bda08">databaseContextFactory</a>));</div>
-<div class="line"><span class="lineno">   61</span>            this.dmbFactory = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor.html#a732863bb9fd35fece0bb2c926b55f8e9">dmbFactory</a> ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor.html#a732863bb9fd35fece0bb2c926b55f8e9">dmbFactory</a>));</div>
-<div class="line"><span class="lineno">   62</span>            this.processExecutor = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor.html#a1e099a9da77ecb396147ac6c4e85f4f0">processExecutor</a> ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor.html#a1e099a9da77ecb396147ac6c4e85f4f0">processExecutor</a>));</div>
-<div class="line"><span class="lineno">   63</span>            this.logger = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor.html#a0ef7e017c943539a83aca36c6a1bba4f">logger</a> ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor.html#a0ef7e017c943539a83aca36c6a1bba4f">logger</a>));</div>
-<div class="line"><span class="lineno">   64</span>            this.metadata = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor.html#a3942d5832fa872589b17d1ea8b6d7150">metadata</a> ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor.html#a3942d5832fa872589b17d1ea8b6d7150">metadata</a>));</div>
-<div class="line"><span class="lineno">   65</span>        }</div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor_html_a0ef7e017c943539a83aca36c6a1bba4f"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor.html#a0ef7e017c943539a83aca36c6a1bba4f">Tgstation.Server.Host.Components.Session.SessionPersistor.logger</a></div><div class="ttdeci">readonly ILogger&lt; SessionPersistor &gt; logger</div><div class="ttdoc">The ILogger for the SessionPersistor.</div><div class="ttdef"><b>Definition:</b> <a href="_session_persistor_8cs_source.html#l00038">SessionPersistor.cs:38</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor_html_a1e099a9da77ecb396147ac6c4e85f4f0"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor.html#a1e099a9da77ecb396147ac6c4e85f4f0">Tgstation.Server.Host.Components.Session.SessionPersistor.processExecutor</a></div><div class="ttdeci">readonly IProcessExecutor processExecutor</div><div class="ttdoc">The IProcessExecutor for the SessionPersistor.</div><div class="ttdef"><b>Definition:</b> <a href="_session_persistor_8cs_source.html#l00033">SessionPersistor.cs:33</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor_html_a2227915dc11711ab8eac49598f9bda08"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor.html#a2227915dc11711ab8eac49598f9bda08">Tgstation.Server.Host.Components.Session.SessionPersistor.databaseContextFactory</a></div><div class="ttdeci">readonly IDatabaseContextFactory databaseContextFactory</div><div class="ttdoc">The IDatabaseContextFactory for the SessionPersistor.</div><div class="ttdef"><b>Definition:</b> <a href="_session_persistor_8cs_source.html#l00023">SessionPersistor.cs:23</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor_html_a3942d5832fa872589b17d1ea8b6d7150"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor.html#a3942d5832fa872589b17d1ea8b6d7150">Tgstation.Server.Host.Components.Session.SessionPersistor.metadata</a></div><div class="ttdeci">readonly Api.Models.Instance metadata</div><div class="ttdoc">The Api.Models.Instance for the SessionPersistor.</div><div class="ttdef"><b>Definition:</b> <a href="_session_persistor_8cs_source.html#l00043">SessionPersistor.cs:43</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor_html_a732863bb9fd35fece0bb2c926b55f8e9"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor.html#a732863bb9fd35fece0bb2c926b55f8e9">Tgstation.Server.Host.Components.Session.SessionPersistor.dmbFactory</a></div><div class="ttdeci">readonly IDmbFactory dmbFactory</div><div class="ttdoc">The IDmbFactory for the SessionPersistor.</div><div class="ttdef"><b>Definition:</b> <a href="_session_persistor_8cs_source.html#l00028">SessionPersistor.cs:28</a></div></div>
+<p class="definition">Definition at line <a class="el" href="_session_persistor_8cs_source.html#l00054">54</a> of file <a class="el" href="_session_persistor_8cs_source.html">SessionPersistor.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   60</span>        {</div>
+<div class="line"><span class="lineno">   61</span>            this.databaseContextFactory = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor.html#a2227915dc11711ab8eac49598f9bda08">databaseContextFactory</a> ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor.html#a2227915dc11711ab8eac49598f9bda08">databaseContextFactory</a>));</div>
+<div class="line"><span class="lineno">   62</span>            this.dmbFactory = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor.html#a732863bb9fd35fece0bb2c926b55f8e9">dmbFactory</a> ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor.html#a732863bb9fd35fece0bb2c926b55f8e9">dmbFactory</a>));</div>
+<div class="line"><span class="lineno">   63</span>            this.processExecutor = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor.html#a1e099a9da77ecb396147ac6c4e85f4f0">processExecutor</a> ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor.html#a1e099a9da77ecb396147ac6c4e85f4f0">processExecutor</a>));</div>
+<div class="line"><span class="lineno">   64</span>            this.logger = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor.html#a0ef7e017c943539a83aca36c6a1bba4f">logger</a> ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor.html#a0ef7e017c943539a83aca36c6a1bba4f">logger</a>));</div>
+<div class="line"><span class="lineno">   65</span>            this.metadata = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor.html#a3942d5832fa872589b17d1ea8b6d7150">metadata</a> ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor.html#a3942d5832fa872589b17d1ea8b6d7150">metadata</a>));</div>
+<div class="line"><span class="lineno">   66</span>        }</div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor_html_a0ef7e017c943539a83aca36c6a1bba4f"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor.html#a0ef7e017c943539a83aca36c6a1bba4f">Tgstation.Server.Host.Components.Session.SessionPersistor.logger</a></div><div class="ttdeci">readonly ILogger&lt; SessionPersistor &gt; logger</div><div class="ttdoc">The ILogger for the SessionPersistor.</div><div class="ttdef"><b>Definition:</b> <a href="_session_persistor_8cs_source.html#l00039">SessionPersistor.cs:39</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor_html_a1e099a9da77ecb396147ac6c4e85f4f0"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor.html#a1e099a9da77ecb396147ac6c4e85f4f0">Tgstation.Server.Host.Components.Session.SessionPersistor.processExecutor</a></div><div class="ttdeci">readonly IProcessExecutor processExecutor</div><div class="ttdoc">The IProcessExecutor for the SessionPersistor.</div><div class="ttdef"><b>Definition:</b> <a href="_session_persistor_8cs_source.html#l00034">SessionPersistor.cs:34</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor_html_a2227915dc11711ab8eac49598f9bda08"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor.html#a2227915dc11711ab8eac49598f9bda08">Tgstation.Server.Host.Components.Session.SessionPersistor.databaseContextFactory</a></div><div class="ttdeci">readonly IDatabaseContextFactory databaseContextFactory</div><div class="ttdoc">The IDatabaseContextFactory for the SessionPersistor.</div><div class="ttdef"><b>Definition:</b> <a href="_session_persistor_8cs_source.html#l00024">SessionPersistor.cs:24</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor_html_a3942d5832fa872589b17d1ea8b6d7150"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor.html#a3942d5832fa872589b17d1ea8b6d7150">Tgstation.Server.Host.Components.Session.SessionPersistor.metadata</a></div><div class="ttdeci">readonly Api.Models.Instance metadata</div><div class="ttdoc">The Api.Models.Instance for the SessionPersistor.</div><div class="ttdef"><b>Definition:</b> <a href="_session_persistor_8cs_source.html#l00044">SessionPersistor.cs:44</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor_html_a732863bb9fd35fece0bb2c926b55f8e9"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor.html#a732863bb9fd35fece0bb2c926b55f8e9">Tgstation.Server.Host.Components.Session.SessionPersistor.dmbFactory</a></div><div class="ttdeci">readonly IDmbFactory dmbFactory</div><div class="ttdoc">The IDmbFactory for the SessionPersistor.</div><div class="ttdef"><b>Definition:</b> <a href="_session_persistor_8cs_source.html#l00029">SessionPersistor.cs:29</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_session_persistor_8cs_source.html#l00023">Tgstation.Server.Host.Components.Session.SessionPersistor.databaseContextFactory</a>, <a class="el" href="_session_persistor_8cs_source.html#l00028">Tgstation.Server.Host.Components.Session.SessionPersistor.dmbFactory</a>, <a class="el" href="_session_persistor_8cs_source.html#l00038">Tgstation.Server.Host.Components.Session.SessionPersistor.logger</a>, <a class="el" href="_session_persistor_8cs_source.html#l00043">Tgstation.Server.Host.Components.Session.SessionPersistor.metadata</a>, and <a class="el" href="_session_persistor_8cs_source.html#l00033">Tgstation.Server.Host.Components.Session.SessionPersistor.processExecutor</a>.</p>
+<p class="reference">References <a class="el" href="_session_persistor_8cs_source.html#l00024">Tgstation.Server.Host.Components.Session.SessionPersistor.databaseContextFactory</a>, <a class="el" href="_session_persistor_8cs_source.html#l00029">Tgstation.Server.Host.Components.Session.SessionPersistor.dmbFactory</a>, <a class="el" href="_session_persistor_8cs_source.html#l00039">Tgstation.Server.Host.Components.Session.SessionPersistor.logger</a>, <a class="el" href="_session_persistor_8cs_source.html#l00044">Tgstation.Server.Host.Components.Session.SessionPersistor.metadata</a>, and <a class="el" href="_session_persistor_8cs_source.html#l00034">Tgstation.Server.Host.Components.Session.SessionPersistor.processExecutor</a>.</p>
 
 </div>
 </div>
@@ -289,9 +303,9 @@ Private Attributes</h2></td></tr>
 
 <p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_i_session_persistor.html#a4994a02e958a3f9db6d0a2f0022c0786">Tgstation.Server.Host.Components.Session.ISessionPersistor</a>.</p>
 
-<p class="reference">References <a class="el" href="_session_persistor_8cs_source.html#l00230">Tgstation.Server.Host.Components.Session.SessionPersistor.ClearImpl()</a>, and <a class="el" href="_session_persistor_8cs_source.html#l00038">Tgstation.Server.Host.Components.Session.SessionPersistor.logger</a>.</p>
+<p class="reference">References <a class="el" href="_session_persistor_8cs_source.html#l00263">Tgstation.Server.Host.Components.Session.SessionPersistor.ClearImpl()</a>, and <a class="el" href="_session_persistor_8cs_source.html#l00039">Tgstation.Server.Host.Components.Session.SessionPersistor.logger</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_watchdog_base_8cs_source.html#l00679">Tgstation.Server.Host.Components.Watchdog.WatchdogBase.DisposeAndNullControllers()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_watchdog_base_8cs_source.html#l00672">Tgstation.Server.Host.Components.Watchdog.WatchdogBase.DisposeAndNullControllers()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -312,9 +326,9 @@ Here is the caller graph for this function:</div>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a075fb0946e843d7eb3f1d708314c5f13" title="Handles a watchdog health check." alt="" coords="1272,111,1563,151"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#adfec26f530228b80d384b86ee979ef2f" title="The main loop of the watchdog. Ayschronously waits for events to occur and then responds to them." alt="" coords="953,136,1224,176"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#ab24be19620df4ed6b473ad5b49ea8dea" title="Attempt to restart the monitor from scratch." alt="" coords="336,197,595,237"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_basic_watchdog.html#a395c59a97a1716b97c2e00339859d533" title="Starts all ISessionControllers. A Task representing the running operation." alt="" coords="963,301,1214,341"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_basic_watchdog.html#a857f98eb5a2516c2a70c35d684c2c21b" title="Starts all ISessionControllers. A Task representing the running operation." alt="" coords="963,301,1214,341"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a2d53273beb40a057f7f9423b48850702" title="Call from InitController(ValueTask, ReattachInformation, CancellationToken) when a reattach operation..." alt="" coords="1285,327,1550,367"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a28e34b04dc27658062e1d6cc60adf55e" title="Launches the watchdog." alt="" coords="643,111,905,151"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#abbff1b419510f84375b7ca3dcf315b03" title="Launches the watchdog." alt="" coords="643,111,905,151"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#ab7afe38b1ea6c4a0f1396a45a3ff013f" title="Start the IWatchdog. A ValueTask representing the running operation." alt="" coords="352,69,579,109"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a805a90319a8bdf4862ce9879f125b853" title="Restarts the watchdog. A ValueTask representing the running operation." alt="" coords="352,133,579,173"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#ae30d4b582b04eb7c3ef3c5d848429bbd" title=" " alt="" coords="346,5,585,45"/>
@@ -375,27 +389,27 @@ Here is the caller graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A ValueTask representing the running operation.</dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_session_persistor_8cs_source.html#l00230">230</a> of file <a class="el" href="_session_persistor_8cs_source.html">SessionPersistor.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  231</span>        {</div>
-<div class="line"><span class="lineno">  232</span>            var baseQuery = databaseContext</div>
-<div class="line"><span class="lineno">  233</span>                .<a class="code hl_property" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context.html#aa06e331aeed4c0680e33e0aa2bcf81cf">ReattachInformations</a></div>
-<div class="line"><span class="lineno">  234</span>                .AsQueryable()</div>
-<div class="line"><span class="lineno">  235</span>                .Where(x =&gt; x.CompileJob.Job.Instance.Id == <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor.html#a3942d5832fa872589b17d1ea8b6d7150">metadata</a>.Id);</div>
-<div class="line"><span class="lineno">  236</span> </div>
-<div class="line"><span class="lineno">  237</span>            <span class="keywordflow">if</span> (instant)</div>
-<div class="line"><span class="lineno">  238</span>                await baseQuery</div>
-<div class="line"><span class="lineno">  239</span>                    .DeleteAsync(cancellationToken);</div>
-<div class="line"><span class="lineno">  240</span>            <span class="keywordflow">else</span></div>
-<div class="line"><span class="lineno">  241</span>            {</div>
-<div class="line"><span class="lineno">  242</span>                var results = await baseQuery.ToListAsync(cancellationToken);</div>
-<div class="line"><span class="lineno">  243</span>                <span class="keywordflow">foreach</span> (var result <span class="keywordflow">in</span> results)</div>
-<div class="line"><span class="lineno">  244</span>                    databaseContext.<a class="code hl_property" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context.html#aa06e331aeed4c0680e33e0aa2bcf81cf">ReattachInformations</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_collection.html#ad270ec18822a7a90d8fca9a75c23851a">Remove</a>(result);</div>
-<div class="line"><span class="lineno">  245</span>            }</div>
-<div class="line"><span class="lineno">  246</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_session_persistor_8cs_source.html#l00263">263</a> of file <a class="el" href="_session_persistor_8cs_source.html">SessionPersistor.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  264</span>        {</div>
+<div class="line"><span class="lineno">  265</span>            var baseQuery = databaseContext</div>
+<div class="line"><span class="lineno">  266</span>                .<a class="code hl_property" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context.html#aa06e331aeed4c0680e33e0aa2bcf81cf">ReattachInformations</a></div>
+<div class="line"><span class="lineno">  267</span>                .AsQueryable()</div>
+<div class="line"><span class="lineno">  268</span>                .Where(x =&gt; x.CompileJob!.Job.Instance!.Id == <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor.html#a3942d5832fa872589b17d1ea8b6d7150">metadata</a>.Id);</div>
+<div class="line"><span class="lineno">  269</span> </div>
+<div class="line"><span class="lineno">  270</span>            <span class="keywordflow">if</span> (instant)</div>
+<div class="line"><span class="lineno">  271</span>                await baseQuery</div>
+<div class="line"><span class="lineno">  272</span>                    .DeleteAsync(cancellationToken);</div>
+<div class="line"><span class="lineno">  273</span>            <span class="keywordflow">else</span></div>
+<div class="line"><span class="lineno">  274</span>            {</div>
+<div class="line"><span class="lineno">  275</span>                var results = await baseQuery.ToListAsync(cancellationToken);</div>
+<div class="line"><span class="lineno">  276</span>                <span class="keywordflow">foreach</span> (var result <span class="keywordflow">in</span> results)</div>
+<div class="line"><span class="lineno">  277</span>                    databaseContext.<a class="code hl_property" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context.html#aa06e331aeed4c0680e33e0aa2bcf81cf">ReattachInformations</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_collection.html#ad270ec18822a7a90d8fca9a75c23851a">Remove</a>(result);</div>
+<div class="line"><span class="lineno">  278</span>            }</div>
+<div class="line"><span class="lineno">  279</span>        }</div>
 <div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_collection_html_ad270ec18822a7a90d8fca9a75c23851a"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_collection.html#ad270ec18822a7a90d8fca9a75c23851a">Tgstation.Server.Host.Database.IDatabaseCollection.Remove</a></div><div class="ttdeci">void Remove(TModel model)</div><div class="ttdoc">Remove a given model  from the the working set.</div></div>
 <div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_html_aa06e331aeed4c0680e33e0aa2bcf81cf"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context.html#aa06e331aeed4c0680e33e0aa2bcf81cf">Tgstation.Server.Host.Database.IDatabaseContext.ReattachInformations</a></div><div class="ttdeci">IDatabaseCollection&lt; ReattachInformation &gt; ReattachInformations</div><div class="ttdoc">The DbSet&lt;TEntity&gt; for ReattachInformations.</div><div class="ttdef"><b>Definition:</b> <a href="_i_database_context_8cs_source.html#l00076">IDatabaseContext.cs:76</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_session_persistor_8cs_source.html#l00043">Tgstation.Server.Host.Components.Session.SessionPersistor.metadata</a>, <a class="el" href="_i_database_context_8cs_source.html#l00076">Tgstation.Server.Host.Database.IDatabaseContext.ReattachInformations</a>, and <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_collection.html#ad270ec18822a7a90d8fca9a75c23851a">Tgstation.Server.Host.Database.IDatabaseCollection&lt; TModel &gt;.Remove()</a>.</p>
+<p class="reference">References <a class="el" href="_session_persistor_8cs_source.html#l00044">Tgstation.Server.Host.Components.Session.SessionPersistor.metadata</a>, <a class="el" href="_i_database_context_8cs_source.html#l00076">Tgstation.Server.Host.Database.IDatabaseContext.ReattachInformations</a>, and <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_collection.html#ad270ec18822a7a90d8fca9a75c23851a">Tgstation.Server.Host.Database.IDatabaseCollection&lt; TModel &gt;.Remove()</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor.html#ac3551d3e6a6a17ef85ac39c506c32d5f">Tgstation.Server.Host.Components.Session.SessionPersistor.Clear()</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor.html#acf4ff5319507dc5a79726921ab341187">Tgstation.Server.Host.Components.Session.SessionPersistor.Save()</a>.</p>
 <div class="dynheader">
@@ -412,34 +426,33 @@ Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor_af7789658917d10b7f4fd9a6284d244f4_icgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor_af7789658917d10b7f4fd9a6284d244f4_icgraph" alt=""/></div>
 <map name="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor_af7789658917d10b7f4fd9a6284d244f4_icgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor_af7789658917d10b7f4fd9a6284d244f4_icgraph">
-<area shape="rect" title="Clear any stored ReattachInformation." alt="" coords="2260,255,2489,295"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor.html#ac3551d3e6a6a17ef85ac39c506c32d5f" title="Clear any stored ReattachInformation. A ValueTask representing the running operation." alt="" coords="1985,221,2212,261"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor.html#acf4ff5319507dc5a79726921ab341187" title="Save some reattachInformation . A ValueTask representing the running operation." alt="" coords="1985,287,2212,327"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#ac84983fa4b27fcdf9044aaf68ae82a50" title="Wrapper for DisposeAndNullControllersImpl under a locked context." alt="" coords="1641,211,1907,266"/>
+<area shape="rect" title="Clear any stored ReattachInformation." alt="" coords="2200,251,2429,291"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor.html#ac3551d3e6a6a17ef85ac39c506c32d5f" title="Clear any stored ReattachInformation. A ValueTask representing the running operation." alt="" coords="1925,219,2152,259"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor.html#acf4ff5319507dc5a79726921ab341187" title="Save some reattachInformation . A ValueTask representing the running operation." alt="" coords="1925,283,2152,323"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#ac84983fa4b27fcdf9044aaf68ae82a50" title="Wrapper for DisposeAndNullControllersImpl under a locked context." alt="" coords="1611,211,1877,266"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a075fb0946e843d7eb3f1d708314c5f13" title="Handles a watchdog health check." alt="" coords="1272,111,1563,151"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#adfec26f530228b80d384b86ee979ef2f" title="The main loop of the watchdog. Ayschronously waits for events to occur and then responds to them." alt="" coords="953,136,1224,176"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#ab24be19620df4ed6b473ad5b49ea8dea" title="Attempt to restart the monitor from scratch." alt="" coords="336,197,595,237"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_basic_watchdog.html#a395c59a97a1716b97c2e00339859d533" title="Starts all ISessionControllers. A Task representing the running operation." alt="" coords="963,301,1214,341"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_basic_watchdog.html#a857f98eb5a2516c2a70c35d684c2c21b" title="Starts all ISessionControllers. A Task representing the running operation." alt="" coords="963,301,1214,341"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a2d53273beb40a057f7f9423b48850702" title="Call from InitController(ValueTask, ReattachInformation, CancellationToken) when a reattach operation..." alt="" coords="1285,327,1550,367"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a28e34b04dc27658062e1d6cc60adf55e" title="Launches the watchdog." alt="" coords="643,111,905,151"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#abbff1b419510f84375b7ca3dcf315b03" title="Launches the watchdog." alt="" coords="643,111,905,151"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#ab7afe38b1ea6c4a0f1396a45a3ff013f" title="Start the IWatchdog. A ValueTask representing the running operation." alt="" coords="352,69,579,109"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a805a90319a8bdf4862ce9879f125b853" title="Restarts the watchdog. A ValueTask representing the running operation." alt="" coords="352,133,579,173"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#ae30d4b582b04eb7c3ef3c5d848429bbd" title=" " alt="" coords="346,5,585,45"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_basic_watchdog.html#a86e19b422334b36dbb2a7f84d5393b99" title="Cancels pending graceful actions. A ValueTask representing the running operation." alt="" coords="5,133,288,173"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_advanced_watchdog.html#a9a94dccebeb6abb16f75b2ad03a5eb28" title="Handler for MonitorActivationReason.ActiveServerRebooted when the RebootState is RebootState...." alt="" coords="1611,291,1937,331"/>
 </map>
 </div>
 
 </div>
 </div>
-<a id="a587e482efa7ee7c46d99f12738f33e1d" name="a587e482efa7ee7c46d99f12738f33e1d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a587e482efa7ee7c46d99f12738f33e1d">&#9670;&#160;</a></span>Load()</h2>
+<a id="a89dd7970dd66a8630f036c9ecc67e834" name="a89dd7970dd66a8630f036c9ecc67e834"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a89dd7970dd66a8630f036c9ecc67e834">&#9670;&#160;</a></span>Load()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">async ValueTask&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_reattach_information.html">ReattachInformation</a> &gt; Tgstation.Server.Host.Components.Session.SessionPersistor.Load </td>
+          <td class="memname">async ValueTask&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_reattach_information.html">ReattachInformation</a>?&gt; Tgstation.Server.Host.Components.Session.SessionPersistor.Load </td>
           <td>(</td>
           <td class="paramtype">CancellationToken&#160;</td>
           <td class="paramname"><em>cancellationToken</em></td><td>)</td>
@@ -457,152 +470,155 @@ Here is the caller graph for this function:</div>
 <dl class="section return"><dt>Returns</dt><dd>A ValueTask&lt;TResult&gt; resulting in the stored <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_reattach_information.html" title="Parameters necessary for duplicating a ISessionController session.">ReattachInformation</a> if any.</dd></dl>
  </p>
 
-<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_i_session_persistor.html#aba354867e0e9e7e8065a8f7b0c078d5d">Tgstation.Server.Host.Components.Session.ISessionPersistor</a>.</p>
+<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_i_session_persistor.html#aa7e9d2ae68c58d9ca017a8742bf6506d">Tgstation.Server.Host.Components.Session.ISessionPersistor</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_session_persistor_8cs_source.html#l00093">93</a> of file <a class="el" href="_session_persistor_8cs_source.html">SessionPersistor.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   94</span>        {</div>
-<div class="line"><span class="lineno">   95</span>            Models.ReattachInformation result = <span class="keyword">null</span>;</div>
-<div class="line"><span class="lineno">   96</span>            TimeSpan? topicTimeout = <span class="keyword">null</span>;</div>
-<div class="line"><span class="lineno">   97</span> </div>
-<div class="line"><span class="lineno">   98</span>            async ValueTask KillProcess(Models.ReattachInformation reattachInfo)</div>
-<div class="line"><span class="lineno">   99</span>            {</div>
-<div class="line"><span class="lineno">  100</span>                <span class="keywordflow">try</span></div>
-<div class="line"><span class="lineno">  101</span>                {</div>
-<div class="line"><span class="lineno">  102</span>                    await <span class="keyword">using </span>var process = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor.html#a1e099a9da77ecb396147ac6c4e85f4f0">processExecutor</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_executor.html#a5618ee521ada90bb15bf3315440898f3">GetProcess</a>(reattachInfo.ProcessId);</div>
-<div class="line"><span class="lineno">  103</span>                    <span class="keywordflow">if</span> (process != <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">  104</span>                    {</div>
-<div class="line"><span class="lineno">  105</span>                        <span class="keywordflow">if</span> (reattachInfo == result)</div>
-<div class="line"><span class="lineno">  106</span>                        {</div>
-<div class="line"><span class="lineno">  107</span>                            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor.html#a0ef7e017c943539a83aca36c6a1bba4f">logger</a>.LogWarning(<span class="stringliteral">&quot;Killing PID {pid} associated with CompileJob-less reattach information...&quot;</span>, reattachInfo.ProcessId);</div>
-<div class="line"><span class="lineno">  108</span>                        }</div>
-<div class="line"><span class="lineno">  109</span>                        <span class="keywordflow">else</span></div>
-<div class="line"><span class="lineno">  110</span>                        {</div>
-<div class="line"><span class="lineno">  111</span>                            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor.html#a0ef7e017c943539a83aca36c6a1bba4f">logger</a>.LogWarning(<span class="stringliteral">&quot;Killing PID {pid} associated with extra reattach information...&quot;</span>, reattachInfo.ProcessId);</div>
-<div class="line"><span class="lineno">  112</span>                        }</div>
-<div class="line"><span class="lineno">  113</span> </div>
-<div class="line"><span class="lineno">  114</span>                        process.Terminate();</div>
-<div class="line"><span class="lineno">  115</span>                        await process.Lifetime;</div>
-<div class="line"><span class="lineno">  116</span>                    }</div>
-<div class="line"><span class="lineno">  117</span>                }</div>
-<div class="line"><span class="lineno">  118</span>                <span class="keywordflow">catch</span> (Exception ex)</div>
-<div class="line"><span class="lineno">  119</span>                {</div>
-<div class="line"><span class="lineno">  120</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor.html#a0ef7e017c943539a83aca36c6a1bba4f">logger</a>.LogWarning(ex, <span class="stringliteral">&quot;Failed to kill process!&quot;</span>);</div>
-<div class="line"><span class="lineno">  121</span>                }</div>
-<div class="line"><span class="lineno">  122</span>            }</div>
-<div class="line"><span class="lineno">  123</span> </div>
-<div class="line"><span class="lineno">  124</span>            await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor.html#a2227915dc11711ab8eac49598f9bda08">databaseContextFactory</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_factory.html#a1da664d7237dbec5a6cb9ce04b79ccc1">UseContext</a>(async (db) =&gt;</div>
-<div class="line"><span class="lineno">  125</span>            {</div>
-<div class="line"><span class="lineno">  126</span>                var dbReattachInfos = await db</div>
-<div class="line"><span class="lineno">  127</span>                    .ReattachInformations</div>
-<div class="line"><span class="lineno">  128</span>                    .AsQueryable()</div>
-<div class="line"><span class="lineno">  129</span>                    .Where(x =&gt; x.CompileJob.Job.Instance.Id == <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor.html#a3942d5832fa872589b17d1ea8b6d7150">metadata</a>.Id)</div>
-<div class="line"><span class="lineno">  130</span>                    .Include(x =&gt; x.CompileJob)</div>
-<div class="line"><span class="lineno">  131</span>                    .Include(x =&gt; x.InitialCompileJob)</div>
-<div class="line"><span class="lineno">  132</span>                    .ToListAsync(cancellationToken);</div>
-<div class="line"><span class="lineno">  133</span>                result = dbReattachInfos.FirstOrDefault();</div>
-<div class="line"><span class="lineno">  134</span>                if (result == <span class="keywordflow">default</span>)</div>
-<div class="line"><span class="lineno">  135</span>                    <span class="keywordflow">return</span>;</div>
-<div class="line"><span class="lineno">  136</span> </div>
-<div class="line"><span class="lineno">  137</span>                var timeoutMilliseconds = await db</div>
-<div class="line"><span class="lineno">  138</span>                    .Instances</div>
-<div class="line"><span class="lineno">  139</span>                    .AsQueryable()</div>
-<div class="line"><span class="lineno">  140</span>                    .Where(x =&gt; x.Id == <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor.html#a3942d5832fa872589b17d1ea8b6d7150">metadata</a>.Id)</div>
-<div class="line"><span class="lineno">  141</span>                    .Select(x =&gt; x.DreamDaemonSettings.TopicRequestTimeout)</div>
-<div class="line"><span class="lineno">  142</span>                    .FirstOrDefaultAsync(cancellationToken);</div>
-<div class="line"><span class="lineno">  143</span> </div>
-<div class="line"><span class="lineno">  144</span>                if (timeoutMilliseconds == <span class="keywordflow">default</span>)</div>
-<div class="line"><span class="lineno">  145</span>                {</div>
-<div class="line"><span class="lineno">  146</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor.html#a0ef7e017c943539a83aca36c6a1bba4f">logger</a>.LogCritical(<span class="stringliteral">&quot;Missing TopicRequestTimeout!&quot;</span>);</div>
-<div class="line"><span class="lineno">  147</span>                    <span class="keywordflow">return</span>;</div>
-<div class="line"><span class="lineno">  148</span>                }</div>
-<div class="line"><span class="lineno">  149</span> </div>
-<div class="line"><span class="lineno">  150</span>                topicTimeout = TimeSpan.FromMilliseconds(timeoutMilliseconds.Value);</div>
-<div class="line"><span class="lineno">  151</span> </div>
-<div class="line"><span class="lineno">  152</span>                <span class="keywordtype">bool</span> first = <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  153</span>                foreach (var reattachInfo in dbReattachInfos)</div>
-<div class="line"><span class="lineno">  154</span>                {</div>
-<div class="line"><span class="lineno">  155</span>                    <span class="keywordflow">if</span> (first)</div>
-<div class="line"><span class="lineno">  156</span>                    {</div>
-<div class="line"><span class="lineno">  157</span>                        first = <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">  158</span>                        <span class="keywordflow">continue</span>;</div>
-<div class="line"><span class="lineno">  159</span>                    }</div>
-<div class="line"><span class="lineno">  160</span> </div>
-<div class="line"><span class="lineno">  161</span>                    await KillProcess(reattachInfo);</div>
-<div class="line"><span class="lineno">  162</span> </div>
-<div class="line"><span class="lineno">  163</span>                    db.ReattachInformations.Remove(reattachInfo);</div>
-<div class="line"><span class="lineno">  164</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor.html#a0ef7e017c943539a83aca36c6a1bba4f">logger</a>.LogTrace(<span class="stringliteral">&quot;Deleting ReattachInformation {id}...&quot;</span>, reattachInfo.Id);</div>
-<div class="line"><span class="lineno">  165</span>                }</div>
-<div class="line"><span class="lineno">  166</span> </div>
-<div class="line"><span class="lineno">  167</span>                await db.Save(cancellationToken);</div>
-<div class="line"><span class="lineno">  168</span>            });</div>
+<p class="definition">Definition at line <a class="el" href="_session_persistor_8cs_source.html#l00126">126</a> of file <a class="el" href="_session_persistor_8cs_source.html">SessionPersistor.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  127</span>        {</div>
+<div class="line"><span class="lineno">  128</span>            Models.ReattachInformation? result = <span class="keyword">null</span>;</div>
+<div class="line"><span class="lineno">  129</span>            TimeSpan? topicTimeout = <span class="keyword">null</span>;</div>
+<div class="line"><span class="lineno">  130</span> </div>
+<div class="line"><span class="lineno">  131</span>            async ValueTask KillProcess(Models.ReattachInformation reattachInfo)</div>
+<div class="line"><span class="lineno">  132</span>            {</div>
+<div class="line"><span class="lineno">  133</span>                <span class="keywordflow">try</span></div>
+<div class="line"><span class="lineno">  134</span>                {</div>
+<div class="line"><span class="lineno">  135</span>                    await <span class="keyword">using </span>var process = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor.html#a1e099a9da77ecb396147ac6c4e85f4f0">processExecutor</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_executor.html#a82c1c9bbc432577594f49417c969849f">GetProcess</a>(reattachInfo.ProcessId);</div>
+<div class="line"><span class="lineno">  136</span>                    <span class="keywordflow">if</span> (process != <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">  137</span>                    {</div>
+<div class="line"><span class="lineno">  138</span>                        <span class="keywordflow">if</span> (reattachInfo == result)</div>
+<div class="line"><span class="lineno">  139</span>                        {</div>
+<div class="line"><span class="lineno">  140</span>                            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor.html#a0ef7e017c943539a83aca36c6a1bba4f">logger</a>.LogWarning(<span class="stringliteral">&quot;Killing PID {pid} associated with CompileJob-less reattach information...&quot;</span>, reattachInfo.ProcessId);</div>
+<div class="line"><span class="lineno">  141</span>                        }</div>
+<div class="line"><span class="lineno">  142</span>                        <span class="keywordflow">else</span></div>
+<div class="line"><span class="lineno">  143</span>                        {</div>
+<div class="line"><span class="lineno">  144</span>                            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor.html#a0ef7e017c943539a83aca36c6a1bba4f">logger</a>.LogWarning(<span class="stringliteral">&quot;Killing PID {pid} associated with extra reattach information...&quot;</span>, reattachInfo.ProcessId);</div>
+<div class="line"><span class="lineno">  145</span>                        }</div>
+<div class="line"><span class="lineno">  146</span> </div>
+<div class="line"><span class="lineno">  147</span>                        process.Terminate();</div>
+<div class="line"><span class="lineno">  148</span>                        await process.Lifetime;</div>
+<div class="line"><span class="lineno">  149</span>                    }</div>
+<div class="line"><span class="lineno">  150</span>                }</div>
+<div class="line"><span class="lineno">  151</span>                <span class="keywordflow">catch</span> (<a class="code hl_class" href="class_exception.html">Exception</a> ex)</div>
+<div class="line"><span class="lineno">  152</span>                {</div>
+<div class="line"><span class="lineno">  153</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor.html#a0ef7e017c943539a83aca36c6a1bba4f">logger</a>.LogWarning(ex, <span class="stringliteral">&quot;Failed to kill process!&quot;</span>);</div>
+<div class="line"><span class="lineno">  154</span>                }</div>
+<div class="line"><span class="lineno">  155</span>            }</div>
+<div class="line"><span class="lineno">  156</span> </div>
+<div class="line"><span class="lineno">  157</span>            await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor.html#a2227915dc11711ab8eac49598f9bda08">databaseContextFactory</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_factory.html#a1da664d7237dbec5a6cb9ce04b79ccc1">UseContext</a>(async (db) =&gt;</div>
+<div class="line"><span class="lineno">  158</span>            {</div>
+<div class="line"><span class="lineno">  159</span>                var dbReattachInfos = await db</div>
+<div class="line"><span class="lineno">  160</span>                    .ReattachInformations</div>
+<div class="line"><span class="lineno">  161</span>                    .AsQueryable()</div>
+<div class="line"><span class="lineno">  162</span>                    .Where(x =&gt; x.CompileJob!.Job.Instance!.Id == <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor.html#a3942d5832fa872589b17d1ea8b6d7150">metadata</a>.Id)</div>
+<div class="line"><span class="lineno">  163</span>                    .Include(x =&gt; x.CompileJob)</div>
+<div class="line"><span class="lineno">  164</span>                    .Include(x =&gt; x.InitialCompileJob)</div>
+<div class="line"><span class="lineno">  165</span>                    .ToListAsync(cancellationToken);</div>
+<div class="line"><span class="lineno">  166</span>                result = dbReattachInfos.FirstOrDefault();</div>
+<div class="line"><span class="lineno">  167</span>                if (result == <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">  168</span>                    <span class="keywordflow">return</span>;</div>
 <div class="line"><span class="lineno">  169</span> </div>
-<div class="line"><span class="lineno">  170</span>            <span class="keywordflow">if</span> (!topicTimeout.HasValue)</div>
-<div class="line"><span class="lineno">  171</span>            {</div>
-<div class="line"><span class="lineno">  172</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor.html#a0ef7e017c943539a83aca36c6a1bba4f">logger</a>.LogDebug(<span class="stringliteral">&quot;Reattach information not found!&quot;</span>);</div>
-<div class="line"><span class="lineno">  173</span>                <span class="keywordflow">return</span> <span class="keyword">null</span>;</div>
-<div class="line"><span class="lineno">  174</span>            }</div>
-<div class="line"><span class="lineno">  175</span> </div>
-<div class="line"><span class="lineno">  176</span>            var dmb = await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor.html#a732863bb9fd35fece0bb2c926b55f8e9">dmbFactory</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_dmb_factory.html#aa0b77cba8bd6d18af83aa73c1d4edb0f">FromCompileJob</a>(result.CompileJob, cancellationToken);</div>
-<div class="line"><span class="lineno">  177</span>            <span class="keywordflow">if</span> (dmb == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">  178</span>            {</div>
-<div class="line"><span class="lineno">  179</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor.html#a0ef7e017c943539a83aca36c6a1bba4f">logger</a>.LogError(<span class="stringliteral">&quot;Unable to reattach! Could not load .dmb!&quot;</span>);</div>
-<div class="line"><span class="lineno">  180</span>                await KillProcess(result);</div>
-<div class="line"><span class="lineno">  181</span> </div>
-<div class="line"><span class="lineno">  182</span>                await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor.html#a2227915dc11711ab8eac49598f9bda08">databaseContextFactory</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_factory.html#a1da664d7237dbec5a6cb9ce04b79ccc1">UseContext</a>(async db =&gt;</div>
-<div class="line"><span class="lineno">  183</span>                {</div>
-<div class="line"><span class="lineno">  184</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor.html#a0ef7e017c943539a83aca36c6a1bba4f">logger</a>.LogTrace(<span class="stringliteral">&quot;Deleting ReattachInformation {id}...&quot;</span>, result.Id);</div>
-<div class="line"><span class="lineno">  185</span>                    await db</div>
-<div class="line"><span class="lineno">  186</span>                        .ReattachInformations</div>
-<div class="line"><span class="lineno">  187</span>                        .AsQueryable()</div>
-<div class="line"><span class="lineno">  188</span>                        .Where(x =&gt; x.Id == result.Id)</div>
-<div class="line"><span class="lineno">  189</span>                        .DeleteAsync(cancellationToken);</div>
-<div class="line"><span class="lineno">  190</span>                });</div>
-<div class="line"><span class="lineno">  191</span>                <span class="keywordflow">return</span> <span class="keyword">null</span>;</div>
-<div class="line"><span class="lineno">  192</span>            }</div>
+<div class="line"><span class="lineno">  170</span>                var timeoutMilliseconds = await db</div>
+<div class="line"><span class="lineno">  171</span>                    .Instances</div>
+<div class="line"><span class="lineno">  172</span>                    .AsQueryable()</div>
+<div class="line"><span class="lineno">  173</span>                    .Where(x =&gt; x.Id == <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor.html#a3942d5832fa872589b17d1ea8b6d7150">metadata</a>.Id)</div>
+<div class="line"><span class="lineno">  174</span>                    .Select(x =&gt; x.DreamDaemonSettings!.TopicRequestTimeout)</div>
+<div class="line"><span class="lineno">  175</span>                    .FirstOrDefaultAsync(cancellationToken);</div>
+<div class="line"><span class="lineno">  176</span> </div>
+<div class="line"><span class="lineno">  177</span>                if (timeoutMilliseconds == <span class="keywordflow">default</span>)</div>
+<div class="line"><span class="lineno">  178</span>                {</div>
+<div class="line"><span class="lineno">  179</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor.html#a0ef7e017c943539a83aca36c6a1bba4f">logger</a>.LogCritical(<span class="stringliteral">&quot;Missing TopicRequestTimeout!&quot;</span>);</div>
+<div class="line"><span class="lineno">  180</span>                    <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno">  181</span>                }</div>
+<div class="line"><span class="lineno">  182</span> </div>
+<div class="line"><span class="lineno">  183</span>                topicTimeout = TimeSpan.FromMilliseconds(timeoutMilliseconds.Value);</div>
+<div class="line"><span class="lineno">  184</span> </div>
+<div class="line"><span class="lineno">  185</span>                <span class="keywordtype">bool</span> first = <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  186</span>                foreach (var reattachInfo in dbReattachInfos)</div>
+<div class="line"><span class="lineno">  187</span>                {</div>
+<div class="line"><span class="lineno">  188</span>                    <span class="keywordflow">if</span> (first)</div>
+<div class="line"><span class="lineno">  189</span>                    {</div>
+<div class="line"><span class="lineno">  190</span>                        first = <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  191</span>                        <span class="keywordflow">continue</span>;</div>
+<div class="line"><span class="lineno">  192</span>                    }</div>
 <div class="line"><span class="lineno">  193</span> </div>
-<div class="line"><span class="lineno">  194</span>            <a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_dmb_provider.html">IDmbProvider</a> initialDmb = <span class="keyword">null</span>;</div>
-<div class="line"><span class="lineno">  195</span>            <span class="keywordflow">if</span> (result.InitialCompileJob != <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">  196</span>            {</div>
-<div class="line"><span class="lineno">  197</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor.html#a0ef7e017c943539a83aca36c6a1bba4f">logger</a>.LogTrace(<span class="stringliteral">&quot;Loading initial compile job...&quot;</span>);</div>
-<div class="line"><span class="lineno">  198</span>                initialDmb = await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor.html#a732863bb9fd35fece0bb2c926b55f8e9">dmbFactory</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_dmb_factory.html#aa0b77cba8bd6d18af83aa73c1d4edb0f">FromCompileJob</a>(result.InitialCompileJob, cancellationToken);</div>
-<div class="line"><span class="lineno">  199</span>            }</div>
-<div class="line"><span class="lineno">  200</span> </div>
-<div class="line"><span class="lineno">  201</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor.html#a0ef7e017c943539a83aca36c6a1bba4f">logger</a>.LogTrace(<span class="stringliteral">&quot;Retrieved ReattachInformation&quot;</span>);</div>
+<div class="line"><span class="lineno">  194</span>                    await KillProcess(reattachInfo);</div>
+<div class="line"><span class="lineno">  195</span> </div>
+<div class="line"><span class="lineno">  196</span>                    db.ReattachInformations.Remove(reattachInfo);</div>
+<div class="line"><span class="lineno">  197</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor.html#a0ef7e017c943539a83aca36c6a1bba4f">logger</a>.LogTrace(<span class="stringliteral">&quot;Deleting ReattachInformation {id}...&quot;</span>, reattachInfo.Id);</div>
+<div class="line"><span class="lineno">  198</span>                }</div>
+<div class="line"><span class="lineno">  199</span> </div>
+<div class="line"><span class="lineno">  200</span>                await db.Save(cancellationToken);</div>
+<div class="line"><span class="lineno">  201</span>            });</div>
 <div class="line"><span class="lineno">  202</span> </div>
-<div class="line"><span class="lineno">  203</span>            var info = <span class="keyword">new</span> ReattachInformation(</div>
-<div class="line"><span class="lineno">  204</span>                result,</div>
-<div class="line"><span class="lineno">  205</span>                dmb,</div>
-<div class="line"><span class="lineno">  206</span>                initialDmb,</div>
-<div class="line"><span class="lineno">  207</span>                topicTimeout.Value);</div>
+<div class="line"><span class="lineno">  203</span>            <span class="keywordflow">if</span> (!topicTimeout.HasValue)</div>
+<div class="line"><span class="lineno">  204</span>            {</div>
+<div class="line"><span class="lineno">  205</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor.html#a0ef7e017c943539a83aca36c6a1bba4f">logger</a>.LogDebug(<span class="stringliteral">&quot;Reattach information not found!&quot;</span>);</div>
+<div class="line"><span class="lineno">  206</span>                <span class="keywordflow">return</span> <span class="keyword">null</span>;</div>
+<div class="line"><span class="lineno">  207</span>            }</div>
 <div class="line"><span class="lineno">  208</span> </div>
-<div class="line"><span class="lineno">  209</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor.html#a0ef7e017c943539a83aca36c6a1bba4f">logger</a>.LogDebug(<span class="stringliteral">&quot;Reattach information loaded: {info}&quot;</span>, info);</div>
-<div class="line"><span class="lineno">  210</span> </div>
-<div class="line"><span class="lineno">  211</span>            <span class="keywordflow">return</span> info;</div>
-<div class="line"><span class="lineno">  212</span>        }</div>
-<div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_dmb_factory_html_aa0b77cba8bd6d18af83aa73c1d4edb0f"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_dmb_factory.html#aa0b77cba8bd6d18af83aa73c1d4edb0f">Tgstation.Server.Host.Components.Deployment.IDmbFactory.FromCompileJob</a></div><div class="ttdeci">ValueTask&lt; IDmbProvider &gt; FromCompileJob(CompileJob compileJob, CancellationToken cancellationToken)</div><div class="ttdoc">Gets a IDmbProvider for a given CompileJob.</div></div>
+<div class="line"><span class="lineno">  209</span>            var dmb = await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor.html#a732863bb9fd35fece0bb2c926b55f8e9">dmbFactory</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_dmb_factory.html#ae23ebde726f8d74da32de334ad3e002b">FromCompileJob</a>(result!.<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_compile_job.html">CompileJob</a>!, cancellationToken);</div>
+<div class="line"><span class="lineno">  210</span>            <span class="keywordflow">if</span> (dmb == <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">  211</span>            {</div>
+<div class="line"><span class="lineno">  212</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor.html#a0ef7e017c943539a83aca36c6a1bba4f">logger</a>.LogError(<span class="stringliteral">&quot;Unable to reattach! Could not load .dmb!&quot;</span>);</div>
+<div class="line"><span class="lineno">  213</span>                await KillProcess(result);</div>
+<div class="line"><span class="lineno">  214</span> </div>
+<div class="line"><span class="lineno">  215</span>                await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor.html#a2227915dc11711ab8eac49598f9bda08">databaseContextFactory</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_factory.html#a1da664d7237dbec5a6cb9ce04b79ccc1">UseContext</a>(async db =&gt;</div>
+<div class="line"><span class="lineno">  216</span>                {</div>
+<div class="line"><span class="lineno">  217</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor.html#a0ef7e017c943539a83aca36c6a1bba4f">logger</a>.LogTrace(<span class="stringliteral">&quot;Deleting ReattachInformation {id}...&quot;</span>, result.Id);</div>
+<div class="line"><span class="lineno">  218</span>                    await db</div>
+<div class="line"><span class="lineno">  219</span>                        .ReattachInformations</div>
+<div class="line"><span class="lineno">  220</span>                        .AsQueryable()</div>
+<div class="line"><span class="lineno">  221</span>                        .Where(x =&gt; x.Id == result.Id)</div>
+<div class="line"><span class="lineno">  222</span>                        .DeleteAsync(cancellationToken);</div>
+<div class="line"><span class="lineno">  223</span>                });</div>
+<div class="line"><span class="lineno">  224</span>                <span class="keywordflow">return</span> <span class="keyword">null</span>;</div>
+<div class="line"><span class="lineno">  225</span>            }</div>
+<div class="line"><span class="lineno">  226</span> </div>
+<div class="line"><span class="lineno">  227</span>            <a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_dmb_provider.html">IDmbProvider</a>? initialDmb = <span class="keyword">null</span>;</div>
+<div class="line"><span class="lineno">  228</span>            <span class="keywordflow">if</span> (result.InitialCompileJob != <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">  229</span>            {</div>
+<div class="line"><span class="lineno">  230</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor.html#a0ef7e017c943539a83aca36c6a1bba4f">logger</a>.LogTrace(<span class="stringliteral">&quot;Loading initial compile job...&quot;</span>);</div>
+<div class="line"><span class="lineno">  231</span>                initialDmb = await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor.html#a732863bb9fd35fece0bb2c926b55f8e9">dmbFactory</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_dmb_factory.html#ae23ebde726f8d74da32de334ad3e002b">FromCompileJob</a>(result.InitialCompileJob, cancellationToken);</div>
+<div class="line"><span class="lineno">  232</span>            }</div>
+<div class="line"><span class="lineno">  233</span> </div>
+<div class="line"><span class="lineno">  234</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor.html#a0ef7e017c943539a83aca36c6a1bba4f">logger</a>.LogTrace(<span class="stringliteral">&quot;Retrieved ReattachInformation&quot;</span>);</div>
+<div class="line"><span class="lineno">  235</span> </div>
+<div class="line"><span class="lineno">  236</span>            var info = <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_reattach_information.html">ReattachInformation</a>(</div>
+<div class="line"><span class="lineno">  237</span>                result,</div>
+<div class="line"><span class="lineno">  238</span>                dmb,</div>
+<div class="line"><span class="lineno">  239</span>                initialDmb,</div>
+<div class="line"><span class="lineno">  240</span>                topicTimeout.Value);</div>
+<div class="line"><span class="lineno">  241</span> </div>
+<div class="line"><span class="lineno">  242</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor.html#a0ef7e017c943539a83aca36c6a1bba4f">logger</a>.LogDebug(<span class="stringliteral">&quot;Reattach information loaded: {info}&quot;</span>, info);</div>
+<div class="line"><span class="lineno">  243</span> </div>
+<div class="line"><span class="lineno">  244</span>            <span class="keywordflow">return</span> info;</div>
+<div class="line"><span class="lineno">  245</span>        }</div>
+<div class="ttc" id="aclass_exception_html"><div class="ttname"><a href="class_exception.html">Exception</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_models_1_1_compile_job_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_compile_job.html">Tgstation.Server.Host.Models.CompileJob</a></div><div class="ttdef"><b>Definition:</b> <a href="_tgstation_8_server_8_host_2_models_2_compile_job_8cs_source.html#l00010">CompileJob.cs:11</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_models_1_1_reattach_information_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_reattach_information.html">Tgstation.Server.Host.Models.ReattachInformation</a></div><div class="ttdoc">Database representation of Components.Session.ReattachInformation.</div><div class="ttdef"><b>Definition:</b> <a href="_models_2_reattach_information_8cs_source.html#l00009">ReattachInformation.cs:10</a></div></div>
+<div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_dmb_factory_html_ae23ebde726f8d74da32de334ad3e002b"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_dmb_factory.html#ae23ebde726f8d74da32de334ad3e002b">Tgstation.Server.Host.Components.Deployment.IDmbFactory.FromCompileJob</a></div><div class="ttdeci">ValueTask&lt; IDmbProvider?&gt; FromCompileJob(CompileJob compileJob, CancellationToken cancellationToken)</div><div class="ttdoc">Gets a IDmbProvider for a given CompileJob.</div></div>
 <div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_dmb_provider_html"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_dmb_provider.html">Tgstation.Server.Host.Components.Deployment.IDmbProvider</a></div><div class="ttdoc">Provides absolute paths to the latest compiled .dmbs.</div><div class="ttdef"><b>Definition:</b> <a href="_i_dmb_provider_8cs_source.html#l00010">IDmbProvider.cs:11</a></div></div>
 <div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_factory_html_a1da664d7237dbec5a6cb9ce04b79ccc1"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_factory.html#a1da664d7237dbec5a6cb9ce04b79ccc1">Tgstation.Server.Host.Database.IDatabaseContextFactory.UseContext</a></div><div class="ttdeci">ValueTask UseContext(Func&lt; IDatabaseContext, ValueTask &gt; operation)</div><div class="ttdoc">Run an operation  in the scope of an IDatabaseContext.</div></div>
-<div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_executor_html_a5618ee521ada90bb15bf3315440898f3"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_executor.html#a5618ee521ada90bb15bf3315440898f3">Tgstation.Server.Host.System.IProcessExecutor.GetProcess</a></div><div class="ttdeci">IProcess GetProcess(int id)</div><div class="ttdoc">Get a IProcess by id .</div></div>
+<div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_executor_html_a82c1c9bbc432577594f49417c969849f"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_executor.html#a82c1c9bbc432577594f49417c969849f">Tgstation.Server.Host.System.IProcessExecutor.GetProcess</a></div><div class="ttdeci">IProcess? GetProcess(int id)</div><div class="ttdoc">Get a IProcess by id .</div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_models_2_reattach_information_8cs_source.html#l00019">Tgstation.Server.Host.Models.ReattachInformation.CompileJob</a>, <a class="el" href="_session_persistor_8cs_source.html#l00023">Tgstation.Server.Host.Components.Session.SessionPersistor.databaseContextFactory</a>, <a class="el" href="_session_persistor_8cs_source.html#l00028">Tgstation.Server.Host.Components.Session.SessionPersistor.dmbFactory</a>, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_dmb_factory.html#aa0b77cba8bd6d18af83aa73c1d4edb0f">Tgstation.Server.Host.Components.Deployment.IDmbFactory.FromCompileJob()</a>, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_executor.html#a5618ee521ada90bb15bf3315440898f3">Tgstation.Server.Host.System.IProcessExecutor.GetProcess()</a>, <a class="el" href="_models_2_reattach_information_8cs_source.html#l00013">Tgstation.Server.Host.Models.ReattachInformation.Id</a>, <a class="el" href="_models_2_reattach_information_8cs_source.html#l00029">Tgstation.Server.Host.Models.ReattachInformation.InitialCompileJob</a>, <a class="el" href="_session_persistor_8cs_source.html#l00038">Tgstation.Server.Host.Components.Session.SessionPersistor.logger</a>, <a class="el" href="_session_persistor_8cs_source.html#l00043">Tgstation.Server.Host.Components.Session.SessionPersistor.metadata</a>, <a class="el" href="_session_persistor_8cs_source.html#l00033">Tgstation.Server.Host.Components.Session.SessionPersistor.processExecutor</a>, and <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_factory.html#a1da664d7237dbec5a6cb9ce04b79ccc1">Tgstation.Server.Host.Database.IDatabaseContextFactory.UseContext()</a>.</p>
+<p class="reference">References <a class="el" href="_session_persistor_8cs_source.html#l00024">Tgstation.Server.Host.Components.Session.SessionPersistor.databaseContextFactory</a>, <a class="el" href="_session_persistor_8cs_source.html#l00029">Tgstation.Server.Host.Components.Session.SessionPersistor.dmbFactory</a>, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_dmb_factory.html#ae23ebde726f8d74da32de334ad3e002b">Tgstation.Server.Host.Components.Deployment.IDmbFactory.FromCompileJob()</a>, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_executor.html#a82c1c9bbc432577594f49417c969849f">Tgstation.Server.Host.System.IProcessExecutor.GetProcess()</a>, <a class="el" href="_session_persistor_8cs_source.html#l00039">Tgstation.Server.Host.Components.Session.SessionPersistor.logger</a>, <a class="el" href="_session_persistor_8cs_source.html#l00044">Tgstation.Server.Host.Components.Session.SessionPersistor.metadata</a>, <a class="el" href="_session_persistor_8cs_source.html#l00034">Tgstation.Server.Host.Components.Session.SessionPersistor.processExecutor</a>, and <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_factory.html#a1da664d7237dbec5a6cb9ce04b79ccc1">Tgstation.Server.Host.Database.IDatabaseContextFactory.UseContext()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_watchdog_base_8cs_source.html#l00373">Tgstation.Server.Host.Components.Watchdog.WatchdogBase.StartAsync()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_watchdog_base_8cs_source.html#l00378">Tgstation.Server.Host.Components.Watchdog.WatchdogBase.StartAsync()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor_a587e482efa7ee7c46d99f12738f33e1d_cgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor_a587e482efa7ee7c46d99f12738f33e1d_cgraph" alt=""/></div>
-<map name="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor_a587e482efa7ee7c46d99f12738f33e1d_cgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor_a587e482efa7ee7c46d99f12738f33e1d_cgraph">
+<div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor_a89dd7970dd66a8630f036c9ecc67e834_cgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor_a89dd7970dd66a8630f036c9ecc67e834_cgraph" alt=""/></div>
+<map name="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor_a89dd7970dd66a8630f036c9ecc67e834_cgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor_a89dd7970dd66a8630f036c9ecc67e834_cgraph">
 <area shape="rect" title="Load a saved ReattachInformation. A ValueTask&lt;TResult&gt; resulting in the stored ReattachInformation if..." alt="" coords="5,69,232,109"/>
-<area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_dmb_factory.html#aa0b77cba8bd6d18af83aa73c1d4edb0f" title="Gets a IDmbProvider for a given CompileJob." alt="" coords="280,5,548,45"/>
-<area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_executor.html#a5618ee521ada90bb15bf3315440898f3" title="Get a IProcess by id ." alt="" coords="315,69,513,109"/>
+<area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_dmb_factory.html#ae23ebde726f8d74da32de334ad3e002b" title="Gets a IDmbProvider for a given CompileJob." alt="" coords="280,5,548,45"/>
+<area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_executor.html#a82c1c9bbc432577594f49417c969849f" title="Get a IProcess by id ." alt="" coords="315,69,513,109"/>
 <area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_factory.html#a1da664d7237dbec5a6cb9ce04b79ccc1" title="Run an operation &#160;in the scope of an IDatabaseContext." alt="" coords="295,133,533,173"/>
 </map>
 </div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor_a587e482efa7ee7c46d99f12738f33e1d_icgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor_a587e482efa7ee7c46d99f12738f33e1d_icgraph" alt=""/></div>
-<map name="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor_a587e482efa7ee7c46d99f12738f33e1d_icgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor_a587e482efa7ee7c46d99f12738f33e1d_icgraph">
+<div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor_a89dd7970dd66a8630f036c9ecc67e834_icgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor_a89dd7970dd66a8630f036c9ecc67e834_icgraph" alt=""/></div>
+<map name="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor_a89dd7970dd66a8630f036c9ecc67e834_icgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor_a89dd7970dd66a8630f036c9ecc67e834_icgraph">
 <area shape="rect" title="Load a saved ReattachInformation. A ValueTask&lt;TResult&gt; resulting in the stored ReattachInformation if..." alt="" coords="292,5,519,45"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#ae30d4b582b04eb7c3ef3c5d848429bbd" title=" " alt="" coords="5,5,244,45"/>
 </map>
@@ -638,7 +654,7 @@ Here is the caller graph for this function:</div>
 
 <p>Save some <em>reattachInformation</em> . <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">reattachInformation</td><td>The <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_reattach_information.html" title="Parameters necessary for duplicating a ISessionController session.">ReattachInformation</a> to save.</td></tr>
+    <tr><td class="paramname">reattachInformation</td><td>The <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_reattach_information.html" title="Parameters necessary for duplicating a ISessionController session.">ReattachInformation</a> to save. <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_reattach_information_base.html#a12bfa740c98c035bea8ff4f68fd49dab" title="The database row Id.">Models.ReattachInformationBase.Id</a> will be written back into it.</td></tr>
     <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
   </table>
   </dd>
@@ -648,9 +664,7 @@ Here is the caller graph for this function:</div>
 
 <p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_i_session_persistor.html#ae3171ed595fe6b5bec90c625f50309f0">Tgstation.Server.Host.Components.Session.ISessionPersistor</a>.</p>
 
-<p class="reference">References <a class="el" href="_d_m_api_parameters_8cs_source.html#l00014">Tgstation.Server.Host.Components.Interop.DMApiParameters.AccessIdentifier</a>, <a class="el" href="_session_persistor_8cs_source.html#l00230">Tgstation.Server.Host.Components.Session.SessionPersistor.ClearImpl()</a>, and <a class="el" href="_session_persistor_8cs_source.html#l00038">Tgstation.Server.Host.Components.Session.SessionPersistor.logger</a>.</p>
-
-<p class="reference">Referenced by <a class="el" href="_advanced_watchdog_8cs_source.html#l00136">Tgstation.Server.Host.Components.Watchdog.AdvancedWatchdog.HandleNormalReboot()</a>.</p>
+<p class="reference">References <a class="el" href="_session_persistor_8cs_source.html#l00263">Tgstation.Server.Host.Components.Session.SessionPersistor.ClearImpl()</a>, and <a class="el" href="_session_persistor_8cs_source.html#l00039">Tgstation.Server.Host.Components.Session.SessionPersistor.logger</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -661,13 +675,58 @@ Here is the call graph for this function:</div>
 <area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_collection.html#ad270ec18822a7a90d8fca9a75c23851a" title="Remove a given model &#160;from the the working set." alt="" coords="557,5,767,45"/>
 </map>
 </div>
+
+</div>
+</div>
+<a id="a5b474f446d9e672be12af82e7f7213bd" name="a5b474f446d9e672be12af82e7f7213bd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5b474f446d9e672be12af82e7f7213bd">&#9670;&#160;</a></span>Update()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">ValueTask Tgstation.Server.Host.Components.Session.SessionPersistor.Update </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_reattach_information.html">ReattachInformation</a>&#160;</td>
+          <td class="paramname"><em>reattachInformation</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">CancellationToken&#160;</td>
+          <td class="paramname"><em>cancellationToken</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Update some <em>reattachInformation</em> . <dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">reattachInformation</td><td>The <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_reattach_information.html" title="Parameters necessary for duplicating a ISessionController session.">ReattachInformation</a> to update. Requires <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_i_session_persistor.html#ae3171ed595fe6b5bec90c625f50309f0" title="Save some reattachInformation .">Save(ReattachInformation, CancellationToken)</a> to have been called on it previously or it was retrieved from <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_i_session_persistor.html#aa7e9d2ae68c58d9ca017a8742bf6506d" title="Load a saved ReattachInformation.">Load(CancellationToken)</a>.</td></tr>
+    <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A ValueTask representing the running operation.</dd></dl>
+ </p>
+
+<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_i_session_persistor.html#a3619aa6de7ee045dfe4c8627716ab63b">Tgstation.Server.Host.Components.Session.ISessionPersistor</a>.</p>
+
+<p class="reference">References <a class="el" href="_session_persistor_8cs_source.html#l00039">Tgstation.Server.Host.Components.Session.SessionPersistor.logger</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="_advanced_watchdog_8cs_source.html#l00137">Tgstation.Server.Host.Components.Watchdog.AdvancedWatchdog.HandleNormalReboot()</a>, and <a class="el" href="_basic_watchdog_8cs_source.html#l00209">Tgstation.Server.Host.Components.Watchdog.BasicWatchdog.InitController()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor_acf4ff5319507dc5a79726921ab341187_icgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor_acf4ff5319507dc5a79726921ab341187_icgraph" alt=""/></div>
-<map name="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor_acf4ff5319507dc5a79726921ab341187_icgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor_acf4ff5319507dc5a79726921ab341187_icgraph">
-<area shape="rect" title="Save some reattachInformation . A ValueTask representing the running operation." alt="" coords="380,5,607,45"/>
+<div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor_a5b474f446d9e672be12af82e7f7213bd_icgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor_a5b474f446d9e672be12af82e7f7213bd_icgraph" alt=""/></div>
+<map name="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor_a5b474f446d9e672be12af82e7f7213bd_icgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor_a5b474f446d9e672be12af82e7f7213bd_icgraph">
+<area shape="rect" title="Update some reattachInformation . A ValueTask representing the running operation." alt="" coords="380,37,607,77"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_advanced_watchdog.html#a9a94dccebeb6abb16f75b2ad03a5eb28" title="Handler for MonitorActivationReason.ActiveServerRebooted when the RebootState is RebootState...." alt="" coords="5,5,332,45"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_basic_watchdog.html#a857f98eb5a2516c2a70c35d684c2c21b" title="Starts all ISessionControllers. A Task representing the running operation." alt="" coords="43,69,294,109"/>
 </map>
 </div>
 
@@ -696,9 +755,9 @@ Here is the caller graph for this function:</div>
 
 <p>The IDatabaseContextFactory for the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor.html">SessionPersistor</a>.  </p>
 
-<p class="definition">Definition at line <a class="el" href="_session_persistor_8cs_source.html#l00023">23</a> of file <a class="el" href="_session_persistor_8cs_source.html">SessionPersistor.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_session_persistor_8cs_source.html#l00024">24</a> of file <a class="el" href="_session_persistor_8cs_source.html">SessionPersistor.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_session_persistor_8cs_source.html#l00093">Tgstation.Server.Host.Components.Session.SessionPersistor.Load()</a>, and <a class="el" href="_session_persistor_8cs_source.html#l00053">Tgstation.Server.Host.Components.Session.SessionPersistor.SessionPersistor()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_session_persistor_8cs_source.html#l00126">Tgstation.Server.Host.Components.Session.SessionPersistor.Load()</a>, and <a class="el" href="_session_persistor_8cs_source.html#l00054">Tgstation.Server.Host.Components.Session.SessionPersistor.SessionPersistor()</a>.</p>
 
 </div>
 </div>
@@ -724,9 +783,9 @@ Here is the caller graph for this function:</div>
 
 <p>The IDmbFactory for the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor.html">SessionPersistor</a>.  </p>
 
-<p class="definition">Definition at line <a class="el" href="_session_persistor_8cs_source.html#l00028">28</a> of file <a class="el" href="_session_persistor_8cs_source.html">SessionPersistor.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_session_persistor_8cs_source.html#l00029">29</a> of file <a class="el" href="_session_persistor_8cs_source.html">SessionPersistor.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_session_persistor_8cs_source.html#l00093">Tgstation.Server.Host.Components.Session.SessionPersistor.Load()</a>, and <a class="el" href="_session_persistor_8cs_source.html#l00053">Tgstation.Server.Host.Components.Session.SessionPersistor.SessionPersistor()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_session_persistor_8cs_source.html#l00126">Tgstation.Server.Host.Components.Session.SessionPersistor.Load()</a>, and <a class="el" href="_session_persistor_8cs_source.html#l00054">Tgstation.Server.Host.Components.Session.SessionPersistor.SessionPersistor()</a>.</p>
 
 </div>
 </div>
@@ -752,9 +811,9 @@ Here is the caller graph for this function:</div>
 
 <p>The ILogger for the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor.html">SessionPersistor</a>.  </p>
 
-<p class="definition">Definition at line <a class="el" href="_session_persistor_8cs_source.html#l00038">38</a> of file <a class="el" href="_session_persistor_8cs_source.html">SessionPersistor.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_session_persistor_8cs_source.html#l00039">39</a> of file <a class="el" href="_session_persistor_8cs_source.html">SessionPersistor.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor.html#ac3551d3e6a6a17ef85ac39c506c32d5f">Tgstation.Server.Host.Components.Session.SessionPersistor.Clear()</a>, <a class="el" href="_session_persistor_8cs_source.html#l00093">Tgstation.Server.Host.Components.Session.SessionPersistor.Load()</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor.html#acf4ff5319507dc5a79726921ab341187">Tgstation.Server.Host.Components.Session.SessionPersistor.Save()</a>, and <a class="el" href="_session_persistor_8cs_source.html#l00053">Tgstation.Server.Host.Components.Session.SessionPersistor.SessionPersistor()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor.html#ac3551d3e6a6a17ef85ac39c506c32d5f">Tgstation.Server.Host.Components.Session.SessionPersistor.Clear()</a>, <a class="el" href="_session_persistor_8cs_source.html#l00126">Tgstation.Server.Host.Components.Session.SessionPersistor.Load()</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor.html#acf4ff5319507dc5a79726921ab341187">Tgstation.Server.Host.Components.Session.SessionPersistor.Save()</a>, <a class="el" href="_session_persistor_8cs_source.html#l00054">Tgstation.Server.Host.Components.Session.SessionPersistor.SessionPersistor()</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor.html#a5b474f446d9e672be12af82e7f7213bd">Tgstation.Server.Host.Components.Session.SessionPersistor.Update()</a>.</p>
 
 </div>
 </div>
@@ -780,9 +839,9 @@ Here is the caller graph for this function:</div>
 
 <p>The <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html" title="Metadata about a server instance.">Api.Models.Instance</a> for the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor.html">SessionPersistor</a>.  </p>
 
-<p class="definition">Definition at line <a class="el" href="_session_persistor_8cs_source.html#l00043">43</a> of file <a class="el" href="_session_persistor_8cs_source.html">SessionPersistor.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_session_persistor_8cs_source.html#l00044">44</a> of file <a class="el" href="_session_persistor_8cs_source.html">SessionPersistor.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_session_persistor_8cs_source.html#l00230">Tgstation.Server.Host.Components.Session.SessionPersistor.ClearImpl()</a>, <a class="el" href="_session_persistor_8cs_source.html#l00093">Tgstation.Server.Host.Components.Session.SessionPersistor.Load()</a>, and <a class="el" href="_session_persistor_8cs_source.html#l00053">Tgstation.Server.Host.Components.Session.SessionPersistor.SessionPersistor()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_session_persistor_8cs_source.html#l00263">Tgstation.Server.Host.Components.Session.SessionPersistor.ClearImpl()</a>, <a class="el" href="_session_persistor_8cs_source.html#l00126">Tgstation.Server.Host.Components.Session.SessionPersistor.Load()</a>, and <a class="el" href="_session_persistor_8cs_source.html#l00054">Tgstation.Server.Host.Components.Session.SessionPersistor.SessionPersistor()</a>.</p>
 
 </div>
 </div>
@@ -808,9 +867,9 @@ Here is the caller graph for this function:</div>
 
 <p>The IProcessExecutor for the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor.html">SessionPersistor</a>.  </p>
 
-<p class="definition">Definition at line <a class="el" href="_session_persistor_8cs_source.html#l00033">33</a> of file <a class="el" href="_session_persistor_8cs_source.html">SessionPersistor.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_session_persistor_8cs_source.html#l00034">34</a> of file <a class="el" href="_session_persistor_8cs_source.html">SessionPersistor.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_session_persistor_8cs_source.html#l00093">Tgstation.Server.Host.Components.Session.SessionPersistor.Load()</a>, and <a class="el" href="_session_persistor_8cs_source.html#l00053">Tgstation.Server.Host.Components.Session.SessionPersistor.SessionPersistor()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_session_persistor_8cs_source.html#l00126">Tgstation.Server.Host.Components.Session.SessionPersistor.Load()</a>, and <a class="el" href="_session_persistor_8cs_source.html#l00054">Tgstation.Server.Host.Components.Session.SessionPersistor.SessionPersistor()</a>.</p>
 
 </div>
 </div>

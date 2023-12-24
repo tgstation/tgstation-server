@@ -1,5 +1,0 @@
-<map id="Tgstation.Server.Client.Components.ByondClient" name="Tgstation.Server.Client.Components.ByondClient">
-<area shape="rect" id="node1" title=" " alt="" coords="43,79,209,119"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_client_1_1_paginated_client.html" title="Client that deals with getting paginated results." alt="" coords="5,5,119,31"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_byond_client.html" title="For managing the ByondInstallResponse installation." alt="" coords="143,5,237,31"/>
-</map>

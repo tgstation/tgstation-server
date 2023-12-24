@@ -1,9 +1,9 @@
 <map id="Tgstation.Server.Host.IO.IIOManager.PathContainsParentAccess" name="Tgstation.Server.Host.IO.IIOManager.PathContainsParentAccess">
 <area shape="rect" id="node1" title="Check if a path &#160;contains the &#39;..&#39; parent directory accessor." alt="" coords="575,133,828,173"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_configuration_controller.html#a3478628e5a443b65c9ffb565d4da2cde" title="If a ForbidResult should be returned from actions due to conflicts with one or both of the Api...." alt="" coords="297,126,527,181"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_configuration_controller.html#ac87ffe36eed57c689bd66ca2a08453a1" title="If a ForbidResult should be returned from actions due to conflicts with one or both of the Api...." alt="" coords="297,126,527,181"/>
 <area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_configuration_controller.html#ad027b48cbc062a6a109c68c1f36db53e" title="Create a configuration directory." alt="" coords="5,5,249,45"/>
 <area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_configuration_controller.html#a05490adb221b9e0954caa76167121d33" title="Deletes an empty directory ." alt="" coords="6,69,249,109"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_configuration_controller.html#a93bde836ddb1b91984bd3203373fab73" title="Get the contents of a directory at a directoryPath ." alt="" coords="19,133,235,173"/>
+<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_configuration_controller.html#a4ba01f627952c9d3f1cdaa6f7849d25c" title="Get the contents of a directory at a directoryPath ." alt="" coords="19,133,235,173"/>
 <area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_configuration_controller.html#aad0135f549d1c973f2a144b55fbf40b9" title="Get the contents of a file at a filePath ." alt="" coords="19,197,235,237"/>
 <area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_configuration_controller.html#a2a376160593ef985968f01f7dd93d24f" title="Write to a configuration file." alt="" coords="19,261,235,301"/>
 </map>

@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.18.2</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.0.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -155,8 +155,8 @@ $(function() {
 <div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span>        [Description(<span class="stringliteral">&quot;The instance cannot be created because the configured limit has been reached!&quot;</span>)]</div>
 <div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span>        InstanceLimitReached,</div>
 <div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span> </div>
-<div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span>        [Description(<span class="stringliteral">&quot;Instance names cannot be whitespace!&quot;</span>)]</div>
-<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span>        InstanceWhitespaceName,</div>
+<div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span>        [Description(<span class="stringliteral">&quot;Instance names and paths cannot be whitespace!&quot;</span>)]</div>
+<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span>        InstanceWhitespaceNameOrPath,</div>
 <div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span> </div>
 <div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span>        [Description(<span class="stringliteral">&quot;The request path requires the &#39;Instance&#39; header to be set!&quot;</span>)]</div>
 <div class="line"><a id="l00162" name="l00162"></a><span class="lineno">  162</span>        InstanceHeaderRequired,</div>
@@ -194,8 +194,8 @@ $(function() {
 <div class="line"><a id="l00227" name="l00227"></a><span class="lineno">  227</span>        [Description(<span class="stringliteral">&quot;Cannot checkoutSha and updateFromOrigin at the same time!&quot;</span>)]</div>
 <div class="line"><a id="l00228" name="l00228"></a><span class="lineno">  228</span>        RepoMismatchShaAndUpdate,</div>
 <div class="line"><a id="l00229" name="l00229"></a><span class="lineno">  229</span> </div>
-<div class="line"><a id="l00233" name="l00233"></a><span class="lineno">  233</span>        [Description(<span class="stringliteral">&quot;Could not delete BYOND version due to it being selected as the instance&#39;s active version.&quot;</span>)]</div>
-<div class="line"><a id="l00234" name="l00234"></a><span class="lineno">  234</span>        ByondCannotDeleteActiveVersion,</div>
+<div class="line"><a id="l00233" name="l00233"></a><span class="lineno">  233</span>        [Description(<span class="stringliteral">&quot;Could not delete engine version due to it being selected as the instance&#39;s active version.&quot;</span>)]</div>
+<div class="line"><a id="l00234" name="l00234"></a><span class="lineno">  234</span>        EngineCannotDeleteActiveVersion,</div>
 <div class="line"><a id="l00235" name="l00235"></a><span class="lineno">  235</span> </div>
 <div class="line"><a id="l00239" name="l00239"></a><span class="lineno">  239</span>        [Description(<span class="stringliteral">&quot;The same test merge was present more than once or is already merged!&quot;</span>)]</div>
 <div class="line"><a id="l00240" name="l00240"></a><span class="lineno">  240</span>        RepoDuplicateTestMerge,</div>
@@ -236,32 +236,32 @@ $(function() {
 <div class="line"><a id="l00311" name="l00311"></a><span class="lineno">  311</span>        [Description(<span class="stringliteral">&quot;Unable to start DirectX installer process! Is the server running with admin privileges?&quot;</span>)]</div>
 <div class="line"><a id="l00312" name="l00312"></a><span class="lineno">  312</span>        ByondDirectXInstallFail,</div>
 <div class="line"><a id="l00313" name="l00313"></a><span class="lineno">  313</span> </div>
-<div class="line"><a id="l00317" name="l00317"></a><span class="lineno">  317</span>        [Description(<span class="stringliteral">&quot;Error downloading specified BYOND version!&quot;</span>)]</div>
-<div class="line"><a id="l00318" name="l00318"></a><span class="lineno">  318</span>        ByondDownloadFail,</div>
+<div class="line"><a id="l00317" name="l00317"></a><span class="lineno">  317</span>        [Description(<span class="stringliteral">&quot;Error downloading specified engine version!&quot;</span>)]</div>
+<div class="line"><a id="l00318" name="l00318"></a><span class="lineno">  318</span>        EngineDownloadFail,</div>
 <div class="line"><a id="l00319" name="l00319"></a><span class="lineno">  319</span> </div>
-<div class="line"><a id="l00323" name="l00323"></a><span class="lineno">  323</span>        [Description(<span class="stringliteral">&quot;Could not acquire lock on BYOND installation as none exist!&quot;</span>)]</div>
-<div class="line"><a id="l00324" name="l00324"></a><span class="lineno">  324</span>        ByondNoVersionsInstalled,</div>
+<div class="line"><a id="l00323" name="l00323"></a><span class="lineno">  323</span>        [Description(<span class="stringliteral">&quot;Could not acquire lock on engine installation as none exist!&quot;</span>)]</div>
+<div class="line"><a id="l00324" name="l00324"></a><span class="lineno">  324</span>        EngineNoVersionsInstalled,</div>
 <div class="line"><a id="l00325" name="l00325"></a><span class="lineno">  325</span> </div>
 <div class="line"><a id="l00329" name="l00329"></a><span class="lineno">  329</span>        [Description(<span class="stringliteral">&quot;DMAPI validation failed! See FAQ at https://github.com/tgstation/tgstation-server/discussions/1695&quot;</span>)]</div>
-<div class="line"><a id="l00330" name="l00330"></a><span class="lineno">  330</span>        DreamMakerNeverValidated,</div>
+<div class="line"><a id="l00330" name="l00330"></a><span class="lineno">  330</span>        DeploymentNeverValidated,</div>
 <div class="line"><a id="l00331" name="l00331"></a><span class="lineno">  331</span> </div>
 <div class="line"><a id="l00335" name="l00335"></a><span class="lineno">  335</span>        [Description(<span class="stringliteral">&quot;The DMAPI sent an invalid validation request!&quot;</span>)]</div>
-<div class="line"><a id="l00336" name="l00336"></a><span class="lineno">  336</span>        DreamMakerInvalidValidation,</div>
+<div class="line"><a id="l00336" name="l00336"></a><span class="lineno">  336</span>        DeploymentInvalidValidation,</div>
 <div class="line"><a id="l00337" name="l00337"></a><span class="lineno">  337</span> </div>
 <div class="line"><a id="l00341" name="l00341"></a><span class="lineno">  341</span>        [Description(<span class="stringliteral">&quot;This user is passwordless and removing their oAuthConnections would leave them with no authentication method!&quot;</span>)]</div>
 <div class="line"><a id="l00342" name="l00342"></a><span class="lineno">  342</span>        CannotRemoveLastAuthenticationOption,</div>
 <div class="line"><a id="l00343" name="l00343"></a><span class="lineno">  343</span> </div>
 <div class="line"><a id="l00347" name="l00347"></a><span class="lineno">  347</span>        [Description(<span class="stringliteral">&quot;No .dme configured and could not automatically detect one!&quot;</span>)]</div>
-<div class="line"><a id="l00348" name="l00348"></a><span class="lineno">  348</span>        DreamMakerNoDme,</div>
+<div class="line"><a id="l00348" name="l00348"></a><span class="lineno">  348</span>        DeploymentNoDme,</div>
 <div class="line"><a id="l00349" name="l00349"></a><span class="lineno">  349</span> </div>
 <div class="line"><a id="l00353" name="l00353"></a><span class="lineno">  353</span>        [Description(<span class="stringliteral">&quot;Could not load configured .dme!&quot;</span>)]</div>
-<div class="line"><a id="l00354" name="l00354"></a><span class="lineno">  354</span>        DreamMakerMissingDme,</div>
+<div class="line"><a id="l00354" name="l00354"></a><span class="lineno">  354</span>        DeploymentMissingDme,</div>
 <div class="line"><a id="l00355" name="l00355"></a><span class="lineno">  355</span> </div>
-<div class="line"><a id="l00359" name="l00359"></a><span class="lineno">  359</span>        [Description(<span class="stringliteral">&quot;DreamMaker exited with a non-zero exit code!&quot;</span>)]</div>
-<div class="line"><a id="l00360" name="l00360"></a><span class="lineno">  360</span>        DreamMakerExitCode,</div>
+<div class="line"><a id="l00359" name="l00359"></a><span class="lineno">  359</span>        [Description(<span class="stringliteral">&quot;Compiler exited with a non-zero exit code!&quot;</span>)]</div>
+<div class="line"><a id="l00360" name="l00360"></a><span class="lineno">  360</span>        DeploymentExitCode,</div>
 <div class="line"><a id="l00361" name="l00361"></a><span class="lineno">  361</span> </div>
 <div class="line"><a id="l00365" name="l00365"></a><span class="lineno">  365</span>        [Description(<span class="stringliteral">&quot;There is already a deployment operation in progress!&quot;</span>)]</div>
-<div class="line"><a id="l00366" name="l00366"></a><span class="lineno">  366</span>        DreamMakerCompileJobInProgress,</div>
+<div class="line"><a id="l00366" name="l00366"></a><span class="lineno">  366</span>        DeploymentInProgress,</div>
 <div class="line"><a id="l00367" name="l00367"></a><span class="lineno">  367</span> </div>
 <div class="line"><a id="l00371" name="l00371"></a><span class="lineno">  371</span>        [Description(<span class="stringliteral">&quot;Could not retrieve DreamDaemon settings from the database!&quot;</span>)]</div>
 <div class="line"><a id="l00372" name="l00372"></a><span class="lineno">  372</span>        InstanceMissingDreamDaemonSettings,</div>
@@ -290,10 +290,10 @@ $(function() {
 <div class="line"><a id="l00419" name="l00419"></a><span class="lineno">  419</span>        [Description(<span class="stringliteral">&quot;Cannot launch active compile job as it is missing or corrupted!&quot;</span>)]</div>
 <div class="line"><a id="l00420" name="l00420"></a><span class="lineno">  420</span>        WatchdogCompileJobCorrupted,</div>
 <div class="line"><a id="l00421" name="l00421"></a><span class="lineno">  421</span> </div>
-<div class="line"><a id="l00425" name="l00425"></a><span class="lineno">  425</span>        [Description(<span class="stringliteral">&quot;DreamDaemon failed to start!&quot;</span>)]</div>
+<div class="line"><a id="l00425" name="l00425"></a><span class="lineno">  425</span>        [Description(<span class="stringliteral">&quot;Game server failed to start!&quot;</span>)]</div>
 <div class="line"><a id="l00426" name="l00426"></a><span class="lineno">  426</span>        WatchdogStartupFailed,</div>
 <div class="line"><a id="l00427" name="l00427"></a><span class="lineno">  427</span> </div>
-<div class="line"><a id="l00431" name="l00431"></a><span class="lineno">  431</span>        [Description(<span class="stringliteral">&quot;DreamDaemon failed to start within the configured timeout!&quot;</span>)]</div>
+<div class="line"><a id="l00431" name="l00431"></a><span class="lineno">  431</span>        [Description(<span class="stringliteral">&quot;Game server failed to start within the configured timeout!&quot;</span>)]</div>
 <div class="line"><a id="l00432" name="l00432"></a><span class="lineno">  432</span>        WatchdogStartupTimeout,</div>
 <div class="line"><a id="l00433" name="l00433"></a><span class="lineno">  433</span> </div>
 <div class="line"><a id="l00437" name="l00437"></a><span class="lineno">  437</span>        [Description(<span class="stringliteral">&quot;Test merging with the current remote is not supported!&quot;</span>)]</div>
@@ -315,13 +315,13 @@ $(function() {
 <div class="line"><a id="l00468" name="l00468"></a><span class="lineno">  468</span>        InstanceNotAtWhitelistedPath,</div>
 <div class="line"><a id="l00469" name="l00469"></a><span class="lineno">  469</span> </div>
 <div class="line"><a id="l00473" name="l00473"></a><span class="lineno">  473</span>        [Description(<span class="stringliteral">&quot;Cannot set both softShutdown and softReboot at once!&quot;</span>)]</div>
-<div class="line"><a id="l00474" name="l00474"></a><span class="lineno">  474</span>        DreamDaemonDoubleSoft,</div>
+<div class="line"><a id="l00474" name="l00474"></a><span class="lineno">  474</span>        GameServerDoubleSoft,</div>
 <div class="line"><a id="l00475" name="l00475"></a><span class="lineno">  475</span> </div>
 <div class="line"><a id="l00479" name="l00479"></a><span class="lineno">  479</span>        [Description(<span class="stringliteral">&quot;Cannot start DreamDaemon headless with the BYOND pager running!&quot;</span>)]</div>
-<div class="line"><a id="l00480" name="l00480"></a><span class="lineno">  480</span>        DeploymentPagerRunning,</div>
+<div class="line"><a id="l00480" name="l00480"></a><span class="lineno">  480</span>        DreamDaemonPagerRunning,</div>
 <div class="line"><a id="l00481" name="l00481"></a><span class="lineno">  481</span> </div>
-<div class="line"><a id="l00485" name="l00485"></a><span class="lineno">  485</span>        [Description(<span class="stringliteral">&quot;Could not bind to requested DreamDaemon port! Is there another service running on that port?&quot;</span>)]</div>
-<div class="line"><a id="l00486" name="l00486"></a><span class="lineno">  486</span>        DreamDaemonPortInUse,</div>
+<div class="line"><a id="l00485" name="l00485"></a><span class="lineno">  485</span>        [Description(<span class="stringliteral">&quot;Could not bind to requested game server port! Is there another service running on that port?&quot;</span>)]</div>
+<div class="line"><a id="l00486" name="l00486"></a><span class="lineno">  486</span>        GameServerPortInUse,</div>
 <div class="line"><a id="l00487" name="l00487"></a><span class="lineno">  487</span> </div>
 <div class="line"><a id="l00491" name="l00491"></a><span class="lineno">  491</span>        [Description(<span class="stringliteral">&quot;The deployment succeeded but one or more notification events failed!&quot;</span>)]</div>
 <div class="line"><a id="l00492" name="l00492"></a><span class="lineno">  492</span>        PostDeployFailure,</div>
@@ -350,11 +350,11 @@ $(function() {
 <div class="line"><a id="l00539" name="l00539"></a><span class="lineno">  539</span>        [Description(<span class="stringliteral">&quot;Test merging cannot be performed with this remote!&quot;</span>)]</div>
 <div class="line"><a id="l00540" name="l00540"></a><span class="lineno">  540</span>        RepoTestMergeInvalidRemote,</div>
 <div class="line"><a id="l00541" name="l00541"></a><span class="lineno">  541</span> </div>
-<div class="line"><a id="l00545" name="l00545"></a><span class="lineno">  545</span>        [Description(<span class="stringliteral">&quot;Cannot switch to requested custom BYOND version as it is not currently installed.&quot;</span>)]</div>
-<div class="line"><a id="l00546" name="l00546"></a><span class="lineno">  546</span>        ByondNonExistentCustomVersion,</div>
+<div class="line"><a id="l00545" name="l00545"></a><span class="lineno">  545</span>        [Description(<span class="stringliteral">&quot;Cannot switch to requested custom engine version as it is not currently installed.&quot;</span>)]</div>
+<div class="line"><a id="l00546" name="l00546"></a><span class="lineno">  546</span>        EngineNonExistentCustomVersion,</div>
 <div class="line"><a id="l00547" name="l00547"></a><span class="lineno">  547</span> </div>
-<div class="line"><a id="l00551" name="l00551"></a><span class="lineno">  551</span>        [Description(<span class="stringliteral">&quot;Cannot perform this operation as DreamDaemon is not currently running!&quot;</span>)]</div>
-<div class="line"><a id="l00552" name="l00552"></a><span class="lineno">  552</span>        DreamDaemonOffline,</div>
+<div class="line"><a id="l00551" name="l00551"></a><span class="lineno">  551</span>        [Description(<span class="stringliteral">&quot;Cannot perform this operation as the game server is not currently running!&quot;</span>)]</div>
+<div class="line"><a id="l00552" name="l00552"></a><span class="lineno">  552</span>        GameServerOffline,</div>
 <div class="line"><a id="l00553" name="l00553"></a><span class="lineno">  553</span> </div>
 <div class="line"><a id="l00557" name="l00557"></a><span class="lineno">  557</span>        [Description(<span class="stringliteral">&quot;The instance associated with the operation is currently offline!&quot;</span>)]</div>
 <div class="line"><a id="l00558" name="l00558"></a><span class="lineno">  558</span>        InstanceOffline,</div>
@@ -362,8 +362,8 @@ $(function() {
 <div class="line"><a id="l00563" name="l00563"></a><span class="lineno">  563</span>        [Description(<span class="stringliteral">&quot;Failed to connect chat bot!&quot;</span>)]</div>
 <div class="line"><a id="l00564" name="l00564"></a><span class="lineno">  564</span>        ChatCannotConnectProvider,</div>
 <div class="line"><a id="l00565" name="l00565"></a><span class="lineno">  565</span> </div>
-<div class="line"><a id="l00569" name="l00569"></a><span class="lineno">  569</span>        [Description(<span class="stringliteral">&quot;Failed to allow DreamDaemon through the Windows firewall!&quot;</span>)]</div>
-<div class="line"><a id="l00570" name="l00570"></a><span class="lineno">  570</span>        ByondDreamDaemonFirewallFail,</div>
+<div class="line"><a id="l00569" name="l00569"></a><span class="lineno">  569</span>        [Description(<span class="stringliteral">&quot;Failed to allow game server through the Windows firewall!&quot;</span>)]</div>
+<div class="line"><a id="l00570" name="l00570"></a><span class="lineno">  570</span>        EngineFirewallFail,</div>
 <div class="line"><a id="l00571" name="l00571"></a><span class="lineno">  571</span> </div>
 <div class="line"><a id="l00575" name="l00575"></a><span class="lineno">  575</span>        [Description(<span class="stringliteral">&quot;TGS was unable to find a free port to allocate for the operation!&quot;</span>)]</div>
 <div class="line"><a id="l00576" name="l00576"></a><span class="lineno">  576</span>        NoPortsAvailable,</div>
@@ -397,9 +397,15 @@ $(function() {
 <div class="line"><a id="l00631" name="l00631"></a><span class="lineno">  631</span> </div>
 <div class="line"><a id="l00635" name="l00635"></a><span class="lineno">  635</span>        [Description(<span class="stringliteral">&quot;Could not send broadcast to the DMAPI. This can happen either due to there being an insufficient DMAPI version, a communication failure, or the server being offline.&quot;</span>)]</div>
 <div class="line"><a id="l00636" name="l00636"></a><span class="lineno">  636</span>        BroadcastFailure,</div>
-<div class="line"><a id="l00637" name="l00637"></a><span class="lineno">  637</span>    }</div>
-<div class="line"><a id="l00638" name="l00638"></a><span class="lineno">  638</span>}</div>
-<div class="ttc" id="anamespace_tgstation_1_1_server_1_1_api_1_1_models_html"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html">Tgstation.Server.Api.Models</a></div><div class="ttdef"><b>Definition:</b> <a href="_tgstation_8_server_8_api_2_models_2_chat_channel_8cs_source.html#l00006">ChatChannel.cs:7</a></div></div>
+<div class="line"><a id="l00637" name="l00637"></a><span class="lineno">  637</span> </div>
+<div class="line"><a id="l00641" name="l00641"></a><span class="lineno">  641</span>        [Description(<span class="stringliteral">&quot;OpenDream could not be compiled due to being unable to locate the dotnet executable!&quot;</span>)]</div>
+<div class="line"><a id="l00642" name="l00642"></a><span class="lineno">  642</span>        OpenDreamCantFindDotnet,</div>
+<div class="line"><a id="l00643" name="l00643"></a><span class="lineno">  643</span> </div>
+<div class="line"><a id="l00647" name="l00647"></a><span class="lineno">  647</span>        [Description(<span class="stringliteral">&quot;The specified OpenDream version is too old!&quot;</span>)]</div>
+<div class="line"><a id="l00648" name="l00648"></a><span class="lineno">  648</span>        OpenDreamTooOld,</div>
+<div class="line"><a id="l00649" name="l00649"></a><span class="lineno">  649</span>    }</div>
+<div class="line"><a id="l00650" name="l00650"></a><span class="lineno">  650</span>}</div>
+<div class="ttc" id="anamespace_tgstation_1_1_server_1_1_api_1_1_models_html"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html">Tgstation.Server.Api.Models</a></div><div class="ttdef"><b>Definition:</b> <a href="_tgstation_8_server_8_api_2_models_2_chat_channel_8cs_source.html#l00005">ChatChannel.cs:6</a></div></div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_api_1_1_models_html_a1a6adb59dd51244efabf4e548e7075c8"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">Tgstation.Server.Api.Models.ErrorCode</a></div><div class="ttdeci">ErrorCode</div><div class="ttdoc">Types of Response.ErrorMessageResponses that the API may return.</div><div class="ttdef"><b>Definition:</b> <a href="_error_code_8cs_source.html#l00012">ErrorCode.cs:13</a></div></div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_common_html"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_common.html">Tgstation.Server.Common</a></div><div class="ttdef"><b>Definition:</b> <a href="_constants_8cs_source.html#l00001">Constants.cs:2</a></div></div>
 </div><!-- fragment --></div><!-- contents -->

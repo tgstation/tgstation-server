@@ -1,9 +1,9 @@
 <map id="Tgstation.Server.Host.Models.User" name="Tgstation.Server.Host.Models.User">
-<area shape="rect" id="node1" title=" " alt="" coords="124,332,348,357"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_user_model_base.html" title="Represents a server user." alt="" coords="5,229,144,269"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_user_name.html" title="Base class for user names." alt="" coords="32,155,117,180"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_named_entity.html" title="Base class for named entities." alt="" coords="27,80,123,105"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html" title="Common base of entities with IDs." alt="" coords="42,5,107,31"/>
-<area shape="rect" id="node6" href="$interface_tgstation_1_1_server_1_1_host_1_1_models_1_1_i_api_transformable.html" title=" " alt="" coords="168,229,304,269"/>
-<area shape="rect" id="node7" title=" " alt="" coords="329,237,383,262"/>
+<area shape="rect" id="node1" title=" " alt="" coords="720,77,944,102"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_user_model_base.html" title="Represents a server user." alt="" coords="400,5,539,45"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_user_name.html" title="Base class for user names." alt="" coords="265,13,351,38"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_named_entity.html" title="Base class for named entities." alt="" coords="120,13,216,38"/>
+<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html" title="Common base of entities with IDs." alt="" coords="5,13,71,38"/>
+<area shape="rect" id="node6" href="$interface_tgstation_1_1_server_1_1_host_1_1_models_1_1_i_api_transformable.html" title=" " alt="" coords="401,69,537,109"/>
+<area shape="rect" id="node7" title=" " alt="" coords="425,134,514,159"/>
 </map>

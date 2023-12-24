@@ -1,0 +1,4 @@
+<map id="Tgstation.Server.Host.Components.Deployment.DreamMaker.RunDreamMaker" name="Tgstation.Server.Host.Components.Deployment.DreamMaker.RunDreamMaker">
+<area shape="rect" id="node1" title="Compiles a .dme with DreamMaker." alt="" coords="5,13,272,53"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installation.html#a902d19d31ff635e3f2edb3e742d95925" title="Return the command line arguments for compiling a given dmePath &#160;if compilation is necessary." alt="" coords="320,5,585,60"/>
+</map>

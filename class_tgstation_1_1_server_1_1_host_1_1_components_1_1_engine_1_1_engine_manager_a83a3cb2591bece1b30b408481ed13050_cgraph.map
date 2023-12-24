@@ -1,0 +1,10 @@
+<map id="Tgstation.Server.Host.Components.Engine.EngineManager.DeleteVersion" name="Tgstation.Server.Host.Components.Engine.EngineManager.DeleteVersion">
+<area shape="rect" id="node1" title="Deletes a given version &#160;from the disk. A Task representing the running operation." alt="" coords="5,197,243,237"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_manager.html#a06d4c2604e3020f77b073021bf3016b4" title="Validates a given version &#160;parameter." alt="" coords="291,5,588,45"/>
+<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a286f4eb5c679683b7e519847a6c3574e" title="Combines an array of strings into a path." alt="" coords="355,69,523,109"/>
+<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ad3e0dda4b7fbad4c77f48ba3b2681dc7" title="Recursively delete a directory, removes and does not enter any symlinks encounterd." alt="" coords="349,133,530,173"/>
+<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a6ca322ea63f5693487917c1ee71c707a" title="Deletes a file at path ." alt="" coords="355,197,523,237"/>
+<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_engine_version.html#ab3e70b3c51454b8d6b62fc8d9fd98125" title=" " alt="" coords="346,261,533,301"/>
+<area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html#a29773d588476671bbe480f096d839c91" title="Asyncronously locks a semaphore ." alt="" coords="344,325,535,365"/>
+<area shape="rect" id="node8" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_engine_version.html#a5576a2503f8e4371139e9abe80df44d2" title=" " alt="" coords="346,413,533,453"/>
+</map>

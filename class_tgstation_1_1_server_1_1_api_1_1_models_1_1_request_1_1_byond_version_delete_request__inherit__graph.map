@@ -1,4 +1,0 @@
-<map id="Tgstation.Server.Api.Models.Request.ByondVersionDeleteRequest" name="Tgstation.Server.Api.Models.Request.ByondVersionDeleteRequest">
-<area shape="rect" id="node1" title="A request to delete a specific Version." alt="" coords="5,5,244,45"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_1_1_byond_version_request.html" title="A request to install a BYOND ByondVersionDeleteRequest.Version." alt="" coords="24,93,225,133"/>
-</map>

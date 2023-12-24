@@ -1,7 +1,7 @@
 <map id="Tgstation.Server.Host.IO.DefaultIOManager" name="Tgstation.Server.Host.IO.DefaultIOManager">
-<area shape="rect" id="node1" title="IIOManager that resolves paths to Environment.CurrentDirectory." alt="" coords="128,93,296,133"/>
+<area shape="rect" id="node1" title="IIOManager that resolves paths to Environment.CurrentDirectory." alt="" coords="145,93,313,133"/>
 <area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html" title="Interface for using filesystems." alt="" coords="5,5,96,31"/>
-<area shape="rect" id="node3" title=" " alt="" coords="121,5,175,31"/>
-<area shape="rect" id="node4" title=" " alt="" coords="257,5,295,31"/>
-<area shape="rect" id="node5" title=" " alt="" coords="321,5,500,31"/>
+<area shape="rect" id="node3" title=" " alt="" coords="121,5,210,31"/>
+<area shape="rect" id="node4" title=" " alt="" coords="274,5,313,31"/>
+<area shape="rect" id="node5" title=" " alt="" coords="339,5,517,31"/>
 </map>

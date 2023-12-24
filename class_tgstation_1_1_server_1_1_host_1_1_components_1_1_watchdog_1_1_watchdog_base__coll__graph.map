@@ -1,5 +1,5 @@
 <map id="Tgstation.Server.Host.Components.Watchdog.WatchdogBase" name="Tgstation.Server.Host.Components.Watchdog.WatchdogBase">
-<area shape="rect" id="node1" title="Base class for IWatchdogs." alt="" coords="864,454,1091,494"/>
+<area shape="rect" id="node1" title="Base class for IWatchdogs." alt="" coords="864,486,1091,526"/>
 <area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_watchdog.html" title="Runs and monitors the twin server controllers." alt="" coords="439,79,523,104"/>
 <area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_component_service.html" title="Represents a component meant to be started and stopped by its parent component." alt="" coords="167,5,303,31"/>
 <area shape="rect" id="node4" href="$class_i_hosted_service.html" title=" " alt="" coords="5,5,117,31"/>
@@ -17,8 +17,9 @@
 <area shape="rect" id="node16" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html" title="Interface for using filesystems." alt="" coords="397,518,565,558"/>
 <area shape="rect" id="node17" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_i_remote_deployment_manager_factory.html" title="Factory for creating IRemoteDeploymentManagers." alt="" coords="352,583,611,637"/>
 <area shape="rect" id="node18" title=" " alt="" coords="458,661,505,687"/>
-<area shape="rect" id="node19" title=" " alt="" coords="396,711,567,736"/>
-<area shape="rect" id="node20" title=" " alt="" coords="456,760,507,785"/>
-<area shape="rect" id="node21" title=" " alt="" coords="422,809,541,835"/>
-<area shape="rect" id="node22" title=" " alt="" coords="462,859,501,884"/>
+<area shape="rect" id="node19" title=" " alt="" coords="403,711,560,736"/>
+<area shape="rect" id="node20" title=" " alt="" coords="393,760,570,785"/>
+<area shape="rect" id="node21" title=" " alt="" coords="456,809,507,835"/>
+<area shape="rect" id="node22" title=" " alt="" coords="422,859,541,884"/>
+<area shape="rect" id="node23" title=" " alt="" coords="462,908,501,933"/>
 </map>

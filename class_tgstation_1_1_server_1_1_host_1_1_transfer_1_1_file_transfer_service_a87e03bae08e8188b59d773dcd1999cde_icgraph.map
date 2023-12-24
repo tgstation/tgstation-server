@@ -1,5 +1,0 @@
-<map id="Tgstation.Server.Host.Transfer.FileTransferService.CreateTicket" name="Tgstation.Server.Host.Transfer.FileTransferService.CreateTicket">
-<area shape="rect" id="node1" title="Creates a new FileTicketResponse." alt="" coords="287,37,499,77"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_transfer_service.html#ad8baa2421efb63c1528f9614352739c3" title="Create a FileTicketResponse for a download. A new FileTicketResponse for a download." alt="" coords="5,5,239,45"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_transfer_service.html#a326e6dbdb12cf2b96a505261ef79c117" title="Create a IFileUploadTicket. A new IFileUploadTicket." alt="" coords="13,69,231,109"/>
-</map>

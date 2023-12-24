@@ -1,11 +1,11 @@
 <map id="Tgstation.Server.Host.Components.Deployment.HardLinkDmbProvider" name="Tgstation.Server.Host.Components.Deployment.HardLinkDmbProvider">
-<area shape="rect" id="node1" title="A IDmbProvider that uses hard links." alt="" coords="338,256,565,296"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_swappable_dmb_provider.html" title="A IDmbProvider that uses filesystem links to change directory structure underneath the server process..." alt="" coords="91,168,252,193"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_dmb_provider.html" title="Provides absolute paths to the latest compiled .dmbs." alt="" coords="18,80,119,105"/>
+<area shape="rect" id="node1" title="A IDmbProvider that uses hard links." alt="" coords="823,134,1049,174"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_swappable_dmb_provider.html" title="A IDmbProvider that uses filesystem links to change directory structure underneath the server process..." alt="" coords="455,55,616,80"/>
+<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_dmb_provider.html" title="Provides absolute paths to the latest compiled .dmbs." alt="" coords="181,5,283,31"/>
 <area shape="rect" id="node4" href="$class_i_async_disposable.html" title=" " alt="" coords="5,5,132,31"/>
-<area shape="rect" id="node5" title=" " alt="" coords="144,80,199,105"/>
-<area shape="rect" id="node6" title=" " alt="" coords="277,80,357,105"/>
-<area shape="rect" id="node7" title=" " alt="" coords="277,168,447,193"/>
-<area shape="rect" id="node8" title=" " alt="" coords="489,168,595,193"/>
-<area shape="rect" id="node9" title=" " alt="" coords="619,168,737,193"/>
+<area shape="rect" id="node5" title=" " alt="" coords="187,55,277,80"/>
+<area shape="rect" id="node6" title=" " alt="" coords="192,104,272,129"/>
+<area shape="rect" id="node7" title=" " alt="" coords="445,105,625,145"/>
+<area shape="rect" id="node8" title=" " alt="" coords="483,169,588,195"/>
+<area shape="rect" id="node9" title=" " alt="" coords="477,219,594,244"/>
 </map>

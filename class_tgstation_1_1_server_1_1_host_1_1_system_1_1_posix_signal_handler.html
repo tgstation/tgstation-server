@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.18.2</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.0.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -108,8 +108,8 @@ Collaboration diagram for Tgstation.Server.Host.System.PosixSignalHandler:</div>
 <area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_control.html" title="Represents a service that may take an updated Host assembly and run it, stopping the current assembly..." alt="" coords="47,154,229,194"/>
 <area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_async_delayer.html" title="For waiting asynchronously." alt="" coords="47,218,229,258"/>
 <area shape="rect" title=" " alt="" coords="5,282,271,322"/>
-<area shape="rect" title=" " alt="" coords="53,347,223,372"/>
-<area shape="rect" title=" " alt="" coords="113,396,163,421"/>
+<area shape="rect" title=" " alt="" coords="48,346,228,386"/>
+<area shape="rect" title=" " alt="" coords="113,411,163,436"/>
 </map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
@@ -143,11 +143,11 @@ Private Attributes</h2></td></tr>
 <tr class="memdesc:ab8381d31a8a239122cacee17fb2e5724"><td class="mdescLeft">&#160;</td><td class="mdescRight">The ILogger for the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_signal_handler.html" title="Handles POSIX signals.">PosixSignalHandler</a>.   <a href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_signal_handler.html#ab8381d31a8a239122cacee17fb2e5724">More...</a><br /></td></tr>
 <tr class="separator:ab8381d31a8a239122cacee17fb2e5724"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a377bd62aa6926c1dba634817e82f7bcd"><td class="memItemLeft" align="right" valign="top">readonly CancellationTokenSource&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_signal_handler.html#a377bd62aa6926c1dba634817e82f7bcd">cancellationTokenSource</a></td></tr>
-<tr class="memdesc:a377bd62aa6926c1dba634817e82f7bcd"><td class="mdescLeft">&#160;</td><td class="mdescRight">The CancellationTokenSource used to stop the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_signal_handler.html#a5f99a4a82e7c00560f6328657e42bdbb" title="The thread used to check the signal. See http://docs.go-mono.com/?link=T%3aMono.Unix....">signalCheckerTask</a>.   <a href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_signal_handler.html#a377bd62aa6926c1dba634817e82f7bcd">More...</a><br /></td></tr>
+<tr class="memdesc:a377bd62aa6926c1dba634817e82f7bcd"><td class="mdescLeft">&#160;</td><td class="mdescRight">The CancellationTokenSource used to stop the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_signal_handler.html#a18ed05e7ba3ab8a819fe0528993ed62f" title="The thread used to check the signal. See http://docs.go-mono.com/?link=T%3aMono.Unix....">signalCheckerTask</a>.   <a href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_signal_handler.html#a377bd62aa6926c1dba634817e82f7bcd">More...</a><br /></td></tr>
 <tr class="separator:a377bd62aa6926c1dba634817e82f7bcd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5f99a4a82e7c00560f6328657e42bdbb"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_signal_handler.html#a5f99a4a82e7c00560f6328657e42bdbb">signalCheckerTask</a></td></tr>
-<tr class="memdesc:a5f99a4a82e7c00560f6328657e42bdbb"><td class="mdescLeft">&#160;</td><td class="mdescRight">The thread used to check the signal. See <a href="http://docs.go-mono.com/?link=T%3aMono.Unix.UnixSignal">http://docs.go-mono.com/?link=T%3aMono.Unix.UnixSignal</a>.   <a href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_signal_handler.html#a5f99a4a82e7c00560f6328657e42bdbb">More...</a><br /></td></tr>
-<tr class="separator:a5f99a4a82e7c00560f6328657e42bdbb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a18ed05e7ba3ab8a819fe0528993ed62f"><td class="memItemLeft" align="right" valign="top">Task?&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_signal_handler.html#a18ed05e7ba3ab8a819fe0528993ed62f">signalCheckerTask</a></td></tr>
+<tr class="memdesc:a18ed05e7ba3ab8a819fe0528993ed62f"><td class="mdescLeft">&#160;</td><td class="mdescRight">The thread used to check the signal. See <a href="http://docs.go-mono.com/?link=T%3aMono.Unix.UnixSignal">http://docs.go-mono.com/?link=T%3aMono.Unix.UnixSignal</a>.   <a href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_signal_handler.html#a18ed05e7ba3ab8a819fe0528993ed62f">More...</a><br /></td></tr>
+<tr class="separator:a18ed05e7ba3ab8a819fe0528993ed62f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-static-attribs" name="pri-static-attribs"></a>
 Static Private Attributes</h2></td></tr>
@@ -309,7 +309,7 @@ Static Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">  123</span>            {</div>
 <div class="line"><span class="lineno">  124</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_signal_handler.html#ab8381d31a8a239122cacee17fb2e5724">logger</a>.LogDebug(ex, <span class="stringliteral">&quot;SignalChecker cancelled!&quot;</span>);</div>
 <div class="line"><span class="lineno">  125</span>            }</div>
-<div class="line"><span class="lineno">  126</span>            <span class="keywordflow">catch</span> (Exception ex)</div>
+<div class="line"><span class="lineno">  126</span>            <span class="keywordflow">catch</span> (<a class="code hl_class" href="class_exception.html">Exception</a> ex)</div>
 <div class="line"><span class="lineno">  127</span>            {</div>
 <div class="line"><span class="lineno">  128</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_signal_handler.html#ab8381d31a8a239122cacee17fb2e5724">logger</a>.LogError(ex, <span class="stringliteral">&quot;SignalChecker crashed!&quot;</span>);</div>
 <div class="line"><span class="lineno">  129</span>            }</div>
@@ -318,6 +318,7 @@ Static Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">  132</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_signal_handler.html#ab8381d31a8a239122cacee17fb2e5724">logger</a>.LogTrace(<span class="stringliteral">&quot;Exiting SignalChecker...&quot;</span>);</div>
 <div class="line"><span class="lineno">  133</span>            }</div>
 <div class="line"><span class="lineno">  134</span>        }</div>
+<div class="ttc" id="aclass_exception_html"><div class="ttname"><a href="class_exception.html">Exception</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_signal_handler_html_a6f874242f0198ba5457e2be36f0dbc6a"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_signal_handler.html#a6f874242f0198ba5457e2be36f0dbc6a">Tgstation.Server.Host.System.PosixSignalHandler.CheckDelayMs</a></div><div class="ttdeci">const int CheckDelayMs</div><div class="ttdoc">Check for signals each time this amount of milliseconds pass.</div><div class="ttdef"><b>Definition:</b> <a href="_posix_signal_handler_8cs_source.html#l00023">PosixSignalHandler.cs:23</a></div></div>
 <div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_control_html_a11cee342f76c81a871edc028403fbea8"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_control.html#a11cee342f76c81a871edc028403fbea8">Tgstation.Server.Host.Core.IServerControl.GracefulShutdown</a></div><div class="ttdeci">ValueTask GracefulShutdown(bool detach)</div><div class="ttdoc">Gracefully shutsdown the Host.</div></div>
 <div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_async_delayer_html_aeb604334bd297d47506dc23e0d115977"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_async_delayer.html#aeb604334bd297d47506dc23e0d115977">Tgstation.Server.Host.Utils.IAsyncDelayer.Delay</a></div><div class="ttdeci">Task Delay(TimeSpan timeSpan, CancellationToken cancellationToken)</div><div class="ttdoc">Create a Task that completes after a given timeSpan .</div></div>
@@ -367,16 +368,16 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_posix_signal_handler_8cs_source.html#l00069">69</a> of file <a class="el" href="_posix_signal_handler_8cs_source.html">PosixSignalHandler.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   70</span>        {</div>
-<div class="line"><span class="lineno">   71</span>            <span class="keywordflow">if</span> (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_signal_handler.html#a5f99a4a82e7c00560f6328657e42bdbb">signalCheckerTask</a> != <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">   71</span>            <span class="keywordflow">if</span> (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_signal_handler.html#a18ed05e7ba3ab8a819fe0528993ed62f">signalCheckerTask</a> != <span class="keyword">null</span>)</div>
 <div class="line"><span class="lineno">   72</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> InvalidOperationException(<span class="stringliteral">&quot;Attempted to start PosixSignalHandler twice!&quot;</span>);</div>
 <div class="line"><span class="lineno">   73</span> </div>
-<div class="line"><span class="lineno">   74</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_signal_handler.html#a5f99a4a82e7c00560f6328657e42bdbb">signalCheckerTask</a> = Task.WhenAll(</div>
+<div class="line"><span class="lineno">   74</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_signal_handler.html#a18ed05e7ba3ab8a819fe0528993ed62f">signalCheckerTask</a> = Task.WhenAll(</div>
 <div class="line"><span class="lineno">   75</span>                <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_signal_handler.html#aa775b37e8e7b6a06494a34845894d5e8">SignalChecker</a>(Signum.SIGUSR1, <span class="keyword">false</span>),</div>
 <div class="line"><span class="lineno">   76</span>                <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_signal_handler.html#aa775b37e8e7b6a06494a34845894d5e8">SignalChecker</a>(Signum.SIGUSR2, <span class="keyword">true</span>));</div>
 <div class="line"><span class="lineno">   77</span> </div>
 <div class="line"><span class="lineno">   78</span>            <span class="keywordflow">return</span> Task.CompletedTask;</div>
 <div class="line"><span class="lineno">   79</span>        }</div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_signal_handler_html_a5f99a4a82e7c00560f6328657e42bdbb"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_signal_handler.html#a5f99a4a82e7c00560f6328657e42bdbb">Tgstation.Server.Host.System.PosixSignalHandler.signalCheckerTask</a></div><div class="ttdeci">Task signalCheckerTask</div><div class="ttdoc">The thread used to check the signal. See http://docs.go-mono.com/?link=T%3aMono.Unix....</div><div class="ttdef"><b>Definition:</b> <a href="_posix_signal_handler_8cs_source.html#l00048">PosixSignalHandler.cs:48</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_signal_handler_html_a18ed05e7ba3ab8a819fe0528993ed62f"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_signal_handler.html#a18ed05e7ba3ab8a819fe0528993ed62f">Tgstation.Server.Host.System.PosixSignalHandler.signalCheckerTask</a></div><div class="ttdeci">Task? signalCheckerTask</div><div class="ttdoc">The thread used to check the signal. See http://docs.go-mono.com/?link=T%3aMono.Unix....</div><div class="ttdef"><b>Definition:</b> <a href="_posix_signal_handler_8cs_source.html#l00048">PosixSignalHandler.cs:48</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_signal_handler_html_aa775b37e8e7b6a06494a34845894d5e8"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_signal_handler.html#aa775b37e8e7b6a06494a34845894d5e8">Tgstation.Server.Host.System.PosixSignalHandler.SignalChecker</a></div><div class="ttdeci">async Task SignalChecker(Signum signum, bool detach)</div><div class="ttdoc">Thread for listening to signal.</div><div class="ttdef"><b>Definition:</b> <a href="_posix_signal_handler_8cs_source.html#l00100">PosixSignalHandler.cs:100</a></div></div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="_posix_signal_handler_8cs_source.html#l00100">Tgstation.Server.Host.System.PosixSignalHandler.SignalChecker()</a>, and <a class="el" href="_posix_signal_handler_8cs_source.html#l00048">Tgstation.Server.Host.System.PosixSignalHandler.signalCheckerTask</a>.</p>
@@ -414,14 +415,14 @@ Here is the call graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_posix_signal_handler_8cs_source.html#l00082">82</a> of file <a class="el" href="_posix_signal_handler_8cs_source.html">PosixSignalHandler.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   83</span>        {</div>
-<div class="line"><span class="lineno">   84</span>            <span class="keywordflow">if</span> (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_signal_handler.html#a5f99a4a82e7c00560f6328657e42bdbb">signalCheckerTask</a>?.IsCompleted != <span class="keyword">false</span>)</div>
+<div class="line"><span class="lineno">   84</span>            <span class="keywordflow">if</span> (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_signal_handler.html#a18ed05e7ba3ab8a819fe0528993ed62f">signalCheckerTask</a>?.IsCompleted != <span class="keyword">false</span>)</div>
 <div class="line"><span class="lineno">   85</span>                <span class="keywordflow">return</span>;</div>
 <div class="line"><span class="lineno">   86</span> </div>
 <div class="line"><span class="lineno">   87</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_signal_handler.html#ab8381d31a8a239122cacee17fb2e5724">logger</a>.LogDebug(<span class="stringliteral">&quot;Stopping SignalCheckerThread...&quot;</span>);</div>
 <div class="line"><span class="lineno">   88</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_signal_handler.html#a377bd62aa6926c1dba634817e82f7bcd">cancellationTokenSource</a>.Cancel();</div>
 <div class="line"><span class="lineno">   89</span> </div>
 <div class="line"><span class="lineno">   90</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_signal_handler.html#ab8381d31a8a239122cacee17fb2e5724">logger</a>.LogTrace(<span class="stringliteral">&quot;Joining SignalCheckerThread...&quot;</span>);</div>
-<div class="line"><span class="lineno">   91</span>            await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_signal_handler.html#a5f99a4a82e7c00560f6328657e42bdbb">signalCheckerTask</a>;</div>
+<div class="line"><span class="lineno">   91</span>            await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_signal_handler.html#a18ed05e7ba3ab8a819fe0528993ed62f">signalCheckerTask</a>;</div>
 <div class="line"><span class="lineno">   92</span>        }</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="_posix_signal_handler_8cs_source.html#l00043">Tgstation.Server.Host.System.PosixSignalHandler.cancellationTokenSource</a>, <a class="el" href="_posix_signal_handler_8cs_source.html#l00038">Tgstation.Server.Host.System.PosixSignalHandler.logger</a>, and <a class="el" href="_posix_signal_handler_8cs_source.html#l00048">Tgstation.Server.Host.System.PosixSignalHandler.signalCheckerTask</a>.</p>
@@ -477,7 +478,7 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p>The CancellationTokenSource used to stop the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_signal_handler.html#a5f99a4a82e7c00560f6328657e42bdbb" title="The thread used to check the signal. See http://docs.go-mono.com/?link=T%3aMono.Unix....">signalCheckerTask</a>.  </p>
+<p>The CancellationTokenSource used to stop the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_signal_handler.html#a18ed05e7ba3ab8a819fe0528993ed62f" title="The thread used to check the signal. See http://docs.go-mono.com/?link=T%3aMono.Unix....">signalCheckerTask</a>.  </p>
 
 <p class="definition">Definition at line <a class="el" href="_posix_signal_handler_8cs_source.html#l00043">43</a> of file <a class="el" href="_posix_signal_handler_8cs_source.html">PosixSignalHandler.cs</a>.</p>
 
@@ -569,8 +570,8 @@ Here is the call graph for this function:</div>
 
 </div>
 </div>
-<a id="a5f99a4a82e7c00560f6328657e42bdbb" name="a5f99a4a82e7c00560f6328657e42bdbb"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5f99a4a82e7c00560f6328657e42bdbb">&#9670;&#160;</a></span>signalCheckerTask</h2>
+<a id="a18ed05e7ba3ab8a819fe0528993ed62f" name="a18ed05e7ba3ab8a819fe0528993ed62f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a18ed05e7ba3ab8a819fe0528993ed62f">&#9670;&#160;</a></span>signalCheckerTask</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -579,7 +580,7 @@ Here is the call graph for this function:</div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">Task Tgstation.Server.Host.System.PosixSignalHandler.signalCheckerTask</td>
+          <td class="memname">Task? Tgstation.Server.Host.System.PosixSignalHandler.signalCheckerTask</td>
         </tr>
       </table>
   </td>

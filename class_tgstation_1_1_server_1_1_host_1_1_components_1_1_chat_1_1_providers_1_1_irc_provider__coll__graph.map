@@ -1,5 +1,5 @@
 <map id="Tgstation.Server.Host.Components.Chat.Providers.IrcProvider" name="Tgstation.Server.Host.Components.Chat.Providers.IrcProvider">
-<area shape="rect" id="node1" title="IProvider for internet relay chat." alt="" coords="988,577,1215,617"/>
+<area shape="rect" id="node1" title="IProvider for internet relay chat." alt="" coords="988,599,1215,639"/>
 <area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html" title=" " alt="" coords="665,215,735,240"/>
 <area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_i_provider.html" title="For interacting with a chat service." alt="" coords="273,55,348,80"/>
 <area shape="rect" id="node4" href="$class_i_async_disposable.html" title=" " alt="" coords="5,55,132,80"/>
@@ -8,13 +8,14 @@
 <area shape="rect" id="node7" title=" " alt="" coords="232,248,389,273"/>
 <area shape="rect" id="node8" title=" " alt="" coords="257,297,365,323"/>
 <area shape="rect" id="node9" title=" " alt="" coords="285,363,336,388"/>
-<area shape="rect" id="node10" title=" " alt="" coords="225,5,396,31"/>
+<area shape="rect" id="node10" title=" " alt="" coords="222,5,399,31"/>
 <area shape="rect" id="node11" title=" " alt="" coords="665,441,735,467"/>
 <area shape="rect" id="node12" title=" " alt="" coords="631,491,769,516"/>
-<area shape="rect" id="node13" title=" " alt="" coords="647,556,753,581"/>
-<area shape="rect" id="node14" title=" " alt="" coords="645,605,755,631"/>
-<area shape="rect" id="node15" title=" " alt="" coords="609,655,791,680"/>
-<area shape="rect" id="node16" title=" " alt="" coords="635,705,765,745"/>
-<area shape="rect" id="node17" title=" " alt="" coords="673,769,727,795"/>
-<area shape="rect" id="node18" title=" " alt="" coords="677,819,723,844"/>
+<area shape="rect" id="node13" title=" " alt="" coords="647,553,753,579"/>
+<area shape="rect" id="node14" title=" " alt="" coords="645,603,755,628"/>
+<area shape="rect" id="node15" title=" " alt="" coords="609,652,791,677"/>
+<area shape="rect" id="node16" title=" " alt="" coords="635,702,765,742"/>
+<area shape="rect" id="node17" title=" " alt="" coords="635,766,765,806"/>
+<area shape="rect" id="node18" title=" " alt="" coords="673,831,727,856"/>
+<area shape="rect" id="node19" title=" " alt="" coords="677,880,723,905"/>
 </map>

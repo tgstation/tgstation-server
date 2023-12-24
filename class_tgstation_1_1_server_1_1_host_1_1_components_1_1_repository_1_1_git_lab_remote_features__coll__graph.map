@@ -1,9 +1,9 @@
 <map id="Tgstation.Server.Host.Components.Repository.GitLabRemoteFeatures" name="Tgstation.Server.Host.Components.Repository.GitLabRemoteFeatures">
-<area shape="rect" id="node1" title="GitLab IGitRemoteFeatures." alt="" coords="152,360,379,400"/>
+<area shape="rect" id="node1" title="GitLab IGitRemoteFeatures." alt="" coords="161,360,388,400"/>
 <area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_git_remote_features_base.html" title="Base class for implementing IGitRemoteFeatures." alt="" coords="116,272,281,297"/>
 <area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_git_remote_features.html" title="Provides features for remote git services." alt="" coords="41,169,180,195"/>
 <area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_git_remote_additional_information.html" title="Additional information from git remotes." alt="" coords="5,80,216,105"/>
 <area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_i_git_remote_information.html" title="Provides information about remote providers." alt="" coords="34,5,187,31"/>
 <area shape="rect" id="node6" title=" " alt="" coords="205,155,371,209"/>
-<area shape="rect" id="node7" title=" " alt="" coords="306,272,361,297"/>
+<area shape="rect" id="node7" title=" " alt="" coords="306,272,395,297"/>
 </map>

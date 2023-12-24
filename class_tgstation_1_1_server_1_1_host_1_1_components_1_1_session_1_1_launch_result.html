@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.18.2</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.0.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -92,10 +92,10 @@ Public Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="properties" name="properties"></a>
 Properties</h2></td></tr>
-<tr class="memitem:a3a760923a1f56b674537f908b0f74c1b"><td class="memItemLeft" align="right" valign="top">TimeSpan?&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_launch_result.html#a3a760923a1f56b674537f908b0f74c1b">StartupTime</a><code> [get, set]</code></td></tr>
+<tr class="memitem:a3a760923a1f56b674537f908b0f74c1b"><td class="memItemLeft" align="right" valign="top">TimeSpan?&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_launch_result.html#a3a760923a1f56b674537f908b0f74c1b">StartupTime</a><code> [get]</code></td></tr>
 <tr class="memdesc:a3a760923a1f56b674537f908b0f74c1b"><td class="mdescLeft">&#160;</td><td class="mdescRight">The time it took for global::System.Diagnostics.Process.WaitForInputIdle() to return or the initial bridge request to process. If <code>null</code> the startup timed out.   <a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_launch_result.html#a3a760923a1f56b674537f908b0f74c1b">More...</a><br /></td></tr>
 <tr class="separator:a3a760923a1f56b674537f908b0f74c1b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a255d1c77cd0332b3a433415bfb01c4cd"><td class="memItemLeft" align="right" valign="top">int?&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_launch_result.html#a255d1c77cd0332b3a433415bfb01c4cd">ExitCode</a><code> [get, set]</code></td></tr>
+<tr class="memitem:a255d1c77cd0332b3a433415bfb01c4cd"><td class="memItemLeft" align="right" valign="top">int?&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_launch_result.html#a255d1c77cd0332b3a433415bfb01c4cd">ExitCode</a><code> [get]</code></td></tr>
 <tr class="memdesc:a255d1c77cd0332b3a433415bfb01c4cd"><td class="mdescLeft">&#160;</td><td class="mdescRight">The global::System.Diagnostics.Process.ExitCode if it exited.   <a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_launch_result.html#a255d1c77cd0332b3a433415bfb01c4cd">More...</a><br /></td></tr>
 <tr class="separator:a255d1c77cd0332b3a433415bfb01c4cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
@@ -139,7 +139,7 @@ Properties</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">get</span><span class="mlabel">set</span></span>  </td>
+<span class="mlabels"><span class="mlabel">get</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -147,7 +147,7 @@ Properties</h2></td></tr>
 <p>The global::System.Diagnostics.Process.ExitCode if it exited.  </p>
 
 <p class="definition">Definition at line <a class="el" href="_launch_result_8cs_source.html#l00019">19</a> of file <a class="el" href="_launch_result_8cs_source.html">LaunchResult.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   19</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
+<div class="fragment"><div class="line"><span class="lineno">   19</span>{ <span class="keyword">get</span>; init; }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -166,7 +166,7 @@ Properties</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">get</span><span class="mlabel">set</span></span>  </td>
+<span class="mlabels"><span class="mlabel">get</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -174,7 +174,7 @@ Properties</h2></td></tr>
 <p>The time it took for global::System.Diagnostics.Process.WaitForInputIdle() to return or the initial bridge request to process. If <code>null</code> the startup timed out.  </p>
 
 <p class="definition">Definition at line <a class="el" href="_launch_result_8cs_source.html#l00014">14</a> of file <a class="el" href="_launch_result_8cs_source.html">LaunchResult.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   14</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
+<div class="fragment"><div class="line"><span class="lineno">   14</span>{ <span class="keyword">get</span>; init; }</div>
 </div><!-- fragment -->
 </div>
 </div>

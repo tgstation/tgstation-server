@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.18.2</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.0.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -96,14 +96,11 @@ Properties</h2></td></tr>
 <tr class="memitem:a4e34824faf49cfdb38d3f9aa8c1085ec"><td class="memItemLeft" align="right" valign="top">string?&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_token_response.html#a4e34824faf49cfdb38d3f9aa8c1085ec">Bearer</a><code> [get, set]</code></td></tr>
 <tr class="memdesc:a4e34824faf49cfdb38d3f9aa8c1085ec"><td class="mdescLeft">&#160;</td><td class="mdescRight">The value of the JWT.   <a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_token_response.html#a4e34824faf49cfdb38d3f9aa8c1085ec">More...</a><br /></td></tr>
 <tr class="separator:a4e34824faf49cfdb38d3f9aa8c1085ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abc1731d6cd6f9f9813fc3f61f3cecb52"><td class="memItemLeft" align="right" valign="top">DateTimeOffset?&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_token_response.html#abc1731d6cd6f9f9813fc3f61f3cecb52">ExpiresAt</a><code> [get, set]</code></td></tr>
-<tr class="memdesc:abc1731d6cd6f9f9813fc3f61f3cecb52"><td class="mdescLeft">&#160;</td><td class="mdescRight">When the <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_token_response.html" title="Represents a JWT returned by the API.">TokenResponse</a> expires.   <a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_token_response.html#abc1731d6cd6f9f9813fc3f61f3cecb52">More...</a><br /></td></tr>
-<tr class="separator:abc1731d6cd6f9f9813fc3f61f3cecb52"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p >Represents a JWT returned by the API.  </p>
 
-<p class="definition">Definition at line <a class="el" href="_token_response_8cs_source.html#l00010">10</a> of file <a class="el" href="_token_response_8cs_source.html">TokenResponse.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_token_response_8cs_source.html#l00008">8</a> of file <a class="el" href="_token_response_8cs_source.html">TokenResponse.cs</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a id="a8fc39cb31c7d4490f8fefe71c936aa12" name="a8fc39cb31c7d4490f8fefe71c936aa12"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a8fc39cb31c7d4490f8fefe71c936aa12">&#9670;&#160;</a></span>ParseJwt()</h2>
@@ -123,7 +120,7 @@ Properties</h2></td></tr>
 <p>Parses the <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_token_response.html#a4e34824faf49cfdb38d3f9aa8c1085ec" title="The value of the JWT.">Bearer</a> as a JsonWebToken.  </p>
 <dl class="section return"><dt>Returns</dt><dd>A new JsonWebToken based on <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_token_response.html#a4e34824faf49cfdb38d3f9aa8c1085ec" title="The value of the JWT.">Bearer</a>.</dd></dl>
 
-<p class="reference">Referenced by <a class="el" href="_api_headers_8cs_source.html#l00195">Tgstation.Server.Api.ApiHeaders.ApiHeaders()</a>, and <a class="el" href="_home_controller_8cs_source.html#l00229">Tgstation.Server.Host.Controllers.HomeController.CreateToken()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_api_headers_8cs_source.html#l00195">Tgstation.Server.Api.ApiHeaders.ApiHeaders()</a>, and <a class="el" href="_api_root_controller_8cs_source.html#l00203">Tgstation.Server.Host.Controllers.ApiRootController.CreateToken()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -131,7 +128,7 @@ Here is the caller graph for this function:</div>
 <map name="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_token_response_a8fc39cb31c7d4490f8fefe71c936aa12_icgraph" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_token_response_a8fc39cb31c7d4490f8fefe71c936aa12_icgraph">
 <area shape="rect" title="Parses the Bearer as a JsonWebToken." alt="" coords="500,37,735,77"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a9734649a58c309192c6b42e658a9d90d" title="Initializes a new instance of the ApiHeaders class." alt="" coords="263,5,425,45"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_home_controller.html#ab27af7e209b6317022e3bb6a50977f5f" title="Attempt to authenticate a User using ApiController.ApiHeaders." alt="" coords="236,69,452,109"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_root_controller.html#a8c130b337cd8f08728c07a7f230707a6" title="Attempt to authenticate a User using ApiController.ApiHeaders." alt="" coords="236,69,452,109"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_swagger_configuration.html#ad42b61af703046605dcf2c27a3a76e14" title=" " alt="" coords="5,69,188,109"/>
 </map>
 </div>
@@ -161,38 +158,11 @@ Here is the caller graph for this function:</div>
 
 <p>The value of the JWT.  </p>
 
-<p class="definition">Definition at line <a class="el" href="_token_response_8cs_source.html#l00015">15</a> of file <a class="el" href="_token_response_8cs_source.html">TokenResponse.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   15</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
+<p class="definition">Definition at line <a class="el" href="_token_response_8cs_source.html#l00013">13</a> of file <a class="el" href="_token_response_8cs_source.html">TokenResponse.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   13</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
 </div><!-- fragment -->
 <p class="reference">Referenced by <a class="el" href="_api_headers_8cs_source.html#l00143">Tgstation.Server.Api.ApiHeaders.ApiHeaders()</a>, and <a class="el" href="_server_client_factory_8cs_source.html#l00096">Tgstation.Server.Client.ServerClientFactory.CreateFromToken()</a>.</p>
 
-</div>
-</div>
-<a id="abc1731d6cd6f9f9813fc3f61f3cecb52" name="abc1731d6cd6f9f9813fc3f61f3cecb52"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abc1731d6cd6f9f9813fc3f61f3cecb52">&#9670;&#160;</a></span>ExpiresAt</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">DateTimeOffset? Tgstation.Server.Api.Models.Response.TokenResponse.ExpiresAt</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">get</span><span class="mlabel">set</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>When the <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_token_response.html" title="Represents a JWT returned by the API.">TokenResponse</a> expires.  </p>
-
-<p class="definition">Definition at line <a class="el" href="_token_response_8cs_source.html#l00021">21</a> of file <a class="el" href="_token_response_8cs_source.html">TokenResponse.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   21</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
-</div><!-- fragment -->
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>

@@ -1,0 +1,13 @@
+<map id="Tgstation.Server.Host.Components.Engine.WindowsOpenDreamInstaller" name="Tgstation.Server.Host.Components.Engine.WindowsOpenDreamInstaller">
+<area shape="rect" id="node1" title="Implementation of OpenDreamInstaller for Windows systems." alt="" coords="851,219,1083,259"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_open_dream_installer.html" title="Implementation of IEngineInstaller for EngineType.OpenDream." alt="" coords="583,187,721,212"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html" title=" " alt="" coords="210,5,347,31"/>
+<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installer.html" title="For downloading and installing game engines for a given system." alt="" coords="5,5,116,31"/>
+<area shape="rect" id="node5" title=" " alt="" coords="234,107,323,132"/>
+<area shape="rect" id="node6" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_platform_identifier.html" title="For identifying the current platform." alt="" coords="179,157,378,197"/>
+<area shape="rect" id="node7" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository_manager.html" title="Factory for creating and loading IRepositorys." alt="" coords="165,221,392,261"/>
+<area shape="rect" id="node8" href="$class_i_disposable.html" title=" " alt="" coords="15,228,106,253"/>
+<area shape="rect" id="node9" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_async_delayer.html" title="For waiting asynchronously." alt="" coords="188,285,369,325"/>
+<area shape="rect" id="node10" href="$interface_tgstation_1_1_server_1_1_common_1_1_http_1_1_i_abstract_http_client_factory.html" title="Creates IHttpClients." alt="" coords="177,349,381,389"/>
+<area shape="rect" id="node11" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_filesystem_link_factory.html" title="For creating filesystem symbolic links." alt="" coords="568,237,736,277"/>
+</map>

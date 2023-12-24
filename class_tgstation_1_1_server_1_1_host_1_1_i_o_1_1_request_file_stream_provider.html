@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.18.2</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.0.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -100,15 +100,15 @@ Collaboration diagram for Tgstation.Server.Host.IO.RequestFileStreamProvider:</d
 <div class="dyncontent">
 <div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_request_file_stream_provider__coll__graph.png" border="0" usemap="#a_tgstation_8_server_8_host_8_i_o_8_request_file_stream_provider_coll__map" alt="Collaboration graph"/></div>
 <map name="a_tgstation_8_server_8_host_8_i_o_8_request_file_stream_provider_coll__map" id="a_tgstation_8_server_8_host_8_i_o_8_request_file_stream_provider_coll__map">
-<area shape="rect" title="A IFileStreamProvider that represents the response of HttpRequestMessages." alt="" coords="547,138,728,178"/>
+<area shape="rect" title="A IFileStreamProvider that represents the response of HttpRequestMessages." alt="" coords="547,142,728,182"/>
 <area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_file_stream_provider.html" title="Interface for asynchronously consuming Streams of files." alt="" coords="221,5,359,31"/>
 <area shape="rect" href="class_i_async_disposable.html" title=" " alt="" coords="5,5,132,31"/>
 <area shape="rect" href="interface_tgstation_1_1_server_1_1_common_1_1_http_1_1_i_http_client.html" title="For sending HTTP requests." alt="" coords="203,55,377,95"/>
 <area shape="rect" href="class_i_disposable.html" title=" " alt="" coords="23,63,114,88"/>
 <area shape="rect" title=" " alt="" coords="191,120,389,145"/>
-<area shape="rect" title=" " alt="" coords="205,169,375,195"/>
-<area shape="rect" title=" " alt="" coords="181,219,399,244"/>
-<area shape="rect" title=" " alt="" coords="267,268,313,293"/>
+<area shape="rect" title=" " alt="" coords="200,170,380,210"/>
+<area shape="rect" title=" " alt="" coords="181,235,399,260"/>
+<area shape="rect" title=" " alt="" coords="267,284,313,309"/>
 </map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
@@ -126,7 +126,7 @@ Public Member Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A ValueTask&lt;TResult&gt; resulting in the provided <a class="el" href="class_stream.html">Stream</a> on success, <code>null</code> if it could not be provided.</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A ValueTask&lt;TResult&gt; resulting in the provided <a class="el" href="class_stream.html">Stream</a>.</dd></dl>
 The resulting <a class="el" href="class_stream.html">Stream</a> is owned by the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_file_stream_provider.html" title="Interface for asynchronously consuming Streams of files.">IFileStreamProvider</a> and is short lived unless otherwise specified. It should be buffered if it needs use outside the lifetime of the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_file_stream_provider.html" title="Interface for asynchronously consuming Streams of files.">IFileStreamProvider</a>.  <a href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_request_file_stream_provider.html#afd6294b767b298ace3b91aef1accc5f6">More...</a><br /></td></tr>
 <tr class="separator:afd6294b767b298ace3b91aef1accc5f6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a78376175b738d1a52b4e711e2379396b"><td class="memItemLeft" align="right" valign="top">ValueTask&lt; <a class="el" href="class_stream.html">Stream</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_file_stream_provider.html#a78376175b738d1a52b4e711e2379396b">GetResult</a> (CancellationToken cancellationToken)</td></tr>
@@ -150,9 +150,9 @@ Private Attributes</h2></td></tr>
 <tr class="memitem:a6f9f9b65bfc0972858e335f614aa0d26"><td class="memItemLeft" align="right" valign="top">readonly CancellationTokenSource&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_request_file_stream_provider.html#a6f9f9b65bfc0972858e335f614aa0d26">downloadCts</a></td></tr>
 <tr class="memdesc:a6f9f9b65bfc0972858e335f614aa0d26"><td class="mdescLeft">&#160;</td><td class="mdescRight">The CancellationTokenSource used to abort the download.   <a href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_request_file_stream_provider.html#a6f9f9b65bfc0972858e335f614aa0d26">More...</a><br /></td></tr>
 <tr class="separator:a6f9f9b65bfc0972858e335f614aa0d26"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6a64443648728ffe4af272a7248ea31e"><td class="memItemLeft" align="right" valign="top">Task&lt; <a class="el" href="class_tgstation_1_1_server_1_1_common_1_1_http_1_1_cached_response_stream.html">CachedResponseStream</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_request_file_stream_provider.html#a6a64443648728ffe4af272a7248ea31e">downloadTask</a></td></tr>
-<tr class="memdesc:a6a64443648728ffe4af272a7248ea31e"><td class="mdescLeft">&#160;</td><td class="mdescRight">The Task&lt;TResult&gt; resulting in the downloaded MemoryStream.   <a href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_request_file_stream_provider.html#a6a64443648728ffe4af272a7248ea31e">More...</a><br /></td></tr>
-<tr class="separator:a6a64443648728ffe4af272a7248ea31e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5b03bbc5a4550a57565b56ec149f8011"><td class="memItemLeft" align="right" valign="top">Task&lt; <a class="el" href="class_tgstation_1_1_server_1_1_common_1_1_http_1_1_cached_response_stream.html">CachedResponseStream</a> &gt;?&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_request_file_stream_provider.html#a5b03bbc5a4550a57565b56ec149f8011">downloadTask</a></td></tr>
+<tr class="memdesc:a5b03bbc5a4550a57565b56ec149f8011"><td class="mdescLeft">&#160;</td><td class="mdescRight">The Task&lt;TResult&gt; resulting in the downloaded MemoryStream.   <a href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_request_file_stream_provider.html#a5b03bbc5a4550a57565b56ec149f8011">More...</a><br /></td></tr>
+<tr class="separator:a5b03bbc5a4550a57565b56ec149f8011"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0c88c8c83092a3cd993795ed781ce6e6"><td class="memItemLeft" align="right" valign="top">volatile bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_request_file_stream_provider.html#a0c88c8c83092a3cd993795ed781ce6e6">disposed</a></td></tr>
 <tr class="memdesc:a0c88c8c83092a3cd993795ed781ce6e6"><td class="mdescLeft">&#160;</td><td class="mdescRight">If <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_request_file_stream_provider.html#af1560622a7d79f2207f23c3cfcaf88a5">DisposeAsync</a> has been called.   <a href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_request_file_stream_provider.html#a0c88c8c83092a3cd993795ed781ce6e6">More...</a><br /></td></tr>
 <tr class="separator:a0c88c8c83092a3cd993795ed781ce6e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -232,7 +232,7 @@ Private Attributes</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="_request_file_stream_provider_8cs_source.html#l00055">55</a> of file <a class="el" href="_request_file_stream_provider_8cs_source.html">RequestFileStreamProvider.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   56</span>        {</div>
-<div class="line"><span class="lineno">   57</span>            Task&lt;CachedResponseStream&gt; localDownloadTask;</div>
+<div class="line"><span class="lineno">   57</span>            Task&lt;CachedResponseStream&gt;? localDownloadTask;</div>
 <div class="line"><span class="lineno">   58</span>            lock (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_request_file_stream_provider.html#a6f9f9b65bfc0972858e335f614aa0d26">downloadCts</a>)</div>
 <div class="line"><span class="lineno">   59</span>            {</div>
 <div class="line"><span class="lineno">   60</span>                <span class="keywordflow">if</span> (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_request_file_stream_provider.html#a0c88c8c83092a3cd993795ed781ce6e6">disposed</a>)</div>
@@ -240,8 +240,8 @@ Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">   62</span> </div>
 <div class="line"><span class="lineno">   63</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_request_file_stream_provider.html#a0c88c8c83092a3cd993795ed781ce6e6">disposed</a> = <span class="keyword">true</span>;</div>
 <div class="line"><span class="lineno">   64</span> </div>
-<div class="line"><span class="lineno">   65</span>                localDownloadTask = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_request_file_stream_provider.html#a6a64443648728ffe4af272a7248ea31e">downloadTask</a>;</div>
-<div class="line"><span class="lineno">   66</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_request_file_stream_provider.html#a6a64443648728ffe4af272a7248ea31e">downloadTask</a> = <span class="keyword">null</span>;</div>
+<div class="line"><span class="lineno">   65</span>                localDownloadTask = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_request_file_stream_provider.html#a5b03bbc5a4550a57565b56ec149f8011">downloadTask</a>;</div>
+<div class="line"><span class="lineno">   66</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_request_file_stream_provider.html#a5b03bbc5a4550a57565b56ec149f8011">downloadTask</a> = <span class="keyword">null</span>;</div>
 <div class="line"><span class="lineno">   67</span>            }</div>
 <div class="line"><span class="lineno">   68</span> </div>
 <div class="line"><span class="lineno">   69</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_request_file_stream_provider.html#a6f9f9b65bfc0972858e335f614aa0d26">downloadCts</a>.Cancel();</div>
@@ -268,7 +268,7 @@ Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">   90</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_common_1_1_http_1_1_cached_response_stream_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_common_1_1_http_1_1_cached_response_stream.html">Tgstation.Server.Common.Http.CachedResponseStream</a></div><div class="ttdoc">Caches the Stream from a HttpResponseMessage for later use.</div><div class="ttdef"><b>Definition:</b> <a href="_cached_response_stream_8cs_source.html#l00011">CachedResponseStream.cs:12</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_request_file_stream_provider_html_a0c88c8c83092a3cd993795ed781ce6e6"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_request_file_stream_provider.html#a0c88c8c83092a3cd993795ed781ce6e6">Tgstation.Server.Host.IO.RequestFileStreamProvider.disposed</a></div><div class="ttdeci">volatile bool disposed</div><div class="ttdoc">If DisposeAsync has been called.</div><div class="ttdef"><b>Definition:</b> <a href="_request_file_stream_provider_8cs_source.html#l00039">RequestFileStreamProvider.cs:39</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_request_file_stream_provider_html_a6a64443648728ffe4af272a7248ea31e"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_request_file_stream_provider.html#a6a64443648728ffe4af272a7248ea31e">Tgstation.Server.Host.IO.RequestFileStreamProvider.downloadTask</a></div><div class="ttdeci">Task&lt; CachedResponseStream &gt; downloadTask</div><div class="ttdoc">The Task&lt;TResult&gt; resulting in the downloaded MemoryStream.</div><div class="ttdef"><b>Definition:</b> <a href="_request_file_stream_provider_8cs_source.html#l00034">RequestFileStreamProvider.cs:34</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_request_file_stream_provider_html_a5b03bbc5a4550a57565b56ec149f8011"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_request_file_stream_provider.html#a5b03bbc5a4550a57565b56ec149f8011">Tgstation.Server.Host.IO.RequestFileStreamProvider.downloadTask</a></div><div class="ttdeci">Task&lt; CachedResponseStream &gt;? downloadTask</div><div class="ttdoc">The Task&lt;TResult&gt; resulting in the downloaded MemoryStream.</div><div class="ttdef"><b>Definition:</b> <a href="_request_file_stream_provider_8cs_source.html#l00034">RequestFileStreamProvider.cs:34</a></div></div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="_request_file_stream_provider_8cs_source.html#l00039">Tgstation.Server.Host.IO.RequestFileStreamProvider.disposed</a>, <a class="el" href="_request_file_stream_provider_8cs_source.html#l00029">Tgstation.Server.Host.IO.RequestFileStreamProvider.downloadCts</a>, <a class="el" href="_request_file_stream_provider_8cs_source.html#l00034">Tgstation.Server.Host.IO.RequestFileStreamProvider.downloadTask</a>, <a class="el" href="_request_file_stream_provider_8cs_source.html#l00019">Tgstation.Server.Host.IO.RequestFileStreamProvider.httpClient</a>, and <a class="el" href="_request_file_stream_provider_8cs_source.html#l00024">Tgstation.Server.Host.IO.RequestFileStreamProvider.requestMessage</a>.</p>
 
@@ -296,7 +296,7 @@ Private Attributes</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A ValueTask&lt;TResult&gt; resulting in the provided <a class="el" href="class_stream.html">Stream</a> on success, <code>null</code> if it could not be provided.</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A ValueTask&lt;TResult&gt; resulting in the provided <a class="el" href="class_stream.html">Stream</a>.</dd></dl>
 The resulting <a class="el" href="class_stream.html">Stream</a> is owned by the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_file_stream_provider.html" title="Interface for asynchronously consuming Streams of files.">IFileStreamProvider</a> and is short lived unless otherwise specified. It should be buffered if it needs use outside the lifetime of the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_file_stream_provider.html" title="Interface for asynchronously consuming Streams of files.">IFileStreamProvider</a>. </p>
 
 <p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_file_stream_provider.html#a78376175b738d1a52b4e711e2379396b">Tgstation.Server.Host.IO.IFileStreamProvider</a>.</p>
@@ -311,8 +311,8 @@ The resulting <a class="el" href="class_stream.html">Stream</a> is owned by the 
 <div class="line"><span class="lineno">  100</span>            {</div>
 <div class="line"><span class="lineno">  101</span>                lock (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_request_file_stream_provider.html#a6f9f9b65bfc0972858e335f614aa0d26">downloadCts</a>)</div>
 <div class="line"><span class="lineno">  102</span>                {</div>
-<div class="line"><span class="lineno">  103</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_request_file_stream_provider.html#a6a64443648728ffe4af272a7248ea31e">downloadTask</a> ??= <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_request_file_stream_provider.html#a7c0e96de0b1928972f549ab0d2df882f">InitiateDownload</a>(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_request_file_stream_provider.html#a6f9f9b65bfc0972858e335f614aa0d26">downloadCts</a>.Token);</div>
-<div class="line"><span class="lineno">  104</span>                    localTask = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_request_file_stream_provider.html#a6a64443648728ffe4af272a7248ea31e">downloadTask</a>;</div>
+<div class="line"><span class="lineno">  103</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_request_file_stream_provider.html#a5b03bbc5a4550a57565b56ec149f8011">downloadTask</a> ??= <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_request_file_stream_provider.html#a7c0e96de0b1928972f549ab0d2df882f">InitiateDownload</a>(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_request_file_stream_provider.html#a6f9f9b65bfc0972858e335f614aa0d26">downloadCts</a>.Token);</div>
+<div class="line"><span class="lineno">  104</span>                    localTask = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_request_file_stream_provider.html#a5b03bbc5a4550a57565b56ec149f8011">downloadTask</a>;</div>
 <div class="line"><span class="lineno">  105</span>                }</div>
 <div class="line"><span class="lineno">  106</span> </div>
 <div class="line"><span class="lineno">  107</span>                <span class="keywordflow">return</span> await localTask;</div>
@@ -467,8 +467,8 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a id="a6a64443648728ffe4af272a7248ea31e" name="a6a64443648728ffe4af272a7248ea31e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6a64443648728ffe4af272a7248ea31e">&#9670;&#160;</a></span>downloadTask</h2>
+<a id="a5b03bbc5a4550a57565b56ec149f8011" name="a5b03bbc5a4550a57565b56ec149f8011"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5b03bbc5a4550a57565b56ec149f8011">&#9670;&#160;</a></span>downloadTask</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -477,7 +477,7 @@ Here is the caller graph for this function:</div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">Task&lt;<a class="el" href="class_tgstation_1_1_server_1_1_common_1_1_http_1_1_cached_response_stream.html">CachedResponseStream</a>&gt; Tgstation.Server.Host.IO.RequestFileStreamProvider.downloadTask</td>
+          <td class="memname">Task&lt;<a class="el" href="class_tgstation_1_1_server_1_1_common_1_1_http_1_1_cached_response_stream.html">CachedResponseStream</a>&gt;? Tgstation.Server.Host.IO.RequestFileStreamProvider.downloadTask</td>
         </tr>
       </table>
   </td>

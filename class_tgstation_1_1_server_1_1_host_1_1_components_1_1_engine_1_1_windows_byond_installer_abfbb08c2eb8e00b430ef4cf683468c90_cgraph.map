@@ -1,0 +1,6 @@
+<map id="Tgstation.Server.Host.Components.Engine.WindowsByondInstaller.InstallDirectX" name="Tgstation.Server.Host.Components.Engine.WindowsByondInstaller.InstallDirectX">
+<area shape="rect" id="node1" title="Attempt to install the DirectX redistributable included with BYOND." alt="" coords="5,62,243,117"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a286f4eb5c679683b7e519847a6c3574e" title="Combines an array of strings into a path." alt="" coords="316,5,484,45"/>
+<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_executor.html#ae3bc97924b8208c67c3fc23a92eb789d" title="Launch a IProcess." alt="" coords="291,69,509,109"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html#a29773d588476671bbe480f096d839c91" title="Asyncronously locks a semaphore ." alt="" coords="305,133,495,173"/>
+</map>

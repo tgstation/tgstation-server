@@ -2,6 +2,6 @@
 <area shape="rect" id="node1" title="List LogFileResponses present." alt="" coords="5,70,221,110"/>
 <area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a286f4eb5c679683b7e519847a6c3574e" title="Combines an array of strings into a path." alt="" coords="600,74,768,114"/>
 <area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a0d6d5a54db205d2d1d45a927d57f5182" title="Gets the file name portion of a path ." alt="" coords="325,38,496,78"/>
-<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a0749e071c50bd39000bb7db1d02fc2e3" title="Returns file names in a given path ." alt="" coords="327,102,495,142"/>
+<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a0749e071c50bd39000bb7db1d02fc2e3" title="Returns full file names in a given path ." alt="" coords="327,102,495,142"/>
 <area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_file_logging_configuration.html#a6e9e186a1456017f692358f96bdab2c3" title="Gets the evaluated log Directory." alt="" coords="269,166,552,206"/>
 </map>

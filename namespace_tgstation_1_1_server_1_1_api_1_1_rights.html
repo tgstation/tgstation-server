@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.18.2</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.0.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -92,9 +92,6 @@ Enumerations</h2></td></tr>
 <tr class="memitem:affda1440f9c5e2dfcca65138d2f89a21"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#affda1440f9c5e2dfcca65138d2f89a21">AdministrationRights</a> : ulong </td></tr>
 <tr class="memdesc:affda1440f9c5e2dfcca65138d2f89a21"><td class="mdescLeft">&#160;</td><td class="mdescRight">Administration rights for the server.   <a href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#affda1440f9c5e2dfcca65138d2f89a21">More...</a><br /></td></tr>
 <tr class="separator:affda1440f9c5e2dfcca65138d2f89a21"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2a217a19e652f117e2324fb79ed838b9"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a2a217a19e652f117e2324fb79ed838b9">ByondRights</a> : ulong </td></tr>
-<tr class="memdesc:a2a217a19e652f117e2324fb79ed838b9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Rights for BYOND version management.   <a href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a2a217a19e652f117e2324fb79ed838b9">More...</a><br /></td></tr>
-<tr class="separator:a2a217a19e652f117e2324fb79ed838b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a580a36a11165b2590be342b45c31ec72"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a580a36a11165b2590be342b45c31ec72">ChatBotRights</a> : ulong </td></tr>
 <tr class="memdesc:a580a36a11165b2590be342b45c31ec72"><td class="mdescLeft">&#160;</td><td class="mdescRight">Rights for chat bots.   <a href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a580a36a11165b2590be342b45c31ec72">More...</a><br /></td></tr>
 <tr class="separator:a580a36a11165b2590be342b45c31ec72"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -107,6 +104,9 @@ Enumerations</h2></td></tr>
 <tr class="memitem:a6aac419b6a793fe07657d96ac48dee5d"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a6aac419b6a793fe07657d96ac48dee5d">DreamMakerRights</a> : ulong </td></tr>
 <tr class="memdesc:a6aac419b6a793fe07657d96ac48dee5d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Rights for deployment.   <a href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a6aac419b6a793fe07657d96ac48dee5d">More...</a><br /></td></tr>
 <tr class="separator:a6aac419b6a793fe07657d96ac48dee5d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a92ef878d1a367365148110bee95bb311"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a92ef878d1a367365148110bee95bb311">EngineRights</a> : ulong </td></tr>
+<tr class="memdesc:a92ef878d1a367365148110bee95bb311"><td class="mdescLeft">&#160;</td><td class="mdescRight">Rights for engine version management.   <a href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a92ef878d1a367365148110bee95bb311">More...</a><br /></td></tr>
+<tr class="separator:a92ef878d1a367365148110bee95bb311"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af199a84ed6fe6ca557db9de91070ad79"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#af199a84ed6fe6ca557db9de91070ad79">InstanceManagerRights</a> : ulong </td></tr>
 <tr class="memdesc:af199a84ed6fe6ca557db9de91070ad79"><td class="mdescLeft">&#160;</td><td class="mdescRight">Rights for managing Models.Instances.   <a href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#af199a84ed6fe6ca557db9de91070ad79">More...</a><br /></td></tr>
 <tr class="separator:af199a84ed6fe6ca557db9de91070ad79"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -155,39 +155,6 @@ Enumerations</h2></td></tr>
 <div class="line"><span class="lineno">   50</span> </div>
 <div class="line"><span class="lineno">   54</span>        UploadVersion = 1 &lt;&lt; 7,</div>
 <div class="line"><span class="lineno">   55</span>    }</div>
-</div><!-- fragment -->
-</div>
-</div>
-<a id="a2a217a19e652f117e2324fb79ed838b9" name="a2a217a19e652f117e2324fb79ed838b9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2a217a19e652f117e2324fb79ed838b9">&#9670;&#160;</a></span>ByondRights</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">enum <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a2a217a19e652f117e2324fb79ed838b9">Tgstation.Server.Api.Rights.ByondRights</a> : ulong</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p><a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html">Rights</a> for BYOND version management.  </p>
-
-<p class="definition">Definition at line <a class="el" href="_byond_rights_8cs_source.html#l00009">9</a> of file <a class="el" href="_byond_rights_8cs_source.html">ByondRights.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   10</span>    {</div>
-<div class="line"><span class="lineno">   14</span>        None = 0,</div>
-<div class="line"><span class="lineno">   15</span> </div>
-<div class="line"><span class="lineno">   19</span>        ReadActive = 1 &lt;&lt; 0,</div>
-<div class="line"><span class="lineno">   20</span> </div>
-<div class="line"><span class="lineno">   24</span>        ListInstalled = 1 &lt;&lt; 1,</div>
-<div class="line"><span class="lineno">   25</span> </div>
-<div class="line"><span class="lineno">   29</span>        InstallOfficialOrChangeActiveVersion = 1 &lt;&lt; 2,</div>
-<div class="line"><span class="lineno">   30</span> </div>
-<div class="line"><span class="lineno">   34</span>        CancelInstall = 1 &lt;&lt; 3,</div>
-<div class="line"><span class="lineno">   35</span> </div>
-<div class="line"><span class="lineno">   39</span>        InstallCustomVersion = 1 &lt;&lt; 4,</div>
-<div class="line"><span class="lineno">   40</span> </div>
-<div class="line"><span class="lineno">   44</span>        DeleteInstall = 1 &lt;&lt; 5,</div>
-<div class="line"><span class="lineno">   45</span>    }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -365,6 +332,43 @@ Enumerations</h2></td></tr>
 </div><!-- fragment -->
 </div>
 </div>
+<a id="a92ef878d1a367365148110bee95bb311" name="a92ef878d1a367365148110bee95bb311"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a92ef878d1a367365148110bee95bb311">&#9670;&#160;</a></span>EngineRights</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a92ef878d1a367365148110bee95bb311">Tgstation.Server.Api.Rights.EngineRights</a> : ulong</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p><a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html">Rights</a> for engine version management.  </p>
+
+<p class="definition">Definition at line <a class="el" href="_engine_rights_8cs_source.html#l00009">9</a> of file <a class="el" href="_engine_rights_8cs_source.html">EngineRights.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   10</span>    {</div>
+<div class="line"><span class="lineno">   14</span>        None = 0,</div>
+<div class="line"><span class="lineno">   15</span> </div>
+<div class="line"><span class="lineno">   19</span>        ReadActive = 1 &lt;&lt; 0,</div>
+<div class="line"><span class="lineno">   20</span> </div>
+<div class="line"><span class="lineno">   24</span>        ListInstalled = 1 &lt;&lt; 1,</div>
+<div class="line"><span class="lineno">   25</span> </div>
+<div class="line"><span class="lineno">   29</span>        InstallOfficialOrChangeActiveByondVersion = 1 &lt;&lt; 2,</div>
+<div class="line"><span class="lineno">   30</span> </div>
+<div class="line"><span class="lineno">   34</span>        CancelInstall = 1 &lt;&lt; 3,</div>
+<div class="line"><span class="lineno">   35</span> </div>
+<div class="line"><span class="lineno">   39</span>        InstallCustomByondVersion = 1 &lt;&lt; 4,</div>
+<div class="line"><span class="lineno">   40</span> </div>
+<div class="line"><span class="lineno">   44</span>        DeleteInstall = 1 &lt;&lt; 5,</div>
+<div class="line"><span class="lineno">   45</span> </div>
+<div class="line"><span class="lineno">   49</span>        InstallOfficialOrChangeActiveOpenDreamVersion = 1 &lt;&lt; 6,</div>
+<div class="line"><span class="lineno">   50</span> </div>
+<div class="line"><span class="lineno">   54</span>        InstallCustomOpenDreamVersion = 1 &lt;&lt; 7,</div>
+<div class="line"><span class="lineno">   55</span>    }</div>
+</div><!-- fragment -->
+</div>
+</div>
 <a id="af199a84ed6fe6ca557db9de91070ad79" name="af199a84ed6fe6ca557db9de91070ad79"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#af199a84ed6fe6ca557db9de91070ad79">&#9670;&#160;</a></span>InstanceManagerRights</h2>
 
@@ -506,7 +510,7 @@ Enumerations</h2></td></tr>
 <div class="line"><span class="lineno">   17</span> </div>
 <div class="line"><span class="lineno">   21</span>        Repository,</div>
 <div class="line"><span class="lineno">   22</span> </div>
-<div class="line"><span class="lineno">   26</span>        Byond,</div>
+<div class="line"><span class="lineno">   26</span>        Engine,</div>
 <div class="line"><span class="lineno">   27</span> </div>
 <div class="line"><span class="lineno">   31</span>        DreamMaker,</div>
 <div class="line"><span class="lineno">   32</span> </div>

@@ -1,5 +1,4 @@
 <map id="Tgstation.Server.Host.Security.ISystemIdentity.Clone" name="Tgstation.Server.Host.Security.ISystemIdentity.Clone">
-<area shape="rect" id="node1" title="Clone the ISystemIdentity creating another copy that must have IDisposable.Dispose called on it." alt="" coords="280,37,481,77"/>
+<area shape="rect" id="node1" title="Clone the ISystemIdentity creating another copy that must have IDisposable.Dispose called on it." alt="" coords="280,5,481,45"/>
 <area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_identity_cache.html#acbbad46e8e5ac5cae600edce613f9cf5" title="Keep a user &#39;s systemIdentity &#160;alive until an expiry &#160;time." alt="" coords="5,5,232,45"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_identity_cache.html#a2697ebf18fec9213032f48fb5f351397" title="Attempt to load a cached ISystemIdentity. The cached ISystemIdentity or null if it doesn&#39;t exist or e..." alt="" coords="9,69,228,109"/>
 </map>

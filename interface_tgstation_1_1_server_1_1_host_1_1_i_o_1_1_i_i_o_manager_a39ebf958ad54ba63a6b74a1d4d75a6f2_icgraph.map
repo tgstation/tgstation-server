@@ -1,7 +1,8 @@
 <map id="Tgstation.Server.Host.IO.IIOManager.GetDirectories" name="Tgstation.Server.Host.IO.IIOManager.GetDirectories">
-<area shape="rect" id="node1" title="Returns directory names in a given path ." alt="" coords="647,69,823,109"/>
+<area shape="rect" id="node1" title="Returns full directory names in a given path ." alt="" coords="647,101,823,141"/>
 <area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dmb_factory.html#a077adeb753e3f95c3ef4dc29f7bcc264" title="Deletes all compile jobs that are inactive in the Game folder. A ValueTask representing the running o..." alt="" coords="280,5,599,45"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_manager.html#a7b6d8a1eef58f0e3265a67ebe9036f13" title=" " alt="" coords="326,69,553,109"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#a4bde2bc61aaf361c082bd9de17bf4157" title="Symlinks all directories in the GameData directory to destination . A ValueTask representing the runn..." alt="" coords="317,134,562,189"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a11cc04923d2557eefd57ad2ded9eb7f2" title=" " alt="" coords="5,69,232,109"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_open_dream_installer.html#a6b3454e1b0d55e9fda7da0b792e5ae78" title="Does actions necessary to get an extracted installation working. A ValueTask representing the running..." alt="" coords="326,69,553,109"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_manager.html#a43d2c796792fcf3807acc665c1ea06ab" title=" " alt="" coords="326,133,553,173"/>
+<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#a4bde2bc61aaf361c082bd9de17bf4157" title="Symlinks all directories in the GameData directory to destination . A ValueTask representing the runn..." alt="" coords="317,198,562,253"/>
+<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a11cc04923d2557eefd57ad2ded9eb7f2" title=" " alt="" coords="5,133,232,173"/>
 </map>

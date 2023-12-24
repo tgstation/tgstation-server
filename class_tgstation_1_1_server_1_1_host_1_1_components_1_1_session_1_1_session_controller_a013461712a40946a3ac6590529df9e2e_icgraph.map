@@ -1,0 +1,7 @@
+<map id="Tgstation.Server.Host.Components.Session.SessionController.SendCommand" name="Tgstation.Server.Host.Components.Session.SessionController.SendCommand">
+<area shape="rect" id="node1" title="Sends a command to DreamDaemon through /world/Topic(). A ValueTask&lt;TResult&gt; resulting in the TopicRes..." alt="" coords="663,69,929,109"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#abe969c596f06eb501dfd16ab3e0cab93" title="The Task&lt;TResult&gt; for LaunchResult." alt="" coords="334,5,613,45"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#a004915b1f9aca8c8c44d4b55d4767918" title="Called when the owning Instance is renamed. A ValueTask representing the running operation." alt="" coords="332,69,615,109"/>
+<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#ae9651ef9774850d4dfb9f989dc0d0484" title="Attempts to change the current RebootState to newRebootState . A ValueTask&lt;TResult&gt; resulting in true..." alt="" coords="339,133,608,173"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#a03b7fcc306123e90e2afd2eb8b40798d" title="Initializes a new instance of the SessionController class." alt="" coords="5,5,284,45"/>
+</map>

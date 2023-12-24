@@ -1,0 +1,4 @@
+<map id="Tgstation.Server.Host.Service.ServiceLifetime.RunWatchdog" name="Tgstation.Server.Host.Service.ServiceLifetime.RunWatchdog">
+<area shape="rect" id="node1" title="Executes the watchdog , stopping the service if it exits." alt="" coords="260,5,459,45"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_service_1_1_service_lifetime.html#a925943af5c4c8e2254ef174e007d1350" title="Initializes a new instance of the ServiceLifetime class." alt="" coords="5,5,212,45"/>
+</map>

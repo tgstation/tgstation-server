@@ -1,8 +1,0 @@
-<map id="Tgstation.Server.Host.Components.Session.SessionController.SessionController" name="Tgstation.Server.Host.Components.Session.SessionController.SessionController">
-<area shape="rect" id="node1" title="Initializes a new instance of the SessionController class." alt="" coords="5,109,284,149"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#abe969c596f06eb501dfd16ab3e0cab93" title="The Task&lt;TResult&gt; for LaunchResult." alt="" coords="332,37,611,77"/>
-<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_bridge_1_1_i_bridge_registrar.html#aa36d6072e7a96ece183b77544c9bfe4b" title="Register a given bridgeHandler ." alt="" coords="347,102,596,157"/>
-<area shape="rect" id="node6" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_tracking_context.html#affd4bf60a56058a56804994741cceff5" title="Sets the channelSink &#160;for the IChatTrackingContext." alt="" coords="335,181,608,221"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_async_delayer.html#aeb604334bd297d47506dc23e0d115977" title="Create a Task that completes after a given timeSpan ." alt="" coords="701,5,883,45"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#a125c294a41d56c5c58d63e192b63de98" title="Sends a command to DreamDaemon through /world/Topic(). A ValueTask&lt;TResult&gt; resulting in the TopicRes..." alt="" coords="659,69,925,109"/>
-</map>

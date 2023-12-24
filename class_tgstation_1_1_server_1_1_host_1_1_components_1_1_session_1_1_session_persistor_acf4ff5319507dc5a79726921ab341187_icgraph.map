@@ -1,4 +1,0 @@
-<map id="Tgstation.Server.Host.Components.Session.SessionPersistor.Save" name="Tgstation.Server.Host.Components.Session.SessionPersistor.Save">
-<area shape="rect" id="node1" title="Save some reattachInformation . A ValueTask representing the running operation." alt="" coords="380,5,607,45"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_advanced_watchdog.html#a9a94dccebeb6abb16f75b2ad03a5eb28" title="Handler for MonitorActivationReason.ActiveServerRebooted when the RebootState is RebootState...." alt="" coords="5,5,332,45"/>
-</map>

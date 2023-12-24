@@ -1,8 +1,8 @@
 <map id="Tgstation.Server.Host.Controllers.ControlPanelController" name="Tgstation.Server.Host.Controllers.ControlPanelController">
-<area shape="rect" id="node1" title="Controller for the web control panel." alt="" coords="584,133,800,173"/>
-<area shape="rect" id="node2" href="$class_controller.html" title=" " alt="" coords="232,5,309,31"/>
-<area shape="rect" id="node3" title=" " alt="" coords="5,105,60,131"/>
-<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_control_panel_configuration.html" title="Configuration options for the web control panel." alt="" coords="156,133,385,173"/>
-<area shape="rect" id="node4" title=" " alt="" coords="169,197,372,223"/>
-<area shape="rect" id="node5" title=" " alt="" coords="171,247,371,301"/>
+<area shape="rect" id="node1" title="Controller for the web control panel." alt="" coords="619,133,835,173"/>
+<area shape="rect" id="node2" href="$class_controller.html" title=" " alt="" coords="267,5,344,31"/>
+<area shape="rect" id="node3" title=" " alt="" coords="5,105,95,131"/>
+<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_control_panel_configuration.html" title="Configuration options for the web control panel." alt="" coords="191,133,420,173"/>
+<area shape="rect" id="node4" title=" " alt="" coords="204,197,407,223"/>
+<area shape="rect" id="node5" title=" " alt="" coords="205,247,405,301"/>
 </map>

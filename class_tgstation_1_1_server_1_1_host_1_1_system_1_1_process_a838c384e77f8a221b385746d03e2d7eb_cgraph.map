@@ -1,0 +1,5 @@
+<map id="Tgstation.Server.Host.System.Process.SuspendProcess" name="Tgstation.Server.Host.System.Process.SuspendProcess">
+<area shape="rect" id="node1" title="Suspends the process." alt="" coords="5,37,204,77"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process.html#a1152b5270b66aae510f8a9d2f98d3032" title="Throws an ObjectDisposedException if a method of the Process was called after DisposeAsync." alt="" coords="266,5,465,45"/>
+<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_features.html#ac6b97694917044ddce0c3ba9c8478246" title="Suspend a given process ." alt="" coords="252,69,479,109"/>
+</map>

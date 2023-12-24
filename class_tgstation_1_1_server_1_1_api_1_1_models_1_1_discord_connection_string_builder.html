@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.18.2</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.0.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -77,6 +77,7 @@ $(function() {
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#properties">Properties</a> &#124;
+<a href="#pri-attribs">Private Attributes</a> &#124;
 <a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_discord_connection_string_builder-members.html">List of all members</a>  </div>
   <div class="headertitle"><div class="title">Tgstation.Server.Api.Models.DiscordConnectionStringBuilder Class Reference</div></div>
 </div><!--header-->
@@ -98,8 +99,9 @@ Collaboration diagram for Tgstation.Server.Api.Models.DiscordConnectionStringBui
 <div class="dyncontent">
 <div class="center"><img src="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_discord_connection_string_builder__coll__graph.png" border="0" usemap="#a_tgstation_8_server_8_api_8_models_8_discord_connection_string_builder_coll__map" alt="Collaboration graph"/></div>
 <map name="a_tgstation_8_server_8_api_8_models_8_discord_connection_string_builder_coll__map" id="a_tgstation_8_server_8_api_8_models_8_discord_connection_string_builder_coll__map">
-<area shape="rect" title="ChatConnectionStringBuilder for ChatProvider.Discord." alt="" coords="5,79,211,119"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_chat_connection_string_builder.html" title="Helper for building ChatBotSettings.ConnectionStrings." alt="" coords="14,5,202,31"/>
+<area shape="rect" title="ChatConnectionStringBuilder for ChatProvider.Discord." alt="" coords="79,93,285,133"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_chat_connection_string_builder.html" title="Helper for building ChatBotSettings.ConnectionStrings." alt="" coords="5,5,193,31"/>
+<area shape="rect" title=" " alt="" coords="217,5,315,31"/>
 </map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
@@ -126,9 +128,6 @@ Properties</h2></td></tr>
 <tr class="memitem:aacc9fd03094f08522afc8a0d786547ee"><td class="memItemLeft" align="right" valign="top">string?&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_discord_connection_string_builder.html#aacc9fd03094f08522afc8a0d786547ee">BotToken</a><code> [get, set]</code></td></tr>
 <tr class="memdesc:aacc9fd03094f08522afc8a0d786547ee"><td class="mdescLeft">&#160;</td><td class="mdescRight">The Discord bot token.   <a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_discord_connection_string_builder.html#aacc9fd03094f08522afc8a0d786547ee">More...</a><br /></td></tr>
 <tr class="separator:aacc9fd03094f08522afc8a0d786547ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab7da6a9d2a1598597d2a28316cd25ef2"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_discord_connection_string_builder.html#ab7da6a9d2a1598597d2a28316cd25ef2">BasedMeme</a><code> [get, set]</code></td></tr>
-<tr class="memdesc:ab7da6a9d2a1598597d2a28316cd25ef2"><td class="mdescLeft">&#160;</td><td class="mdescRight">bool to enable based mode. Will auto reply with a youtube link to a video that says "based on the hardware that's installed in it" to anyone saying 'based on what?' case-insensitive.   <a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_discord_connection_string_builder.html#ab7da6a9d2a1598597d2a28316cd25ef2">More...</a><br /></td></tr>
-<tr class="separator:ab7da6a9d2a1598597d2a28316cd25ef2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a06219086456eadf1fb52d4693c2ba0bd"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_discord_connection_string_builder.html#a06219086456eadf1fb52d4693c2ba0bd">DeploymentBranding</a><code> [get, set]</code></td></tr>
 <tr class="memdesc:a06219086456eadf1fb52d4693c2ba0bd"><td class="mdescLeft">&#160;</td><td class="mdescRight">If the tgstation-server logo is shown in deployment embeds.   <a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_discord_connection_string_builder.html#a06219086456eadf1fb52d4693c2ba0bd">More...</a><br /></td></tr>
 <tr class="separator:a06219086456eadf1fb52d4693c2ba0bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -139,6 +138,12 @@ Properties</h2></td></tr>
 <tr class="memitem:a9b8292cc2ffeb79aa55013c6d8a617d7 inherit properties_class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_chat_connection_string_builder"><td class="memItemLeft" align="right" valign="top">abstract bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_chat_connection_string_builder.html#a9b8292cc2ffeb79aa55013c6d8a617d7">Valid</a><code> [get]</code></td></tr>
 <tr class="memdesc:a9b8292cc2ffeb79aa55013c6d8a617d7 inherit properties_class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_chat_connection_string_builder"><td class="mdescLeft">&#160;</td><td class="mdescRight">If the <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_chat_connection_string_builder.html" title="Helper for building ChatBotSettings.ConnectionStrings.">ChatConnectionStringBuilder</a> evaluates to a valid <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_chat_bot_settings.html#acdc14bc7df5569305c8a5af42e61f1da" title="The information used to connect to the Provider.">ChatBotSettings.ConnectionString</a>.   <a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_chat_connection_string_builder.html#a9b8292cc2ffeb79aa55013c6d8a617d7">More...</a><br /></td></tr>
 <tr class="separator:a9b8292cc2ffeb79aa55013c6d8a617d7 inherit properties_class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_chat_connection_string_builder"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
+Private Attributes</h2></td></tr>
+<tr class="memitem:a16e08c8cc0850a4a5e6a4ce2de9f3d6f"><td class="memItemLeft" align="right" valign="top">readonly bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_discord_connection_string_builder.html#a16e08c8cc0850a4a5e6a4ce2de9f3d6f">unusedFlag</a></td></tr>
+<tr class="memdesc:a16e08c8cc0850a4a5e6a4ce2de9f3d6f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Currently unused. Note its origin in based meme before repurposing.   <a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_discord_connection_string_builder.html#a16e08c8cc0850a4a5e6a4ce2de9f3d6f">More...</a><br /></td></tr>
+<tr class="separator:a16e08c8cc0850a4a5e6a4ce2de9f3d6f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p >ChatConnectionStringBuilder for ChatProvider.Discord.  </p>
@@ -162,9 +167,9 @@ Properties</h2></td></tr>
 
 <p>Initializes a new instance of the <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_discord_connection_string_builder.html" title="ChatConnectionStringBuilder for ChatProvider.Discord.">DiscordConnectionStringBuilder</a> class.  </p>
 
-<p class="definition">Definition at line <a class="el" href="_discord_connection_string_builder_8cs_source.html#l00041">41</a> of file <a class="el" href="_discord_connection_string_builder_8cs_source.html">DiscordConnectionStringBuilder.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   42</span>        {</div>
-<div class="line"><span class="lineno">   43</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_discord_connection_string_builder_8cs_source.html#l00040">40</a> of file <a class="el" href="_discord_connection_string_builder_8cs_source.html">DiscordConnectionStringBuilder.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   41</span>        {</div>
+<div class="line"><span class="lineno">   42</span>        }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -192,37 +197,34 @@ Properties</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_discord_connection_string_builder_8cs_source.html#l00049">49</a> of file <a class="el" href="_discord_connection_string_builder_8cs_source.html">DiscordConnectionStringBuilder.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   50</span>        {</div>
-<div class="line"><span class="lineno">   51</span>            <span class="keywordflow">if</span> (connectionString == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">   52</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(connectionString));</div>
-<div class="line"><span class="lineno">   53</span> </div>
-<div class="line"><span class="lineno">   54</span>            var splits = connectionString.Split(<span class="charliteral">&#39;;&#39;</span>);</div>
-<div class="line"><span class="lineno">   55</span> </div>
-<div class="line"><span class="lineno">   56</span>            <a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_discord_connection_string_builder.html#aacc9fd03094f08522afc8a0d786547ee">BotToken</a> = splits.First();</div>
-<div class="line"><span class="lineno">   57</span> </div>
-<div class="line"><span class="lineno">   58</span>            <span class="keywordflow">if</span> (splits.Length &lt; 2 || !Enum.TryParse&lt;<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#af16952d12561118ecebc3d8ccf510221">DiscordDMOutputDisplayType</a>&gt;(splits[1], out var dMOutputDisplayType))</div>
-<div class="line"><span class="lineno">   59</span>                dMOutputDisplayType = <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#af16952d12561118ecebc3d8ccf510221">DiscordDMOutputDisplayType</a>.Always;</div>
-<div class="line"><span class="lineno">   60</span>            <a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_discord_connection_string_builder.html#ab200c057753396a5087484aa9d677af8">DMOutputDisplay</a> = dMOutputDisplayType;</div>
-<div class="line"><span class="lineno">   61</span> </div>
-<div class="line"><span class="lineno">   62</span>            <span class="keywordflow">if</span> (splits.Length &gt; 2 &amp;&amp; Int32.TryParse(splits[2], out Int32 basedMeme))</div>
-<div class="line"><span class="lineno">   63</span><span class="preprocessor">#pragma warning disable CS0618 </span><span class="comment">// Type or member is obsolete</span></div>
-<div class="line"><span class="lineno">   64</span>                <a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_discord_connection_string_builder.html#ab7da6a9d2a1598597d2a28316cd25ef2">BasedMeme</a> = Convert.ToBoolean(basedMeme);</div>
-<div class="line"><span class="lineno">   65</span>            <span class="keywordflow">else</span></div>
-<div class="line"><span class="lineno">   66</span>                <a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_discord_connection_string_builder.html#ab7da6a9d2a1598597d2a28316cd25ef2">BasedMeme</a> = <span class="keyword">false</span>; <span class="comment">// oranges said this needs to be true by default :pensive:</span></div>
-<div class="line"><span class="lineno">   67</span> </div>
-<div class="line"><span class="lineno">   68</span>            <span class="keywordflow">if</span> (splits.Length &gt; 3 &amp;&amp; Int32.TryParse(splits[3], out Int32 branding))</div>
-<div class="line"><span class="lineno">   69</span>                <a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_discord_connection_string_builder.html#a06219086456eadf1fb52d4693c2ba0bd">DeploymentBranding</a> = Convert.ToBoolean(branding);</div>
-<div class="line"><span class="lineno">   70</span>            <span class="keywordflow">else</span></div>
-<div class="line"><span class="lineno">   71</span>                <a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_discord_connection_string_builder.html#a06219086456eadf1fb52d4693c2ba0bd">DeploymentBranding</a> = <span class="keyword">true</span>; <span class="comment">// previous default behaviour</span></div>
-<div class="line"><span class="lineno">   72</span>        }</div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_discord_connection_string_builder_html_a06219086456eadf1fb52d4693c2ba0bd"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_discord_connection_string_builder.html#a06219086456eadf1fb52d4693c2ba0bd">Tgstation.Server.Api.Models.DiscordConnectionStringBuilder.DeploymentBranding</a></div><div class="ttdeci">bool DeploymentBranding</div><div class="ttdoc">If the tgstation-server logo is shown in deployment embeds.</div><div class="ttdef"><b>Definition:</b> <a href="_discord_connection_string_builder_8cs_source.html#l00031">DiscordConnectionStringBuilder.cs:31</a></div></div>
+<p class="definition">Definition at line <a class="el" href="_discord_connection_string_builder_8cs_source.html#l00048">48</a> of file <a class="el" href="_discord_connection_string_builder_8cs_source.html">DiscordConnectionStringBuilder.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   49</span>        {</div>
+<div class="line"><span class="lineno">   50</span>            <span class="keywordflow">if</span> (connectionString == <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">   51</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(connectionString));</div>
+<div class="line"><span class="lineno">   52</span> </div>
+<div class="line"><span class="lineno">   53</span>            var splits = connectionString.Split(<span class="charliteral">&#39;;&#39;</span>);</div>
+<div class="line"><span class="lineno">   54</span> </div>
+<div class="line"><span class="lineno">   55</span>            <a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_discord_connection_string_builder.html#aacc9fd03094f08522afc8a0d786547ee">BotToken</a> = splits.First();</div>
+<div class="line"><span class="lineno">   56</span> </div>
+<div class="line"><span class="lineno">   57</span>            <span class="keywordflow">if</span> (splits.Length &lt; 2 || !Enum.TryParse&lt;<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#af16952d12561118ecebc3d8ccf510221">DiscordDMOutputDisplayType</a>&gt;(splits[1], out var dMOutputDisplayType))</div>
+<div class="line"><span class="lineno">   58</span>                dMOutputDisplayType = <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#af16952d12561118ecebc3d8ccf510221">DiscordDMOutputDisplayType</a>.Always;</div>
+<div class="line"><span class="lineno">   59</span>            <a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_discord_connection_string_builder.html#ab200c057753396a5087484aa9d677af8">DMOutputDisplay</a> = dMOutputDisplayType;</div>
+<div class="line"><span class="lineno">   60</span> </div>
+<div class="line"><span class="lineno">   61</span>            <span class="keywordflow">if</span> (splits.Length &gt; 2 &amp;&amp; Int32.TryParse(splits[2], out Int32 basedMeme))</div>
+<div class="line"><span class="lineno">   62</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_discord_connection_string_builder.html#a16e08c8cc0850a4a5e6a4ce2de9f3d6f">unusedFlag</a> = Convert.ToBoolean(basedMeme);</div>
+<div class="line"><span class="lineno">   63</span> </div>
+<div class="line"><span class="lineno">   64</span>            <span class="keywordflow">if</span> (splits.Length &gt; 3 &amp;&amp; Int32.TryParse(splits[3], out Int32 branding))</div>
+<div class="line"><span class="lineno">   65</span>                <a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_discord_connection_string_builder.html#a06219086456eadf1fb52d4693c2ba0bd">DeploymentBranding</a> = Convert.ToBoolean(branding);</div>
+<div class="line"><span class="lineno">   66</span>            <span class="keywordflow">else</span></div>
+<div class="line"><span class="lineno">   67</span>                <a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_discord_connection_string_builder.html#a06219086456eadf1fb52d4693c2ba0bd">DeploymentBranding</a> = <span class="keyword">true</span>; <span class="comment">// previous default behaviour</span></div>
+<div class="line"><span class="lineno">   68</span>        }</div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_discord_connection_string_builder_html_a06219086456eadf1fb52d4693c2ba0bd"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_discord_connection_string_builder.html#a06219086456eadf1fb52d4693c2ba0bd">Tgstation.Server.Api.Models.DiscordConnectionStringBuilder.DeploymentBranding</a></div><div class="ttdeci">bool DeploymentBranding</div><div class="ttdoc">If the tgstation-server logo is shown in deployment embeds.</div><div class="ttdef"><b>Definition:</b> <a href="_discord_connection_string_builder_8cs_source.html#l00025">DiscordConnectionStringBuilder.cs:25</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_discord_connection_string_builder_html_a16e08c8cc0850a4a5e6a4ce2de9f3d6f"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_discord_connection_string_builder.html#a16e08c8cc0850a4a5e6a4ce2de9f3d6f">Tgstation.Server.Api.Models.DiscordConnectionStringBuilder.unusedFlag</a></div><div class="ttdeci">readonly bool unusedFlag</div><div class="ttdoc">Currently unused. Note its origin in based meme before repurposing.</div><div class="ttdef"><b>Definition:</b> <a href="_discord_connection_string_builder_8cs_source.html#l00035">DiscordConnectionStringBuilder.cs:35</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_discord_connection_string_builder_html_aacc9fd03094f08522afc8a0d786547ee"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_discord_connection_string_builder.html#aacc9fd03094f08522afc8a0d786547ee">Tgstation.Server.Api.Models.DiscordConnectionStringBuilder.BotToken</a></div><div class="ttdeci">string? BotToken</div><div class="ttdoc">The Discord bot token.</div><div class="ttdef"><b>Definition:</b> <a href="_discord_connection_string_builder_8cs_source.html#l00020">DiscordConnectionStringBuilder.cs:20</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_discord_connection_string_builder_html_ab200c057753396a5087484aa9d677af8"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_discord_connection_string_builder.html#ab200c057753396a5087484aa9d677af8">Tgstation.Server.Api.Models.DiscordConnectionStringBuilder.DMOutputDisplay</a></div><div class="ttdeci">DiscordDMOutputDisplayType DMOutputDisplay</div><div class="ttdoc">The DiscordDMOutputDisplayType.</div><div class="ttdef"><b>Definition:</b> <a href="_discord_connection_string_builder_8cs_source.html#l00036">DiscordConnectionStringBuilder.cs:36</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_discord_connection_string_builder_html_ab7da6a9d2a1598597d2a28316cd25ef2"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_discord_connection_string_builder.html#ab7da6a9d2a1598597d2a28316cd25ef2">Tgstation.Server.Api.Models.DiscordConnectionStringBuilder.BasedMeme</a></div><div class="ttdeci">bool BasedMeme</div><div class="ttdoc">bool to enable based mode. Will auto reply with a youtube link to a video that says &quot;based on the har...</div><div class="ttdef"><b>Definition:</b> <a href="_discord_connection_string_builder_8cs_source.html#l00026">DiscordConnectionStringBuilder.cs:26</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_discord_connection_string_builder_html_ab200c057753396a5087484aa9d677af8"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_discord_connection_string_builder.html#ab200c057753396a5087484aa9d677af8">Tgstation.Server.Api.Models.DiscordConnectionStringBuilder.DMOutputDisplay</a></div><div class="ttdeci">DiscordDMOutputDisplayType DMOutputDisplay</div><div class="ttdoc">The DiscordDMOutputDisplayType.</div><div class="ttdef"><b>Definition:</b> <a href="_discord_connection_string_builder_8cs_source.html#l00030">DiscordConnectionStringBuilder.cs:30</a></div></div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_api_1_1_models_html_af16952d12561118ecebc3d8ccf510221"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#af16952d12561118ecebc3d8ccf510221">Tgstation.Server.Api.Models.DiscordDMOutputDisplayType</a></div><div class="ttdeci">DiscordDMOutputDisplayType</div><div class="ttdoc">When the DM output section of Discord deployment embeds should be shown.</div><div class="ttdef"><b>Definition:</b> <a href="_discord_d_m_output_display_type_8cs_source.html#l00006">DiscordDMOutputDisplayType.cs:7</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_discord_connection_string_builder_8cs_source.html#l00026">Tgstation.Server.Api.Models.DiscordConnectionStringBuilder.BasedMeme</a>, <a class="el" href="_discord_connection_string_builder_8cs_source.html#l00020">Tgstation.Server.Api.Models.DiscordConnectionStringBuilder.BotToken</a>, <a class="el" href="_discord_connection_string_builder_8cs_source.html#l00031">Tgstation.Server.Api.Models.DiscordConnectionStringBuilder.DeploymentBranding</a>, and <a class="el" href="_discord_connection_string_builder_8cs_source.html#l00036">Tgstation.Server.Api.Models.DiscordConnectionStringBuilder.DMOutputDisplay</a>.</p>
+<p class="reference">References <a class="el" href="_discord_connection_string_builder_8cs_source.html#l00020">Tgstation.Server.Api.Models.DiscordConnectionStringBuilder.BotToken</a>, <a class="el" href="_discord_connection_string_builder_8cs_source.html#l00025">Tgstation.Server.Api.Models.DiscordConnectionStringBuilder.DeploymentBranding</a>, <a class="el" href="_discord_connection_string_builder_8cs_source.html#l00030">Tgstation.Server.Api.Models.DiscordConnectionStringBuilder.DMOutputDisplay</a>, and <a class="el" href="_discord_connection_string_builder_8cs_source.html#l00035">Tgstation.Server.Api.Models.DiscordConnectionStringBuilder.unusedFlag</a>.</p>
 
 </div>
 </div>
@@ -257,9 +259,9 @@ Properties</h2></td></tr>
 
 </div>
 </div>
-<h2 class="groupheader">Property Documentation</h2>
-<a id="ab7da6a9d2a1598597d2a28316cd25ef2" name="ab7da6a9d2a1598597d2a28316cd25ef2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab7da6a9d2a1598597d2a28316cd25ef2">&#9670;&#160;</a></span>BasedMeme</h2>
+<h2 class="groupheader">Member Data Documentation</h2>
+<a id="a16e08c8cc0850a4a5e6a4ce2de9f3d6f" name="a16e08c8cc0850a4a5e6a4ce2de9f3d6f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a16e08c8cc0850a4a5e6a4ce2de9f3d6f">&#9670;&#160;</a></span>unusedFlag</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -268,25 +270,25 @@ Properties</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">bool Tgstation.Server.Api.Models.DiscordConnectionStringBuilder.BasedMeme</td>
+          <td class="memname">readonly bool Tgstation.Server.Api.Models.DiscordConnectionStringBuilder.unusedFlag</td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">get</span><span class="mlabel">set</span></span>  </td>
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
-<p>bool to enable based mode. Will auto reply with a youtube link to a video that says "based on the hardware that's installed in it" to anyone saying 'based on what?' case-insensitive.  </p>
+<p>Currently unused. Note its origin in based meme before repurposing.  </p>
 
-<p class="definition">Definition at line <a class="el" href="_discord_connection_string_builder_8cs_source.html#l00026">26</a> of file <a class="el" href="_discord_connection_string_builder_8cs_source.html">DiscordConnectionStringBuilder.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   26</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
-</div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_discord_connection_string_builder_8cs_source.html#l00049">Tgstation.Server.Api.Models.DiscordConnectionStringBuilder.DiscordConnectionStringBuilder()</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_discord_connection_string_builder_8cs_source.html#l00035">35</a> of file <a class="el" href="_discord_connection_string_builder_8cs_source.html">DiscordConnectionStringBuilder.cs</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="_discord_connection_string_builder_8cs_source.html#l00048">Tgstation.Server.Api.Models.DiscordConnectionStringBuilder.DiscordConnectionStringBuilder()</a>.</p>
 
 </div>
 </div>
+<h2 class="groupheader">Property Documentation</h2>
 <a id="aacc9fd03094f08522afc8a0d786547ee" name="aacc9fd03094f08522afc8a0d786547ee"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aacc9fd03094f08522afc8a0d786547ee">&#9670;&#160;</a></span>BotToken</h2>
 
@@ -313,7 +315,7 @@ Properties</h2></td></tr>
 <p class="definition">Definition at line <a class="el" href="_discord_connection_string_builder_8cs_source.html#l00020">20</a> of file <a class="el" href="_discord_connection_string_builder_8cs_source.html">DiscordConnectionStringBuilder.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   20</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_discord_connection_string_builder_8cs_source.html#l00049">Tgstation.Server.Api.Models.DiscordConnectionStringBuilder.DiscordConnectionStringBuilder()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_discord_connection_string_builder_8cs_source.html#l00048">Tgstation.Server.Api.Models.DiscordConnectionStringBuilder.DiscordConnectionStringBuilder()</a>.</p>
 
 </div>
 </div>
@@ -339,10 +341,10 @@ Properties</h2></td></tr>
 
 <p>If the tgstation-server logo is shown in deployment embeds.  </p>
 
-<p class="definition">Definition at line <a class="el" href="_discord_connection_string_builder_8cs_source.html#l00031">31</a> of file <a class="el" href="_discord_connection_string_builder_8cs_source.html">DiscordConnectionStringBuilder.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   31</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
+<p class="definition">Definition at line <a class="el" href="_discord_connection_string_builder_8cs_source.html#l00025">25</a> of file <a class="el" href="_discord_connection_string_builder_8cs_source.html">DiscordConnectionStringBuilder.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   25</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_discord_connection_string_builder_8cs_source.html#l00049">Tgstation.Server.Api.Models.DiscordConnectionStringBuilder.DiscordConnectionStringBuilder()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_discord_connection_string_builder_8cs_source.html#l00048">Tgstation.Server.Api.Models.DiscordConnectionStringBuilder.DiscordConnectionStringBuilder()</a>.</p>
 
 </div>
 </div>
@@ -368,10 +370,10 @@ Properties</h2></td></tr>
 
 <p>The <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#af16952d12561118ecebc3d8ccf510221" title="When the DM output section of Discord deployment embeds should be shown.">DiscordDMOutputDisplayType</a>.  </p>
 
-<p class="definition">Definition at line <a class="el" href="_discord_connection_string_builder_8cs_source.html#l00036">36</a> of file <a class="el" href="_discord_connection_string_builder_8cs_source.html">DiscordConnectionStringBuilder.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   36</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
+<p class="definition">Definition at line <a class="el" href="_discord_connection_string_builder_8cs_source.html#l00030">30</a> of file <a class="el" href="_discord_connection_string_builder_8cs_source.html">DiscordConnectionStringBuilder.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   30</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_discord_connection_string_builder_8cs_source.html#l00049">Tgstation.Server.Api.Models.DiscordConnectionStringBuilder.DiscordConnectionStringBuilder()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_discord_connection_string_builder_8cs_source.html#l00048">Tgstation.Server.Api.Models.DiscordConnectionStringBuilder.DiscordConnectionStringBuilder()</a>.</p>
 
 </div>
 </div>

@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.18.2</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.0.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -90,7 +90,7 @@ Collaboration diagram for Tgstation.Server.Host.Service.Wix.Extensions.Installat
 <div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_wix_1_1_extensions_1_1_installation_extensions__coll__graph.png" border="0" usemap="#a_tgstation_8_server_8_host_8_service_8_wix_8_extensions_8_installation_extensions_coll__map" alt="Collaboration graph"/></div>
 <map name="a_tgstation_8_server_8_host_8_service_8_wix_8_extensions_8_installation_extensions_coll__map" id="a_tgstation_8_server_8_host_8_service_8_wix_8_extensions_8_installation_extensions_coll__map">
 <area shape="rect" title="Extension methods for the .msi installer." alt="" coords="5,93,244,133"/>
-<area shape="rect" title=" " alt="" coords="97,5,152,31"/>
+<area shape="rect" title=" " alt="" coords="80,5,169,31"/>
 </map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
@@ -184,12 +184,13 @@ Static Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">  124</span> </div>
 <div class="line"><span class="lineno">  125</span>                <span class="keywordflow">return</span> ActionResult.NotExecuted;</div>
 <div class="line"><span class="lineno">  126</span>            }</div>
-<div class="line"><span class="lineno">  127</span>            <span class="keywordflow">catch</span> (Exception ex)</div>
+<div class="line"><span class="lineno">  127</span>            <span class="keywordflow">catch</span> (<a class="code hl_class" href="class_exception.html">Exception</a> ex)</div>
 <div class="line"><span class="lineno">  128</span>            {</div>
 <div class="line"><span class="lineno">  129</span>                session.Log($<span class="stringliteral">&quot;Exception in ApplyProductionAppsettingsIfNonExistant:{Environment.NewLine}{ex}&quot;</span>);</div>
 <div class="line"><span class="lineno">  130</span>                <span class="keywordflow">return</span> ActionResult.Failure;</div>
 <div class="line"><span class="lineno">  131</span>            }</div>
 <div class="line"><span class="lineno">  132</span>        }</div>
+<div class="ttc" id="aclass_exception_html"><div class="ttname"><a href="class_exception.html">Exception</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_service_1_1_wix_1_1_extensions_1_1_installation_extensions_html_ae57951c26a55153cd85fa7f9c4f15235"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_wix_1_1_extensions_1_1_installation_extensions.html#ae57951c26a55153cd85fa7f9c4f15235">Tgstation.Server.Host.Service.Wix.Extensions.InstallationExtensions.CanonicalPackageName</a></div><div class="ttdeci">const string CanonicalPackageName</div><div class="ttdoc">Package name</div><div class="ttdef"><b>Definition:</b> <a href="_installation_extensions_8cs_source.html#l00020">InstallationExtensions.cs:20</a></div></div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="_installation_extensions_8cs_source.html#l00020">Tgstation.Server.Host.Service.Wix.Extensions.InstallationExtensions.CanonicalPackageName</a>.</p>
@@ -278,7 +279,7 @@ Static Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">   74</span>                    serviceController?.Dispose();</div>
 <div class="line"><span class="lineno">   75</span>                }</div>
 <div class="line"><span class="lineno">   76</span>            }</div>
-<div class="line"><span class="lineno">   77</span>            <span class="keywordflow">catch</span> (Exception ex)</div>
+<div class="line"><span class="lineno">   77</span>            <span class="keywordflow">catch</span> (<a class="code hl_class" href="class_exception.html">Exception</a> ex)</div>
 <div class="line"><span class="lineno">   78</span>            {</div>
 <div class="line"><span class="lineno">   79</span>                session.Log($<span class="stringliteral">&quot;Exception in DetachStopTgsServiceIfRunning:{Environment.NewLine}{ex}&quot;</span>);</div>
 <div class="line"><span class="lineno">   80</span>                <span class="keywordflow">return</span> ActionResult.Failure;</div>

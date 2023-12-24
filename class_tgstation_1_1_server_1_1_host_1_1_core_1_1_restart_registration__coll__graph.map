@@ -1,6 +1,8 @@
 <map id="Tgstation.Server.Host.Core.RestartRegistration" name="Tgstation.Server.Host.Core.RestartRegistration">
-<area shape="rect" id="node1" title=" " alt="" coords="45,168,226,208"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_restart_registration.html" title="Represents the lifetime of a IRestartHandler registration." alt="" coords="5,80,143,105"/>
-<area shape="rect" id="node3" href="$class_i_disposable.html" title=" " alt="" coords="29,5,119,31"/>
-<area shape="rect" id="node4" title=" " alt="" coords="167,80,226,105"/>
+<area shape="rect" id="node1" title=" " alt="" coords="74,196,255,236"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_restart_registration.html" title="Represents the lifetime of a IRestartHandler registration." alt="" coords="5,101,143,126"/>
+<area shape="rect" id="node3" href="$class_i_disposable.html" title=" " alt="" coords="73,5,163,31"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_dispose_invoker.html" title="Runs a given disposeAction on Dispose." alt="" coords="167,93,349,133"/>
+<area shape="rect" id="node5" title=" " alt="" coords="195,5,305,31"/>
+<area shape="rect" id="node6" title=" " alt="" coords="347,5,385,31"/>
 </map>

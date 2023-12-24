@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.18.2</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.0.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -86,17 +86,17 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
-<tr class="memitem:a2b6458e7e063e0ea2368fefd2df1c0e1"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_socket_extensions.html#a2b6458e7e063e0ea2368fefd2df1c0e1">BindTest</a> (ushort port, bool includeIPv6)</td></tr>
-<tr class="memdesc:a2b6458e7e063e0ea2368fefd2df1c0e1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Attempt to exclusively bind to a given <em>port</em> .   <a href="class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_socket_extensions.html#a2b6458e7e063e0ea2368fefd2df1c0e1">More...</a><br /></td></tr>
-<tr class="separator:a2b6458e7e063e0ea2368fefd2df1c0e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad87cda4241401c1a92afb27242c2e0de"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_socket_extensions.html#ad87cda4241401c1a92afb27242c2e0de">BindTest</a> (<a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_platform_identifier.html">IPlatformIdentifier</a> platformIdentifier, ushort port, bool includeIPv6, bool udp)</td></tr>
+<tr class="memdesc:ad87cda4241401c1a92afb27242c2e0de"><td class="mdescLeft">&#160;</td><td class="mdescRight">Attempt to exclusively bind to a given <em>port</em> .   <a href="class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_socket_extensions.html#ad87cda4241401c1a92afb27242c2e0de">More...</a><br /></td></tr>
+<tr class="separator:ad87cda4241401c1a92afb27242c2e0de"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p >Extension methods for the Socket class.  </p>
 
-<p class="definition">Definition at line <a class="el" href="_socket_extensions_8cs_source.html#l00009">9</a> of file <a class="el" href="_socket_extensions_8cs_source.html">SocketExtensions.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_socket_extensions_8cs_source.html#l00012">12</a> of file <a class="el" href="_socket_extensions_8cs_source.html">SocketExtensions.cs</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a id="a2b6458e7e063e0ea2368fefd2df1c0e1" name="a2b6458e7e063e0ea2368fefd2df1c0e1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2b6458e7e063e0ea2368fefd2df1c0e1">&#9670;&#160;</a></span>BindTest()</h2>
+<a id="ad87cda4241401c1a92afb27242c2e0de" name="ad87cda4241401c1a92afb27242c2e0de"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad87cda4241401c1a92afb27242c2e0de">&#9670;&#160;</a></span>BindTest()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -107,6 +107,12 @@ Static Public Member Functions</h2></td></tr>
         <tr>
           <td class="memname">static void Tgstation.Server.Host.Extensions.SocketExtensions.BindTest </td>
           <td>(</td>
+          <td class="paramtype"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_platform_identifier.html">IPlatformIdentifier</a>&#160;</td>
+          <td class="paramname"><em>platformIdentifier</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
           <td class="paramtype">ushort&#160;</td>
           <td class="paramname"><em>port</em>, </td>
         </tr>
@@ -114,7 +120,13 @@ Static Public Member Functions</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">bool&#160;</td>
-          <td class="paramname"><em>includeIPv6</em>&#160;</td>
+          <td class="paramname"><em>includeIPv6</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>udp</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -132,47 +144,75 @@ Static Public Member Functions</h2></td></tr>
 <p>Attempt to exclusively bind to a given <em>port</em> .  </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
+    <tr><td class="paramname">platformIdentifier</td><td>The PlatformIdentifier to use.</td></tr>
     <tr><td class="paramname">port</td><td>The port number to bind to.</td></tr>
     <tr><td class="paramname">includeIPv6</td><td>If IPV6 should be tested as well.</td></tr>
+    <tr><td class="paramname">udp</td><td>If we're bind testing for UDP. If <code>false</code> TCP will be checked.</td></tr>
   </table>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_socket_extensions_8cs_source.html#l00016">16</a> of file <a class="el" href="_socket_extensions_8cs_source.html">SocketExtensions.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   17</span>        {</div>
-<div class="line"><span class="lineno">   18</span>            <span class="keyword">using </span>var socket = <span class="keyword">new</span> Socket(</div>
-<div class="line"><span class="lineno">   19</span>                includeIPv6</div>
-<div class="line"><span class="lineno">   20</span>                    ? AddressFamily.InterNetworkV6</div>
-<div class="line"><span class="lineno">   21</span>                    : AddressFamily.InterNetwork,</div>
-<div class="line"><span class="lineno">   22</span>                SocketType.Stream,</div>
-<div class="line"><span class="lineno">   23</span>                ProtocolType.Tcp);</div>
-<div class="line"><span class="lineno">   24</span>            socket.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ExclusiveAddressUse, <span class="keyword">true</span>);</div>
-<div class="line"><span class="lineno">   25</span>            socket.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReuseAddress, <span class="keyword">false</span>);</div>
-<div class="line"><span class="lineno">   26</span>            <span class="keywordflow">if</span> (includeIPv6)</div>
-<div class="line"><span class="lineno">   27</span>                socket.DualMode = <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">   28</span> </div>
-<div class="line"><span class="lineno">   29</span>            socket.Bind(</div>
-<div class="line"><span class="lineno">   30</span>                <span class="keyword">new</span> IPEndPoint(</div>
-<div class="line"><span class="lineno">   31</span>                    includeIPv6</div>
-<div class="line"><span class="lineno">   32</span>                        ? IPAddress.IPv6Any</div>
-<div class="line"><span class="lineno">   33</span>                        : IPAddress.Any,</div>
-<div class="line"><span class="lineno">   34</span>                    port));</div>
-<div class="line"><span class="lineno">   35</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_socket_extensions_8cs_source.html#l00021">21</a> of file <a class="el" href="_socket_extensions_8cs_source.html">SocketExtensions.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   22</span>        {</div>
+<div class="line"><span class="lineno">   23</span>            ArgumentNullException.ThrowIfNull(platformIdentifier);</div>
+<div class="line"><span class="lineno">   24</span>            <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html">ProcessExecutor</a>.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#a744541bf587f773df0ccfa64ff4ae7ec">WithProcessLaunchExclusivity</a>(() =&gt;</div>
+<div class="line"><span class="lineno">   25</span>            {</div>
+<div class="line"><span class="lineno">   26</span>                <span class="keyword">using </span>var socket = <span class="keyword">new</span> Socket(</div>
+<div class="line"><span class="lineno">   27</span>                    includeIPv6</div>
+<div class="line"><span class="lineno">   28</span>                        ? AddressFamily.InterNetworkV6</div>
+<div class="line"><span class="lineno">   29</span>                        : AddressFamily.InterNetwork,</div>
+<div class="line"><span class="lineno">   30</span>                    udp</div>
+<div class="line"><span class="lineno">   31</span>                        ? SocketType.Dgram</div>
+<div class="line"><span class="lineno">   32</span>                        : SocketType.Stream,</div>
+<div class="line"><span class="lineno">   33</span>                    udp</div>
+<div class="line"><span class="lineno">   34</span>                        ? ProtocolType.Udp</div>
+<div class="line"><span class="lineno">   35</span>                        : ProtocolType.Tcp);</div>
+<div class="line"><span class="lineno">   36</span> </div>
+<div class="line"><span class="lineno">   37</span>                socket.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ExclusiveAddressUse, <span class="keyword">true</span>);</div>
+<div class="line"><span class="lineno">   38</span>                socket.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReuseAddress, <span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">   39</span>                <span class="keywordflow">if</span> (!udp &amp;&amp; platformIdentifier.<a class="code hl_property" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_platform_identifier.html#aa9bf3bd1082b7178f58cb1f36839550e">IsWindows</a>)</div>
+<div class="line"><span class="lineno">   40</span>                    socket.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.DontLinger, <span class="keyword">true</span>);</div>
+<div class="line"><span class="lineno">   41</span> </div>
+<div class="line"><span class="lineno">   42</span>                <span class="keywordflow">if</span> (includeIPv6)</div>
+<div class="line"><span class="lineno">   43</span>                    socket.DualMode = <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">   44</span> </div>
+<div class="line"><span class="lineno">   45</span>                socket.Bind(</div>
+<div class="line"><span class="lineno">   46</span>                    <span class="keyword">new</span> IPEndPoint(</div>
+<div class="line"><span class="lineno">   47</span>                        includeIPv6</div>
+<div class="line"><span class="lineno">   48</span>                            ? IPAddress.IPv6Any</div>
+<div class="line"><span class="lineno">   49</span>                            : IPAddress.Any,</div>
+<div class="line"><span class="lineno">   50</span>                        port));</div>
+<div class="line"><span class="lineno">   51</span>            });</div>
+<div class="line"><span class="lineno">   52</span>        }</div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html">Tgstation.Server.Host.System.ProcessExecutor</a></div><div class="ttdef"><b>Definition:</b> <a href="_process_executor_8cs_source.html#l00016">ProcessExecutor.cs:17</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor_html_a744541bf587f773df0ccfa64ff4ae7ec"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#a744541bf587f773df0ccfa64ff4ae7ec">Tgstation.Server.Host.System.ProcessExecutor.WithProcessLaunchExclusivity</a></div><div class="ttdeci">static void WithProcessLaunchExclusivity(Action action)</div><div class="ttdoc">Runs a given action  making sure to not launch any processes while its running.</div><div class="ttdef"><b>Definition:</b> <a href="_process_executor_8cs_source.html#l00047">ProcessExecutor.cs:47</a></div></div>
+<div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_platform_identifier_html_aa9bf3bd1082b7178f58cb1f36839550e"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_platform_identifier.html#aa9bf3bd1082b7178f58cb1f36839550e">Tgstation.Server.Host.System.IPlatformIdentifier.IsWindows</a></div><div class="ttdeci">bool IsWindows</div><div class="ttdoc">If the current platform is a Windows platform.</div><div class="ttdef"><b>Definition:</b> <a href="_i_platform_identifier_8cs_source.html#l00014">IPlatformIdentifier.cs:14</a></div></div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_instance_manager_8cs_source.html#l00631">Tgstation.Server.Host.Components.InstanceManager.CheckSystemCompatibility()</a>, <a class="el" href="_port_allocator_8cs_source.html#l00061">Tgstation.Server.Host.Utils.PortAllocator.GetAvailablePort()</a>, and <a class="el" href="_session_controller_factory_8cs_source.html#l00167">Tgstation.Server.Host.Components.Session.SessionControllerFactory.PortBindTest()</a>.</p>
+<p class="reference">References <a class="el" href="_i_platform_identifier_8cs_source.html#l00014">Tgstation.Server.Host.System.IPlatformIdentifier.IsWindows</a>, and <a class="el" href="_process_executor_8cs_source.html#l00047">Tgstation.Server.Host.System.ProcessExecutor.WithProcessLaunchExclusivity()</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="_instance_manager_8cs_source.html#l00659">Tgstation.Server.Host.Components.InstanceManager.CheckSystemCompatibility()</a>, <a class="el" href="_port_allocator_8cs_source.html#l00070">Tgstation.Server.Host.Utils.PortAllocator.GetAvailablePort()</a>, and <a class="el" href="_session_controller_factory_8cs_source.html#l00136">Tgstation.Server.Host.Components.Session.SessionControllerFactory.PortBindTest()</a>.</p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_socket_extensions_ad87cda4241401c1a92afb27242c2e0de_cgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_socket_extensions_ad87cda4241401c1a92afb27242c2e0de_cgraph" alt=""/></div>
+<map name="aclass_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_socket_extensions_ad87cda4241401c1a92afb27242c2e0de_cgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_socket_extensions_ad87cda4241401c1a92afb27242c2e0de_cgraph">
+<area shape="rect" title="Attempt to exclusively bind to a given port ." alt="" coords="5,13,223,53"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#a744541bf587f773df0ccfa64ff4ae7ec" title="Runs a given action &#160;making sure to not launch any processes while its running." alt="" coords="271,5,511,60"/>
+</map>
+</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_socket_extensions_a2b6458e7e063e0ea2368fefd2df1c0e1_icgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_socket_extensions_a2b6458e7e063e0ea2368fefd2df1c0e1_icgraph" alt=""/></div>
-<map name="aclass_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_socket_extensions_a2b6458e7e063e0ea2368fefd2df1c0e1_icgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_socket_extensions_a2b6458e7e063e0ea2368fefd2df1c0e1_icgraph">
+<div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_socket_extensions_ad87cda4241401c1a92afb27242c2e0de_icgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_socket_extensions_ad87cda4241401c1a92afb27242c2e0de_icgraph" alt=""/></div>
+<map name="aclass_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_socket_extensions_ad87cda4241401c1a92afb27242c2e0de_icgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_socket_extensions_ad87cda4241401c1a92afb27242c2e0de_icgraph">
 <area shape="rect" title="Attempt to exclusively bind to a given port ." alt="" coords="971,69,1188,109"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#a3e875f6dd7bf0458e6d54e0dcf7bfe44" title="Check we have a valid system and configuration." alt="" coords="643,5,923,45"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_port_allocator.html#a153ad643a79620b0fe202d72d223f52f" title="Gets a port not currently in use by TGS. A ValueTask&lt;TResult&gt; resulting in the first available port o..." alt="" coords="683,69,882,109"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller_factory.html#ad09ef01b75b51e2c4509bbe1e26265a3" title="Check if a given port &#160;can be bound to." alt="" coords="661,134,905,189"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller_factory.html#a5fceb9618381d05a21cfb3254218f3ff" title="Check if a given port &#160;can be bound to." alt="" coords="661,134,905,189"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#aa70355ebb8437fd170e4f75e826f1ad7" title="Initializes the InstanceManager." alt="" coords="336,5,563,45"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#aa2bcc92fca46ad404800304ce4bdd781" title=" " alt="" coords="17,5,244,45"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller_factory.html#a6d591152c39db0454b04a7f342fe423d" title="Create a ISessionController from a freshly launch DreamDaemon instance. A ValueTask&lt;TResult&gt; resultin..." alt="" coords="304,141,595,181"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_basic_watchdog.html#a395c59a97a1716b97c2e00339859d533" title="Starts all ISessionControllers. A Task representing the running operation." alt="" coords="5,141,256,181"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller_factory.html#aa1f001876dbd9f80e47e492fc2ed9d39" title="Create a ISessionController from a freshly launch DreamDaemon instance. A ValueTask&lt;TResult&gt; resultin..." alt="" coords="304,141,595,181"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_basic_watchdog.html#a857f98eb5a2516c2a70c35d684c2c21b" title="Starts all ISessionControllers. A Task representing the running operation." alt="" coords="5,141,256,181"/>
 </map>
 </div>
 

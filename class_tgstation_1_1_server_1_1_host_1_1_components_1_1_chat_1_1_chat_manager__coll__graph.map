@@ -1,5 +1,5 @@
 <map id="Tgstation.Server.Host.Components.Chat.ChatManager" name="Tgstation.Server.Host.Components.Chat.ChatManager">
-<area shape="rect" id="node1" title=" " alt="" coords="832,631,1059,671"/>
+<area shape="rect" id="node1" title=" " alt="" coords="847,667,1073,707"/>
 <area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager.html" title="For managing connected chat services." alt="" coords="434,33,537,59"/>
 <area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_component_service.html" title="Represents a component meant to be started and stopped by its parent component." alt="" coords="167,5,303,31"/>
 <area shape="rect" id="node4" href="$class_i_hosted_service.html" title=" " alt="" coords="5,5,117,31"/>
@@ -21,8 +21,9 @@
 <area shape="rect" id="node20" title=" " alt="" coords="395,918,575,958"/>
 <area shape="rect" id="node21" title=" " alt="" coords="431,983,539,1008"/>
 <area shape="rect" id="node22" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_custom_command_handler.html" title="Handles Commands.ICommands that map to those defined in a IChatTrackingContext." alt="" coords="372,1033,599,1073"/>
-<area shape="rect" id="node23" title=" " alt="" coords="460,1097,511,1123"/>
-<area shape="rect" id="node24" title=" " alt="" coords="407,1147,564,1172"/>
-<area shape="rect" id="node25" title=" " alt="" coords="459,1196,512,1221"/>
-<area shape="rect" id="node26" title=" " alt="" coords="462,1245,509,1271"/>
+<area shape="rect" id="node23" title=" " alt="" coords="456,1097,515,1123"/>
+<area shape="rect" id="node24" title=" " alt="" coords="460,1147,511,1172"/>
+<area shape="rect" id="node25" title=" " alt="" coords="407,1196,564,1221"/>
+<area shape="rect" id="node26" title=" " alt="" coords="459,1245,512,1271"/>
+<area shape="rect" id="node27" title=" " alt="" coords="462,1295,509,1320"/>
 </map>

@@ -1,0 +1,7 @@
+<map id="Tgstation.Server.Host.Utils.DisposeInvoker" name="Tgstation.Server.Host.Utils.DisposeInvoker">
+<area shape="rect" id="node1" title="Runs a given disposeAction on Dispose." alt="" coords="144,69,325,109"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_tracking_context.html" title=" " alt="" coords="373,5,600,45"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_bridge_1_1_bridge_registration.html" title=" " alt="" coords="373,69,600,109"/>
+<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html" title=" " alt="" coords="373,133,600,173"/>
+<area shape="rect" id="node2" href="$class_i_disposable.html" title=" " alt="" coords="5,77,96,102"/>
+</map>

@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.18.2</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.0.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -185,7 +185,7 @@ Private Attributes</h2></td></tr>
 
 <p></p>
 
-<p class="reference">Referenced by <a class="el" href="_session_controller_8cs_source.html#l00344">Tgstation.Server.Host.Components.Session.SessionController.DisposeAsync()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_session_controller_8cs_source.html#l00330">Tgstation.Server.Host.Components.Session.SessionController.DisposeAsync()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -226,7 +226,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_fifo_semaphore_8cs_source.html#l00052">52</a> of file <a class="el" href="_fifo_semaphore_8cs_source.html">FifoSemaphore.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   53</span>        {</div>
-<div class="line"><span class="lineno">   54</span>            FifoSemaphoreTicket ticket = <span class="keyword">null</span>;</div>
+<div class="line"><span class="lineno">   54</span>            FifoSemaphoreTicket? ticket = <span class="keyword">null</span>;</div>
 <div class="line"><span class="lineno">   55</span>            <span class="keyword">using</span> (cancellationToken.Register(</div>
 <div class="line"><span class="lineno">   56</span>                () =&gt;</div>
 <div class="line"><span class="lineno">   57</span>                {</div>
@@ -238,7 +238,7 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">   63</span>                    var context = await SemaphoreSlimContext.Lock(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_fifo_semaphore.html#aadc228c84fed78fce95923bdca1a75b4">semaphore</a>, cancellationToken);</div>
 <div class="line"><span class="lineno">   64</span>                    <span class="keywordflow">try</span></div>
 <div class="line"><span class="lineno">   65</span>                    {</div>
-<div class="line"><span class="lineno">   66</span>                        FifoSemaphoreTicket peekedTicket = <span class="keyword">null</span>;</div>
+<div class="line"><span class="lineno">   66</span>                        FifoSemaphoreTicket? peekedTicket = <span class="keyword">null</span>;</div>
 <div class="line"><span class="lineno">   67</span>                        <span class="keywordflow">while</span> (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_fifo_semaphore.html#a864b8f1e279a314519533ae6faa0f2d1">ticketQueue</a>.Count &gt; 0)</div>
 <div class="line"><span class="lineno">   68</span>                        {</div>
 <div class="line"><span class="lineno">   69</span>                            peekedTicket = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_fifo_semaphore.html#a864b8f1e279a314519533ae6faa0f2d1">ticketQueue</a>.Peek();</div>
@@ -285,7 +285,7 @@ Here is the caller graph for this function:</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="_fifo_semaphore_8cs_source.html#l00022">Tgstation.Server.Host.Utils.FifoSemaphore.FifoSemaphoreTicket.Abandoned</a>, <a class="el" href="_semaphore_slim_context_8cs_source.html#l00018">Tgstation.Server.Host.Utils.SemaphoreSlimContext.Lock()</a>, <a class="el" href="_fifo_semaphore_8cs_source.html#l00028">Tgstation.Server.Host.Utils.FifoSemaphore.semaphore</a>, and <a class="el" href="_fifo_semaphore_8cs_source.html#l00033">Tgstation.Server.Host.Utils.FifoSemaphore.ticketQueue</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_session_controller_8cs_source.html#l00344">Tgstation.Server.Host.Components.Session.SessionController.DisposeAsync()</a>, and <a class="el" href="_session_controller_8cs_source.html#l00956">Tgstation.Server.Host.Components.Session.SessionController.SendRawTopic()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_session_controller_8cs_source.html#l00330">Tgstation.Server.Host.Components.Session.SessionController.DisposeAsync()</a>, and <a class="el" href="_session_controller_8cs_source.html#l00888">Tgstation.Server.Host.Components.Session.SessionController.SendRawTopic()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -302,10 +302,10 @@ Here is the caller graph for this function:</div>
 <map name="aclass_tgstation_1_1_server_1_1_host_1_1_utils_1_1_fifo_semaphore_a226f5619ff7d884e2c8df1505548c04d_icgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_utils_1_1_fifo_semaphore_a226f5619ff7d884e2c8df1505548c04d_icgraph">
 <area shape="rect" title="Locks the FifoSemaphore." alt="" coords="920,41,1101,81"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#a0a6612e49a14544cad75292fba3798c1" title=" " alt="" coords="609,8,869,48"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#a9e78f3b0093fb0880db77bc6cde8deee" title="Send a given queryString &#160;to DreamDaemon&#39;s /world/Topic." alt="" coords="607,73,872,113"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#ae798eec3595b7b010cdc42eafd3e9659" title="Send a given queryString &#160;to DreamDaemon&#39;s /world/Topic." alt="" coords="607,73,872,113"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#ac370a90bf019b15f2b189522320031ed" title="Releases the IProcess without terminating it. Also calls IDisposable.Dispose. A ValueTask representin..." alt="" coords="326,5,553,45"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#a6225fe8db4178cdd406eecd38ecb07bd" title="Send a topic request for given parameters &#160;to DreamDaemon, chunking it if necessary." alt="" coords="320,70,559,125"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#aaf410c125270e47a172576b1f9d429b5" title="Sends a command to DreamDaemon through /world/Topic()." alt="" coords="5,77,272,117"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#adfbdffdd72092dd6cf553d8d5ebcb25a" title="Send a topic request for given parameters &#160;to DreamDaemon, chunking it if necessary." alt="" coords="320,70,559,125"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#a144442907558321c94c8c2afa9e53764" title="Sends a command to DreamDaemon through /world/Topic()." alt="" coords="5,77,272,117"/>
 </map>
 </div>
 

@@ -1,7 +1,7 @@
 <map id="Tgstation.Server.Host.Components.Deployment.SwappableDmbProvider" name="Tgstation.Server.Host.Components.Deployment.SwappableDmbProvider">
-<area shape="rect" id="node1" title="A IDmbProvider that uses filesystem links to change directory structure underneath the server process..." alt="" coords="55,168,287,208"/>
+<area shape="rect" id="node1" title="A IDmbProvider that uses filesystem links to change directory structure underneath the server process..." alt="" coords="73,168,305,208"/>
 <area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_dmb_provider.html" title="Provides absolute paths to the latest compiled .dmbs." alt="" coords="18,80,119,105"/>
 <area shape="rect" id="node3" href="$class_i_async_disposable.html" title=" " alt="" coords="5,5,132,31"/>
-<area shape="rect" id="node4" title=" " alt="" coords="144,80,199,105"/>
-<area shape="rect" id="node5" title=" " alt="" coords="277,80,357,105"/>
+<area shape="rect" id="node4" title=" " alt="" coords="144,80,233,105"/>
+<area shape="rect" id="node5" title=" " alt="" coords="294,80,374,105"/>
 </map>

@@ -1,12 +1,13 @@
 <map id="Tgstation.Server.Host.Components.Events.IEventConsumer" name="Tgstation.Server.Host.Components.Events.IEventConsumer">
-<area shape="rect" id="node1" title="Consumes EventTypes and takes the appropriate actions." alt="" coords="5,69,232,109"/>
+<area shape="rect" id="node1" title="Consumes EventTypes and takes the appropriate actions." alt="" coords="5,101,232,141"/>
 <area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_event_consumer.html" title=" " alt="" coords="280,5,507,45"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_i_configuration.html" title="For managing the Configuration directory." alt="" coords="280,69,507,109"/>
-<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_watchdog.html" title="Runs and monitors the twin server controllers." alt="" coords="280,133,507,173"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html" title=" " alt="" coords="555,69,781,109"/>
-<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html" title="Base class for IWatchdogs." alt="" coords="555,133,781,173"/>
-<area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_basic_watchdog.html" title="A IWatchdog that manages one server." alt="" coords="829,133,1056,173"/>
-<area shape="rect" id="node8" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_advanced_watchdog.html" title="A IWatchdog that, instead of killing servers for updates, uses the wonders of filesystem links to swa..." alt="" coords="1104,133,1331,173"/>
-<area shape="rect" id="node9" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_posix_watchdog.html" title="A variant of the AdvancedWatchdog that works on POSIX systems." alt="" coords="1379,101,1605,141"/>
-<area shape="rect" id="node10" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_windows_watchdog.html" title="A variant of the AdvancedWatchdog that works on Windows systems." alt="" coords="1379,165,1605,205"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_noop_event_consumer.html" title="No&#45;op implementation of IEventConsumer." alt="" coords="280,69,507,109"/>
+<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_i_configuration.html" title="For managing the Configuration directory." alt="" coords="280,133,507,173"/>
+<area shape="rect" id="node6" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_watchdog.html" title="Runs and monitors the twin server controllers." alt="" coords="280,197,507,237"/>
+<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html" title=" " alt="" coords="555,133,781,173"/>
+<area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html" title="Base class for IWatchdogs." alt="" coords="555,197,781,237"/>
+<area shape="rect" id="node8" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_basic_watchdog.html" title="A IWatchdog that manages one server." alt="" coords="829,197,1056,237"/>
+<area shape="rect" id="node9" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_advanced_watchdog.html" title="A IWatchdog that, instead of killing servers for updates, uses the wonders of filesystem links to swa..." alt="" coords="1104,197,1331,237"/>
+<area shape="rect" id="node10" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_posix_watchdog.html" title="A variant of the AdvancedWatchdog that works on POSIX systems." alt="" coords="1379,165,1605,205"/>
+<area shape="rect" id="node11" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_windows_watchdog.html" title="A variant of the AdvancedWatchdog that works on Windows systems." alt="" coords="1379,229,1605,269"/>
 </map>

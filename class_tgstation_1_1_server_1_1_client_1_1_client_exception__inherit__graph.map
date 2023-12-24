@@ -4,7 +4,7 @@
 <area shape="rect" id="node12" href="$class_tgstation_1_1_server_1_1_client_1_1_request_timeout_exception.html" title="Occurs when the client provides invalid credentials." alt="" coords="357,293,530,333"/>
 <area shape="rect" id="node13" href="$class_tgstation_1_1_server_1_1_client_1_1_service_unavailable_exception.html" title="Occurs when the client makes a request while the server is starting or stopping." alt="" coords="348,357,539,397"/>
 <area shape="rect" id="node14" href="$class_tgstation_1_1_server_1_1_client_1_1_unrecognized_response_exception.html" title="Occurs when a response is received that did not deserialize to one of the expected Api...." alt="" coords="336,421,551,461"/>
-<area shape="rect" id="node2" title=" " alt="" coords="5,333,84,358"/>
+<area shape="rect" id="node2" href="$class_exception.html" title=" " alt="" coords="5,333,84,358"/>
 <area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_client_1_1_api_conflict_exception.html" title="Occurs when the server returns a bad request response if the ApiException.ErrorCode is present...." alt="" coords="627,5,783,45"/>
 <area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_client_1_1_conflict_exception.html" title="Occurs when the client performs an action that would result in data conflict." alt="" coords="627,69,783,109"/>
 <area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_client_1_1_insufficient_permissions_exception.html" title="Occurs when the client attempts to perform an action they do not have the rights for." alt="" coords="599,133,811,173"/>

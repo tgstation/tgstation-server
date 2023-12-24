@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.18.2</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.0.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -167,7 +167,6 @@ Response Codes</h1>
 <li>410: Gone. Attempted to access/modify a resource that ideally should have been ready, but isn't or no longer is</li>
 <li>422: Unprocessable Entity: Used specifically when an operation that requires a server restart is unable to be performed due to the <a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_watchdog.html">Tgstation.Server.Host.Watchdog</a> not being present in the deployment. Should not happen with a proper server configuration. Response body contains an Tgstation.Server.Api.Models.ErrorMessage</li>
 <li>424: Failed Dependency: When a request that depends on an external API fails for a reason other than rate limiting. The response body will contain an Tgstation.Server.Api.Models.ErrorMessage model detailing the error.</li>
-<li>426: Upgrade required: Used when the client's API version is not compatible with the server's. Response body contains an Tgstation.Server.Api.Models.ErrorMessage</li>
 <li>429: Rate limited. Used with operations that rely on GitHub.com. If a rate limit is hit for an operation this will be returned. Response will contain a Retry-After header with the amount of seconds to wait.</li>
 <li>500: Server error. Please report the request and response body to the code repository</li>
 <li>501: Not implemented. Functionality not available in the current server version</li>
@@ -195,12 +194,12 @@ Authentication</h1>
 <p >If the provided credentials are valid and your user account is enabled you will recieve a Tgstation.Server.Api.Models.Token object </p><div class="fragment"><div class="line">{</div>
 <div class="line">    &quot;bearer&quot;: &quot;eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiZXhwIjoiMTUzMzIzNjk0MSIsIm5iZiI6IjE1MzMyMzYwNDEiLCJpc3MiOiJUZ3N0YXRpb24uU2VydmVyLkhvc3QiLCJhdWQiOiJUZ3N0YXRpb24uU2VydmVyLkFwaSJ9.QWFSWNi9mgol582zaK4MQ5XDK2gZF-Nx3z9_ToHjKW4&quot;</div>
 <div class="line">}</div>
-</div><!-- fragment --><p >If your account is disabled, you will recieve a 403 response.</p>
+</div><!-- fragment --><p >If your account is disabled, you will receive a 403 response.</p>
 <p >You may recognize the bearer value as a <a href="https://jwt.io">Json Web Token</a>. This is a secure representation of your identity to the server. It expires after a set period of time or until your password changes. It must be present for requests made to all other APIs. To do so add the following header to your other requests</p>
 <ul>
 <li>Authorization:Bearer <code>&lt;your bearer token&gt;</code></li>
 </ul>
-<p >Continue to use this token until you begin to recieve 401 responses from the API. Then repeat the process to get a new one if your credentials are still valid</p>
+<p >Continue to use this token until you begin to receive 401 responses from the API. Then repeat the process to get a new one if your credentials are still valid</p>
 <h2><a class="anchor" id="api_auth_o"></a>
 OAuth 2.0</h2>
 <p >TGS supports OAuth 2.0 with select providers for authentication.</p>
@@ -403,7 +402,7 @@ Static Files</h2>
 <p >To create, write, and delete files use the following request</p>
 <p >I POST "/Config" Tgstation.Server.Api.Models.ConfigurationFile =&gt; Tgstation.Server.Api.Models.ConfigurationFile</p>
 <p >When creating a file, only Tgstation.Server.Api.Models.ConfigurationFile.Path and Tgstation.Server.Api.Models.ConfigurationFile.Content should be specified</p>
-<p >If the file already exists, the Tgstation.Server.Api.Models.ConfigurationFile.LastReadHash field must also be present with the last version recieved from the server for that file. If this does not match at the time of the request, 409 will be returned, indicating the file has changed since it was last viewed by the client.</p>
+<p >If the file already exists, the Tgstation.Server.Api.Models.ConfigurationFile.LastReadHash field must also be present with the last version received from the server for that file. If this does not match at the time of the request, 409 will be returned, indicating the file has changed since it was last viewed by the client.</p>
 <p >To delete a file set Tgstation.Server.Api.Models.ConfigurationFile.Content to null in the request.</p>
 <p >To delete an empty directory use the following request</p>
 <p >I DELETE "/Config" Tgstation.Server.Api.Models.ConfigurationFile =&gt; OK</p>

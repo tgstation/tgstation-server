@@ -1,9 +1,0 @@
-<map id="Tgstation.Server.Host.Swarm.SwarmService.RemoteCommitRecieved" name="Tgstation.Server.Host.Swarm.SwarmService.RemoteCommitRecieved">
-<area shape="rect" id="node1" title="Notify the controller that the node with the given registrationId &#160;is ready to commit or notify the n..." alt="" coords="5,113,260,153"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#ae8730853752e924741c38443a557c16f" title="Attempt to abort an uncommitted update. A ValueTask representing the running operation...." alt="" coords="321,55,515,95"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a2d25eadf43c0a581335ab5f4dba51e5f" title="Sends out remote abort update requests." alt="" coords="576,85,804,125"/>
-<area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#ac2e22cae1e96264b6ae4f0d41bca4b70" title="Gets the Api.Models.Internal.SwarmServer.Identifier from a given registrationId ." alt="" coords="308,171,528,225"/>
-<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_common_1_1_http_1_1_i_abstract_http_client_factory.html#a668eebb48c5c60a848376d9a00a9ecc9" title="Create a IHttpClient." alt="" coords="871,5,1077,60"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a82eee947c75e6a064ead15845d08f4fb" title="Prepares a HttpRequestMessage for swarm communication." alt="" coords="852,85,1096,125"/>
-<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_common_1_1_extensions_1_1_value_task_extensions.html#a58adbd94d764754bd3e6c566a5fe7fe3" title="Fully await a given list of tasks ." alt="" coords="866,149,1082,204"/>
-</map>

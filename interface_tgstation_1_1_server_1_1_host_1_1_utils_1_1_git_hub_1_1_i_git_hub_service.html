@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.18.2</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.0.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -114,6 +114,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ac8f24bd737ac3f6a489375c45f5afe9c"><td class="memItemLeft" align="right" valign="top">Task&lt; PullRequest &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_service.html#ac8f24bd737ac3f6a489375c45f5afe9c">GetPullRequest</a> (string repoOwner, string repoName, int pullRequestNumber, CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:ac8f24bd737ac3f6a489375c45f5afe9c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a given <em>pullRequestNumber</em> .   <a href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_service.html#ac8f24bd737ac3f6a489375c45f5afe9c">More...</a><br /></td></tr>
 <tr class="separator:ac8f24bd737ac3f6a489375c45f5afe9c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aba8cfffd813e5a291d71f39b6303efe7"><td class="memItemLeft" align="right" valign="top">Task&lt; GitHubCommit &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_service.html#aba8cfffd813e5a291d71f39b6303efe7">GetCommit</a> (string repoOwner, string repoName, string committish, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:aba8cfffd813e5a291d71f39b6303efe7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a given <em>committish</em> .   <a href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_service.html#aba8cfffd813e5a291d71f39b6303efe7">More...</a><br /></td></tr>
+<tr class="separator:aba8cfffd813e5a291d71f39b6303efe7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p ><a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_service.html">Service</a> for interacting with the <a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub.html">GitHub</a> API.  </p>
@@ -155,7 +158,7 @@ Public Member Functions</h2></td></tr>
 <p>Attempt to get an OAuth token from a given <em>code</em> .  </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">oAuthConfiguration</td><td>The OAuthConfiguration. Must have <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_o_auth_configuration.html#a190020783f9579e242789876fc01225f" title="The authentication server URL. Not used by all providers.">OAuthConfiguration.RedirectUrl</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_o_auth_configuration_base.html#aed7d1c71c0efa649353f7cbf62ac57ec" title="The client ID.">OAuthConfigurationBase.ClientId</a> and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_o_auth_configuration_base.html#a149b9cbd831f51334ae516e9ceca46c7" title="The client secret.">OAuthConfigurationBase.ClientSecret</a> set.</td></tr>
+    <tr><td class="paramname">oAuthConfiguration</td><td>The OAuthConfiguration. Must have <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_o_auth_configuration.html#a7dc852a81f4df661f158157a6c3b512a" title="The authentication server URL. Not used by all providers.">OAuthConfiguration.RedirectUrl</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_o_auth_configuration_base.html#a8523441e7fcf0bd35a12ee828881e6be" title="The client ID.">OAuthConfigurationBase.ClientId</a> and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_o_auth_configuration_base.html#a397dfdc2a5ed5e414093e9132a988840" title="The client secret.">OAuthConfigurationBase.ClientSecret</a> set.</td></tr>
     <tr><td class="paramname">code</td><td>The OAuth response code.</td></tr>
     <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
   </table>
@@ -172,9 +175,63 @@ Here is the caller graph for this function:</div>
 <div class="center"><img src="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_service_a140cbf71473578753e09502ce070beac_icgraph.png" border="0" usemap="#ainterface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_service_a140cbf71473578753e09502ce070beac_icgraph" alt=""/></div>
 <map name="ainterface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_service_a140cbf71473578753e09502ce070beac_icgraph" id="ainterface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_service_a140cbf71473578753e09502ce070beac_icgraph">
 <area shape="rect" title="Attempt to get an OAuth token from a given code ." alt="" coords="295,5,528,60"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_git_hub_o_auth_validator.html#ac40d44bef050c18d3d77d5f131f211d7" title="Validate a given OAuth response code . A ValueTask&lt;TResult&gt; resulting in null if authentication faile..." alt="" coords="5,5,247,60"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_git_hub_o_auth_validator.html#a9990c59be1819db82b3ef81761db0d29" title="Validate a given OAuth response code . A ValueTask&lt;TResult&gt; resulting in null if authentication faile..." alt="" coords="5,5,247,60"/>
 </map>
 </div>
+
+</div>
+</div>
+<a id="aba8cfffd813e5a291d71f39b6303efe7" name="aba8cfffd813e5a291d71f39b6303efe7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aba8cfffd813e5a291d71f39b6303efe7">&#9670;&#160;</a></span>GetCommit()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Task&lt; GitHubCommit &gt; Tgstation.Server.Host.Utils.GitHub.IGitHubService.GetCommit </td>
+          <td>(</td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>repoOwner</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>repoName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>committish</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">CancellationToken&#160;</td>
+          <td class="paramname"><em>cancellationToken</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Get a given <em>committish</em> .  </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">repoOwner</td><td>The owner of the target repository.</td></tr>
+    <tr><td class="paramname">repoName</td><td>The name of the target repository.</td></tr>
+    <tr><td class="paramname">committish</td><td>The target SHA or ref to get the commit for.</td></tr>
+    <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in the target GitHubCommit.</dd></dl>
+
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_git_hub_service.html#a755fc24391b4fab3046227d38480cadd">Tgstation.Server.Host.Utils.GitHub.GitHubService</a>.</p>
 
 </div>
 </div>
@@ -259,7 +316,7 @@ Here is the caller graph for this function:</div>
 
 <p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_git_hub_service.html#a2ae8d1019bd5c479b1f8d3c5f16e3b3a">Tgstation.Server.Host.Utils.GitHub.GitHubService</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_git_hub_remote_features_8cs_source.html#l00059">Tgstation.Server.Host.Components.Repository.GitHubRemoteFeatures.GetTestMergeImpl()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_git_hub_remote_features_8cs_source.html#l00046">Tgstation.Server.Host.Components.Repository.GitHubRemoteFeatures.GetTestMergeImpl()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -365,8 +422,8 @@ Here is the caller graph for this function:</div>
 <div class="center"><img src="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_service_a4ba64fb672ce53eca21ed67622843ff8_icgraph.png" border="0" usemap="#ainterface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_service_a4ba64fb672ce53eca21ed67622843ff8_icgraph" alt=""/></div>
 <map name="ainterface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_service_a4ba64fb672ce53eca21ed67622843ff8_icgraph" id="ainterface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_service_a4ba64fb672ce53eca21ed67622843ff8_icgraph">
 <area shape="rect" title="Get all valid TGS Releases from the configured update source." alt="" coords="495,29,749,69"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#aa4825cd1baecd982d6a92d2b5a791cce" title="Start the process of downloading and applying an update to a new server version. Doesn&#39;t perform argu..." alt="" coords="237,29,447,69"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#aed35d481c2d0ca721b17f811ba9a9b04" title="Start the process of downloading and applying an update to a new server version . A ValueTask&lt;TResult..." alt="" coords="5,29,189,69"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#aacf15328c6febd64fa1977da73d30345" title="Start the process of downloading and applying an update to a new server version. Doesn&#39;t perform argu..." alt="" coords="237,29,447,69"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#adea0e50e12adfb5620ec7728b9f33230" title="Start the process of downloading and applying an update to a new server version . A ValueTask&lt;TResult..." alt="" coords="5,29,189,69"/>
 </map>
 </div>
 

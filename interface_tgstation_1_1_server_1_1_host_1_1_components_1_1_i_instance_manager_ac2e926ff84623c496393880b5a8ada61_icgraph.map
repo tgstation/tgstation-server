@@ -1,0 +1,9 @@
+<map id="Tgstation.Server.Host.Components.IInstanceManager.GetInstanceReference" name="Tgstation.Server.Host.Components.IInstanceManager.GetInstanceReference">
+<area shape="rect" id="node1" title="Get the IInstanceReference associated with given metadata ." alt="" coords="611,78,869,118"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_component_interfacing_controller.html#aba9306ee424759a221509c021cdf0cde" title="Corrects discrepencies between the Api.Models.Instance.Online status of IInstances in the database vs..." alt="" coords="308,5,563,60"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_component_interfacing_controller.html#a518bdda7e1021bdd9782abd9f510f86b" title="Performs validation a request. A ValueTask&lt;TResult&gt; resulting in an appropriate IActionResult on vali..." alt="" coords="5,5,260,60"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_component_interfacing_controller.html#a0e985e6b0812f8bbce17ed2e5028fd65" title="Run a given action &#160;with the relevant IInstance." alt="" coords="319,139,552,193"/>
+<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_chat_controller.html#a930c1ed07039457ab6f9a8751fd462a6" title="Create a new chat bot model ." alt="" coords="25,85,241,125"/>
+<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_chat_controller.html#a896419e100fc2c903dcebc89646cdf6a" title="Updates a chat bot model ." alt="" coords="25,149,241,189"/>
+<area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#ac4cbbd1105362b5a24122cac252143af" title="Perform updates to the repository." alt="" coords="25,213,241,253"/>
+</map>

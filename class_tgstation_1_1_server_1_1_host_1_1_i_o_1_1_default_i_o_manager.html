@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.18.2</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.0.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -101,18 +101,18 @@ Collaboration diagram for Tgstation.Server.Host.IO.DefaultIOManager:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager__coll__graph.png" border="0" usemap="#a_tgstation_8_server_8_host_8_i_o_8_default_i_o_manager_coll__map" alt="Collaboration graph"/></div>
 <map name="a_tgstation_8_server_8_host_8_i_o_8_default_i_o_manager_coll__map" id="a_tgstation_8_server_8_host_8_i_o_8_default_i_o_manager_coll__map">
-<area shape="rect" title="IIOManager that resolves paths to Environment.CurrentDirectory." alt="" coords="128,93,296,133"/>
+<area shape="rect" title="IIOManager that resolves paths to Environment.CurrentDirectory." alt="" coords="145,93,313,133"/>
 <area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html" title="Interface for using filesystems." alt="" coords="5,5,96,31"/>
-<area shape="rect" title=" " alt="" coords="121,5,175,31"/>
-<area shape="rect" title=" " alt="" coords="257,5,295,31"/>
-<area shape="rect" title=" " alt="" coords="321,5,500,31"/>
+<area shape="rect" title=" " alt="" coords="121,5,210,31"/>
+<area shape="rect" title=" " alt="" coords="274,5,313,31"/>
+<area shape="rect" title=" " alt="" coords="339,5,517,31"/>
 </map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a479d571a6078db0b40f6d45fdf2119b1"><td class="memItemLeft" align="right" valign="top">async ValueTask&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a479d571a6078db0b40f6d45fdf2119b1">CopyDirectory</a> (IEnumerable&lt; string &gt; ignore, Func&lt; string, string, ValueTask &gt; postCopyCallback, string src, string dest, int? taskThrottle, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a479d571a6078db0b40f6d45fdf2119b1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copies a directory from <em>src</em>  to <em>dest</em> . <dl class="params"><dt>Parameters</dt><dd>
+<tr class="memitem:a80c967c4b5eba7fc884348a79c1733aa"><td class="memItemLeft" align="right" valign="top">async ValueTask&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a80c967c4b5eba7fc884348a79c1733aa">CopyDirectory</a> (IEnumerable&lt; string &gt;? ignore, Func&lt; string, string, ValueTask &gt;? postCopyCallback, string src, string dest, int? taskThrottle, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a80c967c4b5eba7fc884348a79c1733aa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copies a directory from <em>src</em>  to <em>dest</em> . <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">ignore</td><td>Files and folders to ignore at the root level.</td></tr>
     <tr><td class="paramname">postCopyCallback</td><td>The optional callback called for each source/dest file pair post copy.</td></tr>
@@ -124,8 +124,8 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A ValueTask representing the running operation.</dd></dl>
-  <a href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a479d571a6078db0b40f6d45fdf2119b1">More...</a><br /></td></tr>
-<tr class="separator:a479d571a6078db0b40f6d45fdf2119b1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+  <a href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a80c967c4b5eba7fc884348a79c1733aa">More...</a><br /></td></tr>
+<tr class="separator:a80c967c4b5eba7fc884348a79c1733aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abd68930642dbf40df272b35dc438312e"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#abd68930642dbf40df272b35dc438312e">ConcatPath</a> (params string[] paths)</td></tr>
 <tr class="memdesc:abd68930642dbf40df272b35dc438312e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Combines an array of strings into a path. <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -211,6 +211,12 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The directory portion of the given <em>path</em> .</dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">InvalidOperationException</td><td>If <em>path</em>  is rooted.</td></tr>
+  </table>
+  </dd>
+</dl>
   <a href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a993c9bef376d9b28f47e97d8bdf21d04">More...</a><br /></td></tr>
 <tr class="separator:a993c9bef376d9b28f47e97d8bdf21d04"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adf2a105e1c455565c3c15de9078f1282"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#adf2a105e1c455565c3c15de9078f1282">GetFileName</a> (string path)</td></tr>
@@ -318,7 +324,7 @@ Public Member Functions</h2></td></tr>
   <a href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a38ca4ff226c098355ef1b316aa32421d">More...</a><br /></td></tr>
 <tr class="separator:a38ca4ff226c098355ef1b316aa32421d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3b82f87c65c67e19ff2f23d1fc2d85e3"><td class="memItemLeft" align="right" valign="top">Task&lt; IReadOnlyList&lt; string &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a3b82f87c65c67e19ff2f23d1fc2d85e3">GetDirectories</a> (string path, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a3b82f87c65c67e19ff2f23d1fc2d85e3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns directory names in a given <em>path</em> . <dl class="params"><dt>Parameters</dt><dd>
+<tr class="memdesc:a3b82f87c65c67e19ff2f23d1fc2d85e3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns full directory names in a given <em>path</em> . <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">path</td><td>The path to search for directories.</td></tr>
     <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
@@ -329,7 +335,7 @@ Public Member Functions</h2></td></tr>
   <a href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a3b82f87c65c67e19ff2f23d1fc2d85e3">More...</a><br /></td></tr>
 <tr class="separator:a3b82f87c65c67e19ff2f23d1fc2d85e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a541197a2a0aac0dbe48022dcd95d2bc1"><td class="memItemLeft" align="right" valign="top">Task&lt; IReadOnlyList&lt; string &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a541197a2a0aac0dbe48022dcd95d2bc1">GetFiles</a> (string path, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a541197a2a0aac0dbe48022dcd95d2bc1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns file names in a given <em>path</em> . <dl class="params"><dt>Parameters</dt><dd>
+<tr class="memdesc:a541197a2a0aac0dbe48022dcd95d2bc1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns full file names in a given <em>path</em> . <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">path</td><td>The path to search for files.</td></tr>
     <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
@@ -398,9 +404,9 @@ This function is sychronous.  <a href="class_tgstation_1_1_server_1_1_host_1_1_i
 <tr class="memitem:af05931d02f5f5d95b87a56c0cc60d855"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#af05931d02f5f5d95b87a56c0cc60d855">PathContainsParentAccess</a> (string path)</td></tr>
 <tr class="memdesc:af05931d02f5f5d95b87a56c0cc60d855"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if a <em>path</em>  contains the '..' parent directory accessor.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#af05931d02f5f5d95b87a56c0cc60d855">More...</a><br /></td></tr>
 <tr class="separator:af05931d02f5f5d95b87a56c0cc60d855"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6cf20702a338a6d9c95b0643067159dc"><td class="memItemLeft" align="right" valign="top">ValueTask&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a6cf20702a338a6d9c95b0643067159dc">CopyDirectory</a> (IEnumerable&lt; string &gt; ignore, Func&lt; string, string, ValueTask &gt; postCopyCallback, string src, string dest, int? taskThrottle, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a6cf20702a338a6d9c95b0643067159dc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copies a directory from <em>src</em>  to <em>dest</em> .   <a href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a6cf20702a338a6d9c95b0643067159dc">More...</a><br /></td></tr>
-<tr class="separator:a6cf20702a338a6d9c95b0643067159dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae6d7a91652aa3732be0945ac09df7339"><td class="memItemLeft" align="right" valign="top">ValueTask&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ae6d7a91652aa3732be0945ac09df7339">CopyDirectory</a> (IEnumerable&lt; string &gt;? ignore, Func&lt; string, string, ValueTask &gt;? postCopyCallback, string src, string dest, int? taskThrottle, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:ae6d7a91652aa3732be0945ac09df7339"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copies a directory from <em>src</em>  to <em>dest</em> .   <a href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ae6d7a91652aa3732be0945ac09df7339">More...</a><br /></td></tr>
+<tr class="separator:ae6d7a91652aa3732be0945ac09df7339"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad4de873180481f7afa206b6282158d62"><td class="memItemLeft" align="right" valign="top">Task&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ad4de873180481f7afa206b6282158d62">FileExists</a> (string path, CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:ad4de873180481f7afa206b6282158d62"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check that the file at <em>path</em>  exists.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ad4de873180481f7afa206b6282158d62">More...</a><br /></td></tr>
 <tr class="separator:ad4de873180481f7afa206b6282158d62"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -411,10 +417,10 @@ This function is sychronous.  <a href="class_tgstation_1_1_server_1_1_host_1_1_i
 <tr class="memdesc:a267b549fab5803c199a7d37100650e85"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns all the contents of a file at <em>path</em>  as a byte array.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a267b549fab5803c199a7d37100650e85">More...</a><br /></td></tr>
 <tr class="separator:a267b549fab5803c199a7d37100650e85"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a39ebf958ad54ba63a6b74a1d4d75a6f2"><td class="memItemLeft" align="right" valign="top">Task&lt; IReadOnlyList&lt; string &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a39ebf958ad54ba63a6b74a1d4d75a6f2">GetDirectories</a> (string path, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a39ebf958ad54ba63a6b74a1d4d75a6f2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns directory names in a given <em>path</em> .   <a href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a39ebf958ad54ba63a6b74a1d4d75a6f2">More...</a><br /></td></tr>
+<tr class="memdesc:a39ebf958ad54ba63a6b74a1d4d75a6f2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns full directory names in a given <em>path</em> .   <a href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a39ebf958ad54ba63a6b74a1d4d75a6f2">More...</a><br /></td></tr>
 <tr class="separator:a39ebf958ad54ba63a6b74a1d4d75a6f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0749e071c50bd39000bb7db1d02fc2e3"><td class="memItemLeft" align="right" valign="top">Task&lt; IReadOnlyList&lt; string &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a0749e071c50bd39000bb7db1d02fc2e3">GetFiles</a> (string path, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a0749e071c50bd39000bb7db1d02fc2e3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns file names in a given <em>path</em> .   <a href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a0749e071c50bd39000bb7db1d02fc2e3">More...</a><br /></td></tr>
+<tr class="memdesc:a0749e071c50bd39000bb7db1d02fc2e3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns full file names in a given <em>path</em> .   <a href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a0749e071c50bd39000bb7db1d02fc2e3">More...</a><br /></td></tr>
 <tr class="separator:a0749e071c50bd39000bb7db1d02fc2e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a98d1ad47e4ba1c1f7407f5dd50a81de8"><td class="memItemLeft" align="right" valign="top">FileStream&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a98d1ad47e4ba1c1f7407f5dd50a81de8">CreateAsyncSequentialWriteStream</a> (string path)</td></tr>
 <tr class="memdesc:a98d1ad47e4ba1c1f7407f5dd50a81de8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates an asynchronous FileStream for sequential writing.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a98d1ad47e4ba1c1f7407f5dd50a81de8">More...</a><br /></td></tr>
@@ -473,9 +479,9 @@ Static Public Attributes</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-methods" name="pri-methods"></a>
 Private Member Functions</h2></td></tr>
-<tr class="memitem:a5d03ce475db8ea775cb7bb2401897e43"><td class="memItemLeft" align="right" valign="top">IEnumerable&lt; Task &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a5d03ce475db8ea775cb7bb2401897e43">CopyDirectoryImpl</a> (string src, string dest, IEnumerable&lt; string &gt; ignore, Func&lt; string, string, ValueTask &gt; postCopyCallback, SemaphoreSlim semaphore, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a5d03ce475db8ea775cb7bb2401897e43"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copies a directory from <em>src</em>  to <em>dest</em> .   <a href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a5d03ce475db8ea775cb7bb2401897e43">More...</a><br /></td></tr>
-<tr class="separator:a5d03ce475db8ea775cb7bb2401897e43"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a121c1b722b60021e84a9c3b9bb0dcacc"><td class="memItemLeft" align="right" valign="top">IEnumerable&lt; Task &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a121c1b722b60021e84a9c3b9bb0dcacc">CopyDirectoryImpl</a> (string src, string dest, IEnumerable&lt; string &gt;? ignore, Func&lt; string, string, ValueTask &gt;? postCopyCallback, SemaphoreSlim? semaphore, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a121c1b722b60021e84a9c3b9bb0dcacc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copies a directory from <em>src</em>  to <em>dest</em> .   <a href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a121c1b722b60021e84a9c3b9bb0dcacc">More...</a><br /></td></tr>
+<tr class="separator:a121c1b722b60021e84a9c3b9bb0dcacc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-static-methods" name="pri-static-methods"></a>
 Static Private Member Functions</h2></td></tr>
@@ -522,17 +528,17 @@ Here is the caller graph for this function:</div>
 <div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager_abd68930642dbf40df272b35dc438312e_icgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager_abd68930642dbf40df272b35dc438312e_icgraph" alt=""/></div>
 <map name="aclass_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager_abd68930642dbf40df272b35dc438312e_icgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager_abd68930642dbf40df272b35dc438312e_icgraph">
 <area shape="rect" title="Combines an array of strings into a path. The combined path." alt="" coords="579,93,777,133"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a5d03ce475db8ea775cb7bb2401897e43" title="Copies a directory from src &#160;to dest ." alt="" coords="280,29,515,69"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a121c1b722b60021e84a9c3b9bb0dcacc" title="Copies a directory from src &#160;to dest ." alt="" coords="280,29,515,69"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_resolving_i_o_manager.html#a50b2302533637090939afbb9dee042ee" title="Retrieve the full path of some path &#160;given a relative path. Must be used before passing relative path..." alt="" coords="287,93,507,133"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_resolving_i_o_manager.html#a4e9c20b01d6d66f04eb106365f9d7a1a" title="Initializes a new instance of the ResolvingIOManager class." alt="" coords="264,157,531,197"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a479d571a6078db0b40f6d45fdf2119b1" title="Copies a directory from src &#160;to dest . A ValueTask representing the running operation." alt="" coords="5,29,216,69"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a80c967c4b5eba7fc884348a79c1733aa" title="Copies a directory from src &#160;to dest . A ValueTask representing the running operation." alt="" coords="5,29,216,69"/>
 </map>
 </div>
 
 </div>
 </div>
-<a id="a479d571a6078db0b40f6d45fdf2119b1" name="a479d571a6078db0b40f6d45fdf2119b1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a479d571a6078db0b40f6d45fdf2119b1">&#9670;&#160;</a></span>CopyDirectory()</h2>
+<a id="a80c967c4b5eba7fc884348a79c1733aa" name="a80c967c4b5eba7fc884348a79c1733aa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a80c967c4b5eba7fc884348a79c1733aa">&#9670;&#160;</a></span>CopyDirectory()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -540,13 +546,13 @@ Here is the caller graph for this function:</div>
         <tr>
           <td class="memname">async ValueTask Tgstation.Server.Host.IO.DefaultIOManager.CopyDirectory </td>
           <td>(</td>
-          <td class="paramtype">IEnumerable&lt; string &gt;&#160;</td>
+          <td class="paramtype">IEnumerable&lt; string &gt;?&#160;</td>
           <td class="paramname"><em>ignore</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">Func&lt; string, string, ValueTask &gt;&#160;</td>
+          <td class="paramtype">Func&lt; string, string, ValueTask &gt;?&#160;</td>
           <td class="paramname"><em>postCopyCallback</em>, </td>
         </tr>
         <tr>
@@ -595,7 +601,7 @@ Here is the caller graph for this function:</div>
 <dl class="section return"><dt>Returns</dt><dd>A ValueTask representing the running operation.</dd></dl>
  </p>
 
-<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a6cf20702a338a6d9c95b0643067159dc">Tgstation.Server.Host.IO.IIOManager</a>.</p>
+<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ae6d7a91652aa3732be0945ac09df7339">Tgstation.Server.Host.IO.IIOManager</a>.</p>
 
 <p class="definition">Definition at line <a class="el" href="_default_i_o_manager_8cs_source.html#l00071">71</a> of file <a class="el" href="_default_i_o_manager_8cs_source.html">DefaultIOManager.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   78</span>        {</div>
@@ -609,19 +615,19 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">   86</span>            dest = <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a34087ebccffcf9f51173e01fe4a50be4">ResolvePath</a>(dest);</div>
 <div class="line"><span class="lineno">   87</span> </div>
 <div class="line"><span class="lineno">   88</span>            <span class="keyword">using </span>var semaphore = taskThrottle.HasValue ? <span class="keyword">new</span> SemaphoreSlim(taskThrottle.Value) : null;</div>
-<div class="line"><span class="lineno">   89</span>            await Task.WhenAll(<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a5d03ce475db8ea775cb7bb2401897e43">CopyDirectoryImpl</a>(src, dest, ignore, postCopyCallback, semaphore, cancellationToken));</div>
+<div class="line"><span class="lineno">   89</span>            await Task.WhenAll(<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a121c1b722b60021e84a9c3b9bb0dcacc">CopyDirectoryImpl</a>(src, dest, ignore, postCopyCallback, semaphore, cancellationToken));</div>
 <div class="line"><span class="lineno">   90</span>        }</div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager_html_a121c1b722b60021e84a9c3b9bb0dcacc"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a121c1b722b60021e84a9c3b9bb0dcacc">Tgstation.Server.Host.IO.DefaultIOManager.CopyDirectoryImpl</a></div><div class="ttdeci">IEnumerable&lt; Task &gt; CopyDirectoryImpl(string src, string dest, IEnumerable&lt; string &gt;? ignore, Func&lt; string, string, ValueTask &gt;? postCopyCallback, SemaphoreSlim? semaphore, CancellationToken cancellationToken)</div><div class="ttdoc">Copies a directory from src  to dest .</div><div class="ttdef"><b>Definition:</b> <a href="_default_i_o_manager_8cs_source.html#l00344">DefaultIOManager.cs:344</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager_html_a34087ebccffcf9f51173e01fe4a50be4"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a34087ebccffcf9f51173e01fe4a50be4">Tgstation.Server.Host.IO.DefaultIOManager.ResolvePath</a></div><div class="ttdeci">string ResolvePath()</div><div class="ttdoc">Retrieve the full path of the current working directory. The full path of the current working directo...</div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager_html_a5d03ce475db8ea775cb7bb2401897e43"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a5d03ce475db8ea775cb7bb2401897e43">Tgstation.Server.Host.IO.DefaultIOManager.CopyDirectoryImpl</a></div><div class="ttdeci">IEnumerable&lt; Task &gt; CopyDirectoryImpl(string src, string dest, IEnumerable&lt; string &gt; ignore, Func&lt; string, string, ValueTask &gt; postCopyCallback, SemaphoreSlim semaphore, CancellationToken cancellationToken)</div><div class="ttdoc">Copies a directory from src  to dest .</div><div class="ttdef"><b>Definition:</b> <a href="_default_i_o_manager_8cs_source.html#l00344">DefaultIOManager.cs:344</a></div></div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="_default_i_o_manager_8cs_source.html#l00344">Tgstation.Server.Host.IO.DefaultIOManager.CopyDirectoryImpl()</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a34087ebccffcf9f51173e01fe4a50be4">Tgstation.Server.Host.IO.DefaultIOManager.ResolvePath()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager_a479d571a6078db0b40f6d45fdf2119b1_cgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager_a479d571a6078db0b40f6d45fdf2119b1_cgraph" alt=""/></div>
-<map name="aclass_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager_a479d571a6078db0b40f6d45fdf2119b1_cgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager_a479d571a6078db0b40f6d45fdf2119b1_cgraph">
+<div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager_a80c967c4b5eba7fc884348a79c1733aa_cgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager_a80c967c4b5eba7fc884348a79c1733aa_cgraph" alt=""/></div>
+<map name="aclass_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager_a80c967c4b5eba7fc884348a79c1733aa_cgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager_a80c967c4b5eba7fc884348a79c1733aa_cgraph">
 <area shape="rect" title="Copies a directory from src &#160;to dest . A ValueTask representing the running operation." alt="" coords="5,195,216,235"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a5d03ce475db8ea775cb7bb2401897e43" title="Copies a directory from src &#160;to dest ." alt="" coords="264,133,499,173"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a121c1b722b60021e84a9c3b9bb0dcacc" title="Copies a directory from src &#160;to dest ." alt="" coords="264,133,499,173"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a34087ebccffcf9f51173e01fe4a50be4" title="Retrieve the full path of the current working directory. The full path of the current working directo..." alt="" coords="1127,135,1331,175"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#abd68930642dbf40df272b35dc438312e" title="Combines an array of strings into a path. The combined path." alt="" coords="557,5,755,45"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a4a19eba6ec1164aff77fe737dd979338" title="Copy a file from src &#160;to dest . A ValueTask representing the running operation." alt="" coords="566,69,746,109"/>
@@ -633,8 +639,8 @@ Here is the call graph for this function:</div>
 
 </div>
 </div>
-<a id="a5d03ce475db8ea775cb7bb2401897e43" name="a5d03ce475db8ea775cb7bb2401897e43"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5d03ce475db8ea775cb7bb2401897e43">&#9670;&#160;</a></span>CopyDirectoryImpl()</h2>
+<a id="a121c1b722b60021e84a9c3b9bb0dcacc" name="a121c1b722b60021e84a9c3b9bb0dcacc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a121c1b722b60021e84a9c3b9bb0dcacc">&#9670;&#160;</a></span>CopyDirectoryImpl()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -657,19 +663,19 @@ Here is the call graph for this function:</div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">IEnumerable&lt; string &gt;&#160;</td>
+          <td class="paramtype">IEnumerable&lt; string &gt;?&#160;</td>
           <td class="paramname"><em>ignore</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">Func&lt; string, string, ValueTask &gt;&#160;</td>
+          <td class="paramtype">Func&lt; string, string, ValueTask &gt;?&#160;</td>
           <td class="paramname"><em>postCopyCallback</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">SemaphoreSlim&#160;</td>
+          <td class="paramtype">SemaphoreSlim?&#160;</td>
           <td class="paramname"><em>semaphore</em>, </td>
         </tr>
         <tr>
@@ -696,7 +702,7 @@ Here is the call graph for this function:</div>
   <table class="params">
     <tr><td class="paramname">src</td><td>The source directory path.</td></tr>
     <tr><td class="paramname">dest</td><td>The destination directory path.</td></tr>
-    <tr><td class="paramname">ignore</td><td>Files and folders to ignore at the root level.</td></tr>
+    <tr><td class="paramname">ignore</td><td>Optional files and folders to ignore at the root level.</td></tr>
     <tr><td class="paramname">postCopyCallback</td><td>The optional callback called for each source/dest file pair post copy.</td></tr>
     <tr><td class="paramname">semaphore</td><td>Optional SemaphoreSlim used to limit degree of parallelism.</td></tr>
     <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
@@ -708,14 +714,14 @@ Here is the call graph for this function:</div>
 <p class="definition">Definition at line <a class="el" href="_default_i_o_manager_8cs_source.html#l00344">344</a> of file <a class="el" href="_default_i_o_manager_8cs_source.html">DefaultIOManager.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">  351</span>        {</div>
 <div class="line"><span class="lineno">  352</span>            var dir = <span class="keyword">new</span> DirectoryInfo(src);</div>
-<div class="line"><span class="lineno">  353</span>            Task subdirCreationTask = <span class="keyword">null</span>;</div>
+<div class="line"><span class="lineno">  353</span>            Task? subdirCreationTask = <span class="keyword">null</span>;</div>
 <div class="line"><span class="lineno">  354</span>            <span class="keywordflow">foreach</span> (var subDirectory <span class="keywordflow">in</span> dir.EnumerateDirectories())</div>
 <div class="line"><span class="lineno">  355</span>            {</div>
 <div class="line"><span class="lineno">  356</span>                <span class="keywordflow">if</span> (ignore != <span class="keyword">null</span> &amp;&amp; ignore.Contains(subDirectory.Name))</div>
 <div class="line"><span class="lineno">  357</span>                    <span class="keywordflow">continue</span>;</div>
 <div class="line"><span class="lineno">  358</span> </div>
 <div class="line"><span class="lineno">  359</span>                var checkingSubdirCreationTask = <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  360</span>                <span class="keywordflow">foreach</span> (var copyTask <span class="keywordflow">in</span> <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a5d03ce475db8ea775cb7bb2401897e43">CopyDirectoryImpl</a>(subDirectory.FullName, Path.Combine(dest, subDirectory.Name), <span class="keyword">null</span>, postCopyCallback, semaphore, cancellationToken))</div>
+<div class="line"><span class="lineno">  360</span>                <span class="keywordflow">foreach</span> (var copyTask <span class="keywordflow">in</span> <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a121c1b722b60021e84a9c3b9bb0dcacc">CopyDirectoryImpl</a>(subDirectory.FullName, Path.Combine(dest, subDirectory.Name), <span class="keyword">null</span>, postCopyCallback, semaphore, cancellationToken))</div>
 <div class="line"><span class="lineno">  361</span>                {</div>
 <div class="line"><span class="lineno">  362</span>                    <span class="keywordflow">if</span> (subdirCreationTask == <span class="keyword">null</span>)</div>
 <div class="line"><span class="lineno">  363</span>                    {</div>
@@ -769,8 +775,8 @@ Here is the call graph for this function:</div>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager_a5d03ce475db8ea775cb7bb2401897e43_cgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager_a5d03ce475db8ea775cb7bb2401897e43_cgraph" alt=""/></div>
-<map name="aclass_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager_a5d03ce475db8ea775cb7bb2401897e43_cgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager_a5d03ce475db8ea775cb7bb2401897e43_cgraph">
+<div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager_a121c1b722b60021e84a9c3b9bb0dcacc_cgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager_a121c1b722b60021e84a9c3b9bb0dcacc_cgraph" alt=""/></div>
+<map name="aclass_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager_a121c1b722b60021e84a9c3b9bb0dcacc_cgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager_a121c1b722b60021e84a9c3b9bb0dcacc_cgraph">
 <area shape="rect" title="Copies a directory from src &#160;to dest ." alt="" coords="5,101,240,141"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#abd68930642dbf40df272b35dc438312e" title="Combines an array of strings into a path. The combined path." alt="" coords="298,5,497,45"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a4a19eba6ec1164aff77fe737dd979338" title="Copy a file from src &#160;to dest . A ValueTask representing the running operation." alt="" coords="307,69,487,109"/>
@@ -783,10 +789,10 @@ Here is the call graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager_a5d03ce475db8ea775cb7bb2401897e43_icgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager_a5d03ce475db8ea775cb7bb2401897e43_icgraph" alt=""/></div>
-<map name="aclass_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager_a5d03ce475db8ea775cb7bb2401897e43_icgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager_a5d03ce475db8ea775cb7bb2401897e43_icgraph">
+<div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager_a121c1b722b60021e84a9c3b9bb0dcacc_icgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager_a121c1b722b60021e84a9c3b9bb0dcacc_icgraph" alt=""/></div>
+<map name="aclass_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager_a121c1b722b60021e84a9c3b9bb0dcacc_icgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager_a121c1b722b60021e84a9c3b9bb0dcacc_icgraph">
 <area shape="rect" title="Copies a directory from src &#160;to dest ." alt="" coords="264,29,499,69"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a479d571a6078db0b40f6d45fdf2119b1" title="Copies a directory from src &#160;to dest . A ValueTask representing the running operation." alt="" coords="5,29,216,69"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a80c967c4b5eba7fc884348a79c1733aa" title="Copies a directory from src &#160;to dest . A ValueTask representing the running operation." alt="" coords="5,29,216,69"/>
 </map>
 </div>
 
@@ -855,10 +861,10 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">  111</span>            <span class="comment">// value taken from documentation</span></div>
 <div class="line"><span class="lineno">  112</span>            await srcStream.CopyToAsync(destStream, 81920, cancellationToken);</div>
 <div class="line"><span class="lineno">  113</span>        }</div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager_html_a38ca4ff226c098355ef1b316aa32421d"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a38ca4ff226c098355ef1b316aa32421d">Tgstation.Server.Host.IO.DefaultIOManager.CreateAsyncSequentialWriteStream</a></div><div class="ttdeci">FileStream CreateAsyncSequentialWriteStream(string path)</div><div class="ttdoc">Creates an asynchronous FileStream for sequential writing. The open FileStream.</div><div class="ttdef"><b>Definition:</b> <a href="_default_i_o_manager_8cs_source.html#l00230">DefaultIOManager.cs:230</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager_html_a38ca4ff226c098355ef1b316aa32421d"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a38ca4ff226c098355ef1b316aa32421d">Tgstation.Server.Host.IO.DefaultIOManager.CreateAsyncSequentialWriteStream</a></div><div class="ttdeci">FileStream CreateAsyncSequentialWriteStream(string path)</div><div class="ttdoc">Creates an asynchronous FileStream for sequential writing. The open FileStream.</div><div class="ttdef"><b>Definition:</b> <a href="_default_i_o_manager_8cs_source.html#l00231">DefaultIOManager.cs:231</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager_html_a8d302b2be6862b23b9a18a9412fc7fc9"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a8d302b2be6862b23b9a18a9412fc7fc9">Tgstation.Server.Host.IO.DefaultIOManager.DefaultBufferSize</a></div><div class="ttdeci">const int DefaultBufferSize</div><div class="ttdoc">Default FileStream buffer size used by .NET.</div><div class="ttdef"><b>Definition:</b> <a href="_default_i_o_manager_8cs_source.html#l00026">DefaultIOManager.cs:26</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_default_i_o_manager_8cs_source.html#l00230">Tgstation.Server.Host.IO.DefaultIOManager.CreateAsyncSequentialWriteStream()</a>, <a class="el" href="_default_i_o_manager_8cs_source.html#l00026">Tgstation.Server.Host.IO.DefaultIOManager.DefaultBufferSize</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a34087ebccffcf9f51173e01fe4a50be4">Tgstation.Server.Host.IO.DefaultIOManager.ResolvePath()</a>.</p>
+<p class="reference">References <a class="el" href="_default_i_o_manager_8cs_source.html#l00231">Tgstation.Server.Host.IO.DefaultIOManager.CreateAsyncSequentialWriteStream()</a>, <a class="el" href="_default_i_o_manager_8cs_source.html#l00026">Tgstation.Server.Host.IO.DefaultIOManager.DefaultBufferSize</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a34087ebccffcf9f51173e01fe4a50be4">Tgstation.Server.Host.IO.DefaultIOManager.ResolvePath()</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="_default_i_o_manager_8cs_source.html#l00344">Tgstation.Server.Host.IO.DefaultIOManager.CopyDirectoryImpl()</a>.</p>
 <div class="dynheader">
@@ -877,8 +883,8 @@ Here is the caller graph for this function:</div>
 <div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager_a4a19eba6ec1164aff77fe737dd979338_icgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager_a4a19eba6ec1164aff77fe737dd979338_icgraph" alt=""/></div>
 <map name="aclass_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager_a4a19eba6ec1164aff77fe737dd979338_icgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager_a4a19eba6ec1164aff77fe737dd979338_icgraph">
 <area shape="rect" title="Copy a file from src &#160;to dest . A ValueTask representing the running operation." alt="" coords="547,29,727,69"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a5d03ce475db8ea775cb7bb2401897e43" title="Copies a directory from src &#160;to dest ." alt="" coords="264,29,499,69"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a479d571a6078db0b40f6d45fdf2119b1" title="Copies a directory from src &#160;to dest . A ValueTask representing the running operation." alt="" coords="5,29,216,69"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a121c1b722b60021e84a9c3b9bb0dcacc" title="Copies a directory from src &#160;to dest ." alt="" coords="264,29,499,69"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a80c967c4b5eba7fc884348a79c1733aa" title="Copies a directory from src &#160;to dest . A ValueTask representing the running operation." alt="" coords="5,29,216,69"/>
 </map>
 </div>
 
@@ -911,21 +917,21 @@ Here is the caller graph for this function:</div>
 
 <p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a98d1ad47e4ba1c1f7407f5dd50a81de8">Tgstation.Server.Host.IO.IIOManager</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_default_i_o_manager_8cs_source.html#l00230">230</a> of file <a class="el" href="_default_i_o_manager_8cs_source.html">DefaultIOManager.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  231</span>        {</div>
-<div class="line"><span class="lineno">  232</span>            path = <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a34087ebccffcf9f51173e01fe4a50be4">ResolvePath</a>(path);</div>
-<div class="line"><span class="lineno">  233</span>            <span class="keywordflow">return</span> <span class="keyword">new</span> FileStream(</div>
-<div class="line"><span class="lineno">  234</span>                path,</div>
-<div class="line"><span class="lineno">  235</span>                FileMode.Create,</div>
-<div class="line"><span class="lineno">  236</span>                FileAccess.Write,</div>
-<div class="line"><span class="lineno">  237</span>                FileShare.Read | FileShare.Delete,</div>
-<div class="line"><span class="lineno">  238</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a8d302b2be6862b23b9a18a9412fc7fc9">DefaultBufferSize</a>,</div>
-<div class="line"><span class="lineno">  239</span>                FileOptions.Asynchronous | FileOptions.SequentialScan);</div>
-<div class="line"><span class="lineno">  240</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_default_i_o_manager_8cs_source.html#l00231">231</a> of file <a class="el" href="_default_i_o_manager_8cs_source.html">DefaultIOManager.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  232</span>        {</div>
+<div class="line"><span class="lineno">  233</span>            path = <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a34087ebccffcf9f51173e01fe4a50be4">ResolvePath</a>(path);</div>
+<div class="line"><span class="lineno">  234</span>            <span class="keywordflow">return</span> <span class="keyword">new</span> FileStream(</div>
+<div class="line"><span class="lineno">  235</span>                path,</div>
+<div class="line"><span class="lineno">  236</span>                FileMode.Create,</div>
+<div class="line"><span class="lineno">  237</span>                FileAccess.Write,</div>
+<div class="line"><span class="lineno">  238</span>                FileShare.Read | FileShare.Delete,</div>
+<div class="line"><span class="lineno">  239</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a8d302b2be6862b23b9a18a9412fc7fc9">DefaultBufferSize</a>,</div>
+<div class="line"><span class="lineno">  240</span>                FileOptions.Asynchronous | FileOptions.SequentialScan);</div>
+<div class="line"><span class="lineno">  241</span>        }</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="_default_i_o_manager_8cs_source.html#l00026">Tgstation.Server.Host.IO.DefaultIOManager.DefaultBufferSize</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a34087ebccffcf9f51173e01fe4a50be4">Tgstation.Server.Host.IO.DefaultIOManager.ResolvePath()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_default_i_o_manager_8cs_source.html#l00096">Tgstation.Server.Host.IO.DefaultIOManager.CopyFile()</a>, and <a class="el" href="_default_i_o_manager_8cs_source.html#l00223">Tgstation.Server.Host.IO.DefaultIOManager.WriteAllBytes()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_default_i_o_manager_8cs_source.html#l00096">Tgstation.Server.Host.IO.DefaultIOManager.CopyFile()</a>, and <a class="el" href="_default_i_o_manager_8cs_source.html#l00224">Tgstation.Server.Host.IO.DefaultIOManager.WriteAllBytes()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -943,8 +949,8 @@ Here is the caller graph for this function:</div>
 <area shape="rect" title="Creates an asynchronous FileStream for sequential writing. The open FileStream." alt="" coords="803,54,1068,109"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a4a19eba6ec1164aff77fe737dd979338" title="Copy a file from src &#160;to dest . A ValueTask representing the running operation." alt="" coords="561,29,741,69"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a6c82a1e8625f86797f961e220d7b0f03" title="Writes some contents &#160;to a file at path &#160;overwriting previous content. A ValueTask representing the r..." alt="" coords="547,93,755,133"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a5d03ce475db8ea775cb7bb2401897e43" title="Copies a directory from src &#160;to dest ." alt="" coords="264,29,499,69"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a479d571a6078db0b40f6d45fdf2119b1" title="Copies a directory from src &#160;to dest . A ValueTask representing the running operation." alt="" coords="5,29,216,69"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a121c1b722b60021e84a9c3b9bb0dcacc" title="Copies a directory from src &#160;to dest ." alt="" coords="264,29,499,69"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a80c967c4b5eba7fc884348a79c1733aa" title="Copies a directory from src &#160;to dest . A ValueTask representing the running operation." alt="" coords="5,29,216,69"/>
 </map>
 </div>
 
@@ -995,8 +1001,8 @@ Here is the caller graph for this function:</div>
 <div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager_a35975e796c564e8b5dd5d4a601d0c2e3_icgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager_a35975e796c564e8b5dd5d4a601d0c2e3_icgraph" alt=""/></div>
 <map name="aclass_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager_a35975e796c564e8b5dd5d4a601d0c2e3_icgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager_a35975e796c564e8b5dd5d4a601d0c2e3_icgraph">
 <area shape="rect" title="Create a directory at path . A Task representing the running operation." alt="" coords="547,29,765,69"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a5d03ce475db8ea775cb7bb2401897e43" title="Copies a directory from src &#160;to dest ." alt="" coords="264,29,499,69"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a479d571a6078db0b40f6d45fdf2119b1" title="Copies a directory from src &#160;to dest . A ValueTask representing the running operation." alt="" coords="5,29,216,69"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a121c1b722b60021e84a9c3b9bb0dcacc" title="Copies a directory from src &#160;to dest ." alt="" coords="264,29,499,69"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a80c967c4b5eba7fc884348a79c1733aa" title="Copies a directory from src &#160;to dest . A ValueTask representing the running operation." alt="" coords="5,29,216,69"/>
 </map>
 </div>
 
@@ -1216,7 +1222,7 @@ Here is the call graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p>Returns directory names in a given <em>path</em> . <dl class="params"><dt>Parameters</dt><dd>
+<p>Returns full directory names in a given <em>path</em> . <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">path</td><td>The path to search for directories.</td></tr>
     <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
@@ -1234,7 +1240,7 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager_a3b82f87c65c67e19ff2f23d1fc2d85e3_cgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager_a3b82f87c65c67e19ff2f23d1fc2d85e3_cgraph" alt=""/></div>
 <map name="aclass_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager_a3b82f87c65c67e19ff2f23d1fc2d85e3_cgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager_a3b82f87c65c67e19ff2f23d1fc2d85e3_cgraph">
-<area shape="rect" title="Returns directory names in a given path . A Task&lt;TResult&gt; resulting in the directories in path ." alt="" coords="5,5,219,45"/>
+<area shape="rect" title="Returns full directory names in a given path . A Task&lt;TResult&gt; resulting in the directories in path ." alt="" coords="5,5,219,45"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a34087ebccffcf9f51173e01fe4a50be4" title="Retrieve the full path of the current working directory. The full path of the current working directo..." alt="" coords="267,5,471,45"/>
 </map>
 </div>
@@ -1264,6 +1270,12 @@ Here is the call graph for this function:</div>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The directory portion of the given <em>path</em> .</dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">InvalidOperationException</td><td>If <em>path</em>  is rooted.</td></tr>
+  </table>
+  </dd>
+</dl>
  </p>
 
 <p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a691970cc91e5576b06ed9ce14e51d9b8">Tgstation.Server.Host.IO.IIOManager</a>.</p>
@@ -1354,7 +1366,7 @@ Here is the call graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p>Returns file names in a given <em>path</em> . <dl class="params"><dt>Parameters</dt><dd>
+<p>Returns full file names in a given <em>path</em> . <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">path</td><td>The path to search for files.</td></tr>
     <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
@@ -1372,7 +1384,7 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager_a541197a2a0aac0dbe48022dcd95d2bc1_cgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager_a541197a2a0aac0dbe48022dcd95d2bc1_cgraph" alt=""/></div>
 <map name="aclass_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager_a541197a2a0aac0dbe48022dcd95d2bc1_cgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager_a541197a2a0aac0dbe48022dcd95d2bc1_cgraph">
-<area shape="rect" title="Returns file names in a given path . A Task&lt;TResult&gt; resulting in the files in path ." alt="" coords="5,5,184,45"/>
+<area shape="rect" title="Returns full file names in a given path . A Task&lt;TResult&gt; resulting in the files in path ." alt="" coords="5,5,184,45"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a34087ebccffcf9f51173e01fe4a50be4" title="Retrieve the full path of the current working directory. The full path of the current working directo..." alt="" coords="232,5,436,45"/>
 </map>
 </div>
@@ -1816,21 +1828,21 @@ Here is the caller graph for this function:</div>
 
 <p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a267b549fab5803c199a7d37100650e85">Tgstation.Server.Host.IO.IIOManager</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_default_i_o_manager_8cs_source.html#l00200">200</a> of file <a class="el" href="_default_i_o_manager_8cs_source.html">DefaultIOManager.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  201</span>        {</div>
-<div class="line"><span class="lineno">  202</span>            path = <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a34087ebccffcf9f51173e01fe4a50be4">ResolvePath</a>(path);</div>
-<div class="line"><span class="lineno">  203</span>            await <span class="keyword">using </span>var file = <span class="keyword">new</span> FileStream(</div>
-<div class="line"><span class="lineno">  204</span>                path,</div>
-<div class="line"><span class="lineno">  205</span>                FileMode.Open,</div>
-<div class="line"><span class="lineno">  206</span>                FileAccess.Read,</div>
-<div class="line"><span class="lineno">  207</span>                FileShare.ReadWrite | FileShare.Delete,</div>
-<div class="line"><span class="lineno">  208</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a8d302b2be6862b23b9a18a9412fc7fc9">DefaultBufferSize</a>,</div>
-<div class="line"><span class="lineno">  209</span>                FileOptions.Asynchronous | FileOptions.SequentialScan);</div>
-<div class="line"><span class="lineno">  210</span>            <span class="keywordtype">byte</span>[] buf;</div>
-<div class="line"><span class="lineno">  211</span>            buf = <span class="keyword">new</span> <span class="keywordtype">byte</span>[file.Length];</div>
-<div class="line"><span class="lineno">  212</span>            await file.ReadAsync(buf, cancellationToken);</div>
-<div class="line"><span class="lineno">  213</span>            <span class="keywordflow">return</span> buf;</div>
-<div class="line"><span class="lineno">  214</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_default_i_o_manager_8cs_source.html#l00201">201</a> of file <a class="el" href="_default_i_o_manager_8cs_source.html">DefaultIOManager.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  202</span>        {</div>
+<div class="line"><span class="lineno">  203</span>            path = <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a34087ebccffcf9f51173e01fe4a50be4">ResolvePath</a>(path);</div>
+<div class="line"><span class="lineno">  204</span>            await <span class="keyword">using </span>var file = <span class="keyword">new</span> FileStream(</div>
+<div class="line"><span class="lineno">  205</span>                path,</div>
+<div class="line"><span class="lineno">  206</span>                FileMode.Open,</div>
+<div class="line"><span class="lineno">  207</span>                FileAccess.Read,</div>
+<div class="line"><span class="lineno">  208</span>                FileShare.ReadWrite | FileShare.Delete,</div>
+<div class="line"><span class="lineno">  209</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a8d302b2be6862b23b9a18a9412fc7fc9">DefaultBufferSize</a>,</div>
+<div class="line"><span class="lineno">  210</span>                FileOptions.Asynchronous | FileOptions.SequentialScan);</div>
+<div class="line"><span class="lineno">  211</span>            <span class="keywordtype">byte</span>[] buf;</div>
+<div class="line"><span class="lineno">  212</span>            buf = <span class="keyword">new</span> <span class="keywordtype">byte</span>[file.Length];</div>
+<div class="line"><span class="lineno">  213</span>            await file.ReadAsync(buf, cancellationToken);</div>
+<div class="line"><span class="lineno">  214</span>            <span class="keywordflow">return</span> buf;</div>
+<div class="line"><span class="lineno">  215</span>        }</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="_default_i_o_manager_8cs_source.html#l00026">Tgstation.Server.Host.IO.DefaultIOManager.DefaultBufferSize</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a34087ebccffcf9f51173e01fe4a50be4">Tgstation.Server.Host.IO.DefaultIOManager.ResolvePath()</a>.</p>
 <div class="dynheader">
@@ -1865,26 +1877,26 @@ Here is the call graph for this function:</div>
 
 <p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a18a442b5dff16f5e7a730ec354e81d78">Tgstation.Server.Host.IO.IIOManager</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_default_i_o_manager_8cs_source.html#l00071">Tgstation.Server.Host.IO.DefaultIOManager.CopyDirectory()</a>, <a class="el" href="_default_i_o_manager_8cs_source.html#l00096">Tgstation.Server.Host.IO.DefaultIOManager.CopyFile()</a>, <a class="el" href="_default_i_o_manager_8cs_source.html#l00230">Tgstation.Server.Host.IO.DefaultIOManager.CreateAsyncSequentialWriteStream()</a>, <a class="el" href="_default_i_o_manager_8cs_source.html#l00119">Tgstation.Server.Host.IO.DefaultIOManager.DeleteDirectory()</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a3b82f87c65c67e19ff2f23d1fc2d85e3">Tgstation.Server.Host.IO.DefaultIOManager.GetDirectories()</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a541197a2a0aac0dbe48022dcd95d2bc1">Tgstation.Server.Host.IO.DefaultIOManager.GetFiles()</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a48c63b2f04061db8b2cd2e7e97ad251a">Tgstation.Server.Host.IO.DefaultIOManager.GetFilesWithExtension()</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a75995a56b8e5189ccd38de619293edf2">Tgstation.Server.Host.IO.DefaultIOManager.GetLastModified()</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a5c7c3fb8d450153922c11e37ea118f62">Tgstation.Server.Host.IO.DefaultIOManager.MoveDirectory()</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a2ecf7ea4ad7cadd294a1a4882e56a812">Tgstation.Server.Host.IO.DefaultIOManager.MoveFile()</a>, <a class="el" href="_default_i_o_manager_8cs_source.html#l00200">Tgstation.Server.Host.IO.DefaultIOManager.ReadAllBytes()</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a62a703e04375abfc93020af28fd6b0ef">Tgstation.Server.Host.IO.DefaultIOManager.ZipToDirectory()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_default_i_o_manager_8cs_source.html#l00071">Tgstation.Server.Host.IO.DefaultIOManager.CopyDirectory()</a>, <a class="el" href="_default_i_o_manager_8cs_source.html#l00096">Tgstation.Server.Host.IO.DefaultIOManager.CopyFile()</a>, <a class="el" href="_default_i_o_manager_8cs_source.html#l00231">Tgstation.Server.Host.IO.DefaultIOManager.CreateAsyncSequentialWriteStream()</a>, <a class="el" href="_default_i_o_manager_8cs_source.html#l00119">Tgstation.Server.Host.IO.DefaultIOManager.DeleteDirectory()</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a3b82f87c65c67e19ff2f23d1fc2d85e3">Tgstation.Server.Host.IO.DefaultIOManager.GetDirectories()</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a541197a2a0aac0dbe48022dcd95d2bc1">Tgstation.Server.Host.IO.DefaultIOManager.GetFiles()</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a48c63b2f04061db8b2cd2e7e97ad251a">Tgstation.Server.Host.IO.DefaultIOManager.GetFilesWithExtension()</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a75995a56b8e5189ccd38de619293edf2">Tgstation.Server.Host.IO.DefaultIOManager.GetLastModified()</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a5c7c3fb8d450153922c11e37ea118f62">Tgstation.Server.Host.IO.DefaultIOManager.MoveDirectory()</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a2ecf7ea4ad7cadd294a1a4882e56a812">Tgstation.Server.Host.IO.DefaultIOManager.MoveFile()</a>, <a class="el" href="_default_i_o_manager_8cs_source.html#l00201">Tgstation.Server.Host.IO.DefaultIOManager.ReadAllBytes()</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a62a703e04375abfc93020af28fd6b0ef">Tgstation.Server.Host.IO.DefaultIOManager.ZipToDirectory()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager_a34087ebccffcf9f51173e01fe4a50be4_icgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager_a34087ebccffcf9f51173e01fe4a50be4_icgraph" alt=""/></div>
 <map name="aclass_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager_a34087ebccffcf9f51173e01fe4a50be4_icgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager_a34087ebccffcf9f51173e01fe4a50be4_icgraph">
 <area shape="rect" title="Retrieve the full path of the current working directory. The full path of the current working directo..." alt="" coords="1116,407,1320,447"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a479d571a6078db0b40f6d45fdf2119b1" title="Copies a directory from src &#160;to dest . A ValueTask representing the running operation." alt="" coords="5,85,216,125"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a80c967c4b5eba7fc884348a79c1733aa" title="Copies a directory from src &#160;to dest . A ValueTask representing the running operation." alt="" coords="5,85,216,125"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a4a19eba6ec1164aff77fe737dd979338" title="Copy a file from src &#160;to dest . A ValueTask representing the running operation." alt="" coords="561,119,741,159"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a38ca4ff226c098355ef1b316aa32421d" title="Creates an asynchronous FileStream for sequential writing. The open FileStream." alt="" coords="803,167,1068,222"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a1c0202582bb5f80ba212bf7cceb2bd6d" title="Recursively delete a directory, removes and does not enter any symlinks encounterd...." alt="" coords="826,247,1045,287"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a3b82f87c65c67e19ff2f23d1fc2d85e3" title="Returns directory names in a given path . A Task&lt;TResult&gt; resulting in the directories in path ." alt="" coords="829,311,1042,351"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a541197a2a0aac0dbe48022dcd95d2bc1" title="Returns file names in a given path . A Task&lt;TResult&gt; resulting in the files in path ." alt="" coords="846,375,1025,415"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a3b82f87c65c67e19ff2f23d1fc2d85e3" title="Returns full directory names in a given path . A Task&lt;TResult&gt; resulting in the directories in path ." alt="" coords="829,311,1042,351"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a541197a2a0aac0dbe48022dcd95d2bc1" title="Returns full file names in a given path . A Task&lt;TResult&gt; resulting in the files in path ." alt="" coords="846,375,1025,415"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a48c63b2f04061db8b2cd2e7e97ad251a" title="Gets a list of files in path &#160;with the given extension . A Task resulting in a list of paths to files..." alt="" coords="805,439,1066,479"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a75995a56b8e5189ccd38de619293edf2" title="Get the DateTimeOffset of when a given path &#160;was last modified. A Task&lt;TResult&gt; resulting in the Date..." alt="" coords="823,503,1048,543"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a5c7c3fb8d450153922c11e37ea118f62" title="Moves a directory at source &#160;to destination . A Task representing the running operation." alt="" coords="829,567,1042,607"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a2ecf7ea4ad7cadd294a1a4882e56a812" title="Moves a file at source &#160;to destination . A Task representing the running operation." alt="" coords="844,631,1027,671"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a189b7e72c61cd0eb3a6e512847a332cc" title="Returns all the contents of a file at path &#160;as a byte array. A ValueTask that results in the contents..." alt="" coords="831,695,1039,735"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a62a703e04375abfc93020af28fd6b0ef" title="Extract a set of zipFile &#160;to a given path . A Task representing the running operation." alt="" coords="828,759,1043,799"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a5d03ce475db8ea775cb7bb2401897e43" title="Copies a directory from src &#160;to dest ." alt="" coords="264,125,499,165"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a121c1b722b60021e84a9c3b9bb0dcacc" title="Copies a directory from src &#160;to dest ." alt="" coords="264,125,499,165"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a6c82a1e8625f86797f961e220d7b0f03" title="Writes some contents &#160;to a file at path &#160;overwriting previous content. A ValueTask representing the r..." alt="" coords="547,183,755,223"/>
 </map>
 </div>
@@ -1975,13 +1987,13 @@ Here is the caller graph for this function:</div>
 
 <p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a9aeb8b83ea3f4b13a183b6ac55b35a70">Tgstation.Server.Host.IO.IIOManager</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_default_i_o_manager_8cs_source.html#l00223">223</a> of file <a class="el" href="_default_i_o_manager_8cs_source.html">DefaultIOManager.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  224</span>        {</div>
-<div class="line"><span class="lineno">  225</span>            await <span class="keyword">using </span>var file = <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a38ca4ff226c098355ef1b316aa32421d">CreateAsyncSequentialWriteStream</a>(path);</div>
-<div class="line"><span class="lineno">  226</span>            await file.WriteAsync(contents, cancellationToken);</div>
-<div class="line"><span class="lineno">  227</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_default_i_o_manager_8cs_source.html#l00224">224</a> of file <a class="el" href="_default_i_o_manager_8cs_source.html">DefaultIOManager.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  225</span>        {</div>
+<div class="line"><span class="lineno">  226</span>            await <span class="keyword">using </span>var file = <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a38ca4ff226c098355ef1b316aa32421d">CreateAsyncSequentialWriteStream</a>(path);</div>
+<div class="line"><span class="lineno">  227</span>            await file.WriteAsync(contents, cancellationToken);</div>
+<div class="line"><span class="lineno">  228</span>        }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_default_i_o_manager_8cs_source.html#l00230">Tgstation.Server.Host.IO.DefaultIOManager.CreateAsyncSequentialWriteStream()</a>.</p>
+<p class="reference">References <a class="el" href="_default_i_o_manager_8cs_source.html#l00231">Tgstation.Server.Host.IO.DefaultIOManager.CreateAsyncSequentialWriteStream()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -2078,7 +2090,7 @@ Here is the call graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_default_i_o_manager_8cs_source.html#l00031">31</a> of file <a class="el" href="_default_i_o_manager_8cs_source.html">DefaultIOManager.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_repository_8cs_source.html#l00186">Tgstation.Server.Host.Components.Repository.Repository.AddTestMerge()</a>, <a class="el" href="_repository_8cs_source.html#l00389">Tgstation.Server.Host.Components.Repository.Repository.CheckoutObject()</a>, <a class="el" href="_irc_provider_8cs_source.html#l00374">Tgstation.Server.Host.Components.Chat.Providers.IrcProvider.Connect()</a>, <a class="el" href="_configuration_8cs_source.html#l00565">Tgstation.Server.Host.Components.StaticFiles.Configuration.CreateDirectory()</a>, <a class="el" href="_windows_process_features_8cs_source.html#l00123">Tgstation.Server.Host.System.WindowsProcessFeatures.CreateDump()</a>, <a class="el" href="_lib_git2_repository_factory_8cs_source.html#l00041">Tgstation.Server.Host.Components.Repository.LibGit2RepositoryFactory.CreateFromPath()</a>, <a class="el" href="_default_i_o_manager_8cs_source.html#l00119">Tgstation.Server.Host.IO.DefaultIOManager.DeleteDirectory()</a>, <a class="el" href="_irc_provider_8cs_source.html#l00463">Tgstation.Server.Host.Components.Chat.Providers.IrcProvider.DisconnectImpl()</a>, <a class="el" href="_repository_8cs_source.html#l00424">Tgstation.Server.Host.Components.Repository.Repository.FetchOrigin()</a>, <a class="el" href="_irc_provider_8cs_source.html#l00669">Tgstation.Server.Host.Components.Chat.Providers.IrcProvider.HardDisconnect()</a>, <a class="el" href="_process_8cs_source.html#l00065">Tgstation.Server.Host.System.Process.Process()</a>, <a class="el" href="_configuration_8cs_source.html#l00287">Tgstation.Server.Host.Components.StaticFiles.Configuration.Read()</a>, <a class="el" href="_irc_provider_8cs_source.html#l00167">Tgstation.Server.Host.Components.Chat.Providers.IrcProvider.SendMessage()</a>, <a class="el" href="_repository_8cs_source.html#l00642">Tgstation.Server.Host.Components.Repository.Repository.Sychronize()</a>, <a class="el" href="_repository_8cs_source.html#l00997">Tgstation.Server.Host.Components.Repository.Repository.UpdateSubmodules()</a>, and <a class="el" href="_configuration_8cs_source.html#l00455">Tgstation.Server.Host.Components.StaticFiles.Configuration.Write()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_repository_8cs_source.html#l00161">Tgstation.Server.Host.Components.Repository.Repository.AddTestMerge()</a>, <a class="el" href="_repository_8cs_source.html#l00360">Tgstation.Server.Host.Components.Repository.Repository.CheckoutObject()</a>, <a class="el" href="_irc_provider_8cs_source.html#l00370">Tgstation.Server.Host.Components.Chat.Providers.IrcProvider.Connect()</a>, <a class="el" href="_configuration_8cs_source.html#l00571">Tgstation.Server.Host.Components.StaticFiles.Configuration.CreateDirectory()</a>, <a class="el" href="_windows_process_features_8cs_source.html#l00123">Tgstation.Server.Host.System.WindowsProcessFeatures.CreateDump()</a>, <a class="el" href="_lib_git2_repository_factory_8cs_source.html#l00041">Tgstation.Server.Host.Components.Repository.LibGit2RepositoryFactory.CreateFromPath()</a>, <a class="el" href="_default_i_o_manager_8cs_source.html#l00119">Tgstation.Server.Host.IO.DefaultIOManager.DeleteDirectory()</a>, <a class="el" href="_irc_provider_8cs_source.html#l00459">Tgstation.Server.Host.Components.Chat.Providers.IrcProvider.DisconnectImpl()</a>, <a class="el" href="_repository_8cs_source.html#l00395">Tgstation.Server.Host.Components.Repository.Repository.FetchOrigin()</a>, <a class="el" href="_irc_provider_8cs_source.html#l00660">Tgstation.Server.Host.Components.Chat.Providers.IrcProvider.HardDisconnect()</a>, <a class="el" href="_process_8cs_source.html#l00070">Tgstation.Server.Host.System.Process.Process()</a>, <a class="el" href="_configuration_8cs_source.html#l00294">Tgstation.Server.Host.Components.StaticFiles.Configuration.Read()</a>, <a class="el" href="_irc_provider_8cs_source.html#l00167">Tgstation.Server.Host.Components.Chat.Providers.IrcProvider.SendMessage()</a>, <a class="el" href="_repository_8cs_source.html#l00614">Tgstation.Server.Host.Components.Repository.Repository.Synchronize()</a>, <a class="el" href="_repository_8cs_source.html#l00999">Tgstation.Server.Host.Components.Repository.Repository.UpdateSubmodules()</a>, and <a class="el" href="_configuration_8cs_source.html#l00461">Tgstation.Server.Host.Components.StaticFiles.Configuration.Write()</a>.</p>
 
 </div>
 </div>
@@ -2106,7 +2118,7 @@ Here is the call graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_default_i_o_manager_8cs_source.html#l00021">21</a> of file <a class="el" href="_default_i_o_manager_8cs_source.html">DefaultIOManager.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_instance_controller_8cs_source.html#l00144">Tgstation.Server.Host.Controllers.InstanceController.Create()</a>, <a class="el" href="_instance_manager_8cs_source.html#l00250">Tgstation.Server.Host.Components.InstanceManager.MoveInstance()</a>, <a class="el" href="_byond_manager_8cs_source.html#l00295">Tgstation.Server.Host.Components.Byond.ByondManager.StartAsync()</a>, and <a class="el" href="_configuration_8cs_source.html#l00738">Tgstation.Server.Host.Components.StaticFiles.Configuration.ValidateConfigRelativePath()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_instance_controller_8cs_source.html#l00140">Tgstation.Server.Host.Controllers.InstanceController.Create()</a>, <a class="el" href="_instance_manager_8cs_source.html#l00259">Tgstation.Server.Host.Components.InstanceManager.MoveInstance()</a>, <a class="el" href="_engine_manager_8cs_source.html#l00298">Tgstation.Server.Host.Components.Engine.EngineManager.StartAsync()</a>, and <a class="el" href="_configuration_8cs_source.html#l00748">Tgstation.Server.Host.Components.StaticFiles.Configuration.ValidateConfigRelativePath()</a>.</p>
 
 </div>
 </div>
@@ -2134,7 +2146,7 @@ Here is the call graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_default_i_o_manager_8cs_source.html#l00026">26</a> of file <a class="el" href="_default_i_o_manager_8cs_source.html">DefaultIOManager.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_file_upload_provider_8cs_source.html#l00091">Tgstation.Server.Host.Transfer.FileUploadProvider.Completion()</a>, <a class="el" href="_default_i_o_manager_8cs_source.html#l00096">Tgstation.Server.Host.IO.DefaultIOManager.CopyFile()</a>, <a class="el" href="_default_i_o_manager_8cs_source.html#l00230">Tgstation.Server.Host.IO.DefaultIOManager.CreateAsyncSequentialWriteStream()</a>, and <a class="el" href="_default_i_o_manager_8cs_source.html#l00200">Tgstation.Server.Host.IO.DefaultIOManager.ReadAllBytes()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_file_upload_provider_8cs_source.html#l00083">Tgstation.Server.Host.Transfer.FileUploadProvider.Completion()</a>, <a class="el" href="_default_i_o_manager_8cs_source.html#l00096">Tgstation.Server.Host.IO.DefaultIOManager.CopyFile()</a>, <a class="el" href="_default_i_o_manager_8cs_source.html#l00231">Tgstation.Server.Host.IO.DefaultIOManager.CreateAsyncSequentialWriteStream()</a>, and <a class="el" href="_default_i_o_manager_8cs_source.html#l00201">Tgstation.Server.Host.IO.DefaultIOManager.ReadAllBytes()</a>.</p>
 
 </div>
 </div>

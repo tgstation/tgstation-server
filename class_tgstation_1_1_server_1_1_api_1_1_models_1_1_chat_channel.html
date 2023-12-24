@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.18.2</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.0.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -105,14 +105,8 @@ Collaboration diagram for Tgstation.Server.Api.Models.ChatChannel:</div>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="properties" name="properties"></a>
 Properties</h2></td></tr>
 <tr class="memitem:abc1194b8b30fc711a650540affee678d"><td class="memItemLeft" align="right" valign="top">string?&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_chat_channel.html#abc1194b8b30fc711a650540affee678d">ChannelData</a><code> [get, set]</code></td></tr>
-<tr class="memdesc:abc1194b8b30fc711a650540affee678d"><td class="mdescLeft">&#160;</td><td class="mdescRight">The channel identifier. Supercedes <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_chat_channel.html#a1b5abf235612bc3aef37d6ba54c8c943" title="The IRC channel name. Also potentially contains the channel passsword (if separated by a colon)....">IrcChannel</a> and <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_chat_channel.html#a7d69363fd8b5b85e8a66d7c6d4aeb4ec" title="The Discord channel ID.">DiscordChannelId</a>. For ChatProvider.Irc, it's the IRC channel name and optional password colon separated. For ChatProvider.Discord, it's the stringified Discord channel snowflake.   <a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_chat_channel.html#abc1194b8b30fc711a650540affee678d">More...</a><br /></td></tr>
+<tr class="memdesc:abc1194b8b30fc711a650540affee678d"><td class="mdescLeft">&#160;</td><td class="mdescRight">The channel identifier. For ChatProvider.Irc, it's the IRC channel name and optional password colon separated. For ChatProvider.Discord, it's the stringified Discord channel snowflake.   <a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_chat_channel.html#abc1194b8b30fc711a650540affee678d">More...</a><br /></td></tr>
 <tr class="separator:abc1194b8b30fc711a650540affee678d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1b5abf235612bc3aef37d6ba54c8c943"><td class="memItemLeft" align="right" valign="top">string?&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_chat_channel.html#a1b5abf235612bc3aef37d6ba54c8c943">IrcChannel</a><code> [get, set]</code></td></tr>
-<tr class="memdesc:a1b5abf235612bc3aef37d6ba54c8c943"><td class="mdescLeft">&#160;</td><td class="mdescRight">The IRC channel name. Also potentially contains the channel passsword (if separated by a colon). If multiple copies of the same channel with different keys are added to the server, the one that will be used is undefined.   <a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_chat_channel.html#a1b5abf235612bc3aef37d6ba54c8c943">More...</a><br /></td></tr>
-<tr class="separator:a1b5abf235612bc3aef37d6ba54c8c943"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7d69363fd8b5b85e8a66d7c6d4aeb4ec"><td class="memItemLeft" align="right" valign="top">ulong?&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_chat_channel.html#a7d69363fd8b5b85e8a66d7c6d4aeb4ec">DiscordChannelId</a><code> [get, set]</code></td></tr>
-<tr class="memdesc:a7d69363fd8b5b85e8a66d7c6d4aeb4ec"><td class="mdescLeft">&#160;</td><td class="mdescRight">The Discord channel ID.   <a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_chat_channel.html#a7d69363fd8b5b85e8a66d7c6d4aeb4ec">More...</a><br /></td></tr>
-<tr class="separator:a7d69363fd8b5b85e8a66d7c6d4aeb4ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header properties_class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_chat_channel_base"><td colspan="2" onclick="javascript:toggleInherit('properties_class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_chat_channel_base')"><img src="closed.png" alt="-"/>&#160;Properties inherited from <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_chat_channel_base.html">Tgstation.Server.Api.Models.Internal.ChatChannelBase</a></td></tr>
 <tr class="memitem:af9afe694fd82c175dd24e8a0303ee8cf inherit properties_class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_chat_channel_base"><td class="memItemLeft" align="right" valign="top">bool?&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_chat_channel_base.html#af9afe694fd82c175dd24e8a0303ee8cf">IsAdminChannel</a><code> [get, set]</code></td></tr>
 <tr class="memdesc:af9afe694fd82c175dd24e8a0303ee8cf inherit properties_class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_chat_channel_base"><td class="mdescLeft">&#160;</td><td class="mdescRight">If the <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_chat_channel.html" title="Indicates a chat channel.">ChatChannel</a> is an admin channel.   <a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_chat_channel_base.html#af9afe694fd82c175dd24e8a0303ee8cf">More...</a><br /></td></tr>
@@ -133,7 +127,7 @@ Properties</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p >Indicates a chat channel.  </p>
 
-<p class="definition">Definition at line <a class="el" href="_tgstation_8_server_8_api_2_models_2_chat_channel_8cs_source.html#l00011">11</a> of file <a class="el" href="_tgstation_8_server_8_api_2_models_2_chat_channel_8cs_source.html">ChatChannel.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_tgstation_8_server_8_api_2_models_2_chat_channel_8cs_source.html#l00010">10</a> of file <a class="el" href="_tgstation_8_server_8_api_2_models_2_chat_channel_8cs_source.html">ChatChannel.cs</a>.</p>
 </div><h2 class="groupheader">Property Documentation</h2>
 <a id="abc1194b8b30fc711a650540affee678d" name="abc1194b8b30fc711a650540affee678d"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#abc1194b8b30fc711a650540affee678d">&#9670;&#160;</a></span>ChannelData</h2>
@@ -155,64 +149,10 @@ Properties</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>The channel identifier. Supercedes <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_chat_channel.html#a1b5abf235612bc3aef37d6ba54c8c943" title="The IRC channel name. Also potentially contains the channel passsword (if separated by a colon)....">IrcChannel</a> and <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_chat_channel.html#a7d69363fd8b5b85e8a66d7c6d4aeb4ec" title="The Discord channel ID.">DiscordChannelId</a>. For ChatProvider.Irc, it's the IRC channel name and optional password colon separated. For ChatProvider.Discord, it's the stringified Discord channel snowflake.  </p>
+<p>The channel identifier. For ChatProvider.Irc, it's the IRC channel name and optional password colon separated. For ChatProvider.Discord, it's the stringified Discord channel snowflake.  </p>
 
-<p class="definition">Definition at line <a class="el" href="_tgstation_8_server_8_api_2_models_2_chat_channel_8cs_source.html#l00020">20</a> of file <a class="el" href="_tgstation_8_server_8_api_2_models_2_chat_channel_8cs_source.html">ChatChannel.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   20</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
-</div><!-- fragment -->
-</div>
-</div>
-<a id="a7d69363fd8b5b85e8a66d7c6d4aeb4ec" name="a7d69363fd8b5b85e8a66d7c6d4aeb4ec"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7d69363fd8b5b85e8a66d7c6d4aeb4ec">&#9670;&#160;</a></span>DiscordChannelId</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">ulong? Tgstation.Server.Api.Models.ChatChannel.DiscordChannelId</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">get</span><span class="mlabel">set</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>The Discord channel ID.  </p>
-
-<p class="definition">Definition at line <a class="el" href="_tgstation_8_server_8_api_2_models_2_chat_channel_8cs_source.html#l00036">36</a> of file <a class="el" href="_tgstation_8_server_8_api_2_models_2_chat_channel_8cs_source.html">ChatChannel.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   36</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
-</div><!-- fragment -->
-</div>
-</div>
-<a id="a1b5abf235612bc3aef37d6ba54c8c943" name="a1b5abf235612bc3aef37d6ba54c8c943"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1b5abf235612bc3aef37d6ba54c8c943">&#9670;&#160;</a></span>IrcChannel</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">string? Tgstation.Server.Api.Models.ChatChannel.IrcChannel</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">get</span><span class="mlabel">set</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>The IRC channel name. Also potentially contains the channel passsword (if separated by a colon). If multiple copies of the same channel with different keys are added to the server, the one that will be used is undefined.  </p>
-
-<p class="definition">Definition at line <a class="el" href="_tgstation_8_server_8_api_2_models_2_chat_channel_8cs_source.html#l00029">29</a> of file <a class="el" href="_tgstation_8_server_8_api_2_models_2_chat_channel_8cs_source.html">ChatChannel.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   29</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
+<p class="definition">Definition at line <a class="el" href="_tgstation_8_server_8_api_2_models_2_chat_channel_8cs_source.html#l00019">19</a> of file <a class="el" href="_tgstation_8_server_8_api_2_models_2_chat_channel_8cs_source.html">ChatChannel.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   19</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
 </div><!-- fragment -->
 </div>
 </div>

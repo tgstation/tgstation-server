@@ -1,12 +1,13 @@
 <map id="Tgstation.Server.Host.System.Process" name="Tgstation.Server.Host.System.Process">
-<area shape="rect" id="node1" title=" " alt="" coords="579,201,777,241"/>
+<area shape="rect" id="node1" title=" " alt="" coords="579,230,777,270"/>
 <area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process.html" title="Abstraction over a global::System.Diagnostics.Process." alt="" coords="244,29,319,55"/>
 <area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_base.html" title="Represents process lifetime." alt="" coords="17,5,121,31"/>
 <area shape="rect" id="node4" href="$class_i_async_disposable.html" title=" " alt="" coords="5,55,132,80"/>
 <area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_features.html" title="Abstraction for suspending and resuming processes." alt="" coords="182,79,381,119"/>
 <area shape="rect" id="node6" title=" " alt="" coords="181,143,381,183"/>
 <area shape="rect" id="node7" title=" " alt="" coords="236,208,327,233"/>
-<area shape="rect" id="node8" title=" " alt="" coords="196,257,367,283"/>
-<area shape="rect" id="node9" title=" " alt="" coords="187,307,376,332"/>
-<area shape="rect" id="node10" title=" " alt="" coords="229,356,334,381"/>
+<area shape="rect" id="node8" title=" " alt="" coords="191,258,371,298"/>
+<area shape="rect" id="node9" title=" " alt="" coords="187,323,376,348"/>
+<area shape="rect" id="node10" title=" " alt="" coords="227,372,336,397"/>
+<area shape="rect" id="node11" title=" " alt="" coords="262,421,301,447"/>
 </map>

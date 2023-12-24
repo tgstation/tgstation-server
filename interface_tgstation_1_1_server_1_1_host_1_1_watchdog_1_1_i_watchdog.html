@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.18.2</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.0.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -102,9 +102,9 @@ Public Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="properties" name="properties"></a>
 Properties</h2></td></tr>
-<tr class="memitem:a4979974fac757c23f53faa99df036e7e"><td class="memItemLeft" align="right" valign="top">Version&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_watchdog.html#a4979974fac757c23f53faa99df036e7e">InitialHostVersion</a><code> [get]</code></td></tr>
-<tr class="memdesc:a4979974fac757c23f53faa99df036e7e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the current version of the host process. Set once <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_watchdog.html#aba34e712e0cdbbd747feba6fb9f83176" title="Run the IWatchdog.">RunAsync(bool, string[], CancellationToken)</a> begins and doesn't immediately return <code>false</code>.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_watchdog.html#a4979974fac757c23f53faa99df036e7e">More...</a><br /></td></tr>
-<tr class="separator:a4979974fac757c23f53faa99df036e7e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af99ee4a5ff309fe30b7e5c3c68ca458b"><td class="memItemLeft" align="right" valign="top">Task&lt; Version &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_watchdog.html#af99ee4a5ff309fe30b7e5c3c68ca458b">InitialHostVersion</a><code> [get]</code></td></tr>
+<tr class="memdesc:af99ee4a5ff309fe30b7e5c3c68ca458b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets a Task&lt;TResult&gt; resulting in the current version of the host process. Guaranteed to complete once <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_watchdog.html#aba34e712e0cdbbd747feba6fb9f83176" title="Run the IWatchdog.">RunAsync(bool, string[], CancellationToken)</a> begins and doesn't immediately return <code>false</code>.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_watchdog.html#af99ee4a5ff309fe30b7e5c3c68ca458b">More...</a><br /></td></tr>
+<tr class="separator:af99ee4a5ff309fe30b7e5c3c68ca458b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p >The watchdog for a <a class="el" href="namespace_tgstation_1_1_server_1_1_host.html">Host</a>.  </p>
@@ -156,25 +156,25 @@ Properties</h2></td></tr>
 
 <p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog.html#af5a9c87dbb3e13ad9d0be80df36eab15">Tgstation.Server.Host.Watchdog.Watchdog</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_tgstation_8_server_8_host_8_service_2_program_8cs_source.html#l00284">RunConfigure()</a>, and <a class="el" href="_server_service_8cs_source.html#l00202">Tgstation.Server.Host.Service.ServerService.RunWatchdog()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_tgstation_8_server_8_host_8_service_2_program_8cs_source.html#l00287">RunConfigure()</a>, and <a class="el" href="_service_lifetime_8cs_source.html#l00131">Tgstation.Server.Host.Service.ServiceLifetime.RunWatchdog()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_watchdog_aba34e712e0cdbbd747feba6fb9f83176_icgraph.png" border="0" usemap="#ainterface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_watchdog_aba34e712e0cdbbd747feba6fb9f83176_icgraph" alt=""/></div>
 <map name="ainterface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_watchdog_aba34e712e0cdbbd747feba6fb9f83176_icgraph" id="ainterface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_watchdog_aba34e712e0cdbbd747feba6fb9f83176_icgraph">
-<area shape="rect" title="Run the IWatchdog." alt="" coords="499,39,711,79"/>
-<area shape="rect" href="_tgstation_8_server_8_host_8_service_2_program_8cs.html#a4981a34f5f9ca5f428d65dcc28f8deff" title="Runs the host application with the setup wizard." alt="" coords="302,15,401,41"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service.html#a63313991bba1e6d1037bc635ddd4d4d8" title="Executes the watchdog , stopping the service if it exits." alt="" coords="252,67,451,107"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_program.html#a86d24d735c64eb7c67a935b809927dd4" title="Command line handler, always runs." alt="" coords="5,5,204,45"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service.html#a40bef17d85eb30f2cbad7ed81ef9c774" title=" " alt="" coords="5,69,204,109"/>
+<area shape="rect" title="Run the IWatchdog." alt="" coords="507,39,719,79"/>
+<area shape="rect" href="_tgstation_8_server_8_host_8_service_2_program_8cs.html#a4981a34f5f9ca5f428d65dcc28f8deff" title="Runs the host application with the setup wizard." alt="" coords="310,15,409,41"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_service_lifetime.html#aca6fdfa37c501c190e4698c758cd0b94" title="Executes the watchdog , stopping the service if it exits." alt="" coords="260,67,459,107"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_program.html#a86d24d735c64eb7c67a935b809927dd4" title="Command line handler, always runs." alt="" coords="9,5,208,45"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_service_lifetime.html#a925943af5c4c8e2254ef174e007d1350" title="Initializes a new instance of the ServiceLifetime class." alt="" coords="5,69,212,109"/>
 </map>
 </div>
 
 </div>
 </div>
 <h2 class="groupheader">Property Documentation</h2>
-<a id="a4979974fac757c23f53faa99df036e7e" name="a4979974fac757c23f53faa99df036e7e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4979974fac757c23f53faa99df036e7e">&#9670;&#160;</a></span>InitialHostVersion</h2>
+<a id="af99ee4a5ff309fe30b7e5c3c68ca458b" name="af99ee4a5ff309fe30b7e5c3c68ca458b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af99ee4a5ff309fe30b7e5c3c68ca458b">&#9670;&#160;</a></span>InitialHostVersion</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -183,7 +183,7 @@ Here is the caller graph for this function:</div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">Version Tgstation.Server.Host.Watchdog.IWatchdog.InitialHostVersion</td>
+          <td class="memname">Task&lt;Version&gt; Tgstation.Server.Host.Watchdog.IWatchdog.InitialHostVersion</td>
         </tr>
       </table>
   </td>
@@ -193,13 +193,15 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p>Gets the current version of the host process. Set once <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_watchdog.html#aba34e712e0cdbbd747feba6fb9f83176" title="Run the IWatchdog.">RunAsync(bool, string[], CancellationToken)</a> begins and doesn't immediately return <code>false</code>.  </p>
+<p>Gets a Task&lt;TResult&gt; resulting in the current version of the host process. Guaranteed to complete once <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_watchdog.html#aba34e712e0cdbbd747feba6fb9f83176" title="Run the IWatchdog.">RunAsync(bool, string[], CancellationToken)</a> begins and doesn't immediately return <code>false</code>.  </p>
 
-<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog.html#a109d7ab390cc282399878389a5da4cca">Tgstation.Server.Host.Watchdog.Watchdog</a>.</p>
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog.html#a40aa301f0f19056d6ef9f48673078813">Tgstation.Server.Host.Watchdog.Watchdog</a>.</p>
 
 <p class="definition">Definition at line <a class="el" href="_tgstation_8_server_8_host_8_watchdog_2_i_watchdog_8cs_source.html#l00015">15</a> of file <a class="el" href="_tgstation_8_server_8_host_8_watchdog_2_i_watchdog_8cs_source.html">IWatchdog.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   15</span>{ <span class="keyword">get</span>; }</div>
 </div><!-- fragment -->
+<p class="reference">Referenced by <a class="el" href="_service_lifetime_8cs_source.html#l00131">Tgstation.Server.Host.Service.ServiceLifetime.RunWatchdog()</a>.</p>
+
 </div>
 </div>
 <hr/>The documentation for this interface was generated from the following file:<ul>

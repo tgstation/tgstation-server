@@ -1,8 +1,12 @@
 <map id="Tgstation.Server.Host.Controllers.RepositoryController.Delete" name="Tgstation.Server.Host.Controllers.RepositoryController.Delete">
-<area shape="rect" id="node1" title="Delete the repository." alt="" coords="5,101,221,141"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_job.html#ab831db858b7e1e9d80c84917649ccd97" title="Creates a new job for registering in the Jobs.IJobService." alt="" coords="276,5,472,45"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html#aefaca6d0c2762350a41adfe7daaade95" title="Registers a given Job and begins running it." alt="" coords="272,69,476,109"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#ac2e88d53bf1b6ac87d175d83ed39da7c" title="Saves changes made to the IDatabaseContext. A Task representing the running operation." alt="" coords="269,133,479,173"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_job.html#a26803af89e798afe4e8878b9bc2f213b" title=" " alt="" coords="276,197,472,237"/>
-<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_user_name.html#a9f75360b06ae3468b43b68c48a2bccc2" title="Create a copy of the UserName." alt="" coords="527,197,716,237"/>
+<area shape="rect" id="node1" title="Delete the repository." alt="" coords="5,149,221,189"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_job.html#afb982e4f4d1492aced7dcf14d9ba5d97" title="Creates a new job for registering in the Jobs.IJobService." alt="" coords="290,5,486,45"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository_manager.html#a32cd2098a9c582391f7deeb6de5dcf35" title="Delete the current repository. A ValueTask representing the running operation." alt="" coords="269,70,507,125"/>
+<area shape="rect" id="node7" href="$interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html#aefaca6d0c2762350a41adfe7daaade95" title="Registers a given Job and begins running it." alt="" coords="286,149,490,189"/>
+<area shape="rect" id="node8" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#ac2e88d53bf1b6ac87d175d83ed39da7c" title="Saves changes made to the IDatabaseContext. A Task representing the running operation." alt="" coords="283,213,493,253"/>
+<area shape="rect" id="node9" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_job.html#a26803af89e798afe4e8878b9bc2f213b" title=" " alt="" coords="290,277,486,317"/>
+<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ad3e0dda4b7fbad4c77f48ba3b2681dc7" title="Recursively delete a directory, removes and does not enter any symlinks encounterd." alt="" coords="559,13,741,53"/>
+<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html#a29773d588476671bbe480f096d839c91" title="Asyncronously locks a semaphore ." alt="" coords="555,77,745,117"/>
+<area shape="rect" id="node6" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a18a442b5dff16f5e7a730ec354e81d78" title="Retrieve the full path of the current working directory." alt="" coords="566,141,734,181"/>
+<area shape="rect" id="node10" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_user_name.html#a9f75360b06ae3468b43b68c48a2bccc2" title="Create a copy of the UserName." alt="" coords="555,277,745,317"/>
 </map>

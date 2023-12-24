@@ -1,6 +1,7 @@
 <map id="Tgstation.Server.Host.Components.InstanceManager.CheckSystemCompatibility" name="Tgstation.Server.Host.Components.InstanceManager.CheckSystemCompatibility">
-<area shape="rect" id="node1" title="Check we have a valid system and configuration." alt="" coords="5,69,285,109"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_socket_extensions.html#a2b6458e7e063e0ea2368fefd2df1c0e1" title="Attempt to exclusively bind to a given port ." alt="" coords="353,5,570,45"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#a0dff52d3ac52e100397122e63e1337ee" title="Validates the current ConfigVersion&#39;s compatibility and provides migration instructions." alt="" coords="333,69,589,109"/>
-<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_system_identity_factory.html#a6052301d3f6ed6eb477f74a081e2187e" title="Retrieves a ISystemIdentity representing the user executing tgstation&#45;server." alt="" coords="351,133,572,173"/>
+<area shape="rect" id="node1" title="Check we have a valid system and configuration." alt="" coords="5,77,285,117"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_socket_extensions.html#ad87cda4241401c1a92afb27242c2e0de" title="Attempt to exclusively bind to a given port ." alt="" coords="353,13,570,53"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#a0dff52d3ac52e100397122e63e1337ee" title="Validates the current ConfigVersion&#39;s compatibility and provides migration instructions." alt="" coords="333,77,589,117"/>
+<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_system_identity_factory.html#a6052301d3f6ed6eb477f74a081e2187e" title="Retrieves a ISystemIdentity representing the user executing tgstation&#45;server." alt="" coords="351,141,572,181"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#a744541bf587f773df0ccfa64ff4ae7ec" title="Runs a given action &#160;making sure to not launch any processes while its running." alt="" coords="637,5,877,60"/>
 </map>

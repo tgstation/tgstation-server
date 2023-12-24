@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.18.2</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.0.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -138,8 +138,8 @@ Public Member Functions</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>A Task representing the running operation.</dd></dl>
   <a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_lib_git2_repository_factory.html#ac40ab8e01d38e4283f2b108b6cf3d4e4">More...</a><br /></td></tr>
 <tr class="separator:ac40ab8e01d38e4283f2b108b6cf3d4e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8690f8be311b5092a11782a2c54b3728"><td class="memItemLeft" align="right" valign="top">CredentialsHandler&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_lib_git2_repository_factory.html#a8690f8be311b5092a11782a2c54b3728">GenerateCredentialsHandler</a> (string username, string password)</td></tr>
-<tr class="memdesc:a8690f8be311b5092a11782a2c54b3728"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generate a CredentialsHandler from a given <em>username</em>  and <em>password</em> . <dl class="params"><dt>Parameters</dt><dd>
+<tr class="memitem:a1bdddd625e461b2239bb5e59cfca28c0"><td class="memItemLeft" align="right" valign="top">CredentialsHandler&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_lib_git2_repository_factory.html#a1bdddd625e461b2239bb5e59cfca28c0">GenerateCredentialsHandler</a> (string? username, string? password)</td></tr>
+<tr class="memdesc:a1bdddd625e461b2239bb5e59cfca28c0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generate a CredentialsHandler from a given <em>username</em>  and <em>password</em> . <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">username</td><td>The optional username to use in the CredentialsHandler.</td></tr>
     <tr><td class="paramname">password</td><td>The optional password to use in the CredentialsHandler.</td></tr>
@@ -147,8 +147,8 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A new CredentialsHandler.</dd></dl>
-  <a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_lib_git2_repository_factory.html#a8690f8be311b5092a11782a2c54b3728">More...</a><br /></td></tr>
-<tr class="separator:a8690f8be311b5092a11782a2c54b3728"><td class="memSeparator" colspan="2">&#160;</td></tr>
+  <a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_lib_git2_repository_factory.html#a1bdddd625e461b2239bb5e59cfca28c0">More...</a><br /></td></tr>
+<tr class="separator:a1bdddd625e461b2239bb5e59cfca28c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afaf5b1d3a64659bcfc1dfb60038b9d0f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_lib_git2_repository_factory.html#afaf5b1d3a64659bcfc1dfb60038b9d0f">CheckBadCredentialsException</a> (LibGit2SharpException exception)</td></tr>
 <tr class="memdesc:afaf5b1d3a64659bcfc1dfb60038b9d0f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Rethrow the authentication failure message as a JobException if it is one. <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -167,9 +167,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a0a6ed81450e50013e2ec1bae65e5f8cb"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_lib_git2_repository_factory.html#a0a6ed81450e50013e2ec1bae65e5f8cb">Clone</a> (Uri url, CloneOptions cloneOptions, string path, CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:a0a6ed81450e50013e2ec1bae65e5f8cb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clone a remote LibGit2Sharp.IRepository.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_lib_git2_repository_factory.html#a0a6ed81450e50013e2ec1bae65e5f8cb">More...</a><br /></td></tr>
 <tr class="separator:a0a6ed81450e50013e2ec1bae65e5f8cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a30e3427729e4b3a67bbd3068be3213b4"><td class="memItemLeft" align="right" valign="top">CredentialsHandler&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_credentials_provider.html#a30e3427729e4b3a67bbd3068be3213b4">GenerateCredentialsHandler</a> (string username, string password)</td></tr>
-<tr class="memdesc:a30e3427729e4b3a67bbd3068be3213b4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generate a CredentialsHandler from a given <em>username</em>  and <em>password</em> .   <a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_credentials_provider.html#a30e3427729e4b3a67bbd3068be3213b4">More...</a><br /></td></tr>
-<tr class="separator:a30e3427729e4b3a67bbd3068be3213b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a26b24a1c8a29d90d03abdb627eb24635"><td class="memItemLeft" align="right" valign="top">CredentialsHandler&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_credentials_provider.html#a26b24a1c8a29d90d03abdb627eb24635">GenerateCredentialsHandler</a> (string? username, string? password)</td></tr>
+<tr class="memdesc:a26b24a1c8a29d90d03abdb627eb24635"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generate a CredentialsHandler from a given <em>username</em>  and <em>password</em> .   <a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_credentials_provider.html#a26b24a1c8a29d90d03abdb627eb24635">More...</a><br /></td></tr>
+<tr class="separator:a26b24a1c8a29d90d03abdb627eb24635"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adadfc1a59c4a3f30bc795c43b3c6fa42"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_credentials_provider.html#adadfc1a59c4a3f30bc795c43b3c6fa42">CheckBadCredentialsException</a> (LibGit2SharpException exception)</td></tr>
 <tr class="memdesc:adadfc1a59c4a3f30bc795c43b3c6fa42"><td class="mdescLeft">&#160;</td><td class="mdescRight">Rethrow the authentication failure message as a JobException if it is one.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_credentials_provider.html#adadfc1a59c4a3f30bc795c43b3c6fa42">More...</a><br /></td></tr>
 <tr class="separator:adadfc1a59c4a3f30bc795c43b3c6fa42"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -442,8 +442,8 @@ Here is the call graph for this function:</div>
 
 </div>
 </div>
-<a id="a8690f8be311b5092a11782a2c54b3728" name="a8690f8be311b5092a11782a2c54b3728"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8690f8be311b5092a11782a2c54b3728">&#9670;&#160;</a></span>GenerateCredentialsHandler()</h2>
+<a id="a1bdddd625e461b2239bb5e59cfca28c0" name="a1bdddd625e461b2239bb5e59cfca28c0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1bdddd625e461b2239bb5e59cfca28c0">&#9670;&#160;</a></span>GenerateCredentialsHandler()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -451,13 +451,13 @@ Here is the call graph for this function:</div>
         <tr>
           <td class="memname">CredentialsHandler Tgstation.Server.Host.Components.Repository.LibGit2RepositoryFactory.GenerateCredentialsHandler </td>
           <td>(</td>
-          <td class="paramtype">string&#160;</td>
+          <td class="paramtype">string?&#160;</td>
           <td class="paramname"><em>username</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">string&#160;</td>
+          <td class="paramtype">string?&#160;</td>
           <td class="paramname"><em>password</em>&#160;</td>
         </tr>
         <tr>
@@ -478,7 +478,7 @@ Here is the call graph for this function:</div>
 <dl class="section return"><dt>Returns</dt><dd>A new CredentialsHandler.</dd></dl>
  </p>
 
-<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_credentials_provider.html#a30e3427729e4b3a67bbd3068be3213b4">Tgstation.Server.Host.Components.Repository.ICredentialsProvider</a>.</p>
+<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_credentials_provider.html#a26b24a1c8a29d90d03abdb627eb24635">Tgstation.Server.Host.Components.Repository.ICredentialsProvider</a>.</p>
 
 <p class="reference">References <a class="el" href="_lib_git2_repository_factory_8cs_source.html#l00021">Tgstation.Server.Host.Components.Repository.LibGit2RepositoryFactory.logger</a>.</p>
 
@@ -509,7 +509,7 @@ Here is the call graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_lib_git2_repository_factory_8cs_source.html#l00021">21</a> of file <a class="el" href="_lib_git2_repository_factory_8cs_source.html">LibGit2RepositoryFactory.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_lib_git2_repository_factory.html#ac40ab8e01d38e4283f2b108b6cf3d4e4">Tgstation.Server.Host.Components.Repository.LibGit2RepositoryFactory.Clone()</a>, <a class="el" href="_lib_git2_repository_factory_8cs_source.html#l00041">Tgstation.Server.Host.Components.Repository.LibGit2RepositoryFactory.CreateFromPath()</a>, <a class="el" href="_lib_git2_repository_factory_8cs_source.html#l00033">Tgstation.Server.Host.Components.Repository.LibGit2RepositoryFactory.CreateInMemory()</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_lib_git2_repository_factory.html#a8690f8be311b5092a11782a2c54b3728">Tgstation.Server.Host.Components.Repository.LibGit2RepositoryFactory.GenerateCredentialsHandler()</a>, and <a class="el" href="_lib_git2_repository_factory_8cs_source.html#l00027">Tgstation.Server.Host.Components.Repository.LibGit2RepositoryFactory.LibGit2RepositoryFactory()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_lib_git2_repository_factory.html#ac40ab8e01d38e4283f2b108b6cf3d4e4">Tgstation.Server.Host.Components.Repository.LibGit2RepositoryFactory.Clone()</a>, <a class="el" href="_lib_git2_repository_factory_8cs_source.html#l00041">Tgstation.Server.Host.Components.Repository.LibGit2RepositoryFactory.CreateFromPath()</a>, <a class="el" href="_lib_git2_repository_factory_8cs_source.html#l00033">Tgstation.Server.Host.Components.Repository.LibGit2RepositoryFactory.CreateInMemory()</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_lib_git2_repository_factory.html#a1bdddd625e461b2239bb5e59cfca28c0">Tgstation.Server.Host.Components.Repository.LibGit2RepositoryFactory.GenerateCredentialsHandler()</a>, and <a class="el" href="_lib_git2_repository_factory_8cs_source.html#l00027">Tgstation.Server.Host.Components.Repository.LibGit2RepositoryFactory.LibGit2RepositoryFactory()</a>.</p>
 
 </div>
 </div>

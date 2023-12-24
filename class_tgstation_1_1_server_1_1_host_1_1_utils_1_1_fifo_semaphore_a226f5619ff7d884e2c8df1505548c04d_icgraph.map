@@ -1,8 +1,8 @@
 <map id="Tgstation.Server.Host.Utils.FifoSemaphore.Lock" name="Tgstation.Server.Host.Utils.FifoSemaphore.Lock">
 <area shape="rect" id="node1" title="Locks the FifoSemaphore." alt="" coords="920,41,1101,81"/>
 <area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#a0a6612e49a14544cad75292fba3798c1" title=" " alt="" coords="609,8,869,48"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#a9e78f3b0093fb0880db77bc6cde8deee" title="Send a given queryString &#160;to DreamDaemon&#39;s /world/Topic." alt="" coords="607,73,872,113"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#ae798eec3595b7b010cdc42eafd3e9659" title="Send a given queryString &#160;to DreamDaemon&#39;s /world/Topic." alt="" coords="607,73,872,113"/>
 <area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#ac370a90bf019b15f2b189522320031ed" title="Releases the IProcess without terminating it. Also calls IDisposable.Dispose. A ValueTask representin..." alt="" coords="326,5,553,45"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#a6225fe8db4178cdd406eecd38ecb07bd" title="Send a topic request for given parameters &#160;to DreamDaemon, chunking it if necessary." alt="" coords="320,70,559,125"/>
-<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#aaf410c125270e47a172576b1f9d429b5" title="Sends a command to DreamDaemon through /world/Topic()." alt="" coords="5,77,272,117"/>
+<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#adfbdffdd72092dd6cf553d8d5ebcb25a" title="Send a topic request for given parameters &#160;to DreamDaemon, chunking it if necessary." alt="" coords="320,70,559,125"/>
+<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#a144442907558321c94c8c2afa9e53764" title="Sends a command to DreamDaemon through /world/Topic()." alt="" coords="5,77,272,117"/>
 </map>

@@ -1,7 +1,7 @@
 <map id="Tgstation.Server.Host.Components.Chat.ChatManager.ChangeChannels" name="Tgstation.Server.Host.Components.Chat.ChatManager.ChangeChannels">
-<area shape="rect" id="node1" title="Change chat channels. A ValueTask representing the running operation." alt="" coords="5,69,236,109"/>
+<area shape="rect" id="node1" title=" " alt="" coords="5,69,236,109"/>
 <area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html#a29773d588476671bbe480f096d839c91" title="Asyncronously locks a semaphore ." alt="" coords="330,5,521,45"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#af9483a2039d15ea9ea0d5578a7bcf9b9" title="Remove a IProvider from mappedChannels optionally removing the provider itself from providers and upd..." alt="" coords="284,69,567,109"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#af46a3f4845f2190ea2c22af33e233c31" title="Remove a IProvider from mappedChannels optionally removing the provider itself from providers and upd..." alt="" coords="284,69,567,109"/>
 <area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#ae2f686caab499a7d4ff36174d99a81e7" title="Force an update with the active channels on all active IChatTrackingContexts. A ValueTask representin..." alt="" coords="288,135,563,175"/>
 <area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_common_1_1_extensions_1_1_value_task_extensions.html#a58adbd94d764754bd3e6c566a5fe7fe3" title="Fully await a given list of tasks ." alt="" coords="621,59,837,114"/>
 <area shape="rect" id="node6" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_channel_sink.html#a0a3e498cc9efaf16adabea814bdae5b7" title="Called when newChannels &#160;are set." alt="" coords="615,139,843,179"/>

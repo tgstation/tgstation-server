@@ -1,4 +1,0 @@
-<map id="Tgstation.Server.Host.Service.ServerService.SendCommandToHostThroughPipe" name="Tgstation.Server.Host.Service.ServerService.SendCommandToHostThroughPipe">
-<area shape="rect" id="node1" title="Sends a command to the main server process." alt="" coords="281,5,593,45"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service.html#a2f03be0a11f20dffb543831b00498454" title=" " alt="" coords="5,5,233,45"/>
-</map>

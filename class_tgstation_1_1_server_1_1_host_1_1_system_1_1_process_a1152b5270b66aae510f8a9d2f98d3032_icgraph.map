@@ -1,0 +1,9 @@
+<map id="Tgstation.Server.Host.System.Process.CheckDisposed" name="Tgstation.Server.Host.System.Process.CheckDisposed">
+<area shape="rect" id="node1" title="Throws an ObjectDisposedException if a method of the Process was called after DisposeAsync." alt="" coords="264,165,463,205"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process.html#a363841873e7329d5b7c8d79bed0bb25d" title="Set&#39;s the owned global::System.Diagnostics.Process.PriorityClass to a non&#45;normal value." alt="" coords="11,5,210,45"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process.html#a0b5c286747cf7fc0371a7f7a87625e7e" title="Create a dump file of the process. A ValueTask representing the running operation." alt="" coords="11,69,210,109"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process.html#a9d40ee75283478c959949059a6aafe22" title="Get the name of the account executing the IProcess. The name of the account executing the IProcess." alt="" coords="5,133,216,173"/>
+<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process.html#aac2fe70341d620a0e240f824d05709ed" title="Resumes the process." alt="" coords="11,197,210,237"/>
+<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process.html#a838c384e77f8a221b385746d03e2d7eb" title="Suspends the process." alt="" coords="11,261,210,301"/>
+<area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process.html#a61e4788d938ba886eaf6e19ac5464460" title="Asycnhronously terminates the process. To ensure the IProcess has ended, use the IProcessBase...." alt="" coords="11,325,210,365"/>
+</map>

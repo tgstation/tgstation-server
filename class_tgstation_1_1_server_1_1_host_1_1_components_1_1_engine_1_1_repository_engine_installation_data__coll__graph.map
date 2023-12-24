@@ -1,0 +1,11 @@
+<map id="Tgstation.Server.Host.Components.Engine.RepositoryEngineInstallationData" name="Tgstation.Server.Host.Components.Engine.RepositoryEngineInstallationData">
+<area shape="rect" id="node1" title="Implementation of IEngineInstallationData using a IRepository." alt="" coords="853,78,1108,118"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installation_data.html" title="Wraps data containing an engine installation." alt="" coords="504,5,659,31"/>
+<area shape="rect" id="node3" href="$class_i_async_disposable.html" title=" " alt="" coords="250,5,377,31"/>
+<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html" title="Interface for using filesystems." alt="" coords="497,55,665,95"/>
+<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository.html" title="Represents an on&#45;disk git repository." alt="" coords="468,119,695,159"/>
+<area shape="rect" id="node6" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_git_remote_additional_information.html" title="Additional information from git remotes." alt="" coords="208,99,419,124"/>
+<area shape="rect" id="node7" href="$interface_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_i_git_remote_information.html" title="Provides information about remote providers." alt="" coords="5,99,159,124"/>
+<area shape="rect" id="node8" href="$class_i_disposable.html" title=" " alt="" coords="268,148,359,173"/>
+<area shape="rect" id="node9" title=" " alt="" coords="529,184,634,209"/>
+</map>

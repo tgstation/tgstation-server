@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.18.2</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.0.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -98,7 +98,7 @@ $(function() {
 <div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>            <span class="comment">// never cache an API response</span></div>
 <div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>            Response.Headers.Add(HeaderNames.CacheControl, <span class="keyword">new</span> StringValues(<span class="stringliteral">&quot;no-cache&quot;</span>));</div>
 <div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span> </div>
-<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>            var errorCase = await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller_base.html#aae682d4fe5a421b8f53a6e6ffabd4fa2">HookExecuteAction</a>(</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>            var errorCase = await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller_base.html#a14d6800a421c55e955c030f6c2c02543">HookExecuteAction</a>(</div>
 <div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>                () =&gt; base.OnActionExecutionAsync(context, next),</div>
 <div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>                Request.HttpContext.RequestAborted);</div>
 <div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span> </div>
@@ -106,7 +106,7 @@ $(function() {
 <div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>                await errorCase.ExecuteResultAsync(context);</div>
 <div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>        }</div>
 <div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span> </div>
-<div class="line"><a id="l00040" name="l00040"></a><span class="lineno"><a class="line" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller_base.html#aae682d4fe5a421b8f53a6e6ffabd4fa2">   40</a></span>        <span class="keyword">protected</span> <span class="keyword">virtual</span> async ValueTask&lt;IActionResult&gt; <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller_base.html#aae682d4fe5a421b8f53a6e6ffabd4fa2">HookExecuteAction</a>(Func&lt;Task&gt; executeAction, CancellationToken cancellationToken)</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno"><a class="line" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller_base.html#a14d6800a421c55e955c030f6c2c02543">   40</a></span>        <span class="keyword">protected</span> <span class="keyword">virtual</span> async ValueTask&lt;IActionResult?&gt; <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller_base.html#a14d6800a421c55e955c030f6c2c02543">HookExecuteAction</a>(Func&lt;Task&gt; executeAction, CancellationToken cancellationToken)</div>
 <div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>        {</div>
 <div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>            ArgumentNullException.ThrowIfNull(executeAction);</div>
 <div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span> </div>
@@ -118,7 +118,7 @@ $(function() {
 <div class="ttc" id="aclass_controller_html"><div class="ttname"><a href="class_controller.html">Controller</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller_base_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller_base.html">Tgstation.Server.Host.Controllers.ApiControllerBase</a></div><div class="ttdoc">Base class for all API style controllers.</div><div class="ttdef"><b>Definition:</b> <a href="_api_controller_base_8cs_source.html#l00018">ApiControllerBase.cs:19</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller_base_html_a019fb9487ec8d0ef728c9d09de1baaa1"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller_base.html#a019fb9487ec8d0ef728c9d09de1baaa1">Tgstation.Server.Host.Controllers.ApiControllerBase.OnActionExecutionAsync</a></div><div class="ttdeci">sealed override async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)</div><div class="ttdef"><b>Definition:</b> <a href="_api_controller_base_8cs_source.html#l00021">ApiControllerBase.cs:21</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller_base_html_aae682d4fe5a421b8f53a6e6ffabd4fa2"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller_base.html#aae682d4fe5a421b8f53a6e6ffabd4fa2">Tgstation.Server.Host.Controllers.ApiControllerBase.HookExecuteAction</a></div><div class="ttdeci">virtual async ValueTask&lt; IActionResult &gt; HookExecuteAction(Func&lt; Task &gt; executeAction, CancellationToken cancellationToken)</div><div class="ttdoc">Hook for executing a request.</div><div class="ttdef"><b>Definition:</b> <a href="_api_controller_base_8cs_source.html#l00040">ApiControllerBase.cs:40</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller_base_html_a14d6800a421c55e955c030f6c2c02543"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller_base.html#a14d6800a421c55e955c030f6c2c02543">Tgstation.Server.Host.Controllers.ApiControllerBase.HookExecuteAction</a></div><div class="ttdeci">virtual async ValueTask&lt; IActionResult?&gt; HookExecuteAction(Func&lt; Task &gt; executeAction, CancellationToken cancellationToken)</div><div class="ttdoc">Hook for executing a request.</div><div class="ttdef"><b>Definition:</b> <a href="_api_controller_base_8cs_source.html#l00040">ApiControllerBase.cs:40</a></div></div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_host_1_1_controllers_html"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_host_1_1_controllers.html">Tgstation.Server.Host.Controllers</a></div><div class="ttdef"><b>Definition:</b> <a href="_administration_controller_8cs_source.html#l00032">AdministrationController.cs:33</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->

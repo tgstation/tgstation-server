@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.18.2</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.0.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -81,7 +81,7 @@ $(function() {
 <div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
 <div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespace_tgstation_1_1_server_1_1_api.html">Tgstation.Server.Api</a></div>
 <div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span>{</div>
-<div class="line"><a id="l00008" name="l00008"></a><span class="lineno"><a class="line" href="class_tgstation_1_1_server_1_1_api_1_1_headers_exception.html">    8</a></span>    <span class="keyword">public</span> sealed <span class="keyword">class </span><a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_headers_exception.html">HeadersException</a> : Exception</div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno"><a class="line" href="class_tgstation_1_1_server_1_1_api_1_1_headers_exception.html">    8</a></span>    <span class="keyword">public</span> sealed <span class="keyword">class </span><a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_headers_exception.html">HeadersException</a> : <a class="code hl_class" href="class_exception.html">Exception</a></div>
 <div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span>    {</div>
 <div class="line"><a id="l00013" name="l00013"></a><span class="lineno"><a class="line" href="class_tgstation_1_1_server_1_1_api_1_1_headers_exception.html#acece3e74ab1cd549f01055ee021e4d36">   13</a></span>        <span class="keyword">public</span> <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api.html#a622da263c0ca2e2060d2daf329c2c2bc">HeaderErrorTypes</a> <a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_headers_exception.html#acece3e74ab1cd549f01055ee021e4d36">ParseErrors</a> { <span class="keyword">get</span>; }</div>
 <div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span> </div>
@@ -100,12 +100,13 @@ $(function() {
 <div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>        {</div>
 <div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>        }</div>
 <div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span> </div>
-<div class="line"><a id="l00047" name="l00047"></a><span class="lineno"><a class="line" href="class_tgstation_1_1_server_1_1_api_1_1_headers_exception.html#a87b0e65abdc9cfacf7b80d28cfaa160f">   47</a></span>        <span class="keyword">public</span> <a class="code hl_function" href="class_tgstation_1_1_server_1_1_api_1_1_headers_exception.html#a87b0e65abdc9cfacf7b80d28cfaa160f">HeadersException</a>(<span class="keywordtype">string</span> message, Exception innerException)</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno"><a class="line" href="class_tgstation_1_1_server_1_1_api_1_1_headers_exception.html#a87b0e65abdc9cfacf7b80d28cfaa160f">   47</a></span>        <span class="keyword">public</span> <a class="code hl_function" href="class_tgstation_1_1_server_1_1_api_1_1_headers_exception.html#a87b0e65abdc9cfacf7b80d28cfaa160f">HeadersException</a>(<span class="keywordtype">string</span> message, <a class="code hl_class" href="class_exception.html">Exception</a> innerException)</div>
 <div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>            : base(message, innerException)</div>
 <div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>        {</div>
 <div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>        }</div>
 <div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>    }</div>
 <div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>}</div>
+<div class="ttc" id="aclass_exception_html"><div class="ttname"><a href="class_exception.html">Exception</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_headers_exception_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_headers_exception.html">Tgstation.Server.Api.HeadersException</a></div><div class="ttdoc">Thrown when trying to generate ApiHeaders from Microsoft.AspNetCore.Http.Headers.RequestHeaders fails...</div><div class="ttdef"><b>Definition:</b> <a href="_headers_exception_8cs_source.html#l00008">HeadersException.cs:9</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_headers_exception_html_a59ab85e3c04d1811211dd6b5363f8b18"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_headers_exception.html#a59ab85e3c04d1811211dd6b5363f8b18">Tgstation.Server.Api.HeadersException.HeadersException</a></div><div class="ttdeci">HeadersException(string message)</div><div class="ttdoc">Initializes a new instance of the HeadersException class.</div><div class="ttdef"><b>Definition:</b> <a href="_headers_exception_8cs_source.html#l00037">HeadersException.cs:37</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_headers_exception_html_a7fff1509be86f8b7bad2d574ab3be8c6"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_headers_exception.html#a7fff1509be86f8b7bad2d574ab3be8c6">Tgstation.Server.Api.HeadersException.HeadersException</a></div><div class="ttdeci">HeadersException()</div><div class="ttdoc">Initializes a new instance of the HeadersException class.</div><div class="ttdef"><b>Definition:</b> <a href="_headers_exception_8cs_source.html#l00029">HeadersException.cs:29</a></div></div>

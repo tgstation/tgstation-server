@@ -1,0 +1,6 @@
+<map id="Tgstation.Server.Host.Components.Engine.WindowsOpenDreamInstaller" name="Tgstation.Server.Host.Components.Engine.WindowsOpenDreamInstaller">
+<area shape="rect" id="node1" title="Implementation of OpenDreamInstaller for Windows systems." alt="" coords="5,225,237,265"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_open_dream_installer.html" title="Implementation of IEngineInstaller for EngineType.OpenDream." alt="" coords="53,152,190,177"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html" title=" " alt="" coords="53,79,190,104"/>
+<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installer.html" title="For downloading and installing game engines for a given system." alt="" coords="66,5,177,31"/>
+</map>

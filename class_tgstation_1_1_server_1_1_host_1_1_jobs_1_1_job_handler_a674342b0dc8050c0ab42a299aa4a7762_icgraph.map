@@ -1,4 +1,4 @@
 <map id="Tgstation.Server.Host.Jobs.JobHandler.Cancel" name="Tgstation.Server.Host.Jobs.JobHandler.Cancel">
 <area shape="rect" id="node1" title="Cancels task." alt="" coords="236,5,419,45"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#ac02a1b04fe68e66782a63c3724989457" title="Cancels a give job . A ValueTask&lt;TResult&gt; resulting in the updated job &#160;if it was cancelled,..." alt="" coords="5,5,188,45"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#ab01da8111a05f92c51fc1c9a855cbb92" title="Cancels a give job . A ValueTask&lt;TResult&gt; resulting in the updated job &#160;if it was cancelled,..." alt="" coords="5,5,188,45"/>
 </map>

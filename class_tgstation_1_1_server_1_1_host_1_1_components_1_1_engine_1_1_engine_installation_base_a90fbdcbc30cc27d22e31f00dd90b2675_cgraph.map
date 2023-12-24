@@ -1,0 +1,4 @@
+<map id="Tgstation.Server.Host.Components.Engine.EngineInstallationBase.StopServerProcess" name="Tgstation.Server.Host.Components.Engine.EngineInstallationBase.StopServerProcess">
+<area shape="rect" id="node1" title="Kills a given engine server process . A ValueTask representing the running operation." alt="" coords="5,5,269,60"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process.html#a840da56ea51a4bbbc6b21667cc6355a2" title="Asycnhronously terminates the process." alt="" coords="317,13,516,53"/>
+</map>

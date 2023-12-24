@@ -1,5 +1,5 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" title=" " alt="" coords="5,333,84,358"/>
+<area shape="rect" id="node1" href="$class_exception.html" title=" " alt="" coords="5,333,84,358"/>
 <area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_api_1_1_headers_exception.html" title="Thrown when trying to generate ApiHeaders from Microsoft.AspNetCore.Http.Headers.RequestHeaders fails..." alt="" coords="132,261,323,301"/>
 <area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_client_1_1_client_exception.html" title="Exceptions thrown by IServerClients." alt="" coords="149,325,305,365"/>
 <area shape="rect" id="node16" href="$class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_exception.html" title="Operation exceptions thrown from the context of a Models.Job." alt="" coords="136,389,319,429"/>

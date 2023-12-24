@@ -2,5 +2,5 @@
 <area shape="rect" id="node1" title="Occurs when the API version of the client is not compatible with the server&#39;s." alt="" coords="5,225,184,265"/>
 <area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_client_1_1_api_exception.html" title="API related Exceptions." alt="" coords="46,152,143,177"/>
 <area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_client_1_1_client_exception.html" title="Exceptions thrown by IServerClients." alt="" coords="39,79,150,104"/>
-<area shape="rect" id="node4" title=" " alt="" coords="55,5,134,31"/>
+<area shape="rect" id="node4" href="$class_exception.html" title=" " alt="" coords="55,5,134,31"/>
 </map>

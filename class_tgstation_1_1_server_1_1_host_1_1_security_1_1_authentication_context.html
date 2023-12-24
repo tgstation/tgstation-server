@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.18.2</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.0.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -77,6 +77,7 @@ $(function() {
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#properties">Properties</a> &#124;
+<a href="#pri-attribs">Private Attributes</a> &#124;
 <a href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context-members.html">List of all members</a>  </div>
   <div class="headertitle"><div class="title">Tgstation.Server.Host.Security.AuthenticationContext Class Reference</div></div>
 </div><!--header-->
@@ -99,9 +100,18 @@ Collaboration diagram for Tgstation.Server.Host.Security.AuthenticationContext:<
 <div class="dyncontent">
 <div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context__coll__graph.png" border="0" usemap="#a_tgstation_8_server_8_host_8_security_8_authentication_context_coll__map" alt="Collaboration graph"/></div>
 <map name="a_tgstation_8_server_8_host_8_security_8_authentication_context_coll__map" id="a_tgstation_8_server_8_host_8_security_8_authentication_context_coll__map">
-<area shape="rect" title=" " alt="" coords="55,79,256,119"/>
-<area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authentication_context.html" title="Represents the currently authenticated Models.User." alt="" coords="5,5,159,31"/>
-<area shape="rect" href="class_i_disposable.html" title=" " alt="" coords="183,5,274,31"/>
+<area shape="rect" title=" " alt="" coords="1300,73,1501,113"/>
+<area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authentication_context.html" title="Represents the currently authenticated Models.User." alt="" coords="1034,5,1187,31"/>
+<area shape="rect" href="class_i_disposable.html" title=" " alt="" coords="1065,55,1156,80"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html" title=" " alt="" coords="999,196,1223,221"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_user_model_base.html" title="Represents a server user." alt="" coords="679,155,817,195"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_user_name.html" title="Base class for user names." alt="" coords="349,159,435,184"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_named_entity.html" title="Base class for named entities." alt="" coords="162,157,258,183"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html" title="Common base of entities with IDs." alt="" coords="5,133,71,159"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_permission_set.html" title="Represents a set of server permissions." alt="" coords="120,107,300,132"/>
+<area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_models_1_1_i_api_transformable.html" title=" " alt="" coords="680,270,816,310"/>
+<area shape="rect" title=" " alt="" coords="703,220,793,245"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_permission_set.html" title=" " alt="" coords="459,99,655,139"/>
 </map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
@@ -112,9 +122,9 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a238c36a23b55ce8e76b471e35600a7e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4a5a80952341c5a9e0f3a84e27734f8a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html#a4a5a80952341c5a9e0f3a84e27734f8a">Dispose</a> ()</td></tr>
 <tr class="separator:a4a5a80952341c5a9e0f3a84e27734f8a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a55e1efa57ff658a259738459690e061b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html#a55e1efa57ff658a259738459690e061b">Initialize</a> (<a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_system_identity.html">ISystemIdentity</a> systemIdentity, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html">User</a> user, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_instance_permission_set.html">InstancePermissionSet</a> instanceUser)</td></tr>
-<tr class="memdesc:a55e1efa57ff658a259738459690e061b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html">AuthenticationContext</a>.   <a href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html#a55e1efa57ff658a259738459690e061b">More...</a><br /></td></tr>
-<tr class="separator:a55e1efa57ff658a259738459690e061b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0488fdc4fb4b31e657990a0152466d89"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html#a0488fdc4fb4b31e657990a0152466d89">Initialize</a> (<a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_system_identity.html">ISystemIdentity</a>? systemIdentity, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html">User</a> <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html#ae88678df56aceb27a9c5fd48de477459">user</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_instance_permission_set.html">InstancePermissionSet</a>? instanceUser)</td></tr>
+<tr class="memdesc:a0488fdc4fb4b31e657990a0152466d89"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html">AuthenticationContext</a>.   <a href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html#a0488fdc4fb4b31e657990a0152466d89">More...</a><br /></td></tr>
+<tr class="separator:a0488fdc4fb4b31e657990a0152466d89"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ade8aeb7dd0a0e480f6f89bd5973703c7"><td class="memItemLeft" align="right" valign="top">ulong&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html#ade8aeb7dd0a0e480f6f89bd5973703c7">GetRight</a> (<a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a7b02c8c3dadd90810a9eaa24712a0a20">RightsType</a> rightsType)</td></tr>
 <tr class="memdesc:ade8aeb7dd0a0e480f6f89bd5973703c7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the value of a given <em>rightsType</em> . <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -122,7 +132,7 @@ Public Member Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>The value of <em>rightsType</em> . Note that if <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authentication_context.html#a890f9fcf699a8e1554a089c169fd296c" title="The User&#39;s effective Models.InstancePermissionSet if applicable.">InstancePermissionSet</a> is <code>null</code> all Instance based rights will return 0.</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>The value of <em>rightsType</em> . Note that if <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authentication_context.html#a9212df88490334aedba2d756cfb5d8ad" title="The User&#39;s effective Models.InstancePermissionSet if applicable.">InstancePermissionSet</a> is <code>null</code> all Instance based rights will return 0.</dd></dl>
   <a href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html#ade8aeb7dd0a0e480f6f89bd5973703c7">More...</a><br /></td></tr>
 <tr class="separator:ade8aeb7dd0a0e480f6f89bd5973703c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af5d37fc8159a215c75c3f3688f4415ea"><td class="memItemLeft" align="right" valign="top">ulong&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authentication_context.html#af5d37fc8159a215c75c3f3688f4415ea">GetRight</a> (<a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a7b02c8c3dadd90810a9eaa24712a0a20">RightsType</a> rightsType)</td></tr>
@@ -134,18 +144,18 @@ Properties</h2></td></tr>
 <tr class="memitem:ab8ce3a086968c8f2d2cd10bd0a9136ca"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html#ab8ce3a086968c8f2d2cd10bd0a9136ca">Valid</a><code> [get, private set]</code></td></tr>
 <tr class="memdesc:ab8ce3a086968c8f2d2cd10bd0a9136ca"><td class="mdescLeft">&#160;</td><td class="mdescRight">If the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authentication_context.html" title="Represents the currently authenticated Models.User.">IAuthenticationContext</a> is for a valid login.   <a href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html#ab8ce3a086968c8f2d2cd10bd0a9136ca">More...</a><br /></td></tr>
 <tr class="separator:ab8ce3a086968c8f2d2cd10bd0a9136ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0846ac9679599a99923987863edb0d5c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html">User</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html#a0846ac9679599a99923987863edb0d5c">User</a><code> [get, private set]</code></td></tr>
+<tr class="memitem:a0846ac9679599a99923987863edb0d5c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html">User</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html#a0846ac9679599a99923987863edb0d5c">User</a><code> [get]</code></td></tr>
 <tr class="memdesc:a0846ac9679599a99923987863edb0d5c"><td class="mdescLeft">&#160;</td><td class="mdescRight">The authenticated user.   <a href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html#a0846ac9679599a99923987863edb0d5c">More...</a><br /></td></tr>
 <tr class="separator:a0846ac9679599a99923987863edb0d5c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acfb9937bf37b839f1d60289129c5ea77"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_permission_set.html">PermissionSet</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html#acfb9937bf37b839f1d60289129c5ea77">PermissionSet</a><code> [get, private set]</code></td></tr>
+<tr class="memitem:acfb9937bf37b839f1d60289129c5ea77"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_permission_set.html">PermissionSet</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html#acfb9937bf37b839f1d60289129c5ea77">PermissionSet</a><code> [get]</code></td></tr>
 <tr class="memdesc:acfb9937bf37b839f1d60289129c5ea77"><td class="mdescLeft">&#160;</td><td class="mdescRight">The <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authentication_context.html#ae2e7c0c04d2797b9a24a9776277ec77b" title="The authenticated user.">User</a>'s effective <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authentication_context.html#a49a8e7813509cf8025daf727fa8465f2" title="The User&#39;s effective PermissionSet.">PermissionSet</a>.   <a href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html#acfb9937bf37b839f1d60289129c5ea77">More...</a><br /></td></tr>
 <tr class="separator:acfb9937bf37b839f1d60289129c5ea77"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae1ac6fad423d67f5332c2cf64f4df926"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_instance_permission_set.html">InstancePermissionSet</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html#ae1ac6fad423d67f5332c2cf64f4df926">InstancePermissionSet</a><code> [get, private set]</code></td></tr>
-<tr class="memdesc:ae1ac6fad423d67f5332c2cf64f4df926"><td class="mdescLeft">&#160;</td><td class="mdescRight">The <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authentication_context.html#ae2e7c0c04d2797b9a24a9776277ec77b" title="The authenticated user.">User</a>'s effective <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_instance_permission_set.html">Models.InstancePermissionSet</a> if applicable.   <a href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html#ae1ac6fad423d67f5332c2cf64f4df926">More...</a><br /></td></tr>
-<tr class="separator:ae1ac6fad423d67f5332c2cf64f4df926"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a05ce72960f78e0a11148f44292f3fb7b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_system_identity.html">ISystemIdentity</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html#a05ce72960f78e0a11148f44292f3fb7b">SystemIdentity</a><code> [get, private set]</code></td></tr>
-<tr class="memdesc:a05ce72960f78e0a11148f44292f3fb7b"><td class="mdescLeft">&#160;</td><td class="mdescRight">The <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_system_identity.html" title="Represents a user on the current global::System.Runtime.InteropServices.OSPlatform.">ISystemIdentity</a> of <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authentication_context.html#ae2e7c0c04d2797b9a24a9776277ec77b" title="The authenticated user.">User</a> if applicable.   <a href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html#a05ce72960f78e0a11148f44292f3fb7b">More...</a><br /></td></tr>
-<tr class="separator:a05ce72960f78e0a11148f44292f3fb7b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2414cfa202796c6e1b630baa48e2f800"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_instance_permission_set.html">InstancePermissionSet</a>?&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html#a2414cfa202796c6e1b630baa48e2f800">InstancePermissionSet</a><code> [get, private set]</code></td></tr>
+<tr class="memdesc:a2414cfa202796c6e1b630baa48e2f800"><td class="mdescLeft">&#160;</td><td class="mdescRight">The <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authentication_context.html#ae2e7c0c04d2797b9a24a9776277ec77b" title="The authenticated user.">User</a>'s effective <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_instance_permission_set.html">Models.InstancePermissionSet</a> if applicable.   <a href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html#a2414cfa202796c6e1b630baa48e2f800">More...</a><br /></td></tr>
+<tr class="separator:a2414cfa202796c6e1b630baa48e2f800"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7ad6dca2748efd73705791db904d0163"><td class="memItemLeft" align="right" valign="top"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_system_identity.html">ISystemIdentity</a>?&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html#a7ad6dca2748efd73705791db904d0163">SystemIdentity</a><code> [get, private set]</code></td></tr>
+<tr class="memdesc:a7ad6dca2748efd73705791db904d0163"><td class="mdescLeft">&#160;</td><td class="mdescRight">The <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_system_identity.html" title="Represents a user on the current global::System.Runtime.InteropServices.OSPlatform.">ISystemIdentity</a> of <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authentication_context.html#ae2e7c0c04d2797b9a24a9776277ec77b" title="The authenticated user.">User</a> if applicable.   <a href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html#a7ad6dca2748efd73705791db904d0163">More...</a><br /></td></tr>
+<tr class="separator:a7ad6dca2748efd73705791db904d0163"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header properties_interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authentication_context"><td colspan="2" onclick="javascript:toggleInherit('properties_interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authentication_context')"><img src="closed.png" alt="-"/>&#160;Properties inherited from <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authentication_context.html">Tgstation.Server.Host.Security.IAuthenticationContext</a></td></tr>
 <tr class="memitem:a52a7cb34a9ab51b5376c876ca6d040bd inherit properties_interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authentication_context"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authentication_context.html#a52a7cb34a9ab51b5376c876ca6d040bd">Valid</a><code> [get]</code></td></tr>
 <tr class="memdesc:a52a7cb34a9ab51b5376c876ca6d040bd inherit properties_interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authentication_context"><td class="mdescLeft">&#160;</td><td class="mdescRight">If the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authentication_context.html" title="Represents the currently authenticated Models.User.">IAuthenticationContext</a> is for a valid login.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authentication_context.html#a52a7cb34a9ab51b5376c876ca6d040bd">More...</a><br /></td></tr>
@@ -156,12 +166,21 @@ Properties</h2></td></tr>
 <tr class="memitem:a49a8e7813509cf8025daf727fa8465f2 inherit properties_interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authentication_context"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_permission_set.html">PermissionSet</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authentication_context.html#a49a8e7813509cf8025daf727fa8465f2">PermissionSet</a><code> [get]</code></td></tr>
 <tr class="memdesc:a49a8e7813509cf8025daf727fa8465f2 inherit properties_interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authentication_context"><td class="mdescLeft">&#160;</td><td class="mdescRight">The <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authentication_context.html#ae2e7c0c04d2797b9a24a9776277ec77b" title="The authenticated user.">User</a>'s effective <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authentication_context.html#a49a8e7813509cf8025daf727fa8465f2" title="The User&#39;s effective PermissionSet.">PermissionSet</a>.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authentication_context.html#a49a8e7813509cf8025daf727fa8465f2">More...</a><br /></td></tr>
 <tr class="separator:a49a8e7813509cf8025daf727fa8465f2 inherit properties_interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authentication_context"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a890f9fcf699a8e1554a089c169fd296c inherit properties_interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authentication_context"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_instance_permission_set.html">InstancePermissionSet</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authentication_context.html#a890f9fcf699a8e1554a089c169fd296c">InstancePermissionSet</a><code> [get]</code></td></tr>
-<tr class="memdesc:a890f9fcf699a8e1554a089c169fd296c inherit properties_interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authentication_context"><td class="mdescLeft">&#160;</td><td class="mdescRight">The <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authentication_context.html#ae2e7c0c04d2797b9a24a9776277ec77b" title="The authenticated user.">User</a>'s effective <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_instance_permission_set.html">Models.InstancePermissionSet</a> if applicable.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authentication_context.html#a890f9fcf699a8e1554a089c169fd296c">More...</a><br /></td></tr>
-<tr class="separator:a890f9fcf699a8e1554a089c169fd296c inherit properties_interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authentication_context"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a01b4dc318a62fa3b321593418eb1247e inherit properties_interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authentication_context"><td class="memItemLeft" align="right" valign="top"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_system_identity.html">ISystemIdentity</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authentication_context.html#a01b4dc318a62fa3b321593418eb1247e">SystemIdentity</a><code> [get]</code></td></tr>
-<tr class="memdesc:a01b4dc318a62fa3b321593418eb1247e inherit properties_interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authentication_context"><td class="mdescLeft">&#160;</td><td class="mdescRight">The <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_system_identity.html" title="Represents a user on the current global::System.Runtime.InteropServices.OSPlatform.">ISystemIdentity</a> of <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authentication_context.html#ae2e7c0c04d2797b9a24a9776277ec77b" title="The authenticated user.">User</a> if applicable.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authentication_context.html#a01b4dc318a62fa3b321593418eb1247e">More...</a><br /></td></tr>
-<tr class="separator:a01b4dc318a62fa3b321593418eb1247e inherit properties_interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authentication_context"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9212df88490334aedba2d756cfb5d8ad inherit properties_interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authentication_context"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_instance_permission_set.html">InstancePermissionSet</a>?&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authentication_context.html#a9212df88490334aedba2d756cfb5d8ad">InstancePermissionSet</a><code> [get]</code></td></tr>
+<tr class="memdesc:a9212df88490334aedba2d756cfb5d8ad inherit properties_interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authentication_context"><td class="mdescLeft">&#160;</td><td class="mdescRight">The <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authentication_context.html#ae2e7c0c04d2797b9a24a9776277ec77b" title="The authenticated user.">User</a>'s effective <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_instance_permission_set.html">Models.InstancePermissionSet</a> if applicable.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authentication_context.html#a9212df88490334aedba2d756cfb5d8ad">More...</a><br /></td></tr>
+<tr class="separator:a9212df88490334aedba2d756cfb5d8ad inherit properties_interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authentication_context"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0cbae8029b99299c61788b1ecb8a7b6b inherit properties_interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authentication_context"><td class="memItemLeft" align="right" valign="top"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_system_identity.html">ISystemIdentity</a>?&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authentication_context.html#a0cbae8029b99299c61788b1ecb8a7b6b">SystemIdentity</a><code> [get]</code></td></tr>
+<tr class="memdesc:a0cbae8029b99299c61788b1ecb8a7b6b inherit properties_interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authentication_context"><td class="mdescLeft">&#160;</td><td class="mdescRight">The <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_system_identity.html" title="Represents a user on the current global::System.Runtime.InteropServices.OSPlatform.">ISystemIdentity</a> of <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authentication_context.html#ae2e7c0c04d2797b9a24a9776277ec77b" title="The authenticated user.">User</a> if applicable.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authentication_context.html#a0cbae8029b99299c61788b1ecb8a7b6b">More...</a><br /></td></tr>
+<tr class="separator:a0cbae8029b99299c61788b1ecb8a7b6b inherit properties_interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authentication_context"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
+Private Attributes</h2></td></tr>
+<tr class="memitem:ae88678df56aceb27a9c5fd48de477459"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html">User</a>?&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html#ae88678df56aceb27a9c5fd48de477459">user</a></td></tr>
+<tr class="memdesc:ae88678df56aceb27a9c5fd48de477459"><td class="mdescLeft">&#160;</td><td class="mdescRight">Backing field for <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html#a0846ac9679599a99923987863edb0d5c" title="The authenticated user.">User</a>.   <a href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html#ae88678df56aceb27a9c5fd48de477459">More...</a><br /></td></tr>
+<tr class="separator:ae88678df56aceb27a9c5fd48de477459"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4185fb59c5f7b6a411bad204bf4dde6c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_permission_set.html">PermissionSet</a>?&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html#a4185fb59c5f7b6a411bad204bf4dde6c">permissionSet</a></td></tr>
+<tr class="memdesc:a4185fb59c5f7b6a411bad204bf4dde6c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Backing field for <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html#acfb9937bf37b839f1d60289129c5ea77" title="The User&#39;s effective PermissionSet.">PermissionSet</a>.   <a href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html#a4185fb59c5f7b6a411bad204bf4dde6c">More...</a><br /></td></tr>
+<tr class="separator:a4185fb59c5f7b6a411bad204bf4dde6c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
@@ -184,9 +203,9 @@ Properties</h2></td></tr>
 
 <p>Initializes a new instance of the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html">AuthenticationContext</a> class.  </p>
 
-<p class="definition">Definition at line <a class="el" href="_authentication_context_8cs_source.html#l00030">30</a> of file <a class="el" href="_authentication_context_8cs_source.html">AuthenticationContext.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   31</span>        {</div>
-<div class="line"><span class="lineno">   32</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_authentication_context_8cs_source.html#l00040">40</a> of file <a class="el" href="_authentication_context_8cs_source.html">AuthenticationContext.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   41</span>        {</div>
+<div class="line"><span class="lineno">   42</span>        }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -232,41 +251,39 @@ Properties</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>The value of <em>rightsType</em> . Note that if <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authentication_context.html#a890f9fcf699a8e1554a089c169fd296c" title="The User&#39;s effective Models.InstancePermissionSet if applicable.">InstancePermissionSet</a> is <code>null</code> all Instance based rights will return 0.</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>The value of <em>rightsType</em> . Note that if <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authentication_context.html#a9212df88490334aedba2d756cfb5d8ad" title="The User&#39;s effective Models.InstancePermissionSet if applicable.">InstancePermissionSet</a> is <code>null</code> all Instance based rights will return 0.</dd></dl>
  </p>
 
 <p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authentication_context.html#af5d37fc8159a215c75c3f3688f4415ea">Tgstation.Server.Host.Security.IAuthenticationContext</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_authentication_context_8cs_source.html#l00058">58</a> of file <a class="el" href="_authentication_context_8cs_source.html">AuthenticationContext.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   59</span>        {</div>
-<div class="line"><span class="lineno">   60</span>            var isInstance = <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper.html">RightsHelper</a>.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper.html#a40d32838ff902da852c54215bd8e89fb">IsInstanceRight</a>(rightsType);</div>
-<div class="line"><span class="lineno">   61</span> </div>
-<div class="line"><span class="lineno">   62</span>            <span class="keywordflow">if</span> (<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html">User</a> == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">   63</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> InvalidOperationException(<span class="stringliteral">&quot;Authentication context has no user!&quot;</span>);</div>
-<div class="line"><span class="lineno">   64</span> </div>
-<div class="line"><span class="lineno">   65</span>            <span class="keywordflow">if</span> (isInstance &amp;&amp; <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_instance_permission_set.html">InstancePermissionSet</a> == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">   66</span>                <span class="keywordflow">return</span> 0;</div>
-<div class="line"><span class="lineno">   67</span>            var rightsEnum = <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper.html">RightsHelper</a>.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper.html#ab694cd1b9b98a6be7d79f236a71b386c">RightToType</a>(rightsType);</div>
-<div class="line"><span class="lineno">   68</span> </div>
-<div class="line"><span class="lineno">   69</span>            <span class="comment">// use the api versions because they&#39;re the ones that contain the actual properties</span></div>
-<div class="line"><span class="lineno">   70</span>            var typeToCheck = isInstance ? typeof(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_instance_permission_set.html">InstancePermissionSet</a>) : typeof(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_permission_set.html">PermissionSet</a>);</div>
+<p class="definition">Definition at line <a class="el" href="_authentication_context_8cs_source.html#l00068">68</a> of file <a class="el" href="_authentication_context_8cs_source.html">AuthenticationContext.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   69</span>        {</div>
+<div class="line"><span class="lineno">   70</span>            var isInstance = <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper.html">RightsHelper</a>.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper.html#a40d32838ff902da852c54215bd8e89fb">IsInstanceRight</a>(rightsType);</div>
 <div class="line"><span class="lineno">   71</span> </div>
-<div class="line"><span class="lineno">   72</span>            var nullableType = typeof(Nullable&lt;&gt;);</div>
-<div class="line"><span class="lineno">   73</span>            var nullableRightsType = nullableType.MakeGenericType(rightsEnum);</div>
+<div class="line"><span class="lineno">   72</span>            <span class="keywordflow">if</span> (<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html">User</a> == <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">   73</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> InvalidOperationException(<span class="stringliteral">&quot;Authentication context has no user!&quot;</span>);</div>
 <div class="line"><span class="lineno">   74</span> </div>
-<div class="line"><span class="lineno">   75</span>            var prop = typeToCheck.GetProperties().Where(x =&gt; x.PropertyType == nullableRightsType).First();</div>
-<div class="line"><span class="lineno">   76</span> </div>
-<div class="line"><span class="lineno">   77</span>            var right = prop.GetMethod.Invoke(</div>
-<div class="line"><span class="lineno">   78</span>                isInstance</div>
-<div class="line"><span class="lineno">   79</span>                    ? <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_instance_permission_set.html">InstancePermissionSet</a></div>
-<div class="line"><span class="lineno">   80</span>                    : <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_permission_set.html">PermissionSet</a>,</div>
-<div class="line"><span class="lineno">   81</span>                Array.Empty&lt;<span class="keywordtype">object</span>&gt;());</div>
-<div class="line"><span class="lineno">   82</span> </div>
-<div class="line"><span class="lineno">   83</span>            <span class="keywordflow">if</span> (right == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">   84</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> InvalidOperationException(<span class="stringliteral">&quot;A user right was null!&quot;</span>);</div>
-<div class="line"><span class="lineno">   85</span> </div>
-<div class="line"><span class="lineno">   86</span>            <span class="keywordflow">return</span> (ulong)right;</div>
-<div class="line"><span class="lineno">   87</span>        }</div>
+<div class="line"><span class="lineno">   75</span>            <span class="keywordflow">if</span> (isInstance &amp;&amp; <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_instance_permission_set.html">InstancePermissionSet</a> == <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">   76</span>                <span class="keywordflow">return</span> 0;</div>
+<div class="line"><span class="lineno">   77</span>            var rightsEnum = <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper.html">RightsHelper</a>.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper.html#ab694cd1b9b98a6be7d79f236a71b386c">RightToType</a>(rightsType);</div>
+<div class="line"><span class="lineno">   78</span> </div>
+<div class="line"><span class="lineno">   79</span>            <span class="comment">// use the api versions because they&#39;re the ones that contain the actual properties</span></div>
+<div class="line"><span class="lineno">   80</span>            var typeToCheck = isInstance ? typeof(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_instance_permission_set.html">InstancePermissionSet</a>) : typeof(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_permission_set.html">PermissionSet</a>);</div>
+<div class="line"><span class="lineno">   81</span> </div>
+<div class="line"><span class="lineno">   82</span>            var nullableType = typeof(Nullable&lt;&gt;);</div>
+<div class="line"><span class="lineno">   83</span>            var nullableRightsType = nullableType.MakeGenericType(rightsEnum);</div>
+<div class="line"><span class="lineno">   84</span> </div>
+<div class="line"><span class="lineno">   85</span>            var prop = typeToCheck.GetProperties().Where(x =&gt; x.PropertyType == nullableRightsType &amp;&amp; x.CanRead).First();</div>
+<div class="line"><span class="lineno">   86</span> </div>
+<div class="line"><span class="lineno">   87</span>            var right = prop.GetMethod!.Invoke(</div>
+<div class="line"><span class="lineno">   88</span>                isInstance</div>
+<div class="line"><span class="lineno">   89</span>                    ? <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_instance_permission_set.html">InstancePermissionSet</a></div>
+<div class="line"><span class="lineno">   90</span>                    : <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_permission_set.html">PermissionSet</a>,</div>
+<div class="line"><span class="lineno">   91</span>                Array.Empty&lt;<span class="keywordtype">object</span>&gt;())</div>
+<div class="line"><span class="lineno">   92</span>                ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> InvalidOperationException(<span class="stringliteral">&quot;A user right was null!&quot;</span>);</div>
+<div class="line"><span class="lineno">   93</span> </div>
+<div class="line"><span class="lineno">   94</span>            <span class="keywordflow">return</span> (ulong)right;</div>
+<div class="line"><span class="lineno">   95</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper.html">Tgstation.Server.Api.Rights.RightsHelper</a></div><div class="ttdoc">Helper for RightsTypes.</div><div class="ttdef"><b>Definition:</b> <a href="_rights_helper_8cs_source.html#l00011">RightsHelper.cs:12</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper_html_a40d32838ff902da852c54215bd8e89fb"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper.html#a40d32838ff902da852c54215bd8e89fb">Tgstation.Server.Api.Rights.RightsHelper.IsInstanceRight</a></div><div class="ttdeci">static bool IsInstanceRight(RightsType rightsType)</div><div class="ttdoc">Check if a given rightsType  is meant for an Models.Instance.</div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper_html_ab694cd1b9b98a6be7d79f236a71b386c"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper.html#ab694cd1b9b98a6be7d79f236a71b386c">Tgstation.Server.Api.Rights.RightsHelper.RightToType</a></div><div class="ttdeci">static Type RightToType(RightsType rightsType)</div><div class="ttdoc">Map a given rightsType  to its respective Enum Type.</div></div>
@@ -276,7 +293,7 @@ Properties</h2></td></tr>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper.html#a40d32838ff902da852c54215bd8e89fb">Tgstation.Server.Api.Rights.RightsHelper.IsInstanceRight()</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper.html#ab694cd1b9b98a6be7d79f236a71b386c">Tgstation.Server.Api.Rights.RightsHelper.RightToType()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_repository_controller_8cs_source.html#l00087">Tgstation.Server.Host.Controllers.RepositoryController.Create()</a>, <a class="el" href="_job_controller_8cs_source.html#l00130">Tgstation.Server.Host.Controllers.JobController.Delete()</a>, <a class="el" href="_chat_controller_8cs_source.html#l00248">Tgstation.Server.Host.Controllers.ChatController.GetId()</a>, <a class="el" href="_user_controller_8cs_source.html#l00395">Tgstation.Server.Host.Controllers.UserController.GetId()</a>, <a class="el" href="_chat_controller_8cs_source.html#l00212">Tgstation.Server.Host.Controllers.ChatController.List()</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_dream_daemon_controller.html#a0b37d45ec737631c297fcaf575a07389">Tgstation.Server.Host.Controllers.DreamDaemonController.ReadImpl()</a>, <a class="el" href="_chat_controller_8cs_source.html#l00282">Tgstation.Server.Host.Controllers.ChatController.Update()</a>, <a class="el" href="_dream_daemon_controller_8cs_source.html#l00157">Tgstation.Server.Host.Controllers.DreamDaemonController.Update()</a>, <a class="el" href="_dream_maker_controller_8cs_source.html#l00175">Tgstation.Server.Host.Controllers.DreamMakerController.Update()</a>, <a class="el" href="_instance_permission_set_controller_8cs_source.html#l00145">Tgstation.Server.Host.Controllers.InstancePermissionSetController.Update()</a>, <a class="el" href="_instance_controller_8cs_source.html#l00346">Tgstation.Server.Host.Controllers.InstanceController.Update()</a>, <a class="el" href="_repository_controller_8cs_source.html#l00303">Tgstation.Server.Host.Controllers.RepositoryController.Update()</a>, and <a class="el" href="_user_controller_8cs_source.html#l00184">Tgstation.Server.Host.Controllers.UserController.Update()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_repository_controller_8cs_source.html#l00087">Tgstation.Server.Host.Controllers.RepositoryController.Create()</a>, <a class="el" href="_job_controller_8cs_source.html#l00130">Tgstation.Server.Host.Controllers.JobController.Delete()</a>, <a class="el" href="_chat_controller_8cs_source.html#l00245">Tgstation.Server.Host.Controllers.ChatController.GetId()</a>, <a class="el" href="_user_controller_8cs_source.html#l00395">Tgstation.Server.Host.Controllers.UserController.GetId()</a>, <a class="el" href="_chat_controller_8cs_source.html#l00209">Tgstation.Server.Host.Controllers.ChatController.List()</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_dream_daemon_controller.html#a8e382cc519b4dfe9247697ad9e726e4f">Tgstation.Server.Host.Controllers.DreamDaemonController.ReadImpl()</a>, <a class="el" href="_chat_controller_8cs_source.html#l00279">Tgstation.Server.Host.Controllers.ChatController.Update()</a>, <a class="el" href="_dream_daemon_controller_8cs_source.html#l00157">Tgstation.Server.Host.Controllers.DreamDaemonController.Update()</a>, <a class="el" href="_instance_permission_set_controller_8cs_source.html#l00145">Tgstation.Server.Host.Controllers.InstancePermissionSetController.Update()</a>, <a class="el" href="_instance_controller_8cs_source.html#l00343">Tgstation.Server.Host.Controllers.InstanceController.Update()</a>, <a class="el" href="_repository_controller_8cs_source.html#l00299">Tgstation.Server.Host.Controllers.RepositoryController.Update()</a>, and <a class="el" href="_user_controller_8cs_source.html#l00184">Tgstation.Server.Host.Controllers.UserController.Update()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -292,28 +309,27 @@ Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context_ade8aeb7dd0a0e480f6f89bd5973703c7_icgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context_ade8aeb7dd0a0e480f6f89bd5973703c7_icgraph" alt=""/></div>
 <map name="aclass_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context_ade8aeb7dd0a0e480f6f89bd5973703c7_icgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context_ade8aeb7dd0a0e480f6f89bd5973703c7_icgraph">
-<area shape="rect" title="Get the value of a given rightsType . The value of rightsType . Note that if InstancePermissionSet is..." alt="" coords="575,383,777,423"/>
+<area shape="rect" title="Get the value of a given rightsType . The value of rightsType . Note that if InstancePermissionSet is..." alt="" coords="575,355,777,395"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#ac7a15de6e6b871bb48a39a4103fae82b" title="Begin cloning the repository if it doesn&#39;t exist." alt="" coords="290,5,506,45"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_job_controller.html#a3f98fb2e4e46b96258839c5cfe3665c2" title="Cancel a running JobResponse." alt="" coords="290,69,506,109"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_chat_controller.html#a1bd9c6aaf5105f431b51f311754e68ac" title="Get a specific ChatBot." alt="" coords="290,133,506,173"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_user_controller.html#a2918e163c7813f9862a677da59272edb" title="Get a specific User." alt="" coords="290,197,506,237"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_chat_controller.html#a944a576b697c4af886e9f0e675ec8d72" title="List ChatBots." alt="" coords="290,261,506,301"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_dream_daemon_controller.html#a0b37d45ec737631c297fcaf575a07389" title="Implementation of Read(CancellationToken)." alt="" coords="287,325,509,365"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_dream_daemon_controller.html#a8e382cc519b4dfe9247697ad9e726e4f" title="Implementation of Read(CancellationToken)." alt="" coords="287,325,509,365"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_dream_daemon_controller.html#aedb524ec7c65c10a241fc3d177902995" title="Update watchdog settings to be applied at next server reboot." alt="" coords="5,353,221,393"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_chat_controller.html#a896419e100fc2c903dcebc89646cdf6a" title="Updates a chat bot model ." alt="" coords="290,440,506,480"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_dream_maker_controller.html#a8421542abdd5514d09ea500079bd7dd4" title="Update deployment settings." alt="" coords="290,504,506,544"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_permission_set_controller.html#a80244fbd7a6d0e78ab43d9f38247b1bf" title="Update the permissions for an InstancePermissionSet." alt="" coords="269,568,527,608"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_controller.html#a709c5985e78cdb8bde3f705869ddafb9" title="Modify an Api.Models.Instance&#39;s settings." alt="" coords="290,632,506,672"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#ac4cbbd1105362b5a24122cac252143af" title="Perform updates to the repository." alt="" coords="290,696,506,736"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_user_controller.html#aee7cad3caaeb3811cf8ead87ad266357" title="Update a User." alt="" coords="290,760,506,800"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_permission_set_controller.html#a80244fbd7a6d0e78ab43d9f38247b1bf" title="Update the permissions for an InstancePermissionSet." alt="" coords="269,504,527,544"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_controller.html#a709c5985e78cdb8bde3f705869ddafb9" title="Modify an Api.Models.Instance&#39;s settings." alt="" coords="290,568,506,608"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#ac4cbbd1105362b5a24122cac252143af" title="Perform updates to the repository." alt="" coords="290,632,506,672"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_user_controller.html#aee7cad3caaeb3811cf8ead87ad266357" title="Update a User." alt="" coords="290,696,506,736"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_chat_controller.html#a930c1ed07039457ab6f9a8751fd462a6" title="Create a new chat bot model ." alt="" coords="5,261,221,301"/>
 </map>
 </div>
 
 </div>
 </div>
-<a id="a55e1efa57ff658a259738459690e061b" name="a55e1efa57ff658a259738459690e061b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a55e1efa57ff658a259738459690e061b">&#9670;&#160;</a></span>Initialize()</h2>
+<a id="a0488fdc4fb4b31e657990a0152466d89" name="a0488fdc4fb4b31e657990a0152466d89"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0488fdc4fb4b31e657990a0152466d89">&#9670;&#160;</a></span>Initialize()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -321,7 +337,7 @@ Here is the caller graph for this function:</div>
         <tr>
           <td class="memname">void Tgstation.Server.Host.Security.AuthenticationContext.Initialize </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_system_identity.html">ISystemIdentity</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_system_identity.html">ISystemIdentity</a>?&#160;</td>
           <td class="paramname"><em>systemIdentity</em>, </td>
         </tr>
         <tr>
@@ -333,7 +349,7 @@ Here is the caller graph for this function:</div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_instance_permission_set.html">InstancePermissionSet</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_instance_permission_set.html">InstancePermissionSet</a>?&#160;</td>
           <td class="paramname"><em>instanceUser</em>&#160;</td>
         </tr>
         <tr>
@@ -347,38 +363,42 @@ Here is the caller graph for this function:</div>
 <p>Initializes the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html">AuthenticationContext</a>.  </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">systemIdentity</td><td>The value of <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html#a05ce72960f78e0a11148f44292f3fb7b" title="The ISystemIdentity of User if applicable.">SystemIdentity</a>.</td></tr>
+    <tr><td class="paramname">systemIdentity</td><td>The value of <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html#a7ad6dca2748efd73705791db904d0163" title="The ISystemIdentity of User if applicable.">SystemIdentity</a>.</td></tr>
     <tr><td class="paramname">user</td><td>The value of <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html#a0846ac9679599a99923987863edb0d5c" title="The authenticated user.">User</a>.</td></tr>
-    <tr><td class="paramname">instanceUser</td><td>The value of <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html#ae1ac6fad423d67f5332c2cf64f4df926" title="The User&#39;s effective Models.InstancePermissionSet if applicable.">InstancePermissionSet</a>.</td></tr>
+    <tr><td class="paramname">instanceUser</td><td>The value of <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html#a2414cfa202796c6e1b630baa48e2f800" title="The User&#39;s effective Models.InstancePermissionSet if applicable.">InstancePermissionSet</a>.</td></tr>
   </table>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_authentication_context_8cs_source.html#l00043">43</a> of file <a class="el" href="_authentication_context_8cs_source.html">AuthenticationContext.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   44</span>        {</div>
-<div class="line"><span class="lineno">   45</span>            <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html">User</a> = user ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(user));</div>
-<div class="line"><span class="lineno">   46</span>            <span class="keywordflow">if</span> (systemIdentity == <span class="keyword">null</span> &amp;&amp; <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html">User</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_user_model_base.html#ab579df00363a2d7f71a25af0585a8ef2">SystemIdentifier</a> != <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">   47</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(systemIdentity));</div>
-<div class="line"><span class="lineno">   48</span>            <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_permission_set.html">PermissionSet</a> = user.PermissionSet</div>
-<div class="line"><span class="lineno">   49</span>                ?? user.Group.PermissionSet</div>
-<div class="line"><span class="lineno">   50</span>                ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentException(<span class="stringliteral">&quot;No PermissionSet provider&quot;</span>, nameof(user));</div>
-<div class="line"><span class="lineno">   51</span>            <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_instance_permission_set.html">InstancePermissionSet</a> = instanceUser;</div>
-<div class="line"><span class="lineno">   52</span>            <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html#a05ce72960f78e0a11148f44292f3fb7b">SystemIdentity</a> = systemIdentity;</div>
-<div class="line"><span class="lineno">   53</span> </div>
-<div class="line"><span class="lineno">   54</span>            <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html#ab8ce3a086968c8f2d2cd10bd0a9136ca">Valid</a> = <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">   55</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_authentication_context_8cs_source.html#l00053">53</a> of file <a class="el" href="_authentication_context_8cs_source.html">AuthenticationContext.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   54</span>        {</div>
+<div class="line"><span class="lineno">   55</span>            this.user = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html#ae88678df56aceb27a9c5fd48de477459">user</a> ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html#ae88678df56aceb27a9c5fd48de477459">user</a>));</div>
+<div class="line"><span class="lineno">   56</span>            <span class="keywordflow">if</span> (systemIdentity == <span class="keyword">null</span> &amp;&amp; <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html">User</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_user_model_base.html#ab579df00363a2d7f71a25af0585a8ef2">SystemIdentifier</a> != <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">   57</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(systemIdentity));</div>
+<div class="line"><span class="lineno">   58</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html#a4185fb59c5f7b6a411bad204bf4dde6c">permissionSet</a> = user.PermissionSet</div>
+<div class="line"><span class="lineno">   59</span>                ?? <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html#ae88678df56aceb27a9c5fd48de477459">user</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html#aed9e78b17d8134625a78a0e16f92d75d">Group</a>!.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user_group.html#a7eda4f191c20d17ad158a89526422427">PermissionSet</a></div>
+<div class="line"><span class="lineno">   60</span>                ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentException(<span class="stringliteral">&quot;No PermissionSet provider&quot;</span>, nameof(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html#ae88678df56aceb27a9c5fd48de477459">user</a>));</div>
+<div class="line"><span class="lineno">   61</span>            <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_instance_permission_set.html">InstancePermissionSet</a> = instanceUser;</div>
+<div class="line"><span class="lineno">   62</span>            <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html#a7ad6dca2748efd73705791db904d0163">SystemIdentity</a> = systemIdentity;</div>
+<div class="line"><span class="lineno">   63</span> </div>
+<div class="line"><span class="lineno">   64</span>            <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html#ab8ce3a086968c8f2d2cd10bd0a9136ca">Valid</a> = <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">   65</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_user_model_base_html_ab579df00363a2d7f71a25af0585a8ef2"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_user_model_base.html#ab579df00363a2d7f71a25af0585a8ef2">Tgstation.Server.Api.Models.Internal.UserModelBase.SystemIdentifier</a></div><div class="ttdeci">string? SystemIdentifier</div><div class="ttdoc">The SID/UID of the UserModelBase on Windows/POSIX respectively.</div><div class="ttdef"><b>Definition:</b> <a href="_user_model_base_8cs_source.html#l00029">UserModelBase.cs:29</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context_html_a05ce72960f78e0a11148f44292f3fb7b"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html#a05ce72960f78e0a11148f44292f3fb7b">Tgstation.Server.Host.Security.AuthenticationContext.SystemIdentity</a></div><div class="ttdeci">ISystemIdentity SystemIdentity</div><div class="ttdoc">The ISystemIdentity of User if applicable.</div><div class="ttdef"><b>Definition:</b> <a href="_authentication_context_8cs_source.html#l00025">AuthenticationContext.cs:25</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_models_1_1_user_group_html_a7eda4f191c20d17ad158a89526422427"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user_group.html#a7eda4f191c20d17ad158a89526422427">Tgstation.Server.Host.Models.UserGroup.PermissionSet</a></div><div class="ttdeci">PermissionSet? PermissionSet</div><div class="ttdoc">The Models.PermissionSet the UserGroup has.</div><div class="ttdef"><b>Definition:</b> <a href="_tgstation_8_server_8_host_2_models_2_user_group_8cs_source.html#l00020">UserGroup.cs:20</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_models_1_1_user_html_aed9e78b17d8134625a78a0e16f92d75d"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html#aed9e78b17d8134625a78a0e16f92d75d">Tgstation.Server.Host.Models.User.Group</a></div><div class="ttdeci">UserGroup? Group</div><div class="ttdoc">The UserGroup the User belongs to, if any.</div><div class="ttdef"><b>Definition:</b> <a href="_user_8cs_source.html#l00032">User.cs:32</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context_html_a4185fb59c5f7b6a411bad204bf4dde6c"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html#a4185fb59c5f7b6a411bad204bf4dde6c">Tgstation.Server.Host.Security.AuthenticationContext.permissionSet</a></div><div class="ttdeci">PermissionSet? permissionSet</div><div class="ttdoc">Backing field for PermissionSet.</div><div class="ttdef"><b>Definition:</b> <a href="_authentication_context_8cs_source.html#l00035">AuthenticationContext.cs:35</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context_html_a7ad6dca2748efd73705791db904d0163"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html#a7ad6dca2748efd73705791db904d0163">Tgstation.Server.Host.Security.AuthenticationContext.SystemIdentity</a></div><div class="ttdeci">ISystemIdentity? SystemIdentity</div><div class="ttdoc">The ISystemIdentity of User if applicable.</div><div class="ttdef"><b>Definition:</b> <a href="_authentication_context_8cs_source.html#l00025">AuthenticationContext.cs:25</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context_html_ab8ce3a086968c8f2d2cd10bd0a9136ca"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html#ab8ce3a086968c8f2d2cd10bd0a9136ca">Tgstation.Server.Host.Security.AuthenticationContext.Valid</a></div><div class="ttdeci">bool Valid</div><div class="ttdoc">If the IAuthenticationContext is for a valid login.</div><div class="ttdef"><b>Definition:</b> <a href="_authentication_context_8cs_source.html#l00013">AuthenticationContext.cs:13</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context_html_ae88678df56aceb27a9c5fd48de477459"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html#ae88678df56aceb27a9c5fd48de477459">Tgstation.Server.Host.Security.AuthenticationContext.user</a></div><div class="ttdeci">User? user</div><div class="ttdoc">Backing field for User.</div><div class="ttdef"><b>Definition:</b> <a href="_authentication_context_8cs_source.html#l00030">AuthenticationContext.cs:30</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_user_model_base_8cs_source.html#l00029">Tgstation.Server.Api.Models.Internal.UserModelBase.SystemIdentifier</a>, <a class="el" href="_authentication_context_8cs_source.html#l00025">Tgstation.Server.Host.Security.AuthenticationContext.SystemIdentity</a>, and <a class="el" href="_authentication_context_8cs_source.html#l00013">Tgstation.Server.Host.Security.AuthenticationContext.Valid</a>.</p>
+<p class="reference">References <a class="el" href="_user_8cs_source.html#l00032">Tgstation.Server.Host.Models.User.Group</a>, <a class="el" href="_tgstation_8_server_8_host_2_models_2_user_group_8cs_source.html#l00020">Tgstation.Server.Host.Models.UserGroup.PermissionSet</a>, <a class="el" href="_authentication_context_8cs_source.html#l00035">Tgstation.Server.Host.Security.AuthenticationContext.permissionSet</a>, <a class="el" href="_user_model_base_8cs_source.html#l00029">Tgstation.Server.Api.Models.Internal.UserModelBase.SystemIdentifier</a>, <a class="el" href="_authentication_context_8cs_source.html#l00025">Tgstation.Server.Host.Security.AuthenticationContext.SystemIdentity</a>, <a class="el" href="_authentication_context_8cs_source.html#l00030">Tgstation.Server.Host.Security.AuthenticationContext.user</a>, and <a class="el" href="_authentication_context_8cs_source.html#l00013">Tgstation.Server.Host.Security.AuthenticationContext.Valid</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="_authentication_context_factory_8cs_source.html#l00079">Tgstation.Server.Host.Security.AuthenticationContextFactory.CreateAuthenticationContext()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context_a55e1efa57ff658a259738459690e061b_icgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context_a55e1efa57ff658a259738459690e061b_icgraph" alt=""/></div>
-<map name="aclass_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context_a55e1efa57ff658a259738459690e061b_icgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context_a55e1efa57ff658a259738459690e061b_icgraph">
+<div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context_a0488fdc4fb4b31e657990a0152466d89_icgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context_a0488fdc4fb4b31e657990a0152466d89_icgraph" alt=""/></div>
+<map name="aclass_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context_a0488fdc4fb4b31e657990a0152466d89_icgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context_a0488fdc4fb4b31e657990a0152466d89_icgraph">
 <area shape="rect" title="Initializes the AuthenticationContext." alt="" coords="287,13,488,53"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context_factory.html#a6550be1a7bf08ec97575a060cb0aab40" title="Create an IAuthenticationContext in the request pipeline for a given userId &#160;and instanceId ...." alt="" coords="5,5,239,60"/>
 </map>
@@ -386,9 +406,9 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<h2 class="groupheader">Property Documentation</h2>
-<a id="ae1ac6fad423d67f5332c2cf64f4df926" name="ae1ac6fad423d67f5332c2cf64f4df926"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae1ac6fad423d67f5332c2cf64f4df926">&#9670;&#160;</a></span>InstancePermissionSet</h2>
+<h2 class="groupheader">Member Data Documentation</h2>
+<a id="a4185fb59c5f7b6a411bad204bf4dde6c" name="a4185fb59c5f7b6a411bad204bf4dde6c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4185fb59c5f7b6a411bad204bf4dde6c">&#9670;&#160;</a></span>permissionSet</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -397,7 +417,64 @@ Here is the caller graph for this function:</div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_instance_permission_set.html">InstancePermissionSet</a> Tgstation.Server.Host.Security.AuthenticationContext.InstancePermissionSet</td>
+          <td class="memname"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_permission_set.html">PermissionSet</a>? Tgstation.Server.Host.Security.AuthenticationContext.permissionSet</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Backing field for <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html#acfb9937bf37b839f1d60289129c5ea77" title="The User&#39;s effective PermissionSet.">PermissionSet</a>.  </p>
+
+<p class="definition">Definition at line <a class="el" href="_authentication_context_8cs_source.html#l00035">35</a> of file <a class="el" href="_authentication_context_8cs_source.html">AuthenticationContext.cs</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="_authentication_context_8cs_source.html#l00053">Tgstation.Server.Host.Security.AuthenticationContext.Initialize()</a>.</p>
+
+</div>
+</div>
+<a id="ae88678df56aceb27a9c5fd48de477459" name="ae88678df56aceb27a9c5fd48de477459"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae88678df56aceb27a9c5fd48de477459">&#9670;&#160;</a></span>user</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html">User</a>? Tgstation.Server.Host.Security.AuthenticationContext.user</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Backing field for <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html#a0846ac9679599a99923987863edb0d5c" title="The authenticated user.">User</a>.  </p>
+
+<p class="definition">Definition at line <a class="el" href="_authentication_context_8cs_source.html#l00030">30</a> of file <a class="el" href="_authentication_context_8cs_source.html">AuthenticationContext.cs</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="_authentication_context_8cs_source.html#l00053">Tgstation.Server.Host.Security.AuthenticationContext.Initialize()</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Property Documentation</h2>
+<a id="a2414cfa202796c6e1b630baa48e2f800" name="a2414cfa202796c6e1b630baa48e2f800"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2414cfa202796c6e1b630baa48e2f800">&#9670;&#160;</a></span>InstancePermissionSet</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_instance_permission_set.html">InstancePermissionSet</a>? Tgstation.Server.Host.Security.AuthenticationContext.InstancePermissionSet</td>
         </tr>
       </table>
   </td>
@@ -409,12 +486,12 @@ Here is the caller graph for this function:</div>
 
 <p>The <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authentication_context.html#ae2e7c0c04d2797b9a24a9776277ec77b" title="The authenticated user.">User</a>'s effective <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_instance_permission_set.html">Models.InstancePermissionSet</a> if applicable.  </p>
 
-<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authentication_context.html#a890f9fcf699a8e1554a089c169fd296c">Tgstation.Server.Host.Security.IAuthenticationContext</a>.</p>
+<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authentication_context.html#a9212df88490334aedba2d756cfb5d8ad">Tgstation.Server.Host.Security.IAuthenticationContext</a>.</p>
 
 <p class="definition">Definition at line <a class="el" href="_authentication_context_8cs_source.html#l00022">22</a> of file <a class="el" href="_authentication_context_8cs_source.html">AuthenticationContext.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   22</span>{ <span class="keyword">get</span>; <span class="keyword">private</span> <span class="keyword">set</span>; }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_api_controller_8cs_source.html#l00091">Tgstation.Server.Host.Controllers.ApiController.ApiController()</a>, <a class="el" href="_byond_controller_8cs_source.html#l00138">Tgstation.Server.Host.Controllers.ByondController.Update()</a>, <a class="el" href="_dream_daemon_controller_8cs_source.html#l00157">Tgstation.Server.Host.Controllers.DreamDaemonController.Update()</a>, <a class="el" href="_dream_maker_controller_8cs_source.html#l00175">Tgstation.Server.Host.Controllers.DreamMakerController.Update()</a>, and <a class="el" href="_component_interfacing_controller_8cs_source.html#l00066">Tgstation.Server.Host.Controllers.ComponentInterfacingController.ValidateRequest()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_api_controller_8cs_source.html#l00091">Tgstation.Server.Host.Controllers.ApiController.ApiController()</a>, and <a class="el" href="_component_interfacing_controller_8cs_source.html#l00067">Tgstation.Server.Host.Controllers.ComponentInterfacingController.ValidateRequest()</a>.</p>
 
 </div>
 </div>
@@ -433,7 +510,7 @@ Here is the caller graph for this function:</div>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">get</span><span class="mlabel">private set</span></span>  </td>
+<span class="mlabels"><span class="mlabel">get</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -443,14 +520,13 @@ Here is the caller graph for this function:</div>
 <p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authentication_context.html#a49a8e7813509cf8025daf727fa8465f2">Tgstation.Server.Host.Security.IAuthenticationContext</a>.</p>
 
 <p class="definition">Definition at line <a class="el" href="_authentication_context_8cs_source.html#l00019">19</a> of file <a class="el" href="_authentication_context_8cs_source.html">AuthenticationContext.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   19</span>{ <span class="keyword">get</span>; <span class="keyword">private</span> <span class="keyword">set</span>; }</div>
-</div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_instance_controller_8cs_source.html#l00814">Tgstation.Server.Host.Controllers.InstanceController.CheckAccessible()</a>, <a class="el" href="_instance_controller_8cs_source.html#l00597">Tgstation.Server.Host.Controllers.InstanceController.GetId()</a>, <a class="el" href="_instance_controller_8cs_source.html#l00655">Tgstation.Server.Host.Controllers.InstanceController.GrantPermissions()</a>, <a class="el" href="_instance_controller_8cs_source.html#l00774">Tgstation.Server.Host.Controllers.InstanceController.InstanceAdminPermissionSet()</a>, <a class="el" href="_instance_controller_8cs_source.html#l00530">Tgstation.Server.Host.Controllers.InstanceController.List()</a>, <a class="el" href="_instance_controller_8cs_source.html#l00346">Tgstation.Server.Host.Controllers.InstanceController.Update()</a>, <a class="el" href="_administration_controller_8cs_source.html#l00209">Tgstation.Server.Host.Controllers.AdministrationController.Update()</a>, and <a class="el" href="_user_group_controller_8cs_source.html#l00117">Tgstation.Server.Host.Controllers.UserGroupController.Update()</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="_instance_controller_8cs_source.html#l00814">Tgstation.Server.Host.Controllers.InstanceController.CheckAccessible()</a>, <a class="el" href="_instance_controller_8cs_source.html#l00596">Tgstation.Server.Host.Controllers.InstanceController.GetId()</a>, <a class="el" href="_instance_controller_8cs_source.html#l00654">Tgstation.Server.Host.Controllers.InstanceController.GrantPermissions()</a>, <a class="el" href="_instance_controller_8cs_source.html#l00773">Tgstation.Server.Host.Controllers.InstanceController.InstanceAdminPermissionSet()</a>, <a class="el" href="_instance_controller_8cs_source.html#l00528">Tgstation.Server.Host.Controllers.InstanceController.List()</a>, <a class="el" href="_instance_permission_set_controller_8cs_source.html#l00145">Tgstation.Server.Host.Controllers.InstancePermissionSetController.Update()</a>, <a class="el" href="_instance_controller_8cs_source.html#l00343">Tgstation.Server.Host.Controllers.InstanceController.Update()</a>, <a class="el" href="_administration_controller_8cs_source.html#l00209">Tgstation.Server.Host.Controllers.AdministrationController.Update()</a>, and <a class="el" href="_user_group_controller_8cs_source.html#l00117">Tgstation.Server.Host.Controllers.UserGroupController.Update()</a>.</p>
 
 </div>
 </div>
-<a id="a05ce72960f78e0a11148f44292f3fb7b" name="a05ce72960f78e0a11148f44292f3fb7b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a05ce72960f78e0a11148f44292f3fb7b">&#9670;&#160;</a></span>SystemIdentity</h2>
+<a id="a7ad6dca2748efd73705791db904d0163" name="a7ad6dca2748efd73705791db904d0163"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7ad6dca2748efd73705791db904d0163">&#9670;&#160;</a></span>SystemIdentity</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -459,7 +535,7 @@ Here is the caller graph for this function:</div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_system_identity.html">ISystemIdentity</a> Tgstation.Server.Host.Security.AuthenticationContext.SystemIdentity</td>
+          <td class="memname"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_system_identity.html">ISystemIdentity</a>? Tgstation.Server.Host.Security.AuthenticationContext.SystemIdentity</td>
         </tr>
       </table>
   </td>
@@ -471,12 +547,12 @@ Here is the caller graph for this function:</div>
 
 <p>The <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_system_identity.html" title="Represents a user on the current global::System.Runtime.InteropServices.OSPlatform.">ISystemIdentity</a> of <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authentication_context.html#ae2e7c0c04d2797b9a24a9776277ec77b" title="The authenticated user.">User</a> if applicable.  </p>
 
-<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authentication_context.html#a01b4dc318a62fa3b321593418eb1247e">Tgstation.Server.Host.Security.IAuthenticationContext</a>.</p>
+<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authentication_context.html#a0cbae8029b99299c61788b1ecb8a7b6b">Tgstation.Server.Host.Security.IAuthenticationContext</a>.</p>
 
 <p class="definition">Definition at line <a class="el" href="_authentication_context_8cs_source.html#l00025">25</a> of file <a class="el" href="_authentication_context_8cs_source.html">AuthenticationContext.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   25</span>{ <span class="keyword">get</span>; <span class="keyword">private</span> <span class="keyword">set</span>; }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_configuration_controller_8cs_source.html#l00341">Tgstation.Server.Host.Controllers.ConfigurationController.ForbidDueToModeConflicts()</a>, and <a class="el" href="_authentication_context_8cs_source.html#l00043">Tgstation.Server.Host.Security.AuthenticationContext.Initialize()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_configuration_controller_8cs_source.html#l00344">Tgstation.Server.Host.Controllers.ConfigurationController.ForbidDueToModeConflicts()</a>, and <a class="el" href="_authentication_context_8cs_source.html#l00053">Tgstation.Server.Host.Security.AuthenticationContext.Initialize()</a>.</p>
 
 </div>
 </div>
@@ -495,7 +571,7 @@ Here is the caller graph for this function:</div>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">get</span><span class="mlabel">private set</span></span>  </td>
+<span class="mlabels"><span class="mlabel">get</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -505,9 +581,8 @@ Here is the caller graph for this function:</div>
 <p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authentication_context.html#ae2e7c0c04d2797b9a24a9776277ec77b">Tgstation.Server.Host.Security.IAuthenticationContext</a>.</p>
 
 <p class="definition">Definition at line <a class="el" href="_authentication_context_8cs_source.html#l00016">16</a> of file <a class="el" href="_authentication_context_8cs_source.html">AuthenticationContext.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   16</span>{ <span class="keyword">get</span>; <span class="keyword">private</span> <span class="keyword">set</span>; }</div>
-</div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_repository_controller_8cs_source.html#l00087">Tgstation.Server.Host.Controllers.RepositoryController.Create()</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_dream_daemon_controller.html#a70a8c37154274637dace8a87239795ed">Tgstation.Server.Host.Controllers.DreamDaemonController.Create()</a>, <a class="el" href="_dream_maker_controller_8cs_source.html#l00144">Tgstation.Server.Host.Controllers.DreamMakerController.Create()</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_dream_daemon_controller.html#ab538726e889dd70b1dd204fd3240b04a">Tgstation.Server.Host.Controllers.DreamDaemonController.CreateDump()</a>, <a class="el" href="_user_controller_8cs_source.html#l00427">Tgstation.Server.Host.Controllers.UserController.CreateNewUserFromModel()</a>, <a class="el" href="_byond_controller_8cs_source.html#l00274">Tgstation.Server.Host.Controllers.ByondController.Delete()</a>, <a class="el" href="_repository_controller_8cs_source.html#l00202">Tgstation.Server.Host.Controllers.RepositoryController.Delete()</a>, <a class="el" href="_job_controller_8cs_source.html#l00130">Tgstation.Server.Host.Controllers.JobController.Delete()</a>, <a class="el" href="_user_controller_8cs_source.html#l00395">Tgstation.Server.Host.Controllers.UserController.GetId()</a>, <a class="el" href="_api_controller_8cs_source.html#l00109">Tgstation.Server.Host.Controllers.ApiController.HookExecuteAction()</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_dream_daemon_controller.html#a493845e121a87d36b3f11fc27ddcdd79">Tgstation.Server.Host.Controllers.DreamDaemonController.Restart()</a>, <a class="el" href="_byond_controller_8cs_source.html#l00138">Tgstation.Server.Host.Controllers.ByondController.Update()</a>, <a class="el" href="_instance_controller_8cs_source.html#l00346">Tgstation.Server.Host.Controllers.InstanceController.Update()</a>, and <a class="el" href="_repository_controller_8cs_source.html#l00303">Tgstation.Server.Host.Controllers.RepositoryController.Update()</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="_repository_controller_8cs_source.html#l00087">Tgstation.Server.Host.Controllers.RepositoryController.Create()</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_dream_daemon_controller.html#a70a8c37154274637dace8a87239795ed">Tgstation.Server.Host.Controllers.DreamDaemonController.Create()</a>, <a class="el" href="_dream_maker_controller_8cs_source.html#l00147">Tgstation.Server.Host.Controllers.DreamMakerController.Create()</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_dream_daemon_controller.html#ab538726e889dd70b1dd204fd3240b04a">Tgstation.Server.Host.Controllers.DreamDaemonController.CreateDump()</a>, <a class="el" href="_user_controller_8cs_source.html#l00427">Tgstation.Server.Host.Controllers.UserController.CreateNewUserFromModel()</a>, <a class="el" href="_engine_controller_8cs_source.html#l00287">Tgstation.Server.Host.Controllers.EngineController.Delete()</a>, <a class="el" href="_repository_controller_8cs_source.html#l00198">Tgstation.Server.Host.Controllers.RepositoryController.Delete()</a>, <a class="el" href="_job_controller_8cs_source.html#l00130">Tgstation.Server.Host.Controllers.JobController.Delete()</a>, <a class="el" href="_user_controller_8cs_source.html#l00395">Tgstation.Server.Host.Controllers.UserController.GetId()</a>, <a class="el" href="_api_controller_8cs_source.html#l00109">Tgstation.Server.Host.Controllers.ApiController.HookExecuteAction()</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_dream_daemon_controller.html#a493845e121a87d36b3f11fc27ddcdd79">Tgstation.Server.Host.Controllers.DreamDaemonController.Restart()</a>, <a class="el" href="_engine_controller_8cs_source.html#l00147">Tgstation.Server.Host.Controllers.EngineController.Update()</a>, <a class="el" href="_instance_controller_8cs_source.html#l00343">Tgstation.Server.Host.Controllers.InstanceController.Update()</a>, and <a class="el" href="_repository_controller_8cs_source.html#l00299">Tgstation.Server.Host.Controllers.RepositoryController.Update()</a>.</p>
 
 </div>
 </div>
@@ -538,7 +613,7 @@ Here is the caller graph for this function:</div>
 <p class="definition">Definition at line <a class="el" href="_authentication_context_8cs_source.html#l00013">13</a> of file <a class="el" href="_authentication_context_8cs_source.html">AuthenticationContext.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   13</span>{ <span class="keyword">get</span>; <span class="keyword">private</span> <span class="keyword">set</span>; }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_home_controller_8cs_source.html#l00158">Tgstation.Server.Host.Controllers.HomeController.Home()</a>, <a class="el" href="_api_controller_8cs_source.html#l00109">Tgstation.Server.Host.Controllers.ApiController.HookExecuteAction()</a>, and <a class="el" href="_authentication_context_8cs_source.html#l00043">Tgstation.Server.Host.Security.AuthenticationContext.Initialize()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_api_controller_8cs_source.html#l00109">Tgstation.Server.Host.Controllers.ApiController.HookExecuteAction()</a>, <a class="el" href="_authentication_context_8cs_source.html#l00053">Tgstation.Server.Host.Security.AuthenticationContext.Initialize()</a>, and <a class="el" href="_api_root_controller_8cs_source.html#l00149">Tgstation.Server.Host.Controllers.ApiRootController.ServerInfo()</a>.</p>
 
 </div>
 </div>

@@ -1,6 +1,0 @@
-<map id="Tgstation.Server.Host.Components.Byond.IByondManager" name="Tgstation.Server.Host.Components.Byond.IByondManager">
-<area shape="rect" id="node1" title="For managing the BYOND installation." alt="" coords="28,152,255,192"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_component_service.html" title="Represents a component meant to be started and stopped by its parent component." alt="" coords="5,79,141,104"/>
-<area shape="rect" id="node3" href="$class_i_hosted_service.html" title=" " alt="" coords="17,5,129,31"/>
-<area shape="rect" id="node4" href="$class_i_disposable.html" title=" " alt="" coords="165,79,256,104"/>
-</map>

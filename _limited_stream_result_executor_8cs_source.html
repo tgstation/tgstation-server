@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.18.2</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.0.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -124,7 +124,7 @@ $(function() {
 <div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>                    }</div>
 <div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>                    <span class="keywordflow">else</span></div>
 <div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>                    {</div>
-<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>                        stream.Seek(range.From.Value, SeekOrigin.Begin);</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>                        stream.Seek(range.From ?? 0, SeekOrigin.Begin);</div>
 <div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>                        await StreamCopyOperation.CopyToAsync(</div>
 <div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>                            stream,</div>
 <div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>                            outputStream,</div>

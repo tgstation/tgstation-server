@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.18.2</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.0.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -94,7 +94,7 @@ Static Public Member Functions</h2></td></tr>
 <tr class="memdesc:ac119fdfd544f8d4e196bedaba59247ad"><td class="mdescLeft">&#160;</td><td class="mdescRight">Suppress global::System.Threading.Tasks.TaskCanceledException warnings when a user aborts a request.   <a href="class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_application_builder_extensions.html#ac119fdfd544f8d4e196bedaba59247ad">More...</a><br /></td></tr>
 <tr class="separator:ac119fdfd544f8d4e196bedaba59247ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a879c6c603a37c9aebf25174e7aee4b2d"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_application_builder_extensions.html#a879c6c603a37c9aebf25174e7aee4b2d">UseServerErrorHandling</a> (this IApplicationBuilder applicationBuilder)</td></tr>
-<tr class="memdesc:a879c6c603a37c9aebf25174e7aee4b2d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Suppress all in flight Exceptions for the request with error 500.   <a href="class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_application_builder_extensions.html#a879c6c603a37c9aebf25174e7aee4b2d">More...</a><br /></td></tr>
+<tr class="memdesc:a879c6c603a37c9aebf25174e7aee4b2d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Suppress all in flight <a class="el" href="class_exception.html">Exception</a>s for the request with error 500.   <a href="class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_application_builder_extensions.html#a879c6c603a37c9aebf25174e7aee4b2d">More...</a><br /></td></tr>
 <tr class="separator:a879c6c603a37c9aebf25174e7aee4b2d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acd9542ff7ed20d5e745b50199eeb3c1a"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_application_builder_extensions.html#acd9542ff7ed20d5e745b50199eeb3c1a">UseApiCompatibility</a> (this IApplicationBuilder applicationBuilder)</td></tr>
 <tr class="memdesc:acd9542ff7ed20d5e745b50199eeb3c1a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check that the API version is the current major version if it's present in the headers.   <a href="class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_application_builder_extensions.html#acd9542ff7ed20d5e745b50199eeb3c1a">More...</a><br /></td></tr>
@@ -211,18 +211,18 @@ Here is the caller graph for this function:</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_application_builder_extensions_8cs_source.html#l00190">190</a> of file <a class="el" href="_application_builder_extensions_8cs_source.html">ApplicationBuilderExtensions.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  191</span>        {</div>
-<div class="line"><span class="lineno">  192</span>            ArgumentNullException.ThrowIfNull(applicationBuilder);</div>
-<div class="line"><span class="lineno">  193</span>            ArgumentNullException.ThrowIfNull(swarmConfiguration);</div>
-<div class="line"><span class="lineno">  194</span> </div>
-<div class="line"><span class="lineno">  195</span>            <span class="keywordflow">if</span> (LogSwarmIdentifier &amp;&amp; swarmConfiguration.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_swarm_server.html#af98e4f47f1aa632ead02ed80695ce836">Identifier</a> != <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">  196</span>                applicationBuilder.Use(async (context, next) =&gt;</div>
-<div class="line"><span class="lineno">  197</span>                {</div>
-<div class="line"><span class="lineno">  198</span>                    <span class="keyword">using</span> (LogContext.PushProperty(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_serilog_context_helper.html">SerilogContextHelper</a>.<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_serilog_context_helper.html#a654495825080abefafbf681e08b814c5">SwarmIdentifierContextProperty</a>, swarmConfiguration.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_swarm_server.html#af98e4f47f1aa632ead02ed80695ce836">Identifier</a>))</div>
-<div class="line"><span class="lineno">  199</span>                        await next();</div>
-<div class="line"><span class="lineno">  200</span>                });</div>
-<div class="line"><span class="lineno">  201</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_application_builder_extensions_8cs_source.html#l00187">187</a> of file <a class="el" href="_application_builder_extensions_8cs_source.html">ApplicationBuilderExtensions.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  188</span>        {</div>
+<div class="line"><span class="lineno">  189</span>            ArgumentNullException.ThrowIfNull(applicationBuilder);</div>
+<div class="line"><span class="lineno">  190</span>            ArgumentNullException.ThrowIfNull(swarmConfiguration);</div>
+<div class="line"><span class="lineno">  191</span> </div>
+<div class="line"><span class="lineno">  192</span>            <span class="keywordflow">if</span> (LogSwarmIdentifier &amp;&amp; swarmConfiguration.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_swarm_server.html#af98e4f47f1aa632ead02ed80695ce836">Identifier</a> != <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">  193</span>                applicationBuilder.Use(async (context, next) =&gt;</div>
+<div class="line"><span class="lineno">  194</span>                {</div>
+<div class="line"><span class="lineno">  195</span>                    <span class="keyword">using</span> (LogContext.PushProperty(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_serilog_context_helper.html">SerilogContextHelper</a>.<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_serilog_context_helper.html#a654495825080abefafbf681e08b814c5">SwarmIdentifierContextProperty</a>, swarmConfiguration.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_swarm_server.html#af98e4f47f1aa632ead02ed80695ce836">Identifier</a>))</div>
+<div class="line"><span class="lineno">  196</span>                        await next();</div>
+<div class="line"><span class="lineno">  197</span>                });</div>
+<div class="line"><span class="lineno">  198</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_swarm_server_html_af98e4f47f1aa632ead02ed80695ce836"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_swarm_server.html#af98e4f47f1aa632ead02ed80695ce836">Tgstation.Server.Api.Models.Internal.SwarmServer.Identifier</a></div><div class="ttdeci">string? Identifier</div><div class="ttdoc">The server's identifier.</div><div class="ttdef"><b>Definition:</b> <a href="_swarm_server_8cs_source.html#l00026">SwarmServer.cs:26</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_utils_1_1_serilog_context_helper_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_serilog_context_helper.html">Tgstation.Server.Host.Utils.SerilogContextHelper</a></div><div class="ttdoc">Helpers for manipulating the Serilog.Context.LogContext.</div><div class="ttdef"><b>Definition:</b> <a href="_serilog_context_helper_8cs_source.html#l00006">SerilogContextHelper.cs:7</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_utils_1_1_serilog_context_helper_html_a654495825080abefafbf681e08b814c5"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_serilog_context_helper.html#a654495825080abefafbf681e08b814c5">Tgstation.Server.Host.Utils.SerilogContextHelper.SwarmIdentifierContextProperty</a></div><div class="ttdeci">const string SwarmIdentifierContextProperty</div><div class="ttdoc">The Serilog.Context.LogContext property name for Api.Models.Internal.SwarmServer.Identifiers.</div><div class="ttdef"><b>Definition:</b> <a href="_serilog_context_helper_8cs_source.html#l00051">SerilogContextHelper.cs:51</a></div></div>
@@ -272,21 +272,18 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">  132</span>                var apiHeadersProvider = context.RequestServices.GetRequiredService&lt;<a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_api_headers_provider.html">IApiHeadersProvider</a>&gt;();</div>
 <div class="line"><span class="lineno">  133</span>                <span class="keywordflow">if</span> (apiHeadersProvider.ApiHeaders?.Compatible() == <span class="keyword">false</span>)</div>
 <div class="line"><span class="lineno">  134</span>                {</div>
-<div class="line"><span class="lineno">  135</span>                    await <span class="keyword">new</span> JsonResult(</div>
+<div class="line"><span class="lineno">  135</span>                    await <span class="keyword">new</span> BadRequestObjectResult(</div>
 <div class="line"><span class="lineno">  136</span>                        <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_error_message_response.html">ErrorMessageResponse</a>(<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">ErrorCode</a>.ApiMismatch))</div>
-<div class="line"><span class="lineno">  137</span>                    {</div>
-<div class="line"><span class="lineno">  138</span>                        StatusCode = (int)HttpStatusCode.UpgradeRequired,</div>
-<div class="line"><span class="lineno">  139</span>                    }</div>
-<div class="line"><span class="lineno">  140</span>                    .ExecuteResultAsync(<span class="keyword">new</span> ActionContext</div>
-<div class="line"><span class="lineno">  141</span>                    {</div>
-<div class="line"><span class="lineno">  142</span>                        HttpContext = context,</div>
-<div class="line"><span class="lineno">  143</span>                    });</div>
-<div class="line"><span class="lineno">  144</span>                    <span class="keywordflow">return</span>;</div>
-<div class="line"><span class="lineno">  145</span>                }</div>
-<div class="line"><span class="lineno">  146</span> </div>
-<div class="line"><span class="lineno">  147</span>                await next();</div>
-<div class="line"><span class="lineno">  148</span>            });</div>
-<div class="line"><span class="lineno">  149</span>        }</div>
+<div class="line"><span class="lineno">  137</span>                    .ExecuteResultAsync(<span class="keyword">new</span> ActionContext</div>
+<div class="line"><span class="lineno">  138</span>                    {</div>
+<div class="line"><span class="lineno">  139</span>                        HttpContext = context,</div>
+<div class="line"><span class="lineno">  140</span>                    });</div>
+<div class="line"><span class="lineno">  141</span>                    <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno">  142</span>                }</div>
+<div class="line"><span class="lineno">  143</span> </div>
+<div class="line"><span class="lineno">  144</span>                await next();</div>
+<div class="line"><span class="lineno">  145</span>            });</div>
+<div class="line"><span class="lineno">  146</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_error_message_response_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_error_message_response.html">Tgstation.Server.Api.Models.Response.ErrorMessageResponse</a></div><div class="ttdoc">Represents an error message returned by the server.</div><div class="ttdef"><b>Definition:</b> <a href="_error_message_response_8cs_source.html#l00009">ErrorMessageResponse.cs:10</a></div></div>
 <div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_api_headers_provider_html"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_api_headers_provider.html">Tgstation.Server.Host.Utils.IApiHeadersProvider</a></div><div class="ttdoc">Provides ApiHeaders.</div><div class="ttdef"><b>Definition:</b> <a href="_i_api_headers_provider_8cs_source.html#l00008">IApiHeadersProvider.cs:9</a></div></div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_api_1_1_models_html_a1a6adb59dd51244efabf4e548e7075c8"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">Tgstation.Server.Api.Models.ErrorCode</a></div><div class="ttdeci">ErrorCode</div><div class="ttdoc">Types of Response.ErrorMessageResponses that the API may return.</div><div class="ttdef"><b>Definition:</b> <a href="_error_code_8cs_source.html#l00012">ErrorCode.cs:13</a></div></div>
@@ -465,17 +462,17 @@ Here is the call graph for this function:</div>
 </dl>
 <p >This is used to avoid interruption to SignalR streams by Nginx.</p>
 
-<p class="definition">Definition at line <a class="el" href="_application_builder_extensions_8cs_source.html#l00173">173</a> of file <a class="el" href="_application_builder_extensions_8cs_source.html">ApplicationBuilderExtensions.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  174</span>        {</div>
-<div class="line"><span class="lineno">  175</span>            ArgumentNullException.ThrowIfNull(applicationBuilder);</div>
-<div class="line"><span class="lineno">  176</span> </div>
-<div class="line"><span class="lineno">  177</span>            <span class="comment">// https://www.nginx.com/resources/wiki/start/topics/examples/x-accel/#x-accel-buffering</span></div>
-<div class="line"><span class="lineno">  178</span>            applicationBuilder.Use((context, next) =&gt;</div>
-<div class="line"><span class="lineno">  179</span>            {</div>
-<div class="line"><span class="lineno">  180</span>                context.Response.Headers.Add(<span class="stringliteral">&quot;X-Accel-Buffering&quot;</span>, <span class="stringliteral">&quot;no&quot;</span>);</div>
-<div class="line"><span class="lineno">  181</span>                <span class="keywordflow">return</span> next();</div>
-<div class="line"><span class="lineno">  182</span>            });</div>
-<div class="line"><span class="lineno">  183</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_application_builder_extensions_8cs_source.html#l00170">170</a> of file <a class="el" href="_application_builder_extensions_8cs_source.html">ApplicationBuilderExtensions.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  171</span>        {</div>
+<div class="line"><span class="lineno">  172</span>            ArgumentNullException.ThrowIfNull(applicationBuilder);</div>
+<div class="line"><span class="lineno">  173</span> </div>
+<div class="line"><span class="lineno">  174</span>            <span class="comment">// https://www.nginx.com/resources/wiki/start/topics/examples/x-accel/#x-accel-buffering</span></div>
+<div class="line"><span class="lineno">  175</span>            applicationBuilder.Use((context, next) =&gt;</div>
+<div class="line"><span class="lineno">  176</span>            {</div>
+<div class="line"><span class="lineno">  177</span>                context.Response.Headers.Add(<span class="stringliteral">&quot;X-Accel-Buffering&quot;</span>, <span class="stringliteral">&quot;no&quot;</span>);</div>
+<div class="line"><span class="lineno">  178</span>                <span class="keywordflow">return</span> next();</div>
+<div class="line"><span class="lineno">  179</span>            });</div>
+<div class="line"><span class="lineno">  180</span>        }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -522,17 +519,17 @@ Here is the call graph for this function:</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_application_builder_extensions_8cs_source.html#l00156">156</a> of file <a class="el" href="_application_builder_extensions_8cs_source.html">ApplicationBuilderExtensions.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  157</span>        {</div>
-<div class="line"><span class="lineno">  158</span>            ArgumentNullException.ThrowIfNull(applicationBuilder);</div>
-<div class="line"><span class="lineno">  159</span>            ArgumentNullException.ThrowIfNull(assemblyInformationProvider);</div>
-<div class="line"><span class="lineno">  160</span> </div>
-<div class="line"><span class="lineno">  161</span>            applicationBuilder.Use((context, next) =&gt;</div>
-<div class="line"><span class="lineno">  162</span>            {</div>
-<div class="line"><span class="lineno">  163</span>                context.Response.Headers.Add(<span class="stringliteral">&quot;X-Powered-By&quot;</span>, assemblyInformationProvider.<a class="code hl_property" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_assembly_information_provider.html#ab2a2be82555afbf6ffb5b7ae3d90b7f0">VersionPrefix</a>);</div>
-<div class="line"><span class="lineno">  164</span>                <span class="keywordflow">return</span> next();</div>
-<div class="line"><span class="lineno">  165</span>            });</div>
-<div class="line"><span class="lineno">  166</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_application_builder_extensions_8cs_source.html#l00153">153</a> of file <a class="el" href="_application_builder_extensions_8cs_source.html">ApplicationBuilderExtensions.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  154</span>        {</div>
+<div class="line"><span class="lineno">  155</span>            ArgumentNullException.ThrowIfNull(applicationBuilder);</div>
+<div class="line"><span class="lineno">  156</span>            ArgumentNullException.ThrowIfNull(assemblyInformationProvider);</div>
+<div class="line"><span class="lineno">  157</span> </div>
+<div class="line"><span class="lineno">  158</span>            applicationBuilder.Use((context, next) =&gt;</div>
+<div class="line"><span class="lineno">  159</span>            {</div>
+<div class="line"><span class="lineno">  160</span>                context.Response.Headers.Add(<span class="stringliteral">&quot;X-Powered-By&quot;</span>, assemblyInformationProvider.<a class="code hl_property" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_assembly_information_provider.html#ab2a2be82555afbf6ffb5b7ae3d90b7f0">VersionPrefix</a>);</div>
+<div class="line"><span class="lineno">  161</span>                <span class="keywordflow">return</span> next();</div>
+<div class="line"><span class="lineno">  162</span>            });</div>
+<div class="line"><span class="lineno">  163</span>        }</div>
 <div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_assembly_information_provider_html_ab2a2be82555afbf6ffb5b7ae3d90b7f0"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_assembly_information_provider.html#ab2a2be82555afbf6ffb5b7ae3d90b7f0">Tgstation.Server.Host.System.IAssemblyInformationProvider.VersionPrefix</a></div><div class="ttdeci">string VersionPrefix</div><div class="ttdoc">Prefix to VersionString.</div><div class="ttdef"><b>Definition:</b> <a href="_i_assembly_information_provider_8cs_source.html#l00025">IAssemblyInformationProvider.cs:25</a></div></div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="_i_assembly_information_provider_8cs_source.html#l00025">Tgstation.Server.Host.System.IAssemblyInformationProvider.VersionPrefix</a>.</p>
@@ -563,7 +560,7 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p>Suppress all in flight Exceptions for the request with error 500.  </p>
+<p>Suppress all in flight <a class="el" href="class_exception.html">Exception</a>s for the request with error 500.  </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">applicationBuilder</td><td>The IApplicationBuilder to configure.</td></tr>
@@ -582,7 +579,7 @@ Here is the call graph for this function:</div>
 <div class="line"><span class="lineno">  100</span>                {</div>
 <div class="line"><span class="lineno">  101</span>                    await next();</div>
 <div class="line"><span class="lineno">  102</span>                }</div>
-<div class="line"><span class="lineno">  103</span>                <span class="keywordflow">catch</span> (Exception e)</div>
+<div class="line"><span class="lineno">  103</span>                <span class="keywordflow">catch</span> (<a class="code hl_class" href="class_exception.html">Exception</a> e)</div>
 <div class="line"><span class="lineno">  104</span>                {</div>
 <div class="line"><span class="lineno">  105</span>                    logger.LogError(e, <span class="stringliteral">&quot;Failed request!&quot;</span>);</div>
 <div class="line"><span class="lineno">  106</span>                    await <span class="keyword">new</span> JsonResult(</div>
@@ -600,6 +597,7 @@ Here is the call graph for this function:</div>
 <div class="line"><span class="lineno">  118</span>                }</div>
 <div class="line"><span class="lineno">  119</span>            });</div>
 <div class="line"><span class="lineno">  120</span>        }</div>
+<div class="ttc" id="aclass_exception_html"><div class="ttname"><a href="class_exception.html">Exception</a></div></div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_application_builder_extensions.html#a9f539001c8a2bbac8addd3505f61a31c">Tgstation.Server.Host.Extensions.ApplicationBuilderExtensions.GetLogger()</a>.</p>
 <div class="dynheader">

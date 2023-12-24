@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.18.2</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.0.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -103,7 +103,7 @@ $(function() {
 <div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span> </div>
 <div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>        <span class="keyword">internal</span> <span class="keyword">static</span> async Task&lt;int&gt; Main(<span class="keywordtype">string</span>[] args)</div>
 <div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>        {</div>
-<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>            System.Console.Title = $<span class="stringliteral">&quot;{Constants.CanonicalPackageName} Host Watchdog v{Assembly.GetExecutingAssembly().GetName().Version.Semver()}&quot;</span>;</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>            System.Console.Title = $<span class="stringliteral">&quot;{Constants.CanonicalPackageName} Host Watchdog v{Assembly.GetExecutingAssembly().GetName().Version?.Semver()}&quot;</span>;</div>
 <div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span> </div>
 <div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>            var arguments = <span class="keyword">new</span> List&lt;string&gt;(args);</div>
 <div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>            var trace = arguments.Remove(<span class="stringliteral">&quot;--trace-host-watchdog&quot;</span>);</div>
@@ -126,7 +126,7 @@ $(function() {
 <div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>            }</div>
 <div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span> </div>
 <div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>            <span class="keyword">using </span>var cts = <span class="keyword">new</span> CancellationTokenSource();</div>
-<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>            <span class="keywordtype">void</span> AppDomainHandler(<span class="keywordtype">object</span> a, EventArgs b) =&gt; cts.Cancel();</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>            <span class="keywordtype">void</span> AppDomainHandler(<span class="keywordtype">object</span>? a, EventArgs b) =&gt; cts.Cancel();</div>
 <div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>            AppDomain.CurrentDomain.ProcessExit += AppDomainHandler;</div>
 <div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>            <span class="keywordflow">try</span></div>
 <div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>            {</div>

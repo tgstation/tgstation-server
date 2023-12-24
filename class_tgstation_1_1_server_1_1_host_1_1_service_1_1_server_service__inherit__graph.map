@@ -1,5 +1,4 @@
 <map id="Tgstation.Server.Host.Service.ServerService" name="Tgstation.Server.Host.Service.ServerService">
-<area shape="rect" id="node1" title="Represents a IWatchdog as a ServiceBase." alt="" coords="18,79,217,119"/>
-<area shape="rect" id="node2" href="$class_service_base.html" title=" " alt="" coords="5,5,101,31"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_signal_checker.html" title="For relaying signals received to the host process." alt="" coords="126,5,237,31"/>
+<area shape="rect" id="node1" title="Represents a IWatchdog as a ServiceBase." alt="" coords="5,79,204,119"/>
+<area shape="rect" id="node2" href="$class_service_base.html" title=" " alt="" coords="57,5,153,31"/>
 </map>

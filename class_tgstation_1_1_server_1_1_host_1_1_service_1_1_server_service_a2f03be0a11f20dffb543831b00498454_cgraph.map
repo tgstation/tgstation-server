@@ -1,5 +1,0 @@
-<map id="Tgstation.Server.Host.Service.ServerService.OnCustomCommand" name="Tgstation.Server.Host.Service.ServerService.OnCustomCommand">
-<area shape="rect" id="node1" title=" " alt="" coords="5,37,233,77"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_common_1_1_pipe_commands.html#a06c8d3400eeb8207d35f8f3bae86cfb5" title="Gets the int value of a given command ." alt="" coords="311,5,563,45"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service.html#ac64d680ce943ee781301d97633f54d4b" title="Sends a command to the main server process." alt="" coords="281,69,593,109"/>
-</map>

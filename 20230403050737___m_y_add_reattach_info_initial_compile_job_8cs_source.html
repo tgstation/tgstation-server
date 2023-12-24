@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.18.2</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.0.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -81,57 +81,55 @@ $(function() {
 <div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
 <div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="keyword">using </span>Microsoft.EntityFrameworkCore.Migrations;</div>
 <div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span> </div>
-<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#nullable disable</span></div>
-<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span> </div>
-<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespace_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations.html">Tgstation.Server.Host.Database.Migrations</a></div>
-<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span>{</div>
-<div class="line"><a id="l00012" name="l00012"></a><span class="lineno"><a class="line" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_y_add_reattach_info_initial_compile_job.html">   12</a></span>    <span class="keyword">public</span> <span class="keyword">partial class </span><a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_y_add_reattach_info_initial_compile_job.html">MYAddReattachInfoInitialCompileJob</a> : <a class="code hl_class" href="class_migration.html">Migration</a></div>
-<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>    {</div>
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno"><a class="line" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_y_add_reattach_info_initial_compile_job.html#ad73e4868c44fa173b2e32930b186bfb2">   15</a></span>        <span class="keyword">protected</span> <span class="keyword">override</span> <span class="keywordtype">void</span> <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_y_add_reattach_info_initial_compile_job.html#ad73e4868c44fa173b2e32930b186bfb2">Up</a>(MigrationBuilder migrationBuilder)</div>
-<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>        {</div>
-<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>            ArgumentNullException.ThrowIfNull(migrationBuilder);</div>
-<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span> </div>
-<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>            migrationBuilder.AddColumn&lt;<span class="keywordtype">long</span>&gt;(</div>
-<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>                name: <span class="stringliteral">&quot;InitialCompileJobId&quot;</span>,</div>
-<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>                table: <span class="stringliteral">&quot;ReattachInformations&quot;</span>,</div>
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>                type: <span class="stringliteral">&quot;bigint&quot;</span>,</div>
-<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>                nullable: <span class="keyword">true</span>);</div>
-<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span> </div>
-<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>            migrationBuilder.CreateIndex(</div>
-<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>                name: <span class="stringliteral">&quot;IX_ReattachInformations_InitialCompileJobId&quot;</span>,</div>
-<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>                table: <span class="stringliteral">&quot;ReattachInformations&quot;</span>,</div>
-<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>                column: <span class="stringliteral">&quot;InitialCompileJobId&quot;</span>);</div>
-<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span> </div>
-<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>            migrationBuilder.AddForeignKey(</div>
-<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>                name: <span class="stringliteral">&quot;FK_ReattachInformations_CompileJobs_InitialCompileJobId&quot;</span>,</div>
-<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>                table: <span class="stringliteral">&quot;ReattachInformations&quot;</span>,</div>
-<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>                column: <span class="stringliteral">&quot;InitialCompileJobId&quot;</span>,</div>
-<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>                principalTable: <span class="stringliteral">&quot;CompileJobs&quot;</span>,</div>
-<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>                principalColumn: <span class="stringliteral">&quot;Id&quot;</span>);</div>
-<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>        }</div>
-<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span> </div>
-<div class="line"><a id="l00039" name="l00039"></a><span class="lineno"><a class="line" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_y_add_reattach_info_initial_compile_job.html#a04807000d5acdfdaaf272cdf1e4f52b0">   39</a></span>        <span class="keyword">protected</span> <span class="keyword">override</span> <span class="keywordtype">void</span> <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_y_add_reattach_info_initial_compile_job.html#a04807000d5acdfdaaf272cdf1e4f52b0">Down</a>(MigrationBuilder migrationBuilder)</div>
-<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>        {</div>
-<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>            ArgumentNullException.ThrowIfNull(migrationBuilder);</div>
-<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span> </div>
-<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>            migrationBuilder.DropForeignKey(</div>
-<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>                name: <span class="stringliteral">&quot;FK_ReattachInformations_CompileJobs_InitialCompileJobId&quot;</span>,</div>
-<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>                table: <span class="stringliteral">&quot;ReattachInformations&quot;</span>);</div>
-<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span> </div>
-<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>            migrationBuilder.DropIndex(</div>
-<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>                name: <span class="stringliteral">&quot;IX_ReattachInformations_InitialCompileJobId&quot;</span>,</div>
-<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>                table: <span class="stringliteral">&quot;ReattachInformations&quot;</span>);</div>
-<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span> </div>
-<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>            migrationBuilder.DropColumn(</div>
-<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>                name: <span class="stringliteral">&quot;InitialCompileJobId&quot;</span>,</div>
-<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>                table: <span class="stringliteral">&quot;ReattachInformations&quot;</span>);</div>
-<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>        }</div>
-<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>    }</div>
-<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>}</div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespace_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations.html">Tgstation.Server.Host.Database.Migrations</a></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span>{</div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno"><a class="line" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_y_add_reattach_info_initial_compile_job.html">   10</a></span>    <span class="keyword">public</span> <span class="keyword">partial class </span><a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_y_add_reattach_info_initial_compile_job.html">MYAddReattachInfoInitialCompileJob</a> : <a class="code hl_class" href="class_migration.html">Migration</a></div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span>    {</div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno"><a class="line" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_y_add_reattach_info_initial_compile_job.html#ad73e4868c44fa173b2e32930b186bfb2">   13</a></span>        <span class="keyword">protected</span> <span class="keyword">override</span> <span class="keywordtype">void</span> <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_y_add_reattach_info_initial_compile_job.html#ad73e4868c44fa173b2e32930b186bfb2">Up</a>(MigrationBuilder migrationBuilder)</div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>        {</div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>            ArgumentNullException.ThrowIfNull(migrationBuilder);</div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span> </div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>            migrationBuilder.AddColumn&lt;<span class="keywordtype">long</span>&gt;(</div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>                name: <span class="stringliteral">&quot;InitialCompileJobId&quot;</span>,</div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>                table: <span class="stringliteral">&quot;ReattachInformations&quot;</span>,</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>                type: <span class="stringliteral">&quot;bigint&quot;</span>,</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>                nullable: <span class="keyword">true</span>);</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span> </div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>            migrationBuilder.CreateIndex(</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>                name: <span class="stringliteral">&quot;IX_ReattachInformations_InitialCompileJobId&quot;</span>,</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>                table: <span class="stringliteral">&quot;ReattachInformations&quot;</span>,</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>                column: <span class="stringliteral">&quot;InitialCompileJobId&quot;</span>);</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span> </div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>            migrationBuilder.AddForeignKey(</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>                name: <span class="stringliteral">&quot;FK_ReattachInformations_CompileJobs_InitialCompileJobId&quot;</span>,</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>                table: <span class="stringliteral">&quot;ReattachInformations&quot;</span>,</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>                column: <span class="stringliteral">&quot;InitialCompileJobId&quot;</span>,</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>                principalTable: <span class="stringliteral">&quot;CompileJobs&quot;</span>,</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>                principalColumn: <span class="stringliteral">&quot;Id&quot;</span>);</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>        }</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span> </div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno"><a class="line" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_y_add_reattach_info_initial_compile_job.html#a04807000d5acdfdaaf272cdf1e4f52b0">   37</a></span>        <span class="keyword">protected</span> <span class="keyword">override</span> <span class="keywordtype">void</span> <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_y_add_reattach_info_initial_compile_job.html#a04807000d5acdfdaaf272cdf1e4f52b0">Down</a>(MigrationBuilder migrationBuilder)</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>        {</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>            ArgumentNullException.ThrowIfNull(migrationBuilder);</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span> </div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>            migrationBuilder.DropForeignKey(</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>                name: <span class="stringliteral">&quot;FK_ReattachInformations_CompileJobs_InitialCompileJobId&quot;</span>,</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>                table: <span class="stringliteral">&quot;ReattachInformations&quot;</span>);</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span> </div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>            migrationBuilder.DropIndex(</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>                name: <span class="stringliteral">&quot;IX_ReattachInformations_InitialCompileJobId&quot;</span>,</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>                table: <span class="stringliteral">&quot;ReattachInformations&quot;</span>);</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span> </div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>            migrationBuilder.DropColumn(</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>                name: <span class="stringliteral">&quot;InitialCompileJobId&quot;</span>,</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>                table: <span class="stringliteral">&quot;ReattachInformations&quot;</span>);</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>        }</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>    }</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>}</div>
 <div class="ttc" id="aclass_migration_html"><div class="ttname"><a href="class_migration.html">Migration</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_y_add_reattach_info_initial_compile_job_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_y_add_reattach_info_initial_compile_job.html">Tgstation.Server.Host.Database.Migrations.MYAddReattachInfoInitialCompileJob</a></div><div class="ttdoc">Adds the InitialCompileJobId to the ReattachInformations table for MYSQL.</div><div class="ttdef"><b>Definition:</b> <a href="20230403050737___m_y_add_reattach_info_initial_compile_job_8cs_source.html#l00012">20230403050737_MYAddReattachInfoInitialCompileJob.cs:13</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_y_add_reattach_info_initial_compile_job_html_a04807000d5acdfdaaf272cdf1e4f52b0"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_y_add_reattach_info_initial_compile_job.html#a04807000d5acdfdaaf272cdf1e4f52b0">Tgstation.Server.Host.Database.Migrations.MYAddReattachInfoInitialCompileJob.Down</a></div><div class="ttdeci">override void Down(MigrationBuilder migrationBuilder)</div><div class="ttdef"><b>Definition:</b> <a href="20230403050737___m_y_add_reattach_info_initial_compile_job_8cs_source.html#l00039">20230403050737_MYAddReattachInfoInitialCompileJob.cs:39</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_y_add_reattach_info_initial_compile_job_html_ad73e4868c44fa173b2e32930b186bfb2"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_y_add_reattach_info_initial_compile_job.html#ad73e4868c44fa173b2e32930b186bfb2">Tgstation.Server.Host.Database.Migrations.MYAddReattachInfoInitialCompileJob.Up</a></div><div class="ttdeci">override void Up(MigrationBuilder migrationBuilder)</div><div class="ttdef"><b>Definition:</b> <a href="20230403050737___m_y_add_reattach_info_initial_compile_job_8cs_source.html#l00015">20230403050737_MYAddReattachInfoInitialCompileJob.cs:15</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_y_add_reattach_info_initial_compile_job_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_y_add_reattach_info_initial_compile_job.html">Tgstation.Server.Host.Database.Migrations.MYAddReattachInfoInitialCompileJob</a></div><div class="ttdoc">Adds the InitialCompileJobId to the ReattachInformations table for MYSQL.</div><div class="ttdef"><b>Definition:</b> <a href="20230403050737___m_y_add_reattach_info_initial_compile_job_8cs_source.html#l00010">20230403050737_MYAddReattachInfoInitialCompileJob.cs:11</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_y_add_reattach_info_initial_compile_job_html_a04807000d5acdfdaaf272cdf1e4f52b0"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_y_add_reattach_info_initial_compile_job.html#a04807000d5acdfdaaf272cdf1e4f52b0">Tgstation.Server.Host.Database.Migrations.MYAddReattachInfoInitialCompileJob.Down</a></div><div class="ttdeci">override void Down(MigrationBuilder migrationBuilder)</div><div class="ttdef"><b>Definition:</b> <a href="20230403050737___m_y_add_reattach_info_initial_compile_job_8cs_source.html#l00037">20230403050737_MYAddReattachInfoInitialCompileJob.cs:37</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_y_add_reattach_info_initial_compile_job_html_ad73e4868c44fa173b2e32930b186bfb2"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_y_add_reattach_info_initial_compile_job.html#ad73e4868c44fa173b2e32930b186bfb2">Tgstation.Server.Host.Database.Migrations.MYAddReattachInfoInitialCompileJob.Up</a></div><div class="ttdeci">override void Up(MigrationBuilder migrationBuilder)</div><div class="ttdef"><b>Definition:</b> <a href="20230403050737___m_y_add_reattach_info_initial_compile_job_8cs_source.html#l00013">20230403050737_MYAddReattachInfoInitialCompileJob.cs:13</a></div></div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_html"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations.html">Tgstation.Server.Host.Database.Migrations</a></div><div class="ttdef"><b>Definition:</b> <a href="20180906135553___m_s_initial_create_8cs_source.html#l00006">20180906135553_MSInitialCreate.cs:7</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->

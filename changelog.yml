@@ -6,6 +6,10 @@ Components:
       - Microsoft SQL Server database connections no longer have `Encrypt=false` set by default. If your MSSQL server doesn't support encryption, you will need to unset this flag manually by adding `;Encrypt=false` to the end of your existing connection string.
       Author: Cyberboss
       PullRequest: 1614
+    - Descriptions:
+      - Fixed `Session:LowPriorityDeploymentProcesses` not being respected when adding firewall rules.
+      Author: Cyberboss
+      PullRequest: 1742
     Unreleased: true
   - Version: 4.7.1
     Changes:
@@ -183,23 +187,20 @@ Components:
       - Fixed setup wizard generating invalid connection strings for existing Sqlite databases.
       Author: Cyberboss
       PullRequest: 1728
+    - Descriptions:
+      - Fixed an issue where the initial watchdog launch on server startup could fail due to a 503'd bridge request.
+      - Large internal code cleanup and standardization.
+      - Fixed a rare issue that could cause BYOND topic requests to fail.
+      - Fixed a potential error when installing engine versions.
+      Author: Cyberboss
+      PullRequest: 1742
     Unreleased: true
   - Version: 5.19.0
     ComponentVersions: {}
     Changes: []
     Unreleased: true
   - Version: 5.18.3
-    ComponentVersions:
-      Core: 5.18.2
-      HttpApi: 9.14.0
-      DreamMakerApi: 6.7.0
-      Configuration: 4.7.1
-      InteropApi: 5.7.0
-      HostWatchdog: 1.4.0
-      NugetCommon: 7.0.0
-      NugetApi: 12.2.0
-      NugetClient: 14.2.0
-      WebControlPanel: 5.1.0
+    ComponentVersions: {}
     Changes: []
     Unreleased: true
   - Version: 5.18.2

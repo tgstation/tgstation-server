@@ -1,5 +1,0 @@
-<map id="Tgstation.Server.Host.Components.Session.SessionController.SetPort" name="Tgstation.Server.Host.Components.Session.SessionController.SetPort">
-<area shape="rect" id="node1" title="Causes the world to start listening on a newPort . A Task&lt;TResult&gt; resulting in true if the operation..." alt="" coords="5,37,232,77"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#ab0660ae6440a38aa85f8473a8220533a" title="Throws an ObjectDisposedException if DisposeAsync has been called." alt="" coords="280,5,548,45"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#a125c294a41d56c5c58d63e192b63de98" title="Sends a command to DreamDaemon through /world/Topic(). A ValueTask&lt;TResult&gt; resulting in the TopicRes..." alt="" coords="281,69,547,109"/>
-</map>

@@ -1,0 +1,8 @@
+<map id="Tgstation.Server.Host.Components.Engine.IEngineInstallation" name="Tgstation.Server.Host.Components.Engine.IEngineInstallation">
+<area shape="rect" id="node1" title="Represents a BYOND installation." alt="" coords="5,101,232,141"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installation_base.html" title=" " alt="" coords="280,69,507,109"/>
+<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_executable_lock.html" title="Represents usage of the two primary BYOND server executables." alt="" coords="280,133,507,173"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_byond_installation.html" title="Implementation of IEngineInstallation for EngineType.Byond." alt="" coords="555,5,781,45"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_open_dream_installation.html" title="Implementation of IEngineInstallation for EngineType.OpenDream." alt="" coords="555,69,781,109"/>
+<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_executable_lock.html" title=" " alt="" coords="555,133,781,173"/>
+</map>

@@ -9,5 +9,5 @@
 <area shape="rect" id="node10" href="$class_tgstation_1_1_server_1_1_client_1_1_unauthorized_exception.html" title="Occurs when the client provides invalid credentials." alt="" coords="523,389,679,429"/>
 <area shape="rect" id="node11" href="$class_tgstation_1_1_server_1_1_client_1_1_version_mismatch_exception.html" title="Occurs when the API version of the client is not compatible with the server&#39;s." alt="" coords="511,453,690,493"/>
 <area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_client_1_1_client_exception.html" title="Exceptions thrown by IServerClients." alt="" coords="132,237,243,262"/>
-<area shape="rect" id="node3" title=" " alt="" coords="5,237,84,262"/>
+<area shape="rect" id="node3" href="$class_exception.html" title=" " alt="" coords="5,237,84,262"/>
 </map>

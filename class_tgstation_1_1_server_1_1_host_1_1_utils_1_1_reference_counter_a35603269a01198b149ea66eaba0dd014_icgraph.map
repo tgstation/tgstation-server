@@ -1,6 +1,6 @@
 <map id="Tgstation.Server.Host.Utils.ReferenceCounter.Dispose" name="Tgstation.Server.Host.Utils.ReferenceCounter.Dispose">
-<area shape="rect" id="node1" title=" " alt="" coords="629,37,811,77"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_manager.html#a58cd569a331259b891a03bdb3abe88c9" title="Ensures a BYOND version &#160;is installed if it isn&#39;t already." alt="" coords="297,37,581,77"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_manager.html#a59f8a7d39d80d876f2ee18079a65dde1" title="Change the active BYOND version. A ValueTask representing the running operation." alt="" coords="8,5,247,45"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_manager.html#ad4947f28448485f7aed1f5b0d23f9946" title="Lock the current installation&#39;s location and return a IByondExecutableLock. A ValueTask&lt;TResult&gt; resu..." alt="" coords="5,69,249,109"/>
+<area shape="rect" id="node1" title=" " alt="" coords="643,37,824,77"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_manager.html#a3d2a758adff2c72db49e822c8f6ceccf" title="Ensures a BYOND version &#160;is installed if it isn&#39;t already." alt="" coords="304,37,595,77"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_manager.html#ad2cedaccbf100b9dcf3922a9443f8f19" title="Change the active EngineVersion. A ValueTask representing the running operation." alt="" coords="9,5,253,45"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_manager.html#a803c2123e6edceee48d8b4897be532c6" title="Lock the current installation&#39;s location and return a IEngineExecutableLock. A ValueTask&lt;TResult&gt; res..." alt="" coords="5,69,256,109"/>
 </map>

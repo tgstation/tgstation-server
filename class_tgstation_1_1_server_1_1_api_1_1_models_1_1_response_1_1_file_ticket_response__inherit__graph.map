@@ -1,7 +1,7 @@
 <map id="Tgstation.Server.Api.Models.Response.FileTicketResponse" name="Tgstation.Server.Api.Models.Response.FileTicketResponse">
 <area shape="rect" id="node1" title="Response for when file transfers are necessary." alt="" coords="5,101,204,141"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_byond_install_response.html" title="Represents a BYOND installation. FileTicketResponse.FileTicket is used to upload custom BYOND version..." alt="" coords="265,5,477,45"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_configuration_file_response.html" title="Response when reading configuration files." alt="" coords="252,69,489,109"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_configuration_file_response.html" title="Response when reading configuration files." alt="" coords="252,5,489,45"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_engine_install_response.html" title="Represents an engine installation job. FileTicketResponse.FileTicket is used to upload custom version..." alt="" coords="263,69,478,109"/>
 <area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_log_file_response.html" title="Represents a server log file." alt="" coords="277,133,464,173"/>
 <area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_server_update_response.html" title="A response to a Request.ServerUpdateRequest." alt="" coords="260,197,481,237"/>
 </map>

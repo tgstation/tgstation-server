@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.18.2</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.0.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -90,24 +90,24 @@ Inheritance diagram for Tgstation.Server.Host.Watchdog.ISignalChecker:</div>
 <map name="a_tgstation_8_server_8_host_8_watchdog_8_i_signal_checker_inherit__map" id="a_tgstation_8_server_8_host_8_watchdog_8_i_signal_checker_inherit__map">
 <area shape="rect" title="For relaying signals received to the host process." alt="" coords="5,69,217,109"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_console_1_1_posix_signal_checker.html" title="ISignalChecker for checking POSIX signals." alt="" coords="271,5,472,45"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service.html" title="Represents a IWatchdog as a ServiceBase." alt="" coords="272,69,471,109"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_service_lifetime.html" title="Represents the lifetime of the service." alt="" coords="272,69,471,109"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_noop_signal_checker.html" title="No&#45;op ISignalChecker." alt="" coords="265,133,477,173"/>
 </map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:af6772af01e3ced4ac70aece520542adf"><td class="memItemLeft" align="right" valign="top">ValueTask&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_signal_checker.html#af6772af01e3ced4ac70aece520542adf">CheckSignals</a> (Func&lt; string,(int, Task)&gt; startChild, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:af6772af01e3ced4ac70aece520542adf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Relays signals received to the host process.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_signal_checker.html#af6772af01e3ced4ac70aece520542adf">More...</a><br /></td></tr>
-<tr class="separator:af6772af01e3ced4ac70aece520542adf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7699275299c785a24f995bead67dcf5e"><td class="memItemLeft" align="right" valign="top">ValueTask&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_signal_checker.html#a7699275299c785a24f995bead67dcf5e">CheckSignals</a> (Func&lt; string?,(int Pid, Task ChildLifetime)&gt; startChildAndGetPid, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a7699275299c785a24f995bead67dcf5e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Relays signals received to the host process.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_signal_checker.html#a7699275299c785a24f995bead67dcf5e">More...</a><br /></td></tr>
+<tr class="separator:a7699275299c785a24f995bead67dcf5e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p >For relaying signals received to the host process.  </p>
 
 <p class="definition">Definition at line <a class="el" href="_i_signal_checker_8cs_source.html#l00010">10</a> of file <a class="el" href="_i_signal_checker_8cs_source.html">ISignalChecker.cs</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a id="af6772af01e3ced4ac70aece520542adf" name="af6772af01e3ced4ac70aece520542adf"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af6772af01e3ced4ac70aece520542adf">&#9670;&#160;</a></span>CheckSignals()</h2>
+<a id="a7699275299c785a24f995bead67dcf5e" name="a7699275299c785a24f995bead67dcf5e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7699275299c785a24f995bead67dcf5e">&#9670;&#160;</a></span>CheckSignals()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -115,8 +115,8 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="memname">ValueTask Tgstation.Server.Host.Watchdog.ISignalChecker.CheckSignals </td>
           <td>(</td>
-          <td class="paramtype">Func&lt; string,(int, Task)&gt;&#160;</td>
-          <td class="paramname"><em>startChild</em>, </td>
+          <td class="paramtype">Func&lt; string?,(int Pid, Task ChildLifetime)&gt;&#160;</td>
+          <td class="paramname"><em>startChildAndGetPid</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -135,21 +135,19 @@ Public Member Functions</h2></td></tr>
 <p>Relays signals received to the host process.  </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">startChild</td><td>An Func&lt;TResult&gt; to start the main process. It accepts an optional additional command line argument as a paramter and returns it's System.Diagnostics.Process.Id and lifetime Task.</td></tr>
+    <tr><td class="paramname">startChildAndGetPid</td><td>An Func&lt;TResult&gt; to start the main process. It accepts an optional additional command line argument as a paramter and returns it's System.Diagnostics.Process.Id and lifetime Task. Must be called.</td></tr>
     <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A ValueTask representing the running operation.</dd></dl>
 
-<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_console_1_1_posix_signal_checker.html#aa6ef6e0d4e1b495d843f9248de85c5a1">Tgstation.Server.Host.Console.PosixSignalChecker</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_noop_signal_checker.html#a5bff9dcea5728a6284c364f937fcfbec">Tgstation.Server.Host.Watchdog.NoopSignalChecker</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service.html#ac78a4cf23c462dcbee0d8672d49d6f60">Tgstation.Server.Host.Service.ServerService</a>.</p>
-
-<p class="reference">Referenced by <a class="el" href="_watchdog_8cs_source.html#l00049">Tgstation.Server.Host.Watchdog.Watchdog.RunAsync()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_watchdog_8cs_source.html#l00056">Tgstation.Server.Host.Watchdog.Watchdog.RunAsync()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_signal_checker_af6772af01e3ced4ac70aece520542adf_icgraph.png" border="0" usemap="#ainterface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_signal_checker_af6772af01e3ced4ac70aece520542adf_icgraph" alt=""/></div>
-<map name="ainterface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_signal_checker_af6772af01e3ced4ac70aece520542adf_icgraph" id="ainterface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_signal_checker_af6772af01e3ced4ac70aece520542adf_icgraph">
+<div class="center"><img src="interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_signal_checker_a7699275299c785a24f995bead67dcf5e_icgraph.png" border="0" usemap="#ainterface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_signal_checker_a7699275299c785a24f995bead67dcf5e_icgraph" alt=""/></div>
+<map name="ainterface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_signal_checker_a7699275299c785a24f995bead67dcf5e_icgraph" id="ainterface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_signal_checker_a7699275299c785a24f995bead67dcf5e_icgraph">
 <area shape="rect" title="Relays signals received to the host process." alt="" coords="265,5,477,45"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog.html#af5a9c87dbb3e13ad9d0be80df36eab15" title="Run the IWatchdog. A ValueTask&lt;TResult&gt; resulting in true if there were no errors,..." alt="" coords="5,5,217,45"/>
 </map>

@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.18.2</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.0.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -1086,7 +1086,7 @@ Protected Member Functions</h2></td></tr>
 <div class="line"><span class="lineno">  231</span>                {</div>
 <div class="line"><span class="lineno">  232</span>                    Id = table.Column&lt;<span class="keywordtype">long</span>&gt;(type: <span class="stringliteral">&quot;bigint&quot;</span>, nullable: <span class="keyword">false</span>)</div>
 <div class="line"><span class="lineno">  233</span>                        .Annotation(<span class="stringliteral">&quot;MySql:ValueGenerationStrategy&quot;</span>, MySqlValueGenerationStrategy.IdentityColumn),</div>
-<div class="line"><span class="lineno">  234</span>                    <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a2a217a19e652f117e2324fb79ed838b9">ByondRights</a> = table.Column&lt;ulong&gt;(type: <span class="stringliteral">&quot;bigint unsigned&quot;</span>, nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">  234</span>                    ByondRights = table.Column&lt;ulong&gt;(type: <span class="stringliteral">&quot;bigint unsigned&quot;</span>, nullable: <span class="keyword">false</span>),</div>
 <div class="line"><span class="lineno">  235</span>                    ChatBotRights = table.Column&lt;ulong&gt;(type: <span class="stringliteral">&quot;bigint unsigned&quot;</span>, nullable: <span class="keyword">false</span>),</div>
 <div class="line"><span class="lineno">  236</span>                    <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0c">ConfigurationRights</a> = table.Column&lt;ulong&gt;(type: <span class="stringliteral">&quot;bigint unsigned&quot;</span>, nullable: <span class="keyword">false</span>),</div>
 <div class="line"><span class="lineno">  237</span>                    DreamDaemonRights = table.Column&lt;ulong&gt;(type: <span class="stringliteral">&quot;bigint unsigned&quot;</span>, nullable: <span class="keyword">false</span>),</div>
@@ -1157,7 +1157,6 @@ Protected Member Functions</h2></td></tr>
 <div class="line"><span class="lineno">  302</span>                name: <span class="stringliteral">&quot;GroupId&quot;</span>,</div>
 <div class="line"><span class="lineno">  303</span>                table: <span class="stringliteral">&quot;Users&quot;</span>);</div>
 <div class="line"><span class="lineno">  304</span>        }</div>
-<div class="ttc" id="anamespace_tgstation_1_1_server_1_1_api_1_1_rights_html_a2a217a19e652f117e2324fb79ed838b9"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a2a217a19e652f117e2324fb79ed838b9">Tgstation.Server.Api.Rights.ByondRights</a></div><div class="ttdeci">ByondRights</div><div class="ttdoc">Rights for BYOND version management.</div><div class="ttdef"><b>Definition:</b> <a href="_byond_rights_8cs_source.html#l00009">ByondRights.cs:10</a></div></div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_api_1_1_rights_html_a691a59767073bc7dff0f17b809d07b0c"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0c">Tgstation.Server.Api.Rights.ConfigurationRights</a></div><div class="ttdeci">ConfigurationRights</div><div class="ttdoc">Rights for Models.IConfigurationFiles.</div><div class="ttdef"><b>Definition:</b> <a href="_configuration_rights_8cs_source.html#l00009">ConfigurationRights.cs:10</a></div></div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_api_1_1_rights_html_a6aac419b6a793fe07657d96ac48dee5d"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a6aac419b6a793fe07657d96ac48dee5d">Tgstation.Server.Api.Rights.DreamMakerRights</a></div><div class="ttdeci">DreamMakerRights</div><div class="ttdoc">Rights for deployment.</div><div class="ttdef"><b>Definition:</b> <a href="_dream_maker_rights_8cs_source.html#l00009">DreamMakerRights.cs:10</a></div></div>
 </div><!-- fragment -->
@@ -1273,7 +1272,7 @@ Protected Member Functions</h2></td></tr>
 <div class="line"><span class="lineno">   95</span>                        .Annotation(<span class="stringliteral">&quot;MySql:ValueGenerationStrategy&quot;</span>, MySqlValueGenerationStrategy.IdentityColumn),</div>
 <div class="line"><span class="lineno">   96</span>                    PermissionSetId = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">false</span>),</div>
 <div class="line"><span class="lineno">   97</span>                    InstancePermissionSetRights = table.Column&lt;ulong&gt;(nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">   98</span>                    <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a2a217a19e652f117e2324fb79ed838b9">ByondRights</a> = table.Column&lt;ulong&gt;(nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">   98</span>                    ByondRights = table.Column&lt;ulong&gt;(nullable: <span class="keyword">false</span>),</div>
 <div class="line"><span class="lineno">   99</span>                    DreamDaemonRights = table.Column&lt;ulong&gt;(nullable: <span class="keyword">false</span>),</div>
 <div class="line"><span class="lineno">  100</span>                    <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a6aac419b6a793fe07657d96ac48dee5d">DreamMakerRights</a> = table.Column&lt;ulong&gt;(nullable: <span class="keyword">false</span>),</div>
 <div class="line"><span class="lineno">  101</span>                    RepositoryRights = table.Column&lt;ulong&gt;(nullable: <span class="keyword">false</span>),</div>

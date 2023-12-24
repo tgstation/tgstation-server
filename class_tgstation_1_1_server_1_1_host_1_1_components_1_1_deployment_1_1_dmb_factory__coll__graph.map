@@ -12,11 +12,11 @@
 <area shape="rect" id="node11" title=" " alt="" coords="403,320,645,375"/>
 <area shape="rect" id="node12" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html" title="Consumes EventTypes and takes the appropriate actions." alt="" coords="411,399,637,439"/>
 <area shape="rect" id="node13" title=" " alt="" coords="503,464,545,489"/>
-<area shape="rect" id="node14" title=" " alt="" coords="439,513,609,539"/>
-<area shape="rect" id="node15" title=" " alt="" coords="457,563,591,603"/>
-<area shape="rect" id="node16" title=" " alt="" coords="445,628,603,653"/>
-<area shape="rect" id="node17" title=" " alt="" coords="499,677,549,703"/>
-<area shape="rect" id="node18" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_dmb_provider.html" title="Provides absolute paths to the latest compiled .dmbs." alt="" coords="411,727,637,767"/>
-<area shape="rect" id="node19" href="$class_i_async_disposable.html" title=" " alt="" coords="193,735,319,760"/>
-<area shape="rect" id="node20" title=" " alt="" coords="501,792,547,817"/>
+<area shape="rect" id="node14" title=" " alt="" coords="434,514,614,554"/>
+<area shape="rect" id="node15" title=" " alt="" coords="459,578,589,618"/>
+<area shape="rect" id="node16" title=" " alt="" coords="445,643,603,668"/>
+<area shape="rect" id="node17" title=" " alt="" coords="499,692,549,717"/>
+<area shape="rect" id="node18" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_dmb_provider.html" title="Provides absolute paths to the latest compiled .dmbs." alt="" coords="411,742,637,782"/>
+<area shape="rect" id="node19" href="$class_i_async_disposable.html" title=" " alt="" coords="193,749,319,775"/>
+<area shape="rect" id="node20" title=" " alt="" coords="501,807,547,832"/>
 </map>

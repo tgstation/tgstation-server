@@ -1,6 +1,0 @@
-<map id="Tgstation.Server.Host.IO.IFileDownloader.DownloadFile" name="Tgstation.Server.Host.IO.IFileDownloader.DownloadFile">
-<area shape="rect" id="node1" title="Downloads a file from a given url ." alt="" coords="563,61,759,101"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#aa4825cd1baecd982d6a92d2b5a791cce" title="Start the process of downloading and applying an update to a new server version. Doesn&#39;t perform argu..." alt="" coords="271,29,481,69"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_installer_base.html#ae3716e43da0451d7f525fb7bb2ad39e9" title="Download a given BYOND version . A ValueTask&lt;TResult&gt; resulting in a MemoryStream of the zipfile." alt="" coords="237,93,515,133"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#aed35d481c2d0ca721b17f811ba9a9b04" title="Start the process of downloading and applying an update to a new server version . A ValueTask&lt;TResult..." alt="" coords="5,29,189,69"/>
-</map>

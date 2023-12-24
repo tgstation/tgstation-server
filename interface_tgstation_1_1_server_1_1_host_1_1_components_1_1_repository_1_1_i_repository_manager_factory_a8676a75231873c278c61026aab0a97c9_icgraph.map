@@ -1,0 +1,4 @@
+<map id="Tgstation.Server.Host.Components.Repository.IRepositoryManagerFactory.CreateRepositoryManager" name="Tgstation.Server.Host.Components.Repository.IRepositoryManagerFactory.CreateRepositoryManager">
+<area shape="rect" id="node1" title="Create a IRepositoryManager." alt="" coords="280,5,527,60"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_factory.html#ae84e92a0d103d6df381a3e9531a7c279" title="Create an IInstance. A ValueTask&lt;TResult&gt; resulting in a new IInstance." alt="" coords="5,13,232,53"/>
+</map>

@@ -1,11 +1,11 @@
 <map id="Tgstation.Server.Host.IO.RequestFileStreamProvider" name="Tgstation.Server.Host.IO.RequestFileStreamProvider">
-<area shape="rect" id="node1" title="A IFileStreamProvider that represents the response of HttpRequestMessages." alt="" coords="547,138,728,178"/>
+<area shape="rect" id="node1" title="A IFileStreamProvider that represents the response of HttpRequestMessages." alt="" coords="547,142,728,182"/>
 <area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_file_stream_provider.html" title="Interface for asynchronously consuming Streams of files." alt="" coords="221,5,359,31"/>
 <area shape="rect" id="node3" href="$class_i_async_disposable.html" title=" " alt="" coords="5,5,132,31"/>
 <area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_common_1_1_http_1_1_i_http_client.html" title="For sending HTTP requests." alt="" coords="203,55,377,95"/>
 <area shape="rect" id="node5" href="$class_i_disposable.html" title=" " alt="" coords="23,63,114,88"/>
 <area shape="rect" id="node6" title=" " alt="" coords="191,120,389,145"/>
-<area shape="rect" id="node7" title=" " alt="" coords="205,169,375,195"/>
-<area shape="rect" id="node8" title=" " alt="" coords="181,219,399,244"/>
-<area shape="rect" id="node9" title=" " alt="" coords="267,268,313,293"/>
+<area shape="rect" id="node7" title=" " alt="" coords="200,170,380,210"/>
+<area shape="rect" id="node8" title=" " alt="" coords="181,235,399,260"/>
+<area shape="rect" id="node9" title=" " alt="" coords="267,284,313,309"/>
 </map>

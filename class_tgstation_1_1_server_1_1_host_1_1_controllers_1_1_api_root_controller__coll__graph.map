@@ -1,0 +1,23 @@
+<map id="Tgstation.Server.Host.Controllers.ApiRootController" name="Tgstation.Server.Host.Controllers.ApiRootController">
+<area shape="rect" id="node1" title="Root ApiController for the Application." alt="" coords="977,550,1193,590"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html" title="Base Controller for API functions." alt="" coords="595,84,691,109"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller_base.html" title="Base class for all API style controllers." alt="" coords="146,5,273,31"/>
+<area shape="rect" id="node4" href="$class_controller.html" title=" " alt="" coords="5,5,83,31"/>
+<area shape="rect" id="node5" title=" " alt="" coords="163,137,256,163"/>
+<area shape="rect" id="node17" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html" title="General configuration options." alt="" coords="528,294,757,334"/>
+<area shape="rect" id="node6" title=" " alt="" coords="186,55,233,80"/>
+<area shape="rect" id="node7" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_token_factory.html" title="For creating TokenResponses." alt="" coords="542,358,743,398"/>
+<area shape="rect" id="node8" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_system_identity_factory.html" title="Factory for ISystemIdentitys." alt="" coords="542,422,743,462"/>
+<area shape="rect" id="node9" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_cryptography_suite.html" title="Contains various cryptographic functions." alt="" coords="542,486,743,526"/>
+<area shape="rect" id="node10" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_assembly_information_provider.html" title="For retrieving the Assembly&#39;s location." alt="" coords="543,550,742,590"/>
+<area shape="rect" id="node11" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_identity_cache.html" title="For caching ISystemIdentitys." alt="" coords="542,614,743,654"/>
+<area shape="rect" id="node12" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_i_o_auth_providers.html" title="Contains IOAuthValidators." alt="" coords="542,678,743,718"/>
+<area shape="rect" id="node13" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_platform_identifier.html" title="For identifying the current platform." alt="" coords="543,742,742,782"/>
+<area shape="rect" id="node14" href="$interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_service.html" title="Used for swarm operations. Functions may be no&#45;op based on configuration." alt="" coords="545,806,740,846"/>
+<area shape="rect" id="node15" href="$interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_update_aborter.html" title="Allows aborting a swarm distributed update operation." alt="" coords="134,813,285,839"/>
+<area shape="rect" id="node16" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_control.html" title="Represents a service that may take an updated Host assembly and run it, stopping the current assembly..." alt="" coords="552,870,733,910"/>
+<area shape="rect" id="node18" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_server_information_base.html" title="Base class for Response.ServerInformationResponse." alt="" coords="132,464,287,489"/>
+<area shape="rect" id="node19" title=" " alt="" coords="165,235,254,260"/>
+<area shape="rect" id="node20" title=" " alt="" coords="188,365,231,391"/>
+<area shape="rect" id="node21" title=" " alt="" coords="133,415,285,440"/>
+</map>

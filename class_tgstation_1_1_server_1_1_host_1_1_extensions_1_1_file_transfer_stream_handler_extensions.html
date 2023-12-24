@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.18.2</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.0.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -187,23 +187,25 @@ Static Public Member Functions</h2></td></tr>
 <div class="line"><span class="lineno">   67</span>            }</div>
 <div class="line"><span class="lineno">   68</span>            <span class="keywordflow">catch</span></div>
 <div class="line"><span class="lineno">   69</span>            {</div>
-<div class="line"><span class="lineno">   70</span>                await stream.DisposeAsync();</div>
-<div class="line"><span class="lineno">   71</span>                <span class="keywordflow">throw</span>;</div>
-<div class="line"><span class="lineno">   72</span>            }</div>
-<div class="line"><span class="lineno">   73</span>        }</div>
+<div class="line"><span class="lineno">   70</span>                <span class="keywordflow">if</span> (stream != <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">   71</span>                    await stream.DisposeAsync();</div>
+<div class="line"><span class="lineno">   72</span> </div>
+<div class="line"><span class="lineno">   73</span>                <span class="keywordflow">throw</span>;</div>
+<div class="line"><span class="lineno">   74</span>            }</div>
+<div class="line"><span class="lineno">   75</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_error_message_response_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_error_message_response.html">Tgstation.Server.Api.Models.Response.ErrorMessageResponse</a></div><div class="ttdoc">Represents an error message returned by the server.</div><div class="ttdef"><b>Definition:</b> <a href="_error_message_response_8cs_source.html#l00009">ErrorMessageResponse.cs:10</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_file_ticket_response_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_file_ticket_response.html">Tgstation.Server.Api.Models.Response.FileTicketResponse</a></div><div class="ttdoc">Response for when file transfers are necessary.</div><div class="ttdef"><b>Definition:</b> <a href="_file_ticket_response_8cs_source.html#l00006">FileTicketResponse.cs:7</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_results_1_1_limited_stream_result_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_results_1_1_limited_stream_result.html">Tgstation.Server.Host.Controllers.Results.LimitedStreamResult</a></div><div class="ttdoc">Very similar to FileStreamResult except it's IActionResultExecutor&lt;TResult&gt; contains a fix for https:...</div><div class="ttdef"><b>Definition:</b> <a href="_limited_stream_result_8cs_source.html#l00018">LimitedStreamResult.cs:19</a></div></div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_api_1_1_models_html_a1a6adb59dd51244efabf4e548e7075c8"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">Tgstation.Server.Api.Models.ErrorCode</a></div><div class="ttdeci">ErrorCode</div><div class="ttdoc">Types of Response.ErrorMessageResponses that the API may return.</div><div class="ttdef"><b>Definition:</b> <a href="_error_code_8cs_source.html#l00012">ErrorCode.cs:13</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_i_file_transfer_stream_handler.html#a7c5cd677af9e279e469215c1ce697e3d">Tgstation.Server.Host.Transfer.IFileTransferStreamHandler.RetrieveDownloadStream()</a>.</p>
+<p class="reference">References <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_i_file_transfer_stream_handler.html#a6576e93c54ef871332aecc63fae1c844">Tgstation.Server.Host.Transfer.IFileTransferStreamHandler.RetrieveDownloadStream()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_file_transfer_stream_handler_extensions_a151730b54f45dffd546dfd21539db1f4_cgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_file_transfer_stream_handler_extensions_a151730b54f45dffd546dfd21539db1f4_cgraph" alt=""/></div>
 <map name="aclass_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_file_transfer_stream_handler_extensions_a151730b54f45dffd546dfd21539db1f4_cgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_file_transfer_stream_handler_extensions_a151730b54f45dffd546dfd21539db1f4_cgraph">
 <area shape="rect" title="Downloads a file with a given ticket ." alt="" coords="5,5,249,60"/>
-<area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_i_file_transfer_stream_handler.html#a7c5cd677af9e279e469215c1ce697e3d" title="Gets the the Stream for a given ticket &#160;associated with a pending download." alt="" coords="297,5,531,60"/>
+<area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_i_file_transfer_stream_handler.html#a6576e93c54ef871332aecc63fae1c844" title="Gets the the Stream for a given ticketResponse &#160;associated with a pending download." alt="" coords="297,5,531,60"/>
 </map>
 </div>
 

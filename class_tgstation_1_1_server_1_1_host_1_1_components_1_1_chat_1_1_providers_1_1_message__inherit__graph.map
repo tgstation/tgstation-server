@@ -1,4 +1,4 @@
 <map id="Tgstation.Server.Host.Components.Chat.Providers.Message" name="Tgstation.Server.Host.Components.Chat.Providers.Message">
-<area shape="rect" id="node1" title="Represents a message recieved by a IProvider." alt="" coords="5,5,232,45"/>
+<area shape="rect" id="node1" title="Represents a message received by a IProvider." alt="" coords="5,5,232,45"/>
 <area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_message.html" title="A Message containing the source IMessageReference." alt="" coords="5,93,232,133"/>
 </map>

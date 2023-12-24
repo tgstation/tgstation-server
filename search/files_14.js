@@ -2,7 +2,7 @@ var searchData=
 [
   ['taskextensions_2ecs_0',['TaskExtensions.cs',['../_task_extensions_8cs.html',1,'']]],
   ['temporarydmbprovider_2ecs_1',['TemporaryDmbProvider.cs',['../_temporary_dmb_provider_8cs.html',1,'']]],
-  ['testmerge_2ecs_2',['TestMerge.cs',['../_tgstation_8_server_8_api_2_models_2_test_merge_8cs.html',1,'(Global Namespace)'],['../_tgstation_8_server_8_host_2_models_2_test_merge_8cs.html',1,'(Global Namespace)']]],
+  ['testmerge_2ecs_2',['TestMerge.cs',['../_tgstation_8_server_8_host_2_models_2_test_merge_8cs.html',1,'(Global Namespace)'],['../_tgstation_8_server_8_api_2_models_2_test_merge_8cs.html',1,'(Global Namespace)']]],
   ['testmergeapibase_2ecs_3',['TestMergeApiBase.cs',['../_test_merge_api_base_8cs.html',1,'']]],
   ['testmergeinformation_2ecs_4',['TestMergeInformation.cs',['../_test_merge_information_8cs.html',1,'']]],
   ['testmergemodelbase_2ecs_5',['TestMergeModelBase.cs',['../_test_merge_model_base_8cs.html',1,'']]],
@@ -15,11 +15,13 @@ var searchData=
   ['tgstation_2eserver_2ehost_2eassemblyinfo_2ecs_12',['Tgstation.Server.Host.AssemblyInfo.cs',['../_tgstation_8_server_8_host_8_assembly_info_8cs.html',1,'']]],
   ['tgstation_2eserver_2ehost_2ecommon_2eassemblyinfo_2ecs_13',['Tgstation.Server.Host.Common.AssemblyInfo.cs',['../_tgstation_8_server_8_host_8_common_8_assembly_info_8cs.html',1,'']]],
   ['tgstation_2eserver_2ehost_2emvcapplicationpartsassemblyinfo_2ecs_14',['Tgstation.Server.Host.MvcApplicationPartsAssemblyInfo.cs',['../_tgstation_8_server_8_host_8_mvc_application_parts_assembly_info_8cs.html',1,'']]],
-  ['tokenfactory_2ecs_15',['TokenFactory.cs',['../_token_factory_8cs.html',1,'']]],
-  ['tokenresponse_2ecs_16',['TokenResponse.cs',['../_token_response_8cs.html',1,'']]],
-  ['topicclientfactory_2ecs_17',['TopicClientFactory.cs',['../_topic_client_factory_8cs.html',1,'']]],
-  ['topiccommandtype_2ecs_18',['TopicCommandType.cs',['../_topic_command_type_8cs.html',1,'']]],
-  ['topicparameters_2ecs_19',['TopicParameters.cs',['../_topic_parameters_8cs.html',1,'']]],
-  ['topicresponse_2ecs_20',['TopicResponse.cs',['../_topic_response_8cs.html',1,'']]],
-  ['transfercontroller_2ecs_21',['TransferController.cs',['../_transfer_controller_8cs.html',1,'']]]
+  ['tgstation_2eserver_2ehost_2erazorassemblyinfo_2ecs_15',['Tgstation.Server.Host.RazorAssemblyInfo.cs',['../_tgstation_8_server_8_host_8_razor_assembly_info_8cs.html',1,'']]],
+  ['tokenfactory_2ecs_16',['TokenFactory.cs',['../_token_factory_8cs.html',1,'']]],
+  ['tokenresponse_2ecs_17',['TokenResponse.cs',['../_token_response_8cs.html',1,'']]],
+  ['topicclientextensions_2ecs_18',['TopicClientExtensions.cs',['../_topic_client_extensions_8cs.html',1,'']]],
+  ['topicclientfactory_2ecs_19',['TopicClientFactory.cs',['../_topic_client_factory_8cs.html',1,'']]],
+  ['topiccommandtype_2ecs_20',['TopicCommandType.cs',['../_topic_command_type_8cs.html',1,'']]],
+  ['topicparameters_2ecs_21',['TopicParameters.cs',['../_topic_parameters_8cs.html',1,'']]],
+  ['topicresponse_2ecs_22',['TopicResponse.cs',['../_topic_response_8cs.html',1,'']]],
+  ['transfercontroller_2ecs_23',['TransferController.cs',['../_transfer_controller_8cs.html',1,'']]]
 ];

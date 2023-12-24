@@ -1,7 +1,7 @@
 <map id="Tgstation.Server.Host.Server.CheckSanity" name="Tgstation.Server.Host.Server.CheckSanity">
 <area shape="rect" id="node1" title="Throws an InvalidOperationException if the IServerControl cannot be used." alt="" coords="504,69,696,109"/>
 <area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_server.html#a0664caef3896a16c9f668177c68002d3" title="Register a given handler &#160;to run before stopping the server for a restart. A new IRestartRegistration..." alt="" coords="264,5,456,45"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_server.html#a04fae436241d3982b4942606c7547754" title="Implements Restart()." alt="" coords="264,69,456,109"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_server.html#a495a873033e07e8befddaf022738e0a2" title="Implements Restart()." alt="" coords="264,69,456,109"/>
 <area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_server.html#a2343e099613579929e08bbc59f28c1c5" title="Attempt to update with a given updateExecutor . true if the update started successfully,..." alt="" coords="15,127,207,167"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_server.html#a147651e896dc7fb4fafff1f71c9aa46e" title="Kill the server with a fatal exception. A Task representing the running operation." alt="" coords="5,77,216,102"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_server.html#a14a8a5126b790adbcf8fb81cc573acf1" title="Kill the server with a fatal exception. A Task representing the running operation." alt="" coords="5,77,216,102"/>
 </map>
