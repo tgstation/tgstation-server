@@ -168,7 +168,7 @@ Components:
       - TGS now supports running DreamMaker coded games with OpenDream, the open source reimplementation of BYOND. Note that TGS requires the dotnet SDK version supported by the OpenDream version you'd like to use alongside it's normal ASP.NET Core runtime to build it.
       - The repository cloning job now reports checkout progress.
       - Fixed rare DreamDaemon startup failure that may occur due to a lingering socket.
-      - Event scripts containing "Byond" in their names have been updated to use "Engine" instead. Old names will continue function.
+      - Event scripts containing "Byond" in their names have been updated to use "Engine" instead. Old names will continue to function.
       - Socket bind tests will now retry for up to 5s before failing with an AddressInUse exception.
       - Added a workaround for a potential hang while recording process output.
       Author: Cyberboss
