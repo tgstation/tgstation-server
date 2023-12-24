@@ -64,11 +64,12 @@ namespace Tgstation.Server.Host.Components.Interop
 		/// <param name="chunk">The <see cref="ChunkData"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <typeparamref name="TResponse"/> for the chunked request.</returns>
-		protected async ValueTask<TResponse> ProcessChunk<TCommunication, TResponse>(
-			Func<TCommunication?, CancellationToken, ValueTask<TResponse>> completionCallback,
-			Func<string, TResponse> chunkErrorCallback,
-			ChunkData chunk,
+		protected async ValueTask<TResponse?> ProcessChunk<TCommunication, TResponse>(
+			Func<TCommunication, CancellationToken, ValueTask<TResponse?>> completionCallback,
+			Func<string, TResponse?> chunkErrorCallback,
+			ChunkData? chunk,
 			CancellationToken cancellationToken)
+			where TCommunication : class
 			where TResponse : IMissingPayloadsCommunication, new()
 		{
 			if (chunk == null)
@@ -140,8 +141,11 @@ namespace Tgstation.Server.Host.Components.Interop
 			catch (Exception ex)
 			{
 				Logger.LogDebug(ex, "Bad chunked communication for payload {payloadId}!", requestInfo.PayloadId);
-				return chunkErrorCallback("Chunked request completed with bad JSON!");
+				completedCommunication = null;
 			}
+
+			if (completedCommunication == null)
+				return chunkErrorCallback("Chunked request completed with bad JSON!");
 
 			return await completionCallback(completedCommunication, cancellationToken);
 		}

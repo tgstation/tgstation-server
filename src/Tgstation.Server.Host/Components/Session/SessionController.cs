@@ -16,6 +16,7 @@ using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Common.Extensions;
 using Tgstation.Server.Host.Components.Chat;
+using Tgstation.Server.Host.Components.Chat.Commands;
 using Tgstation.Server.Host.Components.Deployment;
 using Tgstation.Server.Host.Components.Engine;
 using Tgstation.Server.Host.Components.Interop;
@@ -24,8 +25,6 @@ using Tgstation.Server.Host.Components.Interop.Topic;
 using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.System;
 using Tgstation.Server.Host.Utils;
-
-#nullable disable
 
 namespace Tgstation.Server.Host.Components.Session
 {
@@ -61,7 +60,7 @@ namespace Tgstation.Server.Host.Components.Session
 		public RebootState RebootState => ReattachInformation.RebootState;
 
 		/// <inheritdoc />
-		public Version DMApiVersion { get; private set; }
+		public Version? DMApiVersion { get; private set; }
 
 		/// <inheritdoc />
 		public bool TerminationWasRequested { get; private set; }
@@ -123,7 +122,7 @@ namespace Tgstation.Server.Host.Components.Session
 		/// <summary>
 		/// The <see cref="IBridgeRegistration"/> for the <see cref="SessionController"/>.
 		/// </summary>
-		readonly IBridgeRegistration bridgeRegistration;
+		readonly IBridgeRegistration? bridgeRegistration;
 
 		/// <summary>
 		/// The <see cref="IProcess"/> for the <see cref="SessionController"/>.
@@ -198,7 +197,7 @@ namespace Tgstation.Server.Host.Components.Session
 		/// <summary>
 		/// <see cref="Task"/> for shutting down the server if it is taking too long after validation.
 		/// </summary>
-		volatile Task postValidationShutdownTask;
+		volatile Task? postValidationShutdownTask;
 
 		/// <summary>
 		/// The number of currently active calls to <see cref="ProcessBridgeRequest(BridgeParameters, CancellationToken)"/> from TgsReboot().
@@ -374,7 +373,7 @@ namespace Tgstation.Server.Host.Components.Session
 		}
 
 		/// <inheritdoc />
-		public async ValueTask<BridgeResponse> ProcessBridgeRequest(BridgeParameters parameters, CancellationToken cancellationToken)
+		public async ValueTask<BridgeResponse?> ProcessBridgeRequest(BridgeParameters parameters, CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(parameters);
 
@@ -406,7 +405,7 @@ namespace Tgstation.Server.Host.Components.Session
 		}
 
 		/// <inheritdoc />
-		public ValueTask<TopicResponse> SendCommand(TopicParameters parameters, CancellationToken cancellationToken)
+		public ValueTask<TopicResponse?> SendCommand(TopicParameters parameters, CancellationToken cancellationToken)
 			=> SendCommand(parameters, false, cancellationToken);
 
 		/// <inheritdoc />
@@ -453,7 +452,10 @@ namespace Tgstation.Server.Host.Components.Session
 		/// <inheritdoc />
 		public async ValueTask InstanceRenamed(string newInstanceName, CancellationToken cancellationToken)
 		{
-			ReattachInformation.RuntimeInformation.InstanceName = newInstanceName;
+			var runtimeInformation = ReattachInformation.RuntimeInformation;
+			if (runtimeInformation != null)
+				runtimeInformation.InstanceName = newInstanceName;
+
 			await SendCommand(
 				TopicParameters.CreateInstanceRenamedTopicParameters(newInstanceName),
 				cancellationToken);
@@ -519,7 +521,7 @@ namespace Tgstation.Server.Host.Components.Session
 				var reattachResponse = await SendCommand(
 					new TopicParameters(
 						assemblyInformationProvider.Version,
-						ReattachInformation.RuntimeInformation.ServerPort),
+						ReattachInformation.RuntimeInformation!.ServerPort),
 					true,
 					reattachTopicCts.Token);
 
@@ -533,7 +535,7 @@ namespace Tgstation.Server.Host.Components.Session
 								? LogLevel.Warning
 								: LogLevel.Debug,
 							"DMAPI Interop v{interopVersion} isn't returning the TGS custom commands list. Functionality added in v5.2.0.",
-							CompileJob.DMApiVersion.Semver());
+							CompileJob.DMApiVersion!.Semver());
 				}
 			}
 
@@ -581,7 +583,7 @@ namespace Tgstation.Server.Host.Components.Session
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="BridgeResponse"/> for the request or <see langword="null"/> if the request could not be dispatched.</returns>
 #pragma warning disable CA1502 // TODO: Decomplexify
-		async ValueTask<BridgeResponse> ProcessBridgeCommand(BridgeParameters parameters, CancellationToken cancellationToken)
+		async ValueTask<BridgeResponse?> ProcessBridgeCommand(BridgeParameters parameters, CancellationToken cancellationToken)
 		{
 			var response = new BridgeResponse();
 			switch (parameters.CommandType)
@@ -645,7 +647,7 @@ namespace Tgstation.Server.Host.Components.Session
 
 					// TODO: When OD figures out how to unite port and topic_port, set an upper version bound on OD for this check
 					if (DMApiVersion.Major != DMApiConstants.InteropVersion.Major
-						|| (EngineVersion.Engine.Value == EngineType.OpenDream && DMApiVersion < new Version(5, 7)))
+						|| (EngineVersion.Engine == EngineType.OpenDream && DMApiVersion < new Version(5, 7)))
 					{
 						apiValidationStatus = ApiValidationStatus.Incompatible;
 						return BridgeError("Incompatible dmApiVersion!");
@@ -670,10 +672,11 @@ namespace Tgstation.Server.Host.Components.Session
 
 					Logger.LogTrace("ApiValidationStatus set to {apiValidationStatus}", apiValidationStatus);
 
+					// we create new runtime info here because of potential .Dmb changes (i think. i forget...)
 					response.RuntimeInformation = new RuntimeInformation(
 						chatTrackingContext,
 						ReattachInformation.Dmb,
-						ReattachInformation.RuntimeInformation.ServerVersion,
+						ReattachInformation.RuntimeInformation!.ServerVersion,
 						ReattachInformation.RuntimeInformation.InstanceName,
 						ReattachInformation.RuntimeInformation.SecurityLevel,
 						ReattachInformation.RuntimeInformation.Visibility,
@@ -688,7 +691,7 @@ namespace Tgstation.Server.Host.Components.Session
 					}
 
 					// Load custom commands
-					chatTrackingContext.CustomCommands = parameters.CustomCommands;
+					chatTrackingContext.CustomCommands = parameters.CustomCommands ?? Array.Empty<CustomCommand>();
 					chatTrackingContext.Active = true;
 					Interlocked.Exchange(ref startupTcs, new TaskCompletionSource()).SetResult();
 					break;
@@ -738,7 +741,7 @@ namespace Tgstation.Server.Host.Components.Session
 		/// <param name="parameters">The <see cref="TopicParameters"/> to send.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="CombinedTopicResponse"/> of the topic request.</returns>
-		async ValueTask<CombinedTopicResponse> SendTopicRequest(TopicParameters parameters, CancellationToken cancellationToken)
+		async ValueTask<CombinedTopicResponse?> SendTopicRequest(TopicParameters parameters, CancellationToken cancellationToken)
 		{
 			parameters.AccessIdentifier = ReattachInformation.AccessIdentifier;
 
@@ -764,14 +767,14 @@ namespace Tgstation.Server.Host.Components.Session
 			var payloadId = NextPayloadId;
 
 			// AccessIdentifer is just noise in a chunked request
-			parameters.AccessIdentifier = null;
+			parameters.AccessIdentifier = null!;
 			GenerateQueryString(parameters, out json);
 
 			// yes, this straight up ignores unicode, precalculating it is useless when we don't
 			// even know if the UTF8 bytes of the url encoded chunk will fit the window until we do said encoding
 			var fullPayloadSize = (uint)json.Length;
 
-			List<string> chunkQueryStrings = null;
+			List<string>? chunkQueryStrings = null;
 			for (var chunkCount = 2; chunkQueryStrings == null; ++chunkCount)
 			{
 				var standardChunkSize = fullPayloadSize / chunkCount;
@@ -817,7 +820,7 @@ namespace Tgstation.Server.Host.Components.Session
 
 			Logger.LogTrace("Chunking topic request ({totalChunks} total)...", chunkQueryStrings.Count);
 
-			CombinedTopicResponse combinedResponse = null;
+			CombinedTopicResponse? combinedResponse = null;
 			bool LogRequestIssue(bool possiblyFromCompletedRequest)
 			{
 				if (combinedResponse?.InteropResponse == null || combinedResponse.InteropResponse.ErrorMessage != null)
@@ -841,11 +844,12 @@ namespace Tgstation.Server.Host.Components.Session
 					return null;
 			}
 
-			while ((combinedResponse.InteropResponse.MissingChunks?.Count ?? 0) > 0)
+			while ((combinedResponse?.InteropResponse?.MissingChunks?.Count ?? 0) > 0)
 			{
 				Logger.LogWarning("DD is still missing some chunks of topic request P{payloadId}! Sending missing chunks...", payloadId);
-				var lastIndex = combinedResponse.InteropResponse.MissingChunks.Last();
-				foreach (var missingChunkIndex in combinedResponse.InteropResponse.MissingChunks)
+				var missingChunks = combinedResponse!.InteropResponse!.MissingChunks!;
+				var lastIndex = missingChunks.Last();
+				foreach (var missingChunkIndex in missingChunks)
 				{
 					var chunkCommandString = chunkQueryStrings[(int)missingChunkIndex];
 					combinedResponse = await SendRawTopic(chunkCommandString, topicPriority, cancellationToken);
@@ -881,7 +885,7 @@ namespace Tgstation.Server.Host.Components.Session
 		/// <param name="priority">If this is a priority message. If so, the topic will make 5 attempts to send unless BYOND reboots or exits.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="CombinedTopicResponse"/> of the topic request.</returns>
-		async ValueTask<CombinedTopicResponse> SendRawTopic(string queryString, bool priority, CancellationToken cancellationToken)
+		async ValueTask<CombinedTopicResponse?> SendRawTopic(string queryString, bool priority, CancellationToken cancellationToken)
 		{
 			if (disposed)
 			{
@@ -891,7 +895,7 @@ namespace Tgstation.Server.Host.Components.Session
 			}
 
 			var targetPort = ReattachInformation.TopicPort ?? ReattachInformation.Port;
-			Byond.TopicSender.TopicResponse byondResponse;
+			Byond.TopicSender.TopicResponse? byondResponse;
 			using (await TopicSendSemaphore.Lock(cancellationToken))
 				byondResponse = await byondTopicSender.SendWithOptionalPriority(
 					asyncDelayer,
@@ -913,7 +917,7 @@ namespace Tgstation.Server.Host.Components.Session
 
 			var topicReturn = byondResponse.StringData;
 
-			TopicResponse interopResponse = null;
+			TopicResponse? interopResponse = null;
 			if (topicReturn != null)
 				try
 				{
@@ -934,7 +938,7 @@ namespace Tgstation.Server.Host.Components.Session
 		/// <param name="bypassLaunchResult">If waiting for the <see cref="LaunchResult"/> should be bypassed.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="TopicResponse"/> of /world/Topic().</returns>
-		async ValueTask<TopicResponse> SendCommand(TopicParameters parameters, bool bypassLaunchResult, CancellationToken cancellationToken)
+		async ValueTask<TopicResponse?> SendCommand(TopicParameters parameters, bool bypassLaunchResult, CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(parameters);
 
@@ -996,7 +1000,7 @@ namespace Tgstation.Server.Host.Components.Session
 				}
 			}
 
-			TopicResponse fullResponse = null;
+			TopicResponse? fullResponse = null;
 			var lifetimeWatchingTask = CancelIfLifetimeElapses();
 			try
 			{
@@ -1014,14 +1018,14 @@ namespace Tgstation.Server.Host.Components.Session
 				{
 					Logger.LogTrace("Topic response is chunked...");
 
-					ChunkData nextChunk = combinedResponse.InteropResponse.Chunk;
+					ChunkData? nextChunk = combinedResponse.InteropResponse.Chunk;
 					do
 					{
 						var nextRequest = await ProcessChunk<TopicResponse, ChunkedTopicParameters>(
 							(completedResponse, _) =>
 							{
 								fullResponse = completedResponse;
-								return ValueTask.FromResult<ChunkedTopicParameters>(null);
+								return ValueTask.FromResult<ChunkedTopicParameters?>(null);
 							},
 							error =>
 							{
