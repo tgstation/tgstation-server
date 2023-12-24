@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Frozen;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Threading.Tasks;
@@ -380,12 +381,13 @@ namespace Tgstation.Server.Host.Core
 							openDreamRepositoryDirectory),
 						new NoopEventConsumer()));
 
-			services.AddSingleton<IReadOnlyDictionary<EngineType, IEngineInstaller>>(
+			services.AddSingleton(
 				serviceProvider => new Dictionary<EngineType, IEngineInstaller>
 				{
 					{ EngineType.Byond, serviceProvider.GetRequiredService<ByondInstallerBase>() },
 					{ EngineType.OpenDream, serviceProvider.GetRequiredService<OpenDreamInstaller>() },
-				});
+				}
+				.ToFrozenDictionary());
 			services.AddSingleton<IEngineInstaller, DelegatingEngineInstaller>();
 
 			if (postSetupServices.InternalConfiguration.UsingSystemD)

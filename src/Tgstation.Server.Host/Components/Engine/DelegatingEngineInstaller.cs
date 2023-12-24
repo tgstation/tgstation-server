@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collections.Frozen;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -15,15 +15,15 @@ namespace Tgstation.Server.Host.Components.Engine
 	sealed class DelegatingEngineInstaller : IEngineInstaller
 	{
 		/// <summary>
-		/// The <see cref="IReadOnlyDictionary{TKey, TValue}"/> mapping <see cref="EngineType"/>s to their appropriate <see cref="IEngineInstaller"/>.
+		/// The <see cref="FrozenDictionary{TKey, TValue}"/> mapping <see cref="EngineType"/>s to their appropriate <see cref="IEngineInstaller"/>.
 		/// </summary>
-		readonly IReadOnlyDictionary<EngineType, IEngineInstaller> delegatedInstallers;
+		readonly FrozenDictionary<EngineType, IEngineInstaller> delegatedInstallers;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="DelegatingEngineInstaller"/> class.
 		/// </summary>
 		/// <param name="delegatedInstallers">The value of <see cref="delegatedInstallers"/>.</param>
-		public DelegatingEngineInstaller(IReadOnlyDictionary<EngineType, IEngineInstaller> delegatedInstallers)
+		public DelegatingEngineInstaller(FrozenDictionary<EngineType, IEngineInstaller> delegatedInstallers)
 		{
 			this.delegatedInstallers = delegatedInstallers ?? throw new ArgumentNullException(nameof(delegatedInstallers));
 		}
