@@ -38,7 +38,7 @@ namespace Tgstation.Server.Api.Models
 		public int? CustomIteration { get; set; }
 
 		/// <summary>
-		/// Parses a stringified <see cref="EngineVersion"/>.
+		/// Attempts to parse a stringified <see cref="EngineVersion"/>.
 		/// </summary>
 		/// <param name="input">The input <see cref="string"/>.</param>
 		/// <param name="engineVersion">The output <see cref="EngineVersion"/>.</param>
@@ -108,6 +108,23 @@ namespace Tgstation.Server.Api.Models
 				CustomIteration = customRev,
 			};
 			return true;
+		}
+
+		/// <summary>
+		/// Parses a stringified <see cref="EngineVersion"/>.
+		/// </summary>
+		/// <param name="input">The input <see cref="string"/>.</param>
+		/// <returns>The output <see cref="EngineVersion"/>.</returns>
+		/// <exception cref="InvalidOperationException">If the <paramref name="input"/> is not a valid stringified <see cref="EngineVersion"/>.</exception>
+		public static EngineVersion Parse(string input)
+		{
+			if (input == null)
+				throw new ArgumentNullException(nameof(input));
+
+			if (TryParse(input, out var engineVersion))
+				return engineVersion!;
+
+			throw new InvalidOperationException($"Invalid engine version: {input}");
 		}
 
 		/// <summary>

@@ -81,7 +81,7 @@ namespace Tgstation.Server.Host.Configuration
 		/// <summary>
 		/// The <see cref="Version"/> the file says it is.
 		/// </summary>
-		public Version ConfigVersion { get; set; }
+		public Version? ConfigVersion { get; set; }
 
 		/// <summary>
 		/// The port the TGS API listens on.
@@ -91,7 +91,7 @@ namespace Tgstation.Server.Host.Configuration
 		/// <summary>
 		/// A GitHub personal access token to use for bypassing rate limits on requests. Requires no scopes.
 		/// </summary>
-		public string GitHubAccessToken { get; set; }
+		public string? GitHubAccessToken { get; set; }
 
 		/// <summary>
 		/// The <see cref="SetupWizardMode"/>.

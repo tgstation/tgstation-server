@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
@@ -42,11 +43,6 @@ namespace Tgstation.Server.Host.Controllers
 		/// File name to allow attaching instances.
 		/// </summary>
 		public const string InstanceAttachFileName = "TGS4_ALLOW_INSTANCE_ATTACH";
-
-		/// <summary>
-		/// Prefix for move <see cref="JobResponse"/>s.
-		/// </summary>
-		const string MoveInstanceJobPrefix = "Move instance ID ";
 
 		/// <summary>
 		/// The <see cref="IJobManager"/> for the <see cref="InstanceController"/>.
@@ -145,8 +141,8 @@ namespace Tgstation.Server.Host.Controllers
 		{
 			ArgumentNullException.ThrowIfNull(model);
 
-			if (String.IsNullOrWhiteSpace(model.Name))
-				return BadRequest(new ErrorMessageResponse(ErrorCode.InstanceWhitespaceName));
+			if (String.IsNullOrWhiteSpace(model.Name) || String.IsNullOrWhiteSpace(model.Path))
+				return BadRequest(new ErrorMessageResponse(ErrorCode.InstanceWhitespaceNameOrPath));
 
 			var unNormalizedPath = model.Path;
 			var targetInstancePath = NormalizePath(unNormalizedPath);
@@ -170,7 +166,7 @@ namespace Tgstation.Server.Host.Controllers
 				return Conflict(new ErrorMessageResponse(ErrorCode.InstanceAtConflictingPath));
 
 			// Validate it's not a child of any other instance
-			IActionResult earlyOut = null;
+			IActionResult? earlyOut = null;
 			ulong countOfOtherInstances = 0;
 			using (var cts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken))
 			{
@@ -190,7 +186,7 @@ namespace Tgstation.Server.Host.Controllers
 							{
 								if (++countOfOtherInstances >= generalConfiguration.InstanceLimit)
 									earlyOut ??= Conflict(new ErrorMessageResponse(ErrorCode.InstanceLimitReached));
-								else if (InstanceIsChildOf(otherInstance.Path))
+								else if (InstanceIsChildOf(otherInstance.Path!))
 									earlyOut ??= Conflict(new ErrorMessageResponse(ErrorCode.InstanceAtConflictingPath));
 
 								if (earlyOut != null && !newCancellationToken.IsCancellationRequested)
@@ -306,15 +302,16 @@ namespace Tgstation.Server.Host.Controllers
 				.FirstOrDefaultAsync(cancellationToken);
 			if (originalModel == default)
 				return this.Gone();
-			if (originalModel.Online.Value)
+			if (originalModel.Online!.Value)
 				return Conflict(new ErrorMessageResponse(ErrorCode.InstanceDetachOnline));
 
 			DatabaseContext.Instances.Remove(originalModel);
 
-			var attachFileName = ioManager.ConcatPath(originalModel.Path, InstanceAttachFileName);
+			var originalPath = originalModel.Path!;
+			var attachFileName = ioManager.ConcatPath(originalPath, InstanceAttachFileName);
 			try
 			{
-				if (await ioManager.DirectoryExists(originalModel.Path, cancellationToken))
+				if (await ioManager.DirectoryExists(originalPath, cancellationToken))
 					await ioManager.WriteAllBytes(attachFileName, Array.Empty<byte>(), cancellationToken);
 			}
 			catch (OperationCanceledException)
@@ -353,14 +350,15 @@ namespace Tgstation.Server.Host.Controllers
 				.Where(x => x.Id == model.Id && x.SwarmIdentifer == swarmConfiguration.Identifier);
 
 			var moveJob = await InstanceQuery()
-				.SelectMany(x => x.Jobs).
-				Where(x => !x.StoppedAt.HasValue && x.Description.StartsWith(MoveInstanceJobPrefix))
-				.Select(x => new Job(x.Id.Value)).FirstOrDefaultAsync(cancellationToken);
+				.SelectMany(x => x.Jobs)
+				.Where(x => !x.StoppedAt.HasValue && x.JobCode == JobCode.Move)
+				.Select(x => new Job(x.Id!.Value))
+				.FirstOrDefaultAsync(cancellationToken);
 
-			if (moveJob != default)
+			if (moveJob != null)
 			{
 				// don't allow them to cancel it if they can't start it.
-				if (!AuthenticationContext.PermissionSet.InstanceManagerRights.Value.HasFlag(InstanceManagerRights.Relocate))
+				if (!AuthenticationContext.PermissionSet.InstanceManagerRights!.Value.HasFlag(InstanceManagerRights.Relocate))
 					return Forbid();
 				await jobManager.CancelJob(moveJob, AuthenticationContext.User, true, cancellationToken); // cancel it now
 			}
@@ -393,8 +391,9 @@ namespace Tgstation.Server.Host.Controllers
 				return false;
 			}
 
-			string originalModelPath = null;
-			string rawPath = null;
+			string? originalModelPath = null;
+			string? rawPath = null;
+			var originalOnline = originalModel.Online!.Value;
 			if (model.Path != null)
 			{
 				rawPath = NormalizePath(model.Path);
@@ -403,7 +402,7 @@ namespace Tgstation.Server.Host.Controllers
 				{
 					if (!userRights.HasFlag(InstanceManagerRights.Relocate))
 						return Forbid();
-					if (originalModel.Online.Value && model.Online != true)
+					if (originalOnline && model.Online != true)
 						return Conflict(new ErrorMessageResponse(ErrorCode.InstanceRelocateOnline));
 
 					var dirExistsTask = ioManager.DirectoryExists(model.Path, cancellationToken);
@@ -415,8 +414,7 @@ namespace Tgstation.Server.Host.Controllers
 				}
 			}
 
-			var oldAutoUpdateInterval = originalModel.AutoUpdateInterval.Value;
-			var originalOnline = originalModel.Online.Value;
+			var oldAutoUpdateInterval = originalModel.AutoUpdateInterval!.Value;
 			var renamed = model.Name != null && originalModel.Name != model.Name;
 
 			if (CheckModified(x => x.AutoUpdateInterval, InstanceManagerRights.SetAutoUpdate)
@@ -443,16 +441,16 @@ namespace Tgstation.Server.Host.Controllers
 			if (renamed)
 			{
 				// ignoring retval because we don't care if it's offline
-				await WithComponentInstance(
+				await WithComponentInstanceNullable(
 					async componentInstance =>
 					{
-						await componentInstance.InstanceRenamed(originalModel.Name, cancellationToken);
+						await componentInstance.InstanceRenamed(originalModel.Name!, cancellationToken);
 						return null;
 					},
 					originalModel);
 			}
 
-			var oldAutoStart = originalModel.DreamDaemonSettings.AutoStart;
+			var oldAutoStart = originalModel.DreamDaemonSettings!.AutoStart;
 			try
 			{
 				if (originalOnline && model.Online == false)
@@ -487,14 +485,14 @@ namespace Tgstation.Server.Host.Controllers
 			var moving = originalModelPath != null;
 			if (moving)
 			{
-				var description = $"{MoveInstanceJobPrefix}{originalModel.Id} from {originalModelPath} to {rawPath}";
+				var description = $"Move instance ID {originalModel.Id} from {originalModelPath} to {rawPath}";
 				var job = Job.Create(JobCode.Move, AuthenticationContext.User, originalModel, InstanceManagerRights.Relocate);
 				job.Description = description;
 
 				await jobManager.RegisterOperation(
 					job,
 					(core, databaseContextFactory, paramJob, progressHandler, ct) // core will be null here since the instance is offline
-						=> InstanceOperations.MoveInstance(originalModel, originalModelPath, ct),
+						=> InstanceOperations.MoveInstance(originalModel, originalModelPath!, ct),
 					cancellationToken);
 				api.MoveJob = job.ToApi();
 			}
@@ -502,7 +500,7 @@ namespace Tgstation.Server.Host.Controllers
 			if (model.AutoUpdateInterval.HasValue && oldAutoUpdateInterval != model.AutoUpdateInterval)
 			{
 				// ignoring retval because we don't care if it's offline
-				await WithComponentInstance(
+				await WithComponentInstanceNullable(
 					async componentInstance =>
 					{
 						await componentInstance.SetAutoUpdateInterval(model.AutoUpdateInterval.Value);
@@ -538,9 +536,9 @@ namespace Tgstation.Server.Host.Controllers
 					.Instances
 					.AsQueryable()
 					.Where(x => x.SwarmIdentifer == swarmConfiguration.Identifier);
-				if (!AuthenticationContext.PermissionSet.InstanceManagerRights.Value.HasFlag(InstanceManagerRights.List))
+				if (!AuthenticationContext.PermissionSet.InstanceManagerRights!.Value.HasFlag(InstanceManagerRights.List))
 					query = query
-						.Where(x => x.InstancePermissionSets.Any(y => y.PermissionSetId == AuthenticationContext.PermissionSet.Id.Value))
+						.Where(x => x.InstancePermissionSets.Any(y => y.PermissionSetId == AuthenticationContext.PermissionSet.Id))
 						.Where(x => x.InstancePermissionSets.Any(instanceUser =>
 							instanceUser.EngineRights != EngineRights.None ||
 							instanceUser.ChatBotRights != ChatBotRights.None ||
@@ -555,8 +553,9 @@ namespace Tgstation.Server.Host.Controllers
 
 			var moveJobs = await GetBaseQuery()
 				.SelectMany(x => x.Jobs)
-				.Where(x => !x.StoppedAt.HasValue && x.Description.StartsWith(MoveInstanceJobPrefix))
-				.Include(x => x.StartedBy).ThenInclude(x => x.CreatedBy)
+				.Where(x => !x.StoppedAt.HasValue && x.JobCode == JobCode.Move)
+				.Include(x => x.StartedBy!)
+					.ThenInclude(x => x.CreatedBy)
 				.Include(x => x.Instance)
 				.ToListAsync(cancellationToken);
 
@@ -569,7 +568,7 @@ namespace Tgstation.Server.Host.Controllers
 				async instance =>
 				{
 					needsUpdate |= ValidateInstanceOnlineStatus(instance);
-					instance.MoveJob = moveJobs.FirstOrDefault(x => x.Instance.Id == instance.Id)?.ToApi();
+					instance.MoveJob = moveJobs.FirstOrDefault(x => x.Instance!.Id == instance.Id)?.ToApi();
 					await CheckAccessible(instance, cancellationToken);
 				},
 				page,
@@ -596,7 +595,7 @@ namespace Tgstation.Server.Host.Controllers
 		[ProducesResponseType(typeof(ErrorMessageResponse), 410)]
 		public async ValueTask<IActionResult> GetId(long id, CancellationToken cancellationToken)
 		{
-			var cantList = !AuthenticationContext.PermissionSet.InstanceManagerRights.Value.HasFlag(InstanceManagerRights.List);
+			var cantList = !AuthenticationContext.PermissionSet.InstanceManagerRights!.Value.HasFlag(InstanceManagerRights.List);
 			IQueryable<Models.Instance> QueryForUser()
 			{
 				var query = DatabaseContext
@@ -617,8 +616,8 @@ namespace Tgstation.Server.Host.Controllers
 			if (ValidateInstanceOnlineStatus(instance))
 				await DatabaseContext.Save(cancellationToken);
 
-			if (cantList && !instance.InstancePermissionSets.Any(instanceUser => instanceUser.PermissionSetId == AuthenticationContext.PermissionSet.Id.Value &&
-				(instanceUser.RepositoryRights != RepositoryRights.None ||
+			if (cantList && !instance.InstancePermissionSets.Any(instanceUser => instanceUser.PermissionSetId == AuthenticationContext.PermissionSet.Require(x => x.Id)
+				&& (instanceUser.RepositoryRights != RepositoryRights.None ||
 				instanceUser.EngineRights != EngineRights.None ||
 				instanceUser.ChatBotRights != ChatBotRights.None ||
 				instanceUser.ConfigurationRights != ConfigurationRights.None ||
@@ -631,8 +630,8 @@ namespace Tgstation.Server.Host.Controllers
 
 			var moveJob = await QueryForUser()
 				.SelectMany(x => x.Jobs)
-				.Where(x => !x.StoppedAt.HasValue && x.Description.StartsWith(MoveInstanceJobPrefix))
-				.Include(x => x.StartedBy)
+				.Where(x => !x.StoppedAt.HasValue && x.JobCode == JobCode.Move)
+				.Include(x => x.StartedBy!)
 					.ThenInclude(x => x.CreatedBy)
 				.Include(x => x.Instance)
 				.FirstOrDefaultAsync(cancellationToken);
@@ -662,7 +661,7 @@ namespace Tgstation.Server.Host.Controllers
 			// ensure the current user has write privilege on the instance
 			var usersInstancePermissionSet = await BaseQuery()
 				.SelectMany(x => x.InstancePermissionSets)
-				.Where(x => x.PermissionSetId == AuthenticationContext.PermissionSet.Id.Value)
+				.Where(x => x.PermissionSetId == AuthenticationContext.PermissionSet.Id)
 				.FirstOrDefaultAsync(cancellationToken);
 			if (usersInstancePermissionSet == default)
 			{
@@ -691,7 +690,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="initialSettings">The <see cref="InstanceCreateRequest"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the new <see cref="Models.Instance"/> or <see langword="null"/> if ports could not be allocated.</returns>
-		async ValueTask<Models.Instance> CreateDefaultInstance(InstanceCreateRequest initialSettings, CancellationToken cancellationToken)
+		async ValueTask<Models.Instance?> CreateDefaultInstance(InstanceCreateRequest initialSettings, CancellationToken cancellationToken)
 		{
 			var ddPort = await portAllocator.GetAvailablePort(1024, false, cancellationToken);
 			if (!ddPort.HasValue)
@@ -771,12 +770,12 @@ namespace Tgstation.Server.Host.Controllers
 		/// </summary>
 		/// <param name="permissionSetToModify">An optional existing <see cref="InstancePermissionSet"/> to update.</param>
 		/// <returns><paramref name="permissionSetToModify"/> or a new <see cref="InstancePermissionSet"/> with full rights.</returns>
-		InstancePermissionSet InstanceAdminPermissionSet(InstancePermissionSet permissionSetToModify)
+		InstancePermissionSet InstanceAdminPermissionSet(InstancePermissionSet? permissionSetToModify)
 		{
 			permissionSetToModify ??= new InstancePermissionSet()
 			{
 				PermissionSet = AuthenticationContext.PermissionSet,
-				PermissionSetId = AuthenticationContext.PermissionSet.Id.Value,
+				PermissionSetId = AuthenticationContext.PermissionSet.Require(x => x.Id),
 			};
 			permissionSetToModify.EngineRights = RightsHelper.AllRights<EngineRights>();
 			permissionSetToModify.ChatBotRights = RightsHelper.AllRights<ChatBotRights>();
@@ -793,7 +792,8 @@ namespace Tgstation.Server.Host.Controllers
 		/// </summary>
 		/// <param name="path">The path to normalize.</param>
 		/// <returns>The normalized <paramref name="path"/>.</returns>
-		string NormalizePath(string path)
+		[return: NotNullIfNotNull(nameof(path))]
+		string? NormalizePath(string? path)
 		{
 			if (path == null)
 				return null;

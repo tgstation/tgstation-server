@@ -12,7 +12,7 @@ namespace Tgstation.Server.Host.Components.Session
 		/// <summary>
 		/// The <see cref="ILogger"/> for created <see cref="ITopicClient"/>s.
 		/// </summary>
-		readonly ILogger<TopicClient> logger;
+		readonly ILogger<TopicClient>? logger;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="TopicClientFactory"/> class.

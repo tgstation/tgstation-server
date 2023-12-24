@@ -24,12 +24,12 @@ namespace Tgstation.Server.Host.Components.Interop.Bridge
 		/// <summary>
 		/// The DMAPI <see cref="global::System.Version"/> for <see cref="BridgeCommandType.Startup"/> requests.
 		/// </summary>
-		public Version Version { get; set; }
+		public Version? Version { get; set; }
 
 		/// <summary>
 		/// The DMAPI <see cref="CustomCommand"/>s for <see cref="BridgeCommandType.Startup"/> requests.
 		/// </summary>
-		public ICollection<CustomCommand> CustomCommands { get; set; }
+		public ICollection<CustomCommand>? CustomCommands { get; set; }
 
 		/// <summary>
 		/// The minimum required <see cref="DreamDaemonSecurity"/> level for <see cref="BridgeCommandType.Startup"/> requests.
@@ -39,16 +39,25 @@ namespace Tgstation.Server.Host.Components.Interop.Bridge
 		/// <summary>
 		/// The <see cref="Interop.ChatMessage"/> for <see cref="BridgeCommandType.ChatSend"/> requests.
 		/// </summary>
-		public ChatMessage ChatMessage { get; set; }
+		public ChatMessage? ChatMessage { get; set; }
 
 		/// <summary>
 		/// The <see cref="ChunkData"/> for <see cref="BridgeCommandType.Chunk"/> requests.
 		/// </summary>
-		public ChunkData Chunk { get; set; }
+		public ChunkData? Chunk { get; set; }
 
 		/// <summary>
 		/// The port that should be used to send world topics, if not the default.
 		/// </summary>
 		public ushort? TopicPort { get; set; }
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="BridgeParameters"/> class.
+		/// </summary>
+		/// <param name="accessIdentifier">The access identifier for the <see cref="DMApiParameters"/>.</param>
+		public BridgeParameters(string accessIdentifier)
+			: base(accessIdentifier)
+		{
+		}
 	}
 }

@@ -28,7 +28,7 @@ namespace Tgstation.Server.Host.IO
 		/// <summary>
 		/// The backing <see cref="Stream"/>.
 		/// </summary>
-		volatile MemoryStream buffer;
+		volatile MemoryStream? buffer;
 
 		/// <summary>
 		/// If <see cref="buffer"/> has been populated.
@@ -58,7 +58,7 @@ namespace Tgstation.Server.Host.IO
 		/// <inheritdoc />
 		public async ValueTask DisposeAsync()
 		{
-			MemoryStream localBuffer;
+			MemoryStream? localBuffer;
 			lock (semaphore)
 			{
 				localBuffer = buffer;

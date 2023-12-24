@@ -56,8 +56,8 @@ namespace Tgstation.Server.Host.IO
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
 		ValueTask CopyDirectory(
-			IEnumerable<string> ignore,
-			Func<string, string, ValueTask> postCopyCallback,
+			IEnumerable<string>? ignore,
+			Func<string, string, ValueTask>? postCopyCallback,
 			string src,
 			string dest,
 			int? taskThrottle,
@@ -133,6 +133,7 @@ namespace Tgstation.Server.Host.IO
 		/// </summary>
 		/// <param name="path">A path to check.</param>
 		/// <returns>The directory portion of the given <paramref name="path"/>.</returns>
+		/// <exception cref="InvalidOperationException">If <paramref name="path"/> is rooted.</exception>
 		string GetDirectoryName(string path);
 
 		/// <summary>

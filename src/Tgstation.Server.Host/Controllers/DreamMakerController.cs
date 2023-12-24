@@ -27,7 +27,6 @@ namespace Tgstation.Server.Host.Controllers
 	/// <see cref="ApiController"/> for managing the deployment system.
 	/// </summary>
 	[Route(Routes.DreamMaker)]
-#pragma warning disable CA1506 // TODO: Decomplexify
 	public sealed class DreamMakerController : InstanceRequiredController
 	{
 		/// <summary>
@@ -85,6 +84,10 @@ namespace Tgstation.Server.Host.Controllers
 				.AsQueryable()
 				.Where(x => x.InstanceId == Instance.Id)
 				.FirstOrDefaultAsync(cancellationToken);
+
+			if (dreamMakerSettings == null)
+				return this.Gone();
+
 			return Json(dreamMakerSettings.ToApi());
 		}
 
@@ -148,7 +151,7 @@ namespace Tgstation.Server.Host.Controllers
 			await jobManager.RegisterOperation(
 				job,
 				(core, databaseContextFactory, paramJob, progressReporter, jobCancellationToken)
-					=> core.DreamMaker.DeploymentProcess(paramJob, databaseContextFactory, progressReporter, jobCancellationToken),
+					=> core!.DreamMaker.DeploymentProcess(paramJob, databaseContextFactory, progressReporter, jobCancellationToken),
 				cancellationToken);
 			return Accepted(job.ToApi());
 		}
@@ -187,9 +190,10 @@ namespace Tgstation.Server.Host.Controllers
 			if (hostModel == null)
 				return this.Gone();
 
+			var dreamMakerRights = InstancePermissionSet.DreamMakerRights!.Value;
 			if (model.ProjectName != null)
 			{
-				if (!AuthenticationContext.InstancePermissionSet.DreamMakerRights.Value.HasFlag(DreamMakerRights.SetDme))
+				if (!dreamMakerRights.HasFlag(DreamMakerRights.SetDme))
 					return Forbid();
 				if (model.ProjectName.Length == 0)
 					hostModel.ProjectName = null;
@@ -199,10 +203,10 @@ namespace Tgstation.Server.Host.Controllers
 
 			if (model.ApiValidationPort.HasValue)
 			{
-				if (!AuthenticationContext.InstancePermissionSet.DreamMakerRights.Value.HasFlag(DreamMakerRights.SetApiValidationPort))
+				if (!dreamMakerRights.HasFlag(DreamMakerRights.SetApiValidationPort))
 					return Forbid();
 
-				if (model.ApiValidationPort.Value != hostModel.ApiValidationPort.Value)
+				if (model.ApiValidationPort.Value != hostModel.ApiValidationPort!.Value)
 				{
 					var verifiedPort = await portAllocator
 						.GetAvailablePort(
@@ -218,28 +222,28 @@ namespace Tgstation.Server.Host.Controllers
 
 			if (model.ApiValidationSecurityLevel.HasValue)
 			{
-				if (!AuthenticationContext.InstancePermissionSet.DreamMakerRights.Value.HasFlag(DreamMakerRights.SetSecurityLevel))
+				if (!dreamMakerRights.HasFlag(DreamMakerRights.SetSecurityLevel))
 					return Forbid();
 				hostModel.ApiValidationSecurityLevel = model.ApiValidationSecurityLevel;
 			}
 
 			if (model.RequireDMApiValidation.HasValue)
 			{
-				if (!AuthenticationContext.InstancePermissionSet.DreamMakerRights.Value.HasFlag(DreamMakerRights.SetApiValidationRequirement))
+				if (!dreamMakerRights.HasFlag(DreamMakerRights.SetApiValidationRequirement))
 					return Forbid();
 				hostModel.RequireDMApiValidation = model.RequireDMApiValidation;
 			}
 
 			if (model.Timeout.HasValue)
 			{
-				if (!AuthenticationContext.InstancePermissionSet.DreamMakerRights.Value.HasFlag(DreamMakerRights.SetTimeout))
+				if (!dreamMakerRights.HasFlag(DreamMakerRights.SetTimeout))
 					return Forbid();
 				hostModel.Timeout = model.Timeout;
 			}
 
 			await DatabaseContext.Save(cancellationToken);
 
-			if ((AuthenticationContext.GetRight(RightsType.DreamMaker) & (ulong)DreamMakerRights.Read) == 0)
+			if (!dreamMakerRights.HasFlag(DreamMakerRights.Read))
 				return NoContent();
 
 			return await Read(cancellationToken);
@@ -252,17 +256,17 @@ namespace Tgstation.Server.Host.Controllers
 		IQueryable<CompileJob> BaseCompileJobsQuery() => DatabaseContext
 			.CompileJobs
 			.AsQueryable()
-			.Include(x => x.Job)
+			.Include(x => x.Job!)
 				.ThenInclude(x => x.StartedBy)
-			.Include(x => x.Job)
+			.Include(x => x.Job!)
 				.ThenInclude(x => x.Instance)
-			.Include(x => x.RevisionInformation)
-				.ThenInclude(x => x.PrimaryTestMerge)
+			.Include(x => x.RevisionInformation!)
+				.ThenInclude(x => x.PrimaryTestMerge!)
 					.ThenInclude(x => x.MergedBy)
 			.Include(x => x.RevisionInformation)
-				.ThenInclude(x => x.ActiveTestMerges)
-					.ThenInclude(x => x.TestMerge)
-						.ThenInclude(x => x.MergedBy)
-			.Where(x => x.Job.Instance.Id == Instance.Id);
+				.ThenInclude(x => x.ActiveTestMerges!)
+					.ThenInclude(x => x!.TestMerge)
+						.ThenInclude(x => x!.MergedBy)
+			.Where(x => x.Job.Instance!.Id == Instance.Id);
 	}
 }

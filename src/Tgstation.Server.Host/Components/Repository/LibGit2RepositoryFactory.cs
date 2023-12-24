@@ -80,7 +80,7 @@ namespace Tgstation.Server.Host.Components.Repository
 			TaskScheduler.Current);
 
 		/// <inheritdoc />
-		public CredentialsHandler GenerateCredentialsHandler(string username, string password) => (a, b, supportedCredentialTypes) =>
+		public CredentialsHandler GenerateCredentialsHandler(string? username, string? password) => (a, b, supportedCredentialTypes) =>
 		{
 			var hasCreds = username != null;
 			var supportsUserPass = supportedCredentialTypes.HasFlag(SupportedCredentialTypes.UsernamePassword);

@@ -93,7 +93,7 @@ namespace Tgstation.Server.Host.Components.Engine
 			var basePath = IOManager.ConcatPath(path, ByondBinPath);
 
 			var ddTask = WriteAndMakeExecutable(
-				IOManager.ConcatPath(basePath, GetDreamDaemonName(version.Version, out _)),
+				IOManager.ConcatPath(basePath, GetDreamDaemonName(version.Version!, out _)),
 				dreamDaemonScript);
 
 			var dmTask = WriteAndMakeExecutable(

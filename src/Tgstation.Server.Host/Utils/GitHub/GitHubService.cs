@@ -80,36 +80,38 @@ namespace Tgstation.Server.Host.Utils.GitHub
 					.GetAll(updatesConfiguration.GitHubRepositoryId)
 					.WaitAsync(cancellationToken);
 
+			var gitPrefix = updatesConfiguration.GitTagPrefix ?? String.Empty;
+
 			logger.LogTrace("{totalReleases} total releases", allReleases.Count);
-			var releases = allReleases
-					.Where(release =>
+			var releases = allReleases!
+				.Where(release =>
+				{
+					if (!release.PublishedAt.HasValue)
 					{
-						if (!release.PublishedAt.HasValue)
-						{
-							logger.LogDebug("Release tag without PublishedAt: {releaseTag}", release.TagName);
-							return false;
-						}
+						logger.LogDebug("Release tag without PublishedAt: {releaseTag}", release.TagName);
+						return false;
+					}
 
-						if (!release.TagName.StartsWith(updatesConfiguration.GitTagPrefix, StringComparison.InvariantCulture))
-							return false;
+					if (!release.TagName.StartsWith(gitPrefix, StringComparison.InvariantCulture))
+						return false;
 
-						return true;
-					})
-					.GroupBy(release =>
+					return true;
+				})
+				.GroupBy(release =>
+				{
+					if (!Version.TryParse(release.TagName.Replace(gitPrefix, String.Empty, StringComparison.Ordinal), out var version))
 					{
-						if (!Version.TryParse(release.TagName.Replace(updatesConfiguration.GitTagPrefix, String.Empty, StringComparison.Ordinal), out var version))
-						{
-							logger.LogDebug("Unparsable release tag: {releaseTag}", release.TagName);
-							return null;
-						}
+						logger.LogDebug("Unparsable release tag: {releaseTag}", release.TagName);
+						return null;
+					}
 
-						return version;
-					})
-					.Where(grouping => grouping.Key != null)
+					return version;
+				})
+				.Where(grouping => grouping.Key != null)
 
-					// GitHub can return the same result twice or some other nonsense
-					.Select(grouping => Tuple.Create(grouping.Key, grouping.OrderBy(x => x.PublishedAt.Value).First()))
-					.ToDictionary(tuple => tuple.Item1, tuple => tuple.Item2);
+				// GitHub can return the same result twice or some other nonsense
+				.Select(grouping => Tuple.Create(grouping.Key!, grouping.OrderBy(x => x.PublishedAt ?? DateTimeOffset.MinValue).First()))
+				.ToDictionary(tuple => tuple.Item1, tuple => tuple.Item2);
 
 			logger.LogTrace("{parsedReleases} parsed releases", releases.Count);
 			return releases;

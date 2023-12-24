@@ -27,7 +27,7 @@ namespace Tgstation.Server.Host.Extensions
 		public static FetchOptions Hydrate(
 			this FetchOptions fetchOptions,
 			ILogger logger,
-			JobProgressReporter progressReporter,
+			JobProgressReporter? progressReporter,
 			CredentialsHandler credentialsHandler,
 			CancellationToken cancellationToken)
 		{
@@ -63,7 +63,7 @@ namespace Tgstation.Server.Host.Extensions
 		/// <param name="progressReporter">The optional <see cref="JobProgressReporter"/> of the operation.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A new <see cref="LibGit2Sharp.Handlers.TransferProgressHandler"/> based on <paramref name="progressReporter"/>.</returns>
-		static TransferProgressHandler TransferProgressHandler(ILogger logger, JobProgressReporter progressReporter, CancellationToken cancellationToken) => transferProgress =>
+		static TransferProgressHandler TransferProgressHandler(ILogger logger, JobProgressReporter? progressReporter, CancellationToken cancellationToken) => transferProgress =>
 		{
 			double? percentage;
 			var totalObjectsToProcess = transferProgress.TotalObjects * 2;

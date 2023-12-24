@@ -45,7 +45,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the next available <see cref="Message"/> or <see langword="null"/> if the <see cref="IProvider"/> needed to reconnect.</returns>
 		/// <remarks>Note that private messages will come in the form of <see cref="ChannelRepresentation"/>s not returned in <see cref="MapChannels(IEnumerable{ChatChannel}, CancellationToken)"/>.</remarks>
-		Task<Message> NextMessage(CancellationToken cancellationToken);
+		Task<Message?> NextMessage(CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Gracefully disconnects the provider. Permanently stops the reconnection timer.
@@ -65,12 +65,12 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// <summary>
 		/// Send a message to the <see cref="IProvider"/>.
 		/// </summary>
-		/// <param name="replyTo">The <see cref="Message"/> to reply to.</param>
+		/// <param name="replyTo">The optional <see cref="Message"/> to reply to.</param>
 		/// <param name="message">The <see cref="MessageContent"/>.</param>
 		/// <param name="channelId">The <see cref="ChannelRepresentation.RealId"/> to send to.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
-		ValueTask SendMessage(Message replyTo, MessageContent message, ulong channelId, CancellationToken cancellationToken);
+		ValueTask SendMessage(Message? replyTo, MessageContent message, ulong channelId, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Set the interval at which the provider starts jobs to try to reconnect.
@@ -92,12 +92,12 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// <param name="localCommitPushed"><see langword="true"/> if the local deployment commit was pushed to the remote repository.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in a <see cref="Func{T1, T2, TResult}"/> to call to update the message at the deployment's conclusion. Parameters: Error message if any, DreamMaker output if any. Returns another callback which should be called to mark the deployment as active.</returns>
-		ValueTask<Func<string, string, ValueTask<Func<bool, ValueTask>>>> SendUpdateMessage(
+		ValueTask<Func<string?, string, ValueTask<Func<bool, ValueTask>>>> SendUpdateMessage(
 			Models.RevisionInformation revisionInformation,
 			Api.Models.EngineVersion engineVersion,
 			DateTimeOffset? estimatedCompletionTime,
-			string gitHubOwner,
-			string gitHubRepo,
+			string? gitHubOwner,
+			string? gitHubRepo,
 			ulong channelId,
 			bool localCommitPushed,
 			CancellationToken cancellationToken);

@@ -44,18 +44,18 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// Checks out a given <paramref name="committish"/>.
 		/// </summary>
 		/// <param name="committish">The sha or reference to checkout.</param>
-		/// <param name="username">The username used for fetching from submodule repositories.</param>
-		/// <param name="password">The password used for fetching from submodule repositories.</param>
+		/// <param name="username">The optional username used for fetching from submodule repositories.</param>
+		/// <param name="password">The optional password used for fetching from submodule repositories.</param>
 		/// <param name="updateSubmodules">If a submodule update should be attempted after the merge.</param>
 		/// <param name="progressReporter">The optional <see cref="JobProgressReporter"/> to report progress of the operation.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
 		ValueTask CheckoutObject(
 			string committish,
-			string username,
-			string password,
+			string? username,
+			string? password,
 			bool updateSubmodules,
-			JobProgressReporter progressReporter,
+			JobProgressReporter? progressReporter,
 			CancellationToken cancellationToken);
 
 		/// <summary>
@@ -64,8 +64,8 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// <param name="testMergeParameters">The <see cref="TestMergeParameters"/> of the pull request.</param>
 		/// <param name="committerName">The name of the merge committer.</param>
 		/// <param name="committerEmail">The e-mail of the merge committer.</param>
-		/// <param name="username">The username used to fetch from the origin and submodule repositories.</param>
-		/// <param name="password">The password used to fetch from the origin and submodule repositories.</param>
+		/// <param name="username">The optional username used to fetch from the origin and submodule repositories.</param>
+		/// <param name="password">The optional password used to fetch from the origin and submodule repositories.</param>
 		/// <param name="updateSubmodules">If a submodule update should be attempted after the merge.</param>
 		/// <param name="progressReporter">The <see cref="JobProgressReporter"/> to report progress of the operation.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
@@ -74,8 +74,8 @@ namespace Tgstation.Server.Host.Components.Repository
 			TestMergeParameters testMergeParameters,
 			string committerName,
 			string committerEmail,
-			string username,
-			string password,
+			string? username,
+			string? password,
 			bool updateSubmodules,
 			JobProgressReporter progressReporter,
 			CancellationToken cancellationToken);
@@ -84,15 +84,15 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// Fetch commits from the origin repository.
 		/// </summary>
 		/// <param name="progressReporter">The optional <see cref="JobProgressReporter"/> to report progress of the operation.</param>
-		/// <param name="username">The username to fetch from the origin repository.</param>
-		/// <param name="password">The password to fetch from the origin repository.</param>
+		/// <param name="username">The optional username to fetch from the origin repository.</param>
+		/// <param name="password">The optional password to fetch from the origin repository.</param>
 		/// <param name="deploymentPipeline">If any events created should be marked as part of the deployment pipeline.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
 		ValueTask FetchOrigin(
-			JobProgressReporter progressReporter,
-			string username,
-			string password,
+			JobProgressReporter? progressReporter,
+			string? username,
+			string? password,
 			bool deploymentPipeline,
 			CancellationToken cancellationToken);
 
@@ -100,16 +100,16 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// Requires the current HEAD to be a tracked reference. Hard resets the reference to what it tracks on the origin repository.
 		/// </summary>
 		/// <param name="progressReporter">The <see cref="JobProgressReporter"/> to report progress of the operation.</param>
-		/// <param name="username">The username used for fetching from submodule repositories.</param>
-		/// <param name="password">The password used for fetching from submodule repositories.</param>
+		/// <param name="username">The optional username used for fetching from submodule repositories.</param>
+		/// <param name="password">The optional password used for fetching from submodule repositories.</param>
 		/// <param name="updateSubmodules">If a submodule update should be attempted after the merge.</param>
 		/// <param name="deploymentPipeline">If any events created should be marked as part of the deployment pipeline.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the SHA of the new HEAD.</returns>
 		ValueTask ResetToOrigin(
 			JobProgressReporter progressReporter,
-			string username,
-			string password,
+			string? username,
+			string? password,
 			bool updateSubmodules,
 			bool deploymentPipeline,
 			CancellationToken cancellationToken);
@@ -151,10 +151,10 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// <param name="deploymentPipeline">If any events created should be marked as part of the deployment pipeline.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in <see langword="true"/> if commits were pushed to the tracked origin reference, <see langword="false"/> otherwise.</returns>
-		ValueTask<bool> Sychronize(
+		ValueTask<bool> Synchronize(
 			JobProgressReporter progressReporter,
-			string username,
-			string password,
+			string? username,
+			string? password,
 			string committerName,
 			string committerEmail,
 			bool synchronizeTrackedBranch,

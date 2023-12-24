@@ -34,7 +34,7 @@ namespace Tgstation.Server.Host.Extensions
 		/// <param name="statusCode">The <see cref="HttpStatusCode"/>.</param>
 		/// <param name="errorMessage">The accompanying <see cref="ErrorMessageResponse"/> payload.</param>
 		/// <returns>A <see cref="StatusCodeResult"/> with the given <paramref name="statusCode"/>.</returns>
-		public static ObjectResult StatusCode(this ControllerBase controller, HttpStatusCode statusCode, object errorMessage)
+		public static ObjectResult StatusCode(this ControllerBase controller, HttpStatusCode statusCode, object? errorMessage)
 			=> controller?.StatusCode((int)statusCode, errorMessage) ?? throw new ArgumentNullException(nameof(controller));
 
 		/// <summary>
@@ -45,7 +45,7 @@ namespace Tgstation.Server.Host.Extensions
 		/// <param name="logger">The <see cref="ILogger"/>.</param>
 		/// <param name="path">The path to the file in the 'wwwroot'.</param>
 		/// <returns>A <see cref="VirtualFileResult"/> if the file was found. <see langword="null"/> otherwise.</returns>
-		public static VirtualFileResult TryServeFile(this ControllerBase controller, IWebHostEnvironment hostEnvironment, ILogger logger, string path)
+		public static VirtualFileResult? TryServeFile(this ControllerBase controller, IWebHostEnvironment hostEnvironment, ILogger logger, string path)
 		{
 			ArgumentNullException.ThrowIfNull(controller);
 			ArgumentNullException.ThrowIfNull(hostEnvironment);

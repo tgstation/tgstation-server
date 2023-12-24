@@ -32,7 +32,7 @@ namespace Tgstation.Server.Host.Components.Session
 		/// <summary>
 		/// The DMAPI <see cref="Version"/>.
 		/// </summary>
-		Version DMApiVersion { get; }
+		Version? DMApiVersion { get; }
 
 		/// <summary>
 		/// Gets the <see cref="CompileJob"/> associated with the <see cref="ISessionController"/>.
@@ -96,7 +96,7 @@ namespace Tgstation.Server.Host.Components.Session
 		/// <param name="parameters">The <see cref="TopicParameters"/> to send.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="TopicResponse"/> of /world/Topic().</returns>
-		ValueTask<TopicResponse> SendCommand(TopicParameters parameters, CancellationToken cancellationToken);
+		ValueTask<TopicResponse?> SendCommand(TopicParameters parameters, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Attempts to change the current <see cref="RebootState"/> to <paramref name="newRebootState"/>.

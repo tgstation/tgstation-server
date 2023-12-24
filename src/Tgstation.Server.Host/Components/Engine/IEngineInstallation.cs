@@ -1,9 +1,13 @@
 ﻿using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
+
+using Microsoft.Extensions.Logging;
 
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Host.Components.Deployment;
+using Tgstation.Server.Host.System;
 
 namespace Tgstation.Server.Host.Components.Engine
 {
@@ -51,7 +55,7 @@ namespace Tgstation.Server.Host.Components.Engine
 		/// Return the command line arguments for launching with given <paramref name="launchParameters"/>.
 		/// </summary>
 		/// <param name="dmbProvider">The <see cref="IDmbProvider"/>.</param>
-		/// <param name="parameters">The map of parameter <see cref="string"/>s as a <see cref="IReadOnlyDictionary{TKey, TValue}"/>. Should NOT include the <see cref="DreamDaemonLaunchParameters.AdditionalParameters"/> of <paramref name="launchParameters"/>.</param>
+		/// <param name="parameters">The map of parameter <see cref="string"/>s as a <see cref="IReadOnlyDictionary{TKey, TValue}"/>. MUST include <see cref="Interop.DMApiConstants.ParamAccessIdentifier"/>. Should NOT include the <see cref="DreamDaemonLaunchParameters.AdditionalParameters"/> of <paramref name="launchParameters"/>.</param>
 		/// <param name="launchParameters">The <see cref="DreamDaemonLaunchParameters"/>.</param>
 		/// <param name="logFilePath">The full path to the log file, if any.</param>
 		/// <returns>The formatted arguments <see cref="string"/>.</returns>
@@ -59,7 +63,7 @@ namespace Tgstation.Server.Host.Components.Engine
 			IDmbProvider dmbProvider,
 			IReadOnlyDictionary<string, string> parameters,
 			DreamDaemonLaunchParameters launchParameters,
-			string logFilePath);
+			string? logFilePath);
 
 		/// <summary>
 		/// Return the command line arguments for compiling a given <paramref name="dmePath"/> if compilation is necessary.
@@ -67,5 +71,16 @@ namespace Tgstation.Server.Host.Components.Engine
 		/// <param name="dmePath">The full path to the .dme to compile.</param>
 		/// <returns>The formatted arguments <see cref="string"/>.</returns>
 		string FormatCompilerArguments(string dmePath);
+
+		/// <summary>
+		/// Kills a given engine server <paramref name="process"/>.
+		/// </summary>
+		/// <param name="logger">The <see cref="ILogger"/> to write to.</param>
+		/// <param name="process">The <see cref="IProcess"/> to be terminated.</param>
+		/// <param name="accessIdentifier">The <see cref="Interop.DMApiParameters.AccessIdentifier"/> of the session.</param>
+		/// <param name="port">The port the server is running on.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
+		ValueTask StopServerProcess(ILogger logger, IProcess process, string accessIdentifier, ushort port, CancellationToken cancellationToken);
 	}
 }

@@ -51,7 +51,7 @@ namespace Tgstation.Server.Host.System
 		/// <summary>
 		/// The <see cref="Task{TResult}"/> resulting in the process' standard output/error text.
 		/// </summary>
-		readonly Task<string> readTask;
+		readonly Task<string?>? readTask;
 
 		/// <summary>
 		/// If the <see cref="Process"/> was disposed.
@@ -70,8 +70,8 @@ namespace Tgstation.Server.Host.System
 		public Process(
 			IProcessFeatures processFeatures,
 			global::System.Diagnostics.Process handle,
-			CancellationTokenSource readerCts,
-			Task<string> readTask,
+			CancellationTokenSource? readerCts,
+			Task<string?>? readTask,
 			ILogger<Process> logger,
 			bool preExisting)
 		{
@@ -135,7 +135,7 @@ namespace Tgstation.Server.Host.System
 		}
 
 		/// <inheritdoc />
-		public Task<string> GetCombinedOutput(CancellationToken cancellationToken)
+		public Task<string?> GetCombinedOutput(CancellationToken cancellationToken)
 		{
 			if (readTask == null)
 				throw new InvalidOperationException("Output/Error stream reading was not enabled!");
@@ -183,7 +183,7 @@ namespace Tgstation.Server.Host.System
 		}
 
 		/// <inheritdoc />
-		public void Suspend()
+		public void SuspendProcess()
 		{
 			CheckDisposed();
 			try
@@ -199,7 +199,7 @@ namespace Tgstation.Server.Host.System
 		}
 
 		/// <inheritdoc />
-		public void Resume()
+		public void ResumeProcess()
 		{
 			CheckDisposed();
 			try

@@ -60,12 +60,12 @@ namespace Tgstation.Server.Host.Configuration
 		/// <summary>
 		/// A custom token signing key. Overrides <see cref="TokenSigningKeyByteCount"/>.
 		/// </summary>
-		public string CustomTokenSigningKeyBase64 { get; set; }
+		public string? CustomTokenSigningKeyBase64 { get; set; }
 
 		/// <summary>
 		/// OAuth provider settings.
 		/// </summary>
-		public IDictionary<OAuthProvider, OAuthConfiguration> OAuth
+		public IDictionary<OAuthProvider, OAuthConfiguration>? OAuth
 		{
 			get => oAuth;
 			set
@@ -73,10 +73,10 @@ namespace Tgstation.Server.Host.Configuration
 				// Workaround for https://github.com/dotnet/runtime/issues/89547
 				var publicProperties = typeof(OAuthConfiguration)
 					.GetProperties()
-					.Where(property => property.CanWrite && property.SetMethod.IsPublic)
+					.Where(property => property.CanWrite && property.SetMethod!.IsPublic)
 					.ToList();
 				oAuth = value
-					.Where(
+					?.Where(
 						kvp => !publicProperties.All(
 							prop => prop.GetValue(kvp.Value) == prop.PropertyType.GetDefaultValue()))
 					.ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
@@ -86,6 +86,6 @@ namespace Tgstation.Server.Host.Configuration
 		/// <summary>
 		/// Backing field for <see cref="OAuth"/>.
 		/// </summary>
-		IDictionary<OAuthProvider, OAuthConfiguration> oAuth;
+		IDictionary<OAuthProvider, OAuthConfiguration>? oAuth;
 	}
 }

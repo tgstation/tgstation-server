@@ -4,8 +4,6 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 
-#nullable disable
-
 namespace Tgstation.Server.Host.Database.Migrations
 {
 	[DbContext(typeof(PostgresSqlDatabaseContext))]
@@ -15,7 +13,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 		{
 #pragma warning disable 612, 618
 			modelBuilder
-				.HasAnnotation("ProductVersion", "8.0.0-rc.1.23419.6")
+				.HasAnnotation("ProductVersion", "8.0.0")
 				.HasAnnotation("Relational:MaxIdentifierLength", 63);
 
 			NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -118,11 +116,6 @@ namespace Tgstation.Server.Host.Database.Migrations
 
 				NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long?>("Id"));
 
-				b.Property<string>("ByondVersion")
-					.IsRequired()
-					.HasColumnType("text")
-					.HasColumnName("EngineVersion");
-
 				b.Property<int?>("DMApiMajorVersion")
 					.HasColumnType("integer");
 
@@ -137,6 +130,10 @@ namespace Tgstation.Server.Host.Database.Migrations
 					.HasColumnType("uuid");
 
 				b.Property<string>("DmeName")
+					.IsRequired()
+					.HasColumnType("text");
+
+				b.Property<string>("EngineVersion")
 					.IsRequired()
 					.HasColumnType("text");
 
@@ -482,11 +479,11 @@ namespace Tgstation.Server.Host.Database.Migrations
 
 			modelBuilder.Entity("Tgstation.Server.Host.Models.ReattachInformation", b =>
 			{
-				b.Property<long>("Id")
+				b.Property<long?>("Id")
 					.ValueGeneratedOnAdd()
 					.HasColumnType("bigint");
 
-				NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+				NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long?>("Id"));
 
 				b.Property<string>("AccessIdentifier")
 					.IsRequired()
@@ -511,6 +508,9 @@ namespace Tgstation.Server.Host.Database.Migrations
 					.HasColumnType("integer");
 
 				b.Property<int>("RebootState")
+					.HasColumnType("integer");
+
+				b.Property<int?>("TopicPort")
 					.HasColumnType("integer");
 
 				b.HasKey("Id");

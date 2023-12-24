@@ -65,22 +65,24 @@ namespace Tgstation.Server.Host.Core
 			logger.LogTrace("Starting...");
 
 			// grab both pipes asap so we can close them on error
-			var supportsPipeCommands = !String.IsNullOrWhiteSpace(internalConfiguration.CommandPipe);
+			var commandPipe = internalConfiguration.CommandPipe;
+			var supportsPipeCommands = !String.IsNullOrWhiteSpace(commandPipe);
 			await using var commandPipeClient = supportsPipeCommands
 				? new AnonymousPipeClientStream(
 					PipeDirection.In,
-					internalConfiguration.CommandPipe)
+					commandPipe!)
 				: null;
 
 			if (!supportsPipeCommands)
 				logger.LogDebug("No command pipe name specified in configuration");
 
-			var supportsReadyNotification = !String.IsNullOrWhiteSpace(internalConfiguration.ReadyPipe);
+			var readyPipe = internalConfiguration.ReadyPipe;
+			var supportsReadyNotification = !String.IsNullOrWhiteSpace(readyPipe);
 			if (supportsReadyNotification)
 			{
 				await using var readyPipeClient = new AnonymousPipeClientStream(
 					PipeDirection.Out,
-					internalConfiguration.ReadyPipe);
+					readyPipe!);
 
 				logger.LogTrace("Waiting to send ready notification...");
 				await instanceManager.Ready.WaitAsync(cancellationToken);
@@ -96,13 +98,13 @@ namespace Tgstation.Server.Host.Core
 
 			try
 			{
-				using var streamReader = new StreamReader(commandPipeClient, Encoding.UTF8, leaveOpen: true);
+				using var streamReader = new StreamReader(commandPipeClient!, Encoding.UTF8, leaveOpen: true);
 				while (!cancellationToken.IsCancellationRequested)
 				{
 					logger.LogTrace("Waiting to read command line...");
 					var line = await streamReader.ReadLineAsync(cancellationToken);
 
-					logger?.LogInformation("Received pipe command: {command}", line);
+					logger.LogInformation("Received pipe command: {command}", line);
 					switch (line)
 					{
 						case PipeCommands.CommandStop:
@@ -118,22 +120,22 @@ namespace Tgstation.Server.Host.Core
 							logger.LogError("Read null from pipe!");
 							return;
 						default:
-							logger?.LogWarning("Unrecognized pipe command: {command}", line);
+							logger.LogWarning("Unrecognized pipe command: {command}", line);
 							break;
 					}
 				}
 			}
 			catch (OperationCanceledException ex)
 			{
-				logger?.LogTrace(ex, "Command read task cancelled!");
+				logger.LogTrace(ex, "Command read task cancelled!");
 			}
 			catch (Exception ex)
 			{
-				logger?.LogError(ex, "Command read task errored!");
+				logger.LogError(ex, "Command read task errored!");
 			}
 			finally
 			{
-				logger?.LogTrace("Command read task exiting...");
+				logger.LogTrace("Command read task exiting...");
 			}
 		}
 	}

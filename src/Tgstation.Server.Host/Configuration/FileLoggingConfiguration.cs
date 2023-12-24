@@ -22,7 +22,7 @@ namespace Tgstation.Server.Host.Configuration
 		/// <summary>
 		/// Where log files are stored.
 		/// </summary>
-		public string Directory { get; set; }
+		public string? Directory { get; set; }
 
 		/// <summary>
 		/// If file logging is disabled.

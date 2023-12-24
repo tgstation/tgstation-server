@@ -50,7 +50,7 @@ namespace Tgstation.Server.Host.Models
 		/// <summary>
 		/// The origin <see cref="Uri"/> of the repository the compile job was built from.
 		/// </summary>
-		public string RepositoryOrigin { get; set; }
+		public string? RepositoryOrigin { get; set; }
 
 		/// <summary>
 		/// The source GitHub repository the deployment came from if any.
@@ -63,14 +63,14 @@ namespace Tgstation.Server.Host.Models
 		public int? GitHubDeploymentId { get; set; }
 
 		/// <inheritdoc />
-		public override Version DMApiVersion
+		public override Version? DMApiVersion
 		{
 			get
 			{
 				if (!DMApiMajorVersion.HasValue)
 					return null;
 
-				return new Version(DMApiMajorVersion.Value, DMApiMinorVersion.Value, DMApiPatchVersion.Value);
+				return new Version(DMApiMajorVersion.Value, DMApiMinorVersion!.Value, DMApiPatchVersion!.Value);
 			}
 
 			set
@@ -79,6 +79,47 @@ namespace Tgstation.Server.Host.Models
 				DMApiMinorVersion = value?.Minor;
 				DMApiPatchVersion = value?.Build;
 			}
+		}
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="CompileJob"/> class.
+		/// </summary>
+		[Obsolete("For use by EFCore only", true)]
+		public CompileJob()
+			: this(null!, null!, null!, false)
+		{
+		}
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="CompileJob"/> class.
+		/// </summary>
+		/// <param name="job">The value of <see cref="Job"/>.</param>
+		/// <param name="revisionInformation">The value of <see cref="RevisionInformation"/>.</param>
+		/// <param name="engineVersion">The value of <see cref="EngineVersion"/>.</param>
+		public CompileJob(Job job, RevisionInformation revisionInformation, string engineVersion)
+			: this(job, revisionInformation, engineVersion, true)
+		{
+		}
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="CompileJob"/> class.
+		/// </summary>
+		/// <param name="job">The value of <see cref="Job"/>.</param>
+		/// <param name="revisionInformation">The value of <see cref="RevisionInformation"/>.</param>
+		/// <param name="engineVersion">The value of <see cref="EngineVersion"/>.</param>
+		/// <param name="nullChecks">If <paramref name="job"/>, <paramref name="revisionInformation"/>, and <paramref name="engineVersion"/> should be checked for nulls.</param>
+		CompileJob(Job job, RevisionInformation revisionInformation, string engineVersion, bool nullChecks)
+		{
+			if (nullChecks)
+			{
+				ArgumentNullException.ThrowIfNull(job);
+				ArgumentNullException.ThrowIfNull(revisionInformation);
+				ArgumentNullException.ThrowIfNull(engineVersion);
+			}
+
+			Job = job;
+			RevisionInformation = revisionInformation;
+			EngineVersion = engineVersion;
 		}
 
 		/// <inheritdoc />

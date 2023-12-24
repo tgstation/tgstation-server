@@ -21,16 +21,16 @@ namespace Tgstation.Server.Host.Models
 		/// The <see cref="Models.Instance"/> the <see cref="InstancePermissionSet"/> belongs to.
 		/// </summary>
 		[Required]
-		public Instance Instance { get; set; }
+		public Instance? Instance { get; set; }
 
 		/// <summary>
 		/// The <see cref="Models.PermissionSet"/> the <see cref="InstancePermissionSet"/> belongs to.
 		/// </summary>
 		[Required]
-		public PermissionSet PermissionSet { get; set; }
+		public PermissionSet? PermissionSet { get; set; }
 
 		/// <inheritdoc />
-		public InstancePermissionSetResponse ToApi() => new InstancePermissionSetResponse
+		public InstancePermissionSetResponse ToApi() => new()
 		{
 			EngineRights = EngineRights,
 			ChatBotRights = ChatBotRights,

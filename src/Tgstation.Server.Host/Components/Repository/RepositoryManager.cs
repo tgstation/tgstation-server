@@ -118,12 +118,12 @@ namespace Tgstation.Server.Host.Components.Repository
 		}
 
 		/// <inheritdoc />
-		public async ValueTask<IRepository> CloneRepository(
+		public async ValueTask<IRepository?> CloneRepository(
 			Uri url,
-			string initialBranch,
-			string username,
-			string password,
-			JobProgressReporter progressReporter,
+			string? initialBranch,
+			string? username,
+			string? password,
+			JobProgressReporter? progressReporter,
 			bool recurseSubmodules,
 			CancellationToken cancellationToken)
 		{
@@ -208,7 +208,7 @@ namespace Tgstation.Server.Host.Components.Repository
 		}
 
 		/// <inheritdoc />
-		public async ValueTask<IRepository> LoadRepository(CancellationToken cancellationToken)
+		public async ValueTask<IRepository?> LoadRepository(CancellationToken cancellationToken)
 		{
 			logger.LogTrace("Begin LoadRepository...");
 			lock (semaphore)

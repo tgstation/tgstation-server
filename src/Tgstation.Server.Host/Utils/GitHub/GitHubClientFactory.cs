@@ -76,7 +76,7 @@ namespace Tgstation.Server.Host.Utils.GitHub
 		/// </summary>
 		/// <param name="accessToken">Optional access token to use as credentials.</param>
 		/// <returns>The <see cref="GitHubClient"/> for the given <paramref name="accessToken"/>.</returns>
-		GitHubClient GetOrCreateClient(string accessToken)
+		GitHubClient GetOrCreateClient(string? accessToken)
 		{
 			GitHubClient client;
 			bool cacheHit;
@@ -97,10 +97,11 @@ namespace Tgstation.Server.Host.Utils.GitHub
 				var now = DateTimeOffset.UtcNow;
 				if (!cacheHit)
 				{
+					var product = assemblyInformationProvider.ProductInfoHeaderValue.Product!;
 					client = new GitHubClient(
 						new ProductHeaderValue(
-							assemblyInformationProvider.ProductInfoHeaderValue.Product.Name,
-							assemblyInformationProvider.ProductInfoHeaderValue.Product.Version));
+							product.Name,
+							product.Version));
 
 					if (accessToken != null)
 						client.Credentials = new Credentials(accessToken);

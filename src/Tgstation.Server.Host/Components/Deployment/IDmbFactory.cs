@@ -23,7 +23,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 		bool DmbAvailable { get; }
 
 		/// <summary>
-		/// Gets the next <see cref="IDmbProvider"/>.
+		/// Gets the next <see cref="IDmbProvider"/>. <see cref="DmbAvailable"/> is a precondition.
 		/// </summary>
 		/// <param name="lockCount">The amount of locks to give the resulting <see cref="IDmbProvider"/>. It's <see cref="IDisposable.Dispose"/> must be called this many times to properly clean the job.</param>
 		/// <returns>A new <see cref="IDmbProvider"/>.</returns>
@@ -35,7 +35,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 		/// <param name="compileJob">The <see cref="CompileJob"/> to make the <see cref="IDmbProvider"/> for.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in a new <see cref="IDmbProvider"/> representing the <see cref="CompileJob"/> on success, <see langword="null"/> on failure.</returns>
-		ValueTask<IDmbProvider> FromCompileJob(CompileJob compileJob, CancellationToken cancellationToken);
+		ValueTask<IDmbProvider?> FromCompileJob(CompileJob compileJob, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Deletes all compile jobs that are inactive in the Game folder.

@@ -27,7 +27,7 @@ namespace Tgstation.Server.Host.Components.Engine
 		/// <param name="jobProgressReporter">The optional <see cref="JobProgressReporter"/> for the operation.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="IEngineInstallationData"/> for the download.</returns>
-		ValueTask<IEngineInstallationData> DownloadVersion(EngineVersion version, JobProgressReporter jobProgressReporter, CancellationToken cancellationToken);
+		ValueTask<IEngineInstallationData> DownloadVersion(EngineVersion version, JobProgressReporter? jobProgressReporter, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Does actions necessary to get an extracted installation working.

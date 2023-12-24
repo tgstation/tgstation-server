@@ -7,11 +7,13 @@ using Microsoft.Extensions.Options;
 
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Common.Extensions;
+using Tgstation.Server.Common.Http;
 using Tgstation.Server.Host.Components.Repository;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Jobs;
 using Tgstation.Server.Host.System;
+using Tgstation.Server.Host.Utils;
 
 namespace Tgstation.Server.Host.Components.Engine
 {
@@ -33,7 +35,10 @@ namespace Tgstation.Server.Host.Components.Engine
 		/// <param name="platformIdentifier">The <see cref="IPlatformIdentifier"/> for the <see cref="OpenDreamInstaller"/>.</param>
 		/// <param name="processExecutor">The <see cref="IProcessExecutor"/> for the <see cref="OpenDreamInstaller"/>.</param>
 		/// <param name="repositoryManager">The <see cref="IRepositoryManager"/> for the <see cref="OpenDreamInstaller"/>.</param>
+		/// <param name="asyncDelayer">The <see cref="IAsyncDelayer"/> for the <see cref="OpenDreamInstaller"/>.</param>
+		/// <param name="httpClientFactory">The <see cref="IAbstractHttpClientFactory"/> for the <see cref="OpenDreamInstaller"/>.</param>
 		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> of <see cref="GeneralConfiguration"/> for the <see cref="OpenDreamInstaller"/>.</param>
+		/// <param name="sessionConfigurationOptions">The <see cref="IOptions{TOptions}"/> of <see cref="SessionConfiguration"/> for the <see cref="OpenDreamInstaller"/>.</param>
 		/// <param name="linkFactory">The value of <see cref="linkFactory"/>.</param>
 		public WindowsOpenDreamInstaller(
 			IIOManager ioManager,
@@ -41,7 +46,10 @@ namespace Tgstation.Server.Host.Components.Engine
 			IPlatformIdentifier platformIdentifier,
 			IProcessExecutor processExecutor,
 			IRepositoryManager repositoryManager,
+			IAsyncDelayer asyncDelayer,
+			IAbstractHttpClientFactory httpClientFactory,
 			IOptions<GeneralConfiguration> generalConfigurationOptions,
+			IOptions<SessionConfiguration> sessionConfigurationOptions,
 			IFilesystemLinkFactory linkFactory)
 			: base(
 				ioManager,
@@ -49,7 +57,10 @@ namespace Tgstation.Server.Host.Components.Engine
 				platformIdentifier,
 				processExecutor,
 				repositoryManager,
-				generalConfigurationOptions)
+				asyncDelayer,
+				httpClientFactory,
+				generalConfigurationOptions,
+				sessionConfigurationOptions)
 		{
 			this.linkFactory = linkFactory ?? throw new ArgumentNullException(nameof(linkFactory));
 		}
@@ -112,6 +123,7 @@ namespace Tgstation.Server.Host.Components.Engine
 					Logger,
 					ruleName,
 					serverExePath,
+					SessionConfiguration.LowPriorityDeploymentProcesses,
 					cancellationToken);
 			}
 			catch (Exception ex)

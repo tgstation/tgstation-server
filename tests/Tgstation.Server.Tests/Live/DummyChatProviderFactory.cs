@@ -55,7 +55,7 @@ namespace Tgstation.Server.Tests.Live
 				? new Random().Next()
 				: 22475;
 
-			logger.LogInformation("Random seed: {0}", randomSeed);
+			logger.LogInformation("Random seed: {randomSeed}", randomSeed);
 
 			var baseRng = new Random(randomSeed);
 			seededRng = new Dictionary<ChatProvider, Random>{

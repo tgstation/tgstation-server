@@ -4,8 +4,6 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 
-#nullable disable
-
 namespace Tgstation.Server.Host.Database.Migrations
 {
 	[DbContext(typeof(MySqlDatabaseContext))]
@@ -15,7 +13,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 		{
 #pragma warning disable 612, 618
 			modelBuilder
-				.HasAnnotation("ProductVersion", "8.0.0-rc.1.23419.6")
+				.HasAnnotation("ProductVersion", "8.0.0")
 				.HasAnnotation("Relational:MaxIdentifierLength", 64);
 
 			modelBuilder.Entity("Tgstation.Server.Host.Models.ChatBot", b =>
@@ -118,13 +116,6 @@ namespace Tgstation.Server.Host.Database.Migrations
 					.ValueGeneratedOnAdd()
 					.HasColumnType("bigint");
 
-				b.Property<string>("ByondVersion")
-					.IsRequired()
-					.HasColumnType("longtext")
-					.HasColumnName("EngineVersion");
-
-				MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("ByondVersion"), "utf8mb4");
-
 				b.Property<int?>("DMApiMajorVersion")
 					.HasColumnType("int");
 
@@ -143,6 +134,12 @@ namespace Tgstation.Server.Host.Database.Migrations
 					.HasColumnType("longtext");
 
 				MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("DmeName"), "utf8mb4");
+
+				b.Property<string>("EngineVersion")
+					.IsRequired()
+					.HasColumnType("longtext");
+
+				MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("EngineVersion"), "utf8mb4");
 
 				b.Property<int?>("GitHubDeploymentId")
 					.HasColumnType("int");
@@ -500,7 +497,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 
 			modelBuilder.Entity("Tgstation.Server.Host.Models.ReattachInformation", b =>
 			{
-				b.Property<long>("Id")
+				b.Property<long?>("Id")
 					.ValueGeneratedOnAdd()
 					.HasColumnType("bigint");
 
@@ -530,6 +527,9 @@ namespace Tgstation.Server.Host.Database.Migrations
 
 				b.Property<int>("RebootState")
 					.HasColumnType("int");
+
+				b.Property<ushort?>("TopicPort")
+					.HasColumnType("smallint unsigned");
 
 				b.HasKey("Id");
 

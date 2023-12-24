@@ -56,10 +56,10 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		public DreamDaemonLaunchParameters ActiveLaunchParameters { get; protected set; }
 
 		/// <inheritdoc />
-		public DreamDaemonLaunchParameters LastLaunchParameters { get; protected set; }
+		public DreamDaemonLaunchParameters? LastLaunchParameters { get; protected set; }
 
 		/// <inheritdoc />
-		public Models.CompileJob ActiveCompileJob => GetActiveController()?.CompileJob;
+		public Models.CompileJob? ActiveCompileJob => GetActiveController()?.CompileJob;
 
 		/// <inheritdoc />
 		public abstract RebootState? RebootState { get; }
@@ -152,12 +152,12 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <summary>
 		/// The <see cref="CancellationTokenSource"/> for the monitor loop.
 		/// </summary>
-		CancellationTokenSource monitorCts;
+		CancellationTokenSource? monitorCts;
 
 		/// <summary>
 		/// The <see cref="Task"/> running the monitor loop.
 		/// </summary>
-		Task monitorTask;
+		Task? monitorTask;
 
 		/// <summary>
 		/// Backing field for <see cref="Status"/>.
@@ -393,7 +393,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				job,
 				async (core, databaseContextFactory, paramJob, progressFunction, ct) =>
 				{
-					if (core.Watchdog != this)
+					if (core?.Watchdog != this)
 						throw new InvalidOperationException(Instance.DifferentCoreExceptionMessage);
 
 					using (await SemaphoreSlimContext.Lock(synchronizationSemaphore, ct))
@@ -416,7 +416,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		}
 
 		/// <inheritdoc />
-		public async ValueTask HandleRestart(Version updateVersion, bool handlerMayDelayShutdownWithExtremelyLongRunningTasks, CancellationToken cancellationToken)
+		public async ValueTask HandleRestart(Version? updateVersion, bool handlerMayDelayShutdownWithExtremelyLongRunningTasks, CancellationToken cancellationToken)
 		{
 			if (handlerMayDelayShutdownWithExtremelyLongRunningTasks)
 			{
@@ -425,7 +425,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				if (Status != WatchdogStatus.Offline)
 				{
 					Logger.LogDebug("Waiting for server to gracefully shut down.");
-					await monitorTask.WaitAsync(cancellationToken);
+					await monitorTask!.WaitAsync(cancellationToken);
 				}
 				else
 					Logger.LogTrace("Graceful shutdown requested but server is already offline.");
@@ -488,7 +488,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		}
 
 		/// <inheritdoc />
-		async ValueTask IEventConsumer.HandleEvent(EventType eventType, IEnumerable<string> parameters, bool deploymentPipeline, CancellationToken cancellationToken)
+		async ValueTask IEventConsumer.HandleEvent(EventType eventType, IEnumerable<string?> parameters, bool deploymentPipeline, CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(parameters);
 
@@ -514,7 +514,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <param name="reattachInfo"><see cref="ReattachInformation"/> to use, if any.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		protected abstract ValueTask InitController(ValueTask eventTask, ReattachInformation reattachInfo, CancellationToken cancellationToken);
+		protected abstract ValueTask InitController(ValueTask eventTask, ReattachInformation? reattachInfo, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Launches the watchdog.
@@ -529,7 +529,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			bool startMonitor,
 			bool announce,
 			bool announceFailure,
-			ReattachInformation reattachInfo,
+			ReattachInformation? reattachInfo,
 			CancellationToken cancellationToken)
 		{
 			Logger.LogTrace("Begin LaunchImplNoLock");
@@ -610,7 +610,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			if (monitorTask == null)
 				return false;
 			var wasRunning = !monitorTask.IsCompleted;
-			monitorCts.Cancel();
+			monitorCts!.Cancel();
 			await monitorTask;
 			Logger.LogTrace("Stopped Monitor");
 			monitorCts.Dispose();
@@ -638,7 +638,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			if (!launchResult.StartupTime.HasValue)
 				throw new JobException(
 					ErrorCode.WatchdogStartupTimeout,
-					new JobException($"{serverName} timed out on startup: {ActiveLaunchParameters.StartupTimeout.Value}s"));
+					new JobException($"{serverName} timed out on startup: {ActiveLaunchParameters.StartupTimeout!.Value}s"));
 		}
 
 		/// <summary>
@@ -683,8 +683,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <summary>
 		/// Get the active <see cref="ISessionController"/>.
 		/// </summary>
-		/// <returns>The active <see cref="ISessionController"/>.</returns>
-		protected abstract ISessionController GetActiveController();
+		/// <returns>The active <see cref="ISessionController"/>, if any.</returns>
+		protected abstract ISessionController? GetActiveController();
 
 		/// <summary>
 		/// Handles the actions to take when the monitor has to "wake up".
@@ -716,9 +716,9 @@ namespace Tgstation.Server.Host.Components.Watchdog
 
 			var eventTask = eventConsumer.HandleEvent(
 				EventType.DeploymentActivation,
-				new List<string>
+				new List<string?>
 				{
-					GameIOManager.ResolvePath(newCompileJob.DirectoryName.ToString()),
+					GameIOManager.ResolvePath(newCompileJob.DirectoryName!.Value.ToString()),
 				},
 				false,
 				cancellationToken);
@@ -843,13 +843,14 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			try
 			{
 				MonitorAction nextAction = MonitorAction.Continue;
-				Task activeServerLifetime = null,
+				Task? activeServerLifetime = null,
 					activeServerReboot = null,
 					activeServerStartup = null,
 					serverPrimed = null,
 					activeLaunchParametersChanged = null,
-					newDmbAvailable = null;
-				ISessionController lastController = null;
+					newDmbAvailable = null,
+					healthCheck = null;
+				ISessionController? lastController = null;
 				var ranInitialDmbCheck = false;
 				for (ulong iteration = 1; nextAction != MonitorAction.Exit; ++iteration)
 					using (LogContext.PushProperty(SerilogContextHelper.WatchdogMonitorIterationContextProperty, iteration))
@@ -865,7 +866,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 							void UpdateMonitoredTasks()
 							{
 								var sameController = lastController == controller;
-								void TryUpdateTask(ref Task oldTask, Func<Task> newTaskFactory)
+								void TryUpdateTask(ref Task? oldTask, Func<Task> newTaskFactory)
 								{
 									if (sameController && oldTask?.IsCompleted == true)
 										return;
@@ -873,7 +874,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 									oldTask = newTaskFactory();
 								}
 
-								controller.RebootGate = nextMonitorWakeupTcs.Task;
+								controller!.RebootGate = nextMonitorWakeupTcs.Task;
 
 								TryUpdateTask(ref activeServerLifetime, () => controller.Lifetime);
 								TryUpdateTask(ref activeServerReboot, () => controller.OnReboot);
@@ -896,28 +897,36 @@ namespace Tgstation.Server.Host.Components.Watchdog
 									});
 							}
 
-							UpdateMonitoredTasks();
+							if (controller != null)
+							{
+								UpdateMonitoredTasks();
 
-							var healthCheckSeconds = ActiveLaunchParameters.HealthCheckSeconds.Value;
-							var healthCheck = healthCheckSeconds == 0
-								|| !controller.DMApiAvailable
-								? Extensions.TaskExtensions.InfiniteTask
-								: Task.Delay(
-									TimeSpan.FromSeconds(healthCheckSeconds),
-									cancellationToken);
+								var healthCheckSeconds = ActiveLaunchParameters.HealthCheckSeconds!.Value;
+								healthCheck = healthCheckSeconds == 0
+									|| !controller.DMApiAvailable
+									? Extensions.TaskExtensions.InfiniteTask
+									: Task.Delay(
+										TimeSpan.FromSeconds(healthCheckSeconds),
+										cancellationToken);
 
-							// cancel waiting if requested
-							var toWaitOn = Task.WhenAny(
-								activeServerLifetime,
-								activeServerReboot,
-								activeServerStartup,
-								healthCheck,
-								newDmbAvailable,
-								activeLaunchParametersChanged,
-								serverPrimed);
+								// cancel waiting if requested
+								var toWaitOn = Task.WhenAny(
+									activeServerLifetime!,
+									activeServerReboot!,
+									activeServerStartup!,
+									healthCheck,
+									newDmbAvailable!,
+									activeLaunchParametersChanged!,
+									serverPrimed!);
 
-							// wait for something to happen
-							await toWaitOn.WaitAsync(cancellationToken);
+								// wait for something to happen
+								await toWaitOn.WaitAsync(cancellationToken);
+							}
+							else
+							{
+								Logger.LogError("Controller was null on monitor wakeup! Attempting restart...");
+								nextAction = MonitorAction.Restart; // excuse me wtf?
+							}
 
 							cancellationToken.ThrowIfCancellationRequested();
 							Logger.LogTrace("Monitor activated");
@@ -926,7 +935,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 							using (await SemaphoreSlimContext.Lock(synchronizationSemaphore, cancellationToken))
 							{
 								// Set this sooner so chat sends don't hold us up
-								if (activeServerLifetime.IsCompleted)
+								if (activeServerLifetime!.IsCompleted)
 									Status = WatchdogStatus.Restoring;
 
 								// multiple things may have happened, handle them one at a time
@@ -934,7 +943,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 								{
 									MonitorActivationReason activationReason = default; // this will always be assigned before being used
 
-									bool CheckActivationReason(ref Task task, MonitorActivationReason testActivationReason)
+									bool CheckActivationReason(ref Task? task, MonitorActivationReason testActivationReason)
 									{
 										var taskCompleted = task?.IsCompleted == true;
 										task = null;
@@ -1025,7 +1034,10 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				{
 					Logger.LogTrace("Detaching server...");
 					var controller = GetActiveController();
-					await controller.Release();
+					if (controller != null)
+						await controller.Release();
+					else
+						Logger.LogError("Controller was null on monitor shutdown!");
 				}
 			}
 
@@ -1089,6 +1101,9 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		{
 			Logger.LogTrace("Sending health check to active server...");
 			var activeServer = GetActiveController();
+			if (activeServer == null)
+				return MonitorAction.Restart; // uhhhh???
+
 			var response = await activeServer.SendCommand(new TopicParameters(), cancellationToken);
 
 			var shouldShutdown = activeServer.RebootState == Session.RebootState.Shutdown;
@@ -1128,7 +1143,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 								actionTaken,
 								StringComparison.Ordinal));
 
-						if (ActiveLaunchParameters.DumpOnHealthCheckRestart.Value)
+						if (ActiveLaunchParameters.DumpOnHealthCheckRestart!.Value)
 						{
 							Logger.LogDebug("DumpOnHealthCheckRestart enabled.");
 							try
@@ -1164,13 +1179,30 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// Handle any <see cref="TopicResponse.ChatResponses"/> in a given topic <paramref name="result"/>.
 		/// </summary>
 		/// <param name="result">The <see cref="TopicResponse"/>.</param>
-		void HandleChatResponses(TopicResponse result)
+		void HandleChatResponses(TopicResponse? result)
 		{
 			if (result?.ChatResponses != null)
-				foreach (var response in result.ChatResponses)
+			{
+				var warnedMissingChannelIds = false;
+				foreach (var response in result.ChatResponses
+					.Where(response =>
+					{
+						if (response.ChannelIds == null)
+						{
+							if (!warnedMissingChannelIds)
+							{
+								Logger.LogWarning("DMAPI response contains null channelIds!");
+								warnedMissingChannelIds = true;
+							}
+
+							return false;
+						}
+
+						return true;
+					}))
 					Chat.QueueMessage(
 						response,
-						response.ChannelIds
+						response.ChannelIds!
 							.Select(channelIdString =>
 							{
 								if (UInt64.TryParse(channelIdString, out var channelId))
@@ -1181,7 +1213,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 								return null;
 							})
 							.Where(nullableChannelId => nullableChannelId.HasValue)
-							.Select(nullableChannelId => nullableChannelId.Value));
+							.Select(nullableChannelId => nullableChannelId!.Value));
+			}
 		}
 
 		/// <summary>

@@ -28,7 +28,7 @@ namespace Tgstation.Server.Host.Utils
 				{
 					if (referenceCount == 0)
 						return Task.CompletedTask;
-					return onZeroReferencesTcs.Task;
+					return onZeroReferencesTcs!.Task;
 				}
 			}
 		}
@@ -41,7 +41,7 @@ namespace Tgstation.Server.Host.Utils
 		/// <summary>
 		/// Backing <see cref="TaskCompletionSource"/> for <see cref="OnZeroReferences"/>.
 		/// </summary>
-		TaskCompletionSource onZeroReferencesTcs;
+		TaskCompletionSource? onZeroReferencesTcs;
 
 		/// <summary>
 		/// Count of active <see cref="Instance"/>s.
@@ -77,7 +77,7 @@ namespace Tgstation.Server.Host.Utils
 					{
 						lock (referenceCountLock)
 							if (--referenceCount == 0)
-								onZeroReferencesTcs.SetResult();
+								onZeroReferencesTcs!.SetResult();
 					});
 					return reference;
 				}

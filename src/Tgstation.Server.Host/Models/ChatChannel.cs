@@ -23,7 +23,7 @@ namespace Tgstation.Server.Host.Models
 		/// The IRC channel name.
 		/// </summary>
 		[StringLength(Limits.MaximumIndexableStringLength, MinimumLength = 1)]
-		public string IrcChannel { get; set; }
+		public string? IrcChannel { get; set; }
 
 		/// <summary>
 		/// The Discord channel snowflake.
@@ -33,16 +33,16 @@ namespace Tgstation.Server.Host.Models
 		/// <summary>
 		/// The <see cref="ChatBot"/>.
 		/// </summary>
-		public ChatBot ChatSettings { get; set; }
+		public ChatBot? ChatSettings { get; set; }
 
 		/// <summary>
 		/// Convert to a <see cref="Api.Models.ChatChannel"/>.
 		/// </summary>
 		/// <param name="chatProvider">The channel's <see cref="ChatProvider"/>.</param>
 		/// <returns>The converted <see cref="Api.Models.ChatChannel"/>.</returns>
-		public Api.Models.ChatChannel ToApi(ChatProvider chatProvider) => new Api.Models.ChatChannel
+		public Api.Models.ChatChannel ToApi(ChatProvider chatProvider) => new()
 		{
-			ChannelData = chatProvider == ChatProvider.Discord ? DiscordChannelId.Value.ToString(CultureInfo.InvariantCulture) : IrcChannel,
+			ChannelData = chatProvider == ChatProvider.Discord ? DiscordChannelId!.Value.ToString(CultureInfo.InvariantCulture) : IrcChannel,
 			IsAdminChannel = IsAdminChannel,
 			IsWatchdogChannel = IsWatchdogChannel,
 			IsUpdatesChannel = IsUpdatesChannel,

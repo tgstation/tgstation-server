@@ -77,7 +77,7 @@ namespace Tgstation.Server.Host.System
 		}
 
 		/// <inheritdoc />
-		public IProcess GetProcess(int id)
+		public IProcess? GetProcess(int id)
 		{
 			logger.LogDebug("Attaching to process {pid}...", id);
 			global::System.Diagnostics.Process handle;
@@ -107,7 +107,7 @@ namespace Tgstation.Server.Host.System
 			string fileName,
 			string workingDirectory,
 			string arguments,
-			string fileRedirect,
+			string? fileRedirect,
 			bool readStandardHandles,
 			bool noShellExecute)
 		{
@@ -137,11 +137,11 @@ namespace Tgstation.Server.Host.System
 
 				handle.StartInfo.UseShellExecute = !noShellExecute;
 
-				Task<string> readTask = null;
-				CancellationTokenSource disposeCts = null;
+				Task<string?>? readTask = null;
+				CancellationTokenSource? disposeCts = null;
 				try
 				{
-					TaskCompletionSource<int> processStartTcs = null;
+					TaskCompletionSource<int>? processStartTcs = null;
 					if (readStandardHandles)
 					{
 						processStartTcs = new TaskCompletionSource<int>();
@@ -195,11 +195,11 @@ namespace Tgstation.Server.Host.System
 		}
 
 		/// <inheritdoc />
-		public IProcess GetProcessByName(string name)
+		public IProcess? GetProcessByName(string name)
 		{
 			logger.LogTrace("GetProcessByName: {processName}...", name ?? throw new ArgumentNullException(nameof(name)));
 			var procs = global::System.Diagnostics.Process.GetProcessesByName(name);
-			global::System.Diagnostics.Process handle = null;
+			global::System.Diagnostics.Process? handle = null;
 			foreach (var proc in procs)
 				if (handle == null)
 					handle = proc;
@@ -223,14 +223,14 @@ namespace Tgstation.Server.Host.System
 		/// <param name="fileRedirect">The optional path to redirect the streams to.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the program's output/error text if <paramref name="fileRedirect"/> is <see langword="null"/>, <see langword="null"/> otherwise.</returns>
-		async Task<string> ConsumeReaders(global::System.Diagnostics.Process handle, Task<int> startupAndPid, string fileRedirect, CancellationToken cancellationToken)
+		async Task<string?> ConsumeReaders(global::System.Diagnostics.Process handle, Task<int> startupAndPid, string? fileRedirect, CancellationToken cancellationToken)
 		{
 			handle.StartInfo.RedirectStandardOutput = true;
 			handle.StartInfo.RedirectStandardError = true;
 
 			bool writingToFile;
-			await using var fileStream = (writingToFile = fileRedirect != null) ? ioManager.CreateAsyncSequentialWriteStream(fileRedirect) : null;
-			await using var writer = fileStream != null ? new StreamWriter(fileStream) : null;
+			await using var fileStream = (writingToFile = fileRedirect != null) ? ioManager.CreateAsyncSequentialWriteStream(fileRedirect!) : null;
+			await using var fileWriter = fileStream != null ? new StreamWriter(fileStream) : null;
 
 			var stringBuilder = fileStream == null ? new StringBuilder() : null;
 
@@ -279,15 +279,15 @@ namespace Tgstation.Server.Host.System
 					{
 						var text = enumerator.Current;
 						nextEnumeration = enumerator.MoveNextAsync();
-						await writer.WriteLineAsync(text.AsMemory(), cancellationToken);
+						await fileWriter!.WriteLineAsync(text.AsMemory(), cancellationToken);
 
 						if (!nextEnumeration.IsCompleted)
-							await writer.FlushAsync(cancellationToken);
+							await fileWriter.FlushAsync(cancellationToken);
 					}
 				}
 				else
 					await foreach (var text in enumerable)
-						stringBuilder.AppendLine(text);
+						stringBuilder!.AppendLine(text);
 			}
 
 			var pid = await startupAndPid;
@@ -310,8 +310,8 @@ namespace Tgstation.Server.Host.System
 						catch (OperationCanceledException ex)
 						{
 							logger.LogWarning(ex, "PID {pid} stream reading interrupted!", pid);
-							if (fileStream != null)
-								await writer.WriteLineAsync("-- Process detached, log truncated. This is likely due a to TGS restart --");
+							if (writingToFile)
+								await fileWriter!.WriteLineAsync("-- Process detached, log truncated. This is likely due a to TGS restart --");
 						}
 					}
 				}

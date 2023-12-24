@@ -150,10 +150,10 @@ namespace Tgstation.Server.Api.Models
 		InstanceLimitReached,
 
 		/// <summary>
-		/// Attempted to create an <see cref="Instance"/> with a whitespace <see cref="NamedEntity.Name"/>.
+		/// Attempted to create an <see cref="Instance"/> with a whitespace <see cref="NamedEntity.Name"/> or <see cref="Instance.Path"/>.
 		/// </summary>
-		[Description("Instance names cannot be whitespace!")]
-		InstanceWhitespaceName,
+		[Description("Instance names and paths cannot be whitespace!")]
+		InstanceWhitespaceNameOrPath,
 
 		/// <summary>
 		/// The <see cref="ApiHeaders.InstanceIdHeader"/> header was required but not set.

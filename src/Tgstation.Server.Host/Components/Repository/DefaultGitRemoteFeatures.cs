@@ -21,10 +21,10 @@ namespace Tgstation.Server.Host.Components.Repository
 		public RemoteGitProvider? RemoteGitProvider => Api.Models.RemoteGitProvider.Unknown;
 
 		/// <inheritdoc />
-		public string RemoteRepositoryOwner => null;
+		public string? RemoteRepositoryOwner => null;
 
 		/// <inheritdoc />
-		public string RemoteRepositoryName => null;
+		public string? RemoteRepositoryName => null;
 
 		/// <inheritdoc />
 		public ValueTask<Models.TestMerge> GetTestMerge(

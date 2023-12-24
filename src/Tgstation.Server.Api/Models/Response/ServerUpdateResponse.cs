@@ -20,7 +20,7 @@ namespace Tgstation.Server.Api.Models.Response
 		/// <param name="newVersion">The value of <see cref="NewVersion"/>.</param>
 		/// <param name="fileTicket">The optional value of <see cref="FileTicketResponse.FileTicket"/>.</param>
 		[JsonConstructor]
-		public ServerUpdateResponse(Version newVersion, string fileTicket)
+		public ServerUpdateResponse(Version newVersion, string? fileTicket)
 		{
 			NewVersion = newVersion ?? throw new ArgumentNullException(nameof(newVersion));
 			FileTicket = fileTicket;

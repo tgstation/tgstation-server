@@ -34,7 +34,7 @@ namespace Tgstation.Server.Host.IO
 		}
 
 		/// <inheritdoc />
-		public IFileStreamProvider DownloadFile(Uri url, string bearerToken)
+		public IFileStreamProvider DownloadFile(Uri url, string? bearerToken)
 		{
 			ArgumentNullException.ThrowIfNull(url);
 

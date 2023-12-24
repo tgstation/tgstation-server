@@ -17,12 +17,13 @@ using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Jobs;
+using Tgstation.Server.Host.Utils;
 
 namespace Tgstation.Server.Host.Components.Repository
 {
 	/// <inheritdoc />
 #pragma warning disable CA1506 // TODO: Decomplexify
-	sealed class Repository : IRepository
+	sealed class Repository : DisposeInvoker, IRepository
 	{
 		/// <summary>
 		/// The default username for committers.
@@ -53,10 +54,10 @@ namespace Tgstation.Server.Host.Components.Repository
 		public RemoteGitProvider? RemoteGitProvider => gitRemoteFeatures.RemoteGitProvider;
 
 		/// <inheritdoc />
-		public string RemoteRepositoryOwner => gitRemoteFeatures.RemoteRepositoryOwner;
+		public string? RemoteRepositoryOwner => gitRemoteFeatures.RemoteRepositoryOwner;
 
 		/// <inheritdoc />
-		public string RemoteRepositoryName => gitRemoteFeatures.RemoteRepositoryName;
+		public string? RemoteRepositoryName => gitRemoteFeatures.RemoteRepositoryName;
 
 		/// <inheritdoc />
 		public bool Tracking => Reference != null && libGitRepo.Head.IsTracking;
@@ -116,16 +117,6 @@ namespace Tgstation.Server.Host.Components.Repository
 		readonly GeneralConfiguration generalConfiguration;
 
 		/// <summary>
-		/// <see cref="Action"/> to be taken when <see cref="Dispose"/> is called.
-		/// </summary>
-		readonly Action onDispose;
-
-		/// <summary>
-		/// If the <see cref="Repository"/> was disposed.
-		/// </summary>
-		bool disposed;
-
-		/// <summary>
 		/// Initializes a new instance of the <see cref="Repository"/> class.
 		/// </summary>
 		/// <param name="libGitRepo">The value of <see cref="libGitRepo"/>.</param>
@@ -137,7 +128,7 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// <param name="gitRemoteFeaturesFactory">The <see cref="IGitRemoteFeaturesFactory"/> to provide the value of <see cref="gitRemoteFeatures"/>.</param>
 		/// <param name="logger">The value of <see cref="logger"/>.</param>
 		/// <param name="generalConfiguration">The value of <see cref="generalConfiguration"/>.</param>
-		/// <param name="onDispose">The value if <see cref="onDispose"/>.</param>
+		/// <param name="disposeAction">The <see cref="IDisposable.Dispose"/> action for the <see cref="DisposeInvoker"/>.</param>
 		public Repository(
 			LibGit2Sharp.IRepository libGitRepo,
 			ILibGit2Commands commands,
@@ -148,7 +139,8 @@ namespace Tgstation.Server.Host.Components.Repository
 			IGitRemoteFeaturesFactory gitRemoteFeaturesFactory,
 			ILogger<Repository> logger,
 			GeneralConfiguration generalConfiguration,
-			Action onDispose)
+			Action disposeAction)
+			: base(disposeAction)
 		{
 			this.libGitRepo = libGitRepo ?? throw new ArgumentNullException(nameof(libGitRepo));
 			this.commands = commands ?? throw new ArgumentNullException(nameof(commands));
@@ -160,25 +152,8 @@ namespace Tgstation.Server.Host.Components.Repository
 
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 			this.generalConfiguration = generalConfiguration ?? throw new ArgumentNullException(nameof(generalConfiguration));
-			this.onDispose = onDispose ?? throw new ArgumentNullException(nameof(onDispose));
 
 			gitRemoteFeatures = gitRemoteFeaturesFactory.CreateGitRemoteFeatures(this);
-		}
-
-		/// <inheritdoc />
-		public void Dispose()
-		{
-			lock (onDispose)
-			{
-				if (disposed)
-					return;
-
-				disposed = true;
-			}
-
-			logger.LogTrace("Disposing...");
-			libGitRepo.Dispose();
-			onDispose();
 		}
 
 		/// <inheritdoc />
@@ -187,8 +162,8 @@ namespace Tgstation.Server.Host.Components.Repository
 			TestMergeParameters testMergeParameters,
 			string committerName,
 			string committerEmail,
-			string username,
-			string password,
+			string? username,
+			string? password,
 			bool updateSubmodules,
 			JobProgressReporter progressReporter,
 			CancellationToken cancellationToken)
@@ -227,12 +202,12 @@ namespace Tgstation.Server.Host.Components.Repository
 
 			var originalCommit = libGitRepo.Head;
 
-			MergeResult result = null;
+			MergeResult? result = null;
 
 			var progressFactor = 1.0 / (updateSubmodules ? 3 : 2);
 
 			var sig = new Signature(new Identity(committerName, committerEmail), DateTimeOffset.UtcNow);
-			List<string> conflictedPaths = null;
+			List<string>? conflictedPaths = null;
 			await Task.Factory.StartNew(
 				() =>
 				{
@@ -316,17 +291,17 @@ namespace Tgstation.Server.Host.Components.Repository
 				DefaultIOManager.BlockingTaskCreationOptions,
 				TaskScheduler.Current);
 
-			if (result.Status == MergeStatus.Conflicts)
+			if (result!.Status == MergeStatus.Conflicts)
 			{
 				var arguments = new List<string>
 				{
 					originalCommit.Tip.Sha,
-					testMergeParameters.TargetCommitSha,
+					testMergeParameters.TargetCommitSha!,
 					originalCommit.FriendlyName ?? UnknownReference,
 					testMergeBranchName,
 				};
 
-				arguments.AddRange(conflictedPaths);
+				arguments.AddRange(conflictedPaths!);
 
 				await eventConsumer.HandleEvent(
 					EventType.RepoMergeConflict,
@@ -365,10 +340,10 @@ namespace Tgstation.Server.Host.Components.Repository
 
 			await eventConsumer.HandleEvent(
 				EventType.RepoAddTestMerge,
-				new List<string>
+				new List<string?>
 				{
 					testMergeParameters.Number.ToString(CultureInfo.InvariantCulture),
-					testMergeParameters.TargetCommitSha,
+					testMergeParameters.TargetCommitSha!,
 					testMergeParameters.Comment,
 				},
 				false,
@@ -384,10 +359,10 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// <inheritdoc />
 		public async ValueTask CheckoutObject(
 			string committish,
-			string username,
-			string password,
+			string? username,
+			string? password,
 			bool updateSubmodules,
-			JobProgressReporter progressReporter,
+			JobProgressReporter? progressReporter,
 			CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(committish);
@@ -418,9 +393,9 @@ namespace Tgstation.Server.Host.Components.Repository
 
 		/// <inheritdoc />
 		public async ValueTask FetchOrigin(
-			JobProgressReporter progressReporter,
-			string username,
-			string password,
+			JobProgressReporter? progressReporter,
+			string? username,
+			string? password,
 			bool deploymentPipeline,
 			CancellationToken cancellationToken)
 		{
@@ -468,8 +443,8 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// <inheritdoc />
 		public async ValueTask ResetToOrigin(
 			JobProgressReporter progressReporter,
-			string username,
-			string password,
+			string? username,
+			string? password,
 			bool updateSubmodules,
 			bool deploymentPipeline,
 			CancellationToken cancellationToken)
@@ -566,8 +541,8 @@ namespace Tgstation.Server.Host.Components.Repository
 		{
 			ArgumentNullException.ThrowIfNull(progressReporter);
 
-			MergeResult result = null;
-			Branch trackedBranch = null;
+			MergeResult? result = null;
+			Branch? trackedBranch = null;
 
 			var oldHead = libGitRepo.Head;
 			var oldTip = oldHead.Tip;
@@ -616,14 +591,14 @@ namespace Tgstation.Server.Host.Components.Repository
 				DefaultIOManager.BlockingTaskCreationOptions,
 				TaskScheduler.Current);
 
-			if (result.Status == MergeStatus.Conflicts)
+			if (result!.Status == MergeStatus.Conflicts)
 			{
 				await eventConsumer.HandleEvent(
 					EventType.RepoMergeConflict,
 					new List<string>
 					{
 						oldTip.Sha,
-						trackedBranch.Tip.Sha,
+						trackedBranch!.Tip.Sha,
 						oldHead.FriendlyName ?? UnknownReference,
 						trackedBranch.FriendlyName,
 					},
@@ -636,10 +611,10 @@ namespace Tgstation.Server.Host.Components.Repository
 		}
 
 		/// <inheritdoc />
-		public async ValueTask<bool> Sychronize(
+		public async ValueTask<bool> Synchronize(
 			JobProgressReporter progressReporter,
-			string username,
-			string password,
+			string? username,
+			string? password,
 			string committerName,
 			string committerEmail,
 			bool synchronizeTrackedBranch,
@@ -867,13 +842,21 @@ namespace Tgstation.Server.Host.Components.Repository
 			DefaultIOManager.BlockingTaskCreationOptions,
 			TaskScheduler.Current);
 
+		/// <inheritdoc />
+		protected override void DisposeImpl()
+		{
+			logger.LogTrace("Disposing...");
+			libGitRepo.Dispose();
+			base.DisposeImpl();
+		}
+
 		/// <summary>
 		/// Runs a blocking force checkout to <paramref name="committish"/>.
 		/// </summary>
 		/// <param name="committish">The committish to checkout.</param>
 		/// <param name="progressReporter">The optional <see cref="JobProgressReporter"/> for the operation.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		void RawCheckout(string committish, JobProgressReporter progressReporter, CancellationToken cancellationToken)
+		void RawCheckout(string committish, JobProgressReporter? progressReporter, CancellationToken cancellationToken)
 		{
 			logger.LogTrace("Checkout: {committish}", committish);
 
@@ -1008,15 +991,15 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// Recusively update all <see cref="Submodule"/>s in the <see cref="libGitRepo"/>.
 		/// </summary>
 		/// <param name="progressReporter">Optional <see cref="JobProgressReporter"/> of the operation.</param>
-		/// <param name="username">The username for the <see cref="credentialsProvider"/>.</param>
-		/// <param name="password">The password for the <see cref="credentialsProvider"/>.</param>
+		/// <param name="username">The optional username for the <see cref="credentialsProvider"/>.</param>
+		/// <param name="password">The optional password for the <see cref="credentialsProvider"/>.</param>
 		/// <param name="deploymentPipeline">If any events created should be marked as part of the deployment pipeline.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
 		async ValueTask UpdateSubmodules(
-			JobProgressReporter progressReporter,
-			string username,
-			string password,
+			JobProgressReporter? progressReporter,
+			string? username,
+			string? password,
 			bool deploymentPipeline,
 			CancellationToken cancellationToken)
 		{

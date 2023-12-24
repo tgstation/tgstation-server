@@ -51,7 +51,7 @@ namespace Tgstation.Server.Host
 		/// <inheritdoc />
 		// TODO: Decomplexify
 #pragma warning disable CA1506
-		public async ValueTask<IServer> CreateServer(string[] args, string updatePath, CancellationToken cancellationToken)
+		public async ValueTask<IServer?> CreateServer(string[] args, string? updatePath, CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(args);
 
@@ -96,7 +96,8 @@ namespace Tgstation.Server.Host
 #if !NET8_0
 #error Validate this monstrosity works on current .NET
 #endif
-					IConfigurationSource cmdLineConfig, baseYmlConfig, environmentYmlConfig;
+					IConfigurationSource? cmdLineConfig;
+					IConfigurationSource baseYmlConfig, environmentYmlConfig;
 					if (args.Length == 0)
 					{
 						cmdLineConfig = null;

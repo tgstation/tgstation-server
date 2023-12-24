@@ -8,7 +8,7 @@ namespace Tgstation.Server.Host.Components.Interop.Topic
 	sealed class ChunkedTopicParameters : TopicParameters, IMissingPayloadsCommunication, IChunkPayloadId
 	{
 		/// <inheritdoc />
-		public IReadOnlyCollection<uint> MissingChunks { get; set; }
+		public IReadOnlyCollection<uint>? MissingChunks { get; set; }
 
 		/// <inheritdoc />
 		public uint? PayloadId { get; set; }

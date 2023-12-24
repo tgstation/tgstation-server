@@ -49,8 +49,8 @@ namespace Tgstation.Server.Host.Utils
 			writer.WriteStartArray();
 			foreach (var enumValue in Enum.GetValues(enumType))
 			{
-				var enumName = enumValue.ToString();
-				var field = enumType.GetField(enumName);
+				var enumName = enumValue.ToString()!;
+				var field = enumType.GetField(enumName)!;
 				if (field.IsDefined(typeof(ObsoleteAttribute), false))
 					enumName = $"DEPRECATED_{enumName}";
 

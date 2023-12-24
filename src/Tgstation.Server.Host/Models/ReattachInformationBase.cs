@@ -22,9 +22,14 @@ namespace Tgstation.Server.Host.Models
 		public int ProcessId { get; set; }
 
 		/// <summary>
-		/// The port DreamDaemon was last listening on.
+		/// The port the game server was last listening on.
 		/// </summary>
 		public ushort Port { get; set; }
+
+		/// <summary>
+		/// The port the game server was last listening on for topics.
+		/// </summary>
+		public ushort? TopicPort { get; set; }
 
 		/// <summary>
 		/// The current DreamDaemon reboot state.
@@ -44,7 +49,17 @@ namespace Tgstation.Server.Host.Models
 		/// <summary>
 		/// Initializes a new instance of the <see cref="ReattachInformationBase"/> class.
 		/// </summary>
+		/// <remarks>For use by EFCore only.</remarks>
 		protected ReattachInformationBase()
+		{
+		}
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="ReattachInformationBase"/> class.
+		/// </summary>
+		/// <param name="accessIdentifier">The access identifier for the <see cref="DMApiParameters"/>.</param>
+		protected ReattachInformationBase(string accessIdentifier)
+			: base(accessIdentifier)
 		{
 		}
 
@@ -53,11 +68,13 @@ namespace Tgstation.Server.Host.Models
 		/// </summary>
 		/// <param name="copy">The <see cref="ReattachInformationBase"/> to copy values from.</param>
 		protected ReattachInformationBase(ReattachInformationBase copy)
+			: base(copy == null
+				? throw new ArgumentNullException(nameof(copy))
+				: copy.AccessIdentifier)
 		{
-			ArgumentNullException.ThrowIfNull(copy);
 			Id = copy.Id;
-			AccessIdentifier = copy.AccessIdentifier;
 			Port = copy.Port;
+			TopicPort = copy.TopicPort;
 			ProcessId = copy.ProcessId;
 			RebootState = copy.RebootState;
 			LaunchSecurityLevel = copy.LaunchSecurityLevel;

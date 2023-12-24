@@ -54,12 +54,12 @@ namespace Tgstation.Server.Tests.Live
 	{
 		public static readonly Version TestUpdateVersion = new(5, 11, 0);
 
-		static readonly Lazy<ushort> odDMPort = new Lazy<ushort>(() => FreeTcpPort());
-		static readonly Lazy<ushort> odDDPort = new Lazy<ushort>(() => FreeTcpPort(odDMPort.Value));
-		static readonly Lazy<ushort> compatDMPort = new Lazy<ushort>(() => FreeTcpPort(odDDPort.Value, odDMPort.Value));
-		static readonly Lazy<ushort> compatDDPort = new Lazy<ushort>(() => FreeTcpPort(odDDPort.Value, odDMPort.Value, compatDMPort.Value));
-		static readonly Lazy<ushort> mainDDPort = new Lazy<ushort>(() => FreeTcpPort(odDDPort.Value, odDMPort.Value, compatDMPort.Value, compatDDPort.Value));
-		static readonly Lazy<ushort> mainDMPort = new Lazy<ushort>(() => FreeTcpPort(odDDPort.Value, odDMPort.Value, compatDMPort.Value, compatDDPort.Value, mainDDPort.Value));
+		static readonly Lazy<ushort> odDMPort = new(() => FreeTcpPort());
+		static readonly Lazy<ushort> odDDPort = new(() => FreeTcpPort(odDMPort.Value));
+		static readonly Lazy<ushort> compatDMPort = new(() => FreeTcpPort(odDDPort.Value, odDMPort.Value));
+		static readonly Lazy<ushort> compatDDPort = new(() => FreeTcpPort(odDDPort.Value, odDMPort.Value, compatDMPort.Value));
+		static readonly Lazy<ushort> mainDDPort = new(() => FreeTcpPort(odDDPort.Value, odDMPort.Value, compatDMPort.Value, compatDDPort.Value));
+		static readonly Lazy<ushort> mainDMPort = new(() => FreeTcpPort(odDDPort.Value, odDMPort.Value, compatDMPort.Value, compatDDPort.Value, mainDDPort.Value));
 
 		readonly ServerClientFactory clientFactory = new (new ProductHeaderValue(Assembly.GetExecutingAssembly().GetName().Name, Assembly.GetExecutingAssembly().GetName().Version.ToString()));
 
@@ -147,9 +147,6 @@ namespace Tgstation.Server.Tests.Live
 
 		static ushort FreeTcpPort(params ushort[] usedPorts)
 		{
-			var portList = new ushort[] { 42069, 42070, 42071, 42072, 42073, 42074 };
-			return portList.First(x => !usedPorts.Contains(x));
-			/*
 			ushort result;
 			var listeners = new List<TcpListener>();
 
@@ -171,7 +168,7 @@ namespace Tgstation.Server.Tests.Live
 
 					result = (ushort)((IPEndPoint)l.LocalEndpoint).Port;
 				}
-				while (usedPorts.Contains(result) || result < 10000);
+				while (usedPorts.Contains(result) || result < 20000);
 			}
 			finally
 			{
@@ -180,8 +177,9 @@ namespace Tgstation.Server.Tests.Live
 					l.Stop();
 				}
 			}
+
+			Console.WriteLine($"Allocated port: {result}");
 			return result;
-			*/
 		}
 
 		[ClassInitialize]
@@ -196,7 +194,7 @@ namespace Tgstation.Server.Tests.Live
 
 			await CachingFileDownloader.InitializeAndInjectForLiveTests(default);
 
-			await DummyChatProvider.RandomDisconnections(true, default);
+			DummyChatProvider.RandomDisconnections(true);
 			ServerClientFactory.ApiClientFactory = new RateLimitRetryingApiClientFactory();
 
 			var connectionString = Environment.GetEnvironmentVariable("TGS_TEST_CONNECTION_STRING");
@@ -1746,7 +1744,7 @@ namespace Tgstation.Server.Tests.Live
 					await chatTestObj.RunPostTest(cancellationToken);
 					await repoTest;
 
-					await DummyChatProvider.RandomDisconnections(false, cancellationToken);
+					DummyChatProvider.RandomDisconnections(false);
 
 					jobsHubTest.CompleteNow();
 					await jobsHubTestTask;

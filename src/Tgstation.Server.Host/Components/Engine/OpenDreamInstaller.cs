@@ -8,12 +8,14 @@ using Microsoft.Extensions.Options;
 
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Common.Extensions;
+using Tgstation.Server.Common.Http;
 using Tgstation.Server.Host.Common;
 using Tgstation.Server.Host.Components.Repository;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Jobs;
 using Tgstation.Server.Host.System;
+using Tgstation.Server.Host.Utils;
 
 namespace Tgstation.Server.Host.Components.Engine
 {
@@ -51,6 +53,16 @@ namespace Tgstation.Server.Host.Components.Engine
 		protected IProcessExecutor ProcessExecutor { get; }
 
 		/// <summary>
+		/// The <see cref="GeneralConfiguration"/> for the <see cref="OpenDreamInstaller"/>.
+		/// </summary>
+		protected GeneralConfiguration GeneralConfiguration { get; }
+
+		/// <summary>
+		/// The <see cref="Configuration.SessionConfiguration"/> for the <see cref="OpenDreamInstaller"/>.
+		/// </summary>
+		protected SessionConfiguration SessionConfiguration { get; }
+
+		/// <summary>
 		/// The <see cref="IPlatformIdentifier"/> for the <see cref="OpenDreamInstaller"/>.
 		/// </summary>
 		readonly IPlatformIdentifier platformIdentifier;
@@ -61,9 +73,14 @@ namespace Tgstation.Server.Host.Components.Engine
 		readonly IRepositoryManager repositoryManager;
 
 		/// <summary>
-		/// The <see cref="GeneralConfiguration"/> for the <see cref="OpenDreamInstaller"/>.
+		/// The <see cref="IAsyncDelayer"/> for the <see cref="OpenDreamInstaller"/>.
 		/// </summary>
-		protected GeneralConfiguration GeneralConfiguration { get; }
+		readonly IAsyncDelayer asyncDelayer;
+
+		/// <summary>
+		/// The <see cref="IAbstractHttpClientFactory"/> for the <see cref="OpenDreamInstaller"/>.
+		/// </summary>
+		readonly IAbstractHttpClientFactory httpClientFactory;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="OpenDreamInstaller"/> class.
@@ -73,20 +90,29 @@ namespace Tgstation.Server.Host.Components.Engine
 		/// <param name="platformIdentifier">The value of <see cref="platformIdentifier"/>.</param>
 		/// <param name="processExecutor">The value of <see cref="ProcessExecutor"/>.</param>
 		/// <param name="repositoryManager">The value of <see cref="repositoryManager"/>.</param>
+		/// <param name="asyncDelayer">The value of <see cref="asyncDelayer"/>.</param>
+		/// <param name="httpClientFactory">The value of <see cref="httpClientFactory"/>.</param>
 		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing value of <see cref="GeneralConfiguration"/>.</param>
+		/// <param name="sessionConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing value of <see cref="SessionConfiguration"/>.</param>
 		public OpenDreamInstaller(
 			IIOManager ioManager,
 			ILogger<OpenDreamInstaller> logger,
 			IPlatformIdentifier platformIdentifier,
 			IProcessExecutor processExecutor,
 			IRepositoryManager repositoryManager,
-			IOptions<GeneralConfiguration> generalConfigurationOptions)
+			IAsyncDelayer asyncDelayer,
+			IAbstractHttpClientFactory httpClientFactory,
+			IOptions<GeneralConfiguration> generalConfigurationOptions,
+			IOptions<SessionConfiguration> sessionConfigurationOptions)
 			: base(ioManager, logger)
 		{
 			this.platformIdentifier = platformIdentifier ?? throw new ArgumentNullException(nameof(platformIdentifier));
 			ProcessExecutor = processExecutor ?? throw new ArgumentNullException(nameof(processExecutor));
 			this.repositoryManager = repositoryManager ?? throw new ArgumentNullException(nameof(repositoryManager));
+			this.asyncDelayer = asyncDelayer ?? throw new ArgumentNullException(nameof(asyncDelayer));
+			this.httpClientFactory = httpClientFactory ?? throw new ArgumentNullException(nameof(httpClientFactory));
 			GeneralConfiguration = generalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
+			SessionConfiguration = sessionConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(sessionConfigurationOptions));
 		}
 
 		/// <inheritdoc />
@@ -99,6 +125,8 @@ namespace Tgstation.Server.Host.Components.Engine
 			GetExecutablePaths(path, out var serverExePath, out var compilerExePath);
 			return new OpenDreamInstallation(
 				IOManager,
+				asyncDelayer,
+				httpClientFactory,
 				serverExePath,
 				compilerExePath,
 				installationTask,
@@ -106,7 +134,7 @@ namespace Tgstation.Server.Host.Components.Engine
 		}
 
 		/// <inheritdoc />
-		public override async ValueTask<IEngineInstallationData> DownloadVersion(EngineVersion version, JobProgressReporter jobProgressReporter, CancellationToken cancellationToken)
+		public override async ValueTask<IEngineInstallationData> DownloadVersion(EngineVersion version, JobProgressReporter? jobProgressReporter, CancellationToken cancellationToken)
 		{
 			CheckVersionValidity(version);
 
@@ -131,7 +159,7 @@ namespace Tgstation.Server.Host.Components.Engine
 					Logger.LogTrace("OD repo seems to already exist, attempting load and fetch...");
 					repo = await repositoryManager.LoadRepository(cancellationToken);
 
-					await repo.FetchOrigin(
+					await repo!.FetchOrigin(
 						progressSection1,
 						null,
 						null,
@@ -142,7 +170,7 @@ namespace Tgstation.Server.Host.Components.Engine
 				var progressSection2 = jobProgressReporter?.CreateSection("Checking out OpenDream version", 0.5f);
 
 				var committish = version.SourceSHA
-					?? $"{GeneralConfiguration.OpenDreamGitTagPrefix}{version.Version.Semver()}";
+					?? $"{GeneralConfiguration.OpenDreamGitTagPrefix}{version.Version!.Semver()}";
 
 				await repo.CheckoutObject(
 					committish,
@@ -232,11 +260,14 @@ namespace Tgstation.Server.Host.Components.Engine
 						null,
 						!GeneralConfiguration.OpenDreamSuppressInstallOutput,
 						!GeneralConfiguration.OpenDreamSuppressInstallOutput);
+
+					if (SessionConfiguration.LowPriorityDeploymentProcesses)
+						buildProcess.AdjustPriority(false);
+
 					using (cancellationToken.Register(() => buildProcess.Terminate()))
 						buildExitCode = await buildProcess.Lifetime;
 
-					string output;
-
+					string? output;
 					if (!GeneralConfiguration.OpenDreamSuppressInstallOutput)
 					{
 						var buildOutputTask = buildProcess.GetCombinedOutput(cancellationToken);

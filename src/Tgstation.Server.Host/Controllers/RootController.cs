@@ -104,7 +104,7 @@ namespace Tgstation.Server.Host.Controllers
 				else
 					return Redirect(ApiDocumentationRoute);
 
-			Dictionary<string, string> links;
+			Dictionary<string, string>? links;
 			if (panelEnabled)
 				links = new Dictionary<string, string>()
 				{
@@ -134,7 +134,7 @@ namespace Tgstation.Server.Host.Controllers
 				? LogoSvgWindowsName
 				: LogoSvgLinuxName;
 
-			return (IActionResult)this.TryServeFile(hostEnvironment, logger, $"{logoFileName}.svg") ?? NotFound();
+			return (IActionResult?)this.TryServeFile(hostEnvironment, logger, $"{logoFileName}.svg") ?? NotFound();
 		}
 	}
 }

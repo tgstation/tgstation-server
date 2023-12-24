@@ -134,17 +134,12 @@ namespace Tgstation.Server.Tests.Live.Instance
 					cancellationToken),
 				ErrorCode.ModelValidationFailure);
 		public static int EngineInstallationTimeout(EngineVersion testVersion)
-		{
-			switch (testVersion.Engine.Value)
+			=> testVersion.Engine.Value switch
 			{
-				case EngineType.Byond:
-					return 30;
-				case EngineType.OpenDream:
-					return 500;
-				default:
-					throw new InvalidOperationException($"Unknown engine type: {testVersion.Engine.Value}");
-			}
-		}
+				EngineType.Byond => 30,
+				EngineType.OpenDream => 500,
+				_ => throw new InvalidOperationException($"Unknown engine type: {testVersion.Engine.Value}"),
+			};
 
 		int EngineInstallationTimeout() => EngineInstallationTimeout(testVersion);
 
@@ -302,6 +297,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 					Mock.Of<IIOManager>(),
 					fileDownloader,
 					generalConfigOptionsMock.Object,
+					sessionConfigOptionsMock.Object,
 					Mock.Of<ILogger<WindowsByondInstaller>>())
 				: new PosixByondInstaller(
 					Mock.Of<IPostWriteHandler>(),

@@ -46,7 +46,7 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 			ArgumentNullException.ThrowIfNull(repositorySettings);
 			ArgumentNullException.ThrowIfNull(revisionInformation);
 
-			if (revisionInformation.ActiveTestMerges?.Any() != true)
+			if ((revisionInformation.ActiveTestMerges?.Count > 0) != true)
 			{
 				Logger.LogTrace("No test merges to remove.");
 				return Array.Empty<TestMerge>();
@@ -75,7 +75,7 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 
 			var newList = revisionInformation.ActiveTestMerges.Select(x => x.TestMerge).ToList();
 
-			MergeRequest lastMerged = null;
+			MergeRequest? lastMerged = null;
 			async ValueTask CheckRemoveMR(Task<MergeRequest> task)
 			{
 				var mergeRequest = await task;
@@ -162,12 +162,12 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 			CultureInfo.InvariantCulture,
 			"#### Test Merge {4}{0}{0}##### Server Instance{0}{5}{1}{0}{0}##### Revision{0}Origin: {6}{0}Merge Request: {2}{0}Server: {7}{3}",
 			Environment.NewLine,
-			repositorySettings.ShowTestMergeCommitters.Value
+			repositorySettings.ShowTestMergeCommitters!.Value
 				? String.Format(
 					CultureInfo.InvariantCulture,
 					"{0}{0}##### Merged By{0}{1}",
 					Environment.NewLine,
-					testMerge.MergedBy.Name)
+					testMerge.MergedBy!.Name)
 				: String.Empty,
 			testMerge.TargetCommitSha,
 			testMerge.Comment != null

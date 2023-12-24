@@ -12,7 +12,7 @@ namespace Tgstation.Server.Host.Security.OAuth
 	/// OAuth validator for Invision Community (selfhosted).
 	/// </summary>
 	sealed class InvisionCommunityOAuthValidator : GenericOAuthValidator
-		{
+	{
 		/// <inheritdoc />
 		public override OAuthProvider Provider => OAuthProvider.InvisionCommunity;
 

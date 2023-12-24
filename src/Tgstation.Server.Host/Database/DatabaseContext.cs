@@ -257,21 +257,21 @@ namespace Tgstation.Server.Host.Database
 		protected DatabaseContext(DbContextOptions dbContextOptions)
 			: base(dbContextOptions)
 		{
-			usersCollection = new DatabaseCollection<User>(Users);
-			instancesCollection = new DatabaseCollection<Instance>(Instances);
-			instancePermissionSetsCollection = new DatabaseCollection<InstancePermissionSet>(InstancePermissionSets);
-			compileJobsCollection = new DatabaseCollection<CompileJob>(CompileJobs);
-			repositorySettingsCollection = new DatabaseCollection<RepositorySettings>(RepositorySettings);
-			dreamMakerSettingsCollection = new DatabaseCollection<DreamMakerSettings>(DreamMakerSettings);
-			dreamDaemonSettingsCollection = new DatabaseCollection<DreamDaemonSettings>(DreamDaemonSettings);
-			chatBotsCollection = new DatabaseCollection<ChatBot>(ChatBots);
-			chatChannelsCollection = new DatabaseCollection<ChatChannel>(ChatChannels);
-			revisionInformationsCollection = new DatabaseCollection<RevisionInformation>(RevisionInformations);
-			jobsCollection = new DatabaseCollection<Job>(Jobs);
-			reattachInformationsCollection = new DatabaseCollection<ReattachInformation>(ReattachInformations);
-			oAuthConnections = new DatabaseCollection<OAuthConnection>(OAuthConnections);
-			groups = new DatabaseCollection<UserGroup>(Groups);
-			permissionSets = new DatabaseCollection<PermissionSet>(PermissionSets);
+			usersCollection = new DatabaseCollection<User>(Users!);
+			instancesCollection = new DatabaseCollection<Instance>(Instances!);
+			instancePermissionSetsCollection = new DatabaseCollection<InstancePermissionSet>(InstancePermissionSets!);
+			compileJobsCollection = new DatabaseCollection<CompileJob>(CompileJobs!);
+			repositorySettingsCollection = new DatabaseCollection<RepositorySettings>(RepositorySettings!);
+			dreamMakerSettingsCollection = new DatabaseCollection<DreamMakerSettings>(DreamMakerSettings!);
+			dreamDaemonSettingsCollection = new DatabaseCollection<DreamDaemonSettings>(DreamDaemonSettings!);
+			chatBotsCollection = new DatabaseCollection<ChatBot>(ChatBots!);
+			chatChannelsCollection = new DatabaseCollection<ChatChannel>(ChatChannels!);
+			revisionInformationsCollection = new DatabaseCollection<RevisionInformation>(RevisionInformations!);
+			jobsCollection = new DatabaseCollection<Job>(Jobs!);
+			reattachInformationsCollection = new DatabaseCollection<ReattachInformation>(ReattachInformations!);
+			oAuthConnections = new DatabaseCollection<OAuthConnection>(OAuthConnections!);
+			groups = new DatabaseCollection<UserGroup>(Groups!);
+			permissionSets = new DatabaseCollection<PermissionSet>(PermissionSets!);
 		}
 
 		/// <inheritdoc />
@@ -375,22 +375,22 @@ namespace Tgstation.Server.Host.Database
 		/// <summary>
 		/// Used by unit tests to remind us to setup the correct MSSQL migration downgrades.
 		/// </summary>
-		internal static readonly Type MSLatestMigration = typeof(MSRenameByondColumnsToEngine);
+		internal static readonly Type MSLatestMigration = typeof(MSAddTopicPort);
 
 		/// <summary>
 		/// Used by unit tests to remind us to setup the correct MYSQL migration downgrades.
 		/// </summary>
-		internal static readonly Type MYLatestMigration = typeof(MYRenameByondColumnsToEngine);
+		internal static readonly Type MYLatestMigration = typeof(MYAddTopicPort);
 
 		/// <summary>
 		/// Used by unit tests to remind us to setup the correct PostgresSQL migration downgrades.
 		/// </summary>
-		internal static readonly Type PGLatestMigration = typeof(PGRenameByondColumnsToEngine);
+		internal static readonly Type PGLatestMigration = typeof(PGAddTopicPort);
 
 		/// <summary>
 		/// Used by unit tests to remind us to setup the correct SQLite migration downgrades.
 		/// </summary>
-		internal static readonly Type SLLatestMigration = typeof(SLRenameByondColumnsToEngine);
+		internal static readonly Type SLLatestMigration = typeof(SLAddTopicPort);
 
 		/// <inheritdoc />
 #pragma warning disable CA1502 // Cyclomatic complexity
@@ -415,7 +415,7 @@ namespace Tgstation.Server.Host.Database
 				throw new NotSupportedException("Cannot migrate below version 4.1.0!");
 
 			// Update this with new migrations as they are made
-			string targetMigration = null;
+			string? targetMigration = null;
 
 			string BadDatabaseType() => throw new ArgumentException($"Invalid DatabaseType: {currentDatabaseType}", nameof(currentDatabaseType));
 

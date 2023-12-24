@@ -345,7 +345,7 @@ namespace Tgstation.Server.Host.Utils
 			ArgumentNullException.ThrowIfNull(operation);
 			ArgumentNullException.ThrowIfNull(context);
 
-			operation.OperationId = $"{context.MethodInfo.DeclaringType.Name}.{context.MethodInfo.Name}";
+			operation.OperationId = $"{context.MethodInfo.DeclaringType!.Name}.{context.MethodInfo.Name}";
 
 			var authAttributes = context
 				.MethodInfo

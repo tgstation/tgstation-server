@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collections.Frozen;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -15,15 +15,15 @@ namespace Tgstation.Server.Host.Components.Engine
 	sealed class DelegatingEngineInstaller : IEngineInstaller
 	{
 		/// <summary>
-		/// The <see cref="IReadOnlyDictionary{TKey, TValue}"/> mapping <see cref="EngineType"/>s to their appropriate <see cref="IEngineInstaller"/>.
+		/// The <see cref="FrozenDictionary{TKey, TValue}"/> mapping <see cref="EngineType"/>s to their appropriate <see cref="IEngineInstaller"/>.
 		/// </summary>
-		readonly IReadOnlyDictionary<EngineType, IEngineInstaller> delegatedInstallers;
+		readonly FrozenDictionary<EngineType, IEngineInstaller> delegatedInstallers;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="DelegatingEngineInstaller"/> class.
 		/// </summary>
 		/// <param name="delegatedInstallers">The value of <see cref="delegatedInstallers"/>.</param>
-		public DelegatingEngineInstaller(IReadOnlyDictionary<EngineType, IEngineInstaller> delegatedInstallers)
+		public DelegatingEngineInstaller(FrozenDictionary<EngineType, IEngineInstaller> delegatedInstallers)
 		{
 			this.delegatedInstallers = delegatedInstallers ?? throw new ArgumentNullException(nameof(delegatedInstallers));
 		}
@@ -37,7 +37,7 @@ namespace Tgstation.Server.Host.Components.Engine
 			=> DelegateCall(version, installer => installer.CreateInstallation(version, path, installationTask));
 
 		/// <inheritdoc />
-		public ValueTask<IEngineInstallationData> DownloadVersion(EngineVersion version, JobProgressReporter jobProgressReporter, CancellationToken cancellationToken)
+		public ValueTask<IEngineInstallationData> DownloadVersion(EngineVersion version, JobProgressReporter? jobProgressReporter, CancellationToken cancellationToken)
 			=> DelegateCall(version, installer => installer.DownloadVersion(version, jobProgressReporter, cancellationToken));
 
 		/// <inheritdoc />
@@ -62,7 +62,7 @@ namespace Tgstation.Server.Host.Components.Engine
 		TReturn DelegateCall<TReturn>(EngineVersion version, Func<IEngineInstaller, TReturn> call)
 		{
 			ArgumentNullException.ThrowIfNull(version);
-			return call(delegatedInstallers[version.Engine.Value]);
+			return call(delegatedInstallers[version.Engine!.Value]);
 		}
 	}
 }

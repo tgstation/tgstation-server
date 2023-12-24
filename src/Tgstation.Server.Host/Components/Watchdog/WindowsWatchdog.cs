@@ -81,9 +81,9 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <inheritdoc />
 		protected override async ValueTask ApplyInitialDmb(CancellationToken cancellationToken)
 		{
-			if (Server.EngineVersion.Engine.Value != EngineType.Byond)
+			if (Server!.EngineVersion.Engine != EngineType.Byond)
 			{
-				Logger.LogTrace("Not setting InitialDmb for engine type {engineType}", Server.EngineVersion.Engine.Value);
+				Logger.LogTrace("Not setting InitialDmb for engine type {engineType}", Server.EngineVersion.Engine);
 				return;
 			}
 

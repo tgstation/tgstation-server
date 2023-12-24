@@ -9,6 +9,7 @@
     <NoWarn>API1000;ASP0019</NoWarn>
     <NodeModulesFolder>ClientApp/node_modules</NodeModulesFolder>
     <NpmInstallStampFile>ClientApp/node_modules/.install-stamp</NpmInstallStampFile>
+    <Nullable>enable</Nullable>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <DockerfileContext>..\..</DockerfileContext>
     <ApplicationManifest>../../build/uac_elevation_manifest.xml</ApplicationManifest>
@@ -63,7 +64,7 @@
     <!-- Usage: Concise throw statements for native Win32 errors -->
     <PackageReference Include="BetterWin32Errors" Version="0.2.0" />
     <!-- Usage: Interop with BYOND's /world/Topic -->
-    <PackageReference Include="Byond.TopicSender" Version="8.0.0" />
+    <PackageReference Include="Byond.TopicSender" Version="8.0.1" />
     <!-- Usage: 503'ing request pipeline until server is finished initializing -->
     <PackageReference Include="Cyberboss.AspNetCore.AsyncInitializer" Version="1.2.0" />
     <!-- Usage: IRC interop -->
@@ -125,7 +126,7 @@
     <!-- Usage: Temporary resolution to compatibility issues with EFCore 7 and .NET 8 -->
     <PackageReference Include="System.Security.Permissions" Version="8.0.0" />
     <!-- Usage: .DeleteAsync() support for IQueryable<T>s -->
-    <PackageReference Include="Z.EntityFramework.Plus.EFCore" Version="8.101.1.2" />
+    <PackageReference Include="Z.EntityFramework.Plus.EFCore" Version="8.101.1.3" />
   </ItemGroup>
 
   <ItemGroup>

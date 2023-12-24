@@ -158,7 +158,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			await TestDMApiFreeDeploy(cancellationToken);
 
 			// long running test likes consistency with the channels
-			await DummyChatProvider.RandomDisconnections(false, cancellationToken);
+			DummyChatProvider.RandomDisconnections(false);
 
 			await RunLongRunningTestThenUpdate(cancellationToken);
 
@@ -771,7 +771,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 				.GetProcess(ddProc.Id);
 
 			// Ensure it's responding to health checks
-			await Task.WhenAny(Task.Delay(6000, cancellationToken), ourProcessHandler.Lifetime);
+			await Task.WhenAny(Task.Delay(7000, cancellationToken), ourProcessHandler.Lifetime);
 			Assert.IsFalse(ddProc.HasExited);
 
 			// check DD agrees
@@ -791,7 +791,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			ValidateSessionId(ddStatus, true);
 
 			global::System.Console.WriteLine($"WATCHDOG TEST {instanceClient.Metadata.Id}: COMMENCE PROCESS SUSPEND FOR HEALTH CHECK DEATH PID {ourProcessHandler.Id}.");
-			ourProcessHandler.Suspend();
+			ourProcessHandler.SuspendProcess();
 			global::System.Console.WriteLine($"WATCHDOG TEST {instanceClient.Metadata.Id}: FINISH PROCESS SUSPEND FOR HEALTH CHECK DEATH. WAITING FOR LIFETIME {ourProcessHandler.Id}.");
 
 			await Task.WhenAny(ourProcessHandler.Lifetime, Task.Delay(TimeSpan.FromMinutes(4), cancellationToken));
@@ -1013,7 +1013,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			Assert.IsNotNull(sessionObj);
 
 			var session = (ISessionController)sessionObj;
-			return session.ReattachInformation.Port;
+			return session.ReattachInformation.TopicPort ?? session.ReattachInformation.Port;
 		}
 
 		// - Uses instance manager concrete
@@ -1024,22 +1024,16 @@ namespace Tgstation.Server.Tests.Live.Instance
 			var startTime = DateTimeOffset.UtcNow - TimeSpan.FromSeconds(5);
 			using (var instanceReference = instanceManager.GetInstanceReference(instanceClient.Metadata))
 			{
-				var mockChatUser = new ChatUser
-				{
-					Channel = new ChannelRepresentation
+				var mockChatUser = new ChatUser(
+					new ChannelRepresentation("test_connection", "Test Connection", 42)
 					{
 						IsAdminChannel = true,
-						ConnectionName = "test_connection",
 						EmbedsSupported = true,
-						FriendlyName = "Test Connection",
-						Id = "test_channel_id",
 						IsPrivateChannel = false,
 					},
-					FriendlyName = "Test Sender",
-					Id = "test_user_id",
-					Mention = "test_user_mention",
-					RealId = 1234,
-				};
+					"Test Sender",
+					"test_user_mention",
+					1234);
 
 				var embedsResponseTask = ((WatchdogBase)instanceReference.Watchdog).HandleChatCommand(
 					"embeds_test",

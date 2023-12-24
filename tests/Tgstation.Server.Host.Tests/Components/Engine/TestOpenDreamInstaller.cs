@@ -9,10 +9,12 @@ using Moq;
 
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Internal;
+using Tgstation.Server.Common.Http;
 using Tgstation.Server.Host.Components.Repository;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.System;
+using Tgstation.Server.Host.Utils;
 
 namespace Tgstation.Server.Host.Components.Engine.Tests
 {
@@ -35,8 +37,11 @@ namespace Tgstation.Server.Host.Components.Engine.Tests
 		{
 			var mockGeneralConfigOptions = new Mock<IOptions<GeneralConfiguration>>();
 			var generalConfig = new GeneralConfiguration();
+			var mockSessionConfigOptions = new Mock<IOptions<SessionConfiguration>>();
+			var sessionConfig = new SessionConfiguration();
 			Assert.IsNotNull(generalConfig.OpenDreamGitUrl);
 			mockGeneralConfigOptions.SetupGet(x => x.Value).Returns(generalConfig);
+			mockSessionConfigOptions.SetupGet(x => x.Value).Returns(sessionConfig);
 
 			var cloneAttempts = 0;
 			var mockRepository = new Mock<IRepository>();
@@ -51,7 +56,7 @@ namespace Tgstation.Server.Host.Components.Engine.Tests
 				true,
 				It.IsAny<CancellationToken>()))
 				.Callback(() => ++cloneAttempts)
-				.Returns(ValueTask.FromResult(needsClone ? mockRepository.Object : null))
+				.ReturnsAsync(needsClone ? mockRepository.Object : null)
 				.Verifiable(Times.Exactly(1));
 
 			mockRepositoryManager.Setup(x => x.LoadRepository(
@@ -69,7 +74,10 @@ namespace Tgstation.Server.Host.Components.Engine.Tests
 				Mock.Of<IPlatformIdentifier>(),
 				Mock.Of<IProcessExecutor>(),
 				mockRepositoryManager.Object,
-				mockGeneralConfigOptions.Object);
+				Mock.Of<IAsyncDelayer>(),
+				Mock.Of<IAbstractHttpClientFactory>(),
+				mockGeneralConfigOptions.Object,
+				mockSessionConfigOptions.Object);
 
 			var data = await installer.DownloadVersion(
 				new EngineVersion

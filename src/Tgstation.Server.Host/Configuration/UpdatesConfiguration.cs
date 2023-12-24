@@ -35,11 +35,11 @@ namespace Tgstation.Server.Host.Configuration
 		/// <summary>
 		/// Prefix before the <see cref="global::System.Version"/> of TGS published in git tags.
 		/// </summary>
-		public string GitTagPrefix { get; set; } = DefaultGitTagPrefix;
+		public string? GitTagPrefix { get; set; } = DefaultGitTagPrefix;
 
 		/// <summary>
 		/// Asset package containing the new <see cref="Host"/> assembly in zip form.
 		/// </summary>
-		public string UpdatePackageAssetName { get; set; } = DefaultUpdatePackageAssetName;
+		public string? UpdatePackageAssetName { get; set; } = DefaultUpdatePackageAssetName;
 	}
 }

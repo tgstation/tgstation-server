@@ -8,6 +8,7 @@ using Microsoft.Extensions.Logging;
 
 using Tgstation.Server.Host.Components.Deployment;
 using Tgstation.Server.Host.Database;
+using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.System;
 
 using Z.EntityFramework.Plus;
@@ -73,11 +74,10 @@ namespace Tgstation.Server.Host.Components.Session
 
 			await ClearImpl(db, false, cancellationToken);
 
-			var dbReattachInfo = new Models.ReattachInformation
+			var dbReattachInfo = new Models.ReattachInformation(reattachInformation.AccessIdentifier)
 			{
-				AccessIdentifier = reattachInformation.AccessIdentifier,
-				CompileJobId = reattachInformation.Dmb.CompileJob.Id.Value,
-				InitialCompileJobId = reattachInformation.InitialDmb?.CompileJob.Id.Value,
+				CompileJobId = reattachInformation.Dmb.CompileJob.Require(x => x.Id),
+				InitialCompileJobId = reattachInformation.InitialDmb?.CompileJob.Require(x => x.Id),
 				Port = reattachInformation.Port,
 				ProcessId = reattachInformation.ProcessId,
 				RebootState = reattachInformation.RebootState,
@@ -88,7 +88,7 @@ namespace Tgstation.Server.Host.Components.Session
 			db.ReattachInformations.Add(dbReattachInfo);
 			await db.Save(cancellationToken);
 
-			reattachInformation.Id = dbReattachInfo.Id.Value;
+			reattachInformation.Id = dbReattachInfo.Id!.Value;
 			logger.LogDebug("Saved reattach information: {info}", reattachInformation);
 		});
 
@@ -101,7 +101,7 @@ namespace Tgstation.Server.Host.Components.Session
 
 			logger.LogTrace("Updating reattach information: {info}...", reattachInformation);
 
-			var dbReattachInfo = new Models.ReattachInformation
+			var dbReattachInfo = new Models.ReattachInformation(String.Empty)
 			{
 				Id = reattachInformation.Id.Value,
 			};
@@ -109,8 +109,8 @@ namespace Tgstation.Server.Host.Components.Session
 			db.ReattachInformations.Attach(dbReattachInfo);
 
 			dbReattachInfo.AccessIdentifier = reattachInformation.AccessIdentifier;
-			dbReattachInfo.CompileJobId = reattachInformation.Dmb.CompileJob.Id.Value;
-			dbReattachInfo.InitialCompileJobId = reattachInformation.InitialDmb?.CompileJob.Id.Value;
+			dbReattachInfo.CompileJobId = reattachInformation.Dmb.CompileJob.Require(x => x.Id);
+			dbReattachInfo.InitialCompileJobId = reattachInformation.InitialDmb?.CompileJob.Require(x => x.Id);
 			dbReattachInfo.Port = reattachInformation.Port;
 			dbReattachInfo.ProcessId = reattachInformation.ProcessId;
 			dbReattachInfo.RebootState = reattachInformation.RebootState;
@@ -123,9 +123,9 @@ namespace Tgstation.Server.Host.Components.Session
 		});
 
 		/// <inheritdoc />
-		public async ValueTask<ReattachInformation> Load(CancellationToken cancellationToken)
+		public async ValueTask<ReattachInformation?> Load(CancellationToken cancellationToken)
 		{
-			Models.ReattachInformation result = null;
+			Models.ReattachInformation? result = null;
 			TimeSpan? topicTimeout = null;
 
 			async ValueTask KillProcess(Models.ReattachInformation reattachInfo)
@@ -159,19 +159,19 @@ namespace Tgstation.Server.Host.Components.Session
 				var dbReattachInfos = await db
 					.ReattachInformations
 					.AsQueryable()
-					.Where(x => x.CompileJob.Job.Instance.Id == metadata.Id)
+					.Where(x => x.CompileJob!.Job.Instance!.Id == metadata.Id)
 					.Include(x => x.CompileJob)
 					.Include(x => x.InitialCompileJob)
 					.ToListAsync(cancellationToken);
 				result = dbReattachInfos.FirstOrDefault();
-				if (result == default)
+				if (result == null)
 					return;
 
 				var timeoutMilliseconds = await db
 					.Instances
 					.AsQueryable()
 					.Where(x => x.Id == metadata.Id)
-					.Select(x => x.DreamDaemonSettings.TopicRequestTimeout)
+					.Select(x => x.DreamDaemonSettings!.TopicRequestTimeout)
 					.FirstOrDefaultAsync(cancellationToken);
 
 				if (timeoutMilliseconds == default)
@@ -206,7 +206,7 @@ namespace Tgstation.Server.Host.Components.Session
 				return null;
 			}
 
-			var dmb = await dmbFactory.FromCompileJob(result.CompileJob, cancellationToken);
+			var dmb = await dmbFactory.FromCompileJob(result!.CompileJob!, cancellationToken);
 			if (dmb == null)
 			{
 				logger.LogError("Unable to reattach! Could not load .dmb!");
@@ -224,7 +224,7 @@ namespace Tgstation.Server.Host.Components.Session
 				return null;
 			}
 
-			IDmbProvider initialDmb = null;
+			IDmbProvider? initialDmb = null;
 			if (result.InitialCompileJob != null)
 			{
 				logger.LogTrace("Loading initial compile job...");
@@ -265,7 +265,7 @@ namespace Tgstation.Server.Host.Components.Session
 			var baseQuery = databaseContext
 				.ReattachInformations
 				.AsQueryable()
-				.Where(x => x.CompileJob.Job.Instance.Id == metadata.Id);
+				.Where(x => x.CompileJob!.Job.Instance!.Id == metadata.Id);
 
 			if (instant)
 				await baseQuery

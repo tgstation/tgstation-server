@@ -1,4 +1,4 @@
-﻿using System;
+﻿using Tgstation.Server.Host.Utils;
 
 namespace Tgstation.Server.Host.Core
 {
@@ -6,20 +6,20 @@ namespace Tgstation.Server.Host.Core
 	sealed class RestartRegistration : IRestartRegistration
 	{
 		/// <summary>
-		/// The <see cref="Dispose"/> <see cref="Action"/>.
+		/// The <see cref="DisposeInvoker"/>.
 		/// </summary>
-		readonly Action onDispose;
+		readonly DisposeInvoker? disposeInvoker;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="RestartRegistration"/> class.
 		/// </summary>
-		/// <param name="onDispose">The value of <see cref="onDispose"/>.</param>
-		public RestartRegistration(Action onDispose)
+		/// <param name="disposeInvoker">The value of <see cref="disposeInvoker"/>.</param>
+		public RestartRegistration(DisposeInvoker? disposeInvoker)
 		{
-			this.onDispose = onDispose;
+			this.disposeInvoker = disposeInvoker;
 		}
 
 		/// <inheritdoc />
-		public void Dispose() => onDispose?.Invoke();
+		public void Dispose() => disposeInvoker?.Dispose();
 	}
 }

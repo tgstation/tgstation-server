@@ -52,7 +52,7 @@ namespace Tgstation.Server.Host.Components.Engine
 		public abstract ValueTask UpgradeInstallation(EngineVersion version, string path, CancellationToken cancellationToken);
 
 		/// <inheritdoc />
-		public abstract ValueTask<IEngineInstallationData> DownloadVersion(EngineVersion version, JobProgressReporter jobProgressReporter, CancellationToken cancellationToken);
+		public abstract ValueTask<IEngineInstallationData> DownloadVersion(EngineVersion version, JobProgressReporter? jobProgressReporter, CancellationToken cancellationToken);
 
 		/// <inheritdoc />
 		public abstract ValueTask TrustDmbPath(EngineVersion version, string fullDmbPath, CancellationToken cancellationToken);
@@ -64,7 +64,7 @@ namespace Tgstation.Server.Host.Components.Engine
 		protected void CheckVersionValidity(EngineVersion version)
 		{
 			ArgumentNullException.ThrowIfNull(version);
-			if (version.Engine.Value != TargetEngineType)
+			if (version.Engine!.Value != TargetEngineType)
 				throw new InvalidOperationException($"Non-{TargetEngineType} engine specified: {version.Engine.Value}");
 		}
 	}

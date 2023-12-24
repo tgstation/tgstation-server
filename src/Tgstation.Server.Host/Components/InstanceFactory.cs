@@ -150,7 +150,7 @@ namespace Tgstation.Server.Host.Components
 		/// </summary>
 		/// <param name="instanceIOManager">The instance's <see cref="IIOManager"/>.</param>
 		/// <returns>The <see cref="IIOManager"/> for the instance's "Game" directory.</returns>
-		static IIOManager CreateGameIOManager(IIOManager instanceIOManager) => new ResolvingIOManager(instanceIOManager, "Game");
+		static ResolvingIOManager CreateGameIOManager(IIOManager instanceIOManager) => new(instanceIOManager, "Game");
 
 #pragma warning disable CA1502 // TODO: Decomplexify
 		/// <summary>
@@ -324,13 +324,13 @@ namespace Tgstation.Server.Host.Components
 							configuration, // watchdog doesn't need itself as an event consumer
 							remoteDeploymentManagerFactory,
 							metadata,
-							metadata.DreamDaemonSettings);
+							metadata.DreamDaemonSettings!);
 						try
 						{
 							eventConsumer.SetWatchdog(watchdog);
 							commandFactory.SetWatchdog(watchdog);
 
-							Instance instance = null;
+							Instance? instance = null;
 							var dreamMaker = new DreamMaker(
 								engineManager,
 								gameIoManager,
@@ -404,6 +404,6 @@ namespace Tgstation.Server.Host.Components
 		/// </summary>
 		/// <param name="metadata">The <see cref="Models.Instance"/>.</param>
 		/// <returns>The <see cref="IIOManager"/> for the <paramref name="metadata"/>.</returns>
-		IIOManager CreateInstanceIOManager(Models.Instance metadata) => new ResolvingIOManager(ioManager, metadata.Path);
+		ResolvingIOManager CreateInstanceIOManager(Models.Instance metadata) => new(ioManager, metadata.Path!);
 	}
 }

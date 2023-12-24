@@ -33,7 +33,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <summary>
 		/// The single <see cref="ISessionController"/>.
 		/// </summary>
-		protected ISessionController Server { get; private set; }
+		protected ISessionController? Server { get; private set; }
 
 		/// <summary>
 		/// If the server is set to gracefully reboot due to a pending dmb or settings change.
@@ -109,16 +109,17 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <inheritdoc />
 		protected override async ValueTask<MonitorAction> HandleMonitorWakeup(MonitorActivationReason reason, CancellationToken cancellationToken)
 		{
+			var controller = Server!;
 			switch (reason)
 			{
 				case MonitorActivationReason.ActiveServerCrashed:
-					var eventType = Server.TerminationWasRequested
+					var eventType = controller.TerminationWasRequested
 						? EventType.WorldEndProcess
 						: EventType.WatchdogCrash;
 					await HandleEventImpl(eventType, Enumerable.Empty<string>(), false, cancellationToken);
 
-					var exitWord = Server.TerminationWasRequested ? "exited" : "crashed";
-					if (Server.RebootState == Session.RebootState.Shutdown)
+					var exitWord = controller.TerminationWasRequested ? "exited" : "crashed";
+					if (controller.RebootState == Session.RebootState.Shutdown)
 					{
 						// the time for graceful shutdown is now
 						Chat.QueueWatchdogMessage(
@@ -136,7 +137,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 							exitWord));
 					return MonitorAction.Restart;
 				case MonitorActivationReason.ActiveServerRebooted:
-					var rebootState = Server.RebootState;
+					var rebootState = controller.RebootState;
 					if (gracefulRebootRequired && rebootState == Session.RebootState.Normal)
 					{
 						Logger.LogError("Watchdog reached normal reboot state with gracefulRebootRequired set!");
@@ -144,7 +145,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					}
 
 					gracefulRebootRequired = false;
-					Server.ResetRebootState();
+					controller.ResetRebootState();
 
 					var eventTask = HandleEventImpl(EventType.WorldReboot, Enumerable.Empty<string>(), false, cancellationToken);
 					try
@@ -170,7 +171,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					}
 
 				case MonitorActivationReason.ActiveLaunchParametersUpdated:
-					await Server.SetRebootState(Session.RebootState.Restart, cancellationToken);
+					await controller.SetRebootState(Session.RebootState.Restart, cancellationToken);
 					gracefulRebootRequired = true;
 					break;
 				case MonitorActivationReason.NewDmbAvailable:
@@ -202,12 +203,12 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		}
 
 		/// <inheritdoc />
-		protected sealed override ISessionController GetActiveController() => Server;
+		protected sealed override ISessionController? GetActiveController() => Server;
 
 		/// <inheritdoc />
 		protected override async ValueTask InitController(
 			ValueTask eventTask,
-			ReattachInformation reattachInfo,
+			ReattachInformation? reattachInfo,
 			CancellationToken cancellationToken)
 		{
 			// don't need a new dmb if reattaching
@@ -220,15 +221,14 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				// start the alpha server task, either by launch a new process or attaching to an existing one
 				// The tasks returned are mainly for writing interop files to the directories among other things and should generally never fail
 				// The tasks pertaining to server startup times are in the ISessionControllers
-				ValueTask<ISessionController> serverLaunchTask;
 				if (!reattachInProgress)
 				{
-					Logger.LogTrace("Initializing controller with CompileJob {compileJobId}...", dmbToUse.CompileJob.Id);
+					Logger.LogTrace("Initializing controller with CompileJob {compileJobId}...", dmbToUse!.CompileJob.Id);
 					await BeforeApplyDmb(dmbToUse.CompileJob, cancellationToken);
 					dmbToUse = await PrepServerForLaunch(dmbToUse, cancellationToken);
 
 					await eventTask;
-					serverLaunchTask = SessionControllerFactory.LaunchNew(
+					Server = await SessionControllerFactory.LaunchNew(
 						dmbToUse,
 						null,
 						ActiveLaunchParameters,
@@ -238,11 +238,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				else
 				{
 					await eventTask;
-					serverLaunchTask = SessionControllerFactory.Reattach(reattachInfo, cancellationToken);
+					Server = await SessionControllerFactory.Reattach(reattachInfo!, cancellationToken);
 				}
-
-				// retrieve the session controller
-				Server = await serverLaunchTask;
 
 				// possiblity of null servers due to failed reattaches
 				if (Server == null)
@@ -291,7 +288,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
 		protected virtual ValueTask SessionStartupPersist(CancellationToken cancellationToken)
-			=> SessionPersistor.Save(Server.ReattachInformation, cancellationToken);
+			=> SessionPersistor.Save(Server!.ReattachInformation, cancellationToken);
 
 		/// <summary>
 		/// Handler for <see cref="MonitorActivationReason.ActiveServerRebooted"/> when the <see cref="RebootState"/> is <see cref="RebootState.Normal"/>.
@@ -309,7 +306,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		protected virtual async ValueTask HandleNewDmbAvailable(CancellationToken cancellationToken)
 		{
 			gracefulRebootRequired = true;
-			if (Server.CompileJob.DMApiVersion == null)
+			if (Server!.CompileJob.DMApiVersion == null)
 			{
 				Chat.QueueWatchdogMessage(
 					"A new deployment has been made but cannot be applied automatically as the currently running server has no DMAPI. Please manually reboot the server to apply the update.");

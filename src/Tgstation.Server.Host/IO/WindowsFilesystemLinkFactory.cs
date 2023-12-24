@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using BetterWin32Errors;
+
 using Tgstation.Server.Host.System;
 
 namespace Tgstation.Server.Host.IO

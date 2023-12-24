@@ -58,13 +58,13 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// <summary>
 		/// The <see cref="ChannelType"/>s supported by the <see cref="DiscordProvider"/> for mapping.
 		/// </summary>
-		static readonly ChannelType[] SupportedGuildChannelTypes = new[]
-		{
+		static readonly ChannelType[] SupportedGuildChannelTypes =
+		[
 			ChannelType.GuildText,
 			ChannelType.GuildAnnouncement,
 			ChannelType.PrivateThread,
 			ChannelType.PublicThread,
-		};
+		];
 
 		/// <summary>
 		/// The <see cref="IAssemblyInformationProvider"/> for the <see cref="DiscordProvider"/>.
@@ -104,17 +104,17 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// <summary>
 		/// The <see cref="CancellationTokenSource"/> for the <see cref="gatewayTask"/>.
 		/// </summary>
-		CancellationTokenSource gatewayCts;
+		CancellationTokenSource? gatewayCts;
 
 		/// <summary>
 		/// The <see cref="TaskCompletionSource"/> for the initial gateway connection event.
 		/// </summary>
-		TaskCompletionSource gatewayReadyTcs;
+		TaskCompletionSource? gatewayReadyTcs;
 
 		/// <summary>
 		/// The <see cref="Task"/> representing the lifetime of the client.
 		/// </summary>
-		Task<Result> gatewayTask;
+		Task<Result>? gatewayTask;
 
 		/// <summary>
 		/// The bot's <see cref="Snowflake"/>.
@@ -157,8 +157,8 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			mappedChannels = new List<ulong>();
 			connectDisconnectLock = new object();
 
-			var csb = new DiscordConnectionStringBuilder(chatBot.ConnectionString);
-			var botToken = csb.BotToken;
+			var csb = new DiscordConnectionStringBuilder(chatBot.ConnectionString!);
+			var botToken = csb.BotToken!;
 			outputDisplayType = csb.DMOutputDisplay;
 			deploymentBranding = csb.DeploymentBranding;
 
@@ -194,7 +194,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		}
 
 		/// <inheritdoc />
-		public override async ValueTask SendMessage(Message replyTo, MessageContent message, ulong channelId, CancellationToken cancellationToken)
+		public override async ValueTask SendMessage(Message? replyTo, MessageContent message, ulong channelId, CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(message);
 
@@ -218,6 +218,22 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			var channelsClient = serviceProvider.GetRequiredService<IDiscordRestChannelAPI>();
 			async ValueTask SendToChannel(Snowflake channelId)
 			{
+				if (message.Text == null)
+				{
+					Logger.LogWarning(
+						"Failed to send to channel {channelId}: Message was null!",
+						channelId);
+
+					await channelsClient.CreateMessageAsync(
+						channelId,
+						"TGS: Could not send message to Discord. Message was `null`!",
+						messageReference: replyToReference,
+						allowedMentions: allowedMentions,
+						ct: cancellationToken);
+
+					return;
+				}
+
 				var result = await channelsClient.CreateMessageAsync(
 					channelId,
 					message.Text,
@@ -285,25 +301,23 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		}
 
 		/// <inheritdoc />
-		public override async ValueTask<Func<string, string, ValueTask<Func<bool, ValueTask>>>> SendUpdateMessage(
+		public override async ValueTask<Func<string?, string, ValueTask<Func<bool, ValueTask>>>> SendUpdateMessage(
 			Models.RevisionInformation revisionInformation,
 			EngineVersion engineVersion,
 			DateTimeOffset? estimatedCompletionTime,
-			string gitHubOwner,
-			string gitHubRepo,
+			string? gitHubOwner,
+			string? gitHubRepo,
 			ulong channelId,
 			bool localCommitPushed,
 			CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(revisionInformation);
 			ArgumentNullException.ThrowIfNull(engineVersion);
-			ArgumentNullException.ThrowIfNull(gitHubOwner);
-			ArgumentNullException.ThrowIfNull(gitHubRepo);
 
 			localCommitPushed |= revisionInformation.CommitSha == revisionInformation.OriginCommitSha;
 
 			var fields = BuildUpdateEmbedFields(revisionInformation, engineVersion, gitHubOwner, gitHubRepo, localCommitPushed);
-			var author = new EmbedAuthor(assemblyInformationProvider.VersionPrefix)
+			Optional<IEmbedAuthor> author = new EmbedAuthor(assemblyInformationProvider.VersionPrefix)
 			{
 				Url = "https://github.com/tgstation/tgstation-server",
 				IconUrl = "https://cdn.discordapp.com/attachments/1114451486374637629/1151650846019432448/tgs.png",
@@ -323,7 +337,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			Logger.LogTrace("Attempting to post deploy embed to channel {channelId}...", channelId);
 			var channelsClient = serviceProvider.GetRequiredService<IDiscordRestChannelAPI>();
 
-			var prefix = GetEngineCompilerPrefix(engineVersion.Engine.Value);
+			var prefix = GetEngineCompilerPrefix(engineVersion.Engine!.Value);
 			var messageResponse = await channelsClient.CreateMessageAsync(
 				new Snowflake(channelId),
 				$"{prefix}: Deployment in progress...",
@@ -386,7 +400,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 
 				var updatedMessageText = errorMessage == null ? $"{prefix}: Deployment pending reboot..." : $"{prefix}: Deployment failed!";
 
-				IMessage updatedMessage = null;
+				IMessage? updatedMessage = null;
 				async ValueTask CreateUpdatedMessage()
 				{
 					var createUpdatedMessageResponse = await channelsClient.CreateMessageAsync(
@@ -532,27 +546,23 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 						messageGuildResponse.LogFormat());
 			}
 
-			var result = new DiscordMessage
-			{
-				MessageReference = messageReference,
-				Content = content,
-				User = new ChatUser
-				{
-					RealId = messageCreateEvent.Author.ID.Value,
-					Channel = new ChannelRepresentation
+			var result = new DiscordMessage(
+				new ChatUser(
+					new ChannelRepresentation(
+						pm ? messageCreateEvent.Author.Username : guildName,
+						channelResponse.Entity.Name.Value!,
+						messageCreateEvent.ChannelID.Value)
 					{
-						RealId = messageCreateEvent.ChannelID.Value,
 						IsPrivateChannel = pm,
-						ConnectionName = pm ? messageCreateEvent.Author.Username : guildName,
-						FriendlyName = channelResponse.Entity.Name.Value,
 						EmbedsSupported = true,
 
 						// isAdmin and Tag populated by manager
 					},
-					FriendlyName = messageCreateEvent.Author.Username,
-					Mention = NormalizeMentions($"<@{messageCreateEvent.Author.ID}>"),
-				},
-			};
+					messageCreateEvent.Author.Username,
+					NormalizeMentions($"<@{messageCreateEvent.Author.ID}>"),
+					messageCreateEvent.Author.ID.Value),
+				content,
+				messageReference);
 
 			EnqueueMessage(result);
 			return Result.FromSuccess();
@@ -635,8 +645,8 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			CancellationTokenSource localGatewayCts;
 			lock (connectDisconnectLock)
 			{
-				localGatewayTask = gatewayTask;
-				localGatewayCts = gatewayCts;
+				localGatewayTask = gatewayTask!;
+				localGatewayCts = gatewayCts!;
 				gatewayTask = null;
 				gatewayCts = null;
 				if (localGatewayTask == null)
@@ -662,7 +672,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			var guildsClient = serviceProvider.GetRequiredService<IDiscordRestGuildAPI>();
 			var guildTasks = new ConcurrentDictionary<Snowflake, Task<Result<IGuild>>>();
 
-			async ValueTask<Tuple<Models.ChatChannel, IEnumerable<ChannelRepresentation>>> GetModelChannelFromDBChannel(Models.ChatChannel channelFromDB)
+			async ValueTask<Tuple<Models.ChatChannel, IEnumerable<ChannelRepresentation>>?> GetModelChannelFromDBChannel(Models.ChatChannel channelFromDB)
 			{
 				if (!channelFromDB.DiscordChannelId.HasValue)
 					throw new InvalidOperationException("ChatChannel missing DiscordChannelId!");
@@ -719,12 +729,12 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 
 				var connectionName = guildsResponse.Entity.Name;
 
-				var channelModel = new ChannelRepresentation
+				var channelModel = new ChannelRepresentation(
+					guildsResponse.Entity.Name,
+					discordChannelResponse.Entity.Name.Value!,
+					channelId)
 				{
-					RealId = channelId,
 					IsAdminChannel = channelFromDB.IsAdminChannel == true,
-					ConnectionName = guildsResponse.Entity.Name,
-					FriendlyName = discordChannelResponse.Entity.Name.Value,
 					IsPrivateChannel = false,
 					Tag = channelFromDB.Tag,
 					EmbedsSupported = true,
@@ -742,8 +752,9 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 
 			var channelTuples = await ValueTaskExtensions.WhenAll(tasks.ToList());
 
-			var enumerator = channelTuples
+			var list = channelTuples
 				.Where(x => x != null)
+				.Cast<Tuple<Models.ChatChannel, IEnumerable<ChannelRepresentation>>>() // NRT my beloathed
 				.ToList();
 
 			var channelIdZeroModel = channels.FirstOrDefault(x => x.DiscordChannelId == 0);
@@ -752,7 +763,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				Logger.LogInformation("Mapping ALL additional accessible text channels");
 				var allAccessibleChannels = await GetAllAccessibleTextChannels(cancellationToken);
 				var unmappedTextChannels = allAccessibleChannels
-					.Where(x => !tasks.Any(task => task.Result != null && new Snowflake(task.Result.Item1.DiscordChannelId.Value) == x.ID));
+					.Where(x => !tasks.Any(task => task.Result != null && new Snowflake(task.Result.Item1.DiscordChannelId!.Value) == x.ID));
 
 				async ValueTask<Tuple<Models.ChatChannel, IEnumerable<ChannelRepresentation>>> CreateMappingsForUnmappedChannels()
 				{
@@ -773,32 +784,36 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 						.ToList();
 
 					// Add catch-all channel
-					unmappedTasks.Add(Task.FromResult(
-						new ChannelRepresentation
+					unmappedTasks.Add(Task.FromResult<ChannelRepresentation?>(
+						new ChannelRepresentation(
+							"(Unknown Discord Guilds)",
+							"(Unknown Discord Channels)",
+							0)
 						{
-							IsAdminChannel = channelIdZeroModel.IsAdminChannel.Value,
-							ConnectionName = "(Unknown Discord Guilds)",
+							IsAdminChannel = channelIdZeroModel.IsAdminChannel!.Value,
 							EmbedsSupported = true,
-							FriendlyName = "(Unknown Discord Channels)",
-							RealId = 0,
 							Tag = channelIdZeroModel.Tag,
 						}));
 
 					await Task.WhenAll(unmappedTasks);
 					return Tuple.Create<Models.ChatChannel, IEnumerable<ChannelRepresentation>>(
 						channelIdZeroModel,
-						unmappedTasks.Select(x => x.Result).Where(x => x != null).ToList());
+						unmappedTasks
+							.Select(x => x.Result)
+							.Where(x => x != null)
+							.Cast<ChannelRepresentation>() // NRT my beloathed
+							.ToList());
 				}
 
 				var task = CreateMappingsForUnmappedChannels();
 				var tuple = await task;
-				enumerator.Add(tuple);
+				list.Add(tuple);
 			}
 
 			lock (mappedChannels)
 			{
 				mappedChannels.Clear();
-				mappedChannels.AddRange(enumerator.SelectMany(x => x.Item2).Select(x => x.RealId));
+				mappedChannels.AddRange(list.SelectMany(x => x.Item2).Select(x => x.RealId));
 			}
 
 			if (remapRequired)
@@ -807,7 +822,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				EnqueueMessage(null);
 			}
 
-			return new Dictionary<Models.ChatChannel, IEnumerable<ChannelRepresentation>>(enumerator.Select(x => new KeyValuePair<Models.ChatChannel, IEnumerable<ChannelRepresentation>>(x.Item1, x.Item2)));
+			return new Dictionary<Models.ChatChannel, IEnumerable<ChannelRepresentation>>(list.Select(x => new KeyValuePair<Models.ChatChannel, IEnumerable<ChannelRepresentation>>(x.Item1, x.Item2)));
 		}
 
 		/// <summary>
@@ -881,46 +896,55 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		List<IEmbedField> BuildUpdateEmbedFields(
 			Models.RevisionInformation revisionInformation,
 			EngineVersion engineVersion,
-			string gitHubOwner,
-			string gitHubRepo,
+			string? gitHubOwner,
+			string? gitHubRepo,
 			bool localCommitPushed)
 		{
 			bool gitHub = gitHubOwner != null && gitHubRepo != null;
-			var engineField = engineVersion.Engine.Value switch
+			var engineField = engineVersion.Engine!.Value switch
 			{
 				EngineType.Byond => new EmbedField(
 					"BYOND Version",
-					$"{engineVersion.Version.Major}.{engineVersion.Version.Minor}{(engineVersion.CustomIteration.HasValue ? $".{engineVersion.CustomIteration.Value}" : String.Empty)}",
+					$"{engineVersion.Version!.Major}.{engineVersion.Version.Minor}{(engineVersion.CustomIteration.HasValue ? $".{engineVersion.CustomIteration.Value}" : String.Empty)}",
 					true),
 				EngineType.OpenDream => new EmbedField(
 					"OpenDream Version",
-					$"[{engineVersion.SourceSHA[..7]}]({generalConfiguration.OpenDreamGitUrl}/commit/{engineVersion.SourceSHA})",
+					$"[{engineVersion.SourceSHA![..7]}]({generalConfiguration.OpenDreamGitUrl}/commit/{engineVersion.SourceSHA})",
 					true),
 				_ => throw new InvalidOperationException($"Invaild EngineType: {engineVersion.Engine.Value}"),
 			};
 
+			var revisionSha = revisionInformation.CommitSha!;
+			var revisionOriginSha = revisionInformation.OriginCommitSha!;
 			var fields = new List<IEmbedField>
 			{
 				engineField,
+			};
+
+			if (gitHubOwner == null || gitHubRepo == null)
+				return fields;
+
+			fields.Add(
 				new EmbedField(
 					"Local Commit",
 					localCommitPushed && gitHub
-						? $"[{revisionInformation.CommitSha[..7]}](https://github.com/{gitHubOwner}/{gitHubRepo}/commit/{revisionInformation.CommitSha})"
-						: revisionInformation.CommitSha[..7],
-					true),
+						? $"[{revisionSha[..7]}](https://github.com/{gitHubOwner}/{gitHubRepo}/commit/{revisionSha})"
+						: revisionSha[..7],
+					true));
+
+			fields.Add(
 				new EmbedField(
 					"Branch Commit",
 					gitHub
-						? $"[{revisionInformation.OriginCommitSha[..7]}](https://github.com/{gitHubOwner}/{gitHubRepo}/commit/{revisionInformation.OriginCommitSha})"
-						: revisionInformation.OriginCommitSha[..7],
-					true),
-			};
+						? $"[{revisionOriginSha[..7]}](https://github.com/{gitHubOwner}/{gitHubRepo}/commit/{revisionOriginSha})"
+						: revisionOriginSha[..7],
+					true));
 
 			fields.AddRange((revisionInformation.ActiveTestMerges ?? Enumerable.Empty<RevInfoTestMerge>())
 				.Select(x => x.TestMerge)
 				.Select(x => new EmbedField(
 					$"#{x.Number}",
-					$"[{x.TitleAtMerge}]({x.Url}) by _[@{x.Author}](https://github.com/{x.Author})_{Environment.NewLine}Commit: [{x.TargetCommitSha[..7]}](https://github.com/{gitHubOwner}/{gitHubRepo}/commit/{x.TargetCommitSha}){(String.IsNullOrWhiteSpace(x.Comment) ? String.Empty : $"{Environment.NewLine}_**{x.Comment}**_")}",
+					$"[{x.TitleAtMerge}]({x.Url}) by _[@{x.Author}](https://github.com/{x.Author})_{Environment.NewLine}Commit: [{x.TargetCommitSha![..7]}](https://github.com/{gitHubOwner}/{gitHubRepo}/commit/{x.TargetCommitSha}){(String.IsNullOrWhiteSpace(x.Comment) ? String.Empty : $"{Environment.NewLine}_**{x.Comment}**_")}",
 					false)));
 
 			return fields;
@@ -932,7 +956,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// <param name="embed">The <see cref="ChatEmbed"/> to convert.</param>
 		/// <returns>The parameter for sending a single <see cref="IEmbed"/>.</returns>
 #pragma warning disable CA1502
-		Optional<IReadOnlyList<IEmbed>> ConvertEmbed(ChatEmbed embed)
+		Optional<IReadOnlyList<IEmbed>> ConvertEmbed(ChatEmbed? embed)
 		{
 			if (embed == null)
 				return default;
@@ -955,7 +979,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				embed.Author = null;
 			}
 
-			List<IEmbedField> fields = null;
+			List<IEmbedField>? fields = null;
 			if (embed.Fields != null)
 			{
 				fields = new List<IEmbedField>();
@@ -987,7 +1011,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 					if (invalid)
 						continue;
 
-					fields.Add(new EmbedField(field.Name, field.Value)
+					fields.Add(new EmbedField(field.Name!, field.Value!)
 					{
 						IsInline = field.IsInline ?? default(Optional<bool>),
 					});
@@ -1026,7 +1050,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			var discordEmbed = new Embed
 			{
 				Author = embed.Author != null
-					? new EmbedAuthor(embed.Author.Name)
+					? new EmbedAuthor(embed.Author.Name!)
 					{
 						IconUrl = embed.Author.IconUrl ?? default(Optional<string>),
 						ProxyIconUrl = embed.Author.ProxyIconUrl ?? default(Optional<string>),
@@ -1037,14 +1061,14 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				Description = embed.Description ?? default(Optional<string>),
 				Fields = fields ?? default(Optional<IReadOnlyList<IEmbedField>>),
 				Footer = embed.Footer != null
-					? new EmbedFooter(embed.Footer.Text)
+					? (Optional<IEmbedFooter>)new EmbedFooter(embed.Footer.Text!)
 					{
 						IconUrl = embed.Footer.IconUrl ?? default(Optional<string>),
 						ProxyIconUrl = embed.Footer.ProxyIconUrl ?? default(Optional<string>),
 					}
 					: default,
 				Image = embed.Image != null
-					? new EmbedImage(embed.Image.Url)
+					? new EmbedImage(embed.Image.Url!)
 					{
 						Width = embed.Image.Width ?? default(Optional<int>),
 						Height = embed.Image.Height ?? default(Optional<int>),
@@ -1059,7 +1083,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 					}
 					: default(Optional<IEmbedProvider>),
 				Thumbnail = embed.Thumbnail != null
-					? new EmbedThumbnail(embed.Thumbnail.Url)
+					? new EmbedThumbnail(embed.Thumbnail.Url!)
 					{
 						Width = embed.Thumbnail.Width ?? default(Optional<int>),
 						Height = embed.Thumbnail.Height ?? default(Optional<int>),

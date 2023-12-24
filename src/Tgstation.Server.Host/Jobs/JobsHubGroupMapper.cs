@@ -67,7 +67,7 @@ namespace Tgstation.Server.Host.Jobs
 		public ValueTask InstancePermissionSetCreated(InstancePermissionSet instancePermissionSet, CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(instancePermissionSet);
-			var permissionSetId = instancePermissionSet.PermissionSet.Id ?? instancePermissionSet.PermissionSetId;
+			var permissionSetId = instancePermissionSet.PermissionSetId;
 
 			logger.LogTrace("InstancePermissionSetCreated");
 			return RefreshHubGroups(
@@ -117,20 +117,24 @@ namespace Tgstation.Server.Host.Jobs
 		{
 			ArgumentNullException.ThrowIfNull(authenticationContext);
 
-			logger.LogTrace("MapConnectionGroups UID: {uid}", authenticationContext.User.Id.Value);
+			var pid = authenticationContext.PermissionSet.Require(x => x.Id);
+			logger.LogTrace(
+				"MapConnectionGroups UID: {uid} PID: {pid}",
+				authenticationContext.User.Require(x => x.Id),
+				pid);
 
-			List<long> permedInstanceIds = null;
+			List<long>? permedInstanceIds = null;
 			await databaseContextFactory.UseContext(
 				async databaseContext =>
 					permedInstanceIds = await databaseContext
 						.InstancePermissionSets
 						.AsQueryable()
-						.Where(ips => ips.PermissionSetId == authenticationContext.PermissionSet.Id.Value)
+						.Where(ips => ips.PermissionSetId == pid)
 						.Select(ips => ips.InstanceId)
 						.ToListAsync(cancellationToken));
 
 			await mappingFunc(
-				permedInstanceIds.Select(
+				permedInstanceIds!.Select(
 					JobsHub.HubGroupName));
 
 			jobsHubUpdater.QueueActiveJobUpdates();
@@ -149,12 +153,12 @@ namespace Tgstation.Server.Host.Jobs
 					logger.LogTrace("RefreshHubGroups");
 					var permissionSetUsers = await databaseContext
 						.Users
-						.Where(x => x.PermissionSet.Id == permissionSetId)
+						.Where(x => x.PermissionSet!.Id == permissionSetId)
 						.ToListAsync(cancellationToken);
 					var allInstanceIds = await databaseContext
 						.Instances
 						.Select(
-							instance => instance.Id.Value)
+							instance => instance.Id!.Value)
 						.ToListAsync(cancellationToken);
 					var permissionSetAccessibleInstanceIds = await databaseContext
 						.InstancePermissionSets

@@ -50,7 +50,7 @@ namespace Tgstation.Server.Host.Utils.SignalR
 
 		/// <inheritdoc />
 		[AllowAnonymous]
-		public override Task OnDisconnectedAsync(Exception exception)
+		public override Task OnDisconnectedAsync(Exception? exception)
 		{
 			connectionMapper.UserDisconnected(Context.ConnectionId);
 			return base.OnDisconnectedAsync(exception);

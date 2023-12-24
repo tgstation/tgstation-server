@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Logging;
 
+using Tgstation.Server.Host.Models;
+
 namespace Tgstation.Server.Host.Security
 {
 	/// <summary>
@@ -44,7 +46,7 @@ namespace Tgstation.Server.Host.Security
 		}
 
 		/// <inheritdoc />
-		public async ValueTask<object> InvokeMethodAsync(HubInvocationContext invocationContext, Func<HubInvocationContext, ValueTask<object>> next)
+		public async ValueTask<object?> InvokeMethodAsync(HubInvocationContext invocationContext, Func<HubInvocationContext, ValueTask<object?>> next)
 		{
 			ArgumentNullException.ThrowIfNull(invocationContext);
 			if (ValidateAuthenticationContext(invocationContext.Hub))
@@ -62,7 +64,7 @@ namespace Tgstation.Server.Host.Security
 		{
 			if (!authenticationContext.Valid)
 				logger.LogTrace("The token for connection {connectionId} is no longer authenticated! Aborting...", hub.Context.ConnectionId);
-			else if (!authenticationContext.User.Enabled.Value)
+			else if (!authenticationContext.User.Require(x => x.Enabled))
 				logger.LogTrace("The token for connection {connectionId} is no longer authorized! Aborting...", hub.Context.ConnectionId);
 			else
 				return true;
@@ -73,8 +75,8 @@ namespace Tgstation.Server.Host.Security
 				prop => prop.PropertyType.IsConstructedGenericType
 					&& prop.Name == nameof(hub.Clients));
 			var clients = typedClientsProperty.GetValue(hub);
-			var callerProperty = clients.GetType().GetProperty(nameof(hub.Clients.Caller));
-			var caller = callerProperty.GetValue(clients);
+			var callerProperty = clients!.GetType().GetProperty(nameof(hub.Clients.Caller));
+			var caller = callerProperty!.GetValue(clients);
 
 			hub.Context.Abort();
 			return false;

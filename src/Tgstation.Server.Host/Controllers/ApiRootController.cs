@@ -86,11 +86,6 @@ namespace Tgstation.Server.Host.Controllers
 		readonly GeneralConfiguration generalConfiguration;
 
 		/// <summary>
-		/// The <see cref="ControlPanelConfiguration"/> for the <see cref="ApiRootController"/>.
-		/// </summary>
-		readonly ControlPanelConfiguration controlPanelConfiguration;
-
-		/// <summary>
 		/// Initializes a new instance of the <see cref="ApiRootController"/> class.
 		/// </summary>
 		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> for the <see cref="ApiController"/>.</param>
@@ -105,7 +100,6 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="swarmService">The value of <see cref="swarmService"/>.</param>
 		/// <param name="serverControl">The value of <see cref="serverControl"/>.</param>
 		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="generalConfiguration"/>.</param>
-		/// <param name="controlPanelConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="controlPanelConfiguration"/>.</param>
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="ApiController"/>.</param>
 		/// <param name="apiHeadersProvider">The <see cref="IApiHeadersProvider"/> for the <see cref="ApiController"/>.</param>
 		public ApiRootController(
@@ -121,7 +115,6 @@ namespace Tgstation.Server.Host.Controllers
 			ISwarmService swarmService,
 			IServerControl serverControl,
 			IOptions<GeneralConfiguration> generalConfigurationOptions,
-			IOptions<ControlPanelConfiguration> controlPanelConfigurationOptions,
 			ILogger<ApiRootController> logger,
 			IApiHeadersProvider apiHeadersProvider)
 			: base(
@@ -141,7 +134,6 @@ namespace Tgstation.Server.Host.Controllers
 			this.swarmService = swarmService ?? throw new ArgumentNullException(nameof(swarmService));
 			this.serverControl = serverControl ?? throw new ArgumentNullException(nameof(serverControl));
 			generalConfiguration = generalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
-			controlPanelConfiguration = controlPanelConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(controlPanelConfigurationOptions));
 		}
 
 		/// <summary>
@@ -170,7 +162,7 @@ namespace Tgstation.Server.Host.Controllers
 					return HeadersIssue(ex);
 				}
 
-				failIfUnauthed = Request.Headers.Authorization.Any();
+				failIfUnauthed = Request.Headers.Authorization.Count > 0;
 			}
 			else
 				failIfUnauthed = ApiHeaders.Token != null;
@@ -213,7 +205,7 @@ namespace Tgstation.Server.Host.Controllers
 			if (ApiHeaders == null)
 			{
 				Response.Headers.Add(HeaderNames.WWWAuthenticate, new StringValues($"basic realm=\"Create TGS {ApiHeaders.BearerAuthenticationScheme} token\""));
-				return HeadersIssue(ApiHeadersProvider.HeadersException);
+				return HeadersIssue(ApiHeadersProvider.HeadersException!);
 			}
 
 			if (ApiHeaders.IsTokenAuthentication)
@@ -221,12 +213,12 @@ namespace Tgstation.Server.Host.Controllers
 
 			var oAuthLogin = ApiHeaders.OAuthProvider.HasValue;
 
-			ISystemIdentity systemIdentity = null;
+			ISystemIdentity? systemIdentity = null;
 			if (!oAuthLogin)
 				try
 				{
 					// trust the system over the database because a user's name can change while still having the same SID
-					systemIdentity = await systemIdentityFactory.CreateSystemIdentity(ApiHeaders.Username, ApiHeaders.Password, cancellationToken);
+					systemIdentity = await systemIdentityFactory.CreateSystemIdentity(ApiHeaders.Username!, ApiHeaders.Password!, cancellationToken);
 				}
 				catch (NotImplementedException)
 				{
@@ -239,8 +231,8 @@ namespace Tgstation.Server.Host.Controllers
 				IQueryable<Models.User> query = DatabaseContext.Users.AsQueryable();
 				if (oAuthLogin)
 				{
-					var oAuthProvider = ApiHeaders.OAuthProvider.Value;
-					string externalUserId;
+					var oAuthProvider = ApiHeaders.OAuthProvider!.Value;
+					string? externalUserId;
 					try
 					{
 						var validator = oAuthProviders
@@ -263,13 +255,13 @@ namespace Tgstation.Server.Host.Controllers
 						return Unauthorized();
 
 					query = query.Where(
-						x => x.OAuthConnections.Any(
+						x => x.OAuthConnections!.Any(
 							y => y.Provider == oAuthProvider
 							&& y.ExternalUserId == externalUserId));
 				}
 				else
 				{
-					var canonicalUserName = Models.User.CanonicalizeName(ApiHeaders.Username);
+					var canonicalUserName = Models.User.CanonicalizeName(ApiHeaders.Username!);
 					if (canonicalUserName == Models.User.CanonicalizeName(Models.User.TgsSystemUserName))
 						return Unauthorized();
 
@@ -311,7 +303,7 @@ namespace Tgstation.Server.Host.Controllers
 					if (!usingSystemIdentity)
 					{
 						// DB User password check and update
-						if (!isLikelyDbUser || !cryptographySuite.CheckUserPassword(user, ApiHeaders.Password))
+						if (!isLikelyDbUser || !cryptographySuite.CheckUserPassword(user, ApiHeaders.Password!))
 							return Unauthorized();
 						if (user.PasswordHash != originalHash)
 						{
@@ -327,7 +319,7 @@ namespace Tgstation.Server.Host.Controllers
 					}
 					else
 					{
-						var usernameMismatch = systemIdentity.Username != user.Name;
+						var usernameMismatch = systemIdentity!.Username != user.Name;
 						if (isLikelyDbUser || usernameMismatch)
 						{
 							DatabaseContext.Users.Attach(user);
@@ -352,7 +344,7 @@ namespace Tgstation.Server.Host.Controllers
 					}
 
 				// Now that the bookeeping is done, tell them to fuck off if necessary
-				if (!user.Enabled.Value)
+				if (!user.Enabled!.Value)
 				{
 					Logger.LogTrace("Not logging in disabled user {userId}.", user.Id);
 					return Forbid();
@@ -365,7 +357,7 @@ namespace Tgstation.Server.Host.Controllers
 					var identExpiry = token.ParseJwt().ValidTo;
 					identExpiry += tokenFactory.ValidationParameters.ClockSkew;
 					identExpiry += TimeSpan.FromSeconds(15);
-					identityCache.CacheSystemIdentity(user, systemIdentity, identExpiry);
+					identityCache.CacheSystemIdentity(user, systemIdentity!, identExpiry);
 				}
 
 				Logger.LogDebug("Successfully logged in user {userId}!", user.Id);

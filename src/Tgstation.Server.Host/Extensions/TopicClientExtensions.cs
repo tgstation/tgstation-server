@@ -27,7 +27,7 @@ namespace Tgstation.Server.Host.Extensions
 		/// <param name="priority">If priority retries should be used.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="TopicResponse"/> on success, <see langword="null"/> on failure.</returns>
-		public static async ValueTask<TopicResponse> SendWithOptionalPriority(
+		public static async ValueTask<TopicResponse?> SendWithOptionalPriority(
 			this ITopicClient topicClient,
 			IAsyncDelayer delayer,
 			ILogger logger,

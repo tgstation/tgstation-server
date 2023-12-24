@@ -16,7 +16,7 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// <param name="username">The optional username to use in the <see cref="CredentialsHandler"/>.</param>
 		/// <param name="password">The optional password to use in the <see cref="CredentialsHandler"/>.</param>
 		/// <returns>A new <see cref="CredentialsHandler"/>.</returns>
-		CredentialsHandler GenerateCredentialsHandler(string username, string password);
+		CredentialsHandler GenerateCredentialsHandler(string? username, string? password);
 
 		/// <summary>
 		/// Rethrow the authentication failure message as a <see cref="JobException"/> if it is one.

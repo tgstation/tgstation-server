@@ -116,7 +116,7 @@ namespace Tgstation.Server.Host.Extensions
 		/// </summary>
 		/// <param name="errorDetails">The <see cref="IEnumerable{T}"/> of <see cref="IErrorDetails"/>.</param>
 		/// <param name="stringBuilder">The <see cref="StringBuilder"/> to mutate.</param>
-		static void FormatErrorDetails(IEnumerable<IErrorDetails> errorDetails, StringBuilder stringBuilder)
+		static void FormatErrorDetails(IEnumerable<IErrorDetails>? errorDetails, StringBuilder stringBuilder)
 		{
 			if (errorDetails == null)
 				return;

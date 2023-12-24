@@ -115,7 +115,7 @@ namespace Tgstation.Server.Host.Controllers
 				RepositoryRights = RightsHelper.Clamp(model.RepositoryRights ?? RepositoryRights.None),
 				InstancePermissionSetRights = RightsHelper.Clamp(model.InstancePermissionSetRights ?? InstancePermissionSetRights.None),
 				PermissionSetId = model.PermissionSetId,
-				InstanceId = Instance.Id.Value,
+				InstanceId = Instance.Require(x => x.Id),
 			};
 
 			DatabaseContext.InstancePermissionSets.Add(dbUser);
@@ -156,16 +156,16 @@ namespace Tgstation.Server.Host.Controllers
 			if (originalPermissionSet == null)
 				return this.Gone();
 
-			originalPermissionSet.EngineRights = RightsHelper.Clamp(model.EngineRights ?? originalPermissionSet.EngineRights.Value);
-			originalPermissionSet.RepositoryRights = RightsHelper.Clamp(model.RepositoryRights ?? originalPermissionSet.RepositoryRights.Value);
-			originalPermissionSet.InstancePermissionSetRights = RightsHelper.Clamp(model.InstancePermissionSetRights ?? originalPermissionSet.InstancePermissionSetRights.Value);
-			originalPermissionSet.ChatBotRights = RightsHelper.Clamp(model.ChatBotRights ?? originalPermissionSet.ChatBotRights.Value);
-			originalPermissionSet.ConfigurationRights = RightsHelper.Clamp(model.ConfigurationRights ?? originalPermissionSet.ConfigurationRights.Value);
-			originalPermissionSet.DreamDaemonRights = RightsHelper.Clamp(model.DreamDaemonRights ?? originalPermissionSet.DreamDaemonRights.Value);
-			originalPermissionSet.DreamMakerRights = RightsHelper.Clamp(model.DreamMakerRights ?? originalPermissionSet.DreamMakerRights.Value);
+			originalPermissionSet.EngineRights = RightsHelper.Clamp(model.EngineRights ?? originalPermissionSet.EngineRights!.Value);
+			originalPermissionSet.RepositoryRights = RightsHelper.Clamp(model.RepositoryRights ?? originalPermissionSet.RepositoryRights!.Value);
+			originalPermissionSet.InstancePermissionSetRights = RightsHelper.Clamp(model.InstancePermissionSetRights ?? originalPermissionSet.InstancePermissionSetRights!.Value);
+			originalPermissionSet.ChatBotRights = RightsHelper.Clamp(model.ChatBotRights ?? originalPermissionSet.ChatBotRights!.Value);
+			originalPermissionSet.ConfigurationRights = RightsHelper.Clamp(model.ConfigurationRights ?? originalPermissionSet.ConfigurationRights!.Value);
+			originalPermissionSet.DreamDaemonRights = RightsHelper.Clamp(model.DreamDaemonRights ?? originalPermissionSet.DreamDaemonRights!.Value);
+			originalPermissionSet.DreamMakerRights = RightsHelper.Clamp(model.DreamMakerRights ?? originalPermissionSet.DreamMakerRights!.Value);
 
 			await DatabaseContext.Save(cancellationToken);
-			var showFullPermissionSet = originalPermissionSet.PermissionSetId == AuthenticationContext.PermissionSet.Id.Value
+			var showFullPermissionSet = originalPermissionSet.PermissionSetId == AuthenticationContext.PermissionSet.Require(x => x.Id)
 				|| (AuthenticationContext.GetRight(RightsType.InstancePermissionSet) & (ulong)InstancePermissionSetRights.Read) != 0;
 			return Json(
 				showFullPermissionSet
@@ -184,7 +184,7 @@ namespace Tgstation.Server.Host.Controllers
 		[HttpGet]
 		[TgsAuthorize]
 		[ProducesResponseType(typeof(InstancePermissionSetResponse), 200)]
-		public IActionResult Read() => Json(AuthenticationContext.InstancePermissionSet.ToApi());
+		public IActionResult Read() => Json(InstancePermissionSet.ToApi());
 
 		/// <summary>
 		/// Lists <see cref="InstancePermissionSet"/>s for the instance.

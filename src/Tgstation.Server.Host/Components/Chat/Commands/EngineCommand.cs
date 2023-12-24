@@ -48,7 +48,7 @@ namespace Tgstation.Server.Host.Components.Chat.Commands
 		/// <inheritdoc />
 		public ValueTask<MessageContent> Invoke(string arguments, ChatUser user, CancellationToken cancellationToken)
 		{
-			EngineVersion engineVersion;
+			EngineVersion? engineVersion;
 			if (arguments.Split(' ').Any(x => x.Equals("--active", StringComparison.OrdinalIgnoreCase)))
 				engineVersion = engineManager.ActiveVersion;
 			else
@@ -67,8 +67,7 @@ namespace Tgstation.Server.Host.Components.Chat.Commands
 							Text = "None!",
 						});
 
-				if (!EngineVersion.TryParse(watchdog.ActiveCompileJob.EngineVersion, out engineVersion))
-					throw new InvalidOperationException($"Invalid engine version: {watchdog.ActiveCompileJob.EngineVersion}");
+				engineVersion = EngineVersion.Parse(watchdog.ActiveCompileJob.EngineVersion);
 			}
 
 			string text;
@@ -76,10 +75,10 @@ namespace Tgstation.Server.Host.Components.Chat.Commands
 				text = "None!";
 			else
 			{
-				text = engineVersion.Engine.Value switch
+				text = engineVersion.Engine!.Value switch
 				{
 					EngineType.OpenDream => $"OpenDream: {engineVersion.SourceSHA}",
-					EngineType.Byond => $"BYOND {engineVersion.Version.Major}.{engineVersion.Version.Minor}",
+					EngineType.Byond => $"BYOND {engineVersion.Version!.Major}.{engineVersion.Version.Minor}",
 					_ => throw new InvalidOperationException($"Invalid EngineType: {engineVersion.Engine.Value}"),
 				};
 

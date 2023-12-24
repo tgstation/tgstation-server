@@ -16,7 +16,7 @@ namespace Tgstation.Server.Api.Models
 		/// <summary>
 		/// When the instance is being moved.
 		/// </summary>
-		[Description("Instance move")]
+		[Description("Move instance")]
 		Move,
 
 		/// <summary>

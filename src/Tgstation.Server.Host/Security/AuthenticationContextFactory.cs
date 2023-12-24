@@ -88,7 +88,7 @@ namespace Tgstation.Server.Host.Security
 				.Include(x => x.CreatedBy)
 				.Include(x => x.PermissionSet)
 				.Include(x => x.Group)
-					.ThenInclude(x => x.PermissionSet)
+					.ThenInclude(x => x!.PermissionSet)
 				.Include(x => x.OAuthConnections)
 				.FirstOrDefaultAsync(cancellationToken);
 			if (user == default)
@@ -97,7 +97,7 @@ namespace Tgstation.Server.Host.Security
 				return currentAuthenticationContext;
 			}
 
-			ISystemIdentity systemIdentity;
+			ISystemIdentity? systemIdentity;
 			if (user.SystemIdentifier != null)
 				systemIdentity = identityCache.LoadCachedIdentity(user);
 			else
@@ -111,15 +111,15 @@ namespace Tgstation.Server.Host.Security
 				systemIdentity = null;
 			}
 
-			var userPermissionSet = user.PermissionSet ?? user.Group.PermissionSet;
+			var userPermissionSet = user.PermissionSet ?? user.Group!.PermissionSet;
 			try
 			{
-				InstancePermissionSet instancePermissionSet = null;
+				InstancePermissionSet? instancePermissionSet = null;
 				if (instanceId.HasValue)
 				{
 					instancePermissionSet = await databaseContext.InstancePermissionSets
 						.AsQueryable()
-						.Where(x => x.PermissionSetId == userPermissionSet.Id && x.InstanceId == instanceId && x.Instance.SwarmIdentifer == swarmConfiguration.Identifier)
+						.Where(x => x.PermissionSetId == userPermissionSet!.Id && x.InstanceId == instanceId && x.Instance!.SwarmIdentifer == swarmConfiguration.Identifier)
 						.Include(x => x.Instance)
 						.FirstOrDefaultAsync(cancellationToken);
 

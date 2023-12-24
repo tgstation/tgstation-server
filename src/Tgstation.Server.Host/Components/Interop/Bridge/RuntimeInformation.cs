@@ -91,11 +91,11 @@ namespace Tgstation.Server.Host.Components.Interop.Bridge
 				OriginCommitSha = dmbProvider.CompileJob.RevisionInformation.OriginCommitSha,
 			};
 
-			TestMerges = (IReadOnlyCollection<TestMergeInformation>)dmbProvider
+			TestMerges = (IReadOnlyCollection<TestMergeInformation>?)dmbProvider
 				.CompileJob
 				.RevisionInformation
-				.ActiveTestMerges?
-				.Select(x => x.TestMerge)
+				.ActiveTestMerges
+				?.Select(x => x.TestMerge)
 				.Select(x => new TestMergeInformation(x, Revision))
 				.ToList()
 				?? Array.Empty<TestMergeInformation>();

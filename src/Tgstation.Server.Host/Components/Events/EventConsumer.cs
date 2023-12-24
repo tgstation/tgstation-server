@@ -19,7 +19,7 @@ namespace Tgstation.Server.Host.Components.Events
 		/// <summary>
 		/// The <see cref="IWatchdog"/> for the <see cref="EventConsumer"/>.
 		/// </summary>
-		IWatchdog watchdog;
+		IWatchdog? watchdog;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="EventConsumer"/> class.
@@ -31,7 +31,7 @@ namespace Tgstation.Server.Host.Components.Events
 		}
 
 		/// <inheritdoc />
-		public async ValueTask HandleEvent(EventType eventType, IEnumerable<string> parameters, bool deploymentPipeline, CancellationToken cancellationToken)
+		public async ValueTask HandleEvent(EventType eventType, IEnumerable<string?> parameters, bool deploymentPipeline, CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(parameters);
 
@@ -50,10 +50,9 @@ namespace Tgstation.Server.Host.Components.Events
 		public void SetWatchdog(IWatchdog watchdog)
 		{
 			ArgumentNullException.ThrowIfNull(watchdog);
-			if (this.watchdog != null)
+			var oldWatchdog = Interlocked.CompareExchange(ref this.watchdog, watchdog, null);
+			if (oldWatchdog != null)
 				throw new InvalidOperationException("watchdog already set!");
-
-			this.watchdog = watchdog;
 		}
 	}
 }

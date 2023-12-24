@@ -225,7 +225,7 @@ namespace Tgstation.Server.Host.Components.Session
 		#pragma warning disable CA1506 // TODO: Decomplexify
 		public async ValueTask<ISessionController> LaunchNew(
 			IDmbProvider dmbProvider,
-			IEngineExecutableLock currentByondLock,
+			IEngineExecutableLock? currentByondLock,
 			DreamDaemonLaunchParameters launchParameters,
 			bool apiValidate,
 			CancellationToken cancellationToken)
@@ -268,17 +268,17 @@ namespace Tgstation.Server.Host.Components.Session
 					dmbProvider.CompileJob.Id);
 
 				// mad this isn't abstracted but whatever
-				var engineType = dmbProvider.EngineVersion.Engine.Value;
+				var engineType = dmbProvider.EngineVersion.Engine!.Value;
 				if (engineType == EngineType.Byond)
 					await CheckPagerIsNotRunning();
 
 				await PortBindTest(launchParameters.Port.Value, engineType, cancellationToken);
 
-				string outputFilePath = null;
+				string? outputFilePath = null;
 				var preserveLogFile = true;
 
 				var hasStandardOutput = engineLock.HasStandardOutput;
-				if (launchParameters.LogOutput.Value)
+				if (launchParameters.LogOutput!.Value)
 				{
 					var now = DateTimeOffset.UtcNow;
 					var dateDirectory = diagnosticsIOManager.ConcatPath(DreamDaemonLogsPath, now.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture));
@@ -320,8 +320,8 @@ namespace Tgstation.Server.Host.Components.Session
 						var runtimeInformation = CreateRuntimeInformation(
 							dmbProvider,
 							chatTrackingContext,
-							launchParameters.SecurityLevel.Value,
-							launchParameters.Visibility.Value,
+							launchParameters.SecurityLevel!.Value,
+							launchParameters.Visibility!.Value,
 							apiValidate);
 
 						var reattachInformation = new ReattachInformation(
@@ -333,7 +333,7 @@ namespace Tgstation.Server.Host.Components.Session
 
 						var byondTopicSender = topicClientFactory.CreateTopicClient(
 							TimeSpan.FromMilliseconds(
-								launchParameters.TopicRequestTimeout.Value));
+								launchParameters.TopicRequestTimeout!.Value));
 
 						var sessionController = new SessionController(
 							reattachInformation,
@@ -385,7 +385,7 @@ namespace Tgstation.Server.Host.Components.Session
 #pragma warning restore CA1506
 
 		/// <inheritdoc />
-		public async ValueTask<ISessionController> Reattach(
+		public async ValueTask<ISessionController?> Reattach(
 			ReattachInformation reattachInformation,
 			CancellationToken cancellationToken)
 		{
@@ -450,19 +450,21 @@ namespace Tgstation.Server.Host.Components.Session
 					}
 					catch
 					{
-						chatTrackingContext.Dispose();
+						chatTrackingContext?.Dispose();
 						throw;
 					}
 				}
 				catch
 				{
-					await process.DisposeAsync();
+					if (process != null)
+						await process.DisposeAsync();
+
 					throw;
 				}
 			}
 			catch
 			{
-				engineLock.Dispose();
+				engineLock?.Dispose();
 				throw;
 			}
 		}
@@ -474,7 +476,7 @@ namespace Tgstation.Server.Host.Components.Session
 		/// <param name="engineLock">The <see cref="IEngineExecutableLock"/>.</param>
 		/// <param name="launchParameters">The <see cref="DreamDaemonLaunchParameters"/>.</param>
 		/// <param name="accessIdentifier">The secure string to use for the session.</param>
-		/// <param name="logFilePath">The full path to log DreamDaemon output to.</param>
+		/// <param name="logFilePath">The optional full path to log DreamDaemon output to.</param>
 		/// <param name="apiValidate">If we are only validating the DMAPI then exiting.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the DreamDaemon <see cref="IProcess"/>.</returns>
@@ -483,7 +485,7 @@ namespace Tgstation.Server.Host.Components.Session
 			IEngineExecutableLock engineLock,
 			DreamDaemonLaunchParameters launchParameters,
 			string accessIdentifier,
-			string logFilePath,
+			string? logFilePath,
 			bool apiValidate,
 			CancellationToken cancellationToken)
 		{
@@ -555,19 +557,19 @@ namespace Tgstation.Server.Host.Components.Session
 		/// <param name="preserveFile">If <see langword="false"/>, <paramref name="outputFilePath"/> will be deleted.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
-		async ValueTask LogDDOutput(IProcess process, string outputFilePath, bool cliSupported, bool preserveFile, CancellationToken cancellationToken)
+		async ValueTask LogDDOutput(IProcess process, string? outputFilePath, bool cliSupported, bool preserveFile, CancellationToken cancellationToken)
 		{
 			try
 			{
-				string ddOutput = null;
+				string? ddOutput = null;
 				if (cliSupported)
-					ddOutput = await process.GetCombinedOutput(cancellationToken);
+					ddOutput = (await process.GetCombinedOutput(cancellationToken))!;
 
 				if (ddOutput == null)
 					try
 					{
 						var dreamDaemonLogBytes = await gameIOManager.ReadAllBytes(
-							outputFilePath,
+							outputFilePath!,
 							cancellationToken);
 
 						ddOutput = Encoding.UTF8.GetString(dreamDaemonLogBytes);
@@ -578,7 +580,7 @@ namespace Tgstation.Server.Host.Components.Session
 							try
 							{
 								logger.LogTrace("Deleting temporary log file {path}...", outputFilePath);
-								await gameIOManager.DeleteFile(outputFilePath, cancellationToken);
+								await gameIOManager.DeleteFile(outputFilePath!, cancellationToken);
 							}
 							catch (Exception ex)
 							{
@@ -618,7 +620,7 @@ namespace Tgstation.Server.Host.Components.Session
 				chatTrackingContext,
 				dmbProvider,
 				assemblyInformationProvider.Version,
-				instance.Name,
+				instance.Name!,
 				securityLevel,
 				visibility,
 				serverPortProvider.HttpApiPort,

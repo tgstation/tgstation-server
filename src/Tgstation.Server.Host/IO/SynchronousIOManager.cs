@@ -72,14 +72,13 @@ namespace Tgstation.Server.Host.IO
 		}
 
 		/// <inheritdoc />
-		public bool WriteFileChecked(string path, Stream data, ref string sha1InOut, CancellationToken cancellationToken)
+		public bool WriteFileChecked(string path, Stream data, ref string? sha1InOut, CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(path);
 			ArgumentNullException.ThrowIfNull(data);
 
 			cancellationToken.ThrowIfCancellationRequested();
-			var directory = Path.GetDirectoryName(path);
-
+			var directory = Path.GetDirectoryName(path) ?? throw new ArgumentException("path cannot be rooted!", nameof(path));
 			Directory.CreateDirectory(directory);
 
 			var newFile = !File.Exists(path);
@@ -97,7 +96,7 @@ namespace Tgstation.Server.Host.IO
 				// suppressed due to only using for consistency checks
 				using (var sha1 = SHA1.Create())
 				{
-					string GetSha1(Stream dataToHash)
+					string? GetSha1(Stream dataToHash)
 					{
 						if (dataToHash == null)
 							return null;

@@ -16,10 +16,10 @@ namespace Tgstation.Server.Host.Security
 	sealed class WindowsSystemIdentity : ISystemIdentity
 	{
 		/// <inheritdoc />
-		public string Uid => (userPrincipal?.Sid ?? identity.User).ToString();
+		public string Uid => (userPrincipal?.Sid ?? identity!.User!).ToString(); // we kno user isn't null because it can only be the case when anonymous (checked in this constructor)
 
 		/// <inheritdoc />
-		public string Username => userPrincipal?.Name ?? identity.Name;
+		public string Username => userPrincipal?.Name ?? identity!.Name;
 
 		/// <inheritdoc />
 		public bool CanCreateSymlinks => canCreateSymlinks ?? throw new NotSupportedException();
@@ -27,12 +27,12 @@ namespace Tgstation.Server.Host.Security
 		/// <summary>
 		/// The <see cref="WindowsIdentity"/> for the <see cref="WindowsSystemIdentity"/>.
 		/// </summary>
-		readonly WindowsIdentity identity;
+		readonly WindowsIdentity? identity;
 
 		/// <summary>
 		/// The <see cref="UserPrincipal"/> for the <see cref="WindowsSystemIdentity"/>.
 		/// </summary>
-		readonly UserPrincipal userPrincipal;
+		readonly UserPrincipal? userPrincipal;
 
 		/// <summary>
 		/// Backing field for <see cref="CanCreateSymlinks"/>.
@@ -46,6 +46,9 @@ namespace Tgstation.Server.Host.Security
 		public WindowsSystemIdentity(WindowsIdentity identity)
 		{
 			this.identity = identity ?? throw new ArgumentNullException(nameof(identity));
+			if (identity.IsAnonymous)
+				throw new InvalidOperationException($"Cannot use anonymous {nameof(WindowsIdentity)} as a {nameof(WindowsSystemIdentity)}!");
+
 			canCreateSymlinks = new WindowsPrincipal(identity).IsInRole(WindowsBuiltInRole.Administrator);
 		}
 
@@ -65,7 +68,7 @@ namespace Tgstation.Server.Host.Security
 				identity.Dispose();
 			else
 			{
-				var context = userPrincipal.Context;
+				var context = userPrincipal!.Context;
 				userPrincipal.Dispose();
 				context.Dispose();
 			}

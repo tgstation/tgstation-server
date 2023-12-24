@@ -18,8 +18,8 @@
 		IProcess LaunchProcess(
 			string fileName,
 			string workingDirectory,
-			string arguments = null,
-			string fileRedirect = null,
+			string arguments,
+			string? fileRedirect = null,
 			bool readStandardHandles = false,
 			bool noShellExecute = false);
 
@@ -34,13 +34,13 @@
 		/// </summary>
 		/// <param name="id">The <see cref="IProcess.Id"/>.</param>
 		/// <returns>The <see cref="IProcess"/> represented by <paramref name="id"/> on success, <see langword="null"/> on failure.</returns>
-		IProcess GetProcess(int id);
+		IProcess? GetProcess(int id);
 
 		/// <summary>
 		/// Get a <see cref="IProcess"/> with a given <paramref name="name"/>.
 		/// </summary>
 		/// <param name="name">The name of the process executable without the extension.</param>
 		/// <returns>The <see cref="IProcess"/> represented by <paramref name="name"/> on success, <see langword="null"/> on failure.</returns>
-		IProcess GetProcessByName(string name);
+		IProcess? GetProcessByName(string name);
 	}
 }

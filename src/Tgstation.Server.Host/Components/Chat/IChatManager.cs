@@ -67,12 +67,12 @@ namespace Tgstation.Server.Host.Components.Chat
 		/// <param name="gitHubRepo">The repository GitHub name, if any.</param>
 		/// <param name="localCommitPushed"><see langword="true"/> if the local deployment commit was pushed to the remote repository.</param>
 		/// <returns>A <see cref="Func{T1, T2, TResult}"/> to call to update the message at the deployment's conclusion. Parameters: Error message if any, DreamMaker output if any. Returns an <see cref="Action"/> to call to mark the deployment as active/inactive. Parameter: If the deployment is being activated or inactivated.</returns>
-		Func<string, string, Action<bool>> QueueDeploymentMessage(
+		Func<string?, string, Action<bool>> QueueDeploymentMessage(
 			Models.RevisionInformation revisionInformation,
 			Api.Models.EngineVersion engineVersion,
 			DateTimeOffset? estimatedCompletionTime,
-			string gitHubOwner,
-			string gitHubRepo,
+			string? gitHubOwner,
+			string? gitHubRepo,
 			bool localCommitPushed);
 
 		/// <summary>
