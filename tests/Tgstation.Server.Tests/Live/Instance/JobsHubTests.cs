@@ -44,7 +44,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			finishTcs = new TaskCompletionSource();
 
 			seenJobs = new ConcurrentDictionary<long, JobResponse>();
-			permlessSeenJobs = new HashSet<long>();
+			permlessSeenJobs = [];
 		}
 
 		public Task ReceiveJobUpdate(JobResponse job, CancellationToken cancellationToken)
@@ -199,7 +199,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 					}
 
 					static DateTimeOffset PerformDBTruncation(DateTimeOffset original)
-						=> new DateTimeOffset(
+						=> new(
 							original.Ticks - (original.Ticks % TimeSpan.TicksPerSecond),
 							original.Offset);
 
@@ -234,7 +234,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			Assert.IsTrue(accountedJobs <= seenJobs.Count);
 			Assert.AreNotEqual(0, permlessSeenJobs.Count);
 			Assert.IsTrue(permlessSeenJobs.Count < seenJobs.Count);
-			Assert.IsTrue(permlessSeenJobs.All(id => seenJobs.ContainsKey(id)));
+			Assert.IsTrue(permlessSeenJobs.All(id => seenJobs.ContainsKey(id)), $"Saw permless job(s) that wasn't seen:{Environment.NewLine}{JobListFormatter(permlessSeenJobs.Where(id => !seenJobs.ContainsKey(id)).Select(id => allJobs.First(x => x.Id == id)))}");
 
 			await using var conn3 = (HubConnection)await permedUser.SubscribeToJobUpdates(
 				this,
