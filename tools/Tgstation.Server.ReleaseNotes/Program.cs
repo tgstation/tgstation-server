@@ -316,8 +316,7 @@ namespace Tgstation.Server.ReleaseNotes
 							State = ItemStateFilter.Open
 						});
 
-						var milestoneToDelete = milestones.FirstOrDefault(x => x.Title.StartsWith($"v{highestReleaseVersion.Major}.{highestReleaseVersion.Minor}."));
-						if (milestoneToDelete != null)
+						async ValueTask DeleteMilestone(Milestone milestoneToDelete, int moveToMilestoneNumber)
 						{
 							Console.WriteLine($"Moving {milestoneToDelete.OpenIssues} open issues and {milestoneToDelete.ClosedIssues} closed issues from unused patch milestone {milestoneToDelete.Title} to upcoming ones and deleting...");
 							if (milestoneToDelete.OpenIssues + milestoneToDelete.ClosedIssues > 0)
@@ -331,10 +330,11 @@ namespace Tgstation.Server.ReleaseNotes
 								var issueUpdateTasks = new List<Task>();
 								foreach (var I in issuesInUnusedMilestone.Items)
 								{
-									issueUpdateTasks.Add(client.Issue.Update(RepoOwner, RepoName, I.Number, new IssueUpdate
-									{
-										Milestone = I.State.Value == ItemState.Closed ? milestone.Number : nextPatchMilestone.Number
-									}));
+									if (I.State.Value != ItemState.Closed)
+										issueUpdateTasks.Add(client.Issue.Update(RepoOwner, RepoName, I.Number, new IssueUpdate
+										{
+											Milestone = moveToMilestoneNumber
+										}));
 
 									if (I.PullRequest != null)
 									{
@@ -350,6 +350,11 @@ namespace Tgstation.Server.ReleaseNotes
 
 							allTasks.Add(client.Issue.Milestone.Delete(RepoOwner, RepoName, milestoneToDelete.Number));
 						}
+
+
+						var unreleasedNextPatchMilestone = milestones.FirstOrDefault(x => x.Title.StartsWith($"v{highestReleaseVersion.Major}.{highestReleaseVersion.Minor}."));
+						if (unreleasedNextPatchMilestone != null)
+							await DeleteMilestone(unreleasedNextPatchMilestone, nextPatchMilestone.Number);
 
 						// Create the next minor milestone
 						var nextMinorMilestoneName = $"v{version.Major}.{version.Minor + 1}.0";
@@ -372,14 +377,22 @@ namespace Tgstation.Server.ReleaseNotes
 							State = ItemState.Open
 						});
 
+						var nextMinorMilestone = await nextMinorMilestoneTask.ConfigureAwait(false);
 						if (abandonedIssues.Items.Any())
 						{
-							var nextMinorMilestone = await nextMinorMilestoneTask.ConfigureAwait(false);
 							foreach (var I in abandonedIssues.Items)
 								allTasks.Add(client.Issue.Update(RepoOwner, RepoName, I.Number, new IssueUpdate
 								{
 									Milestone = nextMinorMilestone.Number
 								}));
+						}
+
+						if (version.Minor == 0 && version.Build == 0)
+						{
+							// major release
+							var unreleasedNextMinorMilestone = milestones.FirstOrDefault(x => x.Title.StartsWith($"v{highestReleaseVersion.Major}.{highestReleaseVersion.Minor + 1}.0"));
+							if (unreleasedNextMinorMilestone != null)
+								await DeleteMilestone(unreleasedNextMinorMilestone, nextMinorMilestone.Number);
 						}
 					}
 				}
