@@ -233,7 +233,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			IDmbProvider compileJobProvider = DmbFactory.LockNextDmb(1);
 			bool canSeamlesslySwap = CanUseSwappableDmbProvider(compileJobProvider);
 			if (canSeamlesslySwap)
-				if (compileJobProvider.CompileJob.EngineVersion != ActiveCompileJob.EngineVersion)
+				if (compileJobProvider.CompileJob.EngineVersion != ActiveCompileJob!.EngineVersion)
 				{
 					// have to do a graceful restart
 					Logger.LogDebug(
@@ -265,7 +265,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			try
 			{
 				swappableProvider = CreateSwappableDmbProvider(compileJobProvider);
-				if (ActiveCompileJob.DMApiVersion == null)
+				if (ActiveCompileJob!.DMApiVersion == null)
 				{
 					Logger.LogWarning("Active compile job has no DMAPI! Commencing immediate .dmb swap. Note this behavior is known to be buggy in some DM code contexts. See https://github.com/tgstation/tgstation-server/issues/1550");
 					await PerformDmbSwap(swappableProvider, cancellationToken);

@@ -208,7 +208,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <inheritdoc />
 		protected override async ValueTask InitController(
 			ValueTask eventTask,
-			ReattachInformation reattachInfo,
+			ReattachInformation? reattachInfo,
 			CancellationToken cancellationToken)
 		{
 			// don't need a new dmb if reattaching
