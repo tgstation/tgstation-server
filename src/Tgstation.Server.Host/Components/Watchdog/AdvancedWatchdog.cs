@@ -18,8 +18,6 @@ using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Jobs;
 using Tgstation.Server.Host.Utils;
 
-#nullable disable
-
 namespace Tgstation.Server.Host.Components.Watchdog
 {
 	/// <summary>
@@ -30,7 +28,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <summary>
 		/// The <see cref="SwappableDmbProvider"/> for <see cref="WatchdogBase.LastLaunchParameters"/>.
 		/// </summary>
-		protected SwappableDmbProvider ActiveSwappable { get; private set; }
+		protected SwappableDmbProvider? ActiveSwappable { get; private set; }
 
 		/// <summary>
 		/// The <see cref="IFilesystemLinkFactory"/> for the <see cref="AdvancedWatchdog"/>.
@@ -45,12 +43,12 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <summary>
 		/// The active <see cref="SwappableDmbProvider"/> for <see cref="WatchdogBase.ActiveLaunchParameters"/>.
 		/// </summary>
-		SwappableDmbProvider pendingSwappable;
+		SwappableDmbProvider? pendingSwappable;
 
 		/// <summary>
 		/// The <see cref="TaskCompletionSource"/> representing the cleanup of an unused <see cref="IDmbProvider"/>.
 		/// </summary>
-		volatile TaskCompletionSource deploymentCleanupGate;
+		volatile TaskCompletionSource? deploymentCleanupGate;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="AdvancedWatchdog"/> class.
@@ -178,7 +176,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				var localDeploymentCleanupGate = new TaskCompletionSource();
 				async Task CleanupLingeringDeployment()
 				{
-					var lingeringDeploymentExpirySeconds = ActiveLaunchParameters.StartupTimeout.Value;
+					var lingeringDeploymentExpirySeconds = ActiveLaunchParameters.StartupTimeout!.Value;
 					Logger.LogDebug(
 						"Holding old deployment {compileJobId} for up to {expiry} seconds...",
 						currentCompileJobId,
@@ -262,7 +260,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				return;
 			}
 
-			SwappableDmbProvider swappableProvider = null;
+			SwappableDmbProvider? swappableProvider = null;
 			try
 			{
 				swappableProvider = CreateSwappableDmbProvider(compileJobProvider);
@@ -350,9 +348,9 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <returns><see langword="true"/> if swapping is possible, <see langword="false"/> otherwise.</returns>
 		bool CanUseSwappableDmbProvider(IDmbProvider dmbProvider)
 		{
-			if (dmbProvider.EngineVersion.Engine.Value != EngineType.Byond)
+			if (dmbProvider.EngineVersion.Engine != EngineType.Byond)
 			{
-				Logger.LogDebug("Not using SwappableDmbProvider for engine type {engineType}", dmbProvider.EngineVersion.Engine.Value);
+				Logger.LogDebug("Not using SwappableDmbProvider for engine type {engineType}", dmbProvider.EngineVersion.Engine);
 				return false;
 			}
 
@@ -366,7 +364,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
 		async ValueTask InitialLink(CancellationToken cancellationToken)
 		{
-			await ActiveSwappable.FinishActivationPreparation(cancellationToken);
+			await ActiveSwappable!.FinishActivationPreparation(cancellationToken);
 			Logger.LogTrace("Linking compile job...");
 			await ActiveSwappable.MakeActive(cancellationToken);
 		}
