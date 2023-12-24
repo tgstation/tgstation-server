@@ -10,7 +10,6 @@ Components:
       - Fixed `Session:LowPriorityDeploymentProcesses` not being respected when adding firewall rules.
       Author: Cyberboss
       PullRequest: 1742
-    Unreleased: true
   - Version: 4.7.1
     Changes:
     - Descriptions:
@@ -142,8 +141,17 @@ Components:
       Author: Cyberboss
       PullRequest: 1070
   Core:
+  - Version: 6.1.0
+    ComponentVersions: {}
+    Changes: []
+    Unreleased: true
+  - Version: 6.0.1
+    ComponentVersions: {}
+    Changes: []
+    Unreleased: true
   - Version: 6.0.0
     ComponentVersions:
+      Core: 6.0.0
       HttpApi: 10.0.0
       DreamMakerApi: 7.0.0
       Configuration: 5.0.0
@@ -152,7 +160,7 @@ Components:
       NugetCommon: 7.0.0
       NugetApi: 13.0.0
       NugetClient: 15.0.0
-      WebControlPanel: 5.1.0
+      WebControlPanel: 5.3.0
     Changes:
     - Descriptions:
       - TGS now requires the ASP.NET 8 runtime.
@@ -194,15 +202,6 @@ Components:
       - Fixed a potential error when installing engine versions.
       Author: Cyberboss
       PullRequest: 1742
-    Unreleased: true
-  - Version: 5.19.0
-    ComponentVersions: {}
-    Changes: []
-    Unreleased: true
-  - Version: 5.18.3
-    ComponentVersions: {}
-    Changes: []
-    Unreleased: true
   - Version: 5.18.2
     ComponentVersions:
       HttpApi: 9.14.0
@@ -3157,7 +3156,6 @@ Components:
       - Updated to TGS API 10, including things like the new OpenDream support.
       Author: Cyberboss
       PullRequest: 1748
-    Unreleased: true
   - Version: 5.1.0
     Changes:
     - Descriptions:
@@ -3342,7 +3340,6 @@ Components:
       - All deprecated fields have been removed.
       Author: Cyberboss
       PullRequest: 1722
-    Unreleased: true
   - Version: 9.14.0
     Changes:
     - Descriptions:
@@ -3799,7 +3796,6 @@ Components:
       - Added enums and function for retrieving the current engine version.
       Author: Cyberboss
       PullRequest: 1666
-    Unreleased: true
   - Version: 6.7.0
     Changes:
     - Descriptions:
@@ -3981,7 +3977,6 @@ Components:
       - Switch to using new `/api/Bridge` endpoint when available.
       Author: Cyberboss
       PullRequest: 1704
-    Unreleased: true
   - Version: 5.6.2
     Changes:
     - Descriptions:
@@ -4017,7 +4012,6 @@ Components:
       - Added `JobCode` extension method `IsServerStartupJob`.
       Author: Cyberboss
       PullRequest: 1728
-    Unreleased: true
   - Version: 12.2.0
     Changes:
     - Descriptions:
