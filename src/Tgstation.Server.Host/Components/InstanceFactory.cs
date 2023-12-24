@@ -324,7 +324,7 @@ namespace Tgstation.Server.Host.Components
 							configuration, // watchdog doesn't need itself as an event consumer
 							remoteDeploymentManagerFactory,
 							metadata,
-							metadata.DreamDaemonSettings);
+							metadata.DreamDaemonSettings!);
 						try
 						{
 							eventConsumer.SetWatchdog(watchdog);
