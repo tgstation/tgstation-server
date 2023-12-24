@@ -9,10 +9,10 @@ using Microsoft.Extensions.Logging;
 using Serilog.Context;
 
 using Tgstation.Server.Api.Rights;
-using Tgstation.Server.Host.Components.Byond;
 using Tgstation.Server.Host.Components.Chat;
 using Tgstation.Server.Host.Components.Deployment;
 using Tgstation.Server.Host.Components.Deployment.Remote;
+using Tgstation.Server.Host.Components.Engine;
 using Tgstation.Server.Host.Components.Events;
 using Tgstation.Server.Host.Components.Repository;
 using Tgstation.Server.Host.Components.Watchdog;
@@ -36,7 +36,7 @@ namespace Tgstation.Server.Host.Components
 		public IRepositoryManager RepositoryManager { get; }
 
 		/// <inheritdoc />
-		public IByondManager ByondManager { get; }
+		public IEngineManager EngineManager { get; }
 
 		/// <inheritdoc />
 		public IWatchdog Watchdog { get; }
@@ -93,19 +93,19 @@ namespace Tgstation.Server.Host.Components
 		/// <summary>
 		/// The auto update <see cref="Task"/>.
 		/// </summary>
-		Task timerTask;
+		Task? timerTask;
 
 		/// <summary>
 		/// <see cref="CancellationTokenSource"/> for <see cref="timerTask"/>.
 		/// </summary>
-		CancellationTokenSource timerCts;
+		CancellationTokenSource? timerCts;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="Instance"/> class.
 		/// </summary>
 		/// <param name="metadata">The value of <see cref="metadata"/>.</param>
 		/// <param name="repositoryManager">The value of <see cref="RepositoryManager"/>.</param>
-		/// <param name="byondManager">The value of <see cref="ByondManager"/>.</param>
+		/// <param name="engineManager">The value of <see cref="EngineManager"/>.</param>
 		/// <param name="dreamMaker">The value of <see cref="DreamMaker"/>.</param>
 		/// <param name="watchdog">The value of <see cref="Watchdog"/>.</param>
 		/// <param name="chat">The value of <see cref="Chat"/>.</param>
@@ -119,7 +119,7 @@ namespace Tgstation.Server.Host.Components
 		public Instance(
 			Api.Models.Instance metadata,
 			IRepositoryManager repositoryManager,
-			IByondManager byondManager,
+			IEngineManager engineManager,
 			IDreamMaker dreamMaker,
 			IWatchdog watchdog,
 			IChatManager chat,
@@ -134,7 +134,7 @@ namespace Tgstation.Server.Host.Components
 		{
 			this.metadata = metadata ?? throw new ArgumentNullException(nameof(metadata));
 			RepositoryManager = repositoryManager ?? throw new ArgumentNullException(nameof(repositoryManager));
-			ByondManager = byondManager ?? throw new ArgumentNullException(nameof(byondManager));
+			EngineManager = engineManager ?? throw new ArgumentNullException(nameof(engineManager));
 			DreamMaker = dreamMaker ?? throw new ArgumentNullException(nameof(dreamMaker));
 			Watchdog = watchdog ?? throw new ArgumentNullException(nameof(watchdog));
 			Chat = chat ?? throw new ArgumentNullException(nameof(chat));
@@ -160,7 +160,7 @@ namespace Tgstation.Server.Host.Components
 				Configuration.Dispose();
 				dmbFactory.Dispose();
 				RepositoryManager.Dispose();
-				ByondManager.Dispose();
+				EngineManager.Dispose();
 				await chatDispose;
 				await watchdogDispose;
 			}
@@ -183,9 +183,9 @@ namespace Tgstation.Server.Host.Components
 			using (LogContext.PushProperty(SerilogContextHelper.InstanceIdContextProperty, metadata.Id))
 			{
 				await Task.WhenAll(
-					SetAutoUpdateInterval(metadata.AutoUpdateInterval.Value).AsTask(),
+					SetAutoUpdateInterval(metadata.Require(x => x.AutoUpdateInterval)).AsTask(),
 					Configuration.StartAsync(cancellationToken),
-					ByondManager.StartAsync(cancellationToken),
+					EngineManager.StartAsync(cancellationToken),
 					Chat.StartAsync(cancellationToken),
 					dmbFactory.StartAsync(cancellationToken));
 
@@ -206,7 +206,7 @@ namespace Tgstation.Server.Host.Components
 				await Watchdog.StopAsync(cancellationToken);
 				await Task.WhenAll(
 					Configuration.StopAsync(cancellationToken),
-					ByondManager.StopAsync(cancellationToken),
+					EngineManager.StopAsync(cancellationToken),
 					Chat.StopAsync(cancellationToken),
 					dmbFactory.StopAsync(cancellationToken));
 			}
@@ -221,7 +221,7 @@ namespace Tgstation.Server.Host.Components
 				if (timerTask != null)
 				{
 					logger.LogTrace("Cancelling auto-update task");
-					timerCts.Cancel();
+					timerCts!.Cancel();
 					timerCts.Dispose();
 					toWait = timerTask;
 					timerTask = null;
@@ -253,7 +253,7 @@ namespace Tgstation.Server.Host.Components
 		}
 
 		/// <inheritdoc />
-		public CompileJob LatestCompileJob() => dmbFactory.LatestCompileJob();
+		public CompileJob? LatestCompileJob() => dmbFactory.LatestCompileJob();
 
 		/// <summary>
 		/// The <see cref="JobEntrypoint"/> for updating the repository.
@@ -266,7 +266,7 @@ namespace Tgstation.Server.Host.Components
 		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
 #pragma warning disable CA1502 // Cyclomatic complexity
 		ValueTask RepositoryAutoUpdateJob(
-			IInstanceCore core,
+			IInstanceCore? core,
 			IDatabaseContextFactory databaseContextFactory,
 			Job job,
 			JobProgressReporter progressReporter,
@@ -315,18 +315,18 @@ namespace Tgstation.Server.Host.Components
 						cancellationToken);
 
 					var hasDbChanges = false;
-					RevisionInformation currentRevInfo = null;
-					Models.Instance attachedInstance = null;
-					async ValueTask UpdateRevInfo(string currentHead, bool onOrigin, IEnumerable<TestMerge> updatedTestMerges)
+					RevisionInformation? currentRevInfo = null;
+					Models.Instance? attachedInstance = null;
+					async ValueTask UpdateRevInfo(string currentHead, bool onOrigin, IEnumerable<TestMerge>? updatedTestMerges)
 					{
 						if (currentRevInfo == null)
 						{
 							logger.LogTrace("Loading revision info for commit {sha}...", startSha[..7]);
 							currentRevInfo = await databaseContext
-							.RevisionInformations
+								.RevisionInformations
 								.AsQueryable()
-								.Where(x => x.CommitSha == startSha && x.Instance.Id == metadata.Id)
-								.Include(x => x.ActiveTestMerges)
+								.Where(x => x.CommitSha == startSha && x.InstanceId == metadata.Id)
+								.Include(x => x.ActiveTestMerges!)
 									.ThenInclude(x => x.TestMerge)
 								.FirstOrDefaultAsync(cancellationToken);
 						}
@@ -364,12 +364,9 @@ namespace Tgstation.Server.Host.Components
 
 						if (!onOrigin)
 						{
-							var testMerges = updatedTestMerges ?? oldRevInfo.ActiveTestMerges.Select(x => x.TestMerge);
+							var testMerges = updatedTestMerges ?? oldRevInfo!.ActiveTestMerges!.Select(x => x.TestMerge);
 							var revInfoTestMerges = testMerges.Select(
-								testMerge => new RevInfoTestMerge
-								{
-									TestMerge = testMerge,
-								})
+								testMerge => new RevInfoTestMerge(testMerge, currentRevInfo))
 								.ToList();
 
 							currentRevInfo.ActiveTestMerges = revInfoTestMerges;
@@ -382,21 +379,21 @@ namespace Tgstation.Server.Host.Components
 					// build current commit data if it's missing
 					await UpdateRevInfo(repo.Head, false, null);
 
-					var preserveTestMerges = repositorySettings.AutoUpdatesKeepTestMerges.Value;
+					var preserveTestMerges = repositorySettings.AutoUpdatesKeepTestMerges!.Value;
 					var remoteDeploymentManager = remoteDeploymentManagerFactory.CreateRemoteDeploymentManager(
 						metadata,
-						repo.RemoteGitProvider.Value);
+						repo.RemoteGitProvider!.Value);
 
 					var updatedTestMerges = await remoteDeploymentManager.RemoveMergedTestMerges(
 						repo,
 						repositorySettings,
-						currentRevInfo,
+						currentRevInfo!,
 						cancellationToken);
 
 					var result = await repo.MergeOrigin(
 						NextProgressReporter("Merge Origin"),
-						repositorySettings.CommitterName,
-						repositorySettings.CommitterEmail,
+						repositorySettings.CommitterName!,
+						repositorySettings.CommitterEmail!,
 						true,
 						cancellationToken);
 
@@ -435,7 +432,7 @@ namespace Tgstation.Server.Host.Components
 							NextProgressReporter(StageName),
 							repositorySettings.AccessUser,
 							repositorySettings.AccessToken,
-							repositorySettings.UpdateSubmodules.Value,
+							repositorySettings.UpdateSubmodules!.Value,
 							true,
 							cancellationToken);
 
@@ -443,7 +440,7 @@ namespace Tgstation.Server.Host.Components
 
 						currentRevInfo = await databaseContext.RevisionInformations
 							.AsQueryable()
-							.Where(x => x.CommitSha == currentHead && x.Instance.Id == metadata.Id)
+							.Where(x => x.CommitSha == currentHead && x.InstanceId == metadata.Id)
 							.FirstOrDefaultAsync(cancellationToken);
 
 						if (currentHead != startSha && currentRevInfo == default)
@@ -453,19 +450,19 @@ namespace Tgstation.Server.Host.Components
 					}
 
 					// synch if necessary
-					if (repositorySettings.AutoUpdatesSynchronize.Value && startSha != repo.Head && (shouldSyncTracked || repositorySettings.PushTestMergeCommits.Value))
+					if (repositorySettings.AutoUpdatesSynchronize!.Value && startSha != repo.Head && (shouldSyncTracked || repositorySettings.PushTestMergeCommits!.Value))
 					{
-						var pushedOrigin = await repo.Sychronize(
+						var pushedOrigin = await repo.Synchronize(
 							NextProgressReporter("Synchronize"),
 							repositorySettings.AccessUser,
 							repositorySettings.AccessToken,
-							repositorySettings.CommitterName,
-							repositorySettings.CommitterEmail,
+							repositorySettings.CommitterName!,
+							repositorySettings.CommitterEmail!,
 							shouldSyncTracked,
 							true,
 							cancellationToken);
 						var currentHead = repo.Head;
-						if (currentHead != currentRevInfo.CommitSha)
+						if (currentHead != currentRevInfo!.CommitSha)
 							await UpdateRevInfo(currentHead, pushedOrigin, null);
 					}
 
@@ -517,6 +514,9 @@ namespace Tgstation.Server.Host.Components
 						Job compileProcessJob;
 						using (var repo = await RepositoryManager.LoadRepository(cancellationToken))
 						{
+							if (repo == null)
+								throw new JobException(Api.Models.ErrorCode.RepoMissing);
+
 							var deploySha = repo.Head;
 							if (deploySha == null)
 							{

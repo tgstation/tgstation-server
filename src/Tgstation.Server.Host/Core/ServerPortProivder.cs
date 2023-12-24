@@ -34,18 +34,17 @@ namespace Tgstation.Server.Host.Core
 			generalConfiguration = generalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
 			ArgumentNullException.ThrowIfNull(configuration);
 
+			var usingDefaultPort = generalConfiguration.ApiPort == default;
+			if (!usingDefaultPort)
+				return;
+
 			var httpEndpoint = configuration
 				.GetSection("Kestrel")
 				.GetSection("EndPoints")
 				.GetSection("Http")
 				.GetSection("Url")
-				.Value;
-
-			if (generalConfiguration.ApiPort == default && httpEndpoint == null)
-				throw new InvalidOperationException("Missing required configuration option General:ApiPort!");
-
-			if (generalConfiguration.ApiPort != default)
-				return;
+				.Value
+				?? throw new InvalidOperationException("Missing required configuration option General:ApiPort!");
 
 			logger.LogWarning("The \"Kestrel\" configuration section is deprecated! Please set your API port using the \"General:ApiPort\" configuration option!");
 

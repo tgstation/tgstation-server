@@ -10,6 +10,6 @@
 		/// </summary>
 		/// <param name="instance">The <see cref="Instance"/> to get the <see cref="IInstanceCore"/> for.</param>
 		/// <returns>The <see cref="IInstanceCore"/> if it is online, <see langword="null"/> otherwise.</returns>
-		IInstanceCore GetInstance(Models.Instance instance);
+		IInstanceCore? GetInstance(Models.Instance instance);
 	}
 }

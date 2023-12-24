@@ -3,23 +3,23 @@
 export DH_VERBOSE = 1
 
 %:
-		dh $@
+	dh $@
 
 override_dh_auto_clean:
-		rm -rf artifacts
-		dotnet clean -c ReleaseNoWindows
+	rm -rf artifacts
+	dotnet clean -c ReleaseNoWindows
 
 override_dh_auto_build:
-		dotnet restore
-		cd src/Tgstation.Server.Host.Console && dotnet publish -c Release -o ../../artifacts
-		cd src/Tgstation.Server.Host && dotnet publish -c Release -o ../../artifacts/lib/Default
-		rm artifacts/lib/Default/appsettings.yml
-		build/RemoveUnsupportedRuntimes.sh artifacts/lib/Default
-		build/RemoveUnsupportedRuntimes.sh artifacts
+	dotnet restore
+	cd src/Tgstation.Server.Host.Console && dotnet publish -c Release -o ../../artifacts
+	cd src/Tgstation.Server.Host && dotnet publish -c Release -o ../../artifacts/lib/Default
+	rm artifacts/lib/Default/appsettings.yml
+	build/RemoveUnsupportedRuntimes.sh artifacts/lib/Default
+	build/RemoveUnsupportedRuntimes.sh artifacts
 
 override_dh_auto_install:
-		cp build/package/deb/MakeInstall ./Makefile
-		dh_auto_install --
+	cp build/package/deb/MakeInstall ./Makefile
+	dh_auto_install --
 
 override_dh_strip:
 
@@ -27,3 +27,13 @@ override_dh_shlibdeps:
 
 override_dh_installsystemd:
 	dh_installsystemd -v --restart-after-upgrade
+
+override_dh_fixperms:
+	dh_fixperms
+	find debian/tgstation-server/opt/tgstation-server -exec chmod 544 {} +
+	find debian/tgstation-server/opt/tgstation-server -type d -exec chmod 555 {} +
+	find debian/tgstation-server/opt/tgstation-server/lib -exec chmod 744 {} +
+	find debian/tgstation-server/opt/tgstation-server/lib -type d -exec chmod 755 {} +
+	find debian/tgstation-server/etc/tgstation-server -exec chmod 644 {} +
+	find debian/tgstation-server/etc/tgstation-server -type d -exec chmod 755 {} +
+	chmod 640 debian/tgstation-server/etc/tgstation-server/appsettings.Production.yml

@@ -17,22 +17,22 @@ namespace Tgstation.Server.Host.Models
 		/// <summary>
 		/// The <see cref="Models.DreamMakerSettings"/> for the <see cref="Instance"/>.
 		/// </summary>
-		public DreamMakerSettings DreamMakerSettings { get; set; }
+		public DreamMakerSettings? DreamMakerSettings { get; set; }
 
 		/// <summary>
 		/// The <see cref="Models.DreamDaemonSettings"/> for the <see cref="Instance"/>.
 		/// </summary>
-		public DreamDaemonSettings DreamDaemonSettings { get; set; }
+		public DreamDaemonSettings? DreamDaemonSettings { get; set; }
 
 		/// <summary>
 		/// The <see cref="Models.RepositorySettings"/> for the <see cref="Instance"/>.
 		/// </summary>
-		public RepositorySettings RepositorySettings { get; set; }
+		public RepositorySettings? RepositorySettings { get; set; }
 
 		/// <summary>
 		/// The <see cref="Api.Models.Internal.SwarmServer.Identifier"/> of the the server in the swarm this instance belongs to.
 		/// </summary>
-		public string SwarmIdentifer { get; set; }
+		public string? SwarmIdentifer { get; set; }
 
 		/// <summary>
 		/// The <see cref="InstancePermissionSet"/>s in the <see cref="Instance"/>.
@@ -54,8 +54,19 @@ namespace Tgstation.Server.Host.Models
 		/// </summary>
 		public ICollection<Job> Jobs { get; set; }
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="Instance"/> class.
+		/// </summary>
+		public Instance()
+		{
+			InstancePermissionSets = new List<InstancePermissionSet>();
+			ChatSettings = new List<ChatBot>();
+			RevisionInformations = new List<RevisionInformation>();
+			Jobs = new List<Job>();
+		}
+
 		/// <inheritdoc />
-		public InstanceResponse ToApi() => new ()
+		public InstanceResponse ToApi() => new()
 		{
 			AutoUpdateInterval = AutoUpdateInterval,
 			ConfigurationType = ConfigurationType,

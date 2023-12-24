@@ -25,7 +25,7 @@ namespace Tgstation.Server.Host.Transfer
 		/// <summary>
 		/// The <see cref="TaskCompletionSource{TResult}"/> for the <see cref="Stream"/>.
 		/// </summary>
-		readonly TaskCompletionSource<Stream> streamTcs;
+		readonly TaskCompletionSource<Stream?> streamTcs;
 
 		/// <summary>
 		/// The <see cref="TaskCompletionSource"/> that completes in <see cref="IDisposable.Dispose"/> or when <see cref="SetError(ErrorCode, string)"/> is called.
@@ -40,7 +40,7 @@ namespace Tgstation.Server.Host.Transfer
 		/// <summary>
 		/// The <see cref="ErrorMessageResponse"/> that occurred while processing the upload if any.
 		/// </summary>
-		ErrorMessageResponse errorMessage;
+		ErrorMessageResponse? errorMessage;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="FileUploadProvider"/> class.
@@ -52,7 +52,7 @@ namespace Tgstation.Server.Host.Transfer
 			Ticket = ticket ?? throw new ArgumentNullException(nameof(ticket));
 
 			ticketExpiryCts = new CancellationTokenSource();
-			streamTcs = new TaskCompletionSource<Stream>();
+			streamTcs = new TaskCompletionSource<Stream?>();
 			completionTcs = new TaskCompletionSource();
 			this.streamKind = streamKind;
 		}
@@ -63,14 +63,6 @@ namespace Tgstation.Server.Host.Transfer
 			ticketExpiryCts.Dispose();
 			completionTcs.TrySetResult();
 			return ValueTask.CompletedTask;
-		}
-
-		/// <inheritdoc />
-		public async ValueTask<Stream> GetResult(CancellationToken cancellationToken)
-		{
-			using (cancellationToken.Register(() => streamTcs.TrySetCanceled(cancellationToken)))
-			using (ticketExpiryCts.Token.Register(() => streamTcs.TrySetResult(null)))
-				return await streamTcs.Task;
 		}
 
 		/// <summary>
@@ -88,14 +80,14 @@ namespace Tgstation.Server.Host.Transfer
 		/// <param name="stream">The <see cref="Stream"/> containing uploaded data.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in <see langword="null"/>, <see cref="ErrorMessageResponse"/> otherwise.</returns>
-		public async ValueTask<ErrorMessageResponse> Completion(Stream stream, CancellationToken cancellationToken)
+		public async ValueTask<ErrorMessageResponse?> Completion(Stream stream, CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(stream);
 
 			if (ticketExpiryCts.IsCancellationRequested)
 				return new ErrorMessageResponse(ErrorCode.ResourceNotPresent);
 
-			Stream bufferedStream = null;
+			Stream? bufferedStream = null;
 			try
 			{
 				switch (streamKind)
@@ -131,7 +123,7 @@ namespace Tgstation.Server.Host.Transfer
 		}
 
 		/// <inheritdoc />
-		public void SetError(ErrorCode errorCode, string additionalData)
+		public void SetError(ErrorCode errorCode, string? additionalData)
 		{
 			if (errorMessage != null)
 				throw new InvalidOperationException("Error already set!");
@@ -141,6 +133,19 @@ namespace Tgstation.Server.Host.Transfer
 				AdditionalData = additionalData,
 			};
 			completionTcs.TrySetResult();
+		}
+
+		/// <inheritdoc />
+		public async ValueTask<Stream> GetResult(CancellationToken cancellationToken)
+			=> await ((IFileUploadTicket)this).GetResult(cancellationToken)
+			?? throw new InvalidOperationException("Upload ticket expired!");
+
+		/// <inheritdoc />
+		async ValueTask<Stream?> IFileUploadTicket.GetResult(CancellationToken cancellationToken)
+		{
+			using (cancellationToken.Register(() => streamTcs.TrySetCanceled(cancellationToken)))
+			using (ticketExpiryCts.Token.Register(() => streamTcs.TrySetResult(null)))
+				return await streamTcs.Task;
 		}
 	}
 }

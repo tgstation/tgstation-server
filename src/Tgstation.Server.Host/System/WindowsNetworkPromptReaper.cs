@@ -74,7 +74,7 @@ namespace Tgstation.Server.Host.System
 			try
 			{
 				var pointerChildHandlesList = GCHandle.ToIntPtr(gcChildhandlesList);
-				NativeMethods.EnumWindowProc childProc = new (EnumWindow);
+				NativeMethods.EnumWindowProc childProc = new(EnumWindow);
 				NativeMethods.EnumChildWindows(mainWindow, childProc, pointerChildHandlesList);
 			}
 			finally
@@ -113,11 +113,12 @@ namespace Tgstation.Server.Host.System
 
 			process.Lifetime.ContinueWith(
 				x =>
-			{
-				logger.LogTrace("Unregistering process {0}...", process.Id);
-				lock (registeredProcesses)
-					registeredProcesses.Remove(process);
-			}, TaskScheduler.Current);
+				{
+					logger.LogTrace("Unregistering process {pid}...", process.Id);
+					lock (registeredProcesses)
+						registeredProcesses.Remove(process);
+				},
+				TaskScheduler.Current);
 		}
 
 		/// <inheritdoc />

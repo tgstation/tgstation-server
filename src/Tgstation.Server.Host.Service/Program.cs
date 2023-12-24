@@ -77,7 +77,7 @@ namespace Tgstation.Server.Host.Service
 		/// The --passthroughargs or -p option.
 		/// </summary>
 		[Option(ShortName = "p", Description = "Arguments passed to main host process")]
-		public string PassthroughArgs { get; set; }
+		public string? PassthroughArgs { get; set; }
 
 		/// <summary>
 		/// Entrypoint for the application.
@@ -157,7 +157,7 @@ namespace Tgstation.Server.Host.Service
 		/// Runs sc.exe to either uninstall a given <paramref name="serviceToUninstall"/> or install the running <see cref="ServerService"/>.
 		/// </summary>
 		/// <param name="serviceToUninstall">The name of a service to uninstall.</param>
-		void InvokeSC(string serviceToUninstall)
+		void InvokeSC(string? serviceToUninstall)
 		{
 			using var installer = new ServiceInstaller();
 			if (serviceToUninstall != null)
@@ -172,11 +172,16 @@ namespace Tgstation.Server.Host.Service
 				Assembly.GetExecutingAssembly().Location);
 
 			var assemblyDirectory = Path.GetDirectoryName(fullPathToAssembly);
+			if (assemblyDirectory == null)
+				throw new InvalidOperationException($"Failed to resolve directory name of {assemblyDirectory}");
+
 			var assemblyNameWithoutExtension = Path.GetFileNameWithoutExtension(fullPathToAssembly);
 			var exePath = Path.Combine(assemblyDirectory, $"{assemblyNameWithoutExtension}.exe");
 
 			var programDataDirectory = Path.Combine(
-				Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData),
+				Environment.GetFolderPath(
+					Environment.SpecialFolder.CommonApplicationData,
+					Environment.SpecialFolderOption.DoNotVerify),
 				Server.Common.Constants.CanonicalPackageName);
 
 			using var processInstaller = new ServiceProcessInstaller();
@@ -260,10 +265,8 @@ namespace Tgstation.Server.Host.Service
 			var stop = !Detach;
 			if (!stop)
 			{
-				serviceController.ExecuteCommand(
-					PipeCommands.GetServiceCommandId(
-						PipeCommands.CommandDetachingShutdown)
-					.Value);
+				var serviceControllerCommand = PipeCommands.GetServiceCommandId(PipeCommands.CommandDetachingShutdown);
+				serviceController.ExecuteCommand(serviceControllerCommand!.Value);
 				serviceController.WaitForStatus(ServiceControllerStatus.Stopped, TimeSpan.FromSeconds(30));
 				if (serviceController.Status != ServiceControllerStatus.Stopped)
 					stop = true;

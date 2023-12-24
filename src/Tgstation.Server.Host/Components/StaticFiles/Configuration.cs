@@ -71,18 +71,18 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 		/// <summary>
 		/// Map of <see cref="EventType"/>s to the filename of the event scripts they trigger.
 		/// </summary>
-		static readonly IReadOnlyDictionary<EventType, string> EventTypeScriptFileNameMap = new Dictionary<EventType, string>(
+		public static IReadOnlyDictionary<EventType, IReadOnlyList<string>> EventTypeScriptFileNameMap { get; } = new Dictionary<EventType, IReadOnlyList<string>>(
 			Enum.GetValues(typeof(EventType))
 				.Cast<EventType>()
 				.Select(
-					eventType => new KeyValuePair<EventType, string>(
+					eventType => new KeyValuePair<EventType, IReadOnlyList<string>>(
 						eventType,
 						typeof(EventType)
-							.GetField(eventType.ToString())
+							.GetField(eventType.ToString())!
 							.GetCustomAttributes(false)
 							.OfType<EventScriptAttribute>()
 							.First()
-							.ScriptName)));
+							.ScriptNames)));
 
 		/// <summary>
 		/// The <see cref="IIOManager"/> for <see cref="Configuration"/>.
@@ -199,7 +199,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 		}
 
 		/// <inheritdoc />
-		public async ValueTask<ServerSideModifications> CopyDMFilesTo(string dmeFile, string destination, CancellationToken cancellationToken)
+		public async ValueTask<ServerSideModifications?> CopyDMFilesTo(string dmeFile, string destination, CancellationToken cancellationToken)
 		{
 			using (await SemaphoreSlimContext.Lock(semaphore, cancellationToken))
 			{
@@ -232,12 +232,19 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 
 				static string IncludeLine(string filePath) => String.Format(CultureInfo.InvariantCulture, "#include \"{0}\"", filePath);
 
-				return new ServerSideModifications(headFileExistsTask.Result ? IncludeLine(CodeModificationsHeadFile) : null, tailFileExistsTask.Result ? IncludeLine(CodeModificationsTailFile) : null, false);
+				return new ServerSideModifications(
+					headFileExistsTask.Result
+						? IncludeLine(CodeModificationsHeadFile)
+						: null,
+					tailFileExistsTask.Result
+						? IncludeLine(CodeModificationsTailFile)
+						: null,
+					false);
 			}
 		}
 
 		/// <inheritdoc />
-		public async ValueTask<IOrderedQueryable<ConfigurationFileResponse>> ListDirectory(string configurationRelativePath, ISystemIdentity systemIdentity, CancellationToken cancellationToken)
+		public async ValueTask<IOrderedQueryable<ConfigurationFileResponse>?> ListDirectory(string? configurationRelativePath, ISystemIdentity? systemIdentity, CancellationToken cancellationToken)
 		{
 			await EnsureDirectories(cancellationToken);
 			var path = ValidateConfigRelativePath(configurationRelativePath);
@@ -284,12 +291,12 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 		}
 
 		/// <inheritdoc />
-		public async ValueTask<ConfigurationFileResponse> Read(string configurationRelativePath, ISystemIdentity systemIdentity, CancellationToken cancellationToken)
+		public async ValueTask<ConfigurationFileResponse?> Read(string configurationRelativePath, ISystemIdentity? systemIdentity, CancellationToken cancellationToken)
 		{
 			await EnsureDirectories(cancellationToken);
 			var path = ValidateConfigRelativePath(configurationRelativePath);
 
-			ConfigurationFileResponse result = null;
+			ConfigurationFileResponse? result = null;
 
 			void ReadImpl()
 			{
@@ -298,8 +305,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 					string GetFileSha()
 					{
 						var content = synchronousIOManager.ReadFile(path);
-						using var sha1 = SHA1.Create();
-						return String.Join(String.Empty, sha1.ComputeHash(content).Select(b => b.ToString("x2", CultureInfo.InvariantCulture)));
+						return String.Join(String.Empty, SHA1.HashData(content).Select(b => b.ToString("x2", CultureInfo.InvariantCulture)));
 					}
 
 					var originalSha = GetFileSha();
@@ -320,7 +326,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 							},
 							async cancellationToken =>
 							{
-								FileStream result = null;
+								FileStream? result = null;
 								void GetFileStream()
 								{
 									result = ioManager.GetFileStream(path, false);
@@ -331,7 +337,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 								else
 									await systemIdentity.RunImpersonated(GetFileStream, cancellationToken);
 
-								return result;
+								return result!;
 							},
 							path,
 							false));
@@ -406,12 +412,10 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 					var fileName = ioManager.GetFileName(file);
 
 					// need to normalize
-					bool ignored;
-					if (platformIdentifier.IsWindows)
-						ignored = ignoreFiles.Any(y => fileName.ToUpperInvariant() == y.ToUpperInvariant());
-					else
-						ignored = ignoreFiles.Any(y => fileName == y);
-
+					var fileComparison = platformIdentifier.IsWindows
+						? StringComparison.OrdinalIgnoreCase
+						: StringComparison.Ordinal;
+					var ignored = ignoreFiles.Any(y => fileName.Equals(y, fileComparison));
 					if (ignored)
 					{
 						logger.LogTrace("Ignoring static file {fileName}...", fileName);
@@ -442,22 +446,24 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 				using (var reader = new StringReader(ignoreFileText))
 				{
 					cancellationToken.ThrowIfCancellationRequested();
-					var line = await reader.ReadLineAsync();
+					var line = await reader.ReadLineAsync(cancellationToken);
 					if (!String.IsNullOrEmpty(line))
 						ignoreFiles.Add(line);
 				}
 
-				await ValueTaskExtensions.WhenAll(SymlinkBase(true), SymlinkBase(false));
+				var filesSymlinkTask = SymlinkBase(true);
+				var dirsSymlinkTask = SymlinkBase(false);
+				await ValueTaskExtensions.WhenAll(filesSymlinkTask, dirsSymlinkTask);
 			}
 		}
 
 		/// <inheritdoc />
-		public async ValueTask<ConfigurationFileResponse> Write(string configurationRelativePath, ISystemIdentity systemIdentity, string previousHash, CancellationToken cancellationToken)
+		public async ValueTask<ConfigurationFileResponse?> Write(string configurationRelativePath, ISystemIdentity? systemIdentity, string? previousHash, CancellationToken cancellationToken)
 		{
 			await EnsureDirectories(cancellationToken);
 			var path = ValidateConfigRelativePath(configurationRelativePath);
 
-			ConfigurationFileResponse result = null;
+			ConfigurationFileResponse? result = null;
 
 			void WriteImpl()
 			{
@@ -562,7 +568,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 		}
 
 		/// <inheritdoc />
-		public async ValueTask<bool?> CreateDirectory(string configurationRelativePath, ISystemIdentity systemIdentity, CancellationToken cancellationToken)
+		public async ValueTask<bool?> CreateDirectory(string configurationRelativePath, ISystemIdentity? systemIdentity, CancellationToken cancellationToken)
 		{
 			await EnsureDirectories(cancellationToken);
 			var path = ValidateConfigRelativePath(configurationRelativePath);
@@ -584,7 +590,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 					await systemIdentity.RunImpersonated(DoCreate, cancellationToken);
 			}
 
-			return result.Value;
+			return result!.Value;
 		}
 
 		/// <inheritdoc />
@@ -594,13 +600,13 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 		public Task StopAsync(CancellationToken cancellationToken) => EnsureDirectories(cancellationToken);
 
 		/// <inheritdoc />
-		public async ValueTask HandleEvent(EventType eventType, IEnumerable<string> parameters, bool deploymentPipeline, CancellationToken cancellationToken)
+		public async ValueTask HandleEvent(EventType eventType, IEnumerable<string?> parameters, bool deploymentPipeline, CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(parameters);
 
 			await EnsureDirectories(cancellationToken);
 
-			if (!EventTypeScriptFileNameMap.TryGetValue(eventType, out var scriptName))
+			if (!EventTypeScriptFileNameMap.TryGetValue(eventType, out var scriptNames))
 				return;
 
 			// always execute in serial
@@ -611,12 +617,13 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 
 				var scriptFiles = files
 					.Select(x => ioManager.GetFileName(x))
-					.Where(x => x.StartsWith(scriptName, StringComparison.Ordinal))
+					.Where(x => scriptNames.Any(
+						scriptName => x.StartsWith(scriptName, StringComparison.Ordinal)))
 					.ToList();
 
-				if (!scriptFiles.Any())
+				if (scriptFiles.Count == 0)
 				{
-					logger.LogTrace("No event scripts starting with \"{scriptName}\" detected", scriptName);
+					logger.LogTrace("No event scripts starting with \"{scriptName}\" detected", String.Join("\" or \"", scriptNames));
 					return;
 				}
 
@@ -630,6 +637,9 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 							' ',
 							parameters.Select(arg =>
 							{
+								if (arg == null)
+									return "(NULL)";
+
 								if (!arg.Contains(' ', StringComparison.Ordinal))
 									return arg;
 
@@ -657,7 +667,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 		}
 
 		/// <inheritdoc />
-		public async ValueTask<bool?> DeleteDirectory(string configurationRelativePath, ISystemIdentity systemIdentity, CancellationToken cancellationToken)
+		public async ValueTask<bool?> DeleteDirectory(string configurationRelativePath, ISystemIdentity? systemIdentity, CancellationToken cancellationToken)
 		{
 			await EnsureDirectories(cancellationToken);
 			var path = ValidateConfigRelativePath(configurationRelativePath);
@@ -709,19 +719,19 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 					return;
 
 				await ioManager.CreateDirectory(CodeModificationsSubdirectory, cancellationToken);
-				await ValueTaskExtensions.WhenAll(
-					ioManager.WriteAllBytes(
-						ioManager.ConcatPath(
-							CodeModificationsSubdirectory,
-							CodeModificationsHeadFile),
-						Encoding.UTF8.GetBytes(DefaultHeadInclude),
-						cancellationToken),
-					ioManager.WriteAllBytes(
-						ioManager.ConcatPath(
-							CodeModificationsSubdirectory,
-							CodeModificationsTailFile),
-						Encoding.UTF8.GetBytes(DefaultTailInclude),
-						cancellationToken));
+				var headWriteTask = ioManager.WriteAllBytes(
+					ioManager.ConcatPath(
+						CodeModificationsSubdirectory,
+						CodeModificationsHeadFile),
+					Encoding.UTF8.GetBytes(DefaultHeadInclude),
+					cancellationToken);
+				var tailWriteTask = ioManager.WriteAllBytes(
+					ioManager.ConcatPath(
+						CodeModificationsSubdirectory,
+						CodeModificationsTailFile),
+					Encoding.UTF8.GetBytes(DefaultTailInclude),
+					cancellationToken);
+				await ValueTaskExtensions.WhenAll(headWriteTask, tailWriteTask);
 			}
 
 			return Task.WhenAll(
@@ -735,16 +745,16 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 		/// </summary>
 		/// <param name="configurationRelativePath">A relative path in the instance's configuration directory.</param>
 		/// <returns>The full on-disk path of <paramref name="configurationRelativePath"/>.</returns>
-		string ValidateConfigRelativePath(string configurationRelativePath)
+		string ValidateConfigRelativePath(string? configurationRelativePath)
 		{
 			var nullOrEmptyCheck = String.IsNullOrEmpty(configurationRelativePath);
 			if (nullOrEmptyCheck)
 				configurationRelativePath = DefaultIOManager.CurrentDirectory;
-			if (configurationRelativePath[0] == Path.DirectorySeparatorChar || configurationRelativePath[0] == Path.AltDirectorySeparatorChar)
+			if (configurationRelativePath![0] == Path.DirectorySeparatorChar || configurationRelativePath[0] == Path.AltDirectorySeparatorChar)
 				configurationRelativePath = DefaultIOManager.CurrentDirectory + configurationRelativePath;
 			var resolved = ioManager.ResolvePath(configurationRelativePath);
 			var local = !nullOrEmptyCheck ? ioManager.ResolvePath() : null;
-			if (!nullOrEmptyCheck && resolved.Length < local.Length) // .. fuccbois
+			if (!nullOrEmptyCheck && resolved.Length < local!.Length) // .. fuccbois
 				throw new InvalidOperationException("Attempted to access file outside of configuration manager!");
 			return resolved;
 		}

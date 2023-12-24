@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Text;
 using System.Threading;
+using System.Threading.Channels;
 using System.Threading.Tasks;
 
 using Microsoft.Extensions.Logging;
@@ -13,6 +15,11 @@ namespace Tgstation.Server.Host.System
 	/// <inheritdoc />
 	sealed class ProcessExecutor : IProcessExecutor
 	{
+		/// <summary>
+		/// <see cref="ReaderWriterLockSlim"/> for <see cref="WithProcessLaunchExclusivity(Action)"/>.
+		/// </summary>
+		static readonly ReaderWriterLockSlim ExclusiveProcessLaunchLock = new();
+
 		/// <summary>
 		/// The <see cref="IProcessFeatures"/> for the <see cref="ProcessExecutor"/>.
 		/// </summary>
@@ -34,6 +41,23 @@ namespace Tgstation.Server.Host.System
 		readonly ILoggerFactory loggerFactory;
 
 		/// <summary>
+		/// Runs a given <paramref name="action"/> making sure to not launch any processes while its running.
+		/// </summary>
+		/// <param name="action">The <see cref="Action"/> to execute.</param>
+		public static void WithProcessLaunchExclusivity(Action action)
+		{
+			ExclusiveProcessLaunchLock.EnterWriteLock();
+			try
+			{
+				action();
+			}
+			finally
+			{
+				ExclusiveProcessLaunchLock.ExitWriteLock();
+			}
+		}
+
+		/// <summary>
 		/// Initializes a new instance of the <see cref="ProcessExecutor"/> class.
 		/// </summary>
 		/// <param name="processFeatures">The value of <see cref="processFeatures"/>.</param>
@@ -53,7 +77,7 @@ namespace Tgstation.Server.Host.System
 		}
 
 		/// <inheritdoc />
-		public IProcess GetProcess(int id)
+		public IProcess? GetProcess(int id)
 		{
 			logger.LogDebug("Attaching to process {pid}...", id);
 			global::System.Diagnostics.Process handle;
@@ -83,7 +107,7 @@ namespace Tgstation.Server.Host.System
 			string fileName,
 			string workingDirectory,
 			string arguments,
-			string fileRedirect,
+			string? fileRedirect,
 			bool readStandardHandles,
 			bool noShellExecute)
 		{
@@ -91,16 +115,19 @@ namespace Tgstation.Server.Host.System
 			ArgumentNullException.ThrowIfNull(workingDirectory);
 			ArgumentNullException.ThrowIfNull(arguments);
 
-			if (!noShellExecute && readStandardHandles)
-				throw new InvalidOperationException("Requesting output/error reading requires noShellExecute to be true!");
-
-			logger.LogDebug(
-				noShellExecute
-					? "Launching process in {workingDirectory}: {exe} {arguments}"
-					: "Shell launching process in {workingDirectory}: {exe} {arguments}",
+			if (noShellExecute)
+				logger.LogDebug(
+				"Launching process in {workingDirectory}: {exe} {arguments}",
 				workingDirectory,
 				fileName,
 				arguments);
+			else
+				logger.LogDebug(
+				"Shell launching process in {workingDirectory}: {exe} {arguments}",
+				workingDirectory,
+				fileName,
+				arguments);
+
 			var handle = new global::System.Diagnostics.Process();
 			try
 			{
@@ -110,26 +137,33 @@ namespace Tgstation.Server.Host.System
 
 				handle.StartInfo.UseShellExecute = !noShellExecute;
 
-				Task<string> readTask = null;
-				CancellationTokenSource disposeCts = null;
+				Task<string?>? readTask = null;
+				CancellationTokenSource? disposeCts = null;
 				try
 				{
-					TaskCompletionSource processStartTcs = null;
+					TaskCompletionSource<int>? processStartTcs = null;
 					if (readStandardHandles)
 					{
-						processStartTcs = new TaskCompletionSource();
-						handle.StartInfo.RedirectStandardOutput = true;
-						handle.StartInfo.RedirectStandardError = true;
-
+						processStartTcs = new TaskCompletionSource<int>();
 						disposeCts = new CancellationTokenSource();
 						readTask = ConsumeReaders(handle, processStartTcs.Task, fileRedirect, disposeCts.Token);
 					}
 
+					int pid;
 					try
 					{
-						handle.Start();
+						ExclusiveProcessLaunchLock.EnterReadLock();
+						try
+						{
+							handle.Start();
+						}
+						finally
+						{
+							ExclusiveProcessLaunchLock.ExitReadLock();
+						}
 
-						processStartTcs?.SetResult();
+						pid = handle.Id;
+						processStartTcs?.SetResult(pid);
 					}
 					catch (Exception ex)
 					{
@@ -161,11 +195,11 @@ namespace Tgstation.Server.Host.System
 		}
 
 		/// <inheritdoc />
-		public IProcess GetProcessByName(string name)
+		public IProcess? GetProcessByName(string name)
 		{
 			logger.LogTrace("GetProcessByName: {processName}...", name ?? throw new ArgumentNullException(nameof(name)));
 			var procs = global::System.Diagnostics.Process.GetProcessesByName(name);
-			global::System.Diagnostics.Process handle = null;
+			global::System.Diagnostics.Process? handle = null;
 			foreach (var proc in procs)
 				if (handle == null)
 					handle = proc;
@@ -185,79 +219,102 @@ namespace Tgstation.Server.Host.System
 		/// Consume the stdout/stderr streams into a <see cref="Task"/>.
 		/// </summary>
 		/// <param name="handle">The <see cref="global::System.Diagnostics.Process"/>.</param>
-		/// <param name="startTask">The <see cref="Task"/> that completes when <paramref name="handle"/> starts.</param>
+		/// <param name="startupAndPid">The <see cref="Task{TResult}"/> resulting in the <see cref="global::System.Diagnostics.Process.Id"/> of the started process.</param>
 		/// <param name="fileRedirect">The optional path to redirect the streams to.</param>
-		/// <param name="disposeToken">The <see cref="CancellationToken"/> that triggers when the <see cref="Process"/> is disposed.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the program's output/error text if <paramref name="fileRedirect"/> is <see langword="null"/>, <see langword="null"/> otherwise.</returns>
-		async Task<string> ConsumeReaders(global::System.Diagnostics.Process handle, Task startTask, string fileRedirect, CancellationToken disposeToken)
+		async Task<string?> ConsumeReaders(global::System.Diagnostics.Process handle, Task<int> startupAndPid, string? fileRedirect, CancellationToken cancellationToken)
 		{
-			await startTask;
+			handle.StartInfo.RedirectStandardOutput = true;
+			handle.StartInfo.RedirectStandardError = true;
 
-			var pid = handle.Id;
-			logger.LogTrace("Starting read for PID {pid}...", pid);
+			bool writingToFile;
+			await using var fileStream = (writingToFile = fileRedirect != null) ? ioManager.CreateAsyncSequentialWriteStream(fileRedirect!) : null;
+			await using var fileWriter = fileStream != null ? new StreamWriter(fileStream) : null;
 
-			// once we obtain these handles we're responsible for them
-			using var stdOutHandle = handle.StandardOutput;
-			using var stdErrHandle = handle.StandardError;
-			Task<string> outputReadTask = null, errorReadTask = null;
-			bool outputOpen = true, errorOpen = true;
-			async Task<string> GetNextLine()
-			{
-#if NET7_0_OR_GREATER
-#error ReadLineAsync supports cancellation now
-#endif
-				if (outputOpen && outputReadTask == null)
-					outputReadTask = stdOutHandle.ReadLineAsync();
+			var stringBuilder = fileStream == null ? new StringBuilder() : null;
 
-				if (errorOpen && errorReadTask == null)
-					errorReadTask = stdErrHandle.ReadLineAsync();
-
-				var completedTask = await Task.WhenAny(outputReadTask ?? errorReadTask, errorReadTask ?? outputReadTask).WaitAsync(disposeToken);
-				var line = await completedTask;
-				if (completedTask == outputReadTask)
+			var dataChannel = Channel.CreateUnbounded<string>(
+				new UnboundedChannelOptions
 				{
-					outputReadTask = null;
-					if (line == null)
-						outputOpen = false;
+					AllowSynchronousContinuations = !writingToFile,
+					SingleReader = true,
+					SingleWriter = false,
+				});
+
+			var handlesOpen = 2;
+			async void DataReceivedHandler(object sender, DataReceivedEventArgs eventArgs)
+			{
+				var line = eventArgs.Data;
+				if (line == null)
+				{
+					var handlesRemaining = Interlocked.Decrement(ref handlesOpen);
+					if (handlesRemaining == 0)
+						dataChannel.Writer.Complete();
+
+					return;
+				}
+
+				try
+				{
+					await dataChannel.Writer.WriteAsync(line, cancellationToken);
+				}
+				catch (OperationCanceledException ex)
+				{
+					logger.LogWarning(ex, "Handle channel write interrupted!");
+				}
+			}
+
+			handle.OutputDataReceived += DataReceivedHandler;
+			handle.ErrorDataReceived += DataReceivedHandler;
+
+			async ValueTask OutputWriter()
+			{
+				var enumerable = dataChannel.Reader.ReadAllAsync(cancellationToken);
+				if (writingToFile)
+				{
+					var enumerator = enumerable.GetAsyncEnumerator(cancellationToken);
+					var nextEnumeration = enumerator.MoveNextAsync();
+					while (await nextEnumeration)
+					{
+						var text = enumerator.Current;
+						nextEnumeration = enumerator.MoveNextAsync();
+						await fileWriter!.WriteLineAsync(text.AsMemory(), cancellationToken);
+
+						if (!nextEnumeration.IsCompleted)
+							await fileWriter.FlushAsync(cancellationToken);
+					}
 				}
 				else
-				{
-					errorReadTask = null;
-					if (line == null)
-						errorOpen = false;
-				}
-
-				if (line == null && (errorOpen || outputOpen))
-					return await GetNextLine();
-
-				return line;
+					await foreach (var text in enumerable)
+						stringBuilder!.AppendLine(text);
 			}
 
-			await using var fileStream = fileRedirect != null ? ioManager.CreateAsyncSequentialWriteStream(fileRedirect) : null;
-			await using var writer = fileStream != null ? new StreamWriter(fileStream) : null;
+			var pid = await startupAndPid;
+			logger.LogTrace("Starting read for PID {pid}...", pid);
 
-			string text;
-			var stringBuilder = fileStream == null ? new StringBuilder() : null;
-			try
+			using (cancellationToken.Register(() => dataChannel.Writer.TryComplete()))
 			{
-				while ((text = await GetNextLine()) != null)
+				handle.BeginOutputReadLine();
+				using (cancellationToken.Register(handle.CancelOutputRead))
 				{
-					if (fileStream != null)
+					handle.BeginErrorReadLine();
+					using (cancellationToken.Register(handle.CancelErrorRead))
 					{
-						await writer.WriteLineAsync(text);
-						await writer.FlushAsync();
-					}
-					else
-						stringBuilder.AppendLine(text);
-				}
+						try
+						{
+							await OutputWriter();
 
-				logger.LogTrace("Finished read for PID {pid}", pid);
-			}
-			catch (OperationCanceledException ex)
-			{
-				logger.LogWarning(ex, "PID {pid} stream reading interrupted!", pid);
-				if (fileStream != null)
-					await writer.WriteLineAsync("-- Process detached, log truncated. This is likely due a to TGS restart --");
+							logger.LogTrace("Finished read for PID {pid}", pid);
+						}
+						catch (OperationCanceledException ex)
+						{
+							logger.LogWarning(ex, "PID {pid} stream reading interrupted!", pid);
+							if (writingToFile)
+								await fileWriter!.WriteLineAsync("-- Process detached, log truncated. This is likely due a to TGS restart --");
+						}
+					}
+				}
 			}
 
 			return stringBuilder?.ToString();
@@ -268,7 +325,7 @@ namespace Tgstation.Server.Host.System
 		/// </summary>
 		/// <param name="handle">The <see cref="global::System.Diagnostics.Process"/> to create a <see cref="IProcess"/> from.</param>
 		/// <returns>The <see cref="IProcess"/> based on <paramref name="handle"/>.</returns>
-		IProcess CreateFromExistingHandle(global::System.Diagnostics.Process handle)
+		Process CreateFromExistingHandle(global::System.Diagnostics.Process handle)
 		{
 			try
 			{

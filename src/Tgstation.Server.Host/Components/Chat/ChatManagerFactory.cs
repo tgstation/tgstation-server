@@ -7,6 +7,7 @@ using Microsoft.Extensions.Logging;
 using Tgstation.Server.Host.Components.Chat.Commands;
 using Tgstation.Server.Host.Components.Chat.Providers;
 using Tgstation.Server.Host.Core;
+using Tgstation.Server.Host.Models;
 
 namespace Tgstation.Server.Host.Components.Chat
 {
@@ -54,6 +55,6 @@ namespace Tgstation.Server.Host.Components.Chat
 				serverControl,
 				loggerFactory,
 				loggerFactory.CreateLogger<ChatManager>(),
-				initialChatBots.Where(x => x.Enabled.Value));
+				initialChatBots.Where(x => x.Require(y => y.Enabled)));
 	}
 }

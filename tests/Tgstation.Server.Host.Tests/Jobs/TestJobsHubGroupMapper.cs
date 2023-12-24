@@ -47,7 +47,7 @@ namespace Tgstation.Server.Host.Tests.Jobs
 			};
 			var testIps1 = new InstancePermissionSet
 			{
-				ByondRights = RightsHelper.AllRights<ByondRights>(),
+				EngineRights = RightsHelper.AllRights<EngineRights>(),
 				ChatBotRights = RightsHelper.AllRights<ChatBotRights>(),
 				ConfigurationRights = RightsHelper.AllRights<ConfigurationRights>(),
 				DreamDaemonRights = RightsHelper.AllRights<DreamDaemonRights>(),
@@ -62,7 +62,7 @@ namespace Tgstation.Server.Host.Tests.Jobs
 
 			var testIps2 = new InstancePermissionSet
 			{
-				ByondRights = RightsHelper.AllRights<ByondRights>(),
+				EngineRights = RightsHelper.AllRights<EngineRights>(),
 				ChatBotRights = RightsHelper.AllRights<ChatBotRights>(),
 				ConfigurationRights = RightsHelper.AllRights<ConfigurationRights>(),
 				DreamDaemonRights = RightsHelper.AllRights<DreamDaemonRights>(),

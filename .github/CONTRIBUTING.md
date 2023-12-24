@@ -34,7 +34,7 @@ You can of course, as always, ask for help at [#coderbus](irc://irc.rizon.net/co
 
 ### Development Environment
 
-You need the .NET 6.0 SDK and npm>=v5.7 (in your PATH) to compile the server.
+You need the .NET 8.0 SDK, node>=v20, and npm>=v5.7 (in your PATH) to compile the server.
 
 The recommended IDE is Visual Studio 2022 or VSCode.
 
@@ -51,6 +51,9 @@ In order to run the integration tests you must have the following environment va
 	- `TGS_TEST_DISCORD_CHANNEL`: To a valid discord channel ID that the above bot can access.
 	- `TGS_TEST_IRC_CONNECTION_STRING`: To a valid IRC connection string. See the code for [IrcConnectionStringBuilder](../src/Tgstation.Server.Api/Models/IrcConnectionStringBuilder.cs) for details.
 	- `TGS_TEST_IRC_CHANNEL`: To a valid IRC channel accessible with the above connection.
+- (Optional) `TGS_TEST_OD_ENGINE_VERSION`: Specify the full git commit SHA of the [OpenDream](https://github.com/OpenDreamProject/OpenDream) version to use in the main integration test, the default is the current HEAD of the default branch.
+- (Optional) `TGS_TEST_OD_GIT_DIRECTORY`: Path to a local [OpenDream](https://github.com/OpenDreamProject/OpenDream) git repository to use as an upstream for testing.
+- (Optional) `TGS_TEST_OD_EXCLUSIVE`: Set to `true` to enable the quicker integration test that only runs [OpenDream](https://github.com/OpenDreamProject/OpenDream) functionality. This is tested by default in the main integration test.
 
 ### Notes About Forks
 

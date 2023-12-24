@@ -6,9 +6,10 @@
     <Version>$(TgsCoreVersion)</Version>
     <IncludeOpenAPIAnalyzers>true</IncludeOpenAPIAnalyzers>
     <UseAppHost>false</UseAppHost>
-    <NoWarn>API1000</NoWarn>
+    <NoWarn>API1000;ASP0019</NoWarn>
     <NodeModulesFolder>ClientApp/node_modules</NodeModulesFolder>
     <NpmInstallStampFile>ClientApp/node_modules/.install-stamp</NpmInstallStampFile>
+    <Nullable>enable</Nullable>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <DockerfileContext>..\..</DockerfileContext>
     <ApplicationManifest>../../build/uac_elevation_manifest.xml</ApplicationManifest>
@@ -63,7 +64,7 @@
     <!-- Usage: Concise throw statements for native Win32 errors -->
     <PackageReference Include="BetterWin32Errors" Version="0.2.0" />
     <!-- Usage: Interop with BYOND's /world/Topic -->
-    <PackageReference Include="Byond.TopicSender" Version="7.0.8" />
+    <PackageReference Include="Byond.TopicSender" Version="8.0.1" />
     <!-- Usage: 503'ing request pipeline until server is finished initializing -->
     <PackageReference Include="Cyberboss.AspNetCore.AsyncInitializer" Version="1.2.0" />
     <!-- Usage: IRC interop -->
@@ -73,41 +74,41 @@
     <!-- Usage: GitLab interop -->
     <PackageReference Include="GitLabApiClient" Version="1.8.0" />
     <!-- Usage: git interop -->
-    <PackageReference Include="LibGit2Sharp" Version="0.28.0" />
+    <PackageReference Include="LibGit2Sharp" Version="0.29.0" />
     <!-- Usage: JWT injection into HTTP pipeline -->
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.24" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.0" />
     <!-- Usage: Support ""legacy"" Newotonsoft.Json in HTTP pipeline. The rest of our codebase uses Newtonsoft. -->
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.24" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="8.0.0" />
     <!-- Usage: Using target JSON serializer for API -->
-    <PackageReference Include="Microsoft.AspNetCore.SignalR.Protocols.NewtonsoftJson" Version="7.0.13" />
+    <PackageReference Include="Microsoft.AspNetCore.SignalR.Protocols.NewtonsoftJson" Version="8.0.0" />
     <!-- Usage: Database ORM -->
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.13" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.0" />
     <!-- Usage: Automatic migration generation using command line -->
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.13">
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.0">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <!-- Usage: Sqlite ORM plugin -->
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.13" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.0" />
     <!-- Usage: MSSQL ORM plugin -->
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.13" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.0" />
     <!-- Usage: POSIX support for syscalls, signals, and symlinks -->
     <PackageReference Include="Mono.Posix.NETStandard" Version="1.0.0" />
     <!-- Usage: YAML config plugin -->
     <PackageReference Include="NetEscapades.Configuration.Yaml" Version="3.1.0" />
     <!-- Usage: PostgresSQL ORM plugin -->
-    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="7.0.11" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.0" />
     <!-- Usage: GitHub.com interop -->
     <PackageReference Include="Octokit" Version="9.0.0" />
     <!-- Usage: MYSQL/MariaDB ORM plugin -->
-    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="7.0.0" />
+    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="8.0.0-beta.2" />
     <!-- Usage: Discord interop -->
-    <PackageReference Include="Remora.Discord" Version="2023.4.0" />
+    <PackageReference Include="Remora.Discord" Version="2023.5.0" />
     <!-- Usage: Rich logger builder -->
-    <PackageReference Include="Serilog.Extensions.Logging" Version="7.0.0" />
+    <PackageReference Include="Serilog.Extensions.Logging" Version="8.0.0" />
     <!-- Usage: Async logging plugin -->
     <PackageReference Include="Serilog.Sinks.Async" Version="1.5.0" />
     <!-- Usage: Console logging plugin -->
-    <PackageReference Include="Serilog.Sinks.Console" Version="5.0.0" />
+    <PackageReference Include="Serilog.Sinks.Console" Version="5.0.1" />
     <!-- Usage: Elasticsearch logging plugin -->
     <PackageReference Include="Serilog.Sinks.Elasticsearch" Version="9.0.3" />
     <!-- Usage: File logging plugin -->
@@ -117,13 +118,15 @@
     <!-- Usage: Newtonsoft.Json plugin for OpenAPI spec generator -->
     <PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" Version="6.5.0" />
     <!-- Usage: Windows authentication plugin allowing searching for users by name -->
-    <PackageReference Include="System.DirectoryServices.AccountManagement" Version="7.0.1" />
+    <PackageReference Include="System.DirectoryServices.AccountManagement" Version="8.0.0" />
     <!-- Usage: JWT plugin needed to undo some Microsoft meddling in the HTTP pipeline -->
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="7.0.3" />
     <!-- Usage: Identifying owning user of Windows Process objects -->
-    <PackageReference Include="System.Management" Version="7.0.2" />
+    <PackageReference Include="System.Management" Version="8.0.0" />
+    <!-- Usage: Temporary resolution to compatibility issues with EFCore 7 and .NET 8 -->
+    <PackageReference Include="System.Security.Permissions" Version="8.0.0" />
     <!-- Usage: .DeleteAsync() support for IQueryable<T>s -->
-    <PackageReference Include="Z.EntityFramework.Plus.EFCore" Version="7.100.0.5" />
+    <PackageReference Include="Z.EntityFramework.Plus.EFCore" Version="8.101.1.3" />
   </ItemGroup>
 
   <ItemGroup>

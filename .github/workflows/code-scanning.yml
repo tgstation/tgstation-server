@@ -1,25 +1,22 @@
 name: 'Code Scanning'
 
 on:
-  schedule:
-    - cron: 0 23 * * 1
   push:
     branches:
     - dev
     - master
-    - V6
   pull_request:
     branches:
     - dev
     - master
-    - V6
+
+env:
+  TGS_DOTNET_VERSION: 8
+  TGS_DOTNET_QUALITY: ga
 
 concurrency:
   group: "code-scanning-${{ github.head_ref || github.run_id }}-${{ github.event_name }}"
   cancel-in-progress: true
-
-env:
-  TGS_DOTNET_VERSION: 6.0.x
 
 jobs:
   analyze:
@@ -32,12 +29,13 @@ jobs:
     if: ${{ vars.TGS_ENABLE_CODE_QL }} == 'true'
     steps:
     - name: Setup dotnet
-      uses: actions/setup-dotnet@v2
+      uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: ${{ env.TGS_DOTNET_VERSION }}
+        dotnet-version: '${{ env.TGS_DOTNET_VERSION }}.0.x'
+        dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
 
     - name: Checkout
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     - name: Initialize CodeQL
       uses: github/codeql-action/init@v2

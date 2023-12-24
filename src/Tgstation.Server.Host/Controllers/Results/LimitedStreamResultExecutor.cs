@@ -53,7 +53,7 @@ namespace Tgstation.Server.Host.Controllers.Results
 					}
 					else
 					{
-						stream.Seek(range.From.Value, SeekOrigin.Begin);
+						stream.Seek(range.From ?? 0, SeekOrigin.Begin);
 						await StreamCopyOperation.CopyToAsync(
 							stream,
 							outputStream,

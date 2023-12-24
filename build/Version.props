@@ -3,21 +3,21 @@
   <!-- Integration tests will ensure they match across the board -->
   <Import Project="WebpanelVersion.props" />
   <PropertyGroup>
-    <TgsCoreVersion>5.18.2</TgsCoreVersion>
-    <TgsConfigVersion>4.7.1</TgsConfigVersion>
-    <TgsApiVersion>9.14.0</TgsApiVersion>
+    <TgsCoreVersion>6.0.0</TgsCoreVersion>
+    <TgsConfigVersion>5.0.0</TgsConfigVersion>
+    <TgsApiVersion>10.0.0</TgsApiVersion>
     <TgsCommonLibraryVersion>7.0.0</TgsCommonLibraryVersion>
-    <TgsApiLibraryVersion>12.2.0</TgsApiLibraryVersion>
-    <TgsClientVersion>14.2.0</TgsClientVersion>
-    <TgsDmapiVersion>6.7.0</TgsDmapiVersion>
+    <TgsApiLibraryVersion>13.0.0</TgsApiLibraryVersion>
+    <TgsClientVersion>15.0.0</TgsClientVersion>
+    <TgsDmapiVersion>7.0.0</TgsDmapiVersion>
     <TgsInteropVersion>5.7.0</TgsInteropVersion>
-    <TgsHostWatchdogVersion>1.4.0</TgsHostWatchdogVersion>
+    <TgsHostWatchdogVersion>1.4.1</TgsHostWatchdogVersion>
     <TgsContainerScriptVersion>1.2.1</TgsContainerScriptVersion>
-    <TgsMigratorVersion>1.0.2</TgsMigratorVersion>
+    <TgsMigratorVersion>2.0.0</TgsMigratorVersion>
     <TgsNugetNetFramework>netstandard2.0</TgsNugetNetFramework>
-    <TgsNetMajorVersion>6</TgsNetMajorVersion>
+    <TgsNetMajorVersion>8</TgsNetMajorVersion>
     <!-- Update this frequently with dotnet runtime patches. MAJOR MUST MATCH ABOVE! -->
-    <TgsDotnetRedistUrl>https://dotnetcli.azureedge.net/dotnet/aspnetcore/Runtime/6.0.24/dotnet-hosting-6.0.24-win.exe</TgsDotnetRedistUrl>
+    <TgsDotnetRedistUrl>https://download.visualstudio.microsoft.com/download/pr/2a7ae819-fbc4-4611-a1ba-f3b072d4ea25/32f3b931550f7b315d9827d564202eeb/dotnet-hosting-8.0.0-win.exe</TgsDotnetRedistUrl>
     <TgsMariaDBRedistVersion>10.11.6</TgsMariaDBRedistVersion>
     <TgsYarnVersion>1.22.21</TgsYarnVersion>
   </PropertyGroup>

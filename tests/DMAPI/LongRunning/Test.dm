@@ -6,9 +6,11 @@
 	log << "Initial value of sleep_offline: [sleep_offline]"
 	sleep_offline = FALSE
 
-	// Intentionally slow down startup for testing purposes
-	for(var/i in 1 to 10000000)
-		dab()
+	if(params["slow_start"])
+		// Intentionally slow down startup for health check testing purposes
+		for(var/i in 1 to 10000000)
+			dab()
+
 	TgsNew(new /datum/tgs_event_handler/impl, TGS_SECURITY_SAFE)
 
 	var/sec = TgsSecurityLevel()
@@ -36,8 +38,10 @@
 	if(!res_contents)
 		FailTest("Failed to resource? No contents!")
 
+#ifndef OPENDREAM
 	if(!fexists("[DME_NAME].rsc"))
 		FailTest("Failed to create .rsc!")
+#endif
 
 #ifdef RUN_STATIC_FILE_TESTS
 	if(params["expect_static_files"])
@@ -96,11 +100,11 @@
 
 /world/Topic(T, Addr, Master, Keys)
 	if(findtext(T, "tgs_integration_test_tactics3") == 0)
-		log << "Topic: [T]"
+		log << "Topic (sleep_offline: [sleep_offline]): [T]"
 	else
 		log << "tgs_integration_test_tactics3 <TOPIC SUPPRESSED>"
 	. =  HandleTopic(T)
-	log << "Response: [.]"
+	log << "Response (sleep_offline: [sleep_offline]): [.]"
 
 var/startup_complete
 var/run_bridge_test
@@ -184,7 +188,12 @@ var/run_bridge_test
 		kajigger_test = TRUE
 		return "we love casting spells"
 
-	TgsChatBroadcast(new /datum/tgs_message_content("Recieved non-tgs topic: `[T]`"))
+	var/its_sad = data["im_out_of_memes"]
+	if(its_sad)
+		TestLegacyBridge()
+		return "all gucci"
+
+	TgsChatBroadcast(new /datum/tgs_message_content("Received non-tgs topic: `[T]`"))
 
 	return "feck"
 
@@ -223,7 +232,7 @@ var/received_health_check = FALSE
 /datum/tgs_event_handler/impl/HandleEvent(event_code, ...)
 	set waitfor = FALSE
 
-	world.TgsChatBroadcast(new /datum/tgs_message_content("Recieved event: `[json_encode(args)]`"))
+	world.TgsChatBroadcast(new /datum/tgs_message_content("Received event: `[json_encode(args)]`"))
 
 	if(event_code == TGS_EVENT_HEALTH_CHECK)
 		received_health_check = TRUE
@@ -239,15 +248,15 @@ var/received_health_check = FALSE
 
 /world/Export(url)
 	var/redact = length(url) > 1000
-	log << "Export: [redact ? "<REDACTED>" : url]"
+	log << "Export (sleep_offline: [sleep_offline]): [redact ? "<REDACTED>" : url]"
 	. = ..()
-	log << "Export completed: [redact ? "<REDACTED>" : json_encode(.)]"
+	log << "Export completed (sleep_offline: [sleep_offline]): [redact ? "<REDACTED>" : json_encode(.)]"
 
 /proc/RebootAsync()
 	set waitfor = FALSE
-	world.TgsChatBroadcast(new /datum/tgs_message_content("Rebooting after 3 seconds"));
+	world.TgsChatBroadcast(new /datum/tgs_message_content("Rebooting after 1 seconds"));
 	world.log << "About to sleep. sleep_offline: [world.sleep_offline]"
-	sleep(30)
+	sleep(10)
 	world.log << "Done sleep, calling Reboot"
 	world.Reboot()
 
@@ -353,3 +362,24 @@ var/suppress_bridge_spam = FALSE
 		FailTest("Failed to end bridge limit test! [(istype(final_result) ? json_encode(final_result): (final_result || "null"))]")
 
 	api.access_identifier = old_ai
+
+/proc/TestLegacyBridge()
+	var/datum/tgs_api/v5/api = TGS_READ_GLOBAL(tgs)
+	if(api.interop_version.suite != 5)
+		FailTest("Legacy bridge test not required anymore?")
+
+	var/old_minor_version = api.interop_version.minor
+	api.interop_version.minor = 6 // before api repath
+
+	var/result
+	var/bridge_request = api.CreateBridgeRequest(5, list("chatMessage" = list("text" = "legacy bridge test", "channelIds" = list())))
+	try
+		result = api.PerformBridgeRequest(bridge_request)
+	catch(var/exception/e2)
+		world.log << "Caught exception: [e2]"
+		result = null
+
+	if(!result || lastTgsError)
+		FailTest("Failed bridge request redirect test!")
+
+	api.interop_version.minor = old_minor_version

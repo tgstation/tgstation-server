@@ -52,18 +52,23 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 		/// <inheritdoc />
 		public async ValueTask PostDeploymentComments(
 			CompileJob compileJob,
-			RevisionInformation previousRevisionInformation,
+			RevisionInformation? previousRevisionInformation,
 			RepositorySettings repositorySettings,
-			string repoOwner,
-			string repoName,
+			string? repoOwner,
+			string? repoName,
 			CancellationToken cancellationToken)
 		{
-			if (repositorySettings?.AccessToken == null)
+			ArgumentNullException.ThrowIfNull(compileJob);
+			ArgumentNullException.ThrowIfNull(repositorySettings);
+			ArgumentNullException.ThrowIfNull(repoOwner);
+			ArgumentNullException.ThrowIfNull(repoName);
+
+			if (repositorySettings.AccessToken == null)
 				return;
 
 			var deployedRevisionInformation = compileJob.RevisionInformation;
 			if ((previousRevisionInformation != null && previousRevisionInformation.CommitSha == deployedRevisionInformation.CommitSha)
-				|| !repositorySettings.PostTestMergeComment.Value)
+				|| !repositorySettings.PostTestMergeComment!.Value)
 				return;
 
 			previousRevisionInformation ??= new RevisionInformation();
@@ -94,7 +99,7 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 					.Any(y => y.TestMerge.Number == x.Number))
 				.ToList();
 
-			if (!addedTestMerges.Any() && !removedTestMerges.Any() && !updatedTestMerges.Any())
+			if (addedTestMerges.Count == 0 && removedTestMerges.Count == 0 && updatedTestMerges.Count == 0)
 				return;
 
 			Logger.LogTrace(
@@ -105,48 +110,54 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 
 			var tasks = new List<ValueTask>(addedTestMerges.Count + updatedTestMerges.Count + removedTestMerges.Count);
 			foreach (var addedTestMerge in addedTestMerges)
-				tasks.Add(
-					CommentOnTestMergeSource(
+			{
+				var addCommentTask = CommentOnTestMergeSource(
+					repositorySettings,
+					repoOwner,
+					repoName,
+					FormatTestMerge(
 						repositorySettings,
+						compileJob,
+						addedTestMerge,
 						repoOwner,
 						repoName,
-						FormatTestMerge(
-							repositorySettings,
-							compileJob,
-							addedTestMerge,
-							repoOwner,
-							repoName,
-							false),
-						addedTestMerge.Number,
-						cancellationToken));
+						false),
+					addedTestMerge.Number,
+					cancellationToken);
+				tasks.Add(addCommentTask);
+			}
 
 			foreach (var removedTestMerge in removedTestMerges)
-				tasks.Add(
-					CommentOnTestMergeSource(
-						repositorySettings,
-						repoOwner,
-						repoName,
-						"#### Test Merge Removed",
-						removedTestMerge.Number,
-						cancellationToken));
+			{
+				var removeCommentTask = CommentOnTestMergeSource(
+					repositorySettings,
+					repoOwner,
+					repoName,
+					"#### Test Merge Removed",
+					removedTestMerge.Number,
+					cancellationToken);
+				tasks.Add(removeCommentTask);
+			}
 
 			foreach (var updatedTestMerge in updatedTestMerges)
-				tasks.Add(
-					CommentOnTestMergeSource(
+			{
+				var updateCommentTask = CommentOnTestMergeSource(
+					repositorySettings,
+					repoOwner,
+					repoName,
+					FormatTestMerge(
 						repositorySettings,
+						compileJob,
+						updatedTestMerge,
 						repoOwner,
 						repoName,
-						FormatTestMerge(
-							repositorySettings,
-							compileJob,
-							updatedTestMerge,
-							repoOwner,
-							repoName,
-							true),
-						updatedTestMerge.Number,
-						cancellationToken));
+						true),
+					updatedTestMerge.Number,
+					cancellationToken);
+				tasks.Add(updateCommentTask);
+			}
 
-			if (tasks.Any())
+			if (tasks.Count > 0)
 				await ValueTaskExtensions.WhenAll(tasks);
 		}
 
@@ -155,7 +166,7 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 		{
 			ArgumentNullException.ThrowIfNull(compileJob);
 
-			if (activationCallbacks.TryGetValue(compileJob.Id.Value, out var activationCallback))
+			if (activationCallbacks.TryGetValue(compileJob.Require(x => x.Id), out var activationCallback))
 				activationCallback(true);
 
 			return ApplyDeploymentImpl(compileJob, cancellationToken);
@@ -169,7 +180,7 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 		{
 			ArgumentNullException.ThrowIfNull(compileJob);
 
-			if (activationCallbacks.TryRemove(compileJob.Id.Value, out var activationCallback))
+			if (activationCallbacks.TryRemove(compileJob.Require(x => x.Id), out var activationCallback))
 				activationCallback(false);
 
 			return MarkInactiveImpl(compileJob, cancellationToken);
@@ -183,12 +194,13 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 			CancellationToken cancellationToken);
 
 		/// <inheritdoc />
-		public ValueTask StageDeployment(CompileJob compileJob, Action<bool> activationCallback, CancellationToken cancellationToken)
+		public ValueTask StageDeployment(CompileJob compileJob, Action<bool>? activationCallback, CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(compileJob);
 
-			if (activationCallback != null && !activationCallbacks.TryAdd(compileJob.Id.Value, activationCallback))
-				Logger.LogError("activationCallbacks conflicted on CompileJob #{id}!", compileJob.Id.Value);
+			var compileJobId = compileJob.Require(x => x.Id);
+			if (activationCallback != null && !activationCallbacks.TryAdd(compileJobId, activationCallback))
+				Logger.LogError("activationCallbacks conflicted on CompileJob #{id}!", compileJobId);
 
 			return StageDeploymentImpl(compileJob, cancellationToken);
 		}

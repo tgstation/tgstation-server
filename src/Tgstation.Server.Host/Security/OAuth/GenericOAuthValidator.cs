@@ -55,7 +55,7 @@ namespace Tgstation.Server.Host.Security.OAuth
 		/// Gets <see cref="JsonSerializerSettings"/> that should be used.
 		/// </summary>
 		/// <returns>A new <see cref="JsonSerializerSettings"/> <see cref="object"/>.</returns>
-		protected static JsonSerializerSettings SerializerSettings() => new ()
+		protected static JsonSerializerSettings SerializerSettings() => new()
 		{
 			ContractResolver = new DefaultContractResolver
 			{
@@ -80,11 +80,11 @@ namespace Tgstation.Server.Host.Security.OAuth
 		}
 
 		/// <inheritdoc />
-		public async ValueTask<string> ValidateResponseCode(string code, CancellationToken cancellationToken)
+		public async ValueTask<string?> ValidateResponseCode(string code, CancellationToken cancellationToken)
 		{
 			using var httpClient = CreateHttpClient();
-			string tokenResponsePayload = null;
-			string userInformationPayload = null;
+			string? tokenResponsePayload = null;
+			string? userInformationPayload = null;
 			try
 			{
 				Logger.LogTrace("Validating response code...");
@@ -97,7 +97,7 @@ namespace Tgstation.Server.Host.Security.OAuth
 					tokenRequestPayload,
 					SerializerSettings());
 
-				var tokenRequestDictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>(tokenRequestJson);
+				var tokenRequestDictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>(tokenRequestJson)!;
 				tokenRequest.Content = new FormUrlEncodedContent(tokenRequestDictionary);
 
 				using var tokenResponse = await httpClient.SendAsync(tokenRequest, HttpCompletionOption.ResponseHeadersRead, cancellationToken);
@@ -141,7 +141,7 @@ namespace Tgstation.Server.Host.Security.OAuth
 
 		/// <inheritdoc />
 		public OAuthProviderInfo GetProviderInfo()
-			=> new ()
+			=> new()
 			{
 				ClientId = OAuthConfiguration.ClientId,
 				RedirectUri = OAuthConfiguration.RedirectUrl,

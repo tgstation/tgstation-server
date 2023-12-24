@@ -21,7 +21,7 @@ namespace Tgstation.Server.Host.Tests.Signals
 			var tcs = new TaskCompletionSource();
 			mockServerControl
 				.Setup(x => x.GracefulShutdown(It.IsAny<bool>()))
-				.Callback(() => tcs.SetResult())
+				.Callback(tcs.SetResult)
 				.Returns(ValueTask.CompletedTask);
 
 			var mockAsyncDelayer = new Mock<IAsyncDelayer>();

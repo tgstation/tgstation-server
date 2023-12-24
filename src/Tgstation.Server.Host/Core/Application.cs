@@ -1,8 +1,7 @@
 ﻿using System;
+using System.Collections.Frozen;
 using System.Collections.Generic;
 using System.Globalization;
-using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Threading.Tasks;
 
 using Cyberboss.AspNetCore.AsyncInitializer;
@@ -35,11 +34,13 @@ using Serilog.Sinks.Elasticsearch;
 
 using Tgstation.Server.Api;
 using Tgstation.Server.Api.Hubs;
+using Tgstation.Server.Api.Models;
 using Tgstation.Server.Common.Http;
 using Tgstation.Server.Host.Components;
-using Tgstation.Server.Host.Components.Byond;
 using Tgstation.Server.Host.Components.Chat;
 using Tgstation.Server.Host.Components.Deployment.Remote;
+using Tgstation.Server.Host.Components.Engine;
+using Tgstation.Server.Host.Components.Events;
 using Tgstation.Server.Host.Components.Interop;
 using Tgstation.Server.Host.Components.Interop.Bridge;
 using Tgstation.Server.Host.Components.Repository;
@@ -78,7 +79,7 @@ namespace Tgstation.Server.Host.Core
 		/// <summary>
 		/// The <see cref="ITokenFactory"/> for the <see cref="Application"/>.
 		/// </summary>
-		ITokenFactory tokenFactory;
+		ITokenFactory? tokenFactory;
 
 		/// <summary>
 		/// Create the default <see cref="IServerFactory"/>.
@@ -337,7 +338,8 @@ namespace Tgstation.Server.Host.Core
 				AddWatchdog<WindowsWatchdogFactory>(services, postSetupServices);
 				services.AddSingleton<ISystemIdentityFactory, WindowsSystemIdentityFactory>();
 				services.AddSingleton<IFilesystemLinkFactory, WindowsFilesystemLinkFactory>();
-				services.AddSingleton<IByondInstaller, WindowsByondInstaller>();
+				services.AddSingleton<ByondInstallerBase, WindowsByondInstaller>();
+				services.AddSingleton<OpenDreamInstaller, WindowsOpenDreamInstaller>();
 				services.AddSingleton<IPostWriteHandler, WindowsPostWriteHandler>();
 				services.AddSingleton<IProcessFeatures, WindowsProcessFeatures>();
 
@@ -350,7 +352,8 @@ namespace Tgstation.Server.Host.Core
 				AddWatchdog<PosixWatchdogFactory>(services, postSetupServices);
 				services.AddSingleton<ISystemIdentityFactory, PosixSystemIdentityFactory>();
 				services.AddSingleton<IFilesystemLinkFactory, PosixFilesystemLinkFactory>();
-				services.AddSingleton<IByondInstaller, PosixByondInstaller>();
+				services.AddSingleton<ByondInstallerBase, PosixByondInstaller>();
+				services.AddSingleton<OpenDreamInstaller>();
 				services.AddSingleton<IPostWriteHandler, PosixPostWriteHandler>();
 
 				services.AddSingleton<IProcessFeatures, PosixProcessFeatures>();
@@ -361,6 +364,31 @@ namespace Tgstation.Server.Host.Core
 
 				services.AddHostedService<PosixSignalHandler>();
 			}
+
+			// only global repo manager should be for the OD repo
+			var openDreamRepositoryDirectory = ioManager.ConcatPath(
+				Environment.GetFolderPath(
+					Environment.SpecialFolder.LocalApplicationData,
+					Environment.SpecialFolderOption.DoNotVerify),
+				assemblyInformationProvider.VersionPrefix,
+				"OpenDreamRepository");
+			services.AddSingleton(
+				services => services
+					.GetRequiredService<IRepositoryManagerFactory>()
+					.CreateRepositoryManager(
+						new ResolvingIOManager(
+							services.GetRequiredService<IIOManager>(),
+							openDreamRepositoryDirectory),
+						new NoopEventConsumer()));
+
+			services.AddSingleton(
+				serviceProvider => new Dictionary<EngineType, IEngineInstaller>
+				{
+					{ EngineType.Byond, serviceProvider.GetRequiredService<ByondInstallerBase>() },
+					{ EngineType.OpenDream, serviceProvider.GetRequiredService<OpenDreamInstaller>() },
+				}
+				.ToFrozenDictionary());
+			services.AddSingleton<IEngineInstaller, DelegatingEngineInstaller>();
 
 			if (postSetupServices.InternalConfiguration.UsingSystemD)
 				services.AddHostedService<SystemDManager>();
@@ -383,6 +411,7 @@ namespace Tgstation.Server.Host.Core
 			services.AddSingleton<IGitRemoteFeaturesFactory, GitRemoteFeaturesFactory>();
 			services.AddSingleton<ILibGit2RepositoryFactory, LibGit2RepositoryFactory>();
 			services.AddSingleton<ILibGit2Commands, LibGit2Commands>();
+			services.AddSingleton<IRepositoryManagerFactory, RepostoryManagerFactory>();
 			services.AddSingleton<IRemoteDeploymentManagerFactory, RemoteDeploymentManagerFactory>();
 			services.AddChatProviderFactory();
 			services.AddSingleton<IChatManagerFactory, ChatManagerFactory>();
@@ -475,8 +504,15 @@ namespace Tgstation.Server.Host.Core
 
 			if (generalConfiguration.HostApiDocumentation)
 			{
-				applicationBuilder.UseSwagger();
-				applicationBuilder.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "TGS API"));
+				applicationBuilder.UseSwagger(options =>
+				{
+					options.RouteTemplate = Routes.ApiRoot + "doc/{documentName}.{json|yaml}";
+				});
+				applicationBuilder.UseSwaggerUI(options =>
+				{
+					options.RoutePrefix = SwaggerConfiguration.DocumentationSiteRouteExtension;
+					options.SwaggerEndpoint(Routes.ApiRoot + $"doc/{SwaggerConfiguration.DocumentName}.json", "TGS API");
+				});
 				logger.LogTrace("Swagger API generation enabled");
 			}
 
@@ -502,7 +538,7 @@ namespace Tgstation.Server.Host.Core
 			applicationBuilder.UseRouting();
 
 			// Set up CORS based on configuration if necessary
-			Action<CorsPolicyBuilder> corsBuilder = null;
+			Action<CorsPolicyBuilder>? corsBuilder = null;
 			if (controlPanelConfiguration.AllowAnyOrigin)
 			{
 				logger.LogTrace("Access-Control-Allow-Origin: *");
@@ -511,7 +547,7 @@ namespace Tgstation.Server.Host.Core
 			else if (controlPanelConfiguration.AllowedOrigins?.Count > 0)
 			{
 				logger.LogTrace("Access-Control-Allow-Origin: {allowedOrigins}", String.Join(',', controlPanelConfiguration.AllowedOrigins));
-				corsBuilder = builder => builder.WithOrigins(controlPanelConfiguration.AllowedOrigins.ToArray());
+				corsBuilder = builder => builder.WithOrigins([.. controlPanelConfiguration.AllowedOrigins]);
 			}
 
 			var originalBuilder = corsBuilder;
@@ -586,9 +622,9 @@ namespace Tgstation.Server.Host.Core
 			// return provider.GetRequiredService<AuthenticationContextFactory>().CurrentAuthenticationContext
 			// But M$ said
 			// https://stackoverflow.com/questions/56792917/scoped-services-in-asp-net-core-with-signalr-hubs
-			services.AddScoped(provider => provider
+			services.AddScoped(provider => (provider
 				.GetRequiredService<IHttpContextAccessor>()
-				.HttpContext
+				.HttpContext ?? throw new InvalidOperationException($"Unable to resolve {nameof(IAuthenticationContext)} due to no HttpContext being available!"))
 				.RequestServices
 				.GetRequiredService<AuthenticationContextFactory>()
 				.CurrentAuthenticationContext);
@@ -602,6 +638,7 @@ namespace Tgstation.Server.Host.Core
 					// this line isn't actually run until the first request is made
 					// at that point tokenFactory will be populated
 					jwtBearerOptions.TokenValidationParameters = tokenFactory?.ValidationParameters ?? throw new InvalidOperationException("tokenFactory not initialized!");
+					jwtBearerOptions.MapInboundClaims = false;
 					jwtBearerOptions.Events = new JwtBearerEvents
 					{
 						OnMessageReceived = context =>
@@ -622,11 +659,6 @@ namespace Tgstation.Server.Host.Core
 						},
 					};
 				});
-
-			// WARNING: STATIC CODE
-			// fucking prevents converting 'sub' to M$ bs
-			// can't be done in the above lambda, that's too late
-			JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
 		}
 	}
 }

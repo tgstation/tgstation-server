@@ -1,97 +1,97 @@
 ﻿namespace Tgstation.Server.Host.Components.Events
 {
 	/// <summary>
-	/// Types of events. Mirror in tgs.dm.
+	/// Types of events. Mirror in tgs.dm. Prefer last listed name for script.
 	/// </summary>
 	public enum EventType
 	{
 		/// <summary>
-		/// Parameters: Reference name, commit sha
+		/// Parameters: Reference name, commit sha.
 		/// </summary>
 		[EventScript("RepoResetOrigin")]
 		RepoResetOrigin,
 
 		/// <summary>
-		/// Parameters: Checkout target
+		/// Parameters: Checkout target.
 		/// </summary>
 		[EventScript("RepoCheckout")]
 		RepoCheckout,
 
 		/// <summary>
-		/// No parameters
+		/// No parameters.
 		/// </summary>
 		[EventScript("RepoFetch")]
 		RepoFetch,
 
 		/// <summary>
-		/// Parameters: Test merge number, test merge target sha, merger message
+		/// Parameters: Test merge number, test merge target sha, merger message.
 		/// </summary>
 		[EventScript("RepoMergePullRequest")]
 		RepoAddTestMerge,
 
 		/// <summary>
-		/// Parameters: Absolute path to repository root
+		/// Parameters: Absolute path to repository root.
 		/// </summary>
 		/// <remarks>Changes made to the repository during this event will be pushed to the tracked branch if no test merges are present.</remarks>
 		[EventScript("PreSynchronize")]
 		RepoPreSynchronize,
 
 		/// <summary>
-		/// Parameters: Version being installed
+		/// Parameters: Version being installed.
 		/// </summary>
-		[EventScript("ByondInstallStart")]
-		ByondInstallStart,
+		[EventScript("ByondInstallStart", "EngineInstallStart")]
+		EngineInstallStart,
 
 		/// <summary>
-		/// Parameters: Error string
+		/// Parameters: Error string.
 		/// </summary>
-		[EventScript("ByondInstallFail")]
-		ByondInstallFail,
+		[EventScript("ByondInstallFail", "EngineInstallFail")]
+		EngineInstallFail,
 
 		/// <summary>
-		/// Parameters: Old active version, new active version
+		/// Parameters: Old active version, new active version.
 		/// </summary>
-		[EventScript("ByondActiveVersionChange")]
-		ByondActiveVersionChange,
+		[EventScript("ByondActiveVersionChange", "EngineActiveVersionChange")]
+		EngineActiveVersionChange,
 
 		/// <summary>
-		/// After the repo is copied, before CodeModifications are applied. Parameters: Game directory path, origin commit sha, byond version
+		/// After the repo is copied, before CodeModifications are applied. Parameters: Game directory path, origin commit sha, engine version string.
 		/// </summary>
 		[EventScript("PreCompile")]
 		CompileStart,
 
 		/// <summary>
-		/// No parameters
+		/// No parameters.
 		/// </summary>
 		[EventScript("CompileCancelled")]
 		CompileCancelled,
 
 		/// <summary>
-		/// Parameters: Game directory path, "1" if compile succeeded and api validation failed, "0" otherwise, BYOND version used
+		/// Parameters: Game directory path, "1" if compile succeeded and api validation failed, "0" otherwise, engine version string.
 		/// </summary>
 		[EventScript("CompileFailure")]
 		CompileFailure,
 
 		/// <summary>
-		/// Parameters: Game directory path, BYOND version used
+		/// Parameters: Game directory path, engine version string.
 		/// </summary>
 		[EventScript("PostCompile")]
 		CompileComplete,
 
 		/// <summary>
-		/// No parameters
+		/// No parameters.
 		/// </summary>
 		[EventScript("InstanceAutoUpdateStart")]
 		InstanceAutoUpdateStart,
 
 		/// <summary>
-		/// Parameters: Base sha, target sha, base reference, target reference, all conflicting files
+		/// Parameters: Base sha, target sha, base reference, target reference, all conflicting files.
 		/// </summary>
 		[EventScript("RepoMergeConflict")]
 		RepoMergeConflict,
 
 		/// <summary>
-		/// No parameters
+		/// No parameters.
 		/// </summary>
 		[EventScript("DeploymentComplete")]
 		DeploymentComplete,
@@ -139,31 +139,31 @@
 		WorldPrime,
 
 		/// <summary>
-		/// After DD has launched. Not the same as WatchdogLaunch. Parameters: PID of DreamDaemon
+		/// After DD has launched. Not the same as WatchdogLaunch. Parameters: PID of DreamDaemon.
 		/// </summary>
 		[EventScript("DreamDaemonLaunch")]
 		DreamDaemonLaunch,
 
 		/// <summary>
-		/// After a single submodule update is performed. Parameters: Updated submodule name
+		/// After a single submodule update is performed. Parameters: Updated submodule name.
 		/// </summary>
 		[EventScript("RepoSubmoduleUpdate")]
 		RepoSubmoduleUpdate,
 
 		/// <summary>
-		/// After CodeModifications are applied, before DreamMaker is run. Parameters: Game directory path, origin commit sha, byond version
+		/// After CodeModifications are applied, before DreamMaker is run. Parameters: Game directory path, origin commit sha, engine version string.
 		/// </summary>
 		[EventScript("PreDreamMaker")]
 		PreDreamMaker,
 
 		/// <summary>
-		/// Whenever a deployment folder is deleted from disk. Parameters: Game directory path
+		/// Whenever a deployment folder is deleted from disk. Parameters: Game directory path.
 		/// </summary>
 		[EventScript("DeploymentCleanup")]
 		DeploymentCleanup,
 
 		/// <summary>
-		/// Whenever a deployment is about to be used by the game server. May fire multiple times per deployment. Parameters: Game directory path
+		/// Whenever a deployment is about to be used by the game server. May fire multiple times per deployment. Parameters: Game directory path.
 		/// </summary>
 		[EventScript("DeploymentActivation")]
 		DeploymentActivation,

@@ -8,9 +8,12 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+
 using Newtonsoft.Json;
+
 using Serilog.Context;
 
+using Tgstation.Server.Api;
 using Tgstation.Server.Host.Components.Interop;
 using Tgstation.Server.Host.Components.Interop.Bridge;
 using Tgstation.Server.Host.Utils;
@@ -18,12 +21,18 @@ using Tgstation.Server.Host.Utils;
 namespace Tgstation.Server.Host.Controllers
 {
 	/// <summary>
-	/// <see cref="Controller"/> for recieving DMAPI requests from DreamDaemon.
+	/// <see cref="Controller"/> for receiving DMAPI requests from DreamDaemon.
 	/// </summary>
-	[Route("/Bridge")]
+	[Route("/" + RouteExtension)] // obsolete route, but BYOND can't handle a simple fucking 301
+	[Route(Routes.ApiRoot + RouteExtension)]
 	[ApiExplorerSettings(IgnoreApi = true)]
 	public sealed class BridgeController : ApiControllerBase
 	{
+		/// <summary>
+		/// The route to the <see cref="BridgeController"/>.
+		/// </summary>
+		const string RouteExtension = "Bridge";
+
 		/// <summary>
 		/// If the content of bridge requests and responses should be logged.
 		/// </summary>
@@ -80,7 +89,7 @@ namespace Tgstation.Server.Host.Controllers
 		{
 			// Nothing to see here
 			var remoteIP = Request.HttpContext.Connection.RemoteIpAddress;
-			if (!IPAddress.IsLoopback(remoteIP))
+			if (remoteIP == null || !IPAddress.IsLoopback(remoteIP))
 			{
 				logger.LogTrace("Rejecting remote bridge request from {remoteIP}", remoteIP);
 				return Forbid();
@@ -88,15 +97,22 @@ namespace Tgstation.Server.Host.Controllers
 
 			using (LogContext.PushProperty(SerilogContextHelper.BridgeRequestIterationContextProperty, Interlocked.Increment(ref requestsProcessed)))
 			{
-				var request = new BridgeParameters();
+				BridgeParameters? request;
 				try
 				{
-					JsonConvert.PopulateObject(data, request, DMApiConstants.SerializerSettings);
+					request = JsonConvert.DeserializeObject<BridgeParameters>(data, DMApiConstants.SerializerSettings);
 				}
 				catch (Exception ex)
 				{
 					if (LogContent)
 						logger.LogWarning(ex, "Error deserializing bridge request: {badJson}", data);
+					return BadRequest();
+				}
+
+				if (request == null)
+				{
+					if (LogContent)
+						logger.LogWarning("Error deserializing bridge request: {badJson}", data);
 					return BadRequest();
 				}
 

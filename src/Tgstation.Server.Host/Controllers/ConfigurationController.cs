@@ -73,7 +73,7 @@ namespace Tgstation.Server.Host.Controllers
 		public async ValueTask<IActionResult> Update([FromBody] ConfigurationFileRequest model, CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(model);
-			if (ForbidDueToModeConflicts(model.Path, out var systemIdentity))
+			if (ForbidDueToModeConflicts(model.Path!, out var systemIdentity))
 				return Forbid();
 
 			try
@@ -84,7 +84,7 @@ namespace Tgstation.Server.Host.Controllers
 						var newFile = await instance
 							.Configuration
 							.Write(
-								model.Path,
+								model.Path!,
 								systemIdentity,
 								model.LastReadHash,
 								cancellationToken);
@@ -164,7 +164,7 @@ namespace Tgstation.Server.Host.Controllers
 		[ProducesResponseType(typeof(ErrorMessageResponse), 409)]
 		[ProducesResponseType(typeof(ErrorMessageResponse), 410)]
 		public ValueTask<IActionResult> Directory(
-			string directoryPath,
+			string? directoryPath,
 			[FromQuery] int? page,
 			[FromQuery] int? pageSize,
 			CancellationToken cancellationToken)
@@ -239,6 +239,9 @@ namespace Tgstation.Server.Host.Controllers
 		public async ValueTask<IActionResult> CreateDirectory([FromBody] ConfigurationFileRequest model, CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(model);
+
+			if (model.Path == null)
+				return BadRequest(new ErrorMessageResponse(ErrorCode.ModelValidationFailure));
 
 			if (ForbidDueToModeConflicts(model.Path, out var systemIdentity))
 				return Forbid();
@@ -338,7 +341,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="path">The path to validate if any.</param>
 		/// <param name="systemIdentityToUse">The <see cref="ISystemIdentity"/> to use when calling into <see cref="Components.StaticFiles.IConfiguration"/>.</param>
 		/// <returns><see langword="true"/> if a <see cref="ForbidResult"/> should be returned, <see langword="false"/> otherwise.</returns>
-		bool ForbidDueToModeConflicts(string path, out ISystemIdentity systemIdentityToUse)
+		bool ForbidDueToModeConflicts(string? path, out ISystemIdentity? systemIdentityToUse)
 		{
 			if (Instance.ConfigurationType == ConfigurationType.Disallowed
 				|| (Instance.ConfigurationType == ConfigurationType.SystemIdentityWrite && AuthenticationContext.SystemIdentity == null)

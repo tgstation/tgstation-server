@@ -69,8 +69,8 @@ namespace Tgstation.Server.Host.IO
 
 		/// <inheritdoc />
 		public async ValueTask CopyDirectory(
-			IEnumerable<string> ignore,
-			Func<string, string, ValueTask> postCopyCallback,
+			IEnumerable<string>? ignore,
+			Func<string, string, ValueTask>? postCopyCallback,
 			string src,
 			string dest,
 			int? taskThrottle,
@@ -140,7 +140,8 @@ namespace Tgstation.Server.Host.IO
 		public Task<bool> DirectoryExists(string path, CancellationToken cancellationToken) => Task.Factory.StartNew(() => Directory.Exists(ResolvePath(path)), cancellationToken, BlockingTaskCreationOptions, TaskScheduler.Current);
 
 		/// <inheritdoc />
-		public string GetDirectoryName(string path) => Path.GetDirectoryName(path ?? throw new ArgumentNullException(nameof(path)));
+		public string GetDirectoryName(string path) => Path.GetDirectoryName(path ?? throw new ArgumentNullException(nameof(path)))
+			?? throw new InvalidOperationException($"Null was returned. Path ({path}) must be rooted. This is not supported!");
 
 		/// <inheritdoc />
 		public string GetFileName(string path) => Path.GetFileName(path ?? throw new ArgumentNullException(nameof(path)));
@@ -284,8 +285,8 @@ namespace Tgstation.Server.Host.IO
 				path = ResolvePath(path);
 				ArgumentNullException.ThrowIfNull(zipFile);
 
-#if NET7_0_OR_GREATER
-#warning Check if zip file seeking has been addressesed. See https://github.com/tgstation/tgstation-server/issues/1531
+#if NET9_0_OR_GREATER
+#error Check if zip file seeking has been addressesed. See https://github.com/tgstation/tgstation-server/issues/1531
 #endif
 
 				// ZipArchive does a synchronous copy on unseekable streams we want to avoid
@@ -302,11 +303,10 @@ namespace Tgstation.Server.Host.IO
 		/// <inheritdoc />
 		public bool PathContainsParentAccess(string path) => path
 			?.Split(
-				new[]
-				{
+				[
 					Path.DirectorySeparatorChar,
 					Path.AltDirectorySeparatorChar,
-				})
+				])
 			.Any(x => x == "..")
 			?? throw new ArgumentNullException(nameof(path));
 
@@ -323,7 +323,7 @@ namespace Tgstation.Server.Host.IO
 			TaskScheduler.Current);
 
 		/// <inheritdoc />
-		public FileStream GetFileStream(string path, bool shareWrite) => new (
+		public FileStream GetFileStream(string path, bool shareWrite) => new(
 			ResolvePath(path),
 			FileMode.Open,
 			FileAccess.Read,
@@ -336,7 +336,7 @@ namespace Tgstation.Server.Host.IO
 		/// </summary>
 		/// <param name="src">The source directory path.</param>
 		/// <param name="dest">The destination directory path.</param>
-		/// <param name="ignore">Files and folders to ignore at the root level.</param>
+		/// <param name="ignore">Optional files and folders to ignore at the root level.</param>
 		/// <param name="postCopyCallback">The optional callback called for each source/dest file pair post copy.</param>
 		/// <param name="semaphore">Optional <see cref="SemaphoreSlim"/> used to limit degree of parallelism.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
@@ -344,13 +344,13 @@ namespace Tgstation.Server.Host.IO
 		IEnumerable<Task> CopyDirectoryImpl(
 			string src,
 			string dest,
-			IEnumerable<string> ignore,
-			Func<string, string, ValueTask> postCopyCallback,
-			SemaphoreSlim semaphore,
+			IEnumerable<string>? ignore,
+			Func<string, string, ValueTask>? postCopyCallback,
+			SemaphoreSlim? semaphore,
 			CancellationToken cancellationToken)
 		{
 			var dir = new DirectoryInfo(src);
-			Task subdirCreationTask = null;
+			Task? subdirCreationTask = null;
 			foreach (var subDirectory in dir.EnumerateDirectories())
 			{
 				if (ignore != null && ignore.Contains(subDirectory.Name))

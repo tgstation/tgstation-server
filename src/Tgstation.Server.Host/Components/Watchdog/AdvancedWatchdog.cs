@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 using Microsoft.Extensions.Logging;
 
+using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Host.Components.Chat;
 using Tgstation.Server.Host.Components.Deployment;
@@ -27,7 +28,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <summary>
 		/// The <see cref="SwappableDmbProvider"/> for <see cref="WatchdogBase.LastLaunchParameters"/>.
 		/// </summary>
-		protected SwappableDmbProvider ActiveSwappable { get; private set; }
+		protected SwappableDmbProvider? ActiveSwappable { get; private set; }
 
 		/// <summary>
 		/// The <see cref="IFilesystemLinkFactory"/> for the <see cref="AdvancedWatchdog"/>.
@@ -42,12 +43,12 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <summary>
 		/// The active <see cref="SwappableDmbProvider"/> for <see cref="WatchdogBase.ActiveLaunchParameters"/>.
 		/// </summary>
-		SwappableDmbProvider pendingSwappable;
+		SwappableDmbProvider? pendingSwappable;
 
 		/// <summary>
 		/// The <see cref="TaskCompletionSource"/> representing the cleanup of an unused <see cref="IDmbProvider"/>.
 		/// </summary>
-		volatile TaskCompletionSource deploymentCleanupGate;
+		volatile TaskCompletionSource? deploymentCleanupGate;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="AdvancedWatchdog"/> class.
@@ -140,11 +141,12 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				ValueTask RunPrequel() => BeforeApplyDmb(pendingSwappable.CompileJob, cancellationToken);
 
 				var needToSwap = !pendingSwappable.Swapped;
+				var controller = Server!;
 				if (needToSwap)
 				{
 					// IMPORTANT: THE SESSIONCONTROLLER SHOULD STILL BE PROCESSING THE BRIDGE REQUEST SO WE KNOW DD IS SLEEPING
 					// OTHERWISE, IT COULD RETURN TO /world/Reboot() TOO EARLY AND LOAD THE WRONG .DMB
-					if (!Server.ProcessingRebootBridgeRequest)
+					if (!controller.ProcessingRebootBridgeRequest)
 					{
 						// integration test logging will catch this
 						Logger.LogError(
@@ -167,7 +169,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				if (needToSwap)
 					await PerformDmbSwap(pendingSwappable, cancellationToken);
 
-				var currentCompileJobId = Server.ReattachInformation.Dmb.CompileJob.Id;
+				var currentCompileJobId = controller.ReattachInformation.Dmb.CompileJob.Id;
 
 				await DrainDeploymentCleanupTasks(false);
 
@@ -175,7 +177,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				var localDeploymentCleanupGate = new TaskCompletionSource();
 				async Task CleanupLingeringDeployment()
 				{
-					var lingeringDeploymentExpirySeconds = ActiveLaunchParameters.StartupTimeout.Value;
+					var lingeringDeploymentExpirySeconds = ActiveLaunchParameters.StartupTimeout!.Value;
 					Logger.LogDebug(
 						"Holding old deployment {compileJobId} for up to {expiry} seconds...",
 						currentCompileJobId,
@@ -208,7 +210,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 
 				lock (deploymentCleanupTasks)
 				{
-					lingeringDeployment = Server.ReplaceDmbProvider(pendingSwappable);
+					lingeringDeployment = controller.ReplaceDmbProvider(pendingSwappable);
 					deploymentCleanupTasks.Add(
 						CleanupLingeringDeployment());
 				}
@@ -216,7 +218,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				ActiveSwappable = pendingSwappable;
 				pendingSwappable = null;
 
-				await SessionPersistor.Save(Server.ReattachInformation, cancellationToken);
+				await SessionPersistor.Update(controller.ReattachInformation, cancellationToken);
 				await updateTask;
 			}
 			else
@@ -229,41 +231,41 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		protected sealed override async ValueTask HandleNewDmbAvailable(CancellationToken cancellationToken)
 		{
 			IDmbProvider compileJobProvider = DmbFactory.LockNextDmb(1);
-			bool canSeamlesslySwap = true;
-
-			if (compileJobProvider.CompileJob.ByondVersion != ActiveCompileJob.ByondVersion)
-			{
-				// have to do a graceful restart
-				Logger.LogDebug(
-					"Not swapping to new compile job {0} as it uses a different BYOND version ({1}) than what is currently active {2}. Queueing graceful restart instead...",
-					compileJobProvider.CompileJob.Id,
-					compileJobProvider.CompileJob.ByondVersion,
-					ActiveCompileJob.ByondVersion);
-				canSeamlesslySwap = false;
-			}
-
-			if (compileJobProvider.CompileJob.DmeName != ActiveCompileJob.DmeName)
-			{
-				Logger.LogDebug(
-					"Not swapping to new compile job {0} as it uses a different .dmb name ({1}) than what is currently active {2}. Queueing graceful restart instead...",
-					compileJobProvider.CompileJob.Id,
-					compileJobProvider.CompileJob.DmeName,
-					ActiveCompileJob.DmeName);
-				canSeamlesslySwap = false;
-			}
+			bool canSeamlesslySwap = CanUseSwappableDmbProvider(compileJobProvider);
+			if (canSeamlesslySwap)
+				if (compileJobProvider.CompileJob.EngineVersion != ActiveCompileJob!.EngineVersion)
+				{
+					// have to do a graceful restart
+					Logger.LogDebug(
+						"Not swapping to new compile job {compileJobId} as it uses a different engine version ({newEngineVersion}) than what is currently active {oldEngineVersion}.",
+						compileJobProvider.CompileJob.Id,
+						compileJobProvider.CompileJob.EngineVersion,
+						ActiveCompileJob.EngineVersion);
+					canSeamlesslySwap = false;
+				}
+				else if (compileJobProvider.CompileJob.DmeName != ActiveCompileJob.DmeName)
+				{
+					Logger.LogDebug(
+						"Not swapping to new compile job {compileJobId} as it uses a different .dmb name ({newDmbName}) than what is currently active {oldDmbName}.",
+						compileJobProvider.CompileJob.Id,
+						compileJobProvider.CompileJob.DmeName,
+						ActiveCompileJob.DmeName);
+					canSeamlesslySwap = false;
+				}
 
 			if (!canSeamlesslySwap)
 			{
+				Logger.LogDebug("Queueing graceful restart instead...");
 				await compileJobProvider.DisposeAsync();
 				await base.HandleNewDmbAvailable(cancellationToken);
 				return;
 			}
 
-			SwappableDmbProvider swappableProvider = null;
+			SwappableDmbProvider? swappableProvider = null;
 			try
 			{
 				swappableProvider = CreateSwappableDmbProvider(compileJobProvider);
-				if (ActiveCompileJob.DMApiVersion == null)
+				if (ActiveCompileJob!.DMApiVersion == null)
 				{
 					Logger.LogWarning("Active compile job has no DMAPI! Commencing immediate .dmb swap. Note this behavior is known to be buggy in some DM code contexts. See https://github.com/tgstation/tgstation-server/issues/1550");
 					await PerformDmbSwap(swappableProvider, cancellationToken);
@@ -290,6 +292,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				throw new InvalidOperationException("Expected pendingSwappable to be null!");
 
 			Logger.LogTrace("Prep for server launch");
+			if (!CanUseSwappableDmbProvider(dmbToUse))
+				return dmbToUse;
 
 			ActiveSwappable = CreateSwappableDmbProvider(dmbToUse);
 			try
@@ -339,13 +343,29 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		}
 
 		/// <summary>
+		/// If the <see cref="SwappableDmbProvider"/> feature of the <see cref="AdvancedWatchdog"/> can be used with a given <paramref name="dmbProvider"/>.
+		/// </summary>
+		/// <param name="dmbProvider">The <see cref="IDmbProvider"/> that is to be activated.</param>
+		/// <returns><see langword="true"/> if swapping is possible, <see langword="false"/> otherwise.</returns>
+		bool CanUseSwappableDmbProvider(IDmbProvider dmbProvider)
+		{
+			if (dmbProvider.EngineVersion.Engine != EngineType.Byond)
+			{
+				Logger.LogDebug("Not using SwappableDmbProvider for engine type {engineType}", dmbProvider.EngineVersion.Engine);
+				return false;
+			}
+
+			return true;
+		}
+
+		/// <summary>
 		/// Create the initial link to the live game directory using <see cref="ActiveSwappable"/>.
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
 		async ValueTask InitialLink(CancellationToken cancellationToken)
 		{
-			await ActiveSwappable.FinishActivationPreparation(cancellationToken);
+			await ActiveSwappable!.FinishActivationPreparation(cancellationToken);
 			Logger.LogTrace("Linking compile job...");
 			await ActiveSwappable.MakeActive(cancellationToken);
 		}
@@ -363,10 +383,10 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			await newProvider.FinishActivationPreparation(cancellationToken);
 
 			var suspended = false;
-			var server = Server;
+			var server = Server!;
 			try
 			{
-				server.Suspend();
+				server.SuspendProcess();
 				suspended = true;
 			}
 			catch (Exception ex)
@@ -376,13 +396,14 @@ namespace Tgstation.Server.Host.Components.Watchdog
 
 			try
 			{
+				Logger.LogTrace("Making new provider {id} active...", newProvider.CompileJob.Id);
 				await newProvider.MakeActive(cancellationToken);
 			}
 			finally
 			{
 				// Let this throw hard if it fails
 				if (suspended)
-					server.Resume();
+					server.ResumeProcess();
 			}
 		}
 

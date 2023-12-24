@@ -37,7 +37,7 @@ namespace Tgstation.Server.Tests.Live
 			var token = serverClient.Token.Bearer;
 			// check that 400s are returned appropriately
 			using var httpClient = new HttpClient();
-			using (var request = new HttpRequestMessage(HttpMethod.Get, url.ToString()))
+			using (var request = new HttpRequestMessage(HttpMethod.Get, url.ToString() + Routes.ApiRoot.TrimStart('/')))
 			{
 				request.Headers.Accept.Clear();
 				request.Headers.UserAgent.Add(new ProductInfoHeaderValue("RootTest", "1.0.0"));
@@ -45,7 +45,7 @@ namespace Tgstation.Server.Tests.Live
 				Assert.AreEqual(HttpStatusCode.NotAcceptable, response.StatusCode);
 			}
 
-			using (var request = new HttpRequestMessage(HttpMethod.Get, url.ToString()))
+			using (var request = new HttpRequestMessage(HttpMethod.Get, url.ToString() + Routes.ApiRoot.TrimStart('/')))
 			{
 				request.Headers.Accept.Clear();
 				request.Headers.UserAgent.Add(new ProductInfoHeaderValue("RootTest", "1.0.0"));
@@ -54,7 +54,7 @@ namespace Tgstation.Server.Tests.Live
 				Assert.AreEqual(HttpStatusCode.NotAcceptable, response.StatusCode);
 			}
 
-			using (var request = new HttpRequestMessage(HttpMethod.Get, url.ToString()))
+			using (var request = new HttpRequestMessage(HttpMethod.Get, url.ToString() + Routes.ApiRoot.TrimStart('/')))
 			{
 				request.Headers.Accept.Clear();
 				request.Headers.UserAgent.Add(new ProductInfoHeaderValue("RootTest", "1.0.0"));
@@ -66,7 +66,7 @@ namespace Tgstation.Server.Tests.Live
 				Assert.AreEqual(ErrorCode.BadHeaders, message.ErrorCode);
 			}
 
-			using (var request = new HttpRequestMessage(HttpMethod.Get, url.ToString()))
+			using (var request = new HttpRequestMessage(HttpMethod.Get, url.ToString() + Routes.ApiRoot.TrimStart('/')))
 			{
 				request.Headers.Accept.Clear();
 				request.Headers.UserAgent.Add(new ProductInfoHeaderValue("RootTest", "1.0.0"));
@@ -79,7 +79,7 @@ namespace Tgstation.Server.Tests.Live
 				Assert.AreEqual(ApiHeaders.Version, message.ApiVersion);
 			}
 
-			using (var request = new HttpRequestMessage(HttpMethod.Get, url.ToString()))
+			using (var request = new HttpRequestMessage(HttpMethod.Get, url.ToString() + Routes.ApiRoot.TrimStart('/')))
 			{
 				request.Headers.Accept.Clear();
 				request.Headers.UserAgent.Add(new ProductInfoHeaderValue("RootTest", "1.0.0"));
@@ -87,7 +87,7 @@ namespace Tgstation.Server.Tests.Live
 				request.Headers.Add(ApiHeaders.ApiVersionHeader, "Tgstation.Server.Api/6.0.0");
 				request.Headers.Authorization = new AuthenticationHeaderValue(ApiHeaders.BearerAuthenticationScheme, token);
 				using var response = await httpClient.SendAsync(request, cancellationToken);
-				Assert.AreEqual(HttpStatusCode.UpgradeRequired, response.StatusCode);
+				Assert.AreEqual(HttpStatusCode.BadRequest, response.StatusCode);
 				var content = await response.Content.ReadAsStringAsync(cancellationToken);
 				var message = JsonConvert.DeserializeObject<ErrorMessageResponse>(content);
 				Assert.AreEqual(ErrorCode.ApiMismatch, message.ErrorCode);
@@ -101,7 +101,7 @@ namespace Tgstation.Server.Tests.Live
 				request.Headers.Add(ApiHeaders.ApiVersionHeader, "Tgstation.Server.Api/6.0.0");
 				request.Headers.Authorization = new AuthenticationHeaderValue(ApiHeaders.BearerAuthenticationScheme, token);
 				using var response = await httpClient.SendAsync(request, cancellationToken);
-				Assert.AreEqual(HttpStatusCode.UpgradeRequired, response.StatusCode);
+				Assert.AreEqual(HttpStatusCode.BadRequest, response.StatusCode);
 				var content = await response.Content.ReadAsStringAsync(cancellationToken);
 				var message = JsonConvert.DeserializeObject<ErrorMessageResponse>(content);
 				Assert.AreEqual(ErrorCode.ApiMismatch, message.ErrorCode);
@@ -149,7 +149,7 @@ namespace Tgstation.Server.Tests.Live
 				Assert.AreEqual(ErrorCode.InstanceHeaderRequired, message.ErrorCode);
 			}
 
-			using (var request = new HttpRequestMessage(HttpMethod.Get, url.ToString()))
+			using (var request = new HttpRequestMessage(HttpMethod.Get, url.ToString() + Routes.ApiRoot.TrimStart('/')))
 			{
 				request.Headers.Accept.Clear();
 				request.Headers.UserAgent.Add(new ProductInfoHeaderValue("RootTest", "1.0.0"));
@@ -163,7 +163,7 @@ namespace Tgstation.Server.Tests.Live
 				Assert.AreEqual(ErrorCode.BadHeaders, message.ErrorCode);
 			}
 
-			using (var request = new HttpRequestMessage(HttpMethod.Post, url.ToString()))
+			using (var request = new HttpRequestMessage(HttpMethod.Post, url.ToString() + Routes.ApiRoot.TrimStart('/')))
 			{
 				request.Headers.Accept.Clear();
 				request.Headers.UserAgent.Add(new ProductInfoHeaderValue("RootTest", "1.0.0"));
@@ -178,7 +178,7 @@ namespace Tgstation.Server.Tests.Live
 				Assert.AreEqual(ErrorCode.BadHeaders, message.ErrorCode);
 			}
 
-			using (var request = new HttpRequestMessage(HttpMethod.Get, url.ToString()))
+			using (var request = new HttpRequestMessage(HttpMethod.Get, url.ToString() + Routes.ApiRoot.TrimStart('/')))
 			{
 				request.Headers.Accept.Clear();
 				request.Headers.UserAgent.Add(new ProductInfoHeaderValue("RootTest", "1.0.0"));
@@ -210,13 +210,10 @@ namespace Tgstation.Server.Tests.Live
 			Assert.AreEqual(RuntimeInformation.IsOSPlatform(OSPlatform.Windows), serverInfo.WindowsHost);
 
 			//check that modifying the token even slightly fucks up the auth
-#pragma warning disable CS0618 // Type or member is obsolete
 			var newToken = new TokenResponse
 			{
-				ExpiresAt = serverClient.Token.ExpiresAt,
 				Bearer = serverClient.Token.Bearer + '0'
 			};
-#pragma warning restore CS0618 // Type or member is obsolete
 
 			var badClient = clientFactory.CreateFromToken(serverClient.Url, newToken);
 			await ApiAssert.ThrowsException<UnauthorizedException, AdministrationResponse>(() => badClient.Administration.Read(cancellationToken));
@@ -232,7 +229,7 @@ namespace Tgstation.Server.Tests.Live
 
 			// just hitting each type of oauth provider for coverage
 			foreach (var I in Enum.GetValues(typeof(OAuthProvider)))
-				using (var request = new HttpRequestMessage(HttpMethod.Post, url.ToString()))
+				using (var request = new HttpRequestMessage(HttpMethod.Post, url.ToString() + Routes.ApiRoot.TrimStart('/')))
 				{
 					request.Headers.Accept.Clear();
 					request.Headers.UserAgent.Add(new ProductInfoHeaderValue("RootTest", "1.0.0"));
@@ -384,6 +381,10 @@ namespace Tgstation.Server.Tests.Live
 						.GetValue(serverClient))
 						.Headers
 						.SetHubConnectionHeaders(options.Headers);
+				})
+				.AddNewtonsoftJsonProtocol(options =>
+				{
+					// we can get away without setting the serializer settings here
 				});
 
 			hubConnectionBuilder.ConfigureLogging(

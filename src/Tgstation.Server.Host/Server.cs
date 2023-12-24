@@ -13,6 +13,7 @@ using Microsoft.Extensions.Options;
 using Tgstation.Server.Common.Extensions;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Core;
+using Tgstation.Server.Host.Utils;
 
 namespace Tgstation.Server.Host
 {
@@ -36,7 +37,7 @@ namespace Tgstation.Server.Host
 		/// <summary>
 		/// The <see cref="IHost"/> of the running server.
 		/// </summary>
-		internal IHost Host { get; private set; }
+		internal IHost? Host { get; private set; }
 
 		/// <summary>
 		/// The <see cref="IHostBuilder"/> for the <see cref="Server"/>.
@@ -51,7 +52,7 @@ namespace Tgstation.Server.Host
 		/// <summary>
 		/// The absolute path to install updates to.
 		/// </summary>
-		readonly string updatePath;
+		readonly string? updatePath;
 
 		/// <summary>
 		/// <see langword="lock"/> <see cref="object"/> for certain restart related operations.
@@ -61,27 +62,27 @@ namespace Tgstation.Server.Host
 		/// <summary>
 		/// The <see cref="ILogger"/> for the <see cref="Server"/>.
 		/// </summary>
-		ILogger<Server> logger;
+		ILogger<Server>? logger;
 
 		/// <summary>
 		/// The <see cref="GeneralConfiguration"/> for the <see cref="Server"/>.
 		/// </summary>
-		GeneralConfiguration generalConfiguration;
+		GeneralConfiguration? generalConfiguration;
 
 		/// <summary>
 		/// The <see cref="cancellationTokenSource"/> for the <see cref="Server"/>.
 		/// </summary>
-		CancellationTokenSource cancellationTokenSource;
+		CancellationTokenSource? cancellationTokenSource;
 
 		/// <summary>
 		/// The <see cref="Exception"/> to propagate when the server terminates.
 		/// </summary>
-		Exception propagatedException;
+		Exception? propagatedException;
 
 		/// <summary>
 		/// The <see cref="Task"/> that is used for asynchronously updating the server.
 		/// </summary>
-		Task updateTask;
+		Task? updateTask;
 
 		/// <summary>
 		/// If the server is being shut down or restarted.
@@ -98,7 +99,7 @@ namespace Tgstation.Server.Host
 		/// </summary>
 		/// <param name="hostBuilder">The value of <see cref="hostBuilder"/>.</param>
 		/// <param name="updatePath">The value of <see cref="updatePath"/>.</param>
-		public Server(IHostBuilder hostBuilder, string updatePath)
+		public Server(IHostBuilder hostBuilder, string? updatePath)
 		{
 			this.hostBuilder = hostBuilder ?? throw new ArgumentNullException(nameof(hostBuilder));
 			this.updatePath = updatePath;
@@ -107,15 +108,17 @@ namespace Tgstation.Server.Host
 
 			restartHandlers = new List<IRestartHandler>();
 			restartLock = new object();
+			logger = null;
 		}
 
 		/// <inheritdoc />
 		public async ValueTask Run(CancellationToken cancellationToken)
 		{
+			var updateDirectory = updatePath != null ? Path.GetDirectoryName(updatePath) : null;
 			using (cancellationTokenSource = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken))
-			using (var fsWatcher = updatePath != null ? new FileSystemWatcher(Path.GetDirectoryName(updatePath)) : null)
+			using (var fsWatcher = updateDirectory != null ? new FileSystemWatcher(updateDirectory) : null)
 			{
-				if (updatePath != null)
+				if (fsWatcher != null)
 				{
 					// If ever there is a NECESSARY update to the Host Watchdog, change this to use a pipe
 					// I don't know why I'm only realizing this in 2023 when this is 2019 code
@@ -128,9 +131,10 @@ namespace Tgstation.Server.Host
 				try
 				{
 					using (Host = hostBuilder.Build())
+					{
+						logger = Host.Services.GetRequiredService<ILogger<Server>>();
 						try
 						{
-							logger = Host.Services.GetRequiredService<ILogger<Server>>();
 							using (cancellationToken.Register(() => logger.LogInformation("Server termination requested!")))
 							{
 								var generalConfigurationOptions = Host.Services.GetRequiredService<IOptions<GeneralConfiguration>>();
@@ -154,6 +158,7 @@ namespace Tgstation.Server.Host
 						{
 							logger = null;
 						}
+					}
 				}
 				finally
 				{
@@ -172,6 +177,10 @@ namespace Tgstation.Server.Host
 
 			CheckSanity(true);
 
+			if (updatePath == null)
+				throw new InvalidOperationException("Tried to start update when server was initialized without an updatePath set!");
+
+			var logger = this.logger!;
 			logger.LogTrace("Begin ApplyUpdate...");
 
 			CancellationToken criticalCancellationToken;
@@ -220,17 +229,19 @@ namespace Tgstation.Server.Host
 
 			CheckSanity(false);
 
+			var logger = this.logger!;
 			lock (restartLock)
 				if (!shutdownInProgress)
 				{
 					logger.LogTrace("Registering restart handler {handlerImplementationName}...", handler);
 					restartHandlers.Add(handler);
-					return new RestartRegistration(() =>
-					{
-						lock (restartLock)
-							if (!shutdownInProgress)
-								restartHandlers.Remove(handler);
-					});
+					return new RestartRegistration(
+						new DisposeInvoker(() =>
+						{
+							lock (restartLock)
+								if (!shutdownInProgress)
+									restartHandlers.Remove(handler);
+						}));
 				}
 
 			logger.LogWarning("Restart handler {handlerImplementationName} register after a shutdown had begun!", handler);
@@ -244,7 +255,7 @@ namespace Tgstation.Server.Host
 		public ValueTask GracefulShutdown(bool detach) => RestartImpl(null, null, false, detach);
 
 		/// <inheritdoc />
-		public ValueTask Die(Exception exception)
+		public ValueTask Die(Exception? exception)
 		{
 			if (exception != null)
 				return RestartImpl(null, exception, false, true);
@@ -270,7 +281,7 @@ namespace Tgstation.Server.Host
 		/// Re-throw <see cref="propagatedException"/> if it exists.
 		/// </summary>
 		/// <param name="otherException">An existing <see cref="Exception"/> that should be thrown as well, but not by itself.</param>
-		void CheckExceptionPropagation(Exception otherException)
+		void CheckExceptionPropagation(Exception? otherException)
 		{
 			if (propagatedException == null)
 				return;
@@ -289,12 +300,13 @@ namespace Tgstation.Server.Host
 		/// <param name="requireWatchdog">If the host watchdog is required for this "restart".</param>
 		/// <param name="completeAsap">If the restart should wait for extremely long running tasks to complete (Like the current DreamDaemon world).</param>
 		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
-		async ValueTask RestartImpl(Version newVersion, Exception exception, bool requireWatchdog, bool completeAsap)
+		async ValueTask RestartImpl(Version? newVersion, Exception? exception, bool requireWatchdog, bool completeAsap)
 		{
 			CheckSanity(requireWatchdog);
 
 			// if the watchdog isn't required and there's no issue, this is just a graceful shutdown
 			bool isGracefulShutdown = !requireWatchdog && exception == null;
+			var logger = this.logger!;
 			logger.LogTrace(
 				"Begin {restartType}...",
 				isGracefulShutdown
@@ -322,8 +334,8 @@ namespace Tgstation.Server.Host
 				using var cts = new CancellationTokenSource(
 					TimeSpan.FromMinutes(
 						giveHandlersTimeToWaitAround
-							? generalConfiguration.ShutdownTimeoutMinutes
-							: generalConfiguration.RestartTimeoutMinutes));
+							? generalConfiguration!.ShutdownTimeoutMinutes
+							: generalConfiguration!.RestartTimeoutMinutes));
 				var cancellationToken = cts.Token;
 				try
 				{
@@ -366,7 +378,7 @@ namespace Tgstation.Server.Host
 			logger?.LogTrace("FileSystemWatcher triggered.");
 
 			// TODO: Refactor this to not use System.IO function here.
-			if (eventArgs.FullPath == Path.GetFullPath(updatePath) && File.Exists(eventArgs.FullPath))
+			if (eventArgs.FullPath == Path.GetFullPath(updatePath!) && File.Exists(eventArgs.FullPath))
 			{
 				logger?.LogInformation("Host watchdog appears to be requesting server termination!");
 				lock (restartLock)
@@ -390,8 +402,8 @@ namespace Tgstation.Server.Host
 		void StopServerImmediate()
 		{
 			shutdownInProgress = true;
-			logger.LogDebug("Stopping host...");
-			cancellationTokenSource.Cancel();
+			logger!.LogDebug("Stopping host...");
+			cancellationTokenSource!.Cancel();
 		}
 	}
 }

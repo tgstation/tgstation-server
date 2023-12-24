@@ -10,6 +10,6 @@ namespace Tgstation.Server.Host.Components.Interop
 		/// <summary>
 		/// The <see cref="ChunkData.SequenceId"/>s missing from a chunked request.
 		/// </summary>
-		IReadOnlyCollection<uint> MissingChunks { get; set; }
+		IReadOnlyCollection<uint>? MissingChunks { get; set; }
 	}
 }

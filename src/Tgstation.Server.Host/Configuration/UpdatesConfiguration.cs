@@ -28,18 +28,18 @@ namespace Tgstation.Server.Host.Configuration
 		const string DefaultUpdatePackageAssetName = "ServerUpdatePackage.zip";
 
 		/// <summary>
-		/// The <see cref="Octokit.Repository.Id"/> of the tgstation-server fork to recieve updates from.
+		/// The <see cref="Octokit.Repository.Id"/> of the tgstation-server fork to receive updates from.
 		/// </summary>
 		public long GitHubRepositoryId { get; set; } = DefaultGitHubRepositoryId;
 
 		/// <summary>
 		/// Prefix before the <see cref="global::System.Version"/> of TGS published in git tags.
 		/// </summary>
-		public string GitTagPrefix { get; set; } = DefaultGitTagPrefix;
+		public string? GitTagPrefix { get; set; } = DefaultGitTagPrefix;
 
 		/// <summary>
 		/// Asset package containing the new <see cref="Host"/> assembly in zip form.
 		/// </summary>
-		public string UpdatePackageAssetName { get; set; } = DefaultUpdatePackageAssetName;
+		public string? UpdatePackageAssetName { get; set; } = DefaultUpdatePackageAssetName;
 	}
 }

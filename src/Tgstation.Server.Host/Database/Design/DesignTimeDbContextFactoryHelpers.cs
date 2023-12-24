@@ -21,7 +21,7 @@ namespace Tgstation.Server.Host.Database.Design
 		public static DbContextOptions<TDatabaseContext> CreateDatabaseContextOptions<TDatabaseContext>(
 			DatabaseType databaseType,
 			string connectionString,
-			string serverVersion = null)
+			string? serverVersion = null)
 			where TDatabaseContext : DatabaseContext
 		{
 			var dbConfig = new DatabaseConfiguration

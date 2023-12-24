@@ -21,10 +21,10 @@ namespace Tgstation.Server.Host.Models
 		/// The parent <see cref="Models.Instance"/>.
 		/// </summary>
 		[Required]
-		public Instance Instance { get; set; }
+		public Instance? Instance { get; set; }
 
 		/// <inheritdoc />
-		public DreamMakerResponse ToApi() => new DreamMakerResponse
+		public DreamMakerResponse ToApi() => new()
 		{
 			ProjectName = ProjectName,
 			ApiValidationPort = ApiValidationPort,

@@ -30,12 +30,6 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// <inheritdoc />
 		public override RemoteGitProvider? RemoteGitProvider => Api.Models.RemoteGitProvider.GitLab;
 
-		/// <inheritdoc />
-		public override string RemoteRepositoryOwner { get; }
-
-		/// <inheritdoc />
-		public override string RemoteRepositoryName { get; }
-
 		/// <summary>
 		/// Initializes a new instance of the <see cref="GitLabRemoteFeatures"/> class.
 		/// </summary>
@@ -44,10 +38,6 @@ namespace Tgstation.Server.Host.Components.Repository
 		public GitLabRemoteFeatures(ILogger<GitLabRemoteFeatures> logger, Uri remoteUrl)
 			: base(logger, remoteUrl)
 		{
-			RemoteRepositoryOwner = remoteUrl.Segments[1].TrimEnd('/');
-			RemoteRepositoryName = remoteUrl.Segments[2].TrimEnd('/');
-			if (RemoteRepositoryName.EndsWith(".git", StringComparison.OrdinalIgnoreCase))
-				RemoteRepositoryName = RemoteRepositoryName[0..^4];
 		}
 
 		/// <inheritdoc />

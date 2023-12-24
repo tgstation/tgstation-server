@@ -22,7 +22,7 @@ namespace Tgstation.Server.Host.Security.OAuth
 		/// <summary>
 		/// The OAuth redirect URI.
 		/// </summary>
-		public Uri RedirectUri { get; }
+		public Uri? RedirectUri { get; }
 
 		/// <summary>
 		/// The OAuth grant type.

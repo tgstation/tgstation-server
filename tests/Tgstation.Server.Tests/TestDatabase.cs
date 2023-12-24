@@ -134,7 +134,7 @@ namespace Tgstation.Server.Tests
 				{
 					new Host.Models.InstancePermissionSet
 					{
-						ByondRights = ByondRights.InstallCustomVersion,
+						EngineRights = EngineRights.InstallCustomByondVersion,
 						ChatBotRights = ChatBotRights.None,
 						ConfigurationRights = ConfigurationRights.Read,
 						DreamDaemonRights = DreamDaemonRights.ReadRevision,

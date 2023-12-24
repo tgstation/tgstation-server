@@ -14,6 +14,6 @@ namespace Tgstation.Server.Host.Swarm
 		/// The <see cref="ICollection{T}"/> of updated <see cref="SwarmServerResponse"/>s.
 		/// </summary>
 		[Required]
-		public ICollection<SwarmServerResponse> SwarmServers { get; set; }
+		public ICollection<SwarmServerResponse>? SwarmServers { get; set; }
 	}
 }

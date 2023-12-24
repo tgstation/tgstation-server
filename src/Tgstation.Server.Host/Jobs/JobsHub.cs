@@ -34,7 +34,7 @@ namespace Tgstation.Server.Host.Jobs
 			if (job.Instance == null)
 				throw new InvalidOperationException("job.Instance was null!");
 
-			return HubGroupName(job.Instance.Id.Value);
+			return HubGroupName(job.Instance.Require(x => x.Id));
 		}
 
 		/// <summary>

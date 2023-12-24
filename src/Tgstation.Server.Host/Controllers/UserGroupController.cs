@@ -131,7 +131,7 @@ namespace Tgstation.Server.Host.Controllers
 
 			if (model.PermissionSet != null)
 			{
-				currentGroup.PermissionSet.AdministrationRights = model.PermissionSet.AdministrationRights ?? currentGroup.PermissionSet.AdministrationRights;
+				currentGroup.PermissionSet!.AdministrationRights = model.PermissionSet.AdministrationRights ?? currentGroup.PermissionSet.AdministrationRights;
 				currentGroup.PermissionSet.InstanceManagerRights = model.PermissionSet.InstanceManagerRights ?? currentGroup.PermissionSet.InstanceManagerRights;
 			}
 
@@ -139,7 +139,7 @@ namespace Tgstation.Server.Host.Controllers
 
 			await DatabaseContext.Save(cancellationToken);
 
-			if (!AuthenticationContext.PermissionSet.AdministrationRights.Value.HasFlag(AdministrationRights.ReadUsers))
+			if (!AuthenticationContext.PermissionSet.AdministrationRights!.Value.HasFlag(AdministrationRights.ReadUsers))
 				return Json(new UserGroupResponse
 				{
 					Id = currentGroup.Id,
@@ -220,7 +220,7 @@ namespace Tgstation.Server.Host.Controllers
 			var numDeleted = await DatabaseContext
 				.Groups
 				.AsQueryable()
-				.Where(x => x.Id == id && x.Users.Count == 0)
+				.Where(x => x.Id == id && x.Users!.Count == 0)
 				.DeleteAsync(cancellationToken);
 
 			if (numDeleted > 0)

@@ -2,6 +2,7 @@
 # Does CI on push/PR/cron. Deployments on push when triggered
 # - Validates Documentation
 # - Builds C# and DMAPI
+# - Runs CodeQL Anaylsis
 # - Tests everything on massive matrix
 # - Packages
 # - Tests package installs/services/uninstalls
@@ -19,26 +20,25 @@ name: 'CI Pipeline'
 
 on:
   schedule:
-    - cron: 0 23 * * *
+    - cron: 0 9 * * *
   push:
     branches:
     - dev
     - master
-    - V6
   pull_request:
     branches:
     - dev
     - master
-    - V6
   pull_request_target:
     types: [ opened, reopened, labeled, synchronize ]
     branches:
     - dev
     - master
-    - V6
 
 env:
-  TGS_DOTNET_VERSION: 6.0.x
+  TGS_DOTNET_VERSION: 8
+  OD_DOTNET_VERSION: 7
+  TGS_DOTNET_QUALITY: ga
   TGS_TEST_GITHUB_TOKEN: ${{ secrets.LIVE_TESTS_TOKEN }}
   TGS_RELEASE_NOTES_TOKEN: ${{ secrets.DEV_PUSH_TOKEN }}
   WINGET_PUSH_TOKEN: ${{ secrets.DEV_PUSH_TOKEN }}
@@ -134,11 +134,11 @@ jobs:
         exit 0
 
     - name: Checkout (Branch)
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       if: github.event_name == 'push' || github.event_name == 'schedule'
 
     - name: Checkout (PR Merge)
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       if: github.event_name != 'push' && github.event_name != 'schedule'
       with:
         ref: "refs/pull/${{ github.event.number }}/merge"
@@ -163,6 +163,50 @@ jobs:
         fi
         exit $retval
 
+  opendream-build:
+    name: Build DMAPI (OpenDream)
+    needs: start-ci-run-gate
+    if: (!(cancelled() || failure()) && needs.start-ci-run-gate.result == 'success')
+    strategy:
+      fail-fast: false
+      matrix:
+        committish: [ 'master', 'tgs-min-compat' ]
+    runs-on: ubuntu-latest
+    steps:
+    - name: Setup dotnet
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: '${{ env.OD_DOTNET_VERSION }}.0.x'
+        dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
+
+    - name: Checkout (Branch)
+      uses: actions/checkout@v4
+      if: github.event_name == 'push' || github.event_name == 'schedule'
+
+    - name: Checkout (PR Merge)
+      uses: actions/checkout@v4
+      if: github.event_name != 'push' && github.event_name != 'schedule'
+      with:
+        ref: "refs/pull/${{ github.event.number }}/merge"
+
+    - name: Checkout OpenDream
+      run: |
+        cd $HOME
+        git clone https://github.com/OpenDreamProject/OpenDream
+        cd OpenDream
+        git checkout ${{ matrix.committish }}
+        git submodule update --init --recursive
+
+    - name: Create TGS Deployment
+      run: |
+        cd $HOME/OpenDream
+        dotnet run -c Release --project OpenDreamPackageTool --property WarningLevel=0 -- --tgs -o tgs_deploy
+
+    - name: Build DMAPI
+      run: |
+        cd tests/DMAPI/BasicOperation
+        $HOME/OpenDream/tgs_deploy/bin/compiler/DMCompiler --verbose --notices-enabled basic_operation_test.dme
+
   pages-build:
     name: Build gh-pages
     runs-on: ubuntu-latest
@@ -170,16 +214,17 @@ jobs:
     if: (!(cancelled() || failure()) && needs.start-ci-run-gate.result == 'success')
     steps:
     - name: Setup dotnet
-      uses: actions/setup-dotnet@v2
+      uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: ${{ env.TGS_DOTNET_VERSION }}
+        dotnet-version: '${{ env.TGS_DOTNET_VERSION }}.0.x'
+        dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
 
     - name: Checkout (Branch)
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       if: github.event_name == 'push' || github.event_name == 'schedule'
 
     - name: Checkout (PR Merge)
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       if: github.event_name != 'push' && github.event_name != 'schedule'
       with:
         ref: "refs/pull/${{ github.event.number }}/merge"
@@ -239,11 +284,11 @@ jobs:
     if: (!(cancelled() || failure()) && needs.start-ci-run-gate.result == 'success')
     steps:
     - name: Checkout (Branch)
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       if: github.event_name == 'push' || github.event_name == 'schedule'
 
     - name: Checkout (PR Merge)
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       if: github.event_name != 'push' && github.event_name != 'schedule'
       with:
         ref: "refs/pull/${{ github.event.number }}/merge"
@@ -271,16 +316,17 @@ jobs:
         sudo apt-get install -y -o APT::Immediate-Configure=0 libc6-i386 libstdc++6:i386 libgcc-s1:i386
 
     - name: Setup dotnet
-      uses: actions/setup-dotnet@v2
+      uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: ${{ env.TGS_DOTNET_VERSION }}
+        dotnet-version: '${{ env.TGS_DOTNET_VERSION }}.0.x'
+        dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
 
     - name: Checkout (Branch)
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       if: github.event_name == 'push' || github.event_name == 'schedule'
 
     - name: Checkout (PR Merge)
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       if: github.event_name != 'push' && github.event_name != 'schedule'
       with:
         ref: "refs/pull/${{ github.event.number }}/merge"
@@ -321,16 +367,17 @@ jobs:
     runs-on: windows-latest
     steps:
     - name: Setup dotnet
-      uses: actions/setup-dotnet@v2
+      uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: ${{ env.TGS_DOTNET_VERSION }}
+        dotnet-version: '${{ env.TGS_DOTNET_VERSION }}.0.x'
+        dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
 
     - name: Checkout (Branch)
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       if: github.event_name == 'push' || github.event_name == 'schedule'
 
     - name: Checkout (PR Merge)
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       if: github.event_name != 'push' && github.event_name != 'schedule'
       with:
         ref: "refs/pull/${{ github.event.number }}/merge"
@@ -359,8 +406,8 @@ jobs:
 
   windows-integration-test:
     name: Windows Live Tests
-    needs: dmapi-build
-    if: (!(cancelled() || failure()) && needs.dmapi-build.result == 'success')
+    needs: [dmapi-build, opendream-build]
+    if: (!(cancelled() || failure()) && needs.dmapi-build.result == 'success' && needs.opendream-build.result == 'success')
     strategy:
       fail-fast: false
       matrix:
@@ -377,9 +424,12 @@ jobs:
         sqlcmd -l 600 -S "(localdb)\MSSQLLocalDB" -Q "SELECT @@VERSION;"
 
     - name: Setup dotnet
-      uses: actions/setup-dotnet@v2
+      uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: ${{ env.TGS_DOTNET_VERSION }}
+        dotnet-version: |
+          ${{ env.TGS_DOTNET_VERSION }}.0.x
+          ${{ env.OD_DOTNET_VERSION }}.0.x
+        dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
 
     - name: Set TGS_TEST_DUMP_API_SPEC
       if: ${{ matrix.configuration == 'Release' && matrix.watchdog-type == 'Advanced' && matrix.database-type == 'SqlServer' }}
@@ -433,16 +483,16 @@ jobs:
       if: ${{ matrix.database-type == 'SqlServer' }}
       shell: bash
       run: |
-        TGS_CONNSTRING_VALUE="Server=(localdb)\MSSQLLocalDB;Integrated Security=true;Initial Catalog=TGS_${{ matrix.watchdog-type }}_${{ matrix.configuration }};Application Name=tgstation-server"
+        TGS_CONNSTRING_VALUE="Server=(localdb)\MSSQLLocalDB;Encrypt=false;Integrated Security=true;Initial Catalog=TGS_${{ matrix.watchdog-type }}_${{ matrix.configuration }};Application Name=tgstation-server"
         echo "TGS_TEST_CONNECTION_STRING=$(echo $TGS_CONNSTRING_VALUE)" >> $GITHUB_ENV
         echo "TGS_TEST_DATABASE_TYPE=SqlServer" >> $GITHUB_ENV
 
     - name: Checkout (Branch)
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       if: github.event_name == 'push' || github.event_name == 'schedule'
 
     - name: Checkout (PR Merge)
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       if: github.event_name != 'push' && github.event_name != 'schedule'
       with:
         ref: "refs/pull/${{ github.event.number }}/merge"
@@ -479,9 +529,17 @@ jobs:
         fi
 
     - name: Store Live Tests Output
+      if: ${{ steps.live-tests.outputs.succeeded == 'YES' }}
       uses: actions/upload-artifact@v3
       with:
         name: windows-integration-test-logs-${{ matrix.configuration }}-${{ matrix.watchdog-type }}-${{ matrix.database-type }}
+        path: ./test_output.txt
+
+    - name: Store Errored Live Tests Output
+      if: ${{ steps.live-tests.outputs.succeeded != 'YES' }}
+      uses: actions/upload-artifact@v3
+      with:
+        name: errored-windows-test-logs-${{ matrix.configuration }}-${{ matrix.watchdog-type }}-${{ matrix.database-type }}
         path: ./test_output.txt
 
     - name: Fail if Live Tests Failed
@@ -499,7 +557,7 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: openapi-spec
-        path: C:/swagger.json
+        path: C:/tgs_api.json
 
     - name: Package Server Service
       if: ${{ matrix.configuration == 'Release' && matrix.watchdog-type == 'Basic' }}
@@ -537,18 +595,18 @@ jobs:
 
   linux-integration-tests:
     name: Linux Live Tests
-    needs: dmapi-build
-    if: (!(cancelled() || failure()) && needs.dmapi-build.result == 'success')
+    needs: [dmapi-build, opendream-build]
+    if: (!(cancelled() || failure()) && needs.dmapi-build.result == 'success' && needs.opendream-build.result == 'success')
     services: # We start all dbs here so we can just code the stuff once
       mssql:
-        image: mcr.microsoft.com/mssql/server:2019-latest
+        image: ${{ (matrix.database-type == 'SqlServer') && 'mcr.microsoft.com/mssql/server:2019-latest' || '' }}
         env:
           SA_PASSWORD: myPassword
           ACCEPT_EULA: 'Y'
         ports:
         - 1433:1433
       postgres:
-        image: cyberboss/postgres-max-connections # Fork of _/postgres:latest with max_connections=500 becuase GitHub actions service containers have no way to set command lines. Rebuilds with updates.
+        image: ${{ (matrix.database-type == 'PostgresSql') && 'cyberboss/postgres-max-connections' || '' }} # Fork of _/postgres:latest with max_connections=500 becuase GitHub actions service containers have no way to set command lines. Rebuilds with updates.
         ports:
           - 5432:5432
         env:
@@ -559,7 +617,7 @@ jobs:
           --health-timeout 5s
           --health-retries 5
       mariadb:
-        image: mariadb
+        image: ${{ (matrix.database-type == 'MariaDB') && 'mariadb' || '' }}
         ports:
           - 3306:3306
         env:
@@ -570,7 +628,7 @@ jobs:
           --health-timeout=2s
           --health-retries=3
       mysql:
-        image: mysql:5.7.31
+        image: ${{ (matrix.database-type == 'MySql') && 'mysql:5.7.31' || '' }}
         ports:
           - 3307:3306
         env:
@@ -598,9 +656,12 @@ jobs:
         sudo apt-get install -y -o APT::Immediate-Configure=0 libc6-i386 libstdc++6:i386 gdb libgcc-s1:i386
 
     - name: Setup dotnet
-      uses: actions/setup-dotnet@v2
+      uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: ${{ env.TGS_DOTNET_VERSION }}
+        dotnet-version: |
+          ${{ env.TGS_DOTNET_VERSION }}.0.x
+          ${{ env.OD_DOTNET_VERSION }}.0.x
+        dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
 
     - name: Set Sqlite Connection Info
       if: ${{ matrix.database-type == 'Sqlite' }}
@@ -632,11 +693,11 @@ jobs:
       run: echo "General__UseBasicWatchdog=true" >> $GITHUB_ENV
 
     - name: Checkout (Branch)
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       if: github.event_name == 'push' || github.event_name == 'schedule'
 
     - name: Checkout (PR Merge)
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       if: github.event_name != 'push' && github.event_name != 'schedule'
       with:
         ref: "refs/pull/${{ github.event.number }}/merge"
@@ -711,11 +772,11 @@ jobs:
       run: npm i -g ibm-openapi-validator@0.51.3
 
     - name: Checkout (Branch)
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       if: github.event_name == 'push' || github.event_name == 'schedule'
 
     - name: Checkout (PR Merge)
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       if: github.event_name != 'push' && github.event_name != 'schedule'
       with:
         ref: "refs/pull/${{ github.event.number }}/merge"
@@ -727,7 +788,7 @@ jobs:
         path: ./swagger
 
     - name: Lint OpenAPI Spec
-      run: npx lint-openapi -v -p -c build/OpenApiValidationSettings.json ./swagger/swagger.json
+      run: npx lint-openapi -v -p -c build/OpenApiValidationSettings.json ./swagger/tgs_api.json
 
   upload-code-coverage:
     name: Upload Code Coverage
@@ -736,11 +797,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout (Branch)
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       if: github.event_name == 'push' || github.event_name == 'schedule'
 
     - name: Checkout (PR Merge)
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       if: github.event_name != 'push' && github.event_name != 'schedule'
       with:
         ref: "refs/pull/${{ github.event.number }}/merge"
@@ -1004,15 +1065,17 @@ jobs:
         echo ${{ secrets.PACKAGING_PRIVATE_KEY_PASSPHRASE }} | gpg --batch --yes --passphrase-fd 0 --import private.pgp
         rm private.pgp
 
-    - name: Install dotnet-sdk-6.0
+    - name: Install dotnet-sdk system package
+      if: (!contains(env.TGS_DOTNET_QUALITY, 'preview'))
       run: |
         sudo apt-get update
-        sudo apt-get install -y dotnet-sdk-6.0
+        sudo apt-get install -y dotnet-sdk-${{ env.TGS_DOTNET_VERSION }}.0
 
     - name: Setup dotnet
-      uses: actions/setup-dotnet@v2
+      uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: ${{ env.TGS_DOTNET_VERSION }}
+        dotnet-version: '${{ env.TGS_DOTNET_VERSION }}.0.x'
+        dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
 
     - name: Override /usr/bin/dotnet
       run: |
@@ -1022,11 +1085,11 @@ jobs:
         echo "New dotnet path should be $DOTNET_PATH"
 
     - name: Checkout (Branch)
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       if: github.event_name == 'push' || github.event_name == 'schedule'
 
     - name: Checkout (PR Merge)
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       if: github.event_name != 'push' && github.event_name != 'schedule'
       with:
         ref: "refs/pull/${{ github.event.number }}/merge"
@@ -1099,16 +1162,17 @@ jobs:
         GITHUB_TOKEN: ${{ env.WINGET_PUSH_TOKEN }}
 
     - name: Setup dotnet
-      uses: actions/setup-dotnet@v2
+      uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: ${{ env.TGS_DOTNET_VERSION }}
+        dotnet-version: '${{ env.TGS_DOTNET_VERSION }}.0.x'
+        dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
 
     - name: Checkout (Branch)
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       if: github.event_name == 'push' || github.event_name == 'schedule'
 
     - name: Checkout (PR Merge)
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       if: github.event_name != 'push' && github.event_name != 'schedule'
       with:
         ref: "refs/pull/${{ github.event.number }}/merge"
@@ -1224,9 +1288,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Setup dotnet
-      uses: actions/setup-dotnet@v2
+      uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: ${{ env.TGS_DOTNET_VERSION }}
+        dotnet-version: '${{ env.TGS_DOTNET_VERSION }}.0.x'
+        dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
 
     - name: Retrieve Latest winget-pkgs PULL_REQUEST_TEMPLATE commit SHA from GitHub API
       id: get-sha
@@ -1235,11 +1300,11 @@ jobs:
         echo "pr_template_sha=$(cat commits.json | jq '.[0].sha')" >> $GITHUB_OUTPUT
 
     - name: Checkout (Branch)
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       if: github.event_name == 'push' || github.event_name == 'schedule'
 
     - name: Checkout (PR Merge)
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       if: github.event_name != 'push' && github.event_name != 'schedule'
       with:
         ref: "refs/pull/${{ github.event.number }}/merge"
@@ -1278,12 +1343,13 @@ jobs:
     if: (!(cancelled() || failure()) && needs.deployment-gate.result == 'success' && contains(github.event.head_commit.message, '[APIDeploy]'))
     steps:
     - name: Setup dotnet
-      uses: actions/setup-dotnet@v2
+      uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: ${{ env.TGS_DOTNET_VERSION }}
+        dotnet-version: '${{ env.TGS_DOTNET_VERSION }}.0.x'
+        dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
 
     - name: Checkout
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     - name: Restore
       run: dotnet restore
@@ -1330,7 +1396,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.DEV_PUSH_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./swagger/swagger.json
+        asset_path: ./swagger/tgs_api.json
         asset_name: swagger.json
         asset_content_type: application/json
 
@@ -1341,12 +1407,13 @@ jobs:
     if: (!(cancelled() || failure()) && needs.deployment-gate.result == 'success' && contains(github.event.head_commit.message, '[DMDeploy]'))
     steps:
     - name: Setup dotnet
-      uses: actions/setup-dotnet@v2
+      uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: ${{ env.TGS_DOTNET_VERSION }}
+        dotnet-version: '${{ env.TGS_DOTNET_VERSION }}.0.x'
+        dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
 
     - name: Checkout
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     - name: Restore
       run: dotnet restore
@@ -1403,12 +1470,13 @@ jobs:
     if: (!(cancelled() || failure()) && needs.deployment-gate.result == 'success' && contains(github.event.head_commit.message, '[NugetDeploy]'))
     steps:
     - name: Setup dotnet
-      uses: actions/setup-dotnet@v2
+      uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: ${{ env.TGS_DOTNET_VERSION }}
+        dotnet-version: '${{ env.TGS_DOTNET_VERSION }}.0.x'
+        dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
 
     - name: Checkout
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     - name: Restore
       run: dotnet restore
@@ -1453,12 +1521,13 @@ jobs:
     if: (!(cancelled() || failure()) && (needs.deploy-dm.result == 'success' || needs.deploy-http.result == 'success') && !contains(github.event.head_commit.message, '[TGSDeploy]'))
     steps:
     - name: Setup dotnet
-      uses: actions/setup-dotnet@v2
+      uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: ${{ env.TGS_DOTNET_VERSION }}
+        dotnet-version: '${{ env.TGS_DOTNET_VERSION }}.0.x'
+        dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
 
     - name: Checkout
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     - name: Restore
       run: dotnet restore
@@ -1476,12 +1545,13 @@ jobs:
     if: (!(cancelled() || failure()) && needs.deployment-gate.result == 'success' && github.event.ref == 'refs/heads/master' && contains(github.event.head_commit.message, '[TGSDeploy]'))
     steps:
     - name: Setup dotnet
-      uses: actions/setup-dotnet@v2
+      uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: ${{ env.TGS_DOTNET_VERSION }}
+        dotnet-version: '${{ env.TGS_DOTNET_VERSION }}.0.x'
+        dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
 
     - name: Checkout
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     - name: Restore
       run: dotnet restore
@@ -1636,7 +1706,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.DEV_PUSH_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./swagger/swagger.json
+        asset_path: ./swagger/tgs_api.json
         asset_name: swagger.json
         asset_content_type: application/json
 
@@ -1687,12 +1757,13 @@ jobs:
     if: (!(cancelled() || failure()) && needs.deploy-tgs.result == 'success')
     steps:
     - name: Setup dotnet
-      uses: actions/setup-dotnet@v2
+      uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: ${{ env.TGS_DOTNET_VERSION }}
+        dotnet-version: '${{ env.TGS_DOTNET_VERSION }}.0.x'
+        dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
 
     - name: Checkout
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     - name: Restore
       run: dotnet restore
@@ -1731,7 +1802,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     - name: Parse TGS version
       run: |
@@ -1755,7 +1826,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     - name: Parse TGS version
       run: |
@@ -1774,9 +1845,10 @@ jobs:
     runs-on: windows-latest
     steps:
     - name: Setup dotnet
-      uses: actions/setup-dotnet@v2
+      uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: ${{ env.TGS_DOTNET_VERSION }}
+        dotnet-version: '${{ env.TGS_DOTNET_VERSION }}.0.x'
+        dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
 
     - name: Install winget
       uses: Cyberboss/install-winget@v1
@@ -1787,7 +1859,7 @@ jobs:
       run: winget install wingetcreate --version 1.2.8.0 --disable-interactivity --accept-source-agreements # Pinned due to breaking every other version
 
     - name: Checkout
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     - name: Build ReleaseNotes
       run: dotnet build -c Release -p:TGS_HOST_NO_WEBPANEL=true tools/Tgstation.Server.ReleaseNotes

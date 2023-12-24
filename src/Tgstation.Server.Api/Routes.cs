@@ -8,19 +8,19 @@ namespace Tgstation.Server.Api
 	public static class Routes
 	{
 		/// <summary>
-		/// The root controller.
+		/// The root of API methods.
 		/// </summary>
-		public const string Root = "/";
+		public const string ApiRoot = "/api/";
 
 		/// <summary>
 		/// The root route of all hubs.
 		/// </summary>
-		public const string HubsRoot = Root + "hubs";
+		public const string HubsRoot = ApiRoot + "hubs";
 
 		/// <summary>
 		/// The server administration controller.
 		/// </summary>
-		public const string Administration = Root + "Administration";
+		public const string Administration = ApiRoot + "Administration";
 
 		/// <summary>
 		/// The endpoint to download server logs.
@@ -30,32 +30,32 @@ namespace Tgstation.Server.Api
 		/// <summary>
 		/// The user controller.
 		/// </summary>
-		public const string User = Root + "User";
+		public const string User = ApiRoot + "User";
 
 		/// <summary>
 		/// The user group controller.
 		/// </summary>
-		public const string UserGroup = Root + "UserGroup";
+		public const string UserGroup = ApiRoot + "UserGroup";
 
 		/// <summary>
 		/// The <see cref="Models.Instance"/> controller.
 		/// </summary>
-		public const string InstanceManager = Root + "Instance";
+		public const string InstanceManager = ApiRoot + "Instance";
 
 		/// <summary>
-		/// The BYOND controller.
+		/// The engine controller.
 		/// </summary>
-		public const string Byond = Root + "Byond";
+		public const string Engine = ApiRoot + "Engine";
 
 		/// <summary>
 		/// The git repository controller.
 		/// </summary>
-		public const string Repository = Root + "Repository";
+		public const string Repository = ApiRoot + "Repository";
 
 		/// <summary>
 		/// The DreamDaemon controller.
 		/// </summary>
-		public const string DreamDaemon = Root + "DreamDaemon";
+		public const string DreamDaemon = ApiRoot + "DreamDaemon";
 
 		/// <summary>
 		/// For accessing DD diagnostics.
@@ -65,7 +65,7 @@ namespace Tgstation.Server.Api
 		/// <summary>
 		/// The configuration controller.
 		/// </summary>
-		public const string Configuration = Root + "Config";
+		public const string Configuration = ApiRoot + "Config";
 
 		/// <summary>
 		/// To be paired with <see cref="Configuration"/> for accessing <see cref="Models.IConfigurationFile"/>s.
@@ -80,27 +80,27 @@ namespace Tgstation.Server.Api
 		/// <summary>
 		/// The instance permission set controller.
 		/// </summary>
-		public const string InstancePermissionSet = Root + "InstancePermissionSet";
+		public const string InstancePermissionSet = ApiRoot + "InstancePermissionSet";
 
 		/// <summary>
 		/// The chat bot controller.
 		/// </summary>
-		public const string Chat = Root + "Chat";
+		public const string Chat = ApiRoot + "Chat";
 
 		/// <summary>
 		/// The deployment controller.
 		/// </summary>
-		public const string DreamMaker = Root + "DreamMaker";
+		public const string DreamMaker = ApiRoot + "DreamMaker";
 
 		/// <summary>
 		/// The jobs controller.
 		/// </summary>
-		public const string Jobs = Root + "Job";
+		public const string Jobs = ApiRoot + "Job";
 
 		/// <summary>
 		/// The transfer controller.
 		/// </summary>
-		public const string Transfer = Root + "Transfer";
+		public const string Transfer = ApiRoot + "Transfer";
 
 		/// <summary>
 		/// The postfix for list operations.
@@ -134,8 +134,7 @@ namespace Tgstation.Server.Api
 		/// <returns>The sanitized path.</returns>
 		public static string SanitizeGetPath(string path)
 		{
-			if (path == null)
-				path = String.Empty;
+			path ??= String.Empty;
 			if (path.Length == 0 || path[0] != '/')
 				path = '/' + path;
 			return path;

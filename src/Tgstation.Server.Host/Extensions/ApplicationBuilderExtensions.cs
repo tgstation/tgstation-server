@@ -132,11 +132,8 @@ namespace Tgstation.Server.Host.Extensions
 				var apiHeadersProvider = context.RequestServices.GetRequiredService<IApiHeadersProvider>();
 				if (apiHeadersProvider.ApiHeaders?.Compatible() == false)
 				{
-					await new JsonResult(
+					await new BadRequestObjectResult(
 						new ErrorMessageResponse(ErrorCode.ApiMismatch))
-					{
-						StatusCode = (int)HttpStatusCode.UpgradeRequired,
-					}
 					.ExecuteResultAsync(new ActionContext
 					{
 						HttpContext = context,

@@ -18,10 +18,10 @@ namespace Tgstation.Server.Host.Components.Interop.Bridge
 		/// <summary>
 		/// Backing field for <see cref="TargetCommitSha"/> needed to continue to support DMAPI 5.
 		/// </summary>
-		public string PullRequestRevision { get; set; }
+		public string? PullRequestRevision { get; set; }
 
 		/// <inheritdoc />
-		public override string TargetCommitSha
+		public override string? TargetCommitSha
 		{
 			get => PullRequestRevision;
 			set => PullRequestRevision = value;

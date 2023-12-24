@@ -36,7 +36,7 @@ namespace Tgstation.Server.Api.Models
 		IOError,
 
 		/// <summary>
-		/// The <see cref="ApiHeaders"/> failed to validate!
+		/// The <see cref="ApiHeaders"/> failed to validate.
 		/// </summary>
 		[Description("A header validation error occurred!")]
 		BadHeaders,
@@ -150,10 +150,10 @@ namespace Tgstation.Server.Api.Models
 		InstanceLimitReached,
 
 		/// <summary>
-		/// Attempted to create an <see cref="Instance"/> with a whitespace <see cref="NamedEntity.Name"/>.
+		/// Attempted to create an <see cref="Instance"/> with a whitespace <see cref="NamedEntity.Name"/> or <see cref="Instance.Path"/>.
 		/// </summary>
-		[Description("Instance names cannot be whitespace!")]
-		InstanceWhitespaceName,
+		[Description("Instance names and paths cannot be whitespace!")]
+		InstanceWhitespaceNameOrPath,
 
 		/// <summary>
 		/// The <see cref="ApiHeaders.InstanceIdHeader"/> header was required but not set.
@@ -228,10 +228,10 @@ namespace Tgstation.Server.Api.Models
 		RepoMismatchShaAndUpdate,
 
 		/// <summary>
-		/// Could not delete a BYOND version due to it being set as the active version for the instance.
+		/// Could not delete a engine version due to it being set as the active version for the instance.
 		/// </summary>
-		[Description("Could not delete BYOND version due to it being selected as the instance's active version.")]
-		ByondCannotDeleteActiveVersion,
+		[Description("Could not delete engine version due to it being selected as the instance's active version.")]
+		EngineCannotDeleteActiveVersion,
 
 		/// <summary>
 		/// <see cref="Request.RepositoryUpdateRequest.NewTestMerges"/> contained duplicate <see cref="TestMergeParameters.Number"/>s.
@@ -312,28 +312,28 @@ namespace Tgstation.Server.Api.Models
 		ByondDirectXInstallFail,
 
 		/// <summary>
-		/// Failed to download a given BYOND version.
+		/// Failed to download a given engine version.
 		/// </summary>
-		[Description("Error downloading specified BYOND version!")]
-		ByondDownloadFail,
+		[Description("Error downloading specified engine version!")]
+		EngineDownloadFail,
 
 		/// <summary>
-		/// Failed to lock BYOND executables.
+		/// Failed to lock engine executables.
 		/// </summary>
-		[Description("Could not acquire lock on BYOND installation as none exist!")]
-		ByondNoVersionsInstalled,
+		[Description("Could not acquire lock on engine installation as none exist!")]
+		EngineNoVersionsInstalled,
 
 		/// <summary>
-		/// The DMAPI never validated itself
+		/// The DMAPI never validated itself.
 		/// </summary>
 		[Description("DMAPI validation failed! See FAQ at https://github.com/tgstation/tgstation-server/discussions/1695")]
-		DreamMakerNeverValidated,
+		DeploymentNeverValidated,
 
 		/// <summary>
 		/// The DMAPI sent an invalid validation request.
 		/// </summary>
 		[Description("The DMAPI sent an invalid validation request!")]
-		DreamMakerInvalidValidation,
+		DeploymentInvalidValidation,
 
 		/// <summary>
 		/// Tried to remove the last <see cref="OAuthConnection"/> for a passwordless user.
@@ -345,25 +345,25 @@ namespace Tgstation.Server.Api.Models
 		/// No .dme could be found for deployment.
 		/// </summary>
 		[Description("No .dme configured and could not automatically detect one!")]
-		DreamMakerNoDme,
+		DeploymentNoDme,
 
 		/// <summary>
 		/// The configured .dme could not be found.
 		/// </summary>
 		[Description("Could not load configured .dme!")]
-		DreamMakerMissingDme,
+		DeploymentMissingDme,
 
 		/// <summary>
-		/// DreamMaker failed to compile.
+		/// Compiler failed to compile.
 		/// </summary>
-		[Description("DreamMaker exited with a non-zero exit code!")]
-		DreamMakerExitCode,
+		[Description("Compiler exited with a non-zero exit code!")]
+		DeploymentExitCode,
 
 		/// <summary>
-		/// Deployment already in progress
+		/// Deployment already in progress.
 		/// </summary>
 		[Description("There is already a deployment operation in progress!")]
-		DreamMakerCompileJobInProgress,
+		DeploymentInProgress,
 
 		/// <summary>
 		/// Missing <see cref="Internal.DreamDaemonSettings"/> in database.
@@ -420,15 +420,15 @@ namespace Tgstation.Server.Api.Models
 		WatchdogCompileJobCorrupted,
 
 		/// <summary>
-		/// DreamDaemon exited before it finished starting.
+		/// Game server exited before it finished starting.
 		/// </summary>
-		[Description("DreamDaemon failed to start!")]
+		[Description("Game server failed to start!")]
 		WatchdogStartupFailed,
 
 		/// <summary>
-		/// DreamDaemon timed-out before it finished starting.
+		/// Game server timed-out before it finished starting.
 		/// </summary>
-		[Description("DreamDaemon failed to start within the configured timeout!")]
+		[Description("Game server failed to start within the configured timeout!")]
 		WatchdogStartupTimeout,
 
 		/// <summary>
@@ -468,22 +468,22 @@ namespace Tgstation.Server.Api.Models
 		InstanceNotAtWhitelistedPath,
 
 		/// <summary>
-		/// Attempted to make a DreamDaemon update with both <see cref="Internal.DreamDaemonApiBase.SoftRestart"/> and <see cref="Internal.DreamDaemonApiBase.SoftShutdown"/> set.
+		/// Attempted to make a game server update with both <see cref="Internal.DreamDaemonApiBase.SoftRestart"/> and <see cref="Internal.DreamDaemonApiBase.SoftShutdown"/> set.
 		/// </summary>
 		[Description("Cannot set both softShutdown and softReboot at once!")]
-		DreamDaemonDoubleSoft,
+		GameServerDoubleSoft,
 
 		/// <summary>
 		/// Attempted to launch DreamDaemon on a user account that had the BYOND pager running.
 		/// </summary>
 		[Description("Cannot start DreamDaemon headless with the BYOND pager running!")]
-		DeploymentPagerRunning,
+		DreamDaemonPagerRunning,
 
 		/// <summary>
-		/// Could not bind to port we wanted to launch DreamDaemon on.
+		/// Could not bind to port we wanted to launch the game server on.
 		/// </summary>
-		[Description("Could not bind to requested DreamDaemon port! Is there another service running on that port?")]
-		DreamDaemonPortInUse,
+		[Description("Could not bind to requested game server port! Is there another service running on that port?")]
+		GameServerPortInUse,
 
 		/// <summary>
 		/// Failed to post GitHub comments, or send TGS event.
@@ -540,16 +540,16 @@ namespace Tgstation.Server.Api.Models
 		RepoTestMergeInvalidRemote,
 
 		/// <summary>
-		/// Attempted to switch to a custom BYOND version that does not exist.
+		/// Attempted to switch to a custom engine version that does not exist.
 		/// </summary>
-		[Description("Cannot switch to requested custom BYOND version as it is not currently installed.")]
-		ByondNonExistentCustomVersion,
+		[Description("Cannot switch to requested custom engine version as it is not currently installed.")]
+		EngineNonExistentCustomVersion,
 
 		/// <summary>
-		/// Attempted to perform an operation that requires DreamDaemon (not the watchdog) to be running but it wasn't.
+		/// Attempted to perform an operation that requires server (not the watchdog) to be running but it wasn't.
 		/// </summary>
-		[Description("Cannot perform this operation as DreamDaemon is not currently running!")]
-		DreamDaemonOffline,
+		[Description("Cannot perform this operation as the game server is not currently running!")]
+		GameServerOffline,
 
 		/// <summary>
 		/// Attempted to perform an instance operation with an offline instance.
@@ -566,8 +566,8 @@ namespace Tgstation.Server.Api.Models
 		/// <summary>
 		/// Attempt to add DreamDaemon to the list of firewall exempt processes failed.
 		/// </summary>
-		[Description("Failed to allow DreamDaemon through the Windows firewall!")]
-		ByondDreamDaemonFirewallFail,
+		[Description("Failed to allow game server through the Windows firewall!")]
+		EngineFirewallFail,
 
 		/// <summary>
 		/// Attempted to create an instance but no free ports could be found.
@@ -600,7 +600,7 @@ namespace Tgstation.Server.Api.Models
 		FileUploadExpired,
 
 		/// <summary>
-		/// Tried to update a user to have both a <see cref="Internal.UserApiBase.Group"/> and <see cref="Internal.UserApiBase.PermissionSet"/>
+		/// Tried to update a user to have both a <see cref="Internal.UserApiBase.Group"/> and <see cref="Internal.UserApiBase.PermissionSet"/>.
 		/// </summary>
 		[Description("A user may not have both a permissionSet and group!")]
 		UserGroupAndPermissionSet,
@@ -634,5 +634,17 @@ namespace Tgstation.Server.Api.Models
 		/// </summary>
 		[Description("Could not send broadcast to the DMAPI. This can happen either due to there being an insufficient DMAPI version, a communication failure, or the server being offline.")]
 		BroadcastFailure,
+
+		/// <summary>
+		/// Could not compile OpenDream due to a missing dotnet executable.
+		/// </summary>
+		[Description("OpenDream could not be compiled due to being unable to locate the dotnet executable!")]
+		OpenDreamCantFindDotnet,
+
+		/// <summary>
+		/// Could not install OpenDream due to it not meeting the minimum version requirements.
+		/// </summary>
+		[Description("The specified OpenDream version is too old!")]
+		OpenDreamTooOld,
 	}
 }

@@ -37,7 +37,7 @@ namespace Tgstation.Server.Client
 		/// PATCH <see cref="HttpMethod"/>.
 		/// </summary>
 		/// <remarks>HOW IS THIS NOT INCLUDED IN THE FRAMEWORK??!?!?</remarks>
-		static readonly HttpMethod HttpPatch = new ("PATCH");
+		static readonly HttpMethod HttpPatch = new("PATCH");
 
 		/// <inheritdoc />
 		public Uri Url { get; }
@@ -59,7 +59,7 @@ namespace Tgstation.Server.Client
 		/// <summary>
 		/// The <see cref="JsonSerializerSettings"/> to use.
 		/// </summary>
-		static readonly JsonSerializerSettings SerializerSettings = new ()
+		static readonly JsonSerializerSettings SerializerSettings = new()
 		{
 			ContractResolver = new CamelCasePropertyNamesContractResolver(),
 			Converters = new[]
@@ -126,13 +126,9 @@ namespace Tgstation.Server.Client
 			}
 
 #pragma warning disable IDE0010 // Add missing cases
-#pragma warning disable IDE0066 // Convert switch statement to expression
 			switch (response.StatusCode)
-#pragma warning restore IDE0066 // Convert switch statement to expression
 #pragma warning restore IDE0010 // Add missing cases
 			{
-				case HttpStatusCode.UpgradeRequired:
-					throw new VersionMismatchException(errorMessage, response);
 				case HttpStatusCode.Unauthorized:
 					throw new UnauthorizedException(errorMessage, response);
 				case HttpStatusCode.InternalServerError:
@@ -154,6 +150,9 @@ namespace Tgstation.Server.Client
 				case (HttpStatusCode)429:
 					throw new RateLimitException(errorMessage, response);
 				default:
+					if (errorMessage?.ErrorCode == ErrorCode.ApiMismatch)
+						throw new VersionMismatchException(errorMessage, response);
+
 					throw new ApiConflictException(errorMessage, response);
 			}
 		}
@@ -309,9 +308,7 @@ namespace Tgstation.Server.Client
 
 			using (memoryStream)
 			{
-#pragma warning disable CA2000 // Dispose objects before losing scope
 				var streamContent = new StreamContent(uploadStream ?? memoryStream);
-#pragma warning restore CA2000 // Dispose objects before losing scope
 				try
 				{
 					await RunRequest<object>(
@@ -348,7 +345,7 @@ namespace Tgstation.Server.Client
 				if (startingToken != headers.Token)
 					return true;
 
-				var token = await RunRequest<object, TokenResponse>(Routes.Root, new object(), HttpMethod.Post, null, true, cancellationToken).ConfigureAwait(false);
+				var token = await RunRequest<object, TokenResponse>(Routes.ApiRoot, new object(), HttpMethod.Post, null, true, cancellationToken).ConfigureAwait(false);
 				headers = new ApiHeaders(headers.UserAgent!, token);
 			}
 			finally
@@ -506,25 +503,14 @@ namespace Tgstation.Server.Client
 						var bearer = headersToUse.Token?.Bearer;
 						if (bearer != null)
 						{
-							try
+							var parsed = headersToUse.Token!.ParseJwt();
+							var nbf = parsed.ValidFrom;
+							var now = DateTime.UtcNow;
+							if (nbf >= now)
 							{
-								var parsed = headersToUse.Token!.ParseJwt();
-								var nbf = parsed.ValidFrom;
-								var now = DateTime.UtcNow;
-								if (nbf >= now)
-								{
-									var delay = (nbf - now).Add(TimeSpan.FromMilliseconds(1));
-									await Task.Delay(delay, cancellationToken);
-								}
+								var delay = (nbf - now).Add(TimeSpan.FromMilliseconds(1));
+								await Task.Delay(delay, cancellationToken);
 							}
-							catch (ArgumentException ex) when (ex is not ArgumentNullException)
-							{
-								// backwards compat, API <=9 put out invalid JWTs, remove in API 10
-							}
-#if DEBUG
-							if (ApiHeaders.Version.Major > 9)
-								throw new NotImplementedException();
-#endif
 						}
 					}
 

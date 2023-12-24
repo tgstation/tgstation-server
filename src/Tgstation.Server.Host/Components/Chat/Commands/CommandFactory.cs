@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 
-using Tgstation.Server.Host.Components.Byond;
 using Tgstation.Server.Host.Components.Deployment;
+using Tgstation.Server.Host.Components.Engine;
 using Tgstation.Server.Host.Components.Repository;
 using Tgstation.Server.Host.Components.Watchdog;
 using Tgstation.Server.Host.Database;
@@ -19,9 +19,9 @@ namespace Tgstation.Server.Host.Components.Chat.Commands
 		readonly IAssemblyInformationProvider assemblyInformationProvider;
 
 		/// <summary>
-		/// The <see cref="IByondManager"/> for the <see cref="CommandFactory"/>.
+		/// The <see cref="IEngineManager"/> for the <see cref="CommandFactory"/>.
 		/// </summary>
-		readonly IByondManager byondManager;
+		readonly IEngineManager engineManager;
 
 		/// <summary>
 		/// The <see cref="IRepositoryManager"/> for the <see cref="CommandFactory"/>.
@@ -46,27 +46,27 @@ namespace Tgstation.Server.Host.Components.Chat.Commands
 		/// <summary>
 		/// The <see cref="IWatchdog"/> for the <see cref="CommandFactory"/>.
 		/// </summary>
-		IWatchdog watchdog;
+		IWatchdog? watchdog;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="CommandFactory"/> class.
 		/// </summary>
 		/// <param name="assemblyInformationProvider">The value of <see cref="assemblyInformationProvider"/>.</param>
-		/// <param name="byondManager">The value of <see cref="byondManager"/>.</param>
+		/// <param name="engineManager">The value of <see cref="engineManager"/>.</param>
 		/// <param name="repositoryManager">The value of <see cref="repositoryManager"/>.</param>
 		/// <param name="databaseContextFactory">The value of <see cref="databaseContextFactory"/>.</param>
 		/// <param name="compileJobProvider">The value of <see cref="compileJobProvider"/>.</param>
 		/// <param name="instance">The value of <see cref="instance"/>.</param>
 		public CommandFactory(
 			IAssemblyInformationProvider assemblyInformationProvider,
-			IByondManager byondManager,
+			IEngineManager engineManager,
 			IRepositoryManager repositoryManager,
 			IDatabaseContextFactory databaseContextFactory,
 			ILatestCompileJobProvider compileJobProvider,
 			Models.Instance instance)
 		{
 			this.assemblyInformationProvider = assemblyInformationProvider ?? throw new ArgumentNullException(nameof(assemblyInformationProvider));
-			this.byondManager = byondManager ?? throw new ArgumentNullException(nameof(byondManager));
+			this.engineManager = engineManager ?? throw new ArgumentNullException(nameof(engineManager));
 			this.repositoryManager = repositoryManager ?? throw new ArgumentNullException(nameof(repositoryManager));
 			this.databaseContextFactory = databaseContextFactory ?? throw new ArgumentNullException(nameof(databaseContextFactory));
 			this.compileJobProvider = compileJobProvider ?? throw new ArgumentNullException(nameof(compileJobProvider));
@@ -92,7 +92,7 @@ namespace Tgstation.Server.Host.Components.Chat.Commands
 			return new List<ICommand>
 			{
 				new VersionCommand(assemblyInformationProvider),
-				new ByondCommand(byondManager, watchdog),
+				new EngineCommand(engineManager, watchdog),
 				new RevisionCommand(watchdog, repositoryManager),
 				new PullRequestsCommand(watchdog, repositoryManager, databaseContextFactory, compileJobProvider, instance),
 				new KekCommand(),

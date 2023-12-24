@@ -51,7 +51,12 @@ namespace Tgstation.Server.Host.System
 		/// <summary>
 		/// The <see cref="Task{TResult}"/> resulting in the process' standard output/error text.
 		/// </summary>
-		readonly Task<string> readTask;
+		readonly Task<string?>? readTask;
+
+		/// <summary>
+		/// If the <see cref="Process"/> was disposed.
+		/// </summary>
+		volatile int disposed;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="Process"/> class.
@@ -65,8 +70,8 @@ namespace Tgstation.Server.Host.System
 		public Process(
 			IProcessFeatures processFeatures,
 			global::System.Diagnostics.Process handle,
-			CancellationTokenSource readerCts,
-			Task<string> readTask,
+			CancellationTokenSource? readerCts,
+			Task<string?>? readTask,
 			ILogger<Process> logger,
 			bool preExisting)
 		{
@@ -114,6 +119,9 @@ namespace Tgstation.Server.Host.System
 		/// <inheritdoc />
 		public async ValueTask DisposeAsync()
 		{
+			if (Interlocked.Exchange(ref disposed, 1) != 0)
+				return;
+
 			logger.LogTrace("Disposing PID {pid}...", Id);
 			cancellationTokenSource.Cancel();
 			cancellationTokenSource.Dispose();
@@ -127,7 +135,7 @@ namespace Tgstation.Server.Host.System
 		}
 
 		/// <inheritdoc />
-		public Task<string> GetCombinedOutput(CancellationToken cancellationToken)
+		public Task<string?> GetCombinedOutput(CancellationToken cancellationToken)
 		{
 			if (readTask == null)
 				throw new InvalidOperationException("Output/Error stream reading was not enabled!");
@@ -138,6 +146,7 @@ namespace Tgstation.Server.Host.System
 		/// <inheritdoc />
 		public void Terminate()
 		{
+			CheckDisposed();
 			if (handle.HasExited)
 			{
 				logger.LogTrace("PID {pid} already exited", Id);
@@ -160,6 +169,7 @@ namespace Tgstation.Server.Host.System
 		/// <inheritdoc />
 		public void AdjustPriority(bool higher)
 		{
+			CheckDisposed();
 			var targetPriority = higher ? ProcessPriorityClass.AboveNormal : ProcessPriorityClass.BelowNormal;
 			try
 			{
@@ -173,8 +183,9 @@ namespace Tgstation.Server.Host.System
 		}
 
 		/// <inheritdoc />
-		public void Suspend()
+		public void SuspendProcess()
 		{
+			CheckDisposed();
 			try
 			{
 				processFeatures.SuspendProcess(handle);
@@ -188,8 +199,9 @@ namespace Tgstation.Server.Host.System
 		}
 
 		/// <inheritdoc />
-		public void Resume()
+		public void ResumeProcess()
 		{
+			CheckDisposed();
 			try
 			{
 				processFeatures.ResumeProcess(handle);
@@ -205,6 +217,7 @@ namespace Tgstation.Server.Host.System
 		/// <inheritdoc />
 		public string GetExecutingUsername()
 		{
+			CheckDisposed();
 			var result = processFeatures.GetExecutingUsername(handle);
 			logger.LogTrace("PID {pid} Username: {username}", Id, result);
 			return result;
@@ -214,6 +227,7 @@ namespace Tgstation.Server.Host.System
 		public ValueTask CreateDump(string outputFile, CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(outputFile);
+			CheckDisposed();
 
 			logger.LogTrace("Dumping PID {pid} to {dumpFilePath}...", Id, outputFile);
 			return processFeatures.CreateDump(handle, outputFile, cancellationToken);
@@ -225,18 +239,29 @@ namespace Tgstation.Server.Host.System
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="global::System.Diagnostics.Process.ExitCode"/> or <see langword="null"/> if the process was detached.</returns>
 		async Task<int?> WrapLifetimeTask()
 		{
+			bool hasExited;
 			try
 			{
 				await handle.WaitForExitAsync(cancellationTokenSource.Token);
-				var exitCode = handle.ExitCode;
-				logger.LogTrace("PID {pid} exited with code {exitCode}", Id, exitCode);
-				return exitCode;
+				hasExited = true;
 			}
 			catch (OperationCanceledException ex)
 			{
 				logger.LogTrace(ex, "Process lifetime task cancelled!");
-				return null;
+				hasExited = handle.HasExited;
 			}
+
+			if (!hasExited)
+				return null;
+
+			var exitCode = handle.ExitCode;
+			logger.LogTrace("PID {pid} exited with code {exitCode}", Id, exitCode);
+			return exitCode;
 		}
+
+		/// <summary>
+		/// Throws an <see cref="ObjectDisposedException"/> if a method of the <see cref="Process"/> was called after <see cref="DisposeAsync"/>.
+		/// </summary>
+		void CheckDisposed() => ObjectDisposedException.ThrowIf(disposed != 0, this);
 	}
 }

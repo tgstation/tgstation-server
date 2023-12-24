@@ -21,6 +21,7 @@ using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Jobs;
+using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.Security;
 using Tgstation.Server.Host.Swarm;
 using Tgstation.Server.Host.System;
@@ -95,6 +96,11 @@ namespace Tgstation.Server.Host.Components
 		readonly IConsole console;
 
 		/// <summary>
+		/// The <see cref="IPlatformIdentifier"/> for the <see cref="InstanceManager"/>.
+		/// </summary>
+		readonly IPlatformIdentifier platformIdentifier;
+
+		/// <summary>
 		/// The <see cref="ILogger"/> for the <see cref="InstanceManager"/>.
 		/// </summary>
 		readonly ILogger<InstanceManager> logger;
@@ -110,7 +116,7 @@ namespace Tgstation.Server.Host.Components
 		readonly Dictionary<string, IBridgeHandler> bridgeHandlers;
 
 		/// <summary>
-		/// <see cref="SemaphoreSlim"/> used to guard calls to <see cref="OnlineInstance(Models.Instance, CancellationToken)"/> and <see cref="OfflineInstance(Models.Instance, Models.User, CancellationToken)"/>.
+		/// <see cref="SemaphoreSlim"/> used to guard calls to <see cref="OnlineInstance(Models.Instance, CancellationToken)"/> and <see cref="OfflineInstance(Models.Instance, User, CancellationToken)"/>.
 		/// </summary>
 		readonly SemaphoreSlim instanceStateChangeSemaphore;
 
@@ -142,12 +148,12 @@ namespace Tgstation.Server.Host.Components
 		/// <summary>
 		/// The original <see cref="IConsole.Title"/> of <see cref="console"/>.
 		/// </summary>
-		readonly string originalConsoleTitle;
+		readonly string? originalConsoleTitle;
 
 		/// <summary>
 		/// The <see cref="Task"/> returned by <see cref="Initialize(CancellationToken)"/>.
 		/// </summary>
-		Task startupTask;
+		Task? startupTask;
 
 		/// <summary>
 		/// If the <see cref="InstanceManager"/> has been <see cref="DisposeAsync"/>'d.
@@ -168,6 +174,7 @@ namespace Tgstation.Server.Host.Components
 		/// <param name="serverPortProvider">The value of <see cref="serverPortProvider"/>.</param>
 		/// <param name="swarmServiceController">The value of <see cref="swarmServiceController"/>.</param>
 		/// <param name="console">The value of <see cref="console"/>.</param>
+		/// <param name="platformIdentifier">The value of <see cref="platformIdentifier"/>.</param>
 		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="generalConfiguration"/>.</param>
 		/// <param name="swarmConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="swarmConfiguration"/>.</param>
 		/// <param name="logger">The value of <see cref="logger"/>.</param>
@@ -183,6 +190,7 @@ namespace Tgstation.Server.Host.Components
 			IServerPortProvider serverPortProvider,
 			ISwarmServiceController swarmServiceController,
 			IConsole console,
+			IPlatformIdentifier platformIdentifier,
 			IOptions<GeneralConfiguration> generalConfigurationOptions,
 			IOptions<SwarmConfiguration> swarmConfigurationOptions,
 			ILogger<InstanceManager> logger)
@@ -198,6 +206,7 @@ namespace Tgstation.Server.Host.Components
 			this.serverPortProvider = serverPortProvider ?? throw new ArgumentNullException(nameof(serverPortProvider));
 			this.swarmServiceController = swarmServiceController ?? throw new ArgumentNullException(nameof(swarmServiceController));
 			this.console = console ?? throw new ArgumentNullException(nameof(console));
+			this.platformIdentifier = platformIdentifier ?? throw new ArgumentNullException(nameof(platformIdentifier));
 			generalConfiguration = generalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
 			swarmConfiguration = swarmConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(swarmConfigurationOptions));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
@@ -233,13 +242,13 @@ namespace Tgstation.Server.Host.Components
 		}
 
 		/// <inheritdoc />
-		public IInstanceReference GetInstanceReference(Api.Models.Instance metadata)
+		public IInstanceReference? GetInstanceReference(Api.Models.Instance metadata)
 		{
 			ArgumentNullException.ThrowIfNull(metadata);
 
 			lock (instances)
 			{
-				if (!instances.TryGetValue(metadata.Id.Value, out var instance))
+				if (!instances.TryGetValue(metadata.Require(x => x.Id), out var instance))
 					return null;
 
 				return instance.AddReference();
@@ -255,7 +264,7 @@ namespace Tgstation.Server.Host.Components
 			using var instanceReferenceCheck = GetInstanceReference(instance);
 			if (instanceReferenceCheck != null)
 				throw new InvalidOperationException("Cannot move an online instance!");
-			var newPath = instance.Path;
+			var newPath = instance.Path!;
 			try
 			{
 				await ioManager.MoveDirectory(oldPath, newPath, cancellationToken);
@@ -318,22 +327,23 @@ namespace Tgstation.Server.Host.Components
 		}
 
 		/// <inheritdoc />
-		public async ValueTask OfflineInstance(Models.Instance metadata, Models.User user, CancellationToken cancellationToken)
+		public async ValueTask OfflineInstance(Models.Instance metadata, User user, CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(metadata);
 
 			using (await SemaphoreSlimContext.Lock(instanceStateChangeSemaphore, cancellationToken))
 			{
-				ReferenceCountingContainer<IInstance, InstanceWrapper> container;
+				ReferenceCountingContainer<IInstance, InstanceWrapper>? container;
+				var instanceId = metadata.Require(x => x.Id);
 				lock (instances)
 				{
-					if (!instances.TryGetValue(metadata.Id.Value, out container))
+					if (!instances.TryGetValue(instanceId, out container))
 					{
 						logger.LogDebug("Not offlining removed instance {instanceId}", metadata.Id);
 						return;
 					}
 
-					instances.Remove(metadata.Id.Value);
+					instances.Remove(instanceId);
 				}
 
 				logger.LogInformation("Offlining instance ID {instanceId}", metadata.Id);
@@ -343,27 +353,29 @@ namespace Tgstation.Server.Host.Components
 					await container.OnZeroReferences.WaitAsync(cancellationToken);
 
 					// we are the one responsible for cancelling his jobs
-					var tasks = new List<ValueTask<Models.Job>>();
+					ValueTask<Job?[]> groupedTask = default;
 					await databaseContextFactory.UseContext(
 						async db =>
 						{
 							var jobs = await db
 								.Jobs
 								.AsQueryable()
-								.Where(x => x.Instance.Id == metadata.Id && !x.StoppedAt.HasValue)
-								.Select(x => new Models.Job(x.Id.Value))
+								.Where(x => x.Instance!.Id == metadata.Id && !x.StoppedAt.HasValue)
+								.Select(x => new Job(x.Id!.Value))
 								.ToListAsync(cancellationToken);
-							foreach (var job in jobs)
-								tasks.Add(jobService.CancelJob(job, user, true, cancellationToken));
+
+							groupedTask = ValueTaskExtensions.WhenAll(
+								jobs.Select(job => jobService.CancelJob(job, user, true, cancellationToken)),
+								jobs.Count);
 						});
 
-					await ValueTaskExtensions.WhenAll(tasks);
+					await groupedTask;
 				}
 				catch
 				{
 					// not too late to change your mind
 					lock (instances)
-						instances.Add(metadata.Id.Value, container);
+						instances.Add(instanceId, container);
 
 					throw;
 				}
@@ -385,9 +397,10 @@ namespace Tgstation.Server.Host.Components
 		{
 			ArgumentNullException.ThrowIfNull(metadata);
 
+			var instanceId = metadata.Require(x => x.Id);
 			using var lockContext = await SemaphoreSlimContext.Lock(instanceStateChangeSemaphore, cancellationToken);
 			lock (instances)
-				if (instances.ContainsKey(metadata.Id.Value))
+				if (instances.ContainsKey(instanceId))
 				{
 					logger.LogDebug("Aborting instance creation due to it seemingly already being online");
 					return;
@@ -403,7 +416,7 @@ namespace Tgstation.Server.Host.Components
 				{
 					lock (instances)
 						instances.Add(
-							metadata.Id.Value,
+							instanceId,
 							new ReferenceCountingContainer<IInstance, InstanceWrapper>(instance));
 				}
 				catch (Exception ex)
@@ -445,6 +458,12 @@ namespace Tgstation.Server.Host.Components
 				using (cancellationToken.Register(shutdownCancellationTokenSource.Cancel))
 					try
 					{
+						if (startupTask == null)
+						{
+							logger.LogWarning("InstanceManager was never started!");
+							return;
+						}
+
 						logger.LogDebug("Stopping instance manager...");
 
 						if (!startupTask.IsCompleted)
@@ -477,7 +496,7 @@ namespace Tgstation.Server.Host.Components
 					finally
 					{
 						if (originalConsoleTitle != null)
-							console.Title = originalConsoleTitle;
+							console.SetTitle(originalConsoleTitle);
 					}
 			}
 			catch (Exception ex)
@@ -487,18 +506,25 @@ namespace Tgstation.Server.Host.Components
 		}
 
 		/// <inheritdoc />
-		public async ValueTask<BridgeResponse> ProcessBridgeRequest(BridgeParameters parameters, CancellationToken cancellationToken)
+		public async ValueTask<BridgeResponse?> ProcessBridgeRequest(BridgeParameters parameters, CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(parameters);
 
-			IBridgeHandler bridgeHandler = null;
+			var accessIdentifier = parameters.AccessIdentifier;
+			if (accessIdentifier == null)
+			{
+				logger.LogWarning("Received invalid bridge request with null access identifier!");
+				return null;
+			}
+
+			IBridgeHandler? bridgeHandler = null;
 			for (var i = 0; bridgeHandler == null && i < 30; ++i)
 			{
 				// There's a miniscule time period where we could potentially receive a bridge request and not have the registration ready when we launch DD
 				// This is a stopgap
 				Task delayTask = Task.CompletedTask;
 				lock (bridgeHandlers)
-					if (!bridgeHandlers.TryGetValue(parameters.AccessIdentifier, out bridgeHandler))
+					if (!bridgeHandlers.TryGetValue(accessIdentifier, out bridgeHandler))
 						delayTask = asyncDelayer.Delay(TimeSpan.FromMilliseconds(100), cancellationToken);
 
 				await delayTask;
@@ -506,9 +532,9 @@ namespace Tgstation.Server.Host.Components
 
 			if (bridgeHandler == null)
 				lock (bridgeHandlers)
-					if (!bridgeHandlers.TryGetValue(parameters.AccessIdentifier, out bridgeHandler))
+					if (!bridgeHandlers.TryGetValue(accessIdentifier, out bridgeHandler))
 					{
-						logger.LogWarning("Recieved invalid bridge request with access identifier: {accessIdentifier}", parameters.AccessIdentifier);
+						logger.LogWarning("Received invalid bridge request with access identifier: {accessIdentifier}", accessIdentifier);
 						return null;
 					}
 
@@ -520,7 +546,8 @@ namespace Tgstation.Server.Host.Components
 		{
 			ArgumentNullException.ThrowIfNull(bridgeHandler);
 
-			var accessIdentifier = bridgeHandler.DMApiParameters.AccessIdentifier;
+			var accessIdentifier = bridgeHandler.DMApiParameters.AccessIdentifier
+				?? throw new InvalidOperationException("Attempted bridge registration with null AccessIdentifier!");
 			lock (bridgeHandlers)
 			{
 				bridgeHandlers.Add(accessIdentifier, bridgeHandler);
@@ -538,11 +565,11 @@ namespace Tgstation.Server.Host.Components
 		}
 
 		/// <inheritdoc />
-		public IInstanceCore GetInstance(Models.Instance metadata)
+		public IInstanceCore? GetInstance(Models.Instance metadata)
 		{
 			lock (instances)
 			{
-				instances.TryGetValue(metadata.Id.Value, out var container);
+				instances.TryGetValue(metadata.Require(x => x.Id), out var container);
 				return container?.Instance;
 			}
 		}
@@ -557,7 +584,7 @@ namespace Tgstation.Server.Host.Components
 			try
 			{
 				logger.LogInformation("{versionString}", assemblyInformationProvider.VersionString);
-				console.Title = assemblyInformationProvider.VersionString;
+				console.SetTitle(assemblyInformationProvider.VersionString);
 
 				CheckSystemCompatibility();
 
@@ -566,13 +593,13 @@ namespace Tgstation.Server.Host.Components
 
 				await InitializeSwarm(cancellationToken);
 
-				List<Models.Instance> dbInstances = null;
+				List<Models.Instance>? dbInstances = null;
 
 				async ValueTask EnumerateInstances(IDatabaseContext databaseContext)
 					=> dbInstances = await databaseContext
 						.Instances
 						.AsQueryable()
-						.Where(x => x.Online.Value && x.SwarmIdentifer == swarmConfiguration.Identifier)
+						.Where(x => x.Online!.Value && x.SwarmIdentifer == swarmConfiguration.Identifier)
 						.Include(x => x.RepositorySettings)
 						.Include(x => x.ChatSettings)
 							.ThenInclude(x => x.Channels)
@@ -586,7 +613,7 @@ namespace Tgstation.Server.Host.Components
 
 				await Task.WhenAll(instanceEnumeration.AsTask(), factoryStartup, jobManagerStartup);
 
-				var instanceOnliningTasks = dbInstances.Select(
+				var instanceOnliningTasks = dbInstances!.Select(
 					async metadata =>
 					{
 						try
@@ -601,10 +628,11 @@ namespace Tgstation.Server.Host.Components
 
 				await Task.WhenAll(instanceOnliningTasks);
 
-				jobService.Activate(this);
-
 				logger.LogInformation("Server ready!");
 				readyTcs.SetResult();
+
+				// this needs to happen after the HTTP API opens with readyTcs otherwise it can race and cause failed bridge requests with 503's
+				jobService.Activate(this);
 			}
 			catch (OperationCanceledException ex)
 			{
@@ -640,7 +668,7 @@ namespace Tgstation.Server.Host.Components
 
 			// This runs before the real socket is opened, ensures we don't perform reattaches unless we're fairly certain the bind won't fail
 			// If it does fail, DD will be killed.
-			SocketExtensions.BindTest(serverPortProvider.HttpApiPort, true);
+			SocketExtensions.BindTest(platformIdentifier, serverPortProvider.HttpApiPort, true, false);
 		}
 
 		/// <summary>

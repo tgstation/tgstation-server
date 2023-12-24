@@ -1,0 +1,27 @@
+@{
+    var title = Model.Title;
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>@title</title>
+        <style>
+        body {
+            background-color: #212529;
+            text-align: center;
+        }
+        </style>
+    </head>
+    <body>
+        <img src="logo.svg"/>
+        @{
+            if (Model.Links != null)
+                foreach (KeyValuePair<string, string> kvp in Model.Links)
+                {
+                    <h1>
+                        <a href="@kvp.Value">@kvp.Key</a>
+                    </h1>
+                }
+        }
+    </body>
+    </html>
+}

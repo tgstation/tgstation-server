@@ -34,7 +34,7 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
 		ValueTask StageDeployment(
 			CompileJob compileJob,
-			Action<bool> activationCallback,
+			Action<bool>? activationCallback,
 			CancellationToken cancellationToken);
 
 		/// <summary>
@@ -66,18 +66,18 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 		/// Post deployment comments to the test merge ticket.
 		/// </summary>
 		/// <param name="compileJob">The deployed <see cref="CompileJob"/>.</param>
-		/// <param name="previousRevisionInformation">The <see cref="RevisionInformation"/> of the previous deployment.</param>
+		/// <param name="previousRevisionInformation">The optional <see cref="RevisionInformation"/> of the previous deployment.</param>
 		/// <param name="repositorySettings">The <see cref="RepositorySettings"/>.</param>
-		/// <param name="repoOwner">The GitHub repostiory owner.</param>
-		/// <param name="repoName">The GitHub repostiory name.</param>
+		/// <param name="repoOwner">The remote repostiory owner.</param>
+		/// <param name="repoName">The remote repostiory name.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
 		ValueTask PostDeploymentComments(
 			CompileJob compileJob,
-			RevisionInformation previousRevisionInformation,
+			RevisionInformation? previousRevisionInformation,
 			RepositorySettings repositorySettings,
-			string repoOwner,
-			string repoName,
+			string? repoOwner,
+			string? repoName,
 			CancellationToken cancellationToken);
 
 		/// <summary>

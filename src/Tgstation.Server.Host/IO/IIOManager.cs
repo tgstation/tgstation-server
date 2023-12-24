@@ -56,8 +56,8 @@ namespace Tgstation.Server.Host.IO
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
 		ValueTask CopyDirectory(
-			IEnumerable<string> ignore,
-			Func<string, string, ValueTask> postCopyCallback,
+			IEnumerable<string>? ignore,
+			Func<string, string, ValueTask>? postCopyCallback,
 			string src,
 			string dest,
 			int? taskThrottle,
@@ -88,7 +88,7 @@ namespace Tgstation.Server.Host.IO
 		ValueTask<byte[]> ReadAllBytes(string path, CancellationToken cancellationToken);
 
 		/// <summary>
-		/// Returns directory names in a given <paramref name="path"/>.
+		/// Returns full directory names in a given <paramref name="path"/>.
 		/// </summary>
 		/// <param name="path">The path to search for directories.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
@@ -96,7 +96,7 @@ namespace Tgstation.Server.Host.IO
 		Task<IReadOnlyList<string>> GetDirectories(string path, CancellationToken cancellationToken);
 
 		/// <summary>
-		/// Returns file names in a given <paramref name="path"/>.
+		/// Returns full file names in a given <paramref name="path"/>.
 		/// </summary>
 		/// <param name="path">The path to search for files.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
@@ -133,6 +133,7 @@ namespace Tgstation.Server.Host.IO
 		/// </summary>
 		/// <param name="path">A path to check.</param>
 		/// <returns>The directory portion of the given <paramref name="path"/>.</returns>
+		/// <exception cref="InvalidOperationException">If <paramref name="path"/> is rooted.</exception>
 		string GetDirectoryName(string path);
 
 		/// <summary>

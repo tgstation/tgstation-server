@@ -16,7 +16,7 @@ namespace Tgstation.Server.Api.Models
 		/// <summary>
 		/// When the instance is being moved.
 		/// </summary>
-		[Description("Instance move")]
+		[Description("Move instance")]
 		Move,
 
 		/// <summary>
@@ -44,22 +44,22 @@ namespace Tgstation.Server.Api.Models
 		RepositoryDelete,
 
 		/// <summary>
-		/// When a new BYOND version is being installed.
+		/// When a new official engine version is being installed.
 		/// </summary>
-		[Description("Install BYOND version")]
-		ByondOfficialInstall,
+		[Description("Install engine version")]
+		EngineOfficialInstall,
 
 		/// <summary>
-		/// When a new BYOND version is being installed.
+		/// When a new custom engine version is being installed.
 		/// </summary>
-		[Description("Install custom BYOND version")]
-		ByondCustomInstall,
+		[Description("Install custom engine version")]
+		EngineCustomInstall,
 
 		/// <summary>
-		/// When an installed BYOND version is being deleted.
+		/// When an installed engine version is being deleted.
 		/// </summary>
-		[Description("Delete installed BYOND version")]
-		ByondDelete,
+		[Description("Delete installed engine version")]
+		EngineDelete,
 
 		/// <summary>
 		/// When a deployment is manually triggered.
@@ -76,7 +76,7 @@ namespace Tgstation.Server.Api.Models
 		/// <summary>
 		/// When the watchdog is started manually.
 		/// </summary>
-		[Description("Launch DreamDaemon")]
+		[Description("Launch Watchdog")]
 		WatchdogLaunch,
 
 		/// <summary>

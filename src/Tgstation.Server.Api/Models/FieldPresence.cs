@@ -6,7 +6,7 @@
 	public enum FieldPresence
 	{
 		/// <summary>
-		/// The field is optional
+		/// The field is optional.
 		/// </summary>
 		Optional,
 

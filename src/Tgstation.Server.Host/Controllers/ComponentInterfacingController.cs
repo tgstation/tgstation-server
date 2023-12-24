@@ -10,6 +10,7 @@ using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Response;
 using Tgstation.Server.Host.Components;
 using Tgstation.Server.Host.Database;
+using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.Security;
 using Tgstation.Server.Host.Utils;
 
@@ -63,21 +64,22 @@ namespace Tgstation.Server.Host.Controllers
 		}
 
 		/// <inheritdoc />
-		protected override async ValueTask<IActionResult> ValidateRequest(CancellationToken cancellationToken)
+		protected override async ValueTask<IActionResult?> ValidateRequest(CancellationToken cancellationToken)
 		{
 			if (!useInstanceRequestHeader)
 				return null;
 
-			if (!ApiHeaders.InstanceId.HasValue)
+			if (!ApiHeaders!.InstanceId.HasValue)
 				return BadRequest(new ErrorMessageResponse(ErrorCode.InstanceHeaderRequired));
 
 			if (AuthenticationContext.InstancePermissionSet == null)
 				return Forbid();
 
-			if (ValidateInstanceOnlineStatus(Instance))
+			var instance = Instance!;
+			if (ValidateInstanceOnlineStatus(instance))
 				await DatabaseContext.Save(cancellationToken);
 
-			using var instanceReferenceCheck = instanceManager.GetInstanceReference(Instance);
+			using var instanceReferenceCheck = instanceManager.GetInstanceReference(instance);
 			if (instanceReferenceCheck == null)
 				return Conflict(new ErrorMessageResponse(ErrorCode.InstanceOffline));
 
@@ -97,7 +99,7 @@ namespace Tgstation.Server.Host.Controllers
 			using (var instanceReferenceCheck = instanceManager.GetInstanceReference(metadata))
 				online = instanceReferenceCheck != null;
 
-			if (metadata.Online.Value == online)
+			if (metadata.Require(x => x.Online) == online)
 				return false;
 
 			const string OfflineWord = "offline";
@@ -120,19 +122,29 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="instance">The <see cref="Models.Instance"/> to grab. If <see langword="null"/>, <see cref="ApiController.Instance"/> will be used.</param>
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="IActionResult"/> that should be returned.</returns>
 		/// <remarks>The context of <paramref name="action"/> should be as small as possible so as to avoid race conditions. This function can return a <see cref="ConflictResult"/> if the requested instance was offline.</remarks>
-		protected async ValueTask<IActionResult> WithComponentInstance(Func<IInstanceCore, ValueTask<IActionResult>> action, Models.Instance instance = null)
+		protected async ValueTask<IActionResult?> WithComponentInstanceNullable(Func<IInstanceCore, ValueTask<IActionResult?>> action, Models.Instance? instance = null)
 		{
 			ArgumentNullException.ThrowIfNull(action);
 
-			instance ??= Instance;
+			instance ??= Instance ?? throw new InvalidOperationException("ComponentInterfacingController has no Instance!");
 
 			using var instanceReference = instanceManager.GetInstanceReference(instance);
-			using (LogContext.PushProperty(SerilogContextHelper.InstanceReferenceContextProperty, instanceReference.Uid))
+			using (LogContext.PushProperty(SerilogContextHelper.InstanceReferenceContextProperty, instanceReference?.Uid))
 			{
 				if (instanceReference == null)
 					return Conflict(new ErrorMessageResponse(ErrorCode.InstanceOffline));
 				return await action(instanceReference);
 			}
 		}
+
+		/// <summary>
+		/// Run a given <paramref name="action"/> with the relevant <see cref="IInstance"/>.
+		/// </summary>
+		/// <param name="action">A <see cref="Func{T, TResult}"/> accepting the <see cref="IInstance"/> and returning a <see cref="ValueTask{TResult}"/> with the <see cref="IActionResult"/>.</param>
+		/// <param name="instance">The <see cref="Models.Instance"/> to grab. If <see langword="null"/>, <see cref="ApiController.Instance"/> will be used.</param>
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="IActionResult"/> that should be returned.</returns>
+		/// <remarks>The context of <paramref name="action"/> should be as small as possible so as to avoid race conditions. This function can return a <see cref="ConflictResult"/> if the requested instance was offline.</remarks>
+		protected async ValueTask<IActionResult> WithComponentInstance(Func<IInstanceCore, ValueTask<IActionResult>> action, Models.Instance? instance = null)
+			=> (await WithComponentInstanceNullable(async core => await action(core), instance))!;
 	}
 }

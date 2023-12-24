@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 
 using Microsoft.Extensions.Logging;
 
+using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Host.Components.Chat;
 using Tgstation.Server.Host.Components.Deployment;
@@ -80,6 +81,12 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <inheritdoc />
 		protected override async ValueTask ApplyInitialDmb(CancellationToken cancellationToken)
 		{
+			if (Server!.EngineVersion.Engine != EngineType.Byond)
+			{
+				Logger.LogTrace("Not setting InitialDmb for engine type {engineType}", Server.EngineVersion.Engine);
+				return;
+			}
+
 			Server.ReattachInformation.InitialDmb = await DmbFactory.FromCompileJob(Server.CompileJob, cancellationToken);
 		}
 

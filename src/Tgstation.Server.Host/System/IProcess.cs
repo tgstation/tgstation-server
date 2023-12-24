@@ -7,7 +7,7 @@ namespace Tgstation.Server.Host.System
 	/// <summary>
 	/// Abstraction over a <see cref="global::System.Diagnostics.Process"/>.
 	/// </summary>
-	interface IProcess : IProcessBase, IAsyncDisposable
+	public interface IProcess : IProcessBase, IAsyncDisposable
 	{
 		/// <summary>
 		/// The <see cref="IProcess"/>' ID.
@@ -28,7 +28,7 @@ namespace Tgstation.Server.Host.System
 		/// To guarantee that all data is received from the <see cref="IProcess"/> when redirecting streams to a file
 		/// the result of this function must be <see langword="await"/>ed before <see cref="IAsyncDisposable.DisposeAsync"/> is called.
 		/// </remarks>
-		Task<string> GetCombinedOutput(CancellationToken cancellationToken);
+		Task<string?> GetCombinedOutput(CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Asycnhronously terminates the process.

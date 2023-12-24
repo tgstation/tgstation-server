@@ -31,7 +31,7 @@ namespace Tgstation.Server.Host.Console
 		}
 
 		/// <inheritdoc />
-		public async ValueTask CheckSignals(Func<string, (int, Task)> startChild, CancellationToken cancellationToken)
+		public async ValueTask CheckSignals(Func<string?, (int, Task)> startChild, CancellationToken cancellationToken)
 		{
 			var (childPid, _) = startChild?.Invoke(null) ?? throw new ArgumentNullException(nameof(startChild));
 			var signalTcs = new TaskCompletionSource<Signum>();

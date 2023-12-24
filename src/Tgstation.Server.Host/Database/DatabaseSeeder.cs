@@ -57,7 +57,7 @@ namespace Tgstation.Server.Host.Database
 		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> to add a system <see cref="User"/> to.</param>
 		/// <param name="tgsUser">An existing <see cref="User"/>, if any.</param>
 		/// <returns>The created system <see cref="User"/>.</returns>
-		static User SeedSystemUser(IDatabaseContext databaseContext, User tgsUser = null)
+		static User SeedSystemUser(IDatabaseContext databaseContext, User? tgsUser = null)
 		{
 			bool alreadyExists = tgsUser != null;
 			tgsUser ??= new User()
@@ -231,7 +231,7 @@ namespace Tgstation.Server.Host.Database
 					.AsQueryable()
 					.ToListAsync(cancellationToken);
 				foreach (var instance in allInstances)
-					instance.Path = instance.Path.Replace('\\', '/');
+					instance.Path = instance.Path!.Replace('\\', '/');
 			}
 
 			if (generalConfiguration.ByondTopicTimeout != 0)
@@ -303,7 +303,7 @@ namespace Tgstation.Server.Host.Database
 		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> to use.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the admin <see cref="User"/> or <see langword="null"/>. If <see langword="null"/>, <see cref="IDatabaseContext.Save(CancellationToken)"/> must be called on <paramref name="databaseContext"/>.</returns>
-		async ValueTask<User> GetAdminUser(IDatabaseContext databaseContext, CancellationToken cancellationToken)
+		async ValueTask<User?> GetAdminUser(IDatabaseContext databaseContext, CancellationToken cancellationToken)
 		{
 			var admin = await databaseContext
 				.Users

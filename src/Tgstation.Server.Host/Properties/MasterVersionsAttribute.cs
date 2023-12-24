@@ -14,7 +14,7 @@ namespace Tgstation.Server.Host.Properties
 		/// </summary>
 		public static MasterVersionsAttribute Instance => Assembly
 			.GetExecutingAssembly()
-			.GetCustomAttribute<MasterVersionsAttribute>();
+			.GetCustomAttribute<MasterVersionsAttribute>()!;
 
 		/// <summary>
 		/// The <see cref="Version"/> <see cref="string"/> of the <see cref="Configuration"/> version built.

@@ -42,7 +42,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// <summary>
 		/// <see cref="Queue{T}"/> of received <see cref="Message"/>s.
 		/// </summary>
-		readonly Queue<Message> messageQueue;
+		readonly Queue<Message?> messageQueue;
 
 		/// <summary>
 		/// The backing <see cref="TaskCompletionSource"/> for <see cref="InitialConnectionJob"/>.
@@ -62,12 +62,25 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// <summary>
 		/// The auto reconnect <see cref="Task"/>.
 		/// </summary>
-		Task reconnectTask;
+		Task? reconnectTask;
 
 		/// <summary>
 		/// <see cref="CancellationTokenSource"/> for <see cref="reconnectTask"/>.
 		/// </summary>
-		CancellationTokenSource reconnectCts;
+		CancellationTokenSource? reconnectCts;
+
+		/// <summary>
+		/// Get the prefix for messages about deployments.
+		/// </summary>
+		/// <param name="engineType">The <see cref="Api.Models.EngineType"/> of the deployment.</param>
+		/// <returns>The <see cref="string"/> prefix.</returns>
+		protected static string GetEngineCompilerPrefix(Api.Models.EngineType engineType)
+			=> engineType switch
+			{
+				Api.Models.EngineType.Byond => "DM",
+				Api.Models.EngineType.OpenDream => "OD",
+				_ => throw new InvalidOperationException($"Unsupported engine type: {engineType}"),
+			};
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="Provider"/> class.
@@ -83,7 +96,10 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			Logger = logger ?? throw new ArgumentNullException(nameof(logger));
 			ChatBot = chatBot ?? throw new ArgumentNullException(nameof(chatBot));
 
-			messageQueue = new Queue<Message>();
+			if (chatBot.Instance == null)
+				throw new ArgumentException("chatBot must have Instance!", nameof(chatBot));
+
+			messageQueue = new Queue<Message?>();
 			nextMessage = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
 			initialConnectionTcs = new TaskCompletionSource();
 			reconnectTaskLock = new object();
@@ -144,7 +160,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		}
 
 		/// <inheritdoc />
-		public async Task<Message> NextMessage(CancellationToken cancellationToken)
+		public async Task<Message?> NextMessage(CancellationToken cancellationToken)
 		{
 			while (true)
 			{
@@ -178,15 +194,15 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		}
 
 		/// <inheritdoc />
-		public abstract ValueTask SendMessage(Message replyTo, MessageContent message, ulong channelId, CancellationToken cancellationToken);
+		public abstract ValueTask SendMessage(Message? replyTo, MessageContent message, ulong channelId, CancellationToken cancellationToken);
 
 		/// <inheritdoc />
-		public abstract ValueTask<Func<string, string, ValueTask<Func<bool, ValueTask>>>> SendUpdateMessage(
+		public abstract ValueTask<Func<string?, string, ValueTask<Func<bool, ValueTask>>>> SendUpdateMessage(
 			RevisionInformation revisionInformation,
-			Version byondVersion,
+			Api.Models.EngineVersion engineVersion,
 			DateTimeOffset? estimatedCompletionTime,
-			string gitHubOwner,
-			string gitHubRepo,
+			string? gitHubOwner,
+			string? gitHubRepo,
 			ulong channelId,
 			bool localCommitPushed,
 			CancellationToken cancellationToken);
@@ -219,7 +235,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// Queues a <paramref name="message"/> for <see cref="NextMessage(CancellationToken)"/>.
 		/// </summary>
 		/// <param name="message">The <see cref="Message"/> to queue. A value of <see langword="null"/> indicates the channel mappings are out of date.</param>
-		protected void EnqueueMessage(Message message)
+		protected void EnqueueMessage(Message? message)
 		{
 			if (message == null)
 				Logger.LogTrace("Requesting channel remap...");
@@ -244,7 +260,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 					reconnectCts.Cancel();
 					reconnectCts.Dispose();
 					reconnectCts = null;
-					var reconnectTask = this.reconnectTask;
+					var reconnectTask = this.reconnectTask!;
 					this.reconnectTask = null;
 					return reconnectTask;
 				}
@@ -273,7 +289,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 						connectNow = false;
 					if (!Connected)
 					{
-						var job = Job.Create(Api.Models.JobCode.ReconnectChatBot, null, ChatBot.Instance, ChatBotRights.WriteEnabled);
+						var job = Job.Create(Api.Models.JobCode.ReconnectChatBot, null, ChatBot.Instance!, ChatBotRights.WriteEnabled);
 						job.Description += $": {ChatBot.Name}";
 
 						await jobManager.RegisterOperation(

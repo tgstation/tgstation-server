@@ -74,7 +74,7 @@ namespace Tgstation.Server.Api.Rights
 		SetStartupTimeout = 1 << 11,
 
 		/// <summary>
-		/// User can change <see cref="Models.Internal.DreamDaemonLaunchParameters.HealthCheckSeconds"/>
+		/// User can change <see cref="Models.Internal.DreamDaemonLaunchParameters.HealthCheckSeconds"/>.
 		/// </summary>
 		SetHealthCheckInterval = 1 << 12,
 

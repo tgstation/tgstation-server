@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
@@ -23,17 +24,34 @@ namespace Tgstation.Server.Host.Models
 		/// The parent <see cref="Models.Instance"/>.
 		/// </summary>
 		[Required]
-		public Instance Instance { get; set; }
+		public Instance? Instance { get; set; }
 
 		/// <summary>
 		/// See <see cref="Api.Models.Internal.ChatBotApiBase.Channels"/>.
 		/// </summary>
 		public ICollection<ChatChannel> Channels { get; set; }
 
-		/// <inheritdoc />
-		public ChatBotResponse ToApi() => new ChatBotResponse
+		/// <summary>
+		/// Initializes a new instance of the <see cref="ChatBot"/> class.
+		/// </summary>
+		public ChatBot()
+			: this(new List<ChatChannel>())
 		{
-			Channels = Channels.Select(x => x.ToApi(Provider.Value)).ToList(),
+		}
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="ChatBot"/> class.
+		/// </summary>
+		/// <param name="channels">The value of <see cref="Channels"/>.</param>
+		public ChatBot(ICollection<ChatChannel> channels)
+		{
+			Channels = channels ?? throw new ArgumentNullException(nameof(channels));
+		}
+
+		/// <inheritdoc />
+		public ChatBotResponse ToApi() => new()
+		{
+			Channels = Channels.Select(x => x.ToApi(this.Require(x => x.Provider))).ToList(),
 			ConnectionString = ConnectionString,
 			Enabled = Enabled,
 			Provider = Provider,

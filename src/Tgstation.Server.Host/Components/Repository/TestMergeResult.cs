@@ -17,6 +17,6 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// <summary>
 		/// List of conflicting file paths relative to the repository root. Only present if <see cref="Status"/> is <see cref="MergeStatus.Conflicts"/>.
 		/// </summary>
-		public IReadOnlyList<string> ConflictingFiles { get; init; }
+		public IReadOnlyList<string>? ConflictingFiles { get; init; }
 	}
 }

@@ -17,10 +17,10 @@ namespace Tgstation.Server.Host.Security.OAuth
 		public override OAuthProvider Provider => OAuthProvider.TGForums;
 
 		/// <inheritdoc />
-		protected override Uri TokenUrl => new ("https://tgstation13.org/phpBB/app.php/tgapi/oauth/token");
+		protected override Uri TokenUrl => new("https://tgstation13.org/phpBB/app.php/tgapi/oauth/token");
 
 		/// <inheritdoc />
-		protected override Uri UserInformationUrl => new ("https://tgstation13.org/phpBB/app.php/tgapi/user/me");
+		protected override Uri UserInformationUrl => new("https://tgstation13.org/phpBB/app.php/tgapi/user/me");
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="TGForumsOAuthValidator"/> class.
@@ -46,6 +46,6 @@ namespace Tgstation.Server.Host.Security.OAuth
 		protected override string DecodeUserInformationPayload(dynamic responseJson) => responseJson.phpbb_username;
 
 		/// <inheritdoc />
-		protected override OAuthTokenRequest CreateTokenRequest(string code) => new (OAuthConfiguration, code, "user");
+		protected override OAuthTokenRequest CreateTokenRequest(string code) => new(OAuthConfiguration, code, "user");
 	}
 }

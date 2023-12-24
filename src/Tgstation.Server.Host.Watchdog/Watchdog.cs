@@ -20,7 +20,7 @@ namespace Tgstation.Server.Host.Watchdog
 	sealed class Watchdog : IWatchdog
 	{
 		/// <inheritdoc />
-		public Version InitialHostVersion { get; private set; }
+		public Task<Version> InitialHostVersion => initialHostVersionTcs.Task;
 
 		/// <summary>
 		/// The <see cref="ISignalChecker"/> for the <see cref="Watchdog"/>.
@@ -33,6 +33,11 @@ namespace Tgstation.Server.Host.Watchdog
 		readonly ILogger<Watchdog> logger;
 
 		/// <summary>
+		/// Backing <see cref="TaskCompletionSource{TResult}"/> for <see cref="InitialHostVersion"/>.
+		/// </summary>
+		readonly TaskCompletionSource<Version> initialHostVersionTcs;
+
+		/// <summary>
 		/// Initializes a new instance of the <see cref="Watchdog"/> class.
 		/// </summary>
 		/// <param name="signalChecker">The value of <see cref="signalChecker"/>.</param>
@@ -41,6 +46,8 @@ namespace Tgstation.Server.Host.Watchdog
 		{
 			this.signalChecker = signalChecker ?? throw new ArgumentNullException(nameof(signalChecker));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
+
+			initialHostVersionTcs = new TaskCompletionSource<Version>();
 		}
 
 		/// <inheritdoc />
@@ -54,11 +61,18 @@ namespace Tgstation.Server.Host.Watchdog
 				currentProcessId = currentProc.Id;
 
 			logger.LogDebug("PID: {pid}", currentProcessId);
-			string updateDirectory = null;
+			string? updateDirectory = null;
 			try
 			{
 				var isWindows = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
-				var dotnetPath = GetDotnetPath(isWindows);
+				var dotnetPath = DotnetHelper.GetPotentialDotnetPaths(isWindows)
+					.Where(potentialDotnetPath =>
+					{
+						logger.LogTrace("Checking for dotnet at {potentialDotnetPath}", potentialDotnetPath);
+						return File.Exists(potentialDotnetPath);
+					})
+					.FirstOrDefault();
+
 				if (dotnetPath == default)
 				{
 					logger.LogCritical("Unable to locate dotnet executable in PATH! Please ensure the .NET Core runtime is installed and is in your PATH!");
@@ -69,6 +83,11 @@ namespace Tgstation.Server.Host.Watchdog
 
 				var executingAssembly = Assembly.GetExecutingAssembly();
 				var rootLocation = Path.GetDirectoryName(executingAssembly.Location);
+				if (rootLocation == null)
+				{
+					logger.LogCritical("Failed to get the directory name of the executing assembly: {location}", executingAssembly.Location);
+					return false;
+				}
 
 				var assemblyStoragePath = Path.Combine(rootLocation, "lib"); // always always next to watchdog
 
@@ -82,7 +101,10 @@ namespace Tgstation.Server.Host.Watchdog
 						Directory.Delete(assemblyStoragePath, true);
 					Directory.CreateDirectory(defaultAssemblyPath);
 
-					var sourcePath = "../../../../Tgstation.Server.Host/bin/Debug/net6.0";
+					var sourcePath = Path.GetFullPath(
+						Path.Combine(
+							rootLocation,
+							"../../../../Tgstation.Server.Host/bin/Debug/net8.0"));
 					foreach (string dirPath in Directory.GetDirectories(sourcePath, "*", SearchOption.AllDirectories))
 						Directory.CreateDirectory(dirPath.Replace(sourcePath, defaultAssemblyPath, StringComparison.Ordinal));
 
@@ -112,9 +134,18 @@ namespace Tgstation.Server.Host.Watchdog
 					return false;
 				}
 
-				InitialHostVersion = Version.Parse(FileVersionInfo.GetVersionInfo(assemblyPath).FileVersion);
+				var fileVersion = FileVersionInfo.GetVersionInfo(assemblyPath).FileVersion;
+				if (fileVersion == null)
+				{
+					logger.LogCritical("Failed to parse version info from {assemblyPath}!", assemblyPath);
+					return false;
+				}
 
-				var watchdogVersion = executingAssembly.GetName().Version.Semver().ToString();
+				initialHostVersionTcs.SetResult(
+					Version.Parse(
+						fileVersion));
+
+				var watchdogVersion = executingAssembly.GetName().Version?.Semver().ToString();
 
 				while (!cancellationToken.IsCancellationRequested)
 					using (logger.BeginScope("Host invocation"))
@@ -151,8 +182,8 @@ namespace Tgstation.Server.Host.Watchdog
 							var killedHostProcess = false;
 							try
 							{
-								Task processTask = null;
-								(int, Task) StartProcess(string additionalArg)
+								Task? processTask = null;
+								(int, Task) StartProcess(string? additionalArg)
 								{
 									if (additionalArg != null)
 										process.StartInfo.Arguments += $" {additionalArg}";
@@ -192,7 +223,7 @@ namespace Tgstation.Server.Host.Watchdog
 									var checkerTask = signalChecker.CheckSignals(StartProcess, cts.Token);
 									try
 									{
-										await processTask;
+										await processTask!;
 									}
 									finally
 									{
@@ -331,10 +362,11 @@ namespace Tgstation.Server.Host.Watchdog
 			catch (OperationCanceledException ex)
 			{
 				logger.LogDebug(ex, "Exiting due to cancellation...");
-				if (!Directory.Exists(updateDirectory))
-					File.Delete(updateDirectory);
-				else
-					Directory.Delete(updateDirectory, true);
+				if (updateDirectory != null)
+					if (!Directory.Exists(updateDirectory))
+						File.Delete(updateDirectory);
+					else
+						Directory.Delete(updateDirectory, true);
 			}
 			catch (Exception ex)
 			{
@@ -350,48 +382,5 @@ namespace Tgstation.Server.Host.Watchdog
 		}
 #pragma warning restore CA1502
 #pragma warning restore CA1506
-
-		/// <summary>
-		/// Gets the path to the dotnet executable.
-		/// </summary>
-		/// <param name="isWindows">If the current system is a Windows OS.</param>
-		/// <returns>The path to the dotnet executable.</returns>
-		string GetDotnetPath(bool isWindows)
-		{
-			var enviromentPath = Environment.GetEnvironmentVariable("PATH");
-			var paths = enviromentPath.Split(';');
-
-			var exeName = "dotnet";
-			IEnumerable<string> enumerator;
-			if (isWindows)
-			{
-				exeName += ".exe";
-				enumerator = new List<string>(paths)
-				{
-					"C:/Program Files/dotnet",
-					"C:/Program Files (x86)/dotnet",
-				};
-			}
-			else
-				enumerator = paths
-					.Select(x => x.Split(':'))
-					.SelectMany(x => x)
-					.Concat(new List<string>(2)
-					{
-						"/usr/bin",
-						"/usr/share/bin",
-						"/usr/local/share/dotnet",
-					});
-
-			enumerator = enumerator.Select(x => Path.Combine(x, exeName));
-
-			return enumerator
-				.Where(potentialDotnetPath =>
-				{
-					logger.LogTrace("Checking for dotnet at {potentialDotnetPath}", potentialDotnetPath);
-					return File.Exists(potentialDotnetPath);
-				})
-				.FirstOrDefault();
-		}
 	}
 }

@@ -12,7 +12,7 @@ This is a toolset to manage production BYOND servers. It includes the ability to
 
 ### Pre-Requisites
 
-_Note: If you opt to use the Windows installer, all pre-requisites (including MariaDB) are provided out of the box._
+_Note: If you opt to use the Windows installer, all pre-requisites for running BYOND servers (including MariaDB) are provided out of the box. If you wish to use OpenDream you will need to install the required dotnet SDK manually._
 
 tgstation-server needs a relational database to store it's data.
 
@@ -85,7 +85,7 @@ Note: The `winget` package is submitted to Microsoft for approval once TGS relea
 
 ##### Manual
 
-If you don't have it installed already, download and install the [ASP .NET Core Runtime Hosting Bundle (>= v6.0)](https://dotnet.microsoft.com/download/dotnet/6.0). Ensure that the `dotnet` executable file is in your system's `PATH` variable (or that of the user's that will be running the server). You can test this by opening a command prompt and running `dotnet --list-runtimes`.
+If you don't have it installed already, download and install the [ASP .NET Core Runtime Hosting Bundle (>= v8.0)](https://dotnet.microsoft.com/download/dotnet/8.0). Ensure that the `dotnet` executable file is in your system's `PATH` variable (or that of the user's that will be running the server). You can test this by opening a command prompt and running `dotnet --list-runtimes`.
 
 [Download the latest release .zip](https://github.com/tgstation/tgstation-server/releases/latest). Typically, you want the `ServerService.zip` package in order to run TGS as a Windows service. Choose `ServerConsole.zip` if you prefer to use a command line daemon.
 
@@ -101,9 +101,19 @@ If using the console version, run `./tgs.bat` in the root of the installation di
 
 Installing natively is the recommended way to run tgstation-server on Linux.
 
-##### Ubuntu
+##### Ubuntu/Debian Package
 
-Install TGS and all it's dependencies via our apt repository, interactively configure it, and start the service with this one-liner:
+You first need to add the appropriate Microsoft package repository for your distribution
+
+Refer to the Microsoft website for steps for
+
+- [Ubuntu](https://learn.microsoft.com/en-us/dotnet/core/install/linux-ubuntu#register-the-microsoft-package-repository)
+- [Debian 12](https://learn.microsoft.com/en-us/dotnet/core/install/linux-debian#debian-12)
+- [Debian 11](https://learn.microsoft.com/en-us/dotnet/core/install/linux-debian#debian-11)
+- [Debian 10](https://learn.microsoft.com/en-us/dotnet/core/install/linux-debian#debian-10)
+- [Other Distros](https://learn.microsoft.com/en-us/dotnet/core/install/linux-scripted-manual#manual-install)
+
+After that, install TGS and all it's dependencies via our apt repository, interactively configure it, and start the service with this one-liner:
 
 ```sh
 sudo dpkg --add-architecture i386 \
@@ -117,25 +127,13 @@ sudo dpkg --add-architecture i386 \
 && sudo systemctl start tgstation-server
 ```
 
-##### Debian
+The service will execute as the newly created user: `tgstation-server`.
 
-The `aspnetcore-runtime-6.0` package isn't yet available on mainline Debian and must be [installed from Microsoft](https://learn.microsoft.com/en-us/dotnet/core/install/linux-debian) first. Use the following one-liner to add their packages repository.
-
-```sh
-curl -L https://packages.microsoft.com/config/debian/11/packages-microsoft-prod.deb -o packages-microsoft-prod.deb \
-&& sudo dpkg -i packages-microsoft-prod.deb \
-&& rm packages-microsoft-prod.deb
-```
-
-After that, run the same command as the Ubuntu installation.
-
-_Support for more distros coming soon_
-
-##### Manual
+##### Manual Setup
 
 The following dependencies are required.
 
-- aspnetcore-runtime-6.0 (Note, not all supported distros have this package, see the links above for official Microsoft installation instructions)
+- aspnetcore-runtime-8.0 (See Prerequisites under the `Ubuntu/Debian Package` section)
 - libc6-i386
 - libstdc++6:i386
 - gcc-multilib (Only on 64-bit systems)
@@ -143,7 +141,7 @@ The following dependencies are required.
 
 [Download the latest release .zip](https://github.com/tgstation/tgstation-server/releases/latest). Choose `ServerConsole`.
 
-If you have SystemD installed, we recommend installing the service unit [here](./build/tgstation-server.service). It assumes TGS is installed into `/opt/tgstation-server` and you will be using the  but feel free to adjust it to your needs. Note that the server will need to have it's configuration file setup before running with SystemD.
+If you have SystemD installed, we recommend installing the service unit [here](./build/tgstation-server.service). It assumes TGS is installed into `/opt/tgstation-server`, it is executing as the user `tgstation-server`, and you will be using the console runner, but feel free to adjust it to your needs. Note that the server will need to have it's configuration file setup before running with SystemD.
 
 Alternatively, to launch the server in the current shell, run `./tgs.sh` in the root of the installation directory. The process will run in a blocking fashion. SIGQUIT will close the server, terminating all live game instances.
 
@@ -183,6 +181,21 @@ Note that automatic configuration reloading is currently not supported in the co
 
 If using manual configuration, before starting your container make sure the aforementioned `appsettings.Production.yml` is setup properly. See below
 
+#### OpenDream
+
+In order for TGS to use [OpenDream](https://github.com/OpenDreamProject/OpenDream), it requires the full .NET SDK to build whichever version your servers target. Whatever that is, it must be available using the `dotnet` command for whichever user runs TGS.
+
+OpenDream currently requires [.NET SDK 7.0](https://dotnet.microsoft.com/en-us/download/dotnet/7.0) at the time of this writing. You must install this manually.
+
+On Linux, as long as OpenDream and TGS do not use the same .NET major version, you cannot achieve this with the package manager as they will conflict. The 7.0 SDK can be added to an 8.0 runtime installation via the following steps.
+
+1. Install `tgstation-server` using any of the above methods.
+1. [Download the Linux SDK binaries](https://dotnet.microsoft.com/en-us/download/dotnet/7.0) for your selected architecture.
+1. Extract everything EXCEPT the `dotnet` executable, `LICENSE.txt``, and `ThirdPartyNotices.txt` in the `.tar.gz` on top of the existing installation directory `/usr/share/dotnet/`
+1. Run `sudo chown -R root /usr/share/dotnet`
+
+You should now be able to run the `dotnet --list-sdks` command and see an entry for `7.0.XXX [/usr/share/dotnet/sdk]`.
+
 ### Configuring
 
 The first time you run TGS you should be prompted with a configuration wizard which will guide you through setting up your `appsettings.Production.yml`
@@ -197,7 +210,7 @@ There are 3 primary supported ways to configure TGS:
 - Set environment variables in the form `Section__Subsection=value` or `Section__ArraySubsection__0=value` for arrays.
 - Set command line arguments in the form `--Section:Subsection=value` or `--Section:ArraySubsection:0=value` for arrays.
 
-The latter two are not recommended as they cannot be dynamically changed at runtime. See more on ASP.NET core configuration [here](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/configuration/?view=aspnetcore-6.0).
+The latter two are not recommended as they cannot be dynamically changed at runtime. See more on ASP.NET core configuration [here](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/configuration/?view=aspnetcore-8.0).
 
 #### Manual Configuration
 
@@ -383,7 +396,7 @@ Exposing the builtin Kestrel server to the internet directly over HTTP is highly
 
 System administrators will most likely have their own configuration plans, but here are some basic guides for beginners.
 
-Once complete, test that your configuration worked by visiting your proxy site from a browser on a different computer. You should recieve a 401 Unauthorized response.
+Once complete, test that your configuration worked by visiting your proxy site from a browser on a different computer. You should receive a 401 Unauthorized response.
 
 _NOTE: Your reverse proxy setup may interfere with SSE (Server-Sent Events) which is used for real-time job updates. If you find this to be the case, please open an issue describing what you did to fix it as there may be a way for us to bypass the need for a workaround from our end._
 

@@ -78,7 +78,7 @@ namespace Tgstation.Server.Host.Components.Repository
 				case "GIT.GITLAB.COM":
 					return RemoteGitProvider.GitLab;
 				default:
-					logger.LogTrace("Unknown git remote: {0}", origin);
+					logger.LogDebug("Unknown git remote: {origin}", origin);
 					return RemoteGitProvider.Unknown;
 			}
 		}
