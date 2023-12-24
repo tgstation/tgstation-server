@@ -5,12 +5,10 @@ on:
     branches:
     - dev
     - master
-    - V6
   pull_request:
     branches:
     - dev
     - master
-    - V6
 
 env:
   TGS_DOTNET_VERSION: 8
