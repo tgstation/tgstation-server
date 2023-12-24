@@ -10,9 +10,9 @@ namespace Tgstation.Server.Tests.Live
 	sealed class DummyGitHubServiceFactory : IGitHubServiceFactory
 	{
 		readonly ICryptographySuite cryptographySuite;
-		readonly ILogger<DummyGitHubService> logger;
+		readonly ILogger<TestingGitHubService> logger;
 
-		public DummyGitHubServiceFactory(ICryptographySuite cryptographySuite, ILogger<DummyGitHubService> logger)
+		public DummyGitHubServiceFactory(ICryptographySuite cryptographySuite, ILogger<TestingGitHubService> logger)
 		{
 			this.cryptographySuite = cryptographySuite ?? throw new ArgumentNullException(nameof(cryptographySuite));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
@@ -27,6 +27,6 @@ namespace Tgstation.Server.Tests.Live
 			return CreateDummyService();
 		}
 
-		DummyGitHubService CreateDummyService() => new DummyGitHubService(cryptographySuite, logger);
+		TestingGitHubService CreateDummyService() => new TestingGitHubService(cryptographySuite, logger);
 	}
 }

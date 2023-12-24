@@ -103,7 +103,7 @@ namespace Tgstation.Server.Host.Controllers
 				return BadRequest(new ErrorMessageResponse(ErrorCode.ModelValidationFailure));
 
 			if ((model.Password != null && model.SystemIdentifier != null)
-				|| (model.Password == null && model.SystemIdentifier == null && model.OAuthConnections?.Any() != true))
+				|| (model.Password == null && model.SystemIdentifier == null && (model.OAuthConnections?.Count > 0) != true))
 				return BadRequest(new ErrorMessageResponse(ErrorCode.UserMismatchPasswordSid));
 
 			if (model.Group != null && model.PermissionSet != null)
@@ -144,14 +144,14 @@ namespace Tgstation.Server.Host.Controllers
 				{
 					return RequiresPosixSystemIdentity(ex);
 				}
-			else if (!(model.Password?.Length == 0 && model.OAuthConnections?.Any() == true))
+			else if (!(model.Password?.Length == 0 && (model.OAuthConnections?.Count > 0) == true))
 			{
-				var result = TrySetPassword(dbUser, model.Password, true);
+				var result = TrySetPassword(dbUser, model.Password!, true);
 				if (result != null)
 					return result;
 			}
 
-			dbUser.CanonicalName = Models.User.CanonicalizeName(dbUser.Name);
+			dbUser.CanonicalName = Models.User.CanonicalizeName(dbUser.Name!);
 
 			DatabaseContext.Users.Add(dbUser);
 
@@ -204,7 +204,7 @@ namespace Tgstation.Server.Host.Controllers
 					.Where(x => x.Id == model.Id)
 					.Include(x => x.CreatedBy)
 					.Include(x => x.OAuthConnections)
-					.Include(x => x.Group)
+					.Include(x => x.Group!)
 						.ThenInclude(x => x.PermissionSet)
 					.Include(x => x.PermissionSet)
 					.FirstOrDefaultAsync(cancellationToken);
@@ -254,7 +254,7 @@ namespace Tgstation.Server.Host.Controllers
 			bool userWasDisabled;
 			if (model.Enabled.HasValue)
 			{
-				userWasDisabled = originalUser.Enabled.Value && !model.Enabled.Value;
+				userWasDisabled = originalUser.Require(x => x.Enabled) && !model.Enabled.Value;
 				if (userWasDisabled)
 					originalUser.LastPasswordUpdate = DateTimeOffset.UtcNow;
 
@@ -264,7 +264,7 @@ namespace Tgstation.Server.Host.Controllers
 				userWasDisabled = false;
 
 			if (model.OAuthConnections != null
-				&& (model.OAuthConnections.Count != originalUser.OAuthConnections.Count
+				&& (model.OAuthConnections.Count != originalUser.OAuthConnections!.Count
 				|| !model.OAuthConnections.All(x => originalUser.OAuthConnections.Any(y => y.Provider == x.Provider && y.ExternalUserId == x.ExternalUserId))))
 			{
 				if (originalUser.CanonicalName == Models.User.CanonicalizeName(DefaultCredentials.AdminUserName))
@@ -372,7 +372,7 @@ namespace Tgstation.Server.Host.Controllers
 							.Include(x => x.CreatedBy)
 							.Include(x => x.PermissionSet)
 							.Include(x => x.OAuthConnections)
-							.Include(x => x.Group)
+							.Include(x => x.Group!)
 								.ThenInclude(x => x.PermissionSet)
 							.OrderBy(x => x.Id))),
 				null,
@@ -405,7 +405,7 @@ namespace Tgstation.Server.Host.Controllers
 				.Where(x => x.Id == id)
 				.Include(x => x.CreatedBy)
 				.Include(x => x.OAuthConnections)
-				.Include(x => x.Group)
+				.Include(x => x.Group!)
 					.ThenInclude(x => x.PermissionSet)
 				.Include(x => x.PermissionSet)
 				.FirstOrDefaultAsync(cancellationToken);
@@ -426,8 +426,8 @@ namespace Tgstation.Server.Host.Controllers
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in a new <see cref="User"/> on success, <see langword="null"/> if the requested <see cref="UserGroup"/> did not exist.</returns>
 		async ValueTask<User> CreateNewUserFromModel(Api.Models.Internal.UserApiBase model, CancellationToken cancellationToken)
 		{
-			Models.PermissionSet permissionSet = null;
-			UserGroup group = null;
+			Models.PermissionSet? permissionSet = null;
+			UserGroup? group = null;
 			if (model.Group != null)
 				group = await DatabaseContext
 					.Groups
@@ -469,7 +469,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="model">The <see cref="UserUpdateRequest"/> to check.</param>
 		/// <param name="newUser">If this is a new <see cref="UserResponse"/>.</param>
 		/// <returns><see langword="null"/> if <paramref name="model"/> is valid, a <see cref="BadRequestObjectResult"/> otherwise.</returns>
-		BadRequestObjectResult CheckValidName(UserUpdateRequest model, bool newUser)
+		BadRequestObjectResult? CheckValidName(UserUpdateRequest model, bool newUser)
 		{
 			var userInvalidWithNullName = newUser && model.Name == null && model.SystemIdentifier == null;
 			if (userInvalidWithNullName || (model.Name != null && String.IsNullOrWhiteSpace(model.Name)))
@@ -488,7 +488,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="newPassword">The new password.</param>
 		/// <param name="newUser">If this is for a new <see cref="UserResponse"/>.</param>
 		/// <returns><see langword="null"/> on success, <see cref="BadRequestObjectResult"/> if <paramref name="newPassword"/> is too short.</returns>
-		BadRequestObjectResult TrySetPassword(User dbUser, string newPassword, bool newUser)
+		BadRequestObjectResult? TrySetPassword(User dbUser, string newPassword, bool newUser)
 		{
 			newPassword ??= String.Empty;
 			if (newPassword.Length < generalConfiguration.MinimumPasswordLength)

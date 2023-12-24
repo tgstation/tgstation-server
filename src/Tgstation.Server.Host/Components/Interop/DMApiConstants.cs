@@ -40,12 +40,12 @@ namespace Tgstation.Server.Host.Components.Interop
 		public const uint MaximumBridgeRequestLength = 8198;
 
 		/// <summary>
-		/// The maximum length in bytes of a <see cref="global::Byond.TopicSender.ITopicClient"/> payload.
+		/// The maximum length in bytes of a <see cref="Byond.TopicSender.ITopicClient"/> payload.
 		/// </summary>
 		public const uint MaximumTopicRequestLength = 65528;
 
 		/// <summary>
-		/// The maximum length in bytes of a <see cref="global::Byond.TopicSender.ITopicClient"/> response.
+		/// The maximum length in bytes of a <see cref="Byond.TopicSender.ITopicClient"/> response.
 		/// </summary>
 		public const uint MaximumTopicResponseLength = 65529;
 
@@ -57,7 +57,7 @@ namespace Tgstation.Server.Host.Components.Interop
 		/// <summary>
 		/// <see cref="JsonSerializerSettings"/> for use when communicating with the DMAPI.
 		/// </summary>
-		public static readonly JsonSerializerSettings SerializerSettings = new ()
+		public static readonly JsonSerializerSettings SerializerSettings = new()
 		{
 			ContractResolver = new DefaultContractResolver
 			{

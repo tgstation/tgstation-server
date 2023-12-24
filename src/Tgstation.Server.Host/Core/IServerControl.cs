@@ -51,6 +51,6 @@ namespace Tgstation.Server.Host.Core
 		/// </summary>
 		/// <param name="exception">The <see cref="Exception"/> to propagate to the watchdog if any.</param>
 		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		ValueTask Die(Exception exception);
+		ValueTask Die(Exception? exception);
 	}
 }

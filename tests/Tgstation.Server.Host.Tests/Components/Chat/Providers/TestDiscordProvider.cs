@@ -5,9 +5,11 @@ using System.Threading.Tasks;
 
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+
 using Moq;
 
 using Tgstation.Server.Api.Models;
+using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Jobs;
 using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.System;
@@ -29,7 +31,8 @@ namespace Tgstation.Server.Host.Components.Chat.Providers.Tests
 				testToken1 = new ChatBot
 				{
 					ConnectionString = actualToken,
-					ReconnectionInterval = 1
+					ReconnectionInterval = 1,
+					Instance = new Models.Instance()
 				};
 
 			var mockSetup = new Mock<IJobManager>();
@@ -50,17 +53,20 @@ namespace Tgstation.Server.Host.Components.Chat.Providers.Tests
 			{
 				ConnectionString = "fake_token",
 				ReconnectionInterval = 1,
+				Instance = new Models.Instance(),
 			};
 
-			Assert.ThrowsException<ArgumentNullException>(() => new DiscordProvider(null, null, null, null, null));
-			Assert.ThrowsException<ArgumentNullException>(() => new DiscordProvider(mockJobManager, null, null, null, null));
+			Assert.ThrowsException<ArgumentNullException>(() => new DiscordProvider(null, null, null, null, null, null));
+			Assert.ThrowsException<ArgumentNullException>(() => new DiscordProvider(mockJobManager, null, null, null, null, null));
 			var mockDel = Mock.Of<IAsyncDelayer>();
-			Assert.ThrowsException<ArgumentNullException>(() => new DiscordProvider(mockJobManager, mockDel, null, null, null));
+			Assert.ThrowsException<ArgumentNullException>(() => new DiscordProvider(mockJobManager, mockDel, null, null, null, null));
 			var mockLogger = Mock.Of<ILogger<DiscordProvider>>();
-			Assert.ThrowsException<ArgumentNullException>(() => new DiscordProvider(mockJobManager, mockDel, mockLogger, null, null));
+			Assert.ThrowsException<ArgumentNullException>(() => new DiscordProvider(mockJobManager, mockDel, mockLogger, null, null, null));
 			var mockAss = Mock.Of<IAssemblyInformationProvider>();
-			Assert.ThrowsException<ArgumentNullException>(() => new DiscordProvider(mockJobManager, mockDel, mockLogger, mockAss, null));
-			await new DiscordProvider(mockJobManager, mockDel, mockLogger, mockAss, bot).DisposeAsync();
+			Assert.ThrowsException<ArgumentNullException>(() => new DiscordProvider(mockJobManager, mockDel, mockLogger, mockAss, null, null));
+			Assert.ThrowsException<ArgumentNullException>(() => new DiscordProvider(mockJobManager, mockDel, mockLogger, mockAss, bot, null));
+			var mockGen = new GeneralConfiguration();
+			await new DiscordProvider(mockJobManager, mockDel, mockLogger, mockAss, bot, mockGen).DisposeAsync();
 		}
 
 		static ValueTask InvokeConnect(IProvider provider, CancellationToken cancellationToken = default) => (ValueTask)provider.GetType().GetMethod("Connect", BindingFlags.Instance | BindingFlags.NonPublic).Invoke(provider, new object[] { cancellationToken });
@@ -72,8 +78,9 @@ namespace Tgstation.Server.Host.Components.Chat.Providers.Tests
 			await using var provider = new DiscordProvider(mockJobManager, Mock.Of<IAsyncDelayer>(), mockLogger.Object, Mock.Of<IAssemblyInformationProvider>(), new ChatBot
 			{
 				ReconnectionInterval = 1,
-				ConnectionString = "asdf"
-			});
+				ConnectionString = "asdf",
+				Instance = new Models.Instance(),
+			}, new GeneralConfiguration());
 			await Assert.ThrowsExceptionAsync<JobException>(async () => await InvokeConnect(provider));
 			Assert.IsFalse(provider.Connected);
 		}
@@ -88,7 +95,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers.Tests
 				Assert.Fail("TGS_TEST_DISCORD_TOKEN is not a valid Discord connection string!");
 
 			var mockLogger = new Mock<ILogger<DiscordProvider>>();
-			await using var provider = new DiscordProvider(mockJobManager, Mock.Of<IAsyncDelayer>(), mockLogger.Object, Mock.Of<IAssemblyInformationProvider>(), testToken1);
+			await using var provider = new DiscordProvider(mockJobManager, Mock.Of<IAsyncDelayer>(), mockLogger.Object, Mock.Of<IAssemblyInformationProvider>(), testToken1, new GeneralConfiguration());
 			Assert.IsFalse(provider.Connected);
 			await InvokeConnect(provider);
 			Assert.IsTrue(provider.Connected);

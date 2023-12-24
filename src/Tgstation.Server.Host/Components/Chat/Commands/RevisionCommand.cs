@@ -75,7 +75,7 @@ namespace Tgstation.Server.Host.Components.Chat.Commands
 					{
 						Text = "Server offline!",
 					};
-				result = watchdog.ActiveCompileJob?.RevisionInformation.OriginCommitSha;
+				result = watchdog.ActiveCompileJob?.RevisionInformation.OriginCommitSha!;
 			}
 
 			return new MessageContent

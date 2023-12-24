@@ -23,7 +23,7 @@ namespace Tgstation.Server.Host.Extensions
 		/// <returns><paramref name="modelBuilder"/>.</returns>
 		public static ModelBuilder MapMySqlTextField<TEntity>(
 			this ModelBuilder modelBuilder,
-			Expression<Func<TEntity, string>> expression)
+			Expression<Func<TEntity, string?>> expression)
 			where TEntity : class
 		{
 			var property = modelBuilder
@@ -47,7 +47,7 @@ namespace Tgstation.Server.Host.Extensions
 		/// <typeparam name="TEntity">The entity.</typeparam>
 		/// <param name="expression">The <see cref="Expression"/> accessing the relevant property.</param>
 		/// <returns>The <see cref="PropertyInfo"/> pointed to by <paramref name="expression"/>.</returns>
-		static PropertyInfo GetPropertyFromExpression<TEntity>(Expression<Func<TEntity, string>> expression)
+		static PropertyInfo GetPropertyFromExpression<TEntity>(Expression<Func<TEntity, string?>> expression)
 		{
 			MemberExpression memberExpression;
 

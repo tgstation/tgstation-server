@@ -55,6 +55,9 @@ namespace Tgstation.Server.Host.Security
 			ArgumentNullException.ThrowIfNull(user);
 			ArgumentNullException.ThrowIfNull(password);
 
+			if (user.PasswordHash == null)
+				throw new ArgumentException("user must have PasswordHash!", nameof(user));
+
 			var result = passwordHasher.VerifyHashedPassword(user, user.PasswordHash, password);
 			switch (result)
 			{

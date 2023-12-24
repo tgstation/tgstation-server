@@ -20,19 +20,9 @@ namespace Tgstation.Server.Host.Configuration
 		public const string Section = "FileLogging";
 
 		/// <summary>
-		/// Default value for <see cref="LogLevel"/>.
-		/// </summary>
-		const LogLevel DefaultLogLevel = LogLevel.Debug;
-
-		/// <summary>
-		/// Default value for <see cref="MicrosoftLogLevel"/>.
-		/// </summary>
-		const LogLevel DefaultMicrosoftLogLevel = LogLevel.Warning;
-
-		/// <summary>
 		/// Where log files are stored.
 		/// </summary>
-		public string Directory { get; set; }
+		public string? Directory { get; set; }
 
 		/// <summary>
 		/// If file logging is disabled.
@@ -43,13 +33,13 @@ namespace Tgstation.Server.Host.Configuration
 		/// The minimum <see cref="Microsoft.Extensions.Logging.LogLevel"/> to display in logs.
 		/// </summary>
 		[JsonConverter(typeof(StringEnumConverter))]
-		public LogLevel LogLevel { get; set; } = DefaultLogLevel;
+		public LogLevel LogLevel { get; set; } = LogLevel.Debug; // Not a `const` b/c of https://github.com/coverlet-coverage/coverlet/issues/1507
 
 		/// <summary>
 		/// The minimum <see cref="Microsoft.Extensions.Logging.LogLevel"/> to display in logs for Microsoft library sources.
 		/// </summary>
 		[JsonConverter(typeof(StringEnumConverter))]
-		public LogLevel MicrosoftLogLevel { get; set; } = DefaultMicrosoftLogLevel;
+		public LogLevel MicrosoftLogLevel { get; set; } = LogLevel.Warning; // Not a `const` b/c of https://github.com/coverlet-coverage/coverlet/issues/1507
 
 		/// <summary>
 		/// Gets the evaluated log <see cref="Directory"/>.
@@ -72,7 +62,9 @@ namespace Tgstation.Server.Host.Configuration
 
 			return platformIdentifier.IsWindows
 				? ioManager.ConcatPath(
-					Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData),
+					Environment.GetFolderPath(
+						Environment.SpecialFolder.CommonApplicationData,
+						Environment.SpecialFolderOption.DoNotVerify),
 					assemblyInformationProvider.VersionPrefix,
 					"logs")
 				: ioManager.ConcatPath(

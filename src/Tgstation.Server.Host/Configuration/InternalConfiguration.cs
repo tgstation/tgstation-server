@@ -13,12 +13,12 @@
 		/// <summary>
 		/// The name of the pipe opened by the host watchdog for sending commands, if any.
 		/// </summary>
-		public string CommandPipe { get; set; }
+		public string? CommandPipe { get; set; }
 
 		/// <summary>
 		/// The name of the pipe opened by the host watchdog for receiving commands, if any.
 		/// </summary>
-		public string ReadyPipe { get; set; }
+		public string? ReadyPipe { get; set; }
 
 		/// <summary>
 		/// If the server is running under SystemD.
@@ -28,7 +28,7 @@
 		/// <summary>
 		/// The base path for the app settings configuration files.
 		/// </summary>
-		public string AppSettingsBasePath { get; set; }
+		public string AppSettingsBasePath { get; set; } = "UNINITIALIZED"; // this is set in a hacky way in ServerFactory
 
 		/// <summary>
 		/// Coerce the <see cref="Setup.SetupWizard"/> to select <see cref="DatabaseType.MariaDB"/>.
@@ -38,6 +38,6 @@
 		/// <summary>
 		/// Generate default configuration using the given <see cref="DatabaseType.MariaDB"/> default password.
 		/// </summary>
-		public string MariaDBDefaultRootPassword { get; set; }
+		public string? MariaDBDefaultRootPassword { get; set; }
 	}
 }

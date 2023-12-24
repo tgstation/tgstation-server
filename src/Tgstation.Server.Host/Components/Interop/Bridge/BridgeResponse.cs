@@ -15,11 +15,11 @@ namespace Tgstation.Server.Host.Components.Interop.Bridge
 		/// <summary>
 		/// The <see cref="Bridge.RuntimeInformation"/> for <see cref="BridgeCommandType.Startup"/> requests.
 		/// </summary>
-		public RuntimeInformation RuntimeInformation { get; set; }
+		public RuntimeInformation? RuntimeInformation { get; set; }
 
 		/// <summary>
 		/// The <see cref="ChunkData.SequenceId"/>s missing from a chunked request.
 		/// </summary>
-		public IReadOnlyCollection<uint> MissingChunks { get; set; }
+		public IReadOnlyCollection<uint>? MissingChunks { get; set; }
 	}
 }

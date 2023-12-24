@@ -138,7 +138,7 @@ namespace Tgstation.Server.Common.Extensions
 				}
 				catch (Exception ex)
 				{
-					exceptions ??= new (tasks.Count - i);
+					exceptions ??= new(tasks.Count - i);
 					exceptions.Add(ex);
 				}
 

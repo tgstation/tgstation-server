@@ -3,13 +3,14 @@
 
   <PropertyGroup>
     <TargetFramework>$(TgsFrameworkVersion)</TargetFramework>
+    <Nullable>enable</Nullable>
     <AddSyntheticProjectReferencesForSolutionDependencies>false</AddSyntheticProjectReferencesForSolutionDependencies>
     <Version>$(TgsHostWatchdogVersion)</Version>
   </PropertyGroup>
 
   <ItemGroup>
     <!-- Usage: Logging abstractions -->
-    <PackageReference Include="Microsoft.Extensions.Logging" Version="7.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="8.0.0" />
     <!-- Usage: POSIX support for signals -->
     <PackageReference Include="Mono.Posix.NETStandard" Version="1.0.0" />
   </ItemGroup>

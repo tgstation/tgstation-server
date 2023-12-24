@@ -26,7 +26,7 @@ namespace Tgstation.Server.Host.Security
 		/// <summary>
 		/// The <see cref="User"/>'s effective <see cref="Models.InstancePermissionSet"/> if applicable.
 		/// </summary>
-		InstancePermissionSet InstancePermissionSet { get; }
+		InstancePermissionSet? InstancePermissionSet { get; }
 
 		/// <summary>
 		/// Get the value of a given <paramref name="rightsType"/>.
@@ -38,6 +38,6 @@ namespace Tgstation.Server.Host.Security
 		/// <summary>
 		/// The <see cref="ISystemIdentity"/> of <see cref="User"/> if applicable.
 		/// </summary>
-		ISystemIdentity SystemIdentity { get; }
+		ISystemIdentity? SystemIdentity { get; }
 	}
 }

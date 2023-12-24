@@ -15,6 +15,11 @@ namespace Tgstation.Server.Host.Components.Watchdog
 	public interface IWatchdog : IComponentService, IAsyncDisposable, IEventConsumer, IRenameNotifyee
 	{
 		/// <summary>
+		/// An incrementing ID for representing current server execution.
+		/// </summary>
+		long? SessionId { get; }
+
+		/// <summary>
 		/// The current <see cref="WatchdogStatus"/>.
 		/// </summary>
 		WatchdogStatus Status { get; }
@@ -27,7 +32,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <summary>
 		/// Retrieves the <see cref="Models.CompileJob"/> currently running on the server.
 		/// </summary>
-		Models.CompileJob ActiveCompileJob { get; }
+		Models.CompileJob? ActiveCompileJob { get; }
 
 		/// <summary>
 		/// The <see cref="DreamDaemonLaunchParameters"/> to be applied.
@@ -38,7 +43,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// The <see cref="DreamDaemonLaunchParameters"/> the active server is using.
 		/// </summary>
 		/// <remarks>This may not be the exact same as <see cref="ActiveLaunchParameters"/> but still be associated with the same session.</remarks>
-		DreamDaemonLaunchParameters LastLaunchParameters { get; }
+		DreamDaemonLaunchParameters? LastLaunchParameters { get; }
 
 		/// <summary>
 		/// The <see cref="Session.RebootState"/> of the active server.
@@ -57,8 +62,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// </summary>
 		/// <param name="launchParameters">The new <see cref="DreamDaemonLaunchParameters"/>. May be modified.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
-		ValueTask ChangeSettings(DreamDaemonLaunchParameters launchParameters, CancellationToken cancellationToken);
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in <see langword="true"/> if a reboot is required, <see langword="false"/> otherwise.</returns>
+		ValueTask<bool> ChangeSettings(DreamDaemonLaunchParameters launchParameters, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Restarts the watchdog.

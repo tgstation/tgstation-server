@@ -13,9 +13,9 @@ namespace Tgstation.Server.Client.Components
 		Instance Metadata { get; }
 
 		/// <summary>
-		/// Access the <see cref="IByondClient"/>.
+		/// Access the <see cref="IEngineClient"/>.
 		/// </summary>
-		IByondClient Byond { get; }
+		IEngineClient Engine { get; }
 
 		/// <summary>
 		/// Access the <see cref="IRepositoryClient"/>.

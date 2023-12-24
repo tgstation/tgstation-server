@@ -6,7 +6,7 @@ using Microsoft.Extensions.Logging;
 using Moq;
 
 using Tgstation.Server.Api.Models;
-using Tgstation.Server.Host.Components.Byond;
+using Tgstation.Server.Host.Components.Engine;
 using Tgstation.Server.Host.Components.Chat.Commands;
 using Tgstation.Server.Host.Components.Chat.Providers;
 using Tgstation.Server.Host.Components.Deployment;
@@ -40,7 +40,7 @@ namespace Tgstation.Server.Tests.Live
 
 			var commandFactory = new CommandFactory(
 				Mock.Of<IAssemblyInformationProvider>(),
-				Mock.Of<IByondManager>(),
+				Mock.Of<IEngineManager>(),
 				Mock.Of<IRepositoryManager>(),
 				Mock.Of<IDatabaseContextFactory>(),
 				Mock.Of<ILatestCompileJobProvider>(),
@@ -55,7 +55,7 @@ namespace Tgstation.Server.Tests.Live
 				? new Random().Next()
 				: 22475;
 
-			logger.LogInformation("Random seed: {0}", randomSeed);
+			logger.LogInformation("Random seed: {randomSeed}", randomSeed);
 
 			var baseRng = new Random(randomSeed);
 			seededRng = new Dictionary<ChatProvider, Random>{

@@ -90,7 +90,7 @@ namespace Tgstation.Server.Host.Controllers
 				var job = Job.Create(JobCode.WatchdogLaunch, AuthenticationContext.User, Instance, DreamDaemonRights.Shutdown);
 				await jobManager.RegisterOperation(
 					job,
-					(core, databaseContextFactory, paramJob, progressHandler, innerCt) => core.Watchdog.Launch(innerCt),
+					(core, databaseContextFactory, paramJob, progressHandler, innerCt) => core!.Watchdog.Launch(innerCt),
 					cancellationToken);
 				return Accepted(job.ToApi());
 			});
@@ -106,7 +106,7 @@ namespace Tgstation.Server.Host.Controllers
 		[TgsAuthorize(DreamDaemonRights.ReadMetadata | DreamDaemonRights.ReadRevision)]
 		[ProducesResponseType(typeof(DreamDaemonResponse), 200)]
 		[ProducesResponseType(typeof(ErrorMessageResponse), 410)]
-		public ValueTask<IActionResult> Read(CancellationToken cancellationToken) => ReadImpl(null, cancellationToken);
+		public ValueTask<IActionResult> Read(CancellationToken cancellationToken) => ReadImpl(null, false, cancellationToken);
 
 		/// <summary>
 		/// Stops the Watchdog if it's running.
@@ -159,7 +159,7 @@ namespace Tgstation.Server.Host.Controllers
 			ArgumentNullException.ThrowIfNull(model);
 
 			if (model.SoftShutdown == true && model.SoftRestart == true)
-				return BadRequest(new ErrorMessageResponse(ErrorCode.DreamDaemonDoubleSoft));
+				return BadRequest(new ErrorMessageResponse(ErrorCode.GameServerDoubleSoft));
 
 			// alias for changing DD settings
 			var current = await DatabaseContext
@@ -172,7 +172,7 @@ namespace Tgstation.Server.Host.Controllers
 			if (current == default)
 				return this.Gone();
 
-			if (model.Port.HasValue && model.Port.Value != current.Port.Value)
+			if (model.Port.HasValue && model.Port.Value != current.Port!.Value)
 			{
 				var verifiedPort = await portAllocator
 					.GetAvailablePort(
@@ -183,14 +183,6 @@ namespace Tgstation.Server.Host.Controllers
 				if (verifiedPort != model.Port)
 					return Conflict(new ErrorMessageResponse(ErrorCode.PortNotAvailable));
 			}
-
-#pragma warning disable CS0618 // Type or member is obsolete
-			if (model.HeartbeatSeconds.HasValue && !model.HealthCheckSeconds.HasValue)
-				model.HealthCheckSeconds = model.HeartbeatSeconds;
-
-			if (model.DumpOnHeartbeatRestart.HasValue && !model.DumpOnHealthCheckRestart.HasValue)
-				model.DumpOnHealthCheckRestart = model.DumpOnHeartbeatRestart;
-#pragma warning restore CS0618 // Type or member is obsolete
 
 			var userRights = (DreamDaemonRights)AuthenticationContext.GetRight(RightsType.DreamDaemon);
 
@@ -209,14 +201,15 @@ namespace Tgstation.Server.Host.Controllers
 				return false;
 			}
 
+			var ddRights = InstancePermissionSet.DreamDaemonRights!.Value;
 			if (CheckModified(x => x.AllowWebClient, DreamDaemonRights.SetWebClient)
 				|| CheckModified(x => x.AutoStart, DreamDaemonRights.SetAutoStart)
 				|| CheckModified(x => x.Port, DreamDaemonRights.SetPort)
 				|| CheckModified(x => x.SecurityLevel, DreamDaemonRights.SetSecurity)
 				|| CheckModified(x => x.Visibility, DreamDaemonRights.SetVisibility)
-				|| (model.SoftRestart.HasValue && !AuthenticationContext.InstancePermissionSet.DreamDaemonRights.Value.HasFlag(DreamDaemonRights.SoftRestart))
-				|| (model.SoftShutdown.HasValue && !AuthenticationContext.InstancePermissionSet.DreamDaemonRights.Value.HasFlag(DreamDaemonRights.SoftShutdown))
-				|| (!String.IsNullOrWhiteSpace(model.BroadcastMessage) && !AuthenticationContext.InstancePermissionSet.DreamDaemonRights.Value.HasFlag(DreamDaemonRights.BroadcastMessage))
+				|| (model.SoftRestart.HasValue && !ddRights.HasFlag(DreamDaemonRights.SoftRestart))
+				|| (model.SoftShutdown.HasValue && !ddRights.HasFlag(DreamDaemonRights.SoftShutdown))
+				|| (!String.IsNullOrWhiteSpace(model.BroadcastMessage) && !ddRights.HasFlag(DreamDaemonRights.BroadcastMessage))
 				|| CheckModified(x => x.StartupTimeout, DreamDaemonRights.SetStartupTimeout)
 				|| CheckModified(x => x.HealthCheckSeconds, DreamDaemonRights.SetHealthCheckInterval)
 				|| CheckModified(x => x.DumpOnHealthCheckRestart, DreamDaemonRights.CreateDump)
@@ -239,7 +232,7 @@ namespace Tgstation.Server.Host.Controllers
 
 					// run this second because current may be modified by it
 					// slight race condition with request cancellation, but I CANNOT be assed right now
-					await watchdog.ChangeSettings(current, cancellationToken);
+					var rebootRequired = await watchdog.ChangeSettings(current, cancellationToken);
 
 					var rebootState = watchdog.RebootState;
 					var oldSoftRestart = rebootState == RebootState.Restart;
@@ -251,7 +244,7 @@ namespace Tgstation.Server.Host.Controllers
 					else if ((oldSoftRestart && model.SoftRestart == false) || (oldSoftShutdown && model.SoftShutdown == false))
 						await watchdog.ResetRebootState(cancellationToken);
 
-					return await ReadImpl(current, cancellationToken);
+					return await ReadImpl(current, rebootRequired, cancellationToken);
 				});
 		}
 #pragma warning restore CA1506
@@ -278,7 +271,7 @@ namespace Tgstation.Server.Host.Controllers
 
 				await jobManager.RegisterOperation(
 					job,
-					(core, paramJob, databaseContextFactory, progressReporter, ct) => core.Watchdog.Restart(false, ct),
+					(core, paramJob, databaseContextFactory, progressReporter, ct) => core!.Watchdog.Restart(false, ct),
 					cancellationToken);
 				return Accepted(job.ToApi());
 			});
@@ -304,7 +297,7 @@ namespace Tgstation.Server.Host.Controllers
 
 				await jobManager.RegisterOperation(
 					job,
-					(core, databaseContextFactory, paramJob, progressReporter, ct) => core.Watchdog.CreateDump(ct),
+					(core, databaseContextFactory, paramJob, progressReporter, ct) => core!.Watchdog.CreateDump(ct),
 					cancellationToken);
 				return Accepted(job.ToApi());
 			});
@@ -313,9 +306,10 @@ namespace Tgstation.Server.Host.Controllers
 		/// Implementation of <see cref="Read(CancellationToken)"/>.
 		/// </summary>
 		/// <param name="settings">The <see cref="DreamDaemonSettings"/> to operate on if any.</param>
+		/// <param name="knownForcedReboot">If there was a settings change made that forced a switch to <see cref="RebootState.Restart"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation.</returns>
-		ValueTask<IActionResult> ReadImpl(DreamDaemonSettings settings, CancellationToken cancellationToken)
+		ValueTask<IActionResult> ReadImpl(DreamDaemonSettings? settings, bool knownForcedReboot, CancellationToken cancellationToken)
 			=> WithComponentInstance(async instance =>
 			{
 				var dd = instance.Watchdog;
@@ -329,7 +323,7 @@ namespace Tgstation.Server.Host.Controllers
 						.Instances
 						.AsQueryable()
 						.Where(x => x.Id == Instance.Id)
-						.Select(x => x.DreamDaemonSettings)
+						.Select(x => x.DreamDaemonSettings!)
 						.FirstOrDefaultAsync(cancellationToken);
 					if (settings == default)
 						return this.Gone();
@@ -341,26 +335,41 @@ namespace Tgstation.Server.Host.Controllers
 					var alphaActive = dd.AlphaIsActive;
 					var llp = dd.LastLaunchParameters;
 					var rstate = dd.RebootState;
-					result.AutoStart = settings.AutoStart.Value;
-					result.CurrentPort = llp?.Port.Value;
-					result.CurrentSecurity = llp?.SecurityLevel.Value;
-					result.CurrentVisibility = llp?.Visibility.Value;
-					result.CurrentAllowWebclient = llp?.AllowWebClient.Value;
-					result.Port = settings.Port.Value;
-					result.AllowWebClient = settings.AllowWebClient.Value;
-					result.Status = dd.Status;
-					result.SecurityLevel = settings.SecurityLevel.Value;
-					result.Visibility = settings.Visibility.Value;
+					result.AutoStart = settings.AutoStart!.Value;
+					result.CurrentPort = llp?.Port!.Value;
+					result.CurrentSecurity = llp?.SecurityLevel!.Value;
+					result.CurrentVisibility = llp?.Visibility!.Value;
+					result.CurrentAllowWebclient = llp?.AllowWebClient!.Value;
+					result.Port = settings.Port!.Value;
+					result.AllowWebClient = settings.AllowWebClient!.Value;
+
+					var firstIteration = true;
+					do
+					{
+						if (!firstIteration)
+						{
+							cancellationToken.ThrowIfCancellationRequested();
+							await Task.Yield();
+						}
+
+						firstIteration = false;
+						result.Status = dd.Status;
+						result.SessionId = dd.SessionId;
+					}
+					while (result.Status == WatchdogStatus.Online && !result.SessionId.HasValue); // this is the one invalid combo, it's not that racy
+
+					result.SecurityLevel = settings.SecurityLevel!.Value;
+					result.Visibility = settings.Visibility!.Value;
 					result.SoftRestart = rstate == RebootState.Restart;
 					result.SoftShutdown = rstate == RebootState.Shutdown;
-					result.StartupTimeout = settings.StartupTimeout.Value;
-					result.HealthCheckSeconds = settings.HealthCheckSeconds.Value;
-					result.DumpOnHealthCheckRestart = settings.DumpOnHealthCheckRestart.Value;
-#pragma warning disable CS0618 // Type or member is obsolete
-					result.HeartbeatSeconds = settings.HealthCheckSeconds.Value;
-					result.DumpOnHeartbeatRestart = settings.DumpOnHealthCheckRestart.Value;
-#pragma warning restore CS0618 // Type or member is obsolete
-					result.TopicRequestTimeout = settings.TopicRequestTimeout.Value;
+
+					if (rstate == RebootState.Normal && knownForcedReboot)
+						result.SoftRestart = true;
+
+					result.StartupTimeout = settings.StartupTimeout!.Value;
+					result.HealthCheckSeconds = settings.HealthCheckSeconds!.Value;
+					result.DumpOnHealthCheckRestart = settings.DumpOnHealthCheckRestart!.Value;
+					result.TopicRequestTimeout = settings.TopicRequestTimeout!.Value;
 					result.AdditionalParameters = settings.AdditionalParameters;
 					result.StartProfiler = settings.StartProfiler;
 					result.LogOutput = settings.LogOutput;

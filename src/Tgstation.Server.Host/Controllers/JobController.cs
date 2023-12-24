@@ -79,7 +79,7 @@ namespace Tgstation.Server.Host.Controllers
 						.Include(x => x.StartedBy)
 						.Include(x => x.CancelledBy)
 						.Include(x => x.Instance)
-						.Where(x => x.Instance.Id == Instance.Id && !x.StoppedAt.HasValue)
+						.Where(x => x.Instance!.Id == Instance.Id && !x.StoppedAt.HasValue)
 						.OrderByDescending(x => x.StartedAt))),
 				AddJobProgressResponseTransformer,
 				page,
@@ -107,7 +107,7 @@ namespace Tgstation.Server.Host.Controllers
 						.Include(x => x.StartedBy)
 						.Include(x => x.CancelledBy)
 						.Include(x => x.Instance)
-						.Where(x => x.Instance.Id == Instance.Id)
+						.Where(x => x.Instance!.Id == Instance.Id)
 						.OrderByDescending(x => x.StartedAt))),
 				AddJobProgressResponseTransformer,
 				page,
@@ -135,7 +135,7 @@ namespace Tgstation.Server.Host.Controllers
 				.AsQueryable()
 				.Include(x => x.StartedBy)
 				.Include(x => x.Instance)
-				.Where(x => x.Id == id && x.Instance.Id == Instance.Id)
+				.Where(x => x.Id == id && x.Instance!.Id == Instance.Id)
 				.FirstOrDefaultAsync(cancellationToken);
 			if (job == default)
 				return NotFound();
@@ -167,7 +167,7 @@ namespace Tgstation.Server.Host.Controllers
 			var job = await DatabaseContext
 				.Jobs
 				.AsQueryable()
-				.Where(x => x.Id == id && x.Instance.Id == Instance.Id)
+				.Where(x => x.Id == id && x.Instance!.Id == Instance.Id)
 				.Include(x => x.StartedBy)
 				.Include(x => x.CancelledBy)
 				.Include(x => x.Instance)

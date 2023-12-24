@@ -67,7 +67,9 @@ namespace Tgstation.Server.Host.Extensions
 			}
 			catch
 			{
-				await stream.DisposeAsync();
+				if (stream != null)
+					await stream.DisposeAsync();
+
 				throw;
 			}
 		}

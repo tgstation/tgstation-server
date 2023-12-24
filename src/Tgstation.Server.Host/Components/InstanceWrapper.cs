@@ -1,9 +1,9 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 
-using Tgstation.Server.Host.Components.Byond;
 using Tgstation.Server.Host.Components.Chat;
 using Tgstation.Server.Host.Components.Deployment;
+using Tgstation.Server.Host.Components.Engine;
 using Tgstation.Server.Host.Components.Repository;
 using Tgstation.Server.Host.Components.StaticFiles;
 using Tgstation.Server.Host.Components.Watchdog;
@@ -29,7 +29,7 @@ namespace Tgstation.Server.Host.Components
 		public IRepositoryManager RepositoryManager => Instance.RepositoryManager;
 
 		/// <inheritdoc />
-		public IByondManager ByondManager => Instance.ByondManager;
+		public IEngineManager EngineManager => Instance.EngineManager;
 
 		/// <inheritdoc />
 		public IDreamMaker DreamMaker => Instance.DreamMaker;
@@ -58,6 +58,6 @@ namespace Tgstation.Server.Host.Components
 		public ValueTask SetAutoUpdateInterval(uint newInterval) => Instance.SetAutoUpdateInterval(newInterval);
 
 		/// <inheritdoc />
-		public CompileJob LatestCompileJob() => Instance.LatestCompileJob();
+		public CompileJob? LatestCompileJob() => Instance.LatestCompileJob();
 	}
 }

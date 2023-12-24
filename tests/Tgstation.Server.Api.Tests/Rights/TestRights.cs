@@ -40,10 +40,10 @@ namespace Tgstation.Server.Api.Rights.Tests
 		[TestMethod]
 		public void TestAllRightsWorks()
 		{
-			var allByondRights = ByondRights.CancelInstall | ByondRights.InstallOfficialOrChangeActiveVersion | ByondRights.ListInstalled | ByondRights.ReadActive | ByondRights.InstallCustomVersion | ByondRights.DeleteInstall;
-			var automaticByondRights = RightsHelper.AllRights<ByondRights>();
+			var allEngineRights = EngineRights.CancelInstall | EngineRights.InstallOfficialOrChangeActiveByondVersion | EngineRights.ListInstalled | EngineRights.ReadActive | EngineRights.InstallCustomByondVersion | EngineRights.DeleteInstall | EngineRights.InstallCustomOpenDreamVersion | EngineRights.InstallOfficialOrChangeActiveOpenDreamVersion;
+			var automaticByondRights = RightsHelper.AllRights<EngineRights>();
 
-			Assert.AreEqual(allByondRights, automaticByondRights);
+			Assert.AreEqual(allEngineRights, automaticByondRights);
 		}
 	}
 }

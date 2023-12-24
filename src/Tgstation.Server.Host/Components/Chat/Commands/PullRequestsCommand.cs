@@ -81,7 +81,7 @@ namespace Tgstation.Server.Host.Components.Chat.Commands
 #pragma warning disable CA1506
 		public async ValueTask<MessageContent> Invoke(string arguments, ChatUser user, CancellationToken cancellationToken)
 		{
-			IEnumerable<Models.TestMerge> results = null;
+			IEnumerable<Models.TestMerge> results;
 			var splits = arguments.Split(' ');
 			var hasRepo = splits.Any(x => x.Equals("--repo", StringComparison.OrdinalIgnoreCase));
 			var hasStaged = splits.Any(x => x.Equals("--staged", StringComparison.OrdinalIgnoreCase));
@@ -112,12 +112,13 @@ namespace Tgstation.Server.Host.Components.Chat.Commands
 					head = repo.Head;
 				}
 
+				results = null!;
 				await databaseContextFactory.UseContext(
 					async db => results = await db
 						.RevisionInformations
 						.AsQueryable()
-						.Where(x => x.Instance.Id == instance.Id && x.CommitSha == head)
-						.SelectMany(x => x.ActiveTestMerges)
+						.Where(x => x.Instance!.Id == instance.Id && x.CommitSha == head)
+						.SelectMany(x => x.ActiveTestMerges!)
 						.Select(x => x.TestMerge)
 						.Select(x => new Models.TestMerge
 						{
@@ -143,7 +144,7 @@ namespace Tgstation.Server.Host.Components.Chat.Commands
 						compileJobToUse = null;
 				}
 
-				results = compileJobToUse?.RevisionInformation.ActiveTestMerges.Select(x => x.TestMerge).ToList() ?? Enumerable.Empty<Models.TestMerge>();
+				results = compileJobToUse?.RevisionInformation.ActiveTestMerges?.Select(x => x.TestMerge).ToList() ?? Enumerable.Empty<Models.TestMerge>();
 			}
 
 			return new MessageContent
@@ -153,7 +154,7 @@ namespace Tgstation.Server.Host.Components.Chat.Commands
 					: String.Join(
 						", ",
 						results.Select(
-							x => $"#{x.Number} at {x.TargetCommitSha[..7]}")),
+							x => $"#{x.Number} at {x.TargetCommitSha![..7]}")),
 			};
 		}
 #pragma warning restore CA1506

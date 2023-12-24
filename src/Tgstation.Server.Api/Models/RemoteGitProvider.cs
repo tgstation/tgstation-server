@@ -11,12 +11,12 @@
 		Unknown,
 
 		/// <summary>
-		/// Remote provider is GitHub.com
+		/// Remote provider is GitHub.com.
 		/// </summary>
 		GitHub,
 
 		/// <summary>
-		/// Remote provider is GitLab.com
+		/// Remote provider is GitLab.com.
 		/// </summary>
 		GitLab,
 	}

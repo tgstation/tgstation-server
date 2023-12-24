@@ -72,7 +72,6 @@ TGS will only every return the response codes listed here
 - 410: Gone. Attempted to access/modify a resource that ideally should have been ready, but isn't or no longer is
 - 422: Unprocessable Entity: Used specifically when an operation that requires a server restart is unable to be performed due to the @ref Tgstation.Server.Host.Watchdog not being present in the deployment. Should not happen with a proper server configuration. Response body contains an @ref Tgstation.Server.Api.Models.ErrorMessage
 - 424: Failed Dependency: When a request that depends on an external API fails for a reason other than rate limiting. The response body will contain an @ref Tgstation.Server.Api.Models.ErrorMessage model detailing the error.
-- 426: Upgrade required: Used when the client's API version is not compatible with the server's. Response body contains an @ref Tgstation.Server.Api.Models.ErrorMessage
 - 429: Rate limited. Used with operations that rely on GitHub.com. If a rate limit is hit for an operation this will be returned. Response will contain a Retry-After header with the amount of seconds to wait.
 - 500: Server error. Please report the request and response body to the code repository
 - 501: Not implemented. Functionality not available in the current server version
@@ -115,13 +114,13 @@ If the provided credentials are valid and your user account is enabled you will 
 }
 @endcode
 
-If your account is disabled, you will recieve a 403 response.
+If your account is disabled, you will receive a 403 response.
 
 You may recognize the bearer value as a <a href="https://jwt.io">Json Web Token</a>. This is a secure representation of your identity to the server. It expires after a set period of time or until your password changes. It must be present for requests made to all other APIs. To do so add the following header to your other requests
 
 - Authorization:Bearer `<your bearer token>`
 
-Continue to use this token until you begin to recieve 401 responses from the API. Then repeat the process to get a new one if your credentials are still valid
+Continue to use this token until you begin to receive 401 responses from the API. Then repeat the process to get a new one if your credentials are still valid
 
 @subsection api_auth_o OAuth 2.0
 
@@ -468,7 +467,7 @@ I POST "/Config" @ref Tgstation.Server.Api.Models.ConfigurationFile => @ref Tgst
 
 When creating a file, only @ref Tgstation.Server.Api.Models.ConfigurationFile.Path and @ref Tgstation.Server.Api.Models.ConfigurationFile.Content should be specified
 
-If the file already exists, the @ref Tgstation.Server.Api.Models.ConfigurationFile.LastReadHash field must also be present with the last version recieved from the server for that file. If this does not match at the time of the request, 409 will be returned, indicating the file has changed since it was last viewed by the client.
+If the file already exists, the @ref Tgstation.Server.Api.Models.ConfigurationFile.LastReadHash field must also be present with the last version received from the server for that file. If this does not match at the time of the request, 409 will be returned, indicating the file has changed since it was last viewed by the client.
 
 To delete a file set @ref Tgstation.Server.Api.Models.ConfigurationFile.Content to null in the request.
 

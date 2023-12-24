@@ -28,7 +28,7 @@ namespace Tgstation.Server.Host.IO
 		/// <summary>
 		/// The backing <see cref="Stream"/>.
 		/// </summary>
-		volatile MemoryStream buffer;
+		volatile MemoryStream? buffer;
 
 		/// <summary>
 		/// If <see cref="buffer"/> has been populated.
@@ -58,7 +58,7 @@ namespace Tgstation.Server.Host.IO
 		/// <inheritdoc />
 		public async ValueTask DisposeAsync()
 		{
-			MemoryStream localBuffer;
+			MemoryStream? localBuffer;
 			lock (semaphore)
 			{
 				localBuffer = buffer;
@@ -102,7 +102,7 @@ namespace Tgstation.Server.Host.IO
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in <see cref="buffer"/> and its <see cref="Stream.Length"/>.</returns>
-		async ValueTask<(MemoryStream, long)> GetResultInternal(CancellationToken cancellationToken)
+		async ValueTask<(MemoryStream Stream, long StreamLength)> GetResultInternal(CancellationToken cancellationToken)
 		{
 			if (!buffered)
 				using (await SemaphoreSlimContext.Lock(semaphore, cancellationToken))
@@ -115,15 +115,15 @@ namespace Tgstation.Server.Host.IO
 						await input.CopyToAsync(localBuffer, cancellationToken);
 						localBuffer.Seek(0, SeekOrigin.Begin);
 						buffered = true;
-						return (localBuffer, localBuffer.Length);
+						return (Stream: localBuffer, StreamLength: localBuffer.Length);
 					}
 
 			lock (semaphore)
 			{
 				var localBuffer = buffer ?? throw new ObjectDisposedException(nameof(BufferedFileStreamProvider));
 				return (
-					localBuffer,
-					localBuffer.Length);
+					Stream: localBuffer,
+					StreamLength: localBuffer.Length);
 			}
 		}
 	}

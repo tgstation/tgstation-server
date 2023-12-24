@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.DirectoryServices.AccountManagement;
 using System.Runtime.Versioning;
 using System.Security.Principal;
@@ -31,7 +32,7 @@ namespace Tgstation.Server.Host.Security
 		/// <param name="input">The input <see cref="string"/>.</param>
 		/// <param name="username">The output username.</param>
 		/// <param name="domainName">The output domain name. May be <see langword="null"/>.</param>
-		static void GetUserAndDomainName(string input, out string username, out string domainName)
+		static void GetUserAndDomainName(string input, out string username, out string? domainName)
 		{
 			var splits = input.Split('\\');
 			username = splits.Length > 1 ? splits[1] : splits[0];
@@ -51,7 +52,7 @@ namespace Tgstation.Server.Host.Security
 		public ISystemIdentity GetCurrent() => new WindowsSystemIdentity(WindowsIdentity.GetCurrent());
 
 		/// <inheritdoc />
-		public Task<ISystemIdentity> CreateSystemIdentity(User user, CancellationToken cancellationToken) => Task.Factory.StartNew(
+		public Task<ISystemIdentity?> CreateSystemIdentity(User user, CancellationToken cancellationToken) => Task.Factory.StartNew(
 			() =>
 			{
 				ArgumentNullException.ThrowIfNull(user);
@@ -59,13 +60,12 @@ namespace Tgstation.Server.Host.Security
 				if (user.SystemIdentifier == null)
 					throw new InvalidOperationException("User's SystemIdentifier must not be null!");
 
-				PrincipalContext pc = null;
-				UserPrincipal principal = null;
-
+				PrincipalContext? pc = null;
 				GetUserAndDomainName(user.SystemIdentifier, out _, out var domainName);
 
-				bool TryGetPrincipalFromContextType(ContextType contextType)
+				bool TryGetPrincipalFromContextType(ContextType contextType, [NotNullWhen(true)] out UserPrincipal? principal)
 				{
+					principal = null;
 					try
 					{
 						pc = domainName != null
@@ -98,7 +98,7 @@ namespace Tgstation.Server.Host.Security
 					return principal != null;
 				}
 
-				if (!TryGetPrincipalFromContextType(ContextType.Machine) && !TryGetPrincipalFromContextType(ContextType.Domain))
+				if (!TryGetPrincipalFromContextType(ContextType.Machine, out var principal) && !TryGetPrincipalFromContextType(ContextType.Domain, out principal))
 					return null;
 				return (ISystemIdentity)new WindowsSystemIdentity(principal);
 			},
@@ -107,7 +107,7 @@ namespace Tgstation.Server.Host.Security
 			TaskScheduler.Current);
 
 		/// <inheritdoc />
-		public Task<ISystemIdentity> CreateSystemIdentity(string username, string password, CancellationToken cancellationToken) => Task.Factory.StartNew(
+		public Task<ISystemIdentity?> CreateSystemIdentity(string username, string password, CancellationToken cancellationToken) => Task.Factory.StartNew(
 			() =>
 			{
 				ArgumentNullException.ThrowIfNull(username);

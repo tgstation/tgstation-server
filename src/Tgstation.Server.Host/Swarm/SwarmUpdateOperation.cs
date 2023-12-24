@@ -31,7 +31,7 @@ namespace Tgstation.Server.Host.Swarm
 		/// <summary>
 		/// Backing field for <see cref="InvolvedServers"/>.
 		/// </summary>
-		readonly IReadOnlyList<SwarmServerResponse> initialInvolvedServers;
+		readonly IReadOnlyList<SwarmServerResponse>? initialInvolvedServers;
 
 		/// <summary>
 		/// The backing <see cref="TaskCompletionSource{TResult}"/> for <see cref="CommitGate"/>.
@@ -41,7 +41,7 @@ namespace Tgstation.Server.Host.Swarm
 		/// <summary>
 		/// <see cref="HashSet{T}"/> of <see cref="SwarmServer.Identifier"/> that need to send a ready-commit to the controller before the commit can happen.
 		/// </summary>
-		readonly HashSet<string> nodesThatNeedToBeReadyToCommit;
+		readonly HashSet<string>? nodesThatNeedToBeReadyToCommit;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="SwarmUpdateOperation"/> class.
@@ -58,7 +58,7 @@ namespace Tgstation.Server.Host.Swarm
 		/// Initializes a new instance of the <see cref="SwarmUpdateOperation"/> class.
 		/// </summary>
 		/// <param name="targetVersion">The value of <see cref="TargetVersion"/>.</param>
-		/// <param name="currentNodes">An <see cref="IEnumerable{T}"/> of the controller's current nodes as <see cref="SwarmServerResponse"/>s.</param>
+		/// <param name="currentNodes">An <see cref="IEnumerable{T}"/> of the controller's current nodes as <see cref="SwarmServerResponse"/>s. Must have <see cref="SwarmServer.Address"/> and <see cref="SwarmServer.Identifier"/> set.</param>
 		/// <remarks>This is the variant for use by the controller.</remarks>
 		public SwarmUpdateOperation(Version targetVersion, IEnumerable<SwarmServerResponse> currentNodes)
 			: this(targetVersion)
@@ -66,7 +66,7 @@ namespace Tgstation.Server.Host.Swarm
 			initialInvolvedServers = currentNodes?.ToList() ?? throw new ArgumentNullException(nameof(currentNodes));
 			nodesThatNeedToBeReadyToCommit = initialInvolvedServers
 				.Where(node => !node.Controller)
-				.Select(node => node.Identifier)
+				.Select(node => node.Identifier!)
 				.ToHashSet();
 		}
 

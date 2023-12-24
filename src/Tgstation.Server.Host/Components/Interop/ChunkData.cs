@@ -14,6 +14,6 @@
 		/// <summary>
 		/// The partial JSON payload of the chunk.
 		/// </summary>
-		public string Payload { get; set; }
+		public string? Payload { get; set; }
 	}
 }

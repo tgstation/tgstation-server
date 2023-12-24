@@ -25,12 +25,6 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// <inheritdoc />
 		public override RemoteGitProvider? RemoteGitProvider => Api.Models.RemoteGitProvider.GitHub;
 
-		/// <inheritdoc />
-		public override string RemoteRepositoryOwner { get; }
-
-		/// <inheritdoc />
-		public override string RemoteRepositoryName { get; }
-
 		/// <summary>
 		/// The <see cref="IGitHubServiceFactory"/> for the <see cref="GitHubRemoteFeatures"/>.
 		/// </summary>
@@ -46,13 +40,6 @@ namespace Tgstation.Server.Host.Components.Repository
 			: base(logger, remoteUrl)
 		{
 			this.gitHubServiceFactory = gitHubServiceFactory ?? throw new ArgumentNullException(nameof(gitHubServiceFactory));
-
-			ArgumentNullException.ThrowIfNull(remoteUrl);
-
-			RemoteRepositoryOwner = remoteUrl.Segments[1].TrimEnd('/');
-			RemoteRepositoryName = remoteUrl.Segments[2].TrimEnd('/');
-			if (RemoteRepositoryName.EndsWith(".git", StringComparison.OrdinalIgnoreCase))
-				RemoteRepositoryName = RemoteRepositoryName[0..^4];
 		}
 
 		/// <inheritdoc />
@@ -65,9 +52,9 @@ namespace Tgstation.Server.Host.Components.Repository
 				? gitHubServiceFactory.CreateService(repositorySettings.AccessToken)
 				: gitHubServiceFactory.CreateService();
 
-			PullRequest pr = null;
-			ApiException exception = null;
-			string errorMessage = null;
+			PullRequest? pr = null;
+			ApiException? exception = null;
+			string? errorMessage = null;
 			try
 			{
 				pr = await gitHubService.GetPullRequest(RemoteRepositoryOwner, RemoteRepositoryName, parameters.Number, cancellationToken);

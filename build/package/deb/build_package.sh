@@ -1,5 +1,5 @@
 #!/bin/bash
-# Run from git root
+# Run from git root, certified for ubuntu only since that's what gha uses
 
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
@@ -8,7 +8,31 @@ set -x
 
 dpkg --add-architecture i386
 apt-get update
-apt-get install -y npm dotnet-sdk-6.0 build-essential binutils lintian debhelper dh-make devscripts xmlstarlet # needs cleanup probably, SO copypasta
+# This package set needs cleanup probably, StackOverflow copypasta
+apt-get install -y \
+    build-essential \
+    binutils \
+    lintian \
+    debhelper \
+    dh-make \
+    devscripts \
+    ca-certificates \
+    curl \
+    gnupg \
+    xmlstarlet
+
+declare repo_version=$(if command -v lsb_release &> /dev/null; then lsb_release -r -s; else grep -oP '(?<=^VERSION_ID=).+' /etc/os-release | tr -d '"'; fi)
+curl -L https://packages.microsoft.com/config/ubuntu/$repo_version/packages-microsoft-prod.deb -o packages-microsoft-prod.deb
+dpkg -i ./packages-microsoft-prod.deb
+rm packages-microsoft-prod.deb
+
+# https://github.com/nodesource/distributions
+mkdir -p /etc/apt/keyrings
+curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg
+export NODE_MAJOR=20
+echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_$NODE_MAJOR.x nodistro main" | tee /etc/apt/sources.list.d/nodesource.list
+apt-get update
+apt-get install nodejs dotnet-sdk-8.0 -y
 
 CURRENT_COMMIT=$(git rev-parse HEAD)
 
@@ -47,13 +71,12 @@ set +e
 
 if [[ -z "$PACKAGING_KEYGRIP" ]]; then
     dpkg-buildpackage --no-sign
+    EXIT_CODE=$?
 else
     dpkg-buildpackage --sign-key=$PACKAGING_KEYGRIP --sign-command="$SIGN_COMMAND"
+    cat /tmp/tgs_wrap_gpg_output.log
+    EXIT_CODE=$?
 fi
-
-EXIT_CODE=$?
-
-cat /tmp/tgs_wrap_gpg_output.log
 
 cd ..
 

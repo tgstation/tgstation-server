@@ -21,7 +21,7 @@ namespace Tgstation.Server.Host.Security
 		/// Attempt to load a cached <see cref="ISystemIdentity"/>.
 		/// </summary>
 		/// <param name="user">The <see cref="User"/> the <see cref="ISystemIdentity"/> belongs to.</param>
-		/// <returns>The cached <see cref="ISystemIdentity"/> or <see langword="null"/> if it doesn't exist or expired.</returns>
+		/// <returns>The cached <see cref="ISystemIdentity"/>.</returns>
 		ISystemIdentity LoadCachedIdentity(User user);
 	}
 }

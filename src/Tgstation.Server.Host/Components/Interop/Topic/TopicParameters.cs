@@ -20,12 +20,12 @@ namespace Tgstation.Server.Host.Components.Interop.Topic
 		/// <summary>
 		/// The <see cref="Topic.ChatCommand"/> for <see cref="TopicCommandType.ChatCommand"/> requests.
 		/// </summary>
-		public ChatCommand ChatCommand { get; }
+		public ChatCommand? ChatCommand { get; }
 
 		/// <summary>
 		/// The <see cref="Topic.EventNotification"/> for <see cref="TopicCommandType.EventNotification"/> requests.
 		/// </summary>
-		public EventNotification EventNotification { get; }
+		public EventNotification? EventNotification { get; }
 
 		/// <summary>
 		/// The new port for <see cref="TopicCommandType.ChangePort"/> or <see cref="TopicCommandType.ServerPortUpdate"/> requests.
@@ -40,27 +40,27 @@ namespace Tgstation.Server.Host.Components.Interop.Topic
 		/// <summary>
 		/// The new <see cref="Api.Models.NamedEntity.Name"/> for <see cref="TopicCommandType.InstanceRenamed"/> requests.
 		/// </summary>
-		public string NewInstanceName { get; }
+		public string? NewInstanceName { get; }
 
 		/// <summary>
 		/// The message to broadcast for <see cref="TopicCommandType.Broadcast"/> requests.
 		/// </summary>
-		public string BroadcastMessage { get; }
+		public string? BroadcastMessage { get; }
 
 		/// <summary>
 		/// The <see cref="Interop.ChatUpdate"/> for <see cref="TopicCommandType.ChatChannelsUpdate"/> requests.
 		/// </summary>
-		public ChatUpdate ChatUpdate { get; }
+		public ChatUpdate? ChatUpdate { get; }
 
 		/// <summary>
 		/// The new server <see cref="Version"/> after a reattach.
 		/// </summary>
-		public Version NewServerVersion { get; }
+		public Version? NewServerVersion { get; }
 
 		/// <summary>
 		/// The <see cref="ChunkData"/> for a partial request.
 		/// </summary>
-		public ChunkData Chunk { get; }
+		public ChunkData? Chunk { get; }
 
 		/// <summary>
 		/// Whether or not the <see cref="TopicParameters"/> constitute a priority request.
@@ -88,7 +88,7 @@ namespace Tgstation.Server.Host.Components.Interop.Topic
 		/// <param name="newInstanceName">The value of <see cref="NewInstanceName"/>.</param>
 		/// <returns>The created <see cref="TopicParameters"/>.</returns>
 		public static TopicParameters CreateInstanceRenamedTopicParameters(string newInstanceName)
-			=> new (
+			=> new(
 				newInstanceName ?? throw new ArgumentNullException(nameof(newInstanceName)),
 				TopicCommandType.InstanceRenamed);
 
@@ -98,7 +98,7 @@ namespace Tgstation.Server.Host.Components.Interop.Topic
 		/// <param name="broadcastMessage">The value of <see cref="BroadcastMessage"/>.</param>
 		/// <returns>The created <see cref="TopicParameters"/>.</returns>
 		public static TopicParameters CreateBroadcastParameters(string broadcastMessage)
-			=> new (
+			=> new(
 				broadcastMessage ?? throw new ArgumentNullException(nameof(broadcastMessage)),
 				TopicCommandType.Broadcast);
 
@@ -188,6 +188,7 @@ namespace Tgstation.Server.Host.Components.Interop.Topic
 		/// </summary>
 		/// <param name="commandType">The value of <see cref="CommandType"/>.</param>
 		protected TopicParameters(TopicCommandType commandType)
+			: base(String.Empty) // access identifier gets set before send
 		{
 			CommandType = commandType;
 		}

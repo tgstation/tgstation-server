@@ -16,6 +16,6 @@ namespace Tgstation.Server.Host.Core
 		/// <param name="handlerMayDelayShutdownWithExtremelyLongRunningTasks">If <see langword="false"/> the <see cref="IRestartHandler"/> should aim to complete the <see cref="Task"/> returned from this function ASAP.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
-		ValueTask HandleRestart(Version updateVersion, bool handlerMayDelayShutdownWithExtremelyLongRunningTasks, CancellationToken cancellationToken);
+		ValueTask HandleRestart(Version? updateVersion, bool handlerMayDelayShutdownWithExtremelyLongRunningTasks, CancellationToken cancellationToken);
 	}
 }

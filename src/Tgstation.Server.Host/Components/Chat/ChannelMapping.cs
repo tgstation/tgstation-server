@@ -1,4 +1,6 @@
-﻿namespace Tgstation.Server.Host.Components.Chat
+﻿using System;
+
+namespace Tgstation.Server.Host.Components.Chat
 {
 	/// <summary>
 	/// Represents a mapping of a <see cref="ChannelRepresentation.RealId"/>.
@@ -38,6 +40,15 @@
 		/// <summary>
 		/// The <see cref="ChannelRepresentation"/> with the mapped Id.
 		/// </summary>
-		public ChannelRepresentation Channel { get; set; }
+		public ChannelRepresentation Channel { get; }
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="ChannelMapping"/> class.
+		/// </summary>
+		/// <param name="channel">The value of <see cref="Channel"/>.</param>
+		public ChannelMapping(ChannelRepresentation channel)
+		{
+			Channel = channel ?? throw new ArgumentNullException(nameof(channel));
+		}
 	}
 }

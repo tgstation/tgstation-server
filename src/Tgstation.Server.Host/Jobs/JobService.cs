@@ -11,6 +11,7 @@ using Microsoft.Extensions.Logging;
 
 using Serilog.Context;
 
+using Tgstation.Server.Api.Extensions;
 using Tgstation.Server.Api.Hubs;
 using Tgstation.Server.Api.Models.Response;
 using Tgstation.Server.Common.Extensions;
@@ -119,17 +120,14 @@ namespace Tgstation.Server.Host.Jobs
 			ArgumentNullException.ThrowIfNull(job);
 			ArgumentNullException.ThrowIfNull(operation);
 
+			if (job.StartedBy != null && job.StartedBy.Name == null)
+				throw new InvalidOperationException("StartedBy User associated with job does not have a Name!");
+
+			if (job.Instance == null)
+				throw new InvalidOperationException("No Instance associated with job!");
+
 			job.StartedAt = DateTimeOffset.UtcNow;
 			job.Cancelled = false;
-
-			if (job.StartedBy != null)
-			{
-				if (!job.StartedBy.Id.HasValue)
-					throw new InvalidOperationException("StartedBy User associated with job does not have an Id!");
-
-				if (job.StartedBy.Name == null)
-					throw new InvalidOperationException("StartedBy User associated with job does not have a Name!");
-			}
 
 			var originalStartedBy = job.StartedBy;
 			await databaseContextFactory.UseContext(
@@ -137,7 +135,7 @@ namespace Tgstation.Server.Host.Jobs
 				{
 					job.Instance = new Models.Instance
 					{
-						Id = job.Instance.Id.Value,
+						Id = job.Instance.Require(x => x.Id),
 					};
 
 					databaseContext.Instances.Attach(job.Instance);
@@ -147,14 +145,14 @@ namespace Tgstation.Server.Host.Jobs
 						.GetTgsUser(
 							dbUser => new User
 							{
-								Id = dbUser.Id.Value,
+								Id = dbUser.Id!.Value,
 								Name = dbUser.Name,
 							},
 							cancellationToken);
 
 					job.StartedBy = new User
 					{
-						Id = originalStartedBy.Id.Value,
+						Id = originalStartedBy.Require(x => x.Id),
 					};
 
 					databaseContext.Users.Attach(job.StartedBy);
@@ -175,7 +173,7 @@ namespace Tgstation.Server.Host.Jobs
 					bool jobShouldStart;
 					lock (synchronizationLock)
 					{
-						jobs.Add(job.Id.Value, jobHandler);
+						jobs.Add(job.Require(x => x.Id), jobHandler);
 						jobShouldStart = !noMoreJobsShouldStart;
 					}
 
@@ -199,7 +197,7 @@ namespace Tgstation.Server.Host.Jobs
 					.Jobs
 					.AsQueryable()
 					.Where(y => !y.StoppedAt.HasValue)
-					.Select(y => y.Id.Value)
+					.Select(y => y.Id!.Value)
 					.ToListAsync(cancellationToken);
 				if (badJobIds.Count > 0)
 				{
@@ -222,7 +220,7 @@ namespace Tgstation.Server.Host.Jobs
 		/// <inheritdoc />
 		public Task StopAsync(CancellationToken cancellationToken)
 		{
-			List<ValueTask<Job>> joinTasks;
+			List<ValueTask<Job?>> joinTasks;
 			lock (addCancelLock)
 				lock (synchronizationLock)
 				{
@@ -239,24 +237,25 @@ namespace Tgstation.Server.Host.Jobs
 		}
 
 		/// <inheritdoc />
-		public async ValueTask<Job> CancelJob(Job job, User user, bool blocking, CancellationToken cancellationToken)
+		public async ValueTask<Job?> CancelJob(Job job, User? user, bool blocking, CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(job);
 
-			JobHandler handler;
+			var jid = job.Require(x => x.Id);
+			JobHandler? handler;
 			lock (addCancelLock)
 			{
 				lock (synchronizationLock)
-					if (!jobs.TryGetValue(job.Id.Value, out handler))
+					if (!jobs.TryGetValue(jid, out handler))
 						return null;
 
-				logger.LogDebug("Cancelling job ID {jobId}...", job.Id.Value);
+				logger.LogDebug("Cancelling job ID {jobId}...", jid);
 				handler.Cancel(); // this will ensure the db update is only done once
 			}
 
 			await databaseContextFactory.UseContext(async databaseContext =>
 			{
-				var updatedJob = new Job(job.Id.Value);
+				var updatedJob = new Job(jid);
 				databaseContext.Jobs.Attach(updatedJob);
 				var attachedUser = user == null
 					? await databaseContext
@@ -264,12 +263,12 @@ namespace Tgstation.Server.Host.Jobs
 						.GetTgsUser(
 							dbUser => new User
 							{
-								Id = dbUser.Id.Value,
+								Id = dbUser.Id!.Value,
 							},
 							cancellationToken)
 					: new User
 					{
-						Id = user.Id.Value,
+						Id = user.Require(x => x.Id),
 					};
 
 				databaseContext.Users.Attach(attachedUser);
@@ -296,7 +295,7 @@ namespace Tgstation.Server.Host.Jobs
 			ArgumentNullException.ThrowIfNull(apiResponse);
 			lock (synchronizationLock)
 			{
-				if (!jobs.TryGetValue(apiResponse.Id.Value, out var handler))
+				if (!jobs.TryGetValue(apiResponse.Require(x => x.Id), out var handler))
 					return;
 				apiResponse.Progress = handler.Progress;
 				apiResponse.Stage = handler.Stage;
@@ -304,18 +303,18 @@ namespace Tgstation.Server.Host.Jobs
 		}
 
 		/// <inheritdoc />
-		public async ValueTask<bool?> WaitForJobCompletion(Job job, User canceller, CancellationToken jobCancellationToken, CancellationToken cancellationToken)
+		public async ValueTask<bool?> WaitForJobCompletion(Job job, User? canceller, CancellationToken jobCancellationToken, CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(job);
 
 			if (!cancellationToken.CanBeCanceled)
 				throw new ArgumentException("A cancellable CancellationToken should be provided!", nameof(cancellationToken));
 
-			JobHandler handler;
+			JobHandler? handler;
 			bool noMoreJobsShouldStart;
 			lock (synchronizationLock)
 			{
-				if (!jobs.TryGetValue(job.Id.Value, out handler))
+				if (!jobs.TryGetValue(job.Require(x => x.Id), out handler))
 					return null;
 
 				noMoreJobsShouldStart = this.noMoreJobsShouldStart;
@@ -324,7 +323,7 @@ namespace Tgstation.Server.Host.Jobs
 			if (noMoreJobsShouldStart && !handler.Started)
 				await Extensions.TaskExtensions.InfiniteTask.WaitAsync(cancellationToken);
 
-			var cancelTask = ValueTask.FromResult<Job>(null);
+			var cancelTask = ValueTask.FromResult<Job?>(null);
 			bool result;
 			using (jobCancellationToken.Register(() => cancelTask = CancelJob(job, canceller, true, cancellationToken)))
 				result = await handler.Wait(cancellationToken);
@@ -362,17 +361,18 @@ namespace Tgstation.Server.Host.Jobs
 		async Task<bool> RunJob(Job job, JobEntrypoint operation, CancellationToken cancellationToken)
 #pragma warning restore CA1506
 		{
-			using (LogContext.PushProperty(SerilogContextHelper.JobIdContextProperty, job.Id))
+			var jid = job.Require(x => x.Id);
+			using (LogContext.PushProperty(SerilogContextHelper.JobIdContextProperty, jid))
 				try
 				{
-					void LogException(Exception ex) => logger.LogDebug(ex, "Job {jobId} exited with error!", job.Id);
+					void LogException(Exception ex) => logger.LogDebug(ex, "Job {jobId} exited with error!", jid);
 
 					var hubUpdatesTask = Task.CompletedTask;
 					var result = false;
 					var firstLogHappened = false;
 					var hubGroupName = JobsHub.HubGroupName(job);
 
-					Stopwatch stopwatch = null;
+					Stopwatch? stopwatch = null;
 					void QueueHubUpdate(JobResponse update, bool final)
 					{
 						void NextUpdate(bool bypassRate)
@@ -384,7 +384,7 @@ namespace Tgstation.Server.Host.Jobs
 
 								if (!firstLogHappened)
 								{
-									logger.LogTrace("Sending updates for job {id} to hub group {group}", update.Id.Value, hubGroupName);
+									logger.LogTrace("Sending updates for job {id} to hub group {group}", jid, hubGroupName);
 									firstLogHappened = true;
 								}
 
@@ -395,7 +395,7 @@ namespace Tgstation.Server.Host.Jobs
 									.ReceiveJobUpdate(update, CancellationToken.None);
 							}
 
-							Stopwatch enteredLock = null;
+							Stopwatch? enteredLock = null;
 							try
 							{
 								if (!bypassRate && stopwatch != null)
@@ -416,19 +416,18 @@ namespace Tgstation.Server.Host.Jobs
 							}
 						}
 
-						var jobId = update.Id.Value;
 						lock (hubUpdateActions)
 							if (final)
-								hubUpdateActions.Remove(jobId);
+								hubUpdateActions.Remove(jid);
 							else
-								hubUpdateActions[jobId] = () => NextUpdate(true);
+								hubUpdateActions[jid] = () => NextUpdate(true);
 
 						NextUpdate(false);
 					}
 
 					try
 					{
-						void UpdateProgress(string stage, double? progress)
+						void UpdateProgress(string? stage, double? progress)
 						{
 							if (progress.HasValue
 								&& (progress.Value < 0 || progress.Value > 1))
@@ -440,7 +439,7 @@ namespace Tgstation.Server.Host.Jobs
 
 							int? newProgress = progress.HasValue ? (int)Math.Floor(progress.Value * 100) : null;
 							lock (synchronizationLock)
-								if (jobs.TryGetValue(job.Id.Value, out var handler))
+								if (jobs.TryGetValue(jid, out var handler))
 								{
 									handler.Stage = stage;
 									handler.Progress = newProgress;
@@ -452,12 +451,17 @@ namespace Tgstation.Server.Host.Jobs
 								}
 						}
 
-						var instanceCoreProvider = await activationTcs.Task.WaitAsync(cancellationToken);
+						var activationTask = activationTcs.Task;
+
+						Debug.Assert(activationTask.IsCompleted || job.Require(x => x.JobCode).IsServerStartupJob(), "Non-server startup job registered before activation!");
+
+						var instanceCoreProvider = await activationTask.WaitAsync(cancellationToken);
+
 						QueueHubUpdate(job.ToApi(), false);
 
 						logger.LogTrace("Starting job...");
 						await operation(
-							instanceCoreProvider.GetInstance(job.Instance),
+							instanceCoreProvider.GetInstance(job.Instance!),
 							databaseContextFactory,
 							job,
 							new JobProgressReporter(
@@ -490,7 +494,7 @@ namespace Tgstation.Server.Host.Jobs
 					{
 						await databaseContextFactory.UseContext(async databaseContext =>
 						{
-							var attachedJob = new Job(job.Id.Value);
+							var attachedJob = new Job(jid);
 
 							databaseContext.Jobs.Attach(attachedJob);
 							attachedJob.StoppedAt = DateTimeOffset.UtcNow;
@@ -515,7 +519,7 @@ namespace Tgstation.Server.Host.Jobs
 								.Include(x => x.Instance)
 								.Include(x => x.StartedBy)
 								.Include(x => x.CancelledBy)
-								.Where(dbJob => dbJob.Id == job.Id.Value)
+								.Where(dbJob => dbJob.Id == jid)
 								.FirstAsync(CancellationToken.None);
 							QueueHubUpdate(finalJob.ToApi(), true);
 						});
@@ -523,7 +527,7 @@ namespace Tgstation.Server.Host.Jobs
 					catch
 					{
 						lock (hubUpdateActions)
-							hubUpdateActions.Remove(job.Id.Value);
+							hubUpdateActions.Remove(jid);
 
 						throw;
 					}
@@ -543,8 +547,8 @@ namespace Tgstation.Server.Host.Jobs
 				{
 					lock (synchronizationLock)
 					{
-						var handler = jobs[job.Id.Value];
-						jobs.Remove(job.Id.Value);
+						var handler = jobs[jid];
+						jobs.Remove(jid);
 						handler.Dispose();
 					}
 				}

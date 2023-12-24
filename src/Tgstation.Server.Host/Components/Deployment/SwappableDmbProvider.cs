@@ -2,8 +2,8 @@
 using System.Threading;
 using System.Threading.Tasks;
 
+using Tgstation.Server.Api.Models;
 using Tgstation.Server.Host.IO;
-using Tgstation.Server.Host.Models;
 
 namespace Tgstation.Server.Host.Components.Deployment
 {
@@ -24,7 +24,10 @@ namespace Tgstation.Server.Host.Components.Deployment
 		public string Directory => IOManager.ResolvePath(LiveGameDirectory);
 
 		/// <inheritdoc />
-		public CompileJob CompileJob => BaseProvider.CompileJob;
+		public Models.CompileJob CompileJob => BaseProvider.CompileJob;
+
+		/// <inheritdoc />
+		public EngineVersion EngineVersion => BaseProvider.EngineVersion;
 
 		/// <summary>
 		/// If <see cref="MakeActive(CancellationToken)"/> has been run.

@@ -144,8 +144,8 @@ namespace Tgstation.Server.Host.Controllers
 		{
 			try
 			{
-				Version greatestVersion = null;
-				Uri repoUrl = null;
+				Version? greatestVersion = null;
+				Uri? repoUrl = null;
 				try
 				{
 					var gitHubService = gitHubServiceFactory.CreateService();
@@ -213,10 +213,10 @@ namespace Tgstation.Server.Host.Controllers
 			var attemptingUpload = model.UploadZip == true;
 			if (attemptingUpload)
 			{
-				if (!AuthenticationContext.PermissionSet.AdministrationRights.Value.HasFlag(AdministrationRights.UploadVersion))
+				if (!AuthenticationContext.PermissionSet.AdministrationRights!.Value.HasFlag(AdministrationRights.UploadVersion))
 					return Forbid();
 			}
-			else if (!AuthenticationContext.PermissionSet.AdministrationRights.Value.HasFlag(AdministrationRights.ChangeVersion))
+			else if (!AuthenticationContext.PermissionSet.AdministrationRights!.Value.HasFlag(AdministrationRights.ChangeVersion))
 				return Forbid();
 
 			if (model.NewVersion == null)
@@ -377,7 +377,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="IActionResult"/> of the request.</returns>
 		async ValueTask<IActionResult> AttemptInitiateUpdate(Version newVersion, bool attemptingUpload, CancellationToken cancellationToken)
 		{
-			IFileUploadTicket uploadTicket = attemptingUpload
+			IFileUploadTicket? uploadTicket = attemptingUpload
 				? fileTransferService.CreateUpload(FileUploadStreamKind.None)
 				: null;
 
@@ -391,7 +391,7 @@ namespace Tgstation.Server.Host.Controllers
 				catch
 				{
 					if (attemptingUpload)
-						await uploadTicket.DisposeAsync();
+						await uploadTicket!.DisposeAsync();
 
 					throw;
 				}

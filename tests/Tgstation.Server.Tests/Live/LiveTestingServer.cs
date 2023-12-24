@@ -10,6 +10,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
+using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Host;
 using Tgstation.Server.Host.Configuration;
@@ -23,6 +24,7 @@ namespace Tgstation.Server.Tests.Live
 {
 	sealed class LiveTestingServer : IServer, IDisposable
 	{
+		static bool needCleanup = false;
 		public static string BaseDirectory { get; }
 
 		static LiveTestingServer()
@@ -32,7 +34,7 @@ namespace Tgstation.Server.Tests.Live
 			if (string.IsNullOrWhiteSpace(BaseDirectory))
 			{
 				BaseDirectory = Path.Combine(Path.GetTempPath(), "TGS_INTEGRATION_TEST");
-				Cleanup(BaseDirectory).GetAwaiter().GetResult();
+				needCleanup = true;
 			}
 		}
 
@@ -50,7 +52,11 @@ namespace Tgstation.Server.Tests.Live
 				}
 		}
 
-		public Uri Url { get; }
+		public Uri ApiUrl { get; }
+
+		public Uri RootUrl { get; }
+
+		public Uri OpenDreamUrl { get; }
 
 		public string Directory { get; }
 
@@ -76,13 +82,20 @@ namespace Tgstation.Server.Tests.Live
 
 		public LiveTestingServer(SwarmConfiguration swarmConfiguration, bool enableOAuth, ushort port = 15010)
 		{
+			if (needCleanup)
+			{
+				needCleanup = false;
+				Cleanup(BaseDirectory).GetAwaiter().GetResult();
+			}
+
 			Assert.IsTrue(port >= 10000); // for testing bridge request limit
 			Directory = BaseDirectory;
 
-			Directory = Path.Combine(Directory, Guid.NewGuid().ToString());
+			Directory = Path.Combine(Directory, swarmConfiguration?.Identifier ?? "default");
 			System.IO.Directory.CreateDirectory(Directory);
 			string urlString = $"http://localhost:{port}";
-			Url = new Uri(urlString);
+			RootUrl = new Uri(urlString);
+			ApiUrl = new Uri(urlString + Routes.ApiRoot);
 
 			//so we need a db
 			//we have to rely on env vars
@@ -112,6 +125,12 @@ namespace Tgstation.Server.Tests.Live
 			HighPriorityDreamDaemon = nicingAllowed;
 			LowPriorityDeployments = nicingAllowed;
 
+			var odGitDir = Environment.GetEnvironmentVariable("TGS_TEST_OD_GIT_DIRECTORY");
+			if (!String.IsNullOrWhiteSpace(odGitDir))
+				OpenDreamUrl = new Uri($"file://{Path.GetFullPath(odGitDir).Replace('\\', '/')}");
+			else
+				OpenDreamUrl = new GeneralConfiguration().OpenDreamGitUrl;
+
 			args = new List<string>()
 			{
 				String.Format(CultureInfo.InvariantCulture, "Database:DropDatabase={0}", true), // Replaced after first Run
@@ -132,6 +151,10 @@ namespace Tgstation.Server.Tests.Live
 				"General:ByondTopicTimeout=10000",
 				$"Session:HighPriorityLiveDreamDaemon={HighPriorityDreamDaemon}",
 				$"Session:LowPriorityDeploymentProcesses={LowPriorityDeployments}",
+				$"General:SkipAddingByondFirewallException={!TestingUtils.RunningInGitHubActions}",
+				$"General:OpenDreamGitUrl={OpenDreamUrl}",
+				$"Security:TokenExpiryMinutes=120", // timeouts are useless for us
+				$"General:OpenDreamSuppressInstallOutput={TestingUtils.RunningInGitHubActions}",
 			};
 
 			swarmArgs = new List<string>();

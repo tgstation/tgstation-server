@@ -2,9 +2,9 @@
 using System.Threading;
 using System.Threading.Tasks;
 
+using Tgstation.Server.Api.Models;
 using Tgstation.Server.Host.Components.Deployment;
 using Tgstation.Server.Host.Components.Interop.Topic;
-using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.System;
 
 namespace Tgstation.Server.Host.Components.Session
@@ -32,22 +32,22 @@ namespace Tgstation.Server.Host.Components.Session
 		/// <summary>
 		/// The DMAPI <see cref="Version"/>.
 		/// </summary>
-		Version DMApiVersion { get; }
+		Version? DMApiVersion { get; }
 
 		/// <summary>
 		/// Gets the <see cref="CompileJob"/> associated with the <see cref="ISessionController"/>.
 		/// </summary>
-		CompileJob CompileJob { get; }
+		Models.CompileJob CompileJob { get; }
+
+		/// <summary>
+		/// Gets the <see cref="Api.Models.EngineVersion"/> associated with the <see cref="ISessionController"/>.
+		/// </summary>
+		EngineVersion EngineVersion { get; }
 
 		/// <summary>
 		/// Gets the <see cref="Session.ReattachInformation"/> associated with the <see cref="ISessionController"/>.
 		/// </summary>
 		ReattachInformation ReattachInformation { get; }
-
-		/// <summary>
-		/// If the port should be rotated off when the world reboots.
-		/// </summary>
-		bool ClosePortOnReboot { get; set; }
 
 		/// <summary>
 		/// If the <see cref="ISessionController"/> is currently processing a bridge request from TgsReboot().
@@ -96,15 +96,7 @@ namespace Tgstation.Server.Host.Components.Session
 		/// <param name="parameters">The <see cref="TopicParameters"/> to send.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="TopicResponse"/> of /world/Topic().</returns>
-		ValueTask<TopicResponse> SendCommand(TopicParameters parameters, CancellationToken cancellationToken);
-
-		/// <summary>
-		/// Causes the world to start listening on a <paramref name="newPort"/>.
-		/// </summary>
-		/// <param name="newPort">The port to change to.</param>
-		/// <param name="cancellatonToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in <see langword="true"/> if the operation succeeded, <see langword="false"/> otherwise.</returns>
-		Task<bool> SetPort(ushort newPort, CancellationToken cancellatonToken);
+		ValueTask<TopicResponse?> SendCommand(TopicParameters parameters, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Attempts to change the current <see cref="RebootState"/> to <paramref name="newRebootState"/>.

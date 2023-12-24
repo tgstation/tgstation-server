@@ -44,6 +44,8 @@ namespace Tgstation.Server.Tests.Live
 
 		ulong channelIdAllocator;
 
+		public static Task MessageGuard = Task.CompletedTask;
+
 		static IAsyncDelayer CreateMockDelayer()
 		{
 			// at time of writing, this is used exclusively for the reconnection interval which works in minutes
@@ -52,10 +54,11 @@ namespace Tgstation.Server.Tests.Live
 			mock.Setup(x => x.Delay(It.IsAny<TimeSpan>(), It.IsAny<CancellationToken>())).Returns<TimeSpan, CancellationToken>((delay, cancellationToken) => Task.Delay(TimeSpan.FromSeconds(3), cancellationToken));
 			return mock.Object;
 		}
-		public static async Task RandomDisconnections(bool enabled, CancellationToken cancellationToken)
+
+		public static void RandomDisconnections(bool enabled)
 		{
-			if (Interlocked.Exchange(ref enableRandomDisconnections, enabled ? 1 : 0) != 0 && !enabled)
-				await Task.Delay(TimeSpan.FromSeconds(5), cancellationToken);
+			// we just don't do random disconnections when live testing these days, too many potential issue vectors like thread exhaustion on actions runners
+			enableRandomDisconnections = enabled ? 1 : 0;
 		}
 
 		public DummyChatProvider(
@@ -100,10 +103,18 @@ namespace Tgstation.Server.Tests.Live
 			return ValueTask.CompletedTask;
 		}
 
-		public override ValueTask<Func<string, string, ValueTask<Func<bool, ValueTask>>>> SendUpdateMessage(RevisionInformation revisionInformation, Version byondVersion, DateTimeOffset? estimatedCompletionTime, string gitHubOwner, string gitHubRepo, ulong channelId, bool localCommitPushed, CancellationToken cancellationToken)
+		public override ValueTask<Func<string, string, ValueTask<Func<bool, ValueTask>>>> SendUpdateMessage(
+			RevisionInformation revisionInformation,
+			Api.Models.EngineVersion engineVersion,
+			DateTimeOffset? estimatedCompletionTime,
+			string gitHubOwner,
+			string gitHubRepo,
+			ulong channelId,
+			bool localCommitPushed,
+			CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(revisionInformation);
-			ArgumentNullException.ThrowIfNull(byondVersion);
+			ArgumentNullException.ThrowIfNull(engineVersion);
 			ArgumentNullException.ThrowIfNull(gitHubOwner);
 			ArgumentNullException.ThrowIfNull(gitHubRepo);
 
@@ -179,14 +190,14 @@ namespace Tgstation.Server.Tests.Live
 			else
 				channelId = (ulong)channel.IrcChannel.GetHashCode();
 
-			var entry = new ChannelRepresentation
+			var entry = new ChannelRepresentation(
+				$"Connection_{channelId}",
+				$"(Friendly) Channel_ID_{channelId}",
+				channelId)
 			{
 				IsAdminChannel = channel.IsAdminChannel.Value,
-				ConnectionName = $"Connection_{channelId}",
 				EmbedsSupported = ChatBot.Provider.Value != Api.Models.ChatProvider.Irc,
-				FriendlyName = $"(Friendly) Channel_ID_{channelId}",
 				IsPrivateChannel = false,
-				RealId = channelId,
 				Tag = channel.Tag,
 			};
 
@@ -209,6 +220,8 @@ namespace Tgstation.Server.Tests.Live
 					// random intervals under 10s
 					var delay = random.Next(0, 10000);
 					await Task.Delay(delay, cancellationToken);
+
+					await MessageGuard;
 
 					// %5 chance to disconnect randomly
 					if (enableRandomDisconnections != 0 && random.Next(0, 100) > 95)
@@ -244,12 +257,9 @@ namespace Tgstation.Server.Tests.Live
 							}
 							while (knownChannels.ContainsKey(channelId));
 
-							channel = new ChannelRepresentation
+							channel = new ChannelRepresentation($"{username}_Connection", $"{username}_Channel", channelId)
 							{
-								RealId = channelId,
 								IsPrivateChannel = true,
-								ConnectionName = $"{username}_Connection",
-								FriendlyName = $"{username}_Channel",
 								EmbedsSupported = ChatBot.Provider.Value != Api.Models.ChatProvider.Irc,
 
 								// isAdmin and Tag populated by manager
@@ -269,13 +279,11 @@ namespace Tgstation.Server.Tests.Live
 						channel = enumerator[index].Value;
 					}
 
-					var sender = new ChatUser
-					{
-						Channel = CloneChannel(channel),
-						FriendlyName = username,
-						RealId = i + 50000,
-						Mention = $"@{username}",
-					};
+					var sender = new ChatUser(
+						CloneChannel(channel),
+						username,
+						$"@{username}",
+						i + 50000);
 
 					var dice = random.Next(0, 100);
 					string content;
@@ -305,13 +313,8 @@ namespace Tgstation.Server.Tests.Live
 						else
 							content = $"{content} embeds_test"; // NEVER send the response_overload_test, it causes so much havoc in CI and we test it manually
 
-					EnqueueMessage(new Message
-					{
-						Content = content,
-						User = sender,
-					});
+					EnqueueMessage(new Message(sender, content));
 				}
-
 			}
 			catch (OperationCanceledException)
 			{

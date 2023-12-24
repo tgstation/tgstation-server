@@ -15,17 +15,20 @@ namespace Tgstation.Server.Tests.Live.Instance
 {
 	sealed class TestBridgeHandler : Chunker, IBridgeHandler
 	{
-		class DMApiParametersImpl : DMApiParameters { }
+		class DMApiParametersImpl : DMApiParameters
+		{
+			public DMApiParametersImpl(string accessIdentifier)
+				: base(accessIdentifier)
+			{
+			}
+		}
 
 		class BridgeResponseHack : BridgeResponse
 		{
 			public string IntegrationHack { get; set; }
 		}
 
-		public DMApiParameters DMApiParameters => new DMApiParametersImpl
-		{
-			AccessIdentifier = accessIdentifier
-		};
+		public DMApiParameters DMApiParameters => new DMApiParametersImpl(accessIdentifier);
 
 		long lastBridgeRequestSize = 0;
 
@@ -88,7 +91,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 				Assert.AreEqual("payload", coreMessage);
 				var serializedRequest = JsonConvert.SerializeObject(parameters, DMApiConstants.SerializerSettings);
-				var actualLastRequest = $"http://127.0.0.1:{serverPort}/Bridge?data=" + HttpUtility.UrlEncode(serializedRequest);
+				var actualLastRequest = $"http://127.0.0.1:{serverPort}/api/Bridge?data=" + HttpUtility.UrlEncode(serializedRequest);
 				lastBridgeRequestSize = actualLastRequest.Length;
 				return new BridgeResponseHack
 				{

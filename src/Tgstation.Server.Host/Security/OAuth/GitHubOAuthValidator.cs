@@ -52,7 +52,7 @@ namespace Tgstation.Server.Host.Security.OAuth
 		}
 
 		/// <inheritdoc />
-		public async ValueTask<string> ValidateResponseCode(string code, CancellationToken cancellationToken)
+		public async ValueTask<string?> ValidateResponseCode(string code, CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(code);
 
@@ -85,7 +85,7 @@ namespace Tgstation.Server.Host.Security.OAuth
 
 		/// <inheritdoc />
 		public OAuthProviderInfo GetProviderInfo()
-			=> new ()
+			=> new()
 			{
 				ClientId = oAuthConfiguration.ClientId,
 				RedirectUri = oAuthConfiguration.RedirectUrl,

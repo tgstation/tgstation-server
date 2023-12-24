@@ -1,9 +1,11 @@
 ﻿using System;
 using System.IO;
 using System.IO.Compression;
+using System.Globalization;
 using System.Linq;
 using System.Net.Http;
 using System.Reflection;
+using System.Security.Cryptography;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Xml.Linq;
@@ -21,13 +23,16 @@ using Tgstation.Server.Api;
 using Tgstation.Server.Client;
 using Tgstation.Server.Common.Extensions;
 using Tgstation.Server.Host;
-using Tgstation.Server.Host.Components.Byond;
+using Tgstation.Server.Host.Components.Engine;
 using Tgstation.Server.Host.Components.Interop;
 using Tgstation.Server.Host.Configuration;
+using Tgstation.Server.Host.Controllers;
 using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.System;
-using System.Net;
+using Tgstation.Server.Api.Models;
+using Tgstation.Server.Tests.Live;
+using Tgstation.Server.Host.Utils;
 
 namespace Tgstation.Server.Tests
 {
@@ -121,22 +126,34 @@ namespace Tgstation.Server.Tests
 				Mock.Of<IIOManager>(),
 				new CachingFileDownloader(Mock.Of<ILogger<CachingFileDownloader>>()),
 				mockGeneralConfigurationOptions.Object,
+				mockSessionConfigurationOptions.Object,
 				Mock.Of<ILogger<WindowsByondInstaller>>());
 
 			const string ArchiveEntryPath = "byond/bin/dd.exe";
 			var hasEntry = ArchiveHasFileEntry(
-				await byondInstaller.DownloadVersion(WindowsByondInstaller.DDExeVersion, default),
+				await TestingUtils.ExtractMemoryStreamFromInstallationData(
+					await byondInstaller.DownloadVersion(
+						new EngineVersion
+						{
+							Engine = EngineType.Byond,
+							Version = WindowsByondInstaller.DDExeVersion
+						},
+						null,
+						default),
+					CancellationToken.None),
 				ArchiveEntryPath);
 
 			Assert.IsTrue(hasEntry);
 
-			var (byondBytes, version) = await GetByondVersionPriorTo(byondInstaller, WindowsByondInstaller.DDExeVersion);
+			var (byondBytes, _) = await GetByondVersionPriorTo(byondInstaller, WindowsByondInstaller.DDExeVersion);
 			hasEntry = ArchiveHasFileEntry(
 				byondBytes,
 				ArchiveEntryPath);
 
 			Assert.IsFalse(hasEntry);
 		}
+
+		static Version MapThreadsVersion() => (Version)typeof(ByondInstallerBase).GetField("MapThreadsVersion", BindingFlags.Static | BindingFlags.NonPublic).GetValue(null) ?? throw new InvalidOperationException("Couldn't find MapThreadsVersion");
 
 		[TestMethod]
 		public async Task TestMapThreadsByondVersion()
@@ -159,24 +176,25 @@ namespace Tgstation.Server.Tests
 			var logger = loggerFactory.CreateLogger<CachingFileDownloader>();
 			var init1 = CachingFileDownloader.InitializeByondVersion(
 				logger,
-				ByondInstallerBase.MapThreadsVersion,
+				MapThreadsVersion(),
 				platformIdentifier.IsWindows,
 				CancellationToken.None);
 			await CachingFileDownloader.InitializeByondVersion(
 				logger,
-				new Version(ByondInstallerBase.MapThreadsVersion.Major, ByondInstallerBase.MapThreadsVersion.Minor - 1),
+				new Version(MapThreadsVersion().Major, MapThreadsVersion().Minor - 1),
 				platformIdentifier.IsWindows,
 				CancellationToken.None);
 			await init1;
 
 			var fileDownloader = new CachingFileDownloader(Mock.Of<ILogger<CachingFileDownloader>>());
 
-			IByondInstaller byondInstaller = platformIdentifier.IsWindows
+			ByondInstallerBase byondInstaller = platformIdentifier.IsWindows
 				? new WindowsByondInstaller(
 					Mock.Of<IProcessExecutor>(),
 					Mock.Of<IIOManager>(),
 					fileDownloader,
 					mockGeneralConfigurationOptions.Object,
+					mockSessionConfigurationOptions.Object,
 					loggerFactory.CreateLogger<WindowsByondInstaller>())
 				: new PosixByondInstaller(
 					new PosixPostWriteHandler(loggerFactory.CreateLogger<PosixPostWriteHandler>()),
@@ -197,14 +215,26 @@ namespace Tgstation.Server.Tests
 					loggerFactory);
 
 			var ioManager = new DefaultIOManager();
-			var tempPath = Path.GetTempFileName();
-			await ioManager.DeleteFile(tempPath, default);
+			var tempPath = ioManager.ConcatPath(LiveTestingServer.BaseDirectory, "mapthreads");
 			await ioManager.CreateDirectory(tempPath, default);
 			try
 			{
 				await TestMapThreadsVersion(
-					ByondInstallerBase.MapThreadsVersion,
-					await byondInstaller.DownloadVersion(ByondInstallerBase.MapThreadsVersion, default),
+					new EngineVersion
+					{
+						Engine = EngineType.Byond,
+						Version = MapThreadsVersion(),
+					},
+					await TestingUtils.ExtractMemoryStreamFromInstallationData(
+						await byondInstaller.DownloadVersion(
+							new EngineVersion
+							{
+								Engine = EngineType.Byond,
+								Version = MapThreadsVersion()
+							},
+							null,
+							default),
+						CancellationToken.None),
 					byondInstaller,
 					ioManager,
 					processExecutor,
@@ -212,7 +242,7 @@ namespace Tgstation.Server.Tests
 
 				await ioManager.DeleteDirectory(tempPath, default);
 
-				var (byondBytes, version) = await GetByondVersionPriorTo(byondInstaller, ByondInstallerBase.MapThreadsVersion);
+				var (byondBytes, version) = await GetByondVersionPriorTo(byondInstaller, MapThreadsVersion());
 
 				await TestMapThreadsVersion(
 					version,
@@ -380,45 +410,91 @@ namespace Tgstation.Server.Tests
 			Assert.AreEqual(latestMigrationSL, DatabaseContext.SLLatestMigration);
 		}
 
-		static async Task<Tuple<MemoryStream, Version>> GetByondVersionPriorTo(IByondInstaller byondInstaller, Version version)
+		[TestMethod]
+		public async Task CheckWebRootPathForTgsLogo()
+		{
+			var directory = Path.GetFullPath("../../../../../src/Tgstation.Server.Host/wwwroot");
+			if (!Directory.Exists(directory))
+				Assert.Inconclusive("Webpanel not built?");
+
+			static string GetConstField(string name) => (string)typeof(RootController).GetField(name, BindingFlags.NonPublic | BindingFlags.Static).GetValue(null);
+
+			var logo = new PlatformIdentifier().IsWindows
+				? GetConstField("LogoSvgWindowsName")
+				: GetConstField("LogoSvgLinuxName");
+
+			var path = $"../../../../../src/Tgstation.Server.Host/wwwroot/{logo}.svg";
+			Assert.IsTrue(File.Exists(path));
+
+			var content = await File.ReadAllBytesAsync(path);
+			var hash = String.Join(String.Empty, SHA1.HashData(content).Select(b => b.ToString("x2", CultureInfo.InvariantCulture)));
+			Assert.AreEqual(
+				new PlatformIdentifier().IsWindows
+					? "c5e4709774c14a6f376dbb5100bd80a0114a2287"
+					: "9eba2fac24c5c7e0008721690d07c3df575a00d6",
+				hash);
+		}
+
+		static async Task<Tuple<Stream, EngineVersion>> GetByondVersionPriorTo(ByondInstallerBase byondInstaller, Version version)
 		{
 			var minusOneMinor = new Version(version.Major, version.Minor - 1);
+			var byondVersion = new EngineVersion
+			{
+				Engine = EngineType.Byond,
+				Version = minusOneMinor
+			};
 			try
 			{
-				return Tuple.Create(await byondInstaller.DownloadVersion(minusOneMinor, default), minusOneMinor);
+				return Tuple.Create(await TestingUtils.ExtractMemoryStreamFromInstallationData(await byondInstaller.DownloadVersion(
+					byondVersion,
+					null,
+					CancellationToken.None), CancellationToken.None), byondVersion);
 			}
 			catch (HttpRequestException)
 			{
 				var minusOneMajor = new Version(minusOneMinor.Major - 1, minusOneMinor.Minor);
-				return Tuple.Create(await byondInstaller.DownloadVersion(minusOneMajor, default), minusOneMajor);
+				byondVersion.Version = minusOneMajor;
+				return Tuple.Create(await TestingUtils.ExtractMemoryStreamFromInstallationData(await byondInstaller.DownloadVersion(
+					byondVersion,
+					null,
+					CancellationToken.None), CancellationToken.None), byondVersion);
 			}
 		}
 
 		static async Task TestMapThreadsVersion(
-			Version byondVersion,
+			EngineVersion engineVersion,
 			Stream byondBytes,
-			IByondInstaller byondInstaller,
-			IIOManager ioManager,
-			IProcessExecutor processExecutor,
+			ByondInstallerBase byondInstaller,
+			DefaultIOManager ioManager,
+			ProcessExecutor processExecutor,
 			string tempPath)
 		{
 			using (byondBytes)
 				await ioManager.ZipToDirectory(tempPath, byondBytes, default);
 
 			// HAAAAAAAX
-			if (byondInstaller.GetType() == typeof(WindowsByondInstaller))
+			var installerType = byondInstaller.GetType();
+			if (byondInstaller is WindowsByondInstaller)
 				typeof(WindowsByondInstaller).GetField("installedDirectX", BindingFlags.Instance | BindingFlags.NonPublic).SetValue(byondInstaller, true);
 
-			await byondInstaller.InstallByond(byondVersion, tempPath, default);
+			await byondInstaller.Install(engineVersion, tempPath, default);
 
+			var binPath = (string)typeof(ByondInstallerBase).GetField("ByondBinPath", BindingFlags.Static | BindingFlags.NonPublic).GetValue(null);
+			var ddNameFunc = installerType.GetMethod("GetDreamDaemonName", BindingFlags.Instance | BindingFlags.NonPublic);
+			var supportsCli = false;
+			var argArray = new object[] { engineVersion.Version, supportsCli };
+
+			// https://stackoverflow.com/questions/2438065/how-can-i-invoke-a-method-with-an-out-parameter
 			var ddPath = ioManager.ConcatPath(
 				tempPath,
-				ByondManager.BinPath,
-				byondInstaller.GetDreamDaemonName(byondVersion, out var supportsCli, out var shouldSupportMapThreads));
+				binPath,
+				(string)ddNameFunc.Invoke(byondInstaller, argArray));
 
-			Assert.IsTrue(supportsCli);
+			Assert.IsTrue((bool)argArray[1]);
 
-			await File.WriteAllBytesAsync("fake.dmb", Array.Empty<byte>(), CancellationToken.None);
+			var shouldSupportMapThreads = engineVersion.Version >= MapThreadsVersion();
+
+			await File.WriteAllBytesAsync("fake.dmb", [], CancellationToken.None);
 
 			try
 			{

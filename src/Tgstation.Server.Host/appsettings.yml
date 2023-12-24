@@ -13,9 +13,12 @@ General:
   UserGroupLimit: 25 # Maximum number of allowed groups
   InstanceLimit: 10 # Maximum number of allowed instances
   ValidInstancePaths: # An array of directories instances may be created in (either directly or as a subdirectory). null removes the restriction
-  HostApiDocumentation: false # Make HTTP API documentation available at /swagger/v1/swagger.json
-  SkipAddingByondFirewallException: false # Windows Only: Prevent running netsh.exe to add a firewall exception for installed DreamDaemon binaries
+  HostApiDocumentation: false # Make HTTP API documentation available at /api/doc/tgs_api.json
+  SkipAddingByondFirewallException: false # Windows Only: Prevent running netsh.exe to add a firewall exception for installed engine binaries
   DeploymentDirectoryCopyTasksPerCore: 100 # Maximum number of concurrent file copy operations PER available CPU core
+  OpenDreamGitUrl: https://github.com/OpenDreamProject/OpenDream # The repository to retrieve OpenDream from
+  OpenDreamGitTagPrefix: v # The prefix to the OpenDream semver as tags appear in the git repository
+  OpenDreamSuppressInstallOutput: false # Suppress the dotnet output of creating an OpenDream installation. Known to cause hangs in CI.
 Session:
   HighPriorityLiveDreamDaemon: false # If DreamDaemon instances should run as higher priority processes
   LowPriorityDeploymentProcesses: true # If TGS Deployments should run as lower priority processes
@@ -46,7 +49,7 @@ Updates:
 Database:
   DatabaseType: SqlServer # The database type TGS connects to
   ServerVersion: # The version of the database being connected to, generally not required to be specified
-  ConnectionString: Data Source=(local);Initial Catalog=TGS;Integrated Security=True # The connection string used to establish the database connection. Format varies for each DatabaseType
+  ConnectionString: Data Source=(local);Initial Catalog=TGS;Integrated Security=True;Encrypt=false # The connection string used to establish the database connection. Format varies for each DatabaseType
   DropDatabase: false # DANGEROUS! Causes TGS to recreate its database on startup. Must be unset manually
   ResetAdminPassword: false # DANGEROUS! Causes TGS to reset the `Admin` user password back to its default value on startup. Must be unset manually.
 Security:
