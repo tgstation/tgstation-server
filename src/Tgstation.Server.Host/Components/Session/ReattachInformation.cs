@@ -5,8 +5,6 @@ using Tgstation.Server.Host.Components.Interop.Bridge;
 using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.System;
 
-#nullable disable
-
 namespace Tgstation.Server.Host.Components.Session
 {
 	/// <summary>
@@ -22,12 +20,12 @@ namespace Tgstation.Server.Host.Components.Session
 		/// <summary>
 		/// The <see cref="IDmbProvider"/> initially used to launch DreamDaemon. Should be a different <see cref="IDmbProvider"/> than <see cref="Dmb"/>. Should not be set if persisting the initial <see cref="CompileJob"/> isn't necessary.
 		/// </summary>
-		public IDmbProvider InitialDmb { get; set; }
+		public IDmbProvider? InitialDmb { get; set; }
 
 		/// <summary>
 		/// The <see cref="Interop.Bridge.RuntimeInformation"/> for the DMAPI.
 		/// </summary>
-		public RuntimeInformation RuntimeInformation { get; private set; }
+		public RuntimeInformation? RuntimeInformation { get; private set; }
 
 		/// <summary>
 		/// The <see cref="TimeSpan"/> which indicates when topic requests should timeout.
@@ -49,7 +47,7 @@ namespace Tgstation.Server.Host.Components.Session
 		public ReattachInformation(
 			Models.ReattachInformation copy,
 			IDmbProvider dmb,
-			IDmbProvider initialDmb,
+			IDmbProvider? initialDmb,
 			TimeSpan topicRequestTimeout)
 			: base(copy)
 		{
