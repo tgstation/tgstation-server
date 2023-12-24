@@ -141,11 +141,12 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				ValueTask RunPrequel() => BeforeApplyDmb(pendingSwappable.CompileJob, cancellationToken);
 
 				var needToSwap = !pendingSwappable.Swapped;
+				var controller = Server!;
 				if (needToSwap)
 				{
 					// IMPORTANT: THE SESSIONCONTROLLER SHOULD STILL BE PROCESSING THE BRIDGE REQUEST SO WE KNOW DD IS SLEEPING
 					// OTHERWISE, IT COULD RETURN TO /world/Reboot() TOO EARLY AND LOAD THE WRONG .DMB
-					if (!Server.ProcessingRebootBridgeRequest)
+					if (!controller.ProcessingRebootBridgeRequest)
 					{
 						// integration test logging will catch this
 						Logger.LogError(
@@ -168,7 +169,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				if (needToSwap)
 					await PerformDmbSwap(pendingSwappable, cancellationToken);
 
-				var currentCompileJobId = Server.ReattachInformation.Dmb.CompileJob.Id;
+				var currentCompileJobId = controller.ReattachInformation.Dmb.CompileJob.Id;
 
 				await DrainDeploymentCleanupTasks(false);
 
@@ -209,7 +210,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 
 				lock (deploymentCleanupTasks)
 				{
-					lingeringDeployment = Server.ReplaceDmbProvider(pendingSwappable);
+					lingeringDeployment = controller.ReplaceDmbProvider(pendingSwappable);
 					deploymentCleanupTasks.Add(
 						CleanupLingeringDeployment());
 				}
@@ -217,7 +218,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				ActiveSwappable = pendingSwappable;
 				pendingSwappable = null;
 
-				await SessionPersistor.Update(Server.ReattachInformation, cancellationToken);
+				await SessionPersistor.Update(controller.ReattachInformation, cancellationToken);
 				await updateTask;
 			}
 			else
@@ -382,7 +383,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			await newProvider.FinishActivationPreparation(cancellationToken);
 
 			var suspended = false;
-			var server = Server;
+			var server = Server!;
 			try
 			{
 				server.SuspendProcess();
