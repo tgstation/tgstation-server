@@ -34,7 +34,7 @@ namespace Tgstation.Server.Host.Components.Session
 		/// <param name="reattachInformation">The <see cref="ReattachInformation"/> to use.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in a new <see cref="ISessionController"/> on success or <see langword="null"/> on failure to reattach.</returns>
-		ValueTask<ISessionController> Reattach(
+		ValueTask<ISessionController?> Reattach(
 			ReattachInformation reattachInformation,
 			CancellationToken cancellationToken);
 	}
