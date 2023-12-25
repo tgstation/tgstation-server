@@ -123,7 +123,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// </summary>
 		/// <param name="appRoute">The value of the route.</param>
 		/// <returns>The <see cref="VirtualFileResult"/> to use.</returns>
-		[Route("/{**appRoute}")]
+		[Route("{**appRoute}")]
 		[HttpGet]
 		public IActionResult Get([FromRoute] string appRoute)
 		{

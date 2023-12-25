@@ -94,21 +94,21 @@ namespace Tgstation.Server.Host.Controllers
 		[AllowAnonymous]
 		public IActionResult Index()
 		{
-			const string ApiDocumentationRoute = "/" + SwaggerConfiguration.DocumentationSiteRouteExtension;
 			var panelEnabled = controlPanelConfiguration.Enable;
 			var apiDocsEnabled = generalConfiguration.HostApiDocumentation;
 
+			var controlPanelRoute = ControlPanelController.ControlPanelRoute.TrimStart('/');
 			if (panelEnabled ^ apiDocsEnabled)
 				if (panelEnabled)
-					return Redirect(ControlPanelController.ControlPanelRoute);
+					return Redirect(controlPanelRoute);
 				else
-					return Redirect(ApiDocumentationRoute);
+					return Redirect(SwaggerConfiguration.DocumentationSiteRouteExtension);
 
 			Dictionary<string, string>? links;
 			if (panelEnabled)
 				links = new Dictionary<string, string>()
 				{
-					{ "Web Control Panel", ControlPanelController.ControlPanelRoute.TrimStart('/') },
+					{ "Web Control Panel", controlPanelRoute },
 					{ "API Documentation", SwaggerConfiguration.DocumentationSiteRouteExtension },
 				};
 			else
