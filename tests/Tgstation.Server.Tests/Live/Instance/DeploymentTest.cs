@@ -139,10 +139,10 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 			var updatedDD = await dreamDaemonClient.Update(new DreamDaemonRequest
 			{
-				StartupTimeout = 30,
+				StartupTimeout = 60,
 				Port = ddPort
 			}, cancellationToken);
-			Assert.AreEqual(30U, updatedDD.StartupTimeout);
+			Assert.AreEqual(60U, updatedDD.StartupTimeout);
 			Assert.AreEqual(ddPort, updatedDD.Port);
 
 			async Task<JobResponse> CompileAfterByondInstall()
