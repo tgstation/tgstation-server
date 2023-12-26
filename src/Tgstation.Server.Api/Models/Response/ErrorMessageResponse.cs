@@ -1,6 +1,8 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
+using Newtonsoft.Json;
+
 namespace Tgstation.Server.Api.Models.Response
 {
 	/// <summary>
@@ -28,6 +30,7 @@ namespace Tgstation.Server.Api.Models.Response
 		/// The <see cref="ErrorCode"/> of the <see cref="ErrorMessageResponse"/>.
 		/// </summary>
 		[EnumDataType(typeof(ErrorCode))]
+		[JsonProperty(Required = Required.Always)]
 		public ErrorCode ErrorCode { get; set; }
 
 		/// <summary>
