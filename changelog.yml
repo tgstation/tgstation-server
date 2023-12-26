@@ -145,6 +145,10 @@ Components:
     ComponentVersions: {}
     Changes: []
     Unreleased: true
+  - Version: 6.0.2
+    ComponentVersions: {}
+    Changes: []
+    Unreleased: true
   - Version: 6.0.1
     ComponentVersions:
       HttpApi: 10.0.0
@@ -167,7 +171,6 @@ Components:
       - Changed `DreamDaemon` in chat `DEFCON` messages to `Game server`.
       Author: Cyberboss
       PullRequest: 1751
-    Unreleased: true
   - Version: 6.0.0
     ComponentVersions:
       Core: 6.0.0
