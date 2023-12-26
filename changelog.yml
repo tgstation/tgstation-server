@@ -162,6 +162,11 @@ Components:
       - Fix authentication 500 issues when a user's password changed and some other circumstances.
       Author: Cyberboss
       PullRequest: 1749
+    - Descriptions:
+      - Fixed submodule updates not being recursive.
+      - Changed `DreamDaemon` in chat `DEFCON` messages to `Game server`.
+      Author: Cyberboss
+      PullRequest: 1751
     Unreleased: true
   - Version: 6.0.0
     ComponentVersions:

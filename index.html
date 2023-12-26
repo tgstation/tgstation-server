@@ -198,8 +198,10 @@ Docker</h4>
 <h3><a class="anchor" id="autotoc_md12"></a>
 OpenDream</h3>
 <p >In order for TGS to use <a href="https://github.com/OpenDreamProject/OpenDream">OpenDream</a>, it requires the full .NET SDK to build whichever version your servers target. Whatever that is, it must be available using the <code>dotnet</code> command for whichever user runs TGS.</p>
-<p >OpenDream currently requires <a href="https://dotnet.microsoft.com/en-us/download/dotnet/7.0">.NET SDK 7.0</a> at the time of this writing. You must install this manually.</p>
-<p >On Linux, as long as OpenDream and TGS do not use the same .NET major version, you cannot achieve this with the package manager as they will conflict. The 7.0 SDK can be added to an 8.0 runtime installation via the following steps.</p>
+<p >OpenDream currently requires <a href="https://dotnet.microsoft.com/en-us/download/dotnet/8.0">.NET SDK 8.0</a> at the time of this writing. You must install this manually outside of TGS (i.e. using your package manager).</p>
+<details >
+<p ><summary>How to handle a different SDK version than the ASP.NET runtime of TGS.</summary></p>
+<p >On Linux, as long as OpenDream and TGS do not use the same .NET major version, you cannot achieve this with the package manager as they will conflict. For example, the 7.0 SDK can be added to an 8.0 runtime installation via the following steps.</p>
 <ol type="1">
 <li>Install <code>tgstation-server</code> using any of the above methods.</li>
 </ol>
@@ -212,7 +214,8 @@ OpenDream</h3>
 <ol type="1">
 <li>Run <code>sudo chown -R root /usr/share/dotnet</code></li>
 </ol>
-<p >You should now be able to run the <code>dotnet --list-sdks</code> command and see an entry for <code>7.0.XXX [/usr/share/dotnet/sdk]</code>.</p>
+<p >You should now be able to run the <code>dotnet --list-sdks</code> command and see an entry for <code>7.0.XXX [/usr/share/dotnet/sdk]</code>. </p>
+</details>
 <h2><a class="anchor" id="autotoc_md13"></a>
 Configuring</h2>
 <p >The first time you run TGS you should be prompted with a configuration wizard which will guide you through setting up your <code>appsettings.Production.yml</code></p>
