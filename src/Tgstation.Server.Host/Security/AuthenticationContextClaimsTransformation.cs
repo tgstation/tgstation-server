@@ -83,31 +83,27 @@ namespace Tgstation.Server.Host.Security
 				nbf,
 				CancellationToken.None); // DCT: None available
 
-			if (authenticationContext.Valid)
+			var enumerator = Enum.GetValues(typeof(RightsType));
+			var claims = new List<Claim>();
+			foreach (RightsType rightType in enumerator)
 			{
-				var enumerator = Enum.GetValues(typeof(RightsType));
-				var claims = new List<Claim>();
-				foreach (RightsType rightType in enumerator)
-				{
-					// if there's no instance user, do a weird thing and add all the instance roles
-					// we need it so we can get to OnActionExecutionAsync where we can properly decide between BadRequest and Forbid
-					// if user is null that means they got the token with an expired password
-					var rightAsULong = authenticationContext.User == null
-						|| (RightsHelper.IsInstanceRight(rightType) && authenticationContext.InstancePermissionSet == null)
-						? ~0UL
-						: authenticationContext.GetRight(rightType);
-					var rightEnum = RightsHelper.RightToType(rightType);
-					var right = (Enum)Enum.ToObject(rightEnum, rightAsULong);
-					foreach (Enum enumeratedRight in Enum.GetValues(rightEnum))
-						if (right.HasFlag(enumeratedRight))
-							claims.Add(
-								new Claim(
-									ClaimTypes.Role,
-									RightsHelper.RoleName(rightType, enumeratedRight)));
-				}
-
-				principal.AddIdentity(new ClaimsIdentity(claims));
+				// if there's a bad condition, do a weird thing and add all the roles
+				// we need it so we can get to TgsAuthorizeAttribute where we can properly decide between BadRequest and Forbid
+				var rightAsULong = !authenticationContext.Valid
+					|| (RightsHelper.IsInstanceRight(rightType) && authenticationContext.InstancePermissionSet == null)
+					? ~0UL
+					: authenticationContext.GetRight(rightType);
+				var rightEnum = RightsHelper.RightToType(rightType);
+				var right = (Enum)Enum.ToObject(rightEnum, rightAsULong);
+				foreach (Enum enumeratedRight in Enum.GetValues(rightEnum))
+					if (right.HasFlag(enumeratedRight))
+						claims.Add(
+							new Claim(
+								ClaimTypes.Role,
+								RightsHelper.RoleName(rightType, enumeratedRight)));
 			}
+
+			principal.AddIdentity(new ClaimsIdentity(claims));
 
 			return principal;
 		}

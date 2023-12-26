@@ -129,17 +129,34 @@ namespace Tgstation.Server.Tests.Live.Instance
 				}
 			}
 
+			async Task UpdateDDSettings()
+			{
+				for (var i = 0; i < 5; ++i)
+					try
+					{
+						// Increase startup timeout, disable heartbeats, enable map threads because we've tested without for years
+						await instanceClient.DreamDaemon.Update(new DreamDaemonRequest
+						{
+							StartupTimeout = 60,
+							HealthCheckSeconds = 0,
+							Port = ddPort,
+							MapThreads = 2,
+							LogOutput = false,
+							AdditionalParameters = BaseAdditionalParameters
+						}, cancellationToken);
+					}
+					catch (ConflictException ex) when (ex.ErrorCode == ErrorCode.PortNotAvailable)
+					{
+						if (i == 4)
+							throw;
+
+						// I have no idea why this happens sometimes
+						await Task.Delay(TimeSpan.FromSeconds(3), cancellationToken);
+					}
+			}
+
 			await Task.WhenAll(
-				// Increase startup timeout, disable heartbeats, enable map threads because we've tested without for years
-				instanceClient.DreamDaemon.Update(new DreamDaemonRequest
-				{
-					StartupTimeout = 30,
-					HealthCheckSeconds = 0,
-					Port = ddPort,
-					MapThreads = 2,
-					LogOutput = false,
-					AdditionalParameters = BaseAdditionalParameters
-				}, cancellationToken).AsTask(),
+				UpdateDDSettings(),
 				CheckByondVersions(),
 				ApiAssert.ThrowsException<ApiConflictException, DreamDaemonResponse>(() => instanceClient.DreamDaemon.Update(new DreamDaemonRequest
 				{

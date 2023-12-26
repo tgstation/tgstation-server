@@ -687,9 +687,21 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 						channelId,
 						discordChannelResponse.LogFormat());
 
-					remapRequired |= !(discordChannelResponse.Error is RestResultError<RestError> restResultError
+					var remapConditional = !(discordChannelResponse.Error is RestResultError<RestError> restResultError
 						&& (restResultError.Error?.Code == DiscordError.MissingAccess
 						|| restResultError.Error?.Code == DiscordError.UnknownChannel));
+
+					if (remapConditional)
+					{
+						Logger.Log(
+							remapRequired
+								? LogLevel.Trace
+								: LogLevel.Debug,
+							"Error on channel {channelId} is not an access/thread issue. Will retry remap...",
+							channelId);
+						remapRequired = true;
+					}
+
 					return null;
 				}
 
@@ -721,7 +733,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 							"Error retrieving discord guild {guildID}: {result}",
 							guildId,
 							guildsResponse.LogFormat());
-						remapRequired |= true;
+						remapRequired = true;
 					}
 
 					return null;

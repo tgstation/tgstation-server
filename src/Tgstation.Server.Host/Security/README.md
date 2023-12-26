@@ -64,7 +64,7 @@
 	1. If a valid authentication context is returned from the [IAuthenticationContextFactory](./IAuthenticationContextFactory.cs), the [AuthenticationContextClaimsTransformation](./AuthenticationContextClaimsTransformation.cs) uses the context to add claims for each permission bit to the user's identity principal.
 		- Internally, ASP.NET Core uses this to determine whether or not a request to an endpoint will 403 or not based on the parameters of its [TgsAuthorizeAttribute](./TgsAuthorizeAttribute.cs).
 1. The authorization filter is invoked
-	- For non-SignalR hub requests, this is the [AuthenticationContextAuthorizationFilter](./AuthenticationContextAuthorizationFilter.cs). It does two simple things:
+	- For non-SignalR hub requests, this is the `IAuthorizationFilter` part of the [TgsAuthorizeAttribute](./TgsAuthorizeAttribute.cs). It does two simple things:
 		1. It checks the validity of the scope's [IAuthenticationContext](./IAuthenticationContext.cs). If it is invalid (indicating the user is not authorized either due to not existing (Only possible with a forged and signed JWT) or if their token was outdated compared to the last time their password or `Enabled` status was updated), HTTP 401 will be returned.
 		1. It checks the user's `Enabled` status. If the user is disabled, HTTP 403 will be returned.
 	- For SignalR hub requests, this is the [AuthorizationContextHubFilter](./AuthorizationContextHubFilter.cs).

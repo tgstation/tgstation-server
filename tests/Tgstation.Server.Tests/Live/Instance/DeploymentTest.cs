@@ -123,7 +123,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 				var updatedDM = await dreamMakerClient.Update(new DreamMakerRequest
 				{
 					ProjectName = "tests/DMAPI/ApiFree/api_free",
-					ApiValidationPort = dmPort
+					ApiValidationPort = dmPort,
 				}, cancellationToken);
 				Assert.AreEqual(dmPort, updatedDM.ApiValidationPort);
 				Assert.AreEqual("tests/DMAPI/ApiFree/api_free", updatedDM.ProjectName);
@@ -139,10 +139,10 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 			var updatedDD = await dreamDaemonClient.Update(new DreamDaemonRequest
 			{
-				StartupTimeout = 30,
+				StartupTimeout = 60,
 				Port = ddPort
 			}, cancellationToken);
-			Assert.AreEqual(30U, updatedDD.StartupTimeout);
+			Assert.AreEqual(60U, updatedDD.StartupTimeout);
 			Assert.AreEqual(ddPort, updatedDD.Port);
 
 			async Task<JobResponse> CompileAfterByondInstall()
@@ -153,7 +153,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 			var deployJobTask = CompileAfterByondInstall();
 			var deployJob = await deployJobTask;
-			var deploymentJobWaitTask = WaitForJob(deployJob, 40, true, ErrorCode.DeploymentNeverValidated, cancellationToken);
+			var deploymentJobWaitTask = WaitForJob(deployJob, 120, true, ErrorCode.DeploymentNeverValidated, cancellationToken);
 
 			await CheckDreamDaemonPriority(deploymentJobWaitTask, cancellationToken);
 

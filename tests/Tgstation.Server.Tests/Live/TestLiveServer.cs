@@ -1342,7 +1342,20 @@ namespace Tgstation.Server.Tests.Live
 			{
 				Api.Models.Instance instance;
 				long initialStaged, initialActive, initialSessionId;
+
 				await using var firstAdminClient = await CreateAdminClient(server.ApiUrl, cancellationToken);
+				await using (var tokenOnlyClient = clientFactory.CreateFromToken(server.RootUrl, firstAdminClient.Token))
+				{
+					// regression test for password change issue
+					var currentUser = await tokenOnlyClient.Users.Read(cancellationToken);
+					var updatedUser = await tokenOnlyClient.Users.Update(new UserUpdateRequest
+					{
+						Id = currentUser.Id,
+						Password = DefaultCredentials.DefaultAdminUserPassword,
+					}, cancellationToken);
+
+					await ApiAssert.ThrowsException<UnauthorizedException, UserResponse>(() => tokenOnlyClient.Users.Read(cancellationToken), null);
+				}
 
 				async ValueTask<IServerClient> CreateUserWithNoInstancePerms()
 				{

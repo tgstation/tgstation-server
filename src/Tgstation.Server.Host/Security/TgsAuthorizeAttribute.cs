@@ -1,8 +1,13 @@
 ﻿using System;
 
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 using Tgstation.Server.Api.Rights;
+using Tgstation.Server.Host.Models;
 
 namespace Tgstation.Server.Host.Security
 {
@@ -11,7 +16,7 @@ namespace Tgstation.Server.Host.Security
 	/// </summary>
 #pragma warning disable CA1019
 	[AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = true, Inherited = true)]
-	sealed class TgsAuthorizeAttribute : AuthorizeAttribute
+	sealed class TgsAuthorizeAttribute : AuthorizeAttribute, IAuthorizationFilter
 	{
 		/// <summary>
 		/// Gets the <see cref="Api.Rights.RightsType"/> associated with the <see cref="TgsAuthorizeAttribute"/> if any.
@@ -113,6 +118,27 @@ namespace Tgstation.Server.Host.Security
 		{
 			Roles = RightsHelper.RoleNames(requiredRights);
 			RightsType = Api.Rights.RightsType.InstancePermissionSet;
+		}
+
+		/// <inheritdoc />
+		public void OnAuthorization(AuthorizationFilterContext context)
+		{
+			var services = context.HttpContext.RequestServices;
+			var authenticationContext = services.GetRequiredService<IAuthenticationContext>();
+			var logger = services.GetRequiredService<ILogger<TgsAuthorizeAttribute>>();
+
+			if (!authenticationContext.Valid)
+			{
+				logger.LogTrace("authenticationContext is invalid!");
+				context.Result = new UnauthorizedResult();
+				return;
+			}
+
+			if (authenticationContext.User.Require(x => x.Enabled))
+				return;
+
+			logger.LogTrace("authenticationContext is for a disabled user!");
+			context.Result = new ForbidResult();
 		}
 	}
 }

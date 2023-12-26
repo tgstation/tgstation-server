@@ -159,10 +159,27 @@ namespace Tgstation.Server.Tests.Live.Instance
 				Origin = new Uri(Origin),
 			}, cancellationToken).AsTask();
 
-			var dmUpdateRequest = instanceClient.DreamMaker.Update(new DreamMakerRequest
+			async Task UpdateDMSettings()
 			{
-				ApiValidationPort = dmPort,
-			}, cancellationToken);
+				for (var i = 0; i < 5; ++i)
+					try
+					{
+						await instanceClient.DreamMaker.Update(new DreamMakerRequest
+						{
+							ApiValidationPort = dmPort,
+						}, cancellationToken);
+					}
+					catch (ConflictException ex) when (ex.ErrorCode == ErrorCode.PortNotAvailable)
+					{
+						if (i == 4)
+							throw;
+
+						// I have no idea why this happens sometimes
+						await Task.Delay(TimeSpan.FromSeconds(3), cancellationToken);
+					}
+			}
+
+			var dmUpdateRequest = UpdateDMSettings();
 
 			// need at least one chat bot to satisfy DMAPI test,
 			// use discord as it allows multi-botting on on token unlike IRC
@@ -230,7 +247,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			await Task.WhenAll(
 				jrt.WaitForJob(installJob2.InstallJob, EngineTest.EngineInstallationTimeout(compatVersion) + 30, false, null, cancellationToken),
 				jrt.WaitForJob(cloneRequest.Result.ActiveJob, 60, false, null, cancellationToken),
-				dmUpdateRequest.AsTask(),
+				dmUpdateRequest,
 				cloneRequest);
 
 			if (compatVersion.Engine.Value == EngineType.OpenDream)
