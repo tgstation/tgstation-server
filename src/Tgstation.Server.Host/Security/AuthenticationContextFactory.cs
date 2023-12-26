@@ -102,7 +102,7 @@ namespace Tgstation.Server.Host.Security
 				systemIdentity = identityCache.LoadCachedIdentity(user);
 			else
 			{
-				if (user.LastPasswordUpdate.HasValue && user.LastPasswordUpdate > notBefore)
+				if (user.LastPasswordUpdate.HasValue && user.LastPasswordUpdate >= notBefore)
 				{
 					logger.LogDebug("Rejecting token for user {userId} created before last password update: {lastPasswordUpdate}", userId, user.LastPasswordUpdate.Value);
 					return currentAuthenticationContext;

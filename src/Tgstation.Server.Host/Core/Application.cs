@@ -16,7 +16,6 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Connections;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Configuration;
@@ -629,7 +628,6 @@ namespace Tgstation.Server.Host.Core
 				.GetRequiredService<AuthenticationContextFactory>()
 				.CurrentAuthenticationContext);
 			services.AddScoped<IClaimsTransformation, AuthenticationContextClaimsTransformation>();
-			services.AddScoped<IAuthorizationFilter, AuthenticationContextAuthorizationFilter>();
 
 			services
 				.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
