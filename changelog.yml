@@ -146,8 +146,22 @@ Components:
     Changes: []
     Unreleased: true
   - Version: 6.0.1
-    ComponentVersions: {}
-    Changes: []
+    ComponentVersions:
+      HttpApi: 10.0.0
+      DreamMakerApi: 7.0.0
+      Configuration: 5.0.0
+      InteropApi: 5.7.0
+      HostWatchdog: 1.4.1
+      NugetCommon: 7.0.0
+      NugetApi: 13.0.1
+      NugetClient: 15.0.1
+      WebControlPanel: 5.3.0
+    Changes:
+    - Descriptions:
+      - Fix some rooted routing on the new home page.
+      - Fix authentication 500 issues when a user's password changed and some other circumstances.
+      Author: Cyberboss
+      PullRequest: 1749
     Unreleased: true
   - Version: 6.0.0
     ComponentVersions:
@@ -4068,10 +4082,11 @@ Components:
       Author: Cyberboss
       PullRequest: 1629
   NugetClient:
-  - Version: 15.0.0
+  - Version: 15.0.1
     Changes:
     - Descriptions:
-      - Performed all API 10 client changes.
+      - Fixed `ErrorMessageResponse` improperly deserializing from 401 responses.
+      - Update to patched API library.
       Author: Cyberboss
-      PullRequest: 1666
+      PullRequest: 1749
     Unreleased: true

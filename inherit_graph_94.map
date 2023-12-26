@@ -1,3 +1,6 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_server_side_modifications.html" title="Represents code modifications via configuration." alt="" coords="5,5,232,45"/>
+<area shape="rect" id="node1" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_watchdog_factory.html" title="For creating IWatchdogs." alt="" coords="5,5,232,45"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_factory.html" title=" " alt="" coords="280,5,507,45"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_windows_watchdog_factory.html" title="IWatchdogFactory for creating AdvancedWatchdogs." alt="" coords="555,5,792,45"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_posix_watchdog_factory.html" title="IWatchdogFactory for creating PosixWatchdogs." alt="" coords="840,5,1067,45"/>
 </map>

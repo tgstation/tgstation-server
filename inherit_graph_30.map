@@ -1,5 +1,8 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_chat_connection_string_builder.html" title="Helper for building ChatBotSettings.ConnectionStrings." alt="" coords="5,37,240,77"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_discord_connection_string_builder.html" title="ChatConnectionStringBuilder for ChatProvider.Discord." alt="" coords="288,5,493,45"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_irc_connection_string_builder.html" title="ChatConnectionStringBuilder for ChatProvider.Irc." alt="" coords="297,69,484,109"/>
+<area shape="rect" id="node1" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_dream_daemon_launch_parameters.html" title="Launch settings for DreamDaemon." alt="" coords="5,69,269,109"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_dream_daemon_settings.html" title="Configurable settings for DreamDaemon." alt="" coords="317,69,520,109"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_dream_daemon_api_base.html" title="Base class for DreamDaemon API models." alt="" coords="568,37,771,77"/>
+<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_dream_daemon_settings.html" title=" " alt="" coords="571,101,767,141"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_1_1_dream_daemon_request.html" title="A request to update DreamDaemonSettings." alt="" coords="829,5,1035,45"/>
+<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_dream_daemon_response.html" title="Represents an instance of BYOND&#39;s DreamDaemon game server. Create action starts the server...." alt="" coords="819,69,1045,109"/>
 </map>

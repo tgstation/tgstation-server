@@ -22,9 +22,8 @@ var searchData=
   ['asyncdelayer_19',['AsyncDelayer',['../class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_async_delayer.html',1,'Tgstation::Server::Host::Utils']]],
   ['attribute_20',['Attribute',['../class_attribute.html',1,'']]],
   ['authenticationcontext_21',['AuthenticationContext',['../class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html',1,'Tgstation::Server::Host::Security']]],
-  ['authenticationcontextauthorizationfilter_22',['AuthenticationContextAuthorizationFilter',['../class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context_authorization_filter.html',1,'Tgstation::Server::Host::Security']]],
-  ['authenticationcontextclaimstransformation_23',['AuthenticationContextClaimsTransformation',['../class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context_claims_transformation.html',1,'Tgstation::Server::Host::Security']]],
-  ['authenticationcontextfactory_24',['AuthenticationContextFactory',['../class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context_factory.html',1,'Tgstation::Server::Host::Security']]],
-  ['authorizationcontexthubfilter_25',['AuthorizationContextHubFilter',['../class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authorization_context_hub_filter.html',1,'Tgstation::Server::Host::Security']]],
-  ['authorizeattribute_26',['AuthorizeAttribute',['../class_authorize_attribute.html',1,'']]]
+  ['authenticationcontextclaimstransformation_22',['AuthenticationContextClaimsTransformation',['../class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context_claims_transformation.html',1,'Tgstation::Server::Host::Security']]],
+  ['authenticationcontextfactory_23',['AuthenticationContextFactory',['../class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context_factory.html',1,'Tgstation::Server::Host::Security']]],
+  ['authorizationcontexthubfilter_24',['AuthorizationContextHubFilter',['../class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authorization_context_hub_filter.html',1,'Tgstation::Server::Host::Security']]],
+  ['authorizeattribute_25',['AuthorizeAttribute',['../class_authorize_attribute.html',1,'']]]
 ];

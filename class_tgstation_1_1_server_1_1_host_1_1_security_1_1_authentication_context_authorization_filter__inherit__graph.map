@@ -1,4 +1,0 @@
-<map id="Tgstation.Server.Host.Security.AuthenticationContextAuthorizationFilter" name="Tgstation.Server.Host.Security.AuthenticationContextAuthorizationFilter">
-<area shape="rect" id="node1" title="An IAuthorizationFilter that maps Claims using an IAuthenticationContext." alt="" coords="5,79,259,119"/>
-<area shape="rect" id="node2" href="$class_i_authorization_filter.html" title=" " alt="" coords="67,5,197,31"/>
-</map>

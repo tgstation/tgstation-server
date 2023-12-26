@@ -1,4 +1,4 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$class_i_equatable.html" title=" " alt="" coords="5,13,88,38"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_engine_version.html" title="Information about an engine installation." alt="" coords="136,5,323,45"/>
+<area shape="rect" id="node1" href="$class_i_hub_filter.html" title=" " alt="" coords="5,13,84,38"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authorization_context_hub_filter.html" title="An IHubFilter that denies method calls and connections if the IAuthenticationContext is not valid for..." alt="" coords="132,5,333,45"/>
 </map>

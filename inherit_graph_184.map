@@ -1,5 +1,4 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_service.html" title="Service for interacting with the GitHub API." alt="" coords="5,5,187,45"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_authenticated_git_hub_service.html" title="IGitHubService that exposes functions that require authentication." alt="" coords="235,5,469,45"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_git_hub_service.html" title="Service for interacting with the GitHub API. Authenticated or otherwise." alt="" coords="517,5,699,45"/>
+<area shape="rect" id="node1" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_service_factory.html" title="Factory for IGitHubServices." alt="" coords="5,5,204,45"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_git_hub_service_factory.html" title=" " alt="" coords="252,5,447,45"/>
 </map>

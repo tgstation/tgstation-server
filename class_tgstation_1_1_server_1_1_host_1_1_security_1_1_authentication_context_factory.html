@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.0.0</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.0.1</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -325,7 +325,7 @@ Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">  102</span>                systemIdentity = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context_factory.html#a94c0a91ac1bdb6d25c9546a583fb44e3">identityCache</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_identity_cache.html#afc655c9c2d6af6086bcda5b6c54e1c41">LoadCachedIdentity</a>(user);</div>
 <div class="line"><span class="lineno">  103</span>            <span class="keywordflow">else</span></div>
 <div class="line"><span class="lineno">  104</span>            {</div>
-<div class="line"><span class="lineno">  105</span>                <span class="keywordflow">if</span> (user.LastPasswordUpdate.HasValue &amp;&amp; user.LastPasswordUpdate &gt; notBefore)</div>
+<div class="line"><span class="lineno">  105</span>                <span class="keywordflow">if</span> (user.LastPasswordUpdate.HasValue &amp;&amp; user.LastPasswordUpdate &gt;= notBefore)</div>
 <div class="line"><span class="lineno">  106</span>                {</div>
 <div class="line"><span class="lineno">  107</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context_factory.html#a6785a5176d17d6fa0d54da20d418e21c">logger</a>.LogDebug(<span class="stringliteral">&quot;Rejecting token for user {userId} created before last password update: {lastPasswordUpdate}&quot;</span>, userId, user.LastPasswordUpdate.Value);</div>
 <div class="line"><span class="lineno">  108</span>                    <span class="keywordflow">return</span> <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context_factory.html#ab6f08f16e79b7a7d5d18acea67cc3fed">currentAuthenticationContext</a>;</div>

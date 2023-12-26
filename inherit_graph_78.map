@@ -1,4 +1,3 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_chat_update.html" title="Represents an update of ChannelRepresentations." alt="" coords="5,5,232,45"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_bridge_1_1_runtime_information.html" title="Representation of the initial data passed as part of a BridgeCommandType.Startup request." alt="" coords="280,5,507,45"/>
+<area shape="rect" id="node1" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_d_m_api_constants.html" title="Constants used for communication with the DMAPI." alt="" coords="5,5,232,45"/>
 </map>

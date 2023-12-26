@@ -1,5 +1,5 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$class_i_post_setup_services.html" title=" " alt="" coords="5,13,144,38"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_setup_1_1_i_post_setup_services.html" title="Set of objects needed to configure an Core.Application." alt="" coords="192,5,428,45"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_setup_1_1_post_setup_services.html" title=" " alt="" coords="476,5,708,45"/>
+<area shape="rect" id="node1" href="$class_i_retry_policy.html" title=" " alt="" coords="5,49,96,74"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_client_1_1_api_client_token_refresh_retry_policy.html" title="A IRetryPolicy that attempts to refresh a given apiClient&#39;s token on the first disconnect." alt="" coords="144,5,364,45"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_client_1_1_infinite_thirty_second_max_retry_policy.html" title="A IRetryPolicy that returns seconds in powers of 2, maxing out at 30s." alt="" coords="159,70,349,125"/>
 </map>

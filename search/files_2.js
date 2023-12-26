@@ -27,8 +27,7 @@ var searchData=
   ['assemblyinformationprovider_2ecs_24',['AssemblyInformationProvider.cs',['../_assembly_information_provider_8cs.html',1,'']]],
   ['asyncdelayer_2ecs_25',['AsyncDelayer.cs',['../_async_delayer_8cs.html',1,'']]],
   ['authenticationcontext_2ecs_26',['AuthenticationContext.cs',['../_authentication_context_8cs.html',1,'']]],
-  ['authenticationcontextauthorizationfilter_2ecs_27',['AuthenticationContextAuthorizationFilter.cs',['../_authentication_context_authorization_filter_8cs.html',1,'']]],
-  ['authenticationcontextclaimstransformation_2ecs_28',['AuthenticationContextClaimsTransformation.cs',['../_authentication_context_claims_transformation_8cs.html',1,'']]],
-  ['authenticationcontextfactory_2ecs_29',['AuthenticationContextFactory.cs',['../_authentication_context_factory_8cs.html',1,'']]],
-  ['authorizationcontexthubfilter_2ecs_30',['AuthorizationContextHubFilter.cs',['../_authorization_context_hub_filter_8cs.html',1,'']]]
+  ['authenticationcontextclaimstransformation_2ecs_27',['AuthenticationContextClaimsTransformation.cs',['../_authentication_context_claims_transformation_8cs.html',1,'']]],
+  ['authenticationcontextfactory_2ecs_28',['AuthenticationContextFactory.cs',['../_authentication_context_factory_8cs.html',1,'']]],
+  ['authorizationcontexthubfilter_2ecs_29',['AuthorizationContextHubFilter.cs',['../_authorization_context_hub_filter_8cs.html',1,'']]]
 ];
