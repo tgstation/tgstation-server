@@ -1112,10 +1112,10 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				switch (++healthChecksMissed)
 				{
 					case 1:
-						Logger.LogDebug("DEFCON 4: DreamDaemon missed first health check!");
+						Logger.LogDebug("DEFCON 4: Game server missed first health check!");
 						break;
 					case 2:
-						const string message2 = "DEFCON 3: DreamDaemon has missed 2 health checks!";
+						const string message2 = "DEFCON 3: Game server has missed 2 health checks!";
 						Logger.LogInformation(message2);
 						Chat.QueueWatchdogMessage(message2);
 						break;
@@ -1123,7 +1123,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 						var actionToTake = shouldShutdown
 							? "shutdown"
 							: "be restarted";
-						const string logTemplate1 = "DEFCON 2: DreamDaemon has missed 3 health checks! If it does not respond to the next one, the watchdog will {actionToTake}!";
+						const string logTemplate1 = "DEFCON 2: Game server has missed 3 health checks! If it does not respond to the next one, the watchdog will {actionToTake}!";
 						Logger.LogWarning(logTemplate1, actionToTake);
 						Chat.QueueWatchdogMessage(
 							logTemplate1.Replace(

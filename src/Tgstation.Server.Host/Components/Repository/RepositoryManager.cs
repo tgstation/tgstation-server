@@ -231,6 +231,7 @@ namespace Tgstation.Server.Host.Components.Repository
 						repositoryFactory,
 						postWriteHandler,
 						gitRemoteFeaturesFactory,
+						repositoryFactory,
 						repositoryLogger,
 						generalConfiguration,
 						() =>

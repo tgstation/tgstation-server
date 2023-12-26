@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -84,7 +85,7 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// <summary>
 		/// The <see cref="IIOManager"/> for the <see cref="Repository"/>.
 		/// </summary>
-		readonly IIOManager ioMananger;
+		readonly IIOManager ioManager;
 
 		/// <summary>
 		/// The <see cref="IEventConsumer"/> for the <see cref="Repository"/>.
@@ -107,6 +108,11 @@ namespace Tgstation.Server.Host.Components.Repository
 		readonly IGitRemoteFeatures gitRemoteFeatures;
 
 		/// <summary>
+		/// The <see cref="ILibGit2RepositoryFactory"/> used for updating submodules.
+		/// </summary>
+		readonly ILibGit2RepositoryFactory submoduleFactory;
+
+		/// <summary>
 		/// The <see cref="ILogger"/> for the <see cref="Repository"/>.
 		/// </summary>
 		readonly ILogger<Repository> logger;
@@ -121,22 +127,24 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// </summary>
 		/// <param name="libGitRepo">The value of <see cref="libGitRepo"/>.</param>
 		/// <param name="commands">The value of <see cref="commands"/>.</param>
-		/// <param name="ioMananger">The value of <see cref="ioMananger"/>.</param>
+		/// <param name="ioManager">The value of <see cref="ioManager"/>.</param>
 		/// <param name="eventConsumer">The value of <see cref="eventConsumer"/>.</param>
 		/// <param name="credentialsProvider">The value of <see cref="credentialsProvider"/>.</param>
 		/// <param name="postWriteHandler">The value of <see cref="postWriteHandler"/>.</param>
 		/// <param name="gitRemoteFeaturesFactory">The <see cref="IGitRemoteFeaturesFactory"/> to provide the value of <see cref="gitRemoteFeatures"/>.</param>
+		/// <param name="submoduleFactory">The value of <see cref="submoduleFactory"/>.</param>
 		/// <param name="logger">The value of <see cref="logger"/>.</param>
 		/// <param name="generalConfiguration">The value of <see cref="generalConfiguration"/>.</param>
 		/// <param name="disposeAction">The <see cref="IDisposable.Dispose"/> action for the <see cref="DisposeInvoker"/>.</param>
 		public Repository(
 			LibGit2Sharp.IRepository libGitRepo,
 			ILibGit2Commands commands,
-			IIOManager ioMananger,
+			IIOManager ioManager,
 			IEventConsumer eventConsumer,
 			ICredentialsProvider credentialsProvider,
 			IPostWriteHandler postWriteHandler,
 			IGitRemoteFeaturesFactory gitRemoteFeaturesFactory,
+			ILibGit2RepositoryFactory submoduleFactory,
 			ILogger<Repository> logger,
 			GeneralConfiguration generalConfiguration,
 			Action disposeAction)
@@ -144,11 +152,12 @@ namespace Tgstation.Server.Host.Components.Repository
 		{
 			this.libGitRepo = libGitRepo ?? throw new ArgumentNullException(nameof(libGitRepo));
 			this.commands = commands ?? throw new ArgumentNullException(nameof(commands));
-			this.ioMananger = ioMananger ?? throw new ArgumentNullException(nameof(ioMananger));
+			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
 			this.eventConsumer = eventConsumer ?? throw new ArgumentNullException(nameof(eventConsumer));
 			this.credentialsProvider = credentialsProvider ?? throw new ArgumentNullException(nameof(credentialsProvider));
 			this.postWriteHandler = postWriteHandler ?? throw new ArgumentNullException(nameof(postWriteHandler));
 			ArgumentNullException.ThrowIfNull(gitRemoteFeaturesFactory);
+			this.submoduleFactory = submoduleFactory ?? throw new ArgumentNullException(nameof(submoduleFactory));
 
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 			this.generalConfiguration = generalConfiguration ?? throw new ArgumentNullException(nameof(generalConfiguration));
@@ -501,7 +510,7 @@ namespace Tgstation.Server.Host.Components.Repository
 		{
 			ArgumentNullException.ThrowIfNull(path);
 			logger.LogTrace("Copying to {path}...", path);
-			await ioMananger.CopyDirectory(
+			await ioManager.CopyDirectory(
 				new List<string> { ".git" },
 				(src, dest) =>
 				{
@@ -510,7 +519,7 @@ namespace Tgstation.Server.Host.Components.Repository
 
 					return ValueTask.CompletedTask;
 				},
-				ioMananger.ResolvePath(),
+				ioManager.ResolvePath(),
 				path,
 				generalConfiguration.GetCopyDirectoryTaskThrottle(),
 				cancellationToken);
@@ -657,7 +666,7 @@ namespace Tgstation.Server.Host.Components.Repository
 					EventType.RepoPreSynchronize,
 					new List<string>
 					{
-						ioMananger.ResolvePath(),
+						ioManager.ResolvePath(),
 					},
 					deploymentPipeline,
 					cancellationToken);
@@ -988,6 +997,17 @@ namespace Tgstation.Server.Host.Components.Repository
 		}
 
 		/// <summary>
+		/// Gets the path of <see cref="libGitRepo"/>.
+		/// </summary>
+		/// <returns>The path of the target <see cref="IRepository"/>.</returns>
+		string GetRepositoryPath()
+			=> ioManager.GetDirectoryName(libGitRepo
+				.Info
+				.Path
+				.TrimEnd(Path.DirectorySeparatorChar)
+				.TrimEnd(Path.AltDirectorySeparatorChar));
+
+		/// <summary>
 		/// Recusively update all <see cref="Submodule"/>s in the <see cref="libGitRepo"/>.
 		/// </summary>
 		/// <param name="progressReporter">Optional <see cref="JobProgressReporter"/> of the operation.</param>
@@ -996,86 +1016,106 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// <param name="deploymentPipeline">If any events created should be marked as part of the deployment pipeline.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
-		async ValueTask UpdateSubmodules(
+		ValueTask UpdateSubmodules(
 			JobProgressReporter? progressReporter,
 			string? username,
 			string? password,
 			bool deploymentPipeline,
 			CancellationToken cancellationToken)
 		{
-			var submoduleCount = libGitRepo.Submodules.Count();
-			if (submoduleCount == 0)
+			logger.LogTrace("Updating submodules {withOrWithout} credentials...", username == null ? "without" : "with");
+
+			async ValueTask RecursiveUpdateSubmodules(LibGit2Sharp.IRepository parentRepository, JobProgressReporter? currentProgressReporter, string parentGitDirectory)
 			{
-				logger.LogTrace("No submodules, skipping update");
-				return;
-			}
-
-			logger.LogTrace("Updating submodules with{orWithout} credentials...", username == null ? "out" : String.Empty);
-
-			var factor = 1.0 / submoduleCount / 2;
-			foreach (var submodule in libGitRepo.Submodules)
-			{
-				var submoduleUpdateOptions = new SubmoduleUpdateOptions
+				var submoduleCount = libGitRepo.Submodules.Count();
+				if (submoduleCount == 0)
 				{
-					Init = true,
-					OnCheckoutNotify = (_, _) => !cancellationToken.IsCancellationRequested,
-				};
-
-				submoduleUpdateOptions.FetchOptions.Hydrate(
-					logger,
-					progressReporter?.CreateSection($"Fetch submodule {submodule.Name}", factor),
-					credentialsProvider.GenerateCredentialsHandler(username, password),
-					cancellationToken);
-
-				if (progressReporter != null)
-					submoduleUpdateOptions.OnCheckoutProgress = CheckoutProgressHandler(
-						progressReporter.CreateSection($"Checkout submodule {submodule.Name}", factor));
-
-				logger.LogDebug("Updating submodule {submoduleName}...", submodule.Name);
-				Task RawSubModuleUpdate() => Task.Factory.StartNew(
-					() => libGitRepo.Submodules.Update(submodule.Name, submoduleUpdateOptions),
-					cancellationToken,
-					DefaultIOManager.BlockingTaskCreationOptions,
-					TaskScheduler.Current);
-				try
-				{
-					await RawSubModuleUpdate();
+					logger.LogTrace("No submodules, skipping update");
+					return;
 				}
-				catch (LibGit2SharpException ex)
+
+				var factor = 1.0 / submoduleCount / 3;
+				foreach (var submodule in parentRepository.Submodules)
 				{
-					// workaround for https://github.com/libgit2/libgit2/issues/3820
-					// kill off the modules/ folder in .git and try again
-					progressReporter?.ReportProgress(null);
-					credentialsProvider.CheckBadCredentialsException(ex);
-					logger.LogWarning(ex, "Initial update of submodule {submoduleName} failed. Deleting submodule directories and re-attempting...", submodule.Name);
+					logger.LogTrace("Entering submodule {name} ({path}) for recursive updates...", submodule.Name, submodule.Path);
+					var submoduleUpdateOptions = new SubmoduleUpdateOptions
+					{
+						Init = true,
+						OnCheckoutNotify = (_, _) => !cancellationToken.IsCancellationRequested,
+					};
 
-					await Task.WhenAll(
-						ioMananger.DeleteDirectory($".git/modules/{submodule.Path}", cancellationToken),
-						ioMananger.DeleteDirectory(submodule.Path, cancellationToken));
+					submoduleUpdateOptions.FetchOptions.Hydrate(
+						logger,
+						currentProgressReporter?.CreateSection($"Fetch submodule {submodule.Name}", factor),
+						credentialsProvider.GenerateCredentialsHandler(username, password),
+						cancellationToken);
 
-					logger.LogTrace("Second update attempt for submodule {submoduleName}...", submodule.Name);
+					if (currentProgressReporter != null)
+						submoduleUpdateOptions.OnCheckoutProgress = CheckoutProgressHandler(
+							currentProgressReporter.CreateSection($"Checkout submodule {submodule.Name}", factor));
+
+					logger.LogDebug("Updating submodule {submoduleName}...", submodule.Name);
+					Task RawSubModuleUpdate() => Task.Factory.StartNew(
+						() => parentRepository.Submodules.Update(submodule.Name, submoduleUpdateOptions),
+						cancellationToken,
+						DefaultIOManager.BlockingTaskCreationOptions,
+						TaskScheduler.Current);
+
 					try
 					{
 						await RawSubModuleUpdate();
 					}
-					catch (UserCancelledException)
+					catch (LibGit2SharpException ex) when (parentRepository == libGitRepo)
 					{
-						cancellationToken.ThrowIfCancellationRequested();
-					}
-					catch (LibGit2SharpException ex2)
-					{
-						credentialsProvider.CheckBadCredentialsException(ex2);
-						logger.LogTrace(ex2, "Retried update of submodule {submoduleName} failed!", submodule.Name);
-						throw new AggregateException(ex, ex2);
-					}
-				}
+						// workaround for https://github.com/libgit2/libgit2/issues/3820
+						// kill off the modules/ folder in .git and try again
+						currentProgressReporter?.ReportProgress(null);
+						credentialsProvider.CheckBadCredentialsException(ex);
+						logger.LogWarning(ex, "Initial update of submodule {submoduleName} failed. Deleting submodule directories and re-attempting...", submodule.Name);
 
-				await eventConsumer.HandleEvent(
-					EventType.RepoSubmoduleUpdate,
-					new List<string> { submodule.Name },
-					deploymentPipeline,
-					cancellationToken);
+						await Task.WhenAll(
+							ioManager.DeleteDirectory($".git/modules/{submodule.Path}", cancellationToken),
+							ioManager.DeleteDirectory(submodule.Path, cancellationToken));
+
+						logger.LogTrace("Second update attempt for submodule {submoduleName}...", submodule.Name);
+						try
+						{
+							await RawSubModuleUpdate();
+						}
+						catch (UserCancelledException)
+						{
+							cancellationToken.ThrowIfCancellationRequested();
+						}
+						catch (LibGit2SharpException ex2)
+						{
+							credentialsProvider.CheckBadCredentialsException(ex2);
+							logger.LogTrace(ex2, "Retried update of submodule {submoduleName} failed!", submodule.Name);
+							throw new AggregateException(ex, ex2);
+						}
+					}
+
+					await eventConsumer.HandleEvent(
+						EventType.RepoSubmoduleUpdate,
+						new List<string> { submodule.Name },
+						deploymentPipeline,
+						cancellationToken);
+
+					var submodulePath = ioManager.ResolvePath(
+						ioManager.ConcatPath(
+							parentGitDirectory,
+							submodule.Path));
+
+					using var submoduleRepo = await submoduleFactory.CreateFromPath(
+						submodulePath,
+						cancellationToken);
+					await RecursiveUpdateSubmodules(
+						submoduleRepo,
+						currentProgressReporter?.CreateSection($"Entering submodule \"{submodule.Name}\"...", factor),
+						submodulePath);
+				}
 			}
+
+			return RecursiveUpdateSubmodules(libGitRepo, progressReporter, GetRepositoryPath());
 		}
 
 		/// <summary>

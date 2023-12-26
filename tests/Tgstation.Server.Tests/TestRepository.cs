@@ -39,6 +39,7 @@ namespace Tgstation.Server.Tests
 					Mock.Of<ICredentialsProvider>(),
 					Mock.Of<IPostWriteHandler>(),
 					Mock.Of<IGitRemoteFeaturesFactory>(),
+					Mock.Of<ILibGit2RepositoryFactory>(),
 					Mock.Of<ILogger<Host.Components.Repository.Repository>>(),
 					new GeneralConfiguration(),
 					() => { });
