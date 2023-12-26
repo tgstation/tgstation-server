@@ -185,7 +185,7 @@ If using manual configuration, before starting your container make sure the afor
 
 In order for TGS to use [OpenDream](https://github.com/OpenDreamProject/OpenDream), it requires the full .NET SDK to build whichever version your servers target. Whatever that is, it must be available using the `dotnet` command for whichever user runs TGS.
 
-OpenDream currently requires [.NET SDK 8.0](https://dotnet.microsoft.com/en-us/download/dotnet/8.0) at the time of this writing. You must install this manually apart from TGS (i.e. using your package manager).
+OpenDream currently requires [.NET SDK 8.0](https://dotnet.microsoft.com/en-us/download/dotnet/8.0) at the time of this writing. You must install this manually outside of TGS (i.e. using your package manager).
 
 <details>
   <summary>How to handle a different SDK version than the ASP.NET runtime of TGS.</summary>
