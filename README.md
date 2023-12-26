@@ -185,16 +185,20 @@ If using manual configuration, before starting your container make sure the afor
 
 In order for TGS to use [OpenDream](https://github.com/OpenDreamProject/OpenDream), it requires the full .NET SDK to build whichever version your servers target. Whatever that is, it must be available using the `dotnet` command for whichever user runs TGS.
 
-OpenDream currently requires [.NET SDK 7.0](https://dotnet.microsoft.com/en-us/download/dotnet/7.0) at the time of this writing. You must install this manually.
+OpenDream currently requires [.NET SDK 8.0](https://dotnet.microsoft.com/en-us/download/dotnet/8.0) at the time of this writing. You must install this manually apart from TGS (i.e. using your package manager).
 
-On Linux, as long as OpenDream and TGS do not use the same .NET major version, you cannot achieve this with the package manager as they will conflict. The 7.0 SDK can be added to an 8.0 runtime installation via the following steps.
+<details>
+  <summary>How to handle a different SDK version than the ASP.NET runtime of TGS.</summary>
 
-1. Install `tgstation-server` using any of the above methods.
-1. [Download the Linux SDK binaries](https://dotnet.microsoft.com/en-us/download/dotnet/7.0) for your selected architecture.
-1. Extract everything EXCEPT the `dotnet` executable, `LICENSE.txt`, and `ThirdPartyNotices.txt` in the `.tar.gz` on top of the existing installation directory `/usr/share/dotnet/`
-1. Run `sudo chown -R root /usr/share/dotnet`
+  On Linux, as long as OpenDream and TGS do not use the same .NET major version, you cannot achieve this with the package manager as they will conflict. For example, the 7.0 SDK can be added to an 8.0 runtime installation via the following steps.
 
-You should now be able to run the `dotnet --list-sdks` command and see an entry for `7.0.XXX [/usr/share/dotnet/sdk]`.
+  1. Install `tgstation-server` using any of the above methods.
+  1. [Download the Linux SDK binaries](https://dotnet.microsoft.com/en-us/download/dotnet/7.0) for your selected architecture.
+  1. Extract everything EXCEPT the `dotnet` executable, `LICENSE.txt`, and `ThirdPartyNotices.txt` in the `.tar.gz` on top of the existing installation directory `/usr/share/dotnet/`
+  1. Run `sudo chown -R root /usr/share/dotnet`
+
+  You should now be able to run the `dotnet --list-sdks` command and see an entry for `7.0.XXX [/usr/share/dotnet/sdk]`.
+</details>
 
 ### Configuring
 
