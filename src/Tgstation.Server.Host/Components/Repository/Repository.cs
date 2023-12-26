@@ -84,7 +84,7 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// <summary>
 		/// The <see cref="IIOManager"/> for the <see cref="Repository"/>.
 		/// </summary>
-		readonly IIOManager ioMananger;
+		readonly IIOManager ioManager;
 
 		/// <summary>
 		/// The <see cref="IEventConsumer"/> for the <see cref="Repository"/>.
@@ -121,7 +121,7 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// </summary>
 		/// <param name="libGitRepo">The value of <see cref="libGitRepo"/>.</param>
 		/// <param name="commands">The value of <see cref="commands"/>.</param>
-		/// <param name="ioMananger">The value of <see cref="ioMananger"/>.</param>
+		/// <param name="ioManager">The value of <see cref="ioManager"/>.</param>
 		/// <param name="eventConsumer">The value of <see cref="eventConsumer"/>.</param>
 		/// <param name="credentialsProvider">The value of <see cref="credentialsProvider"/>.</param>
 		/// <param name="postWriteHandler">The value of <see cref="postWriteHandler"/>.</param>
@@ -132,7 +132,7 @@ namespace Tgstation.Server.Host.Components.Repository
 		public Repository(
 			LibGit2Sharp.IRepository libGitRepo,
 			ILibGit2Commands commands,
-			IIOManager ioMananger,
+			IIOManager ioManager,
 			IEventConsumer eventConsumer,
 			ICredentialsProvider credentialsProvider,
 			IPostWriteHandler postWriteHandler,
@@ -144,7 +144,7 @@ namespace Tgstation.Server.Host.Components.Repository
 		{
 			this.libGitRepo = libGitRepo ?? throw new ArgumentNullException(nameof(libGitRepo));
 			this.commands = commands ?? throw new ArgumentNullException(nameof(commands));
-			this.ioMananger = ioMananger ?? throw new ArgumentNullException(nameof(ioMananger));
+			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
 			this.eventConsumer = eventConsumer ?? throw new ArgumentNullException(nameof(eventConsumer));
 			this.credentialsProvider = credentialsProvider ?? throw new ArgumentNullException(nameof(credentialsProvider));
 			this.postWriteHandler = postWriteHandler ?? throw new ArgumentNullException(nameof(postWriteHandler));
@@ -501,7 +501,7 @@ namespace Tgstation.Server.Host.Components.Repository
 		{
 			ArgumentNullException.ThrowIfNull(path);
 			logger.LogTrace("Copying to {path}...", path);
-			await ioMananger.CopyDirectory(
+			await ioManager.CopyDirectory(
 				new List<string> { ".git" },
 				(src, dest) =>
 				{
@@ -510,7 +510,7 @@ namespace Tgstation.Server.Host.Components.Repository
 
 					return ValueTask.CompletedTask;
 				},
-				ioMananger.ResolvePath(),
+				ioManager.ResolvePath(),
 				path,
 				generalConfiguration.GetCopyDirectoryTaskThrottle(),
 				cancellationToken);
@@ -657,7 +657,7 @@ namespace Tgstation.Server.Host.Components.Repository
 					EventType.RepoPreSynchronize,
 					new List<string>
 					{
-						ioMananger.ResolvePath(),
+						ioManager.ResolvePath(),
 					},
 					deploymentPipeline,
 					cancellationToken);
@@ -1050,8 +1050,8 @@ namespace Tgstation.Server.Host.Components.Repository
 					logger.LogWarning(ex, "Initial update of submodule {submoduleName} failed. Deleting submodule directories and re-attempting...", submodule.Name);
 
 					await Task.WhenAll(
-						ioMananger.DeleteDirectory($".git/modules/{submodule.Path}", cancellationToken),
-						ioMananger.DeleteDirectory(submodule.Path, cancellationToken));
+						ioManager.DeleteDirectory($".git/modules/{submodule.Path}", cancellationToken),
+						ioManager.DeleteDirectory(submodule.Path, cancellationToken));
 
 					logger.LogTrace("Second update attempt for submodule {submoduleName}...", submodule.Name);
 					try
