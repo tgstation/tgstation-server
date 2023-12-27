@@ -142,8 +142,21 @@ Components:
       PullRequest: 1070
   Core:
   - Version: 6.1.0
-    ComponentVersions: {}
-    Changes: []
+    ComponentVersions:
+      HttpApi: 10.0.0
+      DreamMakerApi: 7.0.0
+      Configuration: 5.0.0
+      InteropApi: 5.7.0
+      HostWatchdog: 1.4.1
+      NugetCommon: 7.0.0
+      NugetApi: 13.0.1
+      NugetClient: 15.0.1
+      WebControlPanel: 5.3.0
+    Changes:
+    - Descriptions:
+      - Added the `EngineInstallComplete` event. Parameter is the engine version that was installed (This is also the name of the directory in the `Byond` instance folder).
+      Author: Cyberboss
+      PullRequest: 1758
     Unreleased: true
   - Version: 6.0.2
     ComponentVersions: {}
@@ -4089,12 +4102,4 @@ Components:
       - Made `DiscordConnectionStringBuilder.BasedMeme` obsolete.
       Author: Cyberboss
       PullRequest: 1629
-  NugetClient:
-  - Version: 15.0.1
-    Changes:
-    - Descriptions:
-      - Fixed `ErrorMessageResponse` improperly deserializing from 401 responses.
-      - Update to patched API library.
-      Author: Cyberboss
-      PullRequest: 1749
-    Unreleased: true
+  NugetClient: []
