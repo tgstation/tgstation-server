@@ -113,7 +113,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			switch (reason)
 			{
 				case MonitorActivationReason.ActiveServerCrashed:
-					var eventType = controller.TerminationWasRequested
+					var eventType = controller.TerminationWasRequested || (await controller.Lifetime) == 0
 						? EventType.WorldEndProcess
 						: EventType.WatchdogCrash;
 					await HandleEventImpl(eventType, Enumerable.Empty<string>(), false, cancellationToken);
