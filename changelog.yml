@@ -159,8 +159,25 @@ Components:
       PullRequest: 1758
     Unreleased: true
   - Version: 6.0.2
-    ComponentVersions: {}
-    Changes: []
+    ComponentVersions:
+      HttpApi: 10.0.0
+      DreamMakerApi: 7.0.0
+      Configuration: 5.0.0
+      InteropApi: 5.7.0
+      HostWatchdog: 1.4.1
+      NugetCommon: 7.0.0
+      NugetApi: 13.0.1
+      NugetClient: 15.0.1
+      WebControlPanel: 5.3.0
+    Changes:
+    - Descriptions:
+      - Fixed health checks failing on OpenDream servers after a TGS restart.
+      - When game servers exit with code 0, chat bots will no longer call it a crash.
+      - Fixed homepage links to the app again.
+      - Removed size limit on `/Transfer` uploads.
+      - Reduced number of job updates per second sent over SignalR from 4 to 1.
+      Author: Cyberboss
+      PullRequest: 1757
     Unreleased: true
   - Version: 6.0.1
     ComponentVersions:
