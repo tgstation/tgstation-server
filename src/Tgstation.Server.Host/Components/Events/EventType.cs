@@ -167,5 +167,11 @@
 		/// </summary>
 		[EventScript("DeploymentActivation")]
 		DeploymentActivation,
+
+		/// <summary>
+		/// Parameters: Version being installed.
+		/// </summary>
+		[EventScript("EngineInstallComplete")]
+		EngineInstallComplete,
 	}
 }
