@@ -13,7 +13,6 @@
       "environmentVariables": {
         "DOTNET_ENVIRONMENT": "Development",
         "ASPNETCORE_ENVIRONMENT": "Development",
-        "Database__ConnectionString": "Data Source=192.168.2.16,1433;Initial Catalog=TGS_Linux;User Id=tgs_debug;Password=asdf;Encrypt=False;Application Name=tgstation-server",
         "General__ValidInstancePaths__0": "/home/dominion/tgs_debug_pen"
       }
     }
