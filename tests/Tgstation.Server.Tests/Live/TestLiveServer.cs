@@ -154,7 +154,7 @@ namespace Tgstation.Server.Tests.Live
 			{
 				do
 				{
-					var l = new TcpListener(IPAddress.Loopback, 0);
+					var l = new TcpListener(IPAddress.Any, 0);
 					l.Start();
 					try
 					{

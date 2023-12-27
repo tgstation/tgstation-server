@@ -161,7 +161,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 			async Task UpdateDMSettings()
 			{
-				for (var i = 0; i < 5; ++i)
+				for (var i = 0; i < 10; ++i)
 					try
 					{
 						await instanceClient.DreamMaker.Update(new DreamMakerRequest

@@ -80,6 +80,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <response code="410">The <paramref name="ticket"/> was no longer or was never valid.</response>
 		[TgsAuthorize]
 		[HttpPut]
+		[DisableRequestSizeLimit]
 		[ProducesResponseType(204)]
 		[ProducesResponseType(410, Type = typeof(ErrorMessageResponse))]
 		public async ValueTask<IActionResult> Upload([Required, FromQuery] string ticket, CancellationToken cancellationToken)

@@ -83,6 +83,7 @@ namespace Tgstation.Server.Host.Components.Session
 				RebootState = reattachInformation.RebootState,
 				LaunchSecurityLevel = reattachInformation.LaunchSecurityLevel,
 				LaunchVisibility = reattachInformation.LaunchVisibility,
+				TopicPort = reattachInformation.TopicPort,
 			};
 
 			db.ReattachInformations.Add(dbReattachInfo);
@@ -116,6 +117,7 @@ namespace Tgstation.Server.Host.Components.Session
 			dbReattachInfo.RebootState = reattachInformation.RebootState;
 			dbReattachInfo.LaunchSecurityLevel = reattachInformation.LaunchSecurityLevel;
 			dbReattachInfo.LaunchVisibility = reattachInformation.LaunchVisibility;
+			dbReattachInfo.TopicPort = reattachInformation.TopicPort;
 
 			await db.Save(cancellationToken);
 
