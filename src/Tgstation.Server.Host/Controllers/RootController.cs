@@ -97,7 +97,7 @@ namespace Tgstation.Server.Host.Controllers
 			var panelEnabled = controlPanelConfiguration.Enable;
 			var apiDocsEnabled = generalConfiguration.HostApiDocumentation;
 
-			var controlPanelRoute = ControlPanelController.ControlPanelRoute.TrimStart('/');
+			var controlPanelRoute = $"{ControlPanelController.ControlPanelRoute.TrimStart('/')}/";
 			if (panelEnabled ^ apiDocsEnabled)
 				if (panelEnabled)
 					return Redirect(controlPanelRoute);

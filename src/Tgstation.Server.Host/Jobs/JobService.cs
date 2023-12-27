@@ -30,7 +30,7 @@ namespace Tgstation.Server.Host.Jobs
 		/// <summary>
 		/// The maximum rate at which hub clients can receive updates.
 		/// </summary>
-		const int MaxHubUpdatesPerSecond = 4;
+		const int MaxHubUpdatesPerSecond = 1;
 
 		/// <summary>
 		/// The <see cref="IHubContext"/> for the <see cref="JobsHub"/>.
