@@ -800,21 +800,32 @@ namespace Tgstation.Server.Host.Components.Repository
 
 				cancellationToken.ThrowIfCancellationRequested();
 				var startSha = Head;
-				var mergeResult = libGitRepo.Merge(
-					targetCommit,
-					new Signature(
-						DefaultCommitterName,
-						DefaultCommitterEmail,
-						DateTimeOffset.UtcNow),
-					new MergeOptions
-					{
-						FastForwardStrategy = FastForwardStrategy.FastForwardOnly,
-						FailOnConflict = true,
-					});
+				logger.LogTrace("Testing if {committish} is a parent of {startSha}...", committish, startSha);
+				MergeResult mergeResult;
+				try
+				{
+					mergeResult = libGitRepo.Merge(
+						targetCommit,
+						new Signature(
+							DefaultCommitterName,
+							DefaultCommitterEmail,
+							DateTimeOffset.UtcNow),
+						new MergeOptions
+						{
+							FastForwardStrategy = FastForwardStrategy.FastForwardOnly,
+							FailOnConflict = true,
+						});
+				}
+				catch (NonFastForwardException ex)
+				{
+					logger.LogTrace(ex, "{committish} is not a parent of {startSha}", committish, startSha);
+					return false;
+				}
 
 				if (mergeResult.Status == MergeStatus.UpToDate)
 					return true;
 
+				logger.LogTrace("{committish} is not a parent of {startSha} ({mergeStatus}). Moving back...", committish, startSha, mergeResult.Status);
 				commands.Checkout(
 					libGitRepo,
 					new CheckoutOptions
