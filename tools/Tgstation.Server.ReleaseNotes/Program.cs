@@ -1044,7 +1044,7 @@ The user account that created this pull request is available to correct any issu
 					finalResults.Remove(Component.Core);
 					finalResults.Add(Component.Core, new List<Changelist>
 					{
-						new Changelist
+						new()
 						{
 							Changes = new List<Change>(),
 							ComponentVersions = releasedComponentVersions,
