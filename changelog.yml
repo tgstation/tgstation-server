@@ -166,6 +166,14 @@ Components:
       - Added the `EngineInstallComplete` event. Parameter is the engine version that was installed (This is also the name of the directory in the `Byond` instance folder).
       Author: Cyberboss
       PullRequest: 1758
+    - Descriptions:
+      - Fixed health checks failing on OpenDream servers after a TGS restart.
+      - When game servers exit with code 0, chat bots will no longer call it a crash.
+      - Fixed homepage links to the app again.
+      - Removed size limit on `/Transfer` uploads.
+      - Reduced number of job updates per second sent over SignalR from 4 to 1.
+      Author: Cyberboss
+      PullRequest: 1757
   - Version: 6.0.1
     ComponentVersions:
       HttpApi: 10.0.0
