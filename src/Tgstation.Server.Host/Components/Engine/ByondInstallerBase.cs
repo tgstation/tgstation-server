@@ -116,11 +116,23 @@ namespace Tgstation.Server.Host.Components.Engine
 				var byondDir = PathToUserFolder;
 
 				Logger.LogDebug("Cleaning BYOND cache...");
-				var cacheCleanTask = IOManager.DeleteDirectory(
-					IOManager.ConcatPath(
-						byondDir,
-						CacheDirectoryName),
-					cancellationToken);
+				async Task CleanDirectorySafe()
+				{
+					try
+					{
+						await IOManager.DeleteDirectory(
+							IOManager.ConcatPath(
+								byondDir,
+								CacheDirectoryName),
+							cancellationToken);
+					}
+					catch (Exception ex)
+					{
+						Logger.LogWarning(ex, "Failed to clean BYOND cache!");
+					}
+				}
+
+				var cacheCleanTask = CleanDirectorySafe();
 
 				// Create local cfg directory in case it doesn't exist
 				var localCfgDirectory = IOManager.ConcatPath(
