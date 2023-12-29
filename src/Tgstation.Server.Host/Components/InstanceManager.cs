@@ -658,6 +658,8 @@ namespace Tgstation.Server.Host.Components
 		/// </summary>
 		void CheckSystemCompatibility()
 		{
+			logger.LogDebug("Running as user: {username}", Environment.UserName);
+
 			generalConfiguration.CheckCompatibility(logger);
 
 			using (var systemIdentity = systemIdentityFactory.GetCurrent())
