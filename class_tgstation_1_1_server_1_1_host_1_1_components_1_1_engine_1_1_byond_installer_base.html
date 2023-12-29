@@ -439,39 +439,51 @@ Static Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">  116</span>                var byondDir = <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_byond_installer_base.html#a0a35f1cf07f97a4fe39ff557d0180999">PathToUserFolder</a>;</div>
 <div class="line"><span class="lineno">  117</span> </div>
 <div class="line"><span class="lineno">  118</span>                <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#aed7c0130aacc5b088f420e6aa4a270b5">Logger</a>.LogDebug(<span class="stringliteral">&quot;Cleaning BYOND cache...&quot;</span>);</div>
-<div class="line"><span class="lineno">  119</span>                var cacheCleanTask = <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#abaabd1bb99f94299281df83a9ab58203">IOManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ad3e0dda4b7fbad4c77f48ba3b2681dc7">DeleteDirectory</a>(</div>
-<div class="line"><span class="lineno">  120</span>                    <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#abaabd1bb99f94299281df83a9ab58203">IOManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a286f4eb5c679683b7e519847a6c3574e">ConcatPath</a>(</div>
-<div class="line"><span class="lineno">  121</span>                        byondDir,</div>
-<div class="line"><span class="lineno">  122</span>                        <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_byond_installer_base.html#a438d282daca1592e2feaf981bb05e8c8">CacheDirectoryName</a>),</div>
-<div class="line"><span class="lineno">  123</span>                    cancellationToken);</div>
-<div class="line"><span class="lineno">  124</span> </div>
-<div class="line"><span class="lineno">  125</span>                <span class="comment">// Create local cfg directory in case it doesn&#39;t exist</span></div>
-<div class="line"><span class="lineno">  126</span>                var localCfgDirectory = <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#abaabd1bb99f94299281df83a9ab58203">IOManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a286f4eb5c679683b7e519847a6c3574e">ConcatPath</a>(</div>
-<div class="line"><span class="lineno">  127</span>                    byondDir,</div>
-<div class="line"><span class="lineno">  128</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_byond_installer_base.html#a46e6f9c71ef798be7a264493a801c3eb">CfgDirectoryName</a>);</div>
-<div class="line"><span class="lineno">  129</span> </div>
-<div class="line"><span class="lineno">  130</span>                var cfgCreateTask = <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#abaabd1bb99f94299281df83a9ab58203">IOManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a69aa1b9dbeb6af3744e568095c4376e7">CreateDirectory</a>(</div>
-<div class="line"><span class="lineno">  131</span>                    localCfgDirectory,</div>
-<div class="line"><span class="lineno">  132</span>                    cancellationToken);</div>
-<div class="line"><span class="lineno">  133</span> </div>
-<div class="line"><span class="lineno">  134</span>                <span class="comment">// Delete trusted.txt so it doesn&#39;t grow too large</span></div>
-<div class="line"><span class="lineno">  135</span>                var trustedFilePath =</div>
-<div class="line"><span class="lineno">  136</span>                    <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#abaabd1bb99f94299281df83a9ab58203">IOManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a286f4eb5c679683b7e519847a6c3574e">ConcatPath</a>(</div>
-<div class="line"><span class="lineno">  137</span>                        localCfgDirectory,</div>
-<div class="line"><span class="lineno">  138</span>                        <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_byond_installer_base.html#acb185b4059333eb8222a41dad5d7a932">TrustedDmbFileName</a>);</div>
-<div class="line"><span class="lineno">  139</span> </div>
-<div class="line"><span class="lineno">  140</span>                <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#aed7c0130aacc5b088f420e6aa4a270b5">Logger</a>.LogTrace(<span class="stringliteral">&quot;Deleting trusted .dmbs file {trustedFilePath}&quot;</span>, trustedFilePath);</div>
-<div class="line"><span class="lineno">  141</span>                var trustedDmbDeleteTask = <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#abaabd1bb99f94299281df83a9ab58203">IOManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a6ca322ea63f5693487917c1ee71c707a">DeleteFile</a>(</div>
-<div class="line"><span class="lineno">  142</span>                    trustedFilePath,</div>
-<div class="line"><span class="lineno">  143</span>                    cancellationToken);</div>
-<div class="line"><span class="lineno">  144</span> </div>
-<div class="line"><span class="lineno">  145</span>                await Task.WhenAll(cacheCleanTask, cfgCreateTask, trustedDmbDeleteTask);</div>
-<div class="line"><span class="lineno">  146</span>            }</div>
-<div class="line"><span class="lineno">  147</span>            <span class="keywordflow">catch</span> (<a class="code hl_class" href="class_exception.html">Exception</a> ex) when (ex is not OperationCanceledException)</div>
-<div class="line"><span class="lineno">  148</span>            {</div>
-<div class="line"><span class="lineno">  149</span>                <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#aed7c0130aacc5b088f420e6aa4a270b5">Logger</a>.LogWarning(ex, <span class="stringliteral">&quot;Error cleaning BYOND cache!&quot;</span>);</div>
-<div class="line"><span class="lineno">  150</span>            }</div>
-<div class="line"><span class="lineno">  151</span>        }</div>
+<div class="line"><span class="lineno">  119</span>                async Task CleanDirectorySafe()</div>
+<div class="line"><span class="lineno">  120</span>                {</div>
+<div class="line"><span class="lineno">  121</span>                    <span class="keywordflow">try</span></div>
+<div class="line"><span class="lineno">  122</span>                    {</div>
+<div class="line"><span class="lineno">  123</span>                        await <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#abaabd1bb99f94299281df83a9ab58203">IOManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ad3e0dda4b7fbad4c77f48ba3b2681dc7">DeleteDirectory</a>(</div>
+<div class="line"><span class="lineno">  124</span>                            <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#abaabd1bb99f94299281df83a9ab58203">IOManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a286f4eb5c679683b7e519847a6c3574e">ConcatPath</a>(</div>
+<div class="line"><span class="lineno">  125</span>                                byondDir,</div>
+<div class="line"><span class="lineno">  126</span>                                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_byond_installer_base.html#a438d282daca1592e2feaf981bb05e8c8">CacheDirectoryName</a>),</div>
+<div class="line"><span class="lineno">  127</span>                            cancellationToken);</div>
+<div class="line"><span class="lineno">  128</span>                    }</div>
+<div class="line"><span class="lineno">  129</span>                    <span class="keywordflow">catch</span> (<a class="code hl_class" href="class_exception.html">Exception</a> ex)</div>
+<div class="line"><span class="lineno">  130</span>                    {</div>
+<div class="line"><span class="lineno">  131</span>                        <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#aed7c0130aacc5b088f420e6aa4a270b5">Logger</a>.LogWarning(ex, <span class="stringliteral">&quot;Failed to clean BYOND cache!&quot;</span>);</div>
+<div class="line"><span class="lineno">  132</span>                    }</div>
+<div class="line"><span class="lineno">  133</span>                }</div>
+<div class="line"><span class="lineno">  134</span> </div>
+<div class="line"><span class="lineno">  135</span>                var cacheCleanTask = CleanDirectorySafe();</div>
+<div class="line"><span class="lineno">  136</span> </div>
+<div class="line"><span class="lineno">  137</span>                <span class="comment">// Create local cfg directory in case it doesn&#39;t exist</span></div>
+<div class="line"><span class="lineno">  138</span>                var localCfgDirectory = <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#abaabd1bb99f94299281df83a9ab58203">IOManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a286f4eb5c679683b7e519847a6c3574e">ConcatPath</a>(</div>
+<div class="line"><span class="lineno">  139</span>                    byondDir,</div>
+<div class="line"><span class="lineno">  140</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_byond_installer_base.html#a46e6f9c71ef798be7a264493a801c3eb">CfgDirectoryName</a>);</div>
+<div class="line"><span class="lineno">  141</span> </div>
+<div class="line"><span class="lineno">  142</span>                var cfgCreateTask = <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#abaabd1bb99f94299281df83a9ab58203">IOManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a69aa1b9dbeb6af3744e568095c4376e7">CreateDirectory</a>(</div>
+<div class="line"><span class="lineno">  143</span>                    localCfgDirectory,</div>
+<div class="line"><span class="lineno">  144</span>                    cancellationToken);</div>
+<div class="line"><span class="lineno">  145</span> </div>
+<div class="line"><span class="lineno">  146</span>                <span class="comment">// Delete trusted.txt so it doesn&#39;t grow too large</span></div>
+<div class="line"><span class="lineno">  147</span>                var trustedFilePath =</div>
+<div class="line"><span class="lineno">  148</span>                    <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#abaabd1bb99f94299281df83a9ab58203">IOManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a286f4eb5c679683b7e519847a6c3574e">ConcatPath</a>(</div>
+<div class="line"><span class="lineno">  149</span>                        localCfgDirectory,</div>
+<div class="line"><span class="lineno">  150</span>                        <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_byond_installer_base.html#acb185b4059333eb8222a41dad5d7a932">TrustedDmbFileName</a>);</div>
+<div class="line"><span class="lineno">  151</span> </div>
+<div class="line"><span class="lineno">  152</span>                <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#aed7c0130aacc5b088f420e6aa4a270b5">Logger</a>.LogTrace(<span class="stringliteral">&quot;Deleting trusted .dmbs file {trustedFilePath}&quot;</span>, trustedFilePath);</div>
+<div class="line"><span class="lineno">  153</span>                var trustedDmbDeleteTask = <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#abaabd1bb99f94299281df83a9ab58203">IOManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a6ca322ea63f5693487917c1ee71c707a">DeleteFile</a>(</div>
+<div class="line"><span class="lineno">  154</span>                    trustedFilePath,</div>
+<div class="line"><span class="lineno">  155</span>                    cancellationToken);</div>
+<div class="line"><span class="lineno">  156</span> </div>
+<div class="line"><span class="lineno">  157</span>                await Task.WhenAll(cacheCleanTask, cfgCreateTask, trustedDmbDeleteTask);</div>
+<div class="line"><span class="lineno">  158</span>            }</div>
+<div class="line"><span class="lineno">  159</span>            <span class="keywordflow">catch</span> (<a class="code hl_class" href="class_exception.html">Exception</a> ex) when (ex is not OperationCanceledException)</div>
+<div class="line"><span class="lineno">  160</span>            {</div>
+<div class="line"><span class="lineno">  161</span>                <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#aed7c0130aacc5b088f420e6aa4a270b5">Logger</a>.LogWarning(ex, <span class="stringliteral">&quot;Error cleaning BYOND cache!&quot;</span>);</div>
+<div class="line"><span class="lineno">  162</span>            }</div>
+<div class="line"><span class="lineno">  163</span>        }</div>
 <div class="ttc" id="aclass_exception_html"><div class="ttname"><a href="class_exception.html">Exception</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_byond_installer_base_html_a0a35f1cf07f97a4fe39ff557d0180999"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_byond_installer_base.html#a0a35f1cf07f97a4fe39ff557d0180999">Tgstation.Server.Host.Components.Engine.ByondInstallerBase.PathToUserFolder</a></div><div class="ttdeci">abstract string PathToUserFolder</div><div class="ttdoc">Path to the system user's local BYOND folder.</div><div class="ttdef"><b>Definition:</b> <a href="_byond_installer_base_8cs_source.html#l00057">ByondInstallerBase.cs:57</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_byond_installer_base_html_a438d282daca1592e2feaf981bb05e8c8"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_byond_installer_base.html#a438d282daca1592e2feaf981bb05e8c8">Tgstation.Server.Host.Components.Engine.ByondInstallerBase.CacheDirectoryName</a></div><div class="ttdeci">const string CacheDirectoryName</div><div class="ttdoc">The name of BYOND's cache directory.</div><div class="ttdef"><b>Definition:</b> <a href="_byond_installer_base_8cs_source.html#l00029">ByondInstallerBase.cs:29</a></div></div>
@@ -653,36 +665,36 @@ Here is the call graph for this function:</div>
 
 <p>Implements <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#a3dcdb457483a10e1ff48f6af7be7043b">Tgstation.Server.Host.Components.Engine.EngineInstallerBase</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_byond_installer_base_8cs_source.html#l00197">197</a> of file <a class="el" href="_byond_installer_base_8cs_source.html">ByondInstallerBase.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  198</span>        {</div>
-<div class="line"><span class="lineno">  199</span>            <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#a7e0a63f182a77bc1a099f3c7f8cd6849">CheckVersionValidity</a>(version);</div>
-<div class="line"><span class="lineno">  200</span> </div>
-<div class="line"><span class="lineno">  201</span>            var url = <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_byond_installer_base.html#aad0f9b30cccd75058679a819522f0b74">GetDownloadZipUrl</a>(version);</div>
-<div class="line"><span class="lineno">  202</span>            <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#aed7c0130aacc5b088f420e6aa4a270b5">Logger</a>.LogTrace(<span class="stringliteral">&quot;Downloading {engineType} version {version} from {url}...&quot;</span>, <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_byond_installer_base.html#ac3945b9b66e18375e0508a89d0d095a3">TargetEngineType</a>, version, url);</div>
-<div class="line"><span class="lineno">  203</span> </div>
-<div class="line"><span class="lineno">  204</span>            await <span class="keyword">using </span>var download = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_byond_installer_base.html#a145fc898093212cfd2c9434aafff70db">fileDownloader</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_file_downloader.html#aba327aceb0182d4678f593c3385131de">DownloadFile</a>(url, <span class="keyword">null</span>);</div>
-<div class="line"><span class="lineno">  205</span>            await <span class="keyword">using </span>var buffer = <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_buffered_file_stream_provider.html">BufferedFileStreamProvider</a>(</div>
-<div class="line"><span class="lineno">  206</span>                await download.GetResult(cancellationToken));</div>
-<div class="line"><span class="lineno">  207</span> </div>
-<div class="line"><span class="lineno">  208</span>            var stream = await buffer.GetOwnedResult(cancellationToken);</div>
-<div class="line"><span class="lineno">  209</span>            <span class="keywordflow">try</span></div>
-<div class="line"><span class="lineno">  210</span>            {</div>
-<div class="line"><span class="lineno">  211</span>                <span class="keywordflow">return</span> <span class="keyword">new</span> ZipStreamEngineInstallationData(</div>
-<div class="line"><span class="lineno">  212</span>                    <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#abaabd1bb99f94299281df83a9ab58203">IOManager</a>,</div>
-<div class="line"><span class="lineno">  213</span>                    stream);</div>
-<div class="line"><span class="lineno">  214</span>            }</div>
-<div class="line"><span class="lineno">  215</span>            <span class="keywordflow">catch</span></div>
-<div class="line"><span class="lineno">  216</span>            {</div>
-<div class="line"><span class="lineno">  217</span>                await stream.DisposeAsync();</div>
-<div class="line"><span class="lineno">  218</span>                <span class="keywordflow">throw</span>;</div>
-<div class="line"><span class="lineno">  219</span>            }</div>
-<div class="line"><span class="lineno">  220</span>        }</div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_byond_installer_base_html_aad0f9b30cccd75058679a819522f0b74"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_byond_installer_base.html#aad0f9b30cccd75058679a819522f0b74">Tgstation.Server.Host.Components.Engine.ByondInstallerBase.GetDownloadZipUrl</a></div><div class="ttdeci">Uri GetDownloadZipUrl(EngineVersion version)</div><div class="ttdoc">Create a Uri pointing to the location of the download for a given version .</div><div class="ttdef"><b>Definition:</b> <a href="_byond_installer_base_8cs_source.html#l00235">ByondInstallerBase.cs:235</a></div></div>
+<p class="definition">Definition at line <a class="el" href="_byond_installer_base_8cs_source.html#l00209">209</a> of file <a class="el" href="_byond_installer_base_8cs_source.html">ByondInstallerBase.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  210</span>        {</div>
+<div class="line"><span class="lineno">  211</span>            <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#a7e0a63f182a77bc1a099f3c7f8cd6849">CheckVersionValidity</a>(version);</div>
+<div class="line"><span class="lineno">  212</span> </div>
+<div class="line"><span class="lineno">  213</span>            var url = <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_byond_installer_base.html#aad0f9b30cccd75058679a819522f0b74">GetDownloadZipUrl</a>(version);</div>
+<div class="line"><span class="lineno">  214</span>            <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#aed7c0130aacc5b088f420e6aa4a270b5">Logger</a>.LogTrace(<span class="stringliteral">&quot;Downloading {engineType} version {version} from {url}...&quot;</span>, <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_byond_installer_base.html#ac3945b9b66e18375e0508a89d0d095a3">TargetEngineType</a>, version, url);</div>
+<div class="line"><span class="lineno">  215</span> </div>
+<div class="line"><span class="lineno">  216</span>            await <span class="keyword">using </span>var download = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_byond_installer_base.html#a145fc898093212cfd2c9434aafff70db">fileDownloader</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_file_downloader.html#aba327aceb0182d4678f593c3385131de">DownloadFile</a>(url, <span class="keyword">null</span>);</div>
+<div class="line"><span class="lineno">  217</span>            await <span class="keyword">using </span>var buffer = <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_buffered_file_stream_provider.html">BufferedFileStreamProvider</a>(</div>
+<div class="line"><span class="lineno">  218</span>                await download.GetResult(cancellationToken));</div>
+<div class="line"><span class="lineno">  219</span> </div>
+<div class="line"><span class="lineno">  220</span>            var stream = await buffer.GetOwnedResult(cancellationToken);</div>
+<div class="line"><span class="lineno">  221</span>            <span class="keywordflow">try</span></div>
+<div class="line"><span class="lineno">  222</span>            {</div>
+<div class="line"><span class="lineno">  223</span>                <span class="keywordflow">return</span> <span class="keyword">new</span> ZipStreamEngineInstallationData(</div>
+<div class="line"><span class="lineno">  224</span>                    <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#abaabd1bb99f94299281df83a9ab58203">IOManager</a>,</div>
+<div class="line"><span class="lineno">  225</span>                    stream);</div>
+<div class="line"><span class="lineno">  226</span>            }</div>
+<div class="line"><span class="lineno">  227</span>            <span class="keywordflow">catch</span></div>
+<div class="line"><span class="lineno">  228</span>            {</div>
+<div class="line"><span class="lineno">  229</span>                await stream.DisposeAsync();</div>
+<div class="line"><span class="lineno">  230</span>                <span class="keywordflow">throw</span>;</div>
+<div class="line"><span class="lineno">  231</span>            }</div>
+<div class="line"><span class="lineno">  232</span>        }</div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_byond_installer_base_html_aad0f9b30cccd75058679a819522f0b74"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_byond_installer_base.html#aad0f9b30cccd75058679a819522f0b74">Tgstation.Server.Host.Components.Engine.ByondInstallerBase.GetDownloadZipUrl</a></div><div class="ttdeci">Uri GetDownloadZipUrl(EngineVersion version)</div><div class="ttdoc">Create a Uri pointing to the location of the download for a given version .</div><div class="ttdef"><b>Definition:</b> <a href="_byond_installer_base_8cs_source.html#l00247">ByondInstallerBase.cs:247</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_byond_installer_base_html_ac3945b9b66e18375e0508a89d0d095a3"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_byond_installer_base.html#ac3945b9b66e18375e0508a89d0d095a3">Tgstation.Server.Host.Components.Engine.ByondInstallerBase.TargetEngineType</a></div><div class="ttdeci">override EngineType TargetEngineType</div><div class="ttdef"><b>Definition:</b> <a href="_byond_installer_base_8cs_source.html#l00052">ByondInstallerBase.cs:52</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_buffered_file_stream_provider_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_buffered_file_stream_provider.html">Tgstation.Server.Host.IO.BufferedFileStreamProvider</a></div><div class="ttdoc">IFileStreamProvider that provides a ISeekableFileStreamProvider from an input Stream.</div><div class="ttdef"><b>Definition:</b> <a href="_buffered_file_stream_provider_8cs_source.html#l00013">BufferedFileStreamProvider.cs:14</a></div></div>
 <div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_file_downloader_html_aba327aceb0182d4678f593c3385131de"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_file_downloader.html#aba327aceb0182d4678f593c3385131de">Tgstation.Server.Host.IO.IFileDownloader.DownloadFile</a></div><div class="ttdeci">IFileStreamProvider DownloadFile(Uri url, string? bearerToken)</div><div class="ttdoc">Downloads a file from a given url .</div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_engine_installer_base_8cs_source.html#l00064">Tgstation.Server.Host.Components.Engine.EngineInstallerBase.CheckVersionValidity()</a>, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_file_downloader.html#aba327aceb0182d4678f593c3385131de">Tgstation.Server.Host.IO.IFileDownloader.DownloadFile()</a>, <a class="el" href="_byond_installer_base_8cs_source.html#l00072">Tgstation.Server.Host.Components.Engine.ByondInstallerBase.fileDownloader</a>, <a class="el" href="_byond_installer_base_8cs_source.html#l00235">Tgstation.Server.Host.Components.Engine.ByondInstallerBase.GetDownloadZipUrl()</a>, <a class="el" href="_engine_installer_base_8cs_source.html#l00024">Tgstation.Server.Host.Components.Engine.EngineInstallerBase.IOManager</a>, <a class="el" href="_engine_installer_base_8cs_source.html#l00029">Tgstation.Server.Host.Components.Engine.EngineInstallerBase.Logger</a>, and <a class="el" href="_byond_installer_base_8cs_source.html#l00052">Tgstation.Server.Host.Components.Engine.ByondInstallerBase.TargetEngineType</a>.</p>
+<p class="reference">References <a class="el" href="_engine_installer_base_8cs_source.html#l00064">Tgstation.Server.Host.Components.Engine.EngineInstallerBase.CheckVersionValidity()</a>, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_file_downloader.html#aba327aceb0182d4678f593c3385131de">Tgstation.Server.Host.IO.IFileDownloader.DownloadFile()</a>, <a class="el" href="_byond_installer_base_8cs_source.html#l00072">Tgstation.Server.Host.Components.Engine.ByondInstallerBase.fileDownloader</a>, <a class="el" href="_byond_installer_base_8cs_source.html#l00247">Tgstation.Server.Host.Components.Engine.ByondInstallerBase.GetDownloadZipUrl()</a>, <a class="el" href="_engine_installer_base_8cs_source.html#l00024">Tgstation.Server.Host.Components.Engine.EngineInstallerBase.IOManager</a>, <a class="el" href="_engine_installer_base_8cs_source.html#l00029">Tgstation.Server.Host.Components.Engine.EngineInstallerBase.Logger</a>, and <a class="el" href="_byond_installer_base_8cs_source.html#l00052">Tgstation.Server.Host.Components.Engine.ByondInstallerBase.TargetEngineType</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -730,17 +742,17 @@ Here is the call graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A Uri pointing to the version download location.</dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_byond_installer_base_8cs_source.html#l00235">235</a> of file <a class="el" href="_byond_installer_base_8cs_source.html">ByondInstallerBase.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  236</span>        {</div>
-<div class="line"><span class="lineno">  237</span>            <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#a7e0a63f182a77bc1a099f3c7f8cd6849">CheckVersionValidity</a>(version);</div>
-<div class="line"><span class="lineno">  238</span>            var url = String.Format(CultureInfo.InvariantCulture, <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_byond_installer_base.html#a41b59502700b2ba0111c6ef208dc7c6d">ByondRevisionsUrlTemplate</a>, version.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_engine_version.html#a4c62808be741c64cc793fb679b04e9c2">Version</a>!.Major, version.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_engine_version.html#a4c62808be741c64cc793fb679b04e9c2">Version</a>.Minor);</div>
-<div class="line"><span class="lineno">  239</span>            <span class="keywordflow">return</span> <span class="keyword">new</span> Uri(url);</div>
-<div class="line"><span class="lineno">  240</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_byond_installer_base_8cs_source.html#l00247">247</a> of file <a class="el" href="_byond_installer_base_8cs_source.html">ByondInstallerBase.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  248</span>        {</div>
+<div class="line"><span class="lineno">  249</span>            <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#a7e0a63f182a77bc1a099f3c7f8cd6849">CheckVersionValidity</a>(version);</div>
+<div class="line"><span class="lineno">  250</span>            var url = String.Format(CultureInfo.InvariantCulture, <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_byond_installer_base.html#a41b59502700b2ba0111c6ef208dc7c6d">ByondRevisionsUrlTemplate</a>, version.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_engine_version.html#a4c62808be741c64cc793fb679b04e9c2">Version</a>!.Major, version.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_engine_version.html#a4c62808be741c64cc793fb679b04e9c2">Version</a>.Minor);</div>
+<div class="line"><span class="lineno">  251</span>            <span class="keywordflow">return</span> <span class="keyword">new</span> Uri(url);</div>
+<div class="line"><span class="lineno">  252</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_byond_installer_base_html_a41b59502700b2ba0111c6ef208dc7c6d"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_byond_installer_base.html#a41b59502700b2ba0111c6ef208dc7c6d">Tgstation.Server.Host.Components.Engine.ByondInstallerBase.ByondRevisionsUrlTemplate</a></div><div class="ttdeci">abstract string ByondRevisionsUrlTemplate</div><div class="ttdoc">Gets the URL formatter string for downloading a byond version of {0:Major} {1:Minor}.</div><div class="ttdef"><b>Definition:</b> <a href="_byond_installer_base_8cs_source.html#l00067">ByondInstallerBase.cs:67</a></div></div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="_byond_installer_base_8cs_source.html#l00067">Tgstation.Server.Host.Components.Engine.ByondInstallerBase.ByondRevisionsUrlTemplate</a>, <a class="el" href="_engine_installer_base_8cs_source.html#l00064">Tgstation.Server.Host.Components.Engine.EngineInstallerBase.CheckVersionValidity()</a>, and <a class="el" href="_engine_version_8cs_source.html#l00025">Tgstation.Server.Api.Models.EngineVersion.Version</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_byond_installer_base_8cs_source.html#l00197">Tgstation.Server.Host.Components.Engine.ByondInstallerBase.DownloadVersion()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_byond_installer_base_8cs_source.html#l00209">Tgstation.Server.Host.Components.Engine.ByondInstallerBase.DownloadVersion()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -874,47 +886,47 @@ Here is the caller graph for this function:</div>
 
 <p>Implements <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#a28708efb368855a5ed2bd1c975977fd4">Tgstation.Server.Host.Components.Engine.EngineInstallerBase</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_byond_installer_base_8cs_source.html#l00154">154</a> of file <a class="el" href="_byond_installer_base_8cs_source.html">ByondInstallerBase.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  155</span>        {</div>
-<div class="line"><span class="lineno">  156</span>            ArgumentNullException.ThrowIfNull(version);</div>
-<div class="line"><span class="lineno">  157</span>            ArgumentNullException.ThrowIfNull(fullDmbPath);</div>
-<div class="line"><span class="lineno">  158</span> </div>
-<div class="line"><span class="lineno">  159</span>            var byondDir = <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_byond_installer_base.html#a0a35f1cf07f97a4fe39ff557d0180999">PathToUserFolder</a>;</div>
-<div class="line"><span class="lineno">  160</span>            var cfgDir = <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#abaabd1bb99f94299281df83a9ab58203">IOManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a286f4eb5c679683b7e519847a6c3574e">ConcatPath</a>(</div>
-<div class="line"><span class="lineno">  161</span>                byondDir,</div>
-<div class="line"><span class="lineno">  162</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_byond_installer_base.html#a46e6f9c71ef798be7a264493a801c3eb">CfgDirectoryName</a>);</div>
-<div class="line"><span class="lineno">  163</span>            var trustedFilePath = <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#abaabd1bb99f94299281df83a9ab58203">IOManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a286f4eb5c679683b7e519847a6c3574e">ConcatPath</a>(</div>
-<div class="line"><span class="lineno">  164</span>                cfgDir,</div>
-<div class="line"><span class="lineno">  165</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_byond_installer_base.html#acb185b4059333eb8222a41dad5d7a932">TrustedDmbFileName</a>);</div>
-<div class="line"><span class="lineno">  166</span> </div>
-<div class="line"><span class="lineno">  167</span>            <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#aed7c0130aacc5b088f420e6aa4a270b5">Logger</a>.LogDebug(<span class="stringliteral">&quot;Adding .dmb ({dmbPath}) to {trustedFilePath}&quot;</span>, fullDmbPath, trustedFilePath);</div>
-<div class="line"><span class="lineno">  168</span> </div>
-<div class="line"><span class="lineno">  169</span>            <span class="keyword">using</span> (await <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html">SemaphoreSlimContext</a>.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html#a29773d588476671bbe480f096d839c91">Lock</a>(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_byond_installer_base.html#a77c261bf64a74c0c52e097446555ff83">UserFilesSemaphore</a>, cancellationToken))</div>
-<div class="line"><span class="lineno">  170</span>            {</div>
-<div class="line"><span class="lineno">  171</span>                <span class="keywordtype">string</span> trustedFileText;</div>
-<div class="line"><span class="lineno">  172</span>                var filePreviouslyExisted = await <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#abaabd1bb99f94299281df83a9ab58203">IOManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ad4de873180481f7afa206b6282158d62">FileExists</a>(trustedFilePath, cancellationToken);</div>
-<div class="line"><span class="lineno">  173</span>                <span class="keywordflow">if</span> (filePreviouslyExisted)</div>
-<div class="line"><span class="lineno">  174</span>                {</div>
-<div class="line"><span class="lineno">  175</span>                    var trustedFileBytes = await <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#abaabd1bb99f94299281df83a9ab58203">IOManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a267b549fab5803c199a7d37100650e85">ReadAllBytes</a>(trustedFilePath, cancellationToken);</div>
-<div class="line"><span class="lineno">  176</span>                    trustedFileText = Encoding.UTF8.GetString(trustedFileBytes);</div>
-<div class="line"><span class="lineno">  177</span>                    trustedFileText = $<span class="stringliteral">&quot;{trustedFileText.Trim()}{Environment.NewLine}&quot;</span>;</div>
-<div class="line"><span class="lineno">  178</span>                }</div>
-<div class="line"><span class="lineno">  179</span>                <span class="keywordflow">else</span></div>
-<div class="line"><span class="lineno">  180</span>                    trustedFileText = String.Empty;</div>
-<div class="line"><span class="lineno">  181</span> </div>
-<div class="line"><span class="lineno">  182</span>                <span class="keywordflow">if</span> (trustedFileText.Contains(fullDmbPath, StringComparison.Ordinal))</div>
-<div class="line"><span class="lineno">  183</span>                    <span class="keywordflow">return</span>;</div>
-<div class="line"><span class="lineno">  184</span> </div>
-<div class="line"><span class="lineno">  185</span>                trustedFileText = $<span class="stringliteral">&quot;{trustedFileText}{fullDmbPath}{Environment.NewLine}&quot;</span>;</div>
-<div class="line"><span class="lineno">  186</span> </div>
-<div class="line"><span class="lineno">  187</span>                var newTrustedFileBytes = Encoding.UTF8.GetBytes(trustedFileText);</div>
-<div class="line"><span class="lineno">  188</span> </div>
-<div class="line"><span class="lineno">  189</span>                <span class="keywordflow">if</span> (!filePreviouslyExisted)</div>
-<div class="line"><span class="lineno">  190</span>                    await <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#abaabd1bb99f94299281df83a9ab58203">IOManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a69aa1b9dbeb6af3744e568095c4376e7">CreateDirectory</a>(cfgDir, cancellationToken);</div>
-<div class="line"><span class="lineno">  191</span> </div>
-<div class="line"><span class="lineno">  192</span>                await <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#abaabd1bb99f94299281df83a9ab58203">IOManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a9aeb8b83ea3f4b13a183b6ac55b35a70">WriteAllBytes</a>(trustedFilePath, newTrustedFileBytes, cancellationToken);</div>
-<div class="line"><span class="lineno">  193</span>            }</div>
-<div class="line"><span class="lineno">  194</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_byond_installer_base_8cs_source.html#l00166">166</a> of file <a class="el" href="_byond_installer_base_8cs_source.html">ByondInstallerBase.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  167</span>        {</div>
+<div class="line"><span class="lineno">  168</span>            ArgumentNullException.ThrowIfNull(version);</div>
+<div class="line"><span class="lineno">  169</span>            ArgumentNullException.ThrowIfNull(fullDmbPath);</div>
+<div class="line"><span class="lineno">  170</span> </div>
+<div class="line"><span class="lineno">  171</span>            var byondDir = <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_byond_installer_base.html#a0a35f1cf07f97a4fe39ff557d0180999">PathToUserFolder</a>;</div>
+<div class="line"><span class="lineno">  172</span>            var cfgDir = <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#abaabd1bb99f94299281df83a9ab58203">IOManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a286f4eb5c679683b7e519847a6c3574e">ConcatPath</a>(</div>
+<div class="line"><span class="lineno">  173</span>                byondDir,</div>
+<div class="line"><span class="lineno">  174</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_byond_installer_base.html#a46e6f9c71ef798be7a264493a801c3eb">CfgDirectoryName</a>);</div>
+<div class="line"><span class="lineno">  175</span>            var trustedFilePath = <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#abaabd1bb99f94299281df83a9ab58203">IOManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a286f4eb5c679683b7e519847a6c3574e">ConcatPath</a>(</div>
+<div class="line"><span class="lineno">  176</span>                cfgDir,</div>
+<div class="line"><span class="lineno">  177</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_byond_installer_base.html#acb185b4059333eb8222a41dad5d7a932">TrustedDmbFileName</a>);</div>
+<div class="line"><span class="lineno">  178</span> </div>
+<div class="line"><span class="lineno">  179</span>            <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#aed7c0130aacc5b088f420e6aa4a270b5">Logger</a>.LogDebug(<span class="stringliteral">&quot;Adding .dmb ({dmbPath}) to {trustedFilePath}&quot;</span>, fullDmbPath, trustedFilePath);</div>
+<div class="line"><span class="lineno">  180</span> </div>
+<div class="line"><span class="lineno">  181</span>            <span class="keyword">using</span> (await <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html">SemaphoreSlimContext</a>.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html#a29773d588476671bbe480f096d839c91">Lock</a>(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_byond_installer_base.html#a77c261bf64a74c0c52e097446555ff83">UserFilesSemaphore</a>, cancellationToken))</div>
+<div class="line"><span class="lineno">  182</span>            {</div>
+<div class="line"><span class="lineno">  183</span>                <span class="keywordtype">string</span> trustedFileText;</div>
+<div class="line"><span class="lineno">  184</span>                var filePreviouslyExisted = await <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#abaabd1bb99f94299281df83a9ab58203">IOManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ad4de873180481f7afa206b6282158d62">FileExists</a>(trustedFilePath, cancellationToken);</div>
+<div class="line"><span class="lineno">  185</span>                <span class="keywordflow">if</span> (filePreviouslyExisted)</div>
+<div class="line"><span class="lineno">  186</span>                {</div>
+<div class="line"><span class="lineno">  187</span>                    var trustedFileBytes = await <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#abaabd1bb99f94299281df83a9ab58203">IOManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a267b549fab5803c199a7d37100650e85">ReadAllBytes</a>(trustedFilePath, cancellationToken);</div>
+<div class="line"><span class="lineno">  188</span>                    trustedFileText = Encoding.UTF8.GetString(trustedFileBytes);</div>
+<div class="line"><span class="lineno">  189</span>                    trustedFileText = $<span class="stringliteral">&quot;{trustedFileText.Trim()}{Environment.NewLine}&quot;</span>;</div>
+<div class="line"><span class="lineno">  190</span>                }</div>
+<div class="line"><span class="lineno">  191</span>                <span class="keywordflow">else</span></div>
+<div class="line"><span class="lineno">  192</span>                    trustedFileText = String.Empty;</div>
+<div class="line"><span class="lineno">  193</span> </div>
+<div class="line"><span class="lineno">  194</span>                <span class="keywordflow">if</span> (trustedFileText.Contains(fullDmbPath, StringComparison.Ordinal))</div>
+<div class="line"><span class="lineno">  195</span>                    <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno">  196</span> </div>
+<div class="line"><span class="lineno">  197</span>                trustedFileText = $<span class="stringliteral">&quot;{trustedFileText}{fullDmbPath}{Environment.NewLine}&quot;</span>;</div>
+<div class="line"><span class="lineno">  198</span> </div>
+<div class="line"><span class="lineno">  199</span>                var newTrustedFileBytes = Encoding.UTF8.GetBytes(trustedFileText);</div>
+<div class="line"><span class="lineno">  200</span> </div>
+<div class="line"><span class="lineno">  201</span>                <span class="keywordflow">if</span> (!filePreviouslyExisted)</div>
+<div class="line"><span class="lineno">  202</span>                    await <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#abaabd1bb99f94299281df83a9ab58203">IOManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a69aa1b9dbeb6af3744e568095c4376e7">CreateDirectory</a>(cfgDir, cancellationToken);</div>
+<div class="line"><span class="lineno">  203</span> </div>
+<div class="line"><span class="lineno">  204</span>                await <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#abaabd1bb99f94299281df83a9ab58203">IOManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a9aeb8b83ea3f4b13a183b6ac55b35a70">WriteAllBytes</a>(trustedFilePath, newTrustedFileBytes, cancellationToken);</div>
+<div class="line"><span class="lineno">  205</span>            }</div>
+<div class="line"><span class="lineno">  206</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_byond_installer_base_html_a77c261bf64a74c0c52e097446555ff83"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_byond_installer_base.html#a77c261bf64a74c0c52e097446555ff83">Tgstation.Server.Host.Components.Engine.ByondInstallerBase.UserFilesSemaphore</a></div><div class="ttdeci">static readonly SemaphoreSlim UserFilesSemaphore</div><div class="ttdoc">SemaphoreSlim for writing to files in the user's BYOND directory.</div><div class="ttdef"><b>Definition:</b> <a href="_byond_installer_base_8cs_source.html#l00049">ByondInstallerBase.cs:49</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html">Tgstation.Server.Host.Utils.SemaphoreSlimContext</a></div><div class="ttdoc">Async lock context helper.</div><div class="ttdef"><b>Definition:</b> <a href="_semaphore_slim_context_8cs_source.html#l00010">SemaphoreSlimContext.cs:11</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context_html_a29773d588476671bbe480f096d839c91"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html#a29773d588476671bbe480f096d839c91">Tgstation.Server.Host.Utils.SemaphoreSlimContext.Lock</a></div><div class="ttdeci">static async ValueTask&lt; SemaphoreSlimContext &gt; Lock(SemaphoreSlim semaphore, CancellationToken cancellationToken)</div><div class="ttdoc">Asyncronously locks a semaphore .</div><div class="ttdef"><b>Definition:</b> <a href="_semaphore_slim_context_8cs_source.html#l00018">SemaphoreSlimContext.cs:18</a></div></div>
@@ -965,7 +977,7 @@ Here is the call graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_byond_installer_base_8cs_source.html#l00024">24</a> of file <a class="el" href="_byond_installer_base_8cs_source.html">ByondInstallerBase.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_windows_byond_installer_8cs_source.html#l00244">Tgstation.Server.Host.Components.Engine.WindowsByondInstaller.AddDreamDaemonToFirewall()</a>, <a class="el" href="_byond_installer_base_8cs_source.html#l00087">Tgstation.Server.Host.Components.Engine.ByondInstallerBase.CreateInstallation()</a>, and <a class="el" href="_posix_byond_installer_8cs_source.html#l00074">Tgstation.Server.Host.Components.Engine.PosixByondInstaller.Install()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_windows_byond_installer_8cs_source.html#l00248">Tgstation.Server.Host.Components.Engine.WindowsByondInstaller.AddDreamDaemonToFirewall()</a>, <a class="el" href="_byond_installer_base_8cs_source.html#l00087">Tgstation.Server.Host.Components.Engine.ByondInstallerBase.CreateInstallation()</a>, and <a class="el" href="_posix_byond_installer_8cs_source.html#l00074">Tgstation.Server.Host.Components.Engine.PosixByondInstaller.Install()</a>.</p>
 
 </div>
 </div>
@@ -1021,7 +1033,7 @@ Here is the call graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_byond_installer_base_8cs_source.html#l00034">34</a> of file <a class="el" href="_byond_installer_base_8cs_source.html">ByondInstallerBase.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_byond_installer_base_8cs_source.html#l00112">Tgstation.Server.Host.Components.Engine.ByondInstallerBase.CleanCache()</a>, and <a class="el" href="_byond_installer_base_8cs_source.html#l00154">Tgstation.Server.Host.Components.Engine.ByondInstallerBase.TrustDmbPath()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_byond_installer_base_8cs_source.html#l00112">Tgstation.Server.Host.Components.Engine.ByondInstallerBase.CleanCache()</a>, and <a class="el" href="_byond_installer_base_8cs_source.html#l00166">Tgstation.Server.Host.Components.Engine.ByondInstallerBase.TrustDmbPath()</a>.</p>
 
 </div>
 </div>
@@ -1049,7 +1061,7 @@ Here is the call graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_byond_installer_base_8cs_source.html#l00072">72</a> of file <a class="el" href="_byond_installer_base_8cs_source.html">ByondInstallerBase.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_byond_installer_base_8cs_source.html#l00080">Tgstation.Server.Host.Components.Engine.ByondInstallerBase.ByondInstallerBase()</a>, and <a class="el" href="_byond_installer_base_8cs_source.html#l00197">Tgstation.Server.Host.Components.Engine.ByondInstallerBase.DownloadVersion()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_byond_installer_base_8cs_source.html#l00080">Tgstation.Server.Host.Components.Engine.ByondInstallerBase.ByondInstallerBase()</a>, and <a class="el" href="_byond_installer_base_8cs_source.html#l00209">Tgstation.Server.Host.Components.Engine.ByondInstallerBase.DownloadVersion()</a>.</p>
 
 </div>
 </div>
@@ -1105,7 +1117,7 @@ Here is the call graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_byond_installer_base_8cs_source.html#l00039">39</a> of file <a class="el" href="_byond_installer_base_8cs_source.html">ByondInstallerBase.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_byond_installer_base_8cs_source.html#l00112">Tgstation.Server.Host.Components.Engine.ByondInstallerBase.CleanCache()</a>, and <a class="el" href="_byond_installer_base_8cs_source.html#l00154">Tgstation.Server.Host.Components.Engine.ByondInstallerBase.TrustDmbPath()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_byond_installer_base_8cs_source.html#l00112">Tgstation.Server.Host.Components.Engine.ByondInstallerBase.CleanCache()</a>, and <a class="el" href="_byond_installer_base_8cs_source.html#l00166">Tgstation.Server.Host.Components.Engine.ByondInstallerBase.TrustDmbPath()</a>.</p>
 
 </div>
 </div>
@@ -1133,7 +1145,7 @@ Here is the call graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_byond_installer_base_8cs_source.html#l00049">49</a> of file <a class="el" href="_byond_installer_base_8cs_source.html">ByondInstallerBase.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_byond_installer_base_8cs_source.html#l00154">Tgstation.Server.Host.Components.Engine.ByondInstallerBase.TrustDmbPath()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_byond_installer_base_8cs_source.html#l00166">Tgstation.Server.Host.Components.Engine.ByondInstallerBase.TrustDmbPath()</a>.</p>
 
 </div>
 </div>
@@ -1163,7 +1175,7 @@ Here is the call graph for this function:</div>
 <p class="definition">Definition at line <a class="el" href="_byond_installer_base_8cs_source.html#l00067">67</a> of file <a class="el" href="_byond_installer_base_8cs_source.html">ByondInstallerBase.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   67</span>{ <span class="keyword">get</span>; }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_byond_installer_base_8cs_source.html#l00235">Tgstation.Server.Host.Components.Engine.ByondInstallerBase.GetDownloadZipUrl()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_byond_installer_base_8cs_source.html#l00247">Tgstation.Server.Host.Components.Engine.ByondInstallerBase.GetDownloadZipUrl()</a>.</p>
 
 </div>
 </div>
@@ -1221,7 +1233,7 @@ Here is the call graph for this function:</div>
 <p class="definition">Definition at line <a class="el" href="_byond_installer_base_8cs_source.html#l00057">57</a> of file <a class="el" href="_byond_installer_base_8cs_source.html">ByondInstallerBase.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   57</span>{ <span class="keyword">get</span>; }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_byond_installer_base_8cs_source.html#l00112">Tgstation.Server.Host.Components.Engine.ByondInstallerBase.CleanCache()</a>, and <a class="el" href="_byond_installer_base_8cs_source.html#l00154">Tgstation.Server.Host.Components.Engine.ByondInstallerBase.TrustDmbPath()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_byond_installer_base_8cs_source.html#l00112">Tgstation.Server.Host.Components.Engine.ByondInstallerBase.CleanCache()</a>, and <a class="el" href="_byond_installer_base_8cs_source.html#l00166">Tgstation.Server.Host.Components.Engine.ByondInstallerBase.TrustDmbPath()</a>.</p>
 
 </div>
 </div>
@@ -1249,7 +1261,7 @@ Here is the call graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_byond_installer_base_8cs_source.html#l00052">52</a> of file <a class="el" href="_byond_installer_base_8cs_source.html">ByondInstallerBase.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_byond_installer_base_8cs_source.html#l00197">Tgstation.Server.Host.Components.Engine.ByondInstallerBase.DownloadVersion()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_byond_installer_base_8cs_source.html#l00209">Tgstation.Server.Host.Components.Engine.ByondInstallerBase.DownloadVersion()</a>.</p>
 
 </div>
 </div>

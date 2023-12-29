@@ -148,9 +148,9 @@ Components:
   - Version: 6.1.1
     ComponentVersions:
       HttpApi: 10.0.0
-      DreamMakerApi: 7.0.0
+      DreamMakerApi: 7.0.1
       Configuration: 5.0.0
-      InteropApi: 5.7.0
+      InteropApi: 5.8.0
       HostWatchdog: 1.4.1
       NugetCommon: 7.0.0
       NugetApi: 13.0.1
@@ -161,6 +161,11 @@ Components:
       - Fixed a `NonFastForwardException` that could occur when working with the repository.
       Author: Cyberboss
       PullRequest: 1760
+    - Descriptions:
+      - Fixed the BYOND cache folder not being deleted on Windows when running as a service.
+      - Recursive directory deletion no longer stops on the first error.
+      Author: Cyberboss
+      PullRequest: 1762
     Unreleased: true
   - Version: 6.1.0
     ComponentVersions:
@@ -3861,6 +3866,13 @@ Components:
       Author: Cyberboss
       PullRequest: 991
   DreamMakerApi:
+  - Version: 7.0.1
+    Changes:
+    - Descriptions:
+      - Fixed Bridge requests using the wrong URL on TGS versions <6.
+      Author: Cyberboss
+      PullRequest: 1762
+    Unreleased: true
   - Version: 7.0.0
     Changes:
     - Descriptions:

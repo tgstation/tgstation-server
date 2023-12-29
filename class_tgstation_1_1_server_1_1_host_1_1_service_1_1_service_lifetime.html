@@ -215,19 +215,21 @@ Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">   57</span>            this.logger = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_service_lifetime.html#a59a604f1e6957c8c33502c30a1a436c7">logger</a> ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_service_lifetime.html#a59a604f1e6957c8c33502c30a1a436c7">logger</a>));</div>
 <div class="line"><span class="lineno">   58</span>            ArgumentNullException.ThrowIfNull(args);</div>
 <div class="line"><span class="lineno">   59</span> </div>
-<div class="line"><span class="lineno">   60</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_service_lifetime.html#a0b74bfd1c1bac13ab02659d3ebf235b3">cancellationTokenSource</a> = <span class="keyword">new</span> CancellationTokenSource();</div>
-<div class="line"><span class="lineno">   61</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_service_lifetime.html#adf6c8ff93fead448c9cfb931200badfc">watchdogTask</a> = <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_service_lifetime.html#aca6fdfa37c501c190e4698c758cd0b94">RunWatchdog</a>(</div>
-<div class="line"><span class="lineno">   62</span>                stopService,</div>
-<div class="line"><span class="lineno">   63</span>                watchdogFactory(<span class="keyword">this</span>),</div>
-<div class="line"><span class="lineno">   64</span>                args,</div>
-<div class="line"><span class="lineno">   65</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_service_lifetime.html#a0b74bfd1c1bac13ab02659d3ebf235b3">cancellationTokenSource</a>.Token);</div>
-<div class="line"><span class="lineno">   66</span>        }</div>
+<div class="line"><span class="lineno">   60</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_service_lifetime.html#a59a604f1e6957c8c33502c30a1a436c7">logger</a>.LogDebug(<span class="stringliteral">&quot;Starting service lifetime as user: {username}&quot;</span>, Environment.UserName);</div>
+<div class="line"><span class="lineno">   61</span> </div>
+<div class="line"><span class="lineno">   62</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_service_lifetime.html#a0b74bfd1c1bac13ab02659d3ebf235b3">cancellationTokenSource</a> = <span class="keyword">new</span> CancellationTokenSource();</div>
+<div class="line"><span class="lineno">   63</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_service_lifetime.html#adf6c8ff93fead448c9cfb931200badfc">watchdogTask</a> = <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_service_lifetime.html#aca6fdfa37c501c190e4698c758cd0b94">RunWatchdog</a>(</div>
+<div class="line"><span class="lineno">   64</span>                stopService,</div>
+<div class="line"><span class="lineno">   65</span>                watchdogFactory(<span class="keyword">this</span>),</div>
+<div class="line"><span class="lineno">   66</span>                args,</div>
+<div class="line"><span class="lineno">   67</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_service_lifetime.html#a0b74bfd1c1bac13ab02659d3ebf235b3">cancellationTokenSource</a>.Token);</div>
+<div class="line"><span class="lineno">   68</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_service_1_1_service_lifetime_html_a0b74bfd1c1bac13ab02659d3ebf235b3"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_service_lifetime.html#a0b74bfd1c1bac13ab02659d3ebf235b3">Tgstation.Server.Host.Service.ServiceLifetime.cancellationTokenSource</a></div><div class="ttdeci">readonly CancellationTokenSource cancellationTokenSource</div><div class="ttdoc">The cancellationTokenSource for the ServerService.</div><div class="ttdef"><b>Definition:</b> <a href="_service_lifetime_8cs_source.html#l00034">ServiceLifetime.cs:34</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_service_1_1_service_lifetime_html_a59a604f1e6957c8c33502c30a1a436c7"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_service_lifetime.html#a59a604f1e6957c8c33502c30a1a436c7">Tgstation.Server.Host.Service.ServiceLifetime.logger</a></div><div class="ttdeci">readonly ILogger&lt; ServiceLifetime &gt; logger</div><div class="ttdoc">The ILogger for the ServerService.</div><div class="ttdef"><b>Definition:</b> <a href="_service_lifetime_8cs_source.html#l00024">ServiceLifetime.cs:24</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_service_1_1_service_lifetime_html_aca6fdfa37c501c190e4698c758cd0b94"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_service_lifetime.html#aca6fdfa37c501c190e4698c758cd0b94">Tgstation.Server.Host.Service.ServiceLifetime.RunWatchdog</a></div><div class="ttdeci">async Task RunWatchdog(Action stopService, IWatchdog watchdog, string[] args, CancellationToken cancellationToken)</div><div class="ttdoc">Executes the watchdog , stopping the service if it exits.</div><div class="ttdef"><b>Definition:</b> <a href="_service_lifetime_8cs_source.html#l00131">ServiceLifetime.cs:131</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_service_1_1_service_lifetime_html_aca6fdfa37c501c190e4698c758cd0b94"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_service_lifetime.html#aca6fdfa37c501c190e4698c758cd0b94">Tgstation.Server.Host.Service.ServiceLifetime.RunWatchdog</a></div><div class="ttdeci">async Task RunWatchdog(Action stopService, IWatchdog watchdog, string[] args, CancellationToken cancellationToken)</div><div class="ttdoc">Executes the watchdog , stopping the service if it exits.</div><div class="ttdef"><b>Definition:</b> <a href="_service_lifetime_8cs_source.html#l00133">ServiceLifetime.cs:133</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_service_1_1_service_lifetime_html_adf6c8ff93fead448c9cfb931200badfc"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_service_lifetime.html#adf6c8ff93fead448c9cfb931200badfc">Tgstation.Server.Host.Service.ServiceLifetime.watchdogTask</a></div><div class="ttdeci">readonly Task watchdogTask</div><div class="ttdoc">The Task that represents the running ServerService.</div><div class="ttdef"><b>Definition:</b> <a href="_service_lifetime_8cs_source.html#l00029">ServiceLifetime.cs:29</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_service_lifetime_8cs_source.html#l00034">Tgstation.Server.Host.Service.ServiceLifetime.cancellationTokenSource</a>, <a class="el" href="_service_lifetime_8cs_source.html#l00024">Tgstation.Server.Host.Service.ServiceLifetime.logger</a>, <a class="el" href="_service_lifetime_8cs_source.html#l00131">Tgstation.Server.Host.Service.ServiceLifetime.RunWatchdog()</a>, and <a class="el" href="_service_lifetime_8cs_source.html#l00029">Tgstation.Server.Host.Service.ServiceLifetime.watchdogTask</a>.</p>
+<p class="reference">References <a class="el" href="_service_lifetime_8cs_source.html#l00034">Tgstation.Server.Host.Service.ServiceLifetime.cancellationTokenSource</a>, <a class="el" href="_service_lifetime_8cs_source.html#l00024">Tgstation.Server.Host.Service.ServiceLifetime.logger</a>, <a class="el" href="_service_lifetime_8cs_source.html#l00133">Tgstation.Server.Host.Service.ServiceLifetime.RunWatchdog()</a>, and <a class="el" href="_service_lifetime_8cs_source.html#l00029">Tgstation.Server.Host.Service.ServiceLifetime.watchdogTask</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -270,25 +272,25 @@ Here is the call graph for this function:</div>
 
 <p></p>
 
-<p class="definition">Definition at line <a class="el" href="_service_lifetime_8cs_source.html#l00083">83</a> of file <a class="el" href="_service_lifetime_8cs_source.html">ServiceLifetime.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   84</span>        {</div>
-<div class="line"><span class="lineno">   85</span>            <span class="keywordflow">try</span></div>
-<div class="line"><span class="lineno">   86</span>            {</div>
-<div class="line"><span class="lineno">   87</span>                await <span class="keyword">using</span> (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_service_lifetime.html#ae0c3d236a6c39b9b2f0e22c47a8c11e3">commandPipeServer</a> = <span class="keyword">new</span> AnonymousPipeServerStream(PipeDirection.Out, HandleInheritability.Inheritable))</div>
-<div class="line"><span class="lineno">   88</span>                await <span class="keyword">using</span> (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_service_lifetime.html#a1ad4d503bcab123aa519d9f3845ed900">readyPipeServer</a> = <span class="keyword">new</span> AnonymousPipeServerStream(PipeDirection.In, HandleInheritability.Inheritable))</div>
-<div class="line"><span class="lineno">   89</span>                {</div>
-<div class="line"><span class="lineno">   90</span>                    var (_, lifetimeTask) = startChildAndGetPid($<span class="stringliteral">&quot;--Internal:CommandPipe={commandPipeServer.GetClientHandleAsString()} --Internal:ReadyPipe={readyPipeServer.GetClientHandleAsString()}&quot;</span>);</div>
-<div class="line"><span class="lineno">   91</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_service_lifetime.html#ae0c3d236a6c39b9b2f0e22c47a8c11e3">commandPipeServer</a>.DisposeLocalCopyOfClientHandle();</div>
-<div class="line"><span class="lineno">   92</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_service_lifetime.html#a1ad4d503bcab123aa519d9f3845ed900">readyPipeServer</a>.DisposeLocalCopyOfClientHandle();</div>
-<div class="line"><span class="lineno">   93</span>                    await lifetimeTask;</div>
-<div class="line"><span class="lineno">   94</span>                }</div>
-<div class="line"><span class="lineno">   95</span>            }</div>
-<div class="line"><span class="lineno">   96</span>            <span class="keywordflow">finally</span></div>
-<div class="line"><span class="lineno">   97</span>            {</div>
-<div class="line"><span class="lineno">   98</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_service_lifetime.html#a1ad4d503bcab123aa519d9f3845ed900">readyPipeServer</a> = <span class="keyword">null</span>;</div>
-<div class="line"><span class="lineno">   99</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_service_lifetime.html#ae0c3d236a6c39b9b2f0e22c47a8c11e3">commandPipeServer</a> = <span class="keyword">null</span>;</div>
-<div class="line"><span class="lineno">  100</span>            }</div>
-<div class="line"><span class="lineno">  101</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_service_lifetime_8cs_source.html#l00085">85</a> of file <a class="el" href="_service_lifetime_8cs_source.html">ServiceLifetime.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   86</span>        {</div>
+<div class="line"><span class="lineno">   87</span>            <span class="keywordflow">try</span></div>
+<div class="line"><span class="lineno">   88</span>            {</div>
+<div class="line"><span class="lineno">   89</span>                await <span class="keyword">using</span> (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_service_lifetime.html#ae0c3d236a6c39b9b2f0e22c47a8c11e3">commandPipeServer</a> = <span class="keyword">new</span> AnonymousPipeServerStream(PipeDirection.Out, HandleInheritability.Inheritable))</div>
+<div class="line"><span class="lineno">   90</span>                await <span class="keyword">using</span> (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_service_lifetime.html#a1ad4d503bcab123aa519d9f3845ed900">readyPipeServer</a> = <span class="keyword">new</span> AnonymousPipeServerStream(PipeDirection.In, HandleInheritability.Inheritable))</div>
+<div class="line"><span class="lineno">   91</span>                {</div>
+<div class="line"><span class="lineno">   92</span>                    var (_, lifetimeTask) = startChildAndGetPid($<span class="stringliteral">&quot;--Internal:CommandPipe={commandPipeServer.GetClientHandleAsString()} --Internal:ReadyPipe={readyPipeServer.GetClientHandleAsString()}&quot;</span>);</div>
+<div class="line"><span class="lineno">   93</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_service_lifetime.html#ae0c3d236a6c39b9b2f0e22c47a8c11e3">commandPipeServer</a>.DisposeLocalCopyOfClientHandle();</div>
+<div class="line"><span class="lineno">   94</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_service_lifetime.html#a1ad4d503bcab123aa519d9f3845ed900">readyPipeServer</a>.DisposeLocalCopyOfClientHandle();</div>
+<div class="line"><span class="lineno">   95</span>                    await lifetimeTask;</div>
+<div class="line"><span class="lineno">   96</span>                }</div>
+<div class="line"><span class="lineno">   97</span>            }</div>
+<div class="line"><span class="lineno">   98</span>            <span class="keywordflow">finally</span></div>
+<div class="line"><span class="lineno">   99</span>            {</div>
+<div class="line"><span class="lineno">  100</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_service_lifetime.html#a1ad4d503bcab123aa519d9f3845ed900">readyPipeServer</a> = <span class="keyword">null</span>;</div>
+<div class="line"><span class="lineno">  101</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_service_lifetime.html#ae0c3d236a6c39b9b2f0e22c47a8c11e3">commandPipeServer</a> = <span class="keyword">null</span>;</div>
+<div class="line"><span class="lineno">  102</span>            }</div>
+<div class="line"><span class="lineno">  103</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_service_1_1_service_lifetime_html_a1ad4d503bcab123aa519d9f3845ed900"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_service_lifetime.html#a1ad4d503bcab123aa519d9f3845ed900">Tgstation.Server.Host.Service.ServiceLifetime.readyPipeServer</a></div><div class="ttdeci">AnonymousPipeServerStream? readyPipeServer</div><div class="ttdoc">The AnonymousPipeServerStream for receiving the PipeCommands.CommandStartupComplete.</div><div class="ttdef"><b>Definition:</b> <a href="_service_lifetime_8cs_source.html#l00044">ServiceLifetime.cs:44</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_service_1_1_service_lifetime_html_ae0c3d236a6c39b9b2f0e22c47a8c11e3"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_service_lifetime.html#ae0c3d236a6c39b9b2f0e22c47a8c11e3">Tgstation.Server.Host.Service.ServiceLifetime.commandPipeServer</a></div><div class="ttdeci">AnonymousPipeServerStream? commandPipeServer</div><div class="ttdoc">The AnonymousPipeServerStream for sending PipeCommands to the server process.</div><div class="ttdef"><b>Definition:</b> <a href="_service_lifetime_8cs_source.html#l00039">ServiceLifetime.cs:39</a></div></div>
 </div><!-- fragment -->
@@ -313,18 +315,18 @@ Here is the call graph for this function:</div>
 
 <p></p>
 
-<p class="definition">Definition at line <a class="el" href="_service_lifetime_8cs_source.html#l00069">69</a> of file <a class="el" href="_service_lifetime_8cs_source.html">ServiceLifetime.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   70</span>        {</div>
-<div class="line"><span class="lineno">   71</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_service_lifetime.html#a0b74bfd1c1bac13ab02659d3ebf235b3">cancellationTokenSource</a>.Cancel();</div>
-<div class="line"><span class="lineno">   72</span>            await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_service_lifetime.html#adf6c8ff93fead448c9cfb931200badfc">watchdogTask</a>;</div>
-<div class="line"><span class="lineno">   73</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_service_lifetime.html#a0b74bfd1c1bac13ab02659d3ebf235b3">cancellationTokenSource</a>.Dispose();</div>
-<div class="line"><span class="lineno">   74</span> </div>
-<div class="line"><span class="lineno">   75</span>            <span class="keywordflow">if</span> (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_service_lifetime.html#ae0c3d236a6c39b9b2f0e22c47a8c11e3">commandPipeServer</a> != <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">   76</span>                await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_service_lifetime.html#ae0c3d236a6c39b9b2f0e22c47a8c11e3">commandPipeServer</a>.DisposeAsync();</div>
-<div class="line"><span class="lineno">   77</span> </div>
-<div class="line"><span class="lineno">   78</span>            <span class="keywordflow">if</span> (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_service_lifetime.html#a1ad4d503bcab123aa519d9f3845ed900">readyPipeServer</a> != <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">   79</span>                await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_service_lifetime.html#a1ad4d503bcab123aa519d9f3845ed900">readyPipeServer</a>.DisposeAsync();</div>
-<div class="line"><span class="lineno">   80</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_service_lifetime_8cs_source.html#l00071">71</a> of file <a class="el" href="_service_lifetime_8cs_source.html">ServiceLifetime.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   72</span>        {</div>
+<div class="line"><span class="lineno">   73</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_service_lifetime.html#a0b74bfd1c1bac13ab02659d3ebf235b3">cancellationTokenSource</a>.Cancel();</div>
+<div class="line"><span class="lineno">   74</span>            await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_service_lifetime.html#adf6c8ff93fead448c9cfb931200badfc">watchdogTask</a>;</div>
+<div class="line"><span class="lineno">   75</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_service_lifetime.html#a0b74bfd1c1bac13ab02659d3ebf235b3">cancellationTokenSource</a>.Dispose();</div>
+<div class="line"><span class="lineno">   76</span> </div>
+<div class="line"><span class="lineno">   77</span>            <span class="keywordflow">if</span> (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_service_lifetime.html#ae0c3d236a6c39b9b2f0e22c47a8c11e3">commandPipeServer</a> != <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">   78</span>                await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_service_lifetime.html#ae0c3d236a6c39b9b2f0e22c47a8c11e3">commandPipeServer</a>.DisposeAsync();</div>
+<div class="line"><span class="lineno">   79</span> </div>
+<div class="line"><span class="lineno">   80</span>            <span class="keywordflow">if</span> (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_service_lifetime.html#a1ad4d503bcab123aa519d9f3845ed900">readyPipeServer</a> != <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">   81</span>                await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_service_lifetime.html#a1ad4d503bcab123aa519d9f3845ed900">readyPipeServer</a>.DisposeAsync();</div>
+<div class="line"><span class="lineno">   82</span>        }</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="_service_lifetime_8cs_source.html#l00034">Tgstation.Server.Host.Service.ServiceLifetime.cancellationTokenSource</a>, <a class="el" href="_service_lifetime_8cs_source.html#l00039">Tgstation.Server.Host.Service.ServiceLifetime.commandPipeServer</a>, <a class="el" href="_service_lifetime_8cs_source.html#l00044">Tgstation.Server.Host.Service.ServiceLifetime.readyPipeServer</a>, and <a class="el" href="_service_lifetime_8cs_source.html#l00029">Tgstation.Server.Host.Service.ServiceLifetime.watchdogTask</a>.</p>
 
@@ -354,26 +356,26 @@ Here is the call graph for this function:</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_service_lifetime_8cs_source.html#l00107">107</a> of file <a class="el" href="_service_lifetime_8cs_source.html">ServiceLifetime.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  108</span>        {</div>
-<div class="line"><span class="lineno">  109</span>            var commandsToCheck = <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_common_1_1_pipe_commands.html">PipeCommands</a>.AllCommands;</div>
-<div class="line"><span class="lineno">  110</span>            <span class="keywordflow">foreach</span> (var stringCommand <span class="keywordflow">in</span> commandsToCheck)</div>
-<div class="line"><span class="lineno">  111</span>            {</div>
-<div class="line"><span class="lineno">  112</span>                var commandId = <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_common_1_1_pipe_commands.html">PipeCommands</a>.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_common_1_1_pipe_commands.html#a06c8d3400eeb8207d35f8f3bae86cfb5">GetServiceCommandId</a>(stringCommand);</div>
-<div class="line"><span class="lineno">  113</span>                <span class="keywordflow">if</span> (command == commandId)</div>
-<div class="line"><span class="lineno">  114</span>                {</div>
-<div class="line"><span class="lineno">  115</span>                    <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_service_lifetime.html#aa48370d02550aa2beb55941b4226a423">SendCommandToHostThroughPipe</a>(stringCommand);</div>
-<div class="line"><span class="lineno">  116</span>                    <span class="keywordflow">return</span>;</div>
-<div class="line"><span class="lineno">  117</span>                }</div>
-<div class="line"><span class="lineno">  118</span>            }</div>
-<div class="line"><span class="lineno">  119</span> </div>
-<div class="line"><span class="lineno">  120</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_service_lifetime.html#a59a604f1e6957c8c33502c30a1a436c7">logger</a>.LogWarning(<span class="stringliteral">&quot;Received unknown service command: {command}&quot;</span>, command);</div>
-<div class="line"><span class="lineno">  121</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_service_lifetime_8cs_source.html#l00109">109</a> of file <a class="el" href="_service_lifetime_8cs_source.html">ServiceLifetime.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  110</span>        {</div>
+<div class="line"><span class="lineno">  111</span>            var commandsToCheck = <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_common_1_1_pipe_commands.html">PipeCommands</a>.AllCommands;</div>
+<div class="line"><span class="lineno">  112</span>            <span class="keywordflow">foreach</span> (var stringCommand <span class="keywordflow">in</span> commandsToCheck)</div>
+<div class="line"><span class="lineno">  113</span>            {</div>
+<div class="line"><span class="lineno">  114</span>                var commandId = <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_common_1_1_pipe_commands.html">PipeCommands</a>.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_common_1_1_pipe_commands.html#a06c8d3400eeb8207d35f8f3bae86cfb5">GetServiceCommandId</a>(stringCommand);</div>
+<div class="line"><span class="lineno">  115</span>                <span class="keywordflow">if</span> (command == commandId)</div>
+<div class="line"><span class="lineno">  116</span>                {</div>
+<div class="line"><span class="lineno">  117</span>                    <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_service_lifetime.html#aa48370d02550aa2beb55941b4226a423">SendCommandToHostThroughPipe</a>(stringCommand);</div>
+<div class="line"><span class="lineno">  118</span>                    <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno">  119</span>                }</div>
+<div class="line"><span class="lineno">  120</span>            }</div>
+<div class="line"><span class="lineno">  121</span> </div>
+<div class="line"><span class="lineno">  122</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_service_lifetime.html#a59a604f1e6957c8c33502c30a1a436c7">logger</a>.LogWarning(<span class="stringliteral">&quot;Received unknown service command: {command}&quot;</span>, command);</div>
+<div class="line"><span class="lineno">  123</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_common_1_1_pipe_commands_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_common_1_1_pipe_commands.html">Tgstation.Server.Host.Common.PipeCommands</a></div><div class="ttdoc">Values able to be passed via the update file path.</div><div class="ttdef"><b>Definition:</b> <a href="_pipe_commands_8cs_source.html#l00006">PipeCommands.cs:7</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_common_1_1_pipe_commands_html_a06c8d3400eeb8207d35f8f3bae86cfb5"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_common_1_1_pipe_commands.html#a06c8d3400eeb8207d35f8f3bae86cfb5">Tgstation.Server.Host.Common.PipeCommands.GetServiceCommandId</a></div><div class="ttdeci">static ? int GetServiceCommandId(string command)</div><div class="ttdoc">Gets the int value of a given command .</div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_service_1_1_service_lifetime_html_aa48370d02550aa2beb55941b4226a423"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_service_lifetime.html#aa48370d02550aa2beb55941b4226a423">Tgstation.Server.Host.Service.ServiceLifetime.SendCommandToHostThroughPipe</a></div><div class="ttdeci">void SendCommandToHostThroughPipe(string command)</div><div class="ttdoc">Sends a command to the main server process.</div><div class="ttdef"><b>Definition:</b> <a href="_service_lifetime_8cs_source.html#l00179">ServiceLifetime.cs:179</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_service_1_1_service_lifetime_html_aa48370d02550aa2beb55941b4226a423"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_service_lifetime.html#aa48370d02550aa2beb55941b4226a423">Tgstation.Server.Host.Service.ServiceLifetime.SendCommandToHostThroughPipe</a></div><div class="ttdeci">void SendCommandToHostThroughPipe(string command)</div><div class="ttdoc">Sends a command to the main server process.</div><div class="ttdef"><b>Definition:</b> <a href="_service_lifetime_8cs_source.html#l00181">ServiceLifetime.cs:181</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_common_1_1_pipe_commands.html#a06c8d3400eeb8207d35f8f3bae86cfb5">Tgstation.Server.Host.Common.PipeCommands.GetServiceCommandId()</a>, <a class="el" href="_service_lifetime_8cs_source.html#l00024">Tgstation.Server.Host.Service.ServiceLifetime.logger</a>, and <a class="el" href="_service_lifetime_8cs_source.html#l00179">Tgstation.Server.Host.Service.ServiceLifetime.SendCommandToHostThroughPipe()</a>.</p>
+<p class="reference">References <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_common_1_1_pipe_commands.html#a06c8d3400eeb8207d35f8f3bae86cfb5">Tgstation.Server.Host.Common.PipeCommands.GetServiceCommandId()</a>, <a class="el" href="_service_lifetime_8cs_source.html#l00024">Tgstation.Server.Host.Service.ServiceLifetime.logger</a>, and <a class="el" href="_service_lifetime_8cs_source.html#l00181">Tgstation.Server.Host.Service.ServiceLifetime.SendCommandToHostThroughPipe()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -445,49 +447,49 @@ Here is the call graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A Task representing the running operation.</dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_service_lifetime_8cs_source.html#l00131">131</a> of file <a class="el" href="_service_lifetime_8cs_source.html">ServiceLifetime.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  132</span>        {</div>
-<div class="line"><span class="lineno">  133</span>            var localWatchdogTask = watchdog.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_watchdog.html#aba34e712e0cdbbd747feba6fb9f83176">RunAsync</a>(<span class="keyword">false</span>, args, cancellationToken);</div>
-<div class="line"><span class="lineno">  134</span> </div>
-<div class="line"><span class="lineno">  135</span>            <span class="keywordflow">if</span> (!localWatchdogTask.IsCompleted &amp;&amp; (await watchdog.<a class="code hl_property" href="interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_watchdog.html#af99ee4a5ff309fe30b7e5c3c68ca458b">InitialHostVersion</a>) &gt;= <span class="keyword">new</span> Version(5, 14, 0))</div>
-<div class="line"><span class="lineno">  136</span>                <span class="keywordflow">if</span> (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_service_lifetime.html#a1ad4d503bcab123aa519d9f3845ed900">readyPipeServer</a> != <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">  137</span>                {</div>
-<div class="line"><span class="lineno">  138</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_service_lifetime.html#a59a604f1e6957c8c33502c30a1a436c7">logger</a>.LogInformation(<span class="stringliteral">&quot;Waiting for host to finish starting...&quot;</span>);</div>
-<div class="line"><span class="lineno">  139</span>                    <span class="keyword">using </span>var streamReader = <span class="keyword">new</span> StreamReader(</div>
-<div class="line"><span class="lineno">  140</span>                        <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_service_lifetime.html#a1ad4d503bcab123aa519d9f3845ed900">readyPipeServer</a>,</div>
-<div class="line"><span class="lineno">  141</span>                        Encoding.UTF8,</div>
-<div class="line"><span class="lineno">  142</span>                        leaveOpen: <span class="keyword">true</span>);</div>
-<div class="line"><span class="lineno">  143</span> </div>
-<div class="line"><span class="lineno">  144</span>                    var line = streamReader.ReadLine(); <span class="comment">// Intentionally blocking service startup</span></div>
-<div class="line"><span class="lineno">  145</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_service_lifetime.html#a59a604f1e6957c8c33502c30a1a436c7">logger</a>.LogDebug(<span class="stringliteral">&quot;Pipe read: {line}&quot;</span>, line);</div>
-<div class="line"><span class="lineno">  146</span> </div>
-<div class="line"><span class="lineno">  147</span>                    <span class="comment">// Maybe we&#39;ll use this pipe more in the future, but for now leaving it open is just a resource waste</span></div>
-<div class="line"><span class="lineno">  148</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_service_lifetime.html#a1ad4d503bcab123aa519d9f3845ed900">readyPipeServer</a>.Dispose();</div>
-<div class="line"><span class="lineno">  149</span>                }</div>
-<div class="line"><span class="lineno">  150</span>                <span class="keywordflow">else</span></div>
-<div class="line"><span class="lineno">  151</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_service_lifetime.html#a59a604f1e6957c8c33502c30a1a436c7">logger</a>.LogError(<span class="stringliteral">&quot;Watchdog started and ready pipe was not initialized!&quot;</span>);</div>
-<div class="line"><span class="lineno">  152</span> </div>
-<div class="line"><span class="lineno">  153</span>            await localWatchdogTask;</div>
+<p class="definition">Definition at line <a class="el" href="_service_lifetime_8cs_source.html#l00133">133</a> of file <a class="el" href="_service_lifetime_8cs_source.html">ServiceLifetime.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  134</span>        {</div>
+<div class="line"><span class="lineno">  135</span>            var localWatchdogTask = watchdog.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_watchdog.html#aba34e712e0cdbbd747feba6fb9f83176">RunAsync</a>(<span class="keyword">false</span>, args, cancellationToken);</div>
+<div class="line"><span class="lineno">  136</span> </div>
+<div class="line"><span class="lineno">  137</span>            <span class="keywordflow">if</span> (!localWatchdogTask.IsCompleted &amp;&amp; (await watchdog.<a class="code hl_property" href="interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_watchdog.html#af99ee4a5ff309fe30b7e5c3c68ca458b">InitialHostVersion</a>) &gt;= <span class="keyword">new</span> Version(5, 14, 0))</div>
+<div class="line"><span class="lineno">  138</span>                <span class="keywordflow">if</span> (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_service_lifetime.html#a1ad4d503bcab123aa519d9f3845ed900">readyPipeServer</a> != <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">  139</span>                {</div>
+<div class="line"><span class="lineno">  140</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_service_lifetime.html#a59a604f1e6957c8c33502c30a1a436c7">logger</a>.LogInformation(<span class="stringliteral">&quot;Waiting for host to finish starting...&quot;</span>);</div>
+<div class="line"><span class="lineno">  141</span>                    <span class="keyword">using </span>var streamReader = <span class="keyword">new</span> StreamReader(</div>
+<div class="line"><span class="lineno">  142</span>                        <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_service_lifetime.html#a1ad4d503bcab123aa519d9f3845ed900">readyPipeServer</a>,</div>
+<div class="line"><span class="lineno">  143</span>                        Encoding.UTF8,</div>
+<div class="line"><span class="lineno">  144</span>                        leaveOpen: <span class="keyword">true</span>);</div>
+<div class="line"><span class="lineno">  145</span> </div>
+<div class="line"><span class="lineno">  146</span>                    var line = streamReader.ReadLine(); <span class="comment">// Intentionally blocking service startup</span></div>
+<div class="line"><span class="lineno">  147</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_service_lifetime.html#a59a604f1e6957c8c33502c30a1a436c7">logger</a>.LogDebug(<span class="stringliteral">&quot;Pipe read: {line}&quot;</span>, line);</div>
+<div class="line"><span class="lineno">  148</span> </div>
+<div class="line"><span class="lineno">  149</span>                    <span class="comment">// Maybe we&#39;ll use this pipe more in the future, but for now leaving it open is just a resource waste</span></div>
+<div class="line"><span class="lineno">  150</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_service_lifetime.html#a1ad4d503bcab123aa519d9f3845ed900">readyPipeServer</a>.Dispose();</div>
+<div class="line"><span class="lineno">  151</span>                }</div>
+<div class="line"><span class="lineno">  152</span>                <span class="keywordflow">else</span></div>
+<div class="line"><span class="lineno">  153</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_service_lifetime.html#a59a604f1e6957c8c33502c30a1a436c7">logger</a>.LogError(<span class="stringliteral">&quot;Watchdog started and ready pipe was not initialized!&quot;</span>);</div>
 <div class="line"><span class="lineno">  154</span> </div>
-<div class="line"><span class="lineno">  155</span>            async <span class="keywordtype">void</span> StopServiceAsync()</div>
-<div class="line"><span class="lineno">  156</span>            {</div>
-<div class="line"><span class="lineno">  157</span>                <span class="keywordflow">try</span></div>
-<div class="line"><span class="lineno">  158</span>                {</div>
-<div class="line"><span class="lineno">  159</span>                    <span class="comment">// This can call OnStop which waits on this task to complete, must be threaded off or it will deadlock</span></div>
-<div class="line"><span class="lineno">  160</span>                    await Task.Run(stopService, cancellationToken);</div>
-<div class="line"><span class="lineno">  161</span>                }</div>
-<div class="line"><span class="lineno">  162</span>                <span class="keywordflow">catch</span> (OperationCanceledException ex)</div>
-<div class="line"><span class="lineno">  163</span>                {</div>
-<div class="line"><span class="lineno">  164</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_service_lifetime.html#a59a604f1e6957c8c33502c30a1a436c7">logger</a>.LogDebug(ex, <span class="stringliteral">&quot;Stopping service cancelled!&quot;</span>);</div>
-<div class="line"><span class="lineno">  165</span>                }</div>
-<div class="line"><span class="lineno">  166</span>                <span class="keywordflow">catch</span> (<a class="code hl_class" href="class_exception.html">Exception</a> ex)</div>
-<div class="line"><span class="lineno">  167</span>                {</div>
-<div class="line"><span class="lineno">  168</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_service_lifetime.html#a59a604f1e6957c8c33502c30a1a436c7">logger</a>.LogError(ex, <span class="stringliteral">&quot;Error stopping service!&quot;</span>);</div>
-<div class="line"><span class="lineno">  169</span>                }</div>
-<div class="line"><span class="lineno">  170</span>            }</div>
-<div class="line"><span class="lineno">  171</span> </div>
-<div class="line"><span class="lineno">  172</span>            StopServiceAsync();</div>
-<div class="line"><span class="lineno">  173</span>        }</div>
+<div class="line"><span class="lineno">  155</span>            await localWatchdogTask;</div>
+<div class="line"><span class="lineno">  156</span> </div>
+<div class="line"><span class="lineno">  157</span>            async <span class="keywordtype">void</span> StopServiceAsync()</div>
+<div class="line"><span class="lineno">  158</span>            {</div>
+<div class="line"><span class="lineno">  159</span>                <span class="keywordflow">try</span></div>
+<div class="line"><span class="lineno">  160</span>                {</div>
+<div class="line"><span class="lineno">  161</span>                    <span class="comment">// This can call OnStop which waits on this task to complete, must be threaded off or it will deadlock</span></div>
+<div class="line"><span class="lineno">  162</span>                    await Task.Run(stopService, cancellationToken);</div>
+<div class="line"><span class="lineno">  163</span>                }</div>
+<div class="line"><span class="lineno">  164</span>                <span class="keywordflow">catch</span> (OperationCanceledException ex)</div>
+<div class="line"><span class="lineno">  165</span>                {</div>
+<div class="line"><span class="lineno">  166</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_service_lifetime.html#a59a604f1e6957c8c33502c30a1a436c7">logger</a>.LogDebug(ex, <span class="stringliteral">&quot;Stopping service cancelled!&quot;</span>);</div>
+<div class="line"><span class="lineno">  167</span>                }</div>
+<div class="line"><span class="lineno">  168</span>                <span class="keywordflow">catch</span> (<a class="code hl_class" href="class_exception.html">Exception</a> ex)</div>
+<div class="line"><span class="lineno">  169</span>                {</div>
+<div class="line"><span class="lineno">  170</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_service_lifetime.html#a59a604f1e6957c8c33502c30a1a436c7">logger</a>.LogError(ex, <span class="stringliteral">&quot;Error stopping service!&quot;</span>);</div>
+<div class="line"><span class="lineno">  171</span>                }</div>
+<div class="line"><span class="lineno">  172</span>            }</div>
+<div class="line"><span class="lineno">  173</span> </div>
+<div class="line"><span class="lineno">  174</span>            StopServiceAsync();</div>
+<div class="line"><span class="lineno">  175</span>        }</div>
 <div class="ttc" id="aclass_exception_html"><div class="ttname"><a href="class_exception.html">Exception</a></div></div>
 <div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_watchdog_html_aba34e712e0cdbbd747feba6fb9f83176"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_watchdog.html#aba34e712e0cdbbd747feba6fb9f83176">Tgstation.Server.Host.Watchdog.IWatchdog.RunAsync</a></div><div class="ttdeci">ValueTask&lt; bool &gt; RunAsync(bool runConfigure, string[] args, CancellationToken cancellationToken)</div><div class="ttdoc">Run the IWatchdog.</div></div>
 <div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_watchdog_html_af99ee4a5ff309fe30b7e5c3c68ca458b"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_watchdog.html#af99ee4a5ff309fe30b7e5c3c68ca458b">Tgstation.Server.Host.Watchdog.IWatchdog.InitialHostVersion</a></div><div class="ttdeci">Task&lt; Version &gt; InitialHostVersion</div><div class="ttdoc">Gets a Task&lt;TResult&gt; resulting in the current version of the host process. Guaranteed to complete onc...</div><div class="ttdef"><b>Definition:</b> <a href="_tgstation_8_server_8_host_8_watchdog_2_i_watchdog_8cs_source.html#l00015">IWatchdog.cs:15</a></div></div>
@@ -548,40 +550,40 @@ Here is the caller graph for this function:</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_service_lifetime_8cs_source.html#l00179">179</a> of file <a class="el" href="_service_lifetime_8cs_source.html">ServiceLifetime.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  180</span>        {</div>
-<div class="line"><span class="lineno">  181</span>            var localPipeServer = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_service_lifetime.html#ae0c3d236a6c39b9b2f0e22c47a8c11e3">commandPipeServer</a>;</div>
-<div class="line"><span class="lineno">  182</span>            <span class="keywordflow">if</span> (localPipeServer == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">  183</span>            {</div>
-<div class="line"><span class="lineno">  184</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_service_lifetime.html#a59a604f1e6957c8c33502c30a1a436c7">logger</a>.LogWarning(<span class="stringliteral">&quot;Unable to send command \&quot;{command}\&quot; to main server process. Is the service running?&quot;</span>, command);</div>
-<div class="line"><span class="lineno">  185</span>                <span class="keywordflow">return</span>;</div>
-<div class="line"><span class="lineno">  186</span>            }</div>
-<div class="line"><span class="lineno">  187</span> </div>
-<div class="line"><span class="lineno">  188</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_service_lifetime.html#a59a604f1e6957c8c33502c30a1a436c7">logger</a>.LogDebug(<span class="stringliteral">&quot;Send command: {command}&quot;</span>, command);</div>
-<div class="line"><span class="lineno">  189</span>            <span class="keywordflow">try</span></div>
-<div class="line"><span class="lineno">  190</span>            {</div>
-<div class="line"><span class="lineno">  191</span>                var encoding = Encoding.UTF8;</div>
-<div class="line"><span class="lineno">  192</span>                <span class="keyword">using </span>var streamWriter = <span class="keyword">new</span> StreamWriter(</div>
-<div class="line"><span class="lineno">  193</span>                    localPipeServer,</div>
-<div class="line"><span class="lineno">  194</span>                    encoding,</div>
-<div class="line"><span class="lineno">  195</span>                    <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_common_1_1_pipe_commands.html">PipeCommands</a></div>
-<div class="line"><span class="lineno">  196</span>                        .AllCommands</div>
-<div class="line"><span class="lineno">  197</span>                        .Select(</div>
-<div class="line"><span class="lineno">  198</span>                            command =&gt; encoding.GetByteCount(</div>
-<div class="line"><span class="lineno">  199</span>                                command + Environment.NewLine))</div>
-<div class="line"><span class="lineno">  200</span>                        .Max(),</div>
-<div class="line"><span class="lineno">  201</span>                    <span class="keyword">true</span>);</div>
-<div class="line"><span class="lineno">  202</span>                streamWriter.WriteLine(command);</div>
-<div class="line"><span class="lineno">  203</span>            }</div>
-<div class="line"><span class="lineno">  204</span>            <span class="keywordflow">catch</span> (<a class="code hl_class" href="class_exception.html">Exception</a> ex)</div>
-<div class="line"><span class="lineno">  205</span>            {</div>
-<div class="line"><span class="lineno">  206</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_service_lifetime.html#a59a604f1e6957c8c33502c30a1a436c7">logger</a>.LogError(ex, <span class="stringliteral">&quot;Error attempting to send command \&quot;{command}\&quot;&quot;</span>, command);</div>
-<div class="line"><span class="lineno">  207</span>            }</div>
-<div class="line"><span class="lineno">  208</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_service_lifetime_8cs_source.html#l00181">181</a> of file <a class="el" href="_service_lifetime_8cs_source.html">ServiceLifetime.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  182</span>        {</div>
+<div class="line"><span class="lineno">  183</span>            var localPipeServer = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_service_lifetime.html#ae0c3d236a6c39b9b2f0e22c47a8c11e3">commandPipeServer</a>;</div>
+<div class="line"><span class="lineno">  184</span>            <span class="keywordflow">if</span> (localPipeServer == <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">  185</span>            {</div>
+<div class="line"><span class="lineno">  186</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_service_lifetime.html#a59a604f1e6957c8c33502c30a1a436c7">logger</a>.LogWarning(<span class="stringliteral">&quot;Unable to send command \&quot;{command}\&quot; to main server process. Is the service running?&quot;</span>, command);</div>
+<div class="line"><span class="lineno">  187</span>                <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno">  188</span>            }</div>
+<div class="line"><span class="lineno">  189</span> </div>
+<div class="line"><span class="lineno">  190</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_service_lifetime.html#a59a604f1e6957c8c33502c30a1a436c7">logger</a>.LogDebug(<span class="stringliteral">&quot;Send command: {command}&quot;</span>, command);</div>
+<div class="line"><span class="lineno">  191</span>            <span class="keywordflow">try</span></div>
+<div class="line"><span class="lineno">  192</span>            {</div>
+<div class="line"><span class="lineno">  193</span>                var encoding = Encoding.UTF8;</div>
+<div class="line"><span class="lineno">  194</span>                <span class="keyword">using </span>var streamWriter = <span class="keyword">new</span> StreamWriter(</div>
+<div class="line"><span class="lineno">  195</span>                    localPipeServer,</div>
+<div class="line"><span class="lineno">  196</span>                    encoding,</div>
+<div class="line"><span class="lineno">  197</span>                    <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_common_1_1_pipe_commands.html">PipeCommands</a></div>
+<div class="line"><span class="lineno">  198</span>                        .AllCommands</div>
+<div class="line"><span class="lineno">  199</span>                        .Select(</div>
+<div class="line"><span class="lineno">  200</span>                            command =&gt; encoding.GetByteCount(</div>
+<div class="line"><span class="lineno">  201</span>                                command + Environment.NewLine))</div>
+<div class="line"><span class="lineno">  202</span>                        .Max(),</div>
+<div class="line"><span class="lineno">  203</span>                    <span class="keyword">true</span>);</div>
+<div class="line"><span class="lineno">  204</span>                streamWriter.WriteLine(command);</div>
+<div class="line"><span class="lineno">  205</span>            }</div>
+<div class="line"><span class="lineno">  206</span>            <span class="keywordflow">catch</span> (<a class="code hl_class" href="class_exception.html">Exception</a> ex)</div>
+<div class="line"><span class="lineno">  207</span>            {</div>
+<div class="line"><span class="lineno">  208</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_service_lifetime.html#a59a604f1e6957c8c33502c30a1a436c7">logger</a>.LogError(ex, <span class="stringliteral">&quot;Error attempting to send command \&quot;{command}\&quot;&quot;</span>, command);</div>
+<div class="line"><span class="lineno">  209</span>            }</div>
+<div class="line"><span class="lineno">  210</span>        }</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="_service_lifetime_8cs_source.html#l00039">Tgstation.Server.Host.Service.ServiceLifetime.commandPipeServer</a>, and <a class="el" href="_service_lifetime_8cs_source.html#l00024">Tgstation.Server.Host.Service.ServiceLifetime.logger</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_service_lifetime_8cs_source.html#l00107">Tgstation.Server.Host.Service.ServiceLifetime.HandleCustomCommand()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_service_lifetime_8cs_source.html#l00109">Tgstation.Server.Host.Service.ServiceLifetime.HandleCustomCommand()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -619,7 +621,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_service_lifetime_8cs_source.html#l00034">34</a> of file <a class="el" href="_service_lifetime_8cs_source.html">ServiceLifetime.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_service_lifetime_8cs_source.html#l00069">Tgstation.Server.Host.Service.ServiceLifetime.DisposeAsync()</a>, and <a class="el" href="_service_lifetime_8cs_source.html#l00053">Tgstation.Server.Host.Service.ServiceLifetime.ServiceLifetime()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_service_lifetime_8cs_source.html#l00071">Tgstation.Server.Host.Service.ServiceLifetime.DisposeAsync()</a>, and <a class="el" href="_service_lifetime_8cs_source.html#l00053">Tgstation.Server.Host.Service.ServiceLifetime.ServiceLifetime()</a>.</p>
 
 </div>
 </div>
@@ -647,7 +649,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_service_lifetime_8cs_source.html#l00039">39</a> of file <a class="el" href="_service_lifetime_8cs_source.html">ServiceLifetime.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_service_lifetime_8cs_source.html#l00083">Tgstation.Server.Host.Service.ServiceLifetime.CheckSignals()</a>, <a class="el" href="_service_lifetime_8cs_source.html#l00069">Tgstation.Server.Host.Service.ServiceLifetime.DisposeAsync()</a>, and <a class="el" href="_service_lifetime_8cs_source.html#l00179">Tgstation.Server.Host.Service.ServiceLifetime.SendCommandToHostThroughPipe()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_service_lifetime_8cs_source.html#l00085">Tgstation.Server.Host.Service.ServiceLifetime.CheckSignals()</a>, <a class="el" href="_service_lifetime_8cs_source.html#l00071">Tgstation.Server.Host.Service.ServiceLifetime.DisposeAsync()</a>, and <a class="el" href="_service_lifetime_8cs_source.html#l00181">Tgstation.Server.Host.Service.ServiceLifetime.SendCommandToHostThroughPipe()</a>.</p>
 
 </div>
 </div>
@@ -675,7 +677,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_service_lifetime_8cs_source.html#l00024">24</a> of file <a class="el" href="_service_lifetime_8cs_source.html">ServiceLifetime.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_service_lifetime_8cs_source.html#l00107">Tgstation.Server.Host.Service.ServiceLifetime.HandleCustomCommand()</a>, <a class="el" href="_service_lifetime_8cs_source.html#l00131">Tgstation.Server.Host.Service.ServiceLifetime.RunWatchdog()</a>, <a class="el" href="_service_lifetime_8cs_source.html#l00179">Tgstation.Server.Host.Service.ServiceLifetime.SendCommandToHostThroughPipe()</a>, and <a class="el" href="_service_lifetime_8cs_source.html#l00053">Tgstation.Server.Host.Service.ServiceLifetime.ServiceLifetime()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_service_lifetime_8cs_source.html#l00109">Tgstation.Server.Host.Service.ServiceLifetime.HandleCustomCommand()</a>, <a class="el" href="_service_lifetime_8cs_source.html#l00133">Tgstation.Server.Host.Service.ServiceLifetime.RunWatchdog()</a>, <a class="el" href="_service_lifetime_8cs_source.html#l00181">Tgstation.Server.Host.Service.ServiceLifetime.SendCommandToHostThroughPipe()</a>, and <a class="el" href="_service_lifetime_8cs_source.html#l00053">Tgstation.Server.Host.Service.ServiceLifetime.ServiceLifetime()</a>.</p>
 
 </div>
 </div>
@@ -703,7 +705,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_service_lifetime_8cs_source.html#l00044">44</a> of file <a class="el" href="_service_lifetime_8cs_source.html">ServiceLifetime.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_service_lifetime_8cs_source.html#l00083">Tgstation.Server.Host.Service.ServiceLifetime.CheckSignals()</a>, <a class="el" href="_service_lifetime_8cs_source.html#l00069">Tgstation.Server.Host.Service.ServiceLifetime.DisposeAsync()</a>, and <a class="el" href="_service_lifetime_8cs_source.html#l00131">Tgstation.Server.Host.Service.ServiceLifetime.RunWatchdog()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_service_lifetime_8cs_source.html#l00085">Tgstation.Server.Host.Service.ServiceLifetime.CheckSignals()</a>, <a class="el" href="_service_lifetime_8cs_source.html#l00071">Tgstation.Server.Host.Service.ServiceLifetime.DisposeAsync()</a>, and <a class="el" href="_service_lifetime_8cs_source.html#l00133">Tgstation.Server.Host.Service.ServiceLifetime.RunWatchdog()</a>.</p>
 
 </div>
 </div>
@@ -731,7 +733,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_service_lifetime_8cs_source.html#l00029">29</a> of file <a class="el" href="_service_lifetime_8cs_source.html">ServiceLifetime.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_service_lifetime_8cs_source.html#l00069">Tgstation.Server.Host.Service.ServiceLifetime.DisposeAsync()</a>, and <a class="el" href="_service_lifetime_8cs_source.html#l00053">Tgstation.Server.Host.Service.ServiceLifetime.ServiceLifetime()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_service_lifetime_8cs_source.html#l00071">Tgstation.Server.Host.Service.ServiceLifetime.DisposeAsync()</a>, and <a class="el" href="_service_lifetime_8cs_source.html#l00053">Tgstation.Server.Host.Service.ServiceLifetime.ServiceLifetime()</a>.</p>
 
 </div>
 </div>
