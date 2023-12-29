@@ -108,9 +108,13 @@ namespace Tgstation.Server.Host.Components.Engine
 			generalConfiguration = generalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
 			sessionConfiguration = sessionConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(sessionConfigurationOptions));
 
-			var documentsDirectory = Environment.GetFolderPath(
-				Environment.SpecialFolder.MyDocuments,
-				Environment.SpecialFolderOption.DoNotVerify);
+			var useServiceSpecialTactics = Environment.Is64BitProcess && Environment.UserName == $"{Environment.MachineName}$";
+
+			var documentsDirectory = useServiceSpecialTactics
+				? Environment.ExpandEnvironmentVariables("%SystemRoot%\\SysWOW64\\config\\systemprofile\\Documents")
+				: Environment.GetFolderPath(
+					Environment.SpecialFolder.MyDocuments,
+					Environment.SpecialFolderOption.DoNotVerify);
 
 			PathToUserFolder = IOManager.ResolvePath(
 				IOManager.ConcatPath(documentsDirectory, "BYOND"));
