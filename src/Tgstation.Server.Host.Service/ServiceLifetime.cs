@@ -57,6 +57,8 @@ namespace Tgstation.Server.Host.Service
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 			ArgumentNullException.ThrowIfNull(args);
 
+			logger.LogDebug("Starting service lifetime as user: {username}", Environment.UserName);
+
 			cancellationTokenSource = new CancellationTokenSource();
 			watchdogTask = RunWatchdog(
 				stopService,

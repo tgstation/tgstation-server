@@ -46,8 +46,17 @@ namespace Tgstation.Server.Host.IO
 				return;
 			}
 
+			List<Exception>? exceptions = null;
 			foreach (var subDir in dir.EnumerateDirectories())
-				NormalizeAndDelete(subDir, cancellationToken);
+				try
+				{
+					NormalizeAndDelete(subDir, cancellationToken);
+				}
+				catch (AggregateException ex)
+				{
+					exceptions ??= new List<Exception>();
+					exceptions.AddRange(ex.InnerExceptions);
+				}
 
 			foreach (var file in dir.EnumerateFiles())
 			{
@@ -57,14 +66,26 @@ namespace Tgstation.Server.Host.IO
 					file.Attributes = FileAttributes.Normal;
 					file.Delete();
 				}
-				catch (FileNotFoundException)
+				catch (Exception ex)
 				{
-					// has happened before with .dyn.rsc.lk
+					exceptions ??= new List<Exception>();
+					exceptions.Add(ex);
 				}
 			}
 
 			cancellationToken.ThrowIfCancellationRequested();
-			dir.Delete(true);
+			try
+			{
+				dir.Delete(true);
+			}
+			catch (Exception ex)
+			{
+				exceptions ??= new List<Exception>();
+				exceptions.Add(ex);
+			}
+
+			if (exceptions != null)
+				throw new AggregateException(exceptions);
 		}
 
 		/// <inheritdoc />
