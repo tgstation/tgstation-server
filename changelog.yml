@@ -145,6 +145,10 @@ Components:
     ComponentVersions: {}
     Changes: []
     Unreleased: true
+  - Version: 6.1.2
+    ComponentVersions: {}
+    Changes: []
+    Unreleased: true
   - Version: 6.1.1
     ComponentVersions:
       HttpApi: 10.0.0
@@ -166,7 +170,6 @@ Components:
       - Recursive directory deletion no longer stops on the first error.
       Author: Cyberboss
       PullRequest: 1762
-    Unreleased: true
   - Version: 6.1.0
     ComponentVersions:
       Core: 6.1.0
