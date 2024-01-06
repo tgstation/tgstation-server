@@ -118,7 +118,7 @@ namespace Tgstation.Server.Host.Components.Engine
 
 			var arguments = String.Format(
 				CultureInfo.InvariantCulture,
-				"{0} -port {1} -ports 1-65535 {2}-close -verbose -{3} -{4}{5}{6}{7} -params \"{8}\"",
+				"\"{0}\" -port {1} -ports 1-65535 {2}-close -verbose -{3} -{4}{5}{6}{7} -params \"{8}\"",
 				dmbProvider.DmbName,
 				launchParameters.Port!.Value,
 				launchParameters.AllowWebClient!.Value
