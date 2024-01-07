@@ -145,6 +145,10 @@ Components:
     ComponentVersions: {}
     Changes: []
     Unreleased: true
+  - Version: 6.1.3
+    ComponentVersions: {}
+    Changes: []
+    Unreleased: true
   - Version: 6.1.2
     ComponentVersions:
       HttpApi: 10.0.0
@@ -162,7 +166,6 @@ Components:
       - Fixed issues with running `.dme`s with spaces in the name.
       Author: Cyberboss
       PullRequest: 1763
-    Unreleased: true
   - Version: 6.1.1
     ComponentVersions:
       HttpApi: 10.0.0
