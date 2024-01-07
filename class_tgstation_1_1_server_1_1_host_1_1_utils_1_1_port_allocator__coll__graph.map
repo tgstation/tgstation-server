@@ -1,11 +1,13 @@
 <map id="Tgstation.Server.Host.Utils.PortAllocator" name="Tgstation.Server.Host.Utils.PortAllocator">
-<area shape="rect" id="node1" title=" " alt="" coords="597,151,779,191"/>
+<area shape="rect" id="node1" title=" " alt="" coords="624,201,805,241"/>
 <area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_port_allocator.html" title="Gets unassigned ports for use by TGS." alt="" coords="267,5,368,31"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_port_provider.html" title="Provides access to the server&#39;s HttpApiPort." alt="" coords="227,55,408,95"/>
-<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context.html" title="Represents the database." alt="" coords="213,119,422,159"/>
-<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_platform_identifier.html" title="For identifying the current platform." alt="" coords="218,183,417,223"/>
-<area shape="rect" id="node6" title=" " alt="" coords="212,247,423,287"/>
-<area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_swarm_configuration.html" title="Configuration for the server swarm system." alt="" coords="203,311,432,351"/>
-<area shape="rect" id="node8" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_swarm_server.html" title="Information about a server in the swarm." alt="" coords="5,293,107,319"/>
-<area shape="rect" id="node9" title=" " alt="" coords="11,343,101,368"/>
+<area shape="rect" id="node3" href="$class_i_disposable.html" title=" " alt="" coords="272,55,363,80"/>
+<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_port_provider.html" title="Provides access to the server&#39;s HttpApiPort." alt="" coords="227,105,408,145"/>
+<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_factory.html" title="Factory for scoping usage of IDatabaseContexts. Meant for use by Components." alt="" coords="213,169,422,209"/>
+<area shape="rect" id="node6" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_platform_identifier.html" title="For identifying the current platform." alt="" coords="218,233,417,273"/>
+<area shape="rect" id="node7" title=" " alt="" coords="212,297,423,337"/>
+<area shape="rect" id="node8" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_swarm_configuration.html" title="Configuration for the server swarm system." alt="" coords="203,361,432,401"/>
+<area shape="rect" id="node9" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_swarm_server.html" title="Information about a server in the swarm." alt="" coords="5,344,107,369"/>
+<area shape="rect" id="node10" title=" " alt="" coords="11,393,101,419"/>
+<area shape="rect" id="node11" title=" " alt="" coords="235,425,400,451"/>
 </map>

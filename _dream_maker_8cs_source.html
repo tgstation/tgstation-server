@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.1.1</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.1.2</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -576,7 +576,7 @@ $(function() {
 <div class="line"><a id="l00610" name="l00610"></a><span class="lineno">  610</span>                        <span class="keywordflow">throw</span> <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_exception.html">JobException</a>(<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">ErrorCode</a>.DeploymentMissingDme);</div>
 <div class="line"><a id="l00611" name="l00611"></a><span class="lineno">  611</span>                }</div>
 <div class="line"><a id="l00612" name="l00612"></a><span class="lineno">  612</span> </div>
-<div class="line"><a id="l00613" name="l00613"></a><span class="lineno">  613</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#a1d5a133d669af1e14db0104b67103ccf">logger</a>.LogDebug(<span class="stringliteral">&quot;Selected {dmeName}.dme for compilation!&quot;</span>, job.DmeName);</div>
+<div class="line"><a id="l00613" name="l00613"></a><span class="lineno">  613</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#a1d5a133d669af1e14db0104b67103ccf">logger</a>.LogDebug(<span class="stringliteral">&quot;Selected \&quot;{dmeName}.dme\&quot; for compilation!&quot;</span>, job.DmeName);</div>
 <div class="line"><a id="l00614" name="l00614"></a><span class="lineno">  614</span> </div>
 <div class="line"><a id="l00615" name="l00615"></a><span class="lineno">  615</span>                progressReporter.StageName = <span class="stringliteral">&quot;Modifying .dme&quot;</span>;</div>
 <div class="line"><a id="l00616" name="l00616"></a><span class="lineno">  616</span>                await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#acd0b61739ab535d67d9081d8071b8f0b">ModifyDme</a>(job, cancellationToken);</div>

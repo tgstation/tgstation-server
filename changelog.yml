@@ -146,8 +146,22 @@ Components:
     Changes: []
     Unreleased: true
   - Version: 6.1.2
-    ComponentVersions: {}
-    Changes: []
+    ComponentVersions:
+      HttpApi: 10.0.0
+      DreamMakerApi: 7.0.1
+      Configuration: 5.0.0
+      InteropApi: 5.8.0
+      HostWatchdog: 1.4.1
+      NugetCommon: 7.0.0
+      NugetApi: 13.0.1
+      NugetClient: 15.0.1
+      WebControlPanel: 5.4.2
+    Changes:
+    - Descriptions:
+      - Fixed a race condition when allocating ports for new instances.
+      - Fixed issues with running `.dme`s with spaces in the name.
+      Author: Cyberboss
+      PullRequest: 1763
     Unreleased: true
   - Version: 6.1.1
     ComponentVersions:
@@ -3875,7 +3889,6 @@ Components:
       - Fixed Bridge requests using the wrong URL on TGS versions <6.
       Author: Cyberboss
       PullRequest: 1762
-    Unreleased: true
   - Version: 7.0.0
     Changes:
     - Descriptions:

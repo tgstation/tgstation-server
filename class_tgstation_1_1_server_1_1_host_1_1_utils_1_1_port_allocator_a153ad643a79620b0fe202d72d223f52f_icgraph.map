@@ -1,0 +1,3 @@
+<map id="Tgstation.Server.Host.Utils.PortAllocator.GetAvailablePort" name="Tgstation.Server.Host.Utils.PortAllocator.GetAvailablePort">
+<area shape="rect" id="node1" title="Gets a port not currently in use by TGS. A ValueTask&lt;TResult&gt; resulting in the first available port o..." alt="" coords="5,29,204,69"/>
+</map>
