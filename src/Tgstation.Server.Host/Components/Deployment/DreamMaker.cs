@@ -610,7 +610,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 						throw new JobException(ErrorCode.DeploymentMissingDme);
 				}
 
-				logger.LogDebug("Selected {dmeName}.dme for compilation!", job.DmeName);
+				logger.LogDebug("Selected \"{dmeName}.dme\" for compilation!", job.DmeName);
 
 				progressReporter.StageName = "Modifying .dme";
 				await ModifyDme(job, cancellationToken);
