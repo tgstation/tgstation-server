@@ -151,7 +151,7 @@ jobs:
 
         if hash DreamMaker 2>/dev/null
         then
-          DreamMaker tests/DMAPI/BasicOperation/basic_operation_test.dme 2>&1 | tee result.log
+          DreamMaker "tests/DMAPI/BasicOperation/basic operation_test.dme" 2>&1 | tee result.log
           retval=$?
           if ! grep '\- 0 errors, 0 warnings' result.log
           then
@@ -205,7 +205,7 @@ jobs:
     - name: Build DMAPI
       run: |
         cd tests/DMAPI/BasicOperation
-        $HOME/OpenDream/tgs_deploy/bin/compiler/DMCompiler --verbose --notices-enabled basic_operation_test.dme
+        $HOME/OpenDream/tgs_deploy/bin/compiler/DMCompiler --verbose --notices-enabled "basic operation_test.dme"
 
   pages-build:
     name: Build gh-pages

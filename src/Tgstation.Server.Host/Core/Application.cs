@@ -405,7 +405,7 @@ namespace Tgstation.Server.Host.Core
 			services.AddSingleton<ISwarmServiceController>(x => x.GetRequiredService<SwarmService>());
 
 			// configure component services
-			services.AddScoped<IPortAllocator, PortAllocator>();
+			services.AddSingleton<IPortAllocator, PortAllocator>();
 			services.AddSingleton<IInstanceFactory, InstanceFactory>();
 			services.AddSingleton<IGitRemoteFeaturesFactory, GitRemoteFeaturesFactory>();
 			services.AddSingleton<ILibGit2RepositoryFactory, LibGit2RepositoryFactory>();

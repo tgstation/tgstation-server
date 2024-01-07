@@ -606,7 +606,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			var initialCompileJob = daemonStatus.ActiveCompileJob;
 			await CheckDMApiFail(daemonStatus.ActiveCompileJob, cancellationToken);
 
-			daemonStatus = await DeployTestDme("BasicOperation/basic_operation_test", DreamDaemonSecurity.Trusted, true, cancellationToken);
+			daemonStatus = await DeployTestDme("BasicOperation/basic operation_test", DreamDaemonSecurity.Trusted, true, cancellationToken);
 
 			Assert.AreEqual(WatchdogStatus.Online, daemonStatus.Status.Value);
 			Assert.AreEqual(false, daemonStatus.SoftRestart); // dme name change triggered, instant reboot
@@ -629,7 +629,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 				AdditionalParameters = "test=bababooey"
 			}, cancellationToken);
 			Assert.AreEqual("test=bababooey", daemonStatus.AdditionalParameters);
-			daemonStatus = await DeployTestDme("BasicOperation/basic_operation_test", DreamDaemonSecurity.Trusted, true, cancellationToken);
+			daemonStatus = await DeployTestDme("BasicOperation/basic operation_test", DreamDaemonSecurity.Trusted, true, cancellationToken);
 
 			Assert.AreEqual(WatchdogStatus.Offline, daemonStatus.Status.Value);
 			Assert.IsNotNull(daemonStatus.ActiveCompileJob);
