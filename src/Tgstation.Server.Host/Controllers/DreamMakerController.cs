@@ -175,6 +175,7 @@ namespace Tgstation.Server.Host.Controllers
 		[ProducesResponseType(typeof(DreamMakerResponse), 200)]
 		[ProducesResponseType(204)]
 		[ProducesResponseType(typeof(ErrorMessageResponse), 410)]
+#pragma warning disable CA1506 // TODO: Decomplexify
 		public async ValueTask<IActionResult> Update([FromBody] DreamMakerRequest model, CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(model);
@@ -208,6 +209,11 @@ namespace Tgstation.Server.Host.Controllers
 
 				if (model.ApiValidationPort.Value != hostModel.ApiValidationPort!.Value)
 				{
+					Logger.LogTrace(
+						"Triggering port allocator for DM-I:{instanceId} because model port {modelPort} doesn't match DB port {dbPort}...",
+						Instance.Id,
+						model.ApiValidationPort,
+						hostModel.ApiValidationPort);
 					var verifiedPort = await portAllocator
 						.GetAvailablePort(
 							model.ApiValidationPort.Value,
@@ -248,6 +254,7 @@ namespace Tgstation.Server.Host.Controllers
 
 			return await Read(cancellationToken);
 		}
+#pragma warning restore CA1506
 
 		/// <summary>
 		/// Base query for pulling in all required <see cref="CompileJob"/> fields.

@@ -135,6 +135,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 					try
 					{
 						// Increase startup timeout, disable heartbeats, enable map threads because we've tested without for years
+						global::System.Console.WriteLine($"PORT REUSE BUG 4: Setting I-{instanceClient.Metadata.Id} DD to {ddPort}");
 						await instanceClient.DreamDaemon.Update(new DreamDaemonRequest
 						{
 							StartupTimeout = 60,
@@ -155,6 +156,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 					}
 			}
 
+			global::System.Console.WriteLine($"PORT REUSE BUG 4: Expect error. Setting I-{instanceClient.Metadata.Id} DD to 0");
 			await Task.WhenAll(
 				UpdateDDSettings(),
 				CheckByondVersions(),
