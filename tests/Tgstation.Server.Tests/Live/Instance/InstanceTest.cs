@@ -164,6 +164,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 				for (var i = 0; i < 10; ++i)
 					try
 					{
+						global::System.Console.WriteLine($"PORT REUSE BUG 6: Setting I-{instanceClient.Metadata.Id} DM to {dmPort}");
 						await instanceClient.DreamMaker.Update(new DreamMakerRequest
 						{
 							ApiValidationPort = dmPort,

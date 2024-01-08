@@ -174,6 +174,11 @@ namespace Tgstation.Server.Host.Controllers
 
 			if (model.Port.HasValue && model.Port.Value != current.Port!.Value)
 			{
+				Logger.LogTrace(
+					"Triggering port allocator for DD-I:{instanceId} because model port {modelPort} doesn't match DB port {dbPort}...",
+					Instance.Id,
+					model.Port,
+					current.Port);
 				var verifiedPort = await portAllocator
 					.GetAvailablePort(
 						model.Port.Value,

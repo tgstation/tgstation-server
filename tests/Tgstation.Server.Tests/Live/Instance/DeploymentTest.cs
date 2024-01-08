@@ -118,6 +118,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 		{
 			Assert.IsNotNull(vpTest);
 			// by alphabetization rules, it should discover api_free here
+			Console.WriteLine($"PORT REUSE BUG 5: Setting I-{instanceClient.Metadata.Id} DM to {dmPort}");
 			if (!new PlatformIdentifier().IsWindows)
 			{
 				var updatedDM = await dreamMakerClient.Update(new DreamMakerRequest
@@ -137,6 +138,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 				Assert.AreEqual(dmPort, updatedDM.ApiValidationPort);
 			}
 
+			Console.WriteLine($"PORT REUSE BUG 1: Setting I-{instanceClient.Metadata.Id} DD to {ddPort}");
 			var updatedDD = await dreamDaemonClient.Update(new DreamDaemonRequest
 			{
 				StartupTimeout = 60,
@@ -157,10 +159,12 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 			await CheckDreamDaemonPriority(deploymentJobWaitTask, cancellationToken);
 
+			Console.WriteLine($"PORT REUSE BUG 2: Expect Conflict, Setting I-{instanceClient.Metadata.Id} DD to {dmPort}");
 			var t1 = ApiAssert.ThrowsException<ConflictException, DreamDaemonResponse>(() => dreamDaemonClient.Update(new DreamDaemonRequest
 			{
 				Port = dmPort,
 			}, cancellationToken), ErrorCode.PortNotAvailable);
+			Console.WriteLine($"PORT REUSE BUG 3: Expect Conflict, Setting I-{instanceClient.Metadata.Id} DM to {ddPort}");
 			var t2 = ApiAssert.ThrowsException<ConflictException, DreamMakerResponse>(() => dreamMakerClient.Update(new DreamMakerRequest
 			{
 				ApiValidationPort = ddPort
