@@ -120,7 +120,7 @@
     <!-- Usage: Windows authentication plugin allowing searching for users by name -->
     <PackageReference Include="System.DirectoryServices.AccountManagement" Version="8.0.0" />
     <!-- Usage: JWT plugin needed to undo some Microsoft meddling in the HTTP pipeline -->
-    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="7.0.3" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="7.1.2" />
     <!-- Usage: Identifying owning user of Windows Process objects -->
     <PackageReference Include="System.Management" Version="8.0.0" />
     <!-- Usage: Temporary resolution to compatibility issues with EFCore 7 and .NET 8 -->
