@@ -518,6 +518,7 @@ namespace Tgstation.Server.Host.Components
 			}
 
 			IBridgeHandler? bridgeHandler = null;
+			var loggedDelay = false;
 			for (var i = 0; bridgeHandler == null && i < 30; ++i)
 			{
 				// There's a miniscule time period where we could potentially receive a bridge request and not have the registration ready when we launch DD
@@ -525,7 +526,15 @@ namespace Tgstation.Server.Host.Components
 				Task delayTask = Task.CompletedTask;
 				lock (bridgeHandlers)
 					if (!bridgeHandlers.TryGetValue(accessIdentifier, out bridgeHandler))
+					{
+						if (!loggedDelay)
+						{
+							logger.LogTrace("Received bridge request with unregistered access identifier \"{aid}\". Waiting up to 3 seconds for it to be registered...", accessIdentifier);
+							loggedDelay = true;
+						}
+
 						delayTask = asyncDelayer.Delay(TimeSpan.FromMilliseconds(100), cancellationToken);
+					}
 
 				await delayTask;
 			}

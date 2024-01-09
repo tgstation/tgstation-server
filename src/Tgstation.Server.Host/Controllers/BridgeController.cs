@@ -94,16 +94,16 @@ namespace Tgstation.Server.Host.Controllers
 		[AllowAnonymous]
 		public async ValueTask<IActionResult> Process([FromQuery] string data, CancellationToken cancellationToken)
 		{
-			// Nothing to see here
-			var remoteIP = Request.HttpContext.Connection.RemoteIpAddress;
-			if (remoteIP == null || !IPAddress.IsLoopback(remoteIP))
-			{
-				logger.LogTrace("Rejecting remote bridge request from {remoteIP}", remoteIP);
-				return Forbid();
-			}
-
 			using (LogContext.PushProperty(SerilogContextHelper.BridgeRequestIterationContextProperty, Interlocked.Increment(ref requestsProcessed)))
 			{
+				// Nothing to see here
+				var remoteIP = Request.HttpContext.Connection.RemoteIpAddress;
+				if (remoteIP == null || !IPAddress.IsLoopback(remoteIP))
+				{
+					logger.LogTrace("Rejecting remote bridge request from {remoteIP}", remoteIP);
+					return Forbid();
+				}
+
 				BridgeParameters? request;
 				try
 				{
@@ -113,6 +113,9 @@ namespace Tgstation.Server.Host.Controllers
 				{
 					if (LogContent)
 						logger.LogWarning(ex, "Error deserializing bridge request: {badJson}", data);
+					else
+						logger.LogWarning(ex, "Error deserializing bridge request!");
+
 					return BadRequest();
 				}
 
@@ -120,11 +123,16 @@ namespace Tgstation.Server.Host.Controllers
 				{
 					if (LogContent)
 						logger.LogWarning("Error deserializing bridge request: {badJson}", data);
+					else
+						logger.LogWarning("Error deserializing bridge request!");
+
 					return BadRequest();
 				}
 
 				if (LogContent)
 					logger.LogTrace("Bridge Request: {json}", data);
+				else
+					logger.LogTrace("Bridge Request");
 
 				var response = await bridgeDispatcher.ProcessBridgeRequest(request, cancellationToken);
 				if (response == null)
