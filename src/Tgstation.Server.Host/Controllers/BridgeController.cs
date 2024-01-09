@@ -36,7 +36,12 @@ namespace Tgstation.Server.Host.Controllers
 		/// <summary>
 		/// If the content of bridge requests and responses should be logged.
 		/// </summary>
-		internal static bool LogContent { get; set; }
+		static bool LogContent => logContentDisableCounter == 0;
+
+		/// <summary>
+		/// Counter which, if not zero, indicates content logging should be disabled.
+		/// </summary>
+		static uint logContentDisableCounter;
 
 		/// <summary>
 		/// Static counter for the number of requests processed.
@@ -54,12 +59,14 @@ namespace Tgstation.Server.Host.Controllers
 		readonly ILogger<BridgeController> logger;
 
 		/// <summary>
-		/// Initializes static members of the <see cref="BridgeController"/> class.
+		/// Temporarily disable content logging. Must be followed up with a call to <see cref="ReenableContentLogging"/>.
 		/// </summary>
-		static BridgeController()
-		{
-			LogContent = true;
-		}
+		internal static void TemporarilyDisableContentLogging() => Interlocked.Increment(ref logContentDisableCounter);
+
+		/// <summary>
+		/// Reenable content logging. Must be preceeded with a call to <see cref="TemporarilyDisableContentLogging"/>.
+		/// </summary>
+		internal static void ReenableContentLogging() => Interlocked.Decrement(ref logContentDisableCounter);
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="BridgeController"/> class.
