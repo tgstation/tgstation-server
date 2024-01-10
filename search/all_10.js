@@ -1,7 +1,7 @@
 var searchData=
 [
-  ['oauth_0',['oAuth',['../class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_security_configuration.html#ad2ca571f109ff0ae0a08425c1776176f',1,'Tgstation::Server::Host::Configuration::SecurityConfiguration']]],
-  ['oauth_1',['OAuth',['../class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_security_configuration.html#afbf3e2a4055381424aa6757cc722a785',1,'Tgstation::Server::Host::Configuration::SecurityConfiguration']]],
+  ['oauth_0',['OAuth',['../class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_security_configuration.html#afbf3e2a4055381424aa6757cc722a785',1,'Tgstation::Server::Host::Configuration::SecurityConfiguration']]],
+  ['oauth_1',['oAuth',['../class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_security_configuration.html#ad2ca571f109ff0ae0a08425c1776176f',1,'Tgstation::Server::Host::Configuration::SecurityConfiguration']]],
   ['oauthauthenticationscheme_2',['OAuthAuthenticationScheme',['../class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a16bcacbed6e65c329a4c7ec22f9d7479',1,'Tgstation::Server::Api::ApiHeaders']]],
   ['oauthcode_3',['OAuthCode',['../class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a83843b09b15f9db25c73db6e2bd72db8',1,'Tgstation::Server::Api::ApiHeaders']]],
   ['oauthconfiguration_4',['oAuthConfiguration',['../class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_git_hub_o_auth_validator.html#aadd4ea2984d8fbd718b1814a445c58ac',1,'Tgstation::Server::Host::Security::OAuth::GitHubOAuthValidator']]],
