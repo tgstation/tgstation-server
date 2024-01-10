@@ -36,7 +36,12 @@ namespace Tgstation.Server.Host.Controllers
 		/// <summary>
 		/// If the content of bridge requests and responses should be logged.
 		/// </summary>
-		internal static bool LogContent { get; set; }
+		static bool LogContent => logContentDisableCounter == 0;
+
+		/// <summary>
+		/// Counter which, if not zero, indicates content logging should be disabled.
+		/// </summary>
+		static uint logContentDisableCounter;
 
 		/// <summary>
 		/// Static counter for the number of requests processed.
@@ -54,12 +59,14 @@ namespace Tgstation.Server.Host.Controllers
 		readonly ILogger<BridgeController> logger;
 
 		/// <summary>
-		/// Initializes static members of the <see cref="BridgeController"/> class.
+		/// Temporarily disable content logging. Must be followed up with a call to <see cref="ReenableContentLogging"/>.
 		/// </summary>
-		static BridgeController()
-		{
-			LogContent = true;
-		}
+		internal static void TemporarilyDisableContentLogging() => Interlocked.Increment(ref logContentDisableCounter);
+
+		/// <summary>
+		/// Reenable content logging. Must be preceeded with a call to <see cref="TemporarilyDisableContentLogging"/>.
+		/// </summary>
+		internal static void ReenableContentLogging() => Interlocked.Decrement(ref logContentDisableCounter);
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="BridgeController"/> class.
@@ -87,16 +94,16 @@ namespace Tgstation.Server.Host.Controllers
 		[AllowAnonymous]
 		public async ValueTask<IActionResult> Process([FromQuery] string data, CancellationToken cancellationToken)
 		{
-			// Nothing to see here
-			var remoteIP = Request.HttpContext.Connection.RemoteIpAddress;
-			if (remoteIP == null || !IPAddress.IsLoopback(remoteIP))
-			{
-				logger.LogTrace("Rejecting remote bridge request from {remoteIP}", remoteIP);
-				return Forbid();
-			}
-
 			using (LogContext.PushProperty(SerilogContextHelper.BridgeRequestIterationContextProperty, Interlocked.Increment(ref requestsProcessed)))
 			{
+				// Nothing to see here
+				var remoteIP = Request.HttpContext.Connection.RemoteIpAddress;
+				if (remoteIP == null || !IPAddress.IsLoopback(remoteIP))
+				{
+					logger.LogTrace("Rejecting remote bridge request from {remoteIP}", remoteIP);
+					return Forbid();
+				}
+
 				BridgeParameters? request;
 				try
 				{
@@ -106,6 +113,9 @@ namespace Tgstation.Server.Host.Controllers
 				{
 					if (LogContent)
 						logger.LogWarning(ex, "Error deserializing bridge request: {badJson}", data);
+					else
+						logger.LogWarning(ex, "Error deserializing bridge request!");
+
 					return BadRequest();
 				}
 
@@ -113,11 +123,16 @@ namespace Tgstation.Server.Host.Controllers
 				{
 					if (LogContent)
 						logger.LogWarning("Error deserializing bridge request: {badJson}", data);
+					else
+						logger.LogWarning("Error deserializing bridge request!");
+
 					return BadRequest();
 				}
 
 				if (LogContent)
 					logger.LogTrace("Bridge Request: {json}", data);
+				else
+					logger.LogTrace("Bridge Request");
 
 				var response = await bridgeDispatcher.ProcessBridgeRequest(request, cancellationToken);
 				if (response == null)

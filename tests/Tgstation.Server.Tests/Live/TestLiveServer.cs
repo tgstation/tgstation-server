@@ -61,6 +61,16 @@ namespace Tgstation.Server.Tests.Live
 		static readonly Lazy<ushort> mainDDPort = new(() => FreeTcpPort(odDDPort.Value, odDMPort.Value, compatDMPort.Value, compatDDPort.Value));
 		static readonly Lazy<ushort> mainDMPort = new(() => FreeTcpPort(odDDPort.Value, odDMPort.Value, compatDMPort.Value, compatDDPort.Value, mainDDPort.Value));
 
+		static void InitializePorts()
+		{
+			_ = odDMPort.Value;
+			_ = odDDPort.Value;
+			_ = compatDMPort.Value;
+			_ = compatDDPort.Value;
+			_ = mainDDPort.Value;
+			_ = mainDMPort.Value;
+		}
+
 		readonly ServerClientFactory clientFactory = new (new ProductHeaderValue(Assembly.GetExecutingAssembly().GetName().Name, Assembly.GetExecutingAssembly().GetName().Version.ToString()));
 
 		public static List<System.Diagnostics.Process> GetEngineServerProcessesOnPort(EngineType engineType, ushort? port)
@@ -162,7 +172,8 @@ namespace Tgstation.Server.Tests.Live
 					}
 					catch
 					{
-						l.Stop();
+						using (l)
+							l.Stop();
 						throw;
 					}
 
@@ -172,10 +183,9 @@ namespace Tgstation.Server.Tests.Live
 			}
 			finally
 			{
-				foreach(var l in listeners)
-				{
-					l.Stop();
-				}
+				foreach (var l in listeners)
+					using (l)
+						l.Stop();
 			}
 
 			Console.WriteLine($"Allocated port: {result}");
@@ -1237,6 +1247,8 @@ namespace Tgstation.Server.Tests.Live
 
 			using (var currentProcess = System.Diagnostics.Process.GetCurrentProcess())
 				Assert.AreEqual(ProcessPriorityClass.Normal, currentProcess.PriorityClass);
+
+			InitializePorts();
 
 			var maximumTestMinutes = TestingUtils.RunningInGitHubActions ? 90 : 20;
 			using var hardCancellationTokenSource = new CancellationTokenSource(TimeSpan.FromMinutes(maximumTestMinutes));
