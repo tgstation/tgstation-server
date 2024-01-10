@@ -893,7 +893,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 		{
 			// first check the bridge limits
 			var bridgeTestsTcs = new TaskCompletionSource();
-			BridgeController.LogContent = false;
+			BridgeController.TemporarilyDisableContentLogging();
 			using (var loggerFactory = LoggerFactory.Create(builder =>
 			{
 				builder.AddConsole();
@@ -914,7 +914,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 				await bridgeTestsTcs.Task.WaitAsync(cancellationToken);
 			}
 
-			BridgeController.LogContent = true;
+			BridgeController.ReenableContentLogging();
 
 			// Time for DD to revert the bridge access identifier change
 			await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);
