@@ -4,7 +4,7 @@
   <Import Project="WebpanelVersion.props" />
   <PropertyGroup>
     <TgsCoreVersion>6.1.2</TgsCoreVersion>
-    <TgsConfigVersion>5.0.0</TgsConfigVersion>
+    <TgsConfigVersion>5.1.0</TgsConfigVersion>
     <TgsApiVersion>10.0.0</TgsApiVersion>
     <TgsCommonLibraryVersion>7.0.0</TgsCommonLibraryVersion>
     <TgsApiLibraryVersion>13.0.1</TgsApiLibraryVersion>

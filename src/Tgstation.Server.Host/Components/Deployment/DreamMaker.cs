@@ -953,6 +953,12 @@ namespace Tgstation.Server.Host.Components.Deployment
 		{
 			async ValueTask CleanDir()
 			{
+				if (sessionConfiguration.DelayCleaningFailedDeployments)
+				{
+					logger.LogDebug("Not cleaning up errored deployment directory {guid} due to config.", job.DirectoryName);
+					return;
+				}
+
 				logger.LogTrace("Cleaning compile directory...");
 				var jobPath = job.DirectoryName!.Value.ToString();
 				try
