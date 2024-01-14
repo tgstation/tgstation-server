@@ -22,6 +22,7 @@ General:
 Session:
   HighPriorityLiveDreamDaemon: false # If DreamDaemon instances should run as higher priority processes
   LowPriorityDeploymentProcesses: true # If TGS Deployments should run as lower priority processes
+  DelayCleaningFailedDeployments: false # If true, deployments that fail will not be immediately cleaned up. They will be cleaned up the next time the instance is onlined
 FileLogging:
   Directory: # Directory in which log files are stored. Windows default: %PROGRAMDATA%/tgstation-server. Linux default: /var/log/tgstation-server
   Disable: true # Disable file logging entirely

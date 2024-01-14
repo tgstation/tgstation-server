@@ -24,5 +24,10 @@
 		/// If the deployment DreamMaker and DreamDaemon instances are set to be below normal priority processes.
 		/// </summary>
 		public bool LowPriorityDeploymentProcesses { get; set; }
+
+		/// <summary>
+		/// If <see langword="true"/>, deployments that fail will not be immediately cleaned up. They will be cleaned up the next time the instance is onlined.
+		/// </summary>
+		public bool DelayCleaningFailedDeployments { get; set; }
 	}
 }
