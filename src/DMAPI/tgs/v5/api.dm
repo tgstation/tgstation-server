@@ -8,7 +8,11 @@
 
 	var/reboot_mode = TGS_REBOOT_MODE_NORMAL
 
+	/// List of chat messages list()s that attempted to be sent during a topic call. To be bundled in the result of the call
 	var/list/intercepted_message_queue
+
+	/// List of chat messages list()s that attempted to be sent during a topic call. To be bundled in the result of the call
+	var/list/offline_message_queue
 
 	var/list/custom_commands
 
@@ -218,8 +222,27 @@
 	data[DMAPI5_CHAT_MESSAGE_CHANNEL_IDS] = channel_ids
 	if(intercepted_message_queue)
 		intercepted_message_queue += list(data)
+		return
+
+	if(offline_message_queue)
+		offline_message_queue += list(data)
+		return
+
+	if(detached)
+		offline_message_queue = list(data)
+
+		WaitForReattach(FALSE)
+
+		data = offline_message_queue
+		offline_message_queue = null
+
+		for(var/queued_message in data)
+			SendChatDataRaw(queued_message)
 	else
-		Bridge(DMAPI5_BRIDGE_COMMAND_CHAT_SEND, list(DMAPI5_BRIDGE_PARAMETER_CHAT_MESSAGE = data))
+		SendChatDataRaw(data)
+
+/datum/tgs_api/v5/proc/SendChatDataRaw(list/data)
+	Bridge(DMAPI5_BRIDGE_COMMAND_CHAT_SEND, list(DMAPI5_BRIDGE_PARAMETER_CHAT_MESSAGE = data))
 
 /datum/tgs_api/v5/ChatChannelInfo()
 	RequireInitialBridgeResponse()
