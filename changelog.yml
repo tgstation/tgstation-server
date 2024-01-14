@@ -1,5 +1,12 @@
 Components:
   Configuration:
+  - Version: 5.1.0
+    Changes:
+    - Descriptions:
+      - Added `Session:DelayCleaningFailedDeployments`. If set, failed deployments will leave their directories intact. They will be automatically cleaned up the next time the instance is onlined (i.e. When TGS restarts).
+      Author: Cyberboss
+      PullRequest: 1770
+    Unreleased: true
   - Version: 5.0.0
     Changes:
     - Descriptions:
@@ -142,7 +149,17 @@ Components:
       PullRequest: 1070
   Core:
   - Version: 6.2.0
-    ComponentVersions: {}
+    ComponentVersions:
+      Core: 6.1.2
+      HttpApi: 10.0.0
+      DreamMakerApi: 7.0.1
+      Configuration: 5.1.0
+      InteropApi: 5.8.0
+      HostWatchdog: 1.4.1
+      NugetCommon: 7.0.0
+      NugetApi: 13.0.1
+      NugetClient: 15.0.1
+      WebControlPanel: 5.4.2
     Changes: []
     Unreleased: true
   - Version: 6.1.3
