@@ -152,7 +152,7 @@ Components:
     ComponentVersions:
       Core: 6.1.2
       HttpApi: 10.0.0
-      DreamMakerApi: 7.0.1
+      DreamMakerApi: 7.0.2
       Configuration: 5.1.0
       InteropApi: 5.8.0
       HostWatchdog: 1.4.1
@@ -3913,6 +3913,13 @@ Components:
       Author: Cyberboss
       PullRequest: 991
   DreamMakerApi:
+  - Version: 7.0.2
+    Changes:
+    - Descriptions:
+      - Fixed chat messages being sent in a random order rather than FIFO while TGS was rebooting. Note, they may still appear out of order due to a potential bug as of TGS 6.1.2 but this fix is necessary to guarantee order in the first place.
+      Author: Cyberboss
+      PullRequest: 1771
+    Unreleased: true
   - Version: 7.0.1
     Changes:
     - Descriptions:
