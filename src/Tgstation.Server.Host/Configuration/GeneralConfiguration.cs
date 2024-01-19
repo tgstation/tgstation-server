@@ -187,6 +187,9 @@ namespace Tgstation.Server.Host.Configuration
 			else if (this.GetCopyDirectoryTaskThrottle() < 1)
 				throw new InvalidOperationException(
 					$"{nameof(DeploymentDirectoryCopyTasksPerCore)} is too large for the CPU core count of {Environment.ProcessorCount} and overflows a 32-bit signed integer. Please lower the value!");
+
+			if (ByondTopicTimeout <= 1000)
+				logger.LogWarning("The timeout for sending BYOND topics is very low ({ms}ms). Topic calls may fail to complete at all!", ByondTopicTimeout);
 		}
 	}
 }
