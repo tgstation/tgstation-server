@@ -38,6 +38,6 @@ namespace Tgstation.Server.Host.Swarm
 		/// Gets the list of <see cref="SwarmServerResponse"/>s in the swarm, including the current one.
 		/// </summary>
 		/// <returns>A <see cref="List{T}"/> of <see cref="SwarmServerResponse"/>s in the swarm. If the server is not part of a swarm, <see langword="null"/> will be returned.</returns>
-		ICollection<SwarmServerResponse>? GetSwarmServers();
+		List<SwarmServerResponse>? GetSwarmServers();
 	}
 }
