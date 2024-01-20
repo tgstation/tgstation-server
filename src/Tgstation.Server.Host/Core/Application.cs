@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Frozen;
 using System.Collections.Generic;
 using System.Globalization;
@@ -524,6 +524,7 @@ namespace Tgstation.Server.Host.Core
 					RequestPath = ControlPanelController.ControlPanelRoute,
 					EnableDefaultFiles = true,
 					EnableDirectoryBrowsing = false,
+					RedirectToAppendTrailingSlash = false,
 				});
 			}
 			else
