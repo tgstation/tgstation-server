@@ -1,7 +1,7 @@
 <map id="Tgstation.Server.Host.Controllers.ApiRootController.ServerInfo" name="Tgstation.Server.Host.Controllers.ApiRootController.ServerInfo">
 <area shape="rect" id="node1" title="Main page of the Application." alt="" coords="5,149,221,189"/>
 <area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_api_headers_provider.html#a3def189103a04956cec01d2453f7318d" title="Attempt to create Api.ApiHeaders without checking for the presence of an Microsoft...." alt="" coords="273,5,504,60"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_service.html#afc7a7dbee36d6e91490547dbf65831f5" title="Gets the list of SwarmServerResponses in the swarm, including the current one." alt="" coords="278,85,499,125"/>
+<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_service.html#a19bad61be74a63558b5cac2ba8a0e82a" title="Gets the list of SwarmServerResponses in the swarm, including the current one." alt="" coords="278,85,499,125"/>
 <area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a5333dd9534ea615440e2360016e75be4" title="Response for missing/Invalid headers." alt="" coords="281,149,497,189"/>
 <area shape="rect" id="node6" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_i_o_auth_providers.html#a733dbba10de53f9c5dfa8daf99b7cdab" title="Gets a Dictionary&lt;TKey, TValue&gt; of the provider client IDs." alt="" coords="269,213,508,253"/>
 <area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a84d1c4f6e52c2f6b83d40930646bd9f5" title="Generic 401 response." alt="" coords="281,277,497,317"/>

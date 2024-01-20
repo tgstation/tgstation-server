@@ -164,7 +164,6 @@ Components:
     Unreleased: true
   - Version: 6.1.3
     ComponentVersions:
-      Core: 6.1.2
       HttpApi: 10.0.0
       DreamMakerApi: 7.0.1
       Configuration: 5.0.0
@@ -174,7 +173,11 @@ Components:
       NugetApi: 13.0.1
       NugetClient: 15.0.1
       WebControlPanel: 5.4.2
-    Changes: []
+    Changes:
+    - Descriptions:
+      - Fixed the decision to use hardlinks vs symlinks on Linux depending on the minimum security level used to create a deployment instead of the watchdog settings.
+      Author: Cyberboss
+      PullRequest: 1774
     Unreleased: true
   - Version: 6.1.2
     ComponentVersions:

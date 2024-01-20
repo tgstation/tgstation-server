@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.1.2</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.1.3</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -208,7 +208,7 @@ Private Attributes</h2></td></tr>
 <div class="fragment"><div class="line"><span class="lineno">   47</span>        {</div>
 <div class="line"><span class="lineno">   48</span>            this.identity = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_windows_system_identity.html#aebf4b00a090db02c7accde161a1412fc">identity</a> ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_windows_system_identity.html#aebf4b00a090db02c7accde161a1412fc">identity</a>));</div>
 <div class="line"><span class="lineno">   49</span>            <span class="keywordflow">if</span> (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_windows_system_identity.html#aebf4b00a090db02c7accde161a1412fc">identity</a>.IsAnonymous)</div>
-<div class="line"><span class="lineno">   50</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> InvalidOperationException($<span class="stringliteral">&quot;Cannot use anonymous {nameof(WindowsIdentity)} as a {nameof(WindowsSystemIdentity)}!&quot;</span>);</div>
+<div class="line"><span class="lineno">   50</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentException($<span class="stringliteral">&quot;Cannot use anonymous {nameof(WindowsIdentity)} as a {nameof(WindowsSystemIdentity)}!&quot;</span>, nameof(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_windows_system_identity.html#aebf4b00a090db02c7accde161a1412fc">identity</a>));</div>
 <div class="line"><span class="lineno">   51</span> </div>
 <div class="line"><span class="lineno">   52</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_windows_system_identity.html#afe60cf0ed06def30a229734840a69a33">canCreateSymlinks</a> = <span class="keyword">new</span> WindowsPrincipal(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_windows_system_identity.html#aebf4b00a090db02c7accde161a1412fc">identity</a>).IsInRole(WindowsBuiltInRole.Administrator);</div>
 <div class="line"><span class="lineno">   53</span>        }</div>
@@ -285,7 +285,7 @@ Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">   86</span>            }</div>
 <div class="line"><span class="lineno">   87</span> </div>
 <div class="line"><span class="lineno">   88</span>            <span class="comment">// can&#39;t clone a UP, shouldn&#39;t be trying to anyway, cloning is for impersonation</span></div>
-<div class="line"><span class="lineno">   89</span>            <span class="keywordflow">throw</span> <span class="keyword">new</span> InvalidOperationException(<span class="stringliteral">&quot;Cannot clone a UserPrincipal based WindowsSystemIdentity!&quot;</span>);</div>
+<div class="line"><span class="lineno">   89</span>            <span class="keywordflow">throw</span> <span class="keyword">new</span> NotSupportedException(<span class="stringliteral">&quot;Cannot clone a UserPrincipal based WindowsSystemIdentity!&quot;</span>);</div>
 <div class="line"><span class="lineno">   90</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_security_1_1_windows_system_identity_html_a6b20afd81a3b07e0ef1f89fc134652ad"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_windows_system_identity.html#a6b20afd81a3b07e0ef1f89fc134652ad">Tgstation.Server.Host.Security.WindowsSystemIdentity.WindowsSystemIdentity</a></div><div class="ttdeci">WindowsSystemIdentity(WindowsIdentity identity)</div><div class="ttdoc">Initializes a new instance of the WindowsSystemIdentity class.</div><div class="ttdef"><b>Definition:</b> <a href="_windows_system_identity_8cs_source.html#l00046">WindowsSystemIdentity.cs:46</a></div></div>
 </div><!-- fragment -->

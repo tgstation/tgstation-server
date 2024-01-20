@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.1.2</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.1.3</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -157,10 +157,10 @@ This method does not accept a global::System.Threading.CancellationToken because
 <dl class="section return"><dt>Returns</dt><dd>A ValueTask&lt;TResult&gt; resulting in the <a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_swarm.html#a9923552cf79abff46ddf853f47b21446" title="How to proceed on the commit step of an update.">SwarmCommitResult</a>.</dd></dl>
   <a href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a33e4098f6026023493a1a03c300047ee">More...</a><br /></td></tr>
 <tr class="separator:a33e4098f6026023493a1a03c300047ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab4b62179277b1d678e7ac6afddac5e35"><td class="memItemLeft" align="right" valign="top">ICollection&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_swarm_server_response.html">SwarmServerResponse</a> &gt;?&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#ab4b62179277b1d678e7ac6afddac5e35">GetSwarmServers</a> ()</td></tr>
-<tr class="memdesc:ab4b62179277b1d678e7ac6afddac5e35"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the list of SwarmServerResponses in the swarm, including the current one. <dl class="section return"><dt>Returns</dt><dd>A List&lt;T&gt; of SwarmServerResponses in the swarm. If the server is not part of a swarm, <code>null</code> will be returned.</dd></dl>
-  <a href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#ab4b62179277b1d678e7ac6afddac5e35">More...</a><br /></td></tr>
-<tr class="separator:ab4b62179277b1d678e7ac6afddac5e35"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5cfb5cd481c3b7310585d7c629791d57"><td class="memItemLeft" align="right" valign="top">List&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_swarm_server_response.html">SwarmServerResponse</a> &gt;?&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a5cfb5cd481c3b7310585d7c629791d57">GetSwarmServers</a> ()</td></tr>
+<tr class="memdesc:a5cfb5cd481c3b7310585d7c629791d57"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the list of SwarmServerResponses in the swarm, including the current one. <dl class="section return"><dt>Returns</dt><dd>A List&lt;T&gt; of SwarmServerResponses in the swarm. If the server is not part of a swarm, <code>null</code> will be returned.</dd></dl>
+  <a href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a5cfb5cd481c3b7310585d7c629791d57">More...</a><br /></td></tr>
+<tr class="separator:a5cfb5cd481c3b7310585d7c629791d57"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aae6cda24a68c829292aabbe3bc1d1ffb"><td class="memItemLeft" align="right" valign="top">ValueTask&lt; <a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_swarm.html#adb1c0a36372932f7245590d9892af263">SwarmPrepareResult</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#aae6cda24a68c829292aabbe3bc1d1ffb">PrepareUpdate</a> (<a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_seekable_file_stream_provider.html">ISeekableFileStreamProvider</a> fileStreamProvider, Version version, CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:aae6cda24a68c829292aabbe3bc1d1ffb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Signal to the swarm that an update is requested. <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -263,9 +263,9 @@ This method does not accept a global::System.Threading.CancellationToken because
 <tr class="memitem:ae3b058fce2e7c2a304ac9eb208b97835"><td class="memItemLeft" align="right" valign="top">ValueTask&lt; <a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_swarm.html#a9923552cf79abff46ddf853f47b21446">SwarmCommitResult</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_service.html#ae3b058fce2e7c2a304ac9eb208b97835">CommitUpdate</a> (CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:ae3b058fce2e7c2a304ac9eb208b97835"><td class="mdescLeft">&#160;</td><td class="mdescRight">Signal to the swarm that an update is ready to be applied.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_service.html#ae3b058fce2e7c2a304ac9eb208b97835">More...</a><br /></td></tr>
 <tr class="separator:ae3b058fce2e7c2a304ac9eb208b97835"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afc7a7dbee36d6e91490547dbf65831f5"><td class="memItemLeft" align="right" valign="top">ICollection&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_swarm_server_response.html">SwarmServerResponse</a> &gt;?&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_service.html#afc7a7dbee36d6e91490547dbf65831f5">GetSwarmServers</a> ()</td></tr>
-<tr class="memdesc:afc7a7dbee36d6e91490547dbf65831f5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the list of SwarmServerResponses in the swarm, including the current one.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_service.html#afc7a7dbee36d6e91490547dbf65831f5">More...</a><br /></td></tr>
-<tr class="separator:afc7a7dbee36d6e91490547dbf65831f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a19bad61be74a63558b5cac2ba8a0e82a"><td class="memItemLeft" align="right" valign="top">List&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_swarm_server_response.html">SwarmServerResponse</a> &gt;?&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_service.html#a19bad61be74a63558b5cac2ba8a0e82a">GetSwarmServers</a> ()</td></tr>
+<tr class="memdesc:a19bad61be74a63558b5cac2ba8a0e82a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the list of SwarmServerResponses in the swarm, including the current one.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_service.html#a19bad61be74a63558b5cac2ba8a0e82a">More...</a><br /></td></tr>
+<tr class="separator:a19bad61be74a63558b5cac2ba8a0e82a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac68948445b85942f29d2b618dfea9763"><td class="memItemLeft" align="right" valign="top">ValueTask&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_update_aborter.html#ac68948445b85942f29d2b618dfea9763">AbortUpdate</a> ()</td></tr>
 <tr class="memdesc:ac68948445b85942f29d2b618dfea9763"><td class="mdescLeft">&#160;</td><td class="mdescRight">Attempt to abort an uncommitted update.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_update_aborter.html#ac68948445b85942f29d2b618dfea9763">More...</a><br /></td></tr>
 <tr class="separator:ac68948445b85942f29d2b618dfea9763"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -1264,14 +1264,14 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a id="ab4b62179277b1d678e7ac6afddac5e35" name="ab4b62179277b1d678e7ac6afddac5e35"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab4b62179277b1d678e7ac6afddac5e35">&#9670;&#160;</a></span>GetSwarmServers()</h2>
+<a id="a5cfb5cd481c3b7310585d7c629791d57" name="a5cfb5cd481c3b7310585d7c629791d57"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5cfb5cd481c3b7310585d7c629791d57">&#9670;&#160;</a></span>GetSwarmServers()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">ICollection&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_swarm_server_response.html">SwarmServerResponse</a> &gt;? Tgstation.Server.Host.Swarm.SwarmService.GetSwarmServers </td>
+          <td class="memname">List&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_swarm_server_response.html">SwarmServerResponse</a> &gt;? Tgstation.Server.Host.Swarm.SwarmService.GetSwarmServers </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -1282,7 +1282,7 @@ Here is the caller graph for this function:</div>
 <p>Gets the list of SwarmServerResponses in the swarm, including the current one. <dl class="section return"><dt>Returns</dt><dd>A List&lt;T&gt; of SwarmServerResponses in the swarm. If the server is not part of a swarm, <code>null</code> will be returned.</dd></dl>
  </p>
 
-<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_service.html#afc7a7dbee36d6e91490547dbf65831f5">Tgstation.Server.Host.Swarm.ISwarmService</a>.</p>
+<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_service.html#a19bad61be74a63558b5cac2ba8a0e82a">Tgstation.Server.Host.Swarm.ISwarmService</a>.</p>
 
 <p class="definition">Definition at line <a class="el" href="_swarm_service_8cs_source.html#l00352">352</a> of file <a class="el" href="_swarm_service_8cs_source.html">SwarmService.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">  353</span>        {</div>
