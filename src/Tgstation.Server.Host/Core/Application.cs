@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Frozen;
 using System.Collections.Generic;
 using System.Globalization;
@@ -503,6 +503,10 @@ namespace Tgstation.Server.Host.Core
 
 			if (generalConfiguration.HostApiDocumentation)
 			{
+				var siteDocPath = Routes.ApiRoot + $"doc/{SwaggerConfiguration.DocumentName}.json";
+				if (!String.IsNullOrWhiteSpace(controlPanelConfiguration.PublicPath))
+					siteDocPath = controlPanelConfiguration.PublicPath.TrimEnd('/') + siteDocPath;
+
 				applicationBuilder.UseSwagger(options =>
 				{
 					options.RouteTemplate = Routes.ApiRoot + "doc/{documentName}.{json|yaml}";
@@ -510,7 +514,7 @@ namespace Tgstation.Server.Host.Core
 				applicationBuilder.UseSwaggerUI(options =>
 				{
 					options.RoutePrefix = SwaggerConfiguration.DocumentationSiteRouteExtension;
-					options.SwaggerEndpoint(Routes.ApiRoot + $"doc/{SwaggerConfiguration.DocumentName}.json", "TGS API");
+					options.SwaggerEndpoint(siteDocPath, "TGS API");
 				});
 				logger.LogTrace("Swagger API generation enabled");
 			}
