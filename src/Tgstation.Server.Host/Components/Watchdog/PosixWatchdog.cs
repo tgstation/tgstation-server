@@ -95,6 +95,6 @@ namespace Tgstation.Server.Host.Components.Watchdog
 
 		/// <inheritdoc />
 		protected override SwappableDmbProvider CreateSwappableDmbProvider(IDmbProvider dmbProvider)
-			=> new HardLinkDmbProvider(dmbProvider, GameIOManager, LinkFactory, Logger, generalConfiguration);
+			=> new HardLinkDmbProvider(dmbProvider, GameIOManager, LinkFactory, Logger, generalConfiguration, ActiveLaunchParameters.SecurityLevel!.Value);
 	}
 }

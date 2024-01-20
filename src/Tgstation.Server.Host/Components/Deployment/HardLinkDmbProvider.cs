@@ -46,12 +46,14 @@ namespace Tgstation.Server.Host.Components.Deployment
 		/// <param name="linkFactory">The <see cref="IFilesystemLinkFactory"/> for the <see cref="SwappableDmbProvider"/>.</param>
 		/// <param name="logger">The value of <see cref="logger"/>.</param>
 		/// <param name="generalConfiguration">The <see cref="GeneralConfiguration"/> for the <see cref="HardLinkDmbProvider"/>.</param>
+		/// <param name="securityLevel">The launch <see cref="DreamDaemonSecurity"/> level.</param>
 		public HardLinkDmbProvider(
 			IDmbProvider baseProvider,
 			IIOManager ioManager,
 			IFilesystemLinkFactory linkFactory,
 			ILogger logger,
-			GeneralConfiguration generalConfiguration)
+			GeneralConfiguration generalConfiguration,
+			DreamDaemonSecurity securityLevel)
 			: base(
 				 baseProvider,
 				 ioManager,
@@ -61,7 +63,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 			cancellationTokenSource = new CancellationTokenSource();
 			try
 			{
-				mirroringTask = MirrorSourceDirectory(generalConfiguration.GetCopyDirectoryTaskThrottle(), cancellationTokenSource.Token);
+				mirroringTask = MirrorSourceDirectory(generalConfiguration.GetCopyDirectoryTaskThrottle(), securityLevel, cancellationTokenSource.Token);
 			}
 			catch
 			{
@@ -143,9 +145,10 @@ namespace Tgstation.Server.Host.Components.Deployment
 		/// Mirror the <see cref="Models.CompileJob"/>.
 		/// </summary>
 		/// <param name="taskThrottle">The optional maximum number of simultaneous tasks allowed to execute.</param>
+		/// <param name="securityLevel">The launch <see cref="DreamDaemonSecurity"/> level.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the full path to the mirrored directory.</returns>
-		async Task<string> MirrorSourceDirectory(int? taskThrottle, CancellationToken cancellationToken)
+		async Task<string> MirrorSourceDirectory(int? taskThrottle, DreamDaemonSecurity securityLevel, CancellationToken cancellationToken)
 		{
 			var stopwatch = Stopwatch.StartNew();
 			var mirrorGuid = Guid.NewGuid();
@@ -157,7 +160,12 @@ namespace Tgstation.Server.Host.Components.Deployment
 			var dest = IOManager.ResolvePath(mirrorGuid.ToString());
 
 			using var semaphore = taskThrottle.HasValue ? new SemaphoreSlim(taskThrottle.Value) : null;
-			await Task.WhenAll(MirrorDirectoryImpl(src, dest, semaphore, cancellationToken));
+			await Task.WhenAll(MirrorDirectoryImpl(
+				src,
+				dest,
+				semaphore,
+				securityLevel,
+				cancellationToken));
 			stopwatch.Stop();
 
 			logger.LogDebug(
@@ -175,14 +183,15 @@ namespace Tgstation.Server.Host.Components.Deployment
 		/// <param name="src">The source directory path.</param>
 		/// <param name="dest">The destination directory path.</param>
 		/// <param name="semaphore">Optional <see cref="SemaphoreSlim"/> used to limit degree of parallelism.</param>
+		/// <param name="securityLevel">The launch <see cref="DreamDaemonSecurity"/> level.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="IEnumerable{T}"/> of <see cref="Task"/>s representing the running operations. The first <see cref="Task"/> returned is always the necessary call to <see cref="IIOManager.CreateDirectory(string, CancellationToken)"/>.</returns>
 		/// <remarks>I genuinely don't know how this will work with symlinked files. Waiting for the issue report I guess.</remarks>
-		IEnumerable<Task> MirrorDirectoryImpl(string src, string dest, SemaphoreSlim? semaphore, CancellationToken cancellationToken)
+		IEnumerable<Task> MirrorDirectoryImpl(string src, string dest, SemaphoreSlim? semaphore, DreamDaemonSecurity securityLevel, CancellationToken cancellationToken)
 		{
 			var dir = new DirectoryInfo(src);
 			Task? subdirCreationTask = null;
-			var dreamDaemonWillAcceptOutOfDirectorySymlinks = CompileJob.MinimumSecurityLevel == DreamDaemonSecurity.Trusted;
+			var dreamDaemonWillAcceptOutOfDirectorySymlinks = securityLevel == DreamDaemonSecurity.Trusted;
 			foreach (var subDirectory in dir.EnumerateDirectories())
 			{
 				var mirroredName = Path.Combine(dest, subDirectory.Name);
@@ -216,7 +225,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 						logger.LogDebug("Recreating symlinked directory {name} as hard links...", subDirectory.Name);
 
 				var checkingSubdirCreationTask = true;
-				foreach (var copyTask in MirrorDirectoryImpl(subDirectory.FullName, mirroredName, semaphore, cancellationToken))
+				foreach (var copyTask in MirrorDirectoryImpl(subDirectory.FullName, mirroredName, semaphore, securityLevel, cancellationToken))
 				{
 					if (subdirCreationTask == null)
 					{
