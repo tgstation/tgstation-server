@@ -162,6 +162,10 @@ Components:
       WebControlPanel: 5.4.2
     Changes: []
     Unreleased: true
+  - Version: 6.1.4
+    ComponentVersions: {}
+    Changes: []
+    Unreleased: true
   - Version: 6.1.3
     ComponentVersions:
       HttpApi: 10.0.0
@@ -178,7 +182,6 @@ Components:
       - Fixed the decision to use hardlinks vs symlinks on Linux depending on the minimum security level used to create a deployment instead of the watchdog settings.
       Author: Cyberboss
       PullRequest: 1774
-    Unreleased: true
   - Version: 6.1.2
     ComponentVersions:
       HttpApi: 10.0.0
