@@ -349,7 +349,7 @@ namespace Tgstation.Server.Host.Swarm
 		}
 
 		/// <inheritdoc />
-		public ICollection<SwarmServerResponse>? GetSwarmServers()
+		public List<SwarmServerResponse>? GetSwarmServers()
 		{
 			if (!SwarmMode)
 				return null;

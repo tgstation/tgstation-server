@@ -47,7 +47,7 @@ namespace Tgstation.Server.Host.Security
 		{
 			this.identity = identity ?? throw new ArgumentNullException(nameof(identity));
 			if (identity.IsAnonymous)
-				throw new InvalidOperationException($"Cannot use anonymous {nameof(WindowsIdentity)} as a {nameof(WindowsSystemIdentity)}!");
+				throw new ArgumentException($"Cannot use anonymous {nameof(WindowsIdentity)} as a {nameof(WindowsSystemIdentity)}!", nameof(identity));
 
 			canCreateSymlinks = new WindowsPrincipal(identity).IsInRole(WindowsBuiltInRole.Administrator);
 		}
@@ -86,7 +86,7 @@ namespace Tgstation.Server.Host.Security
 			}
 
 			// can't clone a UP, shouldn't be trying to anyway, cloning is for impersonation
-			throw new InvalidOperationException("Cannot clone a UserPrincipal based WindowsSystemIdentity!");
+			throw new NotSupportedException("Cannot clone a UserPrincipal based WindowsSystemIdentity!");
 		}
 
 		/// <inheritdoc />
@@ -95,7 +95,7 @@ namespace Tgstation.Server.Host.Security
 			{
 				ArgumentNullException.ThrowIfNull(action);
 				if (identity == null)
-					throw new InvalidOperationException("Impersonate using a UserPrincipal based WindowsSystemIdentity!");
+					throw new NotSupportedException("Impersonate using a UserPrincipal based WindowsSystemIdentity!");
 				WindowsIdentity.RunImpersonated(identity.AccessToken, action);
 			},
 			cancellationToken,
