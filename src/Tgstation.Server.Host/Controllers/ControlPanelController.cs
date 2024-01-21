@@ -31,6 +31,11 @@ namespace Tgstation.Server.Host.Controllers
 		public const string ControlPanelRoute = "/app";
 
 		/// <summary>
+		/// The route to the control panel channel .json.
+		/// </summary>
+		public const string ChannelJsonRoute = "channel.json";
+
+		/// <summary>
 		/// Header for forcing channel.json to be fetched.
 		/// </summary>
 		const string FetchChannelVaryHeader = "X-Webpanel-Fetch-Channel";
@@ -70,7 +75,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// Returns the <see cref="ControlPanelConfiguration.Channel"/>.
 		/// </summary>
 		/// <returns>A <see cref="JsonResult"/> with the <see cref="ControlPanelConfiguration.Channel"/>.</returns>
-		[Route("channel.json")]
+		[Route(ChannelJsonRoute)]
 		[HttpGet]
 		public IActionResult GetChannelJson()
 		{
