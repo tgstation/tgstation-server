@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.1.3</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.1.4</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -427,105 +427,109 @@ Additional Inherited Members</h2></td></tr>
 <div class="line"><span class="lineno">  503</span> </div>
 <div class="line"><span class="lineno">  504</span>            <span class="keywordflow">if</span> (generalConfiguration.HostApiDocumentation)</div>
 <div class="line"><span class="lineno">  505</span>            {</div>
-<div class="line"><span class="lineno">  506</span>                applicationBuilder.UseSwagger(options =&gt;</div>
-<div class="line"><span class="lineno">  507</span>                {</div>
-<div class="line"><span class="lineno">  508</span>                    options.RouteTemplate = Routes.ApiRoot + <span class="stringliteral">&quot;doc/{documentName}.{json|yaml}&quot;</span>;</div>
-<div class="line"><span class="lineno">  509</span>                });</div>
-<div class="line"><span class="lineno">  510</span>                applicationBuilder.UseSwaggerUI(options =&gt;</div>
+<div class="line"><span class="lineno">  506</span>                var siteDocPath = Routes.ApiRoot + $<span class="stringliteral">&quot;doc/{SwaggerConfiguration.DocumentName}.json&quot;</span>;</div>
+<div class="line"><span class="lineno">  507</span>                <span class="keywordflow">if</span> (!String.IsNullOrWhiteSpace(controlPanelConfiguration.PublicPath))</div>
+<div class="line"><span class="lineno">  508</span>                    siteDocPath = controlPanelConfiguration.PublicPath.TrimEnd(<span class="charliteral">&#39;/&#39;</span>) + siteDocPath;</div>
+<div class="line"><span class="lineno">  509</span> </div>
+<div class="line"><span class="lineno">  510</span>                applicationBuilder.UseSwagger(options =&gt;</div>
 <div class="line"><span class="lineno">  511</span>                {</div>
-<div class="line"><span class="lineno">  512</span>                    options.RoutePrefix = <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_swagger_configuration.html">SwaggerConfiguration</a>.<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_swagger_configuration.html#a491cd42b9d11a659b718c70ebebb9014">DocumentationSiteRouteExtension</a>;</div>
-<div class="line"><span class="lineno">  513</span>                    options.SwaggerEndpoint(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_routes.html">Routes</a>.<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_api_1_1_routes.html#a8c6219903a85b89432912919b1762e49">ApiRoot</a> + $<span class="stringliteral">&quot;doc/{SwaggerConfiguration.DocumentName}.json&quot;</span>, <span class="stringliteral">&quot;TGS API&quot;</span>);</div>
-<div class="line"><span class="lineno">  514</span>                });</div>
-<div class="line"><span class="lineno">  515</span>                logger.LogTrace(<span class="stringliteral">&quot;Swagger API generation enabled&quot;</span>);</div>
-<div class="line"><span class="lineno">  516</span>            }</div>
-<div class="line"><span class="lineno">  517</span> </div>
-<div class="line"><span class="lineno">  518</span>            <span class="comment">// spa loading if necessary</span></div>
-<div class="line"><span class="lineno">  519</span>            <span class="keywordflow">if</span> (controlPanelConfiguration.Enable)</div>
-<div class="line"><span class="lineno">  520</span>            {</div>
-<div class="line"><span class="lineno">  521</span>                logger.LogInformation(<span class="stringliteral">&quot;Web control panel enabled.&quot;</span>);</div>
-<div class="line"><span class="lineno">  522</span>                applicationBuilder.UseFileServer(<span class="keyword">new</span> FileServerOptions</div>
-<div class="line"><span class="lineno">  523</span>                {</div>
-<div class="line"><span class="lineno">  524</span>                    RequestPath = <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_control_panel_controller.html">ControlPanelController</a>.<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_control_panel_controller.html#a31405e686cba6874931106edd1d3a661">ControlPanelRoute</a>,</div>
-<div class="line"><span class="lineno">  525</span>                    EnableDefaultFiles = <span class="keyword">true</span>,</div>
-<div class="line"><span class="lineno">  526</span>                    EnableDirectoryBrowsing = <span class="keyword">false</span>,</div>
-<div class="line"><span class="lineno">  527</span>                });</div>
-<div class="line"><span class="lineno">  528</span>            }</div>
-<div class="line"><span class="lineno">  529</span>            <span class="keywordflow">else</span></div>
-<div class="line"><span class="lineno">  530</span><span class="preprocessor">#if NO_WEBPANEL</span></div>
-<div class="line"><span class="lineno">  531</span>                logger.LogDebug(<span class="stringliteral">&quot;Web control panel was not included in TGS build!&quot;</span>);</div>
-<div class="line"><span class="lineno">  532</span><span class="preprocessor">#else</span></div>
-<div class="line"><span class="lineno">  533</span>                logger.LogTrace(<span class="stringliteral">&quot;Web control panel disabled!&quot;</span>);</div>
-<div class="line"><span class="lineno">  534</span><span class="preprocessor">#endif</span></div>
-<div class="line"><span class="lineno">  535</span> </div>
-<div class="line"><span class="lineno">  536</span>            <span class="comment">// Enable endpoint routing</span></div>
-<div class="line"><span class="lineno">  537</span>            applicationBuilder.UseRouting();</div>
-<div class="line"><span class="lineno">  538</span> </div>
-<div class="line"><span class="lineno">  539</span>            <span class="comment">// Set up CORS based on configuration if necessary</span></div>
-<div class="line"><span class="lineno">  540</span>            Action&lt;CorsPolicyBuilder&gt;? corsBuilder = <span class="keyword">null</span>;</div>
-<div class="line"><span class="lineno">  541</span>            <span class="keywordflow">if</span> (controlPanelConfiguration.AllowAnyOrigin)</div>
-<div class="line"><span class="lineno">  542</span>            {</div>
-<div class="line"><span class="lineno">  543</span>                logger.LogTrace(<span class="stringliteral">&quot;Access-Control-Allow-Origin: *&quot;</span>);</div>
-<div class="line"><span class="lineno">  544</span>                corsBuilder = builder =&gt; builder.SetIsOriginAllowed(_ =&gt; <span class="keyword">true</span>);</div>
-<div class="line"><span class="lineno">  545</span>            }</div>
-<div class="line"><span class="lineno">  546</span>            <span class="keywordflow">else</span> <span class="keywordflow">if</span> (controlPanelConfiguration.AllowedOrigins?.Count &gt; 0)</div>
+<div class="line"><span class="lineno">  512</span>                    options.RouteTemplate = Routes.ApiRoot + <span class="stringliteral">&quot;doc/{documentName}.{json|yaml}&quot;</span>;</div>
+<div class="line"><span class="lineno">  513</span>                });</div>
+<div class="line"><span class="lineno">  514</span>                applicationBuilder.UseSwaggerUI(options =&gt;</div>
+<div class="line"><span class="lineno">  515</span>                {</div>
+<div class="line"><span class="lineno">  516</span>                    options.RoutePrefix = <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_swagger_configuration.html">SwaggerConfiguration</a>.<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_swagger_configuration.html#a491cd42b9d11a659b718c70ebebb9014">DocumentationSiteRouteExtension</a>;</div>
+<div class="line"><span class="lineno">  517</span>                    options.SwaggerEndpoint(siteDocPath, <span class="stringliteral">&quot;TGS API&quot;</span>);</div>
+<div class="line"><span class="lineno">  518</span>                });</div>
+<div class="line"><span class="lineno">  519</span>                logger.LogTrace(<span class="stringliteral">&quot;Swagger API generation enabled&quot;</span>);</div>
+<div class="line"><span class="lineno">  520</span>            }</div>
+<div class="line"><span class="lineno">  521</span> </div>
+<div class="line"><span class="lineno">  522</span>            <span class="comment">// spa loading if necessary</span></div>
+<div class="line"><span class="lineno">  523</span>            <span class="keywordflow">if</span> (controlPanelConfiguration.Enable)</div>
+<div class="line"><span class="lineno">  524</span>            {</div>
+<div class="line"><span class="lineno">  525</span>                logger.LogInformation(<span class="stringliteral">&quot;Web control panel enabled.&quot;</span>);</div>
+<div class="line"><span class="lineno">  526</span>                applicationBuilder.UseFileServer(<span class="keyword">new</span> FileServerOptions</div>
+<div class="line"><span class="lineno">  527</span>                {</div>
+<div class="line"><span class="lineno">  528</span>                    RequestPath = <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_control_panel_controller.html">ControlPanelController</a>.<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_control_panel_controller.html#a31405e686cba6874931106edd1d3a661">ControlPanelRoute</a>,</div>
+<div class="line"><span class="lineno">  529</span>                    EnableDefaultFiles = <span class="keyword">true</span>,</div>
+<div class="line"><span class="lineno">  530</span>                    EnableDirectoryBrowsing = <span class="keyword">false</span>,</div>
+<div class="line"><span class="lineno">  531</span>                    RedirectToAppendTrailingSlash = <span class="keyword">false</span>,</div>
+<div class="line"><span class="lineno">  532</span>                });</div>
+<div class="line"><span class="lineno">  533</span>            }</div>
+<div class="line"><span class="lineno">  534</span>            <span class="keywordflow">else</span></div>
+<div class="line"><span class="lineno">  535</span><span class="preprocessor">#if NO_WEBPANEL</span></div>
+<div class="line"><span class="lineno">  536</span>                logger.LogDebug(<span class="stringliteral">&quot;Web control panel was not included in TGS build!&quot;</span>);</div>
+<div class="line"><span class="lineno">  537</span><span class="preprocessor">#else</span></div>
+<div class="line"><span class="lineno">  538</span>                logger.LogTrace(<span class="stringliteral">&quot;Web control panel disabled!&quot;</span>);</div>
+<div class="line"><span class="lineno">  539</span><span class="preprocessor">#endif</span></div>
+<div class="line"><span class="lineno">  540</span> </div>
+<div class="line"><span class="lineno">  541</span>            <span class="comment">// Enable endpoint routing</span></div>
+<div class="line"><span class="lineno">  542</span>            applicationBuilder.UseRouting();</div>
+<div class="line"><span class="lineno">  543</span> </div>
+<div class="line"><span class="lineno">  544</span>            <span class="comment">// Set up CORS based on configuration if necessary</span></div>
+<div class="line"><span class="lineno">  545</span>            Action&lt;CorsPolicyBuilder&gt;? corsBuilder = <span class="keyword">null</span>;</div>
+<div class="line"><span class="lineno">  546</span>            <span class="keywordflow">if</span> (controlPanelConfiguration.AllowAnyOrigin)</div>
 <div class="line"><span class="lineno">  547</span>            {</div>
-<div class="line"><span class="lineno">  548</span>                logger.LogTrace(<span class="stringliteral">&quot;Access-Control-Allow-Origin: {allowedOrigins}&quot;</span>, String.Join(<span class="charliteral">&#39;,&#39;</span>, controlPanelConfiguration.AllowedOrigins));</div>
-<div class="line"><span class="lineno">  549</span>                corsBuilder = builder =&gt; builder.WithOrigins([.. controlPanelConfiguration.AllowedOrigins]);</div>
+<div class="line"><span class="lineno">  548</span>                logger.LogTrace(<span class="stringliteral">&quot;Access-Control-Allow-Origin: *&quot;</span>);</div>
+<div class="line"><span class="lineno">  549</span>                corsBuilder = builder =&gt; builder.SetIsOriginAllowed(_ =&gt; <span class="keyword">true</span>);</div>
 <div class="line"><span class="lineno">  550</span>            }</div>
-<div class="line"><span class="lineno">  551</span> </div>
-<div class="line"><span class="lineno">  552</span>            var originalBuilder = corsBuilder;</div>
-<div class="line"><span class="lineno">  553</span>            corsBuilder = builder =&gt;</div>
-<div class="line"><span class="lineno">  554</span>            {</div>
-<div class="line"><span class="lineno">  555</span>                builder</div>
-<div class="line"><span class="lineno">  556</span>                    .AllowAnyHeader()</div>
-<div class="line"><span class="lineno">  557</span>                    .AllowAnyMethod()</div>
-<div class="line"><span class="lineno">  558</span>                    .AllowCredentials()</div>
-<div class="line"><span class="lineno">  559</span>                    .SetPreflightMaxAge(TimeSpan.FromDays(1));</div>
-<div class="line"><span class="lineno">  560</span>                originalBuilder?.Invoke(builder);</div>
-<div class="line"><span class="lineno">  561</span>            };</div>
-<div class="line"><span class="lineno">  562</span>            applicationBuilder.UseCors(corsBuilder);</div>
-<div class="line"><span class="lineno">  563</span> </div>
-<div class="line"><span class="lineno">  564</span>            <span class="comment">// validate the API version</span></div>
-<div class="line"><span class="lineno">  565</span>            applicationBuilder.UseApiCompatibility();</div>
-<div class="line"><span class="lineno">  566</span> </div>
-<div class="line"><span class="lineno">  567</span>            <span class="comment">// authenticate JWT tokens using our security pipeline if present, returns 401 if bad</span></div>
-<div class="line"><span class="lineno">  568</span>            applicationBuilder.UseAuthentication();</div>
-<div class="line"><span class="lineno">  569</span> </div>
-<div class="line"><span class="lineno">  570</span>            <span class="comment">// enable authorization on endpoints</span></div>
-<div class="line"><span class="lineno">  571</span>            applicationBuilder.UseAuthorization();</div>
-<div class="line"><span class="lineno">  572</span> </div>
-<div class="line"><span class="lineno">  573</span>            <span class="comment">// suppress and log database exceptions</span></div>
-<div class="line"><span class="lineno">  574</span>            applicationBuilder.UseDbConflictHandling();</div>
-<div class="line"><span class="lineno">  575</span> </div>
-<div class="line"><span class="lineno">  576</span>            <span class="comment">// setup endpoints</span></div>
-<div class="line"><span class="lineno">  577</span>            applicationBuilder.UseEndpoints(endpoints =&gt;</div>
-<div class="line"><span class="lineno">  578</span>            {</div>
-<div class="line"><span class="lineno">  579</span>                <span class="comment">// access to the signalR jobs hub</span></div>
-<div class="line"><span class="lineno">  580</span>                endpoints.MapHub&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_jobs_hub.html">JobsHub</a>&gt;(</div>
-<div class="line"><span class="lineno">  581</span>                    <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_routes.html">Routes</a>.<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_api_1_1_routes.html#a8f0fbf59b12bc939238a64bc4df9000d">JobsHub</a>,</div>
-<div class="line"><span class="lineno">  582</span>                    options =&gt;</div>
-<div class="line"><span class="lineno">  583</span>                    {</div>
-<div class="line"><span class="lineno">  584</span>                        options.Transports = HttpTransportType.ServerSentEvents;</div>
-<div class="line"><span class="lineno">  585</span>                        options.CloseOnAuthenticationExpiration = <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  586</span>                    })</div>
-<div class="line"><span class="lineno">  587</span>                    .RequireAuthorization()</div>
-<div class="line"><span class="lineno">  588</span>                    .RequireCors(corsBuilder);</div>
-<div class="line"><span class="lineno">  589</span> </div>
-<div class="line"><span class="lineno">  590</span>                <span class="comment">// majority of handling is done in the controllers</span></div>
-<div class="line"><span class="lineno">  591</span>                endpoints.MapControllers();</div>
-<div class="line"><span class="lineno">  592</span>            });</div>
-<div class="line"><span class="lineno">  593</span> </div>
-<div class="line"><span class="lineno">  594</span>            <span class="comment">// 404 anything that gets this far</span></div>
-<div class="line"><span class="lineno">  595</span>            <span class="comment">// End of request pipeline setup</span></div>
-<div class="line"><span class="lineno">  596</span>            logger.LogTrace(<span class="stringliteral">&quot;Configuration version: {configVersion}&quot;</span>, <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html">GeneralConfiguration</a>.<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#a11cacc87b093badf8b45cc9fd858df54">CurrentConfigVersion</a>);</div>
-<div class="line"><span class="lineno">  597</span>            logger.LogTrace(<span class="stringliteral">&quot;DMAPI Interop version: {interopVersion}&quot;</span>, <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_d_m_api_constants.html">DMApiConstants</a>.<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_d_m_api_constants.html#ac2e027490bca3307936efe1092da2cc9">InteropVersion</a>);</div>
-<div class="line"><span class="lineno">  598</span>            <span class="keywordflow">if</span> (controlPanelConfiguration.Enable)</div>
-<div class="line"><span class="lineno">  599</span>                logger.LogTrace(<span class="stringliteral">&quot;Webpanel version: {webCPVersion}&quot;</span>, <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_properties_1_1_master_versions_attribute.html">MasterVersionsAttribute</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_properties_1_1_master_versions_attribute.html#af17f819f7eb525f7274264ec212a5105">Instance</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_properties_1_1_master_versions_attribute.html#a6c7f632f14b13b6701842c69eb01c4e5">RawWebpanelVersion</a>);</div>
-<div class="line"><span class="lineno">  600</span> </div>
-<div class="line"><span class="lineno">  601</span>            logger.LogDebug(<span class="stringliteral">&quot;Starting hosting on port {httpApiPort}...&quot;</span>, serverPortProvider.HttpApiPort);</div>
-<div class="line"><span class="lineno">  602</span>        }</div>
+<div class="line"><span class="lineno">  551</span>            <span class="keywordflow">else</span> <span class="keywordflow">if</span> (controlPanelConfiguration.AllowedOrigins?.Count &gt; 0)</div>
+<div class="line"><span class="lineno">  552</span>            {</div>
+<div class="line"><span class="lineno">  553</span>                logger.LogTrace(<span class="stringliteral">&quot;Access-Control-Allow-Origin: {allowedOrigins}&quot;</span>, String.Join(<span class="charliteral">&#39;,&#39;</span>, controlPanelConfiguration.AllowedOrigins));</div>
+<div class="line"><span class="lineno">  554</span>                corsBuilder = builder =&gt; builder.WithOrigins([.. controlPanelConfiguration.AllowedOrigins]);</div>
+<div class="line"><span class="lineno">  555</span>            }</div>
+<div class="line"><span class="lineno">  556</span> </div>
+<div class="line"><span class="lineno">  557</span>            var originalBuilder = corsBuilder;</div>
+<div class="line"><span class="lineno">  558</span>            corsBuilder = builder =&gt;</div>
+<div class="line"><span class="lineno">  559</span>            {</div>
+<div class="line"><span class="lineno">  560</span>                builder</div>
+<div class="line"><span class="lineno">  561</span>                    .AllowAnyHeader()</div>
+<div class="line"><span class="lineno">  562</span>                    .AllowAnyMethod()</div>
+<div class="line"><span class="lineno">  563</span>                    .AllowCredentials()</div>
+<div class="line"><span class="lineno">  564</span>                    .SetPreflightMaxAge(TimeSpan.FromDays(1));</div>
+<div class="line"><span class="lineno">  565</span>                originalBuilder?.Invoke(builder);</div>
+<div class="line"><span class="lineno">  566</span>            };</div>
+<div class="line"><span class="lineno">  567</span>            applicationBuilder.UseCors(corsBuilder);</div>
+<div class="line"><span class="lineno">  568</span> </div>
+<div class="line"><span class="lineno">  569</span>            <span class="comment">// validate the API version</span></div>
+<div class="line"><span class="lineno">  570</span>            applicationBuilder.UseApiCompatibility();</div>
+<div class="line"><span class="lineno">  571</span> </div>
+<div class="line"><span class="lineno">  572</span>            <span class="comment">// authenticate JWT tokens using our security pipeline if present, returns 401 if bad</span></div>
+<div class="line"><span class="lineno">  573</span>            applicationBuilder.UseAuthentication();</div>
+<div class="line"><span class="lineno">  574</span> </div>
+<div class="line"><span class="lineno">  575</span>            <span class="comment">// enable authorization on endpoints</span></div>
+<div class="line"><span class="lineno">  576</span>            applicationBuilder.UseAuthorization();</div>
+<div class="line"><span class="lineno">  577</span> </div>
+<div class="line"><span class="lineno">  578</span>            <span class="comment">// suppress and log database exceptions</span></div>
+<div class="line"><span class="lineno">  579</span>            applicationBuilder.UseDbConflictHandling();</div>
+<div class="line"><span class="lineno">  580</span> </div>
+<div class="line"><span class="lineno">  581</span>            <span class="comment">// setup endpoints</span></div>
+<div class="line"><span class="lineno">  582</span>            applicationBuilder.UseEndpoints(endpoints =&gt;</div>
+<div class="line"><span class="lineno">  583</span>            {</div>
+<div class="line"><span class="lineno">  584</span>                <span class="comment">// access to the signalR jobs hub</span></div>
+<div class="line"><span class="lineno">  585</span>                endpoints.MapHub&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_jobs_hub.html">JobsHub</a>&gt;(</div>
+<div class="line"><span class="lineno">  586</span>                    <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_routes.html">Routes</a>.<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_api_1_1_routes.html#a8f0fbf59b12bc939238a64bc4df9000d">JobsHub</a>,</div>
+<div class="line"><span class="lineno">  587</span>                    options =&gt;</div>
+<div class="line"><span class="lineno">  588</span>                    {</div>
+<div class="line"><span class="lineno">  589</span>                        options.Transports = HttpTransportType.ServerSentEvents;</div>
+<div class="line"><span class="lineno">  590</span>                        options.CloseOnAuthenticationExpiration = <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  591</span>                    })</div>
+<div class="line"><span class="lineno">  592</span>                    .RequireAuthorization()</div>
+<div class="line"><span class="lineno">  593</span>                    .RequireCors(corsBuilder);</div>
+<div class="line"><span class="lineno">  594</span> </div>
+<div class="line"><span class="lineno">  595</span>                <span class="comment">// majority of handling is done in the controllers</span></div>
+<div class="line"><span class="lineno">  596</span>                endpoints.MapControllers();</div>
+<div class="line"><span class="lineno">  597</span>            });</div>
+<div class="line"><span class="lineno">  598</span> </div>
+<div class="line"><span class="lineno">  599</span>            <span class="comment">// 404 anything that gets this far</span></div>
+<div class="line"><span class="lineno">  600</span>            <span class="comment">// End of request pipeline setup</span></div>
+<div class="line"><span class="lineno">  601</span>            logger.LogTrace(<span class="stringliteral">&quot;Configuration version: {configVersion}&quot;</span>, <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html">GeneralConfiguration</a>.<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#a11cacc87b093badf8b45cc9fd858df54">CurrentConfigVersion</a>);</div>
+<div class="line"><span class="lineno">  602</span>            logger.LogTrace(<span class="stringliteral">&quot;DMAPI Interop version: {interopVersion}&quot;</span>, <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_d_m_api_constants.html">DMApiConstants</a>.<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_d_m_api_constants.html#ac2e027490bca3307936efe1092da2cc9">InteropVersion</a>);</div>
+<div class="line"><span class="lineno">  603</span>            <span class="keywordflow">if</span> (controlPanelConfiguration.Enable)</div>
+<div class="line"><span class="lineno">  604</span>                logger.LogTrace(<span class="stringliteral">&quot;Webpanel version: {webCPVersion}&quot;</span>, <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_properties_1_1_master_versions_attribute.html">MasterVersionsAttribute</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_properties_1_1_master_versions_attribute.html#af17f819f7eb525f7274264ec212a5105">Instance</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_properties_1_1_master_versions_attribute.html#a6c7f632f14b13b6701842c69eb01c4e5">RawWebpanelVersion</a>);</div>
+<div class="line"><span class="lineno">  605</span> </div>
+<div class="line"><span class="lineno">  606</span>            logger.LogDebug(<span class="stringliteral">&quot;Starting hosting on port {httpApiPort}...&quot;</span>, serverPortProvider.HttpApiPort);</div>
+<div class="line"><span class="lineno">  607</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_routes_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_routes.html">Tgstation.Server.Api.Routes</a></div><div class="ttdoc">Routes to a server actions.</div><div class="ttdef"><b>Definition:</b> <a href="_routes_8cs_source.html#l00008">Routes.cs:9</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_routes_html_a8c6219903a85b89432912919b1762e49"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_routes.html#a8c6219903a85b89432912919b1762e49">Tgstation.Server.Api.Routes.ApiRoot</a></div><div class="ttdeci">const string ApiRoot</div><div class="ttdoc">The root of API methods.</div><div class="ttdef"><b>Definition:</b> <a href="_routes_8cs_source.html#l00013">Routes.cs:13</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_routes_html_a8f0fbf59b12bc939238a64bc4df9000d"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_routes.html#a8f0fbf59b12bc939238a64bc4df9000d">Tgstation.Server.Api.Routes.JobsHub</a></div><div class="ttdeci">const string JobsHub</div><div class="ttdoc">The root route of all hubs.</div><div class="ttdef"><b>Definition:</b> <a href="_routes_8cs_source.html#l00113">Routes.cs:113</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_d_m_api_constants_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_d_m_api_constants.html">Tgstation.Server.Host.Components.Interop.DMApiConstants</a></div><div class="ttdoc">Constants used for communication with the DMAPI.</div><div class="ttdef"><b>Definition:</b> <a href="_d_m_api_constants_8cs_source.html#l00014">DMApiConstants.cs:15</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_d_m_api_constants_html_ac2e027490bca3307936efe1092da2cc9"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_d_m_api_constants.html#ac2e027490bca3307936efe1092da2cc9">Tgstation.Server.Host.Components.Interop.DMApiConstants.InteropVersion</a></div><div class="ttdeci">static readonly Version InteropVersion</div><div class="ttdoc">The DMAPI InteropVersion being used.</div><div class="ttdef"><b>Definition:</b> <a href="_d_m_api_constants_8cs_source.html#l00055">DMApiConstants.cs:55</a></div></div>
@@ -543,7 +547,7 @@ Additional Inherited Members</h2></td></tr>
 <div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_manager_html"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_manager.html">Tgstation.Server.Host.Components.IInstanceManager</a></div><div class="ttdoc">For managing IInstances.</div><div class="ttdef"><b>Definition:</b> <a href="_i_instance_manager_8cs_source.html#l00010">IInstanceManager.cs:11</a></div></div>
 <div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_manager_html_a4ad311358f74779a6c1f2fcba4a30578"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_manager.html#a4ad311358f74779a6c1f2fcba4a30578">Tgstation.Server.Host.Components.IInstanceManager.Ready</a></div><div class="ttdeci">Task Ready</div><div class="ttdoc">Task that completes when the IInstanceManager finishes initializing.</div><div class="ttdef"><b>Definition:</b> <a href="_i_instance_manager_8cs_source.html#l00015">IInstanceManager.cs:15</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_routes_8cs_source.html#l00013">Tgstation.Server.Api.Routes.ApiRoot</a>, <a class="el" href="_control_panel_controller_8cs_source.html#l00031">Tgstation.Server.Host.Controllers.ControlPanelController.ControlPanelRoute</a>, <a class="el" href="_general_configuration_8cs_source.html#l00079">Tgstation.Server.Host.Configuration.GeneralConfiguration.CurrentConfigVersion</a>, <a class="el" href="_swagger_configuration_8cs_source.html#l00038">Tgstation.Server.Host.Utils.SwaggerConfiguration.DocumentationSiteRouteExtension</a>, <a class="el" href="_application_8cs_source.html#l00076">Tgstation.Server.Host.Core.Application.hostingEnvironment</a>, <a class="el" href="_i_server_port_provider_8cs_source.html#l00011">Tgstation.Server.Host.Core.IServerPortProvider.HttpApiPort</a>, <a class="el" href="_master_versions_attribute_8cs_source.html#l00015">Tgstation.Server.Host.Properties.MasterVersionsAttribute.Instance</a>, <a class="el" href="_d_m_api_constants_8cs_source.html#l00055">Tgstation.Server.Host.Components.Interop.DMApiConstants.InteropVersion</a>, <a class="el" href="_routes_8cs_source.html#l00113">Tgstation.Server.Api.Routes.JobsHub</a>, <a class="el" href="_master_versions_attribute_8cs_source.html#l00032">Tgstation.Server.Host.Properties.MasterVersionsAttribute.RawWebpanelVersion</a>, <a class="el" href="_i_instance_manager_8cs_source.html#l00015">Tgstation.Server.Host.Components.IInstanceManager.Ready</a>, and <a class="el" href="_application_8cs_source.html#l00081">Tgstation.Server.Host.Core.Application.tokenFactory</a>.</p>
+<p class="reference">References <a class="el" href="_control_panel_controller_8cs_source.html#l00031">Tgstation.Server.Host.Controllers.ControlPanelController.ControlPanelRoute</a>, <a class="el" href="_general_configuration_8cs_source.html#l00079">Tgstation.Server.Host.Configuration.GeneralConfiguration.CurrentConfigVersion</a>, <a class="el" href="_swagger_configuration_8cs_source.html#l00038">Tgstation.Server.Host.Utils.SwaggerConfiguration.DocumentationSiteRouteExtension</a>, <a class="el" href="_application_8cs_source.html#l00076">Tgstation.Server.Host.Core.Application.hostingEnvironment</a>, <a class="el" href="_i_server_port_provider_8cs_source.html#l00011">Tgstation.Server.Host.Core.IServerPortProvider.HttpApiPort</a>, <a class="el" href="_master_versions_attribute_8cs_source.html#l00015">Tgstation.Server.Host.Properties.MasterVersionsAttribute.Instance</a>, <a class="el" href="_d_m_api_constants_8cs_source.html#l00055">Tgstation.Server.Host.Components.Interop.DMApiConstants.InteropVersion</a>, <a class="el" href="_routes_8cs_source.html#l00113">Tgstation.Server.Api.Routes.JobsHub</a>, <a class="el" href="_master_versions_attribute_8cs_source.html#l00032">Tgstation.Server.Host.Properties.MasterVersionsAttribute.RawWebpanelVersion</a>, <a class="el" href="_i_instance_manager_8cs_source.html#l00015">Tgstation.Server.Host.Components.IInstanceManager.Ready</a>, and <a class="el" href="_application_8cs_source.html#l00081">Tgstation.Server.Host.Core.Application.tokenFactory</a>.</p>
 
 </div>
 </div>
@@ -579,55 +583,55 @@ Additional Inherited Members</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_application_8cs_source.html#l00612">612</a> of file <a class="el" href="_application_8cs_source.html">Application.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  613</span>        {</div>
-<div class="line"><span class="lineno">  614</span>            services.AddHttpContextAccessor();</div>
-<div class="line"><span class="lineno">  615</span>            services.AddScoped&lt;<a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_api_headers_provider.html">IApiHeadersProvider</a>, <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_api_headers_provider.html">ApiHeadersProvider</a>&gt;();</div>
-<div class="line"><span class="lineno">  616</span>            services.AddScoped&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context_factory.html">AuthenticationContextFactory</a>&gt;();</div>
-<div class="line"><span class="lineno">  617</span>            services.AddScoped&lt;<a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authentication_context_factory.html">IAuthenticationContextFactory</a>&gt;(provider =&gt; provider.GetRequiredService&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context_factory.html">AuthenticationContextFactory</a>&gt;());</div>
-<div class="line"><span class="lineno">  618</span> </div>
-<div class="line"><span class="lineno">  619</span>            <span class="comment">// what if you</span></div>
-<div class="line"><span class="lineno">  620</span>            <span class="comment">// wanted to just do this:</span></div>
-<div class="line"><span class="lineno">  621</span>            <span class="comment">// return provider.GetRequiredService&lt;AuthenticationContextFactory&gt;().CurrentAuthenticationContext</span></div>
-<div class="line"><span class="lineno">  622</span>            <span class="comment">// But M$ said</span></div>
-<div class="line"><span class="lineno">  623</span>            <span class="comment">// https://stackoverflow.com/questions/56792917/scoped-services-in-asp-net-core-with-signalr-hubs</span></div>
-<div class="line"><span class="lineno">  624</span>            services.AddScoped(provider =&gt; (provider</div>
-<div class="line"><span class="lineno">  625</span>                .GetRequiredService&lt;IHttpContextAccessor&gt;()</div>
-<div class="line"><span class="lineno">  626</span>                .HttpContext ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> InvalidOperationException($<span class="stringliteral">&quot;Unable to resolve {nameof(IAuthenticationContext)} due to no HttpContext being available!&quot;</span>))</div>
-<div class="line"><span class="lineno">  627</span>                .RequestServices</div>
-<div class="line"><span class="lineno">  628</span>                .GetRequiredService&lt;AuthenticationContextFactory&gt;()</div>
-<div class="line"><span class="lineno">  629</span>                .CurrentAuthenticationContext);</div>
-<div class="line"><span class="lineno">  630</span>            services.AddScoped&lt;<a class="code hl_class" href="class_i_claims_transformation.html">IClaimsTransformation</a>, <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context_claims_transformation.html">AuthenticationContextClaimsTransformation</a>&gt;();</div>
-<div class="line"><span class="lineno">  631</span> </div>
-<div class="line"><span class="lineno">  632</span>            services</div>
-<div class="line"><span class="lineno">  633</span>                .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)</div>
-<div class="line"><span class="lineno">  634</span>                .AddJwtBearer(jwtBearerOptions =&gt;</div>
-<div class="line"><span class="lineno">  635</span>                {</div>
-<div class="line"><span class="lineno">  636</span>                    <span class="comment">// this line isn&#39;t actually run until the first request is made</span></div>
-<div class="line"><span class="lineno">  637</span>                    <span class="comment">// at that point tokenFactory will be populated</span></div>
-<div class="line"><span class="lineno">  638</span>                    jwtBearerOptions.TokenValidationParameters = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_application.html#a99f8743ed7f409fd904fdc236bb4010c">tokenFactory</a>?.<a class="code hl_property" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_token_factory.html#a46e66985719064cffa8b569830a3712f">ValidationParameters</a> ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> InvalidOperationException(<span class="stringliteral">&quot;tokenFactory not initialized!&quot;</span>);</div>
-<div class="line"><span class="lineno">  639</span>                    jwtBearerOptions.MapInboundClaims = <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">  640</span>                    jwtBearerOptions.Events = <span class="keyword">new</span> JwtBearerEvents</div>
-<div class="line"><span class="lineno">  641</span>                    {</div>
-<div class="line"><span class="lineno">  642</span>                        OnMessageReceived = context =&gt;</div>
-<div class="line"><span class="lineno">  643</span>                        {</div>
-<div class="line"><span class="lineno">  644</span>                            <span class="keywordflow">if</span> (String.IsNullOrWhiteSpace(context.Token))</div>
-<div class="line"><span class="lineno">  645</span>                            {</div>
-<div class="line"><span class="lineno">  646</span>                                var accessToken = context.Request.Query[<span class="stringliteral">&quot;access_token&quot;</span>];</div>
-<div class="line"><span class="lineno">  647</span>                                var path = context.HttpContext.Request.Path;</div>
-<div class="line"><span class="lineno">  648</span> </div>
-<div class="line"><span class="lineno">  649</span>                                <span class="keywordflow">if</span> (!String.IsNullOrWhiteSpace(accessToken) &amp;&amp;</div>
-<div class="line"><span class="lineno">  650</span>                                    path.StartsWithSegments(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_routes.html">Routes</a>.<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_api_1_1_routes.html#a592881a5c0b75edd77acb148c13b52b9">HubsRoot</a>, StringComparison.OrdinalIgnoreCase))</div>
-<div class="line"><span class="lineno">  651</span>                                {</div>
-<div class="line"><span class="lineno">  652</span>                                    context.Token = accessToken;</div>
-<div class="line"><span class="lineno">  653</span>                                }</div>
-<div class="line"><span class="lineno">  654</span>                            }</div>
-<div class="line"><span class="lineno">  655</span> </div>
-<div class="line"><span class="lineno">  656</span>                            <span class="keywordflow">return</span> Task.CompletedTask;</div>
-<div class="line"><span class="lineno">  657</span>                        },</div>
-<div class="line"><span class="lineno">  658</span>                    };</div>
-<div class="line"><span class="lineno">  659</span>                });</div>
-<div class="line"><span class="lineno">  660</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_application_8cs_source.html#l00617">617</a> of file <a class="el" href="_application_8cs_source.html">Application.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  618</span>        {</div>
+<div class="line"><span class="lineno">  619</span>            services.AddHttpContextAccessor();</div>
+<div class="line"><span class="lineno">  620</span>            services.AddScoped&lt;<a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_api_headers_provider.html">IApiHeadersProvider</a>, <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_api_headers_provider.html">ApiHeadersProvider</a>&gt;();</div>
+<div class="line"><span class="lineno">  621</span>            services.AddScoped&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context_factory.html">AuthenticationContextFactory</a>&gt;();</div>
+<div class="line"><span class="lineno">  622</span>            services.AddScoped&lt;<a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authentication_context_factory.html">IAuthenticationContextFactory</a>&gt;(provider =&gt; provider.GetRequiredService&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context_factory.html">AuthenticationContextFactory</a>&gt;());</div>
+<div class="line"><span class="lineno">  623</span> </div>
+<div class="line"><span class="lineno">  624</span>            <span class="comment">// what if you</span></div>
+<div class="line"><span class="lineno">  625</span>            <span class="comment">// wanted to just do this:</span></div>
+<div class="line"><span class="lineno">  626</span>            <span class="comment">// return provider.GetRequiredService&lt;AuthenticationContextFactory&gt;().CurrentAuthenticationContext</span></div>
+<div class="line"><span class="lineno">  627</span>            <span class="comment">// But M$ said</span></div>
+<div class="line"><span class="lineno">  628</span>            <span class="comment">// https://stackoverflow.com/questions/56792917/scoped-services-in-asp-net-core-with-signalr-hubs</span></div>
+<div class="line"><span class="lineno">  629</span>            services.AddScoped(provider =&gt; (provider</div>
+<div class="line"><span class="lineno">  630</span>                .GetRequiredService&lt;IHttpContextAccessor&gt;()</div>
+<div class="line"><span class="lineno">  631</span>                .HttpContext ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> InvalidOperationException($<span class="stringliteral">&quot;Unable to resolve {nameof(IAuthenticationContext)} due to no HttpContext being available!&quot;</span>))</div>
+<div class="line"><span class="lineno">  632</span>                .RequestServices</div>
+<div class="line"><span class="lineno">  633</span>                .GetRequiredService&lt;AuthenticationContextFactory&gt;()</div>
+<div class="line"><span class="lineno">  634</span>                .CurrentAuthenticationContext);</div>
+<div class="line"><span class="lineno">  635</span>            services.AddScoped&lt;<a class="code hl_class" href="class_i_claims_transformation.html">IClaimsTransformation</a>, <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context_claims_transformation.html">AuthenticationContextClaimsTransformation</a>&gt;();</div>
+<div class="line"><span class="lineno">  636</span> </div>
+<div class="line"><span class="lineno">  637</span>            services</div>
+<div class="line"><span class="lineno">  638</span>                .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)</div>
+<div class="line"><span class="lineno">  639</span>                .AddJwtBearer(jwtBearerOptions =&gt;</div>
+<div class="line"><span class="lineno">  640</span>                {</div>
+<div class="line"><span class="lineno">  641</span>                    <span class="comment">// this line isn&#39;t actually run until the first request is made</span></div>
+<div class="line"><span class="lineno">  642</span>                    <span class="comment">// at that point tokenFactory will be populated</span></div>
+<div class="line"><span class="lineno">  643</span>                    jwtBearerOptions.TokenValidationParameters = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_application.html#a99f8743ed7f409fd904fdc236bb4010c">tokenFactory</a>?.<a class="code hl_property" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_token_factory.html#a46e66985719064cffa8b569830a3712f">ValidationParameters</a> ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> InvalidOperationException(<span class="stringliteral">&quot;tokenFactory not initialized!&quot;</span>);</div>
+<div class="line"><span class="lineno">  644</span>                    jwtBearerOptions.MapInboundClaims = <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  645</span>                    jwtBearerOptions.Events = <span class="keyword">new</span> JwtBearerEvents</div>
+<div class="line"><span class="lineno">  646</span>                    {</div>
+<div class="line"><span class="lineno">  647</span>                        OnMessageReceived = context =&gt;</div>
+<div class="line"><span class="lineno">  648</span>                        {</div>
+<div class="line"><span class="lineno">  649</span>                            <span class="keywordflow">if</span> (String.IsNullOrWhiteSpace(context.Token))</div>
+<div class="line"><span class="lineno">  650</span>                            {</div>
+<div class="line"><span class="lineno">  651</span>                                var accessToken = context.Request.Query[<span class="stringliteral">&quot;access_token&quot;</span>];</div>
+<div class="line"><span class="lineno">  652</span>                                var path = context.HttpContext.Request.Path;</div>
+<div class="line"><span class="lineno">  653</span> </div>
+<div class="line"><span class="lineno">  654</span>                                <span class="keywordflow">if</span> (!String.IsNullOrWhiteSpace(accessToken) &amp;&amp;</div>
+<div class="line"><span class="lineno">  655</span>                                    path.StartsWithSegments(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_routes.html">Routes</a>.<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_api_1_1_routes.html#a592881a5c0b75edd77acb148c13b52b9">HubsRoot</a>, StringComparison.OrdinalIgnoreCase))</div>
+<div class="line"><span class="lineno">  656</span>                                {</div>
+<div class="line"><span class="lineno">  657</span>                                    context.Token = accessToken;</div>
+<div class="line"><span class="lineno">  658</span>                                }</div>
+<div class="line"><span class="lineno">  659</span>                            }</div>
+<div class="line"><span class="lineno">  660</span> </div>
+<div class="line"><span class="lineno">  661</span>                            <span class="keywordflow">return</span> Task.CompletedTask;</div>
+<div class="line"><span class="lineno">  662</span>                        },</div>
+<div class="line"><span class="lineno">  663</span>                    };</div>
+<div class="line"><span class="lineno">  664</span>                });</div>
+<div class="line"><span class="lineno">  665</span>        }</div>
 <div class="ttc" id="aclass_i_claims_transformation_html"><div class="ttname"><a href="class_i_claims_transformation.html">IClaimsTransformation</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_routes_html_a592881a5c0b75edd77acb148c13b52b9"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_routes.html#a592881a5c0b75edd77acb148c13b52b9">Tgstation.Server.Api.Routes.HubsRoot</a></div><div class="ttdeci">const string HubsRoot</div><div class="ttdoc">The root route of all hubs.</div><div class="ttdef"><b>Definition:</b> <a href="_routes_8cs_source.html#l00018">Routes.cs:18</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context_claims_transformation_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context_claims_transformation.html">Tgstation.Server.Host.Security.AuthenticationContextClaimsTransformation</a></div><div class="ttdoc">A IClaimsTransformation that maps Claims using an IAuthenticationContext.</div><div class="ttdef"><b>Definition:</b> <a href="_authentication_context_claims_transformation_8cs_source.html#l00021">AuthenticationContextClaimsTransformation.cs:22</a></div></div>
@@ -1078,7 +1082,7 @@ Here is the caller graph for this function:</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_updates_configuration_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_updates_configuration.html">Tgstation.Server.Host.Configuration.UpdatesConfiguration</a></div><div class="ttdoc">Configuration for the automatic update system.</div><div class="ttdef"><b>Definition:</b> <a href="_updates_configuration_8cs_source.html#l00008">UpdatesConfiguration.cs:9</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_results_1_1_limited_stream_result_executor_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_results_1_1_limited_stream_result_executor.html">Tgstation.Server.Host.Controllers.Results.LimitedStreamResultExecutor</a></div><div class="ttdoc">IActionResultExecutor&lt;TResult&gt; for LimitedStreamResults.</div><div class="ttdef"><b>Definition:</b> <a href="_limited_stream_result_executor_8cs_source.html#l00015">LimitedStreamResultExecutor.cs:16</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_core_1_1_application_html_a3ec60bfa2b57cd85cae110578270a60f"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_application.html#a3ec60bfa2b57cd85cae110578270a60f">Tgstation.Server.Host.Core.Application.ConfigureServices</a></div><div class="ttdeci">void ConfigureServices(IServiceCollection services, IAssemblyInformationProvider assemblyInformationProvider, IIOManager ioManager, IPostSetupServices postSetupServices)</div><div class="ttdoc">Configure the Application's services .</div><div class="ttdef"><b>Definition:</b> <a href="_application_8cs_source.html#l00131">Application.cs:131</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_core_1_1_application_html_a7518c1b2ec58feaa1dffc13c9caf48af"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_application.html#a7518c1b2ec58feaa1dffc13c9caf48af">Tgstation.Server.Host.Core.Application.ConfigureAuthenticationPipeline</a></div><div class="ttdeci">void ConfigureAuthenticationPipeline(IServiceCollection services)</div><div class="ttdoc">Configure the services  for the authentication pipeline.</div><div class="ttdef"><b>Definition:</b> <a href="_application_8cs_source.html#l00612">Application.cs:612</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_core_1_1_application_html_a7518c1b2ec58feaa1dffc13c9caf48af"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_application.html#a7518c1b2ec58feaa1dffc13c9caf48af">Tgstation.Server.Host.Core.Application.ConfigureAuthenticationPipeline</a></div><div class="ttdeci">void ConfigureAuthenticationPipeline(IServiceCollection services)</div><div class="ttdoc">Configure the services  for the authentication pipeline.</div><div class="ttdef"><b>Definition:</b> <a href="_application_8cs_source.html#l00617">Application.cs:617</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context_factory_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context_factory.html">Tgstation.Server.Host.Database.DatabaseContextFactory</a></div><div class="ttdef"><b>Definition:</b> <a href="_database_context_factory_8cs_source.html#l00009">DatabaseContextFactory.cs:10</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html">Tgstation.Server.Host.Database.DatabaseContext</a></div><div class="ttdoc">Backend abstract implementation of IDatabaseContext.</div><div class="ttdef"><b>Definition:</b> <a href="_database_context_8cs_source.html#l00024">DatabaseContext.cs:25</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_seeder_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_seeder.html">Tgstation.Server.Host.Database.DatabaseSeeder</a></div><div class="ttdef"><b>Definition:</b> <a href="_database_seeder_8cs_source.html#l00022">DatabaseSeeder.cs:23</a></div></div>
@@ -1163,7 +1167,7 @@ Here is the caller graph for this function:</div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_api_1_1_models_html_ad8fb60934662752c4bbed899440208ea"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#ad8fb60934662752c4bbed899440208ea">Tgstation.Server.Api.Models.EngineType</a></div><div class="ttdeci">EngineType</div><div class="ttdoc">The type of engine the codebase is using.</div><div class="ttdef"><b>Definition:</b> <a href="_engine_type_8cs_source.html#l00006">EngineType.cs:7</a></div></div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_host_1_1_configuration_html_acda8f6ee23a9ee8ac298f7b4a7d5617c"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_host_1_1_configuration.html#acda8f6ee23a9ee8ac298f7b4a7d5617c">Tgstation.Server.Host.Configuration.DatabaseType</a></div><div class="ttdeci">DatabaseType</div><div class="ttdoc">Type of database to user.</div><div class="ttdef"><b>Definition:</b> <a href="_database_type_8cs_source.html#l00006">DatabaseType.cs:7</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a286f4eb5c679683b7e519847a6c3574e">Tgstation.Server.Host.IO.IIOManager.ConcatPath()</a>, <a class="el" href="_setup_application_8cs_source.html#l00025">Tgstation.Server.Host.Setup.SetupApplication.Configuration</a>, <a class="el" href="_swagger_configuration_8cs_source.html#l00061">Tgstation.Server.Host.Utils.SwaggerConfiguration.Configure()</a>, <a class="el" href="_application_8cs_source.html#l00612">Tgstation.Server.Host.Core.Application.ConfigureAuthenticationPipeline()</a>, <a class="el" href="_application_8cs_source.html#l00131">Tgstation.Server.Host.Core.Application.ConfigureServices()</a>, <a class="el" href="_i_post_setup_services_8cs_source.html#l00019">Tgstation.Server.Host.Setup.IPostSetupServices&lt; TLoggerType &gt;.DatabaseConfiguration</a>, <a class="el" href="_database_configuration_8cs_source.html#l00020">Tgstation.Server.Host.Configuration.DatabaseConfiguration.DatabaseType</a>, <a class="el" href="_file_logging_configuration_8cs_source.html#l00030">Tgstation.Server.Host.Configuration.FileLoggingConfiguration.Disable</a>, <a class="el" href="_i_post_setup_services_8cs_source.html#l00034">Tgstation.Server.Host.Setup.IPostSetupServices&lt; TLoggerType &gt;.ElasticsearchConfiguration</a>, <a class="el" href="_i_post_setup_services_8cs_source.html#l00029">Tgstation.Server.Host.Setup.IPostSetupServices&lt; TLoggerType &gt;.FileLoggingConfiguration</a>, <a class="el" href="_i_post_setup_services_8cs_source.html#l00014">Tgstation.Server.Host.Setup.IPostSetupServices&lt; TLoggerType &gt;.GeneralConfiguration</a>, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a691970cc91e5576b06ed9ce14e51d9b8">Tgstation.Server.Host.IO.IIOManager.GetDirectoryName()</a>, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ab6635afaf199a1396a743f3b46eac786">Tgstation.Server.Host.IO.IIOManager.GetFileNameWithoutExtension()</a>, <a class="el" href="_file_logging_configuration_8cs_source.html#l00051">Tgstation.Server.Host.Configuration.FileLoggingConfiguration.GetFullLogDirectory()</a>, <a class="el" href="_general_configuration_8cs_source.html#l00125">Tgstation.Server.Host.Configuration.GeneralConfiguration.HostApiDocumentation</a>, <a class="el" href="_application_8cs_source.html#l00076">Tgstation.Server.Host.Core.Application.hostingEnvironment</a>, <a class="el" href="_i_post_setup_services_8cs_source.html#l00039">Tgstation.Server.Host.Setup.IPostSetupServices&lt; TLoggerType &gt;.InternalConfiguration</a>, <a class="el" href="_i_platform_identifier_8cs_source.html#l00014">Tgstation.Server.Host.System.IPlatformIdentifier.IsWindows</a>, <a class="el" href="_file_logging_configuration_8cs_source.html#l00036">Tgstation.Server.Host.Configuration.FileLoggingConfiguration.LogLevel</a>, <a class="el" href="_file_logging_configuration_8cs_source.html#l00042">Tgstation.Server.Host.Configuration.FileLoggingConfiguration.MicrosoftLogLevel</a>, <a class="el" href="_i_post_setup_services_8cs_source.html#l00044">Tgstation.Server.Host.Setup.IPostSetupServices&lt; TLoggerType &gt;.PlatformIdentifier</a>, <a class="el" href="_general_configuration_8cs_source.html#l00110">Tgstation.Server.Host.Configuration.GeneralConfiguration.RestartTimeoutMinutes</a>, <a class="el" href="_serilog_context_helper_8cs_source.html#l00062">Tgstation.Server.Host.Utils.SerilogContextHelper.Template</a>, <a class="el" href="_internal_configuration_8cs_source.html#l00026">Tgstation.Server.Host.Configuration.InternalConfiguration.UsingSystemD</a>, and <a class="el" href="_i_assembly_information_provider_8cs_source.html#l00025">Tgstation.Server.Host.System.IAssemblyInformationProvider.VersionPrefix</a>.</p>
+<p class="reference">References <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a286f4eb5c679683b7e519847a6c3574e">Tgstation.Server.Host.IO.IIOManager.ConcatPath()</a>, <a class="el" href="_setup_application_8cs_source.html#l00025">Tgstation.Server.Host.Setup.SetupApplication.Configuration</a>, <a class="el" href="_swagger_configuration_8cs_source.html#l00061">Tgstation.Server.Host.Utils.SwaggerConfiguration.Configure()</a>, <a class="el" href="_application_8cs_source.html#l00617">Tgstation.Server.Host.Core.Application.ConfigureAuthenticationPipeline()</a>, <a class="el" href="_application_8cs_source.html#l00131">Tgstation.Server.Host.Core.Application.ConfigureServices()</a>, <a class="el" href="_i_post_setup_services_8cs_source.html#l00019">Tgstation.Server.Host.Setup.IPostSetupServices&lt; TLoggerType &gt;.DatabaseConfiguration</a>, <a class="el" href="_database_configuration_8cs_source.html#l00020">Tgstation.Server.Host.Configuration.DatabaseConfiguration.DatabaseType</a>, <a class="el" href="_file_logging_configuration_8cs_source.html#l00030">Tgstation.Server.Host.Configuration.FileLoggingConfiguration.Disable</a>, <a class="el" href="_i_post_setup_services_8cs_source.html#l00034">Tgstation.Server.Host.Setup.IPostSetupServices&lt; TLoggerType &gt;.ElasticsearchConfiguration</a>, <a class="el" href="_i_post_setup_services_8cs_source.html#l00029">Tgstation.Server.Host.Setup.IPostSetupServices&lt; TLoggerType &gt;.FileLoggingConfiguration</a>, <a class="el" href="_i_post_setup_services_8cs_source.html#l00014">Tgstation.Server.Host.Setup.IPostSetupServices&lt; TLoggerType &gt;.GeneralConfiguration</a>, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a691970cc91e5576b06ed9ce14e51d9b8">Tgstation.Server.Host.IO.IIOManager.GetDirectoryName()</a>, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ab6635afaf199a1396a743f3b46eac786">Tgstation.Server.Host.IO.IIOManager.GetFileNameWithoutExtension()</a>, <a class="el" href="_file_logging_configuration_8cs_source.html#l00051">Tgstation.Server.Host.Configuration.FileLoggingConfiguration.GetFullLogDirectory()</a>, <a class="el" href="_general_configuration_8cs_source.html#l00125">Tgstation.Server.Host.Configuration.GeneralConfiguration.HostApiDocumentation</a>, <a class="el" href="_application_8cs_source.html#l00076">Tgstation.Server.Host.Core.Application.hostingEnvironment</a>, <a class="el" href="_i_post_setup_services_8cs_source.html#l00039">Tgstation.Server.Host.Setup.IPostSetupServices&lt; TLoggerType &gt;.InternalConfiguration</a>, <a class="el" href="_i_platform_identifier_8cs_source.html#l00014">Tgstation.Server.Host.System.IPlatformIdentifier.IsWindows</a>, <a class="el" href="_file_logging_configuration_8cs_source.html#l00036">Tgstation.Server.Host.Configuration.FileLoggingConfiguration.LogLevel</a>, <a class="el" href="_file_logging_configuration_8cs_source.html#l00042">Tgstation.Server.Host.Configuration.FileLoggingConfiguration.MicrosoftLogLevel</a>, <a class="el" href="_i_post_setup_services_8cs_source.html#l00044">Tgstation.Server.Host.Setup.IPostSetupServices&lt; TLoggerType &gt;.PlatformIdentifier</a>, <a class="el" href="_general_configuration_8cs_source.html#l00110">Tgstation.Server.Host.Configuration.GeneralConfiguration.RestartTimeoutMinutes</a>, <a class="el" href="_serilog_context_helper_8cs_source.html#l00062">Tgstation.Server.Host.Utils.SerilogContextHelper.Template</a>, <a class="el" href="_internal_configuration_8cs_source.html#l00026">Tgstation.Server.Host.Configuration.InternalConfiguration.UsingSystemD</a>, and <a class="el" href="_i_assembly_information_provider_8cs_source.html#l00025">Tgstation.Server.Host.System.IAssemblyInformationProvider.VersionPrefix</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="_application_8cs_source.html#l00131">Tgstation.Server.Host.Core.Application.ConfigureServices()</a>.</p>
 <div class="dynheader">
@@ -1296,7 +1300,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_application_8cs_source.html#l00081">81</a> of file <a class="el" href="_application_8cs_source.html">Application.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_application_8cs_source.html#l00456">Tgstation.Server.Host.Core.Application.Configure()</a>, and <a class="el" href="_application_8cs_source.html#l00612">Tgstation.Server.Host.Core.Application.ConfigureAuthenticationPipeline()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_application_8cs_source.html#l00456">Tgstation.Server.Host.Core.Application.Configure()</a>, and <a class="el" href="_application_8cs_source.html#l00617">Tgstation.Server.Host.Core.Application.ConfigureAuthenticationPipeline()</a>.</p>
 
 </div>
 </div>

@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.1.3</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.1.4</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -76,6 +76,7 @@ $(function() {
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pri-static-methods">Static Private Member Functions</a> &#124;
 <a href="#pri-attribs">Private Attributes</a> &#124;
 <a href="#pri-static-attribs">Static Private Attributes</a> &#124;
 <a href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_root_controller-members.html">List of all members</a>  </div>
@@ -126,6 +127,15 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aecd08be3d35b49b9b4154b842eae34b3"><td class="memItemLeft" align="right" valign="top">IActionResult&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_root_controller.html#aecd08be3d35b49b9b4154b842eae34b3">GetLogo</a> ()</td></tr>
 <tr class="memdesc:aecd08be3d35b49b9b4154b842eae34b3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieve the logo .svg for the webpanel.   <a href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_root_controller.html#aecd08be3d35b49b9b4154b842eae34b3">More...</a><br /></td></tr>
 <tr class="separator:aecd08be3d35b49b9b4154b842eae34b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1a8f7276eb95a8b86a450c829e5bd69a"><td class="memItemLeft" align="right" valign="top">RedirectToActionResult&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_root_controller.html#a1a8f7276eb95a8b86a450c829e5bd69a">WebpanelChannelRedirect</a> ()</td></tr>
+<tr class="memdesc:a1a8f7276eb95a8b86a450c829e5bd69a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Workaround for the webpanel always expecting a trailing slash.   <a href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_root_controller.html#a1a8f7276eb95a8b86a450c829e5bd69a">More...</a><br /></td></tr>
+<tr class="separator:a1a8f7276eb95a8b86a450c829e5bd69a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-static-methods" name="pri-static-methods"></a>
+Static Private Member Functions</h2></td></tr>
+<tr class="memitem:acbe1ee13bd45be7f716cc13e8f0f7fd9"><td class="memItemLeft" align="right" valign="top">static Tuple&lt; string, string?&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_root_controller.html#acbe1ee13bd45be7f716cc13e8f0f7fd9">GetControlPanelActionLink</a> (Expression&lt; Func&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_control_panel_controller.html">ControlPanelController</a>, IActionResult &gt; &gt; actionExpression)</td></tr>
+<tr class="memdesc:acbe1ee13bd45be7f716cc13e8f0f7fd9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets a Tuple&lt;T1, T2&gt; giving the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_control_panel_controller.html" title="Controller for the web control panel.">ControlPanelController</a> and action names for a given <em>actionExpression</em> .   <a href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_root_controller.html#acbe1ee13bd45be7f716cc13e8f0f7fd9">More...</a><br /></td></tr>
+<tr class="separator:acbe1ee13bd45be7f716cc13e8f0f7fd9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
@@ -160,7 +170,7 @@ Static Private Attributes</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p >The root path <a class="el" href="class_controller.html">Controller</a>.  </p>
 
-<p class="definition">Definition at line <a class="el" href="_root_controller_8cs_source.html#l00022">22</a> of file <a class="el" href="_root_controller_8cs_source.html">RootController.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_root_controller_8cs_source.html#l00023">23</a> of file <a class="el" href="_root_controller_8cs_source.html">RootController.cs</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a5519ea7af77026cd054b3b72e90a6741" name="a5519ea7af77026cd054b3b72e90a6741"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a5519ea7af77026cd054b3b72e90a6741">&#9670;&#160;</a></span>RootController()</h2>
@@ -225,27 +235,90 @@ Static Private Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_root_controller_8cs_source.html#l00073">73</a> of file <a class="el" href="_root_controller_8cs_source.html">RootController.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   80</span>        {</div>
-<div class="line"><span class="lineno">   81</span>            this.assemblyInformationProvider = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_root_controller.html#a3e77b6cfba61fc94b047328ea4214220">assemblyInformationProvider</a> ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_root_controller.html#a3e77b6cfba61fc94b047328ea4214220">assemblyInformationProvider</a>));</div>
-<div class="line"><span class="lineno">   82</span>            this.platformIdentifier = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_root_controller.html#a097fc102efbf9fb997ca46721595ad67">platformIdentifier</a> ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_root_controller.html#a097fc102efbf9fb997ca46721595ad67">platformIdentifier</a>));</div>
-<div class="line"><span class="lineno">   83</span>            this.hostEnvironment = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_root_controller.html#aca0db0554f654776e107e163f7bd9cbe">hostEnvironment</a> ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_root_controller.html#aca0db0554f654776e107e163f7bd9cbe">hostEnvironment</a>));</div>
-<div class="line"><span class="lineno">   84</span>            this.logger = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_root_controller.html#a10cbdff9320a4a829a5d9db73fba4a44">logger</a> ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_root_controller.html#a10cbdff9320a4a829a5d9db73fba4a44">logger</a>));</div>
-<div class="line"><span class="lineno">   85</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_root_controller.html#a15fd433115efc58c573b8a88b5ab853a">generalConfiguration</a> = generalConfigurationOptions?.Value ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(generalConfigurationOptions));</div>
-<div class="line"><span class="lineno">   86</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_root_controller.html#afba02773bc0c5e48b263dbcabb925de6">controlPanelConfiguration</a> = controlPanelConfigurationOptions?.Value ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(controlPanelConfigurationOptions));</div>
-<div class="line"><span class="lineno">   87</span>        }</div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_root_controller_html_a097fc102efbf9fb997ca46721595ad67"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_root_controller.html#a097fc102efbf9fb997ca46721595ad67">Tgstation.Server.Host.Controllers.RootController.platformIdentifier</a></div><div class="ttdeci">readonly IPlatformIdentifier platformIdentifier</div><div class="ttdoc">The IPlatformIdentifier for the RootController.</div><div class="ttdef"><b>Definition:</b> <a href="_root_controller_8cs_source.html#l00042">RootController.cs:42</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_root_controller_html_a10cbdff9320a4a829a5d9db73fba4a44"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_root_controller.html#a10cbdff9320a4a829a5d9db73fba4a44">Tgstation.Server.Host.Controllers.RootController.logger</a></div><div class="ttdeci">readonly ILogger&lt; RootController &gt; logger</div><div class="ttdoc">The ILogger for the RootController.</div><div class="ttdef"><b>Definition:</b> <a href="_root_controller_8cs_source.html#l00052">RootController.cs:52</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_root_controller_html_a15fd433115efc58c573b8a88b5ab853a"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_root_controller.html#a15fd433115efc58c573b8a88b5ab853a">Tgstation.Server.Host.Controllers.RootController.generalConfiguration</a></div><div class="ttdeci">readonly GeneralConfiguration generalConfiguration</div><div class="ttdoc">The GeneralConfiguration for the RootController.</div><div class="ttdef"><b>Definition:</b> <a href="_root_controller_8cs_source.html#l00057">RootController.cs:57</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_root_controller_html_a3e77b6cfba61fc94b047328ea4214220"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_root_controller.html#a3e77b6cfba61fc94b047328ea4214220">Tgstation.Server.Host.Controllers.RootController.assemblyInformationProvider</a></div><div class="ttdeci">readonly IAssemblyInformationProvider assemblyInformationProvider</div><div class="ttdoc">The IAssemblyInformationProvider for the RootController.</div><div class="ttdef"><b>Definition:</b> <a href="_root_controller_8cs_source.html#l00037">RootController.cs:37</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_root_controller_html_aca0db0554f654776e107e163f7bd9cbe"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_root_controller.html#aca0db0554f654776e107e163f7bd9cbe">Tgstation.Server.Host.Controllers.RootController.hostEnvironment</a></div><div class="ttdeci">readonly IWebHostEnvironment hostEnvironment</div><div class="ttdoc">THe IWebHostEnvironment for the RootController.</div><div class="ttdef"><b>Definition:</b> <a href="_root_controller_8cs_source.html#l00047">RootController.cs:47</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_root_controller_html_afba02773bc0c5e48b263dbcabb925de6"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_root_controller.html#afba02773bc0c5e48b263dbcabb925de6">Tgstation.Server.Host.Controllers.RootController.controlPanelConfiguration</a></div><div class="ttdeci">readonly ControlPanelConfiguration controlPanelConfiguration</div><div class="ttdoc">The ControlPanelConfiguration for the RootController.</div><div class="ttdef"><b>Definition:</b> <a href="_root_controller_8cs_source.html#l00062">RootController.cs:62</a></div></div>
+<p class="definition">Definition at line <a class="el" href="_root_controller_8cs_source.html#l00095">95</a> of file <a class="el" href="_root_controller_8cs_source.html">RootController.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  102</span>        {</div>
+<div class="line"><span class="lineno">  103</span>            this.assemblyInformationProvider = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_root_controller.html#a3e77b6cfba61fc94b047328ea4214220">assemblyInformationProvider</a> ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_root_controller.html#a3e77b6cfba61fc94b047328ea4214220">assemblyInformationProvider</a>));</div>
+<div class="line"><span class="lineno">  104</span>            this.platformIdentifier = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_root_controller.html#a097fc102efbf9fb997ca46721595ad67">platformIdentifier</a> ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_root_controller.html#a097fc102efbf9fb997ca46721595ad67">platformIdentifier</a>));</div>
+<div class="line"><span class="lineno">  105</span>            this.hostEnvironment = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_root_controller.html#aca0db0554f654776e107e163f7bd9cbe">hostEnvironment</a> ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_root_controller.html#aca0db0554f654776e107e163f7bd9cbe">hostEnvironment</a>));</div>
+<div class="line"><span class="lineno">  106</span>            this.logger = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_root_controller.html#a10cbdff9320a4a829a5d9db73fba4a44">logger</a> ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_root_controller.html#a10cbdff9320a4a829a5d9db73fba4a44">logger</a>));</div>
+<div class="line"><span class="lineno">  107</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_root_controller.html#a15fd433115efc58c573b8a88b5ab853a">generalConfiguration</a> = generalConfigurationOptions?.Value ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(generalConfigurationOptions));</div>
+<div class="line"><span class="lineno">  108</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_root_controller.html#afba02773bc0c5e48b263dbcabb925de6">controlPanelConfiguration</a> = controlPanelConfigurationOptions?.Value ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(controlPanelConfigurationOptions));</div>
+<div class="line"><span class="lineno">  109</span>        }</div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_root_controller_html_a097fc102efbf9fb997ca46721595ad67"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_root_controller.html#a097fc102efbf9fb997ca46721595ad67">Tgstation.Server.Host.Controllers.RootController.platformIdentifier</a></div><div class="ttdeci">readonly IPlatformIdentifier platformIdentifier</div><div class="ttdoc">The IPlatformIdentifier for the RootController.</div><div class="ttdef"><b>Definition:</b> <a href="_root_controller_8cs_source.html#l00043">RootController.cs:43</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_root_controller_html_a10cbdff9320a4a829a5d9db73fba4a44"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_root_controller.html#a10cbdff9320a4a829a5d9db73fba4a44">Tgstation.Server.Host.Controllers.RootController.logger</a></div><div class="ttdeci">readonly ILogger&lt; RootController &gt; logger</div><div class="ttdoc">The ILogger for the RootController.</div><div class="ttdef"><b>Definition:</b> <a href="_root_controller_8cs_source.html#l00053">RootController.cs:53</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_root_controller_html_a15fd433115efc58c573b8a88b5ab853a"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_root_controller.html#a15fd433115efc58c573b8a88b5ab853a">Tgstation.Server.Host.Controllers.RootController.generalConfiguration</a></div><div class="ttdeci">readonly GeneralConfiguration generalConfiguration</div><div class="ttdoc">The GeneralConfiguration for the RootController.</div><div class="ttdef"><b>Definition:</b> <a href="_root_controller_8cs_source.html#l00058">RootController.cs:58</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_root_controller_html_a3e77b6cfba61fc94b047328ea4214220"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_root_controller.html#a3e77b6cfba61fc94b047328ea4214220">Tgstation.Server.Host.Controllers.RootController.assemblyInformationProvider</a></div><div class="ttdeci">readonly IAssemblyInformationProvider assemblyInformationProvider</div><div class="ttdoc">The IAssemblyInformationProvider for the RootController.</div><div class="ttdef"><b>Definition:</b> <a href="_root_controller_8cs_source.html#l00038">RootController.cs:38</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_root_controller_html_aca0db0554f654776e107e163f7bd9cbe"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_root_controller.html#aca0db0554f654776e107e163f7bd9cbe">Tgstation.Server.Host.Controllers.RootController.hostEnvironment</a></div><div class="ttdeci">readonly IWebHostEnvironment hostEnvironment</div><div class="ttdoc">THe IWebHostEnvironment for the RootController.</div><div class="ttdef"><b>Definition:</b> <a href="_root_controller_8cs_source.html#l00048">RootController.cs:48</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_root_controller_html_afba02773bc0c5e48b263dbcabb925de6"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_root_controller.html#afba02773bc0c5e48b263dbcabb925de6">Tgstation.Server.Host.Controllers.RootController.controlPanelConfiguration</a></div><div class="ttdeci">readonly ControlPanelConfiguration controlPanelConfiguration</div><div class="ttdoc">The ControlPanelConfiguration for the RootController.</div><div class="ttdef"><b>Definition:</b> <a href="_root_controller_8cs_source.html#l00063">RootController.cs:63</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_root_controller_8cs_source.html#l00037">Tgstation.Server.Host.Controllers.RootController.assemblyInformationProvider</a>, <a class="el" href="_root_controller_8cs_source.html#l00062">Tgstation.Server.Host.Controllers.RootController.controlPanelConfiguration</a>, <a class="el" href="_root_controller_8cs_source.html#l00057">Tgstation.Server.Host.Controllers.RootController.generalConfiguration</a>, <a class="el" href="_root_controller_8cs_source.html#l00047">Tgstation.Server.Host.Controllers.RootController.hostEnvironment</a>, <a class="el" href="_root_controller_8cs_source.html#l00052">Tgstation.Server.Host.Controllers.RootController.logger</a>, and <a class="el" href="_root_controller_8cs_source.html#l00042">Tgstation.Server.Host.Controllers.RootController.platformIdentifier</a>.</p>
+<p class="reference">References <a class="el" href="_root_controller_8cs_source.html#l00038">Tgstation.Server.Host.Controllers.RootController.assemblyInformationProvider</a>, <a class="el" href="_root_controller_8cs_source.html#l00063">Tgstation.Server.Host.Controllers.RootController.controlPanelConfiguration</a>, <a class="el" href="_root_controller_8cs_source.html#l00058">Tgstation.Server.Host.Controllers.RootController.generalConfiguration</a>, <a class="el" href="_root_controller_8cs_source.html#l00048">Tgstation.Server.Host.Controllers.RootController.hostEnvironment</a>, <a class="el" href="_root_controller_8cs_source.html#l00053">Tgstation.Server.Host.Controllers.RootController.logger</a>, and <a class="el" href="_root_controller_8cs_source.html#l00043">Tgstation.Server.Host.Controllers.RootController.platformIdentifier</a>.</p>
 
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a id="acbe1ee13bd45be7f716cc13e8f0f7fd9" name="acbe1ee13bd45be7f716cc13e8f0f7fd9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acbe1ee13bd45be7f716cc13e8f0f7fd9">&#9670;&#160;</a></span>GetControlPanelActionLink()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static Tuple&lt; string, string?&gt; Tgstation.Server.Host.Controllers.RootController.GetControlPanelActionLink </td>
+          <td>(</td>
+          <td class="paramtype">Expression&lt; Func&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_control_panel_controller.html">ControlPanelController</a>, IActionResult &gt; &gt;&#160;</td>
+          <td class="paramname"><em>actionExpression</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Gets a Tuple&lt;T1, T2&gt; giving the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_control_panel_controller.html" title="Controller for the web control panel.">ControlPanelController</a> and action names for a given <em>actionExpression</em> .  </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">actionExpression</td><td>An expression invoking the action on <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_control_panel_controller.html" title="Controller for the web control panel.">ControlPanelController</a>.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A Tuple&lt;T1, T2&gt; containing the controller and action names.</dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="_root_controller_8cs_source.html#l00070">70</a> of file <a class="el" href="_root_controller_8cs_source.html">RootController.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   71</span>        {</div>
+<div class="line"><span class="lineno">   72</span>            var memberSelectorExpression = (MethodCallExpression)actionExpression.Body;</div>
+<div class="line"><span class="lineno">   73</span>            var method = memberSelectorExpression.Method;</div>
+<div class="line"><span class="lineno">   74</span> </div>
+<div class="line"><span class="lineno">   75</span>            var controllerName = typeof(ControlPanelController).Name;</div>
+<div class="line"><span class="lineno">   76</span> </div>
+<div class="line"><span class="lineno">   77</span>            <span class="keyword">const</span> <span class="keywordtype">string</span> ControllerSuffix = nameof(<a class="code hl_class" href="class_controller.html">Controller</a>);</div>
+<div class="line"><span class="lineno">   78</span>            <span class="keywordflow">if</span> (controllerName.EndsWith(ControllerSuffix, StringComparison.Ordinal))</div>
+<div class="line"><span class="lineno">   79</span>                controllerName = controllerName.Substring(0, controllerName.Length - ControllerSuffix.Length);</div>
+<div class="line"><span class="lineno">   80</span> </div>
+<div class="line"><span class="lineno">   81</span>            var actionName = method.Name;</div>
+<div class="line"><span class="lineno">   82</span> </div>
+<div class="line"><span class="lineno">   83</span>            <span class="keywordflow">return</span> Tuple.Create&lt;string, <span class="keywordtype">string</span>?&gt;(controllerName, actionName);</div>
+<div class="line"><span class="lineno">   84</span>        }</div>
+<div class="ttc" id="aclass_controller_html"><div class="ttname"><a href="class_controller.html">Controller</a></div></div>
+</div><!-- fragment -->
+<p class="reference">Referenced by <a class="el" href="_root_controller_8cs_source.html#l00167">Tgstation.Server.Host.Controllers.RootController.WebpanelChannelRedirect()</a>.</p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_root_controller_acbe1ee13bd45be7f716cc13e8f0f7fd9_icgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_root_controller_acbe1ee13bd45be7f716cc13e8f0f7fd9_icgraph" alt=""/></div>
+<map name="aclass_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_root_controller_acbe1ee13bd45be7f716cc13e8f0f7fd9_icgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_root_controller_acbe1ee13bd45be7f716cc13e8f0f7fd9_icgraph">
+<area shape="rect" title="Gets a Tuple&lt;T1, T2&gt; giving the ControlPanelController and action names for a given actionExpression ..." alt="" coords="312,5,576,45"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_root_controller.html#a1a8f7276eb95a8b86a450c829e5bd69a" title="Workaround for the webpanel always expecting a trailing slash." alt="" coords="5,5,264,45"/>
+</map>
+</div>
+
+</div>
+</div>
 <a id="aecd08be3d35b49b9b4154b842eae34b3" name="aecd08be3d35b49b9b4154b842eae34b3"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aecd08be3d35b49b9b4154b842eae34b3">&#9670;&#160;</a></span>GetLogo()</h2>
 
@@ -264,18 +337,18 @@ Static Private Attributes</h2></td></tr>
 <p>Retrieve the logo .svg for the webpanel.  </p>
 <dl class="section return"><dt>Returns</dt><dd>The appropriate IActionResult.</dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_root_controller_8cs_source.html#l00131">131</a> of file <a class="el" href="_root_controller_8cs_source.html">RootController.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  132</span>        {</div>
-<div class="line"><span class="lineno">  133</span>            var logoFileName = platformIdentifier.IsWindows <span class="comment">// these are different because of motherfucking line endings -_-</span></div>
-<div class="line"><span class="lineno">  134</span>                ? <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_root_controller.html#a02ea5097cc04d4d8987e3771212aaf48">LogoSvgWindowsName</a></div>
-<div class="line"><span class="lineno">  135</span>                : <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_root_controller.html#aa022d3bfaff46fb93cd54325279b4184">LogoSvgLinuxName</a>;</div>
-<div class="line"><span class="lineno">  136</span> </div>
-<div class="line"><span class="lineno">  137</span>            <span class="keywordflow">return</span> (IActionResult?)this.TryServeFile(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_root_controller.html#aca0db0554f654776e107e163f7bd9cbe">hostEnvironment</a>, <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_root_controller.html#a10cbdff9320a4a829a5d9db73fba4a44">logger</a>, $<span class="stringliteral">&quot;{logoFileName}.svg&quot;</span>) ?? NotFound();</div>
-<div class="line"><span class="lineno">  138</span>        }</div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_root_controller_html_a02ea5097cc04d4d8987e3771212aaf48"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_root_controller.html#a02ea5097cc04d4d8987e3771212aaf48">Tgstation.Server.Host.Controllers.RootController.LogoSvgWindowsName</a></div><div class="ttdeci">const string LogoSvgWindowsName</div><div class="ttdoc">The name of the TGS logo .svg in the IWebHostEnvironment.WebRootPath on Windows.</div><div class="ttdef"><b>Definition:</b> <a href="_root_controller_8cs_source.html#l00027">RootController.cs:27</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_root_controller_html_aa022d3bfaff46fb93cd54325279b4184"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_root_controller.html#aa022d3bfaff46fb93cd54325279b4184">Tgstation.Server.Host.Controllers.RootController.LogoSvgLinuxName</a></div><div class="ttdeci">const string LogoSvgLinuxName</div><div class="ttdoc">The name of the TGS logo .svg in the IWebHostEnvironment.WebRootPath on Linux.</div><div class="ttdef"><b>Definition:</b> <a href="_root_controller_8cs_source.html#l00032">RootController.cs:32</a></div></div>
+<p class="definition">Definition at line <a class="el" href="_root_controller_8cs_source.html#l00153">153</a> of file <a class="el" href="_root_controller_8cs_source.html">RootController.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  154</span>        {</div>
+<div class="line"><span class="lineno">  155</span>            var logoFileName = platformIdentifier.IsWindows <span class="comment">// these are different because of motherfucking line endings -_-</span></div>
+<div class="line"><span class="lineno">  156</span>                ? <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_root_controller.html#a02ea5097cc04d4d8987e3771212aaf48">LogoSvgWindowsName</a></div>
+<div class="line"><span class="lineno">  157</span>                : <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_root_controller.html#aa022d3bfaff46fb93cd54325279b4184">LogoSvgLinuxName</a>;</div>
+<div class="line"><span class="lineno">  158</span> </div>
+<div class="line"><span class="lineno">  159</span>            <span class="keywordflow">return</span> (IActionResult?)this.TryServeFile(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_root_controller.html#aca0db0554f654776e107e163f7bd9cbe">hostEnvironment</a>, <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_root_controller.html#a10cbdff9320a4a829a5d9db73fba4a44">logger</a>, $<span class="stringliteral">&quot;{logoFileName}.svg&quot;</span>) ?? NotFound();</div>
+<div class="line"><span class="lineno">  160</span>        }</div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_root_controller_html_a02ea5097cc04d4d8987e3771212aaf48"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_root_controller.html#a02ea5097cc04d4d8987e3771212aaf48">Tgstation.Server.Host.Controllers.RootController.LogoSvgWindowsName</a></div><div class="ttdeci">const string LogoSvgWindowsName</div><div class="ttdoc">The name of the TGS logo .svg in the IWebHostEnvironment.WebRootPath on Windows.</div><div class="ttdef"><b>Definition:</b> <a href="_root_controller_8cs_source.html#l00028">RootController.cs:28</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_root_controller_html_aa022d3bfaff46fb93cd54325279b4184"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_root_controller.html#aa022d3bfaff46fb93cd54325279b4184">Tgstation.Server.Host.Controllers.RootController.LogoSvgLinuxName</a></div><div class="ttdeci">const string LogoSvgLinuxName</div><div class="ttdoc">The name of the TGS logo .svg in the IWebHostEnvironment.WebRootPath on Linux.</div><div class="ttdef"><b>Definition:</b> <a href="_root_controller_8cs_source.html#l00033">RootController.cs:33</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_root_controller_8cs_source.html#l00047">Tgstation.Server.Host.Controllers.RootController.hostEnvironment</a>, <a class="el" href="_root_controller_8cs_source.html#l00052">Tgstation.Server.Host.Controllers.RootController.logger</a>, <a class="el" href="_root_controller_8cs_source.html#l00032">Tgstation.Server.Host.Controllers.RootController.LogoSvgLinuxName</a>, and <a class="el" href="_root_controller_8cs_source.html#l00027">Tgstation.Server.Host.Controllers.RootController.LogoSvgWindowsName</a>.</p>
+<p class="reference">References <a class="el" href="_root_controller_8cs_source.html#l00048">Tgstation.Server.Host.Controllers.RootController.hostEnvironment</a>, <a class="el" href="_root_controller_8cs_source.html#l00053">Tgstation.Server.Host.Controllers.RootController.logger</a>, <a class="el" href="_root_controller_8cs_source.html#l00033">Tgstation.Server.Host.Controllers.RootController.LogoSvgLinuxName</a>, and <a class="el" href="_root_controller_8cs_source.html#l00028">Tgstation.Server.Host.Controllers.RootController.LogoSvgWindowsName</a>.</p>
 
 </div>
 </div>
@@ -297,43 +370,84 @@ Static Private Attributes</h2></td></tr>
 <p>Gets the server's homepage.  </p>
 <dl class="section return"><dt>Returns</dt><dd>The appropriate IActionResult.</dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_root_controller_8cs_source.html#l00095">95</a> of file <a class="el" href="_root_controller_8cs_source.html">RootController.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   96</span>        {</div>
-<div class="line"><span class="lineno">   97</span>            var panelEnabled = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_root_controller.html#afba02773bc0c5e48b263dbcabb925de6">controlPanelConfiguration</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_control_panel_configuration.html#a15564859b17400f1bcc723a5fbee8121">Enable</a>;</div>
-<div class="line"><span class="lineno">   98</span>            var apiDocsEnabled = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_root_controller.html#a15fd433115efc58c573b8a88b5ab853a">generalConfiguration</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#a20afca0f8385264dfca46ad57b28eed6">HostApiDocumentation</a>;</div>
-<div class="line"><span class="lineno">   99</span> </div>
-<div class="line"><span class="lineno">  100</span>            var controlPanelRoute = $<span class="stringliteral">&quot;{ControlPanelController.ControlPanelRoute.TrimStart(&#39;/&#39;)}/&quot;</span>;</div>
-<div class="line"><span class="lineno">  101</span>            <span class="keywordflow">if</span> (panelEnabled ^ apiDocsEnabled)</div>
-<div class="line"><span class="lineno">  102</span>                <span class="keywordflow">if</span> (panelEnabled)</div>
-<div class="line"><span class="lineno">  103</span>                    <span class="keywordflow">return</span> Redirect(controlPanelRoute);</div>
-<div class="line"><span class="lineno">  104</span>                <span class="keywordflow">else</span></div>
-<div class="line"><span class="lineno">  105</span>                    <span class="keywordflow">return</span> Redirect(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_swagger_configuration.html">SwaggerConfiguration</a>.<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_swagger_configuration.html#a491cd42b9d11a659b718c70ebebb9014">DocumentationSiteRouteExtension</a>);</div>
-<div class="line"><span class="lineno">  106</span> </div>
-<div class="line"><span class="lineno">  107</span>            Dictionary&lt;string, string&gt;? links;</div>
-<div class="line"><span class="lineno">  108</span>            <span class="keywordflow">if</span> (panelEnabled)</div>
-<div class="line"><span class="lineno">  109</span>                links = <span class="keyword">new</span> Dictionary&lt;string, string&gt;()</div>
-<div class="line"><span class="lineno">  110</span>                {</div>
-<div class="line"><span class="lineno">  111</span>                    { <span class="stringliteral">&quot;Web Control Panel&quot;</span>, controlPanelRoute },</div>
-<div class="line"><span class="lineno">  112</span>                    { <span class="stringliteral">&quot;API Documentation&quot;</span>, SwaggerConfiguration.DocumentationSiteRouteExtension },</div>
-<div class="line"><span class="lineno">  113</span>                };</div>
-<div class="line"><span class="lineno">  114</span>            <span class="keywordflow">else</span></div>
-<div class="line"><span class="lineno">  115</span>                links = <span class="keyword">null</span>;</div>
-<div class="line"><span class="lineno">  116</span> </div>
-<div class="line"><span class="lineno">  117</span>            var model = <span class="keyword">new</span></div>
-<div class="line"><span class="lineno">  118</span>            {</div>
-<div class="line"><span class="lineno">  119</span>                Links = links,</div>
-<div class="line"><span class="lineno">  120</span>                Title = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_root_controller.html#a3e77b6cfba61fc94b047328ea4214220">assemblyInformationProvider</a>.<a class="code hl_property" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_assembly_information_provider.html#abd6db0f6e1ea9273baeacaa66ae81fa3">VersionString</a>,</div>
-<div class="line"><span class="lineno">  121</span>            };</div>
-<div class="line"><span class="lineno">  122</span> </div>
-<div class="line"><span class="lineno">  123</span>            <span class="keywordflow">return</span> View(model);</div>
-<div class="line"><span class="lineno">  124</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_root_controller_8cs_source.html#l00117">117</a> of file <a class="el" href="_root_controller_8cs_source.html">RootController.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  118</span>        {</div>
+<div class="line"><span class="lineno">  119</span>            var panelEnabled = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_root_controller.html#afba02773bc0c5e48b263dbcabb925de6">controlPanelConfiguration</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_control_panel_configuration.html#a15564859b17400f1bcc723a5fbee8121">Enable</a>;</div>
+<div class="line"><span class="lineno">  120</span>            var apiDocsEnabled = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_root_controller.html#a15fd433115efc58c573b8a88b5ab853a">generalConfiguration</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#a20afca0f8385264dfca46ad57b28eed6">HostApiDocumentation</a>;</div>
+<div class="line"><span class="lineno">  121</span> </div>
+<div class="line"><span class="lineno">  122</span>            var controlPanelRoute = $<span class="stringliteral">&quot;{ControlPanelController.ControlPanelRoute.TrimStart(&#39;/&#39;)}/&quot;</span>;</div>
+<div class="line"><span class="lineno">  123</span>            <span class="keywordflow">if</span> (panelEnabled ^ apiDocsEnabled)</div>
+<div class="line"><span class="lineno">  124</span>                <span class="keywordflow">if</span> (panelEnabled)</div>
+<div class="line"><span class="lineno">  125</span>                    <span class="keywordflow">return</span> Redirect(controlPanelRoute);</div>
+<div class="line"><span class="lineno">  126</span>                <span class="keywordflow">else</span></div>
+<div class="line"><span class="lineno">  127</span>                    <span class="keywordflow">return</span> Redirect(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_swagger_configuration.html">SwaggerConfiguration</a>.<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_swagger_configuration.html#a491cd42b9d11a659b718c70ebebb9014">DocumentationSiteRouteExtension</a>);</div>
+<div class="line"><span class="lineno">  128</span> </div>
+<div class="line"><span class="lineno">  129</span>            Dictionary&lt;string, string&gt;? links;</div>
+<div class="line"><span class="lineno">  130</span>            <span class="keywordflow">if</span> (panelEnabled)</div>
+<div class="line"><span class="lineno">  131</span>                links = <span class="keyword">new</span> Dictionary&lt;string, string&gt;()</div>
+<div class="line"><span class="lineno">  132</span>                {</div>
+<div class="line"><span class="lineno">  133</span>                    { <span class="stringliteral">&quot;Web Control Panel&quot;</span>, controlPanelRoute },</div>
+<div class="line"><span class="lineno">  134</span>                    { <span class="stringliteral">&quot;API Documentation&quot;</span>, SwaggerConfiguration.DocumentationSiteRouteExtension },</div>
+<div class="line"><span class="lineno">  135</span>                };</div>
+<div class="line"><span class="lineno">  136</span>            <span class="keywordflow">else</span></div>
+<div class="line"><span class="lineno">  137</span>                links = <span class="keyword">null</span>;</div>
+<div class="line"><span class="lineno">  138</span> </div>
+<div class="line"><span class="lineno">  139</span>            var model = <span class="keyword">new</span></div>
+<div class="line"><span class="lineno">  140</span>            {</div>
+<div class="line"><span class="lineno">  141</span>                Links = links,</div>
+<div class="line"><span class="lineno">  142</span>                Title = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_root_controller.html#a3e77b6cfba61fc94b047328ea4214220">assemblyInformationProvider</a>.<a class="code hl_property" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_assembly_information_provider.html#abd6db0f6e1ea9273baeacaa66ae81fa3">VersionString</a>,</div>
+<div class="line"><span class="lineno">  143</span>            };</div>
+<div class="line"><span class="lineno">  144</span> </div>
+<div class="line"><span class="lineno">  145</span>            <span class="keywordflow">return</span> View(model);</div>
+<div class="line"><span class="lineno">  146</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_control_panel_configuration_html_a15564859b17400f1bcc723a5fbee8121"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_control_panel_configuration.html#a15564859b17400f1bcc723a5fbee8121">Tgstation.Server.Host.Configuration.ControlPanelConfiguration.Enable</a></div><div class="ttdeci">bool Enable</div><div class="ttdoc">If the control panel is enabled.</div><div class="ttdef"><b>Definition:</b> <a href="_control_panel_configuration_8cs_source.html#l00018">ControlPanelConfiguration.cs:25</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration_html_a20afca0f8385264dfca46ad57b28eed6"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#a20afca0f8385264dfca46ad57b28eed6">Tgstation.Server.Host.Configuration.GeneralConfiguration.HostApiDocumentation</a></div><div class="ttdeci">bool HostApiDocumentation</div><div class="ttdoc">If the swagger documentation and UI should be made avaiable.</div><div class="ttdef"><b>Definition:</b> <a href="_general_configuration_8cs_source.html#l00125">GeneralConfiguration.cs:125</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_utils_1_1_swagger_configuration_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_swagger_configuration.html">Tgstation.Server.Host.Utils.SwaggerConfiguration</a></div><div class="ttdoc">Implements various filters for Swashbuckle.</div><div class="ttdef"><b>Definition:</b> <a href="_swagger_configuration_8cs_source.html#l00028">SwaggerConfiguration.cs:29</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_utils_1_1_swagger_configuration_html_a491cd42b9d11a659b718c70ebebb9014"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_swagger_configuration.html#a491cd42b9d11a659b718c70ebebb9014">Tgstation.Server.Host.Utils.SwaggerConfiguration.DocumentationSiteRouteExtension</a></div><div class="ttdeci">const string DocumentationSiteRouteExtension</div><div class="ttdoc">The path to the hosted documentation site.</div><div class="ttdef"><b>Definition:</b> <a href="_swagger_configuration_8cs_source.html#l00038">SwaggerConfiguration.cs:38</a></div></div>
 <div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_assembly_information_provider_html_abd6db0f6e1ea9273baeacaa66ae81fa3"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_assembly_information_provider.html#abd6db0f6e1ea9273baeacaa66ae81fa3">Tgstation.Server.Host.System.IAssemblyInformationProvider.VersionString</a></div><div class="ttdeci">string VersionString</div><div class="ttdoc">A more verbose version of Version.</div><div class="ttdef"><b>Definition:</b> <a href="_i_assembly_information_provider_8cs_source.html#l00030">IAssemblyInformationProvider.cs:30</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_root_controller_8cs_source.html#l00037">Tgstation.Server.Host.Controllers.RootController.assemblyInformationProvider</a>, <a class="el" href="_root_controller_8cs_source.html#l00062">Tgstation.Server.Host.Controllers.RootController.controlPanelConfiguration</a>, <a class="el" href="_swagger_configuration_8cs_source.html#l00038">Tgstation.Server.Host.Utils.SwaggerConfiguration.DocumentationSiteRouteExtension</a>, <a class="el" href="_control_panel_configuration_8cs_source.html#l00025">Tgstation.Server.Host.Configuration.ControlPanelConfiguration.Enable</a>, <a class="el" href="_root_controller_8cs_source.html#l00057">Tgstation.Server.Host.Controllers.RootController.generalConfiguration</a>, <a class="el" href="_general_configuration_8cs_source.html#l00125">Tgstation.Server.Host.Configuration.GeneralConfiguration.HostApiDocumentation</a>, and <a class="el" href="_i_assembly_information_provider_8cs_source.html#l00030">Tgstation.Server.Host.System.IAssemblyInformationProvider.VersionString</a>.</p>
+<p class="reference">References <a class="el" href="_root_controller_8cs_source.html#l00038">Tgstation.Server.Host.Controllers.RootController.assemblyInformationProvider</a>, <a class="el" href="_root_controller_8cs_source.html#l00063">Tgstation.Server.Host.Controllers.RootController.controlPanelConfiguration</a>, <a class="el" href="_swagger_configuration_8cs_source.html#l00038">Tgstation.Server.Host.Utils.SwaggerConfiguration.DocumentationSiteRouteExtension</a>, <a class="el" href="_control_panel_configuration_8cs_source.html#l00025">Tgstation.Server.Host.Configuration.ControlPanelConfiguration.Enable</a>, <a class="el" href="_root_controller_8cs_source.html#l00058">Tgstation.Server.Host.Controllers.RootController.generalConfiguration</a>, <a class="el" href="_general_configuration_8cs_source.html#l00125">Tgstation.Server.Host.Configuration.GeneralConfiguration.HostApiDocumentation</a>, and <a class="el" href="_i_assembly_information_provider_8cs_source.html#l00030">Tgstation.Server.Host.System.IAssemblyInformationProvider.VersionString</a>.</p>
+
+</div>
+</div>
+<a id="a1a8f7276eb95a8b86a450c829e5bd69a" name="a1a8f7276eb95a8b86a450c829e5bd69a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1a8f7276eb95a8b86a450c829e5bd69a">&#9670;&#160;</a></span>WebpanelChannelRedirect()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">RedirectToActionResult Tgstation.Server.Host.Controllers.RootController.WebpanelChannelRedirect </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Workaround for the webpanel always expecting a trailing slash.  </p>
+<dl class="section return"><dt>Returns</dt><dd>A RedirectResult to the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_control_panel_controller.html#a034b3a0121efed62a1a368bb59bf1fac" title="Returns the ControlPanelConfiguration.Channel.">ControlPanelController.GetChannelJson</a>.</dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="_root_controller_8cs_source.html#l00167">167</a> of file <a class="el" href="_root_controller_8cs_source.html">RootController.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  168</span>        {</div>
+<div class="line"><span class="lineno">  169</span>            var actionTuple = <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_root_controller.html#acbe1ee13bd45be7f716cc13e8f0f7fd9">GetControlPanelActionLink</a>(controller =&gt; controller.GetChannelJson());</div>
+<div class="line"><span class="lineno">  170</span> </div>
+<div class="line"><span class="lineno">  171</span>            <span class="keywordflow">return</span> RedirectToActionPermanent(</div>
+<div class="line"><span class="lineno">  172</span>                actionTuple.Item2,</div>
+<div class="line"><span class="lineno">  173</span>                actionTuple.Item1);</div>
+<div class="line"><span class="lineno">  174</span>        }</div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_root_controller_html_acbe1ee13bd45be7f716cc13e8f0f7fd9"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_root_controller.html#acbe1ee13bd45be7f716cc13e8f0f7fd9">Tgstation.Server.Host.Controllers.RootController.GetControlPanelActionLink</a></div><div class="ttdeci">static Tuple&lt; string, string?&gt; GetControlPanelActionLink(Expression&lt; Func&lt; ControlPanelController, IActionResult &gt; &gt; actionExpression)</div><div class="ttdoc">Gets a Tuple&lt;T1, T2&gt; giving the ControlPanelController and action names for a given actionExpression ...</div><div class="ttdef"><b>Definition:</b> <a href="_root_controller_8cs_source.html#l00070">RootController.cs:70</a></div></div>
+</div><!-- fragment -->
+<p class="reference">References <a class="el" href="_root_controller_8cs_source.html#l00070">Tgstation.Server.Host.Controllers.RootController.GetControlPanelActionLink()</a>.</p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_root_controller_a1a8f7276eb95a8b86a450c829e5bd69a_cgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_root_controller_a1a8f7276eb95a8b86a450c829e5bd69a_cgraph" alt=""/></div>
+<map name="aclass_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_root_controller_a1a8f7276eb95a8b86a450c829e5bd69a_cgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_root_controller_a1a8f7276eb95a8b86a450c829e5bd69a_cgraph">
+<area shape="rect" title="Workaround for the webpanel always expecting a trailing slash." alt="" coords="5,5,264,45"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_root_controller.html#acbe1ee13bd45be7f716cc13e8f0f7fd9" title="Gets a Tuple&lt;T1, T2&gt; giving the ControlPanelController and action names for a given actionExpression ..." alt="" coords="312,5,576,45"/>
+</map>
+</div>
 
 </div>
 </div>
@@ -360,9 +474,9 @@ Static Private Attributes</h2></td></tr>
 
 <p>The IAssemblyInformationProvider for the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_root_controller.html" title="The root path Controller.">RootController</a>.  </p>
 
-<p class="definition">Definition at line <a class="el" href="_root_controller_8cs_source.html#l00037">37</a> of file <a class="el" href="_root_controller_8cs_source.html">RootController.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_root_controller_8cs_source.html#l00038">38</a> of file <a class="el" href="_root_controller_8cs_source.html">RootController.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_root_controller_8cs_source.html#l00095">Tgstation.Server.Host.Controllers.RootController.Index()</a>, and <a class="el" href="_root_controller_8cs_source.html#l00073">Tgstation.Server.Host.Controllers.RootController.RootController()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_root_controller_8cs_source.html#l00117">Tgstation.Server.Host.Controllers.RootController.Index()</a>, and <a class="el" href="_root_controller_8cs_source.html#l00095">Tgstation.Server.Host.Controllers.RootController.RootController()</a>.</p>
 
 </div>
 </div>
@@ -388,9 +502,9 @@ Static Private Attributes</h2></td></tr>
 
 <p>The ControlPanelConfiguration for the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_root_controller.html" title="The root path Controller.">RootController</a>.  </p>
 
-<p class="definition">Definition at line <a class="el" href="_root_controller_8cs_source.html#l00062">62</a> of file <a class="el" href="_root_controller_8cs_source.html">RootController.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_root_controller_8cs_source.html#l00063">63</a> of file <a class="el" href="_root_controller_8cs_source.html">RootController.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_root_controller_8cs_source.html#l00095">Tgstation.Server.Host.Controllers.RootController.Index()</a>, and <a class="el" href="_root_controller_8cs_source.html#l00073">Tgstation.Server.Host.Controllers.RootController.RootController()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_root_controller_8cs_source.html#l00117">Tgstation.Server.Host.Controllers.RootController.Index()</a>, and <a class="el" href="_root_controller_8cs_source.html#l00095">Tgstation.Server.Host.Controllers.RootController.RootController()</a>.</p>
 
 </div>
 </div>
@@ -416,9 +530,9 @@ Static Private Attributes</h2></td></tr>
 
 <p>The GeneralConfiguration for the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_root_controller.html" title="The root path Controller.">RootController</a>.  </p>
 
-<p class="definition">Definition at line <a class="el" href="_root_controller_8cs_source.html#l00057">57</a> of file <a class="el" href="_root_controller_8cs_source.html">RootController.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_root_controller_8cs_source.html#l00058">58</a> of file <a class="el" href="_root_controller_8cs_source.html">RootController.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_root_controller_8cs_source.html#l00095">Tgstation.Server.Host.Controllers.RootController.Index()</a>, and <a class="el" href="_root_controller_8cs_source.html#l00073">Tgstation.Server.Host.Controllers.RootController.RootController()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_root_controller_8cs_source.html#l00117">Tgstation.Server.Host.Controllers.RootController.Index()</a>, and <a class="el" href="_root_controller_8cs_source.html#l00095">Tgstation.Server.Host.Controllers.RootController.RootController()</a>.</p>
 
 </div>
 </div>
@@ -444,9 +558,9 @@ Static Private Attributes</h2></td></tr>
 
 <p>THe IWebHostEnvironment for the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_root_controller.html" title="The root path Controller.">RootController</a>.  </p>
 
-<p class="definition">Definition at line <a class="el" href="_root_controller_8cs_source.html#l00047">47</a> of file <a class="el" href="_root_controller_8cs_source.html">RootController.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_root_controller_8cs_source.html#l00048">48</a> of file <a class="el" href="_root_controller_8cs_source.html">RootController.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_root_controller_8cs_source.html#l00131">Tgstation.Server.Host.Controllers.RootController.GetLogo()</a>, and <a class="el" href="_root_controller_8cs_source.html#l00073">Tgstation.Server.Host.Controllers.RootController.RootController()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_root_controller_8cs_source.html#l00153">Tgstation.Server.Host.Controllers.RootController.GetLogo()</a>, and <a class="el" href="_root_controller_8cs_source.html#l00095">Tgstation.Server.Host.Controllers.RootController.RootController()</a>.</p>
 
 </div>
 </div>
@@ -472,9 +586,9 @@ Static Private Attributes</h2></td></tr>
 
 <p>The ILogger for the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_root_controller.html" title="The root path Controller.">RootController</a>.  </p>
 
-<p class="definition">Definition at line <a class="el" href="_root_controller_8cs_source.html#l00052">52</a> of file <a class="el" href="_root_controller_8cs_source.html">RootController.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_root_controller_8cs_source.html#l00053">53</a> of file <a class="el" href="_root_controller_8cs_source.html">RootController.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_root_controller_8cs_source.html#l00131">Tgstation.Server.Host.Controllers.RootController.GetLogo()</a>, and <a class="el" href="_root_controller_8cs_source.html#l00073">Tgstation.Server.Host.Controllers.RootController.RootController()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_root_controller_8cs_source.html#l00153">Tgstation.Server.Host.Controllers.RootController.GetLogo()</a>, and <a class="el" href="_root_controller_8cs_source.html#l00095">Tgstation.Server.Host.Controllers.RootController.RootController()</a>.</p>
 
 </div>
 </div>
@@ -500,9 +614,9 @@ Static Private Attributes</h2></td></tr>
 
 <p>The name of the TGS logo .svg in the IWebHostEnvironment.WebRootPath on Linux.  </p>
 
-<p class="definition">Definition at line <a class="el" href="_root_controller_8cs_source.html#l00032">32</a> of file <a class="el" href="_root_controller_8cs_source.html">RootController.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_root_controller_8cs_source.html#l00033">33</a> of file <a class="el" href="_root_controller_8cs_source.html">RootController.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_root_controller_8cs_source.html#l00131">Tgstation.Server.Host.Controllers.RootController.GetLogo()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_root_controller_8cs_source.html#l00153">Tgstation.Server.Host.Controllers.RootController.GetLogo()</a>.</p>
 
 </div>
 </div>
@@ -528,9 +642,9 @@ Static Private Attributes</h2></td></tr>
 
 <p>The name of the TGS logo .svg in the IWebHostEnvironment.WebRootPath on Windows.  </p>
 
-<p class="definition">Definition at line <a class="el" href="_root_controller_8cs_source.html#l00027">27</a> of file <a class="el" href="_root_controller_8cs_source.html">RootController.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_root_controller_8cs_source.html#l00028">28</a> of file <a class="el" href="_root_controller_8cs_source.html">RootController.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_root_controller_8cs_source.html#l00131">Tgstation.Server.Host.Controllers.RootController.GetLogo()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_root_controller_8cs_source.html#l00153">Tgstation.Server.Host.Controllers.RootController.GetLogo()</a>.</p>
 
 </div>
 </div>
@@ -556,9 +670,9 @@ Static Private Attributes</h2></td></tr>
 
 <p>The IPlatformIdentifier for the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_root_controller.html" title="The root path Controller.">RootController</a>.  </p>
 
-<p class="definition">Definition at line <a class="el" href="_root_controller_8cs_source.html#l00042">42</a> of file <a class="el" href="_root_controller_8cs_source.html">RootController.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_root_controller_8cs_source.html#l00043">43</a> of file <a class="el" href="_root_controller_8cs_source.html">RootController.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_root_controller_8cs_source.html#l00073">Tgstation.Server.Host.Controllers.RootController.RootController()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_root_controller_8cs_source.html#l00095">Tgstation.Server.Host.Controllers.RootController.RootController()</a>.</p>
 
 </div>
 </div>
