@@ -17,7 +17,7 @@
     <TgsNugetNetFramework>netstandard2.0</TgsNugetNetFramework>
     <TgsNetMajorVersion>8</TgsNetMajorVersion>
     <!-- Update this frequently with dotnet runtime patches. MAJOR MUST MATCH ABOVE! -->
-    <TgsDotnetRedistUrl>https://download.visualstudio.microsoft.com/download/pr/2a7ae819-fbc4-4611-a1ba-f3b072d4ea25/32f3b931550f7b315d9827d564202eeb/dotnet-hosting-8.0.0-win.exe</TgsDotnetRedistUrl>
+    <TgsDotnetRedistUrl>https://download.visualstudio.microsoft.com/download/pr/016c6447-764a-4210-a260-bf7a2880d5c0/a5746437a3862d7803284ae8c2290200/dotnet-hosting-8.0.1-win.exe</TgsDotnetRedistUrl>
     <TgsMariaDBRedistVersion>10.11.6</TgsMariaDBRedistVersion>
     <TgsYarnVersion>1.22.21</TgsYarnVersion>
   </PropertyGroup>
