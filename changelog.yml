@@ -162,9 +162,12 @@ Components:
       WebControlPanel: 5.4.2
     Changes: []
     Unreleased: true
+  - Version: 6.1.6
+    ComponentVersions: {}
+    Changes: []
+    Unreleased: true
   - Version: 6.1.5
     ComponentVersions:
-      Core: 6.1.4
       HttpApi: 10.0.0
       DreamMakerApi: 7.0.1
       Configuration: 5.0.0
@@ -174,8 +177,11 @@ Components:
       NugetApi: 13.0.1
       NugetClient: 15.0.1
       WebControlPanel: 5.4.2
-    Changes: []
-    Unreleased: true
+    Changes:
+    - Descriptions:
+      - Fixed the chat message sent when sessions exit unexpectedly with code 0 saying it was due to a crash.
+      Author: Cyberboss
+      PullRequest: 1778
   - Version: 6.1.4
     ComponentVersions:
       HttpApi: 10.0.0
