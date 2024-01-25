@@ -63,7 +63,7 @@ namespace Tgstation.Server.Host.Components.Session
 		public Version? DMApiVersion { get; private set; }
 
 		/// <inheritdoc />
-		public bool TerminationWasRequested { get; private set; }
+		public bool TerminationWasIntentional => terminationWasIntentional || (Lifetime.IsCompleted && Lifetime.Result == 0);
 
 		/// <inheritdoc />
 		public Task<LaunchResult> LaunchResult { get; }
@@ -218,6 +218,11 @@ namespace Tgstation.Server.Host.Components.Session
 		/// If <see cref="process"/> should be kept alive instead.
 		/// </summary>
 		bool released;
+
+		/// <summary>
+		/// Backing field for overriding <see cref="TerminationWasIntentional"/>.
+		/// </summary>
+		bool terminationWasIntentional;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="SessionController"/> class.
@@ -622,7 +627,7 @@ namespace Tgstation.Server.Host.Components.Session
 				case BridgeCommandType.Kill:
 					Logger.LogInformation("Bridge requested process termination!");
 					chatTrackingContext.Active = false;
-					TerminationWasRequested = true;
+					terminationWasIntentional = true;
 					process.Terminate();
 					break;
 				case BridgeCommandType.DeprecatedPortUpdate:
