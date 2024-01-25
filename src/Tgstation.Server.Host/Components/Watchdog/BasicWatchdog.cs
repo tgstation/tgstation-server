@@ -113,12 +113,12 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			switch (reason)
 			{
 				case MonitorActivationReason.ActiveServerCrashed:
-					var eventType = controller.TerminationWasRequested || (await controller.Lifetime) == 0
+					var eventType = controller.TerminationWasIntentional
 						? EventType.WorldEndProcess
 						: EventType.WatchdogCrash;
 					await HandleEventImpl(eventType, Enumerable.Empty<string>(), false, cancellationToken);
 
-					var exitWord = controller.TerminationWasRequested ? "exited" : "crashed";
+					var exitWord = controller.TerminationWasIntentional ? "exited" : "crashed";
 					if (controller.RebootState == Session.RebootState.Shutdown)
 					{
 						// the time for graceful shutdown is now

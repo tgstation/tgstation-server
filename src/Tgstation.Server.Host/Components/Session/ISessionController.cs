@@ -22,7 +22,7 @@ namespace Tgstation.Server.Host.Components.Session
 		/// <summary>
 		/// If the DreamDaemon instance sent a.
 		/// </summary>
-		bool TerminationWasRequested { get; }
+		bool TerminationWasIntentional { get; }
 
 		/// <summary>
 		/// The DMAPI <see cref="Session.ApiValidationStatus"/>.
