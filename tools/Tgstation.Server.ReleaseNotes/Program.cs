@@ -883,7 +883,7 @@ The user account that created this pull request is available to correct any issu
 			var results = await RLR(() => apiCall(apiOptions));
 			var distinctEntries = new Dictionary<string, T>(results.Count);
 			foreach (var result in results)
-				distinctEntries.Add(idSelector(result).ToString(), result);
+				distinctEntries.TryAdd(idSelector(result).ToString(), result);
 
 			if (results.Count > 100)
 			{

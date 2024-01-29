@@ -81,6 +81,36 @@ jobs:
     - name: GitHub Requires at Least One Step for a Job
       run: exit 0
 
+  code-scanning:
+    name: Code Scanning
+    needs: start-ci-run-gate
+    runs-on: ubuntu-latest
+    steps:
+    - name: Setup dotnet
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '${{ env.TGS_DOTNET_VERSION }}.0.x'
+        dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
+
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Initialize CodeQL
+      uses: github/codeql-action/init@v3
+      with:
+        languages: csharp
+        token: ${{ secrets.CI_STATUSES_TOKEN }}
+
+    - name: Build
+      run: dotnet build -c ReleaseNoWindows -p:TGS_HOST_NO_WEBPANEL=true
+
+    - name: Perform CodeQL Analysis
+      uses: github/codeql-action/analyze@v3
+      with:
+        category: "/language:csharp"
+        token: ${{ secrets.CI_STATUSES_TOKEN }}
+
+
   dmapi-build:
     name: Build DMAPI
     needs: start-ci-run-gate
@@ -206,10 +236,20 @@ jobs:
         git checkout ${{ matrix.committish }}
         git submodule update --init --recursive
 
+    - name: Restore OpenDream
+      run: |
+        cd $HOME/OpenDream
+        dotnet restore
+
+    - name: Build OpenDream
+      run: |
+        cd $HOME/OpenDream/OpenDreamPackageTool
+        dotnet build -c Release --nologo -v q --property WarningLevel=0 /clp:ErrorsOnly
+
     - name: Create TGS Deployment
       run: |
         cd $HOME/OpenDream
-        dotnet run -c Release --project OpenDreamPackageTool --property WarningLevel=0 -- --tgs -o tgs_deploy
+        dotnet run -c Release --project OpenDreamPackageTool --no-build -- --tgs -o tgs_deploy
 
     - name: Build DMAPI
       run: |
@@ -357,7 +397,7 @@ jobs:
       run: sudo dotnet test --no-build --logger "GitHubActions;summary.includePassedTests=true;summary.includeSkippedTests=true" --filter TestCategory!=RequiresDatabase -c ${{ matrix.configuration }}NoWindows --collect:"XPlat Code Coverage" --settings build/ci.runsettings --results-directory ./TestResults tgstation-server.sln
 
     - name: Store Code Coverage
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: linux-unit-test-coverage-${{ matrix.configuration }}
         path: ./TestResults/
@@ -408,7 +448,7 @@ jobs:
       run: dotnet test --no-build --logger "GitHubActions;summary.includePassedTests=true;summary.includeSkippedTests=true" --filter TestCategory!=RequiresDatabase -c ${{ matrix.configuration }}NoWix --collect:"XPlat Code Coverage" --settings build/ci.runsettings --results-directory ./TestResults tgstation-server.sln
 
     - name: Store Code Coverage
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: windows-unit-test-coverage-${{ matrix.configuration }}
         path: ./TestResults/
@@ -540,14 +580,14 @@ jobs:
 
     - name: Store Live Tests Output
       if: ${{ steps.live-tests.outputs.succeeded == 'YES' }}
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: windows-integration-test-logs-${{ matrix.configuration }}-${{ matrix.watchdog-type }}-${{ matrix.database-type }}
         path: ./test_output.txt
 
     - name: Store Errored Live Tests Output
       if: ${{ steps.live-tests.outputs.succeeded != 'YES' }}
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: errored-windows-test-logs-${{ matrix.configuration }}-${{ matrix.watchdog-type }}-${{ matrix.database-type }}
         path: ./test_output.txt
@@ -557,14 +597,14 @@ jobs:
       run: exit 1
 
     - name: Store Code Coverage
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: windows-integration-test-coverage-${{ matrix.configuration }}-${{ matrix.watchdog-type }}-${{ matrix.database-type }}
         path: ./TestResults/
 
     - name: Store OpenAPI Spec
       if: ${{ matrix.configuration == 'Release' && matrix.watchdog-type == 'Advanced' && matrix.database-type == 'SqlServer' }}
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: openapi-spec
         path: C:/tgs_api.json
@@ -583,7 +623,7 @@ jobs:
 
     - name: Store Server Service
       if: ${{ matrix.configuration == 'Release' && matrix.watchdog-type == 'Basic' }}
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: ServerService
         path: artifacts/Service/
@@ -733,7 +773,7 @@ jobs:
         dotnet test -c ${{ matrix.configuration }}NoWindows --filter TestCategory=RequiresDatabase --logger "GitHubActions;summary.includePassedTests=true;summary.includeSkippedTests=true" --no-build --collect:"XPlat Code Coverage" --settings ../../build/ci.runsettings --results-directory ../../TestResults
 
     - name: Store Code Coverage
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: linux-integration-test-coverage-${{ matrix.configuration }}-${{ matrix.watchdog-type }}-${{ matrix.database-type }}
         path: ./TestResults/
@@ -761,14 +801,14 @@ jobs:
 
     - name: Store Server Console
       if: ${{ matrix.configuration == 'Release' && matrix.watchdog-type == 'Advanced' && matrix.database-type == 'MariaDB' }}
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: ServerConsole
         path: artifacts/Console/
 
     - name: Store Server Update Package
       if: ${{ matrix.configuration == 'Release' && matrix.watchdog-type == 'Advanced' && matrix.database-type == 'PostgresSql' }}
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: ServerUpdatePackage
         path: artifacts/ServerUpdate/
@@ -793,7 +833,7 @@ jobs:
         ref: "refs/pull/${{ github.event.number }}/merge"
 
     - name: Retrieve OpenAPI Spec
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: openapi-spec
         path: ./swagger
@@ -818,235 +858,235 @@ jobs:
         ref: "refs/pull/${{ github.event.number }}/merge"
 
     - name: Retrieve Linux Unit Test Coverage (Debug)
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: linux-unit-test-coverage-Debug
         path: ./code_coverage/unit_tests/linux_unit_tests_debug
 
     - name: Retrieve Linux Unit Test Coverage (Release)
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: linux-unit-test-coverage-Release
         path: ./code_coverage/unit_tests/linux_unit_tests_release
 
     - name: Retrieve Linux Integration Test Coverage (Release, Advanced, Sqlite)
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: linux-integration-test-coverage-Release-Advanced-Sqlite
         path: ./code_coverage/integration_tests/linux_integration_tests_release_system_sqlite
 
     - name: Retrieve Linux Integration Test Coverage (Release, Advanced, PostgresSql)
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: linux-integration-test-coverage-Release-Advanced-PostgresSql
         path: ./code_coverage/integration_tests/linux_integration_tests_release_system_mariadb
 
     - name: Retrieve Linux Integration Test Coverage (Release, Advanced, MariaDB)
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: linux-integration-test-coverage-Release-Advanced-MariaDB
         path: ./code_coverage/integration_tests/linux_integration_tests_release_system_mysql
 
     - name: Retrieve Linux Integration Test Coverage (Release, Advanced, MySql)
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: linux-integration-test-coverage-Release-Advanced-MySql
         path: ./code_coverage/integration_tests/linux_integration_tests_release_system_mysql
 
     - name: Retrieve Linux Integration Test Coverage (Release, Basic, Sqlite)
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: linux-integration-test-coverage-Release-Advanced-Sqlite
         path: ./code_coverage/integration_tests/linux_integration_tests_release_basic_sqlite
 
     - name: Retrieve Linux Integration Test Coverage (Release, Basic, PostgresSql)
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: linux-integration-test-coverage-Release-Advanced-PostgresSql
         path: ./code_coverage/integration_tests/linux_integration_tests_release_basic_mariadb
 
     - name: Retrieve Linux Integration Test Coverage (Release, Basic, MariaDB)
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: linux-integration-test-coverage-Release-Advanced-MariaDB
         path: ./code_coverage/integration_tests/linux_integration_tests_release_basic_mysql
 
     - name: Retrieve Linux Integration Test Coverage (Release, Basic, MySql)
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: linux-integration-test-coverage-Release-Advanced-MySql
         path: ./code_coverage/integration_tests/linux_integration_tests_release_basic_mysql
 
     - name: Retrieve Linux Integration Test Coverage (Debug, Advanced, Sqlite)
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: linux-integration-test-coverage-Debug-Advanced-Sqlite
         path: ./code_coverage/integration_tests/linux_integration_tests_debug_system_sqlite
 
     - name: Retrieve Linux Integration Test Coverage (Debug, Advanced, PostgresSql)
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: linux-integration-test-coverage-Debug-Advanced-PostgresSql
         path: ./code_coverage/integration_tests/linux_integration_tests_debug_system_mariadb
 
     - name: Retrieve Linux Integration Test Coverage (Debug, Advanced, MariaDB)
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: linux-integration-test-coverage-Debug-Advanced-MariaDB
         path: ./code_coverage/integration_tests/linux_integration_tests_debug_system_mysql
 
     - name: Retrieve Linux Integration Test Coverage (Debug, Advanced, MySql)
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: linux-integration-test-coverage-Debug-Advanced-MySql
         path: ./code_coverage/integration_tests/linux_integration_tests_debug_system_mysql
 
     - name: Retrieve Linux Integration Test Coverage (Debug, Basic, Sqlite)
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: linux-integration-test-coverage-Debug-Advanced-Sqlite
         path: ./code_coverage/integration_tests/linux_integration_tests_debug_basic_sqlite
 
     - name: Retrieve Linux Integration Test Coverage (Debug, Basic, PostgresSql)
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: linux-integration-test-coverage-Debug-Advanced-PostgresSql
         path: ./code_coverage/integration_tests/linux_integration_tests_debug_basic_mariadb
 
     - name: Retrieve Linux Integration Test Coverage (Debug, Basic, MariaDB)
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: linux-integration-test-coverage-Debug-Advanced-MariaDB
         path: ./code_coverage/integration_tests/linux_integration_tests_debug_basic_mysql
 
     - name: Retrieve Linux Integration Test Coverage (Debug, Basic, MySql)
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: linux-integration-test-coverage-Debug-Advanced-MySql
         path: ./code_coverage/integration_tests/linux_integration_tests_debug_basic_mysql
 
     - name: Retrieve Windows Unit Test Coverage (Release)
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: windows-unit-test-coverage-Release
         path: ./code_coverage/unit_tests/windows_unit_tests_release
 
     - name: Retrieve Windows Integration Test Coverage (Debug, Basic, SqlServer)
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: windows-integration-test-coverage-Debug-Basic-SqlServer
         path: ./code_coverage/integration_tests/windows_integration_tests_debug_basic_sqlserver
 
     - name: Retrieve Windows Integration Test Coverage (Release, Basic, SqlServer)
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: windows-integration-test-coverage-Release-Basic-SqlServer
         path: ./code_coverage/integration_tests/windows_integration_tests_release_basic_sqlserver
 
     - name: Retrieve Windows Integration Test Coverage (Debug, Advanced, SqlServer)
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: windows-integration-test-coverage-Debug-Advanced-SqlServer
         path: ./code_coverage/integration_tests/windows_integration_tests_debug_system_sqlserver
 
     - name: Retrieve Windows Integration Test Coverage (Release, Advanced, SqlServer)
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: windows-integration-test-coverage-Release-Advanced-SqlServer
         path: ./code_coverage/integration_tests/windows_integration_tests_release_system_sqlserver
 
     - name: Retrieve Windows Integration Test Coverage (Debug, Basic, MariaDB)
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: windows-integration-test-coverage-Debug-Basic-MariaDB
         path: ./code_coverage/integration_tests/windows_integration_tests_debug_basic_mariadb
 
     - name: Retrieve Windows Integration Test Coverage (Release, Basic, MariaDB)
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: windows-integration-test-coverage-Release-Basic-MariaDB
         path: ./code_coverage/integration_tests/windows_integration_tests_release_basic_mariadb
 
     - name: Retrieve Windows Integration Test Coverage (Debug, Advanced, MariaDB)
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: windows-integration-test-coverage-Debug-Advanced-MariaDB
         path: ./code_coverage/integration_tests/windows_integration_tests_debug_system_mariadb
 
     - name: Retrieve Windows Integration Test Coverage (Release, Advanced, MariaDB)
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: windows-integration-test-coverage-Release-Advanced-MariaDB
         path: ./code_coverage/integration_tests/windows_integration_tests_release_system_mariadb
 
     - name: Retrieve Windows Integration Test Coverage (Debug, Basic, MySql)
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: windows-integration-test-coverage-Debug-Basic-MySql
         path: ./code_coverage/integration_tests/windows_integration_tests_debug_basic_mysql
 
     - name: Retrieve Windows Integration Test Coverage (Release, Basic, MySql)
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: windows-integration-test-coverage-Release-Basic-MySql
         path: ./code_coverage/integration_tests/windows_integration_tests_release_basic_mysql
 
     - name: Retrieve Windows Integration Test Coverage (Debug, Advanced, MySql)
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: windows-integration-test-coverage-Debug-Advanced-MySql
         path: ./code_coverage/integration_tests/windows_integration_tests_debug_system_mysql
 
     - name: Retrieve Windows Integration Test Coverage (Release, Advanced, MySql)
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: windows-integration-test-coverage-Release-Advanced-MySql
         path: ./code_coverage/integration_tests/windows_integration_tests_release_system_mysql
 
     - name: Retrieve Windows Integration Test Coverage (Debug, Basic, PostgresSql)
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: windows-integration-test-coverage-Debug-Basic-PostgresSql
         path: ./code_coverage/integration_tests/windows_integration_tests_debug_basic_postgressql
 
     - name: Retrieve Windows Integration Test Coverage (Release, Basic, PostgresSql)
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: windows-integration-test-coverage-Release-Basic-PostgresSql
         path: ./code_coverage/integration_tests/windows_integration_tests_release_basic_postgressql
 
     - name: Retrieve Windows Integration Test Coverage (Debug, Advanced, PostgresSql)
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: windows-integration-test-coverage-Debug-Advanced-PostgresSql
         path: ./code_coverage/integration_tests/windows_integration_tests_debug_system_postgressql
 
     - name: Retrieve Windows Integration Test Coverage (Release, Advanced, PostgresSql)
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: windows-integration-test-coverage-Release-Advanced-PostgresSql
         path: ./code_coverage/integration_tests/windows_integration_tests_release_system_postgressql
 
     - name: Retrieve Windows Integration Test Coverage (Debug, Basic, Sqlite)
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: windows-integration-test-coverage-Debug-Basic-Sqlite
         path: ./code_coverage/integration_tests/windows_integration_tests_debug_basic_sqlite
 
     - name: Retrieve Windows Integration Test Coverage (Release, Basic, Sqlite)
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: windows-integration-test-coverage-Release-Basic-Sqlite
         path: ./code_coverage/integration_tests/windows_integration_tests_release_basic_sqlite
 
     - name: Retrieve Windows Integration Test Coverage (Debug, Advanced, Sqlite)
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: windows-integration-test-coverage-Debug-Advanced-Sqlite
         path: ./code_coverage/integration_tests/windows_integration_tests_debug_system_sqlite
 
     - name: Retrieve Windows Integration Test Coverage (Release, Advanced, Sqlite)
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: windows-integration-test-coverage-Release-Advanced-Sqlite
         path: ./code_coverage/integration_tests/windows_integration_tests_release_system_sqlite
@@ -1156,7 +1196,7 @@ jobs:
       run: tar cfJ tgstation-server-v${{ env.TGS_VERSION }}.debian.packaging.tar.xz tgstation-server_*
 
     - name: Upload Packaging Archive
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: packaging-debian
         path: tgstation-server-v${{ env.TGS_VERSION }}.debian.packaging.tar.xz
@@ -1287,7 +1327,7 @@ jobs:
         }
 
     - name: Upload Unsigned Installer .exe
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: packaging-preview-windows
         path: build/package/winget/Tgstation.Server.Host.Service.Wix.Bundle/bin/Release/tgstation-server-installer.exe
@@ -1331,12 +1371,18 @@ jobs:
 
   ci-completion-gate: # This job exists so there isn't a moving target for branch protections
     name: CI Completion Gate
-    needs: [ pages-build, docker-build, build-deb, build-msi, validate-openapi-spec, upload-code-coverage, check-winget-pr-template ]
+    needs: [ pages-build, docker-build, build-deb, build-msi, validate-openapi-spec, upload-code-coverage, check-winget-pr-template, code-scanning ]
     runs-on: ubuntu-latest
     if: (!(cancelled() || failure()) && needs.pages-build.result == 'success' && needs.docker-build.result == 'success' && needs.build-deb.result == 'success' && needs.build-msi.result == 'success' && needs.validate-openapi-spec.result == 'success' && needs.upload-code-coverage.result == 'success' && needs.check-winget-pr-template.result == 'success')
     steps:
-    - name: GitHub Requires at Least One Step for a Job
-      run: exit 0
+    - name: Create Completion Check
+      uses: LouisBrunner/checks-action@6b626ffbad7cc56fd58627f774b9067e6118af23
+      with:
+        token: ${{ secrets.CI_STATUSES_TOKEN }}
+        name: CI Completion
+        conclusion: success
+        output: |
+          {"summary":"The CI Pipeline completed successfully"}
 
   deployment-gate:
     name: Deployment Start Gate
@@ -1376,7 +1422,7 @@ jobs:
         echo "TGS_API_VERSION=$apiVersion" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf8 -Append
 
     - name: Retrieve OpenAPI Spec
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: openapi-spec
         path: swagger
@@ -1602,37 +1648,37 @@ jobs:
         echo "MARIADB_VERSION=$mariaDBVerison" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf8 -Append
 
     - name: Upload .msi
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: packaging-windows-raw-msi
         path: build/package/winget/Tgstation.Server.Host.Service.Wix/bin/Release/en-US/tgstation-server.msi
 
     - name: Retrieve Server Service
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: ServerService
         path: ServerService
 
     - name: Retrieve Server Console
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: ServerConsole
         path: ServerConsole
 
     - name: Retrieve Server Update Package
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: ServerUpdatePackage
         path: ServerUpdatePackage
 
     - name: Retrieve OpenAPI Spec
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: openapi-spec
         path: swagger
 
     - name: Retrieve Debian Packaging Archive
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: packaging-debian
         path: packaging-debian
@@ -1876,7 +1922,7 @@ jobs:
       run: dotnet build -c Release -p:TGS_HOST_NO_WEBPANEL=true tools/Tgstation.Server.ReleaseNotes
 
     - name: Retrieve Server Service
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: packaging-windows-raw-msi
         path: artifacts
