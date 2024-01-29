@@ -85,6 +85,7 @@ jobs:
     name: Code Scanning
     needs: start-ci-run-gate
     runs-on: ubuntu-latest
+    if: (!(cancelled() || failure()) && needs.start-ci-run-gate.result == 'success')
     steps:
     - name: Setup dotnet
       uses: actions/setup-dotnet@v4
