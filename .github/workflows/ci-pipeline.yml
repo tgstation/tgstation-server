@@ -37,7 +37,8 @@ on:
 
 env:
   TGS_DOTNET_VERSION: 8
-  OD_DOTNET_VERSION: 7
+  OD_MIN_COMPAT_DOTNET_VERSION: 7
+  OD_DOTNET_VERSION: 8
   TGS_DOTNET_QUALITY: ga
   TGS_TEST_GITHUB_TOKEN: ${{ secrets.LIVE_TESTS_TOKEN }}
   TGS_RELEASE_NOTES_TOKEN: ${{ secrets.DEV_PUSH_TOKEN }}
@@ -97,7 +98,7 @@ jobs:
         sudo apt-get install -y -o APT::Immediate-Configure=0 libc6-i386 libstdc++6:i386 libgcc-s1:i386
 
     - name: Cache BYOND .zips
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       id: cache-byond
       with:
         path: ~/byond-zips-cache
@@ -174,9 +175,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Setup dotnet
-      uses: actions/setup-dotnet@v3
+      uses: actions/setup-dotnet@v4
+      if: matrix.committish == 'master'
       with:
         dotnet-version: '${{ env.OD_DOTNET_VERSION }}.0.x'
+        dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
+
+    - name: Setup dotnet (min-compat)
+      uses: actions/setup-dotnet@v4
+      if: matrix.committish == 'tgs-min-compat'
+      with:
+        dotnet-version: '${{ env.OD_MIN_COMPAT_DOTNET_VERSION }}.0.x'
         dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
 
     - name: Checkout (Branch)
@@ -214,7 +223,7 @@ jobs:
     if: (!(cancelled() || failure()) && needs.start-ci-run-gate.result == 'success')
     steps:
     - name: Setup dotnet
-      uses: actions/setup-dotnet@v3
+      uses: actions/setup-dotnet@v4
       with:
         dotnet-version: '${{ env.TGS_DOTNET_VERSION }}.0.x'
         dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
@@ -316,7 +325,7 @@ jobs:
         sudo apt-get install -y -o APT::Immediate-Configure=0 libc6-i386 libstdc++6:i386 libgcc-s1:i386
 
     - name: Setup dotnet
-      uses: actions/setup-dotnet@v3
+      uses: actions/setup-dotnet@v4
       with:
         dotnet-version: '${{ env.TGS_DOTNET_VERSION }}.0.x'
         dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
@@ -338,7 +347,7 @@ jobs:
       run: dotnet build -c ${{ matrix.configuration }}NoWindows
 
     - name: Cache BYOND .zips
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       id: cache-byond
       with:
         path: ~/byond-zips-cache
@@ -367,7 +376,7 @@ jobs:
     runs-on: windows-latest
     steps:
     - name: Setup dotnet
-      uses: actions/setup-dotnet@v3
+      uses: actions/setup-dotnet@v4
       with:
         dotnet-version: '${{ env.TGS_DOTNET_VERSION }}.0.x'
         dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
@@ -389,7 +398,7 @@ jobs:
       run: dotnet build -c ${{ matrix.configuration }}NoWix
 
     - name: Cache BYOND .zips
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       id: cache-byond
       with:
         path: ~/byond-zips-cache
@@ -424,11 +433,12 @@ jobs:
         sqlcmd -l 600 -S "(localdb)\MSSQLLocalDB" -Q "SELECT @@VERSION;"
 
     - name: Setup dotnet
-      uses: actions/setup-dotnet@v3
+      uses: actions/setup-dotnet@v4
       with:
         dotnet-version: |
           ${{ env.TGS_DOTNET_VERSION }}.0.x
           ${{ env.OD_DOTNET_VERSION }}.0.x
+          ${{ env.OD_MIN_COMPAT_DOTNET_VERSION }}.0.x
         dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
 
     - name: Set TGS_TEST_DUMP_API_SPEC
@@ -504,7 +514,7 @@ jobs:
       run: dotnet build -c ${{ matrix.configuration }} tests/Tgstation.Server.Tests/Tgstation.Server.Tests.csproj
 
     - name: Cache BYOND .zips
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       id: cache-byond
       with:
         path: ~/byond-zips-cache
@@ -656,11 +666,12 @@ jobs:
         sudo apt-get install -y -o APT::Immediate-Configure=0 libc6-i386 libstdc++6:i386 gdb libgcc-s1:i386
 
     - name: Setup dotnet
-      uses: actions/setup-dotnet@v3
+      uses: actions/setup-dotnet@v4
       with:
         dotnet-version: |
           ${{ env.TGS_DOTNET_VERSION }}.0.x
           ${{ env.OD_DOTNET_VERSION }}.0.x
+          ${{ env.OD_MIN_COMPAT_DOTNET_VERSION }}.0.x
         dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
 
     - name: Set Sqlite Connection Info
@@ -709,7 +720,7 @@ jobs:
       run: dotnet build -c ${{ matrix.configuration }}NoWindows tests/Tgstation.Server.Tests/Tgstation.Server.Tests.csproj
 
     - name: Cache BYOND .zips
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       id: cache-byond
       with:
         path: ~/byond-zips-cache
@@ -1072,7 +1083,7 @@ jobs:
         sudo apt-get install -y dotnet-sdk-${{ env.TGS_DOTNET_VERSION }}.0
 
     - name: Setup dotnet
-      uses: actions/setup-dotnet@v3
+      uses: actions/setup-dotnet@v4
       with:
         dotnet-version: '${{ env.TGS_DOTNET_VERSION }}.0.x'
         dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
@@ -1162,7 +1173,7 @@ jobs:
         GITHUB_TOKEN: ${{ env.WINGET_PUSH_TOKEN }}
 
     - name: Setup dotnet
-      uses: actions/setup-dotnet@v3
+      uses: actions/setup-dotnet@v4
       with:
         dotnet-version: '${{ env.TGS_DOTNET_VERSION }}.0.x'
         dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
@@ -1288,7 +1299,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Setup dotnet
-      uses: actions/setup-dotnet@v3
+      uses: actions/setup-dotnet@v4
       with:
         dotnet-version: '${{ env.TGS_DOTNET_VERSION }}.0.x'
         dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
@@ -1343,7 +1354,7 @@ jobs:
     if: (!(cancelled() || failure()) && needs.deployment-gate.result == 'success' && contains(github.event.head_commit.message, '[APIDeploy]'))
     steps:
     - name: Setup dotnet
-      uses: actions/setup-dotnet@v3
+      uses: actions/setup-dotnet@v4
       with:
         dotnet-version: '${{ env.TGS_DOTNET_VERSION }}.0.x'
         dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
@@ -1407,7 +1418,7 @@ jobs:
     if: (!(cancelled() || failure()) && needs.deployment-gate.result == 'success' && contains(github.event.head_commit.message, '[DMDeploy]'))
     steps:
     - name: Setup dotnet
-      uses: actions/setup-dotnet@v3
+      uses: actions/setup-dotnet@v4
       with:
         dotnet-version: '${{ env.TGS_DOTNET_VERSION }}.0.x'
         dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
@@ -1470,7 +1481,7 @@ jobs:
     if: (!(cancelled() || failure()) && needs.deployment-gate.result == 'success' && contains(github.event.head_commit.message, '[NugetDeploy]'))
     steps:
     - name: Setup dotnet
-      uses: actions/setup-dotnet@v3
+      uses: actions/setup-dotnet@v4
       with:
         dotnet-version: '${{ env.TGS_DOTNET_VERSION }}.0.x'
         dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
@@ -1521,7 +1532,7 @@ jobs:
     if: (!(cancelled() || failure()) && (needs.deploy-dm.result == 'success' || needs.deploy-http.result == 'success') && !contains(github.event.head_commit.message, '[TGSDeploy]'))
     steps:
     - name: Setup dotnet
-      uses: actions/setup-dotnet@v3
+      uses: actions/setup-dotnet@v4
       with:
         dotnet-version: '${{ env.TGS_DOTNET_VERSION }}.0.x'
         dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
@@ -1545,7 +1556,7 @@ jobs:
     if: (!(cancelled() || failure()) && needs.deployment-gate.result == 'success' && github.event.ref == 'refs/heads/master' && contains(github.event.head_commit.message, '[TGSDeploy]'))
     steps:
     - name: Setup dotnet
-      uses: actions/setup-dotnet@v3
+      uses: actions/setup-dotnet@v4
       with:
         dotnet-version: '${{ env.TGS_DOTNET_VERSION }}.0.x'
         dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
@@ -1757,7 +1768,7 @@ jobs:
     if: (!(cancelled() || failure()) && needs.deploy-tgs.result == 'success')
     steps:
     - name: Setup dotnet
-      uses: actions/setup-dotnet@v3
+      uses: actions/setup-dotnet@v4
       with:
         dotnet-version: '${{ env.TGS_DOTNET_VERSION }}.0.x'
         dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
@@ -1845,7 +1856,7 @@ jobs:
     runs-on: windows-latest
     steps:
     - name: Setup dotnet
-      uses: actions/setup-dotnet@v3
+      uses: actions/setup-dotnet@v4
       with:
         dotnet-version: '${{ env.TGS_DOTNET_VERSION }}.0.x'
         dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}

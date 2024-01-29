@@ -42,7 +42,8 @@ In order to build the service version and/or the Windows installer you need a to
 
 In addition, the installer project uses the Wix v4 Toolset which will cause an error on loading the .sln in Visual Studio if the [HeatWave for VS2022 Extension](https://marketplace.visualstudio.com/items?itemName=FireGiant.FireGiantHeatWaveDev17) is not installed.
 
-In order to run the integration tests you must have the following environment variables set. To run them more accurately, include the optional ones.
+In order to run the integration tests you must have the dotnet 7.0 SDK installed to properly build the OpenDream minimum compatible version.
+You must also have the following environment variables set. To run them more accurately, include the optional ones.
 - `TGS_TEST_DATABASE_TYPE`: `MySql`, `MariaDB`, `PostgresSql`, or `SqlServer`.
 - `TGS_TEST_CONNECTION_STRING`: To a valid database connection string. You can use the setup wizard to create one.
 - (Optional) `TGS_TEST_GITHUB_TOKEN`: A GitHub personal access token with no scopes used to bypass rate limits.
