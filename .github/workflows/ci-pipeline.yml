@@ -37,7 +37,8 @@ on:
 
 env:
   TGS_DOTNET_VERSION: 8
-  OD_DOTNET_VERSION: 7
+  OD_MIN_COMPAT_DOTNET_VERSION: 7
+  OD_DOTNET_VERSION: 8
   TGS_DOTNET_QUALITY: ga
   TGS_TEST_GITHUB_TOKEN: ${{ secrets.LIVE_TESTS_TOKEN }}
   TGS_RELEASE_NOTES_TOKEN: ${{ secrets.DEV_PUSH_TOKEN }}
@@ -175,8 +176,16 @@ jobs:
     steps:
     - name: Setup dotnet
       uses: actions/setup-dotnet@v4
+      if: matrix.committish == 'master'
       with:
         dotnet-version: '${{ env.OD_DOTNET_VERSION }}.0.x'
+        dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
+
+    - name: Setup dotnet (min-compat)
+      uses: actions/setup-dotnet@v4
+      if: matrix.committish == 'tgs-min-compat'
+      with:
+        dotnet-version: '${{ env.OD_MIN_COMPAT_DOTNET_VERSION }}.0.x'
         dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
 
     - name: Checkout (Branch)
@@ -429,6 +438,7 @@ jobs:
         dotnet-version: |
           ${{ env.TGS_DOTNET_VERSION }}.0.x
           ${{ env.OD_DOTNET_VERSION }}.0.x
+          ${{ env.OD_MIN_COMPAT_DOTNET_VERSION }}.0.x
         dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
 
     - name: Set TGS_TEST_DUMP_API_SPEC
@@ -661,6 +671,7 @@ jobs:
         dotnet-version: |
           ${{ env.TGS_DOTNET_VERSION }}.0.x
           ${{ env.OD_DOTNET_VERSION }}.0.x
+          ${{ env.OD_MIN_COMPAT_DOTNET_VERSION }}.0.x
         dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
 
     - name: Set Sqlite Connection Info
