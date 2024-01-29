@@ -60,11 +60,11 @@ You must also have the following environment variables set. To run them more acc
 
 For the full CI gambit, the following repository configuration must be set:
 
-- Setting `Workflow Permissions` to `Read and write permissions`: Enables CodeQL uploads and GitHub Actions comments.
+- Setting `Workflow Permissions` to `Read and write permissions`: Enables GitHub Actions comments.
 ![image](https://github.com/tgstation/tgstation-server/assets/8171642/ab17fa74-364f-4e66-b7c4-b9bb24c6a599)
 - Label `CI Cleared`: To allow PRs from forks to run CI with secrets after approval.
-- Variable `TGS_ENABLE_CODE_QL` to `true`: Enables CodeQL scanning in actions.
 - Integration [CodeCov](https://github.com/apps/codecov): Enables CodeCov status checks.
+- Secret `CI_STATUSES_TOKEN`: A GitHub token with read access to the repository's contents/actions and write access to the repository's checks/security events. Used to create CI completion statuses.
 - Secret `CODECOV_TOKEN`: A CodeCov repo token to work around https://github.com/codecov/codecov-action/issues/837.
 - Secret `LIVE_TESTS_TOKEN`: A GitHub token with read access to the repository and write access to https://github.com/Cyberboss/common_core (TODO: Make the target repository here configurable). Despite it's name, it may be used across the entire test suite.
 - Secret `TGS_TEST_DISCORD_TOKEN`: See above note about test environment variables.
@@ -74,7 +74,7 @@ For the full CI gambit, the following repository configuration must be set:
 
 If you don't plan on deploying TGS, the following secrets can be omitted:
 
-- Secret `DEV_PUSH_TOKEN`: A GitHub token with write access to the repository. Enables doxygen pushes to `gh-pages` branch, and releases creation.
+- Secret `DEV_PUSH_TOKEN`: A GitHub token with read/write access to the repository. Enables doxygen pushes to `gh-pages` branch, and releases creation.
 - Secret `DOCKER_USERNAME`: Login username for Docker image push.
 - Secret `DOCKER_PASSWORD`: Login password for Docker image push.
 - Secret `NUGET_API_KEY`: Nuget.org API Key for client libraries push.
