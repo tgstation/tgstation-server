@@ -206,10 +206,20 @@ jobs:
         git checkout ${{ matrix.committish }}
         git submodule update --init --recursive
 
+    - name: Restore OpenDream
+      run: |
+        cd $HOME/OpenDream
+        dotnet restore
+
+    - name: Build OpenDream
+      run: |
+        cd $HOME/OpenDream/OpenDreamPackageTool
+        dotnet build -c Release --nologo -v q --property WarningLevel=0 /clp:ErrorsOnly
+
     - name: Create TGS Deployment
       run: |
         cd $HOME/OpenDream
-        dotnet run -c Release --project OpenDreamPackageTool --property WarningLevel=0 -- --tgs -o tgs_deploy
+        dotnet run -c Release --project OpenDreamPackageTool --no-build -- --tgs -o tgs_deploy
 
     - name: Build DMAPI
       run: |
