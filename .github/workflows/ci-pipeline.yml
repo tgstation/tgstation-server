@@ -85,6 +85,9 @@ jobs:
     name: Code Scanning
     needs: start-ci-run-gate
     runs-on: ubuntu-latest
+    permissions:
+      security-events: write
+      actions: read
     if: (!(cancelled() || failure()) && needs.start-ci-run-gate.result == 'success')
     steps:
     - name: Setup dotnet
@@ -100,7 +103,6 @@ jobs:
       uses: github/codeql-action/init@v3
       with:
         languages: csharp
-        token: ${{ secrets.CI_STATUSES_TOKEN }}
 
     - name: Build
       run: dotnet build -c ReleaseNoWindows -p:TGS_HOST_NO_WEBPANEL=true
@@ -109,8 +111,6 @@ jobs:
       uses: github/codeql-action/analyze@v3
       with:
         category: "/language:csharp"
-        token: ${{ secrets.CI_STATUSES_TOKEN }}
-
 
   dmapi-build:
     name: Build DMAPI
@@ -1374,12 +1374,15 @@ jobs:
     name: CI Completion Gate
     needs: [ pages-build, docker-build, build-deb, build-msi, validate-openapi-spec, upload-code-coverage, check-winget-pr-template, code-scanning ]
     runs-on: ubuntu-latest
-    if: (!(cancelled() || failure()) && needs.pages-build.result == 'success' && needs.docker-build.result == 'success' && needs.build-deb.result == 'success' && needs.build-msi.result == 'success' && needs.validate-openapi-spec.result == 'success' && needs.upload-code-coverage.result == 'success' && needs.check-winget-pr-template.result == 'success')
+    permissions:
+      checks: write
+      contents: read
+    if: (!(cancelled() || failure()) && needs.pages-build.result == 'success' && needs.docker-build.result == 'success' && needs.build-deb.result == 'success' && needs.build-msi.result == 'success' && needs.validate-openapi-spec.result == 'success' && needs.upload-code-coverage.result == 'success' && needs.check-winget-pr-template.result == 'success' && needs.code-scanning.result == 'success')
     steps:
     - name: Create Completion Check
       uses: LouisBrunner/checks-action@6b626ffbad7cc56fd58627f774b9067e6118af23
       with:
-        token: ${{ secrets.CI_STATUSES_TOKEN }}
+        token: ${{ secrets.GITHUB_TOKEN }}
         name: CI Completion
         conclusion: success
         output: |
