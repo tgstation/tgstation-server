@@ -96,8 +96,15 @@ jobs:
         dotnet-version: '${{ env.TGS_DOTNET_VERSION }}.0.x'
         dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
 
-    - name: Checkout
+    - name: Checkout (Branch)
       uses: actions/checkout@v4
+      if: github.event_name == 'push' || github.event_name == 'schedule'
+
+    - name: Checkout (PR Merge)
+      uses: actions/checkout@v4
+      if: github.event_name != 'push' && github.event_name != 'schedule'
+      with:
+        ref: "refs/pull/${{ github.event.number }}/merge"
 
     - name: Initialize CodeQL
       uses: github/codeql-action/init@v3
