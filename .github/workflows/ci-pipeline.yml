@@ -618,7 +618,7 @@ jobs:
         path: C:/tgs_api.json
 
     - name: Package Server Service
-      if: ${{ matrix.configuration == 'Release' && matrix.watchdog-type == 'Basic' }}
+      if: ${{ matrix.configuration == 'Release' && matrix.watchdog-type == 'Basic' && matrix.database-type == 'PostgresSql' }}
       run: |
         cd src/Tgstation.Server.Host.Service
         dotnet publish -c ${{ matrix.configuration }} -o ../../artifacts/Service
@@ -630,14 +630,14 @@ jobs:
         build/RemoveUnsupportedServiceRuntimes.ps1 artifacts/Service
 
     - name: Store Server Service
-      if: ${{ matrix.configuration == 'Release' && matrix.watchdog-type == 'Basic' }}
+      if: ${{ matrix.configuration == 'Release' && matrix.watchdog-type == 'Basic' && matrix.database-type == 'PostgresSql' }}
       uses: actions/upload-artifact@v4
       with:
         name: ServerService
         path: artifacts/Service/
 
     - name: Install Code Signing Certificate
-      if: ${{ matrix.configuration == 'Release' && matrix.watchdog-type == 'Basic' }}
+      if: ${{ matrix.configuration == 'Release' && matrix.watchdog-type == 'Basic' && matrix.database-type == 'PostgresSql' }}
       shell: powershell
       run: |
         $pfxBytes = [convert]::FromBase64String("${{ secrets.CODE_SIGNING_BASE64 }}")
@@ -647,7 +647,7 @@ jobs:
         rm tg_codesigning.pfx
 
     - name: Test Sign Service .exe
-      if: ${{ matrix.configuration == 'Release' && matrix.watchdog-type == 'Basic' }}
+      if: ${{ matrix.configuration == 'Release' && matrix.watchdog-type == 'Basic' && matrix.database-type == 'PostgresSql' }}
       shell: powershell
       run: Set-AuthenticodeSignature artifacts/Service/Tgstation.Server.Host.Service.exe -Certificate (Get-ChildItem Cert:\CurrentUser\My | Where-Object { $_.Thumbprint -eq "${{ vars.CODE_SIGNING_THUMBPRINT }}" }) -TimestampServer "http://timestamp.digicert.com"
 
