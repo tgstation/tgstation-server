@@ -88,21 +88,22 @@ namespace Tgstation.Server.Host.Components.Engine
 		{
 			CheckVersionValidity(version);
 
-			var binPathForVersion = IOManager.ConcatPath(path, ByondBinPath);
+			var installationIOManager = new ResolvingIOManager(IOManager, path);
 			var supportsMapThreads = version.Version >= MapThreadsVersion;
 
 			return new ByondInstallation(
+				installationIOManager,
 				installationTask,
 				version,
-				IOManager.ResolvePath(
-					IOManager.ConcatPath(
-						binPathForVersion,
+				installationIOManager.ResolvePath(
+					installationIOManager.ConcatPath(
+						ByondBinPath,
 						GetDreamDaemonName(
 							version.Version!,
 							out var supportsCli))),
-				IOManager.ResolvePath(
-					IOManager.ConcatPath(
-						binPathForVersion,
+				installationIOManager.ResolvePath(
+					installationIOManager.ConcatPath(
+						ByondBinPath,
 						DreamMakerName)),
 				supportsCli,
 				supportsMapThreads);

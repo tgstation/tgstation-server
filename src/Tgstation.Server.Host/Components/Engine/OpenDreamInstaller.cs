@@ -124,7 +124,7 @@ namespace Tgstation.Server.Host.Components.Engine
 			CheckVersionValidity(version);
 			GetExecutablePaths(path, out var serverExePath, out var compilerExePath);
 			return new OpenDreamInstallation(
-				IOManager,
+				new ResolvingIOManager(IOManager, path),
 				asyncDelayer,
 				httpClientFactory,
 				serverExePath,
