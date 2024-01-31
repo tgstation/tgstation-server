@@ -507,6 +507,7 @@ namespace Tgstation.Server.Host.Components.Session
 				engineLock.ServerExePath,
 				dmbProvider.Directory,
 				arguments,
+				null,
 				logFilePath,
 				engineLock.HasStandardOutput,
 				true);

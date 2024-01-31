@@ -69,6 +69,7 @@ namespace Tgstation.Server.Host.System.Tests
 					pathToSignalTestApp,
 					$"run -c {CurrentConfig} --no-build",
 					null,
+					null,
 					true,
 					true);
 

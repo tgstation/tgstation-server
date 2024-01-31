@@ -258,6 +258,7 @@ namespace Tgstation.Server.Host.Components.Engine
 						shortenedPath,
 						$"run -c Release --project OpenDreamPackageTool -- --tgs -o {shortenedDeployPath}",
 						null,
+						null,
 						!GeneralConfiguration.OpenDreamSuppressInstallOutput,
 						!GeneralConfiguration.OpenDreamSuppressInstallOutput);
 
