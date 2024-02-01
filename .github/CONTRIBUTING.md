@@ -64,7 +64,6 @@ For the full CI gambit, the following repository configuration must be set:
 ![image](https://github.com/tgstation/tgstation-server/assets/8171642/ab17fa74-364f-4e66-b7c4-b9bb24c6a599)
 - Label `CI Cleared`: To allow PRs from forks to run CI with secrets after approval.
 - Integration [CodeCov](https://github.com/apps/codecov): Enables CodeCov status checks.
-- Secret `CI_STATUSES_TOKEN`: A GitHub token with read access to the repository's contents/actions and write access to the repository's checks/security events. Used to create CI completion statuses.
 - Secret `CODECOV_TOKEN`: A CodeCov repo token to work around https://github.com/codecov/codecov-action/issues/837.
 - Secret `LIVE_TESTS_TOKEN`: A GitHub token with read access to the repository and write access to https://github.com/Cyberboss/common_core (TODO: Make the target repository here configurable). Despite it's name, it may be used across the entire test suite.
 - Secret `TGS_TEST_DISCORD_TOKEN`: See above note about test environment variables.
