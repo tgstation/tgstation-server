@@ -192,7 +192,7 @@ namespace Tgstation.Server.Host.Components.Engine
 		}
 
 		/// <inheritdoc />
-		public override async ValueTask Install(EngineVersion version, string installPath, CancellationToken cancellationToken)
+		public override async ValueTask Install(EngineVersion version, string installPath, bool deploymentPipelineProcesses, CancellationToken cancellationToken)
 		{
 			CheckVersionValidity(version);
 			ArgumentNullException.ThrowIfNull(installPath);
@@ -247,7 +247,7 @@ namespace Tgstation.Server.Host.Components.Engine
 						!GeneralConfiguration.OpenDreamSuppressInstallOutput,
 						!GeneralConfiguration.OpenDreamSuppressInstallOutput);
 
-					if (SessionConfiguration.LowPriorityDeploymentProcesses)
+					if (deploymentPipelineProcesses && SessionConfiguration.LowPriorityDeploymentProcesses)
 						buildProcess.AdjustPriority(false);
 
 					using (cancellationToken.Register(() => buildProcess.Terminate()))
