@@ -503,6 +503,7 @@ namespace Tgstation.Server.Tests
 					Environment.CurrentDirectory,
 					"fake.dmb -map-threads 3 -close",
 					null,
+					null,
 					true,
 					true);
 

@@ -48,11 +48,6 @@ namespace Tgstation.Server.Host.Components.Engine
 		public override Task InstallationTask { get; }
 
 		/// <summary>
-		/// The <see cref="IIOManager"/> for the <see cref="OpenDreamInstallation"/>.
-		/// </summary>
-		readonly IIOManager ioManager;
-
-		/// <summary>
 		/// The <see cref="IAsyncDelayer"/> for the <see cref="OpenDreamInstallation"/>.
 		/// </summary>
 		readonly IAsyncDelayer asyncDelayer;
@@ -65,7 +60,7 @@ namespace Tgstation.Server.Host.Components.Engine
 		/// <summary>
 		/// Initializes a new instance of the <see cref="OpenDreamInstallation"/> class.
 		/// </summary>
-		/// <param name="ioManager">The value of <see cref="ioManager"/>.</param>
+		/// <param name="installationIOManager">The <see cref="IIOManager"/> for the <see cref="EngineInstallationBase"/>.</param>
 		/// <param name="asyncDelayer">The value of <see cref="asyncDelayer"/>.</param>
 		/// <param name="httpClientFactory">The value of <see cref="httpClientFactory"/>.</param>
 		/// <param name="serverExePath">The value of <see cref="ServerExePath"/>.</param>
@@ -73,15 +68,15 @@ namespace Tgstation.Server.Host.Components.Engine
 		/// <param name="installationTask">The value of <see cref="InstallationTask"/>.</param>
 		/// <param name="version">The value of <see cref="Version"/>.</param>
 		public OpenDreamInstallation(
-			IIOManager ioManager,
+			IIOManager installationIOManager,
 			IAsyncDelayer asyncDelayer,
 			IAbstractHttpClientFactory httpClientFactory,
 			string serverExePath,
 			string compilerExePath,
 			Task installationTask,
 			EngineVersion version)
+			: base(installationIOManager)
 		{
-			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
 			this.asyncDelayer = asyncDelayer ?? throw new ArgumentNullException(nameof(asyncDelayer));
 			this.httpClientFactory = httpClientFactory ?? throw new ArgumentNullException(nameof(httpClientFactory));
 			ServerExePath = serverExePath ?? throw new ArgumentNullException(nameof(serverExePath));
@@ -109,7 +104,7 @@ namespace Tgstation.Server.Host.Components.Engine
 
 			var parametersString = EncodeParameters(parameters, launchParameters);
 
-			var arguments = $"--cvar {(logFilePath != null ? $"log.path=\"{ioManager.GetDirectoryName(logFilePath)}\" --cvar log.format=\"{ioManager.GetFileName(logFilePath)}\"" : "log.enabled=false")} --cvar watchdog.token={accessIdentifier} --cvar log.runtimelog=false --cvar net.port={launchParameters.Port!.Value} --cvar opendream.topic_port=0 --cvar opendream.world_params=\"{parametersString}\" --cvar opendream.json_path=\"./{dmbProvider.DmbName}\"";
+			var arguments = $"--cvar {(logFilePath != null ? $"log.path=\"{InstallationIOManager.GetDirectoryName(logFilePath)}\" --cvar log.format=\"{InstallationIOManager.GetFileName(logFilePath)}\"" : "log.enabled=false")} --cvar watchdog.token={accessIdentifier} --cvar log.runtimelog=false --cvar net.port={launchParameters.Port!.Value} --cvar opendream.topic_port=0 --cvar opendream.world_params=\"{parametersString}\" --cvar opendream.json_path=\"./{dmbProvider.DmbName}\"";
 			return arguments;
 		}
 
@@ -125,6 +120,8 @@ namespace Tgstation.Server.Host.Components.Engine
 			ushort port,
 			CancellationToken cancellationToken)
 		{
+			ArgumentNullException.ThrowIfNull(logger);
+
 			const int MaximumTerminationSeconds = 5;
 
 			logger.LogTrace("Attempting Robust.Server graceful exit (Timeout: {seconds}s)...", MaximumTerminationSeconds);

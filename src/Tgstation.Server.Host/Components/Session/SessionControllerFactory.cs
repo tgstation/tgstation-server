@@ -490,6 +490,7 @@ namespace Tgstation.Server.Host.Components.Session
 			CancellationToken cancellationToken)
 		{
 			// important to run on all ports to allow port changing
+			var environment = await engineLock.LoadEnv(logger, false, cancellationToken);
 			var arguments = engineLock.FormatServerArguments(
 				dmbProvider,
 				new Dictionary<string, string>
@@ -507,6 +508,7 @@ namespace Tgstation.Server.Host.Components.Session
 				engineLock.ServerExePath,
 				dmbProvider.Directory,
 				arguments,
+				environment,
 				logFilePath,
 				engineLock.HasStandardOutput,
 				true);

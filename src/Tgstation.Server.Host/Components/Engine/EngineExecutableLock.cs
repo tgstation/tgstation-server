@@ -62,5 +62,9 @@ namespace Tgstation.Server.Host.Components.Engine
 				accessIdentifier,
 				port,
 				cancellationToken);
+
+		/// <inheritdoc />
+		public ValueTask<Dictionary<string, string>?> LoadEnv(ILogger logger, bool forCompiler, CancellationToken cancellationToken)
+			=> Instance.LoadEnv(logger, forCompiler, cancellationToken);
 	}
 }

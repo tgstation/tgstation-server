@@ -1,15 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
+
+using DotEnv.Core;
 
 using Microsoft.Extensions.Logging;
 
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Host.Components.Deployment;
+using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.System;
 
 namespace Tgstation.Server.Host.Components.Engine
@@ -39,6 +43,11 @@ namespace Tgstation.Server.Host.Components.Engine
 		public abstract Task InstallationTask { get; }
 
 		/// <summary>
+		/// The <see cref="IIOManager"/> pointing to the installation directory.
+		/// </summary>
+		protected IIOManager InstallationIOManager { get; }
+
+		/// <summary>
 		/// Encode given parameters for passing as world.params on the command line.
 		/// </summary>
 		/// <param name="parameters"><see cref="IReadOnlyDictionary{TKey, TValue}"/> of parameters to encode.</param>
@@ -56,6 +65,15 @@ namespace Tgstation.Server.Host.Components.Engine
 			return parametersString;
 		}
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="EngineInstallationBase"/> class.
+		/// </summary>
+		/// <param name="installationIOManager">The value of <see cref="InstallationIOManager"/>.</param>
+		public EngineInstallationBase(IIOManager installationIOManager)
+		{
+			InstallationIOManager = installationIOManager ?? throw new ArgumentNullException(nameof(installationIOManager));
+		}
+
 		/// <inheritdoc />
 		public abstract string FormatCompilerArguments(string dmePath);
 
@@ -69,10 +87,45 @@ namespace Tgstation.Server.Host.Components.Engine
 		/// <inheritdoc />
 		public virtual async ValueTask StopServerProcess(ILogger logger, IProcess process, string accessIdentifier, ushort port, CancellationToken cancellationToken)
 		{
+			ArgumentNullException.ThrowIfNull(logger);
 			cancellationToken.ThrowIfCancellationRequested();
 			logger.LogTrace("Terminating engine server process...");
 			process.Terminate();
 			await process.Lifetime;
+		}
+
+		/// <inheritdoc />
+		public async ValueTask<Dictionary<string, string>?> LoadEnv(ILogger logger, bool forCompiler, CancellationToken cancellationToken)
+		{
+			ArgumentNullException.ThrowIfNull(logger);
+
+			var envFile = forCompiler
+				? "compiler.env"
+				: "server.env";
+
+			if (!await InstallationIOManager.FileExists(envFile, cancellationToken))
+			{
+				logger.LogTrace("No {envFile} present in engine installation {version}", envFile, Version);
+				return null;
+			}
+
+			logger.LogDebug("Loading {envFile} for engine installation {version}...", envFile, Version);
+
+			var fileBytes = await InstallationIOManager.ReadAllBytes(envFile, cancellationToken);
+			var fileContents = Encoding.UTF8.GetString(fileBytes);
+			var parser = new EnvParser();
+
+			try
+			{
+				var variables = parser.Parse(fileContents);
+
+				return variables.ToDictionary();
+			}
+			catch (Exception ex)
+			{
+				logger.LogWarning(ex, "Unable to parse {envFile}!", envFile);
+				return null;
+			}
 		}
 	}
 }
