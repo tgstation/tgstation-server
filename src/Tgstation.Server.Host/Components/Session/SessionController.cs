@@ -104,6 +104,11 @@ namespace Tgstation.Server.Host.Components.Session
 		/// <inheritdoc />
 		public bool ProcessingRebootBridgeRequest => rebootBridgeRequestsProcessing > 0;
 
+		/// <inheritdoc />
+		public string DumpFileExtension => engineLock.UseDotnetDump
+			? ".net.dmp"
+			: ".dmp";
+
 		/// <summary>
 		/// The up to date <see cref="Session.ReattachInformation"/>.
 		/// </summary>

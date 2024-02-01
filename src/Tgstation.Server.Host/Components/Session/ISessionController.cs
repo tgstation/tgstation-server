@@ -85,6 +85,11 @@ namespace Tgstation.Server.Host.Components.Session
 		bool DMApiAvailable { get; }
 
 		/// <summary>
+		/// The file extension to use for process dumps created from this session.
+		/// </summary>
+		string DumpFileExtension { get; }
+
+		/// <summary>
 		/// Releases the <see cref="IProcess"/> without terminating it. Also calls <see cref="IDisposable.Dispose"/>.
 		/// </summary>
 		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>

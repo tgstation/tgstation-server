@@ -1225,21 +1225,27 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		async ValueTask CreateDumpNoLock(CancellationToken cancellationToken)
 		{
 			const string DumpDirectory = "ProcessDumps";
+
+			var session = GetActiveController();
+			if (session?.Lifetime.IsCompleted != false)
+				throw new JobException(ErrorCode.GameServerOffline);
+
+			var dumpFileExtension = session.DumpFileExtension;
+
 			var dumpFileNameTemplate = diagnosticsIOManager.ResolvePath(
 				diagnosticsIOManager.ConcatPath(
 					DumpDirectory,
-					$"DreamDaemon-{DateTimeOffset.UtcNow.ToFileStamp()}.dmp"));
+					$"DreamDaemon-{DateTimeOffset.UtcNow.ToFileStamp()}"));
 
-			var dumpFileName = dumpFileNameTemplate;
+			var dumpFileName = $"{dumpFileNameTemplate}{dumpFileExtension}";
 			var iteration = 0;
 			while (await diagnosticsIOManager.FileExists(dumpFileName, cancellationToken))
-				dumpFileName = $"{dumpFileNameTemplate} ({++iteration})";
+				dumpFileName = $"{dumpFileNameTemplate} ({++iteration}){dumpFileExtension}";
 
 			if (iteration == 0)
 				await diagnosticsIOManager.CreateDirectory(DumpDirectory, cancellationToken);
 
-			var session = GetActiveController();
-			if (session?.Lifetime.IsCompleted != false)
+			if (session.Lifetime.IsCompleted)
 				throw new JobException(ErrorCode.GameServerOffline);
 
 			Logger.LogInformation("Dumping session to {dumpFileName}...", dumpFileName);
