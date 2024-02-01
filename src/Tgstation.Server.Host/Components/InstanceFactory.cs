@@ -283,7 +283,6 @@ namespace Tgstation.Server.Host.Components
 					byondIOManager,
 					engineInstaller,
 					eventConsumer,
-					dotnetDumpService,
 					loggerFactory.CreateLogger<EngineManager>());
 
 				var dmbFactory = new DmbFactory(

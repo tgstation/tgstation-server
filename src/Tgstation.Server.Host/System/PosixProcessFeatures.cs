@@ -104,7 +104,7 @@ namespace Tgstation.Server.Host.System
 
 			if (exitCode != 0)
 				throw new JobException(
-					ErrorCode.DumpProcessFailure,
+					ErrorCode.GCoreFailure,
 					new JobException(
 						$"Exit Code: {exitCode}{Environment.NewLine}Output:{Environment.NewLine}{output}"));
 

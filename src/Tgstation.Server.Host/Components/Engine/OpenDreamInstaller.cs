@@ -232,6 +232,9 @@ namespace Tgstation.Server.Host.Components.Engine
 			}
 
 			var dotnetPath = await DotnetHelper.GetDotnetPath(platformIdentifier, IOManager, cancellationToken);
+			if (dotnetPath == null)
+				throw new JobException(ErrorCode.OpenDreamCantFindDotnet);
+
 			const string DeployDir = "tgs_deploy";
 			int? buildExitCode = null;
 			await HandleExtremelyLongPathOperation(
