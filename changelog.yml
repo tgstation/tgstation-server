@@ -150,7 +150,6 @@ Components:
   Core:
   - Version: 6.2.0
     ComponentVersions:
-      Core: 6.1.2
       HttpApi: 10.0.0
       DreamMakerApi: 7.0.2
       Configuration: 5.1.0
@@ -160,7 +159,11 @@ Components:
       NugetApi: 13.0.1
       NugetClient: 15.0.1
       WebControlPanel: 5.4.2
-    Changes: []
+    Changes:
+    - Descriptions:
+      - You can now add `server.env` and `compiler.env` files to your engine installation directories (i.e. `<instance>/Byond/515.1530/server.env`) to specify environment variables to set when executing the game server and compiler respectively. These are [.env](https://hexdocs.pm/dotenvy/dotenv-file-format.html) files.
+      Author: Cyberboss
+      PullRequest: 1783
     Unreleased: true
   - Version: 6.1.6
     ComponentVersions:

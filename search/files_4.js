@@ -11,7 +11,7 @@ var searchData=
   ['chatbotsclient_2ecs_8',['ChatBotsClient.cs',['../_chat_bots_client_8cs.html',1,'']]],
   ['chatbotsettings_2ecs_9',['ChatBotSettings.cs',['../_chat_bot_settings_8cs.html',1,'']]],
   ['chatbotupdaterequest_2ecs_10',['ChatBotUpdateRequest.cs',['../_chat_bot_update_request_8cs.html',1,'']]],
-  ['chatchannel_2ecs_11',['ChatChannel.cs',['../_tgstation_8_server_8_api_2_models_2_chat_channel_8cs.html',1,'(Global Namespace)'],['../_tgstation_8_server_8_host_2_models_2_chat_channel_8cs.html',1,'(Global Namespace)']]],
+  ['chatchannel_2ecs_11',['ChatChannel.cs',['../_tgstation_8_server_8_host_2_models_2_chat_channel_8cs.html',1,'(Global Namespace)'],['../_tgstation_8_server_8_api_2_models_2_chat_channel_8cs.html',1,'(Global Namespace)']]],
   ['chatchannelbase_2ecs_12',['ChatChannelBase.cs',['../_chat_channel_base_8cs.html',1,'']]],
   ['chatchannelextensions_2ecs_13',['ChatChannelExtensions.cs',['../_chat_channel_extensions_8cs.html',1,'']]],
   ['chatcommand_2ecs_14',['ChatCommand.cs',['../_chat_command_8cs.html',1,'']]],

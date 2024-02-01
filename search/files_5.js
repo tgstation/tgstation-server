@@ -44,5 +44,5 @@ var searchData=
   ['dreammakerrequest_2ecs_41',['DreamMakerRequest.cs',['../_dream_maker_request_8cs.html',1,'']]],
   ['dreammakerresponse_2ecs_42',['DreamMakerResponse.cs',['../_dream_maker_response_8cs.html',1,'']]],
   ['dreammakerrights_2ecs_43',['DreamMakerRights.cs',['../_dream_maker_rights_8cs.html',1,'']]],
-  ['dreammakersettings_2ecs_44',['DreamMakerSettings.cs',['../_tgstation_8_server_8_api_2_models_2_internal_2_dream_maker_settings_8cs.html',1,'(Global Namespace)'],['../_tgstation_8_server_8_host_2_models_2_dream_maker_settings_8cs.html',1,'(Global Namespace)']]]
+  ['dreammakersettings_2ecs_44',['DreamMakerSettings.cs',['../_tgstation_8_server_8_host_2_models_2_dream_maker_settings_8cs.html',1,'(Global Namespace)'],['../_tgstation_8_server_8_api_2_models_2_internal_2_dream_maker_settings_8cs.html',1,'(Global Namespace)']]]
 ];
