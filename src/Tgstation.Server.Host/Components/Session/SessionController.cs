@@ -150,6 +150,11 @@ namespace Tgstation.Server.Host.Components.Session
 		readonly IAsyncDelayer asyncDelayer;
 
 		/// <summary>
+		/// The <see cref="IDotnetDumpService"/> for the <see cref="SessionController"/>.
+		/// </summary>
+		readonly IDotnetDumpService dotnetDumpService;
+
+		/// <summary>
 		/// The <see cref="TaskCompletionSource"/> that completes when DD makes it's first bridge request.
 		/// </summary>
 		readonly TaskCompletionSource initialBridgeRequestTcs;
@@ -236,7 +241,8 @@ namespace Tgstation.Server.Host.Components.Session
 		/// <param name="chat">The value of <see cref="chat"/>.</param>
 		/// <param name="chatTrackingContext">The value of <see cref="chatTrackingContext"/>.</param>
 		/// <param name="assemblyInformationProvider">The <see cref="IAssemblyInformationProvider"/> for the <see cref="SessionController"/>.</param>
-		/// <param name="asyncDelayer">The <see cref="IAsyncDelayer"/> for the <see cref="SessionController"/>.</param>
+		/// <param name="asyncDelayer">The value of <see cref="asyncDelayer"/>.</param>
+		/// <param name="dotnetDumpService">The value of <see cref="dotnetDumpService"/>.</param>
 		/// <param name="logger">The value of <see cref="Chunker.Logger"/>.</param>
 		/// <param name="postLifetimeCallback">The <see cref="Func{TResult}"/> returning a <see cref="ValueTask"/> to be run after the <paramref name="process"/> ends.</param>
 		/// <param name="startupTimeout">The optional time to wait before failing the <see cref="LaunchResult"/>.</param>
@@ -253,6 +259,7 @@ namespace Tgstation.Server.Host.Components.Session
 			IChatManager chat,
 			IAssemblyInformationProvider assemblyInformationProvider,
 			IAsyncDelayer asyncDelayer,
+			IDotnetDumpService dotnetDumpService,
 			ILogger<SessionController> logger,
 			Func<ValueTask> postLifetimeCallback,
 			uint? startupTimeout,
@@ -272,6 +279,7 @@ namespace Tgstation.Server.Host.Components.Session
 			ArgumentNullException.ThrowIfNull(assemblyInformationProvider);
 
 			this.asyncDelayer = asyncDelayer ?? throw new ArgumentNullException(nameof(asyncDelayer));
+			this.dotnetDumpService = dotnetDumpService ?? throw new ArgumentNullException(nameof(dotnetDumpService));
 
 			apiValidationSession = apiValidate;
 
@@ -474,7 +482,14 @@ namespace Tgstation.Server.Host.Components.Session
 				cancellationToken);
 
 		/// <inheritdoc />
-		public ValueTask CreateDump(string outputFile, CancellationToken cancellationToken) => process.CreateDump(outputFile, cancellationToken);
+		public async ValueTask CreateDump(string outputFile, CancellationToken cancellationToken)
+		{
+			if (engineLock.UseDotnetDump
+				&& await dotnetDumpService.Dump(process, outputFile, cancellationToken))
+				return;
+
+			await process.CreateDump(outputFile, cancellationToken);
+		}
 
 		/// <summary>
 		/// The <see cref="Task{TResult}"/> for <see cref="LaunchResult"/>.

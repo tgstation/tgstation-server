@@ -575,7 +575,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 				await WaitForJob(restartJob, 20, false, null, cancellationToken);
 			}
 
-			Assert.IsTrue(job.ErrorCode == ErrorCode.GameServerOffline || job.ErrorCode == ErrorCode.GCoreFailure, $"{job.ErrorCode}: {job.ExceptionDetails}");
+			Assert.IsTrue(job.ErrorCode == ErrorCode.GameServerOffline || job.ErrorCode == ErrorCode.DumpProcessFailure, $"{job.ErrorCode}: {job.ExceptionDetails}");
 
 			var restartJob2 = await instanceClient.DreamDaemon.Restart(cancellationToken);
 			await WaitForJob(restartJob2, 20, false, null, cancellationToken);

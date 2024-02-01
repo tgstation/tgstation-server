@@ -40,6 +40,9 @@ namespace Tgstation.Server.Host.Components.Engine
 		public abstract bool PromptsForNetworkAccess { get; }
 
 		/// <inheritdoc />
+		public abstract bool UseDotnetDump { get; }
+
+		/// <inheritdoc />
 		public abstract Task InstallationTask { get; }
 
 		/// <summary>

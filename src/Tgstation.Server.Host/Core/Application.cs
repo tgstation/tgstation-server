@@ -365,11 +365,9 @@ namespace Tgstation.Server.Host.Core
 			}
 
 			// only global repo manager should be for the OD repo
+			// god help me if we need more
 			var openDreamRepositoryDirectory = ioManager.ConcatPath(
-				Environment.GetFolderPath(
-					Environment.SpecialFolder.LocalApplicationData,
-					Environment.SpecialFolderOption.DoNotVerify),
-				assemblyInformationProvider.VersionPrefix,
+				ioManager.GetPathInLocalDirectory(assemblyInformationProvider),
 				"OpenDreamRepository");
 			services.AddSingleton(
 				services => services
@@ -416,6 +414,7 @@ namespace Tgstation.Server.Host.Core
 			services.AddSingleton<IChatManagerFactory, ChatManagerFactory>();
 			services.AddSingleton<IServerUpdater, ServerUpdater>();
 			services.AddSingleton<IServerUpdateInitiator, ServerUpdateInitiator>();
+			services.AddSingleton<IDotnetDumpService, DotnetDumpService>();
 
 			// configure misc services
 			services.AddSingleton<IProcessExecutor, ProcessExecutor>();

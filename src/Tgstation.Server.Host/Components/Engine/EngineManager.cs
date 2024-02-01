@@ -14,6 +14,7 @@ using Tgstation.Server.Common.Extensions;
 using Tgstation.Server.Host.Components.Events;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Jobs;
+using Tgstation.Server.Host.System;
 using Tgstation.Server.Host.Utils;
 
 namespace Tgstation.Server.Host.Components.Engine
@@ -60,6 +61,11 @@ namespace Tgstation.Server.Host.Components.Engine
 		readonly IEventConsumer eventConsumer;
 
 		/// <summary>
+		/// The <see cref="IDotnetDumpService"/> for the <see cref="EngineManager"/>.
+		/// </summary>
+		readonly IDotnetDumpService dotnetDumpService;
+
+		/// <summary>
 		/// The <see cref="ILogger"/> for the <see cref="EngineManager"/>.
 		/// </summary>
 		readonly ILogger<EngineManager> logger;
@@ -100,12 +106,14 @@ namespace Tgstation.Server.Host.Components.Engine
 		/// <param name="ioManager">The value of <see cref="ioManager"/>.</param>
 		/// <param name="engineInstaller">The value of <see cref="engineInstaller"/>.</param>
 		/// <param name="eventConsumer">The value of <see cref="eventConsumer"/>.</param>
+		/// <param name="dotnetDumpService">The value of <see cref="dotnetDumpService"/>.</param>
 		/// <param name="logger">The value of <see cref="logger"/>.</param>
-		public EngineManager(IIOManager ioManager, IEngineInstaller engineInstaller, IEventConsumer eventConsumer, ILogger<EngineManager> logger)
+		public EngineManager(IIOManager ioManager, IEngineInstaller engineInstaller, IEventConsumer eventConsumer, IDotnetDumpService dotnetDumpService, ILogger<EngineManager> logger)
 		{
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
 			this.engineInstaller = engineInstaller ?? throw new ArgumentNullException(nameof(engineInstaller));
 			this.eventConsumer = eventConsumer ?? throw new ArgumentNullException(nameof(eventConsumer));
+			this.dotnetDumpService = dotnetDumpService ?? throw new ArgumentNullException(nameof(dotnetDumpService));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
 			installedVersions = new Dictionary<EngineVersion, ReferenceCountingContainer<IEngineInstallation, EngineExecutableLock>>();
@@ -380,6 +388,23 @@ namespace Tgstation.Server.Host.Components.Engine
 					await ioManager.DeleteFile(ActiveVersionFileName, cancellationToken);
 				}
 			}
+
+			bool needsDotnetDump;
+			lock (installedVersions)
+				needsDotnetDump = installedVersions.Values.Any(container => container.Instance.UseDotnetDump);
+
+			if (needsDotnetDump)
+			{
+				logger.LogDebug("One or more engine installations uses dotnet-dump. Ensuring installation...");
+				try
+				{
+					await dotnetDumpService.EnsureInstalled(true, cancellationToken);
+				}
+				catch (Exception ex)
+				{
+					logger.LogWarning(ex, "Failed to install dotnet-dump! Engine versions that use it will instead use standard process dumps!");
+				}
+			}
 		}
 
 		/// <inheritdoc />
@@ -472,6 +497,14 @@ namespace Tgstation.Server.Host.Components.Engine
 
 					var versionString = version.ToString();
 					await eventConsumer.HandleEvent(EventType.EngineInstallStart, new List<string> { versionString }, false, cancellationToken);
+
+					if (installLock.UseDotnetDump)
+					{
+						if (progressReporter != null)
+							progressReporter.StageName = "Installing dotnet-dump";
+
+						await dotnetDumpService.EnsureInstalled(false, cancellationToken);
+					}
 
 					await InstallVersionFiles(progressReporter, version, customVersionStream, cancellationToken);
 

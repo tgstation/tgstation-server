@@ -47,6 +47,11 @@ namespace Tgstation.Server.Host.Components.Engine
 		bool PreferFileLogging { get; }
 
 		/// <summary>
+		/// If dotnet-dump should be used to create process dumps for this installation.
+		/// </summary>
+		bool UseDotnetDump { get; }
+
+		/// <summary>
 		/// The <see cref="Task"/> that completes when the BYOND version finished installing.
 		/// </summary>
 		Task InstallationTask { get; }

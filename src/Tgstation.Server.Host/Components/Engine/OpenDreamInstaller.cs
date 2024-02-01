@@ -9,7 +9,6 @@ using Microsoft.Extensions.Options;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Common.Extensions;
 using Tgstation.Server.Common.Http;
-using Tgstation.Server.Host.Common;
 using Tgstation.Server.Host.Components.Repository;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.IO;
@@ -232,21 +231,7 @@ namespace Tgstation.Server.Host.Components.Engine
 				await Task.WhenAll(dirsMoveTasks.Concat(filesMoveTask));
 			}
 
-			var dotnetPaths = DotnetHelper.GetPotentialDotnetPaths(platformIdentifier.IsWindows)
-				.ToList();
-			var tasks = dotnetPaths
-				.Select(path => IOManager.FileExists(path, cancellationToken))
-				.ToList();
-
-			await Task.WhenAll(tasks);
-
-			var selectedPathIndex = tasks.FindIndex(pathValidTask => pathValidTask.Result);
-
-			if (selectedPathIndex == -1)
-				throw new JobException(ErrorCode.OpenDreamCantFindDotnet);
-
-			var dotnetPath = dotnetPaths[selectedPathIndex];
-
+			var dotnetPath = await DotnetHelper.GetDotnetPath(platformIdentifier, IOManager, cancellationToken);
 			const string DeployDir = "tgs_deploy";
 			int? buildExitCode = null;
 			await HandleExtremelyLongPathOperation(

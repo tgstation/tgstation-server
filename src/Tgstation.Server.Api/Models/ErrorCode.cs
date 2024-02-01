@@ -528,10 +528,10 @@ namespace Tgstation.Server.Api.Models
 		MissingGCore,
 
 		/// <summary>
-		/// Non-zero gcore exit code.
+		/// Non-zero gcore/dotnet-dump exit code.
 		/// </summary>
-		[Description("Could not create dump as gcore exited with a non-zero exit code!")]
-		GCoreFailure,
+		[Description("Could not create dump as the dumping process exited with a non-zero exit code!")]
+		DumpProcessFailure,
 
 		/// <summary>
 		/// Attempted to test merge with an invalid remote repository.
@@ -636,15 +636,21 @@ namespace Tgstation.Server.Api.Models
 		BroadcastFailure,
 
 		/// <summary>
-		/// Could not compile OpenDream due to a missing dotnet executable.
+		/// Unable to locate the dotnet executable for a necessary operation.
 		/// </summary>
-		[Description("OpenDream could not be compiled due to being unable to locate the dotnet executable!")]
-		OpenDreamCantFindDotnet,
+		[Description("Unable to locate the dotnet executable!")]
+		CantFindDotnet,
 
 		/// <summary>
 		/// Could not install OpenDream due to it not meeting the minimum version requirements.
 		/// </summary>
 		[Description("The specified OpenDream version is too old!")]
 		OpenDreamTooOld,
+
+		/// <summary>
+		/// Could not locally install the dotnet-dump tool.
+		/// </summary>
+		[Description("Could not locally install the dotnet-dump tool!")]
+		CantInstallDotnetDump,
 	}
 }

@@ -34,6 +34,9 @@ namespace Tgstation.Server.Host.Components.Engine
 		public override bool PreferFileLogging => false;
 
 		/// <inheritdoc />
+		public override bool UseDotnetDump => false;
+
+		/// <inheritdoc />
 		public override Task InstallationTask { get; }
 
 		/// <summary>
