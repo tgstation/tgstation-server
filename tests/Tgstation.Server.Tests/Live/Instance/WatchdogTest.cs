@@ -1,4 +1,4 @@
-﻿using Byond.TopicSender;
+using Byond.TopicSender;
 
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -526,7 +526,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			await WaitForJob(dumpJob, 30, false, null, cancellationToken);
 
 			var dumpFiles = Directory.GetFiles(Path.Combine(
-				instanceClient.Metadata.Path, "Diagnostics", "ProcessDumps"), "*.dmp");
+				instanceClient.Metadata.Path, "Diagnostics", "ProcessDumps"), testVersion.Engine == EngineType.OpenDream ? "*.net.dmp" : "*.dmp");
 			Assert.AreEqual(1, dumpFiles.Length);
 			File.Delete(dumpFiles.Single());
 
