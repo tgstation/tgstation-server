@@ -66,15 +66,17 @@ namespace Tgstation.Server.Host.Components.Engine
 		}
 
 		/// <inheritdoc />
-		public override ValueTask Install(EngineVersion version, string installPath, CancellationToken cancellationToken)
+		public override ValueTask Install(EngineVersion version, string installPath, bool deploymentPipelineProcesses, CancellationToken cancellationToken)
 		{
 			var installTask = base.Install(
 				version,
 				installPath,
+				deploymentPipelineProcesses,
 				cancellationToken);
 			var firewallTask = AddServerFirewallException(
 				version,
 				installPath,
+				deploymentPipelineProcesses,
 				cancellationToken);
 
 			return ValueTaskExtensions.WhenAll(installTask, firewallTask);
@@ -101,9 +103,10 @@ namespace Tgstation.Server.Host.Components.Engine
 		/// </summary>
 		/// <param name="version">The BYOND <see cref="EngineVersion"/>.</param>
 		/// <param name="path">The path to the BYOND installation.</param>
+		/// <param name="deploymentPipelineProcesses">If the operation is part of the deployment pipeline.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
-		async ValueTask AddServerFirewallException(EngineVersion version, string path, CancellationToken cancellationToken)
+		async ValueTask AddServerFirewallException(EngineVersion version, string path, bool deploymentPipelineProcesses, CancellationToken cancellationToken)
 		{
 			if (GeneralConfiguration.SkipAddingByondFirewallException)
 				return;
@@ -123,7 +126,7 @@ namespace Tgstation.Server.Host.Components.Engine
 					Logger,
 					ruleName,
 					serverExePath,
-					SessionConfiguration.LowPriorityDeploymentProcesses,
+					deploymentPipelineProcesses && SessionConfiguration.LowPriorityDeploymentProcesses,
 					cancellationToken);
 			}
 			catch (Exception ex)

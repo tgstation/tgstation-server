@@ -37,6 +37,9 @@ namespace Tgstation.Server.Host.Components.Engine
 		public Task InstallationTask => Instance.InstallationTask;
 
 		/// <inheritdoc />
+		public bool UseDotnetDump => Instance.UseDotnetDump;
+
+		/// <inheritdoc />
 		public void DoNotDeleteThisSession() => DangerousDropReference();
 
 		/// <inheritdoc />
