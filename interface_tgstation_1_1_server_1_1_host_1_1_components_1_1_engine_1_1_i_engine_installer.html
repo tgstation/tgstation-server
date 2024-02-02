@@ -107,9 +107,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a76100637a7abd23c97157b7a4deb4736"><td class="memItemLeft" align="right" valign="top">ValueTask&lt; <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installation_data.html">IEngineInstallationData</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installer.html#a76100637a7abd23c97157b7a4deb4736">DownloadVersion</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_engine_version.html">EngineVersion</a> version, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_progress_reporter.html">JobProgressReporter</a>? jobProgressReporter, CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:a76100637a7abd23c97157b7a4deb4736"><td class="mdescLeft">&#160;</td><td class="mdescRight">Download a given engine <em>version</em> .   <a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installer.html#a76100637a7abd23c97157b7a4deb4736">More...</a><br /></td></tr>
 <tr class="separator:a76100637a7abd23c97157b7a4deb4736"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9ad4d33b897f1228ce90a2d430d9e880"><td class="memItemLeft" align="right" valign="top">ValueTask&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installer.html#a9ad4d33b897f1228ce90a2d430d9e880">Install</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_engine_version.html">EngineVersion</a> version, string path, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a9ad4d33b897f1228ce90a2d430d9e880"><td class="mdescLeft">&#160;</td><td class="mdescRight">Does actions necessary to get an extracted installation working.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installer.html#a9ad4d33b897f1228ce90a2d430d9e880">More...</a><br /></td></tr>
-<tr class="separator:a9ad4d33b897f1228ce90a2d430d9e880"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a96982c374c0d5d56779125fce7c933be"><td class="memItemLeft" align="right" valign="top">ValueTask&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installer.html#a96982c374c0d5d56779125fce7c933be">Install</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_engine_version.html">EngineVersion</a> version, string path, bool deploymentPipelineProcesses, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a96982c374c0d5d56779125fce7c933be"><td class="mdescLeft">&#160;</td><td class="mdescRight">Does actions necessary to get an extracted installation working.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installer.html#a96982c374c0d5d56779125fce7c933be">More...</a><br /></td></tr>
+<tr class="separator:a96982c374c0d5d56779125fce7c933be"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3406d94bc2e99eacb6ca8f3e811efac6"><td class="memItemLeft" align="right" valign="top">ValueTask&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installer.html#a3406d94bc2e99eacb6ca8f3e811efac6">UpgradeInstallation</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_engine_version.html">EngineVersion</a> version, string path, CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:a3406d94bc2e99eacb6ca8f3e811efac6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Does actions necessary to get upgrade a version installed by a previous version of TGS.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installer.html#a3406d94bc2e99eacb6ca8f3e811efac6">More...</a><br /></td></tr>
 <tr class="separator:a3406d94bc2e99eacb6ca8f3e811efac6"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -199,7 +199,7 @@ Public Member Functions</h2></td></tr>
 
 <p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_byond_installer_base.html#af85cb89b454994000a6d5e853f7fef39">Tgstation.Server.Host.Components.Engine.ByondInstallerBase</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_delegating_engine_installer.html#a2261a1236dcaa47602c9b6dbd3554f70">Tgstation.Server.Host.Components.Engine.DelegatingEngineInstaller</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#a83840a278b040fae14f79637ed290007">Tgstation.Server.Host.Components.Engine.EngineInstallerBase</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_open_dream_installer.html#a829f42c5be8479d3d41596800ed7c222">Tgstation.Server.Host.Components.Engine.OpenDreamInstaller</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_engine_manager_8cs_source.html#l00591">Tgstation.Server.Host.Components.Engine.EngineManager.AddInstallationContainer()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_engine_manager_8cs_source.html#l00598">Tgstation.Server.Host.Components.Engine.EngineManager.AddInstallationContainer()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -262,14 +262,14 @@ Here is the caller graph for this function:</div>
 
 <p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_delegating_engine_installer.html#a59ce35fbf39c2ce3d72bb372cdaede44">Tgstation.Server.Host.Components.Engine.DelegatingEngineInstaller</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#a3dcdb457483a10e1ff48f6af7be7043b">Tgstation.Server.Host.Components.Engine.EngineInstallerBase</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_open_dream_installer.html#a6df90470a5fd85e870cf0d959181e7d8">Tgstation.Server.Host.Components.Engine.OpenDreamInstaller</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_byond_installer_base.html#a6bd81dbdb1f24aaf80bba10224b4773f">Tgstation.Server.Host.Components.Engine.ByondInstallerBase</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_engine_manager_8cs_source.html#l00511">Tgstation.Server.Host.Components.Engine.EngineManager.InstallVersionFiles()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_engine_manager_8cs_source.html#l00513">Tgstation.Server.Host.Components.Engine.EngineManager.InstallVersionFiles()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installer_a76100637a7abd23c97157b7a4deb4736_icgraph.png" border="0" usemap="#ainterface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installer_a76100637a7abd23c97157b7a4deb4736_icgraph" alt=""/></div>
 <map name="ainterface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installer_a76100637a7abd23c97157b7a4deb4736_icgraph" id="ainterface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installer_a76100637a7abd23c97157b7a4deb4736_icgraph">
 <area shape="rect" title="Download a given engine version ." alt="" coords="953,37,1211,77"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_manager.html#ae9c62d0233e9ece106eee44289e3c055" title="Installs the files for a given BYOND version ." alt="" coords="643,37,905,77"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_manager.html#a0303d46d250191f69bb5251c89ca301d" title="Installs the files for a given BYOND version ." alt="" coords="643,37,905,77"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_manager.html#a3d2a758adff2c72db49e822c8f6ceccf" title="Ensures a BYOND version &#160;is installed if it isn&#39;t already." alt="" coords="304,37,595,77"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_manager.html#ad2cedaccbf100b9dcf3922a9443f8f19" title="Change the active EngineVersion. A ValueTask representing the running operation." alt="" coords="9,5,253,45"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_manager.html#a803c2123e6edceee48d8b4897be532c6" title="Lock the current installation&#39;s location and return a IEngineExecutableLock. A ValueTask&lt;TResult&gt; res..." alt="" coords="5,69,256,109"/>
@@ -278,8 +278,8 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a id="a9ad4d33b897f1228ce90a2d430d9e880" name="a9ad4d33b897f1228ce90a2d430d9e880"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9ad4d33b897f1228ce90a2d430d9e880">&#9670;&#160;</a></span>Install()</h2>
+<a id="a96982c374c0d5d56779125fce7c933be" name="a96982c374c0d5d56779125fce7c933be"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a96982c374c0d5d56779125fce7c933be">&#9670;&#160;</a></span>Install()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -295,6 +295,12 @@ Here is the caller graph for this function:</div>
           <td></td>
           <td class="paramtype">string&#160;</td>
           <td class="paramname"><em>path</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>deploymentPipelineProcesses</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -315,22 +321,23 @@ Here is the caller graph for this function:</div>
   <table class="params">
     <tr><td class="paramname">version</td><td>The EngineVersion being installed.</td></tr>
     <tr><td class="paramname">path</td><td>The path to the installation.</td></tr>
+    <tr><td class="paramname">deploymentPipelineProcesses</td><td>If the operation should consider processes it launches to be part of the deployment pipeline.</td></tr>
     <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A ValueTask representing the running operation.</dd></dl>
 
-<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_open_dream_installer.html#a6b3454e1b0d55e9fda7da0b792e5ae78">Tgstation.Server.Host.Components.Engine.OpenDreamInstaller</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_windows_open_dream_installer.html#af44c356e8e1919479866587c37951dde">Tgstation.Server.Host.Components.Engine.WindowsOpenDreamInstaller</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_delegating_engine_installer.html#a78d9703a349d318e48f43378539f4bdf">Tgstation.Server.Host.Components.Engine.DelegatingEngineInstaller</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#a7adad4f82a8922650b241e0c38ade23a">Tgstation.Server.Host.Components.Engine.EngineInstallerBase</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_posix_byond_installer.html#add5c0dbae1b68b81b1ddad5f73307e7f">Tgstation.Server.Host.Components.Engine.PosixByondInstaller</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_windows_byond_installer.html#af696117e411ba59dd94692141e3885c6">Tgstation.Server.Host.Components.Engine.WindowsByondInstaller</a>.</p>
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_open_dream_installer.html#a6bbfa8809316fbf016f231d630ad56f3">Tgstation.Server.Host.Components.Engine.OpenDreamInstaller</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_windows_open_dream_installer.html#abfd28aaba98525c2eed2f1ff7a670bc1">Tgstation.Server.Host.Components.Engine.WindowsOpenDreamInstaller</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_delegating_engine_installer.html#a6e7d69449d50fffb702a06fd7f36d011">Tgstation.Server.Host.Components.Engine.DelegatingEngineInstaller</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#ae2fc8ee300c073266134e83b5440dd07">Tgstation.Server.Host.Components.Engine.EngineInstallerBase</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_posix_byond_installer.html#a98b3d4659e9a7927e6661cca2e08ec8f">Tgstation.Server.Host.Components.Engine.PosixByondInstaller</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_windows_byond_installer.html#a268c1e9ab92857d3bced172e22850b24">Tgstation.Server.Host.Components.Engine.WindowsByondInstaller</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_engine_manager_8cs_source.html#l00511">Tgstation.Server.Host.Components.Engine.EngineManager.InstallVersionFiles()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_engine_manager_8cs_source.html#l00513">Tgstation.Server.Host.Components.Engine.EngineManager.InstallVersionFiles()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installer_a9ad4d33b897f1228ce90a2d430d9e880_icgraph.png" border="0" usemap="#ainterface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installer_a9ad4d33b897f1228ce90a2d430d9e880_icgraph" alt=""/></div>
-<map name="ainterface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installer_a9ad4d33b897f1228ce90a2d430d9e880_icgraph" id="ainterface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installer_a9ad4d33b897f1228ce90a2d430d9e880_icgraph">
+<div class="center"><img src="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installer_a96982c374c0d5d56779125fce7c933be_icgraph.png" border="0" usemap="#ainterface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installer_a96982c374c0d5d56779125fce7c933be_icgraph" alt=""/></div>
+<map name="ainterface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installer_a96982c374c0d5d56779125fce7c933be_icgraph" id="ainterface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installer_a96982c374c0d5d56779125fce7c933be_icgraph">
 <area shape="rect" title="Does actions necessary to get an extracted installation working." alt="" coords="953,37,1180,77"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_manager.html#ae9c62d0233e9ece106eee44289e3c055" title="Installs the files for a given BYOND version ." alt="" coords="643,37,905,77"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_manager.html#a0303d46d250191f69bb5251c89ca301d" title="Installs the files for a given BYOND version ." alt="" coords="643,37,905,77"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_manager.html#a3d2a758adff2c72db49e822c8f6ceccf" title="Ensures a BYOND version &#160;is installed if it isn&#39;t already." alt="" coords="304,37,595,77"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_manager.html#ad2cedaccbf100b9dcf3922a9443f8f19" title="Change the active EngineVersion. A ValueTask representing the running operation." alt="" coords="9,5,253,45"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_manager.html#a803c2123e6edceee48d8b4897be532c6" title="Lock the current installation&#39;s location and return a IEngineExecutableLock. A ValueTask&lt;TResult&gt; res..." alt="" coords="5,69,256,109"/>

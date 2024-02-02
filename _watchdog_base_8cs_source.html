@@ -1092,28 +1092,34 @@ $(function() {
 <div class="line"><a id="l01225" name="l01225"></a><span class="lineno"><a class="line" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a2d9e24a869875a2654715e7937462179"> 1225</a></span>        async ValueTask <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a2d9e24a869875a2654715e7937462179">CreateDumpNoLock</a>(CancellationToken cancellationToken)</div>
 <div class="line"><a id="l01226" name="l01226"></a><span class="lineno"> 1226</span>        {</div>
 <div class="line"><a id="l01227" name="l01227"></a><span class="lineno"> 1227</span>            <span class="keyword">const</span> <span class="keywordtype">string</span> DumpDirectory = <span class="stringliteral">&quot;ProcessDumps&quot;</span>;</div>
-<div class="line"><a id="l01228" name="l01228"></a><span class="lineno"> 1228</span>            var dumpFileNameTemplate = diagnosticsIOManager.ResolvePath(</div>
-<div class="line"><a id="l01229" name="l01229"></a><span class="lineno"> 1229</span>                diagnosticsIOManager.ConcatPath(</div>
-<div class="line"><a id="l01230" name="l01230"></a><span class="lineno"> 1230</span>                    DumpDirectory,</div>
-<div class="line"><a id="l01231" name="l01231"></a><span class="lineno"> 1231</span>                    $<span class="stringliteral">&quot;DreamDaemon-{DateTimeOffset.UtcNow.ToFileStamp()}.dmp&quot;</span>));</div>
+<div class="line"><a id="l01228" name="l01228"></a><span class="lineno"> 1228</span> </div>
+<div class="line"><a id="l01229" name="l01229"></a><span class="lineno"> 1229</span>            var session = GetActiveController();</div>
+<div class="line"><a id="l01230" name="l01230"></a><span class="lineno"> 1230</span>            <span class="keywordflow">if</span> (session?.Lifetime.IsCompleted != <span class="keyword">false</span>)</div>
+<div class="line"><a id="l01231" name="l01231"></a><span class="lineno"> 1231</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_exception.html">JobException</a>(<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">ErrorCode</a>.GameServerOffline);</div>
 <div class="line"><a id="l01232" name="l01232"></a><span class="lineno"> 1232</span> </div>
-<div class="line"><a id="l01233" name="l01233"></a><span class="lineno"> 1233</span>            var dumpFileName = dumpFileNameTemplate;</div>
-<div class="line"><a id="l01234" name="l01234"></a><span class="lineno"> 1234</span>            var iteration = 0;</div>
-<div class="line"><a id="l01235" name="l01235"></a><span class="lineno"> 1235</span>            <span class="keywordflow">while</span> (await diagnosticsIOManager.FileExists(dumpFileName, cancellationToken))</div>
-<div class="line"><a id="l01236" name="l01236"></a><span class="lineno"> 1236</span>                dumpFileName = $<span class="stringliteral">&quot;{dumpFileNameTemplate} ({++iteration})&quot;</span>;</div>
-<div class="line"><a id="l01237" name="l01237"></a><span class="lineno"> 1237</span> </div>
-<div class="line"><a id="l01238" name="l01238"></a><span class="lineno"> 1238</span>            <span class="keywordflow">if</span> (iteration == 0)</div>
-<div class="line"><a id="l01239" name="l01239"></a><span class="lineno"> 1239</span>                await diagnosticsIOManager.CreateDirectory(DumpDirectory, cancellationToken);</div>
-<div class="line"><a id="l01240" name="l01240"></a><span class="lineno"> 1240</span> </div>
-<div class="line"><a id="l01241" name="l01241"></a><span class="lineno"> 1241</span>            var session = GetActiveController();</div>
-<div class="line"><a id="l01242" name="l01242"></a><span class="lineno"> 1242</span>            <span class="keywordflow">if</span> (session?.Lifetime.IsCompleted != <span class="keyword">false</span>)</div>
-<div class="line"><a id="l01243" name="l01243"></a><span class="lineno"> 1243</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_exception.html">JobException</a>(<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">ErrorCode</a>.GameServerOffline);</div>
+<div class="line"><a id="l01233" name="l01233"></a><span class="lineno"> 1233</span>            var dumpFileExtension = session.DumpFileExtension;</div>
+<div class="line"><a id="l01234" name="l01234"></a><span class="lineno"> 1234</span> </div>
+<div class="line"><a id="l01235" name="l01235"></a><span class="lineno"> 1235</span>            var dumpFileNameTemplate = diagnosticsIOManager.ResolvePath(</div>
+<div class="line"><a id="l01236" name="l01236"></a><span class="lineno"> 1236</span>                diagnosticsIOManager.ConcatPath(</div>
+<div class="line"><a id="l01237" name="l01237"></a><span class="lineno"> 1237</span>                    DumpDirectory,</div>
+<div class="line"><a id="l01238" name="l01238"></a><span class="lineno"> 1238</span>                    $<span class="stringliteral">&quot;DreamDaemon-{DateTimeOffset.UtcNow.ToFileStamp()}&quot;</span>));</div>
+<div class="line"><a id="l01239" name="l01239"></a><span class="lineno"> 1239</span> </div>
+<div class="line"><a id="l01240" name="l01240"></a><span class="lineno"> 1240</span>            var dumpFileName = $<span class="stringliteral">&quot;{dumpFileNameTemplate}{dumpFileExtension}&quot;</span>;</div>
+<div class="line"><a id="l01241" name="l01241"></a><span class="lineno"> 1241</span>            var iteration = 0;</div>
+<div class="line"><a id="l01242" name="l01242"></a><span class="lineno"> 1242</span>            <span class="keywordflow">while</span> (await diagnosticsIOManager.FileExists(dumpFileName, cancellationToken))</div>
+<div class="line"><a id="l01243" name="l01243"></a><span class="lineno"> 1243</span>                dumpFileName = $<span class="stringliteral">&quot;{dumpFileNameTemplate} ({++iteration}){dumpFileExtension}&quot;</span>;</div>
 <div class="line"><a id="l01244" name="l01244"></a><span class="lineno"> 1244</span> </div>
-<div class="line"><a id="l01245" name="l01245"></a><span class="lineno"> 1245</span>            Logger.LogInformation(<span class="stringliteral">&quot;Dumping session to {dumpFileName}...&quot;</span>, dumpFileName);</div>
-<div class="line"><a id="l01246" name="l01246"></a><span class="lineno"> 1246</span>            await session.CreateDump(dumpFileName, cancellationToken);</div>
-<div class="line"><a id="l01247" name="l01247"></a><span class="lineno"> 1247</span>        }</div>
-<div class="line"><a id="l01248" name="l01248"></a><span class="lineno"> 1248</span>    }</div>
-<div class="line"><a id="l01249" name="l01249"></a><span class="lineno"> 1249</span>}</div>
+<div class="line"><a id="l01245" name="l01245"></a><span class="lineno"> 1245</span>            <span class="keywordflow">if</span> (iteration == 0)</div>
+<div class="line"><a id="l01246" name="l01246"></a><span class="lineno"> 1246</span>                await diagnosticsIOManager.CreateDirectory(DumpDirectory, cancellationToken);</div>
+<div class="line"><a id="l01247" name="l01247"></a><span class="lineno"> 1247</span> </div>
+<div class="line"><a id="l01248" name="l01248"></a><span class="lineno"> 1248</span>            <span class="keywordflow">if</span> (session.Lifetime.IsCompleted)</div>
+<div class="line"><a id="l01249" name="l01249"></a><span class="lineno"> 1249</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_exception.html">JobException</a>(<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">ErrorCode</a>.GameServerOffline);</div>
+<div class="line"><a id="l01250" name="l01250"></a><span class="lineno"> 1250</span> </div>
+<div class="line"><a id="l01251" name="l01251"></a><span class="lineno"> 1251</span>            Logger.LogInformation(<span class="stringliteral">&quot;Dumping session to {dumpFileName}...&quot;</span>, dumpFileName);</div>
+<div class="line"><a id="l01252" name="l01252"></a><span class="lineno"> 1252</span>            await session.CreateDump(dumpFileName, cancellationToken);</div>
+<div class="line"><a id="l01253" name="l01253"></a><span class="lineno"> 1253</span>        }</div>
+<div class="line"><a id="l01254" name="l01254"></a><span class="lineno"> 1254</span>    }</div>
+<div class="line"><a id="l01255" name="l01255"></a><span class="lineno"> 1255</span>}</div>
 <div class="ttc" id="aclass_exception_html"><div class="ttname"><a href="class_exception.html">Exception</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id_html_ae31e478e1d338b37a14565df6fd58570"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html#ae31e478e1d338b37a14565df6fd58570">Tgstation.Server.Api.Models.EntityId.Id</a></div><div class="ttdeci">virtual ? long Id</div><div class="ttdoc">The ID of the entity.</div><div class="ttdef"><b>Definition:</b> <a href="_entity_id_8cs_source.html#l00013">EntityId.cs:13</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html">Tgstation.Server.Api.Models.Instance</a></div><div class="ttdoc">Metadata about a server instance.</div><div class="ttdef"><b>Definition:</b> <a href="_tgstation_8_server_8_api_2_models_2_instance_8cs_source.html#l00008">Instance.cs:9</a></div></div>

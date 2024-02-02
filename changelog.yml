@@ -164,6 +164,12 @@ Components:
       - You can now add `server.env` and `compiler.env` files to your engine installation directories (i.e. `<instance>/Byond/515.1530/server.env`) to specify environment variables to set when executing the game server and compiler respectively. These are [.env](https://hexdocs.pm/dotenvy/dotenv-file-format.html) files.
       Author: Cyberboss
       PullRequest: 1783
+    - Descriptions:
+      - Dumps for the OpenDream game server will now use .NET diagnostics technology instead of Windows APIs/gcore. These dumps will have the `.net.dmp` extension.
+      - Fixed some engine installation processes not respecting `Session:LowPriorityDeploymentProcesses`.
+      - Fixed creating two watchdog dumps in the same second creating a file with a weird extension.
+      Author: Cyberboss
+      PullRequest: 1784
     Unreleased: true
   - Version: 6.1.6
     ComponentVersions:

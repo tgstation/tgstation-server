@@ -30,14 +30,13 @@ var searchData=
   ['jobsclient_27',['JobsClient',['../class_tgstation_1_1_server_1_1_client_1_1_components_1_1_jobs_client.html#a9ffef36f7b69e7c76e31af3958797846',1,'Tgstation.Server.Client.Components.JobsClient.JobsClient()'],['../class_tgstation_1_1_server_1_1_client_1_1_components_1_1_jobs_client.html',1,'Tgstation.Server.Client.Components.JobsClient']]],
   ['jobsclient_2ecs_28',['JobsClient.cs',['../_jobs_client_8cs.html',1,'']]],
   ['jobscollection_29',['jobsCollection',['../class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#a6d6f982a1c3a6966ac31b5ac2d86f3e2',1,'Tgstation::Server::Host::Database::DatabaseContext']]],
-  ['jobservice_30',['JobService',['../class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#a2317cb45e383b73f8529e1d008f921f3',1,'Tgstation::Server::Host::Jobs::JobService']]],
-  ['jobservice_31',['jobService',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#a4cba827c550b76d41c119b62d25c4668',1,'Tgstation::Server::Host::Components::InstanceManager']]],
-  ['jobservice_32',['JobService',['../class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html',1,'Tgstation::Server::Host::Jobs']]],
-  ['jobservice_2ecs_33',['JobService.cs',['../_job_service_8cs.html',1,'']]],
-  ['jobshub_34',['JobsHub',['../class_tgstation_1_1_server_1_1_api_1_1_routes.html#a8f0fbf59b12bc939238a64bc4df9000d',1,'Tgstation.Server.Api.Routes.JobsHub()'],['../class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_jobs_hub.html#a83d0dbf234b8303b60714ff703d1ce3a',1,'Tgstation.Server.Host.Jobs.JobsHub.JobsHub()'],['../class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_jobs_hub.html',1,'Tgstation.Server.Host.Jobs.JobsHub']]],
-  ['jobshub_2ecs_35',['JobsHub.cs',['../_jobs_hub_8cs.html',1,'']]],
-  ['jobshubgroupmapper_36',['JobsHubGroupMapper',['../class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_jobs_hub_group_mapper.html#a42ddb16818a44e29fad21d618248a508',1,'Tgstation.Server.Host.Jobs.JobsHubGroupMapper.JobsHubGroupMapper()'],['../class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_jobs_hub_group_mapper.html',1,'Tgstation.Server.Host.Jobs.JobsHubGroupMapper']]],
-  ['jobshubgroupmapper_2ecs_37',['JobsHubGroupMapper.cs',['../_jobs_hub_group_mapper_8cs.html',1,'']]],
-  ['jobshubupdater_38',['jobsHubUpdater',['../class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_jobs_hub_group_mapper.html#ad9d1b63f39b536a2554f599cac3c1cb6',1,'Tgstation::Server::Host::Jobs::JobsHubGroupMapper']]],
-  ['jsonconverter_39',['JsonConverter',['../class_json_converter.html',1,'']]]
+  ['jobservice_30',['jobService',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#a4cba827c550b76d41c119b62d25c4668',1,'Tgstation::Server::Host::Components::InstanceManager']]],
+  ['jobservice_31',['JobService',['../class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#a2317cb45e383b73f8529e1d008f921f3',1,'Tgstation.Server.Host.Jobs.JobService.JobService()'],['../class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html',1,'Tgstation.Server.Host.Jobs.JobService']]],
+  ['jobservice_2ecs_32',['JobService.cs',['../_job_service_8cs.html',1,'']]],
+  ['jobshub_33',['JobsHub',['../class_tgstation_1_1_server_1_1_api_1_1_routes.html#a8f0fbf59b12bc939238a64bc4df9000d',1,'Tgstation.Server.Api.Routes.JobsHub()'],['../class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_jobs_hub.html#a83d0dbf234b8303b60714ff703d1ce3a',1,'Tgstation.Server.Host.Jobs.JobsHub.JobsHub()'],['../class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_jobs_hub.html',1,'Tgstation.Server.Host.Jobs.JobsHub']]],
+  ['jobshub_2ecs_34',['JobsHub.cs',['../_jobs_hub_8cs.html',1,'']]],
+  ['jobshubgroupmapper_35',['JobsHubGroupMapper',['../class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_jobs_hub_group_mapper.html#a42ddb16818a44e29fad21d618248a508',1,'Tgstation.Server.Host.Jobs.JobsHubGroupMapper.JobsHubGroupMapper()'],['../class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_jobs_hub_group_mapper.html',1,'Tgstation.Server.Host.Jobs.JobsHubGroupMapper']]],
+  ['jobshubgroupmapper_2ecs_36',['JobsHubGroupMapper.cs',['../_jobs_hub_group_mapper_8cs.html',1,'']]],
+  ['jobshubupdater_37',['jobsHubUpdater',['../class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_jobs_hub_group_mapper.html#ad9d1b63f39b536a2554f599cac3c1cb6',1,'Tgstation::Server::Host::Jobs::JobsHubGroupMapper']]],
+  ['jsonconverter_38',['JsonConverter',['../class_json_converter.html',1,'']]]
 ];

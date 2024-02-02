@@ -120,18 +120,19 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a8686c938838267f94d39ec847a99ccd0"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_posix_byond_installer.html#a8686c938838267f94d39ec847a99ccd0">PosixByondInstaller</a> (<a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_post_write_handler.html">IPostWriteHandler</a> <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_posix_byond_installer.html#a79e1248b3b5deda304e4278a0dd64607">postWriteHandler</a>, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html">IIOManager</a> ioManager, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_file_downloader.html">IFileDownloader</a> <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_byond_installer_base.html#a145fc898093212cfd2c9434aafff70db">fileDownloader</a>, ILogger&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_posix_byond_installer.html">PosixByondInstaller</a> &gt; logger)</td></tr>
 <tr class="memdesc:a8686c938838267f94d39ec847a99ccd0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes a new instance of the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_posix_byond_installer.html" title="IEngineInstaller for Posix systems.">PosixByondInstaller</a> class.   <a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_posix_byond_installer.html#a8686c938838267f94d39ec847a99ccd0">More...</a><br /></td></tr>
 <tr class="separator:a8686c938838267f94d39ec847a99ccd0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:add5c0dbae1b68b81b1ddad5f73307e7f"><td class="memItemLeft" align="right" valign="top">override ValueTask&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_posix_byond_installer.html#add5c0dbae1b68b81b1ddad5f73307e7f">Install</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_engine_version.html">EngineVersion</a> version, string path, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:add5c0dbae1b68b81b1ddad5f73307e7f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Does actions necessary to get an extracted installation working. <dl class="params"><dt>Parameters</dt><dd>
+<tr class="memitem:a98b3d4659e9a7927e6661cca2e08ec8f"><td class="memItemLeft" align="right" valign="top">override ValueTask&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_posix_byond_installer.html#a98b3d4659e9a7927e6661cca2e08ec8f">Install</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_engine_version.html">EngineVersion</a> version, string path, bool deploymentPipelineProcesses, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a98b3d4659e9a7927e6661cca2e08ec8f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Does actions necessary to get an extracted installation working. <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">version</td><td>The EngineVersion being installed.</td></tr>
     <tr><td class="paramname">path</td><td>The path to the installation.</td></tr>
+    <tr><td class="paramname">deploymentPipelineProcesses</td><td>If the operation should consider processes it launches to be part of the deployment pipeline.</td></tr>
     <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A ValueTask representing the running operation.</dd></dl>
-  <a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_posix_byond_installer.html#add5c0dbae1b68b81b1ddad5f73307e7f">More...</a><br /></td></tr>
-<tr class="separator:add5c0dbae1b68b81b1ddad5f73307e7f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+  <a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_posix_byond_installer.html#a98b3d4659e9a7927e6661cca2e08ec8f">More...</a><br /></td></tr>
+<tr class="separator:a98b3d4659e9a7927e6661cca2e08ec8f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acf04ab6522fece6e8cc094da605b826e"><td class="memItemLeft" align="right" valign="top">override ValueTask&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_posix_byond_installer.html#acf04ab6522fece6e8cc094da605b826e">UpgradeInstallation</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_engine_version.html">EngineVersion</a> version, string path, CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:acf04ab6522fece6e8cc094da605b826e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Does actions necessary to get upgrade a version installed by a previous version of TGS. <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -213,18 +214,19 @@ Public Member Functions</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>A Task representing the running operation.</dd></dl>
   <a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#a6bac8d78d3ed38774398eb938ed7a19d">More...</a><br /></td></tr>
 <tr class="separator:a6bac8d78d3ed38774398eb938ed7a19d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7adad4f82a8922650b241e0c38ade23a"><td class="memItemLeft" align="right" valign="top">abstract ValueTask&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#a7adad4f82a8922650b241e0c38ade23a">Install</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_engine_version.html">EngineVersion</a> version, string path, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a7adad4f82a8922650b241e0c38ade23a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Does actions necessary to get an extracted installation working. <dl class="params"><dt>Parameters</dt><dd>
+<tr class="memitem:ae2fc8ee300c073266134e83b5440dd07"><td class="memItemLeft" align="right" valign="top">abstract ValueTask&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#ae2fc8ee300c073266134e83b5440dd07">Install</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_engine_version.html">EngineVersion</a> version, string path, bool deploymentPipelineProcesses, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:ae2fc8ee300c073266134e83b5440dd07"><td class="mdescLeft">&#160;</td><td class="mdescRight">Does actions necessary to get an extracted installation working. <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">version</td><td>The EngineVersion being installed.</td></tr>
     <tr><td class="paramname">path</td><td>The path to the installation.</td></tr>
+    <tr><td class="paramname">deploymentPipelineProcesses</td><td>If the operation should consider processes it launches to be part of the deployment pipeline.</td></tr>
     <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A ValueTask representing the running operation.</dd></dl>
-  <a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#a7adad4f82a8922650b241e0c38ade23a">More...</a><br /></td></tr>
-<tr class="separator:a7adad4f82a8922650b241e0c38ade23a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+  <a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#ae2fc8ee300c073266134e83b5440dd07">More...</a><br /></td></tr>
+<tr class="separator:ae2fc8ee300c073266134e83b5440dd07"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af5954517040f2b18f89756287cde79f1"><td class="memItemLeft" align="right" valign="top">abstract ValueTask&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#af5954517040f2b18f89756287cde79f1">UpgradeInstallation</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_engine_version.html">EngineVersion</a> version, string path, CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:af5954517040f2b18f89756287cde79f1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Does actions necessary to get upgrade a version installed by a previous version of TGS. <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -267,9 +269,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a76100637a7abd23c97157b7a4deb4736"><td class="memItemLeft" align="right" valign="top">ValueTask&lt; <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installation_data.html">IEngineInstallationData</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installer.html#a76100637a7abd23c97157b7a4deb4736">DownloadVersion</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_engine_version.html">EngineVersion</a> version, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_progress_reporter.html">JobProgressReporter</a>? jobProgressReporter, CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:a76100637a7abd23c97157b7a4deb4736"><td class="mdescLeft">&#160;</td><td class="mdescRight">Download a given engine <em>version</em> .   <a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installer.html#a76100637a7abd23c97157b7a4deb4736">More...</a><br /></td></tr>
 <tr class="separator:a76100637a7abd23c97157b7a4deb4736"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9ad4d33b897f1228ce90a2d430d9e880"><td class="memItemLeft" align="right" valign="top">ValueTask&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installer.html#a9ad4d33b897f1228ce90a2d430d9e880">Install</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_engine_version.html">EngineVersion</a> version, string path, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a9ad4d33b897f1228ce90a2d430d9e880"><td class="mdescLeft">&#160;</td><td class="mdescRight">Does actions necessary to get an extracted installation working.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installer.html#a9ad4d33b897f1228ce90a2d430d9e880">More...</a><br /></td></tr>
-<tr class="separator:a9ad4d33b897f1228ce90a2d430d9e880"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a96982c374c0d5d56779125fce7c933be"><td class="memItemLeft" align="right" valign="top">ValueTask&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installer.html#a96982c374c0d5d56779125fce7c933be">Install</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_engine_version.html">EngineVersion</a> version, string path, bool deploymentPipelineProcesses, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a96982c374c0d5d56779125fce7c933be"><td class="mdescLeft">&#160;</td><td class="mdescRight">Does actions necessary to get an extracted installation working.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installer.html#a96982c374c0d5d56779125fce7c933be">More...</a><br /></td></tr>
+<tr class="separator:a96982c374c0d5d56779125fce7c933be"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3406d94bc2e99eacb6ca8f3e811efac6"><td class="memItemLeft" align="right" valign="top">ValueTask&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installer.html#a3406d94bc2e99eacb6ca8f3e811efac6">UpgradeInstallation</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_engine_version.html">EngineVersion</a> version, string path, CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:a3406d94bc2e99eacb6ca8f3e811efac6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Does actions necessary to get upgrade a version installed by a previous version of TGS.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installer.html#a3406d94bc2e99eacb6ca8f3e811efac6">More...</a><br /></td></tr>
 <tr class="separator:a3406d94bc2e99eacb6ca8f3e811efac6"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -515,14 +517,14 @@ Here is the caller graph for this function:</div>
 <div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_posix_byond_installer_aa32e9e7a8217a4198fc5d74c5789c78e_icgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_posix_byond_installer_aa32e9e7a8217a4198fc5d74c5789c78e_icgraph" alt=""/></div>
 <map name="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_posix_byond_installer_aa32e9e7a8217a4198fc5d74c5789c78e_icgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_posix_byond_installer_aa32e9e7a8217a4198fc5d74c5789c78e_icgraph">
 <area shape="rect" title="Get the file name of the DreamDaemon executable. The file name of the DreamDaemon executable." alt="" coords="280,5,520,60"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_posix_byond_installer.html#add5c0dbae1b68b81b1ddad5f73307e7f" title="Does actions necessary to get an extracted installation working. A ValueTask representing the running..." alt="" coords="5,13,232,53"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_posix_byond_installer.html#a98b3d4659e9a7927e6661cca2e08ec8f" title="Does actions necessary to get an extracted installation working. A ValueTask representing the running..." alt="" coords="5,13,232,53"/>
 </map>
 </div>
 
 </div>
 </div>
-<a id="add5c0dbae1b68b81b1ddad5f73307e7f" name="add5c0dbae1b68b81b1ddad5f73307e7f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#add5c0dbae1b68b81b1ddad5f73307e7f">&#9670;&#160;</a></span>Install()</h2>
+<a id="a98b3d4659e9a7927e6661cca2e08ec8f" name="a98b3d4659e9a7927e6661cca2e08ec8f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a98b3d4659e9a7927e6661cca2e08ec8f">&#9670;&#160;</a></span>Install()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -541,6 +543,12 @@ Here is the caller graph for this function:</div>
           <td></td>
           <td class="paramtype">string&#160;</td>
           <td class="paramname"><em>path</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>deploymentPipelineProcesses</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -565,6 +573,7 @@ Here is the caller graph for this function:</div>
   <table class="params">
     <tr><td class="paramname">version</td><td>The EngineVersion being installed.</td></tr>
     <tr><td class="paramname">path</td><td>The path to the installation.</td></tr>
+    <tr><td class="paramname">deploymentPipelineProcesses</td><td>If the operation should consider processes it launches to be part of the deployment pipeline.</td></tr>
     <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
   </table>
   </dd>
@@ -572,7 +581,7 @@ Here is the caller graph for this function:</div>
 <dl class="section return"><dt>Returns</dt><dd>A ValueTask representing the running operation.</dd></dl>
  </p>
 
-<p>Implements <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#a7adad4f82a8922650b241e0c38ade23a">Tgstation.Server.Host.Components.Engine.EngineInstallerBase</a>.</p>
+<p>Implements <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#ae2fc8ee300c073266134e83b5440dd07">Tgstation.Server.Host.Components.Engine.EngineInstallerBase</a>.</p>
 
 <p class="definition">Definition at line <a class="el" href="_posix_byond_installer_8cs_source.html#l00074">74</a> of file <a class="el" href="_posix_byond_installer_8cs_source.html">PosixByondInstaller.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   75</span>        {</div>
@@ -628,8 +637,8 @@ Here is the caller graph for this function:</div>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_posix_byond_installer_add5c0dbae1b68b81b1ddad5f73307e7f_cgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_posix_byond_installer_add5c0dbae1b68b81b1ddad5f73307e7f_cgraph" alt=""/></div>
-<map name="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_posix_byond_installer_add5c0dbae1b68b81b1ddad5f73307e7f_cgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_posix_byond_installer_add5c0dbae1b68b81b1ddad5f73307e7f_cgraph">
+<div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_posix_byond_installer_a98b3d4659e9a7927e6661cca2e08ec8f_cgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_posix_byond_installer_a98b3d4659e9a7927e6661cca2e08ec8f_cgraph" alt=""/></div>
+<map name="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_posix_byond_installer_a98b3d4659e9a7927e6661cca2e08ec8f_cgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_posix_byond_installer_a98b3d4659e9a7927e6661cca2e08ec8f_cgraph">
 <area shape="rect" title="Does actions necessary to get an extracted installation working. A ValueTask representing the running..." alt="" coords="5,229,232,269"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#a7e0a63f182a77bc1a099f3c7f8cd6849" title="Check that a given version &#160;is of type EngineType.Byond." alt="" coords="280,5,543,60"/>
 <area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a286f4eb5c679683b7e519847a6c3574e" title="Combines an array of strings into a path." alt="" coords="327,85,495,125"/>

@@ -2,6 +2,6 @@
 <area shape="rect" id="node1" title="Moves a directory at source &#160;to destination ." alt="" coords="327,101,503,141"/>
 <area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider.html#a47f1295a85d7f810efbe8b40126531d6" title="Perform the swapping action. A ValueTask representing the running operation." alt="" coords="5,5,279,45"/>
 <area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#a2a702f9141f98d0ba1aae9a70688704c" title="Executes a pending server update by extracting the new server to a given updatePath ...." alt="" coords="43,69,241,109"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_open_dream_installer.html#a6b3454e1b0d55e9fda7da0b792e5ae78" title="Does actions necessary to get an extracted installation working. A ValueTask representing the running..." alt="" coords="29,133,255,173"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_open_dream_installer.html#a6bbfa8809316fbf016f231d630ad56f3" title="Does actions necessary to get an extracted installation working. A ValueTask representing the running..." alt="" coords="29,133,255,173"/>
 <area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#ad3dc0cfcb7f415f1dd8a98bfd018f90e" title="Move an IInstance. A ValueTask representing the running operation." alt="" coords="29,197,255,237"/>
 </map>

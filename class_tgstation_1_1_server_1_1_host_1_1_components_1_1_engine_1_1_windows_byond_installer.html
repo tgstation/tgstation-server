@@ -132,18 +132,19 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:af592fefeb0bf0f95a4dcadd53de88e8e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a58434a59c4ed88cfeee1b15859d994c1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_windows_byond_installer.html#a58434a59c4ed88cfeee1b15859d994c1">Dispose</a> ()</td></tr>
 <tr class="separator:a58434a59c4ed88cfeee1b15859d994c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af696117e411ba59dd94692141e3885c6"><td class="memItemLeft" align="right" valign="top">override ValueTask&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_windows_byond_installer.html#af696117e411ba59dd94692141e3885c6">Install</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_engine_version.html">EngineVersion</a> version, string path, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:af696117e411ba59dd94692141e3885c6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Does actions necessary to get an extracted installation working. <dl class="params"><dt>Parameters</dt><dd>
+<tr class="memitem:a268c1e9ab92857d3bced172e22850b24"><td class="memItemLeft" align="right" valign="top">override ValueTask&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_windows_byond_installer.html#a268c1e9ab92857d3bced172e22850b24">Install</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_engine_version.html">EngineVersion</a> version, string path, bool deploymentPipelineProcesses, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a268c1e9ab92857d3bced172e22850b24"><td class="mdescLeft">&#160;</td><td class="mdescRight">Does actions necessary to get an extracted installation working. <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">version</td><td>The EngineVersion being installed.</td></tr>
     <tr><td class="paramname">path</td><td>The path to the installation.</td></tr>
+    <tr><td class="paramname">deploymentPipelineProcesses</td><td>If the operation should consider processes it launches to be part of the deployment pipeline.</td></tr>
     <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A ValueTask representing the running operation.</dd></dl>
-  <a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_windows_byond_installer.html#af696117e411ba59dd94692141e3885c6">More...</a><br /></td></tr>
-<tr class="separator:af696117e411ba59dd94692141e3885c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+  <a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_windows_byond_installer.html#a268c1e9ab92857d3bced172e22850b24">More...</a><br /></td></tr>
+<tr class="separator:a268c1e9ab92857d3bced172e22850b24"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abdb765cab1e3405e710040bdcb223085"><td class="memItemLeft" align="right" valign="top">override async ValueTask&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_windows_byond_installer.html#abdb765cab1e3405e710040bdcb223085">UpgradeInstallation</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_engine_version.html">EngineVersion</a> version, string path, CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:abdb765cab1e3405e710040bdcb223085"><td class="mdescLeft">&#160;</td><td class="mdescRight">Does actions necessary to get upgrade a version installed by a previous version of TGS. <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -225,18 +226,19 @@ Public Member Functions</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>A Task representing the running operation.</dd></dl>
   <a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#a6bac8d78d3ed38774398eb938ed7a19d">More...</a><br /></td></tr>
 <tr class="separator:a6bac8d78d3ed38774398eb938ed7a19d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7adad4f82a8922650b241e0c38ade23a"><td class="memItemLeft" align="right" valign="top">abstract ValueTask&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#a7adad4f82a8922650b241e0c38ade23a">Install</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_engine_version.html">EngineVersion</a> version, string path, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a7adad4f82a8922650b241e0c38ade23a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Does actions necessary to get an extracted installation working. <dl class="params"><dt>Parameters</dt><dd>
+<tr class="memitem:ae2fc8ee300c073266134e83b5440dd07"><td class="memItemLeft" align="right" valign="top">abstract ValueTask&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#ae2fc8ee300c073266134e83b5440dd07">Install</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_engine_version.html">EngineVersion</a> version, string path, bool deploymentPipelineProcesses, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:ae2fc8ee300c073266134e83b5440dd07"><td class="mdescLeft">&#160;</td><td class="mdescRight">Does actions necessary to get an extracted installation working. <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">version</td><td>The EngineVersion being installed.</td></tr>
     <tr><td class="paramname">path</td><td>The path to the installation.</td></tr>
+    <tr><td class="paramname">deploymentPipelineProcesses</td><td>If the operation should consider processes it launches to be part of the deployment pipeline.</td></tr>
     <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A ValueTask representing the running operation.</dd></dl>
-  <a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#a7adad4f82a8922650b241e0c38ade23a">More...</a><br /></td></tr>
-<tr class="separator:a7adad4f82a8922650b241e0c38ade23a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+  <a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#ae2fc8ee300c073266134e83b5440dd07">More...</a><br /></td></tr>
+<tr class="separator:ae2fc8ee300c073266134e83b5440dd07"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af5954517040f2b18f89756287cde79f1"><td class="memItemLeft" align="right" valign="top">abstract ValueTask&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#af5954517040f2b18f89756287cde79f1">UpgradeInstallation</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_engine_version.html">EngineVersion</a> version, string path, CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:af5954517040f2b18f89756287cde79f1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Does actions necessary to get upgrade a version installed by a previous version of TGS. <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -279,9 +281,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a76100637a7abd23c97157b7a4deb4736"><td class="memItemLeft" align="right" valign="top">ValueTask&lt; <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installation_data.html">IEngineInstallationData</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installer.html#a76100637a7abd23c97157b7a4deb4736">DownloadVersion</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_engine_version.html">EngineVersion</a> version, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_progress_reporter.html">JobProgressReporter</a>? jobProgressReporter, CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:a76100637a7abd23c97157b7a4deb4736"><td class="mdescLeft">&#160;</td><td class="mdescRight">Download a given engine <em>version</em> .   <a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installer.html#a76100637a7abd23c97157b7a4deb4736">More...</a><br /></td></tr>
 <tr class="separator:a76100637a7abd23c97157b7a4deb4736"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9ad4d33b897f1228ce90a2d430d9e880"><td class="memItemLeft" align="right" valign="top">ValueTask&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installer.html#a9ad4d33b897f1228ce90a2d430d9e880">Install</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_engine_version.html">EngineVersion</a> version, string path, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a9ad4d33b897f1228ce90a2d430d9e880"><td class="mdescLeft">&#160;</td><td class="mdescRight">Does actions necessary to get an extracted installation working.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installer.html#a9ad4d33b897f1228ce90a2d430d9e880">More...</a><br /></td></tr>
-<tr class="separator:a9ad4d33b897f1228ce90a2d430d9e880"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a96982c374c0d5d56779125fce7c933be"><td class="memItemLeft" align="right" valign="top">ValueTask&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installer.html#a96982c374c0d5d56779125fce7c933be">Install</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_engine_version.html">EngineVersion</a> version, string path, bool deploymentPipelineProcesses, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a96982c374c0d5d56779125fce7c933be"><td class="mdescLeft">&#160;</td><td class="mdescRight">Does actions necessary to get an extracted installation working.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installer.html#a96982c374c0d5d56779125fce7c933be">More...</a><br /></td></tr>
+<tr class="separator:a96982c374c0d5d56779125fce7c933be"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3406d94bc2e99eacb6ca8f3e811efac6"><td class="memItemLeft" align="right" valign="top">ValueTask&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installer.html#a3406d94bc2e99eacb6ca8f3e811efac6">UpgradeInstallation</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_engine_version.html">EngineVersion</a> version, string path, CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:a3406d94bc2e99eacb6ca8f3e811efac6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Does actions necessary to get upgrade a version installed by a previous version of TGS.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installer.html#a3406d94bc2e99eacb6ca8f3e811efac6">More...</a><br /></td></tr>
 <tr class="separator:a3406d94bc2e99eacb6ca8f3e811efac6"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -362,9 +364,9 @@ Private Member Functions</h2></td></tr>
 <tr class="memitem:abfbb08c2eb8e00b430ef4cf683468c90"><td class="memItemLeft" align="right" valign="top">async ValueTask&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_windows_byond_installer.html#abfbb08c2eb8e00b430ef4cf683468c90">InstallDirectX</a> (string path, CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:abfbb08c2eb8e00b430ef4cf683468c90"><td class="mdescLeft">&#160;</td><td class="mdescRight">Attempt to install the DirectX redistributable included with BYOND.   <a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_windows_byond_installer.html#abfbb08c2eb8e00b430ef4cf683468c90">More...</a><br /></td></tr>
 <tr class="separator:abfbb08c2eb8e00b430ef4cf683468c90"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1a246ed532bfa00b0e471a7fa51f2c17"><td class="memItemLeft" align="right" valign="top">async ValueTask&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_windows_byond_installer.html#a1a246ed532bfa00b0e471a7fa51f2c17">AddDreamDaemonToFirewall</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_engine_version.html">EngineVersion</a> version, string path, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a1a246ed532bfa00b0e471a7fa51f2c17"><td class="mdescLeft">&#160;</td><td class="mdescRight">Attempt to add the DreamDaemon executable as an exception to the Windows firewall.   <a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_windows_byond_installer.html#a1a246ed532bfa00b0e471a7fa51f2c17">More...</a><br /></td></tr>
-<tr class="separator:a1a246ed532bfa00b0e471a7fa51f2c17"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4b1078675acc49bd3beea10b2dcf0075"><td class="memItemLeft" align="right" valign="top">async ValueTask&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_windows_byond_installer.html#a4b1078675acc49bd3beea10b2dcf0075">AddDreamDaemonToFirewall</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_engine_version.html">EngineVersion</a> version, string path, bool deploymentPipelineProcesses, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a4b1078675acc49bd3beea10b2dcf0075"><td class="mdescLeft">&#160;</td><td class="mdescRight">Attempt to add the DreamDaemon executable as an exception to the Windows firewall.   <a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_windows_byond_installer.html#a4b1078675acc49bd3beea10b2dcf0075">More...</a><br /></td></tr>
+<tr class="separator:a4b1078675acc49bd3beea10b2dcf0075"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
@@ -524,8 +526,8 @@ Here is the call graph for this function:</div>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a1a246ed532bfa00b0e471a7fa51f2c17" name="a1a246ed532bfa00b0e471a7fa51f2c17"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1a246ed532bfa00b0e471a7fa51f2c17">&#9670;&#160;</a></span>AddDreamDaemonToFirewall()</h2>
+<a id="a4b1078675acc49bd3beea10b2dcf0075" name="a4b1078675acc49bd3beea10b2dcf0075"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4b1078675acc49bd3beea10b2dcf0075">&#9670;&#160;</a></span>AddDreamDaemonToFirewall()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -544,6 +546,12 @@ Here is the call graph for this function:</div>
           <td></td>
           <td class="paramtype">string&#160;</td>
           <td class="paramname"><em>path</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>deploymentPipelineProcesses</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -569,52 +577,53 @@ Here is the call graph for this function:</div>
   <table class="params">
     <tr><td class="paramname">version</td><td>The BYOND EngineVersion.</td></tr>
     <tr><td class="paramname">path</td><td>The path to the BYOND installation.</td></tr>
+    <tr><td class="paramname">deploymentPipelineProcesses</td><td>If the operation is part of the deployment pipeline.</td></tr>
     <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A ValueTask representing the running operation.</dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_windows_byond_installer_8cs_source.html#l00248">248</a> of file <a class="el" href="_windows_byond_installer_8cs_source.html">WindowsByondInstaller.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  249</span>        {</div>
-<div class="line"><span class="lineno">  250</span>            var dreamDaemonName = <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_windows_byond_installer.html#a0cd9b73db73414af3553f16b5bc4bc37">GetDreamDaemonName</a>(version.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_engine_version.html#a4c62808be741c64cc793fb679b04e9c2">Version</a>!, out var usesDDExe);</div>
-<div class="line"><span class="lineno">  251</span> </div>
-<div class="line"><span class="lineno">  252</span>            var dreamDaemonPath = <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#abaabd1bb99f94299281df83a9ab58203">IOManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a18a442b5dff16f5e7a730ec354e81d78">ResolvePath</a>(</div>
-<div class="line"><span class="lineno">  253</span>                <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#abaabd1bb99f94299281df83a9ab58203">IOManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a286f4eb5c679683b7e519847a6c3574e">ConcatPath</a>(</div>
-<div class="line"><span class="lineno">  254</span>                    path,</div>
-<div class="line"><span class="lineno">  255</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_byond_installer_base.html#a5660b81669dbcfd9eb21f8424b4da200">ByondBinPath</a>,</div>
-<div class="line"><span class="lineno">  256</span>                    dreamDaemonName));</div>
-<div class="line"><span class="lineno">  257</span> </div>
-<div class="line"><span class="lineno">  258</span>            <span class="keywordtype">int</span> exitCode;</div>
-<div class="line"><span class="lineno">  259</span>            <span class="keywordflow">try</span></div>
-<div class="line"><span class="lineno">  260</span>            {</div>
-<div class="line"><span class="lineno">  261</span>                <span class="comment">// I really wish we could add the instance name here but</span></div>
-<div class="line"><span class="lineno">  262</span>                <span class="comment">// 1. It&#39;d make IByondInstaller need to be transient per-instance and WindowsByondInstaller relys on being a singleton for its DX installer call</span></div>
-<div class="line"><span class="lineno">  263</span>                <span class="comment">// 2. The instance could be renamed, so it&#39;d have to be an unfriendly ID anyway.</span></div>
-<div class="line"><span class="lineno">  264</span>                var ruleName = $<span class="stringliteral">&quot;TGS DreamDaemon {version}&quot;</span>;</div>
-<div class="line"><span class="lineno">  265</span> </div>
-<div class="line"><span class="lineno">  266</span>                exitCode = await <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_firewall_helper.html">WindowsFirewallHelper</a>.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_firewall_helper.html#aa446ef24242576e5459ccaa30d473a59">AddFirewallException</a>(</div>
-<div class="line"><span class="lineno">  267</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_windows_byond_installer.html#a1d94c04a5083a7d7a428aeacaedc3720">processExecutor</a>,</div>
-<div class="line"><span class="lineno">  268</span>                    <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#aed7c0130aacc5b088f420e6aa4a270b5">Logger</a>,</div>
-<div class="line"><span class="lineno">  269</span>                    ruleName,</div>
-<div class="line"><span class="lineno">  270</span>                    dreamDaemonPath,</div>
-<div class="line"><span class="lineno">  271</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_windows_byond_installer.html#ae76a305c4cb17a9551d09766545296c6">sessionConfiguration</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_session_configuration.html#abc505aa2ec768c997c7559c1ed223504">LowPriorityDeploymentProcesses</a>,</div>
-<div class="line"><span class="lineno">  272</span>                    cancellationToken);</div>
-<div class="line"><span class="lineno">  273</span>            }</div>
-<div class="line"><span class="lineno">  274</span>            <span class="keywordflow">catch</span> (<a class="code hl_class" href="class_exception.html">Exception</a> ex)</div>
-<div class="line"><span class="lineno">  275</span>            {</div>
-<div class="line"><span class="lineno">  276</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_exception.html">JobException</a>(<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">ErrorCode</a>.EngineFirewallFail, ex);</div>
-<div class="line"><span class="lineno">  277</span>            }</div>
-<div class="line"><span class="lineno">  278</span> </div>
-<div class="line"><span class="lineno">  279</span>            <span class="keywordflow">if</span> (exitCode != 0)</div>
-<div class="line"><span class="lineno">  280</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_exception.html">JobException</a>(<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">ErrorCode</a>.EngineFirewallFail, <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_exception.html">JobException</a>($<span class="stringliteral">&quot;Invalid exit code: {exitCode}&quot;</span>));</div>
-<div class="line"><span class="lineno">  281</span> </div>
-<div class="line"><span class="lineno">  282</span>            <span class="keywordflow">if</span> (usesDDExe)</div>
-<div class="line"><span class="lineno">  283</span>                await <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#abaabd1bb99f94299281df83a9ab58203">IOManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a9aeb8b83ea3f4b13a183b6ac55b35a70">WriteAllBytes</a>(</div>
-<div class="line"><span class="lineno">  284</span>                    <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#abaabd1bb99f94299281df83a9ab58203">IOManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a286f4eb5c679683b7e519847a6c3574e">ConcatPath</a>(path, <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_windows_byond_installer.html#a446db1786dc5600230b51fdee34676a9">TgsFirewalledDDFile</a>),</div>
-<div class="line"><span class="lineno">  285</span>                    Array.Empty&lt;<span class="keywordtype">byte</span>&gt;(),</div>
-<div class="line"><span class="lineno">  286</span>                    cancellationToken);</div>
-<div class="line"><span class="lineno">  287</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_windows_byond_installer_8cs_source.html#l00249">249</a> of file <a class="el" href="_windows_byond_installer_8cs_source.html">WindowsByondInstaller.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  250</span>        {</div>
+<div class="line"><span class="lineno">  251</span>            var dreamDaemonName = <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_windows_byond_installer.html#a0cd9b73db73414af3553f16b5bc4bc37">GetDreamDaemonName</a>(version.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_engine_version.html#a4c62808be741c64cc793fb679b04e9c2">Version</a>!, out var usesDDExe);</div>
+<div class="line"><span class="lineno">  252</span> </div>
+<div class="line"><span class="lineno">  253</span>            var dreamDaemonPath = <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#abaabd1bb99f94299281df83a9ab58203">IOManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a18a442b5dff16f5e7a730ec354e81d78">ResolvePath</a>(</div>
+<div class="line"><span class="lineno">  254</span>                <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#abaabd1bb99f94299281df83a9ab58203">IOManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a286f4eb5c679683b7e519847a6c3574e">ConcatPath</a>(</div>
+<div class="line"><span class="lineno">  255</span>                    path,</div>
+<div class="line"><span class="lineno">  256</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_byond_installer_base.html#a5660b81669dbcfd9eb21f8424b4da200">ByondBinPath</a>,</div>
+<div class="line"><span class="lineno">  257</span>                    dreamDaemonName));</div>
+<div class="line"><span class="lineno">  258</span> </div>
+<div class="line"><span class="lineno">  259</span>            <span class="keywordtype">int</span> exitCode;</div>
+<div class="line"><span class="lineno">  260</span>            <span class="keywordflow">try</span></div>
+<div class="line"><span class="lineno">  261</span>            {</div>
+<div class="line"><span class="lineno">  262</span>                <span class="comment">// I really wish we could add the instance name here but</span></div>
+<div class="line"><span class="lineno">  263</span>                <span class="comment">// 1. It&#39;d make IByondInstaller need to be transient per-instance and WindowsByondInstaller relys on being a singleton for its DX installer call</span></div>
+<div class="line"><span class="lineno">  264</span>                <span class="comment">// 2. The instance could be renamed, so it&#39;d have to be an unfriendly ID anyway.</span></div>
+<div class="line"><span class="lineno">  265</span>                var ruleName = $<span class="stringliteral">&quot;TGS DreamDaemon {version}&quot;</span>;</div>
+<div class="line"><span class="lineno">  266</span> </div>
+<div class="line"><span class="lineno">  267</span>                exitCode = await <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_firewall_helper.html">WindowsFirewallHelper</a>.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_firewall_helper.html#aa446ef24242576e5459ccaa30d473a59">AddFirewallException</a>(</div>
+<div class="line"><span class="lineno">  268</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_windows_byond_installer.html#a1d94c04a5083a7d7a428aeacaedc3720">processExecutor</a>,</div>
+<div class="line"><span class="lineno">  269</span>                    <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#aed7c0130aacc5b088f420e6aa4a270b5">Logger</a>,</div>
+<div class="line"><span class="lineno">  270</span>                    ruleName,</div>
+<div class="line"><span class="lineno">  271</span>                    dreamDaemonPath,</div>
+<div class="line"><span class="lineno">  272</span>                    deploymentPipelineProcesses &amp;&amp; <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_windows_byond_installer.html#ae76a305c4cb17a9551d09766545296c6">sessionConfiguration</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_session_configuration.html#abc505aa2ec768c997c7559c1ed223504">LowPriorityDeploymentProcesses</a>,</div>
+<div class="line"><span class="lineno">  273</span>                    cancellationToken);</div>
+<div class="line"><span class="lineno">  274</span>            }</div>
+<div class="line"><span class="lineno">  275</span>            <span class="keywordflow">catch</span> (<a class="code hl_class" href="class_exception.html">Exception</a> ex)</div>
+<div class="line"><span class="lineno">  276</span>            {</div>
+<div class="line"><span class="lineno">  277</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_exception.html">JobException</a>(<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">ErrorCode</a>.EngineFirewallFail, ex);</div>
+<div class="line"><span class="lineno">  278</span>            }</div>
+<div class="line"><span class="lineno">  279</span> </div>
+<div class="line"><span class="lineno">  280</span>            <span class="keywordflow">if</span> (exitCode != 0)</div>
+<div class="line"><span class="lineno">  281</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_exception.html">JobException</a>(<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">ErrorCode</a>.EngineFirewallFail, <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_exception.html">JobException</a>($<span class="stringliteral">&quot;Invalid exit code: {exitCode}&quot;</span>));</div>
+<div class="line"><span class="lineno">  282</span> </div>
+<div class="line"><span class="lineno">  283</span>            <span class="keywordflow">if</span> (usesDDExe)</div>
+<div class="line"><span class="lineno">  284</span>                await <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#abaabd1bb99f94299281df83a9ab58203">IOManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a9aeb8b83ea3f4b13a183b6ac55b35a70">WriteAllBytes</a>(</div>
+<div class="line"><span class="lineno">  285</span>                    <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#abaabd1bb99f94299281df83a9ab58203">IOManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a286f4eb5c679683b7e519847a6c3574e">ConcatPath</a>(path, <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_windows_byond_installer.html#a446db1786dc5600230b51fdee34676a9">TgsFirewalledDDFile</a>),</div>
+<div class="line"><span class="lineno">  286</span>                    Array.Empty&lt;<span class="keywordtype">byte</span>&gt;(),</div>
+<div class="line"><span class="lineno">  287</span>                    cancellationToken);</div>
+<div class="line"><span class="lineno">  288</span>        }</div>
 <div class="ttc" id="aclass_exception_html"><div class="ttname"><a href="class_exception.html">Exception</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_engine_version_html_a4c62808be741c64cc793fb679b04e9c2"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_engine_version.html#a4c62808be741c64cc793fb679b04e9c2">Tgstation.Server.Api.Models.EngineVersion.Version</a></div><div class="ttdeci">Version? Version</div><div class="ttdoc">The System.Version of the engine. Currently only valid when Engine is EngineType.Byond.</div><div class="ttdef"><b>Definition:</b> <a href="_engine_version_8cs_source.html#l00025">EngineVersion.cs:25</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_byond_installer_base_html_a5660b81669dbcfd9eb21f8424b4da200"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_byond_installer_base.html#a5660b81669dbcfd9eb21f8424b4da200">Tgstation.Server.Host.Components.Engine.ByondInstallerBase.ByondBinPath</a></div><div class="ttdeci">const string ByondBinPath</div><div class="ttdoc">The path to the BYOND bin folder.</div><div class="ttdef"><b>Definition:</b> <a href="_byond_installer_base_8cs_source.html#l00024">ByondInstallerBase.cs:24</a></div></div>
@@ -634,8 +643,8 @@ Here is the call graph for this function:</div>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_windows_byond_installer_a1a246ed532bfa00b0e471a7fa51f2c17_cgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_windows_byond_installer_a1a246ed532bfa00b0e471a7fa51f2c17_cgraph" alt=""/></div>
-<map name="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_windows_byond_installer_a1a246ed532bfa00b0e471a7fa51f2c17_cgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_windows_byond_installer_a1a246ed532bfa00b0e471a7fa51f2c17_cgraph">
+<div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_windows_byond_installer_a4b1078675acc49bd3beea10b2dcf0075_cgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_windows_byond_installer_a4b1078675acc49bd3beea10b2dcf0075_cgraph" alt=""/></div>
+<map name="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_windows_byond_installer_a4b1078675acc49bd3beea10b2dcf0075_cgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_windows_byond_installer_a4b1078675acc49bd3beea10b2dcf0075_cgraph">
 <area shape="rect" title="Attempt to add the DreamDaemon executable as an exception to the Windows firewall." alt="" coords="5,174,268,229"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_firewall_helper.html#aa446ef24242576e5459ccaa30d473a59" title="Add an executable exception to the Windows firewall." alt="" coords="332,30,561,85"/>
 <area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a286f4eb5c679683b7e519847a6c3574e" title="Combines an array of strings into a path." alt="" coords="363,109,531,149"/>
@@ -649,10 +658,10 @@ Here is the call graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_windows_byond_installer_a1a246ed532bfa00b0e471a7fa51f2c17_icgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_windows_byond_installer_a1a246ed532bfa00b0e471a7fa51f2c17_icgraph" alt=""/></div>
-<map name="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_windows_byond_installer_a1a246ed532bfa00b0e471a7fa51f2c17_icgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_windows_byond_installer_a1a246ed532bfa00b0e471a7fa51f2c17_icgraph">
+<div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_windows_byond_installer_a4b1078675acc49bd3beea10b2dcf0075_icgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_windows_byond_installer_a4b1078675acc49bd3beea10b2dcf0075_icgraph" alt=""/></div>
+<map name="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_windows_byond_installer_a4b1078675acc49bd3beea10b2dcf0075_icgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_windows_byond_installer_a4b1078675acc49bd3beea10b2dcf0075_icgraph">
 <area shape="rect" title="Attempt to add the DreamDaemon executable as an exception to the Windows firewall." alt="" coords="304,34,567,89"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_windows_byond_installer.html#af696117e411ba59dd94692141e3885c6" title="Does actions necessary to get an extracted installation working. A ValueTask representing the running..." alt="" coords="12,5,249,45"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_windows_byond_installer.html#a268c1e9ab92857d3bced172e22850b24" title="Does actions necessary to get an extracted installation working. A ValueTask representing the running..." alt="" coords="12,5,249,45"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_windows_byond_installer.html#abdb765cab1e3405e710040bdcb223085" title="Does actions necessary to get upgrade a version installed by a previous version of TGS...." alt="" coords="5,70,256,125"/>
 </map>
 </div>
@@ -733,23 +742,23 @@ Here is the caller graph for this function:</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="_windows_byond_installer_8cs_source.html#l00053">Tgstation.Server.Host.Components.Engine.WindowsByondInstaller.DDExeVersion</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_windows_byond_installer_8cs_source.html#l00248">Tgstation.Server.Host.Components.Engine.WindowsByondInstaller.AddDreamDaemonToFirewall()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_windows_byond_installer_8cs_source.html#l00249">Tgstation.Server.Host.Components.Engine.WindowsByondInstaller.AddDreamDaemonToFirewall()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_windows_byond_installer_a0cd9b73db73414af3553f16b5bc4bc37_icgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_windows_byond_installer_a0cd9b73db73414af3553f16b5bc4bc37_icgraph" alt=""/></div>
 <map name="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_windows_byond_installer_a0cd9b73db73414af3553f16b5bc4bc37_icgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_windows_byond_installer_a0cd9b73db73414af3553f16b5bc4bc37_icgraph">
 <area shape="rect" title="Get the file name of the DreamDaemon executable. The file name of the DreamDaemon executable." alt="" coords="615,34,876,89"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_windows_byond_installer.html#a1a246ed532bfa00b0e471a7fa51f2c17" title="Attempt to add the DreamDaemon executable as an exception to the Windows firewall." alt="" coords="304,34,567,89"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_windows_byond_installer.html#af696117e411ba59dd94692141e3885c6" title="Does actions necessary to get an extracted installation working. A ValueTask representing the running..." alt="" coords="12,5,249,45"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_windows_byond_installer.html#a4b1078675acc49bd3beea10b2dcf0075" title="Attempt to add the DreamDaemon executable as an exception to the Windows firewall." alt="" coords="304,34,567,89"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_windows_byond_installer.html#a268c1e9ab92857d3bced172e22850b24" title="Does actions necessary to get an extracted installation working. A ValueTask representing the running..." alt="" coords="12,5,249,45"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_windows_byond_installer.html#abdb765cab1e3405e710040bdcb223085" title="Does actions necessary to get upgrade a version installed by a previous version of TGS...." alt="" coords="5,70,256,125"/>
 </map>
 </div>
 
 </div>
 </div>
-<a id="af696117e411ba59dd94692141e3885c6" name="af696117e411ba59dd94692141e3885c6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af696117e411ba59dd94692141e3885c6">&#9670;&#160;</a></span>Install()</h2>
+<a id="a268c1e9ab92857d3bced172e22850b24" name="a268c1e9ab92857d3bced172e22850b24"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a268c1e9ab92857d3bced172e22850b24">&#9670;&#160;</a></span>Install()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -768,6 +777,12 @@ Here is the caller graph for this function:</div>
           <td></td>
           <td class="paramtype">string&#160;</td>
           <td class="paramname"><em>path</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>deploymentPipelineProcesses</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -792,6 +807,7 @@ Here is the caller graph for this function:</div>
   <table class="params">
     <tr><td class="paramname">version</td><td>The EngineVersion being installed.</td></tr>
     <tr><td class="paramname">path</td><td>The path to the installation.</td></tr>
+    <tr><td class="paramname">deploymentPipelineProcesses</td><td>If the operation should consider processes it launches to be part of the deployment pipeline.</td></tr>
     <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
   </table>
   </dd>
@@ -799,7 +815,7 @@ Here is the caller graph for this function:</div>
 <dl class="section return"><dt>Returns</dt><dd>A ValueTask representing the running operation.</dd></dl>
  </p>
 
-<p>Implements <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#a7adad4f82a8922650b241e0c38ade23a">Tgstation.Server.Host.Components.Engine.EngineInstallerBase</a>.</p>
+<p>Implements <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#ae2fc8ee300c073266134e83b5440dd07">Tgstation.Server.Host.Components.Engine.EngineInstallerBase</a>.</p>
 
 <p class="definition">Definition at line <a class="el" href="_windows_byond_installer_8cs_source.html#l00130">130</a> of file <a class="el" href="_windows_byond_installer_8cs_source.html">WindowsByondInstaller.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">  131</span>        {</div>
@@ -816,7 +832,7 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">  142</span> </div>
 <div class="line"><span class="lineno">  143</span>            <span class="keywordflow">if</span> (!<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_windows_byond_installer.html#a044d45d5558144900303e2932ba5bee4">generalConfiguration</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#afaae50df6d61d185bf5cbc3c2431ad03">SkipAddingByondFirewallException</a>)</div>
 <div class="line"><span class="lineno">  144</span>            {</div>
-<div class="line"><span class="lineno">  145</span>                var firewallTask = <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_windows_byond_installer.html#a1a246ed532bfa00b0e471a7fa51f2c17">AddDreamDaemonToFirewall</a>(version, path, cancellationToken);</div>
+<div class="line"><span class="lineno">  145</span>                var firewallTask = <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_windows_byond_installer.html#a4b1078675acc49bd3beea10b2dcf0075">AddDreamDaemonToFirewall</a>(version, path, deploymentPipelineProcesses, cancellationToken);</div>
 <div class="line"><span class="lineno">  146</span>                tasks.Add(firewallTask);</div>
 <div class="line"><span class="lineno">  147</span>            }</div>
 <div class="line"><span class="lineno">  148</span> </div>
@@ -825,19 +841,19 @@ Here is the caller graph for this function:</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_common_1_1_extensions_1_1_value_task_extensions_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_common_1_1_extensions_1_1_value_task_extensions.html">Tgstation.Server.Common.Extensions.ValueTaskExtensions</a></div><div class="ttdoc">Extension methods for the ValueTask and ValueTask&lt;TResult&gt; classes.</div><div class="ttdef"><b>Definition:</b> <a href="_value_task_extensions_8cs_source.html#l00011">ValueTaskExtensions.cs:12</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_common_1_1_extensions_1_1_value_task_extensions_html_a58adbd94d764754bd3e6c566a5fe7fe3"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_common_1_1_extensions_1_1_value_task_extensions.html#a58adbd94d764754bd3e6c566a5fe7fe3">Tgstation.Server.Common.Extensions.ValueTaskExtensions.WhenAll</a></div><div class="ttdeci">static async ValueTask WhenAll(IEnumerable&lt; ValueTask &gt; tasks)</div><div class="ttdoc">Fully await a given list of tasks .</div><div class="ttdef"><b>Definition:</b> <a href="_value_task_extensions_8cs_source.html#l00099">ValueTaskExtensions.cs:99</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base_html_a7e0a63f182a77bc1a099f3c7f8cd6849"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#a7e0a63f182a77bc1a099f3c7f8cd6849">Tgstation.Server.Host.Components.Engine.EngineInstallerBase.CheckVersionValidity</a></div><div class="ttdeci">void CheckVersionValidity(EngineVersion version)</div><div class="ttdoc">Check that a given version  is of type EngineType.Byond.</div><div class="ttdef"><b>Definition:</b> <a href="_engine_installer_base_8cs_source.html#l00064">EngineInstallerBase.cs:64</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_windows_byond_installer_html_a1a246ed532bfa00b0e471a7fa51f2c17"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_windows_byond_installer.html#a1a246ed532bfa00b0e471a7fa51f2c17">Tgstation.Server.Host.Components.Engine.WindowsByondInstaller.AddDreamDaemonToFirewall</a></div><div class="ttdeci">async ValueTask AddDreamDaemonToFirewall(EngineVersion version, string path, CancellationToken cancellationToken)</div><div class="ttdoc">Attempt to add the DreamDaemon executable as an exception to the Windows firewall.</div><div class="ttdef"><b>Definition:</b> <a href="_windows_byond_installer_8cs_source.html#l00248">WindowsByondInstaller.cs:248</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_windows_byond_installer_html_a4b1078675acc49bd3beea10b2dcf0075"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_windows_byond_installer.html#a4b1078675acc49bd3beea10b2dcf0075">Tgstation.Server.Host.Components.Engine.WindowsByondInstaller.AddDreamDaemonToFirewall</a></div><div class="ttdeci">async ValueTask AddDreamDaemonToFirewall(EngineVersion version, string path, bool deploymentPipelineProcesses, CancellationToken cancellationToken)</div><div class="ttdoc">Attempt to add the DreamDaemon executable as an exception to the Windows firewall.</div><div class="ttdef"><b>Definition:</b> <a href="_windows_byond_installer_8cs_source.html#l00249">WindowsByondInstaller.cs:249</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_windows_byond_installer_html_abf544ff92a28679177759cf0a0f16a31"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_windows_byond_installer.html#abf544ff92a28679177759cf0a0f16a31">Tgstation.Server.Host.Components.Engine.WindowsByondInstaller.SetNoPromptTrusted</a></div><div class="ttdeci">async ValueTask SetNoPromptTrusted(string path, CancellationToken cancellationToken)</div><div class="ttdoc">Creates the BYOND cfg file that prevents the trusted mode dialog from appearing when launching DreamD...</div><div class="ttdef"><b>Definition:</b> <a href="_windows_byond_installer_8cs_source.html#l00184">WindowsByondInstaller.cs:184</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_windows_byond_installer_html_abfbb08c2eb8e00b430ef4cf683468c90"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_windows_byond_installer.html#abfbb08c2eb8e00b430ef4cf683468c90">Tgstation.Server.Host.Components.Engine.WindowsByondInstaller.InstallDirectX</a></div><div class="ttdeci">async ValueTask InstallDirectX(string path, CancellationToken cancellationToken)</div><div class="ttdoc">Attempt to install the DirectX redistributable included with BYOND.</div><div class="ttdef"><b>Definition:</b> <a href="_windows_byond_installer_8cs_source.html#l00203">WindowsByondInstaller.cs:203</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration_html_afaae50df6d61d185bf5cbc3c2431ad03"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#afaae50df6d61d185bf5cbc3c2431ad03">Tgstation.Server.Host.Configuration.GeneralConfiguration.SkipAddingByondFirewallException</a></div><div class="ttdeci">bool SkipAddingByondFirewallException</div><div class="ttdoc">If the netsh.exe execution to exempt DreamDaemon from Windows firewall should be skipped.</div><div class="ttdef"><b>Definition:</b> <a href="_general_configuration_8cs_source.html#l00130">GeneralConfiguration.cs:130</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_windows_byond_installer_8cs_source.html#l00248">Tgstation.Server.Host.Components.Engine.WindowsByondInstaller.AddDreamDaemonToFirewall()</a>, <a class="el" href="_engine_installer_base_8cs_source.html#l00064">Tgstation.Server.Host.Components.Engine.EngineInstallerBase.CheckVersionValidity()</a>, <a class="el" href="_windows_byond_installer_8cs_source.html#l00072">Tgstation.Server.Host.Components.Engine.WindowsByondInstaller.generalConfiguration</a>, <a class="el" href="_windows_byond_installer_8cs_source.html#l00203">Tgstation.Server.Host.Components.Engine.WindowsByondInstaller.InstallDirectX()</a>, <a class="el" href="_windows_byond_installer_8cs_source.html#l00184">Tgstation.Server.Host.Components.Engine.WindowsByondInstaller.SetNoPromptTrusted()</a>, <a class="el" href="_general_configuration_8cs_source.html#l00130">Tgstation.Server.Host.Configuration.GeneralConfiguration.SkipAddingByondFirewallException</a>, and <a class="el" href="_value_task_extensions_8cs_source.html#l00099">Tgstation.Server.Common.Extensions.ValueTaskExtensions.WhenAll()</a>.</p>
+<p class="reference">References <a class="el" href="_windows_byond_installer_8cs_source.html#l00249">Tgstation.Server.Host.Components.Engine.WindowsByondInstaller.AddDreamDaemonToFirewall()</a>, <a class="el" href="_engine_installer_base_8cs_source.html#l00064">Tgstation.Server.Host.Components.Engine.EngineInstallerBase.CheckVersionValidity()</a>, <a class="el" href="_windows_byond_installer_8cs_source.html#l00072">Tgstation.Server.Host.Components.Engine.WindowsByondInstaller.generalConfiguration</a>, <a class="el" href="_windows_byond_installer_8cs_source.html#l00203">Tgstation.Server.Host.Components.Engine.WindowsByondInstaller.InstallDirectX()</a>, <a class="el" href="_windows_byond_installer_8cs_source.html#l00184">Tgstation.Server.Host.Components.Engine.WindowsByondInstaller.SetNoPromptTrusted()</a>, <a class="el" href="_general_configuration_8cs_source.html#l00130">Tgstation.Server.Host.Configuration.GeneralConfiguration.SkipAddingByondFirewallException</a>, and <a class="el" href="_value_task_extensions_8cs_source.html#l00099">Tgstation.Server.Common.Extensions.ValueTaskExtensions.WhenAll()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_windows_byond_installer_af696117e411ba59dd94692141e3885c6_cgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_windows_byond_installer_af696117e411ba59dd94692141e3885c6_cgraph" alt=""/></div>
-<map name="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_windows_byond_installer_af696117e411ba59dd94692141e3885c6_cgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_windows_byond_installer_af696117e411ba59dd94692141e3885c6_cgraph">
+<div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_windows_byond_installer_a268c1e9ab92857d3bced172e22850b24_cgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_windows_byond_installer_a268c1e9ab92857d3bced172e22850b24_cgraph" alt=""/></div>
+<map name="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_windows_byond_installer_a268c1e9ab92857d3bced172e22850b24_cgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_windows_byond_installer_a268c1e9ab92857d3bced172e22850b24_cgraph">
 <area shape="rect" title="Does actions necessary to get an extracted installation working. A ValueTask representing the running..." alt="" coords="5,246,243,286"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_windows_byond_installer.html#a1a246ed532bfa00b0e471a7fa51f2c17" title="Attempt to add the DreamDaemon executable as an exception to the Windows firewall." alt="" coords="300,239,563,294"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_windows_byond_installer.html#a4b1078675acc49bd3beea10b2dcf0075" title="Attempt to add the DreamDaemon executable as an exception to the Windows firewall." alt="" coords="300,239,563,294"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#a7e0a63f182a77bc1a099f3c7f8cd6849" title="Check that a given version &#160;is of type EngineType.Byond." alt="" coords="300,318,563,372"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_windows_byond_installer.html#abfbb08c2eb8e00b430ef4cf683468c90" title="Attempt to install the DirectX redistributable included with BYOND." alt="" coords="313,58,550,112"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_windows_byond_installer.html#abf544ff92a28679177759cf0a0f16a31" title="Creates the BYOND cfg file that prevents the trusted mode dialog from appearing when launching DreamD..." alt="" coords="291,160,572,215"/>
@@ -962,7 +978,7 @@ Here is the caller graph for this function:</div>
 <div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_windows_byond_installer_abfbb08c2eb8e00b430ef4cf683468c90_icgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_windows_byond_installer_abfbb08c2eb8e00b430ef4cf683468c90_icgraph" alt=""/></div>
 <map name="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_windows_byond_installer_abfbb08c2eb8e00b430ef4cf683468c90_icgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_windows_byond_installer_abfbb08c2eb8e00b430ef4cf683468c90_icgraph">
 <area shape="rect" title="Attempt to install the DirectX redistributable included with BYOND." alt="" coords="291,5,528,60"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_windows_byond_installer.html#af696117e411ba59dd94692141e3885c6" title="Does actions necessary to get an extracted installation working. A ValueTask representing the running..." alt="" coords="5,13,243,53"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_windows_byond_installer.html#a268c1e9ab92857d3bced172e22850b24" title="Does actions necessary to get an extracted installation working. A ValueTask representing the running..." alt="" coords="5,13,243,53"/>
 </map>
 </div>
 
@@ -1049,7 +1065,7 @@ Here is the caller graph for this function:</div>
 <div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_windows_byond_installer_abf544ff92a28679177759cf0a0f16a31_icgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_windows_byond_installer_abf544ff92a28679177759cf0a0f16a31_icgraph" alt=""/></div>
 <map name="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_windows_byond_installer_abf544ff92a28679177759cf0a0f16a31_icgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_windows_byond_installer_abf544ff92a28679177759cf0a0f16a31_icgraph">
 <area shape="rect" title="Creates the BYOND cfg file that prevents the trusted mode dialog from appearing when launching DreamD..." alt="" coords="291,5,572,60"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_windows_byond_installer.html#af696117e411ba59dd94692141e3885c6" title="Does actions necessary to get an extracted installation working. A ValueTask representing the running..." alt="" coords="5,13,243,53"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_windows_byond_installer.html#a268c1e9ab92857d3bced172e22850b24" title="Does actions necessary to get an extracted installation working. A ValueTask representing the running..." alt="" coords="5,13,243,53"/>
 </map>
 </div>
 
@@ -1123,18 +1139,18 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">  165</span>                <span class="keywordflow">return</span>;</div>
 <div class="line"><span class="lineno">  166</span> </div>
 <div class="line"><span class="lineno">  167</span>            <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#aed7c0130aacc5b088f420e6aa4a270b5">Logger</a>.LogInformation(<span class="stringliteral">&quot;BYOND Version {version} needs dd.exe added to firewall&quot;</span>, version);</div>
-<div class="line"><span class="lineno">  168</span>            await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_windows_byond_installer.html#a1a246ed532bfa00b0e471a7fa51f2c17">AddDreamDaemonToFirewall</a>(version, path, cancellationToken);</div>
+<div class="line"><span class="lineno">  168</span>            await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_windows_byond_installer.html#a4b1078675acc49bd3beea10b2dcf0075">AddDreamDaemonToFirewall</a>(version, path, <span class="keyword">true</span>, cancellationToken);</div>
 <div class="line"><span class="lineno">  169</span>        }</div>
 <div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager_html_ad4de873180481f7afa206b6282158d62"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ad4de873180481f7afa206b6282158d62">Tgstation.Server.Host.IO.IIOManager.FileExists</a></div><div class="ttdeci">Task&lt; bool &gt; FileExists(string path, CancellationToken cancellationToken)</div><div class="ttdoc">Check that the file at path  exists.</div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_windows_byond_installer_8cs_source.html#l00248">Tgstation.Server.Host.Components.Engine.WindowsByondInstaller.AddDreamDaemonToFirewall()</a>, <a class="el" href="_engine_installer_base_8cs_source.html#l00064">Tgstation.Server.Host.Components.Engine.EngineInstallerBase.CheckVersionValidity()</a>, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a286f4eb5c679683b7e519847a6c3574e">Tgstation.Server.Host.IO.IIOManager.ConcatPath()</a>, <a class="el" href="_windows_byond_installer_8cs_source.html#l00053">Tgstation.Server.Host.Components.Engine.WindowsByondInstaller.DDExeVersion</a>, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ad4de873180481f7afa206b6282158d62">Tgstation.Server.Host.IO.IIOManager.FileExists()</a>, <a class="el" href="_windows_byond_installer_8cs_source.html#l00072">Tgstation.Server.Host.Components.Engine.WindowsByondInstaller.generalConfiguration</a>, <a class="el" href="_engine_installer_base_8cs_source.html#l00024">Tgstation.Server.Host.Components.Engine.EngineInstallerBase.IOManager</a>, <a class="el" href="_engine_installer_base_8cs_source.html#l00029">Tgstation.Server.Host.Components.Engine.EngineInstallerBase.Logger</a>, <a class="el" href="_general_configuration_8cs_source.html#l00130">Tgstation.Server.Host.Configuration.GeneralConfiguration.SkipAddingByondFirewallException</a>, <a class="el" href="_windows_byond_installer_8cs_source.html#l00048">Tgstation.Server.Host.Components.Engine.WindowsByondInstaller.TgsFirewalledDDFile</a>, and <a class="el" href="_engine_version_8cs_source.html#l00025">Tgstation.Server.Api.Models.EngineVersion.Version</a>.</p>
+<p class="reference">References <a class="el" href="_windows_byond_installer_8cs_source.html#l00249">Tgstation.Server.Host.Components.Engine.WindowsByondInstaller.AddDreamDaemonToFirewall()</a>, <a class="el" href="_engine_installer_base_8cs_source.html#l00064">Tgstation.Server.Host.Components.Engine.EngineInstallerBase.CheckVersionValidity()</a>, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a286f4eb5c679683b7e519847a6c3574e">Tgstation.Server.Host.IO.IIOManager.ConcatPath()</a>, <a class="el" href="_windows_byond_installer_8cs_source.html#l00053">Tgstation.Server.Host.Components.Engine.WindowsByondInstaller.DDExeVersion</a>, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ad4de873180481f7afa206b6282158d62">Tgstation.Server.Host.IO.IIOManager.FileExists()</a>, <a class="el" href="_windows_byond_installer_8cs_source.html#l00072">Tgstation.Server.Host.Components.Engine.WindowsByondInstaller.generalConfiguration</a>, <a class="el" href="_engine_installer_base_8cs_source.html#l00024">Tgstation.Server.Host.Components.Engine.EngineInstallerBase.IOManager</a>, <a class="el" href="_engine_installer_base_8cs_source.html#l00029">Tgstation.Server.Host.Components.Engine.EngineInstallerBase.Logger</a>, <a class="el" href="_general_configuration_8cs_source.html#l00130">Tgstation.Server.Host.Configuration.GeneralConfiguration.SkipAddingByondFirewallException</a>, <a class="el" href="_windows_byond_installer_8cs_source.html#l00048">Tgstation.Server.Host.Components.Engine.WindowsByondInstaller.TgsFirewalledDDFile</a>, and <a class="el" href="_engine_version_8cs_source.html#l00025">Tgstation.Server.Api.Models.EngineVersion.Version</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_windows_byond_installer_abdb765cab1e3405e710040bdcb223085_cgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_windows_byond_installer_abdb765cab1e3405e710040bdcb223085_cgraph" alt=""/></div>
 <map name="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_windows_byond_installer_abdb765cab1e3405e710040bdcb223085_cgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_windows_byond_installer_abdb765cab1e3405e710040bdcb223085_cgraph">
 <area shape="rect" title="Does actions necessary to get upgrade a version installed by a previous version of TGS...." alt="" coords="5,149,256,203"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_windows_byond_installer.html#a1a246ed532bfa00b0e471a7fa51f2c17" title="Attempt to add the DreamDaemon executable as an exception to the Windows firewall." alt="" coords="304,109,567,163"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_windows_byond_installer.html#a4b1078675acc49bd3beea10b2dcf0075" title="Attempt to add the DreamDaemon executable as an exception to the Windows firewall." alt="" coords="304,109,567,163"/>
 <area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a286f4eb5c679683b7e519847a6c3574e" title="Combines an array of strings into a path." alt="" coords="661,5,829,45"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#a7e0a63f182a77bc1a099f3c7f8cd6849" title="Check that a given version &#160;is of type EngineType.Byond." alt="" coords="304,187,567,242"/>
 <area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ad4de873180481f7afa206b6282158d62" title="Check that the file at path &#160;exists." alt="" coords="351,267,519,307"/>
@@ -1342,7 +1358,7 @@ Here is the call graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_windows_byond_installer_8cs_source.html#l00067">67</a> of file <a class="el" href="_windows_byond_installer_8cs_source.html">WindowsByondInstaller.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_windows_byond_installer_8cs_source.html#l00248">Tgstation.Server.Host.Components.Engine.WindowsByondInstaller.AddDreamDaemonToFirewall()</a>, <a class="el" href="_windows_byond_installer_8cs_source.html#l00203">Tgstation.Server.Host.Components.Engine.WindowsByondInstaller.InstallDirectX()</a>, and <a class="el" href="_windows_byond_installer_8cs_source.html#l00098">Tgstation.Server.Host.Components.Engine.WindowsByondInstaller.WindowsByondInstaller()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_windows_byond_installer_8cs_source.html#l00249">Tgstation.Server.Host.Components.Engine.WindowsByondInstaller.AddDreamDaemonToFirewall()</a>, <a class="el" href="_windows_byond_installer_8cs_source.html#l00203">Tgstation.Server.Host.Components.Engine.WindowsByondInstaller.InstallDirectX()</a>, and <a class="el" href="_windows_byond_installer_8cs_source.html#l00098">Tgstation.Server.Host.Components.Engine.WindowsByondInstaller.WindowsByondInstaller()</a>.</p>
 
 </div>
 </div>
@@ -1398,7 +1414,7 @@ Here is the call graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_windows_byond_installer_8cs_source.html#l00077">77</a> of file <a class="el" href="_windows_byond_installer_8cs_source.html">WindowsByondInstaller.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_windows_byond_installer_8cs_source.html#l00248">Tgstation.Server.Host.Components.Engine.WindowsByondInstaller.AddDreamDaemonToFirewall()</a>, and <a class="el" href="_windows_byond_installer_8cs_source.html#l00098">Tgstation.Server.Host.Components.Engine.WindowsByondInstaller.WindowsByondInstaller()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_windows_byond_installer_8cs_source.html#l00249">Tgstation.Server.Host.Components.Engine.WindowsByondInstaller.AddDreamDaemonToFirewall()</a>, and <a class="el" href="_windows_byond_installer_8cs_source.html#l00098">Tgstation.Server.Host.Components.Engine.WindowsByondInstaller.WindowsByondInstaller()</a>.</p>
 
 </div>
 </div>
@@ -1426,7 +1442,7 @@ Here is the call graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_windows_byond_installer_8cs_source.html#l00048">48</a> of file <a class="el" href="_windows_byond_installer_8cs_source.html">WindowsByondInstaller.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_windows_byond_installer_8cs_source.html#l00248">Tgstation.Server.Host.Components.Engine.WindowsByondInstaller.AddDreamDaemonToFirewall()</a>, and <a class="el" href="_windows_byond_installer_8cs_source.html#l00153">Tgstation.Server.Host.Components.Engine.WindowsByondInstaller.UpgradeInstallation()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_windows_byond_installer_8cs_source.html#l00249">Tgstation.Server.Host.Components.Engine.WindowsByondInstaller.AddDreamDaemonToFirewall()</a>, and <a class="el" href="_windows_byond_installer_8cs_source.html#l00153">Tgstation.Server.Host.Components.Engine.WindowsByondInstaller.UpgradeInstallation()</a>.</p>
 
 </div>
 </div>

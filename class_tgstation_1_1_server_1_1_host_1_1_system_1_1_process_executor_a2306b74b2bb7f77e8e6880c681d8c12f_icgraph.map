@@ -1,5 +1,5 @@
 <map id="Tgstation.Server.Host.System.ProcessExecutor.ConsumeReaders" name="Tgstation.Server.Host.System.ProcessExecutor.ConsumeReaders">
 <area shape="rect" id="node1" title="Consume the stdout/stderr streams into a Task." alt="" coords="543,5,769,45"/>
 <area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#a98ff78981191a9e243f82df1376db860" title="Launch a IProcess. The new IProcess." alt="" coords="280,5,495,45"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_open_dream_installer.html#a6b3454e1b0d55e9fda7da0b792e5ae78" title="Does actions necessary to get an extracted installation working. A ValueTask representing the running..." alt="" coords="5,5,232,45"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_open_dream_installer.html#a6bbfa8809316fbf016f231d630ad56f3" title="Does actions necessary to get an extracted installation working. A ValueTask representing the running..." alt="" coords="5,5,232,45"/>
 </map>

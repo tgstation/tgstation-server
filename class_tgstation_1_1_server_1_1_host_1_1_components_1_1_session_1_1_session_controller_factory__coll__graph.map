@@ -1,8 +1,8 @@
 <map id="Tgstation.Server.Host.Components.Session.SessionControllerFactory" name="Tgstation.Server.Host.Components.Session.SessionControllerFactory">
-<area shape="rect" id="node1" title=" " alt="" coords="975,571,1201,611"/>
+<area shape="rect" id="node1" title=" " alt="" coords="975,603,1201,643"/>
 <area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_i_session_controller_factory.html" title="Factory for ISessionControllers." alt="" coords="555,11,725,36"/>
 <area shape="rect" id="node3" title=" " alt="" coords="190,80,279,105"/>
-<area shape="rect" id="node23" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_session_configuration.html" title="Configuration options for the game sessions." alt="" coords="525,123,755,163"/>
+<area shape="rect" id="node24" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_session_configuration.html" title="Configuration options for the game sessions." alt="" coords="525,123,755,163"/>
 <area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_executor.html" title="For launching IProcess&#39;." alt="" coords="541,187,739,227"/>
 <area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_manager.html" title="For managing the engine installations." alt="" coords="527,315,753,355"/>
 <area shape="rect" id="node6" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_component_service.html" title="Represents a component meant to be started and stopped by its parent component." alt="" coords="167,291,303,316"/>
@@ -20,8 +20,9 @@
 <area shape="rect" id="node18" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_port_provider.html" title="Provides access to the server&#39;s HttpApiPort." alt="" coords="549,827,731,867"/>
 <area shape="rect" id="node19" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html" title="Consumes EventTypes and takes the appropriate actions." alt="" coords="527,891,753,931"/>
 <area shape="rect" id="node20" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_async_delayer.html" title="For waiting asynchronously." alt="" coords="549,955,731,995"/>
-<area shape="rect" id="node21" title=" " alt="" coords="560,1020,720,1045"/>
-<area shape="rect" id="node22" title=" " alt="" coords="530,1069,750,1124"/>
-<area shape="rect" id="node24" title=" " alt="" coords="211,157,258,183"/>
-<area shape="rect" id="node25" title=" " alt="" coords="619,1148,661,1173"/>
+<area shape="rect" id="node21" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_dotnet_dump_service.html" title="Service for managing the dotnet&#45;dump installation." alt="" coords="541,1019,739,1059"/>
+<area shape="rect" id="node22" title=" " alt="" coords="560,1084,720,1109"/>
+<area shape="rect" id="node23" title=" " alt="" coords="530,1133,750,1188"/>
+<area shape="rect" id="node25" title=" " alt="" coords="211,157,258,183"/>
+<area shape="rect" id="node26" title=" " alt="" coords="619,1212,661,1237"/>
 </map>
