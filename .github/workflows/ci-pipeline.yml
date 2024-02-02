@@ -62,7 +62,7 @@ jobs:
       if: github.event.action == 'opened' && !contains(github.event.pull_request.labels.*.name, 'CI Cleared')
       uses: thollander/actions-comment-pull-request@1d3973dc4b8e1399c0620d3f2b1aa5e795465308
       with:
-        message: Thank you for contributing to ${{ github.event.pull_request.base.repo.name }}! The workflow '${{ github.workflow }}' requires repository secrets amd will not run without approval. Maintainers can add the `CI Cleared` label to allow the CI suite to run. Please note that any changes to the workflow file will not be reflected in the CI run.
+        message: Thank you for contributing to ${{ github.event.pull_request.base.repo.name }}! The workflow '${{ github.workflow }}' requires repository secrets and will not run without approval. Maintainers can add the `CI Cleared` label to allow it to run. Please note that any changes to the workflow file will not be reflected in the run.
 
     - name: "Remove Stale 'CI Cleared' Label"
       if: github.event.action == 'synchronize' || github.event.action == 'reopened'
