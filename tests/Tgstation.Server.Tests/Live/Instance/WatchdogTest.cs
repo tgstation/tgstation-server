@@ -1,4 +1,4 @@
-using Byond.TopicSender;
+﻿using Byond.TopicSender;
 
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -351,13 +351,11 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 			var deleteJob = await deleteJobTask;
 
-			// And this freezes DD
-			await DumpTests(cancellationToken);
+			// And this freezes DD (also restarts it)
+			await DumpTests(false, cancellationToken);
+			await DumpTests(true, cancellationToken);
 
-			// Restart to unlock previous BYOND version
-			var restartJob = await instanceClient.DreamDaemon.Restart(cancellationToken);
 			await WaitForJob(deleteJob, 15, false, null, cancellationToken);
-			await WaitForJob(restartJob, 15, false, null, cancellationToken);
 		}
 
 		async ValueTask RegressionTest1550(CancellationToken cancellationToken)
@@ -519,9 +517,14 @@ namespace Tgstation.Server.Tests.Live.Instance
 			Assert.AreEqual("sent", topicRequestResult.StringData);
 		}
 
-		async Task DumpTests(CancellationToken cancellationToken)
+		async Task DumpTests(bool mini, CancellationToken cancellationToken)
 		{
 			System.Console.WriteLine("TEST: WATCHDOG DUMP TESTS");
+			var updated = await instanceClient.DreamDaemon.Update(new DreamDaemonRequest
+			{
+				Minidumps = mini,
+			}, cancellationToken);
+			Assert.AreEqual(mini, updated.Minidumps);
 			var dumpJob = await instanceClient.DreamDaemon.CreateDump(cancellationToken);
 			await WaitForJob(dumpJob, 30, false, null, cancellationToken);
 

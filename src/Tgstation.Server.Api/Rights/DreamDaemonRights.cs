@@ -117,5 +117,10 @@ namespace Tgstation.Server.Api.Rights
 		/// User can use <see cref="Models.Request.DreamDaemonRequest.BroadcastMessage"/>.
 		/// </summary>
 		BroadcastMessage = 1 << 20,
+
+		/// <summary>
+		/// User can use <see cref="Models.Internal.DreamDaemonLaunchParameters.Minidumps"/>.
+		/// </summary>
+		SetMinidumps = 1 << 21,
 	}
 }

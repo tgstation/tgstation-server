@@ -224,13 +224,13 @@ namespace Tgstation.Server.Host.System
 		}
 
 		/// <inheritdoc />
-		public ValueTask CreateDump(string outputFile, CancellationToken cancellationToken)
+		public ValueTask CreateDump(string outputFile, bool minidump, CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(outputFile);
 			CheckDisposed();
 
 			logger.LogTrace("Dumping PID {pid} to {dumpFilePath}...", Id, outputFile);
-			return processFeatures.CreateDump(handle, outputFile, cancellationToken);
+			return processFeatures.CreateDump(handle, outputFile, minidump, cancellationToken);
 		}
 
 		/// <summary>

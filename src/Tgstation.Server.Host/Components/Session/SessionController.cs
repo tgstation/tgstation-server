@@ -487,12 +487,12 @@ namespace Tgstation.Server.Host.Components.Session
 				cancellationToken);
 
 		/// <inheritdoc />
-		public ValueTask CreateDump(string outputFile, CancellationToken cancellationToken)
+		public ValueTask CreateDump(string outputFile, bool minidump, CancellationToken cancellationToken)
 		{
 			if (engineLock.UseDotnetDump)
-				return dotnetDumpService.Dump(process, outputFile, cancellationToken);
+				return dotnetDumpService.Dump(process, outputFile, minidump, cancellationToken);
 
-			return process.CreateDump(outputFile, cancellationToken);
+			return process.CreateDump(outputFile, minidump, cancellationToken);
 		}
 
 		/// <summary>
