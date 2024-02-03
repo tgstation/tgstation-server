@@ -150,14 +150,14 @@ Components:
   Core:
   - Version: 6.2.0
     ComponentVersions:
-      HttpApi: 10.0.0
+      HttpApi: 10.1.0
       DreamMakerApi: 7.0.2
       Configuration: 5.1.0
       InteropApi: 5.8.0
       HostWatchdog: 1.4.1
       NugetCommon: 7.0.0
-      NugetApi: 13.0.1
-      NugetClient: 15.0.1
+      NugetApi: 13.1.0
+      NugetClient: 15.1.0
       WebControlPanel: 5.4.2
     Changes:
     - Descriptions:
@@ -170,6 +170,10 @@ Components:
       - Fixed creating two watchdog dumps in the same second creating a file with a weird extension.
       Author: Cyberboss
       PullRequest: 1784
+    - Descriptions:
+      - Newly created instances will have their `minidumps` watchdog setting set to `true`. Previously, this behavior was `true` on Linux, and `false` on Windows. This will persist into this update.
+      Author: Cyberboss
+      PullRequest: 1786
     Unreleased: true
   - Version: 6.1.6
     ComponentVersions:
@@ -3495,6 +3499,14 @@ Components:
       Author: alexkar598
       PullRequest: 1133
   HttpApi:
+  - Version: 10.1.0
+    Changes:
+    - Descriptions:
+      - Added the `minidumps` flag to watchdog settings. This allows selecting between minidumps when `true` and full dumps when `false`.
+      - Added watchdog permission `2097152` for setting the `minidumps` flag.
+      Author: Cyberboss
+      PullRequest: 1786
+    Unreleased: true
   - Version: 10.0.0
     Changes:
     - Descriptions:
@@ -4194,6 +4206,14 @@ Components:
       Author: Cyberboss
       PullRequest: 1636
   NugetApi:
+  - Version: 13.1.0
+    Changes:
+    - Descriptions:
+      - Added `DreamDaemonLaunchParameters.Minidumps` boolean.
+      - Added `DreamDaemonRights.SetMinidumps` flag.
+      Author: Cyberboss
+      PullRequest: 1786
+    Unreleased: true
   - Version: 13.0.0
     Changes:
     - Descriptions:
@@ -4263,4 +4283,12 @@ Components:
       - Made `DiscordConnectionStringBuilder.BasedMeme` obsolete.
       Author: Cyberboss
       PullRequest: 1629
-  NugetClient: []
+  NugetClient:
+  - Version: 15.1.0
+    Changes:
+    - Descriptions:
+      - Added `DreamDaemonLaunchParameters.Minidumps` boolean.
+      - Added `DreamDaemonRights.SetMinidumps` flag.
+      Author: Cyberboss
+      PullRequest: 1786
+    Unreleased: true

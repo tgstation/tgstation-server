@@ -263,5 +263,13 @@ var searchData=
   ['20231220032521_5fpgaddtopicport_2ecs_260',['20231220032521_PGAddTopicPort.cs',['../20231220032521___p_g_add_topic_port_8cs.html',1,'']]],
   ['20231220032521_5fpgaddtopicport_2edesigner_2ecs_261',['20231220032521_PGAddTopicPort.Designer.cs',['../20231220032521___p_g_add_topic_port_8_designer_8cs.html',1,'']]],
   ['20231220032528_5fsladdtopicport_2ecs_262',['20231220032528_SLAddTopicPort.cs',['../20231220032528___s_l_add_topic_port_8cs.html',1,'']]],
-  ['20231220032528_5fsladdtopicport_2edesigner_2ecs_263',['20231220032528_SLAddTopicPort.Designer.cs',['../20231220032528___s_l_add_topic_port_8_designer_8cs.html',1,'']]]
+  ['20231220032528_5fsladdtopicport_2edesigner_2ecs_263',['20231220032528_SLAddTopicPort.Designer.cs',['../20231220032528___s_l_add_topic_port_8_designer_8cs.html',1,'']]],
+  ['20240202202038_5fmsaddminidumpsoption_2ecs_264',['20240202202038_MSAddMinidumpsOption.cs',['../20240202202038___m_s_add_minidumps_option_8cs.html',1,'']]],
+  ['20240202202038_5fmsaddminidumpsoption_2edesigner_2ecs_265',['20240202202038_MSAddMinidumpsOption.Designer.cs',['../20240202202038___m_s_add_minidumps_option_8_designer_8cs.html',1,'']]],
+  ['20240202202051_5fmyaddminidumpsoption_2ecs_266',['20240202202051_MYAddMinidumpsOption.cs',['../20240202202051___m_y_add_minidumps_option_8cs.html',1,'']]],
+  ['20240202202051_5fmyaddminidumpsoption_2edesigner_2ecs_267',['20240202202051_MYAddMinidumpsOption.Designer.cs',['../20240202202051___m_y_add_minidumps_option_8_designer_8cs.html',1,'']]],
+  ['20240202202106_5fpgaddminidumpsoption_2ecs_268',['20240202202106_PGAddMinidumpsOption.cs',['../20240202202106___p_g_add_minidumps_option_8cs.html',1,'']]],
+  ['20240202202106_5fpgaddminidumpsoption_2edesigner_2ecs_269',['20240202202106_PGAddMinidumpsOption.Designer.cs',['../20240202202106___p_g_add_minidumps_option_8_designer_8cs.html',1,'']]],
+  ['20240202202121_5fsladdminidumpsoption_2ecs_270',['20240202202121_SLAddMinidumpsOption.cs',['../20240202202121___s_l_add_minidumps_option_8cs.html',1,'']]],
+  ['20240202202121_5fsladdminidumpsoption_2edesigner_2ecs_271',['20240202202121_SLAddMinidumpsOption.Designer.cs',['../20240202202121___s_l_add_minidumps_option_8_designer_8cs.html',1,'']]]
 ];

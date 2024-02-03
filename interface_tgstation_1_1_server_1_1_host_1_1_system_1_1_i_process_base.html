@@ -108,9 +108,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a9d13aba422f359f49df8647f32599ad0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_base.html#a9d13aba422f359f49df8647f32599ad0">ResumeProcess</a> ()</td></tr>
 <tr class="memdesc:a9d13aba422f359f49df8647f32599ad0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Resumes the process.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_base.html#a9d13aba422f359f49df8647f32599ad0">More...</a><br /></td></tr>
 <tr class="separator:a9d13aba422f359f49df8647f32599ad0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a10a5f52164b7c397bcefda36c8b99bbe"><td class="memItemLeft" align="right" valign="top">ValueTask&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_base.html#a10a5f52164b7c397bcefda36c8b99bbe">CreateDump</a> (string outputFile, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a10a5f52164b7c397bcefda36c8b99bbe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a dump file of the process.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_base.html#a10a5f52164b7c397bcefda36c8b99bbe">More...</a><br /></td></tr>
-<tr class="separator:a10a5f52164b7c397bcefda36c8b99bbe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adf3532bdc8fa7d2439700ba2b82ae612"><td class="memItemLeft" align="right" valign="top">ValueTask&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_base.html#adf3532bdc8fa7d2439700ba2b82ae612">CreateDump</a> (string outputFile, bool minidump, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:adf3532bdc8fa7d2439700ba2b82ae612"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a dump file of the process.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_base.html#adf3532bdc8fa7d2439700ba2b82ae612">More...</a><br /></td></tr>
+<tr class="separator:adf3532bdc8fa7d2439700ba2b82ae612"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="properties" name="properties"></a>
 Properties</h2></td></tr>
@@ -171,8 +171,8 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a id="a10a5f52164b7c397bcefda36c8b99bbe" name="a10a5f52164b7c397bcefda36c8b99bbe"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a10a5f52164b7c397bcefda36c8b99bbe">&#9670;&#160;</a></span>CreateDump()</h2>
+<a id="adf3532bdc8fa7d2439700ba2b82ae612" name="adf3532bdc8fa7d2439700ba2b82ae612"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adf3532bdc8fa7d2439700ba2b82ae612">&#9670;&#160;</a></span>CreateDump()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -182,6 +182,12 @@ Here is the caller graph for this function:</div>
           <td>(</td>
           <td class="paramtype">string&#160;</td>
           <td class="paramname"><em>outputFile</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>minidump</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -201,22 +207,23 @@ Here is the caller graph for this function:</div>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">outputFile</td><td>The full path to the output file.</td></tr>
+    <tr><td class="paramname">minidump</td><td>If a minidump should be taken as opposed to a full dump.</td></tr>
     <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A ValueTask representing the running operation.</dd></dl>
 
-<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#aa642e3229a7f07751fa9064bba5049a0">Tgstation.Server.Host.Components.Session.SessionController</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process.html#a0b5c286747cf7fc0371a7f7a87625e7e">Tgstation.Server.Host.System.Process</a>.</p>
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#a90348c4d78d87f68a7e8ec52574ccdf0">Tgstation.Server.Host.Components.Session.SessionController</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process.html#a371d3468a7bdcb78c4faefdc77e0a614">Tgstation.Server.Host.System.Process</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="_session_controller_8cs_source.html#l00490">Tgstation.Server.Host.Components.Session.SessionController.CreateDump()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_base_a10a5f52164b7c397bcefda36c8b99bbe_icgraph.png" border="0" usemap="#ainterface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_base_a10a5f52164b7c397bcefda36c8b99bbe_icgraph" alt=""/></div>
-<map name="ainterface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_base_a10a5f52164b7c397bcefda36c8b99bbe_icgraph" id="ainterface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_base_a10a5f52164b7c397bcefda36c8b99bbe_icgraph">
+<div class="center"><img src="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_base_adf3532bdc8fa7d2439700ba2b82ae612_icgraph.png" border="0" usemap="#ainterface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_base_adf3532bdc8fa7d2439700ba2b82ae612_icgraph" alt=""/></div>
+<map name="ainterface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_base_adf3532bdc8fa7d2439700ba2b82ae612_icgraph" id="ainterface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_base_adf3532bdc8fa7d2439700ba2b82ae612_icgraph">
 <area shape="rect" title="Create a dump file of the process." alt="" coords="303,5,501,45"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#aa642e3229a7f07751fa9064bba5049a0" title="Create a dump file of the process. A ValueTask representing the running operation." alt="" coords="5,5,255,45"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#a90348c4d78d87f68a7e8ec52574ccdf0" title="Create a dump file of the process. A ValueTask representing the running operation." alt="" coords="5,5,255,45"/>
 </map>
 </div>
 

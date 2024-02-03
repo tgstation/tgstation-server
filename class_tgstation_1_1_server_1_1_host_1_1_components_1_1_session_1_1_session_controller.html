@@ -234,17 +234,18 @@ Public Member Functions</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>A ValueTask representing the running operation.</dd></dl>
   <a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#a9f260872dc89843aebeb261dac1aba8c">More...</a><br /></td></tr>
 <tr class="separator:a9f260872dc89843aebeb261dac1aba8c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa642e3229a7f07751fa9064bba5049a0"><td class="memItemLeft" align="right" valign="top">ValueTask&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#aa642e3229a7f07751fa9064bba5049a0">CreateDump</a> (string outputFile, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:aa642e3229a7f07751fa9064bba5049a0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a dump file of the process. <dl class="params"><dt>Parameters</dt><dd>
+<tr class="memitem:a90348c4d78d87f68a7e8ec52574ccdf0"><td class="memItemLeft" align="right" valign="top">ValueTask&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#a90348c4d78d87f68a7e8ec52574ccdf0">CreateDump</a> (string outputFile, bool minidump, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a90348c4d78d87f68a7e8ec52574ccdf0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a dump file of the process. <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">outputFile</td><td>The full path to the output file.</td></tr>
+    <tr><td class="paramname">minidump</td><td>If a minidump should be taken as opposed to a full dump.</td></tr>
     <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A ValueTask representing the running operation.</dd></dl>
-  <a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#aa642e3229a7f07751fa9064bba5049a0">More...</a><br /></td></tr>
-<tr class="separator:aa642e3229a7f07751fa9064bba5049a0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+  <a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#a90348c4d78d87f68a7e8ec52574ccdf0">More...</a><br /></td></tr>
+<tr class="separator:a90348c4d78d87f68a7e8ec52574ccdf0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac58b748f6f73a449a7f033707672e041"><td class="memItemLeft" align="right" valign="top">ValueTask&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_i_session_controller.html#ac58b748f6f73a449a7f033707672e041">Release</a> ()</td></tr>
 <tr class="memdesc:ac58b748f6f73a449a7f033707672e041"><td class="mdescLeft">&#160;</td><td class="mdescRight">Releases the IProcess without terminating it. Also calls IDisposable.Dispose.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_i_session_controller.html#ac58b748f6f73a449a7f033707672e041">More...</a><br /></td></tr>
 <tr class="separator:ac58b748f6f73a449a7f033707672e041"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -269,9 +270,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a9d13aba422f359f49df8647f32599ad0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_base.html#a9d13aba422f359f49df8647f32599ad0">ResumeProcess</a> ()</td></tr>
 <tr class="memdesc:a9d13aba422f359f49df8647f32599ad0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Resumes the process.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_base.html#a9d13aba422f359f49df8647f32599ad0">More...</a><br /></td></tr>
 <tr class="separator:a9d13aba422f359f49df8647f32599ad0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a10a5f52164b7c397bcefda36c8b99bbe"><td class="memItemLeft" align="right" valign="top">ValueTask&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_base.html#a10a5f52164b7c397bcefda36c8b99bbe">CreateDump</a> (string outputFile, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a10a5f52164b7c397bcefda36c8b99bbe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a dump file of the process.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_base.html#a10a5f52164b7c397bcefda36c8b99bbe">More...</a><br /></td></tr>
-<tr class="separator:a10a5f52164b7c397bcefda36c8b99bbe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adf3532bdc8fa7d2439700ba2b82ae612"><td class="memItemLeft" align="right" valign="top">ValueTask&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_base.html#adf3532bdc8fa7d2439700ba2b82ae612">CreateDump</a> (string outputFile, bool minidump, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:adf3532bdc8fa7d2439700ba2b82ae612"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a dump file of the process.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_base.html#adf3532bdc8fa7d2439700ba2b82ae612">More...</a><br /></td></tr>
+<tr class="separator:adf3532bdc8fa7d2439700ba2b82ae612"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7c1c4de7ff2aeb837b875d9a6ac99f0a"><td class="memItemLeft" align="right" valign="top">ValueTask&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_rename_notifyee.html#a7c1c4de7ff2aeb837b875d9a6ac99f0a">InstanceRenamed</a> (string newInstanceName, CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:a7c1c4de7ff2aeb837b875d9a6ac99f0a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Called when the owning <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html">Instance</a> is renamed.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_rename_notifyee.html#a7c1c4de7ff2aeb837b875d9a6ac99f0a">More...</a><br /></td></tr>
 <tr class="separator:a7c1c4de7ff2aeb837b875d9a6ac99f0a"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -901,8 +902,8 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a id="aa642e3229a7f07751fa9064bba5049a0" name="aa642e3229a7f07751fa9064bba5049a0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa642e3229a7f07751fa9064bba5049a0">&#9670;&#160;</a></span>CreateDump()</h2>
+<a id="a90348c4d78d87f68a7e8ec52574ccdf0" name="a90348c4d78d87f68a7e8ec52574ccdf0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a90348c4d78d87f68a7e8ec52574ccdf0">&#9670;&#160;</a></span>CreateDump()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -912,6 +913,12 @@ Here is the caller graph for this function:</div>
           <td>(</td>
           <td class="paramtype">string&#160;</td>
           <td class="paramname"><em>outputFile</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>minidump</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -930,6 +937,7 @@ Here is the caller graph for this function:</div>
 <p>Create a dump file of the process. <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">outputFile</td><td>The full path to the output file.</td></tr>
+    <tr><td class="paramname">minidump</td><td>If a minidump should be taken as opposed to a full dump.</td></tr>
     <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
   </table>
   </dd>
@@ -937,28 +945,28 @@ Here is the caller graph for this function:</div>
 <dl class="section return"><dt>Returns</dt><dd>A ValueTask representing the running operation.</dd></dl>
  </p>
 
-<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_base.html#a10a5f52164b7c397bcefda36c8b99bbe">Tgstation.Server.Host.System.IProcessBase</a>.</p>
+<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_base.html#adf3532bdc8fa7d2439700ba2b82ae612">Tgstation.Server.Host.System.IProcessBase</a>.</p>
 
 <p class="definition">Definition at line <a class="el" href="_session_controller_8cs_source.html#l00490">490</a> of file <a class="el" href="_session_controller_8cs_source.html">SessionController.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">  491</span>        {</div>
 <div class="line"><span class="lineno">  492</span>            <span class="keywordflow">if</span> (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#a404cf75ca05f0a3c1b2cedadc664b86d">engineLock</a>.<a class="code hl_property" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installation.html#abc336010d5063857c1e2d0080dbd85d9">UseDotnetDump</a>)</div>
-<div class="line"><span class="lineno">  493</span>                <span class="keywordflow">return</span> <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#a1801b62684675e3f9a3d428e416b698c">dotnetDumpService</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_dotnet_dump_service.html#aa93e6886542a8c4d273f887ca134b1aa">Dump</a>(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#af72f0ef89d2933aacb840b4371a5d55c">process</a>, outputFile, cancellationToken);</div>
+<div class="line"><span class="lineno">  493</span>                <span class="keywordflow">return</span> <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#a1801b62684675e3f9a3d428e416b698c">dotnetDumpService</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_dotnet_dump_service.html#a515764cad066e48dff4c4a468393ddf3">Dump</a>(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#af72f0ef89d2933aacb840b4371a5d55c">process</a>, outputFile, minidump, cancellationToken);</div>
 <div class="line"><span class="lineno">  494</span> </div>
-<div class="line"><span class="lineno">  495</span>            <span class="keywordflow">return</span> <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#af72f0ef89d2933aacb840b4371a5d55c">process</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_base.html#a10a5f52164b7c397bcefda36c8b99bbe">CreateDump</a>(outputFile, cancellationToken);</div>
+<div class="line"><span class="lineno">  495</span>            <span class="keywordflow">return</span> <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#af72f0ef89d2933aacb840b4371a5d55c">process</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_base.html#adf3532bdc8fa7d2439700ba2b82ae612">CreateDump</a>(outputFile, minidump, cancellationToken);</div>
 <div class="line"><span class="lineno">  496</span>        }</div>
 <div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installation_html_abc336010d5063857c1e2d0080dbd85d9"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installation.html#abc336010d5063857c1e2d0080dbd85d9">Tgstation.Server.Host.Components.Engine.IEngineInstallation.UseDotnetDump</a></div><div class="ttdeci">bool UseDotnetDump</div><div class="ttdoc">If dotnet-dump should be used to create process dumps for this installation.</div><div class="ttdef"><b>Definition:</b> <a href="_i_engine_installation_8cs_source.html#l00052">IEngineInstallation.cs:52</a></div></div>
-<div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_dotnet_dump_service_html_aa93e6886542a8c4d273f887ca134b1aa"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_dotnet_dump_service.html#aa93e6886542a8c4d273f887ca134b1aa">Tgstation.Server.Host.System.IDotnetDumpService.Dump</a></div><div class="ttdeci">ValueTask Dump(IProcess process, string outputFile, CancellationToken cancellationToken)</div><div class="ttdoc">Attempt to dump a given process .</div></div>
-<div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_base_html_a10a5f52164b7c397bcefda36c8b99bbe"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_base.html#a10a5f52164b7c397bcefda36c8b99bbe">Tgstation.Server.Host.System.IProcessBase.CreateDump</a></div><div class="ttdeci">ValueTask CreateDump(string outputFile, CancellationToken cancellationToken)</div><div class="ttdoc">Create a dump file of the process.</div></div>
+<div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_dotnet_dump_service_html_a515764cad066e48dff4c4a468393ddf3"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_dotnet_dump_service.html#a515764cad066e48dff4c4a468393ddf3">Tgstation.Server.Host.System.IDotnetDumpService.Dump</a></div><div class="ttdeci">ValueTask Dump(IProcess process, string outputFile, bool minidump, CancellationToken cancellationToken)</div><div class="ttdoc">Attempt to dump a given process .</div></div>
+<div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_base_html_adf3532bdc8fa7d2439700ba2b82ae612"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_base.html#adf3532bdc8fa7d2439700ba2b82ae612">Tgstation.Server.Host.System.IProcessBase.CreateDump</a></div><div class="ttdeci">ValueTask CreateDump(string outputFile, bool minidump, CancellationToken cancellationToken)</div><div class="ttdoc">Create a dump file of the process.</div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_base.html#a10a5f52164b7c397bcefda36c8b99bbe">Tgstation.Server.Host.System.IProcessBase.CreateDump()</a>, <a class="el" href="_session_controller_8cs_source.html#l00160">Tgstation.Server.Host.Components.Session.SessionController.dotnetDumpService</a>, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_dotnet_dump_service.html#aa93e6886542a8c4d273f887ca134b1aa">Tgstation.Server.Host.System.IDotnetDumpService.Dump()</a>, <a class="el" href="_session_controller_8cs_source.html#l00140">Tgstation.Server.Host.Components.Session.SessionController.engineLock</a>, <a class="el" href="_session_controller_8cs_source.html#l00135">Tgstation.Server.Host.Components.Session.SessionController.process</a>, and <a class="el" href="_i_engine_installation_8cs_source.html#l00052">Tgstation.Server.Host.Components.Engine.IEngineInstallation.UseDotnetDump</a>.</p>
+<p class="reference">References <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_base.html#adf3532bdc8fa7d2439700ba2b82ae612">Tgstation.Server.Host.System.IProcessBase.CreateDump()</a>, <a class="el" href="_session_controller_8cs_source.html#l00160">Tgstation.Server.Host.Components.Session.SessionController.dotnetDumpService</a>, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_dotnet_dump_service.html#a515764cad066e48dff4c4a468393ddf3">Tgstation.Server.Host.System.IDotnetDumpService.Dump()</a>, <a class="el" href="_session_controller_8cs_source.html#l00140">Tgstation.Server.Host.Components.Session.SessionController.engineLock</a>, <a class="el" href="_session_controller_8cs_source.html#l00135">Tgstation.Server.Host.Components.Session.SessionController.process</a>, and <a class="el" href="_i_engine_installation_8cs_source.html#l00052">Tgstation.Server.Host.Components.Engine.IEngineInstallation.UseDotnetDump</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller_aa642e3229a7f07751fa9064bba5049a0_cgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller_aa642e3229a7f07751fa9064bba5049a0_cgraph" alt=""/></div>
-<map name="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller_aa642e3229a7f07751fa9064bba5049a0_cgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller_aa642e3229a7f07751fa9064bba5049a0_cgraph">
+<div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller_a90348c4d78d87f68a7e8ec52574ccdf0_cgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller_a90348c4d78d87f68a7e8ec52574ccdf0_cgraph" alt=""/></div>
+<map name="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller_a90348c4d78d87f68a7e8ec52574ccdf0_cgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller_a90348c4d78d87f68a7e8ec52574ccdf0_cgraph">
 <area shape="rect" title="Create a dump file of the process. A ValueTask representing the running operation." alt="" coords="5,37,255,77"/>
-<area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_base.html#a10a5f52164b7c397bcefda36c8b99bbe" title="Create a dump file of the process." alt="" coords="303,5,501,45"/>
-<area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_dotnet_dump_service.html#aa93e6886542a8c4d273f887ca134b1aa" title="Attempt to dump a given process ." alt="" coords="303,69,501,109"/>
+<area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_base.html#adf3532bdc8fa7d2439700ba2b82ae612" title="Create a dump file of the process." alt="" coords="303,5,501,45"/>
+<area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_dotnet_dump_service.html#a515764cad066e48dff4c4a468393ddf3" title="Attempt to dump a given process ." alt="" coords="303,69,501,109"/>
 </map>
 </div>
 

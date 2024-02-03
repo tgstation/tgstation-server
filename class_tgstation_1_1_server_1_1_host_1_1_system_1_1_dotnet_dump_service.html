@@ -109,21 +109,22 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a6619936a003fbd860a4db0ea5a35c71f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_dotnet_dump_service.html#a6619936a003fbd860a4db0ea5a35c71f">DotnetDumpService</a> (ILogger&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_dotnet_dump_service.html">DotnetDumpService</a> &gt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_dotnet_dump_service.html#aabfb0f0373dbb5a4c364d400bc8c9f72">logger</a>)</td></tr>
 <tr class="memdesc:a6619936a003fbd860a4db0ea5a35c71f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes a new instance of the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_dotnet_dump_service.html">DotnetDumpService</a> class.   <a href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_dotnet_dump_service.html#a6619936a003fbd860a4db0ea5a35c71f">More...</a><br /></td></tr>
 <tr class="separator:a6619936a003fbd860a4db0ea5a35c71f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad9f5725350b355646c8b0cae3b1a79ee"><td class="memItemLeft" align="right" valign="top">async ValueTask&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_dotnet_dump_service.html#ad9f5725350b355646c8b0cae3b1a79ee">Dump</a> (<a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process.html">IProcess</a> process, string outputFile, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:ad9f5725350b355646c8b0cae3b1a79ee"><td class="mdescLeft">&#160;</td><td class="mdescRight">Attempt to dump a given <em>process</em> . <dl class="params"><dt>Parameters</dt><dd>
+<tr class="memitem:a4baaea7bb7fd77e2e8e04d104cfc20a1"><td class="memItemLeft" align="right" valign="top">async ValueTask&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_dotnet_dump_service.html#a4baaea7bb7fd77e2e8e04d104cfc20a1">Dump</a> (<a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process.html">IProcess</a> process, string outputFile, bool minidump, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a4baaea7bb7fd77e2e8e04d104cfc20a1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Attempt to dump a given <em>process</em> . <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">process</td><td>The <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process.html" title="Abstraction over a global::System.Diagnostics.Process.">IProcess</a> to dump.</td></tr>
     <tr><td class="paramname">outputFile</td><td>The path to the output dump file.</td></tr>
+    <tr><td class="paramname">minidump</td><td>If a minidump should be taken as opposed to a full dump.</td></tr>
     <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A ValueTask representing the running operation.</dd></dl>
-  <a href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_dotnet_dump_service.html#ad9f5725350b355646c8b0cae3b1a79ee">More...</a><br /></td></tr>
-<tr class="separator:ad9f5725350b355646c8b0cae3b1a79ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa93e6886542a8c4d273f887ca134b1aa"><td class="memItemLeft" align="right" valign="top">ValueTask&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_dotnet_dump_service.html#aa93e6886542a8c4d273f887ca134b1aa">Dump</a> (<a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process.html">IProcess</a> process, string outputFile, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:aa93e6886542a8c4d273f887ca134b1aa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Attempt to dump a given <em>process</em> .   <a href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_dotnet_dump_service.html#aa93e6886542a8c4d273f887ca134b1aa">More...</a><br /></td></tr>
-<tr class="separator:aa93e6886542a8c4d273f887ca134b1aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+  <a href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_dotnet_dump_service.html#a4baaea7bb7fd77e2e8e04d104cfc20a1">More...</a><br /></td></tr>
+<tr class="separator:a4baaea7bb7fd77e2e8e04d104cfc20a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a515764cad066e48dff4c4a468393ddf3"><td class="memItemLeft" align="right" valign="top">ValueTask&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_dotnet_dump_service.html#a515764cad066e48dff4c4a468393ddf3">Dump</a> (<a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process.html">IProcess</a> process, string outputFile, bool minidump, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a515764cad066e48dff4c4a468393ddf3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Attempt to dump a given <em>process</em> .   <a href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_dotnet_dump_service.html#a515764cad066e48dff4c4a468393ddf3">More...</a><br /></td></tr>
+<tr class="separator:a515764cad066e48dff4c4a468393ddf3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
@@ -170,8 +171,8 @@ Private Attributes</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="ad9f5725350b355646c8b0cae3b1a79ee" name="ad9f5725350b355646c8b0cae3b1a79ee"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad9f5725350b355646c8b0cae3b1a79ee">&#9670;&#160;</a></span>Dump()</h2>
+<a id="a4baaea7bb7fd77e2e8e04d104cfc20a1" name="a4baaea7bb7fd77e2e8e04d104cfc20a1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4baaea7bb7fd77e2e8e04d104cfc20a1">&#9670;&#160;</a></span>Dump()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -191,6 +192,12 @@ Private Attributes</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>minidump</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
           <td class="paramtype">CancellationToken&#160;</td>
           <td class="paramname"><em>cancellationToken</em>&#160;</td>
         </tr>
@@ -206,6 +213,7 @@ Private Attributes</h2></td></tr>
   <table class="params">
     <tr><td class="paramname">process</td><td>The <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process.html" title="Abstraction over a global::System.Diagnostics.Process.">IProcess</a> to dump.</td></tr>
     <tr><td class="paramname">outputFile</td><td>The path to the output dump file.</td></tr>
+    <tr><td class="paramname">minidump</td><td>If a minidump should be taken as opposed to a full dump.</td></tr>
     <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
   </table>
   </dd>
@@ -213,7 +221,7 @@ Private Attributes</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>A ValueTask representing the running operation.</dd></dl>
  </p>
 
-<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_dotnet_dump_service.html#aa93e6886542a8c4d273f887ca134b1aa">Tgstation.Server.Host.System.IDotnetDumpService</a>.</p>
+<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_dotnet_dump_service.html#a515764cad066e48dff4c4a468393ddf3">Tgstation.Server.Host.System.IDotnetDumpService</a>.</p>
 
 <p class="definition">Definition at line <a class="el" href="_dotnet_dump_service_8cs_source.html#l00029">29</a> of file <a class="el" href="_dotnet_dump_service_8cs_source.html">DotnetDumpService.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   30</span>        {</div>
@@ -231,8 +239,14 @@ Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">   42</span>            var pid = process.Id;</div>
 <div class="line"><span class="lineno">   43</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_dotnet_dump_service.html#aabfb0f0373dbb5a4c364d400bc8c9f72">logger</a>.LogDebug(<span class="stringliteral">&quot;dotnet-dump requested for PID {pid}...&quot;</span>, pid);</div>
 <div class="line"><span class="lineno">   44</span>            var client = <span class="keyword">new</span> DiagnosticsClient(pid);</div>
-<div class="line"><span class="lineno">   45</span>            await client.WriteDumpAsync(DumpType.Full, outputFile, <span class="keyword">false</span>, cts.Token);</div>
-<div class="line"><span class="lineno">   46</span>        }</div>
+<div class="line"><span class="lineno">   45</span>            await client.WriteDumpAsync(</div>
+<div class="line"><span class="lineno">   46</span>                minidump</div>
+<div class="line"><span class="lineno">   47</span>                    ? DumpType.Normal</div>
+<div class="line"><span class="lineno">   48</span>                    : DumpType.Full,</div>
+<div class="line"><span class="lineno">   49</span>                outputFile,</div>
+<div class="line"><span class="lineno">   50</span>                <span class="keyword">false</span>,</div>
+<div class="line"><span class="lineno">   51</span>                cts.Token);</div>
+<div class="line"><span class="lineno">   52</span>        }</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="_i_process_8cs_source.html#l00015">Tgstation.Server.Host.System.IProcess.Id</a>, and <a class="el" href="_dotnet_dump_service_8cs_source.html#l00016">Tgstation.Server.Host.System.DotnetDumpService.logger</a>.</p>
 
