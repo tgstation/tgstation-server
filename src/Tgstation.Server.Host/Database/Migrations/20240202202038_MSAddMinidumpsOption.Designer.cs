@@ -3,13 +3,16 @@ using System;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Tgstation.Server.Host.Database.Migrations
 {
 	[DbContext(typeof(SqlServerDatabaseContext))]
-	partial class SqlServerDatabaseContextModelSnapshot : ModelSnapshot
+	[Migration("20240202202038_MSAddMinidumpsOption")]
+	partial class MSAddMinidumpsOption
 	{
-		protected override void BuildModel(ModelBuilder modelBuilder)
+		/// <inheritdoc />
+		protected override void BuildTargetModel(ModelBuilder modelBuilder)
 		{
 #pragma warning disable 612, 618
 			modelBuilder

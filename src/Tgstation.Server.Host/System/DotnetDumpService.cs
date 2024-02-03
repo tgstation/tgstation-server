@@ -26,7 +26,7 @@ namespace Tgstation.Server.Host.System
 		}
 
 		/// <inheritdoc />
-		public async ValueTask Dump(IProcess process, string outputFile, CancellationToken cancellationToken)
+		public async ValueTask Dump(IProcess process, string outputFile, bool minidump, CancellationToken cancellationToken)
 		{
 			// need to use an extra timeout here because if the process is truly deadlocked. A cooperative dump will hang forever
 			using var cts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
@@ -42,7 +42,13 @@ namespace Tgstation.Server.Host.System
 			var pid = process.Id;
 			logger.LogDebug("dotnet-dump requested for PID {pid}...", pid);
 			var client = new DiagnosticsClient(pid);
-			await client.WriteDumpAsync(DumpType.Full, outputFile, false, cts.Token);
+			await client.WriteDumpAsync(
+				minidump
+					? DumpType.Normal
+					: DumpType.Full,
+				outputFile,
+				false,
+				cts.Token);
 		}
 	}
 }

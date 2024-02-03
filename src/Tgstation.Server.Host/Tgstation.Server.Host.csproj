@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
   <Import Project="../../build/SrcCommon.props" />
 
   <PropertyGroup>
@@ -102,7 +102,7 @@
     <!-- Usage: PostgresSQL ORM plugin -->
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.0" />
     <!-- Usage: GitHub.com interop -->
-    <PackageReference Include="Octokit" Version="9.1.1" />
+    <PackageReference Include="Octokit" Version="9.1.2" />
     <!-- Usage: MYSQL/MariaDB ORM plugin -->
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="8.0.0-beta.2" />
     <!-- Usage: Discord interop -->

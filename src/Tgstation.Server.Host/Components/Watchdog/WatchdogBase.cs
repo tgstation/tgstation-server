@@ -1249,7 +1249,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				throw new JobException(ErrorCode.GameServerOffline);
 
 			Logger.LogInformation("Dumping session to {dumpFileName}...", dumpFileName);
-			await session.CreateDump(dumpFileName, cancellationToken);
+			await session.CreateDump(dumpFileName, ActiveLaunchParameters.Minidumps!.Value, cancellationToken);
 		}
 	}
 }

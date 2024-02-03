@@ -64,7 +64,7 @@ namespace Tgstation.Server.Host.System
 			=> throw new NotSupportedException();
 
 		/// <inheritdoc />
-		public async ValueTask CreateDump(global::System.Diagnostics.Process process, string outputFile, CancellationToken cancellationToken)
+		public async ValueTask CreateDump(global::System.Diagnostics.Process process, string outputFile, bool minidump, CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(process);
 			ArgumentNullException.ThrowIfNull(outputFile);
@@ -91,7 +91,7 @@ namespace Tgstation.Server.Host.System
 			await using (var gcoreProc = lazyLoadedProcessExecutor.Value.LaunchProcess(
 				GCorePath,
 				Environment.CurrentDirectory,
-				$"-o {outputFile} {process.Id}",
+				$"{(!minidump ? "-a " : String.Empty)}-o {outputFile} {process.Id}",
 				readStandardHandles: true,
 				noShellExecute: true))
 			{
@@ -99,7 +99,7 @@ namespace Tgstation.Server.Host.System
 					exitCode = (await gcoreProc.Lifetime).Value;
 
 				output = await gcoreProc.GetCombinedOutput(cancellationToken);
-				logger.LogDebug("gcore output:{0}{1}", Environment.NewLine, output);
+				logger.LogDebug("gcore output:{newline}{output}", Environment.NewLine, output);
 			}
 
 			if (exitCode != 0)
