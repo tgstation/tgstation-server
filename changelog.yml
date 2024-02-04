@@ -6,7 +6,6 @@ Components:
       - Added `Session:DelayCleaningFailedDeployments`. If set, failed deployments will leave their directories intact. They will be automatically cleaned up the next time the instance is onlined (i.e. When TGS restarts).
       Author: Cyberboss
       PullRequest: 1770
-    Unreleased: true
   - Version: 5.0.0
     Changes:
     - Descriptions:
@@ -148,8 +147,17 @@ Components:
       Author: Cyberboss
       PullRequest: 1070
   Core:
+  - Version: 6.3.0
+    ComponentVersions: {}
+    Changes: []
+    Unreleased: true
+  - Version: 6.2.1
+    ComponentVersions: {}
+    Changes: []
+    Unreleased: true
   - Version: 6.2.0
     ComponentVersions:
+      Core: 6.2.0
       HttpApi: 10.1.0
       DreamMakerApi: 7.0.2
       Configuration: 5.1.0
@@ -158,7 +166,7 @@ Components:
       NugetCommon: 7.0.0
       NugetApi: 13.1.0
       NugetClient: 15.1.0
-      WebControlPanel: 5.4.2
+      WebControlPanel: 5.5.0
     Changes:
     - Descriptions:
       - You can now add `server.env` and `compiler.env` files to your engine installation directories (i.e. `<instance>/Byond/515.1530/server.env`) to specify environment variables to set when executing the game server and compiler respectively. These are [.env](https://hexdocs.pm/dotenvy/dotenv-file-format.html) files.
@@ -174,21 +182,6 @@ Components:
       - Newly created instances will have their `minidumps` watchdog setting set to `true`. Previously, this behavior was `true` on Linux, and `false` on Windows. This will persist into this update.
       Author: Cyberboss
       PullRequest: 1786
-    Unreleased: true
-  - Version: 6.1.6
-    ComponentVersions:
-      Core: 6.1.5
-      HttpApi: 10.0.0
-      DreamMakerApi: 7.0.1
-      Configuration: 5.0.0
-      InteropApi: 5.8.0
-      HostWatchdog: 1.4.1
-      NugetCommon: 7.0.0
-      NugetApi: 13.0.1
-      NugetClient: 15.0.1
-      WebControlPanel: 5.4.2
-    Changes: []
-    Unreleased: true
   - Version: 6.1.5
     ComponentVersions:
       HttpApi: 10.0.0
@@ -3323,6 +3316,13 @@ Components:
       Author: AffectedArc07
       PullRequest: 1408
   WebControlPanel:
+  - Version: 5.5.0
+    Changes:
+    - Descriptions:
+      - Added permission toggle for changing core dump type.
+      - Added watchdog setting for selecting what kind of core dumps are taken.
+      Author: Cyberboss
+      PullRequest: 1787
   - Version: 5.4.2
     Changes:
     - Descriptions:
@@ -3506,7 +3506,6 @@ Components:
       - Added watchdog permission `2097152` for setting the `minidumps` flag.
       Author: Cyberboss
       PullRequest: 1786
-    Unreleased: true
   - Version: 10.0.0
     Changes:
     - Descriptions:
@@ -3989,7 +3988,6 @@ Components:
       - Fixed chat messages being sent in a random order rather than FIFO while TGS was rebooting. Note, they may still appear out of order due to a potential bug as of TGS 6.1.2 but this fix is necessary to guarantee order in the first place.
       Author: Cyberboss
       PullRequest: 1771
-    Unreleased: true
   - Version: 7.0.1
     Changes:
     - Descriptions:
@@ -4213,7 +4211,6 @@ Components:
       - Added `DreamDaemonRights.SetMinidumps` flag.
       Author: Cyberboss
       PullRequest: 1786
-    Unreleased: true
   - Version: 13.0.0
     Changes:
     - Descriptions:
