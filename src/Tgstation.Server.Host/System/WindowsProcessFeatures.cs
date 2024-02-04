@@ -120,7 +120,7 @@ namespace Tgstation.Server.Host.System
 		}
 
 		/// <inheritdoc />
-		public async ValueTask CreateDump(global::System.Diagnostics.Process process, string outputFile, CancellationToken cancellationToken)
+		public async ValueTask CreateDump(global::System.Diagnostics.Process process, string outputFile, bool minidump, CancellationToken cancellationToken)
 		{
 			try
 			{
@@ -137,15 +137,19 @@ namespace Tgstation.Server.Host.System
 			await Task.Factory.StartNew(
 				() =>
 				{
+					var flags = NativeMethods.MiniDumpType.WithHandleData
+						| NativeMethods.MiniDumpType.WithThreadInfo
+						| NativeMethods.MiniDumpType.WithUnloadedModules;
+
+					if (!minidump)
+						flags |= NativeMethods.MiniDumpType.WithDataSegs
+							| NativeMethods.MiniDumpType.WithFullMemory;
+
 					if (!NativeMethods.MiniDumpWriteDump(
 						process.Handle,
 						(uint)process.Id,
 						fileStream.SafeFileHandle,
-						NativeMethods.MiniDumpType.WithDataSegs
-						| NativeMethods.MiniDumpType.WithFullMemory
-						| NativeMethods.MiniDumpType.WithHandleData
-						| NativeMethods.MiniDumpType.WithThreadInfo
-						| NativeMethods.MiniDumpType.WithUnloadedModules,
+						flags,
 						IntPtr.Zero,
 						IntPtr.Zero,
 						IntPtr.Zero))

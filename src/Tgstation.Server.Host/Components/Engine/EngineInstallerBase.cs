@@ -46,7 +46,7 @@ namespace Tgstation.Server.Host.Components.Engine
 		public abstract Task CleanCache(CancellationToken cancellationToken);
 
 		/// <inheritdoc />
-		public abstract ValueTask Install(EngineVersion version, string path, CancellationToken cancellationToken);
+		public abstract ValueTask Install(EngineVersion version, string path, bool deploymentPipelineProcesses, CancellationToken cancellationToken);
 
 		/// <inheritdoc />
 		public abstract ValueTask UpgradeInstallation(EngineVersion version, string path, CancellationToken cancellationToken);

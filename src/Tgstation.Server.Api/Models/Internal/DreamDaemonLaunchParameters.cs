@@ -99,6 +99,13 @@ namespace Tgstation.Server.Api.Models.Internal
 		public uint? MapThreads { get; set; }
 
 		/// <summary>
+		/// If minidumps should be taken instead of full dumps.
+		/// </summary>
+		[Required]
+		[ResponseOptions]
+		public bool? Minidumps { get; set; }
+
+		/// <summary>
 		/// Check if we match a given set of <paramref name="otherParameters"/>. <see cref="StartupTimeout"/> is excluded.
 		/// </summary>
 		/// <param name="otherParameters">The <see cref="DreamDaemonLaunchParameters"/> to compare against.</param>
@@ -116,7 +123,7 @@ namespace Tgstation.Server.Api.Models.Internal
 				&& AdditionalParameters == otherParameters.AdditionalParameters
 				&& StartProfiler == otherParameters.StartProfiler
 				&& LogOutput == otherParameters.LogOutput
-				&& MapThreads == otherParameters.MapThreads; // We intentionally don't check StartupTimeout, health check seconds, or health check dump as they don't matter in terms of the watchdog
+				&& MapThreads == otherParameters.MapThreads; // We intentionally don't check StartupTimeout, Minidumps, health check seconds, or health check dump as they don't matter in terms of the watchdog
 		}
 	}
 }

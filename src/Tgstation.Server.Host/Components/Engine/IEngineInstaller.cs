@@ -34,9 +34,10 @@ namespace Tgstation.Server.Host.Components.Engine
 		/// </summary>
 		/// <param name="version">The <see cref="EngineVersion"/> being installed.</param>
 		/// <param name="path">The path to the installation.</param>
+		/// <param name="deploymentPipelineProcesses">If the operation should consider processes it launches to be part of the deployment pipeline.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
-		ValueTask Install(EngineVersion version, string path, CancellationToken cancellationToken);
+		ValueTask Install(EngineVersion version, string path, bool deploymentPipelineProcesses, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Does actions necessary to get upgrade a version installed by a previous version of TGS.

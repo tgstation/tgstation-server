@@ -32,8 +32,9 @@ namespace Tgstation.Server.Host.System
 		/// </summary>
 		/// <param name="process">The <see cref="Process"/> to dump.</param>
 		/// <param name="outputFile">The full path to the output file.</param>
+		/// <param name="minidump">If a minidump should be taken as opposed to a full dump.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
-		ValueTask CreateDump(global::System.Diagnostics.Process process, string outputFile, CancellationToken cancellationToken);
+		ValueTask CreateDump(global::System.Diagnostics.Process process, string outputFile, bool minidump, CancellationToken cancellationToken);
 	}
 }

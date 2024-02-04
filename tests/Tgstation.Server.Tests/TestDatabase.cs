@@ -122,6 +122,7 @@ namespace Tgstation.Server.Tests
 					StartProfiler = false,
 					LogOutput = true,
 					MapThreads = 69,
+					Minidumps = true,
 				},
 				DreamMakerSettings = new Host.Models.DreamMakerSettings
 				{

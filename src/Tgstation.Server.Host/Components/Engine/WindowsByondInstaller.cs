@@ -127,7 +127,7 @@ namespace Tgstation.Server.Host.Components.Engine
 		public void Dispose() => semaphore.Dispose();
 
 		/// <inheritdoc />
-		public override ValueTask Install(EngineVersion version, string path, CancellationToken cancellationToken)
+		public override ValueTask Install(EngineVersion version, string path, bool deploymentPipelineProcesses, CancellationToken cancellationToken)
 		{
 			CheckVersionValidity(version);
 			ArgumentNullException.ThrowIfNull(path);
@@ -142,7 +142,7 @@ namespace Tgstation.Server.Host.Components.Engine
 
 			if (!generalConfiguration.SkipAddingByondFirewallException)
 			{
-				var firewallTask = AddDreamDaemonToFirewall(version, path, cancellationToken);
+				var firewallTask = AddDreamDaemonToFirewall(version, path, deploymentPipelineProcesses, cancellationToken);
 				tasks.Add(firewallTask);
 			}
 
@@ -165,7 +165,7 @@ namespace Tgstation.Server.Host.Components.Engine
 				return;
 
 			Logger.LogInformation("BYOND Version {version} needs dd.exe added to firewall", version);
-			await AddDreamDaemonToFirewall(version, path, cancellationToken);
+			await AddDreamDaemonToFirewall(version, path, true, cancellationToken);
 		}
 
 		/// <inheritdoc />
@@ -243,9 +243,10 @@ namespace Tgstation.Server.Host.Components.Engine
 		/// </summary>
 		/// <param name="version">The BYOND <see cref="EngineVersion"/>.</param>
 		/// <param name="path">The path to the BYOND installation.</param>
+		/// <param name="deploymentPipelineProcesses">If the operation is part of the deployment pipeline.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
-		async ValueTask AddDreamDaemonToFirewall(EngineVersion version, string path, CancellationToken cancellationToken)
+		async ValueTask AddDreamDaemonToFirewall(EngineVersion version, string path, bool deploymentPipelineProcesses, CancellationToken cancellationToken)
 		{
 			var dreamDaemonName = GetDreamDaemonName(version.Version!, out var usesDDExe);
 
@@ -268,7 +269,7 @@ namespace Tgstation.Server.Host.Components.Engine
 					Logger,
 					ruleName,
 					dreamDaemonPath,
-					sessionConfiguration.LowPriorityDeploymentProcesses,
+					deploymentPipelineProcesses && sessionConfiguration.LowPriorityDeploymentProcesses,
 					cancellationToken);
 			}
 			catch (Exception ex)

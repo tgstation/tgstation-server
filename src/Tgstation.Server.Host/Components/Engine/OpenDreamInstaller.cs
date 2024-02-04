@@ -9,7 +9,6 @@ using Microsoft.Extensions.Options;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Common.Extensions;
 using Tgstation.Server.Common.Http;
-using Tgstation.Server.Host.Common;
 using Tgstation.Server.Host.Components.Repository;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.IO;
@@ -124,7 +123,7 @@ namespace Tgstation.Server.Host.Components.Engine
 			CheckVersionValidity(version);
 			GetExecutablePaths(path, out var serverExePath, out var compilerExePath);
 			return new OpenDreamInstallation(
-				IOManager,
+				new ResolvingIOManager(IOManager, path),
 				asyncDelayer,
 				httpClientFactory,
 				serverExePath,
@@ -193,7 +192,7 @@ namespace Tgstation.Server.Host.Components.Engine
 		}
 
 		/// <inheritdoc />
-		public override async ValueTask Install(EngineVersion version, string installPath, CancellationToken cancellationToken)
+		public override async ValueTask Install(EngineVersion version, string installPath, bool deploymentPipelineProcesses, CancellationToken cancellationToken)
 		{
 			CheckVersionValidity(version);
 			ArgumentNullException.ThrowIfNull(installPath);
@@ -232,20 +231,9 @@ namespace Tgstation.Server.Host.Components.Engine
 				await Task.WhenAll(dirsMoveTasks.Concat(filesMoveTask));
 			}
 
-			var dotnetPaths = DotnetHelper.GetPotentialDotnetPaths(platformIdentifier.IsWindows)
-				.ToList();
-			var tasks = dotnetPaths
-				.Select(path => IOManager.FileExists(path, cancellationToken))
-				.ToList();
-
-			await Task.WhenAll(tasks);
-
-			var selectedPathIndex = tasks.FindIndex(pathValidTask => pathValidTask.Result);
-
-			if (selectedPathIndex == -1)
+			var dotnetPath = await DotnetHelper.GetDotnetPath(platformIdentifier, IOManager, cancellationToken);
+			if (dotnetPath == null)
 				throw new JobException(ErrorCode.OpenDreamCantFindDotnet);
-
-			var dotnetPath = dotnetPaths[selectedPathIndex];
 
 			const string DeployDir = "tgs_deploy";
 			int? buildExitCode = null;
@@ -258,10 +246,11 @@ namespace Tgstation.Server.Host.Components.Engine
 						shortenedPath,
 						$"run -c Release --project OpenDreamPackageTool -- --tgs -o {shortenedDeployPath}",
 						null,
+						null,
 						!GeneralConfiguration.OpenDreamSuppressInstallOutput,
 						!GeneralConfiguration.OpenDreamSuppressInstallOutput);
 
-					if (SessionConfiguration.LowPriorityDeploymentProcesses)
+					if (deploymentPipelineProcesses && SessionConfiguration.LowPriorityDeploymentProcesses)
 						buildProcess.AdjustPriority(false);
 
 					using (cancellationToken.Register(() => buildProcess.Terminate()))

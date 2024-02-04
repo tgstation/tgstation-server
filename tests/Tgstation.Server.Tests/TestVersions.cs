@@ -477,7 +477,7 @@ namespace Tgstation.Server.Tests
 			if (byondInstaller is WindowsByondInstaller)
 				typeof(WindowsByondInstaller).GetField("installedDirectX", BindingFlags.Instance | BindingFlags.NonPublic).SetValue(byondInstaller, true);
 
-			await byondInstaller.Install(engineVersion, tempPath, default);
+			await byondInstaller.Install(engineVersion, tempPath, false, default);
 
 			var binPath = (string)typeof(ByondInstallerBase).GetField("ByondBinPath", BindingFlags.Static | BindingFlags.NonPublic).GetValue(null);
 			var ddNameFunc = installerType.GetMethod("GetDreamDaemonName", BindingFlags.Instance | BindingFlags.NonPublic);
@@ -502,6 +502,7 @@ namespace Tgstation.Server.Tests
 					ddPath,
 					Environment.CurrentDirectory,
 					"fake.dmb -map-threads 3 -close",
+					null,
 					null,
 					true,
 					true);

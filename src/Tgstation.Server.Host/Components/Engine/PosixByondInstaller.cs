@@ -71,7 +71,7 @@ namespace Tgstation.Server.Host.Components.Engine
 		}
 
 		/// <inheritdoc />
-		public override ValueTask Install(EngineVersion version, string path, CancellationToken cancellationToken)
+		public override ValueTask Install(EngineVersion version, string path, bool deploymentPipelineProcesses, CancellationToken cancellationToken)
 		{
 			CheckVersionValidity(version);
 			ArgumentNullException.ThrowIfNull(path);

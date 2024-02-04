@@ -136,6 +136,11 @@ namespace Tgstation.Server.Host.Components
 		readonly IAsyncDelayer asyncDelayer;
 
 		/// <summary>
+		/// The <see cref="IDotnetDumpService"/> for the <see cref="InstanceFactory"/>.
+		/// </summary>
+		readonly IDotnetDumpService dotnetDumpService;
+
+		/// <summary>
 		/// The <see cref="GeneralConfiguration"/> for the <see cref="InstanceFactory"/>.
 		/// </summary>
 		readonly GeneralConfiguration generalConfiguration;
@@ -177,6 +182,7 @@ namespace Tgstation.Server.Host.Components
 		/// <param name="fileTransferService">The value of <see cref="fileTransferService"/>.</param>
 		/// <param name="remoteDeploymentManagerFactory">The value of <see cref="remoteDeploymentManagerFactory"/>.</param>
 		/// <param name="asyncDelayer">The value of <see cref="asyncDelayer"/>.</param>
+		/// <param name="dotnetDumpService">The value of <see cref="dotnetDumpService"/>.</param>
 		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="generalConfiguration"/>.</param>
 		/// <param name="sessionConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="sessionConfiguration"/>.</param>
 		public InstanceFactory(
@@ -201,6 +207,7 @@ namespace Tgstation.Server.Host.Components
 			IFileTransferTicketProvider fileTransferService,
 			IRemoteDeploymentManagerFactory remoteDeploymentManagerFactory,
 			IAsyncDelayer asyncDelayer,
+			IDotnetDumpService dotnetDumpService,
 			IOptions<GeneralConfiguration> generalConfigurationOptions,
 			IOptions<SessionConfiguration> sessionConfigurationOptions)
 		{
@@ -225,6 +232,7 @@ namespace Tgstation.Server.Host.Components
 			this.fileTransferService = fileTransferService ?? throw new ArgumentNullException(nameof(fileTransferService));
 			this.remoteDeploymentManagerFactory = remoteDeploymentManagerFactory ?? throw new ArgumentNullException(nameof(remoteDeploymentManagerFactory));
 			this.asyncDelayer = asyncDelayer ?? throw new ArgumentNullException(nameof(asyncDelayer));
+			this.dotnetDumpService = dotnetDumpService ?? throw new ArgumentNullException(nameof(dotnetDumpService));
 			generalConfiguration = generalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
 			sessionConfiguration = sessionConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(sessionConfigurationOptions));
 		}
@@ -271,7 +279,11 @@ namespace Tgstation.Server.Host.Components
 			var repoManager = repositoryManagerFactory.CreateRepositoryManager(repoIoManager, eventConsumer);
 			try
 			{
-				var engineManager = new EngineManager(byondIOManager, engineInstaller, eventConsumer, loggerFactory.CreateLogger<EngineManager>());
+				var engineManager = new EngineManager(
+					byondIOManager,
+					engineInstaller,
+					eventConsumer,
+					loggerFactory.CreateLogger<EngineManager>());
 
 				var dmbFactory = new DmbFactory(
 					databaseContextFactory,
@@ -309,6 +321,7 @@ namespace Tgstation.Server.Host.Components
 							serverPortProvider,
 							eventConsumer,
 							asyncDelayer,
+							dotnetDumpService,
 							loggerFactory,
 							loggerFactory.CreateLogger<SessionControllerFactory>(),
 							sessionConfiguration,

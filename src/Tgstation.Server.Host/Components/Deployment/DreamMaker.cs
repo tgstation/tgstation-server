@@ -852,6 +852,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in <see langword="true"/> if compilation succeeded, <see langword="false"/> otherwise.</returns>
 		async ValueTask<bool> RunDreamMaker(IEngineExecutableLock engineLock, Models.CompileJob job, CancellationToken cancellationToken)
 		{
+			var environment = await engineLock.LoadEnv(logger, true, cancellationToken);
 			var arguments = engineLock.FormatCompilerArguments($"{job.DmeName}.{DmeExtension}");
 
 			await using var dm = processExecutor.LaunchProcess(
@@ -859,6 +860,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 				ioManager.ResolvePath(
 					job.DirectoryName!.Value.ToString()),
 				arguments,
+				environment,
 				readStandardHandles: true,
 				noShellExecute: true);
 
@@ -953,6 +955,12 @@ namespace Tgstation.Server.Host.Components.Deployment
 		{
 			async ValueTask CleanDir()
 			{
+				if (sessionConfiguration.DelayCleaningFailedDeployments)
+				{
+					logger.LogDebug("Not cleaning up errored deployment directory {guid} due to config.", job.DirectoryName);
+					return;
+				}
+
 				logger.LogTrace("Cleaning compile directory...");
 				var jobPath = job.DirectoryName!.Value.ToString();
 				try

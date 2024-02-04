@@ -732,6 +732,7 @@ namespace Tgstation.Server.Host.Controllers
 					StartProfiler = false,
 					LogOutput = false,
 					MapThreads = 0,
+					Minidumps = true,
 				},
 				DreamMakerSettings = new DreamMakerSettings
 				{

@@ -107,6 +107,11 @@ namespace Tgstation.Server.Host.Components.Session
 		readonly IAsyncDelayer asyncDelayer;
 
 		/// <summary>
+		/// The <see cref="IDotnetDumpService"/> for the <see cref="SessionControllerFactory"/>.
+		/// </summary>
+		readonly IDotnetDumpService dotnetDumpService;
+
+		/// <summary>
 		/// The <see cref="ILoggerFactory"/> for the <see cref="SessionControllerFactory"/>.
 		/// </summary>
 		readonly ILoggerFactory loggerFactory;
@@ -178,6 +183,7 @@ namespace Tgstation.Server.Host.Components.Session
 		/// <param name="serverPortProvider">The value of <see cref="serverPortProvider"/>.</param>
 		/// <param name="eventConsumer">The value of <see cref="eventConsumer"/>.</param>
 		/// <param name="asyncDelayer">The value of <see cref="asyncDelayer"/>.</param>
+		/// <param name="dotnetDumpService">The value of <see cref="dotnetDumpService"/>.</param>
 		/// <param name="loggerFactory">The value of <see cref="loggerFactory"/>.</param>
 		/// <param name="logger">The value of <see cref="logger"/>.</param>
 		/// <param name="sessionConfiguration">The value of <see cref="sessionConfiguration"/>.</param>
@@ -196,6 +202,7 @@ namespace Tgstation.Server.Host.Components.Session
 			IServerPortProvider serverPortProvider,
 			IEventConsumer eventConsumer,
 			IAsyncDelayer asyncDelayer,
+			IDotnetDumpService dotnetDumpService,
 			ILoggerFactory loggerFactory,
 			ILogger<SessionControllerFactory> logger,
 			SessionConfiguration sessionConfiguration,
@@ -215,6 +222,7 @@ namespace Tgstation.Server.Host.Components.Session
 			this.serverPortProvider = serverPortProvider ?? throw new ArgumentNullException(nameof(serverPortProvider));
 			this.eventConsumer = eventConsumer ?? throw new ArgumentNullException(nameof(eventConsumer));
 			this.asyncDelayer = asyncDelayer ?? throw new ArgumentNullException(nameof(asyncDelayer));
+			this.dotnetDumpService = dotnetDumpService ?? throw new ArgumentNullException(nameof(dotnetDumpService));
 			this.loggerFactory = loggerFactory ?? throw new ArgumentNullException(nameof(loggerFactory));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 			this.sessionConfiguration = sessionConfiguration ?? throw new ArgumentNullException(nameof(sessionConfiguration));
@@ -346,6 +354,7 @@ namespace Tgstation.Server.Host.Components.Session
 							chat,
 							assemblyInformationProvider,
 							asyncDelayer,
+							dotnetDumpService,
 							loggerFactory.CreateLogger<SessionController>(),
 							() => LogDDOutput(
 								process,
@@ -436,6 +445,7 @@ namespace Tgstation.Server.Host.Components.Session
 							chat,
 							assemblyInformationProvider,
 							asyncDelayer,
+							dotnetDumpService,
 							loggerFactory.CreateLogger<SessionController>(),
 							() => ValueTask.CompletedTask,
 							null,
@@ -490,6 +500,7 @@ namespace Tgstation.Server.Host.Components.Session
 			CancellationToken cancellationToken)
 		{
 			// important to run on all ports to allow port changing
+			var environment = await engineLock.LoadEnv(logger, false, cancellationToken);
 			var arguments = engineLock.FormatServerArguments(
 				dmbProvider,
 				new Dictionary<string, string>
@@ -507,6 +518,7 @@ namespace Tgstation.Server.Host.Components.Session
 				engineLock.ServerExePath,
 				dmbProvider.Directory,
 				arguments,
+				environment,
 				logFilePath,
 				engineLock.HasStandardOutput,
 				true);

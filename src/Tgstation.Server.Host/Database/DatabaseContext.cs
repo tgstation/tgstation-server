@@ -375,22 +375,22 @@ namespace Tgstation.Server.Host.Database
 		/// <summary>
 		/// Used by unit tests to remind us to setup the correct MSSQL migration downgrades.
 		/// </summary>
-		internal static readonly Type MSLatestMigration = typeof(MSAddTopicPort);
+		internal static readonly Type MSLatestMigration = typeof(MSAddMinidumpsOption);
 
 		/// <summary>
 		/// Used by unit tests to remind us to setup the correct MYSQL migration downgrades.
 		/// </summary>
-		internal static readonly Type MYLatestMigration = typeof(MYAddTopicPort);
+		internal static readonly Type MYLatestMigration = typeof(MYAddMinidumpsOption);
 
 		/// <summary>
 		/// Used by unit tests to remind us to setup the correct PostgresSQL migration downgrades.
 		/// </summary>
-		internal static readonly Type PGLatestMigration = typeof(PGAddTopicPort);
+		internal static readonly Type PGLatestMigration = typeof(PGAddMinidumpsOption);
 
 		/// <summary>
 		/// Used by unit tests to remind us to setup the correct SQLite migration downgrades.
 		/// </summary>
-		internal static readonly Type SLLatestMigration = typeof(SLAddTopicPort);
+		internal static readonly Type SLLatestMigration = typeof(SLAddMinidumpsOption);
 
 		/// <inheritdoc />
 #pragma warning disable CA1502 // Cyclomatic complexity
@@ -418,6 +418,16 @@ namespace Tgstation.Server.Host.Database
 			string? targetMigration = null;
 
 			string BadDatabaseType() => throw new ArgumentException($"Invalid DatabaseType: {currentDatabaseType}", nameof(currentDatabaseType));
+
+			if (targetVersion < new Version(6, 2, 0))
+				targetMigration = currentDatabaseType switch
+				{
+					DatabaseType.MySql => nameof(MYAddTopicPort),
+					DatabaseType.PostgresSql => nameof(PGAddTopicPort),
+					DatabaseType.SqlServer => nameof(MSAddTopicPort),
+					DatabaseType.Sqlite => nameof(SLAddTopicPort),
+					_ => BadDatabaseType(),
+				};
 
 			if (targetVersion < new Version(6, 0, 0))
 				targetMigration = currentDatabaseType switch

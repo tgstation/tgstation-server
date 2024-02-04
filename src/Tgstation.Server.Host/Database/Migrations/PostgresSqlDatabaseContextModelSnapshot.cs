@@ -13,7 +13,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 		{
 #pragma warning disable 612, 618
 			modelBuilder
-				.HasAnnotation("ProductVersion", "8.0.0")
+				.HasAnnotation("ProductVersion", "8.0.1")
 				.HasAnnotation("Relational:MaxIdentifierLength", 63);
 
 			NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -208,6 +208,10 @@ namespace Tgstation.Server.Host.Database.Migrations
 
 				b.Property<long>("MapThreads")
 					.HasColumnType("bigint");
+
+				b.Property<bool?>("Minidumps")
+					.IsRequired()
+					.HasColumnType("boolean");
 
 				b.Property<int>("Port")
 					.HasColumnType("integer");

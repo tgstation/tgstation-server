@@ -438,6 +438,7 @@ namespace Tgstation.Server.Host.Components.Engine
 				installLock = installationContainer.AddReference();
 			}
 
+			var deploymentPipelineProcesses = !neededForLock;
 			try
 			{
 				if (installedOrInstalling)
@@ -471,18 +472,18 @@ namespace Tgstation.Server.Host.Components.Engine
 						progressReporter.StageName = "Running event";
 
 					var versionString = version.ToString();
-					await eventConsumer.HandleEvent(EventType.EngineInstallStart, new List<string> { versionString }, false, cancellationToken);
+					await eventConsumer.HandleEvent(EventType.EngineInstallStart, new List<string> { versionString }, deploymentPipelineProcesses, cancellationToken);
 
-					await InstallVersionFiles(progressReporter, version, customVersionStream, cancellationToken);
+					await InstallVersionFiles(progressReporter, version, customVersionStream, deploymentPipelineProcesses, cancellationToken);
 
 					ourTcs.SetResult();
 
-					await eventConsumer.HandleEvent(EventType.EngineInstallComplete, new List<string> { versionString }, false, cancellationToken);
+					await eventConsumer.HandleEvent(EventType.EngineInstallComplete, new List<string> { versionString }, deploymentPipelineProcesses, cancellationToken);
 				}
 				catch (Exception ex)
 				{
 					if (ex is not OperationCanceledException)
-						await eventConsumer.HandleEvent(EventType.EngineInstallFail, new List<string> { ex.Message }, false, cancellationToken);
+						await eventConsumer.HandleEvent(EventType.EngineInstallFail, new List<string> { ex.Message }, deploymentPipelineProcesses, cancellationToken);
 
 					lock (installedVersions)
 						installedVersions.Remove(version);
@@ -506,9 +507,15 @@ namespace Tgstation.Server.Host.Components.Engine
 		/// <param name="progressReporter">The optional <see cref="JobProgressReporter"/> for the operation.</param>
 		/// <param name="version">The <see cref="EngineVersion"/> being installed with the <see cref="Version.Build"/> number set if appropriate.</param>
 		/// <param name="customVersionStream">Custom zip file <see cref="Stream"/> to use. Will cause a <see cref="Version.Build"/> number to be added.</param>
+		/// <param name="deploymentPipelineProcesses">If processes should be launched as part of the deployment pipeline.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
-		async ValueTask InstallVersionFiles(JobProgressReporter? progressReporter, EngineVersion version, Stream? customVersionStream, CancellationToken cancellationToken)
+		async ValueTask InstallVersionFiles(
+			JobProgressReporter? progressReporter,
+			EngineVersion version,
+			Stream? customVersionStream,
+			bool deploymentPipelineProcesses,
+			CancellationToken cancellationToken)
 		{
 			var installFullPath = ioManager.ResolvePath(version.ToString());
 			async ValueTask DirectoryCleanup()
@@ -554,7 +561,7 @@ namespace Tgstation.Server.Host.Components.Engine
 				if (progressReporter != null)
 					progressReporter.StageName = "Running installation actions";
 
-				await engineInstaller.Install(version, installFullPath, cancellationToken);
+				await engineInstaller.Install(version, installFullPath, deploymentPipelineProcesses, cancellationToken);
 
 				if (progressReporter != null)
 					progressReporter.StageName = "Writing version file";

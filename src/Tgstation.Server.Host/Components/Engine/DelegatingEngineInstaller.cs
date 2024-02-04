@@ -41,8 +41,8 @@ namespace Tgstation.Server.Host.Components.Engine
 			=> DelegateCall(version, installer => installer.DownloadVersion(version, jobProgressReporter, cancellationToken));
 
 		/// <inheritdoc />
-		public ValueTask Install(EngineVersion version, string path, CancellationToken cancellationToken)
-			=> DelegateCall(version, installer => installer.Install(version, path, cancellationToken));
+		public ValueTask Install(EngineVersion version, string path, bool deploymentPipelineProcesses, CancellationToken cancellationToken)
+			=> DelegateCall(version, installer => installer.Install(version, path, deploymentPipelineProcesses, cancellationToken));
 
 		/// <inheritdoc />
 		public ValueTask TrustDmbPath(EngineVersion version, string fullDmbPath, CancellationToken cancellationToken)
