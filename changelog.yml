@@ -4280,12 +4280,4 @@ Components:
       - Made `DiscordConnectionStringBuilder.BasedMeme` obsolete.
       Author: Cyberboss
       PullRequest: 1629
-  NugetClient:
-  - Version: 15.1.0
-    Changes:
-    - Descriptions:
-      - Added `DreamDaemonLaunchParameters.Minidumps` boolean.
-      - Added `DreamDaemonRights.SetMinidumps` flag.
-      Author: Cyberboss
-      PullRequest: 1786
-    Unreleased: true
+  NugetClient: []
