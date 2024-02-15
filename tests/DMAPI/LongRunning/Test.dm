@@ -34,7 +34,7 @@
 	if(!res)
 		FailTest("Failed to resource!")
 
-	var/res_contents = file2text(res) // we need a .rsc to be generated
+	var/res_contents = TGS_FILE2TEXT_NATIVE(res) // we need a .rsc to be generated
 	if(!res_contents)
 		FailTest("Failed to resource? No contents!")
 

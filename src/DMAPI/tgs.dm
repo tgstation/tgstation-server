@@ -1,6 +1,6 @@
 // tgstation-server DMAPI
 
-#define TGS_DMAPI_VERSION "7.0.2"
+#define TGS_DMAPI_VERSION "7.1.0"
 
 // All functions and datums outside this document are subject to change with any version and should not be relied on.
 
@@ -48,6 +48,13 @@
 /// Get the number of connected /clients.
 #define TGS_CLIENT_COUNT
 
+#endif
+
+#ifndef TGS_FILE2TEXT_NATIVE
+#ifdef file2text
+#error Your codebase is re-defining the BYOND proc file2text. The DMAPI requires the native version to read the result of world.Export(). You can fix this by adding "#define TGS_FILE2TEXT_NATIVE file2text" before your override of file2text to allow the DMAPI to use the native version. This will only be used for world.Export(), not regular file accesses
+#endif
+#define TGS_FILE2TEXT_NATIVE file2text
 #endif
 
 // EVENT CODES

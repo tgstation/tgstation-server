@@ -88,7 +88,7 @@
 		TGS_ERROR_LOG("Failed bridge request, missing content!")
 		return
 
-	var/response_json = file2text(content)
+	var/response_json = TGS_FILE2TEXT_NATIVE(content)
 	if(!response_json)
 		TGS_ERROR_LOG("Failed bridge request, failed to load content!")
 		return
