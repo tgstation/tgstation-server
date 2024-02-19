@@ -67,7 +67,7 @@ namespace Tgstation.Server.Host.Components.Engine
 					Environment.GetFolderPath(
 						Environment.SpecialFolder.UserProfile,
 						Environment.SpecialFolderOption.DoNotVerify),
-					"./byond/cache"));
+					"./.byond/cache"));
 		}
 
 		/// <inheritdoc />
