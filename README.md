@@ -127,7 +127,7 @@ sudo dpkg --add-architecture i386 \
 && sudo systemctl start tgstation-server
 ```
 
-The service will execute as the newly created user: `tgstation-server`.
+The service will execute as the newly created user: `tgstation-server`. You should, ideally, store your instances somewhere under `/home/tgstation-server`.
 
 ##### Manual Setup
 
