@@ -120,6 +120,16 @@ namespace Tgstation.Server.Host.Components.Engine
 		}
 
 		/// <inheritdoc />
+		public override ValueTask TrustDmbPath(EngineVersion version, string fullDmbPath, CancellationToken cancellationToken)
+		{
+			ArgumentNullException.ThrowIfNull(version);
+			ArgumentNullException.ThrowIfNull(fullDmbPath);
+
+			Logger.LogTrace("No need to trust .dmb path \"{path}\" on POSIX", fullDmbPath);
+			return ValueTask.CompletedTask;
+		}
+
+		/// <inheritdoc />
 		protected override string GetDreamDaemonName(Version byondVersion, out bool supportsCli)
 		{
 			supportsCli = true;
