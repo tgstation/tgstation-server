@@ -100,7 +100,7 @@
     <!-- Usage: YAML config plugin -->
     <PackageReference Include="NetEscapades.Configuration.Yaml" Version="3.1.0" />
     <!-- Usage: PostgresSQL ORM plugin -->
-    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.0" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.2" />
     <!-- Usage: GitHub.com interop -->
     <PackageReference Include="Octokit" Version="9.1.2" />
     <!-- Usage: MYSQL/MariaDB ORM plugin -->
