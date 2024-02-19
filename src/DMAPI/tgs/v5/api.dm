@@ -127,7 +127,7 @@
 			TGS_DEBUG_LOG("RequireInitialBridgeResponse: Starting sleep")
 			logged = TRUE
 
-		sleep(1)
+		sleep(world.tick_lag)
 
 	TGS_DEBUG_LOG("RequireInitialBridgeResponse: Passed")
 
@@ -279,7 +279,7 @@
 	pending_events[event_id] = TRUE
 
 	do
-		sleep(1)
+		sleep(world.tick_lag)
 	while(pending_events[event_id])
 
 	TGS_DEBUG_LOG("Completed wait on event ID: [event_id]")
