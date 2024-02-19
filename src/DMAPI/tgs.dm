@@ -496,6 +496,16 @@
 /// Returns a list of connected [/datum/tgs_chat_channel]s if TGS is present, null otherwise. This function may sleep if the call to [/world/proc/TgsNew] is sleeping!
 /world/proc/TgsChatChannelInfo()
 	return
+	
+/**
+ * Trigger an event in TGS. Requires TGS version >= 6.3.0. Returns [TRUE] if the event was triggered successfully, [FALSE] otherwise. This function may sleep!
+ *
+ * event_name - The name of the event to trigger
+ * parameters - Optional list of string parameters to pass as arguments to the event script. The first parameter passed to a script will always be the running game's directory followed by these parameters.
+ * wait_for_completion - If set, this function will not return until the event has run to completion.
+ */
+/world/proc/TgsTriggerEvent(event_name, list/parameters, wait_for_completion = FALSE)
+	return
 
 /*
 The MIT License

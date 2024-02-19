@@ -27,6 +27,8 @@
 	var/chunked_requests = 0
 	var/list/chunked_topics = list()
 
+	var/list/pending_events = list()
+
 	var/detached = FALSE
 
 /datum/tgs_api/v5/New()
@@ -248,6 +250,41 @@
 	RequireInitialBridgeResponse()
 	WaitForReattach(TRUE)
 	return chat_channels.Copy()
+
+/datum/tgs_api/v5/TriggerEvent(event_name, list/parameters, wait_for_completion)
+	RequireInitialBridgeResponse()
+	WaitForReattach(TRUE)
+
+	if(interop_version.minor < 9)
+		TGS_WARNING_LOG("Interop version too low for custom events!")
+		return FALSE
+
+	var/str_parameters = list()
+	for(var/i in parameters)
+		str_parameters += "[i]"
+
+	var/list/response = Bridge(DMAPI5_BRIDGE_COMMAND_EVENT, list(DMAPI5_BRIDGE_PARAMETER_EVENT_INVOCATION = list(DMAPI5_EVENT_INVOCATION_NAME = event_name, DMAPI5_EVENT_INVOCATION_PARAMETERS = str_parameters, DMAPI5_EVENT_INVOCATION_NOTIFY_COMPLETION = wait_for_completion)))
+	if(!response)
+		return FALSE
+
+	var/event_id = response[DMAPI5_EVENT_ID]
+	if(!event_id)
+		return FALSE
+
+	TGS_DEBUG_LOG("Created event ID: [event_id]")
+	if(!wait_for_completion)
+		return TRUE
+
+	TGS_DEBUG_LOG("Waiting for completion of event ID: [event_id]")
+	pending_events[event_id] = TRUE
+
+	do
+		sleep(1)
+	while(pending_events[event_id])
+
+	TGS_DEBUG_LOG("Completed wait on event ID: [event_id]")
+
+	return TRUE
 
 /datum/tgs_api/v5/proc/DecodeChannels(chat_update_json)
 	TGS_DEBUG_LOG("DecodeChannels()")

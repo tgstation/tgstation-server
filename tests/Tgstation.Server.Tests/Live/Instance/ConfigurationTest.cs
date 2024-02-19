@@ -118,7 +118,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 				await using var memoryStream2 = new MemoryStream(Encoding.UTF8.GetBytes("bbb"));
 				await configurationClient.Write(staticFile2, memoryStream2, cancellationToken);
 
-				async ValueTask UploadScript(string scriptId)
+				async ValueTask UploadScript(string scriptId, bool basic)
 				{
 					var shellScriptExtension = new PlatformIdentifier().IsWindows ? ".bat" : ".sh";
 					var scriptName = $"{scriptId}{shellScriptExtension}";
@@ -127,15 +127,16 @@ namespace Tgstation.Server.Tests.Live.Instance
 						Path = $"/EventScripts/{scriptName}"
 					};
 
-					await using var readStream = ioManager.GetFileStream($"../../../../DMAPI/LongRunning/{scriptName}", false);
+					await using var readStream = ioManager.GetFileStream($"../../../../DMAPI/{(basic ? "BasicOperation" : "LongRunning")}/{scriptName}", false);
 					await configurationClient.Write(
 						resourcingScript,
 						readStream,
 						cancellationToken);
 				}
 
-				await UploadScript("PreCompile-GenerateRandomResource");
-				await UploadScript("EngineActiveVersionChange-SetupEnv");
+				await UploadScript("PreCompile-GenerateRandomResource", false);
+				await UploadScript("EngineActiveVersionChange-SetupEnv", false);
+				await UploadScript("test_event-qwer", true);
 			}
 
 			return ValueTaskExtensions.WhenAll(

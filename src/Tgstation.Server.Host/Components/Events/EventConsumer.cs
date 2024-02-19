@@ -31,6 +31,10 @@ namespace Tgstation.Server.Host.Components.Events
 		}
 
 		/// <inheritdoc />
+		public ValueTask? HandleCustomEvent(string eventName, IEnumerable<string?> parameters, CancellationToken cancellationToken)
+			=> configuration.HandleCustomEvent(eventName, parameters, cancellationToken);
+
+		/// <inheritdoc />
 		public async ValueTask HandleEvent(EventType eventType, IEnumerable<string?> parameters, bool deploymentPipeline, CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(parameters);

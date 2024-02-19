@@ -507,6 +507,10 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			HandleChatResponses(result);
 		}
 
+		/// <inheritdoc />
+		ValueTask? IEventConsumer.HandleCustomEvent(string eventName, IEnumerable<string?> parameters, CancellationToken cancellationToken)
+			=> throw new NotSupportedException("Watchdogs do not support custom events!");
+
 		/// <summary>
 		/// Starts all <see cref="ISessionController"/>s.
 		/// </summary>

@@ -63,6 +63,11 @@ namespace Tgstation.Server.Host.Components.Interop.Topic
 		public ChunkData? Chunk { get; }
 
 		/// <summary>
+		/// The completed custom event ID.
+		/// </summary>
+		public string? EventId { get; set; }
+
+		/// <summary>
 		/// Whether or not the <see cref="TopicParameters"/> constitute a priority request.
 		/// </summary>
 		[JsonIgnore]
@@ -74,6 +79,7 @@ namespace Tgstation.Server.Host.Components.Interop.Topic
 			or TopicCommandType.InstanceRenamed
 			or TopicCommandType.ChatChannelsUpdate
 			or TopicCommandType.Broadcast
+			or TopicCommandType.CompleteEvent
 			or TopicCommandType.ServerRestarted => true,
 			TopicCommandType.ChatCommand
 			or TopicCommandType.HealthCheck
@@ -172,6 +178,16 @@ namespace Tgstation.Server.Host.Components.Interop.Topic
 			: this(TopicCommandType.SendChunk)
 		{
 			Chunk = chunk ?? throw new ArgumentNullException(nameof(chunk));
+		}
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="TopicParameters"/> class.
+		/// </summary>
+		/// <param name="eventId">The <see cref="Guid"/> containig the value of <see cref="EventId"/>.</param>
+		public TopicParameters(Guid eventId)
+			: this(TopicCommandType.CompleteEvent)
+		{
+			EventId = eventId.ToString();
 		}
 
 		/// <summary>
