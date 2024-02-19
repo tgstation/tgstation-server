@@ -651,7 +651,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 						noShellExecute: true))
 					using (cancellationToken.Register(() => script.Terminate()))
 					{
-						if (sessionConfiguration.LowPriorityDeploymentProcesses)
+						if (sessionConfiguration.LowPriorityDeploymentProcesses && deploymentPipeline)
 							script.AdjustPriority(false);
 
 						var exitCode = await script.Lifetime;
