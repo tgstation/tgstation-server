@@ -77,8 +77,11 @@
 /datum/tgs_api/v5/proc/PerformBridgeRequest(bridge_request)
 	WaitForReattach(FALSE)
 
+	TGS_DEBUG_LOG("Bridge request start")
 	// This is an infinite sleep until we get a response
 	var/export_response = world.Export(bridge_request)
+	TGS_DEBUG_LOG("Bridge request complete")
+
 	if(!export_response)
 		TGS_ERROR_LOG("Failed bridge request: [bridge_request]")
 		return
