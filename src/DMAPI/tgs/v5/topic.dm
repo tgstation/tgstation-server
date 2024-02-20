@@ -285,7 +285,7 @@
 				return TopicResponse("Invalid or missing [DMAPI5_EVENT_ID]")
 
 			TGS_DEBUG_LOG("Completing event ID [event_id]...")
-			pending_events -= event_id
+			pending_events[event_id] = TRUE
 			return TopicResponse()
 
 	return TopicResponse("Unknown command: [command]")

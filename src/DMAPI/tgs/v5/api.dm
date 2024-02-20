@@ -276,13 +276,12 @@
 		return TRUE
 
 	TGS_DEBUG_LOG("Waiting for completion of event ID: [event_id]")
-	pending_events[event_id] = TRUE
 
-	do
+	while(!pending_events[event_id])
 		sleep(world.tick_lag)
-	while(pending_events[event_id])
 
 	TGS_DEBUG_LOG("Completed wait on event ID: [event_id]")
+	pending_events -= event_id
 
 	return TRUE
 
