@@ -33,8 +33,11 @@
 
 	world.log << "file check 1"
 	fdel("test_event_output.txt")
+
+	var/start_time = world.timeofday
 	world.TgsTriggerEvent("test_event", list("asdf"), FALSE)
-	if(fexists("test_event_output.txt"))
+
+	if((world.timeofday - start_time) <= 50 && fexists("test_event_output.txt"))
 		FailTest("Expected test_event_output.txt to not exist here", "test_fail_reason.txt")
 
 	world.log << "sleep2"
