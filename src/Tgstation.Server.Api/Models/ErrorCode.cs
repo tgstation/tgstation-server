@@ -646,5 +646,11 @@ namespace Tgstation.Server.Api.Models
 		/// </summary>
 		[Description("The specified OpenDream version is too old!")]
 		OpenDreamTooOld,
+
+		/// <summary>
+		/// Failed dotnet diagnostics dump.
+		/// </summary>
+		[Description("Could not create dump as dotnet diagnostics threw an exception!")]
+		DotnetDiagnosticsFailure,
 	}
 }
