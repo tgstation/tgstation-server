@@ -148,8 +148,25 @@ Components:
       PullRequest: 1070
   Core:
   - Version: 6.3.0
-    ComponentVersions: {}
-    Changes: []
+    ComponentVersions:
+      HttpApi: 10.2.0
+      DreamMakerApi: 7.1.0
+      Configuration: 5.1.0
+      InteropApi: 5.9.0
+      HostWatchdog: 1.4.1
+      NugetCommon: 7.0.0
+      NugetApi: 13.2.0
+      NugetClient: 15.2.0
+      WebControlPanel: 5.5.1
+    Changes:
+    - Descriptions:
+      - Fixed event scripts always running with low priority if the configuration option for `Session:LowPriorityDeploymentProcesses` was set instead of only in the deployment pipeline.
+      - Added support for DMAPI triggered custom event scripts. These cannot have the same name as TGS built-in events.
+      - Fixed `.deb` package sometimes not creating a `tgstation-server` home directory.
+      - The nonsense file `$HOME/byond/cfg/trusted.txt` will now no longer be created on Linux.
+      - Fixed the BYOND cache not properly being cleaned on Linux.
+      Author: Cyberboss
+      PullRequest: 1788
     Unreleased: true
   - Version: 6.2.1
     ComponentVersions: {}
@@ -3316,6 +3333,13 @@ Components:
       Author: AffectedArc07
       PullRequest: 1408
   WebControlPanel:
+  - Version: 5.5.1
+    Changes:
+    - Descriptions:
+      - Fixed requiring a branch be specified for quick setup operations.
+      Author: Cyberboss
+      PullRequest: 1788
+    Unreleased: true
   - Version: 5.5.0
     Changes:
     - Descriptions:
@@ -3982,6 +4006,15 @@ Components:
       Author: Cyberboss
       PullRequest: 991
   DreamMakerApi:
+  - Version: 7.1.0
+    Changes:
+    - Descriptions:
+      - Changed all instances of `sleep(1)` to `sleep(world.tick_lag)`.
+      - Added support for triggering custom TGS events.
+      - Added support for codebases that override `file2text`.
+      Author: Cyberboss
+      PullRequest: 1788
+    Unreleased: true
   - Version: 7.0.2
     Changes:
     - Descriptions:
@@ -4177,6 +4210,14 @@ Components:
       Author: Cyberboss
       PullRequest: 987
   InteropApi:
+  - Version: 5.9.0
+    Changes:
+    - Descriptions:
+      - Added bridge command 7 for triggering custom events. Requires the `eventInvocation` parameter. Consists of `eventName` (string), `parameters` (string array), `notifyCompletion` (bool/int). Response contains the `eventId` string if `notifyCompletion` is set.
+      - Added topic command 12 for notifying about completed custom events. Will only be sent if `notifyCompletion` was set in the triggering bridge request. Contains the `eventId` of the completed event.
+      Author: Cyberboss
+      PullRequest: 1788
+    Unreleased: true
   - Version: 5.7.0
     Changes:
     - Descriptions:

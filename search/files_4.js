@@ -57,5 +57,6 @@ var searchData=
   ['controlpanelconfiguration_2ecs_54',['ControlPanelConfiguration.cs',['../_control_panel_configuration_8cs.html',1,'']]],
   ['controlpanelcontroller_2ecs_55',['ControlPanelController.cs',['../_control_panel_controller_8cs.html',1,'']]],
   ['cryptographysuite_2ecs_56',['CryptographySuite.cs',['../_cryptography_suite_8cs.html',1,'']]],
-  ['customcommand_2ecs_57',['CustomCommand.cs',['../_custom_command_8cs.html',1,'']]]
+  ['customcommand_2ecs_57',['CustomCommand.cs',['../_custom_command_8cs.html',1,'']]],
+  ['customeventinvocation_2ecs_58',['CustomEventInvocation.cs',['../_custom_event_invocation_8cs.html',1,'']]]
 ];

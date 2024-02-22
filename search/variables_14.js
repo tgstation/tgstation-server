@@ -16,7 +16,7 @@ var searchData=
   ['user_13',['User',['../class_tgstation_1_1_server_1_1_api_1_1_routes.html#a12784e8b5b7ac25c0684c9d4c7c59178',1,'Tgstation::Server::Api::Routes']]],
   ['useragent_14',['userAgent',['../class_tgstation_1_1_server_1_1_common_1_1_http_1_1_http_client_factory.html#a4e6e38491176cf768bc2401983fa551e',1,'Tgstation::Server::Common::Http::HttpClientFactory']]],
   ['userconnections_15',['userConnections',['../class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_signal_r_1_1_comprehensive_hub_context.html#a3aff21264b3f9d25d51fe976341e4881',1,'Tgstation::Server::Host::Utils::SignalR::ComprehensiveHubContext']]],
-  ['userfilessemaphore_16',['UserFilesSemaphore',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_byond_installer_base.html#a77c261bf64a74c0c52e097446555ff83',1,'Tgstation::Server::Host::Components::Engine::ByondInstallerBase']]],
+  ['userfilessemaphore_16',['UserFilesSemaphore',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_windows_byond_installer.html#afd52ca68bdc9a68732b92a4bba8a3cea',1,'Tgstation::Server::Host::Components::Engine::WindowsByondInstaller']]],
   ['usergroup_17',['UserGroup',['../class_tgstation_1_1_server_1_1_api_1_1_routes.html#a5dc5a42a07297f8f007f215b179042fe',1,'Tgstation::Server::Api::Routes']]],
   ['useridcontextproperty_18',['UserIdContextProperty',['../class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_serilog_context_helper.html#a754a75a4d032d0b5f47f182c522ac9ae',1,'Tgstation::Server::Host::Utils::SerilogContextHelper']]],
   ['userprincipal_19',['userPrincipal',['../class_tgstation_1_1_server_1_1_host_1_1_security_1_1_windows_system_identity.html#a6da5cb51cb3b48b354447adf409768f9',1,'Tgstation::Server::Host::Security::WindowsSystemIdentity']]],

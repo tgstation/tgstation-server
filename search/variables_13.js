@@ -27,7 +27,7 @@ var searchData=
   ['trackingcontexts_24',['trackingContexts',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#af98ea12e0c98e5cc3815d59cace7567a',1,'Tgstation::Server::Host::Components::Chat::ChatManager']]],
   ['transfer_25',['Transfer',['../class_tgstation_1_1_server_1_1_api_1_1_routes.html#aad30766a124861c66c46815784bdf9d0',1,'Tgstation::Server::Api::Routes']]],
   ['transferservice_26',['transferService',['../class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_swarm_controller.html#ad80a23dea044e849a70ae2c63f154710',1,'Tgstation.Server.Host.Controllers.SwarmController.transferService()'],['../class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a1c7f513f8cc2046a2021176298ef3656',1,'Tgstation.Server.Host.Swarm.SwarmService.transferService()']]],
-  ['trusteddmbfilename_27',['TrustedDmbFileName',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_byond_installer_base.html#acb185b4059333eb8222a41dad5d7a932',1,'Tgstation::Server::Host::Components::Engine::ByondInstallerBase']]],
+  ['trusteddmbfilename_27',['TrustedDmbFileName',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_windows_byond_installer.html#a9c4e133ff23fc7cffa2ea05055403753',1,'Tgstation::Server::Host::Components::Engine::WindowsByondInstaller']]],
   ['try_28',['try',['../class_tgstation_1_1_server_1_1_host_1_1_setup_1_1_setup_wizard.html#abcad7b8307d4258a22bc76162bb32458',1,'Tgstation::Server::Host::Setup::SetupWizard']]],
   ['typemap_29',['TypeMap',['../class_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper.html#a0639f64451959386f79762cb8586b4f0',1,'Tgstation::Server::Api::Rights::RightsHelper']]]
 ];

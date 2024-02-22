@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.2.0</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.3.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -117,15 +117,77 @@ Public Member Functions</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>A ValueTask representing the running operation.</dd></dl>
   <a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_noop_event_consumer.html#a251207733d45db4aec7204092e117d5c">More...</a><br /></td></tr>
 <tr class="separator:a251207733d45db4aec7204092e117d5c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a16a4e1b0ccbc23f7a97ef1f851f586f3"><td class="memItemLeft" align="right" valign="top">ValueTask?&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_noop_event_consumer.html#a16a4e1b0ccbc23f7a97ef1f851f586f3">HandleCustomEvent</a> (string eventName, IEnumerable&lt; string?&gt; parameters, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a16a4e1b0ccbc23f7a97ef1f851f586f3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handles a given custom event. <dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">eventName</td><td>The name of the event.</td></tr>
+    <tr><td class="paramname">parameters</td><td>An IEnumerable&lt;T&gt; of string parameters for the event.</td></tr>
+    <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A ValueTask representing the running operation if the event was triggered successfully, <code>null</code> if it matched a TGS event and wasn't executed.</dd></dl>
+  <a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_noop_event_consumer.html#a16a4e1b0ccbc23f7a97ef1f851f586f3">More...</a><br /></td></tr>
+<tr class="separator:a16a4e1b0ccbc23f7a97ef1f851f586f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a564f82eb43566dabd77e37191b4e3d37"><td class="memItemLeft" align="right" valign="top">ValueTask&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html#a564f82eb43566dabd77e37191b4e3d37">HandleEvent</a> (<a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_events.html#ac30c818717e92c8fb65f389adec739b7">EventType</a> eventType, IEnumerable&lt; string?&gt; parameters, bool deploymentPipeline, CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:a564f82eb43566dabd77e37191b4e3d37"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handle a given <em>eventType</em> .   <a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html#a564f82eb43566dabd77e37191b4e3d37">More...</a><br /></td></tr>
 <tr class="separator:a564f82eb43566dabd77e37191b4e3d37"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a26718aaaf2f856144517928db9325ddc"><td class="memItemLeft" align="right" valign="top">ValueTask?&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html#a26718aaaf2f856144517928db9325ddc">HandleCustomEvent</a> (string eventName, IEnumerable&lt; string?&gt; parameters, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a26718aaaf2f856144517928db9325ddc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handles a given custom event.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html#a26718aaaf2f856144517928db9325ddc">More...</a><br /></td></tr>
+<tr class="separator:a26718aaaf2f856144517928db9325ddc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p >No-op implementation of <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html" title="Consumes EventTypes and takes the appropriate actions.">IEventConsumer</a>.  </p>
 
 <p class="definition">Definition at line <a class="el" href="_noop_event_consumer_8cs_source.html#l00010">10</a> of file <a class="el" href="_noop_event_consumer_8cs_source.html">NoopEventConsumer.cs</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
+<a id="a16a4e1b0ccbc23f7a97ef1f851f586f3" name="a16a4e1b0ccbc23f7a97ef1f851f586f3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a16a4e1b0ccbc23f7a97ef1f851f586f3">&#9670;&#160;</a></span>HandleCustomEvent()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">ValueTask? Tgstation.Server.Host.Components.Events.NoopEventConsumer.HandleCustomEvent </td>
+          <td>(</td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>eventName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">IEnumerable&lt; string?&gt;&#160;</td>
+          <td class="paramname"><em>parameters</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">CancellationToken&#160;</td>
+          <td class="paramname"><em>cancellationToken</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Handles a given custom event. <dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">eventName</td><td>The name of the event.</td></tr>
+    <tr><td class="paramname">parameters</td><td>An IEnumerable&lt;T&gt; of string parameters for the event.</td></tr>
+    <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A ValueTask representing the running operation if the event was triggered successfully, <code>null</code> if it matched a TGS event and wasn't executed.</dd></dl>
+ </p>
+
+<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html#a26718aaaf2f856144517928db9325ddc">Tgstation.Server.Host.Components.Events.IEventConsumer</a>.</p>
+
+</div>
+</div>
 <a id="a251207733d45db4aec7204092e117d5c" name="a251207733d45db4aec7204092e117d5c"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a251207733d45db4aec7204092e117d5c">&#9670;&#160;</a></span>HandleEvent()</h2>
 

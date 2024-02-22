@@ -55,5 +55,6 @@ var searchData=
   ['controlpanelconfiguration_52',['ControlPanelConfiguration',['../class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_control_panel_configuration.html',1,'Tgstation::Server::Host::Configuration']]],
   ['controlpanelcontroller_53',['ControlPanelController',['../class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_control_panel_controller.html',1,'Tgstation::Server::Host::Controllers']]],
   ['cryptographysuite_54',['CryptographySuite',['../class_tgstation_1_1_server_1_1_host_1_1_security_1_1_cryptography_suite.html',1,'Tgstation::Server::Host::Security']]],
-  ['customcommand_55',['CustomCommand',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_custom_command.html',1,'Tgstation::Server::Host::Components::Chat::Commands']]]
+  ['customcommand_55',['CustomCommand',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_custom_command.html',1,'Tgstation::Server::Host::Components::Chat::Commands']]],
+  ['customeventinvocation_56',['CustomEventInvocation',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_bridge_1_1_custom_event_invocation.html',1,'Tgstation::Server::Host::Components::Interop::Bridge']]]
 ];
