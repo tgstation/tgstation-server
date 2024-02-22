@@ -39,5 +39,10 @@
 		/// DreamDaemon attempting to send a longer bridge message.
 		/// </summary>
 		Chunk,
+
+		/// <summary>
+		/// DreamDaemon requesting a custom event to be triggered.
+		/// </summary>
+		Event,
 	}
 }

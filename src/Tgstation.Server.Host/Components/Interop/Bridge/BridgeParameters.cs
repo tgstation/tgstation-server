@@ -52,6 +52,11 @@ namespace Tgstation.Server.Host.Components.Interop.Bridge
 		public ushort? TopicPort { get; set; }
 
 		/// <summary>
+		/// The <see cref="Bridge.CustomEventInvocation"/> being triggered.
+		/// </summary>
+		public CustomEventInvocation? EventInvocation { get; set; }
+
+		/// <summary>
 		/// Initializes a new instance of the <see cref="BridgeParameters"/> class.
 		/// </summary>
 		/// <param name="accessIdentifier">The access identifier for the <see cref="DMApiParameters"/>.</param>

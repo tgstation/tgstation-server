@@ -19,6 +19,7 @@ using Tgstation.Server.Host.Components.Chat;
 using Tgstation.Server.Host.Components.Chat.Commands;
 using Tgstation.Server.Host.Components.Deployment;
 using Tgstation.Server.Host.Components.Engine;
+using Tgstation.Server.Host.Components.Events;
 using Tgstation.Server.Host.Components.Interop;
 using Tgstation.Server.Host.Components.Interop.Bridge;
 using Tgstation.Server.Host.Components.Interop.Topic;
@@ -160,6 +161,11 @@ namespace Tgstation.Server.Host.Components.Session
 		readonly IDotnetDumpService dotnetDumpService;
 
 		/// <summary>
+		/// The <see cref="IEventConsumer"/> for the <see cref="SessionController"/>.
+		/// </summary>
+		readonly IEventConsumer eventConsumer;
+
+		/// <summary>
 		/// The <see cref="TaskCompletionSource"/> that completes when DD makes it's first bridge request.
 		/// </summary>
 		readonly TaskCompletionSource initialBridgeRequestTcs;
@@ -170,9 +176,9 @@ namespace Tgstation.Server.Host.Components.Session
 		readonly Api.Models.Instance metadata;
 
 		/// <summary>
-		/// A <see cref="CancellationTokenSource"/> used for the topic send operation made on reattaching.
+		/// A <see cref="CancellationTokenSource"/> used for tasks that should not exceed the lifetime of the session.
 		/// </summary>
-		readonly CancellationTokenSource reattachTopicCts;
+		readonly CancellationTokenSource sessionDurationCts;
 
 		/// <summary>
 		/// <see langword="lock"/> <see cref="object"/> for port updates and <see cref="disposed"/>.
@@ -203,6 +209,11 @@ namespace Tgstation.Server.Host.Components.Session
 		/// Backing field for <see cref="RebootGate"/>.
 		/// </summary>
 		volatile Task rebootGate;
+
+		/// <summary>
+		/// The <see cref="Task"/> representing calls to <see cref="TriggerCustomEvent(CustomEventInvocation?)"/>.
+		/// </summary>
+		volatile Task customEventProcessingTask;
 
 		/// <summary>
 		/// <see cref="Task"/> for shutting down the server if it is taking too long after validation.
@@ -248,6 +259,7 @@ namespace Tgstation.Server.Host.Components.Session
 		/// <param name="assemblyInformationProvider">The <see cref="IAssemblyInformationProvider"/> for the <see cref="SessionController"/>.</param>
 		/// <param name="asyncDelayer">The value of <see cref="asyncDelayer"/>.</param>
 		/// <param name="dotnetDumpService">The value of <see cref="dotnetDumpService"/>.</param>
+		/// <param name="eventConsumer">The value of <see cref="eventConsumer"/>.</param>
 		/// <param name="logger">The value of <see cref="Chunker.Logger"/>.</param>
 		/// <param name="postLifetimeCallback">The <see cref="Func{TResult}"/> returning a <see cref="ValueTask"/> to be run after the <paramref name="process"/> ends.</param>
 		/// <param name="startupTimeout">The optional time to wait before failing the <see cref="LaunchResult"/>.</param>
@@ -265,6 +277,7 @@ namespace Tgstation.Server.Host.Components.Session
 			IAssemblyInformationProvider assemblyInformationProvider,
 			IAsyncDelayer asyncDelayer,
 			IDotnetDumpService dotnetDumpService,
+			IEventConsumer eventConsumer,
 			ILogger<SessionController> logger,
 			Func<ValueTask> postLifetimeCallback,
 			uint? startupTimeout,
@@ -285,6 +298,7 @@ namespace Tgstation.Server.Host.Components.Session
 
 			this.asyncDelayer = asyncDelayer ?? throw new ArgumentNullException(nameof(asyncDelayer));
 			this.dotnetDumpService = dotnetDumpService ?? throw new ArgumentNullException(nameof(dotnetDumpService));
+			this.eventConsumer = eventConsumer ?? throw new ArgumentNullException(nameof(eventConsumer));
 
 			apiValidationSession = apiValidate;
 
@@ -297,12 +311,13 @@ namespace Tgstation.Server.Host.Components.Session
 			primeTcs = new TaskCompletionSource();
 
 			rebootGate = Task.CompletedTask;
+			customEventProcessingTask = Task.CompletedTask;
 
 			// Run this asynchronously because we want to try to avoid any effects sending topics to the server while the initial bridge request is processing
 			// It MAY be the source of a DD crash. See this gist https://gist.github.com/Cyberboss/7776bbeff3a957d76affe0eae95c9f14
 			// Worth further investigation as to if that sequence of events is a reliable crash vector and opening a BYOND bug if it is
 			initialBridgeRequestTcs = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
-			reattachTopicCts = new CancellationTokenSource();
+			sessionDurationCts = new CancellationTokenSource();
 
 			TopicSendSemaphore = new FifoSemaphore();
 			synchronizationLock = new object();
@@ -356,7 +371,7 @@ namespace Tgstation.Server.Host.Components.Session
 
 			Logger.LogTrace("Disposing...");
 
-			reattachTopicCts.Cancel();
+			sessionDurationCts.Cancel();
 			var cancellationToken = CancellationToken.None; // DCT: None available
 			var semaphoreLockTask = TopicSendSemaphore.Lock(cancellationToken);
 
@@ -381,13 +396,15 @@ namespace Tgstation.Server.Host.Components.Session
 			await regularDmbDisposeTask;
 
 			chatTrackingContext.Dispose();
-			reattachTopicCts.Dispose();
+			sessionDurationCts.Dispose();
 
 			if (!released)
 				await Lifetime; // finish the async callback
 
 			(await semaphoreLockTask).Dispose();
 			TopicSendSemaphore.Dispose();
+
+			await customEventProcessingTask;
 		}
 
 		/// <inheritdoc />
@@ -547,7 +564,7 @@ namespace Tgstation.Server.Host.Components.Session
 						assemblyInformationProvider.Version,
 						ReattachInformation.RuntimeInformation!.ServerPort),
 					true,
-					reattachTopicCts.Token);
+					sessionDurationCts.Token);
 
 				if (reattachResponse != null)
 				{
@@ -735,6 +752,8 @@ namespace Tgstation.Server.Host.Components.Session
 					break;
 				case BridgeCommandType.Chunk:
 					return await ProcessChunk<BridgeParameters, BridgeResponse>(ProcessBridgeCommand, BridgeError, parameters.Chunk, cancellationToken);
+				case BridgeCommandType.Event:
+					return TriggerCustomEvent(parameters.EventInvocation);
 				case null:
 					return BridgeError("Missing commandType!");
 				default:
@@ -1101,6 +1120,82 @@ namespace Tgstation.Server.Host.Components.Session
 					fullResponse.ErrorMessage);
 
 			return fullResponse;
+		}
+
+		/// <summary>
+		/// Trigger a custom event from a given <paramref name="invocation"/>.
+		/// </summary>
+		/// <param name="invocation">The <see cref="CustomEventInvocation"/>.</param>
+		/// <returns>An appropriate <see cref="BridgeResponse"/>.</returns>
+		BridgeResponse TriggerCustomEvent(CustomEventInvocation? invocation)
+		{
+			if (invocation == null)
+				return BridgeError("Missing eventInvocation!");
+
+			var eventName = invocation.EventName;
+			if (eventName == null)
+				return BridgeError("Missing eventName!");
+
+			var notifyCompletion = invocation.NotifyCompletion;
+			if (!notifyCompletion.HasValue)
+				return BridgeError("Missing notifyCompletion!");
+
+			var eventParams = new List<string>
+			{
+				ReattachInformation.Dmb.Directory,
+			};
+
+			eventParams.AddRange(invocation
+				.Parameters?
+				.Where(param => param != null)
+				.Cast<string>()
+				?? Enumerable.Empty<string>());
+
+			var eventId = Guid.NewGuid();
+			Logger.LogInformation("Triggering custom event \"{eventName}\": {eventId}", eventName, eventId);
+
+			var cancellationToken = sessionDurationCts.Token;
+			ValueTask? eventTask = eventConsumer.HandleCustomEvent(eventName, eventParams, cancellationToken);
+
+			async Task ProcessEvent()
+			{
+				try
+				{
+					await eventTask.Value;
+
+					if (notifyCompletion.Value)
+						await SendCommand(
+							new TopicParameters(eventId),
+							cancellationToken);
+					else
+						Logger.LogTrace("Finished custom event {eventId}, not sending notification.", eventId);
+				}
+				catch (OperationCanceledException ex)
+				{
+					Logger.LogDebug(ex, "Custom event invocation {eventId} aborted!", eventId);
+				}
+				catch (Exception ex)
+				{
+					Logger.LogWarning(ex, "Custom event invocation {eventId} errored!", eventId);
+				}
+			}
+
+			if (!eventTask.HasValue)
+				return BridgeError("Event refused to execute due to matching a TGS event!");
+
+			lock (sessionDurationCts)
+			{
+				var previousEventProcessingTask = customEventProcessingTask;
+				var eventProcessingTask = ProcessEvent();
+				customEventProcessingTask = Task.WhenAll(customEventProcessingTask, eventProcessingTask);
+			}
+
+			return new BridgeResponse
+			{
+				EventId = notifyCompletion.Value
+					? eventId.ToString()
+					: null,
+			};
 		}
 	}
 }

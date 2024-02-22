@@ -355,6 +355,7 @@ namespace Tgstation.Server.Host.Components.Session
 							assemblyInformationProvider,
 							asyncDelayer,
 							dotnetDumpService,
+							eventConsumer,
 							loggerFactory.CreateLogger<SessionController>(),
 							() => LogDDOutput(
 								process,
@@ -446,6 +447,7 @@ namespace Tgstation.Server.Host.Components.Session
 							assemblyInformationProvider,
 							asyncDelayer,
 							dotnetDumpService,
+							eventConsumer,
 							loggerFactory.CreateLogger<SessionController>(),
 							() => ValueTask.CompletedTask,
 							null,

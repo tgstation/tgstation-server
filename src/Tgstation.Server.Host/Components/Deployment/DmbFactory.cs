@@ -424,21 +424,22 @@ namespace Tgstation.Server.Host.Components.Deployment
 		/// <param name="job">The <see cref="CompileJob"/> to clean.</param>
 		void CleanRegisteredCompileJob(CompileJob job)
 		{
-			async Task HandleCleanup()
+			Task HandleCleanup()
 			{
-				// First kill the GitHub deployment
-				var remoteDeploymentManager = remoteDeploymentManagerFactory.CreateRemoteDeploymentManager(metadata, job);
-
-				// DCT: None available
-				var deploymentJob = remoteDeploymentManager.MarkInactive(job, CancellationToken.None);
-
-				var deleteTask = DeleteCompileJobContent(job.DirectoryName!.Value.ToString(), cleanupCts.Token);
 				var otherTask = cleanupTask;
 
 				async Task WrapThrowableTasks()
 				{
 					try
 					{
+						// First kill the GitHub deployment
+						var remoteDeploymentManager = remoteDeploymentManagerFactory.CreateRemoteDeploymentManager(metadata, job);
+
+						// DCT: None available
+						var deploymentJob = remoteDeploymentManager.MarkInactive(job, CancellationToken.None);
+
+						var deleteTask = DeleteCompileJobContent(job.DirectoryName!.Value.ToString(), cleanupCts.Token);
+
 						await ValueTaskExtensions.WhenAll(deleteTask, deploymentJob);
 					}
 					catch (Exception ex)
@@ -447,7 +448,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 					}
 				}
 
-				await Task.WhenAll(otherTask, WrapThrowableTasks());
+				return Task.WhenAll(otherTask, WrapThrowableTasks());
 			}
 
 			lock (jobLockCounts)

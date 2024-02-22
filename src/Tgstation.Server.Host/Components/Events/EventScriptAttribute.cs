@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace Tgstation.Server.Host.Components.Events
 {
@@ -12,7 +11,7 @@ namespace Tgstation.Server.Host.Components.Events
 		/// <summary>
 		/// The name and order of the scripts the event script the <see cref="EventType"/> runs.
 		/// </summary>
-		public IReadOnlyList<string> ScriptNames { get; }
+		public string[] ScriptNames { get; }
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="EventScriptAttribute"/> class.
