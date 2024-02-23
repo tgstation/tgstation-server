@@ -102,7 +102,7 @@
     <!-- Usage: PostgresSQL ORM plugin -->
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.2" />
     <!-- Usage: GitHub.com interop -->
-    <PackageReference Include="Octokit" Version="9.1.2" />
+    <PackageReference Include="Octokit" Version="10.0.0" />
     <!-- Usage: MYSQL/MariaDB ORM plugin -->
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="8.0.0" />
     <!-- Usage: Discord interop -->
