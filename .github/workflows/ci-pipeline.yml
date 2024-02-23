@@ -1211,7 +1211,7 @@ jobs:
         sleep 10
         sudo apt-get remove -y tgstation-server
         if [[ -d "/opt/tgstation-server" ]]; then
-          ls -al /opt/tgstation-server
+          find /opt/tgstation-server
           exit 2
         fi
 
