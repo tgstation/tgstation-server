@@ -147,8 +147,17 @@ Components:
       Author: Cyberboss
       PullRequest: 1070
   Core:
+  - Version: 6.4.0
+    ComponentVersions: {}
+    Changes: []
+    Unreleased: true
+  - Version: 6.3.1
+    ComponentVersions: {}
+    Changes: []
+    Unreleased: true
   - Version: 6.3.0
     ComponentVersions:
+      Core: 6.3.0
       HttpApi: 10.2.0
       DreamMakerApi: 7.1.0
       Configuration: 5.1.0
@@ -157,7 +166,7 @@ Components:
       NugetCommon: 7.0.0
       NugetApi: 13.2.0
       NugetClient: 15.2.0
-      WebControlPanel: 5.5.1
+      WebControlPanel: 5.6.0
     Changes:
     - Descriptions:
       - Fixed event scripts always running with low priority if the configuration option for `Session:LowPriorityDeploymentProcesses` was set instead of only in the deployment pipeline.
@@ -167,11 +176,6 @@ Components:
       - Fixed the BYOND cache not properly being cleaned on Linux.
       Author: Cyberboss
       PullRequest: 1788
-    Unreleased: true
-  - Version: 6.2.1
-    ComponentVersions: {}
-    Changes: []
-    Unreleased: true
   - Version: 6.2.0
     ComponentVersions:
       Core: 6.2.0
@@ -3333,13 +3337,12 @@ Components:
       Author: AffectedArc07
       PullRequest: 1408
   WebControlPanel:
-  - Version: 5.5.1
+  - Version: 5.6.0
     Changes:
     - Descriptions:
       - Fixed requiring a branch be specified for quick setup operations.
       Author: Cyberboss
       PullRequest: 1788
-    Unreleased: true
   - Version: 5.5.0
     Changes:
     - Descriptions:
@@ -4014,7 +4017,6 @@ Components:
       - Added support for codebases that override `file2text`.
       Author: Cyberboss
       PullRequest: 1788
-    Unreleased: true
   - Version: 7.0.2
     Changes:
     - Descriptions:
@@ -4217,7 +4219,6 @@ Components:
       - Added topic command 12 for notifying about completed custom events. Will only be sent if `notifyCompletion` was set in the triggering bridge request. Contains the `eventId` of the completed event.
       Author: Cyberboss
       PullRequest: 1788
-    Unreleased: true
   - Version: 5.7.0
     Changes:
     - Descriptions:
