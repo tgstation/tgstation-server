@@ -5,6 +5,9 @@ using System.Threading.Tasks;
 using Microsoft.Diagnostics.NETCore.Client;
 using Microsoft.Extensions.Logging;
 
+using Tgstation.Server.Api.Models;
+using Tgstation.Server.Host.Jobs;
+
 namespace Tgstation.Server.Host.System
 {
 	/// <inheritdoc />
@@ -42,13 +45,20 @@ namespace Tgstation.Server.Host.System
 			var pid = process.Id;
 			logger.LogDebug("dotnet-dump requested for PID {pid}...", pid);
 			var client = new DiagnosticsClient(pid);
-			await client.WriteDumpAsync(
-				minidump
-					? DumpType.Normal
-					: DumpType.Full,
-				outputFile,
-				false,
-				cts.Token);
+			try
+			{
+				await client.WriteDumpAsync(
+					minidump
+						? DumpType.Normal
+						: DumpType.Full,
+					outputFile,
+					false,
+					cts.Token);
+			}
+			catch (Exception ex)
+			{
+				throw new JobException(ErrorCode.GCoreFailure, ex);
+			}
 		}
 	}
 }

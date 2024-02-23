@@ -1,6 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
-using System.Text;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -9,7 +10,6 @@ using Microsoft.Extensions.Logging;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Jobs;
-using Tgstation.Server.Host.Utils;
 
 namespace Tgstation.Server.Host.Components.Engine
 {
@@ -24,29 +24,19 @@ namespace Tgstation.Server.Host.Components.Engine
 		protected const string ByondBinPath = "byond/bin";
 
 		/// <summary>
+		/// The path to the cfg directory.
+		/// </summary>
+		protected const string CfgDirectoryName = "cfg";
+
+		/// <summary>
 		/// The name of BYOND's cache directory.
 		/// </summary>
 		const string CacheDirectoryName = "cache";
 
 		/// <summary>
-		/// The path to the cfg directory.
-		/// </summary>
-		const string CfgDirectoryName = "cfg";
-
-		/// <summary>
-		/// The name of the list of trusted .dmb files in the user's BYOND cfg directory.
-		/// </summary>
-		const string TrustedDmbFileName = "trusted.txt";
-
-		/// <summary>
 		/// The first <see cref="Version"/> of BYOND that supports the '-map-threads' parameter on DreamDaemon.
 		/// </summary>
 		static readonly Version MapThreadsVersion = new(515, 1609);
-
-		/// <summary>
-		/// <see cref="SemaphoreSlim"/> for writing to files in the user's BYOND directory.
-		/// </summary>
-		static readonly SemaphoreSlim UserFilesSemaphore = new(1);
 
 		/// <inheritdoc />
 		protected override EngineType TargetEngineType => EngineType.Byond;
@@ -144,65 +134,14 @@ namespace Tgstation.Server.Host.Components.Engine
 					localCfgDirectory,
 					cancellationToken);
 
-				// Delete trusted.txt so it doesn't grow too large
-				var trustedFilePath =
-					IOManager.ConcatPath(
-						localCfgDirectory,
-						TrustedDmbFileName);
+				var additionalCleanTasks = AdditionalCacheCleanFilePaths(localCfgDirectory)
+					.Select(path => IOManager.DeleteFile(path, cancellationToken));
 
-				Logger.LogTrace("Deleting trusted .dmbs file {trustedFilePath}", trustedFilePath);
-				var trustedDmbDeleteTask = IOManager.DeleteFile(
-					trustedFilePath,
-					cancellationToken);
-
-				await Task.WhenAll(cacheCleanTask, cfgCreateTask, trustedDmbDeleteTask);
+				await Task.WhenAll(cacheCleanTask, cfgCreateTask, Task.WhenAll(additionalCleanTasks));
 			}
 			catch (Exception ex) when (ex is not OperationCanceledException)
 			{
 				Logger.LogWarning(ex, "Error cleaning BYOND cache!");
-			}
-		}
-
-		/// <inheritdoc />
-		public override async ValueTask TrustDmbPath(EngineVersion version, string fullDmbPath, CancellationToken cancellationToken)
-		{
-			ArgumentNullException.ThrowIfNull(version);
-			ArgumentNullException.ThrowIfNull(fullDmbPath);
-
-			var byondDir = PathToUserFolder;
-			var cfgDir = IOManager.ConcatPath(
-				byondDir,
-				CfgDirectoryName);
-			var trustedFilePath = IOManager.ConcatPath(
-				cfgDir,
-				TrustedDmbFileName);
-
-			Logger.LogDebug("Adding .dmb ({dmbPath}) to {trustedFilePath}", fullDmbPath, trustedFilePath);
-
-			using (await SemaphoreSlimContext.Lock(UserFilesSemaphore, cancellationToken))
-			{
-				string trustedFileText;
-				var filePreviouslyExisted = await IOManager.FileExists(trustedFilePath, cancellationToken);
-				if (filePreviouslyExisted)
-				{
-					var trustedFileBytes = await IOManager.ReadAllBytes(trustedFilePath, cancellationToken);
-					trustedFileText = Encoding.UTF8.GetString(trustedFileBytes);
-					trustedFileText = $"{trustedFileText.Trim()}{Environment.NewLine}";
-				}
-				else
-					trustedFileText = String.Empty;
-
-				if (trustedFileText.Contains(fullDmbPath, StringComparison.Ordinal))
-					return;
-
-				trustedFileText = $"{trustedFileText}{fullDmbPath}{Environment.NewLine}";
-
-				var newTrustedFileBytes = Encoding.UTF8.GetBytes(trustedFileText);
-
-				if (!filePreviouslyExisted)
-					await IOManager.CreateDirectory(cfgDir, cancellationToken);
-
-				await IOManager.WriteAllBytes(trustedFilePath, newTrustedFileBytes, cancellationToken);
 			}
 		}
 
@@ -239,6 +178,13 @@ namespace Tgstation.Server.Host.Components.Engine
 		/// <param name="supportsCli">Whether or not the returned path supports being run as a command-line application.</param>
 		/// <returns>The file name of the DreamDaemon executable.</returns>
 		protected abstract string GetDreamDaemonName(Version byondVersion, out bool supportsCli);
+
+		/// <summary>
+		/// List off additional file paths in the <paramref name="configDirectory"/> to delete.
+		/// </summary>
+		/// <param name="configDirectory">The full path to the relevant <see cref="CfgDirectoryName"/>.</param>
+		/// <returns>An <see cref="IEnumerable{T}"/> of paths in <paramref name="configDirectory"/> to clean.</returns>
+		protected virtual IEnumerable<string> AdditionalCacheCleanFilePaths(string configDirectory) => Enumerable.Empty<string>();
 
 		/// <summary>
 		/// Create a <see cref="Uri"/> pointing to the location of the download for a given <paramref name="version"/>.

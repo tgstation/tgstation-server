@@ -67,7 +67,7 @@ namespace Tgstation.Server.Host.Components.Engine
 					Environment.GetFolderPath(
 						Environment.SpecialFolder.UserProfile,
 						Environment.SpecialFolderOption.DoNotVerify),
-					"./byond/cache"));
+					"./.byond/cache"));
 		}
 
 		/// <inheritdoc />
@@ -116,6 +116,16 @@ namespace Tgstation.Server.Host.Components.Engine
 			CheckVersionValidity(version);
 			ArgumentNullException.ThrowIfNull(path);
 
+			return ValueTask.CompletedTask;
+		}
+
+		/// <inheritdoc />
+		public override ValueTask TrustDmbPath(EngineVersion version, string fullDmbPath, CancellationToken cancellationToken)
+		{
+			ArgumentNullException.ThrowIfNull(version);
+			ArgumentNullException.ThrowIfNull(fullDmbPath);
+
+			Logger.LogTrace("No need to trust .dmb path \"{path}\" on POSIX", fullDmbPath);
 			return ValueTask.CompletedTask;
 		}
 

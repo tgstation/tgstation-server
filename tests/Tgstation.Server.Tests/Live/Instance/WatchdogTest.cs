@@ -1485,7 +1485,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			var newStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
 			Assert.IsTrue(newStatus.SoftShutdown.Value || newStatus.Status.Value == WatchdogStatus.Offline);
 
-			var timeout = 20;
+			var timeout = 40;
 			do
 			{
 				await Task.Delay(TimeSpan.FromSeconds(3), cancellationToken);

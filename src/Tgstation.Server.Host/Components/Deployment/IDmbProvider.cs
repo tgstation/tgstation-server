@@ -15,7 +15,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 		string DmbName { get; }
 
 		/// <summary>
-		/// The primary game directory with a trailing directory separator.
+		/// The primary game directory.
 		/// </summary>
 		string Directory { get; }
 

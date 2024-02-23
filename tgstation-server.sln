@@ -176,6 +176,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BasicOperation", "BasicOper
 		tests\DMAPI\BasicOperation\basic operation_test.dme = tests\DMAPI\BasicOperation\basic operation_test.dme
 		tests\DMAPI\BasicOperation\Config.dm = tests\DMAPI\BasicOperation\Config.dm
 		tests\DMAPI\BasicOperation\Test.dm = tests\DMAPI\BasicOperation\Test.dm
+		tests\DMAPI\BasicOperation\test_event-qwer.sh = tests\DMAPI\BasicOperation\test_event-qwer.sh
+		tests\DMAPI\BasicOperation\test_event-qwer.bat = tests\DMAPI\BasicOperation\test_event-qwer.bat
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BuildFail", "BuildFail", "{103C61AB-67D6-46FE-AA47-CC633B88EE0F}"

@@ -15,9 +15,30 @@
 	sleep(50)
 	world.TgsTargetedChatBroadcast("Sample admin-only message", TRUE)
 
+	world.log << "params check"
 	var/list/world_params = world.params
 	if(!("test" in world_params) || world_params["test"] != "bababooey")
 		FailTest("Expected parameter test=bababooey but did not receive", "test_fail_reason.txt")
+
+	world.log << "file check 1"
+	fdel("test_event_output.txt")
+	var/test_data = "nwfiuurhfu"
+	world.TgsTriggerEvent("test_event", list(test_data), TRUE)
+	if(!fexists("test_event_output.txt"))
+		FailTest("Expected test_event_output.txt to exist here", "test_fail_reason.txt")
+
+	var/test_contents = copytext(file2text("test_event_output.txt"), 1, length(test_data) + 1)
+	if(test_contents != test_data)
+		FailTest("Expected test_event_output.txt to contain [test_data] here. Got [test_contents]", "test_fail_reason.txt")
+
+	world.log << "file check 1"
+	fdel("test_event_output.txt")
+
+	var/start_time = world.timeofday
+	world.TgsTriggerEvent("test_event", list("asdf"), FALSE)
+
+	if((world.timeofday - start_time) <= 50 && fexists("test_event_output.txt"))
+		FailTest("Expected test_event_output.txt to not exist here", "test_fail_reason.txt")
 
 	world.log << "sleep2"
 	sleep(150)

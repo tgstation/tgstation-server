@@ -48,6 +48,16 @@ namespace Tgstation.Server.Host.Components.Engine
 		const string TgsFirewalledDDFile = "TGSFirewalledDD";
 
 		/// <summary>
+		/// The name of the list of trusted .dmb files in the user's BYOND cfg directory.
+		/// </summary>
+		const string TrustedDmbFileName = "trusted.txt";
+
+		/// <summary>
+		/// <see cref="SemaphoreSlim"/> for writing to files in the user's BYOND directory.
+		/// </summary>
+		static readonly SemaphoreSlim UserFilesSemaphore = new(1, 1);
+
+		/// <summary>
 		/// The first version of BYOND to ship with dd.exe on the Windows build.
 		/// </summary>
 		public static Version DDExeVersion => new(515, 1598);
@@ -169,10 +179,66 @@ namespace Tgstation.Server.Host.Components.Engine
 		}
 
 		/// <inheritdoc />
+		public override async ValueTask TrustDmbPath(EngineVersion version, string fullDmbPath, CancellationToken cancellationToken)
+		{
+			ArgumentNullException.ThrowIfNull(version);
+			ArgumentNullException.ThrowIfNull(fullDmbPath);
+
+			var byondDir = PathToUserFolder;
+			var cfgDir = IOManager.ConcatPath(
+				byondDir,
+				CfgDirectoryName);
+			var trustedFilePath = IOManager.ConcatPath(
+				cfgDir,
+				TrustedDmbFileName);
+
+			Logger.LogDebug("Adding .dmb ({dmbPath}) to {trustedFilePath}", fullDmbPath, trustedFilePath);
+
+			using (await SemaphoreSlimContext.Lock(UserFilesSemaphore, cancellationToken))
+			{
+				string trustedFileText;
+				var filePreviouslyExisted = await IOManager.FileExists(trustedFilePath, cancellationToken);
+				if (filePreviouslyExisted)
+				{
+					var trustedFileBytes = await IOManager.ReadAllBytes(trustedFilePath, cancellationToken);
+					trustedFileText = Encoding.UTF8.GetString(trustedFileBytes);
+					trustedFileText = $"{trustedFileText.Trim()}{Environment.NewLine}";
+				}
+				else
+					trustedFileText = String.Empty;
+
+				if (trustedFileText.Contains(fullDmbPath, StringComparison.Ordinal))
+					return;
+
+				trustedFileText = $"{trustedFileText}{fullDmbPath}{Environment.NewLine}";
+
+				var newTrustedFileBytes = Encoding.UTF8.GetBytes(trustedFileText);
+
+				if (!filePreviouslyExisted)
+					await IOManager.CreateDirectory(cfgDir, cancellationToken);
+
+				await IOManager.WriteAllBytes(trustedFilePath, newTrustedFileBytes, cancellationToken);
+			}
+		}
+
+		/// <inheritdoc />
 		protected override string GetDreamDaemonName(Version byondVersion, out bool supportsCli)
 		{
 			supportsCli = byondVersion >= DDExeVersion;
 			return supportsCli ? "dd.exe" : "dreamdaemon.exe";
+		}
+
+		/// <inheritdoc />
+		protected override IEnumerable<string> AdditionalCacheCleanFilePaths(string configDirectory)
+		{
+			// Delete trusted.txt so it doesn't grow too large
+			var trustedFilePath =
+				IOManager.ConcatPath(
+					configDirectory,
+					TrustedDmbFileName);
+
+			Logger.LogTrace("Deleting trusted .dmbs file {trustedFilePath}", trustedFilePath);
+			yield return trustedFilePath;
 		}
 
 		/// <summary>
