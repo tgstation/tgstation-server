@@ -729,28 +729,41 @@ namespace Tgstation.Server.Tests.Live.Instance
 			var foundLivePath = false;
 			var allPaths = new List<string>();
 
-			Assert.IsFalse(proc.HasExited);
-			foreach (var fd in Directory.GetFiles($"/proc/{pid}/fd"))
+			var features = new PosixProcessFeatures(
+				new Lazy<IProcessExecutor>(Mock.Of<IProcessExecutor>()),
+				Mock.Of<IIOManager>(),
+				Mock.Of<ILogger<PosixProcessFeatures>>());
+
+			features.SuspendProcess(proc);
+			try
 			{
-				var sb = new StringBuilder(UInt16.MaxValue);
-				if (Syscall.readlink(fd, sb) == -1)
-					throw new UnixIOException(Stdlib.GetLastError());
+				Assert.IsFalse(proc.HasExited);
+				foreach (var fd in Directory.GetFiles($"/proc/{pid}/fd"))
+				{
+					var sb = new StringBuilder(UInt16.MaxValue);
+					if (Syscall.readlink(fd, sb) == -1)
+						throw new UnixIOException(Stdlib.GetLastError());
 
-				var path = sb.ToString();
+					var path = sb.ToString();
 
-				allPaths.Add($"Path: {path}");
-				if (path.Contains($"Game/{previousStatus.DirectoryName}"))
-					failingLinks.Add($"Found fd {fd} resolving to previous absolute path game dir path: {path}");
+					allPaths.Add($"Path: {path}");
+					if (path.Contains($"Game/{previousStatus.DirectoryName}"))
+						failingLinks.Add($"Found fd {fd} resolving to previous absolute path game dir path: {path}");
 
-				if (path.Contains($"Game/{currentStatus.ActiveCompileJob.DirectoryName}"))
-					failingLinks.Add($"Found fd {fd} resolving to current absolute path game dir path: {path}");
+					if (path.Contains($"Game/{currentStatus.ActiveCompileJob.DirectoryName}"))
+						failingLinks.Add($"Found fd {fd} resolving to current absolute path game dir path: {path}");
 
-				if (path.Contains($"Game/Live"))
-					foundLivePath = true;
+					if (path.Contains($"Game/Live"))
+						foundLivePath = true;
+				}
+
+				if (!foundLivePath)
+					failingLinks.Add($"Failed to find a path containing the 'Live' directory!");
 			}
-
-			if (!foundLivePath)
-				failingLinks.Add($"Failed to find a path containing the 'Live' directory!");
+			finally
+			{
+				features.ResumeProcess(proc);
+			}
 
 			Assert.IsTrue(failingLinks.Count == 0, String.Join(Environment.NewLine, failingLinks.Concat(allPaths)));
 		}
