@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -68,28 +69,40 @@ namespace Tgstation.Server.Host.System
 		{
 			ArgumentNullException.ThrowIfNull(process);
 
-			process.Refresh();
-			foreach (ProcessThread thread in process.Threads)
+			var suspendedThreadIds = new HashSet<uint>();
+			bool suspendedNewThreads;
+			do
 			{
-				var threadId = (uint)thread.Id;
-				logger.LogTrace("Suspending thread {threadId}...", threadId);
-				var pOpenThread = NativeMethods.OpenThread(NativeMethods.ThreadAccess.SuspendResume, false, threadId);
-				if (pOpenThread == IntPtr.Zero)
+				suspendedNewThreads = false;
+				process.Refresh();
+				foreach (ProcessThread thread in process.Threads)
 				{
-					logger.LogDebug(new Win32Exception(), "Failed to open thread {threadId}!", threadId);
-					continue;
-				}
+					var threadId = (uint)thread.Id;
 
-				try
-				{
-					if (NativeMethods.SuspendThread(pOpenThread) == UInt32.MaxValue)
-						throw new Win32Exception();
-				}
-				finally
-				{
-					NativeMethods.CloseHandle(pOpenThread);
+					if (!suspendedThreadIds.Add(threadId))
+						continue;
+
+					suspendedNewThreads = true;
+					logger.LogTrace("Suspending thread {threadId}...", threadId);
+					var pOpenThread = NativeMethods.OpenThread(NativeMethods.ThreadAccess.SuspendResume, false, threadId);
+					if (pOpenThread == IntPtr.Zero)
+					{
+						logger.LogDebug(new Win32Exception(), "Failed to open thread {threadId}!", threadId);
+						continue;
+					}
+
+					try
+					{
+						if (NativeMethods.SuspendThread(pOpenThread) == UInt32.MaxValue)
+							throw new Win32Exception();
+					}
+					finally
+					{
+						NativeMethods.CloseHandle(pOpenThread);
+					}
 				}
 			}
+			while (suspendedNewThreads);
 		}
 
 		/// <inheritdoc />
