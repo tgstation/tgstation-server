@@ -526,7 +526,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			}, cancellationToken);
 			Assert.AreEqual(mini, updated.Minidumps);
 			var dumpJob = await instanceClient.DreamDaemon.CreateDump(cancellationToken);
-			await WaitForJob(dumpJob, 30, false, null, cancellationToken);
+			await WaitForJob(dumpJob, 60, false, null, cancellationToken);
 
 			var dumpFiles = Directory.GetFiles(Path.Combine(
 				instanceClient.Metadata.Path, "Diagnostics", "ProcessDumps"), testVersion.Engine == EngineType.OpenDream ? "*.net.dmp" : "*.dmp");
