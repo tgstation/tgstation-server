@@ -152,8 +152,21 @@ Components:
     Changes: []
     Unreleased: true
   - Version: 6.3.1
-    ComponentVersions: {}
-    Changes: []
+    ComponentVersions:
+      HttpApi: 10.2.0
+      DreamMakerApi: 7.1.1
+      Configuration: 5.1.0
+      InteropApi: 5.9.0
+      HostWatchdog: 1.4.1
+      NugetCommon: 7.0.0
+      NugetApi: 13.2.0
+      NugetClient: 15.2.0
+      WebControlPanel: 5.6.0
+    Changes:
+    - Descriptions:
+      - Fixed a rare race condition when suspending Windows processes.
+      Author: Cyberboss
+      PullRequest: 1789
     Unreleased: true
   - Version: 6.3.0
     ComponentVersions:
@@ -4009,6 +4022,14 @@ Components:
       Author: Cyberboss
       PullRequest: 991
   DreamMakerApi:
+  - Version: 7.1.1
+    Changes:
+    - Descriptions:
+      - Worked around an extremely rare BYOND bug where calling `TgsNew()` hung forever.
+      - Fixed waiting on custom events never returning if TGS restarted while the event was processing.
+      Author: Cyberboss
+      PullRequest: 1789
+    Unreleased: true
   - Version: 7.1.0
     Changes:
     - Descriptions:
