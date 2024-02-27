@@ -147,8 +147,9 @@ namespace Tgstation.Server.Host.Utils.SignalR
 					return old;
 				});
 
-			foreach (var context in connections!)
-				context.Abort();
+			if (connections != null)
+				foreach (var context in connections)
+					context.Abort();
 		}
 	}
 }
