@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
+using Newtonsoft.Json;
+
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Request;
 using Tgstation.Server.Api.Models.Response;
@@ -196,7 +198,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 				.OrderBy(x => x.StartedAt)
 				.FirstOrDefault();
 
-			Assert.IsNotNull(reconnectJob);
+			Assert.IsNotNull(reconnectJob, $"Jobs: {JsonConvert.SerializeObject(jobs)}");
 			await WaitForJob(reconnectJob, 60, false, null, cancellationToken);
 
 			var channelIdStr = Environment.GetEnvironmentVariable("TGS_TEST_DISCORD_CHANNEL");
