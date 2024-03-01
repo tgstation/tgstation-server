@@ -189,7 +189,7 @@ Components:
       WebControlPanel: 5.6.0
     Changes:
     - Descriptions:
-      - Fixed parsing GitHub pull request triggering an Int32 overflow.
+      - Fixed parsing GitHub pull requests triggering an Int32 overflow.
       - Fixed event scripts always running with low priority if the configuration option for `Session:LowPriorityDeploymentProcesses` was set instead of only in the deployment pipeline.
       - Added support for DMAPI triggered custom event scripts. These cannot have the same name as TGS built-in events.
       - Fixed `.deb` package sometimes not creating a `tgstation-server` home directory.
