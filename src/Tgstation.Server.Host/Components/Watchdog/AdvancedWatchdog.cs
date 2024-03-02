@@ -142,8 +142,6 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		{
 			if (pendingSwappable != null)
 			{
-				ValueTask RunPrequel() => BeforeApplyDmb(pendingSwappable.CompileJob, cancellationToken);
-
 				var needToSwap = !pendingSwappable.Swapped;
 				var controller = Server!;
 				if (needToSwap)
@@ -155,7 +153,6 @@ namespace Tgstation.Server.Host.Components.Watchdog
 						// integration test logging will catch this
 						Logger.LogError(
 							"The reboot bridge request completed before the watchdog could suspend the server! This can lead to buggy DreamDaemon behaviour and should be reported! To ensure stability, we will need to hard reboot the server");
-						await RunPrequel();
 						return MonitorAction.Restart;
 					}
 
@@ -169,7 +166,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					}
 				}
 
-				var updateTask = RunPrequel();
+				var updateTask = BeforeApplyDmb(pendingSwappable.CompileJob, cancellationToken);
 				if (needToSwap)
 					await PerformDmbSwap(pendingSwappable, cancellationToken);
 
