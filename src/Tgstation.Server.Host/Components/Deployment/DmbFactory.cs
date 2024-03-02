@@ -388,7 +388,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 			await ioManager.CreateDirectory(gameDirectory, cancellationToken);
 			var directories = await ioManager.GetDirectories(gameDirectory, cancellationToken);
 			int deleting = 0;
-			var tasks = directories.Select(async x =>
+			var tasks = directories.Select<string, ValueTask>(async x =>
 			{
 				var nameOnly = ioManager.GetFileName(x);
 				if (jobUidsToNotErase.Contains(nameOnly))
@@ -405,7 +405,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 				}
 			}).ToList();
 			if (deleting > 0)
-				await Task.WhenAll(tasks);
+				await ValueTaskExtensions.WhenAll(tasks);
 		}
 #pragma warning restore CA1506
 
