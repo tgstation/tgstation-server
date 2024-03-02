@@ -127,8 +127,12 @@ namespace Tgstation.Server.Host.Components.Watchdog
 
 			// If we reach this point, we can guarantee PrepServerForLaunch will be called before starting again.
 			ActiveSwappable = null;
-			await (pendingSwappable?.DisposeAsync() ?? ValueTask.CompletedTask);
-			pendingSwappable = null;
+
+			if (pendingSwappable != null)
+			{
+				await pendingSwappable.DisposeAsync();
+				pendingSwappable = null;
+			}
 
 			await DrainDeploymentCleanupTasks(true);
 		}
