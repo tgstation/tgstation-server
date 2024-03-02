@@ -399,11 +399,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 					++deleting;
 					await DeleteCompileJobContent(x, cancellationToken);
 				}
-				catch (OperationCanceledException)
-				{
-					throw;
-				}
-				catch (Exception e)
+				catch (Exception e) when (e is not OperationCanceledException)
 				{
 					logger.LogWarning(e, "Error deleting directory {dirName}!", x);
 				}
