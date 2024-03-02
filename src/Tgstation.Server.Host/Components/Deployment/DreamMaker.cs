@@ -855,11 +855,12 @@ namespace Tgstation.Server.Host.Components.Deployment
 			var environment = await engineLock.LoadEnv(logger, true, cancellationToken);
 			var arguments = engineLock.FormatCompilerArguments($"{job.DmeName}.{DmeExtension}");
 
-			await using var dm = processExecutor.LaunchProcess(
+			await using var dm = await processExecutor.LaunchProcess(
 				engineLock.CompilerExePath,
 				ioManager.ResolvePath(
 					job.DirectoryName!.Value.ToString()),
 				arguments,
+				cancellationToken,
 				environment,
 				readStandardHandles: true,
 				noShellExecute: true);

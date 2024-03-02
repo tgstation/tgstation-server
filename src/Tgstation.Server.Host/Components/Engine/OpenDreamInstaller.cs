@@ -241,10 +241,11 @@ namespace Tgstation.Server.Host.Components.Engine
 				async shortenedPath =>
 				{
 					var shortenedDeployPath = IOManager.ConcatPath(shortenedPath, DeployDir);
-					await using var buildProcess = ProcessExecutor.LaunchProcess(
+					await using var buildProcess = await ProcessExecutor.LaunchProcess(
 						dotnetPath,
 						shortenedPath,
 						$"run -c Release --project OpenDreamPackageTool -- --tgs -o {shortenedDeployPath}",
+						cancellationToken,
 						null,
 						null,
 						!GeneralConfiguration.OpenDreamSuppressInstallOutput,

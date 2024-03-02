@@ -172,5 +172,9 @@ namespace Tgstation.Server.Host.System
 				DefaultIOManager.BlockingTaskCreationOptions,
 				TaskScheduler.Current);
 		}
+
+		/// <inheritdoc />
+		public ValueTask<int> HandleProcessStart(global::System.Diagnostics.Process process, CancellationToken cancellationToken)
+			=> ValueTask.FromResult((process ?? throw new ArgumentNullException(nameof(process))).Id);
 	}
 }
