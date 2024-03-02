@@ -1,8 +1,9 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -178,7 +179,8 @@ namespace Tgstation.Server.Host.Components.Deployment
 			{
 				var jobId = nextDmbProvider.CompileJob.Require(x => x.Id);
 				var incremented = jobLockCounts[jobId] += lockCount;
-				logger.LogTrace("Compile job {jobId} lock count now: {lockCount}", jobId, incremented);
+				logger.LogTrace("Compile job {jobId} lock increased by: {increment}", jobId, lockCount);
+				LogLockCounts();
 				return nextDmbProvider;
 			}
 		}
@@ -336,6 +338,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 
 					providerSubmitted = true;
 
+					LogLockCounts();
 					return newProvider;
 				}
 			}
@@ -434,14 +437,14 @@ namespace Tgstation.Server.Host.Components.Deployment
 						// First kill the GitHub deployment
 						var remoteDeploymentManager = remoteDeploymentManagerFactory.CreateRemoteDeploymentManager(metadata, job);
 
-						// DCT: None available
-						var deploymentJob = remoteDeploymentManager.MarkInactive(job, CancellationToken.None);
+						var cancellationToken = cleanupCts.Token;
+						var deploymentJob = remoteDeploymentManager.MarkInactive(job, cancellationToken);
 
-						var deleteTask = DeleteCompileJobContent(job.DirectoryName!.Value.ToString(), cleanupCts.Token);
+						var deleteTask = DeleteCompileJobContent(job.DirectoryName!.Value.ToString(), cancellationToken);
 
 						await ValueTaskExtensions.WhenAll(deleteTask, deploymentJob);
 					}
-					catch (Exception ex)
+					catch (Exception ex) when (ex is not OperationCanceledException)
 					{
 						logger.LogWarning(ex, "Error cleaning up compile job {jobGuid}!", job.DirectoryName);
 					}
@@ -467,6 +470,8 @@ namespace Tgstation.Server.Host.Components.Deployment
 					}
 				else
 					logger.LogError("Extra Dispose of DmbProvider for CompileJob {compileJobId}!", jobId);
+
+				LogLockCounts();
 			}
 		}
 
@@ -481,6 +486,31 @@ namespace Tgstation.Server.Host.Components.Deployment
 			// Then call the cleanup event, waiting here first
 			await eventConsumer.HandleEvent(EventType.DeploymentCleanup, new List<string> { ioManager.ResolvePath(directory) }, true, cancellationToken);
 			await ioManager.DeleteDirectory(directory, cancellationToken);
+		}
+
+		/// <summary>
+		/// Log out the current lock counts to Trace.
+		/// </summary>
+		/// <remarks><see cref="jobLockCounts"/> must be locked before calling this function.</remarks>
+		void LogLockCounts()
+		{
+			if (jobLockCounts.Count == 0)
+			{
+				logger.LogWarning("No compile jobs registered!");
+				return;
+			}
+
+			var builder = new StringBuilder();
+			foreach (var jobId in jobLockCounts.Keys)
+			{
+				builder.AppendLine();
+				builder.Append("\t- ");
+				builder.Append(jobId);
+				builder.Append(": ");
+				builder.Append(jobLockCounts[jobId]);
+			}
+
+			logger.LogTrace("Compile Job Lock Counts:{details}", builder.ToString());
 		}
 	}
 }
