@@ -87,7 +87,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 		}
 
 		/// <summary>
-		/// Should be <see langword="await"/>. before calling <see cref="MakeActive(CancellationToken)"/> to ensure the <see cref="SwappableDmbProvider"/> is ready to instantly swap. Can be called multiple times.
+		/// Should be <see langword="await"/>ed. before calling <see cref="MakeActive(CancellationToken)"/> to ensure the <see cref="SwappableDmbProvider"/> is ready to instantly swap. Can be called multiple times.
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task"/> representing the preparation process.</returns>
