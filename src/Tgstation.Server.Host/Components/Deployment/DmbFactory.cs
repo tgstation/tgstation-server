@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
@@ -325,14 +325,17 @@ namespace Tgstation.Server.Host.Components.Deployment
 					if (!jobLockCounts.TryGetValue(compileJobId, out int value))
 					{
 						value = 1;
+						logger.LogTrace("Initializing lock count for compile job {id}", compileJobId);
 						jobLockCounts.Add(compileJobId, 1);
 					}
 					else
+					{
+						logger.LogTrace("FromCompileJob already had a jobLockCounts entry for {id}. Incrementing lock count to {value}.", compileJobId, value);
 						jobLockCounts[compileJobId] = ++value;
+					}
 
 					providerSubmitted = true;
 
-					logger.LogTrace("Compile job {id} lock count now: {lockCount}", compileJobId, value);
 					return newProvider;
 				}
 			}
