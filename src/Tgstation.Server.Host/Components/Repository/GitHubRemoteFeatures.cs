@@ -93,7 +93,7 @@ namespace Tgstation.Server.Host.Components.Repository
 				Comment = parameters.Comment,
 				Number = parameters.Number,
 				TargetCommitSha = revisionToUse,
-				Url = pr?.HtmlUrl ?? errorMessage,
+				Url = pr?.HtmlUrl ?? $"https://github.com/{RemoteRepositoryOwner}/{RemoteRepositoryName}/pull/{parameters.Number}",
 			};
 
 			return testMerge;
