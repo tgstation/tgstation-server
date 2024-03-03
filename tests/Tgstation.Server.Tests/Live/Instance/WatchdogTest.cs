@@ -731,7 +731,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 			var features = new PosixProcessFeatures(
 				new Lazy<IProcessExecutor>(Mock.Of<IProcessExecutor>()),
-				Mock.Of<IIOManager>(),
+				new DefaultIOManager(),
 				Mock.Of<ILogger<PosixProcessFeatures>>());
 
 			features.SuspendProcess(proc);
@@ -798,7 +798,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			executor = new ProcessExecutor(
 				RuntimeInformation.IsOSPlatform(OSPlatform.Windows)
 					? new WindowsProcessFeatures(Mock.Of<ILogger<WindowsProcessFeatures>>())
-					: new PosixProcessFeatures(new Lazy<IProcessExecutor>(() => executor), Mock.Of<IIOManager>(), Mock.Of<ILogger<PosixProcessFeatures>>()),
+					: new PosixProcessFeatures(new Lazy<IProcessExecutor>(() => executor), new DefaultIOManager(), Mock.Of<ILogger<PosixProcessFeatures>>()),
 				Mock.Of<IIOManager>(),
 				Mock.Of<ILogger<ProcessExecutor>>(),
 				LoggerFactory.Create(x => { }));

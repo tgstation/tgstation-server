@@ -208,7 +208,7 @@ namespace Tgstation.Server.Tests
 					? new WindowsProcessFeatures(Mock.Of<ILogger<WindowsProcessFeatures>>())
 					: new PosixProcessFeatures(
 						new Lazy<IProcessExecutor>(() => null),
-						Mock.Of<IIOManager>(),
+						new DefaultIOManager(),
 						loggerFactory.CreateLogger<PosixProcessFeatures>()),
 					Mock.Of<IIOManager>(),
 					loggerFactory.CreateLogger<ProcessExecutor>(),
@@ -498,10 +498,11 @@ namespace Tgstation.Server.Tests
 
 			try
 			{
-				await using var process = processExecutor.LaunchProcess(
+				await using var process = await processExecutor.LaunchProcess(
 					ddPath,
 					Environment.CurrentDirectory,
 					"fake.dmb -map-threads 3 -close",
+					CancellationToken.None,
 					null,
 					null,
 					true,

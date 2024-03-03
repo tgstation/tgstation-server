@@ -516,10 +516,11 @@ namespace Tgstation.Server.Host.Components.Session
 					? logFilePath
 					: null);
 
-			var process = processExecutor.LaunchProcess(
+			var process = await processExecutor.LaunchProcess(
 				engineLock.ServerExePath,
 				dmbProvider.Directory,
 				arguments,
+				cancellationToken,
 				environment,
 				logFilePath,
 				engineLock.HasStandardOutput,

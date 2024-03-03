@@ -356,6 +356,7 @@ namespace Tgstation.Server.Host.Core
 				services.AddSingleton<IPostWriteHandler, PosixPostWriteHandler>();
 
 				services.AddSingleton<IProcessFeatures, PosixProcessFeatures>();
+				services.AddHostedService<PosixProcessFeatures>();
 
 				// PosixProcessFeatures also needs a IProcessExecutor for gcore
 				services.AddSingleton(x => new Lazy<IProcessExecutor>(() => x.GetRequiredService<IProcessExecutor>(), true));

@@ -1,7 +1,11 @@
 ﻿using System;
+using System.Globalization;
+using System.IO;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Mono.Unix;
 using Mono.Unix.Native;
@@ -13,8 +17,18 @@ using Tgstation.Server.Host.Jobs;
 namespace Tgstation.Server.Host.System
 {
 	/// <inheritdoc />
-	sealed class PosixProcessFeatures : IProcessFeatures
+	sealed class PosixProcessFeatures : IProcessFeatures, IHostedService
 	{
+		/// <summary>
+		/// Difference from <see cref="baselineOomAdjust"/> to set our own oom_score_adj to. 1 higher host watchdog.
+		/// </summary>
+		const short SelfOomAdjust = 1;
+
+		/// <summary>
+		/// Difference from <see cref="baselineOomAdjust"/> to set the oom_score_adj of child processes to. 1 higher than ourselves.
+		/// </summary>
+		const short ChildProcessOomAdjust = SelfOomAdjust + 1;
+
 		/// <summary>
 		/// <see cref="Lazy{T}"/> loaded <see cref="IProcessExecutor"/>.
 		/// </summary>
@@ -29,6 +43,11 @@ namespace Tgstation.Server.Host.System
 		/// The <see cref="ILogger{TCategoryName}"/> for the <see cref="PosixProcessFeatures"/>.
 		/// </summary>
 		readonly ILogger<PosixProcessFeatures> logger;
+
+		/// <summary>
+		/// The original value of oom_score_adj as read from the /proc/ filesystem. Inherited from parent process.
+		/// </summary>
+		short baselineOomAdjust;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="PosixProcessFeatures"/> class.
@@ -88,10 +107,11 @@ namespace Tgstation.Server.Host.System
 
 			string? output;
 			int exitCode;
-			await using (var gcoreProc = lazyLoadedProcessExecutor.Value.LaunchProcess(
+			await using (var gcoreProc = await lazyLoadedProcessExecutor.Value.LaunchProcess(
 				GCorePath,
 				Environment.CurrentDirectory,
 				$"{(!minidump ? "-a " : String.Empty)}-o {outputFile} {process.Id}",
+				cancellationToken,
 				readStandardHandles: true,
 				noShellExecute: true))
 			{
@@ -111,6 +131,86 @@ namespace Tgstation.Server.Host.System
 			// gcore outputs name.pid so remove the pid part
 			var generatedGCoreFile = $"{outputFile}.{pid}";
 			await ioManager.MoveFile(generatedGCoreFile, outputFile, cancellationToken);
+		}
+
+		/// <inheritdoc />
+		public async ValueTask<int> HandleProcessStart(global::System.Diagnostics.Process process, CancellationToken cancellationToken)
+		{
+			ArgumentNullException.ThrowIfNull(process);
+			var pid = process.Id;
+			try
+			{
+				// make sure all processes we spawn are killed _before_ us
+				await AdjustOutOfMemoryScore(pid, ChildProcessOomAdjust, cancellationToken);
+			}
+			catch (Exception ex) when (ex is not OperationCanceledException)
+			{
+				logger.LogWarning(ex, "Failed to adjust OOM killer score for pid {pid}!", pid);
+			}
+
+			return pid;
+		}
+
+		/// <inheritdoc />
+		public async Task StartAsync(CancellationToken cancellationToken)
+		{
+			// let this all throw
+			string originalString;
+			{
+				// can't use ReadAllBytes here, /proc files have 0 length so the buffer is initialized to empty
+				// https://stackoverflow.com/questions/12237712/how-can-i-show-the-size-of-files-in-proc-it-should-not-be-size-zero
+				await using var fileStream = ioManager.CreateAsyncSequentialReadStream(
+					"/proc/self/oom_score_adj");
+				using var reader = new StreamReader(fileStream, Encoding.UTF8, leaveOpen: true);
+				originalString = await reader.ReadToEndAsync(cancellationToken);
+			}
+
+			var trimmedString = originalString.Trim();
+
+			logger.LogTrace("Original oom_score_adj is \"{original}\"", trimmedString);
+
+			var originalOomAdjust = Int16.Parse(trimmedString, CultureInfo.InvariantCulture);
+			baselineOomAdjust = Math.Clamp(originalOomAdjust, (short)-1000, (short)1000);
+
+			if (originalOomAdjust != baselineOomAdjust)
+				logger.LogWarning("oom_score_adj is at it's limit of 1000 (Clamped from {original}). TGS cannot guarantee the kill order of its parent/child processes!", originalOomAdjust);
+			else
+				logger.LogWarning("oom_score_adj is at it's limit of 1000. TGS cannot guarantee the kill order of its parent/child processes!");
+
+			try
+			{
+				// we do not want to be killed before the host watchdog
+				await AdjustOutOfMemoryScore(null, SelfOomAdjust, cancellationToken);
+			}
+			catch (Exception ex) when (ex is not OperationCanceledException)
+			{
+				logger.LogWarning(ex, "Could not increase oom_score_adj!");
+			}
+		}
+
+		/// <inheritdoc />
+		public Task StopAsync(CancellationToken cancellationToken) => Task.CompletedTask;
+
+		/// <summary>
+		/// Set oom_score_adj for a given <paramref name="pid"/>.
+		/// </summary>
+		/// <param name="pid">The <see cref="global::System.Diagnostics.Process.Id"/> or <see langword="null"/> to self adjust.</param>
+		/// <param name="adjustment">The value being written to the adjustment file.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
+		ValueTask AdjustOutOfMemoryScore(int? pid, short adjustment, CancellationToken cancellationToken)
+		{
+			var adjustedValue = Math.Clamp(baselineOomAdjust + adjustment, -1000, 1000);
+
+			var pidStr = pid.HasValue
+				? pid.Value.ToString(CultureInfo.InvariantCulture)
+				: "self";
+			logger.LogTrace(
+				"Setting oom_score_adj of {pid} to {adjustment}...", pidStr, adjustedValue);
+			return ioManager.WriteAllBytes(
+				$"/proc/{pidStr}/oom_score_adj",
+				Encoding.UTF8.GetBytes(adjustedValue.ToString(CultureInfo.InvariantCulture)),
+				cancellationToken);
 		}
 	}
 }

@@ -761,7 +761,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 				foreach (var scriptFile in scriptFiles)
 				{
 					logger.LogTrace("Running event script {scriptFile}...", scriptFile);
-					await using (var script = processExecutor.LaunchProcess(
+					await using (var script = await processExecutor.LaunchProcess(
 						ioManager.ConcatPath(resolvedScriptsDir, scriptFile),
 						resolvedScriptsDir,
 						String.Join(
@@ -778,6 +778,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 
 								return $"\"{arg}\"";
 							})),
+						cancellationToken,
 						readStandardHandles: true,
 						noShellExecute: true))
 					using (cancellationToken.Register(() => script.Terminate()))
