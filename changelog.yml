@@ -152,8 +152,21 @@ Components:
     Changes: []
     Unreleased: true
   - Version: 6.3.2
-    ComponentVersions: {}
-    Changes: []
+    ComponentVersions:
+      HttpApi: 10.2.0
+      DreamMakerApi: 7.1.1
+      Configuration: 5.1.0
+      InteropApi: 5.9.0
+      HostWatchdog: 1.4.1
+      NugetCommon: 7.0.0
+      NugetApi: 13.2.0
+      NugetClient: 15.2.0
+      WebControlPanel: 5.6.0
+    Changes:
+    - Descriptions:
+      - Fixed an issue where stopping or rebooting the server could cause the previously used deployment directory to not properly get cleaned up.
+      Author: Cyberboss
+      PullRequest: 1793
     Unreleased: true
   - Version: 6.3.1
     ComponentVersions:

@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.3.0</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.3.2</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -200,11 +200,12 @@ $(function() {
 <div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span>                    <span class="keywordflow">return</span> old;</div>
 <div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span>                });</div>
 <div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span> </div>
-<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span>            <span class="keywordflow">foreach</span> (var context <span class="keywordflow">in</span> connections!)</div>
-<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span>                context.Abort();</div>
-<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span>        }</div>
-<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span>    }</div>
-<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span>}</div>
+<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span>            <span class="keywordflow">if</span> (connections != <span class="keyword">null</span>)</div>
+<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span>                <span class="keywordflow">foreach</span> (var context <span class="keywordflow">in</span> connections)</div>
+<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span>                    context.Abort();</div>
+<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span>        }</div>
+<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span>    }</div>
+<div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span>}</div>
 <div class="ttc" id="aclass_i_hub_context_html"><div class="ttname"><a href="class_i_hub_context.html">IHubContext</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_models_1_1_user_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html">Tgstation.Server.Host.Models.User</a></div><div class="ttdef"><b>Definition:</b> <a href="_user_8cs_source.html#l00012">User.cs:13</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_utils_1_1_signal_r_1_1_comprehensive_hub_context_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_signal_r_1_1_comprehensive_hub_context.html">Tgstation.Server.Host.Utils.SignalR.ComprehensiveHubContext</a></div><div class="ttdoc">An implementation of IHubContext&lt;THub&gt; with User connection ID mapping.</div><div class="ttdef"><b>Definition:</b> <a href="_comprehensive_hub_context_8cs_source.html#l00021">ComprehensiveHubContext.cs:24</a></div></div>

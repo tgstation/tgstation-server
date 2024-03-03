@@ -1,6 +1,5 @@
 <map id="Tgstation.Server.Host.Components.Watchdog.WatchdogBase.DisposeAsync" name="Tgstation.Server.Host.Components.Watchdog.WatchdogBase.DisposeAsync">
-<area shape="rect" id="node1" title=" " alt="" coords="372,77,629,117"/>
+<area shape="rect" id="node1" title=" " alt="" coords="372,41,629,81"/>
 <area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_advanced_watchdog.html#acb48f966670f07a01c89a708fc82411a" title="Initializes a new instance of the AdvancedWatchdog class." alt="" coords="5,5,324,45"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_advanced_watchdog.html#ad685dab25c922c43bff30f2822811c2b" title="Call IDisposable.Dispose and null the fields for all ISessionControllers. A ValueTask representing th..." alt="" coords="29,70,301,125"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_advanced_watchdog.html#abc18654a9da3b33e0c5201fe3c376374" title="Handler for MonitorActivationReason.NewDmbAvailable. A ValueTask representing the running operation." alt="" coords="29,149,300,203"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_advanced_watchdog.html#abc18654a9da3b33e0c5201fe3c376374" title="Handler for MonitorActivationReason.NewDmbAvailable. A ValueTask representing the running operation." alt="" coords="29,70,300,125"/>
 </map>

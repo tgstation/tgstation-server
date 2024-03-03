@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.3.0</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.3.2</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -126,7 +126,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:ad6e832b7e37fcfb95f47294a9a084c2e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Make the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_swappable_dmb_provider.html" title="A IDmbProvider that uses filesystem links to change directory structure underneath the server process...">SwappableDmbProvider</a> active by replacing the live link with our <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_swappable_dmb_provider.html#a7b81a4a7c82ee7315a525f1cd7b31bc9" title="The CompileJob of the .dmb.">CompileJob</a>.   <a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_swappable_dmb_provider.html#ad6e832b7e37fcfb95f47294a9a084c2e">More...</a><br /></td></tr>
 <tr class="separator:ad6e832b7e37fcfb95f47294a9a084c2e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a62c2020413dd770a7b3b0482e91ffbf3"><td class="memItemLeft" align="right" valign="top">abstract Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_swappable_dmb_provider.html#a62c2020413dd770a7b3b0482e91ffbf3">FinishActivationPreparation</a> (CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a62c2020413dd770a7b3b0482e91ffbf3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Should be <code>await</code>. before calling <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_swappable_dmb_provider.html#ad6e832b7e37fcfb95f47294a9a084c2e" title="Make the SwappableDmbProvider active by replacing the live link with our CompileJob.">MakeActive(CancellationToken)</a> to ensure the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_swappable_dmb_provider.html" title="A IDmbProvider that uses filesystem links to change directory structure underneath the server process...">SwappableDmbProvider</a> is ready to instantly swap. Can be called multiple times.   <a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_swappable_dmb_provider.html#a62c2020413dd770a7b3b0482e91ffbf3">More...</a><br /></td></tr>
+<tr class="memdesc:a62c2020413dd770a7b3b0482e91ffbf3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Should be <code>await</code>ed. before calling <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_swappable_dmb_provider.html#ad6e832b7e37fcfb95f47294a9a084c2e" title="Make the SwappableDmbProvider active by replacing the live link with our CompileJob.">MakeActive(CancellationToken)</a> to ensure the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_swappable_dmb_provider.html" title="A IDmbProvider that uses filesystem links to change directory structure underneath the server process...">SwappableDmbProvider</a> is ready to instantly swap. Can be called multiple times.   <a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_swappable_dmb_provider.html#a62c2020413dd770a7b3b0482e91ffbf3">More...</a><br /></td></tr>
 <tr class="separator:a62c2020413dd770a7b3b0482e91ffbf3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a01b014f3713b09cdbc9093bc1bbc0164"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_dmb_provider.html#a01b014f3713b09cdbc9093bc1bbc0164">KeepAlive</a> ()</td></tr>
 <tr class="memdesc:a01b014f3713b09cdbc9093bc1bbc0164"><td class="mdescLeft">&#160;</td><td class="mdescRight">Disposing the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_dmb_provider.html" title="Provides absolute paths to the latest compiled .dmbs.">IDmbProvider</a> won't cause a cleanup of the working directory.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_dmb_provider.html#a01b014f3713b09cdbc9093bc1bbc0164">More...</a><br /></td></tr>
@@ -279,6 +279,17 @@ Private Attributes</h2></td></tr>
 
 <p>Reimplemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider.html#a82e742d5ef0f762e71405c14bf349663">Tgstation.Server.Host.Components.Deployment.HardLinkDmbProvider</a>.</p>
 
+<p class="reference">Referenced by <a class="el" href="_advanced_watchdog_8cs_source.html#l00124">Tgstation.Server.Host.Components.Watchdog.AdvancedWatchdog.DisposeAndNullControllersImpl()</a>.</p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_swappable_dmb_provider_afd7fb5a2e71e584df10c62620fb5e174_icgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_swappable_dmb_provider_afd7fb5a2e71e584df10c62620fb5e174_icgraph" alt=""/></div>
+<map name="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_swappable_dmb_provider_afd7fb5a2e71e584df10c62620fb5e174_icgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_swappable_dmb_provider_afd7fb5a2e71e584df10c62620fb5e174_icgraph">
+<area shape="rect" title=" " alt="" coords="325,13,644,53"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_advanced_watchdog.html#ad685dab25c922c43bff30f2822811c2b" title="Call IDisposable.Dispose and null the fields for all ISessionControllers. A ValueTask representing th..." alt="" coords="5,5,277,60"/>
+</map>
+</div>
+
 </div>
 </div>
 <a id="a92d654ad97877a24e3abab5c0cd595ab" name="a92d654ad97877a24e3abab5c0cd595ab"></a>
@@ -358,7 +369,7 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p>Should be <code>await</code>. before calling <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_swappable_dmb_provider.html#ad6e832b7e37fcfb95f47294a9a084c2e" title="Make the SwappableDmbProvider active by replacing the live link with our CompileJob.">MakeActive(CancellationToken)</a> to ensure the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_swappable_dmb_provider.html" title="A IDmbProvider that uses filesystem links to change directory structure underneath the server process...">SwappableDmbProvider</a> is ready to instantly swap. Can be called multiple times.  </p>
+<p>Should be <code>await</code>ed. before calling <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_swappable_dmb_provider.html#ad6e832b7e37fcfb95f47294a9a084c2e" title="Make the SwappableDmbProvider active by replacing the live link with our CompileJob.">MakeActive(CancellationToken)</a> to ensure the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_swappable_dmb_provider.html" title="A IDmbProvider that uses filesystem links to change directory structure underneath the server process...">SwappableDmbProvider</a> is ready to instantly swap. Can be called multiple times.  </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
@@ -369,13 +380,13 @@ Here is the caller graph for this function:</div>
 
 <p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider.html#a900fdf5c91f6e14648a4ec27ad95bd6a">Tgstation.Server.Host.Components.Deployment.HardLinkDmbProvider</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_symlink_dmb_provider.html#a41fc463193890a0e426f5128209aa57f">Tgstation.Server.Host.Components.Deployment.SymlinkDmbProvider</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_advanced_watchdog_8cs_source.html#l00137">Tgstation.Server.Host.Components.Watchdog.AdvancedWatchdog.HandleNormalReboot()</a>, <a class="el" href="_advanced_watchdog_8cs_source.html#l00366">Tgstation.Server.Host.Components.Watchdog.AdvancedWatchdog.InitialLink()</a>, and <a class="el" href="_advanced_watchdog_8cs_source.html#l00379">Tgstation.Server.Host.Components.Watchdog.AdvancedWatchdog.PerformDmbSwap()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_advanced_watchdog_8cs_source.html#l00141">Tgstation.Server.Host.Components.Watchdog.AdvancedWatchdog.HandleNormalReboot()</a>, <a class="el" href="_advanced_watchdog_8cs_source.html#l00368">Tgstation.Server.Host.Components.Watchdog.AdvancedWatchdog.InitialLink()</a>, and <a class="el" href="_advanced_watchdog_8cs_source.html#l00381">Tgstation.Server.Host.Components.Watchdog.AdvancedWatchdog.PerformDmbSwap()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_swappable_dmb_provider_a62c2020413dd770a7b3b0482e91ffbf3_icgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_swappable_dmb_provider_a62c2020413dd770a7b3b0482e91ffbf3_icgraph" alt=""/></div>
 <map name="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_swappable_dmb_provider_a62c2020413dd770a7b3b0482e91ffbf3_icgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_swappable_dmb_provider_a62c2020413dd770a7b3b0482e91ffbf3_icgraph">
-<area shape="rect" title="Should be await. before calling MakeActive(CancellationToken) to ensure the SwappableDmbProvider is r..." alt="" coords="736,73,1007,128"/>
+<area shape="rect" title="Should be awaited. before calling MakeActive(CancellationToken) to ensure the SwappableDmbProvider is..." alt="" coords="736,73,1007,128"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_advanced_watchdog.html#a9a94dccebeb6abb16f75b2ad03a5eb28" title="Handler for MonitorActivationReason.ActiveServerRebooted when the RebootState is RebootState...." alt="" coords="5,85,332,125"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_advanced_watchdog.html#a1845f3dca4597a726053daa649565c5f" title="Create the initial link to the live game directory using ActiveSwappable." alt="" coords="405,17,663,57"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_advanced_watchdog.html#ad7b9818a9a73bbf86d9353c30e23197f" title="Suspends the BasicWatchdog.Server and calls SwappableDmbProvider.MakeActive(CancellationToken) on a n..." alt="" coords="380,138,688,178"/>
@@ -444,7 +455,7 @@ Here is the caller graph for this function:</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_swappable_dmb_provider.html#a92d654ad97877a24e3abab5c0cd595ab">Tgstation.Server.Host.Components.Deployment.SwappableDmbProvider.DoSwap()</a>, and <a class="el" href="_swappable_dmb_provider_8cs_source.html#l00055">Tgstation.Server.Host.Components.Deployment.SwappableDmbProvider.swapped</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_advanced_watchdog_8cs_source.html#l00366">Tgstation.Server.Host.Components.Watchdog.AdvancedWatchdog.InitialLink()</a>, and <a class="el" href="_advanced_watchdog_8cs_source.html#l00379">Tgstation.Server.Host.Components.Watchdog.AdvancedWatchdog.PerformDmbSwap()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_advanced_watchdog_8cs_source.html#l00368">Tgstation.Server.Host.Components.Watchdog.AdvancedWatchdog.InitialLink()</a>, and <a class="el" href="_advanced_watchdog_8cs_source.html#l00381">Tgstation.Server.Host.Components.Watchdog.AdvancedWatchdog.PerformDmbSwap()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -495,7 +506,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_swappable_dmb_provider_8cs_source.html#l00018">18</a> of file <a class="el" href="_swappable_dmb_provider_8cs_source.html">SwappableDmbProvider.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_dmb_factory_8cs_source.html#l00349">Tgstation.Server.Host.Components.Deployment.DmbFactory.CleanUnusedCompileJobs()</a>, <a class="el" href="_hard_link_dmb_provider_8cs_source.html#l00102">Tgstation.Server.Host.Components.Deployment.HardLinkDmbProvider.DoSwap()</a>, and <a class="el" href="_symlink_dmb_provider_8cs_source.html#l00031">Tgstation.Server.Host.Components.Deployment.SymlinkDmbProvider.DoSwap()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_dmb_factory_8cs_source.html#l00355">Tgstation.Server.Host.Components.Deployment.DmbFactory.CleanUnusedCompileJobs()</a>, <a class="el" href="_hard_link_dmb_provider_8cs_source.html#l00102">Tgstation.Server.Host.Components.Deployment.HardLinkDmbProvider.DoSwap()</a>, and <a class="el" href="_symlink_dmb_provider_8cs_source.html#l00031">Tgstation.Server.Host.Components.Deployment.SymlinkDmbProvider.DoSwap()</a>.</p>
 
 </div>
 </div>
@@ -583,7 +594,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_swappable_dmb_provider_8cs_source.html#l00027">27</a> of file <a class="el" href="_swappable_dmb_provider_8cs_source.html">SwappableDmbProvider.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_advanced_watchdog_8cs_source.html#l00137">Tgstation.Server.Host.Components.Watchdog.AdvancedWatchdog.HandleNormalReboot()</a>, <a class="el" href="_hard_link_dmb_provider_8cs_source.html#l00151">Tgstation.Server.Host.Components.Deployment.HardLinkDmbProvider.MirrorSourceDirectory()</a>, and <a class="el" href="_advanced_watchdog_8cs_source.html#l00379">Tgstation.Server.Host.Components.Watchdog.AdvancedWatchdog.PerformDmbSwap()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_advanced_watchdog_8cs_source.html#l00141">Tgstation.Server.Host.Components.Watchdog.AdvancedWatchdog.HandleNormalReboot()</a>, <a class="el" href="_hard_link_dmb_provider_8cs_source.html#l00151">Tgstation.Server.Host.Components.Deployment.HardLinkDmbProvider.MirrorSourceDirectory()</a>, and <a class="el" href="_advanced_watchdog_8cs_source.html#l00381">Tgstation.Server.Host.Components.Watchdog.AdvancedWatchdog.PerformDmbSwap()</a>.</p>
 
 </div>
 </div>
@@ -753,7 +764,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_swappable_dmb_provider_8cs_source.html#l00035">35</a> of file <a class="el" href="_swappable_dmb_provider_8cs_source.html">SwappableDmbProvider.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_advanced_watchdog_8cs_source.html#l00137">Tgstation.Server.Host.Components.Watchdog.AdvancedWatchdog.HandleNormalReboot()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_advanced_watchdog_8cs_source.html#l00141">Tgstation.Server.Host.Components.Watchdog.AdvancedWatchdog.HandleNormalReboot()</a>.</p>
 
 </div>
 </div>

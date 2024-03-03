@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.3.0</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.3.2</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -319,9 +319,10 @@ Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">  147</span>                    <span class="keywordflow">return</span> old;</div>
 <div class="line"><span class="lineno">  148</span>                });</div>
 <div class="line"><span class="lineno">  149</span> </div>
-<div class="line"><span class="lineno">  150</span>            <span class="keywordflow">foreach</span> (var context <span class="keywordflow">in</span> connections!)</div>
-<div class="line"><span class="lineno">  151</span>                context.Abort();</div>
-<div class="line"><span class="lineno">  152</span>        }</div>
+<div class="line"><span class="lineno">  150</span>            <span class="keywordflow">if</span> (connections != <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">  151</span>                <span class="keywordflow">foreach</span> (var context <span class="keywordflow">in</span> connections)</div>
+<div class="line"><span class="lineno">  152</span>                    context.Abort();</div>
+<div class="line"><span class="lineno">  153</span>        }</div>
 </div><!-- fragment -->
 </div>
 </div>
