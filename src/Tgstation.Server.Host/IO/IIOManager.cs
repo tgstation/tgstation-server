@@ -85,6 +85,7 @@ namespace Tgstation.Server.Host.IO
 		/// <param name="path">The path of the file to read.</param>
 		/// <param name="cancellationToken">A <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask"/> that results in the contents of a file at <paramref name="path"/>.</returns>
+		/// <remarks>This function will fail to read files from the /proc filesystem on Linux.</remarks>
 		ValueTask<byte[]> ReadAllBytes(string path, CancellationToken cancellationToken);
 
 		/// <summary>
