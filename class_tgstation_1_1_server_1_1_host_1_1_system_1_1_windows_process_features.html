@@ -110,7 +110,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a27a19295cb9d9879dbee167e23f5704f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes a new instance of the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_process_features.html">WindowsProcessFeatures</a> class.   <a href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_process_features.html#a27a19295cb9d9879dbee167e23f5704f">More...</a><br /></td></tr>
 <tr class="separator:a27a19295cb9d9879dbee167e23f5704f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0a3d91e35d40c3f6c6bdf126aec6d112"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_process_features.html#a0a3d91e35d40c3f6c6bdf126aec6d112">ResumeProcess</a> (global::System.Diagnostics.Process process)</td></tr>
-<tr class="memdesc:a0a3d91e35d40c3f6c6bdf126aec6d112"><td class="mdescLeft">&#160;</td><td class="mdescRight">Resume a given suspended <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process.html">Process</a>. <dl class="params"><dt>Parameters</dt><dd>
+<tr class="memdesc:a0a3d91e35d40c3f6c6bdf126aec6d112"><td class="mdescLeft">&#160;</td><td class="mdescRight">Resume a given suspended global::System.Diagnostics.Process. <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">process</td><td>The <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process.html">Process</a> to suspended.</td></tr>
   </table>
@@ -121,7 +121,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a08d35b105b285a19f77df6c863c5cfeb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_process_features.html#a08d35b105b285a19f77df6c863c5cfeb">SuspendProcess</a> (global::System.Diagnostics.Process process)</td></tr>
 <tr class="memdesc:a08d35b105b285a19f77df6c863c5cfeb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Suspend a given <em>process</em> . <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">process</td><td>The <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process.html">Process</a> to suspend.</td></tr>
+    <tr><td class="paramname">process</td><td>The global::System.Diagnostics.Process to suspend.</td></tr>
   </table>
   </dd>
 </dl>
@@ -140,7 +140,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a2d6d22ad541e9a6f2c4acb59d6897d98"><td class="memItemLeft" align="right" valign="top">async ValueTask&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_process_features.html#a2d6d22ad541e9a6f2c4acb59d6897d98">CreateDump</a> (global::System.Diagnostics.Process process, string outputFile, bool minidump, CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:a2d6d22ad541e9a6f2c4acb59d6897d98"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a dump file for a given <em>process</em> . <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">process</td><td>The <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process.html">Process</a> to dump.</td></tr>
+    <tr><td class="paramname">process</td><td>The global::System.Diagnostics.Process to dump.</td></tr>
     <tr><td class="paramname">outputFile</td><td>The full path to the output file.</td></tr>
     <tr><td class="paramname">minidump</td><td>If a minidump should be taken as opposed to a full dump.</td></tr>
     <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
@@ -150,6 +150,17 @@ Public Member Functions</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>A ValueTask representing the running operation.</dd></dl>
   <a href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_process_features.html#a2d6d22ad541e9a6f2c4acb59d6897d98">More...</a><br /></td></tr>
 <tr class="separator:a2d6d22ad541e9a6f2c4acb59d6897d98"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4c82c6438f3b6d9150675f68de1d3b59"><td class="memItemLeft" align="right" valign="top">ValueTask&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_process_features.html#a4c82c6438f3b6d9150675f68de1d3b59">HandleProcessStart</a> (global::System.Diagnostics.Process process, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a4c82c6438f3b6d9150675f68de1d3b59"><td class="mdescLeft">&#160;</td><td class="mdescRight">Run events on starting a process. <dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">process</td><td>The global::System.Diagnostics.Process that was started.</td></tr>
+    <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A ValueTask&lt;TResult&gt; resulting in the <em>process</em>  ID.</dd></dl>
+  <a href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_process_features.html#a4c82c6438f3b6d9150675f68de1d3b59">More...</a><br /></td></tr>
+<tr class="separator:a4c82c6438f3b6d9150675f68de1d3b59"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a52ab4ae774176eeed01605f35df723d2"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_features.html#a52ab4ae774176eeed01605f35df723d2">GetExecutingUsername</a> (global::System.Diagnostics.Process process)</td></tr>
 <tr class="memdesc:a52ab4ae774176eeed01605f35df723d2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the name of the user executing a given <em>process</em> .   <a href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_features.html#a52ab4ae774176eeed01605f35df723d2">More...</a><br /></td></tr>
 <tr class="separator:a52ab4ae774176eeed01605f35df723d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -157,11 +168,14 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:ac6b97694917044ddce0c3ba9c8478246"><td class="mdescLeft">&#160;</td><td class="mdescRight">Suspend a given <em>process</em> .   <a href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_features.html#ac6b97694917044ddce0c3ba9c8478246">More...</a><br /></td></tr>
 <tr class="separator:ac6b97694917044ddce0c3ba9c8478246"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad7b3670db0f89899889687e13a33f7c6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_features.html#ad7b3670db0f89899889687e13a33f7c6">ResumeProcess</a> (global::System.Diagnostics.Process process)</td></tr>
-<tr class="memdesc:ad7b3670db0f89899889687e13a33f7c6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Resume a given suspended <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process.html">Process</a>.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_features.html#ad7b3670db0f89899889687e13a33f7c6">More...</a><br /></td></tr>
+<tr class="memdesc:ad7b3670db0f89899889687e13a33f7c6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Resume a given suspended global::System.Diagnostics.Process.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_features.html#ad7b3670db0f89899889687e13a33f7c6">More...</a><br /></td></tr>
 <tr class="separator:ad7b3670db0f89899889687e13a33f7c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a62e862994d11a56a415e6a02475f4067"><td class="memItemLeft" align="right" valign="top">ValueTask&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_features.html#a62e862994d11a56a415e6a02475f4067">CreateDump</a> (global::System.Diagnostics.Process process, string outputFile, bool minidump, CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:a62e862994d11a56a415e6a02475f4067"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a dump file for a given <em>process</em> .   <a href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_features.html#a62e862994d11a56a415e6a02475f4067">More...</a><br /></td></tr>
 <tr class="separator:a62e862994d11a56a415e6a02475f4067"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac820fe814014b12333133450d6843d93"><td class="memItemLeft" align="right" valign="top">ValueTask&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_features.html#ac820fe814014b12333133450d6843d93">HandleProcessStart</a> (global::System.Diagnostics.Process process, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:ac820fe814014b12333133450d6843d93"><td class="mdescLeft">&#160;</td><td class="mdescRight">Run events on starting a process.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_features.html#ac820fe814014b12333133450d6843d93">More...</a><br /></td></tr>
+<tr class="separator:ac820fe814014b12333133450d6843d93"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
@@ -248,7 +262,7 @@ Private Attributes</h2></td></tr>
 
 <p>Create a dump file for a given <em>process</em> . <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">process</td><td>The <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process.html">Process</a> to dump.</td></tr>
+    <tr><td class="paramname">process</td><td>The global::System.Diagnostics.Process to dump.</td></tr>
     <tr><td class="paramname">outputFile</td><td>The full path to the output file.</td></tr>
     <tr><td class="paramname">minidump</td><td>If a minidump should be taken as opposed to a full dump.</td></tr>
     <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
@@ -372,6 +386,46 @@ Here is the call graph for this function:</div>
 </div><!-- fragment -->
 </div>
 </div>
+<a id="a4c82c6438f3b6d9150675f68de1d3b59" name="a4c82c6438f3b6d9150675f68de1d3b59"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4c82c6438f3b6d9150675f68de1d3b59">&#9670;&#160;</a></span>HandleProcessStart()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">ValueTask&lt; int &gt; Tgstation.Server.Host.System.WindowsProcessFeatures.HandleProcessStart </td>
+          <td>(</td>
+          <td class="paramtype">global::System.Diagnostics.Process&#160;</td>
+          <td class="paramname"><em>process</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">CancellationToken&#160;</td>
+          <td class="paramname"><em>cancellationToken</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Run events on starting a process. <dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">process</td><td>The global::System.Diagnostics.Process that was started.</td></tr>
+    <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A ValueTask&lt;TResult&gt; resulting in the <em>process</em>  ID.</dd></dl>
+ </p>
+
+<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_features.html#ac820fe814014b12333133450d6843d93">Tgstation.Server.Host.System.IProcessFeatures</a>.</p>
+
+</div>
+</div>
 <a id="a0a3d91e35d40c3f6c6bdf126aec6d112" name="a0a3d91e35d40c3f6c6bdf126aec6d112"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a0a3d91e35d40c3f6c6bdf126aec6d112">&#9670;&#160;</a></span>ResumeProcess()</h2>
 
@@ -388,7 +442,7 @@ Here is the call graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p>Resume a given suspended <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process.html">Process</a>. <dl class="params"><dt>Parameters</dt><dd>
+<p>Resume a given suspended global::System.Diagnostics.Process. <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">process</td><td>The <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process.html">Process</a> to suspended.</td></tr>
   </table>
@@ -432,7 +486,7 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_process_features_a0a3d91e35d40c3f6c6bdf126aec6d112_cgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_process_features_a0a3d91e35d40c3f6c6bdf126aec6d112_cgraph" alt=""/></div>
 <map name="aclass_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_process_features_a0a3d91e35d40c3f6c6bdf126aec6d112_cgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_process_features_a0a3d91e35d40c3f6c6bdf126aec6d112_cgraph">
-<area shape="rect" title="Resume a given suspended Process." alt="" coords="5,69,279,109"/>
+<area shape="rect" title="Resume a given suspended global::System.Diagnostics.Process." alt="" coords="5,69,279,109"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_native_methods.html#a97a77860bb8d601d2ee381c6f93ebcf5" title="See https://msdn.microsoft.com/en&#45;us/library/windows/desktop/ms724211(v=vs.85).aspx." alt="" coords="328,5,527,45"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_native_methods.html#a2327fd6dfaab1a02b21c51a8b5db4924" title="See https://msdn.microsoft.com/en&#45;us/library/windows/desktop/ms684335(v=vs.85).aspx." alt="" coords="328,69,527,109"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_native_methods.html#a296b0d4142b98474bde14a1d32b2e727" title="See https://msdn.microsoft.com/en&#45;us/library/windows/desktop/ms685086(v=vs.85).aspx." alt="" coords="327,133,528,173"/>
@@ -459,7 +513,7 @@ Here is the call graph for this function:</div>
 
 <p>Suspend a given <em>process</em> . <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">process</td><td>The <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process.html">Process</a> to suspend.</td></tr>
+    <tr><td class="paramname">process</td><td>The global::System.Diagnostics.Process to suspend.</td></tr>
   </table>
   </dd>
 </dl>

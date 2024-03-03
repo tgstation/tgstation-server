@@ -156,7 +156,7 @@ $(function() {
 <div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>                Comment = parameters.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_test_merge_parameters.html#a556ffae15694a68aa1c78f851407eb5b">Comment</a>,</div>
 <div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>                Number = parameters.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_test_merge_parameters.html#a91cb81663a87f96476a47a2628ac1a86">Number</a>,</div>
 <div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>                TargetCommitSha = revisionToUse,</div>
-<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>                Url = pr?.HtmlUrl ?? errorMessage,</div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>                Url = pr?.HtmlUrl ?? $<span class="stringliteral">&quot;https://github.com/{RemoteRepositoryOwner}/{RemoteRepositoryName}/pull/{parameters.Number}&quot;</span>,</div>
 <div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>            };</div>
 <div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span> </div>
 <div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>            <span class="keywordflow">return</span> testMerge;</div>

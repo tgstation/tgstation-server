@@ -1,9 +1,10 @@
 <map id="IHostedService" name="IHostedService">
-<area shape="rect" id="node1" title=" " alt="" coords="5,365,117,390"/>
+<area shape="rect" id="node1" title=" " alt="" coords="5,397,117,422"/>
 <area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_component_service.html" title="Represents a component meant to be started and stopped by its parent component." alt="" coords="165,261,392,301"/>
 <area shape="rect" id="node25" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html" title=" " alt="" coords="165,325,392,365"/>
 <area shape="rect" id="node26" href="$class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_jobs_hub_group_mapper.html" title="Handles mapping groups for the JobsHub." alt="" coords="187,389,370,429"/>
-<area shape="rect" id="node27" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_signal_handler.html" title="Handles POSIX signals." alt="" coords="179,453,378,493"/>
+<area shape="rect" id="node27" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features.html" title=" " alt="" coords="179,453,378,493"/>
+<area shape="rect" id="node28" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_signal_handler.html" title="Handles POSIX signals." alt="" coords="179,517,378,557"/>
 <area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager.html" title="For managing connected chat services." alt="" coords="449,5,675,45"/>
 <area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_dmb_factory.html" title="Factory for IDmbProviders." alt="" coords="449,69,675,109"/>
 <area shape="rect" id="node7" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_manager.html" title="For managing the engine installations." alt="" coords="449,133,675,173"/>

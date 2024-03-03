@@ -1,6 +1,6 @@
 <map id="Tgstation.Server.Host.IO.IIOManager.CreateAsyncSequentialWriteStream" name="Tgstation.Server.Host.IO.IIOManager.CreateAsyncSequentialWriteStream">
 <area shape="rect" id="node1" title="Creates an asynchronous FileStream for sequential writing." alt="" coords="817,5,1045,60"/>
 <area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#a2306b74b2bb7f77e8e6880c681d8c12f" title="Consume the stdout/stderr streams into a Task." alt="" coords="543,13,769,53"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#a98ff78981191a9e243f82df1376db860" title="Launch a IProcess. The new IProcess." alt="" coords="280,13,495,53"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#a060adda85e21f5414fa5d75c4608dcfb" title="Launch a IProcess. A ValueTask&lt;TResult&gt; resulting in the new IProcess." alt="" coords="280,13,495,53"/>
 <area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_open_dream_installer.html#a6bbfa8809316fbf016f231d630ad56f3" title="Does actions necessary to get an extracted installation working. A ValueTask representing the running..." alt="" coords="5,13,232,53"/>
 </map>

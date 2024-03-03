@@ -299,7 +299,7 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A ValueTask that results in the contents of a file at <em>path</em> .</dd></dl>
-  <a href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a189b7e72c61cd0eb3a6e512847a332cc">More...</a><br /></td></tr>
+This function will fail to read files from the /proc filesystem on Linux.  <a href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a189b7e72c61cd0eb3a6e512847a332cc">More...</a><br /></td></tr>
 <tr class="separator:a189b7e72c61cd0eb3a6e512847a332cc inherit pub_methods_class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a34087ebccffcf9f51173e01fe4a50be4 inherit pub_methods_class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a34087ebccffcf9f51173e01fe4a50be4">ResolvePath</a> ()</td></tr>
 <tr class="memdesc:a34087ebccffcf9f51173e01fe4a50be4 inherit pub_methods_class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieve the full path of the current working directory. <dl class="section return"><dt>Returns</dt><dd>The full path of the current working directory.</dd></dl>
@@ -337,6 +337,16 @@ Public Member Functions</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>The open FileStream.</dd></dl>
   <a href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a38ca4ff226c098355ef1b316aa32421d">More...</a><br /></td></tr>
 <tr class="separator:a38ca4ff226c098355ef1b316aa32421d inherit pub_methods_class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a91fd292666bf9e7aef7fbbade6b7eaf1 inherit pub_methods_class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager"><td class="memItemLeft" align="right" valign="top">FileStream&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a91fd292666bf9e7aef7fbbade6b7eaf1">CreateAsyncSequentialReadStream</a> (string path)</td></tr>
+<tr class="memdesc:a91fd292666bf9e7aef7fbbade6b7eaf1 inherit pub_methods_class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates an asynchronous FileStream for sequential reading. <dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">path</td><td>The path of the file to write, will be truncated.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The open FileStream.</dd></dl>
+  <a href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a91fd292666bf9e7aef7fbbade6b7eaf1">More...</a><br /></td></tr>
+<tr class="separator:a91fd292666bf9e7aef7fbbade6b7eaf1 inherit pub_methods_class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3b82f87c65c67e19ff2f23d1fc2d85e3 inherit pub_methods_class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager"><td class="memItemLeft" align="right" valign="top">Task&lt; IReadOnlyList&lt; string &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a3b82f87c65c67e19ff2f23d1fc2d85e3">GetDirectories</a> (string path, CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:a3b82f87c65c67e19ff2f23d1fc2d85e3 inherit pub_methods_class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns full directory names in a given <em>path</em> . <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -439,6 +449,9 @@ This function is sychronous.  <a href="class_tgstation_1_1_server_1_1_host_1_1_i
 <tr class="memitem:a98d1ad47e4ba1c1f7407f5dd50a81de8"><td class="memItemLeft" align="right" valign="top">FileStream&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a98d1ad47e4ba1c1f7407f5dd50a81de8">CreateAsyncSequentialWriteStream</a> (string path)</td></tr>
 <tr class="memdesc:a98d1ad47e4ba1c1f7407f5dd50a81de8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates an asynchronous FileStream for sequential writing.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a98d1ad47e4ba1c1f7407f5dd50a81de8">More...</a><br /></td></tr>
 <tr class="separator:a98d1ad47e4ba1c1f7407f5dd50a81de8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a242901443eb2726593c80d91c1b5b870"><td class="memItemLeft" align="right" valign="top">FileStream&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a242901443eb2726593c80d91c1b5b870">CreateAsyncSequentialReadStream</a> (string path)</td></tr>
+<tr class="memdesc:a242901443eb2726593c80d91c1b5b870"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates an asynchronous FileStream for sequential reading.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a242901443eb2726593c80d91c1b5b870">More...</a><br /></td></tr>
+<tr class="separator:a242901443eb2726593c80d91c1b5b870"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9aeb8b83ea3f4b13a183b6ac55b35a70"><td class="memItemLeft" align="right" valign="top">ValueTask&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a9aeb8b83ea3f4b13a183b6ac55b35a70">WriteAllBytes</a> (string path, byte[] contents, CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:a9aeb8b83ea3f4b13a183b6ac55b35a70"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writes some <em>contents</em>  to a file at <em>path</em>  overwriting previous content.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a9aeb8b83ea3f4b13a183b6ac55b35a70">More...</a><br /></td></tr>
 <tr class="separator:a9aeb8b83ea3f4b13a183b6ac55b35a70"><td class="memSeparator" colspan="2">&#160;</td></tr>

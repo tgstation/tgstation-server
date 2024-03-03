@@ -180,6 +180,7 @@ Docker</h4>
 <div class="line">    --network=&quot;host&quot; \ # Not recommended, eases networking setup if your sql server is on the same machine</div>
 <div class="line">    --name=&quot;tgs&quot; \ # Name for the container</div>
 <div class="line">    --cap-add=sys_nice \ # Recommended, allows TGS to lower the niceness of child processes if it sees fit</div>
+<div class="line">    --cap-add=sys_resource \ # Recommended, allows TGS to not be killed by the OOM killer before its child processes</div>
 <div class="line">    --init \ #Highly recommended, reaps potential zombie processes</div>
 <div class="line">    -p 5000:5000 \ # Port bridge for accessing TGS, you can change this if you need</div>
 <div class="line">    -p 0.0.0.0:&lt;public game port&gt;:&lt;public game port&gt; \ # Port bridge for accessing DreamDaemon</div>

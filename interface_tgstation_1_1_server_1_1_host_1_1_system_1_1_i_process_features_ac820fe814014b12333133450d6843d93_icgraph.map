@@ -1,0 +1,5 @@
+<map id="Tgstation.Server.Host.System.IProcessFeatures.HandleProcessStart" name="Tgstation.Server.Host.System.IProcessFeatures.HandleProcessStart">
+<area shape="rect" id="node1" title="Run events on starting a process." alt="" coords="543,5,788,45"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#a060adda85e21f5414fa5d75c4608dcfb" title="Launch a IProcess. A ValueTask&lt;TResult&gt; resulting in the new IProcess." alt="" coords="280,5,495,45"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_open_dream_installer.html#a6bbfa8809316fbf016f231d630ad56f3" title="Does actions necessary to get an extracted installation working. A ValueTask representing the running..." alt="" coords="5,5,232,45"/>
+</map>
