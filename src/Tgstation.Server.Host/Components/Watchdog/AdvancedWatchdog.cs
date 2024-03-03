@@ -127,8 +127,12 @@ namespace Tgstation.Server.Host.Components.Watchdog
 
 			// If we reach this point, we can guarantee PrepServerForLaunch will be called before starting again.
 			ActiveSwappable = null;
-			await (pendingSwappable?.DisposeAsync() ?? ValueTask.CompletedTask);
-			pendingSwappable = null;
+
+			if (pendingSwappable != null)
+			{
+				await pendingSwappable.DisposeAsync();
+				pendingSwappable = null;
+			}
 
 			await DrainDeploymentCleanupTasks(true);
 		}
@@ -138,8 +142,6 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		{
 			if (pendingSwappable != null)
 			{
-				ValueTask RunPrequel() => BeforeApplyDmb(pendingSwappable.CompileJob, cancellationToken);
-
 				var needToSwap = !pendingSwappable.Swapped;
 				var controller = Server!;
 				if (needToSwap)
@@ -151,7 +153,6 @@ namespace Tgstation.Server.Host.Components.Watchdog
 						// integration test logging will catch this
 						Logger.LogError(
 							"The reboot bridge request completed before the watchdog could suspend the server! This can lead to buggy DreamDaemon behaviour and should be reported! To ensure stability, we will need to hard reboot the server");
-						await RunPrequel();
 						return MonitorAction.Restart;
 					}
 
@@ -165,7 +166,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					}
 				}
 
-				var updateTask = RunPrequel();
+				var updateTask = BeforeApplyDmb(pendingSwappable.CompileJob, cancellationToken);
 				if (needToSwap)
 					await PerformDmbSwap(pendingSwappable, cancellationToken);
 
@@ -183,7 +184,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 						currentCompileJobId,
 						lingeringDeploymentExpirySeconds);
 
-					var timeout = AsyncDelayer.Delay(TimeSpan.FromSeconds(lingeringDeploymentExpirySeconds), cancellationToken);
+					// DCT: A cancel firing here can result in us leaving a dmbprovider undisposed, localDeploymentCleanupGate will always fire in that case
+					var timeout = AsyncDelayer.Delay(TimeSpan.FromSeconds(lingeringDeploymentExpirySeconds), CancellationToken.None);
 
 					var completedTask = await Task.WhenAny(
 						localDeploymentCleanupGate.Task,

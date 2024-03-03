@@ -1,19 +1,24 @@
 ﻿// This program is minimal effort and should be sent to remedial school
 
 using System;
+using System.Buffers.Text;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IdentityModel.Tokens.Jwt;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Sockets;
 using System.Security;
+using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+
+using Microsoft.IdentityModel.Tokens;
 
 using Newtonsoft.Json;
 
@@ -32,8 +37,11 @@ namespace Tgstation.Server.ReleaseNotes
 	static class Program
 	{
 		const string OutputPath = "release_notes.md";
+
+		// some stuff that should be abstracted for different repos
 		const string RepoOwner = "tgstation";
 		const string RepoName = "tgstation-server";
+		const int AppId = 847638;
 
 		/// <summary>
 		/// The entrypoint for the <see cref="Program"/>
@@ -52,13 +60,15 @@ namespace Tgstation.Server.ReleaseNotes
 			var shaCheck = versionString.Equals("--winget-template-check", StringComparison.OrdinalIgnoreCase);
 			var fullNotes = versionString.Equals("--generate-full-notes", StringComparison.OrdinalIgnoreCase);
 			var nuget = versionString.Equals("--nuget", StringComparison.OrdinalIgnoreCase);
+			var ciCompletionCheck = versionString.Equals("--ci-completion-check", StringComparison.OrdinalIgnoreCase);
 
 			if ((!Version.TryParse(versionString, out var version) || version.Revision != -1)
 				&& !ensureRelease
 				&& !linkWinget
 				&& !shaCheck
 				&& !fullNotes
-				&& !nuget)
+				&& !nuget
+				&& !ciCompletionCheck)
 			{
 				Console.WriteLine("Invalid version: " + versionString);
 				return 2;
@@ -127,6 +137,17 @@ namespace Tgstation.Server.ReleaseNotes
 					}
 
 					return await Winget(client, actionsUrl, null);
+				}
+
+				if (ciCompletionCheck)
+				{
+					if (args.Length < 3)
+					{
+						Console.WriteLine("Missing SHA or PEM Base64 for creating check run!");
+						return 4543;
+					}
+
+					return await CICompletionCheck(client, args[1], args[2]);
 				}
 
 				if (shaCheck)
@@ -1580,6 +1601,47 @@ package (version) distribution(s); urgency=urgency
 
 			var changelog = builder.ToString().Replace("\r", String.Empty);
 			await File.WriteAllTextAsync(outputPath, changelog);
+			return 0;
+		}
+
+		static async ValueTask<int> CICompletionCheck(GitHubClient gitHubClient, string currentSha, string pemBase64)
+		{
+			var pemBytes = Convert.FromBase64String(pemBase64);
+			var pem = Encoding.UTF8.GetString(pemBytes);
+
+			var rsa = RSA.Create();
+			rsa.ImportFromPem(pem);
+
+			var signingCredentials = new SigningCredentials(new RsaSecurityKey(rsa), SecurityAlgorithms.RsaSha256);
+			var jwtSecurityTokenHandler = new JwtSecurityTokenHandler { SetDefaultTimesOnTokenCreation = false };
+
+			var now = DateTime.UtcNow;
+
+			var jwt = jwtSecurityTokenHandler.CreateToken(new SecurityTokenDescriptor
+			{
+				Issuer = AppId.ToString(),
+				Expires = now.AddMinutes(10),
+				IssuedAt = now,
+				SigningCredentials = signingCredentials
+			});
+
+			var jwtStr = jwtSecurityTokenHandler.WriteToken(jwt);
+
+			gitHubClient.Credentials = new Credentials(jwtStr, AuthenticationType.Bearer);
+
+			var installation = await gitHubClient.GitHubApps.GetRepositoryInstallationForCurrent(RepoOwner, RepoName);
+			var installToken = await gitHubClient.GitHubApps.CreateInstallationToken(installation.Id);
+
+			gitHubClient.Credentials = new Credentials(installToken.Token);
+
+			await gitHubClient.Check.Run.Create(RepoOwner, RepoName, new NewCheckRun("CI Completion", currentSha)
+			{
+				CompletedAt = now,
+				Conclusion = CheckConclusion.Success,
+				Output = new NewCheckRunOutput("CI Completion", "The CI Pipeline completed successfully"),
+				Status = CheckStatus.Completed,
+			});
+
 			return 0;
 		}
 
