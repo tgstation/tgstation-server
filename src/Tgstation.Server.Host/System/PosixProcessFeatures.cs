@@ -172,10 +172,11 @@ namespace Tgstation.Server.Host.System
 			var originalOomAdjust = Int16.Parse(trimmedString, CultureInfo.InvariantCulture);
 			baselineOomAdjust = Math.Clamp(originalOomAdjust, (short)-1000, (short)1000);
 
-			if (originalOomAdjust != baselineOomAdjust)
-				logger.LogWarning("oom_score_adj is at it's limit of 1000 (Clamped from {original}). TGS cannot guarantee the kill order of its parent/child processes!", originalOomAdjust);
-			else
-				logger.LogWarning("oom_score_adj is at it's limit of 1000. TGS cannot guarantee the kill order of its parent/child processes!");
+			if (baselineOomAdjust == 1000)
+				if (originalOomAdjust != baselineOomAdjust)
+					logger.LogWarning("oom_score_adj is at it's limit of 1000 (Clamped from {original}). TGS cannot guarantee the kill order of its parent/child processes!", originalOomAdjust);
+				else
+					logger.LogWarning("oom_score_adj is at it's limit of 1000. TGS cannot guarantee the kill order of its parent/child processes!");
 
 			try
 			{
