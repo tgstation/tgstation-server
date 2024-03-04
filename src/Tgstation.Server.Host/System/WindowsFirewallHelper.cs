@@ -31,10 +31,11 @@ namespace Tgstation.Server.Host.System
 		{
 			logger.LogInformation("Adding Windows Firewall exception for {path}...", exePath);
 			var arguments = $"advfirewall firewall add rule name=\"{exceptionName}\" program=\"{exePath}\" protocol=tcp dir=in enable=yes action=allow";
-			await using var netshProcess = processExecutor.LaunchProcess(
+			await using var netshProcess = await processExecutor.LaunchProcess(
 				"netsh.exe",
 				Environment.CurrentDirectory,
 				arguments,
+				cancellationToken,
 				readStandardHandles: true,
 				noShellExecute: true);
 

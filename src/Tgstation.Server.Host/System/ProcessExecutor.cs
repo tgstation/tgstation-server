@@ -105,10 +105,11 @@ namespace Tgstation.Server.Host.System
 		}
 
 		/// <inheritdoc />
-		public IProcess LaunchProcess(
+		public async ValueTask<IProcess> LaunchProcess(
 			string fileName,
 			string workingDirectory,
 			string arguments,
+			CancellationToken cancellationToken,
 			IReadOnlyDictionary<string, string>? environment,
 			string? fileRedirect,
 			bool readStandardHandles,
@@ -174,7 +175,16 @@ namespace Tgstation.Server.Host.System
 							ExclusiveProcessLaunchLock.ExitReadLock();
 						}
 
-						pid = handle.Id;
+						try
+						{
+							pid = await processFeatures.HandleProcessStart(handle, cancellationToken);
+						}
+						catch
+						{
+							handle.Kill();
+							throw;
+						}
+
 						processStartTcs?.SetResult(pid);
 					}
 					catch (Exception ex)

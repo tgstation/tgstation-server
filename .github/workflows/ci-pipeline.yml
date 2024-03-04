@@ -1420,7 +1420,12 @@ jobs:
     - name: Build ReleaseNotes
       run: dotnet build -c Release -p:TGS_HOST_NO_WEBPANEL=true tools/Tgstation.Server.ReleaseNotes/Tgstation.Server.ReleaseNotes.csproj
 
-    - name: Run ReleaseNotes Create CI Completion Check
+    - name: Run ReleaseNotes Create CI Completion Check (PR HEAD)
+      if: github.event_name != 'push' && github.event_name != 'schedule'
+      run: dotnet run -c Release --no-build --project tools/Tgstation.Server.ReleaseNotes --ci-completion-check ${{ github.event.pull_request.head.sha }} ${{ secrets.TGS_CI_GITHUB_APP_TOKEN_BASE64 }}
+
+    - name: Run ReleaseNotes Create CI Completion Check (Branch)
+      if: github.event_name == 'push' || github.event_name == 'schedule'
       run: dotnet run -c Release --no-build --project tools/Tgstation.Server.ReleaseNotes --ci-completion-check ${{ github.sha }} ${{ secrets.TGS_CI_GITHUB_APP_TOKEN_BASE64 }}
 
   deployment-gate:

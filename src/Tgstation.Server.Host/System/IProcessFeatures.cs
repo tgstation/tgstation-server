@@ -18,11 +18,11 @@ namespace Tgstation.Server.Host.System
 		/// <summary>
 		/// Suspend a given <paramref name="process"/>.
 		/// </summary>
-		/// <param name="process">The <see cref="Process"/> to suspend.</param>
+		/// <param name="process">The <see cref="global::System.Diagnostics.Process"/> to suspend.</param>
 		void SuspendProcess(global::System.Diagnostics.Process process);
 
 		/// <summary>
-		/// Resume a given suspended <see cref="Process"/>.
+		/// Resume a given suspended <see cref="global::System.Diagnostics.Process"/>.
 		/// </summary>
 		/// <param name="process">The <see cref="Process"/> to suspended.</param>
 		void ResumeProcess(global::System.Diagnostics.Process process);
@@ -30,11 +30,19 @@ namespace Tgstation.Server.Host.System
 		/// <summary>
 		/// Create a dump file for a given <paramref name="process"/>.
 		/// </summary>
-		/// <param name="process">The <see cref="Process"/> to dump.</param>
+		/// <param name="process">The <see cref="global::System.Diagnostics.Process"/> to dump.</param>
 		/// <param name="outputFile">The full path to the output file.</param>
 		/// <param name="minidump">If a minidump should be taken as opposed to a full dump.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
 		ValueTask CreateDump(global::System.Diagnostics.Process process, string outputFile, bool minidump, CancellationToken cancellationToken);
+
+		/// <summary>
+		/// Run events on starting a process.
+		/// </summary>
+		/// <param name="process">The <see cref="global::System.Diagnostics.Process"/> that was started.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <paramref name="process"/> ID.</returns>
+		ValueTask<int> HandleProcessStart(global::System.Diagnostics.Process process, CancellationToken cancellationToken);
 	}
 }
