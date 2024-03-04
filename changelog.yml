@@ -147,8 +147,17 @@ Components:
       Author: Cyberboss
       PullRequest: 1070
   Core:
+  - Version: 6.5.0
+    ComponentVersions: {}
+    Changes: []
+    Unreleased: true
+  - Version: 6.4.1
+    ComponentVersions: {}
+    Changes: []
+    Unreleased: true
   - Version: 6.4.0
     ComponentVersions:
+      Core: 6.4.0
       HttpApi: 10.2.0
       DreamMakerApi: 7.1.1
       Configuration: 5.1.0
@@ -164,11 +173,6 @@ Components:
       - When test merge metadata fails to be retrieved using a GitHub or GitLab remote, TGS will attempt to deduce the URL using known paths.
       Author: Cyberboss
       PullRequest: 1794
-    Unreleased: true
-  - Version: 6.3.3
-    ComponentVersions: {}
-    Changes: []
-    Unreleased: true
   - Version: 6.3.2
     ComponentVersions:
       HttpApi: 10.2.0
