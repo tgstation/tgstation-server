@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.3.2</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.4.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -331,20 +331,20 @@ Static Private Attributes</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A ValueTask representing the running operation.</dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_posix_process_features_8cs_source.html#l00201">201</a> of file <a class="el" href="_posix_process_features_8cs_source.html">PosixProcessFeatures.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  202</span>        {</div>
-<div class="line"><span class="lineno">  203</span>            var adjustedValue = Math.Clamp(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features.html#a1a771719cebd9c87aaa3101c666de5fb">baselineOomAdjust</a> + adjustment, -1000, 1000);</div>
-<div class="line"><span class="lineno">  204</span> </div>
-<div class="line"><span class="lineno">  205</span>            var pidStr = pid.HasValue</div>
-<div class="line"><span class="lineno">  206</span>                ? pid.Value.ToString(CultureInfo.InvariantCulture)</div>
-<div class="line"><span class="lineno">  207</span>                : <span class="stringliteral">&quot;self&quot;</span>;</div>
-<div class="line"><span class="lineno">  208</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features.html#ad86bb907f2d4419d609e89b8802dc73b">logger</a>.LogTrace(</div>
-<div class="line"><span class="lineno">  209</span>                <span class="stringliteral">&quot;Setting oom_score_adj of {pid} to {adjustment}...&quot;</span>, pidStr, adjustedValue);</div>
-<div class="line"><span class="lineno">  210</span>            <span class="keywordflow">return</span> <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features.html#a1de594c25d7d9e7e5d159675b2c03873">ioManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a9aeb8b83ea3f4b13a183b6ac55b35a70">WriteAllBytes</a>(</div>
-<div class="line"><span class="lineno">  211</span>                $<span class="stringliteral">&quot;/proc/{pidStr}/oom_score_adj&quot;</span>,</div>
-<div class="line"><span class="lineno">  212</span>                Encoding.UTF8.GetBytes(adjustedValue.ToString(CultureInfo.InvariantCulture)),</div>
-<div class="line"><span class="lineno">  213</span>                cancellationToken);</div>
-<div class="line"><span class="lineno">  214</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_posix_process_features_8cs_source.html#l00202">202</a> of file <a class="el" href="_posix_process_features_8cs_source.html">PosixProcessFeatures.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  203</span>        {</div>
+<div class="line"><span class="lineno">  204</span>            var adjustedValue = Math.Clamp(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features.html#a1a771719cebd9c87aaa3101c666de5fb">baselineOomAdjust</a> + adjustment, -1000, 1000);</div>
+<div class="line"><span class="lineno">  205</span> </div>
+<div class="line"><span class="lineno">  206</span>            var pidStr = pid.HasValue</div>
+<div class="line"><span class="lineno">  207</span>                ? pid.Value.ToString(CultureInfo.InvariantCulture)</div>
+<div class="line"><span class="lineno">  208</span>                : <span class="stringliteral">&quot;self&quot;</span>;</div>
+<div class="line"><span class="lineno">  209</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features.html#ad86bb907f2d4419d609e89b8802dc73b">logger</a>.LogTrace(</div>
+<div class="line"><span class="lineno">  210</span>                <span class="stringliteral">&quot;Setting oom_score_adj of {pid} to {adjustment}...&quot;</span>, pidStr, adjustedValue);</div>
+<div class="line"><span class="lineno">  211</span>            <span class="keywordflow">return</span> <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features.html#a1de594c25d7d9e7e5d159675b2c03873">ioManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a9aeb8b83ea3f4b13a183b6ac55b35a70">WriteAllBytes</a>(</div>
+<div class="line"><span class="lineno">  212</span>                $<span class="stringliteral">&quot;/proc/{pidStr}/oom_score_adj&quot;</span>,</div>
+<div class="line"><span class="lineno">  213</span>                Encoding.UTF8.GetBytes(adjustedValue.ToString(CultureInfo.InvariantCulture)),</div>
+<div class="line"><span class="lineno">  214</span>                cancellationToken);</div>
+<div class="line"><span class="lineno">  215</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features_html_a1a771719cebd9c87aaa3101c666de5fb"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features.html#a1a771719cebd9c87aaa3101c666de5fb">Tgstation.Server.Host.System.PosixProcessFeatures.baselineOomAdjust</a></div><div class="ttdeci">short baselineOomAdjust</div><div class="ttdoc">The original value of oom_score_adj as read from the /proc/ filesystem. Inherited from parent process...</div><div class="ttdef"><b>Definition:</b> <a href="_posix_process_features_8cs_source.html#l00050">PosixProcessFeatures.cs:50</a></div></div>
 <div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager_html_a9aeb8b83ea3f4b13a183b6ac55b35a70"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a9aeb8b83ea3f4b13a183b6ac55b35a70">Tgstation.Server.Host.IO.IIOManager.WriteAllBytes</a></div><div class="ttdeci">ValueTask WriteAllBytes(string path, byte[] contents, CancellationToken cancellationToken)</div><div class="ttdoc">Writes some contents  to a file at path  overwriting previous content.</div></div>
 </div><!-- fragment -->
@@ -578,9 +578,9 @@ Here is the call graph for this function:</div>
 <div class="line"><span class="lineno">  152</span>        }</div>
 <div class="ttc" id="aclass_exception_html"><div class="ttname"><a href="class_exception.html">Exception</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features_html_a59d18c936ead8cb55ded4f7506675dfb"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features.html#a59d18c936ead8cb55ded4f7506675dfb">Tgstation.Server.Host.System.PosixProcessFeatures.ChildProcessOomAdjust</a></div><div class="ttdeci">const short ChildProcessOomAdjust</div><div class="ttdoc">Difference from baselineOomAdjust to set the oom_score_adj of child processes to. 1 higher than ourse...</div><div class="ttdef"><b>Definition:</b> <a href="_posix_process_features_8cs_source.html#l00030">PosixProcessFeatures.cs:30</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features_html_aa7edd56e392dfb1ec1b1b34fd9b56e79"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features.html#aa7edd56e392dfb1ec1b1b34fd9b56e79">Tgstation.Server.Host.System.PosixProcessFeatures.AdjustOutOfMemoryScore</a></div><div class="ttdeci">ValueTask AdjustOutOfMemoryScore(int? pid, short adjustment, CancellationToken cancellationToken)</div><div class="ttdoc">Set oom_score_adj for a given pid .</div><div class="ttdef"><b>Definition:</b> <a href="_posix_process_features_8cs_source.html#l00201">PosixProcessFeatures.cs:201</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features_html_aa7edd56e392dfb1ec1b1b34fd9b56e79"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features.html#aa7edd56e392dfb1ec1b1b34fd9b56e79">Tgstation.Server.Host.System.PosixProcessFeatures.AdjustOutOfMemoryScore</a></div><div class="ttdeci">ValueTask AdjustOutOfMemoryScore(int? pid, short adjustment, CancellationToken cancellationToken)</div><div class="ttdoc">Set oom_score_adj for a given pid .</div><div class="ttdef"><b>Definition:</b> <a href="_posix_process_features_8cs_source.html#l00202">PosixProcessFeatures.cs:202</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_posix_process_features_8cs_source.html#l00201">Tgstation.Server.Host.System.PosixProcessFeatures.AdjustOutOfMemoryScore()</a>, <a class="el" href="_posix_process_features_8cs_source.html#l00030">Tgstation.Server.Host.System.PosixProcessFeatures.ChildProcessOomAdjust</a>, and <a class="el" href="_posix_process_features_8cs_source.html#l00045">Tgstation.Server.Host.System.PosixProcessFeatures.logger</a>.</p>
+<p class="reference">References <a class="el" href="_posix_process_features_8cs_source.html#l00202">Tgstation.Server.Host.System.PosixProcessFeatures.AdjustOutOfMemoryScore()</a>, <a class="el" href="_posix_process_features_8cs_source.html#l00030">Tgstation.Server.Host.System.PosixProcessFeatures.ChildProcessOomAdjust</a>, and <a class="el" href="_posix_process_features_8cs_source.html#l00045">Tgstation.Server.Host.System.PosixProcessFeatures.logger</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -667,25 +667,26 @@ Here is the call graph for this function:</div>
 <div class="line"><span class="lineno">  172</span>            var originalOomAdjust = Int16.Parse(trimmedString, CultureInfo.InvariantCulture);</div>
 <div class="line"><span class="lineno">  173</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features.html#a1a771719cebd9c87aaa3101c666de5fb">baselineOomAdjust</a> = Math.Clamp(originalOomAdjust, (<span class="keywordtype">short</span>)-1000, (<span class="keywordtype">short</span>)1000);</div>
 <div class="line"><span class="lineno">  174</span> </div>
-<div class="line"><span class="lineno">  175</span>            <span class="keywordflow">if</span> (originalOomAdjust != <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features.html#a1a771719cebd9c87aaa3101c666de5fb">baselineOomAdjust</a>)</div>
-<div class="line"><span class="lineno">  176</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features.html#ad86bb907f2d4419d609e89b8802dc73b">logger</a>.LogWarning(<span class="stringliteral">&quot;oom_score_adj is at it&#39;s limit of 1000 (Clamped from {original}). TGS cannot guarantee the kill order of its parent/child processes!&quot;</span>, originalOomAdjust);</div>
-<div class="line"><span class="lineno">  177</span>            <span class="keywordflow">else</span></div>
-<div class="line"><span class="lineno">  178</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features.html#ad86bb907f2d4419d609e89b8802dc73b">logger</a>.LogWarning(<span class="stringliteral">&quot;oom_score_adj is at it&#39;s limit of 1000. TGS cannot guarantee the kill order of its parent/child processes!&quot;</span>);</div>
-<div class="line"><span class="lineno">  179</span> </div>
-<div class="line"><span class="lineno">  180</span>            <span class="keywordflow">try</span></div>
-<div class="line"><span class="lineno">  181</span>            {</div>
-<div class="line"><span class="lineno">  182</span>                <span class="comment">// we do not want to be killed before the host watchdog</span></div>
-<div class="line"><span class="lineno">  183</span>                await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features.html#aa7edd56e392dfb1ec1b1b34fd9b56e79">AdjustOutOfMemoryScore</a>(<span class="keyword">null</span>, <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features.html#a69fb163df991e3c562e552d712f99d45">SelfOomAdjust</a>, cancellationToken);</div>
-<div class="line"><span class="lineno">  184</span>            }</div>
-<div class="line"><span class="lineno">  185</span>            <span class="keywordflow">catch</span> (<a class="code hl_class" href="class_exception.html">Exception</a> ex) when (ex is not OperationCanceledException)</div>
-<div class="line"><span class="lineno">  186</span>            {</div>
-<div class="line"><span class="lineno">  187</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features.html#ad86bb907f2d4419d609e89b8802dc73b">logger</a>.LogWarning(ex, <span class="stringliteral">&quot;Could not increase oom_score_adj!&quot;</span>);</div>
-<div class="line"><span class="lineno">  188</span>            }</div>
-<div class="line"><span class="lineno">  189</span>        }</div>
+<div class="line"><span class="lineno">  175</span>            <span class="keywordflow">if</span> (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features.html#a1a771719cebd9c87aaa3101c666de5fb">baselineOomAdjust</a> == 1000)</div>
+<div class="line"><span class="lineno">  176</span>                <span class="keywordflow">if</span> (originalOomAdjust != <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features.html#a1a771719cebd9c87aaa3101c666de5fb">baselineOomAdjust</a>)</div>
+<div class="line"><span class="lineno">  177</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features.html#ad86bb907f2d4419d609e89b8802dc73b">logger</a>.LogWarning(<span class="stringliteral">&quot;oom_score_adj is at it&#39;s limit of 1000 (Clamped from {original}). TGS cannot guarantee the kill order of its parent/child processes!&quot;</span>, originalOomAdjust);</div>
+<div class="line"><span class="lineno">  178</span>                <span class="keywordflow">else</span></div>
+<div class="line"><span class="lineno">  179</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features.html#ad86bb907f2d4419d609e89b8802dc73b">logger</a>.LogWarning(<span class="stringliteral">&quot;oom_score_adj is at it&#39;s limit of 1000. TGS cannot guarantee the kill order of its parent/child processes!&quot;</span>);</div>
+<div class="line"><span class="lineno">  180</span> </div>
+<div class="line"><span class="lineno">  181</span>            <span class="keywordflow">try</span></div>
+<div class="line"><span class="lineno">  182</span>            {</div>
+<div class="line"><span class="lineno">  183</span>                <span class="comment">// we do not want to be killed before the host watchdog</span></div>
+<div class="line"><span class="lineno">  184</span>                await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features.html#aa7edd56e392dfb1ec1b1b34fd9b56e79">AdjustOutOfMemoryScore</a>(<span class="keyword">null</span>, <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features.html#a69fb163df991e3c562e552d712f99d45">SelfOomAdjust</a>, cancellationToken);</div>
+<div class="line"><span class="lineno">  185</span>            }</div>
+<div class="line"><span class="lineno">  186</span>            <span class="keywordflow">catch</span> (<a class="code hl_class" href="class_exception.html">Exception</a> ex) when (ex is not OperationCanceledException)</div>
+<div class="line"><span class="lineno">  187</span>            {</div>
+<div class="line"><span class="lineno">  188</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features.html#ad86bb907f2d4419d609e89b8802dc73b">logger</a>.LogWarning(ex, <span class="stringliteral">&quot;Could not increase oom_score_adj!&quot;</span>);</div>
+<div class="line"><span class="lineno">  189</span>            }</div>
+<div class="line"><span class="lineno">  190</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features_html_a69fb163df991e3c562e552d712f99d45"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features.html#a69fb163df991e3c562e552d712f99d45">Tgstation.Server.Host.System.PosixProcessFeatures.SelfOomAdjust</a></div><div class="ttdeci">const short SelfOomAdjust</div><div class="ttdoc">Difference from baselineOomAdjust to set our own oom_score_adj to. 1 higher host watchdog.</div><div class="ttdef"><b>Definition:</b> <a href="_posix_process_features_8cs_source.html#l00025">PosixProcessFeatures.cs:25</a></div></div>
 <div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager_html_a242901443eb2726593c80d91c1b5b870"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a242901443eb2726593c80d91c1b5b870">Tgstation.Server.Host.IO.IIOManager.CreateAsyncSequentialReadStream</a></div><div class="ttdeci">FileStream CreateAsyncSequentialReadStream(string path)</div><div class="ttdoc">Creates an asynchronous FileStream for sequential reading.</div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_posix_process_features_8cs_source.html#l00201">Tgstation.Server.Host.System.PosixProcessFeatures.AdjustOutOfMemoryScore()</a>, <a class="el" href="_posix_process_features_8cs_source.html#l00050">Tgstation.Server.Host.System.PosixProcessFeatures.baselineOomAdjust</a>, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a242901443eb2726593c80d91c1b5b870">Tgstation.Server.Host.IO.IIOManager.CreateAsyncSequentialReadStream()</a>, <a class="el" href="_posix_process_features_8cs_source.html#l00040">Tgstation.Server.Host.System.PosixProcessFeatures.ioManager</a>, <a class="el" href="_posix_process_features_8cs_source.html#l00045">Tgstation.Server.Host.System.PosixProcessFeatures.logger</a>, and <a class="el" href="_posix_process_features_8cs_source.html#l00025">Tgstation.Server.Host.System.PosixProcessFeatures.SelfOomAdjust</a>.</p>
+<p class="reference">References <a class="el" href="_posix_process_features_8cs_source.html#l00202">Tgstation.Server.Host.System.PosixProcessFeatures.AdjustOutOfMemoryScore()</a>, <a class="el" href="_posix_process_features_8cs_source.html#l00050">Tgstation.Server.Host.System.PosixProcessFeatures.baselineOomAdjust</a>, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a242901443eb2726593c80d91c1b5b870">Tgstation.Server.Host.IO.IIOManager.CreateAsyncSequentialReadStream()</a>, <a class="el" href="_posix_process_features_8cs_source.html#l00040">Tgstation.Server.Host.System.PosixProcessFeatures.ioManager</a>, <a class="el" href="_posix_process_features_8cs_source.html#l00045">Tgstation.Server.Host.System.PosixProcessFeatures.logger</a>, and <a class="el" href="_posix_process_features_8cs_source.html#l00025">Tgstation.Server.Host.System.PosixProcessFeatures.SelfOomAdjust</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -780,7 +781,7 @@ Here is the call graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_posix_process_features_8cs_source.html#l00050">50</a> of file <a class="el" href="_posix_process_features_8cs_source.html">PosixProcessFeatures.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_posix_process_features_8cs_source.html#l00201">Tgstation.Server.Host.System.PosixProcessFeatures.AdjustOutOfMemoryScore()</a>, and <a class="el" href="_posix_process_features_8cs_source.html#l00155">Tgstation.Server.Host.System.PosixProcessFeatures.StartAsync()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_posix_process_features_8cs_source.html#l00202">Tgstation.Server.Host.System.PosixProcessFeatures.AdjustOutOfMemoryScore()</a>, and <a class="el" href="_posix_process_features_8cs_source.html#l00155">Tgstation.Server.Host.System.PosixProcessFeatures.StartAsync()</a>.</p>
 
 </div>
 </div>
@@ -836,7 +837,7 @@ Here is the call graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_posix_process_features_8cs_source.html#l00040">40</a> of file <a class="el" href="_posix_process_features_8cs_source.html">PosixProcessFeatures.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_posix_process_features_8cs_source.html#l00201">Tgstation.Server.Host.System.PosixProcessFeatures.AdjustOutOfMemoryScore()</a>, <a class="el" href="_posix_process_features_8cs_source.html#l00086">Tgstation.Server.Host.System.PosixProcessFeatures.CreateDump()</a>, <a class="el" href="_posix_process_features_8cs_source.html#l00058">Tgstation.Server.Host.System.PosixProcessFeatures.PosixProcessFeatures()</a>, and <a class="el" href="_posix_process_features_8cs_source.html#l00155">Tgstation.Server.Host.System.PosixProcessFeatures.StartAsync()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_posix_process_features_8cs_source.html#l00202">Tgstation.Server.Host.System.PosixProcessFeatures.AdjustOutOfMemoryScore()</a>, <a class="el" href="_posix_process_features_8cs_source.html#l00086">Tgstation.Server.Host.System.PosixProcessFeatures.CreateDump()</a>, <a class="el" href="_posix_process_features_8cs_source.html#l00058">Tgstation.Server.Host.System.PosixProcessFeatures.PosixProcessFeatures()</a>, and <a class="el" href="_posix_process_features_8cs_source.html#l00155">Tgstation.Server.Host.System.PosixProcessFeatures.StartAsync()</a>.</p>
 
 </div>
 </div>
@@ -892,7 +893,7 @@ Here is the call graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_posix_process_features_8cs_source.html#l00045">45</a> of file <a class="el" href="_posix_process_features_8cs_source.html">PosixProcessFeatures.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_posix_process_features_8cs_source.html#l00201">Tgstation.Server.Host.System.PosixProcessFeatures.AdjustOutOfMemoryScore()</a>, <a class="el" href="_posix_process_features_8cs_source.html#l00086">Tgstation.Server.Host.System.PosixProcessFeatures.CreateDump()</a>, <a class="el" href="_posix_process_features_8cs_source.html#l00137">Tgstation.Server.Host.System.PosixProcessFeatures.HandleProcessStart()</a>, <a class="el" href="_posix_process_features_8cs_source.html#l00058">Tgstation.Server.Host.System.PosixProcessFeatures.PosixProcessFeatures()</a>, and <a class="el" href="_posix_process_features_8cs_source.html#l00155">Tgstation.Server.Host.System.PosixProcessFeatures.StartAsync()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_posix_process_features_8cs_source.html#l00202">Tgstation.Server.Host.System.PosixProcessFeatures.AdjustOutOfMemoryScore()</a>, <a class="el" href="_posix_process_features_8cs_source.html#l00086">Tgstation.Server.Host.System.PosixProcessFeatures.CreateDump()</a>, <a class="el" href="_posix_process_features_8cs_source.html#l00137">Tgstation.Server.Host.System.PosixProcessFeatures.HandleProcessStart()</a>, <a class="el" href="_posix_process_features_8cs_source.html#l00058">Tgstation.Server.Host.System.PosixProcessFeatures.PosixProcessFeatures()</a>, and <a class="el" href="_posix_process_features_8cs_source.html#l00155">Tgstation.Server.Host.System.PosixProcessFeatures.StartAsync()</a>.</p>
 
 </div>
 </div>
