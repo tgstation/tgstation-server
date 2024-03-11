@@ -416,7 +416,7 @@ _NOTE: Your reverse proxy setup may interfere with SSE (Server-Sent Events) whic
 1. In the `Actions` Pane on the right click `Add Rule(s)...`
 1. For the rule template, select `Reverse Proxy` under `Inbound and Outbound Rules` and click `OK`
 1. You may get a prompt about enabling proxy functionality. Click `OK`
-1. In the window that appears set the `Inbound Rules` textbox to the URL of your tgstation-server i.e. `http://localhost:5000`. Ensure `Enable SSL Offloading` is checked, then click `OK`
+1. In the window that appears set the `Inbound Rules` textbox to the URL of your tgstation-server i.e. `localhost:5000`. Ensure `Enable SSL Offloading` is checked, then click `OK`
 
 #### Caddy (Reccommended for Linux, or those unfamilar with configuring NGINX or Apache)
 
