@@ -148,7 +148,17 @@ Components:
       PullRequest: 1070
   Core:
   - Version: 6.5.0
-    ComponentVersions: {}
+    ComponentVersions:
+      Core: 6.4.0
+      HttpApi: 10.2.0
+      DreamMakerApi: 7.1.1
+      Configuration: 5.1.0
+      InteropApi: 5.9.0
+      HostWatchdog: 1.4.1
+      NugetCommon: 7.0.0
+      NugetApi: 13.2.0
+      NugetClient: 15.2.0
+      WebControlPanel: 5.6.0
     Changes: []
     Unreleased: true
   - Version: 6.4.1
