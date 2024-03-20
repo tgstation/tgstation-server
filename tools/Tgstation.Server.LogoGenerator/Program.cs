@@ -22,7 +22,7 @@ await using var icoMs =
 var svg = SvgDocument.Open<SvgDocument>(pngMs);
 var whiteBgSvg = SvgDocument.Open<SvgDocument>(icoMs);
 
-using var bitmap = svg.Draw(64, 64);
+using var bitmap = svg.Draw(128, 128);
 using var whiteBgBitmap = whiteBgSvg.Draw(160, 160);
 
 using var icon = Icon.FromHandle(whiteBgBitmap.GetHicon());
