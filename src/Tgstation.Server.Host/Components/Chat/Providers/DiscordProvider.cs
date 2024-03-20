@@ -320,7 +320,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			Optional<IEmbedAuthor> author = new EmbedAuthor(assemblyInformationProvider.VersionPrefix)
 			{
 				Url = "https://github.com/tgstation/tgstation-server",
-				IconUrl = "https://cdn.discordapp.com/attachments/1114451486374637629/1151650846019432448/tgs.png",
+				IconUrl = "https://cdn.discordapp.com/attachments/1114451486374637629/1151650846019432448/tgs.png", // 404's in browsers but works in Discord
 			};
 			var embed = new Embed
 			{
