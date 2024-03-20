@@ -16,20 +16,13 @@
   </ItemGroup>
 
   <!-- This is here because I know we have node as a build dep so this just works -->
-  <Target Name="IconGeneration" BeforeTargets="ResolveAssemblyReferences" Inputs="build_logo.js;../../build/logo.svg" Outputs="../../artifacts/tgs.ico;../../artifacts/tgs.png">
-    <Message Text="Restoring yarn packages..." Importance="high" />
-    <Exec Command="npx --yes yarn@$(TgsYarnVersion) add svg-to-ico@1.0.14 svg2img@1.0.0-beta.2" />
+  <Target Name="IconGeneration" BeforeTargets="ResolveAssemblyReferences" Inputs="../../build/logo.svg" Outputs="../../artifacts/tgs.ico;../../artifacts/tgs.png;../../tools/Tgstation.Server.LogoGenerator/Program.cs">
     <Message Text="Generating icons from SVG..." Importance="high" />
-    <Exec Command="node ./build_logo.js" />
+    <Exec Command="dotnet run --project tools/Tgstation.Server.LogoGenerator -c $(Configuration) --no-build" WorkingDirectory="../.." />
   </Target>
 
   <Target Name="IconClean" AfterTargets="Clean">
     <Message Text="Cleaning icons..." Importance="high" />
     <Delete Files="../../artifacts/tgs.ico;../../artifacts/tgs.png" />
-  </Target>
-
-  <Target Name="IconNodeCleanup" AfterTargets="IconGeneration;IconClean">
-    <RemoveDir Directories="node_modules" />
-    <Delete Files="package.json;yarn.lock;logo_bg_white.svg;yarn-error.log" />
   </Target>
 </Project>
