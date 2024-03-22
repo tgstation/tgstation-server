@@ -15,10 +15,9 @@
     <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.5.4" />
   </ItemGroup>
 
-  <!-- This is here because I know we have node as a build dep so this just works -->
   <Target Name="IconGeneration" BeforeTargets="ResolveAssemblyReferences" Inputs="../../build/logo.svg" Outputs="../../artifacts/tgs.ico;../../artifacts/tgs.png;../../tools/Tgstation.Server.LogoGenerator/Program.cs">
     <Message Text="Generating icons from SVG..." Importance="high" />
-    <Exec Command="dotnet run --project tools/Tgstation.Server.LogoGenerator -c $(Configuration) --no-build" WorkingDirectory="../.." />
+    <Exec Command="dotnet run --project tools/Tgstation.Server.LogoGenerator -c $(Configuration)" WorkingDirectory="../.." />
   </Target>
 
   <Target Name="IconClean" AfterTargets="Clean">
