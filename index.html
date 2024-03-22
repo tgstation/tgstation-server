@@ -20,6 +20,7 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr id="projectrow">
+  <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign">
    <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.4.0</span>
    </div>
@@ -362,17 +363,33 @@ Remote Access</h2>
 IIS (Reccommended for Windows)</h3>
 <ol type="1">
 <li>Acquire an HTTPS certificate. The easiet free way for Windows is <a href="https://github.com/PKISharp/win-acme">win-acme</a> (requires you to set up the website first)</li>
-<li>Install the <a href="https://www.microsoft.com/web/downloads/platform.aspx">Web Platform Installer</a></li>
-<li>Open the web platform installer in the IIS Manager and install the Application Request Routing 3.0 module</li>
+</ol>
+<ol type="1">
+<li>Install the <a href="https://www.iis.net/downloads/microsoft/url-rewrite">URL Rewrite Module</a></li>
+</ol>
+<ol type="1">
+<li>Install the <a href="https://www.iis.net/downloads/microsoft/application-request-routing">Application Request Routing Module</a></li>
+</ol>
+<ol type="1">
 <li>Create a new website, bind it to HTTPS only with your chosen certificate and exposed port. The physical path won't matter since it won't be used. Use <code>Require Server Name Indication</code> if you want to limit requests to a specific URL prefix. Do not use the same port as the one TGS is running on.</li>
+</ol>
+<ol type="1">
 <li>Close and reopen the IIS Manager</li>
 </ol>
 <ol type="1">
 <li>Open the site and navigate to the <code>URL Rewrite</code> module</li>
+</ol>
+<ol type="1">
 <li>In the <code>Actions</code> Pane on the right click <code>Add Rule(s)...</code></li>
+</ol>
+<ol type="1">
 <li>For the rule template, select <code>Reverse Proxy</code> under <code>Inbound and Outbound Rules</code> and click <code>OK</code></li>
+</ol>
+<ol type="1">
 <li>You may get a prompt about enabling proxy functionality. Click <code>OK</code></li>
-<li>In the window that appears set the <code>Inbound Rules</code> textbox to the URL of your tgstation-server i.e. <code><a href="http://localhost:5000">http://localhost:5000</a></code>. Ensure <code>Enable SSL Offloading</code> is checked, then click <code>OK</code></li>
+</ol>
+<ol type="1">
+<li>In the window that appears set the <code>Inbound Rules</code> textbox to the URL of your tgstation-server i.e. <code>localhost:5000</code>. Ensure <code>Enable SSL Offloading</code> is checked, then click <code>OK</code></li>
 </ol>
 <h3><a class="anchor" id="autotoc_md24"></a>
 Caddy (Reccommended for Linux, or those unfamilar with configuring NGINX or Apache)</h3>
