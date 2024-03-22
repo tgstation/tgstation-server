@@ -408,15 +408,15 @@ _NOTE: Your reverse proxy setup may interfere with SSE (Server-Sent Events) whic
 #### IIS (Reccommended for Windows)
 
 1. Acquire an HTTPS certificate. The easiet free way for Windows is [win-acme](https://github.com/PKISharp/win-acme) (requires you to set up the website first)
-2. Install the [Web Platform Installer](https://www.microsoft.com/web/downloads/platform.aspx)
-3. Open the web platform installer in the IIS Manager and install the Application Request Routing 3.0 module
-4. Create a new website, bind it to HTTPS only with your chosen certificate and exposed port. The physical path won't matter since it won't be used. Use `Require Server Name Indication` if you want to limit requests to a specific URL prefix. Do not use the same port as the one TGS is running on.
-5. Close and reopen the IIS Manager
-5. Open the site and navigate to the `URL Rewrite` module
-6. In the `Actions` Pane on the right click `Add Rule(s)...`
-7. For the rule template, select `Reverse Proxy` under `Inbound and Outbound Rules` and click `OK`
-8. You may get a prompt about enabling proxy functionality. Click `OK`
-9. In the window that appears set the `Inbound Rules` textbox to the URL of your tgstation-server i.e. `http://localhost:5000`. Ensure `Enable SSL Offloading` is checked, then click `OK`
+1. Install the [URL Rewrite Module](https://www.iis.net/downloads/microsoft/url-rewrite)
+1. Install the [Application Request Routing Module](https://www.iis.net/downloads/microsoft/application-request-routing)
+1. Create a new website, bind it to HTTPS only with your chosen certificate and exposed port. The physical path won't matter since it won't be used. Use `Require Server Name Indication` if you want to limit requests to a specific URL prefix. Do not use the same port as the one TGS is running on.
+1. Close and reopen the IIS Manager
+1. Open the site and navigate to the `URL Rewrite` module
+1. In the `Actions` Pane on the right click `Add Rule(s)...`
+1. For the rule template, select `Reverse Proxy` under `Inbound and Outbound Rules` and click `OK`
+1. You may get a prompt about enabling proxy functionality. Click `OK`
+1. In the window that appears set the `Inbound Rules` textbox to the URL of your tgstation-server i.e. `localhost:5000`. Ensure `Enable SSL Offloading` is checked, then click `OK`
 
 #### Caddy (Reccommended for Linux, or those unfamilar with configuring NGINX or Apache)
 

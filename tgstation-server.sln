@@ -176,8 +176,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BasicOperation", "BasicOper
 		tests\DMAPI\BasicOperation\basic operation_test.dme = tests\DMAPI\BasicOperation\basic operation_test.dme
 		tests\DMAPI\BasicOperation\Config.dm = tests\DMAPI\BasicOperation\Config.dm
 		tests\DMAPI\BasicOperation\Test.dm = tests\DMAPI\BasicOperation\Test.dm
-		tests\DMAPI\BasicOperation\test_event-qwer.sh = tests\DMAPI\BasicOperation\test_event-qwer.sh
 		tests\DMAPI\BasicOperation\test_event-qwer.bat = tests\DMAPI\BasicOperation\test_event-qwer.bat
+		tests\DMAPI\BasicOperation\test_event-qwer.sh = tests\DMAPI\BasicOperation\test_event-qwer.sh
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BuildFail", "BuildFail", "{103C61AB-67D6-46FE-AA47-CC633B88EE0F}"
@@ -204,6 +204,9 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tgstation.Server.Host.Common", "src\Tgstation.Server.Host.Common\Tgstation.Server.Host.Common.csproj", "{CF3968A0-EA81-4464-B2D4-C7D40F6B5BCB}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tgstation.Server.Common", "src\Tgstation.Server.Common\Tgstation.Server.Common.csproj", "{70CD9A98-D31A-44A4-81D1-D02764CEEEFD}"
+	ProjectSection(ProjectDependencies) = postProject
+		{7F7FCFDF-271D-45C2-830C-BCCB19C57077} = {7F7FCFDF-271D-45C2-830C-BCCB19C57077}
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "package", "package", "{2648A85F-61AE-428E-95E1-66D06C7A3768}"
 	ProjectSection(SolutionItems) = preProject
@@ -257,6 +260,8 @@ EndProject
 Project("{B7DD6F7E-DEF8-4E67-B5B7-07EF123DB6F0}") = "Tgstation.Server.Host.Service.Wix.Bundle", "build\package\winget\Tgstation.Server.Host.Service.Wix.Bundle\Tgstation.Server.Host.Service.Wix.Bundle.wixproj", "{9E66C6F1-E235-4979-83B5-C2B3FDAD6E01}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tgstation.Server.ReleaseNotes", "tools\Tgstation.Server.ReleaseNotes\Tgstation.Server.ReleaseNotes.csproj", "{69944039-65C2-40E1-9D86-0608FA0C2D70}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tgstation.Server.LogoGenerator", "tools\Tgstation.Server.LogoGenerator\Tgstation.Server.LogoGenerator.csproj", "{7F7FCFDF-271D-45C2-830C-BCCB19C57077}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -516,6 +521,18 @@ Global
 		{69944039-65C2-40E1-9D86-0608FA0C2D70}.ReleaseNoWindows|Any CPU.Build.0 = Release|Any CPU
 		{69944039-65C2-40E1-9D86-0608FA0C2D70}.ReleaseNoWix|Any CPU.ActiveCfg = Release|Any CPU
 		{69944039-65C2-40E1-9D86-0608FA0C2D70}.ReleaseNoWix|Any CPU.Build.0 = Release|Any CPU
+		{7F7FCFDF-271D-45C2-830C-BCCB19C57077}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7F7FCFDF-271D-45C2-830C-BCCB19C57077}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7F7FCFDF-271D-45C2-830C-BCCB19C57077}.DebugNoWindows|Any CPU.ActiveCfg = Debug|Any CPU
+		{7F7FCFDF-271D-45C2-830C-BCCB19C57077}.DebugNoWindows|Any CPU.Build.0 = Debug|Any CPU
+		{7F7FCFDF-271D-45C2-830C-BCCB19C57077}.DebugNoWix|Any CPU.ActiveCfg = Debug|Any CPU
+		{7F7FCFDF-271D-45C2-830C-BCCB19C57077}.DebugNoWix|Any CPU.Build.0 = Debug|Any CPU
+		{7F7FCFDF-271D-45C2-830C-BCCB19C57077}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7F7FCFDF-271D-45C2-830C-BCCB19C57077}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7F7FCFDF-271D-45C2-830C-BCCB19C57077}.ReleaseNoWindows|Any CPU.ActiveCfg = Release|Any CPU
+		{7F7FCFDF-271D-45C2-830C-BCCB19C57077}.ReleaseNoWindows|Any CPU.Build.0 = Release|Any CPU
+		{7F7FCFDF-271D-45C2-830C-BCCB19C57077}.ReleaseNoWix|Any CPU.ActiveCfg = Release|Any CPU
+		{7F7FCFDF-271D-45C2-830C-BCCB19C57077}.ReleaseNoWix|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -553,6 +570,7 @@ Global
 		{82996E9D-5E63-4CC5-8179-612C71B4F56C} = {506B9092-AF88-4DA2-84FD-C11646B695B0}
 		{9E66C6F1-E235-4979-83B5-C2B3FDAD6E01} = {506B9092-AF88-4DA2-84FD-C11646B695B0}
 		{69944039-65C2-40E1-9D86-0608FA0C2D70} = {A55C1117-5808-4AB2-BEA6-4D4A3E66A2F2}
+		{7F7FCFDF-271D-45C2-830C-BCCB19C57077} = {A55C1117-5808-4AB2-BEA6-4D4A3E66A2F2}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {DFD36C95-3E49-41C7-ACDB-86BAF5B18A79}
