@@ -151,7 +151,7 @@ Components:
     ComponentVersions:
       Core: 6.4.0
       HttpApi: 10.2.0
-      DreamMakerApi: 7.1.1
+      DreamMakerApi: 7.1.2
       Configuration: 5.1.0
       InteropApi: 5.9.0
       HostWatchdog: 1.4.1
@@ -4087,6 +4087,13 @@ Components:
       Author: Cyberboss
       PullRequest: 991
   DreamMakerApi:
+  - Version: 7.1.2
+    Changes:
+    - Descriptions:
+      - Fixed potential must_call_parent linter errors with SpacemanDMM.
+      Author: Cyberboss
+      PullRequest: 1805
+    Unreleased: true
   - Version: 7.1.1
     Changes:
     - Descriptions:
