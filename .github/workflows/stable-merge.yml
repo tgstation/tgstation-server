@@ -1,15 +1,15 @@
 name: 'Master Merge'
 
 on:
-  push:
-    branches:
-    - master
+  workflow_run:
+    workflows: [CI Pipeline]
+    types:
+    - completed
 
 jobs:
   master-merge:
-
     runs-on: ubuntu-latest
-
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     steps:
     - name: Checkout
       uses: actions/checkout@v4
