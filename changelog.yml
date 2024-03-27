@@ -161,6 +161,10 @@ Components:
       WebControlPanel: 5.6.0
     Changes: []
     Unreleased: true
+  - Version: 6.4.2
+    ComponentVersions: {}
+    Changes: []
+    Unreleased: true
   - Version: 6.4.1
     ComponentVersions:
       HttpApi: 10.2.0
@@ -177,7 +181,10 @@ Components:
       - Fixed an incorrect warning related to `oom_score_adj` on server startup on Linux.
       Author: Cyberboss
       PullRequest: 1798
-    Unreleased: true
+    - Descriptions:
+      - Fixed chat help commands not working.
+      Author: Cyberboss
+      PullRequest: 1808
   - Version: 6.4.0
     ComponentVersions:
       Core: 6.4.0
