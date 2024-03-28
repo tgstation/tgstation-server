@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.4.0</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.4.1</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -1420,7 +1420,7 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">  839</span>                splits.RemoveAt(0);</div>
 <div class="line"><span class="lineno">  840</span>                var arguments = String.Join(<span class="stringliteral">&quot; &quot;</span>, splits);</div>
 <div class="line"><span class="lineno">  841</span> </div>
-<div class="line"><span class="lineno">  842</span>                Tuple&lt;ICommand, IChatTrackingContext?&gt;? GetCommand()</div>
+<div class="line"><span class="lineno">  842</span>                Tuple&lt;ICommand, IChatTrackingContext?&gt;? GetCommand(<span class="keywordtype">string</span> command)</div>
 <div class="line"><span class="lineno">  843</span>                {</div>
 <div class="line"><span class="lineno">  844</span>                    <span class="keywordflow">if</span> (!<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a69d25612b62368e0fb9ac204987ed7b6">builtinCommands</a>.TryGetValue(command, out var handler))</div>
 <div class="line"><span class="lineno">  845</span>                        <span class="keywordflow">return</span> <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#af98ea12e0c98e5cc3815d59cace7567a">trackingContexts</a></div>
@@ -1448,7 +1448,7 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">  867</span>                    }</div>
 <div class="line"><span class="lineno">  868</span>                    <span class="keywordflow">else</span></div>
 <div class="line"><span class="lineno">  869</span>                    {</div>
-<div class="line"><span class="lineno">  870</span>                        var helpTuple = GetCommand();</div>
+<div class="line"><span class="lineno">  870</span>                        var helpTuple = GetCommand(splits[0]);</div>
 <div class="line"><span class="lineno">  871</span>                        <span class="keywordflow">if</span> (helpTuple != <span class="keywordflow">default</span>)</div>
 <div class="line"><span class="lineno">  872</span>                        {</div>
 <div class="line"><span class="lineno">  873</span>                            var (helpHandler, _) = helpTuple;</div>
@@ -1462,7 +1462,7 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">  881</span>                    <span class="keywordflow">return</span>;</div>
 <div class="line"><span class="lineno">  882</span>                }</div>
 <div class="line"><span class="lineno">  883</span> </div>
-<div class="line"><span class="lineno">  884</span>                var tuple = GetCommand();</div>
+<div class="line"><span class="lineno">  884</span>                var tuple = GetCommand(command);</div>
 <div class="line"><span class="lineno">  885</span> </div>
 <div class="line"><span class="lineno">  886</span>                <span class="keywordflow">if</span> (tuple == <span class="keywordflow">default</span>)</div>
 <div class="line"><span class="lineno">  887</span>                {</div>
