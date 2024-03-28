@@ -839,7 +839,7 @@ namespace Tgstation.Server.Host.Components.Chat
 				splits.RemoveAt(0);
 				var arguments = String.Join(" ", splits);
 
-				Tuple<ICommand, IChatTrackingContext?>? GetCommand()
+				Tuple<ICommand, IChatTrackingContext?>? GetCommand(string command)
 				{
 					if (!builtinCommands.TryGetValue(command, out var handler))
 						return trackingContexts
@@ -867,7 +867,7 @@ namespace Tgstation.Server.Host.Components.Chat
 					}
 					else
 					{
-						var helpTuple = GetCommand();
+						var helpTuple = GetCommand(splits[0]);
 						if (helpTuple != default)
 						{
 							var (helpHandler, _) = helpTuple;
@@ -881,7 +881,7 @@ namespace Tgstation.Server.Host.Components.Chat
 					return;
 				}
 
-				var tuple = GetCommand();
+				var tuple = GetCommand(command);
 
 				if (tuple == default)
 				{
