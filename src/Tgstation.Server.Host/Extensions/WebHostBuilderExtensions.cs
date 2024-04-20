@@ -53,7 +53,7 @@ namespace Tgstation.Server.Host.Extensions
 		/// Configures a given <paramref name="applicationBuilder"/>.
 		/// </summary>
 		/// <param name="applicationBuilder">The <see cref="IApplicationBuilder"/> to configure.</param>
-		private static void ConfigureApplication(IApplicationBuilder applicationBuilder)
+		static void ConfigureApplication(IApplicationBuilder applicationBuilder)
 			=> applicationBuilder
 				.ApplicationServices
 				.GetRequiredService<Application>()

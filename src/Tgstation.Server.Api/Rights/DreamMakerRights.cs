@@ -57,5 +57,10 @@ namespace Tgstation.Server.Api.Rights
 		/// User may modify <see cref="Models.Internal.DreamMakerSettings.Timeout"/>.
 		/// </summary>
 		SetTimeout = 1 << 8,
+
+		/// <summary>
+		/// User may modify <see cref="Models.Internal.DreamMakerSettings.CompilerAdditionalArguments"/>.
+		/// </summary>
+		SetCompilerArguments = 1 << 9,
 	}
 }

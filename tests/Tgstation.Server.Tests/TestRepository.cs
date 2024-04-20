@@ -46,6 +46,9 @@ namespace Tgstation.Server.Tests
 
 				const string StartSha = "af4da8beb9f9b374b04a3cc4d65acca662e8cc1a";
 				await repo.CheckoutObject(StartSha, null, null, true, new JobProgressReporter(Mock.Of<ILogger<JobProgressReporter>>(), null, (stage, progress) => { }), CancellationToken.None);
+
+				Assert.AreEqual(Host.Components.Repository.Repository.NoReference, repo.Reference);
+
 				var result = await repo.CommittishIsParent("2f8588a3ca0f6b027704a2a04381215619de3412", CancellationToken.None);
 				Assert.IsTrue(result);
 				Assert.AreEqual(StartSha, repo.Head);

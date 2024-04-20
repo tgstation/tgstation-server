@@ -357,7 +357,7 @@ namespace Tgstation.Server.Host.Controllers
 					var identExpiry = token.ParseJwt().ValidTo;
 					identExpiry += tokenFactory.ValidationParameters.ClockSkew;
 					identExpiry += TimeSpan.FromSeconds(15);
-					identityCache.CacheSystemIdentity(user, systemIdentity!, identExpiry);
+					await identityCache.CacheSystemIdentity(user, systemIdentity!, identExpiry);
 				}
 
 				Logger.LogDebug("Successfully logged in user {userId}!", user.Id);

@@ -125,17 +125,24 @@ namespace Tgstation.Server.Tests.Live.Instance
 				{
 					ProjectName = "tests/DMAPI/ApiFree/api_free",
 					ApiValidationPort = dmPort,
+					CompilerAdditionalArguments = "   ",
 				}, cancellationToken);
 				Assert.AreEqual(dmPort, updatedDM.ApiValidationPort);
 				Assert.AreEqual("tests/DMAPI/ApiFree/api_free", updatedDM.ProjectName);
+				Assert.IsNull(updatedDM.CompilerAdditionalArguments);
 			}
 			else
 			{
 				var updatedDM = await dreamMakerClient.Update(new DreamMakerRequest
 				{
-					ApiValidationPort = dmPort
+					ApiValidationPort = dmPort,
+					CompilerAdditionalArguments = testEngine == EngineType.Byond ? " -DBABABOOEY" : "     ",
 				}, cancellationToken);
 				Assert.AreEqual(dmPort, updatedDM.ApiValidationPort);
+				if (testEngine == EngineType.Byond)
+					Assert.AreEqual("-DBABABOOEY", updatedDM.CompilerAdditionalArguments);
+				else
+					Assert.IsNull(updatedDM.CompilerAdditionalArguments);
 			}
 
 			Console.WriteLine($"PORT REUSE BUG 1: Setting I-{instanceClient.Metadata.Id} DD to {ddPort}");

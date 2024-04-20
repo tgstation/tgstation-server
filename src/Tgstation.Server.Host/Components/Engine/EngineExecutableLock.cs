@@ -55,7 +55,7 @@ namespace Tgstation.Server.Host.Components.Engine
 				logFilePath);
 
 		/// <inheritdoc />
-		public string FormatCompilerArguments(string dmePath) => Instance.FormatCompilerArguments(dmePath);
+		public string FormatCompilerArguments(string dmePath, string? additionalArguments) => Instance.FormatCompilerArguments(dmePath, additionalArguments);
 
 		/// <inheritdoc />
 		public ValueTask StopServerProcess(ILogger logger, IProcess process, string accessIdentifier, ushort port, CancellationToken cancellationToken)

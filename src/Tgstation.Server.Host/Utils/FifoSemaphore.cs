@@ -14,7 +14,7 @@ namespace Tgstation.Server.Host.Utils
 		/// <summary>
 		/// <see langword="class"/> to represent a ticket in the <see cref="ticketQueue"/> and whether or not it is <see cref="Abandoned"/>.
 		/// </summary>
-		class FifoSemaphoreTicket
+		sealed class FifoSemaphoreTicket
 		{
 			/// <summary>
 			/// Set if the wait operation on a <see cref="FifoSemaphore"/> was cancelled to avoid clogging the queue.
