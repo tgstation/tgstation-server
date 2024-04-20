@@ -14,7 +14,7 @@ namespace Tgstation.Server.Host.Components.Repository.Tests
 	[TestClass]
 	public sealed class TestRepositoryFactory
 	{
-		static ILibGit2RepositoryFactory CreateFactory() => new LibGit2RepositoryFactory(Mock.Of<ILogger<LibGit2RepositoryFactory>>());
+		static LibGit2RepositoryFactory CreateFactory() => new (Mock.Of<ILogger<LibGit2RepositoryFactory>>());
 
 		static async Task<LibGit2Sharp.IRepository> TestRepoLoading(
 			string path,
