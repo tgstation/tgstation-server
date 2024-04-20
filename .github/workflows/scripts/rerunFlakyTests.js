@@ -16,10 +16,7 @@ async function getFailedJobsForRun(github, context, workflowRunId, runAttempt) {
 	});
 
 	return jobs
-		.filter((job) => job.conclusion === "failure")
-		.filter((job) =>
-			CONSIDERED_JOBS.some((title) => job.name.startsWith(title))
-		);
+		.filter((job) => job.conclusion === "failure");
 }
 
 export async function rerunFlakyTests({ github, context }) {
@@ -35,11 +32,13 @@ export async function rerunFlakyTests({ github, context }) {
 		return;
 	}
 
-	if (failingJobs.length === 0) {
-		throw new Error(
-			"rerunFlakyTests should not have run on a run with no failing jobs"
-		);
+	const filteredFailingJobs = failingJobs.filter((job) => CONSIDERED_JOBS.some((title) => job.name.startsWith(title)));
+	if (filteredFailingJobs.length === 0) {
+		console.log("Failing jobs are NOT designated flaky. Not rerunning.");
+		return;
 	}
+
+	console.log(`Rerunning job: ${filteredFailingJobs[0].name}`);
 
 	github.rest.actions.reRunWorkflowFailedJobs({
 		owner: context.repo.owner,
