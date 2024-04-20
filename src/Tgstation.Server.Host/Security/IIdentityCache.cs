@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 
 using Tgstation.Server.Host.Models;
 
@@ -15,7 +16,8 @@ namespace Tgstation.Server.Host.Security
 		/// <param name="user">The <see cref="User"/> the <paramref name="systemIdentity"/> belongs to.</param>
 		/// <param name="systemIdentity">The <see cref="ISystemIdentity"/> to cache.</param>
 		/// <param name="expiry">When the <paramref name="systemIdentity"/> should expire.</param>
-		void CacheSystemIdentity(User user, ISystemIdentity systemIdentity, DateTimeOffset expiry);
+		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
+		ValueTask CacheSystemIdentity(User user, ISystemIdentity systemIdentity, DateTimeOffset expiry);
 
 		/// <summary>
 		/// Attempt to load a cached <see cref="ISystemIdentity"/>.
