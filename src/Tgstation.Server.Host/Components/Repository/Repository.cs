@@ -47,6 +47,11 @@ namespace Tgstation.Server.Host.Components.Repository
 		public const string RemoteTemporaryBranchName = "___TGSTempBranch";
 
 		/// <summary>
+		/// The value of <see cref="Reference"/> when not on a reference.
+		/// </summary>
+		public const string NoReference = "(no branch)";
+
+		/// <summary>
 		/// Used when a reference cannot be determined.
 		/// </summary>
 		const string UnknownReference = "<UNKNOWN>";

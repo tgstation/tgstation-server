@@ -571,6 +571,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 				progressReporter.StageName = "Copying repository";
 				var resolvedOutputDirectory = ioManager.ResolvePath(outputDirectory);
 				var repoOrigin = repository.Origin;
+				var repoReference = repository.Reference;
 				using (repository)
 					await repository.CopyTo(resolvedOutputDirectory, cancellationToken);
 
@@ -585,6 +586,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 						resolvedOutputDirectory,
 						repoOrigin.ToString(),
 						engineLock.Version.ToString(),
+						repoReference,
 					},
 					true,
 					cancellationToken);
