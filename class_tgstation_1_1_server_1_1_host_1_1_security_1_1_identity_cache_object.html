@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.4.1</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.5.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -92,7 +92,7 @@ Inheritance diagram for Tgstation.Server.Host.Security.IdentityCacheObject:</div
 <div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_identity_cache_object__inherit__graph.png" border="0" usemap="#a_tgstation_8_server_8_host_8_security_8_identity_cache_object_inherit__map" alt="Inheritance graph"/></div>
 <map name="a_tgstation_8_server_8_host_8_security_8_identity_cache_object_inherit__map" id="a_tgstation_8_server_8_host_8_security_8_identity_cache_object_inherit__map">
 <area shape="rect" title="For keeping a specific ISystemIdentity alive for a period of time." alt="" coords="5,79,207,119"/>
-<area shape="rect" href="class_i_disposable.html" title=" " alt="" coords="61,5,151,31"/>
+<area shape="rect" href="class_i_async_disposable.html" title=" " alt="" coords="43,5,169,31"/>
 </map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <div class="dynheader">
@@ -100,10 +100,10 @@ Collaboration diagram for Tgstation.Server.Host.Security.IdentityCacheObject:</d
 <div class="dyncontent">
 <div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_identity_cache_object__coll__graph.png" border="0" usemap="#a_tgstation_8_server_8_host_8_security_8_identity_cache_object_coll__map" alt="Collaboration graph"/></div>
 <map name="a_tgstation_8_server_8_host_8_security_8_identity_cache_object_coll__map" id="a_tgstation_8_server_8_host_8_security_8_identity_cache_object_coll__map">
-<area shape="rect" title="For keeping a specific ISystemIdentity alive for a period of time." alt="" coords="110,108,311,148"/>
-<area shape="rect" href="class_i_disposable.html" title=" " alt="" coords="5,13,96,38"/>
-<area shape="rect" title=" " alt="" coords="121,5,301,45"/>
-<area shape="rect" title=" " alt="" coords="365,13,416,38"/>
+<area shape="rect" title="For keeping a specific ISystemIdentity alive for a period of time." alt="" coords="145,108,347,148"/>
+<area shape="rect" href="class_i_async_disposable.html" title=" " alt="" coords="5,13,132,38"/>
+<area shape="rect" title=" " alt="" coords="156,5,336,45"/>
+<area shape="rect" title=" " alt="" coords="401,13,451,38"/>
 </map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
@@ -112,8 +112,8 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a77e5495fa90b8eed2f2d86c6fb711da8"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_identity_cache_object.html#a77e5495fa90b8eed2f2d86c6fb711da8">IdentityCacheObject</a> (<a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_system_identity.html">ISystemIdentity</a> systemIdentity, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_async_delayer.html">IAsyncDelayer</a> asyncDelayer, Action onExpiry, DateTimeOffset expiry)</td></tr>
 <tr class="memdesc:a77e5495fa90b8eed2f2d86c6fb711da8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes a new instance of the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_identity_cache_object.html" title="For keeping a specific ISystemIdentity alive for a period of time.">IdentityCacheObject</a> class.   <a href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_identity_cache_object.html#a77e5495fa90b8eed2f2d86c6fb711da8">More...</a><br /></td></tr>
 <tr class="separator:a77e5495fa90b8eed2f2d86c6fb711da8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abf1fccfffa19349bb551ffe64c364387"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_identity_cache_object.html#abf1fccfffa19349bb551ffe64c364387">Dispose</a> ()</td></tr>
-<tr class="separator:abf1fccfffa19349bb551ffe64c364387"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9c1da3c83acd4488eb0bd222df31e3ac"><td class="memItemLeft" align="right" valign="top">async ValueTask&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_identity_cache_object.html#a9c1da3c83acd4488eb0bd222df31e3ac">DisposeAsync</a> ()</td></tr>
+<tr class="separator:a9c1da3c83acd4488eb0bd222df31e3ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="properties" name="properties"></a>
 Properties</h2></td></tr>
@@ -204,14 +204,17 @@ Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">   53</span>                    {</div>
 <div class="line"><span class="lineno">   54</span>                        await asyncDelayer.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_async_delayer.html#aeb604334bd297d47506dc23e0d115977">Delay</a>(expiry - now, cancellationToken);</div>
 <div class="line"><span class="lineno">   55</span>                    }</div>
-<div class="line"><span class="lineno">   56</span>                    <span class="keywordflow">finally</span></div>
+<div class="line"><span class="lineno">   56</span>                    <span class="keywordflow">catch</span> (OperationCanceledException)</div>
 <div class="line"><span class="lineno">   57</span>                    {</div>
-<div class="line"><span class="lineno">   58</span>                        onExpiry();</div>
-<div class="line"><span class="lineno">   59</span>                    }</div>
-<div class="line"><span class="lineno">   60</span>            }</div>
-<div class="line"><span class="lineno">   61</span> </div>
-<div class="line"><span class="lineno">   62</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_identity_cache_object.html#a2d1a4fc7b7fee56456ccebfb699ad8ee">task</a> = DisposeOnExipiry(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_identity_cache_object.html#ac8422fda839cd16fd8b467bb4947f8a1">cancellationTokenSource</a>.Token);</div>
-<div class="line"><span class="lineno">   63</span>        }</div>
+<div class="line"><span class="lineno">   58</span>                    }</div>
+<div class="line"><span class="lineno">   59</span>                    <span class="keywordflow">finally</span></div>
+<div class="line"><span class="lineno">   60</span>                    {</div>
+<div class="line"><span class="lineno">   61</span>                        onExpiry();</div>
+<div class="line"><span class="lineno">   62</span>                    }</div>
+<div class="line"><span class="lineno">   63</span>            }</div>
+<div class="line"><span class="lineno">   64</span> </div>
+<div class="line"><span class="lineno">   65</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_identity_cache_object.html#a2d1a4fc7b7fee56456ccebfb699ad8ee">task</a> = DisposeOnExipiry(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_identity_cache_object.html#ac8422fda839cd16fd8b467bb4947f8a1">cancellationTokenSource</a>.Token);</div>
+<div class="line"><span class="lineno">   66</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_security_1_1_identity_cache_object_html_a2d1a4fc7b7fee56456ccebfb699ad8ee"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_identity_cache_object.html#a2d1a4fc7b7fee56456ccebfb699ad8ee">Tgstation.Server.Host.Security.IdentityCacheObject.task</a></div><div class="ttdeci">readonly Task task</div><div class="ttdoc">The Task to clean up SystemIdentity.</div><div class="ttdef"><b>Definition:</b> <a href="_identity_cache_object_8cs_source.html#l00027">IdentityCacheObject.cs:27</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_security_1_1_identity_cache_object_html_a86a823a9e7ee94f2497bfae86c1efeed"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_identity_cache_object.html#a86a823a9e7ee94f2497bfae86c1efeed">Tgstation.Server.Host.Security.IdentityCacheObject.SystemIdentity</a></div><div class="ttdeci">ISystemIdentity SystemIdentity</div><div class="ttdoc">The ISystemIdentity the IdentityCache manages.</div><div class="ttdef"><b>Definition:</b> <a href="_identity_cache_object_8cs_source.html#l00017">IdentityCacheObject.cs:17</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_security_1_1_identity_cache_object_html_ac8422fda839cd16fd8b467bb4947f8a1"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_identity_cache_object.html#ac8422fda839cd16fd8b467bb4947f8a1">Tgstation.Server.Host.Security.IdentityCacheObject.cancellationTokenSource</a></div><div class="ttdeci">readonly CancellationTokenSource cancellationTokenSource</div><div class="ttdoc">The cancellationTokenSource for the IdentityCache.</div><div class="ttdef"><b>Definition:</b> <a href="_identity_cache_object_8cs_source.html#l00022">IdentityCacheObject.cs:22</a></div></div>
@@ -231,14 +234,14 @@ Here is the call graph for this function:</div>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="abf1fccfffa19349bb551ffe64c364387" name="abf1fccfffa19349bb551ffe64c364387"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abf1fccfffa19349bb551ffe64c364387">&#9670;&#160;</a></span>Dispose()</h2>
+<a id="a9c1da3c83acd4488eb0bd222df31e3ac" name="a9c1da3c83acd4488eb0bd222df31e3ac"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9c1da3c83acd4488eb0bd222df31e3ac">&#9670;&#160;</a></span>DisposeAsync()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void Tgstation.Server.Host.Security.IdentityCacheObject.Dispose </td>
+          <td class="memname">async ValueTask Tgstation.Server.Host.Security.IdentityCacheObject.DisposeAsync </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -248,19 +251,12 @@ Here is the call graph for this function:</div>
 
 <p></p>
 
-<p class="definition">Definition at line <a class="el" href="_identity_cache_object_8cs_source.html#l00066">66</a> of file <a class="el" href="_identity_cache_object_8cs_source.html">IdentityCacheObject.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   67</span>        {</div>
-<div class="line"><span class="lineno">   68</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_identity_cache_object.html#ac8422fda839cd16fd8b467bb4947f8a1">cancellationTokenSource</a>.Cancel();</div>
-<div class="line"><span class="lineno">   69</span>            <span class="keywordflow">try</span></div>
-<div class="line"><span class="lineno">   70</span>            {</div>
-<div class="line"><span class="lineno">   71</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_identity_cache_object.html#a2d1a4fc7b7fee56456ccebfb699ad8ee">task</a>.GetAwaiter().GetResult();</div>
-<div class="line"><span class="lineno">   72</span>            }</div>
-<div class="line"><span class="lineno">   73</span>            <span class="keywordflow">catch</span> (OperationCanceledException)</div>
-<div class="line"><span class="lineno">   74</span>            {</div>
-<div class="line"><span class="lineno">   75</span>            }</div>
-<div class="line"><span class="lineno">   76</span> </div>
-<div class="line"><span class="lineno">   77</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_identity_cache_object.html#ac8422fda839cd16fd8b467bb4947f8a1">cancellationTokenSource</a>.Dispose();</div>
-<div class="line"><span class="lineno">   78</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_identity_cache_object_8cs_source.html#l00069">69</a> of file <a class="el" href="_identity_cache_object_8cs_source.html">IdentityCacheObject.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   70</span>        {</div>
+<div class="line"><span class="lineno">   71</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_identity_cache_object.html#ac8422fda839cd16fd8b467bb4947f8a1">cancellationTokenSource</a>.Cancel();</div>
+<div class="line"><span class="lineno">   72</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_identity_cache_object.html#ac8422fda839cd16fd8b467bb4947f8a1">cancellationTokenSource</a>.Dispose();</div>
+<div class="line"><span class="lineno">   73</span>            await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_identity_cache_object.html#a2d1a4fc7b7fee56456ccebfb699ad8ee">task</a>;</div>
+<div class="line"><span class="lineno">   74</span>        }</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="_identity_cache_object_8cs_source.html#l00022">Tgstation.Server.Host.Security.IdentityCacheObject.cancellationTokenSource</a>, and <a class="el" href="_identity_cache_object_8cs_source.html#l00027">Tgstation.Server.Host.Security.IdentityCacheObject.task</a>.</p>
 
@@ -291,7 +287,7 @@ Here is the call graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_identity_cache_object_8cs_source.html#l00022">22</a> of file <a class="el" href="_identity_cache_object_8cs_source.html">IdentityCacheObject.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_identity_cache_object_8cs_source.html#l00066">Tgstation.Server.Host.Security.IdentityCacheObject.Dispose()</a>, and <a class="el" href="_identity_cache_object_8cs_source.html#l00036">Tgstation.Server.Host.Security.IdentityCacheObject.IdentityCacheObject()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_identity_cache_object_8cs_source.html#l00069">Tgstation.Server.Host.Security.IdentityCacheObject.DisposeAsync()</a>, and <a class="el" href="_identity_cache_object_8cs_source.html#l00036">Tgstation.Server.Host.Security.IdentityCacheObject.IdentityCacheObject()</a>.</p>
 
 </div>
 </div>
@@ -319,7 +315,7 @@ Here is the call graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_identity_cache_object_8cs_source.html#l00027">27</a> of file <a class="el" href="_identity_cache_object_8cs_source.html">IdentityCacheObject.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_identity_cache_object_8cs_source.html#l00066">Tgstation.Server.Host.Security.IdentityCacheObject.Dispose()</a>, and <a class="el" href="_identity_cache_object_8cs_source.html#l00036">Tgstation.Server.Host.Security.IdentityCacheObject.IdentityCacheObject()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_identity_cache_object_8cs_source.html#l00069">Tgstation.Server.Host.Security.IdentityCacheObject.DisposeAsync()</a>, and <a class="el" href="_identity_cache_object_8cs_source.html#l00036">Tgstation.Server.Host.Security.IdentityCacheObject.IdentityCacheObject()</a>.</p>
 
 </div>
 </div>

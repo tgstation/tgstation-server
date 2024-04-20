@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.4.1</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.5.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -128,16 +128,17 @@ Public Member Functions</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>The formatted arguments string.</dd></dl>
   <a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_executable_lock.html#a27d7451f2f317d1787f92de9385cacbe">More...</a><br /></td></tr>
 <tr class="separator:a27d7451f2f317d1787f92de9385cacbe"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a34c9066725c64b6fe875c08d1330b1f8"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_executable_lock.html#a34c9066725c64b6fe875c08d1330b1f8">FormatCompilerArguments</a> (string dmePath)</td></tr>
-<tr class="memdesc:a34c9066725c64b6fe875c08d1330b1f8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the command line arguments for compiling a given <em>dmePath</em>  if compilation is necessary. <dl class="params"><dt>Parameters</dt><dd>
+<tr class="memitem:a3622ed6357ddb634bf24e8494bdd1c6c"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_executable_lock.html#a3622ed6357ddb634bf24e8494bdd1c6c">FormatCompilerArguments</a> (string dmePath, string? additionalArguments)</td></tr>
+<tr class="memdesc:a3622ed6357ddb634bf24e8494bdd1c6c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the command line arguments for compiling a given <em>dmePath</em>  if compilation is necessary. <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">dmePath</td><td>The full path to the .dme to compile.</td></tr>
+    <tr><td class="paramname">additionalArguments</td><td>Optional additional arguments provided to the compiler.</td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The formatted arguments string.</dd></dl>
-  <a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_executable_lock.html#a34c9066725c64b6fe875c08d1330b1f8">More...</a><br /></td></tr>
-<tr class="separator:a34c9066725c64b6fe875c08d1330b1f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+  <a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_executable_lock.html#a3622ed6357ddb634bf24e8494bdd1c6c">More...</a><br /></td></tr>
+<tr class="separator:a3622ed6357ddb634bf24e8494bdd1c6c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad4e40c11978059b22ce8db3dfc4126c5"><td class="memItemLeft" align="right" valign="top">ValueTask&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_executable_lock.html#ad4e40c11978059b22ce8db3dfc4126c5">StopServerProcess</a> (ILogger logger, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process.html">IProcess</a> process, string accessIdentifier, ushort port, CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:ad4e40c11978059b22ce8db3dfc4126c5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Kills a given engine server <em>process</em> . <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -176,9 +177,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a74d779db3a36713e44a4b326673a51c8"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installation.html#a74d779db3a36713e44a4b326673a51c8">FormatServerArguments</a> (<a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_dmb_provider.html">IDmbProvider</a> dmbProvider, IReadOnlyDictionary&lt; string, string &gt; parameters, <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_dream_daemon_launch_parameters.html">DreamDaemonLaunchParameters</a> launchParameters, string? logFilePath)</td></tr>
 <tr class="memdesc:a74d779db3a36713e44a4b326673a51c8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the command line arguments for launching with given <em>launchParameters</em> .   <a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installation.html#a74d779db3a36713e44a4b326673a51c8">More...</a><br /></td></tr>
 <tr class="separator:a74d779db3a36713e44a4b326673a51c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a902d19d31ff635e3f2edb3e742d95925"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installation.html#a902d19d31ff635e3f2edb3e742d95925">FormatCompilerArguments</a> (string dmePath)</td></tr>
-<tr class="memdesc:a902d19d31ff635e3f2edb3e742d95925"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the command line arguments for compiling a given <em>dmePath</em>  if compilation is necessary.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installation.html#a902d19d31ff635e3f2edb3e742d95925">More...</a><br /></td></tr>
-<tr class="separator:a902d19d31ff635e3f2edb3e742d95925"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a18af4979c4f16687cb4891d0cbb9b668"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installation.html#a18af4979c4f16687cb4891d0cbb9b668">FormatCompilerArguments</a> (string dmePath, string? additionalArguments)</td></tr>
+<tr class="memdesc:a18af4979c4f16687cb4891d0cbb9b668"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the command line arguments for compiling a given <em>dmePath</em>  if compilation is necessary.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installation.html#a18af4979c4f16687cb4891d0cbb9b668">More...</a><br /></td></tr>
+<tr class="separator:a18af4979c4f16687cb4891d0cbb9b668"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abdc1ed1c2c3e883ae672ef7b75e67b03"><td class="memItemLeft" align="right" valign="top">ValueTask&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installation.html#abdc1ed1c2c3e883ae672ef7b75e67b03">StopServerProcess</a> (ILogger logger, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process.html">IProcess</a> process, string accessIdentifier, ushort port, CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:abdc1ed1c2c3e883ae672ef7b75e67b03"><td class="mdescLeft">&#160;</td><td class="mdescRight">Kills a given engine server <em>process</em> .   <a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installation.html#abdc1ed1c2c3e883ae672ef7b75e67b03">More...</a><br /></td></tr>
 <tr class="separator:abdc1ed1c2c3e883ae672ef7b75e67b03"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -277,8 +278,8 @@ Additional Inherited Members</h2></td></tr>
 
 </div>
 </div>
-<a id="a34c9066725c64b6fe875c08d1330b1f8" name="a34c9066725c64b6fe875c08d1330b1f8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a34c9066725c64b6fe875c08d1330b1f8">&#9670;&#160;</a></span>FormatCompilerArguments()</h2>
+<a id="a3622ed6357ddb634bf24e8494bdd1c6c" name="a3622ed6357ddb634bf24e8494bdd1c6c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3622ed6357ddb634bf24e8494bdd1c6c">&#9670;&#160;</a></span>FormatCompilerArguments()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -287,8 +288,18 @@ Additional Inherited Members</h2></td></tr>
           <td class="memname">string Tgstation.Server.Host.Components.Engine.EngineExecutableLock.FormatCompilerArguments </td>
           <td>(</td>
           <td class="paramtype">string&#160;</td>
-          <td class="paramname"><em>dmePath</em></td><td>)</td>
+          <td class="paramname"><em>dmePath</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">string?&#160;</td>
+          <td class="paramname"><em>additionalArguments</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -296,13 +307,14 @@ Additional Inherited Members</h2></td></tr>
 <p>Return the command line arguments for compiling a given <em>dmePath</em>  if compilation is necessary. <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">dmePath</td><td>The full path to the .dme to compile.</td></tr>
+    <tr><td class="paramname">additionalArguments</td><td>Optional additional arguments provided to the compiler.</td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The formatted arguments string.</dd></dl>
  </p>
 
-<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installation.html#a902d19d31ff635e3f2edb3e742d95925">Tgstation.Server.Host.Components.Engine.IEngineInstallation</a>.</p>
+<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installation.html#a18af4979c4f16687cb4891d0cbb9b668">Tgstation.Server.Host.Components.Engine.IEngineInstallation</a>.</p>
 
 </div>
 </div>

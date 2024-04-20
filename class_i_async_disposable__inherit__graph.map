@@ -1,5 +1,5 @@
 <map id="IAsyncDisposable" name="IAsyncDisposable">
-<area shape="rect" id="node1" title=" " alt="" coords="5,543,132,569"/>
+<area shape="rect" id="node1" title=" " alt="" coords="5,607,132,633"/>
 <area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_client_1_1_i_api_client.html" title="Web interface for the API." alt="" coords="215,11,371,51"/>
 <area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_client_1_1_i_server_client.html" title="Main client for communicating with a server." alt="" coords="215,80,371,120"/>
 <area shape="rect" id="node6" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager.html" title="For managing connected chat services." alt="" coords="180,155,407,195"/>
@@ -11,9 +11,11 @@
 <area shape="rect" id="node25" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_i_session_controller.html" title="Handles communication with a DreamDaemon IProcess." alt="" coords="180,632,407,672"/>
 <area shape="rect" id="node27" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_watchdog.html" title="Runs and monitors the twin server controllers." alt="" coords="180,696,407,736"/>
 <area shape="rect" id="node33" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_file_stream_provider.html" title="Interface for asynchronously consuming Streams of files." alt="" coords="209,760,377,800"/>
-<area shape="rect" id="node40" href="$class_tgstation_1_1_server_1_1_host_1_1_service_1_1_service_lifetime.html" title="Represents the lifetime of the service." alt="" coords="194,824,393,864"/>
-<area shape="rect" id="node41" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process.html" title="Abstraction over a global::System.Diagnostics.Process." alt="" coords="194,888,393,928"/>
-<area shape="rect" id="node43" href="$class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_transfer_service.html" title="Implementation of the file transfer service." alt="" coords="192,952,395,992"/>
+<area shape="rect" id="node40" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_identity_cache.html" title=" " alt="" coords="193,824,394,864"/>
+<area shape="rect" id="node41" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_identity_cache_object.html" title="For keeping a specific ISystemIdentity alive for a period of time." alt="" coords="193,888,394,928"/>
+<area shape="rect" id="node42" href="$class_tgstation_1_1_server_1_1_host_1_1_service_1_1_service_lifetime.html" title="Represents the lifetime of the service." alt="" coords="194,952,393,992"/>
+<area shape="rect" id="node43" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process.html" title="Abstraction over a global::System.Diagnostics.Process." alt="" coords="194,1016,393,1056"/>
+<area shape="rect" id="node45" href="$class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_transfer_service.html" title="Implementation of the file transfer service." alt="" coords="192,1080,395,1120"/>
 <area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_client_1_1_api_client.html" title=" " alt="" coords="504,5,660,45"/>
 <area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_client_1_1_server_client.html" title=" " alt="" coords="504,69,660,109"/>
 <area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html" title=" " alt="" coords="469,133,695,173"/>
@@ -41,5 +43,5 @@
 <area shape="rect" id="node38" href="$interface_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_i_file_upload_ticket.html" title="A FileTicketResponse that waits for a pending upload." alt="" coords="481,952,683,992"/>
 <area shape="rect" id="node36" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_buffered_file_stream_provider.html" title="IFileStreamProvider that provides a ISeekableFileStreamProvider from an input Stream." alt="" coords="781,824,963,864"/>
 <area shape="rect" id="node39" href="$class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_upload_provider.html" title=" " alt="" coords="771,952,973,992"/>
-<area shape="rect" id="node42" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process.html" title=" " alt="" coords="483,1016,681,1056"/>
+<area shape="rect" id="node44" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process.html" title=" " alt="" coords="483,1016,681,1056"/>
 </map>

@@ -271,5 +271,15 @@ var searchData=
   ['20240202202106_5fpgaddminidumpsoption_2ecs_268',['20240202202106_PGAddMinidumpsOption.cs',['../20240202202106___p_g_add_minidumps_option_8cs.html',1,'']]],
   ['20240202202106_5fpgaddminidumpsoption_2edesigner_2ecs_269',['20240202202106_PGAddMinidumpsOption.Designer.cs',['../20240202202106___p_g_add_minidumps_option_8_designer_8cs.html',1,'']]],
   ['20240202202121_5fsladdminidumpsoption_2ecs_270',['20240202202121_SLAddMinidumpsOption.cs',['../20240202202121___s_l_add_minidumps_option_8cs.html',1,'']]],
-  ['20240202202121_5fsladdminidumpsoption_2edesigner_2ecs_271',['20240202202121_SLAddMinidumpsOption.Designer.cs',['../20240202202121___s_l_add_minidumps_option_8_designer_8cs.html',1,'']]]
+  ['20240202202121_5fsladdminidumpsoption_2edesigner_2ecs_271',['20240202202121_SLAddMinidumpsOption.Designer.cs',['../20240202202121___s_l_add_minidumps_option_8_designer_8cs.html',1,'']]],
+  ['20240420153929_5fmynormalizeversionupdates_2ecs_272',['20240420153929_MYNormalizeVersionUpdates.cs',['../20240420153929___m_y_normalize_version_updates_8cs.html',1,'']]],
+  ['20240420153929_5fmynormalizeversionupdates_2edesigner_2ecs_273',['20240420153929_MYNormalizeVersionUpdates.Designer.cs',['../20240420153929___m_y_normalize_version_updates_8_designer_8cs.html',1,'']]],
+  ['20240420154501_5fmsaddcompileradditionalarguments_2ecs_274',['20240420154501_MSAddCompilerAdditionalArguments.cs',['../20240420154501___m_s_add_compiler_additional_arguments_8cs.html',1,'']]],
+  ['20240420154501_5fmsaddcompileradditionalarguments_2edesigner_2ecs_275',['20240420154501_MSAddCompilerAdditionalArguments.Designer.cs',['../20240420154501___m_s_add_compiler_additional_arguments_8_designer_8cs.html',1,'']]],
+  ['20240420154509_5fmyaddcompileradditionalarguments_2ecs_276',['20240420154509_MYAddCompilerAdditionalArguments.cs',['../20240420154509___m_y_add_compiler_additional_arguments_8cs.html',1,'']]],
+  ['20240420154509_5fmyaddcompileradditionalarguments_2edesigner_2ecs_277',['20240420154509_MYAddCompilerAdditionalArguments.Designer.cs',['../20240420154509___m_y_add_compiler_additional_arguments_8_designer_8cs.html',1,'']]],
+  ['20240420154517_5fpgaddcompileradditionalarguments_2ecs_278',['20240420154517_PGAddCompilerAdditionalArguments.cs',['../20240420154517___p_g_add_compiler_additional_arguments_8cs.html',1,'']]],
+  ['20240420154517_5fpgaddcompileradditionalarguments_2edesigner_2ecs_279',['20240420154517_PGAddCompilerAdditionalArguments.Designer.cs',['../20240420154517___p_g_add_compiler_additional_arguments_8_designer_8cs.html',1,'']]],
+  ['20240420154525_5fsladdcompileradditionalarguments_2ecs_280',['20240420154525_SLAddCompilerAdditionalArguments.cs',['../20240420154525___s_l_add_compiler_additional_arguments_8cs.html',1,'']]],
+  ['20240420154525_5fsladdcompileradditionalarguments_2edesigner_2ecs_281',['20240420154525_SLAddCompilerAdditionalArguments.Designer.cs',['../20240420154525___s_l_add_compiler_additional_arguments_8_designer_8cs.html',1,'']]]
 ];
