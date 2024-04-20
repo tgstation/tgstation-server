@@ -278,6 +278,10 @@ namespace Tgstation.Server.Host.Database.Migrations
 				b.Property<int>("ApiValidationSecurityLevel")
 					.HasColumnType("int");
 
+				b.Property<string>("CompilerAdditionalArguments")
+					.HasMaxLength(10000)
+					.HasColumnType("varchar(10000)");
+
 				b.Property<long>("InstanceId")
 					.HasColumnType("bigint");
 

@@ -78,7 +78,7 @@ namespace Tgstation.Server.Host.Components.Engine
 		}
 
 		/// <inheritdoc />
-		public abstract string FormatCompilerArguments(string dmePath);
+		public abstract string FormatCompilerArguments(string dmePath, string? additionalArguments);
 
 		/// <inheritdoc />
 		public abstract string FormatServerArguments(

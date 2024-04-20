@@ -112,8 +112,15 @@ namespace Tgstation.Server.Host.Components.Engine
 		}
 
 		/// <inheritdoc />
-		public override string FormatCompilerArguments(string dmePath)
-			=> $"--suppress-unimplemented --notices-enabled \"{dmePath ?? throw new ArgumentNullException(nameof(dmePath))}\"";
+		public override string FormatCompilerArguments(string dmePath, string? additionalArguments)
+		{
+			if (String.IsNullOrWhiteSpace(additionalArguments))
+				additionalArguments = String.Empty;
+			else
+				additionalArguments = $"{additionalArguments.Trim()} ";
+
+			return $"--suppress-unimplemented --notices-enabled {additionalArguments}\"{dmePath ?? throw new ArgumentNullException(nameof(dmePath))}\"";
+		}
 
 		/// <inheritdoc />
 		public override async ValueTask StopServerProcess(

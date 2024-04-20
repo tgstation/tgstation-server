@@ -632,7 +632,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 
 				// run compiler
 				progressReporter.StageName = "Running Compiler";
-				var compileSuceeded = await RunDreamMaker(engineLock, job, cancellationToken);
+				var compileSuceeded = await RunDreamMaker(engineLock, job, dreamMakerSettings.CompilerAdditionalArguments, cancellationToken);
 
 				// Session takes ownership of the lock and Disposes it so save this for later
 				var engineVersion = engineLock.Version;
@@ -850,12 +850,17 @@ namespace Tgstation.Server.Host.Components.Deployment
 		/// </summary>
 		/// <param name="engineLock">The <see cref="IEngineExecutableLock"/> to use.</param>
 		/// <param name="job">The <see cref="CompileJob"/> for the operation.</param>
+		/// <param name="additionalCompilerArguments">Additional arguments to be added to the compiler.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in <see langword="true"/> if compilation succeeded, <see langword="false"/> otherwise.</returns>
-		async ValueTask<bool> RunDreamMaker(IEngineExecutableLock engineLock, Models.CompileJob job, CancellationToken cancellationToken)
+		async ValueTask<bool> RunDreamMaker(
+			IEngineExecutableLock engineLock,
+			Models.CompileJob job,
+			string? additionalCompilerArguments,
+			CancellationToken cancellationToken)
 		{
 			var environment = await engineLock.LoadEnv(logger, true, cancellationToken);
-			var arguments = engineLock.FormatCompilerArguments($"{job.DmeName}.{DmeExtension}");
+			var arguments = engineLock.FormatCompilerArguments($"{job.DmeName}.{DmeExtension}", additionalCompilerArguments);
 
 			await using var dm = await processExecutor.LaunchProcess(
 				engineLock.CompilerExePath,

@@ -74,8 +74,9 @@ namespace Tgstation.Server.Host.Components.Engine
 		/// Return the command line arguments for compiling a given <paramref name="dmePath"/> if compilation is necessary.
 		/// </summary>
 		/// <param name="dmePath">The full path to the .dme to compile.</param>
+		/// <param name="additionalArguments">Optional additional arguments provided to the compiler.</param>
 		/// <returns>The formatted arguments <see cref="string"/>.</returns>
-		string FormatCompilerArguments(string dmePath);
+		string FormatCompilerArguments(string dmePath, string? additionalArguments);
 
 		/// <summary>
 		/// Kills a given engine server <paramref name="process"/>.
