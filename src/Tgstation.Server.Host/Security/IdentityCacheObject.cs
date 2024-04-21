@@ -9,7 +9,7 @@ namespace Tgstation.Server.Host.Security
 	/// <summary>
 	/// For keeping a specific <see cref="ISystemIdentity"/> alive for a period of time.
 	/// </summary>
-	sealed class IdentityCacheObject : IDisposable
+	sealed class IdentityCacheObject : IAsyncDisposable
 	{
 		/// <summary>
 		/// The <see cref="ISystemIdentity"/> the <see cref="IdentityCache"/> manages.
@@ -53,6 +53,9 @@ namespace Tgstation.Server.Host.Security
 					{
 						await asyncDelayer.Delay(expiry - now, cancellationToken);
 					}
+					catch (OperationCanceledException)
+					{
+					}
 					finally
 					{
 						onExpiry();
@@ -63,18 +66,11 @@ namespace Tgstation.Server.Host.Security
 		}
 
 		/// <inheritdoc />
-		public void Dispose()
+		public async ValueTask DisposeAsync()
 		{
 			cancellationTokenSource.Cancel();
-			try
-			{
-				task.GetAwaiter().GetResult();
-			}
-			catch (OperationCanceledException)
-			{
-			}
-
 			cancellationTokenSource.Dispose();
+			await task;
 		}
 	}
 }

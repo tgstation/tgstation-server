@@ -3,13 +3,13 @@
   <!-- Integration tests will ensure they match across the board -->
   <Import Project="WebpanelVersion.props" />
   <PropertyGroup>
-    <TgsCoreVersion>6.4.1</TgsCoreVersion>
+    <TgsCoreVersion>6.5.0</TgsCoreVersion>
     <TgsConfigVersion>5.1.0</TgsConfigVersion>
-    <TgsApiVersion>10.2.0</TgsApiVersion>
+    <TgsApiVersion>10.3.0</TgsApiVersion>
     <TgsCommonLibraryVersion>7.0.0</TgsCommonLibraryVersion>
-    <TgsApiLibraryVersion>13.2.0</TgsApiLibraryVersion>
-    <TgsClientVersion>15.2.0</TgsClientVersion>
-    <TgsDmapiVersion>7.1.1</TgsDmapiVersion>
+    <TgsApiLibraryVersion>13.3.0</TgsApiLibraryVersion>
+    <TgsClientVersion>15.3.0</TgsClientVersion>
+    <TgsDmapiVersion>7.1.2</TgsDmapiVersion>
     <TgsInteropVersion>5.9.0</TgsInteropVersion>
     <TgsHostWatchdogVersion>1.4.1</TgsHostWatchdogVersion>
     <TgsContainerScriptVersion>1.2.1</TgsContainerScriptVersion>
@@ -17,7 +17,7 @@
     <TgsNugetNetFramework>netstandard2.0</TgsNugetNetFramework>
     <TgsNetMajorVersion>8</TgsNetMajorVersion>
     <!-- Update this frequently with dotnet runtime patches. MAJOR MUST MATCH ABOVE! -->
-    <TgsDotnetRedistUrl>https://download.visualstudio.microsoft.com/download/pr/98ff0a08-a283-428f-8e54-19841d97154c/8c7d5f9600eadf264f04c82c813b7aab/dotnet-hosting-8.0.2-win.exe</TgsDotnetRedistUrl>
+    <TgsDotnetRedistUrl>https://download.visualstudio.microsoft.com/download/pr/00397fee-1bd9-44ef-899b-4504b26e6e96/ab9c73409659f3238d33faee304a8b7c/dotnet-hosting-8.0.4-win.exe</TgsDotnetRedistUrl>
     <TgsMariaDBRedistVersion>10.11.6</TgsMariaDBRedistVersion>
     <TgsYarnVersion>1.22.21</TgsYarnVersion>
   </PropertyGroup>

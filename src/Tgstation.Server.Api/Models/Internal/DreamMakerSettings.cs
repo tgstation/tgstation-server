@@ -39,5 +39,12 @@ namespace Tgstation.Server.Api.Models.Internal
 		/// </summary>
 		[Required]
 		public TimeSpan? Timeout { get; set; }
+
+		/// <summary>
+		/// Additional arguments added to the compiler command line.
+		/// </summary>
+		[StringLength(Limits.MaximumStringLength)]
+		[ResponseOptions]
+		public string? CompilerAdditionalArguments { get; set; }
 	}
 }

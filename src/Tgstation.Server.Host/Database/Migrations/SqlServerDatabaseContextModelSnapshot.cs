@@ -13,7 +13,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 		{
 #pragma warning disable 612, 618
 			modelBuilder
-				.HasAnnotation("ProductVersion", "8.0.1")
+				.HasAnnotation("ProductVersion", "8.0.4")
 				.HasAnnotation("Relational:MaxIdentifierLength", 128);
 
 			SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -255,6 +255,10 @@ namespace Tgstation.Server.Host.Database.Migrations
 
 				b.Property<int>("ApiValidationSecurityLevel")
 					.HasColumnType("int");
+
+				b.Property<string>("CompilerAdditionalArguments")
+					.HasMaxLength(10000)
+					.HasColumnType("nvarchar(max)");
 
 				b.Property<long>("InstanceId")
 					.HasColumnType("bigint");

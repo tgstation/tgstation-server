@@ -1975,8 +1975,10 @@ jobs:
       shell: powershell
       run: build/package/winget/push_manifest.ps1
 
+    - name: Delay 10m to allow MS bot to update PR
+      shell: powershell
+      run: Sleep 600
+
     - name: Run ReleaseNotes with --link-winget
       shell: powershell
-      run: |
-        Sleep 600
-        dotnet run -c Release --no-build --project tools/Tgstation.Server.ReleaseNotes --link-winget ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+      run: dotnet run -c Release --no-build --project tools/Tgstation.Server.ReleaseNotes --link-winget ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}

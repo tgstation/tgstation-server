@@ -55,7 +55,7 @@
 		EngineActiveVersionChange,
 
 		/// <summary>
-		/// After the repo is copied, before CodeModifications are applied. Parameters: Game directory path, origin commit sha, engine version string.
+		/// After the repo is copied, before CodeModifications are applied. Parameters: Game directory path, origin commit sha, engine version string, repository reference (or "(no branch)" if there is no reference).
 		/// </summary>
 		[EventScript("PreCompile")]
 		CompileStart,

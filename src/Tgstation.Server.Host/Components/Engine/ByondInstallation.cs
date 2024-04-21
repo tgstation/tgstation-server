@@ -147,7 +147,14 @@ namespace Tgstation.Server.Host.Components.Engine
 		}
 
 		/// <inheritdoc />
-		public override string FormatCompilerArguments(string dmePath)
-			=> $"-clean \"{dmePath ?? throw new ArgumentNullException(nameof(dmePath))}\"";
+		public override string FormatCompilerArguments(string dmePath, string? additionalArguments)
+		{
+			if (String.IsNullOrWhiteSpace(additionalArguments))
+				additionalArguments = String.Empty;
+			else
+				additionalArguments = $"{additionalArguments.Trim()} ";
+
+			return $"-clean {additionalArguments}\"{dmePath ?? throw new ArgumentNullException(nameof(dmePath))}\"";
+		}
 	}
 }
