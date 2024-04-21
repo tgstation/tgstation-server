@@ -163,6 +163,10 @@ Components:
       - Added the repository's current reference name as the 4th argument to `PreCompile` scripts.
       Author: Cyberboss
       PullRequest: 1811
+    - Descriptions:
+      - Added some skeleton manpages.
+      Author: Cyberboss
+      PullRequest: 1812
     Unreleased: true
   - Version: 6.4.2
     ComponentVersions:
