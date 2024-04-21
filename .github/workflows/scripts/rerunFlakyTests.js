@@ -3,17 +3,21 @@
 const CONSIDERED_JOBS = [
 	"Windows Live Tests",
 	"Linux Live Tests",
+	"Build .deb Package"
 ];
 
 async function getFailedJobsForRun(github, context, workflowRunId, runAttempt) {
-	const {
-		data: { jobs },
-	} = await github.rest.actions.listJobsForWorkflowRunAttempt({
-		owner: context.repo.owner,
-		repo: context.repo.repo,
-		run_id: workflowRunId,
-		attempt_number: runAttempt,
-	});
+	const jobs = await github.paginate(
+		github.actions.listJobsForWorkflowRunAttempt,
+		{
+			owner: context.repo.owner,
+			repo: context.repo.repo,
+			run_id: workflowRunId,
+			attempt_number: runAttempt
+		},
+		response => {
+			return response.data.jobs;
+		});
 
 	return jobs
 		.filter((job) => job.conclusion === "failure");
@@ -32,7 +36,10 @@ export async function rerunFlakyTests({ github, context }) {
 		return;
 	}
 
-	const filteredFailingJobs = failingJobs.filter((job) => CONSIDERED_JOBS.some((title) => job.name.startsWith(title)));
+	const filteredFailingJobs = failingJobs.filter((job) => {
+		console.log(`Failing job: ${job.name}`)
+		return CONSIDERED_JOBS.some((title) => job.name.startsWith(title));
+	});
 	if (filteredFailingJobs.length === 0) {
 		console.log("Failing jobs are NOT designated flaky. Not rerunning.");
 		return;
