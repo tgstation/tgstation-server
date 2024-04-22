@@ -147,8 +147,17 @@ Components:
       Author: Cyberboss
       PullRequest: 1070
   Core:
+  - Version: 6.6.0
+    ComponentVersions: {}
+    Changes: []
+    Unreleased: true
+  - Version: 6.5.1
+    ComponentVersions: {}
+    Changes: []
+    Unreleased: true
   - Version: 6.5.0
     ComponentVersions:
+      Core: 6.5.0
       HttpApi: 10.3.0
       DreamMakerApi: 7.1.2
       Configuration: 5.1.0
@@ -157,7 +166,7 @@ Components:
       NugetCommon: 7.0.0
       NugetApi: 13.3.0
       NugetClient: 15.3.0
-      WebControlPanel: 5.6.0
+      WebControlPanel: 5.7.1
     Changes:
     - Descriptions:
       - Added the repository's current reference name as the 4th argument to `PreCompile` scripts.
@@ -167,21 +176,6 @@ Components:
       - Added some skeleton manpages.
       Author: Cyberboss
       PullRequest: 1812
-    Unreleased: true
-  - Version: 6.4.2
-    ComponentVersions:
-      Core: 6.4.1
-      HttpApi: 10.2.0
-      DreamMakerApi: 7.1.1
-      Configuration: 5.1.0
-      InteropApi: 5.9.0
-      HostWatchdog: 1.4.1
-      NugetCommon: 7.0.0
-      NugetApi: 13.2.0
-      NugetClient: 15.2.0
-      WebControlPanel: 5.6.0
-    Changes: []
-    Unreleased: true
   - Version: 6.4.1
     ComponentVersions:
       HttpApi: 10.2.0
@@ -3439,6 +3433,12 @@ Components:
       Author: AffectedArc07
       PullRequest: 1408
   WebControlPanel:
+  - Version: 5.7.1
+    Changes:
+    - Descriptions:
+      - Added deployment page option to set additional compiler arguments.
+      Author: Cyberboss
+      PullRequest: 1813
   - Version: 5.6.0
     Changes:
     - Descriptions:
@@ -3634,7 +3634,6 @@ Components:
       - Added `compilerAdditionalArguments` and associated DreamMaker right 512. These are added to the engine compiler command lines, right before the .dme.
       Author: Cyberboss
       PullRequest: 1811
-    Unreleased: true
   - Version: 10.1.0
     Changes:
     - Descriptions:
@@ -4124,7 +4123,6 @@ Components:
       - Fixed potential must_call_parent linter errors with SpacemanDMM.
       Author: Cyberboss
       PullRequest: 1805
-    Unreleased: true
   - Version: 7.1.1
     Changes:
     - Descriptions:
