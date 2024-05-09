@@ -83,7 +83,10 @@
 					revision_date = unix_epoch_to_iso_timestamp(revision_date_epoch)
 				else
 					revision_date = ""
-					TGS_ERROR_LOG("Error parsing origin commmit logs")
+					TGS_ERROR_LOG("Error parsing origin commit timestamp as number")
+			else
+				revision_date = ""
+				TGS_ERROR_LOG("Error parsing origin commmit timestamp at all")
 		else
 			TGS_ERROR_LOG("Error parsing origin commmit logs")
 
