@@ -228,12 +228,14 @@
 /datum/tgs_api/v3210/SecurityLevel()
 	return TGS_SECURITY_TRUSTED
 
+#if DM_VERSION >= 514
 /datum/tgs_api/v3210/proc/unix_epoch_to_iso_timestamp(epoch)
 	epoch += world.timezone * 3600 // adjust for timezone
 	epoch -= 946684800 // adjust for unix to byond epoch lapse (30 years)
 	epoch *= 10 // adjust for time2text expecting decisonds
 	// third paramter is timezone, which only works for versions 514+. but we can put a 0 here and itll be the same for old versions
 	return time2text(epoch, "YYYY-MM-DDThh:mm:ss", 0)
+#endif
 
 #undef REBOOT_MODE_NORMAL
 #undef REBOOT_MODE_HARD
