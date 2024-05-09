@@ -6,13 +6,17 @@
 
 [![forthebadge](http://forthebadge.com/images/badges/made-with-c-sharp.svg)](http://forthebadge.com) [![forinfinityandbyond](https://user-images.githubusercontent.com/5211576/29499758-4efff304-85e6-11e7-8267-62919c3688a9.gif)](https://www.reddit.com/r/SS13/comments/5oplxp/what_is_the_main_problem_with_byond_as_an_engine/dclbu1a) [![forthebadge](http://forthebadge.com/images/badges/built-with-love.svg)](http://forthebadge.com)
 
-This is a toolset to manage production BYOND servers. It includes the ability to update the server without having to stop or shutdown the server (the update will take effect on a "reboot" of the server), the ability to start the server and restart it if it crashes, as well as systems for managing code and game files, and locally merging GitHub Pull Requests for test deployments.
+This is a toolset to manage production DreamMaker servers. It includes the ability to update the server without having to stop or shutdown the server (the update will take effect on a "reboot" of the server), the ability to start the server and restart it if it crashes, as well as systems for managing code and game files, and locally merging GitHub Pull Requests for test deployments.
 
 ## Setup
 
 ### Pre-Requisites
 
-_Note: If you opt to use the Windows installer, all pre-requisites for running BYOND servers (including MariaDB) are provided out of the box. If you wish to use OpenDream you will need to install the required dotnet SDK manually._
+_Note: If you opt to use the Windows installer, most pre-requisites for running BYOND servers (including MariaDB) are provided out of the box._
+
+_If you are running on a Windows Server OS. You **might** need to install the [x86 Visual C++ 2015 Runtime](https://aka.ms/vs/17/release/vc_redist.x86.exe) to run BYOND._
+
+_If you wish to use OpenDream you will need to install the required dotnet SDK manually._
 
 tgstation-server needs a relational database to store it's data.
 
@@ -127,7 +131,7 @@ sudo dpkg --add-architecture i386 \
 && sudo systemctl start tgstation-server
 ```
 
-The service will execute as the newly created user: `tgstation-server`.
+The service will execute as the newly created user: `tgstation-server`. You should, ideally, store your instances somewhere under `/home/tgstation-server`.
 
 ##### Manual Setup
 
@@ -157,6 +161,7 @@ docker run \
 	--network="host" \ # Not recommended, eases networking setup if your sql server is on the same machine
 	--name="tgs" \ # Name for the container
 	--cap-add=sys_nice \ # Recommended, allows TGS to lower the niceness of child processes if it sees fit
+	--cap-add=sys_resource \ # Recommended, allows TGS to not be killed by the OOM killer before its child processes
 	--init \ #Highly recommended, reaps potential zombie processes
 	-p 5000:5000 \ # Port bridge for accessing TGS, you can change this if you need
 	-p 0.0.0.0:<public game port>:<public game port> \ # Port bridge for accessing DreamDaemon
@@ -407,15 +412,15 @@ _NOTE: Your reverse proxy setup may interfere with SSE (Server-Sent Events) whic
 #### IIS (Reccommended for Windows)
 
 1. Acquire an HTTPS certificate. The easiet free way for Windows is [win-acme](https://github.com/PKISharp/win-acme) (requires you to set up the website first)
-2. Install the [Web Platform Installer](https://www.microsoft.com/web/downloads/platform.aspx)
-3. Open the web platform installer in the IIS Manager and install the Application Request Routing 3.0 module
-4. Create a new website, bind it to HTTPS only with your chosen certificate and exposed port. The physical path won't matter since it won't be used. Use `Require Server Name Indication` if you want to limit requests to a specific URL prefix. Do not use the same port as the one TGS is running on.
-5. Close and reopen the IIS Manager
-5. Open the site and navigate to the `URL Rewrite` module
-6. In the `Actions` Pane on the right click `Add Rule(s)...`
-7. For the rule template, select `Reverse Proxy` under `Inbound and Outbound Rules` and click `OK`
-8. You may get a prompt about enabling proxy functionality. Click `OK`
-9. In the window that appears set the `Inbound Rules` textbox to the URL of your tgstation-server i.e. `http://localhost:5000`. Ensure `Enable SSL Offloading` is checked, then click `OK`
+1. Install the [URL Rewrite Module](https://www.iis.net/downloads/microsoft/url-rewrite)
+1. Install the [Application Request Routing Module](https://www.iis.net/downloads/microsoft/application-request-routing)
+1. Create a new website, bind it to HTTPS only with your chosen certificate and exposed port. The physical path won't matter since it won't be used. Use `Require Server Name Indication` if you want to limit requests to a specific URL prefix. Do not use the same port as the one TGS is running on.
+1. Close and reopen the IIS Manager
+1. Open the site and navigate to the `URL Rewrite` module
+1. In the `Actions` Pane on the right click `Add Rule(s)...`
+1. For the rule template, select `Reverse Proxy` under `Inbound and Outbound Rules` and click `OK`
+1. You may get a prompt about enabling proxy functionality. Click `OK`
+1. In the window that appears set the `Inbound Rules` textbox to the URL of your tgstation-server i.e. `localhost:5000`. Ensure `Enable SSL Offloading` is checked, then click `OK`
 
 #### Caddy (Reccommended for Linux, or those unfamilar with configuring NGINX or Apache)
 
@@ -539,7 +544,11 @@ Manual operations on the repository while an instance is running may lead to git
 
 #### Byond
 
-The `Byond` folder contains installations of [BYOND](https://www.byond.com/) versions. The version which is used by your game code can be changed on a whim (Note that only versions >= 511.1385 have been thouroughly tested. Lower versions should work but if one doesn't function, please open an issue report) and the server will take care of installing it.
+The `Byond` folder contains installations of [BYOND](https://www.byond.com/) or [OpenDream](https://github.com/OpenDreamProject/OpenDream) versions. The version which is used by your game code can be changed on a whim (Note that only versions >= 511.1385 have been thouroughly tested. Lower versions should work but if one doesn't function, please open an issue report) and the server will take care of installing it.
+
+##### Environment Variables
+
+You can specify additional environment variables to launch your server/compiler with by adding `server.env`/`compiler.env` to your engine installation directory (i.e. `<instance>/Byond/515.1530/server.env`). These are [.env](https://hexdocs.pm/dotenvy/dotenv-file-format.html) files.
 
 #### Compiler
 

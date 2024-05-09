@@ -85,7 +85,7 @@ namespace Tgstation.Server.Host.Components.Repository
 					Comment = parameters.Comment,
 					Number = parameters.Number,
 					TargetCommitSha = parameters.TargetCommitSha,
-					Url = ex.Message,
+					Url = $"https://gitlab.com/{RemoteRepositoryOwner}/{RemoteRepositoryName}/-/merge_requests/{parameters.Number}",
 				};
 			}
 		}

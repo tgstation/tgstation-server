@@ -22,7 +22,7 @@ namespace Tgstation.Server.Host.Components.Session
 		/// <summary>
 		/// If the DreamDaemon instance sent a.
 		/// </summary>
-		bool TerminationWasRequested { get; }
+		bool TerminationWasIntentional { get; }
 
 		/// <summary>
 		/// The DMAPI <see cref="Session.ApiValidationStatus"/>.
@@ -83,6 +83,11 @@ namespace Tgstation.Server.Host.Components.Session
 		/// If the DMAPI may be used this session.
 		/// </summary>
 		bool DMApiAvailable { get; }
+
+		/// <summary>
+		/// The file extension to use for process dumps created from this session.
+		/// </summary>
+		string DumpFileExtension { get; }
 
 		/// <summary>
 		/// Releases the <see cref="IProcess"/> without terminating it. Also calls <see cref="IDisposable.Dispose"/>.

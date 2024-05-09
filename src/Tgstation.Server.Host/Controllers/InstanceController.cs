@@ -732,6 +732,7 @@ namespace Tgstation.Server.Host.Controllers
 					StartProfiler = false,
 					LogOutput = false,
 					MapThreads = 0,
+					Minidumps = true,
 				},
 				DreamMakerSettings = new DreamMakerSettings
 				{
@@ -739,6 +740,7 @@ namespace Tgstation.Server.Host.Controllers
 					ApiValidationSecurityLevel = DreamDaemonSecurity.Safe,
 					RequireDMApiValidation = true,
 					Timeout = TimeSpan.FromHours(1),
+					CompilerAdditionalArguments = null,
 				},
 				Name = initialSettings.Name,
 				Online = false,

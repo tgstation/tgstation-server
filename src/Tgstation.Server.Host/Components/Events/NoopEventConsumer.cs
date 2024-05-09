@@ -12,5 +12,9 @@ namespace Tgstation.Server.Host.Components.Events
 		/// <inheritdoc />
 		public ValueTask HandleEvent(EventType eventType, IEnumerable<string?> parameters, bool deploymentPipeline, CancellationToken cancellationToken)
 			=> ValueTask.CompletedTask;
+
+		/// <inheritdoc />
+		public ValueTask? HandleCustomEvent(string eventName, IEnumerable<string?> parameters, CancellationToken cancellationToken)
+			=> ValueTask.CompletedTask;
 	}
 }

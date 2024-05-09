@@ -1,16 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 using Microsoft.Extensions.Logging;
 
+using Tgstation.Server.Common.Extensions;
 using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.Utils;
 
 namespace Tgstation.Server.Host.Security
 {
 	/// <inheritdoc cref="IIdentityCache" />
-	sealed class IdentityCache : IIdentityCache, IDisposable
+	sealed class IdentityCache : IIdentityCache, IAsyncDisposable
 	{
 		/// <summary>
 		/// The <see cref="IAsyncDelayer"/> for the <see cref="IdentityCache"/>.
@@ -41,15 +43,14 @@ namespace Tgstation.Server.Host.Security
 		}
 
 		/// <inheritdoc />
-		public void Dispose()
+		public ValueTask DisposeAsync()
 		{
 			logger.LogTrace("Disposing...");
-			foreach (var cachedIdentity in cachedIdentities.Select(x => x.Value).ToList())
-				cachedIdentity.Dispose();
+			return ValueTaskExtensions.WhenAll(cachedIdentities.Select(x => x.Value.DisposeAsync()));
 		}
 
 		/// <inheritdoc />
-		public void CacheSystemIdentity(User user, ISystemIdentity systemIdentity, DateTimeOffset expiry)
+		public async ValueTask CacheSystemIdentity(User user, ISystemIdentity systemIdentity, DateTimeOffset expiry)
 		{
 			ArgumentNullException.ThrowIfNull(user);
 			ArgumentNullException.ThrowIfNull(systemIdentity);
@@ -57,27 +58,35 @@ namespace Tgstation.Server.Host.Security
 			var uid = user.Require(x => x.Id);
 			var sysId = systemIdentity.Uid;
 
-			lock (cachedIdentities)
+			ValueTask oldIdentityDisposal = ValueTask.CompletedTask;
+			try
 			{
-				logger.LogDebug("Caching system identity {sysId} of user {uid}", sysId, uid);
-
-				if (cachedIdentities.TryGetValue(uid, out var identCache))
+				lock (cachedIdentities)
 				{
-					logger.LogTrace("Expiring previously cached identity...");
-					identCache.Dispose(); // also clears it out
-				}
+					logger.LogDebug("Caching system identity {sysId} of user {uid}", sysId, uid);
 
-				identCache = new IdentityCacheObject(
-					systemIdentity.Clone(),
-					asyncDelayer,
-					() =>
+					if (cachedIdentities.TryGetValue(uid, out var identCache))
 					{
-						logger.LogDebug("Expiring system identity cache for user {uid}", uid);
-						lock (cachedIdentities)
-							cachedIdentities.Remove(uid);
-					},
-					expiry);
-				cachedIdentities.Add(uid, identCache);
+						logger.LogTrace("Expiring previously cached identity...");
+						oldIdentityDisposal = identCache.DisposeAsync(); // also clears it out
+					}
+
+					identCache = new IdentityCacheObject(
+						systemIdentity.Clone(),
+						asyncDelayer,
+						() =>
+						{
+							logger.LogDebug("Expiring system identity cache for user {uid}", uid);
+							lock (cachedIdentities)
+								cachedIdentities.Remove(uid);
+						},
+						expiry);
+					cachedIdentities.Add(uid, identCache);
+				}
+			}
+			finally
+			{
+				await oldIdentityDisposal;
 			}
 		}
 

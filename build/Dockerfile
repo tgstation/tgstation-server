@@ -16,6 +16,7 @@ RUN . $NVM_DIR/nvm.sh \
 	&& apt-get update \
 	&& apt-get install -y \
 		dos2unix \
+		libgdiplus \
 	&& rm -rf /var/lib/apt/lists/*
 
 # Build web control panel

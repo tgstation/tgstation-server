@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -68,28 +69,40 @@ namespace Tgstation.Server.Host.System
 		{
 			ArgumentNullException.ThrowIfNull(process);
 
-			process.Refresh();
-			foreach (ProcessThread thread in process.Threads)
+			var suspendedThreadIds = new HashSet<uint>();
+			bool suspendedNewThreads;
+			do
 			{
-				var threadId = (uint)thread.Id;
-				logger.LogTrace("Suspending thread {threadId}...", threadId);
-				var pOpenThread = NativeMethods.OpenThread(NativeMethods.ThreadAccess.SuspendResume, false, threadId);
-				if (pOpenThread == IntPtr.Zero)
+				suspendedNewThreads = false;
+				process.Refresh();
+				foreach (ProcessThread thread in process.Threads)
 				{
-					logger.LogDebug(new Win32Exception(), "Failed to open thread {threadId}!", threadId);
-					continue;
-				}
+					var threadId = (uint)thread.Id;
 
-				try
-				{
-					if (NativeMethods.SuspendThread(pOpenThread) == UInt32.MaxValue)
-						throw new Win32Exception();
-				}
-				finally
-				{
-					NativeMethods.CloseHandle(pOpenThread);
+					if (!suspendedThreadIds.Add(threadId))
+						continue;
+
+					suspendedNewThreads = true;
+					logger.LogTrace("Suspending thread {threadId}...", threadId);
+					var pOpenThread = NativeMethods.OpenThread(NativeMethods.ThreadAccess.SuspendResume, false, threadId);
+					if (pOpenThread == IntPtr.Zero)
+					{
+						logger.LogDebug(new Win32Exception(), "Failed to open thread {threadId}!", threadId);
+						continue;
+					}
+
+					try
+					{
+						if (NativeMethods.SuspendThread(pOpenThread) == UInt32.MaxValue)
+							throw new Win32Exception();
+					}
+					finally
+					{
+						NativeMethods.CloseHandle(pOpenThread);
+					}
 				}
 			}
+			while (suspendedNewThreads);
 		}
 
 		/// <inheritdoc />
@@ -120,7 +133,7 @@ namespace Tgstation.Server.Host.System
 		}
 
 		/// <inheritdoc />
-		public async ValueTask CreateDump(global::System.Diagnostics.Process process, string outputFile, CancellationToken cancellationToken)
+		public async ValueTask CreateDump(global::System.Diagnostics.Process process, string outputFile, bool minidump, CancellationToken cancellationToken)
 		{
 			try
 			{
@@ -137,15 +150,19 @@ namespace Tgstation.Server.Host.System
 			await Task.Factory.StartNew(
 				() =>
 				{
+					var flags = NativeMethods.MiniDumpType.WithHandleData
+						| NativeMethods.MiniDumpType.WithThreadInfo
+						| NativeMethods.MiniDumpType.WithUnloadedModules;
+
+					if (!minidump)
+						flags |= NativeMethods.MiniDumpType.WithDataSegs
+							| NativeMethods.MiniDumpType.WithFullMemory;
+
 					if (!NativeMethods.MiniDumpWriteDump(
 						process.Handle,
 						(uint)process.Id,
 						fileStream.SafeFileHandle,
-						NativeMethods.MiniDumpType.WithDataSegs
-						| NativeMethods.MiniDumpType.WithFullMemory
-						| NativeMethods.MiniDumpType.WithHandleData
-						| NativeMethods.MiniDumpType.WithThreadInfo
-						| NativeMethods.MiniDumpType.WithUnloadedModules,
+						flags,
 						IntPtr.Zero,
 						IntPtr.Zero,
 						IntPtr.Zero))
@@ -155,5 +172,9 @@ namespace Tgstation.Server.Host.System
 				DefaultIOManager.BlockingTaskCreationOptions,
 				TaskScheduler.Current);
 		}
+
+		/// <inheritdoc />
+		public ValueTask<int> HandleProcessStart(global::System.Diagnostics.Process process, CancellationToken cancellationToken)
+			=> ValueTask.FromResult((process ?? throw new ArgumentNullException(nameof(process))).Id);
 	}
 }

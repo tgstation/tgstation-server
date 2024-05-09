@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Host.Components.Deployment;
+using Tgstation.Server.Host.IO;
 
 namespace Tgstation.Server.Host.Components.Engine
 {
@@ -31,6 +32,9 @@ namespace Tgstation.Server.Host.Components.Engine
 
 		/// <inheritdoc />
 		public override bool PreferFileLogging => false;
+
+		/// <inheritdoc />
+		public override bool UseDotnetDump => false;
 
 		/// <inheritdoc />
 		public override Task InstallationTask { get; }
@@ -75,6 +79,7 @@ namespace Tgstation.Server.Host.Components.Engine
 		/// <summary>
 		/// Initializes a new instance of the <see cref="ByondInstallation"/> class.
 		/// </summary>
+		/// <param name="installationIOManager">The <see cref="IIOManager"/> for the <see cref="EngineInstallationBase"/>.</param>
 		/// <param name="installationTask">The value of <see cref="InstallationTask"/>.</param>
 		/// <param name="version">The value of <see cref="Version"/>.</param>
 		/// <param name="dreamDaemonPath">The value of <see cref="ServerExePath"/>.</param>
@@ -82,12 +87,14 @@ namespace Tgstation.Server.Host.Components.Engine
 		/// <param name="supportsCli">If a CLI application is being used.</param>
 		/// <param name="supportsMapThreads">The value of <see cref="supportsMapThreads"/>.</param>
 		public ByondInstallation(
+			IIOManager installationIOManager,
 			Task installationTask,
 			EngineVersion version,
 			string dreamDaemonPath,
 			string dreamMakerPath,
 			bool supportsCli,
 			bool supportsMapThreads)
+			: base(installationIOManager)
 		{
 			InstallationTask = installationTask ?? throw new ArgumentNullException(nameof(installationTask));
 			ArgumentNullException.ThrowIfNull(version);
@@ -140,7 +147,14 @@ namespace Tgstation.Server.Host.Components.Engine
 		}
 
 		/// <inheritdoc />
-		public override string FormatCompilerArguments(string dmePath)
-			=> $"-clean \"{dmePath ?? throw new ArgumentNullException(nameof(dmePath))}\"";
+		public override string FormatCompilerArguments(string dmePath, string? additionalArguments)
+		{
+			if (String.IsNullOrWhiteSpace(additionalArguments))
+				additionalArguments = String.Empty;
+			else
+				additionalArguments = $"{additionalArguments.Trim()} ";
+
+			return $"-clean {additionalArguments}\"{dmePath ?? throw new ArgumentNullException(nameof(dmePath))}\"";
+		}
 	}
 }

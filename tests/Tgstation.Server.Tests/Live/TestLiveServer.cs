@@ -1100,10 +1100,12 @@ namespace Tgstation.Server.Tests.Live
 
 					async ValueTask RunGitCommand(string args)
 					{
-						await using var gitRemoteOriginFixProc = processExecutor.LaunchProcess(
+						await using var gitRemoteOriginFixProc = await processExecutor.LaunchProcess(
 							"git",
 							repoPath,
 							args,
+							cancellationToken,
+							null,
 							null,
 							true,
 							true);

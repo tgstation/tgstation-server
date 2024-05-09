@@ -67,5 +67,10 @@ namespace Tgstation.Server.Host.Components.Interop.Topic
 		/// Sending a broadcast message.
 		/// </summary>
 		Broadcast,
+
+		/// <summary>
+		/// Notifying about the completion of a custom event.
+		/// </summary>
+		CompleteEvent,
 	}
 }

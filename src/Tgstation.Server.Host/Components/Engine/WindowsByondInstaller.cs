@@ -48,6 +48,16 @@ namespace Tgstation.Server.Host.Components.Engine
 		const string TgsFirewalledDDFile = "TGSFirewalledDD";
 
 		/// <summary>
+		/// The name of the list of trusted .dmb files in the user's BYOND cfg directory.
+		/// </summary>
+		const string TrustedDmbFileName = "trusted.txt";
+
+		/// <summary>
+		/// <see cref="SemaphoreSlim"/> for writing to files in the user's BYOND directory.
+		/// </summary>
+		static readonly SemaphoreSlim UserFilesSemaphore = new(1, 1);
+
+		/// <summary>
 		/// The first version of BYOND to ship with dd.exe on the Windows build.
 		/// </summary>
 		public static Version DDExeVersion => new(515, 1598);
@@ -127,7 +137,7 @@ namespace Tgstation.Server.Host.Components.Engine
 		public void Dispose() => semaphore.Dispose();
 
 		/// <inheritdoc />
-		public override ValueTask Install(EngineVersion version, string path, CancellationToken cancellationToken)
+		public override ValueTask Install(EngineVersion version, string path, bool deploymentPipelineProcesses, CancellationToken cancellationToken)
 		{
 			CheckVersionValidity(version);
 			ArgumentNullException.ThrowIfNull(path);
@@ -142,7 +152,7 @@ namespace Tgstation.Server.Host.Components.Engine
 
 			if (!generalConfiguration.SkipAddingByondFirewallException)
 			{
-				var firewallTask = AddDreamDaemonToFirewall(version, path, cancellationToken);
+				var firewallTask = AddDreamDaemonToFirewall(version, path, deploymentPipelineProcesses, cancellationToken);
 				tasks.Add(firewallTask);
 			}
 
@@ -165,7 +175,50 @@ namespace Tgstation.Server.Host.Components.Engine
 				return;
 
 			Logger.LogInformation("BYOND Version {version} needs dd.exe added to firewall", version);
-			await AddDreamDaemonToFirewall(version, path, cancellationToken);
+			await AddDreamDaemonToFirewall(version, path, true, cancellationToken);
+		}
+
+		/// <inheritdoc />
+		public override async ValueTask TrustDmbPath(EngineVersion version, string fullDmbPath, CancellationToken cancellationToken)
+		{
+			ArgumentNullException.ThrowIfNull(version);
+			ArgumentNullException.ThrowIfNull(fullDmbPath);
+
+			var byondDir = PathToUserFolder;
+			var cfgDir = IOManager.ConcatPath(
+				byondDir,
+				CfgDirectoryName);
+			var trustedFilePath = IOManager.ConcatPath(
+				cfgDir,
+				TrustedDmbFileName);
+
+			Logger.LogDebug("Adding .dmb ({dmbPath}) to {trustedFilePath}", fullDmbPath, trustedFilePath);
+
+			using (await SemaphoreSlimContext.Lock(UserFilesSemaphore, cancellationToken))
+			{
+				string trustedFileText;
+				var filePreviouslyExisted = await IOManager.FileExists(trustedFilePath, cancellationToken);
+				if (filePreviouslyExisted)
+				{
+					var trustedFileBytes = await IOManager.ReadAllBytes(trustedFilePath, cancellationToken);
+					trustedFileText = Encoding.UTF8.GetString(trustedFileBytes);
+					trustedFileText = $"{trustedFileText.Trim()}{Environment.NewLine}";
+				}
+				else
+					trustedFileText = String.Empty;
+
+				if (trustedFileText.Contains(fullDmbPath, StringComparison.Ordinal))
+					return;
+
+				trustedFileText = $"{trustedFileText}{fullDmbPath}{Environment.NewLine}";
+
+				var newTrustedFileBytes = Encoding.UTF8.GetBytes(trustedFileText);
+
+				if (!filePreviouslyExisted)
+					await IOManager.CreateDirectory(cfgDir, cancellationToken);
+
+				await IOManager.WriteAllBytes(trustedFilePath, newTrustedFileBytes, cancellationToken);
+			}
 		}
 
 		/// <inheritdoc />
@@ -173,6 +226,19 @@ namespace Tgstation.Server.Host.Components.Engine
 		{
 			supportsCli = byondVersion >= DDExeVersion;
 			return supportsCli ? "dd.exe" : "dreamdaemon.exe";
+		}
+
+		/// <inheritdoc />
+		protected override IEnumerable<string> AdditionalCacheCleanFilePaths(string configDirectory)
+		{
+			// Delete trusted.txt so it doesn't grow too large
+			var trustedFilePath =
+				IOManager.ConcatPath(
+					configDirectory,
+					TrustedDmbFileName);
+
+			Logger.LogTrace("Deleting trusted .dmbs file {trustedFilePath}", trustedFilePath);
+			yield return trustedFilePath;
 		}
 
 		/// <summary>
@@ -217,10 +283,11 @@ namespace Tgstation.Server.Host.Components.Engine
 			try
 			{
 				// noShellExecute because we aren't doing runas shennanigans
-				await using var directXInstaller = processExecutor.LaunchProcess(
+				await using var directXInstaller = await processExecutor.LaunchProcess(
 					IOManager.ConcatPath(rbdx, "DXSETUP.exe"),
 					rbdx,
 					"/silent",
+					cancellationToken,
 					noShellExecute: true);
 
 				int exitCode;
@@ -243,9 +310,10 @@ namespace Tgstation.Server.Host.Components.Engine
 		/// </summary>
 		/// <param name="version">The BYOND <see cref="EngineVersion"/>.</param>
 		/// <param name="path">The path to the BYOND installation.</param>
+		/// <param name="deploymentPipelineProcesses">If the operation is part of the deployment pipeline.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
-		async ValueTask AddDreamDaemonToFirewall(EngineVersion version, string path, CancellationToken cancellationToken)
+		async ValueTask AddDreamDaemonToFirewall(EngineVersion version, string path, bool deploymentPipelineProcesses, CancellationToken cancellationToken)
 		{
 			var dreamDaemonName = GetDreamDaemonName(version.Version!, out var usesDDExe);
 
@@ -268,7 +336,7 @@ namespace Tgstation.Server.Host.Components.Engine
 					Logger,
 					ruleName,
 					dreamDaemonPath,
-					sessionConfiguration.LowPriorityDeploymentProcesses,
+					deploymentPipelineProcesses && sessionConfiguration.LowPriorityDeploymentProcesses,
 					cancellationToken);
 			}
 			catch (Exception ex)

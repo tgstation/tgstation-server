@@ -15,12 +15,12 @@ namespace Tgstation.Server.Host.Components.Interop.Topic
 		/// The <see cref="EventType"/> triggered.
 		/// </summary>
 		/// <remarks>Nullable to prevent ignoring when serializing.</remarks>
-		public EventType? Type { get; }
+		public EventType Type { get; }
 
 		/// <summary>
 		/// The set of parameters.
 		/// </summary>
-		public IReadOnlyCollection<string?> Parameters { get; }
+		public IReadOnlyCollection<string?>? Parameters { get; }
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="EventNotification"/> class.

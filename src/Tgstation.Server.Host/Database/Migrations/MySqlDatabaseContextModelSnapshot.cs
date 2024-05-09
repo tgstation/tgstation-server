@@ -13,14 +13,18 @@ namespace Tgstation.Server.Host.Database.Migrations
 		{
 #pragma warning disable 612, 618
 			modelBuilder
-				.HasAnnotation("ProductVersion", "8.0.0")
+				.HasAnnotation("ProductVersion", "8.0.4")
 				.HasAnnotation("Relational:MaxIdentifierLength", 64);
+
+			MySqlModelBuilderExtensions.AutoIncrementColumns(modelBuilder);
 
 			modelBuilder.Entity("Tgstation.Server.Host.Models.ChatBot", b =>
 			{
 				b.Property<long?>("Id")
 					.ValueGeneratedOnAdd()
 					.HasColumnType("bigint");
+
+				MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long?>("Id"));
 
 				b.Property<ushort?>("ChannelLimit")
 					.IsRequired()
@@ -64,6 +68,8 @@ namespace Tgstation.Server.Host.Database.Migrations
 				b.Property<long>("Id")
 					.ValueGeneratedOnAdd()
 					.HasColumnType("bigint");
+
+				MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
 
 				b.Property<long>("ChatSettingsId")
 					.HasColumnType("bigint");
@@ -115,6 +121,8 @@ namespace Tgstation.Server.Host.Database.Migrations
 				b.Property<long?>("Id")
 					.ValueGeneratedOnAdd()
 					.HasColumnType("bigint");
+
+				MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long?>("Id"));
 
 				b.Property<int?>("DMApiMajorVersion")
 					.HasColumnType("int");
@@ -185,6 +193,8 @@ namespace Tgstation.Server.Host.Database.Migrations
 					.ValueGeneratedOnAdd()
 					.HasColumnType("bigint");
 
+				MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+
 				b.Property<string>("AdditionalParameters")
 					.IsRequired()
 					.HasMaxLength(10000)
@@ -218,6 +228,10 @@ namespace Tgstation.Server.Host.Database.Migrations
 				b.Property<uint?>("MapThreads")
 					.IsRequired()
 					.HasColumnType("int unsigned");
+
+				b.Property<bool?>("Minidumps")
+					.IsRequired()
+					.HasColumnType("tinyint(1)");
 
 				b.Property<ushort?>("Port")
 					.IsRequired()
@@ -255,12 +269,18 @@ namespace Tgstation.Server.Host.Database.Migrations
 					.ValueGeneratedOnAdd()
 					.HasColumnType("bigint");
 
+				MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+
 				b.Property<ushort?>("ApiValidationPort")
 					.IsRequired()
 					.HasColumnType("smallint unsigned");
 
 				b.Property<int>("ApiValidationSecurityLevel")
 					.HasColumnType("int");
+
+				b.Property<string>("CompilerAdditionalArguments")
+					.HasMaxLength(10000)
+					.HasColumnType("varchar(10000)");
 
 				b.Property<long>("InstanceId")
 					.HasColumnType("bigint");
@@ -292,6 +312,8 @@ namespace Tgstation.Server.Host.Database.Migrations
 				b.Property<long?>("Id")
 					.ValueGeneratedOnAdd()
 					.HasColumnType("bigint");
+
+				MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long?>("Id"));
 
 				b.Property<uint?>("AutoUpdateInterval")
 					.IsRequired()
@@ -340,6 +362,8 @@ namespace Tgstation.Server.Host.Database.Migrations
 					.ValueGeneratedOnAdd()
 					.HasColumnType("bigint");
 
+				MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+
 				b.Property<ulong>("ChatBotRights")
 					.HasColumnType("bigint unsigned");
 
@@ -382,6 +406,8 @@ namespace Tgstation.Server.Host.Database.Migrations
 				b.Property<long?>("Id")
 					.ValueGeneratedOnAdd()
 					.HasColumnType("bigint");
+
+				MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long?>("Id"));
 
 				b.Property<ulong?>("CancelRight")
 					.HasColumnType("bigint unsigned");
@@ -443,6 +469,8 @@ namespace Tgstation.Server.Host.Database.Migrations
 					.ValueGeneratedOnAdd()
 					.HasColumnType("bigint");
 
+				MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+
 				b.Property<string>("ExternalUserId")
 					.IsRequired()
 					.HasMaxLength(100)
@@ -472,6 +500,8 @@ namespace Tgstation.Server.Host.Database.Migrations
 					.ValueGeneratedOnAdd()
 					.HasColumnType("bigint");
 
+				MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long?>("Id"));
+
 				b.Property<ulong>("AdministrationRights")
 					.HasColumnType("bigint unsigned");
 
@@ -500,6 +530,8 @@ namespace Tgstation.Server.Host.Database.Migrations
 				b.Property<long?>("Id")
 					.ValueGeneratedOnAdd()
 					.HasColumnType("bigint");
+
+				MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long?>("Id"));
 
 				b.Property<string>("AccessIdentifier")
 					.IsRequired()
@@ -545,6 +577,8 @@ namespace Tgstation.Server.Host.Database.Migrations
 				b.Property<long>("Id")
 					.ValueGeneratedOnAdd()
 					.HasColumnType("bigint");
+
+				MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
 
 				b.Property<string>("AccessToken")
 					.HasMaxLength(10000)
@@ -617,6 +651,8 @@ namespace Tgstation.Server.Host.Database.Migrations
 					.ValueGeneratedOnAdd()
 					.HasColumnType("bigint");
 
+				MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+
 				b.Property<long>("RevisionInformationId")
 					.HasColumnType("bigint");
 
@@ -637,6 +673,8 @@ namespace Tgstation.Server.Host.Database.Migrations
 				b.Property<long>("Id")
 					.ValueGeneratedOnAdd()
 					.HasColumnType("bigint");
+
+				MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
 
 				b.Property<string>("CommitSha")
 					.IsRequired()
@@ -671,6 +709,8 @@ namespace Tgstation.Server.Host.Database.Migrations
 				b.Property<long>("Id")
 					.ValueGeneratedOnAdd()
 					.HasColumnType("bigint");
+
+				MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
 
 				b.Property<string>("Author")
 					.IsRequired()
@@ -738,6 +778,8 @@ namespace Tgstation.Server.Host.Database.Migrations
 					.ValueGeneratedOnAdd()
 					.HasColumnType("bigint");
 
+				MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long?>("Id"));
+
 				b.Property<string>("CanonicalName")
 					.IsRequired()
 					.HasMaxLength(100)
@@ -800,6 +842,8 @@ namespace Tgstation.Server.Host.Database.Migrations
 				b.Property<long?>("Id")
 					.ValueGeneratedOnAdd()
 					.HasColumnType("bigint");
+
+				MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long?>("Id"));
 
 				b.Property<string>("Name")
 					.IsRequired()

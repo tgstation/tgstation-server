@@ -356,6 +356,7 @@ namespace Tgstation.Server.Host.Core
 				services.AddSingleton<IPostWriteHandler, PosixPostWriteHandler>();
 
 				services.AddSingleton<IProcessFeatures, PosixProcessFeatures>();
+				services.AddHostedService<PosixProcessFeatures>();
 
 				// PosixProcessFeatures also needs a IProcessExecutor for gcore
 				services.AddSingleton(x => new Lazy<IProcessExecutor>(() => x.GetRequiredService<IProcessExecutor>(), true));
@@ -365,11 +366,9 @@ namespace Tgstation.Server.Host.Core
 			}
 
 			// only global repo manager should be for the OD repo
+			// god help me if we need more
 			var openDreamRepositoryDirectory = ioManager.ConcatPath(
-				Environment.GetFolderPath(
-					Environment.SpecialFolder.LocalApplicationData,
-					Environment.SpecialFolderOption.DoNotVerify),
-				assemblyInformationProvider.VersionPrefix,
+				ioManager.GetPathInLocalDirectory(assemblyInformationProvider),
 				"OpenDreamRepository");
 			services.AddSingleton(
 				services => services
@@ -416,6 +415,7 @@ namespace Tgstation.Server.Host.Core
 			services.AddSingleton<IChatManagerFactory, ChatManagerFactory>();
 			services.AddSingleton<IServerUpdater, ServerUpdater>();
 			services.AddSingleton<IServerUpdateInitiator, ServerUpdateInitiator>();
+			services.AddSingleton<IDotnetDumpService, DotnetDumpService>();
 
 			// configure misc services
 			services.AddSingleton<IProcessExecutor, ProcessExecutor>();
@@ -503,6 +503,10 @@ namespace Tgstation.Server.Host.Core
 
 			if (generalConfiguration.HostApiDocumentation)
 			{
+				var siteDocPath = Routes.ApiRoot + $"doc/{SwaggerConfiguration.DocumentName}.json";
+				if (!String.IsNullOrWhiteSpace(controlPanelConfiguration.PublicPath))
+					siteDocPath = controlPanelConfiguration.PublicPath.TrimEnd('/') + siteDocPath;
+
 				applicationBuilder.UseSwagger(options =>
 				{
 					options.RouteTemplate = Routes.ApiRoot + "doc/{documentName}.{json|yaml}";
@@ -510,7 +514,7 @@ namespace Tgstation.Server.Host.Core
 				applicationBuilder.UseSwaggerUI(options =>
 				{
 					options.RoutePrefix = SwaggerConfiguration.DocumentationSiteRouteExtension;
-					options.SwaggerEndpoint(Routes.ApiRoot + $"doc/{SwaggerConfiguration.DocumentName}.json", "TGS API");
+					options.SwaggerEndpoint(siteDocPath, "TGS API");
 				});
 				logger.LogTrace("Swagger API generation enabled");
 			}
@@ -524,6 +528,7 @@ namespace Tgstation.Server.Host.Core
 					RequestPath = ControlPanelController.ControlPanelRoute,
 					EnableDefaultFiles = true,
 					EnableDirectoryBrowsing = false,
+					RedirectToAppendTrailingSlash = false,
 				});
 			}
 			else

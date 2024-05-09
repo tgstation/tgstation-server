@@ -221,14 +221,7 @@ namespace Tgstation.Server.Host.IO
 		/// <inheritdoc />
 		public async ValueTask<byte[]> ReadAllBytes(string path, CancellationToken cancellationToken)
 		{
-			path = ResolvePath(path);
-			await using var file = new FileStream(
-				path,
-				FileMode.Open,
-				FileAccess.Read,
-				FileShare.ReadWrite | FileShare.Delete,
-				DefaultBufferSize,
-				FileOptions.Asynchronous | FileOptions.SequentialScan);
+			await using var file = CreateAsyncSequentialReadStream(path);
 			byte[] buf;
 			buf = new byte[file.Length];
 			await file.ReadAsync(buf, cancellationToken);
@@ -257,6 +250,19 @@ namespace Tgstation.Server.Host.IO
 				FileMode.Create,
 				FileAccess.Write,
 				FileShare.Read | FileShare.Delete,
+				DefaultBufferSize,
+				FileOptions.Asynchronous | FileOptions.SequentialScan);
+		}
+
+		/// <inheritdoc />
+		public FileStream CreateAsyncSequentialReadStream(string path)
+		{
+			path = ResolvePath(path);
+			return new FileStream(
+				path,
+				FileMode.Open,
+				FileAccess.Read,
+				FileShare.ReadWrite | FileShare.Delete,
 				DefaultBufferSize,
 				FileOptions.Asynchronous | FileOptions.SequentialScan);
 		}

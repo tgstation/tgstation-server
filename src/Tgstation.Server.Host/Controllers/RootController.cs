@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
@@ -60,6 +61,27 @@ namespace Tgstation.Server.Host.Controllers
 		/// The <see cref="ControlPanelConfiguration"/> for the <see cref="RootController"/>.
 		/// </summary>
 		readonly ControlPanelConfiguration controlPanelConfiguration;
+
+		/// <summary>
+		/// Gets a <see cref="Tuple{T1, T2}"/> giving the <see cref="ControlPanelController"/> and action names for a given <paramref name="actionExpression"/>.
+		/// </summary>
+		/// <param name="actionExpression">An expression invoking the action on <see cref="ControlPanelController"/>.</param>
+		/// <returns>A <see cref="Tuple{T1, T2}"/> containing the controller and action names.</returns>
+		static Tuple<string, string?> GetControlPanelActionLink(Expression<Func<ControlPanelController, IActionResult>> actionExpression)
+		{
+			var memberSelectorExpression = (MethodCallExpression)actionExpression.Body;
+			var method = memberSelectorExpression.Method;
+
+			var controllerName = typeof(ControlPanelController).Name;
+
+			const string ControllerSuffix = nameof(Controller);
+			if (controllerName.EndsWith(ControllerSuffix, StringComparison.Ordinal))
+				controllerName = controllerName.Substring(0, controllerName.Length - ControllerSuffix.Length);
+
+			var actionName = method.Name;
+
+			return Tuple.Create<string, string?>(controllerName, actionName);
+		}
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="RootController"/> class.
@@ -135,6 +157,20 @@ namespace Tgstation.Server.Host.Controllers
 				: LogoSvgLinuxName;
 
 			return (IActionResult?)this.TryServeFile(hostEnvironment, logger, $"{logoFileName}.svg") ?? NotFound();
+		}
+
+		/// <summary>
+		/// Workaround for the webpanel always expecting a trailing slash.
+		/// </summary>
+		/// <returns>A <see cref="RedirectResult"/> to the <see cref="ControlPanelController.GetChannelJson"/>.</returns>
+		[HttpGet(ControlPanelController.ChannelJsonRoute)]
+		public RedirectToActionResult WebpanelChannelRedirect()
+		{
+			var actionTuple = GetControlPanelActionLink(controller => controller.GetChannelJson());
+
+			return RedirectToActionPermanent(
+				actionTuple.Item2,
+				actionTuple.Item1);
 		}
 	}
 }

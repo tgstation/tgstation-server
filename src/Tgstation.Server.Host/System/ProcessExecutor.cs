@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Channels;
@@ -103,10 +105,12 @@ namespace Tgstation.Server.Host.System
 		}
 
 		/// <inheritdoc />
-		public IProcess LaunchProcess(
+		public async ValueTask<IProcess> LaunchProcess(
 			string fileName,
 			string workingDirectory,
 			string arguments,
+			CancellationToken cancellationToken,
+			IReadOnlyDictionary<string, string>? environment,
 			string? fileRedirect,
 			bool readStandardHandles,
 			bool noShellExecute)
@@ -115,24 +119,33 @@ namespace Tgstation.Server.Host.System
 			ArgumentNullException.ThrowIfNull(workingDirectory);
 			ArgumentNullException.ThrowIfNull(arguments);
 
+			var enviromentLogLines = environment == null
+				? String.Empty
+				: String.Concat(environment.Select(kvp => $"{Environment.NewLine}\t- {kvp.Key}={kvp.Value}"));
 			if (noShellExecute)
 				logger.LogDebug(
-				"Launching process in {workingDirectory}: {exe} {arguments}",
+				"Launching process in {workingDirectory}: {exe} {arguments}{environment}",
 				workingDirectory,
 				fileName,
-				arguments);
+				arguments,
+				enviromentLogLines);
 			else
 				logger.LogDebug(
-				"Shell launching process in {workingDirectory}: {exe} {arguments}",
+				"Shell launching process in {workingDirectory}: {exe} {arguments}{environment}",
 				workingDirectory,
 				fileName,
-				arguments);
+				arguments,
+				enviromentLogLines);
 
 			var handle = new global::System.Diagnostics.Process();
 			try
 			{
 				handle.StartInfo.FileName = fileName;
 				handle.StartInfo.Arguments = arguments;
+				if (environment != null)
+					foreach (var kvp in environment)
+						handle.StartInfo.Environment.Add(kvp!);
+
 				handle.StartInfo.WorkingDirectory = workingDirectory;
 
 				handle.StartInfo.UseShellExecute = !noShellExecute;
@@ -162,7 +175,16 @@ namespace Tgstation.Server.Host.System
 							ExclusiveProcessLaunchLock.ExitReadLock();
 						}
 
-						pid = handle.Id;
+						try
+						{
+							pid = await processFeatures.HandleProcessStart(handle, cancellationToken);
+						}
+						catch
+						{
+							handle.Kill();
+							throw;
+						}
+
 						processStartTcs?.SetResult(pid);
 					}
 					catch (Exception ex)

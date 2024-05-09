@@ -21,5 +21,10 @@ namespace Tgstation.Server.Host.Components.Interop.Bridge
 		/// The <see cref="ChunkData.SequenceId"/>s missing from a chunked request.
 		/// </summary>
 		public IReadOnlyCollection<uint>? MissingChunks { get; set; }
+
+		/// <summary>
+		/// The triggered event ID for <see cref="BridgeCommandType.Event"/> requests.
+		/// </summary>
+		public string? EventId { get; set; }
 	}
 }

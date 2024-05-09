@@ -34,7 +34,7 @@ You can of course, as always, ask for help at [#coderbus](irc://irc.rizon.net/co
 
 ### Development Environment
 
-You need the .NET 8.0 SDK, node>=v20, and npm>=v5.7 (in your PATH) to compile the server.
+You need the .NET 8.0 SDK, node>=v20, and npm>=v5.7 (in your PATH) to compile the server. On Linux, you also need the `libgdiplus` package installed to generate icons.
 
 The recommended IDE is Visual Studio 2022 or VSCode.
 
@@ -42,7 +42,8 @@ In order to build the service version and/or the Windows installer you need a to
 
 In addition, the installer project uses the Wix v4 Toolset which will cause an error on loading the .sln in Visual Studio if the [HeatWave for VS2022 Extension](https://marketplace.visualstudio.com/items?itemName=FireGiant.FireGiantHeatWaveDev17) is not installed.
 
-In order to run the integration tests you must have the following environment variables set. To run them more accurately, include the optional ones.
+In order to run the integration tests you must have the dotnet 7.0 SDK installed to properly build the OpenDream minimum compatible version.
+You must also have the following environment variables set. To run them more accurately, include the optional ones.
 - `TGS_TEST_DATABASE_TYPE`: `MySql`, `MariaDB`, `PostgresSql`, or `SqlServer`.
 - `TGS_TEST_CONNECTION_STRING`: To a valid database connection string. You can use the setup wizard to create one.
 - (Optional) `TGS_TEST_GITHUB_TOKEN`: A GitHub personal access token with no scopes used to bypass rate limits.
@@ -59,10 +60,9 @@ In order to run the integration tests you must have the following environment va
 
 For the full CI gambit, the following repository configuration must be set:
 
-- Setting `Workflow Permissions` to `Read and write permissions`: Enables CodeQL uploads and GitHub Actions comments.
+- Setting `Workflow Permissions` to `Read and write permissions`: Enables GitHub Actions comments.
 ![image](https://github.com/tgstation/tgstation-server/assets/8171642/ab17fa74-364f-4e66-b7c4-b9bb24c6a599)
 - Label `CI Cleared`: To allow PRs from forks to run CI with secrets after approval.
-- Variable `TGS_ENABLE_CODE_QL` to `true`: Enables CodeQL scanning in actions.
 - Integration [CodeCov](https://github.com/apps/codecov): Enables CodeCov status checks.
 - Secret `CODECOV_TOKEN`: A CodeCov repo token to work around https://github.com/codecov/codecov-action/issues/837.
 - Secret `LIVE_TESTS_TOKEN`: A GitHub token with read access to the repository and write access to https://github.com/Cyberboss/common_core (TODO: Make the target repository here configurable). Despite it's name, it may be used across the entire test suite.
@@ -73,7 +73,7 @@ For the full CI gambit, the following repository configuration must be set:
 
 If you don't plan on deploying TGS, the following secrets can be omitted:
 
-- Secret `DEV_PUSH_TOKEN`: A GitHub token with write access to the repository. Enables doxygen pushes to `gh-pages` branch, and releases creation.
+- Secret `DEV_PUSH_TOKEN`: A GitHub token with read/write access to the repository. Enables doxygen pushes to `gh-pages` branch, and releases creation.
 - Secret `DOCKER_USERNAME`: Login username for Docker image push.
 - Secret `DOCKER_PASSWORD`: Login password for Docker image push.
 - Secret `NUGET_API_KEY`: Nuget.org API Key for client libraries push.

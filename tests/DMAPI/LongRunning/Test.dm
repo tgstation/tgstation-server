@@ -34,7 +34,7 @@
 	if(!res)
 		FailTest("Failed to resource!")
 
-	var/res_contents = file2text(res) // we need a .rsc to be generated
+	var/res_contents = TGS_FILE2TEXT_NATIVE(res) // we need a .rsc to be generated
 	if(!res_contents)
 		FailTest("Failed to resource? No contents!")
 
@@ -203,7 +203,7 @@ var/run_bridge_test
 	DetachedChatMessageQueuingP2()
 
 /proc/DetachedChatMessageQueuingP2()
-	sleep(1)
+	sleep(world.tick_lag)
 	DetachedChatMessageQueuingP3()
 
 /proc/DetachedChatMessageQueuingP3()
@@ -240,7 +240,7 @@ var/received_health_check = FALSE
 		DelayCheckDetach()
 
 /proc/DelayCheckDetach()
-	sleep(1)
+	sleep(world.tick_lag)
 	// hack hack, calling world.TgsChatChannelInfo() will try to delay until the channels come back
 	var/datum/tgs_api/v5/api = TGS_READ_GLOBAL(tgs)
 	if(length(api.chat_channels))

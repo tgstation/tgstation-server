@@ -208,7 +208,7 @@ namespace Tgstation.Server.Tests
 					? new WindowsProcessFeatures(Mock.Of<ILogger<WindowsProcessFeatures>>())
 					: new PosixProcessFeatures(
 						new Lazy<IProcessExecutor>(() => null),
-						Mock.Of<IIOManager>(),
+						new DefaultIOManager(),
 						loggerFactory.CreateLogger<PosixProcessFeatures>()),
 					Mock.Of<IIOManager>(),
 					loggerFactory.CreateLogger<ProcessExecutor>(),
@@ -477,7 +477,7 @@ namespace Tgstation.Server.Tests
 			if (byondInstaller is WindowsByondInstaller)
 				typeof(WindowsByondInstaller).GetField("installedDirectX", BindingFlags.Instance | BindingFlags.NonPublic).SetValue(byondInstaller, true);
 
-			await byondInstaller.Install(engineVersion, tempPath, default);
+			await byondInstaller.Install(engineVersion, tempPath, false, default);
 
 			var binPath = (string)typeof(ByondInstallerBase).GetField("ByondBinPath", BindingFlags.Static | BindingFlags.NonPublic).GetValue(null);
 			var ddNameFunc = installerType.GetMethod("GetDreamDaemonName", BindingFlags.Instance | BindingFlags.NonPublic);
@@ -498,10 +498,12 @@ namespace Tgstation.Server.Tests
 
 			try
 			{
-				await using var process = processExecutor.LaunchProcess(
+				await using var process = await processExecutor.LaunchProcess(
 					ddPath,
 					Environment.CurrentDirectory,
 					"fake.dmb -map-threads 3 -close",
+					CancellationToken.None,
+					null,
 					null,
 					true,
 					true);

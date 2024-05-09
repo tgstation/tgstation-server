@@ -71,11 +71,11 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 		/// <summary>
 		/// Map of <see cref="EventType"/>s to the filename of the event scripts they trigger.
 		/// </summary>
-		public static IReadOnlyDictionary<EventType, IReadOnlyList<string>> EventTypeScriptFileNameMap { get; } = new Dictionary<EventType, IReadOnlyList<string>>(
+		public static IReadOnlyDictionary<EventType, string[]> EventTypeScriptFileNameMap { get; } = new Dictionary<EventType, string[]>(
 			Enum.GetValues(typeof(EventType))
 				.Cast<EventType>()
 				.Select(
-					eventType => new KeyValuePair<EventType, IReadOnlyList<string>>(
+					eventType => new KeyValuePair<EventType, string[]>(
 						eventType,
 						typeof(EventType)
 							.GetField(eventType.ToString())!
@@ -600,70 +600,39 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 		public Task StopAsync(CancellationToken cancellationToken) => EnsureDirectories(cancellationToken);
 
 		/// <inheritdoc />
-		public async ValueTask HandleEvent(EventType eventType, IEnumerable<string?> parameters, bool deploymentPipeline, CancellationToken cancellationToken)
+		public ValueTask HandleEvent(EventType eventType, IEnumerable<string?> parameters, bool deploymentPipeline, CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(parameters);
 
-			await EnsureDirectories(cancellationToken);
-
 			if (!EventTypeScriptFileNameMap.TryGetValue(eventType, out var scriptNames))
-				return;
-
-			// always execute in serial
-			using (await SemaphoreSlimContext.Lock(semaphore, cancellationToken))
 			{
-				var files = await ioManager.GetFilesWithExtension(EventScriptsSubdirectory, platformIdentifier.ScriptFileExtension, false, cancellationToken);
-				var resolvedScriptsDir = ioManager.ResolvePath(EventScriptsSubdirectory);
-
-				var scriptFiles = files
-					.Select(x => ioManager.GetFileName(x))
-					.Where(x => scriptNames.Any(
-						scriptName => x.StartsWith(scriptName, StringComparison.Ordinal)))
-					.ToList();
-
-				if (scriptFiles.Count == 0)
-				{
-					logger.LogTrace("No event scripts starting with \"{scriptName}\" detected", String.Join("\" or \"", scriptNames));
-					return;
-				}
-
-				foreach (var scriptFile in scriptFiles)
-				{
-					logger.LogTrace("Running event script {scriptFile}...", scriptFile);
-					await using (var script = processExecutor.LaunchProcess(
-						ioManager.ConcatPath(resolvedScriptsDir, scriptFile),
-						resolvedScriptsDir,
-						String.Join(
-							' ',
-							parameters.Select(arg =>
-							{
-								if (arg == null)
-									return "(NULL)";
-
-								if (!arg.Contains(' ', StringComparison.Ordinal))
-									return arg;
-
-								arg = arg.Replace("\"", "\\\"", StringComparison.Ordinal);
-
-								return $"\"{arg}\"";
-							})),
-						readStandardHandles: true,
-						noShellExecute: true))
-					using (cancellationToken.Register(() => script.Terminate()))
-					{
-						if (sessionConfiguration.LowPriorityDeploymentProcesses)
-							script.AdjustPriority(false);
-
-						var exitCode = await script.Lifetime;
-						cancellationToken.ThrowIfCancellationRequested();
-						var scriptOutput = await script.GetCombinedOutput(cancellationToken);
-						if (exitCode != 0)
-							throw new JobException($"Script {scriptFile} exited with code {exitCode}:{Environment.NewLine}{scriptOutput}");
-						else
-							logger.LogDebug("Script output:{newLine}{scriptOutput}", Environment.NewLine, scriptOutput);
-					}
-				}
+				logger.LogTrace("No event script for event {event}!", eventType);
+				return ValueTask.CompletedTask;
 			}
+
+			return ExecuteEventScripts(parameters, deploymentPipeline, cancellationToken, scriptNames);
+		}
+
+		/// <inheritdoc />
+		public ValueTask? HandleCustomEvent(string scriptName, IEnumerable<string?> parameters, CancellationToken cancellationToken)
+		{
+			var scriptNameIsTgsEventName = EventTypeScriptFileNameMap
+				.Values
+				.SelectMany(scriptNames => scriptNames)
+				.Any(tgsScriptName => tgsScriptName.Equals(
+					scriptName,
+					platformIdentifier.IsWindows
+						? StringComparison.OrdinalIgnoreCase
+						: StringComparison.Ordinal));
+			if (scriptNameIsTgsEventName)
+			{
+				logger.LogWarning("DMAPI attempted to execute TGS reserved event: {eventName}", scriptName);
+				return null;
+			}
+
+#pragma warning disable CA2012 // Use ValueTasks correctly
+			return ExecuteEventScripts(parameters, false, cancellationToken, scriptName);
+#pragma warning restore CA2012 // Use ValueTasks correctly
 		}
 
 		/// <inheritdoc />
@@ -757,6 +726,76 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 			if (!nullOrEmptyCheck && resolved.Length < local!.Length) // .. fuccbois
 				throw new InvalidOperationException("Attempted to access file outside of configuration manager!");
 			return resolved;
+		}
+
+		/// <summary>
+		/// Execute a set of given <paramref name="scriptNames"/>.
+		/// </summary>
+		/// <param name="parameters">An <see cref="IEnumerable{T}"/> of <see cref="string"/> parameters for the <paramref name="scriptNames"/>.</param>
+		/// <param name="deploymentPipeline">If this event is part of the deployment pipeline.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <param name="scriptNames">The names of the scripts to execute.</param>
+		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
+		async ValueTask ExecuteEventScripts(IEnumerable<string?> parameters, bool deploymentPipeline, CancellationToken cancellationToken, params string[] scriptNames)
+		{
+			await EnsureDirectories(cancellationToken);
+
+			// always execute in serial
+			using (await SemaphoreSlimContext.Lock(semaphore, cancellationToken))
+			{
+				var files = await ioManager.GetFilesWithExtension(EventScriptsSubdirectory, platformIdentifier.ScriptFileExtension, false, cancellationToken);
+				var resolvedScriptsDir = ioManager.ResolvePath(EventScriptsSubdirectory);
+
+				var scriptFiles = files
+					.Select(x => ioManager.GetFileName(x))
+					.Where(x => scriptNames.Any(
+						scriptName => x.StartsWith(scriptName, StringComparison.Ordinal)))
+					.ToList();
+
+				if (scriptFiles.Count == 0)
+				{
+					logger.LogTrace("No event scripts starting with \"{scriptName}\" detected", String.Join("\" or \"", scriptNames));
+					return;
+				}
+
+				foreach (var scriptFile in scriptFiles)
+				{
+					logger.LogTrace("Running event script {scriptFile}...", scriptFile);
+					await using (var script = await processExecutor.LaunchProcess(
+						ioManager.ConcatPath(resolvedScriptsDir, scriptFile),
+						resolvedScriptsDir,
+						String.Join(
+							' ',
+							parameters.Select(arg =>
+							{
+								if (arg == null)
+									return "(NULL)";
+
+								if (!arg.Contains(' ', StringComparison.Ordinal))
+									return arg;
+
+								arg = arg.Replace("\"", "\\\"", StringComparison.Ordinal);
+
+								return $"\"{arg}\"";
+							})),
+						cancellationToken,
+						readStandardHandles: true,
+						noShellExecute: true))
+					using (cancellationToken.Register(() => script.Terminate()))
+					{
+						if (sessionConfiguration.LowPriorityDeploymentProcesses && deploymentPipeline)
+							script.AdjustPriority(false);
+
+						var exitCode = await script.Lifetime;
+						cancellationToken.ThrowIfCancellationRequested();
+						var scriptOutput = await script.GetCombinedOutput(cancellationToken);
+						if (exitCode != 0)
+							throw new JobException($"Script {scriptFile} exited with code {exitCode}:{Environment.NewLine}{scriptOutput}");
+						else
+							logger.LogDebug("Script output:{newLine}{scriptOutput}", Environment.NewLine, scriptOutput);
+					}
+				}
+			}
 		}
 	}
 }

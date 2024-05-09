@@ -37,6 +37,9 @@ namespace Tgstation.Server.Host.Components.Engine
 		public Task InstallationTask => Instance.InstallationTask;
 
 		/// <inheritdoc />
+		public bool UseDotnetDump => Instance.UseDotnetDump;
+
+		/// <inheritdoc />
 		public void DoNotDeleteThisSession() => DangerousDropReference();
 
 		/// <inheritdoc />
@@ -52,7 +55,7 @@ namespace Tgstation.Server.Host.Components.Engine
 				logFilePath);
 
 		/// <inheritdoc />
-		public string FormatCompilerArguments(string dmePath) => Instance.FormatCompilerArguments(dmePath);
+		public string FormatCompilerArguments(string dmePath, string? additionalArguments) => Instance.FormatCompilerArguments(dmePath, additionalArguments);
 
 		/// <inheritdoc />
 		public ValueTask StopServerProcess(ILogger logger, IProcess process, string accessIdentifier, ushort port, CancellationToken cancellationToken)
@@ -62,5 +65,9 @@ namespace Tgstation.Server.Host.Components.Engine
 				accessIdentifier,
 				port,
 				cancellationToken);
+
+		/// <inheritdoc />
+		public ValueTask<Dictionary<string, string>?> LoadEnv(ILogger logger, bool forCompiler, CancellationToken cancellationToken)
+			=> Instance.LoadEnv(logger, forCompiler, cancellationToken);
 	}
 }
