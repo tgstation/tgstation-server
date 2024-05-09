@@ -77,6 +77,7 @@
 		logs = splittext(logs[logs.len], " ")
 		if (logs.len >= 2)
 			originmastercommit = logs[2]
+#if DM_VERSION >= 514
 			if(logs.len >= 5)
 				var/revision_date_epoch = text2num(logs[5])
 				if(isnum(revision_date_epoch))
@@ -87,6 +88,10 @@
 			else
 				revision_date = ""
 				TGS_ERROR_LOG("Error parsing origin commmit timestamp at all")
+#else
+			revision_date = ""
+			TGS_WARNING_LOG("Revision date parsing is not support on versions below 514")
+#endif
 		else
 			TGS_ERROR_LOG("Error parsing origin commmit logs")
 
