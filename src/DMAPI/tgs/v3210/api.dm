@@ -78,7 +78,7 @@
 		if (logs.len >= 2)
 			originmastercommit = logs[2]
 			if(logs.len >= 5)
-				revision_date_epoch = text2num(logs[5])
+				var/revision_date_epoch = text2num(logs[5])
 				if(isnum(revision_date_epoch))
 					revision_date = unix_epoch_to_iso_timestamp(revision_date_epoch)
 				else
