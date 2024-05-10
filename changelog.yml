@@ -4127,13 +4127,6 @@ Components:
       Author: Cyberboss
       PullRequest: 991
   DreamMakerApi:
-  - Version: 7.1.3
-    Changes:
-    - Descriptions:
-      - DMAPI v3 now supports revision date information
-      Author: ZephyrTFA
-      PullRequest: 1816
-    Unreleased: true
   - Version: 7.1.2
     Changes:
     - Descriptions:
