@@ -36,7 +36,6 @@
 	var/instance_name
 	var/originmastercommit
 	var/commit
-	var/revision_date
 	var/list/cached_custom_tgs_chat_commands
 	var/warned_revison = FALSE
 	var/warned_custom_commands = FALSE
@@ -77,21 +76,6 @@
 		logs = splittext(logs[logs.len], " ")
 		if (logs.len >= 2)
 			originmastercommit = logs[2]
-#if DM_VERSION >= 514
-			if(logs.len >= 5)
-				var/revision_date_epoch = text2num(logs[5])
-				if(isnum(revision_date_epoch))
-					revision_date = unix_epoch_to_iso_timestamp(revision_date_epoch)
-				else
-					revision_date = ""
-					TGS_ERROR_LOG("Error parsing origin commit timestamp as number")
-			else
-				revision_date = ""
-				TGS_ERROR_LOG("Error parsing origin commmit timestamp at all")
-#else
-			revision_date = ""
-			TGS_WARNING_LOG("Revision date parsing is not support on versions below 514")
-#endif
 		else
 			TGS_ERROR_LOG("Error parsing origin commmit logs")
 
@@ -200,7 +184,6 @@
 	var/datum/tgs_revision_information/ri = new
 	ri.commit = commit
 	ri.origin_commit = originmastercommit
-	ri.timestamp = revision_date
 	return ri
 
 /datum/tgs_api/v3210/EndProcess()
@@ -227,14 +210,6 @@
 
 /datum/tgs_api/v3210/SecurityLevel()
 	return TGS_SECURITY_TRUSTED
-
-#if DM_VERSION >= 514
-/datum/tgs_api/v3210/proc/unix_epoch_to_iso_timestamp(epoch)
-	epoch += world.timezone * 3600 // adjust for timezone
-	epoch -= 946684800 // adjust for unix to byond epoch lapse (30 years)
-	epoch *= 10 // adjust for time2text expecting decisonds
-	return time2text(epoch, "YYYY-MM-DDThh:mm:ss", 0)
-#endif
 
 #undef REBOOT_MODE_NORMAL
 #undef REBOOT_MODE_HARD
