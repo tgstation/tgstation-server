@@ -4,6 +4,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -61,9 +62,14 @@ namespace Tgstation.Server.Host.Components.Deployment
 		readonly ILogger<DmbFactory> logger;
 
 		/// <summary>
-		/// The <see cref="IEventConsumer"/> for <see cref="DmbFactory"/>.
+		/// The <see cref="IEventConsumer"/> for the <see cref="DmbFactory"/>.
 		/// </summary>
 		readonly IEventConsumer eventConsumer;
+
+		/// <summary>
+		/// The <see cref="IAsyncDelayer"/> for the <see cref="DmbFactory"/>.
+		/// </summary>
+		readonly IAsyncDelayer asyncDelayer;
 
 		/// <summary>
 		/// The <see cref="Api.Models.Instance"/> for the <see cref="DmbFactory"/>.
@@ -107,6 +113,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 		/// <param name="ioManager">The value of <see cref="ioManager"/>.</param>
 		/// <param name="remoteDeploymentManagerFactory">The value of <see cref="remoteDeploymentManagerFactory"/>.</param>
 		/// <param name="eventConsumer">The value of <see cref="eventConsumer"/>.</param>
+		/// <param name="asyncDelayer">The value of <see cref="asyncDelayer"/>.</param>
 		/// <param name="logger">The value of <see cref="logger"/>.</param>
 		/// <param name="metadata">The value of <see cref="metadata"/>.</param>
 		public DmbFactory(
@@ -114,6 +121,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 			IIOManager ioManager,
 			IRemoteDeploymentManagerFactory remoteDeploymentManagerFactory,
 			IEventConsumer eventConsumer,
+			IAsyncDelayer asyncDelayer,
 			ILogger<DmbFactory> logger,
 			Api.Models.Instance metadata)
 		{
@@ -121,6 +129,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
 			this.remoteDeploymentManagerFactory = remoteDeploymentManagerFactory ?? throw new ArgumentNullException(nameof(remoteDeploymentManagerFactory));
 			this.eventConsumer = eventConsumer ?? throw new ArgumentNullException(nameof(eventConsumer));
+			this.asyncDelayer = asyncDelayer ?? throw new ArgumentNullException(nameof(asyncDelayer));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 			this.metadata = metadata ?? throw new ArgumentNullException(nameof(metadata));
 
@@ -205,6 +214,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 			}
 
 			// we dont do CleanUnusedCompileJobs here because the watchdog may have plans for them yet
+			cleanupTask = Task.WhenAll(cleanupTask, LogLockStates());
 		}
 
 		/// <inheritdoc />
@@ -489,6 +499,35 @@ namespace Tgstation.Server.Host.Components.Deployment
 			// Then call the cleanup event, waiting here first
 			await eventConsumer.HandleEvent(EventType.DeploymentCleanup, new List<string> { ioManager.ResolvePath(directory) }, true, cancellationToken);
 			await ioManager.DeleteDirectory(directory, cancellationToken);
+		}
+
+		/// <summary>
+		/// Lock all <see cref="DeploymentLockManager"/>s states.
+		/// </summary>
+		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
+		async Task LogLockStates()
+		{
+			logger.LogTrace("Entering lock logging loop");
+			CancellationToken cancellationToken = cleanupCts.Token;
+
+			while (!cancellationToken.IsCancellationRequested)
+				try
+				{
+					var builder = new StringBuilder();
+
+					lock (jobLockManagers)
+						foreach (var lockManager in jobLockManagers.Values)
+							lockManager.LogLockStats(builder);
+
+					logger.LogDebug("Periodic deployment log states report (R.e. Issue #1779):{newLine}{report}", Environment.NewLine, builder); // TODO: Reduce to trace once #1779 is fixed
+
+					await asyncDelayer.Delay(TimeSpan.FromMinutes(10), cancellationToken);
+				}
+				catch (OperationCanceledException ex)
+				{
+					logger.LogTrace(ex, "Exiting lock logging loop");
+					break;
+				}
 		}
 	}
 }
