@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Runtime.CompilerServices;
+using System.Text;
 using System.Threading.Tasks;
 
 using Microsoft.Extensions.Logging;
@@ -95,6 +97,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 		/// <returns>A <see cref="IDmbProvider"/> whose lifetime represents the lock.</returns>
 		public IDmbProvider AddLock(string reason, [CallerFilePath] string? callerFile = null, [CallerLineNumber]int callerLine = default)
 		{
+			ArgumentNullException.ThrowIfNull(reason);
 			lock (locks)
 			{
 				if (locks.Count == 0)
@@ -102,6 +105,20 @@ namespace Tgstation.Server.Host.Components.Deployment
 
 				return CreateLock(reason, callerFile!, callerLine);
 			}
+		}
+
+		/// <summary>
+		/// Add lock stats to a given <paramref name="stringBuilder"/>.
+		/// </summary>
+		/// <param name="stringBuilder">The <see cref="StringBuilder"/> to append to.</param>
+		public void LogLockStats(StringBuilder stringBuilder)
+		{
+			ArgumentNullException.ThrowIfNull(stringBuilder);
+
+			stringBuilder.AppendLine(CultureInfo.InvariantCulture, $"Compile Job #{CompileJob.Id}: {CompileJob.DirectoryName}");
+			lock (locks)
+				foreach (var dmbLock in locks)
+					stringBuilder.AppendLine(CultureInfo.InvariantCulture, $"\t-{GetFullLockDescriptor(dmbLock)}");
 		}
 
 		/// <summary>
