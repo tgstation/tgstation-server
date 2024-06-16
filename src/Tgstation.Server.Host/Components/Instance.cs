@@ -253,7 +253,7 @@ namespace Tgstation.Server.Host.Components
 		}
 
 		/// <inheritdoc />
-		public CompileJob? LatestCompileJob() => dmbFactory.LatestCompileJob();
+		public ValueTask<CompileJob?> LatestCompileJob() => dmbFactory.LatestCompileJob();
 
 		/// <summary>
 		/// The <see cref="JobEntrypoint"/> for updating the repository.
@@ -524,7 +524,7 @@ namespace Tgstation.Server.Host.Components
 								continue;
 							}
 
-							if (deploySha == LatestCompileJob()?.RevisionInformation.CommitSha)
+							if (deploySha == (await LatestCompileJob())?.RevisionInformation.CommitSha)
 							{
 								logger.LogTrace("Aborting auto update, same revision as latest CompileJob");
 								continue;

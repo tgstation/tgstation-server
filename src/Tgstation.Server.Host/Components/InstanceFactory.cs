@@ -290,6 +290,7 @@ namespace Tgstation.Server.Host.Components
 					gameIoManager,
 					remoteDeploymentManagerFactory,
 					eventConsumer,
+					asyncDelayer,
 					loggerFactory.CreateLogger<DmbFactory>(),
 					metadata);
 				try
