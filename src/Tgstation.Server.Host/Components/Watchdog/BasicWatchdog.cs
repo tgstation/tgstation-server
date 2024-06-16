@@ -214,7 +214,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		{
 			// don't need a new dmb if reattaching
 			var reattachInProgress = reattachInfo != null;
-			var dmbToUse = reattachInProgress ? null : DmbFactory.LockNextDmb(1);
+			var dmbToUse = reattachInProgress ? null : DmbFactory.LockNextDmb("Watchdog initialization");
 
 			// if this try catches something, both servers are killed
 			try

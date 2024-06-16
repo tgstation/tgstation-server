@@ -137,7 +137,7 @@ namespace Tgstation.Server.Host.Components.Chat.Commands
 				var compileJobToUse = watchdog.ActiveCompileJob;
 				if (hasStaged)
 				{
-					var latestCompileJob = compileJobProvider.LatestCompileJob();
+					var latestCompileJob = await compileJobProvider.LatestCompileJob();
 					if (latestCompileJob?.Id != compileJobToUse?.Id)
 						compileJobToUse = latestCompileJob;
 					else
