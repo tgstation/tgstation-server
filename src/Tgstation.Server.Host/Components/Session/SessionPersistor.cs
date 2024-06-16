@@ -208,7 +208,7 @@ namespace Tgstation.Server.Host.Components.Session
 				return null;
 			}
 
-			var dmb = await dmbFactory.FromCompileJob(result!.CompileJob!, cancellationToken);
+			var dmb = await dmbFactory.FromCompileJob(result!.CompileJob!, "Session Loading Main Deployment", cancellationToken);
 			if (dmb == null)
 			{
 				logger.LogError("Unable to reattach! Could not load .dmb!");
@@ -230,7 +230,7 @@ namespace Tgstation.Server.Host.Components.Session
 			if (result.InitialCompileJob != null)
 			{
 				logger.LogTrace("Loading initial compile job...");
-				initialDmb = await dmbFactory.FromCompileJob(result.InitialCompileJob, cancellationToken);
+				initialDmb = await dmbFactory.FromCompileJob(result.InitialCompileJob, "Session Loading Initial Deployment", cancellationToken);
 			}
 
 			logger.LogTrace("Retrieved ReattachInformation");
