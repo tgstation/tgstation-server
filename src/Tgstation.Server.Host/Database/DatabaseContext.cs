@@ -375,17 +375,17 @@ namespace Tgstation.Server.Host.Database
 		/// <summary>
 		/// Used by unit tests to remind us to setup the correct MSSQL migration downgrades.
 		/// </summary>
-		internal static readonly Type MSLatestMigration = typeof(MSAddCompilerAdditionalArguments);
+		internal static readonly Type MSLatestMigration = typeof(MSSwitchTo64BitDeploymentIds);
 
 		/// <summary>
 		/// Used by unit tests to remind us to setup the correct MYSQL migration downgrades.
 		/// </summary>
-		internal static readonly Type MYLatestMigration = typeof(MYAddCompilerAdditionalArguments);
+		internal static readonly Type MYLatestMigration = typeof(MYSwitchTo64BitDeploymentIds);
 
 		/// <summary>
 		/// Used by unit tests to remind us to setup the correct PostgresSQL migration downgrades.
 		/// </summary>
-		internal static readonly Type PGLatestMigration = typeof(PGAddCompilerAdditionalArguments);
+		internal static readonly Type PGLatestMigration = typeof(PGSwitchTo64BitDeploymentIds);
 
 		/// <summary>
 		/// Used by unit tests to remind us to setup the correct SQLite migration downgrades.
@@ -418,6 +418,16 @@ namespace Tgstation.Server.Host.Database
 			string? targetMigration = null;
 
 			string BadDatabaseType() => throw new ArgumentException($"Invalid DatabaseType: {currentDatabaseType}", nameof(currentDatabaseType));
+
+			if (targetVersion < new Version(6, 6, 0))
+				targetMigration = currentDatabaseType switch
+				{
+					DatabaseType.MySql => nameof(MYAddCompilerAdditionalArguments),
+					DatabaseType.PostgresSql => nameof(PGAddCompilerAdditionalArguments),
+					DatabaseType.SqlServer => nameof(MSAddCompilerAdditionalArguments),
+					DatabaseType.Sqlite => nameof(SLAddCompilerAdditionalArguments),
+					_ => BadDatabaseType(),
+				};
 
 			if (targetVersion < new Version(6, 5, 0))
 				targetMigration = currentDatabaseType switch

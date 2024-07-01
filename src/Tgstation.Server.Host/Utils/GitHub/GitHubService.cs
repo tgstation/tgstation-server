@@ -133,7 +133,7 @@ namespace Tgstation.Server.Host.Utils.GitHub
 		}
 
 		/// <inheritdoc />
-		public async ValueTask<int> GetCurrentUserId(CancellationToken cancellationToken)
+		public async ValueTask<long> GetCurrentUserId(CancellationToken cancellationToken)
 		{
 			logger.LogTrace("CreateOAuthAccessToken");
 
@@ -183,7 +183,7 @@ namespace Tgstation.Server.Host.Utils.GitHub
 		}
 
 		/// <inheritdoc />
-		public async ValueTask<int> CreateDeployment(NewDeployment newDeployment, string repoOwner, string repoName, CancellationToken cancellationToken)
+		public async ValueTask<long> CreateDeployment(NewDeployment newDeployment, string repoOwner, string repoName, CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(newDeployment);
 
@@ -206,7 +206,7 @@ namespace Tgstation.Server.Host.Utils.GitHub
 		}
 
 		/// <inheritdoc />
-		public Task CreateDeploymentStatus(NewDeploymentStatus newDeploymentStatus, string repoOwner, string repoName, int deploymentId, CancellationToken cancellationToken)
+		public Task CreateDeploymentStatus(NewDeploymentStatus newDeploymentStatus, string repoOwner, string repoName, long deploymentId, CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(newDeploymentStatus);
 
@@ -228,7 +228,7 @@ namespace Tgstation.Server.Host.Utils.GitHub
 		}
 
 		/// <inheritdoc />
-		public Task CreateDeploymentStatus(NewDeploymentStatus newDeploymentStatus, long repoId, int deploymentId, CancellationToken cancellationToken)
+		public Task CreateDeploymentStatus(NewDeploymentStatus newDeploymentStatus, long repoId, long deploymentId, CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(newDeploymentStatus);
 
