@@ -315,6 +315,11 @@ namespace Tgstation.Server.Host.Database.Migrations
 
 				MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long?>("Id"));
 
+				b.Property<string>("AutoUpdateCron")
+					.IsRequired()
+					.HasMaxLength(10000)
+					.HasColumnType("varchar(10000)");
+
 				b.Property<uint?>("AutoUpdateInterval")
 					.IsRequired()
 					.HasColumnType("int unsigned");

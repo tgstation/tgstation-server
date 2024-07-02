@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+
+using NCrontab;
+
 using Serilog.Context;
 
 using Tgstation.Server.Api.Rights;
@@ -183,7 +186,7 @@ namespace Tgstation.Server.Host.Components
 			using (LogContext.PushProperty(SerilogContextHelper.InstanceIdContextProperty, metadata.Id))
 			{
 				await Task.WhenAll(
-					SetAutoUpdateInterval(metadata.Require(x => x.AutoUpdateInterval)).AsTask(),
+					ScheduleAutoUpdate(metadata.Require(x => x.AutoUpdateInterval), metadata.AutoUpdateCron).AsTask(),
 					Configuration.StartAsync(cancellationToken),
 					EngineManager.StartAsync(cancellationToken),
 					Chat.StartAsync(cancellationToken),
@@ -202,7 +205,7 @@ namespace Tgstation.Server.Host.Components
 			using (LogContext.PushProperty(SerilogContextHelper.InstanceIdContextProperty, metadata.Id))
 			{
 				logger.LogDebug("Stopping instance...");
-				await SetAutoUpdateInterval(0);
+				await ScheduleAutoUpdate(0, null);
 				await Watchdog.StopAsync(cancellationToken);
 				await Task.WhenAll(
 					Configuration.StopAsync(cancellationToken),
@@ -213,8 +216,11 @@ namespace Tgstation.Server.Host.Components
 		}
 
 		/// <inheritdoc />
-		public async ValueTask SetAutoUpdateInterval(uint newInterval)
+		public async ValueTask ScheduleAutoUpdate(uint newInterval, string? newCron)
 		{
+			if (newInterval > 0 && !String.IsNullOrWhiteSpace(newCron))
+				throw new ArgumentException("Only one of newInterval and newCron may be set!");
+
 			Task toWait;
 			lock (timerLock)
 			{
@@ -232,9 +238,9 @@ namespace Tgstation.Server.Host.Components
 			}
 
 			await toWait;
-			if (newInterval == 0)
+			if (newInterval == 0 && String.IsNullOrWhiteSpace(newCron))
 			{
-				logger.LogTrace("New auto-update interval is 0. Not starting task.");
+				logger.LogTrace("Auto-update disabled 0. Not starting task.");
 				return;
 			}
 
@@ -243,12 +249,12 @@ namespace Tgstation.Server.Host.Components
 				// race condition, just quit
 				if (timerTask != null)
 				{
-					logger.LogWarning("Aborting auto update interval change due to race condition!");
+					logger.LogWarning("Aborting auto-update scheduling change due to race condition!");
 					return;
 				}
 
 				timerCts = new CancellationTokenSource();
-				timerTask = TimerLoop(newInterval, timerCts.Token);
+				timerTask = TimerLoop(newInterval, newCron, timerCts.Token);
 			}
 		}
 
@@ -484,16 +490,47 @@ namespace Tgstation.Server.Host.Components
 		/// Pull the repository and compile for every set of given <paramref name="minutes"/>.
 		/// </summary>
 		/// <param name="minutes">How many minutes the operation should repeat. Does not include running time.</param>
+		/// <param name="cron">Alternative cron schedule.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
 #pragma warning disable CA1502 // TODO: Decomplexify
-		async Task TimerLoop(uint minutes, CancellationToken cancellationToken)
+		async Task TimerLoop(uint minutes, string? cron, CancellationToken cancellationToken)
 		{
 			logger.LogDebug("Entering auto-update loop");
 			while (true)
 				try
 				{
-					await asyncDelayer.Delay(TimeSpan.FromMinutes(minutes > Int32.MaxValue ? Int32.MaxValue : minutes), cancellationToken);
+					TimeSpan delay;
+					if (!String.IsNullOrWhiteSpace(cron))
+					{
+						logger.LogTrace("Using cron schedule: {cron}", cron);
+						var schedule = CrontabSchedule.Parse(
+							cron,
+							new CrontabSchedule.ParseOptions
+							{
+								IncludingSeconds = true,
+							});
+						var now = DateTime.UtcNow;
+						var nextOccurrence = schedule.GetNextOccurrence(now);
+						delay = nextOccurrence - now;
+					}
+					else
+					{
+						logger.LogTrace("Using interval: {interval}m", minutes);
+						if (minutes > Int32.MaxValue)
+						{
+							logger.LogWarning(
+								"Auto-update interval is above the maximum limit of {maxMinutes}m. This is likely a user/client error. Truncating to maximum...",
+								Int32.MaxValue);
+							minutes = Int32.MaxValue;
+						}
+
+						delay = TimeSpan.FromMinutes(minutes);
+					}
+
+					logger.LogInformation("Next auto-update will occur at {time}", DateTimeOffset.UtcNow + delay);
+
+					await asyncDelayer.Delay(delay, cancellationToken);
 					logger.LogInformation("Beginning auto update...");
 					await eventConsumer.HandleEvent(EventType.InstanceAutoUpdateStart, Enumerable.Empty<string>(), true, cancellationToken);
 					try

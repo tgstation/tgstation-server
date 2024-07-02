@@ -289,6 +289,11 @@ namespace Tgstation.Server.Host.Database.Migrations
 
 				NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long?>("Id"));
 
+				b.Property<string>("AutoUpdateCron")
+					.IsRequired()
+					.HasMaxLength(10000)
+					.HasColumnType("character varying(10000)");
+
 				b.Property<long>("AutoUpdateInterval")
 					.HasColumnType("bigint");
 

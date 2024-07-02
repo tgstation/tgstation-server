@@ -291,6 +291,11 @@ namespace Tgstation.Server.Host.Database.Migrations
 
 				SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long?>("Id"));
 
+				b.Property<string>("AutoUpdateCron")
+					.IsRequired()
+					.HasMaxLength(10000)
+					.HasColumnType("nvarchar(max)");
+
 				b.Property<long>("AutoUpdateInterval")
 					.HasColumnType("bigint");
 

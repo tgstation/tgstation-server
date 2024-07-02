@@ -375,22 +375,22 @@ namespace Tgstation.Server.Host.Database
 		/// <summary>
 		/// Used by unit tests to remind us to setup the correct MSSQL migration downgrades.
 		/// </summary>
-		internal static readonly Type MSLatestMigration = typeof(MSSwitchTo64BitDeploymentIds);
+		internal static readonly Type MSLatestMigration = typeof(MSAddCronAutoUpdates);
 
 		/// <summary>
 		/// Used by unit tests to remind us to setup the correct MYSQL migration downgrades.
 		/// </summary>
-		internal static readonly Type MYLatestMigration = typeof(MYSwitchTo64BitDeploymentIds);
+		internal static readonly Type MYLatestMigration = typeof(MYAddCronAutoUpdates);
 
 		/// <summary>
 		/// Used by unit tests to remind us to setup the correct PostgresSQL migration downgrades.
 		/// </summary>
-		internal static readonly Type PGLatestMigration = typeof(PGSwitchTo64BitDeploymentIds);
+		internal static readonly Type PGLatestMigration = typeof(PGAddCronAutoUpdates);
 
 		/// <summary>
 		/// Used by unit tests to remind us to setup the correct SQLite migration downgrades.
 		/// </summary>
-		internal static readonly Type SLLatestMigration = typeof(SLAddCompilerAdditionalArguments);
+		internal static readonly Type SLLatestMigration = typeof(SLAddCronAutoUpdates);
 
 		/// <inheritdoc />
 #pragma warning disable CA1502 // Cyclomatic complexity

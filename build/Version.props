@@ -5,10 +5,10 @@
   <PropertyGroup>
     <TgsCoreVersion>6.5.0</TgsCoreVersion>
     <TgsConfigVersion>5.1.0</TgsConfigVersion>
-    <TgsApiVersion>10.3.0</TgsApiVersion>
+    <TgsApiVersion>10.4.0</TgsApiVersion>
     <TgsCommonLibraryVersion>7.0.0</TgsCommonLibraryVersion>
-    <TgsApiLibraryVersion>13.3.0</TgsApiLibraryVersion>
-    <TgsClientVersion>15.3.0</TgsClientVersion>
+    <TgsApiLibraryVersion>13.4.0</TgsApiLibraryVersion>
+    <TgsClientVersion>15.4.0</TgsClientVersion>
     <TgsDmapiVersion>7.1.2</TgsDmapiVersion>
     <TgsInteropVersion>5.9.0</TgsInteropVersion>
     <TgsHostWatchdogVersion>1.4.1</TgsHostWatchdogVersion>
