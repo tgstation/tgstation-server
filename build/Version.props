@@ -18,7 +18,7 @@
     <TgsNetMajorVersion>8</TgsNetMajorVersion>
     <!-- Update this frequently with dotnet runtime patches. MAJOR MUST MATCH ABOVE! -->
     <TgsDotnetRedistUrl>https://download.visualstudio.microsoft.com/download/pr/751d3fcd-72db-4da2-b8d0-709c19442225/33cc492bde704bfd6d70a2b9109005a0/dotnet-hosting-8.0.6-win.exe</TgsDotnetRedistUrl>
-    <TgsMariaDBRedistVersion>10.11.6</TgsMariaDBRedistVersion>
+    <TgsMariaDBRedistVersion>10.11.8</TgsMariaDBRedistVersion>
     <TgsYarnVersion>1.22.21</TgsYarnVersion>
   </PropertyGroup>
 </Project>
