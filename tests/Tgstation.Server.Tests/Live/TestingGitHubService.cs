@@ -89,19 +89,19 @@ namespace Tgstation.Server.Tests.Live
 			return Task.CompletedTask;
 		}
 
-		public ValueTask<int> CreateDeployment(NewDeployment newDeployment, string repoOwner, string repoName, CancellationToken cancellationToken)
+		public ValueTask<long> CreateDeployment(NewDeployment newDeployment, string repoOwner, string repoName, CancellationToken cancellationToken)
 		{
 			logger.LogTrace("CreateDeployment");
-			return ValueTask.FromResult(new Random().Next()); ;
+			return ValueTask.FromResult<long>(new Random().Next()); ;
 		}
 
-		public Task CreateDeploymentStatus(NewDeploymentStatus newDeploymentStatus, string repoOwner, string repoName, int deploymentId, CancellationToken cancellationToken)
+		public Task CreateDeploymentStatus(NewDeploymentStatus newDeploymentStatus, string repoOwner, string repoName, long deploymentId, CancellationToken cancellationToken)
 		{
 			logger.LogTrace("CreateDeploymentStatus");
 			return Task.CompletedTask;
 		}
 
-		public Task CreateDeploymentStatus(NewDeploymentStatus newDeploymentStatus, long repoId, int deploymentId, CancellationToken cancellationToken)
+		public Task CreateDeploymentStatus(NewDeploymentStatus newDeploymentStatus, long repoId, long deploymentId, CancellationToken cancellationToken)
 		{
 			logger.LogTrace("CreateDeploymentStatus");
 			return Task.CompletedTask;
@@ -113,10 +113,10 @@ namespace Tgstation.Server.Tests.Live
 			return ValueTask.FromResult(cryptographySuite.GetSecureString());
 		}
 
-		public ValueTask<int> GetCurrentUserId(CancellationToken cancellationToken)
+		public ValueTask<long> GetCurrentUserId(CancellationToken cancellationToken)
 		{
 			logger.LogTrace("GetCurrentUserId");
-			return ValueTask.FromResult(new Random().Next());
+			return ValueTask.FromResult<long>(new Random().Next());
 		}
 
 		public ValueTask<long> GetRepositoryId(string repoOwner, string repoName, CancellationToken cancellationToken)

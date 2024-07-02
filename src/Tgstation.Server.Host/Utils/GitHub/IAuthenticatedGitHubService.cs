@@ -29,7 +29,7 @@ namespace Tgstation.Server.Host.Utils.GitHub
 		/// <param name="repoName">The name of the target repository.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the new deployment's ID.</returns>
-		ValueTask<int> CreateDeployment(NewDeployment newDeployment, string repoOwner, string repoName, CancellationToken cancellationToken);
+		ValueTask<long> CreateDeployment(NewDeployment newDeployment, string repoOwner, string repoName, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Create a <paramref name="newDeploymentStatus"/> on a target deployment.
@@ -40,7 +40,7 @@ namespace Tgstation.Server.Host.Utils.GitHub
 		/// <param name="deploymentId">The ID of the parent deployment.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		Task CreateDeploymentStatus(NewDeploymentStatus newDeploymentStatus, string repoOwner, string repoName, int deploymentId, CancellationToken cancellationToken);
+		Task CreateDeploymentStatus(NewDeploymentStatus newDeploymentStatus, string repoOwner, string repoName, long deploymentId, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Create a <paramref name="newDeploymentStatus"/> on a target deployment.
@@ -50,6 +50,6 @@ namespace Tgstation.Server.Host.Utils.GitHub
 		/// <param name="deploymentId">The ID of the parent deployment.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		Task CreateDeploymentStatus(NewDeploymentStatus newDeploymentStatus, long repoId, int deploymentId, CancellationToken cancellationToken);
+		Task CreateDeploymentStatus(NewDeploymentStatus newDeploymentStatus, long repoId, long deploymentId, CancellationToken cancellationToken);
 	}
 }

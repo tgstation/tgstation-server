@@ -13,7 +13,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 		{
 #pragma warning disable 612, 618
 			modelBuilder
-				.HasAnnotation("ProductVersion", "8.0.4")
+				.HasAnnotation("ProductVersion", "8.0.6")
 				.HasAnnotation("Relational:MaxIdentifierLength", 63);
 
 			NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -137,8 +137,8 @@ namespace Tgstation.Server.Host.Database.Migrations
 					.IsRequired()
 					.HasColumnType("text");
 
-				b.Property<int?>("GitHubDeploymentId")
-					.HasColumnType("integer");
+				b.Property<long?>("GitHubDeploymentId")
+					.HasColumnType("bigint");
 
 				b.Property<long?>("GitHubRepoId")
 					.HasColumnType("bigint");
@@ -288,6 +288,11 @@ namespace Tgstation.Server.Host.Database.Migrations
 					.HasColumnType("bigint");
 
 				NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long?>("Id"));
+
+				b.Property<string>("AutoUpdateCron")
+					.IsRequired()
+					.HasMaxLength(10000)
+					.HasColumnType("character varying(10000)");
 
 				b.Property<long>("AutoUpdateInterval")
 					.HasColumnType("bigint");

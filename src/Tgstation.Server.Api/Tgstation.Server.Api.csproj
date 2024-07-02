@@ -27,7 +27,7 @@
     <!-- Usage: HTTP constants reference -->
     <PackageReference Include="Microsoft.AspNetCore.Http.Extensions" Version="2.2.0" />
     <!-- Usage: Decoding the 'nbf' property of JWTs -->
-    <PackageReference Include="Microsoft.IdentityModel.JsonWebTokens" Version="7.5.1" />
+    <PackageReference Include="Microsoft.IdentityModel.JsonWebTokens" Version="7.6.2" />
     <!-- Usage: Primary JSON library -->
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <!-- Usage: Data model annotating -->
