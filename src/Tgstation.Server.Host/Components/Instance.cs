@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -223,7 +224,6 @@ namespace Tgstation.Server.Host.Components
 
 			Task toWait;
 			lock (timerLock)
-			{
 				if (timerTask != null)
 				{
 					logger.LogTrace("Cancelling auto-update task");
@@ -235,7 +235,6 @@ namespace Tgstation.Server.Host.Components
 				}
 				else
 					toWait = Task.CompletedTask;
-			}
 
 			await toWait;
 			if (newInterval == 0 && String.IsNullOrWhiteSpace(newCron))
@@ -517,85 +516,100 @@ namespace Tgstation.Server.Host.Components
 					else
 					{
 						logger.LogTrace("Using interval: {interval}m", minutes);
-						if (minutes > Int32.MaxValue)
-						{
-							logger.LogWarning(
-								"Auto-update interval is above the maximum limit of {maxMinutes}m. This is likely a user/client error. Truncating to maximum...",
-								Int32.MaxValue);
-							minutes = Int32.MaxValue;
-						}
 
 						delay = TimeSpan.FromMinutes(minutes);
 					}
 
 					logger.LogInformation("Next auto-update will occur at {time}", DateTimeOffset.UtcNow + delay);
 
+					// https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.task.delay?view=net-8.0#system-threading-tasks-task-delay(system-timespan)
+					const uint DelayMinutesLimit = UInt32.MaxValue - 1;
+					Debug.Assert(DelayMinutesLimit == 4294967294, "Delay limit assertion failure!");
+
+					var maxDelayIterations = 0UL;
+					if (delay.TotalMilliseconds >= UInt32.MaxValue)
+					{
+						maxDelayIterations = (ulong)Math.Floor(delay.TotalMilliseconds / DelayMinutesLimit);
+						logger.LogDebug("Breaking interval into {iterationCount} iterations", maxDelayIterations + 1);
+						delay = TimeSpan.FromMilliseconds(delay.TotalMilliseconds - (maxDelayIterations * DelayMinutesLimit));
+					}
+
+					if (maxDelayIterations > 0)
+					{
+						var longDelayTimeSpan = TimeSpan.FromMilliseconds(DelayMinutesLimit);
+						for (var i = 0UL; i < maxDelayIterations; ++i)
+						{
+							logger.LogTrace("Long delay #{iteration}...", i + 1);
+							await asyncDelayer.Delay(longDelayTimeSpan, cancellationToken);
+						}
+
+						logger.LogTrace("Final delay iteration #{iteration}...", maxDelayIterations + 1);
+					}
+
 					await asyncDelayer.Delay(delay, cancellationToken);
 					logger.LogInformation("Beginning auto update...");
 					await eventConsumer.HandleEvent(EventType.InstanceAutoUpdateStart, Enumerable.Empty<string>(), true, cancellationToken);
-					try
-					{
-						var repositoryUpdateJob = Job.Create(Api.Models.JobCode.RepositoryAutoUpdate, null, metadata, RepositoryRights.CancelPendingChanges);
-						await jobManager.RegisterOperation(
-							repositoryUpdateJob,
-							RepositoryAutoUpdateJob,
-							cancellationToken);
 
-						var repoUpdateJobResult = await jobManager.WaitForJobCompletion(repositoryUpdateJob, null, cancellationToken, cancellationToken);
-						if (repoUpdateJobResult == false)
+					var repositoryUpdateJob = Job.Create(Api.Models.JobCode.RepositoryAutoUpdate, null, metadata, RepositoryRights.CancelPendingChanges);
+					await jobManager.RegisterOperation(
+						repositoryUpdateJob,
+						RepositoryAutoUpdateJob,
+						cancellationToken);
+
+					var repoUpdateJobResult = await jobManager.WaitForJobCompletion(repositoryUpdateJob, null, cancellationToken, cancellationToken);
+					if (repoUpdateJobResult == false)
+					{
+						logger.LogWarning("Aborting auto-update due to repository update error!");
+						continue;
+					}
+
+					Job compileProcessJob;
+					using (var repo = await RepositoryManager.LoadRepository(cancellationToken))
+					{
+						if (repo == null)
+							throw new JobException(Api.Models.ErrorCode.RepoMissing);
+
+						var deploySha = repo.Head;
+						if (deploySha == null)
 						{
-							logger.LogWarning("Aborting auto-update due to repository update error!");
+							logger.LogTrace("Aborting auto update, repository error!");
 							continue;
 						}
 
-						Job compileProcessJob;
-						using (var repo = await RepositoryManager.LoadRepository(cancellationToken))
+						if (deploySha == LatestCompileJob()?.RevisionInformation.CommitSha)
 						{
-							if (repo == null)
-								throw new JobException(Api.Models.ErrorCode.RepoMissing);
-
-							var deploySha = repo.Head;
-							if (deploySha == null)
-							{
-								logger.LogTrace("Aborting auto update, repository error!");
-								continue;
-							}
-
-							if (deploySha == LatestCompileJob()?.RevisionInformation.CommitSha)
-							{
-								logger.LogTrace("Aborting auto update, same revision as latest CompileJob");
-								continue;
-							}
-
-							// finally set up the job
-							compileProcessJob = Job.Create(Api.Models.JobCode.AutomaticDeployment, null, metadata, DreamMakerRights.CancelCompile);
-							await jobManager.RegisterOperation(
-								compileProcessJob,
-								(core, databaseContextFactory, job, progressReporter, jobCancellationToken) =>
-								{
-									if (core != this)
-										throw new InvalidOperationException(DifferentCoreExceptionMessage);
-									return DreamMaker.DeploymentProcess(
-										job,
-										databaseContextFactory,
-										progressReporter,
-										jobCancellationToken);
-								},
-								cancellationToken);
+							logger.LogTrace("Aborting auto update, same revision as latest CompileJob");
+							continue;
 						}
 
-						await jobManager.WaitForJobCompletion(compileProcessJob, null, default, cancellationToken);
+						// finally set up the job
+						compileProcessJob = Job.Create(Api.Models.JobCode.AutomaticDeployment, null, metadata, DreamMakerRights.CancelCompile);
+						await jobManager.RegisterOperation(
+							compileProcessJob,
+							(core, databaseContextFactory, job, progressReporter, jobCancellationToken) =>
+							{
+								if (core != this)
+									throw new InvalidOperationException(DifferentCoreExceptionMessage);
+								return DreamMaker.DeploymentProcess(
+									job,
+									databaseContextFactory,
+									progressReporter,
+									jobCancellationToken);
+							},
+							cancellationToken);
 					}
-					catch (Exception e) when (e is not OperationCanceledException)
-					{
-						logger.LogWarning(e, "Error in auto update loop!");
-						continue;
-					}
+
+					await jobManager.WaitForJobCompletion(compileProcessJob, null, default, cancellationToken);
 				}
 				catch (OperationCanceledException)
 				{
 					logger.LogDebug("Cancelled auto update loop!");
 					break;
+				}
+				catch (Exception e)
+				{
+					logger.LogError(e, "Error in auto update loop!");
+					continue;
 				}
 
 			logger.LogTrace("Leaving auto update loop...");
