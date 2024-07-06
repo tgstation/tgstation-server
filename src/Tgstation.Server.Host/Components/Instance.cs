@@ -1,11 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+
+using NCrontab;
+
 using Serilog.Context;
 
 using Tgstation.Server.Api.Rights;
@@ -183,7 +187,7 @@ namespace Tgstation.Server.Host.Components
 			using (LogContext.PushProperty(SerilogContextHelper.InstanceIdContextProperty, metadata.Id))
 			{
 				await Task.WhenAll(
-					SetAutoUpdateInterval(metadata.Require(x => x.AutoUpdateInterval)).AsTask(),
+					ScheduleAutoUpdate(metadata.Require(x => x.AutoUpdateInterval), metadata.AutoUpdateCron).AsTask(),
 					Configuration.StartAsync(cancellationToken),
 					EngineManager.StartAsync(cancellationToken),
 					Chat.StartAsync(cancellationToken),
@@ -202,7 +206,7 @@ namespace Tgstation.Server.Host.Components
 			using (LogContext.PushProperty(SerilogContextHelper.InstanceIdContextProperty, metadata.Id))
 			{
 				logger.LogDebug("Stopping instance...");
-				await SetAutoUpdateInterval(0);
+				await ScheduleAutoUpdate(0, null);
 				await Watchdog.StopAsync(cancellationToken);
 				await Task.WhenAll(
 					Configuration.StopAsync(cancellationToken),
@@ -213,11 +217,13 @@ namespace Tgstation.Server.Host.Components
 		}
 
 		/// <inheritdoc />
-		public async ValueTask SetAutoUpdateInterval(uint newInterval)
+		public async ValueTask ScheduleAutoUpdate(uint newInterval, string? newCron)
 		{
+			if (newInterval > 0 && !String.IsNullOrWhiteSpace(newCron))
+				throw new ArgumentException("Only one of newInterval and newCron may be set!");
+
 			Task toWait;
 			lock (timerLock)
-			{
 				if (timerTask != null)
 				{
 					logger.LogTrace("Cancelling auto-update task");
@@ -229,12 +235,11 @@ namespace Tgstation.Server.Host.Components
 				}
 				else
 					toWait = Task.CompletedTask;
-			}
 
 			await toWait;
-			if (newInterval == 0)
+			if (newInterval == 0 && String.IsNullOrWhiteSpace(newCron))
 			{
-				logger.LogTrace("New auto-update interval is 0. Not starting task.");
+				logger.LogTrace("Auto-update disabled 0. Not starting task.");
 				return;
 			}
 
@@ -243,12 +248,12 @@ namespace Tgstation.Server.Host.Components
 				// race condition, just quit
 				if (timerTask != null)
 				{
-					logger.LogWarning("Aborting auto update interval change due to race condition!");
+					logger.LogWarning("Aborting auto-update scheduling change due to race condition!");
 					return;
 				}
 
 				timerCts = new CancellationTokenSource();
-				timerTask = TimerLoop(newInterval, timerCts.Token);
+				timerTask = TimerLoop(newInterval, newCron, timerCts.Token);
 			}
 		}
 
@@ -484,81 +489,127 @@ namespace Tgstation.Server.Host.Components
 		/// Pull the repository and compile for every set of given <paramref name="minutes"/>.
 		/// </summary>
 		/// <param name="minutes">How many minutes the operation should repeat. Does not include running time.</param>
+		/// <param name="cron">Alternative cron schedule.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
 #pragma warning disable CA1502 // TODO: Decomplexify
-		async Task TimerLoop(uint minutes, CancellationToken cancellationToken)
+		async Task TimerLoop(uint minutes, string? cron, CancellationToken cancellationToken)
 		{
 			logger.LogDebug("Entering auto-update loop");
 			while (true)
 				try
 				{
-					await asyncDelayer.Delay(TimeSpan.FromMinutes(minutes > Int32.MaxValue ? Int32.MaxValue : minutes), cancellationToken);
+					TimeSpan delay;
+					if (!String.IsNullOrWhiteSpace(cron))
+					{
+						logger.LogTrace("Using cron schedule: {cron}", cron);
+						var schedule = CrontabSchedule.Parse(
+							cron,
+							new CrontabSchedule.ParseOptions
+							{
+								IncludingSeconds = true,
+							});
+						var now = DateTime.UtcNow;
+						var nextOccurrence = schedule.GetNextOccurrence(now);
+						delay = nextOccurrence - now;
+					}
+					else
+					{
+						logger.LogTrace("Using interval: {interval}m", minutes);
+
+						delay = TimeSpan.FromMinutes(minutes);
+					}
+
+					logger.LogInformation("Next auto-update will occur at {time}", DateTimeOffset.UtcNow + delay);
+
+					// https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.task.delay?view=net-8.0#system-threading-tasks-task-delay(system-timespan)
+					const uint DelayMinutesLimit = UInt32.MaxValue - 1;
+					Debug.Assert(DelayMinutesLimit == 4294967294, "Delay limit assertion failure!");
+
+					var maxDelayIterations = 0UL;
+					if (delay.TotalMilliseconds >= UInt32.MaxValue)
+					{
+						maxDelayIterations = (ulong)Math.Floor(delay.TotalMilliseconds / DelayMinutesLimit);
+						logger.LogDebug("Breaking interval into {iterationCount} iterations", maxDelayIterations + 1);
+						delay = TimeSpan.FromMilliseconds(delay.TotalMilliseconds - (maxDelayIterations * DelayMinutesLimit));
+					}
+
+					if (maxDelayIterations > 0)
+					{
+						var longDelayTimeSpan = TimeSpan.FromMilliseconds(DelayMinutesLimit);
+						for (var i = 0UL; i < maxDelayIterations; ++i)
+						{
+							logger.LogTrace("Long delay #{iteration}...", i + 1);
+							await asyncDelayer.Delay(longDelayTimeSpan, cancellationToken);
+						}
+
+						logger.LogTrace("Final delay iteration #{iteration}...", maxDelayIterations + 1);
+					}
+
+					await asyncDelayer.Delay(delay, cancellationToken);
 					logger.LogInformation("Beginning auto update...");
 					await eventConsumer.HandleEvent(EventType.InstanceAutoUpdateStart, Enumerable.Empty<string>(), true, cancellationToken);
-					try
-					{
-						var repositoryUpdateJob = Job.Create(Api.Models.JobCode.RepositoryAutoUpdate, null, metadata, RepositoryRights.CancelPendingChanges);
-						await jobManager.RegisterOperation(
-							repositoryUpdateJob,
-							RepositoryAutoUpdateJob,
-							cancellationToken);
 
-						var repoUpdateJobResult = await jobManager.WaitForJobCompletion(repositoryUpdateJob, null, cancellationToken, cancellationToken);
-						if (repoUpdateJobResult == false)
+					var repositoryUpdateJob = Job.Create(Api.Models.JobCode.RepositoryAutoUpdate, null, metadata, RepositoryRights.CancelPendingChanges);
+					await jobManager.RegisterOperation(
+						repositoryUpdateJob,
+						RepositoryAutoUpdateJob,
+						cancellationToken);
+
+					var repoUpdateJobResult = await jobManager.WaitForJobCompletion(repositoryUpdateJob, null, cancellationToken, cancellationToken);
+					if (repoUpdateJobResult == false)
+					{
+						logger.LogWarning("Aborting auto-update due to repository update error!");
+						continue;
+					}
+
+					Job compileProcessJob;
+					using (var repo = await RepositoryManager.LoadRepository(cancellationToken))
+					{
+						if (repo == null)
+							throw new JobException(Api.Models.ErrorCode.RepoMissing);
+
+						var deploySha = repo.Head;
+						if (deploySha == null)
 						{
-							logger.LogWarning("Aborting auto-update due to repository update error!");
+							logger.LogTrace("Aborting auto update, repository error!");
 							continue;
 						}
 
-						Job compileProcessJob;
-						using (var repo = await RepositoryManager.LoadRepository(cancellationToken))
+						if (deploySha == LatestCompileJob()?.RevisionInformation.CommitSha)
 						{
-							if (repo == null)
-								throw new JobException(Api.Models.ErrorCode.RepoMissing);
-
-							var deploySha = repo.Head;
-							if (deploySha == null)
-							{
-								logger.LogTrace("Aborting auto update, repository error!");
-								continue;
-							}
-
-							if (deploySha == LatestCompileJob()?.RevisionInformation.CommitSha)
-							{
-								logger.LogTrace("Aborting auto update, same revision as latest CompileJob");
-								continue;
-							}
-
-							// finally set up the job
-							compileProcessJob = Job.Create(Api.Models.JobCode.AutomaticDeployment, null, metadata, DreamMakerRights.CancelCompile);
-							await jobManager.RegisterOperation(
-								compileProcessJob,
-								(core, databaseContextFactory, job, progressReporter, jobCancellationToken) =>
-								{
-									if (core != this)
-										throw new InvalidOperationException(DifferentCoreExceptionMessage);
-									return DreamMaker.DeploymentProcess(
-										job,
-										databaseContextFactory,
-										progressReporter,
-										jobCancellationToken);
-								},
-								cancellationToken);
+							logger.LogTrace("Aborting auto update, same revision as latest CompileJob");
+							continue;
 						}
 
-						await jobManager.WaitForJobCompletion(compileProcessJob, null, default, cancellationToken);
+						// finally set up the job
+						compileProcessJob = Job.Create(Api.Models.JobCode.AutomaticDeployment, null, metadata, DreamMakerRights.CancelCompile);
+						await jobManager.RegisterOperation(
+							compileProcessJob,
+							(core, databaseContextFactory, job, progressReporter, jobCancellationToken) =>
+							{
+								if (core != this)
+									throw new InvalidOperationException(DifferentCoreExceptionMessage);
+								return DreamMaker.DeploymentProcess(
+									job,
+									databaseContextFactory,
+									progressReporter,
+									jobCancellationToken);
+							},
+							cancellationToken);
 					}
-					catch (Exception e) when (e is not OperationCanceledException)
-					{
-						logger.LogWarning(e, "Error in auto update loop!");
-						continue;
-					}
+
+					await jobManager.WaitForJobCompletion(compileProcessJob, null, default, cancellationToken);
 				}
 				catch (OperationCanceledException)
 				{
 					logger.LogDebug("Cancelled auto update loop!");
 					break;
+				}
+				catch (Exception e)
+				{
+					logger.LogError(e, "Error in auto update loop!");
+					continue;
 				}
 
 			logger.LogTrace("Leaving auto update loop...");

@@ -35,7 +35,15 @@ try
     try
     {
         Invoke-WebRequest -Uri $redistUrl -OutFile artifacts/hosting-bundle.exe
-        Invoke-WebRequest -Uri $dbRedistUrl -OutFile artifacts/mariadb.msi
+        try
+        {
+            Invoke-WebRequest -Uri $dbRedistUrl -OutFile artifacts/mariadb.msi
+        }
+        catch
+        {
+            $dbRedistUrl = $versionXML.Project.PropertyGroup.TgsMariaDBFallbackRedist
+            Invoke-WebRequest -Uri $dbRedistUrl -OutFile artifacts/mariadb.msi
+        }
     } finally {
         $ProgressPreference = $previousProgressPreference
     }

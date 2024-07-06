@@ -13,6 +13,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
+using NCrontab;
+
 using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Request;
@@ -144,6 +146,10 @@ namespace Tgstation.Server.Host.Controllers
 			if (String.IsNullOrWhiteSpace(model.Name) || String.IsNullOrWhiteSpace(model.Path))
 				return BadRequest(new ErrorMessageResponse(ErrorCode.InstanceWhitespaceNameOrPath));
 
+			IActionResult? earlyOut = ValidateCronSetting(model);
+			if (earlyOut != null)
+				return earlyOut;
+
 			var unNormalizedPath = model.Path;
 			var targetInstancePath = NormalizePath(unNormalizedPath);
 			model.Path = targetInstancePath;
@@ -166,7 +172,6 @@ namespace Tgstation.Server.Host.Controllers
 				return Conflict(new ErrorMessageResponse(ErrorCode.InstanceAtConflictingPath));
 
 			// Validate it's not a child of any other instance
-			IActionResult? earlyOut = null;
 			ulong countOfOtherInstances = 0;
 			using (var cts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken))
 			{
@@ -415,9 +420,19 @@ namespace Tgstation.Server.Host.Controllers
 			}
 
 			var oldAutoUpdateInterval = originalModel.AutoUpdateInterval!.Value;
+			var oldAutoUpdateCron = originalModel.AutoUpdateCron;
+
+			var earlyOut = ValidateCronSetting(model);
+			if (earlyOut != null)
+				return earlyOut;
+
+			var changedAutoInterval = model.AutoUpdateInterval.HasValue && oldAutoUpdateInterval != model.AutoUpdateInterval;
+			var changedAutoCron = model.AutoUpdateCron != null && oldAutoUpdateCron != model.AutoUpdateCron;
+
 			var renamed = model.Name != null && originalModel.Name != model.Name;
 
 			if (CheckModified(x => x.AutoUpdateInterval, InstanceManagerRights.SetAutoUpdate)
+				|| CheckModified(x => x.AutoUpdateCron, InstanceManagerRights.SetAutoUpdate)
 				|| CheckModified(x => x.ConfigurationType, InstanceManagerRights.SetConfiguration)
 				|| CheckModified(x => x.Name, InstanceManagerRights.Rename)
 				|| CheckModified(x => x.Online, InstanceManagerRights.SetOnline)
@@ -435,6 +450,11 @@ namespace Tgstation.Server.Host.Controllers
 				if (countOfExistingChatBots > model.ChatBotLimit.Value)
 					return Conflict(new ErrorMessageResponse(ErrorCode.ChatBotMax));
 			}
+
+			if (changedAutoCron)
+				model.AutoUpdateInterval = 0;
+			else if (changedAutoInterval)
+				model.AutoUpdateCron = String.Empty;
 
 			await DatabaseContext.Save(cancellationToken);
 
@@ -497,13 +517,13 @@ namespace Tgstation.Server.Host.Controllers
 				api.MoveJob = job.ToApi();
 			}
 
-			if (model.AutoUpdateInterval.HasValue && oldAutoUpdateInterval != model.AutoUpdateInterval)
+			if (changedAutoInterval || changedAutoCron)
 			{
 				// ignoring retval because we don't care if it's offline
 				await WithComponentInstanceNullable(
 					async componentInstance =>
 					{
-						await componentInstance.SetAutoUpdateInterval(model.AutoUpdateInterval.Value);
+						await componentInstance.ScheduleAutoUpdate(model.AutoUpdateInterval!.Value, model.AutoUpdateCron);
 						return null;
 					},
 					originalModel);
@@ -746,6 +766,7 @@ namespace Tgstation.Server.Host.Controllers
 				Online = false,
 				Path = initialSettings.Path,
 				AutoUpdateInterval = initialSettings.AutoUpdateInterval ?? 0,
+				AutoUpdateCron = initialSettings.AutoUpdateCron ?? String.Empty,
 				ChatBotLimit = initialSettings.ChatBotLimit ?? Models.Instance.DefaultChatBotLimit,
 				RepositorySettings = new RepositorySettings
 				{
@@ -820,6 +841,30 @@ namespace Tgstation.Server.Host.Controllers
 				.AsQueryable()
 				.Where(x => x.InstanceId == instanceResponse.Id && x.PermissionSetId == AuthenticationContext.PermissionSet.Id)
 				.AnyAsync(cancellationToken);
+		}
+
+		/// <summary>
+		/// Validates a given <paramref name="instance"/>'s <see cref="Api.Models.Instance.AutoUpdateCron"/> setting.
+		/// </summary>
+		/// <param name="instance">The <see cref="Api.Models.Instance"/> to validate.</param>
+		/// <returns><see langword="null"/> if <paramref name="instance"/> has a valid <see cref="Api.Models.Instance.AutoUpdateCron"/> setting, a <see cref="BadRequestObjectResult"/> otherwise.</returns>
+		BadRequestObjectResult? ValidateCronSetting(Api.Models.Instance instance)
+		{
+			if (!String.IsNullOrWhiteSpace(instance.AutoUpdateCron))
+			{
+				if ((instance.AutoUpdateInterval.HasValue && instance.AutoUpdateInterval.Value != 0)
+				   || (CrontabSchedule.TryParse(
+					   instance.AutoUpdateCron,
+					   new CrontabSchedule.ParseOptions
+					   {
+						   IncludingSeconds = true,
+					   }) == null))
+					return BadRequest(new ErrorMessageResponse(ErrorCode.ModelValidationFailure));
+			}
+			else
+				instance.AutoUpdateCron = String.Empty;
+
+			return null;
 		}
 	}
 }
