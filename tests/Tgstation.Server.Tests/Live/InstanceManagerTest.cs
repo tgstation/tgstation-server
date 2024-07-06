@@ -179,18 +179,24 @@ namespace Tgstation.Server.Tests.Live
 			}, cancellationToken), ErrorCode.ModelValidationFailure);
 
 			// regression check
-			await instanceManagerClient.Update(new InstanceUpdateRequest
+			var updated = await instanceManagerClient.Update(new InstanceUpdateRequest
 			{
 				Id = firstTest.Id,
 				AutoUpdateInterval = 9999,
 			}, cancellationToken);
 
+			Assert.AreEqual(String.Empty, updated.AutoUpdateCron);
+			Assert.AreEqual(9999U, updated.AutoUpdateInterval);
+
 			// check regular 6-part crons succeed
-			await instanceManagerClient.Update(new InstanceUpdateRequest
+			updated = await instanceManagerClient.Update(new InstanceUpdateRequest
 			{
 				Id = firstTest.Id,
 				AutoUpdateCron = "0 0 0 1 1 *"
 			}, cancellationToken);
+
+			Assert.AreEqual("0 0 0 1 1 *", updated.AutoUpdateCron);
+			Assert.AreEqual(0U, updated.AutoUpdateInterval);
 
 			//can't move online instance
 			await ApiAssert.ThrowsException<ConflictException, InstanceResponse>(() => instanceManagerClient.Update(new InstanceUpdateRequest
