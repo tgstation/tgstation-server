@@ -3,8 +3,8 @@
 <area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html#ade7f7da8e9b448bd2a9b1b7eb0ecbe75" title="Initializes a new instance of the Repository class." alt="" coords="1164,37,1391,77"/>
 <area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#a38ea1632011a37a072e9d1c9e3d04c13" title=" " alt="" coords="829,5,1116,45"/>
 <area shape="rect" id="node8" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#ae437eb5855fbd7575d4a5b0c71217745" title="The JobEntrypoint for updating the repository." alt="" coords="859,69,1086,109"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#afb736b47a7400fb861186b8dad1c4c4c" title="Pull the repository and compile for every set of given minutes ." alt="" coords="555,37,781,77"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a2e70b9e1b420670ff8b02592a15dbdbe" title="Change the Api.Models.Instance.AutoUpdateInterval for the IInstanceCore. A ValueTask representing the..." alt="" coords="280,37,507,77"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a12340b0e0ecd2c2ccc812d88f86f7a3c" title="Pull the repository and compile for every set of given minutes ." alt="" coords="555,37,781,77"/>
+<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a76b97c61b214295da99e737ab2570b5a" title="Change the auto&#45;update timing for the IInstanceCore. A ValueTask representing the running operation." alt="" coords="280,37,507,77"/>
 <area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a11cc04923d2557eefd57ad2ded9eb7f2" title=" " alt="" coords="5,5,232,45"/>
 <area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#afc1fd9e8dc3bd57b78dbcbc4e7f449b4" title=" " alt="" coords="5,69,232,109"/>
 </map>

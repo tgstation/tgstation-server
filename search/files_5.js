@@ -28,7 +28,7 @@ var searchData=
   ['dmbprovider_2ecs_25',['DmbProvider.cs',['../_dmb_provider_8cs.html',1,'']]],
   ['dmbproviderbase_2ecs_26',['DmbProviderBase.cs',['../_dmb_provider_base_8cs.html',1,'']]],
   ['dotnetdumpservice_2ecs_27',['DotnetDumpService.cs',['../_dotnet_dump_service_8cs.html',1,'']]],
-  ['dotnethelper_2ecs_28',['DotnetHelper.cs',['../_tgstation_8_server_8_host_2_system_2_dotnet_helper_8cs.html',1,'(Global Namespace)'],['../_tgstation_8_server_8_host_8_common_2_dotnet_helper_8cs.html',1,'(Global Namespace)']]],
+  ['dotnethelper_2ecs_28',['DotnetHelper.cs',['../_tgstation_8_server_8_host_8_common_2_dotnet_helper_8cs.html',1,'(Global Namespace)'],['../_tgstation_8_server_8_host_2_system_2_dotnet_helper_8cs.html',1,'(Global Namespace)']]],
   ['dreamdaemonapibase_2ecs_29',['DreamDaemonApiBase.cs',['../_dream_daemon_api_base_8cs.html',1,'']]],
   ['dreamdaemonclient_2ecs_30',['DreamDaemonClient.cs',['../_dream_daemon_client_8cs.html',1,'']]],
   ['dreamdaemoncontroller_2ecs_31',['DreamDaemonController.cs',['../_dream_daemon_controller_8cs.html',1,'']]],

@@ -149,15 +149,15 @@ Components:
   Core:
   - Version: 6.6.0
     ComponentVersions:
-      Core: 6.5.0
-      HttpApi: 10.3.0
+      Core: 6.6.0
+      HttpApi: 10.4.0
       DreamMakerApi: 7.1.3
       Configuration: 5.1.0
       InteropApi: 5.9.0
       HostWatchdog: 1.4.1
       NugetCommon: 7.0.0
-      NugetApi: 13.3.0
-      NugetClient: 15.3.0
+      NugetApi: 13.4.0
+      NugetClient: 15.4.0
       WebControlPanel: 5.7.1
     Changes: []
     Unreleased: true
@@ -3638,6 +3638,13 @@ Components:
       Author: alexkar598
       PullRequest: 1133
   HttpApi:
+  - Version: 10.4.0
+    Changes:
+    - Descriptions:
+      - Added `autoUpdateCron` to instance model. Can be set to a 6-part cron schedule to get deterministic instance auto update windows.
+      Author: Cyberboss
+      PullRequest: 1823
+    Unreleased: true
   - Version: 10.3.0
     Changes:
     - Descriptions:

@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.5.0</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.6.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -132,16 +132,17 @@ Public Member Functions</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>A ValueTask representing the running operation.</dd></dl>
   <a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_wrapper.html#a95d63c1e3ffad3a2302e0518c3976e42">More...</a><br /></td></tr>
 <tr class="separator:a95d63c1e3ffad3a2302e0518c3976e42"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a72a1205c31cf7cc3bb45db0d8f138b0d"><td class="memItemLeft" align="right" valign="top">ValueTask&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_wrapper.html#a72a1205c31cf7cc3bb45db0d8f138b0d">SetAutoUpdateInterval</a> (uint newInterval)</td></tr>
-<tr class="memdesc:a72a1205c31cf7cc3bb45db0d8f138b0d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Change the <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html#aebe907c68112eae3f1ac2dfdf384ec5b" title="The time interval in minutes the repository is automatically pulled and compiles. 0 disables.">Api.Models.Instance.AutoUpdateInterval</a> for the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_core.html" title="For interacting with the instance services.">IInstanceCore</a>. <dl class="params"><dt>Parameters</dt><dd>
+<tr class="memitem:a4ba58384eab2c001b0a1f23eeec7fdb3"><td class="memItemLeft" align="right" valign="top">ValueTask&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_wrapper.html#a4ba58384eab2c001b0a1f23eeec7fdb3">ScheduleAutoUpdate</a> (uint newInterval, string? newCron)</td></tr>
+<tr class="memdesc:a4ba58384eab2c001b0a1f23eeec7fdb3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Change the auto-update timing for the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_core.html" title="For interacting with the instance services.">IInstanceCore</a>. <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">newInterval</td><td>The new auto update inteval.</td></tr>
+    <tr><td class="paramname">newInterval</td><td>The new auto-update inteval.</td></tr>
+    <tr><td class="paramname">newCron</td><td>The new auto-update cron schedule.</td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A ValueTask representing the running operation.</dd></dl>
-  <a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_wrapper.html#a72a1205c31cf7cc3bb45db0d8f138b0d">More...</a><br /></td></tr>
-<tr class="separator:a72a1205c31cf7cc3bb45db0d8f138b0d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+  <a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_wrapper.html#a4ba58384eab2c001b0a1f23eeec7fdb3">More...</a><br /></td></tr>
+<tr class="separator:a4ba58384eab2c001b0a1f23eeec7fdb3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6644276e1a14b4f85434610fdc6852c3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_compile_job.html">CompileJob</a>?&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_wrapper.html#a6644276e1a14b4f85434610fdc6852c3">LatestCompileJob</a> ()</td></tr>
 <tr class="memdesc:a6644276e1a14b4f85434610fdc6852c3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the latest CompileJob. <dl class="section return"><dt>Returns</dt><dd>The latest CompileJob or <code>null</code> if none are available.</dd></dl>
   <a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_wrapper.html#a6644276e1a14b4f85434610fdc6852c3">More...</a><br /></td></tr>
@@ -152,9 +153,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a40e354c65d34de4ad47cf20e90954d13 inherit pub_methods_class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_reference_counter"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_reference_counter.html#a40e354c65d34de4ad47cf20e90954d13">Initialize</a> (TInstance instance, Action referenceCleanupAction)</td></tr>
 <tr class="memdesc:a40e354c65d34de4ad47cf20e90954d13 inherit pub_methods_class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_reference_counter"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize the ReferenceCounter&lt;TInstance&gt;.   <a href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_reference_counter.html#a40e354c65d34de4ad47cf20e90954d13">More...</a><br /></td></tr>
 <tr class="separator:a40e354c65d34de4ad47cf20e90954d13 inherit pub_methods_class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_reference_counter"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a86691dc1301e6f7044e81998a645cc70"><td class="memItemLeft" align="right" valign="top">ValueTask&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_core.html#a86691dc1301e6f7044e81998a645cc70">SetAutoUpdateInterval</a> (uint newInterval)</td></tr>
-<tr class="memdesc:a86691dc1301e6f7044e81998a645cc70"><td class="mdescLeft">&#160;</td><td class="mdescRight">Change the <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html#aebe907c68112eae3f1ac2dfdf384ec5b" title="The time interval in minutes the repository is automatically pulled and compiles. 0 disables.">Api.Models.Instance.AutoUpdateInterval</a> for the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_core.html" title="For interacting with the instance services.">IInstanceCore</a>.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_core.html#a86691dc1301e6f7044e81998a645cc70">More...</a><br /></td></tr>
-<tr class="separator:a86691dc1301e6f7044e81998a645cc70"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af8044f32ab99ce1fed6d819056e02518"><td class="memItemLeft" align="right" valign="top">ValueTask&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_core.html#af8044f32ab99ce1fed6d819056e02518">ScheduleAutoUpdate</a> (uint newInterval, string? newCron)</td></tr>
+<tr class="memdesc:af8044f32ab99ce1fed6d819056e02518"><td class="mdescLeft">&#160;</td><td class="mdescRight">Change the auto-update timing for the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_core.html" title="For interacting with the instance services.">IInstanceCore</a>.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_core.html#af8044f32ab99ce1fed6d819056e02518">More...</a><br /></td></tr>
+<tr class="separator:af8044f32ab99ce1fed6d819056e02518"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1db5667505045a1470fc35691a271240"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_compile_job.html">CompileJob</a>?&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_latest_compile_job_provider.html#a1db5667505045a1470fc35691a271240">LatestCompileJob</a> ()</td></tr>
 <tr class="memdesc:a1db5667505045a1470fc35691a271240"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the latest CompileJob.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_latest_compile_job_provider.html#a1db5667505045a1470fc35691a271240">More...</a><br /></td></tr>
 <tr class="separator:a1db5667505045a1470fc35691a271240"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -325,32 +326,43 @@ Additional Inherited Members</h2></td></tr>
 
 </div>
 </div>
-<a id="a72a1205c31cf7cc3bb45db0d8f138b0d" name="a72a1205c31cf7cc3bb45db0d8f138b0d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a72a1205c31cf7cc3bb45db0d8f138b0d">&#9670;&#160;</a></span>SetAutoUpdateInterval()</h2>
+<a id="a4ba58384eab2c001b0a1f23eeec7fdb3" name="a4ba58384eab2c001b0a1f23eeec7fdb3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4ba58384eab2c001b0a1f23eeec7fdb3">&#9670;&#160;</a></span>ScheduleAutoUpdate()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">ValueTask Tgstation.Server.Host.Components.InstanceWrapper.SetAutoUpdateInterval </td>
+          <td class="memname">ValueTask Tgstation.Server.Host.Components.InstanceWrapper.ScheduleAutoUpdate </td>
           <td>(</td>
           <td class="paramtype">uint&#160;</td>
-          <td class="paramname"><em>newInterval</em></td><td>)</td>
+          <td class="paramname"><em>newInterval</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">string?&#160;</td>
+          <td class="paramname"><em>newCron</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Change the <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html#aebe907c68112eae3f1ac2dfdf384ec5b" title="The time interval in minutes the repository is automatically pulled and compiles. 0 disables.">Api.Models.Instance.AutoUpdateInterval</a> for the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_core.html" title="For interacting with the instance services.">IInstanceCore</a>. <dl class="params"><dt>Parameters</dt><dd>
+<p>Change the auto-update timing for the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_core.html" title="For interacting with the instance services.">IInstanceCore</a>. <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">newInterval</td><td>The new auto update inteval.</td></tr>
+    <tr><td class="paramname">newInterval</td><td>The new auto-update inteval.</td></tr>
+    <tr><td class="paramname">newCron</td><td>The new auto-update cron schedule.</td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A ValueTask representing the running operation.</dd></dl>
  </p>
 
-<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_core.html#a86691dc1301e6f7044e81998a645cc70">Tgstation.Server.Host.Components.IInstanceCore</a>.</p>
+<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_core.html#af8044f32ab99ce1fed6d819056e02518">Tgstation.Server.Host.Components.IInstanceCore</a>.</p>
 
 </div>
 </div>

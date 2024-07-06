@@ -1,4 +1,5 @@
 <map id="Tgstation.Server.Host.Controllers.InstanceController.Create" name="Tgstation.Server.Host.Controllers.InstanceController.Create">
-<area shape="rect" id="node1" title="Create or attach an Api.Models.Instance." alt="" coords="5,5,221,45"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_controller.html#a600268a32d5da87b3c80f97d34319366" title="Normalize a given path &#160;for an instance." alt="" coords="269,5,485,45"/>
+<area shape="rect" id="node1" title="Create or attach an Api.Models.Instance." alt="" coords="5,37,221,77"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_controller.html#a600268a32d5da87b3c80f97d34319366" title="Normalize a given path &#160;for an instance." alt="" coords="284,5,500,45"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_controller.html#a5b38d5cba6df39071299a0d0c5e71a6d" title="Validates a given instance &#39;s Api.Models.Instance.AutoUpdateCron setting." alt="" coords="269,69,515,109"/>
 </map>

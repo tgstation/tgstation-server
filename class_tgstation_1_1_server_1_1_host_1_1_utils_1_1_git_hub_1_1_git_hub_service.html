@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.5.0</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.6.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -148,16 +148,16 @@ Public Member Functions</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>A ValueTask&lt;TResult&gt; resulting in the Uri of the designated updates repository.</dd></dl>
   <a href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_git_hub_service.html#a724e191fcc87c35a3af0a182e3939726">More...</a><br /></td></tr>
 <tr class="separator:a724e191fcc87c35a3af0a182e3939726"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5852c75b702e1a03188b3a3d32367fc7"><td class="memItemLeft" align="right" valign="top">async ValueTask&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_git_hub_service.html#a5852c75b702e1a03188b3a3d32367fc7">GetCurrentUserId</a> (CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a5852c75b702e1a03188b3a3d32367fc7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the current user's ID. <dl class="params"><dt>Parameters</dt><dd>
+<tr class="memitem:afd09beca60e74c80e9e6452510aa16b2"><td class="memItemLeft" align="right" valign="top">async ValueTask&lt; long &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_git_hub_service.html#afd09beca60e74c80e9e6452510aa16b2">GetCurrentUserId</a> (CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:afd09beca60e74c80e9e6452510aa16b2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the current user's ID. <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A ValueTask&lt;TResult&gt; resulting in the current user's ID.</dd></dl>
-  <a href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_git_hub_service.html#a5852c75b702e1a03188b3a3d32367fc7">More...</a><br /></td></tr>
-<tr class="separator:a5852c75b702e1a03188b3a3d32367fc7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+  <a href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_git_hub_service.html#afd09beca60e74c80e9e6452510aa16b2">More...</a><br /></td></tr>
+<tr class="separator:afd09beca60e74c80e9e6452510aa16b2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac21c0c466ea99ce7d5dc2580512c3c32"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_git_hub_service.html#ac21c0c466ea99ce7d5dc2580512c3c32">CommentOnIssue</a> (string repoOwner, string repoName, string comment, int issueNumber, CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:ac21c0c466ea99ce7d5dc2580512c3c32"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a comment on a given <em>issueNumber</em> . <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -184,8 +184,8 @@ Public Member Functions</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>A ValueTask&lt;TResult&gt; resulting in the target repository's ID.</dd></dl>
   <a href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_git_hub_service.html#a7dc8460eb083d6c3824a13a231eacf92">More...</a><br /></td></tr>
 <tr class="separator:a7dc8460eb083d6c3824a13a231eacf92"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3fd8b61a8535ff337469df74cf5be06f"><td class="memItemLeft" align="right" valign="top">async ValueTask&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_git_hub_service.html#a3fd8b61a8535ff337469df74cf5be06f">CreateDeployment</a> (NewDeployment newDeployment, string repoOwner, string repoName, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a3fd8b61a8535ff337469df74cf5be06f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a <em>newDeployment</em>  on a target repostiory. <dl class="params"><dt>Parameters</dt><dd>
+<tr class="memitem:a195745c485e0ac88d9df7ea029360f54"><td class="memItemLeft" align="right" valign="top">async ValueTask&lt; long &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_git_hub_service.html#a195745c485e0ac88d9df7ea029360f54">CreateDeployment</a> (NewDeployment newDeployment, string repoOwner, string repoName, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a195745c485e0ac88d9df7ea029360f54"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a <em>newDeployment</em>  on a target repostiory. <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">newDeployment</td><td>The NewDeployment.</td></tr>
     <tr><td class="paramname">repoOwner</td><td>The owner of the target repository.</td></tr>
@@ -195,10 +195,10 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A ValueTask&lt;TResult&gt; resulting in the new deployment's ID.</dd></dl>
-  <a href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_git_hub_service.html#a3fd8b61a8535ff337469df74cf5be06f">More...</a><br /></td></tr>
-<tr class="separator:a3fd8b61a8535ff337469df74cf5be06f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a51f89a83a684709411e55332daab47aa"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_git_hub_service.html#a51f89a83a684709411e55332daab47aa">CreateDeploymentStatus</a> (NewDeploymentStatus newDeploymentStatus, string repoOwner, string repoName, int deploymentId, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a51f89a83a684709411e55332daab47aa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a <em>newDeploymentStatus</em>  on a target deployment. <dl class="params"><dt>Parameters</dt><dd>
+  <a href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_git_hub_service.html#a195745c485e0ac88d9df7ea029360f54">More...</a><br /></td></tr>
+<tr class="separator:a195745c485e0ac88d9df7ea029360f54"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad017c677eedd3d4c3892c0363024a8dc"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_git_hub_service.html#ad017c677eedd3d4c3892c0363024a8dc">CreateDeploymentStatus</a> (NewDeploymentStatus newDeploymentStatus, string repoOwner, string repoName, long deploymentId, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:ad017c677eedd3d4c3892c0363024a8dc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a <em>newDeploymentStatus</em>  on a target deployment. <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">newDeploymentStatus</td><td>The NewDeploymentStatus.</td></tr>
     <tr><td class="paramname">repoOwner</td><td>The owner of the target repository.</td></tr>
@@ -209,10 +209,10 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A Task representing the running operation.</dd></dl>
-  <a href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_git_hub_service.html#a51f89a83a684709411e55332daab47aa">More...</a><br /></td></tr>
-<tr class="separator:a51f89a83a684709411e55332daab47aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a43587c6153b4cbb3c774986e258569f3"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_git_hub_service.html#a43587c6153b4cbb3c774986e258569f3">CreateDeploymentStatus</a> (NewDeploymentStatus newDeploymentStatus, long repoId, int deploymentId, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a43587c6153b4cbb3c774986e258569f3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a <em>newDeploymentStatus</em>  on a target deployment. <dl class="params"><dt>Parameters</dt><dd>
+  <a href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_git_hub_service.html#ad017c677eedd3d4c3892c0363024a8dc">More...</a><br /></td></tr>
+<tr class="separator:ad017c677eedd3d4c3892c0363024a8dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac1cd8fb074c1b6d27c3b17559d74708f"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_git_hub_service.html#ac1cd8fb074c1b6d27c3b17559d74708f">CreateDeploymentStatus</a> (NewDeploymentStatus newDeploymentStatus, long repoId, long deploymentId, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:ac1cd8fb074c1b6d27c3b17559d74708f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a <em>newDeploymentStatus</em>  on a target deployment. <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">newDeploymentStatus</td><td>The NewDeploymentStatus.</td></tr>
     <tr><td class="paramname">repoId</td><td>The ID of the target repository.</td></tr>
@@ -222,8 +222,8 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A Task representing the running operation.</dd></dl>
-  <a href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_git_hub_service.html#a43587c6153b4cbb3c774986e258569f3">More...</a><br /></td></tr>
-<tr class="separator:a43587c6153b4cbb3c774986e258569f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+  <a href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_git_hub_service.html#ac1cd8fb074c1b6d27c3b17559d74708f">More...</a><br /></td></tr>
+<tr class="separator:ac1cd8fb074c1b6d27c3b17559d74708f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2ae8d1019bd5c479b1f8d3c5f16e3b3a"><td class="memItemLeft" align="right" valign="top">Task&lt; PullRequest &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_git_hub_service.html#a2ae8d1019bd5c479b1f8d3c5f16e3b3a">GetPullRequest</a> (string repoOwner, string repoName, int pullRequestNumber, CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:a2ae8d1019bd5c479b1f8d3c5f16e3b3a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a given <em>pullRequestNumber</em> . <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -253,15 +253,15 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ae02758afd50df9fb00d4ebdd2639d620"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_authenticated_git_hub_service.html#ae02758afd50df9fb00d4ebdd2639d620">CommentOnIssue</a> (string repoOwner, string repoName, string comment, int issueNumber, CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:ae02758afd50df9fb00d4ebdd2639d620"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a comment on a given <em>issueNumber</em> .   <a href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_authenticated_git_hub_service.html#ae02758afd50df9fb00d4ebdd2639d620">More...</a><br /></td></tr>
 <tr class="separator:ae02758afd50df9fb00d4ebdd2639d620"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a603a56b9715385b60aac451103fe3ea5"><td class="memItemLeft" align="right" valign="top">ValueTask&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_authenticated_git_hub_service.html#a603a56b9715385b60aac451103fe3ea5">CreateDeployment</a> (NewDeployment newDeployment, string repoOwner, string repoName, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a603a56b9715385b60aac451103fe3ea5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a <em>newDeployment</em>  on a target repostiory.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_authenticated_git_hub_service.html#a603a56b9715385b60aac451103fe3ea5">More...</a><br /></td></tr>
-<tr class="separator:a603a56b9715385b60aac451103fe3ea5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a82f898cca8a4a7bfeb5a58a49906f65f"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_authenticated_git_hub_service.html#a82f898cca8a4a7bfeb5a58a49906f65f">CreateDeploymentStatus</a> (NewDeploymentStatus newDeploymentStatus, string repoOwner, string repoName, int deploymentId, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a82f898cca8a4a7bfeb5a58a49906f65f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a <em>newDeploymentStatus</em>  on a target deployment.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_authenticated_git_hub_service.html#a82f898cca8a4a7bfeb5a58a49906f65f">More...</a><br /></td></tr>
-<tr class="separator:a82f898cca8a4a7bfeb5a58a49906f65f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac645ca0d4c9645534fd2207725795545"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_authenticated_git_hub_service.html#ac645ca0d4c9645534fd2207725795545">CreateDeploymentStatus</a> (NewDeploymentStatus newDeploymentStatus, long repoId, int deploymentId, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:ac645ca0d4c9645534fd2207725795545"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a <em>newDeploymentStatus</em>  on a target deployment.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_authenticated_git_hub_service.html#ac645ca0d4c9645534fd2207725795545">More...</a><br /></td></tr>
-<tr class="separator:ac645ca0d4c9645534fd2207725795545"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6ec88b25682381d11b7d39a4414383e0"><td class="memItemLeft" align="right" valign="top">ValueTask&lt; long &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_authenticated_git_hub_service.html#a6ec88b25682381d11b7d39a4414383e0">CreateDeployment</a> (NewDeployment newDeployment, string repoOwner, string repoName, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a6ec88b25682381d11b7d39a4414383e0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a <em>newDeployment</em>  on a target repostiory.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_authenticated_git_hub_service.html#a6ec88b25682381d11b7d39a4414383e0">More...</a><br /></td></tr>
+<tr class="separator:a6ec88b25682381d11b7d39a4414383e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afe4ffe75eea54d6dd06187485b9ccfea"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_authenticated_git_hub_service.html#afe4ffe75eea54d6dd06187485b9ccfea">CreateDeploymentStatus</a> (NewDeploymentStatus newDeploymentStatus, string repoOwner, string repoName, long deploymentId, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:afe4ffe75eea54d6dd06187485b9ccfea"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a <em>newDeploymentStatus</em>  on a target deployment.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_authenticated_git_hub_service.html#afe4ffe75eea54d6dd06187485b9ccfea">More...</a><br /></td></tr>
+<tr class="separator:afe4ffe75eea54d6dd06187485b9ccfea"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab58b902ee49d002e2cae4a5db55ed9af"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_authenticated_git_hub_service.html#ab58b902ee49d002e2cae4a5db55ed9af">CreateDeploymentStatus</a> (NewDeploymentStatus newDeploymentStatus, long repoId, long deploymentId, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:ab58b902ee49d002e2cae4a5db55ed9af"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a <em>newDeploymentStatus</em>  on a target deployment.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_authenticated_git_hub_service.html#ab58b902ee49d002e2cae4a5db55ed9af">More...</a><br /></td></tr>
+<tr class="separator:ab58b902ee49d002e2cae4a5db55ed9af"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aafa6949945d436f418547f7c9682df84"><td class="memItemLeft" align="right" valign="top">ValueTask&lt; Uri &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_service.html#aafa6949945d436f418547f7c9682df84">GetUpdatesRepositoryUrl</a> (CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:aafa6949945d436f418547f7c9682df84"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the Uri of the repository designated as the updates repository.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_service.html#aafa6949945d436f418547f7c9682df84">More...</a><br /></td></tr>
 <tr class="separator:aafa6949945d436f418547f7c9682df84"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -274,9 +274,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a74b8e7bffa82ab1a72c5e72259b0823e"><td class="memItemLeft" align="right" valign="top">ValueTask&lt; long &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_service.html#a74b8e7bffa82ab1a72c5e72259b0823e">GetRepositoryId</a> (string repoOwner, string repoName, CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:a74b8e7bffa82ab1a72c5e72259b0823e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a target repostiory's ID.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_service.html#a74b8e7bffa82ab1a72c5e72259b0823e">More...</a><br /></td></tr>
 <tr class="separator:a74b8e7bffa82ab1a72c5e72259b0823e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3c85677c277e4bcced7d0c16eb402205"><td class="memItemLeft" align="right" valign="top">ValueTask&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_service.html#a3c85677c277e4bcced7d0c16eb402205">GetCurrentUserId</a> (CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a3c85677c277e4bcced7d0c16eb402205"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the current user's ID.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_service.html#a3c85677c277e4bcced7d0c16eb402205">More...</a><br /></td></tr>
-<tr class="separator:a3c85677c277e4bcced7d0c16eb402205"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1dac1299e1dfc1360c7828b4b9911daa"><td class="memItemLeft" align="right" valign="top">ValueTask&lt; long &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_service.html#a1dac1299e1dfc1360c7828b4b9911daa">GetCurrentUserId</a> (CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a1dac1299e1dfc1360c7828b4b9911daa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the current user's ID.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_service.html#a1dac1299e1dfc1360c7828b4b9911daa">More...</a><br /></td></tr>
+<tr class="separator:a1dac1299e1dfc1360c7828b4b9911daa"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac8f24bd737ac3f6a489375c45f5afe9c"><td class="memItemLeft" align="right" valign="top">Task&lt; PullRequest &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_service.html#ac8f24bd737ac3f6a489375c45f5afe9c">GetPullRequest</a> (string repoOwner, string repoName, int pullRequestNumber, CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:ac8f24bd737ac3f6a489375c45f5afe9c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a given <em>pullRequestNumber</em> .   <a href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_service.html#ac8f24bd737ac3f6a489375c45f5afe9c">More...</a><br /></td></tr>
 <tr class="separator:ac8f24bd737ac3f6a489375c45f5afe9c"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -442,14 +442,14 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a3fd8b61a8535ff337469df74cf5be06f" name="a3fd8b61a8535ff337469df74cf5be06f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3fd8b61a8535ff337469df74cf5be06f">&#9670;&#160;</a></span>CreateDeployment()</h2>
+<a id="a195745c485e0ac88d9df7ea029360f54" name="a195745c485e0ac88d9df7ea029360f54"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a195745c485e0ac88d9df7ea029360f54">&#9670;&#160;</a></span>CreateDeployment()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">async ValueTask&lt; int &gt; Tgstation.Server.Host.Utils.GitHub.GitHubService.CreateDeployment </td>
+          <td class="memname">async ValueTask&lt; long &gt; Tgstation.Server.Host.Utils.GitHub.GitHubService.CreateDeployment </td>
           <td>(</td>
           <td class="paramtype">NewDeployment&#160;</td>
           <td class="paramname"><em>newDeployment</em>, </td>
@@ -492,7 +492,7 @@ Private Attributes</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>A ValueTask&lt;TResult&gt; resulting in the new deployment's ID.</dd></dl>
  </p>
 
-<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_authenticated_git_hub_service.html#a603a56b9715385b60aac451103fe3ea5">Tgstation.Server.Host.Utils.GitHub.IAuthenticatedGitHubService</a>.</p>
+<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_authenticated_git_hub_service.html#a6ec88b25682381d11b7d39a4414383e0">Tgstation.Server.Host.Utils.GitHub.IAuthenticatedGitHubService</a>.</p>
 
 <p class="definition">Definition at line <a class="el" href="_git_hub_service_8cs_source.html#l00186">186</a> of file <a class="el" href="_git_hub_service_8cs_source.html">GitHubService.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">  187</span>        {</div>
@@ -520,8 +520,8 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a43587c6153b4cbb3c774986e258569f3" name="a43587c6153b4cbb3c774986e258569f3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a43587c6153b4cbb3c774986e258569f3">&#9670;&#160;</a></span>CreateDeploymentStatus() <span class="overload">[1/2]</span></h2>
+<a id="ac1cd8fb074c1b6d27c3b17559d74708f" name="ac1cd8fb074c1b6d27c3b17559d74708f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac1cd8fb074c1b6d27c3b17559d74708f">&#9670;&#160;</a></span>CreateDeploymentStatus() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -541,7 +541,7 @@ Private Attributes</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">int&#160;</td>
+          <td class="paramtype">long&#160;</td>
           <td class="paramname"><em>deploymentId</em>, </td>
         </tr>
         <tr>
@@ -570,7 +570,7 @@ Private Attributes</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>A Task representing the running operation.</dd></dl>
  </p>
 
-<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_authenticated_git_hub_service.html#ac645ca0d4c9645534fd2207725795545">Tgstation.Server.Host.Utils.GitHub.IAuthenticatedGitHubService</a>.</p>
+<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_authenticated_git_hub_service.html#ab58b902ee49d002e2cae4a5db55ed9af">Tgstation.Server.Host.Utils.GitHub.IAuthenticatedGitHubService</a>.</p>
 
 <p class="definition">Definition at line <a class="el" href="_git_hub_service_8cs_source.html#l00231">231</a> of file <a class="el" href="_git_hub_service_8cs_source.html">GitHubService.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">  232</span>        {</div>
@@ -592,8 +592,8 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a51f89a83a684709411e55332daab47aa" name="a51f89a83a684709411e55332daab47aa"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a51f89a83a684709411e55332daab47aa">&#9670;&#160;</a></span>CreateDeploymentStatus() <span class="overload">[2/2]</span></h2>
+<a id="ad017c677eedd3d4c3892c0363024a8dc" name="ad017c677eedd3d4c3892c0363024a8dc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad017c677eedd3d4c3892c0363024a8dc">&#9670;&#160;</a></span>CreateDeploymentStatus() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -619,7 +619,7 @@ Private Attributes</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">int&#160;</td>
+          <td class="paramtype">long&#160;</td>
           <td class="paramname"><em>deploymentId</em>, </td>
         </tr>
         <tr>
@@ -649,7 +649,7 @@ Private Attributes</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>A Task representing the running operation.</dd></dl>
  </p>
 
-<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_authenticated_git_hub_service.html#a82f898cca8a4a7bfeb5a58a49906f65f">Tgstation.Server.Host.Utils.GitHub.IAuthenticatedGitHubService</a>.</p>
+<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_authenticated_git_hub_service.html#afe4ffe75eea54d6dd06187485b9ccfea">Tgstation.Server.Host.Utils.GitHub.IAuthenticatedGitHubService</a>.</p>
 
 <p class="definition">Definition at line <a class="el" href="_git_hub_service_8cs_source.html#l00209">209</a> of file <a class="el" href="_git_hub_service_8cs_source.html">GitHubService.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">  210</span>        {</div>
@@ -824,14 +824,14 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a5852c75b702e1a03188b3a3d32367fc7" name="a5852c75b702e1a03188b3a3d32367fc7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5852c75b702e1a03188b3a3d32367fc7">&#9670;&#160;</a></span>GetCurrentUserId()</h2>
+<a id="afd09beca60e74c80e9e6452510aa16b2" name="afd09beca60e74c80e9e6452510aa16b2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afd09beca60e74c80e9e6452510aa16b2">&#9670;&#160;</a></span>GetCurrentUserId()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">async ValueTask&lt; int &gt; Tgstation.Server.Host.Utils.GitHub.GitHubService.GetCurrentUserId </td>
+          <td class="memname">async ValueTask&lt; long &gt; Tgstation.Server.Host.Utils.GitHub.GitHubService.GetCurrentUserId </td>
           <td>(</td>
           <td class="paramtype">CancellationToken&#160;</td>
           <td class="paramname"><em>cancellationToken</em></td><td>)</td>
@@ -849,7 +849,7 @@ Private Attributes</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>A ValueTask&lt;TResult&gt; resulting in the current user's ID.</dd></dl>
  </p>
 
-<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_service.html#a3c85677c277e4bcced7d0c16eb402205">Tgstation.Server.Host.Utils.GitHub.IGitHubService</a>.</p>
+<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_service.html#a1dac1299e1dfc1360c7828b4b9911daa">Tgstation.Server.Host.Utils.GitHub.IGitHubService</a>.</p>
 
 <p class="definition">Definition at line <a class="el" href="_git_hub_service_8cs_source.html#l00136">136</a> of file <a class="el" href="_git_hub_service_8cs_source.html">GitHubService.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">  137</span>        {</div>

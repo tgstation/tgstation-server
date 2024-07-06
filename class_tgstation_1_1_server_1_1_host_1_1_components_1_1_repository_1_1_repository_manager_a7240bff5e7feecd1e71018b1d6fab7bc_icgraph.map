@@ -2,8 +2,8 @@
 <area shape="rect" id="node1" title="Attempt to load the IRepository from the default location. A ValueTask&lt;TResult&gt; resulting in the load..." alt="" coords="1172,69,1463,109"/>
 <area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository_manager.html#a07aa1886c83c4ddb306ad33074f3a365" title="Clone the repository at url . A ValueTask&lt;TResult&gt; resulting i the newly cloned IRepository,..." alt="" coords="829,5,1124,45"/>
 <area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#ae437eb5855fbd7575d4a5b0c71217745" title="The JobEntrypoint for updating the repository." alt="" coords="863,69,1090,109"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#afb736b47a7400fb861186b8dad1c4c4c" title="Pull the repository and compile for every set of given minutes ." alt="" coords="555,99,781,139"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a2e70b9e1b420670ff8b02592a15dbdbe" title="Change the Api.Models.Instance.AutoUpdateInterval for the IInstanceCore. A ValueTask representing the..." alt="" coords="280,99,507,139"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a12340b0e0ecd2c2ccc812d88f86f7a3c" title="Pull the repository and compile for every set of given minutes ." alt="" coords="555,99,781,139"/>
+<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a76b97c61b214295da99e737ab2570b5a" title="Change the auto&#45;update timing for the IInstanceCore. A ValueTask representing the running operation." alt="" coords="280,99,507,139"/>
 <area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a11cc04923d2557eefd57ad2ded9eb7f2" title=" " alt="" coords="5,67,232,107"/>
 <area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#afc1fd9e8dc3bd57b78dbcbc4e7f449b4" title=" " alt="" coords="5,131,232,171"/>
 </map>
