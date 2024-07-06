@@ -104,6 +104,7 @@ namespace Tgstation.Server.Tests
 			var instance = new Host.Models.Instance
 			{
 				AutoUpdateInterval = 0,
+				AutoUpdateCron = String.Empty,
 				ChatBotLimit = 1,
 				ChatSettings = new List<Host.Models.ChatBot>(),
 				ConfigurationType = ConfigurationType.HostWrite,

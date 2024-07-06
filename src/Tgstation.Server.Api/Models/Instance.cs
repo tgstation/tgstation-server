@@ -31,8 +31,17 @@ namespace Tgstation.Server.Api.Models
 		/// <summary>
 		/// The time interval in minutes the repository is automatically pulled and compiles. 0 disables.
 		/// </summary>
+		/// <remarks>Auto-updates intervals start counting when set, TGS is started, or from the completion of the previous update. Incompatible with <see cref="AutoUpdateCron"/>.</remarks>
 		[Required]
 		public uint? AutoUpdateInterval { get; set; }
+
+		/// <summary>
+		/// A cron expression indicating when auto-updates should trigger. Must be a valid 6 part cron schedule (SECONDS MINUTES HOURS DAY/MONTH MONTH DAY/WEEK). Empty <see cref="string"/> disables.
+		/// </summary>
+		/// <remarks>Updates will not be triggered if the previous update is still running. Incompatible with <see cref="AutoUpdateInterval"/>.</remarks>
+		[Required]
+		[StringLength(Limits.MaximumStringLength)]
+		public string? AutoUpdateCron { get; set; }
 
 		/// <summary>
 		/// The maximum number of chat bots the <see cref="Instance"/> may contain.

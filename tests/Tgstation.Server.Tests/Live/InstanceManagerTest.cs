@@ -162,12 +162,41 @@ namespace Tgstation.Server.Tests.Live
 			Assert.AreEqual(ConfigurationType.HostWrite, firstTest.ConfigurationType);
 			Assert.IsTrue(Directory.Exists(firstTest.Path));
 
+			// a couple data validation checks
+			// check setting both fails
+			await ApiAssert.ThrowsException<ApiConflictException, InstanceResponse>(() => instanceManagerClient.Update(new InstanceUpdateRequest
+			{
+				Id = firstTest.Id,
+				AutoUpdateInterval = 9999,
+				AutoUpdateCron = "0 0 0 1 1 *"
+			}, cancellationToken), ErrorCode.ModelValidationFailure);
+
+			// check bad crons fail
+			await ApiAssert.ThrowsException<ApiConflictException, InstanceResponse>(() => instanceManagerClient.Update(new InstanceUpdateRequest
+			{
+				Id = firstTest.Id,
+				AutoUpdateCron = "not a cron"
+			}, cancellationToken), ErrorCode.ModelValidationFailure);
+
 			// regression check
-			await instanceManagerClient.Update(new InstanceUpdateRequest
+			var updated = await instanceManagerClient.Update(new InstanceUpdateRequest
 			{
 				Id = firstTest.Id,
 				AutoUpdateInterval = 9999,
 			}, cancellationToken);
+
+			Assert.AreEqual(String.Empty, updated.AutoUpdateCron);
+			Assert.AreEqual(9999U, updated.AutoUpdateInterval);
+
+			// check regular 6-part crons succeed
+			updated = await instanceManagerClient.Update(new InstanceUpdateRequest
+			{
+				Id = firstTest.Id,
+				AutoUpdateCron = "0 0 0 1 1 *"
+			}, cancellationToken);
+
+			Assert.AreEqual("0 0 0 1 1 *", updated.AutoUpdateCron);
+			Assert.AreEqual(0U, updated.AutoUpdateInterval);
 
 			//can't move online instance
 			await ApiAssert.ThrowsException<ConflictException, InstanceResponse>(() => instanceManagerClient.Update(new InstanceUpdateRequest

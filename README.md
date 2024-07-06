@@ -12,7 +12,11 @@ This is a toolset to manage production DreamMaker servers. It includes the abili
 
 ### Pre-Requisites
 
-_Note: If you opt to use the Windows installer, all pre-requisites for running BYOND servers (including MariaDB) are provided out of the box. If you wish to use OpenDream you will need to install the required dotnet SDK manually._
+_Note: If you opt to use the Windows installer, most pre-requisites for running BYOND servers (including MariaDB) are provided out of the box._
+
+_If you are running on a Windows Server OS. You **might** need to install the [x86 Visual C++ 2015 Runtime](https://aka.ms/vs/17/release/vc_redist.x86.exe) to run BYOND._
+
+_If you wish to use OpenDream you will need to install the required dotnet SDK manually._
 
 tgstation-server needs a relational database to store it's data.
 

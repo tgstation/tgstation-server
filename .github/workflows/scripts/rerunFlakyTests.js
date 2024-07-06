@@ -16,7 +16,7 @@ async function getFailedJobsForRun(github, context, workflowRunId, runAttempt) {
 			attempt_number: runAttempt
 		},
 		response => {
-			return response.data.jobs;
+			return response.data;
 		});
 
 	return jobs

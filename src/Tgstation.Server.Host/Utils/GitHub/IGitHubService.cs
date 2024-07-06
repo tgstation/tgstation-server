@@ -52,7 +52,7 @@ namespace Tgstation.Server.Host.Utils.GitHub
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the current user's ID.</returns>
-		ValueTask<int> GetCurrentUserId(CancellationToken cancellationToken);
+		ValueTask<long> GetCurrentUserId(CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Get a given <paramref name="pullRequestNumber"/>.

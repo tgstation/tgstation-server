@@ -60,7 +60,7 @@ namespace Tgstation.Server.Host.Models
 		/// <summary>
 		/// The GitHub deployment ID associated with the <see cref="CompileJob"/> if any.
 		/// </summary>
-		public int? GitHubDeploymentId { get; set; }
+		public long? GitHubDeploymentId { get; set; }
 
 		/// <inheritdoc />
 		public override Version? DMApiVersion
