@@ -860,6 +860,8 @@ namespace Tgstation.Server.Host.Controllers
 						   IncludingSeconds = true,
 					   }) == null))
 					return BadRequest(new ErrorMessageResponse(ErrorCode.ModelValidationFailure));
+
+				instance.AutoUpdateInterval = 0;
 			}
 			else
 				instance.AutoUpdateCron = String.Empty;
