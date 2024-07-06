@@ -147,24 +147,27 @@ Components:
       Author: Cyberboss
       PullRequest: 1070
   Core:
+  - Version: 6.7.0
+    ComponentVersions: {}
+    Changes: []
+    Unreleased: true
+  - Version: 6.6.1
+    ComponentVersions: {}
+    Changes: []
+    Unreleased: true
   - Version: 6.6.0
     ComponentVersions:
       Core: 6.6.0
       HttpApi: 10.4.0
-      DreamMakerApi: 7.1.3
+      DreamMakerApi: 7.1.2
       Configuration: 5.1.0
       InteropApi: 5.9.0
       HostWatchdog: 1.4.1
       NugetCommon: 7.0.0
       NugetApi: 13.4.0
       NugetClient: 15.4.0
-      WebControlPanel: 5.7.1
+      WebControlPanel: 5.8.0
     Changes: []
-    Unreleased: true
-  - Version: 6.5.1
-    ComponentVersions: {}
-    Changes: []
-    Unreleased: true
   - Version: 6.5.0
     ComponentVersions:
       Core: 6.5.0
@@ -3443,6 +3446,12 @@ Components:
       Author: AffectedArc07
       PullRequest: 1408
   WebControlPanel:
+  - Version: 5.8.0
+    Changes:
+    - Descriptions:
+      - Added support for setting the instance auto-update period as a cron schedule.
+      Author: Cyberboss
+      PullRequest: 1824
   - Version: 5.7.1
     Changes:
     - Descriptions:
@@ -3644,7 +3653,6 @@ Components:
       - Added `autoUpdateCron` to instance model. Can be set to a 6-part cron schedule to get deterministic instance auto update windows.
       Author: Cyberboss
       PullRequest: 1823
-    Unreleased: true
   - Version: 10.3.0
     Changes:
     - Descriptions:
