@@ -79,7 +79,7 @@
 
 	TGS_DEBUG_LOG("Bridge request start")
 	// This is an infinite sleep until we get a response
-	var/export_response = world.Export(bridge_request)
+	var/export_response = ActuallyPerformBridgeRequest(bridge_request)
 	TGS_DEBUG_LOG("Bridge request complete")
 
 	if(!export_response)
@@ -107,3 +107,40 @@
 		return
 
 	return bridge_response
+
+#define TGS_BRIDGE_WRAP_RETURNED 1
+#define TGS_BRIDGE_WRAP_RESPONSE 2
+
+/// world.Export() can hang forever, so we need to give a timeout window.
+/datum/tgs_api/v5/proc/ActuallyPerformBridgeRequest(bridge_request)
+	var/list/bridge_request_tracker = list(
+		TGS_BRIDGE_WRAP_RETURNED = FALSE,
+		TGS_BRIDGE_WRAP_RESPONSE = null
+	)
+
+	var/start_time = world.time
+	while(bridge_request_tracker[TGS_BRIDGE_WRAP_RETURNED] == FALSE)
+		if(world.time > (start_time + 30 SECONDS)) // A total of 30 seconds worth of bridge attempts are allowed.
+			return null
+
+		WrapBridgeRequest(bridge_request, bridge_request_tracker)
+		// Every bridge attempt gets an initial 5 seconds to respond.
+		sleep(5 SECONDS)
+
+	if(bridge_request_tracker[TGS_BRIDGE_WRAP_RETURNED] == TRUE)
+		return bridge_request_tracker[TGS_BRIDGE_WRAP_RESPONSE]
+
+/// Async wrapper around a request, we will poll it later.
+/datum/tgs_api/v5/proc/WrapBridgeRequest(bridge_request, list/out)
+	set waitfor = FALSE
+
+	var/response = world.Export(bridge_request)
+	// Another bridge request fork responded already.
+	if(out[TGS_BRIDGE_WRAP_RETURNED])
+		return
+
+	out[TGS_BRIDGE_WRAP_RESPONSE] = response
+	out[TGS_BRIDGE_WRAP_RETURNED] = TRUE
+
+#undef TGS_BRIDGE_WRAP_RETURNED
+#undef TGS_BRIDGE_WRAP_RESPONSE
