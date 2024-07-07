@@ -121,6 +121,7 @@
 	var/start_time = world.time
 	while(bridge_request_tracker[TGS_BRIDGE_WRAP_RETURNED] == FALSE)
 		if(world.time > (start_time + 30 SECONDS)) // A total of 30 seconds worth of bridge attempts are allowed.
+			TGS_ERROR_LOG("TGS took too long to respond to a bridge request OR byond couldn't reach TGS.")
 			return null
 
 		WrapBridgeRequest(bridge_request, bridge_request_tracker)
