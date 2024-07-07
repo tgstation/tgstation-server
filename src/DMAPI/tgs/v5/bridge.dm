@@ -125,8 +125,12 @@
 			return null
 
 		WrapBridgeRequest(bridge_request, bridge_request_tracker)
-		// Every bridge attempt gets an initial 5 seconds to respond.
-		sleep(5 SECONDS)
+		var/poll_start_time = world.time
+		// Every bridge attempt gets an initial 10 seconds to respond.
+		while(world.time < poll_start_time + 10 SECONDS)
+			sleep(world.tick_lag)
+			if(bridge_request_tracker[TGS_BRIDGE_WRAP_RETURNED] == TRUE)
+				return bridge_request_tracker[TGS_BRIDGE_WRAP_RESPONSE]
 
 	if(bridge_request_tracker[TGS_BRIDGE_WRAP_RETURNED] == TRUE)
 		return bridge_request_tracker[TGS_BRIDGE_WRAP_RESPONSE]
