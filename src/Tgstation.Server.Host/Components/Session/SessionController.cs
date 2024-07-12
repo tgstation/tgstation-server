@@ -7,6 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
 
 using Newtonsoft.Json;
 
@@ -942,7 +943,9 @@ namespace Tgstation.Server.Host.Components.Session
 			using (await TopicSendSemaphore.Lock(cancellationToken))
 				byondResponse = await byondTopicSender.SendWithOptionalPriority(
 					asyncDelayer,
-					Logger,
+					LogTopicRequests
+						? Logger
+						: NullLogger.Instance,
 					queryString,
 					targetPort,
 					priority,
