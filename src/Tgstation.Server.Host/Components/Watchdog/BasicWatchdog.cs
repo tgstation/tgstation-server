@@ -181,7 +181,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					await HandleEventImpl(EventType.WorldPrime, Enumerable.Empty<string>(), false, cancellationToken);
 					break;
 				case MonitorActivationReason.ActiveServerStartup:
-					break; // unused in BasicWatchdog
+					Status = Api.Models.WatchdogStatus.Online;
+					break;
 				case MonitorActivationReason.HealthCheck:
 				default:
 					throw new InvalidOperationException($"Invalid activation reason: {reason}");
@@ -296,7 +297,12 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="MonitorAction"/> to take.</returns>
 		protected virtual ValueTask<MonitorAction> HandleNormalReboot(CancellationToken cancellationToken)
-			=> ValueTask.FromResult(MonitorAction.Continue);
+		{
+			if (Server!.CompileJob.DMApiVersion != null)
+				Status = Api.Models.WatchdogStatus.Restoring;
+
+			return ValueTask.FromResult(MonitorAction.Continue);
+		}
 
 		/// <summary>
 		/// Handler for <see cref="MonitorActivationReason.NewDmbAvailable"/>.
