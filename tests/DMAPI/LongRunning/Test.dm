@@ -3,7 +3,7 @@
 	loop_checks = FALSE
 
 /world/proc/RunTest()
-	log << "Initial value of sleep_offline: [sleep_offline]"
+	log << "Initial value of sleep_offline: [sleep_offline], setting to FALSE"
 	sleep_offline = FALSE
 
 	if(params["slow_start"])
@@ -215,6 +215,7 @@ var/run_bridge_test
 var/kajigger_test = FALSE
 
 /world/Reboot(reason)
+	log << "Reboot Start"
 	TgsChatBroadcast("World Rebooting")
 
 	if(kajigger_test && !fexists("kajigger.txt"))
@@ -222,6 +223,7 @@ var/kajigger_test = FALSE
 
 	TgsReboot()
 
+	log << "Calling base reboot"
 	..()
 
 var/received_health_check = FALSE
