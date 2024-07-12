@@ -1069,6 +1069,15 @@ namespace Tgstation.Server.Tests.Live.Instance
 		// - Injects a custom bridge handler into the bridge registrar and makes the test hack into the DMAPI and change its access_identifier
 		async Task WhiteBoxChatCommandTest(CancellationToken cancellationToken)
 		{
+			var ddInfo = await instanceClient.DreamDaemon.Read(cancellationToken);
+			for (int i = 0; ddInfo.Status != WatchdogStatus.Online && i < 15; ++i)
+			{
+				await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);
+				ddInfo = await instanceClient.DreamDaemon.Read(cancellationToken);
+			}
+
+			Assert.AreEqual(WatchdogStatus.Online, ddInfo.Status);
+
 			MessageContent embedsResponse, overloadResponse, overloadResponse2, embedsResponse2;
 			var startTime = DateTimeOffset.UtcNow - TimeSpan.FromSeconds(5);
 			using (var instanceReference = instanceManager.GetInstanceReference(instanceClient.Metadata))
@@ -1115,7 +1124,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 			var endTime = DateTimeOffset.UtcNow + TimeSpan.FromSeconds(5);
 
-			var ddInfo = await instanceClient.DreamDaemon.Read(cancellationToken);
+			ddInfo = await instanceClient.DreamDaemon.Read(cancellationToken);
 			await CheckDMApiFail(ddInfo.ActiveCompileJob, cancellationToken);
 
 			CheckEmbedsTest(embedsResponse, startTime, endTime);
