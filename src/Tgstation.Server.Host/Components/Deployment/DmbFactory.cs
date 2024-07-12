@@ -371,7 +371,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 			EngineVersion engineVersion;
 			if (!EngineVersion.TryParse(compileJob.EngineVersion, out var engineVersionNullable))
 			{
-				logger.LogWarning("Error loading compile job, bad engine version: {engineVersion}", compileJob.EngineVersion);
+				logger.LogError("Error loading compile job, bad engine version: {engineVersion}", compileJob.EngineVersion);
 				return (null, null); // omae wa mou shinderu
 			}
 			else
