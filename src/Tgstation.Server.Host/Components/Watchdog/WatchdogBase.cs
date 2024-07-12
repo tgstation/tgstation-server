@@ -42,10 +42,11 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		public WatchdogStatus Status
 		{
 			get => status;
-			set
+			protected set
 			{
+				var oldStatus = status;
 				status = value;
-				Logger.LogTrace("Status set to {status}", status);
+				Logger.LogTrace("Status set from {oldStatus} to {status}", oldStatus, status);
 			}
 		}
 
