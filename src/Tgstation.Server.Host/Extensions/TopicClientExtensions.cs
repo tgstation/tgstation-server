@@ -17,6 +17,11 @@ namespace Tgstation.Server.Host.Extensions
 	static class TopicClientExtensions
 	{
 		/// <summary>
+		/// Counter for topic request logging.
+		/// </summary>
+		static ulong topicRequestId;
+
+		/// <summary>
 		/// Send a <paramref name="queryString"/> with optional repeated priority.
 		/// </summary>
 		/// <param name="topicClient">The <see cref="ITopicClient"/> to send with.</param>
@@ -45,13 +50,14 @@ namespace Tgstation.Server.Host.Extensions
 				{
 					firstSend = false;
 
-					logger.LogTrace("Begin topic request");
+					var localRequestId = Interlocked.Increment(ref topicRequestId);
+					logger.LogTrace("Begin topic request #{requestId}: {query}", localRequestId, queryString);
 					var byondResponse = await topicClient.SendTopic(
 						endpoint,
 						queryString,
 						cancellationToken);
 
-					logger.LogTrace("End topic request");
+					logger.LogTrace("End topic request #{requestId}", localRequestId);
 					return byondResponse;
 				}
 				catch (Exception ex) when (ex is not OperationCanceledException)
