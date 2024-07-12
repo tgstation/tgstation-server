@@ -28,7 +28,7 @@ namespace Tgstation.Server.Tests.Live
 		readonly ICryptographySuite cryptographySuite;
 		readonly ILogger<TestingGitHubService> logger;
 
-		public static readonly IGitHubClient RealTestClient;
+		public static readonly IGitHubClient RealClient;
 
 		static TestingGitHubService()
 		{
@@ -39,7 +39,7 @@ namespace Tgstation.Server.Tests.Live
 			});
 
 			var gitHubClientFactory = new GitHubClientFactory(new AssemblyInformationProvider(), Mock.Of<ILogger<GitHubClientFactory>>(), mockOptions.Object);
-			RealTestClient = gitHubClientFactory.CreateClient();
+			RealClient = gitHubClientFactory.CreateClient();
 		}
 
 		public static async Task InitializeAndInject(CancellationToken cancellationToken)
@@ -47,7 +47,7 @@ namespace Tgstation.Server.Tests.Live
 			Release targetRelease;
 			do
 			{
-				var releases = await RealTestClient
+				var releases = await RealClient
 					.Repository
 					.Release
 					.GetAll("tgstation", "tgstation-server")
@@ -62,12 +62,12 @@ namespace Tgstation.Server.Tests.Live
 				{ TestLiveServer.TestUpdateVersion, targetRelease }
 			};
 
-			var testCommitTask = RealTestClient
+			var testCommitTask = RealClient
 				.Repository
 				.Commit
 				.Get("Cyberboss", "common_core", "4b4926dfaf6295f19f8ae7abf03cb357dbb05b29")
 				.WaitAsync(cancellationToken);
-			testPr = await RealTestClient
+			testPr = await RealClient
 				.PullRequest
 				.Get("Cyberboss", "common_core", 2)
 				.WaitAsync(cancellationToken);
