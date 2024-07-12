@@ -466,7 +466,7 @@ namespace Tgstation.Server.Host.Components.Engine
 						logger.LogWarning("The required engine version ({version}) is not readily available! We will have to install it.", version);
 					}
 					else
-						logger.LogDebug("Requested engine version {version} not currently installed. Doing so now...", version);
+						logger.LogInformation("Requested engine version {version} not currently installed. Doing so now...", version);
 
 					if (progressReporter != null)
 						progressReporter.StageName = "Running event";
