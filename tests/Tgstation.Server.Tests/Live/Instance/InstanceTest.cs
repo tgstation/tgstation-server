@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -24,7 +22,6 @@ using Tgstation.Server.Host.Components.Events;
 using Tgstation.Server.Host.Components.Repository;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.IO;
-using Tgstation.Server.Host.Jobs;
 using Tgstation.Server.Host.System;
 using Tgstation.Server.Host.Utils;
 
@@ -77,6 +74,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 				ddPort,
 				usingBasicWatchdog);
 			await wdt.Run(cancellationToken);
+			await wdt.ExpectGameDirectoryCount(2, cancellationToken);
 		}
 
 		public static async ValueTask<IEngineInstallationData> DownloadEngineVersion(
@@ -284,6 +282,10 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 			await using var wdt = new WatchdogTest(compatVersion, instanceClient, instanceManager, serverPort, highPrioDD, ddPort, usingBasicWatchdog);
 			await wdt.Run(cancellationToken);
+
+			await instanceClient.DreamDaemon.Shutdown(cancellationToken);
+
+			await wdt.ExpectGameDirectoryCount(1, cancellationToken);
 
 			await instanceManagerClient.Update(new InstanceUpdateRequest
 			{

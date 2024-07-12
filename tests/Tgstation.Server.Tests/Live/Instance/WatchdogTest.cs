@@ -595,6 +595,8 @@ namespace Tgstation.Server.Tests.Live.Instance
 			Assert.IsNull(daemonStatus.ActiveCompileJob.DMApiVersion);
 			Assert.AreEqual(DreamDaemonSecurity.Ultrasafe, daemonStatus.ActiveCompileJob.MinimumSecurityLevel);
 
+			await ExpectGameDirectoryCount(1, cancellationToken);
+
 			var startJob = await StartDD(cancellationToken);
 
 			await WaitForJob(startJob, 40, false, null, cancellationToken);
@@ -618,11 +620,38 @@ namespace Tgstation.Server.Tests.Live.Instance
 			Assert.AreEqual(initialCompileJob.Id, daemonStatus.ActiveCompileJob.Id);
 			var newerCompileJob = daemonStatus.StagedCompileJob;
 
+			await ExpectGameDirectoryCount(2, cancellationToken);
+
 			Assert.IsNotNull(newerCompileJob);
 			Assert.AreNotEqual(initialCompileJob.Id, newerCompileJob.Id);
 			Assert.AreEqual(DreamDaemonSecurity.Trusted, newerCompileJob.MinimumSecurityLevel);
 			Assert.AreEqual(DMApiConstants.InteropVersion, daemonStatus.StagedCompileJob.DMApiVersion);
 			await instanceClient.DreamDaemon.Shutdown(cancellationToken);
+
+			await ExpectGameDirectoryCount(1, cancellationToken);
+		}
+
+		public async ValueTask ExpectGameDirectoryCount(int expected, CancellationToken cancellationToken)
+		{
+			int CountNonLiveDirs()
+			{
+				var directories = Directory.GetDirectories(Path.Combine(instanceClient.Metadata.Path, "Game"));
+				return directories.Where(directory => Path.GetFileName(directory) != "Live").Count();
+			}
+
+			int nonLiveDirs = 0;
+			// cleanup task is async
+			for(var i = 0; i < 15; ++i)
+			{
+				nonLiveDirs = CountNonLiveDirs();
+				if (expected == nonLiveDirs)
+					return;
+
+				await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);
+			}
+
+			nonLiveDirs = CountNonLiveDirs();
+			Assert.AreEqual(expected, nonLiveDirs);
 		}
 
 		async Task RunBasicTest(CancellationToken cancellationToken)
@@ -642,6 +671,8 @@ namespace Tgstation.Server.Tests.Live.Instance
 			Assert.IsNull(daemonStatus.StagedCompileJob);
 			Assert.AreEqual(DMApiConstants.InteropVersion, daemonStatus.ActiveCompileJob.DMApiVersion);
 			Assert.AreEqual(DreamDaemonSecurity.Trusted, daemonStatus.ActiveCompileJob.MinimumSecurityLevel);
+
+			await ExpectGameDirectoryCount(1, cancellationToken);
 
 			JobResponse startJob;
 			if (new PlatformIdentifier().IsWindows) // Can't get address reuse to trigger on linux for some reason
@@ -683,6 +714,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			daemonStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
 			Assert.AreEqual(WatchdogStatus.Offline, daemonStatus.Status.Value);
 			Assert.IsFalse(daemonStatus.SessionId.HasValue);
+			await ExpectGameDirectoryCount(1, cancellationToken);
 
 			await CheckDMApiFail(daemonStatus.ActiveCompileJob, cancellationToken, false);
 
