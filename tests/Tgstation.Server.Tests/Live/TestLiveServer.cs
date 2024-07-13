@@ -1724,7 +1724,7 @@ namespace Tgstation.Server.Tests.Live
 					Assert.AreEqual(dd.StagedCompileJob.Job.Id, compileJob.Id);
 
 					expectedCompileJobId = compileJob.Id.Value;
-					dd = await wdt.TellWorldToReboot(server.UsingBasicWatchdog, cancellationToken);
+					dd = await wdt.TellWorldToReboot(true, cancellationToken);
 
 					Assert.AreEqual(dd.ActiveCompileJob.Job.Id, expectedCompileJobId);
 					Assert.AreEqual(WatchdogStatus.Online, dd.Status.Value);

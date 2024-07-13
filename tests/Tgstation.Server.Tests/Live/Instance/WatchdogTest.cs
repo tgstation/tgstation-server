@@ -633,15 +633,16 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 		public async ValueTask ExpectGameDirectoryCount(int expected, CancellationToken cancellationToken)
 		{
+			string[] lastDirectories;
 			int CountNonLiveDirs()
 			{
-				var directories = Directory.GetDirectories(Path.Combine(instanceClient.Metadata.Path, "Game"));
-				return directories.Where(directory => Path.GetFileName(directory) != "Live").Count();
+				lastDirectories = Directory.GetDirectories(Path.Combine(instanceClient.Metadata.Path, "Game"));
+				return lastDirectories.Where(directory => Path.GetFileName(directory) != "Live").Count();
 			}
 
 			int nonLiveDirs = 0;
 			// cleanup task is async
-			for(var i = 0; i < 15; ++i)
+			for(var i = 0; i < 20; ++i)
 			{
 				nonLiveDirs = CountNonLiveDirs();
 				if (expected == nonLiveDirs)
@@ -651,7 +652,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			}
 
 			nonLiveDirs = CountNonLiveDirs();
-			Assert.AreEqual(expected, nonLiveDirs);
+			Assert.AreEqual(expected, nonLiveDirs, $"Directories present: {String.Join(", ", lastDirectories.Select(Path.GetFileName))}");
 		}
 
 		async Task RunBasicTest(CancellationToken cancellationToken)

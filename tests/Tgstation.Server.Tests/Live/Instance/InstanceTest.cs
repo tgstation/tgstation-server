@@ -74,7 +74,12 @@ namespace Tgstation.Server.Tests.Live.Instance
 				ddPort,
 				usingBasicWatchdog);
 			await wdt.Run(cancellationToken);
-			await wdt.ExpectGameDirectoryCount(2, cancellationToken);
+
+			await wdt.ExpectGameDirectoryCount(
+				usingBasicWatchdog || new PlatformIdentifier().IsWindows
+					? 2 // old + new deployment
+					: 3, // + new mirrored deployment waiting to take over Live
+				cancellationToken);
 		}
 
 		public static async ValueTask<IEngineInstallationData> DownloadEngineVersion(
@@ -285,7 +290,9 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 			await instanceClient.DreamDaemon.Shutdown(cancellationToken);
 
-			await wdt.ExpectGameDirectoryCount(1, cancellationToken);
+			await wdt.ExpectGameDirectoryCount(
+				1, // current deployment
+				cancellationToken);
 
 			await instanceManagerClient.Update(new InstanceUpdateRequest
 			{
