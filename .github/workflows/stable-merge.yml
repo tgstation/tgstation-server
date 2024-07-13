@@ -10,7 +10,7 @@ on:
 jobs:
   master-merge:
     runs-on: ubuntu-latest
-    if: ${{ github.event_name == 'workflow_dispatch' }} || ${{ github.event.workflow_run.conclusion == 'success' }}
+    if: github.event_name == 'workflow_dispatch' || (github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'success')
     steps:
     - name: Checkout
       uses: actions/checkout@v4
@@ -23,7 +23,7 @@ jobs:
     - name: Build ReleaseNotes
       run: dotnet build -c Release -p:TGS_HOST_NO_WEBPANEL=true tools/Tgstation.Server.ReleaseNotes/Tgstation.Server.ReleaseNotes.csproj
 
-    - name: Run ReleaseNotes Create CI Completion Check (PR HEAD)
+    - name: Run ReleaseNotes Create CI Completion Check
       run: dotnet run -c Release --no-build --project tools/Tgstation.Server.ReleaseNotes --token-output-file ${{ runner.temp }}/installation_secret.txt ${{ secrets.TGS_CI_GITHUB_APP_TOKEN_BASE64 }}
 
     - name: Load Installation Token into Envvar

@@ -69,7 +69,8 @@ namespace Tgstation.Server.ReleaseNotes
 				&& !shaCheck
 				&& !fullNotes
 				&& !nuget
-				&& !ciCompletionCheck)
+				&& !ciCompletionCheck
+				&& !genToken)
 			{
 				Console.WriteLine("Invalid version: " + versionString);
 				return 2;
