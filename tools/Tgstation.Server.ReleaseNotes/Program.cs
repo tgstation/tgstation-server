@@ -61,6 +61,7 @@ namespace Tgstation.Server.ReleaseNotes
 			var fullNotes = versionString.Equals("--generate-full-notes", StringComparison.OrdinalIgnoreCase);
 			var nuget = versionString.Equals("--nuget", StringComparison.OrdinalIgnoreCase);
 			var ciCompletionCheck = versionString.Equals("--ci-completion-check", StringComparison.OrdinalIgnoreCase);
+			var genToken = versionString.Equals("--token-output-file", StringComparison.OrdinalIgnoreCase);
 
 			if ((!Version.TryParse(versionString, out var version) || version.Revision != -1)
 				&& !ensureRelease
@@ -148,6 +149,22 @@ namespace Tgstation.Server.ReleaseNotes
 					}
 
 					return await CICompletionCheck(client, args[1], args[2]);
+				}
+
+
+				if (genToken)
+				{
+					if (args.Length < 3)
+					{
+						Console.WriteLine("Missing output file path or PEM Base64 for app authentication!");
+						return 33847;
+					}
+
+					await GenerateAppCredentials(client, args[2]);
+
+					var token = client.Credentials.GetToken();
+					await File.WriteAllTextAsync(args[1], token);
+					return 0;
 				}
 
 				if (shaCheck)
@@ -1610,7 +1627,7 @@ package (version) distribution(s); urgency=urgency
 			return 0;
 		}
 
-		static async ValueTask<int> CICompletionCheck(GitHubClient gitHubClient, string currentSha, string pemBase64)
+		static async ValueTask GenerateAppCredentials(GitHubClient gitHubClient, string pemBase64)
 		{
 			var pemBytes = Convert.FromBase64String(pemBase64);
 			var pem = Encoding.UTF8.GetString(pemBytes);
@@ -1639,10 +1656,15 @@ package (version) distribution(s); urgency=urgency
 			var installToken = await gitHubClient.GitHubApps.CreateInstallationToken(installation.Id);
 
 			gitHubClient.Credentials = new Credentials(installToken.Token);
+		}
+
+		static async ValueTask<int> CICompletionCheck(GitHubClient gitHubClient, string currentSha, string pemBase64)
+		{
+			await GenerateAppCredentials(gitHubClient, pemBase64);
 
 			await gitHubClient.Check.Run.Create(RepoOwner, RepoName, new NewCheckRun("CI Completion", currentSha)
 			{
-				CompletedAt = now,
+				CompletedAt = DateTime.UtcNow,
 				Conclusion = CheckConclusion.Success,
 				Output = new NewCheckRunOutput("CI Completion", "The CI Pipeline completed successfully"),
 				Status = CheckStatus.Completed,

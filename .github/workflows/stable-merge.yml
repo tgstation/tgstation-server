@@ -5,6 +5,7 @@ on:
     workflows: [CI Pipeline]
     types:
     - completed
+  workflow_dispatch:
 
 jobs:
   master-merge:
@@ -16,6 +17,18 @@ jobs:
       with:
         fetch-depth: 0
 
+    - name: Restore
+      run: dotnet restore
+
+    - name: Build ReleaseNotes
+      run: dotnet build -c Release -p:TGS_HOST_NO_WEBPANEL=true tools/Tgstation.Server.ReleaseNotes/Tgstation.Server.ReleaseNotes.csproj
+
+    - name: Run ReleaseNotes Create CI Completion Check (PR HEAD)
+      run: dotnet run -c Release --no-build --project tools/Tgstation.Server.ReleaseNotes --token-output-file ${{ runner.temp }}/installation_secret.txt ${{ secrets.TGS_CI_GITHUB_APP_TOKEN_BASE64 }}
+
+    - name: Load Installation Token into Envvar
+      run: echo "INSTALLATION_TOKEN=$(cat ${{ runner.temp }}/installation_secret.txt)" >> $GITHUB_ENV
+
     - name: Merge master into dev
       uses: robotology/gh-action-nightly-merge@14b4a4cf358f7479aa708bee05cf8a794d6a2516 #v1.5.0
       with:
@@ -25,7 +38,6 @@ jobs:
         allow_forks: true
         user_name: tgstation-server
         user_email: tgstation-server@users.noreply.github.com
-        push_token: DEV_PUSH_TOKEN
+        push_token: INSTALLATION_TOKEN
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        DEV_PUSH_TOKEN: ${{ secrets.DEV_PUSH_TOKEN }}
