@@ -1,20 +1,23 @@
 name: 'Master Merge'
 
 on:
-  workflow_run:
-    workflows: [CI Pipeline]
-    types:
-    - completed
+  push:
+    branches:
+    - master
+  workflow_dispatch:
+
+env:
+  DEV_PUSH_TOKEN: ${{ secrets.DEV_PUSH_TOKEN }}
 
 jobs:
   master-merge:
     runs-on: ubuntu-latest
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     steps:
     - name: Checkout
       uses: actions/checkout@v4
       with:
         fetch-depth: 0
+        token: ${{ secrets.DEV_PUSH_TOKEN }}
 
     - name: Merge master into dev
       uses: robotology/gh-action-nightly-merge@14b4a4cf358f7479aa708bee05cf8a794d6a2516 #v1.5.0
@@ -28,4 +31,3 @@ jobs:
         push_token: DEV_PUSH_TOKEN
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        DEV_PUSH_TOKEN: ${{ secrets.DEV_PUSH_TOKEN }}
