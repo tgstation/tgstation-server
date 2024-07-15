@@ -137,6 +137,8 @@ namespace Tgstation.Server.Host.Components.Engine
 			logger.LogTrace("Attempting Robust.Server graceful exit (Timeout: {seconds}s)...", MaximumTerminationSeconds);
 			var timeout = asyncDelayer.Delay(TimeSpan.FromSeconds(MaximumTerminationSeconds), cancellationToken);
 			var lifetime = process.Lifetime;
+			if (lifetime.IsCompleted)
+				logger.LogTrace("Robust.Server already exited");
 
 			var stopwatch = Stopwatch.StartNew();
 			try

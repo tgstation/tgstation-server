@@ -24,7 +24,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 		readonly ushort dmPort;
 		readonly ushort ddPort;
 		readonly bool lowPriorityDeployments;
-		readonly EngineType testEngine;
+		readonly EngineVersion testEngine;
 
 		Task vpTest;
 
@@ -34,7 +34,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			ushort dmPort,
 			ushort ddPort,
 			bool lowPriorityDeployments,
-			EngineType testEngine) : base(jobsClient)
+			EngineVersion testEngine) : base(jobsClient)
 		{
 			this.instanceClient = instanceClient ?? throw new ArgumentNullException(nameof(instanceClient));
 			dreamMakerClient = instanceClient.DreamMaker;
@@ -65,7 +65,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			// this doesn't check dm's priority, but it really should
 			while (!deploymentJobWaitTask.IsCompleted)
 			{
-				var allProcesses = TestLiveServer.GetEngineServerProcessesOnPort(testEngine, dmPort);
+				var allProcesses = TestLiveServer.GetEngineServerProcessesOnPort(testEngine.Engine.Value, dmPort);
 				if (allProcesses.Count == 0)
 					continue;
 
@@ -133,13 +133,14 @@ namespace Tgstation.Server.Tests.Live.Instance
 			}
 			else
 			{
+				var canUseDashD = testEngine.Engine == EngineType.Byond && testEngine.Version >= new Version(515, 1597);
 				var updatedDM = await dreamMakerClient.Update(new DreamMakerRequest
 				{
 					ApiValidationPort = dmPort,
-					CompilerAdditionalArguments = testEngine == EngineType.Byond ? " -DBABABOOEY" : "     ",
+					CompilerAdditionalArguments = canUseDashD ? " -DBABABOOEY" : "     ",
 				}, cancellationToken);
 				Assert.AreEqual(dmPort, updatedDM.ApiValidationPort);
-				if (testEngine == EngineType.Byond)
+				if (canUseDashD)
 					Assert.AreEqual("-DBABABOOEY", updatedDM.CompilerAdditionalArguments);
 				else
 					Assert.IsNull(updatedDM.CompilerAdditionalArguments);

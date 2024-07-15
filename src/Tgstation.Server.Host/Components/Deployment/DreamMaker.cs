@@ -326,7 +326,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 						likelyPushedTestMergeCommit,
 						cancellationToken);
 
-				var activeCompileJob = compileJobConsumer.LatestCompileJob();
+				var activeCompileJob = await compileJobConsumer.LatestCompileJob();
 				try
 				{
 					await databaseContextFactory.UseContext(

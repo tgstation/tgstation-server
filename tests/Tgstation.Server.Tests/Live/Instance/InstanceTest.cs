@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -24,7 +22,6 @@ using Tgstation.Server.Host.Components.Events;
 using Tgstation.Server.Host.Components.Repository;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.IO;
-using Tgstation.Server.Host.Jobs;
 using Tgstation.Server.Host.System;
 using Tgstation.Server.Host.Utils;
 
@@ -51,7 +48,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			await using var chatTest = new ChatTest(instanceClient.ChatBots, instanceManagerClient, instanceClient.Jobs, instanceClient.Metadata);
 			var configTest = new ConfigurationTest(instanceClient.Configuration, instanceClient.Metadata);
 			await using var repoTest = new RepositoryTest(instanceClient.Repository, instanceClient.Jobs);
-			await using var dmTest = new DeploymentTest(instanceClient, instanceClient.Jobs, dmPort, ddPort, lowPrioDeployment, testVersion.Engine.Value);
+			await using var dmTest = new DeploymentTest(instanceClient, instanceClient.Jobs, dmPort, ddPort, lowPrioDeployment, testVersion);
 
 			var byondTask = engineTest.Run(cancellationToken, out var firstInstall);
 			var chatTask = chatTest.RunPreWatchdog(cancellationToken);
@@ -77,6 +74,12 @@ namespace Tgstation.Server.Tests.Live.Instance
 				ddPort,
 				usingBasicWatchdog);
 			await wdt.Run(cancellationToken);
+
+			await wdt.ExpectGameDirectoryCount(
+				usingBasicWatchdog || new PlatformIdentifier().IsWindows
+					? 2 // old + new deployment
+					: 3, // + new mirrored deployment waiting to take over Live
+				cancellationToken);
 		}
 
 		public static async ValueTask<IEngineInstallationData> DownloadEngineVersion(
@@ -284,6 +287,12 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 			await using var wdt = new WatchdogTest(compatVersion, instanceClient, instanceManager, serverPort, highPrioDD, ddPort, usingBasicWatchdog);
 			await wdt.Run(cancellationToken);
+
+			await instanceClient.DreamDaemon.Shutdown(cancellationToken);
+
+			await wdt.ExpectGameDirectoryCount(
+				1, // current deployment
+				cancellationToken);
 
 			await instanceManagerClient.Update(new InstanceUpdateRequest
 			{

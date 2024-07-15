@@ -162,7 +162,8 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 			await JobsClient.Cancel(job, cancellationToken);
 
-			timeout -= (int)Math.Ceiling((DateTimeOffset.UtcNow - start).TotalSeconds);
+			timeout -= Math.Max(0, (int)Math.Ceiling((DateTimeOffset.UtcNow - start).TotalSeconds));
+			timeout = Math.Max(0, timeout);
 			return await WaitForJob(job, timeout, false, null, cancellationToken);
 		}
 	}

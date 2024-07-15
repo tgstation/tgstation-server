@@ -87,7 +87,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				return;
 			}
 
-			Server.ReattachInformation.InitialDmb = await DmbFactory.FromCompileJob(Server.CompileJob, cancellationToken);
+			Server.ReattachInformation.InitialDmb = await DmbFactory.FromCompileJob(Server.CompileJob, "WindowsWatchdog Initial Deployment", cancellationToken);
 		}
 
 		/// <inheritdoc />

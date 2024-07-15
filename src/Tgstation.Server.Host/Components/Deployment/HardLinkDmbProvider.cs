@@ -31,7 +31,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 		/// <summary>
 		/// The <see cref="Task"/> representing the base provider mirroring operation.
 		/// </summary>
-		readonly Task<string> mirroringTask;
+		readonly Task<string?> mirroringTask;
 
 		/// <summary>
 		/// The <see cref="ILogger"/> for the <see cref="HardLinkDmbProvider"/>.
@@ -77,13 +77,27 @@ namespace Tgstation.Server.Host.Components.Deployment
 		{
 			cancellationTokenSource.Cancel();
 			cancellationTokenSource.Dispose();
-			try
+			var mirroredDir = await mirroringTask;
+			if (mirroredDir != null && !Swapped)
 			{
-				await mirroringTask;
-			}
-			catch (OperationCanceledException ex)
-			{
-				logger.LogDebug(ex, "Mirroring task cancelled!");
+				logger.LogDebug("Cancelled mirroring task, we must cleanup!");
+
+				// We shouldn't be doing long running I/O ops because this could be under an HTTP request (DELETE /api/DreamDaemon)
+				// dirty shit to follow:
+				async void AsyncCleanup()
+				{
+					try
+					{
+						await IOManager.DeleteDirectory(mirroredDir, CancellationToken.None); // DCT: None available
+						logger.LogTrace("Completed async cleanup of unused mirror directory: {mirroredDir}", mirroredDir);
+					}
+					catch (Exception ex)
+					{
+						logger.LogError(ex, "Error cleaning up mirrored directory {mirroredDir}!", mirroredDir);
+					}
+				}
+
+				AsyncCleanup();
 			}
 
 			await base.DisposeAsync();
@@ -103,6 +117,13 @@ namespace Tgstation.Server.Host.Components.Deployment
 		{
 			logger.LogTrace("Begin DoSwap, mirroring task complete: {complete}...", mirroringTask.IsCompleted);
 			var mirroredDir = await mirroringTask.WaitAsync(cancellationToken);
+			if (mirroredDir == null)
+			{
+				// huh, how?
+				cancellationToken.ThrowIfCancellationRequested();
+				throw new InvalidOperationException("mirroringTask was cancelled without us being cancelled?");
+			}
+
 			var goAheadTcs = new TaskCompletionSource();
 
 			// I feel dirty...
@@ -119,6 +140,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 					goAheadTcs.SetResult();
 					logger.LogTrace("Deleting old Live directory {path}...", disposePath);
 					await IOManager.DeleteDirectory(disposePath, CancellationToken.None); // DCT: We're detached at this point
+					logger.LogTrace("Completed async cleanup of old Live directory: {disposePath}", disposePath);
 				}
 				catch (DirectoryNotFoundException ex)
 				{
@@ -148,31 +170,59 @@ namespace Tgstation.Server.Host.Components.Deployment
 		/// <param name="securityLevel">The launch <see cref="DreamDaemonSecurity"/> level.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the full path to the mirrored directory.</returns>
-		async Task<string> MirrorSourceDirectory(int? taskThrottle, DreamDaemonSecurity securityLevel, CancellationToken cancellationToken)
+		async Task<string?> MirrorSourceDirectory(int? taskThrottle, DreamDaemonSecurity securityLevel, CancellationToken cancellationToken)
 		{
-			var stopwatch = Stopwatch.StartNew();
-			var mirrorGuid = Guid.NewGuid();
-			logger.LogDebug("Starting to mirror {sourceDir} as hard links to {mirrorGuid}...", CompileJob.DirectoryName, mirrorGuid);
 			if (taskThrottle.HasValue && taskThrottle < 1)
 				throw new ArgumentOutOfRangeException(nameof(taskThrottle), taskThrottle, "taskThrottle must be at least 1!");
 
-			var src = IOManager.ResolvePath(CompileJob.DirectoryName!.Value.ToString());
-			var dest = IOManager.ResolvePath(mirrorGuid.ToString());
+			string? dest = null;
+			try
+			{
+				var stopwatch = Stopwatch.StartNew();
+				var mirrorGuid = Guid.NewGuid();
 
-			using var semaphore = taskThrottle.HasValue ? new SemaphoreSlim(taskThrottle.Value) : null;
-			await Task.WhenAll(MirrorDirectoryImpl(
-				src,
-				dest,
-				semaphore,
-				securityLevel,
-				cancellationToken));
-			stopwatch.Stop();
+				logger.LogDebug("Starting to mirror {sourceDir} as hard links to {mirrorGuid}...", CompileJob.DirectoryName, mirrorGuid);
 
-			logger.LogDebug(
-				"Finished mirror of {sourceDir} to {mirrorGuid} in {seconds}s...",
-				CompileJob.DirectoryName,
-				mirrorGuid,
-				stopwatch.Elapsed.TotalSeconds.ToString("0.##", CultureInfo.InvariantCulture));
+				var src = IOManager.ResolvePath(CompileJob.DirectoryName!.Value.ToString());
+				dest = IOManager.ResolvePath(mirrorGuid.ToString());
+
+				using var semaphore = taskThrottle.HasValue ? new SemaphoreSlim(taskThrottle.Value) : null;
+				await Task.WhenAll(MirrorDirectoryImpl(
+					src,
+					dest,
+					semaphore,
+					securityLevel,
+					cancellationToken));
+				stopwatch.Stop();
+
+				logger.LogDebug(
+					"Finished mirror of {sourceDir} to {mirrorGuid} in {seconds}s...",
+					CompileJob.DirectoryName,
+					mirrorGuid,
+					stopwatch.Elapsed.TotalSeconds.ToString("0.##", CultureInfo.InvariantCulture));
+			}
+			catch (OperationCanceledException ex)
+			{
+				logger.LogDebug(ex, "Cancelled while mirroring");
+			}
+			catch (Exception ex)
+			{
+				logger.LogError(ex, "Could not mirror!");
+
+				if (dest != null)
+					try
+					{
+						logger.LogDebug("Cleaning up mirror attempt: {dest}", dest);
+						await IOManager.DeleteDirectory(dest, cancellationToken);
+					}
+					catch (OperationCanceledException ex2)
+					{
+						logger.LogDebug(ex2, "Errored cleanup cancellation edge case!");
+						return dest;
+					}
+
+				return null;
+			}
 
 			return dest;
 		}
