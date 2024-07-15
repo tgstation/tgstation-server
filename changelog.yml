@@ -151,6 +151,10 @@ Components:
     ComponentVersions: {}
     Changes: []
     Unreleased: true
+  - Version: 6.6.2
+    ComponentVersions: {}
+    Changes: []
+    Unreleased: true
   - Version: 6.6.1
     ComponentVersions:
       HttpApi: 10.4.0
@@ -169,7 +173,6 @@ Components:
       - When DreamDaemon reboots while using the Advanced Watchdog the status will now be set to restoring.
       Author: Cyberboss
       PullRequest: 1820
-    Unreleased: true
   - Version: 6.6.0
     ComponentVersions:
       Core: 6.6.0
