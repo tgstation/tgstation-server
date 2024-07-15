@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.6.0</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.6.1</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -401,7 +401,7 @@ $(function() {
 <div class="line"><a id="l00386" name="l00386"></a><span class="lineno">  386</span> </div>
 <div class="line"><a id="l00387" name="l00387"></a><span class="lineno">  387</span>                <span class="keywordflow">if</span> (revision)</div>
 <div class="line"><a id="l00388" name="l00388"></a><span class="lineno">  388</span>                {</div>
-<div class="line"><a id="l00389" name="l00389"></a><span class="lineno">  389</span>                    var latestCompileJob = instance.LatestCompileJob();</div>
+<div class="line"><a id="l00389" name="l00389"></a><span class="lineno">  389</span>                    var latestCompileJob = await instance.LatestCompileJob();</div>
 <div class="line"><a id="l00390" name="l00390"></a><span class="lineno">  390</span>                    result.ActiveCompileJob = ((instance.Watchdog.Status != WatchdogStatus.Offline</div>
 <div class="line"><a id="l00391" name="l00391"></a><span class="lineno">  391</span>                        ? dd.ActiveCompileJob</div>
 <div class="line"><a id="l00392" name="l00392"></a><span class="lineno">  392</span>                        : latestCompileJob) ?? latestCompileJob)</div>

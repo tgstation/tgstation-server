@@ -1,5 +1,0 @@
-<map id="Tgstation.Server.Host.Components.Deployment.DmbFactory.LatestCompileJob" name="Tgstation.Server.Host.Components.Deployment.DmbFactory.LatestCompileJob">
-<area shape="rect" id="node1" title="Gets the latest CompileJob. The latest CompileJob or null if none are available." alt="" coords="5,5,276,45"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dmb_factory.html#aa5ae13811ef0862a54741653dc058783" title="Gets the next IDmbProvider. DmbAvailable is a precondition. A new IDmbProvider." alt="" coords="324,5,573,45"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dmb_factory.html#a69f6c972070b6549bca97864b7b2224d" title="Log out the current lock counts to Trace." alt="" coords="621,5,880,45"/>
-</map>

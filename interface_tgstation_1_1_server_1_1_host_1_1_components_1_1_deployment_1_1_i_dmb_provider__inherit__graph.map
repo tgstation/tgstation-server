@@ -1,10 +1,11 @@
 <map id="Tgstation.Server.Host.Components.Deployment.IDmbProvider" name="Tgstation.Server.Host.Components.Deployment.IDmbProvider">
-<area shape="rect" id="node1" title="Provides absolute paths to the latest compiled .dmbs." alt="" coords="180,67,407,107"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dmb_provider.html" title=" " alt="" coords="736,5,963,45"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dmb_provider_base.html" title=" " alt="" coords="457,67,684,107"/>
-<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_swappable_dmb_provider.html" title="A IDmbProvider that uses filesystem links to change directory structure underneath the server process..." alt="" coords="455,133,687,173"/>
-<area shape="rect" id="node2" href="$class_i_async_disposable.html" title=" " alt="" coords="5,74,132,99"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_temporary_dmb_provider.html" title="Temporary IDmbProvider." alt="" coords="735,69,964,109"/>
-<area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider.html" title="A IDmbProvider that uses hard links." alt="" coords="736,133,963,173"/>
-<area shape="rect" id="node8" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_symlink_dmb_provider.html" title="A IDmbProvider that uses symlinks." alt="" coords="736,197,963,237"/>
+<area shape="rect" id="node1" title="Provides absolute paths to the latest compiled .dmbs." alt="" coords="180,92,407,132"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dmb_lock.html" title="Represents a lock on a given IDmbProvider." alt="" coords="457,5,684,45"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dmb_provider.html" title=" " alt="" coords="736,59,963,99"/>
+<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dmb_provider_base.html" title=" " alt="" coords="457,120,684,160"/>
+<area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_swappable_dmb_provider.html" title="A IDmbProvider that uses filesystem links to change directory structure underneath the server process..." alt="" coords="455,187,687,227"/>
+<area shape="rect" id="node2" href="$class_i_async_disposable.html" title=" " alt="" coords="5,99,132,125"/>
+<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_temporary_dmb_provider.html" title="Temporary IDmbProvider." alt="" coords="735,123,964,163"/>
+<area shape="rect" id="node8" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider.html" title="A IDmbProvider that uses hard links." alt="" coords="736,187,963,227"/>
+<area shape="rect" id="node9" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_symlink_dmb_provider.html" title="A IDmbProvider that uses symlinks." alt="" coords="736,251,963,291"/>
 </map>

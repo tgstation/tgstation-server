@@ -1,6 +1,0 @@
-<map id="Tgstation.Server.Host.Components.Watchdog.WatchdogBase.InitialCheckDmbUpdated" name="Tgstation.Server.Host.Components.Watchdog.WatchdogBase.InitialCheckDmbUpdated">
-<area shape="rect" id="node1" title="Check for a new IDmbProvider." alt="" coords="5,5,275,60"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dmb_factory.html#a3a98b8f1018f913bc97786f51031f153" title="Gets the latest CompileJob. The latest CompileJob or null if none are available." alt="" coords="323,13,593,53"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dmb_factory.html#aa5ae13811ef0862a54741653dc058783" title="Gets the next IDmbProvider. DmbAvailable is a precondition. A new IDmbProvider." alt="" coords="641,13,891,53"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dmb_factory.html#a69f6c972070b6549bca97864b7b2224d" title="Log out the current lock counts to Trace." alt="" coords="939,13,1197,53"/>
-</map>

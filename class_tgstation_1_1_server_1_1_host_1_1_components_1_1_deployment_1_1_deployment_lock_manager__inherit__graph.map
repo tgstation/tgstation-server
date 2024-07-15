@@ -1,0 +1,4 @@
+<map id="Tgstation.Server.Host.Components.Deployment.DeploymentLockManager" name="Tgstation.Server.Host.Components.Deployment.DeploymentLockManager">
+<area shape="rect" id="node1" title="Manages locks on a given IDmbProvider." alt="" coords="5,79,245,119"/>
+<area shape="rect" id="node2" href="$class_i_async_disposable.html" title=" " alt="" coords="62,5,189,31"/>
+</map>

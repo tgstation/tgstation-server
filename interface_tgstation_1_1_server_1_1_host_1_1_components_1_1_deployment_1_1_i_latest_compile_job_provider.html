@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.6.0</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.6.1</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -103,23 +103,23 @@ Inheritance diagram for Tgstation.Server.Host.Components.Deployment.ILatestCompi
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a1db5667505045a1470fc35691a271240"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_compile_job.html">CompileJob</a>?&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_latest_compile_job_provider.html#a1db5667505045a1470fc35691a271240">LatestCompileJob</a> ()</td></tr>
-<tr class="memdesc:a1db5667505045a1470fc35691a271240"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the latest CompileJob.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_latest_compile_job_provider.html#a1db5667505045a1470fc35691a271240">More...</a><br /></td></tr>
-<tr class="separator:a1db5667505045a1470fc35691a271240"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaaa6e44e65fa8c56c8d163976fbbc14e"><td class="memItemLeft" align="right" valign="top">ValueTask&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_compile_job.html">CompileJob</a>?&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_latest_compile_job_provider.html#aaaa6e44e65fa8c56c8d163976fbbc14e">LatestCompileJob</a> ()</td></tr>
+<tr class="memdesc:aaaa6e44e65fa8c56c8d163976fbbc14e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the latest CompileJob.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_latest_compile_job_provider.html#aaaa6e44e65fa8c56c8d163976fbbc14e">More...</a><br /></td></tr>
+<tr class="separator:aaaa6e44e65fa8c56c8d163976fbbc14e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p >Provides the most recently deployed CompileJob.  </p>
 
-<p class="definition">Definition at line <a class="el" href="_i_latest_compile_job_provider_8cs_source.html#l00008">8</a> of file <a class="el" href="_i_latest_compile_job_provider_8cs_source.html">ILatestCompileJobProvider.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_i_latest_compile_job_provider_8cs_source.html#l00010">10</a> of file <a class="el" href="_i_latest_compile_job_provider_8cs_source.html">ILatestCompileJobProvider.cs</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a id="a1db5667505045a1470fc35691a271240" name="a1db5667505045a1470fc35691a271240"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1db5667505045a1470fc35691a271240">&#9670;&#160;</a></span>LatestCompileJob()</h2>
+<a id="aaaa6e44e65fa8c56c8d163976fbbc14e" name="aaaa6e44e65fa8c56c8d163976fbbc14e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaaa6e44e65fa8c56c8d163976fbbc14e">&#9670;&#160;</a></span>LatestCompileJob()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_compile_job.html">CompileJob</a>? Tgstation.Server.Host.Components.Deployment.ILatestCompileJobProvider.LatestCompileJob </td>
+          <td class="memname">ValueTask&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_compile_job.html">CompileJob</a>?&gt; Tgstation.Server.Host.Components.Deployment.ILatestCompileJobProvider.LatestCompileJob </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -128,16 +128,16 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Gets the latest CompileJob.  </p>
-<dl class="section return"><dt>Returns</dt><dd>The latest CompileJob or <code>null</code> if none are available.</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A ValueTask&lt;TResult&gt; resulting in the latest CompileJob or <code>null</code> if none are available.</dd></dl>
 
-<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dmb_factory.html#a3a98b8f1018f913bc97786f51031f153">Tgstation.Server.Host.Components.Deployment.DmbFactory</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a859b44d16f8554d67267e4b4b111c29a">Tgstation.Server.Host.Components.Instance</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_wrapper.html#a6644276e1a14b4f85434610fdc6852c3">Tgstation.Server.Host.Components.InstanceWrapper</a>.</p>
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dmb_factory.html#ab76d935ea288f44dade646be72de6dff">Tgstation.Server.Host.Components.Deployment.DmbFactory</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a0f0f394d50ce540eba3178a4ba79d8b5">Tgstation.Server.Host.Components.Instance</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_wrapper.html#a9843d0678609769f4c1d26dbbd80503b">Tgstation.Server.Host.Components.InstanceWrapper</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="_dream_maker_8cs_source.html#l00191">Tgstation.Server.Host.Components.Deployment.DreamMaker.DeploymentProcess()</a>, and <a class="el" href="_pull_requests_command_8cs_source.html#l00082">Tgstation.Server.Host.Components.Chat.Commands.PullRequestsCommand.Invoke()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_latest_compile_job_provider_a1db5667505045a1470fc35691a271240_icgraph.png" border="0" usemap="#ainterface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_latest_compile_job_provider_a1db5667505045a1470fc35691a271240_icgraph" alt=""/></div>
-<map name="ainterface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_latest_compile_job_provider_a1db5667505045a1470fc35691a271240_icgraph" id="ainterface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_latest_compile_job_provider_a1db5667505045a1470fc35691a271240_icgraph">
+<div class="center"><img src="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_latest_compile_job_provider_aaaa6e44e65fa8c56c8d163976fbbc14e_icgraph.png" border="0" usemap="#ainterface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_latest_compile_job_provider_aaaa6e44e65fa8c56c8d163976fbbc14e_icgraph" alt=""/></div>
+<map name="ainterface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_latest_compile_job_provider_aaaa6e44e65fa8c56c8d163976fbbc14e_icgraph" id="ainterface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_latest_compile_job_provider_aaaa6e44e65fa8c56c8d163976fbbc14e_icgraph">
 <area shape="rect" title="Gets the latest CompileJob." alt="" coords="1176,62,1429,117"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#a38ea1632011a37a072e9d1c9e3d04c13" title=" " alt="" coords="835,37,1122,77"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_pull_requests_command.html#a749c4f1625f33ac4ced9eaddc9e34211" title="Invoke the ICommand. A ValueTask&lt;TResult&gt; resulting in a MessageContent to send to the invoker." alt="" coords="829,101,1128,141"/>

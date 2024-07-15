@@ -1,0 +1,5 @@
+<map id="Tgstation.Server.Host.Components.Deployment.DmbLock" name="Tgstation.Server.Host.Components.Deployment.DmbLock">
+<area shape="rect" id="node1" title="Represents a lock on a given IDmbProvider." alt="" coords="5,152,232,192"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_dmb_provider.html" title="Provides absolute paths to the latest compiled .dmbs." alt="" coords="68,79,169,104"/>
+<area shape="rect" id="node3" href="$class_i_async_disposable.html" title=" " alt="" coords="55,5,182,31"/>
+</map>

@@ -152,8 +152,23 @@ Components:
     Changes: []
     Unreleased: true
   - Version: 6.6.1
-    ComponentVersions: {}
-    Changes: []
+    ComponentVersions:
+      HttpApi: 10.4.0
+      DreamMakerApi: 7.1.2
+      Configuration: 5.1.0
+      InteropApi: 5.9.0
+      HostWatchdog: 1.4.1
+      NugetCommon: 7.0.0
+      NugetApi: 13.4.0
+      NugetClient: 15.4.0
+      WebControlPanel: 5.8.0
+    Changes:
+    - Descriptions:
+      - Potentially fixed issue with deployment objects leaking and causing disk pollution. Please report if this issue reoccurs.
+      - Added extensive auditing on how deployment objects are used internally in order to track down the cause of issue should it arise again.
+      - When DreamDaemon reboots while using the Advanced Watchdog the status will now be set to restoring.
+      Author: Cyberboss
+      PullRequest: 1820
     Unreleased: true
   - Version: 6.6.0
     ComponentVersions:

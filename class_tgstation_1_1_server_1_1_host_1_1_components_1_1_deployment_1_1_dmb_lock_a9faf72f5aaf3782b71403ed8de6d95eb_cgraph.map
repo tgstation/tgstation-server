@@ -1,0 +1,4 @@
+<map id="Tgstation.Server.Host.Components.Deployment.DmbLock.KeepAlive" name="Tgstation.Server.Host.Components.Deployment.DmbLock.KeepAlive">
+<area shape="rect" id="node1" title="Disposing the IDmbProvider won&#39;t cause a cleanup of the working directory." alt="" coords="5,5,232,45"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_dmb_provider.html#a01b014f3713b09cdbc9093bc1bbc0164" title="Disposing the IDmbProvider won&#39;t cause a cleanup of the working directory." alt="" coords="280,5,515,45"/>
+</map>

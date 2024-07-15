@@ -1,5 +1,5 @@
 <map id="Tgstation.Server.Host.Components.Deployment.HardLinkDmbProvider.MirrorDirectoryImpl" name="Tgstation.Server.Host.Components.Deployment.HardLinkDmbProvider.MirrorDirectoryImpl">
 <area shape="rect" id="node1" title="Recursively create tasks to create a hard link directory mirror of src &#160;to dest ." alt="" coords="611,29,868,84"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider.html#aa2220a8b778d8540b60254764447e04f" title="Mirror the Models.CompileJob." alt="" coords="305,29,563,84"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider.html#ad08ecabc53051ac3615beccdd91e8bf6" title="Mirror the Models.CompileJob." alt="" coords="305,29,563,84"/>
 <area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider.html#a74e2be734ec8fd5b0d2fa135e4b5f06c" title="Initializes a new instance of the HardLinkDmbProvider class." alt="" coords="5,29,257,84"/>
 </map>

@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.6.0</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.6.1</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -823,14 +823,16 @@ $(function() {
 <div class="line"><a id="l00860" name="l00860"></a><span class="lineno">  860</span>                           IncludingSeconds = true,</div>
 <div class="line"><a id="l00861" name="l00861"></a><span class="lineno">  861</span>                       }) == <span class="keyword">null</span>))</div>
 <div class="line"><a id="l00862" name="l00862"></a><span class="lineno">  862</span>                    <span class="keywordflow">return</span> BadRequest(<span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_error_message_response.html">ErrorMessageResponse</a>(<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">ErrorCode</a>.ModelValidationFailure));</div>
-<div class="line"><a id="l00863" name="l00863"></a><span class="lineno">  863</span>            }</div>
-<div class="line"><a id="l00864" name="l00864"></a><span class="lineno">  864</span>            <span class="keywordflow">else</span></div>
-<div class="line"><a id="l00865" name="l00865"></a><span class="lineno">  865</span>                instance.AutoUpdateCron = String.Empty;</div>
-<div class="line"><a id="l00866" name="l00866"></a><span class="lineno">  866</span> </div>
-<div class="line"><a id="l00867" name="l00867"></a><span class="lineno">  867</span>            <span class="keywordflow">return</span> <span class="keyword">null</span>;</div>
-<div class="line"><a id="l00868" name="l00868"></a><span class="lineno">  868</span>        }</div>
-<div class="line"><a id="l00869" name="l00869"></a><span class="lineno">  869</span>    }</div>
-<div class="line"><a id="l00870" name="l00870"></a><span class="lineno">  870</span>}</div>
+<div class="line"><a id="l00863" name="l00863"></a><span class="lineno">  863</span> </div>
+<div class="line"><a id="l00864" name="l00864"></a><span class="lineno">  864</span>                instance.AutoUpdateInterval = 0;</div>
+<div class="line"><a id="l00865" name="l00865"></a><span class="lineno">  865</span>            }</div>
+<div class="line"><a id="l00866" name="l00866"></a><span class="lineno">  866</span>            <span class="keywordflow">else</span></div>
+<div class="line"><a id="l00867" name="l00867"></a><span class="lineno">  867</span>                instance.AutoUpdateCron = String.Empty;</div>
+<div class="line"><a id="l00868" name="l00868"></a><span class="lineno">  868</span> </div>
+<div class="line"><a id="l00869" name="l00869"></a><span class="lineno">  869</span>            <span class="keywordflow">return</span> <span class="keyword">null</span>;</div>
+<div class="line"><a id="l00870" name="l00870"></a><span class="lineno">  870</span>        }</div>
+<div class="line"><a id="l00871" name="l00871"></a><span class="lineno">  871</span>    }</div>
+<div class="line"><a id="l00872" name="l00872"></a><span class="lineno">  872</span>}</div>
 <div class="ttc" id="aclass_exception_html"><div class="ttname"><a href="class_exception.html">Exception</a></div></div>
 <div class="ttc" id="aclass_i_queryable_html"><div class="ttname"><a href="class_i_queryable.html">IQueryable</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id_html_ae31e478e1d338b37a14565df6fd58570"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html#ae31e478e1d338b37a14565df6fd58570">Tgstation.Server.Api.Models.EntityId.Id</a></div><div class="ttdeci">virtual ? long Id</div><div class="ttdoc">The ID of the entity.</div><div class="ttdef"><b>Definition:</b> <a href="_entity_id_8cs_source.html#l00013">EntityId.cs:13</a></div></div>

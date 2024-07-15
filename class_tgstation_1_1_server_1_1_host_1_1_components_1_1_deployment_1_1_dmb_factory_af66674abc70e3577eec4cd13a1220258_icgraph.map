@@ -1,6 +1,0 @@
-<map id="Tgstation.Server.Host.Components.Deployment.DmbFactory.FromCompileJob" name="Tgstation.Server.Host.Components.Deployment.DmbFactory.FromCompileJob">
-<area shape="rect" id="node1" title="Gets a IDmbProvider for a given CompileJob. A ValueTask&lt;TResult&gt; resulting in a new IDmbProvider repr..." alt="" coords="619,37,883,77"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_windows_watchdog.html#afc1dbfba155a6320604f4068083d9787" title="Set the ReattachInformation.InitialDmb for the BasicWatchdog.Server. A ValueTask representing the run..." alt="" coords="284,5,571,45"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dmb_factory.html#a3cb70d207b7e682b2c4793850c58befd" title="Load a new job &#160;into the ICompileJobSink. A ValueTask representing the running operation." alt="" coords="296,69,559,109"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dmb_factory.html#ae898120e96809cdb6bbd582072bcff71" title=" " alt="" coords="5,69,236,109"/>
-</map>

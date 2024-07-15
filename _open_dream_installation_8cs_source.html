@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.6.0</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.6.1</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -187,60 +187,62 @@ $(function() {
 <div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span>            logger.LogTrace(<span class="stringliteral">&quot;Attempting Robust.Server graceful exit (Timeout: {seconds}s)...&quot;</span>, MaximumTerminationSeconds);</div>
 <div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span>            var timeout = asyncDelayer.Delay(TimeSpan.FromSeconds(MaximumTerminationSeconds), cancellationToken);</div>
 <div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span>            var lifetime = process.<a class="code hl_property" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_base.html#af31601af1591fe1277fb97d160bcbace">Lifetime</a>;</div>
-<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span> </div>
-<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span>            var stopwatch = Stopwatch.StartNew();</div>
-<div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span>            <span class="keywordflow">try</span></div>
-<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span>            {</div>
-<div class="line"><a id="l00144" name="l00144"></a><span class="lineno">  144</span>                <span class="keyword">using </span>var httpClient = httpClientFactory.CreateClient();</div>
-<div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span>                <span class="keyword">using </span>var request = <span class="keyword">new</span> HttpRequestMessage();</div>
-<div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span>                request.Headers.Add(<span class="stringliteral">&quot;WatchdogToken&quot;</span>, accessIdentifier);</div>
-<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span>                request.RequestUri = <span class="keyword">new</span> Uri($<span class="stringliteral">&quot;http://localhost:{port}/shutdown&quot;</span>);</div>
-<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span>                request.Content = <span class="keyword">new</span> StringContent(</div>
-<div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span>                    <span class="stringliteral">&quot;{\&quot;Reason\&quot;:\&quot;TGS session termination\&quot;}&quot;</span>,</div>
-<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span>                    Encoding.UTF8,</div>
-<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span>                    <span class="keyword">new</span> MediaTypeHeaderValue(MediaTypeNames.Application.Json));</div>
-<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span>                request.Method = HttpMethod.Post;</div>
-<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span> </div>
-<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span>                var responseTask = httpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, cancellationToken);</div>
-<div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span>                <span class="keywordflow">try</span></div>
-<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span>                {</div>
-<div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span>                    await Task.WhenAny(timeout, lifetime, responseTask);</div>
-<div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span>                    <span class="keywordflow">if</span> (responseTask.IsCompleted)</div>
-<div class="line"><a id="l00159" name="l00159"></a><span class="lineno">  159</span>                    {</div>
-<div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span>                        <span class="keyword">using </span>var response = await responseTask;</div>
-<div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span>                        <span class="keywordflow">if</span> (response.IsSuccessStatusCode)</div>
-<div class="line"><a id="l00162" name="l00162"></a><span class="lineno">  162</span>                        {</div>
-<div class="line"><a id="l00163" name="l00163"></a><span class="lineno">  163</span>                            logger.LogDebug(<span class="stringliteral">&quot;Robust.Server responded to the shutdown command successfully ({requestMs}ms). Waiting for exit...&quot;</span>, stopwatch.ElapsedMilliseconds);</div>
-<div class="line"><a id="l00164" name="l00164"></a><span class="lineno">  164</span>                            await Task.WhenAny(timeout, lifetime);</div>
-<div class="line"><a id="l00165" name="l00165"></a><span class="lineno">  165</span>                        }</div>
-<div class="line"><a id="l00166" name="l00166"></a><span class="lineno">  166</span>                    }</div>
-<div class="line"><a id="l00167" name="l00167"></a><span class="lineno">  167</span> </div>
-<div class="line"><a id="l00168" name="l00168"></a><span class="lineno">  168</span>                    <span class="keywordflow">if</span> (!lifetime.IsCompleted)</div>
-<div class="line"><a id="l00169" name="l00169"></a><span class="lineno">  169</span>                        logger.LogWarning(<span class="stringliteral">&quot;Robust.Server graceful exit timed out!&quot;</span>);</div>
-<div class="line"><a id="l00170" name="l00170"></a><span class="lineno">  170</span>                }</div>
-<div class="line"><a id="l00171" name="l00171"></a><span class="lineno">  171</span>                <span class="keywordflow">catch</span> (<a class="code hl_class" href="class_exception.html">Exception</a> ex) when (ex is not OperationCanceledException)</div>
-<div class="line"><a id="l00172" name="l00172"></a><span class="lineno">  172</span>                {</div>
-<div class="line"><a id="l00173" name="l00173"></a><span class="lineno">  173</span>                    logger.LogDebug(ex, <span class="stringliteral">&quot;Unable to send graceful exit request to Robust.Server watchdog API!&quot;</span>);</div>
-<div class="line"><a id="l00174" name="l00174"></a><span class="lineno">  174</span>                }</div>
-<div class="line"><a id="l00175" name="l00175"></a><span class="lineno">  175</span> </div>
-<div class="line"><a id="l00176" name="l00176"></a><span class="lineno">  176</span>                <span class="keywordflow">if</span> (lifetime.IsCompleted)</div>
-<div class="line"><a id="l00177" name="l00177"></a><span class="lineno">  177</span>                {</div>
-<div class="line"><a id="l00178" name="l00178"></a><span class="lineno">  178</span>                    logger.LogTrace(<span class="stringliteral">&quot;Robust.Server exited without termination&quot;</span>);</div>
-<div class="line"><a id="l00179" name="l00179"></a><span class="lineno">  179</span>                    <span class="keywordflow">return</span>;</div>
-<div class="line"><a id="l00180" name="l00180"></a><span class="lineno">  180</span>                }</div>
-<div class="line"><a id="l00181" name="l00181"></a><span class="lineno">  181</span>            }</div>
-<div class="line"><a id="l00182" name="l00182"></a><span class="lineno">  182</span>            <span class="keywordflow">finally</span></div>
-<div class="line"><a id="l00183" name="l00183"></a><span class="lineno">  183</span>            {</div>
-<div class="line"><a id="l00184" name="l00184"></a><span class="lineno">  184</span>                logger.LogTrace(<span class="stringliteral">&quot;Robust.Server graceful shutdown attempt took {totalMs}ms&quot;</span>, stopwatch.ElapsedMilliseconds);</div>
-<div class="line"><a id="l00185" name="l00185"></a><span class="lineno">  185</span>            }</div>
-<div class="line"><a id="l00186" name="l00186"></a><span class="lineno">  186</span> </div>
-<div class="line"><a id="l00187" name="l00187"></a><span class="lineno">  187</span>            await base.StopServerProcess(logger, process, accessIdentifier, port, cancellationToken);</div>
-<div class="line"><a id="l00188" name="l00188"></a><span class="lineno">  188</span>        }</div>
-<div class="line"><a id="l00189" name="l00189"></a><span class="lineno">  189</span>    }</div>
-<div class="line"><a id="l00190" name="l00190"></a><span class="lineno">  190</span>}</div>
+<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span>            <span class="keywordflow">if</span> (lifetime.IsCompleted)</div>
+<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span>                logger.LogTrace(<span class="stringliteral">&quot;Robust.Server already exited&quot;</span>);</div>
+<div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span> </div>
+<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span>            var stopwatch = Stopwatch.StartNew();</div>
+<div class="line"><a id="l00144" name="l00144"></a><span class="lineno">  144</span>            <span class="keywordflow">try</span></div>
+<div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span>            {</div>
+<div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span>                <span class="keyword">using </span>var httpClient = httpClientFactory.CreateClient();</div>
+<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span>                <span class="keyword">using </span>var request = <span class="keyword">new</span> HttpRequestMessage();</div>
+<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span>                request.Headers.Add(<span class="stringliteral">&quot;WatchdogToken&quot;</span>, accessIdentifier);</div>
+<div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span>                request.RequestUri = <span class="keyword">new</span> Uri($<span class="stringliteral">&quot;http://localhost:{port}/shutdown&quot;</span>);</div>
+<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span>                request.Content = <span class="keyword">new</span> StringContent(</div>
+<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span>                    <span class="stringliteral">&quot;{\&quot;Reason\&quot;:\&quot;TGS session termination\&quot;}&quot;</span>,</div>
+<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span>                    Encoding.UTF8,</div>
+<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span>                    <span class="keyword">new</span> MediaTypeHeaderValue(MediaTypeNames.Application.Json));</div>
+<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span>                request.Method = HttpMethod.Post;</div>
+<div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span> </div>
+<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span>                var responseTask = httpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, cancellationToken);</div>
+<div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span>                <span class="keywordflow">try</span></div>
+<div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span>                {</div>
+<div class="line"><a id="l00159" name="l00159"></a><span class="lineno">  159</span>                    await Task.WhenAny(timeout, lifetime, responseTask);</div>
+<div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span>                    <span class="keywordflow">if</span> (responseTask.IsCompleted)</div>
+<div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span>                    {</div>
+<div class="line"><a id="l00162" name="l00162"></a><span class="lineno">  162</span>                        <span class="keyword">using </span>var response = await responseTask;</div>
+<div class="line"><a id="l00163" name="l00163"></a><span class="lineno">  163</span>                        <span class="keywordflow">if</span> (response.IsSuccessStatusCode)</div>
+<div class="line"><a id="l00164" name="l00164"></a><span class="lineno">  164</span>                        {</div>
+<div class="line"><a id="l00165" name="l00165"></a><span class="lineno">  165</span>                            logger.LogDebug(<span class="stringliteral">&quot;Robust.Server responded to the shutdown command successfully ({requestMs}ms). Waiting for exit...&quot;</span>, stopwatch.ElapsedMilliseconds);</div>
+<div class="line"><a id="l00166" name="l00166"></a><span class="lineno">  166</span>                            await Task.WhenAny(timeout, lifetime);</div>
+<div class="line"><a id="l00167" name="l00167"></a><span class="lineno">  167</span>                        }</div>
+<div class="line"><a id="l00168" name="l00168"></a><span class="lineno">  168</span>                    }</div>
+<div class="line"><a id="l00169" name="l00169"></a><span class="lineno">  169</span> </div>
+<div class="line"><a id="l00170" name="l00170"></a><span class="lineno">  170</span>                    <span class="keywordflow">if</span> (!lifetime.IsCompleted)</div>
+<div class="line"><a id="l00171" name="l00171"></a><span class="lineno">  171</span>                        logger.LogWarning(<span class="stringliteral">&quot;Robust.Server graceful exit timed out!&quot;</span>);</div>
+<div class="line"><a id="l00172" name="l00172"></a><span class="lineno">  172</span>                }</div>
+<div class="line"><a id="l00173" name="l00173"></a><span class="lineno">  173</span>                <span class="keywordflow">catch</span> (<a class="code hl_class" href="class_exception.html">Exception</a> ex) when (ex is not OperationCanceledException)</div>
+<div class="line"><a id="l00174" name="l00174"></a><span class="lineno">  174</span>                {</div>
+<div class="line"><a id="l00175" name="l00175"></a><span class="lineno">  175</span>                    logger.LogDebug(ex, <span class="stringliteral">&quot;Unable to send graceful exit request to Robust.Server watchdog API!&quot;</span>);</div>
+<div class="line"><a id="l00176" name="l00176"></a><span class="lineno">  176</span>                }</div>
+<div class="line"><a id="l00177" name="l00177"></a><span class="lineno">  177</span> </div>
+<div class="line"><a id="l00178" name="l00178"></a><span class="lineno">  178</span>                <span class="keywordflow">if</span> (lifetime.IsCompleted)</div>
+<div class="line"><a id="l00179" name="l00179"></a><span class="lineno">  179</span>                {</div>
+<div class="line"><a id="l00180" name="l00180"></a><span class="lineno">  180</span>                    logger.LogTrace(<span class="stringliteral">&quot;Robust.Server exited without termination&quot;</span>);</div>
+<div class="line"><a id="l00181" name="l00181"></a><span class="lineno">  181</span>                    <span class="keywordflow">return</span>;</div>
+<div class="line"><a id="l00182" name="l00182"></a><span class="lineno">  182</span>                }</div>
+<div class="line"><a id="l00183" name="l00183"></a><span class="lineno">  183</span>            }</div>
+<div class="line"><a id="l00184" name="l00184"></a><span class="lineno">  184</span>            <span class="keywordflow">finally</span></div>
+<div class="line"><a id="l00185" name="l00185"></a><span class="lineno">  185</span>            {</div>
+<div class="line"><a id="l00186" name="l00186"></a><span class="lineno">  186</span>                logger.LogTrace(<span class="stringliteral">&quot;Robust.Server graceful shutdown attempt took {totalMs}ms&quot;</span>, stopwatch.ElapsedMilliseconds);</div>
+<div class="line"><a id="l00187" name="l00187"></a><span class="lineno">  187</span>            }</div>
+<div class="line"><a id="l00188" name="l00188"></a><span class="lineno">  188</span> </div>
+<div class="line"><a id="l00189" name="l00189"></a><span class="lineno">  189</span>            await base.StopServerProcess(logger, process, accessIdentifier, port, cancellationToken);</div>
+<div class="line"><a id="l00190" name="l00190"></a><span class="lineno">  190</span>        }</div>
+<div class="line"><a id="l00191" name="l00191"></a><span class="lineno">  191</span>    }</div>
+<div class="line"><a id="l00192" name="l00192"></a><span class="lineno">  192</span>}</div>
 <div class="ttc" id="aclass_exception_html"><div class="ttname"><a href="class_exception.html">Exception</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_engine_version_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_engine_version.html">Tgstation.Server.Api.Models.EngineVersion</a></div><div class="ttdoc">Information about an engine installation.</div><div class="ttdef"><b>Definition:</b> <a href="_engine_version_8cs_source.html#l00013">EngineVersion.cs:14</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_engine_version_html_ae13db4c5dbd6b06c79d37ad9afd25af2"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_engine_version.html#ae13db4c5dbd6b06c79d37ad9afd25af2">Tgstation.Server.Api.Models.EngineVersion.Engine</a></div><div class="ttdeci">EngineType? Engine</div><div class="ttdoc">The EngineType.</div><div class="ttdef"><b>Definition:</b> <a href="_engine_version_8cs_source.html#l00019">EngineVersion.cs:19</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_engine_version_html_ae13db4c5dbd6b06c79d37ad9afd25af2"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_engine_version.html#ae13db4c5dbd6b06c79d37ad9afd25af2">Tgstation.Server.Api.Models.EngineVersion.Engine</a></div><div class="ttdeci">EngineType? Engine</div><div class="ttdoc">The EngineType.</div><div class="ttdef"><b>Definition:</b> <a href="_engine_version_8cs_source.html#l00024">EngineVersion.cs:24</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_dream_daemon_launch_parameters_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_dream_daemon_launch_parameters.html">Tgstation.Server.Api.Models.Internal.DreamDaemonLaunchParameters</a></div><div class="ttdoc">Launch settings for DreamDaemon.</div><div class="ttdef"><b>Definition:</b> <a href="_dream_daemon_launch_parameters_8cs_source.html#l00009">DreamDaemonLaunchParameters.cs:10</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installation_base_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installation_base.html">Tgstation.Server.Host.Components.Engine.EngineInstallationBase</a></div><div class="ttdef"><b>Definition:</b> <a href="_engine_installation_base_8cs_source.html#l00022">EngineInstallationBase.cs:23</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installation_base_html_a0993afa66850d7b7832ae721f29a20a6"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installation_base.html#a0993afa66850d7b7832ae721f29a20a6">Tgstation.Server.Host.Components.Engine.EngineInstallationBase.EncodeParameters</a></div><div class="ttdeci">static string EncodeParameters(IReadOnlyDictionary&lt; string, string &gt; parameters, DreamDaemonLaunchParameters launchParameters)</div><div class="ttdoc">Encode given parameters for passing as world.params on the command line.</div><div class="ttdef"><b>Definition:</b> <a href="_engine_installation_base_8cs_source.html#l00059">EngineInstallationBase.cs:59</a></div></div>
@@ -270,7 +272,7 @@ $(function() {
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_api_1_1_models_html"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html">Tgstation.Server.Api.Models</a></div><div class="ttdef"><b>Definition:</b> <a href="_tgstation_8_server_8_api_2_models_2_chat_channel_8cs_source.html#l00005">ChatChannel.cs:6</a></div></div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_api_1_1_models_html_ad8fb60934662752c4bbed899440208ea"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#ad8fb60934662752c4bbed899440208ea">Tgstation.Server.Api.Models.EngineType</a></div><div class="ttdeci">EngineType</div><div class="ttdoc">The type of engine the codebase is using.</div><div class="ttdef"><b>Definition:</b> <a href="_engine_type_8cs_source.html#l00006">EngineType.cs:7</a></div></div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_common_1_1_http_html"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_common_1_1_http.html">Tgstation.Server.Common.Http</a></div><div class="ttdef"><b>Definition:</b> <a href="_cached_response_stream_8cs_source.html#l00006">CachedResponseStream.cs:7</a></div></div>
-<div class="ttc" id="anamespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_html"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment.html">Tgstation.Server.Host.Components.Deployment</a></div><div class="ttdef"><b>Definition:</b> <a href="_dmb_factory_8cs_source.html#l00022">DmbFactory.cs:23</a></div></div>
+<div class="ttc" id="anamespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_html"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment.html">Tgstation.Server.Host.Components.Deployment</a></div><div class="ttdef"><b>Definition:</b> <a href="_deployment_lock_manager_8cs_source.html#l00012">DeploymentLockManager.cs:13</a></div></div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_html"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine.html">Tgstation.Server.Host.Components.Engine</a></div><div class="ttdef"><b>Definition:</b> <a href="_byond_installation_8cs_source.html#l00011">ByondInstallation.cs:12</a></div></div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_html_a4fd4c8b5015ebe97102a8ab52d931ce8"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine.html#a4fd4c8b5015ebe97102a8ab52d931ce8">Tgstation.Server.Host.Components.Engine.StopServerProcess</a></div><div class="ttdeci">override async ValueTask StopServerProcess(ILogger logger, IProcess process, string accessIdentifier, ushort port, CancellationToken cancellationToken)</div><div class="ttdef"><b>Definition:</b> <a href="_open_dream_installation_8cs_source.html#l00126">OpenDreamInstallation.cs:126</a></div></div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_html_a50e0850d603d461277e2f0651202d2c7"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine.html#a50e0850d603d461277e2f0651202d2c7">Tgstation.Server.Host.Components.Engine.FormatCompilerArguments</a></div><div class="ttdeci">override string FormatCompilerArguments(string dmePath, string? additionalArguments)</div><div class="ttdef"><b>Definition:</b> <a href="_open_dream_installation_8cs_source.html#l00115">OpenDreamInstallation.cs:115</a></div></div>

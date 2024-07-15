@@ -1,0 +1,4 @@
+<map id="Tgstation.Server.Host.Components.Deployment.DeploymentLockManager.CreateLock" name="Tgstation.Server.Host.Components.Deployment.DeploymentLockManager.CreateLock">
+<area shape="rect" id="node1" title="Creates a DmbLock and adds it to locks." alt="" coords="5,13,316,53"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_deployment_lock_manager.html#a2abafa30d9487b73499e18ff9c3d2d96" title="Generates a verbose description of a given dmbLock ." alt="" coords="364,5,628,60"/>
+</map>

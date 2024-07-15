@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.6.0</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.6.1</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -110,7 +110,7 @@ Collaboration diagram for Tgstation.Server.Host.Components.Deployment.HardLinkDm
 <area shape="rect" title=" " alt="" coords="187,55,277,80"/>
 <area shape="rect" title=" " alt="" coords="192,104,272,129"/>
 <area shape="rect" title=" " alt="" coords="445,105,625,145"/>
-<area shape="rect" title=" " alt="" coords="483,169,588,195"/>
+<area shape="rect" title=" " alt="" coords="481,169,590,195"/>
 <area shape="rect" title=" " alt="" coords="477,219,594,244"/>
 </map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
@@ -169,9 +169,9 @@ Protected Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-methods" name="pri-methods"></a>
 Private Member Functions</h2></td></tr>
-<tr class="memitem:aa2220a8b778d8540b60254764447e04f"><td class="memItemLeft" align="right" valign="top">async Task&lt; string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider.html#aa2220a8b778d8540b60254764447e04f">MirrorSourceDirectory</a> (int? taskThrottle, <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#ad4850e6b78816679602b13d63d2869b5">DreamDaemonSecurity</a> securityLevel, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:aa2220a8b778d8540b60254764447e04f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Mirror the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_compile_job.html">Models.CompileJob</a>.   <a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider.html#aa2220a8b778d8540b60254764447e04f">More...</a><br /></td></tr>
-<tr class="separator:aa2220a8b778d8540b60254764447e04f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad08ecabc53051ac3615beccdd91e8bf6"><td class="memItemLeft" align="right" valign="top">async Task&lt; string?&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider.html#ad08ecabc53051ac3615beccdd91e8bf6">MirrorSourceDirectory</a> (int? taskThrottle, <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#ad4850e6b78816679602b13d63d2869b5">DreamDaemonSecurity</a> securityLevel, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:ad08ecabc53051ac3615beccdd91e8bf6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Mirror the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_compile_job.html">Models.CompileJob</a>.   <a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider.html#ad08ecabc53051ac3615beccdd91e8bf6">More...</a><br /></td></tr>
+<tr class="separator:ad08ecabc53051ac3615beccdd91e8bf6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9af3987ce607d6ddf3dae951e15e4a35"><td class="memItemLeft" align="right" valign="top">IEnumerable&lt; Task &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider.html#a9af3987ce607d6ddf3dae951e15e4a35">MirrorDirectoryImpl</a> (string src, string dest, SemaphoreSlim? semaphore, <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#ad4850e6b78816679602b13d63d2869b5">DreamDaemonSecurity</a> securityLevel, CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:a9af3987ce607d6ddf3dae951e15e4a35"><td class="mdescLeft">&#160;</td><td class="mdescRight">Recursively create tasks to create a hard link directory mirror of <em>src</em>  to <em>dest</em> .   <a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider.html#a9af3987ce607d6ddf3dae951e15e4a35">More...</a><br /></td></tr>
 <tr class="separator:a9af3987ce607d6ddf3dae951e15e4a35"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -179,11 +179,11 @@ Private Member Functions</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
 <tr class="memitem:acd4e6fe438ba3e8cb8639ed23f2b7871"><td class="memItemLeft" align="right" valign="top">readonly CancellationTokenSource&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider.html#acd4e6fe438ba3e8cb8639ed23f2b7871">cancellationTokenSource</a></td></tr>
-<tr class="memdesc:acd4e6fe438ba3e8cb8639ed23f2b7871"><td class="mdescLeft">&#160;</td><td class="mdescRight">The CancellationTokenSource for <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider.html#a2f6787cc1696f599b1ada73b71b2eea4" title="The Task representing the base provider mirroring operation.">mirroringTask</a>.   <a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider.html#acd4e6fe438ba3e8cb8639ed23f2b7871">More...</a><br /></td></tr>
+<tr class="memdesc:acd4e6fe438ba3e8cb8639ed23f2b7871"><td class="mdescLeft">&#160;</td><td class="mdescRight">The CancellationTokenSource for <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider.html#a0996d620c0d60f66af3604aec9b150c2" title="The Task representing the base provider mirroring operation.">mirroringTask</a>.   <a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider.html#acd4e6fe438ba3e8cb8639ed23f2b7871">More...</a><br /></td></tr>
 <tr class="separator:acd4e6fe438ba3e8cb8639ed23f2b7871"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2f6787cc1696f599b1ada73b71b2eea4"><td class="memItemLeft" align="right" valign="top">readonly Task&lt; string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider.html#a2f6787cc1696f599b1ada73b71b2eea4">mirroringTask</a></td></tr>
-<tr class="memdesc:a2f6787cc1696f599b1ada73b71b2eea4"><td class="mdescLeft">&#160;</td><td class="mdescRight">The Task representing the base provider mirroring operation.   <a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider.html#a2f6787cc1696f599b1ada73b71b2eea4">More...</a><br /></td></tr>
-<tr class="separator:a2f6787cc1696f599b1ada73b71b2eea4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0996d620c0d60f66af3604aec9b150c2"><td class="memItemLeft" align="right" valign="top">readonly Task&lt; string?&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider.html#a0996d620c0d60f66af3604aec9b150c2">mirroringTask</a></td></tr>
+<tr class="memdesc:a0996d620c0d60f66af3604aec9b150c2"><td class="mdescLeft">&#160;</td><td class="mdescRight">The Task representing the base provider mirroring operation.   <a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider.html#a0996d620c0d60f66af3604aec9b150c2">More...</a><br /></td></tr>
+<tr class="separator:a0996d620c0d60f66af3604aec9b150c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a574d6bc5aecda321226e1e9c42224e6a"><td class="memItemLeft" align="right" valign="top">readonly ILogger&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider.html#a574d6bc5aecda321226e1e9c42224e6a">logger</a></td></tr>
 <tr class="memdesc:a574d6bc5aecda321226e1e9c42224e6a"><td class="mdescLeft">&#160;</td><td class="mdescRight">The ILogger for the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider.html" title="A IDmbProvider that uses hard links.">HardLinkDmbProvider</a>.   <a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider.html#a574d6bc5aecda321226e1e9c42224e6a">More...</a><br /></td></tr>
 <tr class="separator:a574d6bc5aecda321226e1e9c42224e6a"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -311,7 +311,7 @@ Additional Inherited Members</h2></td></tr>
 <div class="line"><span class="lineno">   63</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider.html#acd4e6fe438ba3e8cb8639ed23f2b7871">cancellationTokenSource</a> = <span class="keyword">new</span> CancellationTokenSource();</div>
 <div class="line"><span class="lineno">   64</span>            <span class="keywordflow">try</span></div>
 <div class="line"><span class="lineno">   65</span>            {</div>
-<div class="line"><span class="lineno">   66</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider.html#a2f6787cc1696f599b1ada73b71b2eea4">mirroringTask</a> = <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider.html#aa2220a8b778d8540b60254764447e04f">MirrorSourceDirectory</a>(generalConfiguration.GetCopyDirectoryTaskThrottle(), securityLevel, <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider.html#acd4e6fe438ba3e8cb8639ed23f2b7871">cancellationTokenSource</a>.Token);</div>
+<div class="line"><span class="lineno">   66</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider.html#a0996d620c0d60f66af3604aec9b150c2">mirroringTask</a> = <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider.html#ad08ecabc53051ac3615beccdd91e8bf6">MirrorSourceDirectory</a>(generalConfiguration.GetCopyDirectoryTaskThrottle(), securityLevel, <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider.html#acd4e6fe438ba3e8cb8639ed23f2b7871">cancellationTokenSource</a>.Token);</div>
 <div class="line"><span class="lineno">   67</span>            }</div>
 <div class="line"><span class="lineno">   68</span>            <span class="keywordflow">catch</span></div>
 <div class="line"><span class="lineno">   69</span>            {</div>
@@ -319,19 +319,20 @@ Additional Inherited Members</h2></td></tr>
 <div class="line"><span class="lineno">   71</span>                <span class="keywordflow">throw</span>;</div>
 <div class="line"><span class="lineno">   72</span>            }</div>
 <div class="line"><span class="lineno">   73</span>        }</div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider_html_a2f6787cc1696f599b1ada73b71b2eea4"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider.html#a2f6787cc1696f599b1ada73b71b2eea4">Tgstation.Server.Host.Components.Deployment.HardLinkDmbProvider.mirroringTask</a></div><div class="ttdeci">readonly Task&lt; string &gt; mirroringTask</div><div class="ttdoc">The Task representing the base provider mirroring operation.</div><div class="ttdef"><b>Definition:</b> <a href="_hard_link_dmb_provider_8cs_source.html#l00034">HardLinkDmbProvider.cs:34</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider_html_a0996d620c0d60f66af3604aec9b150c2"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider.html#a0996d620c0d60f66af3604aec9b150c2">Tgstation.Server.Host.Components.Deployment.HardLinkDmbProvider.mirroringTask</a></div><div class="ttdeci">readonly Task&lt; string?&gt; mirroringTask</div><div class="ttdoc">The Task representing the base provider mirroring operation.</div><div class="ttdef"><b>Definition:</b> <a href="_hard_link_dmb_provider_8cs_source.html#l00034">HardLinkDmbProvider.cs:34</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider_html_a574d6bc5aecda321226e1e9c42224e6a"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider.html#a574d6bc5aecda321226e1e9c42224e6a">Tgstation.Server.Host.Components.Deployment.HardLinkDmbProvider.logger</a></div><div class="ttdeci">readonly ILogger logger</div><div class="ttdoc">The ILogger for the HardLinkDmbProvider.</div><div class="ttdef"><b>Definition:</b> <a href="_hard_link_dmb_provider_8cs_source.html#l00039">HardLinkDmbProvider.cs:39</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider_html_aa2220a8b778d8540b60254764447e04f"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider.html#aa2220a8b778d8540b60254764447e04f">Tgstation.Server.Host.Components.Deployment.HardLinkDmbProvider.MirrorSourceDirectory</a></div><div class="ttdeci">async Task&lt; string &gt; MirrorSourceDirectory(int? taskThrottle, DreamDaemonSecurity securityLevel, CancellationToken cancellationToken)</div><div class="ttdoc">Mirror the Models.CompileJob.</div><div class="ttdef"><b>Definition:</b> <a href="_hard_link_dmb_provider_8cs_source.html#l00151">HardLinkDmbProvider.cs:151</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider_html_acd4e6fe438ba3e8cb8639ed23f2b7871"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider.html#acd4e6fe438ba3e8cb8639ed23f2b7871">Tgstation.Server.Host.Components.Deployment.HardLinkDmbProvider.cancellationTokenSource</a></div><div class="ttdeci">readonly CancellationTokenSource cancellationTokenSource</div><div class="ttdoc">The CancellationTokenSource for mirroringTask.</div><div class="ttdef"><b>Definition:</b> <a href="_hard_link_dmb_provider_8cs_source.html#l00029">HardLinkDmbProvider.cs:29</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider_html_ad08ecabc53051ac3615beccdd91e8bf6"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider.html#ad08ecabc53051ac3615beccdd91e8bf6">Tgstation.Server.Host.Components.Deployment.HardLinkDmbProvider.MirrorSourceDirectory</a></div><div class="ttdeci">async Task&lt; string?&gt; MirrorSourceDirectory(int? taskThrottle, DreamDaemonSecurity securityLevel, CancellationToken cancellationToken)</div><div class="ttdoc">Mirror the Models.CompileJob.</div><div class="ttdef"><b>Definition:</b> <a href="_hard_link_dmb_provider_8cs_source.html#l00173">HardLinkDmbProvider.cs:173</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_hard_link_dmb_provider_8cs_source.html#l00029">Tgstation.Server.Host.Components.Deployment.HardLinkDmbProvider.cancellationTokenSource</a>, <a class="el" href="_hard_link_dmb_provider_8cs_source.html#l00039">Tgstation.Server.Host.Components.Deployment.HardLinkDmbProvider.logger</a>, <a class="el" href="_hard_link_dmb_provider_8cs_source.html#l00034">Tgstation.Server.Host.Components.Deployment.HardLinkDmbProvider.mirroringTask</a>, and <a class="el" href="_hard_link_dmb_provider_8cs_source.html#l00151">Tgstation.Server.Host.Components.Deployment.HardLinkDmbProvider.MirrorSourceDirectory()</a>.</p>
+<p class="reference">References <a class="el" href="_hard_link_dmb_provider_8cs_source.html#l00029">Tgstation.Server.Host.Components.Deployment.HardLinkDmbProvider.cancellationTokenSource</a>, <a class="el" href="_hard_link_dmb_provider_8cs_source.html#l00039">Tgstation.Server.Host.Components.Deployment.HardLinkDmbProvider.logger</a>, <a class="el" href="_hard_link_dmb_provider_8cs_source.html#l00034">Tgstation.Server.Host.Components.Deployment.HardLinkDmbProvider.mirroringTask</a>, and <a class="el" href="_hard_link_dmb_provider_8cs_source.html#l00173">Tgstation.Server.Host.Components.Deployment.HardLinkDmbProvider.MirrorSourceDirectory()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider_a74e2be734ec8fd5b0d2fa135e4b5f06c_cgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider_a74e2be734ec8fd5b0d2fa135e4b5f06c_cgraph" alt=""/></div>
 <map name="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider_a74e2be734ec8fd5b0d2fa135e4b5f06c_cgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider_a74e2be734ec8fd5b0d2fa135e4b5f06c_cgraph">
-<area shape="rect" title="Initializes a new instance of the HardLinkDmbProvider class." alt="" coords="5,162,257,217"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider.html#aa2220a8b778d8540b60254764447e04f" title="Mirror the Models.CompileJob." alt="" coords="305,162,563,217"/>
+<area shape="rect" title="Initializes a new instance of the HardLinkDmbProvider class." alt="" coords="5,126,257,181"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider.html#ad08ecabc53051ac3615beccdd91e8bf6" title="Mirror the Models.CompileJob." alt="" coords="305,126,563,181"/>
+<area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ad3e0dda4b7fbad4c77f48ba3b2681dc7" title="Recursively delete a directory, removes and does not enter any symlinks encounterd." alt="" coords="649,37,830,77"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider.html#a9af3987ce607d6ddf3dae951e15e4a35" title="Recursively create tasks to create a hard link directory mirror of src &#160;to dest ." alt="" coords="611,126,868,181"/>
 <area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a18a442b5dff16f5e7a730ec354e81d78" title="Retrieve the full path of the current working directory." alt="" coords="655,205,823,245"/>
 <area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a286f4eb5c679683b7e519847a6c3574e" title="Combines an array of strings into a path." alt="" coords="970,5,1138,45"/>
@@ -376,19 +377,46 @@ Here is the call graph for this function:</div>
 <div class="fragment"><div class="line"><span class="lineno">   77</span>        {</div>
 <div class="line"><span class="lineno">   78</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider.html#acd4e6fe438ba3e8cb8639ed23f2b7871">cancellationTokenSource</a>.Cancel();</div>
 <div class="line"><span class="lineno">   79</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider.html#acd4e6fe438ba3e8cb8639ed23f2b7871">cancellationTokenSource</a>.Dispose();</div>
-<div class="line"><span class="lineno">   80</span>            <span class="keywordflow">try</span></div>
-<div class="line"><span class="lineno">   81</span>            {</div>
-<div class="line"><span class="lineno">   82</span>                await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider.html#a2f6787cc1696f599b1ada73b71b2eea4">mirroringTask</a>;</div>
-<div class="line"><span class="lineno">   83</span>            }</div>
-<div class="line"><span class="lineno">   84</span>            <span class="keywordflow">catch</span> (OperationCanceledException ex)</div>
-<div class="line"><span class="lineno">   85</span>            {</div>
-<div class="line"><span class="lineno">   86</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider.html#a574d6bc5aecda321226e1e9c42224e6a">logger</a>.LogDebug(ex, <span class="stringliteral">&quot;Mirroring task cancelled!&quot;</span>);</div>
-<div class="line"><span class="lineno">   87</span>            }</div>
-<div class="line"><span class="lineno">   88</span> </div>
-<div class="line"><span class="lineno">   89</span>            await base.DisposeAsync();</div>
-<div class="line"><span class="lineno">   90</span>        }</div>
+<div class="line"><span class="lineno">   80</span>            var mirroredDir = await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider.html#a0996d620c0d60f66af3604aec9b150c2">mirroringTask</a>;</div>
+<div class="line"><span class="lineno">   81</span>            <span class="keywordflow">if</span> (mirroredDir != <span class="keyword">null</span> &amp;&amp; !<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_swappable_dmb_provider.html#aa556acd2f54e38ce22f5e623a12222c7">Swapped</a>)</div>
+<div class="line"><span class="lineno">   82</span>            {</div>
+<div class="line"><span class="lineno">   83</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider.html#a574d6bc5aecda321226e1e9c42224e6a">logger</a>.LogDebug(<span class="stringliteral">&quot;Cancelled mirroring task, we must cleanup!&quot;</span>);</div>
+<div class="line"><span class="lineno">   84</span> </div>
+<div class="line"><span class="lineno">   85</span>                <span class="comment">// We shouldn&#39;t be doing long running I/O ops because this could be under an HTTP request (DELETE /api/DreamDaemon)</span></div>
+<div class="line"><span class="lineno">   86</span>                <span class="comment">// dirty shit to follow:</span></div>
+<div class="line"><span class="lineno">   87</span>                async <span class="keywordtype">void</span> AsyncCleanup()</div>
+<div class="line"><span class="lineno">   88</span>                {</div>
+<div class="line"><span class="lineno">   89</span>                    <span class="keywordflow">try</span></div>
+<div class="line"><span class="lineno">   90</span>                    {</div>
+<div class="line"><span class="lineno">   91</span>                        await <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_swappable_dmb_provider.html#a80675f8c3906c19eef50512e8e1aa9f9">IOManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ad3e0dda4b7fbad4c77f48ba3b2681dc7">DeleteDirectory</a>(mirroredDir, CancellationToken.None); <span class="comment">// DCT: None available</span></div>
+<div class="line"><span class="lineno">   92</span>                        <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider.html#a574d6bc5aecda321226e1e9c42224e6a">logger</a>.LogTrace(<span class="stringliteral">&quot;Completed async cleanup of unused mirror directory: {mirroredDir}&quot;</span>, mirroredDir);</div>
+<div class="line"><span class="lineno">   93</span>                    }</div>
+<div class="line"><span class="lineno">   94</span>                    <span class="keywordflow">catch</span> (<a class="code hl_class" href="class_exception.html">Exception</a> ex)</div>
+<div class="line"><span class="lineno">   95</span>                    {</div>
+<div class="line"><span class="lineno">   96</span>                        <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider.html#a574d6bc5aecda321226e1e9c42224e6a">logger</a>.LogError(ex, <span class="stringliteral">&quot;Error cleaning up mirrored directory {mirroredDir}!&quot;</span>, mirroredDir);</div>
+<div class="line"><span class="lineno">   97</span>                    }</div>
+<div class="line"><span class="lineno">   98</span>                }</div>
+<div class="line"><span class="lineno">   99</span> </div>
+<div class="line"><span class="lineno">  100</span>                AsyncCleanup();</div>
+<div class="line"><span class="lineno">  101</span>            }</div>
+<div class="line"><span class="lineno">  102</span> </div>
+<div class="line"><span class="lineno">  103</span>            await base.DisposeAsync();</div>
+<div class="line"><span class="lineno">  104</span>        }</div>
+<div class="ttc" id="aclass_exception_html"><div class="ttname"><a href="class_exception.html">Exception</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_swappable_dmb_provider_html_a80675f8c3906c19eef50512e8e1aa9f9"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_swappable_dmb_provider.html#a80675f8c3906c19eef50512e8e1aa9f9">Tgstation.Server.Host.Components.Deployment.SwappableDmbProvider.IOManager</a></div><div class="ttdeci">IIOManager IOManager</div><div class="ttdoc">The IIOManager to use.</div><div class="ttdef"><b>Definition:</b> <a href="_swappable_dmb_provider_8cs_source.html#l00045">SwappableDmbProvider.cs:45</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_swappable_dmb_provider_html_aa556acd2f54e38ce22f5e623a12222c7"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_swappable_dmb_provider.html#aa556acd2f54e38ce22f5e623a12222c7">Tgstation.Server.Host.Components.Deployment.SwappableDmbProvider.Swapped</a></div><div class="ttdeci">bool Swapped</div><div class="ttdoc">If MakeActive(CancellationToken) has been run.</div><div class="ttdef"><b>Definition:</b> <a href="_swappable_dmb_provider_8cs_source.html#l00035">SwappableDmbProvider.cs:35</a></div></div>
+<div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager_html_ad3e0dda4b7fbad4c77f48ba3b2681dc7"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ad3e0dda4b7fbad4c77f48ba3b2681dc7">Tgstation.Server.Host.IO.IIOManager.DeleteDirectory</a></div><div class="ttdeci">Task DeleteDirectory(string path, CancellationToken cancellationToken)</div><div class="ttdoc">Recursively delete a directory, removes and does not enter any symlinks encounterd.</div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_hard_link_dmb_provider_8cs_source.html#l00029">Tgstation.Server.Host.Components.Deployment.HardLinkDmbProvider.cancellationTokenSource</a>, <a class="el" href="_hard_link_dmb_provider_8cs_source.html#l00039">Tgstation.Server.Host.Components.Deployment.HardLinkDmbProvider.logger</a>, and <a class="el" href="_hard_link_dmb_provider_8cs_source.html#l00034">Tgstation.Server.Host.Components.Deployment.HardLinkDmbProvider.mirroringTask</a>.</p>
+<p class="reference">References <a class="el" href="_hard_link_dmb_provider_8cs_source.html#l00029">Tgstation.Server.Host.Components.Deployment.HardLinkDmbProvider.cancellationTokenSource</a>, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ad3e0dda4b7fbad4c77f48ba3b2681dc7">Tgstation.Server.Host.IO.IIOManager.DeleteDirectory()</a>, <a class="el" href="_swappable_dmb_provider_8cs_source.html#l00045">Tgstation.Server.Host.Components.Deployment.SwappableDmbProvider.IOManager</a>, <a class="el" href="_hard_link_dmb_provider_8cs_source.html#l00039">Tgstation.Server.Host.Components.Deployment.HardLinkDmbProvider.logger</a>, <a class="el" href="_hard_link_dmb_provider_8cs_source.html#l00034">Tgstation.Server.Host.Components.Deployment.HardLinkDmbProvider.mirroringTask</a>, and <a class="el" href="_swappable_dmb_provider_8cs_source.html#l00035">Tgstation.Server.Host.Components.Deployment.SwappableDmbProvider.Swapped</a>.</p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider_a82e742d5ef0f762e71405c14bf349663_cgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider_a82e742d5ef0f762e71405c14bf349663_cgraph" alt=""/></div>
+<map name="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider_a82e742d5ef0f762e71405c14bf349663_cgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider_a82e742d5ef0f762e71405c14bf349663_cgraph">
+<area shape="rect" title=" " alt="" coords="5,5,312,45"/>
+<area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ad3e0dda4b7fbad4c77f48ba3b2681dc7" title="Recursively delete a directory, removes and does not enter any symlinks encounterd." alt="" coords="360,5,541,45"/>
+</map>
+</div>
 
 </div>
 </div>
@@ -427,51 +455,56 @@ Here is the call graph for this function:</div>
 
 <p>Implements <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_swappable_dmb_provider.html#a92d654ad97877a24e3abab5c0cd595ab">Tgstation.Server.Host.Components.Deployment.SwappableDmbProvider</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_hard_link_dmb_provider_8cs_source.html#l00102">102</a> of file <a class="el" href="_hard_link_dmb_provider_8cs_source.html">HardLinkDmbProvider.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  103</span>        {</div>
-<div class="line"><span class="lineno">  104</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider.html#a574d6bc5aecda321226e1e9c42224e6a">logger</a>.LogTrace(<span class="stringliteral">&quot;Begin DoSwap, mirroring task complete: {complete}...&quot;</span>, <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider.html#a2f6787cc1696f599b1ada73b71b2eea4">mirroringTask</a>.IsCompleted);</div>
-<div class="line"><span class="lineno">  105</span>            var mirroredDir = await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider.html#a2f6787cc1696f599b1ada73b71b2eea4">mirroringTask</a>.WaitAsync(cancellationToken);</div>
-<div class="line"><span class="lineno">  106</span>            var goAheadTcs = <span class="keyword">new</span> TaskCompletionSource();</div>
-<div class="line"><span class="lineno">  107</span> </div>
-<div class="line"><span class="lineno">  108</span>            <span class="comment">// I feel dirty...</span></div>
-<div class="line"><span class="lineno">  109</span>            async <span class="keywordtype">void</span> DisposeOfOldDirectory()</div>
-<div class="line"><span class="lineno">  110</span>            {</div>
-<div class="line"><span class="lineno">  111</span>                var directoryMoved = <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">  112</span>                var disposeGuid = Guid.NewGuid();</div>
-<div class="line"><span class="lineno">  113</span>                var disposePath = disposeGuid.ToString();</div>
-<div class="line"><span class="lineno">  114</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider.html#a574d6bc5aecda321226e1e9c42224e6a">logger</a>.LogTrace(<span class="stringliteral">&quot;Moving Live directory to {path} for deletion...&quot;</span>, disposeGuid);</div>
-<div class="line"><span class="lineno">  115</span>                <span class="keywordflow">try</span></div>
-<div class="line"><span class="lineno">  116</span>                {</div>
-<div class="line"><span class="lineno">  117</span>                    await <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_swappable_dmb_provider.html#a80675f8c3906c19eef50512e8e1aa9f9">IOManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ad8dc6ae8e69047b801a7344b17d0cc37">MoveDirectory</a>(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_swappable_dmb_provider.html#ac3447ec1377df66f5b60e0a12ecc109c">LiveGameDirectory</a>, disposePath, cancellationToken);</div>
-<div class="line"><span class="lineno">  118</span>                    directoryMoved = <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  119</span>                    goAheadTcs.SetResult();</div>
-<div class="line"><span class="lineno">  120</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider.html#a574d6bc5aecda321226e1e9c42224e6a">logger</a>.LogTrace(<span class="stringliteral">&quot;Deleting old Live directory {path}...&quot;</span>, disposePath);</div>
-<div class="line"><span class="lineno">  121</span>                    await <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_swappable_dmb_provider.html#a80675f8c3906c19eef50512e8e1aa9f9">IOManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ad3e0dda4b7fbad4c77f48ba3b2681dc7">DeleteDirectory</a>(disposePath, CancellationToken.None); <span class="comment">// DCT: We&#39;re detached at this point</span></div>
-<div class="line"><span class="lineno">  122</span>                }</div>
-<div class="line"><span class="lineno">  123</span>                <span class="keywordflow">catch</span> (DirectoryNotFoundException ex)</div>
-<div class="line"><span class="lineno">  124</span>                {</div>
-<div class="line"><span class="lineno">  125</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider.html#a574d6bc5aecda321226e1e9c42224e6a">logger</a>.LogDebug(ex, <span class="stringliteral">&quot;Live directory appears to not exist&quot;</span>);</div>
-<div class="line"><span class="lineno">  126</span>                    <span class="keywordflow">if</span> (!directoryMoved)</div>
-<div class="line"><span class="lineno">  127</span>                        goAheadTcs.SetResult();</div>
-<div class="line"><span class="lineno">  128</span>                }</div>
-<div class="line"><span class="lineno">  129</span>                <span class="keywordflow">catch</span> (<a class="code hl_class" href="class_exception.html">Exception</a> ex)</div>
-<div class="line"><span class="lineno">  130</span>                {</div>
-<div class="line"><span class="lineno">  131</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider.html#a574d6bc5aecda321226e1e9c42224e6a">logger</a>.LogWarning(ex, <span class="stringliteral">&quot;Failed to delete hard linked directory: {disposePath}&quot;</span>, disposePath);</div>
-<div class="line"><span class="lineno">  132</span>                    <span class="keywordflow">if</span> (!directoryMoved)</div>
-<div class="line"><span class="lineno">  133</span>                        goAheadTcs.SetException(ex);</div>
-<div class="line"><span class="lineno">  134</span>                }</div>
-<div class="line"><span class="lineno">  135</span>            }</div>
-<div class="line"><span class="lineno">  136</span> </div>
-<div class="line"><span class="lineno">  137</span>            DisposeOfOldDirectory();</div>
-<div class="line"><span class="lineno">  138</span>            await goAheadTcs.Task;</div>
-<div class="line"><span class="lineno">  139</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider.html#a574d6bc5aecda321226e1e9c42224e6a">logger</a>.LogTrace(<span class="stringliteral">&quot;Moving mirror directory {path} to Live...&quot;</span>, mirroredDir);</div>
-<div class="line"><span class="lineno">  140</span>            await <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_swappable_dmb_provider.html#a80675f8c3906c19eef50512e8e1aa9f9">IOManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ad8dc6ae8e69047b801a7344b17d0cc37">MoveDirectory</a>(mirroredDir, <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_swappable_dmb_provider.html#ac3447ec1377df66f5b60e0a12ecc109c">LiveGameDirectory</a>, cancellationToken);</div>
-<div class="line"><span class="lineno">  141</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider.html#a574d6bc5aecda321226e1e9c42224e6a">logger</a>.LogTrace(<span class="stringliteral">&quot;Swap complete!&quot;</span>);</div>
-<div class="line"><span class="lineno">  142</span>        }</div>
-<div class="ttc" id="aclass_exception_html"><div class="ttname"><a href="class_exception.html">Exception</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_swappable_dmb_provider_html_a80675f8c3906c19eef50512e8e1aa9f9"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_swappable_dmb_provider.html#a80675f8c3906c19eef50512e8e1aa9f9">Tgstation.Server.Host.Components.Deployment.SwappableDmbProvider.IOManager</a></div><div class="ttdeci">IIOManager IOManager</div><div class="ttdoc">The IIOManager to use.</div><div class="ttdef"><b>Definition:</b> <a href="_swappable_dmb_provider_8cs_source.html#l00045">SwappableDmbProvider.cs:45</a></div></div>
+<p class="definition">Definition at line <a class="el" href="_hard_link_dmb_provider_8cs_source.html#l00116">116</a> of file <a class="el" href="_hard_link_dmb_provider_8cs_source.html">HardLinkDmbProvider.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  117</span>        {</div>
+<div class="line"><span class="lineno">  118</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider.html#a574d6bc5aecda321226e1e9c42224e6a">logger</a>.LogTrace(<span class="stringliteral">&quot;Begin DoSwap, mirroring task complete: {complete}...&quot;</span>, <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider.html#a0996d620c0d60f66af3604aec9b150c2">mirroringTask</a>.IsCompleted);</div>
+<div class="line"><span class="lineno">  119</span>            var mirroredDir = await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider.html#a0996d620c0d60f66af3604aec9b150c2">mirroringTask</a>.WaitAsync(cancellationToken);</div>
+<div class="line"><span class="lineno">  120</span>            <span class="keywordflow">if</span> (mirroredDir == <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">  121</span>            {</div>
+<div class="line"><span class="lineno">  122</span>                <span class="comment">// huh, how?</span></div>
+<div class="line"><span class="lineno">  123</span>                cancellationToken.ThrowIfCancellationRequested();</div>
+<div class="line"><span class="lineno">  124</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> InvalidOperationException(<span class="stringliteral">&quot;mirroringTask was cancelled without us being cancelled?&quot;</span>);</div>
+<div class="line"><span class="lineno">  125</span>            }</div>
+<div class="line"><span class="lineno">  126</span> </div>
+<div class="line"><span class="lineno">  127</span>            var goAheadTcs = <span class="keyword">new</span> TaskCompletionSource();</div>
+<div class="line"><span class="lineno">  128</span> </div>
+<div class="line"><span class="lineno">  129</span>            <span class="comment">// I feel dirty...</span></div>
+<div class="line"><span class="lineno">  130</span>            async <span class="keywordtype">void</span> DisposeOfOldDirectory()</div>
+<div class="line"><span class="lineno">  131</span>            {</div>
+<div class="line"><span class="lineno">  132</span>                var directoryMoved = <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  133</span>                var disposeGuid = Guid.NewGuid();</div>
+<div class="line"><span class="lineno">  134</span>                var disposePath = disposeGuid.ToString();</div>
+<div class="line"><span class="lineno">  135</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider.html#a574d6bc5aecda321226e1e9c42224e6a">logger</a>.LogTrace(<span class="stringliteral">&quot;Moving Live directory to {path} for deletion...&quot;</span>, disposeGuid);</div>
+<div class="line"><span class="lineno">  136</span>                <span class="keywordflow">try</span></div>
+<div class="line"><span class="lineno">  137</span>                {</div>
+<div class="line"><span class="lineno">  138</span>                    await <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_swappable_dmb_provider.html#a80675f8c3906c19eef50512e8e1aa9f9">IOManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ad8dc6ae8e69047b801a7344b17d0cc37">MoveDirectory</a>(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_swappable_dmb_provider.html#ac3447ec1377df66f5b60e0a12ecc109c">LiveGameDirectory</a>, disposePath, cancellationToken);</div>
+<div class="line"><span class="lineno">  139</span>                    directoryMoved = <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  140</span>                    goAheadTcs.SetResult();</div>
+<div class="line"><span class="lineno">  141</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider.html#a574d6bc5aecda321226e1e9c42224e6a">logger</a>.LogTrace(<span class="stringliteral">&quot;Deleting old Live directory {path}...&quot;</span>, disposePath);</div>
+<div class="line"><span class="lineno">  142</span>                    await <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_swappable_dmb_provider.html#a80675f8c3906c19eef50512e8e1aa9f9">IOManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ad3e0dda4b7fbad4c77f48ba3b2681dc7">DeleteDirectory</a>(disposePath, CancellationToken.None); <span class="comment">// DCT: We&#39;re detached at this point</span></div>
+<div class="line"><span class="lineno">  143</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider.html#a574d6bc5aecda321226e1e9c42224e6a">logger</a>.LogTrace(<span class="stringliteral">&quot;Completed async cleanup of old Live directory: {disposePath}&quot;</span>, disposePath);</div>
+<div class="line"><span class="lineno">  144</span>                }</div>
+<div class="line"><span class="lineno">  145</span>                <span class="keywordflow">catch</span> (DirectoryNotFoundException ex)</div>
+<div class="line"><span class="lineno">  146</span>                {</div>
+<div class="line"><span class="lineno">  147</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider.html#a574d6bc5aecda321226e1e9c42224e6a">logger</a>.LogDebug(ex, <span class="stringliteral">&quot;Live directory appears to not exist&quot;</span>);</div>
+<div class="line"><span class="lineno">  148</span>                    <span class="keywordflow">if</span> (!directoryMoved)</div>
+<div class="line"><span class="lineno">  149</span>                        goAheadTcs.SetResult();</div>
+<div class="line"><span class="lineno">  150</span>                }</div>
+<div class="line"><span class="lineno">  151</span>                <span class="keywordflow">catch</span> (<a class="code hl_class" href="class_exception.html">Exception</a> ex)</div>
+<div class="line"><span class="lineno">  152</span>                {</div>
+<div class="line"><span class="lineno">  153</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider.html#a574d6bc5aecda321226e1e9c42224e6a">logger</a>.LogWarning(ex, <span class="stringliteral">&quot;Failed to delete hard linked directory: {disposePath}&quot;</span>, disposePath);</div>
+<div class="line"><span class="lineno">  154</span>                    <span class="keywordflow">if</span> (!directoryMoved)</div>
+<div class="line"><span class="lineno">  155</span>                        goAheadTcs.SetException(ex);</div>
+<div class="line"><span class="lineno">  156</span>                }</div>
+<div class="line"><span class="lineno">  157</span>            }</div>
+<div class="line"><span class="lineno">  158</span> </div>
+<div class="line"><span class="lineno">  159</span>            DisposeOfOldDirectory();</div>
+<div class="line"><span class="lineno">  160</span>            await goAheadTcs.Task;</div>
+<div class="line"><span class="lineno">  161</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider.html#a574d6bc5aecda321226e1e9c42224e6a">logger</a>.LogTrace(<span class="stringliteral">&quot;Moving mirror directory {path} to Live...&quot;</span>, mirroredDir);</div>
+<div class="line"><span class="lineno">  162</span>            await <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_swappable_dmb_provider.html#a80675f8c3906c19eef50512e8e1aa9f9">IOManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ad8dc6ae8e69047b801a7344b17d0cc37">MoveDirectory</a>(mirroredDir, <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_swappable_dmb_provider.html#ac3447ec1377df66f5b60e0a12ecc109c">LiveGameDirectory</a>, cancellationToken);</div>
+<div class="line"><span class="lineno">  163</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider.html#a574d6bc5aecda321226e1e9c42224e6a">logger</a>.LogTrace(<span class="stringliteral">&quot;Swap complete!&quot;</span>);</div>
+<div class="line"><span class="lineno">  164</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_swappable_dmb_provider_html_ac3447ec1377df66f5b60e0a12ecc109c"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_swappable_dmb_provider.html#ac3447ec1377df66f5b60e0a12ecc109c">Tgstation.Server.Host.Components.Deployment.SwappableDmbProvider.LiveGameDirectory</a></div><div class="ttdeci">const string LiveGameDirectory</div><div class="ttdoc">The directory where the BaseProvider is symlinked to.</div><div class="ttdef"><b>Definition:</b> <a href="_swappable_dmb_provider_8cs_source.html#l00018">SwappableDmbProvider.cs:18</a></div></div>
-<div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager_html_ad3e0dda4b7fbad4c77f48ba3b2681dc7"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ad3e0dda4b7fbad4c77f48ba3b2681dc7">Tgstation.Server.Host.IO.IIOManager.DeleteDirectory</a></div><div class="ttdeci">Task DeleteDirectory(string path, CancellationToken cancellationToken)</div><div class="ttdoc">Recursively delete a directory, removes and does not enter any symlinks encounterd.</div></div>
 <div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager_html_ad8dc6ae8e69047b801a7344b17d0cc37"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ad8dc6ae8e69047b801a7344b17d0cc37">Tgstation.Server.Host.IO.IIOManager.MoveDirectory</a></div><div class="ttdeci">Task MoveDirectory(string source, string destination, CancellationToken cancellationToken)</div><div class="ttdoc">Moves a directory at source  to destination .</div></div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ad3e0dda4b7fbad4c77f48ba3b2681dc7">Tgstation.Server.Host.IO.IIOManager.DeleteDirectory()</a>, <a class="el" href="_swappable_dmb_provider_8cs_source.html#l00045">Tgstation.Server.Host.Components.Deployment.SwappableDmbProvider.IOManager</a>, <a class="el" href="_swappable_dmb_provider_8cs_source.html#l00018">Tgstation.Server.Host.Components.Deployment.SwappableDmbProvider.LiveGameDirectory</a>, <a class="el" href="_hard_link_dmb_provider_8cs_source.html#l00039">Tgstation.Server.Host.Components.Deployment.HardLinkDmbProvider.logger</a>, <a class="el" href="_hard_link_dmb_provider_8cs_source.html#l00034">Tgstation.Server.Host.Components.Deployment.HardLinkDmbProvider.mirroringTask</a>, and <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ad8dc6ae8e69047b801a7344b17d0cc37">Tgstation.Server.Host.IO.IIOManager.MoveDirectory()</a>.</p>
@@ -523,13 +556,13 @@ Here is the call graph for this function:</div>
 
 <p>Implements <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_swappable_dmb_provider.html#a62c2020413dd770a7b3b0482e91ffbf3">Tgstation.Server.Host.Components.Deployment.SwappableDmbProvider</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_hard_link_dmb_provider_8cs_source.html#l00093">93</a> of file <a class="el" href="_hard_link_dmb_provider_8cs_source.html">HardLinkDmbProvider.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   94</span>        {</div>
-<div class="line"><span class="lineno">   95</span>            <span class="keywordflow">if</span> (!<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider.html#a2f6787cc1696f599b1ada73b71b2eea4">mirroringTask</a>.IsCompleted)</div>
-<div class="line"><span class="lineno">   96</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider.html#a574d6bc5aecda321226e1e9c42224e6a">logger</a>.LogTrace(<span class="stringliteral">&quot;Waiting for mirroring to complete...&quot;</span>);</div>
-<div class="line"><span class="lineno">   97</span> </div>
-<div class="line"><span class="lineno">   98</span>            <span class="keywordflow">return</span> <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider.html#a2f6787cc1696f599b1ada73b71b2eea4">mirroringTask</a>.WaitAsync(cancellationToken);</div>
-<div class="line"><span class="lineno">   99</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_hard_link_dmb_provider_8cs_source.html#l00107">107</a> of file <a class="el" href="_hard_link_dmb_provider_8cs_source.html">HardLinkDmbProvider.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  108</span>        {</div>
+<div class="line"><span class="lineno">  109</span>            <span class="keywordflow">if</span> (!<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider.html#a0996d620c0d60f66af3604aec9b150c2">mirroringTask</a>.IsCompleted)</div>
+<div class="line"><span class="lineno">  110</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider.html#a574d6bc5aecda321226e1e9c42224e6a">logger</a>.LogTrace(<span class="stringliteral">&quot;Waiting for mirroring to complete...&quot;</span>);</div>
+<div class="line"><span class="lineno">  111</span> </div>
+<div class="line"><span class="lineno">  112</span>            <span class="keywordflow">return</span> <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider.html#a0996d620c0d60f66af3604aec9b150c2">mirroringTask</a>.WaitAsync(cancellationToken);</div>
+<div class="line"><span class="lineno">  113</span>        }</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="_hard_link_dmb_provider_8cs_source.html#l00039">Tgstation.Server.Host.Components.Deployment.HardLinkDmbProvider.logger</a>, and <a class="el" href="_hard_link_dmb_provider_8cs_source.html#l00034">Tgstation.Server.Host.Components.Deployment.HardLinkDmbProvider.mirroringTask</a>.</p>
 
@@ -601,101 +634,101 @@ Here is the call graph for this function:</div>
 <dl class="section return"><dt>Returns</dt><dd>A IEnumerable&lt;T&gt; of Tasks representing the running operations. The first Task returned is always the necessary call to <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a69aa1b9dbeb6af3744e568095c4376e7" title="Create a directory at path .">IIOManager.CreateDirectory(string, CancellationToken)</a>.</dd></dl>
 <p >I genuinely don't know how this will work with symlinked files. Waiting for the issue report I guess.</p>
 
-<p class="definition">Definition at line <a class="el" href="_hard_link_dmb_provider_8cs_source.html#l00190">190</a> of file <a class="el" href="_hard_link_dmb_provider_8cs_source.html">HardLinkDmbProvider.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  191</span>        {</div>
-<div class="line"><span class="lineno">  192</span>            var dir = <span class="keyword">new</span> DirectoryInfo(src);</div>
-<div class="line"><span class="lineno">  193</span>            Task? subdirCreationTask = <span class="keyword">null</span>;</div>
-<div class="line"><span class="lineno">  194</span>            var dreamDaemonWillAcceptOutOfDirectorySymlinks = securityLevel == <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#ad4850e6b78816679602b13d63d2869b5">DreamDaemonSecurity</a>.Trusted;</div>
-<div class="line"><span class="lineno">  195</span>            <span class="keywordflow">foreach</span> (var subDirectory <span class="keywordflow">in</span> dir.EnumerateDirectories())</div>
-<div class="line"><span class="lineno">  196</span>            {</div>
-<div class="line"><span class="lineno">  197</span>                var mirroredName = Path.Combine(dest, subDirectory.Name);</div>
-<div class="line"><span class="lineno">  198</span> </div>
-<div class="line"><span class="lineno">  199</span>                <span class="comment">// check if we are a symbolic link</span></div>
-<div class="line"><span class="lineno">  200</span>                <span class="keywordflow">if</span> (subDirectory.Attributes.HasFlag(FileAttributes.ReparsePoint))</div>
-<div class="line"><span class="lineno">  201</span>                    <span class="keywordflow">if</span> (dreamDaemonWillAcceptOutOfDirectorySymlinks)</div>
-<div class="line"><span class="lineno">  202</span>                    {</div>
-<div class="line"><span class="lineno">  203</span>                        var target = subDirectory.ResolveLinkTarget(<span class="keyword">false</span>)</div>
-<div class="line"><span class="lineno">  204</span>                            ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> InvalidOperationException($<span class="stringliteral">&quot;\&quot;{subDirectory.FullName}\&quot; was incorrectly identified as a symlinked directory!&quot;</span>);</div>
-<div class="line"><span class="lineno">  205</span>                        <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider.html#a574d6bc5aecda321226e1e9c42224e6a">logger</a>.LogDebug(<span class="stringliteral">&quot;Recreating directory {name} as symlink to {target}&quot;</span>, subDirectory.Name, target);</div>
-<div class="line"><span class="lineno">  206</span>                        <span class="keywordflow">if</span> (subdirCreationTask == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">  207</span>                        {</div>
-<div class="line"><span class="lineno">  208</span>                            subdirCreationTask = <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_swappable_dmb_provider.html#a80675f8c3906c19eef50512e8e1aa9f9">IOManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a69aa1b9dbeb6af3744e568095c4376e7">CreateDirectory</a>(dest, cancellationToken);</div>
-<div class="line"><span class="lineno">  209</span>                            yield <span class="keywordflow">return</span> subdirCreationTask;</div>
-<div class="line"><span class="lineno">  210</span>                        }</div>
-<div class="line"><span class="lineno">  211</span> </div>
-<div class="line"><span class="lineno">  212</span>                        async Task CopyLink()</div>
-<div class="line"><span class="lineno">  213</span>                        {</div>
-<div class="line"><span class="lineno">  214</span>                            await subdirCreationTask.WaitAsync(cancellationToken);</div>
-<div class="line"><span class="lineno">  215</span>                            <span class="keyword">using </span>var lockContext = semaphore != <span class="keyword">null</span></div>
-<div class="line"><span class="lineno">  216</span>                                ? await <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html">SemaphoreSlimContext</a>.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html#a29773d588476671bbe480f096d839c91">Lock</a>(semaphore, cancellationToken)</div>
-<div class="line"><span class="lineno">  217</span>                                : <span class="keyword">null</span>;</div>
-<div class="line"><span class="lineno">  218</span>                            await <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_swappable_dmb_provider.html#af603431ff704c7650bc544791c3149ad">LinkFactory</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_filesystem_link_factory.html#a0c13f92b0cab9a0e3028ec6eedbc38d9">CreateSymbolicLink</a>(target.FullName, mirroredName, cancellationToken);</div>
-<div class="line"><span class="lineno">  219</span>                        }</div>
-<div class="line"><span class="lineno">  220</span> </div>
-<div class="line"><span class="lineno">  221</span>                        yield <span class="keywordflow">return</span> CopyLink();</div>
-<div class="line"><span class="lineno">  222</span>                        <span class="keywordflow">continue</span>;</div>
-<div class="line"><span class="lineno">  223</span>                    }</div>
-<div class="line"><span class="lineno">  224</span>                    <span class="keywordflow">else</span></div>
-<div class="line"><span class="lineno">  225</span>                        <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider.html#a574d6bc5aecda321226e1e9c42224e6a">logger</a>.LogDebug(<span class="stringliteral">&quot;Recreating symlinked directory {name} as hard links...&quot;</span>, subDirectory.Name);</div>
-<div class="line"><span class="lineno">  226</span> </div>
-<div class="line"><span class="lineno">  227</span>                var checkingSubdirCreationTask = <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  228</span>                <span class="keywordflow">foreach</span> (var copyTask <span class="keywordflow">in</span> <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider.html#a9af3987ce607d6ddf3dae951e15e4a35">MirrorDirectoryImpl</a>(subDirectory.FullName, mirroredName, semaphore, securityLevel, cancellationToken))</div>
-<div class="line"><span class="lineno">  229</span>                {</div>
-<div class="line"><span class="lineno">  230</span>                    <span class="keywordflow">if</span> (subdirCreationTask == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">  231</span>                    {</div>
-<div class="line"><span class="lineno">  232</span>                        subdirCreationTask = copyTask;</div>
-<div class="line"><span class="lineno">  233</span>                        yield <span class="keywordflow">return</span> subdirCreationTask;</div>
-<div class="line"><span class="lineno">  234</span>                    }</div>
-<div class="line"><span class="lineno">  235</span>                    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (!checkingSubdirCreationTask)</div>
-<div class="line"><span class="lineno">  236</span>                        yield <span class="keywordflow">return</span> copyTask;</div>
-<div class="line"><span class="lineno">  237</span> </div>
-<div class="line"><span class="lineno">  238</span>                    checkingSubdirCreationTask = <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">  239</span>                }</div>
-<div class="line"><span class="lineno">  240</span>            }</div>
-<div class="line"><span class="lineno">  241</span> </div>
-<div class="line"><span class="lineno">  242</span>            <span class="keywordflow">foreach</span> (var fileInfo <span class="keywordflow">in</span> dir.EnumerateFiles())</div>
-<div class="line"><span class="lineno">  243</span>            {</div>
-<div class="line"><span class="lineno">  244</span>                <span class="keywordflow">if</span> (subdirCreationTask == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">  245</span>                {</div>
-<div class="line"><span class="lineno">  246</span>                    subdirCreationTask = <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_swappable_dmb_provider.html#a80675f8c3906c19eef50512e8e1aa9f9">IOManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a69aa1b9dbeb6af3744e568095c4376e7">CreateDirectory</a>(dest, cancellationToken);</div>
-<div class="line"><span class="lineno">  247</span>                    yield <span class="keywordflow">return</span> subdirCreationTask;</div>
-<div class="line"><span class="lineno">  248</span>                }</div>
-<div class="line"><span class="lineno">  249</span> </div>
-<div class="line"><span class="lineno">  250</span>                var sourceFile = fileInfo.FullName;</div>
-<div class="line"><span class="lineno">  251</span>                var destFile = <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_swappable_dmb_provider.html#a80675f8c3906c19eef50512e8e1aa9f9">IOManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a286f4eb5c679683b7e519847a6c3574e">ConcatPath</a>(dest, fileInfo.Name);</div>
-<div class="line"><span class="lineno">  252</span> </div>
-<div class="line"><span class="lineno">  253</span>                async Task LinkThisFile()</div>
-<div class="line"><span class="lineno">  254</span>                {</div>
-<div class="line"><span class="lineno">  255</span>                    await subdirCreationTask.WaitAsync(cancellationToken);</div>
-<div class="line"><span class="lineno">  256</span>                    <span class="keyword">using </span>var lockContext = semaphore != <span class="keyword">null</span></div>
-<div class="line"><span class="lineno">  257</span>                        ? await <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html">SemaphoreSlimContext</a>.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html#a29773d588476671bbe480f096d839c91">Lock</a>(semaphore, cancellationToken)</div>
-<div class="line"><span class="lineno">  258</span>                        : <span class="keyword">null</span>;</div>
-<div class="line"><span class="lineno">  259</span> </div>
-<div class="line"><span class="lineno">  260</span>                    <span class="keywordflow">if</span> (fileInfo.Attributes.HasFlag(FileAttributes.ReparsePoint))</div>
-<div class="line"><span class="lineno">  261</span>                    {</div>
-<div class="line"><span class="lineno">  262</span>                        <span class="comment">// AHHHHHHHHHHHHH</span></div>
-<div class="line"><span class="lineno">  263</span>                        var target = fileInfo.ResolveLinkTarget(!dreamDaemonWillAcceptOutOfDirectorySymlinks)</div>
-<div class="line"><span class="lineno">  264</span>                            ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> InvalidOperationException($<span class="stringliteral">&quot;\&quot;{fileInfo.FullName}\&quot; was incorrectly identified as a symlinked file!&quot;</span>);</div>
-<div class="line"><span class="lineno">  265</span> </div>
-<div class="line"><span class="lineno">  266</span>                        <span class="keywordflow">if</span> (dreamDaemonWillAcceptOutOfDirectorySymlinks)</div>
-<div class="line"><span class="lineno">  267</span>                        {</div>
-<div class="line"><span class="lineno">  268</span>                            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider.html#a574d6bc5aecda321226e1e9c42224e6a">logger</a>.LogDebug(<span class="stringliteral">&quot;Recreating symlinked file {name} as symlink to {target}&quot;</span>, fileInfo.Name, target.FullName);</div>
-<div class="line"><span class="lineno">  269</span>                            await <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_swappable_dmb_provider.html#af603431ff704c7650bc544791c3149ad">LinkFactory</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_filesystem_link_factory.html#a0c13f92b0cab9a0e3028ec6eedbc38d9">CreateSymbolicLink</a>(target.FullName, destFile, cancellationToken);</div>
-<div class="line"><span class="lineno">  270</span>                        }</div>
-<div class="line"><span class="lineno">  271</span>                        <span class="keywordflow">else</span></div>
-<div class="line"><span class="lineno">  272</span>                        {</div>
-<div class="line"><span class="lineno">  273</span>                            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider.html#a574d6bc5aecda321226e1e9c42224e6a">logger</a>.LogDebug(<span class="stringliteral">&quot;Recreating symlinked file {name} as hard link to {target}&quot;</span>, fileInfo.Name, target.FullName);</div>
-<div class="line"><span class="lineno">  274</span>                            await <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_swappable_dmb_provider.html#af603431ff704c7650bc544791c3149ad">LinkFactory</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_filesystem_link_factory.html#a1928b5f0f5dd2e3e36ce03c7850a2f49">CreateHardLink</a>(target.FullName, destFile, cancellationToken);</div>
-<div class="line"><span class="lineno">  275</span>                        }</div>
-<div class="line"><span class="lineno">  276</span>                    }</div>
-<div class="line"><span class="lineno">  277</span>                    <span class="keywordflow">else</span></div>
-<div class="line"><span class="lineno">  278</span>                        await <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_swappable_dmb_provider.html#af603431ff704c7650bc544791c3149ad">LinkFactory</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_filesystem_link_factory.html#a1928b5f0f5dd2e3e36ce03c7850a2f49">CreateHardLink</a>(sourceFile, destFile, cancellationToken);</div>
-<div class="line"><span class="lineno">  279</span>                }</div>
-<div class="line"><span class="lineno">  280</span> </div>
-<div class="line"><span class="lineno">  281</span>                yield <span class="keywordflow">return</span> LinkThisFile();</div>
-<div class="line"><span class="lineno">  282</span>            }</div>
-<div class="line"><span class="lineno">  283</span>        }</div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider_html_a9af3987ce607d6ddf3dae951e15e4a35"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider.html#a9af3987ce607d6ddf3dae951e15e4a35">Tgstation.Server.Host.Components.Deployment.HardLinkDmbProvider.MirrorDirectoryImpl</a></div><div class="ttdeci">IEnumerable&lt; Task &gt; MirrorDirectoryImpl(string src, string dest, SemaphoreSlim? semaphore, DreamDaemonSecurity securityLevel, CancellationToken cancellationToken)</div><div class="ttdoc">Recursively create tasks to create a hard link directory mirror of src  to dest .</div><div class="ttdef"><b>Definition:</b> <a href="_hard_link_dmb_provider_8cs_source.html#l00190">HardLinkDmbProvider.cs:190</a></div></div>
+<p class="definition">Definition at line <a class="el" href="_hard_link_dmb_provider_8cs_source.html#l00240">240</a> of file <a class="el" href="_hard_link_dmb_provider_8cs_source.html">HardLinkDmbProvider.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  241</span>        {</div>
+<div class="line"><span class="lineno">  242</span>            var dir = <span class="keyword">new</span> DirectoryInfo(src);</div>
+<div class="line"><span class="lineno">  243</span>            Task? subdirCreationTask = <span class="keyword">null</span>;</div>
+<div class="line"><span class="lineno">  244</span>            var dreamDaemonWillAcceptOutOfDirectorySymlinks = securityLevel == <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#ad4850e6b78816679602b13d63d2869b5">DreamDaemonSecurity</a>.Trusted;</div>
+<div class="line"><span class="lineno">  245</span>            <span class="keywordflow">foreach</span> (var subDirectory <span class="keywordflow">in</span> dir.EnumerateDirectories())</div>
+<div class="line"><span class="lineno">  246</span>            {</div>
+<div class="line"><span class="lineno">  247</span>                var mirroredName = Path.Combine(dest, subDirectory.Name);</div>
+<div class="line"><span class="lineno">  248</span> </div>
+<div class="line"><span class="lineno">  249</span>                <span class="comment">// check if we are a symbolic link</span></div>
+<div class="line"><span class="lineno">  250</span>                <span class="keywordflow">if</span> (subDirectory.Attributes.HasFlag(FileAttributes.ReparsePoint))</div>
+<div class="line"><span class="lineno">  251</span>                    <span class="keywordflow">if</span> (dreamDaemonWillAcceptOutOfDirectorySymlinks)</div>
+<div class="line"><span class="lineno">  252</span>                    {</div>
+<div class="line"><span class="lineno">  253</span>                        var target = subDirectory.ResolveLinkTarget(<span class="keyword">false</span>)</div>
+<div class="line"><span class="lineno">  254</span>                            ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> InvalidOperationException($<span class="stringliteral">&quot;\&quot;{subDirectory.FullName}\&quot; was incorrectly identified as a symlinked directory!&quot;</span>);</div>
+<div class="line"><span class="lineno">  255</span>                        <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider.html#a574d6bc5aecda321226e1e9c42224e6a">logger</a>.LogDebug(<span class="stringliteral">&quot;Recreating directory {name} as symlink to {target}&quot;</span>, subDirectory.Name, target);</div>
+<div class="line"><span class="lineno">  256</span>                        <span class="keywordflow">if</span> (subdirCreationTask == <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">  257</span>                        {</div>
+<div class="line"><span class="lineno">  258</span>                            subdirCreationTask = <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_swappable_dmb_provider.html#a80675f8c3906c19eef50512e8e1aa9f9">IOManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a69aa1b9dbeb6af3744e568095c4376e7">CreateDirectory</a>(dest, cancellationToken);</div>
+<div class="line"><span class="lineno">  259</span>                            yield <span class="keywordflow">return</span> subdirCreationTask;</div>
+<div class="line"><span class="lineno">  260</span>                        }</div>
+<div class="line"><span class="lineno">  261</span> </div>
+<div class="line"><span class="lineno">  262</span>                        async Task CopyLink()</div>
+<div class="line"><span class="lineno">  263</span>                        {</div>
+<div class="line"><span class="lineno">  264</span>                            await subdirCreationTask.WaitAsync(cancellationToken);</div>
+<div class="line"><span class="lineno">  265</span>                            <span class="keyword">using </span>var lockContext = semaphore != <span class="keyword">null</span></div>
+<div class="line"><span class="lineno">  266</span>                                ? await <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html">SemaphoreSlimContext</a>.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html#a29773d588476671bbe480f096d839c91">Lock</a>(semaphore, cancellationToken)</div>
+<div class="line"><span class="lineno">  267</span>                                : <span class="keyword">null</span>;</div>
+<div class="line"><span class="lineno">  268</span>                            await <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_swappable_dmb_provider.html#af603431ff704c7650bc544791c3149ad">LinkFactory</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_filesystem_link_factory.html#a0c13f92b0cab9a0e3028ec6eedbc38d9">CreateSymbolicLink</a>(target.FullName, mirroredName, cancellationToken);</div>
+<div class="line"><span class="lineno">  269</span>                        }</div>
+<div class="line"><span class="lineno">  270</span> </div>
+<div class="line"><span class="lineno">  271</span>                        yield <span class="keywordflow">return</span> CopyLink();</div>
+<div class="line"><span class="lineno">  272</span>                        <span class="keywordflow">continue</span>;</div>
+<div class="line"><span class="lineno">  273</span>                    }</div>
+<div class="line"><span class="lineno">  274</span>                    <span class="keywordflow">else</span></div>
+<div class="line"><span class="lineno">  275</span>                        <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider.html#a574d6bc5aecda321226e1e9c42224e6a">logger</a>.LogDebug(<span class="stringliteral">&quot;Recreating symlinked directory {name} as hard links...&quot;</span>, subDirectory.Name);</div>
+<div class="line"><span class="lineno">  276</span> </div>
+<div class="line"><span class="lineno">  277</span>                var checkingSubdirCreationTask = <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  278</span>                <span class="keywordflow">foreach</span> (var copyTask <span class="keywordflow">in</span> <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider.html#a9af3987ce607d6ddf3dae951e15e4a35">MirrorDirectoryImpl</a>(subDirectory.FullName, mirroredName, semaphore, securityLevel, cancellationToken))</div>
+<div class="line"><span class="lineno">  279</span>                {</div>
+<div class="line"><span class="lineno">  280</span>                    <span class="keywordflow">if</span> (subdirCreationTask == <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">  281</span>                    {</div>
+<div class="line"><span class="lineno">  282</span>                        subdirCreationTask = copyTask;</div>
+<div class="line"><span class="lineno">  283</span>                        yield <span class="keywordflow">return</span> subdirCreationTask;</div>
+<div class="line"><span class="lineno">  284</span>                    }</div>
+<div class="line"><span class="lineno">  285</span>                    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (!checkingSubdirCreationTask)</div>
+<div class="line"><span class="lineno">  286</span>                        yield <span class="keywordflow">return</span> copyTask;</div>
+<div class="line"><span class="lineno">  287</span> </div>
+<div class="line"><span class="lineno">  288</span>                    checkingSubdirCreationTask = <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  289</span>                }</div>
+<div class="line"><span class="lineno">  290</span>            }</div>
+<div class="line"><span class="lineno">  291</span> </div>
+<div class="line"><span class="lineno">  292</span>            <span class="keywordflow">foreach</span> (var fileInfo <span class="keywordflow">in</span> dir.EnumerateFiles())</div>
+<div class="line"><span class="lineno">  293</span>            {</div>
+<div class="line"><span class="lineno">  294</span>                <span class="keywordflow">if</span> (subdirCreationTask == <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">  295</span>                {</div>
+<div class="line"><span class="lineno">  296</span>                    subdirCreationTask = <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_swappable_dmb_provider.html#a80675f8c3906c19eef50512e8e1aa9f9">IOManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a69aa1b9dbeb6af3744e568095c4376e7">CreateDirectory</a>(dest, cancellationToken);</div>
+<div class="line"><span class="lineno">  297</span>                    yield <span class="keywordflow">return</span> subdirCreationTask;</div>
+<div class="line"><span class="lineno">  298</span>                }</div>
+<div class="line"><span class="lineno">  299</span> </div>
+<div class="line"><span class="lineno">  300</span>                var sourceFile = fileInfo.FullName;</div>
+<div class="line"><span class="lineno">  301</span>                var destFile = <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_swappable_dmb_provider.html#a80675f8c3906c19eef50512e8e1aa9f9">IOManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a286f4eb5c679683b7e519847a6c3574e">ConcatPath</a>(dest, fileInfo.Name);</div>
+<div class="line"><span class="lineno">  302</span> </div>
+<div class="line"><span class="lineno">  303</span>                async Task LinkThisFile()</div>
+<div class="line"><span class="lineno">  304</span>                {</div>
+<div class="line"><span class="lineno">  305</span>                    await subdirCreationTask.WaitAsync(cancellationToken);</div>
+<div class="line"><span class="lineno">  306</span>                    <span class="keyword">using </span>var lockContext = semaphore != <span class="keyword">null</span></div>
+<div class="line"><span class="lineno">  307</span>                        ? await <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html">SemaphoreSlimContext</a>.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html#a29773d588476671bbe480f096d839c91">Lock</a>(semaphore, cancellationToken)</div>
+<div class="line"><span class="lineno">  308</span>                        : <span class="keyword">null</span>;</div>
+<div class="line"><span class="lineno">  309</span> </div>
+<div class="line"><span class="lineno">  310</span>                    <span class="keywordflow">if</span> (fileInfo.Attributes.HasFlag(FileAttributes.ReparsePoint))</div>
+<div class="line"><span class="lineno">  311</span>                    {</div>
+<div class="line"><span class="lineno">  312</span>                        <span class="comment">// AHHHHHHHHHHHHH</span></div>
+<div class="line"><span class="lineno">  313</span>                        var target = fileInfo.ResolveLinkTarget(!dreamDaemonWillAcceptOutOfDirectorySymlinks)</div>
+<div class="line"><span class="lineno">  314</span>                            ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> InvalidOperationException($<span class="stringliteral">&quot;\&quot;{fileInfo.FullName}\&quot; was incorrectly identified as a symlinked file!&quot;</span>);</div>
+<div class="line"><span class="lineno">  315</span> </div>
+<div class="line"><span class="lineno">  316</span>                        <span class="keywordflow">if</span> (dreamDaemonWillAcceptOutOfDirectorySymlinks)</div>
+<div class="line"><span class="lineno">  317</span>                        {</div>
+<div class="line"><span class="lineno">  318</span>                            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider.html#a574d6bc5aecda321226e1e9c42224e6a">logger</a>.LogDebug(<span class="stringliteral">&quot;Recreating symlinked file {name} as symlink to {target}&quot;</span>, fileInfo.Name, target.FullName);</div>
+<div class="line"><span class="lineno">  319</span>                            await <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_swappable_dmb_provider.html#af603431ff704c7650bc544791c3149ad">LinkFactory</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_filesystem_link_factory.html#a0c13f92b0cab9a0e3028ec6eedbc38d9">CreateSymbolicLink</a>(target.FullName, destFile, cancellationToken);</div>
+<div class="line"><span class="lineno">  320</span>                        }</div>
+<div class="line"><span class="lineno">  321</span>                        <span class="keywordflow">else</span></div>
+<div class="line"><span class="lineno">  322</span>                        {</div>
+<div class="line"><span class="lineno">  323</span>                            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider.html#a574d6bc5aecda321226e1e9c42224e6a">logger</a>.LogDebug(<span class="stringliteral">&quot;Recreating symlinked file {name} as hard link to {target}&quot;</span>, fileInfo.Name, target.FullName);</div>
+<div class="line"><span class="lineno">  324</span>                            await <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_swappable_dmb_provider.html#af603431ff704c7650bc544791c3149ad">LinkFactory</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_filesystem_link_factory.html#a1928b5f0f5dd2e3e36ce03c7850a2f49">CreateHardLink</a>(target.FullName, destFile, cancellationToken);</div>
+<div class="line"><span class="lineno">  325</span>                        }</div>
+<div class="line"><span class="lineno">  326</span>                    }</div>
+<div class="line"><span class="lineno">  327</span>                    <span class="keywordflow">else</span></div>
+<div class="line"><span class="lineno">  328</span>                        await <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_swappable_dmb_provider.html#af603431ff704c7650bc544791c3149ad">LinkFactory</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_filesystem_link_factory.html#a1928b5f0f5dd2e3e36ce03c7850a2f49">CreateHardLink</a>(sourceFile, destFile, cancellationToken);</div>
+<div class="line"><span class="lineno">  329</span>                }</div>
+<div class="line"><span class="lineno">  330</span> </div>
+<div class="line"><span class="lineno">  331</span>                yield <span class="keywordflow">return</span> LinkThisFile();</div>
+<div class="line"><span class="lineno">  332</span>            }</div>
+<div class="line"><span class="lineno">  333</span>        }</div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider_html_a9af3987ce607d6ddf3dae951e15e4a35"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider.html#a9af3987ce607d6ddf3dae951e15e4a35">Tgstation.Server.Host.Components.Deployment.HardLinkDmbProvider.MirrorDirectoryImpl</a></div><div class="ttdeci">IEnumerable&lt; Task &gt; MirrorDirectoryImpl(string src, string dest, SemaphoreSlim? semaphore, DreamDaemonSecurity securityLevel, CancellationToken cancellationToken)</div><div class="ttdoc">Recursively create tasks to create a hard link directory mirror of src  to dest .</div><div class="ttdef"><b>Definition:</b> <a href="_hard_link_dmb_provider_8cs_source.html#l00240">HardLinkDmbProvider.cs:240</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_swappable_dmb_provider_html_af603431ff704c7650bc544791c3149ad"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_swappable_dmb_provider.html#af603431ff704c7650bc544791c3149ad">Tgstation.Server.Host.Components.Deployment.SwappableDmbProvider.LinkFactory</a></div><div class="ttdeci">IFilesystemLinkFactory LinkFactory</div><div class="ttdoc">The IFilesystemLinkFactory to use.</div><div class="ttdef"><b>Definition:</b> <a href="_swappable_dmb_provider_8cs_source.html#l00050">SwappableDmbProvider.cs:50</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html">Tgstation.Server.Host.Utils.SemaphoreSlimContext</a></div><div class="ttdoc">Async lock context helper.</div><div class="ttdef"><b>Definition:</b> <a href="_semaphore_slim_context_8cs_source.html#l00010">SemaphoreSlimContext.cs:11</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context_html_a29773d588476671bbe480f096d839c91"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html#a29773d588476671bbe480f096d839c91">Tgstation.Server.Host.Utils.SemaphoreSlimContext.Lock</a></div><div class="ttdeci">static async ValueTask&lt; SemaphoreSlimContext &gt; Lock(SemaphoreSlim semaphore, CancellationToken cancellationToken)</div><div class="ttdoc">Asyncronously locks a semaphore .</div><div class="ttdef"><b>Definition:</b> <a href="_semaphore_slim_context_8cs_source.html#l00018">SemaphoreSlimContext.cs:18</a></div></div>
@@ -705,9 +738,9 @@ Here is the call graph for this function:</div>
 <div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager_html_a69aa1b9dbeb6af3744e568095c4376e7"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a69aa1b9dbeb6af3744e568095c4376e7">Tgstation.Server.Host.IO.IIOManager.CreateDirectory</a></div><div class="ttdeci">Task CreateDirectory(string path, CancellationToken cancellationToken)</div><div class="ttdoc">Create a directory at path .</div></div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_api_1_1_models_html_ad4850e6b78816679602b13d63d2869b5"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#ad4850e6b78816679602b13d63d2869b5">Tgstation.Server.Api.Models.DreamDaemonSecurity</a></div><div class="ttdeci">DreamDaemonSecurity</div><div class="ttdoc">DreamDaemon's security level.</div><div class="ttdef"><b>Definition:</b> <a href="_dream_daemon_security_8cs_source.html#l00006">DreamDaemonSecurity.cs:7</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a286f4eb5c679683b7e519847a6c3574e">Tgstation.Server.Host.IO.IIOManager.ConcatPath()</a>, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a69aa1b9dbeb6af3744e568095c4376e7">Tgstation.Server.Host.IO.IIOManager.CreateDirectory()</a>, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_filesystem_link_factory.html#a1928b5f0f5dd2e3e36ce03c7850a2f49">Tgstation.Server.Host.IO.IFilesystemLinkFactory.CreateHardLink()</a>, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_filesystem_link_factory.html#a0c13f92b0cab9a0e3028ec6eedbc38d9">Tgstation.Server.Host.IO.IFilesystemLinkFactory.CreateSymbolicLink()</a>, <a class="el" href="_swappable_dmb_provider_8cs_source.html#l00045">Tgstation.Server.Host.Components.Deployment.SwappableDmbProvider.IOManager</a>, <a class="el" href="_swappable_dmb_provider_8cs_source.html#l00050">Tgstation.Server.Host.Components.Deployment.SwappableDmbProvider.LinkFactory</a>, <a class="el" href="_semaphore_slim_context_8cs_source.html#l00018">Tgstation.Server.Host.Utils.SemaphoreSlimContext.Lock()</a>, <a class="el" href="_hard_link_dmb_provider_8cs_source.html#l00039">Tgstation.Server.Host.Components.Deployment.HardLinkDmbProvider.logger</a>, and <a class="el" href="_hard_link_dmb_provider_8cs_source.html#l00190">Tgstation.Server.Host.Components.Deployment.HardLinkDmbProvider.MirrorDirectoryImpl()</a>.</p>
+<p class="reference">References <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a286f4eb5c679683b7e519847a6c3574e">Tgstation.Server.Host.IO.IIOManager.ConcatPath()</a>, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a69aa1b9dbeb6af3744e568095c4376e7">Tgstation.Server.Host.IO.IIOManager.CreateDirectory()</a>, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_filesystem_link_factory.html#a1928b5f0f5dd2e3e36ce03c7850a2f49">Tgstation.Server.Host.IO.IFilesystemLinkFactory.CreateHardLink()</a>, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_filesystem_link_factory.html#a0c13f92b0cab9a0e3028ec6eedbc38d9">Tgstation.Server.Host.IO.IFilesystemLinkFactory.CreateSymbolicLink()</a>, <a class="el" href="_swappable_dmb_provider_8cs_source.html#l00045">Tgstation.Server.Host.Components.Deployment.SwappableDmbProvider.IOManager</a>, <a class="el" href="_swappable_dmb_provider_8cs_source.html#l00050">Tgstation.Server.Host.Components.Deployment.SwappableDmbProvider.LinkFactory</a>, <a class="el" href="_semaphore_slim_context_8cs_source.html#l00018">Tgstation.Server.Host.Utils.SemaphoreSlimContext.Lock()</a>, <a class="el" href="_hard_link_dmb_provider_8cs_source.html#l00039">Tgstation.Server.Host.Components.Deployment.HardLinkDmbProvider.logger</a>, and <a class="el" href="_hard_link_dmb_provider_8cs_source.html#l00240">Tgstation.Server.Host.Components.Deployment.HardLinkDmbProvider.MirrorDirectoryImpl()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_hard_link_dmb_provider_8cs_source.html#l00190">Tgstation.Server.Host.Components.Deployment.HardLinkDmbProvider.MirrorDirectoryImpl()</a>, and <a class="el" href="_hard_link_dmb_provider_8cs_source.html#l00151">Tgstation.Server.Host.Components.Deployment.HardLinkDmbProvider.MirrorSourceDirectory()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_hard_link_dmb_provider_8cs_source.html#l00240">Tgstation.Server.Host.Components.Deployment.HardLinkDmbProvider.MirrorDirectoryImpl()</a>, and <a class="el" href="_hard_link_dmb_provider_8cs_source.html#l00173">Tgstation.Server.Host.Components.Deployment.HardLinkDmbProvider.MirrorSourceDirectory()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -727,15 +760,15 @@ Here is the caller graph for this function:</div>
 <div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider_a9af3987ce607d6ddf3dae951e15e4a35_icgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider_a9af3987ce607d6ddf3dae951e15e4a35_icgraph" alt=""/></div>
 <map name="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider_a9af3987ce607d6ddf3dae951e15e4a35_icgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider_a9af3987ce607d6ddf3dae951e15e4a35_icgraph">
 <area shape="rect" title="Recursively create tasks to create a hard link directory mirror of src &#160;to dest ." alt="" coords="611,29,868,84"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider.html#aa2220a8b778d8540b60254764447e04f" title="Mirror the Models.CompileJob." alt="" coords="305,29,563,84"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider.html#ad08ecabc53051ac3615beccdd91e8bf6" title="Mirror the Models.CompileJob." alt="" coords="305,29,563,84"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider.html#a74e2be734ec8fd5b0d2fa135e4b5f06c" title="Initializes a new instance of the HardLinkDmbProvider class." alt="" coords="5,29,257,84"/>
 </map>
 </div>
 
 </div>
 </div>
-<a id="aa2220a8b778d8540b60254764447e04f" name="aa2220a8b778d8540b60254764447e04f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa2220a8b778d8540b60254764447e04f">&#9670;&#160;</a></span>MirrorSourceDirectory()</h2>
+<a id="ad08ecabc53051ac3615beccdd91e8bf6" name="ad08ecabc53051ac3615beccdd91e8bf6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad08ecabc53051ac3615beccdd91e8bf6">&#9670;&#160;</a></span>MirrorSourceDirectory()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -744,7 +777,7 @@ Here is the caller graph for this function:</div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">async Task&lt; string &gt; Tgstation.Server.Host.Components.Deployment.HardLinkDmbProvider.MirrorSourceDirectory </td>
+          <td class="memname">async Task&lt; string?&gt; Tgstation.Server.Host.Components.Deployment.HardLinkDmbProvider.MirrorSourceDirectory </td>
           <td>(</td>
           <td class="paramtype">int?&#160;</td>
           <td class="paramname"><em>taskThrottle</em>, </td>
@@ -785,46 +818,75 @@ Here is the caller graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in the full path to the mirrored directory.</dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_hard_link_dmb_provider_8cs_source.html#l00151">151</a> of file <a class="el" href="_hard_link_dmb_provider_8cs_source.html">HardLinkDmbProvider.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  152</span>        {</div>
-<div class="line"><span class="lineno">  153</span>            var stopwatch = Stopwatch.StartNew();</div>
-<div class="line"><span class="lineno">  154</span>            var mirrorGuid = Guid.NewGuid();</div>
-<div class="line"><span class="lineno">  155</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider.html#a574d6bc5aecda321226e1e9c42224e6a">logger</a>.LogDebug(<span class="stringliteral">&quot;Starting to mirror {sourceDir} as hard links to {mirrorGuid}...&quot;</span>, <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_swappable_dmb_provider.html#a7b81a4a7c82ee7315a525f1cd7b31bc9">CompileJob</a>.DirectoryName, mirrorGuid);</div>
-<div class="line"><span class="lineno">  156</span>            <span class="keywordflow">if</span> (taskThrottle.HasValue &amp;&amp; taskThrottle &lt; 1)</div>
-<div class="line"><span class="lineno">  157</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentOutOfRangeException(nameof(taskThrottle), taskThrottle, <span class="stringliteral">&quot;taskThrottle must be at least 1!&quot;</span>);</div>
-<div class="line"><span class="lineno">  158</span> </div>
-<div class="line"><span class="lineno">  159</span>            var src = <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_swappable_dmb_provider.html#a80675f8c3906c19eef50512e8e1aa9f9">IOManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a18a442b5dff16f5e7a730ec354e81d78">ResolvePath</a>(<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_swappable_dmb_provider.html#a7b81a4a7c82ee7315a525f1cd7b31bc9">CompileJob</a>.DirectoryName!.Value.ToString());</div>
-<div class="line"><span class="lineno">  160</span>            var dest = <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_swappable_dmb_provider.html#a80675f8c3906c19eef50512e8e1aa9f9">IOManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a18a442b5dff16f5e7a730ec354e81d78">ResolvePath</a>(mirrorGuid.ToString());</div>
-<div class="line"><span class="lineno">  161</span> </div>
-<div class="line"><span class="lineno">  162</span>            <span class="keyword">using </span>var semaphore = taskThrottle.HasValue ? <span class="keyword">new</span> SemaphoreSlim(taskThrottle.Value) : null;</div>
-<div class="line"><span class="lineno">  163</span>            await Task.WhenAll(<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider.html#a9af3987ce607d6ddf3dae951e15e4a35">MirrorDirectoryImpl</a>(</div>
-<div class="line"><span class="lineno">  164</span>                src,</div>
-<div class="line"><span class="lineno">  165</span>                dest,</div>
-<div class="line"><span class="lineno">  166</span>                semaphore,</div>
-<div class="line"><span class="lineno">  167</span>                securityLevel,</div>
-<div class="line"><span class="lineno">  168</span>                cancellationToken));</div>
-<div class="line"><span class="lineno">  169</span>            stopwatch.Stop();</div>
-<div class="line"><span class="lineno">  170</span> </div>
-<div class="line"><span class="lineno">  171</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider.html#a574d6bc5aecda321226e1e9c42224e6a">logger</a>.LogDebug(</div>
-<div class="line"><span class="lineno">  172</span>                <span class="stringliteral">&quot;Finished mirror of {sourceDir} to {mirrorGuid} in {seconds}s...&quot;</span>,</div>
-<div class="line"><span class="lineno">  173</span>                <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_swappable_dmb_provider.html#a7b81a4a7c82ee7315a525f1cd7b31bc9">CompileJob</a>.DirectoryName,</div>
-<div class="line"><span class="lineno">  174</span>                mirrorGuid,</div>
-<div class="line"><span class="lineno">  175</span>                stopwatch.Elapsed.TotalSeconds.ToString(<span class="stringliteral">&quot;0.##&quot;</span>, CultureInfo.InvariantCulture));</div>
-<div class="line"><span class="lineno">  176</span> </div>
-<div class="line"><span class="lineno">  177</span>            <span class="keywordflow">return</span> dest;</div>
-<div class="line"><span class="lineno">  178</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_hard_link_dmb_provider_8cs_source.html#l00173">173</a> of file <a class="el" href="_hard_link_dmb_provider_8cs_source.html">HardLinkDmbProvider.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  174</span>        {</div>
+<div class="line"><span class="lineno">  175</span>            <span class="keywordflow">if</span> (taskThrottle.HasValue &amp;&amp; taskThrottle &lt; 1)</div>
+<div class="line"><span class="lineno">  176</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentOutOfRangeException(nameof(taskThrottle), taskThrottle, <span class="stringliteral">&quot;taskThrottle must be at least 1!&quot;</span>);</div>
+<div class="line"><span class="lineno">  177</span> </div>
+<div class="line"><span class="lineno">  178</span>            <span class="keywordtype">string</span>? dest = <span class="keyword">null</span>;</div>
+<div class="line"><span class="lineno">  179</span>            <span class="keywordflow">try</span></div>
+<div class="line"><span class="lineno">  180</span>            {</div>
+<div class="line"><span class="lineno">  181</span>                var stopwatch = Stopwatch.StartNew();</div>
+<div class="line"><span class="lineno">  182</span>                var mirrorGuid = Guid.NewGuid();</div>
+<div class="line"><span class="lineno">  183</span> </div>
+<div class="line"><span class="lineno">  184</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider.html#a574d6bc5aecda321226e1e9c42224e6a">logger</a>.LogDebug(<span class="stringliteral">&quot;Starting to mirror {sourceDir} as hard links to {mirrorGuid}...&quot;</span>, <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_swappable_dmb_provider.html#a7b81a4a7c82ee7315a525f1cd7b31bc9">CompileJob</a>.DirectoryName, mirrorGuid);</div>
+<div class="line"><span class="lineno">  185</span> </div>
+<div class="line"><span class="lineno">  186</span>                var src = <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_swappable_dmb_provider.html#a80675f8c3906c19eef50512e8e1aa9f9">IOManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a18a442b5dff16f5e7a730ec354e81d78">ResolvePath</a>(<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_swappable_dmb_provider.html#a7b81a4a7c82ee7315a525f1cd7b31bc9">CompileJob</a>.DirectoryName!.Value.ToString());</div>
+<div class="line"><span class="lineno">  187</span>                dest = <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_swappable_dmb_provider.html#a80675f8c3906c19eef50512e8e1aa9f9">IOManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a18a442b5dff16f5e7a730ec354e81d78">ResolvePath</a>(mirrorGuid.ToString());</div>
+<div class="line"><span class="lineno">  188</span> </div>
+<div class="line"><span class="lineno">  189</span>                <span class="keyword">using </span>var semaphore = taskThrottle.HasValue ? <span class="keyword">new</span> SemaphoreSlim(taskThrottle.Value) : null;</div>
+<div class="line"><span class="lineno">  190</span>                await Task.WhenAll(<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider.html#a9af3987ce607d6ddf3dae951e15e4a35">MirrorDirectoryImpl</a>(</div>
+<div class="line"><span class="lineno">  191</span>                    src,</div>
+<div class="line"><span class="lineno">  192</span>                    dest,</div>
+<div class="line"><span class="lineno">  193</span>                    semaphore,</div>
+<div class="line"><span class="lineno">  194</span>                    securityLevel,</div>
+<div class="line"><span class="lineno">  195</span>                    cancellationToken));</div>
+<div class="line"><span class="lineno">  196</span>                stopwatch.Stop();</div>
+<div class="line"><span class="lineno">  197</span> </div>
+<div class="line"><span class="lineno">  198</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider.html#a574d6bc5aecda321226e1e9c42224e6a">logger</a>.LogDebug(</div>
+<div class="line"><span class="lineno">  199</span>                    <span class="stringliteral">&quot;Finished mirror of {sourceDir} to {mirrorGuid} in {seconds}s...&quot;</span>,</div>
+<div class="line"><span class="lineno">  200</span>                    <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_swappable_dmb_provider.html#a7b81a4a7c82ee7315a525f1cd7b31bc9">CompileJob</a>.DirectoryName,</div>
+<div class="line"><span class="lineno">  201</span>                    mirrorGuid,</div>
+<div class="line"><span class="lineno">  202</span>                    stopwatch.Elapsed.TotalSeconds.ToString(<span class="stringliteral">&quot;0.##&quot;</span>, CultureInfo.InvariantCulture));</div>
+<div class="line"><span class="lineno">  203</span>            }</div>
+<div class="line"><span class="lineno">  204</span>            <span class="keywordflow">catch</span> (OperationCanceledException ex)</div>
+<div class="line"><span class="lineno">  205</span>            {</div>
+<div class="line"><span class="lineno">  206</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider.html#a574d6bc5aecda321226e1e9c42224e6a">logger</a>.LogDebug(ex, <span class="stringliteral">&quot;Cancelled while mirroring&quot;</span>);</div>
+<div class="line"><span class="lineno">  207</span>            }</div>
+<div class="line"><span class="lineno">  208</span>            <span class="keywordflow">catch</span> (<a class="code hl_class" href="class_exception.html">Exception</a> ex)</div>
+<div class="line"><span class="lineno">  209</span>            {</div>
+<div class="line"><span class="lineno">  210</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider.html#a574d6bc5aecda321226e1e9c42224e6a">logger</a>.LogError(ex, <span class="stringliteral">&quot;Could not mirror!&quot;</span>);</div>
+<div class="line"><span class="lineno">  211</span> </div>
+<div class="line"><span class="lineno">  212</span>                <span class="keywordflow">if</span> (dest != <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">  213</span>                    <span class="keywordflow">try</span></div>
+<div class="line"><span class="lineno">  214</span>                    {</div>
+<div class="line"><span class="lineno">  215</span>                        <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider.html#a574d6bc5aecda321226e1e9c42224e6a">logger</a>.LogDebug(<span class="stringliteral">&quot;Cleaning up mirror attempt: {dest}&quot;</span>, dest);</div>
+<div class="line"><span class="lineno">  216</span>                        await <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_swappable_dmb_provider.html#a80675f8c3906c19eef50512e8e1aa9f9">IOManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ad3e0dda4b7fbad4c77f48ba3b2681dc7">DeleteDirectory</a>(dest, cancellationToken);</div>
+<div class="line"><span class="lineno">  217</span>                    }</div>
+<div class="line"><span class="lineno">  218</span>                    <span class="keywordflow">catch</span> (OperationCanceledException ex2)</div>
+<div class="line"><span class="lineno">  219</span>                    {</div>
+<div class="line"><span class="lineno">  220</span>                        <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider.html#a574d6bc5aecda321226e1e9c42224e6a">logger</a>.LogDebug(ex2, <span class="stringliteral">&quot;Errored cleanup cancellation edge case!&quot;</span>);</div>
+<div class="line"><span class="lineno">  221</span>                        <span class="keywordflow">return</span> dest;</div>
+<div class="line"><span class="lineno">  222</span>                    }</div>
+<div class="line"><span class="lineno">  223</span> </div>
+<div class="line"><span class="lineno">  224</span>                <span class="keywordflow">return</span> <span class="keyword">null</span>;</div>
+<div class="line"><span class="lineno">  225</span>            }</div>
+<div class="line"><span class="lineno">  226</span> </div>
+<div class="line"><span class="lineno">  227</span>            <span class="keywordflow">return</span> dest;</div>
+<div class="line"><span class="lineno">  228</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_swappable_dmb_provider_html_a7b81a4a7c82ee7315a525f1cd7b31bc9"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_swappable_dmb_provider.html#a7b81a4a7c82ee7315a525f1cd7b31bc9">Tgstation.Server.Host.Components.Deployment.SwappableDmbProvider.CompileJob</a></div><div class="ttdeci">Models.CompileJob CompileJob</div><div class="ttdoc">The CompileJob of the .dmb.</div><div class="ttdef"><b>Definition:</b> <a href="_swappable_dmb_provider_8cs_source.html#l00027">SwappableDmbProvider.cs:27</a></div></div>
 <div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager_html_a18a442b5dff16f5e7a730ec354e81d78"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a18a442b5dff16f5e7a730ec354e81d78">Tgstation.Server.Host.IO.IIOManager.ResolvePath</a></div><div class="ttdeci">string ResolvePath()</div><div class="ttdoc">Retrieve the full path of the current working directory.</div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_swappable_dmb_provider_8cs_source.html#l00027">Tgstation.Server.Host.Components.Deployment.SwappableDmbProvider.CompileJob</a>, <a class="el" href="_swappable_dmb_provider_8cs_source.html#l00045">Tgstation.Server.Host.Components.Deployment.SwappableDmbProvider.IOManager</a>, <a class="el" href="_hard_link_dmb_provider_8cs_source.html#l00039">Tgstation.Server.Host.Components.Deployment.HardLinkDmbProvider.logger</a>, <a class="el" href="_hard_link_dmb_provider_8cs_source.html#l00190">Tgstation.Server.Host.Components.Deployment.HardLinkDmbProvider.MirrorDirectoryImpl()</a>, and <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a18a442b5dff16f5e7a730ec354e81d78">Tgstation.Server.Host.IO.IIOManager.ResolvePath()</a>.</p>
+<p class="reference">References <a class="el" href="_swappable_dmb_provider_8cs_source.html#l00027">Tgstation.Server.Host.Components.Deployment.SwappableDmbProvider.CompileJob</a>, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ad3e0dda4b7fbad4c77f48ba3b2681dc7">Tgstation.Server.Host.IO.IIOManager.DeleteDirectory()</a>, <a class="el" href="_swappable_dmb_provider_8cs_source.html#l00045">Tgstation.Server.Host.Components.Deployment.SwappableDmbProvider.IOManager</a>, <a class="el" href="_hard_link_dmb_provider_8cs_source.html#l00039">Tgstation.Server.Host.Components.Deployment.HardLinkDmbProvider.logger</a>, <a class="el" href="_hard_link_dmb_provider_8cs_source.html#l00240">Tgstation.Server.Host.Components.Deployment.HardLinkDmbProvider.MirrorDirectoryImpl()</a>, and <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a18a442b5dff16f5e7a730ec354e81d78">Tgstation.Server.Host.IO.IIOManager.ResolvePath()</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="_hard_link_dmb_provider_8cs_source.html#l00050">Tgstation.Server.Host.Components.Deployment.HardLinkDmbProvider.HardLinkDmbProvider()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider_aa2220a8b778d8540b60254764447e04f_cgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider_aa2220a8b778d8540b60254764447e04f_cgraph" alt=""/></div>
-<map name="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider_aa2220a8b778d8540b60254764447e04f_cgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider_aa2220a8b778d8540b60254764447e04f_cgraph">
-<area shape="rect" title="Mirror the Models.CompileJob." alt="" coords="5,162,263,217"/>
+<div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider_ad08ecabc53051ac3615beccdd91e8bf6_cgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider_ad08ecabc53051ac3615beccdd91e8bf6_cgraph" alt=""/></div>
+<map name="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider_ad08ecabc53051ac3615beccdd91e8bf6_cgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider_ad08ecabc53051ac3615beccdd91e8bf6_cgraph">
+<area shape="rect" title="Mirror the Models.CompileJob." alt="" coords="5,126,263,181"/>
+<area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ad3e0dda4b7fbad4c77f48ba3b2681dc7" title="Recursively delete a directory, removes and does not enter any symlinks encounterd." alt="" coords="349,37,530,77"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider.html#a9af3987ce607d6ddf3dae951e15e4a35" title="Recursively create tasks to create a hard link directory mirror of src &#160;to dest ." alt="" coords="311,126,568,181"/>
 <area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a18a442b5dff16f5e7a730ec354e81d78" title="Retrieve the full path of the current working directory." alt="" coords="355,205,523,245"/>
 <area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a286f4eb5c679683b7e519847a6c3574e" title="Combines an array of strings into a path." alt="" coords="670,5,838,45"/>
@@ -837,8 +899,8 @@ Here is the call graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider_aa2220a8b778d8540b60254764447e04f_icgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider_aa2220a8b778d8540b60254764447e04f_icgraph" alt=""/></div>
-<map name="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider_aa2220a8b778d8540b60254764447e04f_icgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider_aa2220a8b778d8540b60254764447e04f_icgraph">
+<div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider_ad08ecabc53051ac3615beccdd91e8bf6_icgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider_ad08ecabc53051ac3615beccdd91e8bf6_icgraph" alt=""/></div>
+<map name="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider_ad08ecabc53051ac3615beccdd91e8bf6_icgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider_ad08ecabc53051ac3615beccdd91e8bf6_icgraph">
 <area shape="rect" title="Mirror the Models.CompileJob." alt="" coords="305,5,563,60"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider.html#a74e2be734ec8fd5b0d2fa135e4b5f06c" title="Initializes a new instance of the HardLinkDmbProvider class." alt="" coords="5,5,257,60"/>
 </map>
@@ -867,7 +929,7 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p>The CancellationTokenSource for <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider.html#a2f6787cc1696f599b1ada73b71b2eea4" title="The Task representing the base provider mirroring operation.">mirroringTask</a>.  </p>
+<p>The CancellationTokenSource for <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider.html#a0996d620c0d60f66af3604aec9b150c2" title="The Task representing the base provider mirroring operation.">mirroringTask</a>.  </p>
 
 <p class="definition">Definition at line <a class="el" href="_hard_link_dmb_provider_8cs_source.html#l00029">29</a> of file <a class="el" href="_hard_link_dmb_provider_8cs_source.html">HardLinkDmbProvider.cs</a>.</p>
 
@@ -899,12 +961,12 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_hard_link_dmb_provider_8cs_source.html#l00039">39</a> of file <a class="el" href="_hard_link_dmb_provider_8cs_source.html">HardLinkDmbProvider.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_hard_link_dmb_provider_8cs_source.html#l00076">Tgstation.Server.Host.Components.Deployment.HardLinkDmbProvider.DisposeAsync()</a>, <a class="el" href="_hard_link_dmb_provider_8cs_source.html#l00102">Tgstation.Server.Host.Components.Deployment.HardLinkDmbProvider.DoSwap()</a>, <a class="el" href="_hard_link_dmb_provider_8cs_source.html#l00093">Tgstation.Server.Host.Components.Deployment.HardLinkDmbProvider.FinishActivationPreparation()</a>, <a class="el" href="_hard_link_dmb_provider_8cs_source.html#l00050">Tgstation.Server.Host.Components.Deployment.HardLinkDmbProvider.HardLinkDmbProvider()</a>, <a class="el" href="_hard_link_dmb_provider_8cs_source.html#l00190">Tgstation.Server.Host.Components.Deployment.HardLinkDmbProvider.MirrorDirectoryImpl()</a>, and <a class="el" href="_hard_link_dmb_provider_8cs_source.html#l00151">Tgstation.Server.Host.Components.Deployment.HardLinkDmbProvider.MirrorSourceDirectory()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_hard_link_dmb_provider_8cs_source.html#l00076">Tgstation.Server.Host.Components.Deployment.HardLinkDmbProvider.DisposeAsync()</a>, <a class="el" href="_hard_link_dmb_provider_8cs_source.html#l00116">Tgstation.Server.Host.Components.Deployment.HardLinkDmbProvider.DoSwap()</a>, <a class="el" href="_hard_link_dmb_provider_8cs_source.html#l00107">Tgstation.Server.Host.Components.Deployment.HardLinkDmbProvider.FinishActivationPreparation()</a>, <a class="el" href="_hard_link_dmb_provider_8cs_source.html#l00050">Tgstation.Server.Host.Components.Deployment.HardLinkDmbProvider.HardLinkDmbProvider()</a>, <a class="el" href="_hard_link_dmb_provider_8cs_source.html#l00240">Tgstation.Server.Host.Components.Deployment.HardLinkDmbProvider.MirrorDirectoryImpl()</a>, and <a class="el" href="_hard_link_dmb_provider_8cs_source.html#l00173">Tgstation.Server.Host.Components.Deployment.HardLinkDmbProvider.MirrorSourceDirectory()</a>.</p>
 
 </div>
 </div>
-<a id="a2f6787cc1696f599b1ada73b71b2eea4" name="a2f6787cc1696f599b1ada73b71b2eea4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2f6787cc1696f599b1ada73b71b2eea4">&#9670;&#160;</a></span>mirroringTask</h2>
+<a id="a0996d620c0d60f66af3604aec9b150c2" name="a0996d620c0d60f66af3604aec9b150c2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0996d620c0d60f66af3604aec9b150c2">&#9670;&#160;</a></span>mirroringTask</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -913,7 +975,7 @@ Here is the caller graph for this function:</div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">readonly Task&lt;string&gt; Tgstation.Server.Host.Components.Deployment.HardLinkDmbProvider.mirroringTask</td>
+          <td class="memname">readonly Task&lt;string?&gt; Tgstation.Server.Host.Components.Deployment.HardLinkDmbProvider.mirroringTask</td>
         </tr>
       </table>
   </td>
@@ -927,7 +989,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_hard_link_dmb_provider_8cs_source.html#l00034">34</a> of file <a class="el" href="_hard_link_dmb_provider_8cs_source.html">HardLinkDmbProvider.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_hard_link_dmb_provider_8cs_source.html#l00076">Tgstation.Server.Host.Components.Deployment.HardLinkDmbProvider.DisposeAsync()</a>, <a class="el" href="_hard_link_dmb_provider_8cs_source.html#l00102">Tgstation.Server.Host.Components.Deployment.HardLinkDmbProvider.DoSwap()</a>, <a class="el" href="_hard_link_dmb_provider_8cs_source.html#l00093">Tgstation.Server.Host.Components.Deployment.HardLinkDmbProvider.FinishActivationPreparation()</a>, and <a class="el" href="_hard_link_dmb_provider_8cs_source.html#l00050">Tgstation.Server.Host.Components.Deployment.HardLinkDmbProvider.HardLinkDmbProvider()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_hard_link_dmb_provider_8cs_source.html#l00076">Tgstation.Server.Host.Components.Deployment.HardLinkDmbProvider.DisposeAsync()</a>, <a class="el" href="_hard_link_dmb_provider_8cs_source.html#l00116">Tgstation.Server.Host.Components.Deployment.HardLinkDmbProvider.DoSwap()</a>, <a class="el" href="_hard_link_dmb_provider_8cs_source.html#l00107">Tgstation.Server.Host.Components.Deployment.HardLinkDmbProvider.FinishActivationPreparation()</a>, and <a class="el" href="_hard_link_dmb_provider_8cs_source.html#l00050">Tgstation.Server.Host.Components.Deployment.HardLinkDmbProvider.HardLinkDmbProvider()</a>.</p>
 
 </div>
 </div>

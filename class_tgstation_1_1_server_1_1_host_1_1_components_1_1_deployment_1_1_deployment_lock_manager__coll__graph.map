@@ -1,0 +1,10 @@
+<map id="Tgstation.Server.Host.Components.Deployment.DeploymentLockManager" name="Tgstation.Server.Host.Components.Deployment.DeploymentLockManager">
+<area shape="rect" id="node1" title="Manages locks on a given IDmbProvider." alt="" coords="884,102,1124,142"/>
+<area shape="rect" id="node2" href="$class_i_async_disposable.html" title=" " alt="" coords="5,47,132,72"/>
+<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_dmb_provider.html" title="Provides absolute paths to the latest compiled .dmbs." alt="" coords="181,40,408,80"/>
+<area shape="rect" id="node7" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_dmb_provider.html" title="Provides absolute paths to the latest compiled .dmbs." alt="" coords="244,104,345,130"/>
+<area shape="rect" id="node3" title=" " alt="" coords="603,167,721,192"/>
+<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dmb_lock.html" title="Represents a lock on a given IDmbProvider." alt="" coords="549,102,775,142"/>
+<area shape="rect" id="node5" title=" " alt="" coords="541,216,783,271"/>
+<area shape="rect" id="node8" title=" " alt="" coords="201,155,388,180"/>
+</map>

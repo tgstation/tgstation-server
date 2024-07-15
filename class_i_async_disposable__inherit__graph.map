@@ -1,47 +1,49 @@
 <map id="IAsyncDisposable" name="IAsyncDisposable">
-<area shape="rect" id="node1" title=" " alt="" coords="5,607,132,633"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_client_1_1_i_api_client.html" title="Web interface for the API." alt="" coords="215,11,371,51"/>
-<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_client_1_1_i_server_client.html" title="Main client for communicating with a server." alt="" coords="215,80,371,120"/>
-<area shape="rect" id="node6" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager.html" title="For managing connected chat services." alt="" coords="180,155,407,195"/>
-<area shape="rect" id="node8" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_i_provider.html" title="For interacting with a chat service." alt="" coords="180,239,407,279"/>
-<area shape="rect" id="node12" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_dmb_provider.html" title="Provides absolute paths to the latest compiled .dmbs." alt="" coords="180,344,407,384"/>
-<area shape="rect" id="node19" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installation_data.html" title="Wraps data containing an engine installation." alt="" coords="180,440,407,480"/>
-<area shape="rect" id="node22" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance.html" title="Component version of IInstanceCore." alt="" coords="180,504,407,544"/>
-<area shape="rect" id="node24" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html" title=" " alt="" coords="180,568,407,608"/>
-<area shape="rect" id="node25" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_i_session_controller.html" title="Handles communication with a DreamDaemon IProcess." alt="" coords="180,632,407,672"/>
-<area shape="rect" id="node27" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_watchdog.html" title="Runs and monitors the twin server controllers." alt="" coords="180,696,407,736"/>
-<area shape="rect" id="node33" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_file_stream_provider.html" title="Interface for asynchronously consuming Streams of files." alt="" coords="209,760,377,800"/>
-<area shape="rect" id="node40" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_identity_cache.html" title=" " alt="" coords="193,824,394,864"/>
-<area shape="rect" id="node41" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_identity_cache_object.html" title="For keeping a specific ISystemIdentity alive for a period of time." alt="" coords="193,888,394,928"/>
-<area shape="rect" id="node42" href="$class_tgstation_1_1_server_1_1_host_1_1_service_1_1_service_lifetime.html" title="Represents the lifetime of the service." alt="" coords="194,952,393,992"/>
-<area shape="rect" id="node43" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process.html" title="Abstraction over a global::System.Diagnostics.Process." alt="" coords="194,1016,393,1056"/>
-<area shape="rect" id="node45" href="$class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_transfer_service.html" title="Implementation of the file transfer service." alt="" coords="192,1080,395,1120"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_client_1_1_api_client.html" title=" " alt="" coords="504,5,660,45"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_client_1_1_server_client.html" title=" " alt="" coords="504,69,660,109"/>
-<area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html" title=" " alt="" coords="469,133,695,173"/>
-<area shape="rect" id="node9" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html" title=" " alt="" coords="469,197,695,237"/>
-<area shape="rect" id="node10" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html" title="IProvider for the Discord app." alt="" coords="759,127,985,167"/>
-<area shape="rect" id="node11" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_irc_provider.html" title="IProvider for internet relay chat." alt="" coords="759,191,985,231"/>
-<area shape="rect" id="node13" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dmb_provider.html" title=" " alt="" coords="759,255,985,295"/>
-<area shape="rect" id="node14" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dmb_provider_base.html" title=" " alt="" coords="469,312,695,352"/>
-<area shape="rect" id="node16" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_swappable_dmb_provider.html" title="A IDmbProvider that uses filesystem links to change directory structure underneath the server process..." alt="" coords="466,376,698,416"/>
-<area shape="rect" id="node15" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_temporary_dmb_provider.html" title="Temporary IDmbProvider." alt="" coords="757,319,987,359"/>
-<area shape="rect" id="node17" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider.html" title="A IDmbProvider that uses hard links." alt="" coords="759,383,985,423"/>
-<area shape="rect" id="node18" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_symlink_dmb_provider.html" title="A IDmbProvider that uses symlinks." alt="" coords="759,447,985,487"/>
-<area shape="rect" id="node20" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_repository_engine_installation_data.html" title="Implementation of IEngineInstallationData using a IRepository." alt="" coords="455,440,709,480"/>
-<area shape="rect" id="node21" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_zip_stream_engine_installation_data.html" title="Implementation of IEngineInstallationData for a zip file in a Stream." alt="" coords="455,504,709,544"/>
-<area shape="rect" id="node23" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html" title=" " alt="" coords="469,568,695,608"/>
-<area shape="rect" id="node26" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html" title=" " alt="" coords="469,632,695,672"/>
-<area shape="rect" id="node28" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html" title="Base class for IWatchdogs." alt="" coords="469,696,695,736"/>
-<area shape="rect" id="node29" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_basic_watchdog.html" title="A IWatchdog that manages one server." alt="" coords="759,696,985,736"/>
-<area shape="rect" id="node30" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_advanced_watchdog.html" title="A IWatchdog that, instead of killing servers for updates, uses the wonders of filesystem links to swa..." alt="" coords="1035,696,1261,736"/>
-<area shape="rect" id="node31" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_posix_watchdog.html" title="A variant of the AdvancedWatchdog that works on POSIX systems." alt="" coords="1309,664,1536,704"/>
-<area shape="rect" id="node32" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_windows_watchdog.html" title="A variant of the AdvancedWatchdog that works on Windows systems." alt="" coords="1309,728,1536,768"/>
-<area shape="rect" id="node34" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_results_1_1_limited_stream_result.html" title="Very similar to FileStreamResult except it&#39;s IActionResultExecutor&lt;TResult&gt; contains a fix for https:..." alt="" coords="474,760,690,800"/>
-<area shape="rect" id="node35" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_seekable_file_stream_provider.html" title="IFileStreamProvider that provides MemoryStreams." alt="" coords="487,824,677,864"/>
-<area shape="rect" id="node37" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_request_file_stream_provider.html" title="A IFileStreamProvider that represents the response of HttpRequestMessages." alt="" coords="491,888,673,928"/>
-<area shape="rect" id="node38" href="$interface_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_i_file_upload_ticket.html" title="A FileTicketResponse that waits for a pending upload." alt="" coords="481,952,683,992"/>
-<area shape="rect" id="node36" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_buffered_file_stream_provider.html" title="IFileStreamProvider that provides a ISeekableFileStreamProvider from an input Stream." alt="" coords="781,824,963,864"/>
-<area shape="rect" id="node39" href="$class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_upload_provider.html" title=" " alt="" coords="771,952,973,992"/>
-<area shape="rect" id="node44" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process.html" title=" " alt="" coords="483,1016,681,1056"/>
+<area shape="rect" id="node1" title=" " alt="" coords="5,639,132,665"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_client_1_1_i_api_client.html" title="Web interface for the API." alt="" coords="222,11,378,51"/>
+<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_client_1_1_i_server_client.html" title="Main client for communicating with a server." alt="" coords="222,80,378,120"/>
+<area shape="rect" id="node6" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager.html" title="For managing connected chat services." alt="" coords="187,155,413,195"/>
+<area shape="rect" id="node8" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_i_provider.html" title="For interacting with a chat service." alt="" coords="187,239,413,279"/>
+<area shape="rect" id="node12" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_deployment_lock_manager.html" title="Manages locks on a given IDmbProvider." alt="" coords="180,344,420,384"/>
+<area shape="rect" id="node13" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_dmb_provider.html" title="Provides absolute paths to the latest compiled .dmbs." alt="" coords="187,408,413,448"/>
+<area shape="rect" id="node21" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installation_data.html" title="Wraps data containing an engine installation." alt="" coords="187,504,413,544"/>
+<area shape="rect" id="node24" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance.html" title="Component version of IInstanceCore." alt="" coords="187,568,413,608"/>
+<area shape="rect" id="node26" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html" title=" " alt="" coords="187,632,413,672"/>
+<area shape="rect" id="node27" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_i_session_controller.html" title="Handles communication with a DreamDaemon IProcess." alt="" coords="187,696,413,736"/>
+<area shape="rect" id="node29" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_watchdog.html" title="Runs and monitors the twin server controllers." alt="" coords="187,760,413,800"/>
+<area shape="rect" id="node35" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_file_stream_provider.html" title="Interface for asynchronously consuming Streams of files." alt="" coords="216,824,384,864"/>
+<area shape="rect" id="node42" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_identity_cache.html" title=" " alt="" coords="199,888,401,928"/>
+<area shape="rect" id="node43" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_identity_cache_object.html" title="For keeping a specific ISystemIdentity alive for a period of time." alt="" coords="199,952,401,992"/>
+<area shape="rect" id="node44" href="$class_tgstation_1_1_server_1_1_host_1_1_service_1_1_service_lifetime.html" title="Represents the lifetime of the service." alt="" coords="201,1016,399,1056"/>
+<area shape="rect" id="node45" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process.html" title="Abstraction over a global::System.Diagnostics.Process." alt="" coords="201,1080,399,1120"/>
+<area shape="rect" id="node47" href="$class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_transfer_service.html" title="Implementation of the file transfer service." alt="" coords="199,1144,401,1184"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_client_1_1_api_client.html" title=" " alt="" coords="517,5,673,45"/>
+<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_client_1_1_server_client.html" title=" " alt="" coords="517,69,673,109"/>
+<area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html" title=" " alt="" coords="482,133,709,173"/>
+<area shape="rect" id="node9" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html" title=" " alt="" coords="482,197,709,237"/>
+<area shape="rect" id="node10" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html" title="IProvider for the Discord app." alt="" coords="772,159,999,199"/>
+<area shape="rect" id="node11" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_irc_provider.html" title="IProvider for internet relay chat." alt="" coords="772,223,999,263"/>
+<area shape="rect" id="node14" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dmb_lock.html" title="Represents a lock on a given IDmbProvider." alt="" coords="482,261,709,301"/>
+<area shape="rect" id="node15" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dmb_provider.html" title=" " alt="" coords="772,312,999,352"/>
+<area shape="rect" id="node16" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dmb_provider_base.html" title=" " alt="" coords="482,376,709,416"/>
+<area shape="rect" id="node18" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_swappable_dmb_provider.html" title="A IDmbProvider that uses filesystem links to change directory structure underneath the server process..." alt="" coords="479,440,711,480"/>
+<area shape="rect" id="node17" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_temporary_dmb_provider.html" title="Temporary IDmbProvider." alt="" coords="771,376,1000,416"/>
+<area shape="rect" id="node19" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_hard_link_dmb_provider.html" title="A IDmbProvider that uses hard links." alt="" coords="772,440,999,480"/>
+<area shape="rect" id="node20" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_symlink_dmb_provider.html" title="A IDmbProvider that uses symlinks." alt="" coords="772,504,999,544"/>
+<area shape="rect" id="node22" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_repository_engine_installation_data.html" title="Implementation of IEngineInstallationData using a IRepository." alt="" coords="468,504,723,544"/>
+<area shape="rect" id="node23" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_zip_stream_engine_installation_data.html" title="Implementation of IEngineInstallationData for a zip file in a Stream." alt="" coords="469,568,722,608"/>
+<area shape="rect" id="node25" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html" title=" " alt="" coords="482,632,709,672"/>
+<area shape="rect" id="node28" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html" title=" " alt="" coords="482,696,709,736"/>
+<area shape="rect" id="node30" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html" title="Base class for IWatchdogs." alt="" coords="482,760,709,800"/>
+<area shape="rect" id="node31" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_basic_watchdog.html" title="A IWatchdog that manages one server." alt="" coords="772,760,999,800"/>
+<area shape="rect" id="node32" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_advanced_watchdog.html" title="A IWatchdog that, instead of killing servers for updates, uses the wonders of filesystem links to swa..." alt="" coords="1048,760,1275,800"/>
+<area shape="rect" id="node33" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_posix_watchdog.html" title="A variant of the AdvancedWatchdog that works on POSIX systems." alt="" coords="1323,728,1549,768"/>
+<area shape="rect" id="node34" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_windows_watchdog.html" title="A variant of the AdvancedWatchdog that works on Windows systems." alt="" coords="1323,792,1549,832"/>
+<area shape="rect" id="node36" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_results_1_1_limited_stream_result.html" title="Very similar to FileStreamResult except it&#39;s IActionResultExecutor&lt;TResult&gt; contains a fix for https:..." alt="" coords="487,824,703,864"/>
+<area shape="rect" id="node37" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_seekable_file_stream_provider.html" title="IFileStreamProvider that provides MemoryStreams." alt="" coords="500,888,691,928"/>
+<area shape="rect" id="node39" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_request_file_stream_provider.html" title="A IFileStreamProvider that represents the response of HttpRequestMessages." alt="" coords="505,952,686,992"/>
+<area shape="rect" id="node40" href="$interface_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_i_file_upload_ticket.html" title="A FileTicketResponse that waits for a pending upload." alt="" coords="494,1016,697,1056"/>
+<area shape="rect" id="node38" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_buffered_file_stream_provider.html" title="IFileStreamProvider that provides a ISeekableFileStreamProvider from an input Stream." alt="" coords="795,888,976,928"/>
+<area shape="rect" id="node41" href="$class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_upload_provider.html" title=" " alt="" coords="784,1016,987,1056"/>
+<area shape="rect" id="node46" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process.html" title=" " alt="" coords="496,1080,695,1120"/>
 </map>
