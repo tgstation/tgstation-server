@@ -232,7 +232,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <inheritdoc />
 		protected sealed override async ValueTask HandleNewDmbAvailable(CancellationToken cancellationToken)
 		{
-			IDmbProvider compileJobProvider = DmbFactory.LockNextDmb(1);
+			IDmbProvider compileJobProvider = DmbFactory.LockNextDmb("AdvancedWatchdog next compile job preload");
 			bool canSeamlesslySwap = CanUseSwappableDmbProvider(compileJobProvider);
 			if (canSeamlesslySwap)
 				if (compileJobProvider.CompileJob.EngineVersion != ActiveCompileJob!.EngineVersion)

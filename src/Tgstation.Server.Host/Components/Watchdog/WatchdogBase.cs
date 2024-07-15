@@ -42,10 +42,11 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		public WatchdogStatus Status
 		{
 			get => status;
-			set
+			protected set
 			{
+				var oldStatus = status;
 				status = value;
-				Logger.LogTrace("Status set to {status}", status);
+				Logger.LogTrace("Status set from {oldStatus} to {status}", oldStatus, status);
 			}
 		}
 
@@ -814,21 +815,18 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// </summary>
 		/// <param name="currentCompileJob">The session's current <see cref="CompileJob"/>.</param>
 		/// <returns>A <see cref="Task"/> that completes if and when a newer <see cref="CompileJob"/> is available.</returns>
-		Task InitialCheckDmbUpdated(CompileJob currentCompileJob)
+		async Task InitialCheckDmbUpdated(CompileJob currentCompileJob)
 		{
 			var factoryTask = DmbFactory.OnNewerDmb;
 
-			var latestCompileJob = DmbFactory.LatestCompileJob();
-			if (latestCompileJob == null)
-				return factoryTask;
-
-			if (latestCompileJob.Id != currentCompileJob.Id)
+			var latestCompileJob = await DmbFactory.LatestCompileJob();
+			if (latestCompileJob != null && latestCompileJob.Id != currentCompileJob.Id)
 			{
 				Logger.LogDebug("Found new CompileJob without waiting");
-				return Task.CompletedTask;
+				return;
 			}
 
-			return factoryTask;
+			await factoryTask;
 		}
 
 		/// <summary>

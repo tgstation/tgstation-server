@@ -1,4 +1,6 @@
-﻿using Tgstation.Server.Host.Models;
+﻿using System.Threading.Tasks;
+
+using Tgstation.Server.Host.Models;
 
 namespace Tgstation.Server.Host.Components.Deployment
 {
@@ -10,7 +12,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 		/// <summary>
 		/// Gets the latest <see cref="CompileJob"/>.
 		/// </summary>
-		/// <returns>The latest <see cref="CompileJob"/> or <see langword="null"/> if none are available.</returns>
-		CompileJob? LatestCompileJob();
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the latest <see cref="CompileJob"/> or <see langword="null"/> if none are available.</returns>
+		ValueTask<CompileJob?> LatestCompileJob();
 	}
 }

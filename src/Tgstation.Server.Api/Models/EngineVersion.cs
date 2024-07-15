@@ -13,6 +13,11 @@ namespace Tgstation.Server.Api.Models
 	public sealed class EngineVersion : IEquatable<EngineVersion>
 	{
 		/// <summary>
+		/// An array of a single '-' <see cref="char"/>.
+		/// </summary>
+		static readonly char[] DashChar = ['-'];
+
+		/// <summary>
 		/// The <see cref="EngineType"/>.
 		/// </summary>
 		[RequestOptions(FieldPresence.Required)]
@@ -48,7 +53,7 @@ namespace Tgstation.Server.Api.Models
 			if (input == null)
 				throw new ArgumentNullException(nameof(input));
 
-			var splits = input.Split(new char[] { '-' }, StringSplitOptions.RemoveEmptyEntries);
+			var splits = input.Split(DashChar, StringSplitOptions.RemoveEmptyEntries);
 			engineVersion = null;
 
 			if (splits.Length > 3)

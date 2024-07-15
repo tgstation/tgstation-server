@@ -595,6 +595,8 @@ namespace Tgstation.Server.Tests.Live.Instance
 			Assert.IsNull(daemonStatus.ActiveCompileJob.DMApiVersion);
 			Assert.AreEqual(DreamDaemonSecurity.Ultrasafe, daemonStatus.ActiveCompileJob.MinimumSecurityLevel);
 
+			await ExpectGameDirectoryCount(1, cancellationToken);
+
 			var startJob = await StartDD(cancellationToken);
 
 			await WaitForJob(startJob, 40, false, null, cancellationToken);
@@ -618,11 +620,39 @@ namespace Tgstation.Server.Tests.Live.Instance
 			Assert.AreEqual(initialCompileJob.Id, daemonStatus.ActiveCompileJob.Id);
 			var newerCompileJob = daemonStatus.StagedCompileJob;
 
+			await ExpectGameDirectoryCount(2, cancellationToken);
+
 			Assert.IsNotNull(newerCompileJob);
 			Assert.AreNotEqual(initialCompileJob.Id, newerCompileJob.Id);
 			Assert.AreEqual(DreamDaemonSecurity.Trusted, newerCompileJob.MinimumSecurityLevel);
 			Assert.AreEqual(DMApiConstants.InteropVersion, daemonStatus.StagedCompileJob.DMApiVersion);
 			await instanceClient.DreamDaemon.Shutdown(cancellationToken);
+
+			await ExpectGameDirectoryCount(1, cancellationToken);
+		}
+
+		public async ValueTask ExpectGameDirectoryCount(int expected, CancellationToken cancellationToken)
+		{
+			string[] lastDirectories;
+			int CountNonLiveDirs()
+			{
+				lastDirectories = Directory.GetDirectories(Path.Combine(instanceClient.Metadata.Path, "Game"));
+				return lastDirectories.Where(directory => Path.GetFileName(directory) != "Live").Count();
+			}
+
+			int nonLiveDirs = 0;
+			// cleanup task is async
+			for(var i = 0; i < 20; ++i)
+			{
+				nonLiveDirs = CountNonLiveDirs();
+				if (expected == nonLiveDirs)
+					return;
+
+				await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);
+			}
+
+			nonLiveDirs = CountNonLiveDirs();
+			Assert.AreEqual(expected, nonLiveDirs, $"Directories present: {String.Join(", ", lastDirectories.Select(Path.GetFileName))}");
 		}
 
 		async Task RunBasicTest(CancellationToken cancellationToken)
@@ -642,6 +672,8 @@ namespace Tgstation.Server.Tests.Live.Instance
 			Assert.IsNull(daemonStatus.StagedCompileJob);
 			Assert.AreEqual(DMApiConstants.InteropVersion, daemonStatus.ActiveCompileJob.DMApiVersion);
 			Assert.AreEqual(DreamDaemonSecurity.Trusted, daemonStatus.ActiveCompileJob.MinimumSecurityLevel);
+
+			await ExpectGameDirectoryCount(1, cancellationToken);
 
 			JobResponse startJob;
 			if (new PlatformIdentifier().IsWindows) // Can't get address reuse to trigger on linux for some reason
@@ -683,6 +715,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			daemonStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
 			Assert.AreEqual(WatchdogStatus.Offline, daemonStatus.Status.Value);
 			Assert.IsFalse(daemonStatus.SessionId.HasValue);
+			await ExpectGameDirectoryCount(1, cancellationToken);
 
 			await CheckDMApiFail(daemonStatus.ActiveCompileJob, cancellationToken, false);
 
@@ -1069,6 +1102,15 @@ namespace Tgstation.Server.Tests.Live.Instance
 		// - Injects a custom bridge handler into the bridge registrar and makes the test hack into the DMAPI and change its access_identifier
 		async Task WhiteBoxChatCommandTest(CancellationToken cancellationToken)
 		{
+			var ddInfo = await instanceClient.DreamDaemon.Read(cancellationToken);
+			for (int i = 0; ddInfo.Status != WatchdogStatus.Online && i < 15; ++i)
+			{
+				await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);
+				ddInfo = await instanceClient.DreamDaemon.Read(cancellationToken);
+			}
+
+			Assert.AreEqual(WatchdogStatus.Online, ddInfo.Status);
+
 			MessageContent embedsResponse, overloadResponse, overloadResponse2, embedsResponse2;
 			var startTime = DateTimeOffset.UtcNow - TimeSpan.FromSeconds(5);
 			using (var instanceReference = instanceManager.GetInstanceReference(instanceClient.Metadata))
@@ -1115,7 +1157,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 			var endTime = DateTimeOffset.UtcNow + TimeSpan.FromSeconds(5);
 
-			var ddInfo = await instanceClient.DreamDaemon.Read(cancellationToken);
+			ddInfo = await instanceClient.DreamDaemon.Read(cancellationToken);
 			await CheckDMApiFail(ddInfo.ActiveCompileJob, cancellationToken);
 
 			CheckEmbedsTest(embedsResponse, startTime, endTime);
