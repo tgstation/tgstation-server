@@ -26,13 +26,10 @@ jobs:
         cd temp_workspace
         dotnet build -c Release -p:TGS_HOST_NO_WEBPANEL=true tools/Tgstation.Server.ReleaseNotes/Tgstation.Server.ReleaseNotes.csproj
 
-    - name: Run ReleaseNotes Create CI Completion Check
+    - name: Generate App Token
       run: |
         cd temp_workspace
         dotnet run -c Release --no-build --project tools/Tgstation.Server.ReleaseNotes --token-output-file ${{ runner.temp }}/installation_secret.txt ${{ secrets.TGS_CI_GITHUB_APP_TOKEN_BASE64 }}
-
-    - name: Load Installation Token into Envvar
-      run: |
         echo "INSTALLATION_TOKEN=$(cat ${{ runner.temp }}/installation_secret.txt)" >> $GITHUB_ENV
         rm ${{ runner.temp }}/installation_secret.txt
 
