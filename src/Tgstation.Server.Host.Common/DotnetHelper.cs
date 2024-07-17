@@ -21,6 +21,9 @@ namespace Tgstation.Server.Host.Common
 		public static IEnumerable<string> GetPotentialDotnetPaths(bool isWindows)
 		{
 			var enviromentPath = Environment.GetEnvironmentVariable("PATH");
+			if (enviromentPath == null)
+				return Enumerable.Empty<string>();
+
 			var paths = enviromentPath.Split(';');
 
 			var exeName = "dotnet";
