@@ -1238,7 +1238,7 @@ jobs:
     - name: Install winget
       uses: Cyberboss/install-winget@v1
       with:
-        GITHUB_TOKEN: ${{ env.WINGET_PUSH_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.DEV_PUSH_TOKEN }}
 
     - name: Setup dotnet
       uses: actions/setup-dotnet@v4
