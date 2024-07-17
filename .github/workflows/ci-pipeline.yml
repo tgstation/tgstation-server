@@ -315,6 +315,12 @@ jobs:
         mv $HOME/tgsdox/changelog.yml ./ 2>/dev/null
         dotnet run -c Release --no-build --project tools/Tgstation.Server.ReleaseNotes --generate-full-notes
 
+    - name: Generate App Token
+      run: |
+        dotnet run -c Release --no-build --project tools/Tgstation.Server.ReleaseNotes --token-output-file ${{ runner.temp }}/installation_secret.txt ${{ secrets.TGS_CI_GITHUB_APP_TOKEN_BASE64 }}
+        echo "INSTALLATION_TOKEN=$(cat ${{ runner.temp }}/installation_secret.txt)" >> $GITHUB_ENV
+        rm ${{ runner.temp }}/installation_secret.txt
+
     - name: Patch Doxyfile
       run: |
         VERSION=$(cat "build/Version.props" | grep -oPm1 "(?<=<TgsCoreVersion>)[^<]+")
@@ -347,7 +353,7 @@ jobs:
         echo "Committing..."
         git diff-index --quiet HEAD || git commit -m "Deploy code docs to GitHub Pages for workflow run ${{ github.run_number }}" -m "Commit: ${{ github.event.head_commit.id }}"
         echo "Pushing..."
-        git push -f "https://${{ secrets.DEV_PUSH_TOKEN }}@github.com/tgstation/tgstation-server" 2>&1
+        git push -f "https://${{ env.INSTALLATION_TOKEN }}@github.com/tgstation/tgstation-server" 2>&1
 
   docker-build:
     name: Build Docker Image
@@ -1880,6 +1886,12 @@ jobs:
         mv $HOME/tgsdox/changelog.yml ./ 2>/dev/null
         dotnet run -c Release --no-build --project tools/Tgstation.Server.ReleaseNotes --generate-full-notes
 
+    - name: Generate App Token
+      run: |
+        dotnet run -c Release --no-build --project tools/Tgstation.Server.ReleaseNotes --token-output-file ${{ runner.temp }}/installation_secret.txt ${{ secrets.TGS_CI_GITHUB_APP_TOKEN_BASE64 }}
+        echo "INSTALLATION_TOKEN=$(cat ${{ runner.temp }}/installation_secret.txt)" >> $GITHUB_ENV
+        rm ${{ runner.temp }}/installation_secret.txt
+
     - name: gh-pages Push
       run: |
         pushd $HOME/tgsdox
@@ -1894,7 +1906,7 @@ jobs:
         echo "Committing..."
         git diff-index --quiet HEAD || git commit -m "Regenerate changelog post deploy for workflow run ${{ github.run_number }}" -m "Commit: ${{ github.event.head_commit.id }}"
         echo "Pushing..."
-        git push -f "https://${{ secrets.DEV_PUSH_TOKEN }}@github.com/tgstation/tgstation-server" 2>&1
+        git push -f "https://${{ env.INSTALLATION_TOKEN }}@github.com/tgstation/tgstation-server" 2>&1
 
   deploy-docker:
     name: Deploy TGS (Docker)
