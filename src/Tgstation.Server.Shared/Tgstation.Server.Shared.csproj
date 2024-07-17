@@ -1,9 +1,10 @@
 <Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="../../build/Common.props" />
   <Import Project="../../build/NewtonsoftJson.props" />
 
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
+    <TargetFramework>$(TgsFrameworkVersion)</TargetFramework>
+    <Version>$(TgsCoreVersion)</Version>
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
