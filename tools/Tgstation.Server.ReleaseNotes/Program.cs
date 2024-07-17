@@ -128,7 +128,17 @@ namespace Tgstation.Server.ReleaseNotes
 			try
 			{
 				if (ensureRelease)
+				{
+					if (args.Length < 2)
+					{
+						Console.WriteLine("Missing PEM Base64 for updating release!");
+						return 454233;
+					}
+
+					await GenerateAppCredentials(client, args[1]);
+
 					return await EnsureRelease(client);
+				}
 
 				if (linkWinget)
 				{

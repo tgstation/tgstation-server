@@ -73,7 +73,8 @@ For the full CI gambit, the following repository configuration must be set:
 
 If you don't plan on deploying TGS, the following secrets can be omitted:
 
-- Secret `DEV_PUSH_TOKEN`: A GitHub token with read/write access to the repository. Enables doxygen pushes to `gh-pages` branch, and releases creation.
+- Secret `DEV_PUSH_TOKEN`: A repo scoped GitHub PAT with read/write access on the repository and the ability to trigger workflows on https://github.com/tgstation/tgstation-ppa. Used to trigger debian repo rebuilds, bypass rate limits, update milestones, and create winget package acceptance PRs.
+- Secret `TGS_CI_GITHUB_APP_TOKEN_BASE64` is a base 64 encoded private key for a GitHub App. This app must be installed on the repo and have read/write access to checks and contents. Used to generate CI checks, push changelogs, and create releases.
 - Secret `DOCKER_USERNAME`: Login username for Docker image push.
 - Secret `DOCKER_PASSWORD`: Login password for Docker image push.
 - Secret `NUGET_API_KEY`: Nuget.org API Key for client libraries push.
