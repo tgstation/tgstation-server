@@ -23,11 +23,11 @@ using Npgsql;
 using Tgstation.Server.Common;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Database;
-using Tgstation.Server.Host.Extensions.Converters;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Properties;
 using Tgstation.Server.Host.System;
 using Tgstation.Server.Host.Utils;
+using Tgstation.Server.Shared;
 
 using YamlDotNet.Serialization;
 
@@ -986,14 +986,15 @@ namespace Tgstation.Server.Host.Setup
 				{ SwarmConfiguration.Section, swarmConfiguration },
 			};
 
+			var versionConverter = new VersionConverter();
 			var builder = new SerializerBuilder()
-				.WithTypeConverter(new VersionConverter());
+				.WithTypeConverter(versionConverter);
 
 			if (userConfigFileName.EndsWith(".json", StringComparison.OrdinalIgnoreCase))
 				builder.JsonCompatible();
 
 			var serializer = new SerializerBuilder()
-				.WithTypeConverter(new VersionConverter())
+				.WithTypeConverter(versionConverter)
 				.Build();
 
 			var serializedYaml = serializer.Serialize(map);

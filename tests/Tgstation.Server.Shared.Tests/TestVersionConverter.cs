@@ -1,11 +1,12 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
+﻿using System;
+
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using Tgstation.Server.Common.Extensions;
 
 using YamlDotNet.Serialization;
 
-namespace Tgstation.Server.Host.Extensions.Converters.Tests
+namespace Tgstation.Server.Shared.Tests
 {
 	[TestClass]
 	public sealed class TestVersionConverter

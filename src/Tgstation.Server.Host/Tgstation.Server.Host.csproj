@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+<Project Sdk="Microsoft.NET.Sdk.Web">
   <Import Project="../../build/SrcCommon.props" />
 
   <PropertyGroup>
@@ -77,8 +77,6 @@
     <PackageReference Include="GitLabApiClient" Version="1.8.0" />
     <!-- Usage: git interop -->
     <PackageReference Include="LibGit2Sharp" Version="0.30.0" />
-    <!-- Usage: JWT injection into HTTP pipeline -->
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.6" />
     <!-- Usage: Support ""legacy"" Newotonsoft.Json in HTTP pipeline. The rest of our codebase uses Newtonsoft. -->
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="8.0.6" />
     <!-- Usage: Using target JSON serializer for API -->
@@ -102,8 +100,6 @@
     <PackageReference Include="NetEscapades.Configuration.Yaml" Version="3.1.0" />
     <!-- Usage: PostgresSQL ORM plugin -->
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.4" />
-    <!-- Usage: GitHub.com interop -->
-    <PackageReference Include="Octokit" Version="13.0.0" />
     <!-- Usage: MYSQL/MariaDB ORM plugin -->
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="8.0.2" />
     <!-- Usage: Discord interop -->
@@ -135,6 +131,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Tgstation.Server.Api\Tgstation.Server.Api.csproj" />
     <ProjectReference Include="..\Tgstation.Server.Host.Common\Tgstation.Server.Host.Common.csproj" />
+    <ProjectReference Include="..\Tgstation.Server.Shared\Tgstation.Server.Shared.csproj" />
   </ItemGroup>
 
   <ItemGroup>

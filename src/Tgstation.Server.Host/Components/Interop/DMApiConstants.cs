@@ -5,6 +5,7 @@ using Newtonsoft.Json.Serialization;
 
 using Tgstation.Server.Host.Extensions.Converters;
 using Tgstation.Server.Host.Properties;
+using Tgstation.Server.Shared;
 
 namespace Tgstation.Server.Host.Components.Interop
 {

@@ -25,7 +25,7 @@ using Newtonsoft.Json;
 using Octokit;
 using Octokit.GraphQL;
 
-using Tgstation.Server.Host.Extensions.Converters;
+using Tgstation.Server.Shared;
 
 using YamlDotNet.Serialization;
 

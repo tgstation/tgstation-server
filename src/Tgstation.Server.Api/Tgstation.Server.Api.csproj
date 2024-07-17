@@ -1,5 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <Import Project="../../build/NugetCommon.props" />
+  <Import Project="../../build/NewtonsoftJson.props" />
 
   <PropertyGroup>
     <TargetFramework>$(TgsNugetNetFramework)</TargetFramework>
@@ -28,8 +29,6 @@
     <PackageReference Include="Microsoft.AspNetCore.Http.Extensions" Version="2.2.0" />
     <!-- Usage: Decoding the 'nbf' property of JWTs -->
     <PackageReference Include="Microsoft.IdentityModel.JsonWebTokens" Version="7.6.2" />
-    <!-- Usage: Primary JSON library -->
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <!-- Usage: Data model annotating -->
     <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
   </ItemGroup>

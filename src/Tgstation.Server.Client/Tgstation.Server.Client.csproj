@@ -18,7 +18,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Tgstation.Server.Api\Tgstation.Server.Api.csproj" />
-    <ProjectReference Include="..\Tgstation.Server.Common\Tgstation.Server.Common.csproj" /> <!-- Needed for explicit nuget versioning -->
+    <!-- Already exists via TGS.Server.Api, but needed for explicit nuget versioning -->
+    <ProjectReference Include="..\Tgstation.Server.Common\Tgstation.Server.Common.csproj" />
   </ItemGroup>
 
 </Project>
