@@ -8,7 +8,7 @@ using YamlDotNet.Core;
 using YamlDotNet.Core.Events;
 using YamlDotNet.Serialization;
 
-namespace Tgstation.Server.Host.Extensions.Converters
+namespace Tgstation.Server.Shared
 {
 	/// <summary>
 	/// <see cref="JsonConverter"/> and <see cref="IYamlTypeConverter"/> for serializing <see cref="global::System.Version"/>s in semver format.
@@ -85,10 +85,10 @@ namespace Tgstation.Server.Host.Extensions.Converters
 		public bool Accepts(Type type) => CheckSupportsType(type, false);
 
 		/// <inheritdoc />
-		public object ReadYaml(IParser parser, Type type) => throw new NotSupportedException("Deserialization not supported!"); // The default implementation is fine at handling this
+		public object ReadYaml(IParser parser, Type type, ObjectDeserializer rootDeserializer) => throw new NotSupportedException("Deserialization not supported!"); // The default implementation is fine at handling this
 
 		/// <inheritdoc />
-		public void WriteYaml(IEmitter? emitter, object? value, Type type)
+		public void WriteYaml(IEmitter? emitter, object? value, Type type, ObjectSerializer serializer)
 		{
 			ArgumentNullException.ThrowIfNull(emitter);
 

@@ -6,18 +6,38 @@ on:
     - master
   workflow_dispatch:
 
-env:
-  DEV_PUSH_TOKEN: ${{ secrets.DEV_PUSH_TOKEN }}
-
 jobs:
   master-merge:
+    name: Master Merge
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout
+    - name: Build Checkout
+      uses: actions/checkout@v4
+      with:
+        path: temp_workspace
+
+    - name: Restore
+      run: |
+        cd temp_workspace
+        dotnet restore
+
+    - name: Build ReleaseNotes
+      run: |
+        cd temp_workspace
+        dotnet build -c Release -p:TGS_HOST_NO_WEBPANEL=true tools/Tgstation.Server.ReleaseNotes/Tgstation.Server.ReleaseNotes.csproj
+
+    - name: Generate App Token
+      run: |
+        cd temp_workspace
+        dotnet run -c Release --no-build --project tools/Tgstation.Server.ReleaseNotes --token-output-file ${{ runner.temp }}/installation_secret.txt ${{ secrets.TGS_CI_GITHUB_APP_TOKEN_BASE64 }}
+        echo "INSTALLATION_TOKEN=$(cat ${{ runner.temp }}/installation_secret.txt)" >> $GITHUB_ENV
+        rm ${{ runner.temp }}/installation_secret.txt
+
+    - name: Main Checkout
       uses: actions/checkout@v4
       with:
         fetch-depth: 0
-        token: ${{ secrets.DEV_PUSH_TOKEN }}
+        token: ${{ env.INSTALLATION_TOKEN }}
 
     - name: Merge master into dev
       uses: robotology/gh-action-nightly-merge@14b4a4cf358f7479aa708bee05cf8a794d6a2516 #v1.5.0
@@ -26,8 +46,8 @@ jobs:
         development_branch: 'dev'
         allow_ff: true
         allow_forks: true
-        user_name: tgstation-server
-        user_email: tgstation-server@users.noreply.github.com
-        push_token: DEV_PUSH_TOKEN
+        user_name: tgstation-server-ci[bot]
+        user_email: 847638+tgstation-server-ci[bot]@users.noreply.github.com
+        push_token: INSTALLATION_TOKEN
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -11,14 +11,15 @@
 
   <ItemGroup>
     <!-- Usage: Connecting to SignalR hubs in API -->
-    <PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="8.0.6" />
+    <PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="8.0.7" />
     <!-- Usage: Using target JSON serializer for API -->
-    <PackageReference Include="Microsoft.AspNetCore.SignalR.Protocols.NewtonsoftJson" Version="8.0.6" />
+    <PackageReference Include="Microsoft.AspNetCore.SignalR.Protocols.NewtonsoftJson" Version="8.0.7" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Tgstation.Server.Api\Tgstation.Server.Api.csproj" />
-    <ProjectReference Include="..\Tgstation.Server.Common\Tgstation.Server.Common.csproj" /> <!-- Needed for explicit nuget versioning -->
+    <!-- Already exists via TGS.Server.Api, but needed for explicit nuget versioning -->
+    <ProjectReference Include="..\Tgstation.Server.Common\Tgstation.Server.Common.csproj" />
   </ItemGroup>
 
 </Project>

@@ -25,7 +25,7 @@ using Newtonsoft.Json;
 using Octokit;
 using Octokit.GraphQL;
 
-using Tgstation.Server.Host.Extensions.Converters;
+using Tgstation.Server.Shared;
 
 using YamlDotNet.Serialization;
 
@@ -61,6 +61,7 @@ namespace Tgstation.Server.ReleaseNotes
 			var fullNotes = versionString.Equals("--generate-full-notes", StringComparison.OrdinalIgnoreCase);
 			var nuget = versionString.Equals("--nuget", StringComparison.OrdinalIgnoreCase);
 			var ciCompletionCheck = versionString.Equals("--ci-completion-check", StringComparison.OrdinalIgnoreCase);
+			var genToken = versionString.Equals("--token-output-file", StringComparison.OrdinalIgnoreCase);
 
 			if ((!Version.TryParse(versionString, out var version) || version.Revision != -1)
 				&& !ensureRelease
@@ -68,7 +69,8 @@ namespace Tgstation.Server.ReleaseNotes
 				&& !shaCheck
 				&& !fullNotes
 				&& !nuget
-				&& !ciCompletionCheck)
+				&& !ciCompletionCheck
+				&& !genToken)
 			{
 				Console.WriteLine("Invalid version: " + versionString);
 				return 2;
@@ -126,7 +128,17 @@ namespace Tgstation.Server.ReleaseNotes
 			try
 			{
 				if (ensureRelease)
+				{
+					if (args.Length < 2)
+					{
+						Console.WriteLine("Missing PEM Base64 for updating release!");
+						return 454233;
+					}
+
+					await GenerateAppCredentials(client, args[1]);
+
 					return await EnsureRelease(client);
+				}
 
 				if (linkWinget)
 				{
@@ -148,6 +160,22 @@ namespace Tgstation.Server.ReleaseNotes
 					}
 
 					return await CICompletionCheck(client, args[1], args[2]);
+				}
+
+
+				if (genToken)
+				{
+					if (args.Length < 3)
+					{
+						Console.WriteLine("Missing output file path or PEM Base64 for app authentication!");
+						return 33847;
+					}
+
+					await GenerateAppCredentials(client, args[2]);
+
+					var token = client.Credentials.GetToken();
+					await File.WriteAllTextAsync(args[1], token);
+					return 0;
 				}
 
 				if (shaCheck)

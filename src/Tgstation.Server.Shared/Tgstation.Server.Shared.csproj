@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="../../build/Common.props" />
+  <Import Project="../../build/NewtonsoftJson.props" />
+
+  <PropertyGroup>
+    <TargetFramework>$(TgsFrameworkVersion)</TargetFramework>
+    <Version>$(TgsCoreVersion)</Version>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- Usage: JWT injection into HTTP pipeline -->
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.7" />
+    <!-- Usage: GitHub.com interop -->
+    <PackageReference Include="Octokit" Version="13.0.1" />
+    <!-- Usage: YAML conversion of Version objects -->
+    <PackageReference Include="YamlDotNet" Version="16.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Tgstation.Server.Common\Tgstation.Server.Common.csproj" />
+  </ItemGroup>
+
+</Project>
