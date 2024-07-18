@@ -1,6 +1,6 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
 <area shape="rect" id="node1" href="$class_i_yaml_type_converter.html" title=" " alt="" coords="5,13,145,38"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_converters_1_1_version_converter.html" title="JsonConverter and IYamlTypeConverter for serializing global::System.Versions in semver format." alt="" coords="193,5,411,45"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_shared_1_1_version_converter.html" title="JsonConverter and IYamlTypeConverter for serializing global::System.Versions in semver format." alt="" coords="220,5,384,45"/>
 <area shape="rect" id="node3" href="$class_json_converter.html" title=" " alt="" coords="22,69,129,94"/>
 <area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_converters_1_1_bool_converter.html" title="JsonConverter for decoding bools returned by BYOND." alt="" coords="193,69,411,109"/>
 </map>

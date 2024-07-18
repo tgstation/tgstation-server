@@ -1,5 +1,5 @@
 <map id="JsonConverter" name="JsonConverter">
 <area shape="rect" id="node1" title=" " alt="" coords="5,45,112,70"/>
 <area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_converters_1_1_bool_converter.html" title="JsonConverter for decoding bools returned by BYOND." alt="" coords="160,5,377,45"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_converters_1_1_version_converter.html" title="JsonConverter and IYamlTypeConverter for serializing global::System.Versions in semver format." alt="" coords="160,69,377,109"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_shared_1_1_version_converter.html" title="JsonConverter and IYamlTypeConverter for serializing global::System.Versions in semver format." alt="" coords="187,69,351,109"/>
 </map>

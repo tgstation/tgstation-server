@@ -1,5 +1,0 @@
-<map id="Tgstation.Server.Host.Extensions.Converters.VersionConverter" name="Tgstation.Server.Host.Extensions.Converters.VersionConverter">
-<area shape="rect" id="node1" title="JsonConverter and IYamlTypeConverter for serializing global::System.Versions in semver format." alt="" coords="23,79,241,119"/>
-<area shape="rect" id="node2" href="$class_json_converter.html" title=" " alt="" coords="5,5,112,31"/>
-<area shape="rect" id="node3" href="$class_i_yaml_type_converter.html" title=" " alt="" coords="137,5,277,31"/>
-</map>
