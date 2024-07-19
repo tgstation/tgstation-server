@@ -40,6 +40,8 @@ using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.System;
 using Tgstation.Server.Host.Utils;
 
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+
 namespace Tgstation.Server.Tests.Live.Instance
 {
 	sealed class WatchdogTest : JobsRequiredTest
@@ -136,15 +138,18 @@ namespace Tgstation.Server.Tests.Live.Instance
 					{
 						// Increase startup timeout, disable heartbeats, enable map threads because we've tested without for years
 						global::System.Console.WriteLine($"PORT REUSE BUG 4: Setting I-{instanceClient.Metadata.Id} DD to {ddPort}");
-						await instanceClient.DreamDaemon.Update(new DreamDaemonRequest
+						var updated = await instanceClient.DreamDaemon.Update(new DreamDaemonRequest
 						{
 							StartupTimeout = 60,
 							HealthCheckSeconds = 0,
 							Port = ddPort,
 							MapThreads = 2,
+							OpenDreamTopicPort = 47,
 							LogOutput = false,
 							AdditionalParameters = BaseAdditionalParameters
 						}, cancellationToken);
+
+						Assert.AreEqual<ushort?>(47, updated.OpenDreamTopicPort);
 					}
 					catch (ConflictException ex) when (ex.ErrorCode == ErrorCode.PortNotAvailable)
 					{
@@ -154,6 +159,13 @@ namespace Tgstation.Server.Tests.Live.Instance
 						// I have no idea why this happens sometimes
 						await Task.Delay(TimeSpan.FromSeconds(3), cancellationToken);
 					}
+
+				var updated2 = await instanceClient.DreamDaemon.Update(new DreamDaemonRequest
+				{
+					OpenDreamTopicPort = 0,
+				}, cancellationToken);
+
+				Assert.AreEqual<ushort?>(0, updated2.OpenDreamTopicPort);
 			}
 
 			global::System.Console.WriteLine($"PORT REUSE BUG 4: Expect error. Setting I-{instanceClient.Metadata.Id} DD to 0");
