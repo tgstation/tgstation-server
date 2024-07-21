@@ -174,7 +174,9 @@ namespace Tgstation.Server.ReleaseNotes
 					await GenerateAppCredentials(client, args[2]);
 
 					var token = client.Credentials.GetToken();
-					await File.WriteAllTextAsync(args[1], token);
+					var destPath = args[1];
+					Directory.CreateDirectory(Path.GetDirectoryName(destPath));
+					await File.WriteAllTextAsync(destPath, token);
 					return 0;
 				}
 
