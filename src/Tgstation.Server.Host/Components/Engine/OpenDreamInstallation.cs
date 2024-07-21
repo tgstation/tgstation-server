@@ -107,7 +107,7 @@ namespace Tgstation.Server.Host.Components.Engine
 
 			var parametersString = EncodeParameters(parameters, launchParameters);
 
-			var arguments = $"--cvar {(logFilePath != null ? $"log.path=\"{InstallationIOManager.GetDirectoryName(logFilePath)}\" --cvar log.format=\"{InstallationIOManager.GetFileName(logFilePath)}\"" : "log.enabled=false")} --cvar watchdog.token={accessIdentifier} --cvar log.runtimelog=false --cvar net.port={launchParameters.Port!.Value} --cvar opendream.topic_port=0 --cvar opendream.world_params=\"{parametersString}\" --cvar opendream.json_path=\"./{dmbProvider.DmbName}\"";
+			var arguments = $"--cvar {(logFilePath != null ? $"log.path=\"{InstallationIOManager.GetDirectoryName(logFilePath)}\" --cvar log.format=\"{InstallationIOManager.GetFileName(logFilePath)}\"" : "log.enabled=false")} --cvar watchdog.token={accessIdentifier} --cvar log.runtimelog=false --cvar net.port={launchParameters.Port!.Value} --cvar opendream.topic_port={launchParameters.OpenDreamTopicPort!.Value} --cvar opendream.world_params=\"{parametersString}\" --cvar opendream.json_path=\"./{dmbProvider.DmbName}\"";
 			return arguments;
 		}
 

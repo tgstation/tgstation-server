@@ -1,4 +1,4 @@
-<Project Sdk="WixToolset.Sdk/4.0.4">
+<Project Sdk="WixToolset.Sdk/5.0.1">
   <Import Project="../../../Common.props" />
   <PropertyGroup>
     <DefineConstants>ProductVersion=$(TgsCoreVersion)</DefineConstants>
@@ -25,8 +25,8 @@
     </HarvestDirectory>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="WixToolset.Heat" Version="4.0.4" />
-    <PackageReference Include="WixToolset.Util.wixext" Version="4.0.4" />
+    <PackageReference Include="WixToolset.Heat" Version="5.0.1" />
+    <PackageReference Include="WixToolset.Util.wixext" Version="5.0.1" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Tgstation.Server.Host.Service.Wix.Extensions\Tgstation.Server.Host.Service.Wix.Extensions.csproj" />

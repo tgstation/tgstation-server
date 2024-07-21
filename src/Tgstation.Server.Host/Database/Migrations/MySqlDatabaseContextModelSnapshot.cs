@@ -13,7 +13,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 		{
 #pragma warning disable 612, 618
 			modelBuilder
-				.HasAnnotation("ProductVersion", "8.0.6")
+				.HasAnnotation("ProductVersion", "8.0.7")
 				.HasAnnotation("Relational:MaxIdentifierLength", 64);
 
 			MySqlModelBuilderExtensions.AutoIncrementColumns(modelBuilder);
@@ -232,6 +232,10 @@ namespace Tgstation.Server.Host.Database.Migrations
 				b.Property<bool?>("Minidumps")
 					.IsRequired()
 					.HasColumnType("tinyint(1)");
+
+				b.Property<ushort?>("OpenDreamTopicPort")
+					.IsRequired()
+					.HasColumnType("smallint unsigned");
 
 				b.Property<ushort?>("Port")
 					.IsRequired()

@@ -785,6 +785,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 			{
 				AllowWebClient = false,
 				Port = portToUse,
+				OpenDreamTopicPort = 0,
 				SecurityLevel = securityLevel,
 				Visibility = DreamDaemonVisibility.Invisible,
 				StartupTimeout = timeout,

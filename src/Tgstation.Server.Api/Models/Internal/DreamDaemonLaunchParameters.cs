@@ -47,6 +47,13 @@ namespace Tgstation.Server.Api.Models.Internal
 		public ushort? Port { get; set; }
 
 		/// <summary>
+		/// The port used by <see cref="EngineType.OpenDream"/> for its topic port.
+		/// </summary>
+		[Required]
+		[ResponseOptions]
+		public ushort? OpenDreamTopicPort { get; set; }
+
+		/// <summary>
 		/// The DreamDaemon startup timeout in seconds.
 		/// </summary>
 		[Required]
@@ -109,8 +116,9 @@ namespace Tgstation.Server.Api.Models.Internal
 		/// Check if we match a given set of <paramref name="otherParameters"/>. <see cref="StartupTimeout"/> is excluded.
 		/// </summary>
 		/// <param name="otherParameters">The <see cref="DreamDaemonLaunchParameters"/> to compare against.</param>
+		/// <param name="engineType">The <see cref="EngineType"/> currently running.</param>
 		/// <returns><see langword="true"/> if they match, <see langword="false"/> otherwise.</returns>
-		public bool CanApplyWithoutReboot(DreamDaemonLaunchParameters otherParameters)
+		public bool CanApplyWithoutReboot(DreamDaemonLaunchParameters otherParameters, EngineType engineType)
 		{
 			if (otherParameters == null)
 				throw new ArgumentNullException(nameof(otherParameters));
@@ -119,6 +127,7 @@ namespace Tgstation.Server.Api.Models.Internal
 				&& SecurityLevel == otherParameters.SecurityLevel
 				&& Visibility == otherParameters.Visibility
 				&& Port == otherParameters.Port
+				&& (OpenDreamTopicPort == otherParameters.OpenDreamTopicPort || engineType != EngineType.OpenDream)
 				&& TopicRequestTimeout == otherParameters.TopicRequestTimeout
 				&& AdditionalParameters == otherParameters.AdditionalParameters
 				&& StartProfiler == otherParameters.StartProfiler

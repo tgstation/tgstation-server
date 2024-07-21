@@ -211,6 +211,7 @@ namespace Tgstation.Server.Host.Controllers
 			if (CheckModified(x => x.AllowWebClient, DreamDaemonRights.SetWebClient)
 				|| CheckModified(x => x.AutoStart, DreamDaemonRights.SetAutoStart)
 				|| CheckModified(x => x.Port, DreamDaemonRights.SetPort)
+				|| CheckModified(x => x.OpenDreamTopicPort, DreamDaemonRights.SetPort)
 				|| CheckModified(x => x.SecurityLevel, DreamDaemonRights.SetSecurity)
 				|| CheckModified(x => x.Visibility, DreamDaemonRights.SetVisibility)
 				|| (model.SoftRestart.HasValue && !ddRights.HasFlag(DreamDaemonRights.SoftRestart))
@@ -344,10 +345,12 @@ namespace Tgstation.Server.Host.Controllers
 					var rstate = dd.RebootState;
 					result.AutoStart = settings.AutoStart!.Value;
 					result.CurrentPort = llp?.Port!.Value;
+					result.CurrentTopicPort = llp?.OpenDreamTopicPort;
 					result.CurrentSecurity = llp?.SecurityLevel!.Value;
 					result.CurrentVisibility = llp?.Visibility!.Value;
 					result.CurrentAllowWebclient = llp?.AllowWebClient!.Value;
 					result.Port = settings.Port!.Value;
+					result.OpenDreamTopicPort = settings.OpenDreamTopicPort;
 					result.AllowWebClient = settings.AllowWebClient!.Value;
 
 					var firstIteration = true;
