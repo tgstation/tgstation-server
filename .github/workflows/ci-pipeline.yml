@@ -1486,10 +1486,11 @@ jobs:
       run: dotnet run -c Release --no-build --project tools/Tgstation.Server.ReleaseNotes ${{ env.TGS_API_VERSION }} --httpapi
 
     - name: Generate App Token
-      shell: bash
+      shell: powershell
       run: |
         dotnet run -c Release --no-build --project tools/Tgstation.Server.ReleaseNotes --token-output-file ${{ runner.temp }}/installation_secret.txt ${{ secrets.TGS_CI_GITHUB_APP_TOKEN_BASE64 }}
-        echo "INSTALLATION_TOKEN=$(cat ${{ runner.temp }}/installation_secret.txt)" >> $GITHUB_ENV
+        $installSecret = Get-Content ${{ runner.temp }}/installation_secret.txt
+        echo "INSTALLATION_TOKEN=$installSecret" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf8 -Append
         rm ${{ runner.temp }}/installation_secret.txt
 
     - name: Create GitHub Release
@@ -1556,10 +1557,11 @@ jobs:
       run: dotnet run -c Release --no-build --project tools/Tgstation.Server.ReleaseNotes ${{ env.TGS_DM_VERSION }} --dmapi
 
     - name: Generate App Token
-      shell: bash
+      shell: powershell
       run: |
         dotnet run -c Release --no-build --project tools/Tgstation.Server.ReleaseNotes --token-output-file ${{ runner.temp }}/installation_secret.txt ${{ secrets.TGS_CI_GITHUB_APP_TOKEN_BASE64 }}
-        echo "INSTALLATION_TOKEN=$(cat ${{ runner.temp }}/installation_secret.txt)" >> $GITHUB_ENV
+        $installSecret = Get-Content ${{ runner.temp }}/installation_secret.txt
+        echo "INSTALLATION_TOKEN=$installSecret" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf8 -Append
         rm ${{ runner.temp }}/installation_secret.txt
 
     - name: Create GitHub Release
@@ -1780,10 +1782,11 @@ jobs:
       run: dotnet run -c Release --no-build --project tools/Tgstation.Server.ReleaseNotes ${{ env.TGS_VERSION }}
 
     - name: Generate App Token
-      shell: bash
+      shell: powershell
       run: |
         dotnet run -c Release --no-build --project tools/Tgstation.Server.ReleaseNotes --token-output-file ${{ runner.temp }}/installation_secret.txt ${{ secrets.TGS_CI_GITHUB_APP_TOKEN_BASE64 }}
-        echo "INSTALLATION_TOKEN=$(cat ${{ runner.temp }}/installation_secret.txt)" >> $GITHUB_ENV
+        $installSecret = Get-Content ${{ runner.temp }}/installation_secret.txt
+        echo "INSTALLATION_TOKEN=$installSecret" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf8 -Append
         rm ${{ runner.temp }}/installation_secret.txt
 
     - name: Create GitHub Release
