@@ -1,5 +1,6 @@
 <map id="Tgstation.Server.Host.Components.Watchdog.WatchdogBase.ChangeSettings" name="Tgstation.Server.Host.Components.Watchdog.WatchdogBase.ChangeSettings">
-<area shape="rect" id="node1" title="Changes the ActiveLaunchParameters. If currently running, may trigger a graceful restart...." alt="" coords="5,49,272,89"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_dream_daemon_launch_parameters.html#ad1c56d38c1a48c110765c99a72619e13" title="Check if we match a given set of otherParameters . StartupTimeout is excluded." alt="" coords="320,5,587,60"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html#a29773d588476671bbe480f096d839c91" title="Asyncronously locks a semaphore ." alt="" coords="358,85,549,125"/>
+<area shape="rect" id="node1" title="Changes the ActiveLaunchParameters. If currently running, may trigger a graceful restart...." alt="" coords="5,85,272,125"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_dream_daemon_launch_parameters.html#a0a980f2462be176c3c91edb7e490b076" title="Check if we match a given set of otherParameters . StartupTimeout is excluded." alt="" coords="330,5,597,60"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#ab53c08e5a2f37233940f3492207a760b" title="Get the active ISessionController." alt="" coords="320,85,607,125"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html#a29773d588476671bbe480f096d839c91" title="Asyncronously locks a semaphore ." alt="" coords="368,149,559,189"/>
 </map>

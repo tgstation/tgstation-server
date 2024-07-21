@@ -149,15 +149,15 @@ Components:
   Core:
   - Version: 6.7.0
     ComponentVersions:
-      Core: 6.6.1
-      HttpApi: 10.4.0
+      Core: 6.7.0
+      HttpApi: 10.5.0
       DreamMakerApi: 7.1.2
       Configuration: 5.1.0
       InteropApi: 5.9.0
       HostWatchdog: 1.4.1
       NugetCommon: 7.0.0
-      NugetApi: 13.4.0
-      NugetClient: 15.4.0
+      NugetApi: 13.5.0
+      NugetClient: 15.5.0
       WebControlPanel: 5.8.0
     Changes: []
     Unreleased: true
@@ -3675,6 +3675,14 @@ Components:
       Author: alexkar598
       PullRequest: 1133
   HttpApi:
+  - Version: 10.5.0
+    Changes:
+    - Descriptions:
+      - Added `openDreamTopicPort` to DreamDaemon model. Shares the same permission as `port`. Allows setting the port used for BYOND type topics in OpenDream servers.
+      - Added `currentTopicPort` to DreamDaemon response models.
+      Author: Cyberboss
+      PullRequest: 1828
+    Unreleased: true
   - Version: 10.4.0
     Changes:
     - Descriptions:
@@ -4420,6 +4428,14 @@ Components:
       Author: Cyberboss
       PullRequest: 1636
   NugetApi:
+  - Version: 13.5.0
+    Changes:
+    - Descriptions:
+      - Added `OpenDreamTopicPort` to `DreamDaemonLaunchParameters`.
+      - Added `currentTopicPort` to `DreamDaemonResponse`.
+      Author: Cyberboss
+      PullRequest: 1828
+    Unreleased: true
   - Version: 13.1.0
     Changes:
     - Descriptions:
@@ -4496,4 +4512,11 @@ Components:
       - Made `DiscordConnectionStringBuilder.BasedMeme` obsolete.
       Author: Cyberboss
       PullRequest: 1629
-  NugetClient: []
+  NugetClient:
+  - Version: 15.5.0
+    Changes:
+    - Descriptions:
+      - Update to API library version 13.5.0.
+      Author: Cyberboss
+      PullRequest: 1828
+    Unreleased: true
