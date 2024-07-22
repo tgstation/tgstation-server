@@ -50,7 +50,6 @@ using Tgstation.Server.Host.Controllers;
 using Tgstation.Server.Host.Controllers.Results;
 using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.Extensions;
-using Tgstation.Server.Host.Extensions.Converters;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Jobs;
 using Tgstation.Server.Host.Properties;
@@ -61,6 +60,7 @@ using Tgstation.Server.Host.Swarm;
 using Tgstation.Server.Host.System;
 using Tgstation.Server.Host.Transfer;
 using Tgstation.Server.Host.Utils;
+using Tgstation.Server.Shared;
 
 namespace Tgstation.Server.Host.Core
 {

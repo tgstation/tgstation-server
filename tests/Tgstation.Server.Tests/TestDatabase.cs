@@ -115,6 +115,7 @@ namespace Tgstation.Server.Tests
 					HealthCheckSeconds = 0,
 					DumpOnHealthCheckRestart = false,
 					Port = 1447,
+					OpenDreamTopicPort = 0,
 					SecurityLevel = DreamDaemonSecurity.Safe,
 					Visibility = DreamDaemonVisibility.Public,
 					StartupTimeout = 1000,

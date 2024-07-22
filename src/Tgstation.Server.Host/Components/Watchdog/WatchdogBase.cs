@@ -272,8 +272,13 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		{
 			using (await SemaphoreSlimContext.Lock(synchronizationSemaphore, cancellationToken))
 			{
-				bool match = launchParameters.CanApplyWithoutReboot(ActiveLaunchParameters);
+				var currentLaunchParameters = ActiveLaunchParameters;
 				ActiveLaunchParameters = launchParameters;
+				var currentEngine = GetActiveController()?.EngineVersion.Engine;
+				if (!currentEngine.HasValue)
+					return false;
+
+				bool match = launchParameters.CanApplyWithoutReboot(currentLaunchParameters, currentEngine.Value);
 				if (match || Status == WatchdogStatus.Offline || Status == WatchdogStatus.DelayedRestart)
 					return false;
 

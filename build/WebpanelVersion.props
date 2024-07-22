@@ -1,6 +1,6 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <!-- This is in it's own file to help incremental building, changing it causes a complete rebuild of the web panel -->
-    <TgsWebpanelVersion>5.8.0</TgsWebpanelVersion>
+    <TgsWebpanelVersion>5.9.0</TgsWebpanelVersion>
   </PropertyGroup>
 </Project>

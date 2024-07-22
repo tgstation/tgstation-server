@@ -1,5 +1,4 @@
-﻿using System;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 
 using Tgstation.Server.Common;
 
@@ -8,7 +7,7 @@ namespace Tgstation.Server.Api.Models
 	/// <summary>
 	/// Types of <see cref="Response.ErrorMessageResponse"/>s that the API may return.
 	/// </summary>
-	/// <remarks>Entries marked with the <see cref="ObsoleteAttribute"/> are no longer in use but kept for placeholders until they can be recycled in the next major API version.</remarks>
+	/// <remarks>Entries marked Obsolete are no longer in use but kept for placeholders until they can be recycled in the next major API version.</remarks>
 	public enum ErrorCode : uint
 	{
 		/// <summary>

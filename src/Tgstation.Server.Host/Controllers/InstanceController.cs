@@ -742,6 +742,7 @@ namespace Tgstation.Server.Host.Controllers
 					AllowWebClient = false,
 					AutoStart = false,
 					Port = ddPort,
+					OpenDreamTopicPort = 0,
 					SecurityLevel = DreamDaemonSecurity.Safe,
 					Visibility = DreamDaemonVisibility.Public,
 					StartupTimeout = 60,

@@ -3,6 +3,7 @@ using Newtonsoft.Json.Serialization;
 
 using Tgstation.Server.Api;
 using Tgstation.Server.Host.Extensions.Converters;
+using Tgstation.Server.Shared;
 
 namespace Tgstation.Server.Host.Swarm
 {

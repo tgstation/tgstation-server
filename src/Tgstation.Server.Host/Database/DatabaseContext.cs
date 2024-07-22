@@ -375,22 +375,22 @@ namespace Tgstation.Server.Host.Database
 		/// <summary>
 		/// Used by unit tests to remind us to setup the correct MSSQL migration downgrades.
 		/// </summary>
-		internal static readonly Type MSLatestMigration = typeof(MSAddCronAutoUpdates);
+		internal static readonly Type MSLatestMigration = typeof(MSAddOpenDreamTopicPort);
 
 		/// <summary>
 		/// Used by unit tests to remind us to setup the correct MYSQL migration downgrades.
 		/// </summary>
-		internal static readonly Type MYLatestMigration = typeof(MYAddCronAutoUpdates);
+		internal static readonly Type MYLatestMigration = typeof(MYAddOpenDreamTopicPort);
 
 		/// <summary>
 		/// Used by unit tests to remind us to setup the correct PostgresSQL migration downgrades.
 		/// </summary>
-		internal static readonly Type PGLatestMigration = typeof(PGAddCronAutoUpdates);
+		internal static readonly Type PGLatestMigration = typeof(PGAddOpenDreamTopicPort);
 
 		/// <summary>
 		/// Used by unit tests to remind us to setup the correct SQLite migration downgrades.
 		/// </summary>
-		internal static readonly Type SLLatestMigration = typeof(SLAddCronAutoUpdates);
+		internal static readonly Type SLLatestMigration = typeof(SLAddOpenDreamTopicPort);
 
 		/// <inheritdoc />
 #pragma warning disable CA1502 // Cyclomatic complexity
@@ -418,6 +418,16 @@ namespace Tgstation.Server.Host.Database
 			string? targetMigration = null;
 
 			string BadDatabaseType() => throw new ArgumentException($"Invalid DatabaseType: {currentDatabaseType}", nameof(currentDatabaseType));
+
+			if (targetVersion < new Version(6, 7, 0))
+				targetMigration = currentDatabaseType switch
+				{
+					DatabaseType.MySql => nameof(MSAddCronAutoUpdates),
+					DatabaseType.PostgresSql => nameof(PGAddCronAutoUpdates),
+					DatabaseType.SqlServer => nameof(MSAddCronAutoUpdates),
+					DatabaseType.Sqlite => nameof(SLAddCronAutoUpdates),
+					_ => BadDatabaseType(),
+				};
 
 			if (targetVersion < new Version(6, 6, 0))
 				targetMigration = currentDatabaseType switch

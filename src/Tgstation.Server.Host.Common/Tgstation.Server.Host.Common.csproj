@@ -4,6 +4,7 @@
   <PropertyGroup>
     <TargetFrameworks>$(TgsFrameworkVersion);net2.0</TargetFrameworks>
     <Version>$(TgsCoreVersion)</Version>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
 
 </Project>
