@@ -147,6 +147,14 @@ Components:
       Author: Cyberboss
       PullRequest: 1070
   Core:
+  - Version: 6.8.0
+    ComponentVersions: {}
+    Changes: []
+    Unreleased: true
+  - Version: 6.7.1
+    ComponentVersions: {}
+    Changes: []
+    Unreleased: true
   - Version: 6.7.0
     ComponentVersions:
       Core: 6.7.0
@@ -160,11 +168,6 @@ Components:
       NugetClient: 15.5.0
       WebControlPanel: 5.9.0
     Changes: []
-    Unreleased: true
-  - Version: 6.6.2
-    ComponentVersions: {}
-    Changes: []
-    Unreleased: true
   - Version: 6.6.1
     ComponentVersions:
       HttpApi: 10.4.0
@@ -3481,7 +3484,6 @@ Components:
       - Optimized JS chunks for a smoother loading experience.
       Author: Cyberboss
       PullRequest: 1829
-    Unreleased: true
   - Version: 5.8.0
     Changes:
     - Descriptions:
@@ -3690,7 +3692,6 @@ Components:
       - Added `currentTopicPort` to DreamDaemon response models.
       Author: Cyberboss
       PullRequest: 1828
-    Unreleased: true
   - Version: 10.4.0
     Changes:
     - Descriptions:
@@ -4451,7 +4452,6 @@ Components:
       - Added `currentTopicPort` to `DreamDaemonResponse`.
       Author: Cyberboss
       PullRequest: 1828
-    Unreleased: true
   - Version: 13.1.0
     Changes:
     - Descriptions:
