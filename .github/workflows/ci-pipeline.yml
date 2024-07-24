@@ -2009,6 +2009,8 @@ jobs:
     - name: Execute Push Script
       shell: powershell
       run: build/package/winget/push_manifest.ps1
+      env:
+        WINGET_PUSH_TOKEN: ${{ secrets.DEV_PUSH_TOKEN }}
 
     - name: Delay 10m to allow MS bot to update PR
       shell: powershell
