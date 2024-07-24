@@ -358,6 +358,33 @@ namespace Tgstation.Server.Host.IO
 			DefaultBufferSize,
 			true);
 
+		/// <inheritdoc />
+		public Task<bool> PathIsChildOf(string parentPath, string childPath, CancellationToken cancellationToken) => Task.Factory.StartNew(
+			() =>
+			{
+				parentPath = ResolvePath(parentPath);
+				childPath = ResolvePath(childPath);
+
+				if (parentPath == childPath)
+					return true;
+
+				// https://stackoverflow.com/questions/5617320/given-full-path-check-if-path-is-subdirectory-of-some-other-path-or-otherwise?lq=1
+				var di1 = new DirectoryInfo(parentPath);
+				var di2 = new DirectoryInfo(childPath);
+				while (di2.Parent != null)
+				{
+					if (di2.Parent.FullName == di1.FullName)
+						return true;
+
+					di2 = di2.Parent;
+				}
+
+				return false;
+			},
+			cancellationToken,
+			BlockingTaskCreationOptions,
+			TaskScheduler.Current);
+
 		/// <summary>
 		/// Copies a directory from <paramref name="src"/> to <paramref name="dest"/>.
 		/// </summary>
