@@ -7,7 +7,7 @@ var searchData=
   ['userapibase_2ecs_4',['UserApiBase.cs',['../_user_api_base_8cs.html',1,'']]],
   ['usercontroller_2ecs_5',['UserController.cs',['../_user_controller_8cs.html',1,'']]],
   ['usercreaterequest_2ecs_6',['UserCreateRequest.cs',['../_user_create_request_8cs.html',1,'']]],
-  ['usergroup_2ecs_7',['UserGroup.cs',['../_tgstation_8_server_8_api_2_models_2_internal_2_user_group_8cs.html',1,'(Global Namespace)'],['../_tgstation_8_server_8_host_2_models_2_user_group_8cs.html',1,'(Global Namespace)']]],
+  ['usergroup_2ecs_7',['UserGroup.cs',['../_tgstation_8_server_8_host_2_models_2_user_group_8cs.html',1,'(Global Namespace)'],['../_tgstation_8_server_8_api_2_models_2_internal_2_user_group_8cs.html',1,'(Global Namespace)']]],
   ['usergroupcontroller_2ecs_8',['UserGroupController.cs',['../_user_group_controller_8cs.html',1,'']]],
   ['usergroupcreaterequest_2ecs_9',['UserGroupCreateRequest.cs',['../_user_group_create_request_8cs.html',1,'']]],
   ['usergroupresponse_2ecs_10',['UserGroupResponse.cs',['../_user_group_response_8cs.html',1,'']]],
