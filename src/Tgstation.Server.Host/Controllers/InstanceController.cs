@@ -103,8 +103,8 @@ namespace Tgstation.Server.Host.Controllers
 			IInstanceManager instanceManager,
 			IJobManager jobManager,
 			IIOManager ioManager,
-			IPortAllocator portAllocator,
 			IPlatformIdentifier platformIdentifier,
+			IPortAllocator portAllocator,
 			IPermissionsUpdateNotifyee permissionsUpdateNotifyee,
 			IOptions<GeneralConfiguration> generalConfigurationOptions,
 			IOptions<SwarmConfiguration> swarmConfigurationOptions,
@@ -150,77 +150,52 @@ namespace Tgstation.Server.Host.Controllers
 			if (earlyOut != null)
 				return earlyOut;
 
-			var unNormalizedPath = model.Path;
-			var targetInstancePath = NormalizePath(unNormalizedPath);
+			var targetInstancePath = NormalizePath(model.Path!);
 			model.Path = targetInstancePath;
 
-			var installationDirectoryPath = NormalizePath(DefaultIOManager.CurrentDirectory);
-
-			bool InstanceIsChildOf(string otherPath)
-			{
-				if (!targetInstancePath.StartsWith(otherPath, StringComparison.Ordinal))
-					return false;
-
-				bool sameLength = targetInstancePath.Length == otherPath.Length;
-				char dirSeparatorChar = targetInstancePath.ToCharArray()[Math.Min(otherPath.Length, targetInstancePath.Length - 1)];
-				return sameLength
-					|| dirSeparatorChar == Path.DirectorySeparatorChar
-					|| dirSeparatorChar == Path.AltDirectorySeparatorChar;
-			}
-
-			if (InstanceIsChildOf(installationDirectoryPath))
+			var installationDirectoryPath = DefaultIOManager.CurrentDirectory;
+			if (await ioManager.PathIsChildOf(installationDirectoryPath, targetInstancePath, cancellationToken))
 				return Conflict(new ErrorMessageResponse(ErrorCode.InstanceAtConflictingPath));
 
 			// Validate it's not a child of any other instance
-			ulong countOfOtherInstances = 0;
-			using (var cts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken))
-			{
-				var newCancellationToken = cts.Token;
-				try
+			var instancePaths = await DatabaseContext
+				.Instances
+				.AsQueryable()
+				.Where(x => x.SwarmIdentifer == swarmConfiguration.Identifier)
+				.Select(x => new Models.Instance
 				{
-					await DatabaseContext
-						.Instances
-						.AsQueryable()
-						.Where(x => x.SwarmIdentifer == swarmConfiguration.Identifier)
-						.Select(x => new Models.Instance
-						{
-							Path = x.Path,
-						})
-						.ForEachAsync(
-							otherInstance =>
-							{
-								if (++countOfOtherInstances >= generalConfiguration.InstanceLimit)
-									earlyOut ??= Conflict(new ErrorMessageResponse(ErrorCode.InstanceLimitReached));
-								else if (InstanceIsChildOf(otherInstance.Path!))
-									earlyOut ??= Conflict(new ErrorMessageResponse(ErrorCode.InstanceAtConflictingPath));
+					Path = x.Path,
+				})
+				.ToListAsync(cancellationToken);
 
-								if (earlyOut != null && !newCancellationToken.IsCancellationRequested)
-									cts.Cancel();
-							},
-							newCancellationToken);
-				}
-				catch (OperationCanceledException)
-				{
-					cancellationToken.ThrowIfCancellationRequested();
-				}
-			}
+			if ((instancePaths.Count + 1) >= generalConfiguration.InstanceLimit)
+				return Conflict(new ErrorMessageResponse(ErrorCode.InstanceLimitReached));
 
-			if (earlyOut != null)
-				return earlyOut;
+			var instancePathChecks = instancePaths
+				.Select(otherInstance => ioManager.PathIsChildOf(otherInstance.Path!, targetInstancePath, cancellationToken))
+				.ToArray();
+
+			await Task.WhenAll(instancePathChecks);
+
+			if (instancePathChecks.Any(task => task.Result))
+				return Conflict(new ErrorMessageResponse(ErrorCode.InstanceAtConflictingPath));
 
 			// Last test, ensure it's in the list of valid paths
-			if (!(generalConfiguration.ValidInstancePaths?
-				.Select(path => NormalizePath(path))
-				.Any(path => InstanceIsChildOf(path)) ?? true))
+			var pathChecks = generalConfiguration.ValidInstancePaths?
+				.Select(path => ioManager.PathIsChildOf(path, targetInstancePath, cancellationToken))
+				.ToArray()
+				?? Enumerable.Empty<Task<bool>>();
+			await Task.WhenAll(pathChecks);
+			if (!pathChecks.All(task => task.Result))
 				return BadRequest(new ErrorMessageResponse(ErrorCode.InstanceNotAtWhitelistedPath));
 
 			async ValueTask<bool> DirExistsAndIsNotEmpty()
 			{
-				if (!await ioManager.DirectoryExists(model.Path, cancellationToken))
+				if (!await ioManager.DirectoryExists(targetInstancePath, cancellationToken))
 					return false;
 
-				var filesTask = ioManager.GetFiles(model.Path, cancellationToken);
-				var dirsTask = ioManager.GetDirectories(model.Path, cancellationToken);
+				var filesTask = ioManager.GetFiles(targetInstancePath, cancellationToken);
+				var dirsTask = ioManager.GetDirectories(targetInstancePath, cancellationToken);
 
 				var files = await filesTask;
 				var dirs = await dirsTask;
@@ -230,8 +205,8 @@ namespace Tgstation.Server.Host.Controllers
 
 			var dirExistsTask = DirExistsAndIsNotEmpty();
 			bool attached = false;
-			if (await ioManager.FileExists(model.Path, cancellationToken) || await dirExistsTask)
-				if (!await ioManager.FileExists(ioManager.ConcatPath(model.Path, InstanceAttachFileName), cancellationToken))
+			if (await ioManager.FileExists(targetInstancePath, cancellationToken) || await dirExistsTask)
+				if (!await ioManager.FileExists(ioManager.ConcatPath(targetInstancePath, InstanceAttachFileName), cancellationToken))
 					return Conflict(new ErrorMessageResponse(ErrorCode.InstanceAtExistingPath));
 				else
 					attached = true;
@@ -248,7 +223,7 @@ namespace Tgstation.Server.Host.Controllers
 				try
 				{
 					// actually reserve it now
-					await ioManager.CreateDirectory(unNormalizedPath, cancellationToken);
+					await ioManager.CreateDirectory(targetInstancePath, cancellationToken);
 					await ioManager.DeleteFile(ioManager.ConcatPath(targetInstancePath, InstanceAttachFileName), cancellationToken);
 				}
 				catch
@@ -397,13 +372,13 @@ namespace Tgstation.Server.Host.Controllers
 			}
 
 			string? originalModelPath = null;
-			string? rawPath = null;
+			string? normalizedPath = null;
 			var originalOnline = originalModel.Online!.Value;
 			if (model.Path != null)
 			{
-				rawPath = NormalizePath(model.Path);
+				normalizedPath = NormalizePath(model.Path);
 
-				if (rawPath != originalModel.Path)
+				if (normalizedPath != originalModel.Path)
 				{
 					if (!userRights.HasFlag(InstanceManagerRights.Relocate))
 						return Forbid();
@@ -415,7 +390,7 @@ namespace Tgstation.Server.Host.Controllers
 						return Conflict(new ErrorMessageResponse(ErrorCode.InstanceAtExistingPath));
 
 					originalModelPath = originalModel.Path;
-					originalModel.Path = rawPath;
+					originalModel.Path = normalizedPath;
 				}
 			}
 
@@ -505,7 +480,7 @@ namespace Tgstation.Server.Host.Controllers
 			var moving = originalModelPath != null;
 			if (moving)
 			{
-				var description = $"Move instance ID {originalModel.Id} from {originalModelPath} to {rawPath}";
+				var description = $"Move instance ID {originalModel.Id} from {originalModelPath} to {normalizedPath}";
 				var job = Job.Create(JobCode.Move, AuthenticationContext.User, originalModel, InstanceManagerRights.Relocate);
 				job.Description = description;
 
@@ -823,8 +798,7 @@ namespace Tgstation.Server.Host.Controllers
 				return null;
 
 			path = ioManager.ResolvePath(path);
-			if (platformIdentifier.IsWindows)
-				path = path.ToUpperInvariant().Replace('\\', '/');
+			path = platformIdentifier.NormalizePath(path);
 
 			return path;
 		}
