@@ -75,18 +75,18 @@ jobs:
       with:
         labels: CI Cleared
 
+    - name: "Remove 'CI Approval Required' Label"
+      if: (github.event.action == 'synchronize' || github.event.action == 'reopened') || ((github.event.action == 'opened' || github.event.action == 'labeled') && contains(github.event.pull_request.labels.*.name, 'CI Cleared'))
+      uses: actions-ecosystem/action-remove-labels@2ce5d41b4b6aa8503e285553f75ed56e0a40bae0
+      with:
+        labels: CI Approval Required
+
     - name: "Add 'CI Approval Required' Label"
       if: (github.event.action == 'synchronize' || github.event.action == 'reopened') || ((github.event.action == 'opened' || github.event.action == 'labeled') && !contains(github.event.pull_request.labels.*.name, 'CI Cleared'))
       uses: actions-ecosystem/action-add-labels@bd52874380e3909a1ac983768df6976535ece7f8
       with:
         labels: CI Approval Required
         github_token: ${{ github.token }}
-
-    - name: "Remove 'CI Approval Required' Label"
-      if: (github.event.action == 'synchronize' || github.event.action == 'reopened') || ((github.event.action == 'opened' || github.event.action == 'labeled') && contains(github.event.pull_request.labels.*.name, 'CI Cleared'))
-      uses: actions-ecosystem/action-remove-labels@2ce5d41b4b6aa8503e285553f75ed56e0a40bae0
-      with:
-        labels: CI Approval Required
 
     - name: Fail Clearance Check if PR has Unlabeled new Commits from User
       if: (github.event.action == 'synchronize' || github.event.action == 'reopened') || ((github.event.action == 'opened' || github.event.action == 'labeled') && !contains(github.event.pull_request.labels.*.name, 'CI Cleared'))
