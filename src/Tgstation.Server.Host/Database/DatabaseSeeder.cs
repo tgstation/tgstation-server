@@ -223,16 +223,13 @@ namespace Tgstation.Server.Host.Database
 				}
 			}
 
-			if (platformIdentifier.IsWindows)
-			{
-				// normalize backslashes to forward slashes
-				var allInstances = await databaseContext
-					.Instances
-					.AsQueryable()
-					.ToListAsync(cancellationToken);
-				foreach (var instance in allInstances)
-					instance.Path = instance.Path!.Replace('\\', '/');
-			}
+			// normalize backslashes to forward slashes
+			var allInstances = await databaseContext
+				.Instances
+				.AsQueryable()
+				.ToListAsync(cancellationToken);
+			foreach (var instance in allInstances)
+				instance.Path = platformIdentifier.NormalizePath(instance.Path!.Replace('\\', '/'));
 
 			if (generalConfiguration.ByondTopicTimeout != 0)
 			{
