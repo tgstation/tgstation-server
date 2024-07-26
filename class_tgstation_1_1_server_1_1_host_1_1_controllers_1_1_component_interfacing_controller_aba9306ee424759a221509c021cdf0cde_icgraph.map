@@ -1,4 +1,7 @@
 <map id="Tgstation.Server.Host.Controllers.ComponentInterfacingController.ValidateInstanceOnlineStatus" name="Tgstation.Server.Host.Controllers.ComponentInterfacingController.ValidateInstanceOnlineStatus">
-<area shape="rect" id="node1" title="Corrects discrepencies between the Api.Models.Instance.Online status of IInstances in the database vs..." alt="" coords="308,5,563,60"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_component_interfacing_controller.html#a518bdda7e1021bdd9782abd9f510f86b" title="Performs validation a request. A ValueTask&lt;TResult&gt; resulting in an appropriate IActionResult on vali..." alt="" coords="5,5,260,60"/>
+<area shape="rect" id="node1" title="Corrects discrepencies between the Api.Models.Instance.Online status of IInstances in the database vs..." alt="" coords="308,94,563,149"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_controller.html#a16d88c0b757913b42934e82312434633" title="Get a specific Api.Models.Instance." alt="" coords="25,5,241,45"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_controller.html#a98360d756afee2844b21b0936cc050cc" title="List Api.Models.Instances." alt="" coords="25,69,241,109"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_controller.html#a709c5985e78cdb8bde3f705869ddafb9" title="Modify an Api.Models.Instance&#39;s settings." alt="" coords="25,133,241,173"/>
+<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_component_interfacing_controller.html#a518bdda7e1021bdd9782abd9f510f86b" title="Performs validation a request. A ValueTask&lt;TResult&gt; resulting in an appropriate IActionResult on vali..." alt="" coords="5,198,260,253"/>
 </map>

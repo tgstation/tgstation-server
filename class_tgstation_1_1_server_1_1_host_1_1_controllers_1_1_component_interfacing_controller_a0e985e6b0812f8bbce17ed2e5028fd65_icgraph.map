@@ -1,6 +1,7 @@
 <map id="Tgstation.Server.Host.Controllers.ComponentInterfacingController.WithComponentInstanceNullable" name="Tgstation.Server.Host.Controllers.ComponentInterfacingController.WithComponentInstanceNullable">
-<area shape="rect" id="node1" title="Run a given action &#160;with the relevant IInstance." alt="" coords="269,62,503,117"/>
+<area shape="rect" id="node1" title="Run a given action &#160;with the relevant IInstance." alt="" coords="269,94,503,149"/>
 <area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_chat_controller.html#a930c1ed07039457ab6f9a8751fd462a6" title="Create a new chat bot model ." alt="" coords="5,5,221,45"/>
 <area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_chat_controller.html#a896419e100fc2c903dcebc89646cdf6a" title="Updates a chat bot model ." alt="" coords="5,69,221,109"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#ac4cbbd1105362b5a24122cac252143af" title="Perform updates to the repository." alt="" coords="5,133,221,173"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_controller.html#a709c5985e78cdb8bde3f705869ddafb9" title="Modify an Api.Models.Instance&#39;s settings." alt="" coords="5,133,221,173"/>
+<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#ac4cbbd1105362b5a24122cac252143af" title="Perform updates to the repository." alt="" coords="5,197,221,237"/>
 </map>

@@ -1,4 +1,7 @@
 <map id="Tgstation.Server.Host.Controllers.InstanceController.GetId" name="Tgstation.Server.Host.Controllers.InstanceController.GetId">
-<area shape="rect" id="node1" title="Get a specific Api.Models.Instance." alt="" coords="5,5,221,45"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#ac2e88d53bf1b6ac87d175d83ed39da7c" title="Saves changes made to the IDatabaseContext. A Task representing the running operation." alt="" coords="269,5,479,45"/>
+<area shape="rect" id="node1" title="Get a specific Api.Models.Instance." alt="" coords="5,69,221,109"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_controller.html#ae6de3128c5d49b91d7bb8f6f2caf0ed5" title="Populate the InstanceResponse.Accessible property of a given instanceResponse ." alt="" coords="281,5,512,45"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#ac2e88d53bf1b6ac87d175d83ed39da7c" title="Saves changes made to the IDatabaseContext. A Task representing the running operation." alt="" coords="292,69,501,109"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_component_interfacing_controller.html#aba9306ee424759a221509c021cdf0cde" title="Corrects discrepencies between the Api.Models.Instance.Online status of IInstances in the database vs..." alt="" coords="269,134,524,189"/>
+<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_manager.html#ac2e926ff84623c496393880b5a8ada61" title="Get the IInstanceReference associated with given metadata ." alt="" coords="572,141,831,181"/>
 </map>

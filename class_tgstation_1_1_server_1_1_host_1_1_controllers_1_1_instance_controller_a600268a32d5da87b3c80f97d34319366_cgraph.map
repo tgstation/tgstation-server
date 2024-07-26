@@ -1,0 +1,5 @@
+<map id="Tgstation.Server.Host.Controllers.InstanceController.NormalizePath" name="Tgstation.Server.Host.Controllers.InstanceController.NormalizePath">
+<area shape="rect" id="node1" title="Normalize a given path &#160;for an instance." alt="" coords="5,37,221,77"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_platform_identifier.html#a885378549e2e71bda33b550c252e6098" title="Normalize a path for consistency." alt="" coords="269,5,481,45"/>
+<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a18a442b5dff16f5e7a730ec354e81d78" title="Retrieve the full path of the current working directory." alt="" coords="291,69,459,109"/>
+</map>

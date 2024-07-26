@@ -149,17 +149,21 @@ Components:
   Core:
   - Version: 6.8.0
     ComponentVersions:
-      Core: 6.7.0
-      HttpApi: 10.5.0
+      HttpApi: 10.6.0
       DreamMakerApi: 7.1.3
       Configuration: 5.1.0
       InteropApi: 5.9.0
       HostWatchdog: 1.4.1
       NugetCommon: 7.0.0
-      NugetApi: 13.5.0
-      NugetClient: 15.5.0
+      NugetApi: 13.6.0
+      NugetClient: 15.6.0
       WebControlPanel: 5.9.0
-    Changes: []
+    Changes:
+    - Descriptions:
+      - You can no longer deploy a .dme file outside of the deployment directory.
+      - Fixed Windows path normalization applying to Linux instances in the same swarm.
+      Author: Cyberboss
+      PullRequest: 1835
     Unreleased: true
   - Version: 6.7.1
     ComponentVersions:
@@ -3705,6 +3709,13 @@ Components:
       Author: alexkar598
       PullRequest: 1133
   HttpApi:
+  - Version: 10.6.0
+    Changes:
+    - Descriptions:
+      - Added ErrorCode 107 for if a deployment is attempted with a project outside the deployment directory.
+      Author: Cyberboss
+      PullRequest: 1835
+    Unreleased: true
   - Version: 10.5.0
     Changes:
     - Descriptions:

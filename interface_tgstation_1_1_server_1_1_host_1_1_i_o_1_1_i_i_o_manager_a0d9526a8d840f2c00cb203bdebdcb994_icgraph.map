@@ -1,0 +1,11 @@
+<map id="Tgstation.Server.Host.IO.IIOManager.PathIsChildOf" name="Tgstation.Server.Host.IO.IIOManager.PathIsChildOf">
+<area shape="rect" id="node1" title="Check if a given parentPath &#160;is a parent of a given parentPath ." alt="" coords="1748,37,1923,77"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_controller.html#ab462ce6aa240b963c67cab7d20927060" title="Create or attach an Api.Models.Instance." alt="" coords="1461,5,1677,45"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#a2394e942cf255412fe358bef742b580c" title="Executes and populate a given job ." alt="" coords="1439,69,1700,109"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#ad489ef5c91d097ff3366d5bc63d8277e" title="Run the compile implementation." alt="" coords="1164,69,1391,109"/>
+<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#a38ea1632011a37a072e9d1c9e3d04c13" title=" " alt="" coords="829,69,1116,109"/>
+<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a12340b0e0ecd2c2ccc812d88f86f7a3c" title="Pull the repository and compile for every set of given minutes ." alt="" coords="555,69,781,109"/>
+<area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a76b97c61b214295da99e737ab2570b5a" title="Change the auto&#45;update timing for the IInstanceCore. A ValueTask representing the running operation." alt="" coords="280,69,507,109"/>
+<area shape="rect" id="node8" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a11cc04923d2557eefd57ad2ded9eb7f2" title=" " alt="" coords="5,37,232,77"/>
+<area shape="rect" id="node9" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#afc1fd9e8dc3bd57b78dbcbc4e7f449b4" title=" " alt="" coords="5,101,232,141"/>
+</map>

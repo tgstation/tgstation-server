@@ -1,0 +1,8 @@
+<map id="Tgstation.Server.Host.System.IPlatformIdentifier.NormalizePath" name="Tgstation.Server.Host.System.IPlatformIdentifier.NormalizePath">
+<area shape="rect" id="node1" title="Normalize a path for consistency." alt="" coords="540,101,752,141"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_controller.html#a600268a32d5da87b3c80f97d34319366" title="Normalize a given path &#160;for an instance." alt="" coords="273,69,489,109"/>
+<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_seeder.html#acccb4650f7b19158f0241418c7345719" title="Correct invalid database data caused by previous versions (NOT user fuckery)." alt="" coords="269,133,492,173"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_controller.html#ab462ce6aa240b963c67cab7d20927060" title="Create or attach an Api.Models.Instance." alt="" coords="5,5,221,45"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_controller.html#a709c5985e78cdb8bde3f705869ddafb9" title="Modify an Api.Models.Instance&#39;s settings." alt="" coords="5,69,221,109"/>
+<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_seeder.html#ad25dc5de4181c941c699a26e098149e6" title="Setup up a given databaseContext . A ValueTask representing the running operation." alt="" coords="9,133,218,173"/>
+</map>

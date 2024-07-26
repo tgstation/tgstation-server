@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.7.0</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.8.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -204,7 +204,7 @@ Public Member Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A Task resulting in <code>true</code> if the file at <em>path</em>  exists, <code>false</code> otherwise.</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in <code>true</code> if the file at <em>path</em>  exists, <code>false</code> otherwise.</dd></dl>
   <a href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a5be4a7eb7ec2471785555fafc3bc23be">More...</a><br /></td></tr>
 <tr class="separator:a5be4a7eb7ec2471785555fafc3bc23be inherit pub_methods_class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afd4e1632eb6d8351a77e7d150adc8174 inherit pub_methods_class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager"><td class="memItemLeft" align="right" valign="top">Task&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#afd4e1632eb6d8351a77e7d150adc8174">DirectoryExists</a> (string path, CancellationToken cancellationToken)</td></tr>
@@ -414,6 +414,18 @@ This function will fail to read files from the /proc filesystem on Linux.  <a hr
 <dl class="section return"><dt>Returns</dt><dd>The FileStream of the file.</dd></dl>
 This function is sychronous.  <a href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a7d724f59760ed323f8e6b16b7ee15aa5">More...</a><br /></td></tr>
 <tr class="separator:a7d724f59760ed323f8e6b16b7ee15aa5 inherit pub_methods_class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6dc0bd9d4a53d686beb1012051ea8c11 inherit pub_methods_class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager"><td class="memItemLeft" align="right" valign="top">Task&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a6dc0bd9d4a53d686beb1012051ea8c11">PathIsChildOf</a> (string parentPath, string childPath, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a6dc0bd9d4a53d686beb1012051ea8c11 inherit pub_methods_class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if a given <em>parentPath</em>  is a parent of a given <em>parentPath</em> . <dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">parentPath</td><td>The parent path.</td></tr>
+    <tr><td class="paramname">childPath</td><td>The child path.</td></tr>
+    <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in <code>true</code> if <em>childPath</em>  is a child of <em>parentPath</em>  or they are equivalent.</dd></dl>
+  <a href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a6dc0bd9d4a53d686beb1012051ea8c11">More...</a><br /></td></tr>
+<tr class="separator:a6dc0bd9d4a53d686beb1012051ea8c11 inherit pub_methods_class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a18a442b5dff16f5e7a730ec354e81d78"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a18a442b5dff16f5e7a730ec354e81d78">ResolvePath</a> ()</td></tr>
 <tr class="memdesc:a18a442b5dff16f5e7a730ec354e81d78"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieve the full path of the current working directory.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a18a442b5dff16f5e7a730ec354e81d78">More...</a><br /></td></tr>
 <tr class="separator:a18a442b5dff16f5e7a730ec354e81d78"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -429,6 +441,9 @@ This function is sychronous.  <a href="class_tgstation_1_1_server_1_1_host_1_1_i
 <tr class="memitem:af05931d02f5f5d95b87a56c0cc60d855"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#af05931d02f5f5d95b87a56c0cc60d855">PathContainsParentAccess</a> (string path)</td></tr>
 <tr class="memdesc:af05931d02f5f5d95b87a56c0cc60d855"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if a <em>path</em>  contains the '..' parent directory accessor.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#af05931d02f5f5d95b87a56c0cc60d855">More...</a><br /></td></tr>
 <tr class="separator:af05931d02f5f5d95b87a56c0cc60d855"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0d9526a8d840f2c00cb203bdebdcb994"><td class="memItemLeft" align="right" valign="top">Task&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a0d9526a8d840f2c00cb203bdebdcb994">PathIsChildOf</a> (string parentPath, string childPath, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a0d9526a8d840f2c00cb203bdebdcb994"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if a given <em>parentPath</em>  is a parent of a given <em>parentPath</em> .   <a href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a0d9526a8d840f2c00cb203bdebdcb994">More...</a><br /></td></tr>
+<tr class="separator:a0d9526a8d840f2c00cb203bdebdcb994"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae6d7a91652aa3732be0945ac09df7339"><td class="memItemLeft" align="right" valign="top">ValueTask&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ae6d7a91652aa3732be0945ac09df7339">CopyDirectory</a> (IEnumerable&lt; string &gt;? ignore, Func&lt; string, string, ValueTask &gt;? postCopyCallback, string src, string dest, int? taskThrottle, CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:ae6d7a91652aa3732be0945ac09df7339"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copies a directory from <em>src</em>  to <em>dest</em> .   <a href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ae6d7a91652aa3732be0945ac09df7339">More...</a><br /></td></tr>
 <tr class="separator:ae6d7a91652aa3732be0945ac09df7339"><td class="memSeparator" colspan="2">&#160;</td></tr>

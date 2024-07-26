@@ -1,0 +1,6 @@
+<map id="Tgstation.Server.Host.Controllers.InstanceController.CheckAccessible" name="Tgstation.Server.Host.Controllers.InstanceController.CheckAccessible">
+<area shape="rect" id="node1" title="Populate the InstanceResponse.Accessible property of a given instanceResponse ." alt="" coords="269,69,500,109"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_controller.html#a16d88c0b757913b42934e82312434633" title="Get a specific Api.Models.Instance." alt="" coords="5,5,221,45"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_controller.html#a98360d756afee2844b21b0936cc050cc" title="List Api.Models.Instances." alt="" coords="5,69,221,109"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_controller.html#a709c5985e78cdb8bde3f705869ddafb9" title="Modify an Api.Models.Instance&#39;s settings." alt="" coords="5,133,221,173"/>
+</map>

@@ -1,4 +1,5 @@
 <map id="Tgstation.Server.Host.Controllers.InstanceController.ValidateCronSetting" name="Tgstation.Server.Host.Controllers.InstanceController.ValidateCronSetting">
-<area shape="rect" id="node1" title="Validates a given instance &#39;s Api.Models.Instance.AutoUpdateCron setting." alt="" coords="269,5,515,45"/>
+<area shape="rect" id="node1" title="Validates a given instance &#39;s Api.Models.Instance.AutoUpdateCron setting." alt="" coords="269,37,515,77"/>
 <area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_controller.html#ab462ce6aa240b963c67cab7d20927060" title="Create or attach an Api.Models.Instance." alt="" coords="5,5,221,45"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_controller.html#a709c5985e78cdb8bde3f705869ddafb9" title="Modify an Api.Models.Instance&#39;s settings." alt="" coords="5,69,221,109"/>
 </map>

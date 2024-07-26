@@ -1,6 +1,7 @@
 <map id="Tgstation.Server.Host.IO.IIOManager.GetFiles" name="Tgstation.Server.Host.IO.IIOManager.GetFiles">
-<area shape="rect" id="node1" title="Returns full file names in a given path ." alt="" coords="299,69,467,109"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_open_dream_installer.html#a6bbfa8809316fbf016f231d630ad56f3" title="Does actions necessary to get an extracted installation working. A ValueTask representing the running..." alt="" coords="15,5,241,45"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#a3373ed476e620fd7c223185ab4234551" title="List LogFileResponses present." alt="" coords="20,69,236,109"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#a4bde2bc61aaf361c082bd9de17bf4157" title="Symlinks all directories in the GameData directory to destination . A ValueTask representing the runn..." alt="" coords="5,134,251,189"/>
+<area shape="rect" id="node1" title="Returns full file names in a given path ." alt="" coords="299,101,467,141"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_controller.html#ab462ce6aa240b963c67cab7d20927060" title="Create or attach an Api.Models.Instance." alt="" coords="20,5,236,45"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_open_dream_installer.html#a6bbfa8809316fbf016f231d630ad56f3" title="Does actions necessary to get an extracted installation working. A ValueTask representing the running..." alt="" coords="15,69,241,109"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#a3373ed476e620fd7c223185ab4234551" title="List LogFileResponses present." alt="" coords="20,133,236,173"/>
+<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#a4bde2bc61aaf361c082bd9de17bf4157" title="Symlinks all directories in the GameData directory to destination . A ValueTask representing the runn..." alt="" coords="5,198,251,253"/>
 </map>

@@ -1,5 +1,0 @@
-<map id="Tgstation.Server.Host.Database.IDatabaseCollection.Attach" name="Tgstation.Server.Host.Database.IDatabaseCollection.Attach">
-<area shape="rect" id="node1" title="Attach a given model &#160;to the the working set." alt="" coords="533,5,743,45"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_seeder.html#acccb4650f7b19158f0241418c7345719" title="Correct invalid database data caused by previous versions (NOT user fuckery)." alt="" coords="263,5,485,45"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_seeder.html#ad25dc5de4181c941c699a26e098149e6" title="Setup up a given databaseContext . A ValueTask representing the running operation." alt="" coords="5,5,215,45"/>
-</map>

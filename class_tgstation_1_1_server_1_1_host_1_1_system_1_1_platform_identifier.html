@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.7.0</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.8.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -109,6 +109,19 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ab29c252e971636fca5893880d01f9595"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_platform_identifier.html#ab29c252e971636fca5893880d01f9595">PlatformIdentifier</a> ()</td></tr>
 <tr class="memdesc:ab29c252e971636fca5893880d01f9595"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes a new instance of the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_platform_identifier.html">PlatformIdentifier</a> class.   <a href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_platform_identifier.html#ab29c252e971636fca5893880d01f9595">More...</a><br /></td></tr>
 <tr class="separator:ab29c252e971636fca5893880d01f9595"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a63e9b75d329abb436267bea7496ffca9"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_platform_identifier.html#a63e9b75d329abb436267bea7496ffca9">NormalizePath</a> (string path)</td></tr>
+<tr class="memdesc:a63e9b75d329abb436267bea7496ffca9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Normalize a path for consistency. <dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">path</td><td>The path to normalize.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The normalized path.</dd></dl>
+  <a href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_platform_identifier.html#a63e9b75d329abb436267bea7496ffca9">More...</a><br /></td></tr>
+<tr class="separator:a63e9b75d329abb436267bea7496ffca9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a885378549e2e71bda33b550c252e6098"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_platform_identifier.html#a885378549e2e71bda33b550c252e6098">NormalizePath</a> (string path)</td></tr>
+<tr class="memdesc:a885378549e2e71bda33b550c252e6098"><td class="mdescLeft">&#160;</td><td class="mdescRight">Normalize a path for consistency.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_platform_identifier.html#a885378549e2e71bda33b550c252e6098">More...</a><br /></td></tr>
+<tr class="separator:a885378549e2e71bda33b550c252e6098"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="properties" name="properties"></a>
 Properties</h2></td></tr>
@@ -128,7 +141,7 @@ Properties</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p class="definition">Definition at line <a class="el" href="_platform_identifier_8cs_source.html#l00007">7</a> of file <a class="el" href="_platform_identifier_8cs_source.html">PlatformIdentifier.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_platform_identifier_8cs_source.html#l00008">8</a> of file <a class="el" href="_platform_identifier_8cs_source.html">PlatformIdentifier.cs</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="ab29c252e971636fca5893880d01f9595" name="ab29c252e971636fca5893880d01f9595"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ab29c252e971636fca5893880d01f9595">&#9670;&#160;</a></span>PlatformIdentifier()</h2>
@@ -147,15 +160,56 @@ Properties</h2></td></tr>
 
 <p>Initializes a new instance of the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_platform_identifier.html">PlatformIdentifier</a> class.  </p>
 
-<p class="definition">Definition at line <a class="el" href="_platform_identifier_8cs_source.html#l00019">19</a> of file <a class="el" href="_platform_identifier_8cs_source.html">PlatformIdentifier.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   20</span>        {</div>
-<div class="line"><span class="lineno">   21</span>            <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_platform_identifier.html#acb15bcd0271ceb5c551ee21293310d8f">IsWindows</a> = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);</div>
-<div class="line"><span class="lineno">   22</span>            <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_platform_identifier.html#ad297b56dc4222debfe147d786e7c3c78">ScriptFileExtension</a> = <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_platform_identifier.html#acb15bcd0271ceb5c551ee21293310d8f">IsWindows</a> ? <span class="stringliteral">&quot;bat&quot;</span> : <span class="stringliteral">&quot;sh&quot;</span>;</div>
-<div class="line"><span class="lineno">   23</span>        }</div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_system_1_1_platform_identifier_html_acb15bcd0271ceb5c551ee21293310d8f"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_platform_identifier.html#acb15bcd0271ceb5c551ee21293310d8f">Tgstation.Server.Host.System.PlatformIdentifier.IsWindows</a></div><div class="ttdeci">bool IsWindows</div><div class="ttdoc">If the current platform is a Windows platform.</div><div class="ttdef"><b>Definition:</b> <a href="_platform_identifier_8cs_source.html#l00011">PlatformIdentifier.cs:11</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_system_1_1_platform_identifier_html_ad297b56dc4222debfe147d786e7c3c78"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_platform_identifier.html#ad297b56dc4222debfe147d786e7c3c78">Tgstation.Server.Host.System.PlatformIdentifier.ScriptFileExtension</a></div><div class="ttdeci">string ScriptFileExtension</div><div class="ttdoc">The extension of executable script files for the system.</div><div class="ttdef"><b>Definition:</b> <a href="_platform_identifier_8cs_source.html#l00014">PlatformIdentifier.cs:14</a></div></div>
+<p class="definition">Definition at line <a class="el" href="_platform_identifier_8cs_source.html#l00020">20</a> of file <a class="el" href="_platform_identifier_8cs_source.html">PlatformIdentifier.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   21</span>        {</div>
+<div class="line"><span class="lineno">   22</span>            <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_platform_identifier.html#acb15bcd0271ceb5c551ee21293310d8f">IsWindows</a> = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);</div>
+<div class="line"><span class="lineno">   23</span>            <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_platform_identifier.html#ad297b56dc4222debfe147d786e7c3c78">ScriptFileExtension</a> = <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_platform_identifier.html#acb15bcd0271ceb5c551ee21293310d8f">IsWindows</a> ? <span class="stringliteral">&quot;bat&quot;</span> : <span class="stringliteral">&quot;sh&quot;</span>;</div>
+<div class="line"><span class="lineno">   24</span>        }</div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_system_1_1_platform_identifier_html_acb15bcd0271ceb5c551ee21293310d8f"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_platform_identifier.html#acb15bcd0271ceb5c551ee21293310d8f">Tgstation.Server.Host.System.PlatformIdentifier.IsWindows</a></div><div class="ttdeci">bool IsWindows</div><div class="ttdoc">If the current platform is a Windows platform.</div><div class="ttdef"><b>Definition:</b> <a href="_platform_identifier_8cs_source.html#l00012">PlatformIdentifier.cs:12</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_system_1_1_platform_identifier_html_ad297b56dc4222debfe147d786e7c3c78"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_platform_identifier.html#ad297b56dc4222debfe147d786e7c3c78">Tgstation.Server.Host.System.PlatformIdentifier.ScriptFileExtension</a></div><div class="ttdeci">string ScriptFileExtension</div><div class="ttdoc">The extension of executable script files for the system.</div><div class="ttdef"><b>Definition:</b> <a href="_platform_identifier_8cs_source.html#l00015">PlatformIdentifier.cs:15</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_platform_identifier_8cs_source.html#l00011">Tgstation.Server.Host.System.PlatformIdentifier.IsWindows</a>, and <a class="el" href="_platform_identifier_8cs_source.html#l00014">Tgstation.Server.Host.System.PlatformIdentifier.ScriptFileExtension</a>.</p>
+<p class="reference">References <a class="el" href="_platform_identifier_8cs_source.html#l00012">Tgstation.Server.Host.System.PlatformIdentifier.IsWindows</a>, and <a class="el" href="_platform_identifier_8cs_source.html#l00015">Tgstation.Server.Host.System.PlatformIdentifier.ScriptFileExtension</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="a63e9b75d329abb436267bea7496ffca9" name="a63e9b75d329abb436267bea7496ffca9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a63e9b75d329abb436267bea7496ffca9">&#9670;&#160;</a></span>NormalizePath()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">string Tgstation.Server.Host.System.PlatformIdentifier.NormalizePath </td>
+          <td>(</td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>path</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Normalize a path for consistency. <dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">path</td><td>The path to normalize.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The normalized path.</dd></dl>
+ </p>
+
+<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_platform_identifier.html#a885378549e2e71bda33b550c252e6098">Tgstation.Server.Host.System.IPlatformIdentifier</a>.</p>
+
+<p class="definition">Definition at line <a class="el" href="_platform_identifier_8cs_source.html#l00027">27</a> of file <a class="el" href="_platform_identifier_8cs_source.html">PlatformIdentifier.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   28</span>        {</div>
+<div class="line"><span class="lineno">   29</span>            ArgumentNullException.ThrowIfNull(path);</div>
+<div class="line"><span class="lineno">   30</span>            <span class="keywordflow">if</span> (<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_platform_identifier.html#acb15bcd0271ceb5c551ee21293310d8f">IsWindows</a>)</div>
+<div class="line"><span class="lineno">   31</span>                path = path.Replace(<span class="charliteral">&#39;\\&#39;</span>, <span class="charliteral">&#39;/&#39;</span>);</div>
+<div class="line"><span class="lineno">   32</span> </div>
+<div class="line"><span class="lineno">   33</span>            <span class="keywordflow">return</span> path;</div>
+<div class="line"><span class="lineno">   34</span>        }</div>
+</div><!-- fragment -->
+<p class="reference">References <a class="el" href="_platform_identifier_8cs_source.html#l00012">Tgstation.Server.Host.System.PlatformIdentifier.IsWindows</a>.</p>
 
 </div>
 </div>
@@ -184,10 +238,10 @@ Properties</h2></td></tr>
 
 <p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_platform_identifier.html#aa9bf3bd1082b7178f58cb1f36839550e">Tgstation.Server.Host.System.IPlatformIdentifier</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_platform_identifier_8cs_source.html#l00011">11</a> of file <a class="el" href="_platform_identifier_8cs_source.html">PlatformIdentifier.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   11</span>{ <span class="keyword">get</span>; }</div>
+<p class="definition">Definition at line <a class="el" href="_platform_identifier_8cs_source.html#l00012">12</a> of file <a class="el" href="_platform_identifier_8cs_source.html">PlatformIdentifier.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   12</span>{ <span class="keyword">get</span>; }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_platform_identifier_8cs_source.html#l00019">Tgstation.Server.Host.System.PlatformIdentifier.PlatformIdentifier()</a>, <a class="el" href="20240202202038___m_s_add_minidumps_option_8cs_source.html#l00013">Tgstation.Server.Host.Database.Migrations.MSAddMinidumpsOption.Up()</a>, <a class="el" href="20240202202051___m_y_add_minidumps_option_8cs_source.html#l00013">Tgstation.Server.Host.Database.Migrations.MYAddMinidumpsOption.Up()</a>, <a class="el" href="20240202202106___p_g_add_minidumps_option_8cs_source.html#l00013">Tgstation.Server.Host.Database.Migrations.PGAddMinidumpsOption.Up()</a>, and <a class="el" href="20240202202121___s_l_add_minidumps_option_8cs_source.html#l00013">Tgstation.Server.Host.Database.Migrations.SLAddMinidumpsOption.Up()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_platform_identifier_8cs_source.html#l00027">Tgstation.Server.Host.System.PlatformIdentifier.NormalizePath()</a>, <a class="el" href="_platform_identifier_8cs_source.html#l00020">Tgstation.Server.Host.System.PlatformIdentifier.PlatformIdentifier()</a>, <a class="el" href="20240202202038___m_s_add_minidumps_option_8cs_source.html#l00013">Tgstation.Server.Host.Database.Migrations.MSAddMinidumpsOption.Up()</a>, <a class="el" href="20240202202051___m_y_add_minidumps_option_8cs_source.html#l00013">Tgstation.Server.Host.Database.Migrations.MYAddMinidumpsOption.Up()</a>, <a class="el" href="20240202202106___p_g_add_minidumps_option_8cs_source.html#l00013">Tgstation.Server.Host.Database.Migrations.PGAddMinidumpsOption.Up()</a>, and <a class="el" href="20240202202121___s_l_add_minidumps_option_8cs_source.html#l00013">Tgstation.Server.Host.Database.Migrations.SLAddMinidumpsOption.Up()</a>.</p>
 
 </div>
 </div>
@@ -215,10 +269,10 @@ Properties</h2></td></tr>
 
 <p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_platform_identifier.html#a1d6690377df88fa0c142d72a949be17f">Tgstation.Server.Host.System.IPlatformIdentifier</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_platform_identifier_8cs_source.html#l00014">14</a> of file <a class="el" href="_platform_identifier_8cs_source.html">PlatformIdentifier.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   14</span>{ <span class="keyword">get</span>; }</div>
+<p class="definition">Definition at line <a class="el" href="_platform_identifier_8cs_source.html#l00015">15</a> of file <a class="el" href="_platform_identifier_8cs_source.html">PlatformIdentifier.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   15</span>{ <span class="keyword">get</span>; }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_platform_identifier_8cs_source.html#l00019">Tgstation.Server.Host.System.PlatformIdentifier.PlatformIdentifier()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_platform_identifier_8cs_source.html#l00020">Tgstation.Server.Host.System.PlatformIdentifier.PlatformIdentifier()</a>.</p>
 
 </div>
 </div>

@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.7.0</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.8.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -393,7 +393,7 @@ Additional Inherited Members</h2></td></tr>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_manager.html#ac2e926ff84623c496393880b5a8ada61">Tgstation.Server.Host.Components.IInstanceManager.GetInstanceReference()</a>, <a class="el" href="_component_interfacing_controller_8cs_source.html#l00032">Tgstation.Server.Host.Controllers.ComponentInterfacingController.instanceManager</a>, and <a class="el" href="_api_controller_8cs_source.html#l00071">Tgstation.Server.Host.Controllers.ApiController.Logger</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_component_interfacing_controller_8cs_source.html#l00067">Tgstation.Server.Host.Controllers.ComponentInterfacingController.ValidateRequest()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_instance_controller_8cs_source.html#l00591">Tgstation.Server.Host.Controllers.InstanceController.GetId()</a>, <a class="el" href="_instance_controller_8cs_source.html#l00523">Tgstation.Server.Host.Controllers.InstanceController.List()</a>, <a class="el" href="_instance_controller_8cs_source.html#l00323">Tgstation.Server.Host.Controllers.InstanceController.Update()</a>, and <a class="el" href="_component_interfacing_controller_8cs_source.html#l00067">Tgstation.Server.Host.Controllers.ComponentInterfacingController.ValidateRequest()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -408,8 +408,11 @@ Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_component_interfacing_controller_aba9306ee424759a221509c021cdf0cde_icgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_component_interfacing_controller_aba9306ee424759a221509c021cdf0cde_icgraph" alt=""/></div>
 <map name="aclass_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_component_interfacing_controller_aba9306ee424759a221509c021cdf0cde_icgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_component_interfacing_controller_aba9306ee424759a221509c021cdf0cde_icgraph">
-<area shape="rect" title="Corrects discrepencies between the Api.Models.Instance.Online status of IInstances in the database vs..." alt="" coords="308,5,563,60"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_component_interfacing_controller.html#a518bdda7e1021bdd9782abd9f510f86b" title="Performs validation a request. A ValueTask&lt;TResult&gt; resulting in an appropriate IActionResult on vali..." alt="" coords="5,5,260,60"/>
+<area shape="rect" title="Corrects discrepencies between the Api.Models.Instance.Online status of IInstances in the database vs..." alt="" coords="308,94,563,149"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_controller.html#a16d88c0b757913b42934e82312434633" title="Get a specific Api.Models.Instance." alt="" coords="25,5,241,45"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_controller.html#a98360d756afee2844b21b0936cc050cc" title="List Api.Models.Instances." alt="" coords="25,69,241,109"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_controller.html#a709c5985e78cdb8bde3f705869ddafb9" title="Modify an Api.Models.Instance&#39;s settings." alt="" coords="25,133,241,173"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_component_interfacing_controller.html#a518bdda7e1021bdd9782abd9f510f86b" title="Performs validation a request. A ValueTask&lt;TResult&gt; resulting in an appropriate IActionResult on vali..." alt="" coords="5,198,260,253"/>
 </map>
 </div>
 
@@ -625,7 +628,7 @@ Here is the caller graph for this function:</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_manager.html#ac2e926ff84623c496393880b5a8ada61">Tgstation.Server.Host.Components.IInstanceManager.GetInstanceReference()</a>, <a class="el" href="_component_interfacing_controller_8cs_source.html#l00032">Tgstation.Server.Host.Controllers.ComponentInterfacingController.instanceManager</a>, and <a class="el" href="_serilog_context_helper_8cs_source.html#l00046">Tgstation.Server.Host.Utils.SerilogContextHelper.InstanceReferenceContextProperty</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_chat_controller_8cs_source.html#l00108">Tgstation.Server.Host.Controllers.ChatController.Create()</a>, <a class="el" href="_chat_controller_8cs_source.html#l00279">Tgstation.Server.Host.Controllers.ChatController.Update()</a>, and <a class="el" href="_repository_controller_8cs_source.html#l00299">Tgstation.Server.Host.Controllers.RepositoryController.Update()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_chat_controller_8cs_source.html#l00108">Tgstation.Server.Host.Controllers.ChatController.Create()</a>, <a class="el" href="_chat_controller_8cs_source.html#l00279">Tgstation.Server.Host.Controllers.ChatController.Update()</a>, <a class="el" href="_instance_controller_8cs_source.html#l00323">Tgstation.Server.Host.Controllers.InstanceController.Update()</a>, and <a class="el" href="_repository_controller_8cs_source.html#l00299">Tgstation.Server.Host.Controllers.RepositoryController.Update()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -640,10 +643,11 @@ Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_component_interfacing_controller_a0e985e6b0812f8bbce17ed2e5028fd65_icgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_component_interfacing_controller_a0e985e6b0812f8bbce17ed2e5028fd65_icgraph" alt=""/></div>
 <map name="aclass_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_component_interfacing_controller_a0e985e6b0812f8bbce17ed2e5028fd65_icgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_component_interfacing_controller_a0e985e6b0812f8bbce17ed2e5028fd65_icgraph">
-<area shape="rect" title="Run a given action &#160;with the relevant IInstance." alt="" coords="269,62,503,117"/>
+<area shape="rect" title="Run a given action &#160;with the relevant IInstance." alt="" coords="269,94,503,149"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_chat_controller.html#a930c1ed07039457ab6f9a8751fd462a6" title="Create a new chat bot model ." alt="" coords="5,5,221,45"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_chat_controller.html#a896419e100fc2c903dcebc89646cdf6a" title="Updates a chat bot model ." alt="" coords="5,69,221,109"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#ac4cbbd1105362b5a24122cac252143af" title="Perform updates to the repository." alt="" coords="5,133,221,173"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_controller.html#a709c5985e78cdb8bde3f705869ddafb9" title="Modify an Api.Models.Instance&#39;s settings." alt="" coords="5,133,221,173"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#ac4cbbd1105362b5a24122cac252143af" title="Perform updates to the repository." alt="" coords="5,197,221,237"/>
 </map>
 </div>
 
@@ -730,6 +734,8 @@ Here is the caller graph for this function:</div>
 <p>Access the IInstanceOperations instance.  </p>
 
 <p class="definition">Definition at line <a class="el" href="_component_interfacing_controller_8cs_source.html#l00027">27</a> of file <a class="el" href="_component_interfacing_controller_8cs_source.html">ComponentInterfacingController.cs</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="_instance_controller_8cs_source.html#l00323">Tgstation.Server.Host.Controllers.InstanceController.Update()</a>.</p>
 
 </div>
 </div>

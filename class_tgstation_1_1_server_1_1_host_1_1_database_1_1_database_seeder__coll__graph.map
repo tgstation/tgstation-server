@@ -1,15 +1,17 @@
 <map id="Tgstation.Server.Host.Database.DatabaseSeeder" name="Tgstation.Server.Host.Database.DatabaseSeeder">
-<area shape="rect" id="node1" title=" " alt="" coords="844,183,1053,223"/>
+<area shape="rect" id="node1" title=" " alt="" coords="844,215,1053,255"/>
 <area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_seeder.html" title="For initially setting up a database." alt="" coords="471,5,594,31"/>
 <area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_cryptography_suite.html" title="Contains various cryptographic functions." alt="" coords="432,55,633,95"/>
 <area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_platform_identifier.html" title="For identifying the current platform." alt="" coords="433,119,632,159"/>
 <area shape="rect" id="node5" title=" " alt="" coords="401,183,664,223"/>
 <area shape="rect" id="node6" title=" " alt="" coords="403,247,662,287"/>
-<area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html" title="General configuration options." alt="" coords="418,411,647,451"/>
-<area shape="rect" id="node8" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_server_information_base.html" title="Base class for Response.ServerInformationResponse." alt="" coords="5,387,160,412"/>
-<area shape="rect" id="node9" title=" " alt="" coords="38,311,127,336"/>
-<area shape="rect" id="node13" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_database_configuration.html" title="Configuration options for the Database.DatabaseContext." alt="" coords="418,311,647,351"/>
-<area shape="rect" id="node10" title=" " alt="" coords="36,485,129,511"/>
-<area shape="rect" id="node11" title=" " alt="" coords="61,616,104,641"/>
-<area shape="rect" id="node12" title=" " alt="" coords="7,436,159,461"/>
+<area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html" title="General configuration options." alt="" coords="418,311,647,351"/>
+<area shape="rect" id="node8" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_server_information_base.html" title="Base class for Response.ServerInformationResponse." alt="" coords="5,91,160,116"/>
+<area shape="rect" id="node9" title=" " alt="" coords="38,439,127,464"/>
+<area shape="rect" id="node13" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_database_configuration.html" title="Configuration options for the Database.DatabaseContext." alt="" coords="418,394,647,434"/>
+<area shape="rect" id="node14" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_swarm_configuration.html" title="Configuration for the server swarm system." alt="" coords="418,477,647,517"/>
+<area shape="rect" id="node10" title=" " alt="" coords="36,140,129,165"/>
+<area shape="rect" id="node11" title=" " alt="" coords="61,272,104,297"/>
+<area shape="rect" id="node12" title=" " alt="" coords="7,321,159,347"/>
+<area shape="rect" id="node15" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_swarm_server.html" title="Information about a server in the swarm." alt="" coords="32,528,133,553"/>
 </map>

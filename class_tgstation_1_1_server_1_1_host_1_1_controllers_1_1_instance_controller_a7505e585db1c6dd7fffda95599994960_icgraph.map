@@ -1,0 +1,6 @@
+<map id="Tgstation.Server.Host.Controllers.InstanceController.InstanceAdminPermissionSet" name="Tgstation.Server.Host.Controllers.InstanceController.InstanceAdminPermissionSet">
+<area shape="rect" id="node1" title="Generate an InstancePermissionSet with full rights." alt="" coords="576,37,879,77"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_controller.html#a02be01c6c5cab421a7a0c9f01f213b30" title="Creates a default Models.Instance from initialSettings ." alt="" coords="269,5,528,45"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_controller.html#aff1ddb6e7b8f7a52a29dbcc3c48b1aa3" title="Gives the current user full permissions on a given instance id ." alt="" coords="281,69,516,109"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_controller.html#ab462ce6aa240b963c67cab7d20927060" title="Create or attach an Api.Models.Instance." alt="" coords="5,5,221,45"/>
+</map>
