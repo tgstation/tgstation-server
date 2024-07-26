@@ -1,4 +1,6 @@
-![logo.svg](https://raw.githubusercontent.com/tgstation/tgstation-server/dev/build/logo.svg)
+<div style= "text-align: center;">
+<img src =https://raw.githubusercontent.com/tgstation/tgstation-server/dev/build/logo.svg>
+</div>
 
 ![CI Pipeline](https://github.com/tgstation/tgstation-server/workflows/CI%20Pipeline/badge.svg) [![codecov](https://codecov.io/gh/tgstation/tgstation-server/branch/master/graph/badge.svg)](https://codecov.io/gh/tgstation/tgstation-server)
 
