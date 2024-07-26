@@ -7,7 +7,7 @@
 
   <ItemGroup>
     <!-- Usage: Creating mock database implementations -->
-    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="8.0.6" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="8.0.7" />
   </ItemGroup>
 
   <ItemGroup>
