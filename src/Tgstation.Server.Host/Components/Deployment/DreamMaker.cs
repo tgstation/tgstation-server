@@ -607,12 +607,12 @@ namespace Tgstation.Server.Host.Components.Deployment
 				else
 				{
 					var targetDme = ioManager.ConcatPath(outputDirectory, String.Join('.', job.DmeName, DmeExtension));
+					if (!await ioManager.PathIsChildOf(outputDirectory, targetDme, cancellationToken))
+						throw new JobException(ErrorCode.DeploymentWrongDme);
+
 					var targetDmeExists = await ioManager.FileExists(targetDme, cancellationToken);
 					if (!targetDmeExists)
 						throw new JobException(ErrorCode.DeploymentMissingDme);
-
-					if (!await ioManager.PathIsChildOf(outputDirectory, targetDme, cancellationToken))
-						throw new JobException(ErrorCode.DeploymentWrongDme);
 				}
 
 				logger.LogDebug("Selected \"{dmeName}.dme\" for compilation!", job.DmeName);
