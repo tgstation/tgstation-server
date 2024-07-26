@@ -1,4 +1,5 @@
-﻿using System.Runtime.InteropServices;
+﻿using System;
+using System.Runtime.InteropServices;
 using System.Runtime.Versioning;
 
 namespace Tgstation.Server.Host.System
@@ -20,6 +21,16 @@ namespace Tgstation.Server.Host.System
 		{
 			IsWindows = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
 			ScriptFileExtension = IsWindows ? "bat" : "sh";
+		}
+
+		/// <inheritdoc />
+		public string NormalizePath(string path)
+		{
+			ArgumentNullException.ThrowIfNull(path);
+			if (IsWindows)
+				path = path.Replace('\\', '/');
+
+			return path;
 		}
 	}
 }
