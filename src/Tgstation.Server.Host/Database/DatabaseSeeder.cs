@@ -52,6 +52,11 @@ namespace Tgstation.Server.Host.Database
 		readonly DatabaseConfiguration databaseConfiguration;
 
 		/// <summary>
+		/// The <see cref="SwarmConfiguration"/> for the <see cref="DatabaseSeeder"/>.
+		/// </summary>
+		readonly SwarmConfiguration swarmConfiguration;
+
+		/// <summary>
 		/// Add a default system <see cref="User"/> to a given <paramref name="databaseContext"/>.
 		/// </summary>
 		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> to add a system <see cref="User"/> to.</param>
@@ -83,6 +88,7 @@ namespace Tgstation.Server.Host.Database
 		/// <param name="platformIdentifier">The value of <see cref="platformIdentifier"/>.</param>
 		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="generalConfiguration"/>.</param>
 		/// <param name="databaseConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="databaseConfiguration"/>.</param>
+		/// <param name="swarmConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="swarmConfiguration"/>.</param>
 		/// <param name="databaseLogger">The value of <see cref="databaseLogger"/>.</param>
 		/// <param name="logger">The value of <see cref="logger"/>.</param>
 		public DatabaseSeeder(
@@ -90,6 +96,7 @@ namespace Tgstation.Server.Host.Database
 			IPlatformIdentifier platformIdentifier,
 			IOptions<GeneralConfiguration> generalConfigurationOptions,
 			IOptions<DatabaseConfiguration> databaseConfigurationOptions,
+			IOptions<SwarmConfiguration> swarmConfigurationOptions,
 			ILogger<DatabaseContext> databaseLogger,
 			ILogger<DatabaseSeeder> logger)
 		{
@@ -97,6 +104,7 @@ namespace Tgstation.Server.Host.Database
 			this.platformIdentifier = platformIdentifier ?? throw new ArgumentNullException(nameof(platformIdentifier));
 			databaseConfiguration = databaseConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(databaseConfigurationOptions));
 			generalConfiguration = generalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
+			swarmConfiguration = swarmConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(swarmConfigurationOptions));
 			this.databaseLogger = databaseLogger ?? throw new ArgumentNullException(nameof(databaseLogger));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 		}
@@ -223,16 +231,14 @@ namespace Tgstation.Server.Host.Database
 				}
 			}
 
-			if (platformIdentifier.IsWindows)
-			{
-				// normalize backslashes to forward slashes
-				var allInstances = await databaseContext
-					.Instances
-					.AsQueryable()
-					.ToListAsync(cancellationToken);
-				foreach (var instance in allInstances)
-					instance.Path = instance.Path!.Replace('\\', '/');
-			}
+			// normalize backslashes to forward slashes
+			var allInstances = await databaseContext
+				.Instances
+				.AsQueryable()
+				.Where(instance => instance.SwarmIdentifer == swarmConfiguration.Identifier)
+				.ToListAsync(cancellationToken);
+			foreach (var instance in allInstances)
+				instance.Path = platformIdentifier.NormalizePath(instance.Path!.Replace('\\', '/'));
 
 			if (generalConfiguration.ByondTopicTimeout != 0)
 			{
