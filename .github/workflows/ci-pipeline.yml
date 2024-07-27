@@ -55,19 +55,31 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       pull-requests: write
-    if: github.event_name == 'pull_request_target' && github.event.pull_request.head.repo.id != github.event.pull_request.base.repo.id && github.event.pull_request.state == 'open'
+    if: github.event_name == 'pull_request_target' && (github.event.pull_request.head.repo.id != github.event.pull_request.base.repo.id || github.event.pull_request.user.id == 49699333) && github.event.pull_request.state == 'open'
     steps:
     - name: Comment on new Fork PR
-      if: github.event.action == 'opened' && !contains(github.event.pull_request.labels.*.name, 'CI Cleared')
+      if: github.event.action == 'opened' && !contains(github.event.pull_request.labels.*.name, 'CI Cleared') && github.event.pull_request.user.id != 49699333
       uses: thollander/actions-comment-pull-request@1d3973dc4b8e1399c0620d3f2b1aa5e795465308
       with:
         message: Thank you for contributing to ${{ github.event.pull_request.base.repo.name }}! The workflow '${{ github.workflow }}' requires repository secrets and will not run without approval. Maintainers can add the `CI Cleared` label to allow it to run. Please note that any changes to the workflow file will not be reflected in the run.
+
+    - name: Comment on dependabot PR
+      if: github.event.action == 'opened' && !contains(github.event.pull_request.labels.*.name, 'CI Cleared') && github.event.pull_request.user.id == 49699333
+      uses: thollander/actions-comment-pull-request@1d3973dc4b8e1399c0620d3f2b1aa5e795465308
+      with:
+        message: Set the milestone to the next minor version, check for supply chain attacks, and then add the `CI Cleared` label to allow CI to run.
 
     - name: "Remove Stale 'CI Cleared' Label"
       if: github.event.action == 'synchronize' || github.event.action == 'reopened'
       uses: actions-ecosystem/action-remove-labels@2ce5d41b4b6aa8503e285553f75ed56e0a40bae0
       with:
         labels: CI Cleared
+
+    - name: "Remove 'CI Approval Required' Label"
+      if: (github.event.action == 'synchronize' || github.event.action == 'reopened') || ((github.event.action == 'opened' || github.event.action == 'labeled') && contains(github.event.pull_request.labels.*.name, 'CI Cleared'))
+      uses: actions-ecosystem/action-remove-labels@2ce5d41b4b6aa8503e285553f75ed56e0a40bae0
+      with:
+        labels: CI Approval Required
 
     - name: "Add 'CI Approval Required' Label"
       if: (github.event.action == 'synchronize' || github.event.action == 'reopened') || ((github.event.action == 'opened' || github.event.action == 'labeled') && !contains(github.event.pull_request.labels.*.name, 'CI Cleared'))
@@ -76,13 +88,7 @@ jobs:
         labels: CI Approval Required
         github_token: ${{ github.token }}
 
-    - name: "Remove 'CI Approval Required' Label"
-      if: (github.event.action == 'synchronize' || github.event.action == 'reopened') || ((github.event.action == 'opened' || github.event.action == 'labeled') && !contains(github.event.pull_request.labels.*.name, 'CI Cleared'))
-      uses: actions-ecosystem/action-remove-labels@2ce5d41b4b6aa8503e285553f75ed56e0a40bae0
-      with:
-        labels: CI Approval Required
-
-    - name: Fail Clearance Check if PR has Unlabeled new Commits from Fork
+    - name: Fail Clearance Check if PR has Unlabeled new Commits from User
       if: (github.event.action == 'synchronize' || github.event.action == 'reopened') || ((github.event.action == 'opened' || github.event.action == 'labeled') && !contains(github.event.pull_request.labels.*.name, 'CI Cleared'))
       run: exit 1
 
@@ -90,7 +96,7 @@ jobs:
     name: CI Start Gate
     needs: security-checkpoint
     runs-on: ubuntu-latest
-    if: (!(cancelled() || failure()) && (needs.security-checkpoint.result == 'success' || (needs.security-checkpoint.result == 'skipped' && (github.event_name == 'push' || github.event_name == 'schedule' || (github.event.pull_request.head.repo.id == github.event.pull_request.base.repo.id && github.event_name != 'pull_request_target')))))
+    if: (!(cancelled() || failure()) && (needs.security-checkpoint.result == 'success' || (needs.security-checkpoint.result == 'skipped' && (github.event_name == 'push' || github.event_name == 'schedule' || ((github.event.pull_request.head.repo.id == github.event.pull_request.base.repo.id && github.event.pull_request.user.id != 49699333) && github.event_name != 'pull_request_target')))))
     steps:
     - name: GitHub Requires at Least One Step for a Job
       run: exit 0

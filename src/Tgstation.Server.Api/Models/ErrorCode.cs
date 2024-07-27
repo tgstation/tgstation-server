@@ -651,5 +651,11 @@ namespace Tgstation.Server.Api.Models
 		/// </summary>
 		[Description("Could not create dump as dotnet diagnostics threw an exception!")]
 		DotnetDiagnosticsFailure,
+
+		/// <summary>
+		/// The configured .dme could not be found.
+		/// </summary>
+		[Description("Could not load configured .dme due to it being outside the deployment directory! This should be a relative path.")]
+		DeploymentWrongDme,
 	}
 }

@@ -1,4 +1,6 @@
 ﻿using System;
+using System.IO;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -199,6 +201,27 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 			deployJob = await dreamMakerClient.Compile(cancellationToken);
 			await WaitForJob(deployJob, 40, true, ErrorCode.DeploymentMissingDme, cancellationToken);
+
+			// set to an absolute path that does exist
+			var tempFile = Path.GetTempFileName().Replace('\\', '/');
+			try
+			{
+				// for testing purposes, assume same drive for windows
+				var relativePath = $"../../{String.Join("/", instanceClient.Metadata.Path.Replace('\\', '/').Where(pathChar => pathChar == '/').Select(x => ".."))}{tempFile.Substring(tempFile.IndexOf('/'))}";
+				var dmePath = $"{tempFile}.dme";
+				File.Move(tempFile, dmePath);
+				tempFile = dmePath;
+				await dreamMakerClient.Update(new DreamMakerRequest
+				{
+					ProjectName = relativePath
+				}, cancellationToken);
+				deployJob = await dreamMakerClient.Compile(cancellationToken);
+				await WaitForJob(deployJob, 40, true, ErrorCode.DeploymentWrongDme, cancellationToken);
+			}
+			finally
+			{
+				File.Delete(tempFile);
+			}
 
 			// check that we can change the visibility
 
