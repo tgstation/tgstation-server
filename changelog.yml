@@ -147,8 +147,17 @@ Components:
       Author: Cyberboss
       PullRequest: 1070
   Core:
+  - Version: 6.9.0
+    ComponentVersions: {}
+    Changes: []
+    Unreleased: true
+  - Version: 6.8.1
+    ComponentVersions: {}
+    Changes: []
+    Unreleased: true
   - Version: 6.8.0
     ComponentVersions:
+      Core: 6.8.0
       HttpApi: 10.6.0
       DreamMakerApi: 7.1.3
       Configuration: 5.1.0
@@ -164,21 +173,6 @@ Components:
       - Fixed Windows path normalization applying to Linux instances in the same swarm.
       Author: Cyberboss
       PullRequest: 1835
-    Unreleased: true
-  - Version: 6.7.1
-    ComponentVersions:
-      Core: 6.7.0
-      HttpApi: 10.5.0
-      DreamMakerApi: 7.1.3
-      Configuration: 5.1.0
-      InteropApi: 5.9.0
-      HostWatchdog: 1.4.1
-      NugetCommon: 7.0.0
-      NugetApi: 13.5.0
-      NugetClient: 15.5.0
-      WebControlPanel: 5.9.0
-    Changes: []
-    Unreleased: true
   - Version: 6.7.0
     ComponentVersions:
       Core: 6.7.0
@@ -3715,7 +3709,6 @@ Components:
       - Added ErrorCode 107 for if a deployment is attempted with a project outside the deployment directory.
       Author: Cyberboss
       PullRequest: 1835
-    Unreleased: true
   - Version: 10.5.0
     Changes:
     - Descriptions:
