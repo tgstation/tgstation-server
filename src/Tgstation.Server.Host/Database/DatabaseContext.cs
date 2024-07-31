@@ -127,6 +127,12 @@ namespace Tgstation.Server.Host.Database
 		IDatabaseCollection<RevisionInformation> IDatabaseContext.RevisionInformations => revisionInformationsCollection;
 
 		/// <inheritdoc />
+		IDatabaseCollection<RevInfoTestMerge> IDatabaseContext.RevInfoTestMerges => revInfoTestMergesCollection;
+
+		/// <inheritdoc />
+		IDatabaseCollection<TestMerge> IDatabaseContext.TestMerges => testMergesCollection;
+
+		/// <inheritdoc />
 		IDatabaseCollection<DreamMakerSettings> IDatabaseContext.DreamMakerSettings => dreamMakerSettingsCollection;
 
 		/// <inheritdoc />
@@ -187,6 +193,16 @@ namespace Tgstation.Server.Host.Database
 		/// Backing field for <see cref="IDatabaseContext.RevisionInformations"/>.
 		/// </summary>
 		readonly IDatabaseCollection<RevisionInformation> revisionInformationsCollection;
+
+		/// <summary>
+		/// Backing field for <see cref="IDatabaseContext.RevInfoTestMerges"/>.
+		/// </summary>
+		readonly IDatabaseCollection<RevInfoTestMerge> revInfoTestMergesCollection;
+
+		/// <summary>
+		/// Backing field for <see cref="IDatabaseContext.TestMerges"/>.
+		/// </summary>
+		readonly IDatabaseCollection<TestMerge> testMergesCollection;
 
 		/// <summary>
 		/// Backing field for <see cref="IDatabaseContext.DreamMakerSettings"/>.
@@ -267,6 +283,8 @@ namespace Tgstation.Server.Host.Database
 			chatBotsCollection = new DatabaseCollection<ChatBot>(ChatBots!);
 			chatChannelsCollection = new DatabaseCollection<ChatChannel>(ChatChannels!);
 			revisionInformationsCollection = new DatabaseCollection<RevisionInformation>(RevisionInformations!);
+			revInfoTestMergesCollection = new DatabaseCollection<RevInfoTestMerge>(RevInfoTestMerges!);
+			testMergesCollection = new DatabaseCollection<TestMerge>(TestMerges!);
 			jobsCollection = new DatabaseCollection<Job>(Jobs!);
 			reattachInformationsCollection = new DatabaseCollection<ReattachInformation>(ReattachInformations!);
 			oAuthConnections = new DatabaseCollection<OAuthConnection>(OAuthConnections!);
