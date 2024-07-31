@@ -284,6 +284,64 @@ jobs:
         cd tests/DMAPI/BasicOperation
         $HOME/OpenDream/tgs_deploy/bin/compiler/DMCompiler --verbose --notices-enabled "basic operation_test.dme"
 
+  efcore-version-match:
+    name: Check Nuget Versions Match Tools
+    runs-on: ubuntu-latest
+    needs: start-ci-run-gate
+    if: (!(cancelled() || failure()) && needs.start-ci-run-gate.result == 'success')
+    steps:
+    - name: Checkout (Branch)
+      uses: actions/checkout@v4
+      if: github.event_name == 'push' || github.event_name == 'schedule'
+
+    - name: Checkout (PR Merge)
+      uses: actions/checkout@v4
+      if: github.event_name != 'push' && github.event_name != 'schedule'
+      with:
+        ref: "refs/pull/${{ github.event.number }}/merge"
+
+    - name: Retrieve dotnet-ef Tool Version
+      id: dotnet-ef-tool
+      run: echo "version=$(cat src/Tgstation.Server.Host/.config/dotnet-tools.json | jq -r '.tools."dotnet-ef".version')" >> $GITHUB_OUTPUT
+
+    - name: Retrieve wix Tool Version
+      id: wix-tool
+      run: echo "version=$(cat build/package/winget/.config/dotnet-tools.json | jq -r '.tools.wix.version')" >> $GITHUB_OUTPUT
+
+    - name: Retrieve dotnet-ef Nuget Version
+      id: dotnet-ef-nuget
+      run: |
+        regex='\s+<PackageReference Include="Microsoft.EntityFrameworkCore" Version="([1-9][0-9]*\.[0-9]+\.[0-9]+)" \/>'
+        if [[ $(cat src/Tgstation.Server.Host/Tgstation.Server.Host.csproj) =~ $regex ]]; then
+          echo "version=${BASH_REMATCH[1]}" >> $GITHUB_OUTPUT
+        else
+          echo "Regex search failed!"
+          exit 1
+        fi
+
+    - name: Retrieve wix Nuget Version
+      id: wix-nuget
+      run: |
+        regex='<Project Sdk="WixToolset.Sdk/([1-9][0-9]*\.[0-9]+\.[0-9]+)">'
+        if [[ $(cat build/package/winget/Tgstation.Server.Host.Service.Wix/Tgstation.Server.Host.Service.Wix.wixproj) =~ $regex ]]; then
+          echo "version=${BASH_REMATCH[1]}" >> $GITHUB_OUTPUT
+        else
+          echo "Regex search failed!"
+          exit 1
+        fi
+
+    - name: Fail if dotnet-ef Versions Don't Match
+      if: ${{ steps.dotnet-ef-tool.outputs.version != steps.dotnet-ef-nuget.outputs.version }}
+      run: |
+        echo "${{ steps.dotnet-ef-tool.outputs.version }} != ${{ steps.dotnet-ef-nuget.outputs.version }}"
+        exit 1
+
+    - name: Fail if wix Versions Don't Match
+      if: ${{ steps.wix-tool.outputs.version != steps.wix-nuget.outputs.version }}
+      run: |
+        echo "${{ steps.wix-tool.outputs.version }} != ${{ steps.wix-nuget.outputs.version }}"
+        exit 1
+
   pages-build:
     name: Build gh-pages
     runs-on: ubuntu-latest
@@ -1405,7 +1463,7 @@ jobs:
 
   ci-completion-gate: # This job exists so there isn't a moving target for branch protections
     name: CI Completion Gate
-    needs: [ pages-build, docker-build, build-deb, build-msi, validate-openapi-spec, upload-code-coverage, check-winget-pr-template, code-scanning ]
+    needs: [ pages-build, docker-build, build-deb, build-msi, validate-openapi-spec, upload-code-coverage, check-winget-pr-template, code-scanning, efcore-version-match ]
     runs-on: ubuntu-latest
     if: (!(cancelled() || failure()) && needs.pages-build.result == 'success' && needs.docker-build.result == 'success' && needs.build-deb.result == 'success' && needs.build-msi.result == 'success' && needs.validate-openapi-spec.result == 'success' && needs.upload-code-coverage.result == 'success' && needs.check-winget-pr-template.result == 'success' && needs.code-scanning.result == 'success')
     steps:
