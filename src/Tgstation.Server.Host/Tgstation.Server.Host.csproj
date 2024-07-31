@@ -124,8 +124,6 @@
     <PackageReference Include="System.Management" Version="8.0.0" />
     <!-- Usage: Temporary resolution to compatibility issues with EFCore 7 and .NET 8 -->
     <PackageReference Include="System.Security.Permissions" Version="8.0.0" />
-    <!-- Usage: .DeleteAsync() support for IQueryable<T>s -->
-    <PackageReference Include="Z.EntityFramework.Plus.EFCore" Version="8.103.1" />
   </ItemGroup>
 
   <ItemGroup>
