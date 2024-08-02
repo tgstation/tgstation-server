@@ -115,7 +115,7 @@
     <!-- Usage: File logging plugin -->
     <PackageReference Include="Serilog.Sinks.File" Version="6.0.0" />
     <!-- Usage: OpenAPI spec generator -->
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.7.0" />
     <!-- Usage: Newtonsoft.Json plugin for OpenAPI spec generator -->
     <PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" Version="6.7.0" />
     <!-- Usage: Windows authentication plugin allowing searching for users by name -->
