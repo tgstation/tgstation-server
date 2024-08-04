@@ -26,8 +26,6 @@ using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.Security;
 using Tgstation.Server.Host.Utils;
 
-using Z.EntityFramework.Plus;
-
 namespace Tgstation.Server.Host.Controllers
 {
 	/// <summary>
@@ -189,7 +187,7 @@ namespace Tgstation.Server.Host.Controllers
 							.ChatBots
 							.AsQueryable()
 							.Where(x => x.Id == id)
-							.DeleteAsync(cancellationToken));
+							.ExecuteDeleteAsync(cancellationToken));
 					return null;
 				})
 
