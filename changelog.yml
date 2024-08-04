@@ -163,7 +163,6 @@ Components:
     Unreleased: true
   - Version: 6.8.1
     ComponentVersions:
-      Core: 6.8.0
       HttpApi: 10.6.0
       DreamMakerApi: 7.1.3
       Configuration: 5.1.0
@@ -173,7 +172,11 @@ Components:
       NugetApi: 13.6.0
       NugetClient: 15.6.0
       WebControlPanel: 5.9.0
-    Changes: []
+    Changes:
+    - Descriptions:
+      - Fixed an issue where instances would fail to detach due to database conflicts.
+      Author: Cyberboss
+      PullRequest: 1845
     Unreleased: true
   - Version: 6.8.0
     ComponentVersions:

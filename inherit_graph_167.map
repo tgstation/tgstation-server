@@ -1,9 +1,4 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_i_o_auth_validator.html" title="Validates OAuth responses for a given Provider." alt="" coords="5,133,207,173"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_generic_o_auth_validator.html" title="IOAuthValidator for generic OAuth2 endpoints." alt="" coords="255,101,456,141"/>
-<area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_git_hub_o_auth_validator.html" title="IOAuthValidator for GitHub." alt="" coords="255,165,456,205"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_discord_o_auth_validator.html" title="OAuth validator for Discord." alt="" coords="533,5,735,45"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_invision_community_o_auth_validator.html" title="OAuth validator for Invision Community (selfhosted)." alt="" coords="504,69,764,109"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_keycloak_o_auth_validator.html" title="OAuth validator for Keycloak." alt="" coords="533,133,735,173"/>
-<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_t_g_forums_o_auth_validator.html" title="IOAuthValidator for /tg/ forums." alt="" coords="528,197,740,237"/>
+<area shape="rect" id="node1" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_token_factory.html" title="For creating TokenResponses." alt="" coords="5,5,207,45"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_token_factory.html" title=" " alt="" coords="255,5,456,45"/>
 </map>

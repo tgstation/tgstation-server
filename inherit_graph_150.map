@@ -1,5 +1,5 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_post_write_handler.html" title="Handles changing file modes/permissions after writing." alt="" coords="5,37,173,77"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_posix_post_write_handler.html" title="IPostWriteHandler for POSIX systems." alt="" coords="226,5,394,45"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_windows_post_write_handler.html" title="IPostWriteHandler for Windows systems." alt="" coords="221,69,399,109"/>
+<area shape="rect" id="node1" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_filesystem_link_factory.html" title="For creating filesystem symbolic links." alt="" coords="5,37,173,77"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_posix_filesystem_link_factory.html" title="IFilesystemLinkFactory for POSIX systems." alt="" coords="232,5,417,45"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_windows_filesystem_link_factory.html" title="IFilesystemLinkFactory for windows systems." alt="" coords="221,69,428,109"/>
 </map>

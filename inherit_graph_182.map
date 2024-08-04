@@ -1,3 +1,4 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_firewall_helper.html" title="Helper class for interacting with the Windows Firewall." alt="" coords="5,5,204,45"/>
+<area shape="rect" id="node1" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_executor.html" title="For launching IProcess&#39;." alt="" coords="5,5,204,45"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html" title=" " alt="" coords="252,5,451,45"/>
 </map>

@@ -224,7 +224,7 @@ Additional Inherited Members</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p ><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html" title="Base Controller for API functions.">ApiController</a> for managing <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_user_group_controller.html#aafc0eb61af361b55a6361ee42c386768">UserGroupResponse</a>s.  </p>
 
-<p class="definition">Definition at line <a class="el" href="_user_group_controller_8cs_source.html#l00032">32</a> of file <a class="el" href="_user_group_controller_8cs_source.html">UserGroupController.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_user_group_controller_8cs_source.html#l00030">30</a> of file <a class="el" href="_user_group_controller_8cs_source.html">UserGroupController.cs</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a52023376ccb7305bf4f8d933353cf9f0" name="a52023376ccb7305bf4f8d933353cf9f0"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a52023376ccb7305bf4f8d933353cf9f0">&#9670;&#160;</a></span>UserGroupController()</h2>
@@ -282,19 +282,19 @@ Additional Inherited Members</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_user_group_controller_8cs_source.html#l00047">47</a> of file <a class="el" href="_user_group_controller_8cs_source.html">UserGroupController.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   53</span>            : base(</div>
-<div class="line"><span class="lineno">   54</span>                databaseContext,</div>
-<div class="line"><span class="lineno">   55</span>                authenticationContext,</div>
-<div class="line"><span class="lineno">   56</span>                apiHeaders,</div>
-<div class="line"><span class="lineno">   57</span>                logger,</div>
-<div class="line"><span class="lineno">   58</span>                <span class="keyword">true</span>)</div>
-<div class="line"><span class="lineno">   59</span>        {</div>
-<div class="line"><span class="lineno">   60</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_user_group_controller.html#a6183174ce1cd9bcfd75c5af04563d171">generalConfiguration</a> = generalConfigurationOptions?.Value ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(generalConfigurationOptions));</div>
-<div class="line"><span class="lineno">   61</span>        }</div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_user_group_controller_html_a6183174ce1cd9bcfd75c5af04563d171"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_user_group_controller.html#a6183174ce1cd9bcfd75c5af04563d171">Tgstation.Server.Host.Controllers.UserGroupController.generalConfiguration</a></div><div class="ttdeci">readonly GeneralConfiguration generalConfiguration</div><div class="ttdoc">The GeneralConfiguration for the UserGroupController.</div><div class="ttdef"><b>Definition:</b> <a href="_user_group_controller_8cs_source.html#l00037">UserGroupController.cs:37</a></div></div>
+<p class="definition">Definition at line <a class="el" href="_user_group_controller_8cs_source.html#l00045">45</a> of file <a class="el" href="_user_group_controller_8cs_source.html">UserGroupController.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   51</span>            : base(</div>
+<div class="line"><span class="lineno">   52</span>                databaseContext,</div>
+<div class="line"><span class="lineno">   53</span>                authenticationContext,</div>
+<div class="line"><span class="lineno">   54</span>                apiHeaders,</div>
+<div class="line"><span class="lineno">   55</span>                logger,</div>
+<div class="line"><span class="lineno">   56</span>                <span class="keyword">true</span>)</div>
+<div class="line"><span class="lineno">   57</span>        {</div>
+<div class="line"><span class="lineno">   58</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_user_group_controller.html#a6183174ce1cd9bcfd75c5af04563d171">generalConfiguration</a> = generalConfigurationOptions?.Value ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(generalConfigurationOptions));</div>
+<div class="line"><span class="lineno">   59</span>        }</div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_user_group_controller_html_a6183174ce1cd9bcfd75c5af04563d171"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_user_group_controller.html#a6183174ce1cd9bcfd75c5af04563d171">Tgstation.Server.Host.Controllers.UserGroupController.generalConfiguration</a></div><div class="ttdeci">readonly GeneralConfiguration generalConfiguration</div><div class="ttdoc">The GeneralConfiguration for the UserGroupController.</div><div class="ttdef"><b>Definition:</b> <a href="_user_group_controller_8cs_source.html#l00035">UserGroupController.cs:35</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_user_group_controller_8cs_source.html#l00037">Tgstation.Server.Host.Controllers.UserGroupController.generalConfiguration</a>.</p>
+<p class="reference">References <a class="el" href="_user_group_controller_8cs_source.html#l00035">Tgstation.Server.Host.Controllers.UserGroupController.generalConfiguration</a>.</p>
 
 </div>
 </div>
@@ -336,38 +336,38 @@ Additional Inherited Members</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>A ValueTask&lt;TResult&gt; resulting in the IActionResult of the operation.</dd></dl>
 <p>&lt;response code="201"&gt;UserGroup created successfully.&lt;/response&gt; </p>
 
-<p class="definition">Definition at line <a class="el" href="_user_group_controller_8cs_source.html#l00073">73</a> of file <a class="el" href="_user_group_controller_8cs_source.html">UserGroupController.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   74</span>        {</div>
-<div class="line"><span class="lineno">   75</span>            ArgumentNullException.ThrowIfNull(model);</div>
-<div class="line"><span class="lineno">   76</span> </div>
-<div class="line"><span class="lineno">   77</span>            <span class="keywordflow">if</span> (model.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_named_entity.html#a7e2f2eeddbc6315acbcfa00c54762183">Name</a> == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">   78</span>                <span class="keywordflow">return</span> BadRequest(<span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_error_message_response.html">ErrorMessageResponse</a>(<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">ErrorCode</a>.ModelValidationFailure));</div>
-<div class="line"><span class="lineno">   79</span> </div>
-<div class="line"><span class="lineno">   80</span>            var totalGroups = await <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html">DatabaseContext</a></div>
-<div class="line"><span class="lineno">   81</span>                .<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#afdbe72c568fb4a8578a1dc965b34c9fa">Groups</a></div>
-<div class="line"><span class="lineno">   82</span>                .AsQueryable()</div>
-<div class="line"><span class="lineno">   83</span>                .CountAsync(cancellationToken);</div>
-<div class="line"><span class="lineno">   84</span>            <span class="keywordflow">if</span> (totalGroups &gt;= <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_user_group_controller.html#a6183174ce1cd9bcfd75c5af04563d171">generalConfiguration</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_server_information_base.html#a3e9282b16ff9ab6138fad75472968029">UserGroupLimit</a>)</div>
-<div class="line"><span class="lineno">   85</span>                <span class="keywordflow">return</span> Conflict(<span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_error_message_response.html">ErrorMessageResponse</a>(<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">ErrorCode</a>.UserGroupLimitReached));</div>
-<div class="line"><span class="lineno">   86</span> </div>
-<div class="line"><span class="lineno">   87</span>            var permissionSet = <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_permission_set.html">Models.PermissionSet</a></div>
-<div class="line"><span class="lineno">   88</span>            {</div>
-<div class="line"><span class="lineno">   89</span>                <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#affda1440f9c5e2dfcca65138d2f89a21">AdministrationRights</a> = model.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_user_group.html#a1cee05e0cf57f6dec93da5c7fc5a1466">PermissionSet</a>?.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_permission_set.html#a3e48853d50e80f62e6a0310e0be733f9">AdministrationRights</a> ?? <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#affda1440f9c5e2dfcca65138d2f89a21">AdministrationRights</a>.None,</div>
-<div class="line"><span class="lineno">   90</span>                <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#af199a84ed6fe6ca557db9de91070ad79">InstanceManagerRights</a> = model.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_user_group.html#a1cee05e0cf57f6dec93da5c7fc5a1466">PermissionSet</a>?.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_permission_set.html#a8676d0049c53168324b9103d252710a2">InstanceManagerRights</a> ?? <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#af199a84ed6fe6ca557db9de91070ad79">InstanceManagerRights</a>.None,</div>
-<div class="line"><span class="lineno">   91</span>            };</div>
-<div class="line"><span class="lineno">   92</span> </div>
-<div class="line"><span class="lineno">   93</span>            var dbGroup = <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user_group.html">UserGroup</a></div>
-<div class="line"><span class="lineno">   94</span>            {</div>
-<div class="line"><span class="lineno">   95</span>                Name = model.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_named_entity.html#a7e2f2eeddbc6315acbcfa00c54762183">Name</a>,</div>
-<div class="line"><span class="lineno">   96</span>                <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_permission_set.html">PermissionSet</a> = permissionSet,</div>
-<div class="line"><span class="lineno">   97</span>            };</div>
-<div class="line"><span class="lineno">   98</span> </div>
-<div class="line"><span class="lineno">   99</span>            <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html">DatabaseContext</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#afdbe72c568fb4a8578a1dc965b34c9fa">Groups</a>.Add(dbGroup);</div>
-<div class="line"><span class="lineno">  100</span>            await <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html">DatabaseContext</a>.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#ac2e88d53bf1b6ac87d175d83ed39da7c">Save</a>(cancellationToken);</div>
-<div class="line"><span class="lineno">  101</span>            <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#ae5655868c2b2b913046ecf61934ce119">Logger</a>.LogInformation(<span class="stringliteral">&quot;Created new user group {groupName} ({groupId})&quot;</span>, dbGroup.Name, dbGroup.Id);</div>
-<div class="line"><span class="lineno">  102</span> </div>
-<div class="line"><span class="lineno">  103</span>            <span class="keywordflow">return</span> <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#ae0fcee33c7b7341bc3bf0c0e66e1ebf4">Created</a>(dbGroup.ToApi(<span class="keyword">true</span>));</div>
-<div class="line"><span class="lineno">  104</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_user_group_controller_8cs_source.html#l00071">71</a> of file <a class="el" href="_user_group_controller_8cs_source.html">UserGroupController.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   72</span>        {</div>
+<div class="line"><span class="lineno">   73</span>            ArgumentNullException.ThrowIfNull(model);</div>
+<div class="line"><span class="lineno">   74</span> </div>
+<div class="line"><span class="lineno">   75</span>            <span class="keywordflow">if</span> (model.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_named_entity.html#a7e2f2eeddbc6315acbcfa00c54762183">Name</a> == <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">   76</span>                <span class="keywordflow">return</span> BadRequest(<span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_error_message_response.html">ErrorMessageResponse</a>(<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">ErrorCode</a>.ModelValidationFailure));</div>
+<div class="line"><span class="lineno">   77</span> </div>
+<div class="line"><span class="lineno">   78</span>            var totalGroups = await <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html">DatabaseContext</a></div>
+<div class="line"><span class="lineno">   79</span>                .<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#afdbe72c568fb4a8578a1dc965b34c9fa">Groups</a></div>
+<div class="line"><span class="lineno">   80</span>                .AsQueryable()</div>
+<div class="line"><span class="lineno">   81</span>                .CountAsync(cancellationToken);</div>
+<div class="line"><span class="lineno">   82</span>            <span class="keywordflow">if</span> (totalGroups &gt;= <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_user_group_controller.html#a6183174ce1cd9bcfd75c5af04563d171">generalConfiguration</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_server_information_base.html#a3e9282b16ff9ab6138fad75472968029">UserGroupLimit</a>)</div>
+<div class="line"><span class="lineno">   83</span>                <span class="keywordflow">return</span> Conflict(<span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_error_message_response.html">ErrorMessageResponse</a>(<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">ErrorCode</a>.UserGroupLimitReached));</div>
+<div class="line"><span class="lineno">   84</span> </div>
+<div class="line"><span class="lineno">   85</span>            var permissionSet = <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_permission_set.html">Models.PermissionSet</a></div>
+<div class="line"><span class="lineno">   86</span>            {</div>
+<div class="line"><span class="lineno">   87</span>                <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#affda1440f9c5e2dfcca65138d2f89a21">AdministrationRights</a> = model.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_user_group.html#a1cee05e0cf57f6dec93da5c7fc5a1466">PermissionSet</a>?.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_permission_set.html#a3e48853d50e80f62e6a0310e0be733f9">AdministrationRights</a> ?? <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#affda1440f9c5e2dfcca65138d2f89a21">AdministrationRights</a>.None,</div>
+<div class="line"><span class="lineno">   88</span>                <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#af199a84ed6fe6ca557db9de91070ad79">InstanceManagerRights</a> = model.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_user_group.html#a1cee05e0cf57f6dec93da5c7fc5a1466">PermissionSet</a>?.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_permission_set.html#a8676d0049c53168324b9103d252710a2">InstanceManagerRights</a> ?? <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#af199a84ed6fe6ca557db9de91070ad79">InstanceManagerRights</a>.None,</div>
+<div class="line"><span class="lineno">   89</span>            };</div>
+<div class="line"><span class="lineno">   90</span> </div>
+<div class="line"><span class="lineno">   91</span>            var dbGroup = <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user_group.html">UserGroup</a></div>
+<div class="line"><span class="lineno">   92</span>            {</div>
+<div class="line"><span class="lineno">   93</span>                Name = model.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_named_entity.html#a7e2f2eeddbc6315acbcfa00c54762183">Name</a>,</div>
+<div class="line"><span class="lineno">   94</span>                <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_permission_set.html">PermissionSet</a> = permissionSet,</div>
+<div class="line"><span class="lineno">   95</span>            };</div>
+<div class="line"><span class="lineno">   96</span> </div>
+<div class="line"><span class="lineno">   97</span>            <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html">DatabaseContext</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#afdbe72c568fb4a8578a1dc965b34c9fa">Groups</a>.Add(dbGroup);</div>
+<div class="line"><span class="lineno">   98</span>            await <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html">DatabaseContext</a>.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#ac2e88d53bf1b6ac87d175d83ed39da7c">Save</a>(cancellationToken);</div>
+<div class="line"><span class="lineno">   99</span>            <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#ae5655868c2b2b913046ecf61934ce119">Logger</a>.LogInformation(<span class="stringliteral">&quot;Created new user group {groupName} ({groupId})&quot;</span>, dbGroup.Name, dbGroup.Id);</div>
+<div class="line"><span class="lineno">  100</span> </div>
+<div class="line"><span class="lineno">  101</span>            <span class="keywordflow">return</span> <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#ae0fcee33c7b7341bc3bf0c0e66e1ebf4">Created</a>(dbGroup.ToApi(<span class="keyword">true</span>));</div>
+<div class="line"><span class="lineno">  102</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_server_information_base_html_a3e9282b16ff9ab6138fad75472968029"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_server_information_base.html#a3e9282b16ff9ab6138fad75472968029">Tgstation.Server.Api.Models.Internal.ServerInformationBase.UserGroupLimit</a></div><div class="ttdeci">uint UserGroupLimit</div><div class="ttdoc">The maximum number of user groups allowed.</div><div class="ttdef"><b>Definition:</b> <a href="_server_information_base_8cs_source.html#l00028">ServerInformationBase.cs:28</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_user_group_html_a1cee05e0cf57f6dec93da5c7fc5a1466"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_user_group.html#a1cee05e0cf57f6dec93da5c7fc5a1466">Tgstation.Server.Api.Models.Internal.UserGroup.PermissionSet</a></div><div class="ttdeci">PermissionSet? PermissionSet</div><div class="ttdoc">The Models.PermissionSet of the UserGroup.</div><div class="ttdef"><b>Definition:</b> <a href="_tgstation_8_server_8_api_2_models_2_internal_2_user_group_8cs_source.html#l00019">UserGroup.cs:19</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_named_entity_html_a7e2f2eeddbc6315acbcfa00c54762183"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_named_entity.html#a7e2f2eeddbc6315acbcfa00c54762183">Tgstation.Server.Api.Models.NamedEntity.Name</a></div><div class="ttdeci">virtual ? string Name</div><div class="ttdoc">The name of the entity represented by the NamedEntity.</div><div class="ttdef"><b>Definition:</b> <a href="_named_entity_8cs_source.html#l00016">NamedEntity.cs:16</a></div></div>
@@ -385,7 +385,7 @@ Additional Inherited Members</h2></td></tr>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_api_1_1_rights_html_af199a84ed6fe6ca557db9de91070ad79"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#af199a84ed6fe6ca557db9de91070ad79">Tgstation.Server.Api.Rights.InstanceManagerRights</a></div><div class="ttdeci">InstanceManagerRights</div><div class="ttdoc">Rights for managing Models.Instances.</div><div class="ttdef"><b>Definition:</b> <a href="_instance_manager_rights_8cs_source.html#l00009">InstanceManagerRights.cs:10</a></div></div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_api_1_1_rights_html_affda1440f9c5e2dfcca65138d2f89a21"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#affda1440f9c5e2dfcca65138d2f89a21">Tgstation.Server.Api.Rights.AdministrationRights</a></div><div class="ttdeci">AdministrationRights</div><div class="ttdoc">Administration rights for the server.</div><div class="ttdef"><b>Definition:</b> <a href="_administration_rights_8cs_source.html#l00009">AdministrationRights.cs:10</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_tgstation_8_server_8_api_2_models_2_permission_set_8cs_source.html#l00024">Tgstation.Server.Api.Models.PermissionSet.AdministrationRights</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#ae0fcee33c7b7341bc3bf0c0e66e1ebf4">Tgstation.Server.Host.Controllers.ApiController.Created()</a>, <a class="el" href="_user_group_controller_8cs_source.html#l00037">Tgstation.Server.Host.Controllers.UserGroupController.generalConfiguration</a>, <a class="el" href="_database_context_8cs_source.html#l00109">Tgstation.Server.Host.Database.DatabaseContext.Groups</a>, <a class="el" href="_api_controller_8cs_source.html#l00071">Tgstation.Server.Host.Controllers.ApiController.Logger</a>, <a class="el" href="_named_entity_8cs_source.html#l00016">Tgstation.Server.Api.Models.NamedEntity.Name</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#ac2e88d53bf1b6ac87d175d83ed39da7c">Tgstation.Server.Host.Database.DatabaseContext.Save()</a>, and <a class="el" href="_server_information_base_8cs_source.html#l00028">Tgstation.Server.Api.Models.Internal.ServerInformationBase.UserGroupLimit</a>.</p>
+<p class="reference">References <a class="el" href="_tgstation_8_server_8_api_2_models_2_permission_set_8cs_source.html#l00024">Tgstation.Server.Api.Models.PermissionSet.AdministrationRights</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#ae0fcee33c7b7341bc3bf0c0e66e1ebf4">Tgstation.Server.Host.Controllers.ApiController.Created()</a>, <a class="el" href="_user_group_controller_8cs_source.html#l00035">Tgstation.Server.Host.Controllers.UserGroupController.generalConfiguration</a>, <a class="el" href="_database_context_8cs_source.html#l00109">Tgstation.Server.Host.Database.DatabaseContext.Groups</a>, <a class="el" href="_api_controller_8cs_source.html#l00071">Tgstation.Server.Host.Controllers.ApiController.Logger</a>, <a class="el" href="_named_entity_8cs_source.html#l00016">Tgstation.Server.Api.Models.NamedEntity.Name</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#ac2e88d53bf1b6ac87d175d83ed39da7c">Tgstation.Server.Host.Database.DatabaseContext.Save()</a>, and <a class="el" href="_server_information_base_8cs_source.html#l00028">Tgstation.Server.Api.Models.Internal.ServerInformationBase.UserGroupLimit</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -436,28 +436,28 @@ Here is the call graph for this function:</div>
 <dl class="section return"><dt>Returns</dt><dd>A ValueTask&lt;TResult&gt; resulting in the IActionResult of the request.</dd></dl>
 <p>&lt;response code="204"&gt;UserGroup was deleted.&lt;/response&gt; &lt;response code="409"&gt;The UserGroup is not empty.&lt;/response&gt; &lt;response code="410"&gt;The UserGroup didn't exist.&lt;/response&gt; </p>
 
-<p class="definition">Definition at line <a class="el" href="_user_group_controller_8cs_source.html#l00218">218</a> of file <a class="el" href="_user_group_controller_8cs_source.html">UserGroupController.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  219</span>        {</div>
-<div class="line"><span class="lineno">  220</span>            var numDeleted = await <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html">DatabaseContext</a></div>
-<div class="line"><span class="lineno">  221</span>                .<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#afdbe72c568fb4a8578a1dc965b34c9fa">Groups</a></div>
-<div class="line"><span class="lineno">  222</span>                .AsQueryable()</div>
-<div class="line"><span class="lineno">  223</span>                .Where(x =&gt; x.Id == <span class="keywordtype">id</span> &amp;&amp; x.Users!.Count == 0)</div>
-<div class="line"><span class="lineno">  224</span>                .DeleteAsync(cancellationToken);</div>
-<div class="line"><span class="lineno">  225</span> </div>
-<div class="line"><span class="lineno">  226</span>            <span class="keywordflow">if</span> (numDeleted &gt; 0)</div>
-<div class="line"><span class="lineno">  227</span>                <span class="keywordflow">return</span> NoContent();</div>
-<div class="line"><span class="lineno">  228</span> </div>
-<div class="line"><span class="lineno">  229</span>            <span class="comment">// find out how we failed</span></div>
-<div class="line"><span class="lineno">  230</span>            var groupExists = await <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html">DatabaseContext</a></div>
-<div class="line"><span class="lineno">  231</span>                .<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#afdbe72c568fb4a8578a1dc965b34c9fa">Groups</a></div>
-<div class="line"><span class="lineno">  232</span>                .AsQueryable()</div>
-<div class="line"><span class="lineno">  233</span>                .Where(x =&gt; x.Id == <span class="keywordtype">id</span>)</div>
-<div class="line"><span class="lineno">  234</span>                .AnyAsync(cancellationToken);</div>
-<div class="line"><span class="lineno">  235</span> </div>
-<div class="line"><span class="lineno">  236</span>            <span class="keywordflow">return</span> groupExists</div>
-<div class="line"><span class="lineno">  237</span>                ? Conflict(<span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_error_message_response.html">ErrorMessageResponse</a>(<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">ErrorCode</a>.UserGroupNotEmpty))</div>
-<div class="line"><span class="lineno">  238</span>                : this.Gone();</div>
-<div class="line"><span class="lineno">  239</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_user_group_controller_8cs_source.html#l00216">216</a> of file <a class="el" href="_user_group_controller_8cs_source.html">UserGroupController.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  217</span>        {</div>
+<div class="line"><span class="lineno">  218</span>            var numDeleted = await <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html">DatabaseContext</a></div>
+<div class="line"><span class="lineno">  219</span>                .<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#afdbe72c568fb4a8578a1dc965b34c9fa">Groups</a></div>
+<div class="line"><span class="lineno">  220</span>                .AsQueryable()</div>
+<div class="line"><span class="lineno">  221</span>                .Where(x =&gt; x.Id == <span class="keywordtype">id</span> &amp;&amp; x.Users!.Count == 0)</div>
+<div class="line"><span class="lineno">  222</span>                .ExecuteDeleteAsync(cancellationToken);</div>
+<div class="line"><span class="lineno">  223</span> </div>
+<div class="line"><span class="lineno">  224</span>            <span class="keywordflow">if</span> (numDeleted &gt; 0)</div>
+<div class="line"><span class="lineno">  225</span>                <span class="keywordflow">return</span> NoContent();</div>
+<div class="line"><span class="lineno">  226</span> </div>
+<div class="line"><span class="lineno">  227</span>            <span class="comment">// find out how we failed</span></div>
+<div class="line"><span class="lineno">  228</span>            var groupExists = await <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html">DatabaseContext</a></div>
+<div class="line"><span class="lineno">  229</span>                .<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#afdbe72c568fb4a8578a1dc965b34c9fa">Groups</a></div>
+<div class="line"><span class="lineno">  230</span>                .AsQueryable()</div>
+<div class="line"><span class="lineno">  231</span>                .Where(x =&gt; x.Id == <span class="keywordtype">id</span>)</div>
+<div class="line"><span class="lineno">  232</span>                .AnyAsync(cancellationToken);</div>
+<div class="line"><span class="lineno">  233</span> </div>
+<div class="line"><span class="lineno">  234</span>            <span class="keywordflow">return</span> groupExists</div>
+<div class="line"><span class="lineno">  235</span>                ? Conflict(<span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_error_message_response.html">ErrorMessageResponse</a>(<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">ErrorCode</a>.UserGroupNotEmpty))</div>
+<div class="line"><span class="lineno">  236</span>                : this.Gone();</div>
+<div class="line"><span class="lineno">  237</span>        }</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="_database_context_8cs_source.html#l00109">Tgstation.Server.Host.Database.DatabaseContext.Groups</a>.</p>
 
@@ -500,20 +500,20 @@ Here is the call graph for this function:</div>
 <dl class="section return"><dt>Returns</dt><dd>A ValueTask&lt;TResult&gt; resulting in the IActionResult of the request.</dd></dl>
 <p>&lt;response code="200"&gt;Retrieve UserGroup successfully.&lt;/response&gt; &lt;response code="410"&gt;The requested UserGroup does not currently exist.&lt;/response&gt; </p>
 
-<p class="definition">Definition at line <a class="el" href="_user_group_controller_8cs_source.html#l00163">163</a> of file <a class="el" href="_user_group_controller_8cs_source.html">UserGroupController.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  164</span>        {</div>
-<div class="line"><span class="lineno">  165</span>            <span class="comment">// this functions as userId</span></div>
-<div class="line"><span class="lineno">  166</span>            var group = await <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html">DatabaseContext</a></div>
-<div class="line"><span class="lineno">  167</span>                .<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#afdbe72c568fb4a8578a1dc965b34c9fa">Groups</a></div>
-<div class="line"><span class="lineno">  168</span>                .AsQueryable()</div>
-<div class="line"><span class="lineno">  169</span>                .Where(x =&gt; x.Id == <span class="keywordtype">id</span>)</div>
-<div class="line"><span class="lineno">  170</span>                .Include(x =&gt; x.Users)</div>
-<div class="line"><span class="lineno">  171</span>                .Include(x =&gt; x.PermissionSet)</div>
-<div class="line"><span class="lineno">  172</span>                .FirstOrDefaultAsync(cancellationToken);</div>
-<div class="line"><span class="lineno">  173</span>            <span class="keywordflow">if</span> (group == <span class="keywordflow">default</span>)</div>
-<div class="line"><span class="lineno">  174</span>                <span class="keywordflow">return</span> this.Gone();</div>
-<div class="line"><span class="lineno">  175</span>            <span class="keywordflow">return</span> Json(group.ToApi(<span class="keyword">true</span>));</div>
-<div class="line"><span class="lineno">  176</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_user_group_controller_8cs_source.html#l00161">161</a> of file <a class="el" href="_user_group_controller_8cs_source.html">UserGroupController.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  162</span>        {</div>
+<div class="line"><span class="lineno">  163</span>            <span class="comment">// this functions as userId</span></div>
+<div class="line"><span class="lineno">  164</span>            var group = await <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html">DatabaseContext</a></div>
+<div class="line"><span class="lineno">  165</span>                .<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#afdbe72c568fb4a8578a1dc965b34c9fa">Groups</a></div>
+<div class="line"><span class="lineno">  166</span>                .AsQueryable()</div>
+<div class="line"><span class="lineno">  167</span>                .Where(x =&gt; x.Id == <span class="keywordtype">id</span>)</div>
+<div class="line"><span class="lineno">  168</span>                .Include(x =&gt; x.Users)</div>
+<div class="line"><span class="lineno">  169</span>                .Include(x =&gt; x.PermissionSet)</div>
+<div class="line"><span class="lineno">  170</span>                .FirstOrDefaultAsync(cancellationToken);</div>
+<div class="line"><span class="lineno">  171</span>            <span class="keywordflow">if</span> (group == <span class="keywordflow">default</span>)</div>
+<div class="line"><span class="lineno">  172</span>                <span class="keywordflow">return</span> this.Gone();</div>
+<div class="line"><span class="lineno">  173</span>            <span class="keywordflow">return</span> Json(group.ToApi(<span class="keyword">true</span>));</div>
+<div class="line"><span class="lineno">  174</span>        }</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="_database_context_8cs_source.html#l00109">Tgstation.Server.Host.Database.DatabaseContext.Groups</a>.</p>
 
@@ -602,39 +602,39 @@ Here is the call graph for this function:</div>
 <dl class="section return"><dt>Returns</dt><dd>A ValueTask&lt;TResult&gt; resulting in the IActionResult of the operation.</dd></dl>
 <p>&lt;response code="200"&gt;UserGroup updated successfully.&lt;/response&gt; &lt;response code="410"&gt;The requested UserGroup does not currently exist.&lt;/response&gt; </p>
 
-<p class="definition">Definition at line <a class="el" href="_user_group_controller_8cs_source.html#l00117">117</a> of file <a class="el" href="_user_group_controller_8cs_source.html">UserGroupController.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  118</span>        {</div>
-<div class="line"><span class="lineno">  119</span>            ArgumentNullException.ThrowIfNull(model);</div>
-<div class="line"><span class="lineno">  120</span> </div>
-<div class="line"><span class="lineno">  121</span>            var currentGroup = await <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html">DatabaseContext</a></div>
-<div class="line"><span class="lineno">  122</span>                .<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#afdbe72c568fb4a8578a1dc965b34c9fa">Groups</a></div>
-<div class="line"><span class="lineno">  123</span>                .AsQueryable()</div>
-<div class="line"><span class="lineno">  124</span>                .Where(x =&gt; x.Id == model.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_user_group.html#ac90a1340b19c7ea7ee7eaca106436d65">Id</a>)</div>
-<div class="line"><span class="lineno">  125</span>                .Include(x =&gt; x.PermissionSet)</div>
-<div class="line"><span class="lineno">  126</span>                .Include(x =&gt; x.Users)</div>
-<div class="line"><span class="lineno">  127</span>                .FirstOrDefaultAsync(cancellationToken);</div>
-<div class="line"><span class="lineno">  128</span> </div>
-<div class="line"><span class="lineno">  129</span>            <span class="keywordflow">if</span> (currentGroup == <span class="keywordflow">default</span>)</div>
-<div class="line"><span class="lineno">  130</span>                <span class="keywordflow">return</span> this.Gone();</div>
-<div class="line"><span class="lineno">  131</span> </div>
-<div class="line"><span class="lineno">  132</span>            <span class="keywordflow">if</span> (model.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_user_group.html#a1cee05e0cf57f6dec93da5c7fc5a1466">PermissionSet</a> != <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">  133</span>            {</div>
-<div class="line"><span class="lineno">  134</span>                currentGroup.PermissionSet!.AdministrationRights = model.PermissionSet.AdministrationRights ?? currentGroup.PermissionSet.AdministrationRights;</div>
-<div class="line"><span class="lineno">  135</span>                currentGroup.PermissionSet.InstanceManagerRights = model.PermissionSet.InstanceManagerRights ?? currentGroup.PermissionSet.InstanceManagerRights;</div>
-<div class="line"><span class="lineno">  136</span>            }</div>
+<p class="definition">Definition at line <a class="el" href="_user_group_controller_8cs_source.html#l00115">115</a> of file <a class="el" href="_user_group_controller_8cs_source.html">UserGroupController.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  116</span>        {</div>
+<div class="line"><span class="lineno">  117</span>            ArgumentNullException.ThrowIfNull(model);</div>
+<div class="line"><span class="lineno">  118</span> </div>
+<div class="line"><span class="lineno">  119</span>            var currentGroup = await <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html">DatabaseContext</a></div>
+<div class="line"><span class="lineno">  120</span>                .<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#afdbe72c568fb4a8578a1dc965b34c9fa">Groups</a></div>
+<div class="line"><span class="lineno">  121</span>                .AsQueryable()</div>
+<div class="line"><span class="lineno">  122</span>                .Where(x =&gt; x.Id == model.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_user_group.html#ac90a1340b19c7ea7ee7eaca106436d65">Id</a>)</div>
+<div class="line"><span class="lineno">  123</span>                .Include(x =&gt; x.PermissionSet)</div>
+<div class="line"><span class="lineno">  124</span>                .Include(x =&gt; x.Users)</div>
+<div class="line"><span class="lineno">  125</span>                .FirstOrDefaultAsync(cancellationToken);</div>
+<div class="line"><span class="lineno">  126</span> </div>
+<div class="line"><span class="lineno">  127</span>            <span class="keywordflow">if</span> (currentGroup == <span class="keywordflow">default</span>)</div>
+<div class="line"><span class="lineno">  128</span>                <span class="keywordflow">return</span> this.Gone();</div>
+<div class="line"><span class="lineno">  129</span> </div>
+<div class="line"><span class="lineno">  130</span>            <span class="keywordflow">if</span> (model.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_user_group.html#a1cee05e0cf57f6dec93da5c7fc5a1466">PermissionSet</a> != <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">  131</span>            {</div>
+<div class="line"><span class="lineno">  132</span>                currentGroup.PermissionSet!.AdministrationRights = model.PermissionSet.AdministrationRights ?? currentGroup.PermissionSet.AdministrationRights;</div>
+<div class="line"><span class="lineno">  133</span>                currentGroup.PermissionSet.InstanceManagerRights = model.PermissionSet.InstanceManagerRights ?? currentGroup.PermissionSet.InstanceManagerRights;</div>
+<div class="line"><span class="lineno">  134</span>            }</div>
+<div class="line"><span class="lineno">  135</span> </div>
+<div class="line"><span class="lineno">  136</span>            currentGroup.Name = model.Name ?? currentGroup.Name;</div>
 <div class="line"><span class="lineno">  137</span> </div>
-<div class="line"><span class="lineno">  138</span>            currentGroup.Name = model.Name ?? currentGroup.Name;</div>
+<div class="line"><span class="lineno">  138</span>            await <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html">DatabaseContext</a>.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#ac2e88d53bf1b6ac87d175d83ed39da7c">Save</a>(cancellationToken);</div>
 <div class="line"><span class="lineno">  139</span> </div>
-<div class="line"><span class="lineno">  140</span>            await <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html">DatabaseContext</a>.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#ac2e88d53bf1b6ac87d175d83ed39da7c">Save</a>(cancellationToken);</div>
-<div class="line"><span class="lineno">  141</span> </div>
-<div class="line"><span class="lineno">  142</span>            <span class="keywordflow">if</span> (!<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html">AuthenticationContext</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html#acfb9937bf37b839f1d60289129c5ea77">PermissionSet</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_permission_set.html#a3e48853d50e80f62e6a0310e0be733f9">AdministrationRights</a>!.Value.HasFlag(<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#affda1440f9c5e2dfcca65138d2f89a21">AdministrationRights</a>.ReadUsers))</div>
-<div class="line"><span class="lineno">  143</span>                <span class="keywordflow">return</span> Json(<span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_user_group_response.html">UserGroupResponse</a></div>
-<div class="line"><span class="lineno">  144</span>                {</div>
-<div class="line"><span class="lineno">  145</span>                    Id = currentGroup.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_user_group.html#ac90a1340b19c7ea7ee7eaca106436d65">Id</a>,</div>
-<div class="line"><span class="lineno">  146</span>                });</div>
-<div class="line"><span class="lineno">  147</span> </div>
-<div class="line"><span class="lineno">  148</span>            <span class="keywordflow">return</span> Json(currentGroup.ToApi(<span class="keyword">true</span>));</div>
-<div class="line"><span class="lineno">  149</span>        }</div>
+<div class="line"><span class="lineno">  140</span>            <span class="keywordflow">if</span> (!<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html">AuthenticationContext</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html#acfb9937bf37b839f1d60289129c5ea77">PermissionSet</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_permission_set.html#a3e48853d50e80f62e6a0310e0be733f9">AdministrationRights</a>!.Value.HasFlag(<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#affda1440f9c5e2dfcca65138d2f89a21">AdministrationRights</a>.ReadUsers))</div>
+<div class="line"><span class="lineno">  141</span>                <span class="keywordflow">return</span> Json(<span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_user_group_response.html">UserGroupResponse</a></div>
+<div class="line"><span class="lineno">  142</span>                {</div>
+<div class="line"><span class="lineno">  143</span>                    Id = currentGroup.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_user_group.html#ac90a1340b19c7ea7ee7eaca106436d65">Id</a>,</div>
+<div class="line"><span class="lineno">  144</span>                });</div>
+<div class="line"><span class="lineno">  145</span> </div>
+<div class="line"><span class="lineno">  146</span>            <span class="keywordflow">return</span> Json(currentGroup.ToApi(<span class="keyword">true</span>));</div>
+<div class="line"><span class="lineno">  147</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_user_group_html_ac90a1340b19c7ea7ee7eaca106436d65"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_user_group.html#ac90a1340b19c7ea7ee7eaca106436d65">Tgstation.Server.Api.Models.Internal.UserGroup.Id</a></div><div class="ttdeci">override? long Id</div><div class="ttdef"><b>Definition:</b> <a href="_tgstation_8_server_8_api_2_models_2_internal_2_user_group_8cs_source.html#l00010">UserGroup.cs:11</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_user_group_response_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_user_group_response.html">Tgstation.Server.Api.Models.Response.UserGroupResponse</a></div><div class="ttdef"><b>Definition:</b> <a href="_user_group_response_8cs_source.html#l00008">UserGroupResponse.cs:9</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html">Tgstation.Server.Host.Security.AuthenticationContext</a></div><div class="ttdef"><b>Definition:</b> <a href="_authentication_context_8cs_source.html#l00010">AuthenticationContext.cs:11</a></div></div>
@@ -736,9 +736,9 @@ Here is the call graph for this function:</div>
 
 <p>The GeneralConfiguration for the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_user_group_controller.html" title="ApiController for managing UserGroupResponses.">UserGroupController</a>.  </p>
 
-<p class="definition">Definition at line <a class="el" href="_user_group_controller_8cs_source.html#l00037">37</a> of file <a class="el" href="_user_group_controller_8cs_source.html">UserGroupController.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_user_group_controller_8cs_source.html#l00035">35</a> of file <a class="el" href="_user_group_controller_8cs_source.html">UserGroupController.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_user_group_controller_8cs_source.html#l00073">Tgstation.Server.Host.Controllers.UserGroupController.Create()</a>, and <a class="el" href="_user_group_controller_8cs_source.html#l00047">Tgstation.Server.Host.Controllers.UserGroupController.UserGroupController()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_user_group_controller_8cs_source.html#l00071">Tgstation.Server.Host.Controllers.UserGroupController.Create()</a>, and <a class="el" href="_user_group_controller_8cs_source.html#l00045">Tgstation.Server.Host.Controllers.UserGroupController.UserGroupController()</a>.</p>
 
 </div>
 </div>

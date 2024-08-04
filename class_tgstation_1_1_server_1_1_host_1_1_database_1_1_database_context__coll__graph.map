@@ -1,21 +1,23 @@
 <map id="Tgstation.Server.Host.Database.DatabaseContext" name="Tgstation.Server.Host.Database.DatabaseContext">
-<area shape="rect" id="node1" title="Backend abstract implementation of IDatabaseContext." alt="" coords="549,532,759,572"/>
-<area shape="rect" id="node2" href="$class_db_context.html" title=" " alt="" coords="111,17,194,42"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context.html" title="Represents the database." alt="" coords="90,66,215,91"/>
-<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_collection.html" title=" " alt="" coords="48,116,257,156"/>
-<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_collection.html" title=" " alt="" coords="47,180,258,220"/>
-<area shape="rect" id="node6" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_collection.html" title=" " alt="" coords="39,244,267,284"/>
-<area shape="rect" id="node7" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_collection.html" title=" " alt="" coords="5,308,300,348"/>
-<area shape="rect" id="node8" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_collection.html" title=" " alt="" coords="48,372,257,412"/>
-<area shape="rect" id="node9" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_collection.html" title=" " alt="" coords="15,436,290,476"/>
-<area shape="rect" id="node10" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_collection.html" title=" " alt="" coords="11,500,294,540"/>
-<area shape="rect" id="node11" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_collection.html" title=" " alt="" coords="5,564,300,604"/>
-<area shape="rect" id="node12" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_collection.html" title=" " alt="" coords="48,628,257,668"/>
-<area shape="rect" id="node13" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_collection.html" title=" " alt="" coords="35,692,270,732"/>
-<area shape="rect" id="node14" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_collection.html" title=" " alt="" coords="18,756,287,796"/>
-<area shape="rect" id="node15" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_collection.html" title=" " alt="" coords="14,820,291,860"/>
-<area shape="rect" id="node16" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_collection.html" title=" " alt="" coords="21,884,284,924"/>
-<area shape="rect" id="node17" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_collection.html" title=" " alt="" coords="41,948,264,988"/>
-<area shape="rect" id="node18" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_collection.html" title=" " alt="" coords="30,1012,275,1052"/>
-<area shape="rect" id="node19" title=" " alt="" coords="85,1099,221,1125"/>
+<area shape="rect" id="node1" title="Backend abstract implementation of IDatabaseContext." alt="" coords="549,597,759,637"/>
+<area shape="rect" id="node2" href="$class_db_context.html" title=" " alt="" coords="111,18,194,43"/>
+<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context.html" title="Represents the database." alt="" coords="90,67,215,92"/>
+<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_collection.html" title=" " alt="" coords="48,117,257,157"/>
+<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_collection.html" title=" " alt="" coords="47,181,258,221"/>
+<area shape="rect" id="node6" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_collection.html" title=" " alt="" coords="39,245,267,285"/>
+<area shape="rect" id="node7" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_collection.html" title=" " alt="" coords="5,309,300,349"/>
+<area shape="rect" id="node8" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_collection.html" title=" " alt="" coords="48,373,257,413"/>
+<area shape="rect" id="node9" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_collection.html" title=" " alt="" coords="15,437,290,477"/>
+<area shape="rect" id="node10" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_collection.html" title=" " alt="" coords="19,501,286,541"/>
+<area shape="rect" id="node11" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_collection.html" title=" " alt="" coords="41,565,264,605"/>
+<area shape="rect" id="node12" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_collection.html" title=" " alt="" coords="11,629,294,669"/>
+<area shape="rect" id="node13" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_collection.html" title=" " alt="" coords="5,693,300,733"/>
+<area shape="rect" id="node14" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_collection.html" title=" " alt="" coords="48,757,257,797"/>
+<area shape="rect" id="node15" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_collection.html" title=" " alt="" coords="35,821,270,861"/>
+<area shape="rect" id="node16" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_collection.html" title=" " alt="" coords="18,885,287,925"/>
+<area shape="rect" id="node17" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_collection.html" title=" " alt="" coords="14,949,291,989"/>
+<area shape="rect" id="node18" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_collection.html" title=" " alt="" coords="21,1013,284,1053"/>
+<area shape="rect" id="node19" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_collection.html" title=" " alt="" coords="41,1077,264,1117"/>
+<area shape="rect" id="node20" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_collection.html" title=" " alt="" coords="30,1141,275,1181"/>
+<area shape="rect" id="node21" title=" " alt="" coords="85,1228,221,1254"/>
 </map>
