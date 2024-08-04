@@ -21,8 +21,6 @@ using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.Security;
 using Tgstation.Server.Host.Utils;
 
-using Z.EntityFramework.Plus;
-
 namespace Tgstation.Server.Host.Controllers
 {
 	/// <summary>
@@ -221,7 +219,7 @@ namespace Tgstation.Server.Host.Controllers
 				.Groups
 				.AsQueryable()
 				.Where(x => x.Id == id && x.Users!.Count == 0)
-				.DeleteAsync(cancellationToken);
+				.ExecuteDeleteAsync(cancellationToken);
 
 			if (numDeleted > 0)
 				return NoContent();

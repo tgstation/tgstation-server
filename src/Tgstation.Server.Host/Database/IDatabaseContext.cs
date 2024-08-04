@@ -46,6 +46,16 @@ namespace Tgstation.Server.Host.Database
 		IDatabaseCollection<RevisionInformation> RevisionInformations { get; }
 
 		/// <summary>
+		/// The <see cref="RevInfoTestMerge"/>s in the <see cref="IDatabaseContext"/>.
+		/// </summary>
+		IDatabaseCollection<RevInfoTestMerge> RevInfoTestMerges { get; }
+
+		/// <summary>
+		/// The <see cref="TestMerge"/>s in the <see cref="IDatabaseContext"/>.
+		/// </summary>
+		IDatabaseCollection<TestMerge> TestMerges { get; }
+
+		/// <summary>
 		/// The <see cref="Models.DreamMakerSettings"/> in the <see cref="IDatabaseContext"/>.
 		/// </summary>
 		IDatabaseCollection<DreamMakerSettings> DreamMakerSettings { get; }

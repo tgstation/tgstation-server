@@ -285,8 +285,6 @@ namespace Tgstation.Server.Host.Controllers
 			if (originalModel.Online!.Value)
 				return Conflict(new ErrorMessageResponse(ErrorCode.InstanceDetachOnline));
 
-			DatabaseContext.Instances.Remove(originalModel);
-
 			var originalPath = originalModel.Path!;
 			var attachFileName = ioManager.ConcatPath(originalPath, InstanceAttachFileName);
 			try
@@ -301,7 +299,35 @@ namespace Tgstation.Server.Host.Controllers
 				throw;
 			}
 
-			await DatabaseContext.Save(cancellationToken); // cascades everything
+			try
+			{
+				// yes this is racy af. I hate it
+				// there's a bug where removing the root instance doesn't work sometimes
+				await DatabaseContext
+					.CompileJobs
+					.AsQueryable()
+					.Where(x => x.Job!.Instance!.Id == id)
+					.ExecuteDeleteAsync(cancellationToken);
+				await DatabaseContext
+					.RevInfoTestMerges
+					.AsQueryable()
+					.Where(x => x.RevisionInformation.InstanceId == id)
+					.ExecuteDeleteAsync(cancellationToken);
+				await DatabaseContext
+					.RevisionInformations
+					.AsQueryable()
+					.Where(x => x.InstanceId == id)
+					.ExecuteDeleteAsync(cancellationToken);
+
+				DatabaseContext.Instances.Remove(originalModel);
+				await DatabaseContext.Save(cancellationToken); // cascades everything else
+			}
+			catch
+			{
+				await ioManager.DeleteFile(attachFileName, CancellationToken.None); // DCT: Shouldn't be cancelled
+				throw;
+			}
+
 			return NoContent();
 		}
 

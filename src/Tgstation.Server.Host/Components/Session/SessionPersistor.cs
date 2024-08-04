@@ -11,8 +11,6 @@ using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.System;
 
-using Z.EntityFramework.Plus;
-
 namespace Tgstation.Server.Host.Components.Session
 {
 	/// <inheritdoc />
@@ -221,7 +219,7 @@ namespace Tgstation.Server.Host.Components.Session
 						.ReattachInformations
 						.AsQueryable()
 						.Where(x => x.Id == result.Id)
-						.DeleteAsync(cancellationToken);
+						.ExecuteDeleteAsync(cancellationToken);
 				});
 				return null;
 			}
@@ -271,7 +269,7 @@ namespace Tgstation.Server.Host.Components.Session
 
 			if (instant)
 				await baseQuery
-					.DeleteAsync(cancellationToken);
+					.ExecuteDeleteAsync(cancellationToken);
 			else
 			{
 				var results = await baseQuery.ToListAsync(cancellationToken);
