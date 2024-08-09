@@ -6,6 +6,10 @@ on:
     - master
   workflow_dispatch:
 
+env:
+  TGS_DOTNET_VERSION: 8
+  OD_MIN_COMPAT_DOTNET_VERSION: 7
+
 jobs:
   master-merge:
     name: Master Merge
