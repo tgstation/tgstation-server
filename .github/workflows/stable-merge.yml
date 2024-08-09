@@ -6,11 +6,21 @@ on:
     - master
   workflow_dispatch:
 
+env:
+  TGS_DOTNET_VERSION: 8
+  OD_MIN_COMPAT_DOTNET_VERSION: 7
+
 jobs:
   master-merge:
     name: Master Merge
     runs-on: ubuntu-latest
     steps:
+    - name: Setup dotnet
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '${{ env.TGS_DOTNET_VERSION }}.0.x'
+        dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
+
     - name: Build Checkout
       uses: actions/checkout@v4
       with:
@@ -49,7 +59,7 @@ jobs:
         allow_ff: true
         allow_forks: true
         user_name: tgstation-server-ci[bot]
-        user_email: 847638+tgstation-server-ci[bot]@users.noreply.github.com
+        user_email: 161980869+tgstation-server-ci[bot]@users.noreply.github.com
         push_token: INSTALLATION_TOKEN
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
