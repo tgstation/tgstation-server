@@ -9,7 +9,7 @@
     <TgsCommonLibraryVersion>7.0.0</TgsCommonLibraryVersion>
     <TgsApiLibraryVersion>13.6.0</TgsApiLibraryVersion>
     <TgsClientVersion>15.6.0</TgsClientVersion>
-    <TgsDmapiVersion>7.1.3</TgsDmapiVersion>
+    <TgsDmapiVersion>7.2.0</TgsDmapiVersion>
     <TgsInteropVersion>5.9.0</TgsInteropVersion>
     <TgsHostWatchdogVersion>1.4.1</TgsHostWatchdogVersion>
     <TgsContainerScriptVersion>1.2.1</TgsContainerScriptVersion>
