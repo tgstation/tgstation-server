@@ -50,7 +50,7 @@ namespace Tgstation.Server.Host.Components.Chat.Commands
 		public async ValueTask<MessageContent> Invoke(string arguments, ChatUser user, CancellationToken cancellationToken)
 		{
 			string result;
-			if (arguments.Split(' ').Any(x => x.ToUpperInvariant() == "--REPO"))
+			if (arguments.Split(' ').Any(x => x.Equals("--repo", StringComparison.OrdinalIgnoreCase)))
 			{
 				if (repositoryManager.CloneInProgress || repositoryManager.InUse)
 					return new MessageContent
@@ -58,15 +58,13 @@ namespace Tgstation.Server.Host.Components.Chat.Commands
 						Text = "Repository busy! Try again later",
 					};
 
-				using (var repo = await repositoryManager.LoadRepository(cancellationToken))
-				{
-					if (repo == null)
-						return new MessageContent
-						{
-							Text = "Repository unavailable!",
-						};
-					result = repo.Head;
-				}
+				using var repo = await repositoryManager.LoadRepository(cancellationToken);
+				if (repo == null)
+					return new MessageContent
+					{
+						Text = "Repository unavailable!",
+					};
+				result = repo.Head;
 			}
 			else
 			{
