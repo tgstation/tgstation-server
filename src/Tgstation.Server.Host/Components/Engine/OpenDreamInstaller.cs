@@ -176,6 +176,7 @@ namespace Tgstation.Server.Host.Components.Engine
 					null,
 					null,
 					true,
+					false,
 					progressSection2,
 					cancellationToken);
 

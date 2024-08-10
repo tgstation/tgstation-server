@@ -224,6 +224,42 @@ namespace Tgstation.Server.Host.Controllers
 		}
 
 		/// <summary>
+		/// Delete the repository.
+		/// </summary>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation.</returns>
+		/// <response code="202">Job to delete the repository created successfully.</response>
+		/// <response code="410">The database entity for the requested instance could not be retrieved. The instance was likely detached.</response>
+		[HttpPatch]
+		[TgsAuthorize(RepositoryRights.Reclone)]
+		[ProducesResponseType(typeof(RepositoryResponse), 202)]
+		[ProducesResponseType(typeof(ErrorMessageResponse), 410)]
+		public async ValueTask<IActionResult> Reclone(CancellationToken cancellationToken)
+		{
+			var currentModel = await DatabaseContext
+				.RepositorySettings
+				.AsQueryable()
+				.Where(x => x.InstanceId == Instance.Id)
+				.FirstOrDefaultAsync(cancellationToken);
+
+			if (currentModel == default)
+				return this.Gone();
+
+			Logger.LogInformation("Instance {instanceId} repository reclone initiated by user {userId}", Instance.Id, AuthenticationContext.User.Require(x => x.Id));
+
+			var repositoryUpdater = CreateRepositoryUpdateService(currentModel);
+
+			var job = Job.Create(JobCode.RepositoryReclone, AuthenticationContext.User, Instance);
+			var api = currentModel.ToApi();
+			await jobManager.RegisterOperation(
+				job,
+				(core, databaseContextFactory, paramJob, progressReporter, ct) => repositoryUpdater.RepositoryRecloneJob(core, databaseContextFactory, progressReporter, ct),
+				cancellationToken);
+			api.ActiveJob = job.ToApi();
+			return Accepted(api);
+		}
+
+		/// <summary>
 		/// Get the repository's status.
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
@@ -443,17 +479,12 @@ namespace Tgstation.Server.Host.Controllers
 			var job = Job.Create(JobCode.RepositoryUpdate, AuthenticationContext.User, Instance, RepositoryRights.CancelPendingChanges);
 			job.Description = description;
 
-			var repositoryUpdater = new RepositoryUpdateService(
-				model,
-				currentModel,
-				AuthenticationContext.User,
-				loggerFactory.CreateLogger<RepositoryUpdateService>(),
-				Instance.Require(x => x.Id));
+			var repositoryUpdater = CreateRepositoryUpdateService(currentModel);
 
 			// Time to access git, do it in a job
 			await jobManager.RegisterOperation(
 				job,
-				repositoryUpdater.RepositoryUpdateJob,
+				(instance, databaseContextFactory, _, progressReporter, jobToken) => repositoryUpdater.RepositoryUpdateJob(model, instance, databaseContextFactory, progressReporter, jobToken),
 				cancellationToken);
 
 			api.ActiveJob = job.ToApi();
@@ -494,5 +525,17 @@ namespace Tgstation.Server.Host.Controllers
 				cancellationToken);
 			return needsDbUpdate;
 		}
+
+		/// <summary>
+		/// Creates a <see cref="RepositoryUpdateService"/>.
+		/// </summary>
+		/// <param name="currentModel">The current <see cref="RepositorySettings"/>.</param>
+		/// <returns>A new <see cref="RepositoryUpdateService"/>.</returns>
+		RepositoryUpdateService CreateRepositoryUpdateService(RepositorySettings currentModel)
+			=> new(
+				currentModel,
+				AuthenticationContext.User,
+				loggerFactory.CreateLogger<RepositoryUpdateService>(),
+				Instance.Require(x => x.Id));
 	}
 }
