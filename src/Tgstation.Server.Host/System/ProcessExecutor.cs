@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 
 using Tgstation.Server.Host.IO;
+using Tgstation.Server.Host.Utils;
 
 namespace Tgstation.Server.Host.System
 {
@@ -31,6 +32,11 @@ namespace Tgstation.Server.Host.System
 		/// The <see cref="IIOManager"/> for the <see cref="ProcessExecutor"/>.
 		/// </summary>
 		readonly IIOManager ioManager;
+
+		/// <summary>
+		/// The <see cref="IAsyncDelayer"/> for the <see cref="ProcessExecutor"/>.
+		/// </summary>
+		readonly IAsyncDelayer asyncDelayer;
 
 		/// <summary>
 		/// The <see cref="ILogger"/> for the <see cref="ProcessExecutor"/>.
@@ -64,16 +70,19 @@ namespace Tgstation.Server.Host.System
 		/// </summary>
 		/// <param name="processFeatures">The value of <see cref="processFeatures"/>.</param>
 		/// <param name="ioManager">The value of <see cref="ioManager"/>.</param>
+		/// <param name="asyncDelayer">The value of <see cref="asyncDelayer"/>.</param>
 		/// <param name="logger">The value of <see cref="logger"/>.</param>
 		/// <param name="loggerFactory">The value of <see cref="loggerFactory"/>.</param>
 		public ProcessExecutor(
 			IProcessFeatures processFeatures,
 			IIOManager ioManager,
+			IAsyncDelayer asyncDelayer,
 			ILogger<ProcessExecutor> logger,
 			ILoggerFactory loggerFactory)
 		{
 			this.processFeatures = processFeatures ?? throw new ArgumentNullException(nameof(processFeatures));
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
+			this.asyncDelayer = asyncDelayer ?? throw new ArgumentNullException(nameof(asyncDelayer));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 			this.loggerFactory = loggerFactory ?? throw new ArgumentNullException(nameof(loggerFactory));
 		}
@@ -195,6 +204,7 @@ namespace Tgstation.Server.Host.System
 
 					var process = new Process(
 						processFeatures,
+						asyncDelayer,
 						handle,
 						disposeCts,
 						readTask,
@@ -354,6 +364,7 @@ namespace Tgstation.Server.Host.System
 				var pid = handle.Id;
 				return new Process(
 					processFeatures,
+					asyncDelayer,
 					handle,
 					null,
 					null,

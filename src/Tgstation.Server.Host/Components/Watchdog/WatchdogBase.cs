@@ -290,6 +290,17 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		}
 
 		/// <inheritdoc />
+		public async Task<(long MemoryUsage, double CpuUsage)?> PerformanceProfile(TimeSpan timeSpan, CancellationToken cancellationToken)
+		{
+			var controller = GetActiveController();
+			if (controller == null)
+				return null;
+
+			var cpuUsage = await controller.GetCpuUsage(timeSpan, cancellationToken);
+			return (controller.MemoryUsage, CpuUsage: cpuUsage);
+		}
+
+		/// <inheritdoc />
 		public async ValueTask<MessageContent> HandleChatCommand(string commandName, string arguments, ChatUser sender, CancellationToken cancellationToken)
 		{
 			using (await SemaphoreSlimContext.Lock(synchronizationSemaphore, cancellationToken))

@@ -121,6 +121,9 @@ namespace Tgstation.Server.Host.Components.Session
 		/// </summary>
 		public FifoSemaphore TopicSendSemaphore { get; }
 
+		/// <inheritdoc />
+		public long MemoryUsage => process.MemoryUsage;
+
 		/// <summary>
 		/// The <see cref="Byond.TopicSender.ITopicClient"/> for the <see cref="SessionController"/>.
 		/// </summary>
@@ -512,6 +515,10 @@ namespace Tgstation.Server.Host.Components.Session
 
 			return process.CreateDump(outputFile, minidump, cancellationToken);
 		}
+
+		/// <inheritdoc />
+		public ValueTask<double> GetCpuUsage(TimeSpan waitingWindow, CancellationToken cancellationToken)
+			=> process.GetCpuUsage(waitingWindow, cancellationToken);
 
 		/// <summary>
 		/// The <see cref="Task{TResult}"/> for <see cref="LaunchResult"/>.

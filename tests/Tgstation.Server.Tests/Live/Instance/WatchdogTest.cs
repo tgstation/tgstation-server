@@ -150,6 +150,8 @@ namespace Tgstation.Server.Tests.Live.Instance
 						}, cancellationToken);
 
 						Assert.AreEqual<ushort?>(47, updated.OpenDreamTopicPort);
+						Assert.IsFalse(updated.ImmediateCpuUsage.HasValue);
+						Assert.IsFalse(updated.ImmediateMemoryUsage.HasValue);
 					}
 					catch (ConflictException ex) when (ex.ErrorCode == ErrorCode.PortNotAvailable)
 					{
@@ -266,7 +268,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 					do
 					{
 						await Task.Delay(TimeSpan.FromSeconds(1), tempToken);
-						currentStatus = await instanceClient.DreamDaemon.Read(tempToken);
+						currentStatus = await instanceClient.DreamDaemon.Read(null, tempToken);
 					}
 					while (currentStatus.Status != WatchdogStatus.Offline);
 				}
@@ -358,7 +360,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			// This one fucks with the access_identifer, run it in isolation
 			await WhiteBoxValidateBridgeRequestLimitAndTestChunking(cancellationToken);
 
-			var ddInfo = await instanceClient.DreamDaemon.Read(cancellationToken);
+			var ddInfo = await instanceClient.DreamDaemon.Read(null, cancellationToken);
 			await CheckDMApiFail(ddInfo.ActiveCompileJob, cancellationToken);
 
 			var deleteJob = await deleteJobTask;
@@ -613,7 +615,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 			await WaitForJob(startJob, 40, false, null, cancellationToken);
 
-			daemonStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
+			daemonStatus = await instanceClient.DreamDaemon.Read(null, cancellationToken);
 
 			Assert.AreEqual(WatchdogStatus.Online, daemonStatus.Status.Value);
 			ValidateSessionId(daemonStatus, true);
@@ -714,17 +716,19 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 			await WaitForJob(startJob, 40, false, null, cancellationToken);
 
-			daemonStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
+			daemonStatus = await instanceClient.DreamDaemon.Read(null, cancellationToken);
 
 			Assert.AreEqual(WatchdogStatus.Online, daemonStatus.Status.Value);
 			ValidateSessionId(daemonStatus, true);
 			await CheckDDPriority();
 			Assert.AreEqual(false, daemonStatus.SoftRestart);
 			Assert.AreEqual(false, daemonStatus.SoftShutdown);
+			Assert.IsFalse(daemonStatus.ImmediateMemoryUsage.HasValue);
+			Assert.IsFalse(daemonStatus.ImmediateCpuUsage.HasValue);
 
 			await GracefulWatchdogShutdown(cancellationToken);
 
-			daemonStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
+			daemonStatus = await instanceClient.DreamDaemon.Read(null, cancellationToken);
 			Assert.AreEqual(WatchdogStatus.Offline, daemonStatus.Status.Value);
 			Assert.IsFalse(daemonStatus.SessionId.HasValue);
 			await ExpectGameDirectoryCount(1, cancellationToken);
@@ -845,6 +849,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 					? new WindowsProcessFeatures(Mock.Of<ILogger<WindowsProcessFeatures>>())
 					: new PosixProcessFeatures(new Lazy<IProcessExecutor>(() => executor), new DefaultIOManager(), Mock.Of<ILogger<PosixProcessFeatures>>()),
 				Mock.Of<IIOManager>(),
+				Mock.Of<IAsyncDelayer>(),
 				Mock.Of<ILogger<ProcessExecutor>>(),
 				LoggerFactory.Create(x => { }));
 			await using var ourProcessHandler = executor
@@ -894,7 +899,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			var timeout = 20;
 			do
 			{
-				ddStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
+				ddStatus = await instanceClient.DreamDaemon.Read(null, cancellationToken);
 				Assert.AreEqual(1U, ddStatus.HealthCheckSeconds.Value);
 				if (ddStatus.Status.Value == WatchdogStatus.Offline)
 				{
@@ -1114,11 +1119,11 @@ namespace Tgstation.Server.Tests.Live.Instance
 		// - Injects a custom bridge handler into the bridge registrar and makes the test hack into the DMAPI and change its access_identifier
 		async Task WhiteBoxChatCommandTest(CancellationToken cancellationToken)
 		{
-			var ddInfo = await instanceClient.DreamDaemon.Read(cancellationToken);
+			var ddInfo = await instanceClient.DreamDaemon.Read(null, cancellationToken);
 			for (int i = 0; ddInfo.Status != WatchdogStatus.Online && i < 15; ++i)
 			{
 				await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);
-				ddInfo = await instanceClient.DreamDaemon.Read(cancellationToken);
+				ddInfo = await instanceClient.DreamDaemon.Read(null, cancellationToken);
 			}
 
 			Assert.AreEqual(WatchdogStatus.Online, ddInfo.Status);
@@ -1169,7 +1174,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 			var endTime = DateTimeOffset.UtcNow + TimeSpan.FromSeconds(5);
 
-			ddInfo = await instanceClient.DreamDaemon.Read(cancellationToken);
+			ddInfo = await instanceClient.DreamDaemon.Read(null, cancellationToken);
 			await CheckDMApiFail(ddInfo.ActiveCompileJob, cancellationToken);
 
 			CheckEmbedsTest(embedsResponse, startTime, endTime);
@@ -1270,7 +1275,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 			await instanceClient.DreamDaemon.Shutdown(cancellationToken);
 
-			daemonStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
+			daemonStatus = await instanceClient.DreamDaemon.Read(null, cancellationToken);
 			Assert.AreEqual(WatchdogStatus.Offline, daemonStatus.Status.Value);
 			await CheckDMApiFail(daemonStatus.ActiveCompileJob, cancellationToken);
 		}
@@ -1317,7 +1322,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 			await instanceClient.DreamDaemon.Shutdown(cancellationToken);
 
-			daemonStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
+			daemonStatus = await instanceClient.DreamDaemon.Read(null, cancellationToken);
 			Assert.AreEqual(WatchdogStatus.Offline, daemonStatus.Status.Value);
 			await CheckDMApiFail(daemonStatus.ActiveCompileJob, cancellationToken);
 		}
@@ -1330,7 +1335,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			var currentByondVersion = await instanceClient.Engine.ActiveVersion(cancellationToken);
 			Assert.AreNotEqual(versionToInstall, currentByondVersion.EngineVersion);
 
-			var initialStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
+			var initialStatus = await instanceClient.DreamDaemon.Read(null, cancellationToken);
 
 			var startJob = await StartDD(cancellationToken);
 
@@ -1360,10 +1365,16 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 			await DeployTestDme(DmeName, DreamDaemonSecurity.Safe, true, cancellationToken);
 
-			var daemonStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
+			var daemonStatus = await instanceClient.DreamDaemon.Read(500, cancellationToken);
 			Assert.AreEqual(WatchdogStatus.Online, daemonStatus.Status.Value);
 			Assert.IsNotNull(daemonStatus.ActiveCompileJob);
 			ValidateSessionId(daemonStatus, true);
+
+			Assert.IsTrue(daemonStatus.ImmediateCpuUsage.HasValue);
+			Assert.IsTrue(daemonStatus.ImmediateMemoryUsage.HasValue);
+
+			// Assert.AreNotEqual(0, daemonStatus.ImmediateCpuUsage.Value); sleep_offline cucks this check
+			Assert.AreNotEqual(0, daemonStatus.ImmediateMemoryUsage.Value);
 
 			Assert.AreEqual(initialStatus.ActiveCompileJob.Id, daemonStatus.ActiveCompileJob.Id);
 			var newerCompileJob = daemonStatus.StagedCompileJob;
@@ -1383,7 +1394,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			await instanceClient.DreamDaemon.Shutdown(cancellationToken);
 			await CheckDMApiFail(daemonStatus.ActiveCompileJob, cancellationToken);
 
-			daemonStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
+			daemonStatus = await instanceClient.DreamDaemon.Read(null, cancellationToken);
 			Assert.AreEqual(WatchdogStatus.Offline, daemonStatus.Status.Value);
 		}
 
@@ -1416,7 +1427,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 				KillDD(firstTime);
 				firstTime = false;
 				await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);
-				daemonStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
+				daemonStatus = await instanceClient.DreamDaemon.Read(null, cancellationToken);
 			}
 			while (daemonStatus.Status == WatchdogStatus.Online);
 			Assert.AreEqual(WatchdogStatus.Restoring, daemonStatus.Status);
@@ -1425,7 +1436,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			do
 			{
 				KillDD(false);
-				daemonStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
+				daemonStatus = await instanceClient.DreamDaemon.Read(null, cancellationToken);
 			}
 			while (daemonStatus.Status == WatchdogStatus.Online || daemonStatus.Status == WatchdogStatus.Restoring);
 			Assert.AreEqual(WatchdogStatus.DelayedRestart, daemonStatus.Status);
@@ -1460,7 +1471,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			=> TellWorldToReboot2(instanceClient, instanceManager, topicClient, FindTopicPort(), waitForOnlineIfRestoring || testVersion.Engine.Value == EngineType.OpenDream, cancellationToken, source);
 		public static async Task<DreamDaemonResponse> TellWorldToReboot2(IInstanceClient instanceClient, IInstanceManager instanceManager, ITopicClient topicClient, ushort topicPort, bool waitForOnlineIfRestoring, CancellationToken cancellationToken, [CallerLineNumber]int source = 0, [CallerFilePath]string path = null)
 		{
-			var daemonStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
+			var daemonStatus = await instanceClient.DreamDaemon.Read(null, cancellationToken);
 			Assert.IsNotNull(daemonStatus.StagedCompileJob);
 			var initialSession = daemonStatus.ActiveCompileJob;
 
@@ -1478,7 +1489,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 				do
 				{
 					await Task.Delay(TimeSpan.FromSeconds(1), tempToken);
-					daemonStatus = await instanceClient.DreamDaemon.Read(tempToken);
+					daemonStatus = await instanceClient.DreamDaemon.Read(null, tempToken);
 				}
 				while (initialSession.Id == daemonStatus.ActiveCompileJob.Id);
 			}
@@ -1488,7 +1499,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 				do
 				{
 					await Task.Delay(TimeSpan.FromSeconds(1), tempToken);
-					daemonStatus = await instanceClient.DreamDaemon.Read(tempToken);
+					daemonStatus = await instanceClient.DreamDaemon.Read(null, tempToken);
 				}
 				while (daemonStatus.Status == WatchdogStatus.Restoring);
 			}
@@ -1531,7 +1542,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			for (var i = 0; i < 10; ++i)
 				await Task.Yield();
 
-			var ddInfo = await instanceClient.DreamDaemon.Read(cancellationToken);
+			var ddInfo = await instanceClient.DreamDaemon.Read(null, cancellationToken);
 			var targetJob = ddInfo.StagedCompileJob ?? ddInfo.ActiveCompileJob;
 			Assert.IsNotNull(targetJob);
 			if (requireApi)
@@ -1549,14 +1560,14 @@ namespace Tgstation.Server.Tests.Live.Instance
 				SoftShutdown = true
 			}, cancellationToken);
 
-			var newStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
+			var newStatus = await instanceClient.DreamDaemon.Read(null, cancellationToken);
 			Assert.IsTrue(newStatus.SoftShutdown.Value || newStatus.Status.Value == WatchdogStatus.Offline);
 
 			var timeout = 40;
 			do
 			{
 				await Task.Delay(TimeSpan.FromSeconds(3), cancellationToken);
-				var ddStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
+				var ddStatus = await instanceClient.DreamDaemon.Read(null, cancellationToken);
 				if (ddStatus.Status.Value == WatchdogStatus.Offline)
 					break;
 
@@ -1584,7 +1595,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			if (!checkLogs)
 				return;
 
-			var daemonStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
+			var daemonStatus = await instanceClient.DreamDaemon.Read(null, cancellationToken);
 			if (daemonStatus.Status != WatchdogStatus.Offline || !daemonStatus.LogOutput.Value)
 				return;
 
@@ -1607,7 +1618,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 				cancellationToken);
 			Assert.IsNotNull(result);
 			Assert.AreEqual("all gucci", result.StringData);
-			await CheckDMApiFail((await instanceClient.DreamDaemon.Read(cancellationToken)).ActiveCompileJob, cancellationToken);
+			await CheckDMApiFail((await instanceClient.DreamDaemon.Read(null, cancellationToken)).ActiveCompileJob, cancellationToken);
 		}
 	}
 }

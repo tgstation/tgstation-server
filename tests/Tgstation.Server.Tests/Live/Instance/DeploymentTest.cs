@@ -230,7 +230,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 		async Task TestVisibilityPermission(CancellationToken cancellationToken)
 		{
-			var updatedDD = await dreamDaemonClient.Read(cancellationToken);
+			var updatedDD = await dreamDaemonClient.Read(null, cancellationToken);
 			Assert.AreEqual(DreamDaemonVisibility.Public, updatedDD.Visibility);
 			updatedDD = await dreamDaemonClient.Update(new DreamDaemonRequest
 			{

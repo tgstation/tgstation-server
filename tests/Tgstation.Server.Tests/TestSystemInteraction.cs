@@ -25,6 +25,7 @@ namespace Tgstation.Server.Tests
 			var processExecutor = new ProcessExecutor(
 				Mock.Of<IProcessFeatures>(),
 				new DefaultIOManager(),
+				Mock.Of<IAsyncDelayer>(),
 				Mock.Of<ILogger<ProcessExecutor>>(),
 				loggerFactory);
 
@@ -53,6 +54,7 @@ namespace Tgstation.Server.Tests
 			var processExecutor = new ProcessExecutor(
 				Mock.Of<IProcessFeatures>(),
 				new DefaultIOManager(),
+				Mock.Of<IAsyncDelayer>(),
 				loggerFactory.CreateLogger<ProcessExecutor>(),
 				loggerFactory);
 
