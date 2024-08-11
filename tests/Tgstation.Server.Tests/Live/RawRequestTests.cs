@@ -216,7 +216,7 @@ namespace Tgstation.Server.Tests.Live
 			};
 
 			var badClient = clientFactory.CreateFromToken(serverClient.Url, newToken);
-			await ApiAssert.ThrowsException<UnauthorizedException, AdministrationResponse>(() => badClient.Administration.Read(cancellationToken));
+			await ApiAssert.ThrowsException<UnauthorizedException, AdministrationResponse>(() => badClient.Administration.Read(false, cancellationToken));
 			await ApiAssert.ThrowsException<UnauthorizedException, ServerInformationResponse>(() => badClient.ServerInformation(cancellationToken));
 		}
 

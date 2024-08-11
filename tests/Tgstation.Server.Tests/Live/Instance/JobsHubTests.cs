@@ -262,7 +262,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			Assert.AreEqual(HubConnectionState.Disconnected, permlessConn.State);
 
 			// force token refreshs
-			await Task.WhenAll(permedUser.Administration.Read(cancellationToken).AsTask(), permlessUser.Instances.List(null, cancellationToken).AsTask());
+			await Task.WhenAll(permedUser.Administration.Read(false, cancellationToken).AsTask(), permlessUser.Instances.List(null, cancellationToken).AsTask());
 
 			if (!permlessPsId.HasValue)
 			{

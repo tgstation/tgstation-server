@@ -82,5 +82,10 @@ namespace Tgstation.Server.Api.Rights
 		/// User may change submodule update settings.
 		/// </summary>
 		ChangeSubmoduleUpdate = 1 << 13,
+
+		/// <summary>
+		/// User may trigger repository recloning.
+		/// </summary>
+		Reclone = 1 << 14,
 	}
 }

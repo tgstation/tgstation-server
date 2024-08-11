@@ -17,9 +17,10 @@ namespace Tgstation.Server.Client
 		/// <summary>
 		/// Get the <see cref="AdministrationResponse"/> represented by the <see cref="IAdministrationClient"/>.
 		/// </summary>
+		/// <param name="forceFresh">If <see langword="true"/> the response will be forcefully regenerated.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="AdministrationResponse"/> represented by the <see cref="IAdministrationClient"/>.</returns>
-		ValueTask<AdministrationResponse> Read(CancellationToken cancellationToken);
+		ValueTask<AdministrationResponse> Read(bool forceFresh = false, CancellationToken cancellationToken = default);
 
 		/// <summary>
 		/// Updates the <see cref="AdministrationResponse"/> setttings.

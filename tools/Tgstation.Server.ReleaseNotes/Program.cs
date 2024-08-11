@@ -135,7 +135,7 @@ namespace Tgstation.Server.ReleaseNotes
 						return 454233;
 					}
 
-					await GenerateAppCredentials(client, args[1]);
+					await GenerateAppCredentials(client, args[1], false);
 
 					return await EnsureRelease(client);
 				}
@@ -171,7 +171,8 @@ namespace Tgstation.Server.ReleaseNotes
 						return 33847;
 					}
 
-					await GenerateAppCredentials(client, args[2]);
+					bool toSS13 = args.Length > 3 && args[3].Equals("--spacestation13", StringComparison.OrdinalIgnoreCase);
+					await GenerateAppCredentials(client, args[2], toSS13);
 
 					var token = client.Credentials.GetToken();
 					var destPath = args[1];
@@ -1640,7 +1641,7 @@ package (version) distribution(s); urgency=urgency
 			return 0;
 		}
 
-		static async ValueTask GenerateAppCredentials(GitHubClient gitHubClient, string pemBase64)
+		static async ValueTask GenerateAppCredentials(GitHubClient gitHubClient, string pemBase64, bool toSS13)
 		{
 			var pemBytes = Convert.FromBase64String(pemBase64);
 			var pem = Encoding.UTF8.GetString(pemBytes);
@@ -1665,7 +1666,11 @@ package (version) distribution(s); urgency=urgency
 
 			gitHubClient.Credentials = new Credentials(jwtStr, AuthenticationType.Bearer);
 
-			var installation = await gitHubClient.GitHubApps.GetRepositoryInstallationForCurrent(RepoOwner, RepoName);
+			var installation = await gitHubClient.GitHubApps.GetRepositoryInstallationForCurrent(
+				toSS13
+					? "spacestation13"
+					: RepoOwner,
+				RepoName);
 			var installToken = await gitHubClient.GitHubApps.CreateInstallationToken(installation.Id);
 
 			gitHubClient.Credentials = new Credentials(installToken.Token);
@@ -1673,7 +1678,7 @@ package (version) distribution(s); urgency=urgency
 
 		static async ValueTask<int> CICompletionCheck(GitHubClient gitHubClient, string currentSha, string pemBase64)
 		{
-			await GenerateAppCredentials(gitHubClient, pemBase64);
+			await GenerateAppCredentials(gitHubClient, pemBase64, false);
 
 			await gitHubClient.Check.Run.Create(RepoOwner, RepoName, new NewCheckRun("CI Completion", currentSha)
 			{

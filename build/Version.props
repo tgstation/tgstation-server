@@ -3,13 +3,13 @@
   <!-- Integration tests will ensure they match across the board -->
   <Import Project="WebpanelVersion.props" />
   <PropertyGroup>
-    <TgsCoreVersion>6.8.0</TgsCoreVersion>
-    <TgsConfigVersion>5.1.0</TgsConfigVersion>
-    <TgsApiVersion>10.6.0</TgsApiVersion>
+    <TgsCoreVersion>6.9.0</TgsCoreVersion>
+    <TgsConfigVersion>5.2.0</TgsConfigVersion>
+    <TgsApiVersion>10.7.0</TgsApiVersion>
     <TgsCommonLibraryVersion>7.0.0</TgsCommonLibraryVersion>
-    <TgsApiLibraryVersion>13.6.0</TgsApiLibraryVersion>
-    <TgsClientVersion>15.6.0</TgsClientVersion>
-    <TgsDmapiVersion>7.1.3</TgsDmapiVersion>
+    <TgsApiLibraryVersion>13.7.0</TgsApiLibraryVersion>
+    <TgsClientVersion>16.0.0</TgsClientVersion>
+    <TgsDmapiVersion>7.2.1</TgsDmapiVersion>
     <TgsInteropVersion>5.9.0</TgsInteropVersion>
     <TgsHostWatchdogVersion>1.4.1</TgsHostWatchdogVersion>
     <TgsContainerScriptVersion>1.2.1</TgsContainerScriptVersion>
@@ -18,9 +18,9 @@
     <TgsNetMajorVersion>8</TgsNetMajorVersion>
     <!-- Update this frequently with dotnet runtime patches. MAJOR MUST MATCH ABOVE! -->
     <TgsDotnetRedistUrl>https://download.visualstudio.microsoft.com/download/pr/751d3fcd-72db-4da2-b8d0-709c19442225/33cc492bde704bfd6d70a2b9109005a0/dotnet-hosting-8.0.6-win.exe</TgsDotnetRedistUrl>
-    <TgsMariaDBRedistVersion>10.11.8</TgsMariaDBRedistVersion>
+    <TgsMariaDBRedistVersion>11.4.2</TgsMariaDBRedistVersion>
     <!-- Only have this uncommented if the mariadb servers are shitting the bed, update if the version updates -->
-    <TgsMariaDBFallbackRedist>https://mirror.its.dal.ca/mariadb//mariadb-10.11.8/winx64-packages/mariadb-10.11.8-winx64.msi</TgsMariaDBFallbackRedist>
+    <!--<TgsMariaDBFallbackRedist>https://mirror.its.dal.ca/mariadb//mariadb-10.11.8/winx64-packages/mariadb-10.11.8-winx64.msi</TgsMariaDBFallbackRedist>-->
     <TgsYarnVersion>1.22.21</TgsYarnVersion>
   </PropertyGroup>
 </Project>

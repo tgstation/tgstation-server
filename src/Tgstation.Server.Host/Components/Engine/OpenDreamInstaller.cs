@@ -157,6 +157,8 @@ namespace Tgstation.Server.Host.Components.Engine
 				{
 					Logger.LogTrace("OD repo seems to already exist, attempting load and fetch...");
 					repo = await repositoryManager.LoadRepository(cancellationToken);
+					if (repo == null)
+						throw new JobException("Can't load OpenDream repository! Please delete cache from disk!");
 
 					await repo!.FetchOrigin(
 						progressSection1,
@@ -176,6 +178,7 @@ namespace Tgstation.Server.Host.Components.Engine
 					null,
 					null,
 					true,
+					false,
 					progressSection2,
 					cancellationToken);
 

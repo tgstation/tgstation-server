@@ -12,7 +12,7 @@
 		RepoResetOrigin,
 
 		/// <summary>
-		/// Parameters: Checkout target.
+		/// Parameters: Checkout target, hard reset flag (If "True", this is actually a hard reset, not a checkout).
 		/// </summary>
 		[EventScript("RepoCheckout")]
 		RepoCheckout,
