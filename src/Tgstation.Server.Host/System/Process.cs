@@ -22,6 +22,9 @@ namespace Tgstation.Server.Host.System
 		/// <inheritdoc />
 		public Task<int?> Lifetime { get; }
 
+		/// <inheritdoc />
+		public long MemoryUsage => handle.VirtualMemorySize64;
+
 		/// <summary>
 		/// The <see cref="IProcessFeatures"/> for the <see cref="Process"/>.
 		/// </summary>

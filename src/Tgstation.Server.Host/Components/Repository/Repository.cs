@@ -295,7 +295,7 @@ namespace Tgstation.Server.Host.Components.Repository
 						var revertTo = originalCommit.CanonicalName ?? originalCommit.Tip.Sha;
 						logger.LogDebug("Merge conflict, aborting and reverting to {revertTarget}", revertTo);
 						progressReporter.ReportProgress(0);
-						RawCheckout(revertTo, progressReporter.CreateSection("Hard Reset to {revertTo}", 1.0), cancellationToken);
+						RawCheckout(revertTo, false, progressReporter.CreateSection("Hard Reset to {revertTo}", 1.0), cancellationToken);
 						cancellationToken.ThrowIfCancellationRequested();
 					}
 
@@ -376,19 +376,21 @@ namespace Tgstation.Server.Host.Components.Repository
 			string? username,
 			string? password,
 			bool updateSubmodules,
+			bool moveCurrentReference,
 			JobProgressReporter? progressReporter,
 			CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(committish);
 
 			logger.LogDebug("Checkout object: {committish}...", committish);
-			await eventConsumer.HandleEvent(EventType.RepoCheckout, new List<string> { committish }, false, cancellationToken);
+			await eventConsumer.HandleEvent(EventType.RepoCheckout, new List<string> { committish, moveCurrentReference.ToString() }, false, cancellationToken);
 			await Task.Factory.StartNew(
 				() =>
 				{
 					libGitRepo.RemoveUntrackedFiles();
 					RawCheckout(
 						committish,
+						moveCurrentReference,
 						progressReporter?.CreateSection(null, updateSubmodules ? 2.0 / 3 : 1.0),
 						cancellationToken);
 				},
@@ -879,9 +881,10 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// Runs a blocking force checkout to <paramref name="committish"/>.
 		/// </summary>
 		/// <param name="committish">The committish to checkout.</param>
+		/// <param name="moveCurrentReference">If a hard reset should actually be performed.</param>
 		/// <param name="progressReporter">The optional <see cref="JobProgressReporter"/> for the operation.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		void RawCheckout(string committish, JobProgressReporter? progressReporter, CancellationToken cancellationToken)
+		void RawCheckout(string committish, bool moveCurrentReference, JobProgressReporter? progressReporter, CancellationToken cancellationToken)
 		{
 			logger.LogTrace("Checkout: {committish}", committish);
 
@@ -900,34 +903,52 @@ namespace Tgstation.Server.Host.Components.Repository
 
 			cancellationToken.ThrowIfCancellationRequested();
 
-			void RunCheckout() => commands.Checkout(
-				libGitRepo,
-				checkoutOptions,
-				committish);
-
-			try
+			if (moveCurrentReference)
 			{
-				RunCheckout();
+				if (Reference == NoReference)
+					throw new InvalidOperationException("Cannot move current reference when not on reference!");
+
+				var gitObject = libGitRepo.Lookup(committish);
+				if (gitObject == null)
+					throw new JobException($"Could not find committish: {committish}");
+
+				var commit = gitObject.Peel<Commit>();
+
+				cancellationToken.ThrowIfCancellationRequested();
+
+				libGitRepo.Reset(ResetMode.Hard, commit, checkoutOptions);
 			}
-			catch (NotFoundException)
+			else
 			{
-				// Maybe (likely) a remote?
-				var remoteName = $"origin/{committish}";
-				var remoteBranch = libGitRepo.Branches.FirstOrDefault(
-					branch => branch.FriendlyName.Equals(remoteName, StringComparison.Ordinal));
-				cancellationToken.ThrowIfCancellationRequested();
+				void RunCheckout() => commands.Checkout(
+					libGitRepo,
+					checkoutOptions,
+					committish);
 
-				if (remoteBranch == default)
-					throw;
+				try
+				{
+					RunCheckout();
+				}
+				catch (NotFoundException)
+				{
+					// Maybe (likely) a remote?
+					var remoteName = $"origin/{committish}";
+					var remoteBranch = libGitRepo.Branches.FirstOrDefault(
+						branch => branch.FriendlyName.Equals(remoteName, StringComparison.Ordinal));
+					cancellationToken.ThrowIfCancellationRequested();
 
-				logger.LogDebug("Creating local branch for {remoteBranchFriendlyName}...", remoteBranch.FriendlyName);
-				var branch = libGitRepo.CreateBranch(committish, remoteBranch.Tip);
+					if (remoteBranch == default)
+						throw;
 
-				libGitRepo.Branches.Update(branch, branchUpdate => branchUpdate.TrackedBranch = remoteBranch.CanonicalName);
+					logger.LogDebug("Creating local branch for {remoteBranchFriendlyName}...", remoteBranch.FriendlyName);
+					var branch = libGitRepo.CreateBranch(committish, remoteBranch.Tip);
 
-				cancellationToken.ThrowIfCancellationRequested();
+					libGitRepo.Branches.Update(branch, branchUpdate => branchUpdate.TrackedBranch = remoteBranch.CanonicalName);
 
-				RunCheckout();
+					cancellationToken.ThrowIfCancellationRequested();
+
+					RunCheckout();
+				}
 			}
 
 			cancellationToken.ThrowIfCancellationRequested();

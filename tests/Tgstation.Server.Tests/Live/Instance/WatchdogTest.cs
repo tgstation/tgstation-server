@@ -150,6 +150,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 						}, cancellationToken);
 
 						Assert.AreEqual<ushort?>(47, updated.OpenDreamTopicPort);
+						Assert.IsFalse(updated.ImmediateMemoryUsage.HasValue);
 					}
 					catch (ConflictException ex) when (ex.ErrorCode == ErrorCode.PortNotAvailable)
 					{
@@ -721,6 +722,8 @@ namespace Tgstation.Server.Tests.Live.Instance
 			await CheckDDPriority();
 			Assert.AreEqual(false, daemonStatus.SoftRestart);
 			Assert.AreEqual(false, daemonStatus.SoftShutdown);
+			Assert.IsTrue(daemonStatus.ImmediateMemoryUsage.HasValue);
+			Assert.AreNotEqual(0, daemonStatus.ImmediateMemoryUsage.Value);
 
 			await GracefulWatchdogShutdown(cancellationToken);
 
@@ -1364,6 +1367,9 @@ namespace Tgstation.Server.Tests.Live.Instance
 			Assert.AreEqual(WatchdogStatus.Online, daemonStatus.Status.Value);
 			Assert.IsNotNull(daemonStatus.ActiveCompileJob);
 			ValidateSessionId(daemonStatus, true);
+
+			Assert.IsTrue(daemonStatus.ImmediateMemoryUsage.HasValue);
+			Assert.AreNotEqual(0, daemonStatus.ImmediateMemoryUsage.Value);
 
 			Assert.AreEqual(initialStatus.ActiveCompileJob.Id, daemonStatus.ActiveCompileJob.Id);
 			var newerCompileJob = daemonStatus.StagedCompileJob;

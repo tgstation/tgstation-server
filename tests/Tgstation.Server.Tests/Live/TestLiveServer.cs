@@ -670,7 +670,7 @@ namespace Tgstation.Server.Tests.Live
 						"asdfasdfasdfasdf");
 
 					await using var node1BadClient = clientFactory.CreateFromToken(node1.RootUrl, controllerUserClient.Token);
-					await ApiAssert.ThrowsException<UnauthorizedException, AdministrationResponse>(() => node1BadClient.Administration.Read(cancellationToken));
+					await ApiAssert.ThrowsException<UnauthorizedException, AdministrationResponse>(() => node1BadClient.Administration.Read(false, cancellationToken));
 
 					// check instance info is not shared
 					var controllerInstance = await controllerClient.Instances.CreateOrAttach(

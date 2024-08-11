@@ -1,9 +1,9 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
+﻿using System;
 using System.IO;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Response;
@@ -54,10 +54,24 @@ namespace Tgstation.Server.Tests.Live
 
 		async Task TestRead(CancellationToken cancellationToken)
 		{
-			var model = await client.Read(cancellationToken);
+			var model = await client.Read(false, cancellationToken);
 
 			//we've released a few 5.x versions now, check the release checker is at least somewhat functional
 			Assert.IsTrue(4 < model.LatestVersion.Major);
+			Assert.IsNotNull(model.TrackedRepositoryUrl);
+			Assert.IsTrue(model.GeneratedAt.HasValue);
+			Assert.IsTrue(model.GeneratedAt.Value <= DateTimeOffset.UtcNow);
+
+			// test the cache
+			var newerModel = await client.Read(false, cancellationToken);
+			Assert.AreEqual(model.GeneratedAt, newerModel.GeneratedAt);
+
+			await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);
+
+			var newestModel = await client.Read(true, cancellationToken);
+			Assert.AreNotEqual(model.GeneratedAt, newestModel.GeneratedAt);
+			Assert.IsNotNull(newestModel.GeneratedAt);
+			Assert.IsTrue(model.GeneratedAt < newestModel.GeneratedAt);
 		}
 	}
 }

@@ -47,6 +47,7 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// <param name="username">The optional username used for fetching from submodule repositories.</param>
 		/// <param name="password">The optional password used for fetching from submodule repositories.</param>
 		/// <param name="updateSubmodules">If a submodule update should be attempted after the merge.</param>
+		/// <param name="moveCurrentReference">If a hard reset to the target committish should be performed instead of a checkout.</param>
 		/// <param name="progressReporter">The optional <see cref="JobProgressReporter"/> to report progress of the operation.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
@@ -55,6 +56,7 @@ namespace Tgstation.Server.Host.Components.Repository
 			string? username,
 			string? password,
 			bool updateSubmodules,
+			bool moveCurrentReference,
 			JobProgressReporter? progressReporter,
 			CancellationToken cancellationToken);
 

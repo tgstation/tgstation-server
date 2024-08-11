@@ -23,11 +23,6 @@ namespace Tgstation.Server.Host.Components.Repository
 	sealed class RepositoryUpdateService
 	{
 		/// <summary>
-		/// The <see cref="RepositoryUpdateRequest"/> for the <see cref="RepositoryUpdateService"/>.
-		/// </summary>
-		readonly RepositoryUpdateRequest model;
-
-		/// <summary>
 		/// The current <see cref="RepositorySettings"/> for the <see cref="RepositoryUpdateService"/>.
 		/// </summary>
 		readonly RepositorySettings currentModel;
@@ -50,19 +45,16 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// <summary>
 		/// Initializes a new instance of the <see cref="RepositoryUpdateService"/> class.
 		/// </summary>
-		/// <param name="model">The value of <see cref="model"/>.</param>
 		/// <param name="currentModel">The value of <see cref="currentModel"/>.</param>
 		/// <param name="initiatingUser">The value of <see cref="initiatingUser"/>.</param>
 		/// <param name="logger">The value of <see cref="logger"/>.</param>
 		/// <param name="instanceId">The value of <see cref="instanceId"/>.</param>
 		public RepositoryUpdateService(
-			RepositoryUpdateRequest model,
 			RepositorySettings currentModel,
 			User initiatingUser,
 			ILogger<RepositoryUpdateService> logger,
 			long instanceId)
 		{
-			this.model = model ?? throw new ArgumentNullException(nameof(model));
 			this.currentModel = currentModel ?? throw new ArgumentNullException(nameof(currentModel));
 			this.initiatingUser = initiatingUser ?? throw new ArgumentNullException(nameof(initiatingUser));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
@@ -139,24 +131,25 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// <summary>
 		/// The job entrypoint used by <see cref="Controllers.RepositoryController"/> to update the repository's current HEAD.
 		/// </summary>
-		/// <param name="instance">The <see cref="IInstanceCore"/> the job is running on. <see langword="null"/> only when performing an instance move operation.</param>
+		/// <param name="model">The <see cref="RepositoryUpdateRequest"/>.</param>
+		/// <param name="instance">The <see cref="IInstanceCore"/> the job is running on.</param>
 		/// <param name="databaseContextFactory">The <see cref="IDatabaseContextFactory"/> for the operation.</param>
-		/// <param name="job">The running <see cref="Job"/>, ignored.</param>
 		/// <param name="progressReporter">The <see cref="JobProgressReporter"/> for the job.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
 #pragma warning disable CA1502, CA1506 // TODO: Decomplexify
 		public async ValueTask RepositoryUpdateJob(
+			RepositoryUpdateRequest model,
 			IInstanceCore? instance,
 			IDatabaseContextFactory databaseContextFactory,
-			Job job,
 			JobProgressReporter progressReporter,
 			CancellationToken cancellationToken)
 #pragma warning restore CA1502, CA1506
 		{
+			ArgumentNullException.ThrowIfNull(model);
 			ArgumentNullException.ThrowIfNull(instance);
-
-			_ = job; // shuts up an IDE warning
+			ArgumentNullException.ThrowIfNull(databaseContextFactory);
+			ArgumentNullException.ThrowIfNull(progressReporter);
 
 			var repoManager = instance.RepositoryManager;
 			using var repo = await repoManager.LoadRepository(cancellationToken) ?? throw new JobException(ErrorCode.RepoMissing);
@@ -315,6 +308,7 @@ namespace Tgstation.Server.Host.Components.Repository
 							currentModel.AccessUser,
 							currentModel.AccessToken,
 							updateSubmodules,
+							false,
 							NextProgressReporter("Checkout"),
 							cancellationToken);
 						await CallLoadRevInfo(); // we've either seen origin before or what we're checking out is on origin
@@ -579,6 +573,7 @@ namespace Tgstation.Server.Host.Components.Repository
 					currentModel.AccessUser,
 					currentModel.AccessToken,
 					true,
+					false,
 					progressReporter.CreateSection($"Checkout {startReference ?? startSha[..7]}", secondStep ? 0.5 : 1.0),
 					default);
 
@@ -587,6 +582,87 @@ namespace Tgstation.Server.Host.Components.Repository
 
 				throw;
 			}
+		}
+
+		/// <summary>
+		/// The job entrypoint used by <see cref="Controllers.RepositoryController"/> to reclone a repository.
+		/// </summary>
+		/// <param name="instance">The <see cref="IInstanceCore"/> the job is running on.</param>
+		/// <param name="databaseContextFactory">The <see cref="IDatabaseContextFactory"/> for the operation.</param>
+		/// <param name="progressReporter">The <see cref="JobProgressReporter"/> for the job.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
+		public async ValueTask RepositoryRecloneJob(
+			IInstanceCore? instance,
+			IDatabaseContextFactory databaseContextFactory,
+			JobProgressReporter progressReporter,
+			CancellationToken cancellationToken)
+		{
+			ArgumentNullException.ThrowIfNull(instance);
+			ArgumentNullException.ThrowIfNull(databaseContextFactory);
+			ArgumentNullException.ThrowIfNull(progressReporter);
+
+			progressReporter.StageName = "Loading Old Repository";
+
+			Uri origin;
+			string? oldReference;
+			string oldSha;
+			ValueTask deleteTask;
+			using (var oldRepo = await instance.RepositoryManager.LoadRepository(cancellationToken))
+			{
+				if (oldRepo == null)
+					throw new JobException(ErrorCode.RepoMissing);
+
+				origin = oldRepo.Origin;
+				oldSha = oldRepo.Head;
+				oldReference = oldRepo.Reference;
+				if (oldReference == Repository.NoReference)
+					oldReference = null;
+
+				progressReporter.StageName = "Deleting Old Repository";
+				deleteTask = instance.RepositoryManager.DeleteRepository(cancellationToken);
+			}
+
+			await deleteTask;
+			progressReporter.ReportProgress(0.1);
+			IRepository newRepo;
+			try
+			{
+				newRepo = await instance.RepositoryManager.CloneRepository(
+					origin,
+					oldReference,
+					currentModel.AccessUser,
+					currentModel.AccessToken,
+					progressReporter.CreateSection("Cloning New Repository", 0.8),
+					true, // TODO: Make configurable maybe...
+					cancellationToken)
+					?? throw new JobException("A race condition occurred while recloning the repository. Somehow, it was fully cloned instantly after being deleted!"); // I'll take lines of code that should never be hit for $10k
+			}
+			catch (Exception ex) when (ex is not JobException)
+			{
+				logger.LogWarning("Reclone failed, clearing credentials!");
+
+				// need to clear credentials here
+				await databaseContextFactory.UseContextTaskReturn(context =>
+				{
+					context.RepositorySettings.Attach(currentModel);
+					currentModel.AccessUser = null;
+					currentModel.AccessToken = null;
+					return context.Save(CancellationToken.None); // DCT: Must always run
+				});
+
+				throw;
+			}
+
+			using (newRepo)
+				await newRepo.CheckoutObject(
+					oldSha,
+					currentModel.AccessUser,
+					currentModel.AccessToken,
+					false,
+					oldReference != null,
+					progressReporter.CreateSection("Checking out previous Detached Commit", 0.1),
+					cancellationToken);
 		}
 	}
 }

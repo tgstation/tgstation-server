@@ -40,5 +40,12 @@ namespace Tgstation.Server.Client.Components
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="RepositoryResponse"/>.</returns>
 		ValueTask<RepositoryResponse> Delete(CancellationToken cancellationToken);
+
+		/// <summary>
+		/// Deletes and reclones the repository.
+		/// </summary>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="RepositoryResponse"/>.</returns>
+		ValueTask<RepositoryResponse> Reclone(CancellationToken cancellationToken);
 	}
 }

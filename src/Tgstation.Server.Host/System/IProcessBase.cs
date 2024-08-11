@@ -14,6 +14,11 @@ namespace Tgstation.Server.Host.System
 		Task<int?> Lifetime { get; }
 
 		/// <summary>
+		/// Gets the process' memory usage in bytes.
+		/// </summary>
+		long MemoryUsage { get; }
+
+		/// <summary>
 		/// Set's the owned <see cref="global::System.Diagnostics.Process.PriorityClass"/> to a non-normal value.
 		/// </summary>
 		/// <param name="higher">If <see langword="true"/> will be set to <see cref="global::System.Diagnostics.ProcessPriorityClass.AboveNormal"/> otherwise, will be set to <see cref="global::System.Diagnostics.ProcessPriorityClass.BelowNormal"/>.</param>

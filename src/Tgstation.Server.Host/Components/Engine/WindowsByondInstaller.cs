@@ -224,7 +224,7 @@ namespace Tgstation.Server.Host.Components.Engine
 		/// <inheritdoc />
 		protected override string GetDreamDaemonName(Version byondVersion, out bool supportsCli)
 		{
-			supportsCli = byondVersion >= DDExeVersion;
+			supportsCli = byondVersion >= DDExeVersion && !sessionConfiguration.ForceUseDreamDaemonExe;
 			return supportsCli ? "dd.exe" : "dreamdaemon.exe";
 		}
 
