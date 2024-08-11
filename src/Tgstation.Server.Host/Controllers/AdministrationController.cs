@@ -165,7 +165,7 @@ namespace Tgstation.Server.Host.Controllers
 					Uri? repoUrl = null;
 					try
 					{
-						var gitHubService = gitHubServiceFactory.CreateService();
+						var gitHubService = await gitHubServiceFactory.CreateService(cancellationToken);
 						var repositoryUrlTask = gitHubService.GetUpdatesRepositoryUrl(cancellationToken);
 						var releases = await gitHubService.GetTgsReleases(cancellationToken);
 

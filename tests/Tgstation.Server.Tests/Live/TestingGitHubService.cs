@@ -39,7 +39,7 @@ namespace Tgstation.Server.Tests.Live
 			});
 
 			var gitHubClientFactory = new GitHubClientFactory(new AssemblyInformationProvider(), Mock.Of<ILogger<GitHubClientFactory>>(), mockOptions.Object);
-			RealClient = gitHubClientFactory.CreateClient();
+			RealClient = gitHubClientFactory.CreateClient(CancellationToken.None).GetAwaiter().GetResult();
 		}
 
 		public static async Task InitializeAndInject(CancellationToken cancellationToken)

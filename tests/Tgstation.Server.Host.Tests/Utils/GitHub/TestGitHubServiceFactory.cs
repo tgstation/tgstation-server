@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -28,27 +30,29 @@ namespace Tgstation.Server.Host.Utils.GitHub.Tests
 		}
 
 		[TestMethod]
-		public void TestCreateService()
+		public async Task TestCreateService()
 		{
 			var mockFactory = new Mock<IGitHubClientFactory>();
 
-			mockFactory.Setup(x => x.CreateClient()).Returns(Mock.Of<IGitHubClient>()).Verifiable();
+#pragma warning disable CA2012 // Use ValueTasks correctly
+			mockFactory.Setup(x => x.CreateClient(It.IsAny<CancellationToken>())).Returns(ValueTask.FromResult(Mock.Of<IGitHubClient>())).Verifiable();
 
 			var mockToken = "asdf";
-			mockFactory.Setup(x => x.CreateClient(mockToken)).Returns(Mock.Of<IGitHubClient>()).Verifiable();
+			mockFactory.Setup(x => x.CreateClient(mockToken, It.IsAny<CancellationToken>())).Returns(ValueTask.FromResult(Mock.Of<IGitHubClient>())).Verifiable();
+#pragma warning restore CA2012 // Use ValueTasks correctly
 
 			var mockOptions = new Mock<IOptions<UpdatesConfiguration>>();
 			mockOptions.SetupGet(x => x.Value).Returns(new UpdatesConfiguration());
 
 			var factory = new GitHubServiceFactory(mockFactory.Object, Mock.Of<ILoggerFactory>(), mockOptions.Object);
 
-			Assert.ThrowsException<ArgumentNullException>(() => factory.CreateService(null));
+			await Assert.ThrowsExceptionAsync<ArgumentNullException>(() => factory.CreateService(null, CancellationToken.None).AsTask());
 			Assert.AreEqual(0, mockFactory.Invocations.Count);
 
-			var result1 = factory.CreateService();
+			var result1 = await factory.CreateService(CancellationToken.None);
 			Assert.IsNotNull(result1);
 
-			var result2 = factory.CreateService(mockToken);
+			var result2 = factory.CreateService(mockToken, CancellationToken.None);
 			Assert.IsNotNull(result2);
 
 			mockFactory.VerifyAll();
