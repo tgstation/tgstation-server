@@ -172,7 +172,7 @@ namespace Tgstation.Server.ReleaseNotes
 					}
 
 					bool toSS13 = args.Length > 3 && args[3].Equals("--spacestation13", StringComparison.OrdinalIgnoreCase);
-					await GenerateAppCredentials(client, args[2], true);
+					await GenerateAppCredentials(client, args[2], toSS13);
 
 					var token = client.Credentials.GetToken();
 					var destPath = args[1];
