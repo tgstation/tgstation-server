@@ -98,7 +98,6 @@ namespace Tgstation.Server.Host.Controllers
 		/// <summary>
 		/// Get the watchdog status.
 		/// </summary>
-		/// <param name="profileMs">The amount of time to spend profiling game server CPU performance.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation.</returns>
 		/// <response code="200">Read <see cref="DreamDaemonResponse"/> information successfully.</response>
@@ -107,7 +106,7 @@ namespace Tgstation.Server.Host.Controllers
 		[TgsAuthorize(DreamDaemonRights.ReadMetadata | DreamDaemonRights.ReadRevision)]
 		[ProducesResponseType(typeof(DreamDaemonResponse), 200)]
 		[ProducesResponseType(typeof(ErrorMessageResponse), 410)]
-		public ValueTask<IActionResult> Read([FromQuery] ulong? profileMs, CancellationToken cancellationToken) => ReadImpl(null, profileMs, false, cancellationToken);
+		public ValueTask<IActionResult> Read(CancellationToken cancellationToken) => ReadImpl(null, false, cancellationToken);
 
 		/// <summary>
 		/// Stops the Watchdog if it's running.
@@ -253,7 +252,7 @@ namespace Tgstation.Server.Host.Controllers
 					else if ((oldSoftRestart && model.SoftRestart == false) || (oldSoftShutdown && model.SoftShutdown == false))
 						await watchdog.ResetRebootState(cancellationToken);
 
-					return await ReadImpl(current, null, rebootRequired, cancellationToken);
+					return await ReadImpl(current, rebootRequired, cancellationToken);
 				});
 		}
 #pragma warning restore CA1506
@@ -312,25 +311,19 @@ namespace Tgstation.Server.Host.Controllers
 			});
 
 		/// <summary>
-		/// Implementation of <see cref="Read(ulong?, CancellationToken)"/>.
+		/// Implementation of <see cref="Read(CancellationToken)"/>.
 		/// </summary>
 		/// <param name="settings">The <see cref="DreamDaemonSettings"/> to operate on if any.</param>
-		/// <param name="profileMs">The amount of time to spend profiling game server CPU performance.</param>
 		/// <param name="knownForcedReboot">If there was a settings change made that forced a switch to <see cref="RebootState.Restart"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation.</returns>
 #pragma warning disable CA1502 // TODO: Decomplexify
-		ValueTask<IActionResult> ReadImpl(DreamDaemonSettings? settings, ulong? profileMs, bool knownForcedReboot, CancellationToken cancellationToken)
+		ValueTask<IActionResult> ReadImpl(DreamDaemonSettings? settings, bool knownForcedReboot, CancellationToken cancellationToken)
 #pragma warning restore CA1502
 			=> WithComponentInstance(async instance =>
 			{
 				var dd = instance.Watchdog;
 				var metadata = (AuthenticationContext.GetRight(RightsType.DreamDaemon) & (ulong)DreamDaemonRights.ReadMetadata) != 0;
-
-				Task<(long MemoryUsage, double CpuUsage)?>? profilingTask = null;
-				if (metadata && profileMs.HasValue && dd.Status == WatchdogStatus.Online)
-					profilingTask = dd.PerformanceProfile(TimeSpan.FromMilliseconds(profileMs.Value), cancellationToken);
-
 				var revision = (AuthenticationContext.GetRight(RightsType.DreamDaemon) & (ulong)DreamDaemonRights.ReadRevision) != 0;
 
 				if (settings == null)
@@ -380,6 +373,7 @@ namespace Tgstation.Server.Host.Controllers
 					result.Visibility = settings.Visibility!.Value;
 					result.SoftRestart = rstate == RebootState.Restart;
 					result.SoftShutdown = rstate == RebootState.Shutdown;
+					result.ImmediateMemoryUsage = dd.MemoryUsage;
 
 					if (rstate == RebootState.Normal && knownForcedReboot)
 						result.SoftRestart = true;
@@ -393,16 +387,6 @@ namespace Tgstation.Server.Host.Controllers
 					result.LogOutput = settings.LogOutput;
 					result.MapThreads = settings.MapThreads;
 					result.Minidumps = settings.Minidumps;
-
-					if (profilingTask != null)
-					{
-						var profile = await profilingTask;
-						if (profile.HasValue)
-						{
-							result.ImmediateMemoryUsage = profile.Value.MemoryUsage;
-							result.ImmediateCpuUsage = profile.Value.CpuUsage;
-						}
-					}
 				}
 
 				if (revision)

@@ -7,7 +7,6 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Win32.SafeHandles;
 
 using Tgstation.Server.Host.IO;
-using Tgstation.Server.Host.Utils;
 
 namespace Tgstation.Server.Host.System
 {
@@ -30,11 +29,6 @@ namespace Tgstation.Server.Host.System
 		/// The <see cref="IProcessFeatures"/> for the <see cref="Process"/>.
 		/// </summary>
 		readonly IProcessFeatures processFeatures;
-
-		/// <summary>
-		/// The <see cref="IAsyncDelayer"/> for the <see cref="Process"/>.
-		/// </summary>
-		readonly IAsyncDelayer asyncDelayer;
 
 		/// <summary>
 		/// The <see cref="ILogger"/> for the <see cref="Process"/>.
@@ -71,7 +65,6 @@ namespace Tgstation.Server.Host.System
 		/// Initializes a new instance of the <see cref="Process"/> class.
 		/// </summary>
 		/// <param name="processFeatures">The value of <see cref="processFeatures"/>.</param>
-		/// <param name="asyncDelayer">The value of <see cref="asyncDelayer"/>.</param>
 		/// <param name="handle">The value of <see cref="handle"/>.</param>
 		/// <param name="readerCts">The override value of <see cref="cancellationTokenSource"/>.</param>
 		/// <param name="readTask">The value of <see cref="readTask"/>.</param>
@@ -79,7 +72,6 @@ namespace Tgstation.Server.Host.System
 		/// <param name="preExisting">If <paramref name="handle"/> was NOT just created.</param>
 		public Process(
 			IProcessFeatures processFeatures,
-			IAsyncDelayer asyncDelayer,
 			global::System.Diagnostics.Process handle,
 			CancellationTokenSource? readerCts,
 			Task<string?>? readTask,
@@ -95,7 +87,6 @@ namespace Tgstation.Server.Host.System
 			cancellationTokenSource = readerCts ?? new CancellationTokenSource();
 
 			this.processFeatures = processFeatures ?? throw new ArgumentNullException(nameof(processFeatures));
-			this.asyncDelayer = asyncDelayer ?? throw new ArgumentNullException(nameof(asyncDelayer));
 
 			this.readTask = readTask;
 
@@ -243,24 +234,6 @@ namespace Tgstation.Server.Host.System
 
 			logger.LogTrace("Dumping PID {pid} to {dumpFilePath}...", Id, outputFile);
 			return processFeatures.CreateDump(handle, outputFile, minidump, cancellationToken);
-		}
-
-		/// <inheritdoc />
-		public async ValueTask<double> GetCpuUsage(TimeSpan waitingWindow, CancellationToken cancellationToken)
-		{
-			var startCpuUsage = handle.TotalProcessorTime;
-			var stopwatch = Stopwatch.StartNew();
-			await asyncDelayer.Delay(waitingWindow, cancellationToken);
-
-			var endCpuUsage = handle.TotalProcessorTime;
-			var totalElapsedTime = stopwatch.Elapsed;
-
-			var cpuUsedMs = (endCpuUsage - startCpuUsage).TotalMilliseconds;
-			var totalMsPassed = totalElapsedTime.TotalMilliseconds;
-
-			var cpuUsageTotal = cpuUsedMs / (Environment.ProcessorCount * totalMsPassed);
-
-			return cpuUsageTotal;
 		}
 
 		/// <summary>

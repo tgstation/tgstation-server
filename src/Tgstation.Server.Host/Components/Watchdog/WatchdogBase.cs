@@ -51,6 +51,9 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		}
 
 		/// <inheritdoc />
+		public long? MemoryUsage => GetActiveController()?.MemoryUsage;
+
+		/// <inheritdoc />
 		public abstract bool AlphaIsActive { get; }
 
 		/// <inheritdoc />
@@ -287,17 +290,6 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			}
 
 			return true;
-		}
-
-		/// <inheritdoc />
-		public async Task<(long MemoryUsage, double CpuUsage)?> PerformanceProfile(TimeSpan timeSpan, CancellationToken cancellationToken)
-		{
-			var controller = GetActiveController();
-			if (controller == null)
-				return null;
-
-			var cpuUsage = await controller.GetCpuUsage(timeSpan, cancellationToken);
-			return (controller.MemoryUsage, CpuUsage: cpuUsage);
 		}
 
 		/// <inheritdoc />

@@ -43,10 +43,8 @@ namespace Tgstation.Server.Client.Components
 		public ValueTask<JobResponse> Restart(CancellationToken cancellationToken) => apiClient.Patch<JobResponse>(Routes.DreamDaemon, instance.Id!.Value, cancellationToken);
 
 		/// <inheritdoc />
-		public ValueTask<DreamDaemonResponse> Read(ulong? profileMs, CancellationToken cancellationToken) => apiClient.Read<DreamDaemonResponse>(
-			profileMs.HasValue
-				? $"{Routes.DreamDaemon}?profileMs={profileMs.Value}"
-				: Routes.DreamDaemon,
+		public ValueTask<DreamDaemonResponse> Read(CancellationToken cancellationToken) => apiClient.Read<DreamDaemonResponse>(
+			Routes.DreamDaemon,
 			instance.Id!.Value,
 			cancellationToken);
 

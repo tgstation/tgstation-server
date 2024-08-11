@@ -25,6 +25,11 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		WatchdogStatus Status { get; }
 
 		/// <summary>
+		/// Gets the memory usage of the game server in bytes.
+		/// </summary>
+		long? MemoryUsage { get; }
+
+		/// <summary>
 		/// If the alpha server is the active server.
 		/// </summary>
 		bool AlphaIsActive { get; }
@@ -102,13 +107,5 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in <see langword="true"/> if the broadcast succeeded., <see langword="false"/> otherwise.</returns>
 		ValueTask<bool> Broadcast(string message, CancellationToken cancellationToken);
-
-		/// <summary>
-		/// Profile memory and CPU usage of the running game server.
-		/// </summary>
-		/// <param name="timeSpan">The duration to profile the CPU usage of the game server for.</param>
-		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the performance metrics or <see langword="null"/> if the server is offline.</returns>
-		Task<(long MemoryUsage, double CpuUsage)?> PerformanceProfile(TimeSpan timeSpan, CancellationToken cancellationToken);
 	}
 }

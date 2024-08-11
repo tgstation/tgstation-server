@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 
 namespace Tgstation.Server.Host.System
@@ -18,14 +17,6 @@ namespace Tgstation.Server.Host.System
 		/// Gets the process' memory usage in bytes.
 		/// </summary>
 		long MemoryUsage { get; }
-
-		/// <summary>
-		/// Measures the <see cref="IProcessBase"/>'s CPU use percentage over a period of time.
-		/// </summary>
-		/// <param name="waitingWindow">The <see cref="TimeSpan"/> to measure the percentage over.</param>
-		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="double"/> ranging from 0-1 representing the percentage of the process' CPU time that was measured.</returns>
-		ValueTask<double> GetCpuUsage(TimeSpan waitingWindow, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Set's the owned <see cref="global::System.Diagnostics.Process.PriorityClass"/> to a non-normal value.

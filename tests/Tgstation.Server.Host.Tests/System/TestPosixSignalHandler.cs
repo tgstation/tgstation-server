@@ -61,7 +61,6 @@ namespace Tgstation.Server.Host.System.Tests
 					new DefaultIOManager(),
 					loggerFactory.CreateLogger<PosixProcessFeatures>()),
 				Mock.Of<IIOManager>(),
-				Mock.Of<IAsyncDelayer>(),
 				loggerFactory.CreateLogger<ProcessExecutor>(),
 				loggerFactory);
 			await using var subProc = await processExecutor

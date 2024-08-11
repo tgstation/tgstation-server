@@ -65,11 +65,5 @@ namespace Tgstation.Server.Api.Models.Response
 		/// </summary>
 		[ResponseOptions]
 		public long? ImmediateMemoryUsage { get; set; }
-
-		/// <summary>
-		/// The CPU usage of the game server on a scale from 0-1.
-		/// </summary>
-		[ResponseOptions]
-		public double? ImmediateCpuUsage { get; set; }
 	}
 }

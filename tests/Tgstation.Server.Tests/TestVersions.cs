@@ -211,7 +211,6 @@ namespace Tgstation.Server.Tests
 						new DefaultIOManager(),
 						loggerFactory.CreateLogger<PosixProcessFeatures>()),
 					Mock.Of<IIOManager>(),
-					Mock.Of<IAsyncDelayer>(),
 					loggerFactory.CreateLogger<ProcessExecutor>(),
 					loggerFactory);
 

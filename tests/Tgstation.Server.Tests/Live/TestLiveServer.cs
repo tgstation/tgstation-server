@@ -1095,7 +1095,6 @@ namespace Tgstation.Server.Tests.Live
 							? new WindowsProcessFeatures(loggerFactory.CreateLogger<WindowsProcessFeatures>())
 							: new PosixProcessFeatures(new Lazy<IProcessExecutor>(() => processExecutor), ioManager, loggerFactory.CreateLogger<PosixProcessFeatures>()),
 						ioManager,
-						Mock.Of<IAsyncDelayer>(),
 						loggerFactory.CreateLogger<ProcessExecutor>(),
 						loggerFactory);
 
@@ -1198,7 +1197,7 @@ namespace Tgstation.Server.Tests.Live
 					{
 						await Task.Delay(TimeSpan.FromSeconds(5), cancellationToken);
 
-						var status = await instanceClient.DreamDaemon.Read(null, cancellationToken);
+						var status = await instanceClient.DreamDaemon.Read(cancellationToken);
 
 						if (updated)
 						{
@@ -1546,7 +1545,7 @@ namespace Tgstation.Server.Tests.Live
 					if (openDreamOnly)
 						return;
 
-					var dd = await instanceClient.DreamDaemon.Read(null, cancellationToken);
+					var dd = await instanceClient.DreamDaemon.Read(cancellationToken);
 					Assert.AreEqual(WatchdogStatus.Online, dd.Status.Value);
 					Assert.IsNotNull(dd.StagedCompileJob);
 					Assert.AreNotEqual(dd.StagedCompileJob.Id, dd.ActiveCompileJob.Id);
@@ -1629,7 +1628,7 @@ namespace Tgstation.Server.Tests.Live
 						await jrt.WaitForJob(job, 130, job.Description.Contains("Reconnect chat bot") ? null : false, null, cancellationToken);
 					}
 
-					var dd = await instanceClient.DreamDaemon.Read(500, cancellationToken);
+					var dd = await instanceClient.DreamDaemon.Read(cancellationToken);
 					Assert.AreEqual(WatchdogStatus.Online, dd.Status.Value);
 					Assert.IsNotNull(dd.StagedCompileJob);
 					Assert.AreNotEqual(dd.StagedCompileJob.Id, dd.ActiveCompileJob.Id);
@@ -1713,7 +1712,7 @@ namespace Tgstation.Server.Tests.Live
 					var instanceClient = adminClient.Instances.CreateClient(instance);
 					await WaitForInitialJobs(instanceClient);
 
-					var dd = await instanceClient.DreamDaemon.Read(null, cancellationToken);
+					var dd = await instanceClient.DreamDaemon.Read(cancellationToken);
 
 					Assert.AreEqual(WatchdogStatus.Online, dd.Status.Value);
 
@@ -1721,7 +1720,7 @@ namespace Tgstation.Server.Tests.Live
 					await using var wdt = new WatchdogTest(edgeVersion, instanceClient, GetInstanceManager(), (ushort)server.ApiUrl.Port, server.HighPriorityDreamDaemon, mainDDPort.Value, server.UsingBasicWatchdog);
 					await wdt.WaitForJob(compileJob, 30, false, null, cancellationToken);
 
-					dd = await instanceClient.DreamDaemon.Read(null, cancellationToken);
+					dd = await instanceClient.DreamDaemon.Read(cancellationToken);
 					Assert.AreEqual(dd.StagedCompileJob.Job.Id, compileJob.Id);
 
 					expectedCompileJobId = compileJob.Id.Value;
@@ -1756,7 +1755,7 @@ namespace Tgstation.Server.Tests.Live
 					var instanceClient = adminClient.Instances.CreateClient(instance);
 					await WaitForInitialJobs(instanceClient);
 
-					var currentDD = await instanceClient.DreamDaemon.Read(null, cancellationToken);
+					var currentDD = await instanceClient.DreamDaemon.Read(cancellationToken);
 					Assert.AreEqual(expectedCompileJobId, currentDD.ActiveCompileJob.Id.Value);
 					Assert.AreEqual(WatchdogStatus.Online, currentDD.Status);
 					Assert.AreEqual(expectedStaged, currentDD.StagedCompileJob.Job.Id.Value);
