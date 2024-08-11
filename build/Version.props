@@ -3,7 +3,7 @@
   <!-- Integration tests will ensure they match across the board -->
   <Import Project="WebpanelVersion.props" />
   <PropertyGroup>
-    <TgsCoreVersion>6.8.0</TgsCoreVersion>
+    <TgsCoreVersion>6.9.0</TgsCoreVersion>
     <TgsConfigVersion>5.2.0</TgsConfigVersion>
     <TgsApiVersion>10.7.0</TgsApiVersion>
     <TgsCommonLibraryVersion>7.0.0</TgsCommonLibraryVersion>
