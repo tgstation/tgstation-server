@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.8.0</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.9.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -96,9 +96,9 @@ Inheritance diagram for Tgstation.Server.Client.IAdministrationClient:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a27736ef864921c82b828246776e25918"><td class="memItemLeft" align="right" valign="top">ValueTask&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_administration_response.html">AdministrationResponse</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_administration_client.html#a27736ef864921c82b828246776e25918">Read</a> (CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a27736ef864921c82b828246776e25918"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the AdministrationResponse represented by the <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_administration_client.html" title="For managing server administration.">IAdministrationClient</a>.   <a href="interface_tgstation_1_1_server_1_1_client_1_1_i_administration_client.html#a27736ef864921c82b828246776e25918">More...</a><br /></td></tr>
-<tr class="separator:a27736ef864921c82b828246776e25918"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a01ee85075dae122776a1210de923c865"><td class="memItemLeft" align="right" valign="top">ValueTask&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_administration_response.html">AdministrationResponse</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_administration_client.html#a01ee85075dae122776a1210de923c865">Read</a> (bool forceFresh=false, CancellationToken cancellationToken=default)</td></tr>
+<tr class="memdesc:a01ee85075dae122776a1210de923c865"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the AdministrationResponse represented by the <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_administration_client.html" title="For managing server administration.">IAdministrationClient</a>.   <a href="interface_tgstation_1_1_server_1_1_client_1_1_i_administration_client.html#a01ee85075dae122776a1210de923c865">More...</a><br /></td></tr>
+<tr class="separator:a01ee85075dae122776a1210de923c865"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0e8be89151e5fa793d617ec0ba358f75"><td class="memItemLeft" align="right" valign="top">ValueTask&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_server_update_response.html">ServerUpdateResponse</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_administration_client.html#a0e8be89151e5fa793d617ec0ba358f75">Update</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_1_1_server_update_request.html">ServerUpdateRequest</a> updateRequest, <a class="el" href="class_stream.html">Stream</a>? zipFileStream, CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:a0e8be89151e5fa793d617ec0ba358f75"><td class="mdescLeft">&#160;</td><td class="mdescRight">Updates the AdministrationResponse setttings.   <a href="interface_tgstation_1_1_server_1_1_client_1_1_i_administration_client.html#a0e8be89151e5fa793d617ec0ba358f75">More...</a><br /></td></tr>
 <tr class="separator:a0e8be89151e5fa793d617ec0ba358f75"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -197,8 +197,8 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a27736ef864921c82b828246776e25918" name="a27736ef864921c82b828246776e25918"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a27736ef864921c82b828246776e25918">&#9670;&#160;</a></span>Read()</h2>
+<a id="a01ee85075dae122776a1210de923c865" name="a01ee85075dae122776a1210de923c865"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a01ee85075dae122776a1210de923c865">&#9670;&#160;</a></span>Read()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -206,9 +206,19 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="memname">ValueTask&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_administration_response.html">AdministrationResponse</a> &gt; Tgstation.Server.Client.IAdministrationClient.Read </td>
           <td>(</td>
-          <td class="paramtype">CancellationToken&#160;</td>
-          <td class="paramname"><em>cancellationToken</em></td><td>)</td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>forceFresh</em> = <code>false</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">CancellationToken&#160;</td>
+          <td class="paramname"><em>cancellationToken</em> = <code>default</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -216,13 +226,14 @@ Public Member Functions</h2></td></tr>
 <p>Get the AdministrationResponse represented by the <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_administration_client.html" title="For managing server administration.">IAdministrationClient</a>.  </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
+    <tr><td class="paramname">forceFresh</td><td>If <code>true</code> the response will be forcefully regenerated.</td></tr>
     <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A ValueTask&lt;TResult&gt; resulting in the AdministrationResponse represented by the <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_administration_client.html" title="For managing server administration.">IAdministrationClient</a>.</dd></dl>
 
-<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_administration_client.html#a8a50bd9e06e809e2ced99b2c4e8e7b0a">Tgstation.Server.Client.AdministrationClient</a>.</p>
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_administration_client.html#a9ec9efd0a58b3ceb62dc114c097a6eb9">Tgstation.Server.Client.AdministrationClient</a>.</p>
 
 </div>
 </div>

@@ -1,5 +1,12 @@
 Components:
   Configuration:
+  - Version: 5.2.0
+    Changes:
+    - Descriptions:
+      - Added `Session:ForceUseDreamDaemonExe` which allows forcing the use of `dreamdaemon.exe` over `dd.exe` on Windows.
+      Author: Cyberboss
+      PullRequest: 1855
+    Unreleased: true
   - Version: 5.1.0
     Changes:
     - Descriptions:
@@ -149,17 +156,20 @@ Components:
   Core:
   - Version: 6.9.0
     ComponentVersions:
-      Core: 6.8.0
-      HttpApi: 10.6.0
+      HttpApi: 10.7.0
       DreamMakerApi: 7.2.0
-      Configuration: 5.1.0
+      Configuration: 5.2.0
       InteropApi: 5.9.0
       HostWatchdog: 1.4.1
       NugetCommon: 7.0.0
-      NugetApi: 13.6.0
-      NugetClient: 15.6.0
+      NugetApi: 13.7.0
+      NugetClient: 16.0.0
       WebControlPanel: 5.9.0
-    Changes: []
+    Changes:
+    - Descriptions:
+      - Fixed a potential `NullReferenceException` caused by a race condition in `OpenDreamInstaller`.
+      Author: Cyberboss
+      PullRequest: 1855
     Unreleased: true
   - Version: 6.8.1
     ComponentVersions:
@@ -3726,6 +3736,15 @@ Components:
       Author: alexkar598
       PullRequest: 1133
   HttpApi:
+  - Version: 10.7.0
+    Changes:
+    - Descriptions:
+      - Added the `immediateMemoryUsage` byte count field to the DreamDaemon response model. This field will only be populated if the game server is running.
+      - Added PATCH `/api/Repository` action which performs a reclone, deleting the old repository and re-cloning it from its origin. Added repository rights flag 16384 for this action.
+      - The GitHub API calls made by GET `/api/Administration` are now cached for 30 minutes. This can be forcefully refreshed with the `?fresh=true` query param.
+      Author: Cyberboss
+      PullRequest: 1855
+    Unreleased: true
   - Version: 10.6.0
     Changes:
     - Descriptions:
@@ -4234,6 +4253,13 @@ Components:
       Author: Cyberboss
       PullRequest: 991
   DreamMakerApi:
+  - Version: 7.2.1
+    Changes:
+    - Descriptions:
+      - Fixed a typo in documentation comments.
+      Author: Cyberboss
+      PullRequest: 1854
+    Unreleased: true
   - Version: 7.2.0
     Changes:
     - Descriptions:
@@ -4501,6 +4527,13 @@ Components:
       Author: Cyberboss
       PullRequest: 1636
   NugetApi:
+  - Version: 13.7.0
+    Changes:
+    - Descriptions:
+      - Added `ImmediateMemoryUsage` to `DreamDaemonResponse` model.
+      Author: Cyberboss
+      PullRequest: 1855
+    Unreleased: true
   - Version: 13.5.0
     Changes:
     - Descriptions:
@@ -4584,4 +4617,12 @@ Components:
       - Made `DiscordConnectionStringBuilder.BasedMeme` obsolete.
       Author: Cyberboss
       PullRequest: 1629
-  NugetClient: []
+  NugetClient:
+  - Version: 16.0.0
+    Changes:
+    - Descriptions:
+      - Updated `Tgstation.Server.Api` dependency to version 10.7.0.
+      - '**BREAKING: Added `fresh` parameter to `IAdministrationClient.Read`.**'
+      Author: Cyberboss
+      PullRequest: 1855
+    Unreleased: true

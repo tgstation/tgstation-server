@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.8.0</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.9.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -818,12 +818,13 @@ Here is the call graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_windows_byond_installer_8cs_source.html#l00225">225</a> of file <a class="el" href="_windows_byond_installer_8cs_source.html">WindowsByondInstaller.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">  226</span>        {</div>
-<div class="line"><span class="lineno">  227</span>            supportsCli = byondVersion &gt;= <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_windows_byond_installer.html#a8afc91276c3432aea5b85fb114bdff58">DDExeVersion</a>;</div>
+<div class="line"><span class="lineno">  227</span>            supportsCli = byondVersion &gt;= <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_windows_byond_installer.html#a8afc91276c3432aea5b85fb114bdff58">DDExeVersion</a> &amp;&amp; !<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_windows_byond_installer.html#ae76a305c4cb17a9551d09766545296c6">sessionConfiguration</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_session_configuration.html#a7ec1928f796c4ab8069261ace4fb3c6d">ForceUseDreamDaemonExe</a>;</div>
 <div class="line"><span class="lineno">  228</span>            <span class="keywordflow">return</span> supportsCli ? <span class="stringliteral">&quot;dd.exe&quot;</span> : <span class="stringliteral">&quot;dreamdaemon.exe&quot;</span>;</div>
 <div class="line"><span class="lineno">  229</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_windows_byond_installer_html_a8afc91276c3432aea5b85fb114bdff58"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_windows_byond_installer.html#a8afc91276c3432aea5b85fb114bdff58">Tgstation.Server.Host.Components.Engine.WindowsByondInstaller.DDExeVersion</a></div><div class="ttdeci">static Version DDExeVersion</div><div class="ttdoc">The first version of BYOND to ship with dd.exe on the Windows build.</div><div class="ttdef"><b>Definition:</b> <a href="_windows_byond_installer_8cs_source.html#l00063">WindowsByondInstaller.cs:63</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_session_configuration_html_a7ec1928f796c4ab8069261ace4fb3c6d"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_session_configuration.html#a7ec1928f796c4ab8069261ace4fb3c6d">Tgstation.Server.Host.Configuration.SessionConfiguration.ForceUseDreamDaemonExe</a></div><div class="ttdeci">bool ForceUseDreamDaemonExe</div><div class="ttdoc">If set dd.exe will not be used on Windows systems in versions where it is present....</div><div class="ttdef"><b>Definition:</b> <a href="_session_configuration_8cs_source.html#l00036">SessionConfiguration.cs:36</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_windows_byond_installer_8cs_source.html#l00063">Tgstation.Server.Host.Components.Engine.WindowsByondInstaller.DDExeVersion</a>.</p>
+<p class="reference">References <a class="el" href="_windows_byond_installer_8cs_source.html#l00063">Tgstation.Server.Host.Components.Engine.WindowsByondInstaller.DDExeVersion</a>, <a class="el" href="_session_configuration_8cs_source.html#l00036">Tgstation.Server.Host.Configuration.SessionConfiguration.ForceUseDreamDaemonExe</a>, and <a class="el" href="_windows_byond_installer_8cs_source.html#l00087">Tgstation.Server.Host.Components.Engine.WindowsByondInstaller.sessionConfiguration</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="_windows_byond_installer_8cs_source.html#l00316">Tgstation.Server.Host.Components.Engine.WindowsByondInstaller.AddDreamDaemonToFirewall()</a>.</p>
 <div class="dynheader">
@@ -1612,7 +1613,7 @@ Here is the call graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_windows_byond_installer_8cs_source.html#l00087">87</a> of file <a class="el" href="_windows_byond_installer_8cs_source.html">WindowsByondInstaller.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_windows_byond_installer_8cs_source.html#l00316">Tgstation.Server.Host.Components.Engine.WindowsByondInstaller.AddDreamDaemonToFirewall()</a>, and <a class="el" href="_windows_byond_installer_8cs_source.html#l00108">Tgstation.Server.Host.Components.Engine.WindowsByondInstaller.WindowsByondInstaller()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_windows_byond_installer_8cs_source.html#l00316">Tgstation.Server.Host.Components.Engine.WindowsByondInstaller.AddDreamDaemonToFirewall()</a>, <a class="el" href="_windows_byond_installer_8cs_source.html#l00225">Tgstation.Server.Host.Components.Engine.WindowsByondInstaller.GetDreamDaemonName()</a>, and <a class="el" href="_windows_byond_installer_8cs_source.html#l00108">Tgstation.Server.Host.Components.Engine.WindowsByondInstaller.WindowsByondInstaller()</a>.</p>
 
 </div>
 </div>

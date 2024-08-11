@@ -1,0 +1,7 @@
+<map id="Tgstation.Server.Host.Components.Repository.RepositoryUpdateService.RepositoryRecloneJob" name="Tgstation.Server.Host.Components.Repository.RepositoryUpdateService.RepositoryRecloneJob">
+<area shape="rect" id="node1" title="The job entrypoint used by Controllers.RepositoryController to reclone a repository." alt="" coords="5,91,241,146"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository.html#abd47fd2dbfe8a1f51ea38ca78259eabd" title="Checks out a given committish ." alt="" coords="289,5,536,45"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_progress_reporter.html#a32254a185da6e76e7fcd2d72a8032970" title="Create a subsection of the JobProgressReporter with its optional own stage name." alt="" coords="298,69,527,109"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_progress_reporter.html#ac736a80d9d56a20711468d9b8e27e3c1" title="Report progress." alt="" coords="584,99,821,139"/>
+<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_factory.html#a0804dcd2b607f4e8c5b46c8c05f04926" title="Run an operation &#160;in the scope of an IDatabaseContext." alt="" coords="293,185,532,239"/>
+</map>

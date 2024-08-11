@@ -1,0 +1,8 @@
+<map id="Tgstation.Server.Host.Controllers.RepositoryController.Reclone" name="Tgstation.Server.Host.Controllers.RepositoryController.Reclone">
+<area shape="rect" id="node1" title="Delete the repository." alt="" coords="5,113,221,153"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_job.html#afb982e4f4d1492aced7dcf14d9ba5d97" title="Creates a new job for registering in the Jobs.IJobService." alt="" coords="291,5,487,45"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#a95bb9478788097b0165c2d74796d217e" title="Creates a RepositoryUpdateService." alt="" coords="269,70,509,125"/>
+<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html#aefaca6d0c2762350a41adfe7daaade95" title="Registers a given Job and begins running it." alt="" coords="287,149,491,189"/>
+<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_job.html#a26803af89e798afe4e8878b9bc2f213b" title=" " alt="" coords="291,213,487,253"/>
+<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_user_name.html#a9f75360b06ae3468b43b68c48a2bccc2" title="Create a copy of the UserName." alt="" coords="557,213,747,253"/>
+</map>

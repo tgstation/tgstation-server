@@ -1,4 +1,5 @@
 <map id="Tgstation.Server.Host.Database.IDatabaseContextFactory.UseContextTaskReturn" name="Tgstation.Server.Host.Database.IDatabaseContextFactory.UseContextTaskReturn">
-<area shape="rect" id="node1" title="Run an operation &#160;in the scope of an IDatabaseContext." alt="" coords="280,5,519,60"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#ad3dc0cfcb7f415f1dd8a98bfd018f90e" title="Move an IInstance. A ValueTask representing the running operation." alt="" coords="5,13,232,53"/>
+<area shape="rect" id="node1" title="Run an operation &#160;in the scope of an IDatabaseContext." alt="" coords="289,34,528,89"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#ad3dc0cfcb7f415f1dd8a98bfd018f90e" title="Move an IInstance. A ValueTask representing the running operation." alt="" coords="10,5,237,45"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository_update_service.html#a652e0821327fb59aa750db441622df34" title="The job entrypoint used by Controllers.RepositoryController to reclone a repository." alt="" coords="5,70,241,125"/>
 </map>

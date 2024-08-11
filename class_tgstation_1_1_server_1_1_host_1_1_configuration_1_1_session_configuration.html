@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.8.0</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.9.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -114,6 +114,9 @@ Properties</h2></td></tr>
 <tr class="memitem:af3cf4b1712e07bd81be256e7344fba88"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_session_configuration.html#af3cf4b1712e07bd81be256e7344fba88">DelayCleaningFailedDeployments</a><code> [get, set]</code></td></tr>
 <tr class="memdesc:af3cf4b1712e07bd81be256e7344fba88"><td class="mdescLeft">&#160;</td><td class="mdescRight">If <code>true</code>, deployments that fail will not be immediately cleaned up. They will be cleaned up the next time the instance is onlined.   <a href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_session_configuration.html#af3cf4b1712e07bd81be256e7344fba88">More...</a><br /></td></tr>
 <tr class="separator:af3cf4b1712e07bd81be256e7344fba88"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7ec1928f796c4ab8069261ace4fb3c6d"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_session_configuration.html#a7ec1928f796c4ab8069261ace4fb3c6d">ForceUseDreamDaemonExe</a><code> [get, set]</code></td></tr>
+<tr class="memdesc:a7ec1928f796c4ab8069261ace4fb3c6d"><td class="mdescLeft">&#160;</td><td class="mdescRight">If set dd.exe will not be used on Windows systems in versions where it is present. Instead dreamdaemon.exe will always be used.   <a href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_session_configuration.html#a7ec1928f796c4ab8069261ace4fb3c6d">More...</a><br /></td></tr>
+<tr class="separator:a7ec1928f796c4ab8069261ace4fb3c6d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-static-attribs" name="pri-static-attribs"></a>
 Static Private Attributes</h2></td></tr>
@@ -206,6 +209,35 @@ Static Private Attributes</h2></td></tr>
 </div><!-- fragment -->
 </div>
 </div>
+<a id="a7ec1928f796c4ab8069261ace4fb3c6d" name="a7ec1928f796c4ab8069261ace4fb3c6d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7ec1928f796c4ab8069261ace4fb3c6d">&#9670;&#160;</a></span>ForceUseDreamDaemonExe</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool Tgstation.Server.Host.Configuration.SessionConfiguration.ForceUseDreamDaemonExe</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">get</span><span class="mlabel">set</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>If set dd.exe will not be used on Windows systems in versions where it is present. Instead dreamdaemon.exe will always be used.  </p>
+
+<p class="definition">Definition at line <a class="el" href="_session_configuration_8cs_source.html#l00036">36</a> of file <a class="el" href="_session_configuration_8cs_source.html">SessionConfiguration.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   36</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
+</div><!-- fragment -->
+<p class="reference">Referenced by <a class="el" href="_windows_byond_installer_8cs_source.html#l00225">Tgstation.Server.Host.Components.Engine.WindowsByondInstaller.GetDreamDaemonName()</a>.</p>
+
+</div>
+</div>
 <a id="aada930ba51c0f6ca00e99eb67b4d70ce" name="aada930ba51c0f6ca00e99eb67b4d70ce"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aada930ba51c0f6ca00e99eb67b4d70ce">&#9670;&#160;</a></span>HighPriorityLiveDreamDaemon</h2>
 
@@ -261,7 +293,7 @@ Static Private Attributes</h2></td></tr>
 <p class="definition">Definition at line <a class="el" href="_session_configuration_8cs_source.html#l00026">26</a> of file <a class="el" href="_session_configuration_8cs_source.html">SessionConfiguration.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   26</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_windows_byond_installer_8cs_source.html#l00316">Tgstation.Server.Host.Components.Engine.WindowsByondInstaller.AddDreamDaemonToFirewall()</a>, <a class="el" href="_windows_open_dream_installer_8cs_source.html#l00109">Tgstation.Server.Host.Components.Engine.WindowsOpenDreamInstaller.AddServerFirewallException()</a>, <a class="el" href="_session_controller_factory_8cs_source.html#l00495">Tgstation.Server.Host.Components.Session.SessionControllerFactory.CreateGameServerProcess()</a>, and <a class="el" href="_open_dream_installer_8cs_source.html#l00195">Tgstation.Server.Host.Components.Engine.OpenDreamInstaller.Install()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_windows_byond_installer_8cs_source.html#l00316">Tgstation.Server.Host.Components.Engine.WindowsByondInstaller.AddDreamDaemonToFirewall()</a>, <a class="el" href="_windows_open_dream_installer_8cs_source.html#l00109">Tgstation.Server.Host.Components.Engine.WindowsOpenDreamInstaller.AddServerFirewallException()</a>, <a class="el" href="_session_controller_factory_8cs_source.html#l00495">Tgstation.Server.Host.Components.Session.SessionControllerFactory.CreateGameServerProcess()</a>, and <a class="el" href="_open_dream_installer_8cs_source.html#l00198">Tgstation.Server.Host.Components.Engine.OpenDreamInstaller.Install()</a>.</p>
 
 </div>
 </div>

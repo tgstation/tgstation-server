@@ -1,0 +1,4 @@
+<map id="Tgstation.Server.Host.Components.Repository.IRepository.CheckoutObject" name="Tgstation.Server.Host.Components.Repository.IRepository.CheckoutObject">
+<area shape="rect" id="node1" title="Checks out a given committish ." alt="" coords="289,13,536,53"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository_update_service.html#a652e0821327fb59aa750db441622df34" title="The job entrypoint used by Controllers.RepositoryController to reclone a repository." alt="" coords="5,5,241,60"/>
+</map>

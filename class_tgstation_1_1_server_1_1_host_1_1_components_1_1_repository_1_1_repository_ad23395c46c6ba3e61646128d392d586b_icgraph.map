@@ -1,4 +1,4 @@
 <map id="Tgstation.Server.Host.Components.Repository.Repository.RawCheckout" name="Tgstation.Server.Host.Components.Repository.Repository.RawCheckout">
 <area shape="rect" id="node1" title="Runs a blocking force checkout to committish ." alt="" coords="296,5,527,45"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html#afba3e99f643ff6a3009888b7f09ad436" title="Checks out a given committish . A ValueTask representing the running operation." alt="" coords="5,5,248,45"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html#a95068b3afe9edb4dc3a0474422f650aa" title="Checks out a given committish . A ValueTask representing the running operation." alt="" coords="5,5,248,45"/>
 </map>
