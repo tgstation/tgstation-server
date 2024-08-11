@@ -43,7 +43,10 @@ namespace Tgstation.Server.Client.Components
 		public ValueTask<JobResponse> Restart(CancellationToken cancellationToken) => apiClient.Patch<JobResponse>(Routes.DreamDaemon, instance.Id!.Value, cancellationToken);
 
 		/// <inheritdoc />
-		public ValueTask<DreamDaemonResponse> Read(CancellationToken cancellationToken) => apiClient.Read<DreamDaemonResponse>(Routes.DreamDaemon, instance.Id!.Value, cancellationToken);
+		public ValueTask<DreamDaemonResponse> Read(CancellationToken cancellationToken) => apiClient.Read<DreamDaemonResponse>(
+			Routes.DreamDaemon,
+			instance.Id!.Value,
+			cancellationToken);
 
 		/// <inheritdoc />
 		public ValueTask<DreamDaemonResponse> Update(DreamDaemonRequest dreamDaemon, CancellationToken cancellationToken) => apiClient.Update<DreamDaemonRequest, DreamDaemonResponse>(Routes.DreamDaemon, dreamDaemon ?? throw new ArgumentNullException(nameof(dreamDaemon)), instance.Id!.Value, cancellationToken);

@@ -25,6 +25,11 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		WatchdogStatus Status { get; }
 
 		/// <summary>
+		/// Gets the memory usage of the game server in bytes.
+		/// </summary>
+		long? MemoryUsage { get; }
+
+		/// <summary>
 		/// If the alpha server is the active server.
 		/// </summary>
 		bool AlphaIsActive { get; }
