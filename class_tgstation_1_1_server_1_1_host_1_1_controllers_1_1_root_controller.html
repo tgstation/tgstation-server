@@ -307,7 +307,7 @@ Static Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">   84</span>        }</div>
 <div class="ttc" id="aclass_controller_html"><div class="ttname"><a href="class_controller.html">Controller</a></div></div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_root_controller_8cs_source.html#l00167">Tgstation.Server.Host.Controllers.RootController.WebpanelChannelRedirect()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_root_controller_8cs_source.html#l00173">Tgstation.Server.Host.Controllers.RootController.WebpanelChannelRedirect()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -340,16 +340,21 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_root_controller_8cs_source.html#l00153">153</a> of file <a class="el" href="_root_controller_8cs_source.html">RootController.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">  154</span>        {</div>
-<div class="line"><span class="lineno">  155</span>            var logoFileName = platformIdentifier.IsWindows <span class="comment">// these are different because of motherfucking line endings -_-</span></div>
-<div class="line"><span class="lineno">  156</span>                ? <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_root_controller.html#a02ea5097cc04d4d8987e3771212aaf48">LogoSvgWindowsName</a></div>
-<div class="line"><span class="lineno">  157</span>                : <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_root_controller.html#aa022d3bfaff46fb93cd54325279b4184">LogoSvgLinuxName</a>;</div>
-<div class="line"><span class="lineno">  158</span> </div>
-<div class="line"><span class="lineno">  159</span>            <span class="keywordflow">return</span> (IActionResult?)this.TryServeFile(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_root_controller.html#aca0db0554f654776e107e163f7bd9cbe">hostEnvironment</a>, <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_root_controller.html#a10cbdff9320a4a829a5d9db73fba4a44">logger</a>, $<span class="stringliteral">&quot;{logoFileName}.svg&quot;</span>) ?? NotFound();</div>
-<div class="line"><span class="lineno">  160</span>        }</div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_root_controller_html_a02ea5097cc04d4d8987e3771212aaf48"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_root_controller.html#a02ea5097cc04d4d8987e3771212aaf48">Tgstation.Server.Host.Controllers.RootController.LogoSvgWindowsName</a></div><div class="ttdeci">const string LogoSvgWindowsName</div><div class="ttdoc">The name of the TGS logo .svg in the IWebHostEnvironment.WebRootPath on Windows.</div><div class="ttdef"><b>Definition:</b> <a href="_root_controller_8cs_source.html#l00028">RootController.cs:28</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_root_controller_html_aa022d3bfaff46fb93cd54325279b4184"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_root_controller.html#aa022d3bfaff46fb93cd54325279b4184">Tgstation.Server.Host.Controllers.RootController.LogoSvgLinuxName</a></div><div class="ttdeci">const string LogoSvgLinuxName</div><div class="ttdoc">The name of the TGS logo .svg in the IWebHostEnvironment.WebRootPath on Linux.</div><div class="ttdef"><b>Definition:</b> <a href="_root_controller_8cs_source.html#l00033">RootController.cs:33</a></div></div>
+<div class="line"><span class="lineno">  155</span>            <span class="comment">// these are different because of motherfucking line endings -_-</span></div>
+<div class="line"><span class="lineno">  156</span>            <span class="keywordflow">if</span> (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_root_controller.html#a097fc102efbf9fb997ca46721595ad67">platformIdentifier</a>.<a class="code hl_property" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_platform_identifier.html#aa9bf3bd1082b7178f58cb1f36839550e">IsWindows</a>)</div>
+<div class="line"><span class="lineno">  157</span>            {</div>
+<div class="line"><span class="lineno">  158</span>                VirtualFileResult? result = this.TryServeFile(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_root_controller.html#aca0db0554f654776e107e163f7bd9cbe">hostEnvironment</a>, <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_root_controller.html#a10cbdff9320a4a829a5d9db73fba4a44">logger</a>, $<span class="stringliteral">&quot;{LogoSvgWindowsName}.svg&quot;</span>);</div>
+<div class="line"><span class="lineno">  159</span>                <span class="keywordflow">if</span> (result != <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">  160</span>                    <span class="keywordflow">return</span> result;</div>
+<div class="line"><span class="lineno">  161</span> </div>
+<div class="line"><span class="lineno">  162</span>                <span class="comment">// BUT THE UPDATE PACKAGES ARE BUILT ON LINUX RAAAAAGH</span></div>
+<div class="line"><span class="lineno">  163</span>            }</div>
+<div class="line"><span class="lineno">  164</span> </div>
+<div class="line"><span class="lineno">  165</span>            <span class="keywordflow">return</span> (IActionResult?)this.TryServeFile(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_root_controller.html#aca0db0554f654776e107e163f7bd9cbe">hostEnvironment</a>, <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_root_controller.html#a10cbdff9320a4a829a5d9db73fba4a44">logger</a>, $<span class="stringliteral">&quot;{LogoSvgLinuxName}.svg&quot;</span>) ?? NotFound();</div>
+<div class="line"><span class="lineno">  166</span>        }</div>
+<div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_platform_identifier_html_aa9bf3bd1082b7178f58cb1f36839550e"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_platform_identifier.html#aa9bf3bd1082b7178f58cb1f36839550e">Tgstation.Server.Host.System.IPlatformIdentifier.IsWindows</a></div><div class="ttdeci">bool IsWindows</div><div class="ttdoc">If the current platform is a Windows platform.</div><div class="ttdef"><b>Definition:</b> <a href="_i_platform_identifier_8cs_source.html#l00014">IPlatformIdentifier.cs:14</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_root_controller_8cs_source.html#l00048">Tgstation.Server.Host.Controllers.RootController.hostEnvironment</a>, <a class="el" href="_root_controller_8cs_source.html#l00053">Tgstation.Server.Host.Controllers.RootController.logger</a>, <a class="el" href="_root_controller_8cs_source.html#l00033">Tgstation.Server.Host.Controllers.RootController.LogoSvgLinuxName</a>, and <a class="el" href="_root_controller_8cs_source.html#l00028">Tgstation.Server.Host.Controllers.RootController.LogoSvgWindowsName</a>.</p>
+<p class="reference">References <a class="el" href="_root_controller_8cs_source.html#l00048">Tgstation.Server.Host.Controllers.RootController.hostEnvironment</a>, <a class="el" href="_i_platform_identifier_8cs_source.html#l00014">Tgstation.Server.Host.System.IPlatformIdentifier.IsWindows</a>, <a class="el" href="_root_controller_8cs_source.html#l00053">Tgstation.Server.Host.Controllers.RootController.logger</a>, and <a class="el" href="_root_controller_8cs_source.html#l00043">Tgstation.Server.Host.Controllers.RootController.platformIdentifier</a>.</p>
 
 </div>
 </div>
@@ -429,14 +434,14 @@ Here is the caller graph for this function:</div>
 <p>Workaround for the webpanel always expecting a trailing slash.  </p>
 <dl class="section return"><dt>Returns</dt><dd>A RedirectResult to the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_control_panel_controller.html#a034b3a0121efed62a1a368bb59bf1fac" title="Returns the ControlPanelConfiguration.Channel.">ControlPanelController.GetChannelJson</a>.</dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_root_controller_8cs_source.html#l00167">167</a> of file <a class="el" href="_root_controller_8cs_source.html">RootController.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  168</span>        {</div>
-<div class="line"><span class="lineno">  169</span>            var actionTuple = <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_root_controller.html#acbe1ee13bd45be7f716cc13e8f0f7fd9">GetControlPanelActionLink</a>(controller =&gt; controller.GetChannelJson());</div>
-<div class="line"><span class="lineno">  170</span> </div>
-<div class="line"><span class="lineno">  171</span>            <span class="keywordflow">return</span> RedirectToActionPermanent(</div>
-<div class="line"><span class="lineno">  172</span>                actionTuple.Item2,</div>
-<div class="line"><span class="lineno">  173</span>                actionTuple.Item1);</div>
-<div class="line"><span class="lineno">  174</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_root_controller_8cs_source.html#l00173">173</a> of file <a class="el" href="_root_controller_8cs_source.html">RootController.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  174</span>        {</div>
+<div class="line"><span class="lineno">  175</span>            var actionTuple = <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_root_controller.html#acbe1ee13bd45be7f716cc13e8f0f7fd9">GetControlPanelActionLink</a>(controller =&gt; controller.GetChannelJson());</div>
+<div class="line"><span class="lineno">  176</span> </div>
+<div class="line"><span class="lineno">  177</span>            <span class="keywordflow">return</span> RedirectToActionPermanent(</div>
+<div class="line"><span class="lineno">  178</span>                actionTuple.Item2,</div>
+<div class="line"><span class="lineno">  179</span>                actionTuple.Item1);</div>
+<div class="line"><span class="lineno">  180</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_root_controller_html_acbe1ee13bd45be7f716cc13e8f0f7fd9"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_root_controller.html#acbe1ee13bd45be7f716cc13e8f0f7fd9">Tgstation.Server.Host.Controllers.RootController.GetControlPanelActionLink</a></div><div class="ttdeci">static Tuple&lt; string, string?&gt; GetControlPanelActionLink(Expression&lt; Func&lt; ControlPanelController, IActionResult &gt; &gt; actionExpression)</div><div class="ttdoc">Gets a Tuple&lt;T1, T2&gt; giving the ControlPanelController and action names for a given actionExpression ...</div><div class="ttdef"><b>Definition:</b> <a href="_root_controller_8cs_source.html#l00070">RootController.cs:70</a></div></div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="_root_controller_8cs_source.html#l00070">Tgstation.Server.Host.Controllers.RootController.GetControlPanelActionLink()</a>.</p>
@@ -617,8 +622,6 @@ Here is the call graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_root_controller_8cs_source.html#l00033">33</a> of file <a class="el" href="_root_controller_8cs_source.html">RootController.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_root_controller_8cs_source.html#l00153">Tgstation.Server.Host.Controllers.RootController.GetLogo()</a>.</p>
-
 </div>
 </div>
 <a id="a02ea5097cc04d4d8987e3771212aaf48" name="a02ea5097cc04d4d8987e3771212aaf48"></a>
@@ -644,8 +647,6 @@ Here is the call graph for this function:</div>
 <p>The name of the TGS logo .svg in the IWebHostEnvironment.WebRootPath on Windows.  </p>
 
 <p class="definition">Definition at line <a class="el" href="_root_controller_8cs_source.html#l00028">28</a> of file <a class="el" href="_root_controller_8cs_source.html">RootController.cs</a>.</p>
-
-<p class="reference">Referenced by <a class="el" href="_root_controller_8cs_source.html#l00153">Tgstation.Server.Host.Controllers.RootController.GetLogo()</a>.</p>
 
 </div>
 </div>
@@ -673,7 +674,7 @@ Here is the call graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_root_controller_8cs_source.html#l00043">43</a> of file <a class="el" href="_root_controller_8cs_source.html">RootController.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_root_controller_8cs_source.html#l00095">Tgstation.Server.Host.Controllers.RootController.RootController()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_root_controller_8cs_source.html#l00153">Tgstation.Server.Host.Controllers.RootController.GetLogo()</a>, and <a class="el" href="_root_controller_8cs_source.html#l00095">Tgstation.Server.Host.Controllers.RootController.RootController()</a>.</p>
 
 </div>
 </div>

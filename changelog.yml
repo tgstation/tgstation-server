@@ -157,7 +157,7 @@ Components:
   - Version: 6.9.0
     ComponentVersions:
       HttpApi: 10.7.0
-      DreamMakerApi: 7.2.0
+      DreamMakerApi: 7.2.1
       Configuration: 5.2.0
       InteropApi: 5.9.0
       HostWatchdog: 1.4.1
@@ -170,6 +170,10 @@ Components:
       - Fixed a potential `NullReferenceException` caused by a race condition in `OpenDreamInstaller`.
       Author: Cyberboss
       PullRequest: 1855
+    - Descriptions:
+      - Fixed the homepage logo not displaying on Windows after updating once.
+      Author: Cyberboss
+      PullRequest: 1857
     Unreleased: true
   - Version: 6.8.1
     ComponentVersions:
