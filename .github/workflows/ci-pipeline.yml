@@ -475,6 +475,9 @@ jobs:
     - name: Restore
       run: dotnet restore
 
+    - name: Enable Corepack
+      run: corepack enable
+
     - name: Build
       run: dotnet build -c ${{ matrix.configuration }}NoWindows
 
@@ -525,6 +528,9 @@ jobs:
 
     - name: Restore
       run: dotnet restore
+
+    - name: Enable Corepack
+      run: corepack enable
 
     - name: Build
       run: dotnet build -c ${{ matrix.configuration }}NoWix
@@ -643,6 +649,9 @@ jobs:
 
     - name: Restore
       run: dotnet restore
+
+    - name: Enable Corepack
+      run: corepack enable
 
     - name: Setup Telemetry Key File
       shell: bash
@@ -860,6 +869,9 @@ jobs:
 
     - name: Restore
       run: dotnet restore
+
+    - name: Enable Corepack
+      run: corepack enable
 
     - name: Setup Telemetry Key File
       run: echo "${{ secrets.TGS_TELEMETRY_KEY }}" > ${{ env.TGS_TELEMETRY_KEY_FILE }}
@@ -1327,8 +1339,6 @@ jobs:
     needs: start-ci-run-gate
     runs-on: windows-latest
     if: (!(cancelled() || failure()) && needs.start-ci-run-gate.result == 'success')
-    env:
-      TGS_TELEMETRY_KEY_FILE: C:/tgs_telemetry_key.txt
     steps:
     - name: Install winget
       uses: Cyberboss/install-winget@v1
@@ -1362,17 +1372,11 @@ jobs:
     - name: Restore
       run: dotnet restore
 
-    - name: Setup Telemetry Key File
-      shell: bash
-      run: echo "${{ secrets.TGS_TELEMETRY_KEY }}" > ${{ env.TGS_TELEMETRY_KEY_FILE }}
+    - name: Enable Corepack
+      run: corepack enable
 
     - name: Build Host
       run: dotnet build -c Release src/Tgstation.Server.Host/Tgstation.Server.Host.csproj
-
-    - name: Delete Telemetry Key File
-      shell: bash
-      if: always()
-      run: rm ${{ env.TGS_TELEMETRY_KEY_FILE }}
 
     - name: Build Service
       run: dotnet build -c Release src/Tgstation.Server.Host.Service/Tgstation.Server.Host.Service.csproj
@@ -1769,6 +1773,8 @@ jobs:
     needs: [deploy-dm, deploy-http, deployment-gate]
     runs-on: windows-latest
     if: (!(cancelled() || failure()) && needs.deployment-gate.result == 'success' && github.event.ref == 'refs/heads/master' && contains(github.event.head_commit.message, '[TGSDeploy]'))
+    env:
+      TGS_TELEMETRY_KEY_FILE: C:/tgs_telemetry_key.txt
     steps:
     - name: Setup dotnet
       uses: actions/setup-dotnet@v4
@@ -1789,8 +1795,20 @@ jobs:
 
 # We need to rebuild the installer.exe so it can be properly signed
 
+    - name: Enable Corepack
+      run: corepack enable
+
+    - name: Setup Telemetry Key File
+      shell: bash
+      run: echo "${{ secrets.TGS_TELEMETRY_KEY }}" > ${{ env.TGS_TELEMETRY_KEY_FILE }}
+
     - name: Build Host
       run: dotnet build -c Release src/Tgstation.Server.Host/Tgstation.Server.Host.csproj
+
+    - name: Delete Telemetry Key File
+      shell: bash
+      if: always()
+      run: rm ${{ env.TGS_TELEMETRY_KEY_FILE }}
 
     - name: Build Service
       run: dotnet build -c Release src/Tgstation.Server.Host.Service/Tgstation.Server.Host.Service.csproj

@@ -36,6 +36,8 @@ You can of course, as always, ask for help at [#coderbus](irc://irc.rizon.net/co
 
 You need the .NET 8.0 SDK, node>=v20, and npm>=v5.7 (in your PATH) to compile the server. On Linux, you also need the `libgdiplus` package installed to generate icons.
 
+You need to run `corepack enable` to configure node to correctly build the webpanel.
+
 The recommended IDE is Visual Studio 2022 or VSCode.
 
 In order to build the service version and/or the Windows installer you need a to run on Windows.
