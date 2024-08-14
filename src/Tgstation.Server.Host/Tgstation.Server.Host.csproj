@@ -29,13 +29,14 @@
     <Exec Command="git clone https://github.com/tgstation/tgstation-server-webpanel --branch v$(TgsWebpanelVersion) --depth 1 ClientApp" />
     <RemoveDir Directories="ClientApp/.git" /> <!-- Allows git clean to clean it out -->
     <Message Text="Restoring yarn packages..." Importance="high" />
-    <Exec WorkingDirectory="ClientApp" Command="npx --yes yarn@$(TgsYarnVersion) install --immutable" />
+    <Exec WorkingDirectory="ClientApp" Command="npx corepack enable" />
+    <Exec WorkingDirectory="ClientApp" Command="npx yarn install --immutable" />
     <Touch Files="$(NpmInstallStampFile)" AlwaysCreate="true" />
   </Target>
 
   <Target Condition="'$(TGS_HOST_NO_WEBPANEL)' != 'true'" Name="NpmBuild" BeforeTargets="BeforeBuild" DependsOnTargets="ClientInstall" Inputs="../../build/WebpanelVersion.props" Outputs="wwwroot\index.html">
     <Message Text="Building web control panel..." Importance="high" />
-    <Exec WorkingDirectory="ClientApp" Command="npx --yes yarn@$(TgsYarnVersion) run msbuild" />
+    <Exec WorkingDirectory="ClientApp" Command="npx yarn run msbuild" />
   </Target>
 
   <Target Name="NpmClean" AfterTargets="Clean">
