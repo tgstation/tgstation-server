@@ -57,6 +57,11 @@ namespace Tgstation.Server.Host.Core
 		readonly TelemetryConfiguration telemetryConfiguration;
 
 		/// <summary>
+		/// The <see cref="CancellationToken"/> passed to <see cref="StopAsync(CancellationToken)"/>.
+		/// </summary>
+		CancellationToken shutdownCancellationToken;
+
+		/// <summary>
 		/// Initializes a new instance of the <see cref="VersionReportingService"/> class.
 		/// </summary>
 		/// <param name="gitHubClientFactory">The value of <see cref="gitHubClientFactory"/>.</param>
@@ -79,6 +84,13 @@ namespace Tgstation.Server.Host.Core
 			this.assemblyInformationProvider = assemblyInformationProvider ?? throw new ArgumentNullException(nameof(assemblyInformationProvider));
 			telemetryConfiguration = telemetryConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(telemetryConfigurationOptions));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
+		}
+
+		/// <inheritdoc />
+		public override Task StopAsync(CancellationToken cancellationToken)
+		{
+			shutdownCancellationToken = cancellationToken;
+			return base.StopAsync(cancellationToken);
 		}
 
 		/// <inheritdoc />
@@ -141,20 +153,41 @@ namespace Tgstation.Server.Host.Core
 					}
 				}
 
-				var nextDelayHours = await TryReportVersion(
+				try
+				{
+					while (!stoppingToken.IsCancellationRequested)
+					{
+						var nextDelayHours = await TryReportVersion(
+							telemetryId,
+							attribute.SerializedKey,
+							telemetryConfiguration.VersionReportingRepositoryId.Value,
+							false,
+							stoppingToken)
+							? 24
+							: 1;
+
+						logger.LogDebug("Next version report in {hours} hours", nextDelayHours);
+						await asyncDelayer.Delay(TimeSpan.FromHours(nextDelayHours), stoppingToken);
+					}
+				}
+				catch (OperationCanceledException ex)
+				{
+					logger.LogTrace(ex, "Inner cancellation");
+				}
+
+				shutdownCancellationToken.ThrowIfCancellationRequested();
+
+				logger.LogDebug("Sending shutdown telemetry");
+				await TryReportVersion(
 					telemetryId,
 					attribute.SerializedKey,
 					telemetryConfiguration.VersionReportingRepositoryId.Value,
-					stoppingToken)
-					? 24
-					: 1;
-
-				logger.LogDebug("Next version report in {hours} hours", nextDelayHours);
-				await asyncDelayer.Delay(TimeSpan.FromHours(nextDelayHours), stoppingToken);
+					true,
+					shutdownCancellationToken);
 			}
 			catch (OperationCanceledException ex)
 			{
-				logger.LogTrace(ex, "Exiting...");
+				logger.LogTrace(ex, "Exiting due to outer cancellation...");
 			}
 			catch (Exception ex)
 			{
@@ -168,9 +201,10 @@ namespace Tgstation.Server.Host.Core
 		/// <param name="telemetryId">The telemetry <see cref="Guid"/> for the installation.</param>
 		/// <param name="serializedPem">The serialized authentication <see cref="string"/> for the <see cref="gitHubClientFactory"/>.</param>
 		/// <param name="repositoryId">The ID of the repository to send telemetry to.</param>
+		/// <param name="shutdown">If this is shutdown telemetry.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in <see langword="true"/> if telemetry was reported successfully, <see langword="false"/> otherwise.</returns>
-		async ValueTask<bool> TryReportVersion(Guid telemetryId, string serializedPem, long repositoryId, CancellationToken cancellationToken)
+		async ValueTask<bool> TryReportVersion(Guid telemetryId, string serializedPem, long repositoryId, bool shutdown, CancellationToken cancellationToken)
 		{
 			logger.LogDebug("Sending version telemetry...");
 
@@ -206,6 +240,7 @@ namespace Tgstation.Server.Host.Core
 				{
 					{ "telemetry_id", telemetryId.ToString() },
 					{ "tgs_semver", assemblyInformationProvider.Version.Semver().ToString() },
+					{ "shutdown", shutdown ? "true" : "false" },
 				};
 
 				if (serverFriendlyName != null)
