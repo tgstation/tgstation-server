@@ -11,7 +11,7 @@
 
   <ItemGroup>
     <!-- Usage: Connecting to SignalR hubs in API -->
-    <PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="8.0.7" />
+    <PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="8.0.8" />
     <!-- Usage: Using target JSON serializer for API -->
     <PackageReference Include="Microsoft.AspNetCore.SignalR.Protocols.NewtonsoftJson" Version="8.0.7" />
   </ItemGroup>
