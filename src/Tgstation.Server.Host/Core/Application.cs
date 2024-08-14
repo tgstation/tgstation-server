@@ -143,6 +143,7 @@ namespace Tgstation.Server.Host.Core
 			services.UseStandardConfig<ControlPanelConfiguration>(Configuration);
 			services.UseStandardConfig<SwarmConfiguration>(Configuration);
 			services.UseStandardConfig<SessionConfiguration>(Configuration);
+			services.UseStandardConfig<TelemetryConfiguration>(Configuration);
 
 			// enable options which give us config reloading
 			services.AddOptions();
@@ -423,6 +424,7 @@ namespace Tgstation.Server.Host.Core
 			services.AddSingleton<IServerPortProvider, ServerPortProivder>();
 			services.AddSingleton<ITopicClientFactory, TopicClientFactory>();
 			services.AddHostedService<CommandPipeManager>();
+			services.AddHostedService<VersionReportingService>();
 
 			services.AddFileDownloader();
 			services.AddGitHub();

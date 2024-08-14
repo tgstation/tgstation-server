@@ -45,16 +45,33 @@
 
   <Target Name="ApplyMasterVersionsAttribute" BeforeTargets="CoreCompile">
     <ItemGroup>
-      <AssemblyAttributes Include="Tgstation.Server.Host.Properties.MasterVersionsAttribute">
+      <MasterVersionAssemblyAttributes Include="Tgstation.Server.Host.Properties.MasterVersionsAttribute">
         <_Parameter1>$(TgsConfigVersion)</_Parameter1>
         <_Parameter2>$(TgsInteropVersion)</_Parameter2>
         <_Parameter3>$(TgsWebpanelVersion)</_Parameter3>
         <_Parameter4>$(TgsHostWatchdogVersion)</_Parameter4>
         <_Parameter5>$(TgsMariaDBRedistVersion)</_Parameter5>
-      </AssemblyAttributes>
+      </MasterVersionAssemblyAttributes>
     </ItemGroup>
+    <WriteCodeFragment AssemblyAttributes="@(MasterVersionAssemblyAttributes)" Language="C#" OutputDirectory="$(IntermediateOutputPath)" OutputFile="MasterVersionsAssemblyInfo.cs">
+      <Output TaskParameter="OutputFile" ItemName="Compile" />
+      <Output TaskParameter="OutputFile" ItemName="FileWrites" />
+    </WriteCodeFragment>
+  </Target>
 
-    <WriteCodeFragment AssemblyAttributes="@(AssemblyAttributes)" Language="C#" OutputDirectory="$(IntermediateOutputPath)" OutputFile="MasterVersionsAssemblyInfo.cs">
+  <Target Name="ApplyTelemetryAppSerializedKey" BeforeTargets="CoreCompile" Condition="'$(TGS_TELEMETRY_KEY_FILE)' != ''">
+    <ReadLinesFromFile
+        File="$(TGS_TELEMETRY_KEY_FILE)" >
+        <Output
+            TaskParameter="Lines"
+            ItemName="SerializedTelemetryKey"/>
+    </ReadLinesFromFile>
+    <ItemGroup>
+      <TelemetryAppSerializedKeyAssemblyAttributes Include="Tgstation.Server.Host.Properties.TelemetryAppSerializedKeyAttribute">
+        <_Parameter1>@(SerializedTelemetryKey)</_Parameter1>
+      </TelemetryAppSerializedKeyAssemblyAttributes>
+    </ItemGroup>
+    <WriteCodeFragment AssemblyAttributes="@(TelemetryAppSerializedKeyAssemblyAttributes)" Language="C#" OutputDirectory="$(IntermediateOutputPath)" OutputFile="TelemetryAppSerializedKeyAssemblyInfo.cs">
       <Output TaskParameter="OutputFile" ItemName="Compile" />
       <Output TaskParameter="OutputFile" ItemName="FileWrites" />
     </WriteCodeFragment>

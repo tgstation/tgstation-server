@@ -191,6 +191,8 @@ namespace Tgstation.Server.Host.Setup.Tests
 				"y",
 				// swarm config
 				"n",
+				// telemetry config
+				"n",
 				//saved, now for second run
 				//this time use defaults amap
 				String.Empty,
@@ -230,6 +232,9 @@ namespace Tgstation.Server.Host.Setup.Tests
 				"privatekey",
 				"n",
 				"http://controller.com",
+				// telemetry config
+				"y",
+				"telemetry name",
 				//third run, we already hit all the code coverage so just get through it
 				String.Empty,
 				nameof(DatabaseType.MariaDB),
@@ -267,7 +272,9 @@ namespace Tgstation.Server.Host.Setup.Tests
 				"https://controllerinternal.com",
 				"https://controllerpublic.com",
 				"privatekey",
-				"y"
+				"y",
+				// telemetry config
+				"n",
 			};
 
 			var inputPos = 0;

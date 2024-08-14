@@ -555,6 +555,8 @@ jobs:
         database-type: [ 'SqlServer', 'Sqlite', 'PostgresSql', 'MariaDB', 'MySql' ]
         watchdog-type: [ 'Basic', 'Advanced' ]
         configuration: [ 'Debug', 'Release' ]
+    env:
+      TGS_TELEMETRY_KEY_FILE: C:/tgs_telemetry_key.txt
     runs-on: windows-latest
     steps:
     - name: Wait for LocalDB Connection # Do this first because we don't want to find out it's failing later
@@ -642,8 +644,17 @@ jobs:
     - name: Restore
       run: dotnet restore
 
+    - name: Setup Telemetry Key File
+      shell: bash
+      run: echo "${{ secrets.TGS_TELEMETRY_KEY }}" > ${{ env.TGS_TELEMETRY_KEY_FILE }}
+
     - name: Build
       run: dotnet build -c ${{ matrix.configuration }} tests/Tgstation.Server.Tests/Tgstation.Server.Tests.csproj
+
+    - name: Delete Telemetry Key File
+      shell: bash
+      if: always()
+      run: rm ${{ env.TGS_TELEMETRY_KEY_FILE }}
 
     - name: Cache BYOND .zips
       uses: actions/cache@v4
@@ -786,6 +797,8 @@ jobs:
         database-type: [ 'Sqlite', 'PostgresSql', 'MariaDB', 'MySql' ]
         watchdog-type: [ 'Basic', 'Advanced' ]
         configuration: [ 'Debug', 'Release' ]
+    env:
+      TGS_TELEMETRY_KEY_FILE: /tmp/tgs_telemetry_key.txt
     runs-on: ubuntu-latest
     steps:
     - name: Disable ptrace_scope
@@ -848,8 +861,15 @@ jobs:
     - name: Restore
       run: dotnet restore
 
+    - name: Setup Telemetry Key File
+      run: echo "${{ secrets.TGS_TELEMETRY_KEY }}" > ${{ env.TGS_TELEMETRY_KEY_FILE }}
+
     - name: Build
       run: dotnet build -c ${{ matrix.configuration }}NoWindows tests/Tgstation.Server.Tests/Tgstation.Server.Tests.csproj
+
+    - name: Delete Telemetry Key File
+      if: always()
+      run: rm ${{ env.TGS_TELEMETRY_KEY_FILE }}
 
     - name: Cache BYOND .zips
       uses: actions/cache@v4
@@ -1194,6 +1214,8 @@ jobs:
     needs: start-ci-run-gate
     runs-on: ubuntu-latest
     if: (!(cancelled() || failure()) && needs.start-ci-run-gate.result == 'success')
+    env:
+      TGS_TELEMETRY_KEY_FILE: /tmp/tgs_telemetry_key.txt
     steps:
     - name: Install Native Dependencies
       run: |
@@ -1244,6 +1266,9 @@ jobs:
     - name: Grab Most Recent Changelog
       run: curl -L https://raw.githubusercontent.com/tgstation/tgstation-server/gh-pages/changelog.yml -o changelog.yml
 
+    - name: Setup Telemetry Key File
+      run: echo "${{ secrets.TGS_TELEMETRY_KEY }}" > ${{ env.TGS_TELEMETRY_KEY_FILE }}
+
     - name: Execute Build Script (Unsigned)
       if: (!(github.event_name == 'push' && contains(github.event.head_commit.message, '[TGSDeploy]') && (github.event.ref == 'refs/heads/master' || github.event.ref == 'refs/heads/dev')))
       run: sudo -E build/package/deb/build_package.sh
@@ -1257,6 +1282,10 @@ jobs:
         gpg --verify tgstation-server_${{ env.TGS_VERSION }}-1.dsc
         gpg --verify tgstation-server_${{ env.TGS_VERSION }}-1_amd64.changes
         gpg --verify tgstation-server_${{ env.TGS_VERSION }}-1_amd64.buildinfo
+
+    - name: Delete Telemetry Key File
+      if: always()
+      run: rm ${{ env.TGS_TELEMETRY_KEY_FILE }}
 
     - name: Test Install
       run: |
@@ -1298,6 +1327,8 @@ jobs:
     needs: start-ci-run-gate
     runs-on: windows-latest
     if: (!(cancelled() || failure()) && needs.start-ci-run-gate.result == 'success')
+    env:
+      TGS_TELEMETRY_KEY_FILE: C:/tgs_telemetry_key.txt
     steps:
     - name: Install winget
       uses: Cyberboss/install-winget@v1
@@ -1331,8 +1362,17 @@ jobs:
     - name: Restore
       run: dotnet restore
 
+    - name: Setup Telemetry Key File
+      shell: bash
+      run: echo "${{ secrets.TGS_TELEMETRY_KEY }}" > ${{ env.TGS_TELEMETRY_KEY_FILE }}
+
     - name: Build Host
       run: dotnet build -c Release src/Tgstation.Server.Host/Tgstation.Server.Host.csproj
+
+    - name: Delete Telemetry Key File
+      shell: bash
+      if: always()
+      run: rm ${{ env.TGS_TELEMETRY_KEY_FILE }}
 
     - name: Build Service
       run: dotnet build -c Release src/Tgstation.Server.Host.Service/Tgstation.Server.Host.Service.csproj
