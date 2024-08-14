@@ -59,7 +59,7 @@
     </WriteCodeFragment>
   </Target>
 
-  <Target Name="ApplyTelemetryAppSerializedKey" BeforeTargets="CoreCompile" Condition="'$(TGS_TELEMETRY_KEY_FILE)' != ''">
+  <Target Condition="'$(TGS_TELEMETRY_KEY_FILE)' != ''" Name="ApplyTelemetryAppSerializedKey" BeforeTargets="CoreCompile">
     <ReadLinesFromFile
         File="$(TGS_TELEMETRY_KEY_FILE)" >
         <Output
@@ -75,6 +75,10 @@
       <Output TaskParameter="OutputFile" ItemName="Compile" />
       <Output TaskParameter="OutputFile" ItemName="FileWrites" />
     </WriteCodeFragment>
+  </Target>
+
+  <Target Condition="'$(TGS_TELEMETRY_KEY_FILE)' == '' And '$(CI)' != ''" Name="FailBuildInCIWithoutTelemetryKey" BeforeTargets="CoreCompile">
+    <Error Text="The TGS_TELEMETRY_KEY_FILE environment variable should be set in CI!"/>
   </Target>
 
   <ItemGroup>
