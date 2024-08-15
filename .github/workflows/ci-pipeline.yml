@@ -1291,7 +1291,7 @@ jobs:
       run: |
         sudo dpkg --add-architecture i386
         sudo apt-get update
-        sudo apt-get install -y -o APT::Immediate-Configure=0 libstdc++6:i386 libgcc-s1:i386 gnupg2 xmlstarlet libgdiplus
+        sudo apt-get install -y -o APT::Immediate-Configure=0 libstdc++6:i386 libgcc-s1:i386 gnupg2
 
     - name: Import GPG Key
       if: (github.event_name == 'push' && contains(github.event.head_commit.message, '[TGSDeploy]') && (github.event.ref == 'refs/heads/master' || github.event.ref == 'refs/heads/dev'))
@@ -1305,17 +1305,6 @@ jobs:
       run: |
         sudo apt-get update
         sudo apt-get install -y dotnet-sdk-${{ env.TGS_DOTNET_VERSION }}.0
-
-    - name: Setup dotnet
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: '${{ env.TGS_DOTNET_VERSION }}.0.x'
-        dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
-
-    - name: Setup Node.JS
-      uses: actions/setup-node@v4
-      with:
-          node-version: ${{ env.TGS_WEBPANEL_NODE_VERSION }}
 
     - name: Override /usr/bin/dotnet
       run: |
@@ -1340,9 +1329,6 @@ jobs:
 
     - name: Grab Most Recent Changelog
       run: curl -L https://raw.githubusercontent.com/tgstation/tgstation-server/gh-pages/changelog.yml -o changelog.yml
-
-    - name: Enable Corepack
-      run: corepack enable
 
     - name: Setup Telemetry Key File
       run: echo "${{ secrets.TGS_TELEMETRY_KEY }}" > ${{ env.TGS_TELEMETRY_KEY_FILE }}

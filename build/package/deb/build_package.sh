@@ -35,6 +35,8 @@ echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.co
 apt-get update
 apt-get install nodejs dotnet-sdk-8.0 -y
 
+corepack enable
+
 CURRENT_COMMIT=$(git rev-parse HEAD)
 
 rm -rf packaging
@@ -67,7 +69,6 @@ cp build/tgstation-server.service debian/
 SIGN_COMMAND="$SCRIPT_DIR/wrap_gpg.sh"
 
 rm -f /tmp/tgs_wrap_gpg_output.log
-
 set +e
 
 if [[ -z "$PACKAGING_KEYGRIP" ]]; then
