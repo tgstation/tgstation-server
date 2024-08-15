@@ -109,6 +109,8 @@ jobs:
     permissions:
       security-events: write
       actions: read
+    env:
+      TGS_TELEMETRY_KEY_FILE: /tmp/tgs_telemetry_key.txt
     if: (!(cancelled() || failure()) && needs.start-ci-run-gate.result == 'success')
     steps:
     - name: Setup dotnet
@@ -132,8 +134,15 @@ jobs:
       with:
         languages: csharp
 
+    - name: Setup Telemetry Key File
+      run: echo "${{ secrets.TGS_TELEMETRY_KEY }}" > ${{ env.TGS_TELEMETRY_KEY_FILE }}
+
     - name: Build
       run: dotnet build -c ReleaseNoWindows -p:TGS_HOST_NO_WEBPANEL=true
+
+    - name: Delete Telemetry Key File
+      if: always()
+      run: rm ${{ env.TGS_TELEMETRY_KEY_FILE }}
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v3
@@ -459,6 +468,7 @@ jobs:
     env:
       TGS_TEST_DISCORD_TOKEN: ${{ secrets.DISCORD_TOKEN }}
       TGS_TEST_IRC_CONNECTION_STRING: ${{ secrets.IRC_CONNECTION_STRING }}
+      TGS_TELEMETRY_KEY_FILE: /tmp/tgs_telemetry_key.txt
     runs-on: ubuntu-latest
     steps:
     - name: Install x86 libc Dependencies
@@ -472,11 +482,6 @@ jobs:
       with:
         dotnet-version: '${{ env.TGS_DOTNET_VERSION }}.0.x'
         dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
-
-    - name: Setup
-      uses: actions/setup-node@v4
-      with:
-          node-version: ${{ matrix.node-version }}
 
     - name: Setup Node.JS
       uses: actions/setup-node@v4
@@ -499,8 +504,15 @@ jobs:
     - name: Enable Corepack
       run: corepack enable
 
+    - name: Setup Telemetry Key File
+      run: echo "${{ secrets.TGS_TELEMETRY_KEY }}" > ${{ env.TGS_TELEMETRY_KEY_FILE }}
+
     - name: Build
       run: dotnet build -c ${{ matrix.configuration }}NoWindows
+
+    - name: Delete Telemetry Key File
+      if: always()
+      run: rm ${{ env.TGS_TELEMETRY_KEY_FILE }}
 
     - name: Cache BYOND .zips
       uses: actions/cache@v4
@@ -529,6 +541,7 @@ jobs:
     env:
       TGS_TEST_DISCORD_TOKEN: ${{ secrets.DISCORD_TOKEN }}
       TGS_TEST_IRC_CONNECTION_STRING: ${{ secrets.IRC_CONNECTION_STRING }}
+      TGS_TELEMETRY_KEY_FILE: C:/tgs_telemetry_key.txt
     runs-on: windows-latest
     steps:
     - name: Setup dotnet
@@ -558,8 +571,17 @@ jobs:
     - name: Enable Corepack
       run: corepack enable
 
+    - name: Setup Telemetry Key File
+      shell: bash
+      run: echo "${{ secrets.TGS_TELEMETRY_KEY }}" > ${{ env.TGS_TELEMETRY_KEY_FILE }}
+
     - name: Build
       run: dotnet build -c ${{ matrix.configuration }}NoWix
+
+    - name: Delete Telemetry Key File
+      shell: bash
+      if: always()
+      run: rm ${{ env.TGS_TELEMETRY_KEY_FILE }}
 
     - name: Cache BYOND .zips
       uses: actions/cache@v4
@@ -1290,6 +1312,11 @@ jobs:
         dotnet-version: '${{ env.TGS_DOTNET_VERSION }}.0.x'
         dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
 
+    - name: Setup Node.JS
+      uses: actions/setup-node@v4
+      with:
+          node-version: ${{ env.TGS_WEBPANEL_NODE_VERSION }}
+
     - name: Override /usr/bin/dotnet
       run: |
         DOTNET_PATH=$(which dotnet)
@@ -1313,6 +1340,9 @@ jobs:
 
     - name: Grab Most Recent Changelog
       run: curl -L https://raw.githubusercontent.com/tgstation/tgstation-server/gh-pages/changelog.yml -o changelog.yml
+
+    - name: Enable Corepack
+      run: corepack enable
 
     - name: Setup Telemetry Key File
       run: echo "${{ secrets.TGS_TELEMETRY_KEY }}" > ${{ env.TGS_TELEMETRY_KEY_FILE }}
@@ -1375,6 +1405,8 @@ jobs:
     needs: start-ci-run-gate
     runs-on: windows-latest
     if: (!(cancelled() || failure()) && needs.start-ci-run-gate.result == 'success')
+    env:
+      TGS_TELEMETRY_KEY_FILE: C:/tgs_telemetry_key.txt
     steps:
     - name: Install winget
       uses: Cyberboss/install-winget@v1
@@ -1416,8 +1448,17 @@ jobs:
     - name: Enable Corepack
       run: corepack enable
 
+    - name: Setup Telemetry Key File
+      shell: bash
+      run: echo "${{ secrets.TGS_TELEMETRY_KEY }}" > ${{ env.TGS_TELEMETRY_KEY_FILE }}
+
     - name: Build Host
       run: dotnet build -c Release src/Tgstation.Server.Host/Tgstation.Server.Host.csproj
+
+    - name: Delete Telemetry Key File
+      shell: bash
+      if: always()
+      run: rm ${{ env.TGS_TELEMETRY_KEY_FILE }}
 
     - name: Build Service
       run: dotnet build -c Release src/Tgstation.Server.Host.Service/Tgstation.Server.Host.Service.csproj
@@ -1839,7 +1880,7 @@ jobs:
         cd build/package/winget
         dotnet tool restore
 
-# We need to rebuild the installer.exe so it can be properly signed
+    # We need to rebuild the installer.exe so it can be properly signed
 
     - name: Enable Corepack
       run: corepack enable
