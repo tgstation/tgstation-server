@@ -60,6 +60,7 @@
   </Target>
 
   <Target Condition="'$(TGS_TELEMETRY_KEY_FILE)' != ''" Name="ApplyTelemetryAppSerializedKey" BeforeTargets="CoreCompile">
+    <Error Condition="!Exists('$(TGS_TELEMETRY_KEY_FILE)')" Text="TGS_TELEMETRY_KEY_FILE set but does not exist!" />
     <ReadLinesFromFile
         File="$(TGS_TELEMETRY_KEY_FILE)" >
         <Output
