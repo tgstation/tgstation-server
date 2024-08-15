@@ -50,7 +50,7 @@ RUN dotnet publish -c Release -o /app \
 
 WORKDIR /repo/src/Tgstation.Server.Host
 
-RUN export TGS_TELEMETRY_KEY_FILE="${TGS_TELEMETRY_KEY_FILE}" \
+RUN export TGS_TELEMETRY_KEY_FILE="../../${TGS_TELEMETRY_KEY_FILE}" \
 	&& dotnet publish -c Release -o /app/lib/Default \
 	&& cd ../.. \
 	&& build/RemoveUnsupportedRuntimes.sh /app/lib/Default \
