@@ -18,7 +18,7 @@
     <!-- Pinned: Be VERY careful about updating https://github.com/moq/moq/issues/1372 -->
     <PackageReference Include="Moq" Version="4.20.70" />
     <!-- Usage: MSTest execution -->
-    <PackageReference Include="MSTest.TestAdapter" Version="3.5.1" />
+    <PackageReference Include="MSTest.TestAdapter" Version="3.5.2" />
     <!-- Usage: MSTest asserts etc... -->
     <PackageReference Include="MSTest.TestFramework" Version="3.5.2" />
   </ItemGroup>
