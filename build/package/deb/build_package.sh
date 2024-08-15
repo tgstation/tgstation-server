@@ -18,7 +18,7 @@ apt-get install -y \
     devscripts \
     ca-certificates \
     curl \
-    gnupg \
+    gnupg2 \
     xmlstarlet \
     libgdiplus
 
