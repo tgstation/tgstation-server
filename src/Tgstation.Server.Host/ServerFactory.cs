@@ -125,15 +125,22 @@ namespace Tgstation.Server.Host
 			var setupWizardHostBuilder = CreateDefaultBuilder()
 				.UseSetupApplication(assemblyInformationProvider, IOManager);
 
-			IPostSetupServices<ServerFactory> postSetupServices;
+			IPostSetupServices postSetupServices;
 			using (var setupHost = setupWizardHostBuilder.Build())
 			{
-				postSetupServices = setupHost.Services.GetRequiredService<IPostSetupServices<ServerFactory>>();
+				ILogger<ServerFactory> logger = setupHost.Services.GetRequiredService<ILogger<ServerFactory>>();
+				postSetupServices = setupHost.Services.GetRequiredService<IPostSetupServices>();
 				await setupHost.RunAsync(cancellationToken);
 
 				if (postSetupServices.GeneralConfiguration.SetupWizardMode == SetupWizardMode.Only)
 				{
-					postSetupServices.Logger.LogInformation("Shutting down due to only running setup wizard.");
+					logger.LogInformation("Shutting down due to only running setup wizard.");
+					return null;
+				}
+
+				if (postSetupServices.ReloadRequired)
+				{
+					logger.LogInformation("TGS must restart to reload the updated configuration.");
 					return null;
 				}
 			}

@@ -77,6 +77,11 @@ namespace Tgstation.Server.Host.Setup
 		readonly IHostApplicationLifetime applicationLifetime;
 
 		/// <summary>
+		/// The <see cref="IPostSetupServices"/> for the <see cref="SetupWizard"/>.
+		/// </summary>
+		readonly IPostSetupServices postSetupServices;
+
+		/// <summary>
 		/// The <see cref="GeneralConfiguration"/> for the <see cref="SetupWizard"/>.
 		/// </summary>
 		readonly GeneralConfiguration generalConfiguration;
@@ -97,6 +102,7 @@ namespace Tgstation.Server.Host.Setup
 		/// <param name="platformIdentifier">The value of <see cref="platformIdentifier"/>.</param>
 		/// <param name="asyncDelayer">The value of <see cref="asyncDelayer"/>.</param>
 		/// <param name="applicationLifetime">The value of <see cref="applicationLifetime"/>.</param>
+		/// <param name="postSetupServices">The value of <see cref="postSetupServices"/>.</param>
 		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="generalConfiguration"/>.</param>
 		/// <param name="internalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="internalConfiguration"/>.</param>
 		public SetupWizard(
@@ -108,6 +114,7 @@ namespace Tgstation.Server.Host.Setup
 			IPlatformIdentifier platformIdentifier,
 			IAsyncDelayer asyncDelayer,
 			IHostApplicationLifetime applicationLifetime,
+			IPostSetupServices postSetupServices,
 			IOptions<GeneralConfiguration> generalConfigurationOptions,
 			IOptions<InternalConfiguration> internalConfigurationOptions)
 		{
@@ -119,6 +126,7 @@ namespace Tgstation.Server.Host.Setup
 			this.platformIdentifier = platformIdentifier ?? throw new ArgumentNullException(nameof(platformIdentifier));
 			this.asyncDelayer = asyncDelayer ?? throw new ArgumentNullException(nameof(asyncDelayer));
 			this.applicationLifetime = applicationLifetime ?? throw new ArgumentNullException(nameof(applicationLifetime));
+			this.postSetupServices = postSetupServices ?? throw new ArgumentNullException(nameof(postSetupServices));
 
 			generalConfiguration = generalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
 			internalConfiguration = internalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(internalConfigurationOptions));
@@ -1042,6 +1050,8 @@ namespace Tgstation.Server.Host.Setup
 					userConfigFileName,
 					configBytes,
 					cancellationToken);
+
+				postSetupServices.ReloadRequired = true;
 			}
 			catch (Exception e) when (e is not OperationCanceledException)
 			{
