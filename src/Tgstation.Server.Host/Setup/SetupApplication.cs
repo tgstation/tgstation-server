@@ -72,7 +72,7 @@ namespace Tgstation.Server.Host.Setup
 		/// <param name="services">The <see cref="IServiceCollection"/> to configure.</param>
 		protected virtual void ConfigureHostedService(IServiceCollection services)
 		{
-			services.AddSingleton(typeof(IPostSetupServices<>), typeof(PostSetupServices<>));
+			services.AddSingleton<IPostSetupServices, PostSetupServices>();
 			services.AddSingleton<IHostedService, SetupWizard>();
 		}
 	}
