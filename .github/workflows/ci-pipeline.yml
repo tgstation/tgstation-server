@@ -1306,6 +1306,12 @@ jobs:
         sudo apt-get update
         sudo apt-get install -y dotnet-sdk-${{ env.TGS_DOTNET_VERSION }}.0
 
+    - name: Setup dotnet
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '${{ env.TGS_DOTNET_VERSION }}.0.x'
+        dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
+
     - name: Override /usr/bin/dotnet
       run: |
         DOTNET_PATH=$(which dotnet)
