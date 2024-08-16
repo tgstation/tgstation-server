@@ -42,5 +42,10 @@ namespace Tgstation.Server.Host.Setup
 		/// The <see cref="IPlatformIdentifier"/>.
 		/// </summary>
 		IPlatformIdentifier PlatformIdentifier { get; }
+
+		/// <summary>
+		/// If an application reload to get updated configuration values is required.
+		/// </summary>
+		bool ReloadRequired { get; set; }
 	}
 }

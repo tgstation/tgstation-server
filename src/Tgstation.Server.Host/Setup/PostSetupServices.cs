@@ -1,6 +1,5 @@
 ﻿using System;
 
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
 using Tgstation.Server.Host.Configuration;
@@ -9,13 +8,10 @@ using Tgstation.Server.Host.System;
 namespace Tgstation.Server.Host.Setup
 {
 	/// <inheritdoc />
-	sealed class PostSetupServices<TLoggerType> : IPostSetupServices<TLoggerType>
+	sealed class PostSetupServices : IPostSetupServices
 	{
 		/// <inheritdoc />
 		public IPlatformIdentifier PlatformIdentifier { get; }
-
-		/// <inheritdoc />
-		public ILogger<TLoggerType> Logger { get; }
 
 		/// <inheritdoc />
 		public GeneralConfiguration GeneralConfiguration => generalConfigurationOptions.Value;
@@ -34,6 +30,9 @@ namespace Tgstation.Server.Host.Setup
 
 		/// <inheritdoc />
 		public ElasticsearchConfiguration ElasticsearchConfiguration => elasticsearchConfigurationOptions.Value;
+
+		/// <inheritdoc />
+		public bool ReloadRequired { get; set; }
 
 		/// <summary>
 		/// Backing <see cref="IOptions{TOptions}"/> for <see cref="GeneralConfiguration"/>.
@@ -66,10 +65,9 @@ namespace Tgstation.Server.Host.Setup
 		readonly IOptions<InternalConfiguration> internalConfigurationOptions;
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="PostSetupServices{TLoggerType}"/> class.
+		/// Initializes a new instance of the <see cref="PostSetupServices"/> class.
 		/// </summary>
 		/// <param name="platformIdentifier">The value of <see cref="PlatformIdentifier"/>.</param>
-		/// <param name="loggerFactory">The <see cref="ILoggerFactory"/> used to create <see cref="Logger"/>.</param>
 		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="GeneralConfiguration"/>.</param>
 		/// <param name="databaseConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="DatabaseConfiguration"/>.</param>
 		/// <param name="securityConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="SecurityConfiguration"/>.</param>
@@ -78,7 +76,6 @@ namespace Tgstation.Server.Host.Setup
 		/// <param name="internalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="InternalConfiguration"/>.</param>
 		public PostSetupServices(
 			IPlatformIdentifier platformIdentifier,
-			ILoggerFactory loggerFactory,
 			IOptions<GeneralConfiguration> generalConfigurationOptions,
 			IOptions<DatabaseConfiguration> databaseConfigurationOptions,
 			IOptions<SecurityConfiguration> securityConfigurationOptions,
@@ -87,9 +84,6 @@ namespace Tgstation.Server.Host.Setup
 			IOptions<InternalConfiguration> internalConfigurationOptions)
 		{
 			PlatformIdentifier = platformIdentifier ?? throw new ArgumentNullException(nameof(platformIdentifier));
-			ArgumentNullException.ThrowIfNull(loggerFactory);
-
-			Logger = loggerFactory.CreateLogger<TLoggerType>();
 			this.generalConfigurationOptions = generalConfigurationOptions ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
 			this.databaseConfigurationOptions = databaseConfigurationOptions ?? throw new ArgumentNullException(nameof(databaseConfigurationOptions));
 			this.securityConfigurationOptions = securityConfigurationOptions ?? throw new ArgumentNullException(nameof(securityConfigurationOptions));

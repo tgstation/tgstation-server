@@ -15,8 +15,10 @@ namespace Tgstation.Server.Host.Tests
 	[TestClass]
 	public sealed class TestServerFactory
 	{
+		static readonly string[] cliArgs = ["General:SetupWizardMode=Never"];
+
 		[TestMethod]
-		public void TestContructor()
+		public void TestConstructor()
 		{
 			Assert.ThrowsException<ArgumentNullException>(() => new ServerFactory(null, null));
 			IAssemblyInformationProvider assemblyInformationProvider = Mock.Of<IAssemblyInformationProvider>();
@@ -31,7 +33,7 @@ namespace Tgstation.Server.Host.Tests
 			var factory = Application.CreateDefaultServerFactory();
 
 			await Assert.ThrowsExceptionAsync<ArgumentNullException>(() => factory.CreateServer(null, null, default).AsTask());
-			var result = await factory.CreateServer(new[] { "General:SetupWizardMode=Never" }, null, default);
+			var result = await factory.CreateServer(cliArgs, null, default);
 			Assert.IsNotNull(result);
 		}
 
@@ -43,7 +45,7 @@ namespace Tgstation.Server.Host.Tests
 
 			await Assert.ThrowsExceptionAsync<ArgumentNullException>(() => factory.CreateServer(null, null, default).AsTask());
 			await Assert.ThrowsExceptionAsync<ArgumentNullException>(() => factory.CreateServer(null, Path, default).AsTask());
-			var result = await factory.CreateServer(new[] { "General:SetupWizardMode=Never" }, Path, default);
+			var result = await factory.CreateServer(cliArgs, Path, default);
 			Assert.IsNotNull(result);
 		}
 	}
