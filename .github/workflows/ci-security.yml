@@ -67,7 +67,7 @@ jobs:
           dispatch-method: workflow_dispatch
           owner: ${{ github.repository_owner }}
           repo: ${{ github.event.pull_request.base.repo.name }}
-          ref: "refs/pull/${{ github.event.pull_request.number }}/merge"
+          ref: ${{ github.event.pull_request.head.ref }}
           workflow: ci-pipeline.yml
           token: ${{ github.token }}
           workflow-inputs: |
