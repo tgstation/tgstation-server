@@ -152,11 +152,17 @@ namespace Tgstation.Server.Host.Controllers
 		[HttpGet("logo.svg")]
 		public IActionResult GetLogo()
 		{
-			var logoFileName = platformIdentifier.IsWindows // these are different because of motherfucking line endings -_-
-				? LogoSvgWindowsName
-				: LogoSvgLinuxName;
+			// these are different because of motherfucking line endings -_-
+			if (platformIdentifier.IsWindows)
+			{
+				VirtualFileResult? result = this.TryServeFile(hostEnvironment, logger, $"{LogoSvgWindowsName}.svg");
+				if (result != null)
+					return result;
 
-			return (IActionResult?)this.TryServeFile(hostEnvironment, logger, $"{logoFileName}.svg") ?? NotFound();
+				// BUT THE UPDATE PACKAGES ARE BUILT ON LINUX RAAAAAGH
+			}
+
+			return (IActionResult?)this.TryServeFile(hostEnvironment, logger, $"{LogoSvgLinuxName}.svg") ?? NotFound();
 		}
 
 		/// <summary>
