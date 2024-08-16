@@ -1,7 +1,6 @@
 ﻿// This program is minimal effort and should be sent to remedial school
 
 using System;
-using System.Buffers.Text;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -170,7 +169,7 @@ namespace Tgstation.Server.ReleaseNotes
 
 				if (shaCheck)
 				{
-					if(args.Length < 2)
+					if (args.Length < 2)
 					{
 						Console.WriteLine("Missing SHA for PR template!");
 						return 32;
@@ -752,7 +751,7 @@ namespace Tgstation.Server.ReleaseNotes
 					}
 					if (trimmedLine.StartsWith("/:cl:", StringComparison.Ordinal) || trimmedLine.StartsWith("/🆑", StringComparison.Ordinal))
 					{
-						if(!Enum.TryParse<Component>(targetComponent, out var component))
+						if (!Enum.TryParse<Component>(targetComponent, out var component))
 							component = targetComponent.ToUpperInvariant() switch
 							{
 								"**CONFIGURATION**" or "CONFIGURATION" or "CONFIG" => Component.Configuration,
@@ -878,7 +877,7 @@ Note: `<path>` is the directory's name containing the manifest you're submitting
 			});
 
 			var prToModify = userPrsOnWingetRepo.Items.OrderByDescending(pr => pr.Number).FirstOrDefault();
-			if(prToModify == null)
+			if (prToModify == null)
 			{
 				Console.WriteLine("Could not find open winget-pkgs PR!");
 				return 31;
@@ -1001,7 +1000,7 @@ Note: `<path>` is the directory's name containing the manifest you're submitting
 							.GroupBy(kvp => kvp.Key)
 							.Select(grouping => new KeyValuePair<Component, Version>(grouping.Key, grouping.Max(kvp => kvp.Value))));
 
-					foreach(var maxVersionKvp in prResults.SelectMany(x => x.Item1)
+					foreach (var maxVersionKvp in prResults.SelectMany(x => x.Item1)
 						.Where(x => !releasedComponentVersions.ContainsKey(x.Key))
 						.GroupBy(x => x.Key)
 						.Select(group => {
@@ -1027,7 +1026,7 @@ Note: `<path>` is the directory's name containing the manifest you're submitting
 					var component = componentKvp.Key;
 					var list = new List<Changelist>();
 
-					foreach(var changelistDict in prResults.Select(x => x.Item1))
+					foreach (var changelistDict in prResults.Select(x => x.Item1))
 					{
 						if (!changelistDict.TryGetValue(component, out var changelist))
 							continue;
@@ -1131,7 +1130,7 @@ Note: `<path>` is the directory's name containing the manifest you're submitting
 			return 0;
 		}
 
-		static readonly HttpClient httpClient = new (
+		static readonly HttpClient httpClient = new(
 			new HttpClientHandler()
 			{
 				AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate
@@ -1180,7 +1179,8 @@ Note: `<path>` is the directory's name containing the manifest you're submitting
 				release => release.Id);
 
 			var milestones = await TripleCheckGitHubPagination(
-				apiOptions => client.Issue.Milestone.GetAllForRepository(RepoOwner, RepoName, new MilestoneRequest {
+				apiOptions => client.Issue.Milestone.GetAllForRepository(RepoOwner, RepoName, new MilestoneRequest
+				{
 					State = ItemStateFilter.All
 				}, apiOptions),
 				milestone => milestone.Id);
@@ -1388,7 +1388,7 @@ Note: `<path>` is the directory's name containing the manifest you're submitting
 				PrintChanges(newNotes, relevantChangelog);
 			}
 
-			if(component == Component.DreamMakerApi)
+			if (component == Component.DreamMakerApi)
 			{
 				newNotes.AppendLine();
 				newNotes.AppendLine("#tgs-dmapi-release");
@@ -1438,7 +1438,7 @@ Note: `<path>` is the directory's name containing the manifest you're submitting
 				{ Component.NugetClient, "Client" },
 			};
 
-			foreach(var kvp in csprojNameMap)
+			foreach (var kvp in csprojNameMap)
 			{
 				var component = kvp.Key;
 				var csprojPath = CsprojSubstitution.Replace("$PROJECT$", kvp.Value);
@@ -1576,7 +1576,7 @@ package (version) distribution(s); urgency=urgency
 					builder.AppendLine();
 					builder.Append("  * The following changes are for ");
 					builder.Append(GetComponentDisplayName(kvp.Key, true));
-					if(kvp.Key == Component.Configuration)
+					if (kvp.Key == Component.Configuration)
 					{
 						builder.Append(". You ");
 						if (kvp.Value.Version.Minor == 0 && kvp.Value.Version.Build == 0)
