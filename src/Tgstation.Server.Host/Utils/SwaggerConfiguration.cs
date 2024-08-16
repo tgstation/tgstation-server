@@ -76,7 +76,7 @@ namespace Tgstation.Server.Host.Utils
 						Name = "/tg/station 13",
 						Url = new Uri("https://github.com/tgstation"),
 					},
-					Description = "A production scale tool for BYOND server management",
+					Description = "A production scale tool for DreamMaker server management",
 				});
 
 			// Important to do this before applying our own filters
