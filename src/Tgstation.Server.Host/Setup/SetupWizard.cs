@@ -705,7 +705,7 @@ namespace Tgstation.Server.Host.Setup
 			while (true);
 
 			await console.WriteAsync(null, true, cancellationToken);
-			await console.WriteAsync("Enter a GitHub personal access token to bypass some rate limits (this is optional and does not require any scopes)", true, cancellationToken);
+			await console.WriteAsync("Enter a classic GitHub personal access token to bypass some rate limits (this is optional and does not require any scopes)", true, cancellationToken);
 			await console.WriteAsync("GitHub personal access token: ", false, cancellationToken);
 			newGeneralConfiguration.GitHubAccessToken = await console.ReadLineAsync(true, cancellationToken);
 			if (String.IsNullOrWhiteSpace(newGeneralConfiguration.GitHubAccessToken))

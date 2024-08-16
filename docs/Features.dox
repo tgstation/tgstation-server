@@ -5,7 +5,7 @@
 
 @section features_list Comprehensive Feature List
 
-tgstation-server is a BYOND server managment suite. It includes all the following features
+tgstation-server is a DreamMaker server managment suite. It includes all the following features
 
 - Standalone server with OpenAPI 3.0 defined HTTP REST API
 - Web based client included

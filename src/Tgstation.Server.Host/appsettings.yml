@@ -3,7 +3,7 @@
 General:
 # ConfigVersion: # Basic semver. Differs from TGS version to version. See changelog for current version
   MinimumPasswordLength: 15 # Minimum TGS user password length
-  GitHubAccessToken: # GitHub personal access token with no scopes used to bypass rate-limits
+  GitHubAccessToken: # A classic GitHub personal access token with no scopes used to bypass rate-limits
   SetupWizardMode: AutoDetect # If the interactive TGS setup wizard should run
   ByondTopicTimeout: 5000 # Timeout for BYOND /world/Topic() calls in milliseconds
   RestartTimeoutMinutes: 1 # Timeout for server restarts after requested by SIGTERM or the HTTP API

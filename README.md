@@ -239,7 +239,7 @@ Create an `appsettings.Production.yml` file next to `appsettings.yml`. This will
 
 - `General:InstanceLimit`: Maximum number of instances that may be created
 
-- `General:GitHubAccessToken`: Specify a GitHub personal access token with no scopes here to highly mitigate the possiblity of 429 response codes from GitHub requests
+- `General:GitHubAccessToken`: Specify a classic GitHub personal access token with no scopes here to highly mitigate the possiblity of 429 response codes from GitHub requests
 
 - `General:SkipAddingByondFirewallException`: Set to `true` if you have Windows firewall disabled
 
