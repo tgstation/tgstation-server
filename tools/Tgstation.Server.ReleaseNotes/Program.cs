@@ -60,7 +60,6 @@ namespace Tgstation.Server.ReleaseNotes
 			var shaCheck = versionString.Equals("--winget-template-check", StringComparison.OrdinalIgnoreCase);
 			var fullNotes = versionString.Equals("--generate-full-notes", StringComparison.OrdinalIgnoreCase);
 			var nuget = versionString.Equals("--nuget", StringComparison.OrdinalIgnoreCase);
-			var ciCompletionCheck = versionString.Equals("--ci-completion-check", StringComparison.OrdinalIgnoreCase);
 			var genToken = versionString.Equals("--token-output-file", StringComparison.OrdinalIgnoreCase);
 
 			if ((!Version.TryParse(versionString, out var version) || version.Revision != -1)
@@ -69,7 +68,6 @@ namespace Tgstation.Server.ReleaseNotes
 				&& !shaCheck
 				&& !fullNotes
 				&& !nuget
-				&& !ciCompletionCheck
 				&& !genToken)
 			{
 				Console.WriteLine("Invalid version: " + versionString);
@@ -149,17 +147,6 @@ namespace Tgstation.Server.ReleaseNotes
 					}
 
 					return await Winget(client, actionsUrl, null);
-				}
-
-				if (ciCompletionCheck)
-				{
-					if (args.Length < 3)
-					{
-						Console.WriteLine("Missing SHA or PEM Base64 for creating check run!");
-						return 4543;
-					}
-
-					return await CICompletionCheck(client, args[1], args[2]);
 				}
 
 
@@ -1674,21 +1661,6 @@ package (version) distribution(s); urgency=urgency
 			var installToken = await gitHubClient.GitHubApps.CreateInstallationToken(installation.Id);
 
 			gitHubClient.Credentials = new Credentials(installToken.Token);
-		}
-
-		static async ValueTask<int> CICompletionCheck(GitHubClient gitHubClient, string currentSha, string pemBase64)
-		{
-			await GenerateAppCredentials(gitHubClient, pemBase64, false);
-
-			await gitHubClient.Check.Run.Create(RepoOwner, RepoName, new NewCheckRun("CI Completion", currentSha)
-			{
-				CompletedAt = DateTime.UtcNow,
-				Conclusion = CheckConclusion.Success,
-				Output = new NewCheckRunOutput("CI Completion", "The CI Pipeline completed successfully"),
-				Status = CheckStatus.Completed,
-			});
-
-			return 0;
 		}
 
 		static void DebugAssert(bool condition, string message = null)

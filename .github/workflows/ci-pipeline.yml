@@ -29,11 +29,11 @@ on:
     branches:
     - dev
     - master
-  pull_request_target:
-    types: [ opened, reopened, labeled, synchronize ]
-    branches:
-    - dev
-    - master
+  workflow_dispatch:
+    inputs:
+      pull_request_number:
+        description: 'Pull Request Number'
+        required: true
 
 env:
   TGS_DOTNET_VERSION: 8
@@ -46,69 +46,16 @@ env:
   CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
 concurrency:
-  group: "ci-${{ github.head_ref || github.run_id }}-${{ github.event_name }}"
+  group: "ci-${{ github.head_ref || (github.event_name != 'push' && github.event_name != 'schedule' && github.event.inputs.pull_request_number) || github.run_id }}-${{ github.event_name }}"
   cancel-in-progress: true
 
 jobs:
-  security-checkpoint:
-    name: Check CI Clearance
-    runs-on: ubuntu-latest
-    permissions:
-      pull-requests: write
-    if: github.event_name == 'pull_request_target' && (github.event.pull_request.head.repo.id != github.event.pull_request.base.repo.id || github.event.pull_request.user.id == 49699333) && github.event.pull_request.state == 'open'
-    steps:
-    - name: Comment on new Fork PR
-      if: github.event.action == 'opened' && !contains(github.event.pull_request.labels.*.name, 'CI Cleared') && github.event.pull_request.user.id != 49699333
-      uses: thollander/actions-comment-pull-request@1d3973dc4b8e1399c0620d3f2b1aa5e795465308
-      with:
-        message: Thank you for contributing to ${{ github.event.pull_request.base.repo.name }}! The workflow '${{ github.workflow }}' requires repository secrets and will not run without approval. Maintainers can add the `CI Cleared` label to allow it to run. Please note that any changes to the workflow file will not be reflected in the run.
-
-    - name: Comment on dependabot PR
-      if: github.event.action == 'opened' && !contains(github.event.pull_request.labels.*.name, 'CI Cleared') && github.event.pull_request.user.id == 49699333
-      uses: thollander/actions-comment-pull-request@1d3973dc4b8e1399c0620d3f2b1aa5e795465308
-      with:
-        message: Set the milestone to the next minor version, check for supply chain attacks, and then add the `CI Cleared` label to allow CI to run.
-
-    - name: "Remove Stale 'CI Cleared' Label"
-      if: github.event.action == 'synchronize' || github.event.action == 'reopened'
-      uses: actions-ecosystem/action-remove-labels@2ce5d41b4b6aa8503e285553f75ed56e0a40bae0
-      with:
-        labels: CI Cleared
-
-    - name: "Remove 'CI Approval Required' Label"
-      if: (github.event.action == 'synchronize' || github.event.action == 'reopened') || ((github.event.action == 'opened' || github.event.action == 'labeled') && contains(github.event.pull_request.labels.*.name, 'CI Cleared'))
-      uses: actions-ecosystem/action-remove-labels@2ce5d41b4b6aa8503e285553f75ed56e0a40bae0
-      with:
-        labels: CI Approval Required
-
-    - name: "Add 'CI Approval Required' Label"
-      if: (github.event.action == 'synchronize' || github.event.action == 'reopened') || ((github.event.action == 'opened' || github.event.action == 'labeled') && !contains(github.event.pull_request.labels.*.name, 'CI Cleared'))
-      uses: actions-ecosystem/action-add-labels@bd52874380e3909a1ac983768df6976535ece7f8
-      with:
-        labels: CI Approval Required
-        github_token: ${{ github.token }}
-
-    - name: Fail Clearance Check if PR has Unlabeled new Commits from User
-      if: (github.event.action == 'synchronize' || github.event.action == 'reopened') || ((github.event.action == 'opened' || github.event.action == 'labeled') && !contains(github.event.pull_request.labels.*.name, 'CI Cleared'))
-      run: exit 1
-
-  start-ci-run-gate:
-    name: CI Start Gate
-    needs: security-checkpoint
-    runs-on: ubuntu-latest
-    if: (!(cancelled() || failure()) && (needs.security-checkpoint.result == 'success' || (needs.security-checkpoint.result == 'skipped' && (github.event_name == 'push' || github.event_name == 'schedule' || ((github.event.pull_request.head.repo.id == github.event.pull_request.base.repo.id && github.event.pull_request.user.id != 49699333) && github.event_name != 'pull_request_target')))))
-    steps:
-    - name: GitHub Requires at Least One Step for a Job
-      run: exit 0
-
   code-scanning:
     name: Code Scanning
-    needs: start-ci-run-gate
     runs-on: ubuntu-latest
     permissions:
       security-events: write
       actions: read
-    if: (!(cancelled() || failure()) && needs.start-ci-run-gate.result == 'success')
     steps:
     - name: Setup dotnet
       uses: actions/setup-dotnet@v4
@@ -124,7 +71,7 @@ jobs:
       uses: actions/checkout@v4
       if: github.event_name != 'push' && github.event_name != 'schedule'
       with:
-        ref: "refs/pull/${{ github.event.number }}/merge"
+        ref: "refs/pull/${{ github.event_name == 'pull_request' && github.event.number || github.event.inputs.pull_request_number }}/merge"
 
     - name: Initialize CodeQL
       uses: github/codeql-action/init@v3
@@ -141,8 +88,6 @@ jobs:
 
   dmapi-build:
     name: Build DMAPI
-    needs: start-ci-run-gate
-    if: (!(cancelled() || failure()) && needs.start-ci-run-gate.result == 'success')
     strategy:
       fail-fast: false
       matrix:
@@ -200,7 +145,7 @@ jobs:
       uses: actions/checkout@v4
       if: github.event_name != 'push' && github.event_name != 'schedule'
       with:
-        ref: "refs/pull/${{ github.event.number }}/merge"
+        ref: "refs/pull/${{ github.event_name == 'pull_request' && github.event.number || github.event.inputs.pull_request_number }}/merge"
 
     - name: Build DMAPI Test Project
       run: |
@@ -224,8 +169,6 @@ jobs:
 
   opendream-build:
     name: Build DMAPI (OpenDream)
-    needs: start-ci-run-gate
-    if: (!(cancelled() || failure()) && needs.start-ci-run-gate.result == 'success')
     strategy:
       fail-fast: false
       matrix:
@@ -254,7 +197,7 @@ jobs:
       uses: actions/checkout@v4
       if: github.event_name != 'push' && github.event_name != 'schedule'
       with:
-        ref: "refs/pull/${{ github.event.number }}/merge"
+        ref: "refs/pull/${{ github.event_name == 'pull_request' && github.event.number || github.event.inputs.pull_request_number }}/merge"
 
     - name: Checkout OpenDream
       run: |
@@ -287,8 +230,6 @@ jobs:
   efcore-version-match:
     name: Check Nuget Versions Match Tools
     runs-on: ubuntu-latest
-    needs: start-ci-run-gate
-    if: (!(cancelled() || failure()) && needs.start-ci-run-gate.result == 'success')
     steps:
     - name: Checkout (Branch)
       uses: actions/checkout@v4
@@ -298,7 +239,7 @@ jobs:
       uses: actions/checkout@v4
       if: github.event_name != 'push' && github.event_name != 'schedule'
       with:
-        ref: "refs/pull/${{ github.event.number }}/merge"
+        ref: "refs/pull/${{ github.event_name == 'pull_request' && github.event.number || github.event.inputs.pull_request_number }}/merge"
 
     - name: Retrieve dotnet-ef Tool Version
       id: dotnet-ef-tool
@@ -345,8 +286,6 @@ jobs:
   pages-build:
     name: Build gh-pages
     runs-on: ubuntu-latest
-    needs: start-ci-run-gate
-    if: (!(cancelled() || failure()) && needs.start-ci-run-gate.result == 'success')
     steps:
     - name: Setup dotnet
       uses: actions/setup-dotnet@v4
@@ -362,7 +301,7 @@ jobs:
       uses: actions/checkout@v4
       if: github.event_name != 'push' && github.event_name != 'schedule'
       with:
-        ref: "refs/pull/${{ github.event.number }}/merge"
+        ref: "refs/pull/${{ github.event_name == 'pull_request' && github.event.number || github.event.inputs.pull_request_number }}/merge"
 
     - name: Restore
       run: dotnet restore
@@ -421,8 +360,6 @@ jobs:
   docker-build:
     name: Build Docker Image
     runs-on: ubuntu-latest
-    needs: start-ci-run-gate
-    if: (!(cancelled() || failure()) && needs.start-ci-run-gate.result == 'success')
     steps:
     - name: Checkout (Branch)
       uses: actions/checkout@v4
@@ -432,15 +369,13 @@ jobs:
       uses: actions/checkout@v4
       if: github.event_name != 'push' && github.event_name != 'schedule'
       with:
-        ref: "refs/pull/${{ github.event.number }}/merge"
+        ref: "refs/pull/${{ github.event_name == 'pull_request' && github.event.number || github.event.inputs.pull_request_number }}/merge"
 
     - name: Build Docker Image
       run: docker build . -f build/Dockerfile
 
   linux-unit-tests:
     name: Linux Tests
-    needs: start-ci-run-gate
-    if: (!(cancelled() || failure()) && needs.start-ci-run-gate.result == 'success')
     strategy:
       fail-fast: false
       matrix:
@@ -470,7 +405,7 @@ jobs:
       uses: actions/checkout@v4
       if: github.event_name != 'push' && github.event_name != 'schedule'
       with:
-        ref: "refs/pull/${{ github.event.number }}/merge"
+        ref: "refs/pull/${{ github.event_name == 'pull_request' && github.event.number || github.event.inputs.pull_request_number }}/merge"
 
     - name: Restore
       run: dotnet restore
@@ -496,8 +431,6 @@ jobs:
 
   windows-unit-tests:
     name: Windows Tests
-    needs: start-ci-run-gate
-    if: (!(cancelled() || failure()) && needs.start-ci-run-gate.result == 'success')
     strategy:
       fail-fast: false
       matrix:
@@ -521,7 +454,7 @@ jobs:
       uses: actions/checkout@v4
       if: github.event_name != 'push' && github.event_name != 'schedule'
       with:
-        ref: "refs/pull/${{ github.event.number }}/merge"
+        ref: "refs/pull/${{ github.event_name == 'pull_request' && github.event.number || github.event.inputs.pull_request_number }}/merge"
 
     - name: Restore
       run: dotnet restore
@@ -548,7 +481,6 @@ jobs:
   windows-integration-test:
     name: Windows Live Tests
     needs: [dmapi-build, opendream-build]
-    if: (!(cancelled() || failure()) && needs.dmapi-build.result == 'success' && needs.opendream-build.result == 'success')
     strategy:
       fail-fast: false
       matrix:
@@ -637,7 +569,7 @@ jobs:
       uses: actions/checkout@v4
       if: github.event_name != 'push' && github.event_name != 'schedule'
       with:
-        ref: "refs/pull/${{ github.event.number }}/merge"
+        ref: "refs/pull/${{ github.event_name == 'pull_request' && github.event.number || github.event.inputs.pull_request_number }}/merge"
 
     - name: Restore
       run: dotnet restore
@@ -738,7 +670,6 @@ jobs:
   linux-integration-tests:
     name: Linux Live Tests
     needs: [dmapi-build, opendream-build]
-    if: (!(cancelled() || failure()) && needs.dmapi-build.result == 'success' && needs.opendream-build.result == 'success')
     services: # We start all dbs here so we can just code the stuff once
       mssql:
         image: ${{ (matrix.database-type == 'SqlServer') && 'mcr.microsoft.com/mssql/server:2019-latest' || '' }}
@@ -843,7 +774,7 @@ jobs:
       uses: actions/checkout@v4
       if: github.event_name != 'push' && github.event_name != 'schedule'
       with:
-        ref: "refs/pull/${{ github.event.number }}/merge"
+        ref: "refs/pull/${{ github.event_name == 'pull_request' && github.event.number || github.event.inputs.pull_request_number }}/merge"
 
     - name: Restore
       run: dotnet restore
@@ -908,7 +839,6 @@ jobs:
   validate-openapi-spec:
     name: OpenAPI Spec Validation
     needs: windows-integration-test
-    if: (!(cancelled() || failure()) && needs.windows-integration-test.result == 'success')
     runs-on: ubuntu-latest
     steps:
     - name: Install IBM OpenAPI Validator
@@ -922,7 +852,7 @@ jobs:
       uses: actions/checkout@v4
       if: github.event_name != 'push' && github.event_name != 'schedule'
       with:
-        ref: "refs/pull/${{ github.event.number }}/merge"
+        ref: "refs/pull/${{ github.event_name == 'pull_request' && github.event.number || github.event.inputs.pull_request_number }}/merge"
 
     - name: Retrieve OpenAPI Spec
       uses: actions/download-artifact@v4
@@ -936,7 +866,6 @@ jobs:
   upload-code-coverage:
     name: Upload Code Coverage
     needs: [linux-unit-tests, linux-integration-tests, windows-unit-tests, windows-integration-test]
-    if: (!(cancelled() || failure()) && needs.linux-unit-tests.result == 'success' && needs.linux-integration-tests.result == 'success' && needs.windows-unit-tests.result == 'success' && needs.windows-integration-test.result == 'success')
     runs-on: ubuntu-latest
     steps:
     - name: Checkout (Branch)
@@ -947,7 +876,7 @@ jobs:
       uses: actions/checkout@v4
       if: github.event_name != 'push' && github.event_name != 'schedule'
       with:
-        ref: "refs/pull/${{ github.event.number }}/merge"
+        ref: "refs/pull/${{ github.event_name == 'pull_request' && github.event.number || github.event.inputs.pull_request_number }}/merge"
 
     - name: Retrieve Linux Unit Test Coverage (Debug)
       uses: actions/download-artifact@v4
@@ -1191,9 +1120,7 @@ jobs:
 
   build-deb:
     name: Build .deb Package # Can't do i386 due to https://github.com/dotnet/core/issues/4595
-    needs: start-ci-run-gate
     runs-on: ubuntu-latest
-    if: (!(cancelled() || failure()) && needs.start-ci-run-gate.result == 'success')
     steps:
     - name: Install Native Dependencies
       run: |
@@ -1235,7 +1162,7 @@ jobs:
       uses: actions/checkout@v4
       if: github.event_name != 'push' && github.event_name != 'schedule'
       with:
-        ref: "refs/pull/${{ github.event.number }}/merge"
+        ref: "refs/pull/${{ github.event_name == 'pull_request' && github.event.number || github.event.inputs.pull_request_number }}/merge"
 
     - name: Parse TGS version
       run: |
@@ -1295,9 +1222,7 @@ jobs:
 
   build-msi:
     name: Build Windows Installer .exe
-    needs: start-ci-run-gate
     runs-on: windows-latest
-    if: (!(cancelled() || failure()) && needs.start-ci-run-gate.result == 'success')
     steps:
     - name: Install winget
       uses: Cyberboss/install-winget@v1
@@ -1318,7 +1243,7 @@ jobs:
       uses: actions/checkout@v4
       if: github.event_name != 'push' && github.event_name != 'schedule'
       with:
-        ref: "refs/pull/${{ github.event.number }}/merge"
+        ref: "refs/pull/${{ github.event_name == 'pull_request' && github.event.number || github.event.inputs.pull_request_number }}/merge"
 
     - name: Restore Wix dotnet Tool
       run: |
@@ -1426,8 +1351,6 @@ jobs:
 
   check-winget-pr-template:
     name: Check winget-pkgs Pull Request Template is up to date
-    needs: start-ci-run-gate
-    if: (!(cancelled() || failure()) && needs.start-ci-run-gate.result == 'success')
     runs-on: ubuntu-latest
     steps:
     - name: Setup dotnet
@@ -1450,7 +1373,7 @@ jobs:
       uses: actions/checkout@v4
       if: github.event_name != 'push' && github.event_name != 'schedule'
       with:
-        ref: "refs/pull/${{ github.event.number }}/merge"
+        ref: "refs/pull/${{ github.event_name == 'pull_request' && github.event.number || github.event.inputs.pull_request_number }}/merge"
 
     - name: Restore
       run: dotnet restore
@@ -1465,43 +1388,15 @@ jobs:
     name: CI Completion Gate
     needs: [ pages-build, docker-build, build-deb, build-msi, validate-openapi-spec, upload-code-coverage, check-winget-pr-template, code-scanning, efcore-version-match ]
     runs-on: ubuntu-latest
-    if: (!(cancelled() || failure()) && needs.pages-build.result == 'success' && needs.docker-build.result == 'success' && needs.build-deb.result == 'success' && needs.build-msi.result == 'success' && needs.validate-openapi-spec.result == 'success' && needs.upload-code-coverage.result == 'success' && needs.check-winget-pr-template.result == 'success' && needs.code-scanning.result == 'success')
     steps:
-    - name: Setup dotnet
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: '${{ env.TGS_DOTNET_VERSION }}.0.x'
-        dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
-
-    - name: Checkout (Branch)
-      uses: actions/checkout@v4
-      if: github.event_name == 'push' || github.event_name == 'schedule'
-
-    - name: Checkout (PR Merge)
-      uses: actions/checkout@v4
-      if: github.event_name != 'push' && github.event_name != 'schedule'
-      with:
-        ref: "refs/pull/${{ github.event.number }}/merge"
-
-    - name: Restore
-      run: dotnet restore
-
-    - name: Build ReleaseNotes
-      run: dotnet build -c Release -p:TGS_HOST_NO_WEBPANEL=true tools/Tgstation.Server.ReleaseNotes/Tgstation.Server.ReleaseNotes.csproj
-
-    - name: Run ReleaseNotes Create CI Completion Check (PR HEAD)
-      if: github.event_name != 'push' && github.event_name != 'schedule'
-      run: dotnet run -c Release --no-build --project tools/Tgstation.Server.ReleaseNotes --ci-completion-check ${{ github.event.pull_request.head.sha }} ${{ secrets.TGS_CI_GITHUB_APP_TOKEN_BASE64 }}
-
-    - name: Run ReleaseNotes Create CI Completion Check (Branch)
-      if: github.event_name == 'push' || github.event_name == 'schedule'
-      run: dotnet run -c Release --no-build --project tools/Tgstation.Server.ReleaseNotes --ci-completion-check ${{ github.sha }} ${{ secrets.TGS_CI_GITHUB_APP_TOKEN_BASE64 }}
+      - name: GitHub Requires at Least One Step for a Job
+        run: exit 0
 
   deployment-gate:
     name: Deployment Start Gate
     needs: ci-completion-gate
     runs-on: ubuntu-latest
-    if: (!(cancelled() || failure()) && needs.ci-completion-gate.result == 'success' && github.event_name == 'push' && (github.event.ref == 'refs/heads/master' || github.event.ref == 'refs/heads/dev'))
+    if: github.event_name == 'push' && (github.event.ref == 'refs/heads/master' || github.event.ref == 'refs/heads/dev')
     steps:
     - name: GitHub Requires at Least One Step for a Job
       run: exit 0
@@ -1510,7 +1405,7 @@ jobs:
     name: Deploy HTTP API
     needs: deployment-gate
     runs-on: windows-latest
-    if: (!(cancelled() || failure()) && needs.deployment-gate.result == 'success' && contains(github.event.head_commit.message, '[APIDeploy]'))
+    if: contains(github.event.head_commit.message, '[APIDeploy]')
     steps:
     - name: Setup dotnet
       uses: actions/setup-dotnet@v4
@@ -1582,7 +1477,7 @@ jobs:
     name: Deploy DreamMaker API
     needs: deployment-gate
     runs-on: windows-latest
-    if: (!(cancelled() || failure()) && needs.deployment-gate.result == 'success' && contains(github.event.head_commit.message, '[DMDeploy]'))
+    if: contains(github.event.head_commit.message, '[DMDeploy]')
     steps:
     - name: Setup dotnet
       uses: actions/setup-dotnet@v4
@@ -1653,7 +1548,7 @@ jobs:
     name: Deploy Nuget Packages
     needs: deployment-gate
     runs-on: ubuntu-latest
-    if: (!(cancelled() || failure()) && needs.deployment-gate.result == 'success' && contains(github.event.head_commit.message, '[NugetDeploy]'))
+    if: contains(github.event.head_commit.message, '[NugetDeploy]')
     steps:
     - name: Setup dotnet
       uses: actions/setup-dotnet@v4
@@ -1704,7 +1599,7 @@ jobs:
     name: Ensure TGS Release is Latest GitHub Release
     needs: [deploy-dm, deploy-http]
     runs-on: ubuntu-latest
-    if: (!(cancelled() || failure()) && (needs.deploy-dm.result == 'success' || needs.deploy-http.result == 'success') && !contains(github.event.head_commit.message, '[TGSDeploy]'))
+    if: (!contains(github.event.head_commit.message, '[TGSDeploy]'))
     steps:
     - name: Setup dotnet
       uses: actions/setup-dotnet@v4
@@ -1728,7 +1623,7 @@ jobs:
     name: Deploy TGS
     needs: [deploy-dm, deploy-http, deployment-gate]
     runs-on: windows-latest
-    if: (!(cancelled() || failure()) && needs.deployment-gate.result == 'success' && github.event.ref == 'refs/heads/master' && contains(github.event.head_commit.message, '[TGSDeploy]'))
+    if: github.event.ref == 'refs/heads/master' && contains(github.event.head_commit.message, '[TGSDeploy]')
     steps:
     - name: Setup dotnet
       uses: actions/setup-dotnet@v4
@@ -1747,9 +1642,7 @@ jobs:
         cd build/package/winget
         dotnet tool restore
 
-# We need to rebuild the installer.exe so it can be properly signed
-
-    - name: Build Host
+    - name: Build Host # We need to rebuild the installer.exe so it can be properly signed
       run: dotnet build -c Release src/Tgstation.Server.Host/Tgstation.Server.Host.csproj
 
     - name: Build Service
