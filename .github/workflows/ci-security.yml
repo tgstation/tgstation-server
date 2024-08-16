@@ -68,7 +68,7 @@ jobs:
           ref: "refs/pull/${{ github.event.pull_request.number }}/merge"
 
       - name: Generate Temporary Branch to Reference Merge
-        run: git push -f origin ${{ github.event.pull_request.number }}-merge
+        run: git push -f -u origin ${{ github.event.pull_request.number }}-merge
 
       - name: Send Workflow Dispatch
         uses: lasith-kg/dispatch-workflow@5623bf13f09bbbbdb549ec692b070307f39b66ac #v2.0.0 + setup_node@v4
