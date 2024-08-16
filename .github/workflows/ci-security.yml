@@ -1,10 +1,6 @@
 name: 'CI Security'
 
 on:
-  pull_request:
-    branches:
-    - dev
-    - master
   pull_request_target:
     types: [ opened, reopened, labeled, synchronize ]
     branches:
@@ -21,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       pull-requests: write
-    if: github.event_name == 'pull_request_target' && (github.event.pull_request.head.repo.id != github.event.pull_request.base.repo.id || github.event.pull_request.user.id == 49699333) && github.event.pull_request.state == 'open'
+    if: (github.event.pull_request.head.repo.id != github.event.pull_request.base.repo.id || github.event.pull_request.user.id == 49699333) && github.event.pull_request.state == 'open'
     steps:
     - name: Comment on new Fork PR
       if: github.event.action == 'opened' && !contains(github.event.pull_request.labels.*.name, 'CI Cleared') && github.event.pull_request.user.id != 49699333
