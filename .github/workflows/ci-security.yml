@@ -1,6 +1,10 @@
 name: 'CI Security'
 
 on:
+  pull_request:
+    branches:
+    - dev
+    - master
   pull_request_target:
     types: [ opened, reopened, labeled, synchronize ]
     branches:
@@ -17,7 +21,6 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       pull-requests: write
-      actions: write
     if: github.event_name == 'pull_request_target' && (github.event.pull_request.head.repo.id != github.event.pull_request.base.repo.id || github.event.pull_request.user.id == 49699333) && github.event.pull_request.state == 'open'
     steps:
     - name: Comment on new Fork PR
@@ -55,16 +58,23 @@ jobs:
       if: (github.event.action == 'synchronize' || github.event.action == 'reopened') || ((github.event.action == 'opened' || github.event.action == 'labeled') && !contains(github.event.pull_request.labels.*.name, 'CI Cleared'))
       run: exit 1
 
-    - name: Dispatch CI Pipeline Workflow
-      uses: lasith-kg/dispatch-workflow@5623bf13f09bbbbdb549ec692b070307f39b66ac #v2.0.0 + setup_node@v4
-      with:
-        dispatch-method: workflow_dispatch
-        owner: ${{ github.repository_owner }}
-        repo: ${{ github.event.pull_request.base.repo.name }}
-        ref: ${{ github.event.pull_request.base.ref }}
-        workflow: ci-pipeline.yml
-        token: ${{ github.token }}
-        workflow-inputs: |
-          {
-            "pull_request_number": "${{ github.event.pull_request.number }}"
-          }
+  ci-dispatch:
+    name: Start CI Pipeline
+    runs-on: ubuntu-latest
+    needs: security-checkpoint
+    permissions:
+      actions: write
+    steps:
+      - name: Send Workflow Dispatch
+        uses: lasith-kg/dispatch-workflow@5623bf13f09bbbbdb549ec692b070307f39b66ac #v2.0.0 + setup_node@v4
+        with:
+          dispatch-method: workflow_dispatch
+          owner: ${{ github.repository_owner }}
+          repo: ${{ github.event.pull_request.base.repo.name }}
+          ref: ${{ github.event.pull_request.base.ref }}
+          workflow: ci-pipeline.yml
+          token: ${{ github.token }}
+          workflow-inputs: |
+            {
+              "pull_request_number": "${{ github.event.pull_request.number }}"
+            }
