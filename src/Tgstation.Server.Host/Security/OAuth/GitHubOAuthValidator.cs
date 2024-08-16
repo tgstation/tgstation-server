@@ -60,12 +60,12 @@ namespace Tgstation.Server.Host.Security.OAuth
 			{
 				logger.LogTrace("Validating response code...");
 
-				var gitHubService = gitHubServiceFactory.CreateService();
+				var gitHubService = await gitHubServiceFactory.CreateService(cancellationToken);
 				var token = await gitHubService.CreateOAuthAccessToken(oAuthConfiguration, code, cancellationToken);
 				if (token == null)
 					return null;
 
-				var authenticatedClient = gitHubServiceFactory.CreateService(token);
+				var authenticatedClient = await gitHubServiceFactory.CreateService(token, cancellationToken);
 
 				logger.LogTrace("Getting user details...");
 				var userId = await authenticatedClient.GetCurrentUserId(cancellationToken);

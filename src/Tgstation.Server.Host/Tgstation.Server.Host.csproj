@@ -29,13 +29,13 @@
     <Exec Command="git clone https://github.com/tgstation/tgstation-server-webpanel --branch v$(TgsWebpanelVersion) --depth 1 ClientApp" />
     <RemoveDir Directories="ClientApp/.git" /> <!-- Allows git clean to clean it out -->
     <Message Text="Restoring yarn packages..." Importance="high" />
-    <Exec WorkingDirectory="ClientApp" Command="npx --yes yarn@$(TgsYarnVersion) install --immutable" />
+    <Exec WorkingDirectory="ClientApp" Command="yarn install --immutable" />
     <Touch Files="$(NpmInstallStampFile)" AlwaysCreate="true" />
   </Target>
 
   <Target Condition="'$(TGS_HOST_NO_WEBPANEL)' != 'true'" Name="NpmBuild" BeforeTargets="BeforeBuild" DependsOnTargets="ClientInstall" Inputs="../../build/WebpanelVersion.props" Outputs="wwwroot\index.html">
     <Message Text="Building web control panel..." Importance="high" />
-    <Exec WorkingDirectory="ClientApp" Command="npx --yes yarn@$(TgsYarnVersion) run msbuild" />
+    <Exec WorkingDirectory="ClientApp" Command="yarn run msbuild" />
   </Target>
 
   <Target Name="NpmClean" AfterTargets="Clean">
@@ -45,19 +45,41 @@
 
   <Target Name="ApplyMasterVersionsAttribute" BeforeTargets="CoreCompile">
     <ItemGroup>
-      <AssemblyAttributes Include="Tgstation.Server.Host.Properties.MasterVersionsAttribute">
+      <MasterVersionAssemblyAttributes Include="Tgstation.Server.Host.Properties.MasterVersionsAttribute">
         <_Parameter1>$(TgsConfigVersion)</_Parameter1>
         <_Parameter2>$(TgsInteropVersion)</_Parameter2>
         <_Parameter3>$(TgsWebpanelVersion)</_Parameter3>
         <_Parameter4>$(TgsHostWatchdogVersion)</_Parameter4>
         <_Parameter5>$(TgsMariaDBRedistVersion)</_Parameter5>
-      </AssemblyAttributes>
+      </MasterVersionAssemblyAttributes>
     </ItemGroup>
-
-    <WriteCodeFragment AssemblyAttributes="@(AssemblyAttributes)" Language="C#" OutputDirectory="$(IntermediateOutputPath)" OutputFile="MasterVersionsAssemblyInfo.cs">
+    <WriteCodeFragment AssemblyAttributes="@(MasterVersionAssemblyAttributes)" Language="C#" OutputDirectory="$(IntermediateOutputPath)" OutputFile="MasterVersionsAssemblyInfo.cs">
       <Output TaskParameter="OutputFile" ItemName="Compile" />
       <Output TaskParameter="OutputFile" ItemName="FileWrites" />
     </WriteCodeFragment>
+  </Target>
+
+  <Target Condition="'$(TGS_TELEMETRY_KEY_FILE)' != ''" Name="ApplyTelemetryAppSerializedKey" BeforeTargets="CoreCompile">
+    <Error Condition="!Exists('$(TGS_TELEMETRY_KEY_FILE)')" Text="TGS_TELEMETRY_KEY_FILE set but does not exist!" />
+    <ReadLinesFromFile
+        File="$(TGS_TELEMETRY_KEY_FILE)" >
+        <Output
+            TaskParameter="Lines"
+            ItemName="SerializedTelemetryKey"/>
+    </ReadLinesFromFile>
+    <ItemGroup>
+      <TelemetryAppSerializedKeyAssemblyAttributes Include="Tgstation.Server.Host.Properties.TelemetryAppSerializedKeyAttribute">
+        <_Parameter1>@(SerializedTelemetryKey)</_Parameter1>
+      </TelemetryAppSerializedKeyAssemblyAttributes>
+    </ItemGroup>
+    <WriteCodeFragment AssemblyAttributes="@(TelemetryAppSerializedKeyAssemblyAttributes)" Language="C#" OutputDirectory="$(IntermediateOutputPath)" OutputFile="TelemetryAppSerializedKeyAssemblyInfo.cs">
+      <Output TaskParameter="OutputFile" ItemName="Compile" />
+      <Output TaskParameter="OutputFile" ItemName="FileWrites" />
+    </WriteCodeFragment>
+  </Target>
+
+  <Target Condition="'$(TGS_TELEMETRY_KEY_FILE)' == '' And '$(CI)' != ''" Name="FailBuildInCIWithoutTelemetryKey" BeforeTargets="CoreCompile">
+    <Error Text="The TGS_TELEMETRY_KEY_FILE environment variable should be set in CI!"/>
   </Target>
 
   <ItemGroup>

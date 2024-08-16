@@ -313,6 +313,12 @@ The following providers use the `ServerUrl` setting:
 - Keycloak
 - InvisionCommunity
 
+- `Telemetry:DisableVersionReporting`: Prevents you installation and the version you're using from being reported on the source repository's deployments list
+
+- `Telemetry:ServerFriendlyName`: Prevents anonymous TGS version usage statistics from being sent to be displayed on the repository.
+
+- `Telemetry:VersionReportingRepositoryId`: The repository telemetry is sent to. For security reasons, this is not the main TGS repo. See the [tgstation-server-deployments](https://github.com/tgstation/tgstation-server-deployments) repository for more information.
+
 ### Database Configuration
 
 If using a MariaDB/MySQL server, our client library [recommends you set 'utf8mb4' as your default charset](https://github.com/PomeloFoundation/Pomelo.EntityFrameworkCore.MySql#1-recommended-server-charset) disregard at your own risk.

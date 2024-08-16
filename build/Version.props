@@ -21,6 +21,5 @@
     <TgsMariaDBRedistVersion>11.4.2</TgsMariaDBRedistVersion>
     <!-- Only have this uncommented if the mariadb servers are shitting the bed, update if the version updates -->
     <!--<TgsMariaDBFallbackRedist>https://mirror.its.dal.ca/mariadb//mariadb-10.11.8/winx64-packages/mariadb-10.11.8-winx64.msi</TgsMariaDBFallbackRedist>-->
-    <TgsYarnVersion>1.22.21</TgsYarnVersion>
   </PropertyGroup>
 </Project>
