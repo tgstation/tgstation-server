@@ -23,7 +23,7 @@ jobs:
       if: github.event.action == 'opened' && !contains(github.event.pull_request.labels.*.name, 'CI Cleared') && github.event.pull_request.user.id != 49699333
       uses: thollander/actions-comment-pull-request@1d3973dc4b8e1399c0620d3f2b1aa5e795465308
       with:
-        message: Thank you for contributing to ${{ github.event.pull_request.base.repo.name }}! The workflow '${{ github.workflow }}' requires repository secrets and will not run without approval. Maintainers can add the `CI Cleared` label to allow it to run.
+        message: Thank you for contributing to ${{ github.event.pull_request.base.repo.name }}! The workflow '${{ github.workflow }}' requires repository secrets and will not run without approval. Maintainers can add the `CI Cleared` label to allow it to run. Note that any changes to ci-security.yml will not be reflected in the run.
 
     - name: Comment on dependabot PR
       if: github.event.action == 'opened' && !contains(github.event.pull_request.labels.*.name, 'CI Cleared') && github.event.pull_request.user.id == 49699333
@@ -60,17 +60,30 @@ jobs:
     needs: security-checkpoint
     permissions:
       actions: write
+      contents: write
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: "refs/pull/${{ github.event.pull_request.number }}/merge"
+
+      - name: Generate Temporary Branch to Reference Merge
+        run: git push -f origin ${{ github.event.pull_request.number }}-merge
+
       - name: Send Workflow Dispatch
         uses: lasith-kg/dispatch-workflow@5623bf13f09bbbbdb549ec692b070307f39b66ac #v2.0.0 + setup_node@v4
         with:
           dispatch-method: workflow_dispatch
           owner: ${{ github.repository_owner }}
           repo: ${{ github.event.pull_request.base.repo.name }}
-          ref: ${{ github.event.pull_request.head.ref }}
+          ref: ${{ github.event.pull_request.number }}-merge
           workflow: ci-pipeline.yml
           token: ${{ github.token }}
           workflow-inputs: |
             {
               "pull_request_number": "${{ github.event.pull_request.number }}"
             }
+
+      - name: Delete Temporary Branch
+        if: always()
+        run: git push -d origin ${{ github.event.pull_request.number }}-merge
