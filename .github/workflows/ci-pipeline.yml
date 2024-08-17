@@ -570,6 +570,7 @@ jobs:
 
   linux-unit-tests:
     name: Linux Tests
+    needs: ci-start-gate
     strategy:
       fail-fast: false
       matrix:
@@ -665,6 +666,7 @@ jobs:
 
   windows-unit-tests:
     name: Windows Tests
+    needs: ci-start-gate
     strategy:
       fail-fast: false
       matrix:
