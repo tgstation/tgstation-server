@@ -1887,11 +1887,11 @@ jobs:
         run: dotnet release_notes_bins/Tgstation.Server.ReleaseNotes.dll --ci-check ${{ github.event.inputs.pull_request_current_merge_sha }} ${{ secrets.TGS_CI_GITHUB_APP_TOKEN_BASE64 }} Cancelled ${{ github.run_id }}
 
       - name: Update CI Check Run (Failure)
-        if: !cancelled() && failure()
+        if: (!cancelled() && failure())
         run: dotnet release_notes_bins/Tgstation.Server.ReleaseNotes.dll --ci-check ${{ github.event.inputs.pull_request_current_merge_sha }} ${{ secrets.TGS_CI_GITHUB_APP_TOKEN_BASE64 }} Failure ${{ github.run_id }}
 
       - name: Update CI Check Run (Success)
-        if: !cancelled() && failure()
+        if: (!cancelled() && failure())
         run: dotnet release_notes_bins/Tgstation.Server.ReleaseNotes.dll --ci-check ${{ github.event.inputs.pull_request_current_merge_sha }} ${{ secrets.TGS_CI_GITHUB_APP_TOKEN_BASE64 }} Success ${{ github.run_id }}
 
       - name: Fail Job if Prerequisites Failed
