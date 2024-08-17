@@ -1865,9 +1865,9 @@ jobs:
 
   ci-completion-gate:
     name: CI Completion Gate
-    needs: [ pages-build, docker-build, build-deb, build-msi, validate-openapi-spec, upload-code-coverage, check-winget-pr-template, code-scanning, efcore-version-match ]
+    needs: [ pages-build, docker-build, build-deb, build-msi, validate-openapi-spec, upload-code-coverage, check-winget-pr-template, code-scanning, efcore-version-match, ci-start-gate ]
     runs-on: ubuntu-latest
-    if: always()
+    if: always() && needs.ci-start-gate.result == 'success'
     steps:
       - name: Setup dotnet
         uses: actions/setup-dotnet@v4
