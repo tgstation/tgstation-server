@@ -17,7 +17,6 @@
 #   - apt repo: https://github.com/tgstation/tgstation-ppa
 #   - winget: https://github.com/microsoft/winget-pkgs/tree/master/manifests/t/Tgstation/Server
 name: 'CI Pipeline'
-run-name: CI Pipeline [${{ inputs.distinct_id && inputs.distinct_id || github.ref_name }}]
 
 on:
   schedule:
@@ -26,17 +25,16 @@ on:
     branches:
     - dev
     - master
-  workflow_dispatch:
+  workflow_call:
     inputs:
       pull_request_number:
         description: 'Pull Request Number'
         required: true
+        type: string
       pull_request_head_sha:
         description: 'Pull Request HEAD SHA'
         required: true
-      distinct_id:
-        description: 'Distinct ID'
-        required: true
+        type: string
 
 env:
   TGS_DOTNET_VERSION: 8
@@ -54,8 +52,8 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  ci-start-gate:
-    name: CI Start Gate
+  build-releasenotes:
+    name: Build ReleaseNotes for Other Jobs
     runs-on: ubuntu-latest
     steps:
     - name: Setup dotnet
@@ -74,30 +72,6 @@ jobs:
       with:
         ref: "refs/pull/${{ inputs.pull_request_number }}/merge"
 
-    - name: Read Current SHA
-      id: get-pr-sha
-      if: github.event_name != 'push' && github.event_name != 'schedule'
-      shell: bash
-      run: echo "head_sha=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
-
-    - name: Abort if PR Merge SHA has Changed
-      uses: actions/github-script@v7
-      if: github.event_name != 'push' && github.event_name != 'schedule' && steps.get-pr-sha.outputs.head_sha != github.sha
-      with:
-        script: |
-          const delay = ms => new Promise(res => setTimeout(res, ms));
-
-          github.rest.actions.cancelWorkflowRun({
-            owner: context.repo.owner,
-            repo: context.repo.repo,
-            run_id: context.runId
-          });
-
-          while (true) {
-            core.info('Waiting for workflow to cancel ...');
-            await delay(5000);
-          }
-
     - name: Build ReleaseNotes
       run: dotnet publish -c Release -p:TGS_HOST_NO_WEBPANEL=true -o release_notes_bins tools/Tgstation.Server.ReleaseNotes/Tgstation.Server.ReleaseNotes.csproj
 
@@ -107,12 +81,48 @@ jobs:
         name: release_notes_bins
         path: ./release_notes_bins/
 
-    - name: Set CI Check Run (Started)
-      run: dotnet release_notes_bins/Tgstation.Server.ReleaseNotes.dll --ci-check ${{ inputs.pull_request_head_sha || github.sha }} ${{ secrets.TGS_CI_GITHUB_APP_TOKEN_BASE64 }} Started ${{ github.run_id }}
+  code-scanning:
+    name: Run CodeQL
+    runs-on: ubuntu-latest
+    permissions:
+      security-events: write
+      actions: read
+    env:
+      TGS_TELEMETRY_KEY_FILE: /tmp/tgs_telemetry_key.txt
+    steps:
+    - name: Setup dotnet
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '${{ env.TGS_DOTNET_VERSION }}.0.x'
+        dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
+
+    - name: Checkout (Branch)
+      uses: actions/checkout@v4
+
+    - name: Read Current SHA
+      id: get-pr-sha
+      if: github.event_name != 'push' && github.event_name != 'schedule'
+      shell: bash
+      run: echo "head_sha=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
+
+    - name: Initialize CodeQL
+      uses: github/codeql-action/init@v3
+      with:
+        languages: csharp
+
+    - name: Setup Telemetry Key File
+      run: echo "fake_telemetry_key" > ${{ env.TGS_TELEMETRY_KEY_FILE }}
+
+    - name: Build
+      run: dotnet build -c ReleaseNoWindows -p:TGS_HOST_NO_WEBPANEL=true
+
+    - name: Perform CodeQL Analysis
+      uses: github/codeql-action/analyze@v3
+      with:
+        category: "/language:csharp"
 
   dmapi-build:
     name: Build DMAPI
-    needs: ci-start-gate
     strategy:
       fail-fast: false
       matrix:
@@ -178,23 +188,6 @@ jobs:
       shell: bash
       run: echo "head_sha=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
 
-    - name: Abort if PR Merge SHA has Changed
-      uses: actions/github-script@v7
-      if: github.event_name != 'push' && github.event_name != 'schedule' && steps.get-pr-sha.outputs.head_sha != github.sha
-      with:
-        script: |
-          const delay = ms => new Promise(res => setTimeout(res, ms));
-
-          github.rest.actions.cancelWorkflowRun({
-            owner: context.repo.owner,
-            repo: context.repo.repo,
-            run_id: context.runId
-          });
-
-          while (true) {
-            core.info('Waiting for workflow to cancel ...');
-            await delay(5000);
-          }
 
     - name: Build DMAPI Test Project
       run: |
@@ -218,7 +211,6 @@ jobs:
 
   opendream-build:
     name: Build DMAPI (OpenDream)
-    needs: ci-start-gate
     strategy:
       fail-fast: false
       matrix:
@@ -249,30 +241,6 @@ jobs:
       with:
         ref: "refs/pull/${{ inputs.pull_request_number }}/merge"
 
-    - name: Read Current SHA
-      id: get-pr-sha
-      if: github.event_name != 'push' && github.event_name != 'schedule'
-      shell: bash
-      run: echo "head_sha=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
-
-    - name: Abort if PR Merge SHA has Changed
-      uses: actions/github-script@v7
-      if: github.event_name != 'push' && github.event_name != 'schedule' && steps.get-pr-sha.outputs.head_sha != github.sha
-      with:
-        script: |
-          const delay = ms => new Promise(res => setTimeout(res, ms));
-
-          github.rest.actions.cancelWorkflowRun({
-            owner: context.repo.owner,
-            repo: context.repo.repo,
-            run_id: context.runId
-          });
-
-          while (true) {
-            core.info('Waiting for workflow to cancel ...');
-            await delay(5000);
-          }
-
     - name: Checkout OpenDream
       run: |
         cd $HOME
@@ -298,7 +266,6 @@ jobs:
 
   efcore-version-match:
     name: Check Nuget Versions Match Tools
-    needs: ci-start-gate
     runs-on: ubuntu-latest
     steps:
     - name: Checkout (Branch)
@@ -310,30 +277,6 @@ jobs:
       if: github.event_name != 'push' && github.event_name != 'schedule'
       with:
         ref: "refs/pull/${{ inputs.pull_request_number }}/merge"
-
-    - name: Read Current SHA
-      id: get-pr-sha
-      if: github.event_name != 'push' && github.event_name != 'schedule'
-      shell: bash
-      run: echo "head_sha=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
-
-    - name: Abort if PR Merge SHA has Changed
-      uses: actions/github-script@v7
-      if: github.event_name != 'push' && github.event_name != 'schedule' && steps.get-pr-sha.outputs.head_sha != github.sha
-      with:
-        script: |
-          const delay = ms => new Promise(res => setTimeout(res, ms));
-
-          github.rest.actions.cancelWorkflowRun({
-            owner: context.repo.owner,
-            repo: context.repo.repo,
-            run_id: context.runId
-          });
-
-          while (true) {
-            core.info('Waiting for workflow to cancel ...');
-            await delay(5000);
-          }
 
     - name: Retrieve dotnet-ef Tool Version
       id: dotnet-ef-tool
@@ -379,7 +322,7 @@ jobs:
 
   pages-build:
     name: Build gh-pages
-    needs: ci-start-gate
+    needs: build-releasenotes
     runs-on: ubuntu-latest
     steps:
     - name: Setup dotnet
@@ -397,30 +340,6 @@ jobs:
       if: github.event_name != 'push' && github.event_name != 'schedule'
       with:
         ref: "refs/pull/${{ inputs.pull_request_number }}/merge"
-
-    - name: Read Current SHA
-      id: get-pr-sha
-      if: github.event_name != 'push' && github.event_name != 'schedule'
-      shell: bash
-      run: echo "head_sha=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
-
-    - name: Abort if PR Merge SHA has Changed
-      uses: actions/github-script@v7
-      if: github.event_name != 'push' && github.event_name != 'schedule' && steps.get-pr-sha.outputs.head_sha != github.sha
-      with:
-        script: |
-          const delay = ms => new Promise(res => setTimeout(res, ms));
-
-          github.rest.actions.cancelWorkflowRun({
-            owner: context.repo.owner,
-            repo: context.repo.repo,
-            run_id: context.runId
-          });
-
-          while (true) {
-            core.info('Waiting for workflow to cancel ...');
-            await delay(5000);
-          }
 
     - name: gh-pages Clone
       run: git clone -b gh-pages --single-branch "https://git@github.com/tgstation/tgstation-server" $HOME/tgsdox
@@ -478,7 +397,6 @@ jobs:
 
   docker-build:
     name: Build Docker Image
-    needs: ci-start-gate
     runs-on: ubuntu-latest
     env:
       TGS_TELEMETRY_KEY_FILE: tgs_telemetry_key.txt
@@ -493,30 +411,6 @@ jobs:
       with:
         ref: "refs/pull/${{ inputs.pull_request_number }}/merge"
 
-    - name: Read Current SHA
-      id: get-pr-sha
-      if: github.event_name != 'push' && github.event_name != 'schedule'
-      shell: bash
-      run: echo "head_sha=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
-
-    - name: Abort if PR Merge SHA has Changed
-      uses: actions/github-script@v7
-      if: github.event_name != 'push' && github.event_name != 'schedule' && steps.get-pr-sha.outputs.head_sha != github.sha
-      with:
-        script: |
-          const delay = ms => new Promise(res => setTimeout(res, ms));
-
-          github.rest.actions.cancelWorkflowRun({
-            owner: context.repo.owner,
-            repo: context.repo.repo,
-            run_id: context.runId
-          });
-
-          while (true) {
-            core.info('Waiting for workflow to cancel ...');
-            await delay(5000);
-          }
-
     - name: Setup Telemetry Key File
       shell: bash
       run: echo "${{ secrets.TGS_TELEMETRY_KEY }}" > ${{ env.TGS_TELEMETRY_KEY_FILE }}
@@ -530,7 +424,6 @@ jobs:
 
   linux-unit-tests:
     name: Linux Tests
-    needs: ci-start-gate
     strategy:
       fail-fast: false
       matrix:
@@ -568,30 +461,6 @@ jobs:
       with:
         ref: "refs/pull/${{ inputs.pull_request_number }}/merge"
 
-    - name: Read Current SHA
-      id: get-pr-sha
-      if: github.event_name != 'push' && github.event_name != 'schedule'
-      shell: bash
-      run: echo "head_sha=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
-
-    - name: Abort if PR Merge SHA has Changed
-      uses: actions/github-script@v7
-      if: github.event_name != 'push' && github.event_name != 'schedule' && steps.get-pr-sha.outputs.head_sha != github.sha
-      with:
-        script: |
-          const delay = ms => new Promise(res => setTimeout(res, ms));
-
-          github.rest.actions.cancelWorkflowRun({
-            owner: context.repo.owner,
-            repo: context.repo.repo,
-            run_id: context.runId
-          });
-
-          while (true) {
-            core.info('Waiting for workflow to cancel ...');
-            await delay(5000);
-          }
-
     - name: Enable Corepack
       run: corepack enable
 
@@ -623,7 +492,6 @@ jobs:
 
   windows-unit-tests:
     name: Windows Tests
-    needs: ci-start-gate
     strategy:
       fail-fast: false
       matrix:
@@ -654,30 +522,6 @@ jobs:
       if: github.event_name != 'push' && github.event_name != 'schedule'
       with:
         ref: "refs/pull/${{ inputs.pull_request_number }}/merge"
-
-    - name: Read Current SHA
-      id: get-pr-sha
-      if: github.event_name != 'push' && github.event_name != 'schedule'
-      shell: bash
-      run: echo "head_sha=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
-
-    - name: Abort if PR Merge SHA has Changed
-      uses: actions/github-script@v7
-      if: github.event_name != 'push' && github.event_name != 'schedule' && steps.get-pr-sha.outputs.head_sha != github.sha
-      with:
-        script: |
-          const delay = ms => new Promise(res => setTimeout(res, ms));
-
-          github.rest.actions.cancelWorkflowRun({
-            owner: context.repo.owner,
-            repo: context.repo.repo,
-            run_id: context.runId
-          });
-
-          while (true) {
-            core.info('Waiting for workflow to cancel ...');
-            await delay(5000);
-          }
 
     - name: Enable Corepack
       run: corepack enable
@@ -712,7 +556,7 @@ jobs:
 
   windows-integration-tests:
     name: Windows Live Tests
-    needs: [dmapi-build, opendream-build]
+    needs: [ dmapi-build, opendream-build ]
     strategy:
       fail-fast: false
       matrix:
@@ -731,15 +575,6 @@ jobs:
           ${{ env.OD_DOTNET_VERSION }}.0.x
           ${{ env.OD_MIN_COMPAT_DOTNET_VERSION }}.0.x
         dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
-
-    - name: Retrieve ReleaseNotes Binaries
-      uses: actions/download-artifact@v4
-      with:
-        name: release_notes_bins
-        path: release_notes_bins
-
-    - name: Update CI Check Run (Rerun) # Do this here because these are the flakiest tests
-      run: dotnet release_notes_bins/Tgstation.Server.ReleaseNotes.dll --ci-check ${{ inputs.pull_request_head_sha || github.sha }} ${{ secrets.TGS_CI_GITHUB_APP_TOKEN_BASE64 }} Rerun ${{ github.run_id }}
 
     - name: Wait for LocalDB Connection # Do this first because we don't want to find out it's failing later
       shell: powershell
@@ -818,30 +653,6 @@ jobs:
       if: github.event_name != 'push' && github.event_name != 'schedule'
       with:
         ref: "refs/pull/${{ inputs.pull_request_number }}/merge"
-
-    - name: Read Current SHA
-      id: get-pr-sha
-      if: github.event_name != 'push' && github.event_name != 'schedule'
-      shell: bash
-      run: echo "head_sha=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
-
-    - name: Abort if PR Merge SHA has Changed
-      uses: actions/github-script@v7
-      if: github.event_name != 'push' && github.event_name != 'schedule' && steps.get-pr-sha.outputs.head_sha != github.sha
-      with:
-        script: |
-          const delay = ms => new Promise(res => setTimeout(res, ms));
-
-          github.rest.actions.cancelWorkflowRun({
-            owner: context.repo.owner,
-            repo: context.repo.repo,
-            run_id: context.runId
-          });
-
-          while (true) {
-            core.info('Waiting for workflow to cancel ...');
-            await delay(5000);
-          }
 
     - name: Enable Corepack
       run: corepack enable
@@ -1011,15 +822,6 @@ jobs:
           ${{ env.OD_MIN_COMPAT_DOTNET_VERSION }}.0.x
         dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
 
-    - name: Retrieve ReleaseNotes Binaries
-      uses: actions/download-artifact@v4
-      with:
-        name: release_notes_bins
-        path: release_notes_bins
-
-    - name: Update CI Check Run (Rerun) # Do this here because these are the flakiest tests
-      run: dotnet release_notes_bins/Tgstation.Server.ReleaseNotes.dll --ci-check ${{ inputs.pull_request_head_sha || github.sha }} ${{ secrets.TGS_CI_GITHUB_APP_TOKEN_BASE64 }} Rerun ${{ github.run_id }}
-
     - name: Disable ptrace_scope
       run: echo 0 | sudo tee /proc/sys/kernel/yama/ptrace_scope
 
@@ -1072,30 +874,6 @@ jobs:
       if: github.event_name != 'push' && github.event_name != 'schedule'
       with:
         ref: "refs/pull/${{ inputs.pull_request_number }}/merge"
-
-    - name: Read Current SHA
-      id: get-pr-sha
-      if: github.event_name != 'push' && github.event_name != 'schedule'
-      shell: bash
-      run: echo "head_sha=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
-
-    - name: Abort if PR Merge SHA has Changed
-      uses: actions/github-script@v7
-      if: github.event_name != 'push' && github.event_name != 'schedule' && steps.get-pr-sha.outputs.head_sha != github.sha
-      with:
-        script: |
-          const delay = ms => new Promise(res => setTimeout(res, ms));
-
-          github.rest.actions.cancelWorkflowRun({
-            owner: context.repo.owner,
-            repo: context.repo.repo,
-            run_id: context.runId
-          });
-
-          while (true) {
-            core.info('Waiting for workflow to cancel ...');
-            await delay(5000);
-          }
 
     - name: Enable Corepack
       run: corepack enable
@@ -1182,30 +960,6 @@ jobs:
       with:
         ref: "refs/pull/${{ inputs.pull_request_number }}/merge"
 
-    - name: Read Current SHA
-      id: get-pr-sha
-      if: github.event_name != 'push' && github.event_name != 'schedule'
-      shell: bash
-      run: echo "head_sha=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
-
-    - name: Abort if PR Merge SHA has Changed
-      uses: actions/github-script@v7
-      if: github.event_name != 'push' && github.event_name != 'schedule' && steps.get-pr-sha.outputs.head_sha != github.sha
-      with:
-        script: |
-          const delay = ms => new Promise(res => setTimeout(res, ms));
-
-          github.rest.actions.cancelWorkflowRun({
-            owner: context.repo.owner,
-            repo: context.repo.repo,
-            run_id: context.runId
-          });
-
-          while (true) {
-            core.info('Waiting for workflow to cancel ...');
-            await delay(5000);
-          }
-
     - name: Retrieve OpenAPI Spec
       uses: actions/download-artifact@v4
       with:
@@ -1229,30 +983,6 @@ jobs:
       if: github.event_name != 'push' && github.event_name != 'schedule'
       with:
         ref: "refs/pull/${{ inputs.pull_request_number }}/merge"
-
-    - name: Read Current SHA
-      id: get-pr-sha
-      if: github.event_name != 'push' && github.event_name != 'schedule'
-      shell: bash
-      run: echo "head_sha=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
-
-    - name: Abort if PR Merge SHA has Changed
-      uses: actions/github-script@v7
-      if: github.event_name != 'push' && github.event_name != 'schedule' && steps.get-pr-sha.outputs.head_sha != github.sha
-      with:
-        script: |
-          const delay = ms => new Promise(res => setTimeout(res, ms));
-
-          github.rest.actions.cancelWorkflowRun({
-            owner: context.repo.owner,
-            repo: context.repo.repo,
-            run_id: context.runId
-          });
-
-          while (true) {
-            core.info('Waiting for workflow to cancel ...');
-            await delay(5000);
-          }
 
     - name: Retrieve Linux Unit Test Coverage (Debug)
       uses: actions/download-artifact@v4
@@ -1506,7 +1236,6 @@ jobs:
 
   build-deb:
     name: Build .deb Package # Can't do i386 due to https://github.com/dotnet/core/issues/4595
-    needs: ci-start-gate
     runs-on: ubuntu-latest
     env:
       TGS_TELEMETRY_KEY_FILE: /tmp/tgs_telemetry_key.txt
@@ -1552,30 +1281,6 @@ jobs:
       if: github.event_name != 'push' && github.event_name != 'schedule'
       with:
         ref: "refs/pull/${{ inputs.pull_request_number }}/merge"
-
-    - name: Read Current SHA
-      id: get-pr-sha
-      if: github.event_name != 'push' && github.event_name != 'schedule'
-      shell: bash
-      run: echo "head_sha=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
-
-    - name: Abort if PR Merge SHA has Changed
-      uses: actions/github-script@v7
-      if: github.event_name != 'push' && github.event_name != 'schedule' && steps.get-pr-sha.outputs.head_sha != github.sha
-      with:
-        script: |
-          const delay = ms => new Promise(res => setTimeout(res, ms));
-
-          github.rest.actions.cancelWorkflowRun({
-            owner: context.repo.owner,
-            repo: context.repo.repo,
-            run_id: context.runId
-          });
-
-          while (true) {
-            core.info('Waiting for workflow to cancel ...');
-            await delay(5000);
-          }
 
     - name: Grab Most Recent Changelog
       run: curl -L https://raw.githubusercontent.com/tgstation/tgstation-server/gh-pages/changelog.yml -o changelog.yml
@@ -1645,7 +1350,6 @@ jobs:
 
   build-msi:
     name: Build Windows Installer .exe
-    needs: ci-start-gate
     runs-on: windows-latest
     env:
       TGS_TELEMETRY_KEY_FILE: C:/tgs_telemetry_key.txt
@@ -1675,30 +1379,6 @@ jobs:
       if: github.event_name != 'push' && github.event_name != 'schedule'
       with:
         ref: "refs/pull/${{ inputs.pull_request_number }}/merge"
-
-    - name: Read Current SHA
-      id: get-pr-sha
-      if: github.event_name != 'push' && github.event_name != 'schedule'
-      shell: bash
-      run: echo "head_sha=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
-
-    - name: Abort if PR Merge SHA has Changed
-      uses: actions/github-script@v7
-      if: github.event_name != 'push' && github.event_name != 'schedule' && steps.get-pr-sha.outputs.head_sha != github.sha
-      with:
-        script: |
-          const delay = ms => new Promise(res => setTimeout(res, ms));
-
-          github.rest.actions.cancelWorkflowRun({
-            owner: context.repo.owner,
-            repo: context.repo.repo,
-            run_id: context.runId
-          });
-
-          while (true) {
-            core.info('Waiting for workflow to cancel ...');
-            await delay(5000);
-          }
 
     - name: Restore Wix dotnet Tool
       run: |
@@ -1815,7 +1495,7 @@ jobs:
 
   check-winget-pr-template:
     name: Check winget-pkgs Pull Request Template is up to date
-    needs: ci-start-gate
+    needs: build-releasenotes
     runs-on: ubuntu-latest
     steps:
     - name: Setup dotnet
@@ -1840,24 +1520,6 @@ jobs:
       shell: bash
       run: echo "head_sha=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
 
-    - name: Abort if PR Merge SHA has Changed
-      uses: actions/github-script@v7
-      if: github.event_name != 'push' && github.event_name != 'schedule' && steps.get-pr-sha.outputs.head_sha != github.sha
-      with:
-        script: |
-          const delay = ms => new Promise(res => setTimeout(res, ms));
-
-          github.rest.actions.cancelWorkflowRun({
-            owner: context.repo.owner,
-            repo: context.repo.repo,
-            run_id: context.runId
-          });
-
-          while (true) {
-            core.info('Waiting for workflow to cancel ...');
-            await delay(5000);
-          }
-
     - name: Retrieve Latest winget-pkgs PULL_REQUEST_TEMPLATE commit SHA from GitHub API
       id: get-sha
       run: |
@@ -1875,37 +1537,11 @@ jobs:
 
   ci-completion-gate:
     name: CI Completion Gate
-    needs: [ pages-build, docker-build, build-deb, build-msi, validate-openapi-spec, upload-code-coverage, check-winget-pr-template, efcore-version-match, ci-start-gate, dmapi-build, opendream-build, windows-unit-tests, linux-unit-tests, windows-integration-tests, linux-integration-tests ]
+    needs: [ pages-build, docker-build, build-deb, build-msi, validate-openapi-spec, upload-code-coverage, check-winget-pr-template, efcore-version-match, code-scanning ]
     runs-on: ubuntu-latest
-    if: always() && needs.ci-start-gate.result == 'success'
     steps:
-      - name: Setup dotnet
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: '${{ env.TGS_DOTNET_VERSION }}.0.x'
-          dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
-
-      - name: Retrieve ReleaseNotes Binaries
-        uses: actions/download-artifact@v4
-        with:
-          name: release_notes_bins
-          path: release_notes_bins
-
-      - name: Update CI Check Run (Cancelled) # !(success() || failure())
-        if: (!((needs.pages-build.result == 'success' && needs.docker-build.result == 'success' && needs.build-deb.result == 'success' && needs.build-msi.result == 'success' && needs.validate-openapi-spec.result == 'success' && needs.upload-code-coverage.result == 'success' && needs.check-winget-pr-template.result == 'success' && needs.efcore-version-match.result == 'success' && needs.ci-start-gate.result == 'success') || (needs.pages-build.result == 'failure' || needs.docker-build.result == 'failure' || needs.build-deb.result == 'failure' || needs.build-msi.result == 'failure' || needs.validate-openapi-spec.result == 'failure' || needs.upload-code-coverage.result == 'failure' || needs.check-winget-pr-template.result == 'failure' || needs.efcore-version-match.result == 'failure' || needs.ci-start-gate.result == 'failure' || needs.dmapi-build.result == 'failure' || needs.opendream-build.result == 'failure' || needs.windows-unit-tests.result == 'failure' || needs.linux-unit-tests.result == 'failure' || needs.windows-integration-tests.result == 'failure' || needs.linux-integration-tests.result == 'failure')))
-        run: dotnet release_notes_bins/Tgstation.Server.ReleaseNotes.dll --ci-check ${{ inputs.pull_request_head_sha || github.sha }} ${{ secrets.TGS_CI_GITHUB_APP_TOKEN_BASE64 }} Cancelled ${{ github.run_id }}
-
-      - name: Update CI Check Run (Failure)
-        if: needs.pages-build.result == 'failure' || needs.docker-build.result == 'failure' || needs.build-deb.result == 'failure' || needs.build-msi.result == 'failure' || needs.validate-openapi-spec.result == 'failure' || needs.upload-code-coverage.result == 'failure' || needs.check-winget-pr-template.result == 'failure' || needs.efcore-version-match.result == 'failure' || needs.ci-start-gate.result == 'failure' || needs.dmapi-build.result == 'failure' || needs.opendream-build.result == 'failure' || needs.windows-unit-tests.result == 'failure' || needs.linux-unit-tests.result == 'failure' || needs.windows-integration-tests.result == 'failure' || needs.linux-integration-tests.result == 'failure'
-        run: dotnet release_notes_bins/Tgstation.Server.ReleaseNotes.dll --ci-check ${{ inputs.pull_request_head_sha || github.sha }} ${{ secrets.TGS_CI_GITHUB_APP_TOKEN_BASE64 }} Failure ${{ github.run_id }}
-
-      - name: Update CI Check Run (Success) # Only need to check direct dependencies
-        if: needs.pages-build.result == 'success' && needs.docker-build.result == 'success' && needs.build-deb.result == 'success' && needs.build-msi.result == 'success' && needs.validate-openapi-spec.result == 'success' && needs.upload-code-coverage.result == 'success' && needs.check-winget-pr-template.result == 'success' && needs.efcore-version-match.result == 'success' && needs.ci-start-gate.result == 'success'
-        run: dotnet release_notes_bins/Tgstation.Server.ReleaseNotes.dll --ci-check ${{ inputs.pull_request_head_sha || github.sha }} ${{ secrets.TGS_CI_GITHUB_APP_TOKEN_BASE64 }} Success ${{ github.run_id }}
-
-      - name: Fail Job if Prerequisites Failed
-        if: needs.pages-build.result == 'failure' || needs.docker-build.result == 'failure' || needs.build-deb.result == 'failure' || needs.build-msi.result == 'failure' || needs.validate-openapi-spec.result == 'failure' || needs.upload-code-coverage.result == 'failure' || needs.check-winget-pr-template.result == 'failure' || needs.efcore-version-match.result == 'failure' || needs.ci-start-gate.result == 'failure' || needs.dmapi-build.result == 'failure' || needs.opendream-build.result == 'failure' || needs.windows-unit-tests.result == 'failure' || needs.linux-unit-tests.result == 'failure' || needs.windows-integration-tests.result == 'failure' || needs.linux-integration-tests.result == 'failure'
-        run: exit 1
+      - name: Mandatory Empty Step
+        run: exit 0
 
   deployment-gate:
     name: Deployment Start Gate
