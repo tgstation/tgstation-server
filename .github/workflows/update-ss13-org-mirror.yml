@@ -32,11 +32,6 @@ jobs:
       with:
         path: temp_workspace
 
-    - name: Restore
-      run: |
-        cd temp_workspace
-        dotnet restore
-
     - name: Build ReleaseNotes
       run: |
         cd temp_workspace
@@ -57,9 +52,6 @@ jobs:
         fetch-depth: 0
         fetch-tags: true
         token: ${{ env.INSTALLATION_TOKEN }}
-
-    - name: Restore
-      run: dotnet restore
 
     - name: Build ReleaseNotes
       run: dotnet build -c Release -p:TGS_HOST_NO_WEBPANEL=true tools/Tgstation.Server.ReleaseNotes/Tgstation.Server.ReleaseNotes.csproj

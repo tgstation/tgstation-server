@@ -76,9 +76,6 @@ jobs:
       with:
         ref: refs/pull/${{ github.event.pull_request.number }}/merge
 
-    - name: Restore
-      run: dotnet restore
-
     - name: Build ReleaseNotes
       run: dotnet publish -c Release -p:TGS_HOST_NO_WEBPANEL=true -o release_notes_bins tools/Tgstation.Server.ReleaseNotes/Tgstation.Server.ReleaseNotes.csproj
 

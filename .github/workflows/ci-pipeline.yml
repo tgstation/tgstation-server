@@ -94,9 +94,6 @@ jobs:
             await delay(5000);
           }
 
-    - name: Restore
-      run: dotnet restore
-
     - name: Build ReleaseNotes
       run: dotnet publish -c Release -p:TGS_HOST_NO_WEBPANEL=true -o release_notes_bins tools/Tgstation.Server.ReleaseNotes/Tgstation.Server.ReleaseNotes.csproj
 
@@ -349,11 +346,6 @@ jobs:
         cd OpenDream
         git checkout ${{ matrix.committish }}
         git submodule update --init --recursive
-
-    - name: Restore OpenDream
-      run: |
-        cd $HOME/OpenDream
-        dotnet restore
 
     - name: Build OpenDream
       run: |
@@ -632,9 +624,6 @@ jobs:
             await delay(5000);
           }
 
-    - name: Restore
-      run: dotnet restore
-
     - name: Enable Corepack
       run: corepack enable
 
@@ -721,9 +710,6 @@ jobs:
             core.info('Waiting for workflow to cancel ...');
             await delay(5000);
           }
-
-    - name: Restore
-      run: dotnet restore
 
     - name: Enable Corepack
       run: corepack enable
@@ -888,9 +874,6 @@ jobs:
             core.info('Waiting for workflow to cancel ...');
             await delay(5000);
           }
-
-    - name: Restore
-      run: dotnet restore
 
     - name: Enable Corepack
       run: corepack enable
@@ -1145,9 +1128,6 @@ jobs:
             core.info('Waiting for workflow to cancel ...');
             await delay(5000);
           }
-
-    - name: Restore
-      run: dotnet restore
 
     - name: Enable Corepack
       run: corepack enable
@@ -1750,9 +1730,6 @@ jobs:
     - name: Validate winget Manifest
       run: winget validate --manifest build/package/winget/manifest
 
-    - name: Restore
-      run: dotnet restore
-
     - name: Enable Corepack
       run: corepack enable
 
@@ -2085,9 +2062,6 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v4
 
-    - name: Restore
-      run: dotnet restore
-
     - name: Grab Most Recent Changelog
       run: curl -L https://raw.githubusercontent.com/tgstation/tgstation-server/gh-pages/changelog.yml -o changelog.yml
 
@@ -2166,9 +2140,6 @@ jobs:
 
     - name: Checkout
       uses: actions/checkout@v4
-
-    - name: Restore
-      run: dotnet restore
 
     - name: Restore Wix dotnet Tool
       run: |

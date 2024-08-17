@@ -26,11 +26,6 @@ jobs:
       with:
         path: temp_workspace
 
-    - name: Restore
-      run: |
-        cd temp_workspace
-        dotnet restore
-
     - name: Build ReleaseNotes
       run: |
         cd temp_workspace
