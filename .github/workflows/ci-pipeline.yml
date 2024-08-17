@@ -110,76 +110,6 @@ jobs:
     - name: Set CI Check Run (Started)
       run: dotnet release_notes_bins/Tgstation.Server.ReleaseNotes.dll --ci-check ${{ inputs.pull_request_head_sha }} ${{ secrets.TGS_CI_GITHUB_APP_TOKEN_BASE64 }} Started ${{ github.run_id }}
 
-  code-scanning:
-    name: Code Scanning
-    needs: ci-start-gate
-    runs-on: ubuntu-latest
-    permissions:
-      security-events: write
-      actions: read
-    env:
-      TGS_TELEMETRY_KEY_FILE: /tmp/tgs_telemetry_key.txt
-    steps:
-    - name: Setup dotnet
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: '${{ env.TGS_DOTNET_VERSION }}.0.x'
-        dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
-
-    - name: Checkout (Branch)
-      uses: actions/checkout@v4
-      if: github.event_name == 'push' || github.event_name == 'schedule'
-
-    - name: Checkout (PR Merge)
-      uses: actions/checkout@v4
-      if: github.event_name != 'push' && github.event_name != 'schedule'
-      with:
-        ref: "refs/pull/${{ inputs.pull_request_number}}/merge"
-
-    - name: Read Current SHA
-      id: get-pr-sha
-      if: github.event_name != 'push' && github.event_name != 'schedule'
-      shell: bash
-      run: echo "head_sha=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
-
-    - name: Abort if PR Merge SHA has Changed
-      uses: actions/github-script@v7
-      if: github.event_name != 'push' && github.event_name != 'schedule' && steps.get-pr-sha.outputs.head_sha != github.sha
-      with:
-        script: |
-          const delay = ms => new Promise(res => setTimeout(res, ms));
-
-          github.rest.actions.cancelWorkflowRun({
-            owner: context.repo.owner,
-            repo: context.repo.repo,
-            run_id: context.runId
-          });
-
-          while (true) {
-            core.info('Waiting for workflow to cancel ...');
-            await delay(5000);
-          }
-
-    - name: Initialize CodeQL
-      uses: github/codeql-action/init@v3
-      with:
-        languages: csharp
-
-    - name: Setup Telemetry Key File
-      run: echo "${{ secrets.TGS_TELEMETRY_KEY }}" > ${{ env.TGS_TELEMETRY_KEY_FILE }}
-
-    - name: Build
-      run: dotnet build -c ReleaseNoWindows -p:TGS_HOST_NO_WEBPANEL=true
-
-    - name: Delete Telemetry Key File
-      if: always()
-      run: rm ${{ env.TGS_TELEMETRY_KEY_FILE }}
-
-    - name: Perform CodeQL Analysis
-      uses: github/codeql-action/analyze@v3
-      with:
-        category: "/language:csharp"
-
   dmapi-build:
     name: Build DMAPI
     needs: ci-start-gate
@@ -1935,7 +1865,7 @@ jobs:
 
   ci-completion-gate:
     name: CI Completion Gate
-    needs: [ pages-build, docker-build, build-deb, build-msi, validate-openapi-spec, upload-code-coverage, check-winget-pr-template, code-scanning, efcore-version-match, ci-start-gate ]
+    needs: [ pages-build, docker-build, build-deb, build-msi, validate-openapi-spec, upload-code-coverage, check-winget-pr-template, efcore-version-match, ci-start-gate ]
     runs-on: ubuntu-latest
     if: always() && needs.ci-start-gate.result == 'success'
     steps:
@@ -1952,19 +1882,19 @@ jobs:
           path: release_notes_bins
 
       - name: Update CI Check Run (Cancelled)
-        if: needs.pages-build.result == 'cancelled' || needs.docker-build.result == 'cancelled' || needs.build-deb.result == 'cancelled' || needs.build-msi.result == 'cancelled' || needs.validate-openapi-spec.result == 'cancelled' || needs.upload-code-coverage.result == 'cancelled' || needs.check-winget-pr-template.result == 'cancelled' || needs.code-scanning.result == 'cancelled' || needs.efcore-version-match.result == 'cancelled' || needs.pages-build.result == 'cancelled'
+        if: needs.pages-build.result == 'cancelled' || needs.docker-build.result == 'cancelled' || needs.build-deb.result == 'cancelled' || needs.build-msi.result == 'cancelled' || needs.validate-openapi-spec.result == 'cancelled' || needs.upload-code-coverage.result == 'cancelled' || needs.check-winget-pr-template.result == 'cancelled' || needs.efcore-version-match.result == 'cancelled' || needs.pages-build.result == 'cancelled'
         run: dotnet release_notes_bins/Tgstation.Server.ReleaseNotes.dll --ci-check ${{ inputs.pull_request_head_sha }} ${{ secrets.TGS_CI_GITHUB_APP_TOKEN_BASE64 }} Cancelled ${{ github.run_id }}
 
       - name: Update CI Check Run (Failure)
-        if: (!(needs.pages-build.result == 'cancelled' || needs.docker-build.result == 'cancelled' || needs.build-deb.result == 'cancelled' || needs.build-msi.result == 'cancelled' || needs.validate-openapi-spec.result == 'cancelled' || needs.upload-code-coverage.result == 'cancelled' || needs.check-winget-pr-template.result == 'cancelled' || needs.code-scanning.result == 'cancelled' || needs.efcore-version-match.result == 'cancelled' || needs.pages-build.result == 'cancelled') && (needs.pages-build.result == 'failure' || needs.docker-build.result == 'failure' || needs.build-deb.result == 'failure' || needs.build-msi.result == 'failure' || needs.validate-openapi-spec.result == 'failure' || needs.upload-code-coverage.result == 'failure' || needs.check-winget-pr-template.result == 'failure' || needs.code-scanning.result == 'failure' || needs.efcore-version-match.result == 'failure' || needs.pages-build.result == 'failure'))
+        if: (!(needs.pages-build.result == 'cancelled' || needs.docker-build.result == 'cancelled' || needs.build-deb.result == 'cancelled' || needs.build-msi.result == 'cancelled' || needs.validate-openapi-spec.result == 'cancelled' || needs.upload-code-coverage.result == 'cancelled' || needs.check-winget-pr-template.result == 'cancelled' || needs.efcore-version-match.result == 'cancelled' || needs.pages-build.result == 'cancelled') && (needs.pages-build.result == 'failure' || needs.docker-build.result == 'failure' || needs.build-deb.result == 'failure' || needs.build-msi.result == 'failure' || needs.validate-openapi-spec.result == 'failure' || needs.upload-code-coverage.result == 'failure' || needs.check-winget-pr-template.result == 'failure' || needs.efcore-version-match.result == 'failure' || needs.pages-build.result == 'failure'))
         run: dotnet release_notes_bins/Tgstation.Server.ReleaseNotes.dll --ci-check ${{ inputs.pull_request_head_sha }} ${{ secrets.TGS_CI_GITHUB_APP_TOKEN_BASE64 }} Failure ${{ github.run_id }}
 
       - name: Update CI Check Run (Success)
-        if: needs.pages-build.result == 'success' && needs.docker-build.result == 'success' && needs.build-deb.result == 'success' && needs.build-msi.result == 'success' && needs.validate-openapi-spec.result == 'success' && needs.upload-code-coverage.result == 'success' && needs.check-winget-pr-template.result == 'success' && needs.code-scanning.result == 'success' && needs.efcore-version-match.result == 'success' && needs.pages-build.result == 'success'
+        if: needs.pages-build.result == 'success' && needs.docker-build.result == 'success' && needs.build-deb.result == 'success' && needs.build-msi.result == 'success' && needs.validate-openapi-spec.result == 'success' && needs.upload-code-coverage.result == 'success' && needs.check-winget-pr-template.result == 'success' && needs.efcore-version-match.result == 'success' && needs.pages-build.result == 'success'
         run: dotnet release_notes_bins/Tgstation.Server.ReleaseNotes.dll --ci-check ${{ inputs.pull_request_head_sha }} ${{ secrets.TGS_CI_GITHUB_APP_TOKEN_BASE64 }} Success ${{ github.run_id }}
 
       - name: Fail Job if Prerequisites Failed
-        if: (!(needs.pages-build.result == 'cancelled' || needs.docker-build.result == 'cancelled' || needs.build-deb.result == 'cancelled' || needs.build-msi.result == 'cancelled' || needs.validate-openapi-spec.result == 'cancelled' || needs.upload-code-coverage.result == 'cancelled' || needs.check-winget-pr-template.result == 'cancelled' || needs.code-scanning.result == 'cancelled' || needs.efcore-version-match.result == 'cancelled' || needs.pages-build.result == 'cancelled') && (needs.pages-build.result == 'failure' || needs.docker-build.result == 'failure' || needs.build-deb.result == 'failure' || needs.build-msi.result == 'failure' || needs.validate-openapi-spec.result == 'failure' || needs.upload-code-coverage.result == 'failure' || needs.check-winget-pr-template.result == 'failure' || needs.code-scanning.result == 'failure' || needs.efcore-version-match.result == 'failure' || needs.pages-build.result == 'failure'))
+        if: (!(needs.pages-build.result == 'cancelled' || needs.docker-build.result == 'cancelled' || needs.build-deb.result == 'cancelled' || needs.build-msi.result == 'cancelled' || needs.validate-openapi-spec.result == 'cancelled' || needs.upload-code-coverage.result == 'cancelled' || needs.check-winget-pr-template.result == 'cancelled' || needs.efcore-version-match.result == 'cancelled' || needs.pages-build.result == 'cancelled') && (needs.pages-build.result == 'failure' || needs.docker-build.result == 'failure' || needs.build-deb.result == 'failure' || needs.build-msi.result == 'failure' || needs.validate-openapi-spec.result == 'failure' || needs.upload-code-coverage.result == 'failure' || needs.check-winget-pr-template.result == 'failure' || needs.efcore-version-match.result == 'failure' || needs.pages-build.result == 'failure'))
         run: exit 1
 
   deployment-gate:
