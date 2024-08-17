@@ -2418,7 +2418,6 @@ jobs:
   deploy-docker:
     name: Deploy TGS (Docker)
     needs: deploy-tgs
-    if: (!(cancelled() || failure()) && needs.deploy-tgs.result == 'success')
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
@@ -2442,7 +2441,6 @@ jobs:
   deploy-ppa:
     name: Deploy TGS (PPA)
     needs: deploy-tgs
-    if: (!(cancelled() || failure()) && needs.deploy-tgs.result == 'success')
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
@@ -2461,7 +2459,6 @@ jobs:
   deploy-winget:
     name: Deploy TGS (winget)
     needs: deploy-tgs
-    if: (!(cancelled() || failure()) && needs.deploy-tgs.result == 'success')
     runs-on: windows-latest
     steps:
     - name: Setup dotnet
