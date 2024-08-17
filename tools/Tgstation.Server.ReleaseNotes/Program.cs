@@ -110,20 +110,7 @@ namespace Tgstation.Server.ReleaseNotes
 						break;
 				}
 
-			const string ReleaseNotesEnvVar = "TGS_RELEASE_NOTES_TOKEN";
-			var githubToken = Environment.GetEnvironmentVariable(ReleaseNotesEnvVar);
-			if (String.IsNullOrWhiteSpace(githubToken) && !doNotCloseMilestone && !ensureRelease)
-			{
-				Console.WriteLine("Missing " + ReleaseNotesEnvVar + " environment variable!");
-				return 3;
-			}
-
 			var client = new GitHubClient(new Octokit.ProductHeaderValue("tgs_release_notes"));
-			if (!String.IsNullOrWhiteSpace(githubToken))
-			{
-				client.Credentials = new Credentials(githubToken);
-			}
-
 			try
 			{
 				if (ensureRelease)
@@ -139,17 +126,6 @@ namespace Tgstation.Server.ReleaseNotes
 					return await EnsureRelease(client);
 				}
 
-				if (linkWinget)
-				{
-					if (args.Length < 2 || !Uri.TryCreate(args[1], new UriCreationOptions(), out var actionsUrl))
-					{
-						Console.WriteLine("Missing/Invalid actions URL!");
-						return 30;
-					}
-
-					return await Winget(client, actionsUrl, null);
-				}
-
 				if (ciCheck)
 				{
 					if (args.Length < 5)
@@ -160,7 +136,6 @@ namespace Tgstation.Server.ReleaseNotes
 
 					return await CICheck(client, args[1], args[2], Enum.Parse<CheckMode>(args[3]), Int64.Parse(args[4]));
 				}
-
 
 				if (genToken)
 				{
@@ -178,6 +153,30 @@ namespace Tgstation.Server.ReleaseNotes
 					Directory.CreateDirectory(Path.GetDirectoryName(destPath));
 					await File.WriteAllTextAsync(destPath, token);
 					return 0;
+				}
+
+				const string ReleaseNotesEnvVar = "TGS_RELEASE_NOTES_TOKEN";
+				var githubToken = Environment.GetEnvironmentVariable(ReleaseNotesEnvVar);
+				if (String.IsNullOrWhiteSpace(githubToken) && !doNotCloseMilestone && !ensureRelease)
+				{
+					Console.WriteLine("Missing " + ReleaseNotesEnvVar + " environment variable!");
+					return 3;
+				}
+
+				if (!String.IsNullOrWhiteSpace(githubToken))
+				{
+					client.Credentials = new Credentials(githubToken);
+				}
+
+				if (linkWinget)
+				{
+					if (args.Length < 2 || !Uri.TryCreate(args[1], new UriCreationOptions(), out var actionsUrl))
+					{
+						Console.WriteLine("Missing/Invalid actions URL!");
+						return 30;
+					}
+
+					return await Winget(client, actionsUrl, null);
 				}
 
 				if (shaCheck)
@@ -1684,7 +1683,7 @@ package (version) distribution(s); urgency=urgency
 			Success,
 			Failure,
 		}
-		
+
 		static async ValueTask<int> CICheck(GitHubClient gitHubClient, string ciTargetSha, string pemBase64, CheckMode mode, long runID)
 		{
 			await GenerateAppCredentials(gitHubClient, pemBase64, false);
