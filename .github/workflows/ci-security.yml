@@ -82,10 +82,6 @@ jobs:
     - name: Build ReleaseNotes
       run: dotnet publish -c Release -p:TGS_HOST_NO_WEBPANEL=true -o release_notes_bins tools/Tgstation.Server.ReleaseNotes/Tgstation.Server.ReleaseNotes.csproj
 
-    - name: Read Current SHA # Can't rely on github.sha as it's for the base branch
-      id: get-pr-sha
-      run: echo "head_sha=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
-
     - name: Generate Temporary Branch to Reference Merge
       run: |
         git checkout -b ${{ github.event.pull_request.number }}-merge
@@ -103,11 +99,12 @@ jobs:
         token: ${{ github.token }}
         workflow-inputs: |
           {
-            "pull_request_number": "${{ github.event.pull_request.number }}"
+            "pull_request_number": "${{ github.event.pull_request.number }}",
+            "pull_request_head": "${{ github.event.pull_request.head.sha }}"
           }
 
     - name: Set CI Check Run (Pending)
-      run: dotnet release_notes_bins/Tgstation.Server.ReleaseNotes.dll --ci-check ${{ steps.get-pr-sha.outputs.head_sha }} ${{ secrets.TGS_CI_GITHUB_APP_TOKEN_BASE64 }} Pending ${{ steps.dispatch.outputs.run-id }}
+      run: dotnet release_notes_bins/Tgstation.Server.ReleaseNotes.dll --ci-check ${{ github.event.pull_request.head.sha }} ${{ secrets.TGS_CI_GITHUB_APP_TOKEN_BASE64 }} Pending ${{ steps.dispatch.outputs.run-id }}
 
     - name: Delete Temporary Branch
       if: always()
