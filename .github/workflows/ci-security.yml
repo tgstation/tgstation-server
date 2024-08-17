@@ -94,6 +94,7 @@ jobs:
         ref: ${{ github.event.pull_request.number }}-merge
         workflow: ci-pipeline.yml
         token: ${{ github.token }}
+        discover: true
         workflow-inputs: |
           {
             "pull_request_number": "${{ github.event.pull_request.number }}",
