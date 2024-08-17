@@ -1699,7 +1699,7 @@ package (version) distribution(s); urgency=urgency
 					break;
 				case CheckMode.Started:
 					var prChecks = await gitHubClient.Check.Run.GetAllForReference(RepoOwner, RepoName, ciTargetSha);
-					var theCheckWeWant = prChecks.CheckRuns.FirstOrDefault(x => x.App.Id == AppId);
+					var theCheckWeWant = prChecks.CheckRuns.FirstOrDefault(x => x.App.Id == AppId && x.Status != CheckStatus.Completed);
 					if (theCheckWeWant != null)
 					{
 						await gitHubClient.Check.Run.Update(RepoOwner, RepoName, theCheckWeWant.Id, new CheckRunUpdate
@@ -1720,12 +1720,19 @@ package (version) distribution(s); urgency=urgency
 				case CheckMode.Rerun:
 					var prChecks3 = await gitHubClient.Check.Run.GetAllForReference(RepoOwner, RepoName, ciTargetSha);
 					var theCheckWeWant3 = prChecks3.CheckRuns.First(x => x.App.Id == AppId);
-					if(theCheckWeWant3.Status != CheckStatus.InProgress)
+					if(theCheckWeWant3.Status == CheckStatus.Completed)
 					{
-						await gitHubClient.Check.Run.Update(RepoOwner, RepoName, theCheckWeWant3.Id, new CheckRunUpdate
+						// need a new check run
+						await gitHubClient.Check.Run.Create(RepoOwner, RepoName, new NewCheckRun("CI Pipeline", ciTargetSha)
 						{
 							Status = CheckStatus.InProgress,
+							DetailsUrl = $"https://github.com/{RepoOwner}/{RepoName}/actions/runs/{runID}",
+							StartedAt = DateTimeOffset.UtcNow,
 						});
+					}
+					else
+					{
+						Console.WriteLine($"Check status is {theCheckWeWant3.Status}");
 					}
 
 					break;
@@ -1741,13 +1748,27 @@ package (version) distribution(s); urgency=urgency
 					};
 
 					var prChecks2 = await gitHubClient.Check.Run.GetAllForReference(RepoOwner, RepoName, ciTargetSha);
-					var theCheckWeWant2 = prChecks2.CheckRuns.First(x => x.App.Id == AppId);
-					await gitHubClient.Check.Run.Update(RepoOwner, RepoName, theCheckWeWant2.Id, new CheckRunUpdate
+					var theCheckWeWant2 = prChecks2.CheckRuns.FirstOrDefault(x => x.App.Id == AppId && x.Status != CheckStatus.Completed);
+					if (theCheckWeWant2 != null)
 					{
-						Status = CheckStatus.Completed,
-						CompletedAt = DateTimeOffset.UtcNow,
-						Conclusion = conclusion,
-					});
+						await gitHubClient.Check.Run.Update(RepoOwner, RepoName, theCheckWeWant2.Id, new CheckRunUpdate
+						{
+							Status = CheckStatus.Completed,
+							CompletedAt = DateTimeOffset.UtcNow,
+							Conclusion = conclusion,
+						});
+					}
+					else
+					{
+						// need a new check run
+						await gitHubClient.Check.Run.Create(RepoOwner, RepoName, new NewCheckRun("CI Pipeline", ciTargetSha)
+						{
+							Status = CheckStatus.Completed,
+							DetailsUrl = $"https://github.com/{RepoOwner}/{RepoName}/actions/runs/{runID}",
+							CompletedAt = DateTimeOffset.UtcNow,
+							Conclusion = conclusion,
+						});
+					}
 					break;
 			}
 
