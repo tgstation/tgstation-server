@@ -17,6 +17,7 @@
 #   - apt repo: https://github.com/tgstation/tgstation-ppa
 #   - winget: https://github.com/microsoft/winget-pkgs/tree/master/manifests/t/Tgstation/Server
 name: 'CI Pipeline'
+run-name: CI Pipeline [${{ inputs.distinct_id && inputs.distinct_id || github.head_ref }}]
 
 on:
   schedule:
@@ -32,6 +33,9 @@ on:
         required: true
       pull_request_head_sha:
         description: 'Pull Request HEAD SHA'
+        required: true
+      distinct_id:
+        description: 'Distinct ID'
         required: true
 
 env:
