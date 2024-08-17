@@ -60,7 +60,7 @@ jobs:
 
   ci-pipline-workflow-call:
     needs: security-checkpoint
-    if: github.event_name != 'pull_request_target' || needs.security-checkpoint.result == 'success'
+    if: (!(cancelled() || failure()) && (github.event_name != 'pull_request_target' || needs.security-checkpoint.result == 'success'))
     uses: ./.github/workflows/ci-pipeline.yml
     secrets: inherit
     with:
