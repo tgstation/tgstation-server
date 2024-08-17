@@ -769,13 +769,6 @@ jobs:
       TGS_TELEMETRY_KEY_FILE: C:/tgs_telemetry_key.txt
     runs-on: windows-latest
     steps:
-    - name: Wait for LocalDB Connection # Do this first because we don't want to find out it's failing later
-      shell: powershell
-      if: ${{ matrix.database-type == 'SqlServer' }}
-      run: |
-        Write-Host "Checking"
-        sqlcmd -l 600 -S "(localdb)\MSSQLLocalDB" -Q "SELECT @@VERSION;"
-
     - name: Setup dotnet
       uses: actions/setup-dotnet@v4
       with:
@@ -784,6 +777,22 @@ jobs:
           ${{ env.OD_DOTNET_VERSION }}.0.x
           ${{ env.OD_MIN_COMPAT_DOTNET_VERSION }}.0.x
         dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
+
+    - name: Retrieve ReleaseNotes Binaries
+      uses: actions/download-artifact@v4
+      with:
+        name: release_notes_bins
+        path: release_notes_bins
+
+    - name: Update CI Check Run (Rerun) # Do this here because these are the flakiest tests
+      run: dotnet release_notes_bins/Tgstation.Server.ReleaseNotes.dll --ci-check ${{ inputs.pull_request_head_sha }}{{ secrets.TGS_CI_GITHUB_APP_TOKEN_BASE64 }} Rerun ${{ github.run_id }}
+
+    - name: Wait for LocalDB Connection # Do this first because we don't want to find out it's failing later
+      shell: powershell
+      if: ${{ matrix.database-type == 'SqlServer' }}
+      run: |
+        Write-Host "Checking"
+        sqlcmd -l 600 -S "(localdb)\MSSQLLocalDB" -Q "SELECT @@VERSION;"
 
     - name: Setup Node.JS
       uses: actions/setup-node@v4
@@ -1042,15 +1051,6 @@ jobs:
       TGS_TELEMETRY_KEY_FILE: /tmp/tgs_telemetry_key.txt
     runs-on: ubuntu-latest
     steps:
-    - name: Disable ptrace_scope
-      run: echo 0 | sudo tee /proc/sys/kernel/yama/ptrace_scope
-
-    - name: Install Native Dependencies
-      run: |
-        sudo dpkg --add-architecture i386
-        sudo apt-get update
-        sudo apt-get install -y -o APT::Immediate-Configure=0 libc6-i386 libstdc++6:i386 gdb libgcc-s1:i386 libgdiplus
-
     - name: Setup dotnet
       uses: actions/setup-dotnet@v4
       with:
@@ -1059,6 +1059,24 @@ jobs:
           ${{ env.OD_DOTNET_VERSION }}.0.x
           ${{ env.OD_MIN_COMPAT_DOTNET_VERSION }}.0.x
         dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
+
+    - name: Retrieve ReleaseNotes Binaries
+      uses: actions/download-artifact@v4
+      with:
+        name: release_notes_bins
+        path: release_notes_bins
+
+    - name: Update CI Check Run (Rerun) # Do this here because these are the flakiest tests
+      run: dotnet release_notes_bins/Tgstation.Server.ReleaseNotes.dll --ci-check ${{ inputs.pull_request_head_sha }}{{ secrets.TGS_CI_GITHUB_APP_TOKEN_BASE64 }} Rerun ${{ github.run_id }}
+
+    - name: Disable ptrace_scope
+      run: echo 0 | sudo tee /proc/sys/kernel/yama/ptrace_scope
+
+    - name: Install Native Dependencies
+      run: |
+        sudo dpkg --add-architecture i386
+        sudo apt-get update
+        sudo apt-get install -y -o APT::Immediate-Configure=0 libc6-i386 libstdc++6:i386 gdb libgcc-s1:i386 libgdiplus
 
     - name: Setup Node.JS
       uses: actions/setup-node@v4

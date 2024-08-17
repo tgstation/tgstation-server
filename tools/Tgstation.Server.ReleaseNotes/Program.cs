@@ -1679,6 +1679,7 @@ package (version) distribution(s); urgency=urgency
 		{
 			Pending,
 			Started,
+			Rerun,
 			Cancelled,
 			Success,
 			Failure,
@@ -1714,6 +1715,18 @@ package (version) distribution(s); urgency=urgency
 							Status = CheckStatus.InProgress,
 							StartedAt = DateTimeOffset.UtcNow,
 						});
+
+					break;
+				case CheckMode.Rerun:
+					var prChecks3 = await gitHubClient.Check.Run.GetAllForReference(RepoOwner, RepoName, ciTargetSha);
+					var theCheckWeWant3 = prChecks3.CheckRuns.First(x => x.App.Id == AppId);
+					if(theCheckWeWant3.Status != CheckStatus.InProgress)
+					{
+						await gitHubClient.Check.Run.Update(RepoOwner, RepoName, theCheckWeWant3.Id, new CheckRunUpdate
+						{
+							Status = CheckStatus.InProgress,
+						});
+					}
 
 					break;
 				case CheckMode.Cancelled:
