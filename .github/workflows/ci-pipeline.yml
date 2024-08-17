@@ -31,10 +31,6 @@ on:
         description: 'Pull Request Number'
         required: true
         type: string
-      pull_request_head_sha:
-        description: 'Pull Request HEAD SHA'
-        required: true
-        type: string
 
 env:
   TGS_DOTNET_VERSION: 8
