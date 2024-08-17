@@ -526,7 +526,7 @@ jobs:
 
     - name: Delete Telemetry Key File
       if: always()
-      run: rm ${{ env.TGS_TELEMETRY_KEY_FILE }}
+      run: rm -f ${{ env.TGS_TELEMETRY_KEY_FILE }}
 
   linux-unit-tests:
     name: Linux Tests
@@ -603,7 +603,7 @@ jobs:
 
     - name: Delete Telemetry Key File
       if: always()
-      run: rm ${{ env.TGS_TELEMETRY_KEY_FILE }}
+      run: rm -f ${{ env.TGS_TELEMETRY_KEY_FILE }}
 
     - name: Cache BYOND .zips
       uses: actions/cache@v4
@@ -692,7 +692,7 @@ jobs:
     - name: Delete Telemetry Key File
       shell: bash
       if: always()
-      run: rm ${{ env.TGS_TELEMETRY_KEY_FILE }}
+      run: rm -f ${{ env.TGS_TELEMETRY_KEY_FILE }}
 
     - name: Cache BYOND .zips
       uses: actions/cache@v4
@@ -856,7 +856,7 @@ jobs:
     - name: Delete Telemetry Key File
       shell: bash
       if: always()
-      run: rm ${{ env.TGS_TELEMETRY_KEY_FILE }}
+      run: rm -f ${{ env.TGS_TELEMETRY_KEY_FILE }}
 
     - name: Cache BYOND .zips
       uses: actions/cache@v4
@@ -1108,7 +1108,7 @@ jobs:
 
     - name: Delete Telemetry Key File
       if: always()
-      run: rm ${{ env.TGS_TELEMETRY_KEY_FILE }}
+      run: rm -f ${{ env.TGS_TELEMETRY_KEY_FILE }}
 
     - name: Cache BYOND .zips
       uses: actions/cache@v4
@@ -1606,7 +1606,7 @@ jobs:
 
     - name: Delete Telemetry Key File
       if: always()
-      run: rm ${{ env.TGS_TELEMETRY_KEY_FILE }}
+      run: rm -f ${{ env.TGS_TELEMETRY_KEY_FILE }}
 
     - name: Test Install
       run: |
@@ -1721,7 +1721,7 @@ jobs:
     - name: Delete Telemetry Key File
       shell: bash
       if: always()
-      run: rm ${{ env.TGS_TELEMETRY_KEY_FILE }}
+      run: rm -f ${{ env.TGS_TELEMETRY_KEY_FILE }}
 
     - name: Build Service
       run: dotnet build -c Release src/Tgstation.Server.Host.Service/Tgstation.Server.Host.Service.csproj
@@ -2171,7 +2171,7 @@ jobs:
     - name: Delete Telemetry Key File
       shell: bash
       if: always()
-      run: rm ${{ env.TGS_TELEMETRY_KEY_FILE }}
+      run: rm -f ${{ env.TGS_TELEMETRY_KEY_FILE }}
 
     - name: Build Service
       run: dotnet build -c Release src/Tgstation.Server.Host.Service/Tgstation.Server.Host.Service.csproj
