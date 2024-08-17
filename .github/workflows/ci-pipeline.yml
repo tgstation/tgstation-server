@@ -710,7 +710,7 @@ jobs:
         name: windows-unit-test-coverage-${{ matrix.configuration }}
         path: ./TestResults/
 
-  windows-integration-test:
+  windows-integration-tests:
     name: Windows Live Tests
     needs: [dmapi-build, opendream-build]
     strategy:
@@ -1166,7 +1166,7 @@ jobs:
 
   validate-openapi-spec:
     name: OpenAPI Spec Validation
-    needs: windows-integration-test
+    needs: windows-integration-tests
     runs-on: ubuntu-latest
     steps:
     - name: Install IBM OpenAPI Validator
@@ -1217,7 +1217,7 @@ jobs:
 
   upload-code-coverage:
     name: Upload Code Coverage
-    needs: [linux-unit-tests, linux-integration-tests, windows-unit-tests, windows-integration-test]
+    needs: [ linux-unit-tests, linux-integration-tests, windows-unit-tests, windows-integration-tests ]
     runs-on: ubuntu-latest
     steps:
     - name: Checkout (Branch)
@@ -1875,7 +1875,7 @@ jobs:
 
   ci-completion-gate:
     name: CI Completion Gate
-    needs: [ pages-build, docker-build, build-deb, build-msi, validate-openapi-spec, upload-code-coverage, check-winget-pr-template, efcore-version-match, ci-start-gate ]
+    needs: [ pages-build, docker-build, build-deb, build-msi, validate-openapi-spec, upload-code-coverage, check-winget-pr-template, efcore-version-match, ci-start-gate, dmapi-build, opendream-build, windows-unit-tests, linux-unit-tests, windows-integration-tests, linux-integration-tests ]
     runs-on: ubuntu-latest
     if: always() && needs.ci-start-gate.result == 'success'
     steps:
@@ -1891,12 +1891,12 @@ jobs:
           name: release_notes_bins
           path: release_notes_bins
 
-      - name: Update CI Check Run (Cancelled)
-        if: cancelled()
+      - name: Update CI Check Run (Cancelled) # !(success() || failure())
+        if: (!((needs.pages-build.result == 'success' && needs.docker-build.result == 'success' && needs.build-deb.result == 'success' && needs.build-msi.result == 'success' && needs.validate-openapi-spec.result == 'success' && needs.upload-code-coverage.result == 'success' && needs.check-winget-pr-template.result == 'success' && needs.efcore-version-match.result == 'success' && needs.ci-start-gate.result == 'success') || (needs.pages-build.result == 'failure' || needs.docker-build.result == 'failure' || needs.build-deb.result == 'failure' || needs.build-msi.result == 'failure' || needs.validate-openapi-spec.result == 'failure' || needs.upload-code-coverage.result == 'failure' || needs.check-winget-pr-template.result == 'failure' || needs.efcore-version-match.result == 'failure' || needs.ci-start-gate.result == 'failure' || needs.dmapi-build.result == 'failure' || needs.opendream-build.result == 'failure' || needs.windows-unit-tests.result == 'failure' || needs.linux-unit-tests.result == 'failure' || needs.windows-integration-tests.result == 'failure' || needs.linux-integration-tests.result == 'failure')))
         run: dotnet release_notes_bins/Tgstation.Server.ReleaseNotes.dll --ci-check ${{ inputs.pull_request_head_sha || github.sha }} ${{ secrets.TGS_CI_GITHUB_APP_TOKEN_BASE64 }} Cancelled ${{ github.run_id }}
 
-      - name: Update CI Check Run (Failure) # This is just !(cancelled || success) because failure can happen in non-needs and not trigger on any of them
-        if: (!(cancelled() || (needs.validate-openapi-spec.result == 'success' && needs.upload-code-coverage.result == 'success')))
+      - name: Update CI Check Run (Failure)
+        if: needs.pages-build.result == 'failure' || needs.docker-build.result == 'failure' || needs.build-deb.result == 'failure' || needs.build-msi.result == 'failure' || needs.validate-openapi-spec.result == 'failure' || needs.upload-code-coverage.result == 'failure' || needs.check-winget-pr-template.result == 'failure' || needs.efcore-version-match.result == 'failure' || needs.ci-start-gate.result == 'failure' || needs.dmapi-build.result == 'failure' || needs.opendream-build.result == 'failure' || needs.windows-unit-tests.result == 'failure' || needs.linux-unit-tests.result == 'failure' || needs.windows-integration-tests.result == 'failure' || needs.linux-integration-tests.result == 'failure'
         run: dotnet release_notes_bins/Tgstation.Server.ReleaseNotes.dll --ci-check ${{ inputs.pull_request_head_sha || github.sha }} ${{ secrets.TGS_CI_GITHUB_APP_TOKEN_BASE64 }} Failure ${{ github.run_id }}
 
       - name: Update CI Check Run (Success) # Only need to check direct dependencies
@@ -1904,7 +1904,7 @@ jobs:
         run: dotnet release_notes_bins/Tgstation.Server.ReleaseNotes.dll --ci-check ${{ inputs.pull_request_head_sha || github.sha }} ${{ secrets.TGS_CI_GITHUB_APP_TOKEN_BASE64 }} Success ${{ github.run_id }}
 
       - name: Fail Job if Prerequisites Failed
-        if: (!(cancelled() || (needs.pages-build.result == 'success' && needs.docker-build.result == 'success' && needs.build-deb.result == 'success' && needs.build-msi.result == 'success' && needs.validate-openapi-spec.result == 'success' && needs.upload-code-coverage.result == 'success' && needs.check-winget-pr-template.result == 'success' && needs.efcore-version-match.result == 'success' && needs.ci-start-gate.result == 'success')))
+        if: needs.pages-build.result == 'failure' || needs.docker-build.result == 'failure' || needs.build-deb.result == 'failure' || needs.build-msi.result == 'failure' || needs.validate-openapi-spec.result == 'failure' || needs.upload-code-coverage.result == 'failure' || needs.check-winget-pr-template.result == 'failure' || needs.efcore-version-match.result == 'failure' || needs.ci-start-gate.result == 'failure' || needs.dmapi-build.result == 'failure' || needs.opendream-build.result == 'failure' || needs.windows-unit-tests.result == 'failure' || needs.linux-unit-tests.result == 'failure' || needs.windows-integration-tests.result == 'failure' || needs.linux-integration-tests.result == 'failure'
         run: exit 1
 
   deployment-gate:
