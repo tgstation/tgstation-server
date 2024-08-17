@@ -1,6 +1,10 @@
 name: Code Scanning
 
 on:
+  push:
+    branches:
+    - dev
+    - master
   pull_request:
     branches:
     - dev
