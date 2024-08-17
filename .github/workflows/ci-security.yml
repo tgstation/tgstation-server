@@ -1,6 +1,10 @@
 name: 'CI Security'
 
 on:
+  pull_request:
+    branches:
+    - dev
+    - master
   pull_request_target:
     types: [ opened, reopened, labeled, synchronize ]
     branches:
@@ -14,10 +18,10 @@ concurrency:
 jobs:
   security-checkpoint:
     name: Check CI Clearance
+    if: github.event_name == 'pull_request_target' && (github.event.pull_request.head.repo.id != github.event.pull_request.base.repo.id || github.event.pull_request.user.id == 49699333) && github.event.pull_request.state == 'open'
     runs-on: ubuntu-latest
     permissions:
       pull-requests: write
-    if: (github.event.pull_request.head.repo.id != github.event.pull_request.base.repo.id || github.event.pull_request.user.id == 49699333) && github.event.pull_request.state == 'open'
     steps:
     - name: Comment on new Fork PR
       if: github.event.action == 'opened' && !contains(github.event.pull_request.labels.*.name, 'CI Cleared') && github.event.pull_request.user.id != 49699333
@@ -55,7 +59,9 @@ jobs:
       run: exit 1
 
   ci-pipline-workflow-call:
-    uses: ./.github/workflows/ci-pipeline.yml@${{ github.event.pull_request.head.sha }}
+    needs: security-checkpoint
+    if: github.event_name != 'pull_request_target' || needs.security-checkpoint.result == 'success'
+    uses: ./.github/workflows/ci-pipeline.yml
     secrets: inherit
     with:
       pull_request_number: ${{ github.event.pull_request.number }}
