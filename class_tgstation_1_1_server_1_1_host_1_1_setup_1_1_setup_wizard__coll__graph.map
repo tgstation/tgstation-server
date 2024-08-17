@@ -1,21 +1,22 @@
 <map id="Tgstation.Server.Host.Setup.SetupWizard" name="Tgstation.Server.Host.Setup.SetupWizard">
-<area shape="rect" id="node1" title=" " alt="" coords="851,368,1039,408"/>
-<area shape="rect" id="node2" href="$class_background_service.html" title=" " alt="" coords="449,12,583,37"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html" title="Interface for using filesystems." alt="" coords="432,62,600,102"/>
-<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_console.html" title="Abstraction for global::System.Console." alt="" coords="432,126,600,166"/>
-<area shape="rect" id="node5" title=" " alt="" coords="427,190,605,216"/>
-<area shape="rect" id="node6" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_assembly_information_provider.html" title="For retrieving the Assembly&#39;s location." alt="" coords="417,240,615,280"/>
-<area shape="rect" id="node7" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_connection_factory.html" title="For creating raw DbConnections." alt="" coords="411,304,621,344"/>
-<area shape="rect" id="node8" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_platform_identifier.html" title="For identifying the current platform." alt="" coords="417,368,615,408"/>
-<area shape="rect" id="node9" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_async_delayer.html" title="For waiting asynchronously." alt="" coords="425,432,607,472"/>
-<area shape="rect" id="node10" title=" " alt="" coords="431,496,601,536"/>
-<area shape="rect" id="node11" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html" title="General configuration options." alt="" coords="401,624,631,664"/>
-<area shape="rect" id="node12" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_server_information_base.html" title="Base class for Response.ServerInformationResponse." alt="" coords="5,600,160,625"/>
-<area shape="rect" id="node13" title=" " alt="" coords="38,524,127,549"/>
-<area shape="rect" id="node17" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_internal_configuration.html" title="Unstable configuration options used internally by TGS." alt="" coords="401,560,631,600"/>
-<area shape="rect" id="node14" title=" " alt="" coords="36,698,129,724"/>
-<area shape="rect" id="node15" title=" " alt="" coords="61,829,104,854"/>
-<area shape="rect" id="node16" title=" " alt="" coords="7,649,159,674"/>
-<area shape="rect" id="node18" title=" " alt="" coords="465,689,567,714"/>
-<area shape="rect" id="node19" title=" " alt="" coords="489,738,543,764"/>
+<area shape="rect" id="node1" title=" " alt="" coords="851,403,1039,443"/>
+<area shape="rect" id="node2" href="$class_background_service.html" title=" " alt="" coords="449,15,583,40"/>
+<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html" title="Interface for using filesystems." alt="" coords="432,65,600,105"/>
+<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_console.html" title="Abstraction for global::System.Console." alt="" coords="432,129,600,169"/>
+<area shape="rect" id="node5" title=" " alt="" coords="427,193,605,219"/>
+<area shape="rect" id="node6" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_assembly_information_provider.html" title="For retrieving the Assembly&#39;s location." alt="" coords="417,243,615,283"/>
+<area shape="rect" id="node7" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_connection_factory.html" title="For creating raw DbConnections." alt="" coords="411,307,621,347"/>
+<area shape="rect" id="node8" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_platform_identifier.html" title="For identifying the current platform." alt="" coords="417,371,615,411"/>
+<area shape="rect" id="node9" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_async_delayer.html" title="For waiting asynchronously." alt="" coords="425,435,607,475"/>
+<area shape="rect" id="node10" title=" " alt="" coords="431,499,601,539"/>
+<area shape="rect" id="node11" href="$interface_tgstation_1_1_server_1_1_host_1_1_setup_1_1_i_post_setup_services.html" title="Set of objects needed to configure an Core.Application." alt="" coords="422,563,610,603"/>
+<area shape="rect" id="node12" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html" title="General configuration options." alt="" coords="401,691,631,731"/>
+<area shape="rect" id="node13" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_server_information_base.html" title="Base class for Response.ServerInformationResponse." alt="" coords="5,667,160,692"/>
+<area shape="rect" id="node14" title=" " alt="" coords="38,591,127,616"/>
+<area shape="rect" id="node18" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_internal_configuration.html" title="Unstable configuration options used internally by TGS." alt="" coords="401,627,631,667"/>
+<area shape="rect" id="node15" title=" " alt="" coords="36,765,129,791"/>
+<area shape="rect" id="node16" title=" " alt="" coords="61,896,104,921"/>
+<area shape="rect" id="node17" title=" " alt="" coords="7,716,159,741"/>
+<area shape="rect" id="node19" title=" " alt="" coords="465,756,567,781"/>
+<area shape="rect" id="node20" title=" " alt="" coords="489,805,543,831"/>
 </map>

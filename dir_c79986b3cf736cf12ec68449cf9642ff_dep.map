@@ -1,7 +1,6 @@
 <map id="src/Tgstation.Server.Common" name="src/Tgstation.Server.Common">
-<area shape="rect" id="node2" href="dir_b20e0ea58217ba526707051e0e27ddf4.html" title="Extensions" alt="" coords="172,63,257,88"/>
-<area shape="rect" id="node3" href="dir_1ff23923a0eb1a1573881c7fcd0b2d08.html" title="Http" alt="" coords="101,63,147,88"/>
-<area shape="rect" id="node4" href="dir_29b8ee830dba75f4198e6883a43c3ae2.html" title="obj" alt="" coords="38,63,77,88"/>
-<area shape="rect" id="clust2" href="dir_c79986b3cf736cf12ec68449cf9642ff.html" alt="" coords="27,52,465,99"/>
-<area shape="rect" id="clust1" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html" title="src" alt="" coords="16,16,476,109"/>
+<area shape="rect" id="node2" href="dir_b20e0ea58217ba526707051e0e27ddf4.html" title="Extensions" alt="" coords="109,63,195,88"/>
+<area shape="rect" id="node3" href="dir_1ff23923a0eb1a1573881c7fcd0b2d08.html" title="Http" alt="" coords="38,63,85,88"/>
+<area shape="rect" id="clust2" href="dir_c79986b3cf736cf12ec68449cf9642ff.html" alt="" coords="27,52,403,99"/>
+<area shape="rect" id="clust1" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html" title="src" alt="" coords="16,16,413,109"/>
 </map>

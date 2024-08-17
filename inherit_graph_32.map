@@ -1,5 +1,6 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_server_information_base.html" title="Base class for Response.ServerInformationResponse." alt="" coords="5,37,207,77"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_server_information_response.html" title="Represents basic server information." alt="" coords="255,5,499,45"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html" title="General configuration options." alt="" coords="262,69,491,109"/>
+<area shape="rect" id="node1" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_swarm_server.html" title="Information about a server in the swarm." alt="" coords="5,69,192,109"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_swarm_server_response.html" title=" " alt="" coords="245,5,465,45"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_swarm_configuration.html" title="Configuration for the server swarm system." alt="" coords="240,69,469,109"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_registration_request.html" title="A request to register with a swarm controller." alt="" coords="257,133,452,173"/>
 </map>

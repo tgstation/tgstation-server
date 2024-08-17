@@ -20,7 +20,6 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr id="projectrow">
-  <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign">
    <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.9.0</span>
    </div>
@@ -96,52 +95,72 @@ Inheritance diagram for Tgstation.Server.Host.Utils.GitHub.IGitHubClientFactory:
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:aaa897538b02fa6c23c6d63978139e552"><td class="memItemLeft" align="right" valign="top">IGitHubClient&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_client_factory.html#aaa897538b02fa6c23c6d63978139e552">CreateClient</a> ()</td></tr>
-<tr class="memdesc:aaa897538b02fa6c23c6d63978139e552"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a IGitHubClient client. Low rate limit unless the server's GitHubAccessToken is set to bypass it.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_client_factory.html#aaa897538b02fa6c23c6d63978139e552">More...</a><br /></td></tr>
-<tr class="separator:aaa897538b02fa6c23c6d63978139e552"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a07e5278888563e54dd699a92eb0e5d39"><td class="memItemLeft" align="right" valign="top">IGitHubClient&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_client_factory.html#a07e5278888563e54dd699a92eb0e5d39">CreateClient</a> (string accessToken)</td></tr>
-<tr class="memdesc:a07e5278888563e54dd699a92eb0e5d39"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a client with authentication using a personal access token.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_client_factory.html#a07e5278888563e54dd699a92eb0e5d39">More...</a><br /></td></tr>
-<tr class="separator:a07e5278888563e54dd699a92eb0e5d39"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a401cf4b0e26d478e741e195ac02563eb"><td class="memItemLeft" align="right" valign="top">ValueTask&lt; IGitHubClient &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_client_factory.html#a401cf4b0e26d478e741e195ac02563eb">CreateClient</a> (CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a401cf4b0e26d478e741e195ac02563eb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a IGitHubClient client. Low rate limit unless the server's GitHubAccessToken is set to bypass it.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_client_factory.html#a401cf4b0e26d478e741e195ac02563eb">More...</a><br /></td></tr>
+<tr class="separator:a401cf4b0e26d478e741e195ac02563eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaee2563f4a0bc25bbec554b03e34d888"><td class="memItemLeft" align="right" valign="top">ValueTask&lt; IGitHubClient &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_client_factory.html#aaee2563f4a0bc25bbec554b03e34d888">CreateClient</a> (string accessToken, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:aaee2563f4a0bc25bbec554b03e34d888"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a client with authentication using a personal access token.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_client_factory.html#aaee2563f4a0bc25bbec554b03e34d888">More...</a><br /></td></tr>
+<tr class="separator:aaee2563f4a0bc25bbec554b03e34d888"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa302bca3fac22588fffb288afed631d7"><td class="memItemLeft" align="right" valign="top">ValueTask&lt; IGitHubClient?&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_client_factory.html#aa302bca3fac22588fffb288afed631d7">CreateInstallationClient</a> (string pem, long repositoryId, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:aa302bca3fac22588fffb288afed631d7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a <a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub.html">GitHub</a> App client for an installation.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_client_factory.html#aa302bca3fac22588fffb288afed631d7">More...</a><br /></td></tr>
+<tr class="separator:aa302bca3fac22588fffb288afed631d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p >For creating IGitHubClients.  </p>
 
-<p class="definition">Definition at line <a class="el" href="_i_git_hub_client_factory_8cs_source.html#l00008">8</a> of file <a class="el" href="_i_git_hub_client_factory_8cs_source.html">IGitHubClientFactory.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_i_git_hub_client_factory_8cs_source.html#l00011">11</a> of file <a class="el" href="_i_git_hub_client_factory_8cs_source.html">IGitHubClientFactory.cs</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a id="aaa897538b02fa6c23c6d63978139e552" name="aaa897538b02fa6c23c6d63978139e552"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aaa897538b02fa6c23c6d63978139e552">&#9670;&#160;</a></span>CreateClient() <span class="overload">[1/2]</span></h2>
+<a id="a401cf4b0e26d478e741e195ac02563eb" name="a401cf4b0e26d478e741e195ac02563eb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a401cf4b0e26d478e741e195ac02563eb">&#9670;&#160;</a></span>CreateClient() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">IGitHubClient Tgstation.Server.Host.Utils.GitHub.IGitHubClientFactory.CreateClient </td>
+          <td class="memname">ValueTask&lt; IGitHubClient &gt; Tgstation.Server.Host.Utils.GitHub.IGitHubClientFactory.CreateClient </td>
           <td>(</td>
-          <td class="paramname"></td><td>)</td>
+          <td class="paramtype">CancellationToken&#160;</td>
+          <td class="paramname"><em>cancellationToken</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 <p>Create a IGitHubClient client. Low rate limit unless the server's GitHubAccessToken is set to bypass it.  </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
+  </table>
+  </dd>
+</dl>
 <dl class="section return"><dt>Returns</dt><dd>A new IGitHubClient.</dd></dl>
 
-<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_git_hub_client_factory.html#a0df0c4fa6af370a87e194f05696838bd">Tgstation.Server.Host.Utils.GitHub.GitHubClientFactory</a>.</p>
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_git_hub_client_factory.html#a34c2785d494aa40edf62fc9bbda2b86a">Tgstation.Server.Host.Utils.GitHub.GitHubClientFactory</a>.</p>
 
 </div>
 </div>
-<a id="a07e5278888563e54dd699a92eb0e5d39" name="a07e5278888563e54dd699a92eb0e5d39"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a07e5278888563e54dd699a92eb0e5d39">&#9670;&#160;</a></span>CreateClient() <span class="overload">[2/2]</span></h2>
+<a id="aaee2563f4a0bc25bbec554b03e34d888" name="aaee2563f4a0bc25bbec554b03e34d888"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaee2563f4a0bc25bbec554b03e34d888">&#9670;&#160;</a></span>CreateClient() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">IGitHubClient Tgstation.Server.Host.Utils.GitHub.IGitHubClientFactory.CreateClient </td>
+          <td class="memname">ValueTask&lt; IGitHubClient &gt; Tgstation.Server.Host.Utils.GitHub.IGitHubClientFactory.CreateClient </td>
           <td>(</td>
           <td class="paramtype">string&#160;</td>
-          <td class="paramname"><em>accessToken</em></td><td>)</td>
+          <td class="paramname"><em>accessToken</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">CancellationToken&#160;</td>
+          <td class="paramname"><em>cancellationToken</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -150,12 +169,72 @@ Public Member Functions</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">accessToken</td><td>The <a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub.html">GitHub</a> personal access token.</td></tr>
+    <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A new IGitHubClient.</dd></dl>
 
-<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_git_hub_client_factory.html#a7459ab027f65c1fd1548391d12cb0c5a">Tgstation.Server.Host.Utils.GitHub.GitHubClientFactory</a>.</p>
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_git_hub_client_factory.html#ab53da99c40569cbd98c7b4cf8a6c6db5">Tgstation.Server.Host.Utils.GitHub.GitHubClientFactory</a>.</p>
+
+</div>
+</div>
+<a id="aa302bca3fac22588fffb288afed631d7" name="aa302bca3fac22588fffb288afed631d7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa302bca3fac22588fffb288afed631d7">&#9670;&#160;</a></span>CreateInstallationClient()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">ValueTask&lt; IGitHubClient?&gt; Tgstation.Server.Host.Utils.GitHub.IGitHubClientFactory.CreateInstallationClient </td>
+          <td>(</td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>pem</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">long&#160;</td>
+          <td class="paramname"><em>repositoryId</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">CancellationToken&#160;</td>
+          <td class="paramname"><em>cancellationToken</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Creates a <a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub.html">GitHub</a> App client for an installation.  </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">pem</td><td>The private key string.</td></tr>
+    <tr><td class="paramname">repositoryId</td><td>The <a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub.html">GitHub</a> repository ID.</td></tr>
+    <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A ValueTask&lt;TResult&gt; resulting in a new IGitHubClient for the given <em>repositoryId</em>  or <code>null</code> if authentication failed.</dd></dl>
+
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_git_hub_client_factory.html#ac0cf3449f87ccb92ed87b45b2fb0fa80">Tgstation.Server.Host.Utils.GitHub.GitHubClientFactory</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="_version_reporting_service_8cs_source.html#l00207">Tgstation.Server.Host.Core.VersionReportingService.TryReportVersion()</a>.</p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_client_factory_aa302bca3fac22588fffb288afed631d7_icgraph.png" border="0" usemap="#ainterface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_client_factory_aa302bca3fac22588fffb288afed631d7_icgraph" alt=""/></div>
+<map name="ainterface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_client_factory_aa302bca3fac22588fffb288afed631d7_icgraph" id="ainterface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_client_factory_aa302bca3fac22588fffb288afed631d7_icgraph">
+<area shape="rect" title="Creates a GitHub App client for an installation." alt="" coords="576,5,804,60"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_version_reporting_service.html#a25d48d3008ed009d139ce3d79885d633" title="Make an attempt to report the current IAssemblyInformationProvider.Version to the configured GitHub r..." alt="" coords="304,5,528,60"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_version_reporting_service.html#a80b969d62c493eaecb088134c4b29111" title=" " alt="" coords="5,13,256,53"/>
+</map>
+</div>
 
 </div>
 </div>

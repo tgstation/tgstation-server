@@ -1,8 +1,9 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$class_attribute.html" title=" " alt="" coords="5,141,76,166"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_options_attribute.html" title="Indicates the FieldPresence for fields in models." alt="" coords="144,5,331,45"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_options_attribute.html" title="Indicates the response FieldPresence of API fields. Changes it from FieldPresence...." alt="" coords="144,69,331,109"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_api_1_1_properties_1_1_api_version_attribute.html" title="Attribute for bringing in the HTTP API version from MSBuild." alt="" coords="135,133,339,173"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_event_script_attribute.html" title="Attribute for indicating the script that a given EventType runs." alt="" coords="124,197,351,237"/>
-<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_properties_1_1_master_versions_attribute.html" title="Attribute for bringing in the master versions list from MSBuild that aren&#39;t embedded into assemblies ..." alt="" coords="131,261,344,301"/>
+<area shape="rect" id="node1" href="$class_attribute.html" title=" " alt="" coords="5,173,76,198"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_options_attribute.html" title="Indicates the FieldPresence for fields in models." alt="" coords="145,5,332,45"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_options_attribute.html" title="Indicates the response FieldPresence of API fields. Changes it from FieldPresence...." alt="" coords="145,69,332,109"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_api_1_1_properties_1_1_api_version_attribute.html" title="Attribute for bringing in the HTTP API version from MSBuild." alt="" coords="137,133,341,173"/>
+<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_event_script_attribute.html" title="Attribute for indicating the script that a given EventType runs." alt="" coords="125,197,352,237"/>
+<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_properties_1_1_master_versions_attribute.html" title="Attribute for bringing in the master versions list from MSBuild that aren&#39;t embedded into assemblies ..." alt="" coords="132,261,345,301"/>
+<area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_host_1_1_properties_1_1_telemetry_app_serialized_key_attribute.html" title="Attribute for bundling the GitHub App serialized private key used for version telemetry." alt="" coords="124,325,353,365"/>
 </map>

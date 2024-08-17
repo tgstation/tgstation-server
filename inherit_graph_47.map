@@ -1,4 +1,4 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_dream_daemon_client.html" title="For managing DreamDaemonResponse." alt="" coords="5,5,227,45"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_client_1_1_components_1_1_dream_daemon_client.html" title=" " alt="" coords="275,5,492,45"/>
+<area shape="rect" id="node1" href="$interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_instance_client.html" title="For managing a single Instance." alt="" coords="5,5,191,45"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_client_1_1_components_1_1_instance_client.html" title=" " alt="" coords="239,5,420,45"/>
 </map>

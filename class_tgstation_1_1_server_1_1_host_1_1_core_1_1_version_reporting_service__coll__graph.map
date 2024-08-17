@@ -1,0 +1,13 @@
+<map id="Tgstation.Server.Host.Core.VersionReportingService" name="Tgstation.Server.Host.Core.VersionReportingService">
+<area shape="rect" id="node1" title="Handles TGS version reporting, if enabled." alt="" coords="808,215,989,255"/>
+<area shape="rect" id="node2" href="$class_background_service.html" title=" " alt="" coords="406,5,541,31"/>
+<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_client_factory.html" title="For creating IGitHubClients." alt="" coords="380,55,567,95"/>
+<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html" title="Interface for using filesystems." alt="" coords="389,119,557,159"/>
+<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_async_delayer.html" title="For waiting asynchronously." alt="" coords="383,183,564,223"/>
+<area shape="rect" id="node6" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_assembly_information_provider.html" title="For retrieving the Assembly&#39;s location." alt="" coords="374,247,573,287"/>
+<area shape="rect" id="node7" title=" " alt="" coords="362,312,585,367"/>
+<area shape="rect" id="node8" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_telemetry_configuration.html" title="Configuration options for telemetry." alt="" coords="359,391,588,431"/>
+<area shape="rect" id="node9" title=" " alt="" coords="5,375,95,400"/>
+<area shape="rect" id="node10" title=" " alt="" coords="27,424,73,449"/>
+<area shape="rect" id="node11" title=" " alt="" coords="409,456,538,481"/>
+</map>

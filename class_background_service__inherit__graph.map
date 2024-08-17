@@ -1,7 +1,8 @@
 <map id="BackgroundService" name="BackgroundService">
-<area shape="rect" id="node1" title=" " alt="" coords="5,109,140,134"/>
+<area shape="rect" id="node1" title=" " alt="" coords="5,141,140,166"/>
 <area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_core_1_1_command_pipe_manager.html" title="Reads from the command pipe opened by the host watchdog." alt="" coords="201,5,382,45"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_setup_1_1_setup_wizard.html" title=" " alt="" coords="197,69,385,109"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_system_d_manager.html" title="Implements the SystemD notify service protocol." alt="" coords="192,133,391,173"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_network_prompt_reaper.html" title=" " alt="" coords="188,197,395,237"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_core_1_1_version_reporting_service.html" title="Handles TGS version reporting, if enabled." alt="" coords="201,69,382,109"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_setup_1_1_setup_wizard.html" title=" " alt="" coords="197,133,385,173"/>
+<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_system_d_manager.html" title="Implements the SystemD notify service protocol." alt="" coords="192,197,391,237"/>
+<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_network_prompt_reaper.html" title=" " alt="" coords="188,261,395,301"/>
 </map>

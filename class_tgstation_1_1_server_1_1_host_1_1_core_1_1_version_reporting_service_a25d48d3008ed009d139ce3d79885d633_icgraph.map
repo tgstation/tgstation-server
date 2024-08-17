@@ -1,0 +1,4 @@
+<map id="Tgstation.Server.Host.Core.VersionReportingService.TryReportVersion" name="Tgstation.Server.Host.Core.VersionReportingService.TryReportVersion">
+<area shape="rect" id="node1" title="Make an attempt to report the current IAssemblyInformationProvider.Version to the configured GitHub r..." alt="" coords="304,5,528,60"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_core_1_1_version_reporting_service.html#a80b969d62c493eaecb088134c4b29111" title=" " alt="" coords="5,13,256,53"/>
+</map>

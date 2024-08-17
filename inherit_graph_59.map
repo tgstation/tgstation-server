@@ -1,5 +1,3 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$interface_tgstation_1_1_server_1_1_common_1_1_http_1_1_i_abstract_http_client_factory.html" title="Creates IHttpClients." alt="" coords="5,37,209,77"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_common_1_1_http_1_1_http_client_factory.html" title="IAbstractHttpClientFactory that creates HttpClients." alt="" coords="261,5,435,45"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_abstract_http_client_factory.html" title=" " alt="" coords="257,69,439,109"/>
+<area shape="rect" id="node1" href="$class_tgstation_1_1_server_1_1_host_1_1_common_1_1_pipe_commands.html" title="Values able to be passed via the update file path." alt="" coords="5,5,212,45"/>
 </map>

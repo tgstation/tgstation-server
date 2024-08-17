@@ -1,3 +1,9 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_user.html" title="Represents a tgs_chat_user datum." alt="" coords="5,5,232,45"/>
+<area shape="rect" id="node1" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_i_command.html" title="Represents a command that can be invoked by talking to chat bots." alt="" coords="5,165,232,205"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_custom_command.html" title="Represents a command made from DM code." alt="" coords="295,5,522,45"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_engine_command.html" title="For displaying the installed Byond version." alt="" coords="295,69,522,109"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_kek_command.html" title="kek." alt="" coords="295,133,522,173"/>
+<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_pull_requests_command.html" title="Command for reading the active TestMerges." alt="" coords="280,197,537,237"/>
+<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_revision_command.html" title="For displaying Api.Models.Internal.RevisionInformation." alt="" coords="293,261,524,301"/>
+<area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_version_command.html" title="ICommand to return the IAssemblyInformationProvider.VersionString." alt="" coords="295,325,522,365"/>
 </map>

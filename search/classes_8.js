@@ -163,7 +163,7 @@ var searchData=
   ['ipermissionsupdatenotifyee_160',['IPermissionsUpdateNotifyee',['../interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_permissions_update_notifyee.html',1,'Tgstation::Server::Host::Security']]],
   ['iplatformidentifier_161',['IPlatformIdentifier',['../interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_platform_identifier.html',1,'Tgstation::Server::Host::System']]],
   ['iportallocator_162',['IPortAllocator',['../interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_port_allocator.html',1,'Tgstation::Server::Host::Utils']]],
-  ['ipostsetupservices_163',['IPostSetupServices',['../class_i_post_setup_services.html',1,'IPostSetupServices'],['../interface_tgstation_1_1_server_1_1_host_1_1_setup_1_1_i_post_setup_services.html',1,'Tgstation.Server.Host.Setup.IPostSetupServices&lt; TLoggerType &gt;']]],
+  ['ipostsetupservices_163',['IPostSetupServices',['../interface_tgstation_1_1_server_1_1_host_1_1_setup_1_1_i_post_setup_services.html',1,'Tgstation::Server::Host::Setup']]],
   ['ipostwritehandler_164',['IPostWriteHandler',['../interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_post_write_handler.html',1,'Tgstation::Server::Host::IO']]],
   ['iprocess_165',['IProcess',['../interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process.html',1,'Tgstation::Server::Host::System']]],
   ['iprocessbase_166',['IProcessBase',['../interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_base.html',1,'Tgstation::Server::Host::System']]],

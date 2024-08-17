@@ -20,7 +20,6 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr id="projectrow">
-  <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign">
    <div id="projectname">tgstation-server<span id="projectnumber">&#160;6.9.0</span>
    </div>
@@ -240,7 +239,7 @@ Manual Configuration</h4>
 <li><code>General:ValidInstancePaths</code>: Array meant to limit the directories in which instances may be created.</li>
 <li><code>General:UserLimit</code>: Maximum number of users that may be created</li>
 <li><code>General:InstanceLimit</code>: Maximum number of instances that may be created</li>
-<li><code>General:GitHubAccessToken</code>: Specify a GitHub personal access token with no scopes here to highly mitigate the possiblity of 429 response codes from GitHub requests</li>
+<li><code>General:GitHubAccessToken</code>: Specify a classic GitHub personal access token with no scopes here to highly mitigate the possiblity of 429 response codes from GitHub requests</li>
 <li><code>General:SkipAddingByondFirewallException</code>: Set to <code>true</code> if you have Windows firewall disabled</li>
 <li><code>Session:HighPriorityLiveDreamDaemon</code>: Boolean controlling if live DreamDaemon instances get set to above normal priority processes.</li>
 <li><code>Session:LowPriorityDeploymentProcesses</code>: Boolean controlling if DreamMaker and API validation DreamDaemon instances get set to below normal priority processes.</li>
@@ -285,6 +284,9 @@ Manual Configuration</h4>
 <ul>
 <li>Keycloak</li>
 <li>InvisionCommunity</li>
+<li><code>Telemetry:DisableVersionReporting</code>: Prevents you installation and the version you're using from being reported on the source repository's deployments list</li>
+<li><code>Telemetry:ServerFriendlyName</code>: Prevents anonymous TGS version usage statistics from being sent to be displayed on the repository.</li>
+<li><code>Telemetry:VersionReportingRepositoryId</code>: The repository telemetry is sent to. For security reasons, this is not the main TGS repo. See the <a href="https://github.com/tgstation/tgstation-server-deployments">tgstation-server-deployments</a> repository for more information.</li>
 </ul>
 <h3><a class="anchor" id="autotoc_md16"></a>
 Database Configuration</h3>

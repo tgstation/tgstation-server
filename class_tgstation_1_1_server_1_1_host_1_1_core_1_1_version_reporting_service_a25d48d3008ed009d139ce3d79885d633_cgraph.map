@@ -1,0 +1,4 @@
+<map id="Tgstation.Server.Host.Core.VersionReportingService.TryReportVersion" name="Tgstation.Server.Host.Core.VersionReportingService.TryReportVersion">
+<area shape="rect" id="node1" title="Make an attempt to report the current IAssemblyInformationProvider.Version to the configured GitHub r..." alt="" coords="5,5,229,60"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_client_factory.html#aa302bca3fac22588fffb288afed631d7" title="Creates a GitHub App client for an installation." alt="" coords="277,5,505,60"/>
+</map>

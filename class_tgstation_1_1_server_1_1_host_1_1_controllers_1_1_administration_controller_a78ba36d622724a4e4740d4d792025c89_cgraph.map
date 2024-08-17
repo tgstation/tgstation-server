@@ -1,7 +1,6 @@
 <map id="Tgstation.Server.Host.Controllers.AdministrationController.Read" name="Tgstation.Server.Host.Controllers.AdministrationController.Read">
-<area shape="rect" id="node1" title="Get AdministrationResponse server information." alt="" coords="5,127,221,167"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_service_factory.html#a954fdb0088d42793884fa4b61c75e537" title="Create a IGitHubService." alt="" coords="269,5,508,60"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_service.html#aafa6949945d436f418547f7c9682df84" title="Gets the Uri of the repository designated as the updates repository." alt="" coords="275,84,503,139"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#adfc4e0e6f1d81ebc19a238527550f7a4" title="429 response for a given rateLimitException ." alt="" coords="281,163,497,203"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a978fe89eeaea424d7e034d2c7ab7b76e" title="Strongly type calls to ControllerBase.StatusCode(int)." alt="" coords="556,193,772,233"/>
+<area shape="rect" id="node1" title="Get AdministrationResponse server information." alt="" coords="5,85,221,125"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_service_factory.html#a93de0a6eeb420eec2ecaa935ebabc7b9" title="Create a IGitHubService." alt="" coords="269,5,508,60"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#adfc4e0e6f1d81ebc19a238527550f7a4" title="429 response for a given rateLimitException ." alt="" coords="281,85,497,125"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a978fe89eeaea424d7e034d2c7ab7b76e" title="Strongly type calls to ControllerBase.StatusCode(int)." alt="" coords="556,114,772,154"/>
 </map>

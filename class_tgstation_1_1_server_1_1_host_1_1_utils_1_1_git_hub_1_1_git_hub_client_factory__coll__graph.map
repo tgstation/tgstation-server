@@ -1,13 +1,15 @@
 <map id="Tgstation.Server.Host.Utils.GitHub.GitHubClientFactory" name="Tgstation.Server.Host.Utils.GitHub.GitHubClientFactory">
-<area shape="rect" id="node1" title=" " alt="" coords="851,271,1033,311"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_client_factory.html" title="For creating IGitHubClients." alt="" coords="445,6,587,32"/>
-<area shape="rect" id="node3" title=" " alt="" coords="61,165,104,190"/>
-<area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html" title="General configuration options." alt="" coords="401,415,631,455"/>
-<area shape="rect" id="node4" title=" " alt="" coords="38,241,127,266"/>
-<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_assembly_information_provider.html" title="For retrieving the Assembly&#39;s location." alt="" coords="417,271,615,311"/>
-<area shape="rect" id="node6" title=" " alt="" coords="411,336,621,390"/>
-<area shape="rect" id="node8" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_server_information_base.html" title="Base class for Response.ServerInformationResponse." alt="" coords="5,373,160,398"/>
-<area shape="rect" id="node9" title=" " alt="" coords="36,422,129,448"/>
-<area shape="rect" id="node10" title=" " alt="" coords="7,472,159,497"/>
-<area shape="rect" id="node11" title=" " alt="" coords="438,479,594,548"/>
+<area shape="rect" id="node1" title=" " alt="" coords="851,250,1033,290"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_client_factory.html" title="For creating IGitHubClients." alt="" coords="445,5,587,31"/>
+<area shape="rect" id="node3" href="$class_i_disposable.html" title=" " alt="" coords="471,55,561,80"/>
+<area shape="rect" id="node4" title=" " alt="" coords="61,217,104,243"/>
+<area shape="rect" id="node8" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html" title="General configuration options." alt="" coords="401,394,631,434"/>
+<area shape="rect" id="node5" title=" " alt="" coords="38,285,127,311"/>
+<area shape="rect" id="node6" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_assembly_information_provider.html" title="For retrieving the Assembly&#39;s location." alt="" coords="417,250,615,290"/>
+<area shape="rect" id="node7" title=" " alt="" coords="411,315,621,369"/>
+<area shape="rect" id="node9" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_server_information_base.html" title="Base class for Response.ServerInformationResponse." alt="" coords="5,373,160,399"/>
+<area shape="rect" id="node10" title=" " alt="" coords="36,423,129,448"/>
+<area shape="rect" id="node11" title=" " alt="" coords="7,472,159,497"/>
+<area shape="rect" id="node12" title=" " alt="" coords="438,458,594,527"/>
+<area shape="rect" id="node13" title=" " alt="" coords="433,552,599,577"/>
 </map>

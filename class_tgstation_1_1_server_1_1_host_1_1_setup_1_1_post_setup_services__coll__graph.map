@@ -1,11 +1,10 @@
-<map id="Tgstation.Server.Host.Setup.PostSetupServices&lt; TLoggerType &gt;" name="Tgstation.Server.Host.Setup.PostSetupServices&lt; TLoggerType &gt;">
-<area shape="rect" id="node1" title=" " alt="" coords="608,197,840,237"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_setup_1_1_i_post_setup_services.html" title="Set of objects needed to configure an Core.Application." alt="" coords="219,5,357,45"/>
-<area shape="rect" id="node3" href="$class_i_post_setup_services.html" title=" " alt="" coords="5,13,144,38"/>
-<area shape="rect" id="node4" title=" " alt="" coords="210,69,366,109"/>
-<area shape="rect" id="node5" title=" " alt="" coords="205,133,371,173"/>
-<area shape="rect" id="node6" title=" " alt="" coords="209,197,367,237"/>
-<area shape="rect" id="node7" title=" " alt="" coords="199,261,377,301"/>
-<area shape="rect" id="node8" title=" " alt="" coords="193,325,383,365"/>
-<area shape="rect" id="node9" title=" " alt="" coords="211,389,365,429"/>
+<map id="Tgstation.Server.Host.Setup.PostSetupServices" name="Tgstation.Server.Host.Setup.PostSetupServices">
+<area shape="rect" id="node1" title=" " alt="" coords="420,183,608,223"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_setup_1_1_i_post_setup_services.html" title="Set of objects needed to configure an Core.Application." alt="" coords="31,5,169,31"/>
+<area shape="rect" id="node3" title=" " alt="" coords="22,55,178,95"/>
+<area shape="rect" id="node4" title=" " alt="" coords="17,119,183,159"/>
+<area shape="rect" id="node5" title=" " alt="" coords="21,183,179,223"/>
+<area shape="rect" id="node6" title=" " alt="" coords="11,247,189,287"/>
+<area shape="rect" id="node7" title=" " alt="" coords="5,311,195,351"/>
+<area shape="rect" id="node8" title=" " alt="" coords="23,375,177,415"/>
 </map>

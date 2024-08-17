@@ -1,5 +1,4 @@
 <map id="Tgstation.Server.Host.Components.Repository.GitHubRemoteFeatures.GetTestMergeImpl" name="Tgstation.Server.Host.Components.Repository.GitHubRemoteFeatures.GetTestMergeImpl">
-<area shape="rect" id="node1" title="Implementation of GetTestMerge(TestMergeParameters, RepositorySettings, CancellationToken)...." alt="" coords="5,41,252,96"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_service_factory.html#a954fdb0088d42793884fa4b61c75e537" title="Create a IGitHubService." alt="" coords="305,5,544,60"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_service.html#ac8f24bd737ac3f6a489375c45f5afe9c" title="Get a given pullRequestNumber ." alt="" coords="300,85,549,125"/>
+<area shape="rect" id="node1" title="Implementation of GetTestMerge(TestMergeParameters, RepositorySettings, CancellationToken)...." alt="" coords="5,5,252,60"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_service_factory.html#a93de0a6eeb420eec2ecaa935ebabc7b9" title="Create a IGitHubService." alt="" coords="300,5,539,60"/>
 </map>

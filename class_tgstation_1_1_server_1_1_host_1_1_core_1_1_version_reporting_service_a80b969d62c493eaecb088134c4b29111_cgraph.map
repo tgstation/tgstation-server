@@ -1,0 +1,11 @@
+<map id="Tgstation.Server.Host.Core.VersionReportingService.ExecuteAsync" name="Tgstation.Server.Host.Core.VersionReportingService.ExecuteAsync">
+<area shape="rect" id="node1" title=" " alt="" coords="5,197,256,237"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a286f4eb5c679683b7e519847a6c3574e" title="Combines an array of strings into a path." alt="" coords="332,5,500,45"/>
+<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_async_delayer.html#aeb604334bd297d47506dc23e0d115977" title="Create a Task that completes after a given timeSpan ." alt="" coords="325,69,507,109"/>
+<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ad4de873180481f7afa206b6282158d62" title="Check that the file at path &#160;exists." alt="" coords="332,133,500,173"/>
+<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a267b549fab5803c199a7d37100650e85" title="Returns all the contents of a file at path &#160;as a byte array." alt="" coords="331,197,501,237"/>
+<area shape="rect" id="node6" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a18a442b5dff16f5e7a730ec354e81d78" title="Retrieve the full path of the current working directory." alt="" coords="332,261,500,301"/>
+<area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_host_1_1_core_1_1_version_reporting_service.html#a25d48d3008ed009d139ce3d79885d633" title="Make an attempt to report the current IAssemblyInformationProvider.Version to the configured GitHub r..." alt="" coords="304,326,528,381"/>
+<area shape="rect" id="node9" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a9aeb8b83ea3f4b13a183b6ac55b35a70" title="Writes some contents &#160;to a file at path &#160;overwriting previous content." alt="" coords="331,405,501,445"/>
+<area shape="rect" id="node8" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_client_factory.html#aa302bca3fac22588fffb288afed631d7" title="Creates a GitHub App client for an installation." alt="" coords="576,326,804,381"/>
+</map>

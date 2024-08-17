@@ -1,4 +1,0 @@
-<map id="Tgstation.Server.Host.Utils.GitHub.IGitHubService.GetUpdatesRepositoryUrl" name="Tgstation.Server.Host.Utils.GitHub.IGitHubService.GetUpdatesRepositoryUrl">
-<area shape="rect" id="node1" title="Gets the Uri of the repository designated as the updates repository." alt="" coords="269,5,497,60"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#a78ba36d622724a4e4740d4d792025c89" title="Get AdministrationResponse server information." alt="" coords="5,13,221,53"/>
-</map>

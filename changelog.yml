@@ -6,6 +6,10 @@ Components:
       - Added `Session:ForceUseDreamDaemonExe` which allows forcing the use of `dreamdaemon.exe` over `dd.exe` on Windows.
       Author: Cyberboss
       PullRequest: 1855
+    - Descriptions:
+      - Added the `Telemetry` section. Contains the options for `DisableVersionReporting`, `ServerFriendlyName`, and `VersionReportingRepositoryId`. Refer to the README.md for details on these fields. Consider setting a friendly name for your server prior to updating.
+      Author: Cyberboss
+      PullRequest: 1859
     Unreleased: true
   - Version: 5.1.0
     Changes:
@@ -164,7 +168,7 @@ Components:
       NugetCommon: 7.0.0
       NugetApi: 13.7.0
       NugetClient: 16.0.0
-      WebControlPanel: 5.9.0
+      WebControlPanel: 6.1.0
     Changes:
     - Descriptions:
       - Fixed a potential `NullReferenceException` caused by a race condition in `OpenDreamInstaller`.
@@ -174,6 +178,10 @@ Components:
       - Fixed the homepage logo not displaying on Windows after updating once.
       Author: Cyberboss
       PullRequest: 1857
+    - Descriptions:
+      - The version in use can now be anonymously reported for statistics.
+      Author: Cyberboss
+      PullRequest: 1859
     Unreleased: true
   - Version: 6.8.1
     ComponentVersions:
@@ -191,6 +199,10 @@ Components:
       - Fixed an issue where instances would fail to detach due to database conflicts.
       Author: Cyberboss
       PullRequest: 1845
+    - Descriptions:
+      - TGS will now shutdown after running the setup wizard. This prevents issues on the first run stemming from stale configuration values.
+      Author: Cyberboss
+      PullRequest: 1874
     Unreleased: true
   - Version: 6.8.0
     ComponentVersions:
@@ -3532,6 +3544,14 @@ Components:
       Author: AffectedArc07
       PullRequest: 1408
   WebControlPanel:
+  - Version: 6.1.0
+    Changes:
+    - Descriptions:
+      - Added support for viewing the game servers RAM usage.
+      - Added support for recloning the repository.
+      Author: Cyberboss
+      PullRequest: 1859
+    Unreleased: true
   - Version: 5.9.0
     Changes:
     - Descriptions:
