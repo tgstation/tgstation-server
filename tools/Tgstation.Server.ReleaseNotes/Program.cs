@@ -1702,11 +1702,14 @@ package (version) distribution(s); urgency=urgency
 					var theCheckWeWant = prChecks.CheckRuns.FirstOrDefault(x => x.App.Id == AppId && x.Status != CheckStatus.Completed);
 					if (theCheckWeWant != null)
 					{
-						await gitHubClient.Check.Run.Update(RepoOwner, RepoName, theCheckWeWant.Id, new CheckRunUpdate
+						if (theCheckWeWant.Status != CheckStatus.InProgress)
 						{
-							Status = CheckStatus.InProgress,
-							StartedAt = DateTimeOffset.UtcNow,
-						});
+							await gitHubClient.Check.Run.Update(RepoOwner, RepoName, theCheckWeWant.Id, new CheckRunUpdate
+							{
+								Status = CheckStatus.InProgress,
+								StartedAt = DateTimeOffset.UtcNow,
+							});
+						}
 					}
 					else
 						await gitHubClient.Check.Run.Create(RepoOwner, RepoName, new NewCheckRun("CI Pipeline", ciTargetSha)
