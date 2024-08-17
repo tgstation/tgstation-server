@@ -31,8 +31,8 @@ export async function rerunFlakyTests({ github, context }) {
 		context.payload.workflow_run.run_attempt
 	);
 
-	if (failingJobs.length > 1) {
-		console.log("Multiple jobs failing. PROBABLY not flaky, not rerunning.");
+	if (failingJobs.length > 3) {
+		console.log("Many jobs failing. PROBABLY not flaky, not rerunning.");
 		return;
 	}
 
@@ -40,8 +40,8 @@ export async function rerunFlakyTests({ github, context }) {
 		console.log(`Failing job: ${job.name}`)
 		return CONSIDERED_JOBS.some((title) => job.name.startsWith(title));
 	});
-	if (filteredFailingJobs.length === 0) {
-		console.log("Failing jobs are NOT designated flaky. Not rerunning.");
+	if (filteredFailingJobs.length !== failingJobs.length) {
+		console.log("One or more failing jobs are NOT designated flaky. Not rerunning.");
 		return;
 	}
 
