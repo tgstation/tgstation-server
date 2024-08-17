@@ -65,22 +65,10 @@ jobs:
       actions: write
       contents: write
     steps:
-    - name: Setup dotnet
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: '${{ env.TGS_DOTNET_VERSION }}.0.x'
-        dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
-
     - name: Checkout
       uses: actions/checkout@v4
       with:
         ref: refs/pull/${{ github.event.pull_request.number }}/head
-
-    - name: Restore
-      run: dotnet restore
-
-    - name: Build ReleaseNotes
-      run: dotnet publish -c Release -p:TGS_HOST_NO_WEBPANEL=true -o release_notes_bins tools/Tgstation.Server.ReleaseNotes/Tgstation.Server.ReleaseNotes.csproj
 
     - name: Checkout
       uses: actions/checkout@v4
@@ -111,7 +99,7 @@ jobs:
         token: ${{ github.token }}
         workflow-inputs: |
           {
-            "pull_request_number": "${{ github.event.pull_request.number }}"
+            "pull_request_number": "${{ github.event.pull_request.number }}",
             "pull_request_merge_sha": "${{ steps.get-pr-sha.outputs.merge_sha }}"
           }
 
