@@ -59,6 +59,7 @@ namespace Tgstation.Server.ReleaseNotes
 			var shaCheck = versionString.Equals("--winget-template-check", StringComparison.OrdinalIgnoreCase);
 			var fullNotes = versionString.Equals("--generate-full-notes", StringComparison.OrdinalIgnoreCase);
 			var nuget = versionString.Equals("--nuget", StringComparison.OrdinalIgnoreCase);
+			var ciCheck = versionString.Equals("--ci-check", StringComparison.OrdinalIgnoreCase);
 			var genToken = versionString.Equals("--token-output-file", StringComparison.OrdinalIgnoreCase);
 
 			if ((!Version.TryParse(versionString, out var version) || version.Revision != -1)
@@ -67,6 +68,7 @@ namespace Tgstation.Server.ReleaseNotes
 				&& !shaCheck
 				&& !fullNotes
 				&& !nuget
+				&& !ciCheck
 				&& !genToken)
 			{
 				Console.WriteLine("Invalid version: " + versionString);
@@ -146,6 +148,17 @@ namespace Tgstation.Server.ReleaseNotes
 					}
 
 					return await Winget(client, actionsUrl, null);
+				}
+
+				if (ciCheck)
+				{
+					if (args.Length < 5)
+					{
+						Console.WriteLine("Missing check parameters!");
+						return 4543;
+					}
+
+					return await CICheck(client, args[1], args[2], Enum.Parse<CheckMode>(args[3]), Int64.Parse(args[4]));
 				}
 
 
@@ -1661,6 +1674,72 @@ package (version) distribution(s); urgency=urgency
 			var installToken = await gitHubClient.GitHubApps.CreateInstallationToken(installation.Id);
 
 			gitHubClient.Credentials = new Credentials(installToken.Token);
+		}
+
+		enum CheckMode
+		{
+			Pending,
+			Started,
+			Cancelled,
+			Success,
+			Failure,
+		}
+		
+		static async ValueTask<int> CICheck(GitHubClient gitHubClient, string ciTargetSha, string pemBase64, CheckMode mode, long runID)
+		{
+			await GenerateAppCredentials(gitHubClient, pemBase64, false);
+
+			switch (mode)
+			{
+				case CheckMode.Pending:
+					await gitHubClient.Check.Run.Create(RepoOwner, RepoName, new NewCheckRun("CI Pipeline", ciTargetSha)
+					{
+						DetailsUrl = $"https://github.com/{RepoOwner}/{RepoName}/actions/runs/{runID}",
+					});
+					break;
+				case CheckMode.Started:
+					var prChecks = await gitHubClient.Check.Run.GetAllForReference(RepoOwner, RepoName, ciTargetSha);
+					var theCheckWeWant = prChecks.CheckRuns.FirstOrDefault(x => x.App.Id == AppId);
+					if (theCheckWeWant != null)
+					{
+						await gitHubClient.Check.Run.Update(RepoOwner, RepoName, theCheckWeWant.Id, new CheckRunUpdate
+						{
+							Status = CheckStatus.InProgress,
+							StartedAt = DateTimeOffset.UtcNow,
+						});
+					}
+					else
+						await gitHubClient.Check.Run.Create(RepoOwner, RepoName, new NewCheckRun("CI Pipeline", ciTargetSha)
+						{
+							DetailsUrl = $"https://github.com/{RepoOwner}/{RepoName}/actions/runs/{runID}",
+							Status = CheckStatus.InProgress,
+							StartedAt = DateTimeOffset.UtcNow,
+						});
+
+					break;
+				case CheckMode.Cancelled:
+				case CheckMode.Failure:
+				case CheckMode.Success:
+					var conclusion = mode switch
+					{
+						CheckMode.Cancelled => CheckConclusion.Cancelled,
+						CheckMode.Failure => CheckConclusion.Failure,
+						CheckMode.Success => CheckConclusion.Success,
+						_ => throw new InvalidOperationException("Impossible"),
+					};
+
+					var prChecks2 = await gitHubClient.Check.Run.GetAllForReference(RepoOwner, RepoName, ciTargetSha);
+					var theCheckWeWant2 = prChecks2.CheckRuns.First(x => x.App.Id == AppId);
+					await gitHubClient.Check.Run.Update(RepoOwner, RepoName, theCheckWeWant2.Id, new CheckRunUpdate
+					{
+						Status = CheckStatus.Completed,
+						CompletedAt = DateTimeOffset.UtcNow,
+						Conclusion = conclusion,
+					});
+					break;
+			}
+
+			return 0;
 		}
 
 		static void DebugAssert(bool condition, string message = null)

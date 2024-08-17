@@ -6,6 +6,9 @@ on:
     branches:
     - dev
     - master
+env:
+  TGS_DOTNET_VERSION: 8
+  TGS_DOTNET_QUALITY: ga
 
 concurrency:
   group: "ci-security-${{ github.head_ref || github.run_id }}-${{ github.event_name }}"
@@ -62,30 +65,51 @@ jobs:
       actions: write
       contents: write
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          ref: refs/pull/${{ github.event.pull_request.number }}/merge
+    - name: Setup dotnet
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '${{ env.TGS_DOTNET_VERSION }}.0.x'
+        dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
 
-      - name: Generate Temporary Branch to Reference Merge
-        run: |
-          git checkout -b ${{ github.event.pull_request.number }}-merge
-          git push -f -u origin ${{ github.event.pull_request.number }}-merge
+    - name: Checkout
+      uses: actions/checkout@v4
+      with:
+        ref: refs/pull/${{ github.event.pull_request.number }}/merge
 
-      - name: Send Workflow Dispatch
-        uses: lasith-kg/dispatch-workflow@5623bf13f09bbbbdb549ec692b070307f39b66ac #v2.0.0 + setup_node@v4
-        with:
-          dispatch-method: workflow_dispatch
-          owner: ${{ github.repository_owner }}
-          repo: ${{ github.event.pull_request.base.repo.name }}
-          ref: ${{ github.event.pull_request.number }}-merge
-          workflow: ci-pipeline.yml
-          token: ${{ github.token }}
-          workflow-inputs: |
-            {
-              "pull_request_number": "${{ github.event.pull_request.number }}"
-            }
+    - name: Restore
+      run: dotnet restore
 
-      - name: Delete Temporary Branch
-        if: always()
-        run: git push -d origin ${{ github.event.pull_request.number }}-merge
+    - name: Build ReleaseNotes
+      run: dotnet publish -c Release -p:TGS_HOST_NO_WEBPANEL=true -o release_notes_bins tools/Tgstation.Server.ReleaseNotes/Tgstation.Server.ReleaseNotes.csproj
+
+    - name: Read Current SHA
+      id: get-pr-sha
+      run: echo "head_sha=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
+
+    - name: Generate Temporary Branch to Reference Merge
+      run: |
+        git checkout -b ${{ github.event.pull_request.number }}-merge
+        git push -f -u origin ${{ github.event.pull_request.number }}-merge
+
+    - name: Send Workflow Dispatch
+      uses: lasith-kg/dispatch-workflow@5623bf13f09bbbbdb549ec692b070307f39b66ac #v2.0.0 + setup_node@v4
+      id: dispatch
+      with:
+        dispatch-method: workflow_dispatch
+        owner: ${{ github.repository_owner }}
+        repo: ${{ github.event.pull_request.base.repo.name }}
+        ref: ${{ github.event.pull_request.number }}-merge
+        workflow: ci-pipeline.yml
+        token: ${{ github.token }}
+        workflow-inputs: |
+          {
+            "pull_request_number": "${{ github.event.pull_request.number }}"
+            "pull_request_current_merge_sha": "${{ steps.get-pr-sha.outputs.head_sha }}"
+          }
+
+    - name: Set CI Check Run (Pending)
+      run: dotnet release_notes_bins/Tgstation.Server.ReleaseNotes.dll --ci-check ${{ steps.get-pr-sha.outputs.head_sha }} ${{ secrets.TGS_CI_GITHUB_APP_TOKEN_BASE64 }} Pending ${{ steps.dispatch.outputs.run-id }}
+
+    - name: Delete Temporary Branch
+      if: always()
+      run: git push -d origin ${{ github.event.pull_request.number }}-merge

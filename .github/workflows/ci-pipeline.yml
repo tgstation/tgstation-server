@@ -30,6 +30,9 @@ on:
       pull_request_number:
         description: 'Pull Request Number'
         required: true
+      pull_request_current_merge_sha:
+        description: 'Pull Request Merge SHA'
+        required: true
 
 env:
   TGS_DOTNET_VERSION: 8
@@ -47,8 +50,68 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  ci-start-gate:
+    name: CI Start Gate
+    runs-on: ubuntu-latest
+    steps:
+    - name: Setup dotnet
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '${{ env.TGS_DOTNET_VERSION }}.0.x'
+        dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
+
+    - name: Checkout (Branch)
+      uses: actions/checkout@v4
+      if: github.event_name == 'push' || github.event_name == 'schedule'
+
+    - name: Checkout (PR Merge)
+      uses: actions/checkout@v4
+      if: github.event_name != 'push' && github.event_name != 'schedule'
+      with:
+        ref: "refs/pull/${{ inputs.pull_request_number}}/merge"
+
+    - name: Read Current SHA
+      id: get-pr-sha
+      if: github.event_name != 'push' && github.event_name != 'schedule'
+      shell: bash
+      run: echo "head_sha=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
+
+    - name: Abort if PR Merge SHA has Changed
+      uses: actions/github-script@v7
+      if: github.event_name != 'push' && github.event_name != 'schedule' && steps.get-pr-sha.outputs.head_sha != inputs.pull_request_current_merge_sha
+      with:
+        script: |
+          const delay = ms => new Promise(res => setTimeout(res, ms));
+
+          github.rest.actions.cancelWorkflowRun({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            run_id: context.runId
+          });
+
+          while (true) {
+            core.info('Waiting for workflow to cancel ...');
+            await delay(5000);
+          }
+
+    - name: Restore
+      run: dotnet restore
+
+    - name: Build ReleaseNotes
+      run: dotnet publish -c Release -p:TGS_HOST_NO_WEBPANEL=true -o release_notes_bins tools/Tgstation.Server.ReleaseNotes/Tgstation.Server.ReleaseNotes.csproj
+
+    - name: Store ReleaseNotes Binaries
+      uses: actions/upload-artifact@v4
+      with:
+        name: release_notes_bins
+        path: ./release_notes_bins/
+
+    - name: Set CI Check Run (Started)
+      run: dotnet release_notes_bins/Tgstation.Server.ReleaseNotes.dll --ci-check ${{ github.event.inputs.pull_request_current_merge_sha }} ${{ secrets.TGS_CI_GITHUB_APP_TOKEN_BASE64 }} Started ${{ github.run_id }}
+
   code-scanning:
     name: Code Scanning
+    needs: ci-start-gate
     runs-on: ubuntu-latest
     permissions:
       security-events: write
@@ -70,7 +133,31 @@ jobs:
       uses: actions/checkout@v4
       if: github.event_name != 'push' && github.event_name != 'schedule'
       with:
-        ref: "refs/pull/${{ github.event.inputs.pull_request_number }}/merge"
+        ref: "refs/pull/${{ inputs.pull_request_number}}/merge"
+
+    - name: Read Current SHA
+      id: get-pr-sha
+      if: github.event_name != 'push' && github.event_name != 'schedule'
+      shell: bash
+      run: echo "head_sha=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
+
+    - name: Abort if PR Merge SHA has Changed
+      uses: actions/github-script@v7
+      if: github.event_name != 'push' && github.event_name != 'schedule' && steps.get-pr-sha.outputs.head_sha != inputs.pull_request_current_merge_sha
+      with:
+        script: |
+          const delay = ms => new Promise(res => setTimeout(res, ms));
+
+          github.rest.actions.cancelWorkflowRun({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            run_id: context.runId
+          });
+
+          while (true) {
+            core.info('Waiting for workflow to cancel ...');
+            await delay(5000);
+          }
 
     - name: Initialize CodeQL
       uses: github/codeql-action/init@v3
@@ -94,6 +181,7 @@ jobs:
 
   dmapi-build:
     name: Build DMAPI
+    needs: ci-start-gate
     strategy:
       fail-fast: false
       matrix:
@@ -151,7 +239,31 @@ jobs:
       uses: actions/checkout@v4
       if: github.event_name != 'push' && github.event_name != 'schedule'
       with:
-        ref: "refs/pull/${{ github.event.inputs.pull_request_number }}/merge"
+        ref: "refs/pull/${{ inputs.pull_request_number}}/merge"
+
+    - name: Read Current SHA
+      id: get-pr-sha
+      if: github.event_name != 'push' && github.event_name != 'schedule'
+      shell: bash
+      run: echo "head_sha=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
+
+    - name: Abort if PR Merge SHA has Changed
+      uses: actions/github-script@v7
+      if: github.event_name != 'push' && github.event_name != 'schedule' && steps.get-pr-sha.outputs.head_sha != inputs.pull_request_current_merge_sha
+      with:
+        script: |
+          const delay = ms => new Promise(res => setTimeout(res, ms));
+
+          github.rest.actions.cancelWorkflowRun({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            run_id: context.runId
+          });
+
+          while (true) {
+            core.info('Waiting for workflow to cancel ...');
+            await delay(5000);
+          }
 
     - name: Build DMAPI Test Project
       run: |
@@ -175,6 +287,7 @@ jobs:
 
   opendream-build:
     name: Build DMAPI (OpenDream)
+    needs: ci-start-gate
     strategy:
       fail-fast: false
       matrix:
@@ -203,7 +316,31 @@ jobs:
       uses: actions/checkout@v4
       if: github.event_name != 'push' && github.event_name != 'schedule'
       with:
-        ref: "refs/pull/${{ github.event.inputs.pull_request_number }}/merge"
+        ref: "refs/pull/${{ inputs.pull_request_number}}/merge"
+
+    - name: Read Current SHA
+      id: get-pr-sha
+      if: github.event_name != 'push' && github.event_name != 'schedule'
+      shell: bash
+      run: echo "head_sha=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
+
+    - name: Abort if PR Merge SHA has Changed
+      uses: actions/github-script@v7
+      if: github.event_name != 'push' && github.event_name != 'schedule' && steps.get-pr-sha.outputs.head_sha != inputs.pull_request_current_merge_sha
+      with:
+        script: |
+          const delay = ms => new Promise(res => setTimeout(res, ms));
+
+          github.rest.actions.cancelWorkflowRun({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            run_id: context.runId
+          });
+
+          while (true) {
+            core.info('Waiting for workflow to cancel ...');
+            await delay(5000);
+          }
 
     - name: Checkout OpenDream
       run: |
@@ -235,6 +372,7 @@ jobs:
 
   efcore-version-match:
     name: Check Nuget Versions Match Tools
+    needs: ci-start-gate
     runs-on: ubuntu-latest
     steps:
     - name: Checkout (Branch)
@@ -245,7 +383,31 @@ jobs:
       uses: actions/checkout@v4
       if: github.event_name != 'push' && github.event_name != 'schedule'
       with:
-        ref: "refs/pull/${{ github.event.inputs.pull_request_number }}/merge"
+        ref: "refs/pull/${{ inputs.pull_request_number}}/merge"
+
+    - name: Read Current SHA
+      id: get-pr-sha
+      if: github.event_name != 'push' && github.event_name != 'schedule'
+      shell: bash
+      run: echo "head_sha=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
+
+    - name: Abort if PR Merge SHA has Changed
+      uses: actions/github-script@v7
+      if: github.event_name != 'push' && github.event_name != 'schedule' && steps.get-pr-sha.outputs.head_sha != inputs.pull_request_current_merge_sha
+      with:
+        script: |
+          const delay = ms => new Promise(res => setTimeout(res, ms));
+
+          github.rest.actions.cancelWorkflowRun({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            run_id: context.runId
+          });
+
+          while (true) {
+            core.info('Waiting for workflow to cancel ...');
+            await delay(5000);
+          }
 
     - name: Retrieve dotnet-ef Tool Version
       id: dotnet-ef-tool
@@ -291,6 +453,7 @@ jobs:
 
   pages-build:
     name: Build gh-pages
+    needs: ci-start-gate
     runs-on: ubuntu-latest
     steps:
     - name: Setup dotnet
@@ -299,33 +462,23 @@ jobs:
         dotnet-version: '${{ env.TGS_DOTNET_VERSION }}.0.x'
         dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
 
-    - name: Checkout (Branch)
-      uses: actions/checkout@v4
-      if: github.event_name == 'push' || github.event_name == 'schedule'
-
-    - name: Checkout (PR Merge)
-      uses: actions/checkout@v4
-      if: github.event_name != 'push' && github.event_name != 'schedule'
-      with:
-        ref: "refs/pull/${{ github.event.inputs.pull_request_number }}/merge"
-
-    - name: Restore
-      run: dotnet restore
-
-    - name: Build ReleaseNotes
-      run: dotnet build -c Release -p:TGS_HOST_NO_WEBPANEL=true tools/Tgstation.Server.ReleaseNotes/Tgstation.Server.ReleaseNotes.csproj
-
     - name: gh-pages Clone
       run: git clone -b gh-pages --single-branch "https://git@github.com/tgstation/tgstation-server" $HOME/tgsdox
+
+    - name: Retrieve ReleaseNotes Binaries
+      uses: actions/download-artifact@v4
+      with:
+        name: release_notes_bins
+        path: release_notes_bins
 
     - name: Build Changelog (Incremental)
       run: |
         mv $HOME/tgsdox/changelog.yml ./ 2>/dev/null
-        dotnet run -c Release --no-build --project tools/Tgstation.Server.ReleaseNotes --generate-full-notes
+        dotnet release_notes_bins/Tgstation.Server.ReleaseNotes.dll --generate-full-notes
 
     - name: Generate App Token
       run: |
-        dotnet run -c Release --no-build --project tools/Tgstation.Server.ReleaseNotes --token-output-file ${{ runner.temp }}/installation_secret.txt ${{ secrets.TGS_CI_GITHUB_APP_TOKEN_BASE64 }}
+        dotnet release_notes_bins/Tgstation.Server.ReleaseNotes.dll --token-output-file ${{ runner.temp }}/installation_secret.txt ${{ secrets.TGS_CI_GITHUB_APP_TOKEN_BASE64 }}
         echo "INSTALLATION_TOKEN=$(cat ${{ runner.temp }}/installation_secret.txt)" >> $GITHUB_ENV
         rm ${{ runner.temp }}/installation_secret.txt
 
@@ -365,6 +518,7 @@ jobs:
 
   docker-build:
     name: Build Docker Image
+    needs: ci-start-gate
     runs-on: ubuntu-latest
     env:
       TGS_TELEMETRY_KEY_FILE: tgs_telemetry_key.txt
@@ -377,7 +531,31 @@ jobs:
       uses: actions/checkout@v4
       if: github.event_name != 'push' && github.event_name != 'schedule'
       with:
-        ref: "refs/pull/${{ github.event.inputs.pull_request_number }}/merge"
+        ref: "refs/pull/${{ inputs.pull_request_number}}/merge"
+
+    - name: Read Current SHA
+      id: get-pr-sha
+      if: github.event_name != 'push' && github.event_name != 'schedule'
+      shell: bash
+      run: echo "head_sha=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
+
+    - name: Abort if PR Merge SHA has Changed
+      uses: actions/github-script@v7
+      if: github.event_name != 'push' && github.event_name != 'schedule' && steps.get-pr-sha.outputs.head_sha != inputs.pull_request_current_merge_sha
+      with:
+        script: |
+          const delay = ms => new Promise(res => setTimeout(res, ms));
+
+          github.rest.actions.cancelWorkflowRun({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            run_id: context.runId
+          });
+
+          while (true) {
+            core.info('Waiting for workflow to cancel ...');
+            await delay(5000);
+          }
 
     - name: Setup Telemetry Key File
       shell: bash
@@ -427,7 +605,31 @@ jobs:
       uses: actions/checkout@v4
       if: github.event_name != 'push' && github.event_name != 'schedule'
       with:
-        ref: "refs/pull/${{ github.event.inputs.pull_request_number }}/merge"
+        ref: "refs/pull/${{ inputs.pull_request_number}}/merge"
+
+    - name: Read Current SHA
+      id: get-pr-sha
+      if: github.event_name != 'push' && github.event_name != 'schedule'
+      shell: bash
+      run: echo "head_sha=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
+
+    - name: Abort if PR Merge SHA has Changed
+      uses: actions/github-script@v7
+      if: github.event_name != 'push' && github.event_name != 'schedule' && steps.get-pr-sha.outputs.head_sha != inputs.pull_request_current_merge_sha
+      with:
+        script: |
+          const delay = ms => new Promise(res => setTimeout(res, ms));
+
+          github.rest.actions.cancelWorkflowRun({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            run_id: context.runId
+          });
+
+          while (true) {
+            core.info('Waiting for workflow to cancel ...');
+            await delay(5000);
+          }
 
     - name: Restore
       run: dotnet restore
@@ -492,7 +694,31 @@ jobs:
       uses: actions/checkout@v4
       if: github.event_name != 'push' && github.event_name != 'schedule'
       with:
-        ref: "refs/pull/${{ github.event.inputs.pull_request_number }}/merge"
+        ref: "refs/pull/${{ inputs.pull_request_number}}/merge"
+
+    - name: Read Current SHA
+      id: get-pr-sha
+      if: github.event_name != 'push' && github.event_name != 'schedule'
+      shell: bash
+      run: echo "head_sha=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
+
+    - name: Abort if PR Merge SHA has Changed
+      uses: actions/github-script@v7
+      if: github.event_name != 'push' && github.event_name != 'schedule' && steps.get-pr-sha.outputs.head_sha != inputs.pull_request_current_merge_sha
+      with:
+        script: |
+          const delay = ms => new Promise(res => setTimeout(res, ms));
+
+          github.rest.actions.cancelWorkflowRun({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            run_id: context.runId
+          });
+
+          while (true) {
+            core.info('Waiting for workflow to cancel ...');
+            await delay(5000);
+          }
 
     - name: Restore
       run: dotnet restore
@@ -626,7 +852,31 @@ jobs:
       uses: actions/checkout@v4
       if: github.event_name != 'push' && github.event_name != 'schedule'
       with:
-        ref: "refs/pull/${{ github.event.inputs.pull_request_number }}/merge"
+        ref: "refs/pull/${{ inputs.pull_request_number}}/merge"
+
+    - name: Read Current SHA
+      id: get-pr-sha
+      if: github.event_name != 'push' && github.event_name != 'schedule'
+      shell: bash
+      run: echo "head_sha=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
+
+    - name: Abort if PR Merge SHA has Changed
+      uses: actions/github-script@v7
+      if: github.event_name != 'push' && github.event_name != 'schedule' && steps.get-pr-sha.outputs.head_sha != inputs.pull_request_current_merge_sha
+      with:
+        script: |
+          const delay = ms => new Promise(res => setTimeout(res, ms));
+
+          github.rest.actions.cancelWorkflowRun({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            run_id: context.runId
+          });
+
+          while (true) {
+            core.info('Waiting for workflow to cancel ...');
+            await delay(5000);
+          }
 
     - name: Restore
       run: dotnet restore
@@ -850,7 +1100,31 @@ jobs:
       uses: actions/checkout@v4
       if: github.event_name != 'push' && github.event_name != 'schedule'
       with:
-        ref: "refs/pull/${{ github.event.inputs.pull_request_number }}/merge"
+        ref: "refs/pull/${{ inputs.pull_request_number}}/merge"
+
+    - name: Read Current SHA
+      id: get-pr-sha
+      if: github.event_name != 'push' && github.event_name != 'schedule'
+      shell: bash
+      run: echo "head_sha=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
+
+    - name: Abort if PR Merge SHA has Changed
+      uses: actions/github-script@v7
+      if: github.event_name != 'push' && github.event_name != 'schedule' && steps.get-pr-sha.outputs.head_sha != inputs.pull_request_current_merge_sha
+      with:
+        script: |
+          const delay = ms => new Promise(res => setTimeout(res, ms));
+
+          github.rest.actions.cancelWorkflowRun({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            run_id: context.runId
+          });
+
+          while (true) {
+            core.info('Waiting for workflow to cancel ...');
+            await delay(5000);
+          }
 
     - name: Restore
       run: dotnet restore
@@ -938,7 +1212,31 @@ jobs:
       uses: actions/checkout@v4
       if: github.event_name != 'push' && github.event_name != 'schedule'
       with:
-        ref: "refs/pull/${{ github.event.inputs.pull_request_number }}/merge"
+        ref: "refs/pull/${{ inputs.pull_request_number}}/merge"
+
+    - name: Read Current SHA
+      id: get-pr-sha
+      if: github.event_name != 'push' && github.event_name != 'schedule'
+      shell: bash
+      run: echo "head_sha=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
+
+    - name: Abort if PR Merge SHA has Changed
+      uses: actions/github-script@v7
+      if: github.event_name != 'push' && github.event_name != 'schedule' && steps.get-pr-sha.outputs.head_sha != inputs.pull_request_current_merge_sha
+      with:
+        script: |
+          const delay = ms => new Promise(res => setTimeout(res, ms));
+
+          github.rest.actions.cancelWorkflowRun({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            run_id: context.runId
+          });
+
+          while (true) {
+            core.info('Waiting for workflow to cancel ...');
+            await delay(5000);
+          }
 
     - name: Retrieve OpenAPI Spec
       uses: actions/download-artifact@v4
@@ -962,7 +1260,31 @@ jobs:
       uses: actions/checkout@v4
       if: github.event_name != 'push' && github.event_name != 'schedule'
       with:
-        ref: "refs/pull/${{ github.event.inputs.pull_request_number }}/merge"
+        ref: "refs/pull/${{ inputs.pull_request_number}}/merge"
+
+    - name: Read Current SHA
+      id: get-pr-sha
+      if: github.event_name != 'push' && github.event_name != 'schedule'
+      shell: bash
+      run: echo "head_sha=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
+
+    - name: Abort if PR Merge SHA has Changed
+      uses: actions/github-script@v7
+      if: github.event_name != 'push' && github.event_name != 'schedule' && steps.get-pr-sha.outputs.head_sha != inputs.pull_request_current_merge_sha
+      with:
+        script: |
+          const delay = ms => new Promise(res => setTimeout(res, ms));
+
+          github.rest.actions.cancelWorkflowRun({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            run_id: context.runId
+          });
+
+          while (true) {
+            core.info('Waiting for workflow to cancel ...');
+            await delay(5000);
+          }
 
     - name: Retrieve Linux Unit Test Coverage (Debug)
       uses: actions/download-artifact@v4
@@ -1206,6 +1528,7 @@ jobs:
 
   build-deb:
     name: Build .deb Package # Can't do i386 due to https://github.com/dotnet/core/issues/4595
+    needs: ci-start-gate
     runs-on: ubuntu-latest
     env:
       TGS_TELEMETRY_KEY_FILE: /tmp/tgs_telemetry_key.txt
@@ -1250,7 +1573,31 @@ jobs:
       uses: actions/checkout@v4
       if: github.event_name != 'push' && github.event_name != 'schedule'
       with:
-        ref: "refs/pull/${{ github.event.inputs.pull_request_number }}/merge"
+        ref: "refs/pull/${{ inputs.pull_request_number}}/merge"
+
+    - name: Read Current SHA
+      id: get-pr-sha
+      if: github.event_name != 'push' && github.event_name != 'schedule'
+      shell: bash
+      run: echo "head_sha=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
+
+    - name: Abort if PR Merge SHA has Changed
+      uses: actions/github-script@v7
+      if: github.event_name != 'push' && github.event_name != 'schedule' && steps.get-pr-sha.outputs.head_sha != inputs.pull_request_current_merge_sha
+      with:
+        script: |
+          const delay = ms => new Promise(res => setTimeout(res, ms));
+
+          github.rest.actions.cancelWorkflowRun({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            run_id: context.runId
+          });
+
+          while (true) {
+            core.info('Waiting for workflow to cancel ...');
+            await delay(5000);
+          }
 
     - name: Grab Most Recent Changelog
       run: curl -L https://raw.githubusercontent.com/tgstation/tgstation-server/gh-pages/changelog.yml -o changelog.yml
@@ -1320,6 +1667,7 @@ jobs:
 
   build-msi:
     name: Build Windows Installer .exe
+    needs: ci-start-gate
     runs-on: windows-latest
     env:
       TGS_TELEMETRY_KEY_FILE: C:/tgs_telemetry_key.txt
@@ -1348,7 +1696,31 @@ jobs:
       uses: actions/checkout@v4
       if: github.event_name != 'push' && github.event_name != 'schedule'
       with:
-        ref: "refs/pull/${{ github.event.inputs.pull_request_number }}/merge"
+        ref: "refs/pull/${{ inputs.pull_request_number}}/merge"
+
+    - name: Read Current SHA
+      id: get-pr-sha
+      if: github.event_name != 'push' && github.event_name != 'schedule'
+      shell: bash
+      run: echo "head_sha=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
+
+    - name: Abort if PR Merge SHA has Changed
+      uses: actions/github-script@v7
+      if: github.event_name != 'push' && github.event_name != 'schedule' && steps.get-pr-sha.outputs.head_sha != inputs.pull_request_current_merge_sha
+      with:
+        script: |
+          const delay = ms => new Promise(res => setTimeout(res, ms));
+
+          github.rest.actions.cancelWorkflowRun({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            run_id: context.runId
+          });
+
+          while (true) {
+            core.info('Waiting for workflow to cancel ...');
+            await delay(5000);
+          }
 
     - name: Restore Wix dotnet Tool
       run: |
@@ -1468,6 +1840,7 @@ jobs:
 
   check-winget-pr-template:
     name: Check winget-pkgs Pull Request Template is up to date
+    needs: ci-start-gate
     runs-on: ubuntu-latest
     steps:
     - name: Setup dotnet
@@ -1482,38 +1855,54 @@ jobs:
         curl -L -u "${{ vars.DEV_PUSH_USERNAME }}:${{ secrets.DEV_PUSH_TOKEN }}" -H "Accept: application/vnd.github.everest-preview+json" -H "Content-Type: application/json" -o commits.json https://api.github.com/repos/microsoft/winget-pkgs/commits?path=.github/PULL_REQUEST_TEMPLATE.md
         echo "pr_template_sha=$(cat commits.json | jq '.[0].sha')" >> $GITHUB_OUTPUT
 
-    - name: Checkout (Branch)
-      uses: actions/checkout@v4
-      if: github.event_name == 'push' || github.event_name == 'schedule'
-
-    - name: Checkout (PR Merge)
-      uses: actions/checkout@v4
-      if: github.event_name != 'push' && github.event_name != 'schedule'
+    - name: Retrieve ReleaseNotes Binaries
+      uses: actions/download-artifact@v4
       with:
-        ref: "refs/pull/${{ github.event.inputs.pull_request_number }}/merge"
-
-    - name: Restore
-      run: dotnet restore
-
-    - name: Build ReleaseNotes
-      run: dotnet build -c Release -p:TGS_HOST_NO_WEBPANEL=true tools/Tgstation.Server.ReleaseNotes/Tgstation.Server.ReleaseNotes.csproj
+        name: release_notes_bins
+        path: release_notes_bins
 
     - name: Run ReleaseNotes Check
-      run: dotnet run -c Release --no-build --project tools/Tgstation.Server.ReleaseNotes --winget-template-check ${{ steps.get-sha.outputs.pr_template_sha }}
+      run: dotnet release_notes_bins/Tgstation.Server.ReleaseNotes.dll --winget-template-check ${{ steps.get-sha.outputs.pr_template_sha }}
 
-  ci-completion-gate: # This job exists so there isn't a moving target for branch protections
+  ci-completion-gate:
     name: CI Completion Gate
     needs: [ pages-build, docker-build, build-deb, build-msi, validate-openapi-spec, upload-code-coverage, check-winget-pr-template, code-scanning, efcore-version-match ]
     runs-on: ubuntu-latest
+    if: always()
     steps:
-      - name: GitHub Requires at Least One Step for a Job
-        run: exit 0
+      - name: Setup dotnet
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '${{ env.TGS_DOTNET_VERSION }}.0.x'
+          dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
+
+      - name: Retrieve ReleaseNotes Binaries
+        uses: actions/download-artifact@v4
+        with:
+          name: release_notes_bins
+          path: release_notes_bins
+
+      - name: Update CI Check Run (Cancelled)
+        if: cancelled()
+        run: dotnet release_notes_bins/Tgstation.Server.ReleaseNotes.dll --ci-check ${{ github.event.inputs.pull_request_current_merge_sha }} ${{ secrets.TGS_CI_GITHUB_APP_TOKEN_BASE64 }} Cancelled ${{ github.run_id }}
+
+      - name: Update CI Check Run (Failure)
+        if: !cancelled() && failure()
+        run: dotnet release_notes_bins/Tgstation.Server.ReleaseNotes.dll --ci-check ${{ github.event.inputs.pull_request_current_merge_sha }} ${{ secrets.TGS_CI_GITHUB_APP_TOKEN_BASE64 }} Failure ${{ github.run_id }}
+
+      - name: Update CI Check Run (Success)
+        if: !cancelled() && failure()
+        run: dotnet release_notes_bins/Tgstation.Server.ReleaseNotes.dll --ci-check ${{ github.event.inputs.pull_request_current_merge_sha }} ${{ secrets.TGS_CI_GITHUB_APP_TOKEN_BASE64 }} Success ${{ github.run_id }}
+
+      - name: Fail Job if Prerequisites Failed
+        if: failure()
+        run: exit 1
 
   deployment-gate:
     name: Deployment Start Gate
     needs: ci-completion-gate
     runs-on: ubuntu-latest
-    if: github.event_name == 'push' && (github.event.ref == 'refs/heads/master' || github.event.ref == 'refs/heads/dev')
+    if: github.event_name == 'push'
     steps:
     - name: GitHub Requires at Least One Step for a Job
       run: exit 0
@@ -1532,12 +1921,6 @@ jobs:
 
     - name: Checkout
       uses: actions/checkout@v4
-
-    - name: Restore
-      run: dotnet restore
-
-    - name: Build ReleaseNotes
-      run: dotnet build -c Release -p:TGS_HOST_NO_WEBPANEL=true tools/Tgstation.Server.ReleaseNotes/Tgstation.Server.ReleaseNotes.csproj
 
     - name: Parse API version
       shell: powershell
@@ -1558,13 +1941,19 @@ jobs:
         $ProgressPreference = 'SilentlyContinue'
         Invoke-WebRequest -Uri https://raw.githubusercontent.com/tgstation/tgstation-server/gh-pages/changelog.yml -OutFile changelog.yml
 
+    - name: Retrieve ReleaseNotes Binaries
+      uses: actions/download-artifact@v4
+      with:
+        name: release_notes_bins
+        path: release_notes_bins
+
     - name: Generate Release Notes
-      run: dotnet run -c Release --no-build --project tools/Tgstation.Server.ReleaseNotes ${{ env.TGS_API_VERSION }} --httpapi
+      run: dotnet release_notes_bins/Tgstation.Server.ReleaseNotes.dll ${{ env.TGS_API_VERSION }} --httpapi
 
     - name: Generate App Token
       shell: powershell
       run: |
-        dotnet run -c Release --no-build --project tools/Tgstation.Server.ReleaseNotes --token-output-file ${{ runner.temp }}/installation_secret.txt ${{ secrets.TGS_CI_GITHUB_APP_TOKEN_BASE64 }}
+        dotnet release_notes_bins/Tgstation.Server.ReleaseNotes.dll --token-output-file ${{ runner.temp }}/installation_secret.txt ${{ secrets.TGS_CI_GITHUB_APP_TOKEN_BASE64 }}
         $installSecret = Get-Content ${{ runner.temp }}/installation_secret.txt
         echo "INSTALLATION_TOKEN=$installSecret" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf8 -Append
         rm ${{ runner.temp }}/installation_secret.txt
@@ -1605,12 +1994,6 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v4
 
-    - name: Restore
-      run: dotnet restore
-
-    - name: Build ReleaseNotes
-      run: dotnet build -c Release -p:TGS_HOST_NO_WEBPANEL=true tools/Tgstation.Server.ReleaseNotes/Tgstation.Server.ReleaseNotes.csproj
-
     - name: Parse DMAPI version
       shell: powershell
       run: |
@@ -1629,13 +2012,19 @@ jobs:
         $ProgressPreference = 'SilentlyContinue'
         Invoke-WebRequest -Uri https://raw.githubusercontent.com/tgstation/tgstation-server/gh-pages/changelog.yml -OutFile changelog.yml
 
+    - name: Retrieve ReleaseNotes Binaries
+      uses: actions/download-artifact@v4
+      with:
+        name: release_notes_bins
+        path: release_notes_bins
+
     - name: Generate Release Notes
-      run: dotnet run -c Release --no-build --project tools/Tgstation.Server.ReleaseNotes ${{ env.TGS_DM_VERSION }} --dmapi
+      run: dotnet release_notes_bins/Tgstation.Server.ReleaseNotes.dll ${{ env.TGS_DM_VERSION }} --dmapi
 
     - name: Generate App Token
       shell: powershell
       run: |
-        dotnet run -c Release --no-build --project tools/Tgstation.Server.ReleaseNotes --token-output-file ${{ runner.temp }}/installation_secret.txt ${{ secrets.TGS_CI_GITHUB_APP_TOKEN_BASE64 }}
+        dotnet release_notes_bins/Tgstation.Server.ReleaseNotes.dll --token-output-file ${{ runner.temp }}/installation_secret.txt ${{ secrets.TGS_CI_GITHUB_APP_TOKEN_BASE64 }}
         $installSecret = Get-Content ${{ runner.temp }}/installation_secret.txt
         echo "INSTALLATION_TOKEN=$installSecret" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf8 -Append
         rm ${{ runner.temp }}/installation_secret.txt
@@ -1679,14 +2068,17 @@ jobs:
     - name: Restore
       run: dotnet restore
 
-    - name: Build ReleaseNotes
-      run: dotnet build -c Release -p:TGS_HOST_NO_WEBPANEL=true tools/Tgstation.Server.ReleaseNotes/Tgstation.Server.ReleaseNotes.csproj
-
     - name: Grab Most Recent Changelog
       run: curl -L https://raw.githubusercontent.com/tgstation/tgstation-server/gh-pages/changelog.yml -o changelog.yml
 
+    - name: Retrieve ReleaseNotes Binaries
+      uses: actions/download-artifact@v4
+      with:
+        name: release_notes_bins
+        path: release_notes_bins
+
     - name: Generate Release Notes
-      run: dotnet run -c Release --no-build --project tools/Tgstation.Server.ReleaseNotes --nuget
+      run: dotnet release_notes_bins/Tgstation.Server.ReleaseNotes.dll --nuget
 
     - name: Publish Tgstation.Server.Common to NuGet
       uses: alirezanet/publish-nuget@e276c40afeb2a154046f0997820f2a9ea74832d9 # v3.1.0
@@ -1724,17 +2116,14 @@ jobs:
         dotnet-version: '${{ env.TGS_DOTNET_VERSION }}.0.x'
         dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
 
-    - name: Checkout
-      uses: actions/checkout@v4
-
-    - name: Restore
-      run: dotnet restore
-
-    - name: Build ReleaseNotes
-      run: dotnet build -c Release -p:TGS_HOST_NO_WEBPANEL=true tools/Tgstation.Server.ReleaseNotes/Tgstation.Server.ReleaseNotes.csproj
+    - name: Retrieve ReleaseNotes Binaries
+      uses: actions/download-artifact@v4
+      with:
+        name: release_notes_bins
+        path: release_notes_bins
 
     - name: Run ReleaseNotes with --ensure-release
-      run: dotnet run -c Release --no-build --project tools/Tgstation.Server.ReleaseNotes --ensure-release ${{ secrets.TGS_CI_GITHUB_APP_TOKEN_BASE64 }}
+      run: dotnet release_notes_bins/Tgstation.Server.ReleaseNotes.dll --ensure-release ${{ secrets.TGS_CI_GITHUB_APP_TOKEN_BASE64 }}
 
   deploy-tgs:
     name: Deploy TGS
@@ -1783,9 +2172,6 @@ jobs:
 
     - name: Build Service
       run: dotnet build -c Release src/Tgstation.Server.Host.Service/Tgstation.Server.Host.Service.csproj
-
-    - name: Build ReleaseNotes
-      run: dotnet build -c Release tools/Tgstation.Server.ReleaseNotes/Tgstation.Server.ReleaseNotes.csproj
 
     - name: Prepare Artifacts
       shell: powershell
@@ -1871,13 +2257,19 @@ jobs:
         &"C:/Program Files/7-Zip/7z.exe" a ServerConsole.zip ./ServerConsole/* -tzip
         &"C:/Program Files/7-Zip/7z.exe" a ServerUpdatePackage.zip ./ServerUpdatePackage/* -tzip
 
+    - name: Retrieve ReleaseNotes Binaries
+      uses: actions/download-artifact@v4
+      with:
+        name: release_notes_bins
+        path: release_notes_bins
+
     - name: Generate Release Notes
-      run: dotnet run -c Release --no-build --project tools/Tgstation.Server.ReleaseNotes ${{ env.TGS_VERSION }}
+      run: dotnet release_notes_bins/Tgstation.Server.ReleaseNotes.dll ${{ env.TGS_VERSION }}
 
     - name: Generate App Token
       shell: powershell
       run: |
-        dotnet run -c Release --no-build --project tools/Tgstation.Server.ReleaseNotes --token-output-file ${{ runner.temp }}/installation_secret.txt ${{ secrets.TGS_CI_GITHUB_APP_TOKEN_BASE64 }}
+        dotnet release_notes_bins/Tgstation.Server.ReleaseNotes.dll --token-output-file ${{ runner.temp }}/installation_secret.txt ${{ secrets.TGS_CI_GITHUB_APP_TOKEN_BASE64 }}
         $installSecret = Get-Content ${{ runner.temp }}/installation_secret.txt
         echo "INSTALLATION_TOKEN=$installSecret" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf8 -Append
         rm ${{ runner.temp }}/installation_secret.txt
@@ -1985,26 +2377,23 @@ jobs:
         dotnet-version: '${{ env.TGS_DOTNET_VERSION }}.0.x'
         dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
 
-    - name: Checkout
-      uses: actions/checkout@v4
-
-    - name: Restore
-      run: dotnet restore
-
-    - name: Build ReleaseNotes
-      run: dotnet build -c Release -p:TGS_HOST_NO_WEBPANEL=true tools/Tgstation.Server.ReleaseNotes/Tgstation.Server.ReleaseNotes.csproj
-
     - name: gh-pages Clone
       run: git clone -b gh-pages --single-branch "https://git@github.com/tgstation/tgstation-server" $HOME/tgsdox
+
+    - name: Retrieve ReleaseNotes Binaries
+      uses: actions/download-artifact@v4
+      with:
+        name: release_notes_bins
+        path: release_notes_bins
 
     - name: Build Changelog (Incremental)
       run: |
         mv $HOME/tgsdox/changelog.yml ./ 2>/dev/null
-        dotnet run -c Release --no-build --project tools/Tgstation.Server.ReleaseNotes --generate-full-notes
+        dotnet release_notes_bins/Tgstation.Server.ReleaseNotes.dll --generate-full-notes
 
     - name: Generate App Token
       run: |
-        dotnet run -c Release --no-build --project tools/Tgstation.Server.ReleaseNotes --token-output-file ${{ runner.temp }}/installation_secret.txt ${{ secrets.TGS_CI_GITHUB_APP_TOKEN_BASE64 }}
+        dotnet release_notes_bins/Tgstation.Server.ReleaseNotes.dll --token-output-file ${{ runner.temp }}/installation_secret.txt ${{ secrets.TGS_CI_GITHUB_APP_TOKEN_BASE64 }}
         echo "INSTALLATION_TOKEN=$(cat ${{ runner.temp }}/installation_secret.txt)" >> $GITHUB_ENV
         rm ${{ runner.temp }}/installation_secret.txt
 
@@ -2090,14 +2479,17 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v4
 
-    - name: Build ReleaseNotes
-      run: dotnet build -c Release -p:TGS_HOST_NO_WEBPANEL=true tools/Tgstation.Server.ReleaseNotes
-
     - name: Retrieve Server Service
       uses: actions/download-artifact@v4
       with:
         name: packaging-windows-raw-msi
         path: artifacts
+
+    - name: Retrieve ReleaseNotes Binaries
+      uses: actions/download-artifact@v4
+      with:
+        name: release_notes_bins
+        path: release_notes_bins
 
     - name: Execute Push Script
       shell: powershell
@@ -2111,4 +2503,4 @@ jobs:
 
     - name: Run ReleaseNotes with --link-winget
       shell: powershell
-      run: dotnet run -c Release --no-build --project tools/Tgstation.Server.ReleaseNotes --link-winget ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+      run: dotnet release_notes_bins/Tgstation.Server.ReleaseNotes.dll --link-winget ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
