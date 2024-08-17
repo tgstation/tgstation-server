@@ -1488,11 +1488,21 @@ jobs:
         name: windows-integration-test-coverage-Release-Advanced-Sqlite
         path: ./code_coverage/integration_tests/windows_integration_tests_release_system_sqlite
 
-    - name: Upload Coverage to CodeCov
+    - name: Upload Coverage to CodeCov (Branch)
+      if: github.event_name == 'push' || github.event_name == 'schedule'
       uses: codecov/codecov-action@v3
       with:
         directory: ./code_coverage
         fail_ci_if_error: true
+
+    - name: Upload Coverage to CodeCov (PR)
+      if: github.event_name != 'push' && github.event_name != 'schedule'
+      uses: codecov/codecov-action@v3
+      with:
+        directory: ./code_coverage
+        fail_ci_if_error: true
+        override_pr: ${{ inputs.pull_request_number }}
+        override_commit: ${{ github.sha }}
 
   build-deb:
     name: Build .deb Package # Can't do i386 due to https://github.com/dotnet/core/issues/4595
