@@ -3,7 +3,8 @@
 const CONSIDERED_JOBS = [
 	"Windows Live Tests",
 	"Linux Live Tests",
-	"Build .deb Package"
+	"Build .deb Package",
+	"Upload Code Coverage"
 ];
 
 async function getFailedJobsForRun(github, context, workflowRunId, runAttempt) {

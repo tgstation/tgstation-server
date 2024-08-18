@@ -60,6 +60,7 @@ namespace Tgstation.Server.ReleaseNotes
 			var fullNotes = versionString.Equals("--generate-full-notes", StringComparison.OrdinalIgnoreCase);
 			var nuget = versionString.Equals("--nuget", StringComparison.OrdinalIgnoreCase);
 			var genToken = versionString.Equals("--token-output-file", StringComparison.OrdinalIgnoreCase);
+			var waitCodecov = versionString.Equals("--wait-codecov", StringComparison.OrdinalIgnoreCase);
 
 			if ((!Version.TryParse(versionString, out var version) || version.Revision != -1)
 				&& !ensureRelease
@@ -67,7 +68,8 @@ namespace Tgstation.Server.ReleaseNotes
 				&& !shaCheck
 				&& !fullNotes
 				&& !nuget
-				&& !genToken)
+				&& !genToken
+				&& !waitCodecov)
 			{
 				Console.WriteLine("Invalid version: " + versionString);
 				return 2;
@@ -153,6 +155,11 @@ namespace Tgstation.Server.ReleaseNotes
 				if (!String.IsNullOrWhiteSpace(githubToken))
 				{
 					client.Credentials = new Credentials(githubToken);
+				}
+
+				if (waitCodecov)
+				{
+					return await CodecovCheck(client, Int64.Parse(args[1]));
 				}
 
 				if (linkWinget)
@@ -1670,6 +1677,22 @@ package (version) distribution(s); urgency=urgency
 				Debug.Assert(condition, message);
 			else
 				Debug.Assert(condition);
+		}
+
+		static async ValueTask<int> CodecovCheck(IGitHubClient client, long runId)
+		{
+			var currentRun = await client.Actions.Workflows.Runs.Get(RepoOwner, RepoName, runId);
+
+			bool foundRun = false;
+			for(int i = 0; i < 15 && !foundRun; ++i)
+			{
+				var allRuns = await client.Check.Run.GetAllForReference(RepoOwner, RepoName, currentRun.HeadSha);
+				foundRun = allRuns.CheckRuns.Any(x => x.CheckSuite.Id == currentRun.Id && x.Name == "codecov/project");
+				if (!foundRun && i != 14)
+					await Task.Delay(TimeSpan.FromMinutes(1));
+			}
+
+			return foundRun ? 0 : 24398;
 		}
 	}
 }
