@@ -68,7 +68,7 @@ namespace Tgstation.Server.Host
 				args = listArgs.ToArray();
 			}
 
-			if(RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+			if(System.Runtime.InteropServices.RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
 			{
 				var proc = new Process
 				{
