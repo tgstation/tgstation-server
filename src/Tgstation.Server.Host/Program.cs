@@ -8,7 +8,6 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using Tgstation.Server.Host.Common;
-using Tgstation.Server.Host.Components.Interop.Bridge;
 using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.Properties;
 using Tgstation.Server.Host.System;
