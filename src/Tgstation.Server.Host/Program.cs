@@ -94,7 +94,7 @@ namespace Tgstation.Server.Host
 
 				if (uid is 0)
 				{
-					Console.Error.WriteLine("TGS is being run as root. This is not recommended and will prevent launching in a future version!");
+					Console.Error.WriteLine("TGS is being run as root. This is not recommended and may prevent launch in a future version.");
 				}
 			}
 
