@@ -1,7 +1,7 @@
 name: Rerun Flaky Live Tests
 on:
   workflow_run:
-    workflows: [CI Pipeline]
+    workflows: ['CI Pipeline', 'CI Security']
     types:
     - completed
 jobs:

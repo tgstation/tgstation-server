@@ -38,7 +38,9 @@ export async function rerunFlakyTests({ github, context }) {
 
 	const filteredFailingJobs = failingJobs.filter((job) => {
 		console.log(`Failing job: ${job.name}`)
-		return CONSIDERED_JOBS.some((title) => job.name.startsWith(title));
+		return CONSIDERED_JOBS
+			.flatMap(jobName => [jobName, 'CI Pipeline / ' + jobName])
+			.some((title) => job.name.startsWith(title));
 	});
 	if (filteredFailingJobs.length !== failingJobs.length) {
 		console.log("One or more failing jobs are NOT designated flaky. Not rerunning.");
