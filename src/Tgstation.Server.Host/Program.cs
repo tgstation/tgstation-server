@@ -6,13 +6,13 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-using InteropServices = System.Runtime.InteropServices;
-using Process = System.Diagnostics.Process;
-
 using Tgstation.Server.Host.Common;
 using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.Properties;
 using Tgstation.Server.Host.System;
+
+using InteropServices = System.Runtime.InteropServices;
+using Process = System.Diagnostics.Process;
 
 namespace Tgstation.Server.Host
 {
@@ -70,29 +70,30 @@ namespace Tgstation.Server.Host
 				args = listArgs.ToArray();
 			}
 
-			if(InteropServices.RuntimeInformation.IsOSPlatform(InteropServices.OSPlatform.Linux))
+			if (InteropServices.RuntimeInformation.IsOSPlatform(InteropServices.OSPlatform.Linux))
 			{
-				var proc = new Process
+				using var proc = new Process
 				{
-    				StartInfo = new ProcessStartInfo
-    				{
-        				FileName = "id",
-       					Arguments = "-u",
-        				UseShellExecute = false,
-        				RedirectStandardOutput = true,
-       					CreateNoWindow = true,
-    				}
+					StartInfo = new ProcessStartInfo
+					{
+						FileName = "id",
+						Arguments = "-u",
+						UseShellExecute = false,
+						RedirectStandardOutput = true,
+						CreateNoWindow = true,
+					}
 				};
+
 				proc.Start();
 				await proc.WaitForExitAsync();
-				if(proc.ExitCode is not 0 || !int.TryParse(await proc.StandardOutput.ReadToEndAsync(), out var uid)) {
+				if (proc.ExitCode is not 0 || !int.TryParse(await proc.StandardOutput.ReadToEndAsync(), out var uid)) {
 					Console.Error.WriteLine("Failed to obtain user id.");
 					return 1;
 				}
-				if(uid is 0)
+
+				if (uid is 0)
 				{
 					Console.Error.WriteLine("TGS is being run as root. This is not recommended and will prevent launching in a future version!");
-					// return 1;
 				}
 			}
 
