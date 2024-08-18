@@ -67,7 +67,7 @@ jobs:
       with:
         ref: "refs/pull/${{ inputs.pull_request_number }}/merge"
 
-    - name: Build ReleaseNotes
+    - name: Build ReleaseNotes # Name checked in rerunFlakyTests.js
       run: dotnet publish -c Release -p:TGS_HOST_NO_WEBPANEL=true -o release_notes_bins tools/Tgstation.Server.ReleaseNotes/Tgstation.Server.ReleaseNotes.csproj
 
     - name: Store ReleaseNotes Binaries
@@ -108,7 +108,7 @@ jobs:
     - name: Setup Telemetry Key File
       run: echo "fake_telemetry_key" > ${{ env.TGS_TELEMETRY_KEY_FILE }}
 
-    - name: Build
+    - name: Build # Name checked in rerunFlakyTests.js
       run: dotnet build -c ReleaseNoWindows -p:TGS_HOST_NO_WEBPANEL=true
 
     - name: Perform CodeQL Analysis
@@ -124,7 +124,7 @@ jobs:
         byond: [ '510.1346', '511.1385', '512.1488', '513.1542', '514.1589', 'EDGE' ]
     runs-on: ubuntu-latest
     steps:
-    - name: Install x86 libc Dependencies
+    - name: Install Native x86 libc Dependencies # Name checked in rerunFlakyTests.js
       run: |
         sudo dpkg --add-architecture i386
         sudo apt-get update
@@ -137,7 +137,7 @@ jobs:
         path: ~/byond-zips-cache
         key: byond-zips
 
-    - name: Build BYOND Cache if Necessary and Install
+    - name: Setup BYOND Cache if Necessary and Install
       run: |
         echo "Setting up BYOND."
         FULL_VERSION=${{ matrix.byond }}
@@ -184,7 +184,7 @@ jobs:
       run: echo "head_sha=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
 
 
-    - name: Build DMAPI Test Project
+    - name: Compile DMAPI Test Project
       run: |
         set -e
         retval=1
@@ -244,7 +244,7 @@ jobs:
         git checkout ${{ matrix.committish }}
         git submodule update --init --recursive
 
-    - name: Build OpenDream
+    - name: Build OpenDream # Name checked in rerunFlakyTests.js
       run: |
         cd $HOME/OpenDream/OpenDreamPackageTool
         dotnet build -c Release --nologo -v q --property WarningLevel=0 /clp:ErrorsOnly
@@ -254,7 +254,7 @@ jobs:
         cd $HOME/OpenDream
         dotnet run -c Release --project OpenDreamPackageTool --no-build -- --tgs -o tgs_deploy
 
-    - name: Build DMAPI
+    - name: Compile DMAPI Test Project
       run: |
         cd tests/DMAPI/BasicOperation
         $HOME/OpenDream/tgs_deploy/bin/compiler/DMCompiler --verbose --notices-enabled "basic operation_test.dme"
@@ -345,7 +345,7 @@ jobs:
         name: release_notes_bins
         path: release_notes_bins
 
-    - name: Build Changelog (Incremental)
+    - name: Compile Changelog (Incremental)
       run: |
         mv $HOME/tgsdox/changelog.yml ./ 2>/dev/null
         dotnet release_notes_bins/Tgstation.Server.ReleaseNotes.dll --generate-full-notes
@@ -410,7 +410,7 @@ jobs:
       shell: bash
       run: echo "${{ secrets.TGS_TELEMETRY_KEY }}" > ${{ env.TGS_TELEMETRY_KEY_FILE }}
 
-    - name: Build Docker Image
+    - name: Build Docker Image # Name checked in rerunFlakyTests.js
       run: docker build . -f build/Dockerfile --build-arg TGS_TELEMETRY_KEY_FILE=${{ env.TGS_TELEMETRY_KEY_FILE }}
 
     - name: Delete Telemetry Key File
@@ -429,7 +429,7 @@ jobs:
       TGS_TELEMETRY_KEY_FILE: /tmp/tgs_telemetry_key.txt
     runs-on: ubuntu-latest
     steps:
-    - name: Install x86 libc Dependencies
+    - name: Install Native x86 libc Dependencies # Name checked in rerunFlakyTests.js
       run: |
         sudo dpkg --add-architecture i386
         sudo apt-get update
@@ -462,7 +462,7 @@ jobs:
     - name: Setup Telemetry Key File
       run: echo "${{ secrets.TGS_TELEMETRY_KEY }}" > ${{ env.TGS_TELEMETRY_KEY_FILE }}
 
-    - name: Build
+    - name: Build # Name checked in rerunFlakyTests.js
       run: dotnet build -c ${{ matrix.configuration }}NoWindows
 
     - name: Delete Telemetry Key File
@@ -525,7 +525,7 @@ jobs:
       shell: bash
       run: echo "${{ secrets.TGS_TELEMETRY_KEY }}" > ${{ env.TGS_TELEMETRY_KEY_FILE }}
 
-    - name: Build
+    - name: Build # Name checked in rerunFlakyTests.js
       run: dotnet build -c ${{ matrix.configuration }}NoWix
 
     - name: Delete Telemetry Key File
@@ -656,7 +656,7 @@ jobs:
       shell: bash
       run: echo "${{ secrets.TGS_TELEMETRY_KEY }}" > ${{ env.TGS_TELEMETRY_KEY_FILE }}
 
-    - name: Build
+    - name: Build # Name checked in rerunFlakyTests.js
       run: dotnet build -c ${{ matrix.configuration }} tests/Tgstation.Server.Tests/Tgstation.Server.Tests.csproj
 
     - name: Delete Telemetry Key File
@@ -820,7 +820,7 @@ jobs:
     - name: Disable ptrace_scope
       run: echo 0 | sudo tee /proc/sys/kernel/yama/ptrace_scope
 
-    - name: Install Native Dependencies
+    - name: Install Native Dependencies # Name checked in rerunFlakyTests.js
       run: |
         sudo dpkg --add-architecture i386
         sudo apt-get update
@@ -876,7 +876,7 @@ jobs:
     - name: Setup Telemetry Key File
       run: echo "${{ secrets.TGS_TELEMETRY_KEY }}" > ${{ env.TGS_TELEMETRY_KEY_FILE }}
 
-    - name: Build
+    - name: Build # Name checked in rerunFlakyTests.js
       run: dotnet build -c ${{ matrix.configuration }}NoWindows tests/Tgstation.Server.Tests/Tgstation.Server.Tests.csproj
 
     - name: Delete Telemetry Key File
@@ -1228,7 +1228,7 @@ jobs:
     env:
       TGS_TELEMETRY_KEY_FILE: /tmp/tgs_telemetry_key.txt
     steps:
-    - name: Install Native Dependencies
+    - name: Install Native Dependencies # Name checked in rerunFlakyTests.js
       run: |
         sudo dpkg --add-architecture i386
         sudo apt-get update
@@ -1241,7 +1241,7 @@ jobs:
         echo ${{ secrets.PACKAGING_PRIVATE_KEY_PASSPHRASE }} | gpg --batch --yes --passphrase-fd 0 --import private.pgp
         rm private.pgp
 
-    - name: Install dotnet-sdk system package
+    - name: Install Native dotnet-sdk Package # Name checked in rerunFlakyTests.js
       if: (!contains(env.TGS_DOTNET_QUALITY, 'preview'))
       run: |
         sudo apt-get update
@@ -1383,7 +1383,7 @@ jobs:
       shell: bash
       run: echo "${{ secrets.TGS_TELEMETRY_KEY }}" > ${{ env.TGS_TELEMETRY_KEY_FILE }}
 
-    - name: Build Host
+    - name: Build Host # Name checked in rerunFlakyTests.js
       run: dotnet build -c Release src/Tgstation.Server.Host/Tgstation.Server.Host.csproj
 
     - name: Delete Telemetry Key File
@@ -1391,14 +1391,14 @@ jobs:
       if: always()
       run: rm -f ${{ env.TGS_TELEMETRY_KEY_FILE }}
 
-    - name: Build Service
+    - name: Build Service # Name checked in rerunFlakyTests.js
       run: dotnet build -c Release src/Tgstation.Server.Host.Service/Tgstation.Server.Host.Service.csproj
 
     - name: Prepare Artifacts
       shell: powershell
       run: build/package/winget/prepare_installer_input_artifacts.ps1
 
-    - name: Build Installer .exe
+    - name: Build Installer .exe # Name checked in rerunFlakyTests.js
       run: |
         cd build/package/winget/Tgstation.Server.Host.Service.Wix.Bundle
         dotnet build -c Release
@@ -1789,7 +1789,8 @@ jobs:
       shell: bash
       run: echo "${{ secrets.TGS_TELEMETRY_KEY }}" > ${{ env.TGS_TELEMETRY_KEY_FILE }}
 
-    - name: Build Host  # We need to rebuild the installer.exe so it can be properly signed
+      # We need to rebuild the installer.exe so it can be properly signed
+    - name: Build Host # Name checked in rerunFlakyTests.js
       run: dotnet build -c Release src/Tgstation.Server.Host/Tgstation.Server.Host.csproj
 
     - name: Delete Telemetry Key File
@@ -1797,14 +1798,14 @@ jobs:
       if: always()
       run: rm -f ${{ env.TGS_TELEMETRY_KEY_FILE }}
 
-    - name: Build Service
+    - name: Build Service # Name checked in rerunFlakyTests.js
       run: dotnet build -c Release src/Tgstation.Server.Host.Service/Tgstation.Server.Host.Service.csproj
 
     - name: Prepare Artifacts
       shell: powershell
       run: build/package/winget/prepare_installer_input_artifacts.ps1
 
-    - name: Build Installer .exe
+    - name: Build Installer .exe # Name checked in rerunFlakyTests.js
       run: |
         cd build/package/winget/Tgstation.Server.Host.Service.Wix.Bundle
         dotnet build -c Release
@@ -2012,7 +2013,7 @@ jobs:
         name: release_notes_bins
         path: release_notes_bins
 
-    - name: Build Changelog (Incremental)
+    - name: Compile Changelog (Incremental)
       run: |
         mv $HOME/tgsdox/changelog.yml ./ 2>/dev/null
         dotnet release_notes_bins/Tgstation.Server.ReleaseNotes.dll --generate-full-notes
@@ -2044,14 +2045,16 @@ jobs:
     needs: deploy-tgs
     runs-on: ubuntu-latest
     steps:
+    - name: Install Native Packages # Name checked in rerunFlakyTests.js
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y xmlstarlet
+
     - name: Checkout
       uses: actions/checkout@v4
 
     - name: Parse TGS version
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y xmlstarlet
-        echo "TGS_VERSION=$(xmlstarlet sel -N X="http://schemas.microsoft.com/developer/msbuild/2003" --template --value-of /X:Project/X:PropertyGroup/X:TgsCoreVersion build/Version.props)" >> $GITHUB_ENV
+      run: echo "TGS_VERSION=$(xmlstarlet sel -N X="http://schemas.microsoft.com/developer/msbuild/2003" --template --value-of /X:Project/X:PropertyGroup/X:TgsCoreVersion build/Version.props)" >> $GITHUB_ENV
 
     - name: Docker Build and Push
       uses: elgohr/Publish-Docker-Github-Action@43dc228e327224b2eda11c8883232afd5b34943b # v5
@@ -2067,14 +2070,16 @@ jobs:
     needs: deploy-tgs
     runs-on: ubuntu-latest
     steps:
+    - name: Install Native Packages # Name checked in rerunFlakyTests.js
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y xmlstarlet
+
     - name: Checkout
       uses: actions/checkout@v4
 
     - name: Parse TGS version
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y xmlstarlet
-        echo "TGS_VERSION=$(xmlstarlet sel -N X="http://schemas.microsoft.com/developer/msbuild/2003" --template --value-of /X:Project/X:PropertyGroup/X:TgsCoreVersion build/Version.props)" >> $GITHUB_ENV
+      run: echo "TGS_VERSION=$(xmlstarlet sel -N X="http://schemas.microsoft.com/developer/msbuild/2003" --template --value-of /X:Project/X:PropertyGroup/X:TgsCoreVersion build/Version.props)" >> $GITHUB_ENV
 
     - name: Trigger tgstation-ppa workflow
       run: |

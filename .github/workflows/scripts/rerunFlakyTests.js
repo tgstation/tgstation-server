@@ -1,4 +1,12 @@
-// Only check jobs that start with these.
+const MAX_ATTEMPTS = 5;
+
+// If any job fails with a step starting with these it'll be considered flaky
+const CONSIDERED_STEP_PREFIXES = [
+	"Build", // Nuget.org sporadic issues
+	"Install Native", // apt repository issues
+];
+
+// Otherwise only check jobs that start with these.
 // Helps make sure we don't restart something like which is not known to be flaky.
 const CONSIDERED_JOBS = [
 	"Windows Live Tests",
@@ -25,6 +33,10 @@ async function getFailedJobsForRun(github, context, workflowRunId, runAttempt) {
 }
 
 export async function rerunFlakyTests({ github, context }) {
+	if (context.payload.workflow_run.run_attempt >= MAX_ATTEMPTS) {
+		console.log(`Jobs have reached maximum attempt count of ${context.payload.workflow_run.run_attempt}, Will not re-run.`)
+	}
+
 	const failingJobs = await getFailedJobsForRun(
 		github,
 		context,
@@ -33,7 +45,7 @@ export async function rerunFlakyTests({ github, context }) {
 	);
 
 	if (failingJobs.length > 3) {
-		console.log("Many jobs failing. PROBABLY not flaky, not rerunning.");
+		console.log("Many jobs failing. PROBABLY not flaky, Will not re-run.");
 		return;
 	}
 
@@ -41,10 +53,11 @@ export async function rerunFlakyTests({ github, context }) {
 		console.log(`Failing job: ${job.name}`)
 		return CONSIDERED_JOBS
 			.flatMap(jobName => [jobName, 'CI Pipeline / ' + jobName])
-			.some((title) => job.name.startsWith(title));
+			.some((title) => job.name.startsWith(title))
+			|| CONSIDERED_STEP_PREFIXES.some(consideredStep => job.steps.some(step => step.name.startsWith(consideredStep) && step.conclusion == "failure"));
 	});
 	if (filteredFailingJobs.length !== failingJobs.length) {
-		console.log("One or more failing jobs are NOT designated flaky. Not rerunning.");
+		console.log("One or more failing jobs are NOT designated flaky. Will not re-run.");
 		return;
 	}
 
