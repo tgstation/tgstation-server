@@ -16,7 +16,7 @@ namespace Tgstation.Server.Host.System
 		/// <summary>
 		/// Gets the process' memory usage in bytes.
 		/// </summary>
-		long MemoryUsage { get; }
+		long? MemoryUsage { get; }
 
 		/// <summary>
 		/// Set's the owned <see cref="global::System.Diagnostics.Process.PriorityClass"/> to a non-normal value.
