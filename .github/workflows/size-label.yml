@@ -1,0 +1,19 @@
+name: Size Labelling
+on:
+  pull_request_target:
+    branches:
+      - dev
+      - master
+
+jobs:
+  size-label:
+    name: Add Size Label
+    permissions:
+      contents: read
+      pull-requests: write
+    runs-on: ubuntu-latest
+    steps:
+      - name: size-label
+        uses: "pascalgn/size-label-action@bbbaa0d5ccce8e2e76254560df5c64b82dac2e12" # v0.5.2, consider upgrading after https://github.com/pascalgn/size-label-action/pull/54 is merged
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
