@@ -24,6 +24,9 @@ namespace Tgstation.Server.Host.Security
 		/// <inheritdoc />
 		public bool CanCreateSymlinks => canCreateSymlinks ?? throw new NotSupportedException();
 
+		/// <inheritdoc />
+		public bool? IsSuperUser => identity?.IsSystem;
+
 		/// <summary>
 		/// The <see cref="WindowsIdentity"/> for the <see cref="WindowsSystemIdentity"/>.
 		/// </summary>
