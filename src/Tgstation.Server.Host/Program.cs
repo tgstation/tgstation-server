@@ -87,14 +87,12 @@ namespace Tgstation.Server.Host
 				await proc.WaitForExitAsync();
 				if(proc.ExitCode is not 0 || !int.TryParse(await proc.StandardOutput.ReadToEndAsync(), out var uid)) {
 					Console.Error.WriteLine("Failed to obtain user id.");
-					Environment.Exit(1);
-					return;
+					return 1;
 				}
 				if(uid is 0)
 				{
 					Console.Error.WriteLine("TGS is being run as root. This is not recommended and will prevent launching in a future version!");
-					// Environment.Exit(1);
-					// return;
+					// return 1;
 				}
 			}
 
