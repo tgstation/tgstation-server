@@ -28,7 +28,7 @@ namespace Tgstation.Server.Host.Security
 		/// Is this identity a SuperUser for the OS.
 		/// See Administrator on Windows or root on Linux.
 		/// </summary>
-		bool? IsSuperUser { get; }
+		bool IsSuperUser { get; }
 
 		/// <summary>
 		/// Clone the <see cref="ISystemIdentity"/> creating another copy that must have <see cref="IDisposable.Dispose"/> called on it.

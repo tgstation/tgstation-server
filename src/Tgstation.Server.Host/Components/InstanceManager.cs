@@ -676,15 +676,9 @@ namespace Tgstation.Server.Host.Components
 				if (!systemIdentity.CanCreateSymlinks)
 					throw new InvalidOperationException($"The user running {Constants.CanonicalPackageName} cannot create symlinks! Please try running as an administrative user!");
 
-				if (!platformIdentifier.IsWindows && systemIdentity.IsSuperUser!.Value)
+				if (!platformIdentifier.IsWindows && systemIdentity.IsSuperUser)
 				{
-					if (systemIdentity.IsSuperUser is not { } superUser)
-					{
-						throw new InvalidOperationException("Failed to determine if running as root.");
-					}
-
-					if (superUser)
-						logger.LogWarning("TGS is being run as the root account. This is not recommended and may prevent launch in a future version.");
+					logger.LogWarning("TGS is being run as the root account. This is not recommended and may prevent launch in a future version.");
 				}
 			}
 

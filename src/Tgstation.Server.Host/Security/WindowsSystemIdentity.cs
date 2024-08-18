@@ -22,10 +22,10 @@ namespace Tgstation.Server.Host.Security
 		public string Username => userPrincipal?.Name ?? identity!.Name;
 
 		/// <inheritdoc />
-		public bool CanCreateSymlinks => canCreateSymlinks ?? throw new NotSupportedException();
+		public bool CanCreateSymlinks => IsSuperUser;
 
 		/// <inheritdoc />
-		public bool? IsSuperUser => identity?.IsSystem;
+		public bool IsSuperUser => IsSuperUser;
 
 		/// <summary>
 		/// The <see cref="WindowsIdentity"/> for the <see cref="WindowsSystemIdentity"/>.
@@ -38,9 +38,9 @@ namespace Tgstation.Server.Host.Security
 		readonly UserPrincipal? userPrincipal;
 
 		/// <summary>
-		/// Backing field for <see cref="CanCreateSymlinks"/>.
+		/// Backing field for <see cref="IsSuperUser"/>.
 		/// </summary>
-		readonly bool? canCreateSymlinks;
+		readonly bool? isAdmin;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="WindowsSystemIdentity"/> class.
@@ -52,7 +52,7 @@ namespace Tgstation.Server.Host.Security
 			if (identity.IsAnonymous)
 				throw new ArgumentException($"Cannot use anonymous {nameof(WindowsIdentity)} as a {nameof(WindowsSystemIdentity)}!", nameof(identity));
 
-			canCreateSymlinks = new WindowsPrincipal(identity).IsInRole(WindowsBuiltInRole.Administrator);
+			isAdmin = new WindowsPrincipal(identity).IsInRole(WindowsBuiltInRole.Administrator);
 		}
 
 		/// <summary>

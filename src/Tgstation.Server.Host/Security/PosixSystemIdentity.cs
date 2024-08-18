@@ -12,7 +12,7 @@ namespace Tgstation.Server.Host.Security
 	sealed class PosixSystemIdentity : ISystemIdentity
 	{
 		/// <inheritdoc />
-		public bool? IsSuperUser => Syscall.getuid() == 0;
+		public bool IsSuperUser => Syscall.getuid() == 0;
 
 		/// <inheritdoc />
 		public string Uid => throw new NotImplementedException();
