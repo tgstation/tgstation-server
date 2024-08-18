@@ -146,7 +146,7 @@ namespace Tgstation.Server.Host.Components.Engine
 		}
 
 		/// <inheritdoc />
-		public override async ValueTask<IEngineInstallationData> DownloadVersion(EngineVersion version, JobProgressReporter? progressReporter, CancellationToken cancellationToken)
+		public override async ValueTask<IEngineInstallationData> DownloadVersion(EngineVersion version, JobProgressReporter progressReporter, CancellationToken cancellationToken)
 		{
 			CheckVersionValidity(version);
 

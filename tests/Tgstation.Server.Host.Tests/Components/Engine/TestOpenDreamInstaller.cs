@@ -13,6 +13,7 @@ using Tgstation.Server.Common.Http;
 using Tgstation.Server.Host.Components.Repository;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.IO;
+using Tgstation.Server.Host.Jobs;
 using Tgstation.Server.Host.System;
 using Tgstation.Server.Host.Utils;
 
@@ -52,7 +53,7 @@ namespace Tgstation.Server.Host.Components.Engine.Tests
 				null,
 				null,
 				null,
-				null,
+				It.IsNotNull<JobProgressReporter>(),
 				true,
 				It.IsAny<CancellationToken>()))
 				.Callback(() => ++cloneAttempts)
@@ -85,7 +86,7 @@ namespace Tgstation.Server.Host.Components.Engine.Tests
 					Engine = EngineType.OpenDream,
 					SourceSHA = new string('a', Limits.MaximumCommitShaLength),
 				},
-				null,
+				new JobProgressReporter(),
 				CancellationToken.None);
 
 

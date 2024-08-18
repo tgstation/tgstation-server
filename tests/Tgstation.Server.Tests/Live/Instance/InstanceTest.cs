@@ -22,6 +22,7 @@ using Tgstation.Server.Host.Components.Events;
 using Tgstation.Server.Host.Components.Repository;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.IO;
+using Tgstation.Server.Host.Jobs;
 using Tgstation.Server.Host.System;
 using Tgstation.Server.Host.Utils;
 
@@ -142,7 +143,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			using var windowsByondInstaller = byondInstaller as WindowsByondInstaller;
 
 			// get the bytes for stable
-			return await byondInstaller.DownloadVersion(compatVersion, null, cancellationToken);
+			return await byondInstaller.DownloadVersion(compatVersion, new JobProgressReporter(), cancellationToken);
 		}
 
 		public async Task RunCompatTests(

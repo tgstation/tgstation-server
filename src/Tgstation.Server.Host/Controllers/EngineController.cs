@@ -184,7 +184,8 @@ namespace Tgstation.Server.Host.Controllers
 
 						try
 						{
-							await byondManager.ChangeVersion(null, model.EngineVersion, null, false, cancellationToken);
+							using var progressReporter = new JobProgressReporter();
+							await byondManager.ChangeVersion(progressReporter, model.EngineVersion, null, false, cancellationToken);
 						}
 						catch (InvalidOperationException ex)
 						{

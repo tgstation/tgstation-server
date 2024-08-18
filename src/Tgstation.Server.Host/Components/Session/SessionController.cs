@@ -122,7 +122,7 @@ namespace Tgstation.Server.Host.Components.Session
 		public FifoSemaphore TopicSendSemaphore { get; }
 
 		/// <inheritdoc />
-		public long MemoryUsage => process.MemoryUsage;
+		public long? MemoryUsage => process.MemoryUsage;
 
 		/// <summary>
 		/// The <see cref="Byond.TopicSender.ITopicClient"/> for the <see cref="SessionController"/>.

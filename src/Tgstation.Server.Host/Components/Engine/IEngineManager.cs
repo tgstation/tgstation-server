@@ -28,14 +28,14 @@ namespace Tgstation.Server.Host.Components.Engine
 		/// <summary>
 		/// Change the active <see cref="EngineVersion"/>.
 		/// </summary>
-		/// <param name="progressReporter">The optional <see cref="JobProgressReporter"/> for the operation.</param>
+		/// <param name="progressReporter">The <see cref="JobProgressReporter"/> for the operation.</param>
 		/// <param name="version">The new <see cref="EngineVersion"/>.</param>
 		/// <param name="customVersionStream">Optional <see cref="Stream"/> of a custom BYOND version zip file.</param>
 		/// <param name="allowInstallation">If an installation should be performed if the <paramref name="version"/> is not installed. If <see langword="false"/> and an installation is required an <see cref="InvalidOperationException"/> will be thrown.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
 		ValueTask ChangeVersion(
-			JobProgressReporter? progressReporter,
+			JobProgressReporter progressReporter,
 			EngineVersion version,
 			Stream? customVersionStream,
 			bool allowInstallation,
