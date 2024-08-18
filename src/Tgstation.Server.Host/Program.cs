@@ -11,7 +11,6 @@ using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.Properties;
 using Tgstation.Server.Host.System;
 
-using InteropServices = System.Runtime.InteropServices;
 using Process = System.Diagnostics.Process;
 
 namespace Tgstation.Server.Host
@@ -68,34 +67,6 @@ namespace Tgstation.Server.Host
 					Debugger.Launch();
 
 				args = listArgs.ToArray();
-			}
-
-			if (InteropServices.RuntimeInformation.IsOSPlatform(InteropServices.OSPlatform.Linux))
-			{
-				using var proc = new Process
-				{
-					StartInfo = new ProcessStartInfo
-					{
-						FileName = "id",
-						Arguments = "-u",
-						UseShellExecute = false,
-						RedirectStandardOutput = true,
-						CreateNoWindow = true,
-					},
-				};
-
-				proc.Start();
-				await proc.WaitForExitAsync();
-				if (proc.ExitCode is not 0 || !int.TryParse(await proc.StandardOutput.ReadToEndAsync(), out var uid))
-				{
-					Console.Error.WriteLine("Failed to obtain user id.");
-					return 1;
-				}
-
-				if (uid is 0)
-				{
-					Console.Error.WriteLine("TGS is being run as root. This is not recommended and will prevent launching in a future version!");
-				}
 			}
 
 			var program = new Program();

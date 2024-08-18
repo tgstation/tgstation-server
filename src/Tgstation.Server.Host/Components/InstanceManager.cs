@@ -675,6 +675,11 @@ namespace Tgstation.Server.Host.Components
 			{
 				if (!systemIdentity.CanCreateSymlinks)
 					throw new InvalidOperationException($"The user running {Constants.CanonicalPackageName} cannot create symlinks! Please try running as an administrative user!");
+
+				if (systemIdentity is PosixSystemIdentity posixIdentity && posixIdentity.IsRoot())
+				{
+					logger.LogWarning("TGS is being run as the root account. This is not recommended and may prevent launch in a future version.");
+				}
 			}
 
 			// This runs before the real socket is opened, ensures we don't perform reattaches unless we're fairly certain the bind won't fail
