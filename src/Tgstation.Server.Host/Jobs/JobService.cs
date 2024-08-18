@@ -460,14 +460,16 @@ namespace Tgstation.Server.Host.Jobs
 						QueueHubUpdate(job.ToApi(), false);
 
 						logger.LogTrace("Starting job...");
+						using var progressReporter = new JobProgressReporter(
+							loggerFactory.CreateLogger<JobProgressReporter>(),
+							null,
+							UpdateProgress);
+						using var innerReporter = progressReporter.CreateSection(null, 1.0);
 						await operation(
 							instanceCoreProvider.GetInstance(job.Instance!),
 							databaseContextFactory,
 							job,
-							new JobProgressReporter(
-								loggerFactory.CreateLogger<JobProgressReporter>(),
-								null,
-								UpdateProgress),
+							innerReporter,
 							cancellationToken);
 
 						logger.LogDebug("Job {jobId} completed!", job.Id);

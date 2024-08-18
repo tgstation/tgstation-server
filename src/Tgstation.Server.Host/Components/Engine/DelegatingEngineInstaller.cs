@@ -37,7 +37,7 @@ namespace Tgstation.Server.Host.Components.Engine
 			=> DelegateCall(version, installer => installer.CreateInstallation(version, path, installationTask));
 
 		/// <inheritdoc />
-		public ValueTask<IEngineInstallationData> DownloadVersion(EngineVersion version, JobProgressReporter? jobProgressReporter, CancellationToken cancellationToken)
+		public ValueTask<IEngineInstallationData> DownloadVersion(EngineVersion version, JobProgressReporter jobProgressReporter, CancellationToken cancellationToken)
 			=> DelegateCall(version, installer => installer.DownloadVersion(version, jobProgressReporter, cancellationToken));
 
 		/// <inheritdoc />

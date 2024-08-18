@@ -1,6 +1,7 @@
 ﻿using System;
 
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
 
 using Tgstation.Server.Host.Models;
 
@@ -9,7 +10,7 @@ namespace Tgstation.Server.Host.Jobs
 	/// <summary>
 	/// Progress reporter for a <see cref="Job"/>.
 	/// </summary>
-	public sealed class JobProgressReporter
+	public sealed class JobProgressReporter : IDisposable
 	{
 		/// <summary>
 		/// The name of the current stage.
@@ -53,18 +54,80 @@ namespace Tgstation.Server.Host.Jobs
 		double sectionProgression;
 
 		/// <summary>
+		/// The total progress reserved for use in this section.
+		/// </summary>
+		double? sectionReservations;
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="JobProgressReporter"/> class.
+		/// </summary>
+		/// <remarks>This variant has no function.</remarks>
+		public JobProgressReporter()
+			: this(
+				 NullLogger<JobProgressReporter>.Instance,
+				 null,
+				 (_, _) => { },
+				 false)
+		{
+		}
+
+		/// <summary>
 		/// Initializes a new instance of the <see cref="JobProgressReporter"/> class.
 		/// </summary>
 		/// <param name="logger">The value of <see cref="logger"/>.</param>
 		/// <param name="stageName">The value of <see cref="StageName"/>.</param>
 		/// <param name="callback">The value of <see cref="callback"/>.</param>
 		public JobProgressReporter(ILogger<JobProgressReporter> logger, string? stageName, Action<string?, double?> callback)
+			: this(
+				 logger,
+				 stageName,
+				 callback,
+				 true)
+		{
+		}
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="JobProgressReporter"/> class.
+		/// </summary>
+		/// <param name="logger">The value of <see cref="logger"/>.</param>
+		/// <param name="stageName">The value of <see cref="StageName"/>.</param>
+		/// <param name="callback">The value of <see cref="callback"/>.</param>
+		/// <param name="setStageName">If <see langword="true"/> an initial call to <paramref name="callback"/> will be made with only the <paramref name="stageName"/>.</param>
+		private JobProgressReporter(ILogger<JobProgressReporter> logger, string? stageName, Action<string?, double?> callback, bool setStageName)
 		{
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 			this.callback = callback ?? throw new ArgumentNullException(nameof(callback));
-			StageName = stageName;
+			if (setStageName)
+			{
+				StageName = stageName;
+			}
+			else
+			{
+				this.stageName = stageName;
+			}
 
 			logger.LogDebug("Job progress reporter created. Stage: {stageName}", stageName ?? "(null)");
+		}
+
+		/// <inheritdoc />
+		public void Dispose()
+		{
+			if (sectionReservations.HasValue)
+				if (sectionReservations.Value != 1.0)
+				{
+					// not an error, processes can throw
+					sectionReservations = null;
+				}
+				else if (sectionProgression < 1.0)
+				{
+					logger.LogError(
+						new InvalidOperationException($"Parent progress reporter has child sections that didn't complete! Current: {sectionProgression}"),
+						"TGS BUG: Progress reporter children didn't complete!");
+					sectionReservations = null;
+				}
+
+			if (!sectionReservations.HasValue)
+				ReportProgress(1);
 		}
 
 		/// <summary>
@@ -73,13 +136,26 @@ namespace Tgstation.Server.Host.Jobs
 		/// <param name="progress">A percentage value from 0.0f-1.0f.</param>
 		public void ReportProgress(double? progress)
 		{
+			if (sectionReservations.HasValue)
+				if (progress == 0)
+				{
+					// might be a stage reset
+					sectionReservations = null;
+				}
+				else
+				{
+					logger.LogError(
+						new InvalidOperationException("Progress reporter is reporting progress with existing nested sections!"),
+						"TGS BUG: A progress reporter is using mixed local and nested progress, this is not supported");
+				}
+
 			var clampedProgress = progress;
 			if (progress.HasValue)
 				if (progress > 1 || progress < 0)
 				{
 					logger.LogError(
 						new ArgumentOutOfRangeException(nameof(progress), progress, "Progress must be a value from 0-1!"),
-						"Invalid progress value for stage {stageName}",
+						"TGS BUG: Invalid progress value for stage {stageName}",
 						StageName ?? "(null)");
 					clampedProgress = null;
 				}
@@ -103,16 +179,27 @@ namespace Tgstation.Server.Host.Jobs
 			{
 				logger.LogError(
 					new ArgumentOutOfRangeException(nameof(percentage), percentage, "Percentage must be a value from 0-1!"),
-					"Invalid percentage value for stage {newStageName}! Clamping...",
+					"TGS BUG: Invalid percentage value for stage {newStageName}! Clamping...",
 					newStageName ?? "(null)");
 
 				percentage = Math.Min(Math.Max(percentage, 0.0), 1.0);
 			}
 
-			var childBaseProgress = sectionProgression;
-			if (percentage + childBaseProgress > 1.0)
+			if (!sectionReservations.HasValue)
 			{
-				var remainingPercentage = 1.0 - childBaseProgress;
+				if (sectionProgression != 0)
+				{
+					logger.LogError(
+						new InvalidOperationException("Progress reporter is creating a section with local progress!"),
+						"TGS BUG: A progress reporter is using mixed local and nested progress, this is not supported");
+				}
+
+				sectionReservations = 0;
+			}
+
+			if (percentage + sectionReservations.Value > 1.0001) // floating point >.<
+			{
+				var remainingPercentage = 1.0 - sectionReservations.Value;
 				logger.LogError(
 					"Stage {newStageName} is overbudgeted ({budget}/{remainingPercentage})! Clamping...",
 					newStageName,
@@ -121,6 +208,9 @@ namespace Tgstation.Server.Host.Jobs
 				percentage = remainingPercentage;
 			}
 
+			Math.Min(sectionReservations.Value + percentage, 1);
+
+			var childLocalProgress = 0.0;
 			var newReporter = new JobProgressReporter(
 				logger,
 				newStageName,
@@ -133,11 +223,17 @@ namespace Tgstation.Server.Host.Jobs
 						return;
 					}
 
-					var childLocalProgress = progress.Value * percentage;
+					var progressWithoutChild = sectionProgression - childLocalProgress;
+					childLocalProgress = progress.Value * percentage;
 
-					sectionProgression = childLocalProgress + childBaseProgress;
+					// floating point >.<
+					sectionProgression = Math.Min(progressWithoutChild + childLocalProgress, 1);
+					if (sectionProgression > 9.9999)
+						sectionProgression = 1;
+
 					callback(currentStage, sectionProgression);
-				});
+				},
+				false);
 
 			newReporter.ReportProgress(0);
 			return newReporter;
