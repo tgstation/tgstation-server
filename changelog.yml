@@ -187,6 +187,10 @@ Components:
       - Fixed request failures that could occur while querying game server memory as the process was crashing.
       Author: Cyberboss
       PullRequest: 1881
+    - Descriptions:
+      - Fixed capabilities specification for SystemD service preventing process dumps. **Linux SystemD users must apply this fix manually.** Please apply the changes shown [here](https://github.com/tgstation/tgstation-server/commit/d82b5b5bd1b87538c3c166004c63a988eebbed7e) to `/lib/systemd/system/tgstation-server.service` and run `systemctl daemon-reload` as root.
+      Author: Cyberboss
+      PullRequest: 1883
     Unreleased: true
   - Version: 6.8.1
     ComponentVersions:
