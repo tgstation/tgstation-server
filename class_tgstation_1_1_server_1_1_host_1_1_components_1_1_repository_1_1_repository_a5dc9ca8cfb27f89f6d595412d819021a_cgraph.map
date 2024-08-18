@@ -1,5 +1,5 @@
 <map id="Tgstation.Server.Host.Components.Repository.Repository.Synchronize" name="Tgstation.Server.Host.Components.Repository.Repository.Synchronize">
-<area shape="rect" id="node1" title="Runs the synchronize event script and attempts to push any changes made to the IRepository if on a tr..." alt="" coords="5,5,232,45"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_progress_reporter.html#a32254a185da6e76e7fcd2d72a8032970" title="Create a subsection of the JobProgressReporter with its optional own stage name." alt="" coords="280,5,509,45"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_progress_reporter.html#ac736a80d9d56a20711468d9b8e27e3c1" title="Report progress." alt="" coords="557,5,795,45"/>
+<area shape="rect" id="node1" title="Runs the synchronize event script and attempts to push any changes made to the IRepository if on a tr..." alt="" coords="5,13,232,53"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_progress_reporter.html#a32254a185da6e76e7fcd2d72a8032970" title="Create a subsection of the JobProgressReporter with its optional own stage name." alt="" coords="280,13,509,53"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_progress_reporter.html#aa95af832a3c5781b796441234fc0e5fe" title="Initializes a new instance of the JobProgressReporter class." alt="" coords="557,5,777,60"/>
 </map>

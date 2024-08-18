@@ -1,0 +1,9 @@
+<map id="Tgstation.Server.Host.Components.Repository.Repository.CheckoutObject" name="Tgstation.Server.Host.Components.Repository.Repository.CheckoutObject">
+<area shape="rect" id="node1" title="Checks out a given committish . A ValueTask representing the running operation." alt="" coords="5,62,248,102"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_progress_reporter.html#a32254a185da6e76e7fcd2d72a8032970" title="Create a subsection of the JobProgressReporter with its optional own stage name." alt="" coords="612,30,841,70"/>
+<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html#a564f82eb43566dabd77e37191b4e3d37" title="Handle a given eventType ." alt="" coords="309,158,547,198"/>
+<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html#af97958179867ac2592eebd95711cf822" title="Runs a blocking force checkout to committish ." alt="" coords="313,30,543,70"/>
+<area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html#a7fefc02e22b5c22787b498a045107740" title="Recusively update all Submodules in the libGitRepo." alt="" coords="296,94,560,134"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_progress_reporter.html#aa95af832a3c5781b796441234fc0e5fe" title="Initializes a new instance of the JobProgressReporter class." alt="" coords="893,23,1113,77"/>
+<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_progress_reporter.html#ac736a80d9d56a20711468d9b8e27e3c1" title="Report progress." alt="" coords="608,94,845,134"/>
+</map>

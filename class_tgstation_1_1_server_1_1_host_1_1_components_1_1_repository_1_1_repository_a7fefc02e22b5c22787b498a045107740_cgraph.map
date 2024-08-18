@@ -1,0 +1,6 @@
+<map id="Tgstation.Server.Host.Components.Repository.Repository.UpdateSubmodules" name="Tgstation.Server.Host.Components.Repository.Repository.UpdateSubmodules">
+<area shape="rect" id="node1" title="Recusively update all Submodules in the libGitRepo." alt="" coords="5,45,269,85"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_progress_reporter.html#a32254a185da6e76e7fcd2d72a8032970" title="Create a subsection of the JobProgressReporter with its optional own stage name." alt="" coords="321,13,551,53"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_progress_reporter.html#ac736a80d9d56a20711468d9b8e27e3c1" title="Report progress." alt="" coords="317,77,555,117"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_progress_reporter.html#aa95af832a3c5781b796441234fc0e5fe" title="Initializes a new instance of the JobProgressReporter class." alt="" coords="603,5,823,60"/>
+</map>

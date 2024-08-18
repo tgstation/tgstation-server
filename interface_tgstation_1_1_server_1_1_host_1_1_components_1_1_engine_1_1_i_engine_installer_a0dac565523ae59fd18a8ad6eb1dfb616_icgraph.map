@@ -1,9 +1,9 @@
 <map id="Tgstation.Server.Host.Components.Engine.IEngineInstaller.CreateInstallation" name="Tgstation.Server.Host.Components.Engine.IEngineInstaller.CreateInstallation">
 <area shape="rect" id="node1" title="Creates an IEngineInstallation for a given version ." alt="" coords="933,101,1191,141"/>
 <area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_manager.html#acd40140865facd71ee580f625a8c95bc" title="Create and add a new IEngineInstallation to installedVersions." alt="" coords="643,94,885,149"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_manager.html#a3d2a758adff2c72db49e822c8f6ceccf" title="Ensures a BYOND version &#160;is installed if it isn&#39;t already." alt="" coords="304,69,595,109"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_manager.html#a4d0593064aa1c11835cfa1ab2823ec34" title="Ensures a BYOND version &#160;is installed if it isn&#39;t already." alt="" coords="304,69,595,109"/>
 <area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_manager.html#a43d2c796792fcf3807acc665c1ea06ab" title=" " alt="" coords="336,133,563,173"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_manager.html#ad2cedaccbf100b9dcf3922a9443f8f19" title="Change the active EngineVersion. A ValueTask representing the running operation." alt="" coords="9,5,253,45"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_manager.html#aa9978534a863e31d7d58e51c86b5886c" title="Change the active EngineVersion. A ValueTask representing the running operation." alt="" coords="9,5,253,45"/>
 <area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_manager.html#a803c2123e6edceee48d8b4897be532c6" title="Lock the current installation&#39;s location and return a IEngineExecutableLock. A ValueTask&lt;TResult&gt; res..." alt="" coords="5,69,256,109"/>
 <area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a11cc04923d2557eefd57ad2ded9eb7f2" title=" " alt="" coords="17,133,244,173"/>
 </map>

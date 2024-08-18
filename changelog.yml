@@ -182,6 +182,11 @@ Components:
       - The version in use can now be anonymously reported for statistics.
       Author: Cyberboss
       PullRequest: 1859
+    - Descriptions:
+      - Fixed several inconsistencies related to job progress reporting.
+      - Fixed request failures that could occur while querying game server memory as the process was crashing.
+      Author: Cyberboss
+      PullRequest: 1881
     Unreleased: true
   - Version: 6.8.1
     ComponentVersions:

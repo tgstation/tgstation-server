@@ -1,5 +1,5 @@
 <map id="Tgstation.Server.Host.Components.Repository.Repository" name="Tgstation.Server.Host.Components.Repository.Repository">
-<area shape="rect" id="node1" title=" " alt="" coords="1065,420,1292,460"/>
+<area shape="rect" id="node1" title=" " alt="" coords="1065,452,1292,492"/>
 <area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_dispose_invoker.html" title="Runs a given disposeAction on Dispose." alt="" coords="722,119,834,145"/>
 <area shape="rect" id="node3" href="$class_i_disposable.html" title=" " alt="" coords="268,85,359,110"/>
 <area shape="rect" id="node6" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository.html" title="Represents an on&#45;disk git repository." alt="" coords="735,70,821,95"/>
@@ -23,4 +23,5 @@
 <area shape="rect" id="node22" title=" " alt="" coords="267,354,360,379"/>
 <area shape="rect" id="node23" title=" " alt="" coords="292,485,335,510"/>
 <area shape="rect" id="node24" title=" " alt="" coords="237,534,389,559"/>
+<area shape="rect" id="node25" title=" " alt="" coords="729,883,827,909"/>
 </map>

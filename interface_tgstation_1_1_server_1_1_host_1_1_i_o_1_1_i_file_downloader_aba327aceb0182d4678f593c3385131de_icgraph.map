@@ -1,6 +1,6 @@
 <map id="Tgstation.Server.Host.IO.IFileDownloader.DownloadFile" name="Tgstation.Server.Host.IO.IFileDownloader.DownloadFile">
 <area shape="rect" id="node1" title="Downloads a file from a given url ." alt="" coords="565,61,761,101"/>
 <area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#aacf15328c6febd64fa1977da73d30345" title="Start the process of downloading and applying an update to a new server version. Doesn&#39;t perform argu..." alt="" coords="273,29,482,69"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_byond_installer_base.html#a6bd81dbdb1f24aaf80bba10224b4773f" title="Download a given engine version . A ValueTask&lt;TResult&gt; resulting in the IEngineInstallationData for t..." alt="" coords="237,93,517,133"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_byond_installer_base.html#adf1546f8ef11d749bc75509ce63bdae5" title="Download a given engine version . A ValueTask&lt;TResult&gt; resulting in the IEngineInstallationData for t..." alt="" coords="237,93,517,133"/>
 <area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#adea0e50e12adfb5620ec7728b9f33230" title="Start the process of downloading and applying an update to a new server version . A ValueTask&lt;TResult..." alt="" coords="5,29,189,69"/>
 </map>

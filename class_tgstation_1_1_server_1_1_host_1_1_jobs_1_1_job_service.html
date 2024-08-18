@@ -846,99 +846,101 @@ Here is the call graph for this function:</div>
 <div class="line"><span class="lineno">  460</span>                        QueueHubUpdate(job.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_job.html#a26803af89e798afe4e8878b9bc2f213b">ToApi</a>(), <span class="keyword">false</span>);</div>
 <div class="line"><span class="lineno">  461</span> </div>
 <div class="line"><span class="lineno">  462</span>                        <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#a205ac8792aefeda9cd2a532d36b1784c">logger</a>.LogTrace(<span class="stringliteral">&quot;Starting job...&quot;</span>);</div>
-<div class="line"><span class="lineno">  463</span>                        await operation(</div>
-<div class="line"><span class="lineno">  464</span>                            instanceCoreProvider.GetInstance(job.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_job.html#acd574d824b9790f91424708aae538f52">Instance</a>!),</div>
-<div class="line"><span class="lineno">  465</span>                            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#aadb062723447ba776a7efa9d81493b9a">databaseContextFactory</a>,</div>
-<div class="line"><span class="lineno">  466</span>                            job,</div>
-<div class="line"><span class="lineno">  467</span>                            <span class="keyword">new</span> JobProgressReporter(</div>
-<div class="line"><span class="lineno">  468</span>                                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#a5ed30d8f070bcfed658337187e68c841">loggerFactory</a>.CreateLogger&lt;JobProgressReporter&gt;(),</div>
-<div class="line"><span class="lineno">  469</span>                                <span class="keyword">null</span>,</div>
-<div class="line"><span class="lineno">  470</span>                                UpdateProgress),</div>
-<div class="line"><span class="lineno">  471</span>                            cancellationToken);</div>
-<div class="line"><span class="lineno">  472</span> </div>
-<div class="line"><span class="lineno">  473</span>                        <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#a205ac8792aefeda9cd2a532d36b1784c">logger</a>.LogDebug(<span class="stringliteral">&quot;Job {jobId} completed!&quot;</span>, job.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html#ae31e478e1d338b37a14565df6fd58570">Id</a>);</div>
-<div class="line"><span class="lineno">  474</span>                        result = <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  475</span>                    }</div>
-<div class="line"><span class="lineno">  476</span>                    <span class="keywordflow">catch</span> (OperationCanceledException ex)</div>
-<div class="line"><span class="lineno">  477</span>                    {</div>
-<div class="line"><span class="lineno">  478</span>                        <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#a205ac8792aefeda9cd2a532d36b1784c">logger</a>.LogDebug(ex, <span class="stringliteral">&quot;Job {jobId} cancelled!&quot;</span>, job.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html#ae31e478e1d338b37a14565df6fd58570">Id</a>);</div>
-<div class="line"><span class="lineno">  479</span>                        job.Cancelled = <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  480</span>                    }</div>
-<div class="line"><span class="lineno">  481</span>                    <span class="keywordflow">catch</span> (JobException e)</div>
-<div class="line"><span class="lineno">  482</span>                    {</div>
-<div class="line"><span class="lineno">  483</span>                        job.ErrorCode = e.ErrorCode;</div>
-<div class="line"><span class="lineno">  484</span>                        job.ExceptionDetails = String.IsNullOrWhiteSpace(e.Message) ? e.InnerException?.Message : e.Message + $<span class="stringliteral">&quot; (Inner exception: {e.InnerException?.Message})&quot;</span>;</div>
-<div class="line"><span class="lineno">  485</span>                        LogException(e);</div>
-<div class="line"><span class="lineno">  486</span>                    }</div>
-<div class="line"><span class="lineno">  487</span>                    <span class="keywordflow">catch</span> (<a class="code hl_class" href="class_exception.html">Exception</a> e)</div>
-<div class="line"><span class="lineno">  488</span>                    {</div>
-<div class="line"><span class="lineno">  489</span>                        job.ExceptionDetails = e.ToString();</div>
-<div class="line"><span class="lineno">  490</span>                        LogException(e);</div>
-<div class="line"><span class="lineno">  491</span>                    }</div>
-<div class="line"><span class="lineno">  492</span> </div>
-<div class="line"><span class="lineno">  493</span>                    <span class="keywordflow">try</span></div>
-<div class="line"><span class="lineno">  494</span>                    {</div>
-<div class="line"><span class="lineno">  495</span>                        await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#aadb062723447ba776a7efa9d81493b9a">databaseContextFactory</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_factory.html#a1da664d7237dbec5a6cb9ce04b79ccc1">UseContext</a>(async databaseContext =&gt;</div>
-<div class="line"><span class="lineno">  496</span>                        {</div>
-<div class="line"><span class="lineno">  497</span>                            var attachedJob = <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_job.html">Job</a>(jid);</div>
-<div class="line"><span class="lineno">  498</span> </div>
-<div class="line"><span class="lineno">  499</span>                            databaseContext.Jobs.Attach(attachedJob);</div>
-<div class="line"><span class="lineno">  500</span>                            attachedJob.StoppedAt = DateTimeOffset.UtcNow;</div>
-<div class="line"><span class="lineno">  501</span>                            attachedJob.ExceptionDetails = job.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_job.html#afb20366fa3c290f5478e92e18cc94317">ExceptionDetails</a>;</div>
-<div class="line"><span class="lineno">  502</span>                            attachedJob.ErrorCode = job.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_job.html#ab248f62271e87c90f007c40058c06032">ErrorCode</a>;</div>
-<div class="line"><span class="lineno">  503</span>                            attachedJob.Cancelled = job.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_job.html#ab68caae8a7e5bd3bfd7764cab7b8773d">Cancelled</a>;</div>
-<div class="line"><span class="lineno">  504</span> </div>
-<div class="line"><span class="lineno">  505</span>                            <span class="comment">// DCT: Cancellation token is for job, operation should always run</span></div>
-<div class="line"><span class="lineno">  506</span>                            await databaseContext.Save(CancellationToken.None);</div>
-<div class="line"><span class="lineno">  507</span>                        });</div>
-<div class="line"><span class="lineno">  508</span> </div>
-<div class="line"><span class="lineno">  509</span>                        <span class="comment">// Resetting the context here because I CBA to worry if the cache is being used</span></div>
-<div class="line"><span class="lineno">  510</span>                        await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#aadb062723447ba776a7efa9d81493b9a">databaseContextFactory</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_factory.html#a1da664d7237dbec5a6cb9ce04b79ccc1">UseContext</a>(async databaseContext =&gt;</div>
-<div class="line"><span class="lineno">  511</span>                        {</div>
-<div class="line"><span class="lineno">  512</span>                            <span class="comment">// Cancellation might be set in another async context</span></div>
-<div class="line"><span class="lineno">  513</span>                            <span class="comment">// Also, startedby could have been renamed</span></div>
-<div class="line"><span class="lineno">  514</span>                            <span class="comment">// forced to reload here for the final hub update</span></div>
-<div class="line"><span class="lineno">  515</span>                            <span class="comment">// DCT: Cancellation token is for job, operation should always run</span></div>
-<div class="line"><span class="lineno">  516</span>                            var finalJob = await databaseContext</div>
-<div class="line"><span class="lineno">  517</span>                                .Jobs</div>
-<div class="line"><span class="lineno">  518</span>                                .AsQueryable()</div>
-<div class="line"><span class="lineno">  519</span>                                .Include(x =&gt; x.Instance)</div>
-<div class="line"><span class="lineno">  520</span>                                .Include(x =&gt; x.StartedBy)</div>
-<div class="line"><span class="lineno">  521</span>                                .Include(x =&gt; x.CancelledBy)</div>
-<div class="line"><span class="lineno">  522</span>                                .Where(dbJob =&gt; dbJob.Id == jid)</div>
-<div class="line"><span class="lineno">  523</span>                                .FirstAsync(CancellationToken.None);</div>
-<div class="line"><span class="lineno">  524</span>                            QueueHubUpdate(finalJob.ToApi(), <span class="keyword">true</span>);</div>
-<div class="line"><span class="lineno">  525</span>                        });</div>
-<div class="line"><span class="lineno">  526</span>                    }</div>
-<div class="line"><span class="lineno">  527</span>                    <span class="keywordflow">catch</span></div>
-<div class="line"><span class="lineno">  528</span>                    {</div>
-<div class="line"><span class="lineno">  529</span>                        lock (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#a6bb8a36ea39a48fd1fffdb583e4e71ed">hubUpdateActions</a>)</div>
-<div class="line"><span class="lineno">  530</span>                            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#a6bb8a36ea39a48fd1fffdb583e4e71ed">hubUpdateActions</a>.Remove(jid);</div>
-<div class="line"><span class="lineno">  531</span> </div>
-<div class="line"><span class="lineno">  532</span>                        <span class="keywordflow">throw</span>;</div>
-<div class="line"><span class="lineno">  533</span>                    }</div>
-<div class="line"><span class="lineno">  534</span> </div>
-<div class="line"><span class="lineno">  535</span>                    <span class="keywordflow">try</span></div>
-<div class="line"><span class="lineno">  536</span>                    {</div>
-<div class="line"><span class="lineno">  537</span>                        await hubUpdatesTask;</div>
-<div class="line"><span class="lineno">  538</span>                    }</div>
-<div class="line"><span class="lineno">  539</span>                    <span class="keywordflow">catch</span> (<a class="code hl_class" href="class_exception.html">Exception</a> ex)</div>
-<div class="line"><span class="lineno">  540</span>                    {</div>
-<div class="line"><span class="lineno">  541</span>                        <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#a205ac8792aefeda9cd2a532d36b1784c">logger</a>.LogError(ex, <span class="stringliteral">&quot;Error in hub updates chain task!&quot;</span>);</div>
-<div class="line"><span class="lineno">  542</span>                    }</div>
-<div class="line"><span class="lineno">  543</span> </div>
-<div class="line"><span class="lineno">  544</span>                    <span class="keywordflow">return</span> result;</div>
-<div class="line"><span class="lineno">  545</span>                }</div>
-<div class="line"><span class="lineno">  546</span>                <span class="keywordflow">finally</span></div>
-<div class="line"><span class="lineno">  547</span>                {</div>
-<div class="line"><span class="lineno">  548</span>                    lock (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#a2a0df9ba71fdfea989c57f975fce051f">synchronizationLock</a>)</div>
-<div class="line"><span class="lineno">  549</span>                    {</div>
-<div class="line"><span class="lineno">  550</span>                        var handler = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#adb8db167c189c8ea456a0372432de1a0">jobs</a>[jid];</div>
-<div class="line"><span class="lineno">  551</span>                        <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#adb8db167c189c8ea456a0372432de1a0">jobs</a>.Remove(jid);</div>
-<div class="line"><span class="lineno">  552</span>                        handler.Dispose();</div>
-<div class="line"><span class="lineno">  553</span>                    }</div>
-<div class="line"><span class="lineno">  554</span>                }</div>
-<div class="line"><span class="lineno">  555</span>        }</div>
+<div class="line"><span class="lineno">  463</span>                        <span class="keyword">using </span>var progressReporter = <span class="keyword">new</span> JobProgressReporter(</div>
+<div class="line"><span class="lineno">  464</span>                            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#a5ed30d8f070bcfed658337187e68c841">loggerFactory</a>.CreateLogger&lt;JobProgressReporter&gt;(),</div>
+<div class="line"><span class="lineno">  465</span>                            <span class="keyword">null</span>,</div>
+<div class="line"><span class="lineno">  466</span>                            UpdateProgress);</div>
+<div class="line"><span class="lineno">  467</span>                        <span class="keyword">using </span>var innerReporter = progressReporter.CreateSection(<span class="keyword">null</span>, 1.0);</div>
+<div class="line"><span class="lineno">  468</span>                        await operation(</div>
+<div class="line"><span class="lineno">  469</span>                            instanceCoreProvider.GetInstance(job.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_job.html#acd574d824b9790f91424708aae538f52">Instance</a>!),</div>
+<div class="line"><span class="lineno">  470</span>                            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#aadb062723447ba776a7efa9d81493b9a">databaseContextFactory</a>,</div>
+<div class="line"><span class="lineno">  471</span>                            job,</div>
+<div class="line"><span class="lineno">  472</span>                            innerReporter,</div>
+<div class="line"><span class="lineno">  473</span>                            cancellationToken);</div>
+<div class="line"><span class="lineno">  474</span> </div>
+<div class="line"><span class="lineno">  475</span>                        <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#a205ac8792aefeda9cd2a532d36b1784c">logger</a>.LogDebug(<span class="stringliteral">&quot;Job {jobId} completed!&quot;</span>, job.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html#ae31e478e1d338b37a14565df6fd58570">Id</a>);</div>
+<div class="line"><span class="lineno">  476</span>                        result = <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  477</span>                    }</div>
+<div class="line"><span class="lineno">  478</span>                    <span class="keywordflow">catch</span> (OperationCanceledException ex)</div>
+<div class="line"><span class="lineno">  479</span>                    {</div>
+<div class="line"><span class="lineno">  480</span>                        <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#a205ac8792aefeda9cd2a532d36b1784c">logger</a>.LogDebug(ex, <span class="stringliteral">&quot;Job {jobId} cancelled!&quot;</span>, job.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html#ae31e478e1d338b37a14565df6fd58570">Id</a>);</div>
+<div class="line"><span class="lineno">  481</span>                        job.Cancelled = <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  482</span>                    }</div>
+<div class="line"><span class="lineno">  483</span>                    <span class="keywordflow">catch</span> (JobException e)</div>
+<div class="line"><span class="lineno">  484</span>                    {</div>
+<div class="line"><span class="lineno">  485</span>                        job.ErrorCode = e.ErrorCode;</div>
+<div class="line"><span class="lineno">  486</span>                        job.ExceptionDetails = String.IsNullOrWhiteSpace(e.Message) ? e.InnerException?.Message : e.Message + $<span class="stringliteral">&quot; (Inner exception: {e.InnerException?.Message})&quot;</span>;</div>
+<div class="line"><span class="lineno">  487</span>                        LogException(e);</div>
+<div class="line"><span class="lineno">  488</span>                    }</div>
+<div class="line"><span class="lineno">  489</span>                    <span class="keywordflow">catch</span> (<a class="code hl_class" href="class_exception.html">Exception</a> e)</div>
+<div class="line"><span class="lineno">  490</span>                    {</div>
+<div class="line"><span class="lineno">  491</span>                        job.ExceptionDetails = e.ToString();</div>
+<div class="line"><span class="lineno">  492</span>                        LogException(e);</div>
+<div class="line"><span class="lineno">  493</span>                    }</div>
+<div class="line"><span class="lineno">  494</span> </div>
+<div class="line"><span class="lineno">  495</span>                    <span class="keywordflow">try</span></div>
+<div class="line"><span class="lineno">  496</span>                    {</div>
+<div class="line"><span class="lineno">  497</span>                        await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#aadb062723447ba776a7efa9d81493b9a">databaseContextFactory</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_factory.html#a1da664d7237dbec5a6cb9ce04b79ccc1">UseContext</a>(async databaseContext =&gt;</div>
+<div class="line"><span class="lineno">  498</span>                        {</div>
+<div class="line"><span class="lineno">  499</span>                            var attachedJob = <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_job.html">Job</a>(jid);</div>
+<div class="line"><span class="lineno">  500</span> </div>
+<div class="line"><span class="lineno">  501</span>                            databaseContext.Jobs.Attach(attachedJob);</div>
+<div class="line"><span class="lineno">  502</span>                            attachedJob.StoppedAt = DateTimeOffset.UtcNow;</div>
+<div class="line"><span class="lineno">  503</span>                            attachedJob.ExceptionDetails = job.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_job.html#afb20366fa3c290f5478e92e18cc94317">ExceptionDetails</a>;</div>
+<div class="line"><span class="lineno">  504</span>                            attachedJob.ErrorCode = job.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_job.html#ab248f62271e87c90f007c40058c06032">ErrorCode</a>;</div>
+<div class="line"><span class="lineno">  505</span>                            attachedJob.Cancelled = job.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_job.html#ab68caae8a7e5bd3bfd7764cab7b8773d">Cancelled</a>;</div>
+<div class="line"><span class="lineno">  506</span> </div>
+<div class="line"><span class="lineno">  507</span>                            <span class="comment">// DCT: Cancellation token is for job, operation should always run</span></div>
+<div class="line"><span class="lineno">  508</span>                            await databaseContext.Save(CancellationToken.None);</div>
+<div class="line"><span class="lineno">  509</span>                        });</div>
+<div class="line"><span class="lineno">  510</span> </div>
+<div class="line"><span class="lineno">  511</span>                        <span class="comment">// Resetting the context here because I CBA to worry if the cache is being used</span></div>
+<div class="line"><span class="lineno">  512</span>                        await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#aadb062723447ba776a7efa9d81493b9a">databaseContextFactory</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_factory.html#a1da664d7237dbec5a6cb9ce04b79ccc1">UseContext</a>(async databaseContext =&gt;</div>
+<div class="line"><span class="lineno">  513</span>                        {</div>
+<div class="line"><span class="lineno">  514</span>                            <span class="comment">// Cancellation might be set in another async context</span></div>
+<div class="line"><span class="lineno">  515</span>                            <span class="comment">// Also, startedby could have been renamed</span></div>
+<div class="line"><span class="lineno">  516</span>                            <span class="comment">// forced to reload here for the final hub update</span></div>
+<div class="line"><span class="lineno">  517</span>                            <span class="comment">// DCT: Cancellation token is for job, operation should always run</span></div>
+<div class="line"><span class="lineno">  518</span>                            var finalJob = await databaseContext</div>
+<div class="line"><span class="lineno">  519</span>                                .Jobs</div>
+<div class="line"><span class="lineno">  520</span>                                .AsQueryable()</div>
+<div class="line"><span class="lineno">  521</span>                                .Include(x =&gt; x.Instance)</div>
+<div class="line"><span class="lineno">  522</span>                                .Include(x =&gt; x.StartedBy)</div>
+<div class="line"><span class="lineno">  523</span>                                .Include(x =&gt; x.CancelledBy)</div>
+<div class="line"><span class="lineno">  524</span>                                .Where(dbJob =&gt; dbJob.Id == jid)</div>
+<div class="line"><span class="lineno">  525</span>                                .FirstAsync(CancellationToken.None);</div>
+<div class="line"><span class="lineno">  526</span>                            QueueHubUpdate(finalJob.ToApi(), <span class="keyword">true</span>);</div>
+<div class="line"><span class="lineno">  527</span>                        });</div>
+<div class="line"><span class="lineno">  528</span>                    }</div>
+<div class="line"><span class="lineno">  529</span>                    <span class="keywordflow">catch</span></div>
+<div class="line"><span class="lineno">  530</span>                    {</div>
+<div class="line"><span class="lineno">  531</span>                        lock (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#a6bb8a36ea39a48fd1fffdb583e4e71ed">hubUpdateActions</a>)</div>
+<div class="line"><span class="lineno">  532</span>                            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#a6bb8a36ea39a48fd1fffdb583e4e71ed">hubUpdateActions</a>.Remove(jid);</div>
+<div class="line"><span class="lineno">  533</span> </div>
+<div class="line"><span class="lineno">  534</span>                        <span class="keywordflow">throw</span>;</div>
+<div class="line"><span class="lineno">  535</span>                    }</div>
+<div class="line"><span class="lineno">  536</span> </div>
+<div class="line"><span class="lineno">  537</span>                    <span class="keywordflow">try</span></div>
+<div class="line"><span class="lineno">  538</span>                    {</div>
+<div class="line"><span class="lineno">  539</span>                        await hubUpdatesTask;</div>
+<div class="line"><span class="lineno">  540</span>                    }</div>
+<div class="line"><span class="lineno">  541</span>                    <span class="keywordflow">catch</span> (<a class="code hl_class" href="class_exception.html">Exception</a> ex)</div>
+<div class="line"><span class="lineno">  542</span>                    {</div>
+<div class="line"><span class="lineno">  543</span>                        <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#a205ac8792aefeda9cd2a532d36b1784c">logger</a>.LogError(ex, <span class="stringliteral">&quot;Error in hub updates chain task!&quot;</span>);</div>
+<div class="line"><span class="lineno">  544</span>                    }</div>
+<div class="line"><span class="lineno">  545</span> </div>
+<div class="line"><span class="lineno">  546</span>                    <span class="keywordflow">return</span> result;</div>
+<div class="line"><span class="lineno">  547</span>                }</div>
+<div class="line"><span class="lineno">  548</span>                <span class="keywordflow">finally</span></div>
+<div class="line"><span class="lineno">  549</span>                {</div>
+<div class="line"><span class="lineno">  550</span>                    lock (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#a2a0df9ba71fdfea989c57f975fce051f">synchronizationLock</a>)</div>
+<div class="line"><span class="lineno">  551</span>                    {</div>
+<div class="line"><span class="lineno">  552</span>                        var handler = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#adb8db167c189c8ea456a0372432de1a0">jobs</a>[jid];</div>
+<div class="line"><span class="lineno">  553</span>                        <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#adb8db167c189c8ea456a0372432de1a0">jobs</a>.Remove(jid);</div>
+<div class="line"><span class="lineno">  554</span>                        handler.Dispose();</div>
+<div class="line"><span class="lineno">  555</span>                    }</div>
+<div class="line"><span class="lineno">  556</span>                }</div>
+<div class="line"><span class="lineno">  557</span>        }</div>
 <div class="ttc" id="aclass_exception_html"><div class="ttname"><a href="class_exception.html">Exception</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_job_html_ab248f62271e87c90f007c40058c06032"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_job.html#ab248f62271e87c90f007c40058c06032">Tgstation.Server.Api.Models.Internal.Job.ErrorCode</a></div><div class="ttdeci">ErrorCode? ErrorCode</div><div class="ttdoc">The Models.ErrorCode associated with the Job if any.</div><div class="ttdef"><b>Definition:</b> <a href="_tgstation_8_server_8_api_2_models_2_internal_2_job_8cs_source.html#l00030">Job.cs:30</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_job_html_ab68caae8a7e5bd3bfd7764cab7b8773d"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_job.html#ab68caae8a7e5bd3bfd7764cab7b8773d">Tgstation.Server.Api.Models.Internal.Job.Cancelled</a></div><div class="ttdeci">bool? Cancelled</div><div class="ttdoc">If the Job was cancelled.</div><div class="ttdef"><b>Definition:</b> <a href="_tgstation_8_server_8_api_2_models_2_internal_2_job_8cs_source.html#l00054">Job.cs:54</a></div></div>

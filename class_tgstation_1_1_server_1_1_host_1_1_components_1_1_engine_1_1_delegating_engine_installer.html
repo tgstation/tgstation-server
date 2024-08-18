@@ -132,18 +132,18 @@ Public Member Functions</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>The <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installation.html" title="Represents a BYOND installation.">IEngineInstallation</a>.</dd></dl>
   <a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_delegating_engine_installer.html#a2261a1236dcaa47602c9b6dbd3554f70">More...</a><br /></td></tr>
 <tr class="separator:a2261a1236dcaa47602c9b6dbd3554f70"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a59ce35fbf39c2ce3d72bb372cdaede44"><td class="memItemLeft" align="right" valign="top">ValueTask&lt; <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installation_data.html">IEngineInstallationData</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_delegating_engine_installer.html#a59ce35fbf39c2ce3d72bb372cdaede44">DownloadVersion</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_engine_version.html">EngineVersion</a> version, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_progress_reporter.html">JobProgressReporter</a>? jobProgressReporter, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a59ce35fbf39c2ce3d72bb372cdaede44"><td class="mdescLeft">&#160;</td><td class="mdescRight">Download a given engine <em>version</em> . <dl class="params"><dt>Parameters</dt><dd>
+<tr class="memitem:a747b57847efcd7a358f99dc585cb57ba"><td class="memItemLeft" align="right" valign="top">ValueTask&lt; <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installation_data.html">IEngineInstallationData</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_delegating_engine_installer.html#a747b57847efcd7a358f99dc585cb57ba">DownloadVersion</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_engine_version.html">EngineVersion</a> version, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_progress_reporter.html">JobProgressReporter</a> jobProgressReporter, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a747b57847efcd7a358f99dc585cb57ba"><td class="mdescLeft">&#160;</td><td class="mdescRight">Download a given engine <em>version</em> . <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">version</td><td>The EngineVersion of the engine to download.</td></tr>
-    <tr><td class="paramname">jobProgressReporter</td><td>The optional JobProgressReporter for the operation.</td></tr>
+    <tr><td class="paramname">jobProgressReporter</td><td>The JobProgressReporter for the operation.</td></tr>
     <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A ValueTask&lt;TResult&gt; resulting in the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installation_data.html" title="Wraps data containing an engine installation.">IEngineInstallationData</a> for the download.</dd></dl>
-  <a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_delegating_engine_installer.html#a59ce35fbf39c2ce3d72bb372cdaede44">More...</a><br /></td></tr>
-<tr class="separator:a59ce35fbf39c2ce3d72bb372cdaede44"><td class="memSeparator" colspan="2">&#160;</td></tr>
+  <a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_delegating_engine_installer.html#a747b57847efcd7a358f99dc585cb57ba">More...</a><br /></td></tr>
+<tr class="separator:a747b57847efcd7a358f99dc585cb57ba"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6e7d69449d50fffb702a06fd7f36d011"><td class="memItemLeft" align="right" valign="top">ValueTask&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_delegating_engine_installer.html#a6e7d69449d50fffb702a06fd7f36d011">Install</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_engine_version.html">EngineVersion</a> version, string path, bool deploymentPipelineProcesses, CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:a6e7d69449d50fffb702a06fd7f36d011"><td class="mdescLeft">&#160;</td><td class="mdescRight">Does actions necessary to get an extracted installation working. <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -184,9 +184,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a0dac565523ae59fd18a8ad6eb1dfb616"><td class="memItemLeft" align="right" valign="top"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installation.html">IEngineInstallation</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installer.html#a0dac565523ae59fd18a8ad6eb1dfb616">CreateInstallation</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_engine_version.html">EngineVersion</a> version, string path, Task installationTask)</td></tr>
 <tr class="memdesc:a0dac565523ae59fd18a8ad6eb1dfb616"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates an <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installation.html" title="Represents a BYOND installation.">IEngineInstallation</a> for a given <em>version</em> .   <a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installer.html#a0dac565523ae59fd18a8ad6eb1dfb616">More...</a><br /></td></tr>
 <tr class="separator:a0dac565523ae59fd18a8ad6eb1dfb616"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a76100637a7abd23c97157b7a4deb4736"><td class="memItemLeft" align="right" valign="top">ValueTask&lt; <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installation_data.html">IEngineInstallationData</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installer.html#a76100637a7abd23c97157b7a4deb4736">DownloadVersion</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_engine_version.html">EngineVersion</a> version, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_progress_reporter.html">JobProgressReporter</a>? jobProgressReporter, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a76100637a7abd23c97157b7a4deb4736"><td class="mdescLeft">&#160;</td><td class="mdescRight">Download a given engine <em>version</em> .   <a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installer.html#a76100637a7abd23c97157b7a4deb4736">More...</a><br /></td></tr>
-<tr class="separator:a76100637a7abd23c97157b7a4deb4736"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1841dfb27438fbd4d70462cd137bcb42"><td class="memItemLeft" align="right" valign="top">ValueTask&lt; <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installation_data.html">IEngineInstallationData</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installer.html#a1841dfb27438fbd4d70462cd137bcb42">DownloadVersion</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_engine_version.html">EngineVersion</a> version, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_progress_reporter.html">JobProgressReporter</a> jobProgressReporter, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a1841dfb27438fbd4d70462cd137bcb42"><td class="mdescLeft">&#160;</td><td class="mdescRight">Download a given engine <em>version</em> .   <a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installer.html#a1841dfb27438fbd4d70462cd137bcb42">More...</a><br /></td></tr>
+<tr class="separator:a1841dfb27438fbd4d70462cd137bcb42"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a96982c374c0d5d56779125fce7c933be"><td class="memItemLeft" align="right" valign="top">ValueTask&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installer.html#a96982c374c0d5d56779125fce7c933be">Install</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_engine_version.html">EngineVersion</a> version, string path, bool deploymentPipelineProcesses, CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:a96982c374c0d5d56779125fce7c933be"><td class="mdescLeft">&#160;</td><td class="mdescRight">Does actions necessary to get an extracted installation working.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installer.html#a96982c374c0d5d56779125fce7c933be">More...</a><br /></td></tr>
 <tr class="separator:a96982c374c0d5d56779125fce7c933be"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -389,8 +389,8 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a59ce35fbf39c2ce3d72bb372cdaede44" name="a59ce35fbf39c2ce3d72bb372cdaede44"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a59ce35fbf39c2ce3d72bb372cdaede44">&#9670;&#160;</a></span>DownloadVersion()</h2>
+<a id="a747b57847efcd7a358f99dc585cb57ba" name="a747b57847efcd7a358f99dc585cb57ba"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a747b57847efcd7a358f99dc585cb57ba">&#9670;&#160;</a></span>DownloadVersion()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -404,7 +404,7 @@ Private Attributes</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_progress_reporter.html">JobProgressReporter</a>?&#160;</td>
+          <td class="paramtype"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_progress_reporter.html">JobProgressReporter</a>&#160;</td>
           <td class="paramname"><em>jobProgressReporter</em>, </td>
         </tr>
         <tr>
@@ -424,7 +424,7 @@ Private Attributes</h2></td></tr>
 <p>Download a given engine <em>version</em> . <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">version</td><td>The EngineVersion of the engine to download.</td></tr>
-    <tr><td class="paramname">jobProgressReporter</td><td>The optional JobProgressReporter for the operation.</td></tr>
+    <tr><td class="paramname">jobProgressReporter</td><td>The JobProgressReporter for the operation.</td></tr>
     <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
   </table>
   </dd>
@@ -432,7 +432,7 @@ Private Attributes</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>A ValueTask&lt;TResult&gt; resulting in the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installation_data.html" title="Wraps data containing an engine installation.">IEngineInstallationData</a> for the download.</dd></dl>
  </p>
 
-<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installer.html#a76100637a7abd23c97157b7a4deb4736">Tgstation.Server.Host.Components.Engine.IEngineInstaller</a>.</p>
+<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_i_engine_installer.html#a1841dfb27438fbd4d70462cd137bcb42">Tgstation.Server.Host.Components.Engine.IEngineInstaller</a>.</p>
 
 </div>
 </div>

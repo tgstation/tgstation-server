@@ -1,8 +1,0 @@
-<map id="Tgstation.Server.Host.Components.Engine.OpenDreamInstaller.DownloadVersion" name="Tgstation.Server.Host.Components.Engine.OpenDreamInstaller.DownloadVersion">
-<area shape="rect" id="node1" title="Download a given engine version . A ValueTask&lt;TResult&gt; resulting in the IEngineInstallationData for t..." alt="" coords="5,127,288,167"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_engine_installer_base.html#a7e0a63f182a77bc1a099f3c7f8cd6849" title="Check that a given version &#160;is of type EngineType.Byond." alt="" coords="352,5,615,60"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository_manager.html#a01642bc09ffdcb87116758727bcbd813" title="Clone the repository at url ." alt="" coords="365,84,602,139"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_progress_reporter.html#a32254a185da6e76e7fcd2d72a8032970" title="Create a subsection of the JobProgressReporter with its optional own stage name." alt="" coords="369,163,598,203"/>
-<area shape="rect" id="node6" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository_manager.html#a5e58009c7d92a55634a7ddd80ca60b1b" title="Attempt to load the IRepository from the default location." alt="" coords="336,227,631,267"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_progress_reporter.html#ac736a80d9d56a20711468d9b8e27e3c1" title="Report progress." alt="" coords="679,163,916,203"/>
-</map>

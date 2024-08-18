@@ -1,0 +1,4 @@
+<map id="Tgstation.Server.Host.Components.Repository.Repository.CheckoutProgressHandler" name="Tgstation.Server.Host.Components.Repository.Repository.CheckoutProgressHandler">
+<area shape="rect" id="node1" title="Converts a given progressReporter &#160;to a LibGit2Sharp.Handlers.CheckoutProgressHandler." alt="" coords="5,5,263,60"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_progress_reporter.html#ac736a80d9d56a20711468d9b8e27e3c1" title="Report progress." alt="" coords="311,13,548,53"/>
+</map>

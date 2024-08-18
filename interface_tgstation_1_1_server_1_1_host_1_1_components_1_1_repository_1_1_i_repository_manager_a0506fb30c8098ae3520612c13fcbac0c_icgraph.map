@@ -1,0 +1,4 @@
+<map id="Tgstation.Server.Host.Components.Repository.IRepositoryManager.CloneRepository" name="Tgstation.Server.Host.Components.Repository.IRepositoryManager.CloneRepository">
+<area shape="rect" id="node1" title="Clone the repository at url ." alt="" coords="336,5,573,60"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_engine_1_1_open_dream_installer.html#a80f999e3876ac5a4c9c92684df68ec12" title="Download a given engine version . A ValueTask&lt;TResult&gt; resulting in the IEngineInstallationData for t..." alt="" coords="5,13,288,53"/>
+</map>

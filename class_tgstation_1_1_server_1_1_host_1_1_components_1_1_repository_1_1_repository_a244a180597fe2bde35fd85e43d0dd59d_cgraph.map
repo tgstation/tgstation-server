@@ -1,0 +1,9 @@
+<map id="Tgstation.Server.Host.Components.Repository.Repository.FetchOrigin" name="Tgstation.Server.Host.Components.Repository.Repository.FetchOrigin">
+<area shape="rect" id="node1" title="Fetch commits from the origin repository. A ValueTask representing the running operation." alt="" coords="5,149,232,189"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_credentials_provider.html#adadfc1a59c4a3f30bc795c43b3c6fa42" title="Rethrow the authentication failure message as a JobException if it is one." alt="" coords="288,5,531,60"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_progress_reporter.html#a32254a185da6e76e7fcd2d72a8032970" title="Create a subsection of the JobProgressReporter with its optional own stage name." alt="" coords="295,85,524,125"/>
+<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_lib_git2_commands.html#a3660f1ded05e762c347ffc43c6d71700" title="Runs a blocking fetch operation on a given repository ." alt="" coords="292,149,527,189"/>
+<area shape="rect" id="node6" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_credentials_provider.html#a26b24a1c8a29d90d03abdb627eb24635" title="Generate a CredentialsHandler from a given username &#160;and password ." alt="" coords="280,213,539,268"/>
+<area shape="rect" id="node7" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html#a564f82eb43566dabd77e37191b4e3d37" title="Handle a given eventType ." alt="" coords="290,293,529,333"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_progress_reporter.html#aa95af832a3c5781b796441234fc0e5fe" title="Initializes a new instance of the JobProgressReporter class." alt="" coords="587,77,807,132"/>
+</map>

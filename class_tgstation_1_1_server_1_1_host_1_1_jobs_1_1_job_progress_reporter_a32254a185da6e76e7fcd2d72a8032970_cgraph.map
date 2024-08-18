@@ -1,4 +1,4 @@
 <map id="Tgstation.Server.Host.Jobs.JobProgressReporter.CreateSection" name="Tgstation.Server.Host.Jobs.JobProgressReporter.CreateSection">
-<area shape="rect" id="node1" title="Create a subsection of the JobProgressReporter with its optional own stage name." alt="" coords="5,5,235,45"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_progress_reporter.html#ac736a80d9d56a20711468d9b8e27e3c1" title="Report progress." alt="" coords="283,5,520,45"/>
+<area shape="rect" id="node1" title="Create a subsection of the JobProgressReporter with its optional own stage name." alt="" coords="5,13,235,53"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_progress_reporter.html#aa95af832a3c5781b796441234fc0e5fe" title="Initializes a new instance of the JobProgressReporter class." alt="" coords="283,5,503,60"/>
 </map>

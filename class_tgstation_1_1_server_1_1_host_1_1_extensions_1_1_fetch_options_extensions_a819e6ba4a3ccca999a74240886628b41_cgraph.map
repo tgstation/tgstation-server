@@ -1,5 +1,0 @@
-<map id="Tgstation.Server.Host.Extensions.FetchOptionsExtensions.Hydrate" name="Tgstation.Server.Host.Extensions.FetchOptionsExtensions.Hydrate">
-<area shape="rect" id="node1" title="Hydrate a given set of fetchOptions ." alt="" coords="5,41,223,81"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_progress_reporter.html#ac736a80d9d56a20711468d9b8e27e3c1" title="Report progress." alt="" coords="285,5,523,45"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_fetch_options_extensions.html#a15e986ebc3ee757beadd72f98f99076c" title="Generate a LibGit2Sharp.Handlers.TransferProgressHandler from a given progressReporter &#160;and cancellat..." alt="" coords="271,70,537,125"/>
-</map>
