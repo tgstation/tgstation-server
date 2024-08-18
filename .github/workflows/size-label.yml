@@ -1,9 +1,6 @@
 name: Size Labelling
 on:
   pull_request_target:
-    branches:
-      - dev
-      - master
 
 jobs:
   size-label:
