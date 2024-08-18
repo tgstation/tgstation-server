@@ -197,7 +197,8 @@ namespace Tgstation.Server.Host.Jobs
 				sectionReservations = 0;
 			}
 
-			if (percentage + sectionReservations.Value > 1.0001) // floating point >.<
+			// floating point >.<
+			if (percentage + sectionReservations.Value > 1.0001)
 			{
 				var remainingPercentage = 1.0 - sectionReservations.Value;
 				logger.LogError(
