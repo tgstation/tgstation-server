@@ -123,7 +123,7 @@ namespace Tgstation.Server.Host.Components.Repository
 			string? initialBranch,
 			string? username,
 			string? password,
-			JobProgressReporter? progressReporter,
+			JobProgressReporter progressReporter,
 			bool recurseSubmodules,
 			CancellationToken cancellationToken)
 		{
@@ -146,8 +146,8 @@ namespace Tgstation.Server.Host.Components.Repository
 					if (!await ioManager.DirectoryExists(repositoryPath, cancellationToken))
 						try
 						{
-							var cloneProgressReporter = progressReporter?.CreateSection(null, 0.75f);
-							var checkoutProgressReporter = progressReporter?.CreateSection(null, 0.25f);
+							using var cloneProgressReporter = progressReporter.CreateSection(null, 0.75f);
+							using var checkoutProgressReporter = progressReporter.CreateSection(null, 0.25f);
 							var cloneOptions = new CloneOptions
 							{
 								RecurseSubmodules = recurseSubmodules,

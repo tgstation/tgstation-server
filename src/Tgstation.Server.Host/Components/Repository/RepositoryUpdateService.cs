@@ -173,10 +173,7 @@ namespace Tgstation.Server.Host.Components.Repository
 			var numSteps = (model.NewTestMerges?.Count ?? 0) + (model.UpdateFromOrigin == true ? 1 : 0) + (!modelHasShaOrReference ? 2 : (hardResettingToOriginReference ? 3 : 1));
 			var progressFactor = 1.0 / numSteps;
 
-			JobProgressReporter NextProgressReporter(string? stage)
-			{
-				return progressReporter.CreateSection(stage, progressFactor);
-			}
+			JobProgressReporter NextProgressReporter(string? stage) => progressReporter.CreateSection(stage, progressFactor);
 
 			progressReporter.ReportProgress(0);
 
@@ -246,29 +243,35 @@ namespace Tgstation.Server.Host.Components.Repository
 				{
 					if (!repo.Tracking)
 						throw new JobException(ErrorCode.RepoReferenceRequired);
-					await repo.FetchOrigin(
-						NextProgressReporter("Fetch Origin"),
-						currentModel.AccessUser,
-						currentModel.AccessToken,
-						false,
-						cancellationToken);
+					using (var fetchReporter = NextProgressReporter("Fetch Origin"))
+						await repo.FetchOrigin(
+							fetchReporter,
+							currentModel.AccessUser,
+							currentModel.AccessToken,
+							false,
+							cancellationToken);
 
 					if (!modelHasShaOrReference)
 					{
-						var fastForward = await repo.MergeOrigin(
-							NextProgressReporter("Merge Origin"),
-							committerName,
-							currentModel.CommitterEmail!,
-							false,
-							cancellationToken);
+						bool? fastForward;
+						using (var mergeReporter = NextProgressReporter("Merge Origin"))
+							fastForward = await repo.MergeOrigin(
+								mergeReporter,
+								committerName,
+								currentModel.CommitterEmail!,
+								false,
+								cancellationToken);
+
 						if (!fastForward.HasValue)
 							throw new JobException(ErrorCode.RepoMergeConflict);
+
 						lastRevisionInfo!.OriginCommitSha = await repo.GetOriginSha(cancellationToken);
 						await UpdateRevInfo();
 						if (fastForward.Value)
 						{
+							using var syncReporter = NextProgressReporter("Sychronize");
 							await repo.Synchronize(
-								NextProgressReporter("Sychronize"),
+								syncReporter,
 								currentModel.AccessUser,
 								currentModel.AccessToken,
 								currentModel.CommitterName!,
@@ -279,7 +282,7 @@ namespace Tgstation.Server.Host.Components.Repository
 							postUpdateSha = repo.Head;
 						}
 						else
-							NextProgressReporter(null).ReportProgress(1.0);
+							NextProgressReporter(null).Dispose();
 					}
 				}
 
@@ -303,39 +306,44 @@ namespace Tgstation.Server.Host.Components.Repository
 						if ((isSha && model.Reference != null) || (!isSha && model.CheckoutSha != null))
 							throw new JobException(ErrorCode.RepoSwappedShaOrReference);
 
-						await repo.CheckoutObject(
-							committish,
-							currentModel.AccessUser,
-							currentModel.AccessToken,
-							updateSubmodules,
-							false,
-							NextProgressReporter("Checkout"),
-							cancellationToken);
+						using (var checkoutReporter = NextProgressReporter("Checkout"))
+							await repo.CheckoutObject(
+								committish,
+								currentModel.AccessUser,
+								currentModel.AccessToken,
+								updateSubmodules,
+								false,
+								checkoutReporter,
+								cancellationToken);
 						await CallLoadRevInfo(); // we've either seen origin before or what we're checking out is on origin
 					}
 					else
-						NextProgressReporter(null).ReportProgress(1.0);
+						NextProgressReporter(null).Dispose();
 
 					if (hardResettingToOriginReference)
 					{
 						if (!repo.Tracking)
 							throw new JobException(ErrorCode.RepoReferenceNotTracking);
-						await repo.ResetToOrigin(
-							NextProgressReporter("Reset to Origin"),
-							currentModel.AccessUser,
-							currentModel.AccessToken,
-							updateSubmodules,
-							false,
-							cancellationToken);
-						await repo.Synchronize(
-							NextProgressReporter("Synchronize"),
-							currentModel.AccessUser,
-							currentModel.AccessToken,
-							currentModel.CommitterName!,
-							currentModel.CommitterEmail!,
-							true,
-							false,
-							cancellationToken);
+						using (var resetReporter = NextProgressReporter("Reset to Origin"))
+							await repo.ResetToOrigin(
+								resetReporter,
+								currentModel.AccessUser,
+								currentModel.AccessToken,
+								updateSubmodules,
+								false,
+								cancellationToken);
+
+						using (var syncReporter = NextProgressReporter("Synchronize"))
+							await repo.Synchronize(
+								syncReporter,
+								currentModel.AccessUser,
+								currentModel.AccessToken,
+								currentModel.CommitterName!,
+								currentModel.CommitterEmail!,
+								true,
+								false,
+								cancellationToken);
+
 						await CallLoadRevInfo();
 
 						// repo head is on origin so force this
@@ -486,7 +494,8 @@ namespace Tgstation.Server.Host.Components.Repository
 						// goteem
 						var commitSha = revInfoWereLookingFor.CommitSha!;
 						logger.LogDebug("Reusing existing SHA {sha}...", commitSha);
-						await repo.ResetToSha(commitSha, NextProgressReporter($"Reset to {commitSha[..7]}"), cancellationToken);
+						using var resetReporter = NextProgressReporter($"Reset to {commitSha[..7]}");
+						await repo.ResetToSha(commitSha, resetReporter, cancellationToken);
 						lastRevisionInfo = revInfoWereLookingFor;
 					}
 
@@ -499,15 +508,17 @@ namespace Tgstation.Server.Host.Components.Repository
 
 							var fullTestMergeTask = repo.GetTestMerge(newTestMerge, currentModel, cancellationToken);
 
-							var mergeResult = await repo.AddTestMerge(
-								newTestMerge,
-								committerName,
-								currentModel.CommitterEmail!,
-								currentModel.AccessUser,
-								currentModel.AccessToken,
-								updateSubmodules,
-								NextProgressReporter($"Test merge #{newTestMerge.Number}"),
-								cancellationToken);
+							TestMergeResult mergeResult;
+							using (var testMergeReporter = NextProgressReporter($"Test merge #{newTestMerge.Number}"))
+								mergeResult = await repo.AddTestMerge(
+									newTestMerge,
+									committerName,
+									currentModel.CommitterEmail!,
+									currentModel.AccessUser,
+									currentModel.AccessToken,
+									updateSubmodules,
+									testMergeReporter,
+									cancellationToken);
 
 							if (mergeResult.Status == MergeStatus.Conflicts)
 								throw new JobException(
@@ -546,15 +557,17 @@ namespace Tgstation.Server.Host.Components.Repository
 				var currentHead = repo.Head;
 				if (currentModel.PushTestMergeCommits!.Value && (startSha != currentHead || (postUpdateSha != null && postUpdateSha != currentHead)))
 				{
-					await repo.Synchronize(
-						NextProgressReporter("Synchronize"),
-						currentModel.AccessUser,
-						currentModel.AccessToken,
-						currentModel.CommitterName!,
-						currentModel.CommitterEmail!,
-						false,
-						false,
-						cancellationToken);
+					using (var syncReporter = NextProgressReporter("Synchronize"))
+						await repo.Synchronize(
+							syncReporter,
+							currentModel.AccessUser,
+							currentModel.AccessToken,
+							currentModel.CommitterName!,
+							currentModel.CommitterEmail!,
+							false,
+							false,
+							cancellationToken);
+
 					await UpdateRevInfo();
 				}
 			}
@@ -568,17 +581,19 @@ namespace Tgstation.Server.Host.Components.Repository
 				var secondStep = startReference != null && repo.Head != startSha;
 
 				// DCTx2: Cancellation token is for job, operations should always run
-				await repo.CheckoutObject(
-					startReference ?? startSha,
-					currentModel.AccessUser,
-					currentModel.AccessToken,
-					true,
-					false,
-					progressReporter.CreateSection($"Checkout {startReference ?? startSha[..7]}", secondStep ? 0.5 : 1.0),
-					default);
+				using (var checkoutReporter = progressReporter.CreateSection($"Checkout {startReference ?? startSha[..7]}", secondStep ? 0.5 : 1.0))
+					await repo.CheckoutObject(
+						startReference ?? startSha,
+						currentModel.AccessUser,
+						currentModel.AccessToken,
+						true,
+						false,
+						checkoutReporter,
+						default);
 
 				if (secondStep)
-					await repo.ResetToSha(startSha, progressReporter.CreateSection($"Hard reset to SHA {startSha[..7]}", 0.5), default);
+					using (var resetReporter = progressReporter.CreateSection($"Hard reset to SHA {startSha[..7]}", 0.5))
+						await repo.ResetToSha(startSha, resetReporter, default);
 
 				throw;
 			}
@@ -608,32 +623,35 @@ namespace Tgstation.Server.Host.Components.Repository
 			string? oldReference;
 			string oldSha;
 			ValueTask deleteTask;
-			using (var oldRepo = await instance.RepositoryManager.LoadRepository(cancellationToken))
+			using (var deleteReporter = progressReporter.CreateSection("Deleting Old Repository", 0.1))
 			{
-				if (oldRepo == null)
-					throw new JobException(ErrorCode.RepoMissing);
+				using (var oldRepo = await instance.RepositoryManager.LoadRepository(cancellationToken))
+				{
+					if (oldRepo == null)
+						throw new JobException(ErrorCode.RepoMissing);
 
-				origin = oldRepo.Origin;
-				oldSha = oldRepo.Head;
-				oldReference = oldRepo.Reference;
-				if (oldReference == Repository.NoReference)
-					oldReference = null;
+					origin = oldRepo.Origin;
+					oldSha = oldRepo.Head;
+					oldReference = oldRepo.Reference;
+					if (oldReference == Repository.NoReference)
+						oldReference = null;
 
-				progressReporter.StageName = "Deleting Old Repository";
-				deleteTask = instance.RepositoryManager.DeleteRepository(cancellationToken);
+					deleteTask = instance.RepositoryManager.DeleteRepository(cancellationToken);
+				}
+
+				await deleteTask;
 			}
 
-			await deleteTask;
-			progressReporter.ReportProgress(0.1);
 			IRepository newRepo;
 			try
 			{
+				using var cloneReporter = progressReporter.CreateSection("Cloning New Repository", 0.8);
 				newRepo = await instance.RepositoryManager.CloneRepository(
 					origin,
 					oldReference,
 					currentModel.AccessUser,
 					currentModel.AccessToken,
-					progressReporter.CreateSection("Cloning New Repository", 0.8),
+					cloneReporter,
 					true, // TODO: Make configurable maybe...
 					cancellationToken)
 					?? throw new JobException("A race condition occurred while recloning the repository. Somehow, it was fully cloned instantly after being deleted!"); // I'll take lines of code that should never be hit for $10k
@@ -655,14 +673,17 @@ namespace Tgstation.Server.Host.Components.Repository
 			}
 
 			using (newRepo)
+			using (var checkoutReporter = progressReporter.CreateSection("Checking out previous Detached Commit", 0.1))
+			{
 				await newRepo.CheckoutObject(
 					oldSha,
 					currentModel.AccessUser,
 					currentModel.AccessToken,
 					false,
 					oldReference != null,
-					progressReporter.CreateSection("Checking out previous Detached Commit", 0.1),
+					checkoutReporter,
 					cancellationToken);
+			}
 		}
 	}
 }

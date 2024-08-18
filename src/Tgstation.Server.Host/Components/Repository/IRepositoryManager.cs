@@ -35,7 +35,7 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// <param name="initialBranch">The optional branch to clone.</param>
 		/// <param name="username">The optional username to clone from <paramref name="url"/>.</param>
 		/// <param name="password">The optional password to clone from <paramref name="url"/>.</param>
-		/// <param name="progressReporter">The optional <see cref="JobProgressReporter"/> for progress of the clone.</param>
+		/// <param name="progressReporter">The <see cref="JobProgressReporter"/> for progress of the clone.</param>
 		/// <param name="recurseSubmodules">If submodules should be recusively cloned and initialized.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting i the newly cloned <see cref="IRepository"/>, <see langword="null"/> if one already exists.</returns>
@@ -44,7 +44,7 @@ namespace Tgstation.Server.Host.Components.Repository
 			string? initialBranch,
 			string? username,
 			string? password,
-			JobProgressReporter? progressReporter,
+			JobProgressReporter progressReporter,
 			bool recurseSubmodules,
 			CancellationToken cancellationToken);
 

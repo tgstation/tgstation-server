@@ -20,14 +20,14 @@ namespace Tgstation.Server.Host.Extensions
 		/// </summary>
 		/// <param name="fetchOptions">The <see cref="FetchOptions"/> to hydrate.</param>
 		/// <param name="logger">The <see cref="ILogger"/> for the operation.</param>
-		/// <param name="progressReporter">The optional <see cref="JobProgressReporter"/>.</param>
+		/// <param name="progressReporter">The <see cref="JobProgressReporter"/>.</param>
 		/// <param name="credentialsHandler">The optional <see cref="CredentialsHandler"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>The hydrated <paramref name="fetchOptions"/>.</returns>
 		public static FetchOptions Hydrate(
 			this FetchOptions fetchOptions,
 			ILogger logger,
-			JobProgressReporter? progressReporter,
+			JobProgressReporter progressReporter,
 			CredentialsHandler credentialsHandler,
 			CancellationToken cancellationToken)
 		{
@@ -60,10 +60,10 @@ namespace Tgstation.Server.Host.Extensions
 		/// Generate a <see cref="LibGit2Sharp.Handlers.TransferProgressHandler"/> from a given <paramref name="progressReporter"/> and <paramref name="cancellationToken"/>.
 		/// </summary>
 		/// <param name="logger">The <see cref="ILogger"/> for the operation.</param>
-		/// <param name="progressReporter">The optional <see cref="JobProgressReporter"/> of the operation.</param>
+		/// <param name="progressReporter">The <see cref="JobProgressReporter"/> of the operation.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A new <see cref="LibGit2Sharp.Handlers.TransferProgressHandler"/> based on <paramref name="progressReporter"/>.</returns>
-		static TransferProgressHandler TransferProgressHandler(ILogger logger, JobProgressReporter? progressReporter, CancellationToken cancellationToken) => transferProgress =>
+		static TransferProgressHandler TransferProgressHandler(ILogger logger, JobProgressReporter progressReporter, CancellationToken cancellationToken) => transferProgress =>
 		{
 			double? percentage;
 			var totalObjectsToProcess = transferProgress.TotalObjects * 2;
