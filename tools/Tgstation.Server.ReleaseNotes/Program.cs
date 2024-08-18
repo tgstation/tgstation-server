@@ -1,7 +1,6 @@
 ﻿// This program is minimal effort and should be sent to remedial school
 
 using System;
-using System.Buffers.Text;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -60,8 +59,8 @@ namespace Tgstation.Server.ReleaseNotes
 			var shaCheck = versionString.Equals("--winget-template-check", StringComparison.OrdinalIgnoreCase);
 			var fullNotes = versionString.Equals("--generate-full-notes", StringComparison.OrdinalIgnoreCase);
 			var nuget = versionString.Equals("--nuget", StringComparison.OrdinalIgnoreCase);
-			var ciCompletionCheck = versionString.Equals("--ci-completion-check", StringComparison.OrdinalIgnoreCase);
 			var genToken = versionString.Equals("--token-output-file", StringComparison.OrdinalIgnoreCase);
+			var waitCodecov = versionString.Equals("--wait-codecov", StringComparison.OrdinalIgnoreCase);
 
 			if ((!Version.TryParse(versionString, out var version) || version.Revision != -1)
 				&& !ensureRelease
@@ -69,8 +68,8 @@ namespace Tgstation.Server.ReleaseNotes
 				&& !shaCheck
 				&& !fullNotes
 				&& !nuget
-				&& !ciCompletionCheck
-				&& !genToken)
+				&& !genToken
+				&& !waitCodecov)
 			{
 				Console.WriteLine("Invalid version: " + versionString);
 				return 2;
@@ -111,20 +110,7 @@ namespace Tgstation.Server.ReleaseNotes
 						break;
 				}
 
-			const string ReleaseNotesEnvVar = "TGS_RELEASE_NOTES_TOKEN";
-			var githubToken = Environment.GetEnvironmentVariable(ReleaseNotesEnvVar);
-			if (String.IsNullOrWhiteSpace(githubToken) && !doNotCloseMilestone && !ensureRelease)
-			{
-				Console.WriteLine("Missing " + ReleaseNotesEnvVar + " environment variable!");
-				return 3;
-			}
-
 			var client = new GitHubClient(new Octokit.ProductHeaderValue("tgs_release_notes"));
-			if (!String.IsNullOrWhiteSpace(githubToken))
-			{
-				client.Credentials = new Credentials(githubToken);
-			}
-
 			try
 			{
 				if (ensureRelease)
@@ -135,9 +121,45 @@ namespace Tgstation.Server.ReleaseNotes
 						return 454233;
 					}
 
-					await GenerateAppCredentials(client, args[1]);
+					await GenerateAppCredentials(client, args[1], false);
 
 					return await EnsureRelease(client);
+				}
+
+				if (genToken)
+				{
+					if (args.Length < 3)
+					{
+						Console.WriteLine("Missing output file path or PEM Base64 for app authentication!");
+						return 33847;
+					}
+
+					bool toSS13 = args.Length > 3 && args[3].Equals("--spacestation13", StringComparison.OrdinalIgnoreCase);
+					await GenerateAppCredentials(client, args[2], toSS13);
+
+					var token = client.Credentials.GetToken();
+					var destPath = args[1];
+					Directory.CreateDirectory(Path.GetDirectoryName(destPath));
+					await File.WriteAllTextAsync(destPath, token);
+					return 0;
+				}
+
+				const string ReleaseNotesEnvVar = "TGS_RELEASE_NOTES_TOKEN";
+				var githubToken = Environment.GetEnvironmentVariable(ReleaseNotesEnvVar);
+				if (String.IsNullOrWhiteSpace(githubToken) && !doNotCloseMilestone && !ensureRelease)
+				{
+					Console.WriteLine("Missing " + ReleaseNotesEnvVar + " environment variable!");
+					return 3;
+				}
+
+				if (!String.IsNullOrWhiteSpace(githubToken))
+				{
+					client.Credentials = new Credentials(githubToken);
+				}
+
+				if (waitCodecov)
+				{
+					return await CodecovCheck(client, Int64.Parse(args[1]));
 				}
 
 				if (linkWinget)
@@ -151,38 +173,9 @@ namespace Tgstation.Server.ReleaseNotes
 					return await Winget(client, actionsUrl, null);
 				}
 
-				if (ciCompletionCheck)
-				{
-					if (args.Length < 3)
-					{
-						Console.WriteLine("Missing SHA or PEM Base64 for creating check run!");
-						return 4543;
-					}
-
-					return await CICompletionCheck(client, args[1], args[2]);
-				}
-
-
-				if (genToken)
-				{
-					if (args.Length < 3)
-					{
-						Console.WriteLine("Missing output file path or PEM Base64 for app authentication!");
-						return 33847;
-					}
-
-					await GenerateAppCredentials(client, args[2]);
-
-					var token = client.Credentials.GetToken();
-					var destPath = args[1];
-					Directory.CreateDirectory(Path.GetDirectoryName(destPath));
-					await File.WriteAllTextAsync(destPath, token);
-					return 0;
-				}
-
 				if (shaCheck)
 				{
-					if(args.Length < 2)
+					if (args.Length < 2)
 					{
 						Console.WriteLine("Missing SHA for PR template!");
 						return 32;
@@ -764,7 +757,7 @@ namespace Tgstation.Server.ReleaseNotes
 					}
 					if (trimmedLine.StartsWith("/:cl:", StringComparison.Ordinal) || trimmedLine.StartsWith("/🆑", StringComparison.Ordinal))
 					{
-						if(!Enum.TryParse<Component>(targetComponent, out var component))
+						if (!Enum.TryParse<Component>(targetComponent, out var component))
 							component = targetComponent.ToUpperInvariant() switch
 							{
 								"**CONFIGURATION**" or "CONFIGURATION" or "CONFIG" => Component.Configuration,
@@ -890,7 +883,7 @@ Note: `<path>` is the directory's name containing the manifest you're submitting
 			});
 
 			var prToModify = userPrsOnWingetRepo.Items.OrderByDescending(pr => pr.Number).FirstOrDefault();
-			if(prToModify == null)
+			if (prToModify == null)
 			{
 				Console.WriteLine("Could not find open winget-pkgs PR!");
 				return 31;
@@ -1013,7 +1006,7 @@ Note: `<path>` is the directory's name containing the manifest you're submitting
 							.GroupBy(kvp => kvp.Key)
 							.Select(grouping => new KeyValuePair<Component, Version>(grouping.Key, grouping.Max(kvp => kvp.Value))));
 
-					foreach(var maxVersionKvp in prResults.SelectMany(x => x.Item1)
+					foreach (var maxVersionKvp in prResults.SelectMany(x => x.Item1)
 						.Where(x => !releasedComponentVersions.ContainsKey(x.Key))
 						.GroupBy(x => x.Key)
 						.Select(group => {
@@ -1039,7 +1032,7 @@ Note: `<path>` is the directory's name containing the manifest you're submitting
 					var component = componentKvp.Key;
 					var list = new List<Changelist>();
 
-					foreach(var changelistDict in prResults.Select(x => x.Item1))
+					foreach (var changelistDict in prResults.Select(x => x.Item1))
 					{
 						if (!changelistDict.TryGetValue(component, out var changelist))
 							continue;
@@ -1143,7 +1136,7 @@ Note: `<path>` is the directory's name containing the manifest you're submitting
 			return 0;
 		}
 
-		static readonly HttpClient httpClient = new (
+		static readonly HttpClient httpClient = new(
 			new HttpClientHandler()
 			{
 				AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate
@@ -1192,7 +1185,8 @@ Note: `<path>` is the directory's name containing the manifest you're submitting
 				release => release.Id);
 
 			var milestones = await TripleCheckGitHubPagination(
-				apiOptions => client.Issue.Milestone.GetAllForRepository(RepoOwner, RepoName, new MilestoneRequest {
+				apiOptions => client.Issue.Milestone.GetAllForRepository(RepoOwner, RepoName, new MilestoneRequest
+				{
 					State = ItemStateFilter.All
 				}, apiOptions),
 				milestone => milestone.Id);
@@ -1400,7 +1394,7 @@ Note: `<path>` is the directory's name containing the manifest you're submitting
 				PrintChanges(newNotes, relevantChangelog);
 			}
 
-			if(component == Component.DreamMakerApi)
+			if (component == Component.DreamMakerApi)
 			{
 				newNotes.AppendLine();
 				newNotes.AppendLine("#tgs-dmapi-release");
@@ -1450,7 +1444,7 @@ Note: `<path>` is the directory's name containing the manifest you're submitting
 				{ Component.NugetClient, "Client" },
 			};
 
-			foreach(var kvp in csprojNameMap)
+			foreach (var kvp in csprojNameMap)
 			{
 				var component = kvp.Key;
 				var csprojPath = CsprojSubstitution.Replace("$PROJECT$", kvp.Value);
@@ -1588,7 +1582,7 @@ package (version) distribution(s); urgency=urgency
 					builder.AppendLine();
 					builder.Append("  * The following changes are for ");
 					builder.Append(GetComponentDisplayName(kvp.Key, true));
-					if(kvp.Key == Component.Configuration)
+					if (kvp.Key == Component.Configuration)
 					{
 						builder.Append(". You ");
 						if (kvp.Value.Version.Minor == 0 && kvp.Value.Version.Build == 0)
@@ -1640,7 +1634,7 @@ package (version) distribution(s); urgency=urgency
 			return 0;
 		}
 
-		static async ValueTask GenerateAppCredentials(GitHubClient gitHubClient, string pemBase64)
+		static async ValueTask GenerateAppCredentials(GitHubClient gitHubClient, string pemBase64, bool toSS13)
 		{
 			var pemBytes = Convert.FromBase64String(pemBase64);
 			var pem = Encoding.UTF8.GetString(pemBytes);
@@ -1665,25 +1659,14 @@ package (version) distribution(s); urgency=urgency
 
 			gitHubClient.Credentials = new Credentials(jwtStr, AuthenticationType.Bearer);
 
-			var installation = await gitHubClient.GitHubApps.GetRepositoryInstallationForCurrent(RepoOwner, RepoName);
+			var installation = await gitHubClient.GitHubApps.GetRepositoryInstallationForCurrent(
+				toSS13
+					? "spacestation13"
+					: RepoOwner,
+				RepoName);
 			var installToken = await gitHubClient.GitHubApps.CreateInstallationToken(installation.Id);
 
 			gitHubClient.Credentials = new Credentials(installToken.Token);
-		}
-
-		static async ValueTask<int> CICompletionCheck(GitHubClient gitHubClient, string currentSha, string pemBase64)
-		{
-			await GenerateAppCredentials(gitHubClient, pemBase64);
-
-			await gitHubClient.Check.Run.Create(RepoOwner, RepoName, new NewCheckRun("CI Completion", currentSha)
-			{
-				CompletedAt = DateTime.UtcNow,
-				Conclusion = CheckConclusion.Success,
-				Output = new NewCheckRunOutput("CI Completion", "The CI Pipeline completed successfully"),
-				Status = CheckStatus.Completed,
-			});
-
-			return 0;
 		}
 
 		static void DebugAssert(bool condition, string message = null)
@@ -1694,6 +1677,22 @@ package (version) distribution(s); urgency=urgency
 				Debug.Assert(condition, message);
 			else
 				Debug.Assert(condition);
+		}
+
+		static async ValueTask<int> CodecovCheck(IGitHubClient client, long runId)
+		{
+			var currentRun = await client.Actions.Workflows.Runs.Get(RepoOwner, RepoName, runId);
+
+			bool foundRun = false;
+			for(int i = 0; i < 15 && !foundRun; ++i)
+			{
+				var allRuns = await client.Check.Run.GetAllForReference(RepoOwner, RepoName, currentRun.HeadSha);
+				foundRun = allRuns.CheckRuns.Any(x => x.CheckSuite.Id == currentRun.Id && x.Name == "codecov/project");
+				if (!foundRun && i != 14)
+					await Task.Delay(TimeSpan.FromMinutes(1));
+			}
+
+			return foundRun ? 0 : 24398;
 		}
 	}
 }

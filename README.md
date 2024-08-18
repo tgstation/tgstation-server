@@ -4,7 +4,7 @@
 
 # tgstation-server
 
-![CI Pipeline](https://github.com/tgstation/tgstation-server/workflows/CI%20Pipeline/badge.svg) [![codecov](https://codecov.io/gh/tgstation/tgstation-server/branch/master/graph/badge.svg)](https://codecov.io/gh/tgstation/tgstation-server)
+[![CI Pipeline](https://github.com/tgstation/tgstation-server/actions/workflows/ci-pipeline.yml/badge.svg)](https://github.com/tgstation/tgstation-server/actions/workflows/ci-pipeline.yml) [![codecov](https://codecov.io/gh/tgstation/tgstation-server/branch/master/graph/badge.svg)](https://codecov.io/gh/tgstation/tgstation-server)
 
 [![GitHub license](https://img.shields.io/github/license/tgstation/tgstation-server.svg)](LICENSE) [![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/tgstation/tgstation-server.svg)](http://isitmaintained.com/project/tgstation/tgstation-server "Average time to resolve an issue") [![NuGet version](https://img.shields.io/nuget/v/Tgstation.Server.Api.svg)](https://www.nuget.org/packages/Tgstation.Server.Api) [![NuGet version](https://img.shields.io/nuget/v/Tgstation.Server.Client.svg)](https://www.nuget.org/packages/Tgstation.Server.Client)
 
@@ -239,7 +239,7 @@ Create an `appsettings.Production.yml` file next to `appsettings.yml`. This will
 
 - `General:InstanceLimit`: Maximum number of instances that may be created
 
-- `General:GitHubAccessToken`: Specify a GitHub personal access token with no scopes here to highly mitigate the possiblity of 429 response codes from GitHub requests
+- `General:GitHubAccessToken`: Specify a classic GitHub personal access token with no scopes here to highly mitigate the possiblity of 429 response codes from GitHub requests
 
 - `General:SkipAddingByondFirewallException`: Set to `true` if you have Windows firewall disabled
 
@@ -312,6 +312,12 @@ The following providers use the `ServerUrl` setting:
 
 - Keycloak
 - InvisionCommunity
+
+- `Telemetry:DisableVersionReporting`: Prevents you installation and the version you're using from being reported on the source repository's deployments list
+
+- `Telemetry:ServerFriendlyName`: Prevents anonymous TGS version usage statistics from being sent to be displayed on the repository.
+
+- `Telemetry:VersionReportingRepositoryId`: The repository telemetry is sent to. For security reasons, this is not the main TGS repo. See the [tgstation-server-deployments](https://github.com/tgstation/tgstation-server-deployments) repository for more information.
 
 ### Database Configuration
 

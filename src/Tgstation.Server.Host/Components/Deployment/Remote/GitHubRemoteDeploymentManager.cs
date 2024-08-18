@@ -79,13 +79,13 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 			IGitHubService gitHubService;
 			if (instanceAuthenticated)
 			{
-				authenticatedGitHubService = gitHubServiceFactory.CreateService(repositorySettings.AccessToken!);
+				authenticatedGitHubService = await gitHubServiceFactory.CreateService(repositorySettings.AccessToken!, cancellationToken);
 				gitHubService = authenticatedGitHubService;
 			}
 			else
 			{
 				authenticatedGitHubService = null;
-				gitHubService = gitHubServiceFactory.CreateService();
+				gitHubService = await gitHubServiceFactory.CreateService(cancellationToken);
 			}
 
 			var repoOwner = remoteInformation.RemoteRepositoryOwner!;
@@ -175,8 +175,8 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 			}
 
 			var gitHubService = repositorySettings.AccessToken != null
-				? gitHubServiceFactory.CreateService(repositorySettings.AccessToken)
-				: gitHubServiceFactory.CreateService();
+				? await gitHubServiceFactory.CreateService(repositorySettings.AccessToken, cancellationToken)
+				: await gitHubServiceFactory.CreateService(cancellationToken);
 
 			var tasks = revisionInformation
 				.ActiveTestMerges
@@ -255,7 +255,7 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 			int testMergeNumber,
 			CancellationToken cancellationToken)
 		{
-			var gitHubService = gitHubServiceFactory.CreateService(repositorySettings.AccessToken!);
+			var gitHubService = await gitHubServiceFactory.CreateService(repositorySettings.AccessToken!, cancellationToken);
 
 			try
 			{
@@ -343,7 +343,7 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 				return;
 			}
 
-			var gitHubService = gitHubServiceFactory.CreateService(gitHubAccessToken);
+			var gitHubService = await gitHubServiceFactory.CreateService(gitHubAccessToken, cancellationToken);
 
 			try
 			{

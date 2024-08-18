@@ -1,4 +1,7 @@
-﻿namespace Tgstation.Server.Host.Utils.GitHub
+﻿using System.Threading;
+using System.Threading.Tasks;
+
+namespace Tgstation.Server.Host.Utils.GitHub
 {
 	/// <summary>
 	/// Factory for <see cref="IGitHubService"/>s.
@@ -8,14 +11,16 @@
 		/// <summary>
 		/// Create a <see cref="IGitHubService"/>.
 		/// </summary>
-		/// <returns>A new <see cref="IGitHubService"/>.</returns>
-		public IGitHubService CreateService();
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in a new <see cref="IGitHubService"/>.</returns>
+		public ValueTask<IGitHubService> CreateService(CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Create an <see cref="IAuthenticatedGitHubService"/>.
 		/// </summary>
 		/// <param name="accessToken">The access token to use for communication with GitHub.</param>
-		/// <returns>A new <see cref="IAuthenticatedGitHubService"/>.</returns>
-		public IAuthenticatedGitHubService CreateService(string accessToken);
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in a new <see cref="IAuthenticatedGitHubService"/>.</returns>
+		public ValueTask<IAuthenticatedGitHubService> CreateService(string accessToken, CancellationToken cancellationToken);
 	}
 }

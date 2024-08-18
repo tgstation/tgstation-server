@@ -108,5 +108,11 @@ namespace Tgstation.Server.Api.Models
 		/// </summary>
 		[Description("Reconnect chat bot")]
 		ReconnectChatBot,
+
+		/// <summary>
+		/// When a repository is recloned.
+		/// </summary>
+		[Description("Reclone repository")]
+		RepositoryReclone,
 	}
 }

@@ -24,7 +24,7 @@ namespace Tgstation.Server.Client
 		}
 
 		/// <inheritdoc />
-		public ValueTask<AdministrationResponse> Read(CancellationToken cancellationToken) => ApiClient.Read<AdministrationResponse>(Routes.Administration, cancellationToken);
+		public ValueTask<AdministrationResponse> Read(bool forceFresh, CancellationToken cancellationToken) => ApiClient.Read<AdministrationResponse>($"{Routes.Administration}?fresh={forceFresh}", cancellationToken);
 
 		/// <inheritdoc />
 		public async ValueTask<ServerUpdateResponse> Update(

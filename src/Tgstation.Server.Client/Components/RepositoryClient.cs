@@ -44,5 +44,8 @@ namespace Tgstation.Server.Client.Components
 
 		/// <inheritdoc />
 		public ValueTask<RepositoryResponse> Update(RepositoryUpdateRequest repository, CancellationToken cancellationToken) => apiClient.Update<RepositoryUpdateRequest, RepositoryResponse>(Routes.Repository, repository ?? throw new ArgumentNullException(nameof(repository)), instance.Id!.Value, cancellationToken);
+
+		/// <inheritdoc />
+		public ValueTask<RepositoryResponse> Reclone(CancellationToken cancellationToken) => apiClient.Patch<RepositoryResponse>(Routes.Repository, instance.Id!.Value, cancellationToken);
 	}
 }

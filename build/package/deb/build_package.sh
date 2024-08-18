@@ -18,7 +18,7 @@ apt-get install -y \
     devscripts \
     ca-certificates \
     curl \
-    gnupg \
+    gnupg2 \
     xmlstarlet \
     libgdiplus
 
@@ -34,6 +34,8 @@ export NODE_MAJOR=20
 echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_$NODE_MAJOR.x nodistro main" | tee /etc/apt/sources.list.d/nodesource.list
 apt-get update
 apt-get install nodejs dotnet-sdk-8.0 -y
+
+corepack enable
 
 CURRENT_COMMIT=$(git rev-parse HEAD)
 
@@ -67,7 +69,6 @@ cp build/tgstation-server.service debian/
 SIGN_COMMAND="$SCRIPT_DIR/wrap_gpg.sh"
 
 rm -f /tmp/tgs_wrap_gpg_output.log
-
 set +e
 
 if [[ -z "$PACKAGING_KEYGRIP" ]]; then

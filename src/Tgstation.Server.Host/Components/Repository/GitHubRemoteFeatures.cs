@@ -49,8 +49,8 @@ namespace Tgstation.Server.Host.Components.Repository
 			CancellationToken cancellationToken)
 		{
 			var gitHubService = repositorySettings.AccessToken != null
-				? gitHubServiceFactory.CreateService(repositorySettings.AccessToken)
-				: gitHubServiceFactory.CreateService();
+				? await gitHubServiceFactory.CreateService(repositorySettings.AccessToken, cancellationToken)
+				: await gitHubServiceFactory.CreateService(cancellationToken);
 
 			PullRequest? pr = null;
 			ApiException? exception = null;

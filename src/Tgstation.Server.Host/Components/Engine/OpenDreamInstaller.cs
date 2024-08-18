@@ -133,23 +133,32 @@ namespace Tgstation.Server.Host.Components.Engine
 		}
 
 		/// <inheritdoc />
-		public override async ValueTask<IEngineInstallationData> DownloadVersion(EngineVersion version, JobProgressReporter? jobProgressReporter, CancellationToken cancellationToken)
+		public override async ValueTask<IEngineInstallationData> DownloadVersion(EngineVersion version, JobProgressReporter jobProgressReporter, CancellationToken cancellationToken)
 		{
 			CheckVersionValidity(version);
+			ArgumentNullException.ThrowIfNull(jobProgressReporter);
 
 			// get a lock on a system wide OD repo
 			Logger.LogTrace("Cloning OD repo...");
 
-			var progressSection1 = jobProgressReporter?.CreateSection("Updating OpenDream git repository", 0.5f);
-
-			var repo = await repositoryManager.CloneRepository(
-				GeneralConfiguration.OpenDreamGitUrl,
-				null,
-				null,
-				null,
-				progressSection1,
-				true,
-				cancellationToken);
+			var progressSection1 = jobProgressReporter.CreateSection("Updating OpenDream git repository", 0.5f);
+			IRepository? repo;
+			try
+			{
+				repo = await repositoryManager.CloneRepository(
+					GeneralConfiguration.OpenDreamGitUrl,
+					null,
+					null,
+					null,
+					progressSection1,
+					true,
+					cancellationToken);
+			}
+			catch
+			{
+				progressSection1.Dispose();
+				throw;
+			}
 
 			try
 			{
@@ -157,6 +166,8 @@ namespace Tgstation.Server.Host.Components.Engine
 				{
 					Logger.LogTrace("OD repo seems to already exist, attempting load and fetch...");
 					repo = await repositoryManager.LoadRepository(cancellationToken);
+					if (repo == null)
+						throw new JobException("Can't load OpenDream repository! Please delete cache from disk!");
 
 					await repo!.FetchOrigin(
 						progressSection1,
@@ -166,18 +177,23 @@ namespace Tgstation.Server.Host.Components.Engine
 						cancellationToken);
 				}
 
-				var progressSection2 = jobProgressReporter?.CreateSection("Checking out OpenDream version", 0.5f);
+				progressSection1.Dispose();
+				progressSection1 = null;
 
-				var committish = version.SourceSHA
-					?? $"{GeneralConfiguration.OpenDreamGitTagPrefix}{version.Version!.Semver()}";
+				using (var progressSection2 = jobProgressReporter.CreateSection("Checking out OpenDream version", 0.5f))
+				{
+					var committish = version.SourceSHA
+						?? $"{GeneralConfiguration.OpenDreamGitTagPrefix}{version.Version!.Semver()}";
 
-				await repo.CheckoutObject(
-					committish,
-					null,
-					null,
-					true,
-					progressSection2,
-					cancellationToken);
+					await repo.CheckoutObject(
+						committish,
+						null,
+						null,
+						true,
+						false,
+						progressSection2,
+						cancellationToken);
+				}
 
 				if (!await repo.CommittishIsParent("tgs-min-compat", cancellationToken))
 					throw new JobException(ErrorCode.OpenDreamTooOld);
@@ -188,6 +204,10 @@ namespace Tgstation.Server.Host.Components.Engine
 			{
 				repo?.Dispose();
 				throw;
+			}
+			finally
+			{
+				progressSection1?.Dispose();
 			}
 		}
 

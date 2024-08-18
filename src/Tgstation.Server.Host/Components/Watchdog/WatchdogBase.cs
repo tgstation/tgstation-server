@@ -51,6 +51,9 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		}
 
 		/// <inheritdoc />
+		public long? MemoryUsage => GetActiveController()?.MemoryUsage;
+
+		/// <inheritdoc />
 		public abstract bool AlphaIsActive { get; }
 
 		/// <inheritdoc />

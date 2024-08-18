@@ -288,7 +288,7 @@ namespace Tgstation.Server.Host.Core
 				{
 					logger.LogDebug("Looking for GitHub releases version {version}...", newVersion);
 
-					var gitHubService = gitHubServiceFactory.CreateService();
+					var gitHubService = await gitHubServiceFactory.CreateService(cancellationToken);
 					var releases = await gitHubService.GetTgsReleases(cancellationToken);
 					foreach (var kvp in releases)
 					{

@@ -116,6 +116,8 @@ namespace Tgstation.Server.Tests.Live.Instance
 			await ApiAssert.ThrowsException<ApiConflictException, RepositoryResponse>(() => Checkout(new RepositoryUpdateRequest { Reference = "master", CheckoutSha = "286bb75" }, false, false, cancellationToken), ErrorCode.RepoMismatchShaAndReference);
 			var updated = await Checkout(new RepositoryUpdateRequest { CheckoutSha = "286bb75" }, false, false, cancellationToken);
 
+			await RecloneTest(cancellationToken);
+
 			// Fake SHA
 			updated = await Checkout(new RepositoryUpdateRequest { CheckoutSha = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" }, true, false, cancellationToken);
 
@@ -140,6 +142,23 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 			var prNumber = 2;
 			await TestMergeTests(updated, prNumber, cancellationToken);
+		}
+
+		async ValueTask RecloneTest(CancellationToken cancellationToken)
+		{
+			var initialState = await repositoryClient.Read(cancellationToken);
+			Assert.IsNotNull(initialState.Reference);
+			Assert.IsNotNull(initialState.RevisionInformation);
+			Assert.IsNotNull(initialState.RevisionInformation.CommitSha);
+			Assert.IsNotNull(initialState.RevisionInformation.OriginCommitSha);
+
+			var reclone = await repositoryClient.Reclone(cancellationToken);
+			await WaitForJob(reclone.ActiveJob, 70, false, null, cancellationToken);
+
+			var newState = await repositoryClient.Read(cancellationToken);
+			Assert.AreEqual(initialState.Reference, newState.Reference);
+			Assert.AreEqual(initialState.RevisionInformation.CommitSha, newState.RevisionInformation.CommitSha);
+			Assert.AreEqual(initialState.RevisionInformation.OriginCommitSha, newState.RevisionInformation.OriginCommitSha);
 		}
 
 		async ValueTask<RepositoryResponse> Checkout(RepositoryUpdateRequest updated, bool expectFailure, bool isRef, CancellationToken cancellationToken)

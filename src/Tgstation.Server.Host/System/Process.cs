@@ -22,6 +22,23 @@ namespace Tgstation.Server.Host.System
 		/// <inheritdoc />
 		public Task<int?> Lifetime { get; }
 
+		/// <inheritdoc />
+		public long? MemoryUsage
+		{
+			get
+			{
+				try
+				{
+					return handle.VirtualMemorySize64;
+				}
+				catch (Exception ex)
+				{
+					logger.LogWarning(ex, "Failed to get PID {pid}'s memory usage!", Id);
+					return null;
+				}
+			}
+		}
+
 		/// <summary>
 		/// The <see cref="IProcessFeatures"/> for the <see cref="Process"/>.
 		/// </summary>

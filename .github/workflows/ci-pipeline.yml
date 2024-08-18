@@ -25,90 +25,31 @@ on:
     branches:
     - dev
     - master
-  pull_request:
-    branches:
-    - dev
-    - master
-  pull_request_target:
-    types: [ opened, reopened, labeled, synchronize ]
-    branches:
-    - dev
-    - master
+  workflow_call:
+    inputs:
+      pull_request_number:
+        description: 'Pull Request Number'
+        required: true
+        type: string
 
 env:
   TGS_DOTNET_VERSION: 8
   OD_MIN_COMPAT_DOTNET_VERSION: 7
   OD_DOTNET_VERSION: 8
   TGS_DOTNET_QUALITY: ga
+  TGS_WEBPANEL_NODE_VERSION: 20.x
   TGS_TEST_GITHUB_TOKEN: ${{ secrets.LIVE_TESTS_TOKEN }}
   TGS_RELEASE_NOTES_TOKEN: ${{ secrets.DEV_PUSH_TOKEN }}
   PACKAGING_PRIVATE_KEY_PASSPHRASE: ${{ secrets.PACKAGING_PRIVATE_KEY_PASSPHRASE }}
-  CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
 concurrency:
-  group: "ci-${{ github.head_ref || github.run_id }}-${{ github.event_name }}"
+  group: "ci-${{ (github.event_name != 'push' && github.event_name != 'schedule' && github.event.inputs.pull_request_number) || github.run_id }}-${{ github.event_name }}"
   cancel-in-progress: true
 
 jobs:
-  security-checkpoint:
-    name: Check CI Clearance
+  build-releasenotes:
+    name: Build ReleaseNotes for Other Jobs
     runs-on: ubuntu-latest
-    permissions:
-      pull-requests: write
-    if: github.event_name == 'pull_request_target' && (github.event.pull_request.head.repo.id != github.event.pull_request.base.repo.id || github.event.pull_request.user.id == 49699333) && github.event.pull_request.state == 'open'
-    steps:
-    - name: Comment on new Fork PR
-      if: github.event.action == 'opened' && !contains(github.event.pull_request.labels.*.name, 'CI Cleared') && github.event.pull_request.user.id != 49699333
-      uses: thollander/actions-comment-pull-request@1d3973dc4b8e1399c0620d3f2b1aa5e795465308
-      with:
-        message: Thank you for contributing to ${{ github.event.pull_request.base.repo.name }}! The workflow '${{ github.workflow }}' requires repository secrets and will not run without approval. Maintainers can add the `CI Cleared` label to allow it to run. Please note that any changes to the workflow file will not be reflected in the run.
-
-    - name: Comment on dependabot PR
-      if: github.event.action == 'opened' && !contains(github.event.pull_request.labels.*.name, 'CI Cleared') && github.event.pull_request.user.id == 49699333
-      uses: thollander/actions-comment-pull-request@1d3973dc4b8e1399c0620d3f2b1aa5e795465308
-      with:
-        message: Set the milestone to the next minor version, check for supply chain attacks, and then add the `CI Cleared` label to allow CI to run.
-
-    - name: "Remove Stale 'CI Cleared' Label"
-      if: github.event.action == 'synchronize' || github.event.action == 'reopened'
-      uses: actions-ecosystem/action-remove-labels@2ce5d41b4b6aa8503e285553f75ed56e0a40bae0
-      with:
-        labels: CI Cleared
-
-    - name: "Remove 'CI Approval Required' Label"
-      if: (github.event.action == 'synchronize' || github.event.action == 'reopened') || ((github.event.action == 'opened' || github.event.action == 'labeled') && contains(github.event.pull_request.labels.*.name, 'CI Cleared'))
-      uses: actions-ecosystem/action-remove-labels@2ce5d41b4b6aa8503e285553f75ed56e0a40bae0
-      with:
-        labels: CI Approval Required
-
-    - name: "Add 'CI Approval Required' Label"
-      if: (github.event.action == 'synchronize' || github.event.action == 'reopened') || ((github.event.action == 'opened' || github.event.action == 'labeled') && !contains(github.event.pull_request.labels.*.name, 'CI Cleared'))
-      uses: actions-ecosystem/action-add-labels@bd52874380e3909a1ac983768df6976535ece7f8
-      with:
-        labels: CI Approval Required
-        github_token: ${{ github.token }}
-
-    - name: Fail Clearance Check if PR has Unlabeled new Commits from User
-      if: (github.event.action == 'synchronize' || github.event.action == 'reopened') || ((github.event.action == 'opened' || github.event.action == 'labeled') && !contains(github.event.pull_request.labels.*.name, 'CI Cleared'))
-      run: exit 1
-
-  start-ci-run-gate:
-    name: CI Start Gate
-    needs: security-checkpoint
-    runs-on: ubuntu-latest
-    if: (!(cancelled() || failure()) && (needs.security-checkpoint.result == 'success' || (needs.security-checkpoint.result == 'skipped' && (github.event_name == 'push' || github.event_name == 'schedule' || ((github.event.pull_request.head.repo.id == github.event.pull_request.base.repo.id && github.event.pull_request.user.id != 49699333) && github.event_name != 'pull_request_target')))))
-    steps:
-    - name: GitHub Requires at Least One Step for a Job
-      run: exit 0
-
-  code-scanning:
-    name: Code Scanning
-    needs: start-ci-run-gate
-    runs-on: ubuntu-latest
-    permissions:
-      security-events: write
-      actions: read
-    if: (!(cancelled() || failure()) && needs.start-ci-run-gate.result == 'success')
     steps:
     - name: Setup dotnet
       uses: actions/setup-dotnet@v4
@@ -124,12 +65,48 @@ jobs:
       uses: actions/checkout@v4
       if: github.event_name != 'push' && github.event_name != 'schedule'
       with:
-        ref: "refs/pull/${{ github.event.number }}/merge"
+        ref: "refs/pull/${{ inputs.pull_request_number }}/merge"
+
+    - name: Build ReleaseNotes
+      run: dotnet publish -c Release -p:TGS_HOST_NO_WEBPANEL=true -o release_notes_bins tools/Tgstation.Server.ReleaseNotes/Tgstation.Server.ReleaseNotes.csproj
+
+    - name: Store ReleaseNotes Binaries
+      uses: actions/upload-artifact@v4
+      with:
+        name: release_notes_bins
+        path: ./release_notes_bins/
+
+  code-scanning:
+    name: Run CodeQL
+    runs-on: ubuntu-latest
+    permissions:
+      security-events: write
+      actions: read
+    env:
+      TGS_TELEMETRY_KEY_FILE: /tmp/tgs_telemetry_key.txt
+    steps:
+    - name: Setup dotnet
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '${{ env.TGS_DOTNET_VERSION }}.0.x'
+        dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
+
+    - name: Checkout (Branch)
+      uses: actions/checkout@v4
+
+    - name: Read Current SHA
+      id: get-pr-sha
+      if: github.event_name != 'push' && github.event_name != 'schedule'
+      shell: bash
+      run: echo "head_sha=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
 
     - name: Initialize CodeQL
       uses: github/codeql-action/init@v3
       with:
         languages: csharp
+
+    - name: Setup Telemetry Key File
+      run: echo "fake_telemetry_key" > ${{ env.TGS_TELEMETRY_KEY_FILE }}
 
     - name: Build
       run: dotnet build -c ReleaseNoWindows -p:TGS_HOST_NO_WEBPANEL=true
@@ -141,8 +118,6 @@ jobs:
 
   dmapi-build:
     name: Build DMAPI
-    needs: start-ci-run-gate
-    if: (!(cancelled() || failure()) && needs.start-ci-run-gate.result == 'success')
     strategy:
       fail-fast: false
       matrix:
@@ -200,7 +175,14 @@ jobs:
       uses: actions/checkout@v4
       if: github.event_name != 'push' && github.event_name != 'schedule'
       with:
-        ref: "refs/pull/${{ github.event.number }}/merge"
+        ref: "refs/pull/${{ inputs.pull_request_number }}/merge"
+
+    - name: Read Current SHA
+      id: get-pr-sha
+      if: github.event_name != 'push' && github.event_name != 'schedule'
+      shell: bash
+      run: echo "head_sha=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
+
 
     - name: Build DMAPI Test Project
       run: |
@@ -224,8 +206,6 @@ jobs:
 
   opendream-build:
     name: Build DMAPI (OpenDream)
-    needs: start-ci-run-gate
-    if: (!(cancelled() || failure()) && needs.start-ci-run-gate.result == 'success')
     strategy:
       fail-fast: false
       matrix:
@@ -254,7 +234,7 @@ jobs:
       uses: actions/checkout@v4
       if: github.event_name != 'push' && github.event_name != 'schedule'
       with:
-        ref: "refs/pull/${{ github.event.number }}/merge"
+        ref: "refs/pull/${{ inputs.pull_request_number }}/merge"
 
     - name: Checkout OpenDream
       run: |
@@ -263,11 +243,6 @@ jobs:
         cd OpenDream
         git checkout ${{ matrix.committish }}
         git submodule update --init --recursive
-
-    - name: Restore OpenDream
-      run: |
-        cd $HOME/OpenDream
-        dotnet restore
 
     - name: Build OpenDream
       run: |
@@ -287,8 +262,6 @@ jobs:
   efcore-version-match:
     name: Check Nuget Versions Match Tools
     runs-on: ubuntu-latest
-    needs: start-ci-run-gate
-    if: (!(cancelled() || failure()) && needs.start-ci-run-gate.result == 'success')
     steps:
     - name: Checkout (Branch)
       uses: actions/checkout@v4
@@ -298,7 +271,7 @@ jobs:
       uses: actions/checkout@v4
       if: github.event_name != 'push' && github.event_name != 'schedule'
       with:
-        ref: "refs/pull/${{ github.event.number }}/merge"
+        ref: "refs/pull/${{ inputs.pull_request_number }}/merge"
 
     - name: Retrieve dotnet-ef Tool Version
       id: dotnet-ef-tool
@@ -344,9 +317,8 @@ jobs:
 
   pages-build:
     name: Build gh-pages
+    needs: build-releasenotes
     runs-on: ubuntu-latest
-    needs: start-ci-run-gate
-    if: (!(cancelled() || failure()) && needs.start-ci-run-gate.result == 'success')
     steps:
     - name: Setup dotnet
       uses: actions/setup-dotnet@v4
@@ -362,25 +334,25 @@ jobs:
       uses: actions/checkout@v4
       if: github.event_name != 'push' && github.event_name != 'schedule'
       with:
-        ref: "refs/pull/${{ github.event.number }}/merge"
-
-    - name: Restore
-      run: dotnet restore
-
-    - name: Build ReleaseNotes
-      run: dotnet build -c Release -p:TGS_HOST_NO_WEBPANEL=true tools/Tgstation.Server.ReleaseNotes/Tgstation.Server.ReleaseNotes.csproj
+        ref: "refs/pull/${{ inputs.pull_request_number }}/merge"
 
     - name: gh-pages Clone
       run: git clone -b gh-pages --single-branch "https://git@github.com/tgstation/tgstation-server" $HOME/tgsdox
 
+    - name: Retrieve ReleaseNotes Binaries
+      uses: actions/download-artifact@v4
+      with:
+        name: release_notes_bins
+        path: release_notes_bins
+
     - name: Build Changelog (Incremental)
       run: |
         mv $HOME/tgsdox/changelog.yml ./ 2>/dev/null
-        dotnet run -c Release --no-build --project tools/Tgstation.Server.ReleaseNotes --generate-full-notes
+        dotnet release_notes_bins/Tgstation.Server.ReleaseNotes.dll --generate-full-notes
 
     - name: Generate App Token
       run: |
-        dotnet run -c Release --no-build --project tools/Tgstation.Server.ReleaseNotes --token-output-file ${{ runner.temp }}/installation_secret.txt ${{ secrets.TGS_CI_GITHUB_APP_TOKEN_BASE64 }}
+        dotnet release_notes_bins/Tgstation.Server.ReleaseNotes.dll --token-output-file ${{ runner.temp }}/installation_secret.txt ${{ secrets.TGS_CI_GITHUB_APP_TOKEN_BASE64 }}
         echo "INSTALLATION_TOKEN=$(cat ${{ runner.temp }}/installation_secret.txt)" >> $GITHUB_ENV
         rm ${{ runner.temp }}/installation_secret.txt
 
@@ -421,8 +393,8 @@ jobs:
   docker-build:
     name: Build Docker Image
     runs-on: ubuntu-latest
-    needs: start-ci-run-gate
-    if: (!(cancelled() || failure()) && needs.start-ci-run-gate.result == 'success')
+    env:
+      TGS_TELEMETRY_KEY_FILE: tgs_telemetry_key.txt
     steps:
     - name: Checkout (Branch)
       uses: actions/checkout@v4
@@ -432,15 +404,21 @@ jobs:
       uses: actions/checkout@v4
       if: github.event_name != 'push' && github.event_name != 'schedule'
       with:
-        ref: "refs/pull/${{ github.event.number }}/merge"
+        ref: "refs/pull/${{ inputs.pull_request_number }}/merge"
+
+    - name: Setup Telemetry Key File
+      shell: bash
+      run: echo "${{ secrets.TGS_TELEMETRY_KEY }}" > ${{ env.TGS_TELEMETRY_KEY_FILE }}
 
     - name: Build Docker Image
-      run: docker build . -f build/Dockerfile
+      run: docker build . -f build/Dockerfile --build-arg TGS_TELEMETRY_KEY_FILE=${{ env.TGS_TELEMETRY_KEY_FILE }}
+
+    - name: Delete Telemetry Key File
+      if: always()
+      run: rm -f ${{ env.TGS_TELEMETRY_KEY_FILE }}
 
   linux-unit-tests:
     name: Linux Tests
-    needs: start-ci-run-gate
-    if: (!(cancelled() || failure()) && needs.start-ci-run-gate.result == 'success')
     strategy:
       fail-fast: false
       matrix:
@@ -448,6 +426,7 @@ jobs:
     env:
       TGS_TEST_DISCORD_TOKEN: ${{ secrets.DISCORD_TOKEN }}
       TGS_TEST_IRC_CONNECTION_STRING: ${{ secrets.IRC_CONNECTION_STRING }}
+      TGS_TELEMETRY_KEY_FILE: /tmp/tgs_telemetry_key.txt
     runs-on: ubuntu-latest
     steps:
     - name: Install x86 libc Dependencies
@@ -462,6 +441,11 @@ jobs:
         dotnet-version: '${{ env.TGS_DOTNET_VERSION }}.0.x'
         dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
 
+    - name: Setup Node.JS
+      uses: actions/setup-node@v4
+      with:
+          node-version: ${{ env.TGS_WEBPANEL_NODE_VERSION }}
+
     - name: Checkout (Branch)
       uses: actions/checkout@v4
       if: github.event_name == 'push' || github.event_name == 'schedule'
@@ -470,13 +454,20 @@ jobs:
       uses: actions/checkout@v4
       if: github.event_name != 'push' && github.event_name != 'schedule'
       with:
-        ref: "refs/pull/${{ github.event.number }}/merge"
+        ref: "refs/pull/${{ inputs.pull_request_number }}/merge"
 
-    - name: Restore
-      run: dotnet restore
+    - name: Enable Corepack
+      run: corepack enable
+
+    - name: Setup Telemetry Key File
+      run: echo "${{ secrets.TGS_TELEMETRY_KEY }}" > ${{ env.TGS_TELEMETRY_KEY_FILE }}
 
     - name: Build
       run: dotnet build -c ${{ matrix.configuration }}NoWindows
+
+    - name: Delete Telemetry Key File
+      if: always()
+      run: rm -f ${{ env.TGS_TELEMETRY_KEY_FILE }}
 
     - name: Cache BYOND .zips
       uses: actions/cache@v4
@@ -496,8 +487,6 @@ jobs:
 
   windows-unit-tests:
     name: Windows Tests
-    needs: start-ci-run-gate
-    if: (!(cancelled() || failure()) && needs.start-ci-run-gate.result == 'success')
     strategy:
       fail-fast: false
       matrix:
@@ -505,6 +494,7 @@ jobs:
     env:
       TGS_TEST_DISCORD_TOKEN: ${{ secrets.DISCORD_TOKEN }}
       TGS_TEST_IRC_CONNECTION_STRING: ${{ secrets.IRC_CONNECTION_STRING }}
+      TGS_TELEMETRY_KEY_FILE: C:/tgs_telemetry_key.txt
     runs-on: windows-latest
     steps:
     - name: Setup dotnet
@@ -512,6 +502,11 @@ jobs:
       with:
         dotnet-version: '${{ env.TGS_DOTNET_VERSION }}.0.x'
         dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
+
+    - name: Setup Node.JS
+      uses: actions/setup-node@v4
+      with:
+          node-version: ${{ env.TGS_WEBPANEL_NODE_VERSION }}
 
     - name: Checkout (Branch)
       uses: actions/checkout@v4
@@ -521,13 +516,22 @@ jobs:
       uses: actions/checkout@v4
       if: github.event_name != 'push' && github.event_name != 'schedule'
       with:
-        ref: "refs/pull/${{ github.event.number }}/merge"
+        ref: "refs/pull/${{ inputs.pull_request_number }}/merge"
 
-    - name: Restore
-      run: dotnet restore
+    - name: Enable Corepack
+      run: corepack enable
+
+    - name: Setup Telemetry Key File
+      shell: bash
+      run: echo "${{ secrets.TGS_TELEMETRY_KEY }}" > ${{ env.TGS_TELEMETRY_KEY_FILE }}
 
     - name: Build
       run: dotnet build -c ${{ matrix.configuration }}NoWix
+
+    - name: Delete Telemetry Key File
+      shell: bash
+      if: always()
+      run: rm -f ${{ env.TGS_TELEMETRY_KEY_FILE }}
 
     - name: Cache BYOND .zips
       uses: actions/cache@v4
@@ -545,25 +549,19 @@ jobs:
         name: windows-unit-test-coverage-${{ matrix.configuration }}
         path: ./TestResults/
 
-  windows-integration-test:
+  windows-integration-tests:
     name: Windows Live Tests
-    needs: [dmapi-build, opendream-build]
-    if: (!(cancelled() || failure()) && needs.dmapi-build.result == 'success' && needs.opendream-build.result == 'success')
+    needs: [ dmapi-build, opendream-build ]
     strategy:
       fail-fast: false
       matrix:
         database-type: [ 'SqlServer', 'Sqlite', 'PostgresSql', 'MariaDB', 'MySql' ]
         watchdog-type: [ 'Basic', 'Advanced' ]
         configuration: [ 'Debug', 'Release' ]
+    env:
+      TGS_TELEMETRY_KEY_FILE: C:/tgs_telemetry_key.txt
     runs-on: windows-latest
     steps:
-    - name: Wait for LocalDB Connection # Do this first because we don't want to find out it's failing later
-      shell: powershell
-      if: ${{ matrix.database-type == 'SqlServer' }}
-      run: |
-        Write-Host "Checking"
-        sqlcmd -l 600 -S "(localdb)\MSSQLLocalDB" -Q "SELECT @@VERSION;"
-
     - name: Setup dotnet
       uses: actions/setup-dotnet@v4
       with:
@@ -572,6 +570,18 @@ jobs:
           ${{ env.OD_DOTNET_VERSION }}.0.x
           ${{ env.OD_MIN_COMPAT_DOTNET_VERSION }}.0.x
         dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
+
+    - name: Wait for LocalDB Connection # Do this first because we don't want to find out it's failing later
+      shell: powershell
+      if: ${{ matrix.database-type == 'SqlServer' }}
+      run: |
+        Write-Host "Checking"
+        sqlcmd -l 600 -S "(localdb)\MSSQLLocalDB" -Q "SELECT @@VERSION;"
+
+    - name: Setup Node.JS
+      uses: actions/setup-node@v4
+      with:
+          node-version: ${{ env.TGS_WEBPANEL_NODE_VERSION }}
 
     - name: Set TGS_TEST_DUMP_API_SPEC
       if: ${{ matrix.configuration == 'Release' && matrix.watchdog-type == 'Advanced' && matrix.database-type == 'SqlServer' }}
@@ -637,13 +647,22 @@ jobs:
       uses: actions/checkout@v4
       if: github.event_name != 'push' && github.event_name != 'schedule'
       with:
-        ref: "refs/pull/${{ github.event.number }}/merge"
+        ref: "refs/pull/${{ inputs.pull_request_number }}/merge"
 
-    - name: Restore
-      run: dotnet restore
+    - name: Enable Corepack
+      run: corepack enable
+
+    - name: Setup Telemetry Key File
+      shell: bash
+      run: echo "${{ secrets.TGS_TELEMETRY_KEY }}" > ${{ env.TGS_TELEMETRY_KEY_FILE }}
 
     - name: Build
       run: dotnet build -c ${{ matrix.configuration }} tests/Tgstation.Server.Tests/Tgstation.Server.Tests.csproj
+
+    - name: Delete Telemetry Key File
+      shell: bash
+      if: always()
+      run: rm -f ${{ env.TGS_TELEMETRY_KEY_FILE }}
 
     - name: Cache BYOND .zips
       uses: actions/cache@v4
@@ -738,7 +757,6 @@ jobs:
   linux-integration-tests:
     name: Linux Live Tests
     needs: [dmapi-build, opendream-build]
-    if: (!(cancelled() || failure()) && needs.dmapi-build.result == 'success' && needs.opendream-build.result == 'success')
     services: # We start all dbs here so we can just code the stuff once
       mssql:
         image: ${{ (matrix.database-type == 'SqlServer') && 'mcr.microsoft.com/mssql/server:2019-latest' || '' }}
@@ -786,8 +804,19 @@ jobs:
         database-type: [ 'Sqlite', 'PostgresSql', 'MariaDB', 'MySql' ]
         watchdog-type: [ 'Basic', 'Advanced' ]
         configuration: [ 'Debug', 'Release' ]
+    env:
+      TGS_TELEMETRY_KEY_FILE: /tmp/tgs_telemetry_key.txt
     runs-on: ubuntu-latest
     steps:
+    - name: Setup dotnet
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: |
+          ${{ env.TGS_DOTNET_VERSION }}.0.x
+          ${{ env.OD_DOTNET_VERSION }}.0.x
+          ${{ env.OD_MIN_COMPAT_DOTNET_VERSION }}.0.x
+        dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
+
     - name: Disable ptrace_scope
       run: echo 0 | sudo tee /proc/sys/kernel/yama/ptrace_scope
 
@@ -797,14 +826,10 @@ jobs:
         sudo apt-get update
         sudo apt-get install -y -o APT::Immediate-Configure=0 libc6-i386 libstdc++6:i386 gdb libgcc-s1:i386 libgdiplus
 
-    - name: Setup dotnet
-      uses: actions/setup-dotnet@v4
+    - name: Setup Node.JS
+      uses: actions/setup-node@v4
       with:
-        dotnet-version: |
-          ${{ env.TGS_DOTNET_VERSION }}.0.x
-          ${{ env.OD_DOTNET_VERSION }}.0.x
-          ${{ env.OD_MIN_COMPAT_DOTNET_VERSION }}.0.x
-        dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
+          node-version: ${{ env.TGS_WEBPANEL_NODE_VERSION }}
 
     - name: Set Sqlite Connection Info
       if: ${{ matrix.database-type == 'Sqlite' }}
@@ -843,13 +868,20 @@ jobs:
       uses: actions/checkout@v4
       if: github.event_name != 'push' && github.event_name != 'schedule'
       with:
-        ref: "refs/pull/${{ github.event.number }}/merge"
+        ref: "refs/pull/${{ inputs.pull_request_number }}/merge"
 
-    - name: Restore
-      run: dotnet restore
+    - name: Enable Corepack
+      run: corepack enable
+
+    - name: Setup Telemetry Key File
+      run: echo "${{ secrets.TGS_TELEMETRY_KEY }}" > ${{ env.TGS_TELEMETRY_KEY_FILE }}
 
     - name: Build
       run: dotnet build -c ${{ matrix.configuration }}NoWindows tests/Tgstation.Server.Tests/Tgstation.Server.Tests.csproj
+
+    - name: Delete Telemetry Key File
+      if: always()
+      run: rm -f ${{ env.TGS_TELEMETRY_KEY_FILE }}
 
     - name: Cache BYOND .zips
       uses: actions/cache@v4
@@ -907,8 +939,7 @@ jobs:
 
   validate-openapi-spec:
     name: OpenAPI Spec Validation
-    needs: windows-integration-test
-    if: (!(cancelled() || failure()) && needs.windows-integration-test.result == 'success')
+    needs: windows-integration-tests
     runs-on: ubuntu-latest
     steps:
     - name: Install IBM OpenAPI Validator
@@ -922,7 +953,7 @@ jobs:
       uses: actions/checkout@v4
       if: github.event_name != 'push' && github.event_name != 'schedule'
       with:
-        ref: "refs/pull/${{ github.event.number }}/merge"
+        ref: "refs/pull/${{ inputs.pull_request_number }}/merge"
 
     - name: Retrieve OpenAPI Spec
       uses: actions/download-artifact@v4
@@ -935,8 +966,7 @@ jobs:
 
   upload-code-coverage:
     name: Upload Code Coverage
-    needs: [linux-unit-tests, linux-integration-tests, windows-unit-tests, windows-integration-test]
-    if: (!(cancelled() || failure()) && needs.linux-unit-tests.result == 'success' && needs.linux-integration-tests.result == 'success' && needs.windows-unit-tests.result == 'success' && needs.windows-integration-test.result == 'success')
+    needs: [ linux-unit-tests, linux-integration-tests, windows-unit-tests, windows-integration-tests, build-releasenotes ]
     runs-on: ubuntu-latest
     steps:
     - name: Checkout (Branch)
@@ -947,7 +977,7 @@ jobs:
       uses: actions/checkout@v4
       if: github.event_name != 'push' && github.event_name != 'schedule'
       with:
-        ref: "refs/pull/${{ github.event.number }}/merge"
+        ref: "refs/pull/${{ inputs.pull_request_number }}/merge"
 
     - name: Retrieve Linux Unit Test Coverage (Debug)
       uses: actions/download-artifact@v4
@@ -1183,23 +1213,35 @@ jobs:
         name: windows-integration-test-coverage-Release-Advanced-Sqlite
         path: ./code_coverage/integration_tests/windows_integration_tests_release_system_sqlite
 
+    - name: Retrieve ReleaseNotes Binaries
+      uses: actions/download-artifact@v4
+      with:
+        name: release_notes_bins
+        path: release_notes_bins
+
     - name: Upload Coverage to CodeCov
-      uses: codecov/codecov-action@v3
+      uses: codecov/codecov-action@v4
       with:
         directory: ./code_coverage
         fail_ci_if_error: true
+        token: ${{ secrets.CODECOV_TOKEN }}
+        verbose: true
+        handle_no_reports_found: true
+
+    - name: Wait for CodeCov Status
+      run: dotnet release_notes_bins/Tgstation.Server.ReleaseNotes --wait-codecov ${{ github.run_id }}
 
   build-deb:
     name: Build .deb Package # Can't do i386 due to https://github.com/dotnet/core/issues/4595
-    needs: start-ci-run-gate
     runs-on: ubuntu-latest
-    if: (!(cancelled() || failure()) && needs.start-ci-run-gate.result == 'success')
+    env:
+      TGS_TELEMETRY_KEY_FILE: /tmp/tgs_telemetry_key.txt
     steps:
     - name: Install Native Dependencies
       run: |
         sudo dpkg --add-architecture i386
         sudo apt-get update
-        sudo apt-get install -y -o APT::Immediate-Configure=0 libstdc++6:i386 libgcc-s1:i386 gnupg2 xmlstarlet libgdiplus
+        sudo apt-get install -y -o APT::Immediate-Configure=0 libstdc++6:i386 libgcc-s1:i386
 
     - name: Import GPG Key
       if: (github.event_name == 'push' && contains(github.event.head_commit.message, '[TGSDeploy]') && (github.event.ref == 'refs/heads/master' || github.event.ref == 'refs/heads/dev'))
@@ -1235,28 +1277,38 @@ jobs:
       uses: actions/checkout@v4
       if: github.event_name != 'push' && github.event_name != 'schedule'
       with:
-        ref: "refs/pull/${{ github.event.number }}/merge"
+        ref: "refs/pull/${{ inputs.pull_request_number }}/merge"
+
+    - name: Grab Most Recent Changelog
+      run: curl -L https://raw.githubusercontent.com/tgstation/tgstation-server/gh-pages/changelog.yml -o changelog.yml
+
+    - name: Setup Telemetry Key File
+      run: echo "${{ secrets.TGS_TELEMETRY_KEY }}" > ${{ env.TGS_TELEMETRY_KEY_FILE }}
+
+    - name: Execute Build Script (Unsigned)
+      if: (!(github.event_name == 'push' && contains(github.event.head_commit.message, '[TGSDeploy]') && github.event.ref == 'refs/heads/master'))
+      run: sudo -E build/package/deb/build_package.sh
+
+    - name: Execute Build Script (Signed)
+      if: (github.event_name == 'push' && contains(github.event.head_commit.message, '[TGSDeploy]') && github.event.ref == 'refs/heads/master')
+      env:
+        PACKAGING_KEYGRIP: ${{ vars.PACKAGING_KEYGRIP }}
+      run: sudo -E build/package/deb/build_package.sh
 
     - name: Parse TGS version
       run: |
         echo "TGS_VERSION=$(xmlstarlet sel -N X="http://schemas.microsoft.com/developer/msbuild/2003" --template --value-of /X:Project/X:PropertyGroup/X:TgsCoreVersion build/Version.props)" >> $GITHUB_ENV
 
-    - name: Grab Most Recent Changelog
-      run: curl -L https://raw.githubusercontent.com/tgstation/tgstation-server/gh-pages/changelog.yml -o changelog.yml
-
-    - name: Execute Build Script (Unsigned)
-      if: (!(github.event_name == 'push' && contains(github.event.head_commit.message, '[TGSDeploy]') && (github.event.ref == 'refs/heads/master' || github.event.ref == 'refs/heads/dev')))
-      run: sudo -E build/package/deb/build_package.sh
-
-    - name: Execute Build Script (Signed)
-      if: (github.event_name == 'push' && contains(github.event.head_commit.message, '[TGSDeploy]') && (github.event.ref == 'refs/heads/master' || github.event.ref == 'refs/heads/dev'))
-      env:
-        PACKAGING_KEYGRIP: ${{ vars.PACKAGING_KEYGRIP }}
-      run: |
-        sudo -E build/package/deb/build_package.sh
+    - name: Verify Package Files are Signed
+      if: (github.event_name == 'push' && contains(github.event.head_commit.message, '[TGSDeploy]') && github.event.ref == 'refs/heads/master')
+      run:
         gpg --verify tgstation-server_${{ env.TGS_VERSION }}-1.dsc
         gpg --verify tgstation-server_${{ env.TGS_VERSION }}-1_amd64.changes
         gpg --verify tgstation-server_${{ env.TGS_VERSION }}-1_amd64.buildinfo
+
+    - name: Delete Telemetry Key File
+      if: always()
+      run: rm -f ${{ env.TGS_TELEMETRY_KEY_FILE }}
 
     - name: Test Install
       run: |
@@ -1295,9 +1347,9 @@ jobs:
 
   build-msi:
     name: Build Windows Installer .exe
-    needs: start-ci-run-gate
     runs-on: windows-latest
-    if: (!(cancelled() || failure()) && needs.start-ci-run-gate.result == 'success')
+    env:
+      TGS_TELEMETRY_KEY_FILE: C:/tgs_telemetry_key.txt
     steps:
     - name: Install winget
       uses: Cyberboss/install-winget@v1
@@ -1310,6 +1362,11 @@ jobs:
         dotnet-version: '${{ env.TGS_DOTNET_VERSION }}.0.x'
         dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
 
+    - name: Setup Node.JS
+      uses: actions/setup-node@v4
+      with:
+          node-version: ${{ env.TGS_WEBPANEL_NODE_VERSION }}
+
     - name: Checkout (Branch)
       uses: actions/checkout@v4
       if: github.event_name == 'push' || github.event_name == 'schedule'
@@ -1318,7 +1375,7 @@ jobs:
       uses: actions/checkout@v4
       if: github.event_name != 'push' && github.event_name != 'schedule'
       with:
-        ref: "refs/pull/${{ github.event.number }}/merge"
+        ref: "refs/pull/${{ inputs.pull_request_number }}/merge"
 
     - name: Restore Wix dotnet Tool
       run: |
@@ -1328,11 +1385,20 @@ jobs:
     - name: Validate winget Manifest
       run: winget validate --manifest build/package/winget/manifest
 
-    - name: Restore
-      run: dotnet restore
+    - name: Enable Corepack
+      run: corepack enable
+
+    - name: Setup Telemetry Key File
+      shell: bash
+      run: echo "${{ secrets.TGS_TELEMETRY_KEY }}" > ${{ env.TGS_TELEMETRY_KEY_FILE }}
 
     - name: Build Host
       run: dotnet build -c Release src/Tgstation.Server.Host/Tgstation.Server.Host.csproj
+
+    - name: Delete Telemetry Key File
+      shell: bash
+      if: always()
+      run: rm -f ${{ env.TGS_TELEMETRY_KEY_FILE }}
 
     - name: Build Service
       run: dotnet build -c Release src/Tgstation.Server.Host.Service/Tgstation.Server.Host.Service.csproj
@@ -1426,8 +1492,7 @@ jobs:
 
   check-winget-pr-template:
     name: Check winget-pkgs Pull Request Template is up to date
-    needs: start-ci-run-gate
-    if: (!(cancelled() || failure()) && needs.start-ci-run-gate.result == 'success')
+    needs: build-releasenotes
     runs-on: ubuntu-latest
     steps:
     - name: Setup dotnet
@@ -1435,6 +1500,22 @@ jobs:
       with:
         dotnet-version: '${{ env.TGS_DOTNET_VERSION }}.0.x'
         dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
+
+    - name: Checkout (Branch)
+      uses: actions/checkout@v4
+      if: github.event_name == 'push' || github.event_name == 'schedule'
+
+    - name: Checkout (PR Merge)
+      uses: actions/checkout@v4
+      if: github.event_name != 'push' && github.event_name != 'schedule'
+      with:
+        ref: "refs/pull/${{ inputs.pull_request_number }}/merge"
+
+    - name: Read Current SHA
+      id: get-pr-sha
+      if: github.event_name != 'push' && github.event_name != 'schedule'
+      shell: bash
+      run: echo "head_sha=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
 
     - name: Retrieve Latest winget-pkgs PULL_REQUEST_TEMPLATE commit SHA from GitHub API
       id: get-sha
@@ -1442,66 +1523,28 @@ jobs:
         curl -L -u "${{ vars.DEV_PUSH_USERNAME }}:${{ secrets.DEV_PUSH_TOKEN }}" -H "Accept: application/vnd.github.everest-preview+json" -H "Content-Type: application/json" -o commits.json https://api.github.com/repos/microsoft/winget-pkgs/commits?path=.github/PULL_REQUEST_TEMPLATE.md
         echo "pr_template_sha=$(cat commits.json | jq '.[0].sha')" >> $GITHUB_OUTPUT
 
-    - name: Checkout (Branch)
-      uses: actions/checkout@v4
-      if: github.event_name == 'push' || github.event_name == 'schedule'
-
-    - name: Checkout (PR Merge)
-      uses: actions/checkout@v4
-      if: github.event_name != 'push' && github.event_name != 'schedule'
+    - name: Retrieve ReleaseNotes Binaries
+      uses: actions/download-artifact@v4
       with:
-        ref: "refs/pull/${{ github.event.number }}/merge"
-
-    - name: Restore
-      run: dotnet restore
-
-    - name: Build ReleaseNotes
-      run: dotnet build -c Release -p:TGS_HOST_NO_WEBPANEL=true tools/Tgstation.Server.ReleaseNotes/Tgstation.Server.ReleaseNotes.csproj
+        name: release_notes_bins
+        path: release_notes_bins
 
     - name: Run ReleaseNotes Check
-      run: dotnet run -c Release --no-build --project tools/Tgstation.Server.ReleaseNotes --winget-template-check ${{ steps.get-sha.outputs.pr_template_sha }}
+      run: dotnet release_notes_bins/Tgstation.Server.ReleaseNotes.dll --winget-template-check ${{ steps.get-sha.outputs.pr_template_sha }}
 
-  ci-completion-gate: # This job exists so there isn't a moving target for branch protections
+  ci-completion-gate:
     name: CI Completion Gate
-    needs: [ pages-build, docker-build, build-deb, build-msi, validate-openapi-spec, upload-code-coverage, check-winget-pr-template, code-scanning, efcore-version-match ]
+    needs: [ pages-build, docker-build, build-deb, build-msi, validate-openapi-spec, upload-code-coverage, check-winget-pr-template, efcore-version-match, code-scanning ]
     runs-on: ubuntu-latest
-    if: (!(cancelled() || failure()) && needs.pages-build.result == 'success' && needs.docker-build.result == 'success' && needs.build-deb.result == 'success' && needs.build-msi.result == 'success' && needs.validate-openapi-spec.result == 'success' && needs.upload-code-coverage.result == 'success' && needs.check-winget-pr-template.result == 'success' && needs.code-scanning.result == 'success')
     steps:
-    - name: Setup dotnet
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: '${{ env.TGS_DOTNET_VERSION }}.0.x'
-        dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
-
-    - name: Checkout (Branch)
-      uses: actions/checkout@v4
-      if: github.event_name == 'push' || github.event_name == 'schedule'
-
-    - name: Checkout (PR Merge)
-      uses: actions/checkout@v4
-      if: github.event_name != 'push' && github.event_name != 'schedule'
-      with:
-        ref: "refs/pull/${{ github.event.number }}/merge"
-
-    - name: Restore
-      run: dotnet restore
-
-    - name: Build ReleaseNotes
-      run: dotnet build -c Release -p:TGS_HOST_NO_WEBPANEL=true tools/Tgstation.Server.ReleaseNotes/Tgstation.Server.ReleaseNotes.csproj
-
-    - name: Run ReleaseNotes Create CI Completion Check (PR HEAD)
-      if: github.event_name != 'push' && github.event_name != 'schedule'
-      run: dotnet run -c Release --no-build --project tools/Tgstation.Server.ReleaseNotes --ci-completion-check ${{ github.event.pull_request.head.sha }} ${{ secrets.TGS_CI_GITHUB_APP_TOKEN_BASE64 }}
-
-    - name: Run ReleaseNotes Create CI Completion Check (Branch)
-      if: github.event_name == 'push' || github.event_name == 'schedule'
-      run: dotnet run -c Release --no-build --project tools/Tgstation.Server.ReleaseNotes --ci-completion-check ${{ github.sha }} ${{ secrets.TGS_CI_GITHUB_APP_TOKEN_BASE64 }}
+      - name: Mandatory Empty Step
+        run: exit 0
 
   deployment-gate:
     name: Deployment Start Gate
     needs: ci-completion-gate
     runs-on: ubuntu-latest
-    if: (!(cancelled() || failure()) && needs.ci-completion-gate.result == 'success' && github.event_name == 'push' && (github.event.ref == 'refs/heads/master' || github.event.ref == 'refs/heads/dev'))
+    if: github.event_name == 'push'
     steps:
     - name: GitHub Requires at Least One Step for a Job
       run: exit 0
@@ -1510,7 +1553,7 @@ jobs:
     name: Deploy HTTP API
     needs: deployment-gate
     runs-on: windows-latest
-    if: (!(cancelled() || failure()) && needs.deployment-gate.result == 'success' && contains(github.event.head_commit.message, '[APIDeploy]'))
+    if: contains(github.event.head_commit.message, '[APIDeploy]')
     steps:
     - name: Setup dotnet
       uses: actions/setup-dotnet@v4
@@ -1520,12 +1563,6 @@ jobs:
 
     - name: Checkout
       uses: actions/checkout@v4
-
-    - name: Restore
-      run: dotnet restore
-
-    - name: Build ReleaseNotes
-      run: dotnet build -c Release -p:TGS_HOST_NO_WEBPANEL=true tools/Tgstation.Server.ReleaseNotes/Tgstation.Server.ReleaseNotes.csproj
 
     - name: Parse API version
       shell: powershell
@@ -1546,13 +1583,19 @@ jobs:
         $ProgressPreference = 'SilentlyContinue'
         Invoke-WebRequest -Uri https://raw.githubusercontent.com/tgstation/tgstation-server/gh-pages/changelog.yml -OutFile changelog.yml
 
+    - name: Retrieve ReleaseNotes Binaries
+      uses: actions/download-artifact@v4
+      with:
+        name: release_notes_bins
+        path: release_notes_bins
+
     - name: Generate Release Notes
-      run: dotnet run -c Release --no-build --project tools/Tgstation.Server.ReleaseNotes ${{ env.TGS_API_VERSION }} --httpapi
+      run: dotnet release_notes_bins/Tgstation.Server.ReleaseNotes.dll ${{ env.TGS_API_VERSION }} --httpapi
 
     - name: Generate App Token
       shell: powershell
       run: |
-        dotnet run -c Release --no-build --project tools/Tgstation.Server.ReleaseNotes --token-output-file ${{ runner.temp }}/installation_secret.txt ${{ secrets.TGS_CI_GITHUB_APP_TOKEN_BASE64 }}
+        dotnet release_notes_bins/Tgstation.Server.ReleaseNotes.dll --token-output-file ${{ runner.temp }}/installation_secret.txt ${{ secrets.TGS_CI_GITHUB_APP_TOKEN_BASE64 }}
         $installSecret = Get-Content ${{ runner.temp }}/installation_secret.txt
         echo "INSTALLATION_TOKEN=$installSecret" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf8 -Append
         rm ${{ runner.temp }}/installation_secret.txt
@@ -1582,7 +1625,7 @@ jobs:
     name: Deploy DreamMaker API
     needs: deployment-gate
     runs-on: windows-latest
-    if: (!(cancelled() || failure()) && needs.deployment-gate.result == 'success' && contains(github.event.head_commit.message, '[DMDeploy]'))
+    if: contains(github.event.head_commit.message, '[DMDeploy]')
     steps:
     - name: Setup dotnet
       uses: actions/setup-dotnet@v4
@@ -1592,12 +1635,6 @@ jobs:
 
     - name: Checkout
       uses: actions/checkout@v4
-
-    - name: Restore
-      run: dotnet restore
-
-    - name: Build ReleaseNotes
-      run: dotnet build -c Release -p:TGS_HOST_NO_WEBPANEL=true tools/Tgstation.Server.ReleaseNotes/Tgstation.Server.ReleaseNotes.csproj
 
     - name: Parse DMAPI version
       shell: powershell
@@ -1617,13 +1654,19 @@ jobs:
         $ProgressPreference = 'SilentlyContinue'
         Invoke-WebRequest -Uri https://raw.githubusercontent.com/tgstation/tgstation-server/gh-pages/changelog.yml -OutFile changelog.yml
 
+    - name: Retrieve ReleaseNotes Binaries
+      uses: actions/download-artifact@v4
+      with:
+        name: release_notes_bins
+        path: release_notes_bins
+
     - name: Generate Release Notes
-      run: dotnet run -c Release --no-build --project tools/Tgstation.Server.ReleaseNotes ${{ env.TGS_DM_VERSION }} --dmapi
+      run: dotnet release_notes_bins/Tgstation.Server.ReleaseNotes.dll ${{ env.TGS_DM_VERSION }} --dmapi
 
     - name: Generate App Token
       shell: powershell
       run: |
-        dotnet run -c Release --no-build --project tools/Tgstation.Server.ReleaseNotes --token-output-file ${{ runner.temp }}/installation_secret.txt ${{ secrets.TGS_CI_GITHUB_APP_TOKEN_BASE64 }}
+        dotnet release_notes_bins/Tgstation.Server.ReleaseNotes.dll --token-output-file ${{ runner.temp }}/installation_secret.txt ${{ secrets.TGS_CI_GITHUB_APP_TOKEN_BASE64 }}
         $installSecret = Get-Content ${{ runner.temp }}/installation_secret.txt
         echo "INSTALLATION_TOKEN=$installSecret" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf8 -Append
         rm ${{ runner.temp }}/installation_secret.txt
@@ -1653,7 +1696,7 @@ jobs:
     name: Deploy Nuget Packages
     needs: deployment-gate
     runs-on: ubuntu-latest
-    if: (!(cancelled() || failure()) && needs.deployment-gate.result == 'success' && contains(github.event.head_commit.message, '[NugetDeploy]'))
+    if: contains(github.event.head_commit.message, '[NugetDeploy]')
     steps:
     - name: Setup dotnet
       uses: actions/setup-dotnet@v4
@@ -1664,17 +1707,17 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v4
 
-    - name: Restore
-      run: dotnet restore
-
-    - name: Build ReleaseNotes
-      run: dotnet build -c Release -p:TGS_HOST_NO_WEBPANEL=true tools/Tgstation.Server.ReleaseNotes/Tgstation.Server.ReleaseNotes.csproj
-
     - name: Grab Most Recent Changelog
       run: curl -L https://raw.githubusercontent.com/tgstation/tgstation-server/gh-pages/changelog.yml -o changelog.yml
 
+    - name: Retrieve ReleaseNotes Binaries
+      uses: actions/download-artifact@v4
+      with:
+        name: release_notes_bins
+        path: release_notes_bins
+
     - name: Generate Release Notes
-      run: dotnet run -c Release --no-build --project tools/Tgstation.Server.ReleaseNotes --nuget
+      run: dotnet release_notes_bins/Tgstation.Server.ReleaseNotes.dll --nuget
 
     - name: Publish Tgstation.Server.Common to NuGet
       uses: alirezanet/publish-nuget@e276c40afeb2a154046f0997820f2a9ea74832d9 # v3.1.0
@@ -1704,7 +1747,7 @@ jobs:
     name: Ensure TGS Release is Latest GitHub Release
     needs: [deploy-dm, deploy-http]
     runs-on: ubuntu-latest
-    if: (!(cancelled() || failure()) && (needs.deploy-dm.result == 'success' || needs.deploy-http.result == 'success') && !contains(github.event.head_commit.message, '[TGSDeploy]'))
+    if: (!contains(github.event.head_commit.message, '[TGSDeploy]'))
     steps:
     - name: Setup dotnet
       uses: actions/setup-dotnet@v4
@@ -1712,23 +1755,22 @@ jobs:
         dotnet-version: '${{ env.TGS_DOTNET_VERSION }}.0.x'
         dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
 
-    - name: Checkout
-      uses: actions/checkout@v4
-
-    - name: Restore
-      run: dotnet restore
-
-    - name: Build ReleaseNotes
-      run: dotnet build -c Release -p:TGS_HOST_NO_WEBPANEL=true tools/Tgstation.Server.ReleaseNotes/Tgstation.Server.ReleaseNotes.csproj
+    - name: Retrieve ReleaseNotes Binaries
+      uses: actions/download-artifact@v4
+      with:
+        name: release_notes_bins
+        path: release_notes_bins
 
     - name: Run ReleaseNotes with --ensure-release
-      run: dotnet run -c Release --no-build --project tools/Tgstation.Server.ReleaseNotes --ensure-release ${{ secrets.TGS_CI_GITHUB_APP_TOKEN_BASE64 }}
+      run: dotnet release_notes_bins/Tgstation.Server.ReleaseNotes.dll --ensure-release ${{ secrets.TGS_CI_GITHUB_APP_TOKEN_BASE64 }}
 
   deploy-tgs:
     name: Deploy TGS
     needs: [deploy-dm, deploy-http, deployment-gate]
     runs-on: windows-latest
-    if: (!(cancelled() || failure()) && needs.deployment-gate.result == 'success' && github.event.ref == 'refs/heads/master' && contains(github.event.head_commit.message, '[TGSDeploy]'))
+    if: github.event.ref == 'refs/heads/master' && contains(github.event.head_commit.message, '[TGSDeploy]')
+    env:
+      TGS_TELEMETRY_KEY_FILE: C:/tgs_telemetry_key.txt
     steps:
     - name: Setup dotnet
       uses: actions/setup-dotnet@v4
@@ -1736,27 +1778,36 @@ jobs:
         dotnet-version: '${{ env.TGS_DOTNET_VERSION }}.0.x'
         dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
 
+    - name: Setup Node.JS
+      uses: actions/setup-node@v4
+      with:
+          node-version: ${{ env.TGS_WEBPANEL_NODE_VERSION }}
+
     - name: Checkout
       uses: actions/checkout@v4
-
-    - name: Restore
-      run: dotnet restore
 
     - name: Restore Wix dotnet Tool
       run: |
         cd build/package/winget
         dotnet tool restore
 
-# We need to rebuild the installer.exe so it can be properly signed
+    - name: Enable Corepack
+      run: corepack enable
 
-    - name: Build Host
+    - name: Setup Telemetry Key File
+      shell: bash
+      run: echo "${{ secrets.TGS_TELEMETRY_KEY }}" > ${{ env.TGS_TELEMETRY_KEY_FILE }}
+
+    - name: Build Host  # We need to rebuild the installer.exe so it can be properly signed
       run: dotnet build -c Release src/Tgstation.Server.Host/Tgstation.Server.Host.csproj
+
+    - name: Delete Telemetry Key File
+      shell: bash
+      if: always()
+      run: rm -f ${{ env.TGS_TELEMETRY_KEY_FILE }}
 
     - name: Build Service
       run: dotnet build -c Release src/Tgstation.Server.Host.Service/Tgstation.Server.Host.Service.csproj
-
-    - name: Build ReleaseNotes
-      run: dotnet build -c Release tools/Tgstation.Server.ReleaseNotes/Tgstation.Server.ReleaseNotes.csproj
 
     - name: Prepare Artifacts
       shell: powershell
@@ -1842,13 +1893,19 @@ jobs:
         &"C:/Program Files/7-Zip/7z.exe" a ServerConsole.zip ./ServerConsole/* -tzip
         &"C:/Program Files/7-Zip/7z.exe" a ServerUpdatePackage.zip ./ServerUpdatePackage/* -tzip
 
+    - name: Retrieve ReleaseNotes Binaries
+      uses: actions/download-artifact@v4
+      with:
+        name: release_notes_bins
+        path: release_notes_bins
+
     - name: Generate Release Notes
-      run: dotnet run -c Release --no-build --project tools/Tgstation.Server.ReleaseNotes ${{ env.TGS_VERSION }}
+      run: dotnet release_notes_bins/Tgstation.Server.ReleaseNotes.dll ${{ env.TGS_VERSION }}
 
     - name: Generate App Token
       shell: powershell
       run: |
-        dotnet run -c Release --no-build --project tools/Tgstation.Server.ReleaseNotes --token-output-file ${{ runner.temp }}/installation_secret.txt ${{ secrets.TGS_CI_GITHUB_APP_TOKEN_BASE64 }}
+        dotnet release_notes_bins/Tgstation.Server.ReleaseNotes.dll --token-output-file ${{ runner.temp }}/installation_secret.txt ${{ secrets.TGS_CI_GITHUB_APP_TOKEN_BASE64 }}
         $installSecret = Get-Content ${{ runner.temp }}/installation_secret.txt
         echo "INSTALLATION_TOKEN=$installSecret" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf8 -Append
         rm ${{ runner.temp }}/installation_secret.txt
@@ -1948,7 +2005,6 @@ jobs:
     name: Regenerate Changelog
     runs-on: ubuntu-latest
     needs: deploy-tgs
-    if: (!(cancelled() || failure()) && needs.deploy-tgs.result == 'success')
     steps:
     - name: Setup dotnet
       uses: actions/setup-dotnet@v4
@@ -1956,26 +2012,23 @@ jobs:
         dotnet-version: '${{ env.TGS_DOTNET_VERSION }}.0.x'
         dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
 
-    - name: Checkout
-      uses: actions/checkout@v4
-
-    - name: Restore
-      run: dotnet restore
-
-    - name: Build ReleaseNotes
-      run: dotnet build -c Release -p:TGS_HOST_NO_WEBPANEL=true tools/Tgstation.Server.ReleaseNotes/Tgstation.Server.ReleaseNotes.csproj
-
     - name: gh-pages Clone
       run: git clone -b gh-pages --single-branch "https://git@github.com/tgstation/tgstation-server" $HOME/tgsdox
+
+    - name: Retrieve ReleaseNotes Binaries
+      uses: actions/download-artifact@v4
+      with:
+        name: release_notes_bins
+        path: release_notes_bins
 
     - name: Build Changelog (Incremental)
       run: |
         mv $HOME/tgsdox/changelog.yml ./ 2>/dev/null
-        dotnet run -c Release --no-build --project tools/Tgstation.Server.ReleaseNotes --generate-full-notes
+        dotnet release_notes_bins/Tgstation.Server.ReleaseNotes.dll --generate-full-notes
 
     - name: Generate App Token
       run: |
-        dotnet run -c Release --no-build --project tools/Tgstation.Server.ReleaseNotes --token-output-file ${{ runner.temp }}/installation_secret.txt ${{ secrets.TGS_CI_GITHUB_APP_TOKEN_BASE64 }}
+        dotnet release_notes_bins/Tgstation.Server.ReleaseNotes.dll --token-output-file ${{ runner.temp }}/installation_secret.txt ${{ secrets.TGS_CI_GITHUB_APP_TOKEN_BASE64 }}
         echo "INSTALLATION_TOKEN=$(cat ${{ runner.temp }}/installation_secret.txt)" >> $GITHUB_ENV
         rm ${{ runner.temp }}/installation_secret.txt
 
@@ -1998,7 +2051,6 @@ jobs:
   deploy-docker:
     name: Deploy TGS (Docker)
     needs: deploy-tgs
-    if: (!(cancelled() || failure()) && needs.deploy-tgs.result == 'success')
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
@@ -2022,7 +2074,6 @@ jobs:
   deploy-ppa:
     name: Deploy TGS (PPA)
     needs: deploy-tgs
-    if: (!(cancelled() || failure()) && needs.deploy-tgs.result == 'success')
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
@@ -2041,7 +2092,6 @@ jobs:
   deploy-winget:
     name: Deploy TGS (winget)
     needs: deploy-tgs
-    if: (!(cancelled() || failure()) && needs.deploy-tgs.result == 'success')
     runs-on: windows-latest
     steps:
     - name: Setup dotnet
@@ -2061,14 +2111,17 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v4
 
-    - name: Build ReleaseNotes
-      run: dotnet build -c Release -p:TGS_HOST_NO_WEBPANEL=true tools/Tgstation.Server.ReleaseNotes
-
     - name: Retrieve Server Service
       uses: actions/download-artifact@v4
       with:
         name: packaging-windows-raw-msi
         path: artifacts
+
+    - name: Retrieve ReleaseNotes Binaries
+      uses: actions/download-artifact@v4
+      with:
+        name: release_notes_bins
+        path: release_notes_bins
 
     - name: Execute Push Script
       shell: powershell
@@ -2082,4 +2135,4 @@ jobs:
 
     - name: Run ReleaseNotes with --link-winget
       shell: powershell
-      run: dotnet run -c Release --no-build --project tools/Tgstation.Server.ReleaseNotes --link-winget ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+      run: dotnet release_notes_bins/Tgstation.Server.ReleaseNotes.dll --link-winget ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}

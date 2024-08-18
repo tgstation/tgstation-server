@@ -23,11 +23,6 @@ namespace Tgstation.Server.Host.Components.Repository
 	sealed class RepositoryUpdateService
 	{
 		/// <summary>
-		/// The <see cref="RepositoryUpdateRequest"/> for the <see cref="RepositoryUpdateService"/>.
-		/// </summary>
-		readonly RepositoryUpdateRequest model;
-
-		/// <summary>
 		/// The current <see cref="RepositorySettings"/> for the <see cref="RepositoryUpdateService"/>.
 		/// </summary>
 		readonly RepositorySettings currentModel;
@@ -50,19 +45,16 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// <summary>
 		/// Initializes a new instance of the <see cref="RepositoryUpdateService"/> class.
 		/// </summary>
-		/// <param name="model">The value of <see cref="model"/>.</param>
 		/// <param name="currentModel">The value of <see cref="currentModel"/>.</param>
 		/// <param name="initiatingUser">The value of <see cref="initiatingUser"/>.</param>
 		/// <param name="logger">The value of <see cref="logger"/>.</param>
 		/// <param name="instanceId">The value of <see cref="instanceId"/>.</param>
 		public RepositoryUpdateService(
-			RepositoryUpdateRequest model,
 			RepositorySettings currentModel,
 			User initiatingUser,
 			ILogger<RepositoryUpdateService> logger,
 			long instanceId)
 		{
-			this.model = model ?? throw new ArgumentNullException(nameof(model));
 			this.currentModel = currentModel ?? throw new ArgumentNullException(nameof(currentModel));
 			this.initiatingUser = initiatingUser ?? throw new ArgumentNullException(nameof(initiatingUser));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
@@ -139,24 +131,25 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// <summary>
 		/// The job entrypoint used by <see cref="Controllers.RepositoryController"/> to update the repository's current HEAD.
 		/// </summary>
-		/// <param name="instance">The <see cref="IInstanceCore"/> the job is running on. <see langword="null"/> only when performing an instance move operation.</param>
+		/// <param name="model">The <see cref="RepositoryUpdateRequest"/>.</param>
+		/// <param name="instance">The <see cref="IInstanceCore"/> the job is running on.</param>
 		/// <param name="databaseContextFactory">The <see cref="IDatabaseContextFactory"/> for the operation.</param>
-		/// <param name="job">The running <see cref="Job"/>, ignored.</param>
 		/// <param name="progressReporter">The <see cref="JobProgressReporter"/> for the job.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
 #pragma warning disable CA1502, CA1506 // TODO: Decomplexify
 		public async ValueTask RepositoryUpdateJob(
+			RepositoryUpdateRequest model,
 			IInstanceCore? instance,
 			IDatabaseContextFactory databaseContextFactory,
-			Job job,
 			JobProgressReporter progressReporter,
 			CancellationToken cancellationToken)
 #pragma warning restore CA1502, CA1506
 		{
+			ArgumentNullException.ThrowIfNull(model);
 			ArgumentNullException.ThrowIfNull(instance);
-
-			_ = job; // shuts up an IDE warning
+			ArgumentNullException.ThrowIfNull(databaseContextFactory);
+			ArgumentNullException.ThrowIfNull(progressReporter);
 
 			var repoManager = instance.RepositoryManager;
 			using var repo = await repoManager.LoadRepository(cancellationToken) ?? throw new JobException(ErrorCode.RepoMissing);
@@ -180,10 +173,7 @@ namespace Tgstation.Server.Host.Components.Repository
 			var numSteps = (model.NewTestMerges?.Count ?? 0) + (model.UpdateFromOrigin == true ? 1 : 0) + (!modelHasShaOrReference ? 2 : (hardResettingToOriginReference ? 3 : 1));
 			var progressFactor = 1.0 / numSteps;
 
-			JobProgressReporter NextProgressReporter(string? stage)
-			{
-				return progressReporter.CreateSection(stage, progressFactor);
-			}
+			JobProgressReporter NextProgressReporter(string? stage) => progressReporter.CreateSection(stage, progressFactor);
 
 			progressReporter.ReportProgress(0);
 
@@ -253,29 +243,35 @@ namespace Tgstation.Server.Host.Components.Repository
 				{
 					if (!repo.Tracking)
 						throw new JobException(ErrorCode.RepoReferenceRequired);
-					await repo.FetchOrigin(
-						NextProgressReporter("Fetch Origin"),
-						currentModel.AccessUser,
-						currentModel.AccessToken,
-						false,
-						cancellationToken);
+					using (var fetchReporter = NextProgressReporter("Fetch Origin"))
+						await repo.FetchOrigin(
+							fetchReporter,
+							currentModel.AccessUser,
+							currentModel.AccessToken,
+							false,
+							cancellationToken);
 
 					if (!modelHasShaOrReference)
 					{
-						var fastForward = await repo.MergeOrigin(
-							NextProgressReporter("Merge Origin"),
-							committerName,
-							currentModel.CommitterEmail!,
-							false,
-							cancellationToken);
+						bool? fastForward;
+						using (var mergeReporter = NextProgressReporter("Merge Origin"))
+							fastForward = await repo.MergeOrigin(
+								mergeReporter,
+								committerName,
+								currentModel.CommitterEmail!,
+								false,
+								cancellationToken);
+
 						if (!fastForward.HasValue)
 							throw new JobException(ErrorCode.RepoMergeConflict);
+
 						lastRevisionInfo!.OriginCommitSha = await repo.GetOriginSha(cancellationToken);
 						await UpdateRevInfo();
 						if (fastForward.Value)
 						{
+							using var syncReporter = NextProgressReporter("Sychronize");
 							await repo.Synchronize(
-								NextProgressReporter("Sychronize"),
+								syncReporter,
 								currentModel.AccessUser,
 								currentModel.AccessToken,
 								currentModel.CommitterName!,
@@ -286,7 +282,7 @@ namespace Tgstation.Server.Host.Components.Repository
 							postUpdateSha = repo.Head;
 						}
 						else
-							NextProgressReporter(null).ReportProgress(1.0);
+							NextProgressReporter(null).Dispose();
 					}
 				}
 
@@ -310,38 +306,44 @@ namespace Tgstation.Server.Host.Components.Repository
 						if ((isSha && model.Reference != null) || (!isSha && model.CheckoutSha != null))
 							throw new JobException(ErrorCode.RepoSwappedShaOrReference);
 
-						await repo.CheckoutObject(
-							committish,
-							currentModel.AccessUser,
-							currentModel.AccessToken,
-							updateSubmodules,
-							NextProgressReporter("Checkout"),
-							cancellationToken);
+						using (var checkoutReporter = NextProgressReporter("Checkout"))
+							await repo.CheckoutObject(
+								committish,
+								currentModel.AccessUser,
+								currentModel.AccessToken,
+								updateSubmodules,
+								false,
+								checkoutReporter,
+								cancellationToken);
 						await CallLoadRevInfo(); // we've either seen origin before or what we're checking out is on origin
 					}
 					else
-						NextProgressReporter(null).ReportProgress(1.0);
+						NextProgressReporter(null).Dispose();
 
 					if (hardResettingToOriginReference)
 					{
 						if (!repo.Tracking)
 							throw new JobException(ErrorCode.RepoReferenceNotTracking);
-						await repo.ResetToOrigin(
-							NextProgressReporter("Reset to Origin"),
-							currentModel.AccessUser,
-							currentModel.AccessToken,
-							updateSubmodules,
-							false,
-							cancellationToken);
-						await repo.Synchronize(
-							NextProgressReporter("Synchronize"),
-							currentModel.AccessUser,
-							currentModel.AccessToken,
-							currentModel.CommitterName!,
-							currentModel.CommitterEmail!,
-							true,
-							false,
-							cancellationToken);
+						using (var resetReporter = NextProgressReporter("Reset to Origin"))
+							await repo.ResetToOrigin(
+								resetReporter,
+								currentModel.AccessUser,
+								currentModel.AccessToken,
+								updateSubmodules,
+								false,
+								cancellationToken);
+
+						using (var syncReporter = NextProgressReporter("Synchronize"))
+							await repo.Synchronize(
+								syncReporter,
+								currentModel.AccessUser,
+								currentModel.AccessToken,
+								currentModel.CommitterName!,
+								currentModel.CommitterEmail!,
+								true,
+								false,
+								cancellationToken);
+
 						await CallLoadRevInfo();
 
 						// repo head is on origin so force this
@@ -492,7 +494,8 @@ namespace Tgstation.Server.Host.Components.Repository
 						// goteem
 						var commitSha = revInfoWereLookingFor.CommitSha!;
 						logger.LogDebug("Reusing existing SHA {sha}...", commitSha);
-						await repo.ResetToSha(commitSha, NextProgressReporter($"Reset to {commitSha[..7]}"), cancellationToken);
+						using var resetReporter = NextProgressReporter($"Reset to {commitSha[..7]}");
+						await repo.ResetToSha(commitSha, resetReporter, cancellationToken);
 						lastRevisionInfo = revInfoWereLookingFor;
 					}
 
@@ -505,15 +508,17 @@ namespace Tgstation.Server.Host.Components.Repository
 
 							var fullTestMergeTask = repo.GetTestMerge(newTestMerge, currentModel, cancellationToken);
 
-							var mergeResult = await repo.AddTestMerge(
-								newTestMerge,
-								committerName,
-								currentModel.CommitterEmail!,
-								currentModel.AccessUser,
-								currentModel.AccessToken,
-								updateSubmodules,
-								NextProgressReporter($"Test merge #{newTestMerge.Number}"),
-								cancellationToken);
+							TestMergeResult mergeResult;
+							using (var testMergeReporter = NextProgressReporter($"Test merge #{newTestMerge.Number}"))
+								mergeResult = await repo.AddTestMerge(
+									newTestMerge,
+									committerName,
+									currentModel.CommitterEmail!,
+									currentModel.AccessUser,
+									currentModel.AccessToken,
+									updateSubmodules,
+									testMergeReporter,
+									cancellationToken);
 
 							if (mergeResult.Status == MergeStatus.Conflicts)
 								throw new JobException(
@@ -552,15 +557,17 @@ namespace Tgstation.Server.Host.Components.Repository
 				var currentHead = repo.Head;
 				if (currentModel.PushTestMergeCommits!.Value && (startSha != currentHead || (postUpdateSha != null && postUpdateSha != currentHead)))
 				{
-					await repo.Synchronize(
-						NextProgressReporter("Synchronize"),
-						currentModel.AccessUser,
-						currentModel.AccessToken,
-						currentModel.CommitterName!,
-						currentModel.CommitterEmail!,
-						false,
-						false,
-						cancellationToken);
+					using (var syncReporter = NextProgressReporter("Synchronize"))
+						await repo.Synchronize(
+							syncReporter,
+							currentModel.AccessUser,
+							currentModel.AccessToken,
+							currentModel.CommitterName!,
+							currentModel.CommitterEmail!,
+							false,
+							false,
+							cancellationToken);
+
 					await UpdateRevInfo();
 				}
 			}
@@ -574,18 +581,108 @@ namespace Tgstation.Server.Host.Components.Repository
 				var secondStep = startReference != null && repo.Head != startSha;
 
 				// DCTx2: Cancellation token is for job, operations should always run
-				await repo.CheckoutObject(
-					startReference ?? startSha,
-					currentModel.AccessUser,
-					currentModel.AccessToken,
-					true,
-					progressReporter.CreateSection($"Checkout {startReference ?? startSha[..7]}", secondStep ? 0.5 : 1.0),
-					default);
+				using (var checkoutReporter = progressReporter.CreateSection($"Checkout {startReference ?? startSha[..7]}", secondStep ? 0.5 : 1.0))
+					await repo.CheckoutObject(
+						startReference ?? startSha,
+						currentModel.AccessUser,
+						currentModel.AccessToken,
+						true,
+						false,
+						checkoutReporter,
+						default);
 
 				if (secondStep)
-					await repo.ResetToSha(startSha, progressReporter.CreateSection($"Hard reset to SHA {startSha[..7]}", 0.5), default);
+					using (var resetReporter = progressReporter.CreateSection($"Hard reset to SHA {startSha[..7]}", 0.5))
+						await repo.ResetToSha(startSha, resetReporter, default);
 
 				throw;
+			}
+		}
+
+		/// <summary>
+		/// The job entrypoint used by <see cref="Controllers.RepositoryController"/> to reclone a repository.
+		/// </summary>
+		/// <param name="instance">The <see cref="IInstanceCore"/> the job is running on.</param>
+		/// <param name="databaseContextFactory">The <see cref="IDatabaseContextFactory"/> for the operation.</param>
+		/// <param name="progressReporter">The <see cref="JobProgressReporter"/> for the job.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
+		public async ValueTask RepositoryRecloneJob(
+			IInstanceCore? instance,
+			IDatabaseContextFactory databaseContextFactory,
+			JobProgressReporter progressReporter,
+			CancellationToken cancellationToken)
+		{
+			ArgumentNullException.ThrowIfNull(instance);
+			ArgumentNullException.ThrowIfNull(databaseContextFactory);
+			ArgumentNullException.ThrowIfNull(progressReporter);
+
+			progressReporter.StageName = "Loading Old Repository";
+
+			Uri origin;
+			string? oldReference;
+			string oldSha;
+			ValueTask deleteTask;
+			using (var deleteReporter = progressReporter.CreateSection("Deleting Old Repository", 0.1))
+			{
+				using (var oldRepo = await instance.RepositoryManager.LoadRepository(cancellationToken))
+				{
+					if (oldRepo == null)
+						throw new JobException(ErrorCode.RepoMissing);
+
+					origin = oldRepo.Origin;
+					oldSha = oldRepo.Head;
+					oldReference = oldRepo.Reference;
+					if (oldReference == Repository.NoReference)
+						oldReference = null;
+
+					deleteTask = instance.RepositoryManager.DeleteRepository(cancellationToken);
+				}
+
+				await deleteTask;
+			}
+
+			IRepository newRepo;
+			try
+			{
+				using var cloneReporter = progressReporter.CreateSection("Cloning New Repository", 0.8);
+				newRepo = await instance.RepositoryManager.CloneRepository(
+					origin,
+					oldReference,
+					currentModel.AccessUser,
+					currentModel.AccessToken,
+					cloneReporter,
+					true, // TODO: Make configurable maybe...
+					cancellationToken)
+					?? throw new JobException("A race condition occurred while recloning the repository. Somehow, it was fully cloned instantly after being deleted!"); // I'll take lines of code that should never be hit for $10k
+			}
+			catch (Exception ex) when (ex is not JobException)
+			{
+				logger.LogWarning("Reclone failed, clearing credentials!");
+
+				// need to clear credentials here
+				await databaseContextFactory.UseContextTaskReturn(context =>
+				{
+					context.RepositorySettings.Attach(currentModel);
+					currentModel.AccessUser = null;
+					currentModel.AccessToken = null;
+					return context.Save(CancellationToken.None); // DCT: Must always run
+				});
+
+				throw;
+			}
+
+			using (newRepo)
+			using (var checkoutReporter = progressReporter.CreateSection("Checking out previous Detached Commit", 0.1))
+			{
+				await newRepo.CheckoutObject(
+					oldSha,
+					currentModel.AccessUser,
+					currentModel.AccessToken,
+					false,
+					oldReference != null,
+					checkoutReporter,
+					cancellationToken);
 			}
 		}
 	}

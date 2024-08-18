@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Web;
 
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
@@ -41,6 +42,11 @@ namespace Tgstation.Server.Host.Controllers
 		/// Default <see cref="Exception.Message"/> for <see cref="ApiException"/>s.
 		/// </summary>
 		const string OctokitException = "Bad GitHub API response, check configuration!";
+
+		/// <summary>
+		/// The <see cref="IMemoryCache"/> key for <see cref="Read(bool?, CancellationToken)"/>.
+		/// </summary>
+		static readonly object ReadCacheKey = new();
 
 		/// <summary>
 		/// The <see cref="IGitHubServiceFactory"/> for the <see cref="AdministrationController"/>.
@@ -78,6 +84,11 @@ namespace Tgstation.Server.Host.Controllers
 		readonly IFileTransferTicketProvider fileTransferService;
 
 		/// <summary>
+		/// The <see cref="IMemoryCache"/> for the <see cref="AdministrationController"/>.
+		/// </summary>
+		readonly IMemoryCache cacheService;
+
+		/// <summary>
 		/// The <see cref="FileLoggingConfiguration"/> for the <see cref="AdministrationController"/>.
 		/// </summary>
 		readonly FileLoggingConfiguration fileLoggingConfiguration;
@@ -94,6 +105,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="ioManager">The value of <see cref="ioManager"/>.</param>
 		/// <param name="platformIdentifier">The value of <see cref="platformIdentifier"/>.</param>
 		/// <param name="fileTransferService">The value of <see cref="fileTransferService"/>.</param>
+		/// <param name="cacheService">The value of <see cref="cacheService"/>.</param>
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="ApiController"/>.</param>
 		/// <param name="fileLoggingConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing value of <see cref="fileLoggingConfiguration"/>.</param>
 		/// <param name="apiHeadersProvider">The <see cref="IApiHeadersProvider"/> for the <see cref="ApiController"/>.</param>
@@ -107,6 +119,7 @@ namespace Tgstation.Server.Host.Controllers
 			IIOManager ioManager,
 			IPlatformIdentifier platformIdentifier,
 			IFileTransferTicketProvider fileTransferService,
+			IMemoryCache cacheService,
 			ILogger<AdministrationController> logger,
 			IOptions<FileLoggingConfiguration> fileLoggingConfigurationOptions,
 			IApiHeadersProvider apiHeadersProvider)
@@ -124,12 +137,14 @@ namespace Tgstation.Server.Host.Controllers
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
 			this.platformIdentifier = platformIdentifier ?? throw new ArgumentNullException(nameof(platformIdentifier));
 			this.fileTransferService = fileTransferService ?? throw new ArgumentNullException(nameof(fileTransferService));
+			this.cacheService = cacheService ?? throw new ArgumentNullException(nameof(cacheService));
 			fileLoggingConfiguration = fileLoggingConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(fileLoggingConfigurationOptions));
 		}
 
 		/// <summary>
 		/// Get <see cref="AdministrationResponse"/> server information.
 		/// </summary>
+		/// <param name="fresh">If <see langword="true"/>, the cache should be bypassed.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="IActionResult"/> for the operation.</returns>
 		/// <response code="200">Retrieved <see cref="AdministrationResponse"/> data successfully.</response>
@@ -140,39 +155,56 @@ namespace Tgstation.Server.Host.Controllers
 		[ProducesResponseType(typeof(AdministrationResponse), 200)]
 		[ProducesResponseType(typeof(ErrorMessageResponse), 424)]
 		[ProducesResponseType(typeof(ErrorMessageResponse), 429)]
-		public async ValueTask<IActionResult> Read(CancellationToken cancellationToken)
+		public async ValueTask<IActionResult> Read([FromQuery] bool? fresh, CancellationToken cancellationToken)
 		{
 			try
 			{
-				Version? greatestVersion = null;
-				Uri? repoUrl = null;
-				try
+				async Task<JsonResult> CacheFactory()
 				{
-					var gitHubService = gitHubServiceFactory.CreateService();
-					var repositoryUrlTask = gitHubService.GetUpdatesRepositoryUrl(cancellationToken);
-					var releases = await gitHubService.GetTgsReleases(cancellationToken);
-
-					foreach (var kvp in releases)
+					Version? greatestVersion = null;
+					Uri? repoUrl = null;
+					try
 					{
-						var version = kvp.Key;
-						var release = kvp.Value;
-						if (version.Major > 3 // Forward/backward compatible but not before TGS4
-							&& (greatestVersion == null || version > greatestVersion))
-							greatestVersion = version;
+						var gitHubService = await gitHubServiceFactory.CreateService(cancellationToken);
+						var repositoryUrlTask = gitHubService.GetUpdatesRepositoryUrl(cancellationToken);
+						var releases = await gitHubService.GetTgsReleases(cancellationToken);
+
+						foreach (var kvp in releases)
+						{
+							var version = kvp.Key;
+							var release = kvp.Value;
+							if (version.Major > 3 // Forward/backward compatible but not before TGS4
+								&& (greatestVersion == null || version > greatestVersion))
+								greatestVersion = version;
+						}
+
+						repoUrl = await repositoryUrlTask;
+					}
+					catch (NotFoundException e)
+					{
+						Logger.LogWarning(e, "Not found exception while retrieving upstream repository info!");
 					}
 
-					repoUrl = await repositoryUrlTask;
-				}
-				catch (NotFoundException e)
-				{
-					Logger.LogWarning(e, "Not found exception while retrieving upstream repository info!");
+					return Json(new AdministrationResponse
+					{
+						LatestVersion = greatestVersion,
+						TrackedRepositoryUrl = repoUrl,
+						GeneratedAt = DateTimeOffset.UtcNow,
+					});
 				}
 
-				return Json(new AdministrationResponse
+				var ttl = TimeSpan.FromMinutes(30);
+				Task<JsonResult> task;
+				if (fresh == true || !cacheService.TryGetValue(ReadCacheKey, out var rawCacheObject))
 				{
-					LatestVersion = greatestVersion,
-					TrackedRepositoryUrl = repoUrl,
-				});
+					using var entry = cacheService.CreateEntry(ReadCacheKey);
+					entry.AbsoluteExpirationRelativeToNow = ttl;
+					entry.Value = task = CacheFactory();
+				}
+				else
+					task = (Task<JsonResult>)rawCacheObject!;
+
+				return await task;
 			}
 			catch (RateLimitExceededException e)
 			{

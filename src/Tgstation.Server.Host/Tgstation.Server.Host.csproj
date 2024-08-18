@@ -29,13 +29,13 @@
     <Exec Command="git clone https://github.com/tgstation/tgstation-server-webpanel --branch v$(TgsWebpanelVersion) --depth 1 ClientApp" />
     <RemoveDir Directories="ClientApp/.git" /> <!-- Allows git clean to clean it out -->
     <Message Text="Restoring yarn packages..." Importance="high" />
-    <Exec WorkingDirectory="ClientApp" Command="npx --yes yarn@$(TgsYarnVersion) install --immutable" />
+    <Exec WorkingDirectory="ClientApp" Command="yarn install --immutable" />
     <Touch Files="$(NpmInstallStampFile)" AlwaysCreate="true" />
   </Target>
 
   <Target Condition="'$(TGS_HOST_NO_WEBPANEL)' != 'true'" Name="NpmBuild" BeforeTargets="BeforeBuild" DependsOnTargets="ClientInstall" Inputs="../../build/WebpanelVersion.props" Outputs="wwwroot\index.html">
     <Message Text="Building web control panel..." Importance="high" />
-    <Exec WorkingDirectory="ClientApp" Command="npx --yes yarn@$(TgsYarnVersion) run msbuild" />
+    <Exec WorkingDirectory="ClientApp" Command="yarn run msbuild" />
   </Target>
 
   <Target Name="NpmClean" AfterTargets="Clean">
@@ -45,19 +45,41 @@
 
   <Target Name="ApplyMasterVersionsAttribute" BeforeTargets="CoreCompile">
     <ItemGroup>
-      <AssemblyAttributes Include="Tgstation.Server.Host.Properties.MasterVersionsAttribute">
+      <MasterVersionAssemblyAttributes Include="Tgstation.Server.Host.Properties.MasterVersionsAttribute">
         <_Parameter1>$(TgsConfigVersion)</_Parameter1>
         <_Parameter2>$(TgsInteropVersion)</_Parameter2>
         <_Parameter3>$(TgsWebpanelVersion)</_Parameter3>
         <_Parameter4>$(TgsHostWatchdogVersion)</_Parameter4>
         <_Parameter5>$(TgsMariaDBRedistVersion)</_Parameter5>
-      </AssemblyAttributes>
+      </MasterVersionAssemblyAttributes>
     </ItemGroup>
-
-    <WriteCodeFragment AssemblyAttributes="@(AssemblyAttributes)" Language="C#" OutputDirectory="$(IntermediateOutputPath)" OutputFile="MasterVersionsAssemblyInfo.cs">
+    <WriteCodeFragment AssemblyAttributes="@(MasterVersionAssemblyAttributes)" Language="C#" OutputDirectory="$(IntermediateOutputPath)" OutputFile="MasterVersionsAssemblyInfo.cs">
       <Output TaskParameter="OutputFile" ItemName="Compile" />
       <Output TaskParameter="OutputFile" ItemName="FileWrites" />
     </WriteCodeFragment>
+  </Target>
+
+  <Target Condition="'$(TGS_TELEMETRY_KEY_FILE)' != ''" Name="ApplyTelemetryAppSerializedKey" BeforeTargets="CoreCompile">
+    <Error Condition="!Exists('$(TGS_TELEMETRY_KEY_FILE)')" Text="TGS_TELEMETRY_KEY_FILE set but does not exist!" />
+    <ReadLinesFromFile
+        File="$(TGS_TELEMETRY_KEY_FILE)" >
+        <Output
+            TaskParameter="Lines"
+            ItemName="SerializedTelemetryKey"/>
+    </ReadLinesFromFile>
+    <ItemGroup>
+      <TelemetryAppSerializedKeyAssemblyAttributes Include="Tgstation.Server.Host.Properties.TelemetryAppSerializedKeyAttribute">
+        <_Parameter1>@(SerializedTelemetryKey)</_Parameter1>
+      </TelemetryAppSerializedKeyAssemblyAttributes>
+    </ItemGroup>
+    <WriteCodeFragment AssemblyAttributes="@(TelemetryAppSerializedKeyAssemblyAttributes)" Language="C#" OutputDirectory="$(IntermediateOutputPath)" OutputFile="TelemetryAppSerializedKeyAssemblyInfo.cs">
+      <Output TaskParameter="OutputFile" ItemName="Compile" />
+      <Output TaskParameter="OutputFile" ItemName="FileWrites" />
+    </WriteCodeFragment>
+  </Target>
+
+  <Target Condition="'$(TGS_TELEMETRY_KEY_FILE)' == '' And '$(CI)' != ''" Name="FailBuildInCIWithoutTelemetryKey" BeforeTargets="CoreCompile">
+    <Error Text="The TGS_TELEMETRY_KEY_FILE environment variable should be set in CI!"/>
   </Target>
 
   <ItemGroup>
@@ -78,21 +100,21 @@
     <!-- Usage: git interop -->
     <PackageReference Include="LibGit2Sharp" Version="0.30.0" />
     <!-- Usage: Support ""legacy"" Newotonsoft.Json in HTTP pipeline. The rest of our codebase uses Newtonsoft. -->
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="8.0.7" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="8.0.8" />
     <!-- Usage: Using target JSON serializer for API -->
-    <PackageReference Include="Microsoft.AspNetCore.SignalR.Protocols.NewtonsoftJson" Version="8.0.7" />
+    <PackageReference Include="Microsoft.AspNetCore.SignalR.Protocols.NewtonsoftJson" Version="8.0.8" />
     <!-- Usage: Generating dumps of dotnet engine processes -->
     <PackageReference Include="Microsoft.Diagnostics.NETCore.Client" Version="0.2.532401" />
     <!-- Usage: Database ORM -->
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.7" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.8" />
     <!-- Usage: Automatic migration generation using command line -->
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.7">
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.8">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <!-- Usage: Sqlite ORM plugin -->
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.7" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.8" />
     <!-- Usage: MSSQL ORM plugin -->
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.7" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.8" />
     <!-- Usage: POSIX support for syscalls, signals, and symlinks -->
     <PackageReference Include="Mono.Posix.NETStandard" Version="1.0.0" />
     <PackageReference Include="NCrontab.Signed" Version="3.3.3" />
@@ -115,9 +137,9 @@
     <!-- Usage: File logging plugin -->
     <PackageReference Include="Serilog.Sinks.File" Version="6.0.0" />
     <!-- Usage: OpenAPI spec generator -->
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.7.0" />
     <!-- Usage: Newtonsoft.Json plugin for OpenAPI spec generator -->
-    <PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" Version="6.6.2" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" Version="6.7.0" />
     <!-- Usage: Windows authentication plugin allowing searching for users by name -->
     <PackageReference Include="System.DirectoryServices.AccountManagement" Version="8.0.0" />
     <!-- Usage: Identifying owning user of Windows Process objects -->

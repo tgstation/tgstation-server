@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 using Microsoft.Extensions.Logging;
 
@@ -18,13 +20,13 @@ namespace Tgstation.Server.Tests.Live
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 		}
 
-		public IGitHubService CreateService() => CreateDummyService();
+		public ValueTask<IGitHubService> CreateService(CancellationToken cancellationToken) => ValueTask.FromResult<IGitHubService>(CreateDummyService());
 
-		public IAuthenticatedGitHubService CreateService(string accessToken)
+		public ValueTask<IAuthenticatedGitHubService> CreateService(string accessToken, CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(accessToken);
 
-			return CreateDummyService();
+			return ValueTask.FromResult<IAuthenticatedGitHubService>(CreateDummyService());
 		}
 
 		TestingGitHubService CreateDummyService() => new TestingGitHubService(cryptographySuite, logger);

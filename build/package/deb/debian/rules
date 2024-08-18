@@ -10,7 +10,6 @@ override_dh_auto_clean:
 	dotnet clean -c ReleaseNoWindows
 
 override_dh_auto_build:
-	dotnet restore
 	cd src/Tgstation.Server.Host.Console && dotnet publish -c Release -o ../../artifacts
 	cd src/Tgstation.Server.Host && dotnet publish -c Release -o ../../artifacts/lib/Default
 	rm artifacts/lib/Default/appsettings.yml

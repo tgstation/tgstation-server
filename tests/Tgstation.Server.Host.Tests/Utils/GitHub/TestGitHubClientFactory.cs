@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Net.Http.Headers;
+using System.Threading;
 using System.Threading.Tasks;
 
 using Microsoft.Extensions.Logging;
@@ -57,14 +58,14 @@ namespace Tgstation.Server.Host.Utils.GitHub.Tests
 			mockOptions.SetupGet(x => x.Value).Returns(gc);
 			var factory = new GitHubClientFactory(mockApp.Object, loggerFactory.CreateLogger<GitHubClientFactory>(), mockOptions.Object);
 
-			var client = factory.CreateClient();
+			var client = await factory.CreateClient(CancellationToken.None);
 			Assert.IsNotNull(client);
 			var credentials = await client.Connection.CredentialStore.GetCredentials();
 
 			Assert.AreEqual(AuthenticationType.Anonymous, credentials.AuthenticationType);
 
 			gc.GitHubAccessToken = "asdfasdfasdfasdfasdfasdf";
-			client = factory.CreateClient();
+			client = await factory.CreateClient(CancellationToken.None);
 			Assert.IsNotNull(client);
 			credentials = await client.Connection.CredentialStore.GetCredentials();
 
@@ -83,9 +84,9 @@ namespace Tgstation.Server.Host.Utils.GitHub.Tests
 			mockOptions.SetupGet(x => x.Value).Returns(new GeneralConfiguration());
 			var factory = new GitHubClientFactory(mockApp.Object, loggerFactory.CreateLogger<GitHubClientFactory>(), mockOptions.Object);
 
-			Assert.ThrowsException<ArgumentNullException>(() => factory.CreateClient(null));
+			await Assert.ThrowsExceptionAsync<ArgumentNullException>(() => factory.CreateClient(null, CancellationToken.None).AsTask());
 
-			var client = factory.CreateClient("asdf");
+			var client = await factory.CreateClient("asdf", CancellationToken.None);
 			Assert.IsNotNull(client);
 
 			var credentials = await client.Connection.CredentialStore.GetCredentials();
@@ -96,7 +97,7 @@ namespace Tgstation.Server.Host.Utils.GitHub.Tests
 		}
 
 		[TestMethod]
-		public void TestClientCaching()
+		public async Task TestClientCaching()
 		{
 			var mockApp = new Mock<IAssemblyInformationProvider>();
 			mockApp.SetupGet(x => x.ProductInfoHeaderValue).Returns(new ProductInfoHeaderValue("TGSTests", "1.2.3")).Verifiable();
@@ -105,10 +106,10 @@ namespace Tgstation.Server.Host.Utils.GitHub.Tests
 			mockOptions.SetupGet(x => x.Value).Returns(new GeneralConfiguration());
 			var factory = new GitHubClientFactory(mockApp.Object, loggerFactory.CreateLogger<GitHubClientFactory>(), mockOptions.Object);
 
-			var client1 = factory.CreateClient();
-			var client2 = factory.CreateClient("asdf");
-			var client3 = factory.CreateClient();
-			var client4 = factory.CreateClient("asdf");
+			var client1 = await factory.CreateClient(CancellationToken.None);
+			var client2 = await factory.CreateClient("asdf", CancellationToken.None);
+			var client3 = await factory.CreateClient(CancellationToken.None);
+			var client4 = await factory.CreateClient("asdf", CancellationToken.None);
 			Assert.ReferenceEquals(client1, client3);
 			Assert.ReferenceEquals(client2, client4);
 		}

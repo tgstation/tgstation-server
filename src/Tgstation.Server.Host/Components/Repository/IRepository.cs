@@ -47,7 +47,8 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// <param name="username">The optional username used for fetching from submodule repositories.</param>
 		/// <param name="password">The optional password used for fetching from submodule repositories.</param>
 		/// <param name="updateSubmodules">If a submodule update should be attempted after the merge.</param>
-		/// <param name="progressReporter">The optional <see cref="JobProgressReporter"/> to report progress of the operation.</param>
+		/// <param name="moveCurrentReference">If a hard reset to the target committish should be performed instead of a checkout.</param>
+		/// <param name="progressReporter">The <see cref="JobProgressReporter"/> to report progress of the operation.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
 		ValueTask CheckoutObject(
@@ -55,7 +56,8 @@ namespace Tgstation.Server.Host.Components.Repository
 			string? username,
 			string? password,
 			bool updateSubmodules,
-			JobProgressReporter? progressReporter,
+			bool moveCurrentReference,
+			JobProgressReporter progressReporter,
 			CancellationToken cancellationToken);
 
 		/// <summary>
@@ -83,14 +85,14 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// <summary>
 		/// Fetch commits from the origin repository.
 		/// </summary>
-		/// <param name="progressReporter">The optional <see cref="JobProgressReporter"/> to report progress of the operation.</param>
+		/// <param name="progressReporter">The <see cref="JobProgressReporter"/> to report progress of the operation.</param>
 		/// <param name="username">The optional username to fetch from the origin repository.</param>
 		/// <param name="password">The optional password to fetch from the origin repository.</param>
 		/// <param name="deploymentPipeline">If any events created should be marked as part of the deployment pipeline.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
 		ValueTask FetchOrigin(
-			JobProgressReporter? progressReporter,
+			JobProgressReporter progressReporter,
 			string? username,
 			string? password,
 			bool deploymentPipeline,

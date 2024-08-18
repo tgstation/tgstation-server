@@ -1,0 +1,68 @@
+name: 'CI Security'
+
+on:
+  pull_request:
+    branches:
+    - dev
+    - master
+  pull_request_target:
+    types: [ opened, reopened, labeled, synchronize ]
+    branches:
+    - dev
+    - master
+
+concurrency:
+  group: "ci-security-${{ github.head_ref || github.run_id }}-${{ github.event_name }}"
+  cancel-in-progress: true
+
+jobs:
+  security-checkpoint:
+    name: Check CI Clearance
+    if: github.event_name == 'pull_request_target' && (github.event.pull_request.head.repo.id != github.event.pull_request.base.repo.id || github.event.pull_request.user.id == 49699333) && github.event.pull_request.state == 'open'
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+    steps:
+    - name: Comment on new Fork PR
+      if: github.event.action == 'opened' && !contains(github.event.pull_request.labels.*.name, 'CI Cleared') && github.event.pull_request.user.id != 49699333
+      uses: thollander/actions-comment-pull-request@1d3973dc4b8e1399c0620d3f2b1aa5e795465308
+      with:
+        message: Thank you for contributing to ${{ github.event.pull_request.base.repo.name }}! The workflow '${{ github.workflow }}' requires repository secrets and will not run without approval. Maintainers can add the `CI Cleared` label to allow it to run. Note that any changes to ci-security.yml will not be reflected in the run and the ci-pipeline.yml at the HEAD of the pull request will be used.
+
+    - name: Comment on dependabot PR
+      if: github.event.action == 'opened' && !contains(github.event.pull_request.labels.*.name, 'CI Cleared') && github.event.pull_request.user.id == 49699333
+      uses: thollander/actions-comment-pull-request@1d3973dc4b8e1399c0620d3f2b1aa5e795465308
+      with:
+        message: Set the milestone to the next minor version, check for supply chain attacks, and then add the `CI Cleared` label to allow CI to run.
+
+    - name: "Remove Stale 'CI Cleared' Label"
+      if: github.event.action == 'synchronize' || github.event.action == 'reopened'
+      uses: actions-ecosystem/action-remove-labels@2ce5d41b4b6aa8503e285553f75ed56e0a40bae0
+      with:
+        labels: CI Cleared
+
+    - name: "Remove 'CI Approval Required' Label"
+      if: (github.event.action == 'synchronize' || github.event.action == 'reopened') || ((github.event.action == 'opened' || github.event.action == 'labeled') && contains(github.event.pull_request.labels.*.name, 'CI Cleared'))
+      uses: actions-ecosystem/action-remove-labels@2ce5d41b4b6aa8503e285553f75ed56e0a40bae0
+      with:
+        labels: CI Approval Required
+
+    - name: "Add 'CI Approval Required' Label"
+      if: (github.event.action == 'synchronize' || github.event.action == 'reopened') || ((github.event.action == 'opened' || github.event.action == 'labeled') && !contains(github.event.pull_request.labels.*.name, 'CI Cleared'))
+      uses: actions-ecosystem/action-add-labels@bd52874380e3909a1ac983768df6976535ece7f8
+      with:
+        labels: CI Approval Required
+        github_token: ${{ github.token }}
+
+    - name: Fail if PR has Unlabeled new Commits from User
+      if: (github.event.action == 'synchronize' || github.event.action == 'reopened') || ((github.event.action == 'opened' || github.event.action == 'labeled') && !contains(github.event.pull_request.labels.*.name, 'CI Cleared'))
+      run: exit 1
+
+  ci-pipline-workflow-call:
+    name: CI Pipeline
+    needs: security-checkpoint
+    if: (!(cancelled() || failure()) && (needs.security-checkpoint.result == 'success' || (github.event_name != 'pull_request_target' && github.event.pull_request.head.repo.id == github.event.pull_request.base.repo.id && github.event.pull_request.user.id != 49699333)))
+    uses: ./.github/workflows/ci-pipeline.yml
+    secrets: inherit
+    with:
+      pull_request_number: ${{ github.event.pull_request.number }}
