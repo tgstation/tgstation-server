@@ -43,7 +43,7 @@ namespace Tgstation.Server.Host
 		/// Entrypoint for the <see cref="Program"/>.
 		/// </summary>
 		/// <param name="args">The command line arguments.</param>
-		/// <returns>A <see cref="Task"/> resulting in the <see cref="global::System.Diagnostics.Process.ExitCode"/>.</returns>
+		/// <returns>A <see cref="Task"/> resulting in the <see cref="Process.ExitCode"/>.</returns>
 		public static async Task<int> Main(string[] args)
 		{
 			// first arg is 100% always the update path, starting it otherwise is solely for debugging purposes
@@ -81,12 +81,13 @@ namespace Tgstation.Server.Host
 						UseShellExecute = false,
 						RedirectStandardOutput = true,
 						CreateNoWindow = true,
-					}
+					},
 				};
 
 				proc.Start();
 				await proc.WaitForExitAsync();
-				if (proc.ExitCode is not 0 || !int.TryParse(await proc.StandardOutput.ReadToEndAsync(), out var uid)) {
+				if (proc.ExitCode is not 0 || !int.TryParse(await proc.StandardOutput.ReadToEndAsync(), out var uid))
+				{
 					Console.Error.WriteLine("Failed to obtain user id.");
 					return 1;
 				}
