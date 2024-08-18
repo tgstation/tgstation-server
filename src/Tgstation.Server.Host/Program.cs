@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+
+using InteropServices = System.Runtime.InteropServices;
+using Process = System.Diagnostics.Process;
 
 using Tgstation.Server.Host.Common;
 using Tgstation.Server.Host.Core;
@@ -68,7 +70,7 @@ namespace Tgstation.Server.Host
 				args = listArgs.ToArray();
 			}
 
-			if(System.Runtime.InteropServices.RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+			if(InteropServices.RuntimeInformation.IsOSPlatform(InteropServices.OSPlatform.Linux))
 			{
 				var proc = new Process
 				{
@@ -78,7 +80,7 @@ namespace Tgstation.Server.Host
        					Arguments = "-u",
         				UseShellExecute = false,
         				RedirectStandardOutput = true,
-       					CreateNoWindow = true
+       					CreateNoWindow = true,
     				}
 				};
 				proc.Start();
