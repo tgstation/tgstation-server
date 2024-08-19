@@ -11,8 +11,6 @@ using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.Properties;
 using Tgstation.Server.Host.System;
 
-using Process = System.Diagnostics.Process;
-
 namespace Tgstation.Server.Host
 {
 	/// <summary>
@@ -42,7 +40,7 @@ namespace Tgstation.Server.Host
 		/// Entrypoint for the <see cref="Program"/>.
 		/// </summary>
 		/// <param name="args">The command line arguments.</param>
-		/// <returns>A <see cref="Task"/> resulting in the <see cref="Process.ExitCode"/>.</returns>
+		/// <returns>A <see cref="Task"/> resulting in the <see cref="global::System.Diagnostics.Process.ExitCode"/>.</returns>
 		public static async Task<int> Main(string[] args)
 		{
 			// first arg is 100% always the update path, starting it otherwise is solely for debugging purposes

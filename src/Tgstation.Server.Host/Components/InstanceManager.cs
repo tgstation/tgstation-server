@@ -686,7 +686,7 @@ namespace Tgstation.Server.Host.Components
 
 				if (!platformIdentifier.IsWindows && systemIdentity.IsSuperUser && !internalConfiguration.UsingDocker)
 				{
-					logger.LogWarning("TGS is being run as the root account. This is not recommended and may prevent launch in a future version.");
+					logger.LogWarning("TGS is being run as the root account. This is not recommended.");
 				}
 			}
 
