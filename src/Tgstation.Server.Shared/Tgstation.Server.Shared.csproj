@@ -11,6 +11,7 @@
   <ItemGroup>
     <!-- Usage: JWT injection into HTTP pipeline -->
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.8" />
+    <PackageReference Include="Microsoft.IdentityModel.JsonWebTokens" Version="8.0.1" />
     <!-- Usage: GitHub.com interop -->
     <PackageReference Include="Octokit" Version="13.0.1" />
     <!-- Usage: YAML conversion of Version objects -->
