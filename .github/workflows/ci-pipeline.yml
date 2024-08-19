@@ -1286,13 +1286,13 @@ jobs:
     - name: Execute Build Script (Unsigned)
       if: (!(github.event_name == 'push' && contains(github.event.head_commit.message, '[TGSDeploy]') && github.event.ref == 'refs/heads/master'))
       env:
-        RELEASE_NOTES_DLL_PATH: release_notes_bins/Tgstation.Server.ReleaseNotes.dll
+        RELEASE_NOTES_DLL_PATH: ${{ github.workspace }}/release_notes_bins/Tgstation.Server.ReleaseNotes.dll
       run: sudo -E build/package/deb/build_package.sh
 
     - name: Execute Build Script (Signed)
       if: (github.event_name == 'push' && contains(github.event.head_commit.message, '[TGSDeploy]') && github.event.ref == 'refs/heads/master')
       env:
-        RELEASE_NOTES_DLL_PATH: release_notes_bins/Tgstation.Server.ReleaseNotes.dll
+        RELEASE_NOTES_DLL_PATH: ${{ github.workspace }}/release_notes_bins/Tgstation.Server.ReleaseNotes.dll
         PACKAGING_KEYGRIP: ${{ vars.PACKAGING_KEYGRIP }}
       run: sudo -E build/package/deb/build_package.sh
 
