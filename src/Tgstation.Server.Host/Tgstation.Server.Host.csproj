@@ -61,11 +61,8 @@
 
   <Target Condition="'$(TGS_TELEMETRY_KEY_FILE)' != ''" Name="ApplyTelemetryAppSerializedKey" BeforeTargets="CoreCompile">
     <Error Condition="!Exists('$(TGS_TELEMETRY_KEY_FILE)')" Text="TGS_TELEMETRY_KEY_FILE set but does not exist!" />
-    <ReadLinesFromFile
-        File="$(TGS_TELEMETRY_KEY_FILE)" >
-        <Output
-            TaskParameter="Lines"
-            ItemName="SerializedTelemetryKey"/>
+    <ReadLinesFromFile File="$(TGS_TELEMETRY_KEY_FILE)">
+        <Output TaskParameter="Lines" ItemName="SerializedTelemetryKey" />
     </ReadLinesFromFile>
     <ItemGroup>
       <TelemetryAppSerializedKeyAssemblyAttributes Include="Tgstation.Server.Host.Properties.TelemetryAppSerializedKeyAttribute">
@@ -79,7 +76,7 @@
   </Target>
 
   <Target Condition="'$(TGS_TELEMETRY_KEY_FILE)' == '' And '$(CI)' != ''" Name="FailBuildInCIWithoutTelemetryKey" BeforeTargets="CoreCompile">
-    <Error Text="The TGS_TELEMETRY_KEY_FILE environment variable should be set in CI!"/>
+    <Error Text="The TGS_TELEMETRY_KEY_FILE environment variable should be set in CI!" />
   </Target>
 
   <ItemGroup>
@@ -146,6 +143,7 @@
     <PackageReference Include="System.Management" Version="8.0.0" />
     <!-- Usage: Temporary resolution to compatibility issues with EFCore 7 and .NET 8 -->
     <PackageReference Include="System.Security.Permissions" Version="8.0.0" />
+    <PackageReference Include="YamlDotNet" Version="16.0.0" />
   </ItemGroup>
 
   <ItemGroup>
