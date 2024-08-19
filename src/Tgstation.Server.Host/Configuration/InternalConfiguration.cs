@@ -30,7 +30,7 @@ namespace Tgstation.Server.Host.Configuration
 		/// <summary>
 		/// If the server is running inside of a Docker container.
 		/// </summary>
-		public bool UsingDocker => Environment.GetEnvironmentVariable("Internal__UsingDocker")?.Equals("true", StringComparison.OrdinalIgnoreCase) ?? false;
+		public bool UsingDocker { get; set; }
 
 		/// <summary>
 		/// The base path for the app settings configuration files.
