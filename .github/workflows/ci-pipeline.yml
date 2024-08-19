@@ -1229,7 +1229,7 @@ jobs:
         handle_no_reports_found: true
 
     - name: Wait for CodeCov Status
-      run: dotnet release_notes_bins/Tgstation.Server.ReleaseNotes --wait-codecov ${{ github.run_id }}
+      run: dotnet release_notes_bins/Tgstation.Server.ReleaseNotes.dll --wait-codecov ${{ github.run_id }}
 
   build-deb:
     name: Build .deb Package # Can't do i386 due to https://github.com/dotnet/core/issues/4595
