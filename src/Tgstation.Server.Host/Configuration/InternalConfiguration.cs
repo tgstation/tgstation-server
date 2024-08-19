@@ -1,4 +1,6 @@
-﻿namespace Tgstation.Server.Host.Configuration
+﻿using System;
+
+namespace Tgstation.Server.Host.Configuration
 {
 	/// <summary>
 	/// Unstable configuration options used internally by TGS.
@@ -24,6 +26,11 @@
 		/// If the server is running under SystemD.
 		/// </summary>
 		public bool UsingSystemD { get; set; }
+
+		/// <summary>
+		/// If the server is running inside of a Docker container.
+		/// </summary>
+		public bool UsingDocker => Environment.GetEnvironmentVariable("Internal__UsingDocker")?.Equals("true", StringComparison.OrdinalIgnoreCase) ?? false;
 
 		/// <summary>
 		/// The base path for the app settings configuration files.
