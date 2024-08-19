@@ -1213,12 +1213,6 @@ jobs:
         name: windows-integration-test-coverage-Release-Advanced-Sqlite
         path: ./code_coverage/integration_tests/windows_integration_tests_release_system_sqlite
 
-    - name: Retrieve ReleaseNotes Binaries
-      uses: actions/download-artifact@v4
-      with:
-        name: release_notes_bins
-        path: release_notes_bins
-
     - name: Upload Coverage to CodeCov
       uses: codecov/codecov-action@v4
       with:
@@ -1227,9 +1221,6 @@ jobs:
         token: ${{ secrets.CODECOV_TOKEN }}
         verbose: true
         handle_no_reports_found: true
-
-    - name: Wait for CodeCov Status
-      run: dotnet release_notes_bins/Tgstation.Server.ReleaseNotes.dll --wait-codecov ${{ github.run_id }}
 
   build-deb:
     name: Build .deb Package # Can't do i386 due to https://github.com/dotnet/core/issues/4595
