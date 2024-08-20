@@ -249,7 +249,7 @@ jobs:
         cd $HOME/OpenDream/OpenDreamPackageTool
         dotnet build -c Release --nologo -v q --property WarningLevel=0 /clp:ErrorsOnly
 
-    - name: Create TGS Deployment
+    - name: Build TGS Deployment # Name checked in rerunFlakyTests.js
       run: |
         cd $HOME/OpenDream
         dotnet run -c Release --project OpenDreamPackageTool --no-build -- --tgs -o tgs_deploy
