@@ -11,8 +11,7 @@ const CONSIDERED_STEP_PREFIXES = [
 const CONSIDERED_JOBS = [
 	"Windows Live Tests",
 	"Linux Live Tests",
-	"Build .deb Package",
-	"Upload Code Coverage"
+	"Build .deb Package"
 ];
 
 async function getFailedJobsForRun(github, context, workflowRunId, runAttempt) {
