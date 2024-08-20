@@ -16,10 +16,8 @@ jobs:
     name: Enable Automerge on Dependabot PRs
     runs-on: ubuntu-latest
     if: github.event.pull_request.user.id == 49699333
-    permissions:
-      pull-requests: write
     steps:
       - name: Enable Automerge
         uses: daneden/enable-automerge-action@f8558b65c5b8d8bfb592c4e74e3d491624a38fbd #v1.0.2-ish
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          github-token: ${{ secrets.DEV_PUSH_TOKEN }}
