@@ -1,10 +1,18 @@
 # https://docs.github.com/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file
 version: 2
 updates:
-  - package-ecosystem: "nuget"
-    directory: "/"
+  - package-ecosystem: nuget
+    directory: /
     schedule:
-      interval: "daily"
+      interval: daily
     labels:
-      - "Dependencies"
+      - Dependencies
     open-pull-requests-limit: 100
+  - package-ecosystem: github-actions
+    directory: "/"
+    target-branch: master
+    schedule:
+      interval: daily
+    labels:
+      - Dependencies
+      - CI/CD
