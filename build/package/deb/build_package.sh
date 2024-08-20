@@ -62,7 +62,7 @@ pushd ..
 if [[ -z "$RELEASE_NOTES_DLL_PATH" ]]; then
     dotnet run -c Release -p:TGS_HOST_NO_WEBPANEL=true --project tools/Tgstation.Server.ReleaseNotes $TGS_VERSION --debian packaging/debian/changelog $CURRENT_COMMIT
 else
-    dotnet ../$RELEASE_NOTES_DLL_PATH $TGS_VERSION --debian packaging/debian/changelog $CURRENT_COMMIT
+    dotnet $RELEASE_NOTES_DLL_PATH $TGS_VERSION --debian packaging/debian/changelog $CURRENT_COMMIT
 fi
 popd
 
