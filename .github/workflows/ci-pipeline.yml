@@ -1261,12 +1261,6 @@ jobs:
         sudo ln -s $DOTNET_PATH /usr/bin/dotnet
         echo "New dotnet path should be $DOTNET_PATH"
 
-    - name: Retrieve ReleaseNotes Binaries
-      uses: actions/download-artifact@v4
-      with:
-        name: release_notes_bins
-        path: release_notes_bins
-
     - name: Checkout (Branch)
       uses: actions/checkout@v4
       if: github.event_name == 'push' || github.event_name == 'schedule'
@@ -1282,6 +1276,12 @@ jobs:
 
     - name: Setup Telemetry Key File
       run: echo "${{ secrets.TGS_TELEMETRY_KEY }}" > ${{ env.TGS_TELEMETRY_KEY_FILE }}
+
+    - name: Retrieve ReleaseNotes Binaries
+      uses: actions/download-artifact@v4
+      with:
+        name: release_notes_bins
+        path: release_notes_bins
 
     - name: Execute Build Script (Unsigned)
       if: (!(github.event_name == 'push' && contains(github.event.head_commit.message, '[TGSDeploy]') && github.event.ref == 'refs/heads/master'))
