@@ -2,6 +2,10 @@ name: Size Labelling
 on:
   pull_request_target:
 
+concurrency:
+  group: "size-labelling-${{ github.head_ref || github.run_id }}-${{ github.event_name }}"
+  cancel-in-progress: true
+
 jobs:
   size-label:
     name: Add Size Label

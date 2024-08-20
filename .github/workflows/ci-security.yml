@@ -27,7 +27,7 @@ jobs:
       if: github.event.action == 'opened' && !contains(github.event.pull_request.labels.*.name, 'CI Cleared') && github.event.pull_request.user.id != 49699333
       uses: thollander/actions-comment-pull-request@1d3973dc4b8e1399c0620d3f2b1aa5e795465308
       with:
-        message: Thank you for contributing to ${{ github.event.pull_request.base.repo.name }}! The workflow '${{ github.workflow }}' requires repository secrets and will not run without approval. Maintainers can add the `CI Cleared` label to allow it to run. Note that any changes to ci-security.yml will not be reflected in the run and the ci-pipeline.yml at the HEAD of the pull request will be used.
+        message: Thank you for contributing to ${{ github.event.pull_request.base.repo.name }}! The workflow '${{ github.workflow }}' requires repository secrets and will not run without approval. Maintainers can add the `CI Cleared` label to allow it to run. Note that any changes to ci-security.yml and ci-pipeline.yml will not be reflected.
 
     - name: Comment on dependabot PR
       if: github.event.action == 'opened' && !contains(github.event.pull_request.labels.*.name, 'CI Cleared') && github.event.pull_request.user.id == 49699333

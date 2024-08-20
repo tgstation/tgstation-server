@@ -59,7 +59,11 @@ dh_make -p tgstation-server_$TGS_VERSION -y --createorig -s
 rm -f debian/README* debian/changelog debian/*.ex debian/upstream/*.ex
 
 pushd ..
-dotnet run -c Release -p:TGS_HOST_NO_WEBPANEL=true --project tools/Tgstation.Server.ReleaseNotes $TGS_VERSION --debian packaging/debian/changelog $CURRENT_COMMIT
+if [[ -z "$RELEASE_NOTES_DLL_PATH" ]]; then
+    dotnet run -c Release -p:TGS_HOST_NO_WEBPANEL=true --project tools/Tgstation.Server.ReleaseNotes $TGS_VERSION --debian packaging/debian/changelog $CURRENT_COMMIT
+else
+    dotnet $RELEASE_NOTES_DLL_PATH $TGS_VERSION --debian packaging/debian/changelog $CURRENT_COMMIT
+fi
 popd
 
 cp -r build/package/deb/debian/* debian/
