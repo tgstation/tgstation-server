@@ -157,6 +157,14 @@ Components:
       Author: Cyberboss
       PullRequest: 1070
   Core:
+  - Version: 6.10.0
+    ComponentVersions: {}
+    Changes: []
+    Unreleased: true
+  - Version: 6.9.1
+    ComponentVersions: {}
+    Changes: []
+    Unreleased: true
   - Version: 6.9.0
     ComponentVersions:
       HttpApi: 10.7.0
@@ -190,10 +198,6 @@ Components:
       - Fixed capabilities specification for SystemD service preventing process dumps. **Linux SystemD users must apply this fix manually.** Please apply the changes shown [here](https://github.com/tgstation/tgstation-server/commit/d82b5b5bd1b87538c3c166004c63a988eebbed7e) to `/lib/systemd/system/tgstation-server.service` and run `systemctl daemon-reload` as root.
       Author: Cyberboss
       PullRequest: 1883
-  - Version: 6.8.1
-    ComponentVersions: {}
-    Changes: []
-    Unreleased: true
   - Version: 6.8.0
     ComponentVersions:
       Core: 6.8.0
