@@ -16,7 +16,7 @@ concurrency:
 jobs:
   approve-pr-if-dominion-is-author:
     name: Approve PR if Dominion is Author
-    if: github.event.pull_request.user.login == 'Cyberboss' && !github.event.pull_request.draft && !contains(github.event.pull_request.body, '- [ ]') && (github.event.pull_request.base.repo.owner.login == 'tgstation' || github.event.pull_request.base.repo.owner.login == 'Cyberboss')
+    if: github.event.pull_request.user.id == 8171642 && !github.event.pull_request.draft && !contains(github.event.pull_request.body, '- [ ]') && (github.event.pull_request.base.repo.owner.login == 'tgstation' || github.event.pull_request.base.repo.owner.login == 'Cyberboss')
     runs-on: ubuntu-latest
     steps:
       - name: GitHub API Call
