@@ -1797,7 +1797,7 @@ jobs:
     name: Ensure TGS Release is Latest GitHub Release
     needs: [deploy-dm, deploy-http]
     runs-on: ubuntu-latest
-    if: (!(cancelled() || failure())) && (!contains(github.event.head_commit.message, '[TGSDeploy]'))
+    if: (!(cancelled() || failure())) && (!contains(github.event.head_commit.message, '[TGSDeploy]')) && (needs.deploy-dm.result == 'success' || needs.deploy-http.result == 'success')
     steps:
       - name: Setup dotnet
         uses: actions/setup-dotnet@v4
@@ -1827,7 +1827,7 @@ jobs:
     name: Deploy TGS
     needs: [deploy-dm, deploy-http, deployment-gate]
     runs-on: windows-latest
-    if: (!(cancelled() || failure())) && github.event.ref == 'refs/heads/master' && contains(github.event.head_commit.message, '[TGSDeploy]')
+    if: (!(cancelled() || failure())) && github.event.ref == 'refs/heads/master' && contains(github.event.head_commit.message, '[TGSDeploy]') && needs.deployment-gate.result == 'success'
     env:
       TGS_TELEMETRY_KEY_FILE: C:/tgs_telemetry_key.txt
     steps:
