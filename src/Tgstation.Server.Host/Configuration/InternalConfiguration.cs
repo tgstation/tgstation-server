@@ -26,6 +26,11 @@
 		public bool UsingSystemD { get; set; }
 
 		/// <summary>
+		/// If the server is running inside of a Docker container.
+		/// </summary>
+		public bool UsingDocker { get; set; }
+
+		/// <summary>
 		/// The base path for the app settings configuration files.
 		/// </summary>
 		public string AppSettingsBasePath { get; set; } = "UNINITIALIZED"; // this is set in a hacky way in ServerFactory

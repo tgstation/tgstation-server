@@ -2,6 +2,8 @@
 using System.Threading;
 using System.Threading.Tasks;
 
+using Mono.Unix.Native;
+
 namespace Tgstation.Server.Host.Security
 {
 	/// <summary>
@@ -9,6 +11,9 @@ namespace Tgstation.Server.Host.Security
 	/// </summary>
 	sealed class PosixSystemIdentity : ISystemIdentity
 	{
+		/// <inheritdoc />
+		public bool IsSuperUser => Syscall.getuid() == 0;
+
 		/// <inheritdoc />
 		public string Uid => throw new NotImplementedException();
 
