@@ -41,7 +41,7 @@ jobs:
         if: github.event.action == 'opened' && !contains(github.event.pull_request.labels.*.name, 'CI Cleared') && github.event.pull_request.user.id == 49699333
         uses: thollander/actions-comment-pull-request@1d3973dc4b8e1399c0620d3f2b1aa5e795465308
         with:
-          message: Set the milestone to the next minor version, check for supply chain attacks, and then add the `CI Cleared` label to allow CI to run.
+          message: Set the milestone to the next ${{ (github.head_ref == 'master' && 'patch') || 'minor' }} version, check for supply chain attacks, and then add the `CI Cleared` label to allow CI to run.
           GITHUB_TOKEN: ${{ steps.app-token-generation.outputs.token }}
 
       - name: "Remove Stale 'CI Cleared' Label"
