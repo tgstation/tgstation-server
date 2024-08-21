@@ -11,13 +11,35 @@ concurrency:
   group: "dependabot-automerge-${{ github.head_ref || github.run_id }}-${{ github.event_name }}"
   cancel-in-progress: true
 
+env:
+  TGS_DOTNET_VERSION: 8
+  TGS_DOTNET_QUALITY: ga
+
 jobs:
   automerge:
     name: Enable Automerge on Dependabot PRs
     runs-on: ubuntu-latest
     if: github.event.pull_request.user.id == 49699333
     steps:
+      - name: Setup dotnet
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '${{ env.TGS_DOTNET_VERSION }}.0.x'
+          dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
+
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build ReleaseNotes
+        run: dotnet publish -c Release -p:TGS_HOST_NO_WEBPANEL=true -o release_notes_bins tools/Tgstation.Server.ReleaseNotes/Tgstation.Server.ReleaseNotes.csproj
+
+      - name: Generate App Token
+        run: |
+          dotnet release_notes_bins/Tgstation.Server.ReleaseNotes.dll --token-output-file ${{ runner.temp }}/installation_secret.txt ${{ secrets.TGS_CI_GITHUB_APP_TOKEN_BASE64 }}
+          echo "INSTALLATION_TOKEN=$(cat ${{ runner.temp }}/installation_secret.txt)" >> $GITHUB_ENV
+          rm ${{ runner.temp }}/installation_secret.txt
+
       - name: Enable Automerge
         uses: daneden/enable-automerge-action@f8558b65c5b8d8bfb592c4e74e3d491624a38fbd #v1.0.2-ish
         with:
-          github-token: ${{ secrets.DEV_PUSH_TOKEN }}
+          github-token: ${{ env.INSTALLATION_TOKEN }}
