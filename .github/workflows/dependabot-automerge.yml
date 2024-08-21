@@ -1,11 +1,11 @@
-name: 'Automerge Dependabot'
+name: Automerge Dependabot
 
 on:
   pull_request_target:
-    types: [ opened, reopened ]
+    types: [opened, reopened]
     branches:
-    - dev
-    - master
+      - dev
+      - master
 
 concurrency:
   group: "dependabot-automerge-${{ github.head_ref || github.run_id }}-${{ github.event_name }}"
@@ -24,7 +24,7 @@ jobs:
       - name: Setup dotnet
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '${{ env.TGS_DOTNET_VERSION }}.0.x'
+          dotnet-version: ${{ env.TGS_DOTNET_VERSION }}.0.x
           dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
 
       - name: Checkout
