@@ -111,6 +111,9 @@ Properties</h2></td></tr>
 <tr class="memitem:ab57493826c9b76fcd8f0fc0fdaa3fdf7"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_internal_configuration.html#ab57493826c9b76fcd8f0fc0fdaa3fdf7">UsingSystemD</a><code> [get, set]</code></td></tr>
 <tr class="memdesc:ab57493826c9b76fcd8f0fc0fdaa3fdf7"><td class="mdescLeft">&#160;</td><td class="mdescRight">If the server is running under SystemD.   <a href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_internal_configuration.html#ab57493826c9b76fcd8f0fc0fdaa3fdf7">More...</a><br /></td></tr>
 <tr class="separator:ab57493826c9b76fcd8f0fc0fdaa3fdf7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1f50fda278b5586a9bc01c4f50f83f77"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_internal_configuration.html#a1f50fda278b5586a9bc01c4f50f83f77">UsingDocker</a><code> [get, set]</code></td></tr>
+<tr class="memdesc:a1f50fda278b5586a9bc01c4f50f83f77"><td class="mdescLeft">&#160;</td><td class="mdescRight">If the server is running inside of a Docker container.   <a href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_internal_configuration.html#a1f50fda278b5586a9bc01c4f50f83f77">More...</a><br /></td></tr>
+<tr class="separator:a1f50fda278b5586a9bc01c4f50f83f77"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:add1fd36adcba522710b5f52fe6fb5649"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_internal_configuration.html#add1fd36adcba522710b5f52fe6fb5649">AppSettingsBasePath</a> = &quot;UNINITIALIZED&quot;<code> [get, set]</code></td></tr>
 <tr class="memdesc:add1fd36adcba522710b5f52fe6fb5649"><td class="mdescLeft">&#160;</td><td class="mdescRight">The base path for the app settings configuration files.   <a href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_internal_configuration.html#add1fd36adcba522710b5f52fe6fb5649">More...</a><br /></td></tr>
 <tr class="separator:add1fd36adcba522710b5f52fe6fb5649"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -175,8 +178,8 @@ Properties</h2></td></tr>
 
 <p>The base path for the app settings configuration files.  </p>
 
-<p class="definition">Definition at line <a class="el" href="_internal_configuration_8cs_source.html#l00031">31</a> of file <a class="el" href="_internal_configuration_8cs_source.html">InternalConfiguration.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   31</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; } = <span class="stringliteral">&quot;UNINITIALIZED&quot;</span>; <span class="comment">// this is set in a hacky way in ServerFactory</span></div>
+<p class="definition">Definition at line <a class="el" href="_internal_configuration_8cs_source.html#l00036">36</a> of file <a class="el" href="_internal_configuration_8cs_source.html">InternalConfiguration.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   36</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; } = <span class="stringliteral">&quot;UNINITIALIZED&quot;</span>; <span class="comment">// this is set in a hacky way in ServerFactory</span></div>
 </div><!-- fragment -->
 <p class="reference">Referenced by <a class="el" href="_setup_wizard_8cs_source.html#l00305">Tgstation.Server.Host.Setup.SetupWizard.ValidateNonExistantSqliteDBName()</a>.</p>
 
@@ -233,8 +236,8 @@ Properties</h2></td></tr>
 
 <p>Generate default configuration using the given DatabaseType.MariaDB default password.  </p>
 
-<p class="definition">Definition at line <a class="el" href="_internal_configuration_8cs_source.html#l00041">41</a> of file <a class="el" href="_internal_configuration_8cs_source.html">InternalConfiguration.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   41</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
+<p class="definition">Definition at line <a class="el" href="_internal_configuration_8cs_source.html#l00046">46</a> of file <a class="el" href="_internal_configuration_8cs_source.html">InternalConfiguration.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   46</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -260,8 +263,8 @@ Properties</h2></td></tr>
 
 <p>Coerce the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_setup_1_1_setup_wizard.html">Setup.SetupWizard</a> to select DatabaseType.MariaDB.  </p>
 
-<p class="definition">Definition at line <a class="el" href="_internal_configuration_8cs_source.html#l00036">36</a> of file <a class="el" href="_internal_configuration_8cs_source.html">InternalConfiguration.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   36</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
+<p class="definition">Definition at line <a class="el" href="_internal_configuration_8cs_source.html#l00041">41</a> of file <a class="el" href="_internal_configuration_8cs_source.html">InternalConfiguration.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   41</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
 </div><!-- fragment -->
 <p class="reference">Referenced by <a class="el" href="_setup_wizard_8cs_source.html#l00408">Tgstation.Server.Host.Setup.SetupWizard.ConfigureDatabase()</a>, and <a class="el" href="_setup_wizard_8cs_source.html#l00358">Tgstation.Server.Host.Setup.SetupWizard.PromptDatabaseType()</a>.</p>
 
@@ -293,6 +296,35 @@ Properties</h2></td></tr>
 <div class="fragment"><div class="line"><span class="lineno">   21</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
 </div><!-- fragment -->
 <p class="reference">Referenced by <a class="el" href="_command_pipe_manager_8cs_source.html#l00063">Tgstation.Server.Host.Core.CommandPipeManager.ExecuteAsync()</a>.</p>
+
+</div>
+</div>
+<a id="a1f50fda278b5586a9bc01c4f50f83f77" name="a1f50fda278b5586a9bc01c4f50f83f77"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1f50fda278b5586a9bc01c4f50f83f77">&#9670;&#160;</a></span>UsingDocker</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool Tgstation.Server.Host.Configuration.InternalConfiguration.UsingDocker</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">get</span><span class="mlabel">set</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>If the server is running inside of a Docker container.  </p>
+
+<p class="definition">Definition at line <a class="el" href="_internal_configuration_8cs_source.html#l00031">31</a> of file <a class="el" href="_internal_configuration_8cs_source.html">InternalConfiguration.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   31</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
+</div><!-- fragment -->
+<p class="reference">Referenced by <a class="el" href="_instance_manager_8cs_source.html#l00676">Tgstation.Server.Host.Components.InstanceManager.CheckSystemCompatibility()</a>.</p>
 
 </div>
 </div>

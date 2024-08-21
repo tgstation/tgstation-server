@@ -158,8 +158,21 @@ Components:
       PullRequest: 1070
   Core:
   - Version: 6.10.0
-    ComponentVersions: {}
-    Changes: []
+    ComponentVersions:
+      HttpApi: 10.7.0
+      DreamMakerApi: 7.2.1
+      Configuration: 5.2.0
+      InteropApi: 5.9.0
+      HostWatchdog: 1.4.1
+      NugetCommon: 7.0.0
+      NugetApi: 13.7.0
+      NugetClient: 16.0.0
+      WebControlPanel: 6.1.0
+    Changes:
+    - Descriptions:
+      - Running as root on Linux now issues a warning.
+      Author: ZephyrTFA
+      PullRequest: 1882
     Unreleased: true
   - Version: 6.9.1
     ComponentVersions: {}
