@@ -1,5 +1,3 @@
-const MAX_ATTEMPTS = 5;
-
 // If any job fails with a step starting with these it'll be considered flaky
 const CONSIDERED_STEP_PREFIXES = [
 	"Build", // Nuget.org sporadic issues
@@ -32,10 +30,6 @@ async function getFailedJobsForRun(github, context, workflowRunId, runAttempt) {
 }
 
 export async function rerunFlakyTests({ github, context }) {
-	if (context.payload.workflow_run.run_attempt >= MAX_ATTEMPTS) {
-		console.log(`Jobs have reached maximum attempt count of ${context.payload.workflow_run.run_attempt}, Will not re-run.`)
-	}
-
 	const failingJobs = await getFailedJobsForRun(
 		github,
 		context,
