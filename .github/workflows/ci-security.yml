@@ -23,36 +23,47 @@ jobs:
     permissions:
       pull-requests: write
     steps:
+      - name: Generate App Token
+        id: app-token-generation
+        uses: getsentry/action-github-app-token@d4b5da6c5e37703f8c3b3e43abb5705b46e159cc
+        with:
+          app_id: ${{ secrets.APP_ID }}
+          private_key: ${{ secrets.APP_PRIVATE_KEY }}
+
       - name: Comment on new Fork PR
         if: github.event.action == 'opened' && !contains(github.event.pull_request.labels.*.name, 'CI Cleared') && github.event.pull_request.user.id != 49699333
         uses: thollander/actions-comment-pull-request@1d3973dc4b8e1399c0620d3f2b1aa5e795465308
         with:
           message: Thank you for contributing to ${{ github.event.pull_request.base.repo.name }}! The workflow '${{ github.workflow }}' requires repository secrets and will not run without approval. Maintainers can add the `CI Cleared` label to allow it to run. Note that any changes to ci-security.yml and ci-pipeline.yml will not be reflected.
+          GITHUB_TOKEN: ${{ steps.app-token-generation.outputs.token }}
 
       - name: Comment on dependabot PR
         if: github.event.action == 'opened' && !contains(github.event.pull_request.labels.*.name, 'CI Cleared') && github.event.pull_request.user.id == 49699333
         uses: thollander/actions-comment-pull-request@1d3973dc4b8e1399c0620d3f2b1aa5e795465308
         with:
           message: Set the milestone to the next minor version, check for supply chain attacks, and then add the `CI Cleared` label to allow CI to run.
+          GITHUB_TOKEN: ${{ steps.app-token-generation.outputs.token }}
 
       - name: "Remove Stale 'CI Cleared' Label"
         if: github.event.action == 'synchronize' || github.event.action == 'reopened'
         uses: actions-ecosystem/action-remove-labels@2ce5d41b4b6aa8503e285553f75ed56e0a40bae0
         with:
           labels: CI Cleared
+          github_token: ${{ steps.app-token-generation.outputs.token }}
 
       - name: "Remove 'CI Approval Required' Label"
         if: (github.event.action == 'synchronize' || github.event.action == 'reopened') || ((github.event.action == 'opened' || github.event.action == 'labeled') && contains(github.event.pull_request.labels.*.name, 'CI Cleared'))
         uses: actions-ecosystem/action-remove-labels@2ce5d41b4b6aa8503e285553f75ed56e0a40bae0
         with:
           labels: CI Approval Required
+          github_token: ${{ steps.app-token-generation.outputs.token }}
 
       - name: "Add 'CI Approval Required' Label"
         if: (github.event.action == 'synchronize' || github.event.action == 'reopened') || ((github.event.action == 'opened' || github.event.action == 'labeled') && !contains(github.event.pull_request.labels.*.name, 'CI Cleared'))
         uses: actions-ecosystem/action-add-labels@bd52874380e3909a1ac983768df6976535ece7f8
         with:
           labels: CI Approval Required
-          github_token: ${{ github.token }}
+          github_token: ${{ steps.app-token-generation.outputs.token }}
 
       - name: Fail if PR has Unlabeled new Commits from User
         if: (github.event.action == 'synchronize' || github.event.action == 'reopened') || ((github.event.action == 'opened' || github.event.action == 'labeled') && !contains(github.event.pull_request.labels.*.name, 'CI Cleared'))

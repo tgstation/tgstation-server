@@ -14,7 +14,14 @@ jobs:
       pull-requests: write
     runs-on: ubuntu-latest
     steps:
-      - name: size-label
-        uses: "pascalgn/size-label-action@bbbaa0d5ccce8e2e76254560df5c64b82dac2e12" # v0.5.2, consider upgrading after https://github.com/pascalgn/size-label-action/pull/54 is merged
+      - name: Generate App Token
+        id: app-token-generation
+        uses: getsentry/action-github-app-token@d4b5da6c5e37703f8c3b3e43abb5705b46e159cc
+        with:
+          app_id: ${{ secrets.APP_ID }}
+          private_key: ${{ secrets.APP_PRIVATE_KEY }}
+
+      - name: Run Labeller
+        uses: pascalgn/size-label-action@bbbaa0d5ccce8e2e76254560df5c64b82dac2e12
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ steps.app-token-generation.outputs.token }}

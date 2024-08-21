@@ -15,36 +15,18 @@ jobs:
     name: Master Merge
     runs-on: ubuntu-latest
     steps:
-      - name: Setup dotnet
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: ${{ env.TGS_DOTNET_VERSION }}.0.x
-          dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
-
-      - name: Build Checkout
-        uses: actions/checkout@v4
-        with:
-          path: temp_workspace
-
-      - name: Build ReleaseNotes
-        run: |
-          cd temp_workspace
-          dotnet build -c Release -p:TGS_HOST_NO_WEBPANEL=true tools/Tgstation.Server.ReleaseNotes/Tgstation.Server.ReleaseNotes.csproj
-
       - name: Generate App Token
-        run: |
-          cd temp_workspace
-          dotnet run -c Release --no-build --project tools/Tgstation.Server.ReleaseNotes --token-output-file ${{ runner.temp }}/installation_secret.txt ${{ secrets.TGS_CI_GITHUB_APP_TOKEN_BASE64 }}
-          echo "INSTALLATION_TOKEN=$(cat ${{ runner.temp }}/installation_secret.txt)" >> $GITHUB_ENV
-          rm ${{ runner.temp }}/installation_secret.txt
-        env:
-          TGS_RELEASE_NOTES_TOKEN: ${{ secrets.DEV_PUSH_TOKEN }}
+        id: app-token-generation
+        uses: getsentry/action-github-app-token@d4b5da6c5e37703f8c3b3e43abb5705b46e159cc
+        with:
+          app_id: ${{ secrets.APP_ID }}
+          private_key: ${{ secrets.APP_PRIVATE_KEY }}
 
-      - name: Main Checkout
+      - name: Checkout
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          token: ${{ env.INSTALLATION_TOKEN }}
+          token: ${{ steps.app-token-generation.outputs.token }}
 
       - name: Merge master into dev
         uses: robotology/gh-action-nightly-merge@14b4a4cf358f7479aa708bee05cf8a794d6a2516 #v1.5.0
@@ -57,4 +39,4 @@ jobs:
           user_email: 161980869+tgstation-server-ci[bot]@users.noreply.github.com
           push_token: INSTALLATION_TOKEN
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ steps.app-token-generation.outputs.token }}
