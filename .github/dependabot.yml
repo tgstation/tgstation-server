@@ -16,3 +16,4 @@ updates:
     labels:
       - Dependencies
       - CI/CD
+    open-pull-requests-limit: 100
