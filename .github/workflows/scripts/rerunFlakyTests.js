@@ -2,6 +2,7 @@
 const CONSIDERED_STEP_PREFIXES = [
 	"Build", // Nuget.org sporadic issues
 	"Install Native", // apt repository issues
+	"Test Service", // systemd bollocks
 ];
 
 // Otherwise only check jobs that start with these.
