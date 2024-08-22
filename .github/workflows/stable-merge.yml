@@ -37,6 +37,6 @@ jobs:
           allow_forks: true
           user_name: tgstation-server-ci[bot]
           user_email: 161980869+tgstation-server-ci[bot]@users.noreply.github.com
-          push_token: INSTALLATION_TOKEN
+          push_token: ${{ steps.app-token-generation.outputs.token }}
         env:
           GITHUB_TOKEN: ${{ steps.app-token-generation.outputs.token }}
