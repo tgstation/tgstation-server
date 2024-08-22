@@ -80,7 +80,6 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       security-events: write
-      actions: read
     env:
       TGS_TELEMETRY_KEY_FILE: /tmp/tgs_telemetry_key.txt
     steps:
@@ -92,6 +91,13 @@ jobs:
 
       - name: Checkout (Branch)
         uses: actions/checkout@v4
+        if: github.event_name == 'push' || github.event_name == 'schedule'
+
+      - name: Checkout (PR Merge)
+        uses: actions/checkout@v4
+        if: github.event_name != 'push' && github.event_name != 'schedule'
+        with:
+          ref: "refs/pull/${{ inputs.pull_request_number }}/merge"
 
       - name: Read Current SHA
         id: get-pr-sha
