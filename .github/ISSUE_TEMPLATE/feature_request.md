@@ -1,10 +1,9 @@
 ---
 name: Feature request
 about: Suggest an idea for the server
-title: ''
+title: ""
 labels: Feature Request, Backlog
-assignees: ''
-
+assignees: ""
 ---
 
 **Is your feature request related to a problem? Please describe.**

@@ -9,7 +9,7 @@ updates:
       - Dependencies
     open-pull-requests-limit: 100
   - package-ecosystem: github-actions
-    directory: "/"
+    directory: /
     target-branch: master
     schedule:
       interval: daily

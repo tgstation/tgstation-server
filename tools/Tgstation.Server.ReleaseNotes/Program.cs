@@ -59,15 +59,13 @@ namespace Tgstation.Server.ReleaseNotes
 			var shaCheck = versionString.Equals("--winget-template-check", StringComparison.OrdinalIgnoreCase);
 			var fullNotes = versionString.Equals("--generate-full-notes", StringComparison.OrdinalIgnoreCase);
 			var nuget = versionString.Equals("--nuget", StringComparison.OrdinalIgnoreCase);
-			var genToken = versionString.Equals("--token-output-file", StringComparison.OrdinalIgnoreCase);
 
 			if ((!Version.TryParse(versionString, out var version) || version.Revision != -1)
 				&& !ensureRelease
 				&& !linkWinget
 				&& !shaCheck
 				&& !fullNotes
-				&& !nuget
-				&& !genToken)
+				&& !nuget)
 			{
 				Console.WriteLine("Invalid version: " + versionString);
 				return 2;
@@ -109,51 +107,23 @@ namespace Tgstation.Server.ReleaseNotes
 				}
 
 			var client = new GitHubClient(new Octokit.ProductHeaderValue("tgs_release_notes"));
+			const string ReleaseNotesEnvVar = "TGS_RELEASE_NOTES_TOKEN";
+			var githubToken = Environment.GetEnvironmentVariable(ReleaseNotesEnvVar);
+			if (String.IsNullOrWhiteSpace(githubToken) && !doNotCloseMilestone && !ensureRelease)
+			{
+				Console.WriteLine("Missing " + ReleaseNotesEnvVar + " environment variable!");
+				return 3;
+			}
+
+			if (!String.IsNullOrWhiteSpace(githubToken))
+			{
+				client.Credentials = new Credentials(githubToken);
+			}
+
 			try
 			{
 				if (ensureRelease)
-				{
-					if (args.Length < 2)
-					{
-						Console.WriteLine("Missing PEM Base64 for updating release!");
-						return 454233;
-					}
-
-					await GenerateAppCredentials(client, args[1], false);
-
 					return await EnsureRelease(client);
-				}
-
-				if (genToken)
-				{
-					if (args.Length < 3)
-					{
-						Console.WriteLine("Missing output file path or PEM Base64 for app authentication!");
-						return 33847;
-					}
-
-					bool toSS13 = args.Length > 3 && args[3].Equals("--spacestation13", StringComparison.OrdinalIgnoreCase);
-					await GenerateAppCredentials(client, args[2], toSS13);
-
-					var token = client.Credentials.GetToken();
-					var destPath = args[1];
-					Directory.CreateDirectory(Path.GetDirectoryName(destPath));
-					await File.WriteAllTextAsync(destPath, token);
-					return 0;
-				}
-
-				const string ReleaseNotesEnvVar = "TGS_RELEASE_NOTES_TOKEN";
-				var githubToken = Environment.GetEnvironmentVariable(ReleaseNotesEnvVar);
-				if (String.IsNullOrWhiteSpace(githubToken) && !doNotCloseMilestone && !ensureRelease)
-				{
-					Console.WriteLine("Missing " + ReleaseNotesEnvVar + " environment variable!");
-					return 3;
-				}
-
-				if (!String.IsNullOrWhiteSpace(githubToken))
-				{
-					client.Credentials = new Credentials(githubToken);
-				}
 
 				if (linkWinget)
 				{
@@ -1625,41 +1595,6 @@ package (version) distribution(s); urgency=urgency
 			var changelog = builder.ToString().Replace("\r", String.Empty);
 			await File.WriteAllTextAsync(outputPath, changelog);
 			return 0;
-		}
-
-		static async ValueTask GenerateAppCredentials(GitHubClient gitHubClient, string pemBase64, bool toSS13)
-		{
-			var pemBytes = Convert.FromBase64String(pemBase64);
-			var pem = Encoding.UTF8.GetString(pemBytes);
-
-			var rsa = RSA.Create();
-			rsa.ImportFromPem(pem);
-
-			var signingCredentials = new SigningCredentials(new RsaSecurityKey(rsa), SecurityAlgorithms.RsaSha256);
-			var jwtSecurityTokenHandler = new JwtSecurityTokenHandler { SetDefaultTimesOnTokenCreation = false };
-
-			var now = DateTime.UtcNow;
-
-			var jwt = jwtSecurityTokenHandler.CreateToken(new SecurityTokenDescriptor
-			{
-				Issuer = AppId.ToString(),
-				Expires = now.AddMinutes(10),
-				IssuedAt = now,
-				SigningCredentials = signingCredentials
-			});
-
-			var jwtStr = jwtSecurityTokenHandler.WriteToken(jwt);
-
-			gitHubClient.Credentials = new Credentials(jwtStr, AuthenticationType.Bearer);
-
-			var installation = await gitHubClient.GitHubApps.GetRepositoryInstallationForCurrent(
-				toSS13
-					? "spacestation13"
-					: RepoOwner,
-				RepoName);
-			var installToken = await gitHubClient.GitHubApps.CreateInstallationToken(installation.Id);
-
-			gitHubClient.Credentials = new Credentials(installToken.Token);
 		}
 
 		static void DebugAssert(bool condition, string message = null)

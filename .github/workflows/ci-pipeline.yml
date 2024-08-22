@@ -16,19 +16,19 @@
 #   - Docker: https://hub.docker.com/r/tgstation/server
 #   - apt repo: https://github.com/tgstation/tgstation-ppa
 #   - winget: https://github.com/microsoft/winget-pkgs/tree/master/manifests/t/Tgstation/Server
-name: 'CI Pipeline'
+name: CI Pipeline
 
 on:
   schedule:
     - cron: 0 9 * * *
   push:
     branches:
-    - dev
-    - master
+      - dev
+      - master
   workflow_call:
     inputs:
       pull_request_number:
-        description: 'Pull Request Number'
+        description: Pull Request Number
         required: true
         type: string
 
@@ -39,7 +39,6 @@ env:
   TGS_DOTNET_QUALITY: ga
   TGS_WEBPANEL_NODE_VERSION: 20.x
   TGS_TEST_GITHUB_TOKEN: ${{ secrets.LIVE_TESTS_TOKEN }}
-  TGS_RELEASE_NOTES_TOKEN: ${{ secrets.DEV_PUSH_TOKEN }}
   PACKAGING_PRIVATE_KEY_PASSPHRASE: ${{ secrets.PACKAGING_PRIVATE_KEY_PASSPHRASE }}
 
 concurrency:
@@ -51,30 +50,30 @@ jobs:
     name: Build ReleaseNotes for Other Jobs
     runs-on: ubuntu-latest
     steps:
-    - name: Setup dotnet
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: '${{ env.TGS_DOTNET_VERSION }}.0.x'
-        dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
+      - name: Setup dotnet
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ env.TGS_DOTNET_VERSION }}.0.x
+          dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
 
-    - name: Checkout (Branch)
-      uses: actions/checkout@v4
-      if: github.event_name == 'push' || github.event_name == 'schedule'
+      - name: Checkout (Branch)
+        uses: actions/checkout@v4
+        if: github.event_name == 'push' || github.event_name == 'schedule'
 
-    - name: Checkout (PR Merge)
-      uses: actions/checkout@v4
-      if: github.event_name != 'push' && github.event_name != 'schedule'
-      with:
-        ref: "refs/pull/${{ inputs.pull_request_number }}/merge"
+      - name: Checkout (PR Merge)
+        uses: actions/checkout@v4
+        if: github.event_name != 'push' && github.event_name != 'schedule'
+        with:
+          ref: "refs/pull/${{ inputs.pull_request_number }}/merge"
 
-    - name: Build ReleaseNotes # Name checked in rerunFlakyTests.js
-      run: dotnet publish -c Release -p:TGS_HOST_NO_WEBPANEL=true -o release_notes_bins tools/Tgstation.Server.ReleaseNotes/Tgstation.Server.ReleaseNotes.csproj
+      - name: Build ReleaseNotes # Name checked in rerunFlakyTests.js
+        run: dotnet publish -c Release -p:TGS_HOST_NO_WEBPANEL=true -o release_notes_bins tools/Tgstation.Server.ReleaseNotes/Tgstation.Server.ReleaseNotes.csproj
 
-    - name: Store ReleaseNotes Binaries
-      uses: actions/upload-artifact@v4
-      with:
-        name: release_notes_bins
-        path: ./release_notes_bins/
+      - name: Store ReleaseNotes Binaries
+        uses: actions/upload-artifact@v4
+        with:
+          name: release_notes_bins
+          path: ./release_notes_bins/
 
   code-scanning:
     name: Run CodeQL
@@ -85,310 +84,313 @@ jobs:
     env:
       TGS_TELEMETRY_KEY_FILE: /tmp/tgs_telemetry_key.txt
     steps:
-    - name: Setup dotnet
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: '${{ env.TGS_DOTNET_VERSION }}.0.x'
-        dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
+      - name: Setup dotnet
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ env.TGS_DOTNET_VERSION }}.0.x
+          dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
 
-    - name: Checkout (Branch)
-      uses: actions/checkout@v4
+      - name: Checkout (Branch)
+        uses: actions/checkout@v4
 
-    - name: Read Current SHA
-      id: get-pr-sha
-      if: github.event_name != 'push' && github.event_name != 'schedule'
-      shell: bash
-      run: echo "head_sha=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
+      - name: Read Current SHA
+        id: get-pr-sha
+        if: github.event_name != 'push' && github.event_name != 'schedule'
+        shell: bash
+        run: echo "head_sha=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
 
-    - name: Initialize CodeQL
-      uses: github/codeql-action/init@v3
-      with:
-        languages: csharp
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v3
+        with:
+          languages: csharp
 
-    - name: Setup Telemetry Key File
-      run: echo "fake_telemetry_key" > ${{ env.TGS_TELEMETRY_KEY_FILE }}
+      - name: Setup Telemetry Key File
+        run: echo "fake_telemetry_key" > ${{ env.TGS_TELEMETRY_KEY_FILE }}
 
-    - name: Build # Name checked in rerunFlakyTests.js
-      run: dotnet build -c ReleaseNoWindows -p:TGS_HOST_NO_WEBPANEL=true
+      - name: Build # Name checked in rerunFlakyTests.js
+        run: dotnet build -c ReleaseNoWindows -p:TGS_HOST_NO_WEBPANEL=true
 
-    - name: Perform CodeQL Analysis
-      uses: github/codeql-action/analyze@v3
-      with:
-        category: "/language:csharp"
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v3
+        with:
+          category: "/language:csharp"
 
   dmapi-build:
     name: Build DMAPI
     strategy:
       fail-fast: false
       matrix:
-        byond: [ '510.1346', '511.1385', '512.1488', '513.1542', '514.1589', 'EDGE' ]
+        byond:
+          ["510.1346", "511.1385", "512.1488", "513.1542", "514.1589", "EDGE"]
     runs-on: ubuntu-latest
     steps:
-    - name: Install Native x86 libc Dependencies # Name checked in rerunFlakyTests.js
-      run: |
-        sudo dpkg --add-architecture i386
-        sudo apt-get update
-        sudo apt-get install -y -o APT::Immediate-Configure=0 libc6-i386 libstdc++6:i386 libgcc-s1:i386
+      - name: Install Native x86 libc Dependencies # Name checked in rerunFlakyTests.js
+        run: |
+          sudo dpkg --add-architecture i386
+          sudo apt-get update
+          sudo apt-get install -y -o APT::Immediate-Configure=0 libc6-i386 libstdc++6:i386 libgcc-s1:i386
 
-    - name: Cache BYOND .zips
-      uses: actions/cache@v4
-      id: cache-byond
-      with:
-        path: ~/byond-zips-cache
-        key: byond-zips
+      - name: Cache BYOND .zips
+        uses: actions/cache@v4
+        id: cache-byond
+        with:
+          path: ~/byond-zips-cache
+          key: byond-zips
 
-    - name: Setup BYOND Cache if Necessary and Install
-      run: |
-        echo "Setting up BYOND."
-        FULL_VERSION=${{ matrix.byond }}
-        if [[ "$FULL_VERSION" = "EDGE" ]] ; then
-            VERSIONS=$(curl https://www.byond.com/download/version.txt)
-            FULL_VERSION=$(echo "$VERSIONS" | tail -n1)
-            echo "EDGE version evaluated to $FULL_VERSION"
+      - name: Setup BYOND Cache if Necessary and Install
+        run: |
+          echo "Setting up BYOND."
+          FULL_VERSION=${{ matrix.byond }}
+          if [[ "$FULL_VERSION" = "EDGE" ]] ; then
+              VERSIONS=$(curl https://www.byond.com/download/version.txt)
+              FULL_VERSION=$(echo "$VERSIONS" | tail -n1)
+              echo "EDGE version evaluated to $FULL_VERSION"
 
-            # Also needs updating in ByondTest.cs
-            declare -A bad_linux_releases=([515.1612]="515.1611" [515.1617]="515.1616")
+              # Also needs updating in ByondTest.cs
+              declare -A bad_linux_releases=([515.1612]="515.1611" [515.1617]="515.1616")
 
-            if [[ -n "${bad_linux_releases[$FULL_VERSION]}" ]] ; then
-                echo "$FULL_VERSION does not have a linux zip, falling back to ${bad_linux_releases[$FULL_VERSION]}"
-                FULL_VERSION=${bad_linux_releases[$FULL_VERSION]}
-            fi
-        fi
-        if [[ ! -f $HOME/byond-zips-cache/linux/$FULL_VERSION.zip ]] ; then
-            BYOND_MAJOR=${FULL_VERSION%.*}
-            mkdir -p $HOME/byond-zips-cache/linux
-            curl "https://www.byond.com/download/build/$BYOND_MAJOR/${FULL_VERSION}_byond_linux.zip" -o $HOME/byond-zips-cache/linux/$FULL_VERSION.zip
-        fi
-        mkdir -p "$HOME/BYOND"
-        cd "$HOME/BYOND"
-        cp $HOME/byond-zips-cache/linux/$FULL_VERSION.zip byond.zip
-        unzip byond.zip
-        cd byond
-        make here
-        exit 0
-
-    - name: Checkout (Branch)
-      uses: actions/checkout@v4
-      if: github.event_name == 'push' || github.event_name == 'schedule'
-
-    - name: Checkout (PR Merge)
-      uses: actions/checkout@v4
-      if: github.event_name != 'push' && github.event_name != 'schedule'
-      with:
-        ref: "refs/pull/${{ inputs.pull_request_number }}/merge"
-
-    - name: Read Current SHA
-      id: get-pr-sha
-      if: github.event_name != 'push' && github.event_name != 'schedule'
-      shell: bash
-      run: echo "head_sha=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
-
-
-    - name: Compile DMAPI Test Project
-      run: |
-        set -e
-        retval=1
-        source $HOME/BYOND/byond/bin/byondsetup
-
-        if hash DreamMaker 2>/dev/null
-        then
-          DreamMaker "tests/DMAPI/BasicOperation/basic operation_test.dme" 2>&1 | tee result.log
-          retval=$?
-          if ! grep '\- 0 errors, 0 warnings' result.log
-          then
-            retval=1
+              if [[ -n "${bad_linux_releases[$FULL_VERSION]}" ]] ; then
+                  echo "$FULL_VERSION does not have a linux zip, falling back to ${bad_linux_releases[$FULL_VERSION]}"
+                  FULL_VERSION=${bad_linux_releases[$FULL_VERSION]}
+              fi
           fi
-        else
-          echo "Couldn't find the DreamMaker executable, aborting."
-          retval=2
-        fi
-        exit $retval
+          if [[ ! -f $HOME/byond-zips-cache/linux/$FULL_VERSION.zip ]] ; then
+              BYOND_MAJOR=${FULL_VERSION%.*}
+              mkdir -p $HOME/byond-zips-cache/linux
+              curl "https://www.byond.com/download/build/$BYOND_MAJOR/${FULL_VERSION}_byond_linux.zip" -o $HOME/byond-zips-cache/linux/$FULL_VERSION.zip
+          fi
+          mkdir -p "$HOME/BYOND"
+          cd "$HOME/BYOND"
+          cp $HOME/byond-zips-cache/linux/$FULL_VERSION.zip byond.zip
+          unzip byond.zip
+          cd byond
+          make here
+          exit 0
+
+      - name: Checkout (Branch)
+        uses: actions/checkout@v4
+        if: github.event_name == 'push' || github.event_name == 'schedule'
+
+      - name: Checkout (PR Merge)
+        uses: actions/checkout@v4
+        if: github.event_name != 'push' && github.event_name != 'schedule'
+        with:
+          ref: "refs/pull/${{ inputs.pull_request_number }}/merge"
+
+      - name: Read Current SHA
+        id: get-pr-sha
+        if: github.event_name != 'push' && github.event_name != 'schedule'
+        shell: bash
+        run: echo "head_sha=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
+
+      - name: Compile DMAPI Test Project
+        run: |
+          set -e
+          retval=1
+          source $HOME/BYOND/byond/bin/byondsetup
+
+          if hash DreamMaker 2>/dev/null
+          then
+            DreamMaker "tests/DMAPI/BasicOperation/basic operation_test.dme" 2>&1 | tee result.log
+            retval=$?
+            if ! grep '\- 0 errors, 0 warnings' result.log
+            then
+              retval=1
+            fi
+          else
+            echo "Couldn't find the DreamMaker executable, aborting."
+            retval=2
+          fi
+          exit $retval
 
   opendream-build:
     name: Build DMAPI (OpenDream)
     strategy:
       fail-fast: false
       matrix:
-        committish: [ 'master', 'tgs-min-compat' ]
+        committish: ["master", "tgs-min-compat"]
     runs-on: ubuntu-latest
     steps:
-    - name: Setup dotnet
-      uses: actions/setup-dotnet@v4
-      if: matrix.committish == 'master'
-      with:
-        dotnet-version: '${{ env.OD_DOTNET_VERSION }}.0.x'
-        dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
+      - name: Setup dotnet
+        uses: actions/setup-dotnet@v4
+        if: matrix.committish == 'master'
+        with:
+          dotnet-version: "${{ env.OD_DOTNET_VERSION }}.0.x"
+          dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
 
-    - name: Setup dotnet (min-compat)
-      uses: actions/setup-dotnet@v4
-      if: matrix.committish == 'tgs-min-compat'
-      with:
-        dotnet-version: '${{ env.OD_MIN_COMPAT_DOTNET_VERSION }}.0.x'
-        dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
+      - name: Setup dotnet (min-compat)
+        uses: actions/setup-dotnet@v4
+        if: matrix.committish == 'tgs-min-compat'
+        with:
+          dotnet-version: "${{ env.OD_MIN_COMPAT_DOTNET_VERSION }}.0.x"
+          dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
 
-    - name: Checkout (Branch)
-      uses: actions/checkout@v4
-      if: github.event_name == 'push' || github.event_name == 'schedule'
+      - name: Checkout (Branch)
+        uses: actions/checkout@v4
+        if: github.event_name == 'push' || github.event_name == 'schedule'
 
-    - name: Checkout (PR Merge)
-      uses: actions/checkout@v4
-      if: github.event_name != 'push' && github.event_name != 'schedule'
-      with:
-        ref: "refs/pull/${{ inputs.pull_request_number }}/merge"
+      - name: Checkout (PR Merge)
+        uses: actions/checkout@v4
+        if: github.event_name != 'push' && github.event_name != 'schedule'
+        with:
+          ref: "refs/pull/${{ inputs.pull_request_number }}/merge"
 
-    - name: Checkout OpenDream
-      run: |
-        cd $HOME
-        git clone https://github.com/OpenDreamProject/OpenDream
-        cd OpenDream
-        git checkout ${{ matrix.committish }}
-        git submodule update --init --recursive
+      - name: Checkout OpenDream
+        run: |
+          cd $HOME
+          git clone https://github.com/OpenDreamProject/OpenDream
+          cd OpenDream
+          git checkout ${{ matrix.committish }}
+          git submodule update --init --recursive
 
-    - name: Build OpenDream # Name checked in rerunFlakyTests.js
-      run: |
-        cd $HOME/OpenDream/OpenDreamPackageTool
-        dotnet build -c Release --nologo -v q --property WarningLevel=0 /clp:ErrorsOnly
+      - name: Build OpenDream # Name checked in rerunFlakyTests.js
+        run: |
+          cd $HOME/OpenDream/OpenDreamPackageTool
+          dotnet build -c Release --nologo -v q --property WarningLevel=0 /clp:ErrorsOnly
 
-    - name: Build TGS Deployment # Name checked in rerunFlakyTests.js
-      run: |
-        cd $HOME/OpenDream
-        dotnet run -c Release --project OpenDreamPackageTool --no-build -- --tgs -o tgs_deploy
+      - name: Build TGS Deployment # Name checked in rerunFlakyTests.js
+        run: |
+          cd $HOME/OpenDream
+          dotnet run -c Release --project OpenDreamPackageTool --no-build -- --tgs -o tgs_deploy
 
-    - name: Compile DMAPI Test Project
-      run: |
-        cd tests/DMAPI/BasicOperation
-        $HOME/OpenDream/tgs_deploy/bin/compiler/DMCompiler --verbose --notices-enabled "basic operation_test.dme"
+      - name: Compile DMAPI Test Project
+        run: |
+          cd tests/DMAPI/BasicOperation
+          $HOME/OpenDream/tgs_deploy/bin/compiler/DMCompiler --verbose --notices-enabled "basic operation_test.dme"
 
   efcore-version-match:
     name: Check Nuget Versions Match Tools
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout (Branch)
-      uses: actions/checkout@v4
-      if: github.event_name == 'push' || github.event_name == 'schedule'
+      - name: Checkout (Branch)
+        uses: actions/checkout@v4
+        if: github.event_name == 'push' || github.event_name == 'schedule'
 
-    - name: Checkout (PR Merge)
-      uses: actions/checkout@v4
-      if: github.event_name != 'push' && github.event_name != 'schedule'
-      with:
-        ref: "refs/pull/${{ inputs.pull_request_number }}/merge"
+      - name: Checkout (PR Merge)
+        uses: actions/checkout@v4
+        if: github.event_name != 'push' && github.event_name != 'schedule'
+        with:
+          ref: "refs/pull/${{ inputs.pull_request_number }}/merge"
 
-    - name: Retrieve dotnet-ef Tool Version
-      id: dotnet-ef-tool
-      run: echo "version=$(cat src/Tgstation.Server.Host/.config/dotnet-tools.json | jq -r '.tools."dotnet-ef".version')" >> $GITHUB_OUTPUT
+      - name: Retrieve dotnet-ef Tool Version
+        id: dotnet-ef-tool
+        run: echo "version=$(cat src/Tgstation.Server.Host/.config/dotnet-tools.json | jq -r '.tools."dotnet-ef".version')" >> $GITHUB_OUTPUT
 
-    - name: Retrieve wix Tool Version
-      id: wix-tool
-      run: echo "version=$(cat build/package/winget/.config/dotnet-tools.json | jq -r '.tools.wix.version')" >> $GITHUB_OUTPUT
+      - name: Retrieve wix Tool Version
+        id: wix-tool
+        run: echo "version=$(cat build/package/winget/.config/dotnet-tools.json | jq -r '.tools.wix.version')" >> $GITHUB_OUTPUT
 
-    - name: Retrieve dotnet-ef Nuget Version
-      id: dotnet-ef-nuget
-      run: |
-        regex='\s+<PackageReference Include="Microsoft.EntityFrameworkCore" Version="([1-9][0-9]*\.[0-9]+\.[0-9]+)" \/>'
-        if [[ $(cat src/Tgstation.Server.Host/Tgstation.Server.Host.csproj) =~ $regex ]]; then
-          echo "version=${BASH_REMATCH[1]}" >> $GITHUB_OUTPUT
-        else
-          echo "Regex search failed!"
+      - name: Retrieve dotnet-ef Nuget Version
+        id: dotnet-ef-nuget
+        run: |
+          regex='\s+<PackageReference Include="Microsoft.EntityFrameworkCore" Version="([1-9][0-9]*\.[0-9]+\.[0-9]+)" \/>'
+          if [[ $(cat src/Tgstation.Server.Host/Tgstation.Server.Host.csproj) =~ $regex ]]; then
+            echo "version=${BASH_REMATCH[1]}" >> $GITHUB_OUTPUT
+          else
+            echo "Regex search failed!"
+            exit 1
+          fi
+
+      - name: Retrieve wix Nuget Version
+        id: wix-nuget
+        run: |
+          regex='<Project Sdk="WixToolset.Sdk/([1-9][0-9]*\.[0-9]+\.[0-9]+)">'
+          if [[ $(cat build/package/winget/Tgstation.Server.Host.Service.Wix/Tgstation.Server.Host.Service.Wix.wixproj) =~ $regex ]]; then
+            echo "version=${BASH_REMATCH[1]}" >> $GITHUB_OUTPUT
+          else
+            echo "Regex search failed!"
+            exit 1
+          fi
+
+      - name: Fail if dotnet-ef Versions Don't Match
+        if: ${{ steps.dotnet-ef-tool.outputs.version != steps.dotnet-ef-nuget.outputs.version }}
+        run: |
+          echo "${{ steps.dotnet-ef-tool.outputs.version }} != ${{ steps.dotnet-ef-nuget.outputs.version }}"
           exit 1
-        fi
 
-    - name: Retrieve wix Nuget Version
-      id: wix-nuget
-      run: |
-        regex='<Project Sdk="WixToolset.Sdk/([1-9][0-9]*\.[0-9]+\.[0-9]+)">'
-        if [[ $(cat build/package/winget/Tgstation.Server.Host.Service.Wix/Tgstation.Server.Host.Service.Wix.wixproj) =~ $regex ]]; then
-          echo "version=${BASH_REMATCH[1]}" >> $GITHUB_OUTPUT
-        else
-          echo "Regex search failed!"
+      - name: Fail if wix Versions Don't Match
+        if: ${{ steps.wix-tool.outputs.version != steps.wix-nuget.outputs.version }}
+        run: |
+          echo "${{ steps.wix-tool.outputs.version }} != ${{ steps.wix-nuget.outputs.version }}"
           exit 1
-        fi
-
-    - name: Fail if dotnet-ef Versions Don't Match
-      if: ${{ steps.dotnet-ef-tool.outputs.version != steps.dotnet-ef-nuget.outputs.version }}
-      run: |
-        echo "${{ steps.dotnet-ef-tool.outputs.version }} != ${{ steps.dotnet-ef-nuget.outputs.version }}"
-        exit 1
-
-    - name: Fail if wix Versions Don't Match
-      if: ${{ steps.wix-tool.outputs.version != steps.wix-nuget.outputs.version }}
-      run: |
-        echo "${{ steps.wix-tool.outputs.version }} != ${{ steps.wix-nuget.outputs.version }}"
-        exit 1
 
   pages-build:
     name: Build gh-pages
     needs: build-releasenotes
     runs-on: ubuntu-latest
     steps:
-    - name: Setup dotnet
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: '${{ env.TGS_DOTNET_VERSION }}.0.x'
-        dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
+      - name: Setup dotnet
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ env.TGS_DOTNET_VERSION }}.0.x
+          dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
 
-    - name: Checkout (Branch)
-      uses: actions/checkout@v4
-      if: github.event_name == 'push' || github.event_name == 'schedule'
+      - name: Checkout (Branch)
+        uses: actions/checkout@v4
+        if: github.event_name == 'push' || github.event_name == 'schedule'
 
-    - name: Checkout (PR Merge)
-      uses: actions/checkout@v4
-      if: github.event_name != 'push' && github.event_name != 'schedule'
-      with:
-        ref: "refs/pull/${{ inputs.pull_request_number }}/merge"
+      - name: Checkout (PR Merge)
+        uses: actions/checkout@v4
+        if: github.event_name != 'push' && github.event_name != 'schedule'
+        with:
+          ref: "refs/pull/${{ inputs.pull_request_number }}/merge"
 
-    - name: gh-pages Clone
-      run: git clone -b gh-pages --single-branch "https://git@github.com/tgstation/tgstation-server" $HOME/tgsdox
+      - name: gh-pages Clone
+        run: git clone -b gh-pages --single-branch "https://git@github.com/tgstation/tgstation-server" $HOME/tgsdox
 
-    - name: Retrieve ReleaseNotes Binaries
-      uses: actions/download-artifact@v4
-      with:
-        name: release_notes_bins
-        path: release_notes_bins
+      - name: Retrieve ReleaseNotes Binaries
+        uses: actions/download-artifact@v4
+        with:
+          name: release_notes_bins
+          path: release_notes_bins
 
-    - name: Compile Changelog (Incremental)
-      run: |
-        mv $HOME/tgsdox/changelog.yml ./ 2>/dev/null
-        dotnet release_notes_bins/Tgstation.Server.ReleaseNotes.dll --generate-full-notes
+      - name: Generate App Token
+        id: app-token-generation
+        uses: getsentry/action-github-app-token@d4b5da6c5e37703f8c3b3e43abb5705b46e159cc
+        with:
+          app_id: ${{ secrets.APP_ID }}
+          private_key: ${{ secrets.APP_PRIVATE_KEY }}
 
-    - name: Generate App Token
-      run: |
-        dotnet release_notes_bins/Tgstation.Server.ReleaseNotes.dll --token-output-file ${{ runner.temp }}/installation_secret.txt ${{ secrets.TGS_CI_GITHUB_APP_TOKEN_BASE64 }}
-        echo "INSTALLATION_TOKEN=$(cat ${{ runner.temp }}/installation_secret.txt)" >> $GITHUB_ENV
-        rm ${{ runner.temp }}/installation_secret.txt
+      - name: Compile Changelog (Incremental)
+        env:
+          TGS_RELEASE_NOTES_TOKEN: ${{ steps.app-token-generation.outputs.token }}
+        run: |
+          mv $HOME/tgsdox/changelog.yml ./ 2>/dev/null
+          dotnet release_notes_bins/Tgstation.Server.ReleaseNotes.dll --generate-full-notes
 
-    - name: Patch Doxyfile
-      run: |
-        VERSION=$(cat "build/Version.props" | grep -oPm1 "(?<=<TgsCoreVersion>)[^<]+")
-        echo -e "\nPROJECT_NUMBER = $VERSION\nINPUT = .\nOUTPUT_DIRECTORY = ./doxout\nPROJECT_LOGO = ./artifacts/tgs.ico\nHAVE_DOT=YES" >> "docs/Doxyfile"
+      - name: Patch Doxyfile
+        run: |
+          VERSION=$(cat "build/Version.props" | grep -oPm1 "(?<=<TgsCoreVersion>)[^<]+")
+          echo -e "\nPROJECT_NUMBER = $VERSION\nINPUT = .\nOUTPUT_DIRECTORY = ./doxout\nPROJECT_LOGO = ./artifacts/tgs.ico\nHAVE_DOT=YES" >> "docs/Doxyfile"
 
-    - name: Doxygen Build
-      uses: mattnotmitt/doxygen-action@411df0c62acb5b96b8a93d93a7bf4b753c47ea05 # v1.9.5
-      with:
-        doxyfile-path: 'docs/Doxyfile'
+      - name: Doxygen Build
+        uses: mattnotmitt/doxygen-action@411df0c62acb5b96b8a93d93a7bf4b753c47ea05 # v1.9.5
+        with:
+          doxyfile-path: "docs/Doxyfile"
 
-    - name: gh-pages Push
-      if: github.event_name == 'push' && github.event.ref == 'refs/heads/dev' && env.TGS_RELEASE_NOTES_TOKEN != ''
-      run: |
-        pushd $HOME/tgsdox
-        rm -r *
-        popd
-        sudo mv changelog.yml $HOME/tgsdox/
-        echo ./doxout/* | xargs -n 10 sudo mv -t $HOME/tgsdox
-        cd $HOME/tgsdox
-        git config --global push.default simple
-        git config user.name "tgstation-server-ci[bot]"
-        git config user.email "161980869+tgstation-server-ci[bot]@users.noreply.github.com"
-        echo '# THIS BRANCH IS AUTO GENERATED BY GITHUB ACTIONS' > README.md
+      - name: gh-pages Push
+        if: github.event_name == 'push' && github.event.ref == 'refs/heads/dev'
+        run: |
+          pushd $HOME/tgsdox
+          rm -r *
+          popd
+          sudo mv changelog.yml $HOME/tgsdox/
+          echo ./doxout/* | xargs -n 10 sudo mv -t $HOME/tgsdox
+          cd $HOME/tgsdox
+          git config --global push.default simple
+          git config user.name "tgstation-server-ci[bot]"
+          git config user.email "161980869+tgstation-server-ci[bot]@users.noreply.github.com"
+          echo '# THIS BRANCH IS AUTO GENERATED BY GITHUB ACTIONS' > README.md
 
-        # Need to create a .nojekyll file to allow filenames starting with an underscore
-        # to be seen on the gh-pages site. Therefore creating an empty .nojekyll file.
-        echo "" > .nojekyll
-        echo "Adding files..."
-        git add --all
-        echo "Committing..."
-        git diff-index --quiet HEAD || git commit -m "Deploy code docs to GitHub Pages for workflow run ${{ github.run_number }}" -m "Commit: ${{ github.event.head_commit.id }}"
-        echo "Pushing..."
-        git push -f "https://tgstation-server-ci:${{ env.INSTALLATION_TOKEN }}@github.com/tgstation/tgstation-server" 2>&1
+          # Need to create a .nojekyll file to allow filenames starting with an underscore
+          # to be seen on the gh-pages site. Therefore creating an empty .nojekyll file.
+          echo "" > .nojekyll
+          echo "Adding files..."
+          git add --all
+          echo "Committing..."
+          git diff-index --quiet HEAD || git commit -m "Deploy code docs to GitHub Pages for workflow run ${{ github.run_number }}" -m "Commit: ${{ github.event.head_commit.id }}"
+          echo "Pushing..."
+          git push -f "https://tgstation-server-ci:${{ steps.app-token-generation.outputs.token }}@github.com/tgstation/tgstation-server" 2>&1
 
   docker-build:
     name: Build Docker Image
@@ -396,363 +398,364 @@ jobs:
     env:
       TGS_TELEMETRY_KEY_FILE: tgs_telemetry_key.txt
     steps:
-    - name: Checkout (Branch)
-      uses: actions/checkout@v4
-      if: github.event_name == 'push' || github.event_name == 'schedule'
+      - name: Checkout (Branch)
+        uses: actions/checkout@v4
+        if: github.event_name == 'push' || github.event_name == 'schedule'
 
-    - name: Checkout (PR Merge)
-      uses: actions/checkout@v4
-      if: github.event_name != 'push' && github.event_name != 'schedule'
-      with:
-        ref: "refs/pull/${{ inputs.pull_request_number }}/merge"
+      - name: Checkout (PR Merge)
+        uses: actions/checkout@v4
+        if: github.event_name != 'push' && github.event_name != 'schedule'
+        with:
+          ref: "refs/pull/${{ inputs.pull_request_number }}/merge"
 
-    - name: Setup Telemetry Key File
-      shell: bash
-      run: echo "${{ secrets.TGS_TELEMETRY_KEY }}" > ${{ env.TGS_TELEMETRY_KEY_FILE }}
+      - name: Setup Telemetry Key File
+        shell: bash
+        run: echo "${{ secrets.TGS_TELEMETRY_KEY }}" > ${{ env.TGS_TELEMETRY_KEY_FILE }}
 
-    - name: Build Docker Image # Name checked in rerunFlakyTests.js
-      run: docker build . -f build/Dockerfile --build-arg TGS_TELEMETRY_KEY_FILE=${{ env.TGS_TELEMETRY_KEY_FILE }}
+      - name: Build Docker Image # Name checked in rerunFlakyTests.js
+        run: docker build . -f build/Dockerfile --build-arg TGS_TELEMETRY_KEY_FILE=${{ env.TGS_TELEMETRY_KEY_FILE }}
 
-    - name: Delete Telemetry Key File
-      if: always()
-      run: rm -f ${{ env.TGS_TELEMETRY_KEY_FILE }}
+      - name: Delete Telemetry Key File
+        if: always()
+        run: rm -f ${{ env.TGS_TELEMETRY_KEY_FILE }}
 
   linux-unit-tests:
     name: Linux Tests
     strategy:
       fail-fast: false
       matrix:
-        configuration: [ 'Debug', 'Release' ]
+        configuration: ["Debug", "Release"]
     env:
       TGS_TEST_DISCORD_TOKEN: ${{ secrets.DISCORD_TOKEN }}
       TGS_TEST_IRC_CONNECTION_STRING: ${{ secrets.IRC_CONNECTION_STRING }}
       TGS_TELEMETRY_KEY_FILE: /tmp/tgs_telemetry_key.txt
     runs-on: ubuntu-latest
     steps:
-    - name: Install Native x86 libc Dependencies # Name checked in rerunFlakyTests.js
-      run: |
-        sudo dpkg --add-architecture i386
-        sudo apt-get update
-        sudo apt-get install -y -o APT::Immediate-Configure=0 libc6-i386 libstdc++6:i386 libgcc-s1:i386 libgdiplus
+      - name: Install Native x86 libc Dependencies # Name checked in rerunFlakyTests.js
+        run: |
+          sudo dpkg --add-architecture i386
+          sudo apt-get update
+          sudo apt-get install -y -o APT::Immediate-Configure=0 libc6-i386 libstdc++6:i386 libgcc-s1:i386 libgdiplus
 
-    - name: Setup dotnet
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: '${{ env.TGS_DOTNET_VERSION }}.0.x'
-        dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
+      - name: Setup dotnet
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ env.TGS_DOTNET_VERSION }}.0.x
+          dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
 
-    - name: Setup Node.JS
-      uses: actions/setup-node@v4
-      with:
+      - name: Setup Node.JS
+        uses: actions/setup-node@v4
+        with:
           node-version: ${{ env.TGS_WEBPANEL_NODE_VERSION }}
 
-    - name: Checkout (Branch)
-      uses: actions/checkout@v4
-      if: github.event_name == 'push' || github.event_name == 'schedule'
+      - name: Checkout (Branch)
+        uses: actions/checkout@v4
+        if: github.event_name == 'push' || github.event_name == 'schedule'
 
-    - name: Checkout (PR Merge)
-      uses: actions/checkout@v4
-      if: github.event_name != 'push' && github.event_name != 'schedule'
-      with:
-        ref: "refs/pull/${{ inputs.pull_request_number }}/merge"
+      - name: Checkout (PR Merge)
+        uses: actions/checkout@v4
+        if: github.event_name != 'push' && github.event_name != 'schedule'
+        with:
+          ref: "refs/pull/${{ inputs.pull_request_number }}/merge"
 
-    - name: Enable Corepack
-      run: corepack enable
+      - name: Enable Corepack
+        run: corepack enable
 
-    - name: Setup Telemetry Key File
-      run: echo "${{ secrets.TGS_TELEMETRY_KEY }}" > ${{ env.TGS_TELEMETRY_KEY_FILE }}
+      - name: Setup Telemetry Key File
+        run: echo "${{ secrets.TGS_TELEMETRY_KEY }}" > ${{ env.TGS_TELEMETRY_KEY_FILE }}
 
-    - name: Build # Name checked in rerunFlakyTests.js
-      run: dotnet build -c ${{ matrix.configuration }}NoWindows
+      - name: Build # Name checked in rerunFlakyTests.js
+        run: dotnet build -c ${{ matrix.configuration }}NoWindows
 
-    - name: Delete Telemetry Key File
-      if: always()
-      run: rm -f ${{ env.TGS_TELEMETRY_KEY_FILE }}
+      - name: Delete Telemetry Key File
+        if: always()
+        run: rm -f ${{ env.TGS_TELEMETRY_KEY_FILE }}
 
-    - name: Cache BYOND .zips
-      uses: actions/cache@v4
-      id: cache-byond
-      with:
-        path: ~/byond-zips-cache
-        key: byond-zips
+      - name: Cache BYOND .zips
+        uses: actions/cache@v4
+        id: cache-byond
+        with:
+          path: ~/byond-zips-cache
+          key: byond-zips
 
-    - name: Run Unit Tests
-      run: sudo dotnet test --no-build --logger "GitHubActions;summary.includePassedTests=true;summary.includeSkippedTests=true" --filter TestCategory!=RequiresDatabase -c ${{ matrix.configuration }}NoWindows --collect:"XPlat Code Coverage" --settings build/ci.runsettings --results-directory ./TestResults tgstation-server.sln
+      - name: Run Unit Tests
+        run: sudo dotnet test --no-build --logger "GitHubActions;summary.includePassedTests=true;summary.includeSkippedTests=true" --filter TestCategory!=RequiresDatabase -c ${{ matrix.configuration }}NoWindows --collect:"XPlat Code Coverage" --settings build/ci.runsettings --results-directory ./TestResults tgstation-server.sln
 
-    - name: Store Code Coverage
-      uses: actions/upload-artifact@v4
-      with:
-        name: linux-unit-test-coverage-${{ matrix.configuration }}
-        path: ./TestResults/
+      - name: Store Code Coverage
+        uses: actions/upload-artifact@v4
+        with:
+          name: linux-unit-test-coverage-${{ matrix.configuration }}
+          path: ./TestResults/
 
   windows-unit-tests:
     name: Windows Tests
     strategy:
       fail-fast: false
       matrix:
-        configuration: [ 'Debug', 'Release' ]
+        configuration: ["Debug", "Release"]
     env:
       TGS_TEST_DISCORD_TOKEN: ${{ secrets.DISCORD_TOKEN }}
       TGS_TEST_IRC_CONNECTION_STRING: ${{ secrets.IRC_CONNECTION_STRING }}
       TGS_TELEMETRY_KEY_FILE: C:/tgs_telemetry_key.txt
     runs-on: windows-latest
     steps:
-    - name: Setup dotnet
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: '${{ env.TGS_DOTNET_VERSION }}.0.x'
-        dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
+      - name: Setup dotnet
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ env.TGS_DOTNET_VERSION }}.0.x
+          dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
 
-    - name: Setup Node.JS
-      uses: actions/setup-node@v4
-      with:
+      - name: Setup Node.JS
+        uses: actions/setup-node@v4
+        with:
           node-version: ${{ env.TGS_WEBPANEL_NODE_VERSION }}
 
-    - name: Checkout (Branch)
-      uses: actions/checkout@v4
-      if: github.event_name == 'push' || github.event_name == 'schedule'
+      - name: Checkout (Branch)
+        uses: actions/checkout@v4
+        if: github.event_name == 'push' || github.event_name == 'schedule'
 
-    - name: Checkout (PR Merge)
-      uses: actions/checkout@v4
-      if: github.event_name != 'push' && github.event_name != 'schedule'
-      with:
-        ref: "refs/pull/${{ inputs.pull_request_number }}/merge"
+      - name: Checkout (PR Merge)
+        uses: actions/checkout@v4
+        if: github.event_name != 'push' && github.event_name != 'schedule'
+        with:
+          ref: "refs/pull/${{ inputs.pull_request_number }}/merge"
 
-    - name: Enable Corepack
-      run: corepack enable
+      - name: Enable Corepack
+        run: corepack enable
 
-    - name: Setup Telemetry Key File
-      shell: bash
-      run: echo "${{ secrets.TGS_TELEMETRY_KEY }}" > ${{ env.TGS_TELEMETRY_KEY_FILE }}
+      - name: Setup Telemetry Key File
+        shell: bash
+        run: echo "${{ secrets.TGS_TELEMETRY_KEY }}" > ${{ env.TGS_TELEMETRY_KEY_FILE }}
 
-    - name: Build # Name checked in rerunFlakyTests.js
-      run: dotnet build -c ${{ matrix.configuration }}NoWix
+      - name: Build # Name checked in rerunFlakyTests.js
+        run: dotnet build -c ${{ matrix.configuration }}NoWix
 
-    - name: Delete Telemetry Key File
-      shell: bash
-      if: always()
-      run: rm -f ${{ env.TGS_TELEMETRY_KEY_FILE }}
+      - name: Delete Telemetry Key File
+        shell: bash
+        if: always()
+        run: rm -f ${{ env.TGS_TELEMETRY_KEY_FILE }}
 
-    - name: Cache BYOND .zips
-      uses: actions/cache@v4
-      id: cache-byond
-      with:
-        path: ~/byond-zips-cache
-        key: byond-zips
+      - name: Cache BYOND .zips
+        uses: actions/cache@v4
+        id: cache-byond
+        with:
+          path: ~/byond-zips-cache
+          key: byond-zips
 
-    - name: Run Unit Tests
-      run: dotnet test --no-build --logger "GitHubActions;summary.includePassedTests=true;summary.includeSkippedTests=true" --filter TestCategory!=RequiresDatabase -c ${{ matrix.configuration }}NoWix --collect:"XPlat Code Coverage" --settings build/ci.runsettings --results-directory ./TestResults tgstation-server.sln
+      - name: Run Unit Tests
+        run: dotnet test --no-build --logger "GitHubActions;summary.includePassedTests=true;summary.includeSkippedTests=true" --filter TestCategory!=RequiresDatabase -c ${{ matrix.configuration }}NoWix --collect:"XPlat Code Coverage" --settings build/ci.runsettings --results-directory ./TestResults tgstation-server.sln
 
-    - name: Store Code Coverage
-      uses: actions/upload-artifact@v4
-      with:
-        name: windows-unit-test-coverage-${{ matrix.configuration }}
-        path: ./TestResults/
+      - name: Store Code Coverage
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-unit-test-coverage-${{ matrix.configuration }}
+          path: ./TestResults/
 
   windows-integration-tests:
     name: Windows Live Tests
-    needs: [ dmapi-build, opendream-build ]
+    needs: [dmapi-build, opendream-build]
     strategy:
       fail-fast: false
       matrix:
-        database-type: [ 'SqlServer', 'Sqlite', 'PostgresSql', 'MariaDB', 'MySql' ]
-        watchdog-type: [ 'Basic', 'Advanced' ]
-        configuration: [ 'Debug', 'Release' ]
+        database-type:
+          ["SqlServer", "Sqlite", "PostgresSql", "MariaDB", "MySql"]
+        watchdog-type: ["Basic", "Advanced"]
+        configuration: ["Debug", "Release"]
     env:
       TGS_TELEMETRY_KEY_FILE: C:/tgs_telemetry_key.txt
     runs-on: windows-latest
     steps:
-    - name: Setup dotnet
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: |
-          ${{ env.TGS_DOTNET_VERSION }}.0.x
-          ${{ env.OD_DOTNET_VERSION }}.0.x
-          ${{ env.OD_MIN_COMPAT_DOTNET_VERSION }}.0.x
-        dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
+      - name: Setup dotnet
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: |
+            ${{ env.TGS_DOTNET_VERSION }}.0.x
+            ${{ env.OD_DOTNET_VERSION }}.0.x
+            ${{ env.OD_MIN_COMPAT_DOTNET_VERSION }}.0.x
+          dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
 
-    - name: Wait for LocalDB Connection # Do this first because we don't want to find out it's failing later
-      shell: powershell
-      if: ${{ matrix.database-type == 'SqlServer' }}
-      run: |
-        Write-Host "Checking"
-        sqlcmd -l 600 -S "(localdb)\MSSQLLocalDB" -Q "SELECT @@VERSION;"
+      - name: Wait for LocalDB Connection # Do this first because we don't want to find out it's failing later
+        shell: powershell
+        if: ${{ matrix.database-type == 'SqlServer' }}
+        run: |
+          Write-Host "Checking"
+          sqlcmd -l 600 -S "(localdb)\MSSQLLocalDB" -Q "SELECT @@VERSION;"
 
-    - name: Setup Node.JS
-      uses: actions/setup-node@v4
-      with:
+      - name: Setup Node.JS
+        uses: actions/setup-node@v4
+        with:
           node-version: ${{ env.TGS_WEBPANEL_NODE_VERSION }}
 
-    - name: Set TGS_TEST_DUMP_API_SPEC
-      if: ${{ matrix.configuration == 'Release' && matrix.watchdog-type == 'Advanced' && matrix.database-type == 'SqlServer' }}
-      run: echo "TGS_TEST_DUMP_API_SPEC=yes" >> $Env:GITHUB_ENV
+      - name: Set TGS_TEST_DUMP_API_SPEC
+        if: ${{ matrix.configuration == 'Release' && matrix.watchdog-type == 'Advanced' && matrix.database-type == 'SqlServer' }}
+        run: echo "TGS_TEST_DUMP_API_SPEC=yes" >> $Env:GITHUB_ENV
 
-    - name: Set General__UseBasicWatchdog
-      if: ${{ matrix.watchdog-type == 'Basic' }}
-      run: echo "General__UseBasicWatchdog=true" >> $Env:GITHUB_ENV
+      - name: Set General__UseBasicWatchdog
+        if: ${{ matrix.watchdog-type == 'Basic' }}
+        run: echo "General__UseBasicWatchdog=true" >> $Env:GITHUB_ENV
 
-    - name: Set Sqlite Connection Info
-      if: ${{ matrix.database-type == 'Sqlite' }}
-      shell: bash
-      run: |
-        echo "TGS_TEST_DATABASE_TYPE=Sqlite" >> $GITHUB_ENV
-        echo "TGS_TEST_CONNECTION_STRING=Data Source=TGS_${{ matrix.watchdog-type }}_${{ matrix.configuration }}.sqlite3;Mode=ReadWriteCreate" >> $GITHUB_ENV
+      - name: Set Sqlite Connection Info
+        if: ${{ matrix.database-type == 'Sqlite' }}
+        shell: bash
+        run: |
+          echo "TGS_TEST_DATABASE_TYPE=Sqlite" >> $GITHUB_ENV
+          echo "TGS_TEST_CONNECTION_STRING=Data Source=TGS_${{ matrix.watchdog-type }}_${{ matrix.configuration }}.sqlite3;Mode=ReadWriteCreate" >> $GITHUB_ENV
 
-    - name: Setup Postgres
-      uses: ankane/setup-postgres@v1
-      if: ${{ matrix.database-type == 'PostgresSql' }}
+      - name: Setup Postgres
+        uses: ankane/setup-postgres@v1
+        if: ${{ matrix.database-type == 'PostgresSql' }}
 
-    - name: Set PostgresSql Connection Info
-      if: ${{ matrix.database-type == 'PostgresSql' }}
-      shell: bash
-      run: |
-        echo "TGS_TEST_DATABASE_TYPE=PostgresSql" >> $GITHUB_ENV
-        echo "TGS_TEST_CONNECTION_STRING=Application Name=tgstation-server;Host=127.0.0.1;Username=$USER;Database=TGS__${{ matrix.watchdog-type }}_${{ matrix.configuration }}" >> $GITHUB_ENV
+      - name: Set PostgresSql Connection Info
+        if: ${{ matrix.database-type == 'PostgresSql' }}
+        shell: bash
+        run: |
+          echo "TGS_TEST_DATABASE_TYPE=PostgresSql" >> $GITHUB_ENV
+          echo "TGS_TEST_CONNECTION_STRING=Application Name=tgstation-server;Host=127.0.0.1;Username=$USER;Database=TGS__${{ matrix.watchdog-type }}_${{ matrix.configuration }}" >> $GITHUB_ENV
 
-    - name: Setup MariaDB
-      uses: ankane/setup-mariadb@v1
-      if: ${{ matrix.database-type == 'MariaDB' }}
+      - name: Setup MariaDB
+        uses: ankane/setup-mariadb@v1
+        if: ${{ matrix.database-type == 'MariaDB' }}
 
-    - name: Set MariaDB Connection Info
-      if: ${{ matrix.database-type == 'MariaDB' }}
-      shell: bash
-      run: |
-        echo "TGS_TEST_DATABASE_TYPE=MariaDB" >> $GITHUB_ENV
-        echo "TGS_TEST_CONNECTION_STRING=Server=127.0.0.1;uid=root;database=tgs__${{ matrix.watchdog-type }}_${{ matrix.configuration }}" >> $GITHUB_ENV
+      - name: Set MariaDB Connection Info
+        if: ${{ matrix.database-type == 'MariaDB' }}
+        shell: bash
+        run: |
+          echo "TGS_TEST_DATABASE_TYPE=MariaDB" >> $GITHUB_ENV
+          echo "TGS_TEST_CONNECTION_STRING=Server=127.0.0.1;uid=root;database=tgs__${{ matrix.watchdog-type }}_${{ matrix.configuration }}" >> $GITHUB_ENV
 
-    - name: Setup MySQL
-      uses: ankane/setup-mysql@v1
-      if: ${{ matrix.database-type == 'MySql' }}
+      - name: Setup MySQL
+        uses: ankane/setup-mysql@v1
+        if: ${{ matrix.database-type == 'MySql' }}
 
-    - name: Set MySQL Connection Info
-      if: ${{ matrix.database-type == 'MySql' }}
-      shell: bash
-      run: |
-        echo "TGS_TEST_DATABASE_TYPE=MySql" >> $GITHUB_ENV
-        echo "TGS_TEST_CONNECTION_STRING=Server=127.0.0.1;uid=root;database=tgs__${{ matrix.watchdog-type }}_${{ matrix.configuration }}" >> $GITHUB_ENV
+      - name: Set MySQL Connection Info
+        if: ${{ matrix.database-type == 'MySql' }}
+        shell: bash
+        run: |
+          echo "TGS_TEST_DATABASE_TYPE=MySql" >> $GITHUB_ENV
+          echo "TGS_TEST_CONNECTION_STRING=Server=127.0.0.1;uid=root;database=tgs__${{ matrix.watchdog-type }}_${{ matrix.configuration }}" >> $GITHUB_ENV
 
-    - name: Set SqlServer Connection Info
-      if: ${{ matrix.database-type == 'SqlServer' }}
-      shell: bash
-      run: |
-        TGS_CONNSTRING_VALUE="Server=(localdb)\MSSQLLocalDB;Encrypt=false;Integrated Security=true;Initial Catalog=TGS_${{ matrix.watchdog-type }}_${{ matrix.configuration }};Application Name=tgstation-server"
-        echo "TGS_TEST_CONNECTION_STRING=$(echo $TGS_CONNSTRING_VALUE)" >> $GITHUB_ENV
-        echo "TGS_TEST_DATABASE_TYPE=SqlServer" >> $GITHUB_ENV
+      - name: Set SqlServer Connection Info
+        if: ${{ matrix.database-type == 'SqlServer' }}
+        shell: bash
+        run: |
+          TGS_CONNSTRING_VALUE="Server=(localdb)\MSSQLLocalDB;Encrypt=false;Integrated Security=true;Initial Catalog=TGS_${{ matrix.watchdog-type }}_${{ matrix.configuration }};Application Name=tgstation-server"
+          echo "TGS_TEST_CONNECTION_STRING=$(echo $TGS_CONNSTRING_VALUE)" >> $GITHUB_ENV
+          echo "TGS_TEST_DATABASE_TYPE=SqlServer" >> $GITHUB_ENV
 
-    - name: Checkout (Branch)
-      uses: actions/checkout@v4
-      if: github.event_name == 'push' || github.event_name == 'schedule'
+      - name: Checkout (Branch)
+        uses: actions/checkout@v4
+        if: github.event_name == 'push' || github.event_name == 'schedule'
 
-    - name: Checkout (PR Merge)
-      uses: actions/checkout@v4
-      if: github.event_name != 'push' && github.event_name != 'schedule'
-      with:
-        ref: "refs/pull/${{ inputs.pull_request_number }}/merge"
+      - name: Checkout (PR Merge)
+        uses: actions/checkout@v4
+        if: github.event_name != 'push' && github.event_name != 'schedule'
+        with:
+          ref: "refs/pull/${{ inputs.pull_request_number }}/merge"
 
-    - name: Enable Corepack
-      run: corepack enable
+      - name: Enable Corepack
+        run: corepack enable
 
-    - name: Setup Telemetry Key File
-      shell: bash
-      run: echo "${{ secrets.TGS_TELEMETRY_KEY }}" > ${{ env.TGS_TELEMETRY_KEY_FILE }}
+      - name: Setup Telemetry Key File
+        shell: bash
+        run: echo "${{ secrets.TGS_TELEMETRY_KEY }}" > ${{ env.TGS_TELEMETRY_KEY_FILE }}
 
-    - name: Build # Name checked in rerunFlakyTests.js
-      run: dotnet build -c ${{ matrix.configuration }} tests/Tgstation.Server.Tests/Tgstation.Server.Tests.csproj
+      - name: Build # Name checked in rerunFlakyTests.js
+        run: dotnet build -c ${{ matrix.configuration }} tests/Tgstation.Server.Tests/Tgstation.Server.Tests.csproj
 
-    - name: Delete Telemetry Key File
-      shell: bash
-      if: always()
-      run: rm -f ${{ env.TGS_TELEMETRY_KEY_FILE }}
+      - name: Delete Telemetry Key File
+        shell: bash
+        if: always()
+        run: rm -f ${{ env.TGS_TELEMETRY_KEY_FILE }}
 
-    - name: Cache BYOND .zips
-      uses: actions/cache@v4
-      id: cache-byond
-      with:
-        path: ~/byond-zips-cache
-        key: byond-zips
+      - name: Cache BYOND .zips
+        uses: actions/cache@v4
+        id: cache-byond
+        with:
+          path: ~/byond-zips-cache
+          key: byond-zips
 
-    - name: Run Live Tests # Logging here is weird because printing massive amounts of text on Windows runners is SLOW AS SHIT!!!
-      id: live-tests
-      shell: bash
-      run: |
-        cd tests/Tgstation.Server.Tests
-        sleep 10
-        set +e
-        test_output=$(dotnet test -c ${{ matrix.configuration }} --no-build --filter TestCategory=RequiresDatabase --logger "GitHubActions;summary.includePassedTests=true;summary.includeSkippedTests=true" --collect:"XPlat Code Coverage" --settings ../../build/ci.runsettings --results-directory ../../TestResults)
-        retval=$?
-        set -e
-        cd ../..
-        echo $test_output > ./test_output.txt
-        if [[ $retval -ne 0 ]]; then
-          echo "succeeded=NO" >> $GITHUB_OUTPUT
-        else
-          echo "succeeded=YES" >> $GITHUB_OUTPUT
-        fi
+      - name: Run Live Tests # Logging here is weird because printing massive amounts of text on Windows runners is SLOW AS SHIT!!!
+        id: live-tests
+        shell: bash
+        run: |
+          cd tests/Tgstation.Server.Tests
+          sleep 10
+          set +e
+          test_output=$(dotnet test -c ${{ matrix.configuration }} --no-build --filter TestCategory=RequiresDatabase --logger "GitHubActions;summary.includePassedTests=true;summary.includeSkippedTests=true" --collect:"XPlat Code Coverage" --settings ../../build/ci.runsettings --results-directory ../../TestResults)
+          retval=$?
+          set -e
+          cd ../..
+          echo $test_output > ./test_output.txt
+          if [[ $retval -ne 0 ]]; then
+            echo "succeeded=NO" >> $GITHUB_OUTPUT
+          else
+            echo "succeeded=YES" >> $GITHUB_OUTPUT
+          fi
 
-    - name: Store Live Tests Output
-      if: ${{ steps.live-tests.outputs.succeeded == 'YES' }}
-      uses: actions/upload-artifact@v4
-      with:
-        name: windows-integration-test-logs-${{ matrix.configuration }}-${{ matrix.watchdog-type }}-${{ matrix.database-type }}
-        path: ./test_output.txt
+      - name: Store Live Tests Output
+        if: ${{ steps.live-tests.outputs.succeeded == 'YES' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-integration-test-logs-${{ matrix.configuration }}-${{ matrix.watchdog-type }}-${{ matrix.database-type }}
+          path: ./test_output.txt
 
-    - name: Store Errored Live Tests Output
-      if: ${{ steps.live-tests.outputs.succeeded != 'YES' }}
-      uses: actions/upload-artifact@v4
-      with:
-        name: errored-windows-test-logs-${{ matrix.configuration }}-${{ matrix.watchdog-type }}-${{ matrix.database-type }}
-        path: ./test_output.txt
+      - name: Store Errored Live Tests Output
+        if: ${{ steps.live-tests.outputs.succeeded != 'YES' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: errored-windows-test-logs-${{ matrix.configuration }}-${{ matrix.watchdog-type }}-${{ matrix.database-type }}
+          path: ./test_output.txt
 
-    - name: Fail if Live Tests Failed
-      if: ${{ steps.live-tests.outputs.succeeded != 'YES' }}
-      run: exit 1
+      - name: Fail if Live Tests Failed
+        if: ${{ steps.live-tests.outputs.succeeded != 'YES' }}
+        run: exit 1
 
-    - name: Store Code Coverage
-      uses: actions/upload-artifact@v4
-      with:
-        name: windows-integration-test-coverage-${{ matrix.configuration }}-${{ matrix.watchdog-type }}-${{ matrix.database-type }}
-        path: ./TestResults/
+      - name: Store Code Coverage
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-integration-test-coverage-${{ matrix.configuration }}-${{ matrix.watchdog-type }}-${{ matrix.database-type }}
+          path: ./TestResults/
 
-    - name: Store OpenAPI Spec
-      if: ${{ matrix.configuration == 'Release' && matrix.watchdog-type == 'Advanced' && matrix.database-type == 'SqlServer' }}
-      uses: actions/upload-artifact@v4
-      with:
-        name: openapi-spec
-        path: C:/tgs_api.json
+      - name: Store OpenAPI Spec
+        if: ${{ matrix.configuration == 'Release' && matrix.watchdog-type == 'Advanced' && matrix.database-type == 'SqlServer' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: openapi-spec
+          path: C:/tgs_api.json
 
-    - name: Package Server Service
-      if: ${{ matrix.configuration == 'Release' && matrix.watchdog-type == 'Basic' && matrix.database-type == 'PostgresSql' }}
-      run: |
-        cd src/Tgstation.Server.Host.Service
-        dotnet publish -c ${{ matrix.configuration }} -o ../../artifacts/Service
-        cd ../Tgstation.Server.Host
-        dotnet publish -c ${{ matrix.configuration }} --no-build -o ../../artifacts/Service/lib/Default
-        cd ../..
-        mv artifacts/Service/lib/Default/appsettings.yml artifacts/Service/appsettings.yml
-        build/RemoveUnsupportedRuntimes.sh artifacts/Service/lib/Default
-        build/RemoveUnsupportedServiceRuntimes.ps1 artifacts/Service
+      - name: Package Server Service
+        if: ${{ matrix.configuration == 'Release' && matrix.watchdog-type == 'Basic' && matrix.database-type == 'PostgresSql' }}
+        run: |
+          cd src/Tgstation.Server.Host.Service
+          dotnet publish -c ${{ matrix.configuration }} -o ../../artifacts/Service
+          cd ../Tgstation.Server.Host
+          dotnet publish -c ${{ matrix.configuration }} --no-build -o ../../artifacts/Service/lib/Default
+          cd ../..
+          mv artifacts/Service/lib/Default/appsettings.yml artifacts/Service/appsettings.yml
+          build/RemoveUnsupportedRuntimes.sh artifacts/Service/lib/Default
+          build/RemoveUnsupportedServiceRuntimes.ps1 artifacts/Service
 
-    - name: Store Server Service
-      if: ${{ matrix.configuration == 'Release' && matrix.watchdog-type == 'Basic' && matrix.database-type == 'PostgresSql' }}
-      uses: actions/upload-artifact@v4
-      with:
-        name: ServerService
-        path: artifacts/Service/
+      - name: Store Server Service
+        if: ${{ matrix.configuration == 'Release' && matrix.watchdog-type == 'Basic' && matrix.database-type == 'PostgresSql' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: ServerService
+          path: artifacts/Service/
 
-    - name: Install Code Signing Certificate
-      if: ${{ matrix.configuration == 'Release' && matrix.watchdog-type == 'Basic' && matrix.database-type == 'PostgresSql' }}
-      shell: powershell
-      run: |
-        $pfxBytes = [convert]::FromBase64String("${{ secrets.CODE_SIGNING_BASE64 }}")
-        [IO.File]::WriteAllBytes("tg_codesigning.pfx", $pfxBytes)
-        $certPassword = ConvertTo-SecureString -String "${{ secrets.CODE_SIGNING_PASSWORD }}" -Force -AsPlainText
-        Import-PfxCertificate -FilePath tg_codesigning.pfx -Cert Cert:\CurrentUser\My -Password $certPassword
-        rm tg_codesigning.pfx
+      - name: Install Code Signing Certificate
+        if: ${{ matrix.configuration == 'Release' && matrix.watchdog-type == 'Basic' && matrix.database-type == 'PostgresSql' }}
+        shell: powershell
+        run: |
+          $pfxBytes = [convert]::FromBase64String("${{ secrets.CODE_SIGNING_BASE64 }}")
+          [IO.File]::WriteAllBytes("tg_codesigning.pfx", $pfxBytes)
+          $certPassword = ConvertTo-SecureString -String "${{ secrets.CODE_SIGNING_PASSWORD }}" -Force -AsPlainText
+          Import-PfxCertificate -FilePath tg_codesigning.pfx -Cert Cert:\CurrentUser\My -Password $certPassword
+          rm tg_codesigning.pfx
 
-    - name: Test Sign Service .exe
-      if: ${{ matrix.configuration == 'Release' && matrix.watchdog-type == 'Basic' && matrix.database-type == 'PostgresSql' }}
-      shell: powershell
-      run: Set-AuthenticodeSignature artifacts/Service/Tgstation.Server.Host.Service.exe -Certificate (Get-ChildItem Cert:\CurrentUser\My | Where-Object { $_.Thumbprint -eq "${{ vars.CODE_SIGNING_THUMBPRINT }}" }) -TimestampServer "http://timestamp.digicert.com"
+      - name: Test Sign Service .exe
+        if: ${{ matrix.configuration == 'Release' && matrix.watchdog-type == 'Basic' && matrix.database-type == 'PostgresSql' }}
+        shell: powershell
+        run: Set-AuthenticodeSignature artifacts/Service/Tgstation.Server.Host.Service.exe -Certificate (Get-ChildItem Cert:\CurrentUser\My | Where-Object { $_.Thumbprint -eq "${{ vars.CODE_SIGNING_THUMBPRINT }}" }) -TimestampServer "http://timestamp.digicert.com"
 
   linux-integration-tests:
     name: Linux Live Tests
@@ -762,9 +765,9 @@ jobs:
         image: ${{ (matrix.database-type == 'SqlServer') && 'mcr.microsoft.com/mssql/server:2019-latest' || '' }}
         env:
           SA_PASSWORD: myPassword
-          ACCEPT_EULA: 'Y'
+          ACCEPT_EULA: "Y"
         ports:
-        - 1433:1433
+          - 1433:1433
       postgres:
         image: ${{ (matrix.database-type == 'PostgresSql') && 'cyberboss/postgres-max-connections' || '' }} # Fork of _/postgres:latest with max_connections=500 becuase GitHub actions service containers have no way to set command lines. Rebuilds with updates.
         ports:
@@ -801,426 +804,432 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        database-type: [ 'Sqlite', 'PostgresSql', 'MariaDB', 'MySql' ]
-        watchdog-type: [ 'Basic', 'Advanced' ]
-        configuration: [ 'Debug', 'Release' ]
+        database-type: ["Sqlite", "PostgresSql", "MariaDB", "MySql"]
+        watchdog-type: ["Basic", "Advanced"]
+        configuration: ["Debug", "Release"]
     env:
       TGS_TELEMETRY_KEY_FILE: /tmp/tgs_telemetry_key.txt
     runs-on: ubuntu-latest
     steps:
-    - name: Setup dotnet
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: |
-          ${{ env.TGS_DOTNET_VERSION }}.0.x
-          ${{ env.OD_DOTNET_VERSION }}.0.x
-          ${{ env.OD_MIN_COMPAT_DOTNET_VERSION }}.0.x
-        dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
+      - name: Setup dotnet
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: |
+            ${{ env.TGS_DOTNET_VERSION }}.0.x
+            ${{ env.OD_DOTNET_VERSION }}.0.x
+            ${{ env.OD_MIN_COMPAT_DOTNET_VERSION }}.0.x
+          dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
 
-    - name: Disable ptrace_scope
-      run: echo 0 | sudo tee /proc/sys/kernel/yama/ptrace_scope
+      - name: Disable ptrace_scope
+        run: echo 0 | sudo tee /proc/sys/kernel/yama/ptrace_scope
 
-    - name: Install Native Dependencies # Name checked in rerunFlakyTests.js
-      run: |
-        sudo dpkg --add-architecture i386
-        sudo apt-get update
-        sudo apt-get install -y -o APT::Immediate-Configure=0 libc6-i386 libstdc++6:i386 gdb libgcc-s1:i386 libgdiplus
+      - name: Install Native Dependencies # Name checked in rerunFlakyTests.js
+        run: |
+          sudo dpkg --add-architecture i386
+          sudo apt-get update
+          sudo apt-get install -y -o APT::Immediate-Configure=0 libc6-i386 libstdc++6:i386 gdb libgcc-s1:i386 libgdiplus
 
-    - name: Setup Node.JS
-      uses: actions/setup-node@v4
-      with:
+      - name: Setup Node.JS
+        uses: actions/setup-node@v4
+        with:
           node-version: ${{ env.TGS_WEBPANEL_NODE_VERSION }}
 
-    - name: Set Sqlite Connection Info
-      if: ${{ matrix.database-type == 'Sqlite' }}
-      run: |
-        echo "TGS_TEST_DATABASE_TYPE=Sqlite" >> $GITHUB_ENV
-        echo "TGS_TEST_CONNECTION_STRING=Data Source=TGS_${{ matrix.watchdog-type }}_${{ matrix.configuration }}.sqlite3;Mode=ReadWriteCreate" >> $GITHUB_ENV
+      - name: Set Sqlite Connection Info
+        if: ${{ matrix.database-type == 'Sqlite' }}
+        run: |
+          echo "TGS_TEST_DATABASE_TYPE=Sqlite" >> $GITHUB_ENV
+          echo "TGS_TEST_CONNECTION_STRING=Data Source=TGS_${{ matrix.watchdog-type }}_${{ matrix.configuration }}.sqlite3;Mode=ReadWriteCreate" >> $GITHUB_ENV
 
-    - name: Set PostgresSql Connection Info
-      if: ${{ matrix.database-type == 'PostgresSql' }}
-      run: |
-        echo "TGS_TEST_DATABASE_TYPE=PostgresSql" >> $GITHUB_ENV
-        echo "TGS_TEST_CONNECTION_STRING=Application Name=tgstation-server;Host=127.0.0.1;Username=postgres;Password=postgres;Database=TGS__${{ matrix.watchdog-type }}_${{ matrix.configuration }}" >> $GITHUB_ENV
+      - name: Set PostgresSql Connection Info
+        if: ${{ matrix.database-type == 'PostgresSql' }}
+        run: |
+          echo "TGS_TEST_DATABASE_TYPE=PostgresSql" >> $GITHUB_ENV
+          echo "TGS_TEST_CONNECTION_STRING=Application Name=tgstation-server;Host=127.0.0.1;Username=postgres;Password=postgres;Database=TGS__${{ matrix.watchdog-type }}_${{ matrix.configuration }}" >> $GITHUB_ENV
 
-    - name: Set MariaDB Connection Info
-      if: ${{ matrix.database-type == 'MariaDB' }}
-      run: |
-        echo "TGS_TEST_DATABASE_TYPE=MariaDB" >> $GITHUB_ENV
-        echo "TGS_TEST_CONNECTION_STRING=Server=127.0.0.1;uid=root;pwd=mariadb;database=tgs__${{ matrix.watchdog-type }}_${{ matrix.configuration }}" >> $GITHUB_ENV
+      - name: Set MariaDB Connection Info
+        if: ${{ matrix.database-type == 'MariaDB' }}
+        run: |
+          echo "TGS_TEST_DATABASE_TYPE=MariaDB" >> $GITHUB_ENV
+          echo "TGS_TEST_CONNECTION_STRING=Server=127.0.0.1;uid=root;pwd=mariadb;database=tgs__${{ matrix.watchdog-type }}_${{ matrix.configuration }}" >> $GITHUB_ENV
 
-    - name: Set MySQL Connection Info
-      if: ${{ matrix.database-type == 'MySql' }}
-      run: |
-        echo "TGS_TEST_DATABASE_TYPE=MySql" >> $GITHUB_ENV
-        echo "TGS_TEST_CONNECTION_STRING=Server=127.0.0.1;Port=3307;uid=root;pwd=mysql;database=tgs__${{ matrix.watchdog-type }}_${{ matrix.configuration }}" >> $GITHUB_ENV
-        echo "Database__ServerVersion=5.7.31" >> $GITHUB_ENV
+      - name: Set MySQL Connection Info
+        if: ${{ matrix.database-type == 'MySql' }}
+        run: |
+          echo "TGS_TEST_DATABASE_TYPE=MySql" >> $GITHUB_ENV
+          echo "TGS_TEST_CONNECTION_STRING=Server=127.0.0.1;Port=3307;uid=root;pwd=mysql;database=tgs__${{ matrix.watchdog-type }}_${{ matrix.configuration }}" >> $GITHUB_ENV
+          echo "Database__ServerVersion=5.7.31" >> $GITHUB_ENV
 
-    - name: Set General__UseBasicWatchdog
-      if: ${{ matrix.watchdog-type == 'Basic' }}
-      run: echo "General__UseBasicWatchdog=true" >> $GITHUB_ENV
+      - name: Set General__UseBasicWatchdog
+        if: ${{ matrix.watchdog-type == 'Basic' }}
+        run: echo "General__UseBasicWatchdog=true" >> $GITHUB_ENV
 
-    - name: Checkout (Branch)
-      uses: actions/checkout@v4
-      if: github.event_name == 'push' || github.event_name == 'schedule'
+      - name: Checkout (Branch)
+        uses: actions/checkout@v4
+        if: github.event_name == 'push' || github.event_name == 'schedule'
 
-    - name: Checkout (PR Merge)
-      uses: actions/checkout@v4
-      if: github.event_name != 'push' && github.event_name != 'schedule'
-      with:
-        ref: "refs/pull/${{ inputs.pull_request_number }}/merge"
+      - name: Checkout (PR Merge)
+        uses: actions/checkout@v4
+        if: github.event_name != 'push' && github.event_name != 'schedule'
+        with:
+          ref: "refs/pull/${{ inputs.pull_request_number }}/merge"
 
-    - name: Enable Corepack
-      run: corepack enable
+      - name: Enable Corepack
+        run: corepack enable
 
-    - name: Setup Telemetry Key File
-      run: echo "${{ secrets.TGS_TELEMETRY_KEY }}" > ${{ env.TGS_TELEMETRY_KEY_FILE }}
+      - name: Setup Telemetry Key File
+        run: echo "${{ secrets.TGS_TELEMETRY_KEY }}" > ${{ env.TGS_TELEMETRY_KEY_FILE }}
 
-    - name: Build # Name checked in rerunFlakyTests.js
-      run: dotnet build -c ${{ matrix.configuration }}NoWindows tests/Tgstation.Server.Tests/Tgstation.Server.Tests.csproj
+      - name: Build # Name checked in rerunFlakyTests.js
+        run: dotnet build -c ${{ matrix.configuration }}NoWindows tests/Tgstation.Server.Tests/Tgstation.Server.Tests.csproj
 
-    - name: Delete Telemetry Key File
-      if: always()
-      run: rm -f ${{ env.TGS_TELEMETRY_KEY_FILE }}
+      - name: Delete Telemetry Key File
+        if: always()
+        run: rm -f ${{ env.TGS_TELEMETRY_KEY_FILE }}
 
-    - name: Cache BYOND .zips
-      uses: actions/cache@v4
-      id: cache-byond
-      with:
-        path: ~/byond-zips-cache
-        key: byond-zips
+      - name: Cache BYOND .zips
+        uses: actions/cache@v4
+        id: cache-byond
+        with:
+          path: ~/byond-zips-cache
+          key: byond-zips
 
-    - name: Run Live Tests
-      run: |
-        cd tests/Tgstation.Server.Tests
-        sleep 10
-        dotnet test -c ${{ matrix.configuration }}NoWindows --filter TestCategory=RequiresDatabase --logger "GitHubActions;summary.includePassedTests=true;summary.includeSkippedTests=true" --no-build --collect:"XPlat Code Coverage" --settings ../../build/ci.runsettings --results-directory ../../TestResults
+      - name: Run Live Tests
+        run: |
+          cd tests/Tgstation.Server.Tests
+          sleep 10
+          dotnet test -c ${{ matrix.configuration }}NoWindows --filter TestCategory=RequiresDatabase --logger "GitHubActions;summary.includePassedTests=true;summary.includeSkippedTests=true" --no-build --collect:"XPlat Code Coverage" --settings ../../build/ci.runsettings --results-directory ../../TestResults
 
-    - name: Store Code Coverage
-      uses: actions/upload-artifact@v4
-      with:
-        name: linux-integration-test-coverage-${{ matrix.configuration }}-${{ matrix.watchdog-type }}-${{ matrix.database-type }}
-        path: ./TestResults/
+      - name: Store Code Coverage
+        uses: actions/upload-artifact@v4
+        with:
+          name: linux-integration-test-coverage-${{ matrix.configuration }}-${{ matrix.watchdog-type }}-${{ matrix.database-type }}
+          path: ./TestResults/
 
-    - name: Package Server Console
-      if: ${{ matrix.configuration == 'Release' && matrix.watchdog-type == 'Advanced' && matrix.database-type == 'MariaDB' }}
-      run: |
-        cd src/Tgstation.Server.Host.Console
-        dotnet publish -c ${{ matrix.configuration }} -o ../../artifacts/Console
-        cd ../Tgstation.Server.Host
-        dotnet publish -c ${{ matrix.configuration }}NoWindows --no-build -o ../../artifacts/Console/lib/Default
-        cd ../..
-        mv artifacts/Console/lib/Default/appsettings.yml artifacts/Console/appsettings.yml
-        build/RemoveUnsupportedRuntimes.sh artifacts/Console/lib/Default
-        build/RemoveUnsupportedRuntimes.sh artifacts/Console
+      - name: Package Server Console
+        if: ${{ matrix.configuration == 'Release' && matrix.watchdog-type == 'Advanced' && matrix.database-type == 'MariaDB' }}
+        run: |
+          cd src/Tgstation.Server.Host.Console
+          dotnet publish -c ${{ matrix.configuration }} -o ../../artifacts/Console
+          cd ../Tgstation.Server.Host
+          dotnet publish -c ${{ matrix.configuration }}NoWindows --no-build -o ../../artifacts/Console/lib/Default
+          cd ../..
+          mv artifacts/Console/lib/Default/appsettings.yml artifacts/Console/appsettings.yml
+          build/RemoveUnsupportedRuntimes.sh artifacts/Console/lib/Default
+          build/RemoveUnsupportedRuntimes.sh artifacts/Console
 
-    - name: Package Server Update Package
-      if: ${{ matrix.configuration == 'Release' && matrix.watchdog-type == 'Advanced' && matrix.database-type == 'PostgresSql' }}
-      run: |
-        cd src/Tgstation.Server.Host
-        dotnet publish -c ${{ matrix.configuration }}NoWindows --no-build -o ../../artifacts/ServerUpdate
-        cd ../..
-        rm artifacts/ServerUpdate/appsettings.yml
-        build/RemoveUnsupportedRuntimes.sh artifacts/ServerUpdate
+      - name: Package Server Update Package
+        if: ${{ matrix.configuration == 'Release' && matrix.watchdog-type == 'Advanced' && matrix.database-type == 'PostgresSql' }}
+        run: |
+          cd src/Tgstation.Server.Host
+          dotnet publish -c ${{ matrix.configuration }}NoWindows --no-build -o ../../artifacts/ServerUpdate
+          cd ../..
+          rm artifacts/ServerUpdate/appsettings.yml
+          build/RemoveUnsupportedRuntimes.sh artifacts/ServerUpdate
 
-    - name: Store Server Console
-      if: ${{ matrix.configuration == 'Release' && matrix.watchdog-type == 'Advanced' && matrix.database-type == 'MariaDB' }}
-      uses: actions/upload-artifact@v4
-      with:
-        name: ServerConsole
-        path: artifacts/Console/
+      - name: Store Server Console
+        if: ${{ matrix.configuration == 'Release' && matrix.watchdog-type == 'Advanced' && matrix.database-type == 'MariaDB' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: ServerConsole
+          path: artifacts/Console/
 
-    - name: Store Server Update Package
-      if: ${{ matrix.configuration == 'Release' && matrix.watchdog-type == 'Advanced' && matrix.database-type == 'PostgresSql' }}
-      uses: actions/upload-artifact@v4
-      with:
-        name: ServerUpdatePackage
-        path: artifacts/ServerUpdate/
+      - name: Store Server Update Package
+        if: ${{ matrix.configuration == 'Release' && matrix.watchdog-type == 'Advanced' && matrix.database-type == 'PostgresSql' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: ServerUpdatePackage
+          path: artifacts/ServerUpdate/
 
   validate-openapi-spec:
     name: OpenAPI Spec Validation
     needs: windows-integration-tests
     runs-on: ubuntu-latest
     steps:
-    - name: Install IBM OpenAPI Validator
-      run: npm i -g ibm-openapi-validator@0.51.3
+      - name: Install IBM OpenAPI Validator
+        run: npm i -g ibm-openapi-validator@0.51.3
 
-    - name: Checkout (Branch)
-      uses: actions/checkout@v4
-      if: github.event_name == 'push' || github.event_name == 'schedule'
+      - name: Checkout (Branch)
+        uses: actions/checkout@v4
+        if: github.event_name == 'push' || github.event_name == 'schedule'
 
-    - name: Checkout (PR Merge)
-      uses: actions/checkout@v4
-      if: github.event_name != 'push' && github.event_name != 'schedule'
-      with:
-        ref: "refs/pull/${{ inputs.pull_request_number }}/merge"
+      - name: Checkout (PR Merge)
+        uses: actions/checkout@v4
+        if: github.event_name != 'push' && github.event_name != 'schedule'
+        with:
+          ref: "refs/pull/${{ inputs.pull_request_number }}/merge"
 
-    - name: Retrieve OpenAPI Spec
-      uses: actions/download-artifact@v4
-      with:
-        name: openapi-spec
-        path: ./swagger
+      - name: Retrieve OpenAPI Spec
+        uses: actions/download-artifact@v4
+        with:
+          name: openapi-spec
+          path: ./swagger
 
-    - name: Lint OpenAPI Spec
-      run: npx lint-openapi -v -p -c build/OpenApiValidationSettings.json ./swagger/tgs_api.json
+      - name: Lint OpenAPI Spec
+        run: npx lint-openapi -v -p -c build/OpenApiValidationSettings.json ./swagger/tgs_api.json
 
   upload-code-coverage:
     name: Upload Code Coverage
-    needs: [ linux-unit-tests, linux-integration-tests, windows-unit-tests, windows-integration-tests, build-releasenotes ]
+    needs:
+      [
+        linux-unit-tests,
+        linux-integration-tests,
+        windows-unit-tests,
+        windows-integration-tests,
+      ]
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout (Branch)
-      uses: actions/checkout@v4
-      if: github.event_name == 'push' || github.event_name == 'schedule'
+      - name: Checkout (Branch)
+        uses: actions/checkout@v4
+        if: github.event_name == 'push' || github.event_name == 'schedule'
 
-    - name: Checkout (PR Merge)
-      uses: actions/checkout@v4
-      if: github.event_name != 'push' && github.event_name != 'schedule'
-      with:
-        ref: "refs/pull/${{ inputs.pull_request_number }}/merge"
+      - name: Checkout (PR Merge)
+        uses: actions/checkout@v4
+        if: github.event_name != 'push' && github.event_name != 'schedule'
+        with:
+          ref: "refs/pull/${{ inputs.pull_request_number }}/merge"
 
-    - name: Retrieve Linux Unit Test Coverage (Debug)
-      uses: actions/download-artifact@v4
-      with:
-        name: linux-unit-test-coverage-Debug
-        path: ./code_coverage/unit_tests/linux_unit_tests_debug
+      - name: Retrieve Linux Unit Test Coverage (Debug)
+        uses: actions/download-artifact@v4
+        with:
+          name: linux-unit-test-coverage-Debug
+          path: ./code_coverage/unit_tests/linux_unit_tests_debug
 
-    - name: Retrieve Linux Unit Test Coverage (Release)
-      uses: actions/download-artifact@v4
-      with:
-        name: linux-unit-test-coverage-Release
-        path: ./code_coverage/unit_tests/linux_unit_tests_release
+      - name: Retrieve Linux Unit Test Coverage (Release)
+        uses: actions/download-artifact@v4
+        with:
+          name: linux-unit-test-coverage-Release
+          path: ./code_coverage/unit_tests/linux_unit_tests_release
 
-    - name: Retrieve Linux Integration Test Coverage (Release, Advanced, Sqlite)
-      uses: actions/download-artifact@v4
-      with:
-        name: linux-integration-test-coverage-Release-Advanced-Sqlite
-        path: ./code_coverage/integration_tests/linux_integration_tests_release_system_sqlite
+      - name: Retrieve Linux Integration Test Coverage (Release, Advanced, Sqlite)
+        uses: actions/download-artifact@v4
+        with:
+          name: linux-integration-test-coverage-Release-Advanced-Sqlite
+          path: ./code_coverage/integration_tests/linux_integration_tests_release_system_sqlite
 
-    - name: Retrieve Linux Integration Test Coverage (Release, Advanced, PostgresSql)
-      uses: actions/download-artifact@v4
-      with:
-        name: linux-integration-test-coverage-Release-Advanced-PostgresSql
-        path: ./code_coverage/integration_tests/linux_integration_tests_release_system_mariadb
+      - name: Retrieve Linux Integration Test Coverage (Release, Advanced, PostgresSql)
+        uses: actions/download-artifact@v4
+        with:
+          name: linux-integration-test-coverage-Release-Advanced-PostgresSql
+          path: ./code_coverage/integration_tests/linux_integration_tests_release_system_mariadb
 
-    - name: Retrieve Linux Integration Test Coverage (Release, Advanced, MariaDB)
-      uses: actions/download-artifact@v4
-      with:
-        name: linux-integration-test-coverage-Release-Advanced-MariaDB
-        path: ./code_coverage/integration_tests/linux_integration_tests_release_system_mysql
+      - name: Retrieve Linux Integration Test Coverage (Release, Advanced, MariaDB)
+        uses: actions/download-artifact@v4
+        with:
+          name: linux-integration-test-coverage-Release-Advanced-MariaDB
+          path: ./code_coverage/integration_tests/linux_integration_tests_release_system_mysql
 
-    - name: Retrieve Linux Integration Test Coverage (Release, Advanced, MySql)
-      uses: actions/download-artifact@v4
-      with:
-        name: linux-integration-test-coverage-Release-Advanced-MySql
-        path: ./code_coverage/integration_tests/linux_integration_tests_release_system_mysql
+      - name: Retrieve Linux Integration Test Coverage (Release, Advanced, MySql)
+        uses: actions/download-artifact@v4
+        with:
+          name: linux-integration-test-coverage-Release-Advanced-MySql
+          path: ./code_coverage/integration_tests/linux_integration_tests_release_system_mysql
 
-    - name: Retrieve Linux Integration Test Coverage (Release, Basic, Sqlite)
-      uses: actions/download-artifact@v4
-      with:
-        name: linux-integration-test-coverage-Release-Advanced-Sqlite
-        path: ./code_coverage/integration_tests/linux_integration_tests_release_basic_sqlite
+      - name: Retrieve Linux Integration Test Coverage (Release, Basic, Sqlite)
+        uses: actions/download-artifact@v4
+        with:
+          name: linux-integration-test-coverage-Release-Advanced-Sqlite
+          path: ./code_coverage/integration_tests/linux_integration_tests_release_basic_sqlite
 
-    - name: Retrieve Linux Integration Test Coverage (Release, Basic, PostgresSql)
-      uses: actions/download-artifact@v4
-      with:
-        name: linux-integration-test-coverage-Release-Advanced-PostgresSql
-        path: ./code_coverage/integration_tests/linux_integration_tests_release_basic_mariadb
+      - name: Retrieve Linux Integration Test Coverage (Release, Basic, PostgresSql)
+        uses: actions/download-artifact@v4
+        with:
+          name: linux-integration-test-coverage-Release-Advanced-PostgresSql
+          path: ./code_coverage/integration_tests/linux_integration_tests_release_basic_mariadb
 
-    - name: Retrieve Linux Integration Test Coverage (Release, Basic, MariaDB)
-      uses: actions/download-artifact@v4
-      with:
-        name: linux-integration-test-coverage-Release-Advanced-MariaDB
-        path: ./code_coverage/integration_tests/linux_integration_tests_release_basic_mysql
+      - name: Retrieve Linux Integration Test Coverage (Release, Basic, MariaDB)
+        uses: actions/download-artifact@v4
+        with:
+          name: linux-integration-test-coverage-Release-Advanced-MariaDB
+          path: ./code_coverage/integration_tests/linux_integration_tests_release_basic_mysql
 
-    - name: Retrieve Linux Integration Test Coverage (Release, Basic, MySql)
-      uses: actions/download-artifact@v4
-      with:
-        name: linux-integration-test-coverage-Release-Advanced-MySql
-        path: ./code_coverage/integration_tests/linux_integration_tests_release_basic_mysql
+      - name: Retrieve Linux Integration Test Coverage (Release, Basic, MySql)
+        uses: actions/download-artifact@v4
+        with:
+          name: linux-integration-test-coverage-Release-Advanced-MySql
+          path: ./code_coverage/integration_tests/linux_integration_tests_release_basic_mysql
 
-    - name: Retrieve Linux Integration Test Coverage (Debug, Advanced, Sqlite)
-      uses: actions/download-artifact@v4
-      with:
-        name: linux-integration-test-coverage-Debug-Advanced-Sqlite
-        path: ./code_coverage/integration_tests/linux_integration_tests_debug_system_sqlite
+      - name: Retrieve Linux Integration Test Coverage (Debug, Advanced, Sqlite)
+        uses: actions/download-artifact@v4
+        with:
+          name: linux-integration-test-coverage-Debug-Advanced-Sqlite
+          path: ./code_coverage/integration_tests/linux_integration_tests_debug_system_sqlite
 
-    - name: Retrieve Linux Integration Test Coverage (Debug, Advanced, PostgresSql)
-      uses: actions/download-artifact@v4
-      with:
-        name: linux-integration-test-coverage-Debug-Advanced-PostgresSql
-        path: ./code_coverage/integration_tests/linux_integration_tests_debug_system_mariadb
+      - name: Retrieve Linux Integration Test Coverage (Debug, Advanced, PostgresSql)
+        uses: actions/download-artifact@v4
+        with:
+          name: linux-integration-test-coverage-Debug-Advanced-PostgresSql
+          path: ./code_coverage/integration_tests/linux_integration_tests_debug_system_mariadb
 
-    - name: Retrieve Linux Integration Test Coverage (Debug, Advanced, MariaDB)
-      uses: actions/download-artifact@v4
-      with:
-        name: linux-integration-test-coverage-Debug-Advanced-MariaDB
-        path: ./code_coverage/integration_tests/linux_integration_tests_debug_system_mysql
+      - name: Retrieve Linux Integration Test Coverage (Debug, Advanced, MariaDB)
+        uses: actions/download-artifact@v4
+        with:
+          name: linux-integration-test-coverage-Debug-Advanced-MariaDB
+          path: ./code_coverage/integration_tests/linux_integration_tests_debug_system_mysql
 
-    - name: Retrieve Linux Integration Test Coverage (Debug, Advanced, MySql)
-      uses: actions/download-artifact@v4
-      with:
-        name: linux-integration-test-coverage-Debug-Advanced-MySql
-        path: ./code_coverage/integration_tests/linux_integration_tests_debug_system_mysql
+      - name: Retrieve Linux Integration Test Coverage (Debug, Advanced, MySql)
+        uses: actions/download-artifact@v4
+        with:
+          name: linux-integration-test-coverage-Debug-Advanced-MySql
+          path: ./code_coverage/integration_tests/linux_integration_tests_debug_system_mysql
 
-    - name: Retrieve Linux Integration Test Coverage (Debug, Basic, Sqlite)
-      uses: actions/download-artifact@v4
-      with:
-        name: linux-integration-test-coverage-Debug-Advanced-Sqlite
-        path: ./code_coverage/integration_tests/linux_integration_tests_debug_basic_sqlite
+      - name: Retrieve Linux Integration Test Coverage (Debug, Basic, Sqlite)
+        uses: actions/download-artifact@v4
+        with:
+          name: linux-integration-test-coverage-Debug-Advanced-Sqlite
+          path: ./code_coverage/integration_tests/linux_integration_tests_debug_basic_sqlite
 
-    - name: Retrieve Linux Integration Test Coverage (Debug, Basic, PostgresSql)
-      uses: actions/download-artifact@v4
-      with:
-        name: linux-integration-test-coverage-Debug-Advanced-PostgresSql
-        path: ./code_coverage/integration_tests/linux_integration_tests_debug_basic_mariadb
+      - name: Retrieve Linux Integration Test Coverage (Debug, Basic, PostgresSql)
+        uses: actions/download-artifact@v4
+        with:
+          name: linux-integration-test-coverage-Debug-Advanced-PostgresSql
+          path: ./code_coverage/integration_tests/linux_integration_tests_debug_basic_mariadb
 
-    - name: Retrieve Linux Integration Test Coverage (Debug, Basic, MariaDB)
-      uses: actions/download-artifact@v4
-      with:
-        name: linux-integration-test-coverage-Debug-Advanced-MariaDB
-        path: ./code_coverage/integration_tests/linux_integration_tests_debug_basic_mysql
+      - name: Retrieve Linux Integration Test Coverage (Debug, Basic, MariaDB)
+        uses: actions/download-artifact@v4
+        with:
+          name: linux-integration-test-coverage-Debug-Advanced-MariaDB
+          path: ./code_coverage/integration_tests/linux_integration_tests_debug_basic_mysql
 
-    - name: Retrieve Linux Integration Test Coverage (Debug, Basic, MySql)
-      uses: actions/download-artifact@v4
-      with:
-        name: linux-integration-test-coverage-Debug-Advanced-MySql
-        path: ./code_coverage/integration_tests/linux_integration_tests_debug_basic_mysql
+      - name: Retrieve Linux Integration Test Coverage (Debug, Basic, MySql)
+        uses: actions/download-artifact@v4
+        with:
+          name: linux-integration-test-coverage-Debug-Advanced-MySql
+          path: ./code_coverage/integration_tests/linux_integration_tests_debug_basic_mysql
 
-    - name: Retrieve Windows Unit Test Coverage (Release)
-      uses: actions/download-artifact@v4
-      with:
-        name: windows-unit-test-coverage-Release
-        path: ./code_coverage/unit_tests/windows_unit_tests_release
+      - name: Retrieve Windows Unit Test Coverage (Release)
+        uses: actions/download-artifact@v4
+        with:
+          name: windows-unit-test-coverage-Release
+          path: ./code_coverage/unit_tests/windows_unit_tests_release
 
-    - name: Retrieve Windows Integration Test Coverage (Debug, Basic, SqlServer)
-      uses: actions/download-artifact@v4
-      with:
-        name: windows-integration-test-coverage-Debug-Basic-SqlServer
-        path: ./code_coverage/integration_tests/windows_integration_tests_debug_basic_sqlserver
+      - name: Retrieve Windows Integration Test Coverage (Debug, Basic, SqlServer)
+        uses: actions/download-artifact@v4
+        with:
+          name: windows-integration-test-coverage-Debug-Basic-SqlServer
+          path: ./code_coverage/integration_tests/windows_integration_tests_debug_basic_sqlserver
 
-    - name: Retrieve Windows Integration Test Coverage (Release, Basic, SqlServer)
-      uses: actions/download-artifact@v4
-      with:
-        name: windows-integration-test-coverage-Release-Basic-SqlServer
-        path: ./code_coverage/integration_tests/windows_integration_tests_release_basic_sqlserver
+      - name: Retrieve Windows Integration Test Coverage (Release, Basic, SqlServer)
+        uses: actions/download-artifact@v4
+        with:
+          name: windows-integration-test-coverage-Release-Basic-SqlServer
+          path: ./code_coverage/integration_tests/windows_integration_tests_release_basic_sqlserver
 
-    - name: Retrieve Windows Integration Test Coverage (Debug, Advanced, SqlServer)
-      uses: actions/download-artifact@v4
-      with:
-        name: windows-integration-test-coverage-Debug-Advanced-SqlServer
-        path: ./code_coverage/integration_tests/windows_integration_tests_debug_system_sqlserver
+      - name: Retrieve Windows Integration Test Coverage (Debug, Advanced, SqlServer)
+        uses: actions/download-artifact@v4
+        with:
+          name: windows-integration-test-coverage-Debug-Advanced-SqlServer
+          path: ./code_coverage/integration_tests/windows_integration_tests_debug_system_sqlserver
 
-    - name: Retrieve Windows Integration Test Coverage (Release, Advanced, SqlServer)
-      uses: actions/download-artifact@v4
-      with:
-        name: windows-integration-test-coverage-Release-Advanced-SqlServer
-        path: ./code_coverage/integration_tests/windows_integration_tests_release_system_sqlserver
+      - name: Retrieve Windows Integration Test Coverage (Release, Advanced, SqlServer)
+        uses: actions/download-artifact@v4
+        with:
+          name: windows-integration-test-coverage-Release-Advanced-SqlServer
+          path: ./code_coverage/integration_tests/windows_integration_tests_release_system_sqlserver
 
-    - name: Retrieve Windows Integration Test Coverage (Debug, Basic, MariaDB)
-      uses: actions/download-artifact@v4
-      with:
-        name: windows-integration-test-coverage-Debug-Basic-MariaDB
-        path: ./code_coverage/integration_tests/windows_integration_tests_debug_basic_mariadb
+      - name: Retrieve Windows Integration Test Coverage (Debug, Basic, MariaDB)
+        uses: actions/download-artifact@v4
+        with:
+          name: windows-integration-test-coverage-Debug-Basic-MariaDB
+          path: ./code_coverage/integration_tests/windows_integration_tests_debug_basic_mariadb
 
-    - name: Retrieve Windows Integration Test Coverage (Release, Basic, MariaDB)
-      uses: actions/download-artifact@v4
-      with:
-        name: windows-integration-test-coverage-Release-Basic-MariaDB
-        path: ./code_coverage/integration_tests/windows_integration_tests_release_basic_mariadb
+      - name: Retrieve Windows Integration Test Coverage (Release, Basic, MariaDB)
+        uses: actions/download-artifact@v4
+        with:
+          name: windows-integration-test-coverage-Release-Basic-MariaDB
+          path: ./code_coverage/integration_tests/windows_integration_tests_release_basic_mariadb
 
-    - name: Retrieve Windows Integration Test Coverage (Debug, Advanced, MariaDB)
-      uses: actions/download-artifact@v4
-      with:
-        name: windows-integration-test-coverage-Debug-Advanced-MariaDB
-        path: ./code_coverage/integration_tests/windows_integration_tests_debug_system_mariadb
+      - name: Retrieve Windows Integration Test Coverage (Debug, Advanced, MariaDB)
+        uses: actions/download-artifact@v4
+        with:
+          name: windows-integration-test-coverage-Debug-Advanced-MariaDB
+          path: ./code_coverage/integration_tests/windows_integration_tests_debug_system_mariadb
 
-    - name: Retrieve Windows Integration Test Coverage (Release, Advanced, MariaDB)
-      uses: actions/download-artifact@v4
-      with:
-        name: windows-integration-test-coverage-Release-Advanced-MariaDB
-        path: ./code_coverage/integration_tests/windows_integration_tests_release_system_mariadb
+      - name: Retrieve Windows Integration Test Coverage (Release, Advanced, MariaDB)
+        uses: actions/download-artifact@v4
+        with:
+          name: windows-integration-test-coverage-Release-Advanced-MariaDB
+          path: ./code_coverage/integration_tests/windows_integration_tests_release_system_mariadb
 
-    - name: Retrieve Windows Integration Test Coverage (Debug, Basic, MySql)
-      uses: actions/download-artifact@v4
-      with:
-        name: windows-integration-test-coverage-Debug-Basic-MySql
-        path: ./code_coverage/integration_tests/windows_integration_tests_debug_basic_mysql
+      - name: Retrieve Windows Integration Test Coverage (Debug, Basic, MySql)
+        uses: actions/download-artifact@v4
+        with:
+          name: windows-integration-test-coverage-Debug-Basic-MySql
+          path: ./code_coverage/integration_tests/windows_integration_tests_debug_basic_mysql
 
-    - name: Retrieve Windows Integration Test Coverage (Release, Basic, MySql)
-      uses: actions/download-artifact@v4
-      with:
-        name: windows-integration-test-coverage-Release-Basic-MySql
-        path: ./code_coverage/integration_tests/windows_integration_tests_release_basic_mysql
+      - name: Retrieve Windows Integration Test Coverage (Release, Basic, MySql)
+        uses: actions/download-artifact@v4
+        with:
+          name: windows-integration-test-coverage-Release-Basic-MySql
+          path: ./code_coverage/integration_tests/windows_integration_tests_release_basic_mysql
 
-    - name: Retrieve Windows Integration Test Coverage (Debug, Advanced, MySql)
-      uses: actions/download-artifact@v4
-      with:
-        name: windows-integration-test-coverage-Debug-Advanced-MySql
-        path: ./code_coverage/integration_tests/windows_integration_tests_debug_system_mysql
+      - name: Retrieve Windows Integration Test Coverage (Debug, Advanced, MySql)
+        uses: actions/download-artifact@v4
+        with:
+          name: windows-integration-test-coverage-Debug-Advanced-MySql
+          path: ./code_coverage/integration_tests/windows_integration_tests_debug_system_mysql
 
-    - name: Retrieve Windows Integration Test Coverage (Release, Advanced, MySql)
-      uses: actions/download-artifact@v4
-      with:
-        name: windows-integration-test-coverage-Release-Advanced-MySql
-        path: ./code_coverage/integration_tests/windows_integration_tests_release_system_mysql
+      - name: Retrieve Windows Integration Test Coverage (Release, Advanced, MySql)
+        uses: actions/download-artifact@v4
+        with:
+          name: windows-integration-test-coverage-Release-Advanced-MySql
+          path: ./code_coverage/integration_tests/windows_integration_tests_release_system_mysql
 
-    - name: Retrieve Windows Integration Test Coverage (Debug, Basic, PostgresSql)
-      uses: actions/download-artifact@v4
-      with:
-        name: windows-integration-test-coverage-Debug-Basic-PostgresSql
-        path: ./code_coverage/integration_tests/windows_integration_tests_debug_basic_postgressql
+      - name: Retrieve Windows Integration Test Coverage (Debug, Basic, PostgresSql)
+        uses: actions/download-artifact@v4
+        with:
+          name: windows-integration-test-coverage-Debug-Basic-PostgresSql
+          path: ./code_coverage/integration_tests/windows_integration_tests_debug_basic_postgressql
 
-    - name: Retrieve Windows Integration Test Coverage (Release, Basic, PostgresSql)
-      uses: actions/download-artifact@v4
-      with:
-        name: windows-integration-test-coverage-Release-Basic-PostgresSql
-        path: ./code_coverage/integration_tests/windows_integration_tests_release_basic_postgressql
+      - name: Retrieve Windows Integration Test Coverage (Release, Basic, PostgresSql)
+        uses: actions/download-artifact@v4
+        with:
+          name: windows-integration-test-coverage-Release-Basic-PostgresSql
+          path: ./code_coverage/integration_tests/windows_integration_tests_release_basic_postgressql
 
-    - name: Retrieve Windows Integration Test Coverage (Debug, Advanced, PostgresSql)
-      uses: actions/download-artifact@v4
-      with:
-        name: windows-integration-test-coverage-Debug-Advanced-PostgresSql
-        path: ./code_coverage/integration_tests/windows_integration_tests_debug_system_postgressql
+      - name: Retrieve Windows Integration Test Coverage (Debug, Advanced, PostgresSql)
+        uses: actions/download-artifact@v4
+        with:
+          name: windows-integration-test-coverage-Debug-Advanced-PostgresSql
+          path: ./code_coverage/integration_tests/windows_integration_tests_debug_system_postgressql
 
-    - name: Retrieve Windows Integration Test Coverage (Release, Advanced, PostgresSql)
-      uses: actions/download-artifact@v4
-      with:
-        name: windows-integration-test-coverage-Release-Advanced-PostgresSql
-        path: ./code_coverage/integration_tests/windows_integration_tests_release_system_postgressql
+      - name: Retrieve Windows Integration Test Coverage (Release, Advanced, PostgresSql)
+        uses: actions/download-artifact@v4
+        with:
+          name: windows-integration-test-coverage-Release-Advanced-PostgresSql
+          path: ./code_coverage/integration_tests/windows_integration_tests_release_system_postgressql
 
-    - name: Retrieve Windows Integration Test Coverage (Debug, Basic, Sqlite)
-      uses: actions/download-artifact@v4
-      with:
-        name: windows-integration-test-coverage-Debug-Basic-Sqlite
-        path: ./code_coverage/integration_tests/windows_integration_tests_debug_basic_sqlite
+      - name: Retrieve Windows Integration Test Coverage (Debug, Basic, Sqlite)
+        uses: actions/download-artifact@v4
+        with:
+          name: windows-integration-test-coverage-Debug-Basic-Sqlite
+          path: ./code_coverage/integration_tests/windows_integration_tests_debug_basic_sqlite
 
-    - name: Retrieve Windows Integration Test Coverage (Release, Basic, Sqlite)
-      uses: actions/download-artifact@v4
-      with:
-        name: windows-integration-test-coverage-Release-Basic-Sqlite
-        path: ./code_coverage/integration_tests/windows_integration_tests_release_basic_sqlite
+      - name: Retrieve Windows Integration Test Coverage (Release, Basic, Sqlite)
+        uses: actions/download-artifact@v4
+        with:
+          name: windows-integration-test-coverage-Release-Basic-Sqlite
+          path: ./code_coverage/integration_tests/windows_integration_tests_release_basic_sqlite
 
-    - name: Retrieve Windows Integration Test Coverage (Debug, Advanced, Sqlite)
-      uses: actions/download-artifact@v4
-      with:
-        name: windows-integration-test-coverage-Debug-Advanced-Sqlite
-        path: ./code_coverage/integration_tests/windows_integration_tests_debug_system_sqlite
+      - name: Retrieve Windows Integration Test Coverage (Debug, Advanced, Sqlite)
+        uses: actions/download-artifact@v4
+        with:
+          name: windows-integration-test-coverage-Debug-Advanced-Sqlite
+          path: ./code_coverage/integration_tests/windows_integration_tests_debug_system_sqlite
 
-    - name: Retrieve Windows Integration Test Coverage (Release, Advanced, Sqlite)
-      uses: actions/download-artifact@v4
-      with:
-        name: windows-integration-test-coverage-Release-Advanced-Sqlite
-        path: ./code_coverage/integration_tests/windows_integration_tests_release_system_sqlite
+      - name: Retrieve Windows Integration Test Coverage (Release, Advanced, Sqlite)
+        uses: actions/download-artifact@v4
+        with:
+          name: windows-integration-test-coverage-Release-Advanced-Sqlite
+          path: ./code_coverage/integration_tests/windows_integration_tests_release_system_sqlite
 
-    - name: Upload Coverage to CodeCov
-      uses: codecov/codecov-action@v4
-      with:
-        directory: ./code_coverage
-        fail_ci_if_error: true
-        token: ${{ secrets.CODECOV_TOKEN }}
-        verbose: true
-        handle_no_reports_found: true
+      - name: Upload Coverage to CodeCov
+        uses: codecov/codecov-action@v4
+        with:
+          directory: ./code_coverage
+          fail_ci_if_error: true
+          token: ${{ secrets.CODECOV_TOKEN }}
+          verbose: true
+          handle_no_reports_found: true
 
   build-deb:
     name: Build .deb Package # Can't do i386 due to https://github.com/dotnet/core/issues/4595
@@ -1229,122 +1238,131 @@ jobs:
     env:
       TGS_TELEMETRY_KEY_FILE: /tmp/tgs_telemetry_key.txt
     steps:
-    - name: Install Native Dependencies # Name checked in rerunFlakyTests.js
-      run: |
-        sudo dpkg --add-architecture i386
-        sudo apt-get update
-        sudo apt-get install -y -o APT::Immediate-Configure=0 libstdc++6:i386 libgcc-s1:i386
+      - name: Install Native Dependencies # Name checked in rerunFlakyTests.js
+        run: |
+          sudo dpkg --add-architecture i386
+          sudo apt-get update
+          sudo apt-get install -y -o APT::Immediate-Configure=0 libstdc++6:i386 libgcc-s1:i386
 
-    - name: Import GPG Key
-      if: github.event_name == 'push' && contains(github.event.head_commit.message, '[TGSDeploy]') && github.event.ref == 'refs/heads/master'
-      run: |
-        echo "${{ secrets.PACKAGING_PRIVATE_KEY }}" > private.pgp
-        echo ${{ secrets.PACKAGING_PRIVATE_KEY_PASSPHRASE }} | gpg --batch --yes --passphrase-fd 0 --import private.pgp
-        rm private.pgp
+      - name: Import GPG Key
+        if: github.event_name == 'push' && contains(github.event.head_commit.message, '[TGSDeploy]') && github.event.ref == 'refs/heads/master'
+        run: |
+          echo "${{ secrets.PACKAGING_PRIVATE_KEY }}" > private.pgp
+          echo ${{ secrets.PACKAGING_PRIVATE_KEY_PASSPHRASE }} | gpg --batch --yes --passphrase-fd 0 --import private.pgp
+          rm private.pgp
 
-    - name: Install Native dotnet-sdk Package # Name checked in rerunFlakyTests.js
-      if: (!contains(env.TGS_DOTNET_QUALITY, 'preview'))
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y dotnet-sdk-${{ env.TGS_DOTNET_VERSION }}.0
+      - name: Install Native dotnet-sdk Package # Name checked in rerunFlakyTests.js
+        if: (!contains(env.TGS_DOTNET_QUALITY, 'preview'))
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y dotnet-sdk-${{ env.TGS_DOTNET_VERSION }}.0
 
-    - name: Setup dotnet
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: '${{ env.TGS_DOTNET_VERSION }}.0.x'
-        dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
+      - name: Setup dotnet
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ env.TGS_DOTNET_VERSION }}.0.x
+          dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
 
-    - name: Override /usr/bin/dotnet
-      run: |
-        DOTNET_PATH=$(which dotnet)
-        sudo rm /usr/bin/dotnet
-        sudo ln -s $DOTNET_PATH /usr/bin/dotnet
-        echo "New dotnet path should be $DOTNET_PATH"
+      - name: Override /usr/bin/dotnet
+        run: |
+          DOTNET_PATH=$(which dotnet)
+          sudo rm /usr/bin/dotnet
+          sudo ln -s $DOTNET_PATH /usr/bin/dotnet
+          echo "New dotnet path should be $DOTNET_PATH"
 
-    - name: Checkout (Branch)
-      uses: actions/checkout@v4
-      if: github.event_name == 'push' || github.event_name == 'schedule'
+      - name: Checkout (Branch)
+        uses: actions/checkout@v4
+        if: github.event_name == 'push' || github.event_name == 'schedule'
 
-    - name: Checkout (PR Merge)
-      uses: actions/checkout@v4
-      if: github.event_name != 'push' && github.event_name != 'schedule'
-      with:
-        ref: "refs/pull/${{ inputs.pull_request_number }}/merge"
+      - name: Checkout (PR Merge)
+        uses: actions/checkout@v4
+        if: github.event_name != 'push' && github.event_name != 'schedule'
+        with:
+          ref: "refs/pull/${{ inputs.pull_request_number }}/merge"
 
-    - name: Grab Most Recent Changelog
-      run: curl -L https://raw.githubusercontent.com/tgstation/tgstation-server/gh-pages/changelog.yml -o changelog.yml
+      - name: Grab Most Recent Changelog
+        run: curl -L https://raw.githubusercontent.com/tgstation/tgstation-server/gh-pages/changelog.yml -o changelog.yml
 
-    - name: Setup Telemetry Key File
-      run: echo "${{ secrets.TGS_TELEMETRY_KEY }}" > ${{ env.TGS_TELEMETRY_KEY_FILE }}
+      - name: Setup Telemetry Key File
+        run: echo "${{ secrets.TGS_TELEMETRY_KEY }}" > ${{ env.TGS_TELEMETRY_KEY_FILE }}
 
-    - name: Retrieve ReleaseNotes Binaries
-      uses: actions/download-artifact@v4
-      with:
-        name: release_notes_bins
-        path: release_notes_bins
+      - name: Retrieve ReleaseNotes Binaries
+        uses: actions/download-artifact@v4
+        with:
+          name: release_notes_bins
+          path: release_notes_bins
 
-    - name: Execute Build Script (Unsigned)
-      if: (!(github.event_name == 'push' && contains(github.event.head_commit.message, '[TGSDeploy]') && github.event.ref == 'refs/heads/master'))
-      env:
-        RELEASE_NOTES_DLL_PATH: ${{ github.workspace }}/release_notes_bins/Tgstation.Server.ReleaseNotes.dll
-      run: sudo -E build/package/deb/build_package.sh
+      - name: Generate App Token
+        id: app-token-generation
+        uses: getsentry/action-github-app-token@d4b5da6c5e37703f8c3b3e43abb5705b46e159cc
+        with:
+          app_id: ${{ secrets.APP_ID }}
+          private_key: ${{ secrets.APP_PRIVATE_KEY }}
 
-    - name: Execute Build Script (Signed)
-      if: (github.event_name == 'push' && contains(github.event.head_commit.message, '[TGSDeploy]') && github.event.ref == 'refs/heads/master')
-      env:
-        RELEASE_NOTES_DLL_PATH: ${{ github.workspace }}/release_notes_bins/Tgstation.Server.ReleaseNotes.dll
-        PACKAGING_KEYGRIP: ${{ vars.PACKAGING_KEYGRIP }}
-      run: sudo -E build/package/deb/build_package.sh
+      - name: Execute Build Script (Unsigned)
+        if: (!(github.event_name == 'push' && contains(github.event.head_commit.message, '[TGSDeploy]') && github.event.ref == 'refs/heads/master'))
+        env:
+          TGS_RELEASE_NOTES_TOKEN: ${{ steps.app-token-generation.outputs.token }}
+          RELEASE_NOTES_DLL_PATH: ${{ github.workspace }}/release_notes_bins/Tgstation.Server.ReleaseNotes.dll
+        run: sudo -E build/package/deb/build_package.sh
 
-    - name: Parse TGS version
-      run: |
-        echo "TGS_VERSION=$(xmlstarlet sel -N X="http://schemas.microsoft.com/developer/msbuild/2003" --template --value-of /X:Project/X:PropertyGroup/X:TgsCoreVersion build/Version.props)" >> $GITHUB_ENV
+      - name: Execute Build Script (Signed)
+        if: (github.event_name == 'push' && contains(github.event.head_commit.message, '[TGSDeploy]') && github.event.ref == 'refs/heads/master')
+        env:
+          TGS_RELEASE_NOTES_TOKEN: ${{ steps.app-token-generation.outputs.token }}
+          RELEASE_NOTES_DLL_PATH: ${{ github.workspace }}/release_notes_bins/Tgstation.Server.ReleaseNotes.dll
+          PACKAGING_KEYGRIP: ${{ vars.PACKAGING_KEYGRIP }}
+        run: sudo -E build/package/deb/build_package.sh
 
-    - name: Verify Package Files are Signed
-      if: (github.event_name == 'push' && contains(github.event.head_commit.message, '[TGSDeploy]') && github.event.ref == 'refs/heads/master')
-      run: |
-        gpg --verify tgstation-server_${{ env.TGS_VERSION }}-1.dsc
-        gpg --verify tgstation-server_${{ env.TGS_VERSION }}-1_amd64.changes
-        gpg --verify tgstation-server_${{ env.TGS_VERSION }}-1_amd64.buildinfo
+      - name: Parse TGS version
+        run: |
+          echo "TGS_VERSION=$(xmlstarlet sel -N X="http://schemas.microsoft.com/developer/msbuild/2003" --template --value-of /X:Project/X:PropertyGroup/X:TgsCoreVersion build/Version.props)" >> $GITHUB_ENV
 
-    - name: Delete Telemetry Key File
-      if: always()
-      run: rm -f ${{ env.TGS_TELEMETRY_KEY_FILE }}
+      - name: Verify Package Files are Signed
+        if: (github.event_name == 'push' && contains(github.event.head_commit.message, '[TGSDeploy]') && github.event.ref == 'refs/heads/master')
+        run: |
+          gpg --verify tgstation-server_${{ env.TGS_VERSION }}-1.dsc
+          gpg --verify tgstation-server_${{ env.TGS_VERSION }}-1_amd64.changes
+          gpg --verify tgstation-server_${{ env.TGS_VERSION }}-1_amd64.buildinfo
 
-    - name: Test Install
-      run: |
-        sudo mkdir /etc/tgstation-server
-        sudo cp build/package/appsettings.GitHub.yml /etc/tgstation-server/appsettings.Production.yml
-        sudo apt-get install -y ./tgstation-server_${{ env.TGS_VERSION }}-1_amd64.deb
-        sudo ls -al /etc/tgstation-server
-        sudo cat /etc/tgstation-server/appsettings.Production.yml
-        sudo cat /etc/tgstation-server/appsettings.yml
-        ls -al /opt/tgstation-server
-        cat /opt/tgstation-server/lib/Default/Tgstation.Server.Host.deps.json
-        cat /usr/bin/tgs-configure
+      - name: Delete Telemetry Key File
+        if: always()
+        run: rm -f ${{ env.TGS_TELEMETRY_KEY_FILE }}
 
-    - name: Test Service
-      run: |
-        systemctl status tgstation-server
+      - name: Test Install
+        run: |
+          sudo mkdir /etc/tgstation-server
+          sudo cp build/package/appsettings.GitHub.yml /etc/tgstation-server/appsettings.Production.yml
+          sudo apt-get install -y ./tgstation-server_${{ env.TGS_VERSION }}-1_amd64.deb
+          sudo ls -al /etc/tgstation-server
+          sudo cat /etc/tgstation-server/appsettings.Production.yml
+          sudo cat /etc/tgstation-server/appsettings.yml
+          ls -al /opt/tgstation-server
+          cat /opt/tgstation-server/lib/Default/Tgstation.Server.Host.deps.json
+          cat /usr/bin/tgs-configure
 
-    - name: Test Uninstall # Wait 10s for service to initialize
-      shell: bash
-      run: |
-        sleep 10
-        sudo apt-get remove -y tgstation-server
-        if [[ -d "/opt/tgstation-server" ]]; then
-          find /opt/tgstation-server
-          exit 2
-        fi
+      - name: Test Service
+        run: |
+          systemctl status tgstation-server
 
-    - name: Create Packaging Archive
-      run: tar cfJ tgstation-server-v${{ env.TGS_VERSION }}.debian.packaging.tar.xz tgstation-server_*
+      - name: Test Uninstall # Wait 10s for service to initialize
+        shell: bash
+        run: |
+          sleep 10
+          sudo apt-get remove -y tgstation-server
+          if [[ -d "/opt/tgstation-server" ]]; then
+            find /opt/tgstation-server
+            exit 2
+          fi
 
-    - name: Upload Packaging Archive
-      uses: actions/upload-artifact@v4
-      with:
-        name: packaging-debian
-        path: tgstation-server-v${{ env.TGS_VERSION }}.debian.packaging.tar.xz
+      - name: Create Packaging Archive
+        run: tar cfJ tgstation-server-v${{ env.TGS_VERSION }}.debian.packaging.tar.xz tgstation-server_*
+
+      - name: Upload Packaging Archive
+        uses: actions/upload-artifact@v4
+        with:
+          name: packaging-debian
+          path: tgstation-server-v${{ env.TGS_VERSION }}.debian.packaging.tar.xz
 
   build-msi:
     name: Build Windows Installer .exe
@@ -1352,190 +1370,210 @@ jobs:
     env:
       TGS_TELEMETRY_KEY_FILE: C:/tgs_telemetry_key.txt
     steps:
-    - name: Install winget
-      uses: Cyberboss/install-winget@v1
-      with:
-        GITHUB_TOKEN: ${{ secrets.DEV_PUSH_TOKEN }}
+      - name: Install winget
+        uses: Cyberboss/install-winget@v1
+        with:
+          GITHUB_TOKEN: ${{ secrets.DEV_PUSH_TOKEN }}
 
-    - name: Setup dotnet
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: '${{ env.TGS_DOTNET_VERSION }}.0.x'
-        dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
+      - name: Setup dotnet
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ env.TGS_DOTNET_VERSION }}.0.x
+          dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
 
-    - name: Setup Node.JS
-      uses: actions/setup-node@v4
-      with:
+      - name: Setup Node.JS
+        uses: actions/setup-node@v4
+        with:
           node-version: ${{ env.TGS_WEBPANEL_NODE_VERSION }}
 
-    - name: Checkout (Branch)
-      uses: actions/checkout@v4
-      if: github.event_name == 'push' || github.event_name == 'schedule'
+      - name: Checkout (Branch)
+        uses: actions/checkout@v4
+        if: github.event_name == 'push' || github.event_name == 'schedule'
 
-    - name: Checkout (PR Merge)
-      uses: actions/checkout@v4
-      if: github.event_name != 'push' && github.event_name != 'schedule'
-      with:
-        ref: "refs/pull/${{ inputs.pull_request_number }}/merge"
+      - name: Checkout (PR Merge)
+        uses: actions/checkout@v4
+        if: github.event_name != 'push' && github.event_name != 'schedule'
+        with:
+          ref: "refs/pull/${{ inputs.pull_request_number }}/merge"
 
-    - name: Restore Wix dotnet Tool
-      run: |
-        cd build/package/winget
-        dotnet tool restore
+      - name: Restore Wix dotnet Tool
+        run: |
+          cd build/package/winget
+          dotnet tool restore
 
-    - name: Validate winget Manifest
-      run: winget validate --manifest build/package/winget/manifest
+      - name: Validate winget Manifest
+        run: winget validate --manifest build/package/winget/manifest
 
-    - name: Enable Corepack
-      run: corepack enable
+      - name: Enable Corepack
+        run: corepack enable
 
-    - name: Setup Telemetry Key File
-      shell: bash
-      run: echo "${{ secrets.TGS_TELEMETRY_KEY }}" > ${{ env.TGS_TELEMETRY_KEY_FILE }}
+      - name: Setup Telemetry Key File
+        shell: bash
+        run: echo "${{ secrets.TGS_TELEMETRY_KEY }}" > ${{ env.TGS_TELEMETRY_KEY_FILE }}
 
-    - name: Build Host # Name checked in rerunFlakyTests.js
-      run: dotnet build -c Release src/Tgstation.Server.Host/Tgstation.Server.Host.csproj
+      - name: Build Host # Name checked in rerunFlakyTests.js
+        run: dotnet build -c Release src/Tgstation.Server.Host/Tgstation.Server.Host.csproj
 
-    - name: Delete Telemetry Key File
-      shell: bash
-      if: always()
-      run: rm -f ${{ env.TGS_TELEMETRY_KEY_FILE }}
+      - name: Delete Telemetry Key File
+        shell: bash
+        if: always()
+        run: rm -f ${{ env.TGS_TELEMETRY_KEY_FILE }}
 
-    - name: Build Service # Name checked in rerunFlakyTests.js
-      run: dotnet build -c Release src/Tgstation.Server.Host.Service/Tgstation.Server.Host.Service.csproj
+      - name: Build Service # Name checked in rerunFlakyTests.js
+        run: dotnet build -c Release src/Tgstation.Server.Host.Service/Tgstation.Server.Host.Service.csproj
 
-    - name: Prepare Artifacts
-      shell: powershell
-      run: build/package/winget/prepare_installer_input_artifacts.ps1
+      - name: Prepare Artifacts
+        shell: powershell
+        run: build/package/winget/prepare_installer_input_artifacts.ps1
 
-    - name: Build Installer .exe # Name checked in rerunFlakyTests.js
-      run: |
-        cd build/package/winget/Tgstation.Server.Host.Service.Wix.Bundle
-        dotnet build -c Release
+      - name: Build Installer .exe # Name checked in rerunFlakyTests.js
+        run: |
+          cd build/package/winget/Tgstation.Server.Host.Service.Wix.Bundle
+          dotnet build -c Release
 
-    - name: Install Code Signing Certificate
-      shell: powershell
-      run: |
-        $pfxBytes = [convert]::FromBase64String("${{ secrets.CODE_SIGNING_BASE64 }}")
-        [IO.File]::WriteAllBytes("tg_codesigning.pfx", $pfxBytes)
-        $certPassword = ConvertTo-SecureString -String "${{ secrets.CODE_SIGNING_PASSWORD }}" -Force -AsPlainText
-        Import-PfxCertificate -FilePath tg_codesigning.pfx -Cert Cert:\CurrentUser\My -Password $certPassword
-        rm tg_codesigning.pfx
+      - name: Install Code Signing Certificate
+        shell: powershell
+        run: |
+          $pfxBytes = [convert]::FromBase64String("${{ secrets.CODE_SIGNING_BASE64 }}")
+          [IO.File]::WriteAllBytes("tg_codesigning.pfx", $pfxBytes)
+          $certPassword = ConvertTo-SecureString -String "${{ secrets.CODE_SIGNING_PASSWORD }}" -Force -AsPlainText
+          Import-PfxCertificate -FilePath tg_codesigning.pfx -Cert Cert:\CurrentUser\My -Password $certPassword
+          rm tg_codesigning.pfx
 
-    - name: Sign Installer .exe for Testing # https://wixtoolset.org/docs/tools/signing/
-      shell: powershell
-      run: |
-        cd build/package/winget
-        dotnet wix burn detach Tgstation.Server.Host.Service.Wix.Bundle/bin/Release/tgstation-server-installer.exe -engine burnengine.exe
-        Set-AuthenticodeSignature burnengine.exe -Certificate (Get-ChildItem Cert:\CurrentUser\My | Where-Object { $_.Thumbprint -eq "${{ vars.CODE_SIGNING_THUMBPRINT }}" }) -TimestampServer "http://timestamp.digicert.com"
-        dotnet wix burn reattach Tgstation.Server.Host.Service.Wix.Bundle/bin/Release/tgstation-server-installer.exe -engine burnengine.exe -o test-installer.exe
-        Set-AuthenticodeSignature test-installer.exe -Certificate (Get-ChildItem Cert:\CurrentUser\My | Where-Object { $_.Thumbprint -eq "${{ vars.CODE_SIGNING_THUMBPRINT }}" }) -TimestampServer "http://timestamp.digicert.com"
+      - name: Sign Installer .exe for Testing # https://wixtoolset.org/docs/tools/signing/
+        shell: powershell
+        run: |
+          cd build/package/winget
+          dotnet wix burn detach Tgstation.Server.Host.Service.Wix.Bundle/bin/Release/tgstation-server-installer.exe -engine burnengine.exe
+          Set-AuthenticodeSignature burnengine.exe -Certificate (Get-ChildItem Cert:\CurrentUser\My | Where-Object { $_.Thumbprint -eq "${{ vars.CODE_SIGNING_THUMBPRINT }}" }) -TimestampServer "http://timestamp.digicert.com"
+          dotnet wix burn reattach Tgstation.Server.Host.Service.Wix.Bundle/bin/Release/tgstation-server-installer.exe -engine burnengine.exe -o test-installer.exe
+          Set-AuthenticodeSignature test-installer.exe -Certificate (Get-ChildItem Cert:\CurrentUser\My | Where-Object { $_.Thumbprint -eq "${{ vars.CODE_SIGNING_THUMBPRINT }}" }) -TimestampServer "http://timestamp.digicert.com"
 
-    - name: Test Install # Sanity checks the .deps.json exists, which the installation is broken without
-      shell: powershell  # If it's missing, I found that <PrivateAssets> in <PackageReference> elements were the problem
-      run: |
-        mkdir C:/ProgramData/tgstation-server
-        cp build/package/appsettings.GitHub.yml C:/ProgramData/tgstation-server/appsettings.Production.yml
-        $file = [System.IO.Path]::GetFullPath("build/package/winget/test-installer.exe")
-        $log = [System.IO.Path]::GetFullPath("install.log")
-        $procMain = Start-Process -FilePath $file "/install /silent /log `"$log`"" -NoNewWindow -PassThru -Wait
-        if (Test-Path -Path $log -PathType Leaf) {
-          Get-Content $log
-        }
-        $installCode = $procMain.ExitCode
-        if($installCode -ne 0) {
-          Write-Host "ERROR INSTALLER EXIT CODE $installCode"
-          exit 3
-        }
-        if (-Not (Test-Path -Path "C:/Program Files (x86)/tgstation-server/lib/Default/Tgstation.Server.Host.deps.json" -PathType Leaf)) {
-          exit 2
-        }
-        if (-Not (Test-Path -Path "C:/ProgramData/tgstation-server/appsettings.yml" -PathType Leaf)) {
-          exit 4
-        }
+      - name: Test Install # Sanity checks the .deps.json exists, which the installation is broken without
+        shell: powershell # If it's missing, I found that <PrivateAssets> in <PackageReference> elements were the problem
+        run: |
+          mkdir C:/ProgramData/tgstation-server
+          cp build/package/appsettings.GitHub.yml C:/ProgramData/tgstation-server/appsettings.Production.yml
+          $file = [System.IO.Path]::GetFullPath("build/package/winget/test-installer.exe")
+          $log = [System.IO.Path]::GetFullPath("install.log")
+          $procMain = Start-Process -FilePath $file "/install /silent /log `"$log`"" -NoNewWindow -PassThru -Wait
+          if (Test-Path -Path $log -PathType Leaf) {
+            Get-Content $log
+          }
+          $installCode = $procMain.ExitCode
+          if($installCode -ne 0) {
+            Write-Host "ERROR INSTALLER EXIT CODE $installCode"
+            exit 3
+          }
+          if (-Not (Test-Path -Path "C:/Program Files (x86)/tgstation-server/lib/Default/Tgstation.Server.Host.deps.json" -PathType Leaf)) {
+            exit 2
+          }
+          if (-Not (Test-Path -Path "C:/ProgramData/tgstation-server/appsettings.yml" -PathType Leaf)) {
+            exit 4
+          }
 
-    - name: Test Service
-      shell: powershell
-      run: |
-        $service=Get-Service -Name tgstation-server -ErrorAction SilentlyContinue
-        if ($service.Length -eq 0) {
-          exit 3
-        }
-        if ($service[0].Status -ne "Running") {
-          exit 4
-        }
+      - name: Test Service
+        shell: powershell
+        run: |
+          $service=Get-Service -Name tgstation-server -ErrorAction SilentlyContinue
+          if ($service.Length -eq 0) {
+            exit 3
+          }
+          if ($service[0].Status -ne "Running") {
+            exit 4
+          }
 
-    - name: Test Uninstall # Sanity checks the .deps.json exists, which the installation is broken without
-      shell: powershell
-      run: |
-        $file = [System.IO.Path]::GetFullPath("build/package/winget/test-installer.exe")
-        $log = [System.IO.Path]::GetFullPath("uninstall.log")
-        $procMain = Start-Process -FilePath $file "/uninstall /silent /log `"$log`"" -NoNewWindow -PassThru -Wait
-        if (Test-Path -Path $log -PathType Leaf) {
-          Get-Content $log
-        }
-        $installCode = $procMain.ExitCode
-        if($installCode -ne 0) {
-          Write-Host "ERROR INSTALLER EXIT CODE $installCode"
-          exit 3
-        }
-        $service=Get-Service -Name tgstation-server -ErrorAction SilentlyContinue
-        if ($service.Length -gt 0) {
-          echo $service
-          exit 2
-        }
+      - name: Test Uninstall # Sanity checks the .deps.json exists, which the installation is broken without
+        shell: powershell
+        run: |
+          $file = [System.IO.Path]::GetFullPath("build/package/winget/test-installer.exe")
+          $log = [System.IO.Path]::GetFullPath("uninstall.log")
+          $procMain = Start-Process -FilePath $file "/uninstall /silent /log `"$log`"" -NoNewWindow -PassThru -Wait
+          if (Test-Path -Path $log -PathType Leaf) {
+            Get-Content $log
+          }
+          $installCode = $procMain.ExitCode
+          if($installCode -ne 0) {
+            Write-Host "ERROR INSTALLER EXIT CODE $installCode"
+            exit 3
+          }
+          $service=Get-Service -Name tgstation-server -ErrorAction SilentlyContinue
+          if ($service.Length -gt 0) {
+            echo $service
+            exit 2
+          }
 
-    - name: Upload Unsigned Installer .exe
-      uses: actions/upload-artifact@v4
-      with:
-        name: packaging-preview-windows
-        path: build/package/winget/Tgstation.Server.Host.Service.Wix.Bundle/bin/Release/tgstation-server-installer.exe
+      - name: Upload Unsigned Installer .exe
+        uses: actions/upload-artifact@v4
+        with:
+          name: packaging-preview-windows
+          path: build/package/winget/Tgstation.Server.Host.Service.Wix.Bundle/bin/Release/tgstation-server-installer.exe
 
   check-winget-pr-template:
     name: Check winget-pkgs Pull Request Template is up to date
     needs: build-releasenotes
     runs-on: ubuntu-latest
     steps:
-    - name: Setup dotnet
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: '${{ env.TGS_DOTNET_VERSION }}.0.x'
-        dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
+      - name: Setup dotnet
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ env.TGS_DOTNET_VERSION }}.0.x
+          dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
 
-    - name: Checkout (Branch)
-      uses: actions/checkout@v4
-      if: github.event_name == 'push' || github.event_name == 'schedule'
+      - name: Checkout (Branch)
+        uses: actions/checkout@v4
+        if: github.event_name == 'push' || github.event_name == 'schedule'
 
-    - name: Checkout (PR Merge)
-      uses: actions/checkout@v4
-      if: github.event_name != 'push' && github.event_name != 'schedule'
-      with:
-        ref: "refs/pull/${{ inputs.pull_request_number }}/merge"
+      - name: Checkout (PR Merge)
+        uses: actions/checkout@v4
+        if: github.event_name != 'push' && github.event_name != 'schedule'
+        with:
+          ref: "refs/pull/${{ inputs.pull_request_number }}/merge"
 
-    - name: Read Current SHA
-      id: get-pr-sha
-      if: github.event_name != 'push' && github.event_name != 'schedule'
-      shell: bash
-      run: echo "head_sha=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
+      - name: Read Current SHA
+        id: get-pr-sha
+        if: github.event_name != 'push' && github.event_name != 'schedule'
+        shell: bash
+        run: echo "head_sha=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
 
-    - name: Retrieve Latest winget-pkgs PULL_REQUEST_TEMPLATE commit SHA from GitHub API
-      id: get-sha
-      run: |
-        curl -L -u "${{ vars.DEV_PUSH_USERNAME }}:${{ secrets.DEV_PUSH_TOKEN }}" -H "Accept: application/vnd.github.everest-preview+json" -H "Content-Type: application/json" -o commits.json https://api.github.com/repos/microsoft/winget-pkgs/commits?path=.github/PULL_REQUEST_TEMPLATE.md
-        echo "pr_template_sha=$(cat commits.json | jq '.[0].sha')" >> $GITHUB_OUTPUT
+      - name: Retrieve Latest winget-pkgs PULL_REQUEST_TEMPLATE commit SHA from GitHub API
+        id: get-sha
+        run: |
+          curl -L -u "${{ vars.DEV_PUSH_USERNAME }}:${{ secrets.DEV_PUSH_TOKEN }}" -H "Accept: application/vnd.github.everest-preview+json" -H "Content-Type: application/json" -o commits.json https://api.github.com/repos/microsoft/winget-pkgs/commits?path=.github/PULL_REQUEST_TEMPLATE.md
+          echo "pr_template_sha=$(cat commits.json | jq '.[0].sha')" >> $GITHUB_OUTPUT
 
-    - name: Retrieve ReleaseNotes Binaries
-      uses: actions/download-artifact@v4
-      with:
-        name: release_notes_bins
-        path: release_notes_bins
+      - name: Retrieve ReleaseNotes Binaries
+        uses: actions/download-artifact@v4
+        with:
+          name: release_notes_bins
+          path: release_notes_bins
 
-    - name: Run ReleaseNotes Check
-      run: dotnet release_notes_bins/Tgstation.Server.ReleaseNotes.dll --winget-template-check ${{ steps.get-sha.outputs.pr_template_sha }}
+      - name: Generate App Token
+        id: app-token-generation
+        uses: getsentry/action-github-app-token@d4b5da6c5e37703f8c3b3e43abb5705b46e159cc
+        with:
+          app_id: ${{ secrets.APP_ID }}
+          private_key: ${{ secrets.APP_PRIVATE_KEY }}
+
+      - name: Run ReleaseNotes Check
+        env:
+          TGS_RELEASE_NOTES_TOKEN: ${{ steps.app-token-generation.outputs.token }}
+        run: dotnet release_notes_bins/Tgstation.Server.ReleaseNotes.dll --winget-template-check ${{ steps.get-sha.outputs.pr_template_sha }}
 
   ci-completion-gate:
     name: CI Completion Gate
-    needs: [ pages-build, docker-build, build-deb, build-msi, validate-openapi-spec, upload-code-coverage, check-winget-pr-template, efcore-version-match, code-scanning ]
+    needs:
+      [
+        pages-build,
+        docker-build,
+        build-deb,
+        build-msi,
+        validate-openapi-spec,
+        upload-code-coverage,
+        check-winget-pr-template,
+        efcore-version-match,
+        code-scanning,
+      ]
     runs-on: ubuntu-latest
     steps:
       - name: Mandatory Empty Step
@@ -1547,8 +1585,8 @@ jobs:
     runs-on: ubuntu-latest
     if: github.event_name == 'push' && contains(github.event.head_commit.message, 'Deploy]')
     steps:
-    - name: GitHub Requires at Least One Step for a Job
-      run: exit 0
+      - name: GitHub Requires at Least One Step for a Job
+        run: exit 0
 
   deploy-http:
     name: Deploy HTTP API
@@ -1556,71 +1594,72 @@ jobs:
     runs-on: windows-latest
     if: contains(github.event.head_commit.message, '[APIDeploy]')
     steps:
-    - name: Setup dotnet
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: '${{ env.TGS_DOTNET_VERSION }}.0.x'
-        dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
+      - name: Setup dotnet
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ env.TGS_DOTNET_VERSION }}.0.x
+          dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
 
-    - name: Checkout
-      uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
 
-    - name: Parse API version
-      shell: powershell
-      run: |
-        [XML]$versionXML = Get-Content build/Version.props
-        $apiVersion = $versionXML.Project.PropertyGroup.TgsApiVersion
-        echo "TGS_API_VERSION=$apiVersion" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf8 -Append
+      - name: Parse API version
+        shell: powershell
+        run: |
+          [XML]$versionXML = Get-Content build/Version.props
+          $apiVersion = $versionXML.Project.PropertyGroup.TgsApiVersion
+          echo "TGS_API_VERSION=$apiVersion" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf8 -Append
 
-    - name: Retrieve OpenAPI Spec
-      uses: actions/download-artifact@v4
-      with:
-        name: openapi-spec
-        path: swagger
+      - name: Retrieve OpenAPI Spec
+        uses: actions/download-artifact@v4
+        with:
+          name: openapi-spec
+          path: swagger
 
-    - name: Grab Most Recent Changelog
-      shell: powershell
-      run: |
-        $ProgressPreference = 'SilentlyContinue'
-        Invoke-WebRequest -Uri https://raw.githubusercontent.com/tgstation/tgstation-server/gh-pages/changelog.yml -OutFile changelog.yml
+      - name: Grab Most Recent Changelog
+        shell: powershell
+        run: |
+          $ProgressPreference = 'SilentlyContinue'
+          Invoke-WebRequest -Uri https://raw.githubusercontent.com/tgstation/tgstation-server/gh-pages/changelog.yml -OutFile changelog.yml
 
-    - name: Retrieve ReleaseNotes Binaries
-      uses: actions/download-artifact@v4
-      with:
-        name: release_notes_bins
-        path: release_notes_bins
+      - name: Retrieve ReleaseNotes Binaries
+        uses: actions/download-artifact@v4
+        with:
+          name: release_notes_bins
+          path: release_notes_bins
 
-    - name: Generate Release Notes
-      run: dotnet release_notes_bins/Tgstation.Server.ReleaseNotes.dll ${{ env.TGS_API_VERSION }} --httpapi
+      - name: Generate App Token
+        id: app-token-generation
+        uses: getsentry/action-github-app-token@d4b5da6c5e37703f8c3b3e43abb5705b46e159cc
+        with:
+          app_id: ${{ secrets.APP_ID }}
+          private_key: ${{ secrets.APP_PRIVATE_KEY }}
 
-    - name: Generate App Token
-      shell: powershell
-      run: |
-        dotnet release_notes_bins/Tgstation.Server.ReleaseNotes.dll --token-output-file ${{ runner.temp }}/installation_secret.txt ${{ secrets.TGS_CI_GITHUB_APP_TOKEN_BASE64 }}
-        $installSecret = Get-Content ${{ runner.temp }}/installation_secret.txt
-        echo "INSTALLATION_TOKEN=$installSecret" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf8 -Append
-        rm ${{ runner.temp }}/installation_secret.txt
+      - name: Generate Release Notes
+        env:
+          TGS_RELEASE_NOTES_TOKEN: ${{ steps.app-token-generation.outputs.token }}
+        run: dotnet release_notes_bins/Tgstation.Server.ReleaseNotes.dll ${{ env.TGS_API_VERSION }} --httpapi
 
-    - name: Create GitHub Release
-      uses: actions/create-release@v1
-      id: create_release
-      env:
-        GITHUB_TOKEN: ${{ env.INSTALLATION_TOKEN }}
-      with:
-        tag_name: api-v${{ env.TGS_API_VERSION }}
-        release_name: tgstation-server API v${{ env.TGS_API_VERSION }}
-        body_path: release_notes.md
-        commitish: ${{ github.event.head_commit.id }}
+      - name: Create GitHub Release
+        uses: actions/create-release@v1
+        id: create_release
+        env:
+          GITHUB_TOKEN: ${{ steps.app-token-generation.outputs.token }}
+        with:
+          tag_name: api-v${{ env.TGS_API_VERSION }}
+          release_name: tgstation-server API v${{ env.TGS_API_VERSION }}
+          body_path: release_notes.md
+          commitish: ${{ github.event.head_commit.id }}
 
-    - name: Upload OpenApi Spec
-      uses: actions/upload-release-asset@v1
-      env:
-        GITHUB_TOKEN: ${{ env.INSTALLATION_TOKEN }}
-      with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./swagger/tgs_api.json
-        asset_name: swagger.json
-        asset_content_type: application/json
+      - name: Upload OpenApi Spec
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ steps.app-token-generation.outputs.token }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./swagger/tgs_api.json
+          asset_name: swagger.json
+          asset_content_type: application/json
 
   deploy-dm:
     name: Deploy DreamMaker API
@@ -1628,70 +1667,71 @@ jobs:
     runs-on: windows-latest
     if: contains(github.event.head_commit.message, '[DMDeploy]')
     steps:
-    - name: Setup dotnet
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: '${{ env.TGS_DOTNET_VERSION }}.0.x'
-        dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
+      - name: Setup dotnet
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ env.TGS_DOTNET_VERSION }}.0.x
+          dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
 
-    - name: Checkout
-      uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
 
-    - name: Parse DMAPI version
-      shell: powershell
-      run: |
-        [XML]$versionXML = Get-Content build/Version.props
-        $dmVersion = $versionXML.Project.PropertyGroup.TgsDmapiVersion
-        echo "TGS_DM_VERSION=$dmVersion" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf8 -Append
+      - name: Parse DMAPI version
+        shell: powershell
+        run: |
+          [XML]$versionXML = Get-Content build/Version.props
+          $dmVersion = $versionXML.Project.PropertyGroup.TgsDmapiVersion
+          echo "TGS_DM_VERSION=$dmVersion" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf8 -Append
 
-    - name: Zip DMAPI
-      shell: powershell
-      run: |
-        &"C:/Program Files/7-Zip/7z.exe" a DMAPI.zip ./src/DMAPI/* -tzip
+      - name: Zip DMAPI
+        shell: powershell
+        run: |
+          &"C:/Program Files/7-Zip/7z.exe" a DMAPI.zip ./src/DMAPI/* -tzip
 
-    - name: Grab Most Recent Changelog
-      shell: powershell
-      run: |
-        $ProgressPreference = 'SilentlyContinue'
-        Invoke-WebRequest -Uri https://raw.githubusercontent.com/tgstation/tgstation-server/gh-pages/changelog.yml -OutFile changelog.yml
+      - name: Grab Most Recent Changelog
+        shell: powershell
+        run: |
+          $ProgressPreference = 'SilentlyContinue'
+          Invoke-WebRequest -Uri https://raw.githubusercontent.com/tgstation/tgstation-server/gh-pages/changelog.yml -OutFile changelog.yml
 
-    - name: Retrieve ReleaseNotes Binaries
-      uses: actions/download-artifact@v4
-      with:
-        name: release_notes_bins
-        path: release_notes_bins
+      - name: Retrieve ReleaseNotes Binaries
+        uses: actions/download-artifact@v4
+        with:
+          name: release_notes_bins
+          path: release_notes_bins
 
-    - name: Generate Release Notes
-      run: dotnet release_notes_bins/Tgstation.Server.ReleaseNotes.dll ${{ env.TGS_DM_VERSION }} --dmapi
+      - name: Generate App Token
+        id: app-token-generation
+        uses: getsentry/action-github-app-token@d4b5da6c5e37703f8c3b3e43abb5705b46e159cc
+        with:
+          app_id: ${{ secrets.APP_ID }}
+          private_key: ${{ secrets.APP_PRIVATE_KEY }}
 
-    - name: Generate App Token
-      shell: powershell
-      run: |
-        dotnet release_notes_bins/Tgstation.Server.ReleaseNotes.dll --token-output-file ${{ runner.temp }}/installation_secret.txt ${{ secrets.TGS_CI_GITHUB_APP_TOKEN_BASE64 }}
-        $installSecret = Get-Content ${{ runner.temp }}/installation_secret.txt
-        echo "INSTALLATION_TOKEN=$installSecret" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf8 -Append
-        rm ${{ runner.temp }}/installation_secret.txt
+      - name: Generate Release Notes
+        env:
+          TGS_RELEASE_NOTES_TOKEN: ${{ steps.app-token-generation.outputs.token }}
+        run: dotnet release_notes_bins/Tgstation.Server.ReleaseNotes.dll ${{ env.TGS_DM_VERSION }} --dmapi
 
-    - name: Create GitHub Release
-      uses: actions/create-release@v1
-      id: create_release
-      env:
-        GITHUB_TOKEN: ${{ env.INSTALLATION_TOKEN }}
-      with:
-        tag_name: dmapi-v${{ env.TGS_DM_VERSION }}
-        release_name: tgstation-server DMAPI v${{ env.TGS_DM_VERSION }}
-        body_path: release_notes.md
-        commitish: ${{ github.event.head_commit.id }}
+      - name: Create GitHub Release
+        uses: actions/create-release@v1
+        id: create_release
+        env:
+          GITHUB_TOKEN: ${{ steps.app-token-generation.outputs.token }}
+        with:
+          tag_name: dmapi-v${{ env.TGS_DM_VERSION }}
+          release_name: tgstation-server DMAPI v${{ env.TGS_DM_VERSION }}
+          body_path: release_notes.md
+          commitish: ${{ github.event.head_commit.id }}
 
-    - name: Upload DMAPI Artifact
-      uses: actions/upload-release-asset@v1
-      env:
-        GITHUB_TOKEN: ${{ env.INSTALLATION_TOKEN }}
-      with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./DMAPI.zip
-        asset_name: DMAPI.zip
-        asset_content_type: application/zip
+      - name: Upload DMAPI Artifact
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ steps.app-token-generation.outputs.token }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./DMAPI.zip
+          asset_name: DMAPI.zip
+          asset_content_type: application/zip
 
   deploy-client:
     name: Deploy Nuget Packages
@@ -1699,309 +1739,328 @@ jobs:
     runs-on: ubuntu-latest
     if: contains(github.event.head_commit.message, '[NugetDeploy]')
     steps:
-    - name: Setup dotnet
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: '${{ env.TGS_DOTNET_VERSION }}.0.x'
-        dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
+      - name: Setup dotnet
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ env.TGS_DOTNET_VERSION }}.0.x
+          dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
 
-    - name: Checkout
-      uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
 
-    - name: Grab Most Recent Changelog
-      run: curl -L https://raw.githubusercontent.com/tgstation/tgstation-server/gh-pages/changelog.yml -o changelog.yml
+      - name: Grab Most Recent Changelog
+        run: curl -L https://raw.githubusercontent.com/tgstation/tgstation-server/gh-pages/changelog.yml -o changelog.yml
 
-    - name: Retrieve ReleaseNotes Binaries
-      uses: actions/download-artifact@v4
-      with:
-        name: release_notes_bins
-        path: release_notes_bins
+      - name: Retrieve ReleaseNotes Binaries
+        uses: actions/download-artifact@v4
+        with:
+          name: release_notes_bins
+          path: release_notes_bins
 
-    - name: Generate Release Notes
-      run: dotnet release_notes_bins/Tgstation.Server.ReleaseNotes.dll --nuget
+      - name: Generate App Token
+        id: app-token-generation
+        uses: getsentry/action-github-app-token@d4b5da6c5e37703f8c3b3e43abb5705b46e159cc
+        with:
+          app_id: ${{ secrets.APP_ID }}
+          private_key: ${{ secrets.APP_PRIVATE_KEY }}
 
-    - name: Publish Tgstation.Server.Common to NuGet
-      uses: alirezanet/publish-nuget@e276c40afeb2a154046f0997820f2a9ea74832d9 # v3.1.0
-      with:
-        PROJECT_FILE_PATH: src/Tgstation.Server.Common/Tgstation.Server.Common.csproj
-        TAG_COMMIT: false
-        INCLUDE_SYMBOLS: true
-        NUGET_KEY: ${{ secrets.NUGET_API_KEY }}
+      - name: Generate Release Notes
+        env:
+          TGS_RELEASE_NOTES_TOKEN: ${{ steps.app-token-generation.outputs.token }}
+        run: dotnet release_notes_bins/Tgstation.Server.ReleaseNotes.dll --nuget
 
-    - name: Publish Tgstation.Server.Api to NuGet
-      uses: alirezanet/publish-nuget@e276c40afeb2a154046f0997820f2a9ea74832d9 # v3.1.0
-      with:
-        PROJECT_FILE_PATH: src/Tgstation.Server.Api/Tgstation.Server.Api.csproj
-        TAG_COMMIT: false
-        INCLUDE_SYMBOLS: true
-        NUGET_KEY: ${{ secrets.NUGET_API_KEY }}
+      - name: Publish Tgstation.Server.Common to NuGet
+        uses: alirezanet/publish-nuget@e276c40afeb2a154046f0997820f2a9ea74832d9 # v3.1.0
+        with:
+          PROJECT_FILE_PATH: src/Tgstation.Server.Common/Tgstation.Server.Common.csproj
+          TAG_COMMIT: false
+          INCLUDE_SYMBOLS: true
+          NUGET_KEY: ${{ secrets.NUGET_API_KEY }}
 
-    - name: Publish Tgstation.Server.Client to NuGet
-      uses: alirezanet/publish-nuget@e276c40afeb2a154046f0997820f2a9ea74832d9 # v3.1.0
-      with:
-        PROJECT_FILE_PATH: src/Tgstation.Server.Client/Tgstation.Server.Client.csproj
-        TAG_COMMIT: false
-        INCLUDE_SYMBOLS: true
-        NUGET_KEY: ${{ secrets.NUGET_API_KEY }}
+      - name: Publish Tgstation.Server.Api to NuGet
+        uses: alirezanet/publish-nuget@e276c40afeb2a154046f0997820f2a9ea74832d9 # v3.1.0
+        with:
+          PROJECT_FILE_PATH: src/Tgstation.Server.Api/Tgstation.Server.Api.csproj
+          TAG_COMMIT: false
+          INCLUDE_SYMBOLS: true
+          NUGET_KEY: ${{ secrets.NUGET_API_KEY }}
+
+      - name: Publish Tgstation.Server.Client to NuGet
+        uses: alirezanet/publish-nuget@e276c40afeb2a154046f0997820f2a9ea74832d9 # v3.1.0
+        with:
+          PROJECT_FILE_PATH: src/Tgstation.Server.Client/Tgstation.Server.Client.csproj
+          TAG_COMMIT: false
+          INCLUDE_SYMBOLS: true
+          NUGET_KEY: ${{ secrets.NUGET_API_KEY }}
 
   ensure-release:
     name: Ensure TGS Release is Latest GitHub Release
     needs: [deploy-dm, deploy-http]
     runs-on: ubuntu-latest
-    if: (!(cancelled() || failure())) && (!contains(github.event.head_commit.message, '[TGSDeploy]'))
+    if: (!(cancelled() || failure())) && (!contains(github.event.head_commit.message, '[TGSDeploy]')) && (needs.deploy-dm.result == 'success' || needs.deploy-http.result == 'success')
     steps:
-    - name: Setup dotnet
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: '${{ env.TGS_DOTNET_VERSION }}.0.x'
-        dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
+      - name: Setup dotnet
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ env.TGS_DOTNET_VERSION }}.0.x
+          dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
 
-    - name: Retrieve ReleaseNotes Binaries
-      uses: actions/download-artifact@v4
-      with:
-        name: release_notes_bins
-        path: release_notes_bins
+      - name: Retrieve ReleaseNotes Binaries
+        uses: actions/download-artifact@v4
+        with:
+          name: release_notes_bins
+          path: release_notes_bins
 
-    - name: Run ReleaseNotes with --ensure-release
-      run: dotnet release_notes_bins/Tgstation.Server.ReleaseNotes.dll --ensure-release ${{ secrets.TGS_CI_GITHUB_APP_TOKEN_BASE64 }}
+      - name: Generate App Token
+        id: app-token-generation
+        uses: getsentry/action-github-app-token@d4b5da6c5e37703f8c3b3e43abb5705b46e159cc
+        with:
+          app_id: ${{ secrets.APP_ID }}
+          private_key: ${{ secrets.APP_PRIVATE_KEY }}
+
+      - name: Run ReleaseNotes with --ensure-release
+        env:
+          TGS_RELEASE_NOTES_TOKEN: ${{ steps.app-token-generation.outputs.token }}
+        run: dotnet release_notes_bins/Tgstation.Server.ReleaseNotes.dll --ensure-release ${{ secrets.TGS_CI_GITHUB_APP_TOKEN_BASE64 }}
 
   deploy-tgs:
     name: Deploy TGS
     needs: [deploy-dm, deploy-http, deployment-gate]
     runs-on: windows-latest
-    if: (!(cancelled() || failure())) && github.event.ref == 'refs/heads/master' && contains(github.event.head_commit.message, '[TGSDeploy]')
+    if: (!(cancelled() || failure())) && github.event.ref == 'refs/heads/master' && contains(github.event.head_commit.message, '[TGSDeploy]') && needs.deployment-gate.result == 'success'
     env:
       TGS_TELEMETRY_KEY_FILE: C:/tgs_telemetry_key.txt
     steps:
-    - name: Setup dotnet
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: '${{ env.TGS_DOTNET_VERSION }}.0.x'
-        dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
+      - name: Setup dotnet
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ env.TGS_DOTNET_VERSION }}.0.x
+          dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
 
-    - name: Setup Node.JS
-      uses: actions/setup-node@v4
-      with:
+      - name: Setup Node.JS
+        uses: actions/setup-node@v4
+        with:
           node-version: ${{ env.TGS_WEBPANEL_NODE_VERSION }}
 
-    - name: Checkout
-      uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
 
-    - name: Restore Wix dotnet Tool
-      run: |
-        cd build/package/winget
-        dotnet tool restore
+      - name: Restore Wix dotnet Tool
+        run: |
+          cd build/package/winget
+          dotnet tool restore
 
-    - name: Enable Corepack
-      run: corepack enable
+      - name: Enable Corepack
+        run: corepack enable
 
-    - name: Setup Telemetry Key File
-      shell: bash
-      run: echo "${{ secrets.TGS_TELEMETRY_KEY }}" > ${{ env.TGS_TELEMETRY_KEY_FILE }}
+      - name: Setup Telemetry Key File
+        shell: bash
+        run: echo "${{ secrets.TGS_TELEMETRY_KEY }}" > ${{ env.TGS_TELEMETRY_KEY_FILE }}
 
-      # We need to rebuild the installer.exe so it can be properly signed
-    - name: Build Host # Name checked in rerunFlakyTests.js
-      run: dotnet build -c Release src/Tgstation.Server.Host/Tgstation.Server.Host.csproj
+        # We need to rebuild the installer.exe so it can be properly signed
+      - name: Build Host # Name checked in rerunFlakyTests.js
+        run: dotnet build -c Release src/Tgstation.Server.Host/Tgstation.Server.Host.csproj
 
-    - name: Delete Telemetry Key File
-      shell: bash
-      if: always()
-      run: rm -f ${{ env.TGS_TELEMETRY_KEY_FILE }}
+      - name: Delete Telemetry Key File
+        shell: bash
+        if: always()
+        run: rm -f ${{ env.TGS_TELEMETRY_KEY_FILE }}
 
-    - name: Build Service # Name checked in rerunFlakyTests.js
-      run: dotnet build -c Release src/Tgstation.Server.Host.Service/Tgstation.Server.Host.Service.csproj
+      - name: Build Service # Name checked in rerunFlakyTests.js
+        run: dotnet build -c Release src/Tgstation.Server.Host.Service/Tgstation.Server.Host.Service.csproj
 
-    - name: Prepare Artifacts
-      shell: powershell
-      run: build/package/winget/prepare_installer_input_artifacts.ps1
+      - name: Prepare Artifacts
+        shell: powershell
+        run: build/package/winget/prepare_installer_input_artifacts.ps1
 
-    - name: Build Installer .exe # Name checked in rerunFlakyTests.js
-      run: |
-        cd build/package/winget/Tgstation.Server.Host.Service.Wix.Bundle
-        dotnet build -c Release
+      - name: Build Installer .exe # Name checked in rerunFlakyTests.js
+        run: |
+          cd build/package/winget/Tgstation.Server.Host.Service.Wix.Bundle
+          dotnet build -c Release
 
-    - name: Parse TGS version
-      shell: powershell
-      run: |
-        [XML]$versionXML = Get-Content build/Version.props
-        $tgsVersion = $versionXML.Project.PropertyGroup.TgsCoreVersion
-        $mariaDBVerison = $versionXML.Project.PropertyGroup.TgsMariaDBRedistVersion
-        echo "TGS_VERSION=$tgsVersion" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf8 -Append
-        echo "MARIADB_VERSION=$mariaDBVerison" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf8 -Append
+      - name: Parse TGS version
+        shell: powershell
+        run: |
+          [XML]$versionXML = Get-Content build/Version.props
+          $tgsVersion = $versionXML.Project.PropertyGroup.TgsCoreVersion
+          $mariaDBVerison = $versionXML.Project.PropertyGroup.TgsMariaDBRedistVersion
+          echo "TGS_VERSION=$tgsVersion" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf8 -Append
+          echo "MARIADB_VERSION=$mariaDBVerison" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf8 -Append
 
-    - name: Upload .msi
-      uses: actions/upload-artifact@v4
-      with:
-        name: packaging-windows-raw-msi
-        path: build/package/winget/Tgstation.Server.Host.Service.Wix/bin/Release/en-US/tgstation-server.msi
+      - name: Upload .msi
+        uses: actions/upload-artifact@v4
+        with:
+          name: packaging-windows-raw-msi
+          path: build/package/winget/Tgstation.Server.Host.Service.Wix/bin/Release/en-US/tgstation-server.msi
 
-    - name: Retrieve Server Service
-      uses: actions/download-artifact@v4
-      with:
-        name: ServerService
-        path: ServerService
+      - name: Retrieve Server Service
+        uses: actions/download-artifact@v4
+        with:
+          name: ServerService
+          path: ServerService
 
-    - name: Retrieve Server Console
-      uses: actions/download-artifact@v4
-      with:
-        name: ServerConsole
-        path: ServerConsole
+      - name: Retrieve Server Console
+        uses: actions/download-artifact@v4
+        with:
+          name: ServerConsole
+          path: ServerConsole
 
-    - name: Retrieve Server Update Package
-      uses: actions/download-artifact@v4
-      with:
-        name: ServerUpdatePackage
-        path: ServerUpdatePackage
+      - name: Retrieve Server Update Package
+        uses: actions/download-artifact@v4
+        with:
+          name: ServerUpdatePackage
+          path: ServerUpdatePackage
 
-    - name: Retrieve OpenAPI Spec
-      uses: actions/download-artifact@v4
-      with:
-        name: openapi-spec
-        path: swagger
+      - name: Retrieve OpenAPI Spec
+        uses: actions/download-artifact@v4
+        with:
+          name: openapi-spec
+          path: swagger
 
-    - name: Retrieve Debian Packaging Archive
-      uses: actions/download-artifact@v4
-      with:
-        name: packaging-debian
-        path: packaging-debian
+      - name: Retrieve Debian Packaging Archive
+        uses: actions/download-artifact@v4
+        with:
+          name: packaging-debian
+          path: packaging-debian
 
-    - name: Install Code Signing Certificate
-      shell: powershell
-      run: |
-        $pfxBytes = [convert]::FromBase64String("${{ secrets.CODE_SIGNING_BASE64 }}")
-        [IO.File]::WriteAllBytes("tg_codesigning.pfx", $pfxBytes)
-        $certPassword = ConvertTo-SecureString -String "${{ secrets.CODE_SIGNING_PASSWORD }}" -Force -AsPlainText
-        Import-PfxCertificate -FilePath tg_codesigning.pfx -Cert Cert:\CurrentUser\My -Password $certPassword
-        rm tg_codesigning.pfx
+      - name: Install Code Signing Certificate
+        shell: powershell
+        run: |
+          $pfxBytes = [convert]::FromBase64String("${{ secrets.CODE_SIGNING_BASE64 }}")
+          [IO.File]::WriteAllBytes("tg_codesigning.pfx", $pfxBytes)
+          $certPassword = ConvertTo-SecureString -String "${{ secrets.CODE_SIGNING_PASSWORD }}" -Force -AsPlainText
+          Import-PfxCertificate -FilePath tg_codesigning.pfx -Cert Cert:\CurrentUser\My -Password $certPassword
+          rm tg_codesigning.pfx
 
-    - name: Sign Installer .exe # https://wixtoolset.org/docs/tools/signing/
-      shell: powershell
-      run: |
-        cd build/package/winget
-        dotnet wix burn detach Tgstation.Server.Host.Service.Wix.Bundle/bin/Release/tgstation-server-installer.exe -engine burnengine.exe
-        Set-AuthenticodeSignature burnengine.exe -Certificate (Get-ChildItem Cert:\CurrentUser\My | Where-Object { $_.Thumbprint -eq "${{ vars.CODE_SIGNING_THUMBPRINT }}" }) -TimestampServer "http://timestamp.digicert.com"
-        dotnet wix burn reattach Tgstation.Server.Host.Service.Wix.Bundle/bin/Release/tgstation-server-installer.exe -engine burnengine.exe -o tgstation-server-installer.exe
-        Set-AuthenticodeSignature tgstation-server-installer.exe -Certificate (Get-ChildItem Cert:\CurrentUser\My | Where-Object { $_.Thumbprint -eq "${{ vars.CODE_SIGNING_THUMBPRINT }}" }) -TimestampServer "http://timestamp.digicert.com"
+      - name: Sign Installer .exe # https://wixtoolset.org/docs/tools/signing/
+        shell: powershell
+        run: |
+          cd build/package/winget
+          dotnet wix burn detach Tgstation.Server.Host.Service.Wix.Bundle/bin/Release/tgstation-server-installer.exe -engine burnengine.exe
+          Set-AuthenticodeSignature burnengine.exe -Certificate (Get-ChildItem Cert:\CurrentUser\My | Where-Object { $_.Thumbprint -eq "${{ vars.CODE_SIGNING_THUMBPRINT }}" }) -TimestampServer "http://timestamp.digicert.com"
+          dotnet wix burn reattach Tgstation.Server.Host.Service.Wix.Bundle/bin/Release/tgstation-server-installer.exe -engine burnengine.exe -o tgstation-server-installer.exe
+          Set-AuthenticodeSignature tgstation-server-installer.exe -Certificate (Get-ChildItem Cert:\CurrentUser\My | Where-Object { $_.Thumbprint -eq "${{ vars.CODE_SIGNING_THUMBPRINT }}" }) -TimestampServer "http://timestamp.digicert.com"
 
-    - name: Sign Service .exe
-      shell: powershell
-      run: Set-AuthenticodeSignature ServerService/Tgstation.Server.Host.Service.exe -Certificate (Get-ChildItem Cert:\CurrentUser\My | Where-Object { $_.Thumbprint -eq "${{ vars.CODE_SIGNING_THUMBPRINT }}" }) -TimestampServer "http://timestamp.digicert.com"
+      - name: Sign Service .exe
+        shell: powershell
+        run: Set-AuthenticodeSignature ServerService/Tgstation.Server.Host.Service.exe -Certificate (Get-ChildItem Cert:\CurrentUser\My | Where-Object { $_.Thumbprint -eq "${{ vars.CODE_SIGNING_THUMBPRINT }}" }) -TimestampServer "http://timestamp.digicert.com"
 
-    - name: Zip Artifacts
-      shell: powershell
-      run: |
-        &"C:/Program Files/7-Zip/7z.exe" a DMAPI.zip ./src/DMAPI/* -tzip
-        &"C:/Program Files/7-Zip/7z.exe" a ServerService.zip ./ServerService/* -tzip
-        &"C:/Program Files/7-Zip/7z.exe" a ServerConsole.zip ./ServerConsole/* -tzip
-        &"C:/Program Files/7-Zip/7z.exe" a ServerUpdatePackage.zip ./ServerUpdatePackage/* -tzip
+      - name: Zip Artifacts
+        shell: powershell
+        run: |
+          &"C:/Program Files/7-Zip/7z.exe" a DMAPI.zip ./src/DMAPI/* -tzip
+          &"C:/Program Files/7-Zip/7z.exe" a ServerService.zip ./ServerService/* -tzip
+          &"C:/Program Files/7-Zip/7z.exe" a ServerConsole.zip ./ServerConsole/* -tzip
+          &"C:/Program Files/7-Zip/7z.exe" a ServerUpdatePackage.zip ./ServerUpdatePackage/* -tzip
 
-    - name: Retrieve ReleaseNotes Binaries
-      uses: actions/download-artifact@v4
-      with:
-        name: release_notes_bins
-        path: release_notes_bins
+      - name: Retrieve ReleaseNotes Binaries
+        uses: actions/download-artifact@v4
+        with:
+          name: release_notes_bins
+          path: release_notes_bins
 
-    - name: Generate Release Notes
-      run: dotnet release_notes_bins/Tgstation.Server.ReleaseNotes.dll ${{ env.TGS_VERSION }}
+      - name: Generate App Token
+        id: app-token-generation
+        uses: getsentry/action-github-app-token@d4b5da6c5e37703f8c3b3e43abb5705b46e159cc
+        with:
+          app_id: ${{ secrets.APP_ID }}
+          private_key: ${{ secrets.APP_PRIVATE_KEY }}
 
-    - name: Generate App Token
-      shell: powershell
-      run: |
-        dotnet release_notes_bins/Tgstation.Server.ReleaseNotes.dll --token-output-file ${{ runner.temp }}/installation_secret.txt ${{ secrets.TGS_CI_GITHUB_APP_TOKEN_BASE64 }}
-        $installSecret = Get-Content ${{ runner.temp }}/installation_secret.txt
-        echo "INSTALLATION_TOKEN=$installSecret" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf8 -Append
-        rm ${{ runner.temp }}/installation_secret.txt
+      - name: Generate Release Notes
+        env:
+          TGS_RELEASE_NOTES_TOKEN: ${{ steps.app-token-generation.outputs.token }}
+        run: dotnet release_notes_bins/Tgstation.Server.ReleaseNotes.dll ${{ env.TGS_VERSION }}
 
-    - name: Create GitHub Release
-      uses: actions/create-release@v1
-      id: create_release
-      env:
-        GITHUB_TOKEN: ${{ env.INSTALLATION_TOKEN }}
-      with:
-        tag_name: tgstation-server-v${{ env.TGS_VERSION }}
-        release_name: tgstation-server-v${{ env.TGS_VERSION }}
-        body_path: release_notes.md
-        commitish: ${{ github.event.head_commit.id }}
+      - name: Create GitHub Release
+        uses: actions/create-release@v1
+        id: create_release
+        env:
+          GITHUB_TOKEN: ${{ steps.app-token-generation.outputs.token }}
+        with:
+          tag_name: tgstation-server-v${{ env.TGS_VERSION }}
+          release_name: tgstation-server-v${{ env.TGS_VERSION }}
+          body_path: release_notes.md
+          commitish: ${{ github.event.head_commit.id }}
 
-    - name: Upload Server Console Artifact
-      uses: actions/upload-release-asset@v1
-      env:
-        GITHUB_TOKEN: ${{ env.INSTALLATION_TOKEN }}
-      with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./ServerConsole.zip
-        asset_name: ServerConsole.zip
-        asset_content_type: application/zip
+      - name: Upload Server Console Artifact
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ steps.app-token-generation.outputs.token }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./ServerConsole.zip
+          asset_name: ServerConsole.zip
+          asset_content_type: application/zip
 
-    - name: Upload Server Service Artifact
-      uses: actions/upload-release-asset@v1
-      env:
-        GITHUB_TOKEN: ${{ env.INSTALLATION_TOKEN }}
-      with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./ServerService.zip
-        asset_name: ServerService.zip
-        asset_content_type: application/zip
+      - name: Upload Server Service Artifact
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ steps.app-token-generation.outputs.token }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./ServerService.zip
+          asset_name: ServerService.zip
+          asset_content_type: application/zip
 
-    - name: Upload DMAPI Artifact
-      uses: actions/upload-release-asset@v1
-      env:
-        GITHUB_TOKEN: ${{ env.INSTALLATION_TOKEN }}
-      with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./DMAPI.zip
-        asset_name: DMAPI.zip
-        asset_content_type: application/zip
+      - name: Upload DMAPI Artifact
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ steps.app-token-generation.outputs.token }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./DMAPI.zip
+          asset_name: DMAPI.zip
+          asset_content_type: application/zip
 
-    - name: Upload OpenApi Spec Artifact
-      uses: actions/upload-release-asset@v1
-      env:
-        GITHUB_TOKEN: ${{ env.INSTALLATION_TOKEN }}
-      with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./swagger/tgs_api.json
-        asset_name: swagger.json
-        asset_content_type: application/json
+      - name: Upload OpenApi Spec Artifact
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ steps.app-token-generation.outputs.token }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./swagger/tgs_api.json
+          asset_name: swagger.json
+          asset_content_type: application/json
 
-    - name: Upload Server Update Package Artifact
-      uses: actions/upload-release-asset@v1
-      env:
-        GITHUB_TOKEN: ${{ env.INSTALLATION_TOKEN }}
-      with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./ServerUpdatePackage.zip
-        asset_name: ServerUpdatePackage.zip
-        asset_content_type: application/zip
+      - name: Upload Server Update Package Artifact
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ steps.app-token-generation.outputs.token }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./ServerUpdatePackage.zip
+          asset_name: ServerUpdatePackage.zip
+          asset_content_type: application/zip
 
-    - name: Upload Debian Pacakaging Artifact
-      uses: actions/upload-release-asset@v1
-      env:
-        GITHUB_TOKEN: ${{ env.INSTALLATION_TOKEN }}
-      with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./packaging-debian/tgstation-server-v${{ env.TGS_VERSION }}.debian.packaging.tar.xz
-        asset_name: tgstation-server-v${{ env.TGS_VERSION }}.debian.packaging.tar.xz
-        asset_content_type: application/x-tar
+      - name: Upload Debian Pacakaging Artifact
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ steps.app-token-generation.outputs.token }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./packaging-debian/tgstation-server-v${{ env.TGS_VERSION }}.debian.packaging.tar.xz
+          asset_name: tgstation-server-v${{ env.TGS_VERSION }}.debian.packaging.tar.xz
+          asset_content_type: application/x-tar
 
-    - name: Upload MariaDB .msi
-      uses: actions/upload-release-asset@v1
-      env:
-        GITHUB_TOKEN: ${{ env.INSTALLATION_TOKEN }}
-      with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./build/package/winget/Tgstation.Server.Host.Service.Wix.Bundle/bin/Release/mariadb.msi
-        asset_name: mariadb-${{ env.MARIADB_VERSION }}-winx64.msi
-        asset_content_type: application/octet-stream
+      - name: Upload MariaDB .msi
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ steps.app-token-generation.outputs.token }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./build/package/winget/Tgstation.Server.Host.Service.Wix.Bundle/bin/Release/mariadb.msi
+          asset_name: mariadb-${{ env.MARIADB_VERSION }}-winx64.msi
+          asset_content_type: application/octet-stream
 
-    - name: Upload Installer .exe
-      uses: actions/upload-release-asset@v1
-      env:
-        GITHUB_TOKEN: ${{ env.INSTALLATION_TOKEN }}
-      with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./build/package/winget/tgstation-server-installer.exe
-        asset_name: tgstation-server-installer.exe
-        asset_content_type: application/octet-stream
+      - name: Upload Installer .exe
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ steps.app-token-generation.outputs.token }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./build/package/winget/tgstation-server-installer.exe
+          asset_name: tgstation-server-installer.exe
+          asset_content_type: application/octet-stream
 
   changelog-regen:
     name: Regenerate Changelog
@@ -2009,47 +2068,56 @@ jobs:
     if: (!(cancelled() || failure())) && needs.deploy-tgs.result == 'success'
     needs: deploy-tgs
     steps:
-    - name: Setup dotnet
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: '${{ env.TGS_DOTNET_VERSION }}.0.x'
-        dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
+      - name: Setup dotnet
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ env.TGS_DOTNET_VERSION }}.0.x
+          dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
 
-    - name: gh-pages Clone
-      run: git clone -b gh-pages --single-branch "https://git@github.com/tgstation/tgstation-server" $HOME/tgsdox
+      - name: gh-pages Clone
+        run: git clone -b gh-pages --single-branch "https://git@github.com/tgstation/tgstation-server" $HOME/tgsdox
 
-    - name: Retrieve ReleaseNotes Binaries
-      uses: actions/download-artifact@v4
-      with:
-        name: release_notes_bins
-        path: release_notes_bins
+      - name: Retrieve ReleaseNotes Binaries
+        uses: actions/download-artifact@v4
+        with:
+          name: release_notes_bins
+          path: release_notes_bins
 
-    - name: Compile Changelog (Incremental)
-      run: |
-        mv $HOME/tgsdox/changelog.yml ./ 2>/dev/null
-        dotnet release_notes_bins/Tgstation.Server.ReleaseNotes.dll --generate-full-notes
+      - name: Generate App Token
+        id: app-token-generation
+        uses: getsentry/action-github-app-token@d4b5da6c5e37703f8c3b3e43abb5705b46e159cc
+        with:
+          app_id: ${{ secrets.APP_ID }}
+          private_key: ${{ secrets.APP_PRIVATE_KEY }}
 
-    - name: Generate App Token
-      run: |
-        dotnet release_notes_bins/Tgstation.Server.ReleaseNotes.dll --token-output-file ${{ runner.temp }}/installation_secret.txt ${{ secrets.TGS_CI_GITHUB_APP_TOKEN_BASE64 }}
-        echo "INSTALLATION_TOKEN=$(cat ${{ runner.temp }}/installation_secret.txt)" >> $GITHUB_ENV
-        rm ${{ runner.temp }}/installation_secret.txt
+      - name: Compile Changelog (Incremental)
+        env:
+          TGS_RELEASE_NOTES_TOKEN: ${{ steps.app-token-generation.outputs.token }}
+        run: |
+          mv $HOME/tgsdox/changelog.yml ./ 2>/dev/null
+          dotnet release_notes_bins/Tgstation.Server.ReleaseNotes.dll --generate-full-notes
 
-    - name: gh-pages Push
-      run: |
-        pushd $HOME/tgsdox
-        rm -f changelog.yml
-        popd
-        sudo mv changelog.yml $HOME/tgsdox/
-        cd $HOME/tgsdox
-        git config --global push.default simple
-        git config user.name "tgstation-server-ci[bot]"
-        git config user.email "161980869+tgstation-server-ci[bot]@users.noreply.github.com"
-        git add changelog.yml
-        echo "Committing..."
-        git diff-index --quiet HEAD || git commit -m "Regenerate changelog post deploy for workflow run ${{ github.run_number }}" -m "Commit: ${{ github.event.head_commit.id }}"
-        echo "Pushing..."
-        git push -f "https://tgstation-server-ci:${{ env.INSTALLATION_TOKEN }}@github.com/tgstation/tgstation-server" 2>&1
+      - name: Generate App Token
+        run: |
+          dotnet release_notes_bins/Tgstation.Server.ReleaseNotes.dll --token-output-file ${{ runner.temp }}/installation_secret.txt ${{ secrets.TGS_CI_GITHUB_APP_TOKEN_BASE64 }}
+          echo "INSTALLATION_TOKEN=$(cat ${{ runner.temp }}/installation_secret.txt)" >> $GITHUB_ENV
+          rm ${{ runner.temp }}/installation_secret.txt
+
+      - name: gh-pages Push
+        run: |
+          pushd $HOME/tgsdox
+          rm -f changelog.yml
+          popd
+          sudo mv changelog.yml $HOME/tgsdox/
+          cd $HOME/tgsdox
+          git config --global push.default simple
+          git config user.name "tgstation-server-ci[bot]"
+          git config user.email "161980869+tgstation-server-ci[bot]@users.noreply.github.com"
+          git add changelog.yml
+          echo "Committing..."
+          git diff-index --quiet HEAD || git commit -m "Regenerate changelog post deploy for workflow run ${{ github.run_number }}" -m "Commit: ${{ github.event.head_commit.id }}"
+          echo "Pushing..."
+          git push -f "https://tgstation-server-ci:${{ steps.app-token-generation.outputs.token }}@github.com/tgstation/tgstation-server" 2>&1
 
   deploy-docker:
     name: Deploy TGS (Docker)
@@ -2057,25 +2125,25 @@ jobs:
     if: (!(cancelled() || failure())) && needs.deploy-tgs.result == 'success'
     runs-on: ubuntu-latest
     steps:
-    - name: Install Native Packages # Name checked in rerunFlakyTests.js
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y xmlstarlet
+      - name: Install Native Packages # Name checked in rerunFlakyTests.js
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y xmlstarlet
 
-    - name: Checkout
-      uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
 
-    - name: Parse TGS version
-      run: echo "TGS_VERSION=$(xmlstarlet sel -N X="http://schemas.microsoft.com/developer/msbuild/2003" --template --value-of /X:Project/X:PropertyGroup/X:TgsCoreVersion build/Version.props)" >> $GITHUB_ENV
+      - name: Parse TGS version
+        run: echo "TGS_VERSION=$(xmlstarlet sel -N X="http://schemas.microsoft.com/developer/msbuild/2003" --template --value-of /X:Project/X:PropertyGroup/X:TgsCoreVersion build/Version.props)" >> $GITHUB_ENV
 
-    - name: Docker Build and Push
-      uses: elgohr/Publish-Docker-Github-Action@43dc228e327224b2eda11c8883232afd5b34943b # v5
-      with:
-        name: tgstation/server
-        username: ${{ secrets.DOCKER_USERNAME }}
-        password: ${{ secrets.DOCKER_PASSWORD }}
-        dockerfile: build/Dockerfile
-        tags: "latest,v${{ env.TGS_VERSION }}"
+      - name: Docker Build and Push
+        uses: elgohr/Publish-Docker-Github-Action@43dc228e327224b2eda11c8883232afd5b34943b # v5
+        with:
+          name: tgstation/server
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          dockerfile: build/Dockerfile
+          tags: "latest,v${{ env.TGS_VERSION }}"
 
   deploy-ppa:
     name: Deploy TGS (PPA)
@@ -2083,20 +2151,20 @@ jobs:
     if: (!(cancelled() || failure())) && needs.deploy-tgs.result == 'success'
     runs-on: ubuntu-latest
     steps:
-    - name: Install Native Packages # Name checked in rerunFlakyTests.js
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y xmlstarlet
+      - name: Install Native Packages # Name checked in rerunFlakyTests.js
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y xmlstarlet
 
-    - name: Checkout
-      uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
 
-    - name: Parse TGS version
-      run: echo "TGS_VERSION=$(xmlstarlet sel -N X="http://schemas.microsoft.com/developer/msbuild/2003" --template --value-of /X:Project/X:PropertyGroup/X:TgsCoreVersion build/Version.props)" >> $GITHUB_ENV
+      - name: Parse TGS version
+        run: echo "TGS_VERSION=$(xmlstarlet sel -N X="http://schemas.microsoft.com/developer/msbuild/2003" --template --value-of /X:Project/X:PropertyGroup/X:TgsCoreVersion build/Version.props)" >> $GITHUB_ENV
 
-    - name: Trigger tgstation-ppa workflow
-      run: |
-        curl -XPOST -u "${{ vars.DEV_PUSH_USERNAME }}:${{ secrets.DEV_PUSH_TOKEN }}" -H "Accept: application/vnd.github.everest-preview+json" -H "Content-Type: application/json" https://api.github.com/repos/tgstation/tgstation-ppa/actions/workflows/add_tgs_version.yml/dispatches --data '{"ref":"main","inputs":{"tgs_semver": "${{ env.TGS_VERSION }}"}}'
+      - name: Trigger tgstation-ppa workflow
+        run: |
+          curl -XPOST -u "${{ vars.DEV_PUSH_USERNAME }}:${{ secrets.DEV_PUSH_TOKEN }}" -H "Accept: application/vnd.github.everest-preview+json" -H "Content-Type: application/json" https://api.github.com/repos/tgstation/tgstation-ppa/actions/workflows/add_tgs_version.yml/dispatches --data '{"ref":"main","inputs":{"tgs_semver": "${{ env.TGS_VERSION }}"}}'
 
   deploy-winget:
     name: Deploy TGS (winget)
@@ -2104,45 +2172,47 @@ jobs:
     if: (!(cancelled() || failure())) && needs.deploy-tgs.result == 'success'
     runs-on: windows-latest
     steps:
-    - name: Setup dotnet
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: '${{ env.TGS_DOTNET_VERSION }}.0.x'
-        dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
+      - name: Setup dotnet
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ env.TGS_DOTNET_VERSION }}.0.x
+          dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
 
-    - name: Install winget
-      uses: Cyberboss/install-winget@v1
-      with:
-        GITHUB_TOKEN: ${{ secrets.DEV_PUSH_TOKEN }}
+      - name: Install winget
+        uses: Cyberboss/install-winget@v1
+        with:
+          GITHUB_TOKEN: ${{ secrets.DEV_PUSH_TOKEN }}
 
-    - name: Install wingetcreate
-      run: winget install wingetcreate --version 1.2.8.0 --disable-interactivity --accept-source-agreements # Pinned due to breaking every other version
+      - name: Install wingetcreate
+        run: winget install wingetcreate --version 1.2.8.0 --disable-interactivity --accept-source-agreements # Pinned due to breaking every other version
 
-    - name: Checkout
-      uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
 
-    - name: Retrieve Server Service
-      uses: actions/download-artifact@v4
-      with:
-        name: packaging-windows-raw-msi
-        path: artifacts
+      - name: Retrieve Server Service
+        uses: actions/download-artifact@v4
+        with:
+          name: packaging-windows-raw-msi
+          path: artifacts
 
-    - name: Retrieve ReleaseNotes Binaries
-      uses: actions/download-artifact@v4
-      with:
-        name: release_notes_bins
-        path: release_notes_bins
+      - name: Retrieve ReleaseNotes Binaries
+        uses: actions/download-artifact@v4
+        with:
+          name: release_notes_bins
+          path: release_notes_bins
 
-    - name: Execute Push Script
-      shell: powershell
-      run: build/package/winget/push_manifest.ps1
-      env:
-        WINGET_PUSH_TOKEN: ${{ secrets.DEV_PUSH_TOKEN }}
+      - name: Execute Push Script
+        shell: powershell
+        run: build/package/winget/push_manifest.ps1
+        env:
+          WINGET_PUSH_TOKEN: ${{ secrets.DEV_PUSH_TOKEN }}
 
-    - name: Delay 10m to allow MS bot to update PR
-      shell: powershell
-      run: Sleep 600
+      - name: Delay 10m to allow MS bot to update PR
+        shell: powershell
+        run: Sleep 600
 
-    - name: Run ReleaseNotes with --link-winget
-      shell: powershell
-      run: dotnet release_notes_bins/Tgstation.Server.ReleaseNotes.dll --link-winget ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+      - name: Ensure Latest Release is TGS Release
+        env:
+          TGS_RELEASE_NOTES_TOKEN: ${{ secrets.DEV_PUSH_TOKEN }} # Has to be a user here
+        shell: powershell
+        run: dotnet release_notes_bins/Tgstation.Server.ReleaseNotes.dll --link-winget ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}

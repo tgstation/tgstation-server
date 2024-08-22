@@ -2,10 +2,10 @@ name: "Check PR Has Milestone"
 
 on:
   pull_request:
-    types: [ opened, edited, synchronize, reopened, labeled ]
+    types: [opened, edited, synchronize, reopened, labeled]
     branches:
-    - dev
-    - master
+      - dev
+      - master
 
 concurrency:
   group: "check-pr-milestone-${{ github.head_ref || github.run_id }}-${{ github.event_name }}"
@@ -16,16 +16,16 @@ jobs:
     name: Fail if Pull Request has no Associated Version Milestone
     runs-on: ubuntu-latest
     steps:
-    - name: Fail if no Milestone Set
-      if: github.event.pull_request.milestone == null
-      run: |
-        echo "::error::Pull request must have milestone set!"
-        exit 1
+      - name: Fail if no Milestone Set
+        if: github.event.pull_request.milestone == null
+        run: |
+          echo "::error::Pull request must have milestone set!"
+          exit 1
 
-    - name: Fail if Invalid Milestone Set
-      run: |
-        if [[ ${{ github.event.pull_request.milestone.title }} =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
-            exit 0
-        fi
-        echo "::error::Pull request has non-standard milestone!"
-        exit 1
+      - name: Fail if Invalid Milestone Set
+        run: |
+          if [[ ${{ github.event.pull_request.milestone.title }} =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+              exit 0
+          fi
+          echo "::error::Pull request has non-standard milestone!"
+          exit 1

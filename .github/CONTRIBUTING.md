@@ -46,14 +46,15 @@ In addition, the installer project uses the Wix v4 Toolset which will cause an e
 
 In order to run the integration tests you must have the dotnet 7.0 SDK installed to properly build the OpenDream minimum compatible version.
 You must also have the following environment variables set. To run them more accurately, include the optional ones.
+
 - `TGS_TEST_DATABASE_TYPE`: `MySql`, `MariaDB`, `PostgresSql`, or `SqlServer`.
 - `TGS_TEST_CONNECTION_STRING`: To a valid database connection string. You can use the setup wizard to create one.
 - (Optional) `TGS_TEST_GITHUB_TOKEN`: A GitHub personal access token with no scopes used to bypass rate limits.
 - (Optional) The following variables are all interdependent, so if one is set they all must be.
-	- `TGS_TEST_DISCORD_TOKEN`: To a valid discord bot token.
-	- `TGS_TEST_DISCORD_CHANNEL`: To a valid discord channel ID that the above bot can access.
-	- `TGS_TEST_IRC_CONNECTION_STRING`: To a valid IRC connection string. See the code for [IrcConnectionStringBuilder](../src/Tgstation.Server.Api/Models/IrcConnectionStringBuilder.cs) for details.
-	- `TGS_TEST_IRC_CHANNEL`: To a valid IRC channel accessible with the above connection.
+  - `TGS_TEST_DISCORD_TOKEN`: To a valid discord bot token.
+  - `TGS_TEST_DISCORD_CHANNEL`: To a valid discord channel ID that the above bot can access.
+  - `TGS_TEST_IRC_CONNECTION_STRING`: To a valid IRC connection string. See the code for [IrcConnectionStringBuilder](../src/Tgstation.Server.Api/Models/IrcConnectionStringBuilder.cs) for details.
+  - `TGS_TEST_IRC_CHANNEL`: To a valid IRC channel accessible with the above connection.
 - (Optional) `TGS_TEST_OD_ENGINE_VERSION`: Specify the full git commit SHA of the [OpenDream](https://github.com/OpenDreamProject/OpenDream) version to use in the main integration test, the default is the current HEAD of the default branch.
 - (Optional) `TGS_TEST_OD_GIT_DIRECTORY`: Path to a local [OpenDream](https://github.com/OpenDreamProject/OpenDream) git repository to use as an upstream for testing.
 - (Optional) `TGS_TEST_OD_EXCLUSIVE`: Set to `true` to enable the quicker integration test that only runs [OpenDream](https://github.com/OpenDreamProject/OpenDream) functionality. This is tested by default in the main integration test.
@@ -63,7 +64,7 @@ You must also have the following environment variables set. To run them more acc
 For the full CI gambit, the following repository configuration must be set:
 
 - Setting `Workflow Permissions` to `Read and write permissions`: Enables GitHub Actions comments.
-![image](https://github.com/tgstation/tgstation-server/assets/8171642/ab17fa74-364f-4e66-b7c4-b9bb24c6a599)
+  ![image](https://github.com/tgstation/tgstation-server/assets/8171642/ab17fa74-364f-4e66-b7c4-b9bb24c6a599)
 - Label `CI Cleared`: To allow PRs from forks to run CI with secrets after approval.
 - Integration [CodeCov](https://github.com/apps/codecov): Enables CodeCov status checks.
 - Secret `CODECOV_TOKEN`: A CodeCov repo token to work around https://github.com/codecov/codecov-action/issues/837.
@@ -96,19 +97,23 @@ The `/src` folder at the root of this repository contains a series of `README.md
 You are expected to follow these specifications in order to make everyone's lives easier. It'll save both your time and ours, by making sure you don't have to make any changes and we don't have to ask you to. Thank you for reading this section!
 
 ### Object Oriented Code
+
 As C# is an object-oriented language, code must be object-oriented when possible in order to be more flexible when adding content to it. If you don't know what "object-oriented" means, we highly recommend you do some light research to grasp the basics.
 
 ### No hacky code
-Hacky code, such as adding specific checks, is highly discouraged and only allowed when there is ***no*** other option. (Protip: 'I couldn't immediately think of a proper way so thus there must be no other option' is not gonna cut it here! If you can't think of anything else, say that outright and admit that you need help with it. Maintainers exist for exactly that reason.)
+
+Hacky code, such as adding specific checks, is highly discouraged and only allowed when there is **_no_** other option. (Protip: 'I couldn't immediately think of a proper way so thus there must be no other option' is not gonna cut it here! If you can't think of anything else, say that outright and admit that you need help with it. Maintainers exist for exactly that reason.)
 
 You can avoid hacky code by using object-oriented methodologies, such as overriding a function (called "procs" in DM) or sectioning code into functions and then overriding them as required.
 
 ### No duplicated code
+
 Copying code from one place to another may be suitable for small, short-time projects, but /tg/station is a long-term project and highly discourages this.
 
 Instead you can use object orientation, or simply placing repeated code in a function, to obey this specification easily.
 
 ### No magic numbers or strings
+
 This means stuff like having a "mode" variable for an object set to "1" or "2" with no clear indicator of what that means. Make these `const string`s with a name that more clearly states what it's for. This is clearer and enhances readability of your code! Get used to doing it!
 
 ### Class Design Guidelines
@@ -144,8 +149,10 @@ DON'T:
 Stylecop will throw warnings if your code does not match style guidelines. Do NOT suppress these
 
 ### Use early return
+
 Do not enclose a function in an if-block when returning on a condition is more feasible
 This is bad:
+
 ```C#
 void Hello()
 {
@@ -155,7 +162,9 @@ void Hello()
 				do stuff
 }
 ```
+
 This is good:
+
 ```C#
 void Hello()
 {
@@ -171,42 +180,44 @@ void Hello()
 	do stuff
 }
 ```
+
 This prevents nesting levels from getting deeper then they need to be.
 
 ### Other Notes
-* Code should be modular where possible; if you are working on a new addition, then strongly consider putting it in its own file unless it makes sense to put it with similar ones.
 
-* You are expected to help maintain the code that you add, meaning that if there is a problem then you are likely to be approached in order to fix any issues, runtimes, or bugs.
+- Code should be modular where possible; if you are working on a new addition, then strongly consider putting it in its own file unless it makes sense to put it with similar ones.
 
-* Some terminology to help understand the architecture:
-	* An instance can be thought of as a separate server. It has a separate directory, repository, set of byond installations, etc... The only thing shared amongst instances is API surface, users, global configuration, the active tgstation-server version, and the host machine.
-	* API refers to the HTTP API unless otherwise specified.
-	* The entirety of server functionality resides in the host (Tgstation.Server.Host) project.
-	* A Component is a service running in tgstation-server to help with instance functionality. These can only be communicated with via the HTTP or DM APIs.
-	* There is a difference between Watchdog and Host Watchdog. The former monitors DreamDaemon uptime, the latter handles updating tgstation-server.
-	* Interop is complicated terminology wise:
-		* Interop: The overall process of communication between tgstation-server and DreamDaemon.
-		* DMAPI: The tgstation-server provided code compiled into .dmbs to provide additional functionality.
-		* Topic: The process of sending a message from the TGS -> DD via /world/Topic() and receiving a response.
-		* Bridge: The process of sending a message from DD -> TGS and receiving a response.
+- You are expected to help maintain the code that you add, meaning that if there is a problem then you are likely to be approached in order to fix any issues, runtimes, or bugs.
+
+- Some terminology to help understand the architecture:
+  - An instance can be thought of as a separate server. It has a separate directory, repository, set of byond installations, etc... The only thing shared amongst instances is API surface, users, global configuration, the active tgstation-server version, and the host machine.
+  - API refers to the HTTP API unless otherwise specified.
+  - The entirety of server functionality resides in the host (Tgstation.Server.Host) project.
+  - A Component is a service running in tgstation-server to help with instance functionality. These can only be communicated with via the HTTP or DM APIs.
+  - There is a difference between Watchdog and Host Watchdog. The former monitors DreamDaemon uptime, the latter handles updating tgstation-server.
+  - Interop is complicated terminology wise:
+    - Interop: The overall process of communication between tgstation-server and DreamDaemon.
+    - DMAPI: The tgstation-server provided code compiled into .dmbs to provide additional functionality.
+    - Topic: The process of sending a message from the TGS -> DD via /world/Topic() and receiving a response.
+    - Bridge: The process of sending a message from DD -> TGS and receiving a response.
 
 ## Pull Request Process
 
 There is no strict process when it comes to merging pull requests. Pull requests will sometimes take a while before they are looked at by a maintainer; the bigger the change, the more time it will take before they are accepted into the code. Every team member is a volunteer who is giving up their own time to help maintain and contribute, so please be courteous and respectful. Here are some helpful ways to make it easier for you and for the maintainers when making a pull request.
 
-* Make sure your pull request complies to the requirements outlined in [this guide](http://tgstation13.org/wiki/Getting_Your_Pull_Accepted) (with the exception of point 3)
+- Make sure your pull request complies to the requirements outlined in [this guide](http://tgstation13.org/wiki/Getting_Your_Pull_Accepted) (with the exception of point 3)
 
-* You are going to be expected to document all your changes in the pull request and add/update XML documentation comments for the functions and classes you modify. Failing to do so will mean delaying it as we will have to question why you made the change. On the other hand, you can speed up the process by making the pull request readable and easy to understand, with diagrams or before/after data.
+- You are going to be expected to document all your changes in the pull request and add/update XML documentation comments for the functions and classes you modify. Failing to do so will mean delaying it as we will have to question why you made the change. On the other hand, you can speed up the process by making the pull request readable and easy to understand, with diagrams or before/after data.
 
-* If you are proposing multiple changes, which change many different aspects of the code, you are expected to section them off into different pull requests in order to make it easier to review them and to deny/accept the changes that are deemed acceptable.
+- If you are proposing multiple changes, which change many different aspects of the code, you are expected to section them off into different pull requests in order to make it easier to review them and to deny/accept the changes that are deemed acceptable.
 
-* If your pull request is accepted, the code you add no longer belongs exclusively to you but to everyone; everyone is free to work on it, but you are also free to support or object to any changes being made, which will likely hold more weight, as you're the one who added the feature. It is a shame this has to be explicitly said, but there have been cases where this would've saved some trouble.
+- If your pull request is accepted, the code you add no longer belongs exclusively to you but to everyone; everyone is free to work on it, but you are also free to support or object to any changes being made, which will likely hold more weight, as you're the one who added the feature. It is a shame this has to be explicitly said, but there have been cases where this would've saved some trouble.
 
-* Your submission must be tested with 100% code coverage with both unit and integration tests
+- Your submission must be tested with 100% code coverage with both unit and integration tests
 
-* Please explain why you are submitting the pull request, and how you think your change will be beneficial to the server. Failure to do so will be grounds for rejecting the PR.
+- Please explain why you are submitting the pull request, and how you think your change will be beneficial to the server. Failure to do so will be grounds for rejecting the PR.
 
-* Commits MUST be properly titled and commented as we only use merge commits for the pull request process
+- Commits MUST be properly titled and commented as we only use merge commits for the pull request process
 
 ## Making Model Changes
 
@@ -238,7 +249,7 @@ OAuth providers are hardcoded but it is fairly easy to add new ones. The flow do
 
 1. Add the name to the [Tgstation.Server.Api.Models.OAuthProviders](../src/Tgstation.Server.Api/Models/OAuthProviders.cs) enum (Also necessitates a minor HTTP API version bump).
 1. Create an implementation of [IOAuthValidator](../src/Tgstation.Server.Host/Security/OAuth/IOAuthValidator.cs).
-	- Most providers can simply override the [GenericOAuthValidator](../src/Tgstation.Server.Host/Security/OAuth/GenericOAuthValidator.cs).
+   - Most providers can simply override the [GenericOAuthValidator](../src/Tgstation.Server.Host/Security/OAuth/GenericOAuthValidator.cs).
 1. Construct the implementation in the [OAuthProviders](../src/Tgstation.Server.Host/Security/OAuth/OAuthProviders.cs) class.
 1. Add a null entry to the default [appsettings.yml](../src/Tgstation.Server.Host/appsettings.yml).
 1. Update the main [README.md](../README.md) to indicate the new provider.
@@ -313,6 +324,7 @@ The build system will also handle closing the current milestone and creating new
 ## Banned content
 
 Do not add any of the following in a Pull Request or risk getting the PR closed:
-* National Socialist Party of Germany content, National Socialist Party of Germany related content, or National Socialist Party of Germany references
+
+- National Socialist Party of Germany content, National Socialist Party of Germany related content, or National Socialist Party of Germany references
 
 Just becuase something isn't on this list doesn't mean that it's acceptable. Use common sense above all else.
