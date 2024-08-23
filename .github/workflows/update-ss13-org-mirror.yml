@@ -35,17 +35,6 @@ jobs:
           fetch-tags: true
           token: ${{ steps.app-token-generation.outputs.token }}
 
-      - name: Build ReleaseNotes
-        run: dotnet build -c Release -p:TGS_HOST_NO_WEBPANEL=true tools/Tgstation.Server.ReleaseNotes/Tgstation.Server.ReleaseNotes.csproj
-
-      - name: Generate App Token
-        run: |
-          dotnet run -c Release --no-build --project tools/Tgstation.Server.ReleaseNotes --token-output-file ${{ runner.temp }}/installation_secret.txt ${{ secrets.TGS_CI_GITHUB_APP_TOKEN_BASE64 }}
-          echo "INSTALLATION_TOKEN=$(cat ${{ runner.temp }}/installation_secret.txt)" >> $GITHUB_ENV
-          rm ${{ runner.temp }}/installation_secret.txt
-        env:
-          TGS_RELEASE_NOTES_TOKEN: ${{ secrets.DEV_PUSH_TOKEN }}
-
       - name: Push to Spacestation13 Fork
         run: |
           git config user.name "tgstation-server-ci[bot]"

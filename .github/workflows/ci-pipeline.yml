@@ -80,7 +80,6 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       security-events: write
-      actions: read
     env:
       TGS_TELEMETRY_KEY_FILE: /tmp/tgs_telemetry_key.txt
     steps:
@@ -92,6 +91,13 @@ jobs:
 
       - name: Checkout (Branch)
         uses: actions/checkout@v4
+        if: github.event_name == 'push' || github.event_name == 'schedule'
+
+      - name: Checkout (PR Merge)
+        uses: actions/checkout@v4
+        if: github.event_name != 'push' && github.event_name != 'schedule'
+        with:
+          ref: "refs/pull/${{ inputs.pull_request_number }}/merge"
 
       - name: Read Current SHA
         id: get-pr-sha
@@ -2068,12 +2074,6 @@ jobs:
     if: (!(cancelled() || failure())) && needs.deploy-tgs.result == 'success'
     needs: deploy-tgs
     steps:
-      - name: Setup dotnet
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: ${{ env.TGS_DOTNET_VERSION }}.0.x
-          dotnet-quality: ${{ env.TGS_DOTNET_QUALITY }}
-
       - name: gh-pages Clone
         run: git clone -b gh-pages --single-branch "https://git@github.com/tgstation/tgstation-server" $HOME/tgsdox
 
@@ -2096,12 +2096,6 @@ jobs:
         run: |
           mv $HOME/tgsdox/changelog.yml ./ 2>/dev/null
           dotnet release_notes_bins/Tgstation.Server.ReleaseNotes.dll --generate-full-notes
-
-      - name: Generate App Token
-        run: |
-          dotnet release_notes_bins/Tgstation.Server.ReleaseNotes.dll --token-output-file ${{ runner.temp }}/installation_secret.txt ${{ secrets.TGS_CI_GITHUB_APP_TOKEN_BASE64 }}
-          echo "INSTALLATION_TOKEN=$(cat ${{ runner.temp }}/installation_secret.txt)" >> $GITHUB_ENV
-          rm ${{ runner.temp }}/installation_secret.txt
 
       - name: gh-pages Push
         run: |
