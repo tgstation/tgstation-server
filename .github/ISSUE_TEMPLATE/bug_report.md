@@ -1,10 +1,9 @@
 ---
 name: Bug Report
 about: Report a problem with the server
-title: ''
+title: ""
 labels: Bug, Reproduction Required
 assignees: Cyberboss
-
 ---
 
 **Describe the bug**
@@ -12,6 +11,7 @@ A clear and concise description of what the bug is. Please note that client issu
 
 **To Reproduce**
 Steps to reproduce the behavior:
+
 1. Go to '...'
 2. Click on '....'
 3. Scroll down to '....'
@@ -24,14 +24,15 @@ A clear and concise description of what you expected to happen.
 Please include full server logs to help diagnose your problem
 
 **Server State: (please complete the following information):**
- - OS:
- - Version:
- - Database Type/Version:
- - BYOND Version Used:
- - git Repository Used:
- - Origin Commit hash Used:
- - Active Test Merges:
- - Client Version:
+
+- OS:
+- Version:
+- Database Type/Version:
+- BYOND Version Used:
+- git Repository Used:
+- Origin Commit hash Used:
+- Active Test Merges:
+- Client Version:
 
 **Additional context**
 Add any other context about the problem here.
