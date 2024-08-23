@@ -29,7 +29,7 @@ namespace Tgstation.Server.Host.System
 			{
 				try
 				{
-					return handle.VirtualMemorySize64;
+					return handle.PrivateMemorySize64;
 				}
 				catch (Exception ex)
 				{
