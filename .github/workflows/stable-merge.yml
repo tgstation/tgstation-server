@@ -29,7 +29,7 @@ jobs:
           token: ${{ steps.app-token-generation.outputs.token }}
 
       - name: Merge master into dev
-        uses: robotology/gh-action-nightly-merge@14b4a4cf358f7479aa708bee05cf8a794d6a2516 #v1.5.0
+        uses: robotology/gh-action-nightly-merge@81570ba03dd370f582bd3f52d47672d29191829f #v1.5.2
         with:
           stable_branch: master
           development_branch: dev
