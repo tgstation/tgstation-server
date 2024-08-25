@@ -370,7 +370,7 @@ jobs:
           echo -e "\nPROJECT_NUMBER = $VERSION\nINPUT = .\nOUTPUT_DIRECTORY = ./doxout\nPROJECT_LOGO = ./artifacts/tgs.ico\nHAVE_DOT=YES" >> "docs/Doxyfile"
 
       - name: Doxygen Build
-        uses: mattnotmitt/doxygen-action@411df0c62acb5b96b8a93d93a7bf4b753c47ea05 # v1.9.5
+        uses: mattnotmitt/doxygen-action@cbe72c8e402e8a3faa1f0b247ef90aa6c8e4ce74 # v1.9.8
         with:
           doxyfile-path: "docs/Doxyfile"
 
