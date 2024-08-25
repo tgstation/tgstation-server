@@ -6,10 +6,6 @@ on:
       - master
   workflow_dispatch:
 
-env:
-  TGS_DOTNET_VERSION: 8
-  TGS_DOTNET_QUALITY: ga
-
 jobs:
   master-merge:
     name: Master Merge
